@@ -1,35 +1,28 @@
 import React from 'react';
-import { Router, Link, Route, Switch } from 'react-router-dom';
+import { Router } from 'react-router-dom';
 import { Swap } from './Swap/Swap';
 import './App.css';
 import { globalHistory } from './createBrowserHistory';
+import { GeistProvider, CssBaseline, Tabs, Text } from '@geist-ui/react';
 
 export const App: React.FC = () => {
   return (
-    <div className="App">
-      <Router history={globalHistory}>
-        <h2>ErgoDex</h2>
-        <div>
-          <nav>
-            <ul>
-              <li>
-                <Link to="/">Home</Link>
-              </li>
-              <li>
-                <Link to="/swap">Swap</Link>
-              </li>
-            </ul>
-          </nav>
-
-          {/* A <Switch> looks through its children <Route>s and
-          renders the first one that matches the current URL. */}
-          <Switch>
-            <Route path="/swap">
+    <GeistProvider>
+      <CssBaseline />
+      <div className="App">
+        <Router history={globalHistory}>
+          <Text h2>ErgoDex</Text>
+          <Tabs
+            initialValue="swap"
+            style={{ maxWidth: '400px', margin: '0 auto' }}
+          >
+            <Tabs.Item label="home" value="home" />
+            <Tabs.Item label="swap" value="swap">
               <Swap />
-            </Route>
-          </Switch>
-        </div>
-      </Router>
-    </div>
+            </Tabs.Item>
+          </Tabs>
+        </Router>
+      </div>
+    </GeistProvider>
   );
 };
