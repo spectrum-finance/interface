@@ -6,6 +6,7 @@ export const Swap: React.FC = () => {
     { label: 'ETH', value: 'ETH' },
     { label: 'ERG', value: 'ERG' },
   ];
+
   return (
     <>
       <Card>
