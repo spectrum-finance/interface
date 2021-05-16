@@ -1,10 +1,9 @@
 import React, { useCallback, useState } from 'react';
 import { Button } from '@geist-ui/react';
 
-export const ConnectWallet = () => {
+export const ConnectWallet: React.FC = () => {
   const [connected, setConnected] = useState(false);
   const onClick = useCallback(() => {
-    // @ts-ignore
     window.ergo_request_read_access().then((data) => setConnected(data));
   }, []);
   return (
