@@ -1,14 +1,23 @@
 import React, { useCallback, useState } from 'react';
 import { Button } from '@geist-ui/react';
 
-export const ConnectWallet: React.FC = () => {
-  const [connected, setConnected] = useState(false);
+interface ConnectWallet {
+  isWalletConnected: boolean;
+  setIsWalletConnected: (data: boolean) => void;
+}
+
+export const ConnectWallet = ({
+  isWalletConnected,
+  setIsWalletConnected,
+}: ConnectWallet) => {
   const onClick = useCallback(() => {
-    window.ergo_request_read_access().then((data) => setConnected(data));
+    window
+      .ergo_request_read_access()
+      .then((data) => setIsWalletConnected(data));
   }, []);
   return (
     <Button onClick={onClick}>
-      {connected ? 'Connected' : 'Connect Yoroi'}
+      {isWalletConnected ? 'Connected' : 'Connect Yoroi'}
     </Button>
   );
 };

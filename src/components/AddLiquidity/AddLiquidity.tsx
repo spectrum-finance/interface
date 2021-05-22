@@ -1,17 +1,17 @@
 import React, { useCallback } from 'react';
 import { AutoComplete, Button, Card, Grid, Input, Text } from '@geist-ui/react';
 
-interface Swap {
+interface AddLiquidity {
   isWalletConnected: boolean;
 }
 
-export const Swap = ({ isWalletConnected }: Swap) => {
+export const AddLiquidity = ({ isWalletConnected }: AddLiquidity) => {
   const currencies = [
     { label: 'ETH', value: 'ETH' },
     { label: 'ERG', value: 'ERG' },
   ];
 
-  const onSwap = useCallback(() => {
+  const onAddLiquidity = useCallback(() => {
     if (isWalletConnected) {
       //
     }
@@ -49,7 +49,7 @@ export const Swap = ({ isWalletConnected }: Swap) => {
             <Input placeholder="0.0" type="number" width="100%" />
           </Grid>
           <Grid xs={24} justify="center">
-            <Button onClick={onSwap}>
+            <Button onClick={onAddLiquidity}>
               {isWalletConnected ? 'Swap' : 'Need to connect wallet'}
             </Button>
           </Grid>
