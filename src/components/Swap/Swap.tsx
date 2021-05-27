@@ -9,11 +9,20 @@ import {
   Text,
 } from '@geist-ui/react';
 import { Form, Field, FieldRenderProps } from 'react-final-form';
-import { fromAddress } from 'ergo-dex-sdk/src/wallet/entities/publicKey';
+import { Explorer, NetworkPools, RustModule } from 'ergo-dex-sdk';
+// import { fromAddress } from ;
+// import { T2tPoolOps } from 'ergo-dex-sdk';
+// import { NetworkPools } from 'ergo-dex-sdk';
+// import { Explorer } from 'ergo-dex-sdk';
+// import { ErgoBox } from 'ergo-dex-sdk';
+// import { BoxSelection } from 'ergo-dex-sdk';
+// import { TransactionContext } from 'ergo-dex-sdk';
 
 interface Swap {
   isWalletConnected: boolean;
 }
+
+// function chooseBoxes(boxes: ErgoBox[]): BoxSelection;
 
 const getPoolByPair = (tokenId1: any, tokenId2: any) => {
   return {
@@ -47,10 +56,48 @@ export const Swap = ({ isWalletConnected }: Swap) => {
     }
   }, [isWalletConnected]);
 
-  const onSubmit = (values: any) => {
+  const onSubmit = async (values: any) => {
     if (isWalletConnected) {
-      const pk = fromAddress(values.address);
-      console.log(pk);
+      // const pk = fromAddress(values.address)!;
+      await RustModule.load();
+      const poolNetwork = new NetworkPools(
+        new Explorer('https://api.ergoplatform.com/api/v1'),
+      );
+      // // выбрать pool из селекта
+      const pools = await poolNetwork.getAll({ limit: 100, offset: 0 });
+      console.log(pools);
+      // const chosenPool = pools[0];
+      // const poolScriptHash = chosenPool.poolScriptHash;
+      // const yoroiWalletProver = {} as any;
+      // const pool = new T2tPoolOps(yoroiWalletProver); // prover
+      // const baseInput = chosenPool.x.withAmount(values.firstTokenAmount);
+      //
+      // const boxes = await ergo.get_utxos(
+      //   baseInput.amount.toString(),
+      //   baseInput.asset.id,
+      // ); // конвертить через boxFromWasm
+      //
+      // const transCtx = new TransactionContext(
+      //   chooseBoxes(boxes),
+      //   await ergo.get_change_address(),
+      //   1000000n,
+      //   null as any,
+      //   // poolNetwork
+      // );
+      // const swapTransaction = await pool.swap(
+      //   {
+      //     pk,
+      //     poolScriptHash,
+      //     baseInput,
+      //     minQuoteOutput: chosenPool.outputAmount(baseInput, values.slippage),
+      //     dexFeePerToken: values, // брать с инпута комиссия заплаченная за каждый обмененный токен
+      //     poolFeeNum: chosenPool.poolFeeNum,
+      //     quoteAsset: chosenPool.y.asset,
+      //   },
+      //   transCtx,
+      // );
+      // const submittedTx = await ergo.submit_tx(swapTransaction);
+      // console.log(pk);
       //
     }
     console.log(values);

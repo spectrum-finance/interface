@@ -12,7 +12,7 @@
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@types/react-router-dom": "^5.1.7",
-    "ergo-dex-sdk": "^0.0.3",
+    "ergo-dex-sdk": "^0.0.6",
     "ergo-lib-wasm-browser": "^0.10.0",
     "final-form": "^4.20.2",
     "react": "^17.0.2",
@@ -25,6 +25,11 @@
     "web-vitals": "^1.0.1"
   },
   "devDependencies": {
+    "@babel/plugin-syntax-bigint": "^7.8.3",
+    "@babel/plugin-syntax-optional-chaining": "^7.8.3",
+    "@types/bs58": "^4.0.1",
+    "customize-cra": "^1.0.0",
+    "babel-loader": "8.1.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-react-app": "^6.2.2",

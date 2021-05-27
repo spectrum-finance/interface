@@ -3,8 +3,7 @@
     "target": "es2020",
     "lib": [
       "dom",
-      "dom.iterable",
-      "esnext"
+      "dom.iterable"
     ],
     "typeRoots": [
       "src/@types"
@@ -21,10 +20,12 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react",
+    "jsx": "react-jsx"
   },
   "include": [
     "src"
   ],
-  "excluded" : ["**/*.wasm"]
+  "excluded": [
+    "**/*.wasm"
+  ]
 }
