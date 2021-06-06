@@ -33,7 +33,7 @@ const getPoolByPair = (tokenId1: any, tokenId2: any) => {
 };
 
 export const Swap = ({ isWalletConnected }: Swap) => {
-  const [addresses, setAddresses] = useState([]);
+  const [addresses, setAddresses] = useState<string[]>([]);
   const currencies = [
     { label: 'ETH', value: 'ETH' },
     { label: 'ERG', value: 'ERG' },
@@ -52,7 +52,7 @@ export const Swap = ({ isWalletConnected }: Swap) => {
 
   useEffect(() => {
     if (isWalletConnected) {
-      ergo.get_used_addresses().then((data) => setAddresses(data));
+      ergo.get_used_addresses().then((data: string[]) => setAddresses(data));
     }
   }, [isWalletConnected]);
 
