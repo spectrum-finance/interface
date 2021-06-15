@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 /**
  * Took from yoroi-frontend/packages/yoroi-ergo-connector/src/inject.js
  *
@@ -60,7 +61,7 @@ class ErgoAPI {
 type token = 'ERG' | string;
 type Pagination = any;
 
-interface ErgoAPI {
+interface Prover {
   get_balance(token_id: token = 'ERG'): Promise<string>;
 
   get_utxos(

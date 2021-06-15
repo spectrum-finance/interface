@@ -1832,6 +1832,13 @@
   dependencies:
     "@babel/types" "^7.3.0"
 
+"@types/bs58@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@types/bs58/-/bs58-4.0.1.tgz#3d51222aab067786d3bc3740a84a7f5a0effaa37"
+  integrity sha512-yfAgiWgVLjFCmRv8zAcOIHywYATEwiTVccTLnRp6UxTNavT55M9d/uhK3T03St/+8/z/wW+CRjGKUNmEqoHHCA==
+  dependencies:
+    base-x "^3.0.6"
+
 "@types/eslint-visitor-keys@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@types/eslint-visitor-keys/-/eslint-visitor-keys-1.0.0.tgz#1ee30d79544ca84d68d4b3cdb0af4f205663dd2d"
@@ -2750,7 +2757,7 @@ axe-core@^4.0.2:
   resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.1.2.tgz#7cf783331320098bfbef620df3b3c770147bc224"
   integrity sha512-V+Nq70NxKhYt89ArVcaNL9FDryB3vQOd+BFXZIfO3RP6rwtj+2yqqqdHEkacutglPaZLkJeuXKCjCJDMGPtPqg==
 
-axios@0.21.1:
+axios@^0.21.1:
   version "0.21.1"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.1.tgz#22563481962f4d6bde9a76d516ef0e5d3c09b2b8"
   integrity sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA==
@@ -2941,7 +2948,7 @@ balanced-match@^1.0.0:
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.0.tgz#89b4d199ab2bee49de164ea02b89ce462d71b767"
   integrity sha1-ibTRmasr7kneFk6gK4nORi1xt2c=
 
-base-x@^3.0.2:
+base-x@^3.0.2, base-x@^3.0.6:
   version "3.0.8"
   resolved "https://registry.yarnpkg.com/base-x/-/base-x-3.0.8.tgz#1e1106c2537f0162e8b52474a557ebb09000018d"
   integrity sha512-Rl/1AWP4J/zRrk54hhlxH4drNxPJXYUaKffODVI53/dAsV4t9fBxyxYKAVPU1XBHxYwOWP9h9H0hM2MVw4YfJA==
@@ -3010,7 +3017,7 @@ bindings@^1.5.0:
   dependencies:
     file-uri-to-path "1.0.0"
 
-blakejs@1.1.0:
+blakejs@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/blakejs/-/blakejs-1.1.0.tgz#69df92ef953aa88ca51a32df6ab1c54a155fc7a5"
   integrity sha1-ad+S75U6qIylGjLfarHFShVfx6U=
@@ -3186,7 +3193,7 @@ browserslist@^4.0.0, browserslist@^4.12.0, browserslist@^4.14.5, browserslist@^4
     escalade "^3.1.1"
     node-releases "^1.1.70"
 
-bs58@4.0.1:
+bs58@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/bs58/-/bs58-4.0.1.tgz#be161e76c354f6f788ae4071f63f34e8c4f0a42a"
   integrity sha1-vhYedsNU9veIrkBx9j806MTwpCo=
@@ -4117,6 +4124,13 @@ csstype@^3.0.2:
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.0.8.tgz#d2266a792729fb227cd216fb572f43728e1ad340"
   integrity sha512-jXKhWqXPmlUeoQnF/EhTtTl4C9SnrxSH/jZUih3jmO6lBKr99rP3/+FmrMj4EFpOXzMtXHAZkd3x0E6h6Fgflw==
 
+customize-cra@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/customize-cra/-/customize-cra-1.0.0.tgz#73286563631aa08127ad4d30a2e3c89cf4e93c8d"
+  integrity sha512-DbtaLuy59224U+xCiukkxSq8clq++MOtJ1Et7LED1fLszWe88EoblEYFBJ895sB1mC6B4uu3xPT/IjClELhMbA==
+  dependencies:
+    lodash.flow "^3.5.0"
+
 cyclist@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/cyclist/-/cyclist-1.0.1.tgz#596e9698fd0c80e12038c2b82d6eb1b35b6224d9"
@@ -4569,25 +4583,31 @@ entities@^2.0.0:
   resolved "https://registry.yarnpkg.com/entities/-/entities-2.2.0.tgz#098dc90ebb83d8dffa089d55256b351d34c4da55"
   integrity sha512-p92if5Nz619I0w+akJrLZH0MX0Pb5DX39XOwQTtXSdQQOaYH03S1uIQp4mhOZtAXrxq4ViO67YTiLBo2638o9A==
 
-ergo-dex-sdk@^0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/ergo-dex-sdk/-/ergo-dex-sdk-0.0.3.tgz#7a9bbbfb68398f78c4a5168eca063690df6aba8e"
-  integrity sha512-C9nBKSYL5qUktUX1MnIJ+dRtWN618+h23rnjiXrgeOfIucaW602wByagjAkt93MsfXj5Uvm1YqO42sy/HLZcnA==
+ergo-dex-sdk@^0.0.100:
+  version "0.0.100"
+  resolved "https://registry.yarnpkg.com/ergo-dex-sdk/-/ergo-dex-sdk-0.0.100.tgz#696b3c9b295fe65c5ee560895395202fffe7915e"
+  integrity sha512-Jx3slb0c5VIkPK5C6T79Kie6ArnZkV5A0eU6TK6xdN9c1CW73VSQfPguGAr48BgiD5u7y3O4ReCcZrVAJPtbVw==
   dependencies:
-    axios "0.21.1"
-    blakejs "1.1.0"
-    bs58 "4.0.1"
-    ergo-lib-wasm-browser "0.11.0"
+    axios "^0.21.1"
+    blakejs "^1.1.0"
+    bs58 "^4.0.1"
+    ergo-lib-wasm-browser "0.13.2"
+    ergo-lib-wasm-nodejs "0.13.2"
 
-ergo-lib-wasm-browser@0.11.0:
-  version "0.11.0"
-  resolved "https://registry.yarnpkg.com/ergo-lib-wasm-browser/-/ergo-lib-wasm-browser-0.11.0.tgz#be38b8fe8667807ec9d7069f26e730341b19f8d7"
-  integrity sha512-Ba1Zgijqx7QAXszXUl2+UXh9Uym4G3ACvUFL/MNofymuqGq+3jrK6PNHQSqXSUP0R0rV1KR7RKzTRZQNq5RHew==
+ergo-lib-wasm-browser@0.13.2:
+  version "0.13.2"
+  resolved "https://registry.yarnpkg.com/ergo-lib-wasm-browser/-/ergo-lib-wasm-browser-0.13.2.tgz#e92864b9af6f9a24bd5964aeba083d0124f2fa7e"
+  integrity sha512-h8qGtDYbq7Jq+OSswNjfbE/A1fjZbz5xOEVhHU7yZxThxkO+CmW3ciQvoJA4TxAz/ua8Ti1RFfFByrMtbAcLIQ==
 
-ergo-lib-wasm-browser@^0.10.0:
-  version "0.10.0"
-  resolved "https://registry.yarnpkg.com/ergo-lib-wasm-browser/-/ergo-lib-wasm-browser-0.10.0.tgz#2a0c82435be047b297e9a8be159ed2f63f1378e4"
-  integrity sha512-kZerrt+2wdGJMLF2FCabE1JTOLXkeYXqYSN7+5oq+6vWMsG1OSWQdBJfbKteWDPk/l6uXFxKXvwaR+LCH1rRlQ==
+ergo-lib-wasm-browser@^0.13.1:
+  version "0.13.1"
+  resolved "https://registry.yarnpkg.com/ergo-lib-wasm-browser/-/ergo-lib-wasm-browser-0.13.1.tgz#6bfe8fe971f741ec27761c5ec9e220d370f2cd7e"
+  integrity sha512-CE8aVVPHRW5oNU4Kx1VxGZbYTLLid6n38HCxYyn9KatR8qhAM/0svn/e+/zbhckXnipb7S1ZitG+jfuTVwBCEw==
+
+ergo-lib-wasm-nodejs@0.13.2:
+  version "0.13.2"
+  resolved "https://registry.yarnpkg.com/ergo-lib-wasm-nodejs/-/ergo-lib-wasm-nodejs-0.13.2.tgz#8fc7d46180c71ce8f82a04628695ba63a5bf084e"
+  integrity sha512-waAwED3JF9pcEmgn07VH8bWOGLq08hWcImv93ozqBV4FKkE9rnhz2RZgHu/RMkXC6C1wNqnDnkXDzI289lHTbQ==
 
 errno@^0.1.3, errno@~0.1.7:
   version "0.1.8"
@@ -7301,6 +7321,11 @@ lodash._reinterpolate@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/lodash._reinterpolate/-/lodash._reinterpolate-3.0.0.tgz#0ccf2d89166af03b3663c796538b75ac6e114d9d"
   integrity sha1-DM8tiRZq8Ds2Y8eWU4t1rG4RTZ0=
+
+lodash.flow@^3.5.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/lodash.flow/-/lodash.flow-3.5.0.tgz#87bf40292b8cf83e4e8ce1a3ae4209e20071675a"
+  integrity sha1-h79AKSuM+D5OjOGjrkIJ4gBxZ1o=
 
 lodash.memoize@^4.1.2:
   version "4.1.2"

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Router } from 'react-router-dom';
 import { Swap } from './components/Swap/Swap';
 import './App.css';
@@ -7,6 +7,7 @@ import { GeistProvider, CssBaseline, Tabs, Text } from '@geist-ui/react';
 import { ConnectWallet } from './components/ConnectWallet/ConnectWallet';
 import { AddLiquidity } from './components/AddLiquidity/AddLiquidity';
 import { CreateLiquidity } from './components/CreateLiquidity/CreateLiquidity';
+import { RustModule } from 'ergo-dex-sdk';
 
 export const App: React.FC = () => {
   const [isWalletConnected, setIsWalletConnected] = useState(false);
