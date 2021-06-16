@@ -11,6 +11,15 @@ import { RustModule } from 'ergo-dex-sdk';
 
 export const App: React.FC = () => {
   const [isWalletConnected, setIsWalletConnected] = useState(false);
+  const [isRustModuleLoaded, setIsRustModuleLoaded] = useState(false);
+
+  useEffect(() => {
+    RustModule.load().then(() => setIsRustModuleLoaded(true));
+  }, []);
+
+  if (!isRustModuleLoaded) {
+    return <> Loading...</>;
+  }
 
   return (
     <GeistProvider>
@@ -22,6 +31,7 @@ export const App: React.FC = () => {
             isWalletConnected={isWalletConnected}
             setIsWalletConnected={setIsWalletConnected}
           />
+
           <Tabs
             initialValue="swap"
             style={{ maxWidth: '400px', margin: '0 auto' }}
