@@ -1223,6 +1223,13 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
+"@babel/runtime@^7.14.0":
+  version "7.14.6"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.14.6.tgz#535203bc0892efc7dec60bdc27b2ecf6e409062d"
+  integrity sha512-/PCB2uJ7oM44tz8YhC4Z/6PeOKXp4K588f+5M3clr1M4zbqztlo0XEfJ2LEzj/FgwfgGcIdl8n7YYjTCI0BYwg==
+  dependencies:
+    regenerator-runtime "^0.13.4"
+
 "@babel/template@^7.10.4", "@babel/template@^7.12.13", "@babel/template@^7.3.3":
   version "7.12.13"
   resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.12.13.tgz#530265be8a2589dbb37523844c5bcb55947fb327"
@@ -3720,6 +3727,11 @@ commondir@^1.0.1:
   resolved "https://registry.yarnpkg.com/commondir/-/commondir-1.0.1.tgz#ddd800da0c66127393cca5950ea968a3aaf1253b"
   integrity sha1-3dgA2gxmEnOTzKWVDqloo6rxJTs=
 
+complex.js@^2.0.13:
+  version "2.0.13"
+  resolved "https://registry.yarnpkg.com/complex.js/-/complex.js-2.0.13.tgz#00cf7ba082565e164813b7bbbb0ced5d2aba172a"
+  integrity sha512-UEWd3G3/kd3lJmsdLsDh9qfinJlujL4hIFn3Vo4/G5eqehPsgCHf2CLhFs77tVkOp2stt/jbNit7Q1XFANFltA==
+
 component-emitter@^1.2.1:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/component-emitter/-/component-emitter-1.3.0.tgz#16e4070fba8ae29b679f2215853ee181ab2eabc0"
@@ -4268,7 +4280,7 @@ decamelize@^1.2.0:
   resolved "https://registry.yarnpkg.com/decamelize/-/decamelize-1.2.0.tgz#f6534d15148269b20352e7bee26f501f9a191290"
   integrity sha1-9lNNFRSCabIDUue+4m9QH5oZEpA=
 
-decimal.js@^10.2.0:
+decimal.js@^10.2.0, decimal.js@^10.2.1:
   version "10.2.1"
   resolved "https://registry.yarnpkg.com/decimal.js/-/decimal.js-10.2.1.tgz#238ae7b0f0c793d3e3cea410108b35a2c01426a3"
   integrity sha512-KaL7+6Fw6i5A2XSnsbhm/6B+NuEA7TZ4vqxnd5tXz9sbKtrN9Srj8ab4vKVdK8YAqZO9P1kg45Y6YLoduPf+kw==
@@ -4660,31 +4672,31 @@ entities@^2.0.0:
   resolved "https://registry.yarnpkg.com/entities/-/entities-2.2.0.tgz#098dc90ebb83d8dffa089d55256b351d34c4da55"
   integrity sha512-p92if5Nz619I0w+akJrLZH0MX0Pb5DX39XOwQTtXSdQQOaYH03S1uIQp4mhOZtAXrxq4ViO67YTiLBo2638o9A==
 
-ergo-dex-sdk@^0.0.100:
-  version "0.0.100"
-  resolved "https://registry.yarnpkg.com/ergo-dex-sdk/-/ergo-dex-sdk-0.0.100.tgz#696b3c9b295fe65c5ee560895395202fffe7915e"
-  integrity sha512-Jx3slb0c5VIkPK5C6T79Kie6ArnZkV5A0eU6TK6xdN9c1CW73VSQfPguGAr48BgiD5u7y3O4ReCcZrVAJPtbVw==
+ergo-dex-sdk@^0.0.120:
+  version "0.0.120"
+  resolved "https://registry.yarnpkg.com/ergo-dex-sdk/-/ergo-dex-sdk-0.0.120.tgz#a34bbedb30152343af8588b06f0403fcd23e8820"
+  integrity sha512-6yMdweQqI50hDzKo7BDbN2OkUl26A/nha7o8NSJidY559ib5r98UwcWar909ikx/XC6e8xmu5W7RU0gJlwFY7Q==
   dependencies:
     axios "^0.21.1"
     blakejs "^1.1.0"
     bs58 "^4.0.1"
-    ergo-lib-wasm-browser "0.13.2"
-    ergo-lib-wasm-nodejs "0.13.2"
+    ergo-lib-wasm-browser "0.13.3"
+    ergo-lib-wasm-nodejs "0.13.3"
 
-ergo-lib-wasm-browser@0.13.2:
-  version "0.13.2"
-  resolved "https://registry.yarnpkg.com/ergo-lib-wasm-browser/-/ergo-lib-wasm-browser-0.13.2.tgz#e92864b9af6f9a24bd5964aeba083d0124f2fa7e"
-  integrity sha512-h8qGtDYbq7Jq+OSswNjfbE/A1fjZbz5xOEVhHU7yZxThxkO+CmW3ciQvoJA4TxAz/ua8Ti1RFfFByrMtbAcLIQ==
+ergo-lib-wasm-browser@0.13.3:
+  version "0.13.3"
+  resolved "https://registry.yarnpkg.com/ergo-lib-wasm-browser/-/ergo-lib-wasm-browser-0.13.3.tgz#ca9ad65d4f12729246722405297638ca85978545"
+  integrity sha512-wrZ96Rbr3iEiSFvpmjB/H6SmOU6V1QDl8FDqvJ1SYMKKEWwRGMIiSmTGdkJGYv0daxqm7k6emudzuDDKJjVDdA==
 
 ergo-lib-wasm-browser@^0.13.1:
   version "0.13.1"
   resolved "https://registry.yarnpkg.com/ergo-lib-wasm-browser/-/ergo-lib-wasm-browser-0.13.1.tgz#6bfe8fe971f741ec27761c5ec9e220d370f2cd7e"
   integrity sha512-CE8aVVPHRW5oNU4Kx1VxGZbYTLLid6n38HCxYyn9KatR8qhAM/0svn/e+/zbhckXnipb7S1ZitG+jfuTVwBCEw==
 
-ergo-lib-wasm-nodejs@0.13.2:
-  version "0.13.2"
-  resolved "https://registry.yarnpkg.com/ergo-lib-wasm-nodejs/-/ergo-lib-wasm-nodejs-0.13.2.tgz#8fc7d46180c71ce8f82a04628695ba63a5bf084e"
-  integrity sha512-waAwED3JF9pcEmgn07VH8bWOGLq08hWcImv93ozqBV4FKkE9rnhz2RZgHu/RMkXC6C1wNqnDnkXDzI289lHTbQ==
+ergo-lib-wasm-nodejs@0.13.3:
+  version "0.13.3"
+  resolved "https://registry.yarnpkg.com/ergo-lib-wasm-nodejs/-/ergo-lib-wasm-nodejs-0.13.3.tgz#90a159f588ab460034afd62ac1382268d0af7e0a"
+  integrity sha512-z/wPJJea/HGubPyG7NYx4xR434NHrt6ZRwfLrN8vYZoSTEFR7XuV5OmfbZOEusR7R/HM6vLQsDoTTyvCJPWGkg==
 
 errno@^0.1.3, errno@~0.1.7:
   version "0.1.8"
@@ -4788,6 +4800,11 @@ escape-html@~1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/escape-html/-/escape-html-1.0.3.tgz#0258eae4d3d0c0974de1c169188ef0051d1d1988"
   integrity sha1-Aljq5NPQwJdN4cFpGI7wBR0dGYg=
+
+escape-latex@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/escape-latex/-/escape-latex-1.2.0.tgz#07c03818cf7dac250cce517f4fda1b001ef2bca1"
+  integrity sha512-nV5aVWW1K0wEiUIEdZ4erkGGH8mDxGyxSeqPzRNtWP7ataw+/olFObw7hujFWlVjNsaDFw5VZ5NzVSIqRgfTiw==
 
 escape-string-regexp@2.0.0, escape-string-regexp@^2.0.0:
   version "2.0.0"
@@ -5537,6 +5554,11 @@ forwarded@~0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/forwarded/-/forwarded-0.1.2.tgz#98c23dab1175657b8c0573e8ceccd91b0ff18c84"
   integrity sha1-mMI9qxF1ZXuMBXPozszZGw/xjIQ=
+
+fraction.js@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/fraction.js/-/fraction.js-4.1.1.tgz#ac4e520473dae67012d618aab91eda09bcb400ff"
+  integrity sha512-MHOhvvxHTfRFpF1geTK9czMIZ6xclsEor2wkIGYYq+PxcQqT7vStJqjhe6S1TenZrMZzo+wlqOufBDVepUEgPg==
 
 fragment-cache@^0.2.1:
   version "0.2.1"
@@ -6680,6 +6702,11 @@ istanbul-reports@^3.0.2:
     html-escaper "^2.0.0"
     istanbul-lib-report "^3.0.0"
 
+javascript-natural-sort@^0.7.1:
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/javascript-natural-sort/-/javascript-natural-sort-0.7.1.tgz#f9e2303d4507f6d74355a73664d1440fb5a0ef59"
+  integrity sha1-+eIwPUUH9tdDVac2ZNFED7Wg71k=
+
 jest-changed-files@^26.6.2:
   version "26.6.2"
   resolved "https://registry.yarnpkg.com/jest-changed-files/-/jest-changed-files-26.6.2.tgz#f6198479e1cc66f22f9ae1e22acaa0b429c042d0"
@@ -7541,6 +7568,21 @@ map-visit@^1.0.0:
   integrity sha1-7Nyo8TFE5mDxtb1B8S80edmN+48=
   dependencies:
     object-visit "^1.0.0"
+
+mathjs@^9.4.2:
+  version "9.4.2"
+  resolved "https://registry.yarnpkg.com/mathjs/-/mathjs-9.4.2.tgz#4a7908f23bed3fda5c4435b8d72e0cb100c1c453"
+  integrity sha512-xu0AU6bpjxbDgCB824s/yDpAe0KR1TMUYz/yY7rYyRcEH56OuG8JPgxJhqlUyhhRpY++ZFDnRxRNGChYx1FLKQ==
+  dependencies:
+    "@babel/runtime" "^7.14.0"
+    complex.js "^2.0.13"
+    decimal.js "^10.2.1"
+    escape-latex "^1.2.0"
+    fraction.js "^4.1.1"
+    javascript-natural-sort "^0.7.1"
+    seedrandom "^3.0.5"
+    tiny-emitter "^2.1.0"
+    typed-function "^2.0.0"
 
 md5.js@^1.3.4:
   version "1.3.5"
@@ -10236,6 +10278,11 @@ schema-utils@^3.0.0:
     ajv "^6.12.5"
     ajv-keywords "^3.5.2"
 
+seedrandom@^3.0.5:
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/seedrandom/-/seedrandom-3.0.5.tgz#54edc85c95222525b0c7a6f6b3543d8e0b3aa0a7"
+  integrity sha512-8OwmbklUNzwezjGInmZ+2clQmExQPvomqjL7LFqOYqtmuxRgQYqOD3mHaU+MvZn5FLUeVxVfQjwLZW/n/JFuqg==
+
 select-hose@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/select-hose/-/select-hose-2.0.0.tgz#625d8658f865af43ec962bfc376a37359a4994ca"
@@ -11116,6 +11163,11 @@ timsort@^0.3.0:
   resolved "https://registry.yarnpkg.com/timsort/-/timsort-0.3.0.tgz#405411a8e7e6339fe64db9a234de11dc31e02bd4"
   integrity sha1-QFQRqOfmM5/mTbmiNN4R3DHgK9Q=
 
+tiny-emitter@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/tiny-emitter/-/tiny-emitter-2.1.0.tgz#1d1a56edfc51c43e863cbb5382a72330e3555423"
+  integrity sha512-NB6Dk1A9xgQPMoGqC5CVXn123gWyte215ONT5Pp5a0yt4nlEoO1ZWeCwpncaekPHXO60i47ihFnZPiRPjRMq4Q==
+
 tiny-invariant@^1.0.2:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/tiny-invariant/-/tiny-invariant-1.1.0.tgz#634c5f8efdc27714b7f386c35e6760991d230875"
@@ -11324,6 +11376,11 @@ type@^2.0.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/type/-/type-2.3.0.tgz#ada7c045f07ead08abf9e2edd29be1a0c0661132"
   integrity sha512-rgPIqOdfK/4J9FhiVrZ3cveAjRRo5rsQBAIhnylX874y1DX/kEKSVdLsnuHB6l1KTjHyU01VjiMBHgU2adejyg==
+
+typed-function@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/typed-function/-/typed-function-2.0.0.tgz#15ab3825845138a8b1113bd89e60cd6a435739e8"
+  integrity sha512-Hhy1Iwo/e4AtLZNK10ewVVcP2UEs408DS35ubP825w/YgSBK1KVLwALvvIG4yX75QJrxjCpcWkzkVRB0BwwYlA==
 
 typedarray-to-buffer@^3.1.5:
   version "3.1.5"
