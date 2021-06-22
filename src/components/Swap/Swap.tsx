@@ -190,18 +190,26 @@ export const Swap = ({ isWalletConnected }: Swap) => {
   const onEnterFirstTokenAmount = (value: any) => {
     setFirstTokenAmount(value);
 
-    // if (choosedPool && firstTokenInfo) {
-    //   const amount = choosedPool.outputAmount(
-    //     new AssetAmount(
-    //       firstTokenInfo,
-    //       BigInt(
-    //         evaluate(`${value}*10^${firstTokenInfo.decimals || 0}`).toFixed(0),
-    //       ),
-    //     ),
-    //     1,
-    //   );
-    //   setSecondTokenAmount(String(amount.amount));
-    // }
+    if (choosedPool && firstTokenInfo && secondTokenInfo && value > 0) {
+      const amount = choosedPool.outputAmount(
+        new AssetAmount(
+          firstTokenInfo,
+          BigInt(
+            evaluate(`${value}*10^${firstTokenInfo.decimals || 0}`).toFixed(0),
+          ),
+        ),
+        1,
+      );
+      setSecondTokenAmount(
+        String(
+          evaluate(`${amount?.amount}/10^${secondTokenInfo.decimals || 0}`),
+        ),
+      );
+    }
+
+    if (!value.trim()) {
+      setSecondTokenAmount('0');
+    }
   };
 
   const onEnterSecondTokenAmount = (value: any) => {
@@ -369,22 +377,46 @@ export const Swap = ({ isWalletConnected }: Swap) => {
                   </Field>
                 </Grid>
                 <Grid xs={18}>
-                  <Field name="firstTokenAmount">
+                  <Field
+                    name="firstTokenAmount"
+                    validate={(value) => {
+                      if (!value || !value.trim()) {
+                        return;
+                      }
+                      const comma = value.match('[,.]');
+                      if (comma && !firstTokenInfo?.decimals) {
+                        return 'No decimals at this token after comma';
+                      }
+
+                      if (
+                        comma &&
+                        value.substr(comma.index + 1) >
+                          (firstTokenInfo?.decimals || 0)
+                      ) {
+                        return `Max decimals at this token after comma is ${
+                          firstTokenInfo?.decimals || 0
+                        }`;
+                      }
+                    }}
+                  >
                     {(props: FieldRenderProps<string>) => (
-                      <Input
-                        placeholder="0.0"
-                        type="number"
-                        width="100%"
-                        step="0.01"
-                        min="0"
-                        lang="en"
-                        {...props.input}
-                        onChange={({ currentTarget }) => {
-                          const value = currentTarget.value;
-                          onEnterFirstTokenAmount(value);
-                          props.input.onChange(value);
-                        }}
-                      />
+                      <>
+                        <Input
+                          placeholder="0.0"
+                          type="number"
+                          width="100%"
+                          lang="en"
+                          {...props.input}
+                          disabled={!firstTokenInfo || !firstTokenId}
+                          value={firstTokenAmount}
+                          onChange={({ currentTarget }) => {
+                            const value = currentTarget.value;
+                            onEnterFirstTokenAmount(value);
+                            props.input.onChange(value);
+                          }}
+                        />
+                        {props.meta.error && <p>{props.meta.error}</p>}
+                      </>
                     )}
                   </Field>
                 </Grid>
@@ -420,10 +452,12 @@ export const Swap = ({ isWalletConnected }: Swap) => {
                         type="number"
                         width="100%"
                         {...props.input}
+                        value={secondTokenAmount}
                         onChange={(e) => {
                           onEnterSecondTokenAmount(e.currentTarget.value);
                           props.input.onChange(e.currentTarget.value);
                         }}
+                        disabled={true}
                       />
                     )}
                   </Field>
