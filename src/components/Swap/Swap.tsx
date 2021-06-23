@@ -212,32 +212,20 @@ export const Swap = ({ isWalletConnected }: Swap) => {
     }
   };
 
-  const onEnterSecondTokenAmount = (value: any) => {
-    setSecondTokenAmount(value);
-
-    // if (choosedPool) {
-    //   setFirstTokenAmount(value);
-    // }
-  };
-
   const onSubmit = async (values: any) => {
     if (isWalletConnected && choosedPool) {
       const network = new Explorer('https://api.ergoplatform.com');
-      const poolNetwork = new NetworkPools(network);
       // // выбрать pool из селекта
-      const pools = await poolNetwork.getAll({ limit: 100, offset: 0 });
-      console.log(123, pools);
-      const chosenPool = choosedPool;
-      const poolId = chosenPool.id;
+      const poolId = choosedPool.id;
       // const yoroiWalletProver = {} as any;
-      const baseInput = chosenPool.x.withAmount(10n);
+      const baseInput = choosedPool.x.withAmount(10n);
 
       const poolOps = new T2tPoolOps(
         new YoroiProver(),
         new DefaultTxAssembler(true),
       );
       const pk = fromAddress(addresses[0]) as string;
-      const minQuoteOutput = chosenPool.outputAmount(baseInput, 1).amount;
+      const minQuoteOutput = choosedPool.outputAmount(baseInput, 1).amount;
       const dexFeePerToken = 100n;
       const poolFeeNum = 600;
       console.log(utxos);
@@ -309,7 +297,7 @@ export const Swap = ({ isWalletConnected }: Swap) => {
             secondTokenName: '',
             address: '',
           }}
-          render={({ handleSubmit, values }) => (
+          render={({ handleSubmit, values, errors = {} }) => (
             <form onSubmit={handleSubmit}>
               <Grid.Container gap={1}>
                 {isWalletConnected && addresses.length !== 0 && (
@@ -454,7 +442,6 @@ export const Swap = ({ isWalletConnected }: Swap) => {
                         {...props.input}
                         value={secondTokenAmount}
                         onChange={(e) => {
-                          onEnterSecondTokenAmount(e.currentTarget.value);
                           props.input.onChange(e.currentTarget.value);
                         }}
                         disabled={true}
@@ -463,7 +450,12 @@ export const Swap = ({ isWalletConnected }: Swap) => {
                   </Field>
                 </Grid>
                 <Grid xs={24} justify="center">
-                  <Button htmlType="submit" disabled={buttonStatus.disabled}>
+                  <Button
+                    htmlType="submit"
+                    disabled={
+                      buttonStatus.disabled || Object.values(errors).length > 0
+                    }
+                  >
                     {buttonStatus.text}
                   </Button>
                 </Grid>
