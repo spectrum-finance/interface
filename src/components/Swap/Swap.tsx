@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import {
   AutoComplete,
   Button,
@@ -30,6 +36,8 @@ import {
 import { fromAddress } from 'ergo-dex-sdk/build/module/ergo/entities/publicKey';
 import { useGetAllPools } from '../../hooks/useGetAllPools';
 import { getTokenInfo } from '../../utils/getTokenInfo';
+import { WalletContext } from '../../context/WalletContext';
+import { defaultMinerFee } from '../../constants/erg';
 // import { fromAddress } from ;
 // import { T2tPoolOps } from 'ergo-dex-sdk';
 // import { NetworkPools } from 'ergo-dex-sdk';
@@ -43,9 +51,8 @@ interface Swap {
 }
 enum WalletStates {
   NEED_TO_CONNECT_WALLET = 'NEED_TO_CONNECT_WALLET',
-  NEED_TO_CHOOSE_PAIR = 'NEED_TO_CHOOSE_PAIR',
+  SELECT_A_TOKEN = 'SELECT_A_TOKEN',
   NO_LIQUIDITY = 'NO_LIQUIDITY',
-  NO_AVAILABLE_POOL = 'NO_AVAILABLE_POOL',
   NEED_TO_ENTER_AMOUNT = 'NEED_TO_ENTER_AMOUNT',
   SUBMIT = 'SUBMIT',
   LOADING = 'LOADING',
@@ -64,15 +71,11 @@ const getButtonState = ({
   }
 
   if (!firstTokenId || !secondTokenId) {
-    return WalletStates.NEED_TO_CHOOSE_PAIR;
+    return WalletStates.SELECT_A_TOKEN;
   }
 
-  if (!choosedPool) {
-    return WalletStates.NO_AVAILABLE_POOL;
-  }
-
-  if (!firstTokenAmount && !secondTokenAmount) {
-    // return WalletStates.NEED_TO_ENTER_AMOUNT;
+  if (!firstTokenAmount || !secondTokenAmount) {
+    return WalletStates.NEED_TO_ENTER_AMOUNT;
   }
 
   if (choosedPool) {
@@ -82,15 +85,19 @@ const getButtonState = ({
   return WalletStates.LOADING;
 };
 
-export const Swap = ({ isWalletConnected }: Swap) => {
+export const Swap = () => {
+  const { isWalletConnected } = useContext(WalletContext);
+  const [feePerToken, setFeePerToken] = useState('');
   const [firstTokenId, setFirstTokenId] = useState('');
   const [secondTokenId, setSecondTokenId] = useState('');
   const [firstTokenAmount, setFirstTokenAmount] = useState('');
   const [secondTokenAmount, setSecondTokenAmount] = useState('');
-  const [firstTokenInfo, setFirstTokenInfo] =
-    useState<AssetInfo | undefined>(undefined);
-  const [secondTokenInfo, setSecondTokenInfo] =
-    useState<AssetInfo | undefined>(undefined);
+  const [firstTokenInfo, setFirstTokenInfo] = useState<AssetInfo | undefined>(
+    undefined,
+  );
+  const [secondTokenInfo, setSecondTokenInfo] = useState<AssetInfo | undefined>(
+    undefined,
+  );
   const pools = useGetAllPools();
 
   const choosedPool = useMemo(() => {
@@ -110,7 +117,6 @@ export const Swap = ({ isWalletConnected }: Swap) => {
   const [utxos, setUtxos] = useState([]);
 
   const buttonStatus = useMemo(() => {
-    console.log(choosedPool);
     const buttonState = getButtonState({
       isWalletConnected,
       firstTokenId,
@@ -120,14 +126,8 @@ export const Swap = ({ isWalletConnected }: Swap) => {
       secondTokenAmount,
     });
     switch (buttonState) {
-      case WalletStates.LOADING: {
-        return { disabled: true, text: 'Loading...' };
-      }
-      case WalletStates.NEED_TO_CHOOSE_PAIR: {
-        return { disabled: true, text: 'Need to choose pair' };
-      }
-      case WalletStates.NO_AVAILABLE_POOL: {
-        return { disabled: true, text: 'No available pool' };
+      case WalletStates.SELECT_A_TOKEN: {
+        return { disabled: true, text: 'Select a token' };
       }
       case WalletStates.SUBMIT: {
         return { disabled: false, text: 'Submit' };
@@ -135,9 +135,12 @@ export const Swap = ({ isWalletConnected }: Swap) => {
       case WalletStates.NEED_TO_CONNECT_WALLET: {
         return { disabled: true, text: 'Need to connect wallet' };
       }
-      // case WalletStates.NEED_TO_ENTER_AMOUNT: {
-      //   return { disabled: true, text: 'Need to enter amount' };
-      // }
+      case WalletStates.NEED_TO_ENTER_AMOUNT: {
+        return { disabled: true, text: 'Need to enter amount' };
+      }
+      case WalletStates.LOADING: {
+        return { disabled: true, text: 'Loading...' };
+      }
     }
   }, [isWalletConnected, firstTokenId, secondTokenId, choosedPool]);
 
@@ -205,15 +208,26 @@ export const Swap = ({ isWalletConnected }: Swap) => {
           evaluate(`${amount?.amount}/10^${secondTokenInfo.decimals || 0}`),
         ),
       );
+      const feePerToken = evaluate(
+        `${defaultMinerFee} / (${amount?.amount}/10^${
+          secondTokenInfo.decimals || 0
+        })`,
+      ).toFixed(0);
+      setFeePerToken(feePerToken == 0 ? 1 : feePerToken);
     }
 
     if (!value.trim()) {
-      setSecondTokenAmount('0');
+      setSecondTokenAmount('');
+      setFeePerToken('');
     }
   };
-
+  console.log(
+    evaluate(
+      `${defaultMinerFee}+(${secondTokenAmount || 0} * ${feePerToken || 0})`,
+    ),
+  );
   const onSubmit = async (values: any) => {
-    if (isWalletConnected && choosedPool) {
+    if (isWalletConnected && choosedPool && firstTokenInfo && secondTokenInfo) {
       const network = new Explorer('https://api.ergoplatform.com');
       // // выбрать pool из селекта
       const poolId = choosedPool.id;
@@ -226,9 +240,9 @@ export const Swap = ({ isWalletConnected }: Swap) => {
       );
       const pk = fromAddress(addresses[0]) as string;
       const minQuoteOutput = choosedPool.outputAmount(baseInput, 1).amount;
-      const dexFeePerToken = 100n;
-      const poolFeeNum = 600;
-      console.log(utxos);
+      const dexFeePerToken = BigInt(feePerToken);
+      const poolFeeNum = choosedPool.poolFeeNum;
+
       poolOps
         .swap(
           {
@@ -242,18 +256,24 @@ export const Swap = ({ isWalletConnected }: Swap) => {
           },
           {
             inputs: DefaultBoxSelector.select(utxos, {
-              nErgs: 20000000,
+              nErgs: evaluate(
+                `${defaultMinerFee}+(${secondTokenAmount} * ${feePerToken})`,
+              ),
               assets: [
                 {
                   tokenId: firstTokenId,
-                  amount: 10,
+                  amount: evaluate(
+                    `(${firstTokenAmount} * 10^${
+                      firstTokenInfo.decimals || 0
+                    })`,
+                  ).toFixed(0),
                 },
               ],
             }) as BoxSelection,
             changeAddress:
               '9g9cdHhNZvtUvMveqEEfk28JZasEC8sJamV3E6d5JHv8VYUjjbX',
             selfAddress: '9g9cdHhNZvtUvMveqEEfk28JZasEC8sJamV3E6d5JHv8VYUjjbX',
-            feeNErgs: 10000000n,
+            feeNErgs: BigInt(defaultMinerFee),
             network: await network.getNetworkContext(),
           },
         )
@@ -296,6 +316,7 @@ export const Swap = ({ isWalletConnected }: Swap) => {
             firstTokenName: '',
             secondTokenName: '',
             address: '',
+            feePerToken: 0,
           }}
           render={({ handleSubmit, values, errors = {} }) => (
             <form onSubmit={handleSubmit}>
@@ -336,6 +357,28 @@ export const Swap = ({ isWalletConnected }: Swap) => {
                         type="number"
                         width="100%"
                         {...props.input}
+                      />
+                    )}
+                  </Field>
+                </Grid>
+
+                <Grid xs={24}>
+                  <Text h4>Fee per token</Text>
+                </Grid>
+                <Grid xs={24}>
+                  <Field name="feePerToken">
+                    {(props: FieldRenderProps<string>) => (
+                      <Input
+                        placeholder="0.0"
+                        type="number"
+                        width="100%"
+                        {...props.input}
+                        disabled={!secondTokenAmount}
+                        value={feePerToken}
+                        onChange={({ currentTarget }) => {
+                          setFeePerToken(currentTarget.value as string);
+                          props.input.onChange(currentTarget.value);
+                        }}
                       />
                     )}
                   </Field>
