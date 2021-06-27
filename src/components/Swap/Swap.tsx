@@ -208,12 +208,14 @@ export const Swap = () => {
           evaluate(`${amount?.amount}/10^${secondTokenInfo.decimals || 0}`),
         ),
       );
-      const feePerToken = evaluate(
-        `${defaultMinerFee} / (${amount?.amount}/10^${
-          secondTokenInfo.decimals || 0
-        })`,
+      const feePerToken = Math.ceil(
+        evaluate(
+          `${defaultMinerFee} / (${amount?.amount}/10^${
+            secondTokenInfo.decimals || 0
+          })`,
+        ),
       ).toFixed(0);
-      setFeePerToken(feePerToken == 0 ? 1 : feePerToken);
+      setFeePerToken(feePerToken);
     }
 
     if (!value.trim()) {
@@ -270,9 +272,8 @@ export const Swap = () => {
                 },
               ],
             }) as BoxSelection,
-            changeAddress:
-              '9g9cdHhNZvtUvMveqEEfk28JZasEC8sJamV3E6d5JHv8VYUjjbX',
-            selfAddress: '9g9cdHhNZvtUvMveqEEfk28JZasEC8sJamV3E6d5JHv8VYUjjbX',
+            changeAddress: values.address,
+            selfAddress: values.address,
             feeNErgs: BigInt(defaultMinerFee),
             network: await network.getNetworkContext(),
           },
@@ -304,6 +305,7 @@ export const Swap = () => {
       //
     }
   };
+
   return (
     <>
       <Card>
@@ -333,6 +335,7 @@ export const Swap = () => {
                             placeholder="0.0"
                             width="100%"
                             {...props.input}
+                            value={addresses[0]}
                           >
                             {addresses.map((address: string) => (
                               <Select.Option key={address} value={address}>
