@@ -3938,6 +3938,11 @@ crypto-browserify@^3.11.0:
     randombytes "^2.0.0"
     randomfill "^1.0.3"
 
+crypto-js@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/crypto-js/-/crypto-js-4.0.0.tgz#2904ab2677a9d042856a2ea2ef80de92e4a36dcc"
+  integrity sha512-bzHZN8Pn+gS7DQA6n+iUmBfl0hO5DJq++QP3U6uTucDtk/0iGpXd/Gg7CGR0p8tJhofJyaKoWBuJI4eAO00BBg==
+
 crypto-random-string@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/crypto-random-string/-/crypto-random-string-1.0.0.tgz#a230f64f568310e1498009940790ec99545bca7e"
@@ -4660,26 +4665,32 @@ entities@^2.0.0:
   resolved "https://registry.yarnpkg.com/entities/-/entities-2.2.0.tgz#098dc90ebb83d8dffa089d55256b351d34c4da55"
   integrity sha512-p92if5Nz619I0w+akJrLZH0MX0Pb5DX39XOwQTtXSdQQOaYH03S1uIQp4mhOZtAXrxq4ViO67YTiLBo2638o9A==
 
-ergo-dex-sdk@^0.0.122:
-  version "0.0.122"
-  resolved "https://registry.yarnpkg.com/ergo-dex-sdk/-/ergo-dex-sdk-0.0.122.tgz#6099b4659f3bf5e45bd9a2c7e8e0703d435466fe"
-  integrity sha512-lBtfHdvPpeTOeiaQRuyduZoM1m/v//etCTTkDaLOt8FXJi0I1umiEh/u8ToiImNOo6tg5m2uXiDHokT4b36oxQ==
+ergo-dex-sdk@^0.0.128:
+  version "0.0.128"
+  resolved "https://registry.yarnpkg.com/ergo-dex-sdk/-/ergo-dex-sdk-0.0.128.tgz#3b326c884943ea941b917fa0febddfcc087a0841"
+  integrity sha512-HhaExRSsq8Q5zTD0JLlbeJYn2H7xBI/ZDSsYe4AQ8tvEXHiObiJjMVCbo9t/FDi0zscDCvJeeUkovmBrOZcAEA==
   dependencies:
     axios "^0.21.1"
     blakejs "^1.1.0"
     bs58 "^4.0.1"
-    ergo-lib-wasm-browser "0.13.3"
-    ergo-lib-wasm-nodejs "0.13.3"
+    crypto-js "^4.0.0"
+    ergo-lib-wasm-browser "0.14.0-alpha-9c8aa7b"
+    ergo-lib-wasm-nodejs "0.14.0-alpha-9c8aa7b"
 
-ergo-lib-wasm-browser@0.13.3, ergo-lib-wasm-browser@^0.13.1:
+ergo-lib-wasm-browser@0.14.0-alpha-9c8aa7b:
+  version "0.14.0-alpha-9c8aa7b"
+  resolved "https://registry.yarnpkg.com/ergo-lib-wasm-browser/-/ergo-lib-wasm-browser-0.14.0-alpha-9c8aa7b.tgz#8e340b87dd3ff0459e364e75a430a9f06a0b58b5"
+  integrity sha512-echar9TVSLPU+YDgGDqKyCszS30yjfTVlp13oB48+V0eJLtUg3sfNt3IiRzk1S4VzPNiKLMb3wpNOnhTG2gK6g==
+
+ergo-lib-wasm-browser@^0.13.1:
   version "0.13.3"
   resolved "https://registry.yarnpkg.com/ergo-lib-wasm-browser/-/ergo-lib-wasm-browser-0.13.3.tgz#ca9ad65d4f12729246722405297638ca85978545"
   integrity sha512-wrZ96Rbr3iEiSFvpmjB/H6SmOU6V1QDl8FDqvJ1SYMKKEWwRGMIiSmTGdkJGYv0daxqm7k6emudzuDDKJjVDdA==
 
-ergo-lib-wasm-nodejs@0.13.3:
-  version "0.13.3"
-  resolved "https://registry.yarnpkg.com/ergo-lib-wasm-nodejs/-/ergo-lib-wasm-nodejs-0.13.3.tgz#90a159f588ab460034afd62ac1382268d0af7e0a"
-  integrity sha512-z/wPJJea/HGubPyG7NYx4xR434NHrt6ZRwfLrN8vYZoSTEFR7XuV5OmfbZOEusR7R/HM6vLQsDoTTyvCJPWGkg==
+ergo-lib-wasm-nodejs@0.14.0-alpha-9c8aa7b:
+  version "0.14.0-alpha-9c8aa7b"
+  resolved "https://registry.yarnpkg.com/ergo-lib-wasm-nodejs/-/ergo-lib-wasm-nodejs-0.14.0-alpha-9c8aa7b.tgz#d4a458490d057defb85ec74f260ef26785e432c1"
+  integrity sha512-7ERAe0WZ8tI/mcd4OnkLN3uJ0uz9ZGDz5zeid3bUkkphV7hmNl+WZb5GCkCAWa62gKCS74+NmzhOuwYCb783ig==
 
 errno@^0.1.3, errno@~0.1.7:
   version "0.1.8"

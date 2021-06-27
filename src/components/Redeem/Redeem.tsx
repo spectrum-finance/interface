@@ -1,5 +1,14 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
-import { Button, Card, Grid, Input, Select, Text } from '@geist-ui/react';
+import {
+  Button,
+  Card,
+  Container,
+  Grid,
+  Input,
+  Row,
+  Select,
+  Text,
+} from '@geist-ui/react';
 import { filter } from 'ramda';
 import { Form, Field, FieldRenderProps } from 'react-final-form';
 import { evaluate } from 'mathjs';
@@ -19,11 +28,7 @@ import { WalletContext } from '../../context/WalletContext';
 import { defaultMinerFee } from '../../constants/erg';
 import { getButtonState, WalletStates } from './utils';
 
-interface Swap {
-  isWalletConnected: boolean;
-}
-
-export const Swap = () => {
+export const Redeem = () => {
   const { isWalletConnected } = useContext(WalletContext);
   const [feePerToken, setFeePerToken] = useState('');
   const [firstTokenId, setFirstTokenId] = useState('');
@@ -50,8 +55,9 @@ export const Swap = () => {
           ammPool.assetY.id === firstTokenId),
     );
   }, [firstTokenId, secondTokenId, pools]);
-  const [chooseAddress, setChooseAddress] = useState('');
+
   const [addresses, setAddresses] = useState<string[]>([]);
+  const [chooseAddress, setChooseAddress] = useState('');
   const [utxos, setUtxos] = useState([]);
 
   const buttonStatus = useMemo(() => {
@@ -96,15 +102,6 @@ export const Swap = () => {
       value: tokenData.id,
     }));
   }, [availableTokens, secondTokenId]);
-
-  const secondSelectTokens = useMemo(() => {
-    return Object.values(
-      filter((tokenData) => tokenData.id !== firstTokenId, availableTokens),
-    ).map((tokenData) => ({
-      label: tokenData.name || tokenData.id,
-      value: tokenData.id,
-    }));
-  }, [availableTokens, firstTokenId]);
 
   useEffect(() => {
     if (isWalletConnected) {
@@ -205,8 +202,8 @@ export const Swap = () => {
                 },
               ],
             }) as BoxSelection,
-            changeAddress: chooseAddress,
-            selfAddress: chooseAddress,
+            changeAddress: values.address,
+            selfAddress: values.address,
             feeNErgs: BigInt(defaultMinerFee),
             network: await network.getNetworkContext(),
           },
@@ -218,6 +215,22 @@ export const Swap = () => {
         .catch((er) => console.log(13, er));
     }
   };
+
+  if (!isWalletConnected) {
+    return (
+      <Card>
+        <Text h4>Need to connect wallet</Text>
+      </Card>
+    );
+  }
+
+  if (addresses.length === 0) {
+    return (
+      <Card>
+        <Text h4>Loading wallet...</Text>
+      </Card>
+    );
+  }
 
   return (
     <>

@@ -3,12 +3,11 @@ import { Router } from 'react-router-dom';
 import { Swap } from './components/Swap/Swap';
 import './App.css';
 import { globalHistory } from './createBrowserHistory';
-import { GeistProvider, CssBaseline, Tabs, Text } from '@geist-ui/react';
-import { AddLiquidity } from './components/AddLiquidity/AddLiquidity';
-import { CreateLiquidity } from './components/CreateLiquidity/CreateLiquidity';
+import { GeistProvider, CssBaseline, Tabs } from '@geist-ui/react';
 import { RustModule } from 'ergo-dex-sdk';
 import Layout from './components/common/Layout/Layout';
 import { WalletContextProvider } from './context/WalletContext';
+import { Redeem } from './components/Redeem/Redeem';
 
 export const App: React.FC = () => {
   const [isRustModuleLoaded, setIsRustModuleLoaded] = useState(false);
@@ -35,9 +34,9 @@ export const App: React.FC = () => {
                 <Tabs.Item label="swap" value="swap">
                   <Swap />
                 </Tabs.Item>
-                {/* <Tabs.Item label="add liquidity" value="addLiquidity">
-                  <AddLiquidity />
-                </Tabs.Item> */}
+                <Tabs.Item label="redeem" value="redeem">
+                  <Redeem />
+                </Tabs.Item>
               </Tabs>
             </Layout>
           </div>
