@@ -223,11 +223,7 @@ export const Swap = () => {
       setFeePerToken('');
     }
   };
-  console.log(
-    evaluate(
-      `${defaultMinerFee}+(${secondTokenAmount || 0} * ${feePerToken || 0})`,
-    ),
-  );
+
   const onSubmit = async (values: any) => {
     if (isWalletConnected && choosedPool && firstTokenInfo && secondTokenInfo) {
       const network = new Explorer('https://api.ergoplatform.com');
@@ -278,7 +274,10 @@ export const Swap = () => {
             network: await network.getNetworkContext(),
           },
         )
-        .then((d: any) => console.log(d))
+        .then((d: any) => {
+          ergo.submit_tx(d);
+          alert(`Transaction submitted: ${d} `);
+        })
         .catch((er) => console.log(13, er));
       //
       // const transCtx = new TransactionContext(
