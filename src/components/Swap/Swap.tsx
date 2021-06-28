@@ -167,7 +167,10 @@ export const Swap = () => {
       // // выбрать pool из селекта
       const poolId = choosedPool.id;
       // const yoroiWalletProver = {} as any;
-      const baseInput = choosedPool.x.withAmount(10n);
+      const baseInputAmount = evaluate(
+        `(${firstTokenAmount} * 10^${firstTokenInfo.decimals || 0})`,
+      ).toFixed(0);
+      const baseInput = choosedPool.x.withAmount(BigInt(baseInputAmount));
 
       const poolOps = new T2tPoolOps(
         new YoroiProver(),
@@ -197,11 +200,7 @@ export const Swap = () => {
               assets: [
                 {
                   tokenId: firstTokenId,
-                  amount: evaluate(
-                    `(${firstTokenAmount} * 10^${
-                      firstTokenInfo.decimals || 0
-                    })`,
-                  ).toFixed(0),
+                  amount: baseInputAmount,
                 },
               ],
             }) as BoxSelection,
