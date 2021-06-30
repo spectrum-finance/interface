@@ -1,0 +1,13 @@
+.PoolSelect {
+  &__item {
+    padding: 0.5rem 16pt;
+    cursor: pointer;
+
+    &:hover {
+      background-color: lighten(#ccc, 10%);
+    }
+  }
+  &__dropdown {
+    padding: 0 !important;
+  }
+}
