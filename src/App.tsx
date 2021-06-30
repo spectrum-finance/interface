@@ -8,6 +8,7 @@ import { RustModule } from 'ergo-dex-sdk';
 import Layout from './components/common/Layout/Layout';
 import { WalletContextProvider } from './context/WalletContext';
 import { Redeem } from './components/Redeem/Redeem';
+import { Deposit } from './components/Deposit/Deposit';
 
 export const App: React.FC = () => {
   const [isRustModuleLoaded, setIsRustModuleLoaded] = useState(false);
@@ -36,6 +37,9 @@ export const App: React.FC = () => {
                 </Tabs.Item>
                 <Tabs.Item label="redeem" value="redeem">
                   <Redeem />
+                </Tabs.Item>
+                <Tabs.Item label="deposit" value="deposit">
+                  <Deposit />
                 </Tabs.Item>
               </Tabs>
             </Layout>

@@ -9,68 +9,53 @@ import {
   Select,
   Text,
 } from '@geist-ui/react';
-import { filter } from 'ramda';
 import { Form, Field, FieldRenderProps } from 'react-final-form';
 import { evaluate } from 'mathjs';
-import { Explorer, T2tPoolOps } from 'ergo-dex-sdk';
+import { AmmPool, Explorer, T2tPoolOps } from 'ergo-dex-sdk';
 import { YoroiProver } from '../../utils/yoroiProver';
 import {
   AssetAmount,
-  AssetInfo,
   BoxSelection,
   DefaultBoxSelector,
   DefaultTxAssembler,
 } from 'ergo-dex-sdk/build/module/ergo';
 import { fromAddress } from 'ergo-dex-sdk/build/module/ergo/entities/publicKey';
-import { useGetAllPools } from '../../hooks/useGetAllPools';
-import { getTokenInfo } from '../../utils/getTokenInfo';
 import { WalletContext } from '../../context/WalletContext';
-import { defaultMinerFee } from '../../constants/erg';
 import { getButtonState, WalletStates } from './utils';
+import { useGetAvailablePoolsByLPTokens } from '../../hooks/useGetAvailablePoolsByLPTokens';
+import { defaultMinerFee, nanoErgInErg } from '../../constants/erg';
 
 export const Redeem = () => {
   const { isWalletConnected } = useContext(WalletContext);
   const [feePerToken, setFeePerToken] = useState('');
-  const [firstTokenId, setFirstTokenId] = useState('');
-  const [secondTokenId, setSecondTokenId] = useState('');
-  const [firstTokenAmount, setFirstTokenAmount] = useState('');
-  const [secondTokenAmount, setSecondTokenAmount] = useState('');
-  const [firstTokenInfo, setFirstTokenInfo] = useState<AssetInfo | undefined>(
-    undefined,
-  );
-  const [secondTokenInfo, setSecondTokenInfo] = useState<AssetInfo | undefined>(
-    undefined,
-  );
-  const pools = useGetAllPools();
+  const [amount, setAmount] = useState('');
+  const [dexFee, setDexFee] = useState('0.01');
 
-  const choosedPool = useMemo(() => {
-    if (!firstTokenId.trim() || !secondTokenId.trim()) {
-      return null;
-    }
-    return pools?.find(
-      (ammPool) =>
-        (ammPool.assetX.id === firstTokenId &&
-          ammPool.assetY.id === secondTokenId) ||
-        (ammPool.assetX.id === secondTokenId &&
-          ammPool.assetY.id === firstTokenId),
-    );
-  }, [firstTokenId, secondTokenId, pools]);
+  const [choosedPool, setChoosedPool] = useState<AmmPool | null>(null);
 
   const [addresses, setAddresses] = useState<string[]>([]);
-  const [chooseAddress, setChooseAddress] = useState('');
+  const [choosedAddress, setChoosedAddress] = useState('');
   const [utxos, setUtxos] = useState([]);
+  const availablePools = useGetAvailablePoolsByLPTokens(utxos);
+  const assetsAmountByLPAmount = useMemo(() => {
+    if (!choosedPool || !amount) {
+      return [];
+    }
+
+    return choosedPool.shares(
+      new AssetAmount(choosedPool.lp.asset, BigInt(amount)),
+    );
+  }, [choosedPool, amount]);
 
   const buttonStatus = useMemo(() => {
     const buttonState = getButtonState({
       isWalletConnected,
-      firstTokenId,
-      secondTokenId,
-      firstTokenAmount,
-      secondTokenAmount,
+      choosedPool,
+      amount,
     });
     switch (buttonState) {
-      case WalletStates.SELECT_A_TOKEN: {
-        return { disabled: true, text: 'Select a token' };
+      case WalletStates.NEED_TO_SELECT_POOL: {
+        return { disabled: true, text: 'Need to select pool' };
       }
       case WalletStates.SUBMIT: {
         return { disabled: false, text: 'Submit' };
@@ -82,135 +67,102 @@ export const Redeem = () => {
         return { disabled: true, text: 'Need to enter amount' };
       }
     }
-  }, [isWalletConnected, firstTokenId, secondTokenId, choosedPool]);
-
-  const availableTokens: Record<string, AssetInfo> = useMemo(() => {
-    return (
-      pools?.reduce((acc, { assetX, assetY }) => {
-        acc[assetX.id] = { ...assetX };
-        acc[assetY.id] = { ...assetY };
-        return acc;
-      }, {} as any) || {}
-    );
-  }, [pools]);
-
-  const firstSelectTokens = useMemo(() => {
-    return Object.values(
-      filter((tokenData) => tokenData.id !== secondTokenId, availableTokens),
-    ).map((tokenData) => ({
-      label: tokenData.name || tokenData.id,
-      value: tokenData.id,
-    }));
-  }, [availableTokens, secondTokenId]);
+  }, [isWalletConnected, amount, choosedPool]);
 
   useEffect(() => {
     if (isWalletConnected) {
       ergo.get_used_addresses().then((data: string[]) => {
         setAddresses(data);
-        setChooseAddress(data[0]);
+        setChoosedAddress(data[0]);
       });
       ergo.get_utxos().then((data: any) => setUtxos(data));
     }
   }, [isWalletConnected]);
 
-  const onSelectFirstToken = (value: any) => {
-    setFirstTokenId(value);
+  // const onEnterFirstTokenAmount = (value: any) => {
+  //   setFirstTokenAmount(value);
 
-    getTokenInfo(value).then((data) => setFirstTokenInfo(data));
-  };
+  //   if (choosedPool && firstTokenInfo && secondTokenInfo && value > 0) {
+  //     const amount = choosedPool.outputAmount(
+  //       new AssetAmount(
+  //         firstTokenInfo,
+  //         BigInt(
+  //           evaluate(`${value}*10^${firstTokenInfo.decimals || 0}`).toFixed(0),
+  //         ),
+  //       ),
+  //       1,
+  //     );
+  //     setSecondTokenAmount(
+  //       String(
+  //         evaluate(`${amount?.amount}/10^${secondTokenInfo.decimals || 0}`),
+  //       ),
+  //     );
+  //     const feePerToken = Math.ceil(
+  //       evaluate(
+  //         `${defaultMinerFee} / (${amount?.amount}/10^${
+  //           secondTokenInfo.decimals || 0
+  //         })`,
+  //       ),
+  //     ).toFixed(0);
+  //     setFeePerToken(feePerToken);
+  //   }
 
-  const onSelectSecondToken = (value: any) => {
-    setSecondTokenId(value);
-    getTokenInfo(value).then((data) => setSecondTokenInfo(data));
-  };
-
-  const onEnterFirstTokenAmount = (value: any) => {
-    setFirstTokenAmount(value);
-
-    if (choosedPool && firstTokenInfo && secondTokenInfo && value > 0) {
-      const amount = choosedPool.outputAmount(
-        new AssetAmount(
-          firstTokenInfo,
-          BigInt(
-            evaluate(`${value}*10^${firstTokenInfo.decimals || 0}`).toFixed(0),
-          ),
-        ),
-        1,
-      );
-      setSecondTokenAmount(
-        String(
-          evaluate(`${amount?.amount}/10^${secondTokenInfo.decimals || 0}`),
-        ),
-      );
-      const feePerToken = Math.ceil(
-        evaluate(
-          `${defaultMinerFee} / (${amount?.amount}/10^${
-            secondTokenInfo.decimals || 0
-          })`,
-        ),
-      ).toFixed(0);
-      setFeePerToken(feePerToken);
-    }
-
-    if (!value.trim()) {
-      setSecondTokenAmount('');
-      setFeePerToken('');
-    }
-  };
+  //   if (!value.trim()) {
+  //     setSecondTokenAmount('');
+  //     setFeePerToken('');
+  //   }
+  // };
 
   const onSubmit = async (values: any) => {
-    if (isWalletConnected && choosedPool && firstTokenInfo && secondTokenInfo) {
+    if (isWalletConnected && choosedPool) {
       const network = new Explorer('https://api.ergoplatform.com');
-      // // выбрать pool из селекта
       const poolId = choosedPool.id;
-      // const yoroiWalletProver = {} as any;
-      const baseInput = choosedPool.x.withAmount(10n);
 
       const poolOps = new T2tPoolOps(
         new YoroiProver(),
         new DefaultTxAssembler(true),
       );
-      const pk = fromAddress(addresses[0]) as string;
-      const minQuoteOutput = choosedPool.outputAmount(baseInput, 1).amount;
-      const dexFeePerToken = Number(feePerToken);
-      const poolFeeNum = choosedPool.poolFeeNum;
-
+      const pk = fromAddress(choosedAddress) as string;
+      console.log(
+        DefaultBoxSelector.select(utxos, {
+          nErgs: evaluate(`${defaultMinerFee}+(${dexFee}* ${nanoErgInErg})`),
+          assets: [
+            {
+              tokenId: choosedPool.lp.asset.id,
+              amount: Number(amount),
+            },
+          ],
+        }) as BoxSelection,
+      );
       poolOps
-        .swap(
+        .redeem(
           {
             pk,
             poolId,
-            baseInput,
-            minQuoteOutput,
-            dexFeePerToken,
-            quoteAsset: secondTokenId,
-            poolFeeNum,
+            dexFee: BigInt(evaluate(`${dexFee} * ${nanoErgInErg}`)),
+            lp: choosedPool.lp.asset,
           },
           {
             inputs: DefaultBoxSelector.select(utxos, {
               nErgs: evaluate(
-                `${defaultMinerFee}+(${secondTokenAmount} * ${feePerToken})`,
+                `${defaultMinerFee}+(${dexFee}* ${nanoErgInErg})`,
               ),
               assets: [
                 {
-                  tokenId: firstTokenId,
-                  amount: evaluate(
-                    `(${firstTokenAmount} * 10^${
-                      firstTokenInfo.decimals || 0
-                    })`,
-                  ).toFixed(0),
+                  tokenId: choosedPool.lp.asset.id,
+                  amount: Number(amount),
                 },
               ],
             }) as BoxSelection,
-            changeAddress: values.address,
-            selfAddress: values.address,
+            changeAddress: choosedAddress,
+            selfAddress: choosedAddress,
             feeNErgs: BigInt(defaultMinerFee),
             network: await network.getNetworkContext(),
           },
         )
-        .then((d: any) => {
-          ergo.submit_tx(d);
-          alert(`Transaction submitted: ${d} `);
+        .then(async (d: any) => {
+          const txId = await ergo.submit_tx(d);
+          alert(`Transaction submitted: ${txId} `);
         })
         .catch((er) => console.log(13, er));
     }
@@ -232,6 +184,22 @@ export const Redeem = () => {
     );
   }
 
+  if (availablePools === null) {
+    return (
+      <Card>
+        <Text h4>Fetching available pools...</Text>
+      </Card>
+    );
+  }
+
+  if (availablePools.length === 0) {
+    return (
+      <Card>
+        <Text h4>No available pools to redeem</Text>
+      </Card>
+    );
+  }
+  console.log(assetsAmountByLPAmount);
   return (
     <>
       <Card>
@@ -239,12 +207,9 @@ export const Redeem = () => {
           onSubmit={onSubmit}
           initialValues={{
             slippage: 1,
-            firstTokenAmount: 0.0,
-            secondTokenAmount: 0.0,
-            firstTokenName: '',
-            secondTokenName: '',
+            amount: '0',
             address: '',
-            feePerToken: 0,
+            dexFee: '0.01',
           }}
           render={({ handleSubmit, values, errors = {} }) => (
             <form onSubmit={handleSubmit}>
@@ -263,7 +228,7 @@ export const Redeem = () => {
                             {...props.input}
                             value={addresses[0]}
                             onChange={(value) => {
-                              setChooseAddress(value as string);
+                              setChoosedAddress(value as string);
                               props.input.onChange(value);
                             }}
                           >
@@ -299,17 +264,26 @@ export const Redeem = () => {
                   <Text h4>Fee per token</Text>
                 </Grid>
                 <Grid xs={24}>
-                  <Field name="feePerToken">
+                  <Field
+                    name="dexFee"
+                    validate={(value) => {
+                      if (!value || !value.trim()) {
+                        return;
+                      }
+                      if (value < 0.01) {
+                        return 'Minimum fee is 0.01 erg';
+                      }
+                    }}
+                  >
                     {(props: FieldRenderProps<string>) => (
                       <Input
                         placeholder="0.0"
                         type="number"
                         width="100%"
                         {...props.input}
-                        disabled={!secondTokenAmount}
-                        value={feePerToken}
+                        value={dexFee}
                         onChange={({ currentTarget }) => {
-                          setFeePerToken(currentTarget.value as string);
+                          setDexFee(currentTarget.value as string);
                           props.input.onChange(currentTarget.value);
                         }}
                       />
@@ -317,114 +291,92 @@ export const Redeem = () => {
                   </Field>
                 </Grid>
                 <Grid xs={24}>
-                  <Text h4>From</Text>
+                  <Text h4>Select pool</Text>
                 </Grid>
-                <Grid xs={6}>
-                  <Field name="firstTokenName" component="select">
+                <Grid xs={24}>
+                  <Field name="pool" component="select">
                     {(props: FieldRenderProps<string>) => (
                       <Select
-                        placeholder="Token"
-                        style={{ minWidth: '80px' }}
+                        placeholder="Choose the pool"
+                        width="100%"
                         {...props.input}
                         onChange={(value) => {
-                          onSelectFirstToken(value as string);
+                          setChoosedPool(availablePools[Number(value)]);
                           props.input.onChange(value);
                         }}
                       >
-                        {firstSelectTokens.map(({ value, label }) => (
-                          <Select.Option key={value} value={value}>
-                            {label || value}
+                        {availablePools.map((pool: AmmPool, index) => (
+                          <Select.Option key={pool.id} value={String(index)}>
+                            {pool.assetX.name || pool.assetX.id.slice(0, 4)}/
+                            {pool.assetY.name || pool.assetY.id.slice(0, 4)}
                           </Select.Option>
                         ))}
                       </Select>
-                    )}
-                  </Field>
-                </Grid>
-                <Grid xs={18}>
-                  <Field
-                    name="firstTokenAmount"
-                    validate={(value) => {
-                      if (!value || !value.trim()) {
-                        return;
-                      }
-                      const comma = value.match('[,.]');
-                      if (comma && !firstTokenInfo?.decimals) {
-                        return 'No decimals at this token after comma';
-                      }
-
-                      if (
-                        comma &&
-                        value.substr(comma.index + 1) >
-                          (firstTokenInfo?.decimals || 0)
-                      ) {
-                        return `Max decimals at this token after comma is ${
-                          firstTokenInfo?.decimals || 0
-                        }`;
-                      }
-                    }}
-                  >
-                    {(props: FieldRenderProps<string>) => (
-                      <>
-                        <Input
-                          placeholder="0.0"
-                          type="number"
-                          width="100%"
-                          lang="en"
-                          {...props.input}
-                          disabled={!firstTokenInfo || !firstTokenId}
-                          value={firstTokenAmount}
-                          onChange={({ currentTarget }) => {
-                            const value = currentTarget.value;
-                            onEnterFirstTokenAmount(value);
-                            props.input.onChange(value);
-                          }}
-                        />
-                        {props.meta.error && <p>{props.meta.error}</p>}
-                      </>
                     )}
                   </Field>
                 </Grid>
                 <Grid xs={24}>
-                  <Text h4>To</Text>
+                  <Text h4>Amount</Text>
                 </Grid>
-                <Grid xs={6}>
-                  <Field name="secondTokenName" component="select">
-                    {(props: FieldRenderProps<string>) => (
-                      <Select
-                        placeholder="Token"
-                        style={{ minWidth: '80px' }}
-                        {...props.input}
-                        onChange={(value) => {
-                          onSelectSecondToken(value as string);
-                          props.input.onChange(value);
-                        }}
-                      >
-                        {secondSelectTokens.map(({ value, label }) => (
-                          <Select.Option key={value} value={value}>
-                            {label || value}
-                          </Select.Option>
-                        ))}
-                      </Select>
-                    )}
-                  </Field>
-                </Grid>
-                <Grid xs={18}>
-                  <Field name="secondTokenAmount">
+                <Grid xs={24}>
+                  <Field name="amount">
                     {(props: FieldRenderProps<string>) => (
                       <Input
                         placeholder="0.0"
                         type="number"
                         width="100%"
                         {...props.input}
-                        value={secondTokenAmount}
-                        onChange={(e) => {
-                          props.input.onChange(e.currentTarget.value);
+                        disabled={!choosedPool}
+                        value={amount}
+                        onKeyPress={(event) => {
+                          return event.charCode >= 48 && event.charCode <= 57;
                         }}
-                        disabled={true}
+                        onChange={({ currentTarget }) => {
+                          setAmount(
+                            Math.abs(Number(currentTarget.value)).toString(),
+                          );
+                          props.input.onChange(
+                            Math.abs(Number(currentTarget.value)),
+                          );
+                        }}
                       />
                     )}
                   </Field>
                 </Grid>
+                {choosedPool && (
+                  <Grid xs={24}>
+                    <Card>
+                      <div>
+                        {choosedPool?.assetX.name ||
+                          choosedPool?.assetX.id.slice(0, 4)}{' '}
+                        ={' '}
+                        {assetsAmountByLPAmount.length > 0 &&
+                          (assetsAmountByLPAmount[0]?.asset.id ===
+                          choosedPool?.assetX.id
+                            ? evaluate(
+                                `${assetsAmountByLPAmount[0]?.amount}/10^${assetsAmountByLPAmount[0]?.asset.decimals}`,
+                              )
+                            : evaluate(
+                                `${assetsAmountByLPAmount[1]?.amount}/10^${assetsAmountByLPAmount[1]?.asset.decimals}`,
+                              ))}
+                      </div>
+                      <div>
+                        {choosedPool?.assetY.name ||
+                          choosedPool?.assetY.id.slice(0, 4)}{' '}
+                        ={' '}
+                        {assetsAmountByLPAmount.length > 0 &&
+                          (assetsAmountByLPAmount[0]?.asset.id ===
+                          choosedPool?.assetY.id
+                            ? evaluate(
+                                `${assetsAmountByLPAmount[0]?.amount}/10^${assetsAmountByLPAmount[0]?.asset.decimals}`,
+                              )
+                            : evaluate(
+                                `${assetsAmountByLPAmount[1]?.amount}/10^${assetsAmountByLPAmount[1]?.asset.decimals}`,
+                              ))}
+                      </div>
+                    </Card>
+                  </Grid>
+                )}
                 <Grid xs={24} justify="center">
                   <Button
                     htmlType="submit"
