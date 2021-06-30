@@ -12,12 +12,14 @@ import {
   Input,
   Loading,
   Select,
+  Tag,
   Text,
 } from '@geist-ui/react';
 import { Form, Field, FieldRenderProps } from 'react-final-form';
 import { evaluate } from 'mathjs';
 import { AmmPool, Explorer, T2tPoolOps } from 'ergo-dex-sdk';
-import { YoroiProver } from '../../utils/yoroiProver';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faExchangeAlt } from '@fortawesome/free-solid-svg-icons';
 import {
   AssetAmount,
   BoxSelection,
@@ -25,6 +27,7 @@ import {
   DefaultTxAssembler,
 } from 'ergo-dex-sdk/build/module/ergo';
 import { fromAddress } from 'ergo-dex-sdk/build/module/ergo/entities/publicKey';
+import { YoroiProver } from '../../utils/yoroiProver';
 import { WalletContext } from '../../context/WalletContext';
 import { useGetAllPools } from '../../hooks/useGetAllPools';
 import { PoolSelect } from '../PoolSelect/PoolSelect';
@@ -47,18 +50,25 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
   const [selectedAddress, setSelectedAddress] = useState('');
   const [feePerToken, setFeePerToken] = useState('');
 
-  const updateSelectedPool = useCallback((pool: AmmPool) => {
-    setSelectedPool(pool);
-    setInputAssetAmount(pool.x);
-    setOutputAssetAmount(pool.y);
-  }, []);
-
   useEffect(() => {
     if (selectedPool === undefined) {
       updateSelectedPool(pools[0]);
     }
   }, [pools]);
 
+  const updateSelectedPool = useCallback((pool: AmmPool) => {
+    setSelectedPool(pool);
+    setInputAssetAmount(pool.x);
+    setOutputAssetAmount(pool.y);
+  }, []);
+
+  const handleSwitchAssets = useCallback(() => {
+    console.log('hehh');
+    setInputAssetAmount(outputAssetAmount);
+    setOutputAssetAmount(inputAssetAmount);
+  }, [inputAssetAmount, outputAssetAmount]);
+
+  console.log(outputAssetAmount?.asset.name, inputAssetAmount?.asset.name);
   const [addresses, setAddresses] = useState<string[]>([]);
   const [utxos, setUtxos] = useState([]);
 
@@ -84,7 +94,13 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
         return { disabled: true, text: 'Need to enter amount' };
       }
     }
-  }, [isWalletConnected, inputAssetAmount, outputAssetAmount, selectedPool]);
+  }, [
+    isWalletConnected,
+    inputAmount,
+    outputAmount,
+    inputAssetAmount,
+    outputAssetAmount,
+  ]);
 
   useEffect(() => {
     if (isWalletConnected) {
@@ -288,7 +304,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                       type="number"
                       width="100%"
                       lang="en"
-                      label={selectedPool?.x.asset.name ?? ''}
+                      label={inputAssetAmount?.asset.name ?? ''}
                       {...props.input}
                       disabled={!inputAssetAmount}
                       value={inputAmount}
@@ -303,6 +319,15 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                 )}
               </Field>
             </Grid>
+            <Grid xs={24} justify="center">
+              <Tag
+                onClick={handleSwitchAssets}
+                type="success"
+                style={{ cursor: 'pointer' }}
+              >
+                <FontAwesomeIcon icon={faExchangeAlt} />
+              </Tag>
+            </Grid>
             <Grid xs={24}>
               <Text h4>To</Text>
             </Grid>
@@ -312,7 +337,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                   <Input
                     placeholder="0.0"
                     type="number"
-                    label={selectedPool?.y.asset.name ?? ''}
+                    label={outputAssetAmount?.asset.name ?? ''}
                     width="100%"
                     {...props.input}
                     value={outputAmount}
@@ -339,16 +364,6 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                 )}
               </Field>
             </Grid>
-            <Grid xs={24} justify="center">
-              <Button
-                htmlType="submit"
-                disabled={
-                  buttonStatus.disabled || Object.values(errors).length > 0
-                }
-              >
-                {buttonStatus.text}
-              </Button>
-            </Grid>
             <Grid xs={24}>
               <Text h4>Fee per token</Text>
             </Grid>
@@ -369,6 +384,16 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                   />
                 )}
               </Field>
+            </Grid>
+            <Grid xs={24} justify="center">
+              <Button
+                htmlType="submit"
+                disabled={
+                  buttonStatus.disabled || Object.values(errors).length > 0
+                }
+              >
+                {buttonStatus.text}
+              </Button>
             </Grid>
           </Grid.Container>
         </form>
