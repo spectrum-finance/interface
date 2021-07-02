@@ -62,13 +62,6 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
     setOutputAssetAmount(pool.y);
   }, []);
 
-  const handleSwitchAssets = useCallback(() => {
-    console.log('hehh');
-    setInputAssetAmount(outputAssetAmount);
-    setOutputAssetAmount(inputAssetAmount);
-  }, [inputAssetAmount, outputAssetAmount]);
-
-  console.log(outputAssetAmount?.asset.name, inputAssetAmount?.asset.name);
   const [addresses, setAddresses] = useState<string[]>([]);
   const [utxos, setUtxos] = useState([]);
 
@@ -112,37 +105,54 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
     }
   }, [isWalletConnected]);
 
-  const onEnterInputTokenAmount = (value: any) => {
-    setInputAmount(value);
-
-    if (selectedPool && inputAssetAmount && outputAssetAmount && value > 0) {
-      const amount = selectedPool.outputAmount(
-        new AssetAmount(
-          inputAssetAmount.asset,
-          BigInt(
-            evaluate(
-              `${value}*10^${inputAssetAmount.asset.decimals || 0}`,
-            ).toFixed(0),
+  const updateOutputAmountAndFee = useCallback(
+    (inputAmount) => {
+      if (
+        selectedPool &&
+        inputAssetAmount &&
+        outputAssetAmount &&
+        inputAmount > 0
+      ) {
+        const amount = selectedPool.outputAmount(
+          new AssetAmount(
+            inputAssetAmount.asset,
+            BigInt(
+              evaluate(
+                `${inputAmount}*10^${inputAssetAmount.asset.decimals ?? 0}`,
+              ).toFixed(0),
+            ),
           ),
-        ),
-        1,
-      );
-      setOutputAmount(
-        String(
+          1,
+        );
+        const feePerToken = Math.ceil(
           evaluate(
-            `${amount?.amount}/10^${outputAssetAmount.asset.decimals || 0}`,
+            `${defaultMinerFee} / (${amount?.amount}/10^${
+              outputAssetAmount.asset.decimals || 0
+            })`,
           ),
-        ),
-      );
-      const feePerToken = Math.ceil(
-        evaluate(
-          `${defaultMinerFee} / (${amount?.amount}/10^${
-            outputAssetAmount.asset.decimals || 0
-          })`,
-        ),
-      ).toFixed(0);
-      setFeePerToken(feePerToken);
-    }
+        ).toFixed(0);
+        setFeePerToken(feePerToken);
+        setOutputAmount(
+          String(
+            evaluate(
+              `${amount?.amount}/10^${outputAssetAmount.asset.decimals ?? 0}`,
+            ),
+          ),
+        );
+      }
+    },
+    [selectedPool, inputAssetAmount, outputAssetAmount],
+  );
+
+  const handleSwitchAssets = useCallback(() => {
+    setInputAssetAmount(outputAssetAmount);
+    setOutputAssetAmount(inputAssetAmount);
+    updateOutputAmountAndFee(inputAmount);
+  }, [inputAssetAmount, outputAssetAmount, inputAmount]);
+
+  const handleEnterInputTokenAmount = (value: any) => {
+    setInputAmount(value);
+    updateOutputAmountAndFee(value);
 
     if (!value.trim()) {
       setOutputAmount('0');
@@ -150,7 +160,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
     }
   };
 
-  const onSubmit = async (values: any) => {
+  const handleFormSubmit = async (values: any) => {
     if (
       isWalletConnected &&
       selectedPool &&
@@ -173,7 +183,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
       const pk = fromAddress(addresses[0]) as string;
       const minQuoteOutput = selectedPool.outputAmount(baseInput, 1).amount;
       const dexFeePerToken = Number(feePerToken);
-      const poolFeeNum = 600;
+      const poolFeeNum = selectedPool.poolFeeNum;
 
       poolOps
         .swap(
@@ -200,7 +210,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
             }) as BoxSelection,
             changeAddress: selectedAddress,
             selfAddress: selectedAddress,
-            feeNErgs: 10000000n,
+            feeNErgs: BigInt(defaultMinerFee),
             network: await network.getNetworkContext(),
           },
         )
@@ -214,7 +224,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
 
   return (
     <Form
-      onSubmit={onSubmit}
+      onSubmit={handleFormSubmit}
       initialValues={{
         slippage: 1,
         inputAmount: 0.0,
@@ -310,7 +320,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                       value={inputAmount}
                       onChange={({ currentTarget }) => {
                         const value = currentTarget.value;
-                        onEnterInputTokenAmount(value);
+                        handleEnterInputTokenAmount(value);
                         props.input.onChange(value);
                       }}
                     />
