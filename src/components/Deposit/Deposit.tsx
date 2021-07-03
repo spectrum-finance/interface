@@ -1,14 +1,5 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
-import {
-  Button,
-  Card,
-  Container,
-  Grid,
-  Input,
-  Row,
-  Select,
-  Text,
-} from '@geist-ui/react';
+import { Button, Card, Grid, Input, Select, Text } from '@geist-ui/react';
 import { Form, Field, FieldRenderProps } from 'react-final-form';
 import { evaluate } from 'mathjs';
 import { AmmPool, Explorer, T2tPoolOps } from 'ergo-dex-sdk';
@@ -22,13 +13,12 @@ import {
 import { fromAddress } from 'ergo-dex-sdk/build/module/ergo/entities/publicKey';
 import { WalletContext } from '../../context/WalletContext';
 import { getButtonState, WalletStates } from './utils';
-import { useGetAvailablePoolsByLPTokens } from '../../hooks/useGetAvailablePoolsByLPTokens';
 import { defaultMinerFee, nanoErgInErg } from '../../constants/erg';
 import { useGetAllPools } from '../../hooks/useGetAllPools';
 
 export const Deposit = () => {
   const { isWalletConnected } = useContext(WalletContext);
-  const [feePerToken, setFeePerToken] = useState('');
+  /* const [feePerToken, setFeePerToken] = useState(''); */
   const [amount, setAmount] = useState('');
   const [dexFee, setDexFee] = useState('0.01');
 
@@ -194,7 +184,7 @@ export const Deposit = () => {
     );
   }
 
-  if (availablePools.length === 0) {
+  if (availablePools?.length === 0) {
     return (
       <Card>
         <Text h4>No available pools to redeem</Text>
@@ -303,11 +293,13 @@ export const Deposit = () => {
                         width="100%"
                         {...props.input}
                         onChange={(value) => {
-                          setChoosedPool(availablePools[Number(value)]);
+                          if (availablePools) {
+                            setChoosedPool(availablePools[Number(value)]);
+                          }
                           props.input.onChange(value);
                         }}
                       >
-                        {availablePools.map((pool: AmmPool, index) => (
+                        {availablePools?.map((pool: AmmPool, index) => (
                           <Select.Option key={pool.id} value={String(index)}>
                             {pool.assetX.name || pool.assetX.id.slice(0, 4)}/
                             {pool.assetY.name || pool.assetY.id.slice(0, 4)}
