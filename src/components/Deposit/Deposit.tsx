@@ -15,12 +15,16 @@ import { WalletContext } from '../../context/WalletContext';
 import { getButtonState, WalletStates } from './utils';
 import { defaultMinerFee, nanoErgInErg } from '../../constants/erg';
 import { useGetAllPools } from '../../hooks/useGetAllPools';
+import { useSettings } from '../../context/SettingsContext';
 
 export const Deposit = () => {
+
+  const [{ dexFee: defaultDexFee, slippage: defaultSlippage }] = useSettings();
+
   const { isWalletConnected } = useContext(WalletContext);
   /* const [feePerToken, setFeePerToken] = useState(''); */
   const [amount, setAmount] = useState('');
-  const [dexFee, setDexFee] = useState('0.01');
+  const [dexFee, setDexFee] = useState(defaultDexFee);
 
   const [choosedPool, setChoosedPool] = useState<AmmPool | null>(null);
 
@@ -198,10 +202,10 @@ export const Deposit = () => {
         <Form
           onSubmit={onSubmit}
           initialValues={{
-            slippage: 1,
+            slippage: defaultSlippage,
             amount: '0',
             address: '',
-            dexFee: '0.01',
+            dexFee,
           }}
           render={({ handleSubmit, values, errors = {} }) => (
             <form onSubmit={handleSubmit}>
@@ -346,13 +350,13 @@ export const Deposit = () => {
                         ={' '}
                         {assetsAmountByLPAmount.length > 0 &&
                           (assetsAmountByLPAmount[0]?.asset.id ===
-                          choosedPool?.assetX.id
+                            choosedPool?.assetX.id
                             ? evaluate(
-                                `${assetsAmountByLPAmount[0]?.amount}/10^${assetsAmountByLPAmount[0]?.asset.decimals}`,
-                              )
+                              `${assetsAmountByLPAmount[0]?.amount}/10^${assetsAmountByLPAmount[0]?.asset.decimals}`,
+                            )
                             : evaluate(
-                                `${assetsAmountByLPAmount[1]?.amount}/10^${assetsAmountByLPAmount[1]?.asset.decimals}`,
-                              ))}
+                              `${assetsAmountByLPAmount[1]?.amount}/10^${assetsAmountByLPAmount[1]?.asset.decimals}`,
+                            ))}
                       </div>
                       <div>
                         {choosedPool?.assetY.name ||
@@ -360,13 +364,13 @@ export const Deposit = () => {
                         ={' '}
                         {assetsAmountByLPAmount.length > 0 &&
                           (assetsAmountByLPAmount[0]?.asset.id ===
-                          choosedPool?.assetY.id
+                            choosedPool?.assetY.id
                             ? evaluate(
-                                `${assetsAmountByLPAmount[0]?.amount}/10^${assetsAmountByLPAmount[0]?.asset.decimals}`,
-                              )
+                              `${assetsAmountByLPAmount[0]?.amount}/10^${assetsAmountByLPAmount[0]?.asset.decimals}`,
+                            )
                             : evaluate(
-                                `${assetsAmountByLPAmount[1]?.amount}/10^${assetsAmountByLPAmount[1]?.asset.decimals}`,
-                              ))}
+                              `${assetsAmountByLPAmount[1]?.amount}/10^${assetsAmountByLPAmount[1]?.asset.decimals}`,
+                            ))}
                       </div>
                     </Card>
                   </Grid>

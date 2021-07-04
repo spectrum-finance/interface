@@ -1,0 +1,39 @@
+name: Push Worfklow
+
+on: push
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2        
+    
+    - name: Install Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: 13.x
+        
+    - uses: actions/cache@v2
+      id: npm-cache
+      with:
+        path: '**/node_modules'
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+    
+    - name: Install NPM packages
+      if: steps.npm-cache.outputs.cache-hit != 'true'
+      run: npm ci
+    
+    - name: eslint
+      run: yarn run eslint src/**/*.{js,ts,tsx}
+
+    - name: tsc
+      run: yarn run tsc
+
+    - name: prettier
+      run: yarn run prettier --check
+
+    - name: run tests
+      run: yarn test

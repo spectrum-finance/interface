@@ -1,0 +1,11 @@
+.autoInput {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    > :last-child {
+        flex-grow: 1;
+        margin-left: 1em;
+    }
+}
+

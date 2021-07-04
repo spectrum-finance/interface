@@ -1,0 +1,3 @@
+// IDK what these should be...
+export const DexFeeMax = 5;
+export const SlippageMax = 10;
