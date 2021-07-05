@@ -32,6 +32,3 @@ jobs:
 
     - name: prettier
       run: yarn run prettier --check
-
-    - name: run tests
-      run: yarn test
