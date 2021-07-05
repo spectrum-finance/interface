@@ -15,6 +15,7 @@ import { AmmPool, Explorer, T2tPoolOps } from 'ergo-dex-sdk';
 import { YoroiProver } from '../../utils/yoroiProver';
 import {
   AssetAmount,
+  AssetInfo,
   BoxSelection,
   DefaultBoxSelector,
   DefaultTxAssembler,
@@ -22,37 +23,105 @@ import {
 import { fromAddress } from 'ergo-dex-sdk/build/module/ergo/entities/publicKey';
 import { WalletContext } from '../../context/WalletContext';
 import { getButtonState, WalletStates } from './utils';
-import { useGetAvailablePoolsByLPTokens } from '../../hooks/useGetAvailablePoolsByLPTokens';
 import { defaultMinerFee, nanoErgInErg } from '../../constants/erg';
 import { useGetAllPools } from '../../hooks/useGetAllPools';
+import { getTokenInfo } from '../../utils/getTokenInfo';
+import { filter } from 'ramda';
 
 export const Deposit = () => {
   const { isWalletConnected } = useContext(WalletContext);
-  const [feePerToken, setFeePerToken] = useState('');
-  const [amount, setAmount] = useState('');
   const [dexFee, setDexFee] = useState('0.01');
+  const [firstTokenId, setFirstTokenId] = useState('');
+  const [secondTokenId, setSecondTokenId] = useState('');
+  const [firstTokenAmount, setFirstTokenAmount] = useState('');
+  const [secondTokenAmount, setSecondTokenAmount] = useState('');
+  const [firstTokenInfo, setFirstTokenInfo] = useState<AssetInfo | undefined>(
+    undefined,
+  );
+  const [secondTokenInfo, setSecondTokenInfo] = useState<AssetInfo | undefined>(
+    undefined,
+  );
 
   const [choosedPool, setChoosedPool] = useState<AmmPool | null>(null);
+
+  const lpTokens = useMemo(() => {
+    if (
+      choosedPool &&
+      firstTokenAmount &&
+      firstTokenInfo &&
+      secondTokenAmount &&
+      secondTokenInfo
+    ) {
+      return choosedPool.rewardLP(
+        new AssetAmount(
+          firstTokenInfo,
+          BigInt(
+            evaluate(
+              `${firstTokenAmount}*10^${firstTokenInfo.decimals || 0}`,
+            ).toFixed(0),
+          ),
+        ),
+        new AssetAmount(
+          secondTokenInfo,
+          BigInt(
+            evaluate(
+              `${secondTokenAmount}*10^${secondTokenInfo.decimals || 0}`,
+            ).toFixed(0),
+          ),
+        ),
+      ).amount;
+    }
+
+    return '';
+  }, [
+    choosedPool,
+    firstTokenAmount,
+    firstTokenInfo,
+    secondTokenAmount,
+    secondTokenInfo,
+  ]);
 
   const [addresses, setAddresses] = useState<string[]>([]);
   const [choosedAddress, setChoosedAddress] = useState('');
   const [utxos, setUtxos] = useState([]);
   const availablePools = useGetAllPools();
-  const assetsAmountByLPAmount = useMemo(() => {
-    if (!choosedPool || !amount) {
+
+  const availableTokens: Record<string, AssetInfo> = useMemo(() => {
+    if (!choosedPool) {
       return [];
     }
-
-    return choosedPool.shares(
-      new AssetAmount(choosedPool.lp.asset, BigInt(amount)),
+    return (
+      [choosedPool.assetX, choosedPool.assetY]?.reduce((acc, asset) => {
+        acc[asset.id] = { ...asset };
+        return acc;
+      }, {} as any) || {}
     );
-  }, [choosedPool, amount]);
+  }, [choosedPool]);
+
+  const firstSelectTokens = useMemo(() => {
+    return Object.values(
+      filter((tokenData) => tokenData.id !== secondTokenId, availableTokens),
+    ).map((tokenData) => ({
+      label: tokenData.name || tokenData.id,
+      value: tokenData.id,
+    }));
+  }, [availableTokens, secondTokenId]);
+
+  const secondSelectTokens = useMemo(() => {
+    return Object.values(
+      filter((tokenData) => tokenData.id !== firstTokenId, availableTokens),
+    ).map((tokenData) => ({
+      label: tokenData.name || tokenData.id,
+      value: tokenData.id,
+    }));
+  }, [availableTokens, firstTokenId]);
 
   const buttonStatus = useMemo(() => {
     const buttonState = getButtonState({
       isWalletConnected,
       choosedPool,
-      amount,
+      firstTokenAmount,
+      secondTokenAmount,
     });
     switch (buttonState) {
       case WalletStates.NEED_TO_SELECT_POOL: {
@@ -68,7 +137,7 @@ export const Deposit = () => {
         return { disabled: true, text: 'Need to enter amount' };
       }
     }
-  }, [isWalletConnected, amount, choosedPool]);
+  }, [isWalletConnected, firstTokenAmount, secondTokenAmount, choosedPool]);
 
   useEffect(() => {
     if (isWalletConnected) {
@@ -80,42 +149,79 @@ export const Deposit = () => {
     }
   }, [isWalletConnected]);
 
-  // const onEnterFirstTokenAmount = (value: any) => {
-  //   setFirstTokenAmount(value);
+  const onEnterTokenAmount = (value: string, token: 'input' | 'output') => {
+    if (!choosedPool || !firstTokenInfo || !secondTokenInfo) {
+      return;
+    }
 
-  //   if (choosedPool && firstTokenInfo && secondTokenInfo && value > 0) {
-  //     const amount = choosedPool.outputAmount(
-  //       new AssetAmount(
-  //         firstTokenInfo,
-  //         BigInt(
-  //           evaluate(`${value}*10^${firstTokenInfo.decimals || 0}`).toFixed(0),
-  //         ),
-  //       ),
-  //       1,
-  //     );
-  //     setSecondTokenAmount(
-  //       String(
-  //         evaluate(`${amount?.amount}/10^${secondTokenInfo.decimals || 0}`),
-  //       ),
-  //     );
-  //     const feePerToken = Math.ceil(
-  //       evaluate(
-  //         `${defaultMinerFee} / (${amount?.amount}/10^${
-  //           secondTokenInfo.decimals || 0
-  //         })`,
-  //       ),
-  //     ).toFixed(0);
-  //     setFeePerToken(feePerToken);
-  //   }
+    if (token === 'input') {
+      setFirstTokenAmount(value);
 
-  //   if (!value.trim()) {
-  //     setSecondTokenAmount('');
-  //     setFeePerToken('');
-  //   }
-  // };
+      if (Number(value) > 0) {
+        const amount = choosedPool.depositAmount(
+          new AssetAmount(
+            firstTokenInfo,
+            BigInt(
+              evaluate(`${value}*10^${firstTokenInfo.decimals || 0}`).toFixed(
+                0,
+              ),
+            ),
+          ),
+        );
+
+        setSecondTokenAmount(
+          String(
+            evaluate(`${amount?.amount}/10^${secondTokenInfo.decimals || 0}`),
+          ),
+        );
+      }
+
+      if (!value.trim()) {
+        setSecondTokenAmount('');
+      }
+    }
+
+    if (token === 'output') {
+      setSecondTokenAmount(value);
+
+      if (Number(value) > 0) {
+        const amount = choosedPool.depositAmount(
+          new AssetAmount(
+            secondTokenInfo,
+            BigInt(
+              evaluate(`${value}*10^${secondTokenInfo.decimals || 0}`).toFixed(
+                0,
+              ),
+            ),
+          ),
+        );
+
+        setFirstTokenAmount(
+          String(
+            evaluate(`${amount?.amount}/10^${firstTokenInfo.decimals || 0}`),
+          ),
+        );
+      }
+
+      if (!value.trim()) {
+        setFirstTokenAmount('');
+      }
+    }
+  };
+
+  const onSelectFirstToken = (value: any) => {
+    setFirstTokenId(value);
+
+    getTokenInfo(value).then((data) => setFirstTokenInfo(data));
+  };
+
+  const onSelectSecondToken = (value: any) => {
+    setSecondTokenId(value);
+    getTokenInfo(value).then((data) => setSecondTokenInfo(data));
+  };
 
   const onSubmit = async (values: any) => {
-    if (isWalletConnected && choosedPool) {
+    if (isWalletConnected && choosedPool && firstTokenInfo && secondTokenInfo) {
       const network = new Explorer('https://api.ergoplatform.com');
       const poolId = choosedPool.id;
 
@@ -124,24 +230,15 @@ export const Deposit = () => {
         new DefaultTxAssembler(true),
       );
       const pk = fromAddress(choosedAddress) as string;
-      console.log(
-        DefaultBoxSelector.select(utxos, {
-          nErgs: evaluate(`${defaultMinerFee}+(${dexFee}* ${nanoErgInErg})`),
-          assets: [
-            {
-              tokenId: choosedPool.lp.asset.id,
-              amount: Number(amount),
-            },
-          ],
-        }) as BoxSelection,
-      );
-      poolOps
-        .redeem(
+
+      const t1 = poolOps
+        .deposit(
           {
             pk,
             poolId,
             dexFee: BigInt(evaluate(`${dexFee} * ${nanoErgInErg}`)),
-            lp: choosedPool.lp.asset,
+            x: choosedPool.assetX,
+            y: choosedPool.assetY,
           },
           {
             inputs: DefaultBoxSelector.select(utxos, {
@@ -150,8 +247,16 @@ export const Deposit = () => {
               ),
               assets: [
                 {
-                  tokenId: choosedPool.lp.asset.id,
-                  amount: Number(amount),
+                  tokenId: firstTokenInfo.id,
+                  amount: evaluate(
+                    `${firstTokenAmount}*10^${firstTokenInfo.decimals || 0}`,
+                  ).toFixed(0),
+                },
+                {
+                  tokenId: secondTokenInfo.id,
+                  amount: evaluate(
+                    `${secondTokenAmount}*10^${secondTokenInfo.decimals || 0}`,
+                  ).toFixed(0),
                 },
               ],
             }) as BoxSelection,
@@ -162,7 +267,7 @@ export const Deposit = () => {
           },
         )
         .then((d: any) => {
-          console.log(d);
+          console.log(421, d);
           // ergo.submit_tx(d);
           // alert(`Transaction submitted: ${d} `);
         })
@@ -201,7 +306,7 @@ export const Deposit = () => {
       </Card>
     );
   }
-  console.log(assetsAmountByLPAmount);
+
   return (
     <>
       <Card>
@@ -263,7 +368,7 @@ export const Deposit = () => {
                 </Grid>
 
                 <Grid xs={24}>
-                  <Text h4>Fee per token</Text>
+                  <Text h4>Dex fee</Text>
                 </Grid>
                 <Grid xs={24}>
                   <Field
@@ -278,17 +383,20 @@ export const Deposit = () => {
                     }}
                   >
                     {(props: FieldRenderProps<string>) => (
-                      <Input
-                        placeholder="0.0"
-                        type="number"
-                        width="100%"
-                        {...props.input}
-                        value={dexFee}
-                        onChange={({ currentTarget }) => {
-                          setDexFee(currentTarget.value as string);
-                          props.input.onChange(currentTarget.value);
-                        }}
-                      />
+                      <>
+                        <Input
+                          placeholder="0.01"
+                          type="number"
+                          width="100%"
+                          {...props.input}
+                          value={dexFee}
+                          onChange={({ currentTarget }) => {
+                            setDexFee(currentTarget.value as string);
+                            props.input.onChange(currentTarget.value);
+                          }}
+                        />
+                        {props.meta.error && <p>{props.meta.error}</p>}
+                      </>
                     )}
                   </Field>
                 </Grid>
@@ -317,29 +425,112 @@ export const Deposit = () => {
                     )}
                   </Field>
                 </Grid>
+
                 <Grid xs={24}>
-                  <Text h4>Amount</Text>
+                  <Text h4>From</Text>
+                </Grid>
+                <Grid xs={6}>
+                  <Field name="firstTokenName" component="select">
+                    {(props: FieldRenderProps<string>) => (
+                      <Select
+                        placeholder="Token"
+                        style={{ minWidth: '80px' }}
+                        {...props.input}
+                        onChange={(value) => {
+                          onSelectFirstToken(value as string);
+                          props.input.onChange(value);
+                        }}
+                      >
+                        {firstSelectTokens.map(({ value, label }) => (
+                          <Select.Option key={value} value={value}>
+                            {label || value}
+                          </Select.Option>
+                        ))}
+                      </Select>
+                    )}
+                  </Field>
+                </Grid>
+                <Grid xs={18}>
+                  <Field
+                    name="firstTokenAmount"
+                    validate={(value) => {
+                      if (!value || !value.trim()) {
+                        return;
+                      }
+                      const comma = value.match('[,.]');
+                      if (comma && !firstTokenInfo?.decimals) {
+                        return 'No decimals at this token after comma';
+                      }
+
+                      if (
+                        comma &&
+                        value.substr(comma.index + 1) >
+                          (firstTokenInfo?.decimals || 0)
+                      ) {
+                        return `Max decimals at this token after comma is ${
+                          firstTokenInfo?.decimals || 0
+                        }`;
+                      }
+                    }}
+                  >
+                    {(props: FieldRenderProps<string>) => (
+                      <>
+                        <Input
+                          placeholder="0.0"
+                          type="number"
+                          width="100%"
+                          lang="en"
+                          {...props.input}
+                          disabled={!firstTokenInfo || !firstTokenId}
+                          value={firstTokenAmount}
+                          onChange={({ currentTarget }) => {
+                            const value = currentTarget.value;
+                            onEnterTokenAmount(value, 'input');
+                            props.input.onChange(value);
+                          }}
+                        />
+                        {props.meta.error && <p>{props.meta.error}</p>}
+                      </>
+                    )}
+                  </Field>
                 </Grid>
                 <Grid xs={24}>
-                  <Field name="amount">
+                  <Text h4>To</Text>
+                </Grid>
+                <Grid xs={6}>
+                  <Field name="secondTokenName" component="select">
+                    {(props: FieldRenderProps<string>) => (
+                      <Select
+                        placeholder="Token"
+                        style={{ minWidth: '80px' }}
+                        {...props.input}
+                        onChange={(value) => {
+                          onSelectSecondToken(value as string);
+                          props.input.onChange(value);
+                        }}
+                      >
+                        {secondSelectTokens.map(({ value, label }) => (
+                          <Select.Option key={value} value={value}>
+                            {label || value}
+                          </Select.Option>
+                        ))}
+                      </Select>
+                    )}
+                  </Field>
+                </Grid>
+                <Grid xs={18}>
+                  <Field name="secondTokenAmount">
                     {(props: FieldRenderProps<string>) => (
                       <Input
                         placeholder="0.0"
                         type="number"
                         width="100%"
                         {...props.input}
-                        disabled={!choosedPool}
-                        value={amount}
-                        onKeyPress={(event) => {
-                          return event.charCode >= 48 && event.charCode <= 57;
-                        }}
+                        value={secondTokenAmount}
                         onChange={({ currentTarget }) => {
-                          setAmount(
-                            Math.abs(Number(currentTarget.value)).toString(),
-                          );
-                          props.input.onChange(
-                            Math.abs(Number(currentTarget.value)),
-                          );
+                          const { value } = currentTarget;
+                          onEnterTokenAmount(value, 'output');
+                          props.input.onChange(value);
                         }}
                       />
                     )}
@@ -348,34 +539,7 @@ export const Deposit = () => {
                 {choosedPool && (
                   <Grid xs={24}>
                     <Card>
-                      <div>
-                        {choosedPool?.assetX.name ||
-                          choosedPool?.assetX.id.slice(0, 4)}{' '}
-                        ={' '}
-                        {assetsAmountByLPAmount.length > 0 &&
-                          (assetsAmountByLPAmount[0]?.asset.id ===
-                          choosedPool?.assetX.id
-                            ? evaluate(
-                                `${assetsAmountByLPAmount[0]?.amount}/10^${assetsAmountByLPAmount[0]?.asset.decimals}`,
-                              )
-                            : evaluate(
-                                `${assetsAmountByLPAmount[1]?.amount}/10^${assetsAmountByLPAmount[1]?.asset.decimals}`,
-                              ))}
-                      </div>
-                      <div>
-                        {choosedPool?.assetY.name ||
-                          choosedPool?.assetY.id.slice(0, 4)}{' '}
-                        ={' '}
-                        {assetsAmountByLPAmount.length > 0 &&
-                          (assetsAmountByLPAmount[0]?.asset.id ===
-                          choosedPool?.assetY.id
-                            ? evaluate(
-                                `${assetsAmountByLPAmount[0]?.amount}/10^${assetsAmountByLPAmount[0]?.asset.decimals}`,
-                              )
-                            : evaluate(
-                                `${assetsAmountByLPAmount[1]?.amount}/10^${assetsAmountByLPAmount[1]?.asset.decimals}`,
-                              ))}
-                      </div>
+                      <div>lp = {Number(lpTokens)}</div>
                     </Card>
                   </Grid>
                 )}
