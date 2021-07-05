@@ -3,10 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.35",
+    "@fortawesome/free-solid-svg-icons": "^5.15.3",
+    "@fortawesome/react-fontawesome": "^0.1.14",
     "@geist-ui/react": "^2.1.5",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "@types/fast-levenshtein": "^0.0.1",
     "@types/jest": "^26.0.15",
     "@types/node": "^12.0.0",
     "@types/react": "^17.0.0",
@@ -14,9 +18,12 @@
     "@types/react-router-dom": "^5.1.7",
     "ergo-dex-sdk": "^0.0.138",
     "ergo-lib-wasm-browser": "^0.13.1",
+    "fast-levenshtein": "^3.0.0",
     "final-form": "^4.20.2",
     "mathjs": "^9.4.2",
+    "node-sass": "^5",
     "ramda": "^0.27.1",
+    "rc-select": "^12.1.13",
     "react": "^17.0.2",
     "react-app-rewired": "^2.1.8",
     "react-dom": "^17.0.2",
@@ -24,7 +31,8 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "typescript": "^4.3.2",
-    "web-vitals": "^1.0.1"
+    "web-vitals": "^1.0.1",
+    "yarn": "^1.22.10"
   },
   "devDependencies": {
     "@babel/plugin-syntax-bigint": "^7.8.3",

@@ -7,28 +7,28 @@ export enum WalletStates {
 
 interface ButtonState {
   isWalletConnected: boolean;
-  firstTokenId: string;
-  secondTokenId: string;
-  firstTokenAmount: string;
-  secondTokenAmount: string;
+  inputAssetId?: string;
+  outputAssetId?: string;
+  inputAmount: string;
+  outputAmount: string;
 }
 
 export const getButtonState = ({
   isWalletConnected,
-  firstTokenId,
-  secondTokenId,
-  firstTokenAmount,
-  secondTokenAmount,
+  inputAssetId,
+  outputAssetId,
+  inputAmount,
+  outputAmount,
 }: ButtonState): WalletStates => {
   if (!isWalletConnected) {
     return WalletStates.NEED_TO_CONNECT_WALLET;
   }
 
-  if (!firstTokenId || !secondTokenId) {
+  if (!inputAssetId || !outputAssetId) {
     return WalletStates.SELECT_A_TOKEN;
   }
 
-  if (!firstTokenAmount || !secondTokenAmount) {
+  if (!inputAmount || !outputAmount) {
     return WalletStates.NEED_TO_ENTER_AMOUNT;
   }
 
