@@ -31,4 +31,4 @@ jobs:
       run: yarn run tsc
 
     - name: prettier
-      run: yarn run prettier --check
+      run: yarn run prettier --check src
