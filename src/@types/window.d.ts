@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 /**
  * Took from yoroi-frontend/packages/yoroi-ergo-connector/src/inject.js
  *
