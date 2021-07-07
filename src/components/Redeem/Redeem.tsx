@@ -127,17 +127,7 @@ export const Redeem = () => {
         new DefaultTxAssembler(true),
       );
       const pk = fromAddress(choosedAddress) as string;
-      console.log(
-        DefaultBoxSelector.select(utxos, {
-          nErgs: evaluate(`${defaultMinerFee}+(${dexFee}* ${nanoErgInErg})`),
-          assets: [
-            {
-              tokenId: choosedPool.lp.asset.id,
-              amount: Number(amount),
-            },
-          ],
-        }) as BoxSelection,
-      );
+
       poolOps
         .redeem(
           {

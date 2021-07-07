@@ -41,26 +41,28 @@ interface SwapFormProps {
 const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
   const { isWalletConnected } = useContext(WalletContext);
   const [selectedPool, setSelectedPool] = useState<AmmPool | undefined>();
-  const [inputAssetAmount, setInputAssetAmount] =
-    useState<AssetAmount | undefined>();
-  const [outputAssetAmount, setOutputAssetAmount] =
-    useState<AssetAmount | undefined>();
+  const [inputAssetAmount, setInputAssetAmount] = useState<
+    AssetAmount | undefined
+  >();
+  const [outputAssetAmount, setOutputAssetAmount] = useState<
+    AssetAmount | undefined
+  >();
   const [inputAmount, setInputAmount] = useState('');
   const [outputAmount, setOutputAmount] = useState('');
   const [selectedAddress, setSelectedAddress] = useState('');
   const [feePerToken, setFeePerToken] = useState('');
-
-  useEffect(() => {
-    if (selectedPool === undefined) {
-      updateSelectedPool(pools[0]);
-    }
-  }, [pools]);
 
   const updateSelectedPool = useCallback((pool: AmmPool) => {
     setSelectedPool(pool);
     setInputAssetAmount(pool.x);
     setOutputAssetAmount(pool.y);
   }, []);
+
+  useEffect(() => {
+    if (selectedPool === undefined) {
+      updateSelectedPool(pools[0]);
+    }
+  }, [pools]);
 
   const [addresses, setAddresses] = useState<string[]>([]);
   const [utxos, setUtxos] = useState([]);
@@ -148,7 +150,12 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
     setInputAssetAmount(outputAssetAmount);
     setOutputAssetAmount(inputAssetAmount);
     updateOutputAmountAndFee(inputAmount);
-  }, [inputAssetAmount, outputAssetAmount, inputAmount]);
+  }, [
+    inputAssetAmount,
+    outputAssetAmount,
+    inputAmount,
+    updateOutputAmountAndFee,
+  ]);
 
   const handleEnterInputTokenAmount = (value: any) => {
     setInputAmount(value);

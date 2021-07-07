@@ -9,24 +9,26 @@ export enum WalletStates {
 
 interface ButtonState {
   isWalletConnected: boolean;
-  choosedPool: AmmPool | null;
-  amount: string;
+  selectedPool: AmmPool | undefined;
+  inputAmount: string;
+  outputAmount: string;
 }
 
 export const getButtonState = ({
   isWalletConnected,
-  choosedPool,
-  amount,
+  selectedPool,
+  inputAmount,
+  outputAmount,
 }: ButtonState): WalletStates => {
   if (!isWalletConnected) {
     return WalletStates.NEED_TO_CONNECT_WALLET;
   }
 
-  if (!choosedPool) {
+  if (!selectedPool) {
     return WalletStates.NEED_TO_SELECT_POOL;
   }
 
-  if (!amount) {
+  if (Number(inputAmount) <= 0 || Number(outputAmount) <= 0) {
     return WalletStates.NEED_TO_ENTER_AMOUNT;
   }
 

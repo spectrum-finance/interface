@@ -1,5 +1,19 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react';
-import { Button, Card, Grid, Input, Select, Text } from '@geist-ui/react';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
+import {
+  Button,
+  Card,
+  Grid,
+  Input,
+  Loading,
+  Select,
+  Text,
+} from '@geist-ui/react';
 import { Form, Field, FieldRenderProps } from 'react-final-form';
 import { evaluate } from 'mathjs';
 import { AmmPool, Explorer, T2tPoolOps } from 'ergo-dex-sdk';
@@ -15,38 +29,81 @@ import { WalletContext } from '../../context/WalletContext';
 import { getButtonState, WalletStates } from './utils';
 import { defaultMinerFee, nanoErgInErg } from '../../constants/erg';
 import { useGetAllPools } from '../../hooks/useGetAllPools';
+import { PoolSelect } from '../PoolSelect/PoolSelect';
 import { useSettings } from '../../context/SettingsContext';
 
-export const Deposit = () => {
-
+export const Deposit = (): JSX.Element => {
   const [{ dexFee: defaultDexFee, slippage: defaultSlippage }] = useSettings();
-
   const { isWalletConnected } = useContext(WalletContext);
-  /* const [feePerToken, setFeePerToken] = useState(''); */
-  const [amount, setAmount] = useState('');
   const [dexFee, setDexFee] = useState(defaultDexFee);
+  const [selectedPool, setSelectedPool] = useState<AmmPool | undefined>();
+  const [inputAssetAmount, setInputAssetAmount] =
+    useState<AssetAmount | undefined>();
+  const [outputAssetAmount, setOutputAssetAmount] =
+    useState<AssetAmount | undefined>();
+  const [inputAmount, setInputAmount] = useState('');
+  const [outputAmount, setOutputAmount] = useState('');
 
-  const [choosedPool, setChoosedPool] = useState<AmmPool | null>(null);
+  const lpTokens = useMemo(() => {
+    if (
+      selectedPool &&
+      inputAmount &&
+      inputAssetAmount &&
+      outputAmount &&
+      outputAssetAmount
+    ) {
+      return selectedPool.rewardLP(
+        new AssetAmount(
+          inputAssetAmount.asset,
+          BigInt(
+            evaluate(
+              `${inputAmount}*10^${inputAssetAmount.asset.decimals || 0}`,
+            ).toFixed(0),
+          ),
+        ),
+        new AssetAmount(
+          outputAssetAmount.asset,
+          BigInt(
+            evaluate(
+              `${outputAmount}*10^${outputAssetAmount.asset.decimals || 0}`,
+            ).toFixed(0),
+          ),
+        ),
+      ).amount;
+    }
+
+    return '';
+  }, [
+    selectedPool,
+    inputAmount,
+    inputAssetAmount,
+    outputAmount,
+    outputAssetAmount,
+  ]);
 
   const [addresses, setAddresses] = useState<string[]>([]);
   const [choosedAddress, setChoosedAddress] = useState('');
   const [utxos, setUtxos] = useState([]);
   const availablePools = useGetAllPools();
-  const assetsAmountByLPAmount = useMemo(() => {
-    if (!choosedPool || !amount) {
-      return [];
-    }
 
-    return choosedPool.shares(
-      new AssetAmount(choosedPool.lp.asset, BigInt(amount)),
-    );
-  }, [choosedPool, amount]);
+  const updateSelectedPool = useCallback((pool: AmmPool) => {
+    setSelectedPool(pool);
+    setInputAssetAmount(pool.x);
+    setOutputAssetAmount(pool.y);
+  }, []);
+
+  useEffect(() => {
+    if (selectedPool === undefined && availablePools) {
+      updateSelectedPool(availablePools[0]);
+    }
+  }, [availablePools]);
 
   const buttonStatus = useMemo(() => {
     const buttonState = getButtonState({
       isWalletConnected,
-      choosedPool,
-      amount,
+      selectedPool,
+      inputAmount,
+      outputAmount,
     });
     switch (buttonState) {
       case WalletStates.NEED_TO_SELECT_POOL: {
@@ -62,7 +119,7 @@ export const Deposit = () => {
         return { disabled: true, text: 'Need to enter amount' };
       }
     }
-  }, [isWalletConnected, amount, choosedPool]);
+  }, [isWalletConnected, inputAmount, outputAmount, selectedPool]);
 
   useEffect(() => {
     if (isWalletConnected) {
@@ -74,68 +131,93 @@ export const Deposit = () => {
     }
   }, [isWalletConnected]);
 
-  // const onEnterFirstTokenAmount = (value: any) => {
-  //   setFirstTokenAmount(value);
+  const onEnterTokenAmount = (value: string, token: 'input' | 'output') => {
+    if (!selectedPool || !inputAssetAmount || !outputAssetAmount) {
+      return;
+    }
 
-  //   if (choosedPool && firstTokenInfo && secondTokenInfo && value > 0) {
-  //     const amount = choosedPool.outputAmount(
-  //       new AssetAmount(
-  //         firstTokenInfo,
-  //         BigInt(
-  //           evaluate(`${value}*10^${firstTokenInfo.decimals || 0}`).toFixed(0),
-  //         ),
-  //       ),
-  //       1,
-  //     );
-  //     setSecondTokenAmount(
-  //       String(
-  //         evaluate(`${amount?.amount}/10^${secondTokenInfo.decimals || 0}`),
-  //       ),
-  //     );
-  //     const feePerToken = Math.ceil(
-  //       evaluate(
-  //         `${defaultMinerFee} / (${amount?.amount}/10^${
-  //           secondTokenInfo.decimals || 0
-  //         })`,
-  //       ),
-  //     ).toFixed(0);
-  //     setFeePerToken(feePerToken);
-  //   }
+    if (token === 'input') {
+      setInputAmount(value);
 
-  //   if (!value.trim()) {
-  //     setSecondTokenAmount('');
-  //     setFeePerToken('');
-  //   }
-  // };
+      if (Number(value) > 0) {
+        const amount = selectedPool.depositAmount(
+          new AssetAmount(
+            inputAssetAmount.asset,
+            BigInt(
+              evaluate(
+                `${value}*10^${inputAssetAmount.asset.decimals || 0}`,
+              ).toFixed(0),
+            ),
+          ),
+        );
+
+        setOutputAmount(
+          String(
+            evaluate(
+              `${amount?.amount}/10^${outputAssetAmount.asset.decimals || 0}`,
+            ),
+          ),
+        );
+      }
+
+      if (!value.trim()) {
+        setOutputAmount('');
+      }
+    }
+
+    if (token === 'output') {
+      setOutputAmount(value);
+
+      if (Number(value) > 0) {
+        const amount = selectedPool.depositAmount(
+          new AssetAmount(
+            outputAssetAmount.asset,
+            BigInt(
+              evaluate(
+                `${value}*10^${outputAssetAmount.asset.decimals || 0}`,
+              ).toFixed(0),
+            ),
+          ),
+        );
+
+        setInputAmount(
+          String(
+            evaluate(
+              `${amount?.amount}/10^${inputAssetAmount.asset.decimals || 0}`,
+            ),
+          ),
+        );
+      }
+
+      if (!value.trim()) {
+        setInputAmount('');
+      }
+    }
+  };
 
   const onSubmit = async (values: any) => {
-    if (isWalletConnected && choosedPool) {
+    if (
+      isWalletConnected &&
+      selectedPool &&
+      inputAssetAmount &&
+      outputAssetAmount
+    ) {
       const network = new Explorer('https://api.ergoplatform.com');
-      const poolId = choosedPool.id;
+      const poolId = selectedPool.id;
 
       const poolOps = new T2tPoolOps(
         new YoroiProver(),
         new DefaultTxAssembler(true),
       );
       const pk = fromAddress(choosedAddress) as string;
-      console.log(
-        DefaultBoxSelector.select(utxos, {
-          nErgs: evaluate(`${defaultMinerFee}+(${dexFee}* ${nanoErgInErg})`),
-          assets: [
-            {
-              tokenId: choosedPool.lp.asset.id,
-              amount: Number(amount),
-            },
-          ],
-        }) as BoxSelection,
-      );
       poolOps
-        .redeem(
+        .deposit(
           {
             pk,
             poolId,
             dexFee: BigInt(evaluate(`${dexFee} * ${nanoErgInErg}`)),
-            lp: choosedPool.lp.asset,
+            x: selectedPool.assetX,
+            y: selectedPool.assetY,
           },
           {
             inputs: DefaultBoxSelector.select(utxos, {
@@ -144,8 +226,18 @@ export const Deposit = () => {
               ),
               assets: [
                 {
-                  tokenId: choosedPool.lp.asset.id,
-                  amount: Number(amount),
+                  tokenId: inputAssetAmount.asset.id,
+                  amount: evaluate(
+                    `${inputAmount}*10^${inputAssetAmount.asset.decimals || 0}`,
+                  ).toFixed(0),
+                },
+                {
+                  tokenId: outputAssetAmount.asset.id,
+                  amount: evaluate(
+                    `${outputAmount}*10^${
+                      outputAssetAmount.asset.decimals || 0
+                    }`,
+                  ).toFixed(0),
                 },
               ],
             }) as BoxSelection,
@@ -156,7 +248,7 @@ export const Deposit = () => {
           },
         )
         .then((d: any) => {
-          console.log(d);
+          console.log(421, d);
           // ergo.submit_tx(d);
           // alert(`Transaction submitted: ${d} `);
         })
@@ -167,7 +259,7 @@ export const Deposit = () => {
   if (!isWalletConnected) {
     return (
       <Card>
-        <Text h4>Need to connect wallet</Text>
+        <Text h6>Need to connect wallet</Text>
       </Card>
     );
   }
@@ -175,15 +267,15 @@ export const Deposit = () => {
   if (addresses.length === 0) {
     return (
       <Card>
-        <Text h4>Loading wallet...</Text>
+        <Loading>Loading wallet</Loading>
       </Card>
     );
   }
 
-  if (availablePools === null) {
+  if (!availablePools) {
     return (
       <Card>
-        <Text h4>Fetching available pools...</Text>
+        <Loading>Fetching available pools</Loading>
       </Card>
     );
   }
@@ -191,11 +283,11 @@ export const Deposit = () => {
   if (availablePools?.length === 0) {
     return (
       <Card>
-        <Text h4>No available pools to redeem</Text>
+        <Loading>No available pools to redeem</Loading>
       </Card>
     );
   }
-  console.log(assetsAmountByLPAmount);
+
   return (
     <>
       <Card>
@@ -257,7 +349,7 @@ export const Deposit = () => {
                 </Grid>
 
                 <Grid xs={24}>
-                  <Text h4>Fee per token</Text>
+                  <Text h4>Dex fee</Text>
                 </Grid>
                 <Grid xs={24}>
                   <Field
@@ -272,17 +364,20 @@ export const Deposit = () => {
                     }}
                   >
                     {(props: FieldRenderProps<string>) => (
-                      <Input
-                        placeholder="0.0"
-                        type="number"
-                        width="100%"
-                        {...props.input}
-                        value={dexFee}
-                        onChange={({ currentTarget }) => {
-                          setDexFee(currentTarget.value as string);
-                          props.input.onChange(currentTarget.value);
-                        }}
-                      />
+                      <>
+                        <Input
+                          placeholder="0.01"
+                          type="number"
+                          width="100%"
+                          {...props.input}
+                          value={dexFee}
+                          onChange={({ currentTarget }) => {
+                            setDexFee(currentTarget.value as string);
+                            props.input.onChange(currentTarget.value);
+                          }}
+                        />
+                        {props.meta.error && <p>{props.meta.error}</p>}
+                      </>
                     )}
                   </Field>
                 </Grid>
@@ -292,86 +387,111 @@ export const Deposit = () => {
                 <Grid xs={24}>
                   <Field name="pool" component="select">
                     {(props: FieldRenderProps<string>) => (
-                      <Select
-                        placeholder="Choose the pool"
-                        width="100%"
-                        {...props.input}
-                        onChange={(value) => {
-                          if (availablePools) {
-                            setChoosedPool(availablePools[Number(value)]);
-                          }
-                          props.input.onChange(value);
-                        }}
-                      >
-                        {availablePools?.map((pool: AmmPool, index) => (
-                          <Select.Option key={pool.id} value={String(index)}>
-                            {pool.assetX.name || pool.assetX.id.slice(0, 4)}/
-                            {pool.assetY.name || pool.assetY.id.slice(0, 4)}
-                          </Select.Option>
-                        ))}
-                      </Select>
+                      <PoolSelect
+                        pools={availablePools}
+                        value={selectedPool}
+                        onChangeValue={setSelectedPool}
+                        inputProps={props.input}
+                      />
+                    )}
+                  </Field>
+                </Grid>
+
+                <Grid xs={24}>
+                  <Text h4>From</Text>
+                </Grid>
+                <Grid xs={24}>
+                  <Field
+                    name="inputAmount"
+                    validate={(value) => {
+                      if (!value || !value.trim()) {
+                        return;
+                      }
+                      const comma = value.match('[,.]');
+                      if (comma && !inputAssetAmount?.asset.decimals) {
+                        return 'No decimals at this token after comma';
+                      }
+
+                      if (
+                        comma &&
+                        value.substr(comma.index + 1) >
+                          (inputAssetAmount?.asset.decimals || 0)
+                      ) {
+                        return `Max decimals at this token after comma is ${
+                          inputAssetAmount?.asset.decimals || 0
+                        }`;
+                      }
+                    }}
+                  >
+                    {(props: FieldRenderProps<string>) => (
+                      <>
+                        <Input
+                          placeholder="0.0"
+                          type="number"
+                          width="100%"
+                          lang="en"
+                          label={inputAssetAmount?.asset.name ?? ''}
+                          {...props.input}
+                          disabled={!inputAssetAmount}
+                          value={inputAmount}
+                          onChange={({ currentTarget }) => {
+                            const value = currentTarget.value;
+                            onEnterTokenAmount(value, 'input');
+                            props.input.onChange(value);
+                          }}
+                        />
+                        {props.meta.error && <p>{props.meta.error}</p>}
+                      </>
                     )}
                   </Field>
                 </Grid>
                 <Grid xs={24}>
-                  <Text h4>Amount</Text>
+                  <Text h4>To</Text>
                 </Grid>
                 <Grid xs={24}>
-                  <Field name="amount">
+                  <Field
+                    name="outputAmount"
+                    validate={(value) => {
+                      if (!value || !value.trim()) {
+                        return;
+                      }
+                      const comma = value.match('[,.]');
+                      if (comma && !inputAssetAmount?.asset.decimals) {
+                        return 'No decimals at this token after comma';
+                      }
+
+                      if (
+                        comma &&
+                        value.substr(comma.index + 1) >
+                          (inputAssetAmount?.asset.decimals || 0)
+                      ) {
+                        return `Max decimals at this token after comma is ${
+                          inputAssetAmount?.asset.decimals || 0
+                        }`;
+                      }
+                    }}
+                  >
                     {(props: FieldRenderProps<string>) => (
                       <Input
                         placeholder="0.0"
                         type="number"
+                        label={outputAssetAmount?.asset.name ?? ''}
                         width="100%"
                         {...props.input}
-                        disabled={!choosedPool}
-                        value={amount}
-                        onKeyPress={(event) => {
-                          return event.charCode >= 48 && event.charCode <= 57;
-                        }}
+                        value={outputAmount}
                         onChange={({ currentTarget }) => {
-                          setAmount(
-                            Math.abs(Number(currentTarget.value)).toString(),
-                          );
-                          props.input.onChange(
-                            Math.abs(Number(currentTarget.value)),
-                          );
+                          const value = currentTarget.value;
+                          onEnterTokenAmount(value, 'output');
+                          props.input.onChange(value);
                         }}
                       />
                     )}
                   </Field>
                 </Grid>
-                {choosedPool && (
+                {selectedPool && (
                   <Grid xs={24}>
                     <Card>
-                      <div>
-                        {choosedPool?.assetX.name ||
-                          choosedPool?.assetX.id.slice(0, 4)}{' '}
-                        ={' '}
-                        {assetsAmountByLPAmount.length > 0 &&
-                          (assetsAmountByLPAmount[0]?.asset.id ===
-                            choosedPool?.assetX.id
-                            ? evaluate(
-                              `${assetsAmountByLPAmount[0]?.amount}/10^${assetsAmountByLPAmount[0]?.asset.decimals}`,
-                            )
-                            : evaluate(
-                              `${assetsAmountByLPAmount[1]?.amount}/10^${assetsAmountByLPAmount[1]?.asset.decimals}`,
-                            ))}
-                      </div>
-                      <div>
-                        {choosedPool?.assetY.name ||
-                          choosedPool?.assetY.id.slice(0, 4)}{' '}
-                        ={' '}
-                        {assetsAmountByLPAmount.length > 0 &&
-                          (assetsAmountByLPAmount[0]?.asset.id ===
-                            choosedPool?.assetY.id
-                            ? evaluate(
-                              `${assetsAmountByLPAmount[0]?.amount}/10^${assetsAmountByLPAmount[0]?.asset.decimals}`,
-                            )
-                            : evaluate(
-                              `${assetsAmountByLPAmount[1]?.amount}/10^${assetsAmountByLPAmount[1]?.asset.decimals}`,
-                            ))}
-                      </div>
+                      <div>lp = {Number(lpTokens)}</div>
                     </Card>
                   </Grid>
                 )}
