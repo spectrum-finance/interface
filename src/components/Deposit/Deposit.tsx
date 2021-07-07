@@ -403,7 +403,7 @@ export const Deposit = () => {
                 </Grid>
 
                 <Grid xs={24}>
-                  <Text h4>From</Text>
+                  <Text h4>First Token</Text>
                 </Grid>
                 <Grid xs={24}>
                   <Field
@@ -451,7 +451,7 @@ export const Deposit = () => {
                   </Field>
                 </Grid>
                 <Grid xs={24}>
-                  <Text h4>To</Text>
+                  <Text h4>Second Token</Text>
                 </Grid>
                 <Grid xs={24}>
                   <Field
