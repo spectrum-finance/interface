@@ -1,0 +1,34 @@
+name: Push Worfklow
+
+on: push
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2        
+    
+    - name: Install Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: 14.x
+        
+    - uses: actions/cache@v2
+      with:
+        path: '**/node_modules'
+        key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+
+    - name: Install packages
+      run: yarn install
+    
+    - name: eslint
+      run: yarn run eslint --ext .js,.ts,.tsx src
+
+    - name: tsc
+      run: yarn run tsc
+
+    - name: prettier
+      run: yarn run prettier --check src

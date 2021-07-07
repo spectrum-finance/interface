@@ -1550,6 +1550,11 @@
     schema-utils "^2.6.5"
     source-map "^0.7.3"
 
+"@rehooks/local-storage@2.4.0":
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/@rehooks/local-storage/-/local-storage-2.4.0.tgz#fb884b2b657cad5f77aa6ab60bb3532f0e0725d2"
+  integrity sha512-LoXDbEHsuIckVgBsFAv8SuU/M7memjyfWut9Zf36TQXqqCHBRFv8bweg9PymQCa1aWIMjNrZQflFdo55FDlXYg==
+
 "@rollup/plugin-node-resolve@^7.1.1":
   version "7.1.3"
   resolved "https://registry.yarnpkg.com/@rollup/plugin-node-resolve/-/plugin-node-resolve-7.1.3.tgz#80de384edfbd7bfc9101164910f86078151a3eca"
@@ -4033,6 +4038,14 @@ css-loader@4.3.0:
     postcss-value-parser "^4.1.0"
     schema-utils "^2.7.1"
     semver "^7.3.2"
+
+css-modules-typescript-loader@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/css-modules-typescript-loader/-/css-modules-typescript-loader-4.0.1.tgz#0b818cf647fefd8f9fb3d4469374e69ab1e72742"
+  integrity sha512-vXrUAwPGcRaopnGdg7I5oqv/NSSKQRN5L80m3f49uSGinenU5DTNsMFHS+2roh5tXqpY5+yAAKAl7A2HDvumzg==
+  dependencies:
+    line-diff "^2.0.1"
+    loader-utils "^1.2.3"
 
 css-prefers-color-scheme@^3.1.1:
   version "3.1.1"
@@ -7485,6 +7498,11 @@ last-call-webpack-plugin@^3.0.0:
     lodash "^4.17.5"
     webpack-sources "^1.1.0"
 
+levdist@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/levdist/-/levdist-1.0.0.tgz#91d7a3044964f2ccc421a0477cac827fe75c5718"
+  integrity sha1-kdejBElk8szEIaBHfKyCf+dcVxg=
+
 leven@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/leven/-/leven-3.1.0.tgz#77891de834064cccba82ae7842bb6b14a13ed7f2"
@@ -7505,6 +7523,13 @@ levn@~0.3.0:
   dependencies:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
+
+line-diff@^2.0.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/line-diff/-/line-diff-2.1.1.tgz#a389799b931375a3b1e764964ad0b0b3ce60d6f6"
+  integrity sha512-vswdynAI5AMPJacOo2o+JJ4caDJbnY2NEqms4MhMW0NJbjh3skP/brpVTAgBxrg55NRZ2Vtw88ef18hnagIpYQ==
+  dependencies:
+    levdist "^1.0.0"
 
 lines-and-columns@^1.1.6:
   version "1.1.6"
@@ -9898,6 +9923,13 @@ react-app-polyfill@^2.0.0:
     raf "^3.4.1"
     regenerator-runtime "^0.13.7"
     whatwg-fetch "^3.4.1"
+
+react-app-rewire-typings-for-css-module@^4.0.3:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/react-app-rewire-typings-for-css-module/-/react-app-rewire-typings-for-css-module-4.0.3.tgz#c22554a1bb452eaa04b27a3809359f6e4203ac78"
+  integrity sha512-8Y1K07iLGilhRnSraPAKGgIs2PpZj9gjuBDATuIUqJZ8AL1ZXthoMFJXh8TcHzlmrNCqiUnv7kXRvRAgH5pn4w==
+  dependencies:
+    deepmerge "^4.2.2"
 
 react-app-rewired@^2.1.8:
   version "2.1.8"

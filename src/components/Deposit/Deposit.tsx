@@ -12,14 +12,12 @@ import {
   Input,
   Loading,
   Select,
-  Tag,
   Text,
 } from '@geist-ui/react';
 import { Form, Field, FieldRenderProps } from 'react-final-form';
 import { evaluate } from 'mathjs';
 import { AmmPool, Explorer, T2tPoolOps } from 'ergo-dex-sdk';
 import { YoroiProver } from '../../utils/yoroiProver';
-import { faExchangeAlt } from '@fortawesome/free-solid-svg-icons';
 import {
   AssetAmount,
   BoxSelection,
@@ -31,21 +29,18 @@ import { WalletContext } from '../../context/WalletContext';
 import { getButtonState, WalletStates } from './utils';
 import { defaultMinerFee, nanoErgInErg } from '../../constants/erg';
 import { useGetAllPools } from '../../hooks/useGetAllPools';
-import { getTokenInfo } from '../../utils/getTokenInfo';
-import { filter } from 'ramda';
 import { PoolSelect } from '../PoolSelect/PoolSelect';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useSettings } from '../../context/SettingsContext';
 
-export const Deposit = () => {
+export const Deposit = (): JSX.Element => {
+  const [{ dexFee: defaultDexFee, slippage: defaultSlippage }] = useSettings();
   const { isWalletConnected } = useContext(WalletContext);
-  const [dexFee, setDexFee] = useState('0.01');
+  const [dexFee, setDexFee] = useState(defaultDexFee);
   const [selectedPool, setSelectedPool] = useState<AmmPool | undefined>();
-  const [inputAssetAmount, setInputAssetAmount] = useState<
-    AssetAmount | undefined
-  >();
-  const [outputAssetAmount, setOutputAssetAmount] = useState<
-    AssetAmount | undefined
-  >();
+  const [inputAssetAmount, setInputAssetAmount] =
+    useState<AssetAmount | undefined>();
+  const [outputAssetAmount, setOutputAssetAmount] =
+    useState<AssetAmount | undefined>();
   const [inputAmount, setInputAmount] = useState('');
   const [outputAmount, setOutputAmount] = useState('');
 
@@ -299,10 +294,10 @@ export const Deposit = () => {
         <Form
           onSubmit={onSubmit}
           initialValues={{
-            slippage: 1,
+            slippage: defaultSlippage,
             amount: '0',
             address: '',
-            dexFee: '0.01',
+            dexFee,
           }}
           render={({ handleSubmit, values, errors = {} }) => (
             <form onSubmit={handleSubmit}>

@@ -1,4 +1,5 @@
 const path = require('path');
+const rewireTypingsForCssModule = require('react-app-rewire-typings-for-css-module');
 
 module.exports = function override(config, env) {
   /**
@@ -33,6 +34,8 @@ module.exports = function override(config, env) {
       },
     },
   });
+
+  config = rewireTypingsForCssModule.factory({})(config);
 
   return config;
 };

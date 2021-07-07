@@ -1,0 +1,8 @@
+.root {
+  display: flex;
+
+  .clipped {
+      text-overflow: ellipsis;
+      overflow: hidden;
+  }
+}
