@@ -52,17 +52,17 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
   const [selectedAddress, setSelectedAddress] = useState('');
   const [feePerToken, setFeePerToken] = useState('');
 
-  useEffect(() => {
-    if (selectedPool === undefined) {
-      updateSelectedPool(pools[0]);
-    }
-  }, [pools]);
-
   const updateSelectedPool = useCallback((pool: AmmPool) => {
     setSelectedPool(pool);
     setInputAssetAmount(pool.x);
     setOutputAssetAmount(pool.y);
   }, []);
+
+  useEffect(() => {
+    if (selectedPool === undefined) {
+      updateSelectedPool(pools[0]);
+    }
+  }, [pools]);
 
   const [addresses, setAddresses] = useState<string[]>([]);
   const [utxos, setUtxos] = useState([]);

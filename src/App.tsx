@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Router } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import { Swap } from './components/Swap/Swap';
 import './App.css';
 import { globalHistory } from './createBrowserHistory';
@@ -44,6 +47,17 @@ export const App: React.FC = () => {
               </Tabs>
             </Layout>
           </div>
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+          />
         </WalletContextProvider>
       </Router>
     </GeistProvider>
