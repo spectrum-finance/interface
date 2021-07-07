@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { Button, Input, useInput } from '@geist-ui/react';
 import { DefaultSettings, Settings } from '../../context/SettingsContext';
 import { AutoInputContainer } from './AutoInputContainer';
-import { DexFeeMax } from '../../constants/settings';
+import { DexFeeMax, DexFeeMin } from '../../constants/settings';
 import { FormError } from './FormError';
 
 const content = {
@@ -31,14 +31,14 @@ export const DexFeeInput = (props: DexFeeInputProps): JSX.Element => {
         setState(value);
         if (value) {
           const num = parseFloat(e.target.value);
-          if (num >= 0) {
-            if (num > 0 && num <= DexFeeMax) {
+          if (num >= DexFeeMin) {
+            if (num > DexFeeMin && num <= DexFeeMax) {
               updateSettings({
                 dexFee: num.toString(),
               });
               setError('');
             } else {
-              setError(`must be greater than 0 and less than ${DexFeeMax}`);
+              setError(`must be >= ${DexFeeMin} and >= ${DexFeeMax}`);
             }
           } else {
             setError(`must be a number`);
@@ -46,7 +46,7 @@ export const DexFeeInput = (props: DexFeeInputProps): JSX.Element => {
         }
       }
     },
-    [updateSettings],
+    [updateSettings, setState],
   );
 
   const handleReset = useCallback(() => {
@@ -55,7 +55,7 @@ export const DexFeeInput = (props: DexFeeInputProps): JSX.Element => {
     });
     setState('');
     setError('');
-  }, [updateSettings]);
+  }, [updateSettings, setState]);
 
   const handleOnBlur = useCallback(() => {
     if (state === DefaultSettings.dexFee) {
@@ -80,7 +80,7 @@ export const DexFeeInput = (props: DexFeeInputProps): JSX.Element => {
           status={error ? 'error' : undefined}
           clearable
           labelRight="ERG"
-          min="0"
+          min={DexFeeMin}
           max={DexFeeMax}
           placeholder={DefaultSettings.dexFee}
           onChange={handleChange}

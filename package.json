@@ -19,6 +19,7 @@
     "@types/react-router-dom": "^5.1.7",
     "ergo-dex-sdk": "^0.0.136",
     "ergo-lib-wasm-browser": "^0.13.1",
+    "eslint-plugin-react-hooks": "^4.2.0",
     "fast-levenshtein": "^3.0.0",
     "final-form": "^4.20.2",
     "mathjs": "^9.4.2",

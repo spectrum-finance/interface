@@ -1,15 +1,17 @@
 import React, { createContext, useContext } from 'react';
 import { useLocalStorage } from '@rehooks/local-storage';
+import { DexFeeDefault, SlippageDefault } from '../constants/settings';
 // import { LocalStorageReturnValue } from '@rehooks/local-storage/lib/use-localstorage';
 
 export type Settings = {
   dexFee: string;
   slippage: number;
+  address?: string;
 };
 
 export const DefaultSettings: Readonly<Settings> = {
-  dexFee: '0.01',
-  slippage: 1,
+  dexFee: DexFeeDefault.toString(),
+  slippage: SlippageDefault,
 };
 
 function noop() {

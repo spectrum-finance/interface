@@ -2,6 +2,10 @@ import React from 'react';
 import { Modal } from '@geist-ui/react';
 import { SettingsForm } from './SettingsForm';
 import { useSettings } from '../../context/SettingsContext';
+import {
+  useWalletAddresses,
+  WalletAddressState,
+} from '../../context/AddressContext';
 
 const content = {
   title: 'Transaction settings',
@@ -19,6 +23,12 @@ export const SettingsModal = (props: SettingsModalProps): JSX.Element => {
   const { open = false, onClose } = props;
 
   const [settings, setSettings] = useSettings();
+  const walletAddresses = useWalletAddresses();
+
+  const addresses =
+    walletAddresses.state === WalletAddressState.LOADED
+      ? walletAddresses.addresses
+      : [];
 
   return (
     <Modal open={open} onClose={onClose}>
@@ -27,9 +37,7 @@ export const SettingsModal = (props: SettingsModalProps): JSX.Element => {
         <SettingsForm
           settings={settings}
           setSettings={setSettings}
-          onConnectWallet={() => {
-            return;
-          }}
+          addresses={addresses}
         />
       </Modal.Content>
       <Modal.Action onClick={onClose}>{content.close}</Modal.Action>

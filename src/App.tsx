@@ -10,6 +10,7 @@ import { WalletContextProvider } from './context/WalletContext';
 import { Redeem } from './components/Redeem/Redeem';
 import { Deposit } from './components/Deposit/Deposit';
 import { SettingsProvider } from './context/SettingsContext';
+import { WalletAddressesProvider } from './context/AddressContext';
 
 export const App: React.FC = () => {
   const [isRustModuleLoaded, setIsRustModuleLoaded] = useState(false);
@@ -28,24 +29,26 @@ export const App: React.FC = () => {
       <Router history={globalHistory}>
         <WalletContextProvider>
           <SettingsProvider>
-            <div className="App">
-              <Layout>
-                <Tabs
-                  initialValue="swap"
-                  style={{ maxWidth: '400px', margin: '0 auto' }}
-                >
-                  <Tabs.Item label="swap" value="swap">
-                    <Swap />
-                  </Tabs.Item>
-                  <Tabs.Item label="redeem" value="redeem">
-                    <Redeem />
-                  </Tabs.Item>
-                  <Tabs.Item label="deposit" value="deposit">
-                    <Deposit />
-                  </Tabs.Item>
-                </Tabs>
-              </Layout>
-            </div>
+            <WalletAddressesProvider>
+              <div className="App">
+                <Layout>
+                  <Tabs
+                    initialValue="swap"
+                    style={{ maxWidth: '400px', margin: '0 auto' }}
+                  >
+                    <Tabs.Item label="swap" value="swap">
+                      <Swap />
+                    </Tabs.Item>
+                    <Tabs.Item label="redeem" value="redeem">
+                      <Redeem />
+                    </Tabs.Item>
+                    <Tabs.Item label="deposit" value="deposit">
+                      <Deposit />
+                    </Tabs.Item>
+                  </Tabs>
+                </Layout>
+              </div>
+            </WalletAddressesProvider>
           </SettingsProvider>
         </WalletContextProvider>
       </Router>

@@ -1,10 +1,11 @@
 import React, { useCallback } from 'react';
-import { Button, Input, Text, Tooltip } from '@geist-ui/react';
+import { Select, Text, Tooltip } from '@geist-ui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import { Settings } from '../../context/SettingsContext';
 import { DexFeeInput } from './DexFeeInput';
 import { SlippageInput } from './SlippageInput';
+import { OverflowAddress } from './OverflowAddress';
 
 const content = {
   dex: {
@@ -24,19 +25,17 @@ const content = {
 };
 
 type SettingsFormProps = {
-  onConnectWallet: () => void;
-  isWalletConnected?: boolean;
   settings: Settings;
   setSettings: (settings: Settings) => void;
+  addresses: string[];
 };
 
 export const SettingsForm = (props: SettingsFormProps): JSX.Element => {
   const {
     settings,
-    settings: { dexFee, slippage },
+    settings: { dexFee, slippage, address },
     setSettings,
-    onConnectWallet,
-    isWalletConnected,
+    addresses,
   } = props;
 
   const updateSettings = useCallback(
@@ -46,7 +45,17 @@ export const SettingsForm = (props: SettingsFormProps): JSX.Element => {
         ...update,
       });
     },
-    [settings],
+    [settings, setSettings],
+  );
+
+  const handleSelectAddress = useCallback(
+    (value: string | string[]) => {
+      const selected = typeof value === 'string' ? value : value[0];
+      updateSettings({
+        address: selected,
+      });
+    },
+    [updateSettings],
   );
 
   return (
@@ -67,12 +76,23 @@ export const SettingsForm = (props: SettingsFormProps): JSX.Element => {
             <FontAwesomeIcon icon={faQuestionCircle} />
           </Tooltip>
         </Text>
-        {isWalletConnected ? (
-          <Input placeholder="0"></Input>
+
+        {addresses.length ? (
+          <Select
+            initialValue={address}
+            onChange={handleSelectAddress}
+            width="100%"
+          >
+            {addresses.map((address: string) => (
+              <Select.Option key={address} value={address}>
+                <OverflowAddress address={address} />
+              </Select.Option>
+            ))}
+          </Select>
         ) : (
-          <Button onClick={onConnectWallet} auto>
+          <Text p small type="secondary">
             {content.address.connectButton}
-          </Button>
+          </Text>
         )}
       </div>
       <div>

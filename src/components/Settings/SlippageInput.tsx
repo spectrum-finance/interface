@@ -2,8 +2,13 @@ import React, { useCallback, useState } from 'react';
 import { Button, Input, useInput } from '@geist-ui/react';
 import { DefaultSettings, Settings } from '../../context/SettingsContext';
 import { AutoInputContainer } from './AutoInputContainer';
-import { SlippageMax } from '../../constants/settings';
+import {
+  SlippageDecimals,
+  SlippageMax,
+  SlippageMin,
+} from '../../constants/settings';
 import { FormError } from './FormError';
+import { countDecimals } from '../../utils/numbers';
 
 const content = {
   autoButton: 'Auto',
@@ -33,14 +38,18 @@ export const SlippageInput = (props: SlippageInputProps): JSX.Element => {
         setState(value);
         if (value) {
           const num = parseFloat(e.target.value);
-          if (num >= 0) {
-            if (num > 0 && num <= SlippageMax) {
-              updateSettings({
-                slippage: num,
-              });
-              setError('');
+          if (num >= SlippageMin) {
+            if (num >= SlippageMin && num <= SlippageMax) {
+              if (countDecimals(num) > SlippageDecimals) {
+                setError(`must be <= ${SlippageDecimals} decimal places`);
+              } else {
+                updateSettings({
+                  slippage: num,
+                });
+                setError('');
+              }
             } else {
-              setError(`must be greater than 0 and less than ${SlippageMax}`);
+              setError(`must be >= ${SlippageMin} and <= ${SlippageMax}`);
             }
           } else {
             setError(`must be a number`);
@@ -48,7 +57,7 @@ export const SlippageInput = (props: SlippageInputProps): JSX.Element => {
         }
       }
     },
-    [updateSettings],
+    [updateSettings, setState],
   );
 
   const handleReset = useCallback(() => {
@@ -57,13 +66,24 @@ export const SlippageInput = (props: SlippageInputProps): JSX.Element => {
     });
     setState('');
     setError('');
-  }, [updateSettings]);
+  }, [updateSettings, setState]);
 
   const handleOnBlur = useCallback(() => {
     if (state === DefaultSettings.slippage.toString()) {
       handleReset();
+    } else {
+      if (state && !error) {
+        const num = parseFloat(state);
+        if (countDecimals(num) != SlippageDecimals) {
+          const decimal = num.toFixed(SlippageDecimals);
+          updateSettings({
+            slippage: parseFloat(decimal),
+          });
+          setState(decimal);
+        }
+      }
     }
-  }, [state, handleReset]);
+  }, [state, error, handleReset, updateSettings, setState]);
 
   return (
     <>
@@ -82,7 +102,7 @@ export const SlippageInput = (props: SlippageInputProps): JSX.Element => {
           status={error ? 'error' : undefined}
           clearable
           labelRight="%"
-          min="0"
+          min={SlippageMin}
           max={SlippageMax}
           placeholder={DefaultSettings.slippage.toString()}
           onChange={handleChange}
