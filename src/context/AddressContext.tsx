@@ -42,7 +42,6 @@ type WalletAddressesProviderProps = React.PropsWithChildren<unknown>;
 export const WalletAddressesProvider = ({
   children,
 }: WalletAddressesProviderProps): JSX.Element => {
-
   const [settings] = useSettings();
   const { isWalletConnected } = useContext(WalletContext);
 

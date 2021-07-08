@@ -37,10 +37,12 @@ export const Deposit = (): JSX.Element => {
   const { isWalletConnected } = useContext(WalletContext);
   const [dexFee, setDexFee] = useState(defaultDexFee);
   const [selectedPool, setSelectedPool] = useState<AmmPool | undefined>();
-  const [inputAssetAmount, setInputAssetAmount] =
-    useState<AssetAmount | undefined>();
-  const [outputAssetAmount, setOutputAssetAmount] =
-    useState<AssetAmount | undefined>();
+  const [inputAssetAmount, setInputAssetAmount] = useState<
+    AssetAmount | undefined
+  >();
+  const [outputAssetAmount, setOutputAssetAmount] = useState<
+    AssetAmount | undefined
+  >();
   const [inputAmount, setInputAmount] = useState('');
   const [outputAmount, setOutputAmount] = useState('');
 
@@ -332,55 +334,6 @@ export const Deposit = (): JSX.Element => {
                   </>
                 )}
 
-                <Grid xs={24}>
-                  <Text h4>Slippage</Text>
-                </Grid>
-                <Grid xs={24}>
-                  <Field name="slippage">
-                    {(props: FieldRenderProps<string>) => (
-                      <Input
-                        placeholder="0.0"
-                        type="number"
-                        width="100%"
-                        {...props.input}
-                      />
-                    )}
-                  </Field>
-                </Grid>
-
-                <Grid xs={24}>
-                  <Text h4>Dex fee</Text>
-                </Grid>
-                <Grid xs={24}>
-                  <Field
-                    name="dexFee"
-                    validate={(value) => {
-                      if (!value || !value.trim()) {
-                        return;
-                      }
-                      if (value < 0.01) {
-                        return 'Minimum fee is 0.01 erg';
-                      }
-                    }}
-                  >
-                    {(props: FieldRenderProps<string>) => (
-                      <>
-                        <Input
-                          placeholder="0.01"
-                          type="number"
-                          width="100%"
-                          {...props.input}
-                          value={dexFee}
-                          onChange={({ currentTarget }) => {
-                            setDexFee(currentTarget.value as string);
-                            props.input.onChange(currentTarget.value);
-                          }}
-                        />
-                        {props.meta.error && <p>{props.meta.error}</p>}
-                      </>
-                    )}
-                  </Field>
-                </Grid>
                 <Grid xs={24}>
                   <Text h4>Select pool</Text>
                 </Grid>
