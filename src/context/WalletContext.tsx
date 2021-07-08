@@ -6,7 +6,9 @@ const WalletContext = createContext({
   setIsWalletConnected: (isWalletConnected: boolean) => {},
 });
 
-const WalletContextProvider = ({ children }: any) => {
+const WalletContextProvider = ({
+  children,
+}: React.PropsWithChildren<unknown>): JSX.Element => {
   const [isWalletConnected, setIsWalletConnected] = useState(false);
 
   const defaultContext = {

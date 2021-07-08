@@ -1,14 +1,5 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
-import {
-  Button,
-  Card,
-  Container,
-  Grid,
-  Input,
-  Row,
-  Select,
-  Text,
-} from '@geist-ui/react';
+import { Button, Card, Grid, Input, Select, Text } from '@geist-ui/react';
 import { Form, Field, FieldRenderProps } from 'react-final-form';
 import { evaluate } from 'mathjs';
 import { AmmPool, Explorer, T2tPoolOps } from 'ergo-dex-sdk';
@@ -26,8 +17,7 @@ import { useGetAvailablePoolsByLPTokens } from '../../hooks/useGetAvailablePools
 import { defaultMinerFee, nanoErgInErg } from '../../constants/erg';
 import { useSettings } from '../../context/SettingsContext';
 
-export const Redeem = () => {
-
+export const Redeem = (): JSX.Element => {
   const [{ dexFee: defaultDexFee, slippage: defaultSlippage }] = useSettings();
 
   const { isWalletConnected } = useContext(WalletContext);
@@ -346,13 +336,13 @@ export const Redeem = () => {
                         ={' '}
                         {assetsAmountByLPAmount.length > 0 &&
                           (assetsAmountByLPAmount[0]?.asset.id ===
-                            choosedPool?.assetX.id
+                          choosedPool?.assetX.id
                             ? evaluate(
-                              `${assetsAmountByLPAmount[0]?.amount}/10^${assetsAmountByLPAmount[0]?.asset.decimals}`,
-                            )
+                                `${assetsAmountByLPAmount[0]?.amount}/10^${assetsAmountByLPAmount[0]?.asset.decimals}`,
+                              )
                             : evaluate(
-                              `${assetsAmountByLPAmount[1]?.amount}/10^${assetsAmountByLPAmount[1]?.asset.decimals}`,
-                            ))}
+                                `${assetsAmountByLPAmount[1]?.amount}/10^${assetsAmountByLPAmount[1]?.asset.decimals}`,
+                              ))}
                       </div>
                       <div>
                         {choosedPool?.assetY.name ||
@@ -360,13 +350,13 @@ export const Redeem = () => {
                         ={' '}
                         {assetsAmountByLPAmount.length > 0 &&
                           (assetsAmountByLPAmount[0]?.asset.id ===
-                            choosedPool?.assetY.id
+                          choosedPool?.assetY.id
                             ? evaluate(
-                              `${assetsAmountByLPAmount[0]?.amount}/10^${assetsAmountByLPAmount[0]?.asset.decimals}`,
-                            )
+                                `${assetsAmountByLPAmount[0]?.amount}/10^${assetsAmountByLPAmount[0]?.asset.decimals}`,
+                              )
                             : evaluate(
-                              `${assetsAmountByLPAmount[1]?.amount}/10^${assetsAmountByLPAmount[1]?.asset.decimals}`,
-                            ))}
+                                `${assetsAmountByLPAmount[1]?.amount}/10^${assetsAmountByLPAmount[1]?.asset.decimals}`,
+                              ))}
                       </div>
                     </Card>
                   </Grid>

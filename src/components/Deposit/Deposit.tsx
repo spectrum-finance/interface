@@ -37,10 +37,12 @@ export const Deposit = (): JSX.Element => {
   const { isWalletConnected } = useContext(WalletContext);
   const [dexFee, setDexFee] = useState(defaultDexFee);
   const [selectedPool, setSelectedPool] = useState<AmmPool | undefined>();
-  const [inputAssetAmount, setInputAssetAmount] =
-    useState<AssetAmount | undefined>();
-  const [outputAssetAmount, setOutputAssetAmount] =
-    useState<AssetAmount | undefined>();
+  const [inputAssetAmount, setInputAssetAmount] = useState<
+    AssetAmount | undefined
+  >();
+  const [outputAssetAmount, setOutputAssetAmount] = useState<
+    AssetAmount | undefined
+  >();
   const [inputAmount, setInputAmount] = useState('');
   const [outputAmount, setOutputAmount] = useState('');
 
