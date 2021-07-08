@@ -27,17 +27,13 @@ import { defaultMinerFee, nanoErgInErg } from '../../constants/erg';
 import { useSettings } from '../../context/SettingsContext';
 
 export const Redeem = () => {
-  const [{ dexFee: defaultDexFee, slippage: defaultSlippage }] = useSettings();
+  const [{ dexFee, address: choosedAddress }] = useSettings();
 
   const { isWalletConnected } = useContext(WalletContext);
-  const [feePerToken, setFeePerToken] = useState('');
   const [amount, setAmount] = useState('');
-  const [dexFee, setDexFee] = useState(defaultDexFee);
 
   const [choosedPool, setChoosedPool] = useState<AmmPool | null>(null);
 
-  const [addresses, setAddresses] = useState<string[]>([]);
-  const [choosedAddress, setChoosedAddress] = useState('');
   const [utxos, setUtxos] = useState([]);
   const availablePools = useGetAvailablePoolsByLPTokens(utxos);
   const assetsAmountByLPAmount = useMemo(() => {
@@ -74,50 +70,12 @@ export const Redeem = () => {
 
   useEffect(() => {
     if (isWalletConnected) {
-      ergo.get_used_addresses().then((data: string[]) => {
-        setAddresses(data);
-        setChoosedAddress(data[0]);
-      });
       ergo.get_utxos().then((data: any) => setUtxos(data));
     }
   }, [isWalletConnected]);
 
-  // const onEnterFirstTokenAmount = (value: any) => {
-  //   setFirstTokenAmount(value);
-
-  //   if (choosedPool && firstTokenInfo && secondTokenInfo && value > 0) {
-  //     const amount = choosedPool.outputAmount(
-  //       new AssetAmount(
-  //         firstTokenInfo,
-  //         BigInt(
-  //           evaluate(`${value}*10^${firstTokenInfo.decimals || 0}`).toFixed(0),
-  //         ),
-  //       ),
-  //       1,
-  //     );
-  //     setSecondTokenAmount(
-  //       String(
-  //         evaluate(`${amount?.amount}/10^${secondTokenInfo.decimals || 0}`),
-  //       ),
-  //     );
-  //     const feePerToken = Math.ceil(
-  //       evaluate(
-  //         `${defaultMinerFee} / (${amount?.amount}/10^${
-  //           secondTokenInfo.decimals || 0
-  //         })`,
-  //       ),
-  //     ).toFixed(0);
-  //     setFeePerToken(feePerToken);
-  //   }
-
-  //   if (!value.trim()) {
-  //     setSecondTokenAmount('');
-  //     setFeePerToken('');
-  //   }
-  // };
-
   const onSubmit = async (values: any) => {
-    if (isWalletConnected && choosedPool) {
+    if (isWalletConnected && choosedPool && choosedAddress) {
       const network = new Explorer('https://api.ergoplatform.com');
       const poolId = choosedPool.id;
 
@@ -169,14 +127,6 @@ export const Redeem = () => {
     );
   }
 
-  if (addresses.length === 0) {
-    return (
-      <Card>
-        <Text h4>Loading wallet...</Text>
-      </Card>
-    );
-  }
-
   if (availablePools === null) {
     return (
       <Card>
@@ -192,14 +142,13 @@ export const Redeem = () => {
       </Card>
     );
   }
-  console.log(assetsAmountByLPAmount);
+
   return (
     <>
       <Card>
         <Form
           onSubmit={onSubmit}
           initialValues={{
-            slippage: defaultSlippage,
             amount: '0',
             address: '',
             dexFee,
@@ -207,82 +156,6 @@ export const Redeem = () => {
           render={({ handleSubmit, values, errors = {} }) => (
             <form onSubmit={handleSubmit}>
               <Grid.Container gap={1}>
-                {isWalletConnected && addresses.length !== 0 && (
-                  <>
-                    <Grid xs={24}>
-                      <Text h4>Choose Address</Text>
-                    </Grid>
-                    <Grid xs={24}>
-                      <Field name="address" component="select">
-                        {(props: FieldRenderProps<string>) => (
-                          <Select
-                            placeholder="0.0"
-                            width="100%"
-                            {...props.input}
-                            value={addresses[0]}
-                            onChange={(value) => {
-                              setChoosedAddress(value as string);
-                              props.input.onChange(value);
-                            }}
-                          >
-                            {addresses.map((address: string) => (
-                              <Select.Option key={address} value={address}>
-                                {address}
-                              </Select.Option>
-                            ))}
-                          </Select>
-                        )}
-                      </Field>
-                    </Grid>
-                  </>
-                )}
-
-                <Grid xs={24}>
-                  <Text h4>Slippage</Text>
-                </Grid>
-                <Grid xs={24}>
-                  <Field name="slippage">
-                    {(props: FieldRenderProps<string>) => (
-                      <Input
-                        placeholder="0.0"
-                        type="number"
-                        width="100%"
-                        {...props.input}
-                      />
-                    )}
-                  </Field>
-                </Grid>
-
-                <Grid xs={24}>
-                  <Text h4>Fee per token</Text>
-                </Grid>
-                <Grid xs={24}>
-                  <Field
-                    name="dexFee"
-                    validate={(value) => {
-                      if (!value || !value.trim()) {
-                        return;
-                      }
-                      if (value < 0.01) {
-                        return 'Minimum fee is 0.01 erg';
-                      }
-                    }}
-                  >
-                    {(props: FieldRenderProps<string>) => (
-                      <Input
-                        placeholder="0.0"
-                        type="number"
-                        width="100%"
-                        {...props.input}
-                        value={dexFee}
-                        onChange={({ currentTarget }) => {
-                          setDexFee(currentTarget.value as string);
-                          props.input.onChange(currentTarget.value);
-                        }}
-                      />
-                    )}
-                  </Field>
-                </Grid>
                 <Grid xs={24}>
                   <Text h4>Select pool</Text>
                 </Grid>
