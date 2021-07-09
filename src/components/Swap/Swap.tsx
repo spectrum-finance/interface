@@ -40,7 +40,7 @@ interface SwapFormProps {
 }
 
 const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
-  const [{ dexFee, slippage, address: choosedAddress }] = useSettings();
+  const [{ slippage, address: choosedAddress }] = useSettings();
   const { isWalletConnected } = useContext(WalletContext);
   const [selectedPool, setSelectedPool] = useState<AmmPool | undefined>();
   const [inputAssetAmount, setInputAssetAmount] = useState<
@@ -51,7 +51,6 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
   >();
   const [inputAmount, setInputAmount] = useState('');
   const [outputAmount, setOutputAmount] = useState('');
-  const [selectedAddress, setSelectedAddress] = useState('');
   const [feePerToken, setFeePerToken] = useState('');
 
   const updateSelectedPool = useCallback((pool: AmmPool) => {
@@ -66,7 +65,6 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
     }
   }, [pools]);
 
-  const [addresses, setAddresses] = useState<string[]>([]);
   const [utxos, setUtxos] = useState([]);
 
   const buttonStatus = useMemo(
@@ -93,10 +91,6 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
 
   useEffect(() => {
     if (isWalletConnected) {
-      ergo.get_used_addresses().then((data: string[]) => {
-        setAddresses(data);
-        setSelectedAddress(data[0]);
-      });
       ergo.get_utxos().then((data: any) => setUtxos(data));
     }
   }, [isWalletConnected]);
@@ -166,7 +160,8 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
       isWalletConnected &&
       selectedPool &&
       inputAssetAmount &&
-      outputAssetAmount
+      outputAssetAmount &&
+      choosedAddress
     ) {
       const network = new Explorer('https://api.ergoplatform.com');
       const poolId = selectedPool.id;
@@ -180,8 +175,11 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
         new YoroiProver(),
         new DefaultTxAssembler(true),
       );
-      const pk = fromAddress(selectedAddress) as string;
-      const minQuoteOutput = selectedPool.outputAmount(baseInput, 1).amount;
+      const pk = fromAddress(choosedAddress) as string;
+      const minQuoteOutput = selectedPool.outputAmount(
+        baseInput,
+        slippage,
+      ).amount;
       const dexFeePerToken = Number(feePerToken);
       const poolFeeNum = selectedPool.poolFeeNum;
 
@@ -208,8 +206,8 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                 },
               ],
             }) as BoxSelection,
-            changeAddress: selectedAddress,
-            selfAddress: selectedAddress,
+            changeAddress: choosedAddress,
+            selfAddress: choosedAddress,
             feeNErgs: BigInt(defaultMinerFee),
             network: await network.getNetworkContext(),
           },
@@ -226,7 +224,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
     <Form
       onSubmit={handleFormSubmit}
       initialValues={{
-        slippage: 1,
+        slippage,
         inputAmount: 0.0,
         outputAmount: 0.0,
         address: '',
