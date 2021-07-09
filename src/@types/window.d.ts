@@ -57,41 +57,7 @@ class ErgoAPI {
 }
  */
 
-type token = 'ERG' | string;
-type Pagination = any;
-
-interface Prover {
-  get_balance(token_id: token = 'ERG'): Promise<string>;
-
-  get_utxos(
-    amount: string = undefined,
-    token_id: token = 'ERG',
-    paginate?: Pagination,
-  ): Promise<any>;
-
-  get_used_addresses(paginate?: Pagination): Promise<any>;
-
-  get_unused_addresses(): Promise<string>;
-
-  get_change_address(): Promise<string>;
-
-  sign_tx(tx: any): Promise<any>;
-
-  sign_tx_input(tx: any, index: any): Promise<any>;
-
-  // This is unsupported by current version of Yoroi
-  // and the details of it are not finalized yet in the EIP-012
-  // dApp bridge spec.
-  // sign_data(addr, message) {
-  //     return this._ergo_rpc_call("sign_data", [addr, message]);
-  // }
-
-  submit_tx(tx: any): Promise<any>;
-}
-
 interface Window {
   ergo_request_read_access: () => Promise<boolean>;
   ergo_check_read_access: () => Promise<boolean>;
 }
-
-declare let ergo: ErgoAPI;

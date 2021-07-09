@@ -25,6 +25,7 @@ import {
   BoxSelection,
   DefaultBoxSelector,
   DefaultTxAssembler,
+  ErgoBox,
 } from 'ergo-dex-sdk/build/module/ergo';
 import { fromAddress } from 'ergo-dex-sdk/build/module/ergo/entities/publicKey';
 import { YoroiProver } from '../../utils/yoroiProver';
@@ -32,13 +33,15 @@ import { WalletContext } from '../../context/WalletContext';
 import { useGetAllPools } from '../../hooks/useGetAllPools';
 import { PoolSelect } from '../PoolSelect/PoolSelect';
 import { defaultMinerFee } from '../../constants/erg';
-import { getButtonState, WalletStates } from './utils';
+import { getButtonState } from './utils';
+import { useSettings } from '../../context/SettingsContext';
 
 interface SwapFormProps {
   pools: AmmPool[];
 }
 
 const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
+  const [{ slippage, address: choosedAddress }] = useSettings();
   const { isWalletConnected } = useContext(WalletContext);
   const [selectedPool, setSelectedPool] = useState<AmmPool | undefined>();
   const [inputAssetAmount, setInputAssetAmount] = useState<
@@ -49,7 +52,6 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
   >();
   const [inputAmount, setInputAmount] = useState('');
   const [outputAmount, setOutputAmount] = useState('');
-  const [selectedAddress, setSelectedAddress] = useState('');
   const [feePerToken, setFeePerToken] = useState('');
 
   const updateSelectedPool = useCallback((pool: AmmPool) => {
@@ -62,48 +64,35 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
     if (selectedPool === undefined) {
       updateSelectedPool(pools[0]);
     }
-  }, [pools]);
+  }, [pools, selectedPool, updateSelectedPool]);
 
-  const [addresses, setAddresses] = useState<string[]>([]);
-  const [utxos, setUtxos] = useState([]);
+  const [utxos, setUtxos] = useState<ErgoBox[]>([]);
 
-  const buttonStatus = useMemo(() => {
-    const buttonState = getButtonState({
+  const buttonStatus = useMemo(
+    () =>
+      getButtonState({
+        isWalletConnected,
+        inputAssetId: inputAssetAmount?.asset.id,
+        outputAssetId: outputAssetAmount?.asset.id,
+        inputAmount,
+        outputAmount,
+        choosedAddress,
+        utxos,
+      }),
+    [
       isWalletConnected,
-      inputAssetId: inputAssetAmount?.asset.id,
-      outputAssetId: outputAssetAmount?.asset.id,
       inputAmount,
       outputAmount,
-    });
-    switch (buttonState) {
-      case WalletStates.SELECT_A_TOKEN: {
-        return { disabled: true, text: 'Need to choose pair' };
-      }
-      case WalletStates.SUBMIT: {
-        return { disabled: false, text: 'Submit' };
-      }
-      case WalletStates.NEED_TO_CONNECT_WALLET: {
-        return { disabled: true, text: 'Need to connect wallet' };
-      }
-      case WalletStates.NEED_TO_ENTER_AMOUNT: {
-        return { disabled: true, text: 'Need to enter amount' };
-      }
-    }
-  }, [
-    isWalletConnected,
-    inputAmount,
-    outputAmount,
-    inputAssetAmount,
-    outputAssetAmount,
-  ]);
+      inputAssetAmount,
+      outputAssetAmount,
+      choosedAddress,
+      utxos,
+    ],
+  );
 
   useEffect(() => {
     if (isWalletConnected) {
-      ergo.get_used_addresses().then((data: string[]) => {
-        setAddresses(data);
-        setSelectedAddress(data[0]);
-      });
-      ergo.get_utxos().then((data: any) => setUtxos(data));
+      ergo.get_utxos().then((data) => setUtxos(data ?? []));
     }
   }, [isWalletConnected]);
 
@@ -157,7 +146,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
     updateOutputAmountAndFee,
   ]);
 
-  const handleEnterInputTokenAmount = (value: any) => {
+  const handleEnterInputTokenAmount = (value: string) => {
     setInputAmount(value);
     updateOutputAmountAndFee(value);
 
@@ -167,17 +156,17 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
     }
   };
 
-  const handleFormSubmit = async (values: any) => {
+  const handleFormSubmit = async () => {
     if (
       isWalletConnected &&
       selectedPool &&
       inputAssetAmount &&
-      outputAssetAmount
+      outputAssetAmount &&
+      choosedAddress
     ) {
       const network = new Explorer('https://api.ergoplatform.com');
-      // // выбрать pool из селекта
       const poolId = selectedPool.id;
-      // const yoroiWalletProver = {} as any;
+
       const baseInputAmount = evaluate(
         `(${inputAmount} * 10^${inputAssetAmount.asset.decimals || 0})`,
       ).toFixed(0);
@@ -187,8 +176,11 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
         new YoroiProver(),
         new DefaultTxAssembler(true),
       );
-      const pk = fromAddress(addresses[0]) as string;
-      const minQuoteOutput = selectedPool.outputAmount(baseInput, 1).amount;
+      const pk = fromAddress(choosedAddress) as string;
+      const minQuoteOutput = selectedPool.outputAmount(
+        baseInput,
+        slippage,
+      ).amount;
       const dexFeePerToken = Number(feePerToken);
       const poolFeeNum = selectedPool.poolFeeNum;
 
@@ -215,13 +207,13 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                 },
               ],
             }) as BoxSelection,
-            changeAddress: selectedAddress,
-            selfAddress: selectedAddress,
+            changeAddress: choosedAddress,
+            selfAddress: choosedAddress,
             feeNErgs: BigInt(defaultMinerFee),
             network: await network.getNetworkContext(),
           },
         )
-        .then((d: any) => {
+        .then((d) => {
           ergo.submit_tx(d);
           alert(`Transaction submitted: ${d} `);
         })
@@ -233,7 +225,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
     <Form
       onSubmit={handleFormSubmit}
       initialValues={{
-        slippage: 1,
+        slippage,
         inputAmount: 0.0,
         outputAmount: 0.0,
         address: '',
@@ -243,36 +235,6 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
       render={({ handleSubmit, errors = {} }) => (
         <form onSubmit={handleSubmit}>
           <Grid.Container gap={1}>
-            {isWalletConnected && addresses.length !== 0 && (
-              <>
-                <Grid xs={24}>
-                  <Text h4>Choose Address</Text>
-                </Grid>
-                <Grid xs={24}>
-                  <Field name="address" component="select">
-                    {(props: FieldRenderProps<string>) => (
-                      <Select
-                        placeholder="0.0"
-                        width="100%"
-                        {...props.input}
-                        value={addresses[0]}
-                        onChange={(value) => {
-                          setSelectedAddress(value as string);
-                          props.input.onChange(value);
-                        }}
-                      >
-                        {addresses.map((address: string) => (
-                          <Select.Option key={address} value={address}>
-                            {address}
-                          </Select.Option>
-                        ))}
-                      </Select>
-                    )}
-                  </Field>
-                </Grid>
-              </>
-            )}
-
             <Grid xs={24}>
               <Text h4>Pool</Text>
             </Grid>
@@ -362,21 +324,6 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                       props.input.onChange(e.currentTarget.value);
                     }}
                     disabled
-                  />
-                )}
-              </Field>
-            </Grid>
-            <Grid xs={24}>
-              <Text h4>Slippage</Text>
-            </Grid>
-            <Grid xs={24}>
-              <Field name="slippage">
-                {(props: FieldRenderProps<string>) => (
-                  <Input
-                    placeholder="0.0"
-                    type="number"
-                    width="100%"
-                    {...props.input}
                   />
                 )}
               </Field>

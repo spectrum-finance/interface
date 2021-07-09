@@ -5,7 +5,7 @@ interface Props {
   children: React.ReactChild | React.ReactChild[];
 }
 
-const Layout = ({ children }: Props) => {
+const Layout = ({ children }: Props): JSX.Element => {
   return (
     <div>
       <Header></Header>
