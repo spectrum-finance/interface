@@ -41,7 +41,7 @@ export const PoolSelect: React.FC<Props> = ({
     if (value !== undefined && searchText === '') {
       setSearchText(getPoolAssetsRepr(value));
     }
-  }, [value]);
+  }, [value, searchText]);
 
   const poolsFilterSort = useCallback(
     (poolA, poolB) => {

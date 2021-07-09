@@ -1,9 +1,17 @@
 import React, { createContext, useState } from 'react';
 
-const WalletContext = createContext({
+type WalletContextType = {
+  isWalletConnected: boolean;
+  setIsWalletConnected: (isWalletConnected: boolean) => void;
+};
+
+function noop() {
+  return;
+}
+
+const WalletContext = createContext<WalletContextType>({
   isWalletConnected: false,
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  setIsWalletConnected: (isWalletConnected: boolean) => {},
+  setIsWalletConnected: noop,
 });
 
 const WalletContextProvider = ({

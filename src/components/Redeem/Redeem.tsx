@@ -9,6 +9,7 @@ import {
   BoxSelection,
   DefaultBoxSelector,
   DefaultTxAssembler,
+  ErgoBox,
 } from 'ergo-dex-sdk/build/module/ergo';
 import { fromAddress } from 'ergo-dex-sdk/build/module/ergo/entities/publicKey';
 import { WalletContext } from '../../context/WalletContext';
@@ -21,7 +22,7 @@ export const Redeem = (): JSX.Element => {
   const [{ dexFee: defaultDexFee, slippage: defaultSlippage }] = useSettings();
 
   const { isWalletConnected } = useContext(WalletContext);
-  const [feePerToken, setFeePerToken] = useState('');
+  // const [feePerToken, setFeePerToken] = useState('');
   const [amount, setAmount] = useState('');
   const [dexFee, setDexFee] = useState(defaultDexFee);
 
@@ -29,7 +30,7 @@ export const Redeem = (): JSX.Element => {
 
   const [addresses, setAddresses] = useState<string[]>([]);
   const [choosedAddress, setChoosedAddress] = useState('');
-  const [utxos, setUtxos] = useState([]);
+  const [utxos, setUtxos] = useState<ErgoBox[]>([]);
   const availablePools = useGetAvailablePoolsByLPTokens(utxos);
   const assetsAmountByLPAmount = useMemo(() => {
     if (!choosedPool || !amount) {
@@ -69,7 +70,7 @@ export const Redeem = (): JSX.Element => {
         setAddresses(data);
         setChoosedAddress(data[0]);
       });
-      ergo.get_utxos().then((data: any) => setUtxos(data));
+      ergo.get_utxos().then((data) => setUtxos(data ?? []));
     }
   }, [isWalletConnected]);
 
@@ -107,7 +108,7 @@ export const Redeem = (): JSX.Element => {
   //   }
   // };
 
-  const onSubmit = async (values: any) => {
+  const onSubmit = async () => {
     if (isWalletConnected && choosedPool) {
       const network = new Explorer('https://api.ergoplatform.com');
       const poolId = choosedPool.id;
@@ -144,7 +145,7 @@ export const Redeem = (): JSX.Element => {
             network: await network.getNetworkContext(),
           },
         )
-        .then(async (d: any) => {
+        .then(async (d) => {
           const txId = await ergo.submit_tx(d);
           alert(`Transaction submitted: ${txId} `);
         })
@@ -195,7 +196,7 @@ export const Redeem = (): JSX.Element => {
             address: '',
             dexFee,
           }}
-          render={({ handleSubmit, values, errors = {} }) => (
+          render={({ handleSubmit, errors = {} }) => (
             <form onSubmit={handleSubmit}>
               <Grid.Container gap={1}>
                 {isWalletConnected && addresses.length !== 0 && (

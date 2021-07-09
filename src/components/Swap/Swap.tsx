@@ -25,6 +25,7 @@ import {
   BoxSelection,
   DefaultBoxSelector,
   DefaultTxAssembler,
+  ErgoBox,
 } from 'ergo-dex-sdk/build/module/ergo';
 import { fromAddress } from 'ergo-dex-sdk/build/module/ergo/entities/publicKey';
 import { YoroiProver } from '../../utils/yoroiProver';
@@ -62,10 +63,10 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
     if (selectedPool === undefined) {
       updateSelectedPool(pools[0]);
     }
-  }, [pools]);
+  }, [pools, selectedPool, updateSelectedPool]);
 
   const [addresses, setAddresses] = useState<string[]>([]);
-  const [utxos, setUtxos] = useState([]);
+  const [utxos, setUtxos] = useState<ErgoBox[]>([]);
 
   const buttonStatus = useMemo(() => {
     const buttonState = getButtonState({
@@ -103,7 +104,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
         setAddresses(data);
         setSelectedAddress(data[0]);
       });
-      ergo.get_utxos().then((data: any) => setUtxos(data));
+      ergo.get_utxos().then((data) => setUtxos(data ?? []));
     }
   }, [isWalletConnected]);
 
@@ -157,7 +158,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
     updateOutputAmountAndFee,
   ]);
 
-  const handleEnterInputTokenAmount = (value: any) => {
+  const handleEnterInputTokenAmount = (value: string) => {
     setInputAmount(value);
     updateOutputAmountAndFee(value);
 
@@ -167,7 +168,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
     }
   };
 
-  const handleFormSubmit = async (values: any) => {
+  const handleFormSubmit = async () => {
     if (
       isWalletConnected &&
       selectedPool &&
@@ -221,7 +222,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
             network: await network.getNetworkContext(),
           },
         )
-        .then((d: any) => {
+        .then((d) => {
           ergo.submit_tx(d);
           alert(`Transaction submitted: ${d} `);
         })
