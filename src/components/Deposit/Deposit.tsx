@@ -243,10 +243,9 @@ export const Deposit = (): JSX.Element => {
             network: await network.getNetworkContext(),
           },
         )
-        .then((d: any) => {
-          console.log(421, d);
-          // ergo.submit_tx(d);
-          // alert(`Transaction submitted: ${d} `);
+        .then(async (d: any) => {
+          await ergo.submit_tx(d);
+          alert(`Transaction submitted: ${d} `);
         })
         .catch((er) => console.log(13, er));
     }
