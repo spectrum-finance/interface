@@ -23,6 +23,7 @@ import {
   BoxSelection,
   DefaultBoxSelector,
   DefaultTxAssembler,
+  ErgoBox,
 } from 'ergo-dex-sdk/build/module/ergo';
 import { fromAddress } from 'ergo-dex-sdk/build/module/ergo/entities/publicKey';
 import { WalletContext } from '../../context/WalletContext';
@@ -82,7 +83,7 @@ export const Deposit = (): JSX.Element => {
     outputAssetAmount,
   ]);
 
-  const [utxos, setUtxos] = useState([]);
+  const [utxos, setUtxos] = useState<ErgoBox[]>([]);
   const availablePools = useGetAllPools();
 
   const updateSelectedPool = useCallback((pool: AmmPool) => {
@@ -95,7 +96,7 @@ export const Deposit = (): JSX.Element => {
     if (selectedPool === undefined && availablePools) {
       updateSelectedPool(availablePools[0]);
     }
-  }, [availablePools]);
+  }, [availablePools, updateSelectedPool, selectedPool]);
 
   const buttonStatus = useMemo(() => {
     const buttonState = getButtonState({
@@ -122,7 +123,7 @@ export const Deposit = (): JSX.Element => {
 
   useEffect(() => {
     if (isWalletConnected) {
-      ergo.get_utxos().then((data: any) => setUtxos(data));
+      ergo.get_utxos().then((data) => setUtxos(data ?? []));
     }
   }, [isWalletConnected]);
 
@@ -190,7 +191,7 @@ export const Deposit = (): JSX.Element => {
     }
   };
 
-  const onSubmit = async (values: any) => {
+  const onSubmit = async () => {
     if (
       isWalletConnected &&
       selectedPool &&
@@ -243,7 +244,7 @@ export const Deposit = (): JSX.Element => {
             network: await network.getNetworkContext(),
           },
         )
-        .then(async (d: any) => {
+        .then(async (d) => {
           await ergo.submit_tx(d);
           alert(`Transaction submitted: ${d} `);
         })
@@ -285,7 +286,7 @@ export const Deposit = (): JSX.Element => {
             address: '',
             dexFee,
           }}
-          render={({ handleSubmit, values, errors = {} }) => (
+          render={({ handleSubmit, errors = {} }) => (
             <form onSubmit={handleSubmit}>
               <Grid.Container gap={1}>
                 <Grid xs={24}>

@@ -1,14 +1,5 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
-import {
-  Button,
-  Card,
-  Container,
-  Grid,
-  Input,
-  Row,
-  Select,
-  Text,
-} from '@geist-ui/react';
+import { Button, Card, Grid, Input, Select, Text } from '@geist-ui/react';
 import { Form, Field, FieldRenderProps } from 'react-final-form';
 import { evaluate } from 'mathjs';
 import { AmmPool, Explorer, T2tPoolOps } from 'ergo-dex-sdk';
@@ -18,6 +9,7 @@ import {
   BoxSelection,
   DefaultBoxSelector,
   DefaultTxAssembler,
+  ErgoBox,
 } from 'ergo-dex-sdk/build/module/ergo';
 import { fromAddress } from 'ergo-dex-sdk/build/module/ergo/entities/publicKey';
 import { WalletContext } from '../../context/WalletContext';
@@ -26,7 +18,7 @@ import { useGetAvailablePoolsByLPTokens } from '../../hooks/useGetAvailablePools
 import { defaultMinerFee, nanoErgInErg } from '../../constants/erg';
 import { useSettings } from '../../context/SettingsContext';
 
-export const Redeem = () => {
+export const Redeem = (): JSX.Element => {
   const [{ dexFee, address: choosedAddress }] = useSettings();
 
   const { isWalletConnected } = useContext(WalletContext);
@@ -34,7 +26,7 @@ export const Redeem = () => {
 
   const [choosedPool, setChoosedPool] = useState<AmmPool | null>(null);
 
-  const [utxos, setUtxos] = useState([]);
+  const [utxos, setUtxos] = useState<ErgoBox[]>([]);
   const availablePools = useGetAvailablePoolsByLPTokens(utxos);
   const assetsAmountByLPAmount = useMemo(() => {
     if (!choosedPool || !amount) {
@@ -70,11 +62,11 @@ export const Redeem = () => {
 
   useEffect(() => {
     if (isWalletConnected) {
-      ergo.get_utxos().then((data: any) => setUtxos(data));
+      ergo.get_utxos().then((data) => setUtxos(data ?? []));
     }
   }, [isWalletConnected]);
 
-  const onSubmit = async (values: any) => {
+  const onSubmit = async () => {
     if (isWalletConnected && choosedPool && choosedAddress) {
       const network = new Explorer('https://api.ergoplatform.com');
       const poolId = choosedPool.id;
@@ -111,7 +103,7 @@ export const Redeem = () => {
             network: await network.getNetworkContext(),
           },
         )
-        .then(async (d: any) => {
+        .then(async (d) => {
           const txId = await ergo.submit_tx(d);
           alert(`Transaction submitted: ${txId} `);
         })
@@ -153,7 +145,7 @@ export const Redeem = () => {
             address: '',
             dexFee,
           }}
-          render={({ handleSubmit, values, errors = {} }) => (
+          render={({ handleSubmit, errors = {} }) => (
             <form onSubmit={handleSubmit}>
               <Grid.Container gap={1}>
                 <Grid xs={24}>
