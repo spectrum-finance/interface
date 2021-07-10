@@ -11,11 +11,13 @@ import {
   Grid,
   Input,
   Loading,
+  Row,
   Select,
   Tag,
   Text,
 } from '@geist-ui/react';
 import { Form, Field, FieldRenderProps } from 'react-final-form';
+import { FORM_ERROR } from 'final-form';
 import { evaluate } from 'mathjs';
 import { AmmPool, Explorer, T2tPoolOps } from 'ergo-dex-sdk';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -34,13 +36,29 @@ import { useGetAllPools } from '../../hooks/useGetAllPools';
 import { PoolSelect } from '../PoolSelect/PoolSelect';
 import { defaultMinerFee } from '../../constants/erg';
 import { getButtonState, WalletStates } from './utils';
+import {
+  validateSlippage,
+  validateInputAmount,
+  validateSwapForm,
+} from './validators';
 
 interface SwapFormProps {
   pools: AmmPool[];
 }
 
+const calculateAvailableAmount = (
+  tokenId: string,
+  boxes: ErgoBox[],
+): number => {
+  return boxes
+    .flatMap(({ assets }) => assets)
+    .filter((a) => a.tokenId == tokenId)
+    .map(({ amount }) => amount)
+    .reduce((acc, x) => acc + x, 0);
+};
+
 const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
-  const { isWalletConnected } = useContext(WalletContext);
+  const { isWalletConnected, utxos } = useContext(WalletContext);
   const [selectedPool, setSelectedPool] = useState<AmmPool | undefined>();
   const [inputAssetAmount, setInputAssetAmount] = useState<
     AssetAmount | undefined
@@ -51,6 +69,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
   const [inputAmount, setInputAmount] = useState('');
   const [outputAmount, setOutputAmount] = useState('');
   const [selectedAddress, setSelectedAddress] = useState('');
+  const [availableInputAmount, setAvailableInputAmount] = useState(0);
   const [feePerToken, setFeePerToken] = useState('');
 
   const updateSelectedPool = useCallback((pool: AmmPool) => {
@@ -66,7 +85,6 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
   }, [pools, selectedPool, updateSelectedPool]);
 
   const [addresses, setAddresses] = useState<string[]>([]);
-  const [utxos, setUtxos] = useState<ErgoBox[]>([]);
 
   const buttonStatus = useMemo(() => {
     const buttonState = getButtonState({
@@ -99,22 +117,30 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
   ]);
 
   useEffect(() => {
-    if (isWalletConnected) {
+    if (isWalletConnected && inputAssetAmount) {
+      if (utxos) {
+        setAvailableInputAmount(
+          calculateAvailableAmount(inputAssetAmount.asset.id, utxos),
+        );
+      }
       ergo.get_used_addresses().then((data: string[]) => {
         setAddresses(data);
         setSelectedAddress(data[0]);
       });
-      ergo.get_utxos().then((data) => setUtxos(data ?? []));
     }
-  }, [isWalletConnected]);
+  }, [isWalletConnected, inputAssetAmount, utxos]);
 
   const updateOutputAmountAndFee = useCallback(
-    (inputAmount) => {
+    (
+      inputAmount: string,
+      outputAssetAmount: AssetAmount | undefined,
+      inputAssetAmount: AssetAmount | undefined,
+    ) => {
       if (
         selectedPool &&
         inputAssetAmount &&
         outputAssetAmount &&
-        inputAmount > 0
+        Number(inputAmount) > 0
       ) {
         const amount = selectedPool.outputAmount(
           new AssetAmount(
@@ -144,13 +170,13 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
         );
       }
     },
-    [selectedPool, inputAssetAmount, outputAssetAmount],
+    [selectedPool],
   );
 
   const handleSwitchAssets = useCallback(() => {
     setInputAssetAmount(outputAssetAmount);
     setOutputAssetAmount(inputAssetAmount);
-    updateOutputAmountAndFee(inputAmount);
+    updateOutputAmountAndFee(inputAmount, outputAssetAmount, inputAssetAmount);
   }, [
     inputAssetAmount,
     outputAssetAmount,
@@ -160,7 +186,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
 
   const handleEnterInputTokenAmount = (value: string) => {
     setInputAmount(value);
-    updateOutputAmountAndFee(value);
+    updateOutputAmountAndFee(value, outputAssetAmount, inputAssetAmount);
 
     if (!value.trim()) {
       setOutputAmount('0');
@@ -173,7 +199,8 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
       isWalletConnected &&
       selectedPool &&
       inputAssetAmount &&
-      outputAssetAmount
+      outputAssetAmount &&
+      utxos
     ) {
       const network = new Explorer('https://api.ergoplatform.com');
       // // выбрать pool из селекта
@@ -241,6 +268,17 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
         poolId: undefined,
         feePerToken: 0,
       }}
+      validate={() => {
+        if (buttonStatus.disabled || !isWalletConnected) return;
+        const errorMsg = validateSwapForm(
+          { inputAmount },
+          { availableInputAmount },
+        );
+
+        if (errorMsg) {
+          return { [FORM_ERROR]: errorMsg };
+        }
+      }}
       render={({ handleSubmit, errors = {} }) => (
         <form onSubmit={handleSubmit}>
           <Grid.Container gap={1}>
@@ -292,47 +330,41 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
             <Grid xs={24}>
               <Text h4>From</Text>
             </Grid>
-            <Grid xs={24}>
+            <Grid xs={24} direction="column">
               <Field
                 name="inputAmount"
                 validate={(value) => {
-                  if (!value || !value.trim()) {
-                    return;
-                  }
-                  const comma = value.match('[,.]');
-                  if (comma && !inputAssetAmount?.asset.decimals) {
-                    return 'No decimals at this token after comma';
-                  }
-
-                  if (
-                    comma &&
-                    value.substr(comma.index + 1) >
-                      (inputAssetAmount?.asset.decimals || 0)
-                  ) {
-                    return `Max decimals at this token after comma is ${
-                      inputAssetAmount?.asset.decimals || 0
-                    }`;
-                  }
+                  return validateInputAmount(value, {
+                    maxDecimals: inputAssetAmount?.asset.decimals || 0,
+                  });
                 }}
               >
                 {(props: FieldRenderProps<string>) => (
                   <>
-                    <Input
-                      placeholder="0.0"
-                      type="number"
-                      width="100%"
-                      lang="en"
-                      label={inputAssetAmount?.asset.name ?? ''}
-                      {...props.input}
-                      disabled={!inputAssetAmount}
-                      value={inputAmount}
-                      onChange={({ currentTarget }) => {
-                        const value = currentTarget.value;
-                        handleEnterInputTokenAmount(value);
-                        props.input.onChange(value);
-                      }}
-                    />
-                    {props.meta.error && <p>{props.meta.error}</p>}
+                    <Row>
+                      <Input
+                        placeholder="0.0"
+                        type="number"
+                        width="100%"
+                        lang="en"
+                        label={inputAssetAmount?.asset.name ?? ''}
+                        {...props.input}
+                        disabled={!inputAssetAmount}
+                        value={inputAmount}
+                        onChange={({ currentTarget }) => {
+                          const value = currentTarget.value;
+                          handleEnterInputTokenAmount(value);
+                          props.input.onChange(value);
+                        }}
+                      />
+                    </Row>
+                    {props.meta.error && (
+                      <Row>
+                        <Text p small type="error">
+                          {props.meta.error}
+                        </Text>
+                      </Row>
+                    )}
                   </>
                 )}
               </Field>
@@ -371,14 +403,17 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
               <Text h4>Slippage</Text>
             </Grid>
             <Grid xs={24}>
-              <Field name="slippage">
-                {(props: FieldRenderProps<string>) => (
-                  <Input
-                    placeholder="0.0"
-                    type="number"
-                    width="100%"
-                    {...props.input}
-                  />
+              <Field name="slippage" validate={validateSlippage}>
+                {({ meta, input }: FieldRenderProps<string>) => (
+                  <div>
+                    <Input
+                      placeholder="0.0"
+                      type="number"
+                      width="100%"
+                      {...input}
+                    />
+                    {meta.error && meta.touched && <div>{meta.error}</div>}
+                  </div>
                 )}
               </Field>
             </Grid>
@@ -403,15 +438,24 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                 )}
               </Field>
             </Grid>
-            <Grid xs={24} justify="center">
-              <Button
-                htmlType="submit"
-                disabled={
-                  buttonStatus.disabled || Object.values(errors).length > 0
-                }
-              >
-                {buttonStatus.text}
-              </Button>
+            <Grid xs={24} direction="column">
+              {errors[FORM_ERROR] && (
+                <Row>
+                  <Text p small type="error">
+                    {errors[FORM_ERROR]}
+                  </Text>
+                </Row>
+              )}
+              <Row justify="center">
+                <Button
+                  htmlType="submit"
+                  disabled={
+                    buttonStatus.disabled || Object.values(errors).length > 0
+                  }
+                >
+                  {buttonStatus.text}
+                </Button>
+              </Row>
             </Grid>
           </Grid.Container>
         </form>

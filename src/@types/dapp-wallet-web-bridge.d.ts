@@ -23,7 +23,7 @@ namespace ErgoBridge {
       paginate?: Paging,
     ) => Promise<ErgoBox[] | undefined>;
 
-    get_balance: (token_id: TokenId) => NErg;
+    get_balance: (token_id: TokenId) => Promise<string>;
 
     get_used_addresses: (paginate?: Paging) => Promise<Address[]>;
 
