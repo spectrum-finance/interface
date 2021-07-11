@@ -29,6 +29,3 @@ jobs:
 
       - name: eslint
         run: yarn run eslint --ext .js,.ts,.tsx src
-
-      - name: prettier
-        run: yarn run prettier --check .
