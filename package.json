@@ -23,7 +23,6 @@
     "fast-levenshtein": "^3.0.0",
     "final-form": "^4.20.2",
     "mathjs": "^9.4.2",
-    "node-sass": "^6.0.1",
     "ramda": "^0.27.1",
     "rc-select": "^12.1.13",
     "react": "^17.0.2",
@@ -73,5 +72,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+    "engines": {
+    "node": "^14"
   }
 }
