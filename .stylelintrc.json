@@ -1,0 +1,15 @@
+{
+  "extends": [
+    "stylelint-config-sass-guidelines",
+    "stylelint-config-idiomatic-order",
+    "stylelint-config-prettier"
+  ],
+  "plugins": ["stylelint-scss"],
+  "rules": {
+    "length-zero-no-unit": true,
+    "order/properties-alphabetical-order": null,
+    "max-nesting-depth": 4,
+    "selector-class-pattern": "^[a-z][a-zA-Z0-9]+$",
+    "selector-max-compound-selectors": 4
+  }
+}
