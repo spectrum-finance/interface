@@ -6,5 +6,5 @@ export const getTokenInfo = (
 ): Promise<AssetInfo | undefined> => {
   const network = new Explorer('https://api.ergoplatform.com');
 
-  return network.getToken(tokenId);
+  return network.getFullTokenInfo(tokenId);
 };

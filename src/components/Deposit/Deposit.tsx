@@ -34,9 +34,8 @@ import { PoolSelect } from '../PoolSelect/PoolSelect';
 import { useSettings } from '../../context/SettingsContext';
 
 export const Deposit = (): JSX.Element => {
-  const [{ dexFee: defaultDexFee, slippage: defaultSlippage }] = useSettings();
+  const [{ dexFee, address: choosedAddress }] = useSettings();
   const { isWalletConnected } = useContext(WalletContext);
-  const [dexFee, setDexFee] = useState(defaultDexFee);
   const [selectedPool, setSelectedPool] = useState<AmmPool | undefined>();
   const [inputAssetAmount, setInputAssetAmount] = useState<
     AssetAmount | undefined
@@ -84,8 +83,6 @@ export const Deposit = (): JSX.Element => {
     outputAssetAmount,
   ]);
 
-  const [addresses, setAddresses] = useState<string[]>([]);
-  const [choosedAddress, setChoosedAddress] = useState('');
   const [utxos, setUtxos] = useState<ErgoBox[]>([]);
   const availablePools = useGetAllPools();
 
@@ -126,10 +123,6 @@ export const Deposit = (): JSX.Element => {
 
   useEffect(() => {
     if (isWalletConnected) {
-      ergo.get_used_addresses().then((data: string[]) => {
-        setAddresses(data);
-        setChoosedAddress(data[0]);
-      });
       ergo.get_utxos().then((data) => setUtxos(data ?? []));
     }
   }, [isWalletConnected]);
@@ -203,7 +196,8 @@ export const Deposit = (): JSX.Element => {
       isWalletConnected &&
       selectedPool &&
       inputAssetAmount &&
-      outputAssetAmount
+      outputAssetAmount &&
+      choosedAddress
     ) {
       const network = new Explorer('https://api.ergoplatform.com');
       const poolId = selectedPool.id;
@@ -250,10 +244,9 @@ export const Deposit = (): JSX.Element => {
             network: await network.getNetworkContext(),
           },
         )
-        .then((d) => {
-          console.log(421, d);
-          // ergo.submit_tx(d);
-          // alert(`Transaction submitted: ${d} `);
+        .then(async (d) => {
+          await ergo.submit_tx(d);
+          alert(`Transaction submitted: ${d} `);
         })
         .catch((er) => console.log(13, er));
     }
@@ -263,14 +256,6 @@ export const Deposit = (): JSX.Element => {
     return (
       <Card>
         <Text h6>Need to connect wallet</Text>
-      </Card>
-    );
-  }
-
-  if (addresses.length === 0) {
-    return (
-      <Card>
-        <Loading>Loading wallet</Loading>
       </Card>
     );
   }
@@ -297,7 +282,6 @@ export const Deposit = (): JSX.Element => {
         <Form
           onSubmit={onSubmit}
           initialValues={{
-            slippage: defaultSlippage,
             amount: '0',
             address: '',
             dexFee,
@@ -305,85 +289,6 @@ export const Deposit = (): JSX.Element => {
           render={({ handleSubmit, errors = {} }) => (
             <form onSubmit={handleSubmit}>
               <Grid.Container gap={1}>
-                {isWalletConnected && addresses.length !== 0 && (
-                  <>
-                    <Grid xs={24}>
-                      <Text h4>Choose Address</Text>
-                    </Grid>
-                    <Grid xs={24}>
-                      <Field name="address" component="select">
-                        {(props: FieldRenderProps<string>) => (
-                          <Select
-                            placeholder="0.0"
-                            width="100%"
-                            {...props.input}
-                            value={addresses[0]}
-                            onChange={(value) => {
-                              setChoosedAddress(value as string);
-                              props.input.onChange(value);
-                            }}
-                          >
-                            {addresses.map((address: string) => (
-                              <Select.Option key={address} value={address}>
-                                {address}
-                              </Select.Option>
-                            ))}
-                          </Select>
-                        )}
-                      </Field>
-                    </Grid>
-                  </>
-                )}
-
-                <Grid xs={24}>
-                  <Text h4>Slippage</Text>
-                </Grid>
-                <Grid xs={24}>
-                  <Field name="slippage">
-                    {(props: FieldRenderProps<string>) => (
-                      <Input
-                        placeholder="0.0"
-                        type="number"
-                        width="100%"
-                        {...props.input}
-                      />
-                    )}
-                  </Field>
-                </Grid>
-
-                <Grid xs={24}>
-                  <Text h4>Dex fee</Text>
-                </Grid>
-                <Grid xs={24}>
-                  <Field
-                    name="dexFee"
-                    validate={(value) => {
-                      if (!value || !value.trim()) {
-                        return;
-                      }
-                      if (value < 0.01) {
-                        return 'Minimum fee is 0.01 erg';
-                      }
-                    }}
-                  >
-                    {(props: FieldRenderProps<string>) => (
-                      <>
-                        <Input
-                          placeholder="0.01"
-                          type="number"
-                          width="100%"
-                          {...props.input}
-                          value={dexFee}
-                          onChange={({ currentTarget }) => {
-                            setDexFee(currentTarget.value as string);
-                            props.input.onChange(currentTarget.value);
-                          }}
-                        />
-                        {props.meta.error && <p>{props.meta.error}</p>}
-                      </>
-                    )}
-                  </Field>
-                </Grid>
                 <Grid xs={24}>
                   <Text h4>Select pool</Text>
                 </Grid>

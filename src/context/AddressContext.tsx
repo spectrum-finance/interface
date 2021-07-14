@@ -42,7 +42,7 @@ type WalletAddressesProviderProps = React.PropsWithChildren<unknown>;
 export const WalletAddressesProvider = ({
   children,
 }: WalletAddressesProviderProps): JSX.Element => {
-  const [settings] = useSettings();
+  const [settings, setSettings] = useSettings();
   const { isWalletConnected } = useContext(WalletContext);
 
   const [walletAddresses, setWalletAddress] = useState<WalletAddresses>(
@@ -55,14 +55,25 @@ export const WalletAddressesProvider = ({
       walletAddresses.state === WalletAddressState.UNCONNECTED
     ) {
       setWalletAddress({ state: WalletAddressState.LOADING });
-      loadedAddresses(settings.address).then(setWalletAddress);
+      loadedAddresses(settings.address).then((data) => {
+        setWalletAddress(data);
+        if (data.state === WalletAddressState.LOADED && !settings.address) {
+          setSettings({ ...settings, address: data.selectedAddress });
+        }
+      });
     } else if (
       !isWalletConnected &&
       walletAddresses.state !== WalletAddressState.UNCONNECTED
     ) {
       setWalletAddress(DefaultWalletAddresses);
     }
-  }, [isWalletConnected, settings.address, walletAddresses.state]);
+  }, [
+    isWalletConnected,
+    settings.address,
+    walletAddresses.state,
+    setSettings,
+    settings,
+  ]);
 
   return (
     <WalletAddressesContext.Provider value={walletAddresses}>
