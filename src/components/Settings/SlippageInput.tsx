@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { Button, Input, useInput } from '@geist-ui/react';
-import { DefaultSettings, Settings } from '../../context/SettingsContext';
+import { DefaultSettings } from '../../context/SettingsContext';
 import { AutoInputContainer } from './AutoInputContainer';
 import {
   SlippageDecimals,
@@ -16,11 +16,11 @@ const content = {
 
 type SlippageInputProps = {
   slippage: number;
-  updateSettings: (update: Partial<Settings>) => void;
+  setSlippage: (num: number) => void;
 };
 
 export const SlippageInput = (props: SlippageInputProps): JSX.Element => {
-  const { slippage, updateSettings } = props;
+  const { slippage, setSlippage } = props;
 
   const [error, setError] = useState('');
 
@@ -43,9 +43,7 @@ export const SlippageInput = (props: SlippageInputProps): JSX.Element => {
               if (countDecimals(num) > SlippageDecimals) {
                 setError(`must be <= ${SlippageDecimals} decimal places`);
               } else {
-                updateSettings({
-                  slippage: num,
-                });
+                setSlippage(num);
                 setError('');
               }
             } else {
@@ -57,16 +55,14 @@ export const SlippageInput = (props: SlippageInputProps): JSX.Element => {
         }
       }
     },
-    [updateSettings, setState],
+    [setSlippage, setState],
   );
 
   const handleReset = useCallback(() => {
-    updateSettings({
-      slippage: DefaultSettings.slippage,
-    });
+    setSlippage(DefaultSettings.slippage);
     setState('');
     setError('');
-  }, [updateSettings, setState]);
+  }, [setSlippage, setState]);
 
   const handleOnBlur = useCallback(() => {
     if (state === DefaultSettings.slippage.toString()) {
@@ -76,14 +72,12 @@ export const SlippageInput = (props: SlippageInputProps): JSX.Element => {
         const num = parseFloat(state);
         if (countDecimals(num) != SlippageDecimals) {
           const decimal = num.toFixed(SlippageDecimals);
-          updateSettings({
-            slippage: parseFloat(decimal),
-          });
+          setSlippage(parseFloat(decimal));
           setState(decimal);
         }
       }
     }
-  }, [state, error, handleReset, updateSettings, setState]);
+  }, [state, error, handleReset, setSlippage, setState]);
 
   return (
     <>

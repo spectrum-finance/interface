@@ -15,13 +15,17 @@ import {
   Select,
   Tag,
   Text,
+  Tooltip,
 } from '@geist-ui/react';
 import { Form, Field, FieldRenderProps } from 'react-final-form';
 import { FORM_ERROR } from 'final-form';
 import { evaluate } from 'mathjs';
 import { AmmPool, Explorer, T2tPoolOps } from 'ergo-dex-sdk';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faExchangeAlt } from '@fortawesome/free-solid-svg-icons';
+import {
+  faExchangeAlt,
+  faQuestionCircle,
+} from '@fortawesome/free-solid-svg-icons';
 import {
   AssetAmount,
   BoxSelection,
@@ -42,6 +46,15 @@ import {
   validateSwapForm,
 } from './validators';
 import { useSettings } from '../../context/SettingsContext';
+import { SlippageInput } from '../Settings/SlippageInput';
+
+const content = {
+  slippage: {
+    label: 'Slippage tolerance',
+    tooltip:
+      'Your transaction will revert if the price changes unfavorably by more than this percentage.',
+  },
+};
 
 interface SwapFormProps {
   pools: AmmPool[];
@@ -60,7 +73,7 @@ const calculateAvailableAmount = (
 
 const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
   const { isWalletConnected, utxos } = useContext(WalletContext);
-  const [{ slippage, address: choosedAddress }] = useSettings();
+  const [{ address: choosedAddress }] = useSettings();
   const [selectedPool, setSelectedPool] = useState<AmmPool | undefined>();
   const [inputAssetAmount, setInputAssetAmount] = useState<
     AssetAmount | undefined
@@ -68,6 +81,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
   const [outputAssetAmount, setOutputAssetAmount] = useState<
     AssetAmount | undefined
   >();
+  const [slippage, setSlippage] = useState(0.01);
   const [inputAmount, setInputAmount] = useState('');
   const [outputAmount, setOutputAmount] = useState('');
   const [availableInputAmount, setAvailableInputAmount] = useState(0);
@@ -205,7 +219,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
       const pk = fromAddress(choosedAddress) as string;
       const minQuoteOutput = selectedPool.outputAmount(
         baseInput,
-        slippage,
+        Number(slippage),
       ).amount;
       const dexFeePerToken = Number(feePerToken);
       const poolFeeNum = selectedPool.poolFeeNum;
@@ -359,23 +373,17 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                 )}
               </Field>
             </Grid>
+
             <Grid xs={24}>
-              <Text h4>Slippage</Text>
+              <Text h4>
+                {content.slippage.label}{' '}
+                <Tooltip text={content.slippage.tooltip}>
+                  <FontAwesomeIcon icon={faQuestionCircle} />
+                </Tooltip>
+              </Text>
             </Grid>
             <Grid xs={24}>
-              <Field name="slippage" validate={validateSlippage}>
-                {({ meta, input }: FieldRenderProps<string>) => (
-                  <div>
-                    <Input
-                      placeholder="0.0"
-                      type="number"
-                      width="100%"
-                      {...input}
-                    />
-                    {meta.error && meta.touched && <div>{meta.error}</div>}
-                  </div>
-                )}
-              </Field>
+              <SlippageInput slippage={slippage} setSlippage={setSlippage} />
             </Grid>
             <Grid xs={24}>
               <Text h4>Fee per token</Text>

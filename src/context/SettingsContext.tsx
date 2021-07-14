@@ -1,16 +1,16 @@
 import React, { createContext, useContext } from 'react';
 import { useLocalStorage } from '@rehooks/local-storage';
-import { DexFeeDefault, SlippageDefault } from '../constants/settings';
+import { MinerFeeDefault, SlippageDefault } from '../constants/settings';
 // import { LocalStorageReturnValue } from '@rehooks/local-storage/lib/use-localstorage';
 
 export type Settings = {
-  dexFee: string;
+  minerFee: string;
   slippage: number;
   address?: string;
 };
 
 export const DefaultSettings: Readonly<Settings> = {
-  dexFee: DexFeeDefault.toString(),
+  minerFee: MinerFeeDefault.toString(),
   slippage: SlippageDefault,
 };
 

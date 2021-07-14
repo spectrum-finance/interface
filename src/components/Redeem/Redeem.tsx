@@ -19,7 +19,8 @@ import { defaultMinerFee, nanoErgInErg } from '../../constants/erg';
 import { useSettings } from '../../context/SettingsContext';
 
 export const Redeem = (): JSX.Element => {
-  const [{ dexFee, address: choosedAddress }] = useSettings();
+  const [{ minerFee, address: choosedAddress }] = useSettings();
+  const [dexFee] = useState<number>(0.01);
 
   const { isWalletConnected } = useContext(WalletContext);
   const [amount, setAmount] = useState('');
@@ -87,9 +88,7 @@ export const Redeem = (): JSX.Element => {
           },
           {
             inputs: DefaultBoxSelector.select(utxos, {
-              nErgs: evaluate(
-                `${defaultMinerFee}+(${dexFee}* ${nanoErgInErg})`,
-              ),
+              nErgs: evaluate(`${minerFee}+(${dexFee}* ${nanoErgInErg})`),
               assets: [
                 {
                   tokenId: choosedPool.lp.asset.id,
@@ -143,7 +142,6 @@ export const Redeem = (): JSX.Element => {
           initialValues={{
             amount: '0',
             address: '',
-            dexFee,
           }}
           render={({ handleSubmit, errors = {} }) => (
             <form onSubmit={handleSubmit}>

@@ -34,9 +34,10 @@ import { PoolSelect } from '../PoolSelect/PoolSelect';
 import { useSettings } from '../../context/SettingsContext';
 
 export const Deposit = (): JSX.Element => {
-  const [{ dexFee, address: choosedAddress }] = useSettings();
+  const [{ minerFee, address: choosedAddress }] = useSettings();
   const { isWalletConnected } = useContext(WalletContext);
   const [selectedPool, setSelectedPool] = useState<AmmPool | undefined>();
+  const [dexFee] = useState<number>(0.01);
   const [inputAssetAmount, setInputAssetAmount] = useState<
     AssetAmount | undefined
   >();
@@ -218,9 +219,7 @@ export const Deposit = (): JSX.Element => {
           },
           {
             inputs: DefaultBoxSelector.select(utxos, {
-              nErgs: evaluate(
-                `${defaultMinerFee}+(${dexFee}* ${nanoErgInErg})`,
-              ),
+              nErgs: evaluate(`${minerFee}+(${dexFee}* ${nanoErgInErg})`),
               assets: [
                 {
                   tokenId: inputAssetAmount.asset.id,

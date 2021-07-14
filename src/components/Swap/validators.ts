@@ -5,7 +5,7 @@ const fixedNumber = (decimals: number) =>
     .number()
     .test(
       'is-fixed-decimal',
-      `this must have less than ${decimals + 1} decimal places`,
+      `this amount must have less than ${decimals + 1} decimal places`,
       (n) => n !== undefined && Number(n.toFixed(decimals)) === n,
     );
 

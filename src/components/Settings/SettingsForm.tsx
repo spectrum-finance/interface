@@ -3,13 +3,13 @@ import { Select, Text, Tooltip } from '@geist-ui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import { Settings } from '../../context/SettingsContext';
-import { DexFeeInput } from './DexFeeInput';
+import { MinerFeeInput } from './MinerFeeInput';
 import { SlippageInput } from './SlippageInput';
 import { OverflowAddress } from './OverflowAddress';
 
 const content = {
   dex: {
-    label: 'DEX Fee',
+    label: 'Miner Fee',
     tooltip: 'TODO',
   },
   address: {
@@ -33,7 +33,7 @@ type SettingsFormProps = {
 export const SettingsForm = (props: SettingsFormProps): JSX.Element => {
   const {
     settings,
-    settings: { dexFee, slippage, address },
+    settings: { minerFee, address },
     setSettings,
     addresses,
   } = props;
@@ -67,7 +67,7 @@ export const SettingsForm = (props: SettingsFormProps): JSX.Element => {
             <FontAwesomeIcon icon={faQuestionCircle} />
           </Tooltip>
         </Text>
-        <DexFeeInput dexFee={dexFee} updateSettings={updateSettings} />
+        <MinerFeeInput minerFee={minerFee} updateSettings={updateSettings} />
       </div>
       <div>
         <Text p>
@@ -94,15 +94,6 @@ export const SettingsForm = (props: SettingsFormProps): JSX.Element => {
             {content.address.connectButton}
           </Text>
         )}
-      </div>
-      <div>
-        <Text p>
-          {content.slippage.label}{' '}
-          <Tooltip text={content.slippage.tooltip}>
-            <FontAwesomeIcon icon={faQuestionCircle} />
-          </Tooltip>
-        </Text>
-        <SlippageInput slippage={slippage} updateSettings={updateSettings} />
       </div>
     </div>
   );

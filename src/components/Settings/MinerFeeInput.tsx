@@ -2,26 +2,26 @@ import React, { useCallback, useState } from 'react';
 import { Button, Input, useInput } from '@geist-ui/react';
 import { DefaultSettings, Settings } from '../../context/SettingsContext';
 import { AutoInputContainer } from './AutoInputContainer';
-import { DexFeeMax, DexFeeMin } from '../../constants/settings';
+import { MinerFeeMax, MinerFeeMin } from '../../constants/settings';
 import { FormError } from './FormError';
 
 const content = {
   autoButton: 'Auto',
 };
 
-type DexFeeInputProps = {
-  dexFee: string;
+type MinerFeeInputProps = {
+  minerFee: string;
   updateSettings: (update: Partial<Settings>) => void;
 };
 
-export const DexFeeInput = (props: DexFeeInputProps): JSX.Element => {
-  const { dexFee, updateSettings } = props;
+export const MinerFeeInput = (props: MinerFeeInputProps): JSX.Element => {
+  const { minerFee, updateSettings } = props;
 
   const [error, setError] = useState('');
 
-  const isAuto = dexFee === DefaultSettings.dexFee;
+  const isAuto = minerFee === DefaultSettings.minerFee;
 
-  const { state, setState, bindings } = useInput(isAuto ? '' : dexFee);
+  const { state, setState, bindings } = useInput(isAuto ? '' : minerFee);
 
   const handleChange = useCallback(
     (e?: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,17 +31,17 @@ export const DexFeeInput = (props: DexFeeInputProps): JSX.Element => {
         setState(value);
         if (value) {
           const num = parseFloat(e.target.value);
-          if (num >= DexFeeMin) {
-            if (num > DexFeeMin && num <= DexFeeMax) {
+          if (num >= MinerFeeMin) {
+            if (num >= MinerFeeMin && num <= MinerFeeMax) {
               updateSettings({
-                dexFee: num.toString(),
+                minerFee: num.toString(),
               });
               setError('');
             } else {
-              setError(`must be >= ${DexFeeMin} and >= ${DexFeeMax}`);
+              setError(`must be >= ${MinerFeeMin} and >= ${MinerFeeMax}`);
             }
           } else {
-            setError(`must be a number`);
+            setError(`must be >= ${MinerFeeMin}`);
           }
         }
       }
@@ -51,14 +51,14 @@ export const DexFeeInput = (props: DexFeeInputProps): JSX.Element => {
 
   const handleReset = useCallback(() => {
     updateSettings({
-      dexFee: DefaultSettings.dexFee,
+      minerFee: DefaultSettings.minerFee,
     });
     setState('');
     setError('');
   }, [updateSettings, setState]);
 
   const handleOnBlur = useCallback(() => {
-    if (state === DefaultSettings.dexFee) {
+    if (state === DefaultSettings.minerFee) {
       handleReset();
     }
   }, [state, handleReset]);
@@ -80,9 +80,9 @@ export const DexFeeInput = (props: DexFeeInputProps): JSX.Element => {
           status={error ? 'error' : undefined}
           clearable
           labelRight="ERG"
-          min={DexFeeMin}
-          max={DexFeeMax}
-          placeholder={DefaultSettings.dexFee}
+          min={MinerFeeMin}
+          max={MinerFeeMax}
+          placeholder={DefaultSettings.minerFee}
           onChange={handleChange}
         />
       </AutoInputContainer>
