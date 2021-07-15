@@ -149,7 +149,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
               ).toFixed(0),
             ),
           ),
-          1,
+          slippage,
         );
         const feePerToken = Math.ceil(
           evaluate(

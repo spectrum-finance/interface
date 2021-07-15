@@ -11,7 +11,7 @@ const Header = (): JSX.Element => {
   return (
     <header className={css.header}>
       <Text h2 className={css.main}>
-        ErgoDex
+        ErgoDEX
       </Text>
       <SettingsButton />
       <ConnectWallet />
