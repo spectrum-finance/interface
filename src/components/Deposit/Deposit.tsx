@@ -32,6 +32,7 @@ import { defaultMinerFee, nanoErgInErg } from '../../constants/erg';
 import { useGetAllPools } from '../../hooks/useGetAllPools';
 import { PoolSelect } from '../PoolSelect/PoolSelect';
 import { useSettings } from '../../context/SettingsContext';
+import { toast } from 'react-toastify';
 
 export const Deposit = (): JSX.Element => {
   const [{ minerFee, address: choosedAddress }] = useSettings();
@@ -219,7 +220,7 @@ export const Deposit = (): JSX.Element => {
           },
           {
             inputs: DefaultBoxSelector.select(utxos, {
-              nErgs: evaluate(`${minerFee}+(${dexFee}* ${nanoErgInErg})`),
+              nErgs: evaluate(`(${minerFee}+${dexFee})*${nanoErgInErg}`),
               assets: [
                 {
                   tokenId: inputAssetAmount.asset.id,
@@ -239,15 +240,15 @@ export const Deposit = (): JSX.Element => {
             }) as BoxSelection,
             changeAddress: choosedAddress,
             selfAddress: choosedAddress,
-            feeNErgs: BigInt(defaultMinerFee),
+            feeNErgs: BigInt(Number(minerFee) * nanoErgInErg),
             network: await network.getNetworkContext(),
           },
         )
-        .then(async (d) => {
-          await ergo.submit_tx(d);
-          alert(`Transaction submitted: ${d} `);
+        .then(async (txId) => {
+          await ergo.submit_tx(txId);
+          toast.success(`Transaction submitted: ${txId} `);
         })
-        .catch((er) => console.log(13, er));
+        .catch((er) => toast.error(JSON.stringify(er)));
     }
   };
 

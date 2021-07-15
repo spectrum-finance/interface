@@ -8,6 +8,7 @@ import levenshtein from 'fast-levenshtein';
 import './PoolSelect.scss';
 import './rc-select.scss';
 import { AnyObject } from 'final-form';
+import { evaluate } from 'mathjs';
 
 const getPoolAssetsRepr = (pool: AmmPool | undefined) => {
   if (!pool) return '';
@@ -118,7 +119,8 @@ export const PoolSelect: React.FC<Props> = ({
                   </Grid>
                   <Grid xs={8}>
                     <Text span type="secondary">
-                      Fee: {poolFeeNum}
+                      Fee:{' '}
+                      {evaluate(`(1 - ${poolFeeNum} / 1000) * 100`).toFixed(2)}%
                     </Text>
                   </Grid>
                 </Grid.Container>

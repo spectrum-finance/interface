@@ -1,5 +1,13 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
-import { Button, Card, Grid, Input, Select, Text } from '@geist-ui/react';
+import {
+  Button,
+  Card,
+  Grid,
+  Input,
+  Loading,
+  Select,
+  Text,
+} from '@geist-ui/react';
 import { Form, Field, FieldRenderProps } from 'react-final-form';
 import { evaluate } from 'mathjs';
 import { AmmPool, Explorer, T2tPoolOps } from 'ergo-dex-sdk';
@@ -17,6 +25,7 @@ import { getButtonState, WalletStates } from './utils';
 import { useGetAvailablePoolsByLPTokens } from '../../hooks/useGetAvailablePoolsByLPTokens';
 import { defaultMinerFee, nanoErgInErg } from '../../constants/erg';
 import { useSettings } from '../../context/SettingsContext';
+import { toast } from 'react-toastify';
 
 export const Redeem = (): JSX.Element => {
   const [{ minerFee, address: choosedAddress }] = useSettings();
@@ -88,7 +97,7 @@ export const Redeem = (): JSX.Element => {
           },
           {
             inputs: DefaultBoxSelector.select(utxos, {
-              nErgs: evaluate(`${minerFee}+(${dexFee}* ${nanoErgInErg})`),
+              nErgs: evaluate(`(${minerFee}+${dexFee}) * ${nanoErgInErg}`),
               assets: [
                 {
                   tokenId: choosedPool.lp.asset.id,
@@ -98,22 +107,22 @@ export const Redeem = (): JSX.Element => {
             }) as BoxSelection,
             changeAddress: choosedAddress,
             selfAddress: choosedAddress,
-            feeNErgs: BigInt(defaultMinerFee),
+            feeNErgs: BigInt(Number(minerFee) * nanoErgInErg),
             network: await network.getNetworkContext(),
           },
         )
         .then(async (d) => {
           const txId = await ergo.submit_tx(d);
-          alert(`Transaction submitted: ${txId} `);
+          toast.success(`Transaction submitted: ${txId} `);
         })
-        .catch((er) => console.log(13, er));
+        .catch((er) => toast.error(JSON.stringify(er)));
     }
   };
 
   if (!isWalletConnected) {
     return (
       <Card>
-        <Text h4>Need to connect wallet</Text>
+        <Text h6>Need to connect wallet</Text>
       </Card>
     );
   }
@@ -121,15 +130,15 @@ export const Redeem = (): JSX.Element => {
   if (availablePools === null) {
     return (
       <Card>
-        <Text h4>Fetching available pools...</Text>
+        <Loading>Fetching available pools</Loading>
       </Card>
     );
   }
 
-  if (availablePools.length === 0) {
+  if (availablePools?.length === 0) {
     return (
       <Card>
-        <Text h4>No available pools to redeem</Text>
+        <Loading>No available pools to redeem</Loading>
       </Card>
     );
   }

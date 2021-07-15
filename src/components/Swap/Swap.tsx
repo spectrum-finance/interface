@@ -38,15 +38,12 @@ import { YoroiProver } from '../../utils/yoroiProver';
 import { WalletContext } from '../../context/WalletContext';
 import { useGetAllPools } from '../../hooks/useGetAllPools';
 import { PoolSelect } from '../PoolSelect/PoolSelect';
-import { defaultMinerFee } from '../../constants/erg';
-import { getButtonState, States } from './utils';
-import {
-  validateSlippage,
-  validateInputAmount,
-  validateSwapForm,
-} from './validators';
+import { defaultMinerFee, nanoErgInErg } from '../../constants/erg';
+import { getButtonState } from './utils';
+import { validateInputAmount, validateSwapForm } from './validators';
 import { useSettings } from '../../context/SettingsContext';
 import { SlippageInput } from '../Settings/SlippageInput';
+import { toast } from 'react-toastify';
 
 const content = {
   slippage: {
@@ -73,7 +70,7 @@ const calculateAvailableAmount = (
 
 const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
   const { isWalletConnected, utxos } = useContext(WalletContext);
-  const [{ address: choosedAddress }] = useSettings();
+  const [{ minerFee, address: choosedAddress }] = useSettings();
   const [selectedPool, setSelectedPool] = useState<AmmPool | undefined>();
   const [inputAssetAmount, setInputAssetAmount] = useState<
     AssetAmount | undefined
@@ -201,7 +198,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
       selectedPool &&
       inputAssetAmount &&
       outputAssetAmount &&
-      utxos &&
+      utxos?.length &&
       choosedAddress
     ) {
       const network = new Explorer('https://api.ergoplatform.com');
@@ -238,7 +235,9 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
           {
             inputs: DefaultBoxSelector.select(utxos, {
               nErgs: evaluate(
-                `${defaultMinerFee}+(${outputAmount} * ${feePerToken})`,
+                `${
+                  Number(minerFee) * nanoErgInErg
+                }+(${outputAmount} * ${feePerToken})`,
               ),
               assets: [
                 {
@@ -249,15 +248,15 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
             }) as BoxSelection,
             changeAddress: choosedAddress,
             selfAddress: choosedAddress,
-            feeNErgs: BigInt(defaultMinerFee),
+            feeNErgs: BigInt(nanoErgInErg * Number(minerFee)),
             network: await network.getNetworkContext(),
           },
         )
-        .then((d) => {
-          ergo.submit_tx(d);
-          alert(`Transaction submitted: ${d} `);
+        .then(async (txId) => {
+          await ergo.submit_tx(txId);
+          toast.success(`Transaction submitted: ${txId} `);
         })
-        .catch((er) => console.log(13, er));
+        .catch((er) => toast.error(JSON.stringify(er)));
     }
   };
 
@@ -389,7 +388,14 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
               <Text h4>Fee per token</Text>
             </Grid>
             <Grid xs={24}>
-              <Field name="feePerToken">
+              <Field
+                name="feePerToken"
+                validate={(value) => {
+                  return validateInputAmount(value, {
+                    maxDecimals: inputAssetAmount?.asset.decimals || 0,
+                  });
+                }}
+              >
                 {(props: FieldRenderProps<string>) => (
                   <Input
                     placeholder="0.0"

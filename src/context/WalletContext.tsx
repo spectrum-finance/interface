@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import { ErgoBox } from 'ergo-dex-sdk/build/module/ergo';
 import { useInterval } from '../hooks/useInterval';
 
@@ -29,6 +29,14 @@ const WalletContextProvider = ({
     setIsWalletConnected,
     utxos,
   };
+
+  useEffect(() => {
+    if (!isWalletConnected) return;
+
+    ergo.get_utxos().then((data: ErgoBox[] | undefined) => {
+      setUtxos(data ?? []);
+    });
+  }, [isWalletConnected]);
 
   useInterval(() => {
     if (!isWalletConnected) return;
