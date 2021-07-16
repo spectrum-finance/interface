@@ -1,7 +1,7 @@
-import { defaultMinerFee, nanoErgInErg } from './erg';
+import { defaultMinerFee, NanoErgInErg } from './erg';
 
 // IDK what these should be...
-export const MinerFeeDefault = defaultMinerFee / nanoErgInErg;
+export const MinerFeeDefault = defaultMinerFee / NanoErgInErg;
 export const MinerFeeMin = MinerFeeDefault;
 export const MinerFeeMax = 5;
 export const MinerFeeDecimals = 2;

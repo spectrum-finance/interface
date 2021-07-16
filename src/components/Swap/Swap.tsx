@@ -21,7 +21,7 @@ import {
 import { Form, Field, FieldRenderProps } from 'react-final-form';
 import { FORM_ERROR } from 'final-form';
 import { evaluate } from 'mathjs';
-import { AmmPool, Explorer, OK, T2tPoolOps } from 'ergo-dex-sdk';
+import { AmmPool, Explorer, OK, swapVars, T2tPoolOps } from 'ergo-dex-sdk';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faExchangeAlt,
@@ -39,7 +39,7 @@ import { YoroiProver } from '../../utils/yoroiProver';
 import { WalletContext } from '../../context/WalletContext';
 import { useGetAllPools } from '../../hooks/useGetAllPools';
 import { PoolSelect } from '../PoolSelect/PoolSelect';
-import { defaultMinerFee, nanoErgInErg } from '../../constants/erg';
+import { defaultMinerFee, NanoErgInErg } from '../../constants/erg';
 import { getButtonState } from './utils';
 import { validateInputAmount, validateSwapForm } from './validators';
 import { useSettings } from '../../context/SettingsContext';
@@ -48,6 +48,7 @@ import { toast } from 'react-toastify';
 import { explorer } from '../../utils/explorer';
 import { checkPool } from '../../utils/checkPool';
 import { useCheckPool } from '../../hooks/useCheckPool';
+import { ergoTxToProxy } from 'ergo-dex-sdk/build/module/ergo';
 
 const content = {
   slippage: {
@@ -86,7 +87,8 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
   const [inputAmount, setInputAmount] = useState('');
   const [outputAmount, setOutputAmount] = useState('');
   const [availableInputAmount, setAvailableInputAmount] = useState(0n);
-  const [feePerToken, setFeePerToken] = useState('');
+  const [minDexFee, setMinDexFee] = useState('1000000');
+  const [nitro, setNitro] = useState('1.2');
   const isPoolValid = useCheckPool(selectedPool);
 
   const updateSelectedPool = useCallback((pool: AmmPool) => {
@@ -163,7 +165,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
             })`,
           ),
         ).toFixed(0);
-        setFeePerToken(feePerToken);
+        setMinDexFee(feePerToken);
         setOutputAmount(
           String(
             evaluate(
@@ -193,7 +195,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
 
     if (!value.trim()) {
       setOutputAmount('0');
-      setFeePerToken('');
+      setMinDexFee('');
     }
   };
 
@@ -209,9 +211,11 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
       const network = explorer;
       const poolId = selectedPool.id;
 
-      const baseInputAmount = evaluate(
-        `(${inputAmount} * 10^${inputAssetAmount.asset.decimals || 0})`,
-      ).toFixed(0);
+      const baseInputAmount = BigInt(
+        evaluate(
+          `(${inputAmount} * 10^${inputAssetAmount.asset.decimals || 0})`,
+        ).toFixed(0),
+      );
       const baseInput = selectedPool.x.withAmount(BigInt(baseInputAmount));
 
       const poolOps = new T2tPoolOps(
@@ -219,47 +223,56 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
         new DefaultTxAssembler(true),
       );
       const pk = fromAddress(choosedAddress) as string;
-      const minQuoteOutput = selectedPool.outputAmount(
-        baseInput,
-        Number(slippage),
-      ).amount;
-      const dexFeePerToken = Number(feePerToken);
+      const minOutput = selectedPool.outputAmount(baseInput, slippage);
+      const minDexFeeN = Number(minDexFee);
+      const nitroN = Number(nitro);
+      const [dexFeePerToken, extremums] = swapVars(
+        minDexFeeN,
+        nitroN,
+        minOutput,
+      ); // todo: render extremums
       const poolFeeNum = selectedPool.poolFeeNum;
+      const minerFeeNErgs = BigInt(Number(minerFee) * NanoErgInErg);
+      const nErgsRequired = minerFeeNErgs + BigInt(extremums.maxDexFee);
+
+      const networkContext = await network.getNetworkContext();
+
+      const params = {
+        pk,
+        poolId,
+        baseInput,
+        minQuoteOutput: minOutput.amount,
+        dexFeePerToken: 0.0003,
+        quoteAsset: outputAssetAmount.asset.id,
+        poolFeeNum,
+      };
+
+      const inputs = DefaultBoxSelector.select(utxos, {
+        nErgs: nErgsRequired,
+        assets: [
+          {
+            tokenId: inputAssetAmount.asset.id,
+            amount: baseInputAmount,
+          },
+        ],
+      }) as BoxSelection;
+
+      const txContext = {
+        inputs,
+        changeAddress: choosedAddress,
+        selfAddress: choosedAddress,
+        feeNErgs: minerFeeNErgs,
+        network: networkContext,
+      };
 
       poolOps
-        .swap(
-          {
-            pk,
-            poolId,
-            baseInput,
-            minQuoteOutput,
-            dexFeePerToken,
-            quoteAsset: outputAssetAmount.asset.id,
-            poolFeeNum,
-          },
-          {
-            inputs: DefaultBoxSelector.select(utxos, {
-              nErgs: evaluate(
-                `${
-                  Number(minerFee) * nanoErgInErg
-                }+(${outputAmount} * ${feePerToken})`,
-              ),
-              assets: [
-                {
-                  tokenId: inputAssetAmount.asset.id,
-                  amount: baseInputAmount,
-                },
-              ],
-            }) as BoxSelection,
-            changeAddress: choosedAddress,
-            selfAddress: choosedAddress,
-            feeNErgs: BigInt(nanoErgInErg * Number(minerFee)),
-            network: await network.getNetworkContext(),
-          },
-        )
-        .then(async (txId) => {
-          await ergo.submit_tx(txId);
-          toast.success(`Transaction submitted: ${txId} `);
+        .swap(params, txContext)
+        .then(async (tx) => {
+          console.log('tx: ', tx);
+          const proxyTx = ergoTxToProxy(tx);
+          console.log('proxyTx: ', proxyTx);
+          await ergo.submit_tx(proxyTx);
+          toast.success(`Transaction submitted: ${tx} `);
         })
         .catch((er) => toast.error(JSON.stringify(er)));
     }
@@ -274,7 +287,8 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
         outputAmount: 0.0,
         address: '',
         poolId: undefined,
-        feePerToken: 0,
+        minDexFee: 0,
+        nitro: 0,
       }}
       validate={() => {
         if (buttonStatus.disabled || !isWalletConnected) return;
@@ -410,14 +424,17 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                   />
                 </Grid>
                 <Grid xs={24}>
-                  <Text h4>Fee per token</Text>
+                  <Text h4>Advanced settings</Text>
+                </Grid>
+                <Grid xs={24}>
+                  <Text h6>Fee per token</Text>
                 </Grid>
                 <Grid xs={24}>
                   <Field
-                    name="feePerToken"
+                    name="minDexFee"
                     validate={(value) => {
                       return validateInputAmount(value, {
-                        maxDecimals: inputAssetAmount?.asset.decimals || 0,
+                        maxDecimals: 9,
                       });
                     }}
                   >
@@ -428,9 +445,37 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                         width="100%"
                         {...props.input}
                         disabled={!outputAmount}
-                        value={feePerToken}
+                        value={minDexFee}
                         onChange={({ currentTarget }) => {
-                          setFeePerToken(currentTarget.value as string);
+                          setMinDexFee(currentTarget.value as string);
+                          props.input.onChange(currentTarget.value);
+                        }}
+                      />
+                    )}
+                  </Field>
+                </Grid>
+                <Grid xs={24}>
+                  <Text h6>Nitro</Text>
+                </Grid>
+                <Grid xs={24}>
+                  <Field
+                    name="nitro"
+                    validate={(value) => {
+                      return validateInputAmount(value, {
+                        maxDecimals: 2,
+                      });
+                    }}
+                  >
+                    {(props: FieldRenderProps<string>) => (
+                      <Input
+                        placeholder="0.0"
+                        type="number"
+                        width="100%"
+                        {...props.input}
+                        disabled={!outputAmount}
+                        value={nitro}
+                        onChange={({ currentTarget }) => {
+                          setNitro(currentTarget.value as string);
                           props.input.onChange(currentTarget.value);
                         }}
                       />

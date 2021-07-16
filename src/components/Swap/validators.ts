@@ -75,7 +75,7 @@ export const validateSwapForm = (
     .object()
     .test(
       'is-enough-available-amount',
-      `must be less then available amount ${availableInputAmount}`,
+      `must be less than available amount ${availableInputAmount}`,
       ({ inputAmount }) => {
         return BigInt(inputAmount) < availableInputAmount;
       },

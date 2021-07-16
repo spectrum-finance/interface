@@ -20,12 +20,14 @@ import {
   DefaultBoxSelector,
   DefaultTxAssembler,
   ErgoBox,
+  ergoBoxFromProxy,
+  ergoTxToProxy,
 } from 'ergo-dex-sdk/build/module/ergo';
 import { fromAddress } from 'ergo-dex-sdk/build/module/ergo/entities/publicKey';
 import { WalletContext } from '../../context/WalletContext';
 import { getButtonState, WalletStates } from './utils';
 import { useGetAvailablePoolsByLPTokens } from '../../hooks/useGetAvailablePoolsByLPTokens';
-import { defaultMinerFee, nanoErgInErg } from '../../constants/erg';
+import { defaultMinerFee, NanoErgInErg } from '../../constants/erg';
 import { useSettings } from '../../context/SettingsContext';
 import { toast } from 'react-toastify';
 import { explorer } from '../../utils/explorer';
@@ -78,7 +80,9 @@ export const Redeem = (): JSX.Element => {
 
   useEffect(() => {
     if (isWalletConnected) {
-      ergo.get_utxos().then((data) => setUtxos(data ?? []));
+      ergo
+        .get_utxos()
+        .then((data) => setUtxos(data?.map((p) => ergoBoxFromProxy(p)) ?? []));
     }
   }, [isWalletConnected]);
 
@@ -98,12 +102,12 @@ export const Redeem = (): JSX.Element => {
           {
             pk,
             poolId,
-            dexFee: BigInt(evaluate(`${dexFee} * ${nanoErgInErg}`)),
+            dexFee: BigInt(evaluate(`${dexFee} * ${NanoErgInErg}`)),
             lp: choosedPool.lp.asset,
           },
           {
             inputs: DefaultBoxSelector.select(utxos, {
-              nErgs: evaluate(`(${minerFee}+${dexFee}) * ${nanoErgInErg}`),
+              nErgs: evaluate(`(${minerFee}+${dexFee}) * ${NanoErgInErg}`),
               assets: [
                 {
                   tokenId: choosedPool.lp.asset.id,
@@ -113,12 +117,12 @@ export const Redeem = (): JSX.Element => {
             }) as BoxSelection,
             changeAddress: choosedAddress,
             selfAddress: choosedAddress,
-            feeNErgs: BigInt(Number(minerFee) * nanoErgInErg),
+            feeNErgs: BigInt(Number(minerFee) * NanoErgInErg),
             network: await network.getNetworkContext(),
           },
         )
-        .then(async (d) => {
-          const txId = await ergo.submit_tx(d);
+        .then(async (tx) => {
+          const txId = await ergo.submit_tx(ergoTxToProxy(tx));
           toast.success(`Transaction submitted: ${txId} `);
         })
         .catch((er) => toast.error(JSON.stringify(er)));

@@ -17,7 +17,7 @@ import {
 } from '@geist-ui/react';
 import { Form, Field, FieldRenderProps } from 'react-final-form';
 import { evaluate } from 'mathjs';
-import { AmmPool, Explorer, T2tPoolOps } from 'ergo-dex-sdk';
+import { AmmPool, T2tPoolOps } from 'ergo-dex-sdk';
 import { YoroiProver } from '../../utils/yoroiProver';
 import {
   AssetAmount,
@@ -25,11 +25,13 @@ import {
   DefaultBoxSelector,
   DefaultTxAssembler,
   ErgoBox,
+  ergoBoxFromProxy,
+  ergoTxToProxy,
 } from 'ergo-dex-sdk/build/module/ergo';
 import { fromAddress } from 'ergo-dex-sdk/build/module/ergo/entities/publicKey';
 import { WalletContext } from '../../context/WalletContext';
 import { getButtonState, WalletStates } from './utils';
-import { defaultMinerFee, nanoErgInErg } from '../../constants/erg';
+import { NanoErgInErg } from '../../constants/erg';
 import { useGetAllPools } from '../../hooks/useGetAllPools';
 import { PoolSelect } from '../PoolSelect/PoolSelect';
 import { useSettings } from '../../context/SettingsContext';
@@ -129,7 +131,9 @@ export const Deposit = (): JSX.Element => {
 
   useEffect(() => {
     if (isWalletConnected) {
-      ergo.get_utxos().then((data) => setUtxos(data ?? []));
+      ergo
+        .get_utxos()
+        .then((data) => setUtxos(data?.map((p) => ergoBoxFromProxy(p)) ?? []));
     }
   }, [isWalletConnected]);
 
@@ -218,13 +222,13 @@ export const Deposit = (): JSX.Element => {
           {
             pk,
             poolId,
-            dexFee: BigInt(evaluate(`${dexFee} * ${nanoErgInErg}`)),
+            dexFee: BigInt(evaluate(`${dexFee} * ${NanoErgInErg}`)),
             x: selectedPool.assetX,
             y: selectedPool.assetY,
           },
           {
             inputs: DefaultBoxSelector.select(utxos, {
-              nErgs: evaluate(`(${minerFee}+${dexFee})*${nanoErgInErg}`),
+              nErgs: evaluate(`(${minerFee}+${dexFee})*${NanoErgInErg}`),
               assets: [
                 {
                   tokenId: inputAssetAmount.asset.id,
@@ -244,13 +248,13 @@ export const Deposit = (): JSX.Element => {
             }) as BoxSelection,
             changeAddress: choosedAddress,
             selfAddress: choosedAddress,
-            feeNErgs: BigInt(Number(minerFee) * nanoErgInErg),
+            feeNErgs: BigInt(Number(minerFee) * NanoErgInErg),
             network: await network.getNetworkContext(),
           },
         )
-        .then(async (txId) => {
-          await ergo.submit_tx(txId);
-          toast.success(`Transaction submitted: ${txId} `);
+        .then(async (tx) => {
+          await ergo.submit_tx(ergoTxToProxy(tx));
+          toast.success(`Transaction submitted: ${tx} `);
         })
         .catch((er) => toast.error(JSON.stringify(er)));
     }
