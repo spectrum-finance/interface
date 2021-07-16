@@ -11,8 +11,9 @@ import {
   Grid,
   Input,
   Loading,
-  Select,
+  Spacer,
   Text,
+  Note,
 } from '@geist-ui/react';
 import { Form, Field, FieldRenderProps } from 'react-final-form';
 import { evaluate } from 'mathjs';
@@ -34,6 +35,7 @@ import { PoolSelect } from '../PoolSelect/PoolSelect';
 import { useSettings } from '../../context/SettingsContext';
 import { toast } from 'react-toastify';
 import { explorer } from '../../utils/explorer';
+import { useCheckPool } from '../../hooks/useCheckPool';
 
 export const Deposit = (): JSX.Element => {
   const [{ minerFee, address: choosedAddress }] = useSettings();
@@ -48,6 +50,7 @@ export const Deposit = (): JSX.Element => {
   >();
   const [inputAmount, setInputAmount] = useState('');
   const [outputAmount, setOutputAmount] = useState('');
+  const isPoolValid = useCheckPool(selectedPool);
 
   const lpTokens = useMemo(() => {
     if (
@@ -305,115 +308,133 @@ export const Deposit = (): JSX.Element => {
                     )}
                   </Field>
                 </Grid>
-
-                <Grid xs={24}>
-                  <Text h4>First Token</Text>
-                </Grid>
-                <Grid xs={24}>
-                  <Field
-                    name="inputAmount"
-                    validate={(value) => {
-                      if (!value || !value.trim()) {
-                        return;
-                      }
-                      const comma = value.match('[,.]');
-                      if (comma && !inputAssetAmount?.asset.decimals) {
-                        return 'No decimals at this token after comma';
-                      }
-
-                      if (
-                        comma &&
-                        value.substr(comma.index + 1) >
-                          (inputAssetAmount?.asset.decimals || 0)
-                      ) {
-                        return `Max decimals at this token after comma is ${
-                          inputAssetAmount?.asset.decimals || 0
-                        }`;
-                      }
-                    }}
-                  >
-                    {(props: FieldRenderProps<string>) => (
-                      <>
-                        <Input
-                          placeholder="0.0"
-                          type="number"
-                          width="100%"
-                          lang="en"
-                          label={inputAssetAmount?.asset.name ?? ''}
-                          {...props.input}
-                          disabled={!inputAssetAmount}
-                          value={inputAmount}
-                          onChange={({ currentTarget }) => {
-                            const value = currentTarget.value;
-                            onEnterTokenAmount(value, 'input');
-                            props.input.onChange(value);
-                          }}
-                        />
-                        {props.meta.error && <p>{props.meta.error}</p>}
-                      </>
-                    )}
-                  </Field>
-                </Grid>
-                <Grid xs={24}>
-                  <Text h4>Second Token</Text>
-                </Grid>
-                <Grid xs={24}>
-                  <Field
-                    name="outputAmount"
-                    validate={(value) => {
-                      if (!value || !value.trim()) {
-                        return;
-                      }
-                      const comma = value.match('[,.]');
-                      if (comma && !inputAssetAmount?.asset.decimals) {
-                        return 'No decimals at this token after comma';
-                      }
-
-                      if (
-                        comma &&
-                        value.substr(comma.index + 1) >
-                          (inputAssetAmount?.asset.decimals || 0)
-                      ) {
-                        return `Max decimals at this token after comma is ${
-                          inputAssetAmount?.asset.decimals || 0
-                        }`;
-                      }
-                    }}
-                  >
-                    {(props: FieldRenderProps<string>) => (
-                      <Input
-                        placeholder="0.0"
-                        type="number"
-                        label={outputAssetAmount?.asset.name ?? ''}
-                        width="100%"
-                        {...props.input}
-                        value={outputAmount}
-                        onChange={({ currentTarget }) => {
-                          const value = currentTarget.value;
-                          onEnterTokenAmount(value, 'output');
-                          props.input.onChange(value);
-                        }}
-                      />
-                    )}
-                  </Field>
-                </Grid>
-                {selectedPool && (
+                {isPoolValid.isFetching && (
                   <Grid xs={24}>
-                    <Card>
-                      <div>lp = {Number(lpTokens)}</div>
-                    </Card>
+                    <Spacer y={2} />
+                    <Loading>Validate pool...</Loading>
                   </Grid>
                 )}
-                <Grid xs={24} justify="center">
-                  <Button
-                    htmlType="submit"
-                    disabled={
-                      buttonStatus.disabled || Object.values(errors).length > 0
-                    }
-                  >
-                    {buttonStatus.text}
-                  </Button>
-                </Grid>
+                {!isPoolValid.isFetching && !isPoolValid.result && (
+                  <Grid xs={24}>
+                    <Note type="error" label="error" filled>
+                      This pool is not valid. Please, use another one.
+                    </Note>
+                  </Grid>
+                )}
+
+                {!isPoolValid.isFetching && isPoolValid.result && (
+                  <>
+                    <Grid xs={24}>
+                      <Text h4>First Token</Text>
+                    </Grid>
+                    <Grid xs={24}>
+                      <Field
+                        name="inputAmount"
+                        validate={(value) => {
+                          if (!value || !value.trim()) {
+                            return;
+                          }
+                          const comma = value.match('[,.]');
+                          if (comma && !inputAssetAmount?.asset.decimals) {
+                            return 'No decimals at this token after comma';
+                          }
+
+                          if (
+                            comma &&
+                            value.substr(comma.index + 1) >
+                              (inputAssetAmount?.asset.decimals || 0)
+                          ) {
+                            return `Max decimals at this token after comma is ${
+                              inputAssetAmount?.asset.decimals || 0
+                            }`;
+                          }
+                        }}
+                      >
+                        {(props: FieldRenderProps<string>) => (
+                          <>
+                            <Input
+                              placeholder="0.0"
+                              type="number"
+                              width="100%"
+                              lang="en"
+                              label={inputAssetAmount?.asset.name ?? ''}
+                              {...props.input}
+                              disabled={!inputAssetAmount}
+                              value={inputAmount}
+                              onChange={({ currentTarget }) => {
+                                const value = currentTarget.value;
+                                onEnterTokenAmount(value, 'input');
+                                props.input.onChange(value);
+                              }}
+                            />
+                            {props.meta.error && <p>{props.meta.error}</p>}
+                          </>
+                        )}
+                      </Field>
+                    </Grid>
+                    <Grid xs={24}>
+                      <Text h4>Second Token</Text>
+                    </Grid>
+                    <Grid xs={24}>
+                      <Field
+                        name="outputAmount"
+                        validate={(value) => {
+                          if (!value || !value.trim()) {
+                            return;
+                          }
+                          const comma = value.match('[,.]');
+                          if (comma && !inputAssetAmount?.asset.decimals) {
+                            return 'No decimals at this token after comma';
+                          }
+
+                          if (
+                            comma &&
+                            value.substr(comma.index + 1) >
+                              (inputAssetAmount?.asset.decimals || 0)
+                          ) {
+                            return `Max decimals at this token after comma is ${
+                              inputAssetAmount?.asset.decimals || 0
+                            }`;
+                          }
+                        }}
+                      >
+                        {(props: FieldRenderProps<string>) => (
+                          <Input
+                            placeholder="0.0"
+                            type="number"
+                            label={outputAssetAmount?.asset.name ?? ''}
+                            width="100%"
+                            {...props.input}
+                            value={outputAmount}
+                            onChange={({ currentTarget }) => {
+                              const value = currentTarget.value;
+                              onEnterTokenAmount(value, 'output');
+                              props.input.onChange(value);
+                            }}
+                          />
+                        )}
+                      </Field>
+                    </Grid>
+                    {selectedPool && (
+                      <Grid xs={24}>
+                        <Card>
+                          <div>lp = {Number(lpTokens)}</div>
+                        </Card>
+                      </Grid>
+                    )}
+                    <Grid xs={24} justify="center">
+                      <Button
+                        htmlType="submit"
+                        disabled={
+                          buttonStatus.disabled ||
+                          Object.values(errors).length > 0
+                        }
+                      >
+                        {buttonStatus.text}
+                      </Button>
+                    </Grid>
+                  </>
+                )}
               </Grid.Container>
             </form>
           )}

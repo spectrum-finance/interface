@@ -6,7 +6,9 @@ import {
   Input,
   Loading,
   Select,
+  Spacer,
   Text,
+  Note,
 } from '@geist-ui/react';
 import { Form, Field, FieldRenderProps } from 'react-final-form';
 import { evaluate } from 'mathjs';
@@ -27,6 +29,7 @@ import { defaultMinerFee, nanoErgInErg } from '../../constants/erg';
 import { useSettings } from '../../context/SettingsContext';
 import { toast } from 'react-toastify';
 import { explorer } from '../../utils/explorer';
+import { useCheckPool } from '../../hooks/useCheckPool';
 
 export const Redeem = (): JSX.Element => {
   const [{ minerFee, address: choosedAddress }] = useSettings();
@@ -35,7 +38,9 @@ export const Redeem = (): JSX.Element => {
   const { isWalletConnected } = useContext(WalletContext);
   const [amount, setAmount] = useState('');
 
-  const [choosedPool, setChoosedPool] = useState<AmmPool | null>(null);
+  const [choosedPool, setChoosedPool] = useState<AmmPool | undefined>(
+    undefined,
+  );
 
   const [utxos, setUtxos] = useState<ErgoBox[]>([]);
   const availablePools = useGetAvailablePoolsByLPTokens(utxos);

@@ -9,7 +9,7 @@ export enum WalletStates {
 
 interface ButtonState {
   isWalletConnected: boolean;
-  choosedPool: AmmPool | null;
+  choosedPool: AmmPool | undefined;
   amount: string;
 }
 
