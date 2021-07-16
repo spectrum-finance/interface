@@ -60,7 +60,7 @@ export const validateInputAmount = (
 };
 
 type validateSwapFormOpts = {
-  availableInputAmount: number;
+  availableInputAmount: bigint;
 };
 
 type validateSwapFormValues = {
@@ -77,7 +77,7 @@ export const validateSwapForm = (
       'is-enough-available-amount',
       `must be less then available amount ${availableInputAmount}`,
       ({ inputAmount }) => {
-        return Number(inputAmount) < availableInputAmount;
+        return BigInt(inputAmount) < availableInputAmount;
       },
     );
   try {

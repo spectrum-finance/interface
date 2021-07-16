@@ -3,7 +3,7 @@ import { ErgoBox, TokenId } from 'ergo-dex-sdk/build/module/ergo';
 type Asset = {
   tokenName?: string;
   tokenId: string;
-  amount: number;
+  amount: bigint;
   decimals?: number;
 };
 

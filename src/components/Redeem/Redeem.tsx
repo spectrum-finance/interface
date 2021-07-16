@@ -107,7 +107,7 @@ export const Redeem = (): JSX.Element => {
               assets: [
                 {
                   tokenId: choosedPool.lp.asset.id,
-                  amount: Number(amount),
+                  amount: BigInt(amount),
                 },
               ],
             }) as BoxSelection,
