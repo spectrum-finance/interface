@@ -49,6 +49,7 @@ import { explorer } from '../../utils/explorer';
 import { checkPool } from '../../utils/checkPool';
 import { useCheckPool } from '../../hooks/useCheckPool';
 import { ergoTxToProxy } from 'ergo-dex-sdk/build/module/ergo';
+import { InsufficientInputs } from 'ergo-dex-sdk/build/module/ergo/errors/insufficientInputs';
 
 const content = {
   slippage: {
@@ -158,14 +159,6 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
           ),
           slippage,
         );
-        const feePerToken = Math.ceil(
-          evaluate(
-            `${defaultMinerFee} / (${amount?.amount}/10^${
-              outputAssetAmount.asset.decimals || 0
-            })`,
-          ),
-        ).toFixed(0);
-        setMinDexFee(feePerToken);
         setOutputAmount(
           String(
             evaluate(
@@ -195,7 +188,6 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
 
     if (!value.trim()) {
       setOutputAmount('0');
-      setMinDexFee('');
     }
   };
 
@@ -211,10 +203,9 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
       const network = explorer;
       const poolId = selectedPool.id;
 
+      const power = inputAssetAmount.asset.decimals || 0;
       const baseInputAmount = BigInt(
-        evaluate(
-          `(${inputAmount} * 10^${inputAssetAmount.asset.decimals || 0})`,
-        ).toFixed(0),
+        evaluate(`${inputAmount} * 10^${power}`).toFixed(0),
       );
       const baseInput = selectedPool.x.withAmount(BigInt(baseInputAmount));
 
@@ -242,7 +233,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
         poolId,
         baseInput,
         minQuoteOutput: minOutput.amount,
-        dexFeePerToken: 0.0003,
+        dexFeePerToken,
         quoteAsset: outputAssetAmount.asset.id,
         poolFeeNum,
       };
@@ -255,26 +246,29 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
             amount: baseInputAmount,
           },
         ],
-      }) as BoxSelection;
+      });
 
-      const txContext = {
-        inputs,
-        changeAddress: choosedAddress,
-        selfAddress: choosedAddress,
-        feeNErgs: minerFeeNErgs,
-        network: networkContext,
-      };
+      console.log('inputs: ', inputs);
 
-      poolOps
-        .swap(params, txContext)
-        .then(async (tx) => {
-          console.log('tx: ', tx);
-          const proxyTx = ergoTxToProxy(tx);
-          console.log('proxyTx: ', proxyTx);
-          await ergo.submit_tx(proxyTx);
-          toast.success(`Transaction submitted: ${tx} `);
-        })
-        .catch((er) => toast.error(JSON.stringify(er)));
+      if (inputs instanceof BoxSelection) {
+        const txContext = {
+          inputs,
+          changeAddress: choosedAddress,
+          selfAddress: choosedAddress,
+          feeNErgs: minerFeeNErgs,
+          network: networkContext,
+        };
+        poolOps
+          .swap(params, txContext)
+          .then(async (tx) => {
+            const proxyTx = ergoTxToProxy(tx);
+            await ergo.submit_tx(proxyTx);
+            toast.success(`Transaction submitted: ${tx} `);
+          })
+          .catch((er) => toast.error(JSON.stringify(er)));
+      } else {
+        throw inputs.message;
+      }
     }
   };
 
@@ -324,7 +318,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
             {isPoolValid.isFetching && (
               <Grid xs={24}>
                 <Spacer y={2} />
-                <Loading>Validate pool...</Loading>
+                <Loading>Validating pool...</Loading>
               </Grid>
             )}
             {!isPoolValid.isFetching && !isPoolValid.result && (
@@ -427,7 +421,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                   <Text h4>Advanced settings</Text>
                 </Grid>
                 <Grid xs={24}>
-                  <Text h6>Fee per token</Text>
+                  <Text h6>Minimal DEX fee</Text>
                 </Grid>
                 <Grid xs={24}>
                   <Field
@@ -448,7 +442,6 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                         value={minDexFee}
                         onChange={({ currentTarget }) => {
                           setMinDexFee(currentTarget.value as string);
-                          props.input.onChange(currentTarget.value);
                         }}
                       />
                     )}

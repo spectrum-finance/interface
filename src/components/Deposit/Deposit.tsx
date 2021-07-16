@@ -315,7 +315,7 @@ export const Deposit = (): JSX.Element => {
                 {isPoolValid.isFetching && (
                   <Grid xs={24}>
                     <Spacer y={2} />
-                    <Loading>Validate pool...</Loading>
+                    <Loading>Validating pool...</Loading>
                   </Grid>
                 )}
                 {!isPoolValid.isFetching && !isPoolValid.result && (
