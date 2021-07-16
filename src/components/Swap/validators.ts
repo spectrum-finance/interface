@@ -31,11 +31,13 @@ export const validateInputAmount = (
     .string()
     .trim()
     .test(
-      'is-dicimals-allowed',
-      'no decimals at this token after comma',
+      'no-more-decimals-allowed',
+      'no more decimals allowed',
       (value = '') => {
-        const fractionalPartIndex = value.match('.,')?.index;
-        return !fractionalPartIndex && maxDecimals === 0;
+        const [, decimals = ''] = value
+          .toString()
+          .split(new RegExp('^[1-9]*[.|,]([1-9]*)$'));
+        return decimals.length <= maxDecimals;
       },
     )
     .test(
