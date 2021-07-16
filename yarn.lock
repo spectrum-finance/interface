@@ -4860,10 +4860,10 @@ entities@^2.0.0:
   resolved "https://registry.yarnpkg.com/entities/-/entities-2.2.0.tgz#098dc90ebb83d8dffa089d55256b351d34c4da55"
   integrity sha512-p92if5Nz619I0w+akJrLZH0MX0Pb5DX39XOwQTtXSdQQOaYH03S1uIQp4mhOZtAXrxq4ViO67YTiLBo2638o9A==
 
-ergo-dex-sdk@^0.1.14:
-  version "0.1.14"
-  resolved "https://registry.yarnpkg.com/ergo-dex-sdk/-/ergo-dex-sdk-0.1.14.tgz#542cec3df7a3eb6300f51951793eda178d5eb91b"
-  integrity sha512-SLo+32HhKW0MSndndB+n/UuXHiY/mBxA5MdmuVYNsJ34isw/HkUVa4C13ZQ0iOjxVbv1NzYkFCkDjbkUHP2NRw==
+ergo-dex-sdk@^0.1.15:
+  version "0.1.15"
+  resolved "https://registry.yarnpkg.com/ergo-dex-sdk/-/ergo-dex-sdk-0.1.15.tgz#ee9fb1e301726f188a829d1d5b2e9597dd2a5683"
+  integrity sha512-+ZQjw3Pi7H76LRd/4sW4UPf4DR/acYYW5FWY91ZGLnNMEPcBJTBZhWlELxaGWiHUT4z+b7dCIb4aNiyZnPJrLA==
   dependencies:
     axios "^0.21.1"
     blakejs "^1.1.0"
