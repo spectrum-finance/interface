@@ -9,6 +9,7 @@ import { DefaultAmmOpsParser, Explorer, NetworkOperations } from 'ergo-dex-sdk';
 import { AmmOperation } from 'ergo-dex-sdk/build/module/amm/models/ammOperation';
 import { useInterval } from '../../hooks/useInterval';
 import { toast } from 'react-toastify';
+import { explorer } from '../../utils/explorer';
 
 const content = {
   title: 'Transactions history',
@@ -79,7 +80,7 @@ export const HistoryModal = (props: HistoryModalProps): JSX.Element => {
     )
       return;
 
-    const network = new Explorer('https://api.ergoplatform.com');
+    const network = explorer;
     const parser = new DefaultAmmOpsParser();
     new NetworkOperations(network, parser)
       .getAllByAddresses(walletAddresses.addresses, 20)
@@ -95,7 +96,7 @@ export const HistoryModal = (props: HistoryModalProps): JSX.Element => {
     )
       return;
 
-    const network = new Explorer('https://api.ergoplatform.com');
+    const network = explorer;
     const parser = new DefaultAmmOpsParser();
     new NetworkOperations(network, parser)
       .getAllByAddresses(walletAddresses.addresses, 20)

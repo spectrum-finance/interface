@@ -33,6 +33,7 @@ import { useGetAllPools } from '../../hooks/useGetAllPools';
 import { PoolSelect } from '../PoolSelect/PoolSelect';
 import { useSettings } from '../../context/SettingsContext';
 import { toast } from 'react-toastify';
+import { explorer } from '../../utils/explorer';
 
 export const Deposit = (): JSX.Element => {
   const [{ minerFee, address: choosedAddress }] = useSettings();
@@ -201,7 +202,7 @@ export const Deposit = (): JSX.Element => {
       outputAssetAmount &&
       choosedAddress
     ) {
-      const network = new Explorer('https://api.ergoplatform.com');
+      const network = explorer;
       const poolId = selectedPool.id;
 
       const poolOps = new T2tPoolOps(

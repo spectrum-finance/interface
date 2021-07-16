@@ -26,6 +26,7 @@ import { useGetAvailablePoolsByLPTokens } from '../../hooks/useGetAvailablePools
 import { defaultMinerFee, nanoErgInErg } from '../../constants/erg';
 import { useSettings } from '../../context/SettingsContext';
 import { toast } from 'react-toastify';
+import { explorer } from '../../utils/explorer';
 
 export const Redeem = (): JSX.Element => {
   const [{ minerFee, address: choosedAddress }] = useSettings();
@@ -78,7 +79,7 @@ export const Redeem = (): JSX.Element => {
 
   const onSubmit = async () => {
     if (isWalletConnected && choosedPool && choosedAddress) {
-      const network = new Explorer('https://api.ergoplatform.com');
+      const network = explorer;
       const poolId = choosedPool.id;
 
       const poolOps = new T2tPoolOps(

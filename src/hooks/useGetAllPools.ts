@@ -1,12 +1,13 @@
-import { AmmPool, Explorer, NetworkPools } from 'ergo-dex-sdk';
+import { AmmPool, NetworkPools } from 'ergo-dex-sdk';
 import { useEffect, useState } from 'react';
+import { explorer } from '../utils/explorer';
 
 type PoolsState = AmmPool[] | undefined;
 
 export const useGetAllPools = (): PoolsState => {
   const [pools, setPools] = useState<PoolsState>(undefined);
   useEffect(() => {
-    const network = new Explorer('https://api.ergoplatform.com');
+    const network = explorer;
     const poolNetwork = new NetworkPools(network);
 
     poolNetwork

@@ -12,15 +12,16 @@ import {
   Input,
   Loading,
   Row,
-  Select,
+  Spacer,
   Tag,
   Text,
   Tooltip,
+  Note,
 } from '@geist-ui/react';
 import { Form, Field, FieldRenderProps } from 'react-final-form';
 import { FORM_ERROR } from 'final-form';
 import { evaluate } from 'mathjs';
-import { AmmPool, Explorer, T2tPoolOps } from 'ergo-dex-sdk';
+import { AmmPool, Explorer, OK, T2tPoolOps } from 'ergo-dex-sdk';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faExchangeAlt,
@@ -44,6 +45,9 @@ import { validateInputAmount, validateSwapForm } from './validators';
 import { useSettings } from '../../context/SettingsContext';
 import { SlippageInput } from '../Settings/SlippageInput';
 import { toast } from 'react-toastify';
+import { explorer } from '../../utils/explorer';
+import { checkPool } from '../../utils/checkPool';
+import { useCheckPool } from '../../hooks/useCheckPool';
 
 const content = {
   slippage: {
@@ -83,6 +87,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
   const [outputAmount, setOutputAmount] = useState('');
   const [availableInputAmount, setAvailableInputAmount] = useState(0);
   const [feePerToken, setFeePerToken] = useState('');
+  const isPoolValid = useCheckPool(selectedPool);
 
   const updateSelectedPool = useCallback((pool: AmmPool) => {
     setSelectedPool(pool);
@@ -168,7 +173,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
         );
       }
     },
-    [selectedPool],
+    [selectedPool, slippage],
   );
 
   const handleSwitchAssets = useCallback(() => {
@@ -201,7 +206,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
       utxos?.length &&
       choosedAddress
     ) {
-      const network = new Explorer('https://api.ergoplatform.com');
+      const network = explorer;
       const poolId = selectedPool.id;
 
       const baseInputAmount = evaluate(
@@ -294,143 +299,166 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                   <PoolSelect
                     pools={pools}
                     value={selectedPool}
-                    onChangeValue={updateSelectedPool}
+                    onChangeValue={(value) => {
+                      updateSelectedPool(value);
+                    }}
                     inputProps={props.input}
                   />
                 )}
               </Field>
             </Grid>
-            <Grid xs={24}>
-              <Text h4>From</Text>
-            </Grid>
-            <Grid xs={24} direction="column">
-              <Field
-                name="inputAmount"
-                validate={(value) => {
-                  return validateInputAmount(value, {
-                    maxDecimals: inputAssetAmount?.asset.decimals || 0,
-                  });
-                }}
-              >
-                {(props: FieldRenderProps<string>) => (
-                  <>
-                    <Row>
+            {isPoolValid.isFetching && (
+              <Grid xs={24}>
+                <Spacer y={2} />
+                <Loading>Validate pool...</Loading>
+              </Grid>
+            )}
+            {!isPoolValid.isFetching && !isPoolValid.result && (
+              <Grid xs={24}>
+                <Note type="error" label="error" filled>
+                  This pool is not valid. Please, use another one.
+                </Note>
+              </Grid>
+            )}
+            {!isPoolValid.isFetching && isPoolValid.result && (
+              <>
+                <Grid xs={24}>
+                  <Text h4>From</Text>
+                </Grid>
+                <Grid xs={24} direction="column">
+                  <Field
+                    name="inputAmount"
+                    validate={(value) => {
+                      return validateInputAmount(value, {
+                        maxDecimals: inputAssetAmount?.asset.decimals || 0,
+                      });
+                    }}
+                  >
+                    {(props: FieldRenderProps<string>) => (
+                      <>
+                        <Row>
+                          <Input
+                            placeholder="0.0"
+                            type="number"
+                            width="100%"
+                            lang="en"
+                            label={inputAssetAmount?.asset.name ?? ''}
+                            {...props.input}
+                            disabled={!inputAssetAmount}
+                            value={inputAmount}
+                            onChange={({ currentTarget }) => {
+                              const value = currentTarget.value;
+                              handleEnterInputTokenAmount(value);
+                              props.input.onChange(value);
+                            }}
+                          />
+                        </Row>
+                        {props.meta.error && (
+                          <Row>
+                            <Text p small type="error">
+                              {props.meta.error}
+                            </Text>
+                          </Row>
+                        )}
+                      </>
+                    )}
+                  </Field>
+                </Grid>
+                <Grid xs={24} justify="center">
+                  <Tag
+                    onClick={handleSwitchAssets}
+                    type="success"
+                    style={{ cursor: 'pointer' }}
+                  >
+                    <FontAwesomeIcon icon={faExchangeAlt} />
+                  </Tag>
+                </Grid>
+                <Grid xs={24}>
+                  <Text h4>To</Text>
+                </Grid>
+                <Grid xs={24}>
+                  <Field name="outputAmount">
+                    {(props: FieldRenderProps<string>) => (
+                      <Input
+                        placeholder="0.0"
+                        type="number"
+                        label={outputAssetAmount?.asset.name ?? ''}
+                        width="100%"
+                        {...props.input}
+                        value={outputAmount}
+                        onChange={(e) => {
+                          props.input.onChange(e.currentTarget.value);
+                        }}
+                        disabled
+                      />
+                    )}
+                  </Field>
+                </Grid>
+
+                <Grid xs={24}>
+                  <Text h4>
+                    {content.slippage.label}{' '}
+                    <Tooltip text={content.slippage.tooltip}>
+                      <FontAwesomeIcon icon={faQuestionCircle} />
+                    </Tooltip>
+                  </Text>
+                </Grid>
+                <Grid xs={24}>
+                  <SlippageInput
+                    slippage={slippage}
+                    setSlippage={setSlippage}
+                  />
+                </Grid>
+                <Grid xs={24}>
+                  <Text h4>Fee per token</Text>
+                </Grid>
+                <Grid xs={24}>
+                  <Field
+                    name="feePerToken"
+                    validate={(value) => {
+                      return validateInputAmount(value, {
+                        maxDecimals: inputAssetAmount?.asset.decimals || 0,
+                      });
+                    }}
+                  >
+                    {(props: FieldRenderProps<string>) => (
                       <Input
                         placeholder="0.0"
                         type="number"
                         width="100%"
-                        lang="en"
-                        label={inputAssetAmount?.asset.name ?? ''}
                         {...props.input}
-                        disabled={!inputAssetAmount}
-                        value={inputAmount}
+                        disabled={!outputAmount}
+                        value={feePerToken}
                         onChange={({ currentTarget }) => {
-                          const value = currentTarget.value;
-                          handleEnterInputTokenAmount(value);
-                          props.input.onChange(value);
+                          setFeePerToken(currentTarget.value as string);
+                          props.input.onChange(currentTarget.value);
                         }}
                       />
-                    </Row>
-                    {props.meta.error && (
-                      <Row>
-                        <Text p small type="error">
-                          {props.meta.error}
-                        </Text>
-                      </Row>
                     )}
-                  </>
-                )}
-              </Field>
-            </Grid>
-            <Grid xs={24} justify="center">
-              <Tag
-                onClick={handleSwitchAssets}
-                type="success"
-                style={{ cursor: 'pointer' }}
-              >
-                <FontAwesomeIcon icon={faExchangeAlt} />
-              </Tag>
-            </Grid>
-            <Grid xs={24}>
-              <Text h4>To</Text>
-            </Grid>
-            <Grid xs={24}>
-              <Field name="outputAmount">
-                {(props: FieldRenderProps<string>) => (
-                  <Input
-                    placeholder="0.0"
-                    type="number"
-                    label={outputAssetAmount?.asset.name ?? ''}
-                    width="100%"
-                    {...props.input}
-                    value={outputAmount}
-                    onChange={(e) => {
-                      props.input.onChange(e.currentTarget.value);
-                    }}
-                    disabled
-                  />
-                )}
-              </Field>
-            </Grid>
-
-            <Grid xs={24}>
-              <Text h4>
-                {content.slippage.label}{' '}
-                <Tooltip text={content.slippage.tooltip}>
-                  <FontAwesomeIcon icon={faQuestionCircle} />
-                </Tooltip>
-              </Text>
-            </Grid>
-            <Grid xs={24}>
-              <SlippageInput slippage={slippage} setSlippage={setSlippage} />
-            </Grid>
-            <Grid xs={24}>
-              <Text h4>Fee per token</Text>
-            </Grid>
-            <Grid xs={24}>
-              <Field
-                name="feePerToken"
-                validate={(value) => {
-                  return validateInputAmount(value, {
-                    maxDecimals: inputAssetAmount?.asset.decimals || 0,
-                  });
-                }}
-              >
-                {(props: FieldRenderProps<string>) => (
-                  <Input
-                    placeholder="0.0"
-                    type="number"
-                    width="100%"
-                    {...props.input}
-                    disabled={!outputAmount}
-                    value={feePerToken}
-                    onChange={({ currentTarget }) => {
-                      setFeePerToken(currentTarget.value as string);
-                      props.input.onChange(currentTarget.value);
-                    }}
-                  />
-                )}
-              </Field>
-            </Grid>
-            <Grid xs={24} direction="column">
-              {errors[FORM_ERROR] && (
-                <Row>
-                  <Text p small type="error">
-                    {errors[FORM_ERROR]}
-                  </Text>
-                </Row>
-              )}
-              <Row justify="center">
-                <Button
-                  htmlType="submit"
-                  disabled={
-                    buttonStatus.disabled || Object.values(errors).length > 0
-                  }
-                >
-                  {buttonStatus.text}
-                </Button>
-              </Row>
-            </Grid>
+                  </Field>
+                </Grid>
+                <Grid xs={24} direction="column">
+                  {errors[FORM_ERROR] && (
+                    <Row>
+                      <Text p small type="error">
+                        {errors[FORM_ERROR]}
+                      </Text>
+                    </Row>
+                  )}
+                  <Row justify="center">
+                    <Button
+                      htmlType="submit"
+                      disabled={
+                        buttonStatus.disabled ||
+                        Object.values(errors).length > 0
+                      }
+                    >
+                      {buttonStatus.text}
+                    </Button>
+                  </Row>
+                </Grid>
+              </>
+            )}
           </Grid.Container>
         </form>
       )}
