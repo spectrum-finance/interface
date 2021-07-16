@@ -64,12 +64,12 @@ interface SwapFormProps {
 const calculateAvailableAmount = (
   tokenId: string,
   boxes: ErgoBox[],
-): number => {
+): bigint => {
   return boxes
     .flatMap(({ assets }) => assets)
     .filter((a) => a.tokenId == tokenId)
     .map(({ amount }) => amount)
-    .reduce((acc, x) => acc + x, 0);
+    .reduce((acc, x) => acc + x, 0n);
 };
 
 const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
@@ -85,7 +85,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
   const [slippage, setSlippage] = useState(0.01);
   const [inputAmount, setInputAmount] = useState('');
   const [outputAmount, setOutputAmount] = useState('');
-  const [availableInputAmount, setAvailableInputAmount] = useState(0);
+  const [availableInputAmount, setAvailableInputAmount] = useState(0n);
   const [feePerToken, setFeePerToken] = useState('');
   const isPoolValid = useCheckPool(selectedPool);
 
