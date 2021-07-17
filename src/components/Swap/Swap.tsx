@@ -53,6 +53,7 @@ import { explorer } from '../../utils/explorer';
 import { checkPool } from '../../utils/checkPool';
 import { useCheckPool } from '../../hooks/useCheckPool';
 import { ergoTxToProxy } from 'ergo-dex-sdk/build/module/ergo';
+import { calculateAvailableAmount } from '../walletMath';
 
 const content = {
   slippage: {
@@ -65,17 +66,6 @@ const content = {
 interface SwapFormProps {
   pools: AmmPool[];
 }
-
-const calculateAvailableAmount = (
-  tokenId: string,
-  boxes: ErgoBox[],
-): bigint => {
-  return boxes
-    .flatMap(({ assets }) => assets)
-    .filter((a) => a.tokenId == tokenId)
-    .map(({ amount }) => amount)
-    .reduce((acc, x) => acc + x, 0n);
-};
 
 const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
   const { isWalletConnected, utxos } = useContext(WalletContext);

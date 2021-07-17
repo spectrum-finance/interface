@@ -63,7 +63,7 @@ export const Redeem = (): JSX.Element => {
     });
     switch (buttonState) {
       case WalletStates.NEED_TO_SELECT_POOL: {
-        return { disabled: true, text: 'Need to select pool' };
+        return { disabled: true, text: 'Wallet not selected' };
       }
       case WalletStates.SUBMIT: {
         return { disabled: false, text: 'Submit' };
@@ -166,7 +166,7 @@ export const Redeem = (): JSX.Element => {
             <form onSubmit={handleSubmit}>
               <Grid.Container gap={1}>
                 <Grid xs={24}>
-                  <Text h4>Select pool</Text>
+                  <Text h5>Pool</Text>
                 </Grid>
                 <Grid xs={24}>
                   <Field name="pool" component="select">
