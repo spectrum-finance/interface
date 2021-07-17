@@ -25,8 +25,7 @@ import {
   DefaultBoxSelector,
   DefaultTxAssembler,
   ErgoBox,
-  ergoBoxFromProxy,
-  ergoTxToProxy,
+  fixErgoBox,
 } from 'ergo-dex-sdk/build/module/ergo';
 import { fromAddress } from 'ergo-dex-sdk/build/module/ergo/entities/publicKey';
 import { WalletContext } from '../../context/WalletContext';
@@ -133,7 +132,8 @@ export const Deposit = (): JSX.Element => {
     if (isWalletConnected) {
       ergo
         .get_utxos()
-        .then((data) => setUtxos(data?.map((p) => ergoBoxFromProxy(p)) ?? []));
+        .then((bs) => (bs ? bs.map((b) => fixErgoBox(b)) : bs))
+        .then((data) => setUtxos(data ?? []));
     }
   }, [isWalletConnected]);
 
@@ -253,7 +253,7 @@ export const Deposit = (): JSX.Element => {
           },
         )
         .then(async (tx) => {
-          await ergo.submit_tx(ergoTxToProxy(tx));
+          await ergo.submit_tx(tx);
           toast.success(`Transaction submitted: ${tx} `);
         })
         .catch((er) => toast.error(JSON.stringify(er)));
@@ -315,13 +315,13 @@ export const Deposit = (): JSX.Element => {
                 {isPoolValid.isFetching && (
                   <Grid xs={24}>
                     <Spacer y={2} />
-                    <Loading>Validating pool...</Loading>
+                    <Loading>Validating selected pool...</Loading>
                   </Grid>
                 )}
                 {!isPoolValid.isFetching && !isPoolValid.result && (
                   <Grid xs={24}>
                     <Note type="error" label="error" filled>
-                      This pool is not valid. Please, use another one.
+                      This pool is invalid. Please select another one.
                     </Note>
                   </Grid>
                 )}

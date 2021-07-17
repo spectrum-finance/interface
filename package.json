@@ -35,7 +35,8 @@
     "react-toastify": "^7.0.4",
     "typescript": "^4.3.5",
     "web-vitals": "^1.0.1",
-    "yup": "^0.32.9"
+    "yup": "^0.32.9",
+    "json-bigint": "^1.0.0"
   },
   "devDependencies": {
     "@babel/plugin-syntax-bigint": "^7.8.3",
@@ -45,6 +46,7 @@
     "@types/react-copy-to-clipboard": "^5.0.1",
     "@typescript-eslint/eslint-plugin": "^4.28.1",
     "@typescript-eslint/parser": "^4.28.1",
+    "@types/json-bigint": "^1.0.1",
     "babel-loader": "8.1.0",
     "css-modules-typescript-loader": "^4.0.1",
     "customize-cra": "^1.0.0",

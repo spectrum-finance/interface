@@ -1,7 +1,11 @@
 import React, { createContext, useEffect, useState } from 'react';
-import { ErgoBox, ErgoBoxProxy } from 'ergo-dex-sdk/build/module/ergo';
+import {
+  ErgoBox,
+  ergoBoxFromProxy,
+  ErgoBoxProxy,
+  fixErgoBox,
+} from 'ergo-dex-sdk/build/module/ergo';
 import { useInterval } from '../hooks/useInterval';
-import { ergoBoxFromProxy } from 'ergo-dex-sdk/build/module/ergo';
 
 type WalletContextType = {
   isWalletConnected: boolean;
@@ -34,17 +38,23 @@ const WalletContextProvider = ({
   useEffect(() => {
     if (!isWalletConnected) return;
 
-    ergo.get_utxos().then((data: ErgoBoxProxy[] | undefined) => {
-      setUtxos(data?.map((p) => ergoBoxFromProxy(p)) ?? []);
-    });
+    ergo
+      .get_utxos()
+      .then((bs) => (bs ? bs.map((b) => fixErgoBox(b)) : bs))
+      .then((data: ErgoBox[] | undefined) => {
+        setUtxos(data ?? []);
+      });
   }, [isWalletConnected]);
 
   useInterval(() => {
     if (!isWalletConnected) return;
 
-    ergo.get_utxos().then((data: ErgoBoxProxy[] | undefined) => {
-      setUtxos(data?.map((p) => ergoBoxFromProxy(p)) ?? []);
-    });
+    ergo
+      .get_utxos()
+      .then((bs) => (bs ? bs.map((b) => fixErgoBox(b)) : bs))
+      .then((data: ErgoBox[] | undefined) => {
+        setUtxos(data ?? []);
+      });
   }, 10 * 1000);
 
   return (

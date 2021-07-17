@@ -12,7 +12,7 @@ import {
 } from '@geist-ui/react';
 import { Form, Field, FieldRenderProps } from 'react-final-form';
 import { evaluate } from 'mathjs';
-import { AmmPool, Explorer, T2tPoolOps } from 'ergo-dex-sdk';
+import { AmmPool, T2tPoolOps } from 'ergo-dex-sdk';
 import { YoroiProver } from '../../utils/yoroiProver';
 import {
   AssetAmount,
@@ -20,8 +20,7 @@ import {
   DefaultBoxSelector,
   DefaultTxAssembler,
   ErgoBox,
-  ergoBoxFromProxy,
-  ergoTxToProxy,
+  fixErgoBox,
 } from 'ergo-dex-sdk/build/module/ergo';
 import { fromAddress } from 'ergo-dex-sdk/build/module/ergo/entities/publicKey';
 import { WalletContext } from '../../context/WalletContext';
@@ -82,7 +81,8 @@ export const Redeem = (): JSX.Element => {
     if (isWalletConnected) {
       ergo
         .get_utxos()
-        .then((data) => setUtxos(data?.map((p) => ergoBoxFromProxy(p)) ?? []));
+        .then((bs) => (bs ? bs.map((b) => fixErgoBox(b)) : bs))
+        .then((data) => setUtxos(data ?? []));
     }
   }, [isWalletConnected]);
 
@@ -122,7 +122,7 @@ export const Redeem = (): JSX.Element => {
           },
         )
         .then(async (tx) => {
-          const txId = await ergo.submit_tx(ergoTxToProxy(tx));
+          const txId = await ergo.submit_tx(tx);
           toast.success(`Transaction submitted: ${txId} `);
         })
         .catch((er) => toast.error(JSON.stringify(er)));

@@ -1,4 +1,5 @@
 import * as yup from 'yup';
+import { evaluate } from 'mathjs';
 
 const fixedNumber = (decimals: number) =>
   yup
@@ -21,11 +22,49 @@ export const validateSlippage = (value: string): string | undefined => {
 
 type validateInputAmountOpts = {
   maxDecimals: number;
+  maxAvailable: bigint;
 };
+
+function validDecimals(value: string, maxDecimals: number): boolean {
+  const [, decimals = ''] = value
+    .toString()
+    .split(new RegExp('^[1-9]*[.|,]([1-9]*)$'));
+  return decimals.length <= maxDecimals;
+}
 
 export const validateInputAmount = (
   value: string,
-  { maxDecimals }: validateInputAmountOpts,
+  { maxDecimals, maxAvailable }: validateInputAmountOpts,
+): string | undefined => {
+  const schema = yup
+    .string()
+    .trim()
+    .test(
+      'no-more-decimals-allowed',
+      `Max number of decimals exceeded. Max allowed: ${maxDecimals}`,
+      (value = '') => validDecimals(value, maxDecimals),
+    )
+    .test(
+      'balance-exceeded',
+      `Available balance exceeded. Available amount: ${evaluate(
+        `${maxAvailable} / 10^${maxDecimals}`,
+      )}`,
+      (value = '') => {
+        const valueRefined = BigInt(evaluate(`${value} * 10^${maxDecimals}`));
+        return valueRefined <= maxAvailable;
+      },
+    );
+  try {
+    schema.validateSync(value);
+  } catch (e) {
+    return e.message;
+  }
+  return undefined;
+};
+
+export const validateNumber = (
+  value: string,
+  opts: { maxDecimals: number },
 ): string | undefined => {
   const schema = yup
     .string()
@@ -33,23 +72,7 @@ export const validateInputAmount = (
     .test(
       'no-more-decimals-allowed',
       'no more decimals allowed',
-      (value = '') => {
-        const [, decimals = ''] = value
-          .toString()
-          .split(new RegExp('^[1-9]*[.|,]([1-9]*)$'));
-        return decimals.length <= maxDecimals;
-      },
-    )
-    .test(
-      'is-max-dicimals',
-      `max decimals at this token after comma is ${maxDecimals}`,
-      (value = '') => {
-        const fractionalPartIndex = value.match('.,')?.index;
-        const fractionalPart = fractionalPartIndex
-          ? value.substr(fractionalPartIndex + 1)
-          : '';
-        return maxDecimals >= fractionalPart.length;
-      },
+      (value = '') => validDecimals(value, opts.maxDecimals),
     );
   try {
     schema.validateSync(value);
@@ -77,7 +100,7 @@ export const validateSwapForm = (
       'is-enough-available-amount',
       `must be less than available amount ${availableInputAmount}`,
       ({ inputAmount }) => {
-        return BigInt(inputAmount) < availableInputAmount;
+        return BigInt(inputAmount) <= availableInputAmount;
       },
     );
   try {

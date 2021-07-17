@@ -41,7 +41,11 @@ import { useGetAllPools } from '../../hooks/useGetAllPools';
 import { PoolSelect } from '../PoolSelect/PoolSelect';
 import { defaultMinerFee, NanoErgInErg } from '../../constants/erg';
 import { getButtonState } from './utils';
-import { validateInputAmount, validateSwapForm } from './validators';
+import {
+  validateInputAmount,
+  validateNumber,
+  validateSwapForm,
+} from './validators';
 import { useSettings } from '../../context/SettingsContext';
 import { SlippageInput } from '../Settings/SlippageInput';
 import { toast } from 'react-toastify';
@@ -49,7 +53,6 @@ import { explorer } from '../../utils/explorer';
 import { checkPool } from '../../utils/checkPool';
 import { useCheckPool } from '../../hooks/useCheckPool';
 import { ergoTxToProxy } from 'ergo-dex-sdk/build/module/ergo';
-import { InsufficientInputs } from 'ergo-dex-sdk/build/module/ergo/errors/insufficientInputs';
 
 const content = {
   slippage: {
@@ -290,7 +293,6 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
           { inputAmount },
           { availableInputAmount },
         );
-
         if (errorMsg) {
           return { [FORM_ERROR]: errorMsg };
         }
@@ -318,13 +320,13 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
             {isPoolValid.isFetching && (
               <Grid xs={24}>
                 <Spacer y={2} />
-                <Loading>Validating pool...</Loading>
+                <Loading>Validating selected pool...</Loading>
               </Grid>
             )}
             {!isPoolValid.isFetching && !isPoolValid.result && (
               <Grid xs={24}>
                 <Note type="error" label="error" filled>
-                  This pool is not valid. Please, use another one.
+                  This pool is invalid. Please select another one.
                 </Note>
               </Grid>
             )}
@@ -339,6 +341,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                     validate={(value) => {
                       return validateInputAmount(value, {
                         maxDecimals: inputAssetAmount?.asset.decimals || 0,
+                        maxAvailable: availableInputAmount,
                       });
                     }}
                   >
@@ -427,9 +430,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                   <Field
                     name="minDexFee"
                     validate={(value) => {
-                      return validateInputAmount(value, {
-                        maxDecimals: 9,
-                      });
+                      return validateNumber(value, { maxDecimals: 9 });
                     }}
                   >
                     {(props: FieldRenderProps<string>) => (
@@ -454,9 +455,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                   <Field
                     name="nitro"
                     validate={(value) => {
-                      return validateInputAmount(value, {
-                        maxDecimals: 2,
-                      });
+                      return validateNumber(value, { maxDecimals: 2 });
                     }}
                   >
                     {(props: FieldRenderProps<string>) => (
