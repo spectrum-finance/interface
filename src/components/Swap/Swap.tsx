@@ -140,12 +140,12 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
         const amount = selectedPool.inputAmount(
           new AssetAmount(
             outputAssetAmount.asset,
-            userInputToFractions(outputAmount, outputAssetAmount.asset),
+            userInputToFractions(outputAmount, outputAssetAmount.asset.decimals),
           ),
           slippage,
         );
         setInputAmount(
-          renderFractions(amount?.amount ?? 0n, inputAssetAmount.asset),
+          renderFractions(amount?.amount ?? 0n, inputAssetAmount.asset.decimals),
         );
       }
     },
@@ -167,12 +167,12 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
         const amount = selectedPool.outputAmount(
           new AssetAmount(
             inputAssetAmount.asset,
-            userInputToFractions(inputAmount, inputAssetAmount.asset),
+            userInputToFractions(inputAmount, inputAssetAmount.asset.decimals),
           ),
           slippage,
         );
         setOutputAmount(
-          renderFractions(amount?.amount ?? 0n, outputAssetAmount.asset),
+          renderFractions(amount?.amount ?? 0n, outputAssetAmount.asset.decimals),
         );
       }
     },
@@ -184,7 +184,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
     setOutputAssetAmount(inputAssetAmount);
     if (inputAmount === pivotalAmount) {
       setOutputAmount(pivotalAmount);
-      updateInputAmount(pivotalAmount, inputAssetAmount, outputAssetAmount)
+      updateInputAmount(pivotalAmount, inputAssetAmount, outputAssetAmount);
     } else {
       setInputAmount(pivotalAmount);
       updateOutputAmount(pivotalAmount, inputAssetAmount, outputAssetAmount);
