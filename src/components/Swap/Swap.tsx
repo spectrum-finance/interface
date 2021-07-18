@@ -228,31 +228,31 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
       setPivotalAmount(value);
       updateOutputAmount(value, outputAssetAmount, inputAssetAmount);
 
-      const { minOutput } = getBaseInputParameters(selectedPool, {
-        inputAmount: value,
-        inputAssetAmount,
-        slippage,
-      });
-
-      const [, extremums] = swapVars(
-        Number(minDexFee),
-        Number(nitro),
-        minOutput,
-      );
-
-      setSwapOptions(() => {
-        const { minDexFee, maxDexFee } = extremums;
-
-        return {
-          minDexFee,
-          maxDexFee,
-          minOutput,
-          slippage,
-        };
-      });
-
       if (!value.trim()) {
         setOutputAmount('0');
+      } else {
+        const { minOutput } = getBaseInputParameters(selectedPool, {
+          inputAmount: value,
+          inputAssetAmount,
+          slippage,
+        });
+
+        const [, extremums] = swapVars(
+          Number(minDexFee),
+          Number(nitro),
+          minOutput,
+        );
+
+        setSwapOptions(() => {
+          const { minDexFee, maxDexFee } = extremums;
+
+          return {
+            minDexFee,
+            maxDexFee,
+            minOutput,
+            slippage,
+          };
+        });
       }
     }
   };
