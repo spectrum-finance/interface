@@ -73,9 +73,9 @@ interface SwapFormProps {
 
 interface SwapOptions {
   minOutput: AssetAmount;
+  maxOutput: AssetAmount;
   maxDexFee: number;
   minDexFee: number;
-  slippage: number;
 }
 
 const defaultNitroState = 1.2;
@@ -250,16 +250,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
           minOutput,
         );
 
-        setSwapOptions(() => {
-          const { minDexFee, maxDexFee } = extremums;
-
-          return {
-            minDexFee,
-            maxDexFee,
-            minOutput,
-            slippage,
-          };
-        });
+        setSwapOptions(() => extremums);
       }
     }
   };
@@ -560,6 +551,10 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                           {
                             prop: 'Minimal receive',
                             value: `${swapOptions.minOutput.amount} ${swapOptions.minOutput.asset.name}`,
+                          },
+                          {
+                            prop: 'Maximum receive',
+                            value: `${swapOptions.maxOutput.amount} ${swapOptions.maxOutput.asset.name}`,
                           },
                         ]}
                       >
