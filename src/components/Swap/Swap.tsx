@@ -38,7 +38,12 @@ import { YoroiProver } from '../../utils/yoroiProver';
 import { WalletContext } from '../../context/WalletContext';
 import { useGetAllPools } from '../../hooks/useGetAllPools';
 import { PoolSelect } from '../PoolSelect/PoolSelect';
-import { NanoErgInErg, baseTokenName } from '../../constants/erg';
+import {
+  NanoErgInErg,
+  defaultMinerFee,
+  baseTokenName,
+  numOfErgDecimals,
+} from '../../constants/erg';
 import { getButtonState } from './utils';
 import { validateInputAmount, validateNumber } from './validation';
 import { useSettings } from '../../context/SettingsContext';
@@ -73,6 +78,8 @@ interface SwapOptions {
   slippage: number;
 }
 
+const defaultNitroState = 1.2;
+
 const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
   const { isWalletConnected, utxos } = useContext(WalletContext);
   const [{ minerFee, address: choosedAddress }] = useSettings();
@@ -88,8 +95,8 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
   const [inputAmount, setInputAmount] = useState('');
   const [outputAmount, setOutputAmount] = useState('');
   const [availableInputAmount, setAvailableInputAmount] = useState(0n);
-  const [minDexFee, setMinDexFee] = useState('1000000');
-  const [nitro, setNitro] = useState('1.2');
+  const [minDexFee, setMinDexFee] = useState(String(defaultMinerFee));
+  const [nitro, setNitro] = useState(String(defaultNitroState));
   const [swapOptions, setSwapOptions] = useState<SwapOptions | undefined>();
   const isPoolValid = useCheckPool(selectedPool);
 
