@@ -286,7 +286,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
         new DefaultTxAssembler(true),
       );
       const pk = fromAddress(choosedAddress) as string;
-      // const minOutput = userInputToFractions(inputAmount, inputAssetAmount.asset);
+
       const minDexFeeN = Number(minDexFee);
       const nitroN = Number(nitro);
       const [dexFeePerToken, extremums] = swapVars(
@@ -534,30 +534,36 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                 {swapOptions && (
                   <>
                     <Grid xs={24}>
-                      <Text h4>Transaction options</Text>
+                      <Text h4>Transaction Details</Text>
                     </Grid>
                     <Grid xs={24}>
                       <Table
                         data={[
                           {
-                            prop: 'Min Dex Fee',
-                            value: `${swapOptions.minDexFee} ${baseTokenName}`,
+                            prop: 'Miners Fee',
+                            value: `${minerFee} ${baseTokenName}`,
                           },
                           {
-                            prop: 'Max Dex Fee',
-                            value: `${swapOptions.maxDexFee} ${baseTokenName}`,
+                            prop: 'Min DEX Fee',
+                            value: `${renderFractions(
+                              BigInt(swapOptions.minDexFee),
+                              numOfErgDecimals,
+                            )} ${baseTokenName}`,
+                          },
+                          {
+                            prop: 'Max DEX Fee',
+                            value: `${renderFractions(
+                              BigInt(swapOptions.maxDexFee),
+                              numOfErgDecimals,
+                            )} ${baseTokenName}`,
                           },
                           {
                             prop: 'Minimal receive',
                             value: `${swapOptions.minOutput.amount} ${swapOptions.minOutput.asset.name}`,
                           },
-                          {
-                            prop: 'Slippage tolerance',
-                            value: `${swapOptions.slippage}%`,
-                          },
                         ]}
                       >
-                        <Table.Column prop="prop" label="Property" />
+                        <Table.Column prop="prop" label="Detail" />
                         <Table.Column prop="value" label="Amount" />
                       </Table>
                     </Grid>
