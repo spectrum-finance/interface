@@ -4,6 +4,7 @@ import { DefaultSettings, Settings } from '../../context/SettingsContext';
 import { AutoInputContainer } from './AutoInputContainer';
 import { MinerFeeMax, MinerFeeMin } from '../../constants/settings';
 import { FormError } from './FormError';
+import { baseTokenName } from '../../constants/erg';
 
 const content = {
   autoButton: 'Auto',
@@ -79,7 +80,7 @@ export const MinerFeeInput = (props: MinerFeeInputProps): JSX.Element => {
           onBlur={handleOnBlur}
           status={error ? 'error' : undefined}
           clearable
-          labelRight="ERG"
+          labelRight={baseTokenName}
           min={MinerFeeMin}
           max={MinerFeeMax}
           placeholder={DefaultSettings.minerFee}
