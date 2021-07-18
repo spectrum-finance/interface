@@ -40,11 +40,7 @@ import { useGetAllPools } from '../../hooks/useGetAllPools';
 import { PoolSelect } from '../PoolSelect/PoolSelect';
 import { NanoErgInErg, baseTokenName } from '../../constants/erg';
 import { getButtonState } from './utils';
-import {
-  validateInputAmount,
-  validateNumber,
-  validateSwapForm,
-} from './validators';
+import { validateInputAmount, validateNumber } from './validation';
 import { useSettings } from '../../context/SettingsContext';
 import { SlippageInput } from '../Settings/SlippageInput';
 import { toast } from 'react-toastify';
@@ -156,12 +152,18 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
         const amount = selectedPool.inputAmount(
           new AssetAmount(
             outputAssetAmount.asset,
-            userInputToFractions(outputAmount, outputAssetAmount.asset),
+            userInputToFractions(
+              outputAmount,
+              outputAssetAmount.asset.decimals,
+            ),
           ),
           slippage,
         );
         setInputAmount(
-          renderFractions(amount?.amount ?? 0n, inputAssetAmount.asset),
+          renderFractions(
+            amount?.amount ?? 0n,
+            inputAssetAmount.asset.decimals,
+          ),
         );
       }
     },
@@ -183,12 +185,15 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
         const amount = selectedPool.outputAmount(
           new AssetAmount(
             inputAssetAmount.asset,
-            userInputToFractions(inputAmount, inputAssetAmount.asset),
+            userInputToFractions(inputAmount, inputAssetAmount.asset.decimals),
           ),
           slippage,
         );
         setOutputAmount(
-          renderFractions(amount?.amount ?? 0n, outputAssetAmount.asset),
+          renderFractions(
+            amount?.amount ?? 0n,
+            outputAssetAmount.asset.decimals,
+          ),
         );
       }
     },
@@ -200,7 +205,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
     setOutputAssetAmount(inputAssetAmount);
     if (inputAmount === pivotalAmount) {
       setOutputAmount(pivotalAmount);
-      updateInputAmount(inputAmount, inputAssetAmount, outputAssetAmount);
+      updateInputAmount(pivotalAmount, inputAssetAmount, outputAssetAmount);
     } else {
       setInputAmount(pivotalAmount);
       updateOutputAmount(pivotalAmount, inputAssetAmount, outputAssetAmount);
@@ -308,8 +313,6 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
         ],
       });
 
-      console.log('inputs: ', inputs);
-
       if (inputs instanceof BoxSelection) {
         const txContext = {
           inputs,
@@ -343,16 +346,6 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
         poolId: undefined,
         minDexFee: 0,
         nitro: 0,
-      }}
-      validate={() => {
-        if (buttonStatus.disabled || !isWalletConnected) return;
-        const errorMsg = validateSwapForm(
-          { inputAmount },
-          { availableInputAmount },
-        );
-        if (errorMsg) {
-          return { [FORM_ERROR]: errorMsg };
-        }
       }}
       render={({ handleSubmit, errors = {} }) => (
         <form onSubmit={handleSubmit}>
@@ -395,12 +388,12 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                 <Grid xs={24} direction="column">
                   <Field
                     name="inputAmount"
-                    validate={(value) => {
-                      return validateInputAmount(value, {
+                    validate={(value) =>
+                      validateInputAmount(value, {
                         maxDecimals: inputAssetAmount?.asset.decimals || 0,
                         maxAvailable: availableInputAmount,
-                      });
-                    }}
+                      })
+                    }
                   >
                     {(props: FieldRenderProps<string>) => (
                       <>
@@ -548,7 +541,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                             value: `${swapOptions.maxDexFee} ${baseTokenName}`,
                           },
                           {
-                            prop: 'Minimal output',
+                            prop: 'Minimal receive',
                             value: `${swapOptions.minOutput.amount} ${swapOptions.minOutput.asset.name}`,
                           },
                           {
@@ -560,11 +553,6 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                         <Table.Column prop="prop" label="Property" />
                         <Table.Column prop="value" label="Amount" />
                       </Table>
-                    </Grid>
-                    <Grid xs={24}>
-                      <Text>{`
-                          Output is estimated. You will receive at least ${swapOptions.minOutput.amount} ${swapOptions.minOutput.asset.name}.
-                        `}</Text>
                     </Grid>
                   </>
                 )}

@@ -1,4 +1,4 @@
-import { AssetInfo, ErgoBox } from 'ergo-dex-sdk/build/module/ergo';
+import { ErgoBox } from 'ergo-dex-sdk/build/module/ergo';
 import { evaluate } from 'mathjs';
 import { AmmPool } from 'ergo-dex-sdk';
 import { AssetAmount } from 'ergo-dex-sdk/build/module/ergo';
@@ -16,16 +16,16 @@ export const calculateAvailableAmount = (
 
 export const userInputToFractions = (
   input: string,
-  inputAsset: AssetInfo,
+  numDecimals: number | undefined,
 ): bigint => {
-  return BigInt(evaluate(`${input}*10^${inputAsset.decimals ?? 0}`).toFixed(0));
+  return BigInt(evaluate(`${input}*10^${numDecimals ?? 0}`).toFixed(0));
 };
 
 export const renderFractions = (
   input: bigint,
-  inputAsset: AssetInfo,
+  numDecimals: number | undefined,
 ): string => {
-  return String(evaluate(`${input}/10^${inputAsset.decimals ?? 0}`));
+  return String(evaluate(`${input}/10^${numDecimals ?? 0}`));
 };
 
 export const getBaseInputParameters = (
