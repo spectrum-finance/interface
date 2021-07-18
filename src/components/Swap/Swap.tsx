@@ -44,8 +44,7 @@ import { getButtonState } from './utils';
 import {
   validateInputAmount,
   validateNumber,
-  validateSwapForm,
-} from './validators';
+} from './validation';
 import { useSettings } from '../../context/SettingsContext';
 import { SlippageInput } from '../Settings/SlippageInput';
 import { toast } from 'react-toastify';
@@ -185,7 +184,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
     setOutputAssetAmount(inputAssetAmount);
     if (inputAmount === pivotalAmount) {
       setOutputAmount(pivotalAmount);
-      updateInputAmount(inputAmount, inputAssetAmount, outputAssetAmount)
+      updateInputAmount(pivotalAmount, inputAssetAmount, outputAssetAmount)
     } else {
       setInputAmount(pivotalAmount);
       updateOutputAmount(pivotalAmount, inputAssetAmount, outputAssetAmount);
@@ -267,8 +266,6 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
         ],
       });
 
-      console.log('inputs: ', inputs);
-
       if (inputs instanceof BoxSelection) {
         const txContext = {
           inputs,
@@ -302,16 +299,6 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
         poolId: undefined,
         minDexFee: 0,
         nitro: 0,
-      }}
-      validate={() => {
-        if (buttonStatus.disabled || !isWalletConnected) return;
-        const errorMsg = validateSwapForm(
-          { inputAmount },
-          { availableInputAmount },
-        );
-        if (errorMsg) {
-          return { [FORM_ERROR]: errorMsg };
-        }
       }}
       render={({ handleSubmit, errors = {} }) => (
         <form onSubmit={handleSubmit}>
@@ -354,12 +341,12 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                 <Grid xs={24} direction='column'>
                   <Field
                     name='inputAmount'
-                    validate={(value) => {
-                      return validateInputAmount(value, {
+                    validate={(value) =>
+                      validateInputAmount(value, {
                         maxDecimals: inputAssetAmount?.asset.decimals || 0,
                         maxAvailable: availableInputAmount,
-                      });
-                    }}
+                      })
+                    }
                   >
                     {(props: FieldRenderProps<string>) => (
                       <>

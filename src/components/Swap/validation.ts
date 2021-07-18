@@ -26,9 +26,8 @@ type validateInputAmountOpts = {
 };
 
 function validDecimals(value: string, maxDecimals: number): boolean {
-  const [, decimals = ''] = value
-    .toString()
-    .split(new RegExp('^[1-9]*[.|,]([1-9]*)$'));
+  const idx = value.indexOf(".")
+  const decimals = value.slice(idx)
   return decimals.length <= maxDecimals;
 }
 
@@ -80,33 +79,4 @@ export const validateNumber = (
     return e.message;
   }
   return undefined;
-};
-
-type validateSwapFormOpts = {
-  availableInputAmount: bigint;
-};
-
-type validateSwapFormValues = {
-  inputAmount: string;
-};
-
-export const validateSwapForm = (
-  values: validateSwapFormValues,
-  { availableInputAmount }: validateSwapFormOpts,
-): string => {
-  const schema = yup
-    .object()
-    .test(
-      'is-enough-available-amount',
-      `must be less than available amount ${availableInputAmount}`,
-      ({ inputAmount }) => {
-        return BigInt(inputAmount) <= availableInputAmount;
-      },
-    );
-  try {
-    schema.validateSync(values);
-  } catch (e) {
-    return e.message;
-  }
-  return '';
 };

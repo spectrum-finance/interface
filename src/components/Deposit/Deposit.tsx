@@ -37,7 +37,7 @@ import { useSettings } from '../../context/SettingsContext';
 import { toast } from 'react-toastify';
 import { explorer } from '../../utils/explorer';
 import { useCheckPool } from '../../hooks/useCheckPool';
-import { validateInputAmount } from '../Swap/validators';
+import { validateInputAmount } from '../Swap/validation';
 import { calculateAvailableAmount } from '../walletMath';
 
 export const Deposit = (): JSX.Element => {
