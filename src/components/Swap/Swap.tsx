@@ -17,11 +17,11 @@ import {
   Text,
   Tooltip,
   Note,
+  Table,
 } from '@geist-ui/react';
 import { Form, Field, FieldRenderProps } from 'react-final-form';
 import { FORM_ERROR } from 'final-form';
-import { evaluate } from 'mathjs';
-import { AmmPool, Explorer, OK, swapVars, T2tPoolOps } from 'ergo-dex-sdk';
+import { AmmPool, swapVars, T2tPoolOps } from 'ergo-dex-sdk';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faExchangeAlt,
@@ -32,27 +32,32 @@ import {
   BoxSelection,
   DefaultBoxSelector,
   DefaultTxAssembler,
-  ErgoBox,
 } from 'ergo-dex-sdk/build/module/ergo';
 import { fromAddress } from 'ergo-dex-sdk/build/module/ergo/entities/publicKey';
 import { YoroiProver } from '../../utils/yoroiProver';
 import { WalletContext } from '../../context/WalletContext';
 import { useGetAllPools } from '../../hooks/useGetAllPools';
 import { PoolSelect } from '../PoolSelect/PoolSelect';
-import { defaultMinerFee, NanoErgInErg } from '../../constants/erg';
-import { getButtonState } from './utils';
 import {
-  validateInputAmount,
-  validateNumber,
-} from './validation';
+  NanoErgInErg,
+  defaultMinerFee,
+  baseTokenName,
+  numOfErgDecimals,
+} from '../../constants/erg';
+import { getButtonState } from './utils';
+import { validateInputAmount, validateNumber } from './validation';
 import { useSettings } from '../../context/SettingsContext';
 import { SlippageInput } from '../Settings/SlippageInput';
 import { toast } from 'react-toastify';
 import { explorer } from '../../utils/explorer';
-import { checkPool } from '../../utils/checkPool';
 import { useCheckPool } from '../../hooks/useCheckPool';
 import { ergoTxToProxy } from 'ergo-dex-sdk/build/module/ergo';
-import { calculateAvailableAmount, renderFractions, userInputToFractions } from '../walletMath';
+import {
+  calculateAvailableAmount,
+  getBaseInputParameters,
+  renderFractions,
+  userInputToFractions,
+} from '../walletMath';
 
 const content = {
   slippage: {
@@ -66,19 +71,33 @@ interface SwapFormProps {
   pools: AmmPool[];
 }
 
+interface SwapOptions {
+  minOutput: AssetAmount;
+  maxOutput: AssetAmount;
+  maxDexFee: number;
+  minDexFee: number;
+}
+
+const defaultNitroState = 1.2;
+
 const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
   const { isWalletConnected, utxos } = useContext(WalletContext);
   const [{ minerFee, address: choosedAddress }] = useSettings();
   const [selectedPool, setSelectedPool] = useState<AmmPool | undefined>();
-  const [inputAssetAmount, setInputAssetAmount] = useState<AssetAmount | undefined>();
-  const [outputAssetAmount, setOutputAssetAmount] = useState<AssetAmount | undefined>();
+  const [inputAssetAmount, setInputAssetAmount] = useState<
+    AssetAmount | undefined
+  >();
+  const [outputAssetAmount, setOutputAssetAmount] = useState<
+    AssetAmount | undefined
+  >();
   const [pivotalAmount, setPivotalAmount] = useState('');
   const [slippage, setSlippage] = useState(0.01);
   const [inputAmount, setInputAmount] = useState('');
   const [outputAmount, setOutputAmount] = useState('');
   const [availableInputAmount, setAvailableInputAmount] = useState(0n);
-  const [minDexFee, setMinDexFee] = useState('1000000');
-  const [nitro, setNitro] = useState('1.2');
+  const [minDexFee, setMinDexFee] = useState(String(defaultMinerFee));
+  const [nitro, setNitro] = useState(String(defaultNitroState));
+  const [swapOptions, setSwapOptions] = useState<SwapOptions | undefined>();
   const isPoolValid = useCheckPool(selectedPool);
 
   const updateSelectedPool = useCallback((pool: AmmPool) => {
@@ -140,12 +159,18 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
         const amount = selectedPool.inputAmount(
           new AssetAmount(
             outputAssetAmount.asset,
-            userInputToFractions(outputAmount, outputAssetAmount.asset.decimals),
+            userInputToFractions(
+              outputAmount,
+              outputAssetAmount.asset.decimals,
+            ),
           ),
           slippage,
         );
         setInputAmount(
-          renderFractions(amount?.amount ?? 0n, inputAssetAmount.asset.decimals),
+          renderFractions(
+            amount?.amount ?? 0n,
+            inputAssetAmount.asset.decimals,
+          ),
         );
       }
     },
@@ -172,7 +197,10 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
           slippage,
         );
         setOutputAmount(
-          renderFractions(amount?.amount ?? 0n, outputAssetAmount.asset.decimals),
+          renderFractions(
+            amount?.amount ?? 0n,
+            outputAssetAmount.asset.decimals,
+          ),
         );
       }
     },
@@ -190,22 +218,40 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
       updateOutputAmount(pivotalAmount, inputAssetAmount, outputAssetAmount);
     }
   }, [
+    inputAmount,
+    pivotalAmount,
+    updateInputAmount,
     inputAssetAmount,
     outputAssetAmount,
     setInputAssetAmount,
     setOutputAssetAmount,
     setInputAmount,
-    outputAmount,
     updateOutputAmount,
   ]);
 
   const handleEnterInputTokenAmount = (value: string) => {
-    setInputAmount(value);
-    setPivotalAmount(value);
-    updateOutputAmount(value, outputAssetAmount, inputAssetAmount);
+    if (inputAssetAmount && selectedPool) {
+      setInputAmount(value);
+      setPivotalAmount(value);
+      updateOutputAmount(value, outputAssetAmount, inputAssetAmount);
 
-    if (!value.trim()) {
-      setOutputAmount('0');
+      if (!value.trim()) {
+        setOutputAmount('0');
+      } else {
+        const { minOutput } = getBaseInputParameters(selectedPool, {
+          inputAmount: value,
+          inputAssetAmount,
+          slippage,
+        });
+
+        const [, extremums] = swapVars(
+          Number(minDexFee),
+          Number(nitro),
+          minOutput,
+        );
+
+        setSwapOptions(() => extremums);
+      }
     }
   };
 
@@ -221,18 +267,17 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
       const network = explorer;
       const poolId = selectedPool.id;
 
-      const power = inputAssetAmount.asset.decimals || 0;
-      const baseInputAmount = BigInt(
-        evaluate(`${inputAmount} * 10^${power}`).toFixed(0),
+      const { baseInput, baseInputAmount, minOutput } = getBaseInputParameters(
+        selectedPool,
+        { inputAmount, inputAssetAmount, slippage },
       );
-      const baseInput = selectedPool.x.withAmount(BigInt(baseInputAmount));
 
       const poolOps = new T2tPoolOps(
         new YoroiProver(),
         new DefaultTxAssembler(true),
       );
       const pk = fromAddress(choosedAddress) as string;
-      const minOutput = selectedPool.outputAmount(baseInput, slippage);
+
       const minDexFeeN = Number(minDexFee);
       const nitroN = Number(nitro);
       const [dexFeePerToken, extremums] = swapVars(
@@ -307,7 +352,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
               <Text h4>Pool</Text>
             </Grid>
             <Grid xs={24}>
-              <Field name='poolId' component='select'>
+              <Field name="poolId" component="select">
                 {(props: FieldRenderProps<string>) => (
                   <PoolSelect
                     pools={pools}
@@ -328,7 +373,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
             )}
             {!isPoolValid.isFetching && !isPoolValid.result && (
               <Grid xs={24}>
-                <Note type='error' label='error' filled>
+                <Note type="error" label="error" filled>
                   This pool is invalid. Please select another one.
                 </Note>
               </Grid>
@@ -338,9 +383,9 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                 <Grid xs={24}>
                   <Text h4>From</Text>
                 </Grid>
-                <Grid xs={24} direction='column'>
+                <Grid xs={24} direction="column">
                   <Field
-                    name='inputAmount'
+                    name="inputAmount"
                     validate={(value) =>
                       validateInputAmount(value, {
                         maxDecimals: inputAssetAmount?.asset.decimals || 0,
@@ -352,10 +397,10 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                       <>
                         <Row>
                           <Input
-                            placeholder='0.0'
-                            type='number'
-                            width='100%'
-                            lang='en'
+                            placeholder="0.0"
+                            type="number"
+                            width="100%"
+                            lang="en"
                             label={inputAssetAmount?.asset.name ?? ''}
                             {...props.input}
                             disabled={!inputAssetAmount}
@@ -369,7 +414,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                         </Row>
                         {props.meta.error && (
                           <Row>
-                            <Text p small type='error'>
+                            <Text p small type="error">
                               {props.meta.error}
                             </Text>
                           </Row>
@@ -378,10 +423,10 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                     )}
                   </Field>
                 </Grid>
-                <Grid xs={24} justify='center'>
+                <Grid xs={24} justify="center">
                   <Tag
                     onClick={handleSwitchAssets}
-                    type='success'
+                    type="success"
                     style={{ cursor: 'pointer' }}
                   >
                     <FontAwesomeIcon icon={faExchangeAlt} />
@@ -391,13 +436,13 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                   <Text h4>To</Text>
                 </Grid>
                 <Grid xs={24}>
-                  <Field name='outputAmount'>
+                  <Field name="outputAmount">
                     {(props: FieldRenderProps<string>) => (
                       <Input
-                        placeholder='0.0'
-                        type='number'
+                        placeholder="0.0"
+                        type="number"
                         label={outputAssetAmount?.asset.name ?? ''}
-                        width='100%'
+                        width="100%"
                         {...props.input}
                         value={outputAmount}
                         onChange={(e) => {
@@ -431,16 +476,16 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                 </Grid>
                 <Grid xs={24}>
                   <Field
-                    name='minDexFee'
+                    name="minDexFee"
                     validate={(value) => {
                       return validateNumber(value, { maxDecimals: 9 });
                     }}
                   >
                     {(props: FieldRenderProps<string>) => (
                       <Input
-                        placeholder='0.0'
-                        type='number'
-                        width='100%'
+                        placeholder="0.0"
+                        type="number"
+                        width="100%"
                         {...props.input}
                         disabled={!outputAmount}
                         value={minDexFee}
@@ -456,16 +501,16 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                 </Grid>
                 <Grid xs={24}>
                   <Field
-                    name='nitro'
+                    name="nitro"
                     validate={(value) => {
                       return validateNumber(value, { maxDecimals: 2 });
                     }}
                   >
                     {(props: FieldRenderProps<string>) => (
                       <Input
-                        placeholder='0.0'
-                        type='number'
-                        width='100%'
+                        placeholder="0.0"
+                        type="number"
+                        width="100%"
                         {...props.input}
                         disabled={!outputAmount}
                         value={nitro}
@@ -477,17 +522,59 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                     )}
                   </Field>
                 </Grid>
-                <Grid xs={24} direction='column'>
+                {swapOptions && (
+                  <>
+                    <Grid xs={24}>
+                      <Text h4>Transaction Details</Text>
+                    </Grid>
+                    <Grid xs={24}>
+                      <Table
+                        data={[
+                          {
+                            prop: 'Miners Fee',
+                            value: `${minerFee} ${baseTokenName}`,
+                          },
+                          {
+                            prop: 'Min DEX Fee',
+                            value: `${renderFractions(
+                              BigInt(swapOptions.minDexFee),
+                              numOfErgDecimals,
+                            )} ${baseTokenName}`,
+                          },
+                          {
+                            prop: 'Max DEX Fee',
+                            value: `${renderFractions(
+                              BigInt(swapOptions.maxDexFee),
+                              numOfErgDecimals,
+                            )} ${baseTokenName}`,
+                          },
+                          {
+                            prop: 'Minimal receive',
+                            value: `${swapOptions.minOutput.amount} ${swapOptions.minOutput.asset.name}`,
+                          },
+                          {
+                            prop: 'Maximum receive',
+                            value: `${swapOptions.maxOutput.amount} ${swapOptions.maxOutput.asset.name}`,
+                          },
+                        ]}
+                      >
+                        <Table.Column prop="prop" label="Detail" />
+                        <Table.Column prop="value" label="Amount" />
+                      </Table>
+                    </Grid>
+                  </>
+                )}
+                <Grid xs={24} direction="column">
                   {errors[FORM_ERROR] && (
                     <Row>
-                      <Text p small type='error'>
+                      <Text p small type="error">
                         {errors[FORM_ERROR]}
                       </Text>
                     </Row>
                   )}
-                  <Row justify='center'>
+                  <Row justify="center">
                     <Button
-                      htmlType='submit'
+                      htmlType="submit"
                       disabled={
                         buttonStatus.disabled ||
                         Object.values(errors).length > 0

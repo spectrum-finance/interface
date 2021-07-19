@@ -78,7 +78,7 @@ export const Deposit = (): JSX.Element => {
         );
       }
     }
-  }, [isWalletConnected, inputAssetAmountX, utxos]);
+  }, [isWalletConnected, inputAssetAmountX, utxos, inputAssetAmountY]);
 
   const lpTokens = useMemo(() => {
     if (
@@ -125,9 +125,11 @@ export const Deposit = (): JSX.Element => {
 
   useEffect(() => {
     console.log('sp: ', selectedPool);
-    if (selectedPool && (
-      selectedPool.x.asset.id !== inputAssetAmountX?.asset.id ||
-      selectedPool.y.asset.id !== inputAssetAmountY?.asset.id)) {
+    if (
+      selectedPool &&
+      (selectedPool.x.asset.id !== inputAssetAmountX?.asset.id ||
+        selectedPool.y.asset.id !== inputAssetAmountY?.asset.id)
+    ) {
       setInputAssetAmountX(selectedPool.x);
       setInputAssetAmountY(selectedPool.y);
     }
