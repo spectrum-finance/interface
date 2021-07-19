@@ -6,16 +6,15 @@ import {
   WalletAddressState,
 } from '../../context/AddressContext';
 import { SelectAddress } from '../SelectAddress/SelectAddress';
-import { BoxId, TxId } from 'ergo-dex-sdk/build/main/ergo';
+import { TxId } from 'ergo-dex-sdk/build/main/ergo';
 import { BoxSelection } from 'ergo-dex-sdk/build/module/ergo/wallet/entities/boxSelection';
 import { explorer } from '../../utils/explorer';
-import { DefaultBoxSelector } from 'ergo-dex-sdk/build/module/ergo';
+import { Address, DefaultBoxSelector } from 'ergo-dex-sdk/build/module/ergo';
 import { NanoErgInErg } from '../../constants/erg';
 import { useSettings } from '../../context/SettingsContext';
 import { WalletContext } from '../../context/WalletContext';
 import {
   OperationSummary,
-  SwapSummary,
 } from 'ergo-dex-sdk/build/module/amm/models/operationSummary';
 
 type ConfirmRefundModalProps = {
@@ -31,15 +30,15 @@ export const ConfirmRefundModal = ({
   open,
   onClose,
 }: ConfirmRefundModalProps): JSX.Element => {
-  const [address, setAddress] = useState('');
   const walletAddresses = useWalletAddresses();
   const [{ minerFee }] = useSettings();
   const { utxos } = useContext(WalletContext);
-
   const addresses =
     walletAddresses.state === WalletAddressState.LOADED
       ? walletAddresses.addresses
       : [];
+
+  const [address, setAddress] = useState<Address | undefined>(addresses[0]);
 
   const handleSelectAddress = (value: string | string[]) => {
     const selectedAddress = typeof value === 'string' ? value : value[0];
@@ -49,27 +48,23 @@ export const ConfirmRefundModal = ({
   // --
 
   const handleRefund = async () => {
-    const minerFeeNErgs = BigInt(Number(minerFee) * NanoErgInErg);
+    const minerFeeNErgs = BigInt(Number(minerFee) * NanoErgInErg); // make a method allowing to convert raw values into fractions
     const networkContext = await explorer.getNetworkContext();
     const nErgsRequired = minerFeeNErgs;
 
-    const params = {
-      txId,
-      recipientAddress: address,
-    };
+    if (utxos?.length && address) { // display an error if address isn't set
 
-    console.log('params', params);
-    console.log('summary', summary);
+      const params = {
+        txId,
+        recipientAddress: address,
+      };
 
-    if (utxos?.length) {
+      console.log('params', params);
+      console.log('summary', summary);
+
       const inputs = DefaultBoxSelector.select(utxos, {
         nErgs: nErgsRequired,
-        assets: [
-          {
-            tokenId: summary.from.asset.id,
-            amount: summary.from.amount,
-          },
-        ],
+        assets: [],
       });
 
       if (inputs instanceof BoxSelection) {
