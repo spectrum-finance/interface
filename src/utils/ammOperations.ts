@@ -14,7 +14,7 @@ export const refund = async (
   txCtx: TransactionContext,
 ): Promise<void> => {
   try {
-    const data = await ammOrderRefunds.refund(refundParams, txCtx);
+    await ammOrderRefunds.refund(refundParams, txCtx);
   } catch (err) {
     console.error(err);
   }
