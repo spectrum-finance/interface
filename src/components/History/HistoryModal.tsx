@@ -27,6 +27,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExternalLinkAlt, faUndo } from '@fortawesome/free-solid-svg-icons';
 import { useToggle } from '../../hooks/useToggle';
 import { ConfirmRefundModal } from '../ConfirmRefundModal/ConfirmRefundModal';
+import { truncate } from '../../utils/string';
 
 const content = {
   title: 'Transactions history',
@@ -56,17 +57,13 @@ const Content = React.memo(
     const formattedOperations = operations.map(({ boxId, status, txId }) => ({
       boxId: (
         <CopyToClipboard text={boxId} onCopy={() => toast.info('Copied')}>
-          <span style={{ cursor: 'pointer' }}>
-            {boxId.slice(0, 16)}...{boxId.slice(48)}
-          </span>
+          <span style={{ cursor: 'pointer' }}>{truncate(boxId)}</span>
         </CopyToClipboard>
       ),
       status,
       txId: (
         <CopyToClipboard text={txId} onCopy={() => toast.info('Copied')}>
-          <span style={{ cursor: 'pointer' }}>
-            {txId.slice(0, 16)}...{txId.slice(48)}
-          </span>
+          <span style={{ cursor: 'pointer' }}>{truncate(txId)}</span>
         </CopyToClipboard>
       ),
       operation: (
