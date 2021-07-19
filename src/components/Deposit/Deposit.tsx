@@ -38,7 +38,7 @@ import { toast } from 'react-toastify';
 import { explorer } from '../../utils/explorer';
 import { useCheckPool } from '../../hooks/useCheckPool';
 import { validateInputAmount } from '../Swap/validation';
-import { calculateAvailableAmount } from '../walletMath';
+import { calculateAvailableAmount } from '../../utils/walletMath';
 
 export const Deposit = (): JSX.Element => {
   const [{ minerFee, address: choosedAddress }] = useSettings();
@@ -136,7 +136,13 @@ export const Deposit = (): JSX.Element => {
     if (!selectedPool && availablePools) {
       updateSelectedPool(availablePools[0]);
     }
-  }, [availablePools, updateSelectedPool, selectedPool]);
+  }, [
+    availablePools,
+    updateSelectedPool,
+    selectedPool,
+    inputAssetAmountX?.asset.id,
+    inputAssetAmountY?.asset.id,
+  ]);
 
   const buttonStatus = useMemo(() => {
     const buttonState = getButtonState({

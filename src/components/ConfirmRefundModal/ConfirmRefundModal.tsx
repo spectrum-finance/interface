@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { Modal, Text } from '@geist-ui/react';
 import { refund } from '../../utils/ammOperations';
 import {
@@ -13,7 +13,7 @@ import { Address, DefaultBoxSelector } from 'ergo-dex-sdk/build/module/ergo';
 import { numOfErgDecimals } from '../../constants/erg';
 import { useSettings } from '../../context/SettingsContext';
 import { WalletContext } from '../../context/WalletContext';
-import { userInputToFractions } from '../walletMath';
+import { userInputToFractions } from '../../utils/walletMath';
 
 type ConfirmRefundModalProps = {
   open: boolean;
@@ -31,10 +31,11 @@ export const ConfirmRefundModal = ({
   const { utxos } = useContext(WalletContext);
   const [address, setAddress] = useState<Address>();
 
-  const addresses =
-    walletAddresses.state === WalletAddressState.LOADED
+  const addresses = useMemo(() => {
+    return walletAddresses.state === WalletAddressState.LOADED
       ? walletAddresses.addresses
       : [];
+  }, [walletAddresses]);
 
   useEffect(() => {
     setAddress(addresses[0]);
