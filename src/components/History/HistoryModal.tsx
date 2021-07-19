@@ -53,60 +53,57 @@ const Content = React.memo(
       return <Text p>No operations</Text>;
     }
 
-    const formattedOperations = operations.map(
-      ({ boxId, status, txId, summary }) => ({
-        boxId: (
-          <CopyToClipboard text={boxId} onCopy={() => toast.info('Copied')}>
-            <span style={{ cursor: 'pointer' }}>
-              {boxId.slice(0, 16)}...{boxId.slice(48)}
-            </span>
-          </CopyToClipboard>
-        ),
-        status,
-        txId: (
-          <CopyToClipboard text={txId} onCopy={() => toast.info('Copied')}>
-            <span style={{ cursor: 'pointer' }}>
-              {txId.slice(0, 16)}...{txId.slice(48)}
-            </span>
-          </CopyToClipboard>
-        ),
-        operation: (
-          <Container>
-            <Col>
-              <Tooltip text={'View on Explorer'} type="dark">
-                <Button
-                  icon={<FontAwesomeIcon icon={faExternalLinkAlt} />}
-                  auto
-                  size="small"
-                  onClick={() => exploreTx(txId)}
-                />
-              </Tooltip>
-            </Col>
-            {isRefundableOperation(status) && (
-              <>
-                <Spacer x={0.2} />
-                <Col>
-                  <Tooltip text={'Refund transaction'} type="dark">
-                    <Button
-                      auto
-                      size="small"
-                      onClick={handleOpen}
-                      icon={<FontAwesomeIcon icon={faUndo} />}
-                    />
-                  </Tooltip>
-                </Col>
-                <ConfirmRefundModal
-                  txId={txId}
-                  summary={summary}
-                  open={open}
-                  onClose={handleClose}
-                />
-              </>
-            )}
-          </Container>
-        ),
-      }),
-    );
+    const formattedOperations = operations.map(({ boxId, status, txId }) => ({
+      boxId: (
+        <CopyToClipboard text={boxId} onCopy={() => toast.info('Copied')}>
+          <span style={{ cursor: 'pointer' }}>
+            {boxId.slice(0, 16)}...{boxId.slice(48)}
+          </span>
+        </CopyToClipboard>
+      ),
+      status,
+      txId: (
+        <CopyToClipboard text={txId} onCopy={() => toast.info('Copied')}>
+          <span style={{ cursor: 'pointer' }}>
+            {txId.slice(0, 16)}...{txId.slice(48)}
+          </span>
+        </CopyToClipboard>
+      ),
+      operation: (
+        <Container>
+          <Col>
+            <Tooltip text={'View on Explorer'} type="dark">
+              <Button
+                icon={<FontAwesomeIcon icon={faExternalLinkAlt} />}
+                auto
+                size="small"
+                onClick={() => exploreTx(txId)}
+              />
+            </Tooltip>
+          </Col>
+          {isRefundableOperation(status) && (
+            <>
+              <Spacer x={0.2} />
+              <Col>
+                <Tooltip text={'Refund transaction'} type="dark">
+                  <Button
+                    auto
+                    size="small"
+                    onClick={handleOpen}
+                    icon={<FontAwesomeIcon icon={faUndo} />}
+                  />
+                </Tooltip>
+              </Col>
+              <ConfirmRefundModal
+                txId={txId}
+                open={open}
+                onClose={handleClose}
+              />
+            </>
+          )}
+        </Container>
+      ),
+    }));
     return (
       <Table data={formattedOperations}>
         <Table.Column prop="boxId" label="Box ID" />

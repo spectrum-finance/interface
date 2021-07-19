@@ -1,10 +1,10 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { Select } from '@geist-ui/react';
 import { OverflowAddress } from '../Settings/OverflowAddress';
 
 interface SelectAddressProps {
   addresses: string[];
-  handleSelectAddress?: (value: string | string[]) => void;
+  handleSelectAddress: (value: string | string[]) => void;
 }
 
 export const SelectAddress = ({
