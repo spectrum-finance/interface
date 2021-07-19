@@ -4,8 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import { Settings } from '../../context/SettingsContext';
 import { MinerFeeInput } from './MinerFeeInput';
-import { SlippageInput } from './SlippageInput';
 import { OverflowAddress } from './OverflowAddress';
+import { SelectAddress } from '../SelectAddress/SelectAddress';
 
 const content = {
   dex: {
@@ -78,17 +78,10 @@ export const SettingsForm = (props: SettingsFormProps): JSX.Element => {
         </Text>
 
         {addresses.length ? (
-          <Select
-            initialValue={address}
-            onChange={handleSelectAddress}
-            width="100%"
-          >
-            {addresses.map((address: string) => (
-              <Select.Option key={address} value={address}>
-                <OverflowAddress address={address} />
-              </Select.Option>
-            ))}
-          </Select>
+          <SelectAddress
+            addresses={addresses}
+            handleSelectAddress={handleSelectAddress}
+          />
         ) : (
           <Text p small type="secondary">
             {content.address.connectButton}
