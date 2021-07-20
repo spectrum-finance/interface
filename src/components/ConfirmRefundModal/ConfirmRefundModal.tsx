@@ -7,13 +7,9 @@ import {
 } from '../../context/AddressContext';
 import { SelectAddress } from '../SelectAddress/SelectAddress';
 import { TxId } from 'ergo-dex-sdk/build/main/ergo';
-import { BoxSelection } from 'ergo-dex-sdk/build/module/ergo/wallet/entities/boxSelection';
-import { explorer } from '../../utils/explorer';
-import { Address, DefaultBoxSelector } from 'ergo-dex-sdk/build/module/ergo';
-import { numOfErgDecimals } from '../../constants/erg';
+import { Address } from 'ergo-dex-sdk/build/module/ergo';
 import { useSettings } from '../../context/SettingsContext';
 import { WalletContext } from '../../context/WalletContext';
-import { userInputToFractions } from '../../utils/walletMath';
 
 type ConfirmRefundModalProps = {
   open: boolean;
@@ -47,33 +43,9 @@ export const ConfirmRefundModal = ({
   };
 
   const handleRefund = async () => {
-    const minerFeeNErgs = userInputToFractions(minerFee, numOfErgDecimals);
-    const networkContext = await explorer.getNetworkContext();
-
     if (utxos?.length && address) {
-      const params = {
-        txId,
-        recipientAddress: address,
-      };
-
-      const inputs = DefaultBoxSelector.select(utxos, {
-        nErgs: minerFeeNErgs,
-        assets: [],
-      });
-
-      if (inputs instanceof BoxSelection) {
-        const txContext = {
-          inputs,
-          changeAddress: address,
-          selfAddress: address,
-          feeNErgs: minerFeeNErgs,
-          network: networkContext,
-        };
-
-        await refund(params, txContext);
-      }
+      await refund(txId, minerFee, utxos, address);
     }
-
     onClose();
   };
 
@@ -85,11 +57,11 @@ export const ConfirmRefundModal = ({
         {addresses.length && (
           <SelectAddress
             addresses={addresses}
-            handleSelectAddress={handleSelectAddress}
+            onSelectAddress={handleSelectAddress}
           />
         )}
       </Modal.Content>
-      <Modal.Action onClick={() => handleRefund()}>Confirm</Modal.Action>
+      <Modal.Action onClick={handleRefund}>Confirm</Modal.Action>
     </Modal>
   );
 };

@@ -20,7 +20,6 @@ import { AmmOperation } from 'ergo-dex-sdk/build/module/amm/models/ammOperation'
 import { useInterval } from '../../hooks/useInterval';
 import { toast } from 'react-toastify';
 import { explorer } from '../../utils/explorer';
-import mockOperation from './mockTx';
 import { exploreTx } from '../../utils/redirect';
 import { isRefundableOperation } from '../../utils/ammOperations';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -115,9 +114,7 @@ const Content = React.memo(
 
 export const HistoryModal = (props: HistoryModalProps): JSX.Element => {
   const { open = false, onClose } = props;
-  const [operations, setOperations] = useState<AmmOperation[] | null>([
-    mockOperation,
-  ]);
+  const [operations, setOperations] = useState<AmmOperation[] | null>(null);
 
   const walletAddresses = useWalletAddresses();
 

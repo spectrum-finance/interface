@@ -1,10 +1,9 @@
 import React, { useCallback } from 'react';
-import { Select, Text, Tooltip } from '@geist-ui/react';
+import { Text, Tooltip } from '@geist-ui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import { Settings } from '../../context/SettingsContext';
 import { MinerFeeInput } from './MinerFeeInput';
-import { OverflowAddress } from './OverflowAddress';
 import { SelectAddress } from '../SelectAddress/SelectAddress';
 
 const content = {
@@ -33,7 +32,7 @@ type SettingsFormProps = {
 export const SettingsForm = (props: SettingsFormProps): JSX.Element => {
   const {
     settings,
-    settings: { minerFee, address },
+    settings: { minerFee },
     setSettings,
     addresses,
   } = props;
@@ -80,7 +79,7 @@ export const SettingsForm = (props: SettingsFormProps): JSX.Element => {
         {addresses.length ? (
           <SelectAddress
             addresses={addresses}
-            handleSelectAddress={handleSelectAddress}
+            onSelectAddress={handleSelectAddress}
           />
         ) : (
           <Text p small type="secondary">
