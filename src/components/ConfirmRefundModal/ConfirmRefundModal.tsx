@@ -44,7 +44,11 @@ export const ConfirmRefundModal = ({
 
   const handleRefund = async () => {
     if (utxos?.length && address) {
-      await refund(txId, minerFee, utxos, address);
+      try {
+        await refund(utxos, { address, txId, minerFee });
+      } catch (err) {
+        console.error(err);
+      }
     }
     onClose();
   };
