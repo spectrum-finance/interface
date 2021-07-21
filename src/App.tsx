@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { Router } from 'react-router-dom';
+import { Redirect, Route, Router, Switch } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { Swap } from './components/Swap/Swap';
 import './App.css';
 import { globalHistory } from './createBrowserHistory';
-import { GeistProvider, CssBaseline, Tabs } from '@geist-ui/react';
+import { GeistProvider, CssBaseline } from '@geist-ui/react';
 import { RustModule } from 'ergo-dex-sdk';
-import Layout from './components/common/Layout/Layout';
 import { WalletContextProvider } from './context/WalletContext';
-import { Redeem } from './components/Redeem/Redeem';
-import { Deposit } from './components/Deposit/Deposit';
 import { SettingsProvider } from './context/SettingsContext';
 import { WalletAddressesProvider } from './context/AddressContext';
+import { Home, KnowYourAssumptions } from './pages';
+
+const NotFound = () => <Redirect to="/" />;
 
 export const App: React.FC = () => {
   const [isRustModuleLoaded, setIsRustModuleLoaded] = useState(false);
@@ -33,39 +32,30 @@ export const App: React.FC = () => {
         <WalletContextProvider>
           <SettingsProvider>
             <WalletAddressesProvider>
-              <div className="App">
-                <Layout>
-                  <Tabs
-                    initialValue="swap"
-                    style={{ maxWidth: '400px', margin: '0 auto' }}
-                  >
-                    <Tabs.Item label="swap" value="swap">
-                      <Swap />
-                    </Tabs.Item>
-                    <Tabs.Item label="redeem" value="redeem">
-                      <Redeem />
-                    </Tabs.Item>
-                    <Tabs.Item label="deposit" value="deposit">
-                      <Deposit />
-                    </Tabs.Item>
-                  </Tabs>
-                </Layout>
-              </div>
-              <ToastContainer
-                position="top-right"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-              />
+              <Switch>
+                <Route path="/" exact component={Home} />
+                <Route
+                  path="/know-your-assumptions"
+                  exact
+                  component={KnowYourAssumptions}
+                />
+                <Route component={NotFound} />
+              </Switch>
             </WalletAddressesProvider>
           </SettingsProvider>
         </WalletContextProvider>
       </Router>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </GeistProvider>
   );
 };

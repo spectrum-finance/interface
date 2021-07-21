@@ -44,15 +44,24 @@ const HistoryButton = (): JSX.Element => {
   );
 };
 
-const Header = (): JSX.Element => {
+type Props = {
+  showNav?: boolean;
+};
+
+const Header: React.FC<Props> = ({ showNav = true }) => {
   const { isWalletConnected } = useContext(WalletContext);
 
+  // TODO: split this component to Header and Navbar components
   return (
     <header className={css.header}>
       <Image src={logo} className={css.main} />
-      <SettingsButton />
-      {isWalletConnected && <HistoryButton />}
-      <ConnectWallet />
+      {!showNav && (
+        <>
+          <SettingsButton />
+          {isWalletConnected && <HistoryButton />}
+          <ConnectWallet />
+        </>
+      )}
     </header>
   );
 };
