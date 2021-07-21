@@ -45,7 +45,7 @@ const WalletContextProvider = ({
 
   useEffect(() => {
     if (isWalletConnected) fetchUtxos();
-  }, [isWalletConnected, fetchUtxos]);
+  }, [isWalletConnected]);
 
   useInterval(() => {
     if (isWalletConnected) fetchUtxos();
