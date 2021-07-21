@@ -4865,33 +4865,33 @@ entities@^2.0.0:
   resolved "https://registry.npmjs.org/entities/-/entities-2.2.0.tgz"
   integrity sha512-p92if5Nz619I0w+akJrLZH0MX0Pb5DX39XOwQTtXSdQQOaYH03S1uIQp4mhOZtAXrxq4ViO67YTiLBo2638o9A==
 
-ergo-dex-sdk@^0.1.21:
-  version "0.1.21"
-  resolved "https://registry.yarnpkg.com/ergo-dex-sdk/-/ergo-dex-sdk-0.1.21.tgz#5c24099bc7265bf78632a2e01265a08dca97d2c2"
-  integrity sha512-onbSypOIk2WortZJN3VgMzZDs7sSAzu/JERSRNYUk/5c05bd5gZDALGOn84tlbp6iieoZQ5q+DgQy5uQ+/J1jA==
+ergo-dex-sdk@^0.1.23:
+  version "0.1.23"
+  resolved "https://registry.yarnpkg.com/ergo-dex-sdk/-/ergo-dex-sdk-0.1.23.tgz#8e2ff1e0d6adeb35a6d007a88d0ad6bc2322874c"
+  integrity sha512-YLRI03oZU3KH9MDiPbYevX4CUcV7xtSDU6J01QP+9IO8RFmXGfajB1xvC49T+cgy13kV/7Lna9GIEmmYbvuwRw==
   dependencies:
     axios "^0.21.1"
     blakejs "^1.1.0"
     bs58 "^4.0.1"
     crypto-js "^4.0.0"
-    ergo-lib-wasm-browser "0.14.0-alpha-9c8aa7b"
-    ergo-lib-wasm-nodejs "0.14.0-alpha-9c8aa7b"
+    ergo-lib-wasm-browser "0.14.0-alpha-01cd628"
+    ergo-lib-wasm-nodejs "0.14.0-alpha-01cd628"
     json-bigint "^1.0.0"
 
-ergo-lib-wasm-browser@0.14.0-alpha-9c8aa7b:
-  version "0.14.0-alpha-9c8aa7b"
-  resolved "https://registry.npmjs.org/ergo-lib-wasm-browser/-/ergo-lib-wasm-browser-0.14.0-alpha-9c8aa7b.tgz"
-  integrity sha512-echar9TVSLPU+YDgGDqKyCszS30yjfTVlp13oB48+V0eJLtUg3sfNt3IiRzk1S4VzPNiKLMb3wpNOnhTG2gK6g==
+ergo-lib-wasm-browser@0.14.0-alpha-01cd628:
+  version "0.14.0-alpha-01cd628"
+  resolved "https://registry.yarnpkg.com/ergo-lib-wasm-browser/-/ergo-lib-wasm-browser-0.14.0-alpha-01cd628.tgz#b87a451d27c0e8d79d24a1d54675e62fe5010604"
+  integrity sha512-RXASFijxZ5zqycNbTNH623OrtJocMu5phInUb5irrrWC3TcodvXrXNXFZVKgsWFqTrhKK748iW7oJiOjWQitMg==
 
 ergo-lib-wasm-browser@^0.13.1:
   version "0.13.3"
   resolved "https://registry.npmjs.org/ergo-lib-wasm-browser/-/ergo-lib-wasm-browser-0.13.3.tgz"
   integrity sha512-wrZ96Rbr3iEiSFvpmjB/H6SmOU6V1QDl8FDqvJ1SYMKKEWwRGMIiSmTGdkJGYv0daxqm7k6emudzuDDKJjVDdA==
 
-ergo-lib-wasm-nodejs@0.14.0-alpha-9c8aa7b:
-  version "0.14.0-alpha-9c8aa7b"
-  resolved "https://registry.npmjs.org/ergo-lib-wasm-nodejs/-/ergo-lib-wasm-nodejs-0.14.0-alpha-9c8aa7b.tgz"
-  integrity sha512-7ERAe0WZ8tI/mcd4OnkLN3uJ0uz9ZGDz5zeid3bUkkphV7hmNl+WZb5GCkCAWa62gKCS74+NmzhOuwYCb783ig==
+ergo-lib-wasm-nodejs@0.14.0-alpha-01cd628:
+  version "0.14.0-alpha-01cd628"
+  resolved "https://registry.yarnpkg.com/ergo-lib-wasm-nodejs/-/ergo-lib-wasm-nodejs-0.14.0-alpha-01cd628.tgz#01377b5614f4d2b13d0c16309d5d5db3040feb90"
+  integrity sha512-Ok3Jb2yb+/hHWRUaDtzR3hXPuU1dAzJuW5KB+U/fjq+m2XAOOvMNHTS/BYzukWrv0YBMd45ttvmhoramCj7Jbg==
 
 errno@^0.1.3, errno@~0.1.7:
   version "0.1.8"

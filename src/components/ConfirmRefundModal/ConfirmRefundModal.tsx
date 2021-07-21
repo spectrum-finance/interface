@@ -7,7 +7,7 @@ import {
 } from '../../context/AddressContext';
 import { SelectAddress } from '../SelectAddress/SelectAddress';
 import { TxId } from 'ergo-dex-sdk/build/main/ergo';
-import { Address } from 'ergo-dex-sdk/build/module/ergo';
+import { Address, ergoTxToProxy } from 'ergo-dex-sdk/build/module/ergo';
 import { useSettings } from '../../context/SettingsContext';
 import { WalletContext } from '../../context/WalletContext';
 
@@ -45,7 +45,10 @@ export const ConfirmRefundModal = ({
   const handleRefund = async () => {
     if (utxos?.length && address) {
       try {
-        await refund(utxos, { address, txId, minerFee });
+        console.log('pre-refund: ', 0);
+        const tx = await refund(utxos, { address, txId, minerFee });
+        console.log('tx: ', tx);
+        await ergo.submit_tx(ergoTxToProxy(tx));
       } catch (err) {
         console.error(err);
       }

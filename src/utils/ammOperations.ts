@@ -4,7 +4,7 @@ import { ammOrderRefunds } from './ammOrderRefund';
 import { userInputToFractions } from './walletMath';
 import { numOfErgDecimals } from '../constants/erg';
 import { explorer } from './explorer';
-import { DefaultBoxSelector } from 'ergo-dex-sdk/build/module/ergo';
+import { DefaultBoxSelector, ErgoTx } from 'ergo-dex-sdk/build/module/ergo';
 import { BoxSelection } from 'ergo-dex-sdk/build/module/ergo/wallet/entities/boxSelection';
 import { Address, TxId } from 'ergo-dex-sdk/build/main/ergo';
 import { ErgoBox } from 'ergo-dex-sdk/build/module/ergo/entities/ergoBox';
@@ -23,7 +23,7 @@ export const isRefundableOperation = (status: OpStatus): boolean =>
 export const refund = async (
   utxos: ErgoBox[],
   refundParams: RefundParams,
-): Promise<void> => {
+): Promise<ErgoTx> => {
   const { txId, minerFee, address } = refundParams;
   const minerFeeNErgs = userInputToFractions(minerFee, numOfErgDecimals);
   const networkContext = await explorer.getNetworkContext();
@@ -47,6 +47,8 @@ export const refund = async (
       network: networkContext,
     };
 
-    await ammOrderRefunds.refund(params, txContext);
+    return ammOrderRefunds.refund(params, txContext);
+  } else {
+    return Promise.reject(inputs.message);
   }
 };

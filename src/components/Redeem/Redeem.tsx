@@ -19,8 +19,7 @@ import {
   BoxSelection,
   DefaultBoxSelector,
   DefaultTxAssembler,
-  ErgoBox,
-  fixErgoBox,
+  ErgoBox, ergoTxToProxy,
 } from 'ergo-dex-sdk/build/module/ergo';
 import { fromAddress } from 'ergo-dex-sdk/build/module/ergo/entities/publicKey';
 import { WalletContext } from '../../context/WalletContext';
@@ -123,7 +122,7 @@ export const Redeem = (): JSX.Element => {
           },
         )
         .then(async (tx) => {
-          const txId = await ergo.submit_tx(tx);
+          const txId = await ergo.submit_tx(ergoTxToProxy(tx));
           toast.success(`Transaction submitted: ${txId} `);
         })
         .catch((er) => toast.error(JSON.stringify(er)));

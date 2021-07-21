@@ -15,8 +15,7 @@ import {
   useWalletAddresses,
   WalletAddressState,
 } from '../../context/AddressContext';
-import { DefaultAmmOpsParser, NetworkOperations } from 'ergo-dex-sdk';
-import { AmmOperation } from 'ergo-dex-sdk/build/module/amm/models/ammOperation';
+import { AmmDexOperation, DefaultAmmOpsParser, NetworkOperations, RefundOperation } from 'ergo-dex-sdk';
 import { useInterval } from '../../hooks/useInterval';
 import { toast } from 'react-toastify';
 import { explorer } from '../../utils/explorer';
@@ -27,6 +26,7 @@ import { faExternalLinkAlt, faUndo } from '@fortawesome/free-solid-svg-icons';
 import { useToggle } from '../../hooks/useToggle';
 import { ConfirmRefundModal } from '../ConfirmRefundModal/ConfirmRefundModal';
 import { truncate } from '../../utils/string';
+import { AmmOperation } from 'ergo-dex-sdk/build/module/amm/models/ammOperation';
 
 const content = {
   title: 'Transactions history',
@@ -42,7 +42,7 @@ type HistoryModalProps = {
 
 // eslint-disable-next-line react/display-name
 const Content = React.memo(
-  ({ operations }: { operations: AmmOperation[] | null }) => {
+  ({ operations }: { operations: AmmDexOperation[] | null }) => {
     const [open, handleOpen, handleClose] = useToggle(false);
 
     if (operations === null) {
@@ -53,53 +53,89 @@ const Content = React.memo(
       return <Text p>No operations</Text>;
     }
 
-    const formattedOperations = operations.map(({ boxId, status, txId }) => ({
-      boxId: (
-        <CopyToClipboard text={boxId} onCopy={() => toast.info('Copied')}>
-          <span style={{ cursor: 'pointer' }}>{truncate(boxId)}</span>
-        </CopyToClipboard>
-      ),
-      status,
-      txId: (
-        <CopyToClipboard text={txId} onCopy={() => toast.info('Copied')}>
-          <span style={{ cursor: 'pointer' }}>{truncate(txId)}</span>
-        </CopyToClipboard>
-      ),
-      operation: (
-        <Container>
-          <Col>
-            <Tooltip text={'View on Explorer'} type="dark">
-              <Button
-                icon={<FontAwesomeIcon icon={faExternalLinkAlt} />}
-                auto
-                size="small"
-                onClick={() => exploreTx(txId)}
-              />
-            </Tooltip>
-          </Col>
-          {isRefundableOperation(status) && (
-            <>
-              <Spacer x={0.2} />
-              <Col>
-                <Tooltip text={'Refund transaction'} type="dark">
-                  <Button
-                    auto
-                    size="small"
-                    onClick={handleOpen}
-                    icon={<FontAwesomeIcon icon={faUndo} />}
-                  />
-                </Tooltip>
-              </Col>
-              <ConfirmRefundModal
-                txId={txId}
-                open={open}
-                onClose={handleClose}
-              />
-            </>
-          )}
-        </Container>
-      ),
-    }));
+    function renderOrder({ boxId, status, txId }: AmmOperation) {
+      return ({
+        boxId: (
+          <CopyToClipboard text={boxId} onCopy={() => toast.info('Copied')}>
+            <span style={{ cursor: 'pointer' }}>{truncate(boxId)}</span>
+          </CopyToClipboard>
+        ),
+        status,
+        txId: (
+          <CopyToClipboard text={txId} onCopy={() => toast.info('Copied')}>
+            <span style={{ cursor: 'pointer' }}>{truncate(txId)}</span>
+          </CopyToClipboard>
+        ),
+        operation: (
+          <Container>
+            <Col>
+              <Tooltip text={'View on Explorer'} type="dark">
+                <Button
+                  icon={<FontAwesomeIcon icon={faExternalLinkAlt} />}
+                  auto
+                  size="small"
+                  onClick={() => exploreTx(txId)}
+                />
+              </Tooltip>
+            </Col>
+            {isRefundableOperation(status) && (
+              <>
+                <Spacer x={0.2} />
+                <Col>
+                  <Tooltip text={'Refund transaction'} type="dark">
+                    <Button
+                      auto
+                      size="small"
+                      onClick={handleOpen}
+                      icon={<FontAwesomeIcon icon={faUndo} />}
+                    />
+                  </Tooltip>
+                </Col>
+                <ConfirmRefundModal
+                  txId={txId}
+                  open={open}
+                  onClose={handleClose}
+                />
+              </>
+            )}
+          </Container>
+        ),
+      })
+    }
+
+    function renderRefund({ status, txId }: RefundOperation) {
+      return ({
+        boxId: "",
+        status,
+        txId: (
+          <CopyToClipboard text={txId} onCopy={() => toast.info('Copied')}>
+            <span style={{ cursor: 'pointer' }}>{truncate(txId)}</span>
+          </CopyToClipboard>
+        ),
+        operation: (
+          <Container>
+            <Col>
+              <Tooltip text={'View on Explorer'} type="dark">
+                <Button
+                  icon={<FontAwesomeIcon icon={faExternalLinkAlt} />}
+                  auto
+                  size="small"
+                  onClick={() => exploreTx(txId)}
+                />
+              </Tooltip>
+            </Col>
+          </Container>
+        ),
+      })
+    }
+
+    const formattedOperations = operations.map(op => {
+      if (op.tag === "order") {
+        return renderOrder(op);
+      } else {
+        return renderRefund(op);
+      }
+    });
     return (
       <Table data={formattedOperations}>
         <Table.Column prop="boxId" label="Box ID" />
@@ -114,7 +150,7 @@ const Content = React.memo(
 
 export const HistoryModal = (props: HistoryModalProps): JSX.Element => {
   const { open = false, onClose } = props;
-  const [operations, setOperations] = useState<AmmOperation[] | null>(null);
+  const [operations, setOperations] = useState<AmmDexOperation[] | null>(null);
 
   const walletAddresses = useWalletAddresses();
 
