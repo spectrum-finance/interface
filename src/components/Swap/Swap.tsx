@@ -57,7 +57,7 @@ import {
   getBaseInputParameters,
   renderFractions,
   userInputToFractions,
-} from '../walletMath';
+} from '../../utils/walletMath';
 
 const content = {
   slippage: {
