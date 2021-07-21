@@ -24,7 +24,8 @@ import {
   BoxSelection,
   DefaultBoxSelector,
   DefaultTxAssembler,
-  ErgoBox, ergoTxToProxy,
+  ErgoBox,
+  ergoTxToProxy,
 } from 'ergo-dex-sdk/build/module/ergo';
 import { fromAddress } from 'ergo-dex-sdk/build/module/ergo/entities/publicKey';
 import { WalletContext } from '../../context/WalletContext';
@@ -304,7 +305,7 @@ export const Deposit = (): JSX.Element => {
   if (!isWalletConnected) {
     return (
       <Card>
-        <Text h6>Wallet not connected</Text>
+        <Text h6>Need to connect wallet</Text>
       </Card>
     );
   }
