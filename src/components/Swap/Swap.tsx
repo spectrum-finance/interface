@@ -398,7 +398,6 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                         <Row>
                           <Input
                             placeholder="0.0"
-                            type="number"
                             width="100%"
                             lang="en"
                             label={inputAssetAmount?.asset.name ?? ''}
@@ -440,7 +439,6 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                     {(props: FieldRenderProps<string>) => (
                       <Input
                         placeholder="0.0"
-                        type="number"
                         label={outputAssetAmount?.asset.name ?? ''}
                         width="100%"
                         {...props.input}
@@ -484,7 +482,6 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                     {(props: FieldRenderProps<string>) => (
                       <Input
                         placeholder="0.0"
-                        type="number"
                         width="100%"
                         {...props.input}
                         disabled={!outputAmount}
@@ -509,7 +506,6 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                     {(props: FieldRenderProps<string>) => (
                       <Input
                         placeholder="0.0"
-                        type="number"
                         width="100%"
                         {...props.input}
                         disabled={!outputAmount}
