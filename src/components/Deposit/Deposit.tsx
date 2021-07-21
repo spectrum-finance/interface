@@ -39,6 +39,7 @@ import { explorer } from '../../utils/explorer';
 import { useCheckPool } from '../../hooks/useCheckPool';
 import { validateInputAmount } from '../Swap/validation';
 import { calculateAvailableAmount } from '../../utils/walletMath';
+import { ergoBoxFromProxy } from 'ergo-dex-sdk/build/module/ergo/entities/ergoBox';
 
 export const Deposit = (): JSX.Element => {
   const [{ minerFee, address: choosedAddress }] = useSettings();
@@ -171,7 +172,7 @@ export const Deposit = (): JSX.Element => {
     if (isWalletConnected) {
       ergo
         .get_utxos()
-        .then((bs) => (bs ? bs.map((b) => fixErgoBox(b)) : bs))
+        .then((bs) => (bs ? bs.map((b) => ergoBoxFromProxy(b)) : bs))
         .then((data) => setUtxos(data ?? []));
     }
   }, [isWalletConnected]);

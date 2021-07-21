@@ -46,7 +46,7 @@ const Content = React.memo(
     const [open, handleOpen, handleClose] = useToggle(false);
 
     if (operations === null) {
-      return <Loading>Fetching opertaions...</Loading>;
+      return <Loading>Fetching operations...</Loading>;
     }
 
     if (operations?.length === 0) {

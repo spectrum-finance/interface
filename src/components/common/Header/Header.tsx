@@ -49,7 +49,7 @@ const Header = (): JSX.Element => {
   return (
     <header className={css.header}>
       <Text h2 className={css.main}>
-        ErgoDEX Beta UI
+        ErgoDEX Beta
       </Text>
       <SettingsButton />
       {isWalletConnected && <HistoryButton />}

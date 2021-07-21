@@ -31,6 +31,7 @@ import { useSettings } from '../../context/SettingsContext';
 import { toast } from 'react-toastify';
 import { explorer } from '../../utils/explorer';
 import { useCheckPool } from '../../hooks/useCheckPool';
+import { ergoBoxFromProxy } from 'ergo-dex-sdk/build/module/ergo/entities/ergoBox';
 
 export const Redeem = (): JSX.Element => {
   const [{ minerFee, address: choosedAddress }] = useSettings();
@@ -81,7 +82,7 @@ export const Redeem = (): JSX.Element => {
     if (isWalletConnected) {
       ergo
         .get_utxos()
-        .then((bs) => (bs ? bs.map((b) => fixErgoBox(b)) : bs))
+        .then((bs) => (bs ? bs.map((b) => ergoBoxFromProxy(b)) : bs))
         .then((data) => setUtxos(data ?? []));
     }
   }, [isWalletConnected]);

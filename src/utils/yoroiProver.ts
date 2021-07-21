@@ -2,18 +2,22 @@ import {
   ErgoTx,
   Prover,
   UnsignedErgoTx,
-  Input as TxInput,
+  Input as TxInput, unsignedErgoTxToProxy, ergoTxFromProxy,
 } from 'ergo-dex-sdk/build/module/ergo';
 
 export class YoroiProver implements Prover {
   /** Sign the given transaction.
    */
-  sign(tx: UnsignedErgoTx): Promise<ErgoTx> {
-    return ergo.sign_tx(tx);
+  async sign(tx: UnsignedErgoTx): Promise<ErgoTx> {
+    const proxy = unsignedErgoTxToProxy(tx);
+    const res = await ergo.sign_tx(proxy);
+    return ergoTxFromProxy(res);
   }
+
   /** Sign particular input of the given transaction.
    */
   signInput(tx: UnsignedErgoTx, input: number): Promise<TxInput> {
-    return ergo.sign_tx_input(tx, input);
+    const proxy = unsignedErgoTxToProxy(tx);
+    return ergo.sign_tx_input(proxy, input);
   }
 }

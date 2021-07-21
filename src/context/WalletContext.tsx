@@ -2,8 +2,6 @@ import React, { createContext, useEffect, useState } from 'react';
 import {
   ErgoBox,
   ergoBoxFromProxy,
-  ErgoBoxProxy,
-  fixErgoBox,
 } from 'ergo-dex-sdk/build/module/ergo';
 import { useInterval } from '../hooks/useInterval';
 
@@ -35,27 +33,23 @@ const WalletContextProvider = ({
     utxos,
   };
 
-  useEffect(() => {
-    if (!isWalletConnected) return;
+  function fetchUtxos(): void {
+    if (isWalletConnected) {
+      ergo
+        .get_utxos()
+        .then((bs) => (bs ? bs.map((b) => ergoBoxFromProxy(b)) : bs))
+        .then((data: ErgoBox[] | undefined) => {
+          setUtxos(data ?? []);
+        });
+      return
+    } else {
+      return
+    }
+  }
 
-    ergo
-      .get_utxos()
-      .then((bs) => (bs ? bs.map((b) => fixErgoBox(b)) : bs))
-      .then((data: ErgoBox[] | undefined) => {
-        setUtxos(data ?? []);
-      });
-  }, [isWalletConnected]);
+  useEffect(() => fetchUtxos(), [isWalletConnected]);
 
-  useInterval(() => {
-    if (!isWalletConnected) return;
-
-    ergo
-      .get_utxos()
-      .then((bs) => (bs ? bs.map((b) => fixErgoBox(b)) : bs))
-      .then((data: ErgoBox[] | undefined) => {
-        setUtxos(data ?? []);
-      });
-  }, 10 * 1000);
+  useInterval(() => fetchUtxos(), 10 * 1000);
 
   return (
     <WalletContext.Provider value={ctxValue}>{children}</WalletContext.Provider>
