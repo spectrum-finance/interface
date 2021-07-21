@@ -1,4 +1,4 @@
-import { Text, Button } from '@geist-ui/react';
+import { Image, Button } from '@geist-ui/react';
 import React, { useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCog, faHistory } from '@fortawesome/free-solid-svg-icons';
@@ -8,6 +8,7 @@ import { SettingsModal } from '../../Settings/SettingsModal';
 import { useToggle } from '../../../hooks/useToggle';
 import { WalletContext } from '../../../context/WalletContext';
 import { HistoryModal } from '../../History/HistoryModal';
+import logo from '../../../assets/images/logo.svg';
 
 const SettingsButton = (): JSX.Element => {
   const [open, handleOpen, handleClose] = useToggle(false);
@@ -48,9 +49,7 @@ const Header = (): JSX.Element => {
 
   return (
     <header className={css.header}>
-      <Text h2 className={css.main}>
-        ErgoDEX Beta
-      </Text>
+      <Image src={logo} className={css.main} />
       <SettingsButton />
       {isWalletConnected && <HistoryButton />}
       <ConnectWallet />

@@ -6,6 +6,11 @@
 
   .main {
     flex-grow: 1;
-    text-align: left;
+    display: block;
+
+    & img {
+      width: 250px;
+      height: auto;
+    }
   }
 }
