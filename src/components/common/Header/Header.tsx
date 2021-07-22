@@ -55,7 +55,7 @@ const Header: React.FC<Props> = ({ showNav = true }) => {
   return (
     <header className={css.header}>
       <Image src={logo} className={css.main} />
-      {!showNav && (
+      {showNav && (
         <>
           <SettingsButton />
           {isWalletConnected && <HistoryButton />}

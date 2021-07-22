@@ -41,7 +41,7 @@ export const getBaseInputParameters = (
     inputAssetAmount,
     slippage,
   }: { inputAmount: string; inputAssetAmount: AssetAmount; slippage: number },
-) => {
+): any => {
   const baseInputAmount = BigInt(
     evaluate(
       `${inputAmount} * 10^${inputAssetAmount.asset.decimals ?? 0}`,

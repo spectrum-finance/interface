@@ -4,7 +4,8 @@ namespace ErgoBridge {
   type ErgoBox = import('ergo-dex-sdk/build/module/ergo').ErgoBox;
   type ErgoBoxProxy = import('ergo-dex-sdk/build/module/ergo').ErgoBoxProxy;
   type ErgoTxProxy = import('ergo-dex-sdk/build/module/ergo').ErgoTxProxy;
-  type UnsignedErgoTxProxy = import('ergo-dex-sdk/build/module/ergo').UnsignedErgoTxProxy;
+  type UnsignedErgoTxProxy =
+    import('ergo-dex-sdk/build/module/ergo').UnsignedErgoTxProxy;
   type Input = import('ergo-dex-sdk/build/module/ergo').Input;
   type NErg = import('ergo-dex-sdk/build/module/ergo').NErg;
   type TokenId = import('ergo-dex-sdk/build/module/ergo').TokenId;

@@ -6,9 +6,7 @@ import {
   Input,
   Loading,
   Select,
-  Spacer,
   Text,
-  Note,
 } from '@geist-ui/react';
 import { Form, Field, FieldRenderProps } from 'react-final-form';
 import { evaluate } from 'mathjs';
@@ -19,17 +17,17 @@ import {
   BoxSelection,
   DefaultBoxSelector,
   DefaultTxAssembler,
-  ErgoBox, ergoTxToProxy,
+  ErgoBox,
+  ergoTxToProxy,
 } from 'ergo-dex-sdk/build/module/ergo';
 import { fromAddress } from 'ergo-dex-sdk/build/module/ergo/entities/publicKey';
 import { WalletContext } from '../../context/WalletContext';
 import { getButtonState, WalletStates } from './utils';
 import { useGetAvailablePoolsByLPTokens } from '../../hooks/useGetAvailablePoolsByLPTokens';
-import { defaultMinerFee, NanoErgInErg } from '../../constants/erg';
+import { NanoErgInErg } from '../../constants/erg';
 import { useSettings } from '../../context/SettingsContext';
 import { toast } from 'react-toastify';
 import { explorer } from '../../utils/explorer';
-import { useCheckPool } from '../../hooks/useCheckPool';
 import { ergoBoxFromProxy } from 'ergo-dex-sdk/build/module/ergo/entities/ergoBox';
 
 export const Redeem = (): JSX.Element => {
