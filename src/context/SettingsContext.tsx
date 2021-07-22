@@ -7,13 +7,11 @@ export type Settings = {
   minerFee: string;
   slippage: number;
   address?: string;
-  isKYAAccepted: boolean;
 };
 
 export const DefaultSettings: Readonly<Settings> = {
   minerFee: MinerFeeDefault.toString(),
   slippage: SlippageDefault,
-  isKYAAccepted: false,
 };
 
 function noop() {

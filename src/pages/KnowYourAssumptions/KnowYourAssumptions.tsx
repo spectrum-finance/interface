@@ -1,8 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
+import { useLocation, useHistory } from 'react-router-dom';
 import { Button, Checkbox, Display, Row, Text } from '@geist-ui/react';
+import { useAppLoadingState } from '../../context';
 
 export const KnowYourAssumptions: React.FC = () => {
   const [accepted, setAccepted] = useState(false);
+  const [, setAppLoadingState] = useAppLoadingState();
+  const { state: locaitonState } = useLocation();
+  const history = useHistory();
+
+  const handleConfirm = useCallback(() => {
+    setAppLoadingState({ isKYAAccepted: true });
+    const { from }: any = locaitonState ?? {
+      from: { pathname: '/' },
+    };
+    history.replace(from);
+  }, [setAppLoadingState, locaitonState, history]);
+
   return (
     <Display width="800px">
       <Text h1>Know Your Assumptions</Text>
@@ -82,7 +96,12 @@ export const KnowYourAssumptions: React.FC = () => {
         </Checkbox>
       </Text>
       <Row>
-        <Button shadow type="success" disabled={!accepted}>
+        <Button
+          shadow
+          type="success"
+          disabled={!accepted}
+          onClick={handleConfirm}
+        >
           Confirm
         </Button>
       </Row>

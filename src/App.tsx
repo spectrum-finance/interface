@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Redirect, Route, Router, Switch } from 'react-router-dom';
+import { Redirect, Route, RouteProps, Router, Switch } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -7,12 +7,32 @@ import './App.css';
 import { globalHistory } from './createBrowserHistory';
 import { GeistProvider, CssBaseline } from '@geist-ui/react';
 import { RustModule } from 'ergo-dex-sdk';
-import { WalletContextProvider } from './context/WalletContext';
-import { SettingsProvider } from './context/SettingsContext';
-import { WalletAddressesProvider } from './context/AddressContext';
+import {
+  useAppLoadingState,
+  AppLoadingProvider,
+  WalletAddressesProvider,
+  SettingsProvider,
+  WalletContextProvider,
+} from './context';
 import { Home, KnowYourAssumptions } from './pages';
 
 const NotFound = () => <Redirect to="/" />;
+
+const PrivateRoute: React.FC<RouteProps> = (props) => {
+  const [{ isKYAAccepted }] = useAppLoadingState();
+  if (isKYAAccepted) {
+    return React.createElement(Route, props);
+  }
+  return (
+    <Route
+      render={({ location }) => (
+        <Redirect
+          to={{ pathname: '/know-your-assumptions', state: { from: location } }}
+        />
+      )}
+    />
+  );
+};
 
 export const App: React.FC = () => {
   const [isRustModuleLoaded, setIsRustModuleLoaded] = useState(false);
@@ -29,21 +49,23 @@ export const App: React.FC = () => {
     <GeistProvider>
       <CssBaseline />
       <Router history={globalHistory}>
-        <WalletContextProvider>
-          <SettingsProvider>
-            <WalletAddressesProvider>
-              <Switch>
-                <Route path="/" exact component={Home} />
-                <Route
-                  path="/know-your-assumptions"
-                  exact
-                  component={KnowYourAssumptions}
-                />
-                <Route component={NotFound} />
-              </Switch>
-            </WalletAddressesProvider>
-          </SettingsProvider>
-        </WalletContextProvider>
+        <AppLoadingProvider>
+          <WalletContextProvider>
+            <SettingsProvider>
+              <WalletAddressesProvider>
+                <Switch>
+                  <PrivateRoute path="/" exact component={Home} />
+                  <Route
+                    path="/know-your-assumptions"
+                    exact
+                    component={KnowYourAssumptions}
+                  />
+                  <Route component={NotFound} />
+                </Switch>
+              </WalletAddressesProvider>
+            </SettingsProvider>
+          </WalletContextProvider>
+        </AppLoadingProvider>
       </Router>
       <ToastContainer
         position="top-right"
