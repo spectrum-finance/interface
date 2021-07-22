@@ -28,10 +28,10 @@ jobs:
         run: yarn run tsc
 
       - name: eslint
-        run: yarn run eslint --ext .js,.ts,.tsx src
+        run: yarn lint
 
       - name: stylelint CSS Modules
         run: yarn run stylelint src/**/*.module.scss
 
       - name: prettier
-        run: yarn run prettier --check .
+        run: yarn run prettier --check src
