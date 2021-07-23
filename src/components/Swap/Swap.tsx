@@ -44,7 +44,7 @@ import {
   baseTokenName,
   numOfErgDecimals,
 } from '../../constants/erg';
-import { getButtonState } from './utils';
+import { getButtonState } from './buttonState';
 import { validateInputAmount, validateNumber } from './validation';
 import { useSettings } from '../../context/SettingsContext';
 import { SlippageInput } from '../Settings/SlippageInput';
@@ -291,7 +291,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
         minDexFeeN,
         nitroN,
         minOutput,
-      ); // todo: render extremums
+      );
       const poolFeeNum = selectedPool.poolFeeNum;
       const minerFeeNErgs = BigInt(Number(minerFee) * NanoErgInErg);
       const nErgsRequired = minerFeeNErgs + BigInt(extremums.maxDexFee);
@@ -583,11 +583,11 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                     <Button
                       htmlType="submit"
                       disabled={
-                        buttonStatus.disabled ||
+                        buttonStatus?.isDisabled ||
                         Object.values(errors).length > 0
                       }
                     >
-                      {buttonStatus.text}
+                      {buttonStatus?.text}
                     </Button>
                   </Row>
                 </Grid>

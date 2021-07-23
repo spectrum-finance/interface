@@ -7,7 +7,7 @@ export enum States {
   SUBMIT = 'SUBMIT',
 }
 
-interface Props {
+interface ButtonStateDependencies {
   isWalletConnected: boolean;
   inputAssetId?: string;
   outputAssetId?: string;
@@ -15,6 +15,11 @@ interface Props {
   outputAmount: string;
   choosedAddress: string | undefined;
   utxos: any;
+}
+
+interface ButtonState {
+  isDisabled: boolean;
+  text: string;
 }
 
 const getState = ({
@@ -25,7 +30,7 @@ const getState = ({
   outputAmount,
   choosedAddress,
   utxos,
-}: Props): States => {
+}: ButtonStateDependencies): States => {
   if (!isWalletConnected) {
     return States.NEED_TO_CONNECT_WALLET;
   }
@@ -57,7 +62,7 @@ export const getButtonState = ({
   outputAmount,
   choosedAddress,
   utxos,
-}: Props): { disabled: boolean; text: string } => {
+}: ButtonStateDependencies): ButtonState | void => {
   const state = getState({
     isWalletConnected,
     inputAssetId,
@@ -70,22 +75,25 @@ export const getButtonState = ({
 
   switch (state) {
     case States.SELECT_A_TOKEN: {
-      return { disabled: true, text: 'Need to choose pair' };
+      return { isDisabled: true, text: 'Need to choose pair' };
     }
     case States.SUBMIT: {
-      return { disabled: false, text: 'Submit' };
+      return { isDisabled: false, text: 'Submit' };
     }
     case States.NEED_TO_CONNECT_WALLET: {
-      return { disabled: true, text: 'Need to connect wallet' };
+      return { isDisabled: true, text: 'Need to connect wallet' };
     }
     case States.NEED_TO_CHOOSE_ADDRESS: {
-      return { disabled: true, text: 'Need to choose address' };
+      return { isDisabled: true, text: 'Need to choose address' };
     }
     case States.NEED_TO_ENTER_AMOUNT: {
-      return { disabled: true, text: 'Need to enter amount' };
+      return { isDisabled: true, text: 'Need to enter amount' };
     }
     case States.UTXOS_IS_EMPTY: {
-      return { disabled: true, text: 'Wallet is empty' };
+      return { isDisabled: true, text: 'Insufficient ERG balance' };
+    }
+    default: {
+      return;
     }
   }
 };
