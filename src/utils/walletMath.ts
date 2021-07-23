@@ -34,6 +34,12 @@ export const renderFractions = (
   return String(evaluate(`${input}/10^${numDecimals ?? 0}`));
 };
 
+type BaseInputParameters = {
+  baseInput: AssetAmount;
+  baseInputAmount: bigint;
+  minOutput: AssetAmount;
+};
+
 export const getBaseInputParameters = (
   pool: AmmPool,
   {
@@ -41,7 +47,7 @@ export const getBaseInputParameters = (
     inputAssetAmount,
     slippage,
   }: { inputAmount: string; inputAssetAmount: AssetAmount; slippage: number },
-) => {
+): BaseInputParameters => {
   const baseInputAmount = BigInt(
     evaluate(
       `${inputAmount} * 10^${inputAssetAmount.asset.decimals ?? 0}`,

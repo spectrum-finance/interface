@@ -2,17 +2,21 @@ import { AmmPool, OK } from 'ergo-dex-sdk';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { checkPool } from '../utils/checkPool';
+
+type FetchState = {
+  isFetching: boolean;
+  result: null | boolean;
+  errors: null | string;
+};
+
 const defaultState = {
   isFetching: false,
   result: null,
   errors: null,
 };
-export const useCheckPool = (pool: AmmPool | undefined) => {
-  const [state, setState] = useState<{
-    isFetching: boolean;
-    result: null | boolean;
-    errors: null | string;
-  }>(defaultState);
+
+export const useCheckPool = (pool: AmmPool | undefined): FetchState => {
+  const [state, setState] = useState<FetchState>(defaultState);
 
   useEffect(() => {
     if (pool) {
@@ -30,7 +34,7 @@ export const useCheckPool = (pool: AmmPool | undefined) => {
           });
         })
         // TODO:
-        .catch((er) => {
+        .catch(() => {
           toast.error('Pool validation error');
           setState({
             ...defaultState,

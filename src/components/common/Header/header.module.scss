@@ -5,10 +5,10 @@
   padding: 15px;
 
   .main {
-    flex-grow: 1;
     display: block;
+    flex-grow: 1;
 
-    & img {
+    img {
       width: 250px;
       height: auto;
     }

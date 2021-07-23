@@ -18,6 +18,14 @@ const WalletContext = createContext<WalletContextType>({
   setIsWalletConnected: noop,
 });
 
+const fetchUtxos = () =>
+  ergo
+    .get_utxos()
+    .then((bs) => bs?.map((b) => ergoBoxFromProxy(b)))
+    .then((data: ErgoBox[] | undefined) => {
+      return data ?? [];
+    });
+
 const WalletContextProvider = ({
   children,
 }: React.PropsWithChildren<unknown>): JSX.Element => {
@@ -30,25 +38,16 @@ const WalletContextProvider = ({
     utxos,
   };
 
-  function fetchUtxos(): void {
-    if (!isWalletConnected) {
-      return;
-    }
-
-    ergo
-      .get_utxos()
-      .then((bs) => bs?.map((b) => ergoBoxFromProxy(b)))
-      .then((data: ErgoBox[] | undefined) => {
-        setUtxos(data ?? []);
-      });
-  }
-
   useEffect(() => {
-    if (isWalletConnected) fetchUtxos();
-  }, [isWalletConnected, fetchUtxos]);
+    if (isWalletConnected) {
+      fetchUtxos().then(setUtxos);
+    }
+  }, [isWalletConnected]);
 
   useInterval(() => {
-    if (isWalletConnected) fetchUtxos();
+    if (isWalletConnected) {
+      fetchUtxos().then(setUtxos);
+    }
   }, 10 * 1000);
 
   return (
