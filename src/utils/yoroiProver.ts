@@ -2,7 +2,9 @@ import {
   ErgoTx,
   Prover,
   UnsignedErgoTx,
-  Input as TxInput, unsignedErgoTxToProxy, ergoTxFromProxy,
+  Input as TxInput,
+  unsignedErgoTxToProxy,
+  ergoTxFromProxy,
 } from 'ergo-dex-sdk/build/module/ergo';
 
 export class YoroiProver implements Prover {

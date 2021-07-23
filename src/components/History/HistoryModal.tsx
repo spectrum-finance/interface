@@ -15,7 +15,12 @@ import {
   useWalletAddresses,
   WalletAddressState,
 } from '../../context/AddressContext';
-import { AmmDexOperation, DefaultAmmOpsParser, NetworkOperations, RefundOperation } from 'ergo-dex-sdk';
+import {
+  AmmDexOperation,
+  DefaultAmmOpsParser,
+  NetworkOperations,
+  RefundOperation,
+} from 'ergo-dex-sdk';
 import { useInterval } from '../../hooks/useInterval';
 import { toast } from 'react-toastify';
 import { explorer } from '../../utils/explorer';
@@ -54,7 +59,7 @@ const Content = React.memo(
     }
 
     function renderOrder({ boxId, status, txId }: AmmOperation) {
-      return ({
+      return {
         boxId: (
           <CopyToClipboard text={boxId} onCopy={() => toast.info('Copied')}>
             <span style={{ cursor: 'pointer' }}>{truncate(boxId)}</span>
@@ -100,12 +105,12 @@ const Content = React.memo(
             )}
           </Container>
         ),
-      })
+      };
     }
 
     function renderRefund({ status, txId }: RefundOperation) {
-      return ({
-        boxId: "",
+      return {
+        boxId: '',
         status,
         txId: (
           <CopyToClipboard text={txId} onCopy={() => toast.info('Copied')}>
@@ -126,11 +131,11 @@ const Content = React.memo(
             </Col>
           </Container>
         ),
-      })
+      };
     }
 
-    const formattedOperations = operations.map(op => {
-      if (op.tag === "order") {
+    const formattedOperations = operations.map((op) => {
+      if (op.tag === 'order') {
         return renderOrder(op);
       } else {
         return renderRefund(op);

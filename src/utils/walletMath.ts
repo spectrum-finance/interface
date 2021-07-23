@@ -15,9 +15,12 @@ export const calculateAvailableAmount = (
 };
 
 export const userInputToFractions = (
-  input: string,
+  input: string | undefined,
   numDecimals: number | undefined,
 ): bigint => {
+  if (!input) {
+    return 0n;
+  }
   return BigInt(evaluate(`${input}*10^${numDecimals ?? 0}`).toFixed(0));
 };
 
@@ -25,7 +28,16 @@ export const renderFractions = (
   input: bigint,
   numDecimals: number | undefined,
 ): string => {
+  if (!input) {
+    return '';
+  }
   return String(evaluate(`${input}/10^${numDecimals ?? 0}`));
+};
+
+type BaseInputParameters = {
+  baseInput: AssetAmount;
+  baseInputAmount: bigint;
+  minOutput: AssetAmount;
 };
 
 export const getBaseInputParameters = (
@@ -35,7 +47,7 @@ export const getBaseInputParameters = (
     inputAssetAmount,
     slippage,
   }: { inputAmount: string; inputAssetAmount: AssetAmount; slippage: number },
-) => {
+): BaseInputParameters => {
   const baseInputAmount = BigInt(
     evaluate(
       `${inputAmount} * 10^${inputAssetAmount.asset.decimals ?? 0}`,

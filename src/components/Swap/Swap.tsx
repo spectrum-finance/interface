@@ -58,6 +58,7 @@ import {
   renderFractions,
   userInputToFractions,
 } from '../../utils/walletMath';
+import { ConnectWallet } from '../ConnectWallet/ConnectWallet';
 
 const content = {
   slippage: {
@@ -233,6 +234,12 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
     if (inputAssetAmount && selectedPool) {
       setInputAmount(value);
       setPivotalAmount(value);
+      setInputAssetAmount(
+        new AssetAmount(
+          inputAssetAmount.asset,
+          userInputToFractions(value, inputAssetAmount.asset.decimals),
+        ),
+      );
       updateOutputAmount(value, outputAssetAmount, inputAssetAmount);
 
       if (!value.trim()) {
@@ -332,6 +339,10 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
       }
     }
   };
+
+  if (!isWalletConnected) {
+    return <ConnectWallet />;
+  }
 
   return (
     <Form

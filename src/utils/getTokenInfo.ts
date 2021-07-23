@@ -1,4 +1,3 @@
-import { Explorer } from 'ergo-dex-sdk';
 import { AssetInfo, TokenId } from 'ergo-dex-sdk/build/module/ergo';
 import { explorer } from './explorer';
 

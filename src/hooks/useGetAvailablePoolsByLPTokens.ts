@@ -1,4 +1,4 @@
-import { AmmPool, Explorer, NetworkPools } from 'ergo-dex-sdk';
+import { AmmPool, NetworkPools } from 'ergo-dex-sdk';
 import { ErgoBox } from 'ergo-dex-sdk/build/module/ergo';
 import { useEffect, useState } from 'react';
 import { explorer } from '../utils/explorer';
