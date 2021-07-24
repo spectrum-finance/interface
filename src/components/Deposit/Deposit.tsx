@@ -40,7 +40,7 @@ import { useCheckPool } from '../../hooks/useCheckPool';
 import { validateInputAmount } from '../Swap/validation';
 import {
   calculateAvailableAmount,
-  userInputToFractions,
+  inputToFractions,
 } from '../../utils/walletMath';
 import { ergoBoxFromProxy } from 'ergo-dex-sdk/build/module/ergo/entities/ergoBox';
 
@@ -265,13 +265,13 @@ export const Deposit = (): JSX.Element => {
           {
             pk,
             poolId,
-            dexFee: userInputToFractions(String(dexFee), ERG_DECIMALS),
+            dexFee: inputToFractions(String(dexFee), ERG_DECIMALS),
             x: selectedPool.assetX,
             y: selectedPool.assetY,
           },
           {
             inputs: DefaultBoxSelector.select(utxos, {
-              nErgs: userInputToFractions(
+              nErgs: inputToFractions(
                 `${Number(minerFee) + Number(dexFee)}`,
                 ERG_DECIMALS,
               ),
@@ -286,7 +286,7 @@ export const Deposit = (): JSX.Element => {
                 },
                 {
                   tokenId: inputAssetAmountY.asset.id,
-                  amount: userInputToFractions(
+                  amount: inputToFractions(
                     inputAmountY,
                     inputAssetAmountY.asset.decimals,
                   ),
@@ -295,7 +295,7 @@ export const Deposit = (): JSX.Element => {
             }) as BoxSelection,
             changeAddress: choosedAddress,
             selfAddress: choosedAddress,
-            feeNErgs: userInputToFractions(String(minerFee), ERG_DECIMALS),
+            feeNErgs: inputToFractions(String(minerFee), ERG_DECIMALS),
             network: await network.getNetworkContext(),
           },
         )

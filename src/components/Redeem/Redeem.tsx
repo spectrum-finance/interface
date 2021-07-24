@@ -29,7 +29,7 @@ import { useSettings } from '../../context/SettingsContext';
 import { toast } from 'react-toastify';
 import { explorer } from '../../utils/explorer';
 import { ergoBoxFromProxy } from 'ergo-dex-sdk/build/module/ergo/entities/ergoBox';
-import { userInputToFractions } from '../../utils/walletMath';
+import { inputToFractions } from '../../utils/walletMath';
 
 export const Redeem = (): JSX.Element => {
   const [{ minerFee, address: choosedAddress }] = useSettings();
@@ -101,12 +101,12 @@ export const Redeem = (): JSX.Element => {
           {
             pk,
             poolId,
-            dexFee: userInputToFractions(String(dexFee), ERG_DECIMALS),
+            dexFee: inputToFractions(String(dexFee), ERG_DECIMALS),
             lp: choosedPool.lp.asset,
           },
           {
             inputs: DefaultBoxSelector.select(utxos, {
-              nErgs: userInputToFractions(minerFee + dexFee, ERG_DECIMALS),
+              nErgs: inputToFractions(minerFee + dexFee, ERG_DECIMALS),
               assets: [
                 {
                   tokenId: choosedPool.lp.asset.id,
@@ -116,7 +116,7 @@ export const Redeem = (): JSX.Element => {
             }) as BoxSelection,
             changeAddress: choosedAddress,
             selfAddress: choosedAddress,
-            feeNErgs: userInputToFractions(minerFee, ERG_DECIMALS),
+            feeNErgs: inputToFractions(minerFee, ERG_DECIMALS),
             network: await network.getNetworkContext(),
           },
         )

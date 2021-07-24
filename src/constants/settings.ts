@@ -1,7 +1,10 @@
-import { defaultMinerFee, NanoErgInErg } from './erg';
+import { DEFAULT_MINER_FEE, ERG_DECIMALS } from './erg';
+import { inputToRender } from '../utils/walletMath';
 
 // IDK what these should be...
-export const MinerFeeDefault = defaultMinerFee / NanoErgInErg;
+export const MinerFeeDefault = Number(
+  inputToRender(DEFAULT_MINER_FEE, ERG_DECIMALS),
+);
 export const MinerFeeMin = MinerFeeDefault;
 export const MinerFeeMax = 5;
 export const MinerFeeDecimals = 2;
