@@ -30,7 +30,7 @@ import {
 import { fromAddress } from 'ergo-dex-sdk/build/module/ergo/entities/publicKey';
 import { WalletContext } from '../../context/WalletContext';
 import { getButtonState, WalletStates } from './utils';
-import { NanoErgInErg } from '../../constants/erg';
+import { ERG_DECIMALS } from '../../constants/erg';
 import { useGetAllPools } from '../../hooks/useGetAllPools';
 import { PoolSelect } from '../PoolSelect/PoolSelect';
 import { useSettings } from '../../context/SettingsContext';
@@ -38,7 +38,10 @@ import { toast } from 'react-toastify';
 import { explorer } from '../../utils/explorer';
 import { useCheckPool } from '../../hooks/useCheckPool';
 import { validateInputAmount } from '../Swap/validation';
-import { calculateAvailableAmount } from '../../utils/walletMath';
+import {
+  calculateAvailableAmount,
+  inputToFractions,
+} from '../../utils/walletMath';
 import { ergoBoxFromProxy } from 'ergo-dex-sdk/build/module/ergo/entities/ergoBox';
 
 export const Deposit = (): JSX.Element => {
@@ -262,13 +265,16 @@ export const Deposit = (): JSX.Element => {
           {
             pk,
             poolId,
-            dexFee: BigInt(evaluate(`${dexFee} * ${NanoErgInErg}`)),
+            dexFee: inputToFractions(String(dexFee), ERG_DECIMALS),
             x: selectedPool.assetX,
             y: selectedPool.assetY,
           },
           {
             inputs: DefaultBoxSelector.select(utxos, {
-              nErgs: evaluate(`(${minerFee}+${dexFee})*${NanoErgInErg}`),
+              nErgs: inputToFractions(
+                `${Number(minerFee) + Number(dexFee)}`,
+                ERG_DECIMALS,
+              ),
               assets: [
                 {
                   tokenId: inputAssetAmountX.asset.id,
@@ -280,17 +286,16 @@ export const Deposit = (): JSX.Element => {
                 },
                 {
                   tokenId: inputAssetAmountY.asset.id,
-                  amount: evaluate(
-                    `${inputAmountY}*10^${
-                      inputAssetAmountY.asset.decimals || 0
-                    }`,
-                  ).toFixed(0),
+                  amount: inputToFractions(
+                    inputAmountY,
+                    inputAssetAmountY.asset.decimals,
+                  ),
                 },
               ],
             }) as BoxSelection,
             changeAddress: choosedAddress,
             selfAddress: choosedAddress,
-            feeNErgs: BigInt(Number(minerFee) * NanoErgInErg),
+            feeNErgs: inputToFractions(String(minerFee), ERG_DECIMALS),
             network: await network.getNetworkContext(),
           },
         )

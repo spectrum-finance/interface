@@ -14,25 +14,13 @@ export const calculateAvailableAmount = (
     .reduce((acc, x) => acc + x, 0n);
 };
 
-export const userInputToFractions = (
-  input: string | undefined,
-  numDecimals: number | undefined,
-): bigint => {
-  if (!input) {
-    return 0n;
-  }
-  return BigInt(evaluate(`${input}*10^${numDecimals ?? 0}`).toFixed(0));
-};
+export const inputToFractions = (input: string, numDecimals?: number): bigint =>
+  BigInt(evaluate(`${input}*10^${numDecimals || 0}`).toFixed(0));
 
-export const renderFractions = (
-  input: bigint,
-  numDecimals: number | undefined,
-): string => {
-  if (!input) {
-    return '';
-  }
-  return String(evaluate(`${input}/10^${numDecimals ?? 0}`));
-};
+export const inputToRender = (
+  input: bigint | number,
+  numDecimals?: number,
+): string => String(evaluate(`${input}/10^${numDecimals || 0}`));
 
 type BaseInputParameters = {
   baseInput: AssetAmount;
