@@ -27,8 +27,8 @@ type validateInputAmountOpts = {
 
 function validDecimals(value: string, maxDecimals: number): boolean {
   const idx = value.indexOf('.');
-  const decimals = value.slice(idx);
-  return decimals.length - 1 <= maxDecimals;
+  const decimals = value.slice(idx + 1);
+  return decimals.length <= maxDecimals;
 }
 
 export const validateInputAmount = (

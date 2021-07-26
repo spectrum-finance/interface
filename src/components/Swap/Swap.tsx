@@ -35,17 +35,19 @@ import {
 } from 'ergo-dex-sdk/build/module/ergo';
 import { fromAddress } from 'ergo-dex-sdk/build/module/ergo/entities/publicKey';
 import { YoroiProver } from '../../utils/yoroiProver';
-import { WalletContext } from '../../context/WalletContext';
+import { WalletContext } from '../../context';
 import { useGetAllPools } from '../../hooks/useGetAllPools';
 import { PoolSelect } from '../PoolSelect/PoolSelect';
 import {
   DEFAULT_MINER_FEE,
   ERG_TOKEN_NAME,
   ERG_DECIMALS,
+  MIN_NITRO,
+  MIN_BOX_VALUE,
 } from '../../constants/erg';
 import { getButtonState } from './buttonState';
 import { validateInputAmount, validateNumber } from './validation';
-import { useSettings } from '../../context/SettingsContext';
+import { useSettings } from '../../context';
 import { SlippageInput } from '../Settings/SlippageInput';
 import { toast } from 'react-toastify';
 import { explorer } from '../../utils/explorer';
@@ -74,11 +76,9 @@ interface SwapFormProps {
 interface SwapOptions {
   minOutput: AssetAmount;
   maxOutput: AssetAmount;
-  maxDexFee: number;
-  minDexFee: number;
+  maxDexFee: bigint;
+  minDexFee: bigint;
 }
-
-const defaultNitroState = 1.2;
 
 const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
   const { isWalletConnected, utxos } = useContext(WalletContext);
@@ -98,7 +98,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
   const [outputAmount, setOutputAmount] = useState('');
   const [availableInputAmount, setAvailableInputAmount] = useState(0n);
   const [minDexFee, setMinDexFee] = useState(String(DEFAULT_MINER_FEE));
-  const [nitro, setNitro] = useState(String(defaultNitroState));
+  const [nitro, setNitro] = useState(String(MIN_NITRO));
   const [swapOptions, setSwapOptions] = useState<SwapOptions | undefined>();
   const isPoolValid = useCheckPool(selectedPool);
 
@@ -145,8 +145,9 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
           slippage,
         });
 
+        // @ts-ignore
         const [, extremums] = swapVars(
-          Number(minDexFee),
+          BigInt(minDexFee),
           Number(nitro),
           minOutput,
         );
@@ -287,13 +288,14 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
       const pk = fromAddress(choosedAddress) as string;
 
       const [dexFeePerToken, extremums] = swapVars(
-        Number(minDexFee),
+        BigInt(minDexFee),
         Number(nitro),
         minOutput,
-      );
+      )!; // todo: handle undefined - in that case user inputs are invalid, "inputAmount" most likely.
       const poolFeeNum = selectedPool.poolFeeNum;
       const minerFeeNErgs = inputToFractions(minerFee, ERG_DECIMALS);
-      const totalFees = minerFeeNErgs + BigInt(extremums.maxDexFee);
+      const totalFees =
+        BigInt(MIN_BOX_VALUE) + minerFeeNErgs + BigInt(extremums.maxDexFee);
 
       const networkContext = await network.getNetworkContext();
 
