@@ -4865,10 +4865,10 @@ entities@^2.0.0:
   resolved "https://registry.npmjs.org/entities/-/entities-2.2.0.tgz"
   integrity sha512-p92if5Nz619I0w+akJrLZH0MX0Pb5DX39XOwQTtXSdQQOaYH03S1uIQp4mhOZtAXrxq4ViO67YTiLBo2638o9A==
 
-ergo-dex-sdk@^0.1.32:
-  version "0.1.32"
-  resolved "https://registry.yarnpkg.com/ergo-dex-sdk/-/ergo-dex-sdk-0.1.32.tgz#66d66a43538963d04866639cbbbbae0ba4a52a3c"
-  integrity sha512-rZv5DXdFSU7p0KucFBHXaHtvnnRBFbxydKZsb0E8o9ceygkiMMadqDT/T6lDBrrvcDk0gLUgtIui3+zE2fYB4g==
+ergo-dex-sdk@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/ergo-dex-sdk/-/ergo-dex-sdk-0.2.0.tgz#60f72ce1757739fb4d64f9d59fdae3f0dff29a20"
+  integrity sha512-PqOl4IuUwYwd4LT97N/dYjrJgqVlq+4tDAhunfT/w9RmxWeUWLPKfvohaSVLRJCC44uOy+JRajVJqMPcGNUzdA==
   dependencies:
     axios "^0.21.1"
     blakejs "^1.1.0"
