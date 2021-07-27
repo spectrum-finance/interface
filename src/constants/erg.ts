@@ -5,3 +5,4 @@ export const MIN_BOX_VALUE = 50_000;
 
 export const MIN_DEX_FEE = 5_000_000;
 export const MIN_NITRO = 1.2;
+export const NITRO_DECIMALS = 2;
