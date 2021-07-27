@@ -301,7 +301,7 @@ export const Deposit = (): JSX.Element => {
         )
         .then(async (tx) => {
           await ergo.submit_tx(ergoTxToProxy(tx));
-          toast.success(`Transaction submitted: ${tx} `);
+          toast.success(`Transaction submitted: ${tx.id} `);
         })
         .catch((er) => toast.error(JSON.stringify(er)));
     }

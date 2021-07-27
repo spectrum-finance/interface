@@ -307,7 +307,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
             .then(async (tx) => {
               const proxyTx = ergoTxToProxy(tx);
               await ergo.submit_tx(proxyTx);
-              toast.success(`Transaction submitted: ${tx} `);
+              toast.success(`Transaction submitted: ${tx.id} `);
             })
             .catch((er) => toast.error(JSON.stringify(er)));
         } else {
