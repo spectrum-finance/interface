@@ -11,14 +11,13 @@ import {
   Tooltip,
 } from '@geist-ui/react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import {
-  useWalletAddresses,
-  WalletAddressState,
-} from '../../context/AddressContext';
+import { useWalletAddresses, WalletAddressState } from '../../context';
 import {
   AmmDexOperation,
-  DefaultAmmOpsParser,
-  NetworkOperations,
+  AmmOrder,
+  DefaultAmmOrdersParser,
+  DefaultAmmPoolsInfoParser,
+  NetworkHistory,
   RefundOperation,
 } from 'ergo-dex-sdk';
 import { useInterval } from '../../hooks/useInterval';
@@ -31,7 +30,6 @@ import { faExternalLinkAlt, faUndo } from '@fortawesome/free-solid-svg-icons';
 import { useToggle } from '../../hooks/useToggle';
 import { ConfirmRefundModal } from '../ConfirmRefundModal/ConfirmRefundModal';
 import { truncate } from '../../utils/string';
-import { AmmOperation } from 'ergo-dex-sdk/build/module/amm/models/ammOperation';
 
 const content = {
   title: 'Transactions history',
@@ -58,8 +56,7 @@ const Content = React.memo(
       return <Text p>No operations</Text>;
     }
 
-    function renderOrder({ boxId, status, txId, summary }: AmmOperation) {
-      console.log('summary', summary);
+    function renderOrder({ boxId, status, txId }: AmmOrder) {
       return {
         boxId: (
           <CopyToClipboard text={boxId} onCopy={() => toast.info('Copied')}>
@@ -136,12 +133,16 @@ const Content = React.memo(
     }
 
     const formattedOperations = operations.map((op) => {
-      if (op.tag === 'order') {
+      if (op.type === 'order') {
         return renderOrder(op);
-      } else {
+      } else if (op.type === 'refund') {
         return renderRefund(op);
       }
     });
+
+    console.log('operations', operations);
+    console.log('formattedOperations', formattedOperations);
+
     return (
       <Table data={formattedOperations}>
         <Table.Column prop="boxId" label="Box ID" />
@@ -160,6 +161,10 @@ export const HistoryModal = (props: HistoryModalProps): JSX.Element => {
 
   const walletAddresses = useWalletAddresses();
 
+  const ordersParser = new DefaultAmmOrdersParser();
+  const poolsParser = new DefaultAmmPoolsInfoParser();
+  const history = new NetworkHistory(explorer, ordersParser, poolsParser);
+
   useEffect(() => {
     if (
       !(
@@ -169,11 +174,10 @@ export const HistoryModal = (props: HistoryModalProps): JSX.Element => {
     )
       return;
 
-    const network = explorer;
-    const parser = new DefaultAmmOpsParser();
-    new NetworkOperations(network, parser)
-      .getAllByAddresses(walletAddresses.addresses, 20)
-      .then(setOperations);
+    history.getAllByAddresses(walletAddresses.addresses, 20).then((op) => {
+      console.log('op', op);
+      setOperations(op);
+    });
   }, [walletAddresses, operations]);
 
   useInterval(() => {
@@ -185,9 +189,7 @@ export const HistoryModal = (props: HistoryModalProps): JSX.Element => {
     )
       return;
 
-    const network = explorer;
-    const parser = new DefaultAmmOpsParser();
-    new NetworkOperations(network, parser)
+    history
       .getAllByAddresses(walletAddresses.addresses, 20)
       .then(setOperations);
   }, 10 * 1000);

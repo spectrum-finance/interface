@@ -1,4 +1,4 @@
-import { AmmPool, NetworkPools } from 'ergo-dex-sdk';
+import { AmmPool, DefaultAmmPoolsParser, NetworkPools } from 'ergo-dex-sdk';
 import { ErgoBox } from 'ergo-dex-sdk/build/module/ergo';
 import { useEffect, useState } from 'react';
 import { explorer } from '../utils/explorer';
@@ -11,8 +11,8 @@ export const useGetAvailablePoolsByLPTokens = (
 
   useEffect(() => {
     if (utxos.length > 0) {
-      const network = explorer;
-      const poolNetwork = new NetworkPools(network);
+      const parser = new DefaultAmmPoolsParser();
+      const poolNetwork = new NetworkPools(explorer, parser);
 
       const tokenIds = Object.values(getListAvailableTokens(utxos)).map(
         (token) => token.tokenId,
