@@ -58,7 +58,8 @@ const Content = React.memo(
       return <Text p>No operations</Text>;
     }
 
-    function renderOrder({ boxId, status, txId }: AmmOperation) {
+    function renderOrder({ boxId, status, txId, summary }: AmmOperation) {
+      console.log('summary', summary);
       return {
         boxId: (
           <CopyToClipboard text={boxId} onCopy={() => toast.info('Copied')}>
