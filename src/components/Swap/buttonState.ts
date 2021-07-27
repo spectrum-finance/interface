@@ -84,7 +84,7 @@ export const getButtonState = (
     case States.PENDING_TRANSACTION: {
       return {
         isDisabled: true,
-        text: 'There is pending transaction. Wait for it to compete.',
+        text: 'There is pending transaction. Wait for it to complete.',
       };
     }
     case States.NEED_TO_ENTER_AMOUNT: {
