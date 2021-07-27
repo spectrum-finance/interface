@@ -12,7 +12,7 @@ function noop() {
   return;
 }
 
-const WalletContext = createContext<WalletContextType>({
+export const WalletContext = createContext<WalletContextType>({
   isWalletConnected: false,
   utxos: undefined,
   setIsWalletConnected: noop,
@@ -26,7 +26,7 @@ const fetchUtxos = () =>
       return data ?? [];
     });
 
-const WalletContextProvider = ({
+export const WalletContextProvider = ({
   children,
 }: React.PropsWithChildren<unknown>): JSX.Element => {
   const [isWalletConnected, setIsWalletConnected] = useState(false);
@@ -54,5 +54,3 @@ const WalletContextProvider = ({
     <WalletContext.Provider value={ctxValue}>{children}</WalletContext.Provider>
   );
 };
-
-export { WalletContext, WalletContextProvider };
