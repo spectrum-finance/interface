@@ -163,10 +163,10 @@ export const Deposit = (): JSX.Element => {
         return { disabled: false, text: 'Submit' };
       }
       case WalletStates.NEED_TO_CONNECT_WALLET: {
-        return { disabled: true, text: 'Need to connect wallet' };
+        return { disabled: true, text: 'Wallet not connected' };
       }
       case WalletStates.NEED_TO_ENTER_AMOUNT: {
-        return { disabled: true, text: 'Need to enter amount' };
+        return { disabled: true, text: 'Amount not specified' };
       }
     }
   }, [isWalletConnected, inputAmountX, inputAmountY, selectedPool]);
@@ -310,7 +310,7 @@ export const Deposit = (): JSX.Element => {
   if (!isWalletConnected) {
     return (
       <Card>
-        <Text h6>Need to connect wallet</Text>
+        <Text h6>Wallet not connected</Text>
       </Card>
     );
   }

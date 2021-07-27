@@ -145,14 +145,13 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
           slippage,
         });
 
-        // @ts-ignore
-        const [, extremums] = swapVars(
+        const vars = swapVars(
           BigInt(minDexFee),
           Number(nitro),
           minOutput,
         );
 
-        setSwapOptions(extremums);
+        if (vars) setSwapOptions(vars[1]);
       }
     },
     [inputAssetAmount, slippage, selectedPool],

@@ -75,19 +75,19 @@ export const getButtonState = ({
 
   switch (state) {
     case States.SELECT_A_TOKEN: {
-      return { isDisabled: true, text: 'Need to choose pair' };
+      return { isDisabled: true, text: 'Pair not specified' };
     }
     case States.SUBMIT: {
       return { isDisabled: false, text: 'Submit' };
     }
     case States.NEED_TO_CONNECT_WALLET: {
-      return { isDisabled: true, text: 'Need to connect wallet' };
+      return { isDisabled: true, text: 'Wallet not connected' };
     }
     case States.NEED_TO_CHOOSE_ADDRESS: {
-      return { isDisabled: true, text: 'Need to choose address' };
+      return { isDisabled: true, text: 'Address not specified' };
     }
     case States.NEED_TO_ENTER_AMOUNT: {
-      return { isDisabled: true, text: 'Need to enter amount' };
+      return { isDisabled: true, text: 'Input amount not specified' };
     }
     case States.UTXOS_IS_EMPTY: {
       return { isDisabled: true, text: 'Insufficient ERG balance' };

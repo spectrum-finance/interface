@@ -13,7 +13,7 @@ export const ConnectWallet = (): ReactElement => {
       return;
     }
 
-    toast.warn('Need to install yoroi wallet and/or yoroi-dapp-connector');
+    toast.warn('Yoroi Nightly and/or Yoroi-dApp-Connector Nightly aren\'t installed');
   }, [setIsWalletConnected]);
 
   return (
