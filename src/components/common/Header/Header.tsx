@@ -7,7 +7,7 @@ import css from './header.module.scss';
 import { SettingsModal } from '../../Settings/SettingsModal';
 import { useToggle } from '../../../hooks/useToggle';
 import { WalletContext } from '../../../context/WalletContext';
-import { HistoryModal } from '../../History/HistoryModal';
+import { HistoryModal } from '../../HistoryModal/HistoryModal';
 import logo from '../../../assets/images/logo.svg';
 
 const SettingsButton = (): JSX.Element => {

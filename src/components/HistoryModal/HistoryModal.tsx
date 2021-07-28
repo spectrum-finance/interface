@@ -11,12 +11,12 @@ import {
   Tooltip,
 } from '@geist-ui/react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { useWalletAddresses, WalletAddressState } from '../../context';
 import {
-  useWalletAddresses,
-  WalletAddressState,
-} from '../../context';
-import {
-  AmmDexOperation, AmmOrder, DefaultAmmOrdersParser, DefaultAmmPoolsInfoParser,
+  AmmDexOperation,
+  AmmOrder,
+  DefaultAmmOrdersParser,
+  DefaultAmmPoolsInfoParser,
   NetworkHistory,
   RefundOperation,
 } from 'ergo-dex-sdk';
@@ -135,10 +135,14 @@ const Content = React.memo(
     const formattedOperations = operations.map((op) => {
       if (op.type === 'order') {
         return renderOrder(op);
-      } else if (op.type === "refund") {
+      } else if (op.type === 'refund') {
         return renderRefund(op);
       }
     });
+
+    console.log('operations', operations);
+    console.log('formattedOperations', formattedOperations);
+
     return (
       <Table data={formattedOperations}>
         <Table.Column prop="boxId" label="Box ID" />
@@ -159,7 +163,7 @@ export const HistoryModal = (props: HistoryModalProps): JSX.Element => {
 
   const ordersParser = new DefaultAmmOrdersParser();
   const poolsParser = new DefaultAmmPoolsInfoParser();
-  const history = new NetworkHistory(explorer, ordersParser, poolsParser)
+  const history = new NetworkHistory(explorer, ordersParser, poolsParser);
 
   useEffect(() => {
     if (
@@ -170,9 +174,10 @@ export const HistoryModal = (props: HistoryModalProps): JSX.Element => {
     )
       return;
 
-    history
-      .getAllByAddresses(walletAddresses.addresses, 20)
-      .then(setOperations);
+    history.getAllByAddresses(walletAddresses.addresses, 20).then((op) => {
+      console.log('op', op);
+      setOperations(op);
+    });
   }, [walletAddresses, operations]);
 
   useInterval(() => {
