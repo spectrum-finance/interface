@@ -9,6 +9,7 @@ import {
   Col,
   Spacer,
   Tooltip,
+  Badge,
 } from '@geist-ui/react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { useWalletAddresses, WalletAddressState } from '../../context';
@@ -49,7 +50,7 @@ const Content = React.memo(
       return <Text p>No operations</Text>;
     }
 
-    function renderOrder({ boxId, status, txId }: AmmOrder) {
+    function renderOrder({ boxId, status, txId, order }: AmmOrder) {
       return {
         boxId: (
           <CopyToClipboard text={boxId} onCopy={() => toast.info('Copied')}>
@@ -62,6 +63,7 @@ const Content = React.memo(
             <span style={{ cursor: 'pointer' }}>{truncate(txId)}</span>
           </CopyToClipboard>
         ),
+        type: <Badge type="secondary">{order.type}</Badge>,
         operation: (
           <Container>
             <Col>
@@ -137,9 +139,9 @@ const Content = React.memo(
       <Table data={formattedOperations}>
         <Table.Column prop="boxId" label="Box ID" />
         <Table.Column prop="txId" label="TX ID" />
+        <Table.Column prop="type" label="Type" />
         <Table.Column prop="status" label="Status" />
         <Table.Column prop="operation" />
-        {/*<Table.Column prop="summary" label="Summary" />*/}
       </Table>
     );
   },
