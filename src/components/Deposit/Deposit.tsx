@@ -45,7 +45,7 @@ import {
 import { ergoBoxFromProxy } from 'ergo-dex-sdk/build/module/ergo/entities/ergoBox';
 
 export const Deposit = (): JSX.Element => {
-  const [{ minerFee, address: choosedAddress }] = useSettings();
+  const [{ minerFee, address: chosenAddress }] = useSettings();
   const { isWalletConnected } = useContext(WalletContext);
   const [selectedPool, setSelectedPool] = useState<AmmPool | undefined>();
   const [dexFee] = useState<number>(0.01);
@@ -250,7 +250,7 @@ export const Deposit = (): JSX.Element => {
       selectedPool &&
       inputAssetAmountX &&
       inputAssetAmountY &&
-      choosedAddress
+      chosenAddress
     ) {
       const network = explorer;
       const poolId = selectedPool.id;
@@ -259,7 +259,7 @@ export const Deposit = (): JSX.Element => {
         new YoroiProver(),
         new DefaultTxAssembler(true),
       );
-      const pk = fromAddress(choosedAddress) as string;
+      const pk = fromAddress(chosenAddress) as string;
       poolOps
         .deposit(
           {
@@ -293,15 +293,15 @@ export const Deposit = (): JSX.Element => {
                 },
               ],
             }) as BoxSelection,
-            changeAddress: choosedAddress,
-            selfAddress: choosedAddress,
+            changeAddress: chosenAddress,
+            selfAddress: chosenAddress,
             feeNErgs: inputToFractions(String(minerFee), ERG_DECIMALS),
             network: await network.getNetworkContext(),
           },
         )
         .then(async (tx) => {
           await ergo.submit_tx(ergoTxToProxy(tx));
-          toast.success(`Transaction submitted: ${tx} `);
+          toast.success(`Transaction submitted: ${tx.id} `);
         })
         .catch((er) => toast.error(JSON.stringify(er)));
     }

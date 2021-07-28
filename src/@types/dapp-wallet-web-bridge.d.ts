@@ -37,7 +37,7 @@ namespace ErgoBridge {
 
     sign_data: (addr: Address, message: string) => Promise<string>;
 
-    submit_tx: (tx: ErgoTxProxy) => TxId;
+    submit_tx: (tx: ErgoTxProxy) => Promise<TxId>;
 
     add_external_box: (box_id: BoxId) => boolean;
   }

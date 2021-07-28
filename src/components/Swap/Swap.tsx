@@ -64,9 +64,7 @@ interface SwapFormProps {
 
 const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
   const { isWalletConnected, utxos } = useContext(WalletContext);
-
-  const [{ minerFee, address: choosedAddress }] = useSettings();
-
+  const [{ minerFee, address: chosenAddress }] = useSettings();
   const [selectedPool, setSelectedPool] = useState<AmmPool | undefined>();
   const [inputAssetAmount, setInputAssetAmount] = useState<
     AssetAmount | undefined
@@ -106,8 +104,9 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
         outputAssetId: outputAssetAmount?.asset.id,
         inputAmount,
         outputAmount,
-        choosedAddress,
+        chosenAddress,
         utxos,
+        availableInputAmount,
       }),
     [
       isWalletConnected,
@@ -115,8 +114,9 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
       outputAmount,
       inputAssetAmount,
       outputAssetAmount,
-      choosedAddress,
+      chosenAddress,
       utxos,
+      availableInputAmount,
     ],
   );
 
@@ -245,7 +245,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
       inputAssetAmount &&
       outputAssetAmount &&
       utxos?.length &&
-      choosedAddress
+      chosenAddress
     ) {
       const network = explorer;
       const poolId = selectedPool.id;
@@ -259,7 +259,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
         new YoroiProver(),
         new DefaultTxAssembler(true),
       );
-      const pk = fromAddress(choosedAddress) as string;
+      const pk = fromAddress(chosenAddress) as string;
 
       const vars = swapVars(BigInt(minDexFee), Number(nitro), minOutput);
 
@@ -296,8 +296,8 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
         if (inputs instanceof BoxSelection) {
           const txContext = {
             inputs,
-            changeAddress: choosedAddress,
-            selfAddress: choosedAddress,
+            changeAddress: chosenAddress,
+            selfAddress: chosenAddress,
             feeNErgs: minerFeeNErgs,
             network: networkContext,
           };
@@ -307,7 +307,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
             .then(async (tx) => {
               const proxyTx = ergoTxToProxy(tx);
               await ergo.submit_tx(proxyTx);
-              toast.success(`Transaction submitted: ${tx} `);
+              toast.success(`Transaction submitted: ${tx.id} `);
             })
             .catch((er) => toast.error(JSON.stringify(er)));
         } else {
