@@ -22,7 +22,7 @@ import { Form, Field, FieldRenderProps } from 'react-final-form';
 import { FORM_ERROR } from 'final-form';
 import { AmmPool, swapVars } from 'ergo-dex-sdk';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faExchangeAlt } from '@fortawesome/free-solid-svg-icons';
+import { faArrowDown } from '@fortawesome/free-solid-svg-icons';
 import {
   AssetAmount,
   BoxSelection,
@@ -340,8 +340,10 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
       render={({ handleSubmit, errors = {} }) => (
         <form onSubmit={handleSubmit}>
           <Grid.Container gap={1}>
-            <Grid xs={12}>
-              <Text h4>Pool</Text>
+            <Grid xs={12} alignItems="center">
+              <Text h4 style={{ margin: 0 }}>
+                Swap
+              </Text>
             </Grid>
             <Grid xs={12} justify={'flex-end'}>
               <SwapSettings
@@ -356,14 +358,25 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
             <Grid xs={24}>
               <Field name="poolId" component="select">
                 {(props: FieldRenderProps<string>) => (
-                  <PoolSelect
-                    pools={pools}
-                    value={selectedPool}
-                    onChangeValue={(value) => {
-                      updateSelectedPool(value);
-                    }}
-                    inputProps={props.input}
-                  />
+                  <Grid.Container
+                    gap={1}
+                    justify="space-between"
+                    alignItems="center"
+                  >
+                    <Grid xs={6}>
+                      <Text>Select pool</Text>
+                    </Grid>
+                    <Grid xs={18}>
+                      <PoolSelect
+                        pools={pools}
+                        value={selectedPool}
+                        onChangeValue={(value) => {
+                          updateSelectedPool(value);
+                        }}
+                        inputProps={props.input}
+                      />
+                    </Grid>
+                  </Grid.Container>
                 )}
               </Field>
             </Grid>
@@ -382,9 +395,6 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
             )}
             {!isPoolValid.isFetching && isPoolValid.result && (
               <>
-                <Grid xs={24}>
-                  <Text h4>From</Text>
-                </Grid>
                 <Grid xs={24} direction="column">
                   <Field
                     name="inputAmount"
@@ -430,11 +440,8 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                     type="success"
                     style={{ cursor: 'pointer' }}
                   >
-                    <FontAwesomeIcon icon={faExchangeAlt} />
+                    <FontAwesomeIcon icon={faArrowDown} />
                   </Tag>
-                </Grid>
-                <Grid xs={24}>
-                  <Text h4>To</Text>
                 </Grid>
                 <Grid xs={24}>
                   <Field name="outputAmount">
@@ -510,6 +517,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                     ) : (
                       <Button
                         htmlType="submit"
+                        type="success"
                         disabled={
                           buttonStatus?.isDisabled ||
                           Object.values(errors).length > 0
