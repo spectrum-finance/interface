@@ -45,9 +45,7 @@ export const ConfirmRefundModal = ({
   const handleRefund = async () => {
     if (utxos?.length && address) {
       try {
-        console.log('pre-refund: ', 0);
         const tx = await refund(utxos, { address, txId, minerFee });
-        console.log('tx: ', tx);
         await ergo.submit_tx(ergoTxToProxy(tx));
       } catch (err) {
         console.error(err);

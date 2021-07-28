@@ -140,9 +140,6 @@ const Content = React.memo(
       }
     });
 
-    console.log('operations', operations);
-    console.log('formattedOperations', formattedOperations);
-
     return (
       <Table data={formattedOperations}>
         <Table.Column prop="boxId" label="Box ID" />
@@ -175,7 +172,6 @@ export const HistoryModal = (props: HistoryModalProps): JSX.Element => {
       return;
 
     history.getAllByAddresses(walletAddresses.addresses, 20).then((op) => {
-      console.log('op', op);
       setOperations(op);
     });
   }, [walletAddresses, operations]);

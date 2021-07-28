@@ -128,7 +128,6 @@ export const Deposit = (): JSX.Element => {
   }, []);
 
   useEffect(() => {
-    console.log('sp: ', selectedPool);
     if (
       selectedPool &&
       (selectedPool.x.asset.id !== inputAssetAmountX?.asset.id ||
