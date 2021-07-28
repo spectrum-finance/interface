@@ -12,17 +12,9 @@ import {
 } from '@geist-ui/react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { useWalletAddresses, WalletAddressState } from '../../context';
-import {
-  AmmDexOperation,
-  AmmOrder,
-  DefaultAmmOrdersParser,
-  DefaultAmmPoolsInfoParser,
-  NetworkHistory,
-  RefundOperation,
-} from 'ergo-dex-sdk';
+import { AmmDexOperation, AmmOrder, RefundOperation } from 'ergo-dex-sdk';
 import { useInterval } from '../../hooks/useInterval';
 import { toast } from 'react-toastify';
-import { explorer } from '../../utils/explorer';
 import { exploreTx } from '../../utils/redirect';
 import { isRefundableOperation } from '../../utils/ammOperations';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -30,6 +22,7 @@ import { faExternalLinkAlt, faUndo } from '@fortawesome/free-solid-svg-icons';
 import { useToggle } from '../../hooks/useToggle';
 import { ConfirmRefundModal } from '../ConfirmRefundModal/ConfirmRefundModal';
 import { truncate } from '../../utils/string';
+import networkHistory from '../../services/networkHistory';
 
 const content = {
   title: 'Transactions history',
@@ -158,10 +151,6 @@ export const HistoryModal = (props: HistoryModalProps): JSX.Element => {
 
   const walletAddresses = useWalletAddresses();
 
-  const ordersParser = new DefaultAmmOrdersParser();
-  const poolsParser = new DefaultAmmPoolsInfoParser();
-  const history = new NetworkHistory(explorer, ordersParser, poolsParser);
-
   useEffect(() => {
     if (
       !(
@@ -171,9 +160,11 @@ export const HistoryModal = (props: HistoryModalProps): JSX.Element => {
     )
       return;
 
-    history.getAllByAddresses(walletAddresses.addresses, 20).then((op) => {
-      setOperations(op);
-    });
+    networkHistory
+      .getAllByAddresses(walletAddresses.addresses, 20)
+      .then((op) => {
+        setOperations(op);
+      });
   }, [walletAddresses, operations]);
 
   useInterval(() => {
@@ -185,7 +176,7 @@ export const HistoryModal = (props: HistoryModalProps): JSX.Element => {
     )
       return;
 
-    history
+    networkHistory
       .getAllByAddresses(walletAddresses.addresses, 20)
       .then(setOperations);
   }, 10 * 1000);

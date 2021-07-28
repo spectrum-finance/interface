@@ -27,10 +27,8 @@ import {
   AssetAmount,
   BoxSelection,
   DefaultBoxSelector,
-  DefaultTxAssembler,
 } from 'ergo-dex-sdk/build/module/ergo';
 import { fromAddress } from 'ergo-dex-sdk/build/module/ergo/entities/publicKey';
-import { YoroiProver } from '../../utils/yoroiProver';
 import { DefaultSettings, WalletContext } from '../../context';
 import { useGetAllPools } from '../../hooks/useGetAllPools';
 import { PoolSelect } from '../PoolSelect/PoolSelect';
@@ -45,7 +43,6 @@ import { getButtonState } from './buttonState';
 import { validateInputAmount } from './validation';
 import { useSettings } from '../../context';
 import { toast } from 'react-toastify';
-import { explorer } from '../../utils/explorer';
 import { useCheckPool } from '../../hooks/useCheckPool';
 import { ergoTxToProxy } from 'ergo-dex-sdk/build/module/ergo';
 import {
@@ -57,6 +54,9 @@ import {
 import { ConnectWallet } from '../ConnectWallet/ConnectWallet';
 import SwapSettings from './SwapSettings';
 import { SwapExtremums } from 'ergo-dex-sdk/build/module/amm/math/swap';
+import { isEmpty, isNil } from 'ramda';
+import explorer from '../../services/explorer';
+import poolOptions from '../../services/poolOptions';
 
 interface SwapFormProps {
   pools: AmmPool[];
@@ -91,7 +91,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
   }, []);
 
   useEffect(() => {
-    if (selectedPool === undefined) {
+    if (isNil(selectedPool)) {
       updateSelectedPool(pools[0]);
     }
   }, [pools, selectedPool, updateSelectedPool]);
@@ -128,7 +128,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
         slippage,
       });
       const vars = swapVars(BigInt(minDexFee), Number(nitro), minOutput);
-      if (vars !== undefined) {
+      if (!isNil(vars)) {
         setCurrentSwapVars(vars);
       }
     }
@@ -255,21 +255,16 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
         { inputAmount, inputAssetAmount, slippage },
       );
 
-      const poolOps = new T2tPoolOps(
-        new YoroiProver(),
-        new DefaultTxAssembler(true),
-      );
       const pk = fromAddress(chosenAddress) as string;
 
-      const vars = swapVars(BigInt(minDexFee), Number(nitro), minOutput);
-
-      if (vars !== undefined) {
-        const [dexFeePerToken, extremums] = vars;
+      if (!isNil(currentSwapVars)) {
+        const [dexFeePerToken, extremums] = currentSwapVars;
+        const { maxDexFee } = extremums;
 
         const poolFeeNum = selectedPool.poolFeeNum;
         const minerFeeNErgs = inputToFractions(minerFee, ERG_DECIMALS);
         const totalFees =
-          BigInt(MIN_BOX_VALUE) + minerFeeNErgs + BigInt(extremums.maxDexFee);
+          BigInt(MIN_BOX_VALUE) + minerFeeNErgs + BigInt(maxDexFee);
 
         const networkContext = await network.getNetworkContext();
 
@@ -302,12 +297,12 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
             network: networkContext,
           };
 
-          poolOps
+          poolOptions
             .swap(params, txContext)
             .then(async (tx) => {
               const proxyTx = ergoTxToProxy(tx);
               await ergo.submit_tx(proxyTx);
-              toast.success(`Transaction submitted: ${tx.id} `);
+              toast.success(`Transaction submitted`);
             })
             .catch((er) => toast.error(JSON.stringify(er)));
         } else {

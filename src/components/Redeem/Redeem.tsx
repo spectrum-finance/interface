@@ -10,13 +10,11 @@ import {
 } from '@geist-ui/react';
 import { Form, Field, FieldRenderProps } from 'react-final-form';
 import { evaluate } from 'mathjs';
-import { AmmPool, T2tPoolOps } from 'ergo-dex-sdk';
-import { YoroiProver } from '../../utils/yoroiProver';
+import { AmmPool } from 'ergo-dex-sdk';
 import {
   AssetAmount,
   BoxSelection,
   DefaultBoxSelector,
-  DefaultTxAssembler,
   ErgoBox,
   ergoTxToProxy,
 } from 'ergo-dex-sdk/build/module/ergo';
@@ -27,9 +25,10 @@ import { useGetAvailablePoolsByLPTokens } from '../../hooks/useGetAvailablePools
 import { ERG_DECIMALS } from '../../constants/erg';
 import { useSettings } from '../../context/SettingsContext';
 import { toast } from 'react-toastify';
-import { explorer } from '../../utils/explorer';
+import explorer from '../../services/explorer';
 import { ergoBoxFromProxy } from 'ergo-dex-sdk/build/module/ergo/entities/ergoBox';
 import { inputToFractions } from '../../utils/walletMath';
+import poolOptions from '../../services/poolOptions';
 
 export const Redeem = (): JSX.Element => {
   const [{ minerFee, address: chosenAddress }] = useSettings();
@@ -88,13 +87,9 @@ export const Redeem = (): JSX.Element => {
       const network = explorer;
       const poolId = chosenPool.id;
 
-      const poolOps = new T2tPoolOps(
-        new YoroiProver(),
-        new DefaultTxAssembler(true),
-      );
       const pk = fromAddress(chosenAddress) as string;
 
-      poolOps
+      poolOptions
         .redeem(
           {
             pk,

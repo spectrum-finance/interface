@@ -17,13 +17,11 @@ import {
 } from '@geist-ui/react';
 import { Form, Field, FieldRenderProps } from 'react-final-form';
 import { evaluate } from 'mathjs';
-import { AmmPool, T2tPoolOps } from 'ergo-dex-sdk';
-import { YoroiProver } from '../../utils/yoroiProver';
+import { AmmPool } from 'ergo-dex-sdk';
 import {
   AssetAmount,
   BoxSelection,
   DefaultBoxSelector,
-  DefaultTxAssembler,
   ErgoBox,
   ergoTxToProxy,
 } from 'ergo-dex-sdk/build/module/ergo';
@@ -35,7 +33,8 @@ import { useGetAllPools } from '../../hooks/useGetAllPools';
 import { PoolSelect } from '../PoolSelect/PoolSelect';
 import { useSettings } from '../../context/SettingsContext';
 import { toast } from 'react-toastify';
-import { explorer } from '../../utils/explorer';
+import explorer from '../../services/explorer';
+import poolOptions from '../../services/poolOptions';
 import { useCheckPool } from '../../hooks/useCheckPool';
 import { validateInputAmount } from '../Swap/validation';
 import {
@@ -254,12 +253,9 @@ export const Deposit = (): JSX.Element => {
       const network = explorer;
       const poolId = selectedPool.id;
 
-      const poolOps = new T2tPoolOps(
-        new YoroiProver(),
-        new DefaultTxAssembler(true),
-      );
       const pk = fromAddress(chosenAddress) as string;
-      poolOps
+
+      poolOptions
         .deposit(
           {
             pk,
