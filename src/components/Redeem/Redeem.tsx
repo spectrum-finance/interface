@@ -32,32 +32,30 @@ import { ergoBoxFromProxy } from 'ergo-dex-sdk/build/module/ergo/entities/ergoBo
 import { inputToFractions } from '../../utils/walletMath';
 
 export const Redeem = (): JSX.Element => {
-  const [{ minerFee, address: choosedAddress }] = useSettings();
+  const [{ minerFee, address: chosenAddress }] = useSettings();
   const [dexFee] = useState<number>(0.01);
 
   const { isWalletConnected } = useContext(WalletContext);
   const [amount, setAmount] = useState('');
 
-  const [choosedPool, setChoosedPool] = useState<AmmPool | undefined>(
-    undefined,
-  );
+  const [chosenPool, setChosenPool] = useState<AmmPool | undefined>(undefined);
 
   const [utxos, setUtxos] = useState<ErgoBox[]>([]);
   const availablePools = useGetAvailablePoolsByLPTokens(utxos);
   const assetsAmountByLPAmount = useMemo(() => {
-    if (!choosedPool || !amount) {
+    if (!chosenPool || !amount) {
       return [];
     }
 
-    return choosedPool.shares(
-      new AssetAmount(choosedPool.lp.asset, BigInt(amount)),
+    return chosenPool.shares(
+      new AssetAmount(chosenPool.lp.asset, BigInt(amount)),
     );
-  }, [choosedPool, amount]);
+  }, [chosenPool, amount]);
 
   const buttonStatus = useMemo(() => {
     const buttonState = getButtonState({
       isWalletConnected,
-      choosedPool,
+      chosenPool,
       amount,
     });
     switch (buttonState) {
@@ -74,7 +72,7 @@ export const Redeem = (): JSX.Element => {
         return { disabled: true, text: 'LP amount not specified' };
       }
     }
-  }, [isWalletConnected, amount, choosedPool]);
+  }, [isWalletConnected, amount, chosenPool]);
 
   useEffect(() => {
     if (isWalletConnected) {
@@ -86,15 +84,15 @@ export const Redeem = (): JSX.Element => {
   }, [isWalletConnected]);
 
   const onSubmit = async () => {
-    if (isWalletConnected && choosedPool && choosedAddress) {
+    if (isWalletConnected && chosenPool && chosenAddress) {
       const network = explorer;
-      const poolId = choosedPool.id;
+      const poolId = chosenPool.id;
 
       const poolOps = new T2tPoolOps(
         new YoroiProver(),
         new DefaultTxAssembler(true),
       );
-      const pk = fromAddress(choosedAddress) as string;
+      const pk = fromAddress(chosenAddress) as string;
 
       poolOps
         .redeem(
@@ -102,20 +100,20 @@ export const Redeem = (): JSX.Element => {
             pk,
             poolId,
             dexFee: inputToFractions(String(dexFee), ERG_DECIMALS),
-            lp: choosedPool.lp.asset,
+            lp: chosenPool.lp.asset,
           },
           {
             inputs: DefaultBoxSelector.select(utxos, {
               nErgs: inputToFractions(minerFee + dexFee, ERG_DECIMALS),
               assets: [
                 {
-                  tokenId: choosedPool.lp.asset.id,
+                  tokenId: chosenPool.lp.asset.id,
                   amount: BigInt(amount),
                 },
               ],
             }) as BoxSelection,
-            changeAddress: choosedAddress,
-            selfAddress: choosedAddress,
+            changeAddress: chosenAddress,
+            selfAddress: chosenAddress,
             feeNErgs: inputToFractions(minerFee, ERG_DECIMALS),
             network: await network.getNetworkContext(),
           },
@@ -175,7 +173,7 @@ export const Redeem = (): JSX.Element => {
                         width="100%"
                         {...props.input}
                         onChange={(value) => {
-                          setChoosedPool(availablePools[Number(value)]);
+                          setChosenPool(availablePools[Number(value)]);
                           props.input.onChange(value);
                         }}
                       >
@@ -200,7 +198,7 @@ export const Redeem = (): JSX.Element => {
                         type="number"
                         width="100%"
                         {...props.input}
-                        disabled={!choosedPool}
+                        disabled={!chosenPool}
                         value={amount}
                         onKeyPress={(event) => {
                           return event.charCode >= 48 && event.charCode <= 57;
@@ -217,16 +215,16 @@ export const Redeem = (): JSX.Element => {
                     )}
                   </Field>
                 </Grid>
-                {choosedPool && (
+                {chosenPool && (
                   <Grid xs={24}>
                     <Card>
                       <div>
-                        {choosedPool?.assetX.name ||
-                          choosedPool?.assetX.id.slice(0, 4)}{' '}
+                        {chosenPool?.assetX.name ||
+                          chosenPool?.assetX.id.slice(0, 4)}{' '}
                         ={' '}
                         {assetsAmountByLPAmount.length > 0 &&
                           (assetsAmountByLPAmount[0]?.asset.id ===
-                          choosedPool?.assetX.id
+                          chosenPool?.assetX.id
                             ? evaluate(
                                 `${assetsAmountByLPAmount[0]?.amount}/10^${assetsAmountByLPAmount[0]?.asset.decimals}`,
                               )
@@ -235,12 +233,12 @@ export const Redeem = (): JSX.Element => {
                               ))}
                       </div>
                       <div>
-                        {choosedPool?.assetY.name ||
-                          choosedPool?.assetY.id.slice(0, 4)}{' '}
+                        {chosenPool?.assetY.name ||
+                          chosenPool?.assetY.id.slice(0, 4)}{' '}
                         ={' '}
                         {assetsAmountByLPAmount.length > 0 &&
                           (assetsAmountByLPAmount[0]?.asset.id ===
-                          choosedPool?.assetY.id
+                          chosenPool?.assetY.id
                             ? evaluate(
                                 `${assetsAmountByLPAmount[0]?.amount}/10^${assetsAmountByLPAmount[0]?.asset.decimals}`,
                               )
