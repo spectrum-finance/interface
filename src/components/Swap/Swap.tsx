@@ -20,7 +20,7 @@ import {
 } from '@geist-ui/react';
 import { Form, Field, FieldRenderProps } from 'react-final-form';
 import { FORM_ERROR } from 'final-form';
-import { AmmPool, swapVars, T2tPoolOps } from 'ergo-dex-sdk';
+import { AmmPool, swapVars } from 'ergo-dex-sdk';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExchangeAlt } from '@fortawesome/free-solid-svg-icons';
 import {
@@ -171,6 +171,17 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
     [selectedPool, slippage],
   );
 
+  const resetSwapForm = (): void => {
+    setInputAmount('');
+    setOutputAmount('');
+    setCurrentSwapVars(undefined);
+
+    if (inputAssetAmount && outputAssetAmount) {
+      setInputAssetAmount(new AssetAmount(inputAssetAmount.asset, 0n));
+      setInputAssetAmount(new AssetAmount(outputAssetAmount.asset, 0n));
+    }
+  };
+
   const updateOutputAmount = useCallback(
     (
       inputAmount: string,
@@ -224,6 +235,12 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
     if (inputAssetAmount && selectedPool) {
       setInputAmount(value);
       setPivotalAmount(value);
+
+      if (isEmpty(value.trim())) {
+        resetSwapForm();
+        return;
+      }
+
       setInputAssetAmount(
         new AssetAmount(
           inputAssetAmount.asset,
@@ -231,10 +248,6 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
         ),
       );
       updateOutputAmount(value, outputAssetAmount, inputAssetAmount);
-
-      if (!value.trim()) {
-        setOutputAmount('0');
-      }
     }
   };
 
@@ -518,7 +531,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
 
 export const Swap: React.FC = (props) => {
   const pools = useGetAllPools();
-  if (pools === undefined) {
+  if (isNil(pools)) {
     return (
       <Card>
         <Loading>Loading</Loading>
