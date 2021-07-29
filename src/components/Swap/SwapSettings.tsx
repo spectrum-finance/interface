@@ -88,7 +88,10 @@ const SwapSettings = ({
                   onChange={({ currentTarget }) => {
                     if (parseFloat(currentTarget.value) !== 0) {
                       const value = String(
-                        parseUserInputToFractions(currentTarget.value, ERG_DECIMALS),
+                        parseUserInputToFractions(
+                          currentTarget.value,
+                          ERG_DECIMALS,
+                        ),
                       );
                       onChangeMinDexFee(value);
                     }

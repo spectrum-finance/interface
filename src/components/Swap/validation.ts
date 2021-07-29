@@ -1,6 +1,9 @@
 import * as yup from 'yup';
-import { evaluate } from 'mathjs';
-import { renderFractions, parseUserInputToFractions, allowedNumPat } from '../../utils/math';
+import {
+  renderFractions,
+  parseUserInputToFractions,
+  allowedNumPat,
+} from '../../utils/math';
 
 const fixedNumber = (decimals: number) =>
   yup
@@ -37,7 +40,7 @@ export const validateInputAmount = (
     .test(
       'input-format-violation',
       'Only non-negative numbers are allowed here',
-      (value = '') => allowedNumPat.test(value)
+      (value = '') => allowedNumPat.test(value),
     )
     .test(
       'no-more-decimals-allowed',
@@ -46,7 +49,10 @@ export const validateInputAmount = (
     )
     .test(
       'balance-exceeded',
-      `Available balance exceeded. Available amount: ${renderFractions(maxAvailable, maxDecimals)}`,
+      `Available balance exceeded. Available amount: ${renderFractions(
+        maxAvailable,
+        maxDecimals,
+      )}`,
       (value = '') => {
         const valueRefined = parseUserInputToFractions(value, maxDecimals);
         return valueRefined <= maxAvailable || !isWalletConnected; // apply validation only if wallet connected
@@ -75,7 +81,7 @@ export const validateNumber = (
     .test(
       'input-format-violation',
       'Only non-negative numbers are allowed here',
-      (value = '') => allowedNumPat.test(value)
+      (value = '') => allowedNumPat.test(value),
     )
     .test(
       'no-more-decimals-allowed',

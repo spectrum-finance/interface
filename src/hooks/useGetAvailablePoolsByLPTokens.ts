@@ -1,7 +1,7 @@
 import { AmmPool, DefaultAmmPoolsParser, NetworkPools } from 'ergo-dex-sdk';
 import { ErgoBox } from 'ergo-dex-sdk/build/module/ergo';
 import { useEffect, useState } from 'react';
-import { explorer } from '../utils/explorer';
+import explorer from '../services/explorer';
 import { getListAvailableTokens } from '../utils/getListAvailableTokens';
 
 export const useGetAvailablePoolsByLPTokens = (
@@ -27,7 +27,7 @@ export const useGetAvailablePoolsByLPTokens = (
           setPools(filterPoolsByLp);
         })
         // TODO: resolve network error
-        .catch((e) => console.log(e));
+        .catch((e) => console.error(e));
     }
   }, [utxos]);
 

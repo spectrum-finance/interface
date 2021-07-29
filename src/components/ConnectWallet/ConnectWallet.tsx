@@ -19,8 +19,8 @@ export const ConnectWallet = (): ReactElement => {
   }, [setIsWalletConnected]);
 
   return (
-    <Button onClick={onClick}>
-      {isWalletConnected ? 'Connected' : 'Connect Yoroi'}
+    <Button type="success" ghost onClick={onClick}>
+      {isWalletConnected ? 'Connected' : 'Connect Yoroi Wallet'}
     </Button>
   );
 };

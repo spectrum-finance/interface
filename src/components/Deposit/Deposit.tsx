@@ -17,13 +17,11 @@ import {
 } from '@geist-ui/react';
 import { Form, Field, FieldRenderProps } from 'react-final-form';
 import { evaluate } from 'mathjs';
-import { AmmPool, T2tPoolOps } from 'ergo-dex-sdk';
-import { YoroiProver } from '../../utils/yoroiProver';
+import { AmmPool } from 'ergo-dex-sdk';
 import {
   AssetAmount,
   BoxSelection,
   DefaultBoxSelector,
-  DefaultTxAssembler,
   ErgoBox,
   ergoTxToProxy,
 } from 'ergo-dex-sdk/build/module/ergo';
@@ -34,12 +32,11 @@ import { ERG_DECIMALS } from '../../constants/erg';
 import { useGetAllPools } from '../../hooks/useGetAllPools';
 import { PoolSelect } from '../PoolSelect/PoolSelect';
 import { toast } from 'react-toastify';
-import { explorer } from '../../utils/explorer';
+import explorer from '../../services/explorer';
+import poolOptions from '../../services/poolOptions';
 import { useCheckPool } from '../../hooks/useCheckPool';
 import { validateInputAmount } from '../Swap/validation';
-import {
-  calculateAvailableAmount,
-} from '../../utils/walletMath';
+import { calculateAvailableAmount } from '../../utils/walletMath';
 import { ergoBoxFromProxy } from 'ergo-dex-sdk/build/module/ergo/entities/ergoBox';
 import { parseUserInputToFractions } from '../../utils/math';
 
@@ -48,8 +45,12 @@ export const Deposit = (): JSX.Element => {
   const { isWalletConnected } = useContext(WalletContext);
   const [selectedPool, setSelectedPool] = useState<AmmPool | undefined>();
   const [dexFee] = useState<number>(0.01);
-  const [inputAssetAmountX, setInputAssetAmountX] = useState<AssetAmount | undefined>();
-  const [inputAssetAmountY, setInputAssetAmountY] = useState<AssetAmount | undefined>();
+  const [inputAssetAmountX, setInputAssetAmountX] = useState<
+    AssetAmount | undefined
+  >();
+  const [inputAssetAmountY, setInputAssetAmountY] = useState<
+    AssetAmount | undefined
+  >();
   const [availableInputAmountX, setAvailableInputAmountX] = useState(0n);
   const [availableInputAmountY, setAvailableInputAmountY] = useState(0n);
   const [inputAmountX, setInputAmountX] = useState('');
@@ -123,7 +124,6 @@ export const Deposit = (): JSX.Element => {
   }, []);
 
   useEffect(() => {
-    console.log('sp: ', selectedPool);
     if (
       selectedPool &&
       (selectedPool.x.asset.id !== inputAssetAmountX?.asset.id ||
@@ -250,12 +250,9 @@ export const Deposit = (): JSX.Element => {
       const network = explorer;
       const poolId = selectedPool.id;
 
-      const poolOps = new T2tPoolOps(
-        new YoroiProver(),
-        new DefaultTxAssembler(true),
-      );
       const pk = fromAddress(chosenAddress) as string;
-      poolOps
+
+      poolOptions
         .deposit(
           {
             pk,
@@ -343,7 +340,7 @@ export const Deposit = (): JSX.Element => {
                   <Text h5>Pool</Text>
                 </Grid>
                 <Grid xs={24}>
-                  <Field name='pool' component='select'>
+                  <Field name="pool" component="select">
                     {(props: FieldRenderProps<string>) => (
                       <PoolSelect
                         pools={availablePools}
@@ -362,7 +359,7 @@ export const Deposit = (): JSX.Element => {
                 )}
                 {!isPoolValid.isFetching && !isPoolValid.result && (
                   <Grid xs={24}>
-                    <Note type='error' label='error' filled>
+                    <Note type="error" label="error" filled>
                       This pool is invalid. Please select another one.
                     </Note>
                   </Grid>
@@ -375,7 +372,7 @@ export const Deposit = (): JSX.Element => {
                     </Grid>
                     <Grid xs={24}>
                       <Field
-                        name='inputAmountX'
+                        name="inputAmountX"
                         validate={(value) => {
                           return validateInputAmount(value, isWalletConnected, {
                             maxDecimals: inputAssetAmountX?.asset.decimals || 0,
@@ -386,10 +383,10 @@ export const Deposit = (): JSX.Element => {
                         {(props: FieldRenderProps<string>) => (
                           <>
                             <Input
-                              placeholder='0.0'
-                              type='number'
-                              width='100%'
-                              lang='en'
+                              placeholder="0.0"
+                              type="number"
+                              width="100%"
+                              lang="en"
                               label={inputAssetAmountX?.asset.name ?? ''}
                               {...props.input}
                               disabled={!inputAssetAmountX}
@@ -407,7 +404,7 @@ export const Deposit = (): JSX.Element => {
                     </Grid>
                     <Grid xs={24}>
                       <Field
-                        name='outputAmount'
+                        name="outputAmount"
                         validate={(value) => {
                           return validateInputAmount(value, isWalletConnected, {
                             maxDecimals: inputAssetAmountY?.asset.decimals || 0,
@@ -417,10 +414,10 @@ export const Deposit = (): JSX.Element => {
                       >
                         {(props: FieldRenderProps<string>) => (
                           <Input
-                            placeholder='0.0'
-                            type='number'
+                            placeholder="0.0"
+                            type="number"
                             label={inputAssetAmountY?.asset.name ?? ''}
-                            width='100%'
+                            width="100%"
                             {...props.input}
                             value={inputAmountY}
                             onChange={({ currentTarget }) => {
@@ -439,9 +436,9 @@ export const Deposit = (): JSX.Element => {
                         </Card>
                       </Grid>
                     )}
-                    <Grid xs={24} justify='center'>
+                    <Grid xs={24} justify="center">
                       <Button
-                        htmlType='submit'
+                        htmlType="submit"
                         disabled={
                           buttonStatus.disabled ||
                           Object.values(errors).length > 0

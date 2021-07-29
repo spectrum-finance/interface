@@ -20,17 +20,15 @@ import {
 } from '@geist-ui/react';
 import { Form, Field, FieldRenderProps } from 'react-final-form';
 import { FORM_ERROR } from 'final-form';
-import { AmmPool, swapVars, T2tPoolOps } from 'ergo-dex-sdk';
+import { AmmPool, swapVars } from 'ergo-dex-sdk';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faExchangeAlt } from '@fortawesome/free-solid-svg-icons';
+import { faArrowDown } from '@fortawesome/free-solid-svg-icons';
 import {
   AssetAmount,
   BoxSelection,
   DefaultBoxSelector,
-  DefaultTxAssembler,
 } from 'ergo-dex-sdk/build/module/ergo';
 import { fromAddress } from 'ergo-dex-sdk/build/module/ergo/entities/publicKey';
-import { YoroiProver } from '../../utils/yoroiProver';
 import { DefaultSettings, WalletContext } from '../../context';
 import { useGetAllPools } from '../../hooks/useGetAllPools';
 import { PoolSelect } from '../PoolSelect/PoolSelect';
@@ -45,7 +43,6 @@ import { getButtonState } from './buttonState';
 import { validateInputAmount } from './validation';
 import { useSettings } from '../../context';
 import { toast } from 'react-toastify';
-import { explorer } from '../../utils/explorer';
 import { useCheckPool } from '../../hooks/useCheckPool';
 import { ergoTxToProxy } from 'ergo-dex-sdk/build/module/ergo';
 import {
@@ -55,7 +52,11 @@ import {
 import { ConnectWallet } from '../ConnectWallet/ConnectWallet';
 import SwapSettings from './SwapSettings';
 import { SwapExtremums } from 'ergo-dex-sdk/build/module/amm/math/swap';
+import { isNil } from 'ramda';
+import explorer from '../../services/explorer';
+import poolOptions from '../../services/poolOptions';
 import { renderFractions, parseUserInputToFractions } from '../../utils/math';
+import { isEmpty } from 'ramda';
 
 interface SwapFormProps {
   pools: AmmPool[];
@@ -65,8 +66,12 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
   const { isWalletConnected, utxos } = useContext(WalletContext);
   const [{ minerFee, address: chosenAddress }] = useSettings();
   const [selectedPool, setSelectedPool] = useState<AmmPool | undefined>();
-  const [inputAssetAmount, setInputAssetAmount] = useState<AssetAmount | undefined>();
-  const [outputAssetAmount, setOutputAssetAmount] = useState<AssetAmount | undefined>();
+  const [inputAssetAmount, setInputAssetAmount] = useState<
+    AssetAmount | undefined
+  >();
+  const [outputAssetAmount, setOutputAssetAmount] = useState<
+    AssetAmount | undefined
+  >();
   const [pivotalAmount, setPivotalAmount] = useState('');
   const [slippage, setSlippage] = useState(DefaultSettings.slippage);
   const [inputAmount, setInputAmount] = useState('');
@@ -74,7 +79,9 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
   const [availableInputAmount, setAvailableInputAmount] = useState(0n);
   const [minDexFee, setMinDexFee] = useState(String(DEFAULT_MINER_FEE));
   const [nitro, setNitro] = useState(String(MIN_NITRO));
-  const [currentSwapVars, setCurrentSwapVars] = useState<[number, SwapExtremums] | undefined>();
+  const [currentSwapVars, setCurrentSwapVars] = useState<
+    [number, SwapExtremums] | undefined
+  >();
   const isPoolValid = useCheckPool(selectedPool);
 
   const updateSelectedPool = useCallback((pool: AmmPool) => {
@@ -84,7 +91,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
   }, []);
 
   useEffect(() => {
-    if (selectedPool === undefined) {
+    if (isNil(selectedPool)) {
       updateSelectedPool(pools[0]);
     }
   }, [pools, selectedPool, updateSelectedPool]);
@@ -120,9 +127,8 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
         inputAsset: inputAssetAmount.asset,
         slippage,
       });
-      console.log('minDexFee ', minDexFee);
       const vars = swapVars(BigInt(minDexFee), Number(nitro), minOutput);
-      if (vars !== undefined) {
+      if (!isNil(vars)) {
         setCurrentSwapVars(vars);
       }
     }
@@ -137,6 +143,12 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
       }
     }
   }, [isWalletConnected, inputAssetAmount, utxos]);
+
+  const resetSwapForm = (): void => {
+    setInputAmount('');
+    setOutputAmount('');
+    setCurrentSwapVars(undefined);
+  };
 
   const updateInputAmount = useCallback(
     (
@@ -153,12 +165,18 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
         const amount = selectedPool.inputAmount(
           new AssetAmount(
             outputAssetAmount.asset,
-            parseUserInputToFractions(outputAmount, outputAssetAmount.asset.decimals),
+            parseUserInputToFractions(
+              outputAmount,
+              outputAssetAmount.asset.decimals,
+            ),
           ),
           slippage,
         );
         setInputAmount(
-          renderFractions(amount?.amount ?? 0n, inputAssetAmount.asset.decimals),
+          renderFractions(
+            amount?.amount ?? 0n,
+            inputAssetAmount.asset.decimals,
+          ),
         );
       }
     },
@@ -180,12 +198,18 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
         const amount = selectedPool.outputAmount(
           new AssetAmount(
             inputAssetAmount.asset,
-            parseUserInputToFractions(inputAmount, inputAssetAmount.asset.decimals),
+            parseUserInputToFractions(
+              inputAmount,
+              inputAssetAmount.asset.decimals,
+            ),
           ),
           slippage,
         );
         setOutputAmount(
-          renderFractions(amount?.amount ?? 0n, outputAssetAmount.asset.decimals),
+          renderFractions(
+            amount?.amount ?? 0n,
+            outputAssetAmount.asset.decimals,
+          ),
         );
       }
     },
@@ -216,6 +240,11 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
 
   const handleEnterInputTokenAmount = (value: string) => {
     if (inputAssetAmount && selectedPool) {
+      if (isEmpty(value.trim())) {
+        resetSwapForm();
+        return;
+      }
+
       setInputAmount(value);
       setPivotalAmount(value);
       setInputAssetAmount(
@@ -248,21 +277,16 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
         { inputAmount, inputAsset: inputAssetAmount.asset, slippage },
       );
 
-      const poolOps = new T2tPoolOps(
-        new YoroiProver(),
-        new DefaultTxAssembler(true),
-      );
       const pk = fromAddress(chosenAddress)!;
 
-      const vars = swapVars(BigInt(minDexFee), Number(nitro), minOutput);
-
-      if (vars !== undefined) {
-        const [dexFeePerToken, extremums] = vars;
+      if (!isNil(currentSwapVars)) {
+        const [dexFeePerToken, extremums] = currentSwapVars;
+        const { maxDexFee } = extremums;
 
         const poolFeeNum = selectedPool.poolFeeNum;
         const minerFeeNErgs = parseUserInputToFractions(minerFee, ERG_DECIMALS);
         const totalFees =
-          BigInt(MIN_BOX_VALUE) + minerFeeNErgs + BigInt(extremums.maxDexFee);
+          BigInt(MIN_BOX_VALUE) + minerFeeNErgs + BigInt(maxDexFee);
 
         const networkContext = await explorer.getNetworkContext();
 
@@ -295,12 +319,12 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
             network: networkContext,
           };
 
-          poolOps
+          poolOptions
             .swap(params, txContext)
             .then(async (tx) => {
               const proxyTx = ergoTxToProxy(tx);
               await ergo.submit_tx(proxyTx);
-              toast.success(`Transaction submitted: ${tx.id} `);
+              toast.success(`Transaction submitted`);
             })
             .catch((er) => toast.error(JSON.stringify(er)));
         } else {
@@ -339,16 +363,27 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
               />
             </Grid>
             <Grid xs={24}>
-              <Field name='poolId' component='select'>
+              <Field name="poolId" component="select">
                 {(props: FieldRenderProps<string>) => (
-                  <PoolSelect
-                    pools={pools}
-                    value={selectedPool}
-                    onChangeValue={(value) => {
-                      updateSelectedPool(value);
-                    }}
-                    inputProps={props.input}
-                  />
+                  <Grid.Container
+                    gap={1}
+                    justify="space-between"
+                    alignItems="center"
+                  >
+                    <Grid xs={6}>
+                      <Text>Select pool</Text>
+                    </Grid>
+                    <Grid xs={18}>
+                      <PoolSelect
+                        pools={pools}
+                        value={selectedPool}
+                        onChangeValue={(value) => {
+                          updateSelectedPool(value);
+                        }}
+                        inputProps={props.input}
+                      />
+                    </Grid>
+                  </Grid.Container>
                 )}
               </Field>
             </Grid>
@@ -360,19 +395,16 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
             )}
             {!isPoolValid.isFetching && !isPoolValid.result && (
               <Grid xs={24}>
-                <Note type='error' label='error' filled>
+                <Note type="error" label="error" filled>
                   This pool is invalid. Please select another one.
                 </Note>
               </Grid>
             )}
             {!isPoolValid.isFetching && isPoolValid.result && (
               <>
-                <Grid xs={24}>
-                  <Text h4>From</Text>
-                </Grid>
-                <Grid xs={24} direction='column'>
+                <Grid xs={24} direction="column">
                   <Field
-                    name='inputAmount'
+                    name="inputAmount"
                     validate={(value) =>
                       validateInputAmount(value, isWalletConnected, {
                         maxDecimals: inputAssetAmount?.asset.decimals || 0,
@@ -384,9 +416,9 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                       <>
                         <Row>
                           <Input
-                            placeholder='0.0'
-                            width='100%'
-                            lang='en'
+                            placeholder="0.0"
+                            width="100%"
+                            lang="en"
                             label={inputAssetAmount?.asset.name ?? ''}
                             {...props.input}
                             disabled={!inputAssetAmount}
@@ -400,7 +432,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                         </Row>
                         {props.meta.error && (
                           <Row>
-                            <Text p small type='error'>
+                            <Text p small type="error">
                               {props.meta.error}
                             </Text>
                           </Row>
@@ -409,25 +441,22 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                     )}
                   </Field>
                 </Grid>
-                <Grid xs={24} justify='center'>
+                <Grid xs={24} justify="center">
                   <Tag
                     onClick={handleSwitchAssets}
-                    type='success'
+                    type="success"
                     style={{ cursor: 'pointer' }}
                   >
-                    <FontAwesomeIcon icon={faExchangeAlt} />
+                    <FontAwesomeIcon icon={faArrowDown} />
                   </Tag>
                 </Grid>
                 <Grid xs={24}>
-                  <Text h4>To</Text>
-                </Grid>
-                <Grid xs={24}>
-                  <Field name='outputAmount'>
+                  <Field name="outputAmount">
                     {(props: FieldRenderProps<string>) => (
                       <Input
-                        placeholder='0.0'
+                        placeholder="0.0"
                         label={outputAssetAmount?.asset.name ?? ''}
-                        width='100%'
+                        width="100%"
                         {...props.input}
                         value={outputAmount}
                         onChange={(e) => {
@@ -467,34 +496,40 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                           },
                           {
                             prop: 'Min output',
-                            value: `${renderFractions(currentSwapVars[1].minOutput.amount, currentSwapVars[1].minOutput.asset.decimals)} ${currentSwapVars[1].minOutput.asset.name}`,
+                            value: `${renderFractions(
+                              currentSwapVars[1].minOutput.amount,
+                              currentSwapVars[1].minOutput.asset.decimals,
+                            )} ${currentSwapVars[1].minOutput.asset.name}`,
                           },
                           {
                             prop: 'Max output',
-                            value: `${renderFractions(currentSwapVars[1].maxOutput.amount, currentSwapVars[1].maxOutput.asset.decimals)} ${currentSwapVars[1].maxOutput.asset.name}`,
+                            value: `${renderFractions(
+                              currentSwapVars[1].maxOutput.amount,
+                              currentSwapVars[1].maxOutput.asset.decimals,
+                            )} ${currentSwapVars[1].maxOutput.asset.name}`,
                           },
                         ]}
                       >
-                        <Table.Column prop='prop' label='Detail' />
-                        <Table.Column prop='value' label='Amount' />
+                        <Table.Column prop="prop" label="Detail" />
+                        <Table.Column prop="value" label="Amount" />
                       </Table>
                     </Grid>
                   </>
                 )}
-                <Grid xs={24} direction='column'>
+                <Grid xs={24} direction="column">
                   {errors[FORM_ERROR] && (
                     <Row>
-                      <Text p small type='error'>
+                      <Text p small type="error">
                         {errors[FORM_ERROR]}
                       </Text>
                     </Row>
                   )}
-                  <Row justify='center'>
+                  <Row justify="center">
                     {!isWalletConnected ? (
                       <ConnectWallet />
                     ) : (
                       <Button
-                        htmlType='submit'
+                        htmlType="submit"
                         disabled={
                           buttonStatus?.isDisabled ||
                           Object.values(errors).length > 0

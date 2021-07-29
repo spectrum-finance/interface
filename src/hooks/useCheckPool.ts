@@ -26,7 +26,6 @@ export const useCheckPool = (pool: AmmPool | undefined): FetchState => {
       });
       checkPool(pool)
         .then((result) => {
-          console.log(result);
           setState({
             ...defaultState,
             isFetching: false,

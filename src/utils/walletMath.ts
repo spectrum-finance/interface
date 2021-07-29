@@ -30,7 +30,10 @@ export const getBaseInputParameters = (
   }: { inputAmount: string; inputAsset: AssetInfo; slippage: number },
 ): BaseInputParameters => {
   const baseInput = parseUserInputToFractions(inputAmount, inputAsset.decimals);
-  const baseInputAmount = inputAsset.id === pool.x.asset.id ? pool.x.withAmount(baseInput) : pool.y.withAmount(baseInput);
+  const baseInputAmount =
+    inputAsset.id === pool.x.asset.id
+      ? pool.x.withAmount(baseInput)
+      : pool.y.withAmount(baseInput);
   const minOutput = pool.outputAmount(baseInputAmount, slippage);
 
   return {
