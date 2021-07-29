@@ -99,7 +99,7 @@ const SwapSettings = ({
           </Grid>
           <Grid xs={24}>
             <Text h6>
-              Nitro <InfoTooltip text="Maximum DEX fee multiplicator" />
+              Nitro <InfoTooltip text="Maximum DEX fee multiplier" />
             </Text>
           </Grid>
           <Grid xs={24}>

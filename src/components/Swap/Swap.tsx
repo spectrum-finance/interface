@@ -117,7 +117,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
     if (selectedPool && inputAssetAmount && inputAmount) {
       const { minOutput } = getBaseInputParameters(selectedPool, {
         inputAmount,
-        inputAssetAmount,
+        inputAsset: inputAssetAmount.asset,
         slippage,
       });
       console.log('minDexFee ', minDexFee);
@@ -245,14 +245,14 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
 
       const { baseInput, baseInputAmount, minOutput } = getBaseInputParameters(
         selectedPool,
-        { inputAmount, inputAssetAmount, slippage },
+        { inputAmount, inputAsset: inputAssetAmount.asset, slippage },
       );
 
       const poolOps = new T2tPoolOps(
         new YoroiProver(),
         new DefaultTxAssembler(true),
       );
-      const pk = fromAddress(chosenAddress) as string;
+      const pk = fromAddress(chosenAddress)!;
 
       const vars = swapVars(BigInt(minDexFee), Number(nitro), minOutput);
 
@@ -442,36 +442,36 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                 {currentSwapVars && currentSwapVars[1] && (
                   <>
                     <Grid xs={24}>
-                      <Text h4>Transaction Details</Text>
+                      <Text h4>Swap summary</Text>
                     </Grid>
                     <Grid xs={24}>
                       <Table
                         data={[
                           {
-                            prop: 'Miners Fee',
+                            prop: 'Miner fee',
                             value: `${minerFee} ${ERG_TOKEN_NAME}`,
                           },
                           {
-                            prop: 'Min DEX Fee',
+                            prop: 'Min DEX fee',
                             value: `${renderFractions(
                               BigInt(currentSwapVars[1].minDexFee),
                               ERG_DECIMALS,
                             )} ${ERG_TOKEN_NAME}`,
                           },
                           {
-                            prop: 'Max DEX Fee',
+                            prop: 'Max DEX fee',
                             value: `${renderFractions(
                               BigInt(currentSwapVars[1].maxDexFee),
                               ERG_DECIMALS,
                             )} ${ERG_TOKEN_NAME}`,
                           },
                           {
-                            prop: 'Minimal receive',
-                            value: `${currentSwapVars[1].minOutput.amount} ${currentSwapVars[1].minOutput.asset.name}`,
+                            prop: 'Min output',
+                            value: `${renderFractions(currentSwapVars[1].minOutput.amount, currentSwapVars[1].minOutput.asset.decimals)} ${currentSwapVars[1].minOutput.asset.name}`,
                           },
                           {
-                            prop: 'Maximum receive',
-                            value: `${currentSwapVars[1].maxOutput.amount} ${currentSwapVars[1].maxOutput.asset.name}`,
+                            prop: 'Max output',
+                            value: `${renderFractions(currentSwapVars[1].maxOutput.amount, currentSwapVars[1].maxOutput.asset.decimals)} ${currentSwapVars[1].maxOutput.asset.name}`,
                           },
                         ]}
                       >

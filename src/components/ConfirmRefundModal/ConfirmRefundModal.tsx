@@ -57,7 +57,7 @@ export const ConfirmRefundModal = ({
   };
 
   return (
-    <Modal open={open} onClose={onClose} width="300px">
+    <Modal open={open} onClose={onClose} width="500px">
       <Modal.Title>Confirm Refund</Modal.Title>
       <Modal.Content>
         <Text p>Select refund address</Text>
