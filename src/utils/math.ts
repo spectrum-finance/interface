@@ -15,14 +15,26 @@ const formatOptions: FormatOptions = {
 
 const math = create(all, mathConf);
 
-export const allowedNumPat = new RegExp(/^\d+\.?\d*$/)
+export const allowedNumPat = new RegExp(/^\d+\.?\d*$/);
 
-export function parseUserInputToFractions(rawInput: string, numDecimals?: number): bigint {
+export function parseUserInputToFractions(
+  rawInput: string,
+  numDecimals?: number,
+): bigint {
   const safeInput = allowedNumPat.test(rawInput) ? rawInput : '0';
-  const input = math.format!(math.evaluate!(`${safeInput} * 10^${numDecimals || 0}`), formatOptions);
+  const input = math.format!(
+    math.evaluate!(`${safeInput} * 10^${numDecimals || 0}`),
+    formatOptions,
+  );
   return BigInt(input);
 }
 
-export function renderFractions(fractions: bigint | number, numDecimals?: number): string {
-  return math.format!(math.evaluate!(`${fractions} / 10^${numDecimals || 0}`), formatOptions);
+export function renderFractions(
+  fractions: bigint | number,
+  numDecimals?: number,
+): string {
+  return math.format!(
+    math.evaluate!(`${fractions} / 10^${numDecimals || 0}`),
+    formatOptions,
+  );
 }

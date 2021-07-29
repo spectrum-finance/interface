@@ -7,7 +7,7 @@ import {
   ergoTxFromProxy,
 } from 'ergo-dex-sdk/build/module/ergo';
 
-export class YoroiProver implements Prover {
+class YoroiProver implements Prover {
   /** Sign the given transaction.
    */
   async sign(tx: UnsignedErgoTx): Promise<ErgoTx> {
@@ -23,3 +23,6 @@ export class YoroiProver implements Prover {
     return ergo.sign_tx_input(proxy, input);
   }
 }
+
+const yoroiProver = new YoroiProver();
+export default yoroiProver;
