@@ -1,7 +1,7 @@
 import { ErgoBox } from 'ergo-dex-sdk/build/module/ergo';
-import { evaluate } from 'mathjs';
 import { AmmPool } from 'ergo-dex-sdk';
 import { AssetAmount } from 'ergo-dex-sdk/build/module/ergo';
+import { parseUserInputToFractions } from './math';
 
 export const calculateAvailableAmount = (
   tokenId: string,
@@ -13,14 +13,6 @@ export const calculateAvailableAmount = (
     .map(({ amount }) => amount)
     .reduce((acc, x) => acc + x, 0n);
 };
-
-export const inputToFractions = (input: string, numDecimals?: number): bigint =>
-  BigInt(evaluate(`${input}*10^${numDecimals || 0}`).toFixed(0));
-
-export const inputToRender = (
-  input: bigint | number,
-  numDecimals?: number,
-): string => String(evaluate(`${input}/10^${numDecimals || 0}`));
 
 type BaseInputParameters = {
   baseInput: AssetAmount;
@@ -36,17 +28,13 @@ export const getBaseInputParameters = (
     slippage,
   }: { inputAmount: string; inputAssetAmount: AssetAmount; slippage: number },
 ): BaseInputParameters => {
-  const baseInputAmount = BigInt(
-    evaluate(
-      `${inputAmount} * 10^${inputAssetAmount.asset.decimals ?? 0}`,
-    ).toFixed(0),
-  );
-  const baseInput = pool.x.withAmount(BigInt(baseInputAmount));
-  const minOutput = pool.outputAmount(baseInput, slippage);
+  const baseInput = parseUserInputToFractions(inputAmount, inputAssetAmount.asset.decimals);
+  const baseInputAmount = pool.x.withAmount(baseInput);
+  const minOutput = pool.outputAmount(baseInputAmount, slippage);
 
   return {
-    baseInput,
-    baseInputAmount,
+    baseInput: baseInputAmount,
+    baseInputAmount: baseInput,
     minOutput,
   };
 };

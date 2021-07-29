@@ -1,9 +1,8 @@
 import { DEFAULT_MINER_FEE, ERG_DECIMALS } from './erg';
-import { inputToRender } from '../utils/walletMath';
+import { renderFractions } from '../utils/math';
 
-// IDK what these should be...
 export const MinerFeeDefault = Number(
-  inputToRender(DEFAULT_MINER_FEE, ERG_DECIMALS),
+  renderFractions(DEFAULT_MINER_FEE, ERG_DECIMALS),
 );
 export const MinerFeeMin = MinerFeeDefault;
 export const MinerFeeMax = 5;

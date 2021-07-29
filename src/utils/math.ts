@@ -1,0 +1,28 @@
+import { all, ConfigOptions, create, FormatOptions } from 'mathjs';
+
+const mathConf: ConfigOptions = {
+  epsilon: 1e-24,
+  matrix: 'Matrix',
+  number: 'BigNumber',
+  precision: 64,
+};
+
+const formatOptions: FormatOptions = {
+  notation: 'fixed',
+  lowerExp: 1e-100,
+  upperExp: 1e100,
+};
+
+const math = create(all, mathConf);
+
+export const allowedNumPat = new RegExp(/^\d+\.?\d*$/)
+
+export function parseUserInputToFractions(rawInput: string, numDecimals?: number): bigint {
+  const safeInput = allowedNumPat.test(rawInput) ? rawInput : '0';
+  const input = math.format!(math.evaluate!(`${safeInput} * 10^${numDecimals || 0}`), formatOptions);
+  return BigInt(input);
+}
+
+export function renderFractions(fractions: bigint | number, numDecimals?: number): string {
+  return math.format!(math.evaluate!(`${fractions} / 10^${numDecimals || 0}`), formatOptions);
+}

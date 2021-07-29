@@ -10,8 +10,8 @@ import {
   ERG_TOKEN_NAME,
   NITRO_DECIMALS,
 } from '../../constants/erg';
-import { inputToFractions, inputToRender } from '../../utils/walletMath';
 import InfoTooltip from '../common/InfoTooltip/InfoTooltip';
+import { renderFractions, parseUserInputToFractions } from '../../utils/math';
 
 type SwapSettingsProps = {
   slippage: number;
@@ -84,11 +84,11 @@ const SwapSettings = ({
                   width="100%"
                   label={ERG_TOKEN_NAME}
                   {...props.input}
-                  value={inputToRender(BigInt(minDexFee), ERG_DECIMALS)}
+                  value={renderFractions(BigInt(minDexFee), ERG_DECIMALS)}
                   onChange={({ currentTarget }) => {
                     if (parseFloat(currentTarget.value) !== 0) {
                       const value = String(
-                        inputToFractions(currentTarget.value, ERG_DECIMALS),
+                        parseUserInputToFractions(currentTarget.value, ERG_DECIMALS),
                       );
                       onChangeMinDexFee(value);
                     }

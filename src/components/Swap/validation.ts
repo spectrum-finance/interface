@@ -1,5 +1,6 @@
 import * as yup from 'yup';
 import { evaluate } from 'mathjs';
+import { renderFractions, parseUserInputToFractions, allowedNumPat } from '../../utils/math';
 
 const fixedNumber = (decimals: number) =>
   yup
@@ -25,19 +26,19 @@ type validateInputAmountOpts = {
   maxAvailable: bigint;
 };
 
-function validDecimals(value: string, maxDecimals: number): boolean {
-  const idx = value.indexOf('.');
-  const decimals = value.slice(idx + 1);
-  return decimals.length <= maxDecimals;
-}
-
 export const validateInputAmount = (
   value: string,
+  isWalletConnected: boolean,
   { maxDecimals, maxAvailable }: validateInputAmountOpts,
 ): string | undefined => {
   const schema = yup
     .string()
     .trim()
+    .test(
+      'input-format-violation',
+      'Only non-negative numbers are allowed here',
+      (value = '') => allowedNumPat.test(value)
+    )
     .test(
       'no-more-decimals-allowed',
       `Max number of decimals exceeded. Max allowed: ${maxDecimals}`,
@@ -45,12 +46,10 @@ export const validateInputAmount = (
     )
     .test(
       'balance-exceeded',
-      `Available balance exceeded. Available amount: ${evaluate(
-        `${maxAvailable} / 10^${maxDecimals}`,
-      )}`,
+      `Available balance exceeded. Available amount: ${renderFractions(maxAvailable, maxDecimals)}`,
       (value = '') => {
-        const valueRefined = BigInt(evaluate(`${value} * 10^${maxDecimals}`));
-        return valueRefined <= maxAvailable;
+        const valueRefined = parseUserInputToFractions(value, maxDecimals);
+        return valueRefined <= maxAvailable || !isWalletConnected; // apply validation only if wallet connected
       },
     );
   try {
@@ -61,6 +60,11 @@ export const validateInputAmount = (
   return undefined;
 };
 
+function validDecimals(value: string, maxDecimals: number): boolean {
+  const idx = value.indexOf('.');
+  return idx === -1 || value.slice(idx + 1).length <= maxDecimals;
+}
+
 export const validateNumber = (
   value: string,
   opts: { maxDecimals: number },
@@ -68,6 +72,11 @@ export const validateNumber = (
   const schema = yup
     .string()
     .trim()
+    .test(
+      'input-format-violation',
+      'Only non-negative numbers are allowed here',
+      (value = '') => allowedNumPat.test(value)
+    )
     .test(
       'no-more-decimals-allowed',
       'no more decimals allowed',

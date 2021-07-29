@@ -1,13 +1,13 @@
 import { OpStatus } from 'ergo-dex-sdk/build/main/amm/models/ammOperation';
 
 import { ammOrderRefunds } from './ammOrderRefund';
-import { inputToFractions } from './walletMath';
 import { ERG_DECIMALS } from '../constants/erg';
 import { explorer } from './explorer';
 import { DefaultBoxSelector, ErgoTx } from 'ergo-dex-sdk/build/module/ergo';
 import { BoxSelection } from 'ergo-dex-sdk/build/module/ergo/wallet/entities/boxSelection';
 import { Address, TxId } from 'ergo-dex-sdk/build/main/ergo';
 import { ErgoBox } from 'ergo-dex-sdk/build/module/ergo/entities/ergoBox';
+import { parseUserInputToFractions } from './math';
 
 interface RefundParams {
   txId: TxId;
@@ -25,7 +25,7 @@ export const refund = async (
   refundParams: RefundParams,
 ): Promise<ErgoTx> => {
   const { txId, minerFee, address } = refundParams;
-  const minerFeeNErgs = inputToFractions(minerFee, ERG_DECIMALS);
+  const minerFeeNErgs = parseUserInputToFractions(minerFee, ERG_DECIMALS);
   const networkContext = await explorer.getNetworkContext();
 
   const params = {
