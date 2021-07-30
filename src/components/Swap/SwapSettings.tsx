@@ -12,12 +12,14 @@ import {
 } from '../../constants/erg';
 import InfoTooltip from '../common/InfoTooltip/InfoTooltip';
 import { renderFractions, parseUserInputToFractions } from '../../utils/math';
+import { toFloat } from '../../utils/string';
+import { isZero } from '../../utils/numbers';
 
 type SwapSettingsProps = {
-  slippage: number;
+  slippage: string;
   minDexFee: string;
   nitro: string;
-  onChangeSlippage: (value: number) => void;
+  onChangeSlippage: (value: string) => void;
   onChangeMinDexFee: (value: string) => void;
   onChangeNitro: (value: string) => void;
 };
@@ -84,15 +86,21 @@ const SwapSettings = ({
                   width="100%"
                   label={ERG_TOKEN_NAME}
                   {...props.input}
-                  value={renderFractions(BigInt(minDexFee), ERG_DECIMALS)}
+                  value={
+                    Number(minDexFee) === 0
+                      ? minDexFee
+                      : renderFractions(BigInt(minDexFee), ERG_DECIMALS)
+                  }
                   onChange={({ currentTarget }) => {
-                    if (parseFloat(currentTarget.value) !== 0) {
-                      const value = String(
-                        parseUserInputToFractions(
-                          currentTarget.value,
-                          ERG_DECIMALS,
-                        ),
+                    const value = toFloat(currentTarget.value, ERG_DECIMALS);
+
+                    if (!isZero(value)) {
+                      const valueFractions = String(
+                        parseUserInputToFractions(value, ERG_DECIMALS),
                       );
+
+                      onChangeMinDexFee(valueFractions);
+                    } else {
                       onChangeMinDexFee(value);
                     }
                   }}
@@ -119,7 +127,8 @@ const SwapSettings = ({
                   {...props.input}
                   value={nitro}
                   onChange={({ currentTarget }) => {
-                    onChangeNitro(currentTarget.value as string);
+                    const value = toFloat(currentTarget.value);
+                    onChangeNitro(value);
                     props.input.onChange(currentTarget.value as string);
                   }}
                 />

@@ -9,20 +9,16 @@ import {
 } from '../../constants/settings';
 import { FormError } from './FormError';
 import { countDecimals } from '../../utils/numbers';
+import { toFloat } from '../../utils/string';
 
 const content = {
   autoButton: 'Auto',
 };
 
 type SlippageInputProps = {
-  slippage: number;
-  setSlippage: (num: number) => void;
+  slippage: string;
+  setSlippage: (num: string) => void;
 };
-
-const toPercent = (num: number | string): number =>
-  typeof num === 'string' ? Number(num) * 100 : num * 100;
-const fromPercent = (num: number | string): number =>
-  typeof num === 'string' ? Number(num) / 100 : num / 100;
 
 export const SlippageInput = (props: SlippageInputProps): JSX.Element => {
   const { slippage, setSlippage } = props;
@@ -30,34 +26,33 @@ export const SlippageInput = (props: SlippageInputProps): JSX.Element => {
   const [error, setError] = useState('');
   const [isAuto, setIsAuto] = useState(slippage === DefaultSettings.slippage);
 
-  const { state, setState, bindings } = useInput(
-    isAuto ? '' : slippage.toString(),
-  );
+  const { state, setState, bindings } = useInput(slippage);
 
   const handleChange = useCallback(
     (e?: React.ChangeEvent<HTMLInputElement>) => {
       if (e) {
-        const value = e.target.value;
+        const value = toFloat(e.target.value, SlippageDecimals);
         setIsAuto(false);
 
-        setState(fromPercent(value).toString());
-        if (value) {
-          const num = parseFloat(e.target.value);
-          if (num >= SlippageMin) {
-            if (num >= SlippageMin && num <= SlippageMax) {
-              if (countDecimals(num) > SlippageDecimals) {
-                setError(`must be <= ${SlippageDecimals} decimal places`);
-              } else {
-                setSlippage(fromPercent(num));
-                setError('');
-              }
-            } else {
-              setError(`must be >= ${SlippageMin} and <= ${SlippageMax}`);
-            }
-          } else {
-            setError(`must be a number`);
-          }
+        if (!value) {
+          setState('');
+          setSlippage('');
+          setError(`Slippage field could not be empty`);
+          return;
         }
+
+        const numValue = parseFloat(value);
+
+        if (numValue > 100) {
+          setError(`Enter a valid slippage percentage`);
+        } else if (numValue > 1) {
+          setError(`Your transaction may be frontrun`);
+        } else {
+          setError('');
+        }
+
+        setState(value);
+        setSlippage(value);
       }
     },
     [setSlippage, setState],
@@ -78,7 +73,7 @@ export const SlippageInput = (props: SlippageInputProps): JSX.Element => {
         const num = parseFloat(state);
         if (countDecimals(num) != SlippageDecimals) {
           const decimal = num.toFixed(SlippageDecimals);
-          setSlippage(parseFloat(decimal));
+          setSlippage(String(parseFloat(decimal)));
           setState(decimal);
         }
       }
@@ -97,7 +92,6 @@ export const SlippageInput = (props: SlippageInputProps): JSX.Element => {
         </Button>
         <Input
           {...bindings}
-          value={toPercent(bindings.value).toString()}
           onClearClick={handleReset}
           onBlur={handleOnBlur}
           status={error ? 'error' : undefined}
