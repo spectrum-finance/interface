@@ -3,6 +3,7 @@ export const truncate = (id: string): string => {
 };
 
 export const toFloat = (value: string, maxDecimals?: number): string => {
+  // TODO: EDEX-230
   const result = value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');
 
   if (maxDecimals) {
