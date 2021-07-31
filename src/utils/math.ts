@@ -1,4 +1,10 @@
-import { all, ConfigOptions, create, FormatOptions } from 'mathjs';
+import {
+  all,
+  ConfigOptions,
+  create,
+  FormatOptions,
+  MathJsStatic,
+} from 'mathjs';
 
 const mathConf: ConfigOptions = {
   epsilon: 1e-24,
@@ -13,7 +19,7 @@ const formatOptions: FormatOptions = {
   upperExp: 1e100,
 };
 
-const math = create(all, mathConf);
+const math = create(all, mathConf) as Partial<MathJsStatic>;
 
 export const allowedNumPat = new RegExp(/^\d+\.?\d*$/);
 
@@ -38,3 +44,9 @@ export function renderFractions(
     formatOptions,
   );
 }
+
+export const toPercent = (num: number | string): string =>
+  String(Number(num) * 100);
+
+export const fromPercent = (num: number | string): string =>
+  String(Number(num) / 100);

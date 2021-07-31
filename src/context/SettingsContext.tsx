@@ -5,13 +5,13 @@ import { MinerFeeDefault, SlippageDefault } from '../constants/settings';
 
 export type Settings = {
   minerFee: string;
-  slippage: number;
+  slippage: string;
   address?: string;
 };
 
 export const DefaultSettings: Readonly<Settings> = {
   minerFee: MinerFeeDefault.toString(),
-  slippage: SlippageDefault,
+  slippage: String(SlippageDefault),
 };
 
 function noop() {

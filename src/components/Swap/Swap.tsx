@@ -33,11 +33,11 @@ import { DefaultSettings, WalletContext } from '../../context';
 import { useGetAllPools } from '../../hooks/useGetAllPools';
 import { PoolSelect } from '../PoolSelect/PoolSelect';
 import {
-  DEFAULT_MINER_FEE,
   ERG_TOKEN_NAME,
   ERG_DECIMALS,
   MIN_NITRO,
   MIN_BOX_VALUE,
+  MIN_DEX_FEE,
 } from '../../constants/erg';
 import { getButtonState } from './buttonState';
 import { validateInputAmount } from './validation';
@@ -57,6 +57,8 @@ import explorer from '../../services/explorer';
 import poolOptions from '../../services/poolOptions';
 import { renderFractions, parseUserInputToFractions } from '../../utils/math';
 import { isEmpty } from 'ramda';
+import { isZero } from '../../utils/numbers';
+import { toFloat } from '../../utils/string';
 
 interface SwapFormProps {
   pools: AmmPool[];
@@ -77,7 +79,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
   const [inputAmount, setInputAmount] = useState('');
   const [outputAmount, setOutputAmount] = useState('');
   const [availableInputAmount, setAvailableInputAmount] = useState(0n);
-  const [minDexFee, setMinDexFee] = useState(String(DEFAULT_MINER_FEE));
+  const [minDexFee, setMinDexFee] = useState(String(MIN_DEX_FEE));
   const [nitro, setNitro] = useState(String(MIN_NITRO));
   const [currentSwapVars, setCurrentSwapVars] = useState<
     [number, SwapExtremums] | undefined
@@ -125,8 +127,14 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
       const { minOutput } = getBaseInputParameters(selectedPool, {
         inputAmount,
         inputAsset: inputAssetAmount.asset,
-        slippage,
+        slippage: Number(slippage),
       });
+
+      if (isZero(minDexFee) || isZero(nitro)) {
+        resetSwapForm();
+        return;
+      }
+
       const vars = swapVars(BigInt(minDexFee), Number(nitro), minOutput);
       if (!isNil(vars)) {
         setCurrentSwapVars(vars);
@@ -170,7 +178,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
               outputAssetAmount.asset.decimals,
             ),
           ),
-          slippage,
+          Number(slippage),
         );
         setInputAmount(
           renderFractions(
@@ -203,7 +211,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
               inputAssetAmount.asset.decimals,
             ),
           ),
-          slippage,
+          Number(slippage),
         );
         setOutputAmount(
           renderFractions(
@@ -238,26 +246,46 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
     updateOutputAmount,
   ]);
 
-  const handleEnterInputTokenAmount = (value: string) => {
-    if (inputAssetAmount && selectedPool) {
-      if (isEmpty(value.trim())) {
-        resetSwapForm();
-        return;
-      }
+  const getInputValue = (value: string, decimals: number) => {
+    const currentValue = toFloat(value, decimals);
 
-      setInputAmount(value);
-      setPivotalAmount(value);
+    if (isEmpty(currentValue.trim())) {
+      resetSwapForm();
+      return;
+    }
+
+    return currentValue;
+  };
+
+  const handleEnterInputTokenAmount = (value: string, decimals: number) => {
+    const currentValue = getInputValue(value, decimals);
+
+    if (inputAssetAmount && selectedPool && currentValue) {
+      setInputAmount(currentValue);
+      setPivotalAmount(currentValue);
       setInputAssetAmount(
         new AssetAmount(
           inputAssetAmount.asset,
-          parseUserInputToFractions(value, inputAssetAmount.asset.decimals),
+          parseUserInputToFractions(currentValue, decimals),
         ),
       );
-      updateOutputAmount(value, outputAssetAmount, inputAssetAmount);
+      updateOutputAmount(currentValue, outputAssetAmount, inputAssetAmount);
+    }
+  };
 
-      if (!value.trim()) {
-        setOutputAmount('0');
-      }
+  const handleEnterOutputTokenAmount = (value: string, decimals: number) => {
+    const currentValue = getInputValue(value, decimals);
+
+    if (outputAssetAmount && selectedPool && currentValue) {
+      setOutputAmount(currentValue);
+      setPivotalAmount(currentValue);
+      setOutputAssetAmount(
+        new AssetAmount(
+          outputAssetAmount.asset,
+          parseUserInputToFractions(currentValue, decimals),
+        ),
+      );
+      updateInputAmount(currentValue, outputAssetAmount, inputAssetAmount);
     }
   };
 
@@ -274,7 +302,11 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
 
       const { baseInput, baseInputAmount, minOutput } = getBaseInputParameters(
         selectedPool,
-        { inputAmount, inputAsset: inputAssetAmount.asset, slippage },
+        {
+          inputAmount,
+          inputAsset: inputAssetAmount.asset,
+          slippage: Number(slippage),
+        },
       );
 
       const pk = fromAddress(chosenAddress)!;
@@ -424,9 +456,13 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                             disabled={!inputAssetAmount}
                             value={inputAmount}
                             onChange={({ currentTarget }) => {
-                              const value = currentTarget.value;
-                              handleEnterInputTokenAmount(value);
-                              props.input.onChange(value);
+                              if (inputAssetAmount?.asset.decimals) {
+                                handleEnterInputTokenAmount(
+                                  currentTarget.value,
+                                  inputAssetAmount?.asset.decimals,
+                                );
+                              }
+                              props.input.onChange(currentTarget.value);
                             }}
                           />
                         </Row>
@@ -459,10 +495,15 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                         width="100%"
                         {...props.input}
                         value={outputAmount}
-                        onChange={(e) => {
-                          props.input.onChange(e.currentTarget.value);
+                        onChange={({ currentTarget }) => {
+                          if (outputAssetAmount?.asset.decimals) {
+                            handleEnterOutputTokenAmount(
+                              currentTarget.value,
+                              outputAssetAmount?.asset.decimals,
+                            );
+                          }
+                          props.input.onChange(currentTarget.value);
                         }}
-                        disabled
                       />
                     )}
                   </Field>
