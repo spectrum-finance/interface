@@ -14,20 +14,20 @@ export enum WalletAddressState {
 
 export type WalletAddresses =
   | {
-      state:
-        | WalletAddressState.UNCONNECTED
-        | WalletAddressState.LOADING
-        | WalletAddressState.NONE;
-    }
+  state:
+    | WalletAddressState.UNCONNECTED
+    | WalletAddressState.LOADING
+    | WalletAddressState.NONE;
+}
   | {
-      state: WalletAddressState.LOADED;
-      addresses: Address[];
-      selectedAddress: Address;
-    }
+  state: WalletAddressState.LOADED;
+  addresses: Address[];
+  selectedAddress: Address;
+}
   | {
-      state: WalletAddressState.ERROR;
-      error: string;
-    };
+  state: WalletAddressState.ERROR;
+  error: string;
+};
 
 const DefaultWalletAddresses: WalletAddresses = {
   state: WalletAddressState.UNCONNECTED,
@@ -40,8 +40,8 @@ const WalletAddressesContext = createContext<WalletAddresses>(
 type WalletAddressesProviderProps = React.PropsWithChildren<unknown>;
 
 export const WalletAddressesProvider = ({
-  children,
-}: WalletAddressesProviderProps): JSX.Element => {
+                                          children,
+                                        }: WalletAddressesProviderProps): JSX.Element => {
   const [settings, setSettings] = useSettings();
   const { isWalletConnected } = useContext(WalletContext);
 
@@ -89,8 +89,10 @@ async function loadedAddresses(
   selectedAddress?: Address,
 ): Promise<WalletAddresses> {
   try {
-    const addresses = await ergo.get_used_addresses();
-    if (addresses.length) {
+    const usedAddresses = await ergo.get_used_addresses(); // todo: mark used addresses in UI
+    const unusedAddresses = await ergo.get_unused_addresses();
+    const addresses = unusedAddresses.concat(usedAddresses);
+    if (usedAddresses.length) {
       const selected =
         selectedAddress && addresses.includes(selectedAddress)
           ? selectedAddress

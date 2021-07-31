@@ -3,13 +3,13 @@ import { Modal, Text } from '@geist-ui/react';
 import { refund } from '../../utils/ammOperations';
 import {
   useWalletAddresses,
+  useSettings,
   WalletAddressState,
-} from '../../context/AddressContext';
+  WalletContext,
+} from '../../context';
 import { SelectAddress } from '../SelectAddress/SelectAddress';
 import { TxId } from 'ergo-dex-sdk/build/main/ergo';
 import { Address, ergoTxToProxy } from 'ergo-dex-sdk/build/module/ergo';
-import { useSettings } from '../../context/SettingsContext';
-import { WalletContext } from '../../context/WalletContext';
 
 type ConfirmRefundModalProps = {
   open: boolean;
@@ -18,10 +18,10 @@ type ConfirmRefundModalProps = {
 };
 
 export const ConfirmRefundModal = ({
-  txId,
-  open,
-  onClose,
-}: ConfirmRefundModalProps): JSX.Element => {
+                                     txId,
+                                     open,
+                                     onClose,
+                                   }: ConfirmRefundModalProps): JSX.Element => {
   const walletAddresses = useWalletAddresses();
   const [{ minerFee }] = useSettings();
   const { utxos } = useContext(WalletContext);
@@ -57,7 +57,7 @@ export const ConfirmRefundModal = ({
   };
 
   return (
-    <Modal open={open} onClose={onClose} width="500px">
+    <Modal open={open} onClose={onClose} width='500px'>
       <Modal.Title>Confirm Refund</Modal.Title>
       <Modal.Content>
         <Text p>Select refund address</Text>
