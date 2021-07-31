@@ -246,26 +246,46 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
     updateOutputAmount,
   ]);
 
-  const handleEnterInputTokenAmount = (value: string) => {
-    if (inputAssetAmount && selectedPool) {
-      if (isEmpty(value.trim())) {
-        resetSwapForm();
-        return;
-      }
+  const getInputValue = (value: string, decimals: number) => {
+    const currentValue = toFloat(value, decimals);
 
-      setInputAmount(value);
-      setPivotalAmount(value);
+    if (isEmpty(currentValue.trim())) {
+      resetSwapForm();
+      return;
+    }
+
+    return currentValue;
+  };
+
+  const handleEnterInputTokenAmount = (value: string, decimals: number) => {
+    const currentValue = getInputValue(value, decimals);
+
+    if (inputAssetAmount && selectedPool && currentValue) {
+      setInputAmount(currentValue);
+      setPivotalAmount(currentValue);
       setInputAssetAmount(
         new AssetAmount(
           inputAssetAmount.asset,
-          parseUserInputToFractions(value, inputAssetAmount.asset.decimals),
+          parseUserInputToFractions(currentValue, decimals),
         ),
       );
-      updateOutputAmount(value, outputAssetAmount, inputAssetAmount);
+      updateOutputAmount(currentValue, outputAssetAmount, inputAssetAmount);
+    }
+  };
 
-      if (!value.trim()) {
-        setOutputAmount('0');
-      }
+  const handleEnterOutputTokenAmount = (value: string, decimals: number) => {
+    const currentValue = getInputValue(value, decimals);
+
+    if (outputAssetAmount && selectedPool && currentValue) {
+      setOutputAmount(currentValue);
+      setPivotalAmount(currentValue);
+      setOutputAssetAmount(
+        new AssetAmount(
+          outputAssetAmount.asset,
+          parseUserInputToFractions(currentValue, decimals),
+        ),
+      );
+      updateInputAmount(currentValue, outputAssetAmount, inputAssetAmount);
     }
   };
 
@@ -436,12 +456,13 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                             disabled={!inputAssetAmount}
                             value={inputAmount}
                             onChange={({ currentTarget }) => {
-                              const value = toFloat(
-                                currentTarget.value,
-                                inputAssetAmount?.asset.decimals,
-                              );
-                              handleEnterInputTokenAmount(value);
-                              props.input.onChange(value);
+                              if (inputAssetAmount?.asset.decimals) {
+                                handleEnterInputTokenAmount(
+                                  currentTarget.value,
+                                  inputAssetAmount?.asset.decimals,
+                                );
+                              }
+                              props.input.onChange(currentTarget.value);
                             }}
                           />
                         </Row>
@@ -474,10 +495,15 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                         width="100%"
                         {...props.input}
                         value={outputAmount}
-                        onChange={(e) => {
-                          props.input.onChange(e.currentTarget.value);
+                        onChange={({ currentTarget }) => {
+                          if (outputAssetAmount?.asset.decimals) {
+                            handleEnterOutputTokenAmount(
+                              currentTarget.value,
+                              outputAssetAmount?.asset.decimals,
+                            );
+                          }
+                          props.input.onChange(currentTarget.value);
                         }}
-                        disabled
                       />
                     )}
                   </Field>
