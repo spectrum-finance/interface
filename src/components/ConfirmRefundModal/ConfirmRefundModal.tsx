@@ -18,10 +18,10 @@ type ConfirmRefundModalProps = {
 };
 
 export const ConfirmRefundModal = ({
-                                     txId,
-                                     open,
-                                     onClose,
-                                   }: ConfirmRefundModalProps): JSX.Element => {
+  txId,
+  open,
+  onClose,
+}: ConfirmRefundModalProps): JSX.Element => {
   const walletAddresses = useWalletAddresses();
   const [{ minerFee }] = useSettings();
   const { utxos } = useContext(WalletContext);
@@ -57,7 +57,7 @@ export const ConfirmRefundModal = ({
   };
 
   return (
-    <Modal open={open} onClose={onClose} width='500px'>
+    <Modal open={open} onClose={onClose} width="500px">
       <Modal.Title>Confirm Refund</Modal.Title>
       <Modal.Content>
         <Text p>Select refund address</Text>
