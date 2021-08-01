@@ -10,6 +10,7 @@ import {
 import { SelectAddress } from '../SelectAddress/SelectAddress';
 import { TxId } from 'ergo-dex-sdk/build/main/ergo';
 import { Address, ergoTxToProxy } from 'ergo-dex-sdk/build/module/ergo';
+import { toast } from 'react-toastify';
 
 type ConfirmRefundModalProps = {
   open: boolean;
@@ -18,10 +19,10 @@ type ConfirmRefundModalProps = {
 };
 
 export const ConfirmRefundModal = ({
-                                     txId,
-                                     open,
-                                     onClose,
-                                   }: ConfirmRefundModalProps): JSX.Element => {
+  txId,
+  open,
+  onClose,
+}: ConfirmRefundModalProps): JSX.Element => {
   const walletAddresses = useWalletAddresses();
   const [{ minerFee }] = useSettings();
   const { utxos } = useContext(WalletContext);
@@ -45,11 +46,11 @@ export const ConfirmRefundModal = ({
   const handleRefund = async () => {
     if (utxos?.length && address) {
       try {
-        console.log('pre-refund: ', 0);
         const tx = await refund(utxos, { address, txId, minerFee });
-        console.log('tx: ', tx);
         await ergo.submit_tx(ergoTxToProxy(tx));
+        toast.success('Refunded successfully');
       } catch (err) {
+        toast.error('Transaction refund was declined');
         console.error(err);
       }
     }
@@ -57,7 +58,7 @@ export const ConfirmRefundModal = ({
   };
 
   return (
-    <Modal open={open} onClose={onClose} width='500px'>
+    <Modal open={open} onClose={onClose} width="500px">
       <Modal.Title>Confirm Refund</Modal.Title>
       <Modal.Content>
         <Text p>Select refund address</Text>

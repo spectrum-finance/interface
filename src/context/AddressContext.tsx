@@ -14,20 +14,20 @@ export enum WalletAddressState {
 
 export type WalletAddresses =
   | {
-  state:
-    | WalletAddressState.UNCONNECTED
-    | WalletAddressState.LOADING
-    | WalletAddressState.NONE;
-}
+      state:
+        | WalletAddressState.UNCONNECTED
+        | WalletAddressState.LOADING
+        | WalletAddressState.NONE;
+    }
   | {
-  state: WalletAddressState.LOADED;
-  addresses: Address[];
-  selectedAddress: Address;
-}
+      state: WalletAddressState.LOADED;
+      addresses: Address[];
+      selectedAddress: Address;
+    }
   | {
-  state: WalletAddressState.ERROR;
-  error: string;
-};
+      state: WalletAddressState.ERROR;
+      error: string;
+    };
 
 const DefaultWalletAddresses: WalletAddresses = {
   state: WalletAddressState.UNCONNECTED,
@@ -40,8 +40,8 @@ const WalletAddressesContext = createContext<WalletAddresses>(
 type WalletAddressesProviderProps = React.PropsWithChildren<unknown>;
 
 export const WalletAddressesProvider = ({
-                                          children,
-                                        }: WalletAddressesProviderProps): JSX.Element => {
+  children,
+}: WalletAddressesProviderProps): JSX.Element => {
   const [settings, setSettings] = useSettings();
   const { isWalletConnected } = useContext(WalletContext);
 

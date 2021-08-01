@@ -88,7 +88,7 @@ export const getButtonState = (
       };
     }
     case States.NEED_TO_ENTER_AMOUNT: {
-      return { isDisabled: true, text: 'Input amount not specified' };
+      return { isDisabled: true, text: 'Enter Amount' };
     }
     case States.UTXOS_IS_EMPTY: {
       return { isDisabled: true, text: 'Insufficient ERG balance' };
