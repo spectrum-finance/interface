@@ -123,7 +123,6 @@ export const validateMinDexFee = (value: string): unknown => {
         ERG_DECIMALS,
       )}`,
       (value) => {
-        console.log('value', value);
         return (
           Number(value) >= Number(renderFractions(MIN_DEX_FEE, ERG_DECIMALS))
         );

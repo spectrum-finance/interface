@@ -12,7 +12,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCog } from '@fortawesome/free-solid-svg-icons';
 import { SlippageInput } from '../Settings/SlippageInput';
 import { Field, FieldRenderProps } from 'react-final-form';
-import { validateMinDexFee, validateNitro, validateNumber } from './validation';
+import { validateMinDexFee, validateNitro } from './validation';
 import {
   ERG_DECIMALS,
   ERG_TOKEN_NAME,
@@ -83,7 +83,6 @@ const SwapSettings = ({
             <Field
               name="minDexFee"
               validate={(value) => {
-                console.log('field value', value);
                 return validateMinDexFee(value);
               }}
             >
