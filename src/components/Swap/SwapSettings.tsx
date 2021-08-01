@@ -1,10 +1,18 @@
 import React from 'react';
-import { Grid, Input, Text, Popover, Button, Spacer } from '@geist-ui/react';
+import {
+  Grid,
+  Input,
+  Text,
+  Popover,
+  Button,
+  Spacer,
+  Row,
+} from '@geist-ui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCog } from '@fortawesome/free-solid-svg-icons';
 import { SlippageInput } from '../Settings/SlippageInput';
 import { Field, FieldRenderProps } from 'react-final-form';
-import { validateNumber } from './validation';
+import { validateMinDexFee, validateNitro, validateNumber } from './validation';
 import {
   ERG_DECIMALS,
   ERG_TOKEN_NAME,
@@ -75,36 +83,48 @@ const SwapSettings = ({
             <Field
               name="minDexFee"
               validate={(value) => {
-                return validateNumber(value, {
-                  maxDecimals: ERG_DECIMALS,
-                });
+                console.log('field value', value);
+                return validateMinDexFee(value);
               }}
             >
               {(props: FieldRenderProps<string>) => (
-                <Input
-                  placeholder="0.0"
-                  width="100%"
-                  label={ERG_TOKEN_NAME}
-                  {...props.input}
-                  value={
-                    Number(minDexFee) === 0
-                      ? minDexFee
-                      : renderFractions(BigInt(minDexFee), ERG_DECIMALS)
-                  }
-                  onChange={({ currentTarget }) => {
-                    const value = toFloat(currentTarget.value, ERG_DECIMALS);
+                <>
+                  <Row>
+                    <Input
+                      placeholder="0.0"
+                      width="100%"
+                      label={ERG_TOKEN_NAME}
+                      {...props.input}
+                      value={
+                        Number(minDexFee) === 0
+                          ? minDexFee
+                          : renderFractions(BigInt(minDexFee), ERG_DECIMALS)
+                      }
+                      onChange={({ currentTarget }) => {
+                        const value = toFloat(
+                          currentTarget.value,
+                          ERG_DECIMALS,
+                        );
 
-                    if (!isZero(value)) {
-                      const valueFractions = String(
-                        parseUserInputToFractions(value, ERG_DECIMALS),
-                      );
+                        if (!isZero(value)) {
+                          const valueFractions = String(
+                            parseUserInputToFractions(value, ERG_DECIMALS),
+                          );
 
-                      onChangeMinDexFee(valueFractions);
-                    } else {
-                      onChangeMinDexFee(value);
-                    }
-                  }}
-                />
+                          onChangeMinDexFee(valueFractions);
+                        } else {
+                          onChangeMinDexFee(value);
+                        }
+                        props.input.onChange(currentTarget.value as string);
+                      }}
+                    />
+                  </Row>
+                  {props.meta.error && (
+                    <Text small type="error">
+                      {props.meta.error}
+                    </Text>
+                  )}
+                </>
               )}
             </Field>
           </Grid>
@@ -117,21 +137,33 @@ const SwapSettings = ({
             <Field
               name="nitro"
               validate={(value) => {
-                return validateNumber(value, { maxDecimals: NITRO_DECIMALS });
+                return validateNitro(value);
               }}
             >
               {(props: FieldRenderProps<string>) => (
-                <Input
-                  placeholder="0.0"
-                  width="100%"
-                  {...props.input}
-                  value={nitro}
-                  onChange={({ currentTarget }) => {
-                    const value = toFloat(currentTarget.value);
-                    onChangeNitro(value);
-                    props.input.onChange(currentTarget.value as string);
-                  }}
-                />
+                <>
+                  <Row>
+                    <Input
+                      placeholder="0.0"
+                      width="100%"
+                      {...props.input}
+                      value={nitro}
+                      onChange={({ currentTarget }) => {
+                        const value = toFloat(
+                          currentTarget.value,
+                          NITRO_DECIMALS,
+                        );
+                        onChangeNitro(value);
+                        props.input.onChange(currentTarget.value as string);
+                      }}
+                    />
+                  </Row>
+                  {props.meta.error && (
+                    <Text small type="error">
+                      {props.meta.error}
+                    </Text>
+                  )}
+                </>
               )}
             </Field>
           </Grid>
