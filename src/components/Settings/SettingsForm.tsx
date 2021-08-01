@@ -2,9 +2,10 @@ import React, { useCallback } from 'react';
 import { Text, Tooltip } from '@geist-ui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
-import { Settings } from '../../context/SettingsContext';
+import { Settings } from '../../context';
 import { MinerFeeInput } from './MinerFeeInput';
 import { SelectAddress } from '../SelectAddress/SelectAddress';
+import { ConnectWallet } from '../ConnectWallet/ConnectWallet';
 
 const content = {
   dex: {
@@ -82,9 +83,7 @@ export const SettingsForm = (props: SettingsFormProps): JSX.Element => {
             onSelectAddress={handleSelectAddress}
           />
         ) : (
-          <Text p small type="secondary">
-            {content.address.connectButton}
-          </Text>
+          <ConnectWallet />
         )}
       </div>
     </div>

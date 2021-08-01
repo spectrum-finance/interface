@@ -40,7 +40,6 @@ import {
   MIN_DEX_FEE,
 } from '../../constants/erg';
 import { getButtonState } from './buttonState';
-import { validateInputAmount } from './validation';
 import { useSettings } from '../../context';
 import { toast } from 'react-toastify';
 import { useCheckPool } from '../../hooks/useCheckPool';
@@ -375,8 +374,8 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
         outputAmount: 0.0,
         address: '',
         poolId: undefined,
-        minDexFee: 0,
-        nitro: 0,
+        minDexFee: renderFractions(MIN_DEX_FEE, ERG_DECIMALS),
+        nitro: MIN_NITRO,
       }}
       render={({ handleSubmit, errors = {} }) => (
         <form onSubmit={handleSubmit}>
@@ -435,15 +434,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
             {!isPoolValid.isFetching && isPoolValid.result && (
               <>
                 <Grid xs={24} direction="column">
-                  <Field
-                    name="inputAmount"
-                    validate={(value) =>
-                      validateInputAmount(value, isWalletConnected, {
-                        maxDecimals: inputAssetAmount?.asset.decimals || 0,
-                        maxAvailable: availableInputAmount,
-                      })
-                    }
-                  >
+                  <Field name="inputAmount">
                     {(props: FieldRenderProps<string>) => (
                       <>
                         <Row>

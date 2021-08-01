@@ -4,6 +4,7 @@ import {
   parseUserInputToFractions,
   allowedNumPat,
 } from '../../utils/math';
+import { ERG_DECIMALS, MIN_DEX_FEE, MIN_NITRO } from '../../constants/erg';
 
 const fixedNumber = (decimals: number) =>
   yup
@@ -94,4 +95,43 @@ export const validateNumber = (
     return e.message;
   }
   return undefined;
+};
+
+export const validateNitro = (value: string): unknown => {
+  const schema = yup
+    .string()
+    .trim()
+    .test('value-exceeded', `Minimal Nitro value is ${MIN_NITRO}`, (value) => {
+      return Number(value) >= MIN_NITRO;
+    });
+
+  try {
+    schema.validateSync(value);
+  } catch (e) {
+    return e.message;
+  }
+};
+
+export const validateMinDexFee = (value: string): unknown => {
+  const schema = yup
+    .string()
+    .trim()
+    .test(
+      'value-exceeded',
+      `The bottom line of DEX Fee is ${renderFractions(
+        MIN_DEX_FEE,
+        ERG_DECIMALS,
+      )}`,
+      (value) => {
+        return (
+          Number(value) >= Number(renderFractions(MIN_DEX_FEE, ERG_DECIMALS))
+        );
+      },
+    );
+
+  try {
+    schema.validateSync(value);
+  } catch (e) {
+    return e.message;
+  }
 };
