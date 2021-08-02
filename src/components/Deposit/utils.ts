@@ -1,9 +1,9 @@
 import { AmmPool } from 'ergo-dex-sdk';
 
-export enum WalletStates {
-  NEED_TO_CONNECT_WALLET = 'NEED_TO_CONNECT_WALLET',
-  NEED_TO_SELECT_POOL = 'NEED_TO_SELECT_POOL',
-  NEED_TO_ENTER_AMOUNT = 'NEED_TO_ENTER_AMOUNT',
+export enum AppState {
+  WALLET_NOT_CONNECTED = 'WALLET_NOT_CONNECTED',
+  POOL_NOT_SELECTED = 'POOL_NOT_SELECTED',
+  AMOUNT_NOT_SPECIFIED = 'AMOUNT_NOT_SPECIFIED',
   SUBMIT = 'SUBMIT',
 }
 
@@ -14,23 +14,23 @@ interface ButtonState {
   outputAmount: string;
 }
 
-export const getButtonState = ({
+export const getAppState = ({
   isWalletConnected,
   selectedPool,
   inputAmount,
   outputAmount,
-}: ButtonState): WalletStates => {
+}: ButtonState): AppState => {
   if (!isWalletConnected) {
-    return WalletStates.NEED_TO_CONNECT_WALLET;
+    return AppState.WALLET_NOT_CONNECTED;
   }
 
   if (!selectedPool) {
-    return WalletStates.NEED_TO_SELECT_POOL;
+    return AppState.POOL_NOT_SELECTED;
   }
 
   if (Number(inputAmount) <= 0 || Number(outputAmount) <= 0) {
-    return WalletStates.NEED_TO_ENTER_AMOUNT;
+    return AppState.AMOUNT_NOT_SPECIFIED;
   }
 
-  return WalletStates.SUBMIT;
+  return AppState.SUBMIT;
 };

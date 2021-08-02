@@ -27,7 +27,7 @@ import {
 } from 'ergo-dex-sdk/build/module/ergo';
 import { fromAddress } from 'ergo-dex-sdk/build/module/ergo/entities/publicKey';
 import { WalletContext, useSettings } from '../../context';
-import { getButtonState, WalletStates } from './utils';
+import { getAppState, AppState } from './utils';
 import { ERG_DECIMALS } from '../../constants/erg';
 import { useGetAllPools } from '../../hooks/useGetAllPools';
 import { PoolSelect } from '../PoolSelect/PoolSelect';
@@ -38,7 +38,7 @@ import { useCheckPool } from '../../hooks/useCheckPool';
 import { validateInputAmount } from '../Swap/validation';
 import { calculateAvailableAmount } from '../../utils/walletMath';
 import { ergoBoxFromProxy } from 'ergo-dex-sdk/build/module/ergo/entities/ergoBox';
-import { parseUserInputToFractions } from '../../utils/math';
+import { parseUserInputToFractions, renderFractions } from '../../utils/math';
 
 export const Deposit = (): JSX.Element => {
   const [{ minerFee, address: chosenAddress }] = useSettings();
@@ -143,24 +143,24 @@ export const Deposit = (): JSX.Element => {
     inputAssetAmountY?.asset.id,
   ]);
 
-  const buttonStatus = useMemo(() => {
-    const buttonState = getButtonState({
+  const buttonState = useMemo(() => {
+    const appState = getAppState({
       isWalletConnected,
       selectedPool,
       inputAmount: inputAmountX,
       outputAmount: inputAmountY,
     });
-    switch (buttonState) {
-      case WalletStates.NEED_TO_SELECT_POOL: {
-        return { disabled: true, text: 'Wallet not selected' };
+    switch (appState) {
+      case AppState.POOL_NOT_SELECTED: {
+        return { disabled: true, text: 'Pool not selected' };
       }
-      case WalletStates.SUBMIT: {
+      case AppState.SUBMIT: {
         return { disabled: false, text: 'Submit' };
       }
-      case WalletStates.NEED_TO_CONNECT_WALLET: {
+      case AppState.WALLET_NOT_CONNECTED: {
         return { disabled: true, text: 'Wallet not connected' };
       }
-      case WalletStates.NEED_TO_ENTER_AMOUNT: {
+      case AppState.AMOUNT_NOT_SPECIFIED: {
         return { disabled: true, text: 'Amount not specified' };
       }
     }
@@ -187,20 +187,12 @@ export const Deposit = (): JSX.Element => {
         const amount = selectedPool.depositAmount(
           new AssetAmount(
             inputAssetAmountX.asset,
-            BigInt(
-              evaluate(
-                `${value}*10^${inputAssetAmountX.asset.decimals || 0}`,
-              ).toFixed(0),
-            ),
+            parseUserInputToFractions(value, inputAssetAmountX.asset.decimals),
           ),
         );
 
         setInputAmountY(
-          String(
-            evaluate(
-              `${amount?.amount}/10^${inputAssetAmountY.asset.decimals || 0}`,
-            ),
-          ),
+          renderFractions(amount?.amount, inputAssetAmountY.asset.decimals),
         );
       }
 
@@ -216,20 +208,12 @@ export const Deposit = (): JSX.Element => {
         const amount = selectedPool.depositAmount(
           new AssetAmount(
             inputAssetAmountY.asset,
-            BigInt(
-              evaluate(
-                `${value}*10^${inputAssetAmountY.asset.decimals || 0}`,
-              ).toFixed(0),
-            ),
+            parseUserInputToFractions(value, inputAssetAmountY.asset.decimals),
           ),
         );
 
         setInputAmountX(
-          String(
-            evaluate(
-              `${amount?.amount}/10^${inputAssetAmountX.asset.decimals || 0}`,
-            ),
-          ),
+          renderFractions(amount?.amount, inputAssetAmountX.asset.decimals),
         );
       }
 
@@ -270,11 +254,10 @@ export const Deposit = (): JSX.Element => {
               assets: [
                 {
                   tokenId: inputAssetAmountX.asset.id,
-                  amount: evaluate(
-                    `${inputAmountX}*10^${
-                      inputAssetAmountX.asset.decimals || 0
-                    }`,
-                  ).toFixed(0),
+                  amount: parseUserInputToFractions(
+                    inputAmountX,
+                    inputAssetAmountX.asset.decimals,
+                  ),
                 },
                 {
                   tokenId: inputAssetAmountY.asset.id,
@@ -440,11 +423,11 @@ export const Deposit = (): JSX.Element => {
                       <Button
                         htmlType="submit"
                         disabled={
-                          buttonStatus.disabled ||
+                          buttonState.disabled ||
                           Object.values(errors).length > 0
                         }
                       >
-                        {buttonStatus.text}
+                        {buttonState.text}
                       </Button>
                     </Grid>
                   </>

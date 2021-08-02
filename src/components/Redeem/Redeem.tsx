@@ -58,7 +58,7 @@ export const Redeem = (): JSX.Element => {
     });
     switch (buttonState) {
       case WalletStates.NEED_TO_SELECT_POOL: {
-        return { disabled: true, text: 'Wallet not selected' };
+        return { disabled: true, text: 'Pool not selected' };
       }
       case WalletStates.SUBMIT: {
         return { disabled: false, text: 'Submit' };
