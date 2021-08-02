@@ -1,4 +1,5 @@
 import { isEmpty } from 'ramda';
+import { ErgoBox } from 'ergo-dex-sdk/build/module/ergo';
 
 export enum States {
   NEED_TO_CONNECT_WALLET = 'NEED_TO_CONNECT_WALLET',
@@ -17,7 +18,7 @@ interface ButtonStateDependencies {
   inputAmount: string;
   outputAmount: string;
   chosenAddress: string | undefined;
-  utxos: any;
+  utxos: ErgoBox[] | undefined;
   availableInputAmount: bigint;
 }
 
@@ -63,9 +64,7 @@ const getState = ({
   return States.SUBMIT;
 };
 
-export const getButtonState = (
-  deps: ButtonStateDependencies,
-): ButtonState | void => {
+export const getButtonState = (deps: ButtonStateDependencies): ButtonState => {
   const state = getState(deps);
 
   switch (state) {
@@ -92,9 +91,6 @@ export const getButtonState = (
     }
     case States.UTXOS_IS_EMPTY: {
       return { isDisabled: true, text: 'Insufficient ERG balance' };
-    }
-    default: {
-      return;
     }
   }
 };

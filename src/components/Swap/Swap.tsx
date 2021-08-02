@@ -16,7 +16,6 @@ import {
   Tag,
   Text,
   Note,
-  Table,
 } from '@geist-ui/react';
 import { Form, Field, FieldRenderProps } from 'react-final-form';
 import { FORM_ERROR } from 'final-form';
@@ -33,7 +32,6 @@ import { DefaultSettings, WalletContext } from '../../context';
 import { useGetAllPools } from '../../hooks/useGetAllPools';
 import { PoolSelect } from '../PoolSelect/PoolSelect';
 import {
-  ERG_TOKEN_NAME,
   ERG_DECIMALS,
   MIN_NITRO,
   MIN_BOX_VALUE,
@@ -58,6 +56,7 @@ import { renderFractions, parseUserInputToFractions } from '../../utils/math';
 import { isEmpty } from 'ramda';
 import { isZero } from '../../utils/numbers';
 import { toFloat } from '../../utils/string';
+import { SwapSummary } from './SwapSummary';
 
 interface SwapFormProps {
   pools: AmmPool[];
@@ -355,9 +354,15 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
             .then(async (tx) => {
               const proxyTx = ergoTxToProxy(tx);
               await ergo.submit_tx(proxyTx);
-              toast.success(`Transaction submitted`);
+              toast.success('Transaction submitted');
             })
-            .catch((er) => toast.error(JSON.stringify(er)));
+            .catch((err) => {
+              if (err?.message) {
+                toast.error(JSON.stringify(err.message));
+                return;
+              }
+              toast.error(JSON.stringify(err));
+            });
         } else {
           throw inputs.message;
         }
@@ -385,7 +390,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
             </Grid>
             <Grid xs={12} justify={'flex-end'}>
               <SwapSettings
-                slippage={slippage}
+                slippage={String(slippage)}
                 minDexFee={minDexFee}
                 nitro={nitro}
                 onChangeSlippage={setSlippage}
@@ -500,52 +505,15 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                   </Field>
                 </Grid>
 
-                {currentSwapVars && currentSwapVars[1] && (
+                {currentSwapVars?.[1] && (
                   <>
                     <Grid xs={24}>
                       <Text h4>Swap summary</Text>
                     </Grid>
-                    <Grid xs={24}>
-                      <Table
-                        data={[
-                          {
-                            prop: 'Miner fee',
-                            value: `${minerFee} ${ERG_TOKEN_NAME}`,
-                          },
-                          {
-                            prop: 'Min DEX fee',
-                            value: `${renderFractions(
-                              BigInt(currentSwapVars[1].minDexFee),
-                              ERG_DECIMALS,
-                            )} ${ERG_TOKEN_NAME}`,
-                          },
-                          {
-                            prop: 'Max DEX fee',
-                            value: `${renderFractions(
-                              BigInt(currentSwapVars[1].maxDexFee),
-                              ERG_DECIMALS,
-                            )} ${ERG_TOKEN_NAME}`,
-                          },
-                          {
-                            prop: 'Min output',
-                            value: `${renderFractions(
-                              currentSwapVars[1].minOutput.amount,
-                              currentSwapVars[1].minOutput.asset.decimals,
-                            )} ${currentSwapVars[1].minOutput.asset.name}`,
-                          },
-                          {
-                            prop: 'Max output',
-                            value: `${renderFractions(
-                              currentSwapVars[1].maxOutput.amount,
-                              currentSwapVars[1].maxOutput.asset.decimals,
-                            )} ${currentSwapVars[1].maxOutput.asset.name}`,
-                          },
-                        ]}
-                      >
-                        <Table.Column prop="prop" label="Detail" />
-                        <Table.Column prop="value" label="Amount" />
-                      </Table>
-                    </Grid>
+                    <SwapSummary
+                      minerFee={minerFee}
+                      swapExremums={currentSwapVars[1]}
+                    />
                   </>
                 )}
                 <Grid xs={24} direction="column">
@@ -563,11 +531,11 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                       <Button
                         htmlType="submit"
                         disabled={
-                          buttonStatus?.isDisabled ||
+                          buttonStatus.isDisabled ||
                           Object.values(errors).length > 0
                         }
                       >
-                        {buttonStatus?.text}
+                        {buttonStatus.text}
                       </Button>
                     )}
                   </Row>
