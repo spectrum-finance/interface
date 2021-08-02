@@ -349,7 +349,6 @@ export const Deposit = (): JSX.Element => {
                             <>
                               <Input
                                 placeholder="0.0"
-                                type="number"
                                 width="100%"
                                 lang="en"
                                 label={inputAssetAmountX?.asset.name ?? ''}
@@ -371,7 +370,6 @@ export const Deposit = (): JSX.Element => {
                           {(props: FieldRenderProps<string>) => (
                             <Input
                               placeholder="0.0"
-                              type="number"
                               label={inputAssetAmountY?.asset.name ?? ''}
                               width="100%"
                               {...props.input}
