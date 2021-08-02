@@ -317,7 +317,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
         const poolFeeNum = selectedPool.poolFeeNum;
         const minerFeeNErgs = parseUserInputToFractions(minerFee, ERG_DECIMALS);
         const totalFees =
-          BigInt(MIN_BOX_VALUE) + minerFeeNErgs + BigInt(maxDexFee);
+          BigInt(MIN_BOX_VALUE) + minerFeeNErgs * 2n + BigInt(maxDexFee);
 
         const networkContext = await explorer.getNetworkContext();
 
