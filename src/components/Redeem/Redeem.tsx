@@ -139,7 +139,7 @@ export const Redeem = (): JSX.Element => {
   if (availablePools?.length === 0) {
     return (
       <Card>
-        <Loading>No available pools to redeem</Loading>
+        <b>No available pools to redeem</b>
       </Card>
     );
   }
