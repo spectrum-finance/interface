@@ -34,11 +34,7 @@ import explorer from '../../services/explorer';
 import poolOptions from '../../services/poolOptions';
 import { useCheckPool } from '../../hooks/useCheckPool';
 import { calculateAvailableAmount } from '../../utils/walletMath';
-import {
-  parseUserInputToFractions,
-  strToBigInt,
-  renderFractions,
-} from '../../utils/math';
+import { parseUserInputToFractions, renderFractions } from '../../utils/math';
 import { DepositSummary } from './DepositSummary';
 import { toFloat } from '../../utils/string';
 
@@ -89,11 +85,17 @@ export const Deposit = (): JSX.Element => {
       return selectedPool.rewardLP(
         new AssetAmount(
           inputAssetAmountX.asset,
-          strToBigInt(inputAmountX, inputAssetAmountX.asset.decimals),
+          parseUserInputToFractions(
+            inputAmountX,
+            inputAssetAmountX.asset.decimals,
+          ),
         ),
         new AssetAmount(
           inputAssetAmountY.asset,
-          strToBigInt(inputAmountY, inputAssetAmountY.asset.decimals),
+          parseUserInputToFractions(
+            inputAmountY,
+            inputAssetAmountY.asset.decimals,
+          ),
         ),
       ).amount;
     }

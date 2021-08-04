@@ -1,5 +1,5 @@
 import { AmmPool } from 'ergo-dex-sdk';
-import { strToBigInt } from '../../utils/math';
+import { parseUserInputToFractions } from '../../utils/math';
 
 export enum DepositFormStates {
   NEED_TO_CONNECT_WALLET = 'NEED_TO_CONNECT_WALLET',
@@ -39,11 +39,11 @@ export const getState = ({
   minerFee,
   dexFee,
 }: ButtonStateDependencies): DepositFormStates => {
-  const amountX = strToBigInt(
+  const amountX = parseUserInputToFractions(
     inputAmountX,
     selectedPool?.x.asset.decimals ?? 0,
   );
-  const amountY = strToBigInt(
+  const amountY = parseUserInputToFractions(
     inputAmountY,
     selectedPool?.y.asset.decimals ?? 0,
   );

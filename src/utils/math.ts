@@ -35,12 +35,6 @@ export function parseUserInputToFractions(
   return BigInt(input);
 }
 
-export const strToBigInt = (value: string, precision = 0): bigint => {
-  if (isNaN(Number(value)) || Number(value) === 0) return 0n;
-  const result = math.evaluate!('value * 10^precision', { value, precision });
-  return BigInt(result.toFixed(0));
-};
-
 export function renderFractions(
   fractions: bigint | number,
   numDecimals?: number,
