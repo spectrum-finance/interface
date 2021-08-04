@@ -54,7 +54,9 @@ const Header: React.FC<Props> = ({ showNav = true }) => {
   // TODO: split this component to Header and Navbar components
   return (
     <header className={css.header}>
-      <Image src={logo} className={css.main} />
+      <a href={window.location.origin}>
+        <Image src={logo} className={css.main} />
+      </a>
       {showNav && (
         <>
           <SettingsButton />
