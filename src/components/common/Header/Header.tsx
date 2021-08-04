@@ -54,7 +54,7 @@ const Header: React.FC<Props> = ({ showNav = true }) => {
   // TODO: split this component to Header and Navbar components
   return (
     <header className={css.header}>
-      <a href={window.location.origin}>
+      <a href={window.location.origin} className={css.logotype}>
         <Image src={logo} className={css.main} />
       </a>
       {showNav && (

@@ -2,6 +2,7 @@
 // Please do not change this file!
 interface CssExports {
   'header': string;
+  'logotype': string;
   'main': string;
 }
 export const cssExports: CssExports;
