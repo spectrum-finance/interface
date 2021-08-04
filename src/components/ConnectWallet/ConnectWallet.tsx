@@ -29,7 +29,7 @@ export const ConnectWallet = (): ReactElement => {
       Cookies.set('wallet-connected', 'true', { expires: 1 });
       window
         .ergo_request_read_access()
-        .then((flag) => setIsWalletConnected(flag));
+        .then(setIsWalletConnected);
       return;
     }
 
