@@ -76,7 +76,7 @@ export const getButtonState = (deps: ButtonStateDependencies): ButtonState => {
   const { selectedPool } = deps;
   switch (state) {
     case DepositFormStates.NEED_TO_SELECT_POOL: {
-      return { isDisabled: true, text: 'Wallet not selected' };
+      return { isDisabled: true, text: 'Pool not selected' };
     }
     case DepositFormStates.SUBMIT: {
       return { isDisabled: false, text: 'Submit' };
