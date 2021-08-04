@@ -14,9 +14,9 @@
 
 
   <p align="center">
-   ERGODEX Front-End
+   Front-End
     <br />
-    <a href="https://github.com/ergolabs/ergo-dex-frontend/wiki"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/ergolabs/ergo-dex-frontend"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://github.com/ergolabs/ergo-dex-frontend/issues">Report Bug</a>
@@ -48,16 +48,16 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-Please see the [ErgoDex](https://github.com/ergolabs/ergo-dex) repository for a full description
+Please see the [ErgoDex](https://github.com/ergolabs/ergo-dex) repository for a full description.
 
 
 <!-- USAGE EXAMPLES -->
 ## Usage
 
 1. Clone and checkout dev 
-2. yarn
-3. yarn start
-4. Open localhost:3000 in your browser
+2. `yarn`
+3. `yarn start`
+4. Open localhost:3000 in Chrome.
 5. Install [Yoroi Nightly](https://chrome.google.com/webstore/detail/yoroi-nightly/poonlenmfdfbjfeeballhiibknlknepo?hl=en&authuser=0) and [Yoroi-dapp-connector Nightly](https://chrome.google.com/webstore/detail/yoroi-ergo-dapp-connector/chifollcalpmjdiokipacefnpmbgjnle/related?hl=en&authuser=0)
 
 <!-- ROADMAP -->
