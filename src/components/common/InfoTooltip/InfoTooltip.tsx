@@ -3,9 +3,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import { Tooltip } from '@geist-ui/react';
 
-const InfoTooltip = ({ text }: { text: ReactNode }): JSX.Element => {
+interface Props {
+  text: ReactNode;
+  children?: React.ReactNode;
+}
+const InfoTooltip = ({ text, children }: Props): JSX.Element => {
   return (
     <Tooltip text={text}>
+      {children}
       <FontAwesomeIcon icon={faQuestionCircle} />
     </Tooltip>
   );

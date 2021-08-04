@@ -16,33 +16,31 @@ import {
   Note,
 } from '@geist-ui/react';
 import { Form, Field, FieldRenderProps } from 'react-final-form';
-import { evaluate } from 'mathjs';
 import { AmmPool } from 'ergo-dex-sdk';
 import {
   AssetAmount,
   BoxSelection,
   DefaultBoxSelector,
-  ErgoBox,
   ergoTxToProxy,
 } from 'ergo-dex-sdk/build/module/ergo';
 import { fromAddress } from 'ergo-dex-sdk/build/module/ergo/entities/publicKey';
 import { WalletContext, useSettings } from '../../context';
-import { getAppState, AppState } from './utils';
-import { ERG_DECIMALS } from '../../constants/erg';
+import { getButtonState } from './buttonState';
+import { ERG_TOKEN_NAME, ERG_DECIMALS } from '../../constants/erg';
 import { useGetAllPools } from '../../hooks/useGetAllPools';
 import { PoolSelect } from '../PoolSelect/PoolSelect';
 import { toast } from 'react-toastify';
 import explorer from '../../services/explorer';
 import poolOptions from '../../services/poolOptions';
 import { useCheckPool } from '../../hooks/useCheckPool';
-import { validateInputAmount } from '../Swap/validation';
 import { calculateAvailableAmount } from '../../utils/walletMath';
-import { ergoBoxFromProxy } from 'ergo-dex-sdk/build/module/ergo/entities/ergoBox';
 import { parseUserInputToFractions, renderFractions } from '../../utils/math';
+import { DepositSummary } from './DepositSummary';
+import { toFloat } from '../../utils/string';
 
 export const Deposit = (): JSX.Element => {
   const [{ minerFee, address: chosenAddress }] = useSettings();
-  const { isWalletConnected } = useContext(WalletContext);
+  const { isWalletConnected, utxos } = useContext(WalletContext);
   const [selectedPool, setSelectedPool] = useState<AmmPool | undefined>();
   const [dexFee] = useState<number>(0.01);
   const [inputAssetAmountX, setInputAssetAmountX] = useState<
@@ -55,30 +53,26 @@ export const Deposit = (): JSX.Element => {
   const [availableInputAmountY, setAvailableInputAmountY] = useState(0n);
   const [inputAmountX, setInputAmountX] = useState('');
   const [inputAmountY, setInputAmountY] = useState('');
+  const [ergBalance, setErgBalance] = useState<string | undefined>();
   const isPoolValid = useCheckPool(selectedPool);
 
-  const [utxos, setUtxos] = useState<ErgoBox[]>([]);
   const availablePools = useGetAllPools();
 
   useEffect(() => {
-    if (isWalletConnected && inputAssetAmountX) {
+    if (isWalletConnected && inputAssetAmountX && inputAssetAmountY) {
       if (utxos) {
         setAvailableInputAmountX(
           calculateAvailableAmount(inputAssetAmountX.asset.id, utxos),
         );
-      }
-    }
-  }, [isWalletConnected, inputAssetAmountX, utxos]);
-
-  useEffect(() => {
-    if (isWalletConnected && inputAssetAmountY) {
-      if (utxos) {
         setAvailableInputAmountY(
           calculateAvailableAmount(inputAssetAmountY.asset.id, utxos),
         );
+        ergo.get_balance(ERG_TOKEN_NAME).then((balance) => {
+          setErgBalance(renderFractions(Number(balance), ERG_DECIMALS));
+        });
       }
     }
-  }, [isWalletConnected, inputAssetAmountX, utxos, inputAssetAmountY]);
+  }, [isWalletConnected, inputAssetAmountX, inputAssetAmountY, utxos]);
 
   const lpTokens = useMemo(() => {
     if (
@@ -91,18 +85,16 @@ export const Deposit = (): JSX.Element => {
       return selectedPool.rewardLP(
         new AssetAmount(
           inputAssetAmountX.asset,
-          BigInt(
-            evaluate(
-              `${inputAmountX}*10^${inputAssetAmountX.asset.decimals || 0}`,
-            ).toFixed(0),
+          parseUserInputToFractions(
+            inputAmountX,
+            inputAssetAmountX.asset.decimals,
           ),
         ),
         new AssetAmount(
           inputAssetAmountY.asset,
-          BigInt(
-            evaluate(
-              `${inputAmountY}*10^${inputAssetAmountY.asset.decimals || 0}`,
-            ).toFixed(0),
+          parseUserInputToFractions(
+            inputAmountY,
+            inputAssetAmountY.asset.decimals,
           ),
         ),
       ).amount;
@@ -144,46 +136,42 @@ export const Deposit = (): JSX.Element => {
   ]);
 
   const buttonState = useMemo(() => {
-    const appState = getAppState({
+    return getButtonState({
       isWalletConnected,
       selectedPool,
-      inputAmount: inputAmountX,
-      outputAmount: inputAmountY,
+      inputAmountX,
+      inputAmountY,
+      availableInputAmountX,
+      availableInputAmountY,
+      ergBalance,
+      minerFee,
+      dexFee,
     });
-    switch (appState) {
-      case AppState.POOL_NOT_SELECTED: {
-        return { disabled: true, text: 'Pool not selected' };
-      }
-      case AppState.SUBMIT: {
-        return { disabled: false, text: 'Submit' };
-      }
-      case AppState.WALLET_NOT_CONNECTED: {
-        return { disabled: true, text: 'Wallet not connected' };
-      }
-      case AppState.AMOUNT_NOT_SPECIFIED: {
-        return { disabled: true, text: 'Amount not specified' };
-      }
-    }
-  }, [isWalletConnected, inputAmountX, inputAmountY, selectedPool]);
+  }, [
+    isWalletConnected,
+    selectedPool,
+    inputAmountX,
+    inputAmountY,
+    availableInputAmountX,
+    availableInputAmountY,
+    ergBalance,
+    minerFee,
+    dexFee,
+  ]);
 
-  useEffect(() => {
-    if (isWalletConnected) {
-      ergo
-        .get_utxos()
-        .then((bs) => (bs ? bs.map((b) => ergoBoxFromProxy(b)) : bs))
-        .then((data) => setUtxos(data ?? []));
-    }
-  }, [isWalletConnected]);
-
-  const onEnterTokenAmount = (value: string, token: 'input' | 'output') => {
+  const handleTokenAmountChange = (
+    value: string,
+    token: 'input' | 'output',
+  ) => {
     if (!selectedPool || !inputAssetAmountX || !inputAssetAmountY) {
       return;
     }
+    const cleanValue = toFloat(value);
 
     if (token === 'input') {
-      setInputAmountX(value);
+      setInputAmountX(cleanValue);
 
-      if (Number(value) > 0) {
+      if (Number(cleanValue) > 0) {
         const amount = selectedPool.depositAmount(
           new AssetAmount(
             inputAssetAmountX.asset,
@@ -195,16 +183,16 @@ export const Deposit = (): JSX.Element => {
           renderFractions(amount?.amount, inputAssetAmountY.asset.decimals),
         );
       }
+    }
 
-      if (!value.trim()) {
-        setInputAmountY('');
-      }
+    if (!cleanValue.trim()) {
+      setInputAmountY('');
     }
 
     if (token === 'output') {
-      setInputAmountY(value);
+      setInputAmountY(cleanValue);
 
-      if (Number(value) > 0) {
+      if (Number(cleanValue) > 0) {
         const amount = selectedPool.depositAmount(
           new AssetAmount(
             inputAssetAmountY.asset,
@@ -217,7 +205,7 @@ export const Deposit = (): JSX.Element => {
         );
       }
 
-      if (!value.trim()) {
+      if (!cleanValue.trim()) {
         setInputAmountX('');
       }
     }
@@ -229,7 +217,8 @@ export const Deposit = (): JSX.Element => {
       selectedPool &&
       inputAssetAmountX &&
       inputAssetAmountY &&
-      chosenAddress
+      chosenAddress &&
+      utxos
     ) {
       const network = explorer;
       const poolId = selectedPool.id;
@@ -316,125 +305,110 @@ export const Deposit = (): JSX.Element => {
             address: '',
             dexFee,
           }}
-          render={({ handleSubmit, errors = {} }) => (
-            <form onSubmit={handleSubmit}>
-              <Grid.Container gap={1}>
-                <Grid xs={24}>
-                  <Text h5>Pool</Text>
-                </Grid>
-                <Grid xs={24}>
-                  <Field name="pool" component="select">
-                    {(props: FieldRenderProps<string>) => (
-                      <PoolSelect
-                        pools={availablePools}
-                        value={selectedPool}
-                        onChangeValue={setSelectedPool}
-                        inputProps={props.input}
-                      />
-                    )}
-                  </Field>
-                </Grid>
-                {isPoolValid.isFetching && (
+          render={({ handleSubmit, errors = {} }) => {
+            const isFormDisabled =
+              buttonState.isDisabled || Object.values(errors).length > 0;
+            return (
+              <form onSubmit={handleSubmit}>
+                <Grid.Container gap={1}>
                   <Grid xs={24}>
-                    <Spacer y={2} />
-                    <Loading>Validating selected pool...</Loading>
+                    <Text h5>Pool</Text>
                   </Grid>
-                )}
-                {!isPoolValid.isFetching && !isPoolValid.result && (
                   <Grid xs={24}>
-                    <Note type="error" label="error" filled>
-                      This pool is invalid. Please select another one.
-                    </Note>
+                    <Field name="pool" component="select">
+                      {(props: FieldRenderProps<string>) => (
+                        <PoolSelect
+                          pools={availablePools}
+                          value={selectedPool}
+                          onChangeValue={setSelectedPool}
+                          inputProps={props.input}
+                        />
+                      )}
+                    </Field>
                   </Grid>
-                )}
-
-                {!isPoolValid.isFetching && isPoolValid.result && (
-                  <>
+                  {isPoolValid.isFetching && (
                     <Grid xs={24}>
-                      <Text h5>Deposit amounts</Text>
+                      <Spacer y={2} />
+                      <Loading>Validating selected pool...</Loading>
                     </Grid>
+                  )}
+                  {!isPoolValid.isFetching && !isPoolValid.result && (
                     <Grid xs={24}>
-                      <Field
-                        name="inputAmountX"
-                        validate={(value) => {
-                          return validateInputAmount(value, isWalletConnected, {
-                            maxDecimals: inputAssetAmountX?.asset.decimals || 0,
-                            maxAvailable: availableInputAmountX,
-                          });
-                        }}
-                      >
-                        {(props: FieldRenderProps<string>) => (
-                          <>
+                      <Note type="error" label="error" filled>
+                        This pool is invalid. Please select another one.
+                      </Note>
+                    </Grid>
+                  )}
+
+                  {!isPoolValid.isFetching && isPoolValid.result && (
+                    <>
+                      <Grid xs={24}>
+                        <Text h5>Deposit amounts</Text>
+                      </Grid>
+                      <Grid xs={24}>
+                        <Field name="inputAmountX">
+                          {(props: FieldRenderProps<string>) => (
+                            <>
+                              <Input
+                                placeholder="0.0"
+                                width="100%"
+                                lang="en"
+                                label={inputAssetAmountX?.asset.name ?? ''}
+                                {...props.input}
+                                disabled={!inputAssetAmountX}
+                                value={inputAmountX}
+                                onChange={({ currentTarget }) => {
+                                  const value = currentTarget.value;
+                                  handleTokenAmountChange(value, 'input');
+                                  props.input.onChange(value);
+                                }}
+                              />
+                            </>
+                          )}
+                        </Field>
+                      </Grid>
+                      <Grid xs={24}>
+                        <Field name="inputAmountY">
+                          {(props: FieldRenderProps<string>) => (
                             <Input
                               placeholder="0.0"
-                              type="number"
+                              label={inputAssetAmountY?.asset.name ?? ''}
                               width="100%"
-                              lang="en"
-                              label={inputAssetAmountX?.asset.name ?? ''}
                               {...props.input}
-                              disabled={!inputAssetAmountX}
-                              value={inputAmountX}
+                              value={inputAmountY}
                               onChange={({ currentTarget }) => {
                                 const value = currentTarget.value;
-                                onEnterTokenAmount(value, 'input');
+                                handleTokenAmountChange(value, 'output');
                                 props.input.onChange(value);
                               }}
                             />
-                            {props.meta.error && <p>{props.meta.error}</p>}
-                          </>
-                        )}
-                      </Field>
-                    </Grid>
-                    <Grid xs={24}>
-                      <Field
-                        name="outputAmount"
-                        validate={(value) => {
-                          return validateInputAmount(value, isWalletConnected, {
-                            maxDecimals: inputAssetAmountY?.asset.decimals || 0,
-                            maxAvailable: availableInputAmountY,
-                          });
-                        }}
-                      >
-                        {(props: FieldRenderProps<string>) => (
-                          <Input
-                            placeholder="0.0"
-                            type="number"
-                            label={inputAssetAmountY?.asset.name ?? ''}
-                            width="100%"
-                            {...props.input}
-                            value={inputAmountY}
-                            onChange={({ currentTarget }) => {
-                              const value = currentTarget.value;
-                              onEnterTokenAmount(value, 'output');
-                              props.input.onChange(value);
-                            }}
-                          />
-                        )}
-                      </Field>
-                    </Grid>
-                    {selectedPool && (
-                      <Grid xs={24}>
-                        <Card>
-                          <div>lp = {Number(lpTokens)}</div>
-                        </Card>
+                          )}
+                        </Field>
                       </Grid>
-                    )}
-                    <Grid xs={24} justify="center">
-                      <Button
-                        htmlType="submit"
-                        disabled={
-                          buttonState.disabled ||
-                          Object.values(errors).length > 0
-                        }
-                      >
-                        {buttonState.text}
-                      </Button>
-                    </Grid>
-                  </>
-                )}
-              </Grid.Container>
-            </form>
-          )}
+                      {selectedPool && (
+                        <Grid xs={24}>
+                          <Card>
+                            <div>lp = {Number(lpTokens)}</div>
+                          </Card>
+                        </Grid>
+                      )}
+                      {!isFormDisabled && (
+                        <DepositSummary
+                          minerFee={minerFee}
+                          dexFee={String(dexFee)}
+                        />
+                      )}
+                      <Grid xs={24} justify="center">
+                        <Button htmlType="submit" disabled={isFormDisabled}>
+                          {buttonState.text}
+                        </Button>
+                      </Grid>
+                    </>
+                  )}
+                </Grid.Container>
+              </form>
+            );
+          }}
         />
       </Card>
     </>
