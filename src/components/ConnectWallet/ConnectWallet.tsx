@@ -27,9 +27,7 @@ export const ConnectWallet = (): ReactElement => {
   const onClick = useCallback(() => {
     if (window.ergo_request_read_access) {
       Cookies.set('wallet-connected', 'true', { expires: 1 });
-      window
-        .ergo_request_read_access()
-        .then(setIsWalletConnected);
+      window.ergo_request_read_access().then(setIsWalletConnected);
       return;
     }
 
