@@ -44,9 +44,7 @@ export const WalletContextProvider = ({
       Cookies.get('wallet-connected') === 'true' &&
       window.ergo_request_read_access
     ) {
-      window
-        .ergo_request_read_access()
-        .then((flag) => setIsWalletConnected(flag));
+      window.ergo_request_read_access().then(setIsWalletConnected);
     }
   }, [isWalletConnected]);
 
