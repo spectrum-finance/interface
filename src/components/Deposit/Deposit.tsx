@@ -37,6 +37,7 @@ import { calculateAvailableAmount } from '../../utils/walletMath';
 import { parseUserInputToFractions, renderFractions } from '../../utils/math';
 import { DepositSummary } from './DepositSummary';
 import { toFloat } from '../../utils/string';
+import { miniSufficientValue } from '../../utils/ammMath';
 
 export const Deposit = (): JSX.Element => {
   const [{ minerFee, address: chosenAddress }] = useSettings();
@@ -236,9 +237,9 @@ export const Deposit = (): JSX.Element => {
           },
           {
             inputs: DefaultBoxSelector.select(utxos, {
-              nErgs: parseUserInputToFractions(
-                `${Number(minerFee) + Number(dexFee)}`,
-                ERG_DECIMALS,
+              nErgs: miniSufficientValue(
+                parseUserInputToFractions(minerFee, ERG_DECIMALS),
+                parseUserInputToFractions(String(dexFee), ERG_DECIMALS),
               ),
               assets: [
                 {

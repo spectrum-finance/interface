@@ -57,6 +57,7 @@ import { isEmpty } from 'ramda';
 import { isZero } from '../../utils/numbers';
 import { toFloat } from '../../utils/string';
 import { SwapSummary } from './SwapSummary';
+import { miniSufficientValue } from '../../utils/ammMath';
 
 interface SwapFormProps {
   pools: AmmPool[];
@@ -315,8 +316,6 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
 
         const poolFeeNum = selectedPool.poolFeeNum;
         const minerFeeNErgs = parseUserInputToFractions(minerFee, ERG_DECIMALS);
-        const totalFees =
-          BigInt(MIN_BOX_VALUE) + minerFeeNErgs * 2n + BigInt(maxDexFee);
 
         const networkContext = await explorer.getNetworkContext();
 
@@ -331,7 +330,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
         };
 
         const inputs = DefaultBoxSelector.select(utxos, {
-          nErgs: totalFees,
+          nErgs: miniSufficientValue(minerFeeNErgs, maxDexFee),
           assets: [
             {
               tokenId: inputAssetAmount.asset.id,
