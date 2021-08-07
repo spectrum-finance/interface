@@ -127,6 +127,7 @@ const SwapSettings = ({
               )}
             </Field>
           </Grid>
+          <Spacer y={1} />
           <Grid xs={24}>
             <Text h6>
               Nitro <InfoTooltip text="Maximum DEX fee multiplier" />

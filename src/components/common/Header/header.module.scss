@@ -17,4 +17,14 @@
   .logotype {
     width: 100%;
   }
+
+  .rightside {
+    display: flex;
+  }
+
+  .rightsideItem {
+    & +.rightsideItem {
+      margin-left: 10px;
+    }
+  }
 }

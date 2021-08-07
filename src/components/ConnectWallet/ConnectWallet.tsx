@@ -11,7 +11,11 @@ import { toast } from 'react-toastify';
 import { ERG_DECIMALS, ERG_TOKEN_NAME } from '../../constants/erg';
 import { renderFractions } from '../../utils/math';
 
-export const ConnectWallet = (): ReactElement => {
+export const ConnectWallet = ({
+  className,
+}: {
+  className?: string;
+}): ReactElement => {
   const { isWalletConnected, setIsWalletConnected } = useContext(WalletContext);
   const [ergBalance, setErgBalance] = useState('');
 
@@ -37,7 +41,7 @@ export const ConnectWallet = (): ReactElement => {
   }, [setIsWalletConnected]);
 
   return (
-    <Button type="success" ghost onClick={onClick}>
+    <Button type="success" ghost onClick={onClick} className={className}>
       {isWalletConnected ? `${ergBalance} ERG` : 'Connect Yoroi Wallet'}
     </Button>
   );

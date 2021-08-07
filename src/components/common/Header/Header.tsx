@@ -10,11 +10,11 @@ import { WalletContext } from '../../../context/WalletContext';
 import { HistoryModal } from '../../HistoryModal/HistoryModal';
 import logo from '../../../assets/images/logo.svg';
 
-const SettingsButton = (): JSX.Element => {
+const SettingsButton = ({ className }: { className: string }): JSX.Element => {
   const [open, handleOpen, handleClose] = useToggle(false);
 
   return (
-    <div>
+    <div className={className}>
       <Button
         auto
         type="abort"
@@ -27,11 +27,11 @@ const SettingsButton = (): JSX.Element => {
   );
 };
 
-const HistoryButton = (): JSX.Element => {
+const HistoryButton = ({ className }: { className: string }): JSX.Element => {
   const [open, handleOpen, handleClose] = useToggle(false);
 
   return (
-    <div>
+    <div className={className}>
       <Button
         auto
         type="abort"
@@ -58,11 +58,11 @@ const Header: React.FC<Props> = ({ showNav = true }) => {
         <Image src={logo} className={css.main} />
       </a>
       {showNav && (
-        <>
-          <SettingsButton />
-          {isWalletConnected && <HistoryButton />}
-          <ConnectWallet />
-        </>
+        <div className={css.rightside}>
+          <SettingsButton className={css.rightsideItem} />
+          {isWalletConnected && <HistoryButton className={css.rightsideItem} />}
+          <ConnectWallet className={css.rightsideItem} />
+        </div>
       )}
     </header>
   );

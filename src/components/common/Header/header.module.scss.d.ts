@@ -4,6 +4,8 @@ interface CssExports {
   'header': string;
   'logotype': string;
   'main': string;
+  'rightside': string;
+  'rightsideItem': string;
 }
 export const cssExports: CssExports;
 export default cssExports;
