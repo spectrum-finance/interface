@@ -6,21 +6,31 @@ interface Props {
   minerFee: string;
   dexFee: string;
   totalFee: string;
-  lpTokensAmount: string;
+  outputAssetXName: string;
+  outputAssetYName: string;
+  outputAssetXAmount: string;
+  outputAssetYAmount: string;
 }
 
-export const DepositSummary: React.FC<Props> = ({
+export const RedeemSummary: React.FC<Props> = ({
   minerFee,
   dexFee,
   totalFee,
-  lpTokensAmount,
+  outputAssetXName,
+  outputAssetYName,
+  outputAssetXAmount,
+  outputAssetYAmount,
 }) => {
   return (
     <Table
       data={[
         {
-          prop: 'LP tokens',
-          value: lpTokensAmount,
+          prop: 'Output 1',
+          value: `${outputAssetXAmount} ${outputAssetXName}`,
+        },
+        {
+          prop: 'Output 2',
+          value: `${outputAssetYAmount} ${outputAssetYName}`,
         },
         {
           prop: 'Miner fee',

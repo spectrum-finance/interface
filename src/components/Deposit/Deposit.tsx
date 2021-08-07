@@ -38,6 +38,7 @@ import { parseUserInputToFractions, renderFractions } from '../../utils/math';
 import { DepositSummary } from './DepositSummary';
 import { toFloat } from '../../utils/string';
 import { miniSufficientValue } from '../../utils/ammMath';
+import { calculateTotalFee } from '../../utils/transactions';
 
 export const Deposit = (): JSX.Element => {
   const [{ minerFee, address: chosenAddress }] = useSettings();
@@ -58,6 +59,10 @@ export const Deposit = (): JSX.Element => {
   const isPoolValid = useCheckPool(selectedPool);
 
   const availablePools = useGetAllPools();
+
+  const totalFee = calculateTotalFee(minerFee, String(dexFee), {
+    precision: ERG_DECIMALS,
+  });
 
   useEffect(() => {
     if (isWalletConnected && inputAssetAmountX && inputAssetAmountY) {
@@ -386,18 +391,20 @@ export const Deposit = (): JSX.Element => {
                           )}
                         </Field>
                       </Grid>
-                      {selectedPool && (
-                        <Grid xs={24}>
-                          <Card>
-                            <div>lp = {Number(lpTokens)}</div>
-                          </Card>
-                        </Grid>
-                      )}
                       {!isFormDisabled && (
-                        <DepositSummary
-                          minerFee={minerFee}
-                          dexFee={String(dexFee)}
-                        />
+                        <Grid
+                          xs={24}
+                          alignItems="flex-start"
+                          direction="column"
+                        >
+                          <Text h5>Deposit summary</Text>
+                          <DepositSummary
+                            lpTokensAmount={String(lpTokens)}
+                            minerFee={minerFee}
+                            dexFee={String(dexFee)}
+                            totalFee={totalFee}
+                          />
+                        </Grid>
                       )}
                       <Grid xs={24} justify="center">
                         <Button htmlType="submit" disabled={isFormDisabled}>

@@ -29,6 +29,8 @@ import { ergoBoxFromProxy } from 'ergo-dex-sdk/build/module/ergo/entities/ergoBo
 import { parseUserInputToFractions } from '../../utils/math';
 import poolOptions from '../../services/poolOptions';
 import { miniSufficientValue } from '../../utils/ammMath';
+import { calculateTotalFee } from '../../utils/transactions';
+import { RedeemSummary } from '../Redeem/RedeemSummary';
 
 export const Redeem = (): JSX.Element => {
   const [{ minerFee, address: chosenAddress }] = useSettings();
@@ -39,6 +41,10 @@ export const Redeem = (): JSX.Element => {
 
   const [chosenPool, setChosenPool] = useState<AmmPool | undefined>(undefined);
 
+  const totalFee = calculateTotalFee(minerFee, String(dexFee), {
+    precision: ERG_DECIMALS,
+  });
+
   const [utxos, setUtxos] = useState<ErgoBox[]>([]);
   const availablePools = useGetAvailablePoolsByLPTokens(utxos);
   const assetsAmountByLPAmount = useMemo(() => {
@@ -47,11 +53,11 @@ export const Redeem = (): JSX.Element => {
     }
 
     return chosenPool.shares(
-      new AssetAmount(chosenPool.lp.asset, BigInt(amount)),
+      new AssetAmount(chosenPool.lp.asset, parseUserInputToFractions(amount)),
     );
   }, [chosenPool, amount]);
 
-  const buttonStatus = useMemo(() => {
+  const buttonState = useMemo(() => {
     const buttonState = getButtonState({
       isWalletConnected,
       chosenPool,
@@ -59,16 +65,16 @@ export const Redeem = (): JSX.Element => {
     });
     switch (buttonState) {
       case WalletStates.NEED_TO_SELECT_POOL: {
-        return { disabled: true, text: 'Pool not selected' };
+        return { isDisabled: true, text: 'Pool not selected' };
       }
       case WalletStates.SUBMIT: {
-        return { disabled: false, text: 'Submit' };
+        return { isDisabled: false, text: 'Submit' };
       }
       case WalletStates.NEED_TO_CONNECT_WALLET: {
-        return { disabled: true, text: 'Wallet not connected' };
+        return { isDisabled: true, text: 'Wallet not connected' };
       }
       case WalletStates.NEED_TO_ENTER_AMOUNT: {
-        return { disabled: true, text: 'LP amount not specified' };
+        return { isDisabled: true, text: 'LP amount not specified' };
       }
     }
   }, [isWalletConnected, amount, chosenPool]);
@@ -148,6 +154,29 @@ export const Redeem = (): JSX.Element => {
     );
   }
 
+  const outputAssetXName =
+    chosenPool?.assetX.name || chosenPool?.assetX.id.slice(0, 4);
+  const outputAssetYName =
+    chosenPool?.assetY.name || chosenPool?.assetY.id.slice(0, 4);
+  const outputAssetXAmount =
+    assetsAmountByLPAmount.length > 0 &&
+    (assetsAmountByLPAmount[0]?.asset.id === chosenPool?.assetX.id
+      ? evaluate(
+          `${assetsAmountByLPAmount[0]?.amount}/10^${assetsAmountByLPAmount[0]?.asset.decimals}`,
+        )
+      : evaluate(
+          `${assetsAmountByLPAmount[1]?.amount}/10^${assetsAmountByLPAmount[1]?.asset.decimals}`,
+        ));
+  const outputAssetYAmount =
+    assetsAmountByLPAmount.length > 0 &&
+    (assetsAmountByLPAmount[0]?.asset.id === chosenPool?.assetY.id
+      ? evaluate(
+          `${assetsAmountByLPAmount[0]?.amount}/10^${assetsAmountByLPAmount[0]?.asset.decimals}`,
+        )
+      : evaluate(
+          `${assetsAmountByLPAmount[1]?.amount}/10^${assetsAmountByLPAmount[1]?.asset.decimals}`,
+        ));
+
   return (
     <>
       <Card>
@@ -157,109 +186,94 @@ export const Redeem = (): JSX.Element => {
             amount: '0',
             address: '',
           }}
-          render={({ handleSubmit, errors = {} }) => (
-            <form onSubmit={handleSubmit}>
-              <Grid.Container gap={1}>
-                <Grid xs={24}>
-                  <Text h5>Pool</Text>
-                </Grid>
-                <Grid xs={24}>
-                  <Field name="pool" component="select">
-                    {(props: FieldRenderProps<string>) => (
-                      <Select
-                        placeholder="Choose the pool"
-                        width="100%"
-                        {...props.input}
-                        onChange={(value) => {
-                          setChosenPool(availablePools[Number(value)]);
-                          props.input.onChange(value);
-                        }}
-                      >
-                        {availablePools.map((pool: AmmPool, index) => (
-                          <Select.Option key={pool.id} value={String(index)}>
-                            {pool.assetX.name || pool.assetX.id.slice(0, 4)}/
-                            {pool.assetY.name || pool.assetY.id.slice(0, 4)}
-                          </Select.Option>
-                        ))}
-                      </Select>
-                    )}
-                  </Field>
-                </Grid>
-                <Grid xs={24}>
-                  <Text h4>Amount</Text>
-                </Grid>
-                <Grid xs={24}>
-                  <Field name="amount">
-                    {(props: FieldRenderProps<string>) => (
-                      <Input
-                        placeholder="0.0"
-                        type="number"
-                        width="100%"
-                        {...props.input}
-                        disabled={!chosenPool}
-                        value={amount}
-                        onKeyPress={(event) => {
-                          return event.charCode >= 48 && event.charCode <= 57;
-                        }}
-                        onChange={({ currentTarget }) => {
-                          setAmount(
-                            Math.abs(Number(currentTarget.value)).toString(),
-                          );
-                          props.input.onChange(
-                            Math.abs(Number(currentTarget.value)),
-                          );
-                        }}
-                      />
-                    )}
-                  </Field>
-                </Grid>
-                {chosenPool && (
+          render={({ handleSubmit, errors = {} }) => {
+            const isFormDisabled =
+              buttonState.isDisabled || Object.values(errors).length > 0;
+            return (
+              <form onSubmit={handleSubmit}>
+                <Grid.Container gap={1}>
                   <Grid xs={24}>
-                    <Card>
-                      <div>
-                        {chosenPool?.assetX.name ||
-                          chosenPool?.assetX.id.slice(0, 4)}{' '}
-                        ={' '}
-                        {assetsAmountByLPAmount.length > 0 &&
-                          (assetsAmountByLPAmount[0]?.asset.id ===
-                          chosenPool?.assetX.id
-                            ? evaluate(
-                                `${assetsAmountByLPAmount[0]?.amount}/10^${assetsAmountByLPAmount[0]?.asset.decimals}`,
-                              )
-                            : evaluate(
-                                `${assetsAmountByLPAmount[1]?.amount}/10^${assetsAmountByLPAmount[1]?.asset.decimals}`,
-                              ))}
-                      </div>
-                      <div>
-                        {chosenPool?.assetY.name ||
-                          chosenPool?.assetY.id.slice(0, 4)}{' '}
-                        ={' '}
-                        {assetsAmountByLPAmount.length > 0 &&
-                          (assetsAmountByLPAmount[0]?.asset.id ===
-                          chosenPool?.assetY.id
-                            ? evaluate(
-                                `${assetsAmountByLPAmount[0]?.amount}/10^${assetsAmountByLPAmount[0]?.asset.decimals}`,
-                              )
-                            : evaluate(
-                                `${assetsAmountByLPAmount[1]?.amount}/10^${assetsAmountByLPAmount[1]?.asset.decimals}`,
-                              ))}
-                      </div>
-                    </Card>
+                    <Text h5>Pool</Text>
                   </Grid>
-                )}
-                <Grid xs={24} justify="center">
-                  <Button
-                    htmlType="submit"
-                    disabled={
-                      buttonStatus.disabled || Object.values(errors).length > 0
-                    }
-                  >
-                    {buttonStatus.text}
-                  </Button>
-                </Grid>
-              </Grid.Container>
-            </form>
-          )}
+                  <Grid xs={24}>
+                    <Field name="pool" component="select">
+                      {(props: FieldRenderProps<string>) => (
+                        <Select
+                          placeholder="Choose the pool"
+                          width="100%"
+                          {...props.input}
+                          onChange={(value) => {
+                            setChosenPool(availablePools[Number(value)]);
+                            props.input.onChange(value);
+                          }}
+                        >
+                          {availablePools.map((pool: AmmPool, index) => (
+                            <Select.Option key={pool.id} value={String(index)}>
+                              {pool.assetX.name || pool.assetX.id.slice(0, 4)}/
+                              {pool.assetY.name || pool.assetY.id.slice(0, 4)}
+                            </Select.Option>
+                          ))}
+                        </Select>
+                      )}
+                    </Field>
+                  </Grid>
+                  <Grid xs={24}>
+                    <Text h5>Amount</Text>
+                  </Grid>
+                  <Grid xs={24}>
+                    <Field name="amount">
+                      {(props: FieldRenderProps<string>) => (
+                        <Input
+                          placeholder="0.0"
+                          width="100%"
+                          {...props.input}
+                          disabled={!chosenPool}
+                          value={amount}
+                          onKeyPress={(event) => {
+                            // TODO: replace magic numbers with named constants
+                            return event.charCode >= 48 && event.charCode <= 57;
+                          }}
+                          onChange={({ currentTarget }) => {
+                            setAmount(
+                              Math.abs(Number(currentTarget.value)).toString(),
+                            );
+                            props.input.onChange(
+                              Math.abs(Number(currentTarget.value)),
+                            );
+                          }}
+                        />
+                      )}
+                    </Field>
+                  </Grid>
+                  {!isFormDisabled && (
+                    <Grid xs={24} alignItems="flex-start" direction="column">
+                      <Text h5>Redeem summary</Text>
+                      <RedeemSummary
+                        outputAssetXName={outputAssetXName ?? ''}
+                        outputAssetYName={outputAssetYName ?? ''}
+                        outputAssetXAmount={outputAssetXAmount}
+                        outputAssetYAmount={outputAssetYAmount}
+                        minerFee={minerFee}
+                        dexFee={String(dexFee)}
+                        totalFee={totalFee}
+                      />
+                    </Grid>
+                  )}
+                  <Grid xs={24} justify="center">
+                    <Button
+                      htmlType="submit"
+                      disabled={
+                        buttonState.isDisabled ||
+                        Object.values(errors).length > 0
+                      }
+                    >
+                      {buttonState.text}
+                    </Button>
+                  </Grid>
+                </Grid.Container>
+              </form>
+            );
+          }}
         />
       </Card>
     </>
