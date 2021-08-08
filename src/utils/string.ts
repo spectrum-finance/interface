@@ -20,3 +20,6 @@ export const toFloat = (value: string, maxDecimals?: number): string => {
 };
 
 export const toInt = (value: string): string => value.replace(/[^0-9]/g, '');
+
+export const capitalize = (str: string): string =>
+  str.charAt(0).toUpperCase() + str.slice(1);

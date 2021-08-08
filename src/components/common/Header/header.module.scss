@@ -26,4 +26,10 @@
   .logotype {
     width: 100%;
   }
+
+  .rightsideItem {
+    & +.rightsideItem {
+      margin-left: 10px;
+    }
+  }
 }

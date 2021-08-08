@@ -68,6 +68,7 @@ export const App: React.FC = () => {
         </AppLoadingProvider>
       </Router>
       <ToastContainer
+        style={{ marginTop: '50px' }}
         position="top-right"
         autoClose={5000}
         hideProgressBar={false}
