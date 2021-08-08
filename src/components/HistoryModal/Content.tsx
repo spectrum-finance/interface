@@ -17,8 +17,9 @@ import { isRefundableOperation } from '../../utils/ammOperations';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExternalLinkAlt, faUndo } from '@fortawesome/free-solid-svg-icons';
 import { useToggle } from '../../hooks/useToggle';
-import { ConfirmRefundModal } from '../ConfirmRefundModal/ConfirmRefundModal';
+import { RefundConfirmationModal } from '../RefundConfirmationModal/RefundConfirmationModal';
 import { truncate } from '../../utils/string';
+import { capitalize } from 'lodash';
 
 function renderOrder(
   { status, txId, order }: AmmOrder,
@@ -58,12 +59,16 @@ function renderOrder(
                 />
               </Tooltip>
             </Col>
-            <ConfirmRefundModal txId={txId} open={open} onClose={handleClose} />
+            <RefundConfirmationModal
+              txId={txId}
+              open={open}
+              onClose={handleClose}
+            />
           </>
         )}
       </Container>
     ),
-    operationName: order.type.charAt(0).toUpperCase() + order.type.slice(1),
+    operationName: capitalize(order.type),
     type: 'Order',
   };
 }

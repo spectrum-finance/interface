@@ -12,17 +12,17 @@ import { TxId } from 'ergo-dex-sdk/build/main/ergo';
 import { Address, ergoTxToProxy } from 'ergo-dex-sdk/build/module/ergo';
 import { toast } from 'react-toastify';
 
-type ConfirmRefundModalProps = {
+type RefundConfirmationModalProps = {
   open: boolean;
   onClose: () => void;
   txId: TxId;
 };
 
-export const ConfirmRefundModal = ({
+export const RefundConfirmationModal = ({
   txId,
   open,
   onClose,
-}: ConfirmRefundModalProps): JSX.Element => {
+}: RefundConfirmationModalProps): JSX.Element => {
   const walletAddresses = useWalletAddresses();
   const [{ minerFee }] = useSettings();
   const { utxos } = useContext(WalletContext);
