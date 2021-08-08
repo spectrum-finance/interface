@@ -115,7 +115,7 @@ export const Content = React.memo(
         return renderRefund(op);
       }
     });
-    console.log(operations);
+
     return (
       <Table data={formattedOperations}>
         <Table.Column prop="operationName" label="Operation Name" />
