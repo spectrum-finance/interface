@@ -10,6 +10,7 @@ import { WalletContext } from '../../context';
 import { toast } from 'react-toastify';
 import { ERG_DECIMALS, ERG_TOKEN_NAME } from '../../constants/erg';
 import { renderFractions } from '../../utils/math';
+import Cookies from 'js-cookie';
 
 export const ConnectWallet = (): ReactElement => {
   const { isWalletConnected, setIsWalletConnected } = useContext(WalletContext);
@@ -27,7 +28,8 @@ export const ConnectWallet = (): ReactElement => {
     if (window.ergo_request_read_access) {
       window
         .ergo_request_read_access()
-        .then((data) => setIsWalletConnected(data));
+        .then(setIsWalletConnected)
+        .then(() => Cookies.set('wallet-connected', 'true', { expires: 1 }));
       return;
     }
 
