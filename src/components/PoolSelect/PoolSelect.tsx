@@ -2,6 +2,8 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { comparator } from 'ramda';
 import RCSelect from 'rc-select';
 import { Card, Grid, Input, Text } from '@geist-ui/react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { AmmPool } from 'ergo-dex-sdk';
 import levenshtein from 'fast-levenshtein';
 
@@ -89,6 +91,12 @@ export const PoolSelect: React.FC<Props> = ({
           onChange={(e) => {
             setSearchText(e.target.value);
           }}
+          iconRight={
+            <FontAwesomeIcon
+              icon={isDropdownOpen ? faChevronUp : faChevronDown}
+              size="xs"
+            />
+          }
         />
       )}
       open={isDropdownOpen}
@@ -113,7 +121,7 @@ export const PoolSelect: React.FC<Props> = ({
               >
                 <Grid.Container className="PoolSelect__item">
                   <Grid xs={16}>
-                    <Text span b>
+                    <Text span>
                       {x.asset.name}, {y.asset.name}
                     </Text>
                   </Grid>
