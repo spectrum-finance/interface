@@ -6,9 +6,10 @@ import { ConnectWallet } from '../../ConnectWallet/ConnectWallet';
 import css from './header.module.scss';
 import { SettingsModal } from '../../Settings/SettingsModal';
 import { useToggle } from '../../../hooks/useToggle';
-import { WalletContext } from '../../../context/WalletContext';
+import { WalletContext } from '../../../context';
 import { HistoryModal } from '../../HistoryModal/HistoryModal';
 import logo from '../../../assets/images/logo.svg';
+import { FeedbackLink } from '../../FeedbackLink/FeedbackLink';
 
 const SettingsButton = (): JSX.Element => {
   const [open, handleOpen, handleClose] = useToggle(false);
@@ -54,16 +55,21 @@ const Header: React.FC<Props> = ({ showNav = true }) => {
   // TODO: split this component to Header and Navbar components
   return (
     <header className={css.header}>
-      <a href={window.location.origin} className={css.logotype}>
-        <Image src={logo} className={css.main} />
-      </a>
-      {showNav && (
-        <>
-          <SettingsButton />
-          {isWalletConnected && <HistoryButton />}
-          <ConnectWallet />
-        </>
-      )}
+      <div>
+        <a href={window.location.origin} className={css.logotype}>
+          <Image src={logo} className={css.main} />
+        </a>
+      </div>
+      <div className={css.tools}>
+        {showNav && (
+          <>
+            <SettingsButton />
+            {isWalletConnected && <HistoryButton />}
+            <FeedbackLink className={css.feedback} />
+            <ConnectWallet />
+          </>
+        )}
+      </div>
     </header>
   );
 };
