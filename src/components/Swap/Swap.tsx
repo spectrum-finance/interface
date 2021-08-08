@@ -31,12 +31,7 @@ import { fromAddress } from 'ergo-dex-sdk/build/module/ergo/entities/publicKey';
 import { DefaultSettings, WalletContext } from '../../context';
 import { useGetAllPools } from '../../hooks/useGetAllPools';
 import { PoolSelect } from '../PoolSelect/PoolSelect';
-import {
-  ERG_DECIMALS,
-  MIN_NITRO,
-  MIN_BOX_VALUE,
-  MIN_DEX_FEE,
-} from '../../constants/erg';
+import { ERG_DECIMALS, MIN_NITRO, MIN_DEX_FEE } from '../../constants/erg';
 import { getButtonState } from './buttonState';
 import { useSettings } from '../../context';
 import { toast } from 'react-toastify';
@@ -505,15 +500,13 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                 </Grid>
 
                 {currentSwapVars?.[1] && (
-                  <>
-                    <Grid xs={24}>
-                      <Text h4>Swap summary</Text>
-                    </Grid>
+                  <Grid xs={24} direction="column" alignItems="flex-start">
+                    <Text h5>Swap summary</Text>
                     <SwapSummary
                       minerFee={minerFee}
                       swapExremums={currentSwapVars[1]}
                     />
-                  </>
+                  </Grid>
                 )}
                 <Grid xs={24} direction="column">
                   {errors[FORM_ERROR] && (
