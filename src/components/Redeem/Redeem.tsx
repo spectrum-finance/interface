@@ -28,6 +28,7 @@ import explorer from '../../services/explorer';
 import { ergoBoxFromProxy } from 'ergo-dex-sdk/build/module/ergo/entities/ergoBox';
 import { parseUserInputToFractions } from '../../utils/math';
 import poolOptions from '../../services/poolOptions';
+import { miniSufficientValue } from '../../utils/ammMath';
 
 export const Redeem = (): JSX.Element => {
   const [{ minerFee, address: chosenAddress }] = useSettings();
@@ -98,7 +99,10 @@ export const Redeem = (): JSX.Element => {
           },
           {
             inputs: DefaultBoxSelector.select(utxos, {
-              nErgs: parseUserInputToFractions(minerFee + dexFee, ERG_DECIMALS),
+              nErgs: miniSufficientValue(
+                parseUserInputToFractions(minerFee, ERG_DECIMALS),
+                parseUserInputToFractions(String(dexFee), ERG_DECIMALS),
+              ),
               assets: [
                 {
                   tokenId: chosenPool.lp.asset.id,
