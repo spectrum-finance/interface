@@ -10,6 +10,7 @@ import {
 } from '@geist-ui/react';
 import { Form, Field, FieldRenderProps } from 'react-final-form';
 import { evaluate } from 'mathjs';
+import { reverse } from 'ramda';
 import { AmmPool } from 'ergo-dex-sdk';
 import {
   AssetAmount,
@@ -26,7 +27,7 @@ import { ERG_DECIMALS } from '../../constants/erg';
 import { toast } from 'react-toastify';
 import explorer from '../../services/explorer';
 import { ergoBoxFromProxy } from 'ergo-dex-sdk/build/module/ergo/entities/ergoBox';
-import { parseUserInputToFractions } from '../../utils/math';
+import { parseUserInputToFractions, renderFractions } from '../../utils/math';
 import poolOptions from '../../services/poolOptions';
 import { miniSufficientValue } from '../../utils/ammMath';
 import { calculateTotalFee } from '../../utils/transactions';
@@ -158,24 +159,11 @@ export const Redeem = (): JSX.Element => {
     chosenPool?.assetX.name || chosenPool?.assetX.id.slice(0, 4);
   const outputAssetYName =
     chosenPool?.assetY.name || chosenPool?.assetY.id.slice(0, 4);
-  const outputAssetXAmount =
-    assetsAmountByLPAmount.length > 0 &&
-    (assetsAmountByLPAmount[0]?.asset.id === chosenPool?.assetX.id
-      ? evaluate(
-          `${assetsAmountByLPAmount[0]?.amount}/10^${assetsAmountByLPAmount[0]?.asset.decimals}`,
-        )
-      : evaluate(
-          `${assetsAmountByLPAmount[1]?.amount}/10^${assetsAmountByLPAmount[1]?.asset.decimals}`,
-        ));
-  const outputAssetYAmount =
-    assetsAmountByLPAmount.length > 0 &&
-    (assetsAmountByLPAmount[0]?.asset.id === chosenPool?.assetY.id
-      ? evaluate(
-          `${assetsAmountByLPAmount[0]?.amount}/10^${assetsAmountByLPAmount[0]?.asset.decimals}`,
-        )
-      : evaluate(
-          `${assetsAmountByLPAmount[1]?.amount}/10^${assetsAmountByLPAmount[1]?.asset.decimals}`,
-        ));
+
+  const [outputAssetXAmount, outputAssetYAmount] =
+    assetsAmountByLPAmount[0]?.asset.id === chosenPool?.assetX.id
+      ? assetsAmountByLPAmount
+      : reverse(assetsAmountByLPAmount);
 
   return (
     <>
@@ -251,8 +239,14 @@ export const Redeem = (): JSX.Element => {
                       <RedeemSummary
                         outputAssetXName={outputAssetXName ?? ''}
                         outputAssetYName={outputAssetYName ?? ''}
-                        outputAssetXAmount={outputAssetXAmount}
-                        outputAssetYAmount={outputAssetYAmount}
+                        outputAssetXAmount={renderFractions(
+                          outputAssetXAmount.amount,
+                          outputAssetXAmount.asset.decimals,
+                        )}
+                        outputAssetYAmount={renderFractions(
+                          outputAssetYAmount.amount,
+                          outputAssetYAmount.asset.decimals,
+                        )}
                         minerFee={minerFee}
                         dexFee={String(dexFee)}
                         totalFee={totalFee}
