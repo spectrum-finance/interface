@@ -4865,10 +4865,10 @@ entities@^2.0.0:
   resolved "https://registry.npmjs.org/entities/-/entities-2.2.0.tgz"
   integrity sha512-p92if5Nz619I0w+akJrLZH0MX0Pb5DX39XOwQTtXSdQQOaYH03S1uIQp4mhOZtAXrxq4ViO67YTiLBo2638o9A==
 
-ergo-dex-sdk@^0.2.7:
-  version "0.2.7"
-  resolved "https://registry.yarnpkg.com/ergo-dex-sdk/-/ergo-dex-sdk-0.2.7.tgz#273443e0ffc2fa38f5e6e0c67c958b33b5751598"
-  integrity sha512-GAZdX1S9/DIcCbGPwyNJpMONPhKmJUkRPg+ZdwpKCeqHs14WYXMFkkzAbeYW+rUokcx4EqtTO2drzyDd2PbdkA==
+ergo-dex-sdk@^0.2.8:
+  version "0.2.8"
+  resolved "https://registry.yarnpkg.com/ergo-dex-sdk/-/ergo-dex-sdk-0.2.8.tgz#9e82ecac3f6c3c60ead4004d2c2316ab6ea144f2"
+  integrity sha512-eTIn7JB4JJMV7HVqPPNZ8gTwnGu1OgvDuhtNyb1VhntQnFjdB7rW1iKrmgVFhMgniU+uyBuMzGYCjseXQzBb/Q==
   dependencies:
     axios "^0.21.1"
     blakejs "^1.1.0"
@@ -4877,6 +4877,7 @@ ergo-dex-sdk@^0.2.7:
     ergo-lib-wasm-browser "0.14.0-alpha-01cd628"
     ergo-lib-wasm-nodejs "0.14.0-alpha-01cd628"
     json-bigint "^1.0.0"
+    mathjs "^9.4.4"
 
 ergo-lib-wasm-browser@0.14.0-alpha-01cd628:
   version "0.14.0-alpha-01cd628"
