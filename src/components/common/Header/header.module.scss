@@ -4,9 +4,18 @@
   justify-content: space-between;
   padding: 15px;
 
+  .feedback {
+    margin-right: 10px;
+  }
+
+  .tools {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
   .main {
     display: block;
-    flex-grow: 1;
 
     img {
       width: 250px;

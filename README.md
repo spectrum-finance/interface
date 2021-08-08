@@ -48,7 +48,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-Please see the [ErgoDex](https://github.com/ergolabs/ergo-dex) repository for a full description.
+Please see the [ErgoDEX](https://github.com/ergolabs/ergo-dex) repository for a full description.
 
 
 <!-- USAGE EXAMPLES -->
