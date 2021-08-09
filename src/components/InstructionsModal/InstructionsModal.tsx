@@ -16,7 +16,7 @@ const Instructions = () => {
         Beta UI
       </Text>
       <Text p type="error">
-        ⛔️ Do not use Safari or Mozilla FireFox, because there are no wallet
+        ⛔️ Do not use Safari or Mozilla Firefox, because there are no wallet
         extensions yet
       </Text>
       <Text p>
