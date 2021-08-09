@@ -7,16 +7,16 @@ import Header from '../../components/common/Header/Header';
 export const KnowYourAssumptions: React.FC = () => {
   const [accepted, setAccepted] = useState(false);
   const [, setAppLoadingState] = useAppLoadingState();
-  const { state: locaitonState } = useLocation();
+  const { state: locationState } = useLocation();
   const history = useHistory();
 
   const handleConfirm = useCallback(() => {
     setAppLoadingState({ isKYAAccepted: true });
-    const { from }: any = locaitonState ?? {
+    const { from }: any = locationState ?? {
       from: { pathname: '/' },
     };
     history.replace(from);
-  }, [setAppLoadingState, locaitonState, history]);
+  }, [setAppLoadingState, locationState, history]);
 
   return (
     <>

@@ -117,17 +117,17 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
   );
 
   useEffect(() => {
+    if (isZero(minDexFee) || isZero(nitro)) {
+      resetSwapForm();
+      return;
+    }
+
     if (selectedPool && inputAssetAmount && inputAmount) {
       const { minOutput } = getBaseInputParameters(selectedPool, {
         inputAmount,
         inputAsset: inputAssetAmount.asset,
         slippage: Number(slippage),
       });
-
-      if (isZero(minDexFee) || isZero(nitro)) {
-        resetSwapForm();
-        return;
-      }
 
       const vars = swapVars(BigInt(minDexFee), Number(nitro), minOutput);
       if (!isNil(vars)) {

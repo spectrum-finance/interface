@@ -38,6 +38,7 @@ export const SlippageInput = (props: SlippageInputProps): JSX.Element => {
           setState('');
           setSlippage('');
           setError(`Slippage field could not be empty`);
+          setIsAuto(true);
           return;
         }
 
