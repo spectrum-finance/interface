@@ -10,6 +10,7 @@ import { WalletContext } from '../../../context';
 import { HistoryModal } from '../../HistoryModal/HistoryModal';
 import logo from '../../../assets/images/logo.svg';
 import { FeedbackLink } from '../../FeedbackLink/FeedbackLink';
+import { InstructionsModal } from '../../InstructionsModal/InstructionsModal';
 
 const SettingsButton = ({ className }: { className: string }): JSX.Element => {
   const [open, handleOpen, handleClose] = useToggle(false);
@@ -63,11 +64,12 @@ const Header: React.FC<Props> = ({ showNav = true }) => {
       <div className={css.tools}>
         {showNav && (
           <>
+            <FeedbackLink className={css.feedback} />
+            <InstructionsModal className={css.rightsideItem} />
             <SettingsButton className={css.rightsideItem} />
             {isWalletConnected && (
               <HistoryButton className={css.rightsideItem} />
             )}
-            <FeedbackLink className={css.feedback} />
             <ConnectWallet className={css.rightsideItem} />
           </>
         )}
