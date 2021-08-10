@@ -398,9 +398,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                   <PoolSelect
                     pools={pools}
                     value={selectedPool}
-                    onChangeValue={(value) => {
-                      updateSelectedPool(value);
-                    }}
+                    onChangeValue={updateSelectedPool}
                     inputProps={props.input}
                   />
                 )}
