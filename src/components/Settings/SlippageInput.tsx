@@ -20,10 +20,23 @@ type SlippageInputProps = {
   setSlippage: (num: string) => void;
 };
 
+const getStatus = ({ error, warning }: { error: string; warning: string }) => {
+  if (error) {
+    return 'error';
+  }
+
+  if (warning) {
+    return 'warning';
+  }
+
+  return undefined;
+};
+
 export const SlippageInput = (props: SlippageInputProps): JSX.Element => {
   const { slippage, setSlippage } = props;
 
   const [error, setError] = useState('');
+  const [warning, setWarning] = useState('');
   const [isAuto, setIsAuto] = useState(slippage === DefaultSettings.slippage);
 
   const { state, setState, bindings } = useInput(slippage);
@@ -37,7 +50,6 @@ export const SlippageInput = (props: SlippageInputProps): JSX.Element => {
         if (!value) {
           setState('');
           setSlippage('');
-          setError(`Slippage field could not be empty`);
           setIsAuto(true);
           return;
         }
@@ -46,10 +58,13 @@ export const SlippageInput = (props: SlippageInputProps): JSX.Element => {
 
         if (numValue > 100) {
           setError(`Enter a valid slippage percentage`);
+          setWarning('');
         } else if (numValue > 1) {
-          setError(`Your transaction may be frontrun`);
+          setWarning(`Your transaction may be frontrun`);
+          setError('');
         } else {
           setError('');
+          setWarning('');
         }
 
         setState(value);
@@ -63,6 +78,7 @@ export const SlippageInput = (props: SlippageInputProps): JSX.Element => {
     setSlippage(DefaultSettings.slippage);
     setState('');
     setError('');
+    setWarning('');
     setIsAuto(true);
   }, [setSlippage, setState]);
 
@@ -77,6 +93,12 @@ export const SlippageInput = (props: SlippageInputProps): JSX.Element => {
           setSlippage(String(parseFloat(decimal)));
           setState(decimal);
         }
+      }
+      if (error) {
+        setIsAuto(true);
+        setState('');
+        setSlippage('');
+        setError('');
       }
     }
   }, [state, error, handleReset, setSlippage, setState]);
@@ -95,7 +117,7 @@ export const SlippageInput = (props: SlippageInputProps): JSX.Element => {
           {...bindings}
           onClearClick={handleReset}
           onBlur={handleOnBlur}
-          status={error ? 'error' : undefined}
+          status={getStatus({ error, warning })}
           clearable
           labelRight="%"
           min={SlippageMin}
@@ -104,7 +126,9 @@ export const SlippageInput = (props: SlippageInputProps): JSX.Element => {
           onChange={handleChange}
         />
       </AutoInputContainer>
-      <FormError>{error}</FormError>
+      <FormError type={getStatus({ error, warning })}>
+        {error || warning}
+      </FormError>
     </>
   );
 };
