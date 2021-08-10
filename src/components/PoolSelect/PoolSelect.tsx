@@ -39,14 +39,16 @@ export const PoolSelect: React.FC<Props> = ({
   onChangeValue,
   inputProps = {},
 }) => {
+  const [isInitialized, setIsInitialized] = useState<boolean>(false);
   const [searchText, setSearchText] = useState<string>('');
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
 
   useEffect(() => {
-    if (value !== undefined && searchText === '') {
+    if (value !== undefined && searchText === '' && !isInitialized) {
       setSearchText(getPoolAssetsRepr(value));
+      setIsInitialized(true);
     }
-  }, [value, searchText]);
+  }, [value, searchText, isInitialized]);
 
   const poolsFilterSort = useCallback(
     (poolA, poolB) => {
@@ -92,6 +94,11 @@ export const PoolSelect: React.FC<Props> = ({
           value={searchText}
           onChange={(e) => {
             setSearchText(e.target.value);
+          }}
+          onBlur={() => {
+            if (value !== undefined && searchText === '') {
+              setSearchText(getPoolAssetsRepr(value));
+            }
           }}
           iconRight={
             <FontAwesomeIcon
