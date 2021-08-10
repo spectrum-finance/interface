@@ -14,8 +14,10 @@ import { evaluate } from 'mathjs';
 
 const getPoolAssetsRepr = (pool: AmmPool | undefined) => {
   if (!pool) return '';
-  const { x, y } = pool;
-  return `${x.asset.name}, ${y.asset.name}`;
+  const { x, y, poolFeeNum } = pool;
+  return `Pool: ${x.asset.name} | ${y.asset.name}, Fee ${evaluate(
+    `(1 - ${poolFeeNum} / 1000) * 100`,
+  ).toFixed(2)}%`;
 };
 
 const renderDropdown = (menu: React.ReactNode) => (
