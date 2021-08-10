@@ -26,7 +26,7 @@ import {
 import { fromAddress } from 'ergo-dex-sdk/build/module/ergo/entities/publicKey';
 import { WalletContext, useSettings } from '../../context';
 import { getButtonState } from './buttonState';
-import { ERG_TOKEN_NAME, ERG_DECIMALS } from '../../constants/erg';
+import { ERG_DECIMALS } from '../../constants/erg';
 import { useGetAllPools } from '../../hooks/useGetAllPools';
 import { PoolSelect } from '../PoolSelect/PoolSelect';
 import { toast } from 'react-toastify';
@@ -42,7 +42,7 @@ import { calculateTotalFee } from '../../utils/transactions';
 
 export const Deposit = (): JSX.Element => {
   const [{ minerFee, address: chosenAddress }] = useSettings();
-  const { isWalletConnected, utxos } = useContext(WalletContext);
+  const { isWalletConnected, utxos, ergBalance } = useContext(WalletContext);
   const [selectedPool, setSelectedPool] = useState<AmmPool | undefined>();
   const [dexFee] = useState<number>(0.01);
   const [inputAssetAmountX, setInputAssetAmountX] = useState<
@@ -55,7 +55,6 @@ export const Deposit = (): JSX.Element => {
   const [availableInputAmountY, setAvailableInputAmountY] = useState(0n);
   const [inputAmountX, setInputAmountX] = useState('');
   const [inputAmountY, setInputAmountY] = useState('');
-  const [ergBalance, setErgBalance] = useState<string | undefined>();
   const isPoolValid = useCheckPool(selectedPool);
 
   const availablePools = useGetAllPools();
@@ -73,9 +72,6 @@ export const Deposit = (): JSX.Element => {
         setAvailableInputAmountY(
           calculateAvailableAmount(inputAssetAmountY.asset.id, utxos),
         );
-        ergo.get_balance(ERG_TOKEN_NAME).then((balance) => {
-          setErgBalance(renderFractions(Number(balance), ERG_DECIMALS));
-        });
       }
     }
   }, [isWalletConnected, inputAssetAmountX, inputAssetAmountY, utxos]);

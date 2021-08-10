@@ -9,7 +9,6 @@ import {
   Text,
 } from '@geist-ui/react';
 import { Form, Field, FieldRenderProps } from 'react-final-form';
-import { evaluate } from 'mathjs';
 import { reverse } from 'ramda';
 import { AmmPool } from 'ergo-dex-sdk';
 import {
@@ -21,7 +20,7 @@ import {
 } from 'ergo-dex-sdk/build/module/ergo';
 import { fromAddress } from 'ergo-dex-sdk/build/module/ergo/entities/publicKey';
 import { WalletContext, useSettings } from '../../context';
-import { getButtonState, WalletStates } from './utils';
+import { getButtonState } from './buttonState';
 import { useGetAvailablePoolsByLPTokens } from '../../hooks/useGetAvailablePoolsByLPTokens';
 import { ERG_DECIMALS } from '../../constants/erg';
 import { toast } from 'react-toastify';
@@ -37,7 +36,7 @@ export const Redeem = (): JSX.Element => {
   const [{ minerFee, address: chosenAddress }] = useSettings();
   const [dexFee] = useState<number>(0.01);
 
-  const { isWalletConnected } = useContext(WalletContext);
+  const { isWalletConnected, ergBalance } = useContext(WalletContext);
   const [amount, setAmount] = useState('');
 
   const [chosenPool, setChosenPool] = useState<AmmPool | undefined>(undefined);
@@ -58,27 +57,16 @@ export const Redeem = (): JSX.Element => {
     );
   }, [chosenPool, amount]);
 
-  const buttonState = useMemo(() => {
-    const buttonState = getButtonState({
-      isWalletConnected,
-      chosenPool,
-      amount,
-    });
-    switch (buttonState) {
-      case WalletStates.NEED_TO_SELECT_POOL: {
-        return { isDisabled: true, text: 'Pool not selected' };
-      }
-      case WalletStates.SUBMIT: {
-        return { isDisabled: false, text: 'Submit' };
-      }
-      case WalletStates.NEED_TO_CONNECT_WALLET: {
-        return { isDisabled: true, text: 'Wallet not connected' };
-      }
-      case WalletStates.NEED_TO_ENTER_AMOUNT: {
-        return { isDisabled: true, text: 'LP amount not specified' };
-      }
-    }
-  }, [isWalletConnected, amount, chosenPool]);
+  console.log(chosenPool?.lp.amount);
+  const buttonState = getButtonState({
+    isWalletConnected,
+    chosenPool,
+    amount,
+    ergBalance,
+    dexFee,
+    minerFee,
+    availableLPAmount: chosenPool?.lp.amount,
+  });
 
   useEffect(() => {
     if (isWalletConnected) {
@@ -155,6 +143,8 @@ export const Redeem = (): JSX.Element => {
     );
   }
 
+  console.log(availablePools);
+
   const outputAssetXName =
     chosenPool?.assetX.name || chosenPool?.assetX.id.slice(0, 4);
   const outputAssetYName =
@@ -222,12 +212,20 @@ export const Redeem = (): JSX.Element => {
                             return event.charCode >= 48 && event.charCode <= 57;
                           }}
                           onChange={({ currentTarget }) => {
-                            setAmount(
-                              Math.abs(Number(currentTarget.value)).toString(),
-                            );
-                            props.input.onChange(
-                              Math.abs(Number(currentTarget.value)),
-                            );
+                            // TODO: add positive integer validation
+                            try {
+                              if (
+                                !Number.isInteger(Number(currentTarget.value))
+                              ) {
+                                return;
+                              }
+
+                              const value = currentTarget.value;
+                              setAmount(value);
+                              props.input.onChange(value);
+                            } catch (e) {
+                              console.error('Redeem amount validaiton failed');
+                            }
                           }}
                         />
                       )}
