@@ -57,7 +57,6 @@ export const Redeem = (): JSX.Element => {
     );
   }, [chosenPool, amount]);
 
-  console.log(chosenPool?.lp.amount);
   const buttonState = getButtonState({
     isWalletConnected,
     chosenPool,
@@ -142,8 +141,6 @@ export const Redeem = (): JSX.Element => {
       </Card>
     );
   }
-
-  console.log(availablePools);
 
   const outputAssetXName =
     chosenPool?.assetX.name || chosenPool?.assetX.id.slice(0, 4);
