@@ -38,8 +38,8 @@ export const Redeem = (): JSX.Element => {
 
   const { isWalletConnected, ergBalance } = useContext(WalletContext);
   const [amount, setAmount] = useState('');
-
-  const [chosenPool, setChosenPool] = useState<AmmPool | undefined>(undefined);
+  const [LPTokensBalance, setLPTokensBalance] = useState<string | undefined>();
+  const [selectedPool, setSelectedPool] = useState<AmmPool | undefined>();
 
   const totalFee = calculateTotalFee(minerFee, String(dexFee), {
     precision: ERG_DECIMALS,
@@ -48,23 +48,29 @@ export const Redeem = (): JSX.Element => {
   const [utxos, setUtxos] = useState<ErgoBox[]>([]);
   const availablePools = useGetAvailablePoolsByLPTokens(utxos);
   const assetsAmountByLPAmount = useMemo(() => {
-    if (!chosenPool || !amount) {
+    if (!selectedPool || !amount) {
       return [];
     }
 
-    return chosenPool.shares(
-      new AssetAmount(chosenPool.lp.asset, parseUserInputToFractions(amount)),
+    return selectedPool.shares(
+      new AssetAmount(selectedPool.lp.asset, parseUserInputToFractions(amount)),
     );
-  }, [chosenPool, amount]);
+  }, [selectedPool, amount]);
+
+  useEffect(() => {
+    if (isWalletConnected && selectedPool) {
+      ergo.get_balance(selectedPool.lp.asset.id).then(setLPTokensBalance);
+    }
+  }, [isWalletConnected, selectedPool]);
 
   const buttonState = getButtonState({
     isWalletConnected,
-    chosenPool,
+    selectedPool,
     amount,
     ergBalance,
     dexFee,
     minerFee,
-    availableLPAmount: chosenPool?.lp.amount,
+    LPTokensBalance,
   });
 
   useEffect(() => {
@@ -77,9 +83,9 @@ export const Redeem = (): JSX.Element => {
   }, [isWalletConnected]);
 
   const onSubmit = async () => {
-    if (isWalletConnected && chosenPool && chosenAddress) {
+    if (isWalletConnected && selectedPool && chosenAddress) {
       const network = explorer;
-      const poolId = chosenPool.id;
+      const poolId = selectedPool.id;
 
       const pk = fromAddress(chosenAddress) as string;
 
@@ -89,7 +95,7 @@ export const Redeem = (): JSX.Element => {
             pk,
             poolId,
             dexFee: parseUserInputToFractions(String(dexFee), ERG_DECIMALS),
-            lp: chosenPool.lp.asset,
+            lp: selectedPool.lp.asset,
           },
           {
             inputs: DefaultBoxSelector.select(utxos, {
@@ -99,7 +105,7 @@ export const Redeem = (): JSX.Element => {
               ),
               assets: [
                 {
-                  tokenId: chosenPool.lp.asset.id,
+                  tokenId: selectedPool.lp.asset.id,
                   amount: BigInt(amount),
                 },
               ],
@@ -141,14 +147,13 @@ export const Redeem = (): JSX.Element => {
       </Card>
     );
   }
-
   const outputAssetXName =
-    chosenPool?.assetX.name || chosenPool?.assetX.id.slice(0, 4);
+    selectedPool?.assetX.name || selectedPool?.assetX.id.slice(0, 4);
   const outputAssetYName =
-    chosenPool?.assetY.name || chosenPool?.assetY.id.slice(0, 4);
+    selectedPool?.assetY.name || selectedPool?.assetY.id.slice(0, 4);
 
   const [outputAssetXAmount, outputAssetYAmount] =
-    assetsAmountByLPAmount[0]?.asset.id === chosenPool?.assetX.id
+    assetsAmountByLPAmount[0]?.asset.id === selectedPool?.assetX.id
       ? assetsAmountByLPAmount
       : reverse(assetsAmountByLPAmount);
 
@@ -178,7 +183,7 @@ export const Redeem = (): JSX.Element => {
                           width="100%"
                           {...props.input}
                           onChange={(value) => {
-                            setChosenPool(availablePools[Number(value)]);
+                            setSelectedPool(availablePools[Number(value)]);
                             props.input.onChange(value);
                           }}
                         >
@@ -202,7 +207,7 @@ export const Redeem = (): JSX.Element => {
                           placeholder="0.0"
                           width="100%"
                           {...props.input}
-                          disabled={!chosenPool}
+                          disabled={!selectedPool}
                           value={amount}
                           onKeyPress={(event) => {
                             // TODO: replace magic numbers with named constants

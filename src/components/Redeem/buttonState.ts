@@ -13,12 +13,12 @@ export enum RedeemFormState {
 
 interface ButtonStateDependencies {
   isWalletConnected: boolean;
-  chosenPool: AmmPool | undefined;
+  selectedPool: AmmPool | undefined;
   amount: string;
   ergBalance: string | undefined;
   minerFee: string;
   dexFee: number;
-  availableLPAmount: bigint | undefined;
+  LPTokensBalance: string | undefined;
 }
 
 interface ButtonState {
@@ -28,12 +28,12 @@ interface ButtonState {
 
 const getState = ({
   isWalletConnected,
-  chosenPool,
+  selectedPool,
   amount,
   ergBalance,
   minerFee,
   dexFee,
-  availableLPAmount,
+  LPTokensBalance,
 }: ButtonStateDependencies): RedeemFormState => {
   const totalFee = calculateTotalFee(minerFee, String(dexFee), {
     precision: ERG_DECIMALS,
@@ -42,7 +42,7 @@ const getState = ({
   if (!isWalletConnected) {
     return RedeemFormState.NEED_TO_CONNECT_WALLET;
   }
-  if (!chosenPool) {
+  if (!selectedPool) {
     return RedeemFormState.NEED_TO_SELECT_POOL;
   }
   if (!amount) {
@@ -51,7 +51,7 @@ const getState = ({
   if (!isNaN(Number(ergBalance)) && Number(ergBalance) < Number(totalFee)) {
     return RedeemFormState.INSUFFICIENT_AMOUNT_FOR_FEES;
   }
-  if (amount && availableLPAmount && Number(amount) > availableLPAmount) {
+  if (amount && LPTokensBalance && Number(amount) > Number(LPTokensBalance)) {
     return RedeemFormState.INSUFFICIENT_LP_AMOUNT;
   }
   return RedeemFormState.SUBMIT;
