@@ -123,7 +123,7 @@ export const Content = React.memo(
 
     return (
       <Table data={formattedOperations}>
-        <Table.Column prop="operationName" label="Operation Name" />
+        <Table.Column prop="operationName" label="Operation" />
         <Table.Column prop="type" label="Type" />
         <Table.Column prop="txId" label="TX ID" />
         <Table.Column prop="status" label="Status" />
