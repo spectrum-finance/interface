@@ -2,10 +2,10 @@
   box-sizing: border-box;
 }
 .rc-select {
-  display: inline-block;
-  font-size: 12px;
-  width: 100px;
   position: relative;
+  display: inline-block;
+  width: 100px;
+  font-size: 12px;
   .rc-select-selection-placeholder {
     opacity: 0.4;
     pointer-events: none;
@@ -31,8 +31,8 @@
 
 .rc-select-single {
   .rc-select-selector {
-    display: flex;
     position: relative;
+    display: flex;
     .rc-select-selection-search {
       width: 100%;
     }
@@ -45,10 +45,10 @@
       padding: 1px;
       // border: 1px solid #000;
       .rc-select-selection-search-input {
-        border: none;
-        outline: none;
         // background: rgba(255,0,0,0.2);
         width: 100%;
+        border: none;
+        outline: none;
       }
     }
   }
@@ -75,8 +75,8 @@
   }
   .rc-select-clear {
     position: absolute;
-    right: 20px;
     top: 0;
+    right: 20px;
   }
 }
 .rc-select-focused {
@@ -88,6 +88,7 @@
   // border: 1px solid green;
   // min-height: 100px;
   position: absolute;
+  z-index: 1;
   background: #fff;
 }
 .rc-select-dropdown-hidden {
@@ -102,8 +103,8 @@
   position: relative;
   .rc-select-item-option-state {
     position: absolute;
-    right: 0;
     top: 4px;
+    right: 0;
     pointer-events: none;
   }
 }
@@ -134,18 +135,18 @@
 .rc-select-dropdown-slide-up-appear {
   animation-duration: 0.3s;
   animation-fill-mode: both;
-  transform-origin: 0 0;
-  opacity: 0;
-  animation-timing-function: cubic-bezier(0.08, 0.82, 0.17, 1);
   animation-play-state: paused;
+  animation-timing-function: cubic-bezier(0.08, 0.82, 0.17, 1);
+  opacity: 0;
+  transform-origin: 0 0;
 }
 .rc-select-dropdown-slide-up-leave {
   animation-duration: 0.3s;
   animation-fill-mode: both;
-  transform-origin: 0 0;
-  opacity: 1;
-  animation-timing-function: cubic-bezier(0.6, 0.04, 0.98, 0.34);
   animation-play-state: paused;
+  animation-timing-function: cubic-bezier(0.6, 0.04, 0.98, 0.34);
+  opacity: 1;
+  transform-origin: 0 0;
   &.rc-select-dropdown-slide-up-leave-active {
     &.rc-select-dropdown-placement-bottomLeft {
       animation-name: rcSelectDropdownSlideUpOut;
@@ -166,4 +167,9 @@
 .rc-select-dropdown-slide-up-appear.rc-select-dropdown-slide-up-appear-active.rc-select-dropdown-placement-topLeft {
   animation-name: rcSelectDropdownSlideDownIn;
   animation-play-state: running;
+}
+
+.rc-virtual-list-holder-inner {
+  max-height: 40px * 5;
+  overflow-y: auto;
 }

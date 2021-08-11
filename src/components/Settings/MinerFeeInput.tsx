@@ -4,6 +4,7 @@ import { DefaultSettings, Settings } from '../../context/SettingsContext';
 import { AutoInputContainer } from './AutoInputContainer';
 import { MinerFeeMax, MinerFeeMin } from '../../constants/settings';
 import { FormError } from './FormError';
+import { ERG_TOKEN_NAME } from '../../constants/erg';
 
 const content = {
   autoButton: 'Auto',
@@ -58,10 +59,10 @@ export const MinerFeeInput = (props: MinerFeeInputProps): JSX.Element => {
   }, [updateSettings, setState]);
 
   const handleOnBlur = useCallback(() => {
-    if (state === DefaultSettings.minerFee) {
+    if (state === DefaultSettings.minerFee || error) {
       handleReset();
     }
-  }, [state, handleReset]);
+  }, [state, handleReset, error]);
 
   return (
     <>
@@ -79,14 +80,14 @@ export const MinerFeeInput = (props: MinerFeeInputProps): JSX.Element => {
           onBlur={handleOnBlur}
           status={error ? 'error' : undefined}
           clearable
-          labelRight="ERG"
+          labelRight={ERG_TOKEN_NAME}
           min={MinerFeeMin}
           max={MinerFeeMax}
           placeholder={DefaultSettings.minerFee}
           onChange={handleChange}
         />
       </AutoInputContainer>
-      <FormError>{error}</FormError>
+      <FormError type="error">{error}</FormError>
     </>
   );
 };

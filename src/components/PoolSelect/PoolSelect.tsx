@@ -2,6 +2,8 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { comparator } from 'ramda';
 import RCSelect from 'rc-select';
 import { Card, Grid, Input, Text } from '@geist-ui/react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { AmmPool } from 'ergo-dex-sdk';
 import levenshtein from 'fast-levenshtein';
 
@@ -12,8 +14,10 @@ import { evaluate } from 'mathjs';
 
 const getPoolAssetsRepr = (pool: AmmPool | undefined) => {
   if (!pool) return '';
-  const { x, y } = pool;
-  return `${x.asset.name}, ${y.asset.name}`;
+  const { x, y, poolFeeNum } = pool;
+  return `Pool: ${x.asset.name} | ${y.asset.name}, Fee ${evaluate(
+    `(1 - ${poolFeeNum} / 1000) * 100`,
+  ).toFixed(2)}%`;
 };
 
 const renderDropdown = (menu: React.ReactNode) => (
@@ -35,14 +39,16 @@ export const PoolSelect: React.FC<Props> = ({
   onChangeValue,
   inputProps = {},
 }) => {
+  const [isInitialized, setIsInitialized] = useState<boolean>(false);
   const [searchText, setSearchText] = useState<string>('');
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
 
   useEffect(() => {
-    if (value !== undefined && searchText === '') {
+    if (value !== undefined && searchText === '' && !isInitialized) {
       setSearchText(getPoolAssetsRepr(value));
+      setIsInitialized(true);
     }
-  }, [value, searchText]);
+  }, [value, searchText, isInitialized]);
 
   const poolsFilterSort = useCallback(
     (poolA, poolB) => {
@@ -89,6 +95,17 @@ export const PoolSelect: React.FC<Props> = ({
           onChange={(e) => {
             setSearchText(e.target.value);
           }}
+          onBlur={() => {
+            if (value !== undefined && searchText === '') {
+              setSearchText(getPoolAssetsRepr(value));
+            }
+          }}
+          iconRight={
+            <FontAwesomeIcon
+              icon={isDropdownOpen ? faChevronUp : faChevronDown}
+              size="xs"
+            />
+          }
         />
       )}
       open={isDropdownOpen}
@@ -113,7 +130,7 @@ export const PoolSelect: React.FC<Props> = ({
               >
                 <Grid.Container className="PoolSelect__item">
                   <Grid xs={16}>
-                    <Text span b>
+                    <Text span>
                       {x.asset.name}, {y.asset.name}
                     </Text>
                   </Grid>

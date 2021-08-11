@@ -89,8 +89,10 @@ async function loadedAddresses(
   selectedAddress?: Address,
 ): Promise<WalletAddresses> {
   try {
-    const addresses = await ergo.get_used_addresses();
-    if (addresses.length) {
+    const usedAddresses = await ergo.get_used_addresses(); // todo: mark used addresses in UI
+    const unusedAddresses = await ergo.get_unused_addresses();
+    const addresses = unusedAddresses.concat(usedAddresses);
+    if (usedAddresses.length) {
       const selected =
         selectedAddress && addresses.includes(selectedAddress)
           ? selectedAddress

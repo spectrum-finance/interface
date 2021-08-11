@@ -4,8 +4,31 @@
   justify-content: space-between;
   padding: 15px;
 
-  .main {
-    flex-grow: 1;
-    text-align: left;
+  .feedback {
+    margin-right: 10px;
   }
+
+  .tools {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .main {
+    display: block;
+
+    img {
+      width: 250px;
+      height: auto;
+    }
+  }
+
+  .logotype {
+    width: 100%;
+  }
+
+  .rightsideItem + .rightsideItem {
+    margin-left: 10px;
+  }
+
 }
