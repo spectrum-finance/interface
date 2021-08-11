@@ -24,14 +24,17 @@ jobs:
       - name: Install packages
         run: yarn install
 
-      - name: tsc
-        run: yarn run tsc
+      - name: Check packages integrity
+        run: yarn check --integrity
 
-      - name: eslint
-        run: yarn lint
+      - name: Build ts
+        run: CI=false yarn build
 
-      - name: stylelint CSS Modules
-        run: yarn run stylelint src/**/*.module.scss
+      - name: Eslint
+        run: yarn lint:eslint
 
-      - name: prettier
-        run: yarn run prettier --check src
+      - name: Stylelint for CSS Modules
+        run: yarn lint:stylelint
+
+      - name: Prettier
+        run: yarn lint:prettier
