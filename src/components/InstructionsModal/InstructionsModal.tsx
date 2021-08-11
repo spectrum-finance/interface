@@ -20,33 +20,30 @@ const Instructions = () => {
         extensions yet
       </Text>
       <Text p>
-        1. To start interact with ErgoDEX Beta UI you need to install the
+        1. In order to start using ErgoDEX Beta UI you need to install the
         following two extensions:
       </Text>
       <Text p>
         <Link href={YOROI_NIGHTLY_URL} color icon>
           Yoroi Nightly
         </Link>
-        <Text span> - Yoroi wallet’s test environment</Text>
       </Text>
       <Text p>
         <Link href={YOROI_DAPP_CONNECTOR_URL} color icon>
           Yoroi-Ergo dApp Connector Nightly
         </Link>
-        <Text span> - to enable ErgoDEX UI connect to a wallet</Text>
       </Text>
-      <Text p>2. Create new ERG wallet using Yoroi Nightly;</Text>
+      <Text p>2. Create new ERG wallet using Yoroi Nightly</Text>
       <Text p>
-        3. Send a small amount of ERG (1-2 ERG) to your Yoroi Nightly Wallet to
-        pay protocol fees. For this step use{' '}
+        3. Send a small amount of ERGs (1-2 ERGs) to your Yoroi Nightly wallet.
+        For this step use{' '}
         <Link href={YOROI_URL} color icon>
           Yoroi Wallet
         </Link>{' '}
-        or withdrawal ERG from your exchange account;
+        or withdraw ERGs from your exchange account;
       </Text>
       <Text p>
-        4. Congratulations! You are now completely ready to start testing the
-        beta interface.
+        4. Congratulations! You are now ready to start testing the beta UI.
       </Text>
     </>
   );
