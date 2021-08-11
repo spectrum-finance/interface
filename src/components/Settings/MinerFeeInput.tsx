@@ -59,10 +59,10 @@ export const MinerFeeInput = (props: MinerFeeInputProps): JSX.Element => {
   }, [updateSettings, setState]);
 
   const handleOnBlur = useCallback(() => {
-    if (state === DefaultSettings.minerFee) {
+    if (state === DefaultSettings.minerFee || error) {
       handleReset();
     }
-  }, [state, handleReset]);
+  }, [state, handleReset, error]);
 
   return (
     <>
@@ -87,7 +87,7 @@ export const MinerFeeInput = (props: MinerFeeInputProps): JSX.Element => {
           onChange={handleChange}
         />
       </AutoInputContainer>
-      <FormError>{error}</FormError>
+      <FormError type="error">{error}</FormError>
     </>
   );
 };

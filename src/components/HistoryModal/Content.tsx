@@ -19,7 +19,7 @@ import { faExternalLinkAlt, faUndo } from '@fortawesome/free-solid-svg-icons';
 import { useToggle } from '../../hooks/useToggle';
 import { RefundConfirmationModal } from '../RefundConfirmationModal/RefundConfirmationModal';
 import { truncate } from '../../utils/string';
-import { capitalize } from 'lodash';
+import capitalize from 'lodash/capitalize';
 
 function renderOrder(
   { status, txId, order }: AmmOrder,

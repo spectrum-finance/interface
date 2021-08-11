@@ -117,17 +117,17 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
   );
 
   useEffect(() => {
+    if (isZero(minDexFee) || isZero(nitro)) {
+      resetSwapForm();
+      return;
+    }
+
     if (selectedPool && inputAssetAmount && inputAmount) {
       const { minOutput } = getBaseInputParameters(selectedPool, {
         inputAmount,
         inputAsset: inputAssetAmount.asset,
         slippage: Number(slippage),
       });
-
-      if (isZero(minDexFee) || isZero(nitro)) {
-        resetSwapForm();
-        return;
-      }
 
       const vars = swapVars(BigInt(minDexFee), Number(nitro), minOutput);
       if (!isNil(vars)) {
@@ -380,7 +380,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
         <form onSubmit={handleSubmit}>
           <Grid.Container gap={1}>
             <Grid xs={12}>
-              <Text h4>Pool</Text>
+              <Text h4>Swap</Text>
             </Grid>
             <Grid xs={12} justify={'flex-end'}>
               <SwapSettings
@@ -395,35 +395,23 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
             <Grid xs={24}>
               <Field name="poolId" component="select">
                 {(props: FieldRenderProps<string>) => (
-                  <Grid.Container
-                    gap={1}
-                    justify="space-between"
-                    alignItems="center"
-                  >
-                    <Grid xs={6}>
-                      <Text>Select pool</Text>
-                    </Grid>
-                    <Grid xs={18}>
-                      <PoolSelect
-                        pools={pools}
-                        value={selectedPool}
-                        onChangeValue={(value) => {
-                          updateSelectedPool(value);
-                        }}
-                        inputProps={props.input}
-                      />
-                    </Grid>
-                  </Grid.Container>
+                  <PoolSelect
+                    pools={pools}
+                    value={selectedPool}
+                    onChangeValue={updateSelectedPool}
+                    inputProps={props.input}
+                  />
                 )}
               </Field>
             </Grid>
+            <Spacer y={0.5} />
             {isPoolValid.isFetching && (
               <Grid xs={24}>
                 <Spacer y={2} />
                 <Loading>Validating selected pool...</Loading>
               </Grid>
             )}
-            {!isPoolValid.isFetching && !isPoolValid.result && (
+            {!isPoolValid.isFetching && isPoolValid.result === false && (
               <Grid xs={24}>
                 <Note type="error" label="error" filled>
                   This pool is invalid. Please select another one.
@@ -446,12 +434,10 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                             disabled={!inputAssetAmount}
                             value={inputAmount}
                             onChange={({ currentTarget }) => {
-                              if (inputAssetAmount?.asset.decimals) {
-                                handleEnterInputTokenAmount(
-                                  currentTarget.value,
-                                  inputAssetAmount?.asset.decimals,
-                                );
-                              }
+                              handleEnterInputTokenAmount(
+                                currentTarget.value,
+                                inputAssetAmount?.asset.decimals || 0,
+                              );
                               props.input.onChange(currentTarget.value);
                             }}
                           />
@@ -486,12 +472,10 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                         {...props.input}
                         value={outputAmount}
                         onChange={({ currentTarget }) => {
-                          if (outputAssetAmount?.asset.decimals) {
-                            handleEnterOutputTokenAmount(
-                              currentTarget.value,
-                              outputAssetAmount?.asset.decimals,
-                            );
-                          }
+                          handleEnterOutputTokenAmount(
+                            currentTarget.value,
+                            outputAssetAmount?.asset.decimals || 0,
+                          );
                           props.input.onChange(currentTarget.value);
                         }}
                       />

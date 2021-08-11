@@ -338,7 +338,7 @@ export const Deposit = (): JSX.Element => {
                       <Loading>Validating selected pool...</Loading>
                     </Grid>
                   )}
-                  {!isPoolValid.isFetching && !isPoolValid.result && (
+                  {!isPoolValid.isFetching && isPoolValid.result === false && (
                     <Grid xs={24}>
                       <Note type="error" label="error" filled>
                         This pool is invalid. Please select another one.

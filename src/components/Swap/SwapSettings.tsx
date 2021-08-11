@@ -16,6 +16,8 @@ import { validateMinDexFee, validateNitro } from './validation';
 import {
   ERG_DECIMALS,
   ERG_TOKEN_NAME,
+  MIN_DEX_FEE,
+  MIN_NITRO,
   NITRO_DECIMALS,
 } from '../../constants/erg';
 import InfoTooltip from '../common/InfoTooltip/InfoTooltip';
@@ -116,6 +118,16 @@ const SwapSettings = ({
                         }
                         props.input.onChange(currentTarget.value as string);
                       }}
+                      onBlur={() => {
+                        if (
+                          !minDexFee ||
+                          !minDexFee.trim() ||
+                          validateMinDexFee(minDexFee)
+                        ) {
+                          onChangeMinDexFee(String(MIN_DEX_FEE));
+                          props.input.onChange(MIN_DEX_FEE);
+                        }
+                      }}
                     />
                   </Row>
                   {props.meta.error && (
@@ -155,6 +167,12 @@ const SwapSettings = ({
                         );
                         onChangeNitro(value);
                         props.input.onChange(currentTarget.value as string);
+                      }}
+                      onBlur={() => {
+                        if (!nitro || !nitro.trim() || validateNitro(nitro)) {
+                          onChangeNitro(String(MIN_NITRO));
+                          props.input.onChange(MIN_NITRO);
+                        }
                       }}
                     />
                   </Row>

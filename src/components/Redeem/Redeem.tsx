@@ -9,7 +9,6 @@ import {
   Text,
 } from '@geist-ui/react';
 import { Form, Field, FieldRenderProps } from 'react-final-form';
-import { evaluate } from 'mathjs';
 import { reverse } from 'ramda';
 import { AmmPool } from 'ergo-dex-sdk';
 import {
