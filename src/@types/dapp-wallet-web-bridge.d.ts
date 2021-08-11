@@ -1,7 +1,7 @@
 namespace ErgoBridge {
   type Address = import('ergo-dex-sdk/build/module/ergo').Address;
   type BoxId = import('ergo-dex-sdk/build/module/ergo').BoxId;
-  type ErgoBox = import('ergo-dex-sdk/build/module/ergo').ErgoBox;
+  // type ErgoBox = import('ergo-dex-sdk/build/module/ergo').ErgoBox;
   type ErgoBoxProxy = import('ergo-dex-sdk/build/module/ergo').ErgoBoxProxy;
   type ErgoTxProxy = import('ergo-dex-sdk/build/module/ergo').ErgoTxProxy;
   type UnsignedErgoTxProxy =

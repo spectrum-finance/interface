@@ -74,7 +74,11 @@
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject",
-    "lint": "eslint --ext .js,.ts,.tsx src"
+    "lint:stylelint": "stylelint src/**/*.module.scss",
+    "lint:prettier": "prettier --check src",
+    "lint:prettier:fix": "yarn prettier --write",
+    "lint:eslint": "eslint --ext .js,.ts,.tsx src",
+    "lint": "yarn lint:eslint && yarn lint:prettier && yarn lint:stylelint"
   },
   "browserslist": {
     "production": [
