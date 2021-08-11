@@ -1,12 +1,14 @@
 import React, { createContext, useEffect, useState } from 'react';
+import Cookies from 'js-cookie';
 import { ErgoBox, ergoBoxFromProxy } from 'ergo-dex-sdk/build/module/ergo';
 import { useInterval } from '../hooks/useInterval';
-import Cookies from 'js-cookie';
+import { ERG_TOKEN_NAME } from '../constants/erg';
 
 type WalletContextType = {
   isWalletConnected: boolean;
   utxos: ErgoBox[] | undefined;
   setIsWalletConnected: (isWalletConnected: boolean) => void;
+  ergBalance: string | undefined;
 };
 
 function noop() {
@@ -17,6 +19,7 @@ export const WalletContext = createContext<WalletContextType>({
   isWalletConnected: false,
   utxos: undefined,
   setIsWalletConnected: noop,
+  ergBalance: undefined,
 });
 
 const fetchUtxos = () =>
@@ -32,11 +35,13 @@ export const WalletContextProvider = ({
 }: React.PropsWithChildren<unknown>): JSX.Element => {
   const [isWalletConnected, setIsWalletConnected] = useState(false);
   const [utxos, setUtxos] = useState<ErgoBox[]>();
+  const [ergBalance, setErgBalance] = useState<string | undefined>();
 
   const ctxValue = {
     isWalletConnected,
     setIsWalletConnected,
     utxos,
+    ergBalance,
   };
 
   useEffect(() => {
@@ -51,12 +56,14 @@ export const WalletContextProvider = ({
   useEffect(() => {
     if (isWalletConnected) {
       fetchUtxos().then(setUtxos);
+      ergo.get_balance(ERG_TOKEN_NAME).then(setErgBalance);
     }
   }, [isWalletConnected]);
 
   useInterval(() => {
     if (isWalletConnected) {
       fetchUtxos().then(setUtxos);
+      ergo.get_balance(ERG_TOKEN_NAME).then(setErgBalance);
     }
   }, 10 * 1000);
 

@@ -20,7 +20,7 @@ import {
 } from 'ergo-dex-sdk/build/module/ergo';
 import { fromAddress } from 'ergo-dex-sdk/build/module/ergo/entities/publicKey';
 import { WalletContext, useSettings } from '../../context';
-import { getButtonState, WalletStates } from './utils';
+import { getButtonState } from './buttonState';
 import { useGetAvailablePoolsByLPTokens } from '../../hooks/useGetAvailablePoolsByLPTokens';
 import { ERG_DECIMALS } from '../../constants/erg';
 import { toast } from 'react-toastify';
@@ -36,10 +36,10 @@ export const Redeem = (): JSX.Element => {
   const [{ minerFee, address: chosenAddress }] = useSettings();
   const [dexFee] = useState<number>(0.01);
 
-  const { isWalletConnected } = useContext(WalletContext);
+  const { isWalletConnected, ergBalance } = useContext(WalletContext);
   const [amount, setAmount] = useState('');
-
-  const [chosenPool, setChosenPool] = useState<AmmPool | undefined>(undefined);
+  const [LPTokensBalance, setLPTokensBalance] = useState<string | undefined>();
+  const [selectedPool, setSelectedPool] = useState<AmmPool | undefined>();
 
   const totalFee = calculateTotalFee(minerFee, String(dexFee), {
     precision: ERG_DECIMALS,
@@ -48,36 +48,30 @@ export const Redeem = (): JSX.Element => {
   const [utxos, setUtxos] = useState<ErgoBox[]>([]);
   const availablePools = useGetAvailablePoolsByLPTokens(utxos);
   const assetsAmountByLPAmount = useMemo(() => {
-    if (!chosenPool || !amount) {
+    if (!selectedPool || !amount) {
       return [];
     }
 
-    return chosenPool.shares(
-      new AssetAmount(chosenPool.lp.asset, parseUserInputToFractions(amount)),
+    return selectedPool.shares(
+      new AssetAmount(selectedPool.lp.asset, parseUserInputToFractions(amount)),
     );
-  }, [chosenPool, amount]);
+  }, [selectedPool, amount]);
 
-  const buttonState = useMemo(() => {
-    const buttonState = getButtonState({
-      isWalletConnected,
-      chosenPool,
-      amount,
-    });
-    switch (buttonState) {
-      case WalletStates.NEED_TO_SELECT_POOL: {
-        return { isDisabled: true, text: 'Pool not selected' };
-      }
-      case WalletStates.SUBMIT: {
-        return { isDisabled: false, text: 'Submit' };
-      }
-      case WalletStates.NEED_TO_CONNECT_WALLET: {
-        return { isDisabled: true, text: 'Wallet not connected' };
-      }
-      case WalletStates.NEED_TO_ENTER_AMOUNT: {
-        return { isDisabled: true, text: 'LP amount not specified' };
-      }
+  useEffect(() => {
+    if (isWalletConnected && selectedPool) {
+      ergo.get_balance(selectedPool.lp.asset.id).then(setLPTokensBalance);
     }
-  }, [isWalletConnected, amount, chosenPool]);
+  }, [isWalletConnected, selectedPool]);
+
+  const buttonState = getButtonState({
+    isWalletConnected,
+    selectedPool,
+    amount,
+    ergBalance,
+    dexFee,
+    minerFee,
+    LPTokensBalance,
+  });
 
   useEffect(() => {
     if (isWalletConnected) {
@@ -89,9 +83,9 @@ export const Redeem = (): JSX.Element => {
   }, [isWalletConnected]);
 
   const onSubmit = async () => {
-    if (isWalletConnected && chosenPool && chosenAddress) {
+    if (isWalletConnected && selectedPool && chosenAddress) {
       const network = explorer;
-      const poolId = chosenPool.id;
+      const poolId = selectedPool.id;
 
       const pk = fromAddress(chosenAddress) as string;
 
@@ -101,7 +95,7 @@ export const Redeem = (): JSX.Element => {
             pk,
             poolId,
             dexFee: parseUserInputToFractions(String(dexFee), ERG_DECIMALS),
-            lp: chosenPool.lp.asset,
+            lp: selectedPool.lp.asset,
           },
           {
             inputs: DefaultBoxSelector.select(utxos, {
@@ -111,7 +105,7 @@ export const Redeem = (): JSX.Element => {
               ),
               assets: [
                 {
-                  tokenId: chosenPool.lp.asset.id,
+                  tokenId: selectedPool.lp.asset.id,
                   amount: BigInt(amount),
                 },
               ],
@@ -153,14 +147,13 @@ export const Redeem = (): JSX.Element => {
       </Card>
     );
   }
-
   const outputAssetXName =
-    chosenPool?.assetX.name || chosenPool?.assetX.id.slice(0, 4);
+    selectedPool?.assetX.name || selectedPool?.assetX.id.slice(0, 4);
   const outputAssetYName =
-    chosenPool?.assetY.name || chosenPool?.assetY.id.slice(0, 4);
+    selectedPool?.assetY.name || selectedPool?.assetY.id.slice(0, 4);
 
   const [outputAssetXAmount, outputAssetYAmount] =
-    assetsAmountByLPAmount[0]?.asset.id === chosenPool?.assetX.id
+    assetsAmountByLPAmount[0]?.asset.id === selectedPool?.assetX.id
       ? assetsAmountByLPAmount
       : reverse(assetsAmountByLPAmount);
 
@@ -190,7 +183,7 @@ export const Redeem = (): JSX.Element => {
                           width="100%"
                           {...props.input}
                           onChange={(value) => {
-                            setChosenPool(availablePools[Number(value)]);
+                            setSelectedPool(availablePools[Number(value)]);
                             props.input.onChange(value);
                           }}
                         >
@@ -214,19 +207,27 @@ export const Redeem = (): JSX.Element => {
                           placeholder="0.0"
                           width="100%"
                           {...props.input}
-                          disabled={!chosenPool}
+                          disabled={!selectedPool}
                           value={amount}
                           onKeyPress={(event) => {
                             // TODO: replace magic numbers with named constants
                             return event.charCode >= 48 && event.charCode <= 57;
                           }}
                           onChange={({ currentTarget }) => {
-                            setAmount(
-                              Math.abs(Number(currentTarget.value)).toString(),
-                            );
-                            props.input.onChange(
-                              Math.abs(Number(currentTarget.value)),
-                            );
+                            // TODO: add positive integer validation
+                            try {
+                              if (
+                                !Number.isInteger(Number(currentTarget.value))
+                              ) {
+                                return;
+                              }
+
+                              const value = currentTarget.value;
+                              setAmount(value);
+                              props.input.onChange(value);
+                            } catch (e) {
+                              console.error('Redeem amount validaiton failed');
+                            }
                           }}
                         />
                       )}

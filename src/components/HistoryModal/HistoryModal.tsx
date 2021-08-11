@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Button, Modal } from '@geist-ui/react';
 import { useWalletAddresses, WalletAddressState } from '../../context';
 import { AmmDexOperation } from 'ergo-dex-sdk';

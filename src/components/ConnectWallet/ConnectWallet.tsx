@@ -1,32 +1,18 @@
-import React, {
-  ReactElement,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
+import React, { ReactElement, useCallback, useContext } from 'react';
 import { Button } from '@geist-ui/react';
 import { WalletContext } from '../../context';
 import { toast } from 'react-toastify';
-import { ERG_DECIMALS, ERG_TOKEN_NAME } from '../../constants/erg';
-import { renderFractions } from '../../utils/math';
 import Cookies from 'js-cookie';
+import { renderFractions } from '../../utils/math';
+import { ERG_DECIMALS } from '../../constants/erg';
 
 export const ConnectWallet = ({
   className,
 }: {
   className?: string;
 }): ReactElement => {
-  const { isWalletConnected, setIsWalletConnected } = useContext(WalletContext);
-  const [ergBalance, setErgBalance] = useState('');
-
-  useEffect(() => {
-    if (isWalletConnected) {
-      ergo.get_balance(ERG_TOKEN_NAME).then((balance) => {
-        setErgBalance(renderFractions(Number(balance), ERG_DECIMALS));
-      });
-    }
-  }, [isWalletConnected]);
+  const { isWalletConnected, setIsWalletConnected, ergBalance } =
+    useContext(WalletContext);
 
   const onClick = useCallback(() => {
     if (window.ergo_request_read_access) {
@@ -42,9 +28,14 @@ export const ConnectWallet = ({
     );
   }, [setIsWalletConnected]);
 
+  const renderedBalance =
+    isWalletConnected && ergBalance
+      ? renderFractions(Number(ergBalance), ERG_DECIMALS)
+      : undefined;
+
   return (
     <Button type="success" ghost onClick={onClick} className={className}>
-      {isWalletConnected ? `${ergBalance} ERG` : 'Connect Yoroi Wallet'}
+      {renderedBalance ? `${renderedBalance} ERG` : 'Connect Yoroi Wallet'}
     </Button>
   );
 };
