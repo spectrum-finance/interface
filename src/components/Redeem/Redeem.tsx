@@ -6,119 +6,118 @@ import {
   Input,
   Loading,
   Select,
-  Spacer,
   Text,
-  Note,
 } from '@geist-ui/react';
 import { Form, Field, FieldRenderProps } from 'react-final-form';
-import { evaluate } from 'mathjs';
-import { AmmPool, Explorer, T2tPoolOps } from 'ergo-dex-sdk';
-import { YoroiProver } from '../../utils/yoroiProver';
+import { reverse } from 'ramda';
+import { AmmPool } from 'ergo-dex-sdk';
 import {
   AssetAmount,
   BoxSelection,
   DefaultBoxSelector,
-  DefaultTxAssembler,
   ErgoBox,
+  ergoTxToProxy,
 } from 'ergo-dex-sdk/build/module/ergo';
 import { fromAddress } from 'ergo-dex-sdk/build/module/ergo/entities/publicKey';
-import { WalletContext } from '../../context/WalletContext';
-import { getButtonState, WalletStates } from './utils';
+import { WalletContext, useSettings } from '../../context';
+import { getButtonState } from './buttonState';
 import { useGetAvailablePoolsByLPTokens } from '../../hooks/useGetAvailablePoolsByLPTokens';
-import { defaultMinerFee, nanoErgInErg } from '../../constants/erg';
-import { useSettings } from '../../context/SettingsContext';
+import { ERG_DECIMALS } from '../../constants/erg';
 import { toast } from 'react-toastify';
-import { explorer } from '../../utils/explorer';
-import { useCheckPool } from '../../hooks/useCheckPool';
+import explorer from '../../services/explorer';
+import { ergoBoxFromProxy } from 'ergo-dex-sdk/build/module/ergo/entities/ergoBox';
+import { parseUserInputToFractions, renderFractions } from '../../utils/math';
+import poolOptions from '../../services/poolOptions';
+import { miniSufficientValue } from '../../utils/ammMath';
+import { calculateTotalFee } from '../../utils/transactions';
+import { RedeemSummary } from '../Redeem/RedeemSummary';
 
 export const Redeem = (): JSX.Element => {
-  const [{ minerFee, address: choosedAddress }] = useSettings();
+  const [{ minerFee, address: chosenAddress }] = useSettings();
   const [dexFee] = useState<number>(0.01);
 
-  const { isWalletConnected } = useContext(WalletContext);
+  const { isWalletConnected, ergBalance } = useContext(WalletContext);
   const [amount, setAmount] = useState('');
+  const [LPTokensBalance, setLPTokensBalance] = useState<string | undefined>();
+  const [selectedPool, setSelectedPool] = useState<AmmPool | undefined>();
 
-  const [choosedPool, setChoosedPool] = useState<AmmPool | undefined>(
-    undefined,
-  );
+  const totalFee = calculateTotalFee(minerFee, String(dexFee), {
+    precision: ERG_DECIMALS,
+  });
 
   const [utxos, setUtxos] = useState<ErgoBox[]>([]);
   const availablePools = useGetAvailablePoolsByLPTokens(utxos);
   const assetsAmountByLPAmount = useMemo(() => {
-    if (!choosedPool || !amount) {
+    if (!selectedPool || !amount) {
       return [];
     }
 
-    return choosedPool.shares(
-      new AssetAmount(choosedPool.lp.asset, BigInt(amount)),
+    return selectedPool.shares(
+      new AssetAmount(selectedPool.lp.asset, parseUserInputToFractions(amount)),
     );
-  }, [choosedPool, amount]);
+  }, [selectedPool, amount]);
 
-  const buttonStatus = useMemo(() => {
-    const buttonState = getButtonState({
-      isWalletConnected,
-      choosedPool,
-      amount,
-    });
-    switch (buttonState) {
-      case WalletStates.NEED_TO_SELECT_POOL: {
-        return { disabled: true, text: 'Need to select pool' };
-      }
-      case WalletStates.SUBMIT: {
-        return { disabled: false, text: 'Submit' };
-      }
-      case WalletStates.NEED_TO_CONNECT_WALLET: {
-        return { disabled: true, text: 'Need to connect wallet' };
-      }
-      case WalletStates.NEED_TO_ENTER_AMOUNT: {
-        return { disabled: true, text: 'Need to enter amount' };
-      }
+  useEffect(() => {
+    if (isWalletConnected && selectedPool) {
+      ergo.get_balance(selectedPool.lp.asset.id).then(setLPTokensBalance);
     }
-  }, [isWalletConnected, amount, choosedPool]);
+  }, [isWalletConnected, selectedPool]);
+
+  const buttonState = getButtonState({
+    isWalletConnected,
+    selectedPool,
+    amount,
+    ergBalance,
+    dexFee,
+    minerFee,
+    LPTokensBalance,
+  });
 
   useEffect(() => {
     if (isWalletConnected) {
-      ergo.get_utxos().then((data) => setUtxos(data ?? []));
+      ergo
+        .get_utxos()
+        .then((bs) => (bs ? bs.map((b) => ergoBoxFromProxy(b)) : bs))
+        .then((data) => setUtxos(data ?? []));
     }
   }, [isWalletConnected]);
 
   const onSubmit = async () => {
-    if (isWalletConnected && choosedPool && choosedAddress) {
+    if (isWalletConnected && selectedPool && chosenAddress) {
       const network = explorer;
-      const poolId = choosedPool.id;
+      const poolId = selectedPool.id;
 
-      const poolOps = new T2tPoolOps(
-        new YoroiProver(),
-        new DefaultTxAssembler(true),
-      );
-      const pk = fromAddress(choosedAddress) as string;
+      const pk = fromAddress(chosenAddress) as string;
 
-      poolOps
+      poolOptions
         .redeem(
           {
             pk,
             poolId,
-            dexFee: BigInt(evaluate(`${dexFee} * ${nanoErgInErg}`)),
-            lp: choosedPool.lp.asset,
+            dexFee: parseUserInputToFractions(String(dexFee), ERG_DECIMALS),
+            lp: selectedPool.lp.asset,
           },
           {
             inputs: DefaultBoxSelector.select(utxos, {
-              nErgs: evaluate(`(${minerFee}+${dexFee}) * ${nanoErgInErg}`),
+              nErgs: miniSufficientValue(
+                parseUserInputToFractions(minerFee, ERG_DECIMALS),
+                parseUserInputToFractions(String(dexFee), ERG_DECIMALS),
+              ),
               assets: [
                 {
-                  tokenId: choosedPool.lp.asset.id,
+                  tokenId: selectedPool.lp.asset.id,
                   amount: BigInt(amount),
                 },
               ],
             }) as BoxSelection,
-            changeAddress: choosedAddress,
-            selfAddress: choosedAddress,
-            feeNErgs: BigInt(Number(minerFee) * nanoErgInErg),
+            changeAddress: chosenAddress,
+            selfAddress: chosenAddress,
+            feeNErgs: parseUserInputToFractions(minerFee, ERG_DECIMALS),
             network: await network.getNetworkContext(),
           },
         )
-        .then(async (d) => {
-          const txId = await ergo.submit_tx(d);
+        .then(async (tx) => {
+          const txId = await ergo.submit_tx(ergoTxToProxy(tx));
           toast.success(`Transaction submitted: ${txId} `);
         })
         .catch((er) => toast.error(JSON.stringify(er)));
@@ -128,7 +127,7 @@ export const Redeem = (): JSX.Element => {
   if (!isWalletConnected) {
     return (
       <Card>
-        <Text h6>Need to connect wallet</Text>
+        <Text h6>Wallet not connected</Text>
       </Card>
     );
   }
@@ -144,10 +143,19 @@ export const Redeem = (): JSX.Element => {
   if (availablePools?.length === 0) {
     return (
       <Card>
-        <Loading>No available pools to redeem</Loading>
+        <b>No available pools to redeem</b>
       </Card>
     );
   }
+  const outputAssetXName =
+    selectedPool?.assetX.name || selectedPool?.assetX.id.slice(0, 4);
+  const outputAssetYName =
+    selectedPool?.assetY.name || selectedPool?.assetY.id.slice(0, 4);
+
+  const [outputAssetXAmount, outputAssetYAmount] =
+    assetsAmountByLPAmount[0]?.asset.id === selectedPool?.assetX.id
+      ? assetsAmountByLPAmount
+      : reverse(assetsAmountByLPAmount);
 
   return (
     <>
@@ -158,109 +166,108 @@ export const Redeem = (): JSX.Element => {
             amount: '0',
             address: '',
           }}
-          render={({ handleSubmit, errors = {} }) => (
-            <form onSubmit={handleSubmit}>
-              <Grid.Container gap={1}>
-                <Grid xs={24}>
-                  <Text h4>Select pool</Text>
-                </Grid>
-                <Grid xs={24}>
-                  <Field name="pool" component="select">
-                    {(props: FieldRenderProps<string>) => (
-                      <Select
-                        placeholder="Choose the pool"
-                        width="100%"
-                        {...props.input}
-                        onChange={(value) => {
-                          setChoosedPool(availablePools[Number(value)]);
-                          props.input.onChange(value);
-                        }}
-                      >
-                        {availablePools.map((pool: AmmPool, index) => (
-                          <Select.Option key={pool.id} value={String(index)}>
-                            {pool.assetX.name || pool.assetX.id.slice(0, 4)}/
-                            {pool.assetY.name || pool.assetY.id.slice(0, 4)}
-                          </Select.Option>
-                        ))}
-                      </Select>
-                    )}
-                  </Field>
-                </Grid>
-                <Grid xs={24}>
-                  <Text h4>Amount</Text>
-                </Grid>
-                <Grid xs={24}>
-                  <Field name="amount">
-                    {(props: FieldRenderProps<string>) => (
-                      <Input
-                        placeholder="0.0"
-                        type="number"
-                        width="100%"
-                        {...props.input}
-                        disabled={!choosedPool}
-                        value={amount}
-                        onKeyPress={(event) => {
-                          return event.charCode >= 48 && event.charCode <= 57;
-                        }}
-                        onChange={({ currentTarget }) => {
-                          setAmount(
-                            Math.abs(Number(currentTarget.value)).toString(),
-                          );
-                          props.input.onChange(
-                            Math.abs(Number(currentTarget.value)),
-                          );
-                        }}
-                      />
-                    )}
-                  </Field>
-                </Grid>
-                {choosedPool && (
+          render={({ handleSubmit, errors = {} }) => {
+            const isFormDisabled =
+              buttonState.isDisabled || Object.values(errors).length > 0;
+            return (
+              <form onSubmit={handleSubmit}>
+                <Grid.Container gap={1}>
                   <Grid xs={24}>
-                    <Card>
-                      <div>
-                        {choosedPool?.assetX.name ||
-                          choosedPool?.assetX.id.slice(0, 4)}{' '}
-                        ={' '}
-                        {assetsAmountByLPAmount.length > 0 &&
-                          (assetsAmountByLPAmount[0]?.asset.id ===
-                          choosedPool?.assetX.id
-                            ? evaluate(
-                                `${assetsAmountByLPAmount[0]?.amount}/10^${assetsAmountByLPAmount[0]?.asset.decimals}`,
-                              )
-                            : evaluate(
-                                `${assetsAmountByLPAmount[1]?.amount}/10^${assetsAmountByLPAmount[1]?.asset.decimals}`,
-                              ))}
-                      </div>
-                      <div>
-                        {choosedPool?.assetY.name ||
-                          choosedPool?.assetY.id.slice(0, 4)}{' '}
-                        ={' '}
-                        {assetsAmountByLPAmount.length > 0 &&
-                          (assetsAmountByLPAmount[0]?.asset.id ===
-                          choosedPool?.assetY.id
-                            ? evaluate(
-                                `${assetsAmountByLPAmount[0]?.amount}/10^${assetsAmountByLPAmount[0]?.asset.decimals}`,
-                              )
-                            : evaluate(
-                                `${assetsAmountByLPAmount[1]?.amount}/10^${assetsAmountByLPAmount[1]?.asset.decimals}`,
-                              ))}
-                      </div>
-                    </Card>
+                    <Text h5>Pool</Text>
                   </Grid>
-                )}
-                <Grid xs={24} justify="center">
-                  <Button
-                    htmlType="submit"
-                    disabled={
-                      buttonStatus.disabled || Object.values(errors).length > 0
-                    }
-                  >
-                    {buttonStatus.text}
-                  </Button>
-                </Grid>
-              </Grid.Container>
-            </form>
-          )}
+                  <Grid xs={24}>
+                    <Field name="pool" component="select">
+                      {(props: FieldRenderProps<string>) => (
+                        <Select
+                          placeholder="Choose the pool"
+                          width="100%"
+                          {...props.input}
+                          onChange={(value) => {
+                            setSelectedPool(availablePools[Number(value)]);
+                            props.input.onChange(value);
+                          }}
+                        >
+                          {availablePools.map((pool: AmmPool, index) => (
+                            <Select.Option key={pool.id} value={String(index)}>
+                              {pool.assetX.name || pool.assetX.id.slice(0, 4)}/
+                              {pool.assetY.name || pool.assetY.id.slice(0, 4)}
+                            </Select.Option>
+                          ))}
+                        </Select>
+                      )}
+                    </Field>
+                  </Grid>
+                  <Grid xs={24}>
+                    <Text h5>Amount</Text>
+                  </Grid>
+                  <Grid xs={24}>
+                    <Field name="amount">
+                      {(props: FieldRenderProps<string>) => (
+                        <Input
+                          placeholder="0.0"
+                          width="100%"
+                          {...props.input}
+                          disabled={!selectedPool}
+                          value={amount}
+                          onKeyPress={(event) => {
+                            // TODO: replace magic numbers with named constants
+                            return event.charCode >= 48 && event.charCode <= 57;
+                          }}
+                          onChange={({ currentTarget }) => {
+                            // TODO: add positive integer validation
+                            try {
+                              if (
+                                !Number.isInteger(Number(currentTarget.value))
+                              ) {
+                                return;
+                              }
+
+                              const value = currentTarget.value;
+                              setAmount(value);
+                              props.input.onChange(value);
+                            } catch (e) {
+                              console.error('Redeem amount validaiton failed');
+                            }
+                          }}
+                        />
+                      )}
+                    </Field>
+                  </Grid>
+                  {!isFormDisabled && (
+                    <Grid xs={24} alignItems="flex-start" direction="column">
+                      <Text h5>Redeem summary</Text>
+                      <RedeemSummary
+                        outputAssetXName={outputAssetXName ?? ''}
+                        outputAssetYName={outputAssetYName ?? ''}
+                        outputAssetXAmount={renderFractions(
+                          outputAssetXAmount.amount,
+                          outputAssetXAmount.asset.decimals,
+                        )}
+                        outputAssetYAmount={renderFractions(
+                          outputAssetYAmount.amount,
+                          outputAssetYAmount.asset.decimals,
+                        )}
+                        minerFee={minerFee}
+                        dexFee={String(dexFee)}
+                        totalFee={totalFee}
+                      />
+                    </Grid>
+                  )}
+                  <Grid xs={24} justify="center">
+                    <Button
+                      htmlType="submit"
+                      disabled={
+                        buttonState.isDisabled ||
+                        Object.values(errors).length > 0
+                      }
+                    >
+                      {buttonState.text}
+                    </Button>
+                  </Grid>
+                </Grid.Container>
+              </form>
+            );
+          }}
         />
       </Card>
     </>

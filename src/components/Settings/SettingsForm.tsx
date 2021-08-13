@@ -1,11 +1,11 @@
 import React, { useCallback } from 'react';
-import { Select, Text, Tooltip } from '@geist-ui/react';
+import { Text, Tooltip } from '@geist-ui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
-import { Settings } from '../../context/SettingsContext';
+import { Settings } from '../../context';
 import { MinerFeeInput } from './MinerFeeInput';
-import { SlippageInput } from './SlippageInput';
-import { OverflowAddress } from './OverflowAddress';
+import { SelectAddress } from '../SelectAddress/SelectAddress';
+import { ConnectWallet } from '../ConnectWallet/ConnectWallet';
 
 const content = {
   dex: {
@@ -33,7 +33,7 @@ type SettingsFormProps = {
 export const SettingsForm = (props: SettingsFormProps): JSX.Element => {
   const {
     settings,
-    settings: { minerFee, address },
+    settings: { minerFee },
     setSettings,
     addresses,
   } = props;
@@ -78,21 +78,12 @@ export const SettingsForm = (props: SettingsFormProps): JSX.Element => {
         </Text>
 
         {addresses.length ? (
-          <Select
-            initialValue={address}
-            onChange={handleSelectAddress}
-            width="100%"
-          >
-            {addresses.map((address: string) => (
-              <Select.Option key={address} value={address}>
-                <OverflowAddress address={address} />
-              </Select.Option>
-            ))}
-          </Select>
+          <SelectAddress
+            addresses={addresses}
+            onSelectAddress={handleSelectAddress}
+          />
         ) : (
-          <Text p small type="secondary">
-            {content.address.connectButton}
-          </Text>
+          <ConnectWallet />
         )}
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { Text, Button } from '@geist-ui/react';
+import { Image, Button } from '@geist-ui/react';
 import React, { useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCog, faHistory } from '@fortawesome/free-solid-svg-icons';
@@ -6,14 +6,17 @@ import { ConnectWallet } from '../../ConnectWallet/ConnectWallet';
 import css from './header.module.scss';
 import { SettingsModal } from '../../Settings/SettingsModal';
 import { useToggle } from '../../../hooks/useToggle';
-import { WalletContext } from '../../../context/WalletContext';
-import { HistoryModal } from '../../History/HistoryModal';
+import { WalletContext } from '../../../context';
+import { HistoryModal } from '../../HistoryModal/HistoryModal';
+import logo from '../../../assets/images/logo.svg';
+import { FeedbackLink } from '../../FeedbackLink/FeedbackLink';
+import { InstructionsModal } from '../../InstructionsModal/InstructionsModal';
 
-const SettingsButton = (): JSX.Element => {
+const SettingsButton = ({ className }: { className: string }): JSX.Element => {
   const [open, handleOpen, handleClose] = useToggle(false);
 
   return (
-    <div>
+    <div className={className}>
       <Button
         auto
         type="abort"
@@ -26,11 +29,11 @@ const SettingsButton = (): JSX.Element => {
   );
 };
 
-const HistoryButton = (): JSX.Element => {
+const HistoryButton = ({ className }: { className: string }): JSX.Element => {
   const [open, handleOpen, handleClose] = useToggle(false);
 
   return (
-    <div>
+    <div className={className}>
       <Button
         auto
         type="abort"
@@ -43,17 +46,34 @@ const HistoryButton = (): JSX.Element => {
   );
 };
 
-const Header = (): JSX.Element => {
+type Props = {
+  showNav?: boolean;
+};
+
+const Header: React.FC<Props> = ({ showNav = true }) => {
   const { isWalletConnected } = useContext(WalletContext);
 
+  // TODO: split this component to Header and Navbar components
   return (
     <header className={css.header}>
-      <Text h2 className={css.main}>
-        ErgoDEX
-      </Text>
-      <SettingsButton />
-      {isWalletConnected && <HistoryButton />}
-      <ConnectWallet />
+      <div>
+        <a href={window.location.origin} className={css.logotype}>
+          <Image src={logo} className={css.main} />
+        </a>
+      </div>
+      <div className={css.tools}>
+        {showNav && (
+          <>
+            <FeedbackLink className={css.feedback} />
+            <InstructionsModal className={css.rightsideItem} />
+            <SettingsButton className={css.rightsideItem} />
+            {isWalletConnected && (
+              <HistoryButton className={css.rightsideItem} />
+            )}
+            <ConnectWallet className={css.rightsideItem} />
+          </>
+        )}
+      </div>
     </header>
   );
 };

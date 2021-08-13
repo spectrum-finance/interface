@@ -9,50 +9,66 @@ import {
 } from '../../constants/settings';
 import { FormError } from './FormError';
 import { countDecimals } from '../../utils/numbers';
+import { toFloat } from '../../utils/string';
 
 const content = {
   autoButton: 'Auto',
 };
 
 type SlippageInputProps = {
-  slippage: number;
-  setSlippage: (num: number) => void;
+  slippage: string;
+  setSlippage: (num: string) => void;
+};
+
+const getStatus = ({ error, warning }: { error: string; warning: string }) => {
+  if (error) {
+    return 'error';
+  }
+
+  if (warning) {
+    return 'warning';
+  }
+
+  return undefined;
 };
 
 export const SlippageInput = (props: SlippageInputProps): JSX.Element => {
   const { slippage, setSlippage } = props;
 
   const [error, setError] = useState('');
+  const [warning, setWarning] = useState('');
+  const [isAuto, setIsAuto] = useState(slippage === DefaultSettings.slippage);
 
-  const isAuto = slippage === DefaultSettings.slippage;
-
-  const { state, setState, bindings } = useInput(
-    isAuto ? '' : slippage.toString(),
-  );
+  const { state, setState, bindings } = useInput(slippage);
 
   const handleChange = useCallback(
     (e?: React.ChangeEvent<HTMLInputElement>) => {
       if (e) {
-        const value = e.target.value;
+        const value = toFloat(e.target.value, SlippageDecimals);
+        setIsAuto(false);
+
+        if (!value) {
+          setState('');
+          setSlippage('');
+          setIsAuto(true);
+          return;
+        }
+
+        const numValue = parseFloat(value);
+
+        if (numValue > 100) {
+          setError(`Enter a valid slippage percentage`);
+          setWarning('');
+        } else if (numValue > 1) {
+          setWarning(`Your transaction may be frontrun`);
+          setError('');
+        } else {
+          setError('');
+          setWarning('');
+        }
 
         setState(value);
-        if (value) {
-          const num = parseFloat(e.target.value);
-          if (num >= SlippageMin) {
-            if (num >= SlippageMin && num <= SlippageMax) {
-              if (countDecimals(num) > SlippageDecimals) {
-                setError(`must be <= ${SlippageDecimals} decimal places`);
-              } else {
-                setSlippage(num);
-                setError('');
-              }
-            } else {
-              setError(`must be >= ${SlippageMin} and <= ${SlippageMax}`);
-            }
-          } else {
-            setError(`must be a number`);
-          }
-        }
+        setSlippage(value);
       }
     },
     [setSlippage, setState],
@@ -62,6 +78,8 @@ export const SlippageInput = (props: SlippageInputProps): JSX.Element => {
     setSlippage(DefaultSettings.slippage);
     setState('');
     setError('');
+    setWarning('');
+    setIsAuto(true);
   }, [setSlippage, setState]);
 
   const handleOnBlur = useCallback(() => {
@@ -72,9 +90,15 @@ export const SlippageInput = (props: SlippageInputProps): JSX.Element => {
         const num = parseFloat(state);
         if (countDecimals(num) != SlippageDecimals) {
           const decimal = num.toFixed(SlippageDecimals);
-          setSlippage(parseFloat(decimal));
+          setSlippage(String(parseFloat(decimal)));
           setState(decimal);
         }
+      }
+      if (error) {
+        setIsAuto(true);
+        setState('');
+        setSlippage('');
+        setError('');
       }
     }
   }, [state, error, handleReset, setSlippage, setState]);
@@ -93,7 +117,7 @@ export const SlippageInput = (props: SlippageInputProps): JSX.Element => {
           {...bindings}
           onClearClick={handleReset}
           onBlur={handleOnBlur}
-          status={error ? 'error' : undefined}
+          status={getStatus({ error, warning })}
           clearable
           labelRight="%"
           min={SlippageMin}
@@ -102,7 +126,9 @@ export const SlippageInput = (props: SlippageInputProps): JSX.Element => {
           onChange={handleChange}
         />
       </AutoInputContainer>
-      <FormError>{error}</FormError>
+      <FormError type={getStatus({ error, warning })}>
+        {error || warning}
+      </FormError>
     </>
   );
 };

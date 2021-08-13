@@ -1,7 +1,9 @@
-import { defaultMinerFee, nanoErgInErg } from './erg';
+import { DEFAULT_MINER_FEE, ERG_DECIMALS } from './erg';
+import { renderFractions } from '../utils/math';
 
-// IDK what these should be...
-export const MinerFeeDefault = defaultMinerFee / nanoErgInErg;
+export const MinerFeeDefault = Number(
+  renderFractions(DEFAULT_MINER_FEE, ERG_DECIMALS),
+);
 export const MinerFeeMin = MinerFeeDefault;
 export const MinerFeeMax = 5;
 export const MinerFeeDecimals = 2;

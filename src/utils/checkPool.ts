@@ -1,6 +1,12 @@
-import { AmmPool, NetworkAmmPoolValidation } from 'ergo-dex-sdk';
-import { explorer } from './explorer';
+import {
+  AmmPool,
+  NetworkAmmPoolValidation,
+  ValidationResult,
+} from 'ergo-dex-sdk';
+import explorer from '../services/explorer';
 
-export const checkPool = async (pool: AmmPool) => {
-  return new NetworkAmmPoolValidation(explorer).validate(pool);
+const poolValidation = new NetworkAmmPoolValidation(explorer);
+
+export const checkPool = async (pool: AmmPool): Promise<ValidationResult> => {
+  return poolValidation.validate(pool);
 };
