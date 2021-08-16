@@ -72,7 +72,10 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
   const [slippage, setSlippage] = useState(DefaultSettings.slippage);
   const [inputAmount, setInputAmount] = useState('');
   const [outputAmount, setOutputAmount] = useState('');
-  const [availableInputAmount, setAvailableInputAmount] = useState(0n);
+  const [availableAmount, setAvailableAmount] = useState({
+    input: 0n,
+    output: 0n,
+  });
   const [minDexFee, setMinDexFee] = useState(String(MIN_DEX_FEE));
   const [nitro, setNitro] = useState(String(MIN_NITRO));
   const [currentSwapVars, setCurrentSwapVars] = useState<
@@ -95,24 +98,22 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
   const buttonStatus = useMemo(
     () =>
       getButtonState({
-        isWalletConnected,
-        inputAssetId: inputAssetAmount?.asset.id,
-        outputAssetId: outputAssetAmount?.asset.id,
+        inputAssetAmount,
+        outputAssetAmount,
         inputAmount,
         outputAmount,
         chosenAddress,
         utxos,
-        availableInputAmount,
+        availableAmount,
       }),
     [
-      isWalletConnected,
       inputAmount,
       outputAmount,
       inputAssetAmount,
       outputAssetAmount,
       chosenAddress,
       utxos,
-      availableInputAmount,
+      availableAmount,
     ],
   );
 
@@ -137,14 +138,15 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
   }, [slippage, minDexFee, inputAmount, inputAssetAmount, selectedPool, nitro]);
 
   useEffect(() => {
-    if (isWalletConnected && inputAssetAmount) {
+    if (isWalletConnected && inputAssetAmount && outputAssetAmount) {
       if (utxos) {
-        setAvailableInputAmount(
-          calculateAvailableAmount(inputAssetAmount.asset.id, utxos),
-        );
+        setAvailableAmount({
+          input: calculateAvailableAmount(inputAssetAmount.asset.id, utxos),
+          output: calculateAvailableAmount(outputAssetAmount.asset.id, utxos),
+        });
       }
     }
-  }, [isWalletConnected, inputAssetAmount, utxos]);
+  }, [isWalletConnected, inputAssetAmount, outputAssetAmount, utxos]);
 
   const resetSwapForm = (): void => {
     setInputAmount('');
