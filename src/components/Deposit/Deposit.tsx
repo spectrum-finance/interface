@@ -361,6 +361,14 @@ export const Deposit = (): JSX.Element => {
                                 value={inputAmountX}
                                 onChange={({ currentTarget }) => {
                                   const value = currentTarget.value;
+
+                                  if (
+                                    inputAssetAmountX?.asset.decimals === 0 &&
+                                    /[,.]/.test(value)
+                                  ) {
+                                    return;
+                                  }
+
                                   handleTokenAmountChange(value, 'input');
                                   props.input.onChange(value);
                                 }}
@@ -380,6 +388,14 @@ export const Deposit = (): JSX.Element => {
                               value={inputAmountY}
                               onChange={({ currentTarget }) => {
                                 const value = currentTarget.value;
+
+                                if (
+                                  inputAssetAmountY?.asset.decimals === 0 &&
+                                  /[,.]/.test(value)
+                                ) {
+                                  return;
+                                }
+
                                 handleTokenAmountChange(value, 'output');
                                 props.input.onChange(value);
                               }}
