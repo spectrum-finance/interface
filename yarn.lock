@@ -4989,10 +4989,10 @@ entities@^2.0.0:
   resolved "https://registry.npmjs.org/entities/-/entities-2.2.0.tgz"
   integrity sha512-p92if5Nz619I0w+akJrLZH0MX0Pb5DX39XOwQTtXSdQQOaYH03S1uIQp4mhOZtAXrxq4ViO67YTiLBo2638o9A==
 
-ergo-dex-sdk@^0.2.15:
-  version "0.2.15"
-  resolved "https://registry.yarnpkg.com/ergo-dex-sdk/-/ergo-dex-sdk-0.2.15.tgz#b7f86e9305db87011ec27e986a30654e1422ed0e"
-  integrity sha512-gUrIytZic/Q4cb3+u1Fqi7SX5paLwyEyXVruRMh+ncLOejg35Ss/QQEu0h0rlxaVPmb4aRaj8DWPs+0NUvMtuA==
+ergo-dex-sdk@^0.2.16:
+  version "0.2.16"
+  resolved "https://registry.yarnpkg.com/ergo-dex-sdk/-/ergo-dex-sdk-0.2.16.tgz#97dcb39046530780f0d0541d311081d2aff02015"
+  integrity sha512-xoElIkMCVhMKWYDte7cDRaQJdxoTnI4brUwp/8W3wTM767PGRCOSXJFwbqcYYi8BRf7i7CuoR+XC2aMTQR7+Mw==
   dependencies:
     axios "^0.21.1"
     blakejs "^1.1.0"
@@ -5002,6 +5002,7 @@ ergo-dex-sdk@^0.2.15:
     ergo-lib-wasm-nodejs "0.14.0-alpha-01cd628"
     json-bigint "^1.0.0"
     mathjs "^9.4.4"
+    ramda "0.27.1"
 
 ergo-lib-wasm-browser@0.14.0-alpha-01cd628:
   version "0.14.0-alpha-01cd628"
@@ -10453,9 +10454,9 @@ raf@^3.4.1:
   dependencies:
     performance-now "^2.1.0"
 
-ramda@^0.27.1:
+ramda@0.27.1, ramda@^0.27.1:
   version "0.27.1"
-  resolved "https://registry.npmjs.org/ramda/-/ramda-0.27.1.tgz"
+  resolved "https://registry.yarnpkg.com/ramda/-/ramda-0.27.1.tgz#66fc2df3ef873874ffc2da6aa8984658abacf5c9"
   integrity sha512-PgIdVpn5y5Yns8vqb8FzBUEYn98V3xcPgawAkkgj0YJ0qDsnHCiNmZYfOGMgOvoB0eWFLpYbhxUR3mxfDIMvpw==
 
 randombytes@^2.0.0, randombytes@^2.0.1, randombytes@^2.0.5, randombytes@^2.1.0:
