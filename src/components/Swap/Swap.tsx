@@ -436,6 +436,13 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                             disabled={!inputAssetAmount}
                             value={inputAmount}
                             onChange={({ currentTarget }) => {
+                              if (
+                                inputAssetAmount?.asset.decimals === 0 &&
+                                /[,.]/.test(currentTarget.value)
+                              ) {
+                                return;
+                              }
+
                               handleEnterInputTokenAmount(
                                 currentTarget.value,
                                 inputAssetAmount?.asset.decimals || 0,
@@ -474,6 +481,13 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                         {...props.input}
                         value={outputAmount}
                         onChange={({ currentTarget }) => {
+                          if (
+                            outputAssetAmount?.asset.decimals === 0 &&
+                            /[,.]/.test(currentTarget.value)
+                          ) {
+                            return;
+                          }
+
                           handleEnterOutputTokenAmount(
                             currentTarget.value,
                             outputAssetAmount?.asset.decimals || 0,
