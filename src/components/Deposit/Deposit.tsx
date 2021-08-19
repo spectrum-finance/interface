@@ -113,6 +113,8 @@ export const Deposit = (): JSX.Element => {
 
   const updateSelectedPool = useCallback((pool: AmmPool) => {
     setSelectedPool(pool);
+    setInputAmountX('');
+    setInputAmountY('');
     setInputAssetAmountX(pool.x);
     setInputAssetAmountY(pool.y);
   }, []);
