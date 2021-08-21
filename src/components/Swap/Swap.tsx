@@ -86,6 +86,8 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
   const updateSelectedPool = useCallback((pool: AmmPool) => {
     setSelectedPool(pool);
     setInputAssetAmount(pool.x);
+    setInputAmount('');
+    setOutputAmount('');
     setOutputAssetAmount(pool.y);
   }, []);
 
