@@ -7,7 +7,8 @@ export const tokens: Tokens = new NetworkTokens(explorer);
 
 /** List all assets belonging to the current wallet.
  */
-export async function listWalletAssets(): Promise<AssetAmount[]> {
+export const listWalletAssets = async (): Promise<AssetAmount[]> => {
+  // const { ergoBoxFromProxy } = await import('ergo-dex-sdk/build/main/ergo');
   const boxes = await ergo
     .get_utxos()
     .then((bxs) => bxs?.map((bx) => ergoBoxFromProxy(bx)));
@@ -28,4 +29,4 @@ export async function listWalletAssets(): Promise<AssetAmount[]> {
     return aggregatedAssets;
   }
   return [];
-}
+};

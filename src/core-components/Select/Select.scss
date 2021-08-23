@@ -1,0 +1,16 @@
+:root {
+  --form-control-bg-color: transparent;
+  --form-control-bg-color: transparent;
+  --form-control-border-bottom: transparent;
+  --form-control-focus-border-bottom: transparent;
+}
+
+.core-select {
+  width: 100%;
+
+  &__field {
+    border: 1px solid #eaeaea;
+    border-radius: 5px;
+  }
+}
+
