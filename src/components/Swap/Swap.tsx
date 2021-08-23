@@ -46,13 +46,14 @@ import SwapSettings from './SwapSettings';
 import { SwapExtremums } from 'ergo-dex-sdk/build/module/amm/math/swap';
 import { isNil } from 'ramda';
 import explorer from '../../services/explorer';
-import poolOptions from '../../services/poolOptions';
+import { poolActions, nativePoolActions } from '../../services/poolOptions';
 import { renderFractions, parseUserInputToFractions } from '../../utils/math';
 import { isEmpty } from 'ramda';
 import { isZero } from '../../utils/numbers';
 import { toFloat } from '../../utils/string';
 import { SwapSummary } from './SwapSummary';
 import { miniSufficientValue } from '../../utils/ammMath';
+import { isNative } from 'ergo-dex-sdk/build/main/ergo/entities/assetInfo';
 
 interface SwapFormProps {
   pools: AmmPool[];
@@ -347,7 +348,11 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
             network: networkContext,
           };
 
-          poolOptions
+          const actions = isNative(selectedPool.x.asset)
+            ? nativePoolActions
+            : poolActions;
+
+          actions
             .swap(params, txContext)
             .then(async (tx) => {
               const proxyTx = ergoTxToProxy(tx);
