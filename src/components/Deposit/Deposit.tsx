@@ -31,7 +31,7 @@ import { useGetAllPools } from '../../hooks/useGetAllPools';
 import { PoolSelect } from '../PoolSelect/PoolSelect';
 import { toast } from 'react-toastify';
 import explorer from '../../services/explorer';
-import { poolActions, nativePoolActions } from '../../services/poolOptions';
+import { poolActions } from '../../services/poolOptions';
 import { useCheckPool } from '../../hooks/useCheckPool';
 import { calculateAvailableAmount } from '../../utils/walletMath';
 import { parseUserInputToFractions, renderFractions } from '../../utils/math';
@@ -39,7 +39,6 @@ import { DepositSummary } from './DepositSummary';
 import { toFloat } from '../../utils/string';
 import { miniSufficientValue } from '../../utils/ammMath';
 import { calculateTotalFee } from '../../utils/transactions';
-import { isNative } from 'ergo-dex-sdk/build/main/ergo/entities/assetInfo';
 
 export const Deposit = (): JSX.Element => {
   const [{ minerFee, address: chosenAddress }] = useSettings();
@@ -230,9 +229,7 @@ export const Deposit = (): JSX.Element => {
 
       const pk = fromAddress(chosenAddress) as string;
 
-      const actions = isNative(selectedPool.x.asset)
-        ? nativePoolActions
-        : poolActions;
+      const actions = poolActions(selectedPool);
 
       actions
         .deposit(

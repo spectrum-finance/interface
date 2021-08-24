@@ -27,11 +27,10 @@ import { toast } from 'react-toastify';
 import explorer from '../../services/explorer';
 import { ergoBoxFromProxy } from 'ergo-dex-sdk/build/module/ergo/entities/ergoBox';
 import { parseUserInputToFractions, renderFractions } from '../../utils/math';
-import { poolActions, nativePoolActions } from '../../services/poolOptions';
+import { poolActions } from '../../services/poolOptions';
 import { miniSufficientValue } from '../../utils/ammMath';
 import { calculateTotalFee } from '../../utils/transactions';
 import { RedeemSummary } from './RedeemSummary';
-import { isNative } from 'ergo-dex-sdk/build/main/ergo/entities/assetInfo';
 
 export const Redeem = (): JSX.Element => {
   const [{ minerFee, address: chosenAddress }] = useSettings();
@@ -90,9 +89,7 @@ export const Redeem = (): JSX.Element => {
 
       const pk = fromAddress(chosenAddress) as string;
 
-      const actions = isNative(selectedPool.x.asset)
-        ? nativePoolActions
-        : poolActions;
+      const actions = poolActions(selectedPool);
 
       actions
         .redeem(
