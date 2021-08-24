@@ -4,10 +4,12 @@ import { AssetAmount, AssetInfo } from 'ergo-dex-sdk/build/module/ergo';
 import { WalletContext, useSettings } from '../../context';
 import { ERG_DECIMALS } from '../../constants/erg';
 import { parseUserInputToFractions, renderFractions } from '../../utils/math';
-import { isEmpty } from 'ramda';
-import { Select, SelectOptionShape } from '../../core-components';
+import { isEmpty, isNil } from 'ramda';
+import { Select, SelectOptionShape, AmountInput } from '../../core-components';
 import { PoolSummary } from './PoolSummary';
 import { truncate } from '../../utils/string';
+import { getButtonState } from './buttonState';
+import { PoolFeeDecimals } from '../../constants/settings';
 
 const getAssetTitle = (asset?: AssetInfo) => {
   if (!asset) return '';
@@ -16,7 +18,7 @@ const getAssetTitle = (asset?: AssetInfo) => {
 
 export const Pool = (): JSX.Element => {
   const [{ minerFee }] = useSettings();
-  const { isWalletConnected, utxos, ergBalance } = useContext(WalletContext);
+  const { isWalletConnected, ergBalance } = useContext(WalletContext);
   const [selectedAssetX, setSelectedAssetX] = useState<
     AssetAmount | undefined
   >();
@@ -26,12 +28,14 @@ export const Pool = (): JSX.Element => {
   const [availableWalletAssets, setAvailableWalletAssets] = useState<
     AssetAmount[] | undefined
   >();
+  const [poolFee, setPoolFee] = useState<bigint | undefined>();
 
   useEffect(() => {
+    if (!isWalletConnected) return;
     import('../../services/userWallet').then(({ listWalletAssets }) => {
       listWalletAssets().then(setAvailableWalletAssets);
     });
-  }, []);
+  }, [isWalletConnected]);
 
   const assetOptionsX: SelectOptionShape[] =
     availableWalletAssets?.map(({ asset }) => ({
@@ -43,6 +47,7 @@ export const Pool = (): JSX.Element => {
 
   const totalFee = renderFractions(
     2n * parseUserInputToFractions(minerFee, ERG_DECIMALS),
+    ERG_DECIMALS,
   );
 
   const handleAssetXChange = useCallback(
@@ -67,9 +72,15 @@ export const Pool = (): JSX.Element => {
     },
     [availableWalletAssets],
   );
-  // const buttonState = useMemo(() => {
-  //   return getButtonState({});
-  // }, []);
+  const buttonState = getButtonState({
+    selectedAssetX,
+    selectedAssetY,
+    poolFee: !isNil(poolFee)
+      ? Number(renderFractions(poolFee, PoolFeeDecimals))
+      : undefined,
+    ergBalance,
+    totalFee: Number(totalFee),
+  });
 
   if (!isWalletConnected) {
     return (
@@ -95,7 +106,7 @@ export const Pool = (): JSX.Element => {
     );
   }
 
-  const isFormDisabled = false;
+  const isFormDisabled = buttonState.isDisabled;
   return (
     <>
       <Card>
@@ -122,7 +133,19 @@ export const Pool = (): JSX.Element => {
                 onChange={handleAssetYChange}
               />
             </Grid>
-
+            <Grid xs={24}>
+              <Text h5>Transaction fee</Text>
+            </Grid>
+            <Grid xs={24}>
+              <AmountInput
+                suffix=""
+                onChange={(_, { value }) => {
+                  setPoolFee(isNil(value) ? undefined : BigInt(value));
+                }}
+                value={isNil(poolFee) ? undefined : Number(poolFee)}
+                minority={1000}
+              />
+            </Grid>
             {!isFormDisabled && (
               <Grid xs={24} alignItems="flex-start" direction="column">
                 <Text h5>Pool summary</Text>
@@ -131,7 +154,7 @@ export const Pool = (): JSX.Element => {
             )}
             <Grid xs={24} justify="center">
               <Button htmlType="submit" disabled={isFormDisabled}>
-                asdf
+                {buttonState.text}
               </Button>
             </Grid>
           </Grid.Container>

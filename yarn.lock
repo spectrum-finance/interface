@@ -2,6 +2,17 @@
 # yarn lockfile v1
 
 
+"@alfalab/core-components-amount-input@^5.2.3":
+  version "5.2.3"
+  resolved "https://registry.yarnpkg.com/@alfalab/core-components-amount-input/-/core-components-amount-input-5.2.3.tgz#2d674752437a0d582a439a2d9f8b5624c2a41e4b"
+  integrity sha512-IraoRIBm0eYLhuvfKhiPU43EcIHYrnR1hFA48lDtF6TAflSdDOz1jXptNtsK5+yy7q1SNBjq2gB4EgM7rJoJTA==
+  dependencies:
+    "@alfalab/core-components-input" "^7.2.3"
+    "@alfalab/core-components-with-suffix" "^3.0.7"
+    "@alfalab/data" "^0.4.3"
+    "@alfalab/utils" "^1.3.0"
+    classnames "^2.2.6"
+
 "@alfalab/core-components-button@^4.2.0":
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/@alfalab/core-components-button/-/core-components-button-4.2.0.tgz#da7840e38b4b28d7907fc6df3f44f2faa9cf2031"
@@ -19,13 +30,11 @@
   dependencies:
     classnames "^2.2.6"
 
-"@alfalab/core-components-input-autocomplete@^7.0.7":
-  version "7.0.7"
-  resolved "https://registry.yarnpkg.com/@alfalab/core-components-input-autocomplete/-/core-components-input-autocomplete-7.0.7.tgz#31123d3c18aa437c95ee749a1a443b9c1f544a3c"
-  integrity sha512-oX2/EQNXFif9q18JmIB0VK4wB9vdhCSwARjsh13Ub7EEivWGwaLeu8I1wzkycfi3uClf7qlszokqwalsLXTiGg==
+"@alfalab/core-components-form-control@^7.2.2":
+  version "7.2.2"
+  resolved "https://registry.yarnpkg.com/@alfalab/core-components-form-control/-/core-components-form-control-7.2.2.tgz#76d021bee92bebc88639d554dd16637c29981871"
+  integrity sha512-6nntlbWZ3IkSa+7TSav8V7KQ/arUp8lO//9k3ajuBQYHbp5kqzB90HzVYk2qXucMc6dsdBbqw1ukQjdqdBpnsQ==
   dependencies:
-    "@alfalab/core-components-input" "^7.2.1"
-    "@alfalab/core-components-select" "^9.3.2"
     classnames "^2.2.6"
 
 "@alfalab/core-components-input@^7.2.1":
@@ -35,6 +44,18 @@
   dependencies:
     "@alfalab/core-components-button" "^4.2.0"
     "@alfalab/core-components-form-control" "^7.2.1"
+    "@alfalab/hooks" "^1.0.0"
+    "@alfalab/icons-glyph" "^1.150.0"
+    classnames "^2.2.6"
+    react-merge-refs "^1.1.0"
+
+"@alfalab/core-components-input@^7.2.3":
+  version "7.2.3"
+  resolved "https://registry.yarnpkg.com/@alfalab/core-components-input/-/core-components-input-7.2.3.tgz#fffe9b7ceb7af739f10ccaf8f5a591d9d0a6a954"
+  integrity sha512-ssk+DuNxs5taGfDoNzYchSX01XNN14dktYIjHNDjONUcusAvoLSKzaNTLg5cnsSmnJ3B8TYsdg1Up3mKixSfCQ==
+  dependencies:
+    "@alfalab/core-components-button" "^4.2.0"
+    "@alfalab/core-components-form-control" "^7.2.2"
     "@alfalab/hooks" "^1.0.0"
     "@alfalab/icons-glyph" "^1.150.0"
     classnames "^2.2.6"
@@ -92,6 +113,21 @@
   resolved "https://registry.yarnpkg.com/@alfalab/core-components-stack/-/core-components-stack-3.0.1.tgz#f8df82cd81e5400c289d69165087ad620dc74a57"
   integrity sha512-Lj6Lw+4d3mYjVTeBIo5feL3YXk4pewBFg5CJ8kQOLIjA9DtBtyDyp/O+c0J6BwhUKSZsq7dxDxdhEoHXEtqTtA==
 
+"@alfalab/core-components-with-suffix@^3.0.7":
+  version "3.0.7"
+  resolved "https://registry.yarnpkg.com/@alfalab/core-components-with-suffix/-/core-components-with-suffix-3.0.7.tgz#0adf4f5137cab64731e1c6ce8574243e24978e94"
+  integrity sha512-v4D26aF1WSqAurUTZMU88DEdjfB2ZWKBInXHspCMjj83GNtB2Q+mlKe0pHgJkcZ2cac0e6brhNo/eK9U4FzeVA==
+  dependencies:
+    "@alfalab/core-components-input" "^7.2.3"
+    "@alfalab/core-components-portal" "^2.0.1"
+    classnames "^2.2.6"
+    react-merge-refs "^1.1.0"
+
+"@alfalab/data@^0.4.3":
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/@alfalab/data/-/data-0.4.3.tgz#81374432b6a54394803502c293757bac9fd7f3c0"
+  integrity sha512-L3MHYEU23ysZ3y68gM5dSVknV4k+t1fzJ5T0j8E0IF8ArZFdP/7UVsz8Az+B2aV5pflcnrMYtIDAbGGab4JfTw==
+
 "@alfalab/hooks@^1.0.0":
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/@alfalab/hooks/-/hooks-1.3.0.tgz#c2d8761fa36c6e4219bf7d922ccdc026623269ee"
@@ -101,6 +137,11 @@
   version "1.165.0"
   resolved "https://registry.yarnpkg.com/@alfalab/icons-glyph/-/icons-glyph-1.165.0.tgz#9615cf699e310c06ce101f5b9da99fb56c00023e"
   integrity sha512-hxbxORfK9tJ+IMzrhVW4wI/FQxW8sl+goZmQklsaJYI6PuYv/Xr1/WfbC1WGZiwIFAFFMj7cYb07AY2S6+312Q==
+
+"@alfalab/utils@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@alfalab/utils/-/utils-1.3.0.tgz#956c18e4a577b0e8076d0a7823db7a3852ef613c"
+  integrity sha512-+BEJYXjWyl6mdBomoH80lGFsVjLHHGwAU3H+SZvbGsnyL3M8gVwkMTYvUTEtddxEHKLlTTo6IGmzfAXT/UPaNg==
 
 "@babel/code-frame@7.10.4":
   version "7.10.4"
