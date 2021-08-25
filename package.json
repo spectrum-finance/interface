@@ -9,7 +9,7 @@
     "eject": "react-scripts eject",
     "lint:stylelint": "stylelint src/**/*.module.scss",
     "lint:prettier": "prettier --check src",
-    "lint:prettier:fix": "yarn prettier --write",
+    "lint:prettier:fix": "yarn lint:prettier --write",
     "lint:eslint": "eslint --ext .js,.ts,.tsx src",
     "lint": "yarn lint:eslint && yarn lint:prettier && yarn lint:stylelint",
     "storybook": "start-storybook -p 6006 -s public",
