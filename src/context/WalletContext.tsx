@@ -73,7 +73,7 @@ export const WalletContextProvider = ({
     ) {
       window.ergo_request_read_access().then(setIsWalletConnected);
     }
-  }, [isWalletConnected]);
+  }, [isWalletConnected, setIsWalletConnected]);
 
   useEffect(() => {
     if (isWalletConnected) {

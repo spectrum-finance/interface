@@ -16,7 +16,7 @@ import { ERG_DECIMALS } from '../../constants/erg';
 import { parseUserInputToFractions, renderFractions } from '../../utils/math';
 import { isEmpty, isNil } from 'ramda';
 import { Select, SelectOptionShape, AmountInput } from '../../core-components';
-import { PoolSummary } from './PoolSummary';
+import { CreatePoolSummary } from './CreatePoolSummary';
 import poolOptions from '../../services/poolOptions';
 import explorer from '../../services/explorer';
 import { truncate } from '../../utils/string';
@@ -31,7 +31,7 @@ const getAssetTitle = (asset?: AssetInfo) => {
   return asset.name ?? truncate(asset.id);
 };
 
-export const Pool = (): JSX.Element => {
+export const CreatePool = (): JSX.Element => {
   const [{ minerFee, address: addressFromSettings }] = useSettings();
   const { isWalletConnected, ergBalance, utxos } = useContext(WalletContext);
   const [selectedAssetX, setSelectedAssetX] = useState<
@@ -292,7 +292,7 @@ export const Pool = (): JSX.Element => {
             {!isFormDisabled && (
               <Grid xs={24} alignItems="flex-start" direction="column">
                 <Text h5>Pool summary</Text>
-                <PoolSummary totalFee={totalFee} />
+                <CreatePoolSummary totalFee={totalFee} />
               </Grid>
             )}
             <Grid xs={24} justify="center">

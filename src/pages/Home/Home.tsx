@@ -3,7 +3,7 @@ import { Tabs } from '@geist-ui/react';
 import { Swap } from '../../components/Swap/Swap';
 import { Redeem } from '../../components/Redeem/Redeem';
 import { Deposit } from '../../components/Deposit/Deposit';
-import { Pool } from '../../components/Pool/Pool';
+import { CreatePool } from '../../components/CreatePool/CreatePool';
 import Layout from '../../components/common/Layout/Layout';
 
 export const Home: React.FC = () => (
@@ -20,7 +20,7 @@ export const Home: React.FC = () => (
           <Deposit />
         </Tabs.Item>
         <Tabs.Item label="pool" value="pool">
-          <Pool />
+          <CreatePool />
         </Tabs.Item>
       </Tabs>
     </Layout>

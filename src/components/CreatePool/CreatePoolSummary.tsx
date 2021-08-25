@@ -6,7 +6,7 @@ interface Props {
   totalFee: string;
 }
 
-export const PoolSummary: React.FC<Props> = ({ totalFee }) => {
+export const CreatePoolSummary: React.FC<Props> = ({ totalFee }) => {
   return (
     <Table
       data={[
