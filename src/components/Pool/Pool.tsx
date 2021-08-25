@@ -10,6 +10,7 @@ import { PoolSummary } from './PoolSummary';
 import { truncate } from '../../utils/string';
 import { getButtonState } from './buttonState';
 import { PoolFeeDecimals } from '../../constants/settings';
+import { calculateAvailableAmount } from '../../utils/walletMath';
 
 const getAssetTitle = (asset?: AssetInfo) => {
   if (!asset) return '';
@@ -18,7 +19,7 @@ const getAssetTitle = (asset?: AssetInfo) => {
 
 export const Pool = (): JSX.Element => {
   const [{ minerFee }] = useSettings();
-  const { isWalletConnected, ergBalance } = useContext(WalletContext);
+  const { isWalletConnected, ergBalance, utxos } = useContext(WalletContext);
   const [selectedAssetX, setSelectedAssetX] = useState<
     AssetAmount | undefined
   >();
@@ -28,6 +29,10 @@ export const Pool = (): JSX.Element => {
   const [availableWalletAssets, setAvailableWalletAssets] = useState<
     AssetAmount[] | undefined
   >();
+  const [assetAmountX, setAssetAmountX] = useState<bigint | undefined>();
+  const [assetAmountY, setAssetAmountY] = useState<bigint | undefined>();
+  const [availableInputAmountX, setAvailableInputAmountX] = useState(0n);
+  const [availableInputAmountY, setAvailableInputAmountY] = useState(0n);
   const [poolFee, setPoolFee] = useState<bigint | undefined>();
 
   useEffect(() => {
@@ -37,11 +42,25 @@ export const Pool = (): JSX.Element => {
     });
   }, [isWalletConnected]);
 
+  useEffect(() => {
+    if (isWalletConnected && selectedAssetX && selectedAssetY) {
+      if (utxos) {
+        setAvailableInputAmountX(
+          calculateAvailableAmount(selectedAssetX.asset.id, utxos),
+        );
+        setAvailableInputAmountY(
+          calculateAvailableAmount(selectedAssetY.asset.id, utxos),
+        );
+      }
+    }
+  }, [isWalletConnected, selectedAssetX, selectedAssetY, utxos]);
+
   const assetOptionsX: SelectOptionShape[] =
     availableWalletAssets?.map(({ asset }) => ({
       key: asset.id,
       content: getAssetTitle(asset),
     })) ?? [];
+
   const assetOptionsY =
     assetOptionsX.filter(({ key }) => key !== selectedAssetX?.asset.id) ?? [];
 
@@ -72,9 +91,24 @@ export const Pool = (): JSX.Element => {
     },
     [availableWalletAssets],
   );
+
+  const handleAssetAmountX = useCallback((_, { value }) => {
+    const cleanValue = isNil(value) ? undefined : BigInt(value);
+    setAssetAmountX(cleanValue);
+  }, []);
+
+  const handleAssetAmountY = useCallback((_, { value }) => {
+    const cleanValue = isNil(value) ? undefined : BigInt(value);
+    setAssetAmountY(cleanValue);
+  }, []);
+
   const buttonState = getButtonState({
     selectedAssetX,
     selectedAssetY,
+    assetAmountX,
+    assetAmountY,
+    availableInputAmountX,
+    availableInputAmountY,
     poolFee: !isNil(poolFee)
       ? Number(renderFractions(poolFee, PoolFeeDecimals))
       : undefined,
@@ -113,7 +147,10 @@ export const Pool = (): JSX.Element => {
         <form>
           <Grid.Container gap={1}>
             <Grid xs={24}>
-              <Text h5>Pool</Text>
+              <Text h2>Create pool</Text>
+            </Grid>
+            <Grid xs={24}>
+              <Text h5>First token</Text>
             </Grid>
             <Grid xs={24}>
               <Select
@@ -125,6 +162,21 @@ export const Pool = (): JSX.Element => {
               />
             </Grid>
             <Grid xs={24}>
+              <Text h5>First token amount</Text>
+            </Grid>
+            <Grid xs={24}>
+              <AmountInput
+                suffix=""
+                onChange={handleAssetAmountX}
+                value={isNil(assetAmountX) ? undefined : Number(assetAmountX)}
+                disabled={isNil(selectedAssetX)}
+                minority={Math.pow(10, selectedAssetX?.asset.decimals ?? 0)}
+              />
+            </Grid>
+            <Grid xs={24}>
+              <Text h5>Second token</Text>
+            </Grid>
+            <Grid xs={24}>
               <Select
                 name="selectedAssetY"
                 placeholder="Select second token"
@@ -134,7 +186,19 @@ export const Pool = (): JSX.Element => {
               />
             </Grid>
             <Grid xs={24}>
-              <Text h5>Transaction fee</Text>
+              <Text h5>Second token amount</Text>
+            </Grid>
+            <Grid xs={24}>
+              <AmountInput
+                suffix=""
+                onChange={handleAssetAmountY}
+                value={isNil(assetAmountY) ? undefined : Number(assetAmountY)}
+                disabled={isNil(selectedAssetY)}
+                minority={Math.pow(10, selectedAssetY?.asset.decimals ?? 0)}
+              />
+            </Grid>
+            <Grid xs={24}>
+              <Text h5>Pool fee</Text>
             </Grid>
             <Grid xs={24}>
               <AmountInput
@@ -143,7 +207,7 @@ export const Pool = (): JSX.Element => {
                   setPoolFee(isNil(value) ? undefined : BigInt(value));
                 }}
                 value={isNil(poolFee) ? undefined : Number(poolFee)}
-                minority={1000}
+                minority={Math.pow(10, PoolFeeDecimals)}
               />
             </Grid>
             {!isFormDisabled && (

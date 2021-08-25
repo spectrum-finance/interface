@@ -1,8 +1,10 @@
 :root {
   --form-control-bg-color: transparent;
   --form-control-bg-color: transparent;
+  --form-control-disabled-bg-color: #fafafa;
   --form-control-border-bottom: transparent;
   --form-control-focus-border-bottom: transparent;
+  --form-control-disabled-border-bottom: transparent;
 }
 
 .core-amount-input {
