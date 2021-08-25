@@ -1,5 +1,6 @@
 import { AssetAmount } from 'ergo-dex-sdk/build/module/ergo';
 import { PoolFeeMin, PoolFeeMax } from '../../constants/settings';
+import { truncate } from '../../utils/string';
 
 export enum PoolFormState {
   NEED_TO_CONNECT_WALLET = 'NEED_TO_CONNECT_WALLET',
@@ -69,8 +70,10 @@ export const getButtonState = (deps: ButtonStateDependencies): ButtonState => {
   const state = getState(deps);
   const { selectedAssetX, selectedAssetY } = deps;
 
-  const assetXName = selectedAssetX?.asset.name ?? '';
-  const assetYName = selectedAssetY?.asset.name ?? '';
+  const assetXName =
+    selectedAssetX?.asset.name ?? truncate(selectedAssetX?.asset.id ?? '');
+  const assetYName =
+    selectedAssetY?.asset.name ?? truncate(selectedAssetY?.asset.id ?? '');
 
   switch (state) {
     case PoolFormState.NEED_TO_SELECT_TOKENS: {

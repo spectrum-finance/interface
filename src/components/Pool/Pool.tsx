@@ -1,16 +1,30 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Button, Card, Grid, Loading, Text } from '@geist-ui/react';
-import { AssetAmount, AssetInfo } from 'ergo-dex-sdk/build/module/ergo';
+import {
+  AssetAmount,
+  AssetInfo,
+  BoxSelection,
+  DefaultBoxSelector,
+  ergoTxToProxy,
+} from 'ergo-dex-sdk/build/module/ergo';
+import {
+  make,
+  PoolSetupParams,
+} from 'ergo-dex-sdk/build/module/amm/models/poolSetupParams';
 import { WalletContext, useSettings } from '../../context';
 import { ERG_DECIMALS } from '../../constants/erg';
 import { parseUserInputToFractions, renderFractions } from '../../utils/math';
 import { isEmpty, isNil } from 'ramda';
 import { Select, SelectOptionShape, AmountInput } from '../../core-components';
 import { PoolSummary } from './PoolSummary';
+import poolOptions from '../../services/poolOptions';
+import explorer from '../../services/explorer';
 import { truncate } from '../../utils/string';
 import { getButtonState } from './buttonState';
 import { PoolFeeDecimals } from '../../constants/settings';
 import { calculateAvailableAmount } from '../../utils/walletMath';
+import { miniSufficientValue } from '../../utils/ammMath';
+import { toast } from 'react-toastify';
 
 const getAssetTitle = (asset?: AssetInfo) => {
   if (!asset) return '';
@@ -18,7 +32,7 @@ const getAssetTitle = (asset?: AssetInfo) => {
 };
 
 export const Pool = (): JSX.Element => {
-  const [{ minerFee }] = useSettings();
+  const [{ minerFee, address: addressFromSettings }] = useSettings();
   const { isWalletConnected, ergBalance, utxos } = useContext(WalletContext);
   const [selectedAssetX, setSelectedAssetX] = useState<
     AssetAmount | undefined
@@ -102,6 +116,71 @@ export const Pool = (): JSX.Element => {
     setAssetAmountY(cleanValue);
   }, []);
 
+  const handleSubmit = useCallback(
+    async (e: React.SyntheticEvent) => {
+      e.preventDefault();
+      if (
+        !selectedAssetX ||
+        !assetAmountX ||
+        !selectedAssetY ||
+        !assetAmountY ||
+        !poolFee ||
+        !utxos ||
+        !addressFromSettings
+      ) {
+        return;
+      }
+      const poolParams = make(
+        new AssetAmount(selectedAssetX?.asset, assetAmountX),
+        new AssetAmount(selectedAssetY?.asset, assetAmountY),
+        Number(renderFractions(poolFee, PoolFeeDecimals)),
+      );
+
+      poolOptions
+        .setup(poolParams as PoolSetupParams, {
+          inputs: DefaultBoxSelector.select(utxos, {
+            nErgs: miniSufficientValue(
+              parseUserInputToFractions(minerFee, ERG_DECIMALS),
+              0n,
+            ),
+            assets: [
+              {
+                tokenId: selectedAssetX.asset.id,
+                amount: assetAmountX,
+              },
+              {
+                tokenId: selectedAssetY.asset.id,
+                amount: assetAmountY,
+              },
+            ],
+          }) as BoxSelection,
+          changeAddress: addressFromSettings,
+          selfAddress: addressFromSettings,
+          feeNErgs: parseUserInputToFractions(String(minerFee), ERG_DECIMALS),
+          network: await explorer.getNetworkContext(),
+        })
+        .then(async (txs) => {
+          const promises = txs.map((tx) => ergo.submit_tx(ergoTxToProxy(tx)));
+          Promise.all(promises).then((submittedTxs) => {
+            submittedTxs.forEach((txId) => {
+              toast.success(`Transaction submitted: ${txId} `);
+            });
+          });
+        })
+        .catch((er) => toast.error(JSON.stringify(er)));
+    },
+    [
+      selectedAssetX,
+      assetAmountX,
+      selectedAssetY,
+      assetAmountY,
+      poolFee,
+      utxos,
+      addressFromSettings,
+      minerFee,
+    ],
+  );
+
   const buttonState = getButtonState({
     selectedAssetX,
     selectedAssetY,
@@ -144,7 +223,7 @@ export const Pool = (): JSX.Element => {
   return (
     <>
       <Card>
-        <form>
+        <form onSubmit={handleSubmit}>
           <Grid.Container gap={1}>
             <Grid xs={24}>
               <Text h2>Create pool</Text>
