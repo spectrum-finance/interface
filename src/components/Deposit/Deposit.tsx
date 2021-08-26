@@ -31,7 +31,7 @@ import { useGetAllPools } from '../../hooks/useGetAllPools';
 import { PoolSelect } from '../PoolSelect/PoolSelect';
 import { toast } from 'react-toastify';
 import explorer from '../../services/explorer';
-import poolOptions from '../../services/poolOptions';
+import { poolActions } from '../../services/poolOptions';
 import { useCheckPool } from '../../hooks/useCheckPool';
 import { calculateAvailableAmount } from '../../utils/walletMath';
 import { parseUserInputToFractions, renderFractions } from '../../utils/math';
@@ -113,6 +113,8 @@ export const Deposit = (): JSX.Element => {
 
   const updateSelectedPool = useCallback((pool: AmmPool) => {
     setSelectedPool(pool);
+    setInputAmountX('');
+    setInputAmountY('');
     setInputAssetAmountX(pool.x);
     setInputAssetAmountY(pool.y);
   }, []);
@@ -227,7 +229,9 @@ export const Deposit = (): JSX.Element => {
 
       const pk = fromAddress(chosenAddress) as string;
 
-      poolOptions
+      const actions = poolActions(selectedPool);
+
+      actions
         .deposit(
           {
             pk,
@@ -361,6 +365,14 @@ export const Deposit = (): JSX.Element => {
                                 value={inputAmountX}
                                 onChange={({ currentTarget }) => {
                                   const value = currentTarget.value;
+
+                                  if (
+                                    inputAssetAmountX?.asset.decimals === 0 &&
+                                    /[,.]/.test(value)
+                                  ) {
+                                    return;
+                                  }
+
                                   handleTokenAmountChange(value, 'input');
                                   props.input.onChange(value);
                                 }}
@@ -380,6 +392,14 @@ export const Deposit = (): JSX.Element => {
                               value={inputAmountY}
                               onChange={({ currentTarget }) => {
                                 const value = currentTarget.value;
+
+                                if (
+                                  inputAssetAmountY?.asset.decimals === 0 &&
+                                  /[,.]/.test(value)
+                                ) {
+                                  return;
+                                }
+
                                 handleTokenAmountChange(value, 'output');
                                 props.input.onChange(value);
                               }}

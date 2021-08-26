@@ -46,7 +46,7 @@ import SwapSettings from './SwapSettings';
 import { SwapExtremums } from 'ergo-dex-sdk/build/module/amm/math/swap';
 import { isNil } from 'ramda';
 import explorer from '../../services/explorer';
-import poolOptions from '../../services/poolOptions';
+import { poolActions } from '../../services/poolOptions';
 import { renderFractions, parseUserInputToFractions } from '../../utils/math';
 import { isEmpty } from 'ramda';
 import { isZero } from '../../utils/numbers';
@@ -72,7 +72,10 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
   const [slippage, setSlippage] = useState(DefaultSettings.slippage);
   const [inputAmount, setInputAmount] = useState('');
   const [outputAmount, setOutputAmount] = useState('');
-  const [availableInputAmount, setAvailableInputAmount] = useState(0n);
+  const [availableAmount, setAvailableAmount] = useState({
+    input: 0n,
+    output: 0n,
+  });
   const [minDexFee, setMinDexFee] = useState(String(MIN_DEX_FEE));
   const [nitro, setNitro] = useState(String(MIN_NITRO));
   const [currentSwapVars, setCurrentSwapVars] = useState<
@@ -83,6 +86,8 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
   const updateSelectedPool = useCallback((pool: AmmPool) => {
     setSelectedPool(pool);
     setInputAssetAmount(pool.x);
+    setInputAmount('');
+    setOutputAmount('');
     setOutputAssetAmount(pool.y);
   }, []);
 
@@ -95,24 +100,22 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
   const buttonStatus = useMemo(
     () =>
       getButtonState({
-        isWalletConnected,
-        inputAssetId: inputAssetAmount?.asset.id,
-        outputAssetId: outputAssetAmount?.asset.id,
+        inputAssetAmount,
+        outputAssetAmount,
         inputAmount,
         outputAmount,
         chosenAddress,
         utxos,
-        availableInputAmount,
+        availableAmount,
       }),
     [
-      isWalletConnected,
       inputAmount,
       outputAmount,
       inputAssetAmount,
       outputAssetAmount,
       chosenAddress,
       utxos,
-      availableInputAmount,
+      availableAmount,
     ],
   );
 
@@ -137,14 +140,15 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
   }, [slippage, minDexFee, inputAmount, inputAssetAmount, selectedPool, nitro]);
 
   useEffect(() => {
-    if (isWalletConnected && inputAssetAmount) {
+    if (isWalletConnected && inputAssetAmount && outputAssetAmount) {
       if (utxos) {
-        setAvailableInputAmount(
-          calculateAvailableAmount(inputAssetAmount.asset.id, utxos),
-        );
+        setAvailableAmount({
+          input: calculateAvailableAmount(inputAssetAmount.asset.id, utxos),
+          output: calculateAvailableAmount(outputAssetAmount.asset.id, utxos),
+        });
       }
     }
-  }, [isWalletConnected, inputAssetAmount, utxos]);
+  }, [isWalletConnected, inputAssetAmount, outputAssetAmount, utxos]);
 
   const resetSwapForm = (): void => {
     setInputAmount('');
@@ -343,7 +347,9 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
             network: networkContext,
           };
 
-          poolOptions
+          const actions = poolActions(selectedPool);
+
+          actions
             .swap(params, txContext)
             .then(async (tx) => {
               const proxyTx = ergoTxToProxy(tx);
@@ -434,6 +440,13 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                             disabled={!inputAssetAmount}
                             value={inputAmount}
                             onChange={({ currentTarget }) => {
+                              if (
+                                inputAssetAmount?.asset.decimals === 0 &&
+                                /[,.]/.test(currentTarget.value)
+                              ) {
+                                return;
+                              }
+
                               handleEnterInputTokenAmount(
                                 currentTarget.value,
                                 inputAssetAmount?.asset.decimals || 0,
@@ -472,6 +485,13 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                         {...props.input}
                         value={outputAmount}
                         onChange={({ currentTarget }) => {
+                          if (
+                            outputAssetAmount?.asset.decimals === 0 &&
+                            /[,.]/.test(currentTarget.value)
+                          ) {
+                            return;
+                          }
+
                           handleEnterOutputTokenAmount(
                             currentTarget.value,
                             outputAssetAmount?.asset.decimals || 0,
