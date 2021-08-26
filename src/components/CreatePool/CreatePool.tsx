@@ -8,7 +8,7 @@ import {
   ergoTxToProxy,
 } from 'ergo-dex-sdk/build/module/ergo';
 import {
-  make,
+  makePoolSetupParams,
   PoolSetupParams,
 } from 'ergo-dex-sdk/build/module/amm/models/poolSetupParams';
 import { WalletContext, useSettings } from '../../context';
@@ -17,7 +17,7 @@ import { parseUserInputToFractions, renderFractions } from '../../utils/math';
 import { isEmpty, isNil } from 'ramda';
 import { Select, SelectOptionShape, AmountInput } from '../../core-components';
 import { CreatePoolSummary } from './CreatePoolSummary';
-import poolOptions from '../../services/poolOptions';
+import { poolActions } from '../../services/poolOptions';
 import explorer from '../../services/explorer';
 import { truncate } from '../../utils/string';
 import { getButtonState } from './buttonState';
@@ -130,13 +130,15 @@ export const CreatePool = (): JSX.Element => {
       ) {
         return;
       }
-      const poolParams = make(
+      const poolParams = makePoolSetupParams(
         new AssetAmount(selectedAssetX?.asset, assetAmountX),
         new AssetAmount(selectedAssetY?.asset, assetAmountY),
         Number(renderFractions(poolFee, PoolFeeDecimals)),
       );
 
-      poolOptions
+      const actions = poolActions(poolParams as PoolSetupParams); // todo: validate that poolParams isn't InvalidParams
+
+      actions
         .setup(poolParams as PoolSetupParams, {
           inputs: DefaultBoxSelector.select(utxos, {
             nErgs: miniSufficientValue(
