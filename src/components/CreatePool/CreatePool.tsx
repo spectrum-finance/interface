@@ -136,7 +136,19 @@ export const CreatePool = (): JSX.Element => {
         Number(renderFractions(poolFee, PoolFeeDecimals)),
       );
 
-      const actions = poolActions(poolParams as PoolSetupParams); // todo: validate that poolParams isn't InvalidParams
+      const isPoolValidPoolSetupParams = (
+        x: ReturnType<typeof makePoolSetupParams>,
+      ): x is PoolSetupParams => {
+        return !Array.isArray(x);
+      };
+
+      if (!isPoolValidPoolSetupParams(poolParams)) {
+        console.error(poolParams);
+        poolParams.forEach((error) => toast.error(error.error));
+        return;
+      }
+
+      const actions = poolActions(poolParams);
 
       actions
         .setup(poolParams as PoolSetupParams, {
