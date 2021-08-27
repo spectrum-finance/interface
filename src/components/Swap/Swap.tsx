@@ -52,7 +52,7 @@ import { isEmpty } from 'ramda';
 import { isZero } from '../../utils/numbers';
 import { toFloat } from '../../utils/string';
 import { SwapSummary } from './SwapSummary';
-import { miniSufficientValue } from '../../utils/ammMath';
+import { makeTarget, minSufficientValueForOrder } from '../../utils/ammMath';
 
 interface SwapFormProps {
   pools: AmmPool[];
@@ -328,15 +328,13 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
           poolFeeNum,
         };
 
-        const inputs = DefaultBoxSelector.select(utxos, {
-          nErgs: miniSufficientValue(minerFeeNErgs, maxDexFee),
-          assets: [
-            {
-              tokenId: inputAssetAmount.asset.id,
-              amount: baseInputAmount,
-            },
-          ],
-        });
+        const minNErgs = minSufficientValueForOrder(minerFeeNErgs, maxDexFee);
+        const target = makeTarget(
+          [inputAssetAmount.withAmount(baseInputAmount)],
+          minNErgs,
+        );
+
+        const inputs = DefaultBoxSelector.select(utxos, target);
 
         if (inputs instanceof BoxSelection) {
           const txContext = {

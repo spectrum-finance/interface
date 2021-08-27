@@ -28,7 +28,7 @@ import explorer from '../../services/explorer';
 import { ergoBoxFromProxy } from 'ergo-dex-sdk/build/module/ergo/entities/ergoBox';
 import { parseUserInputToFractions, renderFractions } from '../../utils/math';
 import { poolActions } from '../../services/poolOptions';
-import { miniSufficientValue } from '../../utils/ammMath';
+import { makeTarget, minSufficientValueForOrder } from '../../utils/ammMath';
 import { calculateTotalFee } from '../../utils/transactions';
 import { RedeemSummary } from './RedeemSummary';
 
@@ -91,6 +91,15 @@ export const Redeem = (): JSX.Element => {
 
       const actions = poolActions(selectedPool);
 
+      const minNErgs = minSufficientValueForOrder(
+        parseUserInputToFractions(minerFee, ERG_DECIMALS),
+        parseUserInputToFractions(String(dexFee), ERG_DECIMALS),
+      );
+      const target = makeTarget(
+        [selectedPool.lp.withAmount(BigInt(amount))],
+        minNErgs,
+      );
+
       actions
         .redeem(
           {
@@ -100,18 +109,7 @@ export const Redeem = (): JSX.Element => {
             lp: selectedPool.lp.asset,
           },
           {
-            inputs: DefaultBoxSelector.select(utxos, {
-              nErgs: miniSufficientValue(
-                parseUserInputToFractions(minerFee, ERG_DECIMALS),
-                parseUserInputToFractions(String(dexFee), ERG_DECIMALS),
-              ),
-              assets: [
-                {
-                  tokenId: selectedPool.lp.asset.id,
-                  amount: BigInt(amount),
-                },
-              ],
-            }) as BoxSelection,
+            inputs: DefaultBoxSelector.select(utxos, target) as BoxSelection,
             changeAddress: chosenAddress,
             selfAddress: chosenAddress,
             feeNErgs: parseUserInputToFractions(minerFee, ERG_DECIMALS),

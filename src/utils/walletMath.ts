@@ -1,5 +1,5 @@
 import { ErgoBox } from 'ergo-dex-sdk/build/module/ergo';
-import { AmmPool } from 'ergo-dex-sdk';
+import { AmmPool, NativeAssetId } from 'ergo-dex-sdk';
 import { AssetAmount } from 'ergo-dex-sdk/build/module/ergo';
 import { parseUserInputToFractions } from './math';
 import { AssetInfo } from 'ergo-dex-sdk/build/module/ergo/entities/assetInfo';
@@ -8,11 +8,15 @@ export const calculateAvailableAmount = (
   tokenId: string,
   boxes: ErgoBox[],
 ): bigint => {
-  return boxes
-    .flatMap(({ assets }) => assets)
-    .filter((a) => a.tokenId == tokenId)
-    .map(({ amount }) => amount)
-    .reduce((acc, x) => acc + x, 0n);
+  if (tokenId === NativeAssetId) {
+    return boxes.map(({ value }) => value).reduce((acc, x) => acc + x, 0n);
+  } else {
+    return boxes
+      .flatMap(({ assets }) => assets)
+      .filter((a) => a.tokenId == tokenId)
+      .map(({ amount }) => amount)
+      .reduce((acc, x) => acc + x, 0n);
+  }
 };
 
 type BaseInputParameters = {

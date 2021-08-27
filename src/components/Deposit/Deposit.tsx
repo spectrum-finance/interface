@@ -37,7 +37,7 @@ import { calculateAvailableAmount } from '../../utils/walletMath';
 import { parseUserInputToFractions, renderFractions } from '../../utils/math';
 import { DepositSummary } from './DepositSummary';
 import { toFloat } from '../../utils/string';
-import { miniSufficientValue } from '../../utils/ammMath';
+import { makeTarget, minSufficientValueForOrder } from '../../utils/ammMath';
 import { calculateTotalFee } from '../../utils/transactions';
 
 export const Deposit = (): JSX.Element => {
@@ -231,6 +231,28 @@ export const Deposit = (): JSX.Element => {
 
       const actions = poolActions(selectedPool);
 
+      const minNErgs = minSufficientValueForOrder(
+        parseUserInputToFractions(minerFee, ERG_DECIMALS),
+        parseUserInputToFractions(String(dexFee), ERG_DECIMALS),
+      );
+      const target = makeTarget(
+        [
+          inputAssetAmountX.withAmount(
+            parseUserInputToFractions(
+              inputAmountX,
+              inputAssetAmountX.asset.decimals,
+            ),
+          ),
+          inputAssetAmountY.withAmount(
+            parseUserInputToFractions(
+              inputAmountY,
+              inputAssetAmountY.asset.decimals,
+            ),
+          ),
+        ],
+        minNErgs,
+      );
+
       actions
         .deposit(
           {
@@ -241,28 +263,7 @@ export const Deposit = (): JSX.Element => {
             y: selectedPool.assetY,
           },
           {
-            inputs: DefaultBoxSelector.select(utxos, {
-              nErgs: miniSufficientValue(
-                parseUserInputToFractions(minerFee, ERG_DECIMALS),
-                parseUserInputToFractions(String(dexFee), ERG_DECIMALS),
-              ),
-              assets: [
-                {
-                  tokenId: inputAssetAmountX.asset.id,
-                  amount: parseUserInputToFractions(
-                    inputAmountX,
-                    inputAssetAmountX.asset.decimals,
-                  ),
-                },
-                {
-                  tokenId: inputAssetAmountY.asset.id,
-                  amount: parseUserInputToFractions(
-                    inputAmountY,
-                    inputAssetAmountY.asset.decimals,
-                  ),
-                },
-              ],
-            }) as BoxSelection,
+            inputs: DefaultBoxSelector.select(utxos, target) as BoxSelection,
             changeAddress: chosenAddress,
             selfAddress: chosenAddress,
             feeNErgs: parseUserInputToFractions(String(minerFee), ERG_DECIMALS),
