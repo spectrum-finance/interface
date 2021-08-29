@@ -34,7 +34,7 @@
     "@types/react-dom": "^17.0.9",
     "@types/react-router-dom": "^5.1.8",
     "bignumber.js": "^9.0.1",
-    "ergo-dex-sdk": "^0.3.6",
+    "ergo-dex-sdk": "^0.3.8",
     "ergo-lib-wasm-browser": "^0.13.1",
     "eslint-plugin-react-hooks": "^4.2.0",
     "fast-levenshtein": "^3.0.0",
