@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Loading,
   Table,
@@ -24,8 +24,7 @@ import capitalize from 'lodash/capitalize';
 function renderOrder(
   { status, txId, order }: AmmOrder,
   open: boolean,
-  handleOpen: () => void,
-  handleClose: () => void,
+  handleOpen: (txId: string) => void,
 ) {
   return {
     status,
@@ -54,16 +53,11 @@ function renderOrder(
                 <Button
                   auto
                   size="small"
-                  onClick={handleOpen}
+                  onClick={() => handleOpen(txId)}
                   icon={<FontAwesomeIcon icon={faUndo} />}
                 />
               </Tooltip>
             </Col>
-            <RefundConfirmationModal
-              txId={txId}
-              open={open}
-              onClose={handleClose}
-            />
           </>
         )}
       </Container>
@@ -104,6 +98,7 @@ function renderRefund({ status, txId, operation }: RefundOperation) {
 export const Content = React.memo(
   ({ operations }: { operations: AmmDexOperation[] | null }) => {
     const [open, handleOpen, handleClose] = useToggle(false);
+    const [txId, setTxId] = useState('');
 
     if (operations === null) {
       return <Loading>Fetching operations...</Loading>;
@@ -113,23 +108,40 @@ export const Content = React.memo(
       return <Text p>No operations</Text>;
     }
 
+    const handleRefundModalOpen = (txId: string) => {
+      setTxId(txId);
+      handleOpen();
+    };
+
+    const handleRefundModalClose = () => {
+      setTxId('');
+      handleClose();
+    };
+
     const formattedOperations = operations.map((op) => {
       if (op.type === 'order') {
-        return renderOrder(op, open, handleOpen, handleClose);
+        return renderOrder(op, open, handleRefundModalOpen);
       } else if (op.type === 'refund') {
         return renderRefund(op);
       }
     });
 
     return (
-      <Table data={formattedOperations}>
-        <Table.Column prop="operationName" label="Operation" />
-        <Table.Column prop="type" label="Type" />
-        <Table.Column prop="txId" label="TX ID" />
-        <Table.Column prop="status" label="Status" />
-        <Table.Column prop="operation" />
-        {/*<Table.Column prop="summary" label="Summary" />*/}
-      </Table>
+      <>
+        <Table data={formattedOperations}>
+          <Table.Column prop="operationName" label="Operation" />
+          <Table.Column prop="type" label="Type" />
+          <Table.Column prop="txId" label="TX ID" />
+          <Table.Column prop="status" label="Status" />
+          <Table.Column prop="operation" />
+          {/*<Table.Column prop="summary" label="Summary" />*/}
+        </Table>
+        <RefundConfirmationModal
+          txId={txId}
+          open={open}
+          onClose={handleRefundModalClose}
+        />
+      </>
     );
   },
 );
