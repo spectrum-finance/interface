@@ -14,6 +14,7 @@ import {
   Spacer,
   Text,
   Note,
+  Checkbox,
 } from '@geist-ui/react';
 import { Form, Field, FieldRenderProps } from 'react-final-form';
 import { AmmPool } from 'ergo-dex-sdk';
@@ -39,7 +40,7 @@ import { DepositSummary } from './DepositSummary';
 import { toFloat } from '../../utils/string';
 import { makeTarget, minSufficientValueForOrder } from '../../utils/ammMath';
 import { calculateTotalFee } from '../../utils/transactions';
-import { renderPoolPrice, renderPrice } from '../../utils/price';
+import { renderPoolPrice } from '../../utils/price';
 
 export const Deposit = (): JSX.Element => {
   const [{ minerFee, address: chosenAddress }] = useSettings();
@@ -57,6 +58,7 @@ export const Deposit = (): JSX.Element => {
   const [inputAmountX, setInputAmountX] = useState('');
   const [inputAmountY, setInputAmountY] = useState('');
   const isPoolValid = useCheckPool(selectedPool);
+  const [isSynchronous, setIsSynchronous] = useState(true);
 
   const availablePools = useGetAllPools();
 
@@ -176,7 +178,7 @@ export const Deposit = (): JSX.Element => {
     if (token === 'input') {
       setInputAmountX(cleanValue);
 
-      if (Number(cleanValue) > 0) {
+      if (Number(cleanValue) > 0 && isSynchronous) {
         const amount = selectedPool.depositAmount(
           new AssetAmount(
             inputAssetAmountX.asset,
@@ -197,7 +199,7 @@ export const Deposit = (): JSX.Element => {
     if (token === 'output') {
       setInputAmountY(cleanValue);
 
-      if (Number(cleanValue) > 0) {
+      if (Number(cleanValue) > 0 && isSynchronous) {
         const amount = selectedPool.depositAmount(
           new AssetAmount(
             inputAssetAmountY.asset,
@@ -353,6 +355,16 @@ export const Deposit = (): JSX.Element => {
                       </Grid>
                       <Grid xs={24}>
                         <Text h5>Deposit amounts</Text>
+                      </Grid>
+                      <Grid xs={24}>
+                        <Checkbox
+                          checked={isSynchronous}
+                          onClick={() => {
+                            setIsSynchronous((prev) => !prev);
+                          }}
+                        >
+                          Stick to current ratio
+                        </Checkbox>
                       </Grid>
                       <Grid xs={24}>
                         <Field name="inputAmountX">
