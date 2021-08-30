@@ -1,7 +1,8 @@
-import { T2tPoolOps } from 'ergo-dex-sdk';
+import { makeDefaultPoolActionsSelector } from 'ergo-dex-sdk';
 import yoroiProver from './yoroiProver';
 import { mainnetTxAssembler } from './defaultTxAssembler';
 
-const poolOps = new T2tPoolOps(yoroiProver, mainnetTxAssembler);
-
-export default poolOps;
+export const poolActions = makeDefaultPoolActionsSelector(
+  yoroiProver,
+  mainnetTxAssembler,
+);
