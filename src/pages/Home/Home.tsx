@@ -19,9 +19,9 @@ export const Home: React.FC = () => (
         <Tabs.Item label="deposit" value="deposit">
           <Deposit />
         </Tabs.Item>
-        <Tabs.Item label="pool" value="pool">
-          <CreatePool />
-        </Tabs.Item>
+        {/*<Tabs.Item label="pool" value="pool">*/}
+        {/*  <CreatePool />*/}
+        {/*</Tabs.Item>*/}
       </Tabs>
     </Layout>
   </div>
