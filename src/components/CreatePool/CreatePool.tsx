@@ -17,7 +17,7 @@ import { parseUserInputToFractions, renderFractions } from '../../utils/math';
 import { isEmpty, isNil } from 'ramda';
 import { Select, SelectOptionShape, AmountInput } from '../../core-components';
 import { CreatePoolSummary } from './CreatePoolSummary';
-import { poolActions } from '../../services/poolOptions';
+import { poolActions } from '../../services/poolActions';
 import explorer from '../../services/explorer';
 import { truncate } from '../../utils/string';
 import { getButtonState } from './buttonState';

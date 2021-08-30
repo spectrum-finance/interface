@@ -27,7 +27,7 @@ import { toast } from 'react-toastify';
 import explorer from '../../services/explorer';
 import { ergoBoxFromProxy } from 'ergo-dex-sdk/build/module/ergo/entities/ergoBox';
 import { parseUserInputToFractions, renderFractions } from '../../utils/math';
-import { poolActions } from '../../services/poolOptions';
+import { poolActions } from '../../services/poolActions';
 import { makeTarget, minSufficientValueForOrder } from '../../utils/ammMath';
 import { calculateTotalFee } from '../../utils/transactions';
 import { RedeemSummary } from './RedeemSummary';

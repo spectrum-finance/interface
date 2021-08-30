@@ -46,13 +46,14 @@ import SwapSettings from './SwapSettings';
 import { SwapExtremums } from 'ergo-dex-sdk/build/module/amm/math/swap';
 import { isNil } from 'ramda';
 import explorer from '../../services/explorer';
-import { poolActions } from '../../services/poolOptions';
+import { poolActions } from '../../services/poolActions';
 import { renderFractions, parseUserInputToFractions } from '../../utils/math';
 import { isEmpty } from 'ramda';
 import { isZero } from '../../utils/numbers';
 import { toFloat } from '../../utils/string';
 import { SwapSummary } from './SwapSummary';
 import { makeTarget, minSufficientValueForOrder } from '../../utils/ammMath';
+import { renderPrice } from '../../utils/price';
 
 interface SwapFormProps {
   pools: AmmPool[];
@@ -424,6 +425,11 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
             )}
             {!isPoolValid.isFetching && isPoolValid.result && (
               <>
+                <Grid xs={24}>
+                  <Text small={true} type={'secondary'}>
+                    {renderPrice(selectedPool!)}
+                  </Text>
+                </Grid>
                 <Grid xs={24} direction="column">
                   <Field name="inputAmount">
                     {(props: FieldRenderProps<string>) => (

@@ -31,7 +31,7 @@ import { useGetAllPools } from '../../hooks/useGetAllPools';
 import { PoolSelect } from '../PoolSelect/PoolSelect';
 import { toast } from 'react-toastify';
 import explorer from '../../services/explorer';
-import { poolActions } from '../../services/poolOptions';
+import { poolActions } from '../../services/poolActions';
 import { useCheckPool } from '../../hooks/useCheckPool';
 import { calculateAvailableAmount } from '../../utils/walletMath';
 import { parseUserInputToFractions, renderFractions } from '../../utils/math';

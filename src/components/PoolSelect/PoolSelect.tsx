@@ -15,7 +15,7 @@ import { evaluate } from 'mathjs';
 const getPoolAssetsRepr = (pool: AmmPool | undefined) => {
   if (!pool) return '';
   const { x, y, poolFeeNum } = pool;
-  return `Pool: ${x.asset.name} | ${y.asset.name}, Fee ${evaluate(
+  return `Pool: ${x.asset.name} ↔ ${y.asset.name}, Fee ${evaluate(
     `(1 - ${poolFeeNum} / 1000) * 100`,
   ).toFixed(2)}%`;
 };
@@ -131,7 +131,7 @@ export const PoolSelect: React.FC<Props> = ({
                 <Grid.Container className="PoolSelect__item">
                   <Grid xs={16}>
                     <Text span>
-                      {x.asset.name}, {y.asset.name}
+                      {x.asset.name} ↔ {y.asset.name}
                     </Text>
                   </Grid>
                   <Grid xs={8}>
