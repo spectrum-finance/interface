@@ -201,14 +201,16 @@ export const Redeem = (): JSX.Element => {
                     <Text h5>Amount</Text>
                   </Grid>
                   <Grid xs={24}>
-                    <Text small={true} type={'secondary'}>
-                      {'Available: ' +
-                        calculateAvailableAmount(
-                          selectedPool!.lp.asset.id,
-                          utxos,
-                        ) +
-                        ' LP'}
-                    </Text>
+                    {selectedPool && (
+                      <Text small={true} type={'secondary'}>
+                        {'Available: ' +
+                          calculateAvailableAmount(
+                            selectedPool?.lp.asset.id,
+                            utxos,
+                          ) +
+                          ' LP'}
+                      </Text>
+                    )}
                   </Grid>
                   <Grid xs={24}>
                     <Field name="amount">
