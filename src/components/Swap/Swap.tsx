@@ -53,7 +53,7 @@ import { isZero } from '../../utils/numbers';
 import { toFloat } from '../../utils/string';
 import { SwapSummary } from './SwapSummary';
 import { makeTarget, minSufficientValueForOrder } from '../../utils/ammMath';
-import { renderPrice } from '../../utils/price';
+import { renderPoolPrice, renderPrice } from '../../utils/price';
 
 interface SwapFormProps {
   pools: AmmPool[];
@@ -427,7 +427,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
               <>
                 <Grid xs={24}>
                   <Text small={true} type={'secondary'}>
-                    {renderPrice(selectedPool!)}
+                    {renderPoolPrice(selectedPool!)}
                   </Text>
                 </Grid>
                 <Grid xs={24} direction="column">

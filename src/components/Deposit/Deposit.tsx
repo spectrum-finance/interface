@@ -39,6 +39,7 @@ import { DepositSummary } from './DepositSummary';
 import { toFloat } from '../../utils/string';
 import { makeTarget, minSufficientValueForOrder } from '../../utils/ammMath';
 import { calculateTotalFee } from '../../utils/transactions';
+import { renderPoolPrice, renderPrice } from '../../utils/price';
 
 export const Deposit = (): JSX.Element => {
   const [{ minerFee, address: chosenAddress }] = useSettings();
@@ -345,6 +346,11 @@ export const Deposit = (): JSX.Element => {
 
                   {!isPoolValid.isFetching && isPoolValid.result && (
                     <>
+                      <Grid xs={24}>
+                        <Text small={true} type={'secondary'}>
+                          {'Current price: ' + renderPoolPrice(selectedPool!)}
+                        </Text>
+                      </Grid>
                       <Grid xs={24}>
                         <Text h5>Deposit amounts</Text>
                       </Grid>

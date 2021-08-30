@@ -1,19 +1,24 @@
 import { AmmPool } from 'ergo-dex-sdk';
 import { math, renderFractions } from './math';
+import ergo from 'ergo-dex-sdk';
 
-export function renderPrice(pool: AmmPool): string {
-  const nameX = pool.x.asset.name ?? pool.x.asset.id.slice(0, 8);
-  const nameY = pool.y.asset.name ?? pool.y.asset.id.slice(0, 8);
-  const fmtX = renderFractions(pool.x.amount, pool.x.asset.decimals);
-  const fmtY = renderFractions(pool.y.amount, pool.y.asset.decimals);
+export function renderPoolPrice(pool: AmmPool): string {
+  return renderPrice(pool.x, pool.y);
+}
+
+export function renderPrice(x: ergo.AssetAmount, y: ergo.AssetAmount): string {
+  const nameX = x.asset.name ?? x.asset.id.slice(0, 8);
+  const nameY = y.asset.name ?? y.asset.id.slice(0, 8);
+  const fmtX = renderFractions(x.amount, x.asset.decimals);
+  const fmtY = renderFractions(y.amount, y.asset.decimals);
   if (fmtX > fmtY) {
     const p = math.evaluate!(`${fmtX} / ${fmtY}`).toFixed(
-      pool.x.asset.decimals ?? 0,
+      x.asset.decimals ?? 0,
     );
     return `1 ${nameY} ≈ ${p} ${nameX}`;
   } else {
     const p = math.evaluate!(`${fmtY} / ${fmtX}`).toFixed(
-      pool.y.asset.decimals ?? 0,
+      y.asset.decimals ?? 0,
     );
     return `1 ${nameX} ≈ ${p} ${nameY}`;
   }
