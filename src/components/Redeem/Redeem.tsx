@@ -31,6 +31,8 @@ import { poolActions } from '../../services/poolActions';
 import { makeTarget, minSufficientValueForOrder } from '../../utils/ammMath';
 import { calculateTotalFee } from '../../utils/transactions';
 import { RedeemSummary } from './RedeemSummary';
+import { renderPoolPrice } from '../../utils/price';
+import { calculateAvailableAmount } from '../../utils/walletMath';
 
 export const Redeem = (): JSX.Element => {
   const [{ minerFee, address: chosenAddress }] = useSettings();
@@ -197,6 +199,16 @@ export const Redeem = (): JSX.Element => {
                   </Grid>
                   <Grid xs={24}>
                     <Text h5>Amount</Text>
+                  </Grid>
+                  <Grid xs={24}>
+                    <Text small={true} type={'secondary'}>
+                      {'Available: ' +
+                        calculateAvailableAmount(
+                          selectedPool!.lp.asset.id,
+                          utxos,
+                        ) +
+                        ' LP'}
+                    </Text>
                   </Grid>
                   <Grid xs={24}>
                     <Field name="amount">
