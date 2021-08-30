@@ -58,7 +58,7 @@ export const Deposit = (): JSX.Element => {
   const [inputAmountX, setInputAmountX] = useState('');
   const [inputAmountY, setInputAmountY] = useState('');
   const isPoolValid = useCheckPool(selectedPool);
-  const [isSynchronous, setIsSynchronous] = useState(true);
+  const [isSynchronous, setIsSynchronous] = useState(false);
 
   const availablePools = useGetAllPools();
 
@@ -358,12 +358,12 @@ export const Deposit = (): JSX.Element => {
                       </Grid>
                       <Grid xs={24}>
                         <Checkbox
-                          checked={!isSynchronous}
+                          checked={isSynchronous}
                           onClick={() => {
                             setIsSynchronous((prev) => !prev);
                           }}
                         >
-                          Disable synchronous deposit
+                          Stick to current ratio
                         </Checkbox>
                       </Grid>
                       <Grid xs={24}>
