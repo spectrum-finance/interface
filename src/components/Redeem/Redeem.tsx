@@ -95,8 +95,8 @@ export const Redeem = (): JSX.Element => {
         parseUserInputToFractions(minerFee, ERG_DECIMALS),
         parseUserInputToFractions(String(dexFee), ERG_DECIMALS),
       );
-      const inLP = selectedPool.lp.withAmount(BigInt(amount));
-      const target = makeTarget([inLP], minNErgs);
+      const inputLP = selectedPool.lp.withAmount(BigInt(amount));
+      const target = makeTarget([inputLP], minNErgs);
 
       actions
         .redeem(
@@ -104,7 +104,7 @@ export const Redeem = (): JSX.Element => {
             pk,
             poolId,
             dexFee: parseUserInputToFractions(String(dexFee), ERG_DECIMALS),
-            lp: inLP,
+            lp: inputLP,
           },
           {
             inputs: DefaultBoxSelector.select(utxos, target) as BoxSelection,

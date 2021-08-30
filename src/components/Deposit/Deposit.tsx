@@ -238,19 +238,19 @@ export const Deposit = (): JSX.Element => {
         parseUserInputToFractions(minerFee, ERG_DECIMALS),
         parseUserInputToFractions(String(dexFee), ERG_DECIMALS),
       );
-      const inX = inputAssetAmountX.withAmount(
+      const inputX = inputAssetAmountX.withAmount(
         parseUserInputToFractions(
           inputAmountX,
           inputAssetAmountX.asset.decimals,
         ),
       );
-      const inY = inputAssetAmountY.withAmount(
+      const inputY = inputAssetAmountY.withAmount(
         parseUserInputToFractions(
           inputAmountY,
           inputAssetAmountY.asset.decimals,
         ),
       );
-      const target = makeTarget([inX, inY], minNErgs);
+      const target = makeTarget([inputX, inputY], minNErgs);
 
       actions
         .deposit(
@@ -258,8 +258,8 @@ export const Deposit = (): JSX.Element => {
             pk,
             poolId,
             dexFee: parseUserInputToFractions(String(dexFee), ERG_DECIMALS),
-            x: inX,
-            y: inY,
+            x: inputX,
+            y: inputY,
           },
           {
             inputs: DefaultBoxSelector.select(utxos, target) as BoxSelection,
