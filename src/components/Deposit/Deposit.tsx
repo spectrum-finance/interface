@@ -58,7 +58,7 @@ export const Deposit = (): JSX.Element => {
   const [inputAmountX, setInputAmountX] = useState('');
   const [inputAmountY, setInputAmountY] = useState('');
   const isPoolValid = useCheckPool(selectedPool);
-  const [isSynchronous, setIsSynchronous] = useState(false);
+  const [isSynchronous, setIsSynchronous] = useState(true);
 
   const availablePools = useGetAllPools();
 
