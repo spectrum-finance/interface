@@ -54,6 +54,7 @@ import { toFloat } from '../../utils/string';
 import { SwapSummary } from './SwapSummary';
 import { makeTarget, minSufficientValueForOrder } from '../../utils/ammMath';
 import { renderPoolPrice, renderPrice } from '../../utils/price';
+import { AssetInfo } from 'ergo-dex-sdk/build/module/ergo/entities/assetInfo';
 
 interface SwapFormProps {
   pools: AmmPool[];
@@ -63,12 +64,8 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
   const { isWalletConnected, utxos } = useContext(WalletContext);
   const [{ minerFee, address: chosenAddress }] = useSettings();
   const [selectedPool, setSelectedPool] = useState<AmmPool | undefined>();
-  const [inputAssetAmount, setInputAssetAmount] = useState<
-    AssetAmount | undefined
-  >();
-  const [outputAssetAmount, setOutputAssetAmount] = useState<
-    AssetAmount | undefined
-  >();
+  const [inputAsset, setInputAsset] = useState<AssetInfo | undefined>();
+  const [outputAsset, setOutputAsset] = useState<AssetInfo | undefined>();
   const [pivotalAmount, setPivotalAmount] = useState('');
   const [slippage, setSlippage] = useState(DefaultSettings.slippage);
   const [inputAmount, setInputAmount] = useState('');
@@ -86,10 +83,10 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
 
   const updateSelectedPool = useCallback((pool: AmmPool) => {
     setSelectedPool(pool);
-    setInputAssetAmount(pool.x);
+    setInputAsset(pool.x.asset);
     setInputAmount('');
     setOutputAmount('');
-    setOutputAssetAmount(pool.y);
+    setOutputAsset(pool.y.asset);
   }, []);
 
   useEffect(() => {
@@ -101,10 +98,10 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
   const buttonStatus = useMemo(
     () =>
       getButtonState({
-        inputAssetAmount,
-        outputAssetAmount,
-        inputAmount,
-        outputAmount,
+        inputAsset,
+        outputAsset,
+        inputAmountRaw: inputAmount,
+        outputAmountRaw: outputAmount,
         chosenAddress,
         utxos,
         availableAmount,
@@ -112,8 +109,8 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
     [
       inputAmount,
       outputAmount,
-      inputAssetAmount,
-      outputAssetAmount,
+      inputAsset,
+      outputAsset,
       chosenAddress,
       utxos,
       availableAmount,
@@ -126,10 +123,10 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
       return;
     }
 
-    if (selectedPool && inputAssetAmount && inputAmount) {
+    if (selectedPool && inputAsset && inputAmount) {
       const { minOutput } = getBaseInputParameters(selectedPool, {
         inputAmount,
-        inputAsset: inputAssetAmount.asset,
+        inputAsset,
         slippage: Number(slippage),
       });
 
@@ -138,18 +135,18 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
         setCurrentSwapVars(vars);
       }
     }
-  }, [slippage, minDexFee, inputAmount, inputAssetAmount, selectedPool, nitro]);
+  }, [slippage, minDexFee, inputAmount, inputAsset, selectedPool, nitro]);
 
   useEffect(() => {
-    if (isWalletConnected && inputAssetAmount && outputAssetAmount) {
+    if (isWalletConnected && inputAsset && outputAsset) {
       if (utxos) {
         setAvailableAmount({
-          input: calculateAvailableAmount(inputAssetAmount.asset.id, utxos),
-          output: calculateAvailableAmount(outputAssetAmount.asset.id, utxos),
+          input: calculateAvailableAmount(inputAsset.id, utxos),
+          output: calculateAvailableAmount(outputAsset.id, utxos),
         });
       }
     }
-  }, [isWalletConnected, inputAssetAmount, outputAssetAmount, utxos]);
+  }, [isWalletConnected, inputAsset, outputAsset, utxos]);
 
   const resetSwapForm = (): void => {
     setInputAmount('');
@@ -160,8 +157,8 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
   const updateInputAmount = useCallback(
     (
       outputAmount: string,
-      outputAssetAmount: AssetAmount | undefined,
-      inputAssetAmount: AssetAmount | undefined,
+      outputAssetAmount: AssetInfo | undefined,
+      inputAssetAmount: AssetInfo | undefined,
     ) => {
       if (
         selectedPool &&
@@ -171,19 +168,13 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
       ) {
         const amount = selectedPool.inputAmount(
           new AssetAmount(
-            outputAssetAmount.asset,
-            parseUserInputToFractions(
-              outputAmount,
-              outputAssetAmount.asset.decimals,
-            ),
+            outputAssetAmount,
+            parseUserInputToFractions(outputAmount, outputAssetAmount.decimals),
           ),
           Number(slippage),
         );
         setInputAmount(
-          renderFractions(
-            amount?.amount ?? 0n,
-            inputAssetAmount.asset.decimals,
-          ),
+          renderFractions(amount?.amount ?? 0n, inputAssetAmount.decimals),
         );
       }
     },
@@ -193,8 +184,8 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
   const updateOutputAmount = useCallback(
     (
       inputAmount: string,
-      outputAssetAmount: AssetAmount | undefined,
-      inputAssetAmount: AssetAmount | undefined,
+      outputAssetAmount: AssetInfo | undefined,
+      inputAssetAmount: AssetInfo | undefined,
     ) => {
       if (
         selectedPool &&
@@ -204,19 +195,13 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
       ) {
         const amount = selectedPool.outputAmount(
           new AssetAmount(
-            inputAssetAmount.asset,
-            parseUserInputToFractions(
-              inputAmount,
-              inputAssetAmount.asset.decimals,
-            ),
+            inputAssetAmount,
+            parseUserInputToFractions(inputAmount, inputAssetAmount.decimals),
           ),
           Number(slippage),
         );
         setOutputAmount(
-          renderFractions(
-            amount?.amount ?? 0n,
-            outputAssetAmount.asset.decimals,
-          ),
+          renderFractions(amount?.amount ?? 0n, outputAssetAmount.decimals),
         );
       }
     },
@@ -224,23 +209,23 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
   );
 
   const handleSwitchAssets = useCallback(() => {
-    setInputAssetAmount(outputAssetAmount);
-    setOutputAssetAmount(inputAssetAmount);
+    setInputAsset(outputAsset);
+    setOutputAsset(inputAsset);
     if (inputAmount === pivotalAmount) {
       setOutputAmount(pivotalAmount);
-      updateInputAmount(pivotalAmount, inputAssetAmount, outputAssetAmount);
+      updateInputAmount(pivotalAmount, inputAsset, outputAsset);
     } else {
       setInputAmount(pivotalAmount);
-      updateOutputAmount(pivotalAmount, inputAssetAmount, outputAssetAmount);
+      updateOutputAmount(pivotalAmount, inputAsset, outputAsset);
     }
   }, [
     inputAmount,
     pivotalAmount,
     updateInputAmount,
-    inputAssetAmount,
-    outputAssetAmount,
-    setInputAssetAmount,
-    setOutputAssetAmount,
+    inputAsset,
+    outputAsset,
+    setInputAsset,
+    setOutputAsset,
     setInputAmount,
     updateOutputAmount,
   ]);
@@ -259,32 +244,20 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
   const handleEnterInputTokenAmount = (value: string, decimals: number) => {
     const currentValue = getInputValue(value, decimals);
 
-    if (inputAssetAmount && selectedPool && currentValue) {
+    if (inputAsset && selectedPool && currentValue) {
       setInputAmount(currentValue);
       setPivotalAmount(currentValue);
-      setInputAssetAmount(
-        new AssetAmount(
-          inputAssetAmount.asset,
-          parseUserInputToFractions(currentValue, decimals),
-        ),
-      );
-      updateOutputAmount(currentValue, outputAssetAmount, inputAssetAmount);
+      updateOutputAmount(currentValue, outputAsset, inputAsset);
     }
   };
 
   const handleEnterOutputTokenAmount = (value: string, decimals: number) => {
     const currentValue = getInputValue(value, decimals);
 
-    if (outputAssetAmount && selectedPool && currentValue) {
+    if (outputAsset && selectedPool && currentValue) {
       setOutputAmount(currentValue);
       setPivotalAmount(currentValue);
-      setOutputAssetAmount(
-        new AssetAmount(
-          outputAssetAmount.asset,
-          parseUserInputToFractions(currentValue, decimals),
-        ),
-      );
-      updateInputAmount(currentValue, outputAssetAmount, inputAssetAmount);
+      updateInputAmount(currentValue, outputAsset, inputAsset);
     }
   };
 
@@ -292,8 +265,8 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
     if (
       isWalletConnected &&
       selectedPool &&
-      inputAssetAmount &&
-      outputAssetAmount &&
+      inputAsset &&
+      outputAsset &&
       utxos?.length &&
       chosenAddress
     ) {
@@ -303,7 +276,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
         selectedPool,
         {
           inputAmount,
-          inputAsset: inputAssetAmount.asset,
+          inputAsset: inputAsset,
           slippage: Number(slippage),
         },
       );
@@ -325,13 +298,13 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
           baseInput,
           minQuoteOutput: minOutput.amount,
           dexFeePerToken,
-          quoteAsset: outputAssetAmount.asset.id,
+          quoteAsset: outputAsset.id,
           poolFeeNum,
         };
 
         const minNErgs = minSufficientValueForOrder(minerFeeNErgs, maxDexFee);
         const target = makeTarget(
-          [inputAssetAmount.withAmount(baseInputAmount)],
+          [new AssetAmount(inputAsset, baseInputAmount)],
           minNErgs,
         );
 
@@ -439,13 +412,13 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                             placeholder="0.0"
                             width="100%"
                             lang="en"
-                            label={inputAssetAmount?.asset.name ?? ''}
+                            label={inputAsset?.name ?? ''}
                             {...props.input}
-                            disabled={!inputAssetAmount}
+                            disabled={!inputAsset}
                             value={inputAmount}
                             onChange={({ currentTarget }) => {
                               if (
-                                inputAssetAmount?.asset.decimals === 0 &&
+                                inputAsset?.decimals === 0 &&
                                 /[,.]/.test(currentTarget.value)
                               ) {
                                 return;
@@ -453,7 +426,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
 
                               handleEnterInputTokenAmount(
                                 currentTarget.value,
-                                inputAssetAmount?.asset.decimals || 0,
+                                inputAsset?.decimals || 0,
                               );
                               props.input.onChange(currentTarget.value);
                             }}
@@ -484,13 +457,13 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                     {(props: FieldRenderProps<string>) => (
                       <Input
                         placeholder="0.0"
-                        label={outputAssetAmount?.asset.name ?? ''}
+                        label={outputAsset?.name ?? ''}
                         width="100%"
                         {...props.input}
                         value={outputAmount}
                         onChange={({ currentTarget }) => {
                           if (
-                            outputAssetAmount?.asset.decimals === 0 &&
+                            outputAsset?.decimals === 0 &&
                             /[,.]/.test(currentTarget.value)
                           ) {
                             return;
@@ -498,7 +471,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
 
                           handleEnterOutputTokenAmount(
                             currentTarget.value,
-                            outputAssetAmount?.asset.decimals || 0,
+                            outputAsset?.decimals || 0,
                           );
                           props.input.onChange(currentTarget.value);
                         }}

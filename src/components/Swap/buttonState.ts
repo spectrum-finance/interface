@@ -1,24 +1,26 @@
 import { isEmpty } from 'ramda';
-import { AssetAmount, ErgoBox } from 'ergo-dex-sdk/build/module/ergo';
+import { ErgoBox } from 'ergo-dex-sdk/build/module/ergo';
+import { AssetInfo } from 'ergo-dex-sdk/build/main';
+import { parseUserInputToFractions } from '../../utils/math';
 
 const SUBMIT_TEXT = 'Submit';
 
 export enum States {
   LOADING = 'LOADING',
-  SELECT_A_TOKEN = 'SELECT_A_TOKEN',
-  NEED_TO_ENTER_AMOUNT = 'NEED_TO_ENTER_AMOUNT',
-  NEED_TO_CHOOSE_ADDRESS = 'NEED_TO_CHOOSE_ADDRESS',
+  PAIR_NOT_SPECIFIED = 'PAIR_NOT_SPECIFIED',
+  AMOUNT_NOT_SPECIFIED = 'AMOUNT_NOT_SPECIFIED',
+  ADDRESS_NOT_SPECIFIED = 'ADDRESS_NOT_SPECIFIED',
   PENDING_TRANSACTION = 'PENDING_TRANSACTION',
-  UTXOS_IS_EMPTY = 'UTXOS_IS_EMPTY',
+  EMPTY_INPUTS = 'EMPTY_INPUTS',
   INSUFFICIENT_INPUT_TOKEN_BALANCE = 'INSUFFICIENT_INPUT_TOKEN_BALANCE',
   SUBMIT = 'SUBMIT',
 }
 
 interface ButtonStateDependencies {
-  inputAssetAmount?: AssetAmount;
-  outputAssetAmount?: AssetAmount;
-  inputAmount: string;
-  outputAmount: string;
+  inputAsset?: AssetInfo;
+  outputAsset?: AssetInfo;
+  inputAmountRaw: string;
+  outputAmountRaw: string;
   chosenAddress: string | undefined;
   utxos: ErgoBox[] | undefined;
   availableAmount: { input: bigint; output: bigint };
@@ -38,43 +40,48 @@ const makeState = (text: string): ButtonState => {
 };
 
 const getState = ({
-  inputAssetAmount,
-  outputAssetAmount,
-  inputAmount,
-  outputAmount,
+  inputAsset,
+  outputAsset,
+  inputAmountRaw,
+  outputAmountRaw,
   chosenAddress,
   utxos,
   availableAmount,
 }: ButtonStateDependencies): { type: States; payload?: string } => {
-  if (!inputAssetAmount || !outputAssetAmount) {
+  if (!inputAsset || !outputAsset) {
     return { type: States.LOADING };
   }
 
   if (!chosenAddress) {
-    return { type: States.NEED_TO_CHOOSE_ADDRESS };
+    return { type: States.ADDRESS_NOT_SPECIFIED };
   }
 
-  if (!inputAssetAmount.asset.id || !outputAssetAmount.asset.id) {
-    return { type: States.SELECT_A_TOKEN };
+  if (!inputAsset.id || !outputAsset.id) {
+    return { type: States.PAIR_NOT_SPECIFIED };
   }
 
   if (!availableAmount.input && isEmpty(utxos)) {
     return { type: States.PENDING_TRANSACTION };
   }
 
-  if (!inputAmount || !outputAmount) {
-    return { type: States.NEED_TO_ENTER_AMOUNT };
+  if (!inputAmountRaw || !outputAmountRaw) {
+    return { type: States.AMOUNT_NOT_SPECIFIED };
   }
 
-  if (inputAssetAmount.amount > availableAmount.input) {
+  const inputAmount = parseUserInputToFractions(
+    inputAmountRaw,
+    inputAsset.decimals,
+  );
+
+  if (inputAmount > availableAmount.input) {
     return {
       type: States.INSUFFICIENT_INPUT_TOKEN_BALANCE,
-      payload: inputAssetAmount.asset.name,
+      payload: inputAsset.name,
     };
   }
 
   if (!utxos || utxos.length === 0) {
-    return { type: States.UTXOS_IS_EMPTY };
+    return { type: States.EMPTY_INPUTS };
   }
 
   return { type: States.SUBMIT };
@@ -87,19 +94,19 @@ export const getButtonState = (deps: ButtonStateDependencies): ButtonState => {
     case States.LOADING: {
       return makeState('Loading...');
     }
-    case States.SELECT_A_TOKEN: {
+    case States.PAIR_NOT_SPECIFIED: {
       return makeState('Pair not specified');
     }
-    case States.NEED_TO_CHOOSE_ADDRESS: {
+    case States.ADDRESS_NOT_SPECIFIED: {
       return makeState('Address not specified');
     }
     case States.PENDING_TRANSACTION: {
-      return makeState('Transaction is pending');
+      return makeState('There is a pending transaction');
     }
-    case States.NEED_TO_ENTER_AMOUNT: {
+    case States.AMOUNT_NOT_SPECIFIED: {
       return makeState('Enter Amount');
     }
-    case States.UTXOS_IS_EMPTY: {
+    case States.EMPTY_INPUTS: {
       return makeState('Insufficient ERG balance');
     }
     case States.INSUFFICIENT_INPUT_TOKEN_BALANCE: {
