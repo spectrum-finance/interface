@@ -11,7 +11,7 @@ export function renderPrice(x: ergo.AssetAmount, y: ergo.AssetAmount): string {
   const nameY = y.asset.name ?? y.asset.id.slice(0, 8);
   const fmtX = renderFractions(x.amount, x.asset.decimals);
   const fmtY = renderFractions(y.amount, y.asset.decimals);
-  if (fmtX > fmtY) {
+  if (Number(fmtX) > Number(fmtY)) {
     const p = math.evaluate!(`${fmtX} / ${fmtY}`).toFixed(
       x.asset.decimals ?? 0,
     );
