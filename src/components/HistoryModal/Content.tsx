@@ -20,17 +20,18 @@ import { useToggle } from '../../hooks/useToggle';
 import { RefundConfirmationModal } from '../RefundConfirmationModal/RefundConfirmationModal';
 import { truncate } from '../../utils/string';
 import capitalize from 'lodash/capitalize';
+import { renderEntrySignature } from '../../utils/history';
 
 function renderOrder(
-  { status, txId, order }: AmmOrder,
+  order: AmmOrder,
   open: boolean,
   handleOpen: (txId: string) => void,
 ) {
   return {
-    status,
+    status: order.status,
     txId: (
-      <CopyToClipboard text={txId} onCopy={() => toast.info('Copied')}>
-        <span style={{ cursor: 'pointer' }}>{truncate(txId)}</span>
+      <CopyToClipboard text={order.txId} onCopy={() => toast.info('Copied')}>
+        <span style={{ cursor: 'pointer' }}>{truncate(order.txId)}</span>
       </CopyToClipboard>
     ),
     operation: (
@@ -41,11 +42,11 @@ function renderOrder(
               icon={<FontAwesomeIcon icon={faExternalLinkAlt} />}
               auto
               size="small"
-              onClick={() => exploreTx(txId)}
+              onClick={() => exploreTx(order.txId)}
             />
           </Tooltip>
         </Col>
-        {isRefundableOperation(status) && (
+        {isRefundableOperation(order.status) && (
           <>
             <Spacer x={0.2} />
             <Col>
@@ -53,7 +54,7 @@ function renderOrder(
                 <Button
                   auto
                   size="small"
-                  onClick={() => handleOpen(txId)}
+                  onClick={() => handleOpen(order.txId)}
                   icon={<FontAwesomeIcon icon={faUndo} />}
                 />
               </Tooltip>
@@ -64,15 +65,19 @@ function renderOrder(
     ),
     operationName: capitalize(order.type),
     type: 'Order',
+    signature: renderEntrySignature(order),
   };
 }
 
-function renderRefund({ status, txId, operation }: RefundOperation) {
+function renderRefund(operation: RefundOperation) {
   return {
-    status,
+    status: operation.status,
     txId: (
-      <CopyToClipboard text={txId} onCopy={() => toast.info('Copied')}>
-        <span style={{ cursor: 'pointer' }}>{truncate(txId)}</span>
+      <CopyToClipboard
+        text={operation.txId}
+        onCopy={() => toast.info('Copied')}
+      >
+        <span style={{ cursor: 'pointer' }}>{truncate(operation.txId)}</span>
       </CopyToClipboard>
     ),
     operation: (
@@ -83,7 +88,7 @@ function renderRefund({ status, txId, operation }: RefundOperation) {
               icon={<FontAwesomeIcon icon={faExternalLinkAlt} />}
               auto
               size="small"
-              onClick={() => exploreTx(txId)}
+              onClick={() => exploreTx(operation.txId)}
             />
           </Tooltip>
         </Col>
@@ -91,6 +96,7 @@ function renderRefund({ status, txId, operation }: RefundOperation) {
     ),
     operationName: operation,
     type: 'Refund',
+    signature: renderEntrySignature(operation),
   };
 }
 
@@ -129,7 +135,7 @@ export const Content = React.memo(
     return (
       <>
         <Table data={formattedOperations}>
-          <Table.Column prop="operationName" label="Operation" />
+          <Table.Column prop="signature" label="Operation" />
           <Table.Column prop="type" label="Type" />
           <Table.Column prop="txId" label="TX ID" />
           <Table.Column prop="status" label="Status" />
