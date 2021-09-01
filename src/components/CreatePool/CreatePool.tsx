@@ -17,14 +17,17 @@ import { parseUserInputToFractions, renderFractions } from '../../utils/math';
 import { isEmpty, isNil } from 'ramda';
 import { Select, SelectOptionShape, AmountInput } from '../../core-components';
 import { CreatePoolSummary } from './CreatePoolSummary';
-import { poolActions } from '../../services/poolOptions';
+import { poolActions } from '../../services/poolActions';
 import explorer from '../../services/explorer';
 import { truncate } from '../../utils/string';
 import { getButtonState } from './buttonState';
 import { PoolFeeDecimals } from '../../constants/settings';
 import { calculateAvailableAmount } from '../../utils/walletMath';
-import { miniSufficientValue } from '../../utils/ammMath';
+import { makeTarget, minSufficientValueForSetup } from '../../utils/ammMath';
 import { toast } from 'react-toastify';
+import { MinPoolBoxValue } from 'ergo-dex-sdk/build/main/amm/constants';
+import { MinBoxValue } from 'ergo-dex-sdk/build/main/ergo/constants';
+import { isNative } from 'ergo-dex-sdk';
 
 const getAssetTitle = (asset?: AssetInfo) => {
   if (!asset) return '';
@@ -82,6 +85,9 @@ export const CreatePool = (): JSX.Element => {
     2n * parseUserInputToFractions(minerFee, ERG_DECIMALS),
     ERG_DECIMALS,
   );
+
+  const lockedNErgs = MinPoolBoxValue;
+  const payloadNErgs = MinBoxValue;
 
   const handleAssetXChange = useCallback(
     ({ selected }) => {
@@ -150,24 +156,23 @@ export const CreatePool = (): JSX.Element => {
 
       const actions = poolActions(poolParams);
 
+      const minNErgs = minSufficientValueForSetup(
+        parseUserInputToFractions(minerFee, ERG_DECIMALS),
+      );
+
+      const target = makeTarget(
+        [
+          selectedAssetX.withAmount(assetAmountX),
+          selectedAssetY.withAmount(assetAmountY),
+        ],
+        minNErgs,
+      );
+
+      const inputs = DefaultBoxSelector.select(utxos, target) as BoxSelection;
+
       actions
         .setup(poolParams as PoolSetupParams, {
-          inputs: DefaultBoxSelector.select(utxos, {
-            nErgs: miniSufficientValue(
-              parseUserInputToFractions(minerFee, ERG_DECIMALS),
-              0n,
-            ),
-            assets: [
-              {
-                tokenId: selectedAssetX.asset.id,
-                amount: assetAmountX,
-              },
-              {
-                tokenId: selectedAssetY.asset.id,
-                amount: assetAmountY,
-              },
-            ],
-          }) as BoxSelection,
+          inputs: inputs,
           changeAddress: addressFromSettings,
           selfAddress: addressFromSettings,
           feeNErgs: parseUserInputToFractions(String(minerFee), ERG_DECIMALS),
