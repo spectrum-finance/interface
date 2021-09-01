@@ -19,7 +19,7 @@ const formatOptions: FormatOptions = {
   upperExp: 1e100,
 };
 
-const math = create(all, mathConf) as Partial<MathJsStatic>;
+export const math = create(all, mathConf) as Partial<MathJsStatic>;
 
 export const allowedNumPat = new RegExp(/^\d+\.?\d*$/);
 

@@ -1,8 +1,8 @@
-import { AmmPool, DefaultAmmPoolsParser, NetworkPools } from 'ergo-dex-sdk';
+import { AmmPool } from 'ergo-dex-sdk';
 import { ErgoBox } from 'ergo-dex-sdk/build/module/ergo';
 import { useEffect, useState } from 'react';
-import explorer from '../services/explorer';
 import { getListAvailableTokens } from '../utils/getListAvailableTokens';
+import { networkPools, nativeNetworkPools } from '../services/networkPools';
 
 export const useGetAvailablePoolsByLPTokens = (
   utxos: ErgoBox[],
@@ -11,16 +11,17 @@ export const useGetAvailablePoolsByLPTokens = (
 
   useEffect(() => {
     if (utxos.length > 0) {
-      const parser = new DefaultAmmPoolsParser();
-      const poolNetwork = new NetworkPools(explorer, parser);
-
       const tokenIds = Object.values(getListAvailableTokens(utxos)).map(
         (token) => token.tokenId,
       );
-      poolNetwork
+      nativeNetworkPools()
         .getByTokensUnion(tokenIds, { offset: 0, limit: 500 })
-        .then((data) => {
-          const pools = data[0];
+        .then((data) =>
+          networkPools()
+            .getByTokensUnion(tokenIds, { offset: 0, limit: 500 })
+            .then((data2) => data[0].concat(data2[0])),
+        )
+        .then((pools) => {
           const filterPoolsByLp = pools.filter((pool) =>
             tokenIds.includes(pool.lp.asset.id),
           );

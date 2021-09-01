@@ -14,6 +14,7 @@ import {
   Spacer,
   Text,
   Note,
+  Checkbox,
 } from '@geist-ui/react';
 import { Form, Field, FieldRenderProps } from 'react-final-form';
 import { AmmPool } from 'ergo-dex-sdk';
@@ -31,14 +32,15 @@ import { useGetAllPools } from '../../hooks/useGetAllPools';
 import { PoolSelect } from '../PoolSelect/PoolSelect';
 import { toast } from 'react-toastify';
 import explorer from '../../services/explorer';
-import poolOptions from '../../services/poolOptions';
+import { poolActions } from '../../services/poolActions';
 import { useCheckPool } from '../../hooks/useCheckPool';
 import { calculateAvailableAmount } from '../../utils/walletMath';
 import { parseUserInputToFractions, renderFractions } from '../../utils/math';
 import { DepositSummary } from './DepositSummary';
 import { toFloat } from '../../utils/string';
-import { miniSufficientValue } from '../../utils/ammMath';
+import { makeTarget, minSufficientValueForOrder } from '../../utils/ammMath';
 import { calculateTotalFee } from '../../utils/transactions';
+import { renderPoolPrice } from '../../utils/price';
 
 export const Deposit = (): JSX.Element => {
   const [{ minerFee, address: chosenAddress }] = useSettings();
@@ -56,6 +58,7 @@ export const Deposit = (): JSX.Element => {
   const [inputAmountX, setInputAmountX] = useState('');
   const [inputAmountY, setInputAmountY] = useState('');
   const isPoolValid = useCheckPool(selectedPool);
+  const [isSynchronous, setIsSynchronous] = useState(true);
 
   const availablePools = useGetAllPools();
 
@@ -113,6 +116,8 @@ export const Deposit = (): JSX.Element => {
 
   const updateSelectedPool = useCallback((pool: AmmPool) => {
     setSelectedPool(pool);
+    setInputAmountX('');
+    setInputAmountY('');
     setInputAssetAmountX(pool.x);
     setInputAssetAmountY(pool.y);
   }, []);
@@ -173,7 +178,7 @@ export const Deposit = (): JSX.Element => {
     if (token === 'input') {
       setInputAmountX(cleanValue);
 
-      if (Number(cleanValue) > 0) {
+      if (Number(cleanValue) > 0 && isSynchronous) {
         const amount = selectedPool.depositAmount(
           new AssetAmount(
             inputAssetAmountX.asset,
@@ -194,7 +199,7 @@ export const Deposit = (): JSX.Element => {
     if (token === 'output') {
       setInputAmountY(cleanValue);
 
-      if (Number(cleanValue) > 0) {
+      if (Number(cleanValue) > 0 && isSynchronous) {
         const amount = selectedPool.depositAmount(
           new AssetAmount(
             inputAssetAmountY.asset,
@@ -227,38 +232,37 @@ export const Deposit = (): JSX.Element => {
 
       const pk = fromAddress(chosenAddress) as string;
 
-      poolOptions
+      const actions = poolActions(selectedPool);
+
+      const minNErgs = minSufficientValueForOrder(
+        parseUserInputToFractions(minerFee, ERG_DECIMALS),
+        parseUserInputToFractions(String(dexFee), ERG_DECIMALS),
+      );
+      const inputX = inputAssetAmountX.withAmount(
+        parseUserInputToFractions(
+          inputAmountX,
+          inputAssetAmountX.asset.decimals,
+        ),
+      );
+      const inputY = inputAssetAmountY.withAmount(
+        parseUserInputToFractions(
+          inputAmountY,
+          inputAssetAmountY.asset.decimals,
+        ),
+      );
+      const target = makeTarget([inputX, inputY], minNErgs);
+
+      actions
         .deposit(
           {
             pk,
             poolId,
             dexFee: parseUserInputToFractions(String(dexFee), ERG_DECIMALS),
-            x: selectedPool.assetX,
-            y: selectedPool.assetY,
+            x: inputX,
+            y: inputY,
           },
           {
-            inputs: DefaultBoxSelector.select(utxos, {
-              nErgs: miniSufficientValue(
-                parseUserInputToFractions(minerFee, ERG_DECIMALS),
-                parseUserInputToFractions(String(dexFee), ERG_DECIMALS),
-              ),
-              assets: [
-                {
-                  tokenId: inputAssetAmountX.asset.id,
-                  amount: parseUserInputToFractions(
-                    inputAmountX,
-                    inputAssetAmountX.asset.decimals,
-                  ),
-                },
-                {
-                  tokenId: inputAssetAmountY.asset.id,
-                  amount: parseUserInputToFractions(
-                    inputAmountY,
-                    inputAssetAmountY.asset.decimals,
-                  ),
-                },
-              ],
-            }) as BoxSelection,
+            inputs: DefaultBoxSelector.select(utxos, target) as BoxSelection,
             changeAddress: chosenAddress,
             selfAddress: chosenAddress,
             feeNErgs: parseUserInputToFractions(String(minerFee), ERG_DECIMALS),
@@ -345,7 +349,22 @@ export const Deposit = (): JSX.Element => {
                   {!isPoolValid.isFetching && isPoolValid.result && (
                     <>
                       <Grid xs={24}>
+                        <Text small={true} type={'secondary'}>
+                          {'Current price: ' + renderPoolPrice(selectedPool!)}
+                        </Text>
+                      </Grid>
+                      <Grid xs={24}>
                         <Text h5>Deposit amounts</Text>
+                      </Grid>
+                      <Grid xs={24}>
+                        <Checkbox
+                          checked={isSynchronous}
+                          onClick={() => {
+                            setIsSynchronous((prev) => !prev);
+                          }}
+                        >
+                          Stick to current ratio
+                        </Checkbox>
                       </Grid>
                       <Grid xs={24}>
                         <Field name="inputAmountX">
@@ -361,6 +380,14 @@ export const Deposit = (): JSX.Element => {
                                 value={inputAmountX}
                                 onChange={({ currentTarget }) => {
                                   const value = currentTarget.value;
+
+                                  if (
+                                    inputAssetAmountX?.asset.decimals === 0 &&
+                                    /[,.]/.test(value)
+                                  ) {
+                                    return;
+                                  }
+
                                   handleTokenAmountChange(value, 'input');
                                   props.input.onChange(value);
                                 }}
@@ -380,6 +407,14 @@ export const Deposit = (): JSX.Element => {
                               value={inputAmountY}
                               onChange={({ currentTarget }) => {
                                 const value = currentTarget.value;
+
+                                if (
+                                  inputAssetAmountY?.asset.decimals === 0 &&
+                                  /[,.]/.test(value)
+                                ) {
+                                  return;
+                                }
+
                                 handleTokenAmountChange(value, 'output');
                                 props.input.onChange(value);
                               }}
