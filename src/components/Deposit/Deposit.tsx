@@ -27,7 +27,7 @@ import {
 import { fromAddress } from 'ergo-dex-sdk/build/module/ergo/entities/publicKey';
 import { WalletContext, useSettings } from '../../context';
 import { getButtonState } from './buttonState';
-import { ERG_DECIMALS } from '../../constants/erg';
+import { ERG_DECIMALS, MIN_DEX_FEE } from '../../constants/erg';
 import { useGetAllPools } from '../../hooks/useGetAllPools';
 import { PoolSelect } from '../PoolSelect/PoolSelect';
 import { toast } from 'react-toastify';
@@ -41,12 +41,13 @@ import { toFloat } from '../../utils/string';
 import { makeTarget, minSufficientValueForOrder } from '../../utils/ammMath';
 import { calculateTotalFee } from '../../utils/transactions';
 import { renderPoolPrice } from '../../utils/price';
+import { DexFeeDefault } from '../../constants/settings';
 
 export const Deposit = (): JSX.Element => {
   const [{ minerFee, address: chosenAddress }] = useSettings();
   const { isWalletConnected, utxos, ergBalance } = useContext(WalletContext);
   const [selectedPool, setSelectedPool] = useState<AmmPool | undefined>();
-  const [dexFee] = useState<number>(0.01);
+  const [dexFee] = useState<number>(DexFeeDefault);
   const [inputAssetAmountX, setInputAssetAmountX] = useState<
     AssetAmount | undefined
   >();
