@@ -31,12 +31,12 @@ import { poolActions } from '../../services/poolActions';
 import { makeTarget, minSufficientValueForOrder } from '../../utils/ammMath';
 import { calculateTotalFee } from '../../utils/transactions';
 import { RedeemSummary } from './RedeemSummary';
-import { renderPoolPrice } from '../../utils/price';
 import { calculateAvailableAmount } from '../../utils/walletMath';
+import { DexFeeDefault } from '../../constants/settings';
 
 export const Redeem = (): JSX.Element => {
   const [{ minerFee, address: chosenAddress }] = useSettings();
-  const [dexFee] = useState<number>(0.01);
+  const [dexFee] = useState<number>(DexFeeDefault);
 
   const { isWalletConnected, ergBalance } = useContext(WalletContext);
   const [amount, setAmount] = useState('');
