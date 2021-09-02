@@ -45,6 +45,13 @@ export function renderFractions(
   );
 }
 
+export function fractionsToNum(
+  fractions: bigint | number,
+  numDecimals?: number,
+): number {
+  return Number(renderFractions(fractions, numDecimals));
+}
+
 export const toPercent = (num: number | string): string =>
   String(Number(num) * 100);
 

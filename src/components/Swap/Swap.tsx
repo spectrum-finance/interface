@@ -31,7 +31,12 @@ import { fromAddress } from 'ergo-dex-sdk/build/module/ergo/entities/publicKey';
 import { DefaultSettings, WalletContext } from '../../context';
 import { useGetAllPools } from '../../hooks/useGetAllPools';
 import { PoolSelect } from '../PoolSelect/PoolSelect';
-import { ERG_DECIMALS, MIN_NITRO, MIN_DEX_FEE } from '../../constants/erg';
+import {
+  ERG_DECIMALS,
+  MIN_NITRO,
+  MIN_DEX_FEE,
+  EXECUTION_MINER_FEE,
+} from '../../constants/erg';
 import { getButtonState } from './buttonState';
 import { useSettings } from '../../context';
 import { toast } from 'react-toastify';
@@ -53,7 +58,7 @@ import { isZero } from '../../utils/numbers';
 import { toFloat } from '../../utils/string';
 import { SwapSummary } from './SwapSummary';
 import { makeTarget, minSufficientValueForOrder } from '../../utils/ammMath';
-import { renderPoolPrice, renderPrice } from '../../utils/price';
+import { renderPoolPrice } from '../../utils/price';
 import { AssetInfo } from 'ergo-dex-sdk/build/module/ergo/entities/assetInfo';
 
 interface SwapFormProps {
@@ -130,7 +135,11 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
         slippage: Number(slippage),
       });
 
-      const vars = swapVars(BigInt(minDexFee), Number(nitro), minOutput);
+      const vars = swapVars(
+        BigInt(minDexFee) + EXECUTION_MINER_FEE,
+        Number(nitro),
+        minOutput,
+      );
       if (!isNil(vars)) {
         setCurrentSwapVars(vars);
       }
