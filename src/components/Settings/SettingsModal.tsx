@@ -1,11 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Modal } from '@geist-ui/react';
 import { SettingsForm } from './SettingsForm';
-import { useSettings } from '../../context/SettingsContext';
-import {
-  useWalletAddresses,
-  WalletAddressState,
-} from '../../context/AddressContext';
+import { useSettings } from '../../context';
+import { useWalletAddresses, WalletAddressState } from '../../context';
+import { walletCookies } from '../../utils/cookies';
 
 const content = {
   title: 'Transaction settings',
@@ -29,6 +27,15 @@ export const SettingsModal = (props: SettingsModalProps): JSX.Element => {
     walletAddresses.state === WalletAddressState.LOADED
       ? walletAddresses.addresses
       : [];
+
+  useEffect(() => {
+    if (!walletCookies.isSetConnected() && settings.address) {
+      setSettings({
+        ...settings,
+        address: undefined,
+      });
+    }
+  }, []);
 
   return (
     <Modal open={open} onClose={onClose}>
