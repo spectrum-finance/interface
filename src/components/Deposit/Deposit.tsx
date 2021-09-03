@@ -27,7 +27,7 @@ import {
 import { fromAddress } from 'ergo-dex-sdk/build/module/ergo/entities/publicKey';
 import { WalletContext, useSettings } from '../../context';
 import { getButtonState } from './buttonState';
-import { ERG_DECIMALS, MIN_DEX_FEE } from '../../constants/erg';
+import { ERG_DECIMALS } from '../../constants/erg';
 import { useGetAllPools } from '../../hooks/useGetAllPools';
 import { PoolSelect } from '../PoolSelect/PoolSelect';
 import { toast } from 'react-toastify';
