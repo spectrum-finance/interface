@@ -80,6 +80,7 @@ export const SettingsForm = (props: SettingsFormProps): JSX.Element => {
         {addresses.length ? (
           <SelectAddress
             addresses={addresses}
+            selectedAddress={settings.address || ''}
             onSelectAddress={handleSelectAddress}
           />
         ) : (
