@@ -1,8 +1,8 @@
 import React, { createContext, useCallback, useEffect, useState } from 'react';
-import Cookies from 'js-cookie';
 import { ErgoBox, ergoBoxFromProxy } from 'ergo-dex-sdk/build/module/ergo';
 import { useInterval } from '../hooks/useInterval';
 import { ERG_TOKEN_NAME } from '../constants/erg';
+import { walletCookies } from '../utils/cookies';
 
 export enum WalletConnectionState {
   NOT_CONNECTED, // initial state
@@ -67,10 +67,7 @@ export const WalletContextProvider = ({
   };
 
   useEffect(() => {
-    if (
-      Cookies.get('wallet-connected') === 'true' &&
-      window.ergo_request_read_access
-    ) {
+    if (walletCookies.isSetConnected() && window.ergo_request_read_access) {
       window.ergo_request_read_access().then(setIsWalletConnected);
     }
   }, [isWalletConnected, setIsWalletConnected]);

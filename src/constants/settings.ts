@@ -1,5 +1,5 @@
 import { DEFAULT_MINER_FEE, ERG_DECIMALS, MIN_DEX_FEE } from './erg';
-import { fractionsToNum, renderFractions } from '../utils/math';
+import { fractionsToNum } from '../utils/math';
 
 export const MinerFeeDefault = fractionsToNum(DEFAULT_MINER_FEE, ERG_DECIMALS);
 export const DexFeeDefault = fractionsToNum(MIN_DEX_FEE, ERG_DECIMALS);
