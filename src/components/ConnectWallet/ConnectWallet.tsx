@@ -2,7 +2,7 @@ import React, { ReactElement, useCallback, useContext } from 'react';
 import { Button } from '@geist-ui/react';
 import { WalletContext } from '../../context';
 import { toast } from 'react-toastify';
-import Cookies from 'js-cookie';
+import { walletCookies } from '../../utils/cookies';
 import { renderFractions } from '../../utils/math';
 import { ERG_DECIMALS } from '../../constants/erg';
 
@@ -19,7 +19,7 @@ export const ConnectWallet = ({
       window
         .ergo_request_read_access()
         .then(setIsWalletConnected)
-        .then(() => Cookies.set('wallet-connected', 'true', { expires: 1 }));
+        .then(() => walletCookies.setConnected());
       return;
     }
 
