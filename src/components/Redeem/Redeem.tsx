@@ -22,7 +22,7 @@ import { fromAddress } from 'ergo-dex-sdk/build/module/ergo/entities/publicKey';
 import { WalletContext, useSettings } from '../../context';
 import { getButtonState } from './buttonState';
 import { useGetAvailablePoolsByLPTokens } from '../../hooks/useGetAvailablePoolsByLPTokens';
-import { ERG_DECIMALS } from '../../constants/erg';
+import { ERG_DECIMALS, EXECUTION_MINER_FEE } from '../../constants/erg';
 import { toast } from 'react-toastify';
 import explorer from '../../services/explorer';
 import { ergoBoxFromProxy } from 'ergo-dex-sdk/build/module/ergo/entities/ergoBox';
@@ -99,13 +99,16 @@ export const Redeem = (): JSX.Element => {
       );
       const inputLP = selectedPool.lp.withAmount(BigInt(amount));
       const target = makeTarget([inputLP], minNErgs);
+      const executionDexFee =
+        parseUserInputToFractions(String(dexFee), ERG_DECIMALS) +
+        EXECUTION_MINER_FEE;
 
       actions
         .redeem(
           {
             pk,
             poolId,
-            dexFee: parseUserInputToFractions(String(dexFee), ERG_DECIMALS),
+            dexFee: executionDexFee,
             lp: inputLP,
           },
           {
