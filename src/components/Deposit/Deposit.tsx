@@ -27,7 +27,7 @@ import {
 import { fromAddress } from 'ergo-dex-sdk/build/module/ergo/entities/publicKey';
 import { WalletContext, useSettings } from '../../context';
 import { getButtonState } from './buttonState';
-import { ERG_DECIMALS } from '../../constants/erg';
+import { ERG_DECIMALS, EXECUTION_MINER_FEE } from '../../constants/erg';
 import { useGetAllPools } from '../../hooks/useGetAllPools';
 import { PoolSelect } from '../PoolSelect/PoolSelect';
 import { toast } from 'react-toastify';
@@ -252,13 +252,16 @@ export const Deposit = (): JSX.Element => {
         ),
       );
       const target = makeTarget([inputX, inputY], minNErgs);
+      const executionDexFee =
+        parseUserInputToFractions(String(dexFee), ERG_DECIMALS) +
+        EXECUTION_MINER_FEE;
 
       actions
         .deposit(
           {
             pk,
             poolId,
-            dexFee: parseUserInputToFractions(String(dexFee), ERG_DECIMALS),
+            dexFee: executionDexFee,
             x: inputX,
             y: inputY,
           },
