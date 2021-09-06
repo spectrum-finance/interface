@@ -10,7 +10,7 @@ export function minSufficientValueForOrder(
   dexFee: bigint,
 ): bigint {
   const min = minerFee * 2n + MIN_BOX_VALUE * 2n;
-  const actual = minerFee * 2n + dexFee;
+  const actual = minerFee + dexFee;
   return actual > min ? actual : min;
 }
 
