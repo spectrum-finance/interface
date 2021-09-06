@@ -1,5 +1,6 @@
-import { AmmPool } from 'ergo-dex-sdk';
+import { AmmPool, isNative } from 'ergo-dex-sdk';
 import { parseUserInputToFractions } from '../../utils/math';
+import { ERG_DECIMALS } from '../../constants/erg';
 
 export enum DepositFormStates {
   NEED_TO_CONNECT_WALLET = 'NEED_TO_CONNECT_WALLET',
@@ -47,7 +48,13 @@ export const getState = ({
     inputAmountY,
     selectedPool?.y.asset.decimals ?? 0,
   );
-  const fee = Number(minerFee) + dexFee;
+  const minerFeeNErgs = parseUserInputToFractions(minerFee, ERG_DECIMALS);
+  const dexFeeNErgs = parseUserInputToFractions(String(dexFee), ERG_DECIMALS);
+  const feeNErgs = minerFeeNErgs + dexFeeNErgs;
+
+  const nErgsAvailable = BigInt(ergBalance || '0');
+
+  const native = selectedPool ? isNative(selectedPool.x.asset) : false;
 
   if (!isWalletConnected) {
     return DepositFormStates.NEED_TO_CONNECT_WALLET;
@@ -58,13 +65,16 @@ export const getState = ({
   if (amountX <= 0n || amountY <= 0n) {
     return DepositFormStates.NEED_TO_ENTER_AMOUNT;
   }
-  if (amountX > availableInputAmountX) {
+  if (
+    (native && amountX + feeNErgs > availableInputAmountX) ||
+    (!native && amountX > availableInputAmountX)
+  ) {
     return DepositFormStates.INSUFFICIENT_AMOUNT_X;
   }
   if (amountY > availableInputAmountY) {
     return DepositFormStates.INSUFFICIENT_AMOUNT_Y;
   }
-  if (!isNaN(Number(ergBalance)) && Number(ergBalance) < fee) {
+  if (nErgsAvailable < feeNErgs) {
     return DepositFormStates.INSUFFICIENT_AMOUNT_FOR_FEES;
   }
 

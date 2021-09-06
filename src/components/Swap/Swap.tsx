@@ -135,11 +135,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
         slippage: Number(slippage),
       });
 
-      const vars = swapVars(
-        BigInt(minDexFee) + EXECUTION_MINER_FEE,
-        Number(nitro),
-        minOutput,
-      );
+      const vars = swapVars(BigInt(minDexFee), Number(nitro), minOutput);
       if (!isNil(vars)) {
         setCurrentSwapVars(vars);
       }
