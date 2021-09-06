@@ -235,10 +235,13 @@ export const Deposit = (): JSX.Element => {
 
       const actions = poolActions(selectedPool);
 
-      const minNErgs = minSufficientValueForOrder(
-        parseUserInputToFractions(minerFee, ERG_DECIMALS),
-        parseUserInputToFractions(String(dexFee), ERG_DECIMALS),
+      const minerFeeNErgs = parseUserInputToFractions(minerFee, ERG_DECIMALS);
+      const dexFeeNErgs = parseUserInputToFractions(
+        String(dexFee),
+        ERG_DECIMALS,
       );
+
+      const minNErgs = minSufficientValueForOrder(minerFeeNErgs, dexFeeNErgs);
       const inputX = inputAssetAmountX.withAmount(
         parseUserInputToFractions(
           inputAmountX,
@@ -252,16 +255,13 @@ export const Deposit = (): JSX.Element => {
         ),
       );
       const target = makeTarget([inputX, inputY], minNErgs);
-      const executionDexFee =
-        parseUserInputToFractions(String(dexFee), ERG_DECIMALS) +
-        EXECUTION_MINER_FEE;
 
       actions
         .deposit(
           {
             pk,
             poolId,
-            dexFee: executionDexFee,
+            dexFee: dexFeeNErgs,
             x: inputX,
             y: inputY,
           },
@@ -269,7 +269,7 @@ export const Deposit = (): JSX.Element => {
             inputs: DefaultBoxSelector.select(utxos, target) as BoxSelection,
             changeAddress: chosenAddress,
             selfAddress: chosenAddress,
-            feeNErgs: parseUserInputToFractions(String(minerFee), ERG_DECIMALS),
+            feeNErgs: minerFeeNErgs,
             network: await network.getNetworkContext(),
           },
         )

@@ -93,22 +93,22 @@ export const Redeem = (): JSX.Element => {
 
       const actions = poolActions(selectedPool);
 
-      const minNErgs = minSufficientValueForOrder(
-        parseUserInputToFractions(minerFee, ERG_DECIMALS),
-        parseUserInputToFractions(String(dexFee), ERG_DECIMALS),
+      const minerFeeNErgs = parseUserInputToFractions(minerFee, ERG_DECIMALS);
+      const dexFeeNErgs = parseUserInputToFractions(
+        String(dexFee),
+        ERG_DECIMALS,
       );
+
+      const minNErgs = minSufficientValueForOrder(minerFeeNErgs, dexFeeNErgs);
       const inputLP = selectedPool.lp.withAmount(BigInt(amount));
       const target = makeTarget([inputLP], minNErgs);
-      const executionDexFee =
-        parseUserInputToFractions(String(dexFee), ERG_DECIMALS) +
-        EXECUTION_MINER_FEE;
 
       actions
         .redeem(
           {
             pk,
             poolId,
-            dexFee: executionDexFee,
+            dexFee: dexFeeNErgs,
             lp: inputLP,
           },
           {
