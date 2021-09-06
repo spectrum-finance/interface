@@ -54,7 +54,7 @@ export const getState = ({
 
   const nErgsAvailable = BigInt(ergBalance || '0');
 
-  const native = selectedPool ? isNative(selectedPool.x.asset) : false;
+  const isNativePool = selectedPool ? isNative(selectedPool.x.asset) : false;
 
   if (!isWalletConnected) {
     return DepositFormStates.NEED_TO_CONNECT_WALLET;
@@ -66,8 +66,8 @@ export const getState = ({
     return DepositFormStates.NEED_TO_ENTER_AMOUNT;
   }
   if (
-    (native && amountX + feeNErgs > availableInputAmountX) ||
-    (!native && amountX > availableInputAmountX)
+    (isNativePool && amountX + feeNErgs > availableInputAmountX) ||
+    (!isNativePool && amountX > availableInputAmountX)
   ) {
     return DepositFormStates.INSUFFICIENT_AMOUNT_X;
   }
