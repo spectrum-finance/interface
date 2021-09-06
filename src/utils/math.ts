@@ -19,7 +19,7 @@ const formatOptions: FormatOptions = {
   upperExp: 1e100,
 };
 
-const math = create(all, mathConf) as Partial<MathJsStatic>;
+export const math = create(all, mathConf) as Partial<MathJsStatic>;
 
 export const allowedNumPat = new RegExp(/^\d+\.?\d*$/);
 
@@ -43,6 +43,13 @@ export function renderFractions(
     math.evaluate!(`${fractions} / 10^${numDecimals || 0}`),
     formatOptions,
   );
+}
+
+export function fractionsToNum(
+  fractions: bigint | number,
+  numDecimals?: number,
+): number {
+  return Number(renderFractions(fractions, numDecimals));
 }
 
 export const toPercent = (num: number | string): string =>

@@ -10,11 +10,11 @@ import { ConnectWallet } from '../ConnectWallet/ConnectWallet';
 const content = {
   dex: {
     label: 'Miner Fee',
-    tooltip: 'TODO',
+    tooltip: 'Fee charged by miners',
   },
   address: {
     label: 'Output address',
-    tooltip: 'TODO',
+    tooltip: 'Address to receive exchanged tokens',
     connectButton: 'Connect to a wallet',
   },
   slippage: {
@@ -80,6 +80,7 @@ export const SettingsForm = (props: SettingsFormProps): JSX.Element => {
         {addresses.length ? (
           <SelectAddress
             addresses={addresses}
+            selectedAddress={settings.address || ''}
             onSelectAddress={handleSelectAddress}
           />
         ) : (

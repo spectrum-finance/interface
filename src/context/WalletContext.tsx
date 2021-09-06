@@ -1,11 +1,18 @@
-import React, { createContext, useEffect, useState } from 'react';
-import Cookies from 'js-cookie';
+import React, { createContext, useCallback, useEffect, useState } from 'react';
 import { ErgoBox, ergoBoxFromProxy } from 'ergo-dex-sdk/build/module/ergo';
 import { useInterval } from '../hooks/useInterval';
 import { ERG_TOKEN_NAME } from '../constants/erg';
+import { walletCookies } from '../utils/cookies';
+
+export enum WalletConnectionState {
+  NOT_CONNECTED, // initial state
+  CONNECTED,
+  DISCONNECTED,
+}
 
 type WalletContextType = {
-  isWalletConnected: boolean;
+  isWalletConnected: boolean; // @deprecated in favour of walletConnectionState
+  walletConnectionState: WalletConnectionState;
   utxos: ErgoBox[] | undefined;
   setIsWalletConnected: (isWalletConnected: boolean) => void;
   ergBalance: string | undefined;
@@ -17,6 +24,7 @@ function noop() {
 
 export const WalletContext = createContext<WalletContextType>({
   isWalletConnected: false,
+  walletConnectionState: WalletConnectionState.NOT_CONNECTED,
   utxos: undefined,
   setIsWalletConnected: noop,
   ergBalance: undefined,
@@ -33,25 +41,36 @@ const fetchUtxos = () =>
 export const WalletContextProvider = ({
   children,
 }: React.PropsWithChildren<unknown>): JSX.Element => {
-  const [isWalletConnected, setIsWalletConnected] = useState(false);
+  const [walletConnectionState, setWalletConnectionState] = useState(
+    WalletConnectionState.NOT_CONNECTED,
+  );
   const [utxos, setUtxos] = useState<ErgoBox[]>();
   const [ergBalance, setErgBalance] = useState<string | undefined>();
 
+  const setIsWalletConnected = useCallback((isConnected: boolean) => {
+    setWalletConnectionState(
+      isConnected
+        ? WalletConnectionState.CONNECTED
+        : WalletConnectionState.DISCONNECTED,
+    );
+  }, []);
+
+  const isWalletConnected =
+    walletConnectionState === WalletConnectionState.CONNECTED;
+
   const ctxValue = {
-    isWalletConnected,
+    isWalletConnected, // TODO: replace isWalletConnected with walletConnectionState to handle initial state
+    walletConnectionState,
     setIsWalletConnected,
     utxos,
     ergBalance,
   };
 
   useEffect(() => {
-    if (
-      Cookies.get('wallet-connected') === 'true' &&
-      window.ergo_request_read_access
-    ) {
+    if (walletCookies.isSetConnected() && window.ergo_request_read_access) {
       window.ergo_request_read_access().then(setIsWalletConnected);
     }
-  }, [isWalletConnected]);
+  }, [isWalletConnected, setIsWalletConnected]);
 
   useEffect(() => {
     if (isWalletConnected) {

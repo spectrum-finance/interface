@@ -2,6 +2,147 @@
 # yarn lockfile v1
 
 
+"@alfalab/core-components-amount-input@^5.2.3":
+  version "5.2.3"
+  resolved "https://registry.yarnpkg.com/@alfalab/core-components-amount-input/-/core-components-amount-input-5.2.3.tgz#2d674752437a0d582a439a2d9f8b5624c2a41e4b"
+  integrity sha512-IraoRIBm0eYLhuvfKhiPU43EcIHYrnR1hFA48lDtF6TAflSdDOz1jXptNtsK5+yy7q1SNBjq2gB4EgM7rJoJTA==
+  dependencies:
+    "@alfalab/core-components-input" "^7.2.3"
+    "@alfalab/core-components-with-suffix" "^3.0.7"
+    "@alfalab/data" "^0.4.3"
+    "@alfalab/utils" "^1.3.0"
+    classnames "^2.2.6"
+
+"@alfalab/core-components-button@^4.2.0":
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/@alfalab/core-components-button/-/core-components-button-4.2.0.tgz#da7840e38b4b28d7907fc6df3f44f2faa9cf2031"
+  integrity sha512-dzIUP4F/25lerPdXWnf4pbKAf4MA/DxPw/lU05BvcFBZsytPt+MXTH8UOYjwWUcGrU0rFgiVFrRa5g+4lJTriw==
+  dependencies:
+    "@alfalab/core-components-loader" "^2.0.1"
+    "@alfalab/hooks" "^1.0.0"
+    classnames "^2.2.6"
+    react-merge-refs "^1.1.0"
+
+"@alfalab/core-components-form-control@^7.2.1":
+  version "7.2.1"
+  resolved "https://registry.yarnpkg.com/@alfalab/core-components-form-control/-/core-components-form-control-7.2.1.tgz#f489068cf60cff0df97b6605b58c6278ad60a328"
+  integrity sha512-ysQpJKpws7AhtK4nPdANIGGGsliQl8aoPksEbak2QEnYIH9msDQ8Zt+sLBaRlYG8C2qDxk7RhpqrxYFRiMNBbg==
+  dependencies:
+    classnames "^2.2.6"
+
+"@alfalab/core-components-form-control@^7.2.2":
+  version "7.2.2"
+  resolved "https://registry.yarnpkg.com/@alfalab/core-components-form-control/-/core-components-form-control-7.2.2.tgz#76d021bee92bebc88639d554dd16637c29981871"
+  integrity sha512-6nntlbWZ3IkSa+7TSav8V7KQ/arUp8lO//9k3ajuBQYHbp5kqzB90HzVYk2qXucMc6dsdBbqw1ukQjdqdBpnsQ==
+  dependencies:
+    classnames "^2.2.6"
+
+"@alfalab/core-components-input@^7.2.1":
+  version "7.2.1"
+  resolved "https://registry.yarnpkg.com/@alfalab/core-components-input/-/core-components-input-7.2.1.tgz#27bee71e788fbc6dc2b192c22cda304a52b24cb8"
+  integrity sha512-2X9c+xIiwCM812oC90WTvUq/dTw0YeFN6L3ktMHHqM63Jd1dRv9ZLF0eKdDsnxbqZy5kxuaW3bs7T6XaONlrbQ==
+  dependencies:
+    "@alfalab/core-components-button" "^4.2.0"
+    "@alfalab/core-components-form-control" "^7.2.1"
+    "@alfalab/hooks" "^1.0.0"
+    "@alfalab/icons-glyph" "^1.150.0"
+    classnames "^2.2.6"
+    react-merge-refs "^1.1.0"
+
+"@alfalab/core-components-input@^7.2.3":
+  version "7.2.3"
+  resolved "https://registry.yarnpkg.com/@alfalab/core-components-input/-/core-components-input-7.2.3.tgz#fffe9b7ceb7af739f10ccaf8f5a591d9d0a6a954"
+  integrity sha512-ssk+DuNxs5taGfDoNzYchSX01XNN14dktYIjHNDjONUcusAvoLSKzaNTLg5cnsSmnJ3B8TYsdg1Up3mKixSfCQ==
+  dependencies:
+    "@alfalab/core-components-button" "^4.2.0"
+    "@alfalab/core-components-form-control" "^7.2.2"
+    "@alfalab/hooks" "^1.0.0"
+    "@alfalab/icons-glyph" "^1.150.0"
+    classnames "^2.2.6"
+    react-merge-refs "^1.1.0"
+
+"@alfalab/core-components-loader@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@alfalab/core-components-loader/-/core-components-loader-2.0.1.tgz#70be308cbc151ace6ce6053bba1fcd990c29066b"
+  integrity sha512-Uv4BBomgscp9GS9eSW+54AqJdLGr8JyAIWCj26ehmFdqD4afcQ+prVzqrvwcqpxaJfV5qJ9JXHwUxT4kpeQ4ig==
+  dependencies:
+    classnames "^2.2.6"
+
+"@alfalab/core-components-popover@^5.2.0":
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/@alfalab/core-components-popover/-/core-components-popover-5.2.0.tgz#1881649f89adb8341186a6377e0d91937c8a09e2"
+  integrity sha512-ghq4KCbgDi+Wu3dXqfgkbzJ9eqcv4iNtnRhmY2FQJJSHPQMvYU5E7FIsoDncAowY+3D2EslsW3ve+5693qceRA==
+  dependencies:
+    "@alfalab/core-components-portal" "^2.0.1"
+    "@alfalab/core-components-stack" "^3.0.1"
+    "@popperjs/core" "^2.3.3"
+    classnames "^2.2.6"
+    react-popper "^2.2.2"
+    react-transition-group "^4.3.0"
+
+"@alfalab/core-components-portal@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@alfalab/core-components-portal/-/core-components-portal-2.0.1.tgz#d78e4442a6dc61371ee3b59174345ff19c214562"
+  integrity sha512-N/8o+usni9jBhxEdGvMX2Q2xvPGxhjzN6z9Vqu2fkh7NVob+WO1hNPanqkugvDuXORSGwmYkp5xvf3njm6vz+w==
+
+"@alfalab/core-components-select@^9.3.2":
+  version "9.3.2"
+  resolved "https://registry.yarnpkg.com/@alfalab/core-components-select/-/core-components-select-9.3.2.tgz#c81b0c3185e88fa45961aca2dbdb971ea7e5b24e"
+  integrity sha512-rJeQ9UTd5TOD9QnP2Ldqrc1Fe1GOkmtztBm4vdNxg/ZCpI4LCJ4jBoxoNnA4WNWUH0jMgwMXmYohAXzgNTQ5KA==
+  dependencies:
+    "@alfalab/core-components-form-control" "^7.2.1"
+    "@alfalab/core-components-input" "^7.2.1"
+    "@alfalab/core-components-popover" "^5.2.0"
+    "@alfalab/core-components-skeleton" "^3.0.1"
+    "@alfalab/hooks" "^1.0.0"
+    classnames "^2.2.6"
+    downshift "5.4.7"
+    react-merge-refs "^1.1.0"
+    react-virtual "^2.2.0"
+    resize-observer "^1.0.0"
+
+"@alfalab/core-components-skeleton@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@alfalab/core-components-skeleton/-/core-components-skeleton-3.0.1.tgz#5137bedbdd982a0376e5a5c717cc461cd9a825d6"
+  integrity sha512-blJIJ+UT6UbQ6IBYPh7MJLmNOvWhfIhELShRXlb9+uV5PfE6fuwobMyYxVr01okukld8vCu1RArhTx385/52Sw==
+  dependencies:
+    classnames "^2.2.6"
+
+"@alfalab/core-components-stack@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@alfalab/core-components-stack/-/core-components-stack-3.0.1.tgz#f8df82cd81e5400c289d69165087ad620dc74a57"
+  integrity sha512-Lj6Lw+4d3mYjVTeBIo5feL3YXk4pewBFg5CJ8kQOLIjA9DtBtyDyp/O+c0J6BwhUKSZsq7dxDxdhEoHXEtqTtA==
+
+"@alfalab/core-components-with-suffix@^3.0.7":
+  version "3.0.7"
+  resolved "https://registry.yarnpkg.com/@alfalab/core-components-with-suffix/-/core-components-with-suffix-3.0.7.tgz#0adf4f5137cab64731e1c6ce8574243e24978e94"
+  integrity sha512-v4D26aF1WSqAurUTZMU88DEdjfB2ZWKBInXHspCMjj83GNtB2Q+mlKe0pHgJkcZ2cac0e6brhNo/eK9U4FzeVA==
+  dependencies:
+    "@alfalab/core-components-input" "^7.2.3"
+    "@alfalab/core-components-portal" "^2.0.1"
+    classnames "^2.2.6"
+    react-merge-refs "^1.1.0"
+
+"@alfalab/data@^0.4.3":
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/@alfalab/data/-/data-0.4.3.tgz#81374432b6a54394803502c293757bac9fd7f3c0"
+  integrity sha512-L3MHYEU23ysZ3y68gM5dSVknV4k+t1fzJ5T0j8E0IF8ArZFdP/7UVsz8Az+B2aV5pflcnrMYtIDAbGGab4JfTw==
+
+"@alfalab/hooks@^1.0.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@alfalab/hooks/-/hooks-1.3.0.tgz#c2d8761fa36c6e4219bf7d922ccdc026623269ee"
+  integrity sha512-uVg/zbmvtFdI4kBigwN+2kt5eYSAVqkhF/Qky2kmFsr0sN+i5hF0bEZ98aXjXlV3mOTMaNp3qQd4ZAHO2fwIoQ==
+
+"@alfalab/icons-glyph@^1.150.0":
+  version "1.165.0"
+  resolved "https://registry.yarnpkg.com/@alfalab/icons-glyph/-/icons-glyph-1.165.0.tgz#9615cf699e310c06ce101f5b9da99fb56c00023e"
+  integrity sha512-hxbxORfK9tJ+IMzrhVW4wI/FQxW8sl+goZmQklsaJYI6PuYv/Xr1/WfbC1WGZiwIFAFFMj7cYb07AY2S6+312Q==
+
+"@alfalab/utils@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@alfalab/utils/-/utils-1.3.0.tgz#956c18e4a577b0e8076d0a7823db7a3852ef613c"
+  integrity sha512-+BEJYXjWyl6mdBomoH80lGFsVjLHHGwAU3H+SZvbGsnyL3M8gVwkMTYvUTEtddxEHKLlTTo6IGmzfAXT/UPaNg==
+
 "@babel/code-frame@7.10.4":
   version "7.10.4"
   resolved "https://registry.npmjs.org/@babel/code-frame/-/code-frame-7.10.4.tgz"
@@ -1534,7 +1675,7 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.0.0", "@babel/runtime@^7.14.0", "@babel/runtime@^7.14.8", "@babel/runtime@^7.3.1", "@babel/runtime@^7.5.0", "@babel/runtime@^7.7.6":
+"@babel/runtime@^7.0.0", "@babel/runtime@^7.14.0", "@babel/runtime@^7.14.8", "@babel/runtime@^7.3.1", "@babel/runtime@^7.5.0", "@babel/runtime@^7.7.6", "@babel/runtime@^7.8.7":
   version "7.15.3"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.15.3.tgz#2e1c2880ca118e5b2f9988322bd8a7656a32502b"
   integrity sha512-OvwMLqNXkCXSz1kSm58sEsNuhqOx/fKpnUnKnFB5v8uDda5bLNEHNgKPvhDN6IU0LDcnHQ90LlJ0Q6jnyBSIBA==
@@ -2132,10 +2273,15 @@
     schema-utils "^2.6.5"
     source-map "^0.7.3"
 
-"@popperjs/core@^2.5.4", "@popperjs/core@^2.6.0":
+"@popperjs/core@^2.3.3", "@popperjs/core@^2.5.4", "@popperjs/core@^2.6.0":
   version "2.9.3"
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.9.3.tgz#8b68da1ebd7fc603999cf6ebee34a4899a14b88e"
   integrity sha512-xDu17cEfh7Kid/d95kB6tZsLOmSWKCZKtprnhVepjsSaCij+lM3mItSJDuuHDMbCWTh8Ejmebwb+KONcCJ0eXQ==
+
+"@reach/observe-rect@^1.1.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@reach/observe-rect/-/observe-rect-1.2.0.tgz#d7a6013b8aafcc64c778a0ccb83355a11204d3b2"
+  integrity sha512-Ba7HmkFgfQxZqqaeIWWkNK0rEhpxVQHIoVyW1YDSkGsGIXzcaW4deC8B0pZrNSSyLTdIk7y+5olKt5+g0GmFIQ==
 
 "@reach/router@^1.3.4":
   version "1.3.4"
@@ -3207,11 +3353,6 @@
   version "2.2.7"
   resolved "https://registry.yarnpkg.com/@types/js-cookie/-/js-cookie-2.2.7.tgz#226a9e31680835a6188e887f3988e60c04d3f6a3"
   integrity sha512-aLkWa0C0vO5b4Sr798E26QgOkss68Un0bLjs7u9qxzPT5CG+8DuNTffWES58YzJs3hrVAOs1wonycqEBqNJubA==
-
-"@types/json-bigint@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.npmjs.org/@types/json-bigint/-/json-bigint-1.0.1.tgz"
-  integrity sha512-zpchZLNsNuzJHi6v64UBoFWAvQlPhch7XAi36FkH6tL1bbbmimIF+cS7vwkzY4u5RaSWMoflQfu+TshMPPw8uw==
 
 "@types/json-schema@*", "@types/json-schema@^7.0.3", "@types/json-schema@^7.0.5", "@types/json-schema@^7.0.7":
   version "7.0.7"
@@ -5616,7 +5757,7 @@ compression@^1.7.4:
     safe-buffer "5.1.2"
     vary "~1.1.2"
 
-compute-scroll-into-view@^1.0.17:
+compute-scroll-into-view@^1.0.14, compute-scroll-into-view@^1.0.17:
   version "1.0.17"
   resolved "https://registry.yarnpkg.com/compute-scroll-into-view/-/compute-scroll-into-view-1.0.17.tgz#6a88f18acd9d42e9cf4baa6bec7e0522607ab7ab"
   integrity sha512-j4dx+Fb0URmzbwwMUrhqWM2BEWHdFGx+qZ9qqASHRPqvTYdqvWnHg0H1hIbcyLnvgnoNAVMlwkepyqM3DaIFUg==
@@ -6515,6 +6656,14 @@ dom-converter@^0.2.0:
   dependencies:
     utila "~0.4"
 
+dom-helpers@^5.0.1:
+  version "5.2.1"
+  resolved "https://registry.yarnpkg.com/dom-helpers/-/dom-helpers-5.2.1.tgz#d9400536b2bf8225ad98fe052e029451ac40e902"
+  integrity sha512-nRCa7CK3VTrM2NmGkIy4cbK7IZlgBE/PYMn55rrXefr5xXDP0LdtfPnblFDoVdcAfslJ7or6iqAUnx0CCGIWQA==
+  dependencies:
+    "@babel/runtime" "^7.8.7"
+    csstype "^3.0.2"
+
 dom-serializer@0:
   version "0.2.2"
   resolved "https://registry.npmjs.org/dom-serializer/-/dom-serializer-0.2.2.tgz"
@@ -6638,6 +6787,16 @@ dotenv@^8.0.0:
   version "8.6.0"
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-8.6.0.tgz#061af664d19f7f4d8fc6e4ff9b584ce237adcb8b"
   integrity sha512-IrPdXQsk2BbzvCBGBOTmmSH5SodmqZNt4ERAZDmW4CT+tL8VtvinqywuANaFu4bOMWki16nqf0e4oC0QIaDr/g==
+
+downshift@5.4.7:
+  version "5.4.7"
+  resolved "https://registry.yarnpkg.com/downshift/-/downshift-5.4.7.tgz#2ab7b0512cad33011ee6f29630f9a7bb74dff2b5"
+  integrity sha512-xaH0RNqwJ5pAsyk9qBmR9XJWmg1OOWMfrhzYv0NH2NjJxn77S3zBcfClw341UfhGyKg5v+qVqg/CQzvAgBNCXQ==
+  dependencies:
+    "@babel/runtime" "^7.10.2"
+    compute-scroll-into-view "^1.0.14"
+    prop-types "^15.7.2"
+    react-is "^16.13.1"
 
 downshift@^6.0.15:
   version "6.1.7"
@@ -6804,10 +6963,10 @@ entities@^2.0.0:
   resolved "https://registry.npmjs.org/entities/-/entities-2.2.0.tgz"
   integrity sha512-p92if5Nz619I0w+akJrLZH0MX0Pb5DX39XOwQTtXSdQQOaYH03S1uIQp4mhOZtAXrxq4ViO67YTiLBo2638o9A==
 
-ergo-dex-sdk@^0.2.15:
-  version "0.2.15"
-  resolved "https://registry.yarnpkg.com/ergo-dex-sdk/-/ergo-dex-sdk-0.2.15.tgz#b7f86e9305db87011ec27e986a30654e1422ed0e"
-  integrity sha512-gUrIytZic/Q4cb3+u1Fqi7SX5paLwyEyXVruRMh+ncLOejg35Ss/QQEu0h0rlxaVPmb4aRaj8DWPs+0NUvMtuA==
+ergo-dex-sdk@^0.3.16:
+  version "0.3.16"
+  resolved "https://registry.yarnpkg.com/ergo-dex-sdk/-/ergo-dex-sdk-0.3.16.tgz#044d28900b07feac41a20882e4eebd4fdf40f704"
+  integrity sha512-r7hJaKTcskeZAex2VAk3IpB2LqA06XoKfwxn9DkZ9Qt2bzf/m3o7r00aUDIXo8AtLcJBFsC18/v/rHsStQwwqA==
   dependencies:
     axios "^0.21.1"
     blakejs "^1.1.0"
@@ -6817,6 +6976,7 @@ ergo-dex-sdk@^0.2.15:
     ergo-lib-wasm-nodejs "0.14.0-alpha-01cd628"
     json-bigint "^1.0.0"
     mathjs "^9.4.4"
+    ramda "0.27.1"
 
 ergo-lib-wasm-browser@0.14.0-alpha-01cd628:
   version "0.14.0-alpha-01cd628"
@@ -13040,15 +13200,15 @@ raf@^3.4.1:
   dependencies:
     performance-now "^2.1.0"
 
+ramda@0.27.1, ramda@^0.27.1:
+  version "0.27.1"
+  resolved "https://registry.npmjs.org/ramda/-/ramda-0.27.1.tgz"
+  integrity sha512-PgIdVpn5y5Yns8vqb8FzBUEYn98V3xcPgawAkkgj0YJ0qDsnHCiNmZYfOGMgOvoB0eWFLpYbhxUR3mxfDIMvpw==
+
 ramda@^0.21.0:
   version "0.21.0"
   resolved "https://registry.yarnpkg.com/ramda/-/ramda-0.21.0.tgz#a001abedb3ff61077d4ff1d577d44de77e8d0a35"
   integrity sha1-oAGr7bP/YQd9T/HVd9RN536NCjU=
-
-ramda@^0.27.1:
-  version "0.27.1"
-  resolved "https://registry.npmjs.org/ramda/-/ramda-0.27.1.tgz"
-  integrity sha512-PgIdVpn5y5Yns8vqb8FzBUEYn98V3xcPgawAkkgj0YJ0qDsnHCiNmZYfOGMgOvoB0eWFLpYbhxUR3mxfDIMvpw==
 
 randombytes@^2.0.0, randombytes@^2.0.1, randombytes@^2.0.5, randombytes@^2.1.0:
   version "2.1.0"
@@ -13341,7 +13501,7 @@ react-inspector@^5.1.0:
     is-dom "^1.0.0"
     prop-types "^15.0.0"
 
-react-is@^16.12.0, react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1:
+react-is@^16.12.0, react-is@^16.13.1, react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1:
   version "16.13.1"
   resolved "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
@@ -13356,6 +13516,11 @@ react-lifecycles-compat@^3.0.4:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
+react-merge-refs@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/react-merge-refs/-/react-merge-refs-1.1.0.tgz#73d88b892c6c68cbb7a66e0800faa374f4c38b06"
+  integrity sha512-alTKsjEL0dKH/ru1Iyn7vliS2QRcBp9zZPGoWxUOvRGWPUYgjo+V01is7p04It6KhgrzhJGnIj9GgX8W4bZoCQ==
+
 react-popper-tooltip@^3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/react-popper-tooltip/-/react-popper-tooltip-3.1.1.tgz#329569eb7b287008f04fcbddb6370452ad3f9eac"
@@ -13365,7 +13530,7 @@ react-popper-tooltip@^3.1.1:
     "@popperjs/core" "^2.5.4"
     react-popper "^2.2.4"
 
-react-popper@^2.2.4:
+react-popper@^2.2.2, react-popper@^2.2.4:
   version "2.2.5"
   resolved "https://registry.yarnpkg.com/react-popper/-/react-popper-2.2.5.tgz#1214ef3cec86330a171671a4fbcbeeb65ee58e96"
   integrity sha512-kxGkS80eQGtLl18+uig1UIf9MKixFSyPxglsgLBxlYnyDf65BiY9B3nZSc6C9XUNDgStROB0fMQlTEz1KxGddw==
@@ -13509,6 +13674,23 @@ react-toastify@^7.0.4:
   integrity sha512-Rol7+Cn39hZp5hQ/k6CbMNE2CKYV9E5OQdC/hBLtIQU2xz7DdAm7xil4NITQTHR6zEbE5RVFbpgSwTD7xRGLeQ==
   dependencies:
     clsx "^1.1.1"
+
+react-transition-group@^4.3.0:
+  version "4.4.2"
+  resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-4.4.2.tgz#8b59a56f09ced7b55cbd53c36768b922890d5470"
+  integrity sha512-/RNYfRAMlZwDSr6z4zNKV6xu53/e2BuaBbGhbyYIXTrmgu/bGHzmqOs7mJSJBHy9Ud+ApHx3QjrkKSp1pxvlFg==
+  dependencies:
+    "@babel/runtime" "^7.5.5"
+    dom-helpers "^5.0.1"
+    loose-envify "^1.4.0"
+    prop-types "^15.6.2"
+
+react-virtual@^2.2.0:
+  version "2.8.1"
+  resolved "https://registry.yarnpkg.com/react-virtual/-/react-virtual-2.8.1.tgz#7ec28a3c9361ce62bc3cc1ea14c4a5c2f7a4a266"
+  integrity sha512-7BeUWUCQPQP7vc0wU5LBi6/iM4Ct51j69LcvTNG0V40dS2TyEeTj9c5Br4TiOX9DHy6m/uEbx32KQ3Dp7altSg==
+  dependencies:
+    "@reach/observe-rect" "^1.1.0"
 
 react@^17.0.2:
   version "17.0.2"
@@ -13899,6 +14081,11 @@ resize-observer-polyfill@^1.5.1:
   version "1.5.1"
   resolved "https://registry.npmjs.org/resize-observer-polyfill/-/resize-observer-polyfill-1.5.1.tgz"
   integrity sha512-LwZrotdHOo12nQuZlHEmtuXdqGoOD0OhaxopaNFxWzInpEgaLWoVuAMbTzixuosCx2nEG58ngzW3vxdWoxIgdg==
+
+resize-observer@^1.0.0:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/resize-observer/-/resize-observer-1.0.2.tgz#9a87697b275343d12d8b371940e02e9a93e1f452"
+  integrity sha512-X0lHFNsxItpBRIRsdwOTkl/VguTaLGx7Gz9xoTGix9ObBN3jRYq9J/rSIuYDrey8AdU3IkfgIMpCeVSEW1QS0Q==
 
 resolve-cwd@^2.0.0:
   version "2.0.0"

@@ -1,25 +1,29 @@
 import { isEmpty } from 'ramda';
 import { ErgoBox } from 'ergo-dex-sdk/build/module/ergo';
+import { AssetInfo } from 'ergo-dex-sdk/build/main';
+import { parseUserInputToFractions } from '../../utils/math';
+
+const SUBMIT_TEXT = 'Submit';
 
 export enum States {
-  NEED_TO_CONNECT_WALLET = 'NEED_TO_CONNECT_WALLET',
-  SELECT_A_TOKEN = 'SELECT_A_TOKEN',
-  NEED_TO_ENTER_AMOUNT = 'NEED_TO_ENTER_AMOUNT',
-  NEED_TO_CHOOSE_ADDRESS = 'NEED_TO_CHOOSE_ADDRESS',
+  LOADING = 'LOADING',
+  PAIR_NOT_SPECIFIED = 'PAIR_NOT_SPECIFIED',
+  AMOUNT_NOT_SPECIFIED = 'AMOUNT_NOT_SPECIFIED',
+  ADDRESS_NOT_SPECIFIED = 'ADDRESS_NOT_SPECIFIED',
   PENDING_TRANSACTION = 'PENDING_TRANSACTION',
-  UTXOS_IS_EMPTY = 'UTXOS_IS_EMPTY',
+  EMPTY_INPUTS = 'EMPTY_INPUTS',
+  INSUFFICIENT_INPUT_TOKEN_BALANCE = 'INSUFFICIENT_INPUT_TOKEN_BALANCE',
   SUBMIT = 'SUBMIT',
 }
 
 interface ButtonStateDependencies {
-  isWalletConnected: boolean;
-  inputAssetId?: string;
-  outputAssetId?: string;
-  inputAmount: string;
-  outputAmount: string;
+  inputAsset?: AssetInfo;
+  outputAsset?: AssetInfo;
+  inputAmountRaw: string;
+  outputAmountRaw: string;
   chosenAddress: string | undefined;
   utxos: ErgoBox[] | undefined;
-  availableInputAmount: bigint;
+  availableAmount: { input: bigint; output: bigint };
 }
 
 interface ButtonState {
@@ -27,70 +31,88 @@ interface ButtonState {
   text: string;
 }
 
+const makeState = (text: string): ButtonState => {
+  if (text === SUBMIT_TEXT) {
+    return { text, isDisabled: false };
+  }
+
+  return { text, isDisabled: true };
+};
+
 const getState = ({
-  isWalletConnected,
-  inputAssetId,
-  outputAssetId,
-  inputAmount,
-  outputAmount,
+  inputAsset,
+  outputAsset,
+  inputAmountRaw,
+  outputAmountRaw,
   chosenAddress,
   utxos,
-  availableInputAmount,
-}: ButtonStateDependencies): States => {
-  if (!isWalletConnected) {
-    return States.NEED_TO_CONNECT_WALLET;
+  availableAmount,
+}: ButtonStateDependencies): { type: States; payload?: string } => {
+  if (!inputAsset || !outputAsset) {
+    return { type: States.LOADING };
   }
 
   if (!chosenAddress) {
-    return States.NEED_TO_CHOOSE_ADDRESS;
+    return { type: States.ADDRESS_NOT_SPECIFIED };
   }
 
-  if (!inputAssetId || !outputAssetId) {
-    return States.SELECT_A_TOKEN;
+  if (!inputAsset.id || !outputAsset.id) {
+    return { type: States.PAIR_NOT_SPECIFIED };
   }
 
-  if (!availableInputAmount && isEmpty(utxos)) {
-    return States.PENDING_TRANSACTION;
+  if (!availableAmount.input && isEmpty(utxos)) {
+    return { type: States.PENDING_TRANSACTION };
   }
 
-  if (!inputAmount || !outputAmount) {
-    return States.NEED_TO_ENTER_AMOUNT;
+  if (!inputAmountRaw || !outputAmountRaw) {
+    return { type: States.AMOUNT_NOT_SPECIFIED };
+  }
+
+  const inputAmount = parseUserInputToFractions(
+    inputAmountRaw,
+    inputAsset.decimals,
+  );
+
+  if (inputAmount > availableAmount.input) {
+    return {
+      type: States.INSUFFICIENT_INPUT_TOKEN_BALANCE,
+      payload: inputAsset.name,
+    };
   }
 
   if (!utxos || utxos.length === 0) {
-    return States.UTXOS_IS_EMPTY;
+    return { type: States.EMPTY_INPUTS };
   }
 
-  return States.SUBMIT;
+  return { type: States.SUBMIT };
 };
 
 export const getButtonState = (deps: ButtonStateDependencies): ButtonState => {
   const state = getState(deps);
 
-  switch (state) {
-    case States.SELECT_A_TOKEN: {
-      return { isDisabled: true, text: 'Pair not specified' };
+  switch (state.type) {
+    case States.LOADING: {
+      return makeState('Loading...');
     }
-    case States.SUBMIT: {
-      return { isDisabled: false, text: 'Submit' };
+    case States.PAIR_NOT_SPECIFIED: {
+      return makeState('Pair not specified');
     }
-    case States.NEED_TO_CONNECT_WALLET: {
-      return { isDisabled: true, text: 'Wallet not connected' };
-    }
-    case States.NEED_TO_CHOOSE_ADDRESS: {
-      return { isDisabled: true, text: 'Address not specified' };
+    case States.ADDRESS_NOT_SPECIFIED: {
+      return makeState('Address not specified');
     }
     case States.PENDING_TRANSACTION: {
-      return {
-        isDisabled: true,
-        text: 'There is pending transaction. Wait for it to complete.',
-      };
+      return makeState('There is a pending transaction');
     }
-    case States.NEED_TO_ENTER_AMOUNT: {
-      return { isDisabled: true, text: 'Enter Amount' };
+    case States.AMOUNT_NOT_SPECIFIED: {
+      return makeState('Enter Amount');
     }
-    case States.UTXOS_IS_EMPTY: {
-      return { isDisabled: true, text: 'Insufficient ERG balance' };
+    case States.EMPTY_INPUTS: {
+      return makeState('Insufficient ERG balance');
+    }
+    case States.INSUFFICIENT_INPUT_TOKEN_BALANCE: {
+      return makeState(`Insufficient ${state.payload} balance`);
     }
   }
+
+  return makeState(SUBMIT_TEXT);
 };

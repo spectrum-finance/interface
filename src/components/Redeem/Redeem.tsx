@@ -22,19 +22,21 @@ import { fromAddress } from 'ergo-dex-sdk/build/module/ergo/entities/publicKey';
 import { WalletContext, useSettings } from '../../context';
 import { getButtonState } from './buttonState';
 import { useGetAvailablePoolsByLPTokens } from '../../hooks/useGetAvailablePoolsByLPTokens';
-import { ERG_DECIMALS } from '../../constants/erg';
+import { ERG_DECIMALS, EXECUTION_MINER_FEE } from '../../constants/erg';
 import { toast } from 'react-toastify';
 import explorer from '../../services/explorer';
 import { ergoBoxFromProxy } from 'ergo-dex-sdk/build/module/ergo/entities/ergoBox';
 import { parseUserInputToFractions, renderFractions } from '../../utils/math';
-import poolOptions from '../../services/poolOptions';
-import { miniSufficientValue } from '../../utils/ammMath';
+import { poolActions } from '../../services/poolActions';
+import { makeTarget, minSufficientValueForOrder } from '../../utils/ammMath';
 import { calculateTotalFee } from '../../utils/transactions';
-import { RedeemSummary } from '../Redeem/RedeemSummary';
+import { RedeemSummary } from './RedeemSummary';
+import { calculateAvailableAmount } from '../../utils/walletMath';
+import { DexFeeDefault } from '../../constants/settings';
 
 export const Redeem = (): JSX.Element => {
   const [{ minerFee, address: chosenAddress }] = useSettings();
-  const [dexFee] = useState<number>(0.01);
+  const [dexFee] = useState<number>(DexFeeDefault);
 
   const { isWalletConnected, ergBalance } = useContext(WalletContext);
   const [amount, setAmount] = useState('');
@@ -89,27 +91,28 @@ export const Redeem = (): JSX.Element => {
 
       const pk = fromAddress(chosenAddress) as string;
 
-      poolOptions
+      const actions = poolActions(selectedPool);
+
+      const minerFeeNErgs = parseUserInputToFractions(minerFee, ERG_DECIMALS);
+      const dexFeeNErgs = parseUserInputToFractions(
+        String(dexFee),
+        ERG_DECIMALS,
+      );
+
+      const minNErgs = minSufficientValueForOrder(minerFeeNErgs, dexFeeNErgs);
+      const inputLP = selectedPool.lp.withAmount(BigInt(amount));
+      const target = makeTarget([inputLP], minNErgs);
+
+      actions
         .redeem(
           {
             pk,
             poolId,
-            dexFee: parseUserInputToFractions(String(dexFee), ERG_DECIMALS),
-            lp: selectedPool.lp.asset,
+            dexFee: dexFeeNErgs,
+            lp: inputLP,
           },
           {
-            inputs: DefaultBoxSelector.select(utxos, {
-              nErgs: miniSufficientValue(
-                parseUserInputToFractions(minerFee, ERG_DECIMALS),
-                parseUserInputToFractions(String(dexFee), ERG_DECIMALS),
-              ),
-              assets: [
-                {
-                  tokenId: selectedPool.lp.asset.id,
-                  amount: BigInt(amount),
-                },
-              ],
-            }) as BoxSelection,
+            inputs: DefaultBoxSelector.select(utxos, target) as BoxSelection,
             changeAddress: chosenAddress,
             selfAddress: chosenAddress,
             feeNErgs: parseUserInputToFractions(minerFee, ERG_DECIMALS),
@@ -199,6 +202,18 @@ export const Redeem = (): JSX.Element => {
                   </Grid>
                   <Grid xs={24}>
                     <Text h5>Amount</Text>
+                  </Grid>
+                  <Grid xs={24}>
+                    {selectedPool && (
+                      <Text small={true} type={'secondary'}>
+                        {'Available: ' +
+                          calculateAvailableAmount(
+                            selectedPool?.lp.asset.id,
+                            utxos,
+                          ) +
+                          ' LP'}
+                      </Text>
+                    )}
                   </Grid>
                   <Grid xs={24}>
                     <Field name="amount">
