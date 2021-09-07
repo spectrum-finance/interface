@@ -1,4 +1,3 @@
-import { MIN_BOX_VALUE } from '../constants/erg';
 import { MinPoolBoxValue } from 'ergo-dex-sdk/build/main/amm/constants';
 import { MinBoxValue } from 'ergo-dex-sdk/build/main/ergo/constants';
 import { AssetAmount } from 'ergo-dex-sdk/build/module/ergo';
@@ -9,8 +8,8 @@ export function minSufficientValueForOrder(
   minerFee: bigint,
   dexFee: bigint,
 ): bigint {
-  const min = minerFee * 2n + MIN_BOX_VALUE * 2n;
-  const actual = minerFee + dexFee;
+  const min = minerFee * 2n + MinBoxValue * 2n;
+  const actual = minerFee + dexFee + MinBoxValue;
   return actual > min ? actual : min;
 }
 
