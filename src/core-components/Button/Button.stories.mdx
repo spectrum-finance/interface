@@ -1,16 +1,248 @@
 import { Meta, Story, Canvas } from '@storybook/addon-docs';
 import { Button } from './Button';
+import { Grid, Spacer } from '@geist-ui/react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 <Meta title="core-components/Button" component={Button} />
 
+export const defaultHoverStyle = {
+  color: '#000', 
+  '--geist-ui-button-color': '#000',
+  backgroundColor: '#fff',
+  borderColor: '#000',
+  cursor: 'pointer',
+  pointerEvents: 'auto',
+  boxShadow: 'none'
+}
+
+export const secondaryHoverStyle = {
+  color: '#000', 
+  '--geist-ui-button-color': '#000',
+  backgroundColor: '#fff',
+  borderColor: '#000',
+  cursor: 'pointer',
+  pointerEvents: 'auto',
+  boxShadow: 'none',
+}
+
+export const successHoverStyle = {
+  color: '#0070f3', 
+  '--geist-ui-button-color': '#0070f3',
+  backgroundColor: '#fff',
+  borderColor: '#0070f3',
+  cursor: 'pointer',
+  pointerEvents: 'auto',
+  boxShadow: 'none'
+}
+
+export const warningHoverStyle = {
+  color: '#f5a623', 
+  '--geist-ui-button-color': '#f5a623',
+  backgroundColor: '#fff',
+  borderColor: '#f5a623',
+  cursor: 'pointer',
+  pointerEvents: 'auto',
+  boxShadow: 'none'
+}
+
+export const errorHoverStyle = {
+  color: '#e00', 
+  '--geist-ui-button-color': '#e00',
+  backgroundColor: '#fff',
+  borderColor: '#e00',
+  cursor: 'pointer',
+  pointerEvents: 'auto',
+  boxShadow: 'none'
+}
+
+export const defaultGhostHoverStyle = {
+  color: '#fff', 
+  '--geist-ui-button-color': '#fff',
+  backgroundColor: '#000',
+  borderColor: '#000',
+  cursor: 'pointer',
+  pointerEvents: 'auto',
+  boxShadow: 'none'
+}
+
+export const secondaryGhostHoverStyle = {
+  color: '#fff', 
+  '--geist-ui-button-color': '#fff',
+  backgroundColor: '#000',
+  borderColor: '#000',
+  cursor: 'pointer',
+  pointerEvents: 'auto',
+  boxShadow: 'none',
+}
+
+export const successGhostHoverStyle = {
+  color: '#fff', 
+  '--geist-ui-button-color': '#fff',
+  backgroundColor: '#0070f3',
+  borderColor: '#0070f3',
+  cursor: 'pointer',
+  pointerEvents: 'auto',
+  boxShadow: 'none'
+}
+
+export const warningGhostHoverStyle = {
+  color: '#fff', 
+  '--geist-ui-button-color': '#fff',
+  backgroundColor: '#f5a623',
+  borderColor: '#f5a623',
+  cursor: 'pointer',
+  pointerEvents: 'auto',
+  boxShadow: 'none'
+}
+
+export const errorGhostHoverStyle = {
+  color: '#fff', 
+  '--geist-ui-button-color': '#fff',
+  backgroundColor: '#e00',
+  borderColor: '#e00',
+  cursor: 'pointer',
+  pointerEvents: 'auto',
+  boxShadow: 'none'
+}
+
+export const SmallTemplate = (args) => 
+  <Grid.Container gap={2}>      
+    <Grid>
+      Default
+      <Spacer h={.5} />
+      <Button auto ghost={args.ghost} type={args.type} size={args.size}>Button</Button>
+      <Spacer h={.5} />
+      <Button auto ghost={args.ghost} type={args.type} size={args.size} icon={<FontAwesomeIcon icon={faSearch} size="lg" />}>Button</Button>
+      <Spacer h={.5} />
+      <Button auto ghost={args.ghost} type={args.type} size={args.size} icon={<FontAwesomeIcon icon={faSearch} size="lg" />}></Button>
+    </Grid>
+    <Grid>
+      Hover 
+      <Spacer h={.5} />
+      <Button auto ghost={args.ghost} type={args.type} size={args.size} style={args.hoverStyle}>Button</Button>
+      <Spacer h={.5} />
+      <Button auto ghost={args.ghost} type={args.type} size={args.size} style={args.hoverStyle} icon={<FontAwesomeIcon icon={faSearch} size="lg" />}>Button</Button>
+      <Spacer h={.5} />
+      <Button auto ghost={args.ghost} type={args.type} size={args.size} style={args.hoverStyle} icon={<FontAwesomeIcon icon={faSearch} size="lg" />}></Button>
+    </Grid>
+    <Grid>
+      Focused
+      <Spacer h={.5} />
+      <Button auto ghost={args.ghost} type={args.type} size={args.size} style={args.hoverStyle}>Button</Button>
+      <Spacer h={.5} />
+      <Button auto ghost={args.ghost} type={args.type} size={args.size} style={args.hoverStyle} icon={<FontAwesomeIcon icon={faSearch} size="lg" />}>Button</Button>
+      <Spacer h={.5} />
+      <Button auto ghost={args.ghost} type={args.type} size={args.size} style={args.hoverStyle} icon={<FontAwesomeIcon icon={faSearch} size="lg" />}></Button>
+    </Grid>
+    <Grid>
+      Pressed
+      <Spacer h={.5} />
+      <Button auto ghost={args.ghost} type={args.type} size={args.size} style={args.hoverStyle}>Button</Button>
+      <Spacer h={.5} />
+      <Button auto ghost={args.ghost} type={args.type} size={args.size} style={args.hoverStyle} icon={<FontAwesomeIcon icon={faSearch} size="lg" />}>Button</Button>
+      <Spacer h={.5} />
+      <Button auto ghost={args.ghost} type={args.type} size={args.size} style={args.hoverStyle} icon={<FontAwesomeIcon icon={faSearch} size="lg" />}></Button>
+    </Grid>
+    <Grid>
+      Loading
+      <Spacer h={.5} />
+      <Button auto ghost={args.ghost} loading type={args.type} size={args.size}>Button</Button>
+      <Spacer h={.5} />
+      <Button auto ghost={args.ghost} loading type={args.type} size={args.size} icon={<FontAwesomeIcon icon={faSearch} size="lg" />}>Button</Button>
+      <Spacer h={.5} />
+      <Button auto ghost={args.ghost} loading type={args.type} size={args.size} icon={<FontAwesomeIcon icon={faSearch} size="lg" />}></Button>
+    </Grid>
+    <Grid>
+      Disabled
+      <Spacer h={.5} />
+      <Button auto ghost={args.ghost} disabled type={args.type} size={args.size}>Button</Button>
+      <Spacer h={.5} />
+      <Button auto ghost={args.ghost} disabled type={args.type} size={args.size} icon={<FontAwesomeIcon icon={faSearch} size="lg" />}>Button</Button>
+      <Spacer h={.5} />
+      <Button auto ghost={args.ghost} disabled type={args.type} size={args.size} icon={<FontAwesomeIcon icon={faSearch} size="lg" />}></Button>
+    </Grid>
+  </Grid.Container>
+
+export const TemplateBySize = (args) => 
+  <>
+    <h3>Size=Large</h3>
+    {SmallTemplate({...args, size: "large"})}
+    <h3>Size=Medium</h3>
+    {SmallTemplate({...args, size: "medium"})}
+    <h3>Size=Small</h3>
+    {SmallTemplate({...args, size: "small"})}
+    <h3>Size=Mini</h3>
+    {SmallTemplate({...args, size: "mini"})}
+  </>
+
+export const Template = (args) =>
+  <>
+    <h2>Type=Primary</h2>
+    {TemplateBySize({...args, type: "default", hoverStyle: args.ghost ? defaultGhostHoverStyle : defaultHoverStyle})}
+    <h2>Type=Secondary</h2>
+    {TemplateBySize({...args, type: "secondary", hoverStyle: args.ghost ? secondaryGhostHoverStyle : secondaryHoverStyle})}
+    <h2>Type=Success</h2>
+    {TemplateBySize({...args, type: "success", hoverStyle: args.ghost ? successGhostHoverStyle : successHoverStyle})}
+    <h2>Type=Warning</h2>
+    {TemplateBySize({...args, type: "warning", hoverStyle: args.ghost ? warningGhostHoverStyle : warningHoverStyle})}
+    <h2>Type=Error</h2>
+    {TemplateBySize({...args, type: "error", hoverStyle: args.ghost ? errorGhostHoverStyle : errorHoverStyle})}
+  </>
+
 # Button
+To trigger an operation.
+
+### When to use
+A button means an operation (or a series of operations). Clicking a button will trigger corresponding business logic.
+
+In Ant Design we provide 5 types of button.
+
+- Primary button: indicate the main action, one primary button at most in one section.
+- Default button: indicate a series of actions without priority.
+- Dashed button: used for adding action commonly.
+- Text button: used for the most secondary action.
+- Link button: used for external links.
+
+And 4 other properties additionally.
+
+- danger: used for actions of risk, like deletion or authorization.
+- ghost: used in situations with complex background, home pages usually.
+- disabled: when actions are not available.
+- loading: add loading spinner in button, avoiding multiple submits too.
+
+##
+
+# Ghost=False
 
 <Canvas>
-  <Story name="Button">
-    <Button type="secondary">Secondary</Button>
-    <Button type="success">Success</Button>
-    <Button loading ghost type="warning"></Button>
-    <Button type="error">Error</Button>
-    <Button disabled>Disabled</Button>
+  <Story 
+    name="Ghost=False"
+    parameters={{
+      ghost: { values: [ true, false ] },
+      type: { values: ["default", "secondary"] } 
+    }}
+    args={{
+      ghost: false
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+# Ghost=True
+ 
+<Canvas>
+  <Story 
+    name="Ghost=True"
+    parameters={{
+      ghost: { values: [ true, false ] },
+      type: { values: ["default", "secondary"] } 
+    }}
+    args={{
+      ghost: true
+    }}
+  >
+    {Template.bind({})}
   </Story>
 </Canvas>
