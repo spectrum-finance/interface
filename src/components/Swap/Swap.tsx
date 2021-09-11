@@ -58,7 +58,7 @@ import { isZero } from '../../utils/numbers';
 import { toFloat } from '../../utils/string';
 import { SwapSummary } from './SwapSummary';
 import { makeTarget, minSufficientValueForOrder } from '../../utils/ammMath';
-import { renderPoolPrice } from '../../utils/price';
+import { renderPoolPrice, renderPrice } from '../../utils/price';
 import { AssetInfo } from 'ergo-dex-sdk/build/module/ergo/entities/assetInfo';
 
 interface SwapFormProps {
@@ -84,6 +84,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
   const [currentSwapVars, setCurrentSwapVars] = useState<
     [number, SwapExtremums] | undefined
   >();
+  const [actualPrice, setActualPrice] = useState<string | undefined>(undefined);
   const isPoolValid = useCheckPool(selectedPool);
 
   const updateSelectedPool = useCallback((pool: AmmPool) => {
@@ -92,6 +93,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
     setInputAmount('');
     setOutputAmount('');
     setOutputAsset(pool.y.asset);
+    setActualPrice(undefined);
   }, []);
 
   useEffect(() => {
@@ -121,6 +123,22 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
       availableAmount,
     ],
   );
+
+  useEffect(() => {
+    if (selectedPool && inputAmount && outputAmount && inputAsset) {
+      const [assetIn, assetOut] =
+        inputAsset.id === selectedPool.x.asset.id
+          ? [selectedPool.x, selectedPool.y]
+          : [selectedPool.y, selectedPool.x];
+      const input = assetIn.withAmount(
+        parseUserInputToFractions(inputAmount, assetIn.asset.decimals),
+      );
+      const output = assetOut.withAmount(
+        parseUserInputToFractions(outputAmount, assetOut.asset.decimals),
+      );
+      setActualPrice(renderPrice(input, output));
+    }
+  });
 
   useEffect(() => {
     if (isZero(minDexFee) || isZero(nitro)) {
@@ -157,6 +175,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
     setInputAmount('');
     setOutputAmount('');
     setCurrentSwapVars(undefined);
+    setActualPrice(undefined);
   };
 
   const updateInputAmount = useCallback(
@@ -484,6 +503,13 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                     )}
                   </Field>
                 </Grid>
+                {actualPrice && (
+                  <Grid xs={24}>
+                    <Text small={true} type={'secondary'}>
+                      Your price: {actualPrice}
+                    </Text>
+                  </Grid>
+                )}
 
                 {currentSwapVars?.[1] && (
                   <Grid xs={24} direction="column" alignItems="flex-start">
