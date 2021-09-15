@@ -15,3 +15,6 @@ export const SlippageDecimals = 2;
 export const PoolFeeMin = 0;
 export const PoolFeeMax = 0.25;
 export const PoolFeeDecimals = 3;
+
+export const UiRewardAddress =
+  '9gCigPc9cZNRhKgbgdmTkVxo1ZKgw79G8DvLjCcYWAvEF3XRUKy';

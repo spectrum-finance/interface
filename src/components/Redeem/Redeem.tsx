@@ -10,40 +10,40 @@ import {
 } from '@geist-ui/react';
 import { Form, Field, FieldRenderProps } from 'react-final-form';
 import { reverse } from 'ramda';
-import { AmmPool } from 'ergo-dex-sdk';
 import {
   AssetAmount,
   BoxSelection,
   DefaultBoxSelector,
   ErgoBox,
+  ergoBoxFromProxy,
   ergoTxToProxy,
-} from 'ergo-dex-sdk/build/module/ergo';
-import { fromAddress } from 'ergo-dex-sdk/build/module/ergo/entities/publicKey';
+  publicKeyFromAddress,
+} from '@ergolabs/ergo-sdk';
 import { WalletContext, useSettings } from '../../context';
 import { getButtonState } from './buttonState';
 import { useGetAvailablePoolsByLPTokens } from '../../hooks/useGetAvailablePoolsByLPTokens';
-import { ERG_DECIMALS, EXECUTION_MINER_FEE } from '../../constants/erg';
+import { ERG_DECIMALS, UI_FEE } from '../../constants/erg';
 import { toast } from 'react-toastify';
 import explorer from '../../services/explorer';
-import { ergoBoxFromProxy } from 'ergo-dex-sdk/build/module/ergo/entities/ergoBox';
 import { parseUserInputToFractions, renderFractions } from '../../utils/math';
 import { poolActions } from '../../services/poolActions';
-import { makeTarget, minSufficientValueForOrder } from '../../utils/ammMath';
+import { makeTarget } from '../../utils/ammMath';
 import { calculateTotalFee } from '../../utils/transactions';
 import { RedeemSummary } from './RedeemSummary';
 import { calculateAvailableAmount } from '../../utils/walletMath';
 import { DexFeeDefault } from '../../constants/settings';
+import { AmmPool, minValueForOrder } from '@ergolabs/ergo-dex-sdk';
 
 export const Redeem = (): JSX.Element => {
   const [{ minerFee, address: chosenAddress }] = useSettings();
-  const [dexFee] = useState<number>(DexFeeDefault);
+  const [exFee] = useState<number>(DexFeeDefault);
 
   const { isWalletConnected, ergBalance } = useContext(WalletContext);
   const [amount, setAmount] = useState('');
   const [LPTokensBalance, setLPTokensBalance] = useState<string | undefined>();
   const [selectedPool, setSelectedPool] = useState<AmmPool | undefined>();
 
-  const totalFee = calculateTotalFee(minerFee, String(dexFee), {
+  const totalFee = calculateTotalFee(minerFee, String(exFee), {
     precision: ERG_DECIMALS,
   });
 
@@ -70,7 +70,7 @@ export const Redeem = (): JSX.Element => {
     selectedPool,
     amount,
     ergBalance,
-    dexFee,
+    dexFee: exFee,
     minerFee,
     LPTokensBalance,
   });
@@ -89,17 +89,14 @@ export const Redeem = (): JSX.Element => {
       const network = explorer;
       const poolId = selectedPool.id;
 
-      const pk = fromAddress(chosenAddress) as string;
+      const pk = publicKeyFromAddress(chosenAddress) as string;
 
       const actions = poolActions(selectedPool);
 
       const minerFeeNErgs = parseUserInputToFractions(minerFee, ERG_DECIMALS);
-      const dexFeeNErgs = parseUserInputToFractions(
-        String(dexFee),
-        ERG_DECIMALS,
-      );
+      const exFeeNErgs = parseUserInputToFractions(String(exFee), ERG_DECIMALS);
 
-      const minNErgs = minSufficientValueForOrder(minerFeeNErgs, dexFeeNErgs);
+      const minNErgs = minValueForOrder(minerFeeNErgs, UI_FEE, exFeeNErgs);
       const inputLP = selectedPool.lp.withAmount(BigInt(amount));
       const target = makeTarget([inputLP], minNErgs);
 
@@ -108,7 +105,8 @@ export const Redeem = (): JSX.Element => {
           {
             pk,
             poolId,
-            dexFee: dexFeeNErgs,
+            exFee: exFeeNErgs,
+            uiFee: UI_FEE,
             lp: inputLP,
           },
           {
@@ -263,7 +261,7 @@ export const Redeem = (): JSX.Element => {
                           outputAssetYAmount.asset.decimals,
                         )}
                         minerFee={minerFee}
-                        dexFee={String(dexFee)}
+                        dexFee={String(exFee)}
                         totalFee={totalFee}
                       />
                     </Grid>
