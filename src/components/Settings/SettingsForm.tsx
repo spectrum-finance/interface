@@ -61,7 +61,7 @@ export const SettingsForm = (props: SettingsFormProps): JSX.Element => {
   return (
     <div>
       <div>
-        <Text p>
+        <Text span>
           {content.dex.label}{' '}
           <Tooltip text={content.dex.tooltip}>
             <FontAwesomeIcon icon={faQuestionCircle} />
@@ -70,7 +70,7 @@ export const SettingsForm = (props: SettingsFormProps): JSX.Element => {
         <MinerFeeInput minerFee={minerFee} updateSettings={updateSettings} />
       </div>
       <div>
-        <Text p>
+        <Text span>
           {content.address.label}{' '}
           <Tooltip text={content.address.tooltip}>
             <FontAwesomeIcon icon={faQuestionCircle} />

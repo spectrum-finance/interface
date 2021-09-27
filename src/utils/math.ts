@@ -51,9 +51,3 @@ export function fractionsToNum(
 ): number {
   return Number(renderFractions(fractions, numDecimals));
 }
-
-export const toPercent = (num: number | string): string =>
-  String(Number(num) * 100);
-
-export const fromPercent = (num: number | string): string =>
-  String(Number(num) / 100);
