@@ -16,7 +16,7 @@ import { validateMinDexFee, validateNitro } from './validation';
 import {
   ERG_DECIMALS,
   ERG_TOKEN_NAME,
-  MIN_DEX_FEE,
+  MIN_EX_FEE,
   MIN_NITRO,
   NITRO_DECIMALS,
 } from '../../constants/erg';
@@ -124,8 +124,8 @@ const SwapSettings = ({
                           !minDexFee.trim() ||
                           validateMinDexFee(minDexFee)
                         ) {
-                          onChangeMinDexFee(String(MIN_DEX_FEE));
-                          props.input.onChange(MIN_DEX_FEE);
+                          onChangeMinDexFee(String(MIN_EX_FEE));
+                          props.input.onChange(MIN_EX_FEE);
                         }
                       }}
                     />

@@ -21,6 +21,7 @@ import { Form, Field, FieldRenderProps } from 'react-final-form';
 import { FORM_ERROR } from 'final-form';
 import {
   AmmPool,
+  evaluate,
   minValueForOrder,
   SwapExtremums,
   swapVars,
@@ -41,7 +42,7 @@ import { PoolSelect } from '../PoolSelect/PoolSelect';
 import {
   ERG_DECIMALS,
   MIN_NITRO,
-  MIN_DEX_FEE,
+  MIN_EX_FEE,
   UI_FEE,
 } from '../../constants/erg';
 import { getButtonState } from './buttonState';
@@ -83,7 +84,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
     input: 0n,
     output: 0n,
   });
-  const [minDexFee, setMinDexFee] = useState(String(MIN_DEX_FEE));
+  const [minExFee, setMinExFee] = useState(String(MIN_EX_FEE));
   const [nitro, setNitro] = useState(String(MIN_NITRO));
   const [currentSwapVars, setCurrentSwapVars] = useState<
     [number, SwapExtremums] | undefined
@@ -145,7 +146,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
   });
 
   useEffect(() => {
-    if (isZero(minDexFee) || isZero(nitro)) {
+    if (isZero(minExFee) || isZero(nitro)) {
       resetSwapForm();
       return;
     }
@@ -157,12 +158,13 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
         slippage: Number(slippage),
       });
 
-      const vars = swapVars(BigInt(minDexFee), Number(nitro), minOutput);
+      const vars = swapVars(BigInt(minExFee), Number(nitro), minOutput);
+      console.log('vars ', vars);
       if (!isNil(vars)) {
         setCurrentSwapVars(vars);
       }
     }
-  }, [slippage, minDexFee, inputAmount, inputAsset, selectedPool, nitro]);
+  }, [slippage, minExFee, inputAmount, inputAsset, selectedPool, nitro]);
 
   useEffect(() => {
     if (isWalletConnected && inputAsset && outputAsset) {
@@ -313,7 +315,17 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
 
       if (!isNil(currentSwapVars)) {
         const [exFeePerToken, extremums] = currentSwapVars;
-        const { maxDexFee } = extremums;
+        const { maxExFee } = extremums;
+
+        console.log(
+          'mul ',
+          evaluate(`${exFeePerToken} * ${extremums.minOutput.amount}`),
+        );
+
+        console.log(
+          'mul2 ',
+          exFeePerToken * Number(extremums.minOutput.amount),
+        );
 
         const poolFeeNum = selectedPool.poolFeeNum;
         const minerFeeNErgs = parseUserInputToFractions(minerFee, ERG_DECIMALS);
@@ -331,13 +343,19 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
           poolFeeNum,
         };
 
-        const minNErgs = minValueForOrder(minerFeeNErgs, UI_FEE, maxDexFee);
+        console.log('params ', params);
+
+        const minNErgs = minValueForOrder(minerFeeNErgs, UI_FEE, maxExFee);
         const target = makeTarget(
           [new AssetAmount(inputAsset, baseInputAmount)],
           minNErgs,
         );
 
+        console.log('target ', target);
+
         const inputs = DefaultBoxSelector.select(utxos, target);
+
+        console.log('inputs ', inputs);
 
         if (inputs instanceof BoxSelection) {
           const txContext = {
@@ -380,7 +398,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
         outputAmount: 0.0,
         address: '',
         poolId: undefined,
-        minDexFee: renderFractions(MIN_DEX_FEE, ERG_DECIMALS),
+        minDexFee: renderFractions(MIN_EX_FEE, ERG_DECIMALS),
         nitro: MIN_NITRO,
       }}
       render={({ handleSubmit, errors = {} }) => (
@@ -392,10 +410,10 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
             <Grid xs={12} justify={'flex-end'}>
               <SwapSettings
                 slippage={String(slippage)}
-                minDexFee={minDexFee}
+                minDexFee={minExFee}
                 nitro={nitro}
                 onChangeSlippage={setSlippage}
-                onChangeMinDexFee={setMinDexFee}
+                onChangeMinDexFee={setMinExFee}
                 onChangeNitro={setNitro}
               />
             </Grid>
