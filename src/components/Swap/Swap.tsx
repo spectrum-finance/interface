@@ -539,7 +539,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                     <Text h5>Swap summary</Text>
                     <SwapSummary
                       minerFee={minerFee}
-                      swapExremums={currentSwapVars[1]}
+                      swapExtremums={currentSwapVars[1]}
                     />
                   </Grid>
                 )}

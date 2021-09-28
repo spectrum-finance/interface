@@ -6,12 +6,12 @@ import { SwapExtremums } from '@ergolabs/ergo-dex-sdk';
 
 interface Props {
   minerFee: string;
-  swapExremums: SwapExtremums;
+  swapExtremums: SwapExtremums;
 }
 
 export const SwapSummary: React.FC<Props> = ({
   minerFee,
-  swapExremums: { maxExFee, minExFee, minOutput, maxOutput },
+  swapExtremums: { maxExFee, minExFee, minOutput, maxOutput },
 }) => {
   return (
     <Table
