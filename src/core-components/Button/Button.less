@@ -1,27 +1,17 @@
+@import '~antd/dist/antd.less';
+
 .ant-btn {
     border-radius: 10px !important;
 }
 .ant-btn.ant-btn-loading::before {
     opacity: 0 !important;
 }
-.ant-btn.ant-btn-primary.ant-btn-loading:not([disabled]):not(.ant-btn-background-ghost) {
-    background: #FF5135;
-}
-.ant-btn.ant-btn-primary.ant-btn-loading.ant-btn-dangerous:not([disabled]):not(.ant-btn-background-ghost) {
-    background: #D32029;
-}
-.ant-btn.ant-btn-default.ant-btn-loading:not([disabled]) {
-    background: #141414;
-}
-.ant-btn.ant-btn-default.ant-btn-loading.ant-btn-dangerous:not([disabled]) {
-    background: #141414;
-}
 .ant-btn.ant-btn-text:not(.ant-btn-dangerous) {
-    color: #DBDBDB;
+    color: @btn-default-color;
 }
 .ant-btn.ant-btn-text:focus {
-    background: #1D1D1D;
+    background: @btn-text-hover-bg;
 }
 .ant-btn.ant-btn-text:active {
-    background: #262626;
+    background: @btn-disable-bg;
 }
