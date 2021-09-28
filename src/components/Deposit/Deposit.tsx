@@ -63,9 +63,10 @@ export const Deposit = (): JSX.Element => {
 
   const availablePools = useGetAllPools();
 
-  const totalFee = calculateTotalFee(minerFee, String(exFee), {
-    precision: ERG_DECIMALS,
-  });
+  const totalFee = calculateTotalFee(
+    [minerFee, String(exFee), renderFractions(UI_FEE, ERG_DECIMALS)],
+    ERG_DECIMALS,
+  );
 
   useEffect(() => {
     if (isWalletConnected && inputAssetAmountX && inputAssetAmountY) {

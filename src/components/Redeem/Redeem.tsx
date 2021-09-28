@@ -43,9 +43,10 @@ export const Redeem = (): JSX.Element => {
   const [LPTokensBalance, setLPTokensBalance] = useState<string | undefined>();
   const [selectedPool, setSelectedPool] = useState<AmmPool | undefined>();
 
-  const totalFee = calculateTotalFee(minerFee, String(exFee), {
-    precision: ERG_DECIMALS,
-  });
+  const totalFee = calculateTotalFee(
+    [minerFee, String(exFee), renderFractions(UI_FEE, ERG_DECIMALS)],
+    ERG_DECIMALS,
+  );
 
   const [utxos, setUtxos] = useState<ErgoBox[]>([]);
   const availablePools = useGetAvailablePoolsByLPTokens(utxos);
@@ -70,7 +71,7 @@ export const Redeem = (): JSX.Element => {
     selectedPool,
     amount,
     ergBalance,
-    dexFee: exFee,
+    exFee,
     minerFee,
     LPTokensBalance,
   });

@@ -1,6 +1,7 @@
 import { AmmPool } from '@ergolabs/ergo-dex-sdk';
-import { ERG_DECIMALS } from '../../constants/erg';
+import { ERG_DECIMALS, UI_FEE } from '../../constants/erg';
 import { calculateTotalFee } from '../../utils/transactions';
+import { renderFractions } from '../../utils/math';
 
 export enum RedeemFormState {
   NEED_TO_CONNECT_WALLET = 'NEED_TO_CONNECT_WALLET',
@@ -17,7 +18,7 @@ interface ButtonStateDependencies {
   amount: string;
   ergBalance: string | undefined;
   minerFee: string;
-  dexFee: number;
+  exFee: number;
   LPTokensBalance: string | undefined;
 }
 
@@ -32,12 +33,13 @@ const getState = ({
   amount,
   ergBalance,
   minerFee,
-  dexFee,
+  exFee,
   LPTokensBalance,
 }: ButtonStateDependencies): RedeemFormState => {
-  const totalFee = calculateTotalFee(minerFee, String(dexFee), {
-    precision: ERG_DECIMALS,
-  });
+  const totalFee = calculateTotalFee(
+    [minerFee, String(exFee), renderFractions(UI_FEE, ERG_DECIMALS)],
+    ERG_DECIMALS,
+  );
 
   if (!isWalletConnected) {
     return RedeemFormState.NEED_TO_CONNECT_WALLET;
