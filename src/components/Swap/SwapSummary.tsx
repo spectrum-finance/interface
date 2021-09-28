@@ -1,8 +1,8 @@
 import React from 'react';
 import { Table } from '@geist-ui/react';
-import { SwapExtremums } from 'ergo-dex-sdk/build/module/amm/math/swap';
 import { renderFractions } from '../../utils/math';
 import { ERG_TOKEN_NAME, ERG_DECIMALS } from '../../constants/erg';
+import { SwapExtremums } from '@ergolabs/ergo-dex-sdk';
 
 interface Props {
   minerFee: string;

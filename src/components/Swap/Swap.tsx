@@ -32,7 +32,6 @@ import {
   AssetAmount,
   BoxSelection,
   DefaultBoxSelector,
-  ergoTreeFromAddress,
   ergoTxToProxy,
   publicKeyFromAddress,
 } from '@ergolabs/ergo-sdk';
@@ -43,7 +42,6 @@ import {
   ERG_DECIMALS,
   MIN_NITRO,
   MIN_DEX_FEE,
-  EXECUTION_MINER_FEE,
   UI_FEE,
 } from '../../constants/erg';
 import { getButtonState } from './buttonState';
@@ -64,7 +62,7 @@ import { isEmpty } from 'ramda';
 import { isZero } from '../../utils/numbers';
 import { toFloat } from '../../utils/string';
 import { SwapSummary } from './SwapSummary';
-import { makeTarget, minSufficientValueForOrder } from '../../utils/ammMath';
+import { makeTarget } from '../../utils/ammMath';
 import { renderPoolPrice, renderPrice } from '../../utils/price';
 
 interface SwapFormProps {

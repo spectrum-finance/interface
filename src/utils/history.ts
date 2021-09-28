@@ -1,5 +1,5 @@
-import { AmmDexOperation } from 'ergo-dex-sdk/build/module/amm/models/operations';
-import { AssetInfo } from 'ergo-dex-sdk/build/module/ergo';
+import { AssetInfo } from '@ergolabs/ergo-sdk';
+import { AmmDexOperation } from '@ergolabs/ergo-dex-sdk';
 
 function tickerOf(asset: AssetInfo): string {
   return asset.name ? asset.name : asset.id.slice(0, 8);

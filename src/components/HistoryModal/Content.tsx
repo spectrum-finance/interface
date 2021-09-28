@@ -10,7 +10,11 @@ import {
   Tooltip,
 } from '@geist-ui/react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { AmmDexOperation, AmmOrder, RefundOperation } from 'ergo-dex-sdk';
+import {
+  AmmDexOperation,
+  AmmOrder,
+  RefundOperation,
+} from '@ergolabs/ergo-dex-sdk';
 import { toast } from 'react-toastify';
 import { exploreTx } from '../../utils/redirect';
 import { isRefundableOperation } from '../../utils/ammOperations';

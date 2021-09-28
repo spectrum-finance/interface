@@ -1,4 +1,4 @@
-import { AmmPool } from 'ergo-dex-sdk';
+import { AmmPool } from '@ergolabs/ergo-dex-sdk';
 import { ERG_DECIMALS } from '../../constants/erg';
 import { calculateTotalFee } from '../../utils/transactions';
 

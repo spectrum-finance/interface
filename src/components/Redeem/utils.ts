@@ -1,4 +1,4 @@
-import { AmmPool } from 'ergo-dex-sdk';
+import { AmmPool } from '@ergolabs/ergo-dex-sdk';
 
 export enum WalletStates {
   NEED_TO_CONNECT_WALLET = 'NEED_TO_CONNECT_WALLET',
