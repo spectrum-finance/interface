@@ -54,7 +54,7 @@ Please see the [ErgoDEX](https://github.com/ergolabs/ergo-dex) repository for a 
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-1. Clone and checkout dev 
+1. Clone and checkout `dev` branch 
 2. `yarn`
 3. `yarn start`
 4. Open localhost:3000 in Chrome.
