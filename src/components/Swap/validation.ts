@@ -19,7 +19,7 @@ export const validateSlippage = (value: string): string | undefined => {
   const schema = fixedNumber(2).min(0).max(100);
   try {
     schema.validateSync(Number(value || 0));
-  } catch (e) {
+  } catch (e: any) {
     return e.message;
   }
   return undefined;
@@ -61,7 +61,7 @@ export const validateInputAmount = (
     );
   try {
     schema.validateSync(value);
-  } catch (e) {
+  } catch (e: any) {
     return e.message;
   }
   return undefined;
@@ -91,7 +91,7 @@ export const validateNumber = (
     );
   try {
     schema.validateSync(value);
-  } catch (e) {
+  } catch (e: any) {
     return e.message;
   }
   return undefined;
@@ -107,7 +107,7 @@ export const validateNitro = (value: string): unknown => {
 
   try {
     schema.validateSync(value);
-  } catch (e) {
+  } catch (e: any) {
     return e.message;
   }
 };
@@ -131,7 +131,7 @@ export const validateMinDexFee = (value: string): unknown => {
 
   try {
     schema.validateSync(value);
-  } catch (e) {
+  } catch (e: any) {
     return e.message;
   }
 };
