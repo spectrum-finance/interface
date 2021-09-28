@@ -83,10 +83,6 @@ Contributions are what make the open source community such an amazing place to b
 Distributed under the MIT License. See `LICENSE` for more information.
 
 
-<!-- ACKNOWLEDGEMENTS -->
-## Acknowledgements
-* This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [contributors-shield]: https://img.shields.io/github/contributors/ergoMixer/ergoMixBack.svg?style=for-the-badge
