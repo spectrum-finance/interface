@@ -317,16 +317,6 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
         const [exFeePerToken, extremums] = currentSwapVars;
         const { maxExFee } = extremums;
 
-        console.log(
-          'mul ',
-          evaluate(`${exFeePerToken} * ${extremums.minOutput.amount}`),
-        );
-
-        console.log(
-          'mul2 ',
-          exFeePerToken * Number(extremums.minOutput.amount),
-        );
-
         const poolFeeNum = selectedPool.poolFeeNum;
         const minerFeeNErgs = parseUserInputToFractions(minerFee, ERG_DECIMALS);
 
@@ -343,19 +333,13 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
           poolFeeNum,
         };
 
-        console.log('params ', params);
-
         const minNErgs = minValueForOrder(minerFeeNErgs, UI_FEE, maxExFee);
         const target = makeTarget(
           [new AssetAmount(inputAsset, baseInputAmount)],
           minNErgs,
         );
 
-        console.log('target ', target);
-
         const inputs = DefaultBoxSelector.select(utxos, target);
-
-        console.log('inputs ', inputs);
 
         if (inputs instanceof BoxSelection) {
           const txContext = {
