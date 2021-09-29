@@ -1,10 +1,11 @@
-import React, { useCallback, useState } from 'react';
 import { Button, Input, useInput } from '@geist-ui/react';
-import { DefaultSettings, Settings } from '../../context/SettingsContext';
-import { AutoInputContainer } from './AutoInputContainer';
-import { MinerFeeMax, MinerFeeMin } from '../../constants/settings';
-import { FormError } from './FormError';
+import React, { useCallback, useState } from 'react';
+
 import { ERG_TOKEN_NAME } from '../../constants/erg';
+import { MinerFeeMax, MinerFeeMin } from '../../constants/settings';
+import { DefaultSettings, Settings } from '../../context';
+import { AutoInputContainer } from './AutoInputContainer';
+import { FormError } from './FormError';
 
 const content = {
   autoButton: 'Auto',

@@ -1,10 +1,11 @@
-import React, { ReactElement, useCallback, useContext, useState } from 'react';
 import { Button } from '@geist-ui/react';
-import { WalletContext } from '../../context';
+import React, { ReactElement, useCallback, useContext, useState } from 'react';
 import { toast } from 'react-toastify';
+
+import { ERG_DECIMALS } from '../../constants/erg';
+import { WalletContext } from '../../context';
 import { walletCookies } from '../../utils/cookies';
 import { renderFractions } from '../../utils/math';
-import { ERG_DECIMALS } from '../../constants/erg';
 
 export const ConnectWallet = ({
   className,

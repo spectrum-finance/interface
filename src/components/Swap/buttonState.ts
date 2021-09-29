@@ -1,6 +1,7 @@
-import { isEmpty } from 'ramda';
-import { parseUserInputToFractions } from '../../utils/math';
 import { AssetInfo, ErgoBox } from '@ergolabs/ergo-sdk';
+import { isEmpty } from 'ramda';
+
+import { parseUserInputToFractions } from '../../utils/math';
 
 const SUBMIT_TEXT = 'Submit';
 

@@ -1,10 +1,11 @@
 import * as yup from 'yup';
-import {
-  renderFractions,
-  parseUserInputToFractions,
-  allowedNumPat,
-} from '../../utils/math';
+
 import { ERG_DECIMALS, MIN_EX_FEE, MIN_NITRO } from '../../constants/erg';
+import {
+  allowedNumPat,
+  parseUserInputToFractions,
+  renderFractions,
+} from '../../utils/math';
 
 const fixedNumber = (decimals: number) =>
   yup
@@ -20,7 +21,7 @@ export const validateSlippage = (value: string): string | undefined => {
   try {
     schema.validateSync(Number(value || 0));
   } catch (e) {
-    return e instanceof Error ? e.message : "validate sync error";
+    return e instanceof Error ? e.message : 'validate sync error';
   }
   return undefined;
 };
@@ -62,7 +63,7 @@ export const validateInputAmount = (
   try {
     schema.validateSync(value);
   } catch (e) {
-    return e instanceof Error ? e.message : "validate sync error";
+    return e instanceof Error ? e.message : 'validate sync error';
   }
   return undefined;
 };
@@ -92,7 +93,7 @@ export const validateNumber = (
   try {
     schema.validateSync(value);
   } catch (e) {
-    return e instanceof Error ? e.message : "validate sync error";
+    return e instanceof Error ? e.message : 'validate sync error';
   }
   return undefined;
 };
@@ -108,7 +109,7 @@ export const validateNitro = (value: string): unknown => {
   try {
     schema.validateSync(value);
   } catch (e) {
-    return e instanceof Error ? e.message : "validate sync error";
+    return e instanceof Error ? e.message : 'validate sync error';
   }
 };
 
@@ -132,6 +133,6 @@ export const validateMinDexFee = (value: string): unknown => {
   try {
     schema.validateSync(value);
   } catch (e) {
-    return e instanceof Error ? e.message : "validate sync error";
+    return e instanceof Error ? e.message : 'validate sync error';
   }
 };

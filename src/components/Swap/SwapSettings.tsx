@@ -1,18 +1,17 @@
-import React from 'react';
+import { faCog } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
+  Button,
   Grid,
   Input,
-  Text,
   Popover,
-  Button,
-  Spacer,
   Row,
+  Spacer,
+  Text,
 } from '@geist-ui/react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCog } from '@fortawesome/free-solid-svg-icons';
-import { SlippageInput } from '../Settings/SlippageInput';
+import React from 'react';
 import { Field, FieldRenderProps } from 'react-final-form';
-import { validateMinDexFee, validateNitro } from './validation';
+
 import {
   ERG_DECIMALS,
   ERG_TOKEN_NAME,
@@ -20,10 +19,12 @@ import {
   MIN_NITRO,
   NITRO_DECIMALS,
 } from '../../constants/erg';
-import InfoTooltip from '../common/InfoTooltip/InfoTooltip';
-import { renderFractions, parseUserInputToFractions } from '../../utils/math';
-import { toFloat } from '../../utils/string';
+import { parseUserInputToFractions, renderFractions } from '../../utils/math';
 import { isZero } from '../../utils/numbers';
+import { toFloat } from '../../utils/string';
+import InfoTooltip from '../common/InfoTooltip/InfoTooltip';
+import { SlippageInput } from '../Settings/SlippageInput';
+import { validateMinDexFee, validateNitro } from './validation';
 
 type SwapSettingsProps = {
   slippage: string;

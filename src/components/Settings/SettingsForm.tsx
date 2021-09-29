@@ -1,11 +1,12 @@
-import React, { useCallback } from 'react';
-import { Text, Tooltip } from '@geist-ui/react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Text, Tooltip } from '@geist-ui/react';
+import React, { useCallback } from 'react';
+
 import { Settings } from '../../context';
-import { MinerFeeInput } from './MinerFeeInput';
-import { SelectAddress } from '../SelectAddress/SelectAddress';
 import { ConnectWallet } from '../ConnectWallet/ConnectWallet';
+import { SelectAddress } from '../SelectAddress/SelectAddress';
+import { MinerFeeInput } from './MinerFeeInput';
 
 const content = {
   dex: {

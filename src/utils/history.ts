@@ -1,5 +1,5 @@
-import { AssetInfo } from '@ergolabs/ergo-sdk';
 import { AmmDexOperation } from '@ergolabs/ergo-dex-sdk';
+import { AssetInfo } from '@ergolabs/ergo-sdk';
 
 function tickerOf(asset: AssetInfo): string {
   return asset.name ? asset.name : asset.id.slice(0, 8);
@@ -28,6 +28,8 @@ export function renderEntrySignature(op: AmmDexOperation): string {
         case 'redeem':
           const redeem = op.order;
           return `${orderSig} [${tickerOf(redeem.inLP.asset)}]`;
+        default:
+          return '';
       }
     case 'refund':
       return opSig;

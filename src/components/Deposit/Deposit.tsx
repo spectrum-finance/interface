@@ -1,22 +1,4 @@
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
-import {
-  Button,
-  Card,
-  Grid,
-  Input,
-  Loading,
-  Spacer,
-  Text,
-  Note,
-  Checkbox,
-} from '@geist-ui/react';
-import { Form, Field, FieldRenderProps } from 'react-final-form';
+import { AmmPool, minValueForOrder } from '@ergolabs/ergo-dex-sdk';
 import {
   AssetAmount,
   BoxSelection,
@@ -24,24 +6,43 @@ import {
   ergoTxToProxy,
   publicKeyFromAddress,
 } from '@ergolabs/ergo-sdk';
-import { WalletContext, useSettings } from '../../context';
-import { getButtonState } from './buttonState';
-import { ERG_DECIMALS, UI_FEE } from '../../constants/erg';
-import { useGetAllPools } from '../../hooks/useGetAllPools';
-import { PoolSelect } from '../PoolSelect/PoolSelect';
+import {
+  Button,
+  Card,
+  Checkbox,
+  Grid,
+  Input,
+  Loading,
+  Note,
+  Spacer,
+  Text,
+} from '@geist-ui/react';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
+import { Field, FieldRenderProps, Form } from 'react-final-form';
 import { toast } from 'react-toastify';
+
+import { ERG_DECIMALS, UI_FEE } from '../../constants/erg';
+import { DexFeeDefault } from '../../constants/settings';
+import { useSettings, WalletContext } from '../../context';
+import { useCheckPool } from '../../hooks/useCheckPool';
+import { useGetAllPools } from '../../hooks/useGetAllPools';
 import explorer from '../../services/explorer';
 import { poolActions } from '../../services/poolActions';
-import { useCheckPool } from '../../hooks/useCheckPool';
-import { calculateAvailableAmount } from '../../utils/walletMath';
-import { parseUserInputToFractions, renderFractions } from '../../utils/math';
-import { DepositSummary } from './DepositSummary';
-import { toFloat } from '../../utils/string';
 import { makeTarget } from '../../utils/ammMath';
-import { calculateTotalFee } from '../../utils/transactions';
+import { parseUserInputToFractions, renderFractions } from '../../utils/math';
 import { renderPoolPrice } from '../../utils/price';
-import { DexFeeDefault } from '../../constants/settings';
-import { AmmPool, minValueForOrder } from '@ergolabs/ergo-dex-sdk';
+import { toFloat } from '../../utils/string';
+import { calculateTotalFee } from '../../utils/transactions';
+import { calculateAvailableAmount } from '../../utils/walletMath';
+import { PoolSelect } from '../PoolSelect/PoolSelect';
+import { getButtonState } from './buttonState';
+import { DepositSummary } from './DepositSummary';
 
 export const Deposit = (): JSX.Element => {
   const [{ minerFee, address: chosenAddress }] = useSettings();

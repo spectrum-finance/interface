@@ -1,11 +1,9 @@
 namespace ErgoBridge {
   type Address = import('@ergolabs/ergo-sdk').Address;
   type BoxId = import('@ergolabs/ergo-sdk').BoxId;
-  // type ErgoBox = import('@ergolabs/ergo-sdk').ErgoBox;
   type ErgoBoxProxy = import('@ergolabs/ergo-sdk').ErgoBoxProxy;
   type ErgoTxProxy = import('@ergolabs/ergo-sdk').ErgoTxProxy;
-  type UnsignedErgoTxProxy =
-    import('@ergolabs/ergo-sdk').UnsignedErgoTxProxy;
+  type UnsignedErgoTxProxy = import('@ergolabs/ergo-sdk').UnsignedErgoTxProxy;
   type Input = import('@ergolabs/ergo-sdk').Input;
   type NErg = import('@ergolabs/ergo-sdk').NErg;
   type TokenId = import('@ergolabs/ergo-sdk').TokenId;
@@ -13,7 +11,7 @@ namespace ErgoBridge {
 
   type Paging = import('@ergolabs/ergo-sdk').Paging;
 
-  // see https://github.com/Emurgo/Emurgo-Research/blob/master/ergo/EIP-0012.md
+  // See https://github.com/Emurgo/Emurgo-Research/blob/master/ergo/EIP-0012.md
   export interface ErgoAPI {
     request_read_access: () => Promise<boolean>;
 
