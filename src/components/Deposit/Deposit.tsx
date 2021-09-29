@@ -17,17 +17,16 @@ import {
   Checkbox,
 } from '@geist-ui/react';
 import { Form, Field, FieldRenderProps } from 'react-final-form';
-import { AmmPool } from 'ergo-dex-sdk';
 import {
   AssetAmount,
   BoxSelection,
   DefaultBoxSelector,
   ergoTxToProxy,
-} from 'ergo-dex-sdk/build/module/ergo';
-import { fromAddress } from 'ergo-dex-sdk/build/module/ergo/entities/publicKey';
+  publicKeyFromAddress,
+} from '@ergolabs/ergo-sdk';
 import { WalletContext, useSettings } from '../../context';
 import { getButtonState } from './buttonState';
-import { ERG_DECIMALS, EXECUTION_MINER_FEE } from '../../constants/erg';
+import { ERG_DECIMALS, UI_FEE } from '../../constants/erg';
 import { useGetAllPools } from '../../hooks/useGetAllPools';
 import { PoolSelect } from '../PoolSelect/PoolSelect';
 import { toast } from 'react-toastify';
@@ -38,16 +37,17 @@ import { calculateAvailableAmount } from '../../utils/walletMath';
 import { parseUserInputToFractions, renderFractions } from '../../utils/math';
 import { DepositSummary } from './DepositSummary';
 import { toFloat } from '../../utils/string';
-import { makeTarget, minSufficientValueForOrder } from '../../utils/ammMath';
+import { makeTarget } from '../../utils/ammMath';
 import { calculateTotalFee } from '../../utils/transactions';
 import { renderPoolPrice } from '../../utils/price';
 import { DexFeeDefault } from '../../constants/settings';
+import { AmmPool, minValueForOrder } from '@ergolabs/ergo-dex-sdk';
 
 export const Deposit = (): JSX.Element => {
   const [{ minerFee, address: chosenAddress }] = useSettings();
   const { isWalletConnected, utxos, ergBalance } = useContext(WalletContext);
   const [selectedPool, setSelectedPool] = useState<AmmPool | undefined>();
-  const [dexFee] = useState<number>(DexFeeDefault);
+  const [exFee] = useState<number>(DexFeeDefault);
   const [inputAssetAmountX, setInputAssetAmountX] = useState<
     AssetAmount | undefined
   >();
@@ -63,9 +63,10 @@ export const Deposit = (): JSX.Element => {
 
   const availablePools = useGetAllPools();
 
-  const totalFee = calculateTotalFee(minerFee, String(dexFee), {
-    precision: ERG_DECIMALS,
-  });
+  const totalFee = calculateTotalFee(
+    [minerFee, String(exFee), renderFractions(UI_FEE, ERG_DECIMALS)],
+    ERG_DECIMALS,
+  );
 
   useEffect(() => {
     if (isWalletConnected && inputAssetAmountX && inputAssetAmountY) {
@@ -153,7 +154,7 @@ export const Deposit = (): JSX.Element => {
       availableInputAmountY,
       ergBalance,
       minerFee,
-      dexFee,
+      dexFee: exFee,
     });
   }, [
     isWalletConnected,
@@ -164,7 +165,7 @@ export const Deposit = (): JSX.Element => {
     availableInputAmountY,
     ergBalance,
     minerFee,
-    dexFee,
+    exFee,
   ]);
 
   const handleTokenAmountChange = (
@@ -231,17 +232,14 @@ export const Deposit = (): JSX.Element => {
       const network = explorer;
       const poolId = selectedPool.id;
 
-      const pk = fromAddress(chosenAddress) as string;
+      const pk = publicKeyFromAddress(chosenAddress) as string;
 
       const actions = poolActions(selectedPool);
 
       const minerFeeNErgs = parseUserInputToFractions(minerFee, ERG_DECIMALS);
-      const dexFeeNErgs = parseUserInputToFractions(
-        String(dexFee),
-        ERG_DECIMALS,
-      );
+      const exFeeNErgs = parseUserInputToFractions(String(exFee), ERG_DECIMALS);
 
-      const minNErgs = minSufficientValueForOrder(minerFeeNErgs, dexFeeNErgs);
+      const minNErgs = minValueForOrder(minerFeeNErgs, UI_FEE, exFeeNErgs);
       const inputX = inputAssetAmountX.withAmount(
         parseUserInputToFractions(
           inputAmountX,
@@ -261,7 +259,8 @@ export const Deposit = (): JSX.Element => {
           {
             pk,
             poolId,
-            dexFee: dexFeeNErgs,
+            exFee: exFeeNErgs,
+            uiFee: UI_FEE,
             x: inputX,
             y: inputY,
           },
@@ -313,7 +312,7 @@ export const Deposit = (): JSX.Element => {
           initialValues={{
             amount: '0',
             address: '',
-            dexFee,
+            dexFee: exFee,
           }}
           render={({ handleSubmit, errors = {} }) => {
             const isFormDisabled =
@@ -436,7 +435,7 @@ export const Deposit = (): JSX.Element => {
                           <DepositSummary
                             lpTokensAmount={String(lpTokens)}
                             minerFee={minerFee}
-                            dexFee={String(dexFee)}
+                            dexFee={String(exFee)}
                             totalFee={totalFee}
                           />
                         </Grid>

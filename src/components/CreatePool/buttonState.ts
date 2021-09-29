@@ -1,6 +1,6 @@
-import { AssetAmount } from 'ergo-dex-sdk/build/module/ergo';
 import { PoolFeeMin, PoolFeeMax } from '../../constants/settings';
 import { truncate } from '../../utils/string';
+import { AssetAmount } from '@ergolabs/ergo-sdk';
 
 export enum PoolFormState {
   NEED_TO_CONNECT_WALLET = 'NEED_TO_CONNECT_WALLET',

@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 import { globalHistory } from './createBrowserHistory';
 import { GeistProvider, CssBaseline } from '@geist-ui/react';
-import { RustModule } from 'ergo-dex-sdk';
+import { RustModule } from '@ergolabs/ergo-sdk';
 import {
   useAppLoadingState,
   AppLoadingProvider,

@@ -4,7 +4,7 @@ import RCSelect from 'rc-select';
 import { Card, Grid, Input, Text } from '@geist-ui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
-import { AmmPool } from 'ergo-dex-sdk';
+import { AmmPool } from '@ergolabs/ergo-dex-sdk';
 import levenshtein from 'fast-levenshtein';
 
 import './PoolSelect.scss';
