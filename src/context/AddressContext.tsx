@@ -55,9 +55,9 @@ export const WalletAddressesProvider = ({
       walletAddresses.state === WalletAddressState.UNCONNECTED
     ) {
       setWalletAddress({ state: WalletAddressState.LOADING });
-      loadedAddresses(settings.address).then((data) => {
+      loadedAddresses(settings.address).then((data: WalletAddresses) => {
         setWalletAddress(data);
-        if (data.state === WalletAddressState.LOADED && !settings.address) {
+        if (data.state === WalletAddressState.LOADED) {
           setSettings({ ...settings, address: data.selectedAddress });
         }
       });
@@ -92,20 +92,16 @@ async function loadedAddresses(
     const usedAddresses = await ergo.get_used_addresses(); // todo: mark used addresses in UI
     const unusedAddresses = await ergo.get_unused_addresses();
     const addresses = unusedAddresses.concat(usedAddresses);
-    if (usedAddresses.length) {
-      const selected =
-        selectedAddress && addresses.includes(selectedAddress)
-          ? selectedAddress
-          : addresses[0];
+    const selected =
+      selectedAddress && addresses.includes(selectedAddress)
+        ? selectedAddress
+        : addresses[0];
 
-      return {
-        state: WalletAddressState.LOADED,
-        addresses,
-        selectedAddress: selected,
-      };
-    } else {
-      return { state: WalletAddressState.NONE };
-    }
+    return {
+      state: WalletAddressState.LOADED,
+      addresses,
+      selectedAddress: selected,
+    };
   } catch (e: unknown) {
     return {
       state: WalletAddressState.ERROR,

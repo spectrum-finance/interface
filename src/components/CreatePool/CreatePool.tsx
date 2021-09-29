@@ -6,13 +6,15 @@ import {
   BoxSelection,
   DefaultBoxSelector,
   ergoTxToProxy,
-} from 'ergo-dex-sdk/build/module/ergo';
+  MinBoxValue,
+} from '@ergolabs/ergo-sdk';
 import {
   makePoolSetupParams,
+  minValueForSetup,
   PoolSetupParams,
-} from 'ergo-dex-sdk/build/module/amm/models/poolSetupParams';
+} from '@ergolabs/ergo-dex-sdk';
 import { WalletContext, useSettings } from '../../context';
-import { ERG_DECIMALS } from '../../constants/erg';
+import { ERG_DECIMALS, UI_FEE } from '../../constants/erg';
 import { parseUserInputToFractions, renderFractions } from '../../utils/math';
 import { isEmpty, isNil } from 'ramda';
 import { Select, SelectOptionShape, AmountInput } from '../../core-components';
@@ -23,11 +25,9 @@ import { truncate } from '../../utils/string';
 import { getButtonState } from './buttonState';
 import { PoolFeeDecimals } from '../../constants/settings';
 import { calculateAvailableAmount } from '../../utils/walletMath';
-import { makeTarget, minSufficientValueForSetup } from '../../utils/ammMath';
+import { makeTarget } from '../../utils/ammMath';
 import { toast } from 'react-toastify';
-import { MinPoolBoxValue } from 'ergo-dex-sdk/build/main/amm/constants';
-import { MinBoxValue } from 'ergo-dex-sdk/build/main/ergo/constants';
-import { isNative } from 'ergo-dex-sdk';
+import { MinPoolBoxValue } from '@ergolabs/ergo-dex-sdk/build/main/amm/constants';
 
 const getAssetTitle = (asset?: AssetInfo) => {
   if (!asset) return '';
@@ -140,6 +140,7 @@ export const CreatePool = (): JSX.Element => {
         new AssetAmount(selectedAssetX?.asset, assetAmountX),
         new AssetAmount(selectedAssetY?.asset, assetAmountY),
         Number(renderFractions(poolFee, PoolFeeDecimals)),
+        UI_FEE,
       );
 
       const isPoolValidPoolSetupParams = (
@@ -156,8 +157,9 @@ export const CreatePool = (): JSX.Element => {
 
       const actions = poolActions(poolParams);
 
-      const minNErgs = minSufficientValueForSetup(
+      const minNErgs = minValueForSetup(
         parseUserInputToFractions(minerFee, ERG_DECIMALS),
+        UI_FEE,
       );
 
       const target = makeTarget(

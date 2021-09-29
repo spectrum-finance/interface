@@ -4,7 +4,7 @@ import {
   parseUserInputToFractions,
   allowedNumPat,
 } from '../../utils/math';
-import { ERG_DECIMALS, MIN_DEX_FEE, MIN_NITRO } from '../../constants/erg';
+import { ERG_DECIMALS, MIN_EX_FEE, MIN_NITRO } from '../../constants/erg';
 
 const fixedNumber = (decimals: number) =>
   yup
@@ -119,12 +119,12 @@ export const validateMinDexFee = (value: string): unknown => {
     .test(
       'value-exceeded',
       `The bottom line of DEX Fee is ${renderFractions(
-        MIN_DEX_FEE,
+        MIN_EX_FEE,
         ERG_DECIMALS,
       )}`,
       (value) => {
         return (
-          Number(value) >= Number(renderFractions(MIN_DEX_FEE, ERG_DECIMALS))
+          Number(value) >= Number(renderFractions(MIN_EX_FEE, ERG_DECIMALS))
         );
       },
     );

@@ -1,12 +1,14 @@
 import { parseUserInputToFractions, renderFractions } from './math';
 
 export const calculateTotalFee = (
-  minerFee: string,
-  dexFee: string,
-  { precision }: { precision: number },
+  fees: string[],
+  precision: number,
 ): string => {
-  const totalFee =
-    parseUserInputToFractions(minerFee, precision) +
-    parseUserInputToFractions(dexFee, precision);
-  return renderFractions(totalFee, precision);
+  const feeSum = fees.reduce(
+    (acc: bigint, fee: string) =>
+      parseUserInputToFractions(fee, precision) + acc,
+    0n,
+  );
+
+  return renderFractions(feeSum, precision);
 };

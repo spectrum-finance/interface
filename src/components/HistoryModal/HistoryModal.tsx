@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Button, Modal } from '@geist-ui/react';
 import { useWalletAddresses, WalletAddressState } from '../../context';
-import { AmmDexOperation } from 'ergo-dex-sdk';
+import { AmmDexOperation } from '@ergolabs/ergo-dex-sdk';
 import { useInterval } from '../../hooks/useInterval';
 import { Content } from './Content';
 import networkHistory from '../../services/networkHistory';

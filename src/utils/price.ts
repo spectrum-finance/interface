@@ -1,12 +1,12 @@
-import { AmmPool } from 'ergo-dex-sdk';
 import { math, renderFractions } from './math';
-import ergo from 'ergo-dex-sdk';
+import { AssetAmount } from '@ergolabs/ergo-sdk';
+import { AmmPool } from '@ergolabs/ergo-dex-sdk';
 
 export function renderPoolPrice(pool: AmmPool): string {
   return renderPrice(pool.x, pool.y);
 }
 
-export function renderPrice(x: ergo.AssetAmount, y: ergo.AssetAmount): string {
+export function renderPrice(x: AssetAmount, y: AssetAmount): string {
   const nameX = x.asset.name ?? x.asset.id.slice(0, 8);
   const nameY = y.asset.name ?? y.asset.id.slice(0, 8);
   const fmtX = renderFractions(x.amount, x.asset.decimals);

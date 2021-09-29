@@ -1,4 +1,4 @@
-import { ErgoBox, TokenId } from 'ergo-dex-sdk/build/module/ergo';
+import { ErgoBox, TokenId } from '@ergolabs/ergo-sdk';
 
 type Asset = {
   tokenName?: string;
