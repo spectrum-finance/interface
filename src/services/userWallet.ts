@@ -1,14 +1,6 @@
-import {
-  NativeAssetId,
-  NativeAssetInfo,
-  NetworkTokens,
-  Tokens,
-} from 'ergo-dex-sdk';
+import { NativeAssetId, NativeAssetInfo } from '@ergolabs/ergo-sdk';
 import explorer from './explorer';
-import { TokenId, AssetAmount } from 'ergo-dex-sdk/build/module/ergo';
-import { ergoBoxFromProxy } from 'ergo-dex-sdk/build/main/ergo';
-
-export const tokens: Tokens = new NetworkTokens(explorer);
+import { TokenId, AssetAmount, ergoBoxFromProxy } from '@ergolabs/ergo-sdk';
 
 /** List all assets belonging to the current wallet.
  */
@@ -31,7 +23,7 @@ export const listWalletAssets = async (): Promise<AssetAmount[]> => {
       if (id === NativeAssetId) {
         aggregatedAssets.push(new AssetAmount(NativeAssetInfo, amt));
       } else {
-        const networkInfo = await tokens.get(id);
+        const networkInfo = await explorer.getFullTokenInfo(id);
         const info = networkInfo ? networkInfo : { id };
         aggregatedAssets.push(new AssetAmount(info, amt));
       }

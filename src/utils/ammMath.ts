@@ -1,21 +1,4 @@
-import { MinPoolBoxValue } from 'ergo-dex-sdk/build/main/amm/constants';
-import { MinBoxValue } from 'ergo-dex-sdk/build/main/ergo/constants';
-import { AssetAmount } from 'ergo-dex-sdk/build/module/ergo';
-import { OverallAmount } from 'ergo-dex-sdk/build/main';
-import { isNative } from 'ergo-dex-sdk';
-
-export function minSufficientValueForOrder(
-  minerFee: bigint,
-  dexFee: bigint,
-): bigint {
-  const min = minerFee * 2n + MinBoxValue * 2n;
-  const actual = minerFee + dexFee + MinBoxValue;
-  return actual > min ? actual : min;
-}
-
-export function minSufficientValueForSetup(minerFee: bigint): bigint {
-  return minerFee * 2n + MinPoolBoxValue + MinBoxValue;
-}
+import { AssetAmount, isNative, OverallAmount } from '@ergolabs/ergo-sdk';
 
 export function makeTarget(
   assetsIn: AssetAmount[],

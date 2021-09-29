@@ -2,7 +2,7 @@ import {
   AmmOrderRefunds,
   DefaultAmmOrdersParser,
   DefaultAmmPoolsInfoParser,
-} from 'ergo-dex-sdk';
+} from '@ergolabs/ergo-dex-sdk';
 import explorer from './explorer';
 import yoroiProver from './yoroiProver';
 import { mainnetTxAssembler } from './defaultTxAssembler';

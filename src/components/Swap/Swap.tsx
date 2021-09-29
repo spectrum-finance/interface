@@ -19,36 +19,42 @@ import {
 } from '@geist-ui/react';
 import { Form, Field, FieldRenderProps } from 'react-final-form';
 import { FORM_ERROR } from 'final-form';
-import { AmmPool, swapVars } from 'ergo-dex-sdk';
+import {
+  AmmPool,
+  evaluate,
+  minValueForOrder,
+  SwapExtremums,
+  swapVars,
+} from '@ergolabs/ergo-dex-sdk';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowDown } from '@fortawesome/free-solid-svg-icons';
 import {
+  AssetInfo,
   AssetAmount,
   BoxSelection,
   DefaultBoxSelector,
-} from 'ergo-dex-sdk/build/module/ergo';
-import { fromAddress } from 'ergo-dex-sdk/build/module/ergo/entities/publicKey';
+  ergoTxToProxy,
+  publicKeyFromAddress,
+} from '@ergolabs/ergo-sdk';
 import { DefaultSettings, WalletContext } from '../../context';
 import { useGetAllPools } from '../../hooks/useGetAllPools';
 import { PoolSelect } from '../PoolSelect/PoolSelect';
 import {
   ERG_DECIMALS,
   MIN_NITRO,
-  MIN_DEX_FEE,
-  EXECUTION_MINER_FEE,
+  MIN_EX_FEE,
+  UI_FEE,
 } from '../../constants/erg';
 import { getButtonState } from './buttonState';
 import { useSettings } from '../../context';
 import { toast } from 'react-toastify';
 import { useCheckPool } from '../../hooks/useCheckPool';
-import { ergoTxToProxy } from 'ergo-dex-sdk/build/module/ergo';
 import {
   calculateAvailableAmount,
   getBaseInputParameters,
 } from '../../utils/walletMath';
 import { ConnectWallet } from '../ConnectWallet/ConnectWallet';
 import SwapSettings from './SwapSettings';
-import { SwapExtremums } from 'ergo-dex-sdk/build/module/amm/math/swap';
 import { isNil } from 'ramda';
 import explorer from '../../services/explorer';
 import { poolActions } from '../../services/poolActions';
@@ -57,9 +63,8 @@ import { isEmpty } from 'ramda';
 import { isZero } from '../../utils/numbers';
 import { toFloat } from '../../utils/string';
 import { SwapSummary } from './SwapSummary';
-import { makeTarget, minSufficientValueForOrder } from '../../utils/ammMath';
+import { makeTarget } from '../../utils/ammMath';
 import { renderPoolPrice, renderPrice } from '../../utils/price';
-import { AssetInfo } from 'ergo-dex-sdk/build/module/ergo/entities/assetInfo';
 
 interface SwapFormProps {
   pools: AmmPool[];
@@ -79,7 +84,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
     input: 0n,
     output: 0n,
   });
-  const [minDexFee, setMinDexFee] = useState(String(MIN_DEX_FEE));
+  const [minExFee, setMinExFee] = useState(String(MIN_EX_FEE));
   const [nitro, setNitro] = useState(String(MIN_NITRO));
   const [currentSwapVars, setCurrentSwapVars] = useState<
     [number, SwapExtremums] | undefined
@@ -141,7 +146,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
   });
 
   useEffect(() => {
-    if (isZero(minDexFee) || isZero(nitro)) {
+    if (isZero(minExFee) || isZero(nitro)) {
       resetSwapForm();
       return;
     }
@@ -153,12 +158,13 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
         slippage: Number(slippage),
       });
 
-      const vars = swapVars(BigInt(minDexFee), Number(nitro), minOutput);
+      const vars = swapVars(BigInt(minExFee), Number(nitro), minOutput);
+      console.log('vars ', vars);
       if (!isNil(vars)) {
         setCurrentSwapVars(vars);
       }
     }
-  }, [slippage, minDexFee, inputAmount, inputAsset, selectedPool, nitro]);
+  }, [slippage, minExFee, inputAmount, inputAsset, selectedPool, nitro]);
 
   useEffect(() => {
     if (isWalletConnected && inputAsset && outputAsset) {
@@ -305,11 +311,11 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
         },
       );
 
-      const pk = fromAddress(chosenAddress)!;
+      const pk = publicKeyFromAddress(chosenAddress)!;
 
       if (!isNil(currentSwapVars)) {
-        const [dexFeePerToken, extremums] = currentSwapVars;
-        const { maxDexFee } = extremums;
+        const [exFeePerToken, extremums] = currentSwapVars;
+        const { maxExFee } = extremums;
 
         const poolFeeNum = selectedPool.poolFeeNum;
         const minerFeeNErgs = parseUserInputToFractions(minerFee, ERG_DECIMALS);
@@ -321,12 +327,13 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
           poolId,
           baseInput,
           minQuoteOutput: minOutput.amount,
-          dexFeePerToken,
+          exFeePerToken,
+          uiFee: UI_FEE,
           quoteAsset: outputAsset.id,
           poolFeeNum,
         };
 
-        const minNErgs = minSufficientValueForOrder(minerFeeNErgs, maxDexFee);
+        const minNErgs = minValueForOrder(minerFeeNErgs, UI_FEE, maxExFee);
         const target = makeTarget(
           [new AssetAmount(inputAsset, baseInputAmount)],
           minNErgs,
@@ -375,7 +382,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
         outputAmount: 0.0,
         address: '',
         poolId: undefined,
-        minDexFee: renderFractions(MIN_DEX_FEE, ERG_DECIMALS),
+        minDexFee: renderFractions(MIN_EX_FEE, ERG_DECIMALS),
         nitro: MIN_NITRO,
       }}
       render={({ handleSubmit, errors = {} }) => (
@@ -387,10 +394,10 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
             <Grid xs={12} justify={'flex-end'}>
               <SwapSettings
                 slippage={String(slippage)}
-                minDexFee={minDexFee}
+                minDexFee={minExFee}
                 nitro={nitro}
                 onChangeSlippage={setSlippage}
-                onChangeMinDexFee={setMinDexFee}
+                onChangeMinDexFee={setMinExFee}
                 onChangeNitro={setNitro}
               />
             </Grid>
@@ -516,7 +523,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                     <Text h5>Swap summary</Text>
                     <SwapSummary
                       minerFee={minerFee}
-                      swapExremums={currentSwapVars[1]}
+                      swapExtremums={currentSwapVars[1]}
                     />
                   </Grid>
                 )}

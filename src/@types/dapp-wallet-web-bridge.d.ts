@@ -1,17 +1,17 @@
 namespace ErgoBridge {
-  type Address = import('ergo-dex-sdk/build/module/ergo').Address;
-  type BoxId = import('ergo-dex-sdk/build/module/ergo').BoxId;
-  // type ErgoBox = import('ergo-dex-sdk/build/module/ergo').ErgoBox;
-  type ErgoBoxProxy = import('ergo-dex-sdk/build/module/ergo').ErgoBoxProxy;
-  type ErgoTxProxy = import('ergo-dex-sdk/build/module/ergo').ErgoTxProxy;
+  type Address = import('@ergolabs/ergo-sdk').Address;
+  type BoxId = import('@ergolabs/ergo-sdk').BoxId;
+  // type ErgoBox = import('@ergolabs/ergo-sdk').ErgoBox;
+  type ErgoBoxProxy = import('@ergolabs/ergo-sdk').ErgoBoxProxy;
+  type ErgoTxProxy = import('@ergolabs/ergo-sdk').ErgoTxProxy;
   type UnsignedErgoTxProxy =
-    import('ergo-dex-sdk/build/module/ergo').UnsignedErgoTxProxy;
-  type Input = import('ergo-dex-sdk/build/module/ergo').Input;
-  type NErg = import('ergo-dex-sdk/build/module/ergo').NErg;
-  type TokenId = import('ergo-dex-sdk/build/module/ergo').TokenId;
-  type TxId = import('ergo-dex-sdk/build/module/ergo').TxId;
+    import('@ergolabs/ergo-sdk').UnsignedErgoTxProxy;
+  type Input = import('@ergolabs/ergo-sdk').Input;
+  type NErg = import('@ergolabs/ergo-sdk').NErg;
+  type TokenId = import('@ergolabs/ergo-sdk').TokenId;
+  type TxId = import('@ergolabs/ergo-sdk').TxId;
 
-  type Paging = import('ergo-dex-sdk').Paging;
+  type Paging = import('@ergolabs/ergo-sdk').Paging;
 
   // see https://github.com/Emurgo/Emurgo-Research/blob/master/ergo/EIP-0012.md
   export interface ErgoAPI {

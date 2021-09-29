@@ -8,9 +8,8 @@ import {
   WalletContext,
 } from '../../context';
 import { SelectAddress } from '../SelectAddress/SelectAddress';
-import { TxId } from 'ergo-dex-sdk/build/main/ergo';
-import { Address, ergoTxToProxy } from 'ergo-dex-sdk/build/module/ergo';
 import { toast } from 'react-toastify';
+import { Address, ergoTxToProxy, TxId } from '@ergolabs/ergo-sdk';
 
 type RefundConfirmationModalProps = {
   open: boolean;
