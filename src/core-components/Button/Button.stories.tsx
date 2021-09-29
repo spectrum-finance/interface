@@ -7,7 +7,7 @@ import { SearchOutlined } from '@ant-design/icons';
 import "./Button.stories.css"
 
 export default {
-  title: 'Example/Button',
+  title: 'Components/Button',
   component: Button,
 } as Meta<typeof Button>;
 
