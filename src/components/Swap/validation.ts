@@ -20,7 +20,7 @@ export const validateSlippage = (value: string): string | undefined => {
   try {
     schema.validateSync(Number(value || 0));
   } catch (e) {
-    return e.message;
+    return e instanceof Error ? e.message : "validate sync error";
   }
   return undefined;
 };
@@ -62,7 +62,7 @@ export const validateInputAmount = (
   try {
     schema.validateSync(value);
   } catch (e) {
-    return e.message;
+    return e instanceof Error ? e.message : "validate sync error";
   }
   return undefined;
 };
@@ -92,7 +92,7 @@ export const validateNumber = (
   try {
     schema.validateSync(value);
   } catch (e) {
-    return e.message;
+    return e instanceof Error ? e.message : "validate sync error";
   }
   return undefined;
 };
@@ -108,7 +108,7 @@ export const validateNitro = (value: string): unknown => {
   try {
     schema.validateSync(value);
   } catch (e) {
-    return e.message;
+    return e instanceof Error ? e.message : "validate sync error";
   }
 };
 
@@ -132,6 +132,6 @@ export const validateMinDexFee = (value: string): unknown => {
   try {
     schema.validateSync(value);
   } catch (e) {
-    return e.message;
+    return e instanceof Error ? e.message : "validate sync error";
   }
 };
