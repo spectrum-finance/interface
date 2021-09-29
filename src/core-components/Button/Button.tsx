@@ -1,5 +1,4 @@
-import { Button } from '@geist-ui/react';
-import { ButtonProps } from '@geist-ui/react/dist/button/button';
+import { Button } from 'antd';
+import './Button.less';
 
-export type Props = ButtonProps;
 export { Button };
