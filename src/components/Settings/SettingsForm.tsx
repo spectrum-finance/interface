@@ -1,11 +1,12 @@
-import React, { useCallback } from 'react';
-import { Text, Tooltip } from '@geist-ui/react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Text, Tooltip } from '@geist-ui/react';
+import React, { useCallback } from 'react';
+
 import { Settings } from '../../context';
-import { MinerFeeInput } from './MinerFeeInput';
-import { SelectAddress } from '../SelectAddress/SelectAddress';
 import { ConnectWallet } from '../ConnectWallet/ConnectWallet';
+import { SelectAddress } from '../SelectAddress/SelectAddress';
+import { MinerFeeInput } from './MinerFeeInput';
 
 const content = {
   dex: {
@@ -61,7 +62,7 @@ export const SettingsForm = (props: SettingsFormProps): JSX.Element => {
   return (
     <div>
       <div>
-        <Text p>
+        <Text span>
           {content.dex.label}{' '}
           <Tooltip text={content.dex.tooltip}>
             <FontAwesomeIcon icon={faQuestionCircle} />
@@ -70,7 +71,7 @@ export const SettingsForm = (props: SettingsFormProps): JSX.Element => {
         <MinerFeeInput minerFee={minerFee} updateSettings={updateSettings} />
       </div>
       <div>
-        <Text p>
+        <Text span>
           {content.address.label}{' '}
           <Tooltip text={content.address.tooltip}>
             <FontAwesomeIcon icon={faQuestionCircle} />

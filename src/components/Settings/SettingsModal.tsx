@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
 import { Modal } from '@geist-ui/react';
-import { SettingsForm } from './SettingsForm';
+import React, { useEffect } from 'react';
+
 import { useSettings } from '../../context';
 import { useWalletAddresses, WalletAddressState } from '../../context';
 import { walletCookies } from '../../utils/cookies';
+import { SettingsForm } from './SettingsForm';
 
 const content = {
   title: 'Transaction settings',
@@ -35,7 +36,7 @@ export const SettingsModal = (props: SettingsModalProps): JSX.Element => {
         address: undefined,
       });
     }
-  }, []);
+  });
 
   return (
     <Modal open={open} onClose={onClose}>

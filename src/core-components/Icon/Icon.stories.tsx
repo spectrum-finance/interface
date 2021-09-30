@@ -1,15 +1,16 @@
-import React from 'react';
-import { Story, Meta } from '@storybook/react';
-import * as Icon from './Icon';
-
 import './Icon.stories.scss';
+
+import { Meta, Story } from '@storybook/react';
+import React from 'react';
+
+import * as Icon from './Icon';
 
 export default {
   title: 'Components/Icon',
   component: Icon.IconProvider,
 } as Meta<typeof Icon.IconProvider>;
 
-const OutlinedTemplate: Story = (args: any) => (
+const OutlinedTemplate: Story = () => (
   <>
     <h3>Outlined</h3>
     <h4>Directional</h4>
@@ -215,7 +216,7 @@ const OutlinedTemplate: Story = (args: any) => (
       <Icon.AimOutlined />
       <Icon.AlertOutlined />
       <Icon.ApartmentOutlined />
-      <Icon.ApiOutlined/>
+      <Icon.ApiOutlined />
       <Icon.AppstoreAddOutlined />
       <Icon.AppstoreOutlined />
       <Icon.AudioOutlined />
@@ -231,7 +232,7 @@ const OutlinedTemplate: Story = (args: any) => (
       <Icon.BorderlessTableOutlined />
       <Icon.BranchesOutlined />
       <Icon.BugOutlined />
-      <Icon.BuildOutlined/>
+      <Icon.BuildOutlined />
       <Icon.BulbOutlined />
       <Icon.CalculatorOutlined />
       <Icon.CalendarOutlined />
@@ -246,7 +247,7 @@ const OutlinedTemplate: Story = (args: any) => (
       <Icon.CloudServerOutlined />
       <Icon.CloudSyncOutlined />
       <Icon.CloudUploadOutlined />
-      <Icon.ClusterOutlined/>
+      <Icon.ClusterOutlined />
       <Icon.CodeOutlined />
       <Icon.CoffeeOutlined />
       <Icon.CommentOutlined />
@@ -450,7 +451,7 @@ const OutlinedTemplate: Story = (args: any) => (
   </>
 );
 
-const SolidTemplate: Story = (args: any) => (
+const SolidTemplate: Story = () => (
   <>
     <h3>Solid</h3>
     <h4>Directional</h4>
@@ -688,9 +689,9 @@ const SolidTemplate: Story = (args: any) => (
       <Icon.ZhihuSquareFilled />
     </div>
   </>
-)
+);
 
-const TwoToneTemplate: Story = (args: any) => (
+const TwoToneTemplate: Story = () => (
   <>
     <h3>Two Tone</h3>
     <h4>Directional</h4>
@@ -861,15 +862,15 @@ const TwoToneTemplate: Story = (args: any) => (
       <Icon.WalletTwoTone />
     </div>
   </>
-)
+);
 
 export const Outlined: Story = () => <OutlinedTemplate />;
-Outlined.storyName = "Outlined";
+Outlined.storyName = 'Outlined';
 
 export const Solid: Story = () => <SolidTemplate />;
-Solid.storyName = "Solid";
+Solid.storyName = 'Solid';
 
 Icon.setTwoToneColor('#FF725C');
 
 export const TwoTone: Story = () => <TwoToneTemplate />;
-TwoTone.storyName = "Two Tone";
+TwoTone.storyName = 'Two Tone';

@@ -1,33 +1,32 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { Button, Card, Grid, Loading, Text } from '@geist-ui/react';
+import {
+  makePoolSetupParams,
+  minValueForSetup,
+  PoolSetupParams,
+} from '@ergolabs/ergo-dex-sdk';
 import {
   AssetAmount,
   AssetInfo,
   BoxSelection,
   DefaultBoxSelector,
   ergoTxToProxy,
-} from 'ergo-dex-sdk/build/module/ergo';
-import {
-  makePoolSetupParams,
-  PoolSetupParams,
-} from 'ergo-dex-sdk/build/module/amm/models/poolSetupParams';
-import { WalletContext, useSettings } from '../../context';
-import { ERG_DECIMALS } from '../../constants/erg';
-import { parseUserInputToFractions, renderFractions } from '../../utils/math';
+} from '@ergolabs/ergo-sdk';
+import { Button, Card, Grid, Loading, Text } from '@geist-ui/react';
 import { isEmpty, isNil } from 'ramda';
-import { Select, SelectOptionShape, AmountInput } from '../../core-components';
-import { CreatePoolSummary } from './CreatePoolSummary';
-import { poolActions } from '../../services/poolActions';
-import explorer from '../../services/explorer';
-import { truncate } from '../../utils/string';
-import { getButtonState } from './buttonState';
-import { PoolFeeDecimals } from '../../constants/settings';
-import { calculateAvailableAmount } from '../../utils/walletMath';
-import { makeTarget, minSufficientValueForSetup } from '../../utils/ammMath';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { MinPoolBoxValue } from 'ergo-dex-sdk/build/main/amm/constants';
-import { MinBoxValue } from 'ergo-dex-sdk/build/main/ergo/constants';
-import { isNative } from 'ergo-dex-sdk';
+
+import { ERG_DECIMALS, UI_FEE } from '../../constants/erg';
+import { PoolFeeDecimals } from '../../constants/settings';
+import { useSettings, WalletContext } from '../../context';
+import { AmountInput, Select, SelectOptionShape } from '../../core-components';
+import explorer from '../../services/explorer';
+import { poolActions } from '../../services/poolActions';
+import { makeTarget } from '../../utils/ammMath';
+import { parseUserInputToFractions, renderFractions } from '../../utils/math';
+import { truncate } from '../../utils/string';
+import { calculateAvailableAmount } from '../../utils/walletMath';
+import { getButtonState } from './buttonState';
+import { CreatePoolSummary } from './CreatePoolSummary';
 
 const getAssetTitle = (asset?: AssetInfo) => {
   if (!asset) return '';
@@ -86,9 +85,6 @@ export const CreatePool = (): JSX.Element => {
     ERG_DECIMALS,
   );
 
-  const lockedNErgs = MinPoolBoxValue;
-  const payloadNErgs = MinBoxValue;
-
   const handleAssetXChange = useCallback(
     ({ selected }) => {
       const assetAmount = availableWalletAssets?.find(
@@ -140,6 +136,7 @@ export const CreatePool = (): JSX.Element => {
         new AssetAmount(selectedAssetX?.asset, assetAmountX),
         new AssetAmount(selectedAssetY?.asset, assetAmountY),
         Number(renderFractions(poolFee, PoolFeeDecimals)),
+        UI_FEE,
       );
 
       const isPoolValidPoolSetupParams = (
@@ -156,8 +153,9 @@ export const CreatePool = (): JSX.Element => {
 
       const actions = poolActions(poolParams);
 
-      const minNErgs = minSufficientValueForSetup(
+      const minNErgs = minValueForSetup(
         parseUserInputToFractions(minerFee, ERG_DECIMALS),
+        UI_FEE,
       );
 
       const target = makeTarget(

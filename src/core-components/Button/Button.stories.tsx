@@ -1,10 +1,11 @@
-import React from 'react';
-import { Story, Meta } from '@storybook/react';
-import { Button } from './Button';
-import { Row, Col } from 'antd';
-import { SearchOutlined } from '@ant-design/icons';
+import './Button.stories.css';
 
-import "./Button.stories.css"
+import { SearchOutlined } from '@ant-design/icons';
+import { Meta, Story } from '@storybook/react';
+import { Col, Row } from 'antd';
+import React from 'react';
+
+import { Button } from './Button';
 
 export default {
   title: 'Components/Button',
@@ -12,7 +13,7 @@ export default {
 } as Meta<typeof Button>;
 
 const MiniTemplate = (args: any) => (
-  <Row gutter={[{ xs: 8, sm: 16, md: 24}, 8]}>
+  <Row gutter={[{ xs: 8, sm: 16, md: 24 }, 8]}>
     <Col span={8}>
       <h5>Default</h5>
     </Col>
@@ -23,44 +24,54 @@ const MiniTemplate = (args: any) => (
       <h5>Disabled</h5>
     </Col>
     <Col span={8}>
-      <Button {...args} >Button</Button>
+      <Button {...args}>Button</Button>
     </Col>
     <Col span={8}>
-      <Button {...args} loading>Button</Button>
+      <Button {...args} loading>
+        Button
+      </Button>
     </Col>
     <Col span={8}>
-      <Button {...args} disabled>Button</Button>
+      <Button {...args} disabled>
+        Button
+      </Button>
     </Col>
     <Col span={8}>
-      <Button {...args} icon={<SearchOutlined />}>Button</Button>
+      <Button {...args} icon={<SearchOutlined />}>
+        Button
+      </Button>
     </Col>
     <Col span={8}>
-      <Button {...args} loading icon={<SearchOutlined />}>Button</Button>
+      <Button {...args} loading icon={<SearchOutlined />}>
+        Button
+      </Button>
     </Col>
     <Col span={8}>
-      <Button {...args} disabled icon={<SearchOutlined />}>Button</Button>
+      <Button {...args} disabled icon={<SearchOutlined />}>
+        Button
+      </Button>
     </Col>
     <Col span={8}>
-      <Button {...args} icon={<SearchOutlined />}></Button>
+      <Button {...args} icon={<SearchOutlined />} />
     </Col>
     <Col span={8}>
-      <Button {...args} loading icon={<SearchOutlined />}></Button>
+      <Button {...args} loading icon={<SearchOutlined />} />
     </Col>
     <Col span={8}>
-      <Button {...args} disabled icon={<SearchOutlined />}></Button>
+      <Button {...args} disabled icon={<SearchOutlined />} />
     </Col>
   </Row>
-)
+);
 
 const TemplateByDanger: Story = (args: any) => (
   <>
     <h4>Danger = False</h4>
     <MiniTemplate {...args} danger={false} />
-    <h4></h4>
+    <h4 />
     <h4>Danger = True</h4>
     <MiniTemplate {...args} danger={true} />
   </>
-)
+);
 
 const TemplateBySize: Story = (args: any) => (
   <>
@@ -75,7 +86,7 @@ const TemplateBySize: Story = (args: any) => (
 
 const TemplateByType: Story = (args: any) => (
   <>
-    <h1>Ghost = {args.ghost ? "True" : "False"}</h1>
+    <h1>Ghost = {args.ghost ? 'True' : 'False'}</h1>
     <h2>Type = Primary</h2>
     <TemplateBySize {...args} type="primary" />
     <h2>Type = Default</h2>
@@ -89,9 +100,8 @@ const TemplateByType: Story = (args: any) => (
   </>
 );
 
-
 export const GhostFalse: Story = () => <TemplateByType ghost={false} />;
-GhostFalse.storyName = "Ghost = False";
+GhostFalse.storyName = 'Ghost = False';
 
 export const GhostTrue: Story = () => <TemplateByType ghost={true} />;
-GhostTrue.storyName = "Ghost = True";
+GhostTrue.storyName = 'Ghost = True';

@@ -1,5 +1,6 @@
-import React from 'react';
 import { Link } from '@geist-ui/react';
+import React from 'react';
+
 import { FEEDBACK_FORM_URL } from '../../constants/env';
 
 interface FeedbackLinkProps {

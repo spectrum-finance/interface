@@ -1,4 +1,5 @@
 import React from 'react';
+
 import Header from '../Header/Header';
 
 interface Props {
@@ -8,7 +9,7 @@ interface Props {
 const Layout = ({ children }: Props): JSX.Element => {
   return (
     <div>
-      <Header></Header>
+      <Header />
       <main>{children}</main>
     </div>
   );

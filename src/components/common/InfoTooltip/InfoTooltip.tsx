@@ -1,7 +1,7 @@
-import React, { ReactNode } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Tooltip } from '@geist-ui/react';
+import React, { ReactNode } from 'react';
 
 interface Props {
   text: ReactNode;

@@ -1,17 +1,18 @@
-import React from 'react';
+import { SwapExtremums } from '@ergolabs/ergo-dex-sdk';
 import { Table } from '@geist-ui/react';
-import { SwapExtremums } from 'ergo-dex-sdk/build/module/amm/math/swap';
+import React from 'react';
+
+import { ERG_DECIMALS, ERG_TOKEN_NAME, UI_FEE } from '../../constants/erg';
 import { renderFractions } from '../../utils/math';
-import { ERG_TOKEN_NAME, ERG_DECIMALS } from '../../constants/erg';
 
 interface Props {
   minerFee: string;
-  swapExremums: SwapExtremums;
+  swapExtremums: SwapExtremums;
 }
 
 export const SwapSummary: React.FC<Props> = ({
   minerFee,
-  swapExremums: { maxDexFee, minDexFee, minOutput, maxOutput },
+  swapExtremums: { maxExFee, minExFee, minOutput, maxOutput },
 }) => {
   return (
     <Table
@@ -22,17 +23,15 @@ export const SwapSummary: React.FC<Props> = ({
         },
         {
           prop: 'Min DEX fee',
-          value: `${renderFractions(
-            BigInt(minDexFee),
-            ERG_DECIMALS,
-          )} ${ERG_TOKEN_NAME}`,
+          value: `${renderFractions(minExFee, ERG_DECIMALS)} ${ERG_TOKEN_NAME}`,
         },
         {
           prop: 'Max DEX fee',
-          value: `${renderFractions(
-            BigInt(maxDexFee),
-            ERG_DECIMALS,
-          )} ${ERG_TOKEN_NAME}`,
+          value: `${renderFractions(maxExFee, ERG_DECIMALS)} ${ERG_TOKEN_NAME}`,
+        },
+        {
+          prop: 'UI fee',
+          value: `${renderFractions(UI_FEE, ERG_DECIMALS)} ${ERG_TOKEN_NAME}`,
         },
         {
           prop: 'Min output',

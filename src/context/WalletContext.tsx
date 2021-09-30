@@ -1,7 +1,8 @@
+import { ErgoBox, ergoBoxFromProxy } from '@ergolabs/ergo-sdk';
 import React, { createContext, useCallback, useEffect, useState } from 'react';
-import { ErgoBox, ergoBoxFromProxy } from 'ergo-dex-sdk/build/module/ergo';
-import { useInterval } from '../hooks/useInterval';
+
 import { ERG_TOKEN_NAME } from '../constants/erg';
+import { useInterval } from '../hooks/useInterval';
 import { walletCookies } from '../utils/cookies';
 
 export enum WalletConnectionState {

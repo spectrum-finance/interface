@@ -1,4 +1,5 @@
-import { AssetInfo, TokenId } from 'ergo-dex-sdk/build/module/ergo';
+import { AssetInfo, TokenId } from '@ergolabs/ergo-sdk';
+
 import explorer from '../services/explorer';
 
 export const getTokenInfo = (

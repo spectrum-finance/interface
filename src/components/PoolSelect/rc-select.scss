@@ -43,11 +43,9 @@
   &:not(.rc-select-customize-input) {
     .rc-select-selector {
       padding: 1px;
-      // border: 1px solid #000;
       .rc-select-selection-search-input {
-        // background: rgba(255,0,0,0.2);
         width: 100%;
-        border: none;
+        border: 0;
         outline: none;
       }
     }
@@ -79,14 +77,8 @@
     right: 20px;
   }
 }
-.rc-select-focused {
-  .rc-select-selector {
-    // border-color: blue !important;
-  }
-}
+
 .rc-select-dropdown {
-  // border: 1px solid green;
-  // min-height: 100px;
   position: absolute;
   z-index: 1;
   background: #fff;
@@ -97,7 +89,6 @@
 .rc-select-item {
   font-size: 16px;
   line-height: 1.5;
-  // padding: 4px 16px;
 }
 .rc-select-item-option {
   position: relative;

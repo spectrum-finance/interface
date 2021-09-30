@@ -1,10 +1,11 @@
 import * as yup from 'yup';
+
+import { ERG_DECIMALS, MIN_EX_FEE, MIN_NITRO } from '../../constants/erg';
 import {
-  renderFractions,
-  parseUserInputToFractions,
   allowedNumPat,
+  parseUserInputToFractions,
+  renderFractions,
 } from '../../utils/math';
-import { ERG_DECIMALS, MIN_DEX_FEE, MIN_NITRO } from '../../constants/erg';
 
 const fixedNumber = (decimals: number) =>
   yup
@@ -20,7 +21,7 @@ export const validateSlippage = (value: string): string | undefined => {
   try {
     schema.validateSync(Number(value || 0));
   } catch (e) {
-    return e instanceof Error ? e.message : "validate sync error";
+    return e instanceof Error ? e.message : 'validate sync error';
   }
   return undefined;
 };
@@ -62,7 +63,7 @@ export const validateInputAmount = (
   try {
     schema.validateSync(value);
   } catch (e) {
-    return e instanceof Error ? e.message : "validate sync error";
+    return e instanceof Error ? e.message : 'validate sync error';
   }
   return undefined;
 };
@@ -92,7 +93,7 @@ export const validateNumber = (
   try {
     schema.validateSync(value);
   } catch (e) {
-    return e instanceof Error ? e.message : "validate sync error";
+    return e instanceof Error ? e.message : 'validate sync error';
   }
   return undefined;
 };
@@ -108,7 +109,7 @@ export const validateNitro = (value: string): unknown => {
   try {
     schema.validateSync(value);
   } catch (e) {
-    return e instanceof Error ? e.message : "validate sync error";
+    return e instanceof Error ? e.message : 'validate sync error';
   }
 };
 
@@ -119,12 +120,12 @@ export const validateMinDexFee = (value: string): unknown => {
     .test(
       'value-exceeded',
       `The bottom line of DEX Fee is ${renderFractions(
-        MIN_DEX_FEE,
+        MIN_EX_FEE,
         ERG_DECIMALS,
       )}`,
       (value) => {
         return (
-          Number(value) >= Number(renderFractions(MIN_DEX_FEE, ERG_DECIMALS))
+          Number(value) >= Number(renderFractions(MIN_EX_FEE, ERG_DECIMALS))
         );
       },
     );
@@ -132,6 +133,6 @@ export const validateMinDexFee = (value: string): unknown => {
   try {
     schema.validateSync(value);
   } catch (e) {
-    return e instanceof Error ? e.message : "validate sync error";
+    return e instanceof Error ? e.message : 'validate sync error';
   }
 };

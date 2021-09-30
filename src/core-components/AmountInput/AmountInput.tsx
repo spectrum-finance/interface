@@ -1,10 +1,11 @@
-import React from 'react';
-import cn from 'classnames';
+import './AmountInput.scss';
+
 import {
   AmountInput as BaseAmountInput,
   AmountInputProps,
 } from '@alfalab/core-components-amount-input';
-import './AmountInput.scss';
+import cn from 'classnames';
+import React from 'react';
 
 const AmountInput: React.FC<AmountInputProps> = (props) => {
   const updatedProps = {

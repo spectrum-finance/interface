@@ -1,5 +1,5 @@
-import React, { createContext, useContext } from 'react';
 import { useLocalStorage } from '@rehooks/local-storage';
+import React, { createContext, useContext } from 'react';
 
 export type AppLoadingState = {
   isKYAAccepted: boolean;

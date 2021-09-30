@@ -1,5 +1,6 @@
-import React from 'react';
 import { Table } from '@geist-ui/react';
+import React from 'react';
+
 import { ERG_TOKEN_NAME } from '../../constants/erg';
 
 interface Props {
