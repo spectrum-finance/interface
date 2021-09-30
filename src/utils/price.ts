@@ -1,6 +1,7 @@
-import { math, renderFractions } from './math';
-import { AssetAmount } from '@ergolabs/ergo-sdk';
 import { AmmPool } from '@ergolabs/ergo-dex-sdk';
+import { AssetAmount } from '@ergolabs/ergo-sdk';
+
+import { math, renderFractions } from './math';
 
 export function renderPoolPrice(pool: AmmPool): string {
   return renderPrice(pool.x, pool.y);

@@ -1,6 +1,7 @@
 import { AmmPool, OK } from '@ergolabs/ergo-dex-sdk';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+
 import { checkPool } from '../utils/checkPool';
 
 type FetchState = {

@@ -1,11 +1,12 @@
-import { parseUserInputToFractions } from './math';
+import { AmmPool } from '@ergolabs/ergo-dex-sdk';
 import {
   AssetAmount,
   AssetInfo,
   ErgoBox,
   NativeAssetId,
 } from '@ergolabs/ergo-sdk';
-import { AmmPool } from '@ergolabs/ergo-dex-sdk';
+
+import { parseUserInputToFractions } from './math';
 
 export const calculateAvailableAmount = (
   tokenId: string,

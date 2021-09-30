@@ -1,5 +1,6 @@
-import React from 'react';
 import { Select } from '@geist-ui/react';
+import React from 'react';
+
 import { OverflowAddress } from '../Settings/OverflowAddress';
 
 interface SelectAddressProps {

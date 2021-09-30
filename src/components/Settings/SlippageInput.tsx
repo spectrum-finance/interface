@@ -1,15 +1,16 @@
-import React, { useCallback, useState } from 'react';
 import { Button, Input, useInput } from '@geist-ui/react';
-import { DefaultSettings } from '../../context/SettingsContext';
-import { AutoInputContainer } from './AutoInputContainer';
+import React, { useCallback, useState } from 'react';
+
 import {
   SlippageDecimals,
   SlippageMax,
   SlippageMin,
 } from '../../constants/settings';
-import { FormError } from './FormError';
+import { DefaultSettings } from '../../context';
 import { countDecimals } from '../../utils/numbers';
 import { toFloat } from '../../utils/string';
+import { AutoInputContainer } from './AutoInputContainer';
+import { FormError } from './FormError';
 
 const content = {
   autoButton: 'Auto',
@@ -57,10 +58,10 @@ export const SlippageInput = (props: SlippageInputProps): JSX.Element => {
         const numValue = parseFloat(value);
 
         if (numValue > 100) {
-          setError(`Enter a valid slippage percentage`);
+          setError('Enter a valid slippage percentage');
           setWarning('');
         } else if (numValue > 1) {
-          setWarning(`Your transaction may be frontrun`);
+          setWarning('Your transaction may be frontrun');
           setError('');
         } else {
           setError('');

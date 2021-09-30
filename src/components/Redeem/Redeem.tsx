@@ -1,15 +1,4 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react';
-import {
-  Button,
-  Card,
-  Grid,
-  Input,
-  Loading,
-  Select,
-  Text,
-} from '@geist-ui/react';
-import { Form, Field, FieldRenderProps } from 'react-final-form';
-import { reverse } from 'ramda';
+import { AmmPool, minValueForOrder } from '@ergolabs/ergo-dex-sdk';
 import {
   AssetAmount,
   BoxSelection,
@@ -19,20 +8,32 @@ import {
   ergoTxToProxy,
   publicKeyFromAddress,
 } from '@ergolabs/ergo-sdk';
-import { WalletContext, useSettings } from '../../context';
-import { getButtonState } from './buttonState';
-import { useGetAvailablePoolsByLPTokens } from '../../hooks/useGetAvailablePoolsByLPTokens';
-import { ERG_DECIMALS, UI_FEE } from '../../constants/erg';
+import {
+  Button,
+  Card,
+  Grid,
+  Input,
+  Loading,
+  Select,
+  Text,
+} from '@geist-ui/react';
+import { reverse } from 'ramda';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
+import { Field, FieldRenderProps, Form } from 'react-final-form';
 import { toast } from 'react-toastify';
+
+import { ERG_DECIMALS, UI_FEE } from '../../constants/erg';
+import { DexFeeDefault } from '../../constants/settings';
+import { useSettings, WalletContext } from '../../context';
+import { useGetAvailablePoolsByLPTokens } from '../../hooks/useGetAvailablePoolsByLPTokens';
 import explorer from '../../services/explorer';
-import { parseUserInputToFractions, renderFractions } from '../../utils/math';
 import { poolActions } from '../../services/poolActions';
 import { makeTarget } from '../../utils/ammMath';
+import { parseUserInputToFractions, renderFractions } from '../../utils/math';
 import { calculateTotalFee } from '../../utils/transactions';
-import { RedeemSummary } from './RedeemSummary';
 import { calculateAvailableAmount } from '../../utils/walletMath';
-import { DexFeeDefault } from '../../constants/settings';
-import { AmmPool, minValueForOrder } from '@ergolabs/ergo-dex-sdk';
+import { getButtonState } from './buttonState';
+import { RedeemSummary } from './RedeemSummary';
 
 export const Redeem = (): JSX.Element => {
   const [{ minerFee, address: chosenAddress }] = useSettings();

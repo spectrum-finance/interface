@@ -1,16 +1,16 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { comparator } from 'ramda';
-import RCSelect from 'rc-select';
-import { Card, Grid, Input, Text } from '@geist-ui/react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
-import { AmmPool } from '@ergolabs/ergo-dex-sdk';
-import levenshtein from 'fast-levenshtein';
-
 import './PoolSelect.scss';
 import './rc-select.scss';
+
+import { AmmPool } from '@ergolabs/ergo-dex-sdk';
+import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Card, Grid, Input, Text } from '@geist-ui/react';
+import levenshtein from 'fast-levenshtein';
 import { AnyObject } from 'final-form';
 import { evaluate } from 'mathjs';
+import { comparator } from 'ramda';
+import RCSelect from 'rc-select';
+import React, { useCallback, useEffect, useState } from 'react';
 
 const getPoolAssetsRepr = (pool: AmmPool | undefined) => {
   if (!pool) return '';

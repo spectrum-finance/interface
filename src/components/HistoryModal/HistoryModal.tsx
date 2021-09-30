@@ -1,12 +1,13 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Button, Modal } from '@geist-ui/react';
-import { useWalletAddresses, WalletAddressState } from '../../context';
 import { AmmDexOperation } from '@ergolabs/ergo-dex-sdk';
-import { useInterval } from '../../hooks/useInterval';
-import { Content } from './Content';
-import networkHistory from '../../services/networkHistory';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRedo } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Button, Modal } from '@geist-ui/react';
+import React, { useCallback, useEffect, useState } from 'react';
+
+import { useWalletAddresses, WalletAddressState } from '../../context';
+import { useInterval } from '../../hooks/useInterval';
+import networkHistory from '../../services/networkHistory';
+import { Content } from './Content';
 
 const content = {
   title: 'Transactions history',

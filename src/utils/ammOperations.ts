@@ -1,7 +1,4 @@
-import { ammOrderRefunds } from '../services/amm';
-import { ERG_DECIMALS } from '../constants/erg';
-import explorer from '../services/explorer';
-import { parseUserInputToFractions } from './math';
+import { OpStatus } from '@ergolabs/ergo-dex-sdk/build/main/amm/models/ammOperation';
 import {
   Address,
   BoxSelection,
@@ -10,7 +7,11 @@ import {
   ErgoTx,
   TxId,
 } from '@ergolabs/ergo-sdk';
-import { OpStatus } from '@ergolabs/ergo-dex-sdk/build/main/amm/models/ammOperation';
+
+import { ERG_DECIMALS } from '../constants/erg';
+import { ammOrderRefunds } from '../services/amm';
+import explorer from '../services/explorer';
+import { parseUserInputToFractions } from './math';
 
 interface RefundParams {
   txId: TxId;

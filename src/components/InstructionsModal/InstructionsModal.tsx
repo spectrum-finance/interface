@@ -1,5 +1,5 @@
+import { Button, Link, Modal, Text } from '@geist-ui/react';
 import React, { useState } from 'react';
-import { Button, Modal, Text, Link } from '@geist-ui/react';
 
 const YOROI_NIGHTLY_URL =
   'https://chrome.google.com/webstore/detail/yoroi-nightly/poonlenmfdfbjfeeballhiibknlknepo';

@@ -1,7 +1,8 @@
 import { AmmPool } from '@ergolabs/ergo-dex-sdk';
+
 import { ERG_DECIMALS, UI_FEE } from '../../constants/erg';
-import { calculateTotalFee } from '../../utils/transactions';
 import { renderFractions } from '../../utils/math';
+import { calculateTotalFee } from '../../utils/transactions';
 
 export enum RedeemFormState {
   NEED_TO_CONNECT_WALLET = 'NEED_TO_CONNECT_WALLET',

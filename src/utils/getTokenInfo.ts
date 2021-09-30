@@ -1,5 +1,6 @@
-import explorer from '../services/explorer';
 import { AssetInfo, TokenId } from '@ergolabs/ergo-sdk';
+
+import explorer from '../services/explorer';
 
 export const getTokenInfo = (
   tokenId: TokenId,

@@ -1,10 +1,10 @@
 import {
   ErgoTx,
+  ergoTxFromProxy,
+  Input as TxInput,
   Prover,
   UnsignedErgoTx,
-  Input as TxInput,
   unsignedErgoTxToProxy,
-  ergoTxFromProxy,
 } from '@ergolabs/ergo-sdk';
 
 class YoroiProver implements Prover {

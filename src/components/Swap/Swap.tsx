@@ -1,70 +1,70 @@
-import React, {
-  useEffect,
-  useMemo,
-  useState,
-  useCallback,
-  useContext,
-} from 'react';
+import {
+  AmmPool,
+  minValueForOrder,
+  SwapExtremums,
+  swapVars,
+} from '@ergolabs/ergo-dex-sdk';
+import {
+  AssetAmount,
+  AssetInfo,
+  BoxSelection,
+  DefaultBoxSelector,
+  ergoTxToProxy,
+  publicKeyFromAddress,
+} from '@ergolabs/ergo-sdk';
+import { faArrowDown } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   Button,
   Card,
   Grid,
   Input,
   Loading,
+  Note,
   Row,
   Spacer,
   Tag,
   Text,
-  Note,
 } from '@geist-ui/react';
-import { Form, Field, FieldRenderProps } from 'react-final-form';
 import { FORM_ERROR } from 'final-form';
-import {
-  AmmPool,
-  evaluate,
-  minValueForOrder,
-  SwapExtremums,
-  swapVars,
-} from '@ergolabs/ergo-dex-sdk';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowDown } from '@fortawesome/free-solid-svg-icons';
-import {
-  AssetInfo,
-  AssetAmount,
-  BoxSelection,
-  DefaultBoxSelector,
-  ergoTxToProxy,
-  publicKeyFromAddress,
-} from '@ergolabs/ergo-sdk';
-import { DefaultSettings, WalletContext } from '../../context';
-import { useGetAllPools } from '../../hooks/useGetAllPools';
-import { PoolSelect } from '../PoolSelect/PoolSelect';
+import { isNil } from 'ramda';
+import { isEmpty } from 'ramda';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
+import { Field, FieldRenderProps, Form } from 'react-final-form';
+import { toast } from 'react-toastify';
+
 import {
   ERG_DECIMALS,
-  MIN_NITRO,
   MIN_EX_FEE,
+  MIN_NITRO,
   UI_FEE,
 } from '../../constants/erg';
-import { getButtonState } from './buttonState';
+import { DefaultSettings, WalletContext } from '../../context';
 import { useSettings } from '../../context';
-import { toast } from 'react-toastify';
 import { useCheckPool } from '../../hooks/useCheckPool';
+import { useGetAllPools } from '../../hooks/useGetAllPools';
+import explorer from '../../services/explorer';
+import { poolActions } from '../../services/poolActions';
+import { makeTarget } from '../../utils/ammMath';
+import { parseUserInputToFractions, renderFractions } from '../../utils/math';
+import { isZero } from '../../utils/numbers';
+import { renderPoolPrice, renderPrice } from '../../utils/price';
+import { toFloat } from '../../utils/string';
 import {
   calculateAvailableAmount,
   getBaseInputParameters,
 } from '../../utils/walletMath';
 import { ConnectWallet } from '../ConnectWallet/ConnectWallet';
+import { PoolSelect } from '../PoolSelect/PoolSelect';
+import { getButtonState } from './buttonState';
 import SwapSettings from './SwapSettings';
-import { isNil } from 'ramda';
-import explorer from '../../services/explorer';
-import { poolActions } from '../../services/poolActions';
-import { renderFractions, parseUserInputToFractions } from '../../utils/math';
-import { isEmpty } from 'ramda';
-import { isZero } from '../../utils/numbers';
-import { toFloat } from '../../utils/string';
 import { SwapSummary } from './SwapSummary';
-import { makeTarget } from '../../utils/ammMath';
-import { renderPoolPrice, renderPrice } from '../../utils/price';
 
 interface SwapFormProps {
   pools: AmmPool[];
@@ -143,7 +143,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
       );
       setActualPrice(renderPrice(input, output));
     }
-  });
+  }, [selectedPool, inputAmount, outputAmount, inputAsset]);
 
   useEffect(() => {
     if (isZero(minExFee) || isZero(nitro)) {
@@ -159,7 +159,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
       });
 
       const vars = swapVars(BigInt(minExFee), Number(nitro), minOutput);
-      console.log('vars ', vars);
+
       if (!isNil(vars)) {
         setCurrentSwapVars(vars);
       }
