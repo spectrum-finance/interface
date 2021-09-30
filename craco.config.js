@@ -31,6 +31,8 @@ module.exports = {
               '@btn-disable-border': 'transparent',
 
               '@btn-default-ghost-bg': '#141414',
+
+              '@icon-color': '#DBDBDB',
             },
             javascriptEnabled: true,
           },
