@@ -8,7 +8,7 @@
     "test": "react-app-rewired test",
     "eject": "react-scripts eject",
     "lint:stylelint": "stylelint src/**/*.{scss,css,less}",
-    "lint:eslint": "eslint 'src/**'",
+    "lint:eslint": "eslint --ext .js,.ts,.tsx src",
     "lint": "yarn lint:eslint && yarn lint:stylelint",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public"

@@ -37,6 +37,3 @@ jobs:
 
       - name: Stylelint for CSS Modules
         run: yarn lint:stylelint
-
-      - name: Prettier
-        run: yarn lint:prettier
