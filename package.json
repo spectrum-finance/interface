@@ -34,7 +34,7 @@
     "@types/react-dom": "^17.0.9",
     "@types/react-router-dom": "^5.1.8",
     "bignumber.js": "^9.0.1",
-    "@ergolabs/ergo-dex-sdk": "1.1.6",
+    "@ergolabs/ergo-dex-sdk": "1.1.7",
     "@ergolabs/ergo-sdk": "0.1.7",
     "eslint-plugin-react-hooks": "^4.2.0",
     "fast-levenshtein": "^3.0.0",

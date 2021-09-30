@@ -21,7 +21,6 @@ import { Form, Field, FieldRenderProps } from 'react-final-form';
 import { FORM_ERROR } from 'final-form';
 import {
   AmmPool,
-  evaluate,
   minValueForOrder,
   SwapExtremums,
   swapVars,
