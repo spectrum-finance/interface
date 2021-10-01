@@ -1,4 +1,16 @@
 const CracoLessPlugin = require('craco-less');
+const {
+  gray1,
+  gray2,
+  gray3,
+  gray5,
+  gray6,
+  gray9,
+  gray10,
+  orange5,
+  orange6,
+  dustRed6,
+} = require('./src/constants/colors');
 
 module.exports = {
   plugins: [
@@ -9,30 +21,59 @@ module.exports = {
         lessLoaderOptions: {
           lessOptions: {
             modifyVars: {
-              '@primary-color': '#FF5135',
-              '@primary-color-hover': '#FF725C',
-              '@primary-color-active': '#FF725C',
+              /*
+               * To redefine default ant-design colors use the following url:
+               * https://github.com/ant-design/ant-design/blob/master/components/style/themes/default.less
+               * */
 
-              '@disabled-color': '#262626',
+              // --Colors--
 
-              '@btn-primary-color': '#fff',
-              '@btn-primary-bg': '#FF5135',
+              // >> Primary
+              // --
+              '@primary-color': orange5,
+              '@primary-color-hover': orange6,
+              '@primary-color-active': orange6,
 
-              '@btn-default-color': '#DBDBDB',
-              '@btn-default-bg': '#141414',
-              '@btn-default-border': '#434343',
+              // >> Disable
+              // --
+              '@disabled-color': gray3,
 
-              '@btn-danger-bg': '#D32029',
+              // --Components--
 
-              '@btn-text-hover-bg': '#1D1D1D',
-
-              '@btn-disable-color': '#5A5A5A',
-              '@btn-disable-bg': '#262626',
+              // Button
+              // --
+              '@btn-primary-color': gray10,
+              '@btn-primary-bg': orange5,
+              '@btn-default-color': gray9,
+              '@btn-default-bg': gray1,
+              '@btn-default-border': gray5,
+              '@btn-danger-bg': dustRed6,
+              '@btn-text-hover-bg': gray2,
+              '@btn-disable-color': gray6,
+              '@btn-disable-bg': gray3,
               '@btn-disable-border': 'transparent',
+              '@btn-default-ghost-bg': gray1,
 
-              '@btn-default-ghost-bg': '#141414',
+              // Icon
+              // --
+              '@icon-color': 'currentColor',
 
-              '@icon-color': '#DBDBDB',
+              // Dropdown
+              // --
+              '@dropdown-menu-bg': gray3,
+              '@dropdown-menu-item-color': gray9,
+
+              // Menu
+              // --
+              '@menu-bg': gray1,
+              '@menu-popup-bg': gray1,
+              '@menu-item-color': gray9,
+              '@menu-inline-submenu-bg': gray1,
+              // '@menu-highlight-color': orange5,
+              // '@menu-highlight-danger-color': dustRed6,
+              '@menu-item-active-bg': gray3,
+              '@menu-item-active-danger-bg': dustRed6,
+              '@menu-item-group-title-color': gray9,
             },
             javascriptEnabled: true,
           },
