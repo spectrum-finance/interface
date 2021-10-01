@@ -69,11 +69,20 @@ module.exports = {
               '@menu-popup-bg': gray1,
               '@menu-item-color': gray9,
               '@menu-inline-submenu-bg': gray1,
-              // '@menu-highlight-color': orange5,
-              // '@menu-highlight-danger-color': dustRed6,
               '@menu-item-active-bg': gray3,
               '@menu-item-active-danger-bg': dustRed6,
               '@menu-item-group-title-color': gray9,
+
+              // Modal
+              // --
+              '@modal-header-bg': gray1,
+              '@modal-content-bg': gray1,
+              '@modal-footer-bg': gray1,
+              '@modal-header-border-color-split': gray1,
+              '@modal-footer-border-color-split': gray1,
+              '@modal-footer-border-style': gray2,
+              '@modal-heading-color': gray9,
+              '@modal-close-color': gray9,
             },
             javascriptEnabled: true,
           },
