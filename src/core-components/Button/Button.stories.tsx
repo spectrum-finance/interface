@@ -1,10 +1,10 @@
 import './Button.stories.css';
 
-import { SearchOutlined } from '@ant-design/icons';
 import { Meta, Story } from '@storybook/react';
-import { Col, Row } from 'antd';
+import { ButtonProps, Col, Row } from 'antd';
 import React from 'react';
 
+import { SearchOutlined } from '../Icon/Icon';
 import { Button } from './Button';
 
 export default {
@@ -12,7 +12,7 @@ export default {
   component: Button,
 } as Meta<typeof Button>;
 
-const MiniTemplate = (args: any) => (
+const MiniTemplate = (args: ButtonProps) => (
   <Row gutter={[{ xs: 8, sm: 16, md: 24 }, 8]}>
     <Col span={8}>
       <h5>Default</h5>
@@ -63,7 +63,7 @@ const MiniTemplate = (args: any) => (
   </Row>
 );
 
-const TemplateByDanger: Story = (args: any) => (
+const TemplateByDanger: Story = (args: ButtonProps) => (
   <>
     <h4>Danger = False</h4>
     <MiniTemplate {...args} danger={false} />
@@ -73,7 +73,7 @@ const TemplateByDanger: Story = (args: any) => (
   </>
 );
 
-const TemplateBySize: Story = (args: any) => (
+const TemplateBySize: Story = (args: ButtonProps) => (
   <>
     <h3>Size = Large</h3>
     <TemplateByDanger {...args} size="large" />
@@ -84,7 +84,7 @@ const TemplateBySize: Story = (args: any) => (
   </>
 );
 
-const TemplateByType: Story = (args: any) => (
+const TemplateByType: Story = (args: ButtonProps) => (
   <>
     <h1>Ghost = {args.ghost ? 'True' : 'False'}</h1>
     <h2>Type = Primary</h2>
