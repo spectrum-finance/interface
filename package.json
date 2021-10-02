@@ -12,7 +12,7 @@
     "lint": "yarn lint:eslint && yarn lint:stylelint",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
-    "build:svg-components": "rm -rf src/components/icons && npx @svgr/cli src/assets/icons --out-dir src/components/icons --typescript"
+    "build:svg-components": "npx @svgr/cli src/assets/icons -d src/components/icons --typescript --ignore-existing"
   },
   "dependencies": {
     "@alfalab/core-components-amount-input": "^5.2.3",
