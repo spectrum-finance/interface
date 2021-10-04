@@ -1,19 +1,20 @@
+import 'react-toastify/dist/ReactToastify.css';
+import './App.css';
+
+import { RustModule } from '@ergolabs/ergo-sdk';
+import { CssBaseline, GeistProvider } from '@geist-ui/react';
 import React, { useEffect, useState } from 'react';
 import { Redirect, Route, RouteProps, Router, Switch } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
-import './App.css';
-import { globalHistory } from './createBrowserHistory';
-import { GeistProvider, CssBaseline } from '@geist-ui/react';
-import { RustModule } from 'ergo-dex-sdk';
 import {
-  useAppLoadingState,
   AppLoadingProvider,
-  WalletAddressesProvider,
   SettingsProvider,
+  useAppLoadingState,
+  WalletAddressesProvider,
   WalletContextProvider,
 } from './context';
+import { globalHistory } from './createBrowserHistory';
 import { Home, KnowYourAssumptions } from './pages';
 
 const NotFound = () => <Redirect to="/" />;

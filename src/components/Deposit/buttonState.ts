@@ -1,6 +1,8 @@
-import { AmmPool, isNative } from 'ergo-dex-sdk';
-import { parseUserInputToFractions } from '../../utils/math';
+import { AmmPool } from '@ergolabs/ergo-dex-sdk';
+import { isNative } from '@ergolabs/ergo-sdk';
+
 import { ERG_DECIMALS } from '../../constants/erg';
+import { parseUserInputToFractions } from '../../utils/math';
 
 export enum DepositFormStates {
   NEED_TO_CONNECT_WALLET = 'NEED_TO_CONNECT_WALLET',

@@ -1,11 +1,12 @@
-import React from 'react';
-import cn from 'classnames';
+import './Select.scss';
+
 import {
+  OptionShape,
   Select as BaseSelect,
   SelectProps,
-  OptionShape,
 } from '@alfalab/core-components-select';
-import './Select.scss';
+import cn from 'classnames';
+import React from 'react';
 
 export type SelectOptionShape = OptionShape;
 

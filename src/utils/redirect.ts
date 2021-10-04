@@ -1,4 +1,5 @@
-import { TxId } from 'ergo-dex-sdk/build/main/ergo';
+import { TxId } from '@ergolabs/ergo-sdk';
+
 import { ERG_EXPLORER_URL } from '../constants/env';
 
 export const exploreTx = (txId: TxId): unknown =>

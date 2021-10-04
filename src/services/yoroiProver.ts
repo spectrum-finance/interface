@@ -1,11 +1,11 @@
 import {
   ErgoTx,
+  ergoTxFromProxy,
+  Input as TxInput,
   Prover,
   UnsignedErgoTx,
-  Input as TxInput,
   unsignedErgoTxToProxy,
-  ergoTxFromProxy,
-} from 'ergo-dex-sdk/build/module/ergo';
+} from '@ergolabs/ergo-sdk';
 
 class YoroiProver implements Prover {
   /** Sign the given transaction.

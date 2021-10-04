@@ -1,8 +1,9 @@
-import { AmmPool } from 'ergo-dex-sdk';
-import { ErgoBox } from 'ergo-dex-sdk/build/module/ergo';
+import { AmmPool } from '@ergolabs/ergo-dex-sdk';
+import { ErgoBox } from '@ergolabs/ergo-sdk';
 import { useEffect, useState } from 'react';
+
+import { nativeNetworkPools, networkPools } from '../services/networkPools';
 import { getListAvailableTokens } from '../utils/getListAvailableTokens';
-import { networkPools, nativeNetworkPools } from '../services/networkPools';
 
 export const useGetAvailablePoolsByLPTokens = (
   utxos: ErgoBox[],

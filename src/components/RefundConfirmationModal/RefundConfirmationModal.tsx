@@ -1,16 +1,16 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import { Address, ergoTxToProxy, TxId } from '@ergolabs/ergo-sdk';
 import { Modal, Text } from '@geist-ui/react';
-import { refund } from '../../utils/ammOperations';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
+import { toast } from 'react-toastify';
+
 import {
-  useWalletAddresses,
   useSettings,
+  useWalletAddresses,
   WalletAddressState,
   WalletContext,
 } from '../../context';
+import { refund } from '../../utils/ammOperations';
 import { SelectAddress } from '../SelectAddress/SelectAddress';
-import { TxId } from 'ergo-dex-sdk/build/main/ergo';
-import { Address, ergoTxToProxy } from 'ergo-dex-sdk/build/module/ergo';
-import { toast } from 'react-toastify';
 
 type RefundConfirmationModalProps = {
   open: boolean;

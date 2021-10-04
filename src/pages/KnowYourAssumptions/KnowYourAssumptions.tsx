@@ -1,8 +1,9 @@
-import React, { useState, useCallback } from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
 import { Button, Checkbox, Display, Page, Row, Text } from '@geist-ui/react';
-import { useAppLoadingState } from '../../context';
+import React, { useCallback, useState } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
+
 import Header from '../../components/common/Header/Header';
+import { useAppLoadingState } from '../../context';
 
 export const KnowYourAssumptions: React.FC = () => {
   const [accepted, setAccepted] = useState(false);

@@ -1,5 +1,6 @@
-import { AssetAmount } from 'ergo-dex-sdk/build/module/ergo';
-import { PoolFeeMin, PoolFeeMax } from '../../constants/settings';
+import { AssetAmount } from '@ergolabs/ergo-sdk';
+
+import { PoolFeeMax, PoolFeeMin } from '../../constants/settings';
 import { truncate } from '../../utils/string';
 
 export enum PoolFormState {

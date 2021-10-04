@@ -16,17 +16,27 @@
       "version": "detect"
     }
   },
-  "plugins": ["react-app", "@typescript-eslint", "prettier", "react-hooks"],
+  "plugins": [
+    "react-app",
+    "@typescript-eslint",
+    "react-hooks",
+    "prettier",
+    "simple-import-sort"
+  ],
   "extends": [
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
     "plugin:prettier/recommended"
   ],
   "rules": {
-    "prettier/prettier": "warn",
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
+    "prettier/prettier": "error",
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn",
+    "react-hooks/exhaustive-deps": "error",
+    "no-console": ["warn", { "allow": ["warn", "error"] }],
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/indent": "off",
     "react/jsx-filename-extension": [
@@ -41,7 +51,6 @@
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
     "@typescript-eslint/no-empty-function": "off",
-    "react/prop-types": "off",
-    "no-console": ["warn", { "allow": ["warn", "error"] }]
+    "react/prop-types": "off"
   }
 }

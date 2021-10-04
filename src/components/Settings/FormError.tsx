@@ -1,5 +1,5 @@
-import React from 'react';
 import { Text } from '@geist-ui/react';
+import React from 'react';
 
 export const FormError = (
   props: React.PropsWithChildren<unknown> & {

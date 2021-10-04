@@ -1,9 +1,10 @@
-import React from 'react';
 import { Tabs } from '@geist-ui/react';
-import { Swap } from '../../components/Swap/Swap';
-import { Redeem } from '../../components/Redeem/Redeem';
-import { Deposit } from '../../components/Deposit/Deposit';
+import React from 'react';
+
 import Layout from '../../components/common/Layout/Layout';
+import { Deposit } from '../../components/Deposit/Deposit';
+import { Redeem } from '../../components/Redeem/Redeem';
+import { Swap } from '../../components/Swap/Swap';
 
 export const Home: React.FC = () => (
   <div className="App">

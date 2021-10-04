@@ -1,16 +1,17 @@
-import { Image, Button } from '@geist-ui/react';
-import React, { useContext } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCog, faHistory } from '@fortawesome/free-solid-svg-icons';
-import { ConnectWallet } from '../../ConnectWallet/ConnectWallet';
-import css from './header.module.scss';
-import { SettingsModal } from '../../Settings/SettingsModal';
-import { useToggle } from '../../../hooks/useToggle';
-import { WalletContext } from '../../../context';
-import { HistoryModal } from '../../HistoryModal/HistoryModal';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Button, Image } from '@geist-ui/react';
+import React, { useContext } from 'react';
+
 import logo from '../../../assets/images/logo.svg';
+import { WalletContext } from '../../../context';
+import { useToggle } from '../../../hooks/useToggle';
+import { ConnectWallet } from '../../ConnectWallet/ConnectWallet';
 import { FeedbackLink } from '../../FeedbackLink/FeedbackLink';
+import { HistoryModal } from '../../HistoryModal/HistoryModal';
 import { InstructionsModal } from '../../InstructionsModal/InstructionsModal';
+import { SettingsModal } from '../../Settings/SettingsModal';
+import css from './header.module.scss';
 
 const SettingsButton = ({ className }: { className: string }): JSX.Element => {
   const [open, handleOpen, handleClose] = useToggle(false);

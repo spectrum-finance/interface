@@ -1,26 +1,31 @@
-import React, { useState } from 'react';
 import {
+  AmmDexOperation,
+  AmmOrder,
+  RefundOperation,
+} from '@ergolabs/ergo-dex-sdk';
+import { faExternalLinkAlt, faUndo } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  Button,
+  Col,
+  Container,
   Loading,
+  Spacer,
   Table,
   Text,
-  Button,
-  Container,
-  Col,
-  Spacer,
   Tooltip,
 } from '@geist-ui/react';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { AmmDexOperation, AmmOrder, RefundOperation } from 'ergo-dex-sdk';
-import { toast } from 'react-toastify';
-import { exploreTx } from '../../utils/redirect';
-import { isRefundableOperation } from '../../utils/ammOperations';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faExternalLinkAlt, faUndo } from '@fortawesome/free-solid-svg-icons';
-import { useToggle } from '../../hooks/useToggle';
-import { RefundConfirmationModal } from '../RefundConfirmationModal/RefundConfirmationModal';
-import { truncate } from '../../utils/string';
 import capitalize from 'lodash/capitalize';
+import React, { useState } from 'react';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { toast } from 'react-toastify';
+
+import { useToggle } from '../../hooks/useToggle';
+import { isRefundableOperation } from '../../utils/ammOperations';
 import { renderEntrySignature } from '../../utils/history';
+import { exploreTx } from '../../utils/redirect';
+import { truncate } from '../../utils/string';
+import { RefundConfirmationModal } from '../RefundConfirmationModal/RefundConfirmationModal';
 
 function renderOrder(
   order: AmmOrder,

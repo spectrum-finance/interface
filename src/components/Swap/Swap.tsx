@@ -1,65 +1,70 @@
-import React, {
-  useEffect,
-  useMemo,
-  useState,
-  useCallback,
-  useContext,
-} from 'react';
+import {
+  AmmPool,
+  minValueForOrder,
+  SwapExtremums,
+  swapVars,
+} from '@ergolabs/ergo-dex-sdk';
+import {
+  AssetAmount,
+  AssetInfo,
+  BoxSelection,
+  DefaultBoxSelector,
+  ergoTxToProxy,
+  publicKeyFromAddress,
+} from '@ergolabs/ergo-sdk';
+import { faArrowDown } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   Button,
   Card,
   Grid,
   Input,
   Loading,
+  Note,
   Row,
   Spacer,
   Tag,
   Text,
-  Note,
 } from '@geist-ui/react';
-import { Form, Field, FieldRenderProps } from 'react-final-form';
 import { FORM_ERROR } from 'final-form';
-import { AmmPool, swapVars } from 'ergo-dex-sdk';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowDown } from '@fortawesome/free-solid-svg-icons';
-import {
-  AssetAmount,
-  BoxSelection,
-  DefaultBoxSelector,
-} from 'ergo-dex-sdk/build/module/ergo';
-import { fromAddress } from 'ergo-dex-sdk/build/module/ergo/entities/publicKey';
-import { DefaultSettings, WalletContext } from '../../context';
-import { useGetAllPools } from '../../hooks/useGetAllPools';
-import { PoolSelect } from '../PoolSelect/PoolSelect';
+import { isNil } from 'ramda';
+import { isEmpty } from 'ramda';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
+import { Field, FieldRenderProps, Form } from 'react-final-form';
+import { toast } from 'react-toastify';
+
 import {
   ERG_DECIMALS,
+  MIN_EX_FEE,
   MIN_NITRO,
-  MIN_DEX_FEE,
-  EXECUTION_MINER_FEE,
+  UI_FEE,
 } from '../../constants/erg';
-import { getButtonState } from './buttonState';
+import { DefaultSettings, WalletContext } from '../../context';
 import { useSettings } from '../../context';
-import { toast } from 'react-toastify';
 import { useCheckPool } from '../../hooks/useCheckPool';
-import { ergoTxToProxy } from 'ergo-dex-sdk/build/module/ergo';
+import { useGetAllPools } from '../../hooks/useGetAllPools';
+import explorer from '../../services/explorer';
+import { poolActions } from '../../services/poolActions';
+import { makeTarget } from '../../utils/ammMath';
+import { parseUserInputToFractions, renderFractions } from '../../utils/math';
+import { isZero } from '../../utils/numbers';
+import { renderPoolPrice, renderPrice } from '../../utils/price';
+import { toFloat } from '../../utils/string';
 import {
   calculateAvailableAmount,
   getBaseInputParameters,
 } from '../../utils/walletMath';
 import { ConnectWallet } from '../ConnectWallet/ConnectWallet';
+import { PoolSelect } from '../PoolSelect/PoolSelect';
+import { getButtonState } from './buttonState';
 import SwapSettings from './SwapSettings';
-import { SwapExtremums } from 'ergo-dex-sdk/build/module/amm/math/swap';
-import { isNil } from 'ramda';
-import explorer from '../../services/explorer';
-import { poolActions } from '../../services/poolActions';
-import { renderFractions, parseUserInputToFractions } from '../../utils/math';
-import { isEmpty } from 'ramda';
-import { isZero } from '../../utils/numbers';
-import { toFloat } from '../../utils/string';
 import { SwapSummary } from './SwapSummary';
-import { makeTarget, minSufficientValueForOrder } from '../../utils/ammMath';
-import { renderPoolPrice } from '../../utils/price';
-import { AssetInfo } from 'ergo-dex-sdk/build/module/ergo/entities/assetInfo';
 
 interface SwapFormProps {
   pools: AmmPool[];
@@ -79,11 +84,12 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
     input: 0n,
     output: 0n,
   });
-  const [minDexFee, setMinDexFee] = useState(String(MIN_DEX_FEE));
+  const [minExFee, setMinExFee] = useState(String(MIN_EX_FEE));
   const [nitro, setNitro] = useState(String(MIN_NITRO));
   const [currentSwapVars, setCurrentSwapVars] = useState<
     [number, SwapExtremums] | undefined
   >();
+  const [actualPrice, setActualPrice] = useState<string | undefined>(undefined);
   const isPoolValid = useCheckPool(selectedPool);
 
   const updateSelectedPool = useCallback((pool: AmmPool) => {
@@ -92,6 +98,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
     setInputAmount('');
     setOutputAmount('');
     setOutputAsset(pool.y.asset);
+    setActualPrice(undefined);
   }, []);
 
   useEffect(() => {
@@ -123,7 +130,23 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
   );
 
   useEffect(() => {
-    if (isZero(minDexFee) || isZero(nitro)) {
+    if (selectedPool && inputAmount && outputAmount && inputAsset) {
+      const [assetIn, assetOut] =
+        inputAsset.id === selectedPool.x.asset.id
+          ? [selectedPool.x, selectedPool.y]
+          : [selectedPool.y, selectedPool.x];
+      const input = assetIn.withAmount(
+        parseUserInputToFractions(inputAmount, assetIn.asset.decimals),
+      );
+      const output = assetOut.withAmount(
+        parseUserInputToFractions(outputAmount, assetOut.asset.decimals),
+      );
+      setActualPrice(renderPrice(input, output));
+    }
+  }, [selectedPool, inputAmount, outputAmount, inputAsset]);
+
+  useEffect(() => {
+    if (isZero(minExFee) || isZero(nitro)) {
       resetSwapForm();
       return;
     }
@@ -135,12 +158,13 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
         slippage: Number(slippage),
       });
 
-      const vars = swapVars(BigInt(minDexFee), Number(nitro), minOutput);
+      const vars = swapVars(BigInt(minExFee), Number(nitro), minOutput);
+
       if (!isNil(vars)) {
         setCurrentSwapVars(vars);
       }
     }
-  }, [slippage, minDexFee, inputAmount, inputAsset, selectedPool, nitro]);
+  }, [slippage, minExFee, inputAmount, inputAsset, selectedPool, nitro]);
 
   useEffect(() => {
     if (isWalletConnected && inputAsset && outputAsset) {
@@ -157,6 +181,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
     setInputAmount('');
     setOutputAmount('');
     setCurrentSwapVars(undefined);
+    setActualPrice(undefined);
   };
 
   const updateInputAmount = useCallback(
@@ -286,11 +311,11 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
         },
       );
 
-      const pk = fromAddress(chosenAddress)!;
+      const pk = publicKeyFromAddress(chosenAddress)!;
 
       if (!isNil(currentSwapVars)) {
-        const [dexFeePerToken, extremums] = currentSwapVars;
-        const { maxDexFee } = extremums;
+        const [exFeePerToken, extremums] = currentSwapVars;
+        const { maxExFee } = extremums;
 
         const poolFeeNum = selectedPool.poolFeeNum;
         const minerFeeNErgs = parseUserInputToFractions(minerFee, ERG_DECIMALS);
@@ -302,12 +327,13 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
           poolId,
           baseInput,
           minQuoteOutput: minOutput.amount,
-          dexFeePerToken,
+          exFeePerToken,
+          uiFee: UI_FEE,
           quoteAsset: outputAsset.id,
           poolFeeNum,
         };
 
-        const minNErgs = minSufficientValueForOrder(minerFeeNErgs, maxDexFee);
+        const minNErgs = minValueForOrder(minerFeeNErgs, UI_FEE, maxExFee);
         const target = makeTarget(
           [new AssetAmount(inputAsset, baseInputAmount)],
           minNErgs,
@@ -356,7 +382,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
         outputAmount: 0.0,
         address: '',
         poolId: undefined,
-        minDexFee: renderFractions(MIN_DEX_FEE, ERG_DECIMALS),
+        minDexFee: renderFractions(MIN_EX_FEE, ERG_DECIMALS),
         nitro: MIN_NITRO,
       }}
       render={({ handleSubmit, errors = {} }) => (
@@ -368,10 +394,10 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
             <Grid xs={12} justify={'flex-end'}>
               <SwapSettings
                 slippage={String(slippage)}
-                minDexFee={minDexFee}
+                minDexFee={minExFee}
                 nitro={nitro}
                 onChangeSlippage={setSlippage}
-                onChangeMinDexFee={setMinDexFee}
+                onChangeMinDexFee={setMinExFee}
                 onChangeNitro={setNitro}
               />
             </Grid>
@@ -484,13 +510,20 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                     )}
                   </Field>
                 </Grid>
+                {actualPrice && (
+                  <Grid xs={24}>
+                    <Text small={true} type={'secondary'}>
+                      Your price: {actualPrice}
+                    </Text>
+                  </Grid>
+                )}
 
                 {currentSwapVars?.[1] && (
                   <Grid xs={24} direction="column" alignItems="flex-start">
                     <Text h5>Swap summary</Text>
                     <SwapSummary
                       minerFee={minerFee}
-                      swapExremums={currentSwapVars[1]}
+                      swapExtremums={currentSwapVars[1]}
                     />
                   </Grid>
                 )}
