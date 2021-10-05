@@ -1,6 +1,7 @@
 import React from 'react';
 
 import sprite from '../../assets/icons/sprite/sprite.svg';
+import accessibleTokens from '../../constants/accessibleTokens';
 
 interface TokenIconProps extends SVGSVGElement {
   name?: string;
@@ -16,7 +17,9 @@ const TokenIcon: React.FC<React.SVGProps<TokenIconProps>> = (props) => {
     >
       <use
         xlinkHref={`${sprite}#token-${
-          props.name ? props.name.toLowerCase() : 'empty'
+          props.name && accessibleTokens.includes(props.name?.toUpperCase())
+            ? props.name.toLowerCase()
+            : 'empty'
         }`}
       />
     </svg>
