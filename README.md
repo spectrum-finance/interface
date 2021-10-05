@@ -54,7 +54,7 @@ Please see the [ErgoDEX](https://github.com/ergolabs/ergo-dex) repository for a 
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-1. Clone and checkout dev 
+1. Clone and checkout `dev` branch 
 2. `yarn`
 3. `yarn start`
 4. Open localhost:3000 in Chrome.
@@ -82,10 +82,6 @@ Contributions are what make the open source community such an amazing place to b
 
 Distributed under the MIT License. See `LICENSE` for more information.
 
-
-<!-- ACKNOWLEDGEMENTS -->
-## Acknowledgements
-* This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->

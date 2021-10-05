@@ -1,0 +1,8 @@
+.basic-board, .form-item-board, .textarea-board, .password-board {
+	.board-col {
+		margin-bottom: 20px;
+	}
+	.board-col > * {
+		margin: 10px;
+	}
+}
