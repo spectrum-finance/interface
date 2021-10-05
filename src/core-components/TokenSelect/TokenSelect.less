@@ -1,0 +1,28 @@
+@import './src/assets/styles/variables/colors.less';
+
+.token-select {
+  padding: 8px 12px;
+  border: 0;
+  background-color: @color-gray-05;
+  border-radius: 12px;
+  box-shadow: 0 9px 28px 8px rgba(0, 0, 0, 0.05), 0 6px 16px rgba(0, 0, 0, 0.08), 0 3px 6px -4px rgba(0, 0, 0, 0.12);
+  color: @color-gray-9;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 24px;
+
+  &_container {
+    display: flex;
+    align-items: center;
+  }
+
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: @color-gray-3;
+  }
+
+  &_item {
+    margin-right: 8px;
+  }
+}
