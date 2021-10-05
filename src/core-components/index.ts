@@ -5,3 +5,4 @@ export * from './Icon/Icon';
 export * from './Menu/Menu';
 export * from './Modal/Modal';
 export * from './Select/Select';
+export * from './Input/Input';

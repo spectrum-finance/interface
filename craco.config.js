@@ -5,6 +5,7 @@ const {
   gray3,
   gray5,
   gray6,
+  gray7,
   gray9,
   gray10,
   orange5,
@@ -83,6 +84,24 @@ module.exports = {
               '@modal-footer-border-style': gray2,
               '@modal-heading-color': gray9,
               '@modal-close-color': gray9,
+
+              // Input
+              // --
+              '@input-height-base': '32px',
+              '@input-height-lg': '40px',
+              '@input-height-sm': '24px',
+              '@input-placeholder-color': gray7,
+              '@input-color': gray9,
+              '@input-icon-color': gray7,
+              '@input-border-color': gray5,
+              '@input-bg': gray1,
+              '@input-hover-border-color': gray9,
+              '@input-disabled-bg': gray3,
+              '@input-disabled-color': gray6,
+
+              // Form
+              // ---
+              '@label-color': gray9,
             },
             javascriptEnabled: true,
           },
