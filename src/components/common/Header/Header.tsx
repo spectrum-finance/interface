@@ -10,6 +10,7 @@ import { ConnectWallet } from '../../ConnectWallet/ConnectWallet';
 import { FeedbackLink } from '../../FeedbackLink/FeedbackLink';
 import { HistoryModal } from '../../HistoryModal/HistoryModal';
 import { InstructionsModal } from '../../InstructionsModal/InstructionsModal';
+import { NetworkDropdown } from '../../NetworkDropdown/NetworkDropdown';
 import { SettingsModal } from '../../Settings/SettingsModal';
 import css from './header.module.scss';
 
@@ -65,6 +66,7 @@ const Header: React.FC<Props> = ({ showNav = true }) => {
       <div className={css.tools}>
         {showNav && (
           <>
+            <NetworkDropdown />
             <FeedbackLink className={css.feedback} />
             <InstructionsModal className={css.rightsideItem} />
             <SettingsButton className={css.rightsideItem} />

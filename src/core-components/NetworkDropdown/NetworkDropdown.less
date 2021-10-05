@@ -1,0 +1,41 @@
+@import './src/assets/styles/variables/colors.less';
+
+.NetworkDropdown {
+  &__menu {
+    background-color: @color-gray-1;
+    border-radius: 10px;
+  }
+
+  &__container {
+    display: flex;
+    height: 40px;
+    align-items: center;
+    padding-right: 17.55px;
+    padding-left: 16px;
+    &:hover,&:focus {
+      border: 1px solid @color-gray-7;
+      color: @color-gray-9;
+    }
+    &:disabled, &[disabled] {
+      background: @color-gray-3;
+      color: @color-gray-6;
+    }
+
+    &--cardano {
+      background: linear-gradient(264.34deg, #4467BF 2.83%, #244BB0 98.67%);
+      &:hover,&:focus {
+        background: linear-gradient(264.34deg, #4467BF 2.83%, #244BB0 98.67%);
+      }
+    }
+    &--ergo {
+      background: linear-gradient(264.34deg, #FF5135 2.83%, #FF8C00 98.67%);
+      &:hover,&:focus {
+        background: linear-gradient(264.34deg, #FF5135 2.83%, #FF8C00 98.67%);
+      }
+    }
+  }
+
+  &__logo {
+    margin-right: 8px;
+  }
+}
