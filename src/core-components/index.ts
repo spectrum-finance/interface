@@ -6,3 +6,6 @@ export * from './Menu/Menu';
 export * from './Modal/Modal';
 export * from './Select/Select';
 export * from './Input/Input';
+export * from './TokenIcon/TokenIcon';
+export * from './TokenSelect/TokenSelect';
+export * from './Tooltip/Tooltip';

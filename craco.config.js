@@ -102,6 +102,11 @@ module.exports = {
               // Form
               // ---
               '@label-color': gray9,
+
+              // Tooltip
+              // --
+              '@tooltip-color': gray9,
+              '@tooltip-bg': gray5,
             },
             javascriptEnabled: true,
           },
