@@ -45,7 +45,7 @@ export const NetworkDropdown: React.FC<Props> = ({ disabled }) => {
   const ergoLogo = disabled ? ergoLogoDisabled : ergoLogoActive;
 
   return (
-    <Dropdown disabled={disabled} overlay={overlay} placement="bottomLeft">
+    <Dropdown disabled={disabled} overlay={overlay} trigger={['click']}>
       <Button
         disabled={disabled}
         className={cn('NetworkDropdown__container', {

@@ -1,6 +1,5 @@
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
-import 'antd/dist/antd.css';
 
 import { RustModule } from '@ergolabs/ergo-sdk';
 import { CssBaseline, GeistProvider } from '@geist-ui/react';
