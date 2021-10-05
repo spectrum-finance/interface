@@ -83,6 +83,11 @@ module.exports = {
               '@modal-footer-border-style': gray2,
               '@modal-heading-color': gray9,
               '@modal-close-color': gray9,
+
+              // Tooltip
+              // --
+              '@tooltip-color': gray9,
+              '@tooltip-bg': gray5,
             },
             javascriptEnabled: true,
           },
