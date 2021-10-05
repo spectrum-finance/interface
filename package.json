@@ -11,7 +11,8 @@
     "lint:eslint": "eslint --ext .js,.ts,.tsx src",
     "lint": "yarn lint:eslint && yarn lint:stylelint",
     "storybook": "start-storybook -p 6006 -s public",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public",
+    "sprite": "svg-sprite -dD 'src/assets/icons/sprite' 'src/assets/icons/**/*.svg'"
   },
   "dependencies": {
     "@alfalab/core-components-amount-input": "^5.2.3",
