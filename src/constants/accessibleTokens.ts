@@ -1,1 +1,7 @@
-export default ['ERG', 'ADA', 'ERG-ORANGE'];
+export default [
+  'ERG',
+  'ADA',
+  'ERG-ORANGE',
+  'ADA-DISABLED',
+  'ERG-ORANGE-DISABLED',
+];
