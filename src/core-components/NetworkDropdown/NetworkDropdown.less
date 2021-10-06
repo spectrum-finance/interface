@@ -1,4 +1,5 @@
 @import './src/assets/styles/variables/colors.less';
+@import './src/assets/styles/variables/gradients.less';
 
 .NetworkDropdown {
    &__token-icon {
@@ -18,19 +19,19 @@
     }
 
     &--cardano {
-      background: linear-gradient(264.34deg, #4467BF 2.83%, #244BB0 98.67%);
+      background: @gradient-cardano-dropdown;
       &:hover,
       &:focus {
-        background: linear-gradient(264.34deg, #4467BF 2.83%, #244BB0 98.67%);
+        background: @gradient-cardano-dropdown;
       }
     }
 
     &--ergo {
-      background: linear-gradient(264.34deg, #FF5135 2.83%, #FF8C00 98.67%);
+      background: @gradient-ergo-dropdown;
 
       &:hover,
       &:focus {
-        background: linear-gradient(264.34deg, #FF5135 2.83%, #FF8C00 98.67%);
+        background: @gradient-ergo-dropdown;
       }
     }
   }
