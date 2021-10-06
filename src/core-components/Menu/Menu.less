@@ -9,3 +9,26 @@
   background-color: @color-gray-3;
   border-radius: 8px;
 }
+
+.ant-dropdown-menu.ant-dropdown-menu-root {
+  background-color: @color-gray-1;
+  border-radius: 12px;
+}
+
+.ant-dropdown-menu-item:not(.ant-dropdown-menu-item-disabled) {
+  color: @color-gray-9;
+
+  &.ant-dropdown-menu-item-danger {
+    color: @color-dust-red-6;
+  }
+
+  &:hover {
+    background-color: @color-gray-3;
+    border-radius: 8px;
+    color: @color-orange-6;
+  }
+}
+
+.ant-dropdown-menu-item.ant-dropdown-menu-item-disabled:hover {
+  background-color: transparent;
+}

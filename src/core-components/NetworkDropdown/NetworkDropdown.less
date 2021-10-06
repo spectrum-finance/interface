@@ -1,0 +1,42 @@
+@import './src/assets/styles/variables/colors.less';
+@import './src/assets/styles/variables/gradients.less';
+
+.NetworkDropdown {
+   &__token-icon {
+      margin-right: 8px;
+  }
+
+  &__container {
+    display: flex;
+    height: 40px;
+    align-items: center;
+    padding-right: 16px;
+    padding-left: 16px;
+
+    &:hover,&:focus {
+      border: 1px solid @color-gray-7;
+      color: @color-gray-9;
+    }
+
+    &--cardano {
+      background: @gradient-cardano-dropdown;
+      &:hover,
+      &:focus {
+        background: @gradient-cardano-dropdown;
+      }
+    }
+
+    &--ergo {
+      background: @gradient-ergo-dropdown;
+
+      &:hover,
+      &:focus {
+        background: @gradient-ergo-dropdown;
+      }
+    }
+  }
+
+  &__logo {
+    margin-right: 8px;
+  }
+}
