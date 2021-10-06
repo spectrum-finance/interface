@@ -1,63 +1,57 @@
 import './NetworkDropdown.less';
 
-import { Button, Menu } from 'antd';
 import cn from 'classnames';
+import capitalize from 'lodash/capitalize';
 import React, { useState } from 'react';
 
-import cardanoLogoActive from '../../assets/images/cardano-logo.svg';
-import cardanoLogoDisabled from '../../assets/images/cardano-logo-disabled.svg';
-import ergoLogoActive from '../../assets/images/ergo-logo.svg';
-import ergoLogoDisabled from '../../assets/images/ergo-logo-disabled.svg';
-import { Dropdown } from '../Dropdown/Dropdown';
-import { DownOutlined } from '../Icon/Icon';
+import { Button, DownOutlined, Dropdown, Menu, TokenIcon } from '../index';
 
-type OverlayProps = {
-  setNetwork: (value: string) => void;
-  currentNetwork: string;
-};
+type Network = { name: string; token: string };
 
-const Overlay: React.FC<OverlayProps> = ({ currentNetwork, setNetwork }) => (
-  <Menu className="NetworkDropdown__menu" mode="vertical">
-    <Menu.Item
-      onClick={() =>
-        setNetwork(currentNetwork === 'cardano' ? 'ergo' : 'cardano')
-      }
-    >
-      <img
-        className="NetworkDropdown__logo"
-        src={currentNetwork === 'cardano' ? ergoLogoActive : cardanoLogoActive}
-      />
-      {currentNetwork === 'cardano' ? 'Ergo' : 'Cardano'}
-    </Menu.Item>
-  </Menu>
-);
-
-type Props = {
+interface NetworkDropdownProps {
+  networks: Array<Network>;
+  onSetNetwork?: (val: string) => void;
   disabled?: boolean;
-};
+}
 
-export const NetworkDropdown: React.FC<Props> = ({ disabled }) => {
-  const [network, setNetwork] = useState('ergo');
+export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
+  networks,
+  onSetNetwork,
+  disabled,
+}) => {
+  const [network, setNetwork] = useState<Network>(networks[0]);
 
-  const overlay = <Overlay currentNetwork={network} setNetwork={setNetwork} />;
-
-  const cardanoLogo = disabled ? cardanoLogoDisabled : cardanoLogoActive;
-  const ergoLogo = disabled ? ergoLogoDisabled : ergoLogoActive;
+  const overlay = (
+    <Menu
+      onClick={({ key }) => {
+        setNetwork(networks.find((n) => n.name === key) || networks[0]);
+        if (onSetNetwork) {
+          onSetNetwork(key);
+        }
+      }}
+    >
+      {networks.map((network) => (
+        <Menu.Item key={network.name} icon={<TokenIcon name={network.token} />}>
+          {capitalize(network.name)}
+        </Menu.Item>
+      ))}
+    </Menu>
+  );
 
   return (
-    <Dropdown disabled={disabled} overlay={overlay} trigger={['click']}>
+    <Dropdown overlay={overlay} trigger={['click']} disabled={disabled}>
       <Button
-        disabled={disabled}
-        className={cn('NetworkDropdown__container', {
-          'NetworkDropdown__container--cardano': network === 'cardano',
-          'NetworkDropdown__container--ergo': network === 'ergo',
-        })}
+        className={cn(
+          `NetworkDropdown__container`,
+          `NetworkDropdown__container--${network.name}`,
+        )}
+        size="large"
       >
-        <img
-          src={network === 'cardano' ? cardanoLogo : ergoLogo}
-          className="NetworkDropdown__logo"
+        <TokenIcon
+          className="NetworkDropdown__token-icon"
+          name={`${network.token}${disabled ? '-disabled' : ''}`}
         />
-        {network === 'cardano' ? 'Cardano' : 'Ergo'}
+        <span>{capitalize(network.name)}</span>
         <DownOutlined />
       </Button>
     </Dropdown>
