@@ -32,9 +32,9 @@ export const Template: Story = () => (
       <Col span={8}>
         <ConnectWallet
           type="default"
-          balance={0}
-          address="0x088a...378a"
-        ></ConnectWallet>
+          balance="0 ERG"
+          address="9iKWmL5t3y9u59fUESsbFQzG933UPjR1v7LUAjM6XPMAcXNhBzL"
+        />
       </Col>
     </Row>
 
@@ -42,7 +42,7 @@ export const Template: Story = () => (
 
     <Row gutter={[{ xs: 8, sm: 16, md: 24 }, 8]}>
       <Col span={8}>
-        <ConnectWallet type="balance-only" balance={0}></ConnectWallet>
+        <ConnectWallet type="balance-only" balance="0 ERG" />
       </Col>
     </Row>
 
@@ -52,8 +52,8 @@ export const Template: Story = () => (
       <Col span={8}>
         <ConnectWallet
           type="address-only"
-          address="0x088a...378a"
-        ></ConnectWallet>
+          address="9iKWmL5t3y9u59fUESsbFQzG933UPjR1v7LUAjM6XPMAcXNhBzL"
+        />
       </Col>
     </Row>
 
@@ -61,7 +61,7 @@ export const Template: Story = () => (
 
     <Row gutter={[{ xs: 8, sm: 16, md: 24 }, 8]}>
       <Col span={8}>
-        <ConnectWallet type="pending" balance={0}></ConnectWallet>
+        <ConnectWallet type="pending" balance="0 ERG" />
       </Col>
     </Row>
 
@@ -69,7 +69,7 @@ export const Template: Story = () => (
 
     <Row gutter={[{ xs: 8, sm: 16, md: 24 }, 8]}>
       <Col span={8}>
-        <ConnectWallet type="pending-text"></ConnectWallet>
+        <ConnectWallet type="pending-text" />
       </Col>
     </Row>
 
@@ -77,7 +77,7 @@ export const Template: Story = () => (
 
     <Row gutter={[{ xs: 8, sm: 16, md: 24 }, 8]}>
       <Col span={8}>
-        <ConnectWallet type="pending-icon"></ConnectWallet>
+        <ConnectWallet type="pending-icon" />
       </Col>
     </Row>
   </div>

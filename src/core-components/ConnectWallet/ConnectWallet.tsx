@@ -11,9 +11,21 @@ interface ConnectWalletProps {
     | 'pending'
     | 'pending-text'
     | 'pending-icon';
-  balance?: number;
+  balance?: string;
   address?: string;
 }
+
+const getShortAddress = (address?: string) => {
+  let shortAddress = address ? address : '';
+  shortAddress =
+    shortAddress.length < 10
+      ? shortAddress
+      : shortAddress.substring(0, 6) +
+        '...' +
+        shortAddress.substring(shortAddress.length - 4, shortAddress.length);
+
+  return shortAddress;
+};
 
 const ConnectWallet: React.FC<ConnectWalletProps> = ({
   type,
@@ -26,13 +38,15 @@ const ConnectWallet: React.FC<ConnectWalletProps> = ({
   const pending =
     type === 'pending' || type === 'pending-text' || type === 'pending-icon';
 
+  const shortAddress = getShortAddress(address);
+
   return (
     <div className="connect-wallet__wrapper">
       {showBalance && (
         <span
           className={`connect-wallet__balance-label connect-wallet__${type}`}
         >
-          {balance} ERG
+          {balance}
         </span>
       )}
       {type !== 'balance-only' && (
@@ -40,7 +54,7 @@ const ConnectWallet: React.FC<ConnectWalletProps> = ({
           className={`connect-wallet__address-label connect-wallet__${type}`}
           loading={pending}
         >
-          {type === 'pending-icon' ? '' : pending ? `1 Pending` : address}
+          {type === 'pending-icon' ? '' : pending ? `1 Pending` : shortAddress}
         </Button>
       )}
     </div>
