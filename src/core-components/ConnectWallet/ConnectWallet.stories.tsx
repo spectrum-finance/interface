@@ -13,14 +13,16 @@ export default {
 } as Meta<typeof ConnectWallet>;
 
 export const Template: Story = () => (
-  <div className="main-board">
+  <div className="connect-wallet__container">
     <h1 style={{ marginBottom: 24 }}>Wallet Button</h1>
 
     <h2>Type=Connect to Wallet</h2>
 
     <Row gutter={[{ xs: 8, sm: 16, md: 24 }, 8]}>
       <Col span={8}>
-        <Button className="connect-to-wallet">Connect to wallet</Button>
+        <Button className="connect-wallet__default-btn">
+          Connect to wallet
+        </Button>
       </Col>
     </Row>
 
