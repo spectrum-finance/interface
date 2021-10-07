@@ -1,0 +1,31 @@
+@import './src/assets/styles/variables/colors.less';
+
+.wrapper {
+  display: inline-block;
+  background: @color-gray-1;
+  border: 1px solid @color-gray-5;
+  padding: 4px 4px;
+  border-radius: 12px;
+  &.default {
+    border: 0;
+  }
+}
+
+.balance-label {
+  color: @color-gray-9;
+}
+
+.address-label {
+  color: @color-gray-7;
+  background: transparent;
+  padding: 4px 4px;
+  border: 0;
+  border-radius: 8px;
+  &.wallet-connected, &.pending {
+    background: black;
+  }
+  &:nth-child(2) {
+    margin-left: 4px;
+  }
+  pointer-events: none;
+}
