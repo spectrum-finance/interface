@@ -1,27 +1,29 @@
 @import './src/assets/styles/variables/colors.less';
 
-.wrapper {
+.connect-wallet__wrapper {
   display: inline-block;
   background: @color-gray-1;
-  border: 1px solid @color-gray-5;
+  border: 0;
   padding: 4px 4px;
   border-radius: 12px;
-  &.default {
-    border: 0;
+  &:hover,
+  &:active {
+    border: 1px solid @color-gray-5;
   }
 }
 
-.balance-label {
+.connect-wallet__balance-label {
   color: @color-gray-9;
 }
 
-.address-label {
+.connect-wallet__address-label {
   color: @color-gray-7;
   background: transparent;
   padding: 4px 4px;
   border: 0;
   border-radius: 8px;
-  &.wallet-connected, &.pending {
+  &.connect-wallet__default,
+  &.connect-wallet__pending {
     background: black;
   }
   &:nth-child(2) {
