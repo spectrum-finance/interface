@@ -2,9 +2,9 @@
 
 .connect-wallet__wrapper {
   display: inline-block;
-  background: @color-gray-1;
+  padding: 4px;
   border: 1px solid transparent;
-  padding: 4px 4px;
+  background: @color-gray-1;
   border-radius: 12px;
   &:hover,
   &:active {
@@ -17,17 +17,17 @@
 }
 
 .connect-wallet__address-label {
-  color: @color-gray-7;
-  background: transparent;
-  padding: 4px 4px;
+  padding: 4px;
   border: 0;
+  background: transparent;
   border-radius: 8px;
+  color: @color-gray-7;
+  pointer-events: none;
   &.connect-wallet__default,
   &.connect-wallet__pending {
-    background: black;
+    background: @color-extra-bg-1;
   }
   &:nth-child(2) {
     margin-left: 4px;
   }
-  pointer-events: none;
 }

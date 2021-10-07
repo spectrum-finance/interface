@@ -23,12 +23,12 @@ h2 {
 
 .connect-wallet__default-btn {
   border: 1px solid transparent;
-  color: #ff725c;
   background: rgba(255, 114, 92, 0.35);
+  color: #ff725c;
   &:hover,
   &:active {
-    color: #ff725c;
     border: 1px solid #ff5135;
     background: rgba(255, 114, 92, 0.35);
+    color: #ff725c;
   }
 }
