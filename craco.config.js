@@ -57,7 +57,7 @@ module.exports = {
 
               // Icon
               // --
-              '@icon-color': gray9,
+              '@icon-color': 'currentColor',
 
               // Dropdown
               // --
