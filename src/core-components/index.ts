@@ -1,3 +1,4 @@
+export * from './Alert/Alert';
 export * from './AmountInput/AmountInput';
 export * from './Button/Button';
 export * from './Dropdown/Dropdown';

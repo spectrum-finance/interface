@@ -1,5 +1,7 @@
 const CracoLessPlugin = require('craco-less');
 const {
+  blue1,
+  blue3,
   gray1,
   gray2,
   gray3,
@@ -40,6 +42,12 @@ module.exports = {
               '@disabled-color': gray3,
 
               // --Components--
+
+              // Alert
+              // --
+              '@alert-info-bg-color': blue1,
+              '@alert-info-border-color': blue3,
+              '@alert-message-color': gray9,
 
               // Button
               // --
