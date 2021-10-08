@@ -20,15 +20,3 @@ h1 {
 h2 {
   margin: 28px 0 16px;
 }
-
-.connect-wallet__default-btn {
-  border: 1px solid transparent;
-  background: rgba(255, 114, 92, 0.35);
-  color: #ff725c;
-  &:hover,
-  &:active {
-    border: 1px solid #ff5135;
-    background: rgba(255, 114, 92, 0.35);
-    color: #ff725c;
-  }
-}
