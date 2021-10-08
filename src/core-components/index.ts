@@ -1,6 +1,7 @@
 export * from './Alert/Alert';
 export * from './AmountInput/AmountInput';
 export * from './Button/Button';
+export * from './ConnectWallet/ConnectWallet';
 export * from './Dropdown/Dropdown';
 export * from './Icon/Icon';
 export * from './Input/Input';
