@@ -435,7 +435,8 @@ export const Deposit = (): JSX.Element => {
                           <DepositSummary
                             lpTokensAmount={String(lpTokens)}
                             minerFee={minerFee}
-                            dexFee={String(exFee)}
+                            exFee={String(exFee)}
+                            uiFee={renderFractions(UI_FEE, ERG_DECIMALS)}
                             totalFee={totalFee}
                           />
                         </Grid>

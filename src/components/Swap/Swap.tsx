@@ -522,6 +522,7 @@ const SwapForm: React.FC<SwapFormProps> = ({ pools }) => {
                     <Text h5>Swap summary</Text>
                     <SwapSummary
                       minerFee={minerFee}
+                      uiFee={UI_FEE}
                       swapExtremums={currentSwapVars[1]}
                     />
                   </Grid>

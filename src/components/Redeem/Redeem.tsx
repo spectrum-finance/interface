@@ -262,7 +262,8 @@ export const Redeem = (): JSX.Element => {
                           outputAssetYAmount.asset.decimals,
                         )}
                         minerFee={minerFee}
-                        dexFee={String(exFee)}
+                        exFee={String(exFee)}
+                        uiFee={renderFractions(UI_FEE, ERG_DECIMALS)}
                         totalFee={totalFee}
                       />
                     </Grid>
