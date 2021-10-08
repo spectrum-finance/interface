@@ -2,6 +2,13 @@ const CracoLessPlugin = require('craco-less');
 const {
   blue1,
   blue3,
+  blue6,
+  dustRed1,
+  dustRed3,
+  dustRed6,
+  gold1,
+  gold3,
+  gold6,
   gray1,
   gray2,
   gray3,
@@ -10,9 +17,11 @@ const {
   gray7,
   gray9,
   gray10,
+  green1,
+  green3,
+  green6,
   orange5,
   orange6,
-  dustRed6,
 } = require('./src/constants/colors');
 
 module.exports = {
@@ -45,9 +54,24 @@ module.exports = {
 
               // Alert
               // --
-              '@alert-info-bg-color': blue1,
+              '@alert-success-border-color': green3,
+              '@alert-success-bg-color': green1,
+              '@alert-success-icon-color': green6,
+
               '@alert-info-border-color': blue3,
+              '@alert-info-bg-color': blue1,
+              '@alert-info-icon-color': blue6,
+
+              '@alert-warning-border-color': gold3,
+              '@alert-warning-bg-color': gold1,
+              '@alert-warning-icon-color': gold6,
+
+              '@alert-error-border-color': dustRed3,
+              '@alert-error-bg-color': dustRed1,
+              '@alert-error-icon-color': dustRed6,
+
               '@alert-message-color': gray9,
+              '@alert-close-color': gray7,
 
               // Button
               // --

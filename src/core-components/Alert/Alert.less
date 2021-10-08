@@ -1,7 +1,14 @@
 @import '~antd/dist/antd.less';
 
+.ant-alert {
+  border-radius: 8px !important;
+  color: @alert-message-color !important;
+  &.alert-not-border {
+    border-color: transparent;
+  }
+}
 
-// .ant-alert-info {
-//     border: 1px solid @btn-default-color !important;
-//     background-color: @btn-primary-bg !important;
-//   }
+.ant-alert-close-icon {
+  position: absolute;
+  right: 12px;
+}

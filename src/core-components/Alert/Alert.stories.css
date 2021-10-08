@@ -6,7 +6,6 @@ h5 {
   color: #dbdbdb;
 }
 
-.info {
-  border: 1px solid #15395b;
-  background-color: #111d2c;
+.alert-template-board {
+  padding: 40px;
 }

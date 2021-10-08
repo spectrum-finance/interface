@@ -1,5 +1,17 @@
 import './Alert.less';
 
-import { Alert } from 'antd';
+import { Alert, AlertProps } from 'antd';
+import React from 'react';
 
-export { Alert };
+export interface CustomAlertProps extends AlertProps {
+  noBorder?: boolean;
+}
+
+export const CustomAlert: React.FC<CustomAlertProps> = (props) => {
+  return (
+    <Alert
+      {...props}
+      className={props.noBorder ? 'alert-not-border' : ''}
+    ></Alert>
+  );
+};
