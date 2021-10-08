@@ -2,10 +2,7 @@ import { Meta, Story } from '@storybook/react';
 import { Col, Row } from 'antd';
 import React from 'react';
 
-import { Button } from '../Button/Button';
-import { DownOutlined } from '../Icon/Icon';
-import { Menu } from '../Menu/Menu';
-import { Dropdown } from './Dropdown';
+import { Button, DownOutlined, Dropdown, Menu } from '../index';
 
 export default {
   title: 'Components/Dropdown',

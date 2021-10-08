@@ -100,8 +100,18 @@ module.exports = {
               '@input-disabled-color': gray6,
 
               // Form
-              // ---
+              // --
               '@label-color': gray9,
+
+              // Tooltip
+              // --
+              '@tooltip-color': gray9,
+              '@tooltip-bg': gray5,
+
+              // Tabs
+              // --
+              '@tabs-card-height': '34px',
+              '@tabs-card-head-background': 'transparent',
             },
             javascriptEnabled: true,
           },
