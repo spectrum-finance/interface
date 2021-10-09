@@ -29,7 +29,8 @@ export const Template: Story = () => (
       <Col span={8}>
         <ConnectWallet
           type="connected"
-          balance="0 ERG"
+          balance={0}
+          currency="ERG"
           address="9iKWmL5t3y9u59fUESsbFQzG933UPjR1v7LUAjM6XPMAcXNhBzL"
         />
       </Col>
@@ -39,7 +40,7 @@ export const Template: Story = () => (
 
     <Row gutter={[{ xs: 8, sm: 16, md: 24 }, 8]}>
       <Col span={8}>
-        <ConnectWallet type="balance-only" balance="0 ERG" />
+        <ConnectWallet type="balance-only" balance={0} currency="ERG" />
       </Col>
     </Row>
 
@@ -58,7 +59,7 @@ export const Template: Story = () => (
 
     <Row gutter={[{ xs: 8, sm: 16, md: 24 }, 8]}>
       <Col span={8}>
-        <ConnectWallet type="pending" balance="0 ERG" />
+        <ConnectWallet type="pending" balance={0} currency="ERG" />
       </Col>
     </Row>
 
