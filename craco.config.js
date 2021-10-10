@@ -112,13 +112,6 @@ module.exports = {
               // --
               '@tabs-card-height': '34px',
               '@tabs-card-head-background': 'transparent',
-
-              // Popover
-              // --
-              '@popover-bg:': gray1,
-              '@popover-color': gray9,
-              '@popover-arrow-color': 'transparent',
-              '@popover-arrow-outer-color': 'transparent',
             },
             javascriptEnabled: true,
           },
