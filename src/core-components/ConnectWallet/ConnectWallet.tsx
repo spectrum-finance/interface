@@ -48,17 +48,17 @@ const ConnectWallet: React.FC<ConnectWalletProps> = ({
   );
 
   const commonButtons = (
-    <div className="connect-wallet__wrapper">
+    <div className="connect-wallet__common-btn_wrapper">
       {showBalance && (
         <span
-          className={`connect-wallet__balance-label connect-wallet__${type}`}
+          className={`connect-wallet__common-btn_balance-label connect-wallet__common-btn_${type}`}
         >
-          {balance + ' ' + currency}
+          {`${balance} ${currency}`}
         </span>
       )}
       {type !== 'balance-only' && (
         <Button
-          className={`connect-wallet__address-label connect-wallet__${type}`}
+          className={`connect-wallet__common-btn_address-label connect-wallet__common-btn_${type}`}
           loading={pending}
         >
           {type === 'pending-icon' ? '' : pending ? `1 Pending` : shortAddress}

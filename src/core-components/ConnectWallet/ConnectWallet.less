@@ -1,17 +1,5 @@
 @import './src/assets/styles/variables/colors.less';
 
-.connect-wallet__wrapper {
-  display: inline-block;
-  padding: 4px;
-  border: 1px solid transparent;
-  background: @color-gray-1;
-  border-radius: 12px;
-  &:hover,
-  &:active {
-    border: 1px solid @color-gray-5;
-  }
-}
-
 .connect-wallet__default-btn {
   border: 1px solid transparent;
   background: rgba(255, 114, 92, 0.35);
@@ -24,19 +12,31 @@
   }
 }
 
-.connect-wallet__balance-label {
+.connect-wallet__common-btn_wrapper {
+  display: inline-block;
+  padding: 4px;
+  border: 1px solid transparent;
+  background: @color-gray-1;
+  border-radius: 12px;
+  &:hover,
+  &:active {
+    border: 1px solid @color-gray-5;
+  }
+}
+
+.connect-wallet__common-btn_balance-label {
   color: @color-gray-9;
 }
 
-.connect-wallet__address-label {
+.connect-wallet__common-btn_address-label {
   padding: 4px;
   border: 0;
   background: transparent;
   border-radius: 8px;
   color: @color-gray-7;
   pointer-events: none;
-  &.connect-wallet__connected,
-  &.connect-wallet__pending {
+  &.connect-wallet__common-btn_connected,
+  &.connect-wallet__common-btn_pending {
     background: @color-extra-bg-1;
   }
   &:nth-child(2) {
