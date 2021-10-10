@@ -11,7 +11,7 @@ export default {
 } as Meta<typeof Icon.IconProvider>;
 
 const OutlinedTemplate: Story = () => (
-  <div style={{ color: '#DBDBDB' }}>
+  <div>
     <h3>Outlined</h3>
     <h4>Directional</h4>
     <div className="icons">
@@ -452,7 +452,7 @@ const OutlinedTemplate: Story = () => (
 );
 
 const SolidTemplate: Story = () => (
-  <div style={{ color: '#DBDBDB' }}>
+  <div>
     <h3>Solid</h3>
     <h4>Directional</h4>
     <div className="icons">
