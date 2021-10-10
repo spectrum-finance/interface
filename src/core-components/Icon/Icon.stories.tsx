@@ -11,7 +11,7 @@ export default {
 } as Meta<typeof Icon.IconProvider>;
 
 const OutlinedTemplate: Story = () => (
-  <>
+  <div style={{ color: '#DBDBDB' }}>
     <h3>Outlined</h3>
     <h4>Directional</h4>
     <div className="icons">
@@ -448,11 +448,11 @@ const OutlinedTemplate: Story = () => (
       <Icon.WifiOutlined />
       <Icon.WomanOutlined />
     </div>
-  </>
+  </div>
 );
 
 const SolidTemplate: Story = () => (
-  <>
+  <div style={{ color: '#DBDBDB' }}>
     <h3>Solid</h3>
     <h4>Directional</h4>
     <div className="icons">
@@ -688,11 +688,11 @@ const SolidTemplate: Story = () => (
       <Icon.ZhihuCircleFilled />
       <Icon.ZhihuSquareFilled />
     </div>
-  </>
+  </div>
 );
 
 const TwoToneTemplate: Story = () => (
-  <>
+  <div>
     <h3>Two Tone</h3>
     <h4>Directional</h4>
     <div className="icons">
@@ -861,7 +861,7 @@ const TwoToneTemplate: Story = () => (
       <Icon.VideoCameraTwoTone />
       <Icon.WalletTwoTone />
     </div>
-  </>
+  </div>
 );
 
 export const Outlined: Story = () => <OutlinedTemplate />;
