@@ -20,7 +20,7 @@ export const Default: Story = () => (
   <>
     <h2>Popover</h2>
     <h5>Default</h5>
-    <Popover content={content} trigger="click" placement="bottom">
+    <Popover content={content} trigger="click" placement="bottomRight">
       <Button>Show popover</Button>
     </Popover>
   </>
