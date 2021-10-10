@@ -9,6 +9,7 @@ export * from './Modal/Modal';
 export * from './NetworkDropdown/NetworkDropdown';
 export * from './Select/Select';
 export * from './Tabs/Tabs';
+export * from './Tag/Tag';
 export * from './TokenIcon/TokenIcon';
 export * from './TokenSelect/TokenSelect';
 export * from './Tooltip/Tooltip';
