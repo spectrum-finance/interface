@@ -1,4 +1,6 @@
-import { Slider } from 'antd';
+import './Slider.less';
+
+import { Slider as AntSlider, SliderSingleProps } from 'antd';
 import React from 'react';
 
 const marks = {
@@ -9,8 +11,8 @@ const marks = {
   100: '100%',
 };
 
-const S = (): JSX.Element => {
-  return <Slider marks={marks} defaultValue={50} autoFocus />;
+const Slider: React.FC<SliderSingleProps> = (props): JSX.Element => {
+  return <AntSlider marks={marks} defaultValue={50} {...props} />;
 };
 
-export { S as Slider };
+export { Slider };

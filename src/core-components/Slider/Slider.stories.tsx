@@ -9,5 +9,13 @@ export default {
 } as Meta<typeof Slider>;
 
 export const Default: Story = () => {
-  return <Slider />;
+  return (
+    <>
+      <h2>Slider</h2>
+      <h5>Default</h5>
+      <Slider />
+      <h5>Disabled</h5>
+      <Slider disabled />
+    </>
+  );
 };
