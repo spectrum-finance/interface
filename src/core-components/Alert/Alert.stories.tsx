@@ -4,7 +4,7 @@ import { Meta, Story } from '@storybook/react';
 import { Col, Row } from 'antd';
 import React from 'react';
 
-import { CustomAlert as Alert, CustomAlertProps as AlertProps } from './Alert';
+import { Alert, AlertProps } from './Alert';
 
 export default {
   title: 'Components/Alert',
