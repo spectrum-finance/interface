@@ -37,7 +37,7 @@ module.exports = function override(config, env) {
   });
 
   config = rewireTypingsForCssModule.factory({})(config);
-  config = addLessLoader()(config);
+  config = addLessLoader({ lessLoaderOptions: { lessOptions: { javascriptEnabled: true } }  })(config);
 
   return config;
 };
