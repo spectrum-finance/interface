@@ -12,6 +12,6 @@ export const Alert: React.FC<AlertProps> = (props) => {
     <AntdAlert
       {...props}
       className={props.noBorder ? 'alert-not-border' : ''}
-    ></AntdAlert>
+    />
   );
 };
