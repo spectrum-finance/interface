@@ -1,5 +1,6 @@
 const path = require('path');
 const rewireTypingsForCssModule = require('react-app-rewire-typings-for-css-module');
+const addLessLoader = require('customize-cra-less-loader');
 
 module.exports = function override(config, env) {
   /**
@@ -36,6 +37,7 @@ module.exports = function override(config, env) {
   });
 
   config = rewireTypingsForCssModule.factory({})(config);
+  config = addLessLoader()(config);
 
   return config;
 };

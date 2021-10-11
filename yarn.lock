@@ -6120,6 +6120,11 @@ csstype@^3.0.2:
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.0.9.tgz#6410af31b26bd0520933d02cbc64fce9ce3fbf0b"
   integrity sha512-rpw6JPxK6Rfg1zLOYCSwle2GFOOsnjmDYDaBwEcwoOg4qlsIVCN789VkBZDJAGi4T07gI4YSutR43t9Zz4Lzuw==
 
+customize-cra-less-loader@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/customize-cra-less-loader/-/customize-cra-less-loader-1.0.0.tgz#f16a20c512546b366881974439f47107ea6e6efb"
+  integrity sha512-aGli8wJqp0704DF4zeO9O9+N/+kSNp2VprDKjEXqlolqv6UgbSRIZ2bmUZPdM22RHsjRpQtQuZkMTuxu6daXLQ==
+
 customize-cra@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/customize-cra/-/customize-cra-1.0.0.tgz#73286563631aa08127ad4d30a2e3c89cf4e93c8d"
