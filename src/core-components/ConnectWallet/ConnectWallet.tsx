@@ -43,7 +43,7 @@ const ConnectWallet: React.FC<ConnectWalletProps> = ({
 
   const shortAddress = getShortAddress(address);
 
-  const deafultButton = (
+  const defaultButton = (
     <Button className="connect-wallet__default-btn">Connect to wallet</Button>
   );
 
@@ -67,7 +67,7 @@ const ConnectWallet: React.FC<ConnectWalletProps> = ({
     </div>
   );
 
-  return type === 'default' ? deafultButton : commonButtons;
+  return type === 'default' ? defaultButton : commonButtons;
 };
 
 export default ConnectWallet;
