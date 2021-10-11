@@ -4,7 +4,8 @@ import { ERG_TOKEN_NAME } from '../../constants/erg';
 
 interface Props {
   minerFee: string;
-  dexFee: string;
+  exFee: string;
+  uiFee: string;
   totalFee: string;
   outputAssetXName: string;
   outputAssetYName: string;
@@ -14,7 +15,8 @@ interface Props {
 
 export const RedeemSummary: React.FC<Props> = ({
   minerFee,
-  dexFee,
+  exFee,
+  uiFee,
   totalFee,
   outputAssetXName,
   outputAssetYName,
@@ -37,8 +39,12 @@ export const RedeemSummary: React.FC<Props> = ({
           value: `${minerFee} ${ERG_TOKEN_NAME}`,
         },
         {
-          prop: 'DEX fee',
-          value: `${dexFee} ${ERG_TOKEN_NAME}`,
+          prop: 'Execution fee',
+          value: `${exFee} ${ERG_TOKEN_NAME}`,
+        },
+        {
+          prop: 'UI fee',
+          value: `${uiFee} ${ERG_TOKEN_NAME}`,
         },
         {
           prop: 'Total fee',
