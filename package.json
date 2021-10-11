@@ -90,6 +90,7 @@
     "prettier": "^2.3.2",
     "react-app-rewire-typings-for-css-module": "^4.0.3",
     "sass-loader": "^12.1.0",
+    "storybook-addon-themes": "^6.1.0",
     "stylelint": "^13.13.1",
     "stylelint-config-idiomatic-order": "^8.1.0",
     "stylelint-config-prettier": "^8.0.2",
