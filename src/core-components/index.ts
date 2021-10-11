@@ -8,6 +8,7 @@ export * from './Menu/Menu';
 export * from './Modal/Modal';
 export * from './NetworkDropdown/NetworkDropdown';
 export * from './Select/Select';
+export * from './Slider/Slider';
 export * from './Tabs/Tabs';
 export * from './TokenIcon/TokenIcon';
 export * from './TokenSelect/TokenSelect';
