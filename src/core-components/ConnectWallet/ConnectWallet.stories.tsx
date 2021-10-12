@@ -1,5 +1,3 @@
-import './ConnectWallet.stories.scss';
-
 import { Meta, Story } from '@storybook/react';
 import { Col, Row } from 'antd';
 import React from 'react';
@@ -12,7 +10,7 @@ export default {
 } as Meta<typeof ConnectWallet>;
 
 export const Template: Story = () => (
-  <div className="connect-wallet__container">
+  <div>
     <h1 style={{ marginBottom: 24 }}>Wallet Button</h1>
 
     <h2>Type=Connect to Wallet</h2>

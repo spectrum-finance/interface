@@ -1,4 +1,5 @@
 import 'antd/dist/antd.less';
+import '../src/assets/styles/components/message.less'
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
