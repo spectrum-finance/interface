@@ -14,7 +14,16 @@ export const Template: Story = () => (
     <h1>Header</h1>
     <Row gutter={[{ xs: 8, sm: 16, md: 24 }, 32]}>
       <Col span={24}>
-        <Header />
+        <Header type="large" />
+      </Col>
+      <Col span={18}>
+        <Header type="medium" />
+      </Col>
+      <Col span={14}>
+        <Header type="small" />
+      </Col>
+      <Col span={12}>
+        <Header type="xsmall" />
       </Col>
     </Row>
   </div>

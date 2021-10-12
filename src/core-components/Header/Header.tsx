@@ -2,29 +2,43 @@ import './Header.scss';
 
 import React from 'react';
 
+import { ReactComponent as Settings } from '../../assets/images/icon-settings.svg';
+import ConnectWallet from '../ConnectWallet/ConnectWallet';
 import { Logo } from '../Logo/Logo';
+import { NetworkDropdown } from '../NetworkDropdown/NetworkDropdown';
 import { Tabs } from '../Tabs/Tabs';
 
-// export interface Props {}
+const networks = [
+  { name: 'ergo', token: 'erg-orange' },
+  { name: 'cardano', token: 'ada' },
+];
 
-export const Header: React.FC = () => {
+export interface Props {
+  type: 'large' | 'medium' | 'small' | 'xsmall';
+}
+
+export const Header: React.FC<Props> = ({ type }) => {
   return (
-    <div className="header-wrapper">
-      <Logo label></Logo>
-      <Tabs defaultActiveKey="1" type="card">
-        <Tabs.TabPane tab="Swap" key="1">
-          Swap content
-        </Tabs.TabPane>
-        <Tabs.TabPane tab="Pool" key="2">
-          Pool content
-        </Tabs.TabPane>
-        <Tabs.TabPane tab="Exchange" key="3">
-          Exchange content
-        </Tabs.TabPane>
-        <Tabs.TabPane tab="Disabled" key="4" disabled>
-          Disabled
-        </Tabs.TabPane>
-      </Tabs>
+    <div className="header_wrapper">
+      <Logo label={type === 'large'}></Logo>
+      {type === 'large' && <div style={{ flex: 1 }}></div>}
+      {(type === 'large' || type === 'medium') && (
+        <Tabs defaultActiveKey="1" type="card">
+          <Tabs.TabPane tab="Swap" key="1" />
+          <Tabs.TabPane tab="Pool" key="2" />
+          <Tabs.TabPane tab="Exchange" key="3" />
+          <Tabs.TabPane tab="Disabled" key="4" disabled />
+        </Tabs>
+      )}
+      <div style={{ flex: 1 }}></div>
+      <div className="header_network-wrapper">
+        <NetworkDropdown networks={networks} />
+        {type !== 'xsmall' && <ConnectWallet type="default" />}
+        {type !== 'xsmall' && (
+          <Settings className="header_settings-btn"></Settings>
+        )}
+        <button className="header_others-btn">{'\u25CF \u25CF \u25CF'}</button>
+      </div>
     </div>
   );
 };
