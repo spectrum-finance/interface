@@ -21,6 +21,7 @@ const {
   green1,
   green3,
   green6,
+  orange3,
   orange5,
   orange6,
 } = require('./src/constants/colors');
