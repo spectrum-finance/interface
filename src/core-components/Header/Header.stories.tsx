@@ -12,7 +12,7 @@ export default {
 export const Template: Story = () => (
   <div>
     <h1>Header</h1>
-    <Row gutter={[{ xs: 8, sm: 16, md: 24 }, 32]}>
+    <Row gutter={[{ xs: 8, sm: 16, md: 24 }, 64]}>
       <Col span={24}>
         <Header type="large" />
       </Col>
