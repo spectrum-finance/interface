@@ -12,21 +12,32 @@ export default {
 export const Default: Story = () => {
   const [value1, setValue1] = useState('');
   const [value2, setValue2] = useState('');
+  const onSelectToken = () => {
+    // eslint-disable-next-line no-console
+    console.log('onTokenSelect');
+  };
+
   return (
     <>
       <h2>Swap / Choose Token</h2>
 
       <Row gutter={[{ xs: 8, sm: 16, md: 16 }, 8]}>
         <Col span={8}>
-          <TokenInput value={value1} onChange={setValue1} />
+          <TokenInput
+            value={value1}
+            onChange={setValue1}
+            onSelectToken={onSelectToken}
+            label="From"
+          />
         </Col>
         <Col span={8}>
           <TokenInput
             value={value2}
             onChange={setValue2}
-            tokenSymbol="erg"
+            tokenName="erg"
             balance={0.02}
             tokenPrice={334.25}
+            label="To"
           />
         </Col>
       </Row>

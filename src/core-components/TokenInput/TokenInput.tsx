@@ -5,40 +5,42 @@ import React from 'react';
 import { SwapInput, TokenSelect } from '../index';
 
 interface TokenInputProps {
-  value: string | number;
+  value: string;
   onChange: (input: string) => void;
-  tokenSymbol?: string | null;
+  onSelectToken?: React.MouseEventHandler<HTMLElement>;
+  tokenName?: string | null;
   balance?: number;
   tokenPrice?: number;
+  label: string;
 }
 
 const TokenInput: React.FC<TokenInputProps> = ({
   value,
   onChange,
-  tokenSymbol,
+  onSelectToken,
+  tokenName,
   balance,
   tokenPrice,
+  label,
 }) => (
   <div className="token-input">
-    <span className="from">From</span>
+    <span className="from">{label}</span>
 
     <div className="input-select">
       <SwapInput
         value={value}
         onChange={onChange}
-        tokenSymbol={tokenSymbol}
+        tokenName={tokenName}
         balance={balance}
       />
 
-      <TokenSelect name={tokenSymbol} />
+      <TokenSelect name={tokenName} onTokenSelect={onSelectToken} />
     </div>
     <div className="usd-price">
       {tokenPrice && value && (
         <span>
           ~$
-          {(
-            tokenPrice * (typeof value === 'string' ? parseFloat(value) : value)
-          ).toFixed(2)}
+          {(tokenPrice * parseFloat(value)).toFixed(2)}
         </span>
       )}
     </div>
