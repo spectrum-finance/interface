@@ -1,0 +1,24 @@
+@import './src/assets/styles/variables/colors.less';
+
+.ant-popover {
+  color: @color-gray-9;
+
+  &-arrow { display: none }
+
+  &-inner {
+    border: 1px solid @color-gray-2;
+    background-color: @color-gray-1;
+    border-radius: 12px;
+
+    &-content {
+      padding: 8px;
+      color: @color-gray-9;
+    }
+  }
+
+  &-placement-bottom,
+  &-placement-bottomLeft,
+  &-placement-bottomRight {
+    padding-top: 0;
+  }
+}

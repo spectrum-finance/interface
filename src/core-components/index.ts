@@ -1,3 +1,4 @@
+export * from './Alert/Alert';
 export * from './AmountInput/AmountInput';
 export * from './Button/Button';
 export * from './ConnectWallet/ConnectWallet';
@@ -7,9 +8,11 @@ export * from './Input/Input';
 export * from './Menu/Menu';
 export * from './Modal/Modal';
 export * from './NetworkDropdown/NetworkDropdown';
+export * from './Popover/Popover';
 export * from './Select/Select';
 export * from './Slider/Slider';
 export * from './Tabs/Tabs';
+export * from './Tag/Tag';
 export * from './TokenIcon/TokenIcon';
 export * from './TokenSelect/TokenSelect';
 export * from './Tooltip/Tooltip';
