@@ -1,8 +1,8 @@
 import './Header.scss';
 
+import { SettingOutlined } from '@ant-design/icons';
 import React from 'react';
 
-import { ReactComponent as Settings } from '../../assets/images/icon-settings.svg';
 import ConnectWallet from '../ConnectWallet/ConnectWallet';
 import { Logo } from '../Logo/Logo';
 import { NetworkDropdown } from '../NetworkDropdown/NetworkDropdown';
@@ -35,7 +35,7 @@ export const Header: React.FC<Props> = ({ type }) => {
         <NetworkDropdown networks={networks} />
         {type !== 'xsmall' && <ConnectWallet type="default" />}
         {type !== 'xsmall' && (
-          <Settings className="header_settings-btn"></Settings>
+          <SettingOutlined className="header_settings-btn"></SettingOutlined>
         )}
         <button className="header_others-btn">{'\u25CF \u25CF \u25CF'}</button>
       </div>
