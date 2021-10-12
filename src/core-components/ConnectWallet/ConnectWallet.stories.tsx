@@ -2,7 +2,6 @@ import { Meta, Story } from '@storybook/react';
 import { Col, Row } from 'antd';
 import React from 'react';
 
-import { Button } from '../Button/Button';
 import ConnectWallet from './ConnectWallet';
 
 export default {
@@ -11,16 +10,14 @@ export default {
 } as Meta<typeof ConnectWallet>;
 
 export const Template: Story = () => (
-  <div className="connect-wallet__container">
+  <div>
     <h1 style={{ marginBottom: 24 }}>Wallet Button</h1>
 
     <h2>Type=Connect to Wallet</h2>
 
     <Row gutter={[{ xs: 8, sm: 16, md: 24 }, 8]}>
       <Col span={8}>
-        <Button className="connect-wallet__default-btn">
-          Connect to wallet
-        </Button>
+        <ConnectWallet type="default" />
       </Col>
     </Row>
 
@@ -29,8 +26,9 @@ export const Template: Story = () => (
     <Row gutter={[{ xs: 8, sm: 16, md: 24 }, 8]}>
       <Col span={8}>
         <ConnectWallet
-          type="default"
-          balance="0 ERG"
+          type="connected"
+          balance={0}
+          currency="ERG"
           address="9iKWmL5t3y9u59fUESsbFQzG933UPjR1v7LUAjM6XPMAcXNhBzL"
         />
       </Col>
@@ -40,7 +38,7 @@ export const Template: Story = () => (
 
     <Row gutter={[{ xs: 8, sm: 16, md: 24 }, 8]}>
       <Col span={8}>
-        <ConnectWallet type="balance-only" balance="0 ERG" />
+        <ConnectWallet type="balance-only" balance={0} currency="ERG" />
       </Col>
     </Row>
 
@@ -59,7 +57,7 @@ export const Template: Story = () => (
 
     <Row gutter={[{ xs: 8, sm: 16, md: 24 }, 8]}>
       <Col span={8}>
-        <ConnectWallet type="pending" balance="0 ERG" />
+        <ConnectWallet type="pending" balance={0} currency="ERG" />
       </Col>
     </Row>
 
