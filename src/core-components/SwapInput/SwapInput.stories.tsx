@@ -21,7 +21,7 @@ export const Default: Story = () => {
           <SwapInput
             value={value1}
             onChange={setValue1}
-            tokenSymbol="ERG"
+            tokenName="ERG"
             balance={0.02}
           />
         </Col>

@@ -24,7 +24,7 @@ const TokenInput: React.FC<TokenInputProps> = ({
   label,
 }) => (
   <div className="token-input">
-    <span className="from">{label}</span>
+    <span className="label">{label}</span>
 
     <div className="input-select">
       <SwapInput
