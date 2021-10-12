@@ -1,0 +1,23 @@
+@import './src/assets/styles/variables/colors.less';
+
+.ant-slider-dot {
+  background-color: @color-gray-1;
+
+  &-active {
+    background-color: @color-orange-3;
+  }
+}
+
+.ant-slider-disabled .ant-slider-dot {
+  border-color: @color-gray-4 !important;
+  background-color: @color-gray-1;
+
+  &-active {
+    border-color: @color-gray-6 !important;
+    background-color: @color-gray-6;
+  }
+}
+
+.ant-slider-disabled .ant-slider-handle {
+  background-color: @color-gray-1;
+}

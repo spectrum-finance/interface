@@ -10,6 +10,7 @@ export * from './Modal/Modal';
 export * from './NetworkDropdown/NetworkDropdown';
 export * from './Popover/Popover';
 export * from './Select/Select';
+export * from './Slider/Slider';
 export * from './Tabs/Tabs';
 export * from './Tag/Tag';
 export * from './TokenIcon/TokenIcon';
