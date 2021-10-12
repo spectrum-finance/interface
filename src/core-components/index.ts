@@ -8,6 +8,7 @@ export * from './Input/Input';
 export * from './Menu/Menu';
 export * from './Modal/Modal';
 export * from './NetworkDropdown/NetworkDropdown';
+export * from './Popover/Popover';
 export * from './Select/Select';
 export * from './Tabs/Tabs';
 export * from './Tag/Tag';
