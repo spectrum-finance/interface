@@ -1,5 +1,3 @@
-import './ConnectWallet.stories.scss';
-
 import { Meta, Story } from '@storybook/react';
 import { Col, Row } from 'antd';
 import React from 'react';
