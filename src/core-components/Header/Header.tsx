@@ -3,8 +3,11 @@ import './Header.scss';
 import { SettingOutlined } from '@ant-design/icons';
 import React from 'react';
 
-import ConnectWallet from '../ConnectWallet/ConnectWallet';
+import { Button } from '../Button/Button';
+import { ConnectWallet } from '../ConnectWallet/ConnectWallet';
+import { Dropdown } from '../Dropdown/Dropdown';
 import { Logo } from '../Logo/Logo';
+import { Menu } from '../Menu/Menu';
 import { NetworkDropdown } from '../NetworkDropdown/NetworkDropdown';
 import { Tabs } from '../Tabs/Tabs';
 
@@ -13,11 +16,31 @@ const networks = [
   { name: 'cardano', token: 'ada' },
 ];
 
-export interface Props {
+const menuOthers = (
+  <Menu>
+    <Menu.Item>
+      <a target="_blank" rel="noopener noreferrer">
+        1st menu item
+      </a>
+    </Menu.Item>
+    <Menu.Item>
+      <a target="_blank" rel="noopener noreferrer">
+        2nd menu item
+      </a>
+    </Menu.Item>
+    <Menu.Item>
+      <a target="_blank" rel="noopener noreferrer">
+        3rd menu item
+      </a>
+    </Menu.Item>
+  </Menu>
+);
+
+export interface HeaderProps {
   type: 'large' | 'medium' | 'small' | 'xsmall';
 }
 
-export const Header: React.FC<Props> = ({ type }) => {
+export const Header: React.FC<HeaderProps> = ({ type = 'large' }) => {
   return (
     <div className="header_wrapper">
       <Logo label={type === 'large'}></Logo>
@@ -37,7 +60,11 @@ export const Header: React.FC<Props> = ({ type }) => {
         {type !== 'xsmall' && (
           <SettingOutlined className="header_settings-btn"></SettingOutlined>
         )}
-        <button className="header_others-btn">{'\u25CF \u25CF \u25CF'}</button>
+        <Dropdown overlay={menuOthers} trigger={['click']}>
+          <Button className="header_others-btn">
+            {'\u25CF \u25CF \u25CF'}
+          </Button>
+        </Dropdown>
       </div>
     </div>
   );
