@@ -3,7 +3,7 @@ import './ConnectWallet.less';
 import { Button } from 'antd';
 import React from 'react';
 
-interface ConnectWalletProps {
+export interface ConnectWalletProps {
   type:
     | 'default'
     | 'connected'
@@ -29,8 +29,8 @@ const getShortAddress = (address?: string) => {
   return shortAddress;
 };
 
-const ConnectWallet: React.FC<ConnectWalletProps> = ({
-  type,
+export const ConnectWallet: React.FC<ConnectWalletProps> = ({
+  type = 'default',
   balance,
   currency,
   address,
@@ -69,5 +69,3 @@ const ConnectWallet: React.FC<ConnectWalletProps> = ({
 
   return type === 'default' ? defaultButton : commonButtons;
 };
-
-export default ConnectWallet;

@@ -2,7 +2,7 @@ import { Meta, Story } from '@storybook/react';
 import { Col, Row } from 'antd';
 import React from 'react';
 
-import ConnectWallet from './ConnectWallet';
+import { ConnectWallet } from './ConnectWallet';
 
 export default {
   title: 'Components/ConnectWallet',
