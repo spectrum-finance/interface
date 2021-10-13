@@ -1,0 +1,38 @@
+@import './src/assets/styles/variables/colors.less';
+
+.token-input {
+  padding: 16px;
+  background-color: @color-gray-1;
+  border-radius: 16px;
+  box-shadow: none;
+
+  .label {
+    color: @color-gray-8;
+    font-size: 14px;
+  }
+
+  .input-select {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 8px;
+
+    .swap-input {
+      width: 100%;
+      margin-right: 10px;
+
+      input {
+        height: 100%;
+      }
+
+      .ant-input-affix-wrapper {
+        height: 100%;
+      }
+    }
+  }
+  
+  .usd-price {
+    height: 16px;
+    color: @color-gray-8;
+  }
+}
