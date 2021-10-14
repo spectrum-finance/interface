@@ -13,6 +13,7 @@ import { Switch } from 'antd';
 import React from 'react';
 
 import { ReactComponent as DarkModeOutlined } from '../../assets/icons/darkmode.svg';
+import { ReactComponent as Dot3 } from '../../assets/icons/dot3.svg';
 import { Button } from '../Button/Button';
 import { ConnectWallet } from '../ConnectWallet/ConnectWallet';
 import { Dropdown } from '../Dropdown/Dropdown';
@@ -81,8 +82,7 @@ export const Header: React.FC<HeaderProps> = ({ type = 'large' }) => {
         <Tabs defaultActiveKey="1" type="card">
           <Tabs.TabPane tab="Swap" key="1" />
           <Tabs.TabPane tab="Pool" key="2" />
-          <Tabs.TabPane tab="Exchange" key="3" />
-          <Tabs.TabPane tab="Disabled" key="4" disabled />
+          <Tabs.TabPane tab="Exchange" key="3" disabled />
         </Tabs>
       )}
       <div style={{ flex: 1 }}></div>
@@ -94,7 +94,7 @@ export const Header: React.FC<HeaderProps> = ({ type = 'large' }) => {
         )}
         <Dropdown overlay={menuOthers} trigger={['click']}>
           <Button className="header_others-btn">
-            {'\u25CF \u25CF \u25CF'}
+            <Dot3 />
           </Button>
         </Dropdown>
       </div>
