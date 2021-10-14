@@ -6,12 +6,14 @@ import React from 'react';
 interface ConnectWalletProps {
   type:
     | 'default'
+    | 'connected'
     | 'balance-only'
     | 'address-only'
     | 'pending'
     | 'pending-text'
     | 'pending-icon';
-  balance?: string;
+  balance?: number;
+  currency?: string;
   address?: string;
 }
 
@@ -30,28 +32,33 @@ const getShortAddress = (address?: string) => {
 const ConnectWallet: React.FC<ConnectWalletProps> = ({
   type,
   balance,
+  currency,
   address,
 }) => {
   const showBalance =
-    type === 'default' || type === 'balance-only' || type === 'pending';
+    type === 'connected' || type === 'balance-only' || type === 'pending';
 
   const pending =
     type === 'pending' || type === 'pending-text' || type === 'pending-icon';
 
   const shortAddress = getShortAddress(address);
 
-  return (
-    <div className="connect-wallet__wrapper">
+  const defaultButton = (
+    <Button className="connect-wallet__default-btn">Connect to wallet</Button>
+  );
+
+  const commonButtons = (
+    <div className="connect-wallet__common-btn_wrapper">
       {showBalance && (
         <span
-          className={`connect-wallet__balance-label connect-wallet__${type}`}
+          className={`connect-wallet__common-btn_balance-label connect-wallet__common-btn_${type}`}
         >
-          {balance}
+          {`${balance} ${currency}`}
         </span>
       )}
       {type !== 'balance-only' && (
         <Button
-          className={`connect-wallet__address-label connect-wallet__${type}`}
+          className={`connect-wallet__common-btn_address-label connect-wallet__common-btn_${type}`}
           loading={pending}
         >
           {type === 'pending-icon' ? '' : pending ? `1 Pending` : shortAddress}
@@ -59,6 +66,8 @@ const ConnectWallet: React.FC<ConnectWalletProps> = ({
       )}
     </div>
   );
+
+  return type === 'default' ? defaultButton : commonButtons;
 };
 
 export default ConnectWallet;

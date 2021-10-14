@@ -10,16 +10,15 @@ module.exports = {
         cracoConfigFile: "../../craco.config.js",
       },
     },
-    // "@storybook/preset-create-react-app",
-    
     {
       name: "@storybook/addon-docs",
       options: {
         configureJSX: true,
       },
     },
-    
+
     "@storybook/addon-links",
     "@storybook/addon-essentials",
+    "storybook-addon-themes",
   ]
 }

@@ -1,0 +1,34 @@
+@import 'palette/palette.light';
+
+.defaultTheme () {
+  // Geometry
+  --ergo-border-radius-lg:             12px;
+  --ergo-border-radius-md:             12px;
+  --ergo-border-radius-sm:             12px;
+  --ergo-border-radius:                var(--ergo-border-radius-lg);
+
+  // Color
+  --ergo-primary-color:                @light-color-orange-6;
+  --ergo-primary-color-hover:          @light-color-orange-5;
+  --ergo-primary-color-active:         @light-color-orange-7;
+  --ergo-primary-text-constast:        @light-color-gray-1;
+  --ergo-primary-text-constast-hover:  var(--ergo-primary-text-constast);
+  --ergo-primary-text-constast-active: var(--ergo-primary-text-constast);
+
+  --ergo-disabled-color:               @light-color-gray-3;
+  --ergo-disabled-text-constrast:      @light-color-gray-6;
+
+  --ergo-error-color:                  @light-color-dust-red-5;
+  --ergo-error-color-hover:            @light-color-dust-red-4;
+  --ergo-error-color-active:           @light-color-dust-red-6;
+  --ergo-error-text-constast:          var(--ergo-primary-text-constast);
+  --ergo-error-text-constast-hover:    var(--ergo-primary-text-constast-hover);
+  --ergo-error-text-constast-active:   var(--ergo-primary-text-constast-active);
+
+
+  --ergo-default-background:           @light-color-gray-7;
+  --ergo-default-card-background:      @light-color-gray-1;
+  --ergo-ghost-background:             rgba(255, 255, 255, .35);
+  --ergo-default-border-color:         @light-color-gray-5;
+  --ergo-primary-text:                 @light-color-gray-9;
+}
