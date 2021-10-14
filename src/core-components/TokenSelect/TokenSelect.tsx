@@ -6,12 +6,13 @@ import { Button, DownOutlined, TokenIcon } from '../index';
 
 interface TokenSelectProps {
   name?: string | null;
+  onTokenSelect?: React.MouseEventHandler<HTMLElement>;
 }
 
-const TokenSelect: React.FC<TokenSelectProps> = ({ name }) => (
+const TokenSelect: React.FC<TokenSelectProps> = ({ name, onTokenSelect }) => (
   <>
     {name ? (
-      <button className="token-select">
+      <button className="token-select" onClick={onTokenSelect}>
         <span className="token-select_container">
           <TokenIcon name={name ?? 'empty'} className="token-select_item" />
           <span className="token-select_item">{name.toUpperCase()}</span>
@@ -19,7 +20,7 @@ const TokenSelect: React.FC<TokenSelectProps> = ({ name }) => (
         </span>
       </button>
     ) : (
-      <Button size="large" type="primary">
+      <Button size="large" type="primary" onClick={onTokenSelect}>
         Select a token
         <DownOutlined />
       </Button>
