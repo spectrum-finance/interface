@@ -37,7 +37,7 @@
     "@types/react": "^17.0.17",
     "@types/react-dom": "^17.0.9",
     "@types/react-router-dom": "^5.1.8",
-    "antd": "^4.16.13",
+    "antd": "^4.17.0-alpha.5",
     "bignumber.js": "^9.0.1",
     "craco-less": "^1.20.0",
     "eslint-plugin-react-hooks": "^4.2.0",
