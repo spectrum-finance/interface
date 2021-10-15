@@ -1,6 +1,8 @@
 @import './src/assets/styles/variables/colors.less';
 
-.ant-menu.ant-menu-root.ant-menu-vertical { border: 0 }
+.ant-menu.ant-menu-root.ant-menu-vertical {
+  border: 0;
+}
 
 .ant-menu-submenu.ant-menu-submenu-vertical:hover,
 .ant-menu-item:hover,
@@ -29,6 +31,15 @@
   }
 }
 
-.ant-dropdown-menu-item.ant-dropdown-menu-item-disabled:hover {
+.ant-dropdown-menu-item-disabled {
+  color: var(--ant-dropdown-menu-item-disable);
+  &:hover {
+    background-color: transparent;
+    border-radius: 8px;
+    color: var(--ant-dropdown-menu-item-disable);
+  }
+}
+
+.ant-dropdown-menu-item {
   background-color: transparent;
 }
