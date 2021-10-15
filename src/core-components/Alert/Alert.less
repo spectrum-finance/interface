@@ -2,13 +2,60 @@
 
 .ant-alert {
   border-radius: 8px !important;
-  color: @alert-message-color !important;
+  color: var(--alert-message-color) !important;
   &.alert-not-border {
     border-color: transparent;
   }
 }
 
+.ant-alert-message {
+  color: var(--alert-message-color) !important;
+}
+
 .ant-alert-close-icon {
   position: absolute;
   right: 12px;
+  .anticon-close {
+    color: var(--alert-message-color) !important;
+  }
+}
+
+.ant-alert-close-text {
+  color: var(--alert-message-color) !important;
+}
+
+.ant-alert-success {
+  border: 1px solid var(--alert-success-border-color);
+  background-color: var(--alert-success-bg-color);
+}
+
+.ant-alert-success .ant-alert-icon {
+  color: var(--alert-success-icon-color);
+}
+
+.ant-alert-info {
+  border: 1px solid var(--alert-info-border-color);
+  background-color: var(--alert-info-bg-color);
+}
+
+.ant-alert-info .ant-alert-icon {
+  color: var(--alert-info-icon-color);
+}
+
+.ant-alert-warning {
+  border: 1px solid var(--alert-warning-border-color);
+  background-color: var(--alert-warning-bg-color);
+}
+
+.ant-alert-warning .ant-alert-icon {
+  color: var(--alert-warning-icon-color);
+}
+
+.ant-alert-error {
+  border: 1px solid var(--alert-error-border-color);
+  background-color: var(--alert-error-bg-color);
+}
+
+.ant-alert-error .ant-alert-icon {
+  color: var(--alert-error-icon-color);
 }
