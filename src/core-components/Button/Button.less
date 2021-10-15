@@ -1,21 +1,275 @@
-@import '~antd/dist/antd.less';
+.ant-btn.ant-btn-loading {
+  opacity: 0.65;
 
-.ant-btn {
-    border-radius: 10px !important;
-}
-
-.ant-btn.ant-btn-loading::before {
+  &::before {
     opacity: 0 !important;
+  }
 }
 
-.ant-btn.ant-btn-text:not(.ant-btn-dangerous) {
-    color: @btn-default-color;  
+.ant-btn, .ant-btn.ant-btn-lg, .ant-btn.ant-btn-sm, .ant-btn[type="button"], .ant-btn[type="submit"] , .ant-btn-icon-only, .ant-btn.ant-btn-text {
+  border:        1px solid var(--ergo-default-border-color);
+  background:    var(--ergo-default-card-background);
+  border-radius: var(--ergo-border-radius) !important;
+  box-shadow:    none !important;
+  color:         var(--ergo-primary-text);
+
+  &:hover, &:focus {
+    border:     1px solid var(--ergo-default-border-color);
+    background: var(--ergo-default-card-background);
+    color:      var(--ergo-primary-color);
+  }
+
+  &:active {
+    border:     1px solid var(--ergo-primary-color-active);
+    background: var(--ergo-default-card-background);
+    color:      var(--ergo-primary-color-active);
+  }
+
+  &.ant-btn-loading {
+    border:     1px solid var(--ergo-default-border-color);
+    background: var(--ergo-default-card-background);
+    color:      var(--ergo-primary-text);
+
+    &:hover, &:focus, &:active {
+      border:     1px solid var(--ergo-default-border-color);
+      background: var(--ergo-default-card-background);
+      color:      var(--ergo-primary-text);
+    }
+  }
+
+  &.ant-btn-primary {
+    border:     1px solid var(--ergo-primary-color);
+    background: var(--ergo-primary-color);
+    color:      var(--ergo-primary-text-constast);
+
+    &:hover, &:focus {
+      border:     1px solid var(--ergo-primary-color-hover);
+      background: var(--ergo-primary-color-hover);
+      color:      var(--ergo-primary-text-constast-hover);
+    }
+
+    &:active {
+      border:     1px solid var(--ergo-primary-color-active);
+      background: var(--ergo-primary-color-active);
+      color:      var(--ergo-primary-text-constast-active);
+    }
+
+    &.ant-btn-loading {
+      border:     1px solid var(--ergo-primary-color-hover);
+      background: var(--ergo-primary-color-hover);
+      color:      var(--ergo-primary-text-constast-hover);
+
+      &:active, &:focus, &:hover {
+        border:     1px solid var(--ergo-primary-color-hover);
+        background: var(--ergo-primary-color-hover);
+        color:      var(--ergo-primary-text-constast-hover);
+      }
+    }
+
+  }
+
+  &.ant-btn-dangerous {
+    border:     1px solid var(--ergo-error-color);
+    background: var(--ergo-error-color);
+    color:      var(--ergo-error-text-constast);
+
+    &:hover, &:focus {
+      border:     1px solid var(--ergo-error-color-hover);
+      background: var(--ergo-error-color-hover);
+      color:      var(--ergo-error-text-constast-hover);
+    }
+
+    &:active {
+      border:     1px solid var(--ergo-error-color-active);
+      background: var(--ergo-error-color-active);
+      color:      var(--ergo-error-text-constast-active);
+    }
+
+    &.ant-btn-loading {
+      border:     1px solid var(--ergo-error-color-hover);
+      background: var(--ergo-error-color-hover);
+      color:      var(--ergo-error-text-constast-hover);
+
+      &:active, &:focus, &:hover {
+        border:     1px solid var(--ergo-error-color-hover);
+        background: var(--ergo-error-color-hover);
+        color:      var(--ergo-error-text-constast-hover);
+      }
+    }
+  }
+
+  &:disabled {
+    &, &:active, &:focus, &:hover, .ant-btn-loading {
+      border:     1px solid var(--ergo-disabled-color) !important;
+      background: var(--ergo-disabled-color) !important;
+      color:      var(--ergo-disabled-text-constrast) !important;
+    }
+  }
 }
 
-.ant-btn.ant-btn-text:focus {
-    background: @btn-text-hover-bg;
+.ant-btn.ant-btn-background-ghost {
+  border:     1px solid var(--ergo-default-card-background);
+  background: transparent !important;
+  color:      var(--ergo-default-card-background);
+
+  &:hover, &:focus {
+    border: 1px solid var(--ergo-primary-color-hover);
+    color:  var(--ergo-primary-color-hover);
+  }
+
+  &:active {
+    border: 1px solid var(--ergo-primary-color-active);
+    color:  var(--ergo-primary-color-active);
+  }
+
+  &.ant-btn-loading {
+    background: var(--ergo-ghost-background) !important;
+
+    &:active, &:focus, &:hover {
+      border: 1px solid var(--ergo-default-card-background);
+      color:  var(--ergo-default-card-background);
+    }
+  }
+
+
+  &.ant-btn-primary {
+    border: 1px solid var(--ergo-primary-color);
+    color:  var(--ergo-primary-color);
+
+    &:hover, &:focus {
+      border: 1px solid var(--ergo-primary-color-hover);
+      color:  var(--ergo-primary-color-hover);
+    }
+
+    &:active {
+      border: 1px solid var(--ergo-primary-color-active);
+      color:  var(--ergo-primary-color-active);
+    }
+
+    &.ant-btn-loading {
+      border:     1px solid var(--ergo-primary-color-hover);
+      background: var(--ergo-ghost-background) !important;
+      color:      var(--ergo-primary-color-hover);
+
+      &:active, &:focus, &:hover {
+        border: 1px solid var(--ergo-primary-color-hover);
+        color:  var(--ergo-primary-color-hover);
+      }
+    }
+  }
+
+  &.ant-btn-dangerous {
+    border: 1px solid var(--ergo-error-color);
+    color:  var(--ergo-error-color);
+
+    &:hover, &:focus {
+      border: 1px solid var(--ergo-error-color-hover);
+      color:  var(--ergo-error-color-hover);
+    }
+
+    &:active {
+      border: 1px solid var(--ergo-error-color-active);
+      color:  var(--ergo-error-color-active);
+    }
+
+    &.ant-btn-loading {
+      border: 1px solid var(--ergo-error-color-hover);
+      color:  var(--ergo-error-color-hover);
+
+      &:active, &:focus, &:hover {
+        border: 1px solid var(--ergo-error-color-hover);
+        color:  var(--ergo-error-color-hover);
+      }
+    }
+  }
+
+  &:disabled {
+    &, &:active, &:focus, &:hover, .ant-btn-loading {
+      border:     1px solid var(--ergo-disabled-color);
+      background: transparent !important;
+      color:      var(--ergo-disabled-color);
+    }
+  }
 }
 
-.ant-btn.ant-btn-text:active {
-    background: @btn-disable-bg;
+.ant-btn.ant-btn-dashed {
+  border-style: dashed !important;
+}
+
+.ant-btn.ant-btn-text, .ant-btn.ant-btn-text.ant-btn-dangerous {
+  border:     1px solid transparent;
+  background: transparent;
+  color:      var(--ergo-primary-text) !important;
+
+  &:hover, &:focus {
+    border:     1px solid var(--ergo-dark-card-background);
+    background: var(--ergo-dark-card-background);
+  }
+
+  &:active {
+    border:     1px solid var(--ergo-default-card-background);
+    background: var(--ergo-default-card-background);
+  }
+
+  &.ant-btn-loading {
+    border:     1px solid transparent;
+    background: transparent;
+
+    &:active, &:focus, &:hover {
+      border:     1px solid transparent;
+      background: transparent;
+    }
+  }
+
+  &:disabled {
+    &, &:active, &:focus, &:hover, .ant-btn-loading {
+      border:     1px solid transparent !important;
+      background: transparent !important;
+    }
+  }
+}
+
+.ant-btn.ant-btn-link, .ant-btn.ant-btn-link.ant-btn-dangerous {
+  border:     1px solid transparent !important;
+  background: transparent !important;
+
+  &:disabled {
+    &, &:active, &:focus, &:hover, .ant-btn-loading {
+      border:     1px solid transparent !important;
+      background: transparent !important;
+    }
+  }
+}
+
+.ant-btn.ant-btn-link {
+  color: var(--ergo-primary-color);
+
+  &:hover, &:focus, &.ant-btn-loading {
+    color: var(--ergo-primary-color-hover);
+  }
+
+  &:active {
+    color: var(--ergo-primary-color-active);
+
+    &.ant-btn-loading {
+      color: var(--ergo-primary-color-hover);
+    }
+  }
+
+}
+
+.ant-btn.ant-btn-link.ant-btn-dangerous {
+  color: var(--ergo-error-color);
+
+  &:hover, &:focus, &.ant-btn-loading {
+    color: var(--ergo-error-color-hover);
+  }
+
+  &:active {
+    color: var(--ergo-error-color-active);
+
+    &.ant-btn-loading {
+      color: var(--ergo-error-color-hover);
+    }
+  }
 }

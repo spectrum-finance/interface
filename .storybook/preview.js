@@ -1,5 +1,4 @@
-import 'antd/dist/antd.less';
-import '../src/assets/styles/components/message.less'
+import './styles.less';
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
@@ -9,10 +8,9 @@ export const parameters = {
       date: /Date$/,
     },
   },
-  backgrounds: {
-    default: "dark",
-    values: [
-      { name: "dark", value: "#000", default: true },
-    ]
-  }
+  backgrounds: { disable: true },
+  themes: [
+    { name: 'Light Theme', class: 'light', color: '#9199b1', default: true },
+    { name: 'Dark Theme', class: 'dark', color: '#5e667d' }
+  ],
 }
