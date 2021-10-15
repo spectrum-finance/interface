@@ -1,9 +1,3 @@
-.btn-color (@border, @background, @color) {
-  border:     1px solid @border !important;
-  background: @background !important;
-  color:      @color !important;
-}
-
 .ant-btn.ant-btn-loading {
   opacity: 0.65;
 
@@ -12,7 +6,7 @@
   }
 }
 
-.ant-btn, .ant-btn-icon-only {
+.ant-btn, .ant-btn.ant-btn-lg, .ant-btn.ant-btn-sm, .ant-btn[type="button"], .ant-btn[type="submit"] , .ant-btn-icon-only, .ant-btn.ant-btn-text {
   border:        1px solid var(--ergo-default-border-color);
   background:    var(--ergo-default-card-background);
   border-radius: var(--ergo-border-radius) !important;
@@ -200,4 +194,82 @@
 
 .ant-btn.ant-btn-dashed {
   border-style: dashed !important;
+}
+
+.ant-btn.ant-btn-text, .ant-btn.ant-btn-text.ant-btn-dangerous {
+  border:     1px solid transparent;
+  background: transparent;
+  color:      var(--ergo-primary-text) !important;
+
+  &:hover, &:focus {
+    border:     1px solid var(--ergo-dark-card-background);
+    background: var(--ergo-dark-card-background);
+  }
+
+  &:active {
+    border:     1px solid var(--ergo-default-card-background);
+    background: var(--ergo-default-card-background);
+  }
+
+  &.ant-btn-loading {
+    border:     1px solid transparent;
+    background: transparent;
+
+    &:active, &:focus, &:hover {
+      border:     1px solid transparent;
+      background: transparent;
+    }
+  }
+
+  &:disabled {
+    &, &:active, &:focus, &:hover, .ant-btn-loading {
+      border:     1px solid transparent !important;
+      background: transparent !important;
+    }
+  }
+}
+
+.ant-btn.ant-btn-link, .ant-btn.ant-btn-link.ant-btn-dangerous {
+  border:     1px solid transparent !important;
+  background: transparent !important;
+
+  &:disabled {
+    &, &:active, &:focus, &:hover, .ant-btn-loading {
+      border:     1px solid transparent !important;
+      background: transparent !important;
+    }
+  }
+}
+
+.ant-btn.ant-btn-link {
+  color: var(--ergo-primary-color);
+
+  &:hover, &:focus, &.ant-btn-loading {
+    color: var(--ergo-primary-color-hover);
+  }
+
+  &:active {
+    color: var(--ergo-primary-color-active);
+
+    &.ant-btn-loading {
+      color: var(--ergo-primary-color-hover);
+    }
+  }
+
+}
+
+.ant-btn.ant-btn-link.ant-btn-dangerous {
+  color: var(--ergo-error-color);
+
+  &:hover, &:focus, &.ant-btn-loading {
+    color: var(--ergo-error-color-hover);
+  }
+
+  &:active {
+    color: var(--ergo-error-color-active);
+
+    &.ant-btn-loading {
+      color: var(--ergo-error-color-hover);
+    }
+  }
 }
