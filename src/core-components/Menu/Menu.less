@@ -6,26 +6,26 @@
 .ant-menu-item:hover,
 .ant-menu-submenu.ant-menu-submenu-vertical:active,
 .ant-menu-item:active {
-  background-color: @color-gray-3;
+  background-color: var(--ant-menu-item-active-background);
   border-radius: 8px;
 }
 
 .ant-dropdown-menu.ant-dropdown-menu-root {
-  background-color: @color-gray-1;
+  background-color: var(--ant-dropdown-menu-background);
   border-radius: 12px;
 }
 
 .ant-dropdown-menu-item:not(.ant-dropdown-menu-item-disabled) {
-  color: @color-gray-9;
+  color: var(--ant-dropdown-menu-item-not-disable);
 
   &.ant-dropdown-menu-item-danger {
-    color: @color-dust-red-6;
+    color: var(--ant-dropdown-menu-item-danger);
   }
 
   &:hover {
-    background-color: @color-gray-3;
+    background-color: var(--ant-dropdown-menu-item-hover-bg);
     border-radius: 8px;
-    color: @color-orange-6;
+    color: var(--ant-dropdown-menu-item-hover-color);
   }
 }
 
