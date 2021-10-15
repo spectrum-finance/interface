@@ -870,7 +870,5 @@ Outlined.storyName = 'Outlined';
 export const Solid: Story = () => <SolidTemplate />;
 Solid.storyName = 'Solid';
 
-Icon.setTwoToneColor('#FF725C');
-
 export const TwoTone: Story = () => <TwoToneTemplate />;
 TwoTone.storyName = 'Two Tone';

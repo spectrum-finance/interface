@@ -1,14 +1,25 @@
-h1, h2, h3, h4, h5 {
-    color: #DBDBDB;
-}
-
-.icons {
+.dark {
+  .icons {
     margin-top: 10px;
     margin-bottom: 10px;
     span {
-        padding: 5px;
+      padding: 5px;
     }
     .anticon {
-        color: #dbdbdb;
+      color: #dbdbdb;
     }
+  }    
+}
+
+.light {
+  .icons {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    span {
+      padding: 5px;
+    }
+    .anticon {
+      color: #262626;
+    }
+  }    
 }

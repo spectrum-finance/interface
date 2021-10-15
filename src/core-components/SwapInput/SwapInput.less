@@ -1,24 +1,18 @@
-@import './src/assets/styles/variables/colors.less';
-
 .swap-input {
   .ant-input {
-    border-color: @color-gray-2 !important;
-    background-color: @color-gray-2;
+    border-color: transparent;
+    background-color: var(--ergo-default-component-background);
     box-shadow: none !important;
     font-size: 24px;
   }
 
   .ant-input-affix-wrapper {
-    border-color: @color-gray-2 !important;
-    background-color: @color-gray-2; 
+    border-color: transparent;
+    background-color: var(--ergo-default-component-background);
     box-shadow: none !important;
 
     .ant-input {
       padding-left: 1px;
-    }
-    
-    .ant-input-suffix {
-      color: @color-gray-8;
     }
   }
 }
