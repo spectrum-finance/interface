@@ -1,23 +1,82 @@
-@import './src/assets/styles/variables/colors.less';
+.dotBorder (@color) {
+  border: 2px solid @color;
+}
+
+.ant-slider {
+  &-rail {
+    background-color: var(--ergo-slider-rail-bg);
+  }
+
+  &-track {
+    background-color: var(--ergo-slider-track-bg);
+  }
+
+  &-handle {
+    .dotBorder(var(--ergo-slider-dot-active-bg));
+    background-color: var(--ergo-slider-dot-bg);
+
+    &:focus {
+      border-color: var(--ergo-slider-handle-border-hover);
+      box-shadow: 0 0 0 5px rgb(255 81 53 / 12%);
+    }
+  }
+}
+
+.ant-slider:hover {
+  .ant-slider-rail {
+    background-color: var(--ergo-slider-rail-bg);
+  }
+
+  .ant-slider-track {
+    background-color: var(--ergo-slider-track-bg);
+  }
+
+  .ant-slider-handle {
+    border-color: var(--ergo-slider-handle-border-hover);
+    background-color: var(--ergo-slider-handle-bg-hover);
+  }
+
+  .ant-slider-handle:not(.ant-tooltip-open) {
+    border-color: var(--ergo-slider-handle-border-hover);
+    background-color: var(--ergo-slider-handle-bg-hover);
+  }
+}
 
 .ant-slider-dot {
-  background-color: @color-gray-1;
+  .dotBorder(var(--ergo-slider-dot-border));
+  background-color: var(--ergo-slider-dot-bg);
 
   &-active {
-    background-color: @color-orange-3;
+    .dotBorder(var(--ergo-slider-dot-active-bg));
+    background-color: var(--ergo-slider-dot-active-bg);
   }
 }
 
-.ant-slider-disabled .ant-slider-dot {
-  border-color: @color-gray-4 !important;
-  background-color: @color-gray-1;
-
-  &-active {
-    border-color: @color-gray-6 !important;
-    background-color: @color-gray-6;
-  }
+.ant-slider-mark-text {
+  color: var(--ergo-primary-text);
 }
 
-.ant-slider-disabled .ant-slider-handle {
-  background-color: @color-gray-1;
+.ant-slider.ant-slider-disabled {
+  .ant-slider-rail {
+    background-color: var(--ergo-slider-disabled) !important;
+  }
+
+  .ant-slider-track {
+    background-color: var(--ergo-slider-disabled-contrast) !important;
+  }
+
+  .ant-slider-handle {
+    border-color: var(--ergo-slider-disabled-contrast) !important;
+    background-color: var(--ergo-slider-disabled-contrast) !important;
+  }
+
+  .ant-slider-dot {
+    .dotBorder(var(--ergo-slider-disabled)) !important;
+    background-color: var(--ergo-slider-dot-bg) !important;
+
+    &-active {
+      .dotBorder(var(--ergo-slider-disabled-contrast)) !important;
+      background-color: var(--ergo-slider-disabled-contrast) !important;
+    }
+  }
 }
