@@ -1,5 +1,5 @@
-@import "../../../core-components/styles/variables";
-@import "../../../core-components/styles/palette/palette.dark";
+@import "./default";
+@import "../variables/palette.dark";
 
 .dark {
   .defaultTheme();
@@ -21,4 +21,21 @@
   --ergo-ghost-background:        transparent;
   --ergo-default-border-color:    @dark-color-gray-5;
   --ergo-primary-text:            @dark-color-gray-9;
+
+  // Slider
+  --ergo-slider-rail-bg: @dark-color-gray-4;
+  --ergo-slider-track-bg: @dark-color-orange-3;
+
+  --ergo-slider-handle-bg: var(--ergo-default-card-background);
+  --ergo-slider-handle-bg-hover: var(--ergo-default-card-background);
+  --ergo-slider-handle-border: var(--ergo-primary-color);
+  --ergo-slider-handle-border-hover: var(--ergo-primary-color-hover);
+
+  --ergo-slider-dot-bg: var(--ergo-default-card-background);
+  --ergo-slider-dot-border: var(--ergo-slider-rail-bg);
+  --ergo-slider-dot-active-bg: var(--ergo-slider-track-bg);
+  --ergo-slider-dot-active-border: var(--ergo-slider-track-bg);
+
+  --ergo-slider-disabled: @dark-color-gray-4;
+  --ergo-slider-disabled-contrast: var(--ergo-disabled-text-constrast);
 }

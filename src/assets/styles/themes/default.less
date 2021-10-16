@@ -1,4 +1,4 @@
-@import 'palette/palette.light';
+@import '../variables/palette.light';
 
 .defaultTheme () {
   // Geometry
@@ -25,11 +25,27 @@
   --ergo-error-text-constast-hover:    var(--ergo-primary-text-constast-hover);
   --ergo-error-text-constast-active:   var(--ergo-primary-text-constast-active);
 
-
   --ergo-default-background:           @light-color-gray-7;
   --ergo-default-card-background:      @light-color-gray-1;
   --ergo-dark-card-background:         @light-color-gray-2;
   --ergo-ghost-background:             rgba(255, 255, 255, .35);
   --ergo-default-border-color:         @light-color-gray-5;
   --ergo-primary-text:                 @light-color-gray-9;
+
+  // Slider
+  --ergo-slider-rail-bg: @light-color-gray-4;
+  --ergo-slider-track-bg: var(--ergo-primary-color);
+
+  --ergo-slider-handle-bg: var(--ergo-default-card-background);
+  --ergo-slider-handle-bg-hover: var(--ergo-default-card-background);
+  --ergo-slider-handle-border: var(--ergo-primary-color);
+  --ergo-slider-handle-border-hover: var(--ergo-primary-color-hover);
+
+  --ergo-slider-dot-bg: var(--ergo-default-card-background);
+  --ergo-slider-dot-border: @light-color-gray-5;
+  --ergo-slider-dot-active-bg: var(--ergo-slider-track-bg);
+  --ergo-slider-dot-active-border: var(--ergo-slider-track-bg);
+
+  --ergo-slider-disabled: @light-color-gray-4;
+  --ergo-slider-disabled-contrast: var(--ergo-disabled-text-constrast);
 }
