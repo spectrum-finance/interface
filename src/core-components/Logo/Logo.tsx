@@ -12,8 +12,8 @@ export interface Props {
 export const Logo: React.FC<Props> = ({ label }) => {
   return (
     <div className="logo-wrapper">
-      <LogoIcon></LogoIcon>
-      {label && <LogoLabel className="logo-label"></LogoLabel>}
+      <LogoIcon />
+      {label && <LogoLabel className="logo-label" />}
     </div>
   );
 };
