@@ -1,47 +1,14 @@
-@import "../../../ergodex-cdk/styles/variables";
-@import "../../../ergodex-cdk/styles/colors/colors.dark";
+@import "../../../ergodex-cdk/styles/styles";
 
 .dark {
   .defaultTheme();
+  // -- Color --
+
+  // Primary
   --ergo-primary-color:           @dark-color-orange-5;
   --ergo-primary-color-hover:     @dark-color-orange-6;
   --ergo-primary-color-active:    @dark-color-orange-4;
-  --ergo-primary-text-constast:   @dark-color-gray-10;
-
-  --ergo-disabled-color:          @dark-color-gray-3;
-  --ergo-disabled-text-constrast: @dark-color-gray-6;
-
-  // Info
-  --ergo-info-color:                   @dark-color-blue-6;
-  --ergo-info-color-hover:             @dark-color-blue-7;
-  --ergo-info-color-active:            @dark-color-blue-5;
-  --ergo-info-border-color:            @dark-color-blue-3;
-  --ergo-info-bg-color:                @dark-color-blue-1;
-  --ergo-info-icon-color:              var(--ergo-info-color-active);
-
-  // Success
-  --ergo-success-color:                @dark-color-green-6;
-  --ergo-success-color-hover:          @dark-color-green-7;
-  --ergo-success-color-active:         @dark-color-green-5;
-  --ergo-success-border-color:         @dark-color-green-3;
-  --ergo-success-bg-color:             @dark-color-green-1;
-  --ergo-success-icon-color:           var(--ergo-success-color-active);
-
-  // Warning
-  --ergo-warning-color:                @dark-color-gold-6;
-  --ergo-warning-color-hover:          @dark-color-gold-7;
-  --ergo-warning-color-active:         @dark-color-gold-5;
-  --ergo-warning-border-color:         @dark-color-gold-3;
-  --ergo-warning-bg-color:             @dark-color-gold-1;
-  --ergo-warning-icon-color:           var(--ergo-warning-color-active);
-
-  // Error
-  --ergo-error-color:             @dark-color-dust-red-6;
-  --ergo-error-color-hover:       @dark-color-dust-red-7;
-  --ergo-error-color-active:      @dark-color-dust-red-5;
-  --ergo-error-border-color:      @dark-color-dust-red-3;
-  --ergo-error-bg-color:          @dark-color-dust-red-1;
-  --ergo-error-icon-color:        var(--ergo-error-color-active);
+  --ergo-primary-text-contrast:   @dark-color-gray-10;
 
   --ergo-default-background:      @dark-color-gray-1;
   --ergo-default-card-background: @dark-color-gray-3;
@@ -49,6 +16,48 @@
   --ergo-ghost-background:        transparent;
   --ergo-default-border-color:    @dark-color-gray-5;
   --ergo-primary-text:            @dark-color-gray-9;
+
+  --ergo-disabled-color:          @dark-color-gray-3;
+  --ergo-disabled-text-constrast: @dark-color-gray-6;
+
+  // Info
+  --ergo-info-color:                   @dark-color-blue-6;
+  --ergo-info-color-hover:             @dark-color-blue-5;
+  --ergo-info-color-active:            var(--ergo-info-color);
+  --ergo-info-border-color:            @dark-color-blue-3;
+  --ergo-info-bg-color:                @dark-color-blue-1;
+  --ergo-info-icon-color:              var(--ergo-info-color-active);
+
+  // Success
+  --ergo-success-color:                @dark-color-green-6;
+  --ergo-success-color-hover:          @dark-color-green-5;
+  --ergo-success-color-active:         var(--ergo-success-color);
+  --ergo-success-border-color:         @dark-color-green-3;
+  --ergo-success-bg-color:             @dark-color-green-1;
+  --ergo-success-icon-color:           var(--ergo-success-color-active);
+
+  // Warning
+  --ergo-warning-color:                @dark-color-gold-6;
+  --ergo-warning-color-hover:          @dark-color-gold-5;
+  --ergo-warning-color-active:         var(--ergo-warning-color);
+  --ergo-warning-border-color:         @dark-color-gold-3;
+  --ergo-warning-bg-color:             @dark-color-gold-1;
+  --ergo-warning-icon-color:           var(--ergo-warning-color);
+
+  // Error
+  --ergo-error-color:                  @dark-color-dust-red-6;
+  --ergo-error-color-hover:            @dark-color-dust-red-5;
+  --ergo-error-color-active:           var(--ergo-error-color);
+  --ergo-error-border-color:           @dark-color-dust-red-3;
+  --ergo-error-bg-color:               @dark-color-dust-red-1;
+  --ergo-error-icon-color:             var(--ergo-error-color-active);
+
+  // -- Components
+
+  // Button
+  --ergo-button-danger-color:             @dark-color-dust-red-6;
+  --ergo-button-danger-color-hover:       @dark-color-dust-red-7;
+  --ergo-button-danger-color-active:      @dark-color-dust-red-5;
 
   // Alert
   --ergo-alert-message-color:          @dark-color-gray-9;
@@ -72,17 +81,20 @@
   --ergo-slider-disabled-contrast: var(--ergo-disabled-text-constrast);
 
   // Menu
-  --ant-menu-item-active-background:      @dark-color-gray-3;
-  --ant-dropdown-menu-background:         @dark-color-gray-1;
-  --ant-dropdown-menu-item-not-disable:   @dark-color-gray-9;
-  --ant-dropdown-menu-item-disable:       @dark-color-gray-3;
-  --ant-dropdown-menu-item-danger:        @dark-color-dust-red-6;
-  --ant-dropdown-menu-item-hover-bg:      @dark-color-gray-3;
-  --ant-dropdown-menu-item-hover-color:   @dark-color-orange-6;
+  --ergo-menu-item-active-background:      @dark-color-gray-3;
+  --ergo-dropdown-menu-background:         @dark-color-gray-1;
+  --ergo-dropdown-menu-item-not-disable:   @dark-color-gray-9;
+  --ergo-dropdown-menu-item-disable:       @dark-color-gray-3;
+  --ergo-dropdown-menu-item-danger:        @dark-color-dust-red-6;
+  --ergo-dropdown-menu-item-hover-bg:      @dark-color-gray-3;
+  --ergo-dropdown-menu-item-hover-color:   @dark-color-orange-6;
 
   // Input
   --ergo-input-bg: @dark-color-gray-1;
   --ergo-input-color-hover: @dark-color-gray-8;
   --ergo-input-color-active: @dark-color-gray-8;
   --ergo-input-placeholder-color: @dark-color-gray-7;
+
+  // Message
+  --ergo-message-box-shadow: none;
 }
