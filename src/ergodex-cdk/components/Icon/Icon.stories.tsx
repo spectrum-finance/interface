@@ -1,5 +1,3 @@
-import './Icon.stories.scss';
-
 import { Meta, Story } from '@storybook/react';
 import React from 'react';
 
@@ -11,7 +9,7 @@ export default {
 } as Meta<typeof Icon.IconProvider>;
 
 const OutlinedTemplate: Story = () => (
-  <div>
+  <div style={{ color: 'var(--ergo-primary-text)' }}>
     <h3>Outlined</h3>
     <h4>Directional</h4>
     <div className="icons">
@@ -452,7 +450,7 @@ const OutlinedTemplate: Story = () => (
 );
 
 const SolidTemplate: Story = () => (
-  <div>
+  <div style={{ color: 'var(--ergo-primary-text)' }}>
     <h3>Solid</h3>
     <h4>Directional</h4>
     <div className="icons">
