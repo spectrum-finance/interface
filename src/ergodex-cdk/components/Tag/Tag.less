@@ -1,5 +1,11 @@
 @import './src/assets/styles/variables/colors.less';
 
+.makeTag (@text, @bg, @border) {
+  border-color: @border;
+  background-color: @bg;
+  color: @text;
+}
+
 .ant-tag {
   padding: 1px 8px;
   border-radius: 8px;
@@ -7,98 +13,130 @@
   line-height: 20px;
 
   &-success {
-    border-color: @color-green-3;
-    background-color: @color-green-1;
-    color: @color-green-6;
+    .makeTag(
+      var(--ergo-success-color),
+      var(--ergo-success-bg-color),
+      var(--ergo-success-border-color)
+    );
   }
 
   &-error {
-    border-color: @color-dust-red-3;
-    background-color: @color-dust-red-1;
-    color: @color-dust-red-6;
+    .makeTag(
+      var(--ergo-error-color),
+      var(--ergo-error-bg-color),
+      var(--ergo-error-border-color)
+    );
   }
 
   &-warning {
-    border-color: @color-gold-3;
-    background-color: @color-gold-1;
-    color: @color-gold-6;
+    .makeTag(
+      var(--ergo-warning-color),
+      var(--ergo-warning-bg-color),
+      var(--ergo-warning-border-color)
+    );
   }
 
   &-processing {
-    border-color: @color-blue-3;
-    background-color: @color-blue-1;
-    color: @color-blue-6;
+    .makeTag(
+      var(--ergo-blue-color),
+      var(--ergo-blue-bg-color),
+      var(--ergo-blue-border-color)
+    );
   }
 
   &-default {
-    border-color: @color-gray-5;
-    background-color: @color-gray-2;
-    color: @color-gray-9;
+    .makeTag(
+      var(--ergo-primary-text),
+      var(--ergo-dark-card-background),
+      var(--ergo-default-border-color)
+    );
   }
 
   &-magenta {
-    border-color: @color-magenta-3;
-    background-color: @color-magenta-1;
-    color: @color-magenta-6;
+    .makeTag(
+      var(--ergo-magenta-color),
+      var(--ergo-magenta-bg-color),
+      var(--ergo-magenta-border-color)
+    );
   }
 
   &-red {
-    border-color: @color-dust-red-3;
-    background-color: @color-dust-red-1;
-    color: @color-dust-red-6;
+    .makeTag(
+      var(--ergo-red-color),
+      var(--ergo-red-bg-color),
+      var(--ergo-red-border-color)
+    );
   }
 
   &-volcano {
-    border-color: @color-volcano-3;
-    background-color: @color-volcano-1;
-    color: @color-volcano-6;
+    .makeTag(
+      var(--ergo-volcano-color),
+      var(--ergo-volcano-bg-color),
+      var(--ergo-volcano-border-color)
+    );
   }
 
   &-orange {
-    border-color: @color-sunset-3;
-    background-color: @color-sunset-1;
-    color: @color-sunset-6;
+    .makeTag(
+      var(--ergo-orange-color),
+      var(--ergo-orange-bg-color),
+      var(--ergo-orange-border-color)
+    );
   }
 
   &-gold {
-    border-color: @color-gold-3;
-    background-color: @color-gold-1;
-    color: @color-gold-6;
+    .makeTag(
+      var(--ergo-gold-color),
+      var(--ergo-gold-bg-color),
+      var(--ergo-gold-border-color)
+    );
   }
 
   &-lime {
-    border-color: @color-lime-3;
-    background-color: @color-lime-1;
-    color: @color-lime-6;
+    .makeTag(
+      var(--ergo-lime-color),
+      var(--ergo-lime-bg-color),
+      var(--ergo-lime-border-color)
+    );
   }
 
   &-green {
-    border-color: @color-green-3;
-    background-color: @color-green-1;
-    color: @color-green-6;
+    .makeTag(
+      var(--ergo-green-color),
+      var(--ergo-green-bg-color),
+      var(--ergo-green-border-color)
+    );
   }
 
   &-cyan {
-    border-color: @color-cyan-3;
-    background-color: @color-cyan-1;
-    color: @color-cyan-6;
+    .makeTag(
+      var(--ergo-cyan-color),
+      var(--ergo-cyan-bg-color),
+      var(--ergo-cyan-border-color)
+    );
   }
 
   &-blue {
-    border-color: @color-blue-3;
-    background-color: @color-blue-1;
-    color: @color-blue-6;
+    .makeTag(
+      var(--ergo-blue-color),
+      var(--ergo-blue-bg-color),
+      var(--ergo-blue-border-color)
+    );
   }
 
   &-geekblue {
-    border-color: @color-geek-blue-3;
-    background-color: @color-geek-blue-1;
-    color: @color-geek-blue-6;
+    .makeTag(
+      var(--ergo-geek-blue-color),
+      var(--ergo-geek-blue-bg-color),
+      var(--ergo-geek-blue-border-color)
+    );
   }
 
   &-purple {
-    border-color: @color-purple-3;
-    background-color: @color-purple-1;
-    color: @color-purple-6;
+    .makeTag(
+      var(--ergo-purple-color),
+      var(--ergo-purple-bg-color),
+      var(--ergo-purple-border-color)
+    );
   }
 }
