@@ -1,54 +1,52 @@
-//@import "../variables/colors";
-//
-//.ant-message {
-//  top: initial !important;
-//  right: 24px !important;
-//  bottom: 24px !important;
-//  left: initial !important;
-//  max-width: 300px;
-//
-//  > div {
-//    display: flex;
-//    flex-direction: column;
-//    text-align: right;
-//  }
-//}
-//
-//.ergodex-message {
-//  display: inline-block;
-//  padding: 8px 0 !important;
-//  color: @color-gray-9;
-//
-//  .ant-message-notice-content {
-//    background: @color-gray-1;
-//    border-radius: 8px;
-//  }
-//
-//  .ant-message {
-//    &-info {
-//      svg {
-//        fill: @color-blue-6;
-//      }
-//    }
-//    &-loading {
-//      svg {
-//        fill: @color-blue-6;
-//      }
-//    }
-//    &-success {
-//      svg {
-//        fill: @color-green-6;
-//      }
-//    }
-//    &-warning {
-//      svg {
-//        fill: @color-gold-6;
-//      }
-//    }
-//    &-error {
-//      svg {
-//        fill: @color-dust-red-6;
-//      }
-//    }
-//  }
-//}
+.ant-message {
+  top: initial !important;
+  right: 24px !important;
+  bottom: 24px !important;
+  left: initial !important;
+  max-width: 300px;
+
+  > div {
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+  }
+}
+
+.ergodex-message {
+  display: inline-block;
+  padding: 8px 0 !important;
+  color: var(--ergo-primary-text);
+
+  .ant-message-notice-content {
+    background: var(--ergo-default-card-background);
+    border-radius: 8px;
+  }
+
+  .ant-message {
+    &-info {
+      svg {
+        fill: var(--ergo-info-color);
+      }
+    }
+    &-loading {
+      svg {
+        fill: var(--ergo-info-color);
+      }
+    }
+    &-success {
+      svg {
+        fill: var(--ergo-success-color);
+      }
+    }
+    &-warning {
+      svg {
+        fill: var(--ergo-warning-color);
+      }
+    }
+    &-error {
+      svg {
+        fill: var(--ergo-error-color);
+      }
+    }
+  }
+}

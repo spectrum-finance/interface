@@ -2,7 +2,7 @@ import { Meta, Story } from '@storybook/react';
 import { Space } from 'antd';
 import React from 'react';
 
-import { message } from '../../../services/message';
+import { message } from '../../services/message';
 import { Button } from '../Button/Button';
 
 export default {
