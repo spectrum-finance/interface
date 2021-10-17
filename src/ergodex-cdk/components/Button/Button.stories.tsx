@@ -1,5 +1,3 @@
-import './Button.stories.css';
-
 import { Meta, Story } from '@storybook/react';
 import { ButtonProps, Col, Row } from 'antd';
 import React from 'react';

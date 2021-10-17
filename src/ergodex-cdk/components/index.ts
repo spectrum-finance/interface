@@ -1,5 +1,4 @@
 export * from './Alert/Alert';
-export * from './AmountInput/AmountInput';
 export * from './Button/Button';
 export * from './ConnectWallet/ConnectWallet';
 export * from './Dropdown/Dropdown';
@@ -9,7 +8,6 @@ export * from './Menu/Menu';
 export * from './Modal/Modal';
 export * from './NetworkDropdown/NetworkDropdown';
 export * from './Popover/Popover';
-export * from './Select/Select';
 export * from './Slider/Slider';
 export * from './SwapInput/SwapInput';
 export * from './Tabs/Tabs';
