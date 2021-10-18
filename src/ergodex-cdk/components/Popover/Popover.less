@@ -1,18 +1,17 @@
-@import './src/assets/styles/variables/colors.less';
-
 .ant-popover {
-  color: @color-gray-9;
+  color: var(--ergo-primary-text);
 
   &-arrow { display: none }
 
   &-inner {
-    border: 1px solid @color-gray-2;
-    background-color: @color-gray-1;
-    border-radius: 12px;
+    border: 1px solid var(--ergo-popover-border-color);
+    background-color: var(--ergo-popover-bg-color);
+    border-radius: var(--ergo-border-radius) !important;
+    box-shadow: var(--ergo-popover-box-shadow);
 
     &-content {
       padding: 8px;
-      color: @color-gray-9;
+      color: var(--ergo-primary-text);
     }
   }
 
