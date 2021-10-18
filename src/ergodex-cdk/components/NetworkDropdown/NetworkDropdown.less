@@ -1,42 +1,48 @@
-@import './src/assets/styles/variables/colors.less';
-@import './src/assets/styles/variables/gradients.less';
+@import './src/assets/styles/styles';
+
+.ant-btn {
+  &.NetworkDropdown {
+    &__container {
+      display: flex;
+      height: 40px;
+      align-items: center;
+      padding-right: 16px;
+      padding-left: 16px;
+      border: 1px solid transparent;
+      color: var(--ergo-networkdropdown-hover-focus-color);
+
+      &:hover,
+      &:focus {
+        border: 1px solid var(--ergo-networkdropdown-hover-focus-border);
+        color: var(--ergo-networkdropdown-hover-focus-color);
+      }
+
+      &--cardano {
+        background: @gradient-cardano-dropdown;
+        &:hover,
+        &:focus {
+          background: @gradient-cardano-dropdown;
+        }
+      }
+
+      &--ergo {
+        background: @gradient-ergo-dropdown;
+
+        &:hover,
+        &:focus {
+          background: @gradient-ergo-dropdown;
+        }
+      }
+    }
+
+    &__logo {
+      margin-right: 8px;
+    }
+  }
+}
 
 .NetworkDropdown {
-   &__token-icon {
-      margin-right: 8px;
-  }
-
-  &__container {
-    display: flex;
-    height: 40px;
-    align-items: center;
-    padding-right: 16px;
-    padding-left: 16px;
-
-    &:hover,&:focus {
-      border: 1px solid @color-gray-7;
-      color: @color-gray-9;
-    }
-
-    &--cardano {
-      background: @gradient-cardano-dropdown;
-      &:hover,
-      &:focus {
-        background: @gradient-cardano-dropdown;
-      }
-    }
-
-    &--ergo {
-      background: @gradient-ergo-dropdown;
-
-      &:hover,
-      &:focus {
-        background: @gradient-ergo-dropdown;
-      }
-    }
-  }
-
-  &__logo {
+  &__token-icon {
     margin-right: 8px;
   }
 }
