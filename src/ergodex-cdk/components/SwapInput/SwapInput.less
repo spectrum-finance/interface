@@ -1,24 +1,24 @@
-@import './src/assets/styles/variables/colors.less';
+.swapInputStyles () {
+  border-color: transparent;
+  background-color: var(--ergo-swap-input-bg);
+  box-shadow: none !important;
+}
 
 .swap-input {
   .ant-input {
-    border-color: @color-gray-2 !important;
-    background-color: @color-gray-2;
-    box-shadow: none !important;
+    .swapInputStyles();
     font-size: 24px;
   }
 
   .ant-input-affix-wrapper {
-    border-color: @color-gray-2 !important;
-    background-color: @color-gray-2; 
-    box-shadow: none !important;
+    .swapInputStyles();
 
     .ant-input {
       padding-left: 1px;
     }
     
     .ant-input-suffix {
-      color: @color-gray-8;
+      color: var(--ergo-primary-text);
     }
   }
 }
