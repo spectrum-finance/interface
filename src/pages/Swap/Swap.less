@@ -1,15 +1,14 @@
-@import './src/assets/styles/variables/colors.less';
-
 .swap-form {
   display: flex;
+  box-sizing: border-box;
   flex-direction: column;
   align-items: center;
   padding: 24px;
+  margin: auto;
   
-  background-color: @color-gray-05;
+  background-color: var(--ergo-swap-form-bg);
   border-radius: 20px;
   box-shadow: none;
-  color: @color-gray-9;
 
   .from-token-input {
     width: 100%;
@@ -23,6 +22,7 @@
 
     .form-title {
       align-self: stretch;
+      color: var(--ergo-primary-text);
   
       font-size: 20px;
       line-height: 28px;
@@ -31,6 +31,7 @@
     .network-name {
       align-self: stretch;
       margin-bottom: 24px;
+      color: var(--ergo-swap-form-sub-text);
   
       font-size: 12px;
       line-height: 20px;
@@ -40,6 +41,10 @@
       position: absolute;
       top: 26px;
       right: 26px;
+
+      svg {
+        color: var(--ergo-swap-form-icon);
+      }
     }
   }
 

@@ -28,9 +28,9 @@ export const Swap: React.FC = () => {
   const handleSelectToToken = () => {};
 
   return (
-    <div className="App">
+    <div className="App dark">
       <Layout>
-        <Row gutter={[{ xs: 8, sm: 16, md: 16 }, 8]}>
+        <Row align="middle" justify="center">
           <Col>
             <div className="swap-form">
               <div className="swap-header">
