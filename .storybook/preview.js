@@ -11,6 +11,6 @@ export const parameters = {
   backgrounds: { disable: true },
   themes: [
     { name: 'Light Theme', class: 'light', color: '#e5e5e5', default: true },
-    { name: 'Dark Theme', class: 'dark', color: '#5e667d' }
+    { name: 'Dark Theme', class: 'dark', color: '#000000' }
   ],
 }
