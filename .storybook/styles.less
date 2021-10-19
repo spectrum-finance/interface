@@ -1,8 +1,17 @@
 @import "../src/assets/styles/styles.less";
 
-.dark, .light {
-  background: var(--ergo-default-background);
+@storybook-dark-bg: #000000;
+@storybook-light-bg: #E5E5E5;
 
+.dark {
+  background-color: @storybook-dark-bg;
+}
+
+.light {
+  background-color: @storybook-light-bg;
+}
+
+.dark, .light {
   h1, h2, h3, h4, h5 {
     color: var(--ergo-primary-text);
   }
