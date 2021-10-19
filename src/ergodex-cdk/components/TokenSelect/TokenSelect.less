@@ -1,22 +1,27 @@
 .ant-btn.ant-btn-primary {
   &.token-select {
-    &:hover,
-    &:focus {
+    border: 1px solid var(--ergo-tokenselect-default-bg);
+    background: var(--ergo-tokenselect-default-bg);
+    color: var(--ergo-tokenselect-lbl-color);
+    &:hover {
       border: 1px solid var(--ergo-tokenselect-hover-bg);
       background: var(--ergo-tokenselect-hover-bg);
-      color: var(--ergo-primary-text-contrast-hover);
+    }
+    &:active {
+      border: 1px solid var(--ergo-tokenselect-active-bg);
+      background: var(--ergo-tokenselect-active-bg);
     }
   }
 }
 
-.token-select_active {
+.token-select_selected {
   padding: 8px 12px;
   border: 0;
-  background-color: var(--ergo-tokenselect-active-background);
+  background-color: var(--ergo-tokenselect-selected-background);
   border-radius: 12px;
   box-shadow: 0 9px 28px 8px rgba(0, 0, 0, 0.05), 0 6px 16px rgba(0, 0, 0, 0.08),
     0 3px 6px -4px rgba(0, 0, 0, 0.12);
-  color: var(--ergo-tokenselect-active-color);
+  color: var(--ergo-tokenselect-selected-color);
   cursor: pointer;
   font-size: 16px;
   line-height: 24px;
@@ -26,10 +31,11 @@
     align-items: center;
   }
 
-  &:hover,
-  &:focus,
+  &:hover {
+    background-color: var(--ergo-tokenselect-selected-hover-bg);
+  }
   &:active {
-    background-color: var(--ergo-tokenselect-active-hover-bg);
+    background-color: var(--ergo-tokenselect-selected-active-bg);
   }
 
   &_item {

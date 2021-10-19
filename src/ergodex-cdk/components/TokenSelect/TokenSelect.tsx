@@ -12,13 +12,15 @@ interface TokenSelectProps {
 const TokenSelect: React.FC<TokenSelectProps> = ({ name, onTokenSelect }) => (
   <>
     {name ? (
-      <button className="token-select_active" onClick={onTokenSelect}>
-        <span className="token-select_active_container">
+      <button className="token-select_selected" onClick={onTokenSelect}>
+        <span className="token-select_selected_container">
           <TokenIcon
             name={name ?? 'empty'}
-            className="token-select_active_item"
+            className="token-select_selected_item"
           />
-          <span className="token-select_active_item">{name.toUpperCase()}</span>
+          <span className="token-select_selected_item">
+            {name.toUpperCase()}
+          </span>
           <DownOutlined />
         </span>
       </button>
