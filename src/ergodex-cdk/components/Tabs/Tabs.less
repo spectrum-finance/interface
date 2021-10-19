@@ -1,40 +1,58 @@
-@import './src/assets/styles/variables/colors.less';
-
-// Removes default bottom stroke
 .ant-tabs-nav::before {
   display: none !important;
 }
 
 .ant-tabs-nav-list {
-  padding: 4px;
-  background-color: @color-gray-1;
-  border-radius: 16px;
+  padding:          4px;
+  background-color: var(--ergo-tabs-nav-list-color);
+  border-radius:    var(--ergo-tabs-nav-list-border-radius);
 }
 
 .ant-tabs-tab {
-  border: 0 !important;
-  border-radius: 12px !important;
-}
+  border:        0 !important;
+  background:    transparent !important;
+  border-radius: var(--ergo-tab-border-radius) !important;
 
-.ant-tabs-tab-btn {
-  color: @color-gray-9;
+  .ant-tabs-tab-btn {
+    color: var(--ergo-tab-text-contrast) !important;
 
-  &:hover {
-    color: @color-gray-10;
+    &:active, &:hover, &:focus {
+      color: var(--ergo-tab-text-contrast) !important;
+    }
   }
 }
 
 .ant-tabs-tab-active {
-  background: @color-orange-5 !important;
+  background: var(--ergo-tab-color-active) !important;
 
   .ant-tabs-tab-btn {
-    color: @color-gray-10 !important;
+    color: var(--ergo-tab-text-contrast-active) !important;
+
+    &:active, &:hover, &:focus {
+      color: var(--ergo-tab-text-contrast-active) !important;
+    }
   }
 }
+
 
 .ant-tabs-tab.ant-tabs-tab-disabled .ant-tabs-tab-btn,
 .ant-tabs-tab.ant-tabs-tab-disabled .ant-tabs-tab-btn:hover,
 .ant-tabs-tab.ant-tabs-tab-disabled .ant-tabs-tab-btn:active,
 .ant-tabs-tab.ant-tabs-tab-disabled .ant-tabs-tab-btn:focus {
-  color: @color-gray-6;
+  position: relative;
+  color:    var(--ergo-tab-disabled-text-contrast) !important;
+
+  &::after {
+    position:      relative;
+    top:           -8px;
+    right:         -6px;
+    padding:       1px 8px;
+    border:        1px solid var(--ergo-tab-disabled-border-color);
+    background:    var(--ergo-tab-disabled-color);
+    border-radius: 4px;
+    content:       'Coming soon';
+    font-size:     8px;
+    line-height:   12px;
+    transform:     translate(calc(100% + 6px), -4px);
+  }
 }
