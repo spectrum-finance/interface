@@ -2,6 +2,7 @@
   &.token-select {
     border: 1px solid var(--ergo-tokenselect-default-bg);
     background: var(--ergo-tokenselect-default-bg);
+    box-shadow: var(--ergo-tokenselect-box-shadow) !important;
     color: var(--ergo-tokenselect-lbl-color);
     &:hover {
       border: 1px solid var(--ergo-tokenselect-hover-bg);
@@ -19,8 +20,7 @@
   border: 0;
   background-color: var(--ergo-tokenselect-selected-background);
   border-radius: 12px;
-  box-shadow: 0 9px 28px 8px rgba(0, 0, 0, 0.05), 0 6px 16px rgba(0, 0, 0, 0.08),
-    0 3px 6px -4px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--ergo-tokenselect-box-shadow);
   color: var(--ergo-tokenselect-selected-color);
   cursor: pointer;
   font-size: 16px;
