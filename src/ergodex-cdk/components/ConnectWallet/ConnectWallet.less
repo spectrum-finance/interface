@@ -1,5 +1,7 @@
 .ant-btn {
   &.connect-wallet__default-btn {
+    height: 40px;
+    padding: 8px 12px;
     border: 1px solid transparent;
     background: var(--ergo-conn-wallet-default-btn-bg);
     color: var(--ergo-conn-wallet-default-btn-color);
@@ -12,44 +14,48 @@
   }
 }
 
-.connect-wallet__common-btn_wrapper {
-  display: inline-block;
-  padding: 4px;
-  border: 1px solid transparent;
-  background: var(--ergo-conn-wallet-common-btn-bg);
-  border-radius: 12px;
-  cursor: pointer;
-  &:hover {
-    border: 1px solid var(--ergo-conn-wallet-common-btn-hover-border);
-  }
-  &:active {
-    border: 1px solid var(--ergo-conn-wallet-common-btn-pressed-border);
-  }
-}
-
-.connect-wallet__common-btn_balance-label {
-  color: var(--ergo-conn-wallet-balance-lbl);
-}
-
-.ant-btn {
-  &.connect-wallet__common-btn_address-label {
+.connect-wallet__common-btn {
+  &_wrapper {
+    display: inline-flex;
+    height: 40px;
+    align-items: center;
     padding: 4px;
-    border: 0;
-    background: transparent;
-    border-radius: 8px;
-    color: var(--ergo-conn-wallet-address-lbl);
-    pointer-events: none;
-    &.ant-btn-loading {
+    border: 1px solid transparent;
+    background: var(--ergo-conn-wallet-common-btn-bg);
+    border-radius: 12px;
+    cursor: pointer;
+    &:hover {
+      border: 1px solid var(--ergo-conn-wallet-common-btn-hover-border);
+    }
+    &:active {
+      border: 1px solid var(--ergo-conn-wallet-common-btn-pressed-border);
+    }
+  }
+
+  &_balance-label {
+    color: var(--ergo-conn-wallet-balance-lbl);
+  }
+
+  &_address-label {
+    &.ant-btn {
+      padding: 4px;
       border: 0;
       background: transparent;
-      color: var(--ergo-conn-wallet-pending-lbl);
-    }
-    &.connect-wallet__common-btn_connected,
-    &.connect-wallet__common-btn_pending {
-      background: var(--ergo-conn-wallet-address-lbl-bg);
-    }
-    &:nth-child(2) {
-      margin-left: 4px;
+      border-radius: 8px;
+      color: var(--ergo-conn-wallet-address-lbl);
+      pointer-events: none;
+      &.ant-btn-loading {
+        border: 0;
+        background: transparent;
+        color: var(--ergo-conn-wallet-pending-lbl);
+      }
+      &.connect-wallet__common-btn_connected,
+      &.connect-wallet__common-btn_pending {
+        background: var(--ergo-conn-wallet-address-lbl-bg);
+      }
+      &:nth-child(2) {
+        margin-left: 4px;
+      }
     }
   }
 }
