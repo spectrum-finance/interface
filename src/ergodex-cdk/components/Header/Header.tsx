@@ -12,14 +12,15 @@ import {
 import { Switch } from 'antd';
 import React from 'react';
 
-import { ReactComponent as DarkModeOutlined } from '../../assets/icons/darkmode.svg';
-import { ReactComponent as Dot3 } from '../../assets/icons/dot3.svg';
+import { ReactComponent as DarkModeOutlined } from '../../../assets/icons/darkmode.svg';
+import { ReactComponent as Dot3 } from '../../../assets/icons/dot3.svg';
 import { Button } from '../Button/Button';
 import { ConnectWallet } from '../ConnectWallet/ConnectWallet';
 import { Dropdown } from '../Dropdown/Dropdown';
 import { Logo } from '../Logo/Logo';
 import { Menu } from '../Menu/Menu';
 import { NetworkDropdown } from '../NetworkDropdown/NetworkDropdown';
+import { Popover } from '../Popover/Popover';
 import { Tabs } from '../Tabs/Tabs';
 
 const { SubMenu } = Menu;
@@ -69,6 +70,12 @@ const menuOthers = (
   </Menu>
 );
 
+const settingsPopup: JSX.Element = (
+  <div>
+    <p>Content</p>
+  </div>
+);
+
 export interface HeaderProps {
   type: 'large' | 'medium' | 'small' | 'xsmall';
 }
@@ -82,8 +89,7 @@ export const Header: React.FC<HeaderProps> = ({ type = 'large' }) => {
         <Tabs defaultActiveKey="1" type="card">
           <Tabs.TabPane tab="Swap" key="1" />
           <Tabs.TabPane tab="Pool" key="2" />
-          <Tabs.TabPane tab="Exchange" key="3" />
-          <Tabs.TabPane tab="Disabled" key="4" disabled />
+          <Tabs.TabPane tab="Exchange" key="3" disabled />
         </Tabs>
       )}
       <div style={{ flex: 1 }} />
@@ -91,7 +97,16 @@ export const Header: React.FC<HeaderProps> = ({ type = 'large' }) => {
         <NetworkDropdown networks={networks} />
         {type !== 'xsmall' && <ConnectWallet type="default" />}
         {type !== 'xsmall' && (
-          <SettingOutlined className="header_settings-btn" />
+          <Popover
+            content={settingsPopup}
+            trigger="click"
+            placement="bottomRight"
+          >
+            <SettingOutlined
+              style={{ fontSize: '20px' }}
+              className="header_settings-btn"
+            />
+          </Popover>
         )}
         <Dropdown overlay={menuOthers} trigger={['click']}>
           <Button className="header_others-btn">
