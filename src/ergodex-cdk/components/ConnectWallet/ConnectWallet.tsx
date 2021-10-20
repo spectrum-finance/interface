@@ -30,7 +30,7 @@ const getShortAddress = (address?: string) => {
 };
 
 export const ConnectWallet: React.FC<ConnectWalletProps> = ({
-  type = 'default',
+  type,
   balance,
   currency,
   address,
