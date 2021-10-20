@@ -1,0 +1,70 @@
+.swap-form {
+  display: flex;
+  box-sizing: border-box;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px;
+  margin: auto;
+  
+  background-color: var(--ergo-swap-form-bg);
+  border-radius: 20px;
+  box-shadow: none;
+
+  .from-token-input {
+    width: 100%;
+  }
+
+  .swap-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-self: stretch;
+
+    .form-title {
+      align-self: stretch;
+      color: var(--ergo-primary-text);
+  
+      font-size: 20px;
+      line-height: 28px;
+    }
+  
+    .network-name {
+      align-self: stretch;
+      margin-bottom: 24px;
+      color: var(--ergo-swap-form-sub-text);
+  
+      font-size: 12px;
+      line-height: 20px;
+    }
+
+    .top-right {
+      position: absolute;
+      top: 26px;
+      right: 26px;
+
+      svg {
+        color: var(--ergo-swap-form-icon);
+      }
+    }
+  }
+
+  .to-token-input {
+    width: 100%;
+  }
+
+  .swap-arrow {
+    position: relative;
+    height: 4px;
+    button {
+      position: absolute;
+      top: -20px + 2px;
+      left: calc(50% - 40px/2);
+      transform: rotate(-90deg);
+    }
+  }
+
+  .bottom-button {
+    width: 100%;
+    margin-top: 16px;
+  }
+}
