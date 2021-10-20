@@ -1,4 +1,4 @@
-import './Header.scss';
+import './Header.less';
 
 import {
   BarChartOutlined,
@@ -6,10 +6,13 @@ import {
   GithubOutlined,
   GlobalOutlined,
   InfoCircleOutlined,
+  LeftOutlined,
   QuestionCircleOutlined,
+  RightOutlined,
   SettingOutlined,
 } from '@ant-design/icons';
 import { Switch } from 'antd';
+import { useState } from 'react';
 import React from 'react';
 
 import { ReactComponent as DarkModeOutlined } from '../../../assets/icons/darkmode.svg';
@@ -30,46 +33,6 @@ const networks = [
   { name: 'cardano', token: 'ada' },
 ];
 
-const menuOthers = (
-  <Menu>
-    <Menu.Item icon={<InfoCircleOutlined />}>
-      <a target="_blank" rel="noopener noreferrer">
-        About
-      </a>
-    </Menu.Item>
-    <Menu.Item icon={<QuestionCircleOutlined />}>
-      <a target="_blank" rel="noopener noreferrer">
-        How to use
-      </a>
-    </Menu.Item>
-    <Menu.Item icon={<FileTextOutlined />}>
-      <a target="_blank" rel="noopener noreferrer">
-        Docs
-      </a>
-    </Menu.Item>
-    <Menu.Item icon={<GithubOutlined />}>
-      <a target="_blank" rel="noopener noreferrer">
-        GitHub
-      </a>
-    </Menu.Item>
-    <Menu.Item icon={<BarChartOutlined />}>
-      <a target="_blank" rel="noopener noreferrer">
-        Analytics
-      </a>
-    </Menu.Item>
-    <SubMenu icon={<GlobalOutlined />} title="Language">
-      <Menu.Item>English</Menu.Item>
-      <Menu.Item>Chinese</Menu.Item>
-    </SubMenu>
-    <Menu.Item icon={<DarkModeOutlined />}>
-      <a target="_blank" rel="noopener noreferrer">
-        Dark Mode
-      </a>
-      <Switch defaultChecked size="small" className="header_theme_switch" />
-    </Menu.Item>
-  </Menu>
-);
-
 const settingsPopup: JSX.Element = (
   <div>
     <p>Content</p>
@@ -81,10 +44,85 @@ export interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({ type = 'large' }) => {
+  const [isMainMenu, setIsMainMenu] = useState(true);
+  const [isMenuVisible, setMenuVisible] = useState(false);
+
+  const onMenuClicked = (e: any) => {
+    if (e.key === '6') {
+      setIsMainMenu(false);
+      setMenuVisible(true);
+    } else if (e.key === '8') {
+      setIsMainMenu(true);
+      setMenuVisible(true);
+    }
+  };
+
+  const onMenuVisibleChange = (flag: boolean) => {
+    setMenuVisible(flag);
+  };
+
+  const menuOthers = (
+    <Menu onClick={onMenuClicked} style={{ width: 160 }}>
+      <Menu.Item key="1" icon={<InfoCircleOutlined />}>
+        <a target="_blank" rel="noopener noreferrer">
+          About
+        </a>
+      </Menu.Item>
+      <Menu.Item key="2" icon={<QuestionCircleOutlined />}>
+        <a target="_blank" rel="noopener noreferrer">
+          How to use
+        </a>
+      </Menu.Item>
+      <Menu.Item key="3" icon={<FileTextOutlined />}>
+        <a target="_blank" rel="noopener noreferrer">
+          Docs
+        </a>
+      </Menu.Item>
+      <Menu.Item key="4" icon={<GithubOutlined />}>
+        <a target="_blank" rel="noopener noreferrer">
+          GitHub
+        </a>
+      </Menu.Item>
+      <Menu.Item key="5" icon={<BarChartOutlined />}>
+        <a target="_blank" rel="noopener noreferrer">
+          Analytics
+        </a>
+      </Menu.Item>
+      <Menu.Item key="6" icon={<GlobalOutlined />}>
+        <a target="_blank" rel="noopener noreferrer">
+          Language
+        </a>
+        <RightOutlined style={{ marginLeft: 36 }} />
+      </Menu.Item>
+      <Menu.Item key="7" icon={<DarkModeOutlined />}>
+        <a target="_blank" rel="noopener noreferrer">
+          Dark Mode
+        </a>
+        <Switch defaultChecked size="small" className="header_theme_switch" />
+      </Menu.Item>
+    </Menu>
+  );
+
+  const menuLanguages = (
+    <Menu onClick={onMenuClicked} style={{ width: 160 }}>
+      <Menu.Item key="8" icon={<LeftOutlined />} />
+      <Menu.Item key="9">
+        <a target="_blank" rel="noopener noreferrer">
+          English
+        </a>
+      </Menu.Item>
+      <Menu.Item key="10">
+        <a target="_blank" rel="noopener noreferrer">
+          中国人
+        </a>
+      </Menu.Item>
+    </Menu>
+  );
+
   return (
     <div className="header_wrapper">
       <Logo label={type === 'large'} />
-      {type === 'large' && <div style={{ flex: 1 }} />}
+      {type === 'large' && <div style={{ width: '20%' }} />}
       {(type === 'large' || type === 'medium') && (
         <Tabs defaultActiveKey="1" type="card">
           <Tabs.TabPane tab="Swap" key="1" />
@@ -108,7 +146,12 @@ export const Header: React.FC<HeaderProps> = ({ type = 'large' }) => {
             />
           </Popover>
         )}
-        <Dropdown overlay={menuOthers} trigger={['click']}>
+        <Dropdown
+          overlay={isMainMenu ? menuOthers : menuLanguages}
+          trigger={['click']}
+          visible={isMenuVisible}
+          onVisibleChange={onMenuVisibleChange}
+        >
           <Button className="header_others-btn">
             <Dot3 />
           </Button>
