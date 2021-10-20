@@ -55,13 +55,12 @@ export const App: React.FC = () => {
             <SettingsProvider>
               <WalletAddressesProvider>
                 <Switch>
-                  <PrivateRoute path="/" exact component={Home} />
+                  <PrivateRoute path="/" exact component={Swap} />
                   <Route
                     path="/know-your-assumptions"
                     exact
                     component={KnowYourAssumptions}
                   />
-                  <Route path="/swap" exact component={Swap} />
                   <Route component={NotFound} />
                 </Switch>
               </WalletAddressesProvider>
