@@ -12,7 +12,7 @@ import {
   SettingOutlined,
 } from '@ant-design/icons';
 import { Switch } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import React from 'react';
 
 import { ReactComponent as DarkModeOutlined } from '../../../assets/icons/darkmode.svg';
@@ -44,21 +44,22 @@ export interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({ type = 'large' }) => {
-  const [isMainMenu, setIsMainMenu] = useState(true);
-  const [isMenuVisible, setMenuVisible] = useState(false);
+  const [isMainMenu, setIsMainMenu] = useState<boolean>(true);
+  const [isMenuVisible, setMenuVisible] = useState<boolean>(false);
 
   const onMenuClicked = (e: any) => {
     if (e.key === '6') {
       setIsMainMenu(false);
-      setMenuVisible(true);
     } else if (e.key === '8') {
       setIsMainMenu(true);
-      setMenuVisible(true);
     }
   };
 
   const onMenuVisibleChange = (flag: boolean) => {
     setMenuVisible(flag);
+    if (flag === true) {
+      setIsMainMenu(true);
+    }
   };
 
   const menuOthers = (
