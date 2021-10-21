@@ -14,8 +14,12 @@
   border-radius: 12px;
   color: var(--ergo-header-settings-btn-color);
   font-size: 20px;
-  &:hover {
-    background-color: var(--ergo-header-settings-btn-bg-color);
+  &:hover,
+  &:focus {
+    background-color: var(--ergo-header-settings-btn-bg-hover-color);
+  }
+  &:active {
+    background-color: var(--ergo-header-settings-btn-bg-active-color);
   }
 }
 
@@ -24,7 +28,7 @@
     width: 40px;
     height: 40px;
     padding: 4px 0;
-    border: 1px solid transparent;
+    border: 1px solid var(--ergo-header-others-btn-bg-color);
     background-color: var(--ergo-header-others-btn-bg-color);
     border-radius: 12px;
     cursor: pointer;
@@ -33,9 +37,14 @@
       fill: var(--ergo-header-others-btn-icon-default-color);
       stroke: var(--ergo-header-others-btn-icon-default-color);
     }
-    &:hover {
-      border: 1px solid #5a5a5a;
+    &:hover,
+    &:focus {
+      border: 1px solid var(--ergo-header-others-btn-bg-color);
       background-color: var(--ergo-header-others-btn-bg-color);
+      .header_others-btn-icon {
+        fill: var(--ergo-header-others-btn-icon-hover-color);
+        stroke: var(--ergo-header-others-btn-icon-hover-color);
+      }
     }
     &:active {
       border: 1px solid var(--ergo-header-others-btn-icon-active-color);
