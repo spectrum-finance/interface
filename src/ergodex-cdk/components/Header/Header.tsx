@@ -141,10 +141,7 @@ export const Header: React.FC<HeaderProps> = ({ type = 'large' }) => {
             trigger="click"
             placement="bottomRight"
           >
-            <SettingOutlined
-              style={{ fontSize: '20px' }}
-              className="header_settings-btn"
-            />
+            <SettingOutlined className="header_settings-btn" />
           </Popover>
         )}
         <Dropdown
@@ -154,7 +151,7 @@ export const Header: React.FC<HeaderProps> = ({ type = 'large' }) => {
           onVisibleChange={onMenuVisibleChange}
         >
           <Button className="header_others-btn">
-            <Dot3 />
+            <Dot3 className="header_others-btn-icon" />
           </Button>
         </Dropdown>
       </div>
