@@ -1,4 +1,4 @@
-import './Logo.scss';
+import './Logo.less';
 
 import React from 'react';
 
