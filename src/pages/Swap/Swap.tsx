@@ -11,6 +11,7 @@ import {
   SettingOutlined,
   SwapOutlined,
   TokenInput,
+  TokenListModal,
 } from '../../ergodex-cdk';
 
 export const Swap: React.FC = () => {
@@ -22,13 +23,19 @@ export const Swap: React.FC = () => {
   const [toTokenName, setToTokenName] = useState('');
   const [toTokenBalance, setToTokenBalance] = useState(0);
   const [toTokenPrice, setToTokenPrice] = useState(335);
+  const [showFromTokenListModal, setShowFromTokenListModal] = useState(false);
+  const [showToTokenListModal, setShowToTokenListModal] = useState(false);
 
-  const handleSelectFromToken = () => {};
+  const handleSelectFromToken = () => {
+    setShowFromTokenListModal(true);
+  };
 
-  const handleSelectToToken = () => {};
+  const handleSelectToToken = () => {
+    setShowToTokenListModal(true);
+  };
 
   return (
-    <div className="App dark">
+    <div className="App light">
       <Layout>
         <Row align="middle" justify="center">
           <Col>
@@ -59,6 +66,12 @@ export const Swap: React.FC = () => {
                 <Button size="large" icon={<SwapOutlined />} />
               </div>
 
+              <TokenListModal
+                visible={showFromTokenListModal}
+                onCancel={() => setShowFromTokenListModal(false)}
+                onSelectChanged={setFromTokenName}
+              />
+
               <div className="to-token-input">
                 <TokenInput
                   value={toValue}
@@ -74,6 +87,12 @@ export const Swap: React.FC = () => {
               <Button className="bottom-button" size="large">
                 Select a token
               </Button>
+
+              <TokenListModal
+                visible={showToTokenListModal}
+                onCancel={() => setShowToTokenListModal(false)}
+                onSelectChanged={setToTokenName}
+              />
             </div>
           </Col>
         </Row>
