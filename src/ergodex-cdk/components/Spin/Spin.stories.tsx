@@ -4,7 +4,7 @@ import React from 'react';
 import { Spin } from './Spin';
 
 export default {
-  title: 'Components/Spin',
+  title: 'Components/Typography',
   component: Spin,
 } as Meta<typeof Spin>;
 
