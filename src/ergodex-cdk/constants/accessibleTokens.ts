@@ -4,13 +4,4 @@ export default [
   'ERG-ORANGE',
   'ADA-DISABLED',
   'ERG-ORANGE-DISABLED',
-  'ERGX-ORANGE',
-  'WBTC',
-  '1INCH',
-  'AAVE',
-  'AMP',
-  'ANT',
-  'BAL',
-  'BAND',
-  'BAT',
 ];

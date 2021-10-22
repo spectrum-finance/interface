@@ -18,41 +18,26 @@ const tokenList = [
     iconName: 'erg-orange',
   },
   {
-    symbol: 'ERGX',
-    name: 'ErgoDEX',
-    iconName: 'ergx-orange',
+    symbol: 'ADA',
+    name: 'Ada',
   },
   {
-    symbol: 'WBTC',
-    name: 'WrappedBTC',
+    symbol: 'ERG',
+    name: 'Ergo',
+    iconName: 'erg-orange',
   },
   {
-    symbol: '1INCH',
-    name: '1Inch',
+    symbol: 'ADA',
+    name: 'Ada',
   },
   {
-    symbol: 'AAVE',
-    name: 'AaveToken',
+    symbol: 'ERG',
+    name: 'Ergo',
+    iconName: 'erg-orange',
   },
   {
-    symbol: 'AMP',
-    name: 'Amp',
-  },
-  {
-    symbol: 'ANT',
-    name: 'Aragon Network Token',
-  },
-  {
-    symbol: 'BAL',
-    name: 'Balancer',
-  },
-  {
-    symbol: 'BAND',
-    name: 'Band Protocol',
-  },
-  {
-    symbol: 'BAT',
-    name: 'BasicAttentionToken',
+    symbol: 'ADA',
+    name: 'Ada',
   },
 ];
 
@@ -63,13 +48,13 @@ const TokenListModal: React.FC<TokenListModalProps> = ({
 }) => {
   const [searchWords, setSearchWords] = useState('');
 
-  const handleSearch = (e: any) => {
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchWords(e.target.value);
   };
 
-  const handleClick = (token: any) => {
+  const handleClick = (symbol: string) => {
     if (onSelectChanged) {
-      onSelectChanged(token.symbol);
+      onSelectChanged(symbol);
     }
     if (onCancel) {
       onCancel();
@@ -104,7 +89,7 @@ const TokenListModal: React.FC<TokenListModalProps> = ({
               name={token.name}
               iconName={token.iconName}
               balance={0.01342}
-              onClick={() => handleClick(token)}
+              onClick={() => handleClick(token.symbol)}
             />
           ))}
       </div>
