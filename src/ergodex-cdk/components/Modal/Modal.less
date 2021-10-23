@@ -2,12 +2,13 @@
 
 .ant-modal-content {
   background-color: transparent;
+  border-radius: var(--ergo-modal-radius);
 }
 
 .ant-modal-header {
   padding: 24px 16px 0;
   background-color: @color-gray-1;
-  border-radius: 16px 16px 0 0;
+  border-radius: var(--ergo-modal-radius) var(--ergo-modal-radius) 0 0;
 }
 
 .ant-modal-body {
@@ -19,7 +20,7 @@
 .ant-modal-footer {
   padding: 0 16px 24px;
   background-color: @color-gray-1;
-  border-radius: 0 0 16px 16px;
+  border-radius: 0 0 var(--ergo-modal-radius) var(--ergo-modal-radius);
 }
 
 .ant-modal-title {
