@@ -1,75 +1,40 @@
-.header_wrapper {
+.header {
+  position: fixed;
+  z-index: 2;
+  top: 0;
   display: flex;
-  flex-direction: row;
-  align-items: center;
-}
+  width: 100%;
+  flex-flow: row nowrap;
+  justify-content: space-between;
 
-.header_settings-btn {
-  display: flex;
-  width: 40px;
-  height: 40px;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  border-radius: 12px;
-  color: var(--ergo-header-settings-btn-color);
-  font-size: 20px;
-  &:hover,
-  &:focus {
-    background-color: var(--ergo-header-settings-btn-bg-hover-color);
+  &__wrapper {
+    position: relative;
+    top: 0;
+    display: grid;
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    padding: 1rem;
+    grid-template-columns: 120px 1fr 120px;
   }
-  &:active {
-    background-color: var(--ergo-header-settings-btn-bg-active-color);
-  }
-}
 
-.ant-btn {
-  &.header_others-btn {
-    width: 40px;
-    height: 40px;
-    padding: 4px 0;
-    border: 1px solid var(--ergo-header-others-btn-bg-color);
-    background-color: var(--ergo-header-others-btn-bg-color);
-    border-radius: 12px;
-    cursor: pointer;
-    font-size: xx-small;
-    .header_others-btn-icon {
-      fill: var(--ergo-header-others-btn-icon-default-color);
-      stroke: var(--ergo-header-others-btn-icon-default-color);
-    }
-    &:hover,
-    &:focus {
-      border: 1px solid var(--ergo-header-others-btn-bg-color);
-      background-color: var(--ergo-header-others-btn-bg-color);
-      .header_others-btn-icon {
-        fill: var(--ergo-header-others-btn-icon-hover-color);
-        stroke: var(--ergo-header-others-btn-icon-hover-color);
-      }
-    }
-    &:active {
-      border: 1px solid var(--ergo-header-others-btn-icon-active-color);
-      background-color: var(--ergo-header-others-btn-bg-color);
-      .header_others-btn-icon {
-        fill: var(--ergo-header-others-btn-icon-active-color);
-        stroke: var(--ergo-header-others-btn-icon-active-color);
-      }
+  .header__tabs {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .header__options {
+    display: flex;
+    align-items: center;
+    justify-self: flex-end;
+
+    > *:not(:last-child) {
+      margin-right: 8px;
     }
   }
-}
 
-.header_network-wrapper {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  > * {
-    margin-right: 12px;
+  &__theme-switch {
+    margin-left: 24px;
   }
-}
-
-.header_theme_switch {
-  margin-left: 24px;
-}
-
-.ant-tabs-top > .ant-tabs-nav {
-  margin: 0;
 }

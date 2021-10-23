@@ -1,6 +1,8 @@
+import './Layout.less';
+
 import React from 'react';
 
-import Header from '../Header/Header';
+import { Header } from '../../../ergodex-cdk/components/Header/Header';
 
 interface Props {
   children: React.ReactChild | React.ReactChild[];
@@ -8,10 +10,10 @@ interface Props {
 
 const Layout = ({ children }: Props): JSX.Element => {
   return (
-    <div>
+    <>
       <Header />
       <main>{children}</main>
-    </div>
+    </>
   );
 };
 

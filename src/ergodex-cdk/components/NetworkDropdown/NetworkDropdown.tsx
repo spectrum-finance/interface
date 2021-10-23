@@ -42,17 +42,19 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
     <Dropdown overlay={overlay} trigger={['click']} disabled={disabled}>
       <Button
         className={cn(
-          `NetworkDropdown__container`,
-          `NetworkDropdown__container--${network.name}`,
+          `network-dropdown__btn`,
+          `network-dropdown__btn--${network.name}`,
         )}
         size="large"
       >
-        <TokenIcon
-          className="NetworkDropdown__token-icon"
-          name={`${network.token}${disabled ? '-disabled' : ''}`}
-        />
-        <span>{capitalize(network.name)}</span>
-        <DownOutlined />
+        <span className="network-dropdown__content">
+          <TokenIcon
+            className="network-dropdown__token-icon"
+            name={`${network.token}${disabled ? '-disabled' : ''}`}
+          />
+          <span>{capitalize(network.name)}</span>
+          <DownOutlined />
+        </span>
       </Button>
     </Dropdown>
   );
