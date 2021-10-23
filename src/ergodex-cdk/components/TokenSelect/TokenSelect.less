@@ -1,12 +1,27 @@
-@import './src/assets/styles/variables/colors.less';
+.ant-btn.ant-btn-primary {
+  &.token-select {
+    border: 1px solid var(--ergo-tokenselect-default-bg);
+    background: var(--ergo-tokenselect-default-bg);
+    box-shadow: var(--ergo-tokenselect-box-shadow) !important;
+    color: var(--ergo-tokenselect-lbl-color);
+    &:hover {
+      border: 1px solid var(--ergo-tokenselect-hover-bg);
+      background: var(--ergo-tokenselect-hover-bg);
+    }
+    &:active {
+      border: 1px solid var(--ergo-tokenselect-active-bg);
+      background: var(--ergo-tokenselect-active-bg);
+    }
+  }
+}
 
-.token-select {
+.token-select_selected {
   padding: 8px 12px;
   border: 0;
-  background-color: @color-gray-05;
+  background-color: var(--ergo-tokenselect-selected-background);
   border-radius: 12px;
-  box-shadow: 0 9px 28px 8px rgba(0, 0, 0, 0.05), 0 6px 16px rgba(0, 0, 0, 0.08), 0 3px 6px -4px rgba(0, 0, 0, 0.12);
-  color: @color-gray-9;
+  box-shadow: var(--ergo-tokenselect-box-shadow);
+  color: var(--ergo-tokenselect-selected-color);
   cursor: pointer;
   font-size: 16px;
   line-height: 24px;
@@ -16,10 +31,11 @@
     align-items: center;
   }
 
-  &:hover,
-  &:focus,
+  &:hover {
+    background-color: var(--ergo-tokenselect-selected-hover-bg);
+  }
   &:active {
-    background-color: @color-gray-3;
+    background-color: var(--ergo-tokenselect-selected-active-bg);
   }
 
   &_item {

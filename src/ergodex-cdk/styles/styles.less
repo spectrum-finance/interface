@@ -15,3 +15,13 @@
   display: none !important;
   box-shadow: none !important;
 }
+
+[ant-click-animating-without-extra-node='true']::after,
+.ant-click-animating-node {
+  --antd-wave-shadow-color: var(--ergo-primary-color);
+}
+
+::selection {
+  background-color: var(--ergo-primary-color) !important;
+  color: var(--ergo-primary-text) !important;
+}

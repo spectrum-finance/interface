@@ -1,5 +1,5 @@
 import 'react-toastify/dist/ReactToastify.css';
-import './App.css';
+import './App.less';
 
 import { RustModule } from '@ergolabs/ergo-sdk';
 import { CssBaseline, GeistProvider } from '@geist-ui/react';
@@ -15,7 +15,7 @@ import {
   WalletContextProvider,
 } from './context';
 import { globalHistory } from './createBrowserHistory';
-import { Home, KnowYourAssumptions } from './pages';
+import { Home, KnowYourAssumptions, Swap } from './pages';
 
 const NotFound = () => <Redirect to="/" />;
 
@@ -55,7 +55,7 @@ export const App: React.FC = () => {
             <SettingsProvider>
               <WalletAddressesProvider>
                 <Switch>
-                  <PrivateRoute path="/" exact component={Home} />
+                  <PrivateRoute path="/" exact component={Swap} />
                   <Route
                     path="/know-your-assumptions"
                     exact
