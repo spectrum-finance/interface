@@ -1,6 +1,5 @@
 import { AmmPool, OK } from '@ergolabs/ergo-dex-sdk';
 import { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
 
 import { checkPool } from '../utils/checkPool';
 
@@ -35,7 +34,6 @@ export const useCheckPool = (pool: AmmPool | undefined): FetchState => {
         })
         // TODO:
         .catch(() => {
-          toast.error('Pool validation error');
           setState({
             ...defaultState,
             isFetching: false,

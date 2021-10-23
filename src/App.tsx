@@ -1,12 +1,8 @@
-import 'react-toastify/dist/ReactToastify.css';
-import './App.less';
-
 import { RustModule } from '@ergolabs/ergo-sdk';
-import { CssBaseline, GeistProvider } from '@geist-ui/react';
 import React, { useEffect, useState } from 'react';
 import { Redirect, Route, RouteProps, Router, Switch } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
 
+import Layout from './components/common/Layout/Layout';
 import {
   AppLoadingProvider,
   SettingsProvider,
@@ -14,8 +10,10 @@ import {
   WalletAddressesProvider,
   WalletContextProvider,
 } from './context';
+import { useTheme } from './context/Theme';
 import { globalHistory } from './createBrowserHistory';
-import { Home, KnowYourAssumptions, Swap } from './pages';
+import { useBodyClass } from './hooks/useBodyClass';
+import { Swap } from './pages';
 
 const NotFound = () => <Redirect to="/" />;
 
@@ -36,6 +34,9 @@ const PrivateRoute: React.FC<RouteProps> = (props) => {
 };
 
 export const App: React.FC = () => {
+  const theme = useTheme();
+  useBodyClass(theme);
+
   const [isRustModuleLoaded, setIsRustModuleLoaded] = useState(false);
 
   useEffect(() => {
@@ -47,39 +48,26 @@ export const App: React.FC = () => {
   }
 
   return (
-    <GeistProvider>
-      <CssBaseline />
-      <Router history={globalHistory}>
-        <AppLoadingProvider>
-          <WalletContextProvider>
-            <SettingsProvider>
-              <WalletAddressesProvider>
+    <Router history={globalHistory}>
+      <AppLoadingProvider>
+        <WalletContextProvider>
+          <SettingsProvider>
+            <WalletAddressesProvider>
+              <Layout>
                 <Switch>
                   <PrivateRoute path="/" exact component={Swap} />
-                  <Route
-                    path="/know-your-assumptions"
-                    exact
-                    component={KnowYourAssumptions}
-                  />
+                  {/*<Route*/}
+                  {/*  path="/know-your-assumptions"*/}
+                  {/*  exact*/}
+                  {/*  component={KnowYourAssumptions}*/}
+                  {/*/>*/}
                   <Route component={NotFound} />
                 </Switch>
-              </WalletAddressesProvider>
-            </SettingsProvider>
-          </WalletContextProvider>
-        </AppLoadingProvider>
-      </Router>
-      <ToastContainer
-        style={{ marginTop: '50px' }}
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
-    </GeistProvider>
+              </Layout>
+            </WalletAddressesProvider>
+          </SettingsProvider>
+        </WalletContextProvider>
+      </AppLoadingProvider>
+    </Router>
   );
 };

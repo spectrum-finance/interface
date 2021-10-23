@@ -1,0 +1,40 @@
+.header {
+  position: fixed;
+  z-index: 2;
+  top: 0;
+  display: flex;
+  width: 100%;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+
+  &__wrapper {
+    position: relative;
+    top: 0;
+    display: grid;
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    padding: 1rem;
+    grid-template-columns: 120px 1fr 120px;
+  }
+
+  .header__tabs {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .header__options {
+    display: flex;
+    align-items: center;
+    justify-self: flex-end;
+
+    > *:not(:last-child) {
+      margin-right: 8px;
+    }
+  }
+
+  &__theme-switch {
+    margin-left: 24px;
+  }
+}

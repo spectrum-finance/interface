@@ -5,6 +5,7 @@ export * from './ConnectWallet/ConnectWallet';
 export * from './Dropdown/Dropdown';
 export * from './Icon/Icon';
 export * from './Input/Input';
+export * from './Logo/Logo';
 export * from './Menu/Menu';
 export * from './Modal/Modal';
 export * from './NetworkDropdown/NetworkDropdown';
