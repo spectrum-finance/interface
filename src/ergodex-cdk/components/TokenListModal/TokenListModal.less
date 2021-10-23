@@ -1,0 +1,46 @@
+.token-list-modal {
+  width: 350px !important;
+  background: transparent !important;
+
+	.ant-modal-content {
+		width: 350px;
+		background-color: var(--ergo-default-card-background);
+		border-radius: var(--ergo-modal-radius);
+		
+		.anticon.anticon-close.ant-modal-close-icon {
+			width: 15px;
+			height: 15px;
+			color: var(--ergo-primary-text);
+
+			svg {
+				width: 15px;
+				height: 15px;
+			}
+		}
+
+		.ant-modal-header {
+			border-bottom: 0;;
+			background-color: var(--ergo-default-card-background);
+			border-top-left-radius: var(--ergo-modal-radius);
+			border-top-right-radius: var(--ergo-modal-radius);
+
+			.ant-modal-title {
+				color: var(--ergo-primary-text);
+				font-size: 20px;
+				font-weight: 600;
+				line-height: 28px;
+			}
+		}
+	
+		.ant-modal-body {
+			padding: 0 24px 24px;
+			background-color: var(--ergo-default-card-background);
+			border-bottom-left-radius: var(--ergo-modal-radius);
+			border-bottom-right-radius: var(--ergo-modal-radius);
+
+			.token-list {
+				margin-top: 30px;
+			}
+		}
+	}
+}
