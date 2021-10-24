@@ -21,3 +21,4 @@ export * from './TokenInput/TokenInput';
 export * from './TokenListModal/TokenListModal';
 export * from './TokenSelect/TokenSelect';
 export * from './Tooltip/Tooltip';
+export * from './Typography/Typography';

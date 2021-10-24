@@ -1,7 +1,9 @@
 import './ConnectWallet.less';
 
-import { Button } from 'antd';
-import React from 'react';
+import React, { useState } from 'react';
+
+import { Button } from '../';
+import { ChooseWalletModal } from '../ChooseWalletModal/ChooseWalletModal';
 
 export interface ConnectWalletProps {
   type:
@@ -35,6 +37,9 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
   currency,
   address,
 }) => {
+  const [isChooseWalletModalOpen, setIsChooseWalletModalOpen] =
+    useState<boolean>(false);
+
   const showBalance =
     type === 'connected' || type === 'balance-only' || type === 'pending';
 
@@ -44,7 +49,12 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
   const shortAddress = getShortAddress(address);
 
   const defaultButton = (
-    <Button className="connect-wallet__default-btn">Connect to wallet</Button>
+    <Button
+      className="connect-wallet__default-btn"
+      onClick={() => setIsChooseWalletModalOpen(true)}
+    >
+      Connect to wallet
+    </Button>
   );
 
   const commonButtons = (
@@ -67,5 +77,13 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
     </div>
   );
 
-  return type === 'default' ? defaultButton : commonButtons;
+  return (
+    <>
+      {type === 'default' ? defaultButton : commonButtons}
+      <ChooseWalletModal
+        isOpen={isChooseWalletModalOpen}
+        onCancel={() => setIsChooseWalletModalOpen(false)}
+      />
+    </>
+  );
 };
