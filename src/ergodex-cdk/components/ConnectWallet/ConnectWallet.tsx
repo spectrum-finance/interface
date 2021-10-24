@@ -2,8 +2,8 @@ import './ConnectWallet.less';
 
 import React, { useState } from 'react';
 
-import { Button } from '../';
 import { ChooseWalletModal } from '../ChooseWalletModal/ChooseWalletModal';
+import { Button } from '../index';
 
 export interface ConnectWalletProps {
   type:
@@ -17,6 +17,7 @@ export interface ConnectWalletProps {
   balance?: number;
   currency?: string;
   address?: string;
+  numberOfPendingTxs?: number;
 }
 
 const getShortAddress = (address?: string) => {
@@ -36,6 +37,7 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
   balance,
   currency,
   address,
+  numberOfPendingTxs,
 }) => {
   const [isChooseWalletModalOpen, setIsChooseWalletModalOpen] =
     useState<boolean>(false);
@@ -71,7 +73,11 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
           className={`connect-wallet__common-btn_address-label connect-wallet__common-btn_${type}`}
           loading={pending}
         >
-          {type === 'pending-icon' ? '' : pending ? `1 Pending` : shortAddress}
+          {type === 'pending-icon'
+            ? ''
+            : pending
+            ? `${numberOfPendingTxs} Pending`
+            : shortAddress}
         </Button>
       )}
     </div>
