@@ -1,26 +1,23 @@
 import './ConnectWallet.less';
 
+import { LoadingOutlined } from '@ant-design/icons';
 import React, { useState } from 'react';
 
+import { Box } from '../Box/Box';
+import { Button } from '../Button/Button';
 import { ChooseWalletModal } from '../ChooseWalletModal/ChooseWalletModal';
-import { Button } from '../index';
+import { Space } from '../Space/Space';
+import { Typography } from '../Typography/Typography';
 
 export interface ConnectWalletProps {
-  type:
-    | 'default'
-    | 'connected'
-    | 'balance-only'
-    | 'address-only'
-    | 'pending'
-    | 'pending-text'
-    | 'pending-icon';
+  isWalletConnected: boolean;
   balance?: number;
   currency?: string;
   address?: string;
-  numberOfPendingTxs?: number;
+  numberOfPendingTxs: number;
 }
 
-const getShortAddress = (address?: string) => {
+const getShortAddress = (address: string) => {
   let shortAddress = address ? address : '';
   shortAddress =
     shortAddress.length < 10
@@ -33,7 +30,7 @@ const getShortAddress = (address?: string) => {
 };
 
 export const ConnectWallet: React.FC<ConnectWalletProps> = ({
-  type,
+  isWalletConnected,
   balance,
   currency,
   address,
@@ -42,50 +39,41 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
   const [isChooseWalletModalOpen, setIsChooseWalletModalOpen] =
     useState<boolean>(false);
 
-  const showBalance =
-    type === 'connected' || type === 'balance-only' || type === 'pending';
+  const addressToRender = address ? getShortAddress(address) : '';
 
-  const pending =
-    type === 'pending' || type === 'pending-text' || type === 'pending-icon';
-
-  const shortAddress = getShortAddress(address);
-
-  const defaultButton = (
+  const connectButton = (
     <Button
-      className="connect-wallet__default-btn"
+      size="large"
+      className="connect-wallet__connect-btn"
       onClick={() => setIsChooseWalletModalOpen(true)}
     >
       Connect to wallet
     </Button>
   );
 
-  const commonButtons = (
-    <div className="connect-wallet__common-btn_wrapper">
-      {showBalance && (
-        <span
-          className={`connect-wallet__common-btn_balance-label connect-wallet__common-btn_${type}`}
-        >
-          {`${balance} ${currency}`}
-        </span>
-      )}
-      {type !== 'balance-only' && (
+  const addressButton = (
+    <Box>
+      <Space>
+        <Typography.Body
+          style={{ whiteSpace: 'nowrap' }}
+        >{`${balance} ${currency}`}</Typography.Body>
         <Button
-          className={`connect-wallet__common-btn_address-label connect-wallet__common-btn_${type}`}
-          loading={pending}
+          className="connect-wallet__address-btn"
+          icon={!!numberOfPendingTxs && <LoadingOutlined />}
+          size="middle"
+          type="default"
         >
-          {type === 'pending-icon'
-            ? ''
-            : pending
+          {numberOfPendingTxs > 0
             ? `${numberOfPendingTxs} Pending`
-            : shortAddress}
+            : addressToRender}
         </Button>
-      )}
-    </div>
+      </Space>
+    </Box>
   );
 
   return (
     <>
-      {type === 'default' ? defaultButton : commonButtons}
+      {isWalletConnected ? addressButton : connectButton}
       <ChooseWalletModal
         isOpen={isChooseWalletModalOpen}
         onCancel={() => setIsChooseWalletModalOpen(false)}

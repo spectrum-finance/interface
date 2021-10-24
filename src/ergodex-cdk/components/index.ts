@@ -1,4 +1,5 @@
 export * from './Alert/Alert';
+export * from './Box/Box';
 export * from './Button/Button';
 export * from './Col/Col';
 export * from './ConnectWallet/ConnectWallet';
@@ -12,6 +13,7 @@ export * from './NetworkDropdown/NetworkDropdown';
 export * from './Popover/Popover';
 export * from './Row/Row';
 export * from './Slider/Slider';
+export * from './Space/Space';
 export * from './SwapInput/SwapInput';
 export * from './Switch/Switch';
 export * from './Tabs/Tabs';

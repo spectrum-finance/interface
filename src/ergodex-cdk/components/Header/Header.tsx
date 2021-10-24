@@ -156,7 +156,13 @@ export const Header: React.FC = () => {
 
         <div className="header__options">
           <NetworkDropdown networks={networks} />
-          <ConnectWallet type="default" />
+          <ConnectWallet
+            isWalletConnected={true}
+            numberOfPendingTxs={1}
+            balance={123}
+            currency="ERG"
+            address="9iKWmL5t3y9u59fUESsbFQzG933UPjR1v7LUAjM6XPMAcXNhBzL"
+          />
           <Popover
             content={settingsPopup}
             trigger="click"
