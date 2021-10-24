@@ -1,8 +1,8 @@
 import { SwitchProps } from 'antd';
 import React, { useCallback, useState } from 'react';
 
-import { useTheme } from '../../../context/Theme';
-import { Switch } from '../index';
+import { useTheme } from '../../context/Theme';
+import { Switch } from '../../ergodex-cdk';
 
 const addBodyClass = (className: string) =>
   document.body.classList.add(className);

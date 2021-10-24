@@ -4,11 +4,10 @@ import Icon from '@ant-design/icons';
 import { useState } from 'react';
 import React from 'react';
 
-import { ReactComponent as DarkModeOutlined } from '../../../assets/icons/darkmode.svg';
+import { ReactComponent as DarkModeOutlined } from '../../assets/icons/darkmode.svg';
 import {
   BarChartOutlined,
   Button,
-  ConnectWallet,
   Dropdown,
   FileTextOutlined,
   GithubOutlined,
@@ -17,13 +16,14 @@ import {
   LeftOutlined,
   Logo,
   Menu,
-  NetworkDropdown,
   Popover,
   QuestionCircleOutlined,
   RightOutlined,
   SettingOutlined,
   Tabs,
-} from '../index';
+} from '../../ergodex-cdk';
+import { ConnectWallet } from '../ConnectWallet/ConnectWallet';
+import { NetworkDropdown } from '../NetworkDropdown/NetworkDropdown';
 import { ThemeSwitch } from '../ThemeSwitch/ThemeSwitch';
 
 const DotsSVG = () => (
@@ -156,7 +156,13 @@ export const Header: React.FC = () => {
 
         <div className="header__options">
           <NetworkDropdown networks={networks} />
-          <ConnectWallet type="default" />
+          <ConnectWallet
+            isWalletConnected={true}
+            numberOfPendingTxs={1}
+            balance={123}
+            currency="ERG"
+            address="9iKWmL5t3y9u59fUESsbFQzG933UPjR1v7LUAjM6XPMAcXNhBzL"
+          />
           <Popover
             content={settingsPopup}
             trigger="click"
