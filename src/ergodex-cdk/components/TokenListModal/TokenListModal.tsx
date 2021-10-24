@@ -62,38 +62,39 @@ const TokenListModal: React.FC<TokenListModalProps> = ({
   };
 
   return (
-    <Modal
-      className="token-list-modal light"
-      visible={visible}
-      title="Select a token"
-      footer={null}
-      onCancel={onCancel}
-    >
-      <Input
-        placeholder="Search"
-        size="large"
-        prefix={<SearchOutlined />}
-        onChange={handleSearch}
-      />
-      <div className="token-list">
-        {tokenList
-          .filter((token) => {
-            return token.symbol
-              .toLowerCase()
-              .includes(searchWords.toLowerCase());
-          })
-          .map((token, key) => (
-            <TokenListItem
-              key={key}
-              symbol={token.symbol}
-              name={token.name}
-              iconName={token.iconName}
-              balance={0.01342}
-              onClick={() => handleClick(token.symbol)}
-            />
-          ))}
-      </div>
-    </Modal>
+    <div>123</div>
+    // <Modal
+    //   className="token-list-modal light"
+    //   visible={visible}
+    //   title="Select a token"
+    //   footer={null}
+    //   onCancel={onCancel}
+    // >
+    //   <Input
+    //     placeholder="Search"
+    //     size="large"
+    //     prefix={<SearchOutlined />}
+    //     onChange={handleSearch}
+    //   />
+    //   <div className="token-list">
+    //     {tokenList
+    //       .filter((token) => {
+    //         return token.symbol
+    //           .toLowerCase()
+    //           .includes(searchWords.toLowerCase());
+    //       })
+    //       .map((token, key) => (
+    //         <TokenListItem
+    //           key={key}
+    //           symbol={token.symbol}
+    //           name={token.name}
+    //           iconName={token.iconName}
+    //           balance={0.01342}
+    //           onClick={() => handleClick(token.symbol)}
+    //         />
+    //       ))}
+    //   </div>
+    // </Modal>
   );
 };
 
