@@ -4,7 +4,7 @@ import Icon from '@ant-design/icons';
 import { useState } from 'react';
 import React from 'react';
 
-import { ReactComponent as DarkModeOutlined } from '../../../assets/icons/darkmode.svg';
+import { ReactComponent as DarkModeOutlined } from '../../assets/icons/darkmode.svg';
 import {
   BarChartOutlined,
   Button,
