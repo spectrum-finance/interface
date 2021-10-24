@@ -1,9 +1,9 @@
 import './Typography.stories.less';
 
 import { Meta, Story } from '@storybook/react';
-import { Col, Row } from 'antd';
 import React, { FC } from 'react';
 
+import { Col, Row } from '../index';
 import { Typography } from './Typography';
 
 export default {
