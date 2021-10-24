@@ -1,52 +1,21 @@
-@import './src/assets/styles/variables/colors.less';
-
 .ant-modal-content {
-  background-color: transparent;
-  border-radius: var(--ergo-modal-radius);
+  background-color: var(--ergo-modal-color);
+  border-radius:    var(--ergo-modal-radius);
 }
 
+
 .ant-modal-header {
-  padding: 24px 16px 0;
-  background-color: @color-gray-1;
+  min-height:    60px;
+  border-bottom: unset;
+  background:    transparent;
   border-radius: var(--ergo-modal-radius) var(--ergo-modal-radius) 0 0;
+}
+/* stylelint-disable-next-line */
+.ant-modal-close-x {
+  color:     var(--ergo-modal-close-x-color);
+  font-size: var(--ergo-modal-close-x-size);
 }
 
 .ant-modal-body {
-  padding: 24px 16px;
-  background-color: @color-gray-1;
-  color: @color-gray-9;
-}
-
-.ant-modal-footer {
-  padding: 0 16px 24px;
-  background-color: @color-gray-1;
-  border-radius: 0 0 var(--ergo-modal-radius) var(--ergo-modal-radius);
-}
-
-.ant-modal-title {
-  font-size: 22px;
-  line-height: 28px;
-}
-
-.ant-modal-close {
-  top: 14px;
-  color: @color-gray-9;
-
-  &:hover {
-    color: @color-orange-6;
-  }
-
-  &:active {
-    color: @color-orange-4;
-  }
-}
-
-.anticon.anticon-close.ant-modal-close-icon {
-  width: 24px;
-  height: 24px;
-
-  svg {
-    width: 24px;
-    height: 24px;
-  }
+  padding-top: 0;
 }
