@@ -4,7 +4,7 @@ import { LoadingOutlined } from '@ant-design/icons';
 import React, { useState } from 'react';
 
 import { Box, Button, Space, Typography } from '../../ergodex-cdk';
-import { ChooseWalletModal } from '../ChooseWalletModal/ChooseWalletModal';
+// import { ChooseWalletModal } from '../ChooseWalletModal/ChooseWalletModal';
 
 export interface ConnectWalletProps {
   isWalletConnected: boolean;
@@ -71,10 +71,10 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
   return (
     <>
       {isWalletConnected ? addressButton : connectButton}
-      <ChooseWalletModal
-        isOpen={isChooseWalletModalOpen}
-        onCancel={() => setIsChooseWalletModalOpen(false)}
-      />
+      {/*<ChooseWalletModal*/}
+      {/*  isOpen={isChooseWalletModalOpen}*/}
+      {/*  onCancel={() => setIsChooseWalletModalOpen(false)}*/}
+      {/*/>*/}
     </>
   );
 };
