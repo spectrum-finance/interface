@@ -1,7 +1,8 @@
 import './ConnectWallet.less';
 
-import { Button } from 'antd';
 import React from 'react';
+
+import { Button } from '../index';
 
 export interface ConnectWalletProps {
   type:
@@ -15,6 +16,7 @@ export interface ConnectWalletProps {
   balance?: number;
   currency?: string;
   address?: string;
+  numberOfPendingTxs?: number;
 }
 
 const getShortAddress = (address?: string) => {
@@ -34,6 +36,7 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
   balance,
   currency,
   address,
+  numberOfPendingTxs,
 }) => {
   const showBalance =
     type === 'connected' || type === 'balance-only' || type === 'pending';
@@ -61,7 +64,11 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
           className={`connect-wallet__common-btn_address-label connect-wallet__common-btn_${type}`}
           loading={pending}
         >
-          {type === 'pending-icon' ? '' : pending ? `1 Pending` : shortAddress}
+          {type === 'pending-icon'
+            ? ''
+            : pending
+            ? `${numberOfPendingTxs} Pending`
+            : shortAddress}
         </Button>
       )}
     </div>
