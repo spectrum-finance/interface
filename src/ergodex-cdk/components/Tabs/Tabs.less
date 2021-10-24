@@ -1,5 +1,9 @@
-.ant-tabs-nav::before {
-  display: none !important;
+.ant-tabs-nav {
+  margin: 0 !important;
+
+  &::before {
+    display: none !important;
+  }
 }
 
 .ant-tabs-nav-list {
@@ -55,4 +59,8 @@
     line-height:   12px;
     transform:     translate(calc(100% + 6px), -4px);
   }
+}
+
+.ant-tabs-card > .ant-tabs-nav .ant-tabs-tab, .ant-tabs-card > div > .ant-tabs-nav .ant-tabs-tab {
+  padding: 5px 16px;
 }
