@@ -3,6 +3,7 @@ export * from './Button/Button';
 export * from './Col/Col';
 export * from './ConnectWallet/ConnectWallet';
 export * from './Dropdown/Dropdown';
+export * from './Header/Header';
 export * from './Icon/Icon';
 export * from './Input/Input';
 export * from './Logo/Logo';

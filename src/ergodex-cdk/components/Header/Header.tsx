@@ -5,10 +5,11 @@ import { useState } from 'react';
 import React from 'react';
 
 import { ReactComponent as DarkModeOutlined } from '../../../assets/icons/darkmode.svg';
+import { ConnectWallet } from '../ConnectWallet/ConnectWallet';
 import {
   BarChartOutlined,
   Button,
-  ConnectWallet,
+  // ConnectWallet,
   Dropdown,
   FileTextOutlined,
   GithubOutlined,
