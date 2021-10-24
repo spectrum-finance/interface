@@ -8,7 +8,6 @@ import { ReactComponent as DarkModeOutlined } from '../../../assets/icons/darkmo
 import {
   BarChartOutlined,
   Button,
-  ConnectWallet,
   Dropdown,
   FileTextOutlined,
   GithubOutlined,
@@ -17,13 +16,14 @@ import {
   LeftOutlined,
   Logo,
   Menu,
-  NetworkDropdown,
   Popover,
   QuestionCircleOutlined,
   RightOutlined,
   SettingOutlined,
   Tabs,
-} from '../index';
+} from '../../ergodex-cdk';
+import { ConnectWallet } from '../ConnectWallet/ConnectWallet';
+import { NetworkDropdown } from '../NetworkDropdown/NetworkDropdown';
 import { ThemeSwitch } from '../ThemeSwitch/ThemeSwitch';
 
 const DotsSVG = () => (

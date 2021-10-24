@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Modal, Typography } from '../index';
+import { Modal, Typography } from '../../ergodex-cdk';
 
 interface ChooseWalletModalProps {
   isOpen: boolean;

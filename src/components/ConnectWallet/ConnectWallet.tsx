@@ -3,11 +3,8 @@ import './ConnectWallet.less';
 import { LoadingOutlined } from '@ant-design/icons';
 import React, { useState } from 'react';
 
-import { Box } from '../Box/Box';
-import { Button } from '../Button/Button';
+import { Box, Button, Space, Typography } from '../../ergodex-cdk';
 import { ChooseWalletModal } from '../ChooseWalletModal/ChooseWalletModal';
-import { Space } from '../Space/Space';
-import { Typography } from '../Typography/Typography';
 
 export interface ConnectWalletProps {
   isWalletConnected: boolean;
