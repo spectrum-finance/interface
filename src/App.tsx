@@ -14,8 +14,9 @@ import { useTheme } from './context/Theme';
 import { globalHistory } from './createBrowserHistory';
 import { useBodyClass } from './hooks/useBodyClass';
 import { Swap } from './pages';
+import { ContextModalProvider } from './ergodex-cdk';
 
-const NotFound = () => <Redirect to="/" />;
+const NotFound = () => <Redirect to="/"/>;
 
 export const App: React.FC = () => {
   const theme = useTheme();
@@ -37,12 +38,14 @@ export const App: React.FC = () => {
         <WalletContextProvider>
           <SettingsProvider>
             <WalletAddressesProvider>
-              <Layout>
-                <Switch>
-                  <Route path="/" exact component={Swap} />
-                  <Route component={NotFound} />
-                </Switch>
-              </Layout>
+              <ContextModalProvider>
+                <Layout>
+                  <Switch>
+                    <Route path="/" exact component={Swap}/>
+                    <Route component={NotFound}/>
+                  </Switch>
+                </Layout>
+              </ContextModalProvider>
             </WalletAddressesProvider>
           </SettingsProvider>
         </WalletContextProvider>
