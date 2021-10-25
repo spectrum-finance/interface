@@ -1,7 +1,7 @@
 import { Meta, Story } from '@storybook/react';
-import React, { useState } from 'react';
+import React from 'react';
 
-import { Button } from '../index';
+import { Button, Modal } from '../index';
 import { TokenListModal } from './TokenListModal';
 
 export default {
@@ -9,20 +9,25 @@ export default {
   component: TokenListModal,
 } as Meta<typeof TokenListModal>;
 
-export const Default: Story = () => {
-  const [showTokenList, setShowTokenList] = useState(false);
+interface DialogRef<T = any> {
+  close: (result?: T) => void;
+}
 
-  const handleCancel = () => {
-    setShowTokenList(false);
+export const Default: Story = () => {
+  const handleOpenModal = () => {
+    Modal.open(
+      (param: DialogRef<boolean>) => {
+        return <TokenListModal close={param.close} />;
+      },
+      { title: 'Select a token' },
+    );
   };
 
   return (
     <>
       <h2>Token List Modal</h2>
 
-      <Button onClick={() => setShowTokenList(true)}>Select Token</Button>
-
-      <TokenListModal visible={showTokenList} onCancel={handleCancel} />
+      <Button onClick={handleOpenModal}>Select Token</Button>
     </>
   );
 };
