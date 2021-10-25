@@ -2,14 +2,16 @@
 
 .defaultTheme () {
   // Geometry
-  --ergo-border-radius-lg:                      12px;
+  --ergo-border-radius-lg:                      20px;
   --ergo-border-radius-md:                      12px;
-  --ergo-border-radius-sm:                      12px;
-  --ergo-border-radius:                         var(--ergo-border-radius-lg);
-
+  --ergo-border-radius-sm:                      8px;
+  --ergo-base-gutter:                           8px;
   // -- Color --
 
-  --ergo-body-bg:                            @light-color-background-1;
+  --ergo-body-bg:                               @light-color-background-1;
+
+  --ergo-box-bg:                               @light-color-gray-1;
+  --ergo-box-bg-contrast:                      var(--ergo-box-bg);
 
   // Primary
   --ergo-primary-color:                         @light-color-orange-6;
@@ -184,6 +186,9 @@
 
   // Modal
   --ergo-modal-radius:                          16px;
+  --ergo-modal-color:                           var(--ergo-default-card-background);
+  --ergo-modal-close-x-color:                   var(--ergo-primary-text);
+  --ergo-modal-close-x-size:                    24px;
 
   // Menu
   --ergo-menu-item-active-background:           @light-color-gray-3;
@@ -251,7 +256,7 @@
   // Tabs
   --ergo-tabs-nav-list-color:                   var(--ergo-default-card-background);
   --ergo-tabs-nav-list-border-radius:           16px;
-  --ergo-tab-border-radius:                     var(--ergo-border-radius);
+  --ergo-tab-border-radius:                     var(--ergo-border-radius-md);
   --ergo-tab-text-contrast:                     var(--ergo-primary-text);
   --ergo-tab-color-active:                      var(--ergo-primary-color);
   --ergo-tab-text-contrast-active:              var(--ergo-primary-text-contrast);
@@ -268,25 +273,18 @@
   --ergo-swap-form-sub-text:                    @light-color-gray-8;
 
   // Connect Wallet
-  --ergo-conn-wallet-default-btn-bg:            rgba(255, 114, 92, 0.20);
-  --ergo-conn-wallet-default-btn-color:         @light-color-orange-6;
-  --ergo-conn-wallet-default-btn-hover-border:  @light-color-orange-5;
-  --ergo-conn-wallet-common-btn-bg:             @light-color-gray-1;
-  --ergo-conn-wallet-common-btn-hover-border:   @light-color-gray-5;
-  --ergo-conn-wallet-common-btn-pressed-border: @light-color-gray-6;
-  --ergo-conn-wallet-balance-lbl:               @light-color-gray-9;
-  --ergo-conn-wallet-address-lbl:               @light-color-gray-7;
-  --ergo-conn-wallet-pending-lbl:               @light-color-gray-9;
-  --ergo-conn-wallet-address-lbl-bg:            @light-color-gray-3;
+  --ergo-connect-wallet-btn-bg:                  rgba(255, 114, 92, 0.20);
+  --ergo-connect-wallet-btn-color:               @light-color-orange-6;
+  --ergo-connect-wallet-btn-border:              @light-color-orange-5;
 
   // Header
-  --ergo-header-settings-btn-color:               @light-color-gray-9;
-  --ergo-header-settings-btn-bg-hover-color:      @light-color-gray-2;
-  --ergo-header-settings-btn-bg-active-color:     @light-color-gray-3;
-  --ergo-header-others-btn-bg-color:              @light-color-gray-1;
-  --ergo-header-others-btn-icon-default-color:    @light-color-gray-9;
-  --ergo-header-others-btn-icon-hover-color:      @light-color-orange-6;
-  --ergo-header-others-btn-icon-active-color:     @light-color-orange-4;
+  --ergo-header-settings-btn-color:             @light-color-gray-9;
+  --ergo-header-settings-btn-bg-hover-color:    @light-color-gray-2;
+  --ergo-header-settings-btn-bg-active-color:   @light-color-gray-3;
+  --ergo-header-others-btn-bg-color:            @light-color-gray-1;
+  --ergo-header-others-btn-icon-default-color:  @light-color-gray-9;
+  --ergo-header-others-btn-icon-hover-color:    @light-color-orange-6;
+  --ergo-header-others-btn-icon-active-color:   @light-color-orange-4;
 
   // Token List Modal
   --ergo-token-list-modal-token-name:           @light-color-gray-8;
