@@ -18,10 +18,14 @@ export const AddressListTitle: React.FC = () => {
 
 interface AddressListItemProps {
   address: string;
+  active: boolean;
+  updateActiveAddr: (address: string) => void;
 }
 
 export const AddressListItem: React.FC<AddressListItemProps> = ({
   address,
+  active,
+  updateActiveAddr,
 }) => {
   return (
     <div className="address_list_item_wrapper">
@@ -31,7 +35,15 @@ export const AddressListItem: React.FC<AddressListItemProps> = ({
         <span className="usd_balance">$1033.20</span>
       </div>
       <div className="choose_btn_wrapper">
-        <Button type="primary">Choose</Button>
+        <Button
+          type="primary"
+          disabled={active}
+          onClick={() => {
+            updateActiveAddr(address);
+          }}
+        >
+          {active ? 'Active' : 'Choose'}
+        </Button>
       </div>
     </div>
   );

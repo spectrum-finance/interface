@@ -39,6 +39,8 @@ export const WalletModal: React.FC = () => {
     },
   ];
 
+  const [activeRecvAddr, setActiveRecvAddr] = useState<string>(addressList[0]);
+
   return (
     <div>
       <Button onClick={() => setIsShownModal(true)}>Open Modal</Button>
@@ -53,7 +55,7 @@ export const WalletModal: React.FC = () => {
           <span className="ergo_network_lbl">Ergo network</span>
           <div className="receive_address">
             <span className="recv_addr_lbl">Receive address:</span>
-            <Address address={addressList[0]} />
+            <Address address={activeRecvAddr} />
           </div>
           <Tabs
             defaultActiveKey="1"
@@ -62,7 +64,11 @@ export const WalletModal: React.FC = () => {
             className="address_tokens_tab"
           >
             <Tabs.TabPane tab="Address" key="1">
-              <AddressListView addressList={addressList} />
+              <AddressListView
+                addressList={addressList}
+                activeAddress={activeRecvAddr}
+                updateActiveAddr={setActiveRecvAddr}
+              />
             </Tabs.TabPane>
             <Tabs.TabPane tab="Tokens" key="2">
               <TokenListView tokenList={tokenList} />
