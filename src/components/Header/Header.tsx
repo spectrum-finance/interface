@@ -60,9 +60,6 @@ export const Header: React.FC = () => {
   const [isMainMenu, setIsMainMenu] = useState<boolean>(true);
   const [isMenuVisible, setMenuVisible] = useState<boolean>(false);
 
-  console.log('isWalletConnected', isWalletConnected);
-  console.log('ergBalance', ergBalance);
-
   const onMenuClicked = (e: { key: string }) => {
     if (e.key === '6') {
       setIsMainMenu(false);
@@ -163,8 +160,8 @@ export const Header: React.FC = () => {
           <NetworkDropdown networks={networks} />
           <ConnectWallet
             isWalletConnected={isWalletConnected}
-            numberOfPendingTxs={1}
-            balance={123}
+            numberOfPendingTxs={0}
+            balance={ergBalance}
             currency="ERG"
             address="9iKWmL5t3y9u59fUESsbFQzG933UPjR1v7LUAjM6XPMAcXNhBzL"
           />

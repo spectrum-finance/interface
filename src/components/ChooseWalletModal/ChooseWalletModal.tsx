@@ -1,30 +1,37 @@
 import './ChooseWalletModal.less';
 
-import React, { useContext, useState } from 'react';
+import React from 'react';
 
-import { ReactComponent as YoroiLogo } from '../../assets/icons/yoroi-logo-icon.svg';
-import { WalletContext } from '../../context';
 import { Alert, Button, Row, Typography } from '../../ergodex-cdk';
-import { walletCookies } from '../../utils/cookies';
 
 const { Body } = Typography;
 
-interface WalletItemProps {
+type WalletItemType = {
   name: string;
   logo: JSX.Element;
-  connect: () => void;
-  warning: string;
+  onClick: () => void;
+  warning?: string;
+};
+
+interface WalletItemProps {
+  wallet: WalletItemType;
+  close: (result: boolean) => void;
 }
 
 const WalletItem: React.FC<WalletItemProps> = ({
-  name,
-  logo,
-  connect,
-  warning,
+  wallet: { name, logo, onClick, warning },
+  close,
 }) => (
   <>
     <Row gutter={1}>
-      <Button onClick={connect} className="wallet-item__btn" size="large">
+      <Button
+        onClick={() => {
+          onClick();
+          close(true);
+        }}
+        className="wallet-item__btn"
+        size="large"
+      >
         <Body>{name}</Body>
         {logo}
       </Button>
@@ -37,47 +44,20 @@ const WalletItem: React.FC<WalletItemProps> = ({
   </>
 );
 
-const ChooseWalletModal: React.FC = (): JSX.Element => {
-  const { setIsWalletConnected } = useContext(WalletContext);
-  const [warning, setWarning] = useState('');
+interface ChooseWalletModalProps {
+  wallets: Array<WalletItemType>;
+  close: (result: boolean) => void;
+}
 
-  const walletList = [
-    {
-      name: 'Yoroi',
-      logo: <YoroiLogo />,
-      connect: () => {
-        if (!window.ergo_request_read_access) {
-          console.log('Connect wallet error');
-          setWarning('hello');
-          return;
-        }
-
-        console.log('Connecting');
-
-        window
-          .ergo_request_read_access()
-          .then(setIsWalletConnected)
-          .finally(() => console.log('Connected'));
-        // .then(() => walletCookies.setConnected());
-      },
-    },
-  ];
-
-  return (
-    <>
-      {walletList.map(({ name, logo, connect }, index) => {
-        return (
-          <WalletItem
-            key={index}
-            name={name}
-            logo={logo}
-            connect={connect}
-            warning={warning}
-          />
-        );
-      })}
-    </>
-  );
-};
+const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
+  wallets,
+  close,
+}): JSX.Element => (
+  <>
+    {wallets.map((wallet, index) => {
+      return <WalletItem key={index} close={close} wallet={wallet} />;
+    })}
+  </>
+);
 
 export { ChooseWalletModal };

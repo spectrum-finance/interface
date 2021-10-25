@@ -1,14 +1,17 @@
 import './ConnectWallet.less';
 
 import { LoadingOutlined } from '@ant-design/icons';
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 
+import { ReactComponent as YoroiLogo } from '../../assets/icons/yoroi-logo-icon.svg';
+import { WalletContext } from '../../context';
 import { Box, Button, Modal, Space, Typography } from '../../ergodex-cdk';
+import { connectYoroiWallet } from '../../utils/wallet/walletsOperations';
 import { ChooseWalletModal } from '../ChooseWalletModal/ChooseWalletModal';
 
 export interface ConnectWalletProps {
   isWalletConnected: boolean;
-  balance?: number;
+  balance?: string;
   currency?: string;
   address?: string;
   numberOfPendingTxs: number;
@@ -34,9 +37,24 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
   numberOfPendingTxs,
 }) => {
   const addressToRender = address ? getShortAddress(address) : '';
+  const walletCtx = useContext(WalletContext);
+
+  const wallets = [
+    {
+      name: 'Yoroi',
+      logo: <YoroiLogo />,
+      onClick: connectYoroiWallet(walletCtx),
+    },
+  ];
 
   const openChooseWalletModal = () =>
-    Modal.open(<ChooseWalletModal />, { width: 372, title: 'Select a wallet' });
+    Modal.open(
+      ({ close }) => <ChooseWalletModal wallets={wallets} close={close} />,
+      {
+        width: 372,
+        title: 'Select a wallet',
+      },
+    );
 
   const connectButton = (
     <Button
@@ -44,7 +62,7 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
       className="connect-wallet__connect-btn"
       onClick={openChooseWalletModal}
     >
-      Connect to wallet
+      Connect to a wallet
     </Button>
   );
 
