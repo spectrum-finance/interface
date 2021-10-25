@@ -67,7 +67,7 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
   );
 
   const addressButton = (
-    <Box>
+    <Box borderRadius="m">
       <Space>
         <Typography.Body
           style={{ whiteSpace: 'nowrap' }}
