@@ -1,9 +1,9 @@
 import './WalletModal.less';
 
+import { Modal } from 'antd';
 import React, { useState } from 'react';
 
 import { Button } from '../Button/Button';
-import { Modal } from '../Modal/Modal';
 import { Tabs } from '../Tabs/Tabs';
 import { Address } from './Address';
 import { AddressListView } from './AddressListView';
