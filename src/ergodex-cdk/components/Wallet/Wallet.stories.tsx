@@ -2,7 +2,7 @@ import { Meta, Story } from '@storybook/react';
 import { Col, Row } from 'antd';
 import React from 'react';
 
-import { WalletModal } from './Wallet';
+import { WalletModal } from './WalletModal';
 
 export default {
   title: 'Components/WalletModal',

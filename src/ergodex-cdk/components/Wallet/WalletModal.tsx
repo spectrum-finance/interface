@@ -1,4 +1,4 @@
-import './Wallet.less';
+import './WalletModal.less';
 
 import React, { useState } from 'react';
 
@@ -6,7 +6,7 @@ import { Button } from '../Button/Button';
 import { Modal } from '../Modal/Modal';
 import { Tabs } from '../Tabs/Tabs';
 import { Address } from './Address';
-import { AddressView } from './AddressView';
+import { AddressListView } from './AddressListView';
 import { TokenListView } from './TokenListView';
 
 export const WalletModal: React.FC = () => {
@@ -62,7 +62,7 @@ export const WalletModal: React.FC = () => {
             className="address_tokens_tab"
           >
             <Tabs.TabPane tab="Address" key="1">
-              <AddressView addressList={addressList} />
+              <AddressListView addressList={addressList} />
             </Tabs.TabPane>
             <Tabs.TabPane tab="Tokens" key="2">
               <TokenListView tokenList={tokenList} />

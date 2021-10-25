@@ -1,14 +1,16 @@
-import './AddressView.less';
+import './AddressListView.less';
 
 import React from 'react';
 
 import { AddressListItem, AddressListTitle } from './AddressListItem';
 
-interface AddressViewProps {
+interface AddressListViewProps {
   addressList: string[];
 }
 
-export const AddressView: React.FC<AddressViewProps> = ({ addressList }) => {
+export const AddressListView: React.FC<AddressListViewProps> = ({
+  addressList,
+}) => {
   return (
     <div>
       <AddressListTitle />
