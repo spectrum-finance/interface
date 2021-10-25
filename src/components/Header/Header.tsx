@@ -1,10 +1,11 @@
 import './Header.less';
 
 import Icon from '@ant-design/icons';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import React from 'react';
 
 import { ReactComponent as DarkModeOutlined } from '../../assets/icons/darkmode.svg';
+import { WalletContext } from '../../context';
 import {
   BarChartOutlined,
   Button,
@@ -55,8 +56,12 @@ const settingsPopup: JSX.Element = (
 );
 
 export const Header: React.FC = () => {
+  const { isWalletConnected, ergBalance } = useContext(WalletContext);
   const [isMainMenu, setIsMainMenu] = useState<boolean>(true);
   const [isMenuVisible, setMenuVisible] = useState<boolean>(false);
+
+  console.log('isWalletConnected', isWalletConnected);
+  console.log('ergBalance', ergBalance);
 
   const onMenuClicked = (e: { key: string }) => {
     if (e.key === '6') {
@@ -157,7 +162,7 @@ export const Header: React.FC = () => {
         <div className="header__options">
           <NetworkDropdown networks={networks} />
           <ConnectWallet
-            isWalletConnected={true}
+            isWalletConnected={isWalletConnected}
             numberOfPendingTxs={1}
             balance={123}
             currency="ERG"

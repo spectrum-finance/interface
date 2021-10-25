@@ -3,8 +3,8 @@ import './ConnectWallet.less';
 import { LoadingOutlined } from '@ant-design/icons';
 import React, { useState } from 'react';
 
-import { Box, Button, Space, Typography } from '../../ergodex-cdk';
-// import { ChooseWalletModal } from '../ChooseWalletModal/ChooseWalletModal';
+import { Box, Button, Modal, Space, Typography } from '../../ergodex-cdk';
+import { ChooseWalletModal } from '../ChooseWalletModal/ChooseWalletModal';
 
 export interface ConnectWalletProps {
   isWalletConnected: boolean;
@@ -33,16 +33,16 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
   address,
   numberOfPendingTxs,
 }) => {
-  const [isChooseWalletModalOpen, setIsChooseWalletModalOpen] =
-    useState<boolean>(false);
-
   const addressToRender = address ? getShortAddress(address) : '';
+
+  const openChooseWalletModal = () =>
+    Modal.open(<ChooseWalletModal />, { width: 372, title: 'Select a wallet' });
 
   const connectButton = (
     <Button
       size="large"
       className="connect-wallet__connect-btn"
-      onClick={() => setIsChooseWalletModalOpen(true)}
+      onClick={openChooseWalletModal}
     >
       Connect to wallet
     </Button>
@@ -68,13 +68,5 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
     </Box>
   );
 
-  return (
-    <>
-      {isWalletConnected ? addressButton : connectButton}
-      {/*<ChooseWalletModal*/}
-      {/*  isOpen={isChooseWalletModalOpen}*/}
-      {/*  onCancel={() => setIsChooseWalletModalOpen(false)}*/}
-      {/*/>*/}
-    </>
-  );
+  return isWalletConnected ? addressButton : connectButton;
 };
