@@ -27,14 +27,12 @@ export const WalletModal: React.FC = () => {
             <span>Receive address:</span>
             <Address />
           </div>
-          <div className="address_tokens_body">
-            <Tabs defaultActiveKey="1" type="card">
-              <Tabs.TabPane tab="Address" key="1">
-                <AddressView />
-              </Tabs.TabPane>
-              <Tabs.TabPane tab="Tokens" key="2" />
-            </Tabs>
-          </div>
+          <Tabs defaultActiveKey="1" type="card" className="address_tokens_tab">
+            <Tabs.TabPane tab="Address" key="1">
+              <AddressView />
+            </Tabs.TabPane>
+            <Tabs.TabPane tab="Tokens" key="2" />
+          </Tabs>
         </div>
       </Modal>
     </div>
