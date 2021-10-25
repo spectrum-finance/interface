@@ -1,7 +1,7 @@
 .wallet-modal-wrapper {
   .ant-modal-content {
     width: 400px;
-    background-color: #141414;
+    background-color: var(--ergo-wallet-modal-bg);
     border-radius: 16px;
 
     .ant-modal-header {
@@ -10,7 +10,7 @@
       border-radius: inherit;
 
       .ant-modal-title {
-        color: #dbdbdb;
+        color: var(--ergo-wallet-modal-header);
         font-size: 20px;
         font-weight: 600;
       }
@@ -20,7 +20,7 @@
       position: absolute;
       top: 24px;
       right: 24px;
-      color: #dbdbdb;
+      color: var(--ergo-wallet-modal-header);
       span {
         width: auto;
         height: auto;
@@ -40,10 +40,10 @@
         justify-content: space-between;
         padding: 8px 12px;
         margin-top: 24px;
-        background-color: #1d1d1d;
+        background-color: var(--ergo-wallet-modal-recv-addr-bg);
         border-radius: 12px;
         .recv_addr_lbl {
-          color: #ACACAC;
+          color: var(--ergo-wallet-modal-recv-addr-lbl);
           font-size: 12px;
           font-weight: 400;
         }
@@ -51,10 +51,10 @@
       .address_tokens_tab {
         padding: 16px;
         margin-top: 24px;
-        background-color: #1D1D1D;
+        background-color: var(--ergo-wallet-modal-tab-bg);
         border-radius: 12px;
         .ant-tabs-tabpane.ant-tabs-tabpane-active {
-          color: #dbdbdb;
+          color: var(--ergo-wallet-modal-tab-pane-active);
         }
       }
     }
