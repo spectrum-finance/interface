@@ -81,7 +81,7 @@ export const Swap: React.FC = () => {
             />
           </div>
 
-          <Button className="bottom-button" size="large">
+          <Button className="bottom-button" size="large" disabled>
             Select a token
           </Button>
 
