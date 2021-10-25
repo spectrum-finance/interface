@@ -7,6 +7,7 @@ import { Modal } from '../Modal/Modal';
 import { Tabs } from '../Tabs/Tabs';
 import { Address } from './Address';
 import { AddressView } from './AddressView';
+import { TokenListView } from './TokenListView';
 
 export const WalletModal: React.FC = () => {
   const [isShownModal, setIsShownModal] = useState(false);
@@ -15,6 +16,27 @@ export const WalletModal: React.FC = () => {
     '0x8ac34e16940Bf89CF28d1f9C9Fa7E1',
     '0x8a4d4e16940Bf89CF28d1f9C9FaQ4f',
     '0x8af94e16940Bf89CF28d1f9C9Fa7R4',
+  ];
+
+  const tokenList = [
+    {
+      symbol: 'ERG',
+      name: 'Ergo',
+      iconName: 'erg-orange',
+    },
+    {
+      symbol: 'ADA',
+      name: 'Ada',
+    },
+    {
+      symbol: 'ERG',
+      name: 'Ergo',
+      iconName: 'erg-orange',
+    },
+    {
+      symbol: 'ADA',
+      name: 'Ada',
+    },
   ];
 
   return (
@@ -33,11 +55,18 @@ export const WalletModal: React.FC = () => {
             <span className="recv_addr_lbl">Receive address:</span>
             <Address address={addressList[0]} />
           </div>
-          <Tabs defaultActiveKey="1" type="card" className="address_tokens_tab">
+          <Tabs
+            defaultActiveKey="1"
+            centered
+            type="card"
+            className="address_tokens_tab"
+          >
             <Tabs.TabPane tab="Address" key="1">
               <AddressView addressList={addressList} />
             </Tabs.TabPane>
-            <Tabs.TabPane tab="Tokens" key="2" />
+            <Tabs.TabPane tab="Tokens" key="2">
+              <TokenListView tokenList={tokenList} />
+            </Tabs.TabPane>
           </Tabs>
         </div>
       </Modal>

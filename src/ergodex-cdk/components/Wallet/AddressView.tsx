@@ -1,8 +1,7 @@
-import './Wallet.less';
+import './AddressView.less';
 
 import React from 'react';
 
-import { Address } from './Address';
 import { AddressListItem, AddressListTitle } from './AddressListItem';
 
 interface AddressViewProps {
