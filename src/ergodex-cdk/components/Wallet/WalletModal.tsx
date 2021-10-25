@@ -50,7 +50,7 @@ export const WalletModal: React.FC = () => {
         footer={null}
       >
         <div>
-          <span>Ergo network</span>
+          <span className="ergo_network_lbl">Ergo network</span>
           <div className="receive_address">
             <span className="recv_addr_lbl">Receive address:</span>
             <Address address={addressList[0]} />
