@@ -33,13 +33,33 @@ const ExploreIconSVG = () => (
   </svg>
 );
 
-const CopyIcon = () => <Icon component={CopyIconSVG} />;
-const ExploreIcon = () => <Icon component={ExploreIconSVG} />;
+const CopyIcon = () => (
+  <Icon component={CopyIconSVG} style={{ cursor: 'pointer' }} />
+);
+const ExploreIcon = () => (
+  <Icon component={ExploreIconSVG} style={{ cursor: 'pointer' }} />
+);
 
-export const Address: React.FC = () => {
+interface AddressProps {
+  address: string;
+}
+
+const getShortAddress = (address?: string) => {
+  let shortAddress = address ? address : '';
+  shortAddress =
+    shortAddress.length < 10
+      ? shortAddress
+      : shortAddress.substring(0, 6) +
+        '...' +
+        shortAddress.substring(shortAddress.length - 4, shortAddress.length);
+
+  return shortAddress;
+};
+
+export const Address: React.FC<AddressProps> = ({ address }) => {
   return (
     <div className="address_wrapper">
-      <span>9hK9j1...w3UC</span>
+      <span className="address">{getShortAddress(address)}</span>
       <CopyIcon />
       <ExploreIcon />
     </div>

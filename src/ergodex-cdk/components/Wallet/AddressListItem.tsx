@@ -7,22 +7,28 @@ import { Address } from './Address';
 
 export const AddressListTitle: React.FC = () => {
   return (
-    <div className="address_list_item_wrapper">
+    <div className="address_list_title_wrapper">
       <span>Address</span>
-      <div className="balance_wrapper">
+      <div className="balance_title_wrapper">
         <span>Balance</span>
       </div>
     </div>
   );
 };
 
-export const AddressListItem: React.FC = () => {
+interface AddressListItemProps {
+  address: string;
+}
+
+export const AddressListItem: React.FC<AddressListItemProps> = ({
+  address,
+}) => {
   return (
     <div className="address_list_item_wrapper">
-      <Address />
+      <Address address={address} />
       <div className="balance_wrapper">
-        <span>100.03 ERG</span>
-        <span className="usd_balance_label">$1033.20</span>
+        <span className="token_balance">100.03 ERG</span>
+        <span className="usd_balance">$1033.20</span>
       </div>
       <div className="choose_btn_wrapper">
         <Button type="primary">Choose</Button>
