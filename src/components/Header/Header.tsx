@@ -1,5 +1,6 @@
 import './Header.less';
 
+// TODO: https://ergoplatform.myjetbrains.com/youtrack/issue/EDEX-439
 import Icon from '@ant-design/icons';
 import { useContext, useState } from 'react';
 import React from 'react';
