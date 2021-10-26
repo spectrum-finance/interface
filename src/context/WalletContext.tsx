@@ -1,9 +1,10 @@
 import { ErgoBox, ergoBoxFromProxy } from '@ergolabs/ergo-sdk';
 import React, { createContext, useCallback, useEffect, useState } from 'react';
 
-import { ERG_TOKEN_NAME } from '../constants/erg';
+import { ERG_DECIMALS, ERG_TOKEN_NAME } from '../constants/erg';
 import { useInterval } from '../hooks/useInterval';
 import { walletCookies } from '../utils/cookies';
+import { renderFractions } from '../utils/math';
 
 export enum WalletConnectionState {
   NOT_CONNECTED, // initial state
@@ -11,7 +12,7 @@ export enum WalletConnectionState {
   DISCONNECTED,
 }
 
-type WalletContextType = {
+export type WalletContextType = {
   isWalletConnected: boolean; // @deprecated in favour of walletConnectionState
   walletConnectionState: WalletConnectionState;
   utxos: ErgoBox[] | undefined;
@@ -76,14 +77,18 @@ export const WalletContextProvider = ({
   useEffect(() => {
     if (isWalletConnected) {
       fetchUtxos().then(setUtxos);
-      ergo.get_balance(ERG_TOKEN_NAME).then(setErgBalance);
+      ergo.get_balance(ERG_TOKEN_NAME).then((balance) => {
+        setErgBalance(renderFractions(balance, ERG_DECIMALS));
+      });
     }
   }, [isWalletConnected]);
 
   useInterval(() => {
     if (isWalletConnected) {
       fetchUtxos().then(setUtxos);
-      ergo.get_balance(ERG_TOKEN_NAME).then(setErgBalance);
+      ergo.get_balance(ERG_TOKEN_NAME).then((balance) => {
+        setErgBalance(renderFractions(balance, ERG_DECIMALS));
+      });
     }
   }, 10 * 1000);
 

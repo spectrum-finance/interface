@@ -2,8 +2,8 @@ import './SwapInput.less';
 
 import React from 'react';
 
-import { escapeRegExp } from '../../utils/format';
-import { Input } from '../index';
+import { Input } from '../../ergodex-cdk';
+import { escapeRegExp } from './format';
 
 const inputRegex = RegExp(`^\\d*(?:\\\\[.])?\\d*$`); // match escaped "." characters via in a non-capturing group
 

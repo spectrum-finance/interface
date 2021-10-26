@@ -1,14 +1,17 @@
 import './ConnectWallet.less';
 
 import { LoadingOutlined } from '@ant-design/icons';
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 
-import { Box, Button, Space, Typography } from '../../ergodex-cdk';
-// import { ChooseWalletModal } from '../ChooseWalletModal/ChooseWalletModal';
+import { ReactComponent as YoroiLogo } from '../../assets/icons/yoroi-logo-icon.svg';
+import { WalletContext } from '../../context';
+import { Box, Button, Modal, Space, Typography } from '../../ergodex-cdk';
+import { connectYoroiWallet } from '../../utils/wallet/walletsOperations';
+import { ChooseWalletModal } from '../ChooseWalletModal/ChooseWalletModal';
 
 export interface ConnectWalletProps {
   isWalletConnected: boolean;
-  balance?: number;
+  balance?: string;
   currency?: string;
   address?: string;
   numberOfPendingTxs: number;
@@ -33,23 +36,38 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
   address,
   numberOfPendingTxs,
 }) => {
-  const [isChooseWalletModalOpen, setIsChooseWalletModalOpen] =
-    useState<boolean>(false);
-
   const addressToRender = address ? getShortAddress(address) : '';
+  const walletCtx = useContext(WalletContext);
+
+  const wallets = [
+    {
+      name: 'Yoroi',
+      logo: <YoroiLogo />,
+      onClick: connectYoroiWallet(walletCtx),
+    },
+  ];
+
+  const openChooseWalletModal = () =>
+    Modal.open(
+      ({ close }) => <ChooseWalletModal wallets={wallets} close={close} />,
+      {
+        width: 372,
+        title: 'Select a wallet',
+      },
+    );
 
   const connectButton = (
     <Button
       size="large"
       className="connect-wallet__connect-btn"
-      onClick={() => setIsChooseWalletModalOpen(true)}
+      onClick={openChooseWalletModal}
     >
-      Connect to wallet
+      Connect to a wallet
     </Button>
   );
 
   const addressButton = (
-    <Box>
+    <Box borderRadius="m">
       <Space>
         <Typography.Body
           style={{ whiteSpace: 'nowrap' }}
@@ -68,13 +86,5 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
     </Box>
   );
 
-  return (
-    <>
-      {isWalletConnected ? addressButton : connectButton}
-      {/*<ChooseWalletModal*/}
-      {/*  isOpen={isChooseWalletModalOpen}*/}
-      {/*  onCancel={() => setIsChooseWalletModalOpen(false)}*/}
-      {/*/>*/}
-    </>
-  );
+  return isWalletConnected && balance ? addressButton : connectButton;
 };

@@ -12,6 +12,7 @@ import {
 } from './context';
 import { useTheme } from './context/Theme';
 import { globalHistory } from './createBrowserHistory';
+import { ContextModalProvider } from './ergodex-cdk';
 import { useBodyClass } from './hooks/useBodyClass';
 import { Swap } from './pages';
 
@@ -37,12 +38,14 @@ export const App: React.FC = () => {
         <WalletContextProvider>
           <SettingsProvider>
             <WalletAddressesProvider>
-              <Layout>
-                <Switch>
-                  <Route path="/" exact component={Swap} />
-                  <Route component={NotFound} />
-                </Switch>
-              </Layout>
+              <ContextModalProvider>
+                <Layout>
+                  <Switch>
+                    <Route path="/" exact component={Swap} />
+                    <Route component={NotFound} />
+                  </Switch>
+                </Layout>
+              </ContextModalProvider>
             </WalletAddressesProvider>
           </SettingsProvider>
         </WalletContextProvider>

@@ -1,11 +1,18 @@
 import React from 'react';
 
 import sprite from '../../assets/icons/sprite/sprite.svg';
-import accessibleTokens from '../../constants/accessibleTokens';
 
 interface TokenIconProps extends SVGSVGElement {
   name?: string;
 }
+
+const accessibleTokens = [
+  'ERG',
+  'ADA',
+  'ERG-ORANGE',
+  'ADA-DISABLED',
+  'ERG-ORANGE-DISABLED',
+];
 
 const TokenIcon: React.FC<React.SVGProps<TokenIconProps>> = (props) => {
   return (
