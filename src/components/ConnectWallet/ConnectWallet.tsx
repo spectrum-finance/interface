@@ -68,7 +68,6 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
       size="large"
       className="connect-wallet__connect-btn"
       onClick={openChooseWalletModal}
-      // onClick={openWalletModal}
     >
       Connect to a wallet
     </Button>
@@ -82,6 +81,7 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
         >{`${balance} ${currency}`}</Typography.Body>
         <Button
           className="connect-wallet__address-btn"
+          onClick={openWalletModal}
           icon={!!numberOfPendingTxs && <LoadingOutlined />}
           size="middle"
           type="default"
