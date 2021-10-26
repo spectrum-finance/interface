@@ -18,7 +18,6 @@ export * from './Tabs/Tabs';
 export * from './Tag/Tag';
 export * from './TokenIcon/TokenIcon';
 export * from './TokenInput/TokenInput';
-export * from './TokenListModal/TokenListModal';
 export * from './TokenSelect/TokenSelect';
 export * from './Tooltip/Tooltip';
 export * from './Typography/Typography';

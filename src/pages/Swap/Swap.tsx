@@ -2,35 +2,39 @@ import './Swap.less';
 
 import React, { useState } from 'react';
 
+import { TokenListModal } from '../../components/TokenListModal/TokenListModal';
 import {
   Button,
   Col,
   HistoryOutlined,
+  Modal,
   Row,
   SettingOutlined,
   SwapOutlined,
   TokenInput,
-  // TokenListModal,
 } from '../../ergodex-cdk';
+
+interface DialogRef<T = any> {
+  close: (result?: T) => void;
+}
 
 export const Swap: React.FC = () => {
   const [fromValue, setFromValue] = useState('');
   const [fromTokenName, setFromTokenName] = useState('ERG');
-  const [fromTokenBalance, setFromTokenBalance] = useState(0);
-  const [fromTokenPrice, setFromTokenPrice] = useState(335);
+  const [fromTokenBalance] = useState(0);
+  const [fromTokenPrice] = useState(335);
   const [toValue, setToValue] = useState('');
   const [toTokenName, setToTokenName] = useState('');
-  const [toTokenBalance, setToTokenBalance] = useState(0);
-  const [toTokenPrice, setToTokenPrice] = useState(335);
-  const [showFromTokenListModal, setShowFromTokenListModal] = useState(false);
-  const [showToTokenListModal, setShowToTokenListModal] = useState(false);
+  const [toTokenBalance] = useState(0);
+  const [toTokenPrice] = useState(335);
 
-  const handleSelectFromToken = () => {
-    setShowFromTokenListModal(true);
-  };
-
-  const handleSelectToToken = () => {
-    setShowToTokenListModal(true);
+  const handleSelectFromToken = (onSelectChanged: (name: string) => void) => {
+    Modal.open(
+      (param: DialogRef) => (
+        <TokenListModal close={param.close} onSelectChanged={onSelectChanged} />
+      ),
+      { title: 'Select a token' },
+    );
   };
 
   return (
@@ -54,7 +58,7 @@ export const Swap: React.FC = () => {
               tokenName={fromTokenName}
               balance={fromTokenBalance}
               tokenPrice={fromTokenPrice}
-              onSelectToken={handleSelectFromToken}
+              onSelectToken={() => handleSelectFromToken(setFromTokenName)}
               label="From"
             />
           </div>
@@ -63,12 +67,6 @@ export const Swap: React.FC = () => {
             <Button size="large" icon={<SwapOutlined />} />
           </div>
 
-          {/*<TokenListModal*/}
-          {/*  visible={showFromTokenListModal}*/}
-          {/*  onCancel={() => setShowFromTokenListModal(false)}*/}
-          {/*  onSelectChanged={setFromTokenName}*/}
-          {/*/>*/}
-
           <div className="to-token-input">
             <TokenInput
               value={toValue}
@@ -76,20 +74,14 @@ export const Swap: React.FC = () => {
               tokenName={toTokenName}
               balance={toTokenBalance}
               tokenPrice={toTokenPrice}
-              onSelectToken={handleSelectToToken}
+              onSelectToken={() => handleSelectFromToken(setToTokenName)}
               label="To"
             />
           </div>
 
-          <Button className="bottom-button" size="large">
+          <Button className="bottom-button" size="large" disabled>
             Select a token
           </Button>
-
-          {/*<TokenListModal*/}
-          {/*  visible={showToTokenListModal}*/}
-          {/*  onCancel={() => setShowToTokenListModal(false)}*/}
-          {/*  onSelectChanged={setToTokenName}*/}
-          {/*/>*/}
         </div>
       </Col>
     </Row>
