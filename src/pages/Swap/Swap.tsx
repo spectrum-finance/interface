@@ -2,6 +2,7 @@ import './Swap.less';
 
 import React, { useState } from 'react';
 
+import { TokenInput } from '../../components/TokenInput/TokenInput';
 import {
   Button,
   Col,
@@ -9,7 +10,6 @@ import {
   Row,
   SettingOutlined,
   SwapOutlined,
-  TokenInput,
   // TokenListModal,
 } from '../../ergodex-cdk';
 

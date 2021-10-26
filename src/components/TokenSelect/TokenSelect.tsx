@@ -2,7 +2,8 @@ import './TokenSelect.less';
 
 import React from 'react';
 
-import { Button, DownOutlined, TokenIcon } from '../index';
+import { Button, DownOutlined } from '../../ergodex-cdk';
+import { TokenIcon } from '../TokenIcon/TokenIcon';
 
 interface TokenSelectProps {
   name?: string | null;

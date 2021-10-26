@@ -4,13 +4,8 @@ import cn from 'classnames';
 import capitalize from 'lodash/capitalize';
 import React, { useState } from 'react';
 
-import {
-  Button,
-  DownOutlined,
-  Dropdown,
-  Menu,
-  TokenIcon,
-} from '../../ergodex-cdk';
+import { Button, DownOutlined, Dropdown, Menu } from '../../ergodex-cdk';
+import { TokenIcon } from '../TokenIcon/TokenIcon';
 
 type Network = { name: string; token: string };
 

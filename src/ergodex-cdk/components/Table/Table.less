@@ -1,0 +1,29 @@
+@table-bg: transparent;
+@table-border: 1px solid var(--ergo-table-border-color);
+
+.ant-table {
+  background: @table-bg;
+
+  &-thead {
+    tr th {
+      border-bottom:  @table-border;
+      background: @table-bg;
+      color: var(--ergo-table-head-color);
+
+      &::before {
+        display: none !important;
+      }
+    }
+  }
+
+  &-tbody > &-row:hover > td {
+    background: var(--ergo-table-td-hover-color) !important;
+  }
+
+  &-tbody > tr > td {
+    border-bottom: @table-border;
+    color: var(--ergo-table-color);
+  }
+}
+
+

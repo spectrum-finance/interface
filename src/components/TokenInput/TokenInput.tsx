@@ -2,7 +2,8 @@ import './TokenInput.less';
 
 import React from 'react';
 
-import { SwapInput, TokenSelect } from '../index';
+import { SwapInput } from '../SwapInput/SwapInput';
+import { TokenSelect } from '../TokenSelect/TokenSelect';
 
 interface TokenInputProps {
   value: string;
