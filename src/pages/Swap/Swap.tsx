@@ -10,7 +10,7 @@ import {
   SettingOutlined,
   SwapOutlined,
   TokenInput,
-  TokenListModal,
+  // TokenListModal,
 } from '../../ergodex-cdk';
 
 export const Swap: React.FC = () => {
@@ -63,11 +63,11 @@ export const Swap: React.FC = () => {
             <Button size="large" icon={<SwapOutlined />} />
           </div>
 
-          <TokenListModal
-            visible={showFromTokenListModal}
-            onCancel={() => setShowFromTokenListModal(false)}
-            onSelectChanged={setFromTokenName}
-          />
+          {/*<TokenListModal*/}
+          {/*  visible={showFromTokenListModal}*/}
+          {/*  onCancel={() => setShowFromTokenListModal(false)}*/}
+          {/*  onSelectChanged={setFromTokenName}*/}
+          {/*/>*/}
 
           <div className="to-token-input">
             <TokenInput
@@ -85,11 +85,11 @@ export const Swap: React.FC = () => {
             Select a token
           </Button>
 
-          <TokenListModal
-            visible={showToTokenListModal}
-            onCancel={() => setShowToTokenListModal(false)}
-            onSelectChanged={setToTokenName}
-          />
+          {/*<TokenListModal*/}
+          {/*  visible={showToTokenListModal}*/}
+          {/*  onCancel={() => setShowToTokenListModal(false)}*/}
+          {/*  onSelectChanged={setToTokenName}*/}
+          {/*/>*/}
         </div>
       </Col>
     </Row>

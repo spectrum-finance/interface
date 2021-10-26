@@ -36,7 +36,7 @@ export function parseUserInputToFractions(
 }
 
 export function renderFractions(
-  fractions: bigint | number,
+  fractions: bigint | number | string,
   numDecimals?: number,
 ): string {
   return math.format!(
