@@ -2,7 +2,7 @@ import './TokenListItem.less';
 
 import React from 'react';
 
-import { TokenIcon } from '..';
+import { TokenIcon } from '../TokenIcon/TokenIcon';
 
 interface TokenListItemProps {
   symbol?: string;

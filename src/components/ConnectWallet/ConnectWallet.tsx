@@ -86,5 +86,5 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
     </Box>
   );
 
-  return isWalletConnected ? addressButton : connectButton;
+  return isWalletConnected && balance ? addressButton : connectButton;
 };
