@@ -14,6 +14,7 @@ export * from './Slider/Slider';
 export * from './Space/Space';
 export * from './SwapInput/SwapInput';
 export * from './Switch/Switch';
+export * from './Table/Table';
 export * from './Tabs/Tabs';
 export * from './Tag/Tag';
 export * from './TokenIcon/TokenIcon';
