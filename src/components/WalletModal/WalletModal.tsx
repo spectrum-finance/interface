@@ -3,8 +3,8 @@ import './WalletModal.less';
 import { Modal } from 'antd';
 import React, { useState } from 'react';
 
-import { Button } from '../Button/Button';
-import { Tabs } from '../Tabs/Tabs';
+import { Button } from '../../ergodex-cdk/components/Button/Button';
+import { Tabs } from '../../ergodex-cdk/components/Tabs/Tabs';
 import { Address } from './Address';
 import { AddressListView } from './AddressListView';
 import { TokenListView } from './TokenListView';

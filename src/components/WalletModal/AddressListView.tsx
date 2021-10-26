@@ -2,7 +2,7 @@ import './AddressListView.less';
 
 import React from 'react';
 
-import { Button } from '../Button/Button';
+import { Button } from '../../ergodex-cdk/components/Button/Button';
 import { Address } from './Address';
 
 export const AddressListTitle: React.FC = () => {
