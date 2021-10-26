@@ -8,6 +8,7 @@ import { WalletContext } from '../../context';
 import { Box, Button, Modal, Space, Typography } from '../../ergodex-cdk';
 import { connectYoroiWallet } from '../../utils/wallet/walletsOperations';
 import { ChooseWalletModal } from '../ChooseWalletModal/ChooseWalletModal';
+import { WalletModal } from '../WalletModal/WalletModal';
 
 export interface ConnectWalletProps {
   isWalletConnected: boolean;
@@ -56,11 +57,18 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
       },
     );
 
+  const openWalletModal = () =>
+    Modal.open(({ close }) => <WalletModal />, {
+      width: 420,
+      title: 'Wallet',
+    });
+
   const connectButton = (
     <Button
       size="large"
       className="connect-wallet__connect-btn"
-      onClick={openChooseWalletModal}
+      // onClick={openChooseWalletModal}
+      onClick={openWalletModal}
     >
       Connect to a wallet
     </Button>
