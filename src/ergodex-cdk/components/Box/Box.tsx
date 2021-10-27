@@ -3,12 +3,21 @@ import './Box.less';
 import cn from 'classnames';
 import React from 'react';
 
+type PaddingTwoNumbers = [number, number];
+type PaddingFourNumbers = [number, number, number, number];
+type Padding = number | PaddingTwoNumbers | PaddingFourNumbers;
+
 interface BoxProps extends React.PropsWithChildren<unknown> {
   borderRadius?: 's' | 'm' | 'l';
   contrast?: boolean;
+  transparent?: boolean;
+  inline?: boolean;
   className?: string;
-  padding?: number | [number, number];
+  padding?: Padding;
 }
+
+const calcGutter = (n: number): string =>
+  `calc(var(--ergo-base-gutter) * ${n})`;
 
 const Box = ({
   children,
@@ -16,12 +25,19 @@ const Box = ({
   borderRadius,
   contrast,
   padding,
+  transparent,
+  inline,
 }: BoxProps): JSX.Element => {
-  const getPadding = (p: number | [number, number]) => {
-    if (p instanceof Array) {
-      return `calc(var(--ergo-base-gutter) / 2 * ${p[0]}) calc(var(--ergo-base-gutter) / 2 * ${p[1]})`;
+  const getPadding = (p: Padding) => {
+    if (p instanceof Array && p.length === 2) {
+      return `${calcGutter(p[0])} ${calcGutter(p[1])}`;
     }
-    return `calc(var(--ergo-base-gutter) / 2 * ${p})`;
+    if (p instanceof Array && p.length === 4) {
+      return `${calcGutter(p[0])} ${calcGutter(p[1])} ${calcGutter(
+        p[2],
+      )} ${calcGutter(p[3])}`;
+    }
+    return `calc(var(--ergo-base-gutter) * ${p})`;
   };
   return (
     <div
@@ -29,12 +45,14 @@ const Box = ({
         'ergodex-box',
         borderRadius && `ergodex-box--radius-${borderRadius}`,
         contrast && `ergodex-box--contrast`,
+        transparent && `ergodex-box--transparent`,
+        inline && `ergodex-box--inline`,
         className,
       )}
       style={{
         padding: padding
           ? getPadding(padding)
-          : `calc(var(--ergo-base-gutter) / 2)`,
+          : `calc(var(--ergo-base-gutter))`,
       }}
     >
       {children}
