@@ -5,7 +5,7 @@ import { GuideBanner } from '../../../components/GuideBanner/GuideBanner';
 const LPGuide = (): JSX.Element => {
   return (
     <GuideBanner
-      title="Learn about providing liquidity"
+      title="Become a liquidity provider"
       subtitle="Check out our guides how to become a liquidity provider"
       href="#"
     />
