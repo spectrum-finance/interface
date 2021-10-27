@@ -5,7 +5,7 @@ import React from 'react';
 
 interface BoxProps extends React.PropsWithChildren<unknown> {
   borderRadius?: 's' | 'm' | 'l';
-  isContrast?: boolean;
+  contrast?: boolean;
   className?: string;
   padding?: number | [number, number];
 }
@@ -14,7 +14,7 @@ const Box = ({
   children,
   className,
   borderRadius,
-  isContrast,
+  contrast,
   padding,
 }: BoxProps): JSX.Element => {
   const getPadding = (p: number | [number, number]) => {
@@ -28,7 +28,7 @@ const Box = ({
       className={cn(
         'ergodex-box',
         borderRadius && `ergodex-box--radius-${borderRadius}`,
-        isContrast && `ergodex-box--contrast`,
+        contrast && `ergodex-box--contrast`,
         className,
       )}
       style={{
