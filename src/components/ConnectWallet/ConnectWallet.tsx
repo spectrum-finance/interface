@@ -59,7 +59,7 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
 
   const openWalletModal = () =>
     Modal.open(({ close }) => <WalletModal />, {
-      width: 420,
+      width: 440,
       title: 'Wallet',
     });
 
@@ -68,6 +68,7 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
       size="large"
       className="connect-wallet__connect-btn"
       onClick={openChooseWalletModal}
+      // onClick={openWalletModal}
     >
       Connect to a wallet
     </Button>

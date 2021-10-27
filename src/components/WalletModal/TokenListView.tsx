@@ -2,6 +2,7 @@ import './TokenListView.less';
 
 import React from 'react';
 
+import { Typography } from '../../ergodex-cdk';
 import { TokenIcon } from '../TokenIcon/TokenIcon';
 
 interface TokenListItemProps {
@@ -21,10 +22,20 @@ export const TokenListItem: React.FC<TokenListItemProps> = ({
     <TokenIcon name={iconName ?? symbol ?? 'empty'} />
     <div className="token-name-balance">
       <div className="token-symbol-name">
-        <span className="token-symbol">{symbol}</span>
-        <span className="token-name">{name}</span>
+        <Typography.Text strong style={{ fontSize: '16px' }}>
+          {symbol}
+        </Typography.Text>
+        <Typography.Text style={{ fontSize: '10px' }} className="token-name">
+          {name}
+        </Typography.Text>
       </div>
-      <span className="token-balance">{balance}</span>
+      <Typography.Text
+        strong
+        style={{ fontSize: '16px' }}
+        className="token-balance"
+      >
+        {balance}
+      </Typography.Text>
     </div>
   </div>
 );

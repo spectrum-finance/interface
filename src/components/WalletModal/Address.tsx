@@ -3,6 +3,8 @@ import './Address.less';
 import Icon from '@ant-design/icons';
 import React from 'react';
 
+import { Typography } from '../../ergodex-cdk';
+
 const CopyIconSVG = () => (
   <svg
     width="13"
@@ -59,7 +61,7 @@ const getShortAddress = (address?: string) => {
 export const Address: React.FC<AddressProps> = ({ address }) => {
   return (
     <div className="address_wrapper">
-      <span className="address">{getShortAddress(address)}</span>
+      <Typography.Text strong>{getShortAddress(address)}</Typography.Text>
       <CopyIcon />
       <ExploreIcon />
     </div>

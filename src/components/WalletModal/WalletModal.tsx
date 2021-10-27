@@ -2,6 +2,7 @@ import './WalletModal.less';
 
 import React, { useState } from 'react';
 
+import { Typography } from '../../ergodex-cdk';
 import { Tabs } from '../../ergodex-cdk/components/Tabs/Tabs';
 import { Address } from './Address';
 import { AddressListView } from './AddressListView';
@@ -39,9 +40,13 @@ export const WalletModal: React.FC = () => {
 
   return (
     <div className="wallet-modal-wrapper">
-      <span className="ergo_network_lbl">Ergo network</span>
+      <Typography.Text className="ergo_network_lbl">
+        Ergo network
+      </Typography.Text>
       <div className="receive_address">
-        <span className="recv_addr_lbl">Receive address:</span>
+        <Typography.Text className="recv_addr_lbl">
+          Receive address:
+        </Typography.Text>
         <Address address={activeRecvAddr} />
       </div>
       <Tabs
