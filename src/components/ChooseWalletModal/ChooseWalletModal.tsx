@@ -1,8 +1,11 @@
 import './ChooseWalletModal.less';
 
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
+import { ReactComponent as YoroiLogo } from '../../assets/icons/yoroi-logo-icon.svg';
+import { WalletContext } from '../../context';
 import { Alert, Button, Row, Typography } from '../../ergodex-cdk';
+import { connectYoroiWallet } from '../../utils/wallet/walletsOperations';
 
 const { Body } = Typography;
 
@@ -24,7 +27,7 @@ const WalletItem: React.FC<WalletItemProps> = ({
   const [warning, setWarning] = useState('');
   return (
     <>
-      <Row gutter={1}>
+      <Row gutter={2}>
         <Button
           onClick={() => {
             onClick()
@@ -43,7 +46,7 @@ const WalletItem: React.FC<WalletItemProps> = ({
         </Button>
       </Row>
       {warning && (
-        <Row gutter={1}>
+        <Row gutter={2}>
           <Alert type="warning" description={warning} />
         </Row>
       )}
@@ -52,19 +55,29 @@ const WalletItem: React.FC<WalletItemProps> = ({
 };
 
 interface ChooseWalletModalProps {
-  wallets: Array<WalletItemType>;
   close: (result: boolean) => void;
 }
 
 const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
-  wallets,
   close,
-}): JSX.Element => (
-  <>
-    {wallets.map((wallet, index) => {
-      return <WalletItem key={index} close={close} wallet={wallet} />;
-    })}
-  </>
-);
+}): JSX.Element => {
+  const walletCtx = useContext(WalletContext);
+
+  const wallets = [
+    {
+      name: 'Yoroi',
+      logo: <YoroiLogo />,
+      onClick: connectYoroiWallet(walletCtx),
+    },
+  ];
+
+  return (
+    <>
+      {wallets.map((wallet, index) => {
+        return <WalletItem key={index} close={close} wallet={wallet} />;
+      })}
+    </>
+  );
+};
 
 export { ChooseWalletModal };
