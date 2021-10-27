@@ -4,6 +4,7 @@ import Icon from '@ant-design/icons';
 import React from 'react';
 
 import { Typography } from '../../ergodex-cdk';
+import { getShortAddress } from '../../utils/address';
 
 const CopyIconSVG = () => (
   <svg
@@ -45,18 +46,6 @@ const ExploreIcon = () => (
 interface AddressProps {
   address: string;
 }
-
-const getShortAddress = (address?: string) => {
-  let shortAddress = address ? address : '';
-  shortAddress =
-    shortAddress.length < 10
-      ? shortAddress
-      : shortAddress.substring(0, 6) +
-        '...' +
-        shortAddress.substring(shortAddress.length - 4, shortAddress.length);
-
-  return shortAddress;
-};
 
 export const Address: React.FC<AddressProps> = ({ address }) => {
   return (
