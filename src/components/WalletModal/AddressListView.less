@@ -1,27 +1,14 @@
 .address_list_title_wrapper {
-  padding: 12px 0;
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 22px;
-}
-
-.address_list_item_wrapper {
-  padding: 16px 8px;
-  border-top: 1px solid var(--ergo-wallet-modal-address-item-border);
-}
-
-.address_list_title_wrapper,
-.address_list_item_wrapper {
   display: grid;
   align-items: center;
-  column-gap: 12px;
+  padding: 12px 8px;
   grid-template-columns: 2fr 1fr 84px;
 }
 
-.balance_title_wrapper,
-.balance_wrapper,
-.choose_btn_wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
+.address_list_item_wrapper {
+  display: grid;
+  align-items: center;
+  padding: 16px 8px;
+  border-top: 1px solid var(--ergo-wallet-modal-address-item-border);
+  grid-template-columns: 2fr 1fr 84px;
 }

@@ -2,7 +2,7 @@ import './TokenListView.less';
 
 import React from 'react';
 
-import { Typography } from '../../ergodex-cdk';
+import { Space, Typography } from '../../ergodex-cdk';
 import { TokenIcon } from '../TokenIcon/TokenIcon';
 
 interface TokenListItemProps {
@@ -20,15 +20,15 @@ export const TokenListItem: React.FC<TokenListItemProps> = ({
 }) => (
   <div className="token-list-item-wrapper">
     <TokenIcon name={iconName ?? symbol ?? 'empty'} />
-    <div className="token-name-balance">
-      <div className="token-symbol-name">
+    <Space className="token-name-balance">
+      <Space direction="vertical" size={0}>
         <Typography.Text strong style={{ fontSize: '16px' }}>
           {symbol}
         </Typography.Text>
         <Typography.Text style={{ fontSize: '10px' }} className="token-name">
           {name}
         </Typography.Text>
-      </div>
+      </Space>
       <Typography.Text
         strong
         style={{ fontSize: '16px' }}
@@ -36,7 +36,7 @@ export const TokenListItem: React.FC<TokenListItemProps> = ({
       >
         {balance}
       </Typography.Text>
-    </div>
+    </Space>
   </div>
 );
 
@@ -51,7 +51,7 @@ interface TokenListViewProps {
 
 export const TokenListView: React.FC<TokenListViewProps> = ({ tokenList }) => {
   return (
-    <div>
+    <Space direction="vertical" size={0} style={{ width: '100%' }}>
       {tokenList.map((token, key) => (
         <TokenListItem
           key={key}
@@ -61,6 +61,6 @@ export const TokenListView: React.FC<TokenListViewProps> = ({ tokenList }) => {
           balance={21.065}
         />
       ))}
-    </div>
+    </Space>
   );
 };

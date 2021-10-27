@@ -2,18 +2,18 @@ import './AddressListView.less';
 
 import React from 'react';
 
-import { Typography } from '../../ergodex-cdk';
+import { Space, Typography } from '../../ergodex-cdk';
 import { Button } from '../../ergodex-cdk/components/Button/Button';
 import { Address } from './Address';
 
 export const AddressListTitle: React.FC = () => {
   return (
-    <div className="address_list_title_wrapper">
+    <Space className="address_list_title_wrapper">
       <Typography.Text strong>Address</Typography.Text>
-      <div className="balance_title_wrapper">
-        <Typography.Text strong>Balance</Typography.Text>
-      </div>
-    </div>
+      <Typography.Text strong style={{ float: 'right' }}>
+        Balance
+      </Typography.Text>
+    </Space>
   );
 };
 
@@ -29,13 +29,18 @@ export const AddressListItem: React.FC<AddressListItemProps> = ({
   updateActiveAddr,
 }) => {
   return (
-    <div className="address_list_item_wrapper">
+    <Space className="address_list_item_wrapper">
       <Address address={address} />
-      <div className="balance_wrapper">
+      <Space
+        direction="vertical"
+        align="end"
+        size={0}
+        style={{ float: 'right' }}
+      >
         <Typography.Text strong>100.03 ERG</Typography.Text>
         <Typography.Text style={{ fontSize: '10px' }}>$1033.20</Typography.Text>
-      </div>
-      <div className="choose_btn_wrapper">
+      </Space>
+      <Space direction="vertical" align="end" style={{ float: 'right' }}>
         <Button
           type="primary"
           disabled={active}
@@ -45,8 +50,8 @@ export const AddressListItem: React.FC<AddressListItemProps> = ({
         >
           {active ? 'Active' : 'Choose'}
         </Button>
-      </div>
-    </div>
+      </Space>
+    </Space>
   );
 };
 interface AddressListViewProps {
@@ -61,7 +66,7 @@ export const AddressListView: React.FC<AddressListViewProps> = ({
   updateActiveAddr,
 }) => {
   return (
-    <div>
+    <Space direction="vertical" size={0} style={{ width: '100%' }}>
       <AddressListTitle />
       {addressList.map((item, index) => (
         <AddressListItem
@@ -71,6 +76,6 @@ export const AddressListView: React.FC<AddressListViewProps> = ({
           updateActiveAddr={updateActiveAddr}
         />
       ))}
-    </div>
+    </Space>
   );
 };
