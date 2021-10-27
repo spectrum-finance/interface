@@ -10,7 +10,7 @@ export interface ProgressProps {
 
 export const Progress: FC<ProgressProps> = ({ content }) => (
   <>
-    <Row justify="center" bottomGutter={3}>
+    <Row justify="center" bottomGutter={6}>
       <Spin indicator={<LoadingOutlined style={{ fontSize: 80 }} />} />
     </Row>
     {content}

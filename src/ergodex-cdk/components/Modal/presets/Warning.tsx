@@ -9,7 +9,7 @@ export interface WarningProps {
 
 export const Warning: FC<WarningProps> = ({ content }) => (
   <>
-    <Row justify="center" bottomGutter={3}>
+    <Row justify="center" bottomGutter={6}>
       <ExclamationCircleOutlined
         style={{ fontSize: 80, color: 'var(--ergo-primary-color)' }}
       />
