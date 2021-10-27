@@ -2,6 +2,7 @@ import './TokenInput.less';
 
 import React from 'react';
 
+import { Box, Space, Typography } from '../../ergodex-cdk/components';
 import { SwapInput } from '../SwapInput/SwapInput';
 import { TokenSelect } from '../TokenSelect/TokenSelect';
 
@@ -24,10 +25,10 @@ const TokenInput: React.FC<TokenInputProps> = ({
   tokenPrice,
   label,
 }) => (
-  <div className="token-input">
-    <span className="label">{label}</span>
+  <Space className="token-input" direction="vertical" size={8}>
+    <Typography.Text className="label">{label}</Typography.Text>
 
-    <div className="input-select">
+    <Space className="input-select" size={10}>
       <SwapInput
         value={value}
         onChange={onChange}
@@ -36,16 +37,17 @@ const TokenInput: React.FC<TokenInputProps> = ({
       />
 
       <TokenSelect name={tokenName} onTokenSelect={onSelectToken} />
-    </div>
-    <div className="usd-price">
+    </Space>
+
+    <Box className="usd-price-box">
       {tokenPrice && value && (
-        <span>
+        <Typography.Text className="usd-price">
           ~$
           {(tokenPrice * parseFloat(value)).toFixed(2)}
-        </span>
+        </Typography.Text>
       )}
-    </div>
-  </div>
+    </Box>
+  </Space>
 );
 
 export { TokenInput };

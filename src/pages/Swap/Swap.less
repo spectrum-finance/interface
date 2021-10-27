@@ -10,6 +10,12 @@
   border-radius: 20px;
   box-shadow: none;
 
+  .ergodex-box {
+    position: unset;
+    display: inherit;
+    padding: 0;
+  }
+
   .from-token-input {
     width: 100%;
   }
@@ -19,12 +25,14 @@
     flex-direction: column;
     align-items: center;
     align-self: stretch;
+    background-color: transparent;
 
     .form-title {
       align-self: stretch;
       color: var(--ergo-primary-text);
   
       font-size: 20px;
+      font-weight: 600;
       line-height: 28px;
     }
   
@@ -54,7 +62,9 @@
 
   .swap-arrow {
     position: relative;
+    z-index: 100;
     height: 4px;
+    
     button {
       position: absolute;
       top: -20px + 2px;

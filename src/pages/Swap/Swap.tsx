@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { TokenInput } from '../../components/TokenInput/TokenInput';
 import { TokenListModal } from '../../components/TokenListModal/TokenListModal';
 import {
+  Box,
   Button,
   Col,
   HistoryOutlined,
@@ -12,6 +13,7 @@ import {
   Row,
   SettingOutlined,
   SwapOutlined,
+  Typography,
 } from '../../ergodex-cdk';
 
 interface DialogRef<T = any> {
@@ -40,18 +42,20 @@ export const Swap: React.FC = () => {
   return (
     <Row align="middle" justify="center">
       <Col>
-        <div className="swap-form">
-          <div className="swap-header">
-            <span className="form-title">Swap</span>
-            <span className="network-name">Ergo network</span>
+        <Box className="swap-form">
+          <Box className="swap-header">
+            <Typography.Text className="form-title">Swap</Typography.Text>
+            <Typography.Text className="network-name">
+              Ergo network
+            </Typography.Text>
 
-            <div className="top-right">
+            <Box className="top-right">
               <Button size="large" type="text" icon={<SettingOutlined />} />
               <Button size="large" type="text" icon={<HistoryOutlined />} />
-            </div>
-          </div>
+            </Box>
+          </Box>
 
-          <div className="from-token-input">
+          <Box className="from-token-input">
             <TokenInput
               value={fromValue}
               onChange={setFromValue}
@@ -61,13 +65,13 @@ export const Swap: React.FC = () => {
               onSelectToken={() => handleSelectFromToken(setFromTokenName)}
               label="From"
             />
-          </div>
+          </Box>
 
-          <div className="swap-arrow">
+          <Box className="swap-arrow">
             <Button size="large" icon={<SwapOutlined />} />
-          </div>
+          </Box>
 
-          <div className="to-token-input">
+          <Box className="to-token-input">
             <TokenInput
               value={toValue}
               onChange={setToValue}
@@ -77,12 +81,12 @@ export const Swap: React.FC = () => {
               onSelectToken={() => handleSelectFromToken(setToTokenName)}
               label="To"
             />
-          </div>
+          </Box>
 
           <Button className="bottom-button" size="large" disabled>
             Select a token
           </Button>
-        </div>
+        </Box>
       </Col>
     </Row>
   );

@@ -2,7 +2,7 @@ import './TokenListItem.less';
 
 import React from 'react';
 
-import { Typography } from '../../ergodex-cdk/components';
+import { Box, Typography } from '../../ergodex-cdk/components';
 import { TokenIcon } from '../TokenIcon/TokenIcon';
 
 interface TokenListItemProps {
@@ -20,18 +20,18 @@ const TokenListItem: React.FC<TokenListItemProps> = ({
   balance,
   onClick,
 }) => (
-  <div className="token-list-item" onClick={onClick}>
+  <Box className="token-list-item" onClick={onClick}>
     <TokenIcon name={iconName ?? symbol ?? 'empty'} />
-    <div className="token-name-balance">
-      <div className="token-symbol-name">
+    <Box className="token-name-balance">
+      <Box className="token-symbol-name">
         <Typography.Text className="token-symbol">{symbol}</Typography.Text>
         <Typography.Text className="token-name" type="secondary">
           {name}
         </Typography.Text>
-      </div>
-      <span className="token-balance">{balance}</span>
-    </div>
-  </div>
+      </Box>
+      <Typography.Text className="token-balance">{balance}</Typography.Text>
+    </Box>
+  </Box>
 );
 
 export { TokenListItem };

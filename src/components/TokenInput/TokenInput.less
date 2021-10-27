@@ -1,4 +1,5 @@
 .token-input {
+  width: 100%;
   padding: 16px;
   background-color: var(--ergo-token-input-bg);
   border-radius: 16px;
@@ -13,11 +14,18 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    margin-top: 8px;
+
+    .ant-space-item:first-child {
+      width: 100%;
+    }
   }
 
-  .usd-price {
+  .usd-price-box {
     height: 16px;
-    color: var(--ergo-primary-color);
+    background-color: transparent;
+    
+    .usd-price {
+      color: var(--ergo-primary-color);
+    }
   }
 }
