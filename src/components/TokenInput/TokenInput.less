@@ -3,14 +3,12 @@
   padding: 16px;
   background-color: var(--ergo-token-input-bg);
   border-radius: 16px;
-  box-shadow: none;
-
-  .label {
-    color: var(--ergo-token-input-label-color);
-    font-size: 14px;
+  
+  &__label {
+    color: var(--ergo-token-input-label-color) !important;
   }
 
-  .input-select {
+  &__select {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -20,12 +18,11 @@
     }
   }
 
-  .usd-price-box {
+  &__bottom {
     height: 22px;
-    background-color: transparent;
     
-    .usd-price {
-      color: var(--ergo-primary-color);
+    &-usd-price {
+      color: var(--ergo-primary-color) !important;
     }
   }
 }

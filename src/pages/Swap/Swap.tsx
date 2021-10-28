@@ -38,14 +38,16 @@ export const Swap: React.FC = () => {
   return (
     <Row align="middle" justify="center">
       <Col span={7}>
-        <Box contrast borderRadius="l" padding={6}>
+        <Box className="swap" contrast borderRadius="l" padding={6}>
           <Row bottomGutter={6}>
             <Col span={18}>
               <Typography.Title level={4}>Swap</Typography.Title>
-              <Typography.Text>Ergo network</Typography.Text>
+              <Typography.Text className="swap__network">
+                Ergo network
+              </Typography.Text>
             </Col>
             <Col span={5} offset={1}>
-              <Row justify="end">
+              <Row className="swap__right-top" justify="end">
                 <Button size="large" type="text" icon={<SettingOutlined />} />
                 <Button size="large" type="text" icon={<HistoryOutlined />} />
               </Row>

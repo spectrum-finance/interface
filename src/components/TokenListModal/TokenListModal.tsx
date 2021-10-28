@@ -74,7 +74,7 @@ const TokenListModal: React.FC<TokenListModalProps> = ({
         prefix={<SearchOutlined />}
         onChange={handleSearch}
       />
-      <Row className="token-list">
+      <Row className="token-list-modal__token-list">
         <Col span={24}>
           {tokenList
             .filter((token) => {
