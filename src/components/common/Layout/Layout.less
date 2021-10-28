@@ -1,3 +1,19 @@
+.layout {
+  &::after {
+    position: absolute;
+    z-index: -1;
+    top: 60px;
+    left: 50%;
+    width: 580px;
+    height: 580px;
+    background: var(--ergo-glow-gradient);
+    border-radius: 50%;
+    content: '';
+    filter: blur(160px);
+    transform: translate(-50%, 0);
+  }
+}
+
 main {
   padding: 120px 16px 0;
 }
