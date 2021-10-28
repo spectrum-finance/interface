@@ -16,10 +16,6 @@ import {
   Typography,
 } from '../../ergodex-cdk';
 
-interface DialogRef<T = any> {
-  close: (result?: T) => void;
-}
-
 export const Swap: React.FC = () => {
   const [fromValue, setFromValue] = useState('');
   const [fromTokenName, setFromTokenName] = useState('ERG');
@@ -32,8 +28,8 @@ export const Swap: React.FC = () => {
 
   const handleSelectFromToken = (onSelectChanged: (name: string) => void) => {
     Modal.open(
-      (param: DialogRef) => (
-        <TokenListModal close={param.close} onSelectChanged={onSelectChanged} />
+      ({ close }) => (
+        <TokenListModal close={close} onSelectChanged={onSelectChanged} />
       ),
       { title: 'Select a token' },
     );
@@ -41,51 +37,66 @@ export const Swap: React.FC = () => {
 
   return (
     <Row align="middle" justify="center">
-      <Col className="swap-frame">
-        <Box className="swap-form" padding={6}>
-          <Box className="swap-header" padding={0}>
-            <Typography.Text className="form-title">Swap</Typography.Text>
-            <Typography.Text className="network-name">
-              Ergo network
-            </Typography.Text>
-
-            <Box className="top-right" padding={0}>
-              <Button size="large" type="text" icon={<SettingOutlined />} />
-              <Button size="large" type="text" icon={<HistoryOutlined />} />
-            </Box>
-          </Box>
-
-          <Box className="from-token-input" padding={0}>
-            <TokenInput
-              value={fromValue}
-              onChange={setFromValue}
-              tokenName={fromTokenName}
-              balance={fromTokenBalance}
-              tokenPrice={fromTokenPrice}
-              onSelectToken={() => handleSelectFromToken(setFromTokenName)}
-              label="From"
-            />
-          </Box>
-
-          <Box className="swap-arrow" padding={0}>
-            <Button size="large" icon={<SwapOutlined />} />
-          </Box>
-
-          <Box className="to-token-input" padding={0}>
-            <TokenInput
-              value={toValue}
-              onChange={setToValue}
-              tokenName={toTokenName}
-              balance={toTokenBalance}
-              tokenPrice={toTokenPrice}
-              onSelectToken={() => handleSelectFromToken(setToTokenName)}
-              label="To"
-            />
-          </Box>
-
-          <Button className="bottom-button" size="large" disabled>
-            Select a token
-          </Button>
+      <Col span={7}>
+        <Box contrast borderRadius="l" padding={6}>
+          <Row bottomGutter={6}>
+            <Col span={18}>
+              <Typography.Title level={4}>Swap</Typography.Title>
+              <Typography.Text>Ergo network</Typography.Text>
+            </Col>
+            <Col span={5} offset={1}>
+              <Row justify="end">
+                <Button size="large" type="text" icon={<SettingOutlined />} />
+                <Button size="large" type="text" icon={<HistoryOutlined />} />
+              </Row>
+            </Col>
+          </Row>
+          <Row bottomGutter={4}>
+            <Col>
+              <Row bottomGutter={1}>
+                <Col>
+                  <TokenInput
+                    value={fromValue}
+                    onChange={setFromValue}
+                    tokenName={fromTokenName}
+                    balance={fromTokenBalance}
+                    tokenPrice={fromTokenPrice}
+                    onSelectToken={() =>
+                      handleSelectFromToken(setFromTokenName)
+                    }
+                    label="From"
+                  />
+                </Col>
+              </Row>
+              <Box className="swap__switch-btn-wrapper" transparent>
+                <Button
+                  className="swap__switch-btn"
+                  size="large"
+                  icon={<SwapOutlined />}
+                />
+              </Box>
+              <Row>
+                <Col>
+                  <TokenInput
+                    value={toValue}
+                    onChange={setToValue}
+                    tokenName={toTokenName}
+                    balance={toTokenBalance}
+                    tokenPrice={toTokenPrice}
+                    onSelectToken={() => handleSelectFromToken(setToTokenName)}
+                    label="To"
+                  />
+                </Col>
+              </Row>
+            </Col>
+          </Row>
+          <Row>
+            <Col span={24}>
+              <Button className="swap__btn" block disabled>
+                Select a token
+              </Button>
+            </Col>
+          </Row>
         </Box>
       </Col>
     </Row>
