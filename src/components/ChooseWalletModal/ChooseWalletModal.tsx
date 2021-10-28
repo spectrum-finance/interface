@@ -1,9 +1,9 @@
 import './ChooseWalletModal.less';
 
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 
 import { ReactComponent as YoroiLogo } from '../../assets/icons/yoroi-logo-icon.svg';
-import { WalletContext } from '../../context';
+import { useWallet } from '../../context';
 import { Alert, Button, Row, Typography } from '../../ergodex-cdk';
 import { connectYoroiWallet } from '../../utils/wallet/walletsOperations';
 
@@ -61,7 +61,7 @@ interface ChooseWalletModalProps {
 const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
   close,
 }): JSX.Element => {
-  const walletCtx = useContext(WalletContext);
+  const walletCtx = useWallet();
 
   const wallets = [
     {

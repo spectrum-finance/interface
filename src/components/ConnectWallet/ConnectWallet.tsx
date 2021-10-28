@@ -12,6 +12,7 @@ export interface ConnectWalletProps {
   currency?: string;
   address?: string;
   numberOfPendingTxs: number;
+  isWalletLoading: boolean;
 }
 
 const getShortAddress = (address: string) => {
@@ -32,6 +33,7 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
   currency,
   address,
   numberOfPendingTxs,
+  isWalletLoading,
 }) => {
   const addressToRender = address ? getShortAddress(address) : '';
 
@@ -41,7 +43,7 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
       className="connect-wallet__connect-btn"
       onClick={openChooseWalletModal}
     >
-      Connect to a wallet
+      {isWalletLoading ? 'Connect to a wallet' : <LoadingOutlined />}
     </Button>
   );
 

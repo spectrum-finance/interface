@@ -1,5 +1,11 @@
 import { ErgoBox, ergoBoxFromProxy } from '@ergolabs/ergo-sdk';
-import React, { createContext, useCallback, useEffect, useState } from 'react';
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 
 import { ERG_DECIMALS, ERG_TOKEN_NAME } from '../constants/erg';
 import { useInterval } from '../hooks/useInterval';
@@ -18,6 +24,7 @@ export type WalletContextType = {
   utxos: ErgoBox[] | undefined;
   setIsWalletConnected: (isWalletConnected: boolean) => void;
   ergBalance: string | undefined;
+  isWalletLoading: boolean;
 };
 
 function noop() {
@@ -30,7 +37,10 @@ export const WalletContext = createContext<WalletContextType>({
   utxos: undefined,
   setIsWalletConnected: noop,
   ergBalance: undefined,
+  isWalletLoading: false,
 });
+
+export const useWallet = (): WalletContextType => useContext(WalletContext);
 
 const fetchUtxos = () =>
   ergo
@@ -48,6 +58,7 @@ export const WalletContextProvider = ({
   );
   const [utxos, setUtxos] = useState<ErgoBox[]>();
   const [ergBalance, setErgBalance] = useState<string | undefined>();
+  const [isWalletLoading, setIsWalletLoading] = useState<boolean>(false);
 
   const setIsWalletConnected = useCallback((isConnected: boolean) => {
     setWalletConnectionState(
@@ -66,20 +77,28 @@ export const WalletContextProvider = ({
     setIsWalletConnected,
     utxos,
     ergBalance,
+    isWalletLoading,
   };
 
   useEffect(() => {
+    setIsWalletLoading(true);
     if (walletCookies.isSetConnected() && window.ergo_request_read_access) {
-      window.ergo_request_read_access().then(setIsWalletConnected);
+      window
+        .ergo_request_read_access()
+        .then(setIsWalletConnected)
+        .finally(() => setIsWalletLoading(false));
     }
   }, [isWalletConnected, setIsWalletConnected]);
 
   useEffect(() => {
+    setIsWalletLoading(true);
     if (isWalletConnected) {
-      fetchUtxos().then(setUtxos);
-      ergo.get_balance(ERG_TOKEN_NAME).then((balance) => {
-        setErgBalance(renderFractions(balance, ERG_DECIMALS));
-      });
+      Promise.all([
+        fetchUtxos().then(setUtxos),
+        ergo.get_balance(ERG_TOKEN_NAME).then((balance) => {
+          setErgBalance(renderFractions(balance, ERG_DECIMALS));
+        }),
+      ]).finally(() => setIsWalletLoading(false));
     }
   }, [isWalletConnected]);
 
