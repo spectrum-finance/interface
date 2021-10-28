@@ -67,7 +67,7 @@ const TokenListModal: React.FC<TokenListModalProps> = ({
   };
 
   return (
-    <Box className="token-list-modal">
+    <Box className="token-list-modal" padding={0}>
       <Input
         placeholder="Search"
         size="large"

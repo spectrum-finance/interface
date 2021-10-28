@@ -52,9 +52,10 @@ const Box = ({
         className,
       )}
       style={{
-        padding: padding
-          ? getPadding(padding)
-          : `calc(var(--ergo-base-gutter))`,
+        padding:
+          padding != null
+            ? getPadding(padding)
+            : `calc(var(--ergo-base-gutter))`,
       }}
       onClick={onClick}
     >

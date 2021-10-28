@@ -39,7 +39,7 @@ const TokenInput: React.FC<TokenInputProps> = ({
       <TokenSelect name={tokenName} onTokenSelect={onSelectToken} />
     </Space>
 
-    <Box className="usd-price-box">
+    <Box className="usd-price-box" padding={0}>
       {tokenPrice && value && (
         <Typography.Text className="usd-price">
           ~$

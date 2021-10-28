@@ -20,10 +20,10 @@ const TokenListItem: React.FC<TokenListItemProps> = ({
   balance,
   onClick,
 }) => (
-  <Box className="token-list-item" onClick={onClick}>
+  <Box className="token-list-item" onClick={onClick} padding={[1, 2]}>
     <TokenIcon name={iconName ?? symbol ?? 'empty'} />
-    <Box className="token-name-balance">
-      <Box className="token-symbol-name">
+    <Box className="token-name-balance" padding={0}>
+      <Box className="token-symbol-name" padding={0}>
         <Typography.Text className="token-symbol">{symbol}</Typography.Text>
         <Typography.Text className="token-name" type="secondary">
           {name}

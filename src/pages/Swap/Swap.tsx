@@ -42,20 +42,20 @@ export const Swap: React.FC = () => {
   return (
     <Row align="middle" justify="center">
       <Col className="swap-frame">
-        <Box className="swap-form">
-          <Box className="swap-header">
+        <Box className="swap-form" padding={6}>
+          <Box className="swap-header" padding={0}>
             <Typography.Text className="form-title">Swap</Typography.Text>
             <Typography.Text className="network-name">
               Ergo network
             </Typography.Text>
 
-            <Box className="top-right">
+            <Box className="top-right" padding={0}>
               <Button size="large" type="text" icon={<SettingOutlined />} />
               <Button size="large" type="text" icon={<HistoryOutlined />} />
             </Box>
           </Box>
 
-          <Box className="from-token-input">
+          <Box className="from-token-input" padding={0}>
             <TokenInput
               value={fromValue}
               onChange={setFromValue}
@@ -67,11 +67,11 @@ export const Swap: React.FC = () => {
             />
           </Box>
 
-          <Box className="swap-arrow">
+          <Box className="swap-arrow" padding={0}>
             <Button size="large" icon={<SwapOutlined />} />
           </Box>
 
-          <Box className="to-token-input">
+          <Box className="to-token-input" padding={0}>
             <TokenInput
               value={toValue}
               onChange={setToValue}

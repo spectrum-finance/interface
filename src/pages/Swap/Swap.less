@@ -5,7 +5,6 @@
   box-sizing: border-box;
   flex-direction: column;
   align-items: center;
-  padding: 24px;
   margin: auto;
   
   background-color: var(--ergo-swap-form-bg);
@@ -16,10 +15,6 @@
     position: unset;
     display: inherit;
     padding: 0;
-  }
-
-  .from-token-input {
-    width: 100%;
   }
 
   .swap-header {
@@ -40,7 +35,6 @@
   
     .network-name {
       align-self: stretch;
-      margin-bottom: 24px;
       color: var(--ergo-swap-form-sub-text);
   
       font-size: 12px;
@@ -49,14 +43,19 @@
 
     .top-right {
       position: absolute;
-      top: 26px;
-      right: 26px;
+      top: 16px;
+      right: 16px;
       background-color: transparent;
 
       svg {
         color: var(--ergo-swap-form-icon);
       }
     }
+  }
+
+  .from-token-input {
+    width: 100%;
+    margin-top: 24px;
   }
 
   .to-token-input {
