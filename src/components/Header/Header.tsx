@@ -22,11 +22,11 @@ import {
   QuestionCircleOutlined,
   RightOutlined,
   SettingOutlined,
-  Tabs,
 } from '../../ergodex-cdk';
 import { ConnectWallet } from '../ConnectWallet/ConnectWallet';
 import { NetworkDropdown } from '../NetworkDropdown/NetworkDropdown';
 import { ThemeSwitch } from '../ThemeSwitch/ThemeSwitch';
+import { HeaderTabs } from './HeaderTabs';
 
 const DotsSVG = () => (
   <svg
@@ -148,14 +148,7 @@ export const Header: React.FC = () => {
     <header className="header">
       <div className="header__wrapper">
         <Logo label />
-
-        <div className="header__tabs">
-          <Tabs defaultActiveKey="1" type="card">
-            <Tabs.TabPane tab="Swap" key="1" />
-            <Tabs.TabPane tab="Pool" key="2" />
-            <Tabs.TabPane tab="Exchange" key="3" disabled />
-          </Tabs>
-        </div>
+        <HeaderTabs />
 
         <div className="header__options">
           <NetworkDropdown networks={networks} />
