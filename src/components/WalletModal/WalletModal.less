@@ -1,49 +1,22 @@
 .ant-modal-content {
-  background-color: var(--ergo-wallet-modal-bg);
-  border-radius: 16px;
+  background-color: var(--ergo-modal-color);
 
-  .ant-modal-header {
-    background: inherit;
-    border-radius: inherit;
-  }
+  .wallet-modal__wrapper {
+    .ergo-network_lbl {
+      color: var(--ergo-wallet-modal-lbl);
+    }
 
-  .ant-modal-body {
-    background: inherit;
-    border-radius: inherit;
-    
-    .wallet-modal-wrapper {
-      .ergo_network_lbl {
-        color: var(--ergo-wallet-modal-ergo-network-lbl);
-        font-size: 14px;
-        font-weight: 400;
-        line-height: 20px;
-      }
+    .receive_address {
+      margin-top: 24px;
+      background-color: var(--ergo-wallet-modal-component-bg);
 
-      .receive_address {
-        display: flex;
-        width: 100%;
-        align-items: center;
-        justify-content: space-between;
-        padding: 8px 12px;
-        margin-top: 24px;
-        background-color: var(--ergo-wallet-modal-recv-addr-bg);
-        border-radius: 12px;
-        .recv_addr_lbl {
-          color: var(--ergo-wallet-modal-recv-addr-lbl);
-          font-size: 14px;
-          font-weight: 400;
-          line-height: 20px;
-        }
+      .recv_addr_lbl {
+        color: var(--ergo-wallet-modal-lbl);
       }
-      .address_tokens_tab {
-        padding: 16px;
-        margin-top: 24px;
-        background-color: var(--ergo-wallet-modal-tab-bg);
-        border-radius: 12px;
-        .ant-tabs-tabpane.ant-tabs-tabpane-active {
-          color: var(--ergo-wallet-modal-tab-pane-active);
-        }
-      }
+    }
+    .address_tokens__tab {
+      margin-top: 24px;
+      background-color: var(--ergo-wallet-modal-component-bg);
     }
   }
 }

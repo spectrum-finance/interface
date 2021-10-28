@@ -2,18 +2,24 @@ import './AddressListView.less';
 
 import React from 'react';
 
-import { Space, Typography } from '../../ergodex-cdk';
+import { Box, Col, Row, Typography } from '../../ergodex-cdk';
 import { Button } from '../../ergodex-cdk/components/Button/Button';
 import { Address } from './Address';
 
 export const AddressListTitle: React.FC = () => {
   return (
-    <Space className="address_list_title_wrapper">
-      <Typography.Text strong>Address</Typography.Text>
-      <Typography.Text strong style={{ float: 'right' }}>
-        Balance
-      </Typography.Text>
-    </Space>
+    <Box padding={[3, 2]}>
+      <Row>
+        <Col span={10}>
+          <Typography.Text strong>Address</Typography.Text>
+        </Col>
+        <Col span={7}>
+          <Typography.Text strong style={{ float: 'right' }}>
+            Balance
+          </Typography.Text>
+        </Col>
+      </Row>
+    </Box>
   );
 };
 
@@ -29,29 +35,36 @@ export const AddressListItem: React.FC<AddressListItemProps> = ({
   updateActiveAddr,
 }) => {
   return (
-    <Space className="address_list_item_wrapper">
-      <Address address={address} />
-      <Space
-        direction="vertical"
-        align="end"
-        size={0}
-        style={{ float: 'right' }}
-      >
-        <Typography.Text strong>100.03 ERG</Typography.Text>
-        <Typography.Text style={{ fontSize: '10px' }}>$1033.20</Typography.Text>
-      </Space>
-      <Space direction="vertical" align="end" style={{ float: 'right' }}>
-        <Button
-          type="primary"
-          disabled={active}
-          onClick={() => {
-            updateActiveAddr(address);
-          }}
-        >
-          {active ? 'Active' : 'Choose'}
-        </Button>
-      </Space>
-    </Space>
+    <Box padding={[3, 2]} className="address__list-item_wrapper">
+      <Row align="middle">
+        <Col span={10}>
+          <Address address={address} />
+        </Col>
+        <Col span={7}>
+          <Row justify="end">
+            <Typography.Text strong>100.03 ERG</Typography.Text>
+          </Row>
+          <Row justify="end">
+            <Typography.Text style={{ fontSize: '10px' }}>
+              $1033.20
+            </Typography.Text>
+          </Row>
+        </Col>
+        <Col span={7}>
+          <Row justify="end">
+            <Button
+              type="primary"
+              disabled={active}
+              onClick={() => {
+                updateActiveAddr(address);
+              }}
+            >
+              {active ? 'Active' : 'Choose'}
+            </Button>
+          </Row>
+        </Col>
+      </Row>
+    </Box>
   );
 };
 interface AddressListViewProps {
@@ -66,16 +79,19 @@ export const AddressListView: React.FC<AddressListViewProps> = ({
   updateActiveAddr,
 }) => {
   return (
-    <Space direction="vertical" size={0} style={{ width: '100%' }}>
-      <AddressListTitle />
+    <Row>
+      <Col span={24}>
+        <AddressListTitle />
+      </Col>
       {addressList.map((item, index) => (
-        <AddressListItem
-          key={index + 1}
-          address={item}
-          active={item === activeAddress}
-          updateActiveAddr={updateActiveAddr}
-        />
+        <Col span={24} key={index + 1}>
+          <AddressListItem
+            address={item}
+            active={item === activeAddress}
+            updateActiveAddr={updateActiveAddr}
+          />
+        </Col>
       ))}
-    </Space>
+    </Row>
   );
 };

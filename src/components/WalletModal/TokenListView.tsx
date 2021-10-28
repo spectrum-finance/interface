@@ -2,7 +2,7 @@ import './TokenListView.less';
 
 import React from 'react';
 
-import { Space, Typography } from '../../ergodex-cdk';
+import { Box, Col, Row, Typography } from '../../ergodex-cdk';
 import { TokenIcon } from '../TokenIcon/TokenIcon';
 
 interface TokenListItemProps {
@@ -18,26 +18,30 @@ export const TokenListItem: React.FC<TokenListItemProps> = ({
   iconName,
   balance,
 }) => (
-  <div className="token-list-item-wrapper">
-    <TokenIcon name={iconName ?? symbol ?? 'empty'} />
-    <Space className="token-name-balance">
-      <Space direction="vertical" size={0}>
+  <Box padding={[2, 4]} borderRadius="m" className="token__list-item_wrapper">
+    <Row align="middle">
+      <Col span={2}>
+        <TokenIcon name={iconName ?? symbol ?? 'empty'} />
+      </Col>
+      <Col span={18} style={{ paddingLeft: 10 }}>
+        <Row>
+          <Typography.Text strong style={{ fontSize: '16px' }}>
+            {symbol}
+          </Typography.Text>
+        </Row>
+        <Row>
+          <Typography.Text style={{ fontSize: '10px' }} className="token-name">
+            {name}
+          </Typography.Text>
+        </Row>
+      </Col>
+      <Col span={4}>
         <Typography.Text strong style={{ fontSize: '16px' }}>
-          {symbol}
+          {balance}
         </Typography.Text>
-        <Typography.Text style={{ fontSize: '10px' }} className="token-name">
-          {name}
-        </Typography.Text>
-      </Space>
-      <Typography.Text
-        strong
-        style={{ fontSize: '16px' }}
-        className="token-balance"
-      >
-        {balance}
-      </Typography.Text>
-    </Space>
-  </div>
+      </Col>
+    </Row>
+  </Box>
 );
 
 interface TokenItem {
@@ -51,16 +55,17 @@ interface TokenListViewProps {
 
 export const TokenListView: React.FC<TokenListViewProps> = ({ tokenList }) => {
   return (
-    <Space direction="vertical" size={0} style={{ width: '100%' }}>
+    <Row>
       {tokenList.map((token, key) => (
-        <TokenListItem
-          key={key}
-          symbol={token.symbol}
-          name={token.name}
-          iconName={token.iconName}
-          balance={21.065}
-        />
+        <Col span={24} key={key}>
+          <TokenListItem
+            symbol={token.symbol}
+            name={token.name}
+            iconName={token.iconName}
+            balance={21.065}
+          />
+        </Col>
       ))}
-    </Space>
+    </Row>
   );
 };

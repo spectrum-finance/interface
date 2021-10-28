@@ -2,7 +2,7 @@ import './WalletModal.less';
 
 import React, { useState } from 'react';
 
-import { Space, Typography } from '../../ergodex-cdk';
+import { Box, Col, Row, Typography } from '../../ergodex-cdk';
 import { Tabs } from '../../ergodex-cdk/components/Tabs/Tabs';
 import { Address } from './Address';
 import { AddressListView } from './AddressListView';
@@ -39,38 +39,38 @@ export const WalletModal: React.FC = () => {
   const [activeRecvAddr, setActiveRecvAddr] = useState<string>(addressList[0]);
 
   return (
-    <Space
-      direction="vertical"
-      size={0}
-      style={{ width: '100%' }}
-      className="wallet-modal-wrapper"
-    >
-      <Typography.Text className="ergo_network_lbl">
-        Ergo network
-      </Typography.Text>
-      <Space className="receive_address">
-        <Typography.Text className="recv_addr_lbl">
-          Receive address:
+    <Row className="wallet-modal__wrapper">
+      <Col span={24}>
+        <Typography.Text className="ergo-network_lbl">
+          Ergo network
         </Typography.Text>
-        <Address address={activeRecvAddr} />
-      </Space>
-      <Tabs
-        defaultActiveKey="1"
-        centered
-        type="card"
-        className="address_tokens_tab"
-      >
-        <Tabs.TabPane tab="Address" key="1">
-          <AddressListView
-            addressList={addressList}
-            activeAddress={activeRecvAddr}
-            updateActiveAddr={setActiveRecvAddr}
-          />
-        </Tabs.TabPane>
-        <Tabs.TabPane tab="Tokens" key="2">
-          <TokenListView tokenList={tokenList} />
-        </Tabs.TabPane>
-      </Tabs>
-    </Space>
+      </Col>
+      <Col span={24}>
+        <Box padding={[2, 3]} borderRadius="m" className="receive_address">
+          <Row justify="space-between">
+            <Typography.Text className="recv_addr_lbl">
+              Receive address:
+            </Typography.Text>
+            <Address address={activeRecvAddr} />
+          </Row>
+        </Box>
+      </Col>
+      <Col span={24}>
+        <Box padding={4} borderRadius="m" className="address_tokens__tab">
+          <Tabs defaultActiveKey="1" centered type="card">
+            <Tabs.TabPane tab="Address" key="1">
+              <AddressListView
+                addressList={addressList}
+                activeAddress={activeRecvAddr}
+                updateActiveAddr={setActiveRecvAddr}
+              />
+            </Tabs.TabPane>
+            <Tabs.TabPane tab="Tokens" key="2">
+              <TokenListView tokenList={tokenList} />
+            </Tabs.TabPane>
+          </Tabs>
+        </Box>
+      </Col>
+    </Row>
   );
 };
