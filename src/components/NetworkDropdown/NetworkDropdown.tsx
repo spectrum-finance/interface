@@ -47,13 +47,16 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
           `network-dropdown__btn--${network.name}`,
         )}
         size="large"
+        type="ghost"
       >
         <span className="network-dropdown__content">
           <TokenIcon
             className="network-dropdown__token-icon"
             name={`${network.token}${disabled ? '-disabled' : ''}`}
           />
-          <span>{capitalize(network.name)}</span>
+          <span className="network-dropdown__network">
+            {capitalize(network.name)}
+          </span>
           <DownOutlined />
         </span>
       </Button>
