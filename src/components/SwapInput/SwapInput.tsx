@@ -43,6 +43,7 @@ const SwapInput: React.FC<SwapInputProps> = ({
               Balance: {balance} {tokenName.toUpperCase()}
             </span>
           }
+          size="large"
         />
       ) : (
         <Input
@@ -51,6 +52,7 @@ const SwapInput: React.FC<SwapInputProps> = ({
             enforcer(event.target.value.replace(/,/g, '.'));
           }}
           placeholder="0.0"
+          size="large"
         />
       )}
     </div>

@@ -1,8 +1,8 @@
 .swapInputStyles () {
   height: 100%;
+  padding: 5px 12px;
   border-color: transparent !important;
   background-color: var(--ergo-swap-input-bg) !important;
-  border-radius: 12px;
   box-shadow: none !important;
 }
 
@@ -14,13 +14,14 @@
     .swapInputStyles();
     font-size: 24px !important;
     font-weight: 600 !important;
+    line-height: 32px;
   }
 
   .ant-input-affix-wrapper {
     .swapInputStyles();
 
     .ant-input {
-      padding-left: 1px;
+      padding: 0 0 0 1px;
     }
     
     .ant-input-suffix {
