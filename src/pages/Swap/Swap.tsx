@@ -1,6 +1,7 @@
 import './Swap.less';
 
 import { Card } from 'antd';
+import { useForm } from 'antd/es/form/Form';
 import React, { useState } from 'react';
 
 import { TokenInput } from '../../components/TokenInput/TokenInput';
@@ -17,6 +18,7 @@ import {
   // TokenListModal,
 } from '../../ergodex-cdk';
 import { Flex } from '../../ergodex-cdk/components/Flex/Flex';
+import { FormItem } from '../../ergodex-cdk/components/Input/Input.stories';
 
 // export const Swap: React.FC = () => {
 //   const [fromValue, setFromValue] = useState('');
@@ -103,53 +105,59 @@ import { Flex } from '../../ergodex-cdk/components/Flex/Flex';
 
 export const Swap = () => {
   return (
-    <Card>
-      <Flex>
-        <Flex flexDirection="row" alignItems="center">
-          <Flex.Item flex={1}>
-            <Typography.Title level={4}>Swap</Typography.Title>
+    <Flex alignItems="center">
+      <Box contrast padding={6} className="swap" borderRadius="l">
+        <Flex>
+          <Flex flexDirection="row" alignItems="center">
+            <Flex.Item flex={1}>
+              <Typography.Title level={4}>Swap</Typography.Title>
+            </Flex.Item>
+            <Button size="large" type="text" icon={<SettingOutlined />} />
+            <Button size="large" type="text" icon={<HistoryOutlined />} />
+          </Flex>
+          <Flex.Item marginBottom={6}>
+            <Typography.Footnote>Ergo network</Typography.Footnote>
           </Flex.Item>
-          <Button size="large" type="link" icon={<SettingOutlined />} />
-          <Button size="large" type="link" icon={<HistoryOutlined />} />
-        </Flex>
-        <Flex.Item bottomGutter={3}>
-          <Typography.Footnote>Ergo network</Typography.Footnote>
-        </Flex.Item>
 
-        <Flex.Item bottomGutter={0.5}>
-          <Box>
-            <Flex>
-              <Flex.Item bottomGutter={1}>
-                <Typography.Body type="secondary">From</Typography.Body>
-              </Flex.Item>
-              <Flex.Item bottomGutter={1}>
-                <Input />
-              </Flex.Item>
-              <Flex flexDirection="row" alignItems="center">
-                <Flex.Item rightGutter={1}>
-                  <Typography.Body>Balance: 0.02 ERG</Typography.Body>
+          <Flex.Item marginBottom={1}>
+            <Box padding={4} borderRadius="l">
+              <Flex>
+                <Flex.Item marginBottom={2}>
+                  <Typography.Body type="secondary">From</Typography.Body>
                 </Flex.Item>
-                <Button ghost type="primary">
-                  Max
-                </Button>
+                <Flex.Item marginBottom={2}>
+                  <Input />
+                </Flex.Item>
+                <Flex flexDirection="row" alignItems="center">
+                  <Flex.Item marginRight={2}>
+                    <Typography.Body>Balance: 0.02 ERG</Typography.Body>
+                  </Flex.Item>
+                  <Button ghost type="primary">
+                    Max
+                  </Button>
+                </Flex>
               </Flex>
-            </Flex>
-          </Box>
-        </Flex.Item>
+            </Box>
+          </Flex.Item>
 
-        <Flex.Item bottomGutter={0.5}>
-          <Box>
-            <Flex>
-              <Flex.Item bottomGutter={1}>
-                <Typography.Body type="secondary">To</Typography.Body>
-              </Flex.Item>
-              <Flex.Item bottomGutter={5}>
-                <Input />
-              </Flex.Item>
-            </Flex>
-          </Box>
-        </Flex.Item>
-      </Flex>
-    </Card>
+          <Flex.Item marginBottom={4}>
+            <Box padding={4} borderRadius="l">
+              <Flex>
+                <Flex.Item marginBottom={2}>
+                  <Typography.Body type="secondary">To</Typography.Body>
+                </Flex.Item>
+                <Flex.Item marginBottom={10}>
+                  <Input />
+                </Flex.Item>
+              </Flex>
+            </Box>
+          </Flex.Item>
+
+          <Button size="large" type="primary">
+            Select a token
+          </Button>
+        </Flex>
+      </Box>
+    </Flex>
   );
 };

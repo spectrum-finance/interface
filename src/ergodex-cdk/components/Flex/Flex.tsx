@@ -9,10 +9,10 @@ type ItemsProps = React.DetailedHTMLProps<
   HTMLDivElement
 > & {
   order?: number;
-  bottomGutter?: number;
-  topGutter?: number;
-  leftGutter?: number;
-  rightGutter?: number;
+  marginBottom?: number;
+  marginTop?: number;
+  marginLeft?: number;
+  marginRight?: number;
   flex?: number;
 };
 
@@ -20,10 +20,10 @@ const Item: FC<ItemsProps> = ({
   children,
   style,
   order,
-  bottomGutter,
-  topGutter,
-  leftGutter,
-  rightGutter,
+  marginBottom,
+  marginTop,
+  marginLeft,
+  marginRight,
   flex,
 }) => (
   <div
@@ -31,10 +31,10 @@ const Item: FC<ItemsProps> = ({
       ...(style || {}),
       order,
       flex,
-      marginBottom: `calc(var(--ergo-base-gutter) * ${bottomGutter})`,
-      marginTop: `calc(var(--ergo-base-gutter) * ${topGutter})`,
-      marginRight: `calc(var(--ergo-base-gutter) * ${rightGutter})`,
-      marginLeft: `calc(var(--ergo-base-gutter) * ${leftGutter})`,
+      marginBottom: `calc(var(--ergo-base-gutter) * ${marginBottom})`,
+      marginTop: `calc(var(--ergo-base-gutter) * ${marginTop})`,
+      marginRight: `calc(var(--ergo-base-gutter) * ${marginRight})`,
+      marginLeft: `calc(var(--ergo-base-gutter) * ${marginLeft})`,
     }}
   >
     {children}
@@ -43,10 +43,10 @@ const Item: FC<ItemsProps> = ({
 Item.defaultProps = {
   order: undefined,
   flex: undefined,
-  bottomGutter: 0,
-  rightGutter: 0,
-  leftGutter: 0,
-  topGutter: 0,
+  marginBottom: 0,
+  marginRight: 0,
+  marginLeft: 0,
+  marginTop: 0,
 };
 
 export type FlexProps = React.DetailedHTMLProps<
