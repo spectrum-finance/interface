@@ -25,6 +25,7 @@ const Item: FC<ItemsProps> = ({
   marginLeft,
   marginRight,
   flex,
+  ...other
 }) => (
   <div
     style={{
@@ -36,6 +37,7 @@ const Item: FC<ItemsProps> = ({
       marginRight: `calc(var(--ergo-base-gutter) * ${marginRight})`,
       marginLeft: `calc(var(--ergo-base-gutter) * ${marginLeft})`,
     }}
+    {...other}
   >
     {children}
   </div>

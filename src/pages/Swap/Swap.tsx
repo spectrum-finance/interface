@@ -1,24 +1,17 @@
 import './Swap.less';
 
-import { Card } from 'antd';
-import { useForm } from 'antd/es/form/Form';
-import React, { useState } from 'react';
+import React from 'react';
 
-import { TokenInput } from '../../components/TokenInput/TokenInput';
+import { TokenControl } from '../../components/TokenControl/TokenControl';
 import {
   Box,
   Button,
-  Col,
   HistoryOutlined,
-  Input,
-  Row,
   SettingOutlined,
   SwapOutlined,
   Typography,
-  // TokenListModal,
 } from '../../ergodex-cdk';
 import { Flex } from '../../ergodex-cdk/components/Flex/Flex';
-import { FormItem } from '../../ergodex-cdk/components/Input/Input.stories';
 
 // export const Swap: React.FC = () => {
 //   const [fromValue, setFromValue] = useState('');
@@ -120,37 +113,15 @@ export const Swap = () => {
           </Flex.Item>
 
           <Flex.Item marginBottom={1}>
-            <Box padding={4} borderRadius="l">
-              <Flex>
-                <Flex.Item marginBottom={2}>
-                  <Typography.Body type="secondary">From</Typography.Body>
-                </Flex.Item>
-                <Flex.Item marginBottom={2}>
-                  <Input />
-                </Flex.Item>
-                <Flex flexDirection="row" alignItems="center">
-                  <Flex.Item marginRight={2}>
-                    <Typography.Body>Balance: 0.02 ERG</Typography.Body>
-                  </Flex.Item>
-                  <Button ghost type="primary">
-                    Max
-                  </Button>
-                </Flex>
-              </Flex>
-            </Box>
+            <TokenControl />
+          </Flex.Item>
+
+          <Flex.Item className="swap-button">
+            <Button icon={<SwapOutlined />} size="large" />
           </Flex.Item>
 
           <Flex.Item marginBottom={4}>
-            <Box padding={4} borderRadius="l">
-              <Flex>
-                <Flex.Item marginBottom={2}>
-                  <Typography.Body type="secondary">To</Typography.Body>
-                </Flex.Item>
-                <Flex.Item marginBottom={10}>
-                  <Input />
-                </Flex.Item>
-              </Flex>
-            </Box>
+            <TokenControl />
           </Flex.Item>
 
           <Button size="large" type="primary">
