@@ -18,7 +18,11 @@ export const TokenListItem: React.FC<TokenListItemProps> = ({
   iconName,
   balance,
 }) => (
-  <Box padding={[2, 4]} borderRadius="m" className="token__list-item_wrapper">
+  <Box
+    padding={[2, 4, 1, 4]}
+    borderRadius="m"
+    className="token__list-item_wrapper"
+  >
     <Row align="middle">
       <Col span={2}>
         <TokenIcon name={iconName ?? symbol ?? 'empty'} />
@@ -29,14 +33,14 @@ export const TokenListItem: React.FC<TokenListItemProps> = ({
             {symbol}
           </Typography.Text>
         </Row>
-        <Row>
+        <Row align="bottom">
           <Typography.Text style={{ fontSize: '10px' }} className="token-name">
             {name}
           </Typography.Text>
         </Row>
       </Col>
       <Col span={4}>
-        <Typography.Text strong style={{ fontSize: '16px' }}>
+        <Typography.Text strong style={{ fontSize: '16px', float: 'right' }}>
           {balance}
         </Typography.Text>
       </Col>
@@ -55,7 +59,7 @@ interface TokenListViewProps {
 
 export const TokenListView: React.FC<TokenListViewProps> = ({ tokenList }) => {
   return (
-    <Row>
+    <Row topGutter={1}>
       {tokenList.map((token, key) => (
         <Col span={24} key={key}>
           <TokenListItem
