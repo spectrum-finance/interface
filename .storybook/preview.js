@@ -1,4 +1,5 @@
 import './styles.less';
+import '../src/ergodex-cdk/index';
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
