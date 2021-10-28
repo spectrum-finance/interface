@@ -5,9 +5,7 @@ import { useEffect, useState } from 'react';
 import { nativeNetworkPools, networkPools } from '../services/networkPools';
 import { getListAvailableTokens } from '../utils/getListAvailableTokens';
 
-export const useGetAvailablePoolsByLPTokens = (
-  utxos: ErgoBox[],
-): AmmPool[] | null => {
+export const useAvailablePositions = (utxos: ErgoBox[]): AmmPool[] | null => {
   const [pools, setPools] = useState<AmmPool[] | null>(null);
 
   useEffect(() => {

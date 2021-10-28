@@ -9,7 +9,7 @@ export interface ErrorProps {
 
 export const Error: FC<ErrorProps> = ({ content }) => (
   <>
-    <Row justify="center" bottomGutter={3}>
+    <Row justify="center" bottomGutter={6}>
       <CloseCircleOutlined
         style={{ fontSize: 80, color: 'var(--ergo-primary-color)' }}
       />

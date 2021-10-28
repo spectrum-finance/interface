@@ -6,12 +6,14 @@ interface RowProps extends BaseRowProps {
   readonly gutter?: number;
   readonly bottomGutter?: number;
   readonly topGutter?: number;
+  readonly fillHeight?: boolean;
 }
 
 export const Row: FC<RowProps> = ({
   gutter,
   bottomGutter,
   topGutter,
+  fillHeight,
   children,
   ...other
 }) => (
@@ -22,6 +24,7 @@ export const Row: FC<RowProps> = ({
         bottomGutter || gutter || 0
       })`,
       marginTop: `calc(var(--ergo-base-gutter) * ${topGutter || gutter || 0})`,
+      height: fillHeight ? '100%' : '',
     }}
   >
     {children}

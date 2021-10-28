@@ -15,8 +15,9 @@ import { globalHistory } from './createBrowserHistory';
 import { ContextModalProvider } from './ergodex-cdk';
 import { useBodyClass } from './hooks/useBodyClass';
 import { Swap } from './pages';
+import { Pool } from './pages/Pool/Pool';
 
-const NotFound = () => <Redirect to="/" />;
+const NotFound = () => <Redirect to="/swap" />;
 
 export const App: React.FC = () => {
   const theme = useTheme();
@@ -41,7 +42,11 @@ export const App: React.FC = () => {
               <ContextModalProvider>
                 <Layout>
                   <Switch>
-                    <Route path="/" exact component={Swap} />
+                    <Route path="/" exact>
+                      <Redirect to="/swap" />
+                    </Route>
+                    <Route path="/swap" exact component={Swap} />
+                    <Route path="/pool" exact component={Pool} />
                     <Route component={NotFound} />
                   </Switch>
                 </Layout>
