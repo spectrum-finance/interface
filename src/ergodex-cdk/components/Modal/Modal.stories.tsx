@@ -3,7 +3,6 @@ import { Form } from 'antd';
 import React, { FC } from 'react';
 
 import { Button } from '../Button/Button';
-import { Col } from '../Col/Col';
 import { Input } from '../Input/Input';
 import { Row } from '../Row/Row';
 import { Typography } from '../Typography/Typography';
@@ -35,13 +34,13 @@ const CustomModal: FC<{ close?: (result: boolean) => void }> = ({ close }) => (
 
 const ProgressModalContent = () => (
   <>
-    <Row justify="center" bottomGutter={0.5}>
+    <Row justify="center" bottomGutter={1}>
       <Typography.Title level={4}>Waiting for confirmation</Typography.Title>
     </Row>
-    <Row justify="center" bottomGutter={0.5}>
+    <Row justify="center" bottomGutter={1}>
       <Typography.Text>Removing 0.01 ERG for 31.0068USDT</Typography.Text>
     </Row>
-    <Row justify="center" bottomGutter={0.5}>
+    <Row justify="center" bottomGutter={1}>
       <Typography.Text type="secondary">
         Confirm this transaction in your wallet
       </Typography.Text>

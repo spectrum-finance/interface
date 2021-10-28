@@ -10,10 +10,10 @@ interface Props {
 
 const Layout = ({ children }: Props): JSX.Element => {
   return (
-    <>
+    <div className="layout">
       <Header />
       <main>{children}</main>
-    </>
+    </div>
   );
 };
 
