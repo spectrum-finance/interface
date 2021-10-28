@@ -41,7 +41,7 @@ export const Swap: React.FC = () => {
 
   return (
     <Row align="middle" justify="center">
-      <Col>
+      <Col className="swap-frame">
         <Box className="swap-form">
           <Box className="swap-header">
             <Typography.Text className="form-title">Swap</Typography.Text>

@@ -3,6 +3,7 @@ import './TokenListModal.less';
 import React, { useState } from 'react';
 
 import {
+  Box,
   Col,
   Input,
   Row,
@@ -66,7 +67,7 @@ const TokenListModal: React.FC<TokenListModalProps> = ({
   };
 
   return (
-    <>
+    <Box className="token-list-modal">
       <Input
         placeholder="Search"
         size="large"
@@ -93,7 +94,7 @@ const TokenListModal: React.FC<TokenListModalProps> = ({
             ))}
         </Col>
       </Row>
-    </>
+    </Box>
   );
 };
 
