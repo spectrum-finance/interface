@@ -2,7 +2,7 @@ import './SwapInput.less';
 
 import React from 'react';
 
-import { Input } from '../../ergodex-cdk';
+import { Box, Input, Typography } from '../../ergodex-cdk';
 import { escapeRegExp } from './format';
 
 const inputRegex = RegExp(`^\\d*(?:\\\\[.])?\\d*$`); // match escaped "." characters via in a non-capturing group
@@ -30,7 +30,7 @@ const SwapInput: React.FC<SwapInputProps> = ({
   };
 
   return (
-    <div className="swap-input">
+    <Box className="swap-input" borderRadius="m" padding={0}>
       {tokenName ? (
         <Input
           value={value}
@@ -39,10 +39,11 @@ const SwapInput: React.FC<SwapInputProps> = ({
           }}
           placeholder="0.0"
           suffix={
-            <span>
+            <Typography.Text>
               Balance: {balance} {tokenName.toUpperCase()}
-            </span>
+            </Typography.Text>
           }
+          size="large"
         />
       ) : (
         <Input
@@ -51,9 +52,10 @@ const SwapInput: React.FC<SwapInputProps> = ({
             enforcer(event.target.value.replace(/,/g, '.'));
           }}
           placeholder="0.0"
+          size="large"
         />
       )}
-    </div>
+    </Box>
   );
 };
 

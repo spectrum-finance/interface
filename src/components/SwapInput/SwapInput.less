@@ -1,21 +1,27 @@
 .swapInputStyles () {
-  border-color: transparent;
-  background-color: var(--ergo-swap-input-bg);
-  border-radius: 12px;
+  height: 100%;
+  padding: 5px 12px;
+  border-color: transparent !important;
+  background-color: var(--ergo-swap-input-bg) !important;
   box-shadow: none !important;
 }
 
 .swap-input {
+  width: 100%;
+  margin-right: 10px;
+  
   .ant-input {
     .swapInputStyles();
-    font-size: 24px;
+    font-size: 24px !important;
+    font-weight: 600 !important;
+    line-height: 32px;
   }
 
   .ant-input-affix-wrapper {
     .swapInputStyles();
 
     .ant-input {
-      padding-left: 1px;
+      padding: 0 0 0 1px;
     }
     
     .ant-input-suffix {
