@@ -2,42 +2,12 @@
 
 .network-dropdown {
   &__btn {
-    &:hover,
-    &:focus {
-      color: var(--ergo-networkdropdown-hover-focus-color);
-      outline: 1px solid var(--ergo-networkdropdown-hover-focus-border);
-    }
-
     &--cardano {
       background: @gradient-cardano-dropdown !important;
-
-      &:hover,
-      &:focus {
-        background: @gradient-cardano-dropdown !important;
-      }
     }
 
     &--ergo {
       background: @gradient-ergo-dropdown !important;
-
-      &:hover,
-      &:focus {
-        background: @gradient-ergo-dropdown !important;
-      }
     }
-  }
-
-  &__content {
-    display: flex !important;
-    align-items: center !important;
-    color: var(--ergo-networkdropdown-hover-focus-color) !important;
-  }
-
-  &__logo {
-    margin-right: 8px;
-  }
-
-  &__token-icon {
-    margin-right: 8px;
   }
 }

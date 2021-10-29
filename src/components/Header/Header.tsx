@@ -2,11 +2,11 @@ import './Header.less';
 
 // TODO: https://ergoplatform.myjetbrains.com/youtrack/issue/EDEX-439
 import Icon from '@ant-design/icons';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import React from 'react';
 
 import { ReactComponent as DarkModeOutlined } from '../../assets/icons/darkmode.svg';
-import { WalletContext } from '../../context';
+import { useWallet } from '../../context';
 import {
   BarChartOutlined,
   Button,
@@ -57,7 +57,7 @@ const settingsPopup: JSX.Element = (
 );
 
 export const Header: React.FC = () => {
-  const { isWalletConnected, ergBalance } = useContext(WalletContext);
+  const { isWalletConnected, ergBalance, isWalletLoading } = useWallet();
   const [isMainMenu, setIsMainMenu] = useState<boolean>(true);
   const [isMenuVisible, setMenuVisible] = useState<boolean>(false);
 
@@ -154,6 +154,7 @@ export const Header: React.FC = () => {
           <NetworkDropdown networks={networks} />
           <ConnectWallet
             isWalletConnected={isWalletConnected}
+            isWalletLoading={isWalletLoading}
             numberOfPendingTxs={0}
             balance={ergBalance}
             currency="ERG"
