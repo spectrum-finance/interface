@@ -3,9 +3,8 @@ import './ConnectWallet.less';
 import { LoadingOutlined } from '@ant-design/icons';
 import React from 'react';
 
-import { Box, Button, Space, Typography } from '../../ergodex-cdk';
+import { Box, Button, Modal, Space, Typography } from '../../ergodex-cdk';
 import { getShortAddress } from '../../utils/address';
-
 import { openChooseWalletModal } from '../ChooseWalletModal/main';
 import { WalletModal } from '../WalletModal/WalletModal';
 
