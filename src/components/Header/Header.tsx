@@ -46,7 +46,7 @@ const DotsSVG = () => (
 const DotsIcon = () => <Icon component={DotsSVG} />;
 
 const networks = [
-  { name: 'ergo', token: 'erg-orange' },
+  { name: 'ergo', token: 'erg' },
   { name: 'cardano', token: 'ada' },
 ];
 

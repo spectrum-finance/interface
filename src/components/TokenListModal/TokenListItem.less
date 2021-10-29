@@ -1,43 +1,46 @@
-.token-list-item {
+.token-item {
   display: flex;
-  padding: 5px 10px;
-  border-radius: 12px;
+  margin: 8px 0;
+  background-color: transparent;
+
   &:hover {
-    background-color: var(--ergo-dark-card-background);
+    background-color: var(--ergo-dark-card-background) !important;
     cursor: pointer;
   }
 
-  .token-icon {
-    margin: auto;
-  }
-
-  .token-name-balance {
+  &__box {
     display: flex;
     width: 100%;
     justify-content: space-between;
     margin-left: 10px;
+    background-color: transparent;
 
-    .token-symbol-name {
+    &-left {
       display: flex;
       flex-direction: column;
-      .token-symbol {
-        color: var(--ergo-primary-text);
-        font-size: 16px;
-        font-weight: 600;
-        line-height: 22px;
+      background-color: transparent;
+
+      &-symbol {
+        font-size: 16px !important;
+        font-weight: 600 !important;
+        line-height: 22px !important;
       }
-      .token-name {
-        font-size: 10px;
-        line-height: 12px;
+      &-name {
+        font-size: 10px !important;
+        line-height: 12px !important;
       }
     }
 
-    .token-balance {
-      margin-top: auto;
-      margin-bottom: auto;
+    &-balance {
+      margin-top: auto !important;
+      margin-bottom: auto !important;
       color: var(--ergo-primary-text);
       font-size: 14px;
       line-height: 22px;
     }
+  }
+
+  .token-icon {
+    margin: auto;
   }
 }

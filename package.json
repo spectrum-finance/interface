@@ -12,7 +12,7 @@
     "lint": "yarn lint:eslint && yarn lint:stylelint",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
-    "sprite": "svg-sprite -dD 'src/assets/icons/sprite' 'src/assets/icons/**/*.svg'"
+    "sprite:tokens": "svg-sprite -s --symbol-dest src/assets/icons/sprite --symbol-sprite sprite.svg src/assets/icons/tokens/*.svg"
   },
   "dependencies": {
     "@alfalab/core-components-amount-input": "^5.2.3",
