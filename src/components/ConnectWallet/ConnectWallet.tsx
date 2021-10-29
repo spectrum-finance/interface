@@ -4,6 +4,7 @@ import { LoadingOutlined } from '@ant-design/icons';
 import React from 'react';
 
 import { Box, Button, Space, Typography } from '../../ergodex-cdk';
+import { getShortAddress } from '../../utils/address';
 import { openChooseWalletModal } from '../ChooseWalletModal/main';
 
 export interface ConnectWalletProps {
@@ -14,18 +15,6 @@ export interface ConnectWalletProps {
   numberOfPendingTxs: number;
   isWalletLoading: boolean;
 }
-
-const getShortAddress = (address: string) => {
-  let shortAddress = address ? address : '';
-  shortAddress =
-    shortAddress.length < 10
-      ? shortAddress
-      : shortAddress.substring(0, 6) +
-        '...' +
-        shortAddress.substring(shortAddress.length - 4, shortAddress.length);
-
-  return shortAddress;
-};
 
 export const ConnectWallet: React.FC<ConnectWalletProps> = ({
   isWalletConnected,

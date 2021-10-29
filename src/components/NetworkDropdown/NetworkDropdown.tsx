@@ -4,7 +4,14 @@ import cn from 'classnames';
 import capitalize from 'lodash/capitalize';
 import React, { useState } from 'react';
 
-import { Button, DownOutlined, Dropdown, Menu } from '../../ergodex-cdk';
+import {
+  Button,
+  DownOutlined,
+  Dropdown,
+  Flex,
+  Menu,
+  Typography,
+} from '../../ergodex-cdk';
 import { TokenIcon } from '../TokenIcon/TokenIcon';
 
 type Network = { name: string; token: string };
@@ -49,16 +56,25 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
         size="large"
         type="ghost"
       >
-        <span className="network-dropdown__content">
-          <TokenIcon
-            className="network-dropdown__token-icon"
-            name={`${network.token}${disabled ? '-disabled' : ''}`}
-          />
-          <span className="network-dropdown__network">
-            {capitalize(network.name)}
-          </span>
-          <DownOutlined />
-        </span>
+        <Flex justify="center" flexDirection="row">
+          <Flex.Item marginRight={1}>
+            <TokenIcon
+              name={`${network.token}${disabled ? '-disabled' : ''}`}
+            />
+          </Flex.Item>
+          <Flex.Item marginRight={1}>
+            <Typography.Text
+              style={{ color: 'var(--ergo-networkdropdown-hover-focus-color)' }}
+            >
+              {capitalize(network.name)}
+            </Typography.Text>
+          </Flex.Item>
+          <Flex.Item>
+            <DownOutlined
+              style={{ color: 'var(--ergo-networkdropdown-hover-focus-color)' }}
+            />
+          </Flex.Item>
+        </Flex>
       </Button>
     </Dropdown>
   );
