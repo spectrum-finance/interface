@@ -5,7 +5,9 @@ import React from 'react';
 
 import { Box, Button, Space, Typography } from '../../ergodex-cdk';
 import { getShortAddress } from '../../utils/address';
+
 import { openChooseWalletModal } from '../ChooseWalletModal/main';
+import { WalletModal } from '../WalletModal/WalletModal';
 
 export interface ConnectWalletProps {
   isWalletConnected: boolean;
@@ -26,6 +28,12 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
 }) => {
   const addressToRender = address ? getShortAddress(address) : '';
 
+  const openWalletModal = () =>
+    Modal.open(({ close }) => <WalletModal />, {
+      width: 440,
+      title: 'Wallet',
+    });
+
   const connectButton = (
     <Button
       size="large"
@@ -44,6 +52,7 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
         >{`${balance} ${currency}`}</Typography.Body>
         <Button
           className="connect-wallet__address-btn"
+          onClick={openWalletModal}
           icon={!!numberOfPendingTxs && <LoadingOutlined />}
           size="middle"
           type="default"
