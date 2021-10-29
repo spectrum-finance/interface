@@ -12,18 +12,18 @@ export const PoolPosition: React.FC = () => {
     {
       symbol: 'ERG',
       name: 'Ergo',
-      iconName: 'erg-orange',
+      iconName: 'erg',
     },
     {
       symbol: 'ERG',
       name: 'Ergo',
-      iconName: 'erg-orange',
+      iconName: 'erg',
     },
   ];
 
   return (
     <Row align="middle" justify="center">
-      <Box>
+      <Box transparent>
         <Row align="middle" bottomGutter={4}>
           <Button type="text" icon={<ArrowLeftOutlined />} />
           <Typography.Title level={4}>Position overview</Typography.Title>
