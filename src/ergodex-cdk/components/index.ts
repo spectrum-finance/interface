@@ -3,6 +3,7 @@ export * from './Box/Box';
 export * from './Button/Button';
 export * from './Col/Col';
 export * from './Dropdown/Dropdown';
+export * from './Flex/Flex';
 export * from './Icon/Icon';
 export * from './Input/Input';
 export * from './Logo/Logo';

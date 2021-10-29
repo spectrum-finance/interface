@@ -3,8 +3,10 @@ import './ConnectWallet.less';
 import { LoadingOutlined } from '@ant-design/icons';
 import React from 'react';
 
-import { Box, Button, Space, Typography } from '../../ergodex-cdk';
+import { Box, Button, Modal, Space, Typography } from '../../ergodex-cdk';
+import { getShortAddress } from '../../utils/address';
 import { openChooseWalletModal } from '../ChooseWalletModal/main';
+import { WalletModal } from '../WalletModal/WalletModal';
 
 export interface ConnectWalletProps {
   isWalletConnected: boolean;
@@ -12,19 +14,8 @@ export interface ConnectWalletProps {
   currency?: string;
   address?: string;
   numberOfPendingTxs: number;
+  isWalletLoading: boolean;
 }
-
-const getShortAddress = (address: string) => {
-  let shortAddress = address ? address : '';
-  shortAddress =
-    shortAddress.length < 10
-      ? shortAddress
-      : shortAddress.substring(0, 6) +
-        '...' +
-        shortAddress.substring(shortAddress.length - 4, shortAddress.length);
-
-  return shortAddress;
-};
 
 export const ConnectWallet: React.FC<ConnectWalletProps> = ({
   isWalletConnected,
@@ -32,8 +23,15 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
   currency,
   address,
   numberOfPendingTxs,
+  isWalletLoading,
 }) => {
   const addressToRender = address ? getShortAddress(address) : '';
+
+  const openWalletModal = () =>
+    Modal.open(({ close }) => <WalletModal />, {
+      width: 440,
+      title: 'Wallet',
+    });
 
   const connectButton = (
     <Button
@@ -41,7 +39,7 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
       className="connect-wallet__connect-btn"
       onClick={openChooseWalletModal}
     >
-      Connect to a wallet
+      {isWalletLoading ? 'Connect to a wallet' : <LoadingOutlined />}
     </Button>
   );
 
@@ -53,6 +51,7 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
         >{`${balance} ${currency}`}</Typography.Body>
         <Button
           className="connect-wallet__address-btn"
+          onClick={openWalletModal}
           icon={!!numberOfPendingTxs && <LoadingOutlined />}
           size="middle"
           type="default"

@@ -21,7 +21,7 @@
 
   &:active {
     border:     1px solid var(--ergo-primary-color-active);
-    background: var(--ergo-default-card-background);
+    background: var(--ergo-dark-card-background);
     color:      var(--ergo-primary-color-active);
   }
 
@@ -197,7 +197,7 @@
 }
 
 .ant-btn.ant-btn-text, .ant-btn.ant-btn-text.ant-btn-dangerous {
-  border:     1px solid transparent;
+  border:     transparent !important;
   background: transparent;
   color:      var(--ergo-primary-text) !important;
 
@@ -221,10 +221,15 @@
     }
   }
 
+  &.ant-btn-dangerous {
+    color:      var(--ergo-button-danger-color) !important;
+  }
+  
   &:disabled {
     &, &:active, &:focus, &:hover, .ant-btn-loading {
-      border:     1px solid transparent !important;
+      border:     transparent !important;
       background: transparent !important;
+      color:      var(--ergo-disabled-text-constrast) !important;
     }
   }
 }

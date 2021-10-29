@@ -14,6 +14,7 @@ interface BoxProps extends React.PropsWithChildren<unknown> {
   inline?: boolean;
   className?: string;
   padding?: Padding;
+  onClick?: React.MouseEventHandler<HTMLElement>;
 }
 
 const calcGutter = (n: number): string =>
@@ -27,6 +28,7 @@ const Box = ({
   padding,
   transparent,
   inline,
+  onClick,
 }: BoxProps): JSX.Element => {
   const getPadding = (p: Padding) => {
     if (p instanceof Array && p.length === 2) {
@@ -50,10 +52,12 @@ const Box = ({
         className,
       )}
       style={{
-        padding: padding
-          ? getPadding(padding)
-          : `calc(var(--ergo-base-gutter))`,
+        padding:
+          padding != null
+            ? getPadding(padding)
+            : `calc(var(--ergo-base-gutter))`,
       }}
+      onClick={onClick}
     >
       {children}
     </div>

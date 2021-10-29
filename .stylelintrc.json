@@ -8,8 +8,8 @@
   "rules": {
     "length-zero-no-unit": true,
     "order/properties-alphabetical-order": null,
-    "max-nesting-depth": 4,
+    "max-nesting-depth": 8,
     "selector-class-pattern": ".[a-z][a-zA-Z0-9]+$",
-    "selector-max-compound-selectors": 4
+    "selector-max-compound-selectors": 8
   }
 }
