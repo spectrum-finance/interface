@@ -38,7 +38,7 @@ export const Swap: React.FC = () => {
   return (
     <Row align="middle" justify="center">
       <Col span={7}>
-        <Box className="swap" contrast borderRadius="l" padding={6}>
+        <Box className="swap" formWrapper borderRadius="l" padding={6}>
           <Row bottomGutter={6}>
             <Col span={18}>
               <Typography.Title level={4}>Swap</Typography.Title>
