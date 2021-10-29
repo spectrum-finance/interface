@@ -87,7 +87,7 @@ const TokenListModal: React.FC<TokenListModalProps> = ({
                 key={key}
                 symbol={token.symbol}
                 name={token.name}
-                iconName={token.iconName}
+                iconName={token.symbol}
                 balance={0.01342}
                 onClick={() => handleClick(token.symbol)}
               />

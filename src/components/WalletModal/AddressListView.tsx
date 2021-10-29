@@ -8,7 +8,7 @@ import { Address } from './Address';
 
 export const AddressListTitle: React.FC = () => {
   return (
-    <Box padding={[3, 2]}>
+    <Box transparent padding={[3, 2]}>
       <Row>
         <Col span={10}>
           <Typography.Text strong>Address</Typography.Text>
@@ -35,7 +35,7 @@ export const AddressListItem: React.FC<AddressListItemProps> = ({
   updateActiveAddr,
 }) => {
   return (
-    <Box padding={[3, 2]} className="address__list-item_wrapper">
+    <Box padding={[3, 2]} className="address__list-item_wrapper" transparent>
       <Row align="middle">
         <Col span={10}>
           <Address address={address} />
