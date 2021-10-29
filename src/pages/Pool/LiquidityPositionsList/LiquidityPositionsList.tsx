@@ -8,6 +8,7 @@ import {
   TokenPair,
 } from '../../../components/TokenIconPair/TokenIconPair';
 import { Box, Col, Row, Typography } from '../../../ergodex-cdk';
+import { getPoolFee } from '../../../services/pool';
 
 interface LiquidityPositionsListProps {
   positions: Array<AmmPool> | null;
@@ -16,7 +17,7 @@ interface LiquidityPositionsListProps {
 interface PoolPositionProps {
   onClick: () => void;
   tokenPair: TokenPair;
-  poolFee: number;
+  poolFee: bigint;
 }
 
 const PoolPosition: React.FC<PoolPositionProps> = ({
@@ -33,7 +34,7 @@ const PoolPosition: React.FC<PoolPositionProps> = ({
         <Col span={16}>
           <Typography.Title
             level={5}
-          >{`${tokenPair.tokenA.toUpperCase()}/${tokenPair.tokenB.toUpperCase()}`}</Typography.Title>
+          >{`${tokenPair.tokenA} / ${tokenPair.tokenB}`}</Typography.Title>
         </Col>
         <Col
           span={3}
@@ -41,7 +42,7 @@ const PoolPosition: React.FC<PoolPositionProps> = ({
           style={{ display: 'flex', justifyContent: 'flex-end' }}
         >
           <Box contrast inline>
-            <Typography.Body>{poolFee}%</Typography.Body>
+            <Typography.Body>{getPoolFee(poolFee)}%</Typography.Body>
           </Box>
         </Col>
       </Row>
@@ -71,12 +72,18 @@ const LiquidityPositionsList: React.FC<LiquidityPositionsListProps> = ({
       {positions &&
         positions.map((position, index) => {
           return (
-            <Row key={index}>
+            <Row
+              key={index}
+              bottomGutter={index !== positions.length - 1 ? 2 : 0}
+            >
               <Col span={24}>
                 <PoolPosition
                   onClick={onPositionClick}
-                  tokenPair={{ tokenA: 'ERG', tokenB: 'ADA' }}
-                  poolFee={0.3}
+                  tokenPair={{
+                    tokenA: position.assetX.name ? position.assetX.name : '',
+                    tokenB: position.assetY.name ? position.assetY.name : '',
+                  }}
+                  poolFee={position.feeNum}
                 />
               </Col>
             </Row>
