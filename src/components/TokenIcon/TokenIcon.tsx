@@ -15,6 +15,7 @@ const TokenIcon: React.FC<React.SVGProps<TokenIconProps>> = (props) => {
 
   return (
     <svg
+      style={{ display: 'block' }}
       width="24"
       height="24"
       className={`token-icon token-icon-${props.name?.toLowerCase()}`}

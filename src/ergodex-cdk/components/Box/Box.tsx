@@ -12,6 +12,7 @@ interface BoxProps extends React.PropsWithChildren<unknown> {
   contrast?: boolean;
   transparent?: boolean;
   inline?: boolean;
+  formWrapper?: boolean;
   className?: string;
   padding?: Padding;
   onClick?: React.MouseEventHandler<HTMLElement>;
@@ -29,6 +30,7 @@ const Box = ({
   transparent,
   inline,
   onClick,
+  formWrapper,
 }: BoxProps): JSX.Element => {
   const getPadding = (p: Padding) => {
     if (p instanceof Array && p.length === 2) {
@@ -49,6 +51,7 @@ const Box = ({
         contrast && `ergodex-box--contrast`,
         transparent && `ergodex-box--transparent`,
         inline && `ergodex-box--inline`,
+        formWrapper && `ergodex-box--form-wrapper`,
         className,
       )}
       style={{
