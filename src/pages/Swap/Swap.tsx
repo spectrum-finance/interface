@@ -2,6 +2,7 @@ import './Swap.less';
 
 import React, { useState } from 'react';
 
+import { SubmitButton } from '../../components/SubmitButton/SubmitButton';
 import { TokenInput } from '../../components/TokenInput/TokenInput';
 import { TokenListModal } from '../../components/TokenListModal/TokenListModal';
 import {
@@ -94,9 +95,7 @@ export const Swap: React.FC = () => {
           </Row>
           <Row>
             <Col span={24}>
-              <Button className="swap__btn" block disabled>
-                Select a token
-              </Button>
+              <SubmitButton>Swap</SubmitButton>
             </Col>
           </Row>
         </Box>
