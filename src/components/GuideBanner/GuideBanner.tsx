@@ -22,7 +22,7 @@ const GuideBanner: React.FC<GuideLinkProps> = ({
   href,
 }): JSX.Element => {
   return (
-    <Box className="guide-banner" padding={[2, 4]} contrast borderRadius="m">
+    <Box className="guide-banner" padding={[2, 4]} formWrapper borderRadius="m">
       <Row>
         <Col span={18}>
           <Typography.Title className="guide-banner__text" level={4}>

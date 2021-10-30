@@ -3,6 +3,9 @@
 }
 
 .ant-slider {
+  margin-top: 32px;
+  margin-bottom: 0;
+
   &-rail {
     background-color: var(--ergo-slider-rail-bg);
   }
@@ -52,8 +55,20 @@
   }
 }
 
+.ant-slider-mark {
+  top: -34px;
+}
+
 .ant-slider-mark-text {
   color: var(--ergo-primary-text);
+
+  &:hover {
+    color: var(--ergo-primary-color);
+  }
+
+  //&-active {
+  //  color: var(--ergo-primary-color);
+  //}
 }
 
 .ant-slider.ant-slider-disabled {

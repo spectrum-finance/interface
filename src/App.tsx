@@ -17,6 +17,7 @@ import { useBodyClass } from './hooks/useBodyClass';
 import { Swap } from './pages';
 import { Pool } from './pages/Pool/Pool';
 import { PoolPosition } from './pages/Pool/PoolPosition/PoolPosition';
+import { Remove } from './pages/Remove/Remove';
 
 const NotFound = () => <Redirect to="/swap" />;
 
@@ -53,6 +54,7 @@ export const App: React.FC = () => {
                       exact
                       component={PoolPosition}
                     />
+                    <Route path="/remove" exact component={Remove} />
                     <Route component={NotFound} />
                   </Switch>
                 </Layout>
