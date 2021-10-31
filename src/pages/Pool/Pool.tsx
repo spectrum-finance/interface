@@ -29,7 +29,7 @@ const Pool = (): JSX.Element => {
         </Row>
         <Row>
           <Col span={24}>
-            {!isWalletConnected || !positions ? (
+            {!isWalletConnected ? (
               <EmptyPositionsList isWalletConnected={isWalletConnected} />
             ) : (
               <LiquidityPositionsList positions={positions} />
