@@ -146,49 +146,51 @@ const Remove = (): JSX.Element => {
   const [removePercent, setRemovePercent] = useState(DEFAULT_SLIDER_PERCENTAGE);
 
   return (
-    <FormPageWrapper width={382}>
-      <Flex flexDirection="col">
-        <Flex.Item marginBottom={2}>
-          <Flex justify="space-between" alignItems="center">
-            <Flex.Item>
-              <Flex alignItems="center">
-                <Flex.Item display="flex" marginRight={2}>
-                  <TokenIconPair tokenPair={mocks.tokenPair} />
-                </Flex.Item>
-                <Flex.Item>
-                  <Typography.Title level={4}>
-                    {mocks.tokenPair.tokenA} / {mocks.tokenPair.tokenB}
-                  </Typography.Title>
-                </Flex.Item>
-              </Flex>
-            </Flex.Item>
-            <Flex.Item>
-              <Button size="large" type="text" icon={<SettingOutlined />} />
-            </Flex.Item>
-          </Flex>
-        </Flex.Item>
-        <Flex.Item marginBottom={4}>
-          <RemovePageSpaceWrapper title="Amount">
-            <RemovePositionSlider
-              percentage={removePercent}
-              setPercentage={setRemovePercent}
-            />
-          </RemovePageSpaceWrapper>
-        </Flex.Item>
+    <>
+      <FormPageWrapper width={382} title="Remove liquidity" withBackButton>
+        <Flex flexDirection="col">
+          <Flex.Item marginBottom={2}>
+            <Flex justify="space-between" alignItems="center">
+              <Flex.Item>
+                <Flex alignItems="center">
+                  <Flex.Item display="flex" marginRight={2}>
+                    <TokenIconPair tokenPair={mocks.tokenPair} />
+                  </Flex.Item>
+                  <Flex.Item>
+                    <Typography.Title level={4}>
+                      {mocks.tokenPair.tokenA} / {mocks.tokenPair.tokenB}
+                    </Typography.Title>
+                  </Flex.Item>
+                </Flex>
+              </Flex.Item>
+              <Flex.Item>
+                <Button size="large" type="text" icon={<SettingOutlined />} />
+              </Flex.Item>
+            </Flex>
+          </Flex.Item>
+          <Flex.Item marginBottom={4}>
+            <RemovePageSpaceWrapper title="Amount">
+              <RemovePositionSlider
+                percentage={removePercent}
+                setPercentage={setRemovePercent}
+              />
+            </RemovePageSpaceWrapper>
+          </Flex.Item>
 
-        <Flex.Item marginBottom={4}>
-          <TokenSpace title="Pooled Assets" />
-        </Flex.Item>
+          <Flex.Item marginBottom={4}>
+            <TokenSpace title="Pooled Assets" />
+          </Flex.Item>
 
-        <Flex.Item marginBottom={4}>
-          <TokenSpace title="Earned Fees" />
-        </Flex.Item>
+          <Flex.Item marginBottom={4}>
+            <TokenSpace title="Earned Fees" />
+          </Flex.Item>
 
-        <Flex.Item>
-          <SubmitButton>Remove</SubmitButton>
-        </Flex.Item>
-      </Flex>
-    </FormPageWrapper>
+          <Flex.Item>
+            <SubmitButton>Remove</SubmitButton>
+          </Flex.Item>
+        </Flex>
+      </FormPageWrapper>
+    </>
   );
 };
 

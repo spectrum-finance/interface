@@ -2,6 +2,7 @@ import './Swap.less';
 
 import React, { useState } from 'react';
 
+import { FormPageWrapper } from '../../components/FormPageWrapper/FormPageWrapper';
 import { SubmitButton } from '../../components/SubmitButton/SubmitButton';
 import { TokenInput } from '../../components/TokenInput/TokenInput';
 import { TokenListModal } from '../../components/TokenListModal/TokenListModal';
@@ -37,69 +38,63 @@ export const Swap: React.FC = () => {
   };
 
   return (
-    <Row align="middle" justify="center">
-      <Col span={7}>
-        <Box className="swap" formWrapper borderRadius="l" padding={6}>
-          <Row bottomGutter={6}>
-            <Col span={18}>
-              <Typography.Title level={4}>Swap</Typography.Title>
-              <Typography.Text className="swap__network">
-                Ergo network
-              </Typography.Text>
-            </Col>
-            <Col span={5} offset={1}>
-              <Row className="swap__right-top" justify="end">
-                <Button size="large" type="text" icon={<SettingOutlined />} />
-                <Button size="large" type="text" icon={<HistoryOutlined />} />
-              </Row>
-            </Col>
+    <FormPageWrapper width={480}>
+      <Row bottomGutter={6}>
+        <Col span={18}>
+          <Typography.Title level={4}>Swap</Typography.Title>
+          <Typography.Text className="swap__network">
+            Ergo network
+          </Typography.Text>
+        </Col>
+        <Col span={5} offset={1}>
+          <Row className="swap__right-top" justify="end">
+            <Button size="large" type="text" icon={<SettingOutlined />} />
+            <Button size="large" type="text" icon={<HistoryOutlined />} />
           </Row>
-          <Row bottomGutter={4}>
+        </Col>
+      </Row>
+      <Row bottomGutter={4}>
+        <Col>
+          <Row bottomGutter={1}>
             <Col>
-              <Row bottomGutter={1}>
-                <Col>
-                  <TokenInput
-                    value={fromValue}
-                    onChange={setFromValue}
-                    tokenName={fromTokenName}
-                    balance={fromTokenBalance}
-                    tokenPrice={fromTokenPrice}
-                    onSelectToken={() =>
-                      handleSelectFromToken(setFromTokenName)
-                    }
-                    label="From"
-                  />
-                </Col>
-              </Row>
-              <Box className="swap__switch-btn-wrapper" transparent>
-                <Button
-                  className="swap__switch-btn"
-                  size="large"
-                  icon={<SwapOutlined />}
-                />
-              </Box>
-              <Row>
-                <Col>
-                  <TokenInput
-                    value={toValue}
-                    onChange={setToValue}
-                    tokenName={toTokenName}
-                    balance={toTokenBalance}
-                    tokenPrice={toTokenPrice}
-                    onSelectToken={() => handleSelectFromToken(setToTokenName)}
-                    label="To"
-                  />
-                </Col>
-              </Row>
+              <TokenInput
+                value={fromValue}
+                onChange={setFromValue}
+                tokenName={fromTokenName}
+                balance={fromTokenBalance}
+                tokenPrice={fromTokenPrice}
+                onSelectToken={() => handleSelectFromToken(setFromTokenName)}
+                label="From"
+              />
             </Col>
           </Row>
+          <Box className="swap__switch-btn-wrapper" transparent>
+            <Button
+              className="swap__switch-btn"
+              size="large"
+              icon={<SwapOutlined />}
+            />
+          </Box>
           <Row>
-            <Col span={24}>
-              <SubmitButton>Swap</SubmitButton>
+            <Col>
+              <TokenInput
+                value={toValue}
+                onChange={setToValue}
+                tokenName={toTokenName}
+                balance={toTokenBalance}
+                tokenPrice={toTokenPrice}
+                onSelectToken={() => handleSelectFromToken(setToTokenName)}
+                label="To"
+              />
             </Col>
           </Row>
-        </Box>
-      </Col>
-    </Row>
+        </Col>
+      </Row>
+      <Row>
+        <Col span={24}>
+          <SubmitButton>Swap</SubmitButton>
+        </Col>
+      </Row>
+    </FormPageWrapper>
   );
 };
