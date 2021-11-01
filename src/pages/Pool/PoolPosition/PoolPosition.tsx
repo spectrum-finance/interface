@@ -1,5 +1,6 @@
 import './PoolPosition.less';
 
+import { AmmPool, PoolId } from '@ergolabs/ergo-dex-sdk';
 import React from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -19,17 +20,18 @@ import { getPoolFee } from '../../../services/pool';
 import { PriceView } from './PriceView';
 
 interface URLParamTypes {
-  poolId: string;
+  poolId: PoolId;
 }
 
 export const PoolPosition: React.FC = () => {
-  const UTXOs = useUTXOs();
-  const positions = useAvailablePositions(UTXOs);
+  const usePosition = (poolId: PoolId): AmmPool | undefined => {
+    const UTXOs = useUTXOs();
+    const positions = useAvailablePositions(UTXOs);
+    return positions?.find((position) => position.id === poolId);
+  };
 
   const params = useParams<URLParamTypes>();
-  const position = positions?.find((position) => {
-    return position.id === params.poolId;
-  });
+  const position = usePosition(params.poolId);
 
   const tokenPair = {
     tokenA: position?.assetX.name ? position.assetX.name : '',
@@ -37,6 +39,8 @@ export const PoolPosition: React.FC = () => {
   };
 
   // console.log('position: ', position);
+  // console.log('priceX: ', position?.priceX);
+  // console.log('priceY: ', position?.priceY);
 
   return (
     <FormPageWrapper title="Position overview" width={480} withBackButton>
@@ -54,9 +58,9 @@ export const PoolPosition: React.FC = () => {
 
           <Flex flexDirection="col" style={{ marginTop: 16 }}>
             <Typography.Text>Liquidity</Typography.Text>
-            <Typography.Title level={2} style={{ marginTop: 8 }}>
+            {/* <Typography.Title level={2} style={{ marginTop: 8 }}>
               $6.50
-            </Typography.Title>
+            </Typography.Title> */}
             <Flex flexDirection="col" className="liquidity-info__wrapper">
               <Flex justify="space-between">
                 <Flex>
@@ -95,7 +99,7 @@ export const PoolPosition: React.FC = () => {
             </Flex>
           </Flex>
 
-          <Flex flexDirection="col" style={{ marginTop: 16 }}>
+          {/* <Flex flexDirection="col" style={{ marginTop: 16 }}>
             <Flex justify="space-between">
               <Typography.Text>Unclaimed fees</Typography.Text>
               <Button type="primary" size="small" className="collect-fee__btn">
@@ -129,7 +133,7 @@ export const PoolPosition: React.FC = () => {
                 </Flex>
               </Flex>
             </Flex>
-          </Flex>
+          </Flex> */}
 
           <Flex flexDirection="col" style={{ marginTop: 16 }}>
             <Typography.Text>Current price</Typography.Text>
