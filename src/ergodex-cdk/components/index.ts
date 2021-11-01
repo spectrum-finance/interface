@@ -4,6 +4,7 @@ export * from './Button/Button';
 export * from './Col/Col';
 export * from './Dropdown/Dropdown';
 export * from './Flex/Flex';
+export * from './Form/Form';
 export * from './Icon/Icon';
 export * from './Input/Input';
 export * from './Logo/Logo';
