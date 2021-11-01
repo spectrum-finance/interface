@@ -19,14 +19,13 @@ import {
   LeftOutlined,
   Logo,
   Menu,
-  Popover,
   QuestionCircleOutlined,
   RightOutlined,
-  SettingOutlined,
 } from '../../ergodex-cdk';
 import { ConnectWallet } from '../ConnectWallet/ConnectWallet';
 import { NetworkDropdown } from '../NetworkDropdown/NetworkDropdown';
 import { ThemeSwitch } from '../ThemeSwitch/ThemeSwitch';
+import { GlobalSettings } from './GlobalSettings/GlobalSettings';
 import { HeaderTabs } from './HeaderTabs';
 
 const DotsIcon = () => <Icon component={Dots} />;
@@ -35,12 +34,6 @@ const networks = [
   { name: 'ergo', token: 'erg' },
   { name: 'cardano', token: 'ada' },
 ];
-
-const settingsPopup: JSX.Element = (
-  <div>
-    <p>Content</p>
-  </div>
-);
 
 export const Header: React.FC = () => {
   const { isWalletConnected, ergBalance, isWalletLoading } = useWallet();
@@ -146,13 +139,7 @@ export const Header: React.FC = () => {
             currency="ERG"
             address="9iKWmL5t3y9u59fUESsbFQzG933UPjR1v7LUAjM6XPMAcXNhBzL"
           />
-          <Popover
-            content={settingsPopup}
-            trigger="click"
-            placement="bottomRight"
-          >
-            <Button type="text" size="large" icon={<SettingOutlined />} />
-          </Popover>
+          <GlobalSettings />
           <Dropdown
             overlay={isMainMenu ? menuOthers : menuLanguages}
             trigger={['click']}
