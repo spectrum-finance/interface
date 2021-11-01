@@ -9,10 +9,13 @@ import {
   Button,
   Col,
   HistoryOutlined,
+  InfoCircleOutlined,
   Modal,
   Row,
   SettingOutlined,
+  Space,
   SwapOutlined,
+  Tooltip,
   Typography,
 } from '../../ergodex-cdk';
 
@@ -34,6 +37,39 @@ export const Swap: React.FC = () => {
       { title: 'Select a token' },
     );
   };
+
+  const priceTooltip = (
+    <>
+      <Box className="price-content">
+        <Typography.Text className="price-content__left">
+          Minimum received
+        </Typography.Text>
+        <Typography.Text className="price-content__right">
+          0.044WETH
+        </Typography.Text>
+      </Box>
+      <Box className="price-content">
+        <Typography.Text className="price-content__left">
+          Price impact
+        </Typography.Text>
+        <Typography.Text className="price-content__right">0.5%</Typography.Text>
+      </Box>
+      <Box className="price-content">
+        <Typography.Text className="price-content__left">
+          Slippage tollerance
+        </Typography.Text>
+        <Typography.Text className="price-content__right">0.5%</Typography.Text>
+      </Box>
+      <Box className="price-content">
+        <Typography.Text className="price-content__left">
+          Total fees
+        </Typography.Text>
+        <Typography.Text className="price-content__right">
+          0.000055ERG(~$3.065)
+        </Typography.Text>
+      </Box>
+    </>
+  );
 
   return (
     <Row align="middle" justify="center">
@@ -92,6 +128,28 @@ export const Swap: React.FC = () => {
               </Row>
             </Col>
           </Row>
+          {fromTokenName.length > 0 && toTokenName.length > 0 && (
+            <Row bottomGutter={4}>
+              <Col>
+                <Tooltip
+                  placement="left"
+                  title={priceTooltip}
+                  className="swap__tip"
+                  overlayStyle={{ width: '300px', maxWidth: '300px' }}
+                >
+                  <InfoCircleOutlined className="swap__tip-icon" />
+                  <Typography.Text>
+                    1{fromTokenName} = 0.00001{toTokenName}
+                  </Typography.Text>
+                  <Space className="swap__tip-price">
+                    <Typography.Text className="swap__tip-price-text">
+                      ($1.00306)
+                    </Typography.Text>
+                  </Space>
+                </Tooltip>
+              </Col>
+            </Row>
+          )}
           <Row>
             <Col span={24}>
               <Button className="swap__btn" block disabled>
