@@ -1,7 +1,8 @@
 import './LiquidityPositionsList.less';
 
-import { AmmPool } from '@ergolabs/ergo-dex-sdk';
+import { AmmPool, PoolId } from '@ergolabs/ergo-dex-sdk';
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 
 import {
   TokenIconPair,
@@ -53,7 +54,11 @@ const PoolPosition: React.FC<PoolPositionProps> = ({
 const LiquidityPositionsList: React.FC<LiquidityPositionsListProps> = ({
   positions,
 }): JSX.Element => {
-  const onPositionClick = () => {};
+  const history = useHistory();
+
+  const onPositionClick = (id: PoolId) => {
+    history.push(`/pool/${id}/`);
+  };
 
   return (
     <Box formWrapper padding={[4, 2]} borderRadius="m">
@@ -78,7 +83,9 @@ const LiquidityPositionsList: React.FC<LiquidityPositionsListProps> = ({
             >
               <Col span={24}>
                 <PoolPosition
-                  onClick={onPositionClick}
+                  onClick={() => {
+                    onPositionClick(position.id);
+                  }}
                   tokenPair={{
                     tokenA: position.assetX.name ? position.assetX.name : '',
                     tokenB: position.assetY.name ? position.assetY.name : '',
