@@ -6,7 +6,13 @@
   }
 }
 
-.ant-btn, .ant-btn.ant-btn-lg, .ant-btn.ant-btn-sm, .ant-btn[type="button"], .ant-btn[type="submit"] , .ant-btn-icon-only, .ant-btn.ant-btn-text {
+.ant-btn,
+.ant-btn.ant-btn-lg,
+.ant-btn.ant-btn-sm,
+.ant-btn[type="button"],
+.ant-btn[type="submit"],
+.ant-btn-icon-only,
+.ant-btn.ant-btn-text {
   border:        1px solid var(--ergo-default-border-color);
   background:    var(--ergo-default-card-background);
   border-radius: var(--ergo-border-radius-md) !important;
@@ -105,6 +111,10 @@
       color:      var(--ergo-disabled-text-constrast) !important;
     }
   }
+}
+
+.ant-btn.ant-btn-sm {
+  border-radius: var(--ergo-border-radius-sm) !important;
 }
 
 .ant-btn.ant-btn-background-ghost {
@@ -224,7 +234,7 @@
   &.ant-btn-dangerous {
     color:      var(--ergo-button-danger-color) !important;
   }
-  
+
   &:disabled {
     &, &:active, &:focus, &:hover, .ant-btn-loading {
       border:     transparent !important;
