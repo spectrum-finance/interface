@@ -1,3 +1,4 @@
+import { PublicKey } from '@ergolabs/ergo-sdk';
 import { useLocalStorage } from '@rehooks/local-storage';
 import React, { createContext, useContext } from 'react';
 
@@ -9,6 +10,7 @@ export type Settings = {
   minerFee: string;
   slippage: string;
   address?: string;
+  pk?: PublicKey;
   explorerUrl: string;
 };
 
@@ -16,6 +18,7 @@ export const DefaultSettings: Readonly<Settings> = {
   minerFee: defaultMinerFee.toString(),
   slippage: defaultSlippage.toString(),
   explorerUrl: ERG_EXPLORER_URL,
+  pk: '',
 };
 
 function noop() {
