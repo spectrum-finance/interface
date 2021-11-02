@@ -32,6 +32,32 @@ const CustomModal: FC<{ close?: (result: boolean) => void }> = ({ close }) => (
   </Form>
 );
 
+const ActionModalContent: FC<{ next: (request: Promise<any>) => void }> = ({
+  next,
+}) => {
+  const onSubmit = () =>
+    next(new Promise((resolve) => setTimeout(resolve, 5000)));
+
+  return (
+    <Form layout="vertical">
+      <Form.Item label="Login">
+        <Input />
+      </Form.Item>
+      <Form.Item label="Password">
+        <Input />
+      </Form.Item>
+      <Button
+        htmlType="submit"
+        type="primary"
+        style={{ width: '100%' }}
+        onClick={onSubmit}
+      >
+        Submit
+      </Button>
+    </Form>
+  );
+};
+
 const ProgressModalContent = () => (
   <>
     <Row justify="center" bottomGutter={1}>
@@ -115,15 +141,11 @@ export const Default: Story = () => {
   };
 
   const openRequestModal = () => {
-    const request = new Promise((resolve) => {
-      setTimeout(() => resolve(true), 2000);
-    });
-
     Modal.request({
+      actionContent: (next) => <ActionModalContent next={next} />,
       progressContent: <ProgressModalContent />,
       successContent: <SuccessModalContent />,
       errorContent: <ErrorModalContent />,
-      request,
     });
   };
 
