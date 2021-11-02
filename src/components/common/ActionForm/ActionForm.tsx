@@ -1,8 +1,8 @@
-import { Form, FormInstance } from 'antd';
 import React, { FC, ReactNode, useEffect, useState } from 'react';
 
 import { useWallet } from '../../../context';
 import { useConnection } from '../../../context/ConnectionContext';
+import { Form, FormInstance } from '../../../ergodex-cdk';
 import { ActionButton, ActionButtonState } from './ActionButton/ActionButton';
 
 export interface ActionFormStrategy<T = any> {
@@ -65,7 +65,7 @@ export const ActionForm: FC<ActionFormProps> = ({
     }
   }, [online, ergBalance, isWalletConnected, strategy, form, formValueChanged]);
 
-  //TODO: REWRITE
+  // TODO: FIX_ACTION_FORM_CHANGE_TRIGGER[EDEX-471]
   const onFormChange = () => setFormValueChanged({});
 
   return (

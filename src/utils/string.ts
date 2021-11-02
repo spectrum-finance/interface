@@ -1,5 +1,3 @@
-import { instance } from '@storybook/node-logger';
-
 const DOT_SYMBOL = '.';
 
 export const truncate = (id: string): string => {

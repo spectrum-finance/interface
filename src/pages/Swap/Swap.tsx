@@ -1,7 +1,5 @@
 import './Swap.less';
 
-import { FormInstance } from 'antd';
-import { useForm } from 'antd/es/form/Form';
 import React, { useEffect } from 'react';
 
 import {
@@ -14,9 +12,10 @@ import {
 } from '../../components/common/TokenControl/TokenControl';
 import { FormPageWrapper } from '../../components/FormPageWrapper/FormPageWrapper';
 import {
-  Box,
   Button,
   Flex,
+  Form,
+  FormInstance,
   HistoryOutlined,
   SettingOutlined,
   SwapOutlined,
@@ -63,7 +62,7 @@ class SwapStrategy implements ActionFormStrategy {
 }
 
 export const Swap = () => {
-  const [form] = useForm<SwapFormModel>();
+  const [form] = Form.useForm<SwapFormModel>();
   const swapStrategy = new SwapStrategy();
 
   const swapTokens = () => {
