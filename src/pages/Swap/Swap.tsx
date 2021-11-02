@@ -55,6 +55,10 @@ class SwapStrategy implements ActionFormStrategy {
   request(form: FormInstance): Promise<any> {
     return Promise.resolve(undefined);
   }
+
+  isLiquidityInsufficient(form: FormInstance<any>): boolean {
+    return false;
+  }
 }
 
 export const Swap = () => {

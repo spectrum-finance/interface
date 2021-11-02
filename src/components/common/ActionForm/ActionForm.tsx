@@ -8,6 +8,7 @@ import { ActionButton, ActionButtonState } from './ActionButton/ActionButton';
 export interface ActionFormStrategy<T = any> {
   isTokensNotSelected: (form: FormInstance<T>) => boolean;
   isAmountNotEntered: (form: FormInstance<T>) => boolean;
+  isLiquidityInsufficient: (form: FormInstance<T>) => boolean;
   getInsufficientTokenForTx: (form: FormInstance<T>) => undefined | string;
   getInsufficientTokenForFee: (form: FormInstance<T>) => undefined | string;
   request: (form: FormInstance<T>) => Promise<any>;
@@ -57,6 +58,10 @@ export const ActionForm: FC<ActionFormProps> = ({
         state: ActionButtonState.INSUFFICIENT_TOKEN_BALANCE,
         data: { token: strategy.getInsufficientTokenForFee(form) },
       });
+    } else if (strategy.isLiquidityInsufficient(form)) {
+      setButtonData({ state: ActionButtonState.INSUFFICIENT_LIQUIDITY });
+    } else {
+      setButtonData({ state: ActionButtonState.ACTION });
     }
   }, [online, ergBalance, isWalletConnected, strategy, form, formValueChanged]);
 
