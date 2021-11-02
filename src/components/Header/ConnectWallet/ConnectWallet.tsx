@@ -3,10 +3,10 @@ import './ConnectWallet.less';
 import { LoadingOutlined } from '@ant-design/icons';
 import React from 'react';
 
-import { Box, Button, Modal, Space, Typography } from '../../ergodex-cdk';
-import { getShortAddress } from '../../utils/address';
-import { openChooseWalletModal } from '../ChooseWalletModal/main';
-import { WalletModal } from '../WalletModal/WalletModal';
+import { Box, Button, Modal, Space, Typography } from '../../../ergodex-cdk';
+import { getShortAddress } from '../../../utils/address';
+import { ConnectWalletButton } from '../../common/ConnectWalletButton/ConnectWalletButton';
+import { WalletModal } from '../../WalletModal/WalletModal';
 
 export interface ConnectWalletProps {
   isWalletConnected: boolean;
@@ -23,7 +23,6 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
   currency,
   address,
   numberOfPendingTxs,
-  isWalletLoading,
 }) => {
   const addressToRender = address ? getShortAddress(address) : '';
 
@@ -32,16 +31,6 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
       width: 440,
       title: 'Wallet',
     });
-
-  const connectButton = (
-    <Button
-      size="large"
-      className="connect-wallet__connect-btn"
-      onClick={openChooseWalletModal}
-    >
-      {isWalletLoading ? 'Connect to a wallet' : <LoadingOutlined />}
-    </Button>
-  );
 
   const addressButton = (
     <Box borderRadius="m">
@@ -64,5 +53,9 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
     </Box>
   );
 
-  return isWalletConnected && balance ? addressButton : connectButton;
+  return isWalletConnected && balance ? (
+    addressButton
+  ) : (
+    <ConnectWalletButton size="large" className="connect-wallet__connect-btn" />
+  );
 };

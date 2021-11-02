@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { ReactComponent as Empty } from '../../../assets/icons/empty.svg';
-import { openChooseWalletModal } from '../../../components/ChooseWalletModal/main';
+import { ConnectWalletButton } from '../../../components/common/ConnectWalletButton/ConnectWalletButton';
 import { Box, Button, Col, Row, Typography } from '../../../ergodex-cdk';
 
 interface EmptyPositionsListProps {
@@ -28,9 +28,7 @@ const EmptyPositionsList: React.FC<EmptyPositionsListProps> = ({
       <Row justify="center" align="middle">
         <Col>
           {!isWalletConnected ? (
-            <Button type="primary" onClick={openChooseWalletModal}>
-              Connect to a wallet
-            </Button>
+            <ConnectWalletButton />
           ) : (
             <Button type="primary">+ New position</Button>
           )}

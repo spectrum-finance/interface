@@ -1,105 +1,106 @@
 import './Swap.less';
 
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 
-import { SubmitButton } from '../../components/SubmitButton/SubmitButton';
-import { TokenInput } from '../../components/TokenInput/TokenInput';
-import { TokenListModal } from '../../components/TokenListModal/TokenListModal';
 import {
-  Box,
+  ActionForm,
+  ActionFormStrategy,
+} from '../../components/common/ActionForm/ActionForm';
+import {
+  TokenControlFormItem,
+  TokenControlValue,
+} from '../../components/common/TokenControl/TokenControl';
+import { FormPageWrapper } from '../../components/FormPageWrapper/FormPageWrapper';
+import {
   Button,
-  Col,
+  Flex,
+  Form,
+  FormInstance,
   HistoryOutlined,
-  Modal,
-  Row,
   SettingOutlined,
   SwapOutlined,
   Typography,
 } from '../../ergodex-cdk';
 
-export const Swap: React.FC = () => {
-  const [fromValue, setFromValue] = useState('');
-  const [fromTokenName, setFromTokenName] = useState('ERG');
-  const [fromTokenBalance] = useState(0);
-  const [fromTokenPrice] = useState(335);
-  const [toValue, setToValue] = useState('');
-  const [toTokenName, setToTokenName] = useState('');
-  const [toTokenBalance] = useState(0);
-  const [toTokenPrice] = useState(335);
+interface SwapFormModel {
+  readonly from: TokenControlValue;
+  readonly to: TokenControlValue;
+}
 
-  const handleSelectFromToken = (onSelectChanged: (name: string) => void) => {
-    Modal.open(
-      ({ close }) => (
-        <TokenListModal close={close} onSelectChanged={onSelectChanged} />
-      ),
-      { title: 'Select a token' },
-    );
+class SwapStrategy implements ActionFormStrategy {
+  actionButtonCaption(): React.ReactNode {
+    return 'Swap';
+  }
+
+  getInsufficientTokenForFee(form: FormInstance): string | undefined {
+    return undefined;
+  }
+
+  getInsufficientTokenForTx(form: FormInstance): string | undefined {
+    return 'ERG';
+  }
+
+  isAmountNotEntered(form: FormInstance<SwapFormModel>): boolean {
+    const value = form.getFieldsValue();
+
+    return !value.from?.amount?.value || !value.to?.amount?.value;
+  }
+
+  isTokensNotSelected(form: FormInstance<SwapFormModel>): boolean {
+    const value = form.getFieldsValue();
+
+    return !value.to?.token || !value.from?.token;
+  }
+
+  request(form: FormInstance): Promise<any> {
+    return Promise.resolve(undefined);
+  }
+
+  isLiquidityInsufficient(form: FormInstance<any>): boolean {
+    return false;
+  }
+}
+
+export const Swap = () => {
+  const [form] = Form.useForm<SwapFormModel>();
+  const swapStrategy = new SwapStrategy();
+
+  const swapTokens = () => {
+    form.setFieldsValue({
+      from: form.getFieldsValue().to,
+      to: form.getFieldsValue().from,
+    });
   };
 
   return (
-    <Row align="middle" justify="center">
-      <Col span={7}>
-        <Box className="swap" formWrapper borderRadius="l" padding={6}>
-          <Row bottomGutter={6}>
-            <Col span={18}>
+    <FormPageWrapper width={480}>
+      <ActionForm
+        form={form}
+        strategy={swapStrategy}
+        initialValues={{ from: { token: 'ERG' } }}
+      >
+        <Flex flexDirection="col">
+          <Flex flexDirection="row" alignItems="center">
+            <Flex.Item flex={1}>
               <Typography.Title level={4}>Swap</Typography.Title>
-              <Typography.Text className="swap__network">
-                Ergo network
-              </Typography.Text>
-            </Col>
-            <Col span={5} offset={1}>
-              <Row className="swap__right-top" justify="end">
-                <Button size="large" type="text" icon={<SettingOutlined />} />
-                <Button size="large" type="text" icon={<HistoryOutlined />} />
-              </Row>
-            </Col>
-          </Row>
-          <Row bottomGutter={4}>
-            <Col>
-              <Row bottomGutter={1}>
-                <Col>
-                  <TokenInput
-                    value={fromValue}
-                    onChange={setFromValue}
-                    tokenName={fromTokenName}
-                    balance={fromTokenBalance}
-                    tokenPrice={fromTokenPrice}
-                    onSelectToken={() =>
-                      handleSelectFromToken(setFromTokenName)
-                    }
-                    label="From"
-                  />
-                </Col>
-              </Row>
-              <Box className="swap__switch-btn-wrapper" transparent>
-                <Button
-                  className="swap__switch-btn"
-                  size="large"
-                  icon={<SwapOutlined />}
-                />
-              </Box>
-              <Row>
-                <Col>
-                  <TokenInput
-                    value={toValue}
-                    onChange={setToValue}
-                    tokenName={toTokenName}
-                    balance={toTokenBalance}
-                    tokenPrice={toTokenPrice}
-                    onSelectToken={() => handleSelectFromToken(setToTokenName)}
-                    label="To"
-                  />
-                </Col>
-              </Row>
-            </Col>
-          </Row>
-          <Row>
-            <Col span={24}>
-              <SubmitButton>Swap</SubmitButton>
-            </Col>
-          </Row>
-        </Box>
-      </Col>
-    </Row>
+            </Flex.Item>
+            <Button size="large" type="text" icon={<SettingOutlined />} />
+            <Button size="large" type="text" icon={<HistoryOutlined />} />
+          </Flex>
+          <Flex.Item marginBottom={6}>
+            <Typography.Footnote>Ergo network</Typography.Footnote>
+          </Flex.Item>
+          <Flex.Item marginBottom={1}>
+            <TokenControlFormItem name="from" label="From" maxButton />
+          </Flex.Item>
+          <Flex.Item className="swap-button">
+            <Button onClick={swapTokens} icon={<SwapOutlined />} size="large" />
+          </Flex.Item>
+          <Flex.Item marginBottom={4}>
+            <TokenControlFormItem name="to" label="To" />
+          </Flex.Item>
+        </Flex>
+      </ActionForm>
+    </FormPageWrapper>
   );
 };

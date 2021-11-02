@@ -1,28 +1,11 @@
-.swap {
-  width: 480px;
-  box-sizing: border-box;
+.swap-button {
+  position: relative;
 
-  &__btn {
-    height: 52px;
-    font-size: 20px;
-    line-height: 28px;
-  }
-
-  &__right-top {
-    svg {
-      color: var(--ergo-swap-form-icon);
-    }
-  }
-
-  &__switch-btn {
-    transform: rotate(90deg);
-
-    &-wrapper {
-      position: absolute;
-      z-index: 3;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
+  button {
+    position:  absolute;
+    z-index:   1;
+    top:       50%;
+    left:      50%;
+    transform: rotate(-90deg) translate(50%, -50%);
   }
 }

@@ -11,8 +11,8 @@ import {
   Flex,
   Menu,
   Typography,
-} from '../../ergodex-cdk';
-import { TokenIcon } from '../TokenIcon/TokenIcon';
+} from '../../../ergodex-cdk';
+import { TokenIcon } from '../../TokenIcon/TokenIcon';
 
 type Network = { name: string; token: string; isDisabled: boolean };
 

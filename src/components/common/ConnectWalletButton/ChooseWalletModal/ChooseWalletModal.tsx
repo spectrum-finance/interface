@@ -2,10 +2,10 @@ import './ChooseWalletModal.less';
 
 import React, { useState } from 'react';
 
-import { ReactComponent as YoroiLogo } from '../../assets/icons/yoroi-logo-icon.svg';
-import { useWallet } from '../../context';
-import { Alert, Button, Row, Typography } from '../../ergodex-cdk';
-import { connectYoroiWallet } from '../../utils/wallet/walletsOperations';
+import { ReactComponent as YoroiLogo } from '../../../../assets/icons/yoroi-logo-icon.svg';
+import { useWallet } from '../../../../context';
+import { Alert, Button, Row, Typography } from '../../../../ergodex-cdk';
+import { connectYoroiWallet } from '../../../../utils/wallet/walletsOperations';
 
 const { Body } = Typography;
 
@@ -73,9 +73,9 @@ const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
 
   return (
     <>
-      {wallets.map((wallet, index) => {
-        return <WalletItem key={index} close={close} wallet={wallet} />;
-      })}
+      {wallets.map((wallet, index) => (
+        <WalletItem key={index} close={close} wallet={wallet} />
+      ))}
     </>
   );
 };

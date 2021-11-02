@@ -4,11 +4,11 @@ import React from 'react';
 
 import { useWallet } from '../../context';
 import { Logo } from '../../ergodex-cdk';
-import { ConnectWallet } from '../ConnectWallet/ConnectWallet';
-import { NetworkDropdown } from '../NetworkDropdown/NetworkDropdown';
 import { BurgerMenu } from './BurgerMenu/BurgerMenu';
+import { ConnectWallet } from './ConnectWallet/ConnectWallet';
 import { GlobalSettings } from './GlobalSettings/GlobalSettings';
 import { HeaderTabs } from './HeaderTabs';
+import { NetworkDropdown } from './NetworkDropdown/NetworkDropdown';
 
 const networks = [
   { name: 'ergo', token: 'erg', isDisabled: false },
