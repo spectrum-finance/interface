@@ -23,10 +23,10 @@ import {
   RightOutlined,
   SettingOutlined,
 } from '../../ergodex-cdk';
-import { ConnectWallet } from '../ConnectWallet/ConnectWallet';
-import { NetworkDropdown } from '../NetworkDropdown/NetworkDropdown';
 import { ThemeSwitch } from '../ThemeSwitch/ThemeSwitch';
+import { ConnectWallet } from './ConnectWallet/ConnectWallet';
 import { HeaderTabs } from './HeaderTabs';
+import { NetworkDropdown } from './NetworkDropdown/NetworkDropdown';
 
 const DotsSVG = () => (
   <svg
