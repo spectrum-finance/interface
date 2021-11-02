@@ -8,12 +8,22 @@ import { TokenIcon } from '../TokenIcon/TokenIcon';
 interface TokenSelectProps {
   name?: string | null;
   onTokenSelect?: React.MouseEventHandler<HTMLElement>;
+  className?: string | null;
+  disable?: boolean | false;
 }
 
-const TokenSelect: React.FC<TokenSelectProps> = ({ name, onTokenSelect }) => (
+const TokenSelect: React.FC<TokenSelectProps> = ({
+  name,
+  onTokenSelect,
+  className,
+  disable,
+}) => (
   <>
     {name ? (
-      <button className="token-select_selected" onClick={onTokenSelect}>
+      <button
+        className={'token-select_selected ' + className}
+        onClick={onTokenSelect}
+      >
         <span className="token-select_selected_container">
           <TokenIcon
             name={name ?? 'empty'}

@@ -8,17 +8,19 @@ import { escapeRegExp } from './format';
 const inputRegex = RegExp(`^\\d*(?:\\\\[.])?\\d*$`); // match escaped "." characters via in a non-capturing group
 
 interface SwapInputProps {
-  value: string;
+  value?: string | '';
   onChange: (input: string) => void;
   tokenName?: string | null;
-  balance?: number;
+  tokenPrice?: number;
+  disable?: boolean | false;
 }
 
 const SwapInput: React.FC<SwapInputProps> = ({
   value,
   onChange,
+  tokenPrice,
   tokenName,
-  balance,
+  disable,
 }) => {
   const enforcer = (nextUserInput: string) => {
     if (nextUserInput.startsWith('.')) {
@@ -39,11 +41,17 @@ const SwapInput: React.FC<SwapInputProps> = ({
           }}
           placeholder="0.0"
           suffix={
-            <Typography.Text>
-              Balance: {balance} {tokenName.toUpperCase()}
-            </Typography.Text>
+            <>
+              {tokenPrice && value && (
+                <Typography.Text className="swap-input__usd-price">
+                  ~$
+                  {(tokenPrice * parseFloat(value)).toFixed(2)}
+                </Typography.Text>
+              )}
+            </>
           }
           size="large"
+          disabled={disable}
         />
       ) : (
         <Input
@@ -53,6 +61,7 @@ const SwapInput: React.FC<SwapInputProps> = ({
           }}
           placeholder="0.0"
           size="large"
+          disabled={disable}
         />
       )}
     </Box>

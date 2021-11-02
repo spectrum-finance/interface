@@ -15,6 +15,7 @@ import { globalHistory } from './createBrowserHistory';
 import { ContextModalProvider } from './ergodex-cdk';
 import { useBodyClass } from './hooks/useBodyClass';
 import { Swap } from './pages';
+import { AddLiquidity } from './pages/Pool/AddLiquidity/AddLiquidity';
 import { Pool } from './pages/Pool/Pool';
 
 const NotFound = () => <Redirect to="/swap" />;
@@ -47,6 +48,7 @@ export const App: React.FC = () => {
                     </Route>
                     <Route path="/swap" exact component={Swap} />
                     <Route path="/pool" exact component={Pool} />
+                    <Route path="/pool/add" exact component={AddLiquidity} />
                     <Route component={NotFound} />
                   </Switch>
                 </Layout>

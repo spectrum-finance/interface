@@ -22,11 +22,11 @@ import {
 export const Swap: React.FC = () => {
   const [fromValue, setFromValue] = useState('');
   const [fromTokenName, setFromTokenName] = useState('ERG');
-  const [fromTokenBalance] = useState(0);
+  const [fromTokenBalance] = useState(0.02);
   const [fromTokenPrice] = useState(335);
   const [toValue, setToValue] = useState('');
   const [toTokenName, setToTokenName] = useState('');
-  const [toTokenBalance] = useState(0);
+  const [toTokenBalance] = useState(0.02);
   const [toTokenPrice] = useState(335);
 
   const handleSelectFromToken = (onSelectChanged: (name: string) => void) => {

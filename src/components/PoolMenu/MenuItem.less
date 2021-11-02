@@ -1,0 +1,58 @@
+.menu-item {
+  display: flex;
+  padding: 1px !important;
+  margin: 8px 0;
+  background-color: transparent;
+
+  &__box {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin-left: 10px;
+    background-color: transparent;
+
+    &-left {
+      display: flex;
+      flex-direction: column;
+      background-color: transparent;
+
+      &-symbol {
+        font-size: 14px !important;
+        font-weight: 600 !important;
+        line-height: 22px !important;
+      }
+      &-name {
+        font-size: 10px !important;
+        line-height: 12px !important;
+      }
+    }
+
+    &-percent {
+      position: absolute;
+      right: 0;
+      padding: 3px;
+      margin-top: auto !important;
+      margin-bottom: auto !important;
+      background-color: var(--ergo-box-bg-contrast) !important;
+      color: var(--ergo-primary-text);
+      font-size: 14px;
+      line-height: 22px;
+    }
+  }
+
+  &__icon-left {
+    margin: auto;
+    svg {
+      width: 40px !important;
+      height: 40px !important;
+    }
+  }
+  &__icon-right {
+    margin-left: -10px;
+    svg {
+      width: 40px !important;
+      height: 40px !important;
+    }
+  }
+}
+  
