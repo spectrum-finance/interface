@@ -1,3 +1,5 @@
+import { instance } from '@storybook/node-logger';
+
 const DOT_SYMBOL = '.';
 
 export const truncate = (id: string): string => {
@@ -20,3 +22,17 @@ export const toFloat = (value: string, maxDecimals?: number): string => {
 };
 
 export const toInt = (value: string): string => value.replace(/[^0-9]/g, '');
+
+type PatternArg<T> = [((value: T) => any) | T, string];
+export const pattern = <T = any>(
+  value: T,
+  ...args: PatternArg<T>[]
+): string | undefined => {
+  const arg = args.find(([condition]) =>
+    condition instanceof Function
+      ? condition(value)
+      : (condition as any) === value,
+  );
+
+  return arg ? arg[1] : undefined;
+};
