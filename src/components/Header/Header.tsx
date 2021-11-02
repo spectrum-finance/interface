@@ -11,8 +11,8 @@ import { GlobalSettings } from './GlobalSettings/GlobalSettings';
 import { HeaderTabs } from './HeaderTabs';
 
 const networks = [
-  { name: 'ergo', token: 'erg' },
-  { name: 'cardano', token: 'ada' },
+  { name: 'ergo', token: 'erg', isDisabled: false },
+  { name: 'cardano', token: 'ada', isDisabled: true },
 ];
 
 export const Header: React.FC = () => {

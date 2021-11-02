@@ -6,7 +6,15 @@ interface TokenIconProps extends SVGSVGElement {
   name?: string;
 }
 
-const accessibleTokens = ['ERG', 'ADA', 'SigUSD', 'SigRSV', 'Kushti', 'Erdoge'];
+const accessibleTokens = [
+  'ERG',
+  'ADA',
+  'SigUSD',
+  'SigRSV',
+  'Kushti',
+  'Erdoge',
+  'ADA-disabled',
+];
 
 const TokenIcon: React.FC<React.SVGProps<TokenIconProps>> = (props) => {
   const isAccessibleToken = accessibleTokens.some(
