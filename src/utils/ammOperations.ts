@@ -10,7 +10,7 @@ import {
 
 import { ERG_DECIMALS } from '../constants/erg';
 import { ammOrderRefunds } from '../services/amm';
-import explorer from '../services/explorer';
+import { explorer } from '../services/explorer';
 import { parseUserInputToFractions } from './math';
 
 interface RefundParams {

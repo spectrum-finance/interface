@@ -1,3 +1,4 @@
+import { publicKeyFromAddress } from '@ergolabs/ergo-sdk';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
 import { useSettings } from './SettingsContext';
@@ -59,7 +60,11 @@ export const WalletAddressesProvider = ({
       loadedAddresses(settings.address).then((data: WalletAddresses) => {
         setWalletAddress(data);
         if (data.state === WalletAddressState.LOADED) {
-          setSettings({ ...settings, address: data.selectedAddress });
+          setSettings({
+            ...settings,
+            address: data.selectedAddress,
+            pk: publicKeyFromAddress(data.selectedAddress),
+          });
         }
       });
     } else if (

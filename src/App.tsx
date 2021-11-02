@@ -50,7 +50,7 @@ export const App: React.FC = () => {
                       </Route>
                       <Route path="/swap" exact component={Swap} />
                       <Route path="/pool" exact component={Pool} />
-                      <Route path="/remove" exact component={Remove} />
+                      <Route path="/remove/:poolId" exact component={Remove} />
                       <Route component={NotFound} />
                     </Switch>
                   </Layout>

@@ -2,17 +2,15 @@ import React, { useContext } from 'react';
 
 import { WalletContext } from '../../context';
 import { Col, Row, Typography } from '../../ergodex-cdk';
-import { useAvailablePositions } from '../../hooks/useAvailablePositions';
-import { useUTXOs } from '../../hooks/useUTXOs';
+import { useNetworkPools } from '../../hooks/useNetworkPools';
 import { EmptyPositionsList } from './EmptyPositionsList/EmptyPositionsList';
 import { LiquidityPositionsList } from './LiquidityPositionsList/LiquidityPositionsList';
 import { LPGuide } from './LPGuide/LPGuide';
 
 const Pool = (): JSX.Element => {
   const { isWalletConnected } = useContext(WalletContext);
-  const UTXOs = useUTXOs();
   // TODO:REFACTOR_POSITIONS_AFTER_YOROI_FIX[EDEX-444]
-  const positions = useAvailablePositions(UTXOs);
+  const positions = useNetworkPools();
 
   return (
     <Row align="middle" justify="center">
@@ -29,7 +27,7 @@ const Pool = (): JSX.Element => {
         </Row>
         <Row>
           <Col span={24}>
-            {!isWalletConnected || !positions ? (
+            {!isWalletConnected ? (
               <EmptyPositionsList isWalletConnected={isWalletConnected} />
             ) : (
               <LiquidityPositionsList positions={positions} />

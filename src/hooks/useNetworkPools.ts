@@ -1,16 +1,17 @@
 import { AmmPool } from '@ergolabs/ergo-dex-sdk';
-import { ErgoBox } from '@ergolabs/ergo-sdk';
 import { useEffect, useState } from 'react';
 
 import { nativeNetworkPools, networkPools } from '../services/networkPools';
 import { getListAvailableTokens } from '../utils/getListAvailableTokens';
+import { useUTXOs } from './useUTXOs';
 
-export const useAvailablePositions = (utxos: ErgoBox[]): AmmPool[] | null => {
-  const [pools, setPools] = useState<AmmPool[] | null>(null);
+export const useNetworkPools = (): AmmPool[] | [] => {
+  const [pools, setPools] = useState<AmmPool[] | []>([]);
+  const UTXOs = useUTXOs();
 
   useEffect(() => {
-    if (utxos.length > 0) {
-      const tokenIds = Object.values(getListAvailableTokens(utxos)).map(
+    if (UTXOs.length > 0) {
+      const tokenIds = Object.values(getListAvailableTokens(UTXOs)).map(
         (token) => token.tokenId,
       );
       nativeNetworkPools()
@@ -29,7 +30,7 @@ export const useAvailablePositions = (utxos: ErgoBox[]): AmmPool[] | null => {
         // TODO: resolve network error
         .catch((e) => console.error(e));
     }
-  }, [utxos]);
+  }, [UTXOs]);
 
   return pools;
 };

@@ -14,7 +14,7 @@ import {
 } from '../../../ergodex-cdk';
 import { TokenIcon } from '../../TokenIcon/TokenIcon';
 
-type Network = { name: string; token: string };
+type Network = { name: string; token: string; isDisabled: boolean };
 
 interface NetworkDropdownProps {
   networks: Array<Network>;
@@ -38,9 +38,13 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
         }
       }}
     >
-      {networks.map((network) => (
-        <Menu.Item key={network.name} icon={<TokenIcon name={network.token} />}>
-          {capitalize(network.name)}
+      {networks.map(({ name, token, isDisabled }) => (
+        <Menu.Item
+          key={name}
+          icon={<TokenIcon name={!isDisabled ? token : `${token}-disabled`} />}
+          disabled={isDisabled}
+        >
+          {capitalize(name)}
         </Menu.Item>
       ))}
     </Menu>
@@ -63,11 +67,11 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
             />
           </Flex.Item>
           <Flex.Item marginRight={1}>
-            <Typography.Text
+            <Typography.Body
               style={{ color: 'var(--ergo-networkdropdown-hover-focus-color)' }}
             >
               {capitalize(network.name)}
-            </Typography.Text>
+            </Typography.Body>
           </Flex.Item>
           <Flex.Item>
             <DownOutlined

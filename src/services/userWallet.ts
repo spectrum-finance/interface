@@ -1,7 +1,7 @@
 import { NativeAssetId, NativeAssetInfo } from '@ergolabs/ergo-sdk';
 import { AssetAmount, ergoBoxFromProxy, TokenId } from '@ergolabs/ergo-sdk';
 
-import explorer from './explorer';
+import { explorer } from './explorer';
 
 /** List all assets belonging to the current wallet.
  */

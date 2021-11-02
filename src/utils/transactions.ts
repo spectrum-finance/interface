@@ -1,11 +1,11 @@
 import { parseUserInputToFractions, renderFractions } from './math';
 
 export const calculateTotalFee = (
-  fees: string[],
+  fees: number[],
   precision: number,
 ): string => {
   const feeSum = fees.reduce(
-    (acc: bigint, fee: string) =>
+    (acc: bigint, fee: number) =>
       parseUserInputToFractions(fee, precision) + acc,
     0n,
   );
