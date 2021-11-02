@@ -12,6 +12,7 @@ import {
   TokenControlFormItem,
   TokenControlValue,
 } from '../../components/common/TokenControl/TokenControl';
+import { FormPageWrapper } from '../../components/FormPageWrapper/FormPageWrapper';
 import {
   Box,
   Button,
@@ -73,40 +74,34 @@ export const Swap = () => {
   };
 
   return (
-    <Flex justify="center">
-      <Box formWrapper padding={6} className="swap" borderRadius="l">
-        <ActionForm
-          form={form}
-          strategy={swapStrategy}
-          initialValues={{ from: { token: 'ERG' } }}
-        >
-          <Flex flexDirection="col">
-            <Flex flexDirection="row" alignItems="center">
-              <Flex.Item flex={1}>
-                <Typography.Title level={4}>Swap</Typography.Title>
-              </Flex.Item>
-              <Button size="large" type="text" icon={<SettingOutlined />} />
-              <Button size="large" type="text" icon={<HistoryOutlined />} />
-            </Flex>
-            <Flex.Item marginBottom={6}>
-              <Typography.Footnote>Ergo network</Typography.Footnote>
+    <FormPageWrapper width={480}>
+      <ActionForm
+        form={form}
+        strategy={swapStrategy}
+        initialValues={{ from: { token: 'ERG' } }}
+      >
+        <Flex flexDirection="col">
+          <Flex flexDirection="row" alignItems="center">
+            <Flex.Item flex={1}>
+              <Typography.Title level={4}>Swap</Typography.Title>
             </Flex.Item>
-            <Flex.Item marginBottom={1}>
-              <TokenControlFormItem name="from" label="From" maxButton />
-            </Flex.Item>
-            <Flex.Item className="swap-button">
-              <Button
-                onClick={swapTokens}
-                icon={<SwapOutlined />}
-                size="large"
-              />
-            </Flex.Item>
-            <Flex.Item marginBottom={4}>
-              <TokenControlFormItem name="to" label="To" />
-            </Flex.Item>
+            <Button size="large" type="text" icon={<SettingOutlined />} />
+            <Button size="large" type="text" icon={<HistoryOutlined />} />
           </Flex>
-        </ActionForm>
-      </Box>
-    </Flex>
+          <Flex.Item marginBottom={6}>
+            <Typography.Footnote>Ergo network</Typography.Footnote>
+          </Flex.Item>
+          <Flex.Item marginBottom={1}>
+            <TokenControlFormItem name="from" label="From" maxButton />
+          </Flex.Item>
+          <Flex.Item className="swap-button">
+            <Button onClick={swapTokens} icon={<SwapOutlined />} size="large" />
+          </Flex.Item>
+          <Flex.Item marginBottom={4}>
+            <TokenControlFormItem name="to" label="To" />
+          </Flex.Item>
+        </Flex>
+      </ActionForm>
+    </FormPageWrapper>
   );
 };
