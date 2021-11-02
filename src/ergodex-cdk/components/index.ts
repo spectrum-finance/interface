@@ -12,6 +12,7 @@ export * from './Menu/Menu';
 export * from './Modal/Modal';
 export * from './Popover/Popover';
 export * from './Row/Row';
+export * from './Skeleton/Skeleton';
 export * from './Slider/Slider';
 export * from './Space/Space';
 export * from './Switch/Switch';
