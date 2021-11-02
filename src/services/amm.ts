@@ -6,7 +6,7 @@ import {
 
 import { mainnetTxAssembler } from './defaultTxAssembler';
 import { explorer } from './explorer';
-import yoroiProver from './yoroiProver';
+import yoroiProver from './yoroi/prover';
 
 export const ammOrderRefunds = new AmmOrderRefunds(
   explorer,

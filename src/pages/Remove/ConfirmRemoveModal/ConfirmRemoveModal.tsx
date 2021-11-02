@@ -3,7 +3,6 @@ import {
   AssetAmount,
   BoxSelection,
   DefaultBoxSelector,
-  ergoTxToProxy,
 } from '@ergolabs/ergo-sdk';
 import React from 'react';
 
@@ -15,6 +14,7 @@ import { Box, Button, Flex, Typography } from '../../../ergodex-cdk';
 import { useUTXOs } from '../../../hooks/useUTXOs';
 import { explorer as network } from '../../../services/explorer';
 import { poolActions } from '../../../services/poolActions';
+import { submitTx } from '../../../services/yoroi';
 import { makeTarget } from '../../../utils/ammMath';
 import {
   parseUserInputToFractions,
@@ -80,7 +80,7 @@ const ConfirmRemoveModal: React.FC<ConfirmRemoveModalProps> = ({
           },
         )
         .then(async (tx) => {
-          await ergo.submit_tx(ergoTxToProxy(tx));
+          await submitTx(tx);
         })
         // TODO: HANDLE_ERROR_STATE_WITH_MODAL_CHAINING[EDEX-466]
         .catch((err) => console.log(err))
