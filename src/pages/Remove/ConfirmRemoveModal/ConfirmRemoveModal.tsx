@@ -5,14 +5,13 @@ import {
   DefaultBoxSelector,
   ergoTxToProxy,
 } from '@ergolabs/ergo-sdk';
-import { Typography } from 'antd';
 import React from 'react';
 
 import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
 import { ERG_DECIMALS, UI_FEE } from '../../../constants/erg';
-import { DexFeeDefault } from '../../../constants/settings';
+import { defaultExFee } from '../../../constants/settings';
 import { useSettings } from '../../../context';
-import { Box, Button, Flex } from '../../../ergodex-cdk';
+import { Box, Button, Flex, Typography } from '../../../ergodex-cdk';
 import { useUTXOs } from '../../../hooks/useUTXOs';
 import { explorer as network } from '../../../services/explorer';
 import { poolActions } from '../../../services/poolActions';
@@ -42,22 +41,17 @@ const ConfirmRemoveModal: React.FC<ConfirmRemoveModalProps> = ({
   const UTXOs = useUTXOs();
   const [{ minerFee, address, pk }] = useSettings();
 
-  const uiFee = UI_FEE;
-  const exFee = parseUserInputToFractions(String(DexFeeDefault), ERG_DECIMALS);
+  const uiFeeNErg = parseUserInputToFractions(UI_FEE, ERG_DECIMALS);
+  const exFeeNErg = parseUserInputToFractions(defaultExFee, ERG_DECIMALS);
+  const minerFeeNErgs = parseUserInputToFractions(minerFee, ERG_DECIMALS);
 
   const totalFees = calculateTotalFee(
-    [
-      minerFee,
-      renderFractions(uiFee, ERG_DECIMALS),
-      renderFractions(exFee, ERG_DECIMALS),
-    ],
+    [minerFee, UI_FEE, defaultExFee],
     ERG_DECIMALS,
   );
 
   const removeOperation = async (position: AmmPool, lp: AssetAmount) => {
     const actions = poolActions(position);
-
-    const minerFeeNErgs = parseUserInputToFractions(minerFee, ERG_DECIMALS);
 
     const poolId = position.id;
 
@@ -68,13 +62,16 @@ const ConfirmRemoveModal: React.FC<ConfirmRemoveModalProps> = ({
             poolId,
             pk,
             lp,
-            exFee,
-            uiFee,
+            exFee: exFeeNErg,
+            uiFee: uiFeeNErg,
           },
           {
             inputs: DefaultBoxSelector.select(
               UTXOs,
-              makeTarget([lp], minValueForOrder(minerFeeNErgs, uiFee, exFee)),
+              makeTarget(
+                [lp],
+                minValueForOrder(minerFeeNErgs, uiFeeNErg, exFeeNErg),
+              ),
             ) as BoxSelection,
             changeAddress: address,
             selfAddress: address,
@@ -116,16 +113,14 @@ const ConfirmRemoveModal: React.FC<ConfirmRemoveModalProps> = ({
                         <Flex.Item>
                           <Flex justify="space-between">
                             <Flex.Item>Execution Fee:</Flex.Item>
-                            <Flex.Item>
-                              {renderFractions(exFee, ERG_DECIMALS)} ERG
-                            </Flex.Item>
+                            <Flex.Item>{defaultExFee} ERG</Flex.Item>
                           </Flex>
                         </Flex.Item>
                         <Flex.Item>
                           <Flex justify="space-between">
                             <Flex.Item>UI Fee:</Flex.Item>
                             <Flex.Item>
-                              {renderFractions(uiFee, ERG_DECIMALS)} ERG
+                              {renderFractions(UI_FEE, ERG_DECIMALS)} ERG
                             </Flex.Item>
                           </Flex>
                         </Flex.Item>

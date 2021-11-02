@@ -24,7 +24,7 @@ const GlobalSettings = (): JSX.Element => {
   const [explorerUrl, setExplorerUrl] = useState(settings.explorerUrl);
 
   const handleChangeMinerFee: ChangeEventHandler<HTMLInputElement> = (v) => {
-    setMinerFee(v.target.value);
+    setMinerFee(Number(v.target.value));
   };
 
   const handleChangeExplorerUrl: ChangeEventHandler<HTMLInputElement> = (v) => {
@@ -32,7 +32,7 @@ const GlobalSettings = (): JSX.Element => {
   };
 
   const handleClickMinimal = () => {
-    setMinerFee(defaultMinerFee.toString());
+    setMinerFee(defaultMinerFee);
   };
 
   const submitGlobalSettings = () => {

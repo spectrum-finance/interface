@@ -24,10 +24,14 @@ export const math = create(all, mathConf) as Partial<MathJsStatic>;
 export const allowedNumPat = new RegExp(/^\d+\.?\d*$/);
 
 export function parseUserInputToFractions(
-  rawInput: string,
+  rawInput: string | number,
   numDecimals?: number,
 ): bigint {
-  const safeInput = allowedNumPat.test(rawInput) ? rawInput : '0';
+  const safeInput = allowedNumPat.test(
+    typeof rawInput === 'number' ? String(rawInput) : rawInput,
+  )
+    ? rawInput
+    : '0';
   const input = math.format!(
     math.evaluate!(`${safeInput} * 10^${numDecimals || 0}`),
     formatOptions,
