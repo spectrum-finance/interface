@@ -1,18 +1,21 @@
 import { useLocalStorage } from '@rehooks/local-storage';
 import React, { createContext, useContext } from 'react';
 
-import { MinerFeeDefault, SlippageDefault } from '../constants/settings';
 // import { LocalStorageReturnValue } from '@rehooks/local-storage/lib/use-localstorage';
+import { ERG_EXPLORER_URL } from '../constants/env';
+import { defaultMinerFee, defaultSlippage } from '../constants/settings';
 
 export type Settings = {
   minerFee: string;
   slippage: string;
   address?: string;
+  explorerUrl: string;
 };
 
 export const DefaultSettings: Readonly<Settings> = {
-  minerFee: MinerFeeDefault.toString(),
-  slippage: String(SlippageDefault),
+  minerFee: defaultMinerFee.toString(),
+  slippage: defaultSlippage.toString(),
+  explorerUrl: ERG_EXPLORER_URL,
 };
 
 function noop() {

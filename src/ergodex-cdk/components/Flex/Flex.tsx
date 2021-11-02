@@ -8,6 +8,7 @@ type ItemsProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
   HTMLDivElement
 > & {
+  display?: 'flex';
   order?: number;
   marginBottom?: number;
   marginTop?: number;
@@ -18,6 +19,7 @@ type ItemsProps = React.DetailedHTMLProps<
 
 const Item: FC<ItemsProps> = ({
   children,
+  display,
   style,
   order,
   marginBottom,
@@ -31,6 +33,7 @@ const Item: FC<ItemsProps> = ({
     style={{
       ...(style || {}),
       order,
+      display: display && display,
       flex,
       marginBottom: `calc(var(--ergo-base-gutter) * ${marginBottom})`,
       marginTop: `calc(var(--ergo-base-gutter) * ${marginTop})`,
@@ -89,7 +92,7 @@ export const Flex: FC<FlexProps> & { Item: FC<ItemsProps> } = ({
 );
 
 Flex.defaultProps = {
-  flexDirection: 'col',
+  flexDirection: 'row',
   justify: 'stretch',
   alignItems: 'stretch',
 };

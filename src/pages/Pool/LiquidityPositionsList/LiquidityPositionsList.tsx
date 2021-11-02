@@ -9,6 +9,7 @@ import {
 } from '../../../components/TokenIconPair/TokenIconPair';
 import { Box, Col, Row, Typography } from '../../../ergodex-cdk';
 import { getPoolFee } from '../../../services/pool';
+import { PositionsLoader } from '../PositionsLoader/PositionsLoader';
 
 interface LiquidityPositionsListProps {
   positions: Array<AmmPool> | null;
@@ -41,7 +42,7 @@ const PoolPosition: React.FC<PoolPositionProps> = ({
           offset={2}
           style={{ display: 'flex', justifyContent: 'flex-end' }}
         >
-          <Box contrast inline>
+          <Box formWrapper inline>
             <Typography.Body>{getPoolFee(poolFee)}%</Typography.Body>
           </Box>
         </Col>
@@ -56,7 +57,7 @@ const LiquidityPositionsList: React.FC<LiquidityPositionsListProps> = ({
   const onPositionClick = () => {};
 
   return (
-    <Box contrast padding={[4, 2]} borderRadius="m">
+    <Box formWrapper padding={[4, 2]} borderRadius="m">
       <Box transparent padding={[0, 5]}>
         <Row bottomGutter={4}>
           <Col span={18}>
@@ -69,7 +70,7 @@ const LiquidityPositionsList: React.FC<LiquidityPositionsListProps> = ({
           </Col>
         </Row>
       </Box>
-      {positions &&
+      {positions ? (
         positions.map((position, index) => {
           return (
             <Row
@@ -88,7 +89,10 @@ const LiquidityPositionsList: React.FC<LiquidityPositionsListProps> = ({
               </Col>
             </Row>
           );
-        })}
+        })
+      ) : (
+        <PositionsLoader />
+      )}
     </Box>
   );
 };
