@@ -64,7 +64,7 @@ export const TokenControl: FC<TokenControlProps> = ({
 
   return (
     <Box padding={4} borderRadius="l">
-      <Flex>
+      <Flex flexDirection="col">
         <Flex.Item marginBottom={2}>
           <Typography.Body type="secondary">{label}</Typography.Body>
         </Flex.Item>

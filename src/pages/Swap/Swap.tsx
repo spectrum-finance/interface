@@ -73,14 +73,14 @@ export const Swap = () => {
   };
 
   return (
-    <Flex alignItems="center">
-      <Box contrast padding={6} className="swap" borderRadius="l">
+    <Flex justify="center">
+      <Box formWrapper padding={6} className="swap" borderRadius="l">
         <ActionForm
           form={form}
           strategy={swapStrategy}
           initialValues={{ from: { token: 'ERG' } }}
         >
-          <Flex>
+          <Flex flexDirection="col">
             <Flex flexDirection="row" alignItems="center">
               <Flex.Item flex={1}>
                 <Typography.Title level={4}>Swap</Typography.Title>
