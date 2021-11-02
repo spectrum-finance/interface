@@ -4,7 +4,6 @@ import { WalletContext } from '../../context';
 import { Col, Row, Typography } from '../../ergodex-cdk';
 import { useAvailablePositions } from '../../hooks/useAvailablePositions';
 import { useUTXOs } from '../../hooks/useUTXOs';
-import { isVerifiedPool, isVerifiedToken } from '../../utils/verification';
 import { EmptyPositionsList } from './EmptyPositionsList/EmptyPositionsList';
 import { LiquidityPositionsList } from './LiquidityPositionsList/LiquidityPositionsList';
 import { LPGuide } from './LPGuide/LPGuide';
