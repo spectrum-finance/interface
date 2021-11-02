@@ -2,8 +2,8 @@ import './TokenListItem.less';
 
 import React from 'react';
 
-import { Box, Typography } from '../../ergodex-cdk/components';
-import { TokenIcon } from '../TokenIcon/TokenIcon';
+import { Box, Typography } from '../../../../../ergodex-cdk/components';
+import { TokenIcon } from '../../../../TokenIcon/TokenIcon';
 
 interface TokenListItemProps {
   symbol?: string;

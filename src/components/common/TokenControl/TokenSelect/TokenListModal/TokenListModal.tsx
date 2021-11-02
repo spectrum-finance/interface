@@ -8,7 +8,7 @@ import {
   Input,
   Row,
   SearchOutlined,
-} from '../../ergodex-cdk/components/index';
+} from '../../../../../ergodex-cdk/components';
 import { TokenListItem } from './TokenListItem';
 
 interface TokenListModalProps {
