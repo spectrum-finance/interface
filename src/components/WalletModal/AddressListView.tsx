@@ -1,9 +1,12 @@
 import './AddressListView.less';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
+import { ERG_DECIMALS } from '../../constants/erg';
 import { Box, Col, Row, Typography } from '../../ergodex-cdk';
 import { Button } from '../../ergodex-cdk/components/Button/Button';
+import { getBalance } from '../../services/yoroi';
+import { renderFractions } from '../../utils/math';
 import { AddressView } from './AddressView';
 
 export const AddressListTitle: React.FC = () => {
@@ -34,6 +37,12 @@ export const AddressListItem: React.FC<AddressListItemProps> = ({
   active,
   updateActiveAddr,
 }) => {
+  const [addressBalance, setAddressBalance] = useState<any>({});
+
+  useEffect(() => {
+    getBalance(address).then(setAddressBalance);
+  }, [address]);
+
   return (
     <Box padding={[3, 2]} className="address__list-item_wrapper" transparent>
       <Row align="middle">
@@ -42,7 +51,12 @@ export const AddressListItem: React.FC<AddressListItemProps> = ({
         </Col>
         <Col span={7}>
           <Row justify="end">
-            <Typography.Text strong>100.03 ERG</Typography.Text>
+            <Typography.Text strong>{`${parseFloat(
+              renderFractions(
+                addressBalance['nanoErgs'] ? addressBalance['nanoErgs'] : 0,
+                ERG_DECIMALS,
+              ),
+            ).toFixed(2)} ERG`}</Typography.Text>
           </Row>
           <Row justify="end">
             <Typography.Text style={{ fontSize: '10px' }}>
