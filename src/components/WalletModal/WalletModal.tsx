@@ -1,19 +1,20 @@
 import './WalletModal.less';
 
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
+import { Address, useWalletAddresses, WalletAddressState } from '../../context';
 import { Box, Col, Row, Typography } from '../../ergodex-cdk';
 import { Tabs } from '../../ergodex-cdk/components/Tabs/Tabs';
-import { Address } from './Address';
 import { AddressListView } from './AddressListView';
+import { AddressView } from './AddressView';
 import { TokenListView } from './TokenListView';
 
 export const WalletModal: React.FC = () => {
-  const addressList: string[] = [
-    '0x8ac34e16940Bf89CF28d1f9C9Fa7E1',
-    '0x8a4d4e16940Bf89CF28d1f9C9FaQ4f',
-    '0x8af94e16940Bf89CF28d1f9C9Fa7R4',
-  ];
+  // const addressList: string[] = [
+  //   '0x8ac34e16940Bf89CF28d1f9C9Fa7E1',
+  //   '0x8a4d4e16940Bf89CF28d1f9C9FaQ4f',
+  //   '0x8af94e16940Bf89CF28d1f9C9Fa7R4',
+  // ];
 
   const tokenList = [
     {
@@ -36,7 +37,20 @@ export const WalletModal: React.FC = () => {
     },
   ];
 
-  const [activeRecvAddr, setActiveRecvAddr] = useState<string>(addressList[0]);
+  const [activeRecvAddr, setActiveRecvAddr] = useState<Address>('');
+
+  const walletAddresses = useWalletAddresses();
+  const addressList = useMemo(() => {
+    return walletAddresses.state === WalletAddressState.LOADED
+      ? walletAddresses.addresses
+      : [];
+  }, [walletAddresses]);
+
+  // console.log('addressses: ', addressList);
+
+  useEffect(() => {
+    setActiveRecvAddr(addressList[0]);
+  }, [addressList]);
 
   return (
     <Row className="wallet-modal__wrapper">
@@ -51,7 +65,7 @@ export const WalletModal: React.FC = () => {
             <Typography.Text className="recv_addr_lbl">
               Receive address:
             </Typography.Text>
-            <Address address={activeRecvAddr} />
+            <AddressView address={activeRecvAddr} />
           </Row>
         </Box>
       </Col>

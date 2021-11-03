@@ -4,7 +4,7 @@ import React from 'react';
 
 import { Box, Col, Row, Typography } from '../../ergodex-cdk';
 import { Button } from '../../ergodex-cdk/components/Button/Button';
-import { Address } from './Address';
+import { AddressView } from './AddressView';
 
 export const AddressListTitle: React.FC = () => {
   return (
@@ -38,7 +38,7 @@ export const AddressListItem: React.FC<AddressListItemProps> = ({
     <Box padding={[3, 2]} className="address__list-item_wrapper" transparent>
       <Row align="middle">
         <Col span={10}>
-          <Address address={address} />
+          <AddressView address={address} />
         </Col>
         <Col span={7}>
           <Row justify="end">

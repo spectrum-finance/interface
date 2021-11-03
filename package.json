@@ -20,7 +20,7 @@
     "@babel/core": "^7.15.5",
     "@babel/preset-env": "^7.15.6",
     "@craco/craco": "^6.3.0",
-    "@ergolabs/ergo-dex-sdk": "1.1.7",
+    "@ergolabs/ergo-dex-sdk": "1.1.8",
     "@ergolabs/ergo-sdk": "0.1.9",
     "@rehooks/local-storage": "2.4.0",
     "@testing-library/jest-dom": "^5.11.4",

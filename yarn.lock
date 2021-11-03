@@ -1622,27 +1622,12 @@
   resolved "https://registry.yarnpkg.com/@emotion/weak-memoize/-/weak-memoize-0.2.5.tgz#8eed982e2ee6f7f4e44c253e12962980791efd46"
   integrity sha512-6U71C2Wp7r5XtFtQzYrW5iKFT67OixrSxjI4MptCHzdSVlgabczzqLe0ZSgnub/5Kp4hSbpDB1tMytZY9pwxxA==
 
-"@ergolabs/ergo-dex-sdk@1.1.7":
-  version "1.1.7"
-  resolved "https://registry.yarnpkg.com/@ergolabs/ergo-dex-sdk/-/ergo-dex-sdk-1.1.7.tgz#c771ed9d72120853af3c2c30e572657e0c79ee35"
-  integrity sha512-8MX7TK1Z1AJRoeftd5hZbeEdSHm0FuDO2lnQuV+wGeNWSlLvDkoF1xZDTugT/bFggr9fvPla9Fjh6Mxrx8y5yA==
+"@ergolabs/ergo-dex-sdk@1.1.8":
+  version "1.1.8"
+  resolved "https://registry.yarnpkg.com/@ergolabs/ergo-dex-sdk/-/ergo-dex-sdk-1.1.8.tgz#b1662a572f3cb7bb8d6f60b32c47d7110548e70a"
+  integrity sha512-MW71tIDroravhv7zTOhkuGN67qkGFyt3gOEfqebxQ3vjpBKqMWhFs1lMPs/D4Fri4igxafUCWs8y5/o51wKtLA==
   dependencies:
-    "@ergolabs/ergo-sdk" "0.1.7"
-    axios "^0.21.1"
-    blakejs "^1.1.0"
-    bs58 "^4.0.1"
-    crypto-js "^4.0.0"
-    ergo-lib-wasm-browser "0.14.0-alpha-01cd628"
-    ergo-lib-wasm-nodejs "0.14.0-alpha-01cd628"
-    json-bigint "^1.0.0"
-    mathjs "^9.4.4"
-    ramda "0.27.1"
-
-"@ergolabs/ergo-sdk@0.1.7":
-  version "0.1.7"
-  resolved "https://registry.yarnpkg.com/@ergolabs/ergo-sdk/-/ergo-sdk-0.1.7.tgz#ec1d25b413c8f96c7e0928c0940865e3b475e162"
-  integrity sha512-7TN4wYKygU/CkfoGBbcFIj7AUbxRI/pAvSkWytMMdI3eRI/Jgj05zPTfunwImNV9CeHp8QI/Pk0G/+SQ5i8xsQ==
-  dependencies:
+    "@ergolabs/ergo-sdk" "0.1.9"
     axios "^0.21.1"
     blakejs "^1.1.0"
     bs58 "^4.0.1"
