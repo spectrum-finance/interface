@@ -5,6 +5,8 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Address, useWalletAddresses, WalletAddressState } from '../../context';
 import { Box, Col, Row, Typography } from '../../ergodex-cdk';
 import { Tabs } from '../../ergodex-cdk/components/Tabs/Tabs';
+import { useAvailableTokens } from '../../hooks/useAvailableTokens';
+import { AssetDictionary } from '../../utils/getListAvailableTokens';
 import { AddressListView } from './AddressListView';
 import { AddressView } from './AddressView';
 import { TokenListView } from './TokenListView';
@@ -46,11 +48,12 @@ export const WalletModal: React.FC = () => {
       : [];
   }, [walletAddresses]);
 
-  // console.log('addressses: ', addressList);
-
   useEffect(() => {
     setActiveRecvAddr(addressList[0]);
   }, [addressList]);
+
+  // const assets = useAvailableTokens();
+  // console.log('useAvailableTokens: ', assets);
 
   return (
     <Row className="wallet-modal__wrapper">

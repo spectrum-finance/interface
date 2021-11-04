@@ -1622,12 +1622,12 @@
   resolved "https://registry.yarnpkg.com/@emotion/weak-memoize/-/weak-memoize-0.2.5.tgz#8eed982e2ee6f7f4e44c253e12962980791efd46"
   integrity sha512-6U71C2Wp7r5XtFtQzYrW5iKFT67OixrSxjI4MptCHzdSVlgabczzqLe0ZSgnub/5Kp4hSbpDB1tMytZY9pwxxA==
 
-"@ergolabs/ergo-dex-sdk@1.1.10":
-  version "1.1.10"
-  resolved "https://registry.yarnpkg.com/@ergolabs/ergo-dex-sdk/-/ergo-dex-sdk-1.1.10.tgz#7a78878642264359050af1789f6695da56783b2d"
-  integrity sha512-UPiaQhweX7da6xpsDGKVFcCHHMFOMM55fElec5yHqyIsNsyzH0xuOQVpudXoUJOia5qyUO92GIqtjL5T+8qpBw==
+"@ergolabs/ergo-dex-sdk@1.1.11":
+  version "1.1.11"
+  resolved "https://registry.yarnpkg.com/@ergolabs/ergo-dex-sdk/-/ergo-dex-sdk-1.1.11.tgz#2951fad77c661be57d54ea2dafacba96a6fa6cf7"
+  integrity sha512-Ngq2I5mA5FUMcDEFNpHKYI3PchiT+jPQOSb0KQF7bdnIGnvYiMNfadUhL2H4HBk8sS8ZvEAbYJw5NnEhGbkZ3g==
   dependencies:
-    "@ergolabs/ergo-sdk" "0.1.11"
+    "@ergolabs/ergo-sdk" "0.1.12"
     axios "^0.21.1"
     blakejs "^1.1.0"
     bs58 "^4.0.1"
@@ -1638,10 +1638,10 @@
     mathjs "^9.4.4"
     ramda "0.27.1"
 
-"@ergolabs/ergo-sdk@0.1.11":
-  version "0.1.11"
-  resolved "https://registry.yarnpkg.com/@ergolabs/ergo-sdk/-/ergo-sdk-0.1.11.tgz#672e2314b9d52ef33ab9d4ec9f21e0acc7fb524a"
-  integrity sha512-TvkQM+A30UQAgwVlfc7M8K/Yay5x2KmJsN4s1tSC5XtafcVt30Llp9/Lw7JTks14dfaaREaU9sAsY2hgfNsRSA==
+"@ergolabs/ergo-sdk@0.1.12":
+  version "0.1.12"
+  resolved "https://registry.yarnpkg.com/@ergolabs/ergo-sdk/-/ergo-sdk-0.1.12.tgz#517fcd0d6156d5d6ef09a46bdbb1c075eb97ba6b"
+  integrity sha512-2yJDzNkZ9sJOoKs1vbrpLKXuvfeChxhP26h4RJ4yKD4KAQm6BJk5pLdhjsoEa4DhukuFOKfaaulwI3fszT8o6A==
   dependencies:
     axios "^0.21.1"
     blakejs "^1.1.0"

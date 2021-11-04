@@ -1,8 +1,11 @@
 import './TokenListView.less';
 
-import React from 'react';
+import { AssetAmount } from '@ergolabs/ergo-sdk';
+import React, { useEffect, useState } from 'react';
 
 import { Box, Col, Row, Typography } from '../../ergodex-cdk';
+import { listWalletAssets } from '../../services/userWallet';
+import { renderFractions } from '../../utils/math';
 import { TokenIcon } from '../TokenIcon/TokenIcon';
 
 interface TokenListItemProps {
@@ -58,18 +61,36 @@ interface TokenListViewProps {
 }
 
 export const TokenListView: React.FC<TokenListViewProps> = ({ tokenList }) => {
+  const [availableWalletAssets, setAvailableWalletAssets] = useState<
+    AssetAmount[] | undefined
+  >();
+
+  // const getAvailableWalletAssets = async (): Promise<any> => {
+  //   const assets = await listWalletAssets();
+  //   console.log('availableWalletAssets: ', assets);
+  // };
+
+  useEffect(() => {
+    listWalletAssets().then(setAvailableWalletAssets);
+  }, []);
+
   return (
     <Row topGutter={1}>
-      {tokenList.map((token, key) => (
-        <Col span={24} key={key}>
-          <TokenListItem
-            symbol={token.symbol}
-            name={token.name}
-            iconName={token.iconName}
-            balance={21.065}
-          />
-        </Col>
-      ))}
+      {availableWalletAssets &&
+        availableWalletAssets.map((token, key) => (
+          <Col span={24} key={key}>
+            <TokenListItem
+              symbol={token.asset.name}
+              name={token.asset.name}
+              iconName={'erg-orange'}
+              balance={Number(
+                parseFloat(
+                  renderFractions(token.amount, token.asset.decimals),
+                ).toFixed(2),
+              )}
+            />
+          </Col>
+        ))}
     </Row>
   );
 };

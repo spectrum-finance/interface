@@ -53,7 +53,7 @@ export const AddressListItem: React.FC<AddressListItemProps> = ({
           <Row justify="end">
             <Typography.Text strong>{`${parseFloat(
               renderFractions(
-                addressBalance['nanoErgs'] ? addressBalance['nanoErgs'] : 0,
+                addressBalance['nErgs'] ? addressBalance['nErgs'] : 0,
                 ERG_DECIMALS,
               ),
             ).toFixed(2)} ERG`}</Typography.Text>
