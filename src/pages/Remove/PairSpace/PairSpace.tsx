@@ -3,11 +3,10 @@ import React from 'react';
 import { TokenIcon } from '../../../components/TokenIcon/TokenIcon';
 import { Box, Flex, Typography } from '../../../ergodex-cdk';
 import { RemoveFormSpaceWrapper } from '../RemoveFormSpaceWrapper/RemoveFormSpaceWrapper';
-import { RemovableAssetPair } from '../types';
 
 interface PairSpaceProps {
   title: string;
-  pair: RemovableAssetPair;
+  pair: AssetPair;
   fees?: boolean;
 }
 

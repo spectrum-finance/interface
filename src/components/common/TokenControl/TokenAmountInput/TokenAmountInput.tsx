@@ -2,7 +2,7 @@ import './TokenAmountInput.less';
 
 import React from 'react';
 
-import { Box, Input, Typography } from '../../../../ergodex-cdk';
+import { Box, Input } from '../../../../ergodex-cdk';
 import { escapeRegExp } from './format';
 
 const inputRegex = RegExp(`^\\d*(?:\\\\[.])?\\d*$`); // match escaped "." characters via in a non-capturing group
