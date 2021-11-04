@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useEffect, useState } from 'react';
+import React, { FC, ReactNode, useState } from 'react';
 
 import { Error } from './Error';
 import { Progress } from './Progress';

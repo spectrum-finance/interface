@@ -61,7 +61,7 @@ class SwapStrategy implements ActionFormStrategy {
   }
 }
 
-export const Swap = () => {
+export const Swap = (): JSX.Element => {
   const [form] = Form.useForm<SwapFormModel>();
   const swapStrategy = new SwapStrategy();
 
