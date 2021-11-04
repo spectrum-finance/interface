@@ -1,6 +1,6 @@
 import './Swap.less';
 
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import {
   ActionForm,
@@ -10,13 +10,13 @@ import {
   TokenControlFormItem,
   TokenControlValue,
 } from '../../components/common/TokenControl/TokenControl';
+import { TxHistory } from '../../components/common/TxHistory/TxHistory';
 import { FormPageWrapper } from '../../components/FormPageWrapper/FormPageWrapper';
 import {
   Button,
   Flex,
   Form,
   FormInstance,
-  HistoryOutlined,
   SettingOutlined,
   SwapOutlined,
   Typography,
@@ -85,7 +85,7 @@ export const Swap = () => {
               <Typography.Title level={4}>Swap</Typography.Title>
             </Flex.Item>
             <Button size="large" type="text" icon={<SettingOutlined />} />
-            <Button size="large" type="text" icon={<HistoryOutlined />} />
+            <TxHistory />
           </Flex>
           <Flex.Item marginBottom={6}>
             <Typography.Footnote>Ergo network</Typography.Footnote>
