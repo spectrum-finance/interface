@@ -10,6 +10,7 @@ type Padding = number | PaddingTwoNumbers | PaddingFourNumbers;
 interface BoxProps extends React.PropsWithChildren<unknown> {
   borderRadius?: 's' | 'm' | 'l';
   contrast?: boolean;
+  gray?: boolean;
   transparent?: boolean;
   inline?: boolean;
   formWrapper?: boolean;
@@ -26,6 +27,7 @@ const Box = ({
   className,
   borderRadius,
   contrast,
+  gray,
   padding,
   transparent,
   inline,
@@ -49,6 +51,7 @@ const Box = ({
         'ergodex-box',
         borderRadius && `ergodex-box--radius-${borderRadius}`,
         contrast && `ergodex-box--contrast`,
+        gray && `ergodex-box--gray`,
         transparent && `ergodex-box--transparent`,
         inline && `ergodex-box--inline`,
         formWrapper && `ergodex-box--form-wrapper`,

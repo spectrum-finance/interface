@@ -14,9 +14,8 @@ import {
   PlusOutlined,
   Typography,
 } from '../../../ergodex-cdk';
-import { useAvailablePositions } from '../../../hooks/useAvailablePositions';
-import { useUTXOs } from '../../../hooks/useUTXOs';
-import { getPoolFee } from '../../../services/pool';
+import { useNetworkPools } from '../../../hooks/useNetworkPools';
+import { getPoolFee } from '../../../utils/pool';
 import { PriceView } from './PriceView';
 
 interface URLParamTypes {
@@ -25,8 +24,7 @@ interface URLParamTypes {
 
 export const PoolPosition: React.FC = () => {
   const usePosition = (poolId: PoolId): AmmPool | undefined => {
-    const UTXOs = useUTXOs();
-    const positions = useAvailablePositions(UTXOs);
+    const positions = useNetworkPools();
     return positions?.find((position) => position.id === poolId);
   };
 

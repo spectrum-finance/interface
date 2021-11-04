@@ -24,7 +24,7 @@ const GlobalSettings = (): JSX.Element => {
   const [explorerUrl, setExplorerUrl] = useState(settings.explorerUrl);
 
   const handleChangeMinerFee: ChangeEventHandler<HTMLInputElement> = (v) => {
-    setMinerFee(v.target.value);
+    setMinerFee(Number(v.target.value));
   };
 
   const handleChangeExplorerUrl: ChangeEventHandler<HTMLInputElement> = (v) => {
@@ -32,7 +32,7 @@ const GlobalSettings = (): JSX.Element => {
   };
 
   const handleClickMinimal = () => {
-    setMinerFee(defaultMinerFee.toString());
+    setMinerFee(defaultMinerFee);
   };
 
   const submitGlobalSettings = () => {
@@ -55,7 +55,7 @@ const GlobalSettings = (): JSX.Element => {
           >
             <Form.Item name="minerFee">
               <Typography.Footnote>Miner Fee</Typography.Footnote>
-              <InfoTooltip text="Fee charged by miners" />
+              <InfoTooltip content="Fee charged by miners" />
               <Flex justify="space-between">
                 <Flex.Item marginRight={1}>
                   <Button
@@ -79,7 +79,7 @@ const GlobalSettings = (): JSX.Element => {
             </Form.Item>
             <Form.Item name="explorerUrl">
               <Typography.Footnote>Explorer URL</Typography.Footnote>
-              <InfoTooltip text="Custom explorer URL. Used for redirections to explorer." />
+              <InfoTooltip content="Custom explorer URL. Used for redirections to explorer." />
               <Input
                 size="small"
                 placeholder="https://explorer.com"

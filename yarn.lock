@@ -1622,12 +1622,12 @@
   resolved "https://registry.yarnpkg.com/@emotion/weak-memoize/-/weak-memoize-0.2.5.tgz#8eed982e2ee6f7f4e44c253e12962980791efd46"
   integrity sha512-6U71C2Wp7r5XtFtQzYrW5iKFT67OixrSxjI4MptCHzdSVlgabczzqLe0ZSgnub/5Kp4hSbpDB1tMytZY9pwxxA==
 
-"@ergolabs/ergo-dex-sdk@1.1.6":
-  version "1.1.6"
-  resolved "https://registry.yarnpkg.com/@ergolabs/ergo-dex-sdk/-/ergo-dex-sdk-1.1.6.tgz#037d74ed65d30117273f2d2c9ae12a849f0a2e9d"
-  integrity sha512-2odWFr2xWQ8pjsXasVezkMEh43/sAX4TomVsUjZ+XE6cwszD54hX/7xzwknRF189eDUyOoOlVZ13USFlDQSNdw==
+"@ergolabs/ergo-dex-sdk@1.1.8":
+  version "1.1.8"
+  resolved "https://registry.yarnpkg.com/@ergolabs/ergo-dex-sdk/-/ergo-dex-sdk-1.1.8.tgz#b1662a572f3cb7bb8d6f60b32c47d7110548e70a"
+  integrity sha512-MW71tIDroravhv7zTOhkuGN67qkGFyt3gOEfqebxQ3vjpBKqMWhFs1lMPs/D4Fri4igxafUCWs8y5/o51wKtLA==
   dependencies:
-    "@ergolabs/ergo-sdk" "0.1.7"
+    "@ergolabs/ergo-sdk" "0.1.9"
     axios "^0.21.1"
     blakejs "^1.1.0"
     bs58 "^4.0.1"
@@ -1638,10 +1638,10 @@
     mathjs "^9.4.4"
     ramda "0.27.1"
 
-"@ergolabs/ergo-sdk@0.1.7":
-  version "0.1.7"
-  resolved "https://registry.yarnpkg.com/@ergolabs/ergo-sdk/-/ergo-sdk-0.1.7.tgz#ec1d25b413c8f96c7e0928c0940865e3b475e162"
-  integrity sha512-7TN4wYKygU/CkfoGBbcFIj7AUbxRI/pAvSkWytMMdI3eRI/Jgj05zPTfunwImNV9CeHp8QI/Pk0G/+SQ5i8xsQ==
+"@ergolabs/ergo-sdk@0.1.9":
+  version "0.1.9"
+  resolved "https://registry.yarnpkg.com/@ergolabs/ergo-sdk/-/ergo-sdk-0.1.9.tgz#5747529b260b6cd646f9bcc86453bbd5653b38de"
+  integrity sha512-Jb4wqq7e3yZAvCZVkgA//d90b/UswbSATlajZTfQMBntf/oNFDDscmEkup0mg4zzhLlDojw73zcY60iI3kQqrw==
   dependencies:
     axios "^0.21.1"
     blakejs "^1.1.0"
@@ -4730,7 +4730,14 @@ balanced-match@^2.0.0:
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-2.0.0.tgz#dc70f920d78db8b858535795867bf48f820633d9"
   integrity sha512-1ugUSr8BHXRnK23KfuYS+gVMC3LB8QGH9W1iGtDPsNWoQbgtXSExkBu2aDR4epiGWZOjZsj6lDl/N/AqqTC3UA==
 
-base-x@^3.0.2, base-x@^3.0.6:
+base-x@^3.0.2:
+  version "3.0.9"
+  resolved "https://registry.yarnpkg.com/base-x/-/base-x-3.0.9.tgz#6349aaabb58526332de9f60995e548a53fe21320"
+  integrity sha512-H7JU6iBHTal1gp56aKoaa//YUxEaAOUiydvrV/pILqIHXTtqxSkATOnDA2u+jZ/61sD+L/412+7kzXRtWukhpQ==
+  dependencies:
+    safe-buffer "^5.0.1"
+
+base-x@^3.0.6:
   version "3.0.8"
   resolved "https://registry.yarnpkg.com/base-x/-/base-x-3.0.8.tgz#1e1106c2537f0162e8b52474a557ebb09000018d"
   integrity sha512-Rl/1AWP4J/zRrk54hhlxH4drNxPJXYUaKffODVI53/dAsV4t9fBxyxYKAVPU1XBHxYwOWP9h9H0hM2MVw4YfJA==
@@ -7746,10 +7753,15 @@ flush-write-stream@^1.0.0:
     inherits "^2.0.3"
     readable-stream "^2.3.6"
 
-follow-redirects@^1.0.0, follow-redirects@^1.14.0:
+follow-redirects@^1.0.0:
   version "1.14.4"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.4.tgz#838fdf48a8bbdd79e52ee51fb1c94e3ed98b9379"
   integrity sha512-zwGkiSXC1MUJG/qmeIFH2HBJx9u0V46QGUe3YR1fXG8bXQxq7fLj0RjLZQ5nubr9qNJUZrH+xUcwXEoXNpfS+g==
+
+follow-redirects@^1.14.0:
+  version "1.14.5"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.5.tgz#f09a5848981d3c772b5392309778523f8d85c381"
+  integrity sha512-wtphSXy7d4/OR+MvIFbCVBDzZ5520qV8XfPklSN5QtxuMUJZ+b0Wnst1e1lCDocfzuCkHqj8k0FpZqO+UIaKNA==
 
 for-in@^1.0.2:
   version "1.0.2"

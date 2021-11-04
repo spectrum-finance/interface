@@ -9,7 +9,8 @@ import {
   TokenPair,
 } from '../../../components/TokenIconPair/TokenIconPair';
 import { Box, Col, Row, Typography } from '../../../ergodex-cdk';
-import { getPoolFee } from '../../../services/pool';
+import { getPoolFee } from '../../../utils/pool';
+import { PositionsLoader } from '../PositionsLoader/PositionsLoader';
 
 interface LiquidityPositionsListProps {
   positions: Array<AmmPool> | null;
@@ -74,7 +75,7 @@ const LiquidityPositionsList: React.FC<LiquidityPositionsListProps> = ({
           </Col>
         </Row>
       </Box>
-      {positions &&
+      {positions?.length ? (
         positions.map((position, index) => {
           return (
             <Row
@@ -95,7 +96,10 @@ const LiquidityPositionsList: React.FC<LiquidityPositionsListProps> = ({
               </Col>
             </Row>
           );
-        })}
+        })
+      ) : (
+        <PositionsLoader />
+      )}
     </Box>
   );
 };

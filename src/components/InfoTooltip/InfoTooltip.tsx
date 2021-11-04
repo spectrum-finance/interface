@@ -3,7 +3,7 @@ import React from 'react';
 import { Button, QuestionCircleOutlined, Tooltip } from '../../ergodex-cdk';
 
 interface InfoTooltipProps {
-  text: string;
+  content: React.ReactNode | React.ReactNode[] | string;
   placement?:
     | 'top'
     | 'left'
@@ -19,9 +19,9 @@ interface InfoTooltipProps {
     | 'rightBottom';
 }
 
-const InfoTooltip: React.FC<InfoTooltipProps> = ({ text, placement }) => {
+const InfoTooltip: React.FC<InfoTooltipProps> = ({ content, placement }) => {
   return (
-    <Tooltip placement={placement ?? 'right'} title={text}>
+    <Tooltip placement={placement ?? 'right'} title={content}>
       <Button
         type="ghost"
         icon={<QuestionCircleOutlined />}
