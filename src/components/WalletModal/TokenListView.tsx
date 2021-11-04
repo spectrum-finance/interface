@@ -51,24 +51,10 @@ export const TokenListItem: React.FC<TokenListItemProps> = ({
   </Box>
 );
 
-interface TokenItem {
-  symbol: string;
-  name: string;
-  iconName?: string;
-}
-interface TokenListViewProps {
-  tokenList: TokenItem[];
-}
-
-export const TokenListView: React.FC<TokenListViewProps> = ({ tokenList }) => {
+export const TokenListView: React.FC = () => {
   const [availableWalletAssets, setAvailableWalletAssets] = useState<
     AssetAmount[] | undefined
   >();
-
-  // const getAvailableWalletAssets = async (): Promise<any> => {
-  //   const assets = await listWalletAssets();
-  //   console.log('availableWalletAssets: ', assets);
-  // };
 
   useEffect(() => {
     listWalletAssets().then(setAvailableWalletAssets);

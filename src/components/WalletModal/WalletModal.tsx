@@ -5,40 +5,11 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Address, useWalletAddresses, WalletAddressState } from '../../context';
 import { Box, Col, Row, Typography } from '../../ergodex-cdk';
 import { Tabs } from '../../ergodex-cdk/components/Tabs/Tabs';
-import { useAvailableTokens } from '../../hooks/useAvailableTokens';
-import { AssetDictionary } from '../../utils/getListAvailableTokens';
 import { AddressListView } from './AddressListView';
 import { AddressView } from './AddressView';
 import { TokenListView } from './TokenListView';
 
 export const WalletModal: React.FC = () => {
-  // const addressList: string[] = [
-  //   '0x8ac34e16940Bf89CF28d1f9C9Fa7E1',
-  //   '0x8a4d4e16940Bf89CF28d1f9C9FaQ4f',
-  //   '0x8af94e16940Bf89CF28d1f9C9Fa7R4',
-  // ];
-
-  const tokenList = [
-    {
-      symbol: 'ERG',
-      name: 'Ergo',
-      iconName: 'erg-orange',
-    },
-    {
-      symbol: 'ADA',
-      name: 'Ada',
-    },
-    {
-      symbol: 'ERG',
-      name: 'Ergo',
-      iconName: 'erg-orange',
-    },
-    {
-      symbol: 'ADA',
-      name: 'Ada',
-    },
-  ];
-
   const [activeRecvAddr, setActiveRecvAddr] = useState<Address>('');
 
   const walletAddresses = useWalletAddresses();
@@ -51,9 +22,6 @@ export const WalletModal: React.FC = () => {
   useEffect(() => {
     setActiveRecvAddr(addressList[0]);
   }, [addressList]);
-
-  // const assets = useAvailableTokens();
-  // console.log('useAvailableTokens: ', assets);
 
   return (
     <Row className="wallet-modal__wrapper">
@@ -83,7 +51,7 @@ export const WalletModal: React.FC = () => {
               />
             </Tabs.TabPane>
             <Tabs.TabPane tab="Tokens" key="2">
-              <TokenListView tokenList={tokenList} />
+              <TokenListView />
             </Tabs.TabPane>
           </Tabs>
         </Box>
