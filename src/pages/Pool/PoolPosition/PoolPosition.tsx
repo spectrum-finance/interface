@@ -1,7 +1,7 @@
 import './PoolPosition.less';
 
-import { AmmPool, PoolId } from '@ergolabs/ergo-dex-sdk';
-import React from 'react';
+import { PoolId } from '@ergolabs/ergo-dex-sdk';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { FormPageWrapper } from '../../../components/FormPageWrapper/FormPageWrapper';
@@ -12,10 +12,13 @@ import {
   Button,
   Flex,
   PlusOutlined,
+  Skeleton,
   Typography,
 } from '../../../ergodex-cdk';
-import { useNetworkPools } from '../../../hooks/useNetworkPools';
+import { usePair } from '../../../hooks/usePair';
+import { usePosition } from '../../../hooks/usePosition';
 import { getPoolFee } from '../../../utils/pool';
+import { getPoolRatio } from '../../../utils/price';
 import { PriceView } from './PriceView';
 
 interface URLParamTypes {
@@ -23,27 +26,29 @@ interface URLParamTypes {
 }
 
 export const PoolPosition: React.FC = () => {
-  const usePosition = (poolId: PoolId): AmmPool | undefined => {
-    const positions = useNetworkPools();
-    return positions?.find((position) => position.id === poolId);
-  };
-
   const params = useParams<URLParamTypes>();
-  const position = usePosition(params.poolId);
+  const [positionRatio, setPositionRatio] = useState<Ratio | undefined>();
 
-  const tokenPair = {
-    tokenA: position?.assetX.name ? position.assetX.name : '',
-    tokenB: position?.assetY.name ? position.assetY.name : '',
-  };
+  const position = usePosition(params.poolId);
+  const { pair } = usePair(position);
+
+  useEffect(() => {
+    if (position) {
+      const ratio = getPoolRatio(position);
+      setPositionRatio(ratio);
+    }
+  }, [position]);
 
   return (
     <FormPageWrapper title="Position overview" width={480} withBackButton>
-      {position && (
+      {position && positionRatio && pair ? (
         <>
           <Flex alignItems="center">
-            <TokenIconPair tokenPair={tokenPair} />
+            <TokenIconPair
+              tokenPair={{ tokenA: pair.assetX.name, tokenB: pair.assetY.name }}
+            />
             <Typography.Title level={3} style={{ marginLeft: 8 }}>
-              {`${tokenPair.tokenA} / ${tokenPair.tokenB}`}
+              {`${pair.assetX.name} / ${pair.assetY.name}`}
             </Typography.Title>
             <Flex.Item marginLeft={2}>
               <Box padding={[0.5, 1]} contrast>
@@ -64,13 +69,15 @@ export const PoolPosition: React.FC = () => {
                 <Flex flexDirection="col">
                   <Flex justify="space-between">
                     <Flex>
-                      <TokenIcon width={16} name={tokenPair.tokenA} />
+                      <TokenIcon width={16} name={pair.assetX.name} />
                       <Typography.Title level={5} style={{ marginLeft: 4 }}>
-                        {tokenPair.tokenA}
+                        {pair.assetX.name}
                       </Typography.Title>
                     </Flex>
                     <Flex>
-                      <Typography.Title level={5}>0.0009999</Typography.Title>
+                      <Typography.Title level={5}>
+                        {pair.assetX.amount}
+                      </Typography.Title>
                       <Flex.Item marginLeft={1}>
                         <Box padding={[0.5, 1]} className="percent-lbl">
                           <Typography.Text style={{ fontSize: '12px' }}>
@@ -82,13 +89,15 @@ export const PoolPosition: React.FC = () => {
                   </Flex>
                   <Flex justify="space-between" style={{ marginTop: 16 }}>
                     <Flex>
-                      <TokenIcon width={16} name={tokenPair.tokenB} />
+                      <TokenIcon width={16} name={pair.assetY.name} />
                       <Typography.Title level={5} style={{ marginLeft: 4 }}>
-                        {tokenPair.tokenB}
+                        {pair.assetY.name}
                       </Typography.Title>
                     </Flex>
                     <Flex>
-                      <Typography.Title level={5}>3.261</Typography.Title>
+                      <Typography.Title level={5}>
+                        {pair.assetY.amount}
+                      </Typography.Title>
                       <Flex.Item marginLeft={1}>
                         <Box padding={[0.5, 1]} className="percent-lbl">
                           <Typography.Text style={{ fontSize: '12px' }}>
@@ -153,42 +162,40 @@ export const PoolPosition: React.FC = () => {
               <Flex.Item flex={1} marginRight={1}>
                 <PriceView
                   className="price__wrapper"
-                  price={3029.72}
-                  desc={`${tokenPair.tokenB} per ${tokenPair.tokenA}`}
+                  price={positionRatio.xPerY}
+                  desc={`${pair.assetX.name} per ${pair.assetY.name}`}
                 />
               </Flex.Item>
               <Flex.Item flex={1} marginLeft={1}>
                 <PriceView
                   className="price__wrapper"
-                  price={0.0001}
-                  desc={`${tokenPair.tokenA} per ${tokenPair.tokenB}`}
+                  price={positionRatio.yPerX}
+                  desc={`${pair.assetY.name} per ${pair.assetX.name}`}
                 />
               </Flex.Item>
             </Flex>
 
             <Flex style={{ marginTop: 16 }}>
               <Flex.Item flex={1} marginRight={1}>
-                <Box padding={0}>
-                  <Button
-                    type="primary"
-                    size="large"
-                    icon={<PlusOutlined />}
-                    style={{ width: '100%' }}
-                  >
-                    Increase liquidity
-                  </Button>
-                </Box>
+                <Button
+                  type="primary"
+                  size="large"
+                  icon={<PlusOutlined />}
+                  block
+                >
+                  Increase liquidity
+                </Button>
               </Flex.Item>
               <Flex.Item flex={1} marginLeft={1}>
-                <Box padding={0}>
-                  <Button type="default" size="large" style={{ width: '100%' }}>
-                    Remove liquidity
-                  </Button>
-                </Box>
+                <Button type="default" size="large" block>
+                  Remove liquidity
+                </Button>
               </Flex.Item>
             </Flex>
           </Flex>
         </>
+      ) : (
+        <Skeleton active />
       )}
     </FormPageWrapper>
   );
