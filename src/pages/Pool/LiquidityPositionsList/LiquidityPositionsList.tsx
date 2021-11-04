@@ -70,7 +70,7 @@ const LiquidityPositionsList: React.FC<LiquidityPositionsListProps> = ({
           </Col>
         </Row>
       </Box>
-      {positions ? (
+      {positions?.length ? (
         positions.map((position, index) => {
           return (
             <Row
