@@ -1,3 +1,5 @@
+import { FormProps } from 'antd';
+import { FieldData } from 'rc-field-form/lib/interface';
 import React, { FC, ReactNode, useEffect, useState } from 'react';
 
 import { useWallet } from '../../../context';
@@ -20,6 +22,7 @@ export interface ActionFormProps {
   readonly strategy: ActionFormStrategy;
   readonly children?: ReactNode | ReactNode[];
   readonly initialValues?: any;
+  readonly onFieldsChange?: FormProps['onFieldsChange'];
 }
 
 export const ActionForm: FC<ActionFormProps> = ({
@@ -27,6 +30,7 @@ export const ActionForm: FC<ActionFormProps> = ({
   strategy,
   children,
   initialValues,
+  onFieldsChange,
 }) => {
   const { isWalletConnected, ergBalance } = useWallet();
   const { online } = useConnection();
@@ -68,11 +72,18 @@ export const ActionForm: FC<ActionFormProps> = ({
   // TODO: FIX_ACTION_FORM_CHANGE_TRIGGER[EDEX-471]
   const onFormChange = () => setFormValueChanged({});
 
+  const handleFieldsChange = (changes: FieldData[], values: any) => {
+    if (onFieldsChange) {
+      onFieldsChange(changes, values);
+    }
+  };
+
   return (
     <Form
       form={form}
       initialValues={initialValues}
       onValuesChange={onFormChange}
+      onFieldsChange={handleFieldsChange}
     >
       {children}
 

@@ -35,7 +35,7 @@ export const TokenControl: FC<TokenControlProps> = ({
 
   useEffect(() => {
     if (value?.token) {
-      getTokenBalance(value.token).then(setBalance);
+      getTokenBalance(value.token).then((balance) => setBalance(() => balance));
     } else {
       setBalance(undefined);
     }
