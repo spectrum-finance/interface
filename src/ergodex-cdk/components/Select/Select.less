@@ -1,0 +1,57 @@
+.ant-select {
+  border-radius: var(--ergo-border-radius-sm);
+
+  .ant-select-selector {
+    background-color: var(--ergo-box-bg-gray) !important;
+    border-radius: var(--ergo-border-radius-md) !important;
+  }
+  .ant-select-selection-item {
+    color: var(--ergo-select-label-color) !important;
+  }
+  .ant-select-arrow {
+    color: var(--ergo-select-label-color);
+  }
+}
+.ant-select.ant-select-lg {
+  border-radius: var(--ergo-border-radius-md);
+}
+
+.ant-select:not(.ant-select-disabled) {
+  .ant-select-selector:hover {
+    border-color: var(--ergo-primary-color-hover) !important;
+  }
+  .ant-select-selector:focus-within {
+    border-color: var(--ergo-primary-color) !important;
+  }
+}
+
+.ant-select.ant-select-disabled {
+  .ant-select-selector { 
+    border-color: var(--ergo-disabled-text-constrast) !important;
+    background-color: var(--ergo-disabled-color) !important;
+  }
+}
+
+.ant-select-dropdown {
+  background-color: var(--ergo-box-bg-contrast);
+  border-radius: var(--ergo-border-radius-md);
+
+  .ant-select-item.ant-select-item-option {
+    background-color: var(--ergo-box-bg-contrast);
+    color: var(--ergo-select-label-color);
+  }
+  
+  .ant-select-item.ant-select-item-option:hover {
+    background-color: var(--ergo-default-card-background);
+  }
+  
+  .ant-select-item.ant-select-item-group {
+    color: var(--ergo-select-label-color);
+  }
+}
+.ant-select-item.ant-select-item-option.ant-select-item-option-disabled {
+  color: var(--ergo-disabled-text-constrast);
+}
+.ant-select-item.ant-select-item-option.ant-select-item-option-disabled:hover {
+  background-color: var(--ergo-dark-card-background);
+}
