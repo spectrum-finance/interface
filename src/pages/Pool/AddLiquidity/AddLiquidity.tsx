@@ -3,10 +3,8 @@ import './AddLiquidity.less';
 import cn from 'classnames';
 import React, { useState } from 'react';
 
+import { TokenListModal } from '../../../components/common/TokenControl/TokenSelect/TokenListModal/TokenListModal';
 import { PoolMenu } from '../../../components/PoolMenu/PoolMenu';
-import { TokenInput } from '../../../components/TokenInput/TokenInput';
-import { TokenListModal } from '../../../components/TokenListModal/TokenListModal';
-import { TokenSelect } from '../../../components/TokenSelect/TokenSelect';
 import {
   Box,
   Button,
@@ -70,16 +68,16 @@ const AddLiquidity = (): JSX.Element => {
           <Row>
             <Col>
               <Space className="liquidity__input-select" size={10}>
-                <TokenSelect
-                  name={fromTokenName}
-                  onTokenSelect={() => handleSelectFromToken(setFromTokenName)}
-                  className="liquidity__input-select-content"
-                />
-                <TokenSelect
-                  name={toTokenName}
-                  onTokenSelect={() => handleSelectFromToken(setToTokenName)}
-                  className="liquidity__input-select-content"
-                />
+                {/*<TokenSelect*/}
+                {/*  name={fromTokenName}*/}
+                {/*  onTokenSelect={() => handleSelectFromToken(setFromTokenName)}*/}
+                {/*  className="liquidity__input-select-content"*/}
+                {/*/>*/}
+                {/*<TokenSelect*/}
+                {/*  name={toTokenName}*/}
+                {/*  onTokenSelect={() => handleSelectFromToken(setToTokenName)}*/}
+                {/*  className="liquidity__input-select-content"*/}
+                {/*/>*/}
               </Space>
             </Col>
           </Row>
@@ -106,19 +104,19 @@ const AddLiquidity = (): JSX.Element => {
             <Col>
               <Row bottomGutter={1}>
                 <Col>
-                  <TokenInput
-                    className={cn('liquidity__stick-input', {
-                      sticked: isSticked,
-                    })}
-                    value={fromValue}
-                    onChange={setFromValue}
-                    tokenName={fromTokenName}
-                    balance={fromTokenBalance}
-                    tokenPrice={fromTokenPrice}
-                    onSelectToken={() => {}}
-                    label=""
-                    disable={toTokenName.length == 0}
-                  />
+                  {/*<TokenInput*/}
+                  {/*  className={cn('liquidity__stick-input', {*/}
+                  {/*    sticked: isSticked,*/}
+                  {/*  })}*/}
+                  {/*  value={fromValue}*/}
+                  {/*  onChange={setFromValue}*/}
+                  {/*  tokenName={fromTokenName}*/}
+                  {/*  balance={fromTokenBalance}*/}
+                  {/*  tokenPrice={fromTokenPrice}*/}
+                  {/*  onSelectToken={() => {}}*/}
+                  {/*  label=""*/}
+                  {/*  disable={toTokenName.length == 0}*/}
+                  {/*/>*/}
                 </Col>
               </Row>
               <Box className="liquidity__stick-btn-wrapper" transparent>
@@ -132,19 +130,19 @@ const AddLiquidity = (): JSX.Element => {
               </Box>
               <Row>
                 <Col>
-                  <TokenInput
-                    className={cn('liquidity__stick-input', {
-                      sticked: isSticked,
-                    })}
-                    value={toValue}
-                    onChange={setToValue}
-                    tokenName={toTokenName}
-                    balance={toTokenBalance}
-                    tokenPrice={toTokenPrice}
-                    onSelectToken={() => {}}
-                    label=""
-                    disable={toTokenName.length == 0}
-                  />
+                  {/*<TokenInput*/}
+                  {/*  className={cn('liquidity__stick-input', {*/}
+                  {/*    sticked: isSticked,*/}
+                  {/*  })}*/}
+                  {/*  value={toValue}*/}
+                  {/*  onChange={setToValue}*/}
+                  {/*  tokenName={toTokenName}*/}
+                  {/*  balance={toTokenBalance}*/}
+                  {/*  tokenPrice={toTokenPrice}*/}
+                  {/*  onSelectToken={() => {}}*/}
+                  {/*  label=""*/}
+                  {/*  disable={toTokenName.length == 0}*/}
+                  {/*/>*/}
                 </Col>
               </Row>
             </Col>

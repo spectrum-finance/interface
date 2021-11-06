@@ -10,11 +10,14 @@ type Padding = number | PaddingTwoNumbers | PaddingFourNumbers;
 interface BoxProps extends React.PropsWithChildren<unknown> {
   borderRadius?: 's' | 'm' | 'l';
   contrast?: boolean;
+  gray?: boolean;
   transparent?: boolean;
   inline?: boolean;
   formWrapper?: boolean;
   className?: string;
   padding?: Padding;
+  maxHeight?: number;
+  overflow?: boolean;
   onClick?: React.MouseEventHandler<HTMLElement>;
 }
 
@@ -26,11 +29,14 @@ const Box = ({
   className,
   borderRadius,
   contrast,
+  gray,
   padding,
   transparent,
   inline,
   onClick,
   formWrapper,
+  maxHeight,
+  overflow,
 }: BoxProps): JSX.Element => {
   const getPadding = (p: Padding) => {
     if (p instanceof Array && p.length === 2) {
@@ -49,6 +55,7 @@ const Box = ({
         'ergodex-box',
         borderRadius && `ergodex-box--radius-${borderRadius}`,
         contrast && `ergodex-box--contrast`,
+        gray && `ergodex-box--gray`,
         transparent && `ergodex-box--transparent`,
         inline && `ergodex-box--inline`,
         formWrapper && `ergodex-box--form-wrapper`,
@@ -59,6 +66,8 @@ const Box = ({
           padding != null
             ? getPadding(padding)
             : `calc(var(--ergo-base-gutter))`,
+        maxHeight: `${maxHeight}px`,
+        overflow: overflow ? 'auto' : 'none',
       }}
       onClick={onClick}
     >

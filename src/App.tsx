@@ -10,13 +10,15 @@ import {
   WalletAddressesProvider,
   WalletContextProvider,
 } from './context';
+import { ConnectionContextProvider } from './context/ConnectionContext';
 import { useTheme } from './context/Theme';
 import { globalHistory } from './createBrowserHistory';
 import { ContextModalProvider } from './ergodex-cdk';
 import { useBodyClass } from './hooks/useBodyClass';
 import { Swap } from './pages';
-import { AddLiquidity } from './pages/Pool/AddLiquidity/AddLiquidity';
+import { AddLiquidity } from './pages';
 import { Pool } from './pages/Pool/Pool';
+import { PoolPosition } from './pages/Pool/PoolPosition/PoolPosition';
 import { Remove } from './pages/Remove/Remove';
 
 const NotFound = () => <Redirect to="/swap" />;
@@ -36,29 +38,36 @@ export const App: React.FC = () => {
   }
 
   return (
-    <Router history={globalHistory}>
-      <AppLoadingProvider>
-        <WalletContextProvider>
-          <SettingsProvider>
-            <WalletAddressesProvider>
-              <ContextModalProvider>
-                <Layout>
-                  <Switch>
-                    <Route path="/" exact>
-                      <Redirect to="/swap" />
-                    </Route>
-                    <Route path="/swap" exact component={Swap} />
-                    <Route path="/pool" exact component={Pool} />
-                    <Route path="/pool/add" exact component={AddLiquidity} />
-                    <Route path="/remove" exact component={Remove} />
-                    <Route component={NotFound} />
-                  </Switch>
-                </Layout>
-              </ContextModalProvider>
-            </WalletAddressesProvider>
-          </SettingsProvider>
-        </WalletContextProvider>
-      </AppLoadingProvider>
-    </Router>
+    <ConnectionContextProvider>
+      <Router history={globalHistory}>
+        <AppLoadingProvider>
+          <WalletContextProvider>
+            <SettingsProvider>
+              <WalletAddressesProvider>
+                <ContextModalProvider>
+                  <Layout>
+                    <Switch>
+                      <Route path="/" exact>
+                        <Redirect to="/swap" />
+                      </Route>
+                      <Route path="/swap" exact component={Swap} />
+                      <Route path="/pool" exact component={Pool} />
+                      <Route path="/pool/add" exact component={AddLiquidity} />
+                      <Route
+                        path="/pool/:poolId"
+                        exact
+                        component={PoolPosition}
+                      />
+                      <Route path="/remove/:poolId" exact component={Remove} />
+                      <Route component={NotFound} />
+                    </Switch>
+                  </Layout>
+                </ContextModalProvider>
+              </WalletAddressesProvider>
+            </SettingsProvider>
+          </WalletContextProvider>
+        </AppLoadingProvider>
+      </Router>
+    </ConnectionContextProvider>
   );
 };

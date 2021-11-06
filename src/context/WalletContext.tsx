@@ -1,4 +1,4 @@
-import { ErgoBox, ergoBoxFromProxy } from '@ergolabs/ergo-sdk';
+import { ErgoBox, ergoBoxFromProxy, TokenId } from '@ergolabs/ergo-sdk';
 import React, {
   createContext,
   useCallback,
@@ -23,6 +23,7 @@ export type WalletContextType = {
   walletConnectionState: WalletConnectionState;
   utxos: ErgoBox[] | undefined;
   setIsWalletConnected: (isWalletConnected: boolean) => void;
+  getTokenBalance: (tokenId: TokenId) => Promise<any>;
   ergBalance: string | undefined;
   isWalletLoading: boolean;
 };
@@ -36,6 +37,7 @@ export const WalletContext = createContext<WalletContextType>({
   walletConnectionState: WalletConnectionState.NOT_CONNECTED,
   utxos: undefined,
   setIsWalletConnected: noop,
+  getTokenBalance: () => Promise.resolve(undefined),
   ergBalance: undefined,
   isWalletLoading: false,
 });
@@ -68,6 +70,11 @@ export const WalletContextProvider = ({
     );
   }, []);
 
+  const getTokenBalance = (tokenId: TokenId) =>
+    ergo
+      .get_balance(tokenId)
+      .then((amount) => renderFractions(amount, ERG_DECIMALS));
+
   const isWalletConnected =
     walletConnectionState === WalletConnectionState.CONNECTED;
 
@@ -75,6 +82,7 @@ export const WalletContextProvider = ({
     isWalletConnected, // TODO: replace isWalletConnected with walletConnectionState to handle initial state
     walletConnectionState,
     setIsWalletConnected,
+    getTokenBalance,
     utxos,
     ergBalance,
     isWalletLoading,

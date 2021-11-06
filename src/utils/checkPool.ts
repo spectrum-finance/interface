@@ -4,7 +4,7 @@ import {
   ValidationResult,
 } from '@ergolabs/ergo-dex-sdk';
 
-import explorer from '../services/explorer';
+import { explorer } from '../services/explorer';
 
 const poolValidation = new DefaultAmmPoolValidation(explorer);
 

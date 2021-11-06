@@ -2,13 +2,13 @@ import './Header.less';
 
 import React from 'react';
 
-import { useWallet } from '../../context';
+import { useSettings, useWallet } from '../../context';
 import { Logo } from '../../ergodex-cdk';
-import { ConnectWallet } from '../ConnectWallet/ConnectWallet';
-import { NetworkDropdown } from '../NetworkDropdown/NetworkDropdown';
 import { BurgerMenu } from './BurgerMenu/BurgerMenu';
+import { ConnectWallet } from './ConnectWallet/ConnectWallet';
 import { GlobalSettings } from './GlobalSettings/GlobalSettings';
 import { HeaderTabs } from './HeaderTabs';
+import { NetworkDropdown } from './NetworkDropdown/NetworkDropdown';
 
 const networks = [
   { name: 'ergo', token: 'erg', isDisabled: false },
@@ -17,6 +17,7 @@ const networks = [
 
 export const Header: React.FC = () => {
   const { isWalletConnected, ergBalance, isWalletLoading } = useWallet();
+  const [{ address }] = useSettings();
 
   return (
     <header className="header">
@@ -32,7 +33,7 @@ export const Header: React.FC = () => {
             numberOfPendingTxs={0}
             balance={ergBalance}
             currency="ERG"
-            address="9iKWmL5t3y9u59fUESsbFQzG933UPjR1v7LUAjM6XPMAcXNhBzL"
+            address={address}
           />
           <GlobalSettings />
           <BurgerMenu />

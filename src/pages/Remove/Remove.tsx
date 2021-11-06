@@ -1,194 +1,150 @@
-import React, { useState } from 'react';
+// TODO: REPLACE_ANTD_SKELETON_COMPONENT[EDEX-467]
+import { PoolId } from '@ergolabs/ergo-dex-sdk';
+import { evaluate } from 'mathjs';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useParams } from 'react-router';
 
 import { FormPageWrapper } from '../../components/FormPageWrapper/FormPageWrapper';
 import { SubmitButton } from '../../components/SubmitButton/SubmitButton';
-import { TokenIcon } from '../../components/TokenIcon/TokenIcon';
 import { TokenIconPair } from '../../components/TokenIconPair/TokenIconPair';
 import {
-  Box,
   Button,
   Flex,
+  Modal,
   SettingOutlined,
-  Slider,
+  Skeleton,
   Typography,
 } from '../../ergodex-cdk';
+import { usePair } from '../../hooks/usePair';
+import { usePosition } from '../../hooks/usePosition';
+import { ConfirmRemoveModal } from './ConfirmRemoveModal/ConfirmRemoveModal';
+import { PairSpace } from './PairSpace/PairSpace';
+import { RemoveFormSpaceWrapper } from './RemoveFormSpaceWrapper/RemoveFormSpaceWrapper';
+import { RemovePositionSlider } from './RemovePositionSlider/RemovePositionSlider';
 
-const mocks = {
-  tokenPair: { tokenA: 'ERG', tokenB: 'SigUSD' },
-};
-
-const sliderMarks = {
-  0: 'Min',
-  25: '25%',
-  50: '50%',
-  75: '75%',
-  100: 'Max',
-};
-
-type RemovableAsset = {
-  name: string;
-  amount: number;
-  earnedFees: number;
-};
-
-type RemovableAssetPair = {
-  assetX: RemovableAsset;
-  assetY: RemovableAsset;
-};
-
-interface TokenSpaceProps {
-  title: string;
-  // assetPair: RemovableAssetPair;
-}
-
-const RemovePageSpaceWrapper: React.FC<{ title: string }> = ({
-  children,
-  title,
-}) => {
-  return (
-    <Flex flexDirection="col">
-      <Flex.Item marginBottom={2}>
-        <Typography.Title level={5}>{title}</Typography.Title>
-      </Flex.Item>
-      <Flex.Item>{children}</Flex.Item>
-    </Flex>
-  );
-};
-
-const TokenSpace: React.FC<TokenSpaceProps> = ({
-  title,
-  // assetPair,
-}): JSX.Element => {
-  return (
-    <RemovePageSpaceWrapper title={title}>
-      <Box contrast padding={4}>
-        <Flex flexDirection="col">
-          <Flex.Item marginBottom={2}>
-            <Flex justify="space-between" alignItems="center">
-              <Flex.Item>
-                <Flex alignItems="center">
-                  <Flex.Item marginRight={2}>
-                    <TokenIcon name="ERG" />
-                  </Flex.Item>
-                  <Flex.Item>
-                    <Typography.Title level={5}>ERG</Typography.Title>
-                  </Flex.Item>
-                </Flex>
-              </Flex.Item>
-              <Flex.Item>
-                <Flex>
-                  <Typography.Title level={5}>0,00003 ERG</Typography.Title>
-                </Flex>
-              </Flex.Item>
-            </Flex>
-          </Flex.Item>
-          <Flex.Item>
-            <Flex justify="space-between">
-              <Flex.Item>
-                <Flex>
-                  <Flex.Item marginRight={2}>
-                    <TokenIcon name="ERG" />
-                  </Flex.Item>
-                  <Flex.Item>
-                    <Typography.Title level={5}>ERG</Typography.Title>
-                  </Flex.Item>
-                </Flex>
-              </Flex.Item>
-              <Flex.Item>
-                <Flex>
-                  <Typography.Title level={5}>0,00003 ERG</Typography.Title>
-                </Flex>
-              </Flex.Item>
-            </Flex>
-          </Flex.Item>
-        </Flex>
-      </Box>
-    </RemovePageSpaceWrapper>
-  );
-};
-
-interface RemovePositionSliderProps {
-  percentage: number;
-  setPercentage: (p: number) => void;
-}
-
-const RemovePositionSlider: React.FC<RemovePositionSliderProps> = ({
-  percentage,
-  setPercentage,
-}) => {
-  return (
-    <Box contrast padding={4}>
-      <Flex flexDirection="col">
-        <Flex.Item>
-          <Flex flexDirection="col">
-            <Flex.Item marginBottom={4}>
-              <Flex alignItems="center" justify="center">
-                <Typography.Title level={1}>{percentage}%</Typography.Title>
-              </Flex>
-            </Flex.Item>
-            <Flex.Item>
-              <Slider
-                tooltipVisible={false}
-                marks={sliderMarks}
-                defaultValue={percentage}
-                onChange={setPercentage}
-              />
-            </Flex.Item>
-          </Flex>
-        </Flex.Item>
-      </Flex>
-    </Box>
-  );
-};
+const getPercent = (val: number, percent: string): number =>
+  Number(evaluate(`${val} * ${percent}%`));
 
 const Remove = (): JSX.Element => {
-  const DEFAULT_SLIDER_PERCENTAGE = 50;
-  const [removePercent, setRemovePercent] = useState(DEFAULT_SLIDER_PERCENTAGE);
+  const { poolId } = useParams<{ poolId: PoolId }>();
+
+  const DEFAULT_SLIDER_PERCENTAGE = '100';
+  const [percent, setPercent] = useState(DEFAULT_SLIDER_PERCENTAGE);
+  const [initialPair, setInitialPair] = useState<AssetPair>();
+  const [isFirstPairLoading, setIsFirstPairLoading] = useState(true);
+  const [lpToRemove, setLpToRemove] = useState<number | undefined>();
+
+  const position = usePosition(poolId);
+  const { pair, lpBalance, setPair } = usePair(position);
+
+  useEffect(() => {
+    if (isFirstPairLoading && pair && lpBalance) {
+      setInitialPair(pair);
+      setIsFirstPairLoading(false);
+      setLpToRemove(lpBalance);
+    }
+  }, [isFirstPairLoading, pair, lpBalance]);
+
+  const handleChangePercent = useCallback(
+    (percentage) => {
+      setPercent(percentage);
+
+      if (position && pair && initialPair && setPair && lpBalance) {
+        setLpToRemove(getPercent(lpBalance, percentage));
+        setPair({
+          assetX: {
+            name: pair.assetX.name,
+            amount: getPercent(initialPair.assetX.amount, percentage),
+            earnedFees: pair.assetX?.earnedFees,
+          },
+          assetY: {
+            name: pair.assetY.name,
+            amount: getPercent(initialPair.assetY.amount, percentage),
+            earnedFees: pair.assetY?.earnedFees,
+          },
+        });
+      }
+    },
+    [position, pair, initialPair, setPair, lpBalance],
+  );
+
+  const handleRemove = () => {
+    Modal.open(
+      ({ close }) => {
+        if (position && lpBalance && pair && lpToRemove) {
+          return (
+            <ConfirmRemoveModal
+              onClose={close}
+              pair={pair}
+              position={position}
+              lpToRemove={lpToRemove}
+            />
+          );
+        }
+      },
+      {
+        title: 'Remove liquidity',
+        width: 436,
+      },
+    );
+  };
 
   return (
-    <FormPageWrapper width={382}>
-      <Flex flexDirection="col">
-        <Flex.Item marginBottom={2}>
-          <Flex justify="space-between" alignItems="center">
-            <Flex.Item>
-              <Flex alignItems="center">
-                <Flex.Item display="flex" marginRight={2}>
-                  <TokenIconPair tokenPair={mocks.tokenPair} />
+    <>
+      <FormPageWrapper width={382} title="Remove liquidity" withBackButton>
+        {pair ? (
+          <Flex flexDirection="col">
+            <Flex.Item marginBottom={2}>
+              <Flex justify="space-between" alignItems="center">
+                <Flex.Item>
+                  <Flex alignItems="center">
+                    <Flex.Item display="flex" marginRight={2}>
+                      <TokenIconPair
+                        tokenPair={{
+                          tokenA: pair.assetX.name,
+                          tokenB: pair.assetY.name,
+                        }}
+                      />
+                    </Flex.Item>
+                    <Flex.Item>
+                      <Typography.Title level={4}>
+                        {pair.assetX.name} / {pair.assetY.name}
+                      </Typography.Title>
+                    </Flex.Item>
+                  </Flex>
                 </Flex.Item>
                 <Flex.Item>
-                  <Typography.Title level={4}>
-                    {mocks.tokenPair.tokenA} / {mocks.tokenPair.tokenB}
-                  </Typography.Title>
+                  <Button size="large" type="text" icon={<SettingOutlined />} />
                 </Flex.Item>
               </Flex>
             </Flex.Item>
+            <Flex.Item marginBottom={4}>
+              <RemoveFormSpaceWrapper title="Amount">
+                <RemovePositionSlider
+                  percent={percent}
+                  onChange={handleChangePercent}
+                />
+              </RemoveFormSpaceWrapper>
+            </Flex.Item>
+
+            <Flex.Item marginBottom={4}>
+              <PairSpace title="Pooled Assets" pair={pair} />
+            </Flex.Item>
+
+            {/*TODO: ADD_FEES_DISPLAY_AFTER_SDK_UPDATE[EDEX-468]*/}
+            {/*<Flex.Item marginBottom={4}>*/}
+            {/*  <TokenSpace title="Earned Fees" pair={pair} fees />*/}
+            {/*</Flex.Item>*/}
+
             <Flex.Item>
-              <Button size="large" type="text" icon={<SettingOutlined />} />
+              <SubmitButton onClick={handleRemove}>Remove</SubmitButton>
             </Flex.Item>
           </Flex>
-        </Flex.Item>
-        <Flex.Item marginBottom={4}>
-          <RemovePageSpaceWrapper title="Amount">
-            <RemovePositionSlider
-              percentage={removePercent}
-              setPercentage={setRemovePercent}
-            />
-          </RemovePageSpaceWrapper>
-        </Flex.Item>
-
-        <Flex.Item marginBottom={4}>
-          <TokenSpace title="Pooled Assets" />
-        </Flex.Item>
-
-        <Flex.Item marginBottom={4}>
-          <TokenSpace title="Earned Fees" />
-        </Flex.Item>
-
-        <Flex.Item>
-          <SubmitButton>Remove</SubmitButton>
-        </Flex.Item>
-      </Flex>
-    </FormPageWrapper>
+        ) : (
+          <Skeleton active />
+        )}
+      </FormPageWrapper>
+    </>
   );
 };
 

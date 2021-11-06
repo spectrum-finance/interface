@@ -5,20 +5,27 @@ import { Tabs } from '../../ergodex-cdk';
 
 interface MatchParams {
   page: string;
+  id: string;
 }
 
 const HeaderTabs = (): JSX.Element => {
   const history = useHistory();
-  const match = useRouteMatch<MatchParams>('/:page');
-
+  const matchRoot = useRouteMatch<MatchParams>('/:page');
+  const matchPoolPosition = useRouteMatch<MatchParams>('/pool/:id');
+  const matchRemovePosition = useRouteMatch<MatchParams>('/remove/:id');
   const onTabClick = (activeKey: string) => {
-    history.push(activeKey);
+    history.push('/' + activeKey);
+  };
+
+  const getDefaultActiveKey = (): string => {
+    if (matchPoolPosition || matchRemovePosition) return 'pool';
+    return matchRoot && matchRoot.isExact ? matchRoot.params.page : 'swap';
   };
 
   return (
     <div className="header__tabs">
       <Tabs
-        defaultActiveKey={match && match.isExact ? match.params.page : 'swap'}
+        defaultActiveKey={getDefaultActiveKey()}
         type="card"
         onChange={onTabClick}
       >
