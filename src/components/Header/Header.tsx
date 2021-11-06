@@ -2,8 +2,8 @@ import './Header.less';
 
 import React from 'react';
 
-import { useSettings } from '../../context';
 import { ERG_TOKEN_NAME } from '../../constants/erg';
+import { useSettings } from '../../context';
 import { Logo } from '../../ergodex-cdk';
 import { useObservable } from '../../hooks/useObservable';
 import { ergoBalance$ } from '../../services/new/wallet';

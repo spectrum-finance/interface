@@ -4,8 +4,6 @@ import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import React, { useEffect } from 'react';
 
 import { Box, Typography } from '../../../../../ergodex-cdk';
-import { useObservableAction } from '../../../../../hooks/useObservable';
-import { getTokenBalance } from '../../../../../services/new/wallet';
 import { TokenIcon } from '../../../../TokenIcon/TokenIcon';
 
 interface TokenListItemProps {
@@ -19,12 +17,6 @@ const TokenListItem: React.FC<TokenListItemProps> = ({
   iconName,
   onClick,
 }) => {
-  const [balance, updateBalance] = useObservableAction(getTokenBalance);
-
-  useEffect(() => {
-    updateBalance(asset.id);
-  }, [asset, updateBalance]);
-
   return (
     <Box
       className="token-item"
@@ -45,9 +37,6 @@ const TokenListItem: React.FC<TokenListItemProps> = ({
             {asset.name}
           </Typography.Text>
         </Box>
-        <Typography.Text className="token-item__box-balance">
-          {balance}
-        </Typography.Text>
       </Box>
     </Box>
   );
