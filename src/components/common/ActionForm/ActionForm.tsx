@@ -1,10 +1,13 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { FormProps } from 'antd';
 import { FieldData } from 'rc-field-form/lib/interface';
-import React, { FC, ReactNode, useEffect, useState } from 'react';
+import React, { FC, ReactNode, useEffect } from 'react';
+import { combineLatest, map, Observable, of } from 'rxjs';
 
-import { useWallet } from '../../../context';
-import { useConnection } from '../../../context/ConnectionContext';
 import { Form, FormInstance } from '../../../ergodex-cdk';
+import { useObservableAction } from '../../../hooks/useObservable';
+import { isOnline$ } from '../../../services/new/networkConnection';
+import { ergoBalance$, isWalletConnected$ } from '../../../services/new/wallet';
 import { ActionButton, ActionButtonState } from './ActionButton/ActionButton';
 
 export interface ActionFormStrategy<T = any> {
@@ -23,7 +26,50 @@ export interface ActionFormProps {
   readonly children?: ReactNode | ReactNode[];
   readonly initialValues?: any;
   readonly onFieldsChange?: FormProps['onFieldsChange'];
+  readonly onValuesChange?: FormProps['onValuesChange'];
 }
+
+const getButtonData = (
+  strategy: ActionFormStrategy,
+  form: FormInstance,
+): Observable<{
+  state: ActionButtonState;
+  data?: any;
+}> => {
+  console.log('here');
+
+  return combineLatest([
+    isOnline$,
+    ergoBalance$,
+    isWalletConnected$,
+    of(strategy),
+    of(form),
+  ]).pipe(
+    map(([isOnline, ergoBalance, isWalletConnected, strategy, form]) => {
+      if (!isOnline) {
+        return { state: ActionButtonState.CHECK_INTERNET_CONNECTION };
+      } else if (strategy.isTokensNotSelected(form)) {
+        return { state: ActionButtonState.SELECT_TOKEN };
+      } else if (strategy.isAmountNotEntered(form)) {
+        return { state: ActionButtonState.ENTER_AMOUNT };
+      } else if (strategy.getInsufficientTokenForTx(form)) {
+        return {
+          state: ActionButtonState.INSUFFICIENT_TOKEN_BALANCE,
+          data: { token: strategy.getInsufficientTokenForTx(form) },
+        };
+      } else if (strategy.getInsufficientTokenForFee(form)) {
+        return {
+          state: ActionButtonState.INSUFFICIENT_TOKEN_BALANCE,
+          data: { token: strategy.getInsufficientTokenForFee(form) },
+        };
+      } else if (strategy.isLiquidityInsufficient(form)) {
+        return { state: ActionButtonState.INSUFFICIENT_LIQUIDITY };
+      } else {
+        return { state: ActionButtonState.ACTION };
+      }
+    }),
+  );
+};
 
 export const ActionForm: FC<ActionFormProps> = ({
   form,
@@ -31,47 +77,21 @@ export const ActionForm: FC<ActionFormProps> = ({
   children,
   initialValues,
   onFieldsChange,
+  onValuesChange,
 }) => {
-  const { isWalletConnected, ergBalance } = useWallet();
-  const { online } = useConnection();
-  const [buttonData, setButtonData] = useState<{
-    state: ActionButtonState;
-    data?: any;
-  }>({
-    state: ActionButtonState.ACTION,
-    data: undefined,
+  const [buttonData, updateButtonData] = useObservableAction(getButtonData, {
+    state: ActionButtonState.CHECK_INTERNET_CONNECTION,
   });
-  const [formValueChanged, setFormValueChanged] = useState({});
-
   useEffect(() => {
-    if (!isWalletConnected || !ergBalance) {
-      setButtonData({ state: ActionButtonState.CONNECT_WALLET });
-    } else if (!online) {
-      setButtonData({ state: ActionButtonState.CHECK_INTERNET_CONNECTION });
-    } else if (strategy.isTokensNotSelected(form)) {
-      setButtonData({ state: ActionButtonState.SELECT_TOKEN });
-    } else if (strategy.isAmountNotEntered(form)) {
-      setButtonData({ state: ActionButtonState.ENTER_AMOUNT });
-    } else if (strategy.getInsufficientTokenForTx(form)) {
-      setButtonData({
-        state: ActionButtonState.INSUFFICIENT_TOKEN_BALANCE,
-        data: { token: strategy.getInsufficientTokenForTx(form) },
-      });
-    } else if (strategy.getInsufficientTokenForFee(form)) {
-      setButtonData({
-        state: ActionButtonState.INSUFFICIENT_TOKEN_BALANCE,
-        data: { token: strategy.getInsufficientTokenForFee(form) },
-      });
-    } else if (strategy.isLiquidityInsufficient(form)) {
-      setButtonData({ state: ActionButtonState.INSUFFICIENT_LIQUIDITY });
-    } else {
-      setButtonData({ state: ActionButtonState.ACTION });
+    updateButtonData(strategy, form);
+  }, [strategy, form]);
+
+  const onFormChange = (changedValues: any, values: any) => {
+    updateButtonData(strategy, form);
+    if (onValuesChange) {
+      onValuesChange(changedValues, values);
     }
-  }, [online, ergBalance, isWalletConnected, strategy, form, formValueChanged]);
-
-  // TODO: FIX_ACTION_FORM_CHANGE_TRIGGER[EDEX-471]
-  const onFormChange = () => setFormValueChanged({});
-
+  };
   const handleFieldsChange = (changes: FieldData[], values: any) => {
     if (onFieldsChange) {
       onFieldsChange(changes, values);
@@ -82,8 +102,8 @@ export const ActionForm: FC<ActionFormProps> = ({
     <Form
       form={form}
       initialValues={initialValues}
-      onValuesChange={onFormChange}
       onFieldsChange={handleFieldsChange}
+      onValuesChange={onFormChange}
     >
       {children}
 

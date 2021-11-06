@@ -1,5 +1,6 @@
 import './TokenSelect.less';
 
+import { AssetAmount, AssetInfo } from '@ergolabs/ergo-sdk';
 import React from 'react';
 
 import { Button, DownOutlined, Modal } from '../../../../ergodex-cdk';
@@ -7,27 +8,36 @@ import { TokenIcon } from '../../../TokenIcon/TokenIcon';
 import { TokenListModal } from './TokenListModal/TokenListModal';
 
 interface TokenSelectProps {
-  name?: string | null;
-  onChange?: (token: string) => void;
+  readonly asset?: AssetInfo | undefined;
+  readonly onChange?: (asset: AssetInfo) => void;
+  readonly assets?: AssetInfo[];
 }
 
-const TokenSelect: React.FC<TokenSelectProps> = ({ name, onChange }) => {
+const TokenSelect: React.FC<TokenSelectProps> = ({
+  asset,
+  onChange,
+  assets,
+}) => {
   const openTokenModal = () =>
     Modal.open(({ close }) => (
-      <TokenListModal close={close} onSelectChanged={onChange} />
+      <TokenListModal
+        assets={assets}
+        close={close}
+        onSelectChanged={onChange}
+      />
     ));
 
   return (
     <>
-      {name ? (
+      {asset ? (
         <button className="token-select_selected" onClick={openTokenModal}>
           <span className="token-select_selected_container">
             <TokenIcon
-              name={name ?? 'empty'}
+              name={asset.name ?? 'empty'}
               className="token-select_selected_item"
             />
             <span className="token-select_selected_item">
-              {name.toUpperCase()}
+              {asset.name?.toUpperCase()}
             </span>
             <DownOutlined />
           </span>

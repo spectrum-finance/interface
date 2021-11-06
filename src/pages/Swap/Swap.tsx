@@ -1,6 +1,6 @@
 import './Swap.less';
 
-import React, { useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 
 import {
   ActionForm,
@@ -21,10 +21,14 @@ import {
   SwapOutlined,
   Typography,
 } from '../../ergodex-cdk';
+import { useObservable, useObservableAction } from '../../hooks/useObservable';
+import { assets$, getAssetsByPairAsset } from '../../services/new/assets';
+import { pools$ } from '../../services/new/pools';
+import { isWalletLoading$, utxos$ } from '../../services/new/wallet';
 
 interface SwapFormModel {
-  readonly from: TokenControlValue;
-  readonly to: TokenControlValue;
+  readonly from?: TokenControlValue;
+  readonly to?: TokenControlValue;
 }
 
 class SwapStrategy implements ActionFormStrategy {
@@ -49,7 +53,7 @@ class SwapStrategy implements ActionFormStrategy {
   isTokensNotSelected(form: FormInstance<SwapFormModel>): boolean {
     const value = form.getFieldsValue();
 
-    return !value.to?.token || !value.from?.token;
+    return !value.to?.asset || !value.from?.asset;
   }
 
   request(form: FormInstance): Promise<any> {
@@ -61,9 +65,32 @@ class SwapStrategy implements ActionFormStrategy {
   }
 }
 
-export const Swap = () => {
+const getAssetsByToken = (pairAssetId?: string) =>
+  pairAssetId ? getAssetsByPairAsset(pairAssetId) : pools$;
+
+// TODO: REPLACE_WITH_OBSERVABLE
+const initialValues: SwapFormModel = {
+  from: {
+    asset: {
+      name: 'ERG',
+      id: '0000000000000000000000000000000000000000000000000000000000000000',
+    },
+  },
+};
+
+export const Swap: FC = () => {
   const [form] = Form.useForm<SwapFormModel>();
   const swapStrategy = new SwapStrategy();
+  const [fromAssets] = useObservable(assets$);
+  const [toAssets, updateToAssets] = useObservableAction(getAssetsByToken);
+
+  useEffect(() => {
+    updateToAssets(initialValues.from?.asset?.id);
+  }, [updateToAssets]);
+
+  const onValuesChange = (_: any, value: SwapFormModel) => {
+    updateToAssets(value?.from?.asset?.id);
+  };
 
   const swapTokens = () => {
     form.setFieldsValue({
@@ -77,7 +104,8 @@ export const Swap = () => {
       <ActionForm
         form={form}
         strategy={swapStrategy}
-        initialValues={{ from: { token: 'ERG' } }}
+        onValuesChange={onValuesChange}
+        initialValues={initialValues}
       >
         <Flex flexDirection="col">
           <Flex flexDirection="row" alignItems="center">
@@ -91,13 +119,18 @@ export const Swap = () => {
             <Typography.Footnote>Ergo network</Typography.Footnote>
           </Flex.Item>
           <Flex.Item marginBottom={1}>
-            <TokenControlFormItem name="from" label="From" maxButton />
+            <TokenControlFormItem
+              assets={fromAssets}
+              name="from"
+              label="From"
+              maxButton
+            />
           </Flex.Item>
           <Flex.Item className="swap-button">
             <Button onClick={swapTokens} icon={<SwapOutlined />} size="large" />
           </Flex.Item>
           <Flex.Item marginBottom={4}>
-            <TokenControlFormItem name="to" label="To" />
+            <TokenControlFormItem assets={toAssets} name="to" label="To" />
           </Flex.Item>
         </Flex>
       </ActionForm>

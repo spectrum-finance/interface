@@ -9,16 +9,13 @@ import { ConnectWalletButton } from '../../common/ConnectWalletButton/ConnectWal
 import { WalletModal } from '../../WalletModal/WalletModal';
 
 export interface ConnectWalletProps {
-  isWalletConnected: boolean;
   balance?: string;
   currency?: string;
   address?: string;
   numberOfPendingTxs: number;
-  isWalletLoading: boolean;
 }
 
 export const ConnectWallet: React.FC<ConnectWalletProps> = ({
-  isWalletConnected,
   balance,
   currency,
   address,
@@ -53,9 +50,9 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
     </Box>
   );
 
-  return isWalletConnected && balance ? (
-    addressButton
-  ) : (
-    <ConnectWalletButton size="large" className="connect-wallet__connect-btn" />
+  return (
+    <ConnectWalletButton size="large" className="connect-wallet__connect-btn">
+      {addressButton}
+    </ConnectWalletButton>
   );
 };
