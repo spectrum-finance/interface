@@ -68,7 +68,6 @@ class SwapStrategy implements ActionFormStrategy {
 const getAssetsByToken = (pairAssetId?: string) =>
   pairAssetId ? getAssetsByPairAsset(pairAssetId) : pools$;
 
-// TODO: REPLACE_WITH_OBSERVABLE
 const initialValues: SwapFormModel = {
   from: {
     asset: {
