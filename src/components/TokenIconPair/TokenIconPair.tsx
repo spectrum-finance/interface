@@ -3,7 +3,7 @@ import React from 'react';
 import { Flex } from '../../ergodex-cdk';
 import { TokenIcon } from '../TokenIcon/TokenIcon';
 
-export type TokenPair = { tokenA: string; tokenB: string };
+export type TokenPair = { tokenA?: string; tokenB?: string };
 
 interface TokenIconPairProps {
   tokenPair: TokenPair;

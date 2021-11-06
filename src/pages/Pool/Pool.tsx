@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import { WalletContext } from '../../context';
-import { Col, Row, Typography } from '../../ergodex-cdk';
+import { Button, Col, PlusOutlined, Row, Typography } from '../../ergodex-cdk';
 import { useNetworkPools } from '../../hooks/useNetworkPools';
 import { EmptyPositionsList } from './EmptyPositionsList/EmptyPositionsList';
 import { LiquidityPositionsList } from './LiquidityPositionsList/LiquidityPositionsList';
@@ -11,6 +12,12 @@ const Pool = (): JSX.Element => {
   const { isWalletConnected } = useContext(WalletContext);
   // TODO:REFACTOR_POSITIONS_AFTER_YOROI_FIX[EDEX-444]
   const positions = useNetworkPools();
+
+  const history = useHistory();
+
+  function handleAddLiquidity() {
+    history.push('/pool/add');
+  }
 
   return (
     <Row align="middle" justify="center">
@@ -25,7 +32,7 @@ const Pool = (): JSX.Element => {
             <LPGuide />
           </Col>
         </Row>
-        <Row>
+        <Row bottomGutter={4}>
           <Col span={24}>
             {!isWalletConnected ? (
               <EmptyPositionsList isWalletConnected={isWalletConnected} />
@@ -33,6 +40,17 @@ const Pool = (): JSX.Element => {
               <LiquidityPositionsList positions={positions} />
             )}
           </Col>
+        </Row>
+        <Row>
+          <Button
+            type="primary"
+            size="extra-large"
+            onClick={handleAddLiquidity}
+            icon={<PlusOutlined />}
+            block
+          >
+            Add Position
+          </Button>
         </Row>
       </Col>
     </Row>
