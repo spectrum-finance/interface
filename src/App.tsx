@@ -18,6 +18,7 @@ import { useBodyClass } from './hooks/useBodyClass';
 import { useObservable } from './hooks/useObservable';
 import { Swap } from './pages';
 import { Pool } from './pages/Pool/Pool';
+import { PoolPosition } from './pages/Pool/PoolPosition/PoolPosition';
 import { Remove } from './pages/Remove/Remove';
 
 const NotFound = () => <Redirect to="/swap" />;
@@ -50,6 +51,11 @@ export const App: React.FC = () => {
                       </Route>
                       <Route path="/swap" exact component={Swap} />
                       <Route path="/pool" exact component={Pool} />
+                      <Route
+                        path="/pool/:poolId"
+                        exact
+                        component={PoolPosition}
+                      />
                       <Route path="/remove/:poolId" exact component={Remove} />
                       <Route component={NotFound} />
                     </Switch>

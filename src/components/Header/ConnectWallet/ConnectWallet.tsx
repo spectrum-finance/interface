@@ -4,7 +4,7 @@ import { LoadingOutlined } from '@ant-design/icons';
 import React from 'react';
 
 import { Box, Button, Modal, Space, Typography } from '../../../ergodex-cdk';
-import { getShortAddress } from '../../../utils/address';
+import { getShortAddress } from '../../../utils/string/addres';
 import { ConnectWalletButton } from '../../common/ConnectWalletButton/ConnectWalletButton';
 import { WalletModal } from '../../WalletModal/WalletModal';
 
@@ -24,7 +24,7 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
   const addressToRender = address ? getShortAddress(address) : '';
 
   const openWalletModal = () =>
-    Modal.open(({ close }) => <WalletModal />, {
+    Modal.open(<WalletModal />, {
       width: 440,
       title: 'Wallet',
     });

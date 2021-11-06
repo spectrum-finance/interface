@@ -7,7 +7,7 @@ type Asset = {
   decimals?: number;
 };
 
-type AssetDictionary = Record<TokenId, Asset>;
+export type AssetDictionary = Record<TokenId, Asset>;
 
 export const getListAvailableTokens = (boxes: ErgoBox[]): AssetDictionary => {
   const assetDict: AssetDictionary = {};

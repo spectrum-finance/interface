@@ -1,10 +1,6 @@
 import { AmmPool, minValueForOrder } from '@ergolabs/ergo-dex-sdk';
-import {
-  AssetAmount,
-  BoxSelection,
-  DefaultBoxSelector,
-} from '@ergolabs/ergo-sdk';
-import React from 'react';
+import { BoxSelection, DefaultBoxSelector } from '@ergolabs/ergo-sdk';
+import React, { useCallback } from 'react';
 
 import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
 import { ERG_DECIMALS, UI_FEE } from '../../../constants/erg';
@@ -12,7 +8,7 @@ import { defaultExFee } from '../../../constants/settings';
 import { useSettings } from '../../../context';
 import { Box, Button, Flex, Typography } from '../../../ergodex-cdk';
 import { useUTXOs } from '../../../hooks/useUTXOs';
-import { explorer as network } from '../../../services/explorer';
+import { explorer } from '../../../services/explorer';
 import { poolActions } from '../../../services/poolActions';
 import { submitTx } from '../../../services/yoroi';
 import { makeTarget } from '../../../utils/ammMath';
@@ -23,13 +19,12 @@ import {
 import { calculateTotalFee } from '../../../utils/transactions';
 import { PairSpace } from '../PairSpace/PairSpace';
 import { RemoveFormSpaceWrapper } from '../RemoveFormSpaceWrapper/RemoveFormSpaceWrapper';
-import { RemovableAssetPair } from '../types';
 
 interface ConfirmRemoveModalProps {
   onClose: () => void;
   position: AmmPool;
-  lpToRemove: AssetAmount;
-  pair: RemovableAssetPair;
+  lpToRemove: number;
+  pair: AssetPair;
 }
 
 const ConfirmRemoveModal: React.FC<ConfirmRemoveModalProps> = ({
@@ -50,43 +45,57 @@ const ConfirmRemoveModal: React.FC<ConfirmRemoveModalProps> = ({
     ERG_DECIMALS,
   );
 
-  const removeOperation = async (position: AmmPool, lp: AssetAmount) => {
-    const actions = poolActions(position);
+  const removeOperation = useCallback(
+    async (position: AmmPool) => {
+      const actions = poolActions(position);
+      const lp = position.lp.withAmount(BigInt(lpToRemove.toFixed(0)));
 
-    const poolId = position.id;
+      const poolId = position.id;
 
-    if (address && pk) {
-      actions
-        .redeem(
-          {
-            poolId,
-            pk,
-            lp,
-            exFee: exFeeNErg,
-            uiFee: uiFeeNErg,
-          },
-          {
-            inputs: DefaultBoxSelector.select(
-              UTXOs,
-              makeTarget(
-                [lp],
-                minValueForOrder(minerFeeNErgs, uiFeeNErg, exFeeNErg),
-              ),
-            ) as BoxSelection,
-            changeAddress: address,
-            selfAddress: address,
-            feeNErgs: minerFeeNErgs,
-            network: await network.getNetworkContext(),
-          },
-        )
-        .then(async (tx) => {
-          await submitTx(tx);
-        })
-        // TODO: HANDLE_ERROR_STATE_WITH_MODAL_CHAINING[EDEX-466]
-        .catch((err) => console.log(err))
-        .finally(() => onClose());
-    }
-  };
+      const network = await explorer.getNetworkContext();
+
+      const inputs = DefaultBoxSelector.select(
+        UTXOs,
+        makeTarget([lp], minValueForOrder(minerFeeNErgs, uiFeeNErg, exFeeNErg)),
+      ) as BoxSelection;
+
+      if (address && pk) {
+        actions
+          .redeem(
+            {
+              poolId,
+              pk,
+              lp,
+              exFee: exFeeNErg,
+              uiFee: uiFeeNErg,
+            },
+            {
+              inputs,
+              changeAddress: address,
+              selfAddress: address,
+              feeNErgs: minerFeeNErgs,
+              network,
+            },
+          )
+          .then(async (tx) => {
+            await submitTx(tx);
+          })
+          // TODO: HANDLE_ERROR_STATE_WITH_MODAL_CHAINING[EDEX-466]
+          .catch((err) => console.log(err))
+          .finally(() => onClose());
+      }
+    },
+    [
+      UTXOs,
+      address,
+      exFeeNErg,
+      lpToRemove,
+      minerFeeNErgs,
+      onClose,
+      pk,
+      uiFeeNErg,
+    ],
+  );
 
   return (
     <Box transparent>
@@ -140,7 +149,7 @@ const ConfirmRemoveModal: React.FC<ConfirmRemoveModalProps> = ({
             block
             type="primary"
             size="large"
-            onClick={() => removeOperation(position, lpToRemove)}
+            onClick={() => removeOperation(position)}
           >
             Remove liquidity
           </Button>

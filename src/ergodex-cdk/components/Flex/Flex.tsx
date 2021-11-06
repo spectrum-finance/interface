@@ -15,6 +15,7 @@ type ItemsProps = React.DetailedHTMLProps<
   marginLeft?: number;
   marginRight?: number;
   flex?: number;
+  grow?: boolean;
 };
 
 const Item: FC<ItemsProps> = ({
@@ -27,9 +28,11 @@ const Item: FC<ItemsProps> = ({
   marginLeft,
   marginRight,
   flex,
+  grow,
   ...other
 }) => (
   <div
+    className={grow ? 'ergo-flex-item__grow' : ''}
     style={{
       ...(style || {}),
       order,

@@ -11,7 +11,7 @@ interface MessageType extends PromiseLike<any> {
 
 const defaultConfig: DefaultMessageConfig = {
   className: 'ergodex-message',
-  duration: 5,
+  duration: 2,
 };
 
 const m = {
