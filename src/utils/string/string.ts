@@ -1,9 +1,5 @@
 const DOT_SYMBOL = '.';
 
-export const truncate = (id: string): string => {
-  return `${id.slice(0, 16)}...${id.slice(48)}`;
-};
-
 export const toFloat = (value: string, maxDecimals?: number): string => {
   if (value === DOT_SYMBOL) {
     return '';
@@ -34,3 +30,5 @@ export const pattern = <T = any>(
 
   return arg ? arg[1] : undefined;
 };
+
+export const isHexString = (str: string): boolean => /[0-9a-f]+/.test(str);

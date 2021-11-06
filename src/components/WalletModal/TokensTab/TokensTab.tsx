@@ -1,26 +1,17 @@
-import './TokenListView.less';
-
 import { AssetAmount } from '@ergolabs/ergo-sdk';
 import React, { useEffect, useState } from 'react';
 
-import { Box, Col, Row, Typography } from '../../ergodex-cdk';
-import { listWalletAssets } from '../../services/userWallet';
-import { renderFractions } from '../../utils/math';
-import { TokenIcon } from '../TokenIcon/TokenIcon';
+import { Box, Col, Row, Typography } from '../../../ergodex-cdk';
+import { listWalletAssets } from '../../../services/userWallet';
+import { renderFractions } from '../../../utils/math';
+import { TokenIcon } from '../../TokenIcon/TokenIcon';
 
 interface TokenListItemProps {
-  symbol?: string;
   name?: string;
-  iconName?: string;
   balance?: number;
 }
 
-export const TokenListItem: React.FC<TokenListItemProps> = ({
-  symbol,
-  name,
-  iconName,
-  balance,
-}) => (
+const TokenListItem: React.FC<TokenListItemProps> = ({ name, balance }) => (
   <Box
     padding={[2, 4, 1, 4]}
     borderRadius="m"
@@ -28,12 +19,12 @@ export const TokenListItem: React.FC<TokenListItemProps> = ({
   >
     <Row align="middle">
       <Col span={2}>
-        <TokenIcon name={iconName ?? symbol ?? 'empty'} />
+        <TokenIcon name={name ?? 'empty'} />
       </Col>
       <Col span={18} style={{ paddingLeft: 10 }}>
         <Row>
           <Typography.Text strong style={{ fontSize: '16px' }}>
-            {symbol}
+            {name}
           </Typography.Text>
         </Row>
         <Row align="bottom">
@@ -51,7 +42,7 @@ export const TokenListItem: React.FC<TokenListItemProps> = ({
   </Box>
 );
 
-export const TokenListView: React.FC = () => {
+const TokensTab: React.FC = () => {
   const [availableWalletAssets, setAvailableWalletAssets] = useState<
     AssetAmount[] | undefined
   >();
@@ -66,13 +57,9 @@ export const TokenListView: React.FC = () => {
         availableWalletAssets.map((token, key) => (
           <Col span={24} key={key}>
             <TokenListItem
-              symbol={token.asset.name}
               name={token.asset.name}
-              iconName={'erg-orange'}
               balance={Number(
-                parseFloat(
-                  renderFractions(token.amount, token.asset.decimals),
-                ).toFixed(2),
+                renderFractions(token.amount, token.asset.decimals),
               )}
             />
           </Col>
@@ -80,3 +67,5 @@ export const TokenListView: React.FC = () => {
     </Row>
   );
 };
+
+export { TokensTab };
