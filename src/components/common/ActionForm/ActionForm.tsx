@@ -7,7 +7,6 @@ import { combineLatest, first, map, Observable, of, startWith } from 'rxjs';
 import { Form, FormInstance } from '../../../ergodex-cdk';
 import { useObservableAction } from '../../../hooks/useObservable';
 import { isOnline$ } from '../../../services/new/networkConnection';
-import { ergoBalance$, isWalletConnected$ } from '../../../services/new/wallet';
 import { ActionButton, ActionButtonState } from './ActionButton/ActionButton';
 
 export interface ActionFormStrategy<T = any> {

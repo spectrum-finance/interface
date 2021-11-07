@@ -24,12 +24,9 @@ import {
 } from '../../ergodex-cdk';
 import { useObservable, useObservableAction } from '../../hooks/useObservable';
 import { assets$, getAssetsByPairAsset } from '../../services/new/assets';
+import { getBalanceByTokenId } from '../../services/new/balance';
+import { isWalletLoading$, utxos$ } from '../../services/new/core';
 import { pools$ } from '../../services/new/pools';
-import {
-  getTokenBalance,
-  isWalletLoading$,
-  utxos$,
-} from '../../services/new/wallet';
 
 interface SwapFormModel {
   readonly from?: TokenControlValue;
@@ -53,7 +50,7 @@ class SwapStrategy implements ActionFormStrategy {
     const amount = from?.amount?.value;
 
     if (asset && amount) {
-      return getTokenBalance(asset.id).pipe(
+      return getBalanceByTokenId(asset.id).pipe(
         map((balance) => (amount > balance ? asset.name : undefined)),
       );
     }

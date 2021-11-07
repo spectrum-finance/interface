@@ -7,7 +7,7 @@ import { of } from 'rxjs';
 
 import { Box, Button, Flex, Typography } from '../../../ergodex-cdk';
 import { useObservableAction } from '../../../hooks/useObservable';
-import { getTokenBalance } from '../../../services/new/wallet';
+import { getBalanceByTokenId } from '../../../services/new/balance';
 import {
   TokenAmountInput,
   TokenAmountInputValue,
@@ -28,7 +28,7 @@ export interface TokenControlProps {
 }
 
 const getTokenBalanceByTokenName = (tokenName: string | undefined) =>
-  tokenName ? getTokenBalance(tokenName) : of(undefined);
+  tokenName ? getBalanceByTokenId(tokenName) : of(undefined);
 
 export const TokenControl: FC<TokenControlProps> = ({
   label,
@@ -100,14 +100,14 @@ export const TokenControl: FC<TokenControlProps> = ({
           alignItems="center"
           className="token-control-bottom-panel"
         >
-          {balance && (
+          {balance !== undefined && (
             <Flex.Item marginRight={2}>
               <Typography.Body>
                 Balance: {balance} {value?.asset?.name}
               </Typography.Body>
             </Flex.Item>
           )}
-          {balance && maxButton && (
+          {balance !== undefined && maxButton && (
             <Button
               ghost
               type="primary"
