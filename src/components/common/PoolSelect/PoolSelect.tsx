@@ -48,38 +48,58 @@ const PoolOption: React.FC<PoolOptionProps> = ({ position }) => {
 };
 
 interface PoolSelectProps {
-  positions: AmmPool[];
+  positions?: AmmPool[];
+  value?: AmmPool;
+  onChange?: (pool: AmmPool) => void;
 }
 
-const PoolSelect: React.FC<PoolSelectProps> = ({ positions }) => {
+const PoolSelect: React.FC<PoolSelectProps> = ({
+  positions,
+  value,
+  onChange,
+}) => {
+  const handleChange = (position: AmmPool) => {
+    if (onChange) {
+      onChange(position);
+    }
+  };
+
   return (
-    <Dropdown
-      overlay={
-        <Menu>
-          {positions.map((position, index) => {
-            return (
-              <Menu.Item key={index}>
-                <PoolOption position={position} />
-              </Menu.Item>
-            );
-          })}
-        </Menu>
-      }
-      trigger={['click']}
-    >
-      <Button size="large" block style={{ padding: '0 12px' }}>
-        <Flex justify="space-between">
-          <Flex.Item marginRight={2} grow>
-            <PoolOption position={positions[0]} />
-          </Flex.Item>
-          <Flex.Item>
-            <Flex alignItems="center" style={{ height: '100%' }}>
-              <DownOutlined />
+    <>
+      {positions ? (
+        <Dropdown
+          overlay={
+            <Menu>
+              {positions.map((position, index) => {
+                return (
+                  <Menu.Item key={index} onClick={() => handleChange(position)}>
+                    <PoolOption position={position} />
+                  </Menu.Item>
+                );
+              })}
+            </Menu>
+          }
+          trigger={['click']}
+        >
+          <Button size="large" block style={{ padding: '0 12px' }}>
+            <Flex justify="space-between">
+              <Flex.Item marginRight={2} grow>
+                {value ? <PoolOption position={value} /> : 'select'}
+              </Flex.Item>
+              <Flex.Item>
+                <Flex alignItems="center" style={{ height: '100%' }}>
+                  <DownOutlined />
+                </Flex>
+              </Flex.Item>
             </Flex>
-          </Flex.Item>
-        </Flex>
-      </Button>
-    </Dropdown>
+          </Button>
+        </Dropdown>
+      ) : (
+        <Button size="large" block disabled>
+          No available pools for this pair
+        </Button>
+      )}
+    </>
   );
 };
 export { PoolSelect };

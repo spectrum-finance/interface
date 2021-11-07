@@ -12,10 +12,7 @@ import { explorer } from '../../../services/explorer';
 import { poolActions } from '../../../services/poolActions';
 import { submitTx } from '../../../services/yoroi';
 import { makeTarget } from '../../../utils/ammMath';
-import {
-  parseUserInputToFractions,
-  renderFractions,
-} from '../../../utils/math';
+import { parseUserInputToFractions } from '../../../utils/math';
 import { calculateTotalFee } from '../../../utils/transactions';
 import { PairSpace } from '../PairSpace/PairSpace';
 import { RemoveFormSpaceWrapper } from '../RemoveFormSpaceWrapper/RemoveFormSpaceWrapper';
@@ -128,9 +125,7 @@ const ConfirmRemoveModal: React.FC<ConfirmRemoveModalProps> = ({
                         <Flex.Item>
                           <Flex justify="space-between">
                             <Flex.Item>UI Fee:</Flex.Item>
-                            <Flex.Item>
-                              {renderFractions(UI_FEE, ERG_DECIMALS)} ERG
-                            </Flex.Item>
+                            <Flex.Item>{UI_FEE} ERG</Flex.Item>
                           </Flex>
                         </Flex.Item>
                       </Flex>
@@ -138,7 +133,7 @@ const ConfirmRemoveModal: React.FC<ConfirmRemoveModalProps> = ({
                   />
                 </Flex.Item>
                 <Flex.Item>
-                  <Typography.Text strong>{totalFees}</Typography.Text>
+                  <Typography.Text strong>{totalFees} ERG</Typography.Text>
                 </Flex.Item>
               </Flex>
             </Box>

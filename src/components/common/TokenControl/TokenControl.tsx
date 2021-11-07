@@ -95,7 +95,7 @@ export const TokenControl: FC<TokenControlProps> = ({
             <Flex.Item>
               <TokenSelect
                 assets={assets}
-                asset={value?.asset}
+                value={value?.asset}
                 onChange={onTokenChange}
               />
             </Flex.Item>
@@ -132,8 +132,9 @@ export const TokenControl: FC<TokenControlProps> = ({
 
 export interface TokenControlFormItemProps {
   readonly name: string;
-  readonly label: ReactNode;
+  readonly label?: ReactNode;
   readonly maxButton?: boolean;
+  readonly hasBorder?: boolean;
   readonly assets?: AssetInfo[];
 }
 
@@ -142,10 +143,16 @@ export const TokenControlFormItem: FC<TokenControlFormItemProps> = ({
   name,
   maxButton,
   assets,
+  hasBorder,
 }) => {
   return (
     <Form.Item name={name} className="token-form-item">
-      <TokenControl assets={assets} maxButton={maxButton} label={label} />
+      <TokenControl
+        assets={assets}
+        maxButton={maxButton}
+        label={label}
+        hasBorder={hasBorder}
+      />
     </Form.Item>
   );
 };

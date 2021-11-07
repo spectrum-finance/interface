@@ -3,18 +3,18 @@ import './TokenSelect.less';
 import { AssetInfo } from '@ergolabs/ergo-sdk';
 import React from 'react';
 
-import { Button, DownOutlined, Modal } from '../../../../ergodex-cdk';
+import { Button, DownOutlined, Form, Modal } from '../../../../ergodex-cdk';
 import { TokenIcon } from '../../../TokenIcon/TokenIcon';
 import { TokenListModal } from './TokenListModal/TokenListModal';
 
 interface TokenSelectProps {
-  readonly asset?: AssetInfo | undefined;
-  readonly onChange?: (asset: AssetInfo) => void;
+  readonly value?: AssetInfo | undefined;
+  readonly onChange?: (value: AssetInfo) => void;
   readonly assets?: AssetInfo[];
 }
 
 const TokenSelect: React.FC<TokenSelectProps> = ({
-  asset,
+  value,
   onChange,
   assets,
 }) => {
@@ -29,19 +29,15 @@ const TokenSelect: React.FC<TokenSelectProps> = ({
 
   return (
     <>
-      {asset ? (
-        <button
-          className="token-select_selected"
-          onClick={openTokenModal}
-          style={{ width: '100%' }}
-        >
-          <span className="token-select_selected_container">
-            <TokenIcon
-              name={asset.name}
-              className="token-select_selected_item"
-            />
-            <span className="token-select_selected_item">
-              {asset.name?.toUpperCase()}
+      {value ? (
+        <button className="token-select__selected" onClick={openTokenModal}>
+          <span className="token-select__selected-container">
+            <span className="token-select__selected-inner token-select__selected-item">
+              <TokenIcon
+                name={value.name}
+                className="token-select__selected-item"
+              />
+              <span>{value.name}</span>
             </span>
             <DownOutlined />
           </span>
@@ -67,4 +63,19 @@ const TokenSelect: React.FC<TokenSelectProps> = ({
   );
 };
 
-export { TokenSelect };
+interface TokeSelectFormItem extends TokenSelectProps {
+  name?: string;
+}
+
+const TokeSelectFormItem: React.FC<TokeSelectFormItem> = ({
+  name,
+  ...rest
+}) => {
+  return (
+    <Form.Item name={name} className="token-select-form-item">
+      <TokenSelect {...rest} />
+    </Form.Item>
+  );
+};
+
+export { TokenSelect, TokeSelectFormItem };

@@ -15,7 +15,9 @@
   }
 }
 
-.token-select_selected {
+.token-select__selected {
+  display: block;
+  width: 100%;
   padding: 8px 12px;
   border: 0;
   background-color: var(--ergo-tokenselect-selected-active-bg);
@@ -26,7 +28,13 @@
   font-size: 16px;
   line-height: 24px;
 
-  &_container {
+  &-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &-inner {
     display: flex;
     align-items: center;
   }
@@ -38,7 +46,11 @@
     background-color: var(--ergo-tokenselect-selected-active-bg);
   }
 
-  &_item {
+  &-item {
     margin-right: 8px;
   }
+}
+
+.token-select-form-item {
+  margin-bottom: 0;
 }
