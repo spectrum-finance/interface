@@ -95,6 +95,7 @@ export interface ActionButtonProps {
   readonly state: ActionButtonState;
   readonly token?: string | undefined;
   readonly nativeToken?: string | undefined;
+  readonly onClick?: () => void;
   readonly children: ReactNode;
 }
 
@@ -105,12 +106,24 @@ export const ActionButton: FC<ActionButtonProps> = (props) => {
     props.nativeToken,
     props.children,
   );
+
+  const handleClick = () => {
+    if (props.state === ActionButtonState.ACTION && props.onClick) {
+      props.onClick();
+    }
+  };
+
   return (
     <ConnectWalletButton
       className="action-form__connect-btn"
       size="extra-large"
     >
-      <Button {...other} size="extra-large" style={{ width: '100%' }}>
+      <Button
+        {...other}
+        size="extra-large"
+        style={{ width: '100%' }}
+        onClick={handleClick}
+      >
         {children}
       </Button>
     </ConnectWalletButton>

@@ -2,7 +2,7 @@
 import { FormProps } from 'antd';
 import { FieldData } from 'rc-field-form/lib/interface';
 import React, { FC, ReactNode, useEffect } from 'react';
-import { combineLatest, map, Observable, of, startWith } from 'rxjs';
+import { combineLatest, first, map, Observable, of, startWith } from 'rxjs';
 
 import { Form, FormInstance } from '../../../ergodex-cdk';
 import { useObservableAction } from '../../../hooks/useObservable';
@@ -22,7 +22,7 @@ export interface ActionFormStrategy<T = any> {
   getInsufficientTokenForFee: (
     form: FormInstance<T>,
   ) => undefined | string | Observable<undefined | string>;
-  request: (form: FormInstance<T>) => Promise<any> | Observable<any>;
+  request: (form: FormInstance<T>) => Promise<any> | Observable<any> | void;
   actionButtonCaption: () => ReactNode;
 }
 
@@ -132,6 +132,14 @@ export const ActionForm: FC<ActionFormProps> = ({
     }
   };
 
+  const handleClick = () => {
+    const result = strategy.request(form);
+
+    if (result instanceof Observable) {
+      result.pipe(first()).subscribe();
+    }
+  };
+
   return (
     <Form
       form={form}
@@ -142,6 +150,7 @@ export const ActionForm: FC<ActionFormProps> = ({
       {children}
 
       <ActionButton
+        onClick={handleClick}
         state={buttonData.state}
         token={buttonData.data?.token}
         nativeToken={buttonData.data?.nativeToken}
