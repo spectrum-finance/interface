@@ -1,6 +1,7 @@
 import './Swap.less';
 
 import React, { FC, useEffect } from 'react';
+import { map, Observable } from 'rxjs';
 
 import {
   ActionForm,
@@ -24,7 +25,11 @@ import {
 import { useObservable, useObservableAction } from '../../hooks/useObservable';
 import { assets$, getAssetsByPairAsset } from '../../services/new/assets';
 import { pools$ } from '../../services/new/pools';
-import { isWalletLoading$, utxos$ } from '../../services/new/wallet';
+import {
+  getTokenBalance,
+  isWalletLoading$,
+  utxos$,
+} from '../../services/new/wallet';
 
 interface SwapFormModel {
   readonly from?: TokenControlValue;
@@ -40,8 +45,20 @@ class SwapStrategy implements ActionFormStrategy {
     return undefined;
   }
 
-  getInsufficientTokenForTx(form: FormInstance): string | undefined {
-    return 'ERG';
+  getInsufficientTokenForTx(
+    form: FormInstance<SwapFormModel>,
+  ): Observable<string | undefined> | string | undefined {
+    const { from } = form.getFieldsValue();
+    const asset = from?.asset;
+    const amount = from?.amount?.value;
+
+    if (asset && amount) {
+      return getTokenBalance(asset.id).pipe(
+        map((balance) => (amount > balance ? asset.name : undefined)),
+      );
+    }
+
+    return undefined;
   }
 
   isAmountNotEntered(form: FormInstance<SwapFormModel>): boolean {
