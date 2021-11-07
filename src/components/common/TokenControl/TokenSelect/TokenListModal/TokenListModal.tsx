@@ -1,5 +1,6 @@
 import './TokenListModal.less';
 
+import { AssetInfo } from '@ergolabs/ergo-sdk';
 import React, { useState } from 'react';
 
 import {
@@ -13,52 +14,27 @@ import { TokenListItem } from './TokenListItem';
 
 interface TokenListModalProps {
   close: () => void;
-  onSelectChanged?: (name: string) => void | undefined;
+  onSelectChanged?: (name: AssetInfo) => void | undefined;
+  readonly assets?: AssetInfo[];
 }
-
-const tokenList = [
-  {
-    symbol: 'ERG',
-    name: 'Ergo',
-    iconName: 'erg-orange',
-  },
-  {
-    symbol: 'ADA',
-    name: 'Ada',
-  },
-  {
-    symbol: 'ERG',
-    name: 'Ergo',
-    iconName: 'erg-orange',
-  },
-  {
-    symbol: 'ADA',
-    name: 'Ada',
-  },
-  {
-    symbol: 'ERG',
-    name: 'Ergo',
-    iconName: 'erg-orange',
-  },
-  {
-    symbol: 'ADA',
-    name: 'Ada',
-  },
-];
 
 const TokenListModal: React.FC<TokenListModalProps> = ({
   close,
   onSelectChanged,
+  assets,
 }) => {
   const [searchWords, setSearchWords] = useState('');
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchWords(e.target.value);
+    setSearchWords(e.target.value.toLowerCase());
   };
 
-  const handleClick = (symbol: string) => {
+  const byTerm = (asset: AssetInfo) =>
+    !searchWords || asset.name?.toLowerCase().includes(searchWords);
+
+  const handleClick = (asset: AssetInfo) => {
     if (onSelectChanged) {
-      onSelectChanged(symbol);
+      onSelectChanged(asset);
     }
 
     if (close) {
@@ -76,22 +52,14 @@ const TokenListModal: React.FC<TokenListModalProps> = ({
       />
       <Row className="token-list-modal__token-list">
         <Col span={24}>
-          {tokenList
-            .filter((token) => {
-              return token.symbol
-                .toLowerCase()
-                .includes(searchWords.toLowerCase());
-            })
-            .map((token, key) => (
-              <TokenListItem
-                key={key}
-                symbol={token.symbol}
-                name={token.name}
-                iconName={token.symbol}
-                balance={0.01342}
-                onClick={() => handleClick(token.symbol)}
-              />
-            ))}
+          {assets?.filter(byTerm).map((asset) => (
+            <TokenListItem
+              key={asset.id}
+              asset={asset}
+              iconName={asset.name}
+              onClick={() => handleClick(asset)}
+            />
+          ))}
         </Col>
       </Row>
     </Box>

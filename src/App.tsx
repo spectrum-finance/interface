@@ -26,7 +26,6 @@ const NotFound = () => <Redirect to="/swap" />;
 export const App: React.FC = () => {
   const theme = useTheme();
   useBodyClass(theme);
-
   const [isRustModuleLoaded, setIsRustModuleLoaded] = useState(false);
 
   useEffect(() => {

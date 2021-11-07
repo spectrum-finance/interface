@@ -2,8 +2,11 @@ import './Header.less';
 
 import React from 'react';
 
-import { useSettings, useWallet } from '../../context';
+import { ERG_TOKEN_NAME } from '../../constants/erg';
+import { useSettings } from '../../context';
 import { Logo } from '../../ergodex-cdk';
+import { useObservable } from '../../hooks/useObservable';
+import { ergoBalance$ } from '../../services/new/wallet';
 import { BurgerMenu } from './BurgerMenu/BurgerMenu';
 import { ConnectWallet } from './ConnectWallet/ConnectWallet';
 import { GlobalSettings } from './GlobalSettings/GlobalSettings';
@@ -16,8 +19,8 @@ const networks = [
 ];
 
 export const Header: React.FC = () => {
-  const { isWalletConnected, ergBalance, isWalletLoading } = useWallet();
   const [{ address }] = useSettings();
+  const [balance] = useObservable(ergoBalance$);
 
   return (
     <header className="header">
@@ -28,12 +31,10 @@ export const Header: React.FC = () => {
         <div className="header__options">
           <NetworkDropdown networks={networks} />
           <ConnectWallet
-            isWalletConnected={isWalletConnected}
-            isWalletLoading={isWalletLoading}
             numberOfPendingTxs={0}
-            balance={ergBalance}
-            currency="ERG"
             address={address}
+            balance={balance}
+            currency={ERG_TOKEN_NAME}
           />
           <GlobalSettings />
           <BurgerMenu />

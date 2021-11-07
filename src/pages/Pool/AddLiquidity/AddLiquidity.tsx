@@ -37,7 +37,7 @@ const AddLiquidity = (): JSX.Element => {
             <Typography.Body strong>Select Pair</Typography.Body>
             <Flex justify="space-between" alignItems="center">
               <Flex.Item marginRight={2}>
-                <TokenSelect name="erg" />
+                <TokenSelect />
               </Flex.Item>
               <Flex.Item>
                 <TokenSelect />
@@ -52,10 +52,7 @@ const AddLiquidity = (): JSX.Element => {
             <Typography.Body strong>Liquidity</Typography.Body>
             <Flex flexDirection="col">
               <Flex.Item marginBottom={1}>
-                <TokenControl
-                  getTokenBalance={() => Promise.resolve()}
-                  hasBorder={isStickRatio}
-                />
+                <TokenControl hasBorder={isStickRatio} />
               </Flex.Item>
               <Flex.Item className="stick-button">
                 <Tooltip
@@ -73,10 +70,7 @@ const AddLiquidity = (): JSX.Element => {
                 </Tooltip>
               </Flex.Item>
               <Flex.Item>
-                <TokenControl
-                  getTokenBalance={() => Promise.resolve()}
-                  hasBorder={isStickRatio}
-                />
+                <TokenControl hasBorder={isStickRatio} />
               </Flex.Item>
             </Flex>
           </Flex.Item>
