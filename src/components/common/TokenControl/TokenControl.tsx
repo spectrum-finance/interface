@@ -21,6 +21,7 @@ export interface TokenControlProps {
   readonly value?: TokenControlValue;
   readonly onChange?: (value: TokenControlValue) => void;
   readonly maxButton?: boolean;
+  readonly hasBorder?: boolean;
   readonly getTokenBalance: (token: string) => Promise<any>;
 }
 
@@ -30,6 +31,7 @@ export const TokenControl: FC<TokenControlProps> = ({
   onChange,
   maxButton,
   getTokenBalance,
+  hasBorder,
 }) => {
   const [balance, setBalance] = useState<undefined | number>(undefined);
 
@@ -63,7 +65,12 @@ export const TokenControl: FC<TokenControlProps> = ({
   };
 
   return (
-    <Box padding={4} borderRadius="l" gray>
+    <Box
+      className={hasBorder ? 'token-control--has-border' : ''}
+      padding={4}
+      borderRadius="l"
+      gray
+    >
       <Flex flexDirection="col">
         <Flex.Item marginBottom={2}>
           <Typography.Body type="secondary">{label}</Typography.Body>

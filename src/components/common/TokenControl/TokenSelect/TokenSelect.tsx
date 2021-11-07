@@ -20,12 +20,13 @@ const TokenSelect: React.FC<TokenSelectProps> = ({ name, onChange }) => {
   return (
     <>
       {name ? (
-        <button className="token-select_selected" onClick={openTokenModal}>
+        <button
+          className="token-select_selected"
+          onClick={openTokenModal}
+          style={{ width: '100%' }}
+        >
           <span className="token-select_selected_container">
-            <TokenIcon
-              name={name ?? 'empty'}
-              className="token-select_selected_item"
-            />
+            <TokenIcon name={name} className="token-select_selected_item" />
             <span className="token-select_selected_item">
               {name.toUpperCase()}
             </span>
@@ -34,10 +35,16 @@ const TokenSelect: React.FC<TokenSelectProps> = ({ name, onChange }) => {
         </button>
       ) : (
         <Button
-          className="token-select"
+          style={{
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
           size="large"
           type="primary"
           onClick={openTokenModal}
+          block
         >
           Select a token
           <DownOutlined />
