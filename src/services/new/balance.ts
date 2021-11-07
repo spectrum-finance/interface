@@ -21,7 +21,7 @@ import { nativeTokenBalance$, utxos$ } from './core';
 const ERGO_ID =
   '0000000000000000000000000000000000000000000000000000000000000000';
 
-class Balance {
+export class Balance {
   private mapTokenIdToBalance = new Map<string, number>();
 
   constructor(tokens: [bigint, AssetInfo][]) {

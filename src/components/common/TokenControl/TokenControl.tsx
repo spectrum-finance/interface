@@ -1,8 +1,8 @@
 import './TokenControl.less';
 
-import { AssetAmount, AssetInfo } from '@ergolabs/ergo-sdk';
+import { AssetInfo } from '@ergolabs/ergo-sdk';
 import { Form } from 'antd';
-import React, { FC, ReactNode, useEffect, useState } from 'react';
+import React, { FC, ReactNode, useEffect } from 'react';
 import { of } from 'rxjs';
 
 import { Box, Button, Flex, Typography } from '../../../ergodex-cdk';

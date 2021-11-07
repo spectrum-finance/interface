@@ -24,7 +24,11 @@ import {
 } from '../../ergodex-cdk';
 import { useObservable, useObservableAction } from '../../hooks/useObservable';
 import { assets$, getAssetsByPairAsset } from '../../services/new/assets';
-import { getBalanceByTokenId } from '../../services/new/balance';
+import {
+  Balance,
+  getBalanceByTokenId,
+  useWalletBalance,
+} from '../../services/new/balance';
 import { isWalletLoading$, utxos$ } from '../../services/new/core';
 import { pools$ } from '../../services/new/pools';
 
@@ -34,6 +38,8 @@ interface SwapFormModel {
 }
 
 class SwapStrategy implements ActionFormStrategy {
+  constructor(private balance: Balance) {}
+
   actionButtonCaption(): React.ReactNode {
     return 'Swap';
   }
@@ -49,10 +55,8 @@ class SwapStrategy implements ActionFormStrategy {
     const asset = from?.asset;
     const amount = from?.amount?.value;
 
-    if (asset && amount) {
-      return getBalanceByTokenId(asset.id).pipe(
-        map((balance) => (amount > balance ? asset.name : undefined)),
-      );
+    if (asset && amount && amount > this.balance.get(asset)) {
+      return asset.name;
     }
 
     return undefined;
@@ -93,9 +97,10 @@ const initialValues: SwapFormModel = {
 
 export const Swap: FC = () => {
   const [form] = Form.useForm<SwapFormModel>();
-  const swapStrategy = new SwapStrategy();
   const [fromAssets] = useObservable(assets$);
   const [toAssets, updateToAssets] = useObservableAction(getAssetsByToken);
+  const [balance] = useWalletBalance();
+  const swapStrategy = new SwapStrategy(balance);
 
   useEffect(() => {
     updateToAssets(initialValues.from?.asset?.id);
