@@ -45,7 +45,7 @@ export const TokenControl: FC<TokenControlProps> = ({
 
   useEffect(() => {
     if (value?.asset) {
-      updateBalance(value?.asset?.name);
+      updateBalance(value?.asset?.id);
     } else {
       updateBalance(undefined);
     }

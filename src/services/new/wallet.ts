@@ -5,6 +5,7 @@ import {
   from,
   interval,
   map,
+  Observable,
   of,
   publishReplay,
   refCount,
@@ -17,6 +18,9 @@ import { walletCookies } from '../../utils/cookies';
 import { renderFractions } from '../../utils/math';
 
 const TEN_SECONDS = 10 * 1000;
+
+const ERGO_ID =
+  '0000000000000000000000000000000000000000000000000000000000000000';
 
 export const isWalletConnected$ = of(
   walletCookies.isSetConnected() && window.ergo_request_read_access,
@@ -54,9 +58,15 @@ export const isWalletLoading$ = combineLatest([utxos$, ergoBalance$]).pipe(
   refCount(),
 );
 
-export const getTokenBalance = (tokenName: string) =>
+export const getTokenBalance = (tokenId: string): Observable<number> =>
   isWalletConnected$.pipe(
     filter(Boolean),
-    switchMap(() => from(ergo.get_balance(tokenName))),
-    map((amount) => renderFractions(amount, ERG_DECIMALS)),
+    switchMap(() =>
+      from(
+        tokenId === ERGO_ID
+          ? ergo.get_balance(ERG_TOKEN_NAME)
+          : ergo.get_balance(tokenId),
+      ),
+    ),
+    map((amount) => +renderFractions(amount, ERG_DECIMALS)),
   );

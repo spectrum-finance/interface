@@ -2,7 +2,7 @@
 import { FormProps } from 'antd';
 import { FieldData } from 'rc-field-form/lib/interface';
 import React, { FC, ReactNode, useEffect } from 'react';
-import { combineLatest, map, Observable, of } from 'rxjs';
+import { combineLatest, map, Observable, of, startWith } from 'rxjs';
 
 import { Form, FormInstance } from '../../../ergodex-cdk';
 import { useObservableAction } from '../../../hooks/useObservable';
@@ -11,12 +11,18 @@ import { ergoBalance$, isWalletConnected$ } from '../../../services/new/wallet';
 import { ActionButton, ActionButtonState } from './ActionButton/ActionButton';
 
 export interface ActionFormStrategy<T = any> {
-  isTokensNotSelected: (form: FormInstance<T>) => boolean;
-  isAmountNotEntered: (form: FormInstance<T>) => boolean;
-  isLiquidityInsufficient: (form: FormInstance<T>) => boolean;
-  getInsufficientTokenForTx: (form: FormInstance<T>) => undefined | string;
-  getInsufficientTokenForFee: (form: FormInstance<T>) => undefined | string;
-  request: (form: FormInstance<T>) => Promise<any>;
+  isTokensNotSelected: (form: FormInstance<T>) => boolean | Observable<boolean>;
+  isAmountNotEntered: (form: FormInstance<T>) => boolean | Observable<boolean>;
+  isLiquidityInsufficient: (
+    form: FormInstance<T>,
+  ) => boolean | Observable<boolean>;
+  getInsufficientTokenForTx: (
+    form: FormInstance<T>,
+  ) => undefined | string | Observable<undefined | string>;
+  getInsufficientTokenForFee: (
+    form: FormInstance<T>,
+  ) => undefined | string | Observable<undefined | string>;
+  request: (form: FormInstance<T>) => Promise<any> | Observable<any>;
   actionButtonCaption: () => ReactNode;
 }
 
@@ -29,43 +35,73 @@ export interface ActionFormProps {
   readonly onValuesChange?: FormProps['onValuesChange'];
 }
 
+function normalizeState<T>(value: T | Observable<T>): Observable<T> {
+  return value instanceof Observable ? value : of(value);
+}
+
 const getButtonData = (
   strategy: ActionFormStrategy,
   form: FormInstance,
+  values: any,
 ): Observable<{
   state: ActionButtonState;
   data?: any;
 }> => {
+  const isTokensNotSelected$ = normalizeState(
+    strategy.isTokensNotSelected(form),
+  );
+  const isAmountNotEntered$ = normalizeState(strategy.isAmountNotEntered(form));
+  const insufficientTokenForTx$ = normalizeState(
+    strategy.getInsufficientTokenForTx(form),
+  );
+  const insufficientTokenForFee$ = normalizeState(
+    strategy.getInsufficientTokenForFee(form),
+  );
+  const isLiquidityInsufficient$ = normalizeState(
+    strategy.isLiquidityInsufficient(form),
+  );
+
   return combineLatest([
     isOnline$,
-    ergoBalance$,
-    isWalletConnected$,
-    of(strategy),
-    of(form),
+    isTokensNotSelected$,
+    isAmountNotEntered$,
+    insufficientTokenForTx$,
+    insufficientTokenForFee$,
+    isLiquidityInsufficient$,
   ]).pipe(
-    map(([isOnline, ergoBalance, isWalletConnected, strategy, form]) => {
-      if (!isOnline) {
-        return { state: ActionButtonState.CHECK_INTERNET_CONNECTION };
-      } else if (strategy.isTokensNotSelected(form)) {
-        return { state: ActionButtonState.SELECT_TOKEN };
-      } else if (strategy.isAmountNotEntered(form)) {
-        return { state: ActionButtonState.ENTER_AMOUNT };
-      } else if (strategy.getInsufficientTokenForTx(form)) {
-        return {
-          state: ActionButtonState.INSUFFICIENT_TOKEN_BALANCE,
-          data: { token: strategy.getInsufficientTokenForTx(form) },
-        };
-      } else if (strategy.getInsufficientTokenForFee(form)) {
-        return {
-          state: ActionButtonState.INSUFFICIENT_TOKEN_BALANCE,
-          data: { token: strategy.getInsufficientTokenForFee(form) },
-        };
-      } else if (strategy.isLiquidityInsufficient(form)) {
-        return { state: ActionButtonState.INSUFFICIENT_LIQUIDITY };
-      } else {
-        return { state: ActionButtonState.ACTION };
-      }
-    }),
+    map(
+      ([
+        isOnline,
+        isTokenNotSelected,
+        isAmountNotEntered,
+        insufficientTokenForTx,
+        insufficientTokenForFee,
+        isLiquidityInsufficient,
+      ]) => {
+        if (!isOnline) {
+          return { state: ActionButtonState.CHECK_INTERNET_CONNECTION };
+        } else if (isTokenNotSelected) {
+          return { state: ActionButtonState.SELECT_TOKEN };
+        } else if (isAmountNotEntered) {
+          return { state: ActionButtonState.ENTER_AMOUNT };
+        } else if (insufficientTokenForTx) {
+          return {
+            state: ActionButtonState.INSUFFICIENT_TOKEN_BALANCE,
+            data: { token: insufficientTokenForTx },
+          };
+        } else if (insufficientTokenForFee) {
+          return {
+            state: ActionButtonState.INSUFFICIENT_TOKEN_BALANCE,
+            data: { token: insufficientTokenForFee },
+          };
+        } else if (isLiquidityInsufficient) {
+          return { state: ActionButtonState.INSUFFICIENT_LIQUIDITY };
+        } else {
+          return { state: ActionButtonState.ACTION };
+        }
+      },
+    ),
+    // startWith({ state: ActionButtonState.LOADING }),
   );
 };
 
@@ -81,11 +117,11 @@ export const ActionForm: FC<ActionFormProps> = ({
     state: ActionButtonState.CHECK_INTERNET_CONNECTION,
   });
   useEffect(() => {
-    updateButtonData(strategy, form);
+    updateButtonData(strategy, form, form.getFieldsValue());
   }, [strategy, form]);
 
   const onFormChange = (changedValues: any, values: any) => {
-    updateButtonData(strategy, form);
+    updateButtonData(strategy, form, values);
     if (onValuesChange) {
       onValuesChange(changedValues, values);
     }
