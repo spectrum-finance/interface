@@ -22,7 +22,7 @@ import { PairSpace } from './PairSpace/PairSpace';
 import { RemoveFormSpaceWrapper } from './RemoveFormSpaceWrapper/RemoveFormSpaceWrapper';
 import { RemovePositionSlider } from './RemovePositionSlider/RemovePositionSlider';
 
-const getPercent = (val: number, percent: string): number =>
+const getPercent = (val: number | undefined, percent: string): number =>
   Number(evaluate(`${val} * ${percent}%`));
 
 const Remove = (): JSX.Element => {

@@ -2,6 +2,7 @@ import './AddLiquidity.less';
 
 import { AmmPool } from '@ergolabs/ergo-dex-sdk';
 import React, { useEffect, useState } from 'react';
+import { map, Observable, of, switchMap } from 'rxjs';
 
 import {
   ActionForm,
@@ -30,6 +31,7 @@ import {
 } from '../../../hooks/useObservable';
 import { assets$, getAssetsByPairAsset } from '../../../services/new/assets';
 import { getPoolByPair, pools$ } from '../../../services/new/pools';
+import { getTokenBalance } from '../../../services/new/wallet';
 import { AddLiquidityConfirmationModal } from './AddLiquidityConfirmationModal/AddLiquidityConfirmationModal';
 
 interface AddLiquidityFormModel {
@@ -51,9 +53,24 @@ class AddLiquidityStrategy implements ActionFormStrategy {
 
   getInsufficientTokenForTx(
     form: FormInstance<AddLiquidityFormModel>,
-  ): string | undefined {
-    const value = form.getFieldsValue();
-    return 'ERG';
+  ): Observable<string | undefined> | string | undefined {
+    const { x, y, xAmount, yAmount } = form.getFieldsValue();
+    const xAmountValue = xAmount?.amount?.value;
+    const yAmountValue = yAmount?.amount?.value;
+
+    if (x && xAmountValue && y && yAmountValue) {
+      return getTokenBalance(x.id).pipe(
+        switchMap((balance) =>
+          xAmountValue > balance
+            ? of(x.name)
+            : getTokenBalance(y.id).pipe(
+                map((balance) => (yAmountValue > balance ? y.name : undefined)),
+              ),
+        ),
+      );
+    }
+
+    return undefined;
   }
 
   isAmountNotEntered(form: FormInstance<AddLiquidityFormModel>): boolean {
@@ -77,8 +94,14 @@ class AddLiquidityStrategy implements ActionFormStrategy {
           // TODO: remove mocks
           <AddLiquidityConfirmationModal
             pair={{
-              assetX: { name: value.xAmount?.asset?.name, amount: 1.23 },
-              assetY: { name: 'SigUSD', amount: 3.23 },
+              assetX: {
+                name: value.xAmount?.asset?.name,
+                amount: value.xAmount?.amount?.value,
+              },
+              assetY: {
+                name: value.yAmount?.asset?.name,
+                amount: value.yAmount?.amount?.value,
+              },
             }}
             onClose={close}
           />
@@ -137,24 +160,24 @@ const AddLiquidity = (): JSX.Element => {
     setYAssets(initialValues?.x?.id);
   }, [setYAssets]);
 
-  const handleOpenConfirmationModal = () => {
-    Modal.open(
-      ({ close }) => (
-        // TODO: remove mocks
-        <AddLiquidityConfirmationModal
-          pair={{
-            assetX: { name: 'ERG', amount: 1.23 },
-            assetY: { name: 'SigUSD', amount: 3.23 },
-          }}
-          onClose={close}
-        />
-      ),
-      {
-        title: 'Add liquidity',
-        width: 436,
-      },
-    );
-  };
+  // const handleOpenConfirmationModal = () => {
+  //   Modal.open(
+  //     ({ close }) => (
+  //       // TODO: remove mocks
+  //       <AddLiquidityConfirmationModal
+  //         pair={{
+  //           assetX: { name: 'ERG', amount: 1.23 },
+  //           assetY: { name: 'SigUSD', amount: 3.23 },
+  //         }}
+  //         onClose={close}
+  //       />
+  //     ),
+  //     {
+  //       title: 'Add liquidity',
+  //       width: 436,
+  //     },
+  //   );
+  // };
 
   return (
     <FormPageWrapper
@@ -169,7 +192,6 @@ const AddLiquidity = (): JSX.Element => {
         initialValues={initialValues}
         onValuesChange={onValuesChange}
       >
-        <button onClick={handleOpenConfirmationModal}>modal</button>
         <Flex flexDirection="col">
           <Flex.Item marginBottom={4}>
             <Typography.Body strong>Select Pair</Typography.Body>

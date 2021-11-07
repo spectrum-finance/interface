@@ -68,5 +68,7 @@ export const getTokenBalance = (tokenId: string): Observable<number> =>
           : ergo.get_balance(tokenId),
       ),
     ),
-    map((amount) => +renderFractions(amount, ERG_DECIMALS)),
+    map((amount) =>
+      tokenId === ERGO_ID ? +renderFractions(amount, ERG_DECIMALS) : +amount,
+    ),
   );

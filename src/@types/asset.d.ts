@@ -1,6 +1,6 @@
 type Asset = {
   name?: string;
-  amount: number;
+  amount?: number;
   earnedFees?: number;
 };
 
