@@ -7,7 +7,6 @@ import { ConnectWalletButton } from '../../ConnectWalletButton/ConnectWalletButt
 
 export enum ActionButtonState {
   SELECT_TOKEN,
-  CONNECT_WALLET,
   ENTER_AMOUNT,
   INSUFFICIENT_TOKEN_BALANCE,
   INSUFFICIENT_FEE_BALANCE,
@@ -106,14 +105,14 @@ export const ActionButton: FC<ActionButtonProps> = (props) => {
     props.nativeToken,
     props.children,
   );
-  return props.state === ActionButtonState.CONNECT_WALLET ? (
+  return (
     <ConnectWalletButton
       className="action-form__connect-btn"
       size="extra-large"
-    />
-  ) : (
-    <Button {...other} size="extra-large" style={{ width: '100%' }}>
-      {children}
-    </Button>
+    >
+      <Button {...other} size="extra-large" style={{ width: '100%' }}>
+        {children}
+      </Button>
+    </ConnectWalletButton>
   );
 };

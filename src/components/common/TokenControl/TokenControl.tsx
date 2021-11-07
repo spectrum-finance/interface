@@ -1,10 +1,13 @@
 import './TokenControl.less';
 
+import { AssetAmount, AssetInfo } from '@ergolabs/ergo-sdk';
 import { Form } from 'antd';
 import React, { FC, ReactNode, useEffect, useState } from 'react';
+import { of } from 'rxjs';
 
-import { useWallet } from '../../../context';
 import { Box, Button, Flex, Typography } from '../../../ergodex-cdk';
+import { useObservableAction } from '../../../hooks/useObservable';
+import { getTokenBalance } from '../../../services/new/wallet';
 import {
   TokenAmountInput,
   TokenAmountInputValue,
@@ -13,7 +16,7 @@ import { TokenSelect } from './TokenSelect/TokenSelect';
 
 export interface TokenControlValue {
   amount?: TokenAmountInputValue;
-  token?: string;
+  asset?: AssetInfo;
 }
 
 export interface TokenControlProps {
@@ -21,25 +24,30 @@ export interface TokenControlProps {
   readonly value?: TokenControlValue;
   readonly onChange?: (value: TokenControlValue) => void;
   readonly maxButton?: boolean;
-  readonly getTokenBalance: (token: string) => Promise<any>;
+  readonly assets?: AssetInfo[];
 }
+
+const getTokenBalanceByTokenName = (tokenName: string | undefined) =>
+  tokenName ? getTokenBalance(tokenName) : of(undefined);
 
 export const TokenControl: FC<TokenControlProps> = ({
   label,
   value,
   onChange,
   maxButton,
-  getTokenBalance,
+  assets,
 }) => {
-  const [balance, setBalance] = useState<undefined | number>(undefined);
+  const [balance, updateBalance] = useObservableAction(
+    getTokenBalanceByTokenName,
+  );
 
   useEffect(() => {
-    if (value?.token) {
-      getTokenBalance(value.token).then(setBalance);
+    if (value?.asset) {
+      updateBalance(value?.asset?.name);
     } else {
-      setBalance(undefined);
+      updateBalance(undefined);
     }
-  }, [value, getTokenBalance]);
+  }, [value, updateBalance]);
 
   const onAmountChange = (amount: TokenAmountInputValue) => {
     if (onChange) {
@@ -47,17 +55,17 @@ export const TokenControl: FC<TokenControlProps> = ({
     }
   };
 
-  const onTokenChange = (token: string) => {
+  const onTokenChange = (asset: AssetInfo) => {
     if (onChange) {
-      onChange({ ...value, token });
+      onChange({ ...value, asset });
     }
   };
 
   const onMaxButtonClick = () => {
     if (onChange) {
       onChange({
-        token: value?.token,
-        amount: { value: balance, viewValue: balance?.toString() },
+        asset: value?.asset,
+        amount: { value: balance as any, viewValue: balance?.toString() },
       });
     }
   };
@@ -78,7 +86,11 @@ export const TokenControl: FC<TokenControlProps> = ({
               />
             </Flex.Item>
             <Flex.Item>
-              <TokenSelect name={value?.token} onChange={onTokenChange} />
+              <TokenSelect
+                assets={assets}
+                asset={value?.asset}
+                onChange={onTokenChange}
+              />
             </Flex.Item>
           </Flex>
         </Flex.Item>
@@ -91,7 +103,7 @@ export const TokenControl: FC<TokenControlProps> = ({
           {balance && (
             <Flex.Item marginRight={2}>
               <Typography.Body>
-                Balance: {balance} {value?.token}
+                Balance: {balance} {value?.asset?.name}
               </Typography.Body>
             </Flex.Item>
           )}
@@ -115,24 +127,18 @@ export interface TokenControlFormItemProps {
   readonly name: string;
   readonly label: ReactNode;
   readonly maxButton?: boolean;
+  readonly assets?: AssetInfo[];
 }
 
 export const TokenControlFormItem: FC<TokenControlFormItemProps> = ({
   label,
   name,
   maxButton,
+  assets,
 }) => {
-  const { getTokenBalance, isWalletConnected } = useWallet();
-
-  const noop = () => Promise.resolve(undefined);
-
   return (
     <Form.Item name={name} className="token-form-item">
-      <TokenControl
-        getTokenBalance={isWalletConnected ? getTokenBalance : noop}
-        maxButton={maxButton}
-        label={label}
-      />
+      <TokenControl assets={assets} maxButton={maxButton} label={label} />
     </Form.Item>
   );
 };
