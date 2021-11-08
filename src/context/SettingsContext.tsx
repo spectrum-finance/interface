@@ -11,7 +11,7 @@ export type Settings = {
   minerFee: number;
   slippage: number;
   address?: string;
-  nitro?: number;
+  nitro: number;
   pk?: PublicKey;
   explorerUrl: string;
 };
