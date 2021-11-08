@@ -351,6 +351,7 @@ const AddLiquidity = (): JSX.Element => {
               <Flex flexDirection="col">
                 <Flex.Item marginBottom={1}>
                   <TokenControlFormItem
+                    readonly="asset"
                     disabled={!isPairSelected}
                     name="xAmount"
                     assets={xAssets}
@@ -375,6 +376,7 @@ const AddLiquidity = (): JSX.Element => {
                 </Flex.Item>
                 <Flex.Item>
                   <TokenControlFormItem
+                    readonly="asset"
                     disabled={!isPairSelected}
                     name="yAmount"
                     assets={yAssets}
