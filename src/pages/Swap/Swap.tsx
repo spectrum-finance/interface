@@ -15,6 +15,10 @@ import {
   TokenControlValue,
 } from '../../components/common/TokenControl/TokenControl';
 import { TxHistory } from '../../components/common/TxHistory/TxHistory';
+import {
+  openConfirmationModal,
+  Operation,
+} from '../../components/ConfirmationModal/ConfirmationModal';
 import { FormPageWrapper } from '../../components/FormPageWrapper/FormPageWrapper';
 import {
   ERG_DECIMALS,
@@ -30,8 +34,6 @@ import {
   Flex,
   Form,
   FormInstance,
-  Modal,
-  SettingOutlined,
   SwapOutlined,
   Typography,
 } from '../../ergodex-cdk';
@@ -41,10 +43,7 @@ import { Balance, useWalletBalance } from '../../services/new/balance';
 import { getPoolByPair, pools$ } from '../../services/new/pools';
 import { fractionsToNum, parseUserInputToFractions } from '../../utils/math';
 import { calculateTotalFee } from '../../utils/transactions';
-import {
-  openSwapConfirmationModal,
-  SwapConfirmationModal,
-} from './SwapConfirmationModal';
+import { SwapConfirmationModal } from './SwapConfirmationModal';
 import { TransactionSettings } from './TransactionSettings';
 
 interface SwapFormModel {
@@ -104,8 +103,17 @@ class SwapStrategy implements ActionFormStrategy {
     return !value.to?.asset || !value.from?.asset;
   }
 
-  request(form: FormInstance): void {
-    openSwapConfirmationModal(form.getFieldsValue());
+  request(form: FormInstance<SwapFormModel>): void {
+    const value = form.getFieldsValue();
+
+    openConfirmationModal(
+      (next) => {
+        return <SwapConfirmationModal value={value} onClose={next} />;
+      },
+      Operation.SWAP,
+      { asset: value.from?.asset!, amount: value?.from?.amount?.value! },
+      { asset: value.to?.asset!, amount: value?.to?.amount?.value! },
+    );
   }
 
   isLiquidityInsufficient(form: FormInstance<SwapFormModel>): boolean {
@@ -144,7 +152,6 @@ const fromToTo = (fromValue: TokenControlValue, pool: AmmPool): number => {
       ),
     ),
   );
-  console.log(toAmount, fromValue);
 
   return fractionsToNum(toAmount.amount, toAmount.asset?.decimals);
 };
@@ -295,7 +302,6 @@ export const Swap: FC = () => {
       { name: 'from', value: to },
       { name: 'to', value: from },
     ]);
-    // openSwapConfirmationModal(form.getFieldsValue());
   };
 
   const priceTooltip = (
