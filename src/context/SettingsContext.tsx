@@ -5,6 +5,7 @@ import React, { createContext, useContext } from 'react';
 // import { LocalStorageReturnValue } from '@rehooks/local-storage/lib/use-localstorage';
 import { ERG_EXPLORER_URL } from '../constants/env';
 import { defaultMinerFee, defaultSlippage } from '../constants/settings';
+import { isDarkOsTheme } from '../utils/osTheme';
 
 export type Settings = {
   minerFee: number;
@@ -12,6 +13,7 @@ export type Settings = {
   address?: string;
   pk?: PublicKey;
   explorerUrl: string;
+  theme: string;
 };
 
 export const DefaultSettings: Readonly<Settings> = {
@@ -19,6 +21,7 @@ export const DefaultSettings: Readonly<Settings> = {
   slippage: defaultSlippage.toString(),
   explorerUrl: ERG_EXPLORER_URL,
   pk: '',
+  theme: isDarkOsTheme() ? 'dark' : 'light',
 };
 
 function noop() {

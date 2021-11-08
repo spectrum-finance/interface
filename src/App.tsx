@@ -11,10 +11,8 @@ import {
   WalletContextProvider,
 } from './context';
 import { ConnectionContextProvider } from './context/ConnectionContext';
-import { useTheme } from './context/Theme';
 import { globalHistory } from './createBrowserHistory';
 import { ContextModalProvider } from './ergodex-cdk';
-import { useBodyClass } from './hooks/useBodyClass';
 import { Swap } from './pages';
 import { AddLiquidity } from './pages';
 import { Pool } from './pages/Pool/Pool';
@@ -24,8 +22,6 @@ import { Remove } from './pages/Remove/Remove';
 const NotFound = () => <Redirect to="/swap" />;
 
 export const App: React.FC = () => {
-  const theme = useTheme();
-  useBodyClass(theme);
   const [isRustModuleLoaded, setIsRustModuleLoaded] = useState(false);
 
   useEffect(() => {
