@@ -97,7 +97,7 @@ const ErrorModalContent = (
       </Typography.Text>
     </Row>
     <Row justify="center" gutter={0.5}>
-      <Typography.Text type="secondary">Trunsuction rejected</Typography.Text>
+      <Typography.Text type="secondary">Transaction rejected</Typography.Text>
     </Row>
     <Row justify="center" gutter={0.5}>
       <Typography.Text type="secondary">Try again later</Typography.Text>
@@ -125,6 +125,6 @@ export const openConfirmationModal = (
     actionContent,
     errorContent: ErrorModalContent(operation, xAsset, yAsset),
     progressContent: ProgressModalContent(operation, xAsset, yAsset),
-    successContent: ProgressModalContent(operation, xAsset, yAsset),
+    successContent: SuccessModalContent(),
   });
 };

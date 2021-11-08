@@ -46,7 +46,7 @@ export const WalletModal: React.FC = () => {
             <Flex.Item marginBottom={2}>
               <Typography.Body strong>Total balance</Typography.Body>
             </Flex.Item>
-            <Box padding={[2, 3]} borderRadius="m" gray>
+            <Box padding={[2, 3]} borderRadius="m" contrast>
               <Flex justify="space-between" alignItems="center">
                 <Flex.Item>
                   <Flex alignItems="center">
@@ -74,7 +74,7 @@ export const WalletModal: React.FC = () => {
                 placement="top"
               />
             </Flex.Item>
-            <Box padding={[2, 3]} borderRadius="m" gray>
+            <Box padding={[2, 3]} borderRadius="m" contrast>
               <Flex justify="space-between" alignItems="center">
                 <Flex.Item>
                   <Typography.Text>{getShortAddress(address)}</Typography.Text>
@@ -93,7 +93,7 @@ export const WalletModal: React.FC = () => {
             </Box>
           </Flex.Item>
           <Flex.Item>
-            <Box padding={4} borderRadius="m" gray>
+            <Box padding={4} borderRadius="m" contrast>
               <Tabs defaultActiveKey="1" centered type="card">
                 <Tabs.TabPane tab="Address" key="1">
                   <AddressesTab

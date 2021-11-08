@@ -22,6 +22,13 @@ import {
   Operation,
 } from '../../../components/ConfirmationModal/ConfirmationModal';
 import { FormPageWrapper } from '../../../components/FormPageWrapper/FormPageWrapper';
+import {
+  ERG_DECIMALS,
+  ERG_TOKEN_ID,
+  ERG_TOKEN_NAME,
+  UI_FEE,
+} from '../../../constants/erg';
+import { defaultExFee } from '../../../constants/settings';
 import { useSettings } from '../../../context';
 import {
   Button,
@@ -48,6 +55,7 @@ import {
   parseUserInputToFractions,
   renderFractions,
 } from '../../../utils/math';
+import { calculateTotalFee } from '../../../utils/transactions';
 import { AddLiquidityConfirmationModal } from './AddLiquidityConfirmationModal/AddLiquidityConfirmationModal';
 
 interface AddLiquidityFormModel {
@@ -65,9 +73,24 @@ class AddLiquidityStrategy implements ActionFormStrategy {
     return 'Add liquidity';
   }
 
-  getInsufficientTokenForFee(form: FormInstance): string | undefined {
-    // TODO: ADD VALIDATION
-    return undefined;
+  getInsufficientTokenForFee(
+    form: FormInstance<AddLiquidityFormModel>,
+  ): string | undefined {
+    const { xAmount } = form.getFieldsValue();
+
+    let totalFees = +calculateTotalFee(
+      [this.minerFee, UI_FEE, defaultExFee],
+      ERG_DECIMALS,
+    );
+
+    totalFees =
+      xAmount?.asset?.id === ERG_TOKEN_ID
+        ? totalFees + xAmount.amount?.value!
+        : totalFees;
+
+    return +totalFees > this.balance.get(ERG_TOKEN_ID)
+      ? ERG_TOKEN_NAME
+      : undefined;
   }
 
   getInsufficientTokenForTx(
@@ -113,16 +136,6 @@ class AddLiquidityStrategy implements ActionFormStrategy {
   request(form: FormInstance<AddLiquidityFormModel>): void {
     const value = form.getFieldsValue();
 
-    // (
-    //   (next) => (
-    //
-    //   ),
-    //     {
-    //       title: 'Add liquidity',
-    //       width: 436,
-    //     },
-    // );
-
     openConfirmationModal(
       (next) => {
         return (
@@ -162,8 +175,6 @@ const initialValues: AddLiquidityFormModel = {
 
 const getAssetsByToken = (tokenId?: string) =>
   tokenId ? getAssetsByPairAsset(tokenId) : pools$;
-
-const makeInitialForm = (poolId: PoolId) => {};
 
 const AddLiquidity = (): JSX.Element => {
   const [balance] = useWalletBalance();

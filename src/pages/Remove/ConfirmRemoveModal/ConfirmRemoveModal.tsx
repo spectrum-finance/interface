@@ -6,7 +6,7 @@ import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
 import { ERG_DECIMALS, UI_FEE } from '../../../constants/erg';
 import { defaultExFee } from '../../../constants/settings';
 import { useSettings } from '../../../context';
-import { Box, Button, Flex, Typography } from '../../../ergodex-cdk';
+import { Box, Button, Flex, message, Typography } from '../../../ergodex-cdk';
 import { useUTXOs } from '../../../hooks/useUTXOs';
 import { explorer } from '../../../services/explorer';
 import { poolActions } from '../../../services/poolActions';
@@ -18,7 +18,7 @@ import { PairSpace } from '../PairSpace/PairSpace';
 import { RemoveFormSpaceWrapper } from '../RemoveFormSpaceWrapper/RemoveFormSpaceWrapper';
 
 interface ConfirmRemoveModalProps {
-  onClose: () => void;
+  onClose: (p: Promise<any>) => void;
   position: AmmPool;
   lpToRemove: number;
   pair: AssetPair;
@@ -49,37 +49,43 @@ const ConfirmRemoveModal: React.FC<ConfirmRemoveModalProps> = ({
 
       const poolId = position.id;
 
-      const network = await explorer.getNetworkContext();
+      try {
+        const network = await explorer.getNetworkContext();
 
-      const inputs = DefaultBoxSelector.select(
-        UTXOs,
-        makeTarget([lp], minValueForOrder(minerFeeNErgs, uiFeeNErg, exFeeNErg)),
-      ) as BoxSelection;
+        const inputs = DefaultBoxSelector.select(
+          UTXOs,
+          makeTarget(
+            [lp],
+            minValueForOrder(minerFeeNErgs, uiFeeNErg, exFeeNErg),
+          ),
+        ) as BoxSelection;
 
-      if (address && pk) {
-        actions
-          .redeem(
-            {
-              poolId,
-              pk,
-              lp,
-              exFee: exFeeNErg,
-              uiFee: uiFeeNErg,
-            },
-            {
-              inputs,
-              changeAddress: address,
-              selfAddress: address,
-              feeNErgs: minerFeeNErgs,
-              network,
-            },
-          )
-          .then(async (tx) => {
-            await submitTx(tx);
-          })
-          // TODO: HANDLE_ERROR_STATE_WITH_MODAL_CHAINING[EDEX-466]
-          .catch((err) => console.log(err))
-          .finally(() => onClose());
+        if (address && pk) {
+          onClose(
+            actions
+              .redeem(
+                {
+                  poolId,
+                  pk,
+                  lp,
+                  exFee: exFeeNErg,
+                  uiFee: uiFeeNErg,
+                },
+                {
+                  inputs,
+                  changeAddress: address,
+                  selfAddress: address,
+                  feeNErgs: minerFeeNErgs,
+                  network,
+                },
+              )
+              .then(async (tx) => {
+                await submitTx(tx);
+              }),
+          );
+        }
+      } catch (err) {
+        message.error('Network connection issue');
       }
     },
     [
