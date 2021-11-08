@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 import './Swap.less';
 
-import { AmmPool } from '@ergolabs/ergo-dex-sdk';
+import { AmmPool, SwapExtremums } from '@ergolabs/ergo-dex-sdk';
+import { swapVars } from '@ergolabs/ergo-dex-sdk/build/main/amm/math/swap';
 import { AssetAmount } from '@ergolabs/ergo-sdk';
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { Observable, of } from 'rxjs';
 
 import {
@@ -16,10 +17,12 @@ import {
 } from '../../components/common/TokenControl/TokenControl';
 import { TxHistory } from '../../components/common/TxHistory/TxHistory';
 import { FormPageWrapper } from '../../components/FormPageWrapper/FormPageWrapper';
+import { InfoTooltip } from '../../components/InfoTooltip/InfoTooltip';
 import {
   ERG_DECIMALS,
   ERG_TOKEN_ID,
   ERG_TOKEN_NAME,
+  MIN_EX_FEE,
   UI_FEE,
 } from '../../constants/erg';
 import { defaultExFee } from '../../constants/settings';
@@ -38,8 +41,13 @@ import { useObservable, useObservableAction } from '../../hooks/useObservable';
 import { assets$, getAssetsByPairAsset } from '../../services/new/assets';
 import { Balance, useWalletBalance } from '../../services/new/balance';
 import { getPoolByPair, pools$ } from '../../services/new/pools';
-import { fractionsToNum, parseUserInputToFractions } from '../../utils/math';
+import {
+  fractionsToNum,
+  parseUserInputToFractions,
+  renderFractions,
+} from '../../utils/math';
 import { calculateTotalFee } from '../../utils/transactions';
+import { getBaseInputParameters } from '../../utils/walletMath';
 import {
   openSwapConfirmationModal,
   SwapConfirmationModal,
@@ -133,6 +141,66 @@ const initialValues: SwapFormModel = {
   },
 };
 
+const TxInfoTooltipContent: FC<{ form: FormInstance<SwapFormModel> }> = ({
+  form,
+}) => {
+  const { from, pool } = form.getFieldsValue();
+  const [{ slippage, minerFee, nitro }] = useSettings();
+  const swapExtremums = swapVars(
+    MIN_EX_FEE,
+    nitro,
+    getBaseInputParameters(pool!, {
+      inputAmount: from?.amount?.value?.toString()!,
+      inputAsset: from?.asset!,
+      slippage,
+    }).minOutput,
+  );
+
+  const output = swapExtremums
+    ? `${renderFractions(
+        swapExtremums[1].minOutput.amount,
+        swapExtremums[1].minOutput.asset.decimals,
+      )} ${swapExtremums[1].minOutput.asset.name} - ${renderFractions(
+        swapExtremums[1].maxOutput.amount,
+        swapExtremums[1].maxOutput.asset.decimals,
+      )} ${swapExtremums[1].minOutput.asset.name}`
+    : undefined;
+
+  const totalFees = calculateTotalFee(
+    [minerFee, UI_FEE, defaultExFee],
+    ERG_DECIMALS,
+  );
+  console.log(swapExtremums);
+  return (
+    <Flex flexDirection="col">
+      <Flex.Item marginBottom={3}>
+        <Flex justify="space-between">
+          <Flex.Item marginRight={6}>
+            <Typography.Body>Output</Typography.Body>
+          </Flex.Item>
+          <Typography.Body>{output}</Typography.Body>
+        </Flex>
+      </Flex.Item>
+      <Flex.Item marginBottom={3}>
+        <Flex justify="space-between">
+          <Flex.Item marginRight={6}>
+            <Typography.Body>Slippage tollerance</Typography.Body>
+          </Flex.Item>
+          <Typography.Body>{slippage}%</Typography.Body>
+        </Flex>
+      </Flex.Item>
+      <Flex.Item>
+        <Flex justify="space-between">
+          <Flex.Item marginRight={6}>
+            <Typography.Body>Total Fees</Typography.Body>
+          </Flex.Item>
+          <Typography.Body>{totalFees} ERG</Typography.Body>
+        </Flex>
+      </Flex.Item>
+    </Flex>
+  );
+};
+
 const fromToTo = (fromValue: TokenControlValue, pool: AmmPool): number => {
   const toAmount = pool.outputAmount(
     new AssetAmount(
@@ -213,6 +281,7 @@ export const Swap: FC = () => {
   const [pools, updatePoolsByPair] = useObservableAction(getAvailablePools);
   const [balance] = useWalletBalance();
   const [{ minerFee }] = useSettings();
+  const [changes, setChanges] = useState<any>();
   const swapStrategy = new SwapStrategy(balance, minerFee);
 
   useEffect(() => {
@@ -284,6 +353,7 @@ export const Swap: FC = () => {
         },
       });
     }
+    setChanges({});
   };
 
   const swapTokens = () => {
@@ -294,7 +364,7 @@ export const Swap: FC = () => {
       { name: 'from', value: to },
       { name: 'to', value: from },
     ]);
-    // openSwapConfirmationModal(form.getFieldsValue());
+    setChanges({});
   };
 
   return (
@@ -335,9 +405,15 @@ export const Swap: FC = () => {
             display={!!pools?.length ? 'block' : 'none'}
           >
             <Flex>
-              <Flex.Item flex={1} />
+              <Flex.Item flex={1}>
+                <InfoTooltip
+                  className="swap-tooltip"
+                  content={<TxInfoTooltipContent form={form} />}
+                  placement="left"
+                />
+              </Flex.Item>
               <Flex>
-                <Form.Item name="pool" />
+                <Form.Item name="pool" style={{ marginBottom: 0 }} />
               </Flex>
             </Flex>
           </Flex.Item>
