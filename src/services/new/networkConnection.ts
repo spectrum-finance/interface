@@ -5,7 +5,6 @@ import {
   publishReplay,
   refCount,
   startWith,
-  tap,
 } from 'rxjs';
 
 export const isOnline$ = merge(

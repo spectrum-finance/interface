@@ -23,7 +23,7 @@ export function useObservable<T>(
     setLoading(true);
     const subscription = observable.subscribe({
       next: (value: T) => {
-        setData(value);
+        setData(() => value);
         setLoading(false);
       },
       error: (error: Error) => {
@@ -96,7 +96,7 @@ export function useObservableAction<
       .pipe(switchMap((args) => memoizedAction(...args)))
       .subscribe({
         next: (value: Unpacked<ReturnType<F>>) => {
-          setData(value);
+          setData(() => value);
           setLoading(false);
         },
         error: (error: Error) => {

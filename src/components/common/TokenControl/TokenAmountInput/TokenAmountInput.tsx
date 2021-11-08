@@ -15,11 +15,13 @@ export interface TokenAmountInputValue {
 export interface TokenAmountInputProps {
   value?: TokenAmountInputValue | number;
   onChange?: (data: TokenAmountInputValue) => void;
+  readonly?: boolean;
 }
 
 const TokenAmountInput: React.FC<TokenAmountInputProps> = ({
   value,
   onChange,
+  readonly,
 }) => {
   const normalizeViewValue = (
     value: TokenAmountInputValue | number | undefined,
@@ -47,6 +49,7 @@ const TokenAmountInput: React.FC<TokenAmountInputProps> = ({
   return (
     <Box className="swap-input" borderRadius="m" padding={0}>
       <Input
+        readOnly={readonly}
         value={normalizeViewValue(value)}
         onChange={(event) => {
           enforcer(event.target.value.replace(/,/g, '.'));
