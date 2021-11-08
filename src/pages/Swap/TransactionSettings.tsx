@@ -27,13 +27,25 @@ const TransactionSettings = (): JSX.Element => {
   const [form] = Form.useForm();
 
   const [isPopoverShown, setIsPopoverShown] = useState(false);
-  const handlePopoverShown = () => setIsPopoverShown((prev) => !prev);
+  const handlePopoverShown = (visible: boolean) => {
+    if (!visible) {
+      form.setFieldsValue({
+        slippage: settings.slippage,
+        nitro: settings.nitro,
+      });
+      setNitroWarning(false);
+      setSlippageWarning(false);
+    }
+
+    setIsPopoverShown((prev) => !prev);
+  };
   // TODO: EXTRACT_WARNINGS_TO_ERGO_CDK_FORM.ITEM
   const [slippageWarning, setSlippageWarning] = useState<boolean>(
     settings.slippage > 1,
   );
+
   const [nitroWarning, setNitroWarning] = useState<boolean>(
-    settings.nitro >= MIN_NITRO,
+    +settings.nitro < MIN_NITRO,
   );
 
   const handleFormValuesChange = (changes: {
@@ -43,15 +55,16 @@ const TransactionSettings = (): JSX.Element => {
     if (changes.slippage) {
       setSettings({
         ...settings,
-        slippage: changes.slippage,
+        slippage: +changes.slippage,
       });
       setSlippageWarning(changes.slippage > 1);
     }
-    if (changes.nitro && changes.nitro >= MIN_NITRO) {
+    if (changes.nitro && +changes.nitro >= MIN_NITRO) {
       setSettings({
         ...settings,
-        nitro: changes.nitro,
+        nitro: +changes.nitro,
       });
+      setNitroWarning(false);
     } else {
       setNitroWarning(true);
     }
