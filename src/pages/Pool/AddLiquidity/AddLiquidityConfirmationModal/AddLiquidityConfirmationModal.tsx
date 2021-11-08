@@ -1,3 +1,5 @@
+import { AmmPool, minValueForOrder } from '@ergolabs/ergo-dex-sdk';
+import { BoxSelection, DefaultBoxSelector, ErgoTx } from '@ergolabs/ergo-sdk';
 import React from 'react';
 
 import { InfoTooltip } from '../../../../components/InfoTooltip/InfoTooltip';
@@ -5,28 +7,92 @@ import { ERG_DECIMALS, UI_FEE } from '../../../../constants/erg';
 import { defaultExFee } from '../../../../constants/settings';
 import { useSettings } from '../../../../context';
 import { Box, Button, Flex, Typography } from '../../../../ergodex-cdk';
+import { useObservable } from '../../../../hooks/useObservable';
+import { explorer } from '../../../../services/explorer';
+import { utxos$ } from '../../../../services/new/wallet';
+import { poolActions } from '../../../../services/poolActions';
+import { submitTx } from '../../../../services/yoroi';
+import { makeTarget } from '../../../../utils/ammMath';
+import { parseUserInputToFractions } from '../../../../utils/math';
 import { calculateTotalFee } from '../../../../utils/transactions';
 import { PairSpace } from '../../../Remove/PairSpace/PairSpace';
 import { RemoveFormSpaceWrapper } from '../../../Remove/RemoveFormSpaceWrapper/RemoveFormSpaceWrapper';
 
 interface ConfirmRemoveModalProps {
+  position?: AmmPool;
   pair: AssetPair;
   onClose: () => void;
 }
 
 const AddLiquidityConfirmationModal: React.FC<ConfirmRemoveModalProps> = ({
+  position,
   pair,
   onClose,
 }) => {
-  const [{ minerFee }] = useSettings();
+  const [{ minerFee, address, pk }] = useSettings();
+  const [utxos] = useObservable(utxos$);
+
+  const uiFeeNErg = parseUserInputToFractions(UI_FEE, ERG_DECIMALS);
+  const exFeeNErg = parseUserInputToFractions(defaultExFee, ERG_DECIMALS);
+  const minerFeeNErgs = parseUserInputToFractions(minerFee, ERG_DECIMALS);
 
   const totalFees = calculateTotalFee(
     [minerFee, UI_FEE, defaultExFee],
     ERG_DECIMALS,
   );
 
-  const addLiquidityOperation = () => {
-    onClose();
+  const addLiquidityOperation = async () => {
+    if (position && pk && address && utxos) {
+      const poolId = position.id;
+
+      const actions = poolActions(position);
+
+      const inputX = position.x.withAmount(
+        parseUserInputToFractions(
+          String(pair.assetX.amount),
+          position.x.asset.decimals,
+        ),
+      );
+      const inputY = position.y.withAmount(
+        parseUserInputToFractions(
+          String(pair.assetY.amount),
+          position.y.asset.decimals,
+        ),
+      );
+
+      const target = makeTarget(
+        [inputX, inputY],
+        minValueForOrder(minerFeeNErgs, uiFeeNErg, exFeeNErg),
+      );
+
+      const network = await explorer.getNetworkContext();
+
+      const inputs = DefaultBoxSelector.select(utxos, target) as BoxSelection;
+
+      actions
+        .deposit(
+          {
+            pk,
+            poolId,
+            exFee: exFeeNErg,
+            uiFee: uiFeeNErg,
+            x: inputX,
+            y: inputY,
+          },
+          {
+            inputs,
+            changeAddress: address,
+            selfAddress: address,
+            feeNErgs: minerFeeNErgs,
+            network,
+          },
+        )
+        .then(async (tx: ErgoTx) => {
+          await submitTx(tx);
+        })
+        .catch((err) => console.error(err))
+        .finally(() => onClose());
+    }
   };
 
   return (
