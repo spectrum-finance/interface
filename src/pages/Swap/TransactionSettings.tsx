@@ -34,7 +34,6 @@ const TransactionSettings = (): JSX.Element => {
         nitro: settings.nitro,
       });
       setNitroWarning(false);
-      setSlippageWarning(false);
     }
 
     setIsPopoverShown((prev) => !prev);
@@ -59,14 +58,16 @@ const TransactionSettings = (): JSX.Element => {
       });
       setSlippageWarning(changes.slippage > 1);
     }
-    if (changes.nitro && +changes.nitro >= MIN_NITRO) {
-      setSettings({
-        ...settings,
-        nitro: +changes.nitro,
-      });
-      setNitroWarning(false);
-    } else {
-      setNitroWarning(true);
+    if (changes.nitro) {
+      if (+changes.nitro >= MIN_NITRO) {
+        setSettings({
+          ...settings,
+          nitro: +changes.nitro,
+        });
+        setNitroWarning(false);
+      } else {
+        setNitroWarning(true);
+      }
     }
   };
 
