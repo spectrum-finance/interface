@@ -9,7 +9,7 @@ export interface SuccessProps {
 
 export const Success: FC<SuccessProps> = ({ content }) => (
   <>
-    <Row justify="center" bottomGutter={6}>
+    <Row justify="center" bottomGutter={6} style={{ width: 343 }}>
       <CheckCircleOutlined
         style={{ fontSize: 80, color: 'var(--ergo-primary-color)' }}
       />

@@ -89,7 +89,7 @@ const AddLiquidityConfirmationModal: React.FC<ConfirmRemoveModalProps> = ({
             },
           )
           .then(async (tx: ErgoTx) => {
-            await submitTx(tx);
+            return await submitTx(tx);
           }),
       );
     }

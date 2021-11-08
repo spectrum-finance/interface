@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 import './AddLiquidity.less';
 
 import { AmmPool, PoolId } from '@ergolabs/ergo-dex-sdk';
 import { AssetAmount, AssetInfo } from '@ergolabs/ergo-sdk';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import { map, Observable, of, switchMap } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import {
   ActionForm,
@@ -16,6 +17,10 @@ import {
   TokenControlValue,
 } from '../../../components/common/TokenControl/TokenControl';
 import { TokeSelectFormItem } from '../../../components/common/TokenControl/TokenSelect/TokenSelect';
+import {
+  openConfirmationModal,
+  Operation,
+} from '../../../components/ConfirmationModal/ConfirmationModal';
 import { FormPageWrapper } from '../../../components/FormPageWrapper/FormPageWrapper';
 import { useSettings } from '../../../context';
 import {
@@ -24,14 +29,10 @@ import {
   Form,
   FormInstance,
   LinkOutlined,
-  Modal,
   Skeleton,
   Tooltip,
   Typography,
 } from '../../../ergodex-cdk';
-import { Error } from '../../../ergodex-cdk/components/Modal/presets/Error';
-import { Progress } from '../../../ergodex-cdk/components/Modal/presets/Progress';
-import { Success } from '../../../ergodex-cdk/components/Modal/presets/Success';
 import {
   useObservable,
   useObservableAction,
@@ -122,8 +123,8 @@ class AddLiquidityStrategy implements ActionFormStrategy {
     //     },
     // );
 
-    Modal.request({
-      actionContent: (next) => {
+    openConfirmationModal(
+      (next) => {
         return (
           <AddLiquidityConfirmationModal
             position={value.activePool}
@@ -141,10 +142,10 @@ class AddLiquidityStrategy implements ActionFormStrategy {
           />
         );
       },
-      errorContent: <Error content={'lksdjf'} />,
-      progressContent: <Progress content={'lksdjf'} />,
-      successContent: <Success content={'lksdjf'} />,
-    });
+      Operation.ADD_LIQUIDITY,
+      { asset: value.x!, amount: value?.xAmount?.amount?.value! },
+      { asset: value.y!, amount: value?.yAmount?.amount?.value! },
+    );
   }
 
   isLiquidityInsufficient(): boolean {
