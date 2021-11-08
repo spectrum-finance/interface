@@ -12,12 +12,13 @@ const HeaderTabs = (): JSX.Element => {
   const history = useHistory();
   const matchRoot = useRouteMatch<MatchParams>('/:page');
   const matchPoolPosition = useRouteMatch<MatchParams>('/pool/:id');
+  const matchRemovePosition = useRouteMatch<MatchParams>('/remove/:id');
   const onTabClick = (activeKey: string) => {
     history.push('/' + activeKey);
   };
 
   const getDefaultActiveKey = (): string => {
-    if (matchPoolPosition) return 'pool';
+    if (matchPoolPosition || matchRemovePosition) return 'pool';
     return matchRoot && matchRoot.isExact ? matchRoot.params.page : 'swap';
   };
 

@@ -1,6 +1,6 @@
 import './TokenListModal.less';
 
-import { AssetAmount, AssetInfo } from '@ergolabs/ergo-sdk';
+import { AssetInfo } from '@ergolabs/ergo-sdk';
 import React, { useState } from 'react';
 
 import {
@@ -9,7 +9,7 @@ import {
   Input,
   Row,
   SearchOutlined,
-} from '../../../../../ergodex-cdk/components';
+} from '../../../../../ergodex-cdk';
 import { TokenListItem } from './TokenListItem';
 
 interface TokenListModalProps {

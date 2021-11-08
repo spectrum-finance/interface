@@ -1,7 +1,7 @@
 import './TokenListItem.less';
 
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import { Box, Typography } from '../../../../../ergodex-cdk';
 import { TokenIcon } from '../../../../TokenIcon/TokenIcon';

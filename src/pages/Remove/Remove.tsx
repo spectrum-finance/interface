@@ -4,25 +4,29 @@ import { evaluate } from 'mathjs';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 
+import {
+  openConfirmationModal,
+  Operation,
+} from '../../components/ConfirmationModal/ConfirmationModal';
 import { FormPageWrapper } from '../../components/FormPageWrapper/FormPageWrapper';
 import { SubmitButton } from '../../components/SubmitButton/SubmitButton';
 import { TokenIconPair } from '../../components/TokenIconPair/TokenIconPair';
 import {
   Button,
   Flex,
-  Modal,
   SettingOutlined,
   Skeleton,
   Typography,
 } from '../../ergodex-cdk';
 import { usePair } from '../../hooks/usePair';
 import { usePosition } from '../../hooks/usePosition';
+import { parseUserInputToFractions } from '../../utils/math';
 import { ConfirmRemoveModal } from './ConfirmRemoveModal/ConfirmRemoveModal';
 import { PairSpace } from './PairSpace/PairSpace';
 import { RemoveFormSpaceWrapper } from './RemoveFormSpaceWrapper/RemoveFormSpaceWrapper';
 import { RemovePositionSlider } from './RemovePositionSlider/RemovePositionSlider';
 
-const getPercent = (val: number, percent: string): number =>
+const getPercent = (val: number | undefined, percent: string): number =>
   Number(evaluate(`${val} * ${percent}%`));
 
 const Remove = (): JSX.Element => {
@@ -69,24 +73,39 @@ const Remove = (): JSX.Element => {
   );
 
   const handleRemove = () => {
-    Modal.open(
-      ({ close }) => {
-        if (position && lpBalance && pair && lpToRemove) {
+    if (pair && position && lpToRemove) {
+      openConfirmationModal(
+        (next) => {
           return (
             <ConfirmRemoveModal
-              onClose={close}
+              onClose={next}
               pair={pair}
               position={position}
               lpToRemove={lpToRemove}
             />
           );
-        }
-      },
-      {
-        title: 'Remove liquidity',
-        width: 436,
-      },
-    );
+        },
+        Operation.REMOVE_LIQUIDITY,
+        {
+          asset: position?.x.asset,
+          amount: Number(
+            parseUserInputToFractions(
+              pair.assetX.amount!,
+              position?.x.asset.decimals,
+            ),
+          ),
+        },
+        {
+          asset: position?.y.asset,
+          amount: Number(
+            parseUserInputToFractions(
+              pair.assetY.amount!,
+              position?.y.asset.decimals,
+            ),
+          ),
+        },
+      );
+    }
   };
 
   return (

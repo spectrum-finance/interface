@@ -1,4 +1,4 @@
-import { AmmPool, PoolId } from '@ergolabs/ergo-dex-sdk';
+import { AmmPool } from '@ergolabs/ergo-dex-sdk';
 
 import { useNetworkPools } from './useNetworkPools';
 

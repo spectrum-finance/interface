@@ -15,12 +15,14 @@ export interface TokenAmountInputValue {
 export interface TokenAmountInputProps {
   value?: TokenAmountInputValue | number;
   onChange?: (data: TokenAmountInputValue) => void;
+  disabled?: boolean;
   readonly?: boolean;
 }
 
 const TokenAmountInput: React.FC<TokenAmountInputProps> = ({
   value,
   onChange,
+  disabled,
   readonly,
 }) => {
   const normalizeViewValue = (
@@ -56,6 +58,7 @@ const TokenAmountInput: React.FC<TokenAmountInputProps> = ({
         }}
         placeholder="0.0"
         size="large"
+        disabled={disabled}
       />
     </Box>
   );

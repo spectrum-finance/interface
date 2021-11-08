@@ -2,7 +2,7 @@ import './PoolPosition.less';
 
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 
 import { FormPageWrapper } from '../../../components/FormPageWrapper/FormPageWrapper';
 import { TokenIcon } from '../../../components/TokenIcon/TokenIcon';
@@ -26,10 +26,11 @@ interface URLParamTypes {
 }
 
 export const PoolPosition: React.FC = () => {
-  const params = useParams<URLParamTypes>();
+  const history = useHistory();
+  const { poolId } = useParams<URLParamTypes>();
   const [positionRatio, setPositionRatio] = useState<Ratio | undefined>();
 
-  const position = usePosition(params.poolId);
+  const position = usePosition(poolId);
   const { pair } = usePair(position);
 
   useEffect(() => {
@@ -39,8 +40,21 @@ export const PoolPosition: React.FC = () => {
     }
   }, [position]);
 
+  const handleRemovePositionClick = (id: PoolId) => {
+    history.push(`/remove/${id}/`);
+  };
+
+  const handleAddLiquidity = (id: PoolId) => {
+    history.push(`/pool/add/${id}/`);
+  };
+
   return (
-    <FormPageWrapper title="Position overview" width={480} withBackButton>
+    <FormPageWrapper
+      title="Position overview"
+      width={480}
+      withBackButton
+      backTo="/pool"
+    >
       {position && positionRatio && pair ? (
         <>
           <Flex alignItems="center">
@@ -78,13 +92,13 @@ export const PoolPosition: React.FC = () => {
                       <Typography.Title level={5}>
                         {pair.assetX.amount}
                       </Typography.Title>
-                      <Flex.Item marginLeft={1}>
-                        <Box padding={[0.5, 1]} className="percent-lbl">
-                          <Typography.Text style={{ fontSize: '12px' }}>
-                            49%
-                          </Typography.Text>
-                        </Box>
-                      </Flex.Item>
+                      {/*<Flex.Item marginLeft={1}>*/}
+                      {/*  <Box padding={[0.5, 1]} className="percent-lbl">*/}
+                      {/*    <Typography.Text style={{ fontSize: '12px' }}>*/}
+                      {/*      49%*/}
+                      {/*    </Typography.Text>*/}
+                      {/*  </Box>*/}
+                      {/*</Flex.Item>*/}
                     </Flex>
                   </Flex>
                   <Flex justify="space-between" style={{ marginTop: 16 }}>
@@ -98,13 +112,13 @@ export const PoolPosition: React.FC = () => {
                       <Typography.Title level={5}>
                         {pair.assetY.amount}
                       </Typography.Title>
-                      <Flex.Item marginLeft={1}>
-                        <Box padding={[0.5, 1]} className="percent-lbl">
-                          <Typography.Text style={{ fontSize: '12px' }}>
-                            51%
-                          </Typography.Text>
-                        </Box>
-                      </Flex.Item>
+                      {/*<Flex.Item marginLeft={1}>*/}
+                      {/*  <Box padding={[0.5, 1]} className="percent-lbl">*/}
+                      {/*    <Typography.Text style={{ fontSize: '12px' }}>*/}
+                      {/*      51%*/}
+                      {/*    </Typography.Text>*/}
+                      {/*  </Box>*/}
+                      {/*</Flex.Item>*/}
                     </Flex>
                   </Flex>
                 </Flex>
@@ -181,13 +195,19 @@ export const PoolPosition: React.FC = () => {
                   type="primary"
                   size="large"
                   icon={<PlusOutlined />}
+                  onClick={() => handleAddLiquidity(poolId)}
                   block
                 >
                   Increase liquidity
                 </Button>
               </Flex.Item>
               <Flex.Item flex={1} marginLeft={1}>
-                <Button type="default" size="large" block>
+                <Button
+                  type="default"
+                  size="large"
+                  block
+                  onClick={() => handleRemovePositionClick(poolId)}
+                >
                   Remove liquidity
                 </Button>
               </Flex.Item>

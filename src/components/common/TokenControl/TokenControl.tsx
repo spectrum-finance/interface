@@ -25,7 +25,9 @@ export interface TokenControlProps {
   readonly value?: TokenControlValue;
   readonly onChange?: (value: TokenControlValue) => void;
   readonly maxButton?: boolean;
+  readonly hasBorder?: boolean;
   readonly assets?: AssetInfo[];
+  readonly disabled?: boolean;
   readonly readonly?: boolean | 'asset' | 'amount';
   readonly noBottomInfo?: boolean;
   readonly bordered?: boolean;
@@ -40,6 +42,8 @@ export const TokenControl: FC<TokenControlProps> = ({
   onChange,
   maxButton,
   assets,
+  hasBorder,
+  disabled,
   readonly,
   noBottomInfo,
   bordered,
@@ -79,7 +83,10 @@ export const TokenControl: FC<TokenControlProps> = ({
 
   return (
     <Box
-      className={cn({ 'token-control--bordered': bordered })}
+      className={cn({
+        'token-control--bordered': bordered,
+        'token-control--has-border': hasBorder,
+      })}
       padding={4}
       borderRadius="l"
       gray
@@ -96,14 +103,16 @@ export const TokenControl: FC<TokenControlProps> = ({
                 readonly={!!readonly && readonly !== 'asset'}
                 value={value?.amount}
                 onChange={onAmountChange}
+                disabled={disabled}
               />
             </Flex.Item>
             <Flex.Item>
               <TokenSelect
                 assets={assets}
                 readonly={!!readonly && readonly !== 'amount'}
-                asset={value?.asset}
+                value={value?.asset}
                 onChange={onTokenChange}
+                disabled={disabled}
               />
             </Flex.Item>
           </Flex>
@@ -140,9 +149,11 @@ export const TokenControl: FC<TokenControlProps> = ({
 
 export interface TokenControlFormItemProps {
   readonly name: string;
-  readonly label: ReactNode;
+  readonly label?: ReactNode;
   readonly maxButton?: boolean;
+  readonly hasBorder?: boolean;
   readonly assets?: AssetInfo[];
+  readonly disabled?: boolean;
   readonly readonly?: boolean | 'asset' | 'amount';
   readonly noBottomInfo?: boolean;
   readonly bordered?: boolean;
@@ -153,6 +164,8 @@ export const TokenControlFormItem: FC<TokenControlFormItemProps> = ({
   name,
   maxButton,
   assets,
+  hasBorder,
+  disabled,
   readonly,
   noBottomInfo,
   bordered,
@@ -166,6 +179,8 @@ export const TokenControlFormItem: FC<TokenControlFormItemProps> = ({
         assets={assets}
         maxButton={maxButton}
         label={label}
+        hasBorder={hasBorder}
+        disabled={disabled}
       />
     </Form.Item>
   );

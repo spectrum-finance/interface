@@ -1,29 +1,29 @@
 import { SwitchProps } from 'antd';
 import React, { useCallback, useState } from 'react';
 
-import { useTheme } from '../../context/Theme';
+import { useSettings } from '../../context';
 import { Switch } from '../../ergodex-cdk';
 
-const addBodyClass = (className: string) =>
-  document.body.classList.add(className);
-const removeBodyClass = (className: string) =>
-  document.body.classList.remove(className);
-
 const ThemeSwitch: React.FC<SwitchProps> = (): JSX.Element => {
-  const theme = useTheme();
+  const [settings, setSettings] = useSettings();
+  const { theme } = settings;
   const [isDark, setIsDark] = useState(theme === 'dark');
 
   const handleChangeTheme = useCallback(() => {
     if (isDark) {
       setIsDark(false);
-      addBodyClass('light');
-      removeBodyClass('dark');
+      setSettings({
+        ...settings,
+        theme: 'light',
+      });
     } else {
       setIsDark(true);
-      addBodyClass('dark');
-      removeBodyClass('light');
+      setSettings({
+        ...settings,
+        theme: 'dark',
+      });
     }
-  }, [isDark]);
+  }, [isDark, settings, setSettings]);
 
   return (
     <Switch defaultChecked={isDark} size="small" onChange={handleChangeTheme} />
