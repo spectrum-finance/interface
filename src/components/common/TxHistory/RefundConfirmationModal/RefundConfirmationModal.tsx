@@ -12,7 +12,7 @@ import {
   Typography,
 } from '../../../../ergodex-cdk';
 import { useObservable } from '../../../../hooks/useObservable';
-import { utxos$ } from '../../../../services/new/wallet';
+import { utxos$ } from '../../../../services/new/core';
 import { submitTx } from '../../../../services/yoroi';
 import { refund } from '../../../../utils/ammOperations';
 import { getShortAddress } from '../../../../utils/string/addres';

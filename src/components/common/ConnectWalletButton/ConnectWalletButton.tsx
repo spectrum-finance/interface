@@ -10,7 +10,7 @@ import { useObservable } from '../../../hooks/useObservable';
 import {
   isWalletConnected$,
   isWalletLoading$,
-} from '../../../services/new/wallet';
+} from '../../../services/new/core';
 import { ChooseWalletModal } from './ChooseWalletModal/ChooseWalletModal';
 
 export interface ConnectWalletButtonProps {

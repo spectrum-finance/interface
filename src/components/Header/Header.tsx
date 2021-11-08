@@ -6,7 +6,7 @@ import { ERG_TOKEN_NAME } from '../../constants/erg';
 import { useSettings } from '../../context';
 import { Logo } from '../../ergodex-cdk';
 import { useObservable } from '../../hooks/useObservable';
-import { ergoBalance$ } from '../../services/new/wallet';
+import { nativeTokenBalance$ } from '../../services/new/core';
 import { BurgerMenu } from './BurgerMenu/BurgerMenu';
 import { ConnectWallet } from './ConnectWallet/ConnectWallet';
 import { GlobalSettings } from './GlobalSettings/GlobalSettings';
@@ -20,7 +20,7 @@ const networks = [
 
 export const Header: React.FC = () => {
   const [{ address }] = useSettings();
-  const [balance] = useObservable(ergoBalance$);
+  const [balance] = useObservable(nativeTokenBalance$);
 
   return (
     <header className="header">

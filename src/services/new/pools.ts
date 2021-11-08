@@ -16,11 +16,12 @@ import {
   refCount,
   startWith,
   switchMap,
+  zip,
 } from 'rxjs';
 
 import { getListAvailableTokens } from '../../utils/getListAvailableTokens';
 import { explorer } from '../explorer';
-import { utxos$ } from './wallet';
+import { utxos$ } from './core';
 
 export const networkPools = (): NetworkPools => makePools(explorer);
 export const nativeNetworkPools = (): NetworkPools => makeNativePools(explorer);
@@ -90,7 +91,7 @@ const availableNetworkPools$ = utxos$.pipe(
   refCount(),
 );
 
-export const availablePools$: Observable<AmmPool[]> = combineLatest([
+export const availablePools$: Observable<AmmPool[]> = zip([
   availableNativeNetworkPools$,
   availableNetworkPools$,
 ]).pipe(
@@ -108,7 +109,6 @@ export const getPoolById = (poolId: PoolId): Observable<AmmPool | undefined> =>
 const byPair = (xId: string, yId: string) => (p: AmmPool) =>
   (p.assetX.id === xId || p.assetY.id === xId) &&
   (p.assetX.id === yId || p.assetY.id === yId);
-
 export const getPoolByPair = (
   xId: string,
   yId: string,

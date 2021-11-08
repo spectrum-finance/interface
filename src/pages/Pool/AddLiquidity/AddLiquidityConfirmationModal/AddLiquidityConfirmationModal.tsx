@@ -9,7 +9,7 @@ import { useSettings } from '../../../../context';
 import { Box, Button, Flex, Typography } from '../../../../ergodex-cdk';
 import { useObservable } from '../../../../hooks/useObservable';
 import { explorer } from '../../../../services/explorer';
-import { utxos$ } from '../../../../services/new/wallet';
+import { utxos$ } from '../../../../services/new/core';
 import { poolActions } from '../../../../services/poolActions';
 import { submitTx } from '../../../../services/yoroi';
 import { makeTarget } from '../../../../utils/ammMath';

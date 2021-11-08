@@ -8,7 +8,7 @@ type ItemsProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
   HTMLDivElement
 > & {
-  display?: 'flex';
+  display?: 'flex' | 'block' | 'none';
   order?: number;
   marginBottom?: number;
   marginTop?: number;

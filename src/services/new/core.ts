@@ -18,7 +18,6 @@ import { walletCookies } from '../../utils/cookies';
 import { renderFractions } from '../../utils/math';
 
 const TEN_SECONDS = 10 * 1000;
-
 const ERGO_ID =
   '0000000000000000000000000000000000000000000000000000000000000000';
 
@@ -32,9 +31,12 @@ export const isWalletConnected$ = of(
   refCount(),
 );
 
-export const utxos$ = isWalletConnected$.pipe(
+export const appTick$ = isWalletConnected$.pipe(
   filter(Boolean),
   switchMap(() => interval(TEN_SECONDS).pipe(startWith(0))),
+);
+
+export const utxos$ = appTick$.pipe(
   switchMap(() => from(ergo.get_utxos())),
   map((bs) => bs?.map((b) => ergoBoxFromProxy(b))),
   map((data) => data ?? []),
@@ -42,16 +44,17 @@ export const utxos$ = isWalletConnected$.pipe(
   refCount(),
 );
 
-export const ergoBalance$ = isWalletConnected$.pipe(
-  filter(Boolean),
-  switchMap(() => interval(TEN_SECONDS).pipe(startWith(0))),
+export const nativeTokenBalance$ = appTick$.pipe(
   switchMap(() => from(ergo.get_balance(ERG_TOKEN_NAME))),
   map((balance) => renderFractions(balance, ERG_DECIMALS)),
   publishReplay(1),
   refCount(),
 );
 
-export const isWalletLoading$ = combineLatest([utxos$, ergoBalance$]).pipe(
+export const isWalletLoading$ = combineLatest([
+  utxos$,
+  nativeTokenBalance$,
+]).pipe(
   map(() => false),
   startWith(true),
   publishReplay(1),
@@ -68,7 +71,5 @@ export const getTokenBalance = (tokenId: string): Observable<number> =>
           : ergo.get_balance(tokenId),
       ),
     ),
-    map((amount) =>
-      tokenId === ERGO_ID ? +renderFractions(amount, ERG_DECIMALS) : +amount,
-    ),
+    map((amount) => +renderFractions(amount, ERG_DECIMALS)),
   );

@@ -32,7 +32,6 @@ import {
 } from '../../../hooks/useObservable';
 import { assets$, getAssetsByPairAsset } from '../../../services/new/assets';
 import { getPoolByPair, pools$ } from '../../../services/new/pools';
-import { getTokenBalance } from '../../../services/new/wallet';
 import {
   parseUserInputToFractions,
   renderFractions,
@@ -60,21 +59,21 @@ class AddLiquidityStrategy implements ActionFormStrategy {
   getInsufficientTokenForTx(
     form: FormInstance<AddLiquidityFormModel>,
   ): Observable<string | undefined> | string | undefined {
-    const { x, y, xAmount, yAmount } = form.getFieldsValue();
-    const xAmountValue = xAmount?.amount?.value;
-    const yAmountValue = yAmount?.amount?.value;
-
-    if (x && xAmountValue && y && yAmountValue) {
-      return getTokenBalance(x.id).pipe(
-        switchMap((balance) =>
-          xAmountValue > balance
-            ? of(x.name)
-            : getTokenBalance(y.id).pipe(
-                map((balance) => (yAmountValue > balance ? y.name : undefined)),
-              ),
-        ),
-      );
-    }
+    // const { x, y, xAmount, yAmount } = form.getFieldsValue();
+    // const xAmountValue = xAmount?.amount?.value;
+    // const yAmountValue = yAmount?.amount?.value;
+    //
+    // if (x && xAmountValue && y && yAmountValue) {
+    //   return getTokenBalance(x.id).pipe(
+    //     switchMap((balance) =>
+    //       xAmountValue > balance
+    //         ? of(x.name)
+    //         : getTokenBalance(y.id).pipe(
+    //             map((balance) => (yAmountValue > balance ? y.name : undefined)),
+    //           ),
+    //     ),
+    //   );
+    // }
 
     return undefined;
   }
