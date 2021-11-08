@@ -79,7 +79,7 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
 
       if (vars) {
         const exFeePerToken = vars[0];
-        const { maxExFee, minOutput } = vars[1];
+        const { maxExFee, minOutput, maxOutput } = vars[1];
 
         const minNErgs = minValueForOrder(minerFeeNErgs, uiFeeNErg, maxExFee);
 
@@ -130,7 +130,7 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
               label="From"
             />
           </Flex.Item>
-          <Flex.Item marginBottom={6}>
+          <Flex.Item marginBottom={4}>
             <TokenControlFormItem
               readonly
               bordered
@@ -139,52 +139,59 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
               label="To"
             />
           </Flex.Item>
-          <Box contrast padding={4}>
-            <Flex flexDirection="col">
-              <Flex.Item marginBottom={2}>
-                <Flex flexDirection="row">
-                  <Flex.Item flex={1}>
-                    <Typography.Text>Minimum received</Typography.Text>
-                  </Flex.Item>
-                  <Flex.Item>
-                    <Typography.Text>0.044 WETH</Typography.Text>
-                  </Flex.Item>
-                </Flex>
-              </Flex.Item>
-              <Flex.Item marginBottom={2}>
-                <Flex flexDirection="row">
-                  <Flex.Item flex={1}>
-                    <Typography.Text>Minimum received</Typography.Text>
-                  </Flex.Item>
-                  <Flex.Item>
-                    <Typography.Text>0.044 WETH</Typography.Text>
-                  </Flex.Item>
-                </Flex>
-              </Flex.Item>
-              <Flex.Item marginBottom={2}>
-                <Flex flexDirection="row">
-                  <Flex.Item flex={1}>
-                    <Typography.Text>Minimum received</Typography.Text>
-                  </Flex.Item>
-                  <Flex.Item>
-                    <Typography.Text>0.044 WETH</Typography.Text>
-                  </Flex.Item>
-                </Flex>
-              </Flex.Item>
-              <Flex.Item marginBottom={2}>
-                <Flex flexDirection="row">
-                  <Flex.Item flex={1}>
-                    <Typography.Text>Minimum received</Typography.Text>
-                  </Flex.Item>
-                  <Flex.Item>
-                    <Typography.Text>0.044 WETH</Typography.Text>
-                  </Flex.Item>
-                </Flex>
-              </Flex.Item>
-            </Flex>
-          </Box>
+          <Flex.Item marginBottom={4}>
+            <Box contrast padding={4}>
+              <Flex flexDirection="col">
+                <Flex.Item marginBottom={2}>
+                  <Flex flexDirection="row">
+                    <Flex.Item flex={1}>
+                      <Typography.Text>Output:</Typography.Text>
+                    </Flex.Item>
+                    <Flex.Item>
+                      <Typography.Text>0.044 WETH</Typography.Text>
+                    </Flex.Item>
+                  </Flex>
+                </Flex.Item>
+                <Flex.Item marginBottom={2}>
+                  <Flex flexDirection="row">
+                    <Flex.Item flex={1}>
+                      <Typography.Text>Minimum received</Typography.Text>
+                    </Flex.Item>
+                    <Flex.Item>
+                      <Typography.Text>0.044 WETH</Typography.Text>
+                    </Flex.Item>
+                  </Flex>
+                </Flex.Item>
+                <Flex.Item marginBottom={2}>
+                  <Flex flexDirection="row">
+                    <Flex.Item flex={1}>
+                      <Typography.Text>Minimum received</Typography.Text>
+                    </Flex.Item>
+                    <Flex.Item>
+                      <Typography.Text>0.044 WETH</Typography.Text>
+                    </Flex.Item>
+                  </Flex>
+                </Flex.Item>
+                <Flex.Item marginBottom={2}>
+                  <Flex flexDirection="row">
+                    <Flex.Item flex={1}>
+                      <Typography.Text>Minimum received</Typography.Text>
+                    </Flex.Item>
+                    <Flex.Item>
+                      <Typography.Text>0.044 WETH</Typography.Text>
+                    </Flex.Item>
+                  </Flex>
+                </Flex.Item>
+              </Flex>
+            </Box>
+          </Flex.Item>
           <Flex.Item>
-            <Button size="large" type="primary" block onClick={swapOperation}>
+            <Button
+              size="extra-large"
+              type="primary"
+              block
+              onClick={swapOperation}
+            >
               Confirm swap
             </Button>
           </Flex.Item>
