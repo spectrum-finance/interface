@@ -49,6 +49,11 @@ export const App: React.FC = () => {
                       <Route path="/pool" exact component={Pool} />
                       <Route path="/pool/add" exact component={AddLiquidity} />
                       <Route
+                        path="/pool/add/:poolId"
+                        exact
+                        component={AddLiquidity}
+                      />
+                      <Route
                         path="/pool/:poolId"
                         exact
                         component={PoolPosition}

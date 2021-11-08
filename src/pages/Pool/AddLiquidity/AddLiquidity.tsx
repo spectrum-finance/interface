@@ -1,8 +1,9 @@
 import './AddLiquidity.less';
 
-import { AmmPool } from '@ergolabs/ergo-dex-sdk';
+import { AmmPool, PoolId } from '@ergolabs/ergo-dex-sdk';
 import { AssetAmount, AssetInfo } from '@ergolabs/ergo-sdk';
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router';
 import { map, Observable, of, switchMap } from 'rxjs';
 
 import {
@@ -16,6 +17,7 @@ import {
 } from '../../../components/common/TokenControl/TokenControl';
 import { TokeSelectFormItem } from '../../../components/common/TokenControl/TokenSelect/TokenSelect';
 import { FormPageWrapper } from '../../../components/FormPageWrapper/FormPageWrapper';
+import { useSettings } from '../../../context';
 import {
   Button,
   Flex,
@@ -23,15 +25,24 @@ import {
   FormInstance,
   LinkOutlined,
   Modal,
+  Skeleton,
   Tooltip,
   Typography,
 } from '../../../ergodex-cdk';
+import { Error } from '../../../ergodex-cdk/components/Modal/presets/Error';
+import { Progress } from '../../../ergodex-cdk/components/Modal/presets/Progress';
+import { Success } from '../../../ergodex-cdk/components/Modal/presets/Success';
 import {
   useObservable,
   useObservableAction,
 } from '../../../hooks/useObservable';
 import { assets$, getAssetsByPairAsset } from '../../../services/new/assets';
-import { getPoolByPair, pools$ } from '../../../services/new/pools';
+import { Balance, useWalletBalance } from '../../../services/new/balance';
+import {
+  getPoolById,
+  getPoolByPair,
+  pools$,
+} from '../../../services/new/pools';
 import {
   parseUserInputToFractions,
   renderFractions,
@@ -47,6 +58,8 @@ interface AddLiquidityFormModel {
 }
 
 class AddLiquidityStrategy implements ActionFormStrategy {
+  constructor(private balance: Balance, private minerFee: number) {}
+
   actionButtonCaption(): React.ReactNode {
     return 'Add liquidity';
   }
@@ -59,21 +72,27 @@ class AddLiquidityStrategy implements ActionFormStrategy {
   getInsufficientTokenForTx(
     form: FormInstance<AddLiquidityFormModel>,
   ): Observable<string | undefined> | string | undefined {
-    // const { x, y, xAmount, yAmount } = form.getFieldsValue();
-    // const xAmountValue = xAmount?.amount?.value;
-    // const yAmountValue = yAmount?.amount?.value;
-    //
-    // if (x && xAmountValue && y && yAmountValue) {
-    //   return getTokenBalance(x.id).pipe(
-    //     switchMap((balance) =>
-    //       xAmountValue > balance
-    //         ? of(x.name)
-    //         : getTokenBalance(y.id).pipe(
-    //             map((balance) => (yAmountValue > balance ? y.name : undefined)),
-    //           ),
-    //     ),
-    //   );
-    // }
+    const { x, y, xAmount, yAmount } = form.getFieldsValue();
+    const xAmountValue = xAmount?.amount?.value;
+    const yAmountValue = yAmount?.amount?.value;
+
+    if (
+      x &&
+      xAmount &&
+      xAmount?.asset &&
+      xAmountValue! > this.balance.get(xAmount?.asset?.id)
+    ) {
+      return x?.name;
+    }
+
+    if (
+      y &&
+      yAmount &&
+      yAmount?.asset &&
+      yAmountValue! > this.balance.get(yAmount?.asset?.id)
+    ) {
+      return y?.name;
+    }
 
     return undefined;
   }
@@ -93,28 +112,39 @@ class AddLiquidityStrategy implements ActionFormStrategy {
   request(form: FormInstance<AddLiquidityFormModel>): void {
     const value = form.getFieldsValue();
 
-    Modal.open(
-      ({ close }) => (
-        <AddLiquidityConfirmationModal
-          position={value.activePool}
-          pair={{
-            assetX: {
-              name: value.xAmount?.asset?.name,
-              amount: value.xAmount?.amount?.value,
-            },
-            assetY: {
-              name: value.yAmount?.asset?.name,
-              amount: value.yAmount?.amount?.value,
-            },
-          }}
-          onClose={close}
-        />
-      ),
-      {
-        title: 'Add liquidity',
-        width: 436,
+    // (
+    //   (next) => (
+    //
+    //   ),
+    //     {
+    //       title: 'Add liquidity',
+    //       width: 436,
+    //     },
+    // );
+
+    Modal.request({
+      actionContent: (next) => {
+        return (
+          <AddLiquidityConfirmationModal
+            position={value.activePool}
+            pair={{
+              assetX: {
+                name: value.xAmount?.asset?.name,
+                amount: value.xAmount?.amount?.value,
+              },
+              assetY: {
+                name: value.yAmount?.asset?.name,
+                amount: value.yAmount?.amount?.value,
+              },
+            }}
+            onClose={next}
+          />
+        );
       },
-    );
+      errorContent: <Error content={'lksdjf'} />,
+      progressContent: <Progress content={'lksdjf'} />,
+      successContent: <Success content={'lksdjf'} />,
+    });
   }
 
   isLiquidityInsufficient(): boolean {
@@ -132,16 +162,26 @@ const initialValues: AddLiquidityFormModel = {
 const getAssetsByToken = (tokenId?: string) =>
   tokenId ? getAssetsByPairAsset(tokenId) : pools$;
 
+const makeInitialForm = (poolId: PoolId) => {};
+
 const AddLiquidity = (): JSX.Element => {
-  const addLiquidityStrategy = new AddLiquidityStrategy();
+  const [balance] = useWalletBalance();
+  const [{ minerFee }] = useSettings();
+
+  const { poolId } = useParams<{ poolId?: PoolId }>();
+
+  const addLiquidityStrategy = new AddLiquidityStrategy(balance, minerFee);
   const [form] = Form.useForm<AddLiquidityFormModel>();
   const [xAssets] = useObservable(assets$);
   const [yAssets, setYAssets] = useObservableAction(getAssetsByToken);
   const [pools, setPools] = useObservableAction(getPoolByPair);
+  const [poolById, setPoolById] = useObservableAction(getPoolById);
 
   const [isStickRatio, setIsStickRatio] = useState(false);
 
   const [isPairSelected, setIsPairSelected] = useState(false);
+
+  const [isFirstPageLoading, setIsFirstPageLoading] = useState(true);
 
   const onValuesChange = (
     changes: AddLiquidityFormModel,
@@ -217,8 +257,43 @@ const AddLiquidity = (): JSX.Element => {
   };
 
   useEffect(() => {
-    setYAssets(initialValues?.x?.id);
-    form.setFieldsValue({ xAmount: { asset: initialValues?.x } });
+    if (isFirstPageLoading && poolById) {
+      setYAssets(poolById?.x?.asset.id);
+
+      setPools(poolById?.x?.asset.id, poolById?.y?.asset.id);
+
+      form.setFieldsValue({
+        activePool: poolById,
+        x: {
+          name: poolById?.x.asset.name,
+          id: poolById?.x.asset.id,
+        },
+        y: {
+          name: poolById?.y.asset.name,
+          id: poolById?.y.asset.id,
+        },
+        xAmount: { asset: poolById?.x.asset },
+        yAmount: { asset: poolById?.y.asset },
+      });
+      setIsFirstPageLoading(false);
+    } else if (poolId && isFirstPageLoading) {
+      setPoolById(poolId);
+    }
+  }, [
+    form,
+    isFirstPageLoading,
+    poolById,
+    poolId,
+    setPoolById,
+    setYAssets,
+    setPools,
+  ]);
+
+  useEffect(() => {
+    if (!poolId) {
+      setYAssets(initialValues?.x?.id);
+      form.setFieldsValue({ xAmount: { asset: initialValues?.x } });
+    }
   });
 
   return (
@@ -228,75 +303,79 @@ const AddLiquidity = (): JSX.Element => {
       withBackButton
       backTo="/pool"
     >
-      <ActionForm
-        form={form}
-        strategy={addLiquidityStrategy}
-        initialValues={initialValues}
-        onValuesChange={onValuesChange}
-      >
-        <Flex flexDirection="col">
-          <Flex.Item marginBottom={4}>
-            <Typography.Body strong>Select Pair</Typography.Body>
-            <Flex justify="space-between" alignItems="center">
-              <Flex.Item marginRight={2} grow>
-                <TokeSelectFormItem name="x" assets={xAssets} />
-              </Flex.Item>
-              <Flex.Item grow>
-                <TokeSelectFormItem name="y" assets={yAssets} />
-              </Flex.Item>
-            </Flex>
-          </Flex.Item>
-          <Flex.Item
-            marginBottom={4}
-            style={{ opacity: isPairSelected ? '' : '0.3' }}
-          >
-            <Typography.Body strong>Select Pool</Typography.Body>
-            <Form.Item name="activePool" style={{ marginBottom: 0 }}>
-              <PoolSelect positions={pools} />
-            </Form.Item>
-          </Flex.Item>
-          <Flex.Item
-            marginBottom={4}
-            style={{ opacity: isPairSelected ? '' : '0.3' }}
-          >
-            <Typography.Body strong>Liquidity</Typography.Body>
-            <Flex flexDirection="col">
-              <Flex.Item marginBottom={1}>
-                <TokenControlFormItem
-                  disabled={!isPairSelected}
-                  name="xAmount"
-                  assets={xAssets}
-                  hasBorder={isStickRatio}
-                />
-              </Flex.Item>
-              <Flex.Item className="stick-button">
-                <Tooltip
-                  title={`${
-                    isStickRatio ? 'Unstick' : 'Stick to'
-                  } current ratio`}
-                >
-                  <Button
+      {!poolId || (pools && pools.length) ? (
+        <ActionForm
+          form={form}
+          strategy={addLiquidityStrategy}
+          initialValues={initialValues}
+          onValuesChange={onValuesChange}
+        >
+          <Flex flexDirection="col">
+            <Flex.Item marginBottom={4}>
+              <Typography.Body strong>Select Pair</Typography.Body>
+              <Flex justify="space-between" alignItems="center">
+                <Flex.Item marginRight={2} grow>
+                  <TokeSelectFormItem name="x" assets={xAssets} />
+                </Flex.Item>
+                <Flex.Item grow>
+                  <TokeSelectFormItem name="y" assets={yAssets} />
+                </Flex.Item>
+              </Flex>
+            </Flex.Item>
+            <Flex.Item
+              marginBottom={4}
+              style={{ opacity: isPairSelected ? '' : '0.3' }}
+            >
+              <Typography.Body strong>Select Pool</Typography.Body>
+              <Form.Item name="activePool" style={{ marginBottom: 0 }}>
+                <PoolSelect positions={pools} />
+              </Form.Item>
+            </Flex.Item>
+            <Flex.Item
+              marginBottom={4}
+              style={{ opacity: isPairSelected ? '' : '0.3' }}
+            >
+              <Typography.Body strong>Liquidity</Typography.Body>
+              <Flex flexDirection="col">
+                <Flex.Item marginBottom={1}>
+                  <TokenControlFormItem
                     disabled={!isPairSelected}
-                    type={isStickRatio ? 'primary' : 'default'}
-                    className="stick-button__btn"
-                    icon={<LinkOutlined />}
-                    onClick={() => setIsStickRatio((val) => !val)}
-                    size="large"
+                    name="xAmount"
+                    assets={xAssets}
+                    hasBorder={isStickRatio}
                   />
-                </Tooltip>
-              </Flex.Item>
-              <Flex.Item>
-                <TokenControlFormItem
-                  disabled={!isPairSelected}
-                  name="yAmount"
-                  assets={yAssets}
-                  hasBorder={isStickRatio}
-                />
-              </Flex.Item>
-            </Flex>
-          </Flex.Item>
-        </Flex>
-      </ActionForm>
+                </Flex.Item>
+                <Flex.Item className="stick-button">
+                  <Tooltip
+                    title={`${
+                      isStickRatio ? 'Unstick' : 'Stick to'
+                    } current ratio`}
+                  >
+                    <Button
+                      disabled={!isPairSelected}
+                      type={isStickRatio ? 'primary' : 'default'}
+                      className="stick-button__btn"
+                      icon={<LinkOutlined />}
+                      onClick={() => setIsStickRatio((val) => !val)}
+                      size="large"
+                    />
+                  </Tooltip>
+                </Flex.Item>
+                <Flex.Item>
+                  <TokenControlFormItem
+                    disabled={!isPairSelected}
+                    name="yAmount"
+                    assets={yAssets}
+                    hasBorder={isStickRatio}
+                  />
+                </Flex.Item>
+              </Flex>
+            </Flex.Item>
+          </Flex>
+        </ActionForm>
+      ) : (
+        <Skeleton active />
+      )}
     </FormPageWrapper>
   );
 };

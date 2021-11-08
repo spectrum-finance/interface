@@ -21,7 +21,7 @@ import { RemoveFormSpaceWrapper } from '../../../Remove/RemoveFormSpaceWrapper/R
 interface ConfirmRemoveModalProps {
   position?: AmmPool;
   pair: AssetPair;
-  onClose: () => void;
+  onClose: (r: Promise<any>) => void;
 }
 
 const AddLiquidityConfirmationModal: React.FC<ConfirmRemoveModalProps> = ({
@@ -69,29 +69,29 @@ const AddLiquidityConfirmationModal: React.FC<ConfirmRemoveModalProps> = ({
 
       const inputs = DefaultBoxSelector.select(utxos, target) as BoxSelection;
 
-      actions
-        .deposit(
-          {
-            pk,
-            poolId,
-            exFee: exFeeNErg,
-            uiFee: uiFeeNErg,
-            x: inputX,
-            y: inputY,
-          },
-          {
-            inputs,
-            changeAddress: address,
-            selfAddress: address,
-            feeNErgs: minerFeeNErgs,
-            network,
-          },
-        )
-        .then(async (tx: ErgoTx) => {
-          await submitTx(tx);
-        })
-        .catch((err) => console.error(err))
-        .finally(() => onClose());
+      onClose(
+        actions
+          .deposit(
+            {
+              pk,
+              poolId,
+              exFee: exFeeNErg,
+              uiFee: uiFeeNErg,
+              x: inputX,
+              y: inputY,
+            },
+            {
+              inputs,
+              changeAddress: address,
+              selfAddress: address,
+              feeNErgs: minerFeeNErgs,
+              network,
+            },
+          )
+          .then(async (tx: ErgoTx) => {
+            await submitTx(tx);
+          }),
+      );
     }
   };
 

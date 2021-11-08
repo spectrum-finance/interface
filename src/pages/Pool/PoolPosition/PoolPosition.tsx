@@ -44,6 +44,10 @@ export const PoolPosition: React.FC = () => {
     history.push(`/remove/${id}/`);
   };
 
+  const handleAddLiquidity = (id: PoolId) => {
+    history.push(`/pool/add/${id}/`);
+  };
+
   return (
     <FormPageWrapper
       title="Position overview"
@@ -191,6 +195,7 @@ export const PoolPosition: React.FC = () => {
                   type="primary"
                   size="large"
                   icon={<PlusOutlined />}
+                  onClick={() => handleAddLiquidity(poolId)}
                   block
                 >
                   Increase liquidity
