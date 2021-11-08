@@ -17,7 +17,7 @@ export enum ActionButtonState {
 }
 
 const selectTokenState = (): ButtonProps => ({
-  children: 'Select Token',
+  children: 'Select a token',
   type: 'primary',
   disabled: true,
 });

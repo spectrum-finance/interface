@@ -16,7 +16,7 @@ import { parseUserInputToFractions } from './math';
 interface RefundParams {
   txId: TxId;
   address: Address;
-  minerFee: string;
+  minerFee: number;
 }
 
 const validRefundStatuses = ['pending', 'submitted'];

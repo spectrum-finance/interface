@@ -28,6 +28,7 @@ import {
 import { defaultExFee } from '../../constants/settings';
 import { useSettings } from '../../context';
 import {
+  Box,
   Button,
   Flex,
   Form,
@@ -366,6 +367,39 @@ export const Swap: FC = () => {
     ]);
     setChanges({});
   };
+
+  const priceTooltip = (
+    <>
+      <Box className="price-content">
+        <Typography.Text className="price-content__left">
+          Minimum received
+        </Typography.Text>
+        <Typography.Text className="price-content__right">
+          0.044WETH
+        </Typography.Text>
+      </Box>
+      <Box className="price-content">
+        <Typography.Text className="price-content__left">
+          Price impact
+        </Typography.Text>
+        <Typography.Text className="price-content__right">0.5%</Typography.Text>
+      </Box>
+      <Box className="price-content">
+        <Typography.Text className="price-content__left">
+          Slippage tollerance
+        </Typography.Text>
+        <Typography.Text className="price-content__right">0.5%</Typography.Text>
+      </Box>
+      <Box className="price-content">
+        <Typography.Text className="price-content__left">
+          Total fees
+        </Typography.Text>
+        <Typography.Text className="price-content__right">
+          0.000055ERG(~$3.065)
+        </Typography.Text>
+      </Box>
+    </>
+  );
 
   return (
     <FormPageWrapper width={480}>

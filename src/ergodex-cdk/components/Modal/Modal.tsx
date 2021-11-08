@@ -145,7 +145,7 @@ export const Modal = {
     return this.open(<Success content={content} />, { width: 343 });
   },
   request(config: RequestProps): DialogRef {
-    return this.open(<Request {...config} />, { width: 343 });
+    return this.open(<Request {...config} />);
   },
 };
 

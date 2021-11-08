@@ -1,6 +1,6 @@
 import memoizee from 'memoizee';
 import { useEffect, useState } from 'react';
-import { Observable, of, Subject, Subscription, switchMap } from 'rxjs';
+import { Observable, Subject, switchMap } from 'rxjs';
 
 import { Unpacked } from '../utils/unpacked';
 

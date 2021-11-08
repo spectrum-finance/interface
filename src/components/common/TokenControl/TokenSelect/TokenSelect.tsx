@@ -1,23 +1,25 @@
 import './TokenSelect.less';
 
-import { AssetAmount, AssetInfo } from '@ergolabs/ergo-sdk';
+import { AssetInfo } from '@ergolabs/ergo-sdk';
 import React from 'react';
 
-import { Button, DownOutlined, Modal } from '../../../../ergodex-cdk';
+import { Button, DownOutlined, Form, Modal } from '../../../../ergodex-cdk';
 import { TokenIcon } from '../../../TokenIcon/TokenIcon';
 import { TokenListModal } from './TokenListModal/TokenListModal';
 
 interface TokenSelectProps {
-  readonly asset?: AssetInfo | undefined;
-  readonly onChange?: (asset: AssetInfo) => void;
+  readonly value?: AssetInfo | undefined;
+  readonly onChange?: (value: AssetInfo) => void;
   readonly assets?: AssetInfo[];
+  readonly disabled?: boolean;
   readonly readonly?: boolean;
 }
 
 const TokenSelect: React.FC<TokenSelectProps> = ({
-  asset,
+  value,
   onChange,
   assets,
+  disabled,
   readonly,
 }) => {
   const openTokenModal = () => {
@@ -35,25 +37,36 @@ const TokenSelect: React.FC<TokenSelectProps> = ({
 
   return (
     <>
-      {asset ? (
-        <button className="token-select_selected" onClick={openTokenModal}>
-          <span className="token-select_selected_container">
-            <TokenIcon
-              name={asset.name ?? 'empty'}
-              className="token-select_selected_item"
-            />
-            <span className="token-select_selected_item">
-              {asset.name?.toUpperCase()}
+      {value ? (
+        <button
+          className="token-select__selected"
+          onClick={openTokenModal}
+          disabled={disabled}
+        >
+          <span className="token-select__selected-container">
+            <span className="token-select__selected-inner token-select__selected-item">
+              <TokenIcon
+                name={value.name}
+                className="token-select__selected-item"
+              />
+              <span>{value.name}</span>
             </span>
             {!readonly && <DownOutlined />}
           </span>
         </button>
       ) : (
         <Button
-          className="token-select"
+          style={{
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
           size="large"
           type="primary"
           onClick={openTokenModal}
+          block
+          disabled={disabled}
         >
           Select a token
           {!readonly && <DownOutlined />}
@@ -63,4 +76,19 @@ const TokenSelect: React.FC<TokenSelectProps> = ({
   );
 };
 
-export { TokenSelect };
+interface TokeSelectFormItem extends TokenSelectProps {
+  name?: string;
+}
+
+const TokeSelectFormItem: React.FC<TokeSelectFormItem> = ({
+  name,
+  ...rest
+}) => {
+  return (
+    <Form.Item name={name} className="token-select-form-item">
+      <TokenSelect {...rest} />
+    </Form.Item>
+  );
+};
+
+export { TokenSelect, TokeSelectFormItem };

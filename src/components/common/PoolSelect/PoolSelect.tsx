@@ -1,77 +1,115 @@
 import './PoolSelect.less';
 
-import React from 'react';
+import { AmmPool } from '@ergolabs/ergo-dex-sdk';
+import { maxBy } from 'lodash';
+import React, { useEffect } from 'react';
 
-import { Select } from '../../../ergodex-cdk';
-import { MenuItem } from './MenuItem';
+import {
+  Button,
+  DownOutlined,
+  Dropdown,
+  Flex,
+  Menu,
+  Typography,
+} from '../../../ergodex-cdk';
+import { TokenIconPair } from '../../TokenIconPair/TokenIconPair';
+import { FeeTag } from '../FeeTag/FeeTag';
 
-interface PoolMenuProps {
-  value?: string | '';
-  firstToken?: string | null;
-  secondToken?: string | null;
-  percent: number;
-  disable?: boolean | false;
-  className?: string;
+interface PoolOptionProps {
+  position: AmmPool;
 }
 
-const PoolMenu: React.FC<PoolMenuProps> = ({
-  value,
-  firstToken,
-  secondToken,
-  percent,
-  disable,
-  className,
-}) => {
-  const { Option } = Select;
-  const content1 = (
-    <MenuItem
-      firstTokenName={firstToken}
-      secondTokenName={secondToken}
-      percentage={0.3}
-    />
-  );
-  const content2 = (
-    <MenuItem
-      firstTokenName={firstToken}
-      secondTokenName={secondToken}
-      percentage={0.5}
-    />
-  );
-  const content3 = (
-    <MenuItem
-      firstTokenName={firstToken}
-      secondTokenName={secondToken}
-      percentage={1}
-    />
-  );
-  const content4 = (
-    <MenuItem
-      firstTokenName={firstToken}
-      secondTokenName={secondToken}
-      percentage={3}
-    />
-  );
-
+const PoolOption: React.FC<PoolOptionProps> = ({ position }) => {
   return (
-    <Select
-      className="liquidity__pool-select"
-      placeholder="Select pool"
-      disabled={disable}
-      size="large"
-    >
-      <Option className="liquidity__pool-select-content" value={0.3}>
-        {content1}
-      </Option>
-      <Option className="liquidity__pool-select-content" value={0.5}>
-        {content2}
-      </Option>
-      <Option className="liquidity__pool-select-content" value={0.1}>
-        {content3}
-      </Option>
-      <Option className="liquidity__pool-select-content" value={3}>
-        {content4}
-      </Option>
-    </Select>
+    <Flex justify="space-between" alignItems="center">
+      <Flex.Item>
+        <Flex>
+          <Flex.Item marginRight={2}>
+            <Flex>
+              <TokenIconPair
+                tokenPair={{
+                  tokenA: position.x.asset.name,
+                  tokenB: position.y.asset.name,
+                }}
+              />
+            </Flex>
+          </Flex.Item>
+          <Flex.Item>
+            <Typography.Title
+              level={5}
+            >{`${position.x.asset.name}/${position.y.asset.name}`}</Typography.Title>
+          </Flex.Item>
+        </Flex>
+      </Flex.Item>
+      <Flex.Item>
+        <FeeTag fee={position.feeNum} contrast />
+      </Flex.Item>
+    </Flex>
   );
 };
-export { PoolMenu };
+
+interface PoolSelectProps {
+  positions?: AmmPool[];
+  value?: AmmPool;
+  onChange?: (pool: AmmPool) => void;
+}
+
+const PoolSelect: React.FC<PoolSelectProps> = ({
+  positions,
+  value,
+  onChange,
+}) => {
+  const handleChange = (position: AmmPool) => {
+    if (onChange) {
+      onChange(position);
+    }
+  };
+
+  useEffect(() => {
+    if (positions && positions.length > 0) {
+      const positionWithHighestLiquidity = maxBy(positions, (p) => p.lp.amount);
+
+      if (positionWithHighestLiquidity)
+        handleChange(positionWithHighestLiquidity);
+    }
+  });
+
+  return (
+    <>
+      {positions ? (
+        <Dropdown
+          overlay={
+            <Menu>
+              {positions.map((position, index) => {
+                return (
+                  <Menu.Item key={index} onClick={() => handleChange(position)}>
+                    <PoolOption position={position} />
+                  </Menu.Item>
+                );
+              })}
+            </Menu>
+          }
+          trigger={['click']}
+        >
+          <Button size="large" block style={{ padding: '0 12px' }} disabled>
+            <Flex justify="space-between">
+              <Flex.Item marginRight={2} grow>
+                {value && <PoolOption position={value} />}
+              </Flex.Item>
+              <Flex.Item>
+                <Flex alignItems="center" style={{ height: '100%' }}>
+                  <DownOutlined />
+                </Flex>
+              </Flex.Item>
+            </Flex>
+          </Button>
+        </Dropdown>
+      ) : (
+        <Button size="large" block disabled>
+          Select pair
+        </Button>
+      )}
+    </>
+  );
+};
+export { PoolSelect };

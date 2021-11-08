@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 
 import {
   ArrowLeftOutlined,
@@ -12,6 +13,7 @@ interface FormPageWrapperProps {
   width?: number;
   title?: string;
   withBackButton?: boolean;
+  backTo?: string;
 }
 
 const FormPageWrapper: React.FC<FormPageWrapperProps> = ({
@@ -19,7 +21,10 @@ const FormPageWrapper: React.FC<FormPageWrapperProps> = ({
   width,
   title,
   withBackButton,
+  backTo,
 }) => {
+  const history = useHistory();
+
   return (
     <Flex justify="center" alignItems="center">
       <Flex flexDirection="col" style={{ width: width ?? '100%' }}>
@@ -28,7 +33,13 @@ const FormPageWrapper: React.FC<FormPageWrapperProps> = ({
             <Box transparent>
               <Flex alignItems="center">
                 {withBackButton && (
-                  <Button type="text" icon={<ArrowLeftOutlined />} />
+                  <Button
+                    type="text"
+                    icon={<ArrowLeftOutlined />}
+                    onClick={() =>
+                      backTo ? history.push(backTo) : history.goBack()
+                    }
+                  />
                 )}
                 <Typography.Title level={4}>{title}</Typography.Title>
               </Flex>

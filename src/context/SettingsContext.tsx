@@ -6,6 +6,7 @@ import React, { createContext, useContext } from 'react';
 import { ERG_EXPLORER_URL } from '../constants/env';
 import { MIN_NITRO } from '../constants/erg';
 import { defaultMinerFee, defaultSlippage } from '../constants/settings';
+import { isDarkOsTheme } from '../utils/osTheme';
 
 export type Settings = {
   minerFee: number;
@@ -14,6 +15,7 @@ export type Settings = {
   nitro: number;
   pk?: PublicKey;
   explorerUrl: string;
+  theme: string;
 };
 
 export const DefaultSettings: Readonly<Settings> = {
@@ -22,6 +24,7 @@ export const DefaultSettings: Readonly<Settings> = {
   slippage: defaultSlippage,
   explorerUrl: ERG_EXPLORER_URL,
   pk: '',
+  theme: isDarkOsTheme() ? 'dark' : 'light',
 };
 
 function noop() {

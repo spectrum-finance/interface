@@ -1,7 +1,7 @@
 import Icon from '@ant-design/icons';
 import { TxId } from '@ergolabs/ergo-sdk';
 import { Typography } from 'antd';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { ReactComponent as DotsVertical } from '../../../../assets/icons/icon-dots-vertical.svg';
 import { useWalletAddresses, WalletAddressState } from '../../../../context';
@@ -27,7 +27,7 @@ import { normalizeOperations } from '../utils';
 const DotsIconVertical = () => <Icon component={DotsVertical} />;
 
 const TxHistoryModal = (): JSX.Element => {
-  const TXS_TO_DISPLAY = 20;
+  const TXS_TO_DISPLAY = 50;
 
   const [operations, setOperations] = useState<Operation[] | undefined>();
   const walletAddresses = useWalletAddresses();
@@ -40,12 +40,26 @@ const TxHistoryModal = (): JSX.Element => {
     }
   }, [walletAddresses]);
 
-  const handleOpenRefundConfirmationModal = () => {
-    return Modal.open(<RefundConfirmationModal />, {
-      title: 'Refund transaction',
-      width: 570,
-    });
-  };
+  const handleOpenRefundConfirmationModal = useCallback(
+    (txId) => {
+      if (walletAddresses.state === WalletAddressState.LOADED) {
+        return Modal.open(
+          ({ close }) => (
+            <RefundConfirmationModal
+              txId={txId}
+              addresses={walletAddresses.addresses}
+              onClose={close}
+            />
+          ),
+          {
+            title: 'Refund transaction',
+            width: 570,
+          },
+        );
+      }
+    },
+    [walletAddresses],
+  );
 
   const renderTxActionsMenu = (status: OperationStatus, txId: TxId) => {
     return (
@@ -56,7 +70,7 @@ const TxHistoryModal = (): JSX.Element => {
           </a>
         </Menu.Item>
         {isRefundableOperation(status) && (
-          <Menu.Item onClick={handleOpenRefundConfirmationModal}>
+          <Menu.Item onClick={() => handleOpenRefundConfirmationModal(txId)}>
             <a rel="noreferrer">Refund transaction</a>
           </Menu.Item>
         )}

@@ -21,13 +21,13 @@
 
 .ant-btn, .ant-btn-lg, .ant-btn.ant-btn-sm, .ant-btn-icon-only, .ant-btn.ant-btn-text {
   border:     1px solid var(--ergo-default-border-color);
-  background: var(--ergo-default-card-background);
+  background: var(--ergo-btn-default-color);
   box-shadow: none !important;
   color:      var(--ergo-primary-text);
 
   &:hover, &:focus {
     border:     1px solid var(--ergo-default-border-color);
-    background: var(--ergo-default-card-background);
+    background: var(--ergo-btn-default-color);
     color:      var(--ergo-primary-color);
   }
 
@@ -39,12 +39,12 @@
 
   &.ant-btn-loading {
     border:     1px solid var(--ergo-default-border-color);
-    background: var(--ergo-default-card-background);
+    background: var(--ergo-btn-default-color);
     color:      var(--ergo-primary-text);
 
     &:hover, &:focus, &:active {
       border:     1px solid var(--ergo-default-border-color);
-      background: var(--ergo-default-card-background);
+      background: var(--ergo-btn-default-color);
       color:      var(--ergo-primary-text);
     }
   }
@@ -120,9 +120,9 @@
 }
 
 .ant-btn.ant-btn-background-ghost {
-  border:     1px solid var(--ergo-default-card-background);
+  border:     1px solid var(--ergo-btn-default-color);
   background: transparent !important;
-  color:      var(--ergo-default-card-background);
+  color:      var(--ergo-btn-default-color);
 
   &:hover, &:focus {
     border: 1px solid var(--ergo-primary-color-hover);
@@ -138,8 +138,8 @@
     background: var(--ergo-ghost-background) !important;
 
     &:active, &:focus, &:hover {
-      border: 1px solid var(--ergo-default-card-background);
-      color:  var(--ergo-default-card-background);
+      border: 1px solid var(--ergo-btn-default-color);
+      color:  var(--ergo-btn-default-color);
     }
   }
 
@@ -219,8 +219,8 @@
   }
 
   &:active {
-    border:     1px solid var(--ergo-default-card-background);
-    background: var(--ergo-default-card-background);
+    border:     1px solid var(--ergo-btn-default-color);
+    background: var(--ergo-btn-default-color);
   }
 
   &.ant-btn-loading {
@@ -273,6 +273,10 @@
     }
   }
 
+}
+
+.ant-btn.ant-btn-lg {
+  border-radius: var(--ergo-border-radius-md) !important;
 }
 
 .ant-btn.ant-btn-link.ant-btn-dangerous {

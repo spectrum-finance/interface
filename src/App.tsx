@@ -11,12 +11,10 @@ import {
   WalletContextProvider,
 } from './context';
 import { ConnectionContextProvider } from './context/ConnectionContext';
-import { useTheme } from './context/Theme';
 import { globalHistory } from './createBrowserHistory';
 import { ContextModalProvider } from './ergodex-cdk';
-import { useBodyClass } from './hooks/useBodyClass';
-import { useObservable } from './hooks/useObservable';
 import { Swap } from './pages';
+import { AddLiquidity } from './pages';
 import { Pool } from './pages/Pool/Pool';
 import { PoolPosition } from './pages/Pool/PoolPosition/PoolPosition';
 import { Remove } from './pages/Remove/Remove';
@@ -24,8 +22,6 @@ import { Remove } from './pages/Remove/Remove';
 const NotFound = () => <Redirect to="/swap" />;
 
 export const App: React.FC = () => {
-  const theme = useTheme();
-  useBodyClass(theme);
   const [isRustModuleLoaded, setIsRustModuleLoaded] = useState(false);
 
   useEffect(() => {
@@ -51,6 +47,12 @@ export const App: React.FC = () => {
                       </Route>
                       <Route path="/swap" exact component={Swap} />
                       <Route path="/pool" exact component={Pool} />
+                      <Route path="/pool/add" exact component={AddLiquidity} />
+                      <Route
+                        path="/pool/add/:poolId"
+                        exact
+                        component={AddLiquidity}
+                      />
                       <Route
                         path="/pool/:poolId"
                         exact
