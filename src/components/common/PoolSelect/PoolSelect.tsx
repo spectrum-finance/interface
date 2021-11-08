@@ -1,7 +1,8 @@
 import './PoolSelect.less';
 
 import { AmmPool } from '@ergolabs/ergo-dex-sdk';
-import React from 'react';
+import { maxBy } from 'lodash';
+import React, { useEffect } from 'react';
 
 import {
   Button,
@@ -64,6 +65,15 @@ const PoolSelect: React.FC<PoolSelectProps> = ({
     }
   };
 
+  useEffect(() => {
+    if (positions && positions.length > 0) {
+      const positionWithHighestLiquidity = maxBy(positions, (p) => p.lp.amount);
+
+      if (positionWithHighestLiquidity)
+        handleChange(positionWithHighestLiquidity);
+    }
+  });
+
   return (
     <>
       {positions ? (
@@ -81,10 +91,10 @@ const PoolSelect: React.FC<PoolSelectProps> = ({
           }
           trigger={['click']}
         >
-          <Button size="large" block style={{ padding: '0 12px' }}>
+          <Button size="large" block style={{ padding: '0 12px' }} disabled>
             <Flex justify="space-between">
               <Flex.Item marginRight={2} grow>
-                {value ? <PoolOption position={value} /> : 'select'}
+                {value && <PoolOption position={value} />}
               </Flex.Item>
               <Flex.Item>
                 <Flex alignItems="center" style={{ height: '100%' }}>
@@ -96,7 +106,7 @@ const PoolSelect: React.FC<PoolSelectProps> = ({
         </Dropdown>
       ) : (
         <Button size="large" block disabled>
-          No available pools for this pair
+          Select pair
         </Button>
       )}
     </>
