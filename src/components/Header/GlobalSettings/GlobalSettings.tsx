@@ -77,15 +77,15 @@ const GlobalSettings = (): JSX.Element => {
                 </Flex.Item>
               </Flex>
             </Form.Item>
-            <Form.Item name="explorerUrl">
-              <Typography.Footnote>Explorer URL</Typography.Footnote>
-              <InfoTooltip content="Custom explorer URL. Used for redirections to explorer." />
-              <Input
-                size="small"
-                placeholder="https://explorer.com"
-                onChange={handleChangeExplorerUrl}
-              />
-            </Form.Item>
+            {/*<Form.Item name="explorerUrl">*/}
+            {/*  <Typography.Footnote>Explorer URL</Typography.Footnote>*/}
+            {/*  <InfoTooltip content="Custom explorer URL. Used for redirections to explorer." />*/}
+            {/*  <Input*/}
+            {/*    size="small"*/}
+            {/*    placeholder="https://explorer.com"*/}
+            {/*    onChange={handleChangeExplorerUrl}*/}
+            {/*  />*/}
+            {/*</Form.Item>*/}
           </Form>
         </Flex.Item>
         <Flex.Item>
