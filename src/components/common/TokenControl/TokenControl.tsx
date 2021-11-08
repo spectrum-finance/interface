@@ -26,6 +26,7 @@ export interface TokenControlProps {
   readonly maxButton?: boolean;
   readonly hasBorder?: boolean;
   readonly assets?: AssetInfo[];
+  readonly disabled?: boolean;
 }
 
 const getTokenBalanceByTokenName = (tokenName: string | undefined) =>
@@ -38,6 +39,7 @@ export const TokenControl: FC<TokenControlProps> = ({
   maxButton,
   assets,
   hasBorder,
+  disabled,
 }) => {
   const [balance, updateBalance] = useObservableAction(
     getTokenBalanceByTokenName,
@@ -90,6 +92,7 @@ export const TokenControl: FC<TokenControlProps> = ({
               <TokenAmountInput
                 value={value?.amount}
                 onChange={onAmountChange}
+                disabled={disabled}
               />
             </Flex.Item>
             <Flex.Item>
@@ -97,6 +100,7 @@ export const TokenControl: FC<TokenControlProps> = ({
                 assets={assets}
                 value={value?.asset}
                 onChange={onTokenChange}
+                disabled={disabled}
               />
             </Flex.Item>
           </Flex>
@@ -136,6 +140,7 @@ export interface TokenControlFormItemProps {
   readonly maxButton?: boolean;
   readonly hasBorder?: boolean;
   readonly assets?: AssetInfo[];
+  readonly disabled?: boolean;
 }
 
 export const TokenControlFormItem: FC<TokenControlFormItemProps> = ({
@@ -144,6 +149,7 @@ export const TokenControlFormItem: FC<TokenControlFormItemProps> = ({
   maxButton,
   assets,
   hasBorder,
+  disabled,
 }) => {
   return (
     <Form.Item name={name} className="token-form-item">
@@ -152,6 +158,7 @@ export const TokenControlFormItem: FC<TokenControlFormItemProps> = ({
         maxButton={maxButton}
         label={label}
         hasBorder={hasBorder}
+        disabled={disabled}
       />
     </Form.Item>
   );
