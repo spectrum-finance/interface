@@ -388,7 +388,14 @@ export const Swap: FC = () => {
         },
       });
     }
-    if (value.from && value.from?.asset && value.to?.asset && value.pool) {
+    if (
+      value.from &&
+      value.from?.amount?.value &&
+      value.to?.amount?.value &&
+      value.from?.asset &&
+      value.to?.asset &&
+      value.pool
+    ) {
       setRatio(calculateRatio(value));
     }
     setChanges({});
