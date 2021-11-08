@@ -3,7 +3,7 @@ import './Swap.less';
 
 import { AmmPool, SwapExtremums } from '@ergolabs/ergo-dex-sdk';
 import { swapVars } from '@ergolabs/ergo-dex-sdk/build/main/amm/math/swap';
-import { AssetAmount } from '@ergolabs/ergo-sdk';
+import { AssetAmount, AssetInfo } from '@ergolabs/ergo-sdk';
 import React, { FC, useEffect, useState } from 'react';
 import { Observable, of } from 'rxjs';
 
@@ -44,6 +44,7 @@ import { Balance, useWalletBalance } from '../../services/new/balance';
 import { getPoolByPair, pools$ } from '../../services/new/pools';
 import {
   fractionsToNum,
+  math,
   parseUserInputToFractions,
   renderFractions,
 } from '../../utils/math';
@@ -217,6 +218,24 @@ const fromToTo = (fromValue: TokenControlValue, pool: AmmPool): number => {
   return fractionsToNum(toAmount.amount, toAmount.asset?.decimals);
 };
 
+export function renderPrice(x: AssetAmount, y: AssetAmount): string {
+  const nameX = x.asset.name ?? x.asset.id.slice(0, 8);
+  const nameY = y.asset.name ?? y.asset.id.slice(0, 8);
+  const fmtX = renderFractions(x.amount, x.asset.decimals);
+  const fmtY = renderFractions(y.amount, y.asset.decimals);
+  if (Number(fmtX) > Number(fmtY)) {
+    const p = math.evaluate!(`${fmtX} / ${fmtY}`).toFixed(
+      x.asset.decimals ?? 0,
+    );
+    return `1 ${nameY} - ${p} ${nameX}`;
+  } else {
+    const p = math.evaluate!(`${fmtY} / ${fmtX}`).toFixed(
+      y.asset.decimals ?? 0,
+    );
+    return `1 ${nameX} - ${p} ${nameY}`;
+  }
+}
+
 const toToFrom = (
   toValue: TokenControlValue,
   pool: AmmPool,
@@ -283,6 +302,7 @@ export const Swap: FC = () => {
   const [balance] = useWalletBalance();
   const [{ minerFee }] = useSettings();
   const [changes, setChanges] = useState<any>();
+  const [ratio, setRatio] = useState<string>();
   const swapStrategy = new SwapStrategy(balance, minerFee);
 
   useEffect(() => {
@@ -316,6 +336,20 @@ export const Swap: FC = () => {
       });
     }
   }, [pools, form]);
+
+  const calculateRatio = (value: SwapFormModel): string => {
+    const ratio = fractionsToNum(
+      value.pool!.depositAmount(
+        new AssetAmount(
+          value.from?.asset as AssetInfo,
+          parseUserInputToFractions(1, value?.from?.asset?.decimals),
+        ),
+      ).amount,
+      value.to?.asset?.decimals!,
+    );
+
+    return `1 ${value.from?.asset?.name} = ${ratio} ${value.to?.asset?.name}`;
+  };
 
   const onValuesChange = (
     changes: SwapFormModel,
@@ -354,11 +388,14 @@ export const Swap: FC = () => {
         },
       });
     }
+    if (value.from && value.from?.asset && value.to?.asset && value.pool) {
+      setRatio(calculateRatio(value));
+    }
     setChanges({});
   };
 
   const swapTokens = () => {
-    const { to, from } = form.getFieldsValue();
+    const { to, from, pool } = form.getFieldsValue();
 
     // TODO: REPLACE_WITH_SET_FIELDS_VALUES
     form.setFields([
@@ -366,6 +403,10 @@ export const Swap: FC = () => {
       { name: 'to', value: from },
     ]);
     setChanges({});
+
+    if (from && from?.asset && to?.asset && pool) {
+      setRatio(calculateRatio(form.getFieldsValue()));
+    }
   };
 
   const priceTooltip = (
@@ -436,15 +477,24 @@ export const Swap: FC = () => {
           </Flex.Item>
           <Flex.Item
             marginBottom={4}
-            display={!!pools?.length ? 'block' : 'none'}
+            display={
+              !!pools?.length &&
+              form.getFieldsValue()?.from?.amount?.value &&
+              form.getFieldsValue()?.to?.amount?.value
+                ? 'block'
+                : 'none'
+            }
           >
             <Flex>
-              <Flex.Item flex={1}>
+              <Flex.Item marginRight={1}>
                 <InfoTooltip
                   className="swap-tooltip"
                   content={<TxInfoTooltipContent form={form} />}
                   placement="left"
                 />
+              </Flex.Item>
+              <Flex.Item flex={1}>
+                <Typography.Body>{ratio}</Typography.Body>
               </Flex.Item>
               <Flex>
                 <Form.Item name="pool" style={{ marginBottom: 0 }} />
