@@ -70,7 +70,7 @@ export const WalletModal: React.FC = () => {
             <Flex.Item marginBottom={2}>
               <Typography.Body strong>Active address</Typography.Body>
               <InfoTooltip
-                content="Address to receive refunds"
+                content="You will receive assets on this address"
                 placement="top"
               />
             </Flex.Item>
