@@ -2,8 +2,9 @@
 import './Swap.less';
 
 import { AmmPool } from '@ergolabs/ergo-dex-sdk';
-import { AssetAmount } from '@ergolabs/ergo-sdk';
-import React, { FC, useEffect } from 'react';
+import { swapVars } from '@ergolabs/ergo-dex-sdk/build/main/amm/math/swap';
+import { AssetAmount, AssetInfo } from '@ergolabs/ergo-sdk';
+import React, { FC, useEffect, useState } from 'react';
 import { Observable, of } from 'rxjs';
 
 import {
@@ -20,10 +21,12 @@ import {
   Operation,
 } from '../../components/ConfirmationModal/ConfirmationModal';
 import { FormPageWrapper } from '../../components/FormPageWrapper/FormPageWrapper';
+import { InfoTooltip } from '../../components/InfoTooltip/InfoTooltip';
 import {
   ERG_DECIMALS,
   ERG_TOKEN_ID,
   ERG_TOKEN_NAME,
+  MIN_EX_FEE,
   UI_FEE,
 } from '../../constants/erg';
 import { defaultExFee } from '../../constants/settings';
@@ -41,8 +44,14 @@ import { useObservable, useObservableAction } from '../../hooks/useObservable';
 import { assets$, getAssetsByPairAsset } from '../../services/new/assets';
 import { Balance, useWalletBalance } from '../../services/new/balance';
 import { getPoolByPair, pools$ } from '../../services/new/pools';
-import { fractionsToNum, parseUserInputToFractions } from '../../utils/math';
+import {
+  fractionsToNum,
+  math,
+  parseUserInputToFractions,
+  renderFractions,
+} from '../../utils/math';
 import { calculateTotalFee } from '../../utils/transactions';
+import { getBaseInputParameters } from '../../utils/walletMath';
 import { SwapConfirmationModal } from './SwapConfirmationModal';
 import { TransactionSettings } from './TransactionSettings';
 
@@ -103,7 +112,7 @@ class SwapStrategy implements ActionFormStrategy {
     return !value.to?.asset || !value.from?.asset;
   }
 
-  request(form: FormInstance<SwapFormModel>): void {
+  request(form: FormInstance): void {
     const value = form.getFieldsValue();
 
     openConfirmationModal(
@@ -142,6 +151,66 @@ const initialValues: SwapFormModel = {
   },
 };
 
+const TxInfoTooltipContent: FC<{ form: FormInstance<SwapFormModel> }> = ({
+  form,
+}) => {
+  const { from, pool } = form.getFieldsValue();
+  const [{ slippage, minerFee, nitro }] = useSettings();
+  const swapExtremums = swapVars(
+    MIN_EX_FEE,
+    nitro,
+    getBaseInputParameters(pool!, {
+      inputAmount: from?.amount?.value?.toString()!,
+      inputAsset: from?.asset!,
+      slippage,
+    }).minOutput,
+  );
+
+  const output = swapExtremums
+    ? `${renderFractions(
+        swapExtremums[1].minOutput.amount,
+        swapExtremums[1].minOutput.asset.decimals,
+      )} ${swapExtremums[1].minOutput.asset.name} - ${renderFractions(
+        swapExtremums[1].maxOutput.amount,
+        swapExtremums[1].maxOutput.asset.decimals,
+      )} ${swapExtremums[1].minOutput.asset.name}`
+    : undefined;
+
+  const totalFees = calculateTotalFee(
+    [minerFee, UI_FEE, defaultExFee],
+    ERG_DECIMALS,
+  );
+
+  return (
+    <Flex flexDirection="col">
+      <Flex.Item marginBottom={3}>
+        <Flex justify="space-between">
+          <Flex.Item marginRight={6}>
+            <Typography.Body>Output</Typography.Body>
+          </Flex.Item>
+          <Typography.Body>{output}</Typography.Body>
+        </Flex>
+      </Flex.Item>
+      <Flex.Item marginBottom={3}>
+        <Flex justify="space-between">
+          <Flex.Item marginRight={6}>
+            <Typography.Body>Slippage tollerance</Typography.Body>
+          </Flex.Item>
+          <Typography.Body>{slippage}%</Typography.Body>
+        </Flex>
+      </Flex.Item>
+      <Flex.Item>
+        <Flex justify="space-between">
+          <Flex.Item marginRight={6}>
+            <Typography.Body>Total Fees</Typography.Body>
+          </Flex.Item>
+          <Typography.Body>{totalFees} ERG</Typography.Body>
+        </Flex>
+      </Flex.Item>
+    </Flex>
+  );
+};
+
 const fromToTo = (fromValue: TokenControlValue, pool: AmmPool): number => {
   const toAmount = pool.outputAmount(
     new AssetAmount(
@@ -155,6 +224,24 @@ const fromToTo = (fromValue: TokenControlValue, pool: AmmPool): number => {
 
   return fractionsToNum(toAmount.amount, toAmount.asset?.decimals);
 };
+
+export function renderPrice(x: AssetAmount, y: AssetAmount): string {
+  const nameX = x.asset.name ?? x.asset.id.slice(0, 8);
+  const nameY = y.asset.name ?? y.asset.id.slice(0, 8);
+  const fmtX = renderFractions(x.amount, x.asset.decimals);
+  const fmtY = renderFractions(y.amount, y.asset.decimals);
+  if (Number(fmtX) > Number(fmtY)) {
+    const p = math.evaluate!(`${fmtX} / ${fmtY}`).toFixed(
+      x.asset.decimals ?? 0,
+    );
+    return `1 ${nameY} - ${p} ${nameX}`;
+  } else {
+    const p = math.evaluate!(`${fmtY} / ${fmtX}`).toFixed(
+      y.asset.decimals ?? 0,
+    );
+    return `1 ${nameX} - ${p} ${nameY}`;
+  }
+}
 
 const toToFrom = (
   toValue: TokenControlValue,
@@ -221,6 +308,8 @@ export const Swap: FC = () => {
   const [pools, updatePoolsByPair] = useObservableAction(getAvailablePools);
   const [balance] = useWalletBalance();
   const [{ minerFee }] = useSettings();
+  const [changes, setChanges] = useState<any>();
+  const [ratio, setRatio] = useState<string>();
   const swapStrategy = new SwapStrategy(balance, minerFee);
 
   useEffect(() => {
@@ -254,6 +343,20 @@ export const Swap: FC = () => {
       });
     }
   }, [pools, form]);
+
+  const calculateRatio = (value: SwapFormModel): string => {
+    const ratio = fractionsToNum(
+      value.pool!.depositAmount(
+        new AssetAmount(
+          value.from?.asset as AssetInfo,
+          parseUserInputToFractions(1, value?.from?.asset?.decimals),
+        ),
+      ).amount,
+      value.to?.asset?.decimals!,
+    );
+
+    return `1 ${value.from?.asset?.name} = ${ratio} ${value.to?.asset?.name}`;
+  };
 
   const onValuesChange = (
     changes: SwapFormModel,
@@ -292,16 +395,32 @@ export const Swap: FC = () => {
         },
       });
     }
+    if (
+      value.from &&
+      value.from?.amount?.value &&
+      value.to?.amount?.value &&
+      value.from?.asset &&
+      value.to?.asset &&
+      value.pool
+    ) {
+      setRatio(calculateRatio(value));
+    }
+    setChanges({});
   };
 
   const swapTokens = () => {
-    const { to, from } = form.getFieldsValue();
+    const { to, from, pool } = form.getFieldsValue();
 
     // TODO: REPLACE_WITH_SET_FIELDS_VALUES
     form.setFields([
       { name: 'from', value: to },
       { name: 'to', value: from },
     ]);
+    setChanges({});
+
+    if (from && from?.asset && to?.asset && pool) {
+      setRatio(calculateRatio(form.getFieldsValue()));
+    }
   };
 
   const priceTooltip = (
@@ -372,12 +491,27 @@ export const Swap: FC = () => {
           </Flex.Item>
           <Flex.Item
             marginBottom={4}
-            display={!!pools?.length ? 'block' : 'none'}
+            display={
+              !!pools?.length &&
+              form.getFieldsValue()?.from?.amount?.value &&
+              form.getFieldsValue()?.to?.amount?.value
+                ? 'block'
+                : 'none'
+            }
           >
             <Flex>
-              <Flex.Item flex={1} />
+              <Flex.Item marginRight={1}>
+                <InfoTooltip
+                  className="swap-tooltip"
+                  content={<TxInfoTooltipContent form={form} />}
+                  placement="left"
+                />
+              </Flex.Item>
+              <Flex.Item flex={1}>
+                <Typography.Body>{ratio}</Typography.Body>
+              </Flex.Item>
               <Flex>
-                <Form.Item name="pool" />
+                <Form.Item name="pool" style={{ marginBottom: 0 }} />
               </Flex>
             </Flex>
           </Flex.Item>
