@@ -11,14 +11,19 @@ interface TokenSelectProps {
   readonly asset?: AssetInfo | undefined;
   readonly onChange?: (asset: AssetInfo) => void;
   readonly assets?: AssetInfo[];
+  readonly readonly?: boolean;
 }
 
 const TokenSelect: React.FC<TokenSelectProps> = ({
   asset,
   onChange,
   assets,
+  readonly,
 }) => {
-  const openTokenModal = () =>
+  const openTokenModal = () => {
+    if (readonly) {
+      return;
+    }
     Modal.open(({ close }) => (
       <TokenListModal
         assets={assets}
@@ -26,6 +31,7 @@ const TokenSelect: React.FC<TokenSelectProps> = ({
         onSelectChanged={onChange}
       />
     ));
+  };
 
   return (
     <>
@@ -39,7 +45,7 @@ const TokenSelect: React.FC<TokenSelectProps> = ({
             <span className="token-select_selected_item">
               {asset.name?.toUpperCase()}
             </span>
-            <DownOutlined />
+            {!readonly && <DownOutlined />}
           </span>
         </button>
       ) : (
@@ -50,7 +56,7 @@ const TokenSelect: React.FC<TokenSelectProps> = ({
           onClick={openTokenModal}
         >
           Select a token
-          <DownOutlined />
+          {!readonly && <DownOutlined />}
         </Button>
       )}
     </>

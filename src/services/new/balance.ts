@@ -25,7 +25,6 @@ export class Balance {
   private mapTokenIdToBalance = new Map<string, number>();
 
   constructor(tokens: [bigint, AssetInfo][]) {
-    console.log(tokens);
     this.mapTokenIdToBalance = new Map(
       tokens.map(([amount, info]) => [
         info.id,

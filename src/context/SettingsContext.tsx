@@ -4,19 +4,22 @@ import React, { createContext, useContext } from 'react';
 
 // import { LocalStorageReturnValue } from '@rehooks/local-storage/lib/use-localstorage';
 import { ERG_EXPLORER_URL } from '../constants/env';
+import { MIN_NITRO } from '../constants/erg';
 import { defaultMinerFee, defaultSlippage } from '../constants/settings';
 
 export type Settings = {
   minerFee: number;
-  slippage: string;
+  slippage: number;
   address?: string;
+  nitro?: number;
   pk?: PublicKey;
   explorerUrl: string;
 };
 
 export const DefaultSettings: Readonly<Settings> = {
   minerFee: defaultMinerFee,
-  slippage: defaultSlippage.toString(),
+  nitro: MIN_NITRO,
+  slippage: defaultSlippage,
   explorerUrl: ERG_EXPLORER_URL,
   pk: '',
 };

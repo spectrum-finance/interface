@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { FormProps } from 'antd';
 import { FieldData } from 'rc-field-form/lib/interface';
-import React, { FC, ReactNode, useEffect } from 'react';
+import React, { FC, ReactNode, useEffect, useState } from 'react';
 import { combineLatest, first, map, Observable, of, startWith } from 'rxjs';
 
 import { Form, FormInstance } from '../../../ergodex-cdk';
@@ -31,7 +31,7 @@ export interface ActionFormProps {
   readonly children?: ReactNode | ReactNode[];
   readonly initialValues?: any;
   readonly onFieldsChange?: FormProps['onFieldsChange'];
-  readonly onValuesChange?: FormProps['onValuesChange'];
+  readonly onValuesChange?: (changes: any, value: any, prevValue: any) => void;
 }
 
 function normalizeState<T>(value: T | Observable<T>): Observable<T> {
@@ -112,18 +112,24 @@ export const ActionForm: FC<ActionFormProps> = ({
   onFieldsChange,
   onValuesChange,
 }) => {
+  const [prevValue, setPrevValue] = useState(initialValues);
   const [buttonData, updateButtonData] = useObservableAction(getButtonData, {
     state: ActionButtonState.CHECK_INTERNET_CONNECTION,
   });
   useEffect(() => {
+    (form as any)['onFieldManuallyChange'] = (value: any) => {
+      updateButtonData(strategy, form, value);
+      setPrevValue(value);
+    };
     updateButtonData(strategy, form, form.getFieldsValue());
   }, [strategy, form]);
 
   const onFormChange = (changedValues: any, values: any) => {
     updateButtonData(strategy, form, values);
     if (onValuesChange) {
-      onValuesChange(changedValues, values);
+      onValuesChange(changedValues, values, prevValue);
     }
+    setPrevValue(() => values);
   };
   const handleFieldsChange = (changes: FieldData[], values: any) => {
     if (onFieldsChange) {
