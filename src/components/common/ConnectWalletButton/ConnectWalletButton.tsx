@@ -4,6 +4,7 @@ import { LoadingOutlined } from '@ant-design/icons';
 import cn from 'classnames';
 import React, { FC, ReactNode } from 'react';
 
+import { useAppLoadingState } from '../../../context';
 import { Button, ButtonProps, Modal } from '../../../ergodex-cdk';
 import { useObservable } from '../../../hooks/useObservable';
 import {
@@ -25,6 +26,7 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = ({
 }) => {
   const [isWalletLoading] = useObservable(isWalletLoading$);
   const [isWalletConnected] = useObservable(isWalletConnected$);
+  const [{ isKYAAccepted }] = useAppLoadingState();
 
   const openChooseWalletModal = (): void => {
     Modal.open(({ close }) => <ChooseWalletModal close={close} />, {
@@ -35,16 +37,26 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = ({
 
   return (
     <>
-      {isWalletLoading ? (
+      {isKYAAccepted ? (
+        isWalletLoading ? (
+          <Button
+            size={size}
+            onClick={openChooseWalletModal}
+            className={cn(className, 'connect-wallet-btn')}
+          >
+            {isWalletConnected ? <LoadingOutlined /> : 'Connect to a wallet'}
+          </Button>
+        ) : (
+          children
+        )
+      ) : (
         <Button
+          disabled
           size={size}
-          onClick={openChooseWalletModal}
           className={cn(className, 'connect-wallet-btn')}
         >
-          {isWalletConnected ? <LoadingOutlined /> : 'Connect to a wallet'}
+          KYA is not accepted
         </Button>
-      ) : (
-        children
       )}
     </>
   );

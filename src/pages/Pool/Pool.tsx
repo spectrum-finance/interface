@@ -6,7 +6,7 @@ import { Button, Col, PlusOutlined, Row, Typography } from '../../ergodex-cdk';
 import { useNetworkPools } from '../../hooks/useNetworkPools';
 import { EmptyPositionsList } from './EmptyPositionsList/EmptyPositionsList';
 import { LiquidityPositionsList } from './LiquidityPositionsList/LiquidityPositionsList';
-import { LPGuide } from './LPGuide/LPGuide';
+// import { LPGuide } from './LPGuide/LPGuide';
 
 const Pool = (): JSX.Element => {
   const { isWalletConnected } = useContext(WalletContext);
@@ -27,11 +27,11 @@ const Pool = (): JSX.Element => {
             <Typography.Title level={4}>Pools overview</Typography.Title>
           </Col>
         </Row>
-        <Row bottomGutter={4}>
-          <Col span={24}>
-            <LPGuide />
-          </Col>
-        </Row>
+        {/*<Row bottomGutter={4}>*/}
+        {/*  <Col span={24}>*/}
+        {/*    <LPGuide />*/}
+        {/*  </Col>*/}
+        {/*</Row>*/}
         <Row bottomGutter={4}>
           <Col span={24}>
             {!isWalletConnected ? (
