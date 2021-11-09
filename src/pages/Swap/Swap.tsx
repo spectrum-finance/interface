@@ -115,22 +115,13 @@ class SwapStrategy implements ActionFormStrategy {
   request(form: FormInstance): void {
     const value = form.getFieldsValue();
 
-    const xa = {
-      asset: value.from?.asset!,
-      amount: value?.from?.amount?.value!,
-    };
-    const ya = { asset: value.to?.asset!, amount: value?.to?.amount?.value! };
-
-    console.log(`xa > ${xa}`);
-    console.log(`ya > ${ya}`);
-
     openConfirmationModal(
       (next) => {
         return <SwapConfirmationModal value={value} onClose={next} />;
       },
       Operation.SWAP,
-      xa,
-      ya,
+      { asset: value.from?.asset!, amount: value?.from?.amount?.value! },
+      { asset: value.to?.asset!, amount: value?.to?.amount?.value! },
     );
   }
 
