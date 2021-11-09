@@ -325,6 +325,65 @@ const AddLiquidity = (): JSX.Element => {
     }
   }, []);
 
+  const handleOnStickRatioClick = () => {
+    if (!isStickRatio) {
+      const values = form.getFieldsValue();
+
+      if (!values.xAmount?.amount?.value && values.activePool) {
+        const newXAsset = values.activePool.depositAmount(
+          new AssetAmount(
+            values.yAmount?.asset as AssetInfo,
+            parseUserInputToFractions(
+              values.yAmount?.amount?.value ?? 0,
+              values.yAmount?.asset?.decimals,
+            ),
+          ),
+        );
+
+        form.setFieldsValue({
+          xAmount: {
+            amount: {
+              viewValue: renderFractions(
+                newXAsset.amount,
+                newXAsset.asset.decimals,
+              ),
+              value: Number(
+                renderFractions(newXAsset.amount, newXAsset.asset.decimals),
+              ),
+            },
+          },
+        });
+      }
+
+      if (!values.yAmount?.amount?.value && values.activePool) {
+        const newYAsset = values.activePool.depositAmount(
+          new AssetAmount(
+            values.xAmount?.asset as AssetInfo,
+            parseUserInputToFractions(
+              values.xAmount?.amount?.value ?? 0,
+              values.xAmount?.asset?.decimals,
+            ),
+          ),
+        );
+
+        form.setFieldsValue({
+          yAmount: {
+            amount: {
+              viewValue: renderFractions(
+                newYAsset.amount,
+                newYAsset.asset.decimals,
+              ),
+              value: Number(
+                renderFractions(newYAsset.amount, newYAsset.asset.decimals),
+              ),
+            },
+          },
+        });
+      }
+    }
+    setIsStickRatio((val) => !val);
+  };
+
   return (
     <FormPageWrapper
       title="Add liquidity"
@@ -386,7 +445,7 @@ const AddLiquidity = (): JSX.Element => {
                       type={isStickRatio ? 'primary' : 'default'}
                       className="stick-button__btn"
                       icon={<LinkOutlined />}
-                      onClick={() => setIsStickRatio((val) => !val)}
+                      onClick={handleOnStickRatioClick}
                       size="large"
                     />
                   </Tooltip>

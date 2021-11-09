@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { Redirect, Route, Router, Switch } from 'react-router-dom';
 
 import Layout from './components/common/Layout/Layout';
+import { MobilePlug } from './components/MobilePlug/MobilePlug';
+import { TABLET_BRAKE_POINT } from './constants/screen';
 import {
   AppLoadingProvider,
   SettingsProvider,
@@ -13,6 +15,7 @@ import {
 import { ConnectionContextProvider } from './context/ConnectionContext';
 import { globalHistory } from './createBrowserHistory';
 import { ContextModalProvider } from './ergodex-cdk';
+import { useWindowSize } from './hooks/useWindowSize';
 import { Swap } from './pages';
 import { AddLiquidity } from './pages';
 import { Pool } from './pages/Pool/Pool';
@@ -23,6 +26,8 @@ const NotFound = () => <Redirect to="/swap" />;
 
 export const App: React.FC = () => {
   const [isRustModuleLoaded, setIsRustModuleLoaded] = useState(false);
+
+  const [windowWidth] = useWindowSize();
 
   useEffect(() => {
     RustModule.load().then(() => setIsRustModuleLoaded(true));
@@ -41,26 +46,38 @@ export const App: React.FC = () => {
               <WalletAddressesProvider>
                 <ContextModalProvider>
                   <Layout>
-                    <Switch>
-                      <Route path="/" exact>
-                        <Redirect to="/swap" />
-                      </Route>
-                      <Route path="/swap" exact component={Swap} />
-                      <Route path="/pool" exact component={Pool} />
-                      <Route path="/pool/add" exact component={AddLiquidity} />
-                      <Route
-                        path="/pool/add/:poolId"
-                        exact
-                        component={AddLiquidity}
-                      />
-                      <Route
-                        path="/pool/:poolId"
-                        exact
-                        component={PoolPosition}
-                      />
-                      <Route path="/remove/:poolId" exact component={Remove} />
-                      <Route component={NotFound} />
-                    </Switch>
+                    {windowWidth > TABLET_BRAKE_POINT ? (
+                      <Switch>
+                        <Route path="/" exact>
+                          <Redirect to="/swap" />
+                        </Route>
+                        <Route path="/swap" exact component={Swap} />
+                        <Route path="/pool" exact component={Pool} />
+                        <Route
+                          path="/pool/add"
+                          exact
+                          component={AddLiquidity}
+                        />
+                        <Route
+                          path="/pool/add/:poolId"
+                          exact
+                          component={AddLiquidity}
+                        />
+                        <Route
+                          path="/pool/:poolId"
+                          exact
+                          component={PoolPosition}
+                        />
+                        <Route
+                          path="/remove/:poolId"
+                          exact
+                          component={Remove}
+                        />
+                        <Route component={NotFound} />
+                      </Switch>
+                    ) : (
+                      <MobilePlug />
+                    )}
                   </Layout>
                 </ContextModalProvider>
               </WalletAddressesProvider>

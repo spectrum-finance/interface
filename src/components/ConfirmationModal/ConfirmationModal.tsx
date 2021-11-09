@@ -48,13 +48,7 @@ const getDescriptionByData = (
         yAsset.asset.decimals,
       )} ${yAsset.asset.name}`;
     case Operation.SWAP:
-      return `Swapping ${renderFractions(
-        xAsset.amount,
-        xAsset.asset.decimals,
-      )} ${xAsset.asset.name} for ${renderFractions(
-        yAsset.amount,
-        yAsset.asset.decimals,
-      )} ${yAsset.asset.name}`;
+      return `Swapping ${xAsset.amount} ${xAsset.asset.name} for ${yAsset.amount} ${yAsset.asset.name}`;
   }
 };
 

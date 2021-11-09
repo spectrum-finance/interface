@@ -1,6 +1,6 @@
 {
-  "name": "ergodex-frontend",
-  "version": "0.1.0",
+  "name": "ergo-dex-frontend",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "start": "HTTPS=true react-app-rewired start",

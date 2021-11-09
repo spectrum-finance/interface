@@ -4,7 +4,7 @@ import { LoadingOutlined } from '@ant-design/icons';
 import cn from 'classnames';
 import React, { FC, ReactNode } from 'react';
 
-import { useAppLoadingState } from '../../../context';
+import { useAppLoadingState, useWallet } from '../../../context';
 import { Button, ButtonProps, Modal } from '../../../ergodex-cdk';
 import { useObservable } from '../../../hooks/useObservable';
 import {
@@ -24,8 +24,12 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = ({
   className,
   children,
 }) => {
-  const [isWalletLoading] = useObservable(isWalletLoading$);
-  const [isWalletConnected] = useObservable(isWalletConnected$);
+  const { isWalletConnected } = useWallet();
+
+  // TODO: Update with rx [EDEX-487]
+  // const [isWalletLoading] = useObservable(isWalletLoading$);
+  // const [isWalletConnected] = useObservable(isWalletConnected$);
+
   const [{ isKYAAccepted }] = useAppLoadingState();
 
   const openChooseWalletModal = (): void => {
@@ -38,13 +42,13 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = ({
   return (
     <>
       {isKYAAccepted ? (
-        isWalletLoading ? (
+        !isWalletConnected ? (
           <Button
             size={size}
             onClick={openChooseWalletModal}
             className={cn(className, 'connect-wallet-btn')}
           >
-            {isWalletConnected ? <LoadingOutlined /> : 'Connect to a wallet'}
+            Connect wallet
           </Button>
         ) : (
           children
