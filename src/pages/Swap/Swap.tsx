@@ -318,9 +318,9 @@ export const Swap: FC = () => {
 
   useEffect(() => {
     const { pool, to, from } = form.getFieldsValue();
+    const newPool = pools?.slice().sort(sortPoolByLpDesc)[0];
 
-    if (!pool) {
-      const newPool = pools?.slice().sort(sortPoolByLpDesc)[0];
+    if (!pool || pool.id !== newPool?.id) {
       const fromAmount =
         !from?.amount && to?.amount && newPool
           ? {
@@ -329,7 +329,7 @@ export const Swap: FC = () => {
             }
           : from?.amount;
       const toAmount =
-        !to?.amount && from?.amount && newPool
+        from?.amount && newPool
           ? {
               value: fromToTo(from, newPool),
               viewValue: fromToTo(from, newPool).toString(),
@@ -343,20 +343,6 @@ export const Swap: FC = () => {
       });
     }
   }, [pools, form]);
-
-  const calculateRatio = (value: SwapFormModel): string => {
-    const ratio = fractionsToNum(
-      value.pool!.depositAmount(
-        new AssetAmount(
-          value.from?.asset as AssetInfo,
-          parseUserInputToFractions(1, value?.from?.asset?.decimals),
-        ),
-      ).amount,
-      value.to?.asset?.decimals!,
-    );
-
-    return `1 ${value.from?.asset?.name} = ${ratio} ${value.to?.asset?.name}`;
-  };
 
   const onValuesChange = (
     changes: SwapFormModel,
