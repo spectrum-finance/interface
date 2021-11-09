@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 import { AmmPool } from '@ergolabs/ergo-dex-sdk';
 import { swapVars } from '@ergolabs/ergo-dex-sdk/build/main/amm/math/swap';
-import { AssetAmount } from '@ergolabs/ergo-sdk';
 import React, { FC, useEffect } from 'react';
 import {
   distinctUntilChanged,
@@ -70,26 +69,20 @@ const TxInfoTooltipContent: FC<{ form: FormInstance<SwapFormModel> }> = ({
     <Flex flexDirection="col">
       <Flex.Item marginBottom={3}>
         <Flex justify="space-between">
-          <Flex.Item marginRight={6}>
-            <Typography.Body>Output</Typography.Body>
-          </Flex.Item>
-          <Typography.Body>{output}</Typography.Body>
+          <Flex.Item marginRight={6}>Output</Flex.Item>
+          {output}
         </Flex>
       </Flex.Item>
       <Flex.Item marginBottom={3}>
         <Flex justify="space-between">
-          <Flex.Item marginRight={6}>
-            <Typography.Body>Slippage tolerance</Typography.Body>
-          </Flex.Item>
-          <Typography.Body>{slippage}%</Typography.Body>
+          <Flex.Item marginRight={6}>Slippage tolerance</Flex.Item>
+          {slippage}%
         </Flex>
       </Flex.Item>
       <Flex.Item>
         <Flex justify="space-between">
-          <Flex.Item marginRight={6}>
-            <Typography.Body>Total Fees</Typography.Body>
-          </Flex.Item>
-          <Typography.Body>{totalFees} ERG</Typography.Body>
+          <Flex.Item marginRight={6}>Total Fees</Flex.Item>
+          {totalFees} ERG
         </Flex>
       </Flex.Item>
     </Flex>
