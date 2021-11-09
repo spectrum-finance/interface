@@ -76,7 +76,7 @@ const PoolSelect: React.FC<PoolSelectProps> = ({
 
   return (
     <>
-      {positions ? (
+      {positions?.length ? (
         <Dropdown
           overlay={
             <Menu>

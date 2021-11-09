@@ -1,11 +1,11 @@
-/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain,react-hooks/exhaustive-deps */
 import './AddLiquidity.less';
 
 import { AmmPool, PoolId } from '@ergolabs/ergo-dex-sdk';
 import { AssetAmount, AssetInfo } from '@ergolabs/ergo-sdk';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import { Observable, of } from 'rxjs';
+import { Observable, of, tap } from 'rxjs';
 
 import {
   ActionForm,
@@ -173,8 +173,11 @@ const initialValues: AddLiquidityFormModel = {
   },
 };
 
-const getAssetsByToken = (tokenId?: string) =>
-  tokenId ? getAssetsByPairAsset(tokenId) : pools$;
+const getAssetsByToken = (tokenId?: string) => {
+  return tokenId
+    ? getAssetsByPairAsset(tokenId).pipe(tap(console.log, console.error))
+    : of([]);
+};
 
 const getAvailablePools = (xId?: string, yId?: string) =>
   xId && yId ? getPoolByPair(xId, yId) : of([]);
@@ -320,7 +323,7 @@ const AddLiquidity = (): JSX.Element => {
     if (!poolId) {
       setYAssets(initialValues?.x?.id);
     }
-  });
+  }, []);
 
   return (
     <FormPageWrapper
