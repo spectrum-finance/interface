@@ -308,6 +308,10 @@ const AddLiquidity = (): JSX.Element => {
     }
   });
 
+  const handleOnStickRatioClick = () => {
+    setIsStickRatio((val) => !val);
+  };
+
   return (
     <FormPageWrapper
       title="Add liquidity"
@@ -369,7 +373,7 @@ const AddLiquidity = (): JSX.Element => {
                       type={isStickRatio ? 'primary' : 'default'}
                       className="stick-button__btn"
                       icon={<LinkOutlined />}
-                      onClick={() => setIsStickRatio((val) => !val)}
+                      onClick={handleOnStickRatioClick}
                       size="large"
                     />
                   </Tooltip>
