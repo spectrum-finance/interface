@@ -30,8 +30,6 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = ({
   // const [isWalletLoading] = useObservable(isWalletLoading$);
   // const [isWalletConnected] = useObservable(isWalletConnected$);
 
-  console.log(' isWalletConnected>>', isWalletConnected);
-
   const [{ isKYAAccepted }] = useAppLoadingState();
 
   const openChooseWalletModal = (): void => {
