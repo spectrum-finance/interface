@@ -89,8 +89,8 @@ export const WalletContextProvider = ({
   };
 
   useEffect(() => {
-    setIsWalletLoading(true);
     if (walletCookies.isSetConnected() && window.ergo_request_read_access) {
+      setIsWalletLoading(true);
       window
         .ergo_request_read_access()
         .then(setIsWalletConnected)
@@ -99,8 +99,8 @@ export const WalletContextProvider = ({
   }, [isWalletConnected, setIsWalletConnected]);
 
   useEffect(() => {
-    setIsWalletLoading(true);
     if (isWalletConnected) {
+      setIsWalletLoading(true);
       Promise.all([
         fetchUtxos().then(setUtxos),
         ergo.get_balance(ERG_TOKEN_NAME).then((balance) => {

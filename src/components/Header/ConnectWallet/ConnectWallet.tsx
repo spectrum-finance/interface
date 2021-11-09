@@ -32,9 +32,9 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
   const addressButton = (
     <Box borderRadius="m">
       <Space>
-        <Typography.Body
-          style={{ whiteSpace: 'nowrap' }}
-        >{`${balance} ${currency}`}</Typography.Body>
+        <Typography.Body style={{ whiteSpace: 'nowrap' }}>
+          {balance ? `${balance} ${currency}` : <LoadingOutlined />}
+        </Typography.Body>
         <Button
           className="connect-wallet__address-btn"
           onClick={openWalletModal}

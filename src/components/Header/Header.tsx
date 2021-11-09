@@ -3,7 +3,7 @@ import './Header.less';
 import React from 'react';
 
 import { ERG_TOKEN_NAME } from '../../constants/erg';
-import { useSettings } from '../../context';
+import { useSettings, useWallet } from '../../context';
 import { Logo } from '../../ergodex-cdk';
 import { useObservable } from '../../hooks/useObservable';
 import { nativeTokenBalance$ } from '../../services/new/core';
@@ -20,7 +20,9 @@ const networks = [
 
 export const Header: React.FC = () => {
   const [{ address }] = useSettings();
-  const [balance] = useObservable(nativeTokenBalance$);
+  // TODO: Update with rx [EDEX-487]
+  // const [balance] = useObservable(nativeTokenBalance$);
+  const { ergBalance } = useWallet();
 
   return (
     <header className="header">
@@ -33,7 +35,7 @@ export const Header: React.FC = () => {
           <ConnectWallet
             numberOfPendingTxs={0}
             address={address}
-            balance={balance}
+            balance={ergBalance}
             currency={ERG_TOKEN_NAME}
           />
           <GlobalSettings />
