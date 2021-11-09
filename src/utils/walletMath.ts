@@ -23,7 +23,7 @@ export const calculateAvailableAmount = (
   }
 };
 
-type BaseInputParameters = {
+export type BaseInputParameters = {
   baseInput: AssetAmount;
   baseInputAmount: bigint;
   minOutput: AssetAmount;
