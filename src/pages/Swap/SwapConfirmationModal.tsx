@@ -79,7 +79,7 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
 
       if (vars) {
         const exFeePerToken = vars[0];
-        const { maxExFee } = vars[1];
+        const { maxExFee, minOutput } = vars[1];
 
         const minNErgs = minValueForOrder(minerFeeNErgs, uiFeeNErg, maxExFee);
 
@@ -90,34 +90,33 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
 
         const inputs = DefaultBoxSelector.select(utxos, target) as BoxSelection;
 
-        const { swap } = poolActions(value.pool);
+        const actions = poolActions(value.pool);
 
         const pk = publicKeyFromAddress(address)!;
 
-        const params = {
-          pk,
-          poolId,
-          baseInput,
-          minQuoteOutput: minOutput.amount,
-          exFeePerToken,
-          uiFee: uiFeeNErg,
-          quoteAsset,
-          poolFeeNum,
-        };
-
-        const ctx = {
-          inputs,
-          changeAddress: address,
-          selfAddress: address,
-          feeNErgs: minerFeeNErgs,
-          network,
-        };
-
-        onClose(
-          swap(params, ctx).then(async (tx) => {
+        actions
+          .swap(
+            {
+              pk,
+              poolId,
+              baseInput,
+              minQuoteOutput: minOutput.amount,
+              exFeePerToken,
+              uiFee: uiFeeNErg,
+              quoteAsset,
+              poolFeeNum,
+            },
+            {
+              inputs,
+              changeAddress: address,
+              selfAddress: address,
+              feeNErgs: minerFeeNErgs,
+              network,
+            },
+          )
+          .then(async (tx) => {
             await submitTx(tx);
-          }),
-        );
+          });
       }
     }
   };

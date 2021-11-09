@@ -489,32 +489,32 @@ export const Swap: FC = () => {
           <Flex.Item marginBottom={4}>
             <TokenControlFormItem assets={toAssets} name="to" label="To" />
           </Flex.Item>
-          <Flex.Item
-            marginBottom={4}
-            display={
-              !!pools?.length &&
-              form.getFieldsValue()?.from?.amount?.value &&
-              form.getFieldsValue()?.to?.amount?.value
-                ? 'block'
-                : 'none'
-            }
-          >
-            <Flex>
-              <Flex.Item marginRight={1}>
-                <InfoTooltip
-                  className="swap-tooltip"
-                  content={<TxInfoTooltipContent form={form} />}
-                  placement="left"
-                />
-              </Flex.Item>
-              <Flex.Item flex={1}>
-                <Typography.Body>{ratio}</Typography.Body>
-              </Flex.Item>
-              <Flex>
-                <Form.Item name="pool" style={{ marginBottom: 0 }} />
-              </Flex>
-            </Flex>
-          </Flex.Item>
+          {/*<Flex.Item*/}
+          {/*  marginBottom={4}*/}
+          {/*  display={*/}
+          {/*    !!pools?.length &&*/}
+          {/*    form.getFieldsValue()?.from?.amount?.value &&*/}
+          {/*    form.getFieldsValue()?.to?.amount?.value*/}
+          {/*      ? 'block'*/}
+          {/*      : 'none'*/}
+          {/*  }*/}
+          {/*>*/}
+          {/*  <Flex>*/}
+          {/*    <Flex.Item marginRight={1}>*/}
+          {/*      <InfoTooltip*/}
+          {/*        className="swap-tooltip"*/}
+          {/*        content={<TxInfoTooltipContent form={form} />}*/}
+          {/*        placement="left"*/}
+          {/*      />*/}
+          {/*    </Flex.Item>*/}
+          {/*    <Flex.Item flex={1}>*/}
+          {/*      <Typography.Body>{ratio}</Typography.Body>*/}
+          {/*    </Flex.Item>*/}
+          {/*    <Flex>*/}
+          {/*      <Form.Item name="pool" style={{ marginBottom: 0 }} />*/}
+          {/*    </Flex>*/}
+          {/*  </Flex>*/}
+          {/*</Flex.Item>*/}
         </Flex>
       </ActionForm>
     </FormPageWrapper>
