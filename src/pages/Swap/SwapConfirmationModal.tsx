@@ -90,29 +90,31 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
 
         const inputs = DefaultBoxSelector.select(utxos, target) as BoxSelection;
 
-        const { swap } = poolActions(value.pool);
+        const actions = poolActions(value.pool);
 
-        swap(
-          {
-            pk,
-            poolId,
-            baseInput,
-            minQuoteOutput: minOutput.amount,
-            exFeePerToken,
-            uiFee: uiFeeNErg,
-            quoteAsset,
-            poolFeeNum,
-          },
-          {
-            inputs,
-            changeAddress: address,
-            selfAddress: address,
-            feeNErgs: minerFeeNErgs,
-            network,
-          },
-        ).then(async (tx) => {
-          await submitTx(tx);
-        });
+        actions
+          .swap(
+            {
+              pk,
+              poolId,
+              baseInput,
+              minQuoteOutput: minOutput.amount,
+              exFeePerToken,
+              uiFee: uiFeeNErg,
+              quoteAsset,
+              poolFeeNum,
+            },
+            {
+              inputs,
+              changeAddress: address,
+              selfAddress: address,
+              feeNErgs: minerFeeNErgs,
+              network,
+            },
+          )
+          .then(async (tx) => {
+            await submitTx(tx);
+          });
       }
     }
   };
