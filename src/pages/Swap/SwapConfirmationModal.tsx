@@ -1,16 +1,18 @@
 import { AmmPool, minValueForOrder, swapVars } from '@ergolabs/ergo-dex-sdk';
+import { SwapExtremums } from '@ergolabs/ergo-dex-sdk/build/main/amm/math/swap';
 import {
   AssetAmount,
   BoxSelection,
   DefaultBoxSelector,
   publicKeyFromAddress,
 } from '@ergolabs/ergo-sdk';
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 
 import {
   TokenControlFormItem,
   TokenControlValue,
 } from '../../components/common/TokenControl/TokenControl';
+import { InfoTooltip } from '../../components/InfoTooltip/InfoTooltip';
 import { ERG_DECIMALS, UI_FEE } from '../../constants/erg';
 import { defaultExFee } from '../../constants/settings';
 import { useSettings } from '../../context';
@@ -21,8 +23,12 @@ import { utxos$ } from '../../services/new/core';
 import { poolActions } from '../../services/poolActions';
 import { submitTx } from '../../services/yoroi';
 import { makeTarget } from '../../utils/ammMath';
-import { parseUserInputToFractions } from '../../utils/math';
-import { getBaseInputParameters } from '../../utils/walletMath';
+import { parseUserInputToFractions, renderFractions } from '../../utils/math';
+import { calculateTotalFee } from '../../utils/transactions';
+import {
+  BaseInputParameters,
+  getBaseInputParameters,
+} from '../../utils/walletMath';
 
 interface SwapFormModel {
   readonly from?: TokenControlValue;
@@ -44,64 +50,119 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
   const [{ minerFee, address, slippage, nitro }] = useSettings();
   const [utxos] = useObservable(utxos$);
 
+  const [baseParams, setBaseParams] = useState<
+    BaseInputParameters | undefined
+  >();
+  const [operationVars, setOperationVars] = useState<
+    [number, SwapExtremums] | undefined
+  >();
+  const [totalFees, setTotalFees] = useState<
+    { max: string; min: string } | undefined
+  >();
+
   const uiFeeNErg = parseUserInputToFractions(UI_FEE, ERG_DECIMALS);
   const exFeeNErg = parseUserInputToFractions(defaultExFee, ERG_DECIMALS);
   const minerFeeNErgs = parseUserInputToFractions(minerFee, ERG_DECIMALS);
 
+  const poolId = value.pool?.id;
+  const poolFeeNum = value.pool?.poolFeeNum;
+
+  const inputAmount = value.from?.amount?.viewValue;
+  const inputAsset = value.from?.asset;
+
+  useEffect(() => {
+    if (value.pool && inputAmount && inputAsset) {
+      setBaseParams(
+        getBaseInputParameters(value.pool, {
+          inputAmount,
+          inputAsset,
+          slippage,
+        }),
+      );
+    }
+  }, [inputAmount, inputAsset, slippage, value.pool]);
+
+  useEffect(() => {
+    if (baseParams?.minOutput) {
+      const vars = swapVars(exFeeNErg, nitro, baseParams.minOutput);
+      setOperationVars(vars);
+      if (vars) {
+        const minExFeeToRender = +renderFractions(
+          vars[1].minExFee,
+          ERG_DECIMALS,
+        );
+        const maxExFeeToRender = +renderFractions(
+          vars[1].maxExFee,
+          ERG_DECIMALS,
+        );
+
+        setTotalFees({
+          min: calculateTotalFee(
+            [minExFeeToRender, minerFee, UI_FEE],
+            ERG_DECIMALS,
+          ),
+          max: calculateTotalFee(
+            [maxExFeeToRender, minerFee, UI_FEE],
+            ERG_DECIMALS,
+          ),
+        });
+      }
+    }
+  }, [baseParams, exFeeNErg, nitro, minerFee]);
+
+  // const { baseInput, baseInputAmount, minOutput } = getBaseInputParameters(
+  //   value.pool,
+  //   {
+  //     inputAmount,
+  //     inputAsset,
+  //     slippage,
+  //   },
+  // );
+
+  // const exFeePerToken = vars[0];
+  // const { maxExFee, minOutput } = vars[1];
+
   const swapOperation = async () => {
     if (
+      poolFeeNum &&
+      baseParams &&
       utxos &&
       address &&
+      poolId &&
+      operationVars &&
       value.pool &&
       value.from?.amount?.viewValue &&
       value.from?.asset &&
       value.to?.asset?.id
     ) {
-      const poolId = value.pool.id;
-      const poolFeeNum = value.pool.poolFeeNum;
+      const pk = publicKeyFromAddress(address)!;
+      const actions = poolActions(value.pool);
       const quoteAsset = value.to?.asset?.id;
 
-      const inputAmount = value.from?.amount?.viewValue;
-      const inputAsset = value.from?.asset;
+      const minNErgs = minValueForOrder(
+        minerFeeNErgs,
+        uiFeeNErg,
+        operationVars[1].maxExFee,
+      );
+
+      const target = makeTarget(
+        [new AssetAmount(inputAsset!, baseParams.baseInputAmount)],
+        minNErgs,
+      );
+
+      const inputs = DefaultBoxSelector.select(utxos, target) as BoxSelection;
 
       const network = await explorer.getNetworkContext();
 
-      const { baseInput, baseInputAmount, minOutput } = getBaseInputParameters(
-        value.pool,
-        {
-          inputAmount,
-          inputAsset,
-          slippage,
-        },
-      );
-
-      const vars = swapVars(exFeeNErg, nitro, minOutput);
-
-      if (vars) {
-        const exFeePerToken = vars[0];
-        const { maxExFee, minOutput } = vars[1];
-
-        const minNErgs = minValueForOrder(minerFeeNErgs, uiFeeNErg, maxExFee);
-
-        const target = makeTarget(
-          [new AssetAmount(inputAsset, baseInputAmount)],
-          minNErgs,
-        );
-
-        const inputs = DefaultBoxSelector.select(utxos, target) as BoxSelection;
-
-        const actions = poolActions(value.pool);
-
-        const pk = publicKeyFromAddress(address)!;
-
+      onClose(
         actions
           .swap(
             {
               pk,
               poolId,
-              baseInput,
-              minQuoteOutput: minOutput.amount,
-              exFeePerToken,
+              baseInput: baseParams.baseInput,
+              minQuoteOutput: operationVars[1].minOutput.amount,
+              exFeePerToken: operationVars[0],
               uiFee: uiFeeNErg,
               quoteAsset,
               poolFeeNum,
@@ -116,8 +177,8 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
           )
           .then(async (tx) => {
             await submitTx(tx);
-          });
-      }
+          }),
+      );
     }
   };
 
@@ -149,40 +210,92 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
                 <Flex.Item marginBottom={2}>
                   <Flex flexDirection="row">
                     <Flex.Item flex={1}>
-                      <Typography.Text>Output:</Typography.Text>
+                      <Typography.Text>Slippage tolerance:</Typography.Text>
                     </Flex.Item>
                     <Flex.Item>
-                      <Typography.Text>0.044 WETH</Typography.Text>
+                      <Typography.Text>{slippage}%</Typography.Text>
                     </Flex.Item>
                   </Flex>
                 </Flex.Item>
                 <Flex.Item marginBottom={2}>
                   <Flex flexDirection="row">
                     <Flex.Item flex={1}>
-                      <Typography.Text>Minimum received</Typography.Text>
+                      <Typography.Text>Nitro:</Typography.Text>
                     </Flex.Item>
                     <Flex.Item>
-                      <Typography.Text>0.044 WETH</Typography.Text>
+                      <Typography.Text>{nitro}</Typography.Text>
                     </Flex.Item>
                   </Flex>
                 </Flex.Item>
                 <Flex.Item marginBottom={2}>
                   <Flex flexDirection="row">
                     <Flex.Item flex={1}>
-                      <Typography.Text>Minimum received</Typography.Text>
+                      <Typography.Text>Estimated output:</Typography.Text>
                     </Flex.Item>
                     <Flex.Item>
-                      <Typography.Text>0.044 WETH</Typography.Text>
+                      <Typography.Text>
+                        {operationVars &&
+                          `${renderFractions(
+                            operationVars[1].minOutput.amount,
+                            operationVars[1].minOutput.asset.decimals,
+                          )} - ${renderFractions(
+                            operationVars[1].maxOutput.amount,
+                            operationVars[1].maxOutput.asset.decimals,
+                          )} ${operationVars[1].maxOutput.asset.name}`}
+                      </Typography.Text>
                     </Flex.Item>
                   </Flex>
                 </Flex.Item>
                 <Flex.Item marginBottom={2}>
                   <Flex flexDirection="row">
                     <Flex.Item flex={1}>
-                      <Typography.Text>Minimum received</Typography.Text>
+                      <Typography.Text>
+                        Total Fees
+                        <InfoTooltip
+                          placement="right"
+                          content={
+                            <Flex
+                              flexDirection="col"
+                              style={{ width: '250px' }}
+                            >
+                              <Flex.Item>
+                                <Flex justify="space-between">
+                                  <Flex.Item>Miner Fee:</Flex.Item>
+                                  <Flex.Item>{minerFee} ERG</Flex.Item>
+                                </Flex>
+                              </Flex.Item>
+                              <Flex.Item>
+                                <Flex justify="space-between">
+                                  <Flex.Item>UI Fee:</Flex.Item>
+                                  <Flex.Item>{UI_FEE} ERG</Flex.Item>
+                                </Flex>
+                              </Flex.Item>
+                              <Flex.Item>
+                                <Flex justify="space-between">
+                                  <Flex.Item>Execution Fee:</Flex.Item>
+                                  <Flex.Item>
+                                    {operationVars &&
+                                      `${renderFractions(
+                                        operationVars[1].minExFee,
+                                        ERG_DECIMALS,
+                                      )} - ${renderFractions(
+                                        operationVars[1].maxExFee,
+                                        ERG_DECIMALS,
+                                      )}`}{' '}
+                                    ERG
+                                  </Flex.Item>
+                                </Flex>
+                              </Flex.Item>
+                            </Flex>
+                          }
+                        />
+                        :
+                      </Typography.Text>
                     </Flex.Item>
                     <Flex.Item>
-                      <Typography.Text>0.044 WETH</Typography.Text>
+                      <Typography.Text>
+                        {totalFees && `${totalFees.min} - ${totalFees.max}`}
+                      </Typography.Text>
                     </Flex.Item>
                   </Flex>
                 </Flex.Item>
