@@ -52,7 +52,9 @@ import {
 } from '../../utils/math';
 import { calculateTotalFee } from '../../utils/transactions';
 import { getBaseInputParameters } from '../../utils/walletMath';
+import { Ratio } from './Ratio';
 import { SwapConfirmationModal } from './SwapConfirmationModal';
+import { SwapTooltip } from './SwapTooltip';
 import { TransactionSettings } from './TransactionSettings';
 
 interface SwapFormModel {
@@ -151,66 +153,6 @@ const initialValues: SwapFormModel = {
   },
 };
 
-const TxInfoTooltipContent: FC<{ form: FormInstance<SwapFormModel> }> = ({
-  form,
-}) => {
-  const { from, pool } = form.getFieldsValue();
-  const [{ slippage, minerFee, nitro }] = useSettings();
-  const swapExtremums = swapVars(
-    MIN_EX_FEE,
-    nitro,
-    getBaseInputParameters(pool!, {
-      inputAmount: from?.amount?.value?.toString()!,
-      inputAsset: from?.asset!,
-      slippage,
-    }).minOutput,
-  );
-
-  const output = swapExtremums
-    ? `${renderFractions(
-        swapExtremums[1].minOutput.amount,
-        swapExtremums[1].minOutput.asset.decimals,
-      )} ${swapExtremums[1].minOutput.asset.name} - ${renderFractions(
-        swapExtremums[1].maxOutput.amount,
-        swapExtremums[1].maxOutput.asset.decimals,
-      )} ${swapExtremums[1].minOutput.asset.name}`
-    : undefined;
-
-  const totalFees = calculateTotalFee(
-    [minerFee, UI_FEE, defaultExFee],
-    ERG_DECIMALS,
-  );
-
-  return (
-    <Flex flexDirection="col">
-      <Flex.Item marginBottom={3}>
-        <Flex justify="space-between">
-          <Flex.Item marginRight={6}>
-            <Typography.Body>Output</Typography.Body>
-          </Flex.Item>
-          <Typography.Body>{output}</Typography.Body>
-        </Flex>
-      </Flex.Item>
-      <Flex.Item marginBottom={3}>
-        <Flex justify="space-between">
-          <Flex.Item marginRight={6}>
-            <Typography.Body>Slippage tolerance</Typography.Body>
-          </Flex.Item>
-          <Typography.Body>{slippage}%</Typography.Body>
-        </Flex>
-      </Flex.Item>
-      <Flex.Item>
-        <Flex justify="space-between">
-          <Flex.Item marginRight={6}>
-            <Typography.Body>Total Fees</Typography.Body>
-          </Flex.Item>
-          <Typography.Body>{totalFees} ERG</Typography.Body>
-        </Flex>
-      </Flex.Item>
-    </Flex>
-  );
-};
-
 const fromToTo = (fromValue: TokenControlValue, pool: AmmPool): number => {
   const toAmount = pool.outputAmount(
     new AssetAmount(
@@ -224,24 +166,6 @@ const fromToTo = (fromValue: TokenControlValue, pool: AmmPool): number => {
 
   return fractionsToNum(toAmount.amount, toAmount.asset?.decimals);
 };
-
-export function renderPrice(x: AssetAmount, y: AssetAmount): string {
-  const nameX = x.asset.name ?? x.asset.id.slice(0, 8);
-  const nameY = y.asset.name ?? y.asset.id.slice(0, 8);
-  const fmtX = renderFractions(x.amount, x.asset.decimals);
-  const fmtY = renderFractions(y.amount, y.asset.decimals);
-  if (Number(fmtX) > Number(fmtY)) {
-    const p = math.evaluate!(`${fmtX} / ${fmtY}`).toFixed(
-      x.asset.decimals ?? 0,
-    );
-    return `1 ${nameY} - ${p} ${nameX}`;
-  } else {
-    const p = math.evaluate!(`${fmtY} / ${fmtX}`).toFixed(
-      y.asset.decimals ?? 0,
-    );
-    return `1 ${nameX} - ${p} ${nameY}`;
-  }
-}
 
 const toToFrom = (
   toValue: TokenControlValue,
@@ -318,9 +242,9 @@ export const Swap: FC = () => {
 
   useEffect(() => {
     const { pool, to, from } = form.getFieldsValue();
+    const newPool = pools?.slice().sort(sortPoolByLpDesc)[0];
 
-    if (!pool) {
-      const newPool = pools?.slice().sort(sortPoolByLpDesc)[0];
+    if (!pool || pool.id !== newPool?.id) {
       const fromAmount =
         !from?.amount && to?.amount && newPool
           ? {
@@ -329,7 +253,7 @@ export const Swap: FC = () => {
             }
           : from?.amount;
       const toAmount =
-        !to?.amount && from?.amount && newPool
+        from?.amount && newPool
           ? {
               value: fromToTo(from, newPool),
               viewValue: fromToTo(from, newPool).toString(),
@@ -341,22 +265,9 @@ export const Swap: FC = () => {
         from: { ...from, amount: fromAmount },
         to: { ...to, amount: toAmount },
       });
+      setChanges({});
     }
   }, [pools, form]);
-
-  const calculateRatio = (value: SwapFormModel): string => {
-    const ratio = fractionsToNum(
-      value.pool!.depositAmount(
-        new AssetAmount(
-          value.from?.asset as AssetInfo,
-          parseUserInputToFractions(1, value?.from?.asset?.decimals),
-        ),
-      ).amount,
-      value.to?.asset?.decimals!,
-    );
-
-    return `1 ${value.from?.asset?.name} = ${ratio} ${value.to?.asset?.name}`;
-  };
 
   const onValuesChange = (
     changes: SwapFormModel,
@@ -405,7 +316,7 @@ export const Swap: FC = () => {
     // ) {
     //   setRatio(calculateRatio(value));
     // }
-    // setChanges({});
+    setChanges({});
   };
 
   const swapTokens = () => {
@@ -416,11 +327,7 @@ export const Swap: FC = () => {
       { name: 'from', value: to },
       { name: 'to', value: from },
     ]);
-    // setChanges({});
-
-    // if (from && from?.asset && to?.asset && pool) {
-    //   setRatio(calculateRatio(form.getFieldsValue()));
-    // }
+    setChanges({});
   };
 
   const priceTooltip = (
@@ -500,16 +407,12 @@ export const Swap: FC = () => {
             }
           >
             <Flex>
-              {/*<Flex.Item marginRight={1}>*/}
-              {/*  <InfoTooltip*/}
-              {/*    className="swap-tooltip"*/}
-              {/*    content={<TxInfoTooltipContent form={form} />}*/}
-              {/*    placement="left"*/}
-              {/*  />*/}
-              {/*</Flex.Item>*/}
-              {/*<Flex.Item flex={1}>*/}
-              {/*  <Typography.Body>{ratio}</Typography.Body>*/}
-              {/*</Flex.Item>*/}
+              <Flex.Item marginRight={1}>
+                <SwapTooltip form={form} />
+              </Flex.Item>
+              <Flex.Item flex={1}>
+                <Ratio form={form} />
+              </Flex.Item>
               <Flex>
                 <Form.Item name="pool" style={{ marginBottom: 0 }} />
               </Flex>

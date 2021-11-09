@@ -32,7 +32,7 @@ const TokenAmountInput: React.FC<TokenAmountInputProps> = ({
       return value.toString();
     }
 
-    return value?.viewValue;
+    return value?.viewValue || '';
   };
 
   const enforcer = (nextUserInput: string) => {

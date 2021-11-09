@@ -1,11 +1,11 @@
-/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain,react-hooks/exhaustive-deps */
 import './AddLiquidity.less';
 
 import { AmmPool, PoolId } from '@ergolabs/ergo-dex-sdk';
 import { AssetAmount, AssetInfo } from '@ergolabs/ergo-sdk';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import { Observable } from 'rxjs';
+import { Observable, of, tap } from 'rxjs';
 
 import {
   ActionForm,
@@ -173,8 +173,14 @@ const initialValues: AddLiquidityFormModel = {
   },
 };
 
-const getAssetsByToken = (tokenId?: string) =>
-  tokenId ? getAssetsByPairAsset(tokenId) : pools$;
+const getAssetsByToken = (tokenId?: string) => {
+  return tokenId
+    ? getAssetsByPairAsset(tokenId).pipe(tap(console.log, console.error))
+    : of([]);
+};
+
+const getAvailablePools = (xId?: string, yId?: string) =>
+  xId && yId ? getPoolByPair(xId, yId) : of([]);
 
 const AddLiquidity = (): JSX.Element => {
   const [balance] = useWalletBalance();
@@ -186,7 +192,7 @@ const AddLiquidity = (): JSX.Element => {
   const [form] = Form.useForm<AddLiquidityFormModel>();
   const [xAssets] = useObservable(assets$);
   const [yAssets, setYAssets] = useObservableAction(getAssetsByToken);
-  const [pools, setPools] = useObservableAction(getPoolByPair);
+  const [pools, setPools] = useObservableAction(getAvailablePools);
   const [poolById, setPoolById] = useObservableAction(getPoolById);
 
   const [isStickRatio, setIsStickRatio] = useState(false);
@@ -198,8 +204,20 @@ const AddLiquidity = (): JSX.Element => {
   const onValuesChange = (
     changes: AddLiquidityFormModel,
     value: AddLiquidityFormModel,
+    prevValue: AddLiquidityFormModel,
   ) => {
-    setYAssets(value?.x?.id);
+    if (value.x?.id !== prevValue.x?.id) {
+      setYAssets(value?.x?.id);
+      form.setFieldsValue({
+        xAmount: undefined,
+        yAmount: undefined,
+        activePool: undefined,
+        y: undefined,
+      });
+      setPools();
+      setIsPairSelected(false);
+      return;
+    }
 
     if (value?.activePool && isStickRatio) {
       if (changes?.xAmount) {
@@ -304,9 +322,8 @@ const AddLiquidity = (): JSX.Element => {
   useEffect(() => {
     if (!poolId) {
       setYAssets(initialValues?.x?.id);
-      form.setFieldsValue({ xAmount: { asset: initialValues?.x } });
     }
-  });
+  }, []);
 
   const handleOnStickRatioClick = () => {
     if (!isStickRatio) {
