@@ -91,8 +91,7 @@ const KyaModal: React.FC<KyaModalProps> = ({ onClose }): JSX.Element => {
       </Flex.Item>
       <Flex.Item marginBottom={4}>
         <Typography.Body strong>
-          ErgoDEX Team doesn’t guarantee the absence of bugs and errors. ErgoDEX
-          is in Beta testing and has yet to be independently audited.
+          ErgoDEX Team doesn’t guarantee the absence of bugs and errors.
         </Typography.Body>
       </Flex.Item>
       <Flex.Item marginBottom={4}>
