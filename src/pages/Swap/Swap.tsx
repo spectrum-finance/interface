@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 import './Swap.less';
 
-import { AmmPool, SwapExtremums } from '@ergolabs/ergo-dex-sdk';
+import { AmmPool } from '@ergolabs/ergo-dex-sdk';
 import { swapVars } from '@ergolabs/ergo-dex-sdk/build/main/amm/math/swap';
 import { AssetAmount, AssetInfo } from '@ergolabs/ergo-sdk';
 import React, { FC, useEffect, useState } from 'react';
@@ -16,6 +16,10 @@ import {
   TokenControlValue,
 } from '../../components/common/TokenControl/TokenControl';
 import { TxHistory } from '../../components/common/TxHistory/TxHistory';
+import {
+  openConfirmationModal,
+  Operation,
+} from '../../components/ConfirmationModal/ConfirmationModal';
 import { FormPageWrapper } from '../../components/FormPageWrapper/FormPageWrapper';
 import { InfoTooltip } from '../../components/InfoTooltip/InfoTooltip';
 import {
@@ -33,8 +37,6 @@ import {
   Flex,
   Form,
   FormInstance,
-  Modal,
-  SettingOutlined,
   SwapOutlined,
   Typography,
 } from '../../ergodex-cdk';
@@ -50,10 +52,7 @@ import {
 } from '../../utils/math';
 import { calculateTotalFee } from '../../utils/transactions';
 import { getBaseInputParameters } from '../../utils/walletMath';
-import {
-  openSwapConfirmationModal,
-  SwapConfirmationModal,
-} from './SwapConfirmationModal';
+import { SwapConfirmationModal } from './SwapConfirmationModal';
 import { TransactionSettings } from './TransactionSettings';
 
 interface SwapFormModel {
@@ -114,7 +113,16 @@ class SwapStrategy implements ActionFormStrategy {
   }
 
   request(form: FormInstance): void {
-    openSwapConfirmationModal(form.getFieldsValue());
+    const value = form.getFieldsValue();
+
+    openConfirmationModal(
+      (next) => {
+        return <SwapConfirmationModal value={value} onClose={next} />;
+      },
+      Operation.SWAP,
+      { asset: value.from?.asset!, amount: value?.from?.amount?.value! },
+      { asset: value.to?.asset!, amount: value?.to?.amount?.value! },
+    );
   }
 
   isLiquidityInsufficient(form: FormInstance<SwapFormModel>): boolean {
@@ -172,7 +180,7 @@ const TxInfoTooltipContent: FC<{ form: FormInstance<SwapFormModel> }> = ({
     [minerFee, UI_FEE, defaultExFee],
     ERG_DECIMALS,
   );
-  console.log(swapExtremums);
+
   return (
     <Flex flexDirection="col">
       <Flex.Item marginBottom={3}>
@@ -186,7 +194,7 @@ const TxInfoTooltipContent: FC<{ form: FormInstance<SwapFormModel> }> = ({
       <Flex.Item marginBottom={3}>
         <Flex justify="space-between">
           <Flex.Item marginRight={6}>
-            <Typography.Body>Slippage tollerance</Typography.Body>
+            <Typography.Body>Slippage tolerance</Typography.Body>
           </Flex.Item>
           <Typography.Body>{slippage}%</Typography.Body>
         </Flex>
@@ -213,7 +221,6 @@ const fromToTo = (fromValue: TokenControlValue, pool: AmmPool): number => {
       ),
     ),
   );
-  console.log(toAmount, fromValue);
 
   return fractionsToNum(toAmount.amount, toAmount.asset?.decimals);
 };
@@ -482,32 +489,32 @@ export const Swap: FC = () => {
           <Flex.Item marginBottom={4}>
             <TokenControlFormItem assets={toAssets} name="to" label="To" />
           </Flex.Item>
-          <Flex.Item
-            marginBottom={4}
-            display={
-              !!pools?.length &&
-              form.getFieldsValue()?.from?.amount?.value &&
-              form.getFieldsValue()?.to?.amount?.value
-                ? 'block'
-                : 'none'
-            }
-          >
-            <Flex>
-              <Flex.Item marginRight={1}>
-                <InfoTooltip
-                  className="swap-tooltip"
-                  content={<TxInfoTooltipContent form={form} />}
-                  placement="left"
-                />
-              </Flex.Item>
-              <Flex.Item flex={1}>
-                <Typography.Body>{ratio}</Typography.Body>
-              </Flex.Item>
-              <Flex>
-                <Form.Item name="pool" style={{ marginBottom: 0 }} />
-              </Flex>
-            </Flex>
-          </Flex.Item>
+          {/*<Flex.Item*/}
+          {/*  marginBottom={4}*/}
+          {/*  display={*/}
+          {/*    !!pools?.length &&*/}
+          {/*    form.getFieldsValue()?.from?.amount?.value &&*/}
+          {/*    form.getFieldsValue()?.to?.amount?.value*/}
+          {/*      ? 'block'*/}
+          {/*      : 'none'*/}
+          {/*  }*/}
+          {/*>*/}
+          {/*  <Flex>*/}
+          {/*    <Flex.Item marginRight={1}>*/}
+          {/*      <InfoTooltip*/}
+          {/*        className="swap-tooltip"*/}
+          {/*        content={<TxInfoTooltipContent form={form} />}*/}
+          {/*        placement="left"*/}
+          {/*      />*/}
+          {/*    </Flex.Item>*/}
+          {/*    <Flex.Item flex={1}>*/}
+          {/*      <Typography.Body>{ratio}</Typography.Body>*/}
+          {/*    </Flex.Item>*/}
+          {/*    <Flex>*/}
+          {/*      <Form.Item name="pool" style={{ marginBottom: 0 }} />*/}
+          {/*    </Flex>*/}
+          {/*  </Flex>*/}
+          {/*</Flex.Item>*/}
         </Flex>
       </ActionForm>
     </FormPageWrapper>
