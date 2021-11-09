@@ -3,6 +3,7 @@ import {
   AssetAmount,
   BoxSelection,
   DefaultBoxSelector,
+  publicKeyFromAddress,
 } from '@ergolabs/ergo-sdk';
 import React, { FC } from 'react';
 
@@ -40,7 +41,7 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
 }) => {
   const [form] = Form.useForm();
 
-  const [{ minerFee, address, pk, slippage, nitro }] = useSettings();
+  const [{ minerFee, address, slippage, nitro }] = useSettings();
   const [utxos] = useObservable(utxos$);
 
   const uiFeeNErg = parseUserInputToFractions(UI_FEE, ERG_DECIMALS);
@@ -49,7 +50,6 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
 
   const swapOperation = async () => {
     if (
-      pk &&
       utxos &&
       address &&
       value.pool &&
@@ -79,7 +79,7 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
 
       if (vars) {
         const exFeePerToken = vars[0];
-        const { maxExFee, minOutput, maxOutput } = vars[1];
+        const { maxExFee } = vars[1];
 
         const minNErgs = minValueForOrder(minerFeeNErgs, uiFeeNErg, maxExFee);
 
@@ -92,27 +92,32 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
 
         const { swap } = poolActions(value.pool);
 
-        swap(
-          {
-            pk,
-            poolId,
-            baseInput,
-            minQuoteOutput: minOutput.amount,
-            exFeePerToken,
-            uiFee: uiFeeNErg,
-            quoteAsset,
-            poolFeeNum,
-          },
-          {
-            inputs,
-            changeAddress: address,
-            selfAddress: address,
-            feeNErgs: minerFeeNErgs,
-            network,
-          },
-        ).then(async (tx) => {
-          await submitTx(tx);
-        });
+        const pk = publicKeyFromAddress(address)!;
+
+        const params = {
+          pk,
+          poolId,
+          baseInput,
+          minQuoteOutput: minOutput.amount,
+          exFeePerToken,
+          uiFee: uiFeeNErg,
+          quoteAsset,
+          poolFeeNum,
+        };
+
+        const ctx = {
+          inputs,
+          changeAddress: address,
+          selfAddress: address,
+          feeNErgs: minerFeeNErgs,
+          network,
+        };
+
+        onClose(
+          swap(params, ctx).then(async (tx) => {
+            await submitTx(tx);
+          }),
+        );
       }
     }
   };

@@ -194,7 +194,7 @@ const TxInfoTooltipContent: FC<{ form: FormInstance<SwapFormModel> }> = ({
       <Flex.Item marginBottom={3}>
         <Flex justify="space-between">
           <Flex.Item marginRight={6}>
-            <Typography.Body>Slippage tollerance</Typography.Body>
+            <Typography.Body>Slippage tolerance</Typography.Body>
           </Flex.Item>
           <Typography.Body>{slippage}%</Typography.Body>
         </Flex>
