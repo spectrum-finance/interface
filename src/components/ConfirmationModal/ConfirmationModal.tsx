@@ -24,13 +24,7 @@ const getDescriptionByData = (
 ): ReactNode => {
   switch (operation) {
     case Operation.ADD_LIQUIDITY:
-      return `Adding liquidity ${renderFractions(
-        xAsset.amount,
-        xAsset.asset.decimals,
-      )} ${xAsset.asset.name} and ${renderFractions(
-        yAsset.amount,
-        yAsset.asset.decimals,
-      )} ${yAsset.asset.name}`;
+      return `Adding liquidity ${xAsset.amount} ${xAsset.asset.name} and ${yAsset.amount} ${yAsset.asset.name}`;
     case Operation.REFUND:
       return `Refunding ${renderFractions(
         xAsset.amount,
