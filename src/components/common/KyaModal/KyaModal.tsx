@@ -110,7 +110,7 @@ const KyaModal: React.FC<KyaModalProps> = ({ onClose }): JSX.Element => {
         </Typography.Body>
       </Flex.Item>
       <Flex.Item>
-        <Button type="primary" block onClick={handleConfirm}>
+        <Button type="primary" size="large" block onClick={handleConfirm}>
           I understand the risks and accept the KYA
         </Button>
       </Flex.Item>

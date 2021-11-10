@@ -11,13 +11,7 @@ import {
 import { FormPageWrapper } from '../../components/FormPageWrapper/FormPageWrapper';
 import { SubmitButton } from '../../components/SubmitButton/SubmitButton';
 import { TokenIconPair } from '../../components/TokenIconPair/TokenIconPair';
-import {
-  Button,
-  Flex,
-  SettingOutlined,
-  Skeleton,
-  Typography,
-} from '../../ergodex-cdk';
+import { Flex, Skeleton, Typography } from '../../ergodex-cdk';
 import { usePair } from '../../hooks/usePair';
 import { usePosition } from '../../hooks/usePosition';
 import { parseUserInputToFractions } from '../../utils/math';
@@ -131,9 +125,6 @@ const Remove = (): JSX.Element => {
                       </Typography.Title>
                     </Flex.Item>
                   </Flex>
-                </Flex.Item>
-                <Flex.Item>
-                  <Button size="large" type="text" icon={<SettingOutlined />} />
                 </Flex.Item>
               </Flex>
             </Flex.Item>
