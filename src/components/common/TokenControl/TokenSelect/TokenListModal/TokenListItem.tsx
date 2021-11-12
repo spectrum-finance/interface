@@ -24,7 +24,7 @@ const TokenListItem: React.FC<TokenListItemProps> = ({
       borderRadius="m"
       padding={[1, 2]}
     >
-      <TokenIcon name={iconName ?? asset.name ?? 'empty'} />
+      <TokenIcon size="large" name={iconName ?? asset.name ?? 'empty'} />
       <Box className="token-item__box" padding={0}>
         <Box className="token-item__box-left" padding={0}>
           <Typography.Text className="token-item__box-left-symbol">

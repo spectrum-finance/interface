@@ -47,7 +47,7 @@ const FormPageWrapper: React.FC<FormPageWrapperProps> = ({
           </Flex.Item>
         )}
         <Flex.Item>
-          <Box formWrapper padding={[6, 4]} borderRadius="m">
+          <Box formWrapper padding={[4, 4]} borderRadius="m">
             {children}
           </Box>
         </Flex.Item>

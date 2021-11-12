@@ -120,8 +120,9 @@ export const ActionButton: FC<ActionButtonProps> = (props) => {
     >
       <Button
         {...other}
+        style={{ fontSize: '20px', lineHeight: '28px' }}
         size="extra-large"
-        style={{ width: '100%' }}
+        block
         onClick={handleClick}
       >
         {children}

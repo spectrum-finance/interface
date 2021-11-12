@@ -83,7 +83,7 @@ export const PoolPosition: React.FC = () => {
                 <Flex flexDirection="col">
                   <Flex justify="space-between">
                     <Flex>
-                      <TokenIcon width={16} name={pair.assetX.name} />
+                      <TokenIcon name={pair.assetX.name} />
                       <Typography.Title level={5} style={{ marginLeft: 4 }}>
                         {pair.assetX.name}
                       </Typography.Title>
@@ -103,7 +103,7 @@ export const PoolPosition: React.FC = () => {
                   </Flex>
                   <Flex justify="space-between" style={{ marginTop: 16 }}>
                     <Flex>
-                      <TokenIcon width={16} name={pair.assetY.name} />
+                      <TokenIcon name={pair.assetY.name} />
                       <Typography.Title level={5} style={{ marginLeft: 4 }}>
                         {pair.assetY.name}
                       </Typography.Title>

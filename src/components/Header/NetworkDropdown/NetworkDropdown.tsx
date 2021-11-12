@@ -37,21 +37,26 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
           onSetNetwork(key);
         }
       }}
+      style={{ padding: '8px', width: '150px' }}
     >
       {networks.map(({ name, token, isDisabled }) => (
-        <Menu.Item
-          key={name}
-          icon={<TokenIcon name={!isDisabled ? token : `${token}-disabled`} />}
-          disabled={isDisabled}
-        >
-          {capitalize(name)}
+        <Menu.Item key={name} disabled={isDisabled}>
+          <Flex>
+            <TokenIcon name={!isDisabled ? token : `${token}-disabled`} />
+            <span style={{ marginLeft: '8px' }}>{capitalize(name)}</span>
+          </Flex>
         </Menu.Item>
       ))}
     </Menu>
   );
 
   return (
-    <Dropdown overlay={overlay} trigger={['click']} disabled={disabled}>
+    <Dropdown
+      overlay={overlay}
+      placement="bottomRight"
+      trigger={['click']}
+      disabled={disabled}
+    >
       <Button
         className={cn(
           `network-dropdown__btn`,
@@ -60,24 +65,19 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
         size="large"
         type="ghost"
       >
-        <Flex justify="center" flexDirection="row">
-          <Flex.Item marginRight={1}>
-            <TokenIcon
-              name={`${network.token}${disabled ? '-disabled' : ''}`}
-            />
-          </Flex.Item>
-          <Flex.Item marginRight={1}>
-            <Typography.Body
-              style={{ color: 'var(--ergo-networkdropdown-hover-focus-color)' }}
-            >
-              {capitalize(network.name)}
-            </Typography.Body>
-          </Flex.Item>
-          <Flex.Item>
-            <DownOutlined
-              style={{ color: 'var(--ergo-networkdropdown-hover-focus-color)' }}
-            />
-          </Flex.Item>
+        <Flex justify="center" flexDirection="row" alignItems="center">
+          <TokenIcon name={`${network.token}${disabled ? '-disabled' : ''}`} />
+          <Typography.Body
+            style={{ color: 'var(--ergo-networkdropdown-hover-focus-color)' }}
+          >
+            {capitalize(network.name)}
+          </Typography.Body>
+          <DownOutlined
+            style={{
+              color: 'var(--ergo-networkdropdown-hover-focus-color)',
+              marginLeft: '8px',
+            }}
+          />
         </Flex>
       </Button>
     </Dropdown>
