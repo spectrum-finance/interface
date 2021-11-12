@@ -34,29 +34,32 @@ const TokenSelect: React.FC<TokenSelectProps> = ({
           onSelectChanged={onChange}
         />
       ),
-      { title: 'Select a token', width: 352 },
+      { title: 'Select a token', width: 400 },
     );
   };
 
   return (
     <>
       {value ? (
-        <button
+        <Button
+          type="ghost"
+          size="large"
           className="token-select__selected"
           onClick={openTokenModal}
           disabled={disabled}
+          block
         >
-          <span className="token-select__selected-container">
-            <span className="token-select__selected-inner token-select__selected-item">
-              <TokenIcon
-                name={value.name}
-                className="token-select__selected-item"
-              />
-              <span>{value.name}</span>
-            </span>
-            {!readonly && <DownOutlined />}
+          <span
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
+            <TokenIcon name={value.name} />
+            {value.name}
           </span>
-        </button>
+          {!readonly && <DownOutlined />}
+        </Button>
       ) : (
         <Button
           style={{

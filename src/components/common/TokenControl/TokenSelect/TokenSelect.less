@@ -2,12 +2,13 @@
   &.token-select {
     border: 1px solid var(--ergo-tokenselect-default-bg);
     background: var(--ergo-tokenselect-default-bg);
-    box-shadow: var(--ergo-tokenselect-box-shadow) !important;
     color: var(--ergo-tokenselect-lbl-color);
+
     &:hover {
       border: 1px solid var(--ergo-tokenselect-hover-bg);
       background: var(--ergo-tokenselect-hover-bg);
     }
+
     &:active {
       border: 1px solid var(--ergo-tokenselect-active-bg);
       background: var(--ergo-tokenselect-active-bg);
@@ -16,35 +17,9 @@
 }
 
 .token-select__selected {
-  display: block;
-  width: 100%;
-  padding: 8px 12px;
-  border: 0;
-  background-color: var(--ergo-tokenselect-selected-active-bg);
-  border-radius: 12px;
-  box-shadow: var(--ergo-tokenselect-box-shadow);
-  color: var(--ergo-tokenselect-selected-color);
-  cursor: pointer;
-  font-size: 16px;
-  line-height: 24px;
-
-  &-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  &-inner {
-    display: flex;
-    align-items: center;
-  }
-
-  &:hover {
-    background-color: var(--ergo-tokenselect-selected-hover-bg);
-  }
-  &:active {
-    background-color: var(--ergo-tokenselect-selected-active-bg);
-  }
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
   &-item {
     margin-right: 8px;

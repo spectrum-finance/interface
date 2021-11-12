@@ -24,14 +24,8 @@ const MenuItem: React.FC<MenuItemProps> = ({
     borderRadius="m"
     padding={[1, 2]}
   >
-    <TokenIcon
-      name={fromTokenName ?? 'empty'}
-      className="menu-item__icon-left"
-    />
-    <TokenIcon
-      name={toTokenName ?? 'empty'}
-      className="menu-item__icon-right"
-    />
+    <TokenIcon name={fromTokenName ?? 'empty'} />
+    <TokenIcon name={toTokenName ?? 'empty'} />
     <Box className="menu-item__box-left" padding={0}>
       <Typography.Text className="menu-item__box-left-symbol">
         {fromTokenName}/{toTokenName}

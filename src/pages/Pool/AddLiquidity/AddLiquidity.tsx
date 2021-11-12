@@ -401,11 +401,11 @@ const AddLiquidity = (): JSX.Element => {
           <Flex flexDirection="col">
             <Flex.Item marginBottom={4}>
               <Typography.Body strong>Select Pair</Typography.Body>
-              <Flex justify="space-between" alignItems="center">
-                <Flex.Item marginRight={2} grow>
+              <Flex justify="center" alignItems="center">
+                <Flex.Item marginRight={2} style={{ width: '100%' }}>
                   <TokeSelectFormItem name="x" assets={xAssets} />
                 </Flex.Item>
-                <Flex.Item grow>
+                <Flex.Item style={{ width: '100%' }}>
                   <TokeSelectFormItem name="y" assets={yAssets} />
                 </Flex.Item>
               </Flex>

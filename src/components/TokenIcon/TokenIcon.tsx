@@ -2,9 +2,13 @@ import React from 'react';
 
 import sprite from '../../assets/icons/sprite/sprite.svg';
 
-interface TokenIconProps extends SVGSVGElement {
+type TokenIconProps = React.DetailedHTMLProps<
+  React.HTMLAttributes<HTMLDivElement>,
+  HTMLDivElement
+> & {
   name?: string;
-}
+  size?: 'large';
+};
 
 const accessibleTokens = [
   'ERG',
@@ -16,25 +20,28 @@ const accessibleTokens = [
   'ADA-disabled',
 ];
 
-const TokenIcon: React.FC<React.SVGProps<TokenIconProps>> = (props) => {
+const TokenIcon: React.FC<TokenIconProps> = ({ name, size }) => {
   const isAccessibleToken = accessibleTokens.some(
-    (tokenName) => tokenName.toLowerCase() === props.name?.toLocaleLowerCase(),
+    (tokenName) => tokenName.toLowerCase() === name?.toLocaleLowerCase(),
   );
 
   return (
-    <svg
-      style={{ display: 'block' }}
-      width="24"
-      height="24"
-      className={`token-icon token-icon-${props.name?.toLowerCase()}`}
-      {...props}
+    <span
+      role="img"
+      className={`token-icon token-icon-${name?.toLowerCase()}`}
+      style={{ display: 'inherit' }}
     >
-      <use
-        xlinkHref={`${sprite}#token-${
-          props.name && isAccessibleToken ? props.name.toLowerCase() : 'empty'
-        }`}
-      />
-    </svg>
+      <svg
+        width={size === 'large' ? 32 : 24}
+        height={size === 'large' ? 32 : 24}
+      >
+        <use
+          xlinkHref={`${sprite}#token-${
+            name && isAccessibleToken ? name.toLowerCase() : 'empty'
+          }`}
+        />
+      </svg>
+    </span>
   );
 };
 
