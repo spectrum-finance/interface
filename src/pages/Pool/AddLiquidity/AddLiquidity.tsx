@@ -5,7 +5,7 @@ import { AmmPool, PoolId } from '@ergolabs/ergo-dex-sdk';
 import { AssetAmount, AssetInfo } from '@ergolabs/ergo-sdk';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import { Observable, of, tap } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import {
   ActionForm,
@@ -46,11 +46,7 @@ import {
 } from '../../../hooks/useObservable';
 import { assets$, getAssetsByPairAsset } from '../../../services/new/assets';
 import { Balance, useWalletBalance } from '../../../services/new/balance';
-import {
-  getPoolById,
-  getPoolByPair,
-  pools$,
-} from '../../../services/new/pools';
+import { getPoolById, getPoolByPair } from '../../../services/new/pools';
 import {
   parseUserInputToFractions,
   renderFractions,
@@ -174,9 +170,7 @@ const initialValues: AddLiquidityFormModel = {
 };
 
 const getAssetsByToken = (tokenId?: string) => {
-  return tokenId
-    ? getAssetsByPairAsset(tokenId).pipe(tap(console.log, console.error))
-    : of([]);
+  return tokenId ? getAssetsByPairAsset(tokenId) : of([]);
 };
 
 const getAvailablePools = (xId?: string, yId?: string) =>
@@ -195,7 +189,7 @@ const AddLiquidity = (): JSX.Element => {
   const [pools, setPools] = useObservableAction(getAvailablePools);
   const [poolById, setPoolById] = useObservableAction(getPoolById);
 
-  const [isStickRatio, setIsStickRatio] = useState(false);
+  const [isStickRatio, setIsStickRatio] = useState(true);
 
   const [isPairSelected, setIsPairSelected] = useState(false);
 
@@ -431,7 +425,7 @@ const AddLiquidity = (): JSX.Element => {
                     disabled={!isPairSelected}
                     name="xAmount"
                     assets={xAssets}
-                    hasBorder={isStickRatio}
+                    hasBorder={isStickRatio && isPairSelected}
                   />
                 </Flex.Item>
                 <Flex.Item className="stick-button">
@@ -456,7 +450,7 @@ const AddLiquidity = (): JSX.Element => {
                     disabled={!isPairSelected}
                     name="yAmount"
                     assets={yAssets}
-                    hasBorder={isStickRatio}
+                    hasBorder={isStickRatio && isPairSelected}
                   />
                 </Flex.Item>
               </Flex>
