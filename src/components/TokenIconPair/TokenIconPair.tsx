@@ -7,15 +7,20 @@ export type TokenPair = { tokenA?: string; tokenB?: string };
 
 interface TokenIconPairProps {
   tokenPair: TokenPair;
+  size?: 'large';
 }
 
-const TokenIconPair: React.FC<TokenIconPairProps> = ({ tokenPair }) => {
+const TokenIconPair: React.FC<TokenIconPairProps> = ({ tokenPair, size }) => {
   const { tokenA, tokenB } = tokenPair;
 
   return (
-    <Flex>
-      <TokenIcon name={tokenA} />
-      <TokenIcon style={{ marginLeft: '-10px' }} name={tokenB} />
+    <Flex alignItems="center">
+      <TokenIcon size={size} name={tokenA} />
+      <TokenIcon
+        size={size}
+        style={{ display: 'flex', marginLeft: '-10px' }}
+        name={tokenB}
+      />
     </Flex>
   );
 };

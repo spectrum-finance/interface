@@ -59,6 +59,7 @@ export const PoolPosition: React.FC = () => {
         <>
           <Flex alignItems="center">
             <TokenIconPair
+              size="large"
               tokenPair={{ tokenA: pair.assetX.name, tokenB: pair.assetY.name }}
             />
             <Typography.Title level={3} style={{ marginLeft: 8 }}>
