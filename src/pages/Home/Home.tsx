@@ -4,6 +4,7 @@ import { Swap } from '../../components/Swap/Swap';
 import { Redeem } from '../../components/Redeem/Redeem';
 import { Deposit } from '../../components/Deposit/Deposit';
 import Layout from '../../components/common/Layout/Layout';
+import { CreatePool } from '../../components/CreatePool/CreatePool';
 
 export const Home: React.FC = () => (
   <div className="App">
@@ -18,9 +19,9 @@ export const Home: React.FC = () => (
         <Tabs.Item label="deposit" value="deposit">
           <Deposit />
         </Tabs.Item>
-        {/*<Tabs.Item label="pool" value="pool">*/}
-        {/*  <CreatePool />*/}
-        {/*</Tabs.Item>*/}
+        <Tabs.Item label="pool" value="pool">
+          <CreatePool />
+        </Tabs.Item>
       </Tabs>
     </Layout>
   </div>
