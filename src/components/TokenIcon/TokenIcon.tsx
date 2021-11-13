@@ -20,7 +20,7 @@ const accessibleTokens = [
   'ADA-disabled',
 ];
 
-const TokenIcon: React.FC<TokenIconProps> = ({ name, size }) => {
+const TokenIcon: React.FC<TokenIconProps> = ({ name, size, ...rest }) => {
   const isAccessibleToken = accessibleTokens.some(
     (tokenName) => tokenName.toLowerCase() === name?.toLocaleLowerCase(),
   );
@@ -30,6 +30,7 @@ const TokenIcon: React.FC<TokenIconProps> = ({ name, size }) => {
       role="img"
       className={`token-icon token-icon-${name?.toLowerCase()}`}
       style={{ display: 'inherit' }}
+      {...rest}
     >
       <svg
         width={size === 'large' ? 32 : 24}

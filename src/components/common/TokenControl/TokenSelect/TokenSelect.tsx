@@ -3,7 +3,13 @@ import './TokenSelect.less';
 import { AssetInfo } from '@ergolabs/ergo-sdk';
 import React from 'react';
 
-import { Button, DownOutlined, Form, Modal } from '../../../../ergodex-cdk';
+import {
+  Button,
+  DownOutlined,
+  Form,
+  Modal,
+  Typography,
+} from '../../../../ergodex-cdk';
 import { TokenIcon } from '../../../TokenIcon/TokenIcon';
 import { TokenListModal } from './TokenListModal/TokenListModal';
 
@@ -56,7 +62,9 @@ const TokenSelect: React.FC<TokenSelectProps> = ({
             }}
           >
             <TokenIcon name={value.name} />
-            {value.name}
+            <Typography.Title level={5} style={{ marginLeft: '8px' }}>
+              {value.name}
+            </Typography.Title>
           </span>
           {!readonly && <DownOutlined />}
         </Button>
