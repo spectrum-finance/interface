@@ -1629,10 +1629,10 @@
   resolved "https://registry.yarnpkg.com/@emotion/weak-memoize/-/weak-memoize-0.2.5.tgz#8eed982e2ee6f7f4e44c253e12962980791efd46"
   integrity sha512-6U71C2Wp7r5XtFtQzYrW5iKFT67OixrSxjI4MptCHzdSVlgabczzqLe0ZSgnub/5Kp4hSbpDB1tMytZY9pwxxA==
 
-"@ergolabs/ergo-dex-sdk@^1.1.16":
-  version "1.1.16"
-  resolved "https://registry.yarnpkg.com/@ergolabs/ergo-dex-sdk/-/ergo-dex-sdk-1.1.16.tgz#19986135ea11e17ae232490e936211a7ef7bd9ab"
-  integrity sha512-S/QVyv3OdIJemiO8Vw4wolUUdGdO8AbrD9ZXech/quSmaEYU/QpcIed1LVGBe+Rh1LofuOrrk6RURy1aXTn7Vw==
+"@ergolabs/ergo-dex-sdk@^1.1.18":
+  version "1.1.18"
+  resolved "https://registry.yarnpkg.com/@ergolabs/ergo-dex-sdk/-/ergo-dex-sdk-1.1.18.tgz#1c96a1cd73c13b5aaf9249d297770013d042628f"
+  integrity sha512-JgxZi510oPi/MFaaE3cS4HbL6UHCbDTnDpxK6M5ol+yecOHBppGaEG/txWbsP4Xq2pkstHqXKrWGGe+n7ZbMsw==
   dependencies:
     "@ergolabs/ergo-sdk" "0.1.12"
     axios "^0.21.1"
