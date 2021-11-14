@@ -143,7 +143,7 @@ const AddLiquidityConfirmationModal: React.FC<ConfirmRemoveModalProps> = ({
         <Button
           block
           type="primary"
-          size="large"
+          size="extra-large"
           onClick={() => addLiquidityOperation()}
         >
           Add

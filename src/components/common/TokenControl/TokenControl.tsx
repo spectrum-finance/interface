@@ -102,6 +102,7 @@ export const TokenControl: FC<TokenControlProps> = ({
               <TokenAmountInput
                 readonly={!!readonly && readonly !== 'asset'}
                 value={value?.amount}
+                decimals={value?.asset?.decimals}
                 onChange={onAmountChange}
                 disabled={disabled}
               />
