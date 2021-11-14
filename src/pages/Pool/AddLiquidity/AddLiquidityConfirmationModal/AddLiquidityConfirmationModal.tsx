@@ -6,7 +6,13 @@ import { InfoTooltip } from '../../../../components/InfoTooltip/InfoTooltip';
 import { ERG_DECIMALS, UI_FEE } from '../../../../constants/erg';
 import { defaultExFee } from '../../../../constants/settings';
 import { useSettings } from '../../../../context';
-import { Box, Button, Flex, Typography } from '../../../../ergodex-cdk';
+import {
+  Box,
+  Button,
+  Flex,
+  message,
+  Typography,
+} from '../../../../ergodex-cdk';
 import { useObservable } from '../../../../hooks/useObservable';
 import { explorer } from '../../../../services/explorer';
 import { utxos$ } from '../../../../services/new/core';
@@ -69,29 +75,31 @@ const AddLiquidityConfirmationModal: React.FC<ConfirmRemoveModalProps> = ({
 
       const inputs = DefaultBoxSelector.select(utxos, target) as BoxSelection;
 
-      onClose(
-        actions
-          .deposit(
-            {
-              pk,
-              poolId,
-              exFee: exFeeNErg,
-              uiFee: uiFeeNErg,
-              x: inputX,
-              y: inputY,
-            },
-            {
-              inputs,
-              changeAddress: address,
-              selfAddress: address,
-              feeNErgs: minerFeeNErgs,
-              network,
-            },
-          )
-          .then(async (tx: ErgoTx) => {
-            return await submitTx(tx);
-          }),
-      );
+      message.error('Network connection issue');
+
+      // onClose(
+      //   actions
+      //     .deposit(
+      //       {
+      //         pk,
+      //         poolId,
+      //         exFee: exFeeNErg,
+      //         uiFee: uiFeeNErg,
+      //         x: inputX,
+      //         y: inputY,
+      //       },
+      //       {
+      //         inputs,
+      //         changeAddress: address,
+      //         selfAddress: address,
+      //         feeNErgs: minerFeeNErgs,
+      //         network,
+      //       },
+      //     )
+      //     .then(async (tx: ErgoTx) => {
+      //       return await submitTx(tx);
+      //     }),
+      // );
     }
   };
 
