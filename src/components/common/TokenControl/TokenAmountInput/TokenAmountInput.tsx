@@ -3,6 +3,7 @@ import './TokenAmountInput.less';
 import React from 'react';
 
 import { Box, Input } from '../../../../ergodex-cdk';
+import { toFloat } from '../../../../utils/string/string';
 import { escapeRegExp } from './format';
 
 const inputRegex = RegExp(`^\\d*(?:\\\\[.])?\\d*$`); // match escaped "." characters via in a non-capturing group
@@ -17,6 +18,7 @@ export interface TokenAmountInputProps {
   onChange?: (data: TokenAmountInputValue) => void;
   disabled?: boolean;
   readonly?: boolean;
+  decimals?: number;
 }
 
 const TokenAmountInput: React.FC<TokenAmountInputProps> = ({
@@ -24,15 +26,16 @@ const TokenAmountInput: React.FC<TokenAmountInputProps> = ({
   onChange,
   disabled,
   readonly,
+  decimals,
 }) => {
   const normalizeViewValue = (
     value: TokenAmountInputValue | number | undefined,
   ): string | undefined => {
     if (typeof value === 'number') {
-      return value.toString();
+      return toFloat(value.toString(), decimals);
     }
 
-    return value?.viewValue || '';
+    return toFloat(value?.viewValue || '', decimals);
   };
 
   const enforcer = (nextUserInput: string) => {
