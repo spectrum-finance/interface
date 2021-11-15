@@ -32,6 +32,9 @@ const AddLiquidityConfirmationModal: React.FC<ConfirmRemoveModalProps> = ({
   const [{ minerFee, address, pk }] = useSettings();
   const [utxos] = useObservable(utxos$);
 
+  console.log('position >>', position);
+  console.log('pair >>', pair);
+
   const uiFeeNErg = parseUserInputToFractions(UI_FEE, ERG_DECIMALS);
   const exFeeNErg = parseUserInputToFractions(defaultExFee, ERG_DECIMALS);
   const minerFeeNErgs = parseUserInputToFractions(minerFee, ERG_DECIMALS);

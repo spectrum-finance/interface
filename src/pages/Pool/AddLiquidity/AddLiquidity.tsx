@@ -31,10 +31,13 @@ import {
 import { defaultExFee } from '../../../constants/settings';
 import { useSettings } from '../../../context';
 import {
+  Button,
   Flex,
   Form,
   FormInstance,
+  LinkOutlined,
   Skeleton,
+  Tooltip,
   Typography,
 } from '../../../ergodex-cdk';
 import {
@@ -186,6 +189,8 @@ const AddLiquidity = (): JSX.Element => {
   const [pools, setPools] = useObservableAction(getAvailablePools);
   const [poolById, setPoolById] = useObservableAction(getPoolById);
 
+  const [isStickRatio, setIsStickRatio] = useState(true);
+
   const [isPairSelected, setIsPairSelected] = useState(false);
 
   const [isFirstPageLoading, setIsFirstPageLoading] = useState(true);
@@ -208,7 +213,7 @@ const AddLiquidity = (): JSX.Element => {
       return;
     }
 
-    if (value?.activePool) {
+    if (value?.activePool && isStickRatio) {
       if (changes?.xAmount) {
         const newYAsset = value.activePool.depositAmount(
           new AssetAmount(
@@ -314,6 +319,65 @@ const AddLiquidity = (): JSX.Element => {
     }
   }, []);
 
+  const handleOnStickRatioClick = () => {
+    if (!isStickRatio) {
+      const values = form.getFieldsValue();
+
+      if (!values.xAmount?.amount?.value && values.activePool) {
+        const newXAsset = values.activePool.depositAmount(
+          new AssetAmount(
+            values.yAmount?.asset as AssetInfo,
+            parseUserInputToFractions(
+              values.yAmount?.amount?.value ?? 0,
+              values.yAmount?.asset?.decimals,
+            ),
+          ),
+        );
+
+        form.setFieldsValue({
+          xAmount: {
+            amount: {
+              viewValue: renderFractions(
+                newXAsset.amount,
+                newXAsset.asset.decimals,
+              ),
+              value: Number(
+                renderFractions(newXAsset.amount, newXAsset.asset.decimals),
+              ),
+            },
+          },
+        });
+      }
+
+      if (!values.yAmount?.amount?.value && values.activePool) {
+        const newYAsset = values.activePool.depositAmount(
+          new AssetAmount(
+            values.xAmount?.asset as AssetInfo,
+            parseUserInputToFractions(
+              values.xAmount?.amount?.value ?? 0,
+              values.xAmount?.asset?.decimals,
+            ),
+          ),
+        );
+
+        form.setFieldsValue({
+          yAmount: {
+            amount: {
+              viewValue: renderFractions(
+                newYAsset.amount,
+                newYAsset.asset.decimals,
+              ),
+              value: Number(
+                renderFractions(newYAsset.amount, newYAsset.asset.decimals),
+              ),
+            },
+          },
+        });
+      }
+    }
+    setIsStickRatio((val) => !val);
+  };
+
   return (
     <FormPageWrapper
       title="Add liquidity"
@@ -362,6 +426,22 @@ const AddLiquidity = (): JSX.Element => {
                     name="xAmount"
                     assets={xAssets}
                   />
+                </Flex.Item>
+                <Flex.Item className="stick-button">
+                  <Tooltip
+                    title={`${
+                      isStickRatio ? 'Unstick' : 'Stick to'
+                    } current ratio`}
+                  >
+                    <Button
+                      disabled={!isPairSelected}
+                      type={isStickRatio ? 'primary' : 'default'}
+                      className="stick-button__btn"
+                      icon={<LinkOutlined />}
+                      onClick={handleOnStickRatioClick}
+                      size="large"
+                    />
+                  </Tooltip>
                 </Flex.Item>
                 <Flex.Item>
                   <TokenControlFormItem
