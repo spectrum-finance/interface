@@ -14,6 +14,12 @@ import React, {
 import { ReactNode } from 'react';
 import ReactDOM from 'react-dom';
 
+import {
+  ModalInnerTitle,
+  ModalTitle,
+  ModalTitleContext,
+  ModalTitleContextProvider,
+} from './ModalTitle';
 import { Error } from './presets/Error';
 import { Progress } from './presets/Progress';
 import { Request, RequestProps } from './presets/Request';
@@ -130,42 +136,8 @@ class BaseModalProvider implements ModalProvider {
   }
 }
 
-interface ModalTitleContextType {
-  readonly title: ReactNode;
-  readonly setTitle: (title: ReactNode) => void;
-}
-
-const ModalTitleContext = createContext<ModalTitleContextType>({
-  title: '',
-  setTitle: () => {},
-});
-
-const ModalTitleContextProvider: FC<{ children: any }> = ({ children }) => {
-  const [title, setTitle] = useState<ReactNode>('');
-
-  return (
-    <ModalTitleContext.Provider value={{ title, setTitle }}>
-      {children}
-    </ModalTitleContext.Provider>
-  );
-};
-
-const ModalInnerTitle: FC = () => {
-  const { title } = useContext(ModalTitleContext);
-
-  return <Typography.Title level={4}>{title}</Typography.Title>;
-};
-
 export const Modal = {
-  Title: ({ children }: any) => {
-    const { setTitle } = useContext(ModalTitleContext);
-
-    useEffect(() => {
-      setTitle(children);
-    }, [children, setTitle]);
-
-    return <></>;
-  },
+  Title: ModalTitle,
   provider: new BaseModalProvider() as ModalProvider,
   open(
     content:

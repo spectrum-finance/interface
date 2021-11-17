@@ -16,7 +16,7 @@ import { InfoTooltip } from '../../components/InfoTooltip/InfoTooltip';
 import { ERG_DECIMALS, UI_FEE } from '../../constants/erg';
 import { defaultExFee } from '../../constants/settings';
 import { useSettings } from '../../context';
-import { Box, Button, Flex, Form, Typography } from '../../ergodex-cdk';
+import { Box, Button, Flex, Form, Modal, Typography } from '../../ergodex-cdk';
 import { useObservable } from '../../hooks/useObservable';
 import { explorer } from '../../services/explorer';
 import { utxos$ } from '../../services/new/core';
@@ -183,137 +183,140 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
   };
 
   return (
-    <Box>
-      <Form form={form} initialValues={value}>
-        <Flex flexDirection="col">
-          <Flex.Item marginBottom={1}>
-            <TokenControlFormItem
-              readonly
-              bordered
-              noBottomInfo
-              name="from"
-              label="From"
-            />
-          </Flex.Item>
-          <Flex.Item marginBottom={4}>
-            <TokenControlFormItem
-              readonly
-              bordered
-              noBottomInfo
-              name="to"
-              label="To"
-            />
-          </Flex.Item>
-          <Flex.Item marginBottom={4}>
-            <Box contrast padding={4}>
-              <Flex flexDirection="col">
-                <Flex.Item marginBottom={2}>
-                  <Flex flexDirection="row">
-                    <Flex.Item flex={1}>
-                      <Typography.Text>Slippage tolerance:</Typography.Text>
-                    </Flex.Item>
-                    <Flex.Item>
-                      <Typography.Text>{slippage}%</Typography.Text>
-                    </Flex.Item>
-                  </Flex>
-                </Flex.Item>
-                <Flex.Item marginBottom={2}>
-                  <Flex flexDirection="row">
-                    <Flex.Item flex={1}>
-                      <Typography.Text>Nitro:</Typography.Text>
-                    </Flex.Item>
-                    <Flex.Item>
-                      <Typography.Text>{nitro}</Typography.Text>
-                    </Flex.Item>
-                  </Flex>
-                </Flex.Item>
-                <Flex.Item marginBottom={2}>
-                  <Flex flexDirection="row">
-                    <Flex.Item flex={1}>
-                      <Typography.Text>Estimated output:</Typography.Text>
-                    </Flex.Item>
-                    <Flex.Item>
-                      <Typography.Text>
-                        {operationVars &&
-                          `${renderFractions(
-                            operationVars[1].minOutput.amount,
-                            operationVars[1].minOutput.asset.decimals,
-                          )} - ${renderFractions(
-                            operationVars[1].maxOutput.amount,
-                            operationVars[1].maxOutput.asset.decimals,
-                          )} ${operationVars[1].maxOutput.asset.name}`}
-                      </Typography.Text>
-                    </Flex.Item>
-                  </Flex>
-                </Flex.Item>
-                <Flex.Item marginBottom={2}>
-                  <Flex flexDirection="row">
-                    <Flex.Item flex={1}>
-                      <Typography.Text>
-                        Total Fees
-                        <InfoTooltip
-                          placement="right"
-                          content={
-                            <Flex
-                              flexDirection="col"
-                              style={{ width: '250px' }}
-                            >
-                              <Flex.Item>
-                                <Flex justify="space-between">
-                                  <Flex.Item>Miner Fee:</Flex.Item>
-                                  <Flex.Item>{minerFee} ERG</Flex.Item>
-                                </Flex>
-                              </Flex.Item>
-                              <Flex.Item>
-                                <Flex justify="space-between">
-                                  <Flex.Item>UI Fee:</Flex.Item>
-                                  <Flex.Item>{UI_FEE} ERG</Flex.Item>
-                                </Flex>
-                              </Flex.Item>
-                              <Flex.Item>
-                                <Flex justify="space-between">
-                                  <Flex.Item>Execution Fee:</Flex.Item>
-                                  <Flex.Item>
-                                    {operationVars &&
-                                      `${renderFractions(
-                                        operationVars[1].minExFee,
-                                        ERG_DECIMALS,
-                                      )} - ${renderFractions(
-                                        operationVars[1].maxExFee,
-                                        ERG_DECIMALS,
-                                      )}`}{' '}
-                                    ERG
-                                  </Flex.Item>
-                                </Flex>
-                              </Flex.Item>
-                            </Flex>
-                          }
-                        />
-                        :
-                      </Typography.Text>
-                    </Flex.Item>
-                    <Flex.Item>
-                      <Typography.Text>
-                        {totalFees && `${totalFees.min} - ${totalFees.max}`}
-                      </Typography.Text>
-                    </Flex.Item>
-                  </Flex>
-                </Flex.Item>
-              </Flex>
-            </Box>
-          </Flex.Item>
-          <Flex.Item>
-            <Button
-              size="extra-large"
-              type="primary"
-              block
-              onClick={swapOperation}
-            >
-              Confirm swap
-            </Button>
-          </Flex.Item>
-        </Flex>
-      </Form>
-    </Box>
+    <>
+      <Modal.Title>Confirm swap</Modal.Title>
+      <Box>
+        <Form form={form} initialValues={value}>
+          <Flex flexDirection="col">
+            <Flex.Item marginBottom={1}>
+              <TokenControlFormItem
+                readonly
+                bordered
+                noBottomInfo
+                name="from"
+                label="From"
+              />
+            </Flex.Item>
+            <Flex.Item marginBottom={4}>
+              <TokenControlFormItem
+                readonly
+                bordered
+                noBottomInfo
+                name="to"
+                label="To"
+              />
+            </Flex.Item>
+            <Flex.Item marginBottom={4}>
+              <Box contrast padding={4}>
+                <Flex flexDirection="col">
+                  <Flex.Item marginBottom={2}>
+                    <Flex flexDirection="row">
+                      <Flex.Item flex={1}>
+                        <Typography.Text>Slippage tolerance:</Typography.Text>
+                      </Flex.Item>
+                      <Flex.Item>
+                        <Typography.Text>{slippage}%</Typography.Text>
+                      </Flex.Item>
+                    </Flex>
+                  </Flex.Item>
+                  <Flex.Item marginBottom={2}>
+                    <Flex flexDirection="row">
+                      <Flex.Item flex={1}>
+                        <Typography.Text>Nitro:</Typography.Text>
+                      </Flex.Item>
+                      <Flex.Item>
+                        <Typography.Text>{nitro}</Typography.Text>
+                      </Flex.Item>
+                    </Flex>
+                  </Flex.Item>
+                  <Flex.Item marginBottom={2}>
+                    <Flex flexDirection="row">
+                      <Flex.Item flex={1}>
+                        <Typography.Text>Estimated output:</Typography.Text>
+                      </Flex.Item>
+                      <Flex.Item>
+                        <Typography.Text>
+                          {operationVars &&
+                            `${renderFractions(
+                              operationVars[1].minOutput.amount,
+                              operationVars[1].minOutput.asset.decimals,
+                            )} - ${renderFractions(
+                              operationVars[1].maxOutput.amount,
+                              operationVars[1].maxOutput.asset.decimals,
+                            )} ${operationVars[1].maxOutput.asset.name}`}
+                        </Typography.Text>
+                      </Flex.Item>
+                    </Flex>
+                  </Flex.Item>
+                  <Flex.Item marginBottom={2}>
+                    <Flex flexDirection="row">
+                      <Flex.Item flex={1}>
+                        <Typography.Text>
+                          Total Fees
+                          <InfoTooltip
+                            placement="right"
+                            content={
+                              <Flex
+                                flexDirection="col"
+                                style={{ width: '250px' }}
+                              >
+                                <Flex.Item>
+                                  <Flex justify="space-between">
+                                    <Flex.Item>Miner Fee:</Flex.Item>
+                                    <Flex.Item>{minerFee} ERG</Flex.Item>
+                                  </Flex>
+                                </Flex.Item>
+                                <Flex.Item>
+                                  <Flex justify="space-between">
+                                    <Flex.Item>UI Fee:</Flex.Item>
+                                    <Flex.Item>{UI_FEE} ERG</Flex.Item>
+                                  </Flex>
+                                </Flex.Item>
+                                <Flex.Item>
+                                  <Flex justify="space-between">
+                                    <Flex.Item>Execution Fee:</Flex.Item>
+                                    <Flex.Item>
+                                      {operationVars &&
+                                        `${renderFractions(
+                                          operationVars[1].minExFee,
+                                          ERG_DECIMALS,
+                                        )} - ${renderFractions(
+                                          operationVars[1].maxExFee,
+                                          ERG_DECIMALS,
+                                        )}`}{' '}
+                                      ERG
+                                    </Flex.Item>
+                                  </Flex>
+                                </Flex.Item>
+                              </Flex>
+                            }
+                          />
+                          :
+                        </Typography.Text>
+                      </Flex.Item>
+                      <Flex.Item>
+                        <Typography.Text>
+                          {totalFees && `${totalFees.min} - ${totalFees.max}`}
+                        </Typography.Text>
+                      </Flex.Item>
+                    </Flex>
+                  </Flex.Item>
+                </Flex>
+              </Box>
+            </Flex.Item>
+            <Flex.Item>
+              <Button
+                size="extra-large"
+                type="primary"
+                block
+                onClick={swapOperation}
+              >
+                Confirm swap
+              </Button>
+            </Flex.Item>
+          </Flex>
+        </Form>
+      </Box>
+    </>
   );
 };
