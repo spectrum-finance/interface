@@ -5,10 +5,15 @@ import { Row } from '../../Row/Row';
 import { ModalTitle } from '../ModalTitle';
 
 export interface ErrorProps {
-  readonly content: ReactNode | ReactNode[] | string;
+  readonly content:
+    | ReactNode
+    | ReactNode[]
+    | string
+    | ((result: any) => ReactNode | ReactNode[] | string);
+  readonly result?: any;
 }
 
-export const Error: FC<ErrorProps> = ({ content }) => (
+export const Error: FC<ErrorProps> = ({ content, result }) => (
   <div style={{ width: 343 }}>
     <ModalTitle />
     <Row justify="center" bottomGutter={6}>
@@ -16,6 +21,6 @@ export const Error: FC<ErrorProps> = ({ content }) => (
         style={{ fontSize: 80, color: 'var(--ergo-primary-color)' }}
       />
     </Row>
-    {content}
+    {content instanceof Function ? content(result) : content}
   </div>
 );

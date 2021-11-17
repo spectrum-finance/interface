@@ -9,8 +9,16 @@ export interface RequestProps {
     next: (request: Promise<any>) => void,
   ) => ReactNode | ReactNode[] | string;
   readonly progressContent: ReactNode | ReactNode[] | string;
-  readonly errorContent: ReactNode | ReactNode[] | string;
-  readonly successContent: ReactNode | ReactNode[] | string;
+  readonly errorContent:
+    | ReactNode
+    | ReactNode[]
+    | string
+    | ((result: any) => ReactNode | ReactNode[] | string);
+  readonly successContent:
+    | ReactNode
+    | ReactNode[]
+    | string
+    | ((result: any) => ReactNode | ReactNode[] | string);
 }
 
 enum RequestState {
@@ -29,12 +37,19 @@ export const Request: FC<RequestProps> = ({
   const [requestState, setRequestState] = useState<RequestState>(
     RequestState.ACTION,
   );
+  const [result, setResult] = useState<any>(undefined);
 
   const handleRequest = (request: Promise<any>) => {
     setRequestState(RequestState.PROGRESS);
     request
-      .then(() => setRequestState(RequestState.SUCCESS))
-      .catch(() => setRequestState(RequestState.ERROR));
+      .then((result) => {
+        setRequestState(RequestState.SUCCESS);
+        setResult(result);
+      })
+      .catch((error) => {
+        setRequestState(RequestState.ERROR);
+        setResult(error);
+      });
   };
 
   return (
@@ -43,9 +58,11 @@ export const Request: FC<RequestProps> = ({
       {requestState === RequestState.PROGRESS && (
         <Progress content={progressContent} />
       )}
-      {requestState === RequestState.ERROR && <Error content={errorContent} />}
+      {requestState === RequestState.ERROR && (
+        <Error result={result} content={errorContent} />
+      )}
       {requestState === RequestState.SUCCESS && (
-        <Success content={successContent} />
+        <Success result={result} content={successContent} />
       )}
     </>
   );
