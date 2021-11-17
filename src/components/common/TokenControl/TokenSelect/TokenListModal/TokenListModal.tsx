@@ -7,6 +7,7 @@ import {
   Box,
   Col,
   Input,
+  Modal,
   Row,
   SearchOutlined,
 } from '../../../../../ergodex-cdk';
@@ -43,26 +44,29 @@ const TokenListModal: React.FC<TokenListModalProps> = ({
   };
 
   return (
-    <Box className="token-list-modal" padding={0}>
-      <Input
-        placeholder="Search"
-        size="large"
-        prefix={<SearchOutlined />}
-        onChange={handleSearch}
-      />
-      <Row className="token-list-modal__token-list">
-        <Col span={24}>
-          {assets?.filter(byTerm).map((asset) => (
-            <TokenListItem
-              key={asset.id}
-              asset={asset}
-              iconName={asset.name}
-              onClick={() => handleClick(asset)}
-            />
-          ))}
-        </Col>
-      </Row>
-    </Box>
+    <>
+      <Modal.Title>Select a token</Modal.Title>
+      <Box className="token-list-modal" padding={0} width={400}>
+        <Input
+          placeholder="Search"
+          size="large"
+          prefix={<SearchOutlined />}
+          onChange={handleSearch}
+        />
+        <Row className="token-list-modal__token-list">
+          <Col span={24}>
+            {assets?.filter(byTerm).map((asset) => (
+              <TokenListItem
+                key={asset.id}
+                asset={asset}
+                iconName={asset.name}
+                onClick={() => handleClick(asset)}
+              />
+            ))}
+          </Col>
+        </Row>
+      </Box>
+    </>
   );
 };
 

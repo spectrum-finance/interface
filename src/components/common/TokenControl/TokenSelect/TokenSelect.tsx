@@ -26,16 +26,13 @@ const TokenSelect: React.FC<TokenSelectProps> = ({
     if (readonly) {
       return;
     }
-    Modal.open(
-      ({ close }) => (
-        <TokenListModal
-          assets={assets}
-          close={close}
-          onSelectChanged={onChange}
-        />
-      ),
-      { title: 'Select a token', width: 352 },
-    );
+    Modal.open(({ close }) => (
+      <TokenListModal
+        assets={assets}
+        close={close}
+        onSelectChanged={onChange}
+      />
+    ));
   };
 
   return (

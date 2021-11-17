@@ -43,19 +43,13 @@ const TxHistoryModal = (): JSX.Element => {
   const handleOpenRefundConfirmationModal = useCallback(
     (txId) => {
       if (walletAddresses.state === WalletAddressState.LOADED) {
-        return Modal.open(
-          ({ close }) => (
-            <RefundConfirmationModal
-              txId={txId}
-              addresses={walletAddresses.addresses}
-              onClose={close}
-            />
-          ),
-          {
-            title: 'Refund transaction',
-            width: 570,
-          },
-        );
+        return Modal.open(({ close }) => (
+          <RefundConfirmationModal
+            txId={txId}
+            addresses={walletAddresses.addresses}
+            onClose={close}
+          />
+        ));
       }
     },
     [walletAddresses],
@@ -79,74 +73,80 @@ const TxHistoryModal = (): JSX.Element => {
   };
 
   return (
-    <Flex flexDirection="col" style={{ overflowY: 'auto', maxHeight: '500px' }}>
-      <Flex.Item>
-        <Flex justify="space-between" alignItems="center">
-          <Flex.Item style={{ width: '44%' }}>
-            <Typography.Title level={5}>Input / Output</Typography.Title>
-          </Flex.Item>
-          <Flex.Item style={{ width: '23%' }}>
-            <Typography.Title level={5}>Type</Typography.Title>
-          </Flex.Item>
-          <Flex.Item style={{ width: '23%' }}>
-            <Typography.Title level={5}>Status</Typography.Title>
-          </Flex.Item>
-          <Flex.Item style={{ width: '10%' }}>
-            <Typography.Title level={5}>Action</Typography.Title>
-          </Flex.Item>
-        </Flex>
-      </Flex.Item>
-      {operations ? (
-        operations.map((op, index) => {
-          return (
-            <Flex.Item
-              key={index}
-              style={{
-                borderBottom: '1px solid var(--ergo-default-border-color)',
-              }}
-            >
-              <Box transparent padding={[5, 0]}>
-                <Flex justify="space-between" alignItems="center">
-                  <Flex.Item style={{ width: '44%' }}>
-                    <InputOutputColumn
-                      type={op.type}
-                      pair={{ x: op.assetX, y: op.assetY }}
-                    />
-                  </Flex.Item>
-                  <Flex.Item style={{ width: '23%' }}>
-                    <TxTypeTag type={op.type} />
-                  </Flex.Item>
-                  <Flex.Item style={{ width: '23%' }}>
-                    <TxStatusTag status={op.status} />
-                  </Flex.Item>
-                  <Flex.Item style={{ width: '10%' }}>
-                    <Dropdown
-                      overlay={
-                        <Menu style={{ width: 160, padding: 0 }}>
-                          {renderTxActionsMenu(op.status, op.txId)}
-                        </Menu>
-                      }
-                      trigger={['click']}
-                      placement={'bottomLeft'}
-                    >
-                      <Button
-                        type="text"
-                        size="large"
-                        icon={<DotsIconVertical />}
-                      />
-                    </Dropdown>
-                  </Flex.Item>
-                </Flex>
-              </Box>
+    <>
+      <Modal.Title>Recent transactions</Modal.Title>
+      <Flex
+        flexDirection="col"
+        style={{ overflowY: 'auto', maxHeight: '500px', width: 570 }}
+      >
+        <Flex.Item>
+          <Flex justify="space-between" alignItems="center">
+            <Flex.Item style={{ width: '44%' }}>
+              <Typography.Title level={5}>Input / Output</Typography.Title>
             </Flex.Item>
-          );
-        })
-      ) : (
-        <Skeleton active>
-          {/*TODO:REPLACE_WITH_ORIGINAL_LOADING[EDEX-476]*/}
-        </Skeleton>
-      )}
-    </Flex>
+            <Flex.Item style={{ width: '23%' }}>
+              <Typography.Title level={5}>Type</Typography.Title>
+            </Flex.Item>
+            <Flex.Item style={{ width: '23%' }}>
+              <Typography.Title level={5}>Status</Typography.Title>
+            </Flex.Item>
+            <Flex.Item style={{ width: '10%' }}>
+              <Typography.Title level={5}>Action</Typography.Title>
+            </Flex.Item>
+          </Flex>
+        </Flex.Item>
+        {operations ? (
+          operations.map((op, index) => {
+            return (
+              <Flex.Item
+                key={index}
+                style={{
+                  borderBottom: '1px solid var(--ergo-default-border-color)',
+                }}
+              >
+                <Box transparent padding={[5, 0]}>
+                  <Flex justify="space-between" alignItems="center">
+                    <Flex.Item style={{ width: '44%' }}>
+                      <InputOutputColumn
+                        type={op.type}
+                        pair={{ x: op.assetX, y: op.assetY }}
+                      />
+                    </Flex.Item>
+                    <Flex.Item style={{ width: '23%' }}>
+                      <TxTypeTag type={op.type} />
+                    </Flex.Item>
+                    <Flex.Item style={{ width: '23%' }}>
+                      <TxStatusTag status={op.status} />
+                    </Flex.Item>
+                    <Flex.Item style={{ width: '10%' }}>
+                      <Dropdown
+                        overlay={
+                          <Menu style={{ width: 160, padding: 0 }}>
+                            {renderTxActionsMenu(op.status, op.txId)}
+                          </Menu>
+                        }
+                        trigger={['click']}
+                        placement={'bottomLeft'}
+                      >
+                        <Button
+                          type="text"
+                          size="large"
+                          icon={<DotsIconVertical />}
+                        />
+                      </Dropdown>
+                    </Flex.Item>
+                  </Flex>
+                </Box>
+              </Flex.Item>
+            );
+          })
+        ) : (
+          <Skeleton active>
+            {/*TODO:REPLACE_WITH_ORIGINAL_LOADING[EDEX-476]*/}
+          </Skeleton>
+        )}
+      </Flex>
+    </>
   );
 };
 

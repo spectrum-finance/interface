@@ -6,7 +6,7 @@ import {
   useWalletAddresses,
   WalletAddressState,
 } from '../../context';
-import { Box, Flex, Typography } from '../../ergodex-cdk';
+import { Box, Flex, Modal, Typography } from '../../ergodex-cdk';
 import { Tabs } from '../../ergodex-cdk/components/Tabs/Tabs';
 import { getShortAddress } from '../../utils/string/addres';
 import { CopyButton } from '../common/CopyButton/CopyButton';
@@ -35,8 +35,9 @@ export const WalletModal: React.FC = () => {
 
   return (
     <>
+      <Modal.Title>Wallet</Modal.Title>
       {address && (
-        <Flex flexDirection="col">
+        <Flex flexDirection="col" style={{ width: 440 }}>
           <Flex.Item marginTop={-4} marginBottom={4}>
             <Typography.Text className="ergo-network_lbl">
               Ergo network

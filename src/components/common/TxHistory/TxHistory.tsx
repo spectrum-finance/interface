@@ -5,10 +5,7 @@ import { TxHistoryModal } from './TxHistoryModal/TxHistoryModal';
 
 const TxHistory = (): JSX.Element => {
   const handleOpenTxHistoryModal = () => {
-    return Modal.open(<TxHistoryModal />, {
-      width: 570,
-      title: 'Recent transactions',
-    });
+    return Modal.open(<TxHistoryModal />);
   };
 
   return (
