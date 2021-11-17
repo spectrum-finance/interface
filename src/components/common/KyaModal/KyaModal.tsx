@@ -93,7 +93,6 @@ const KyaModal: React.FC<KyaModalProps> = ({ onClose }): JSX.Element => {
         <Flex.Item marginBottom={4}>
           <Typography.Body strong>
             ErgoDEX Team doesn’t guarantee the absence of bugs and errors.
-            ErgoDEX is in Beta testing and has yet to be independently audited.
           </Typography.Body>
         </Flex.Item>
         <Flex.Item marginBottom={4}>
@@ -112,7 +111,7 @@ const KyaModal: React.FC<KyaModalProps> = ({ onClose }): JSX.Element => {
           </Typography.Body>
         </Flex.Item>
         <Flex.Item>
-          <Button type="primary" block onClick={handleConfirm}>
+          <Button type="primary" size="large" block onClick={handleConfirm}>
             I understand the risks and accept the KYA
           </Button>
         </Flex.Item>

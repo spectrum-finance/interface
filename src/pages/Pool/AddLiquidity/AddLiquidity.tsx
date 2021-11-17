@@ -5,7 +5,7 @@ import { AmmPool, PoolId } from '@ergolabs/ergo-dex-sdk';
 import { AssetAmount, AssetInfo } from '@ergolabs/ergo-sdk';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import { Observable, of, tap } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import {
   ActionForm,
@@ -31,13 +31,10 @@ import {
 import { defaultExFee } from '../../../constants/settings';
 import { useSettings } from '../../../context';
 import {
-  Button,
   Flex,
   Form,
   FormInstance,
-  LinkOutlined,
   Skeleton,
-  Tooltip,
   Typography,
 } from '../../../ergodex-cdk';
 import {
@@ -46,11 +43,7 @@ import {
 } from '../../../hooks/useObservable';
 import { assets$, getAssetsByPairAsset } from '../../../services/new/assets';
 import { Balance, useWalletBalance } from '../../../services/new/balance';
-import {
-  getPoolById,
-  getPoolByPair,
-  pools$,
-} from '../../../services/new/pools';
+import { getPoolById, getPoolByPair } from '../../../services/new/pools';
 import {
   parseUserInputToFractions,
   renderFractions,
@@ -174,9 +167,7 @@ const initialValues: AddLiquidityFormModel = {
 };
 
 const getAssetsByToken = (tokenId?: string) => {
-  return tokenId
-    ? getAssetsByPairAsset(tokenId).pipe(tap(console.log, console.error))
-    : of([]);
+  return tokenId ? getAssetsByPairAsset(tokenId) : of([]);
 };
 
 const getAvailablePools = (xId?: string, yId?: string) =>
@@ -194,8 +185,6 @@ const AddLiquidity = (): JSX.Element => {
   const [yAssets, setYAssets] = useObservableAction(getAssetsByToken);
   const [pools, setPools] = useObservableAction(getAvailablePools);
   const [poolById, setPoolById] = useObservableAction(getPoolById);
-
-  const [isStickRatio, setIsStickRatio] = useState(false);
 
   const [isPairSelected, setIsPairSelected] = useState(false);
 
@@ -219,7 +208,7 @@ const AddLiquidity = (): JSX.Element => {
       return;
     }
 
-    if (value?.activePool && isStickRatio) {
+    if (value?.activePool) {
       if (changes?.xAmount) {
         const newYAsset = value.activePool.depositAmount(
           new AssetAmount(
@@ -325,65 +314,6 @@ const AddLiquidity = (): JSX.Element => {
     }
   }, []);
 
-  const handleOnStickRatioClick = () => {
-    if (!isStickRatio) {
-      const values = form.getFieldsValue();
-
-      if (!values.xAmount?.amount?.value && values.activePool) {
-        const newXAsset = values.activePool.depositAmount(
-          new AssetAmount(
-            values.yAmount?.asset as AssetInfo,
-            parseUserInputToFractions(
-              values.yAmount?.amount?.value ?? 0,
-              values.yAmount?.asset?.decimals,
-            ),
-          ),
-        );
-
-        form.setFieldsValue({
-          xAmount: {
-            amount: {
-              viewValue: renderFractions(
-                newXAsset.amount,
-                newXAsset.asset.decimals,
-              ),
-              value: Number(
-                renderFractions(newXAsset.amount, newXAsset.asset.decimals),
-              ),
-            },
-          },
-        });
-      }
-
-      if (!values.yAmount?.amount?.value && values.activePool) {
-        const newYAsset = values.activePool.depositAmount(
-          new AssetAmount(
-            values.xAmount?.asset as AssetInfo,
-            parseUserInputToFractions(
-              values.xAmount?.amount?.value ?? 0,
-              values.xAmount?.asset?.decimals,
-            ),
-          ),
-        );
-
-        form.setFieldsValue({
-          yAmount: {
-            amount: {
-              viewValue: renderFractions(
-                newYAsset.amount,
-                newYAsset.asset.decimals,
-              ),
-              value: Number(
-                renderFractions(newYAsset.amount, newYAsset.asset.decimals),
-              ),
-            },
-          },
-        });
-      }
-    }
-    setIsStickRatio((val) => !val);
-  };
-
   return (
     <FormPageWrapper
       title="Add liquidity"
@@ -401,11 +331,11 @@ const AddLiquidity = (): JSX.Element => {
           <Flex flexDirection="col">
             <Flex.Item marginBottom={4}>
               <Typography.Body strong>Select Pair</Typography.Body>
-              <Flex justify="space-between" alignItems="center">
-                <Flex.Item marginRight={2} grow>
+              <Flex justify="center" alignItems="center">
+                <Flex.Item marginRight={2} style={{ width: '100%' }}>
                   <TokeSelectFormItem name="x" assets={xAssets} />
                 </Flex.Item>
-                <Flex.Item grow>
+                <Flex.Item style={{ width: '100%' }}>
                   <TokeSelectFormItem name="y" assets={yAssets} />
                 </Flex.Item>
               </Flex>
@@ -425,30 +355,13 @@ const AddLiquidity = (): JSX.Element => {
             >
               <Typography.Body strong>Liquidity</Typography.Body>
               <Flex flexDirection="col">
-                <Flex.Item marginBottom={1}>
+                <Flex.Item marginBottom={2}>
                   <TokenControlFormItem
                     readonly="asset"
                     disabled={!isPairSelected}
                     name="xAmount"
                     assets={xAssets}
-                    hasBorder={isStickRatio}
                   />
-                </Flex.Item>
-                <Flex.Item className="stick-button">
-                  <Tooltip
-                    title={`${
-                      isStickRatio ? 'Unstick' : 'Stick to'
-                    } current ratio`}
-                  >
-                    <Button
-                      disabled={!isPairSelected}
-                      type={isStickRatio ? 'primary' : 'default'}
-                      className="stick-button__btn"
-                      icon={<LinkOutlined />}
-                      onClick={handleOnStickRatioClick}
-                      size="large"
-                    />
-                  </Tooltip>
                 </Flex.Item>
                 <Flex.Item>
                   <TokenControlFormItem
@@ -456,7 +369,6 @@ const AddLiquidity = (): JSX.Element => {
                     disabled={!isPairSelected}
                     name="yAmount"
                     assets={yAssets}
-                    hasBorder={isStickRatio}
                   />
                 </Flex.Item>
               </Flex>

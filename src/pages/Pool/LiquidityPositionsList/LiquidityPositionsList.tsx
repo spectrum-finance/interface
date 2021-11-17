@@ -30,7 +30,7 @@ const PoolPosition: React.FC<PoolPositionProps> = ({
   return (
     <Box className="pool-position" padding={4} borderRadius="m">
       <Row onClick={onClick} justify="center" align="middle">
-        <Col span={3} style={{ display: 'flex', alignItems: 'center' }}>
+        <Col span={3}>
           <TokenIconPair tokenPair={tokenPair} />
         </Col>
         <Col span={16}>

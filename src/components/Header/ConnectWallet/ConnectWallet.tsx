@@ -26,7 +26,7 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
   const openWalletModal = () => Modal.open(<WalletModal />);
 
   const addressButton = (
-    <Box borderRadius="m">
+    <Box borderRadius="m" padding={[1, 1, 1, 2]}>
       <Space>
         <Typography.Body style={{ whiteSpace: 'nowrap' }}>
           {balance ? `${balance} ${currency}` : <LoadingOutlined />}

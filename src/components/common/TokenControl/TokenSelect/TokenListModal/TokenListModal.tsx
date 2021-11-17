@@ -6,6 +6,7 @@ import React, { useState } from 'react';
 import {
   Box,
   Col,
+  Flex,
   Input,
   Modal,
   Row,
@@ -46,25 +47,25 @@ const TokenListModal: React.FC<TokenListModalProps> = ({
   return (
     <>
       <Modal.Title>Select a token</Modal.Title>
-      <Box className="token-list-modal" padding={0} width={400}>
+      <Box padding={0} width={400}>
         <Input
           placeholder="Search"
           size="large"
           prefix={<SearchOutlined />}
           onChange={handleSearch}
         />
-        <Row className="token-list-modal__token-list">
-          <Col span={24}>
-            {assets?.filter(byTerm).map((asset) => (
-              <TokenListItem
-                key={asset.id}
-                asset={asset}
-                iconName={asset.name}
-                onClick={() => handleClick(asset)}
-              />
-            ))}
-          </Col>
-        </Row>
+        <Flex flexDirection="col">
+          {/*<Col span={24}>*/}
+          {assets?.filter(byTerm).map((asset) => (
+            <TokenListItem
+              key={asset.id}
+              asset={asset}
+              iconName={asset.name}
+              onClick={() => handleClick(asset)}
+            />
+          ))}
+          {/*</Col>*/}
+        </Flex>
       </Box>
     </>
   );

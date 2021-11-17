@@ -3,7 +3,13 @@ import './TokenSelect.less';
 import { AssetInfo } from '@ergolabs/ergo-sdk';
 import React from 'react';
 
-import { Button, DownOutlined, Form, Modal } from '../../../../ergodex-cdk';
+import {
+  Button,
+  DownOutlined,
+  Form,
+  Modal,
+  Typography,
+} from '../../../../ergodex-cdk';
 import { TokenIcon } from '../../../TokenIcon/TokenIcon';
 import { TokenListModal } from './TokenListModal/TokenListModal';
 
@@ -38,22 +44,27 @@ const TokenSelect: React.FC<TokenSelectProps> = ({
   return (
     <>
       {value ? (
-        <button
+        <Button
+          type="ghost"
+          size="large"
           className="token-select__selected"
           onClick={openTokenModal}
           disabled={disabled}
+          block
         >
-          <span className="token-select__selected-container">
-            <span className="token-select__selected-inner token-select__selected-item">
-              <TokenIcon
-                name={value.name}
-                className="token-select__selected-item"
-              />
-              <span>{value.name}</span>
-            </span>
-            {!readonly && <DownOutlined />}
+          <span
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
+            <TokenIcon name={value.name} />
+            <Typography.Title level={5} style={{ marginLeft: '8px' }}>
+              {value.name}
+            </Typography.Title>
           </span>
-        </button>
+          {!readonly && <DownOutlined />}
+        </Button>
       ) : (
         <Button
           style={{
