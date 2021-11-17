@@ -1,71 +1,73 @@
-import { AssetAmount } from '@ergolabs/ergo-sdk';
-import React, { useEffect, useState } from 'react';
+import './TokensTab.less';
 
-import { Box, Col, Row, Typography } from '../../../ergodex-cdk';
-import { listWalletAssets } from '../../../services/userWallet';
-import { renderFractions } from '../../../utils/math';
+import React from 'react';
+
+import { Box, Flex, Typography } from '../../../ergodex-cdk';
+import { getShortAddress } from '../../../utils/string/addres';
 import { TokenIcon } from '../../TokenIcon/TokenIcon';
-
 interface TokenListItemProps {
-  name?: string;
-  balance?: number;
+  token: string[];
 }
 
-const TokenListItem: React.FC<TokenListItemProps> = ({ name, balance }) => (
-  <Box
-    padding={[2, 4, 1, 4]}
-    borderRadius="m"
-    className="token__list-item_wrapper"
-  >
-    <Row align="middle">
-      <Col span={2}>
-        <TokenIcon name={name ?? 'empty'} />
-      </Col>
-      <Col span={18} style={{ paddingLeft: 10 }}>
-        <Row>
-          <Typography.Text strong style={{ fontSize: '16px' }}>
-            {name}
-          </Typography.Text>
-        </Row>
-        <Row align="bottom">
-          <Typography.Text style={{ fontSize: '10px' }} className="token-name">
-            {name}
-          </Typography.Text>
-        </Row>
-      </Col>
-      <Col span={4}>
-        <Typography.Text strong style={{ fontSize: '16px', float: 'right' }}>
-          {balance}
-        </Typography.Text>
-      </Col>
-    </Row>
-  </Box>
-);
+interface TokenViewProps {
+  token: string[];
+}
 
-const TokensTab: React.FC = () => {
-  const [availableWalletAssets, setAvailableWalletAssets] = useState<
-    AssetAmount[] | undefined
-  >();
-
-  useEffect(() => {
-    listWalletAssets().then(setAvailableWalletAssets);
-  }, []);
-
+const TokenView: React.FC<TokenViewProps> = ({ token }) => {
   return (
-    <Row topGutter={1}>
-      {availableWalletAssets &&
-        availableWalletAssets.map((token, key) => (
-          <Col span={24} key={key}>
-            <TokenListItem
-              name={token.asset.name}
-              balance={Number(
-                renderFractions(token.amount, token.asset.decimals),
-              )}
-            />
-          </Col>
-        ))}
-    </Row>
+    <Flex alignItems="center">
+      <Flex.Item marginRight={1}>
+        <Typography.Text strong>{getShortAddress(token[0])}</Typography.Text>
+      </Flex.Item>
+    </Flex>
   );
 };
 
-export { TokensTab };
+const TokenListItem: React.FC<TokenListItemProps> = ({ token }) => {
+  return (
+    <Box padding={[2, 0]} transparent>
+      <Flex alignItems="center" className="tokens-tab">
+        <Flex.Item style={{ width: '45%', display: 'inline-flex' }}>
+          <Flex>
+            <Flex.Item marginRight={1} style={{ position: 'relative' }}>
+              <TokenIcon name={token[0]} className="tokens-tab__icon" />
+            </Flex.Item>
+            <Flex.Item marginLeft={7}>
+              <TokenView token={token} />
+              <Typography.Text className="tokens-tab__text">
+                {token[0]}
+              </Typography.Text>
+            </Flex.Item>
+          </Flex>
+        </Flex.Item>
+        <Flex.Item grow>
+          <Flex justify="flex-end">
+            <Typography.Text strong className="tokens-tab__balance">
+              {token[2]}
+            </Typography.Text>
+          </Flex>
+        </Flex.Item>
+      </Flex>
+    </Box>
+  );
+};
+
+interface TokenListViewProps {
+  tokenList: string[][];
+}
+
+export const TokensTab: React.FC<TokenListViewProps> = ({ tokenList }) => {
+  return (
+    <Box transparent>
+      <Flex flexDirection="col">
+        <Flex.Item>
+          <Box transparent maxHeight={250} overflow>
+            {tokenList.map((item, index) => (
+              <TokenListItem key={index} token={item} />
+            ))}
+          </Box>
+        </Flex.Item>
+      </Flex>
+    </Box>
+  );
+};
