@@ -26,8 +26,8 @@ const TokenView: React.FC<TokenViewProps> = ({ token }) => {
 const TokenListItem: React.FC<TokenListItemProps> = ({ token }) => {
   return (
     <Box padding={[2, 0]} transparent>
-      <Flex alignItems="center" className="tokens-tab">
-        <Flex.Item style={{ width: '45%', display: 'inline-flex' }}>
+      <Flex id={token[0]} alignItems="center" className="tokens-tab">
+        <Flex.Item style={{ flex: 1 }}>
           <Flex>
             <Flex.Item marginRight={1} style={{ position: 'relative' }}>
               <TokenIcon name={token[0]} className="tokens-tab__icon" />
