@@ -4,6 +4,8 @@ import { AssetInfo } from '@ergolabs/ergo-sdk';
 import React, { useState } from 'react';
 
 import { Box, Flex, Typography } from '../../../ergodex-cdk';
+import { useObservable } from '../../../hooks/useObservable';
+import { assets$ } from '../../../services/new/assets';
 import { TokenIcon } from '../../TokenIcon/TokenIcon';
 interface TokenListItemProps {
   asset: AssetInfo;
@@ -53,11 +55,8 @@ const TokenListItem: React.FC<TokenListItemProps> = ({ asset }) => {
   );
 };
 
-interface TokenListViewProps {
-  readonly assets?: AssetInfo[];
-}
-
-export const TokensTab: React.FC<TokenListViewProps> = ({ assets }) => {
+export const TokensTab: React.FC = () => {
+  const [assets] = useObservable(assets$);
   const [searchWords, setSearchWords] = useState('');
   const byTerm = (asset: AssetInfo) =>
     !searchWords || asset.name?.toLowerCase().includes(searchWords);
