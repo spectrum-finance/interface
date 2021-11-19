@@ -8,6 +8,8 @@ import {
 } from '../../context';
 import { Box, Flex, Typography } from '../../ergodex-cdk';
 import { Tabs } from '../../ergodex-cdk/components/Tabs/Tabs';
+import { useObservable } from '../../hooks/useObservable';
+import { assets$ } from '../../services/new/assets';
 import { getShortAddress } from '../../utils/string/addres';
 import { CopyButton } from '../common/CopyButton/CopyButton';
 import { ExploreButton } from '../common/ExploreButton/ExploreButton';
@@ -22,16 +24,13 @@ export const WalletModal: React.FC = () => {
   const walletAddresses = useWalletAddresses();
 
   const [{ address }] = useSettings();
+  const [fromAssets] = useObservable(assets$);
 
   const addressList = useMemo(() => {
     return walletAddresses.state === WalletAddressState.LOADED
       ? walletAddresses.addresses
       : [];
   }, [walletAddresses]);
-  const tokenList = [
-    ['ERG', 'ERG', '21.065ERG'],
-    ['ADA', 'ADA', '21.065ADA'],
-  ];
 
   return (
     <>
@@ -102,7 +101,7 @@ export const WalletModal: React.FC = () => {
                   />
                 </Tabs.TabPane>
                 <Tabs.TabPane tab="Tokens" key="2" style={{ overflow: 'auto' }}>
-                  <TokensTab tokenList={tokenList} />
+                  <TokensTab assets={fromAssets} />
                 </Tabs.TabPane>
               </Tabs>
             </Box>
