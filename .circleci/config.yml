@@ -17,7 +17,7 @@ jobs:
             command: npm run lint:eslint
         - run: 
             name: Run Tests
-            command: npm run test
+            command: npm run test --passWithNoTests
     deploy-to-dev:
       machine:
         enabled: true
