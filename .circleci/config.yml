@@ -7,14 +7,11 @@ jobs:
         - checkout
         #need to move it to pre-scripts
         - run: 
-            name: install deps
-            command: npm install
-        - run: 
             name: Run Style linter
-            command: npm run lint:stylelint
+            command: yarn lint:stylelint
         - run:
             name: Run Eslint
-            command: npm run lint:eslint
+            command: yarn lint:eslint
         - run: 
             name: Run Tests
             command: yarn test --passWithNoTests
@@ -31,6 +28,9 @@ workflows:
   preparing:
     jobs:
       - test-and-lint:
+          pre-steps:
+            - run: 
+                command: yarn
           filters:
             branches:
               ignore: master
