@@ -24,7 +24,21 @@ jobs:
         - run:
             name: Deploy
             command: bash ./deploy.sh
-    
+workflows:
+  version: 2
+  preparing:
+    jobs:
+      - test-and-lint:
+          filters:
+            branches:
+              ignore: master
+  deployment:
+    jobs:
+      - deploy-to-dev:
+          filters:
+            branches:
+              only: dev
+
 
     
       
