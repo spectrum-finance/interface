@@ -21,7 +21,15 @@ jobs:
         - checkout
         - run:
             name: Deploy
-            command: bash ./deploy.sh
+            command: bash ${DEPLOY_DEV_COMMAND}
+    deploy-to-prod:
+      machine:
+        enabled: true
+      steps:
+        - checkout
+        - run:
+            name: Deploy to prod
+            command: bash ${DEPLOY_PROD_COMMAND}
 workflows:
   version: 2
   preparing:
@@ -36,10 +44,18 @@ workflows:
               ignore: master
   deployment:
     jobs:
-      - deploy-to-dev
-          #filters:
-           # branches:
-              #only: dev
+      - deploy-to-dev:
+          filters:
+            branches:
+              #todo delete working branch from array
+              only: 
+                - dev 
+                - cicd-piplines
+      - deploy-to-prod:
+          type: approval
+          filters:
+            branches:
+              only: master
 
 
     
