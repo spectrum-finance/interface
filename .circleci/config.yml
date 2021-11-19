@@ -7,13 +7,13 @@ jobs:
         - checkout
         - run: 
             name: Run Style linter
-            command: npm lint:stylelint
+            command: npm run lint:stylelint
         - run:
             name: Run Eslint
-            command: npm lint:eslint
+            command: npm run lint:eslint
         - run: 
             name: Run Tests
-            command: npm test
+            command: npm run test
     deploy-to-dev:
       machine:
         enabled: true
