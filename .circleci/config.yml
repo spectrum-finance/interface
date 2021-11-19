@@ -36,10 +36,10 @@ workflows:
               ignore: master
   deployment:
     jobs:
-      - deploy-to-dev:
-          filters:
-            branches:
-              only: dev
+      - deploy-to-dev
+          #filters:
+           # branches:
+              #only: dev
 
 
     
