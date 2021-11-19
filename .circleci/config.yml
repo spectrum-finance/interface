@@ -5,6 +5,10 @@ jobs:
         - image: circleci/node:14-bullseye-browsers-legacy
       steps:
         - checkout
+        #need to move it to pre-scripts
+        - run: 
+            name: install deps
+            command: npm install
         - run: 
             name: Run Style linter
             command: npm run lint:stylelint
