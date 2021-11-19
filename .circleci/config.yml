@@ -14,10 +14,8 @@ jobs:
         - run: 
             name: Run Tests
             command: npm test
-    
     deploy-to-dev:
-      deploy:
-        machine:
+      machine:
         enabled: true
       steps:
         - checkout
