@@ -12,6 +12,7 @@ type TokenIconProps = React.DetailedHTMLProps<
 
 const accessibleTokens = [
   'ERG',
+  'ERGX',
   'ADA',
   'SigUSD',
   'SigRSV',

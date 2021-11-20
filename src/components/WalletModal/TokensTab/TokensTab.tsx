@@ -1,71 +1,80 @@
-import { AssetAmount } from '@ergolabs/ergo-sdk';
-import React, { useEffect, useState } from 'react';
+import './TokensTab.less';
 
-import { Box, Col, Row, Typography } from '../../../ergodex-cdk';
-import { listWalletAssets } from '../../../services/userWallet';
-import { renderFractions } from '../../../utils/math';
+import { AssetInfo } from '@ergolabs/ergo-sdk';
+import React, { useState } from 'react';
+
+import { Box, Flex, Typography } from '../../../ergodex-cdk';
+import { useObservable } from '../../../hooks/useObservable';
+import { assets$ } from '../../../services/new/assets';
 import { TokenIcon } from '../../TokenIcon/TokenIcon';
-
 interface TokenListItemProps {
-  name?: string;
-  balance?: number;
+  asset: AssetInfo;
+  iconName?: string;
 }
 
-const TokenListItem: React.FC<TokenListItemProps> = ({ name, balance }) => (
-  <Box
-    padding={[2, 4, 1, 4]}
-    borderRadius="m"
-    className="token__list-item_wrapper"
-  >
-    <Row align="middle">
-      <Col span={2}>
-        <TokenIcon name={name ?? 'empty'} />
-      </Col>
-      <Col span={18} style={{ paddingLeft: 10 }}>
-        <Row>
-          <Typography.Text strong style={{ fontSize: '16px' }}>
-            {name}
-          </Typography.Text>
-        </Row>
-        <Row align="bottom">
-          <Typography.Text style={{ fontSize: '10px' }} className="token-name">
-            {name}
-          </Typography.Text>
-        </Row>
-      </Col>
-      <Col span={4}>
-        <Typography.Text strong style={{ fontSize: '16px', float: 'right' }}>
-          {balance}
-        </Typography.Text>
-      </Col>
-    </Row>
-  </Box>
-);
+interface TokenViewProps {
+  asset: AssetInfo;
+}
 
-const TokensTab: React.FC = () => {
-  const [availableWalletAssets, setAvailableWalletAssets] = useState<
-    AssetAmount[] | undefined
-  >();
-
-  useEffect(() => {
-    listWalletAssets().then(setAvailableWalletAssets);
-  }, []);
-
+const TokenView: React.FC<TokenViewProps> = ({ asset }) => {
   return (
-    <Row topGutter={1}>
-      {availableWalletAssets &&
-        availableWalletAssets.map((token, key) => (
-          <Col span={24} key={key}>
-            <TokenListItem
-              name={token.asset.name}
-              balance={Number(
-                renderFractions(token.amount, token.asset.decimals),
-              )}
-            />
-          </Col>
-        ))}
-    </Row>
+    <Flex alignItems="center">
+      <Flex.Item marginRight={1}>
+        <Typography.Text strong>{asset.name}</Typography.Text>
+      </Flex.Item>
+    </Flex>
   );
 };
 
-export { TokensTab };
+const TokenListItem: React.FC<TokenListItemProps> = ({ asset }) => {
+  return (
+    <Box padding={[2, 0]} transparent>
+      <Flex id={asset.name} alignItems="center" className="tokens-tab">
+        <Flex.Item flex={1}>
+          <Flex>
+            <Flex.Item marginRight={1} style={{ position: 'relative' }}>
+              <TokenIcon name={asset.name} className="tokens-tab__icon" />
+            </Flex.Item>
+            <Flex.Item marginLeft={7}>
+              <TokenView asset={asset} />
+              <Typography.Text className="tokens-tab__text">
+                {asset.name}
+              </Typography.Text>
+            </Flex.Item>
+          </Flex>
+        </Flex.Item>
+        <Flex.Item grow>
+          <Flex justify="flex-end">
+            <Typography.Text strong className="tokens-tab__balance">
+              {asset.decimals} {asset.name}
+            </Typography.Text>
+          </Flex>
+        </Flex.Item>
+      </Flex>
+    </Box>
+  );
+};
+
+export const TokensTab: React.FC = () => {
+  const [assets] = useObservable(assets$);
+  const [searchWords, setSearchWords] = useState('');
+  const byTerm = (asset: AssetInfo) =>
+    !searchWords || asset.name?.toLowerCase().includes(searchWords);
+  return (
+    <Box transparent>
+      <Flex flexDirection="col">
+        <Flex.Item>
+          <Box transparent maxHeight={250} overflow>
+            {assets?.filter(byTerm).map((asset) => (
+              <TokenListItem
+                key={asset.id}
+                asset={asset}
+                iconName={asset.name}
+              />
+            ))}
+          </Box>
+        </Flex.Item>
+      </Flex>
+    </Box>
+  );
+};

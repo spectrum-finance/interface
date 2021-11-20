@@ -29,10 +29,6 @@ export const WalletModal: React.FC = () => {
       : [];
   }, [walletAddresses]);
 
-  // useEffect(() => {
-  //   setActiveRecvAddr(addressList[0]);
-  // }, [addressList]);
-
   return (
     <>
       <Modal.Title>Wallet</Modal.Title>
@@ -102,13 +98,7 @@ export const WalletModal: React.FC = () => {
                     activeAddress={address}
                   />
                 </Tabs.TabPane>
-                <Tabs.TabPane
-                  tab="Tokens"
-                  key="2"
-                  style={{ overflow: 'auto' }}
-                  // TODO:REMOVE_DISABLED_AND_ADD_FULLY_COMPLETE_TAB[]
-                  disabled
-                >
+                <Tabs.TabPane tab="Tokens" key="2" style={{ overflow: 'auto' }}>
                   <TokensTab />
                 </Tabs.TabPane>
               </Tabs>
