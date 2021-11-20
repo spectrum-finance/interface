@@ -3,16 +3,10 @@ import './ChooseWalletModal.less';
 import React, { useState } from 'react';
 
 import { ReactComponent as YoroiLogo } from '../../../../assets/icons/yoroi-logo-icon.svg';
+import { DISCORD_SUPPORT_URL } from '../../../../constants/env';
 import { useWallet } from '../../../../context';
-import {
-  Alert,
-  Box,
-  Button,
-  Modal,
-  Row,
-  Typography,
-} from '../../../../ergodex-cdk';
-import { connectYoroiWallet } from '../../../../utils/wallet/walletsOperations';
+import { Alert, Button, Flex, Modal, Row, Typography } from '../../../../ergodex-cdk';
+import { connectYoroiWallet } from '../../../../utils/wallets/yoroi';
 
 const { Body } = Typography;
 
@@ -53,9 +47,20 @@ const WalletItem: React.FC<WalletItemProps> = ({
         </Button>
       </Row>
       {warning && (
-        <Row gutter={2}>
-          <Alert type="warning" description={warning} />
-        </Row>
+        <>
+          <Flex alignItems="center" justify="center">
+            <Alert
+              type="warning"
+              description={warning}
+              style={{ width: '100%' }}
+            />
+          </Flex>
+          <Flex alignItems="center" justify="center">
+            <Button type="link" href={DISCORD_SUPPORT_URL} target="_blank">
+              Get help in Discord
+            </Button>
+          </Flex>
+        </>
       )}
     </>
   );
@@ -72,7 +77,7 @@ const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
 
   const wallets = [
     {
-      name: 'Yoroi',
+      name: 'Yoroi Nightly',
       logo: <YoroiLogo />,
       onClick: connectYoroiWallet(walletCtx),
     },
