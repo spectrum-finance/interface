@@ -1,25 +1,17 @@
 import './Modal.less';
 
 import { Modal as BaseModal, Typography } from 'antd';
-import React, {
-  createContext,
-  FC,
-  PropsWithChildren,
-  ReactChildren,
-  ReactElement,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
+import React, { ReactElement } from 'react';
 import { ReactNode } from 'react';
 import ReactDOM from 'react-dom';
 
+import { ModalContent } from './ModalContent/ModalContent';
 import {
   ModalInnerTitle,
   ModalTitle,
   ModalTitleContext,
   ModalTitleContextProvider,
-} from './ModalTitle';
+} from './ModalTitle/ModalTitle';
 import { Error } from './presets/Error';
 import { Progress } from './presets/Progress';
 import { Request, RequestProps } from './presets/Request';
@@ -138,6 +130,7 @@ class BaseModalProvider implements ModalProvider {
 
 export const Modal = {
   Title: ModalTitle,
+  Content: ModalContent,
   provider: new BaseModalProvider() as ModalProvider,
   open(
     content:

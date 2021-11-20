@@ -1,8 +1,10 @@
 import { CloseCircleOutlined } from '@ant-design/icons';
 import React, { FC, ReactNode } from 'react';
 
-import { Row } from '../../Row/Row';
-import { ModalTitle } from '../ModalTitle';
+import { Flex } from '../../Flex/Flex';
+import { ModalContent } from '../ModalContent/ModalContent';
+import { ModalTitle } from '../ModalTitle/ModalTitle';
+import { INFO_DIALOG_WIDTH } from './core';
 
 export interface ErrorProps {
   readonly content:
@@ -14,13 +16,17 @@ export interface ErrorProps {
 }
 
 export const Error: FC<ErrorProps> = ({ content, result }) => (
-  <div style={{ width: 343 }}>
+  <>
     <ModalTitle />
-    <Row justify="center" bottomGutter={6}>
-      <CloseCircleOutlined
-        style={{ fontSize: 80, color: 'var(--ergo-primary-color)' }}
-      />
-    </Row>
-    {content instanceof Function ? content(result) : content}
-  </div>
+    <ModalContent width={INFO_DIALOG_WIDTH}>
+      <Flex justify="center" flexDirection="row">
+        <Flex.Item marginBottom={6}>
+          <CloseCircleOutlined
+            style={{ fontSize: 80, color: 'var(--ergo-primary-color)' }}
+          />
+        </Flex.Item>
+      </Flex>
+      {content instanceof Function ? content(result) : content}
+    </ModalContent>
+  </>
 );

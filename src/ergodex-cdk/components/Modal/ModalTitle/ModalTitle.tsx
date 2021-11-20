@@ -1,13 +1,14 @@
 import React, {
   createContext,
   FC,
+  PropsWithChildren,
   ReactNode,
   useContext,
   useEffect,
   useState,
 } from 'react';
 
-import { Typography } from '../Typography/Typography';
+import { Typography } from '../../Typography/Typography';
 
 interface ModalTitleContextType {
   readonly title: ReactNode;
@@ -37,7 +38,7 @@ export const ModalInnerTitle: FC = () => {
   return <Typography.Title level={4}>{title}</Typography.Title>;
 };
 
-export const ModalTitle: FC = ({ children }: any) => {
+export const ModalTitle: FC<PropsWithChildren<any>> = ({ children }) => {
   const { setTitle } = useContext(ModalTitleContext);
 
   useEffect(() => {
