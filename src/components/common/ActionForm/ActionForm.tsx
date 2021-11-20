@@ -90,8 +90,8 @@ const getButtonData = (
           };
         } else if (insufficientTokenForFee) {
           return {
-            state: ActionButtonState.INSUFFICIENT_TOKEN_BALANCE,
-            data: { token: insufficientTokenForFee },
+            state: ActionButtonState.INSUFFICIENT_FEE_BALANCE,
+            data: { nativeToken: insufficientTokenForFee },
           };
         } else if (isLiquidityInsufficient) {
           return { state: ActionButtonState.INSUFFICIENT_LIQUIDITY };

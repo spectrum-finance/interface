@@ -35,7 +35,7 @@ const insufficientTokenBalanceState = (token = ''): ButtonProps => ({
 });
 
 const insufficientFeeBalanceState = (token = ''): ButtonProps => ({
-  children: `Insufficient ${token} Balance`,
+  children: `Insufficient ${token} Balance for Fees`,
   type: 'primary',
   disabled: true,
 });
