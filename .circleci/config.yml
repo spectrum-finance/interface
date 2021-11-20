@@ -47,10 +47,7 @@ workflows:
       - deploy-to-dev:
           filters:
             branches:
-              #todo delete working branch from array
-              only: 
-                - dev 
-                - cicd-piplines
+              only: dev 
       - deploy-to-prod:
           type: approval
           filters:
