@@ -5,7 +5,14 @@ import React, { useState } from 'react';
 import { ReactComponent as YoroiLogo } from '../../../../assets/icons/yoroi-logo-icon.svg';
 import { DISCORD_SUPPORT_URL } from '../../../../constants/env';
 import { useWallet } from '../../../../context';
-import { Alert, Button, Flex, Modal, Row, Typography } from '../../../../ergodex-cdk';
+import {
+  Alert,
+  Button,
+  Flex,
+  Modal,
+  Row,
+  Typography,
+} from '../../../../ergodex-cdk';
 import { connectYoroiWallet } from '../../../../utils/wallets/yoroi';
 
 const { Body } = Typography;
