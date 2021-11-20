@@ -1,41 +1,44 @@
 import './TokensTab.less';
 
-import React from 'react';
+import { AssetInfo } from '@ergolabs/ergo-sdk';
+import React, { useState } from 'react';
 
 import { Box, Flex, Typography } from '../../../ergodex-cdk';
-import { getShortAddress } from '../../../utils/string/addres';
+import { useObservable } from '../../../hooks/useObservable';
+import { assets$ } from '../../../services/new/assets';
 import { TokenIcon } from '../../TokenIcon/TokenIcon';
 interface TokenListItemProps {
-  token: string[];
+  asset: AssetInfo;
+  iconName?: string;
 }
 
 interface TokenViewProps {
-  token: string[];
+  asset: AssetInfo;
 }
 
-const TokenView: React.FC<TokenViewProps> = ({ token }) => {
+const TokenView: React.FC<TokenViewProps> = ({ asset }) => {
   return (
     <Flex alignItems="center">
       <Flex.Item marginRight={1}>
-        <Typography.Text strong>{getShortAddress(token[0])}</Typography.Text>
+        <Typography.Text strong>{asset.name}</Typography.Text>
       </Flex.Item>
     </Flex>
   );
 };
 
-const TokenListItem: React.FC<TokenListItemProps> = ({ token }) => {
+const TokenListItem: React.FC<TokenListItemProps> = ({ asset }) => {
   return (
     <Box padding={[2, 0]} transparent>
-      <Flex id={token[0]} alignItems="center" className="tokens-tab">
+      <Flex id={asset.name} alignItems="center" className="tokens-tab">
         <Flex.Item flex={1}>
           <Flex>
             <Flex.Item marginRight={1} style={{ position: 'relative' }}>
-              <TokenIcon name={token[0]} className="tokens-tab__icon" />
+              <TokenIcon name={asset.name} className="tokens-tab__icon" />
             </Flex.Item>
             <Flex.Item marginLeft={7}>
-              <TokenView token={token} />
+              <TokenView asset={asset} />
               <Typography.Text className="tokens-tab__text">
-                {token[0]}
+                {asset.name}
               </Typography.Text>
             </Flex.Item>
           </Flex>
@@ -43,7 +46,7 @@ const TokenListItem: React.FC<TokenListItemProps> = ({ token }) => {
         <Flex.Item grow>
           <Flex justify="flex-end">
             <Typography.Text strong className="tokens-tab__balance">
-              {token[2]}
+              {asset.decimals} {asset.name}
             </Typography.Text>
           </Flex>
         </Flex.Item>
@@ -52,18 +55,22 @@ const TokenListItem: React.FC<TokenListItemProps> = ({ token }) => {
   );
 };
 
-interface TokenListViewProps {
-  tokenList: string[][];
-}
-
-export const TokensTab: React.FC<TokenListViewProps> = ({ tokenList }) => {
+export const TokensTab: React.FC = () => {
+  const [assets] = useObservable(assets$);
+  const [searchWords, setSearchWords] = useState('');
+  const byTerm = (asset: AssetInfo) =>
+    !searchWords || asset.name?.toLowerCase().includes(searchWords);
   return (
     <Box transparent>
       <Flex flexDirection="col">
         <Flex.Item>
           <Box transparent maxHeight={250} overflow>
-            {tokenList.map((item, index) => (
-              <TokenListItem key={index} token={item} />
+            {assets?.filter(byTerm).map((asset) => (
+              <TokenListItem
+                key={asset.id}
+                asset={asset}
+                iconName={asset.name}
+              />
             ))}
           </Box>
         </Flex.Item>

@@ -28,10 +28,6 @@ export const WalletModal: React.FC = () => {
       ? walletAddresses.addresses
       : [];
   }, [walletAddresses]);
-  const tokenList = [
-    ['ERG', 'ERG', '21.065ERG'],
-    ['ADA', 'ADA', '21.065ADA'],
-  ];
 
   return (
     <>
@@ -102,7 +98,7 @@ export const WalletModal: React.FC = () => {
                   />
                 </Tabs.TabPane>
                 <Tabs.TabPane tab="Tokens" key="2" style={{ overflow: 'auto' }}>
-                  <TokensTab tokenList={tokenList} />
+                  <TokensTab />
                 </Tabs.TabPane>
               </Tabs>
             </Box>
