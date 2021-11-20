@@ -1,0 +1,35 @@
+.ant-btn.ant-btn-primary {
+  &.token-select {
+    border: 1px solid var(--ergo-tokenselect-default-bg);
+    background: var(--ergo-tokenselect-default-bg);
+    color: var(--ergo-tokenselect-lbl-color);
+
+    &:hover {
+      border: 1px solid var(--ergo-tokenselect-hover-bg);
+      background: var(--ergo-tokenselect-hover-bg);
+    }
+
+    &:active {
+      border: 1px solid var(--ergo-tokenselect-active-bg);
+      background: var(--ergo-tokenselect-active-bg);
+    }
+  }
+}
+
+.token-select__selected {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &-item {
+    margin-right: 8px;
+  }
+
+  &:disabled {
+    cursor: not-allowed !important;
+  }
+}
+
+.token-select-form-item {
+  margin-bottom: 0;
+}

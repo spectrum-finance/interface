@@ -1,0 +1,26 @@
+.wallet-item {
+  &__btn {
+    display: flex !important;
+    width: 100% !important;
+    align-items: center !important;
+    justify-content: space-between;
+    border: 1px solid var(--ergo-choose-wallet-modal-item-border) !important;
+    background-color: var(--ergo-choose-wallet-modal-item-bg) !important;
+
+    &:hover, &:focus, &:active {
+      border-color: var(--ergo-choose-wallet-modal-border-hover) !important;
+    }
+
+    &:disabled {
+      border: 1px solid var(--ergo-choose-wallet-modal-disabled-border) !important;
+
+      span {
+        color: var(--ergo-choose-wallet-modal-disabled-color) !important;
+      }
+
+      svg, path {
+        fill: var(--ergo-choose-wallet-modal-disabled-color) !important;
+      }
+    }
+  }
+}

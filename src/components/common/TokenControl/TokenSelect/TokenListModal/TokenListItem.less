@@ -1,0 +1,46 @@
+.token-item {
+  display: flex;
+  margin: 8px 0;
+  background-color: transparent;
+
+  &:hover {
+    background-color: var(--ergo-dark-card-background) !important;
+    cursor: pointer;
+  }
+
+  &__box {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin-left: 10px;
+    background-color: transparent;
+
+    &-left {
+      display: flex;
+      flex-direction: column;
+      background-color: transparent;
+
+      &-symbol {
+        font-size: 16px !important;
+        font-weight: 600 !important;
+        line-height: 22px !important;
+      }
+      &-name {
+        font-size: 10px !important;
+        line-height: 12px !important;
+      }
+    }
+
+    &-balance {
+      margin-top: auto !important;
+      margin-bottom: auto !important;
+      color: var(--ergo-primary-text);
+      font-size: 14px;
+      line-height: 22px;
+    }
+  }
+
+  .token-icon {
+    margin: auto;
+  }
+}

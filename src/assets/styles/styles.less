@@ -1,0 +1,28 @@
+@import '~antd/dist/antd.variable.less';
+@import './themes/dark.less';
+@import './themes/light.less';
+@import './variables/gradients.less';
+
+body {
+  background-color: var(--ergo-body-bg) !important;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box !important;
+  transition: none !important;
+}
+
+.ant-click-animating-node {
+  display: none !important;
+  box-shadow: none !important;
+}
+
+[ant-click-animating-without-extra-node='true']::after,
+.ant-click-animating-node {
+  --antd-wave-shadow-color: var(--ergo-primary-color) !important;
+}
+
+::selection {
+  background-color: var(--ergo-primary-color) !important;
+  color: var(--ergo-primary-text) !important;
+}

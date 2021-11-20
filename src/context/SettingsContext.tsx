@@ -1,17 +1,30 @@
-import React, { createContext, useContext } from 'react';
+import { PublicKey } from '@ergolabs/ergo-sdk';
 import { useLocalStorage } from '@rehooks/local-storage';
-import { MinerFeeDefault, SlippageDefault } from '../constants/settings';
+import React, { createContext, useContext } from 'react';
+
 // import { LocalStorageReturnValue } from '@rehooks/local-storage/lib/use-localstorage';
+import { ERG_EXPLORER_URL } from '../constants/env';
+import { MIN_NITRO } from '../constants/erg';
+import { defaultMinerFee, defaultSlippage } from '../constants/settings';
+import { isDarkOsTheme } from '../utils/osTheme';
 
 export type Settings = {
-  minerFee: string;
-  slippage: string;
+  minerFee: number;
+  slippage: number;
   address?: string;
+  nitro: number;
+  pk?: PublicKey;
+  explorerUrl: string;
+  theme: string;
 };
 
 export const DefaultSettings: Readonly<Settings> = {
-  minerFee: MinerFeeDefault.toString(),
-  slippage: String(SlippageDefault),
+  minerFee: defaultMinerFee,
+  nitro: MIN_NITRO,
+  slippage: defaultSlippage,
+  explorerUrl: ERG_EXPLORER_URL,
+  pk: '',
+  theme: isDarkOsTheme() ? 'dark' : 'light',
 };
 
 function noop() {

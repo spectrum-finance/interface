@@ -24,19 +24,24 @@ export const math = create(all, mathConf) as Partial<MathJsStatic>;
 export const allowedNumPat = new RegExp(/^\d+\.?\d*$/);
 
 export function parseUserInputToFractions(
-  rawInput: string,
+  rawInput: string | number,
   numDecimals?: number,
 ): bigint {
-  const safeInput = allowedNumPat.test(rawInput) ? rawInput : '0';
+  const safeInput = allowedNumPat.test(
+    typeof rawInput === 'number' ? String(rawInput) : rawInput,
+  )
+    ? rawInput
+    : '0';
   const input = math.format!(
     math.evaluate!(`${safeInput} * 10^${numDecimals || 0}`),
     formatOptions,
   );
-  return BigInt(input);
+  // TODO: CHECK_FUNCTION_LAST_CHANGE[]
+  return BigInt(Number(input).toFixed(0));
 }
 
 export function renderFractions(
-  fractions: bigint | number,
+  fractions: bigint | number | string,
   numDecimals?: number,
 ): string {
   return math.format!(
@@ -51,9 +56,3 @@ export function fractionsToNum(
 ): number {
   return Number(renderFractions(fractions, numDecimals));
 }
-
-export const toPercent = (num: number | string): string =>
-  String(Number(num) * 100);
-
-export const fromPercent = (num: number | string): string =>
-  String(Number(num) / 100);

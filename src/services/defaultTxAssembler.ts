@@ -1,4 +1,4 @@
-import { DefaultTxAssembler } from 'ergo-dex-sdk/build/module/ergo';
+import { DefaultTxAssembler } from '@ergolabs/ergo-sdk';
 
 const IS_MAINNET = true;
 

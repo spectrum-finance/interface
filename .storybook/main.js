@@ -4,9 +4,21 @@ module.exports = {
     "../src/**/*.stories.@(js|jsx|ts|tsx)"
   ],
   "addons": [
-    "@storybook/addon-docs",
+    {
+      name: "storybook-preset-craco",
+      options: {
+        cracoConfigFile: "../../craco.config.js",
+      },
+    },
+    {
+      name: "@storybook/addon-docs",
+      options: {
+        configureJSX: true,
+      },
+    },
+
     "@storybook/addon-links",
     "@storybook/addon-essentials",
-    "@storybook/preset-create-react-app"
+    "storybook-addon-themes",
   ]
 }

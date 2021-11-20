@@ -1,8 +1,12 @@
-import { ErgoBox } from 'ergo-dex-sdk/build/module/ergo';
-import { AmmPool, NativeAssetId } from 'ergo-dex-sdk';
-import { AssetAmount } from 'ergo-dex-sdk/build/module/ergo';
+import { AmmPool } from '@ergolabs/ergo-dex-sdk';
+import {
+  AssetAmount,
+  AssetInfo,
+  ErgoBox,
+  NativeAssetId,
+} from '@ergolabs/ergo-sdk';
+
 import { parseUserInputToFractions } from './math';
-import { AssetInfo } from 'ergo-dex-sdk/build/module/ergo/entities/assetInfo';
 
 export const calculateAvailableAmount = (
   tokenId: string,
@@ -19,7 +23,7 @@ export const calculateAvailableAmount = (
   }
 };
 
-type BaseInputParameters = {
+export type BaseInputParameters = {
   baseInput: AssetAmount;
   baseInputAmount: bigint;
   minOutput: AssetAmount;

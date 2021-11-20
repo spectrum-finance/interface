@@ -1,6 +1,7 @@
-import { AmmPool } from 'ergo-dex-sdk';
+import { AmmPool } from '@ergolabs/ergo-dex-sdk';
 import { useEffect, useState } from 'react';
-import { networkPools, nativeNetworkPools } from '../services/networkPools';
+
+import { nativeNetworkPools, networkPools } from '../services/networkPools';
 
 type PoolsState = AmmPool[] | undefined;
 

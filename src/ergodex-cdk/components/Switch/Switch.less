@@ -1,0 +1,22 @@
+.ant-switch {
+  background-color: var(--ergo-disabled-text-constrast);
+
+  &-handle {
+    &::before {
+      background-color: var(--ergo-switch-handle-bg-color);
+      box-shadow: var(--ergo-switch-box-shadow);
+    }
+  }
+
+  &-loading &-loading-icon {
+    color: var(--ergo-disabled-text-constrast);
+  }
+}
+
+.ant-switch-checked {
+  background-color: var(--ergo-primary-color);
+
+  .ant-switch-loading-icon {
+    color: var(--ergo-primary-color);
+  }
+}

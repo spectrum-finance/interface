@@ -1,0 +1,18 @@
+@import "../src/assets/styles/styles.less";
+
+@storybook-dark-bg: #000000;
+@storybook-light-bg: #E5E5E5;
+
+.dark {
+  background-color: @storybook-dark-bg !important;
+}
+
+.light {
+  background-color: @storybook-light-bg !important;
+}
+
+.dark, .light {
+  h1, h2, h3, h4, h5 {
+    color: var(--ergo-primary-text);
+  }
+}

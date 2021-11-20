@@ -1,18 +1,22 @@
-import { OpStatus } from 'ergo-dex-sdk/build/main/amm/models/ammOperation';
+import { OpStatus } from '@ergolabs/ergo-dex-sdk/build/main/amm/models/ammOperation';
+import {
+  Address,
+  BoxSelection,
+  DefaultBoxSelector,
+  ErgoBox,
+  ErgoTx,
+  TxId,
+} from '@ergolabs/ergo-sdk';
 
-import { ammOrderRefunds } from '../services/amm';
 import { ERG_DECIMALS } from '../constants/erg';
-import explorer from '../services/explorer';
-import { DefaultBoxSelector, ErgoTx } from 'ergo-dex-sdk/build/module/ergo';
-import { BoxSelection } from 'ergo-dex-sdk/build/module/ergo/wallet/entities/boxSelection';
-import { Address, TxId } from 'ergo-dex-sdk/build/main/ergo';
-import { ErgoBox } from 'ergo-dex-sdk/build/module/ergo/entities/ergoBox';
+import { ammOrderRefunds } from '../services/amm';
+import { explorer } from '../services/explorer';
 import { parseUserInputToFractions } from './math';
 
 interface RefundParams {
   txId: TxId;
   address: Address;
-  minerFee: string;
+  minerFee: number;
 }
 
 const validRefundStatuses = ['pending', 'submitted'];

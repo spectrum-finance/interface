@@ -1,13 +1,15 @@
-import { ErgoBox, TokenId } from 'ergo-dex-sdk/build/module/ergo';
+import { ErgoBox, TokenId } from '@ergolabs/ergo-sdk';
 
-type Asset = {
+export type Asset = {
   tokenName?: string;
   tokenId: string;
   amount: bigint;
   decimals?: number;
 };
 
-type AssetDictionary = Record<TokenId, Asset>;
+export const isAsset = (value: any): value is Asset => !!value?.tokenId;
+
+export type AssetDictionary = Record<TokenId, Asset>;
 
 export const getListAvailableTokens = (boxes: ErgoBox[]): AssetDictionary => {
   const assetDict: AssetDictionary = {};

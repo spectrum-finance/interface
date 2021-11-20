@@ -1,3 +1,6 @@
+import './styles.less';
+import '../src/ergodex-cdk/index';
+
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
   controls: {
@@ -6,4 +9,9 @@ export const parameters = {
       date: /Date$/,
     },
   },
+  backgrounds: { disable: true },
+  themes: [
+    { name: 'Light Theme', class: 'light', color: '#e5e5e5', default: true },
+    { name: 'Dark Theme', class: 'dark', color: '#000000' }
+  ],
 }

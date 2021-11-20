@@ -1,6 +1,7 @@
-import { NetworkHistory } from 'ergo-dex-sdk';
+import { NetworkHistory } from '@ergolabs/ergo-dex-sdk';
+
 import { ordersParser, poolsInfoParser } from './amm';
-import explorer from './explorer';
+import { explorer } from './explorer';
 
 const networkHistory = new NetworkHistory(
   explorer,

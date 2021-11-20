@@ -2,10 +2,11 @@ import {
   AmmOrderRefunds,
   DefaultAmmOrdersParser,
   DefaultAmmPoolsInfoParser,
-} from 'ergo-dex-sdk';
-import explorer from './explorer';
-import yoroiProver from './yoroiProver';
+} from '@ergolabs/ergo-dex-sdk';
+
 import { mainnetTxAssembler } from './defaultTxAssembler';
+import { explorer } from './explorer';
+import yoroiProver from './yoroi/prover';
 
 export const ammOrderRefunds = new AmmOrderRefunds(
   explorer,
