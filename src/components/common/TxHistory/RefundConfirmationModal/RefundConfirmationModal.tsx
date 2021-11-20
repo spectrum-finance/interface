@@ -55,75 +55,77 @@ const RefundConfirmationModal: React.FC<RefundConfirmationModalProps> = ({
   return (
     <>
       <Modal.Title>Refund transaction</Modal.Title>
-      <Flex flexDirection="col" style={{ width: 570 }}>
-        <Flex.Item marginBottom={4}>
-          <Flex flexDirection="col">
-            <Flex.Item marginBottom={2}>
-              <Typography.Body strong>Fees</Typography.Body>
-            </Flex.Item>
-            <Flex.Item>
-              <Box contrast padding={4}>
-                <Flex justify="space-between">
-                  <Flex.Item>
-                    <Typography.Text strong>Fees</Typography.Text>
-                    <InfoTooltip
-                      placement="rightBottom"
-                      content={
-                        <Flex flexDirection="col" style={{ width: '200px' }}>
-                          <Flex.Item>
-                            <Flex justify="space-between">
-                              <Flex.Item>Miner Fee:</Flex.Item>
-                              <Flex.Item>{minerFee} ERG</Flex.Item>
-                            </Flex>
-                          </Flex.Item>
-                        </Flex>
-                      }
-                    />
-                  </Flex.Item>
-                  <Flex.Item>
-                    <Typography.Text strong>{minerFee} ERG</Typography.Text>
-                  </Flex.Item>
-                </Flex>
-              </Box>
-            </Flex.Item>
-          </Flex>
-        </Flex.Item>
-        <Flex.Item marginBottom={4}>
-          <Flex flexDirection="col">
-            <Flex.Item marginBottom={2}>
-              <Typography.Body strong>Select address</Typography.Body>
-              <InfoTooltip
-                placement="rightBottom"
-                content="You will receive refund to this address"
-              />
-            </Flex.Item>
-            <Flex.Item>
-              <Dropdown
-                trigger={['click']}
-                overlay={
-                  <Menu style={{ overflowY: 'auto', maxHeight: '200px' }}>
-                    {addresses.map((a) => (
-                      <Menu.Item key={a} onClick={() => setActiveAddress(a)}>
-                        {a}
-                      </Menu.Item>
-                    ))}
-                  </Menu>
-                }
-              >
-                <Button size="large">
-                  {getShortAddress(activeAddress ?? '')}
-                  <DownOutlined />
-                </Button>
-              </Dropdown>
-            </Flex.Item>
-          </Flex>
-        </Flex.Item>
-        <Flex.Item>
-          <Button size="large" type="primary" block onClick={handleRefund}>
-            Refund
-          </Button>
-        </Flex.Item>
-      </Flex>
+      <Modal.Content width={570}>
+        <Flex flexDirection="col">
+          <Flex.Item marginBottom={4}>
+            <Flex flexDirection="col">
+              <Flex.Item marginBottom={2}>
+                <Typography.Body strong>Fees</Typography.Body>
+              </Flex.Item>
+              <Flex.Item>
+                <Box contrast padding={4}>
+                  <Flex justify="space-between">
+                    <Flex.Item>
+                      <Typography.Text strong>Fees</Typography.Text>
+                      <InfoTooltip
+                        placement="rightBottom"
+                        content={
+                          <Flex flexDirection="col" style={{ width: '200px' }}>
+                            <Flex.Item>
+                              <Flex justify="space-between">
+                                <Flex.Item>Miner Fee:</Flex.Item>
+                                <Flex.Item>{minerFee} ERG</Flex.Item>
+                              </Flex>
+                            </Flex.Item>
+                          </Flex>
+                        }
+                      />
+                    </Flex.Item>
+                    <Flex.Item>
+                      <Typography.Text strong>{minerFee} ERG</Typography.Text>
+                    </Flex.Item>
+                  </Flex>
+                </Box>
+              </Flex.Item>
+            </Flex>
+          </Flex.Item>
+          <Flex.Item marginBottom={4}>
+            <Flex flexDirection="col">
+              <Flex.Item marginBottom={2}>
+                <Typography.Body strong>Select address</Typography.Body>
+                <InfoTooltip
+                  placement="rightBottom"
+                  content="You will receive refund to this address"
+                />
+              </Flex.Item>
+              <Flex.Item>
+                <Dropdown
+                  trigger={['click']}
+                  overlay={
+                    <Menu style={{ overflowY: 'auto', maxHeight: '200px' }}>
+                      {addresses.map((a) => (
+                        <Menu.Item key={a} onClick={() => setActiveAddress(a)}>
+                          {a}
+                        </Menu.Item>
+                      ))}
+                    </Menu>
+                  }
+                >
+                  <Button size="large">
+                    {getShortAddress(activeAddress ?? '')}
+                    <DownOutlined />
+                  </Button>
+                </Dropdown>
+              </Flex.Item>
+            </Flex>
+          </Flex.Item>
+          <Flex.Item>
+            <Button size="large" type="primary" block onClick={handleRefund}>
+              Refund
+            </Button>
+          </Flex.Item>
+        </Flex>
+      </Modal.Content>
     </>
   );
 };

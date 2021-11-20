@@ -47,7 +47,7 @@ const TokenListModal: React.FC<TokenListModalProps> = ({
   return (
     <>
       <Modal.Title>Select a token</Modal.Title>
-      <Box padding={0} width={400}>
+      <Modal.Content width={400}>
         <Input
           placeholder="Search"
           size="large"
@@ -66,7 +66,7 @@ const TokenListModal: React.FC<TokenListModalProps> = ({
           ))}
           {/*</Col>*/}
         </Flex>
-      </Box>
+      </Modal.Content>
     </>
   );
 };

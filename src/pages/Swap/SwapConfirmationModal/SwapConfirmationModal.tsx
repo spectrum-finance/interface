@@ -195,7 +195,7 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
   return (
     <>
       <Modal.Title>Confirm swap</Modal.Title>
-      <Box>
+      <Modal.Content width={496}>
         <Form form={form} initialValues={value}>
           <Flex flexDirection="col">
             <Flex.Item marginBottom={1}>
@@ -326,7 +326,7 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
             </Flex.Item>
           </Flex>
         </Form>
-      </Box>
+      </Modal.Content>
     </>
   );
 };

@@ -79,12 +79,14 @@ const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
   ];
 
   return (
-    <Box transparent width={372}>
-      <Modal.Title>test</Modal.Title>
-      {wallets.map((wallet, index) => (
-        <WalletItem key={index} close={close} wallet={wallet} />
-      ))}
-    </Box>
+    <>
+      <Modal.Title>Select a wallet</Modal.Title>
+      <Modal.Content width={400}>
+        {wallets.map((wallet, index) => (
+          <WalletItem key={index} close={close} wallet={wallet} />
+        ))}
+      </Modal.Content>
+    </>
   );
 };
 
