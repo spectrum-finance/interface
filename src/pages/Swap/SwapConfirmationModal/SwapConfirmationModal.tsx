@@ -11,24 +11,34 @@ import React, { FC, useEffect, useState } from 'react';
 import {
   TokenControlFormItem,
   TokenControlValue,
-} from '../../components/common/TokenControl/TokenControl';
-import { InfoTooltip } from '../../components/InfoTooltip/InfoTooltip';
-import { ERG_DECIMALS, UI_FEE } from '../../constants/erg';
-import { defaultExFee } from '../../constants/settings';
-import { useSettings } from '../../context';
-import { Box, Button, Flex, Form, Modal, Typography } from '../../ergodex-cdk';
-import { useObservable } from '../../hooks/useObservable';
-import { explorer } from '../../services/explorer';
-import { utxos$ } from '../../services/new/core';
-import { poolActions } from '../../services/poolActions';
-import { submitTx } from '../../services/yoroi';
-import { makeTarget } from '../../utils/ammMath';
-import { parseUserInputToFractions, renderFractions } from '../../utils/math';
-import { calculateTotalFee } from '../../utils/transactions';
+} from '../../../components/common/TokenControl/TokenControl';
+import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
+import { ERG_DECIMALS, UI_FEE } from '../../../constants/erg';
+import { defaultExFee } from '../../../constants/settings';
+import { useSettings } from '../../../context';
+import {
+  Box,
+  Button,
+  Flex,
+  Form,
+  Modal,
+  Typography,
+} from '../../../ergodex-cdk';
+import { useObservable } from '../../../hooks/useObservable';
+import { explorer } from '../../../services/explorer';
+import { utxos$ } from '../../../services/new/core';
+import { poolActions } from '../../../services/poolActions';
+import { submitTx } from '../../../services/yoroi';
+import { makeTarget } from '../../../utils/ammMath';
+import {
+  parseUserInputToFractions,
+  renderFractions,
+} from '../../../utils/math';
+import { calculateTotalFee } from '../../../utils/transactions';
 import {
   BaseInputParameters,
   getBaseInputParameters,
-} from '../../utils/walletMath';
+} from '../../../utils/walletMath';
 
 interface SwapFormModel {
   readonly from?: TokenControlValue;

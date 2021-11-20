@@ -1,4 +1,3 @@
-import { Typography } from 'antd';
 import React, {
   createContext,
   FC,
@@ -7,6 +6,8 @@ import React, {
   useEffect,
   useState,
 } from 'react';
+
+import { Typography } from '../Typography/Typography';
 
 interface ModalTitleContextType {
   readonly title: ReactNode;

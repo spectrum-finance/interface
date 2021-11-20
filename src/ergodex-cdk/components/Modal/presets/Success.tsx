@@ -3,6 +3,7 @@ import React, { FC, ReactNode } from 'react';
 
 import { Row } from '../../Row/Row';
 import { ModalTitle } from '../ModalTitle';
+import { INFO_DIALOG_WIDTH } from './core';
 
 export interface SuccessProps {
   readonly content:
@@ -14,7 +15,7 @@ export interface SuccessProps {
 }
 
 export const Success: FC<SuccessProps> = ({ content, result }) => (
-  <div style={{ width: 343 }}>
+  <div style={{ width: INFO_DIALOG_WIDTH }}>
     <ModalTitle />
     <Row justify="center" bottomGutter={6}>
       <CheckCircleOutlined
