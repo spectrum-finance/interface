@@ -17,6 +17,7 @@ export const connectYoroiWallet =
         ctx.setIsWalletConnected(isConnected);
         walletCookies.setConnected();
       } else {
+        walletCookies.removeConnected();
         return Promise.reject(new Error(WARNING_MESSAGE.ISSUE));
       }
     });
