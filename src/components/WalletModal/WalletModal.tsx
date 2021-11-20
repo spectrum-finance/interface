@@ -97,7 +97,12 @@ export const WalletModal: React.FC = () => {
                     activeAddress={address}
                   />
                 </Tabs.TabPane>
-                <Tabs.TabPane tab="Tokens" key="2" style={{ overflow: 'auto' }}>
+                <Tabs.TabPane
+                  disabled
+                  tab="Tokens"
+                  key="2"
+                  style={{ overflow: 'auto' }}
+                >
                   <TokensTab />
                 </Tabs.TabPane>
               </Tabs>
