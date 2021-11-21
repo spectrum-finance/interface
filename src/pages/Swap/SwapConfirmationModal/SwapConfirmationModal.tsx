@@ -185,9 +185,7 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
               network,
             },
           )
-          .then(async (tx) => {
-            await submitTx(tx);
-          }),
+          .then((tx) => submitTx(tx)),
       );
     }
   };
