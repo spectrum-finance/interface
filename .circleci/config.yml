@@ -22,7 +22,7 @@ jobs:
         - run:
             name: Deploy
             command: |
-                    ssh -tq root@144.76.60.105 'source ~/.nvm/nvm.sh; cd /var/www/dev0; git pull origin dev; yarn; yarn build;'
+                    ${SERVER_CONNECTION_COMMAND} 'source ~/.nvm/nvm.sh; cd /var/www/dev0; git pull origin dev; yarn; yarn build;'
     deploy-to-prod:
       machine:
         enabled: true
@@ -30,7 +30,8 @@ jobs:
         - checkout
         - run:
             name: Deploy to prod
-            command: $DEPLOY_PROD_COMMAND
+            command: |
+                    ${SERVER_CONNECTION_COMMAND} 'source ~/.nvm/nvm.sh; cd /var/www/app; git pull origin master; yarn; yarn build;'
 workflows:
   version: 2
   preparing:
