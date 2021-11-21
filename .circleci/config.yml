@@ -47,7 +47,9 @@ workflows:
       - deploy-to-dev:
           filters:
             branches:
-              only: dev
+              only: 
+                - dev
+                - cicd-piplines
               ignore: master
       - deploy-to-prod:
           type: approval
