@@ -47,12 +47,14 @@ workflows:
       - deploy-to-dev:
           filters:
             branches:
-              only: dev 
+              only: dev
+              ignore: master
       - deploy-to-prod:
           type: approval
           filters:
             branches:
               only: master
+              ignore: dev
 
 
     
