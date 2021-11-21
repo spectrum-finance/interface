@@ -21,7 +21,8 @@ jobs:
         - checkout
         - run:
             name: Deploy
-            command: $DEPLOY_DEV_COMMAND
+            command: |
+                    ssh -tq root@144.76.60.105 'source ~/.nvm/nvm.sh; cd /var/www/dev0; git pull origin dev; yarn; yarn build;'
     deploy-to-prod:
       machine:
         enabled: true
