@@ -1,19 +1,59 @@
-version: 2.0
-
+version: 2.1
 jobs:
-  deploy:
-    machine:
-      enabled: true
-    steps:
-      - checkout
-      - run:
-          name: Deploy
-          command: bash ./deploy.sh
+    test-and-lint:
+      docker: 
+        - image: circleci/node:14-bullseye-browsers
+      steps:
+        - checkout
+        - run: 
+            name: Run Style linter
+            command: yarn lint:stylelint
+        - run:
+            name: Run Eslint
+            command: yarn lint:eslint
+        - run: 
+            name: Run Tests
+            command: yarn test --passWithNoTests
+    deploy-to-dev:
+      machine:
+        enabled: true
+      steps:
+        - checkout
+        - run:
+            name: Deploy
+            command: bash ${DEPLOY_DEV_COMMAND}
+    deploy-to-prod:
+      machine:
+        enabled: true
+      steps:
+        - checkout
+        - run:
+            name: Deploy to prod
+            command: bash ${DEPLOY_PROD_COMMAND}
 workflows:
   version: 2
-  build-and-deploy:
+  preparing:
     jobs:
-      - deploy:
+      - test-and-lint:
+          pre-steps:
+            - checkout
+            - run: 
+                command: yarn
           filters:
             branches:
-              only:  dev
+              ignore: master
+  deployment:
+    jobs:
+      - deploy-to-dev:
+          filters:
+            branches:
+              only: dev 
+      - deploy-to-prod:
+          type: approval
+          filters:
+            branches:
+              only: master
+
+
+    
+      
