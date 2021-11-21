@@ -75,25 +75,26 @@ const TxHistoryModal = (): JSX.Element => {
   return (
     <>
       <Modal.Title>Recent transactions</Modal.Title>
-      <Modal.Content width={570}>
+      <Modal.Content width={680}>
         <Flex
           flexDirection="col"
           style={{ overflowY: 'auto', maxHeight: '500px' }}
         >
           <Flex.Item>
             <Flex justify="space-between" alignItems="center">
-              <Flex.Item style={{ width: '44%' }}>
-                <Typography.Title level={5}>Input / Output</Typography.Title>
+              <Flex.Item style={{ width: '35%' }}>
+                <Typography.Title level={5}>Assets</Typography.Title>
               </Flex.Item>
-              <Flex.Item style={{ width: '23%' }}>
+              <Flex.Item style={{ width: '24%' }}>
+                <Typography.Title level={5}>Date, Time</Typography.Title>
+              </Flex.Item>
+              <Flex.Item style={{ width: '18%' }}>
                 <Typography.Title level={5}>Type</Typography.Title>
               </Flex.Item>
-              <Flex.Item style={{ width: '23%' }}>
+              <Flex.Item style={{ width: '18%' }}>
                 <Typography.Title level={5}>Status</Typography.Title>
               </Flex.Item>
-              <Flex.Item style={{ width: '10%' }}>
-                <Typography.Title level={5}>Action</Typography.Title>
-              </Flex.Item>
+              <Flex.Item style={{ width: '5%' }} />
             </Flex>
           </Flex.Item>
           {operations ? (
@@ -107,19 +108,22 @@ const TxHistoryModal = (): JSX.Element => {
                 >
                   <Box transparent padding={[5, 0]}>
                     <Flex justify="space-between" alignItems="center">
-                      <Flex.Item style={{ width: '44%' }}>
+                      <Flex.Item style={{ width: '35%' }}>
                         <InputOutputColumn
                           type={op.type}
                           pair={{ x: op.assetX, y: op.assetY }}
                         />
                       </Flex.Item>
-                      <Flex.Item style={{ width: '23%' }}>
+                      <Flex.Item style={{ width: '24%' }}>
+                        {op.timestamp}
+                      </Flex.Item>
+                      <Flex.Item style={{ width: '18%' }}>
                         <TxTypeTag type={op.type} />
                       </Flex.Item>
-                      <Flex.Item style={{ width: '23%' }}>
+                      <Flex.Item style={{ width: '18%' }}>
                         <TxStatusTag status={op.status} />
                       </Flex.Item>
-                      <Flex.Item style={{ width: '10%' }}>
+                      <Flex.Item style={{ width: '5%' }}>
                         <Dropdown
                           overlay={
                             <Menu style={{ width: 160, padding: 0 }}>
@@ -131,7 +135,7 @@ const TxHistoryModal = (): JSX.Element => {
                         >
                           <Button
                             type="text"
-                            size="large"
+                            size="middle"
                             icon={<DotsIconVertical />}
                           />
                         </Dropdown>
