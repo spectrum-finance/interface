@@ -8,6 +8,7 @@ import {
   Col,
   Flex,
   Input,
+  Modal,
   Row,
   SearchOutlined,
 } from '../../../../../ergodex-cdk';
@@ -44,26 +45,29 @@ const TokenListModal: React.FC<TokenListModalProps> = ({
   };
 
   return (
-    <Box padding={0}>
-      <Input
-        placeholder="Search"
-        size="large"
-        prefix={<SearchOutlined />}
-        onChange={handleSearch}
-      />
-      <Flex flexDirection="col">
-        {/*<Col span={24}>*/}
-        {assets?.filter(byTerm).map((asset) => (
-          <TokenListItem
-            key={asset.id}
-            asset={asset}
-            iconName={asset.name}
-            onClick={() => handleClick(asset)}
-          />
-        ))}
-        {/*</Col>*/}
-      </Flex>
-    </Box>
+    <>
+      <Modal.Title>Select a token</Modal.Title>
+      <Modal.Content width={400}>
+        <Input
+          placeholder="Search"
+          size="large"
+          prefix={<SearchOutlined />}
+          onChange={handleSearch}
+        />
+        <Flex flexDirection="col">
+          {/*<Col span={24}>*/}
+          {assets?.filter(byTerm).map((asset) => (
+            <TokenListItem
+              key={asset.id}
+              asset={asset}
+              iconName={asset.name}
+              onClick={() => handleClick(asset)}
+            />
+          ))}
+          {/*</Col>*/}
+        </Flex>
+      </Modal.Content>
+    </>
   );
 };
 

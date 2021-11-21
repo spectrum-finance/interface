@@ -52,10 +52,10 @@ import {
 } from '../../utils/math';
 import { calculateTotalFee } from '../../utils/transactions';
 import { getBaseInputParameters } from '../../utils/walletMath';
-import { Ratio } from './Ratio';
-import { SwapConfirmationModal } from './SwapConfirmationModal';
-import { SwapTooltip } from './SwapTooltip';
-import { TransactionSettings } from './TransactionSettings';
+import { Ratio } from './Ratio/Ratio';
+import { SwapConfirmationModal } from './SwapConfirmationModal/SwapConfirmationModal';
+import { SwapTooltip } from './SwapTooltip/SwapTooltip';
+import { TransactionSettings } from './TransactionSettings/TransactionSettings';
 
 interface SwapFormModel {
   readonly from?: TokenControlValue;

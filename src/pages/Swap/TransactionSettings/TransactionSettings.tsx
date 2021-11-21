@@ -2,15 +2,15 @@ import './TransactionSettings.less';
 
 import React, { ChangeEventHandler, useState } from 'react';
 
-import { InfoTooltip } from '../../components/InfoTooltip/InfoTooltip';
-import { MIN_NITRO } from '../../constants/erg';
+import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
+import { MIN_NITRO } from '../../../constants/erg';
 import {
   defaultMinerFee,
   defaultSlippage,
   SlippageMax,
   SlippageMin,
-} from '../../constants/settings';
-import { useSettings } from '../../context';
+} from '../../../constants/settings';
+import { useSettings } from '../../../context';
 import {
   Box,
   Button,
@@ -20,7 +20,7 @@ import {
   Popover,
   SettingOutlined,
   Typography,
-} from '../../ergodex-cdk';
+} from '../../../ergodex-cdk';
 
 const TransactionSettings = (): JSX.Element => {
   const [settings, setSettings] = useSettings();

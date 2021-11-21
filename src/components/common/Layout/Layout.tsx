@@ -20,10 +20,7 @@ const Layout = ({ children }: Props): JSX.Element => {
 
   useEffect(() => {
     if (!isKYAAccepted) {
-      Modal.open(({ close }) => <KyaModal onClose={close} />, {
-        title: 'Know Your Assumptions',
-        width: 680,
-      });
+      Modal.open(({ close }) => <KyaModal onClose={close} />);
     }
   }, [isKYAAccepted]);
 

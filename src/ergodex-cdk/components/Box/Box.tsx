@@ -19,6 +19,7 @@ interface BoxProps extends React.PropsWithChildren<unknown> {
   maxHeight?: number;
   overflow?: boolean;
   onClick?: React.MouseEventHandler<HTMLElement>;
+  width?: number;
 }
 
 const calcGutter = (n: number): string =>
@@ -37,6 +38,7 @@ const Box = ({
   formWrapper,
   maxHeight,
   overflow,
+  width,
 }: BoxProps): JSX.Element => {
   const getPadding = (p: Padding) => {
     if (p instanceof Array && p.length === 2) {
@@ -68,6 +70,7 @@ const Box = ({
             : `calc(var(--ergo-base-gutter))`,
         maxHeight: `${maxHeight}px`,
         overflow: overflow ? 'auto' : 'none',
+        width: width,
       }}
       onClick={onClick}
     >
