@@ -1,21 +1,20 @@
-// TODO: https://ergoplatform.myjetbrains.com/youtrack/issue/EDEX-439
 import Icon from '@ant-design/icons';
 import React, { useState } from 'react';
 
 import { ReactComponent as DarkModeOutlined } from '../../../assets/icons/darkmode.svg';
 import { ReactComponent as Dots } from '../../../assets/icons/icon-dots.svg';
 import {
-  // BarChartOutlined,
+  BarChartOutlined,
   Button,
   Dropdown,
-  // FileTextOutlined,
+  FileTextOutlined,
   GithubOutlined,
-  // GlobalOutlined,
-  // InfoCircleOutlined,
+  GlobalOutlined,
+  InfoCircleOutlined,
   LeftOutlined,
   Menu,
-  // QuestionCircleOutlined,
-  // RightOutlined,
+  QuestionCircleOutlined,
+  RightOutlined,
 } from '../../../ergodex-cdk';
 import { ThemeSwitch } from '../../ThemeSwitch/ThemeSwitch';
 
@@ -33,23 +32,22 @@ const BurgerMenu = (): JSX.Element => {
     }
   };
 
-  // TODO: UPDATE_BURGER_MENU_WITH_LINKS [EDEX-470]
   const menu = [
-    // {
-    //   title: 'About',
-    //   icon: <InfoCircleOutlined />,
-    //   link: '#',
-    // },
-    // {
-    //   title: 'How to use',
-    //   icon: <QuestionCircleOutlined />,
-    //   link: '#',
-    // },
-    // {
-    //   title: 'Docs',
-    //   icon: <FileTextOutlined />,
-    //   link: '#',
-    // },
+    {
+      title: 'About',
+      icon: <InfoCircleOutlined />,
+      link: 'https://docs.ergodex.io/docs/about-ergodex/intro',
+    },
+    {
+      title: 'How to use',
+      icon: <QuestionCircleOutlined />,
+      link: 'https://docs.ergodex.io/docs/user-guides/quick-start',
+    },
+    {
+      title: 'Docs',
+      icon: <FileTextOutlined />,
+      link: 'https://docs.ergodex.io',
+    },
     {
       title: 'GitHub',
       icon: <GithubOutlined />,
