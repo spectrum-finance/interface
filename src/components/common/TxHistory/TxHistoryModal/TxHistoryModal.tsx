@@ -86,7 +86,7 @@ const TxHistoryModal = (): JSX.Element => {
                 <Typography.Title level={5}>Assets</Typography.Title>
               </Flex.Item>
               <Flex.Item style={{ width: '24%' }}>
-                <Typography.Title level={5}>Date, Time</Typography.Title>
+                <Typography.Title level={5}>Date</Typography.Title>
               </Flex.Item>
               <Flex.Item style={{ width: '18%' }}>
                 <Typography.Title level={5}>Type</Typography.Title>
