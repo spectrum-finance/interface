@@ -21,7 +21,8 @@ jobs:
         - checkout
         - run:
             name: Deploy
-            command: bash ${DEPLOY_DEV_COMMAND}
+            command: |
+                    ${SERVER_CONNECTION_COMMAND} 'source ~/.nvm/nvm.sh; cd /var/www/dev0; git pull origin dev; yarn; yarn build;'
     deploy-to-prod:
       machine:
         enabled: true
@@ -29,7 +30,8 @@ jobs:
         - checkout
         - run:
             name: Deploy to prod
-            command: bash ${DEPLOY_PROD_COMMAND}
+            command: |
+                    ${SERVER_CONNECTION_COMMAND} 'source ~/.nvm/nvm.sh; cd /var/www/app; git pull origin master; yarn; yarn build;'
 workflows:
   version: 2
   preparing:
@@ -47,12 +49,16 @@ workflows:
       - deploy-to-dev:
           filters:
             branches:
-              only: dev 
+              only: 
+                - dev
+                - cicd-piplines
+              ignore: master
       - deploy-to-prod:
           type: approval
           filters:
             branches:
               only: master
+              ignore: dev
 
 
     
