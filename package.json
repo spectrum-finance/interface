@@ -69,6 +69,7 @@
     "@storybook/react": "6.3.8",
     "@types/bs58": "^4.0.1",
     "@types/js-cookie": "^2.2.7",
+    "@types/luxon": "^2.0.7",
     "@types/react-copy-to-clipboard": "^5.0.1",
     "@typescript-eslint/eslint-plugin": "^4.29.1",
     "@typescript-eslint/parser": "^4.29.1",
