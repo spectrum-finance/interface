@@ -79,9 +79,7 @@ const ConfirmRemoveModal: React.FC<ConfirmRemoveModalProps> = ({
                   network,
                 },
               )
-              .then(async (tx) => {
-                await submitTx(tx);
-              }),
+              .then((tx) => submitTx(tx)),
           );
         }
       } catch (err) {
