@@ -1,6 +1,7 @@
 import './List.less';
 
 import { List as BaseList, ListProps as BaseListProps } from 'antd';
+import cn from 'classnames';
 import React, { FC, ReactNode, useEffect, useRef, useState } from 'react';
 
 export interface ListProps<T> {
@@ -25,7 +26,7 @@ export const List: FC<ListProps<any>> = ({
   className,
 }) => {
   const ref = useRef<HTMLDivElement>();
-  const [overflow, setOverflow] = useState<'bottom' | 'top'>('bottom');
+  const [overlay, setOverlay] = useState<'bottom' | 'top'>('bottom');
 
   useEffect(() => {
     const container = ref.current?.querySelector('.ant-list');
@@ -33,9 +34,9 @@ export const List: FC<ListProps<any>> = ({
       const target = event.target as HTMLDivElement;
 
       if (target.scrollHeight - target.scrollTop === target.offsetHeight) {
-        setOverflow('top');
+        setOverlay('top');
       } else {
-        setOverflow('bottom');
+        setOverlay('bottom');
       }
     };
 
@@ -46,8 +47,8 @@ export const List: FC<ListProps<any>> = ({
 
   return (
     <div style={{ position: 'relative' }} ref={ref as any}>
-      {transparent && height && overflow === 'top' && (
-        <div className="ant-list-top-overlay" />
+      {transparent && height && overlay === 'top' && (
+        <div className={cn('ant-list-overlay', 'ant-list-overlay--top')} />
       )}
       <BaseList
         renderItem={children}
@@ -63,8 +64,8 @@ export const List: FC<ListProps<any>> = ({
           } as any
         }
       />
-      {transparent && height && overflow === 'bottom' && (
-        <div className="ant-list-bottom-overlay" />
+      {transparent && height && overlay === 'bottom' && (
+        <div className={cn('ant-list-overlay', 'ant-list-overlay--bottom')} />
       )}
     </div>
   );
