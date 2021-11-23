@@ -102,7 +102,6 @@ export const WalletModal: React.FC = () => {
                     />
                   </Tabs.TabPane>
                   <Tabs.TabPane
-                    disabled
                     tab="Tokens"
                     key="2"
                     style={{ overflow: 'auto' }}

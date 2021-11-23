@@ -30,7 +30,11 @@ const TokenIcon: React.FC<TokenIconProps> = ({ name, size, ...rest }) => {
     <span
       role="img"
       className={`token-icon token-icon-${name?.toLowerCase()}`}
-      style={{ display: 'inherit' }}
+      style={{
+        display: 'inherit',
+        width: size === 'large' ? 32 : 24,
+        height: size === 'large' ? 32 : 24,
+      }}
       {...rest}
     >
       <svg
