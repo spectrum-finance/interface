@@ -16,7 +16,7 @@ export const Progress: FC<ProgressProps> = ({ content }) => (
   <>
     <ModalTitle />
     <ModalContent width={INFO_DIALOG_WIDTH}>
-      <Flex justify="center" flexDirection="row">
+      <Flex justify="center" direction="row">
         <Flex.Item marginBottom={6}>
           <Spin indicator={<LoadingOutlined style={{ fontSize: 80 }} />} />
         </Flex.Item>

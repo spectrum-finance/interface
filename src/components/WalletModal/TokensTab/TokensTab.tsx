@@ -21,7 +21,7 @@ export const TokensTab: React.FC = () => {
   const [assets] = useObservable(userAssets$);
 
   return (
-    <Flex flexDirection="col">
+    <Flex direction="col">
       <Flex.Item marginTop={2}>
         <List rowKey="id" dataSource={assets} height={224} transparent gap={2}>
           {(item) => (

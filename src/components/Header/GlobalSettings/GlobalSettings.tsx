@@ -44,7 +44,7 @@ const GlobalSettings = (): JSX.Element => {
 
   const Setting: JSX.Element = (
     <Box transparent padding={4}>
-      <Flex flexDirection="col">
+      <Flex direction="col">
         <Flex.Item marginBottom={4}>
           <Typography.Title level={5}>Global Settings</Typography.Title>
         </Flex.Item>

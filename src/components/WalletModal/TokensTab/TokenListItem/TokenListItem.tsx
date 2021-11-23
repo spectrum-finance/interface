@@ -14,13 +14,13 @@ export const TokenListItem: React.FC<TokenListItemProps> = ({
   balance,
 }) => (
   <Box padding={[2, 4]}>
-    <Flex alignItems="center">
+    <Flex align="center">
       <Flex.Item flex={1}>
-        <Flex alignItems="center">
+        <Flex align="center">
           <Flex.Item marginRight={2}>
             <TokenIcon name={asset.name} />
           </Flex.Item>
-          <Flex flexDirection="col">
+          <Flex direction="col">
             <Typography.Body>{asset.name}</Typography.Body>
             {/*<Typography.Footnote small>{asset.name}</Typography.Footnote>*/}
           </Flex>

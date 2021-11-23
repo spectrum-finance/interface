@@ -19,7 +19,7 @@ export const Error: FC<ErrorProps> = ({ content, result }) => (
   <>
     <ModalTitle />
     <ModalContent width={INFO_DIALOG_WIDTH}>
-      <Flex justify="center" flexDirection="row">
+      <Flex justify="center" direction="row">
         <Flex.Item marginBottom={6}>
           <CloseCircleOutlined
             style={{ fontSize: 80, color: 'var(--ergo-primary-color)' }}

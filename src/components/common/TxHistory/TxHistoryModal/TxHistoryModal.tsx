@@ -76,12 +76,9 @@ const TxHistoryModal = (): JSX.Element => {
     <>
       <Modal.Title>Recent transactions</Modal.Title>
       <Modal.Content width={570}>
-        <Flex
-          flexDirection="col"
-          style={{ overflowY: 'auto', maxHeight: '500px' }}
-        >
+        <Flex direction="col" style={{ overflowY: 'auto', maxHeight: '500px' }}>
           <Flex.Item>
-            <Flex justify="space-between" alignItems="center">
+            <Flex justify="space-between" align="center">
               <Flex.Item style={{ width: '44%' }}>
                 <Typography.Title level={5}>Input / Output</Typography.Title>
               </Flex.Item>
@@ -106,7 +103,7 @@ const TxHistoryModal = (): JSX.Element => {
                   }}
                 >
                   <Box transparent padding={[5, 0]}>
-                    <Flex justify="space-between" alignItems="center">
+                    <Flex justify="space-between" align="center">
                       <Flex.Item style={{ width: '44%' }}>
                         <InputOutputColumn
                           type={op.type}

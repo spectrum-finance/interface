@@ -19,7 +19,7 @@ const InputOutputColumn: React.FC<InputOutputColumnProps> = ({
 }) => {
   if (type === 'deposit') {
     return (
-      <Flex alignItems="center">
+      <Flex align="center">
         <Flex.Item marginRight={2}>
           <TokenIconPair
             tokenPair={{ tokenA: pair.x.name, tokenB: pair.y.name }}
@@ -28,7 +28,7 @@ const InputOutputColumn: React.FC<InputOutputColumnProps> = ({
         <Flex.Item>
           <Flex>
             <Flex.Item marginRight={2}>
-              <Flex flexDirection="col">
+              <Flex direction="col">
                 <Flex.Item>
                   <Typography.Body strong>{pair.x.name}:</Typography.Body>
                 </Flex.Item>
@@ -38,7 +38,7 @@ const InputOutputColumn: React.FC<InputOutputColumnProps> = ({
               </Flex>
             </Flex.Item>
             <Flex.Item>
-              <Flex flexDirection="col">
+              <Flex direction="col">
                 <Flex.Item>
                   <Typography.Footnote>{pair.x.amount}</Typography.Footnote>
                 </Flex.Item>

@@ -371,8 +371,8 @@ export const Swap: FC = () => {
         onValuesChange={onValuesChange}
         initialValues={initialValues}
       >
-        <Flex flexDirection="col">
-          <Flex flexDirection="row" alignItems="center">
+        <Flex direction="col">
+          <Flex direction="row" align="center">
             <Flex.Item flex={1}>
               <Typography.Title level={4}>Swap</Typography.Title>
             </Flex.Item>

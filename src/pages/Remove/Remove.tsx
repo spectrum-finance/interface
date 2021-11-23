@@ -106,11 +106,11 @@ const Remove = (): JSX.Element => {
     <>
       <FormPageWrapper width={382} title="Remove liquidity" withBackButton>
         {pair ? (
-          <Flex flexDirection="col">
+          <Flex direction="col">
             <Flex.Item marginBottom={2}>
-              <Flex justify="space-between" alignItems="center">
+              <Flex justify="space-between" align="center">
                 <Flex.Item>
-                  <Flex alignItems="center">
+                  <Flex align="center">
                     <Flex.Item display="flex" marginRight={2}>
                       <TokenIconPair
                         tokenPair={{

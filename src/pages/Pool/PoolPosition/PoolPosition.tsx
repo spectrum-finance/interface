@@ -57,7 +57,7 @@ export const PoolPosition: React.FC = () => {
     >
       {position && positionRatio && pair ? (
         <>
-          <Flex alignItems="center">
+          <Flex align="center">
             <TokenIconPair
               size="large"
               tokenPair={{ tokenA: pair.assetX.name, tokenB: pair.assetY.name }}
@@ -74,14 +74,14 @@ export const PoolPosition: React.FC = () => {
             </Flex.Item>
           </Flex>
 
-          <Flex flexDirection="col" style={{ marginTop: 16 }}>
+          <Flex direction="col" style={{ marginTop: 16 }}>
             <Typography.Text>Liquidity</Typography.Text>
             {/* <Typography.Title level={2} style={{ marginTop: 8 }}>
               $6.50
             </Typography.Title> */}
             <Flex.Item marginTop={2}>
               <Box padding={3} className="liquidity-info__wrapper">
-                <Flex flexDirection="col">
+                <Flex direction="col">
                   <Flex justify="space-between">
                     <Flex>
                       <TokenIcon name={pair.assetX.name} />
@@ -171,7 +171,7 @@ export const PoolPosition: React.FC = () => {
             </Flex.Item>
           </Flex> */}
 
-          <Flex flexDirection="col" style={{ marginTop: 16 }}>
+          <Flex direction="col" style={{ marginTop: 16 }}>
             <Typography.Text>Current price</Typography.Text>
             <Flex style={{ marginTop: 10 }}>
               <Flex.Item flex={1} marginRight={1}>

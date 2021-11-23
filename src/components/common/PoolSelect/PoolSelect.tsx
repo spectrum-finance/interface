@@ -21,7 +21,7 @@ interface PoolOptionProps {
 
 const PoolOption: React.FC<PoolOptionProps> = ({ position }) => {
   return (
-    <Flex justify="space-between" alignItems="center">
+    <Flex justify="space-between" align="center">
       <Flex.Item>
         <Flex>
           <Flex.Item marginRight={2}>
@@ -97,7 +97,7 @@ const PoolSelect: React.FC<PoolSelectProps> = ({
                 {value && <PoolOption position={value} />}
               </Flex.Item>
               <Flex.Item>
-                <Flex alignItems="center" style={{ height: '100%' }}>
+                <Flex align="center" style={{ height: '100%' }}>
                   <DownOutlined />
                 </Flex>
               </Flex.Item>

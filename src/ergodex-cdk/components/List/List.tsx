@@ -4,11 +4,14 @@ import { List as BaseList, ListProps as BaseListProps } from 'antd';
 import cn from 'classnames';
 import React, { FC, ReactNode, useEffect, useRef, useState } from 'react';
 
+import { getGutter, Gutter } from '../../utils/gutter';
+
 export interface ListProps<T> {
   readonly dataSource?: BaseListProps<T>['dataSource'];
   readonly gap?: number;
   readonly id?: BaseListProps<T>['id'];
   readonly rowKey?: BaseListProps<T>['rowKey'];
+  readonly padding?: Gutter;
   readonly children?: (item: T) => ReactNode | ReactNode[] | string;
   readonly className?: string;
   readonly transparent?: boolean;
@@ -24,6 +27,7 @@ export const List: FC<ListProps<any>> = ({
   id,
   rowKey,
   className,
+  padding,
 }) => {
   const ref = useRef<HTMLDivElement>();
   const [overlay, setOverlay] = useState<'bottom' | 'top'>('bottom');
@@ -46,9 +50,20 @@ export const List: FC<ListProps<any>> = ({
   }, []);
 
   return (
-    <div style={{ position: 'relative' }} ref={ref as any}>
-      {transparent && height && overlay === 'top' && (
-        <div className={cn('ant-list-overlay', 'ant-list-overlay--top')} />
+    <div
+      style={{
+        position: 'relative',
+        padding: getGutter(padding || 0),
+      }}
+      ref={ref as any}
+    >
+      {transparent && height && (
+        <div
+          className={cn('ant-list-overlay', {
+            'ant-list-overlay--top': overlay === 'top',
+            'ant-list-overlay--bottom': overlay === 'bottom',
+          })}
+        />
       )}
       <BaseList
         renderItem={children}
@@ -64,9 +79,6 @@ export const List: FC<ListProps<any>> = ({
           } as any
         }
       />
-      {transparent && height && overlay === 'bottom' && (
-        <div className={cn('ant-list-overlay', 'ant-list-overlay--bottom')} />
-      )}
     </div>
   );
 };

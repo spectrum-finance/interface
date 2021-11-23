@@ -14,7 +14,7 @@ const TokenIconPair: React.FC<TokenIconPairProps> = ({ tokenPair, size }) => {
   const { tokenA, tokenB } = tokenPair;
 
   return (
-    <Flex alignItems="center">
+    <Flex align="center">
       <TokenIcon size={size} name={tokenA} />
       <TokenIcon
         size={size}
