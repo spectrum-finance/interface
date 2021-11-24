@@ -68,7 +68,10 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
         <Flex justify="center" flexDirection="row" alignItems="center">
           <TokenIcon name={`${network.token}${disabled ? '-disabled' : ''}`} />
           <Typography.Body
-            style={{ color: 'var(--ergo-networkdropdown-hover-focus-color)' }}
+            style={{
+              color: 'var(--ergo-networkdropdown-hover-focus-color)',
+              marginLeft: '8px',
+            }}
           >
             {capitalize(network.name)}
           </Typography.Body>

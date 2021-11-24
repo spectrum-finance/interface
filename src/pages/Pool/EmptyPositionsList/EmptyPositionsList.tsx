@@ -12,7 +12,7 @@ const EmptyPositionsList: React.FC<EmptyPositionsListProps> = ({
   isWalletConnected,
 }) => {
   return (
-    <Box padding={[7, 2]} borderRadius="m">
+    <Box padding={[7, 2]} formWrapper>
       <Row justify="center" align="middle" bottomGutter={3}>
         <Col>
           <Empty />
