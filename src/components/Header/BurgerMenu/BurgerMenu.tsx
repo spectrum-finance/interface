@@ -4,19 +4,19 @@ import React, { useState } from 'react';
 import { ReactComponent as DarkModeOutlined } from '../../../assets/icons/darkmode.svg';
 import { ReactComponent as Dots } from '../../../assets/icons/icon-dots.svg';
 import {
-  BarChartOutlined,
   Button,
   Dropdown,
   FileTextOutlined,
   GithubOutlined,
-  GlobalOutlined,
   InfoCircleOutlined,
   LeftOutlined,
   Menu,
+  Modal,
   QuestionCircleOutlined,
-  RightOutlined,
+  SettingOutlined,
 } from '../../../ergodex-cdk';
 import { ThemeSwitch } from '../../ThemeSwitch/ThemeSwitch';
+import { GlobalSettingsModal } from '../GlobalSettingsModal/GlobalSettingsModal';
 
 const DotsIcon = () => <Icon component={Dots} />;
 
@@ -25,7 +25,7 @@ const BurgerMenu = (): JSX.Element => {
   const [isMenuVisible, setMenuVisible] = useState<boolean>(false);
 
   const onMenuClicked = (e: { key: string }) => {
-    if (e.key === '6') {
+    if (e.key === '7') {
       setIsMainMenu(false);
     } else if (e.key === '8') {
       setIsMainMenu(true);
@@ -53,6 +53,12 @@ const BurgerMenu = (): JSX.Element => {
       icon: <GithubOutlined />,
       link: 'https://github.com/ergolabs',
     },
+    {
+      title: 'Global Settings',
+      icon: <SettingOutlined />,
+      onClick: () =>
+        Modal.open(({ close }) => <GlobalSettingsModal onClose={close} />),
+    },
     // {
     //   title: 'Analytics',
     //   icon: <BarChartOutlined />,
@@ -74,14 +80,24 @@ const BurgerMenu = (): JSX.Element => {
     <Menu onClick={onMenuClicked} style={{ width: 160 }}>
       {menu.map((item, index) => (
         <Menu.Item key={index + 1} icon={item.icon}>
-          <a
-            href={item.link}
-            target="_blank"
-            rel="noreferrer"
-            style={{ marginRight: '24px' }}
-          >
-            {item.title}
-          </a>
+          {item.onClick ? (
+            <a
+              rel="noreferrer"
+              style={{ marginRight: '24px' }}
+              onClick={item.onClick}
+            >
+              {item.title}
+            </a>
+          ) : (
+            <a
+              href={item.link}
+              target="_blank"
+              rel="noreferrer"
+              style={{ marginRight: '24px' }}
+            >
+              {item.title}
+            </a>
+          )}
           {item.additional && item.additional}
         </Menu.Item>
       ))}

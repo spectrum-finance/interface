@@ -2,8 +2,7 @@
 import './Swap.less';
 
 import { AmmPool } from '@ergolabs/ergo-dex-sdk';
-import { swapVars } from '@ergolabs/ergo-dex-sdk/build/main/amm/math/swap';
-import { AssetAmount, AssetInfo } from '@ergolabs/ergo-sdk';
+import { AssetAmount } from '@ergolabs/ergo-sdk';
 import React, { FC, useEffect, useState } from 'react';
 import { Observable, of } from 'rxjs';
 
@@ -15,24 +14,20 @@ import {
   TokenControlFormItem,
   TokenControlValue,
 } from '../../components/common/TokenControl/TokenControl';
-import { TxHistory } from '../../components/common/TxHistory/TxHistory';
 import {
   openConfirmationModal,
   Operation,
 } from '../../components/ConfirmationModal/ConfirmationModal';
 import { FormPageWrapper } from '../../components/FormPageWrapper/FormPageWrapper';
-import { InfoTooltip } from '../../components/InfoTooltip/InfoTooltip';
 import {
   ERG_DECIMALS,
   ERG_TOKEN_ID,
   ERG_TOKEN_NAME,
-  MIN_EX_FEE,
   UI_FEE,
 } from '../../constants/erg';
 import { defaultExFee } from '../../constants/settings';
 import { useSettings } from '../../context';
 import {
-  Box,
   Button,
   Flex,
   Form,
@@ -44,14 +39,8 @@ import { useObservable, useObservableAction } from '../../hooks/useObservable';
 import { assets$, getAssetsByPairAsset } from '../../services/new/assets';
 import { Balance, useWalletBalance } from '../../services/new/balance';
 import { getPoolByPair, pools$ } from '../../services/new/pools';
-import {
-  fractionsToNum,
-  math,
-  parseUserInputToFractions,
-  renderFractions,
-} from '../../utils/math';
+import { fractionsToNum, parseUserInputToFractions } from '../../utils/math';
 import { calculateTotalFee } from '../../utils/transactions';
-import { getBaseInputParameters } from '../../utils/walletMath';
 import { Ratio } from './Ratio/Ratio';
 import { SwapConfirmationModal } from './SwapConfirmationModal/SwapConfirmationModal';
 import { SwapTooltip } from './SwapTooltip/SwapTooltip';
@@ -232,8 +221,8 @@ export const Swap: FC = () => {
   const [pools, updatePoolsByPair] = useObservableAction(getAvailablePools);
   const [balance] = useWalletBalance();
   const [{ minerFee }] = useSettings();
-  const [changes, setChanges] = useState<any>();
-  const [ratio, setRatio] = useState<string>();
+  const [, setChanges] = useState<any>();
+
   const swapStrategy = new SwapStrategy(balance, minerFee);
 
   useEffect(() => {
@@ -320,7 +309,7 @@ export const Swap: FC = () => {
   };
 
   const swapTokens = () => {
-    const { to, from, pool } = form.getFieldsValue();
+    const { to, from } = form.getFieldsValue();
 
     // TODO: REPLACE_WITH_SET_FIELDS_VALUES
     form.setFields([
@@ -329,39 +318,6 @@ export const Swap: FC = () => {
     ]);
     setChanges({});
   };
-
-  const priceTooltip = (
-    <>
-      <Box className="price-content">
-        <Typography.Text className="price-content__left">
-          Minimum received
-        </Typography.Text>
-        <Typography.Text className="price-content__right">
-          0.044WETH
-        </Typography.Text>
-      </Box>
-      <Box className="price-content">
-        <Typography.Text className="price-content__left">
-          Price impact
-        </Typography.Text>
-        <Typography.Text className="price-content__right">0.5%</Typography.Text>
-      </Box>
-      <Box className="price-content">
-        <Typography.Text className="price-content__left">
-          Slippage tollerance
-        </Typography.Text>
-        <Typography.Text className="price-content__right">0.5%</Typography.Text>
-      </Box>
-      <Box className="price-content">
-        <Typography.Text className="price-content__left">
-          Total fees
-        </Typography.Text>
-        <Typography.Text className="price-content__right">
-          0.000055ERG(~$3.065)
-        </Typography.Text>
-      </Box>
-    </>
-  );
 
   return (
     <FormPageWrapper width={480}>
@@ -377,7 +333,6 @@ export const Swap: FC = () => {
               <Typography.Title level={4}>Swap</Typography.Title>
             </Flex.Item>
             <TransactionSettings />
-            <TxHistory />
           </Flex>
           <Flex.Item marginBottom={6}>
             <Typography.Footnote>Ergo network</Typography.Footnote>
