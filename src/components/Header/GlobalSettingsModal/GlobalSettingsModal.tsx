@@ -104,7 +104,7 @@ const GlobalSettingsModal: React.FC<GlobalSettingsModalProps> = ({
     <>
       <Modal.Title>Global Settings</Modal.Title>
       <Modal.Content width={450}>
-        <Flex flexDirection="col">
+        <Flex col>
           <Flex.Item>
             <Form
               name="global-settings"

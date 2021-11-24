@@ -56,7 +56,7 @@ const InputOutputColumn: React.FC<InputOutputColumnProps> = ({
   return (
     <Flex>
       <Flex.Item marginRight={2}>
-        <Flex alignItems="center">
+        <Flex align="center">
           <Flex.Item marginRight={1}>
             <TokenIcon name={pair.x.name} />
           </Flex.Item>
@@ -69,7 +69,7 @@ const InputOutputColumn: React.FC<InputOutputColumnProps> = ({
         </Typography.Body>
       </Flex.Item>
       <Flex.Item>
-        <Flex alignItems="center">
+        <Flex align="center">
           <Flex.Item marginRight={1}>
             <TokenIcon name={pair.y.name} />
           </Flex.Item>
