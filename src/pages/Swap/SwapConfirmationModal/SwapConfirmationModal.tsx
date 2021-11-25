@@ -195,7 +195,7 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
       <Modal.Title>Confirm swap</Modal.Title>
       <Modal.Content width={496}>
         <Form form={form} initialValues={value}>
-          <Flex flexDirection="col">
+          <Flex direction="col">
             <Flex.Item marginBottom={1}>
               <TokenControlFormItem
                 readonly
@@ -216,9 +216,9 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
             </Flex.Item>
             <Flex.Item marginBottom={4}>
               <Box contrast padding={4}>
-                <Flex flexDirection="col">
+                <Flex direction="col">
                   <Flex.Item marginBottom={2}>
-                    <Flex flexDirection="row">
+                    <Flex direction="row">
                       <Flex.Item flex={1}>
                         <Typography.Text>Slippage tolerance:</Typography.Text>
                       </Flex.Item>
@@ -228,7 +228,7 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
                     </Flex>
                   </Flex.Item>
                   <Flex.Item marginBottom={2}>
-                    <Flex flexDirection="row">
+                    <Flex direction="row">
                       <Flex.Item flex={1}>
                         <Typography.Text>Nitro:</Typography.Text>
                       </Flex.Item>
@@ -238,7 +238,7 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
                     </Flex>
                   </Flex.Item>
                   <Flex.Item marginBottom={2}>
-                    <Flex flexDirection="row">
+                    <Flex direction="row">
                       <Flex.Item flex={1}>
                         <Typography.Text>Estimated output:</Typography.Text>
                       </Flex.Item>
@@ -257,17 +257,14 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
                     </Flex>
                   </Flex.Item>
                   <Flex.Item marginBottom={2}>
-                    <Flex flexDirection="row">
+                    <Flex direction="row">
                       <Flex.Item flex={1}>
                         <Typography.Text>
                           Total Fees
                           <InfoTooltip
                             placement="right"
                             content={
-                              <Flex
-                                flexDirection="col"
-                                style={{ width: '250px' }}
-                              >
+                              <Flex direction="col" style={{ width: '250px' }}>
                                 <Flex.Item>
                                   <Flex justify="space-between">
                                     <Flex.Item>Miner Fee:</Flex.Item>

@@ -56,9 +56,9 @@ const RefundConfirmationModal: React.FC<RefundConfirmationModalProps> = ({
     <>
       <Modal.Title>Refund transaction</Modal.Title>
       <Modal.Content width={570}>
-        <Flex flexDirection="col">
+        <Flex direction="col">
           <Flex.Item marginBottom={4}>
-            <Flex flexDirection="col">
+            <Flex direction="col">
               <Flex.Item marginBottom={2}>
                 <Typography.Body strong>Fees</Typography.Body>
               </Flex.Item>
@@ -70,7 +70,7 @@ const RefundConfirmationModal: React.FC<RefundConfirmationModalProps> = ({
                       <InfoTooltip
                         placement="rightBottom"
                         content={
-                          <Flex flexDirection="col" style={{ width: '200px' }}>
+                          <Flex direction="col" style={{ width: '200px' }}>
                             <Flex.Item>
                               <Flex justify="space-between">
                                 <Flex.Item>Miner Fee:</Flex.Item>
@@ -90,7 +90,7 @@ const RefundConfirmationModal: React.FC<RefundConfirmationModalProps> = ({
             </Flex>
           </Flex.Item>
           <Flex.Item marginBottom={4}>
-            <Flex flexDirection="col">
+            <Flex direction="col">
               <Flex.Item marginBottom={2}>
                 <Typography.Body strong>Select address</Typography.Body>
                 <InfoTooltip

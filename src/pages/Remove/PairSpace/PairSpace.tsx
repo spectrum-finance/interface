@@ -18,11 +18,11 @@ const PairSpace: React.FC<PairSpaceProps> = ({
   return (
     <RemoveFormSpaceWrapper title={title}>
       <Box contrast padding={4}>
-        <Flex flexDirection="col">
+        <Flex direction="col">
           <Flex.Item marginBottom={2}>
-            <Flex justify="space-between" alignItems="center">
+            <Flex justify="space-between" align="center">
               <Flex.Item>
-                <Flex alignItems="center">
+                <Flex align="center">
                   <Flex.Item marginRight={2}>
                     <TokenIcon name={pair.assetX.name} />
                   </Flex.Item>

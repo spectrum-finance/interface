@@ -66,7 +66,7 @@ const TxInfoTooltipContent: FC<{ form: FormInstance<SwapFormModel> }> = ({
   );
 
   return (
-    <Flex flexDirection="col">
+    <Flex direction="col">
       <Flex.Item marginBottom={3}>
         <Flex justify="space-between">
           <Flex.Item marginRight={6}>Output</Flex.Item>

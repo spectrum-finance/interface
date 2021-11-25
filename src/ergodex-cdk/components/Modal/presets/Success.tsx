@@ -19,7 +19,7 @@ export const Success: FC<SuccessProps> = ({ content, result }) => (
   <>
     <ModalTitle />
     <ModalContent width={INFO_DIALOG_WIDTH}>
-      <Flex justify="center" flexDirection="row">
+      <Flex justify="center" direction="row">
         <Flex.Item marginBottom={6}>
           <CheckCircleOutlined
             style={{ fontSize: 80, color: 'var(--ergo-primary-color)' }}

@@ -1,80 +1,34 @@
-import './TokensTab.less';
+import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
+import React from 'react';
+import { combineLatest, map } from 'rxjs';
 
-import { AssetInfo } from '@ergolabs/ergo-sdk';
-import React, { useState } from 'react';
-
-import { Box, Flex, Typography } from '../../../ergodex-cdk';
+import { Flex, List } from '../../../ergodex-cdk';
 import { useObservable } from '../../../hooks/useObservable';
 import { assets$ } from '../../../services/new/assets';
-import { TokenIcon } from '../../TokenIcon/TokenIcon';
-interface TokenListItemProps {
-  asset: AssetInfo;
-  iconName?: string;
-}
+import { Balance, walletBalance$ } from '../../../services/new/balance';
+import { TokenListItem } from './TokenListItem/TokenListItem';
 
-interface TokenViewProps {
-  asset: AssetInfo;
-}
-
-const TokenView: React.FC<TokenViewProps> = ({ asset }) => {
-  return (
-    <Flex alignItems="center">
-      <Flex.Item marginRight={1}>
-        <Typography.Text strong>{asset.name}</Typography.Text>
-      </Flex.Item>
-    </Flex>
-  );
-};
-
-const TokenListItem: React.FC<TokenListItemProps> = ({ asset }) => {
-  return (
-    <Box padding={[2, 0]} transparent>
-      <Flex id={asset.name} alignItems="center" className="tokens-tab">
-        <Flex.Item flex={1}>
-          <Flex>
-            <Flex.Item marginRight={1} style={{ position: 'relative' }}>
-              <TokenIcon name={asset.name} className="tokens-tab__icon" />
-            </Flex.Item>
-            <Flex.Item marginLeft={7}>
-              <TokenView asset={asset} />
-              <Typography.Text className="tokens-tab__text">
-                {asset.name}
-              </Typography.Text>
-            </Flex.Item>
-          </Flex>
-        </Flex.Item>
-        <Flex.Item grow>
-          <Flex justify="flex-end">
-            <Typography.Text strong className="tokens-tab__balance">
-              {asset.decimals} {asset.name}
-            </Typography.Text>
-          </Flex>
-        </Flex.Item>
-      </Flex>
-    </Box>
-  );
-};
+const userAssets$ = combineLatest([assets$, walletBalance$]).pipe(
+  map<[AssetInfo[], Balance], { asset: AssetInfo; balance: number }[]>(
+    ([assets, balance]) =>
+      assets
+        .filter((a) => balance.get(a.id) > 0)
+        .map((a) => ({ asset: a, balance: balance.get(a.id) })),
+  ),
+);
 
 export const TokensTab: React.FC = () => {
-  const [assets] = useObservable(assets$);
-  const [searchWords, setSearchWords] = useState('');
-  const byTerm = (asset: AssetInfo) =>
-    !searchWords || asset.name?.toLowerCase().includes(searchWords);
+  const [assets] = useObservable(userAssets$);
+
   return (
-    <Box transparent>
-      <Flex flexDirection="col">
-        <Flex.Item>
-          <Box transparent maxHeight={250} overflow>
-            {assets?.filter(byTerm).map((asset) => (
-              <TokenListItem
-                key={asset.id}
-                asset={asset}
-                iconName={asset.name}
-              />
-            ))}
-          </Box>
-        </Flex.Item>
-      </Flex>
-    </Box>
+    <Flex direction="col">
+      <Flex.Item marginTop={2}>
+        <List rowKey="id" dataSource={assets} height={224} transparent gap={2}>
+          {(item) => (
+            <TokenListItem balance={item.balance} asset={item.asset} />
+          )}
+        </List>
+      </Flex.Item>
+    </Flex>
   );
 };

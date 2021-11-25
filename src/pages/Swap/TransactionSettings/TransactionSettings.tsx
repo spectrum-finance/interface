@@ -91,7 +91,7 @@ const TransactionSettings = (): JSX.Element => {
 
   const Setting: JSX.Element = (
     <Box transparent padding={4}>
-      <Flex flexDirection="col" style={{ width: 288 }}>
+      <Flex direction="col" style={{ width: 288 }}>
         <Flex.Item marginBottom={4}>
           <Typography.Title level={5}>Transaction Settings</Typography.Title>
         </Flex.Item>
