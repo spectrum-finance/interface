@@ -1,4 +1,8 @@
 import { DateTime } from 'luxon';
 
-export const getFormattedDate = (date: bigint): string =>
-  DateTime.fromMillis(Number(date)).toLocaleString(DateTime.DATETIME_MED);
+export const getFormattedDate = (timestamp?: bigint): string =>
+  timestamp
+    ? DateTime.fromMillis(Number(timestamp)).toLocaleString(
+        DateTime.DATETIME_MED,
+      )
+    : '';
