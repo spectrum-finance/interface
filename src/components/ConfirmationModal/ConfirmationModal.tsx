@@ -2,7 +2,7 @@ import { TxId } from '@ergolabs/ergo-sdk';
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import React, { ReactNode } from 'react';
 
-import { Modal, Row, Typography } from '../../ergodex-cdk';
+import { Flex, Modal, Row, Typography } from '../../ergodex-cdk';
 import { RequestProps } from '../../ergodex-cdk/components/Modal/presets/Request';
 import { renderFractions } from '../../utils/math';
 import { exploreTx } from '../../utils/redirect';
@@ -54,21 +54,21 @@ const ProgressModalContent = (
   yAsset: ConfirmationAssetAmount,
 ) => {
   return (
-    <>
-      <Row justify="center" bottomGutter={1}>
+    <Flex col align="center">
+      <Flex.Item marginBottom={1}>
         <Typography.Title level={4}>Waiting for confirmation</Typography.Title>
-      </Row>
-      <Row justify="center" bottomGutter={1}>
+      </Flex.Item>
+      <Flex.Item marginBottom={1}>
         <Typography.Text>
           {getDescriptionByData(operation, xAsset, yAsset)}
         </Typography.Text>
-      </Row>
-      <Row justify="center" bottomGutter={1}>
+      </Flex.Item>
+      <Flex.Item marginBottom={1}>
         <Typography.Text type="secondary">
           Confirm this transaction in your wallet
         </Typography.Text>
-      </Row>
-    </>
+      </Flex.Item>
+    </Flex>
   );
 };
 
@@ -77,34 +77,34 @@ const ErrorModalContent = (
   xAsset: ConfirmationAssetAmount,
   yAsset: ConfirmationAssetAmount,
 ) => (
-  <>
-    <Row justify="center" gutter={0.5}>
+  <Flex col align="center">
+    <Flex.Item marginBottom={1}>
       <Typography.Title level={4}>Error</Typography.Title>
-    </Row>
-    <Row justify="center" gutter={0.5}>
+    </Flex.Item>
+    <Flex.Item marginBottom={1}>
       <Typography.Text>
         {getDescriptionByData(operation, xAsset, yAsset)}
       </Typography.Text>
-    </Row>
-    <Row justify="center" gutter={0.5}>
+    </Flex.Item>
+    <Flex.Item marginBottom={1}>
       <Typography.Text type="secondary">Transaction rejected</Typography.Text>
-    </Row>
-    <Row justify="center" gutter={0.5}>
+    </Flex.Item>
+    <Flex.Item marginBottom={1}>
       <Typography.Text type="secondary">Try again later</Typography.Text>
-    </Row>
-  </>
+    </Flex.Item>
+  </Flex>
 );
 const SuccessModalContent = (txId: TxId) => (
-  <>
-    <Row justify="center" gutter={0.5}>
+  <Flex col align="center">
+    <Flex.Item marginBottom={1}>
       <Typography.Title level={4}>Transaction submitted</Typography.Title>
-    </Row>
-    <Row justify="center" gutter={0.5}>
+    </Flex.Item>
+    <Flex.Item marginBottom={1}>
       <Typography.Link onClick={() => exploreTx(txId)}>
         View on Explorer
       </Typography.Link>
-    </Row>
-  </>
+    </Flex.Item>
+  </Flex>
 );
 
 export const openConfirmationModal = (
