@@ -37,7 +37,6 @@ const TxHistoryModal = (): JSX.Element => {
       networkHistory
         .getAllByAddresses(walletAddresses.addresses, TXS_TO_DISPLAY)
         .then((ops) => {
-          console.log(`ops: ${ops}`);
           return setOperations(normalizeOperations(ops));
         });
     }
