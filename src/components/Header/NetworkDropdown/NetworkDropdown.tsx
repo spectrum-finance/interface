@@ -70,7 +70,7 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
           <Typography.Body
             style={{
               color: 'var(--ergo-networkdropdown-hover-focus-color)',
-              marginLeft: '8px',
+              marginLeft: 'calc(var(--ergo-base-gutter) * 2)',
             }}
           >
             {capitalize(network.name)}
@@ -78,7 +78,7 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
           <DownOutlined
             style={{
               color: 'var(--ergo-networkdropdown-hover-focus-color)',
-              marginLeft: '8px',
+              marginLeft: 'calc(var(--ergo-base-gutter) * 2)',
             }}
           />
         </Flex>
