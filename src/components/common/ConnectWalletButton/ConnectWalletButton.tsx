@@ -33,10 +33,7 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = ({
   const [{ isKYAAccepted }] = useAppLoadingState();
 
   const openChooseWalletModal = (): void => {
-    Modal.open(({ close }) => <ChooseWalletModal close={close} />, {
-      width: 372,
-      title: 'Select a wallet',
-    });
+    Modal.open(({ close }) => <ChooseWalletModal close={close} />);
   };
 
   return (

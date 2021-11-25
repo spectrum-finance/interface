@@ -1,9 +1,11 @@
+import { TxId } from '@ergolabs/ergo-sdk';
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import React, { ReactNode } from 'react';
 
 import { Modal, Row, Typography } from '../../ergodex-cdk';
 import { RequestProps } from '../../ergodex-cdk/components/Modal/presets/Request';
 import { renderFractions } from '../../utils/math';
+import { exploreTx } from '../../utils/redirect';
 
 export enum Operation {
   SWAP,
@@ -92,13 +94,15 @@ const ErrorModalContent = (
     </Row>
   </>
 );
-const SuccessModalContent = () => (
+const SuccessModalContent = (txId: TxId) => (
   <>
     <Row justify="center" gutter={0.5}>
       <Typography.Title level={4}>Transaction submitted</Typography.Title>
     </Row>
     <Row justify="center" gutter={0.5}>
-      <Typography.Link>View on Explorer</Typography.Link>
+      <Typography.Link onClick={() => exploreTx(txId)}>
+        View on Explorer
+      </Typography.Link>
     </Row>
   </>
 );
@@ -113,6 +117,6 @@ export const openConfirmationModal = (
     actionContent,
     errorContent: ErrorModalContent(operation, xAsset, yAsset),
     progressContent: ProgressModalContent(operation, xAsset, yAsset),
-    successContent: SuccessModalContent(),
+    successContent: (txId) => SuccessModalContent(txId),
   });
 };

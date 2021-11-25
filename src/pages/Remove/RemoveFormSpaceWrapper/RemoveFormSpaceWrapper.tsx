@@ -7,7 +7,7 @@ const RemoveFormSpaceWrapper: React.FC<{ title: string }> = ({
   title,
 }) => {
   return (
-    <Flex flexDirection="col">
+    <Flex direction="col">
       <Flex.Item marginBottom={2}>
         <Typography.Body strong>{title}</Typography.Body>
       </Flex.Item>

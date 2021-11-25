@@ -328,10 +328,10 @@ const AddLiquidity = (): JSX.Element => {
           initialValues={initialValues}
           onValuesChange={onValuesChange}
         >
-          <Flex flexDirection="col">
+          <Flex direction="col">
             <Flex.Item marginBottom={4}>
               <Typography.Body strong>Select Pair</Typography.Body>
-              <Flex justify="center" alignItems="center">
+              <Flex justify="center" align="center">
                 <Flex.Item marginRight={2} style={{ width: '100%' }}>
                   <TokeSelectFormItem name="x" assets={xAssets} />
                 </Flex.Item>
@@ -354,7 +354,7 @@ const AddLiquidity = (): JSX.Element => {
               style={{ opacity: isPairSelected ? '' : '0.3' }}
             >
               <Typography.Body strong>Liquidity</Typography.Body>
-              <Flex flexDirection="col">
+              <Flex direction="col">
                 <Flex.Item marginBottom={2}>
                   <TokenControlFormItem
                     readonly="asset"
