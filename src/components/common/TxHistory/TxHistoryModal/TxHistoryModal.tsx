@@ -82,13 +82,13 @@ const TxHistoryModal = (): JSX.Element => {
               <Flex.Item style={{ width: '35%' }}>
                 <Typography.Title level={5}>Assets</Typography.Title>
               </Flex.Item>
-              <Flex.Item style={{ width: '24%' }}>
+              <Flex.Item style={{ width: '28%' }}>
                 <Typography.Title level={5}>Date</Typography.Title>
               </Flex.Item>
-              <Flex.Item style={{ width: '18%' }}>
+              <Flex.Item style={{ width: '16%' }}>
                 <Typography.Title level={5}>Type</Typography.Title>
               </Flex.Item>
-              <Flex.Item style={{ width: '18%' }}>
+              <Flex.Item style={{ width: '16%' }}>
                 <Typography.Title level={5}>Status</Typography.Title>
               </Flex.Item>
               <Flex.Item style={{ width: '5%' }} />
@@ -111,13 +111,13 @@ const TxHistoryModal = (): JSX.Element => {
                           pair={{ x: op.assetX, y: op.assetY }}
                         />
                       </Flex.Item>
-                      <Flex.Item style={{ width: '24%' }}>
+                      <Flex.Item style={{ width: '28%' }}>
                         {op.timestamp}
                       </Flex.Item>
-                      <Flex.Item style={{ width: '18%' }}>
+                      <Flex.Item style={{ width: '16%' }}>
                         <TxTypeTag type={op.type} />
                       </Flex.Item>
-                      <Flex.Item style={{ width: '18%' }}>
+                      <Flex.Item style={{ width: '16%' }}>
                         <TxStatusTag status={op.status} />
                       </Flex.Item>
                       <Flex.Item style={{ width: '5%' }}>
