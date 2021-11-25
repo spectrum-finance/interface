@@ -41,7 +41,11 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
     >
       {networks.map(({ name, token, isDisabled }) => (
         <Menu.Item key={name} disabled={isDisabled}>
-          <Flex>
+          <Flex
+            className={
+              network.name === name ? 'network-dropdown-item__active' : ''
+            }
+          >
             <TokenIcon name={!isDisabled ? token : `${token}-disabled`} />
             <span style={{ marginLeft: '8px' }}>{capitalize(name)}</span>
           </Flex>
