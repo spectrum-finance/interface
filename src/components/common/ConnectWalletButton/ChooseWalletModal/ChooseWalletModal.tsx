@@ -13,6 +13,7 @@ import {
   Row,
   Typography,
 } from '../../../../ergodex-cdk';
+import { connectWallet } from '../../../../services/new/core';
 import { connectYoroiWallet } from '../../../../utils/wallets/yoroi';
 
 const { Body } = Typography;
@@ -86,7 +87,12 @@ const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
     {
       name: 'Yoroi Nightly',
       logo: <YoroiLogo />,
-      onClick: connectYoroiWallet(walletCtx),
+      onClick: () => {
+        return connectYoroiWallet(walletCtx)().then((res) => {
+          connectWallet();
+          return res;
+        });
+      },
     },
   ];
 
