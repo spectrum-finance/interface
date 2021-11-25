@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, Flex, Modal, Space, Typography } from '../../ergodex-cdk';
+import { Box, Flex, Modal, Typography } from '../../ergodex-cdk';
 import { Tabs } from '../../ergodex-cdk/components/Tabs/Tabs';
 import { AddressesTab } from './AddressesTab/AddressesTab';
 import { TokensTab } from './TokensTab/TokensTab';

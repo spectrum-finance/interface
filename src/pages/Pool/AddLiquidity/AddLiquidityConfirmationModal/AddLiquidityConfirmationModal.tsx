@@ -95,7 +95,7 @@ const AddLiquidityConfirmationModal: React.FC<ConfirmRemoveModalProps> = ({
 
   return (
     <>
-      <Modal.Title>Increase liquidity</Modal.Title>
+      <Modal.Title>Confirm operation</Modal.Title>
       <Modal.Content width={436}>
         <Flex direction="col">
           <Flex.Item marginBottom={6}>
