@@ -2,7 +2,7 @@ import { TxId } from '@ergolabs/ergo-sdk';
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import React, { ReactNode } from 'react';
 
-import { Flex, Modal, Row, Typography } from '../../ergodex-cdk';
+import { Flex, Modal, Typography } from '../../ergodex-cdk';
 import { RequestProps } from '../../ergodex-cdk/components/Modal/presets/Request';
 import { renderFractions } from '../../utils/math';
 import { exploreTx } from '../../utils/redirect';
@@ -59,14 +59,14 @@ const ProgressModalContent = (
         <Typography.Title level={4}>Waiting for confirmation</Typography.Title>
       </Flex.Item>
       <Flex.Item marginBottom={1}>
-        <Typography.Text>
+        <Typography.Body align="center">
           {getDescriptionByData(operation, xAsset, yAsset)}
-        </Typography.Text>
+        </Typography.Body>
       </Flex.Item>
       <Flex.Item marginBottom={1}>
-        <Typography.Text type="secondary">
+        <Typography.Body type="secondary" align="center">
           Confirm this transaction in your wallet
-        </Typography.Text>
+        </Typography.Body>
       </Flex.Item>
     </Flex>
   );
@@ -82,15 +82,19 @@ const ErrorModalContent = (
       <Typography.Title level={4}>Error</Typography.Title>
     </Flex.Item>
     <Flex.Item marginBottom={1}>
-      <Typography.Text>
+      <Typography.Body align="center">
         {getDescriptionByData(operation, xAsset, yAsset)}
-      </Typography.Text>
+      </Typography.Body>
     </Flex.Item>
     <Flex.Item marginBottom={1}>
-      <Typography.Text type="secondary">Transaction rejected</Typography.Text>
+      <Typography.Body align="center" type="secondary">
+        Transaction rejected
+      </Typography.Body>
     </Flex.Item>
     <Flex.Item marginBottom={1}>
-      <Typography.Text type="secondary">Try again later</Typography.Text>
+      <Typography.Body align="center" type="secondary">
+        Try again later
+      </Typography.Body>
     </Flex.Item>
   </Flex>
 );
