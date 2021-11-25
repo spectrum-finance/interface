@@ -42,15 +42,17 @@ const Pool = (): JSX.Element => {
           </Col>
         </Row>
         <Row>
-          <Button
-            type="primary"
-            size="extra-large"
-            onClick={handleAddLiquidity}
-            icon={<PlusOutlined />}
-            block
-          >
-            Add Position
-          </Button>
+          {isWalletConnected && (
+            <Button
+              type="primary"
+              size="extra-large"
+              onClick={handleAddLiquidity}
+              icon={<PlusOutlined />}
+              block
+            >
+              Add Position
+            </Button>
+          )}
         </Row>
       </Col>
     </Row>

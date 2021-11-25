@@ -4,12 +4,12 @@ import { AmmPool, PoolId } from '@ergolabs/ergo-dex-sdk';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 
+import { FeeTag } from '../../../components/common/FeeTag/FeeTag';
 import {
   TokenIconPair,
   TokenPair,
 } from '../../../components/TokenIconPair/TokenIconPair';
 import { Box, Col, Row, Typography } from '../../../ergodex-cdk';
-import { getPoolFee } from '../../../utils/pool';
 import { PositionsLoader } from '../PositionsLoader/PositionsLoader';
 
 interface LiquidityPositionsListProps {
@@ -43,9 +43,7 @@ const PoolPosition: React.FC<PoolPositionProps> = ({
           offset={2}
           style={{ display: 'flex', justifyContent: 'flex-end' }}
         >
-          <Box formWrapper inline>
-            <Typography.Body>{getPoolFee(poolFee)}%</Typography.Body>
-          </Box>
+          <FeeTag fee={poolFee} />
         </Col>
       </Row>
     </Box>
