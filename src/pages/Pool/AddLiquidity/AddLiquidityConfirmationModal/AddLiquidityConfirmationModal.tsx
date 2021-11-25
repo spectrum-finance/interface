@@ -94,7 +94,7 @@ const AddLiquidityConfirmationModal: React.FC<ConfirmRemoveModalProps> = ({
   };
 
   return (
-    <Flex flexDirection="col">
+    <Flex direction="col">
       <Flex.Item marginBottom={6}>
         <PairSpace title="Assets" pair={pair} />
       </Flex.Item>
@@ -107,7 +107,7 @@ const AddLiquidityConfirmationModal: React.FC<ConfirmRemoveModalProps> = ({
                 <InfoTooltip
                   placement="rightBottom"
                   content={
-                    <Flex flexDirection="col" style={{ width: '200px' }}>
+                    <Flex direction="col" style={{ width: '200px' }}>
                       <Flex.Item>
                         <Flex justify="space-between">
                           <Flex.Item>Miner Fee:</Flex.Item>

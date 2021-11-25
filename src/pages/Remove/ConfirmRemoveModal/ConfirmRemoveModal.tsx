@@ -100,7 +100,7 @@ const ConfirmRemoveModal: React.FC<ConfirmRemoveModalProps> = ({
 
   return (
     <Box transparent>
-      <Flex flexDirection="col">
+      <Flex direction="col">
         <Flex.Item marginBottom={6}>
           <PairSpace title="Pooled assets" pair={pair} />
         </Flex.Item>
@@ -113,7 +113,7 @@ const ConfirmRemoveModal: React.FC<ConfirmRemoveModalProps> = ({
                   <InfoTooltip
                     placement="rightBottom"
                     content={
-                      <Flex flexDirection="col" style={{ width: '200px' }}>
+                      <Flex direction="col" style={{ width: '200px' }}>
                         <Flex.Item>
                           <Flex justify="space-between">
                             <Flex.Item>Miner Fee:</Flex.Item>

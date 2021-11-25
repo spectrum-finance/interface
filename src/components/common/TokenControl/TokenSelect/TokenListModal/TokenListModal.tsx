@@ -54,7 +54,7 @@ const TokenListModal: React.FC<TokenListModalProps> = ({
           prefix={<SearchOutlined />}
           onChange={handleSearch}
         />
-        <Flex flexDirection="col">
+        <Flex direction="col">
           {/*<Col span={24}>*/}
           {assets?.filter(byTerm).map((asset) => (
             <TokenListItem

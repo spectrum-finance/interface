@@ -65,7 +65,7 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
         size="large"
         type="ghost"
       >
-        <Flex justify="center" flexDirection="row" alignItems="center">
+        <Flex justify="center" direction="row" align="center">
           <TokenIcon name={`${network.token}${disabled ? '-disabled' : ''}`} />
           <Typography.Body
             style={{

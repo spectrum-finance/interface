@@ -21,11 +21,11 @@ const RemovePositionSlider: React.FC<RemovePositionSliderProps> = ({
 }) => {
   return (
     <Box contrast padding={4}>
-      <Flex flexDirection="col">
+      <Flex direction="col">
         <Flex.Item>
-          <Flex flexDirection="col">
+          <Flex direction="col">
             <Flex.Item marginBottom={4}>
-              <Flex alignItems="center" justify="center">
+              <Flex align="center" justify="center">
                 <Typography.Title level={1}>{percent}%</Typography.Title>
               </Flex>
             </Flex.Item>

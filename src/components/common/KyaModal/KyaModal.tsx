@@ -19,7 +19,7 @@ const KyaModal: React.FC<KyaModalProps> = ({ onClose }): JSX.Element => {
     <>
       <Modal.Title>Know Your Assumptions</Modal.Title>
       <Modal.Content width={680}>
-        <Flex flexDirection="col" className="kya-modal">
+        <Flex direction="col" className="kya-modal">
           <Flex.Item marginBottom={4}>
             <Typography.Body>
               ErgoDEX is a decentralized financial (DeFi) application which
