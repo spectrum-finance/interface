@@ -25,6 +25,10 @@ const BurgerMenu = (): JSX.Element => {
   const [isMenuVisible, setMenuVisible] = useState<boolean>(false);
 
   const onMenuClicked = (e: { key: string }) => {
+    if (e.key !== '6') {
+      setMenuVisible(false);
+    }
+
     if (e.key === '7') {
       setIsMainMenu(false);
     } else if (e.key === '8') {
