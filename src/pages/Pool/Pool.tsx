@@ -3,15 +3,16 @@ import { useHistory } from 'react-router-dom';
 
 import { WalletContext } from '../../context';
 import { Button, Col, PlusOutlined, Row, Typography } from '../../ergodex-cdk';
-import { useNetworkPools } from '../../hooks/useNetworkPools';
+import { useObservable } from '../../hooks/useObservable';
+import { availablePools$ } from '../../services/new/pools';
 import { EmptyPositionsList } from './EmptyPositionsList/EmptyPositionsList';
 import { LiquidityPositionsList } from './LiquidityPositionsList/LiquidityPositionsList';
 // import { LPGuide } from './LPGuide/LPGuide';
 
 const Pool = (): JSX.Element => {
   const { isWalletConnected } = useContext(WalletContext);
-  // TODO:REFACTOR_POSITIONS_AFTER_YOROI_FIX[EDEX-444]
-  const positions = useNetworkPools();
+
+  const [positions] = useObservable(availablePools$, []);
 
   const history = useHistory();
 
