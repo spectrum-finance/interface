@@ -2,12 +2,18 @@ import React from 'react';
 
 import { Box, Flex, Modal, Typography } from '../../ergodex-cdk';
 import { Tabs } from '../../ergodex-cdk/components/Tabs/Tabs';
+import { useObservable } from '../../hooks/useObservable';
+import { nativeTokenBalance$ } from '../../services/new/core';
+import { isLowBalance } from '../../utils/walletMath';
 import { AddressesTab } from './AddressesTab/AddressesTab';
+import { LowBalanceWarning } from './LowBalanceWarning/LowBalanceWarning';
 import { TokensTab } from './TokensTab/TokensTab';
 import { WalletActiveAddress } from './WalletActiveAddress/WalletActiveAddress';
 import { WalletTotalBalance } from './WalletTotalBalance/WalletTotalBalance';
 
 export const WalletModal: React.FC = () => {
+  const [ergBalance] = useObservable(nativeTokenBalance$);
+
   return (
     <>
       <Modal.Title>
@@ -17,8 +23,13 @@ export const WalletModal: React.FC = () => {
       <Modal.Content width={440}>
         <Flex col>
           <Flex.Item marginBottom={4}>
-            <WalletTotalBalance />
+            <WalletTotalBalance balance={ergBalance} />
           </Flex.Item>
+          {isLowBalance(Number(ergBalance)) && (
+            <Flex.Item marginBottom={4}>
+              <LowBalanceWarning />
+            </Flex.Item>
+          )}
           <Flex.Item marginBottom={6}>
             <WalletActiveAddress />
           </Flex.Item>
