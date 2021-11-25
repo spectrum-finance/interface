@@ -1,13 +1,15 @@
 import React from 'react';
 
-import { Box, Flex, Typography } from '../../../ergodex-cdk';
-import { useObservable } from '../../../hooks/useObservable';
-import { nativeTokenBalance$ } from '../../../services/new/core';
+import { Box, Flex, LoadingOutlined, Typography } from '../../../ergodex-cdk';
 import { TokenIcon } from '../../TokenIcon/TokenIcon';
 
-export const WalletTotalBalance = () => {
-  const [ergBalance] = useObservable(nativeTokenBalance$);
+interface WalletTotalBalanceProps {
+  balance?: string;
+}
 
+export const WalletTotalBalance: React.FC<WalletTotalBalanceProps> = ({
+  balance,
+}) => {
   return (
     <Flex col>
       <Flex.Item marginBottom={2}>
@@ -19,7 +21,9 @@ export const WalletTotalBalance = () => {
             <TokenIcon name="erg" />
           </Flex.Item>
           <Flex.Item flex={1}>
-            <Typography.Title level={4}>{`${ergBalance} ERG`}</Typography.Title>
+            <Typography.Title level={4}>
+              {balance ? `${balance} ERG` : <LoadingOutlined />}
+            </Typography.Title>
           </Flex.Item>
           <Flex.Item>
             {/*<Typography.Body>{'~$300'}</Typography.Body>*/}
