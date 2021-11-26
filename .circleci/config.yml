@@ -49,7 +49,6 @@ workflows:
       - hold:
           type: approval
       - deploy-to-dev:
-          type: approval
           filters:
             branches:
               only: 
