@@ -55,10 +55,9 @@ workflows:
                 - dev
                 - cicd-piplines
               ignore: master
+      - deploy-to-prod:
           requires: 
             - hold
-      - deploy-to-prod:
-          type: approval
           filters:
             branches:
               only: master
