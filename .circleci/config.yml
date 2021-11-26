@@ -47,6 +47,7 @@ workflows:
   deployment:
     jobs:
       - deploy-to-dev:
+          type: approval
           filters:
             branches:
               only: 
