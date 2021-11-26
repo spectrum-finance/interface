@@ -46,6 +46,8 @@ workflows:
               ignore: master
   deployment:
     jobs:
+      - hold:
+          type: approval
       - deploy-to-dev:
           type: approval
           filters:
@@ -54,6 +56,8 @@ workflows:
                 - dev
                 - cicd-piplines
               ignore: master
+          requires: 
+            - hold
       - deploy-to-prod:
           type: approval
           filters:
