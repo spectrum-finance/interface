@@ -3,9 +3,7 @@ import './Box.less';
 import cn from 'classnames';
 import React from 'react';
 
-type PaddingTwoNumbers = [number, number];
-type PaddingFourNumbers = [number, number, number, number];
-type Padding = number | PaddingTwoNumbers | PaddingFourNumbers;
+import { getGutter, Gutter } from '../../utils/gutter';
 
 interface BoxProps extends React.PropsWithChildren<unknown> {
   borderRadius?: 's' | 'm' | 'l';
@@ -15,14 +13,12 @@ interface BoxProps extends React.PropsWithChildren<unknown> {
   inline?: boolean;
   formWrapper?: boolean;
   className?: string;
-  padding?: Padding;
+  padding?: Gutter;
   maxHeight?: number;
   overflow?: boolean;
   onClick?: React.MouseEventHandler<HTMLElement>;
+  width?: number;
 }
-
-const calcGutter = (n: number): string =>
-  `calc(var(--ergo-base-gutter) * ${n})`;
 
 const Box = ({
   children,
@@ -37,18 +33,8 @@ const Box = ({
   formWrapper,
   maxHeight,
   overflow,
+  width,
 }: BoxProps): JSX.Element => {
-  const getPadding = (p: Padding) => {
-    if (p instanceof Array && p.length === 2) {
-      return `${calcGutter(p[0])} ${calcGutter(p[1])}`;
-    }
-    if (p instanceof Array && p.length === 4) {
-      return `${calcGutter(p[0])} ${calcGutter(p[1])} ${calcGutter(
-        p[2],
-      )} ${calcGutter(p[3])}`;
-    }
-    return `calc(var(--ergo-base-gutter) * ${p})`;
-  };
   return (
     <div
       className={cn(
@@ -64,10 +50,11 @@ const Box = ({
       style={{
         padding:
           padding != null
-            ? getPadding(padding)
+            ? getGutter(padding)
             : `calc(var(--ergo-base-gutter))`,
         maxHeight: `${maxHeight}px`,
         overflow: overflow ? 'auto' : 'none',
+        width: width,
       }}
       onClick={onClick}
     >

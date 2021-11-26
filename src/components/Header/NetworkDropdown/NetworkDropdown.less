@@ -10,4 +10,21 @@
       background: @gradient-ergo-dropdown !important;
     }
   }
+
+  &-item {
+    position: relative;
+
+    &__active {
+      &::after {
+        position: absolute;
+        top: 13px;
+        right: 10px;
+        width: 8px;
+        height: 8px;
+        background-color: var(--ergo-success-color);
+        border-radius: 50%;
+        content: '';
+      }
+    }
+  }
 }

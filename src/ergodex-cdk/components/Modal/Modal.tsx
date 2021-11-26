@@ -1,10 +1,17 @@
 import './Modal.less';
 
 import { Modal as BaseModal, Typography } from 'antd';
-import React, { FC, ReactChildren, ReactElement, useEffect } from 'react';
+import React, { ReactElement } from 'react';
 import { ReactNode } from 'react';
 import ReactDOM from 'react-dom';
 
+import { ModalContent } from './ModalContent/ModalContent';
+import {
+  ModalInnerTitle,
+  ModalTitle,
+  ModalTitleContext,
+  ModalTitleContextProvider,
+} from './ModalTitle/ModalTitle';
 import { Error } from './presets/Error';
 import { Progress } from './presets/Progress';
 import { Request, RequestProps } from './presets/Request';
@@ -85,22 +92,22 @@ class BaseModalProvider implements ModalProvider {
 
     const modalFactory = (visible: boolean) => {
       return (
-        <BaseModal
-          key={dialogId}
-          width={params.width}
-          visible={visible}
-          onCancel={onCancel}
-          footer={params.footer}
-          title={
-            <Typography.Title level={4}>{params.title || ''}</Typography.Title>
-          }
-          afterClose={afterClose}
-        >
-          <>
-            {visible && afterOpen()}
-            {content instanceof Function ? content({ close }) : content}
-          </>
-        </BaseModal>
+        <ModalTitleContextProvider>
+          <BaseModal
+            key={dialogId}
+            width={params.width}
+            visible={visible}
+            onCancel={onCancel}
+            footer={params.footer}
+            title={<ModalInnerTitle />}
+            afterClose={afterClose}
+          >
+            <>
+              {visible && afterOpen()}
+              {content instanceof Function ? content({ close }) : content}
+            </>
+          </BaseModal>
+        </ModalTitleContextProvider>
       );
     };
 
@@ -122,6 +129,8 @@ class BaseModalProvider implements ModalProvider {
 }
 
 export const Modal = {
+  Title: ModalTitle,
+  Content: ModalContent,
   provider: new BaseModalProvider() as ModalProvider,
   open(
     content:
@@ -233,22 +242,22 @@ export class ContextModalProvider
 
     const modalFactory = (visible: boolean) => {
       return (
-        <BaseModal
-          key={dialogId}
-          width={params.width}
-          visible={visible}
-          onCancel={onCancel}
-          footer={params.footer}
-          title={
-            <Typography.Title level={4}>{params.title || ''}</Typography.Title>
-          }
-          afterClose={afterClose}
-        >
-          <>
-            {visible && afterOpen()}
-            {content instanceof Function ? content({ close }) : content}
-          </>
-        </BaseModal>
+        <ModalTitleContextProvider key={dialogId}>
+          <BaseModal
+            key={dialogId}
+            width={params.width}
+            visible={visible}
+            onCancel={onCancel}
+            footer={params.footer}
+            title={<ModalInnerTitle />}
+            afterClose={afterClose}
+          >
+            <>
+              {visible && afterOpen()}
+              {content instanceof Function ? content({ close }) : content}
+            </>
+          </BaseModal>
+        </ModalTitleContextProvider>
       );
     };
 
@@ -275,37 +284,3 @@ export class ContextModalProvider
     return dialogId++;
   }
 }
-
-//
-// export class ModalProvider extends React.Component
-// <ModalProviderProps, any>
-// {
-//   private modals = new Map<any, ReactElement>([]);
-//
-//   componentDidMount() {
-//     Modal['provider'] = this;
-//   }
-//
-//   addDialog(modal: ReactElement) {
-//     this.modals.set(modal.key, modal);
-//     this.forceUpdate();
-//   }
-//
-//   removeDialog(modal: ReactElement) {
-//     this.modals.delete(modal.key);
-//     this.forceUpdate();
-//   }
-//
-//   render() {
-//     return (
-//       <>
-//         {Array.from(this.modals.values()).map((i) => (
-//           <Portal root={Modal['modalRootElement']} key={i.key}>
-//             {i}
-//           </Portal>
-//         ))}
-//         {this.props.children}
-//       </>
-//     );
-//   }
-// }

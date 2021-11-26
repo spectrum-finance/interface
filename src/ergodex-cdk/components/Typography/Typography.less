@@ -8,6 +8,24 @@ span.ant-typography, div.ant-typography {
     font-weight: 600;
   }
 }
+
+.ant-typography-align {
+  &--left {
+    display: inline-block;
+    text-align: left;
+  }
+
+  &--right {
+    display: inline-block;
+    text-align: right;
+  }
+
+  &--center {
+    display: inline-block;
+    text-align: center;
+  }
+}
+
 .ant-typography.ant-typography-disabled {
   color: var(--ergo-disabled-text-constrast);
 }
@@ -19,6 +37,20 @@ span.ant-typography, div.ant-typography {
 .ant-typography-footnote.ant-typography {
   color: var(--ergo-footnote-text);
   font:  var(--ergo-footnote-font);
+}
+
+.ant-typography-footnote.ant-typography.ant-typography-footnote--small {
+  font-size:   8px;
+  line-height: 12px;
+}
+
+a.ant-typography {
+  color:  var(--ergo-primary-color);
+  font:   var(--ergo-body-font);
+
+  &:hover, &:active, &:focus {
+    color: var(--ergo-primary-color-hover);
+  }
 }
 
 h1.ant-typography {

@@ -1,8 +1,12 @@
 .ant-modal {
-  color: var(--ergo-primary-text);
+  display:          flex;
+  justify-content:  center;
+  box-shadow:       var(--ergo-modal-box-shadow);
+  color:            var(--ergo-primary-text);
 }
 
 .ant-modal-content {
+  display:          inline-block;
   background-color: var(--ergo-modal-color);
   border-radius:    var(--ergo-modal-radius);
 }
@@ -10,10 +14,13 @@
 
 .ant-modal-header {
   min-height:    60px;
+  padding-right: 16px;
+  padding-left:  16px;
   border-bottom: unset;
   background:    transparent;
   border-radius: var(--ergo-modal-radius) var(--ergo-modal-radius) 0 0;
 }
+
 /* stylelint-disable-next-line */
 .ant-modal-close-x {
   color:     var(--ergo-modal-close-x-color);
@@ -21,5 +28,5 @@
 }
 
 .ant-modal-body {
-  padding-top: 0;
+  padding: 0;
 }

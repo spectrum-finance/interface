@@ -26,12 +26,12 @@ const FormPageWrapper: React.FC<FormPageWrapperProps> = ({
   const history = useHistory();
 
   return (
-    <Flex justify="center" alignItems="center">
-      <Flex flexDirection="col" style={{ width: width ?? '100%' }}>
+    <Flex justify="center" align="center">
+      <Flex direction="col" style={{ width: width ?? '100%' }}>
         {title && (
           <Flex.Item marginBottom={2}>
             <Box transparent>
-              <Flex alignItems="center">
+              <Flex align="center">
                 {withBackButton && (
                   <Button
                     type="text"
@@ -47,7 +47,7 @@ const FormPageWrapper: React.FC<FormPageWrapperProps> = ({
           </Flex.Item>
         )}
         <Flex.Item>
-          <Box formWrapper padding={[4, 4]} borderRadius="m">
+          <Box formWrapper padding={[6, 6]} borderRadius="m">
             {children}
           </Box>
         </Flex.Item>

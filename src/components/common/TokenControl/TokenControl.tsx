@@ -91,13 +91,13 @@ export const TokenControl: FC<TokenControlProps> = ({
       borderRadius="l"
       gray
     >
-      <Flex flexDirection="col">
+      <Flex direction="col">
         <Flex.Item marginBottom={2}>
           <Typography.Body type="secondary">{label}</Typography.Body>
         </Flex.Item>
 
         <Flex.Item marginBottom={noBottomInfo ? 0 : 2}>
-          <Flex flexDirection="row">
+          <Flex direction="row">
             <Flex.Item marginRight={2} flex={1}>
               <TokenAmountInput
                 readonly={!!readonly && readonly !== 'asset'}
@@ -120,8 +120,8 @@ export const TokenControl: FC<TokenControlProps> = ({
         </Flex.Item>
         {!noBottomInfo && (
           <Flex
-            flexDirection="row"
-            alignItems="center"
+            direction="row"
+            align="center"
             className="token-control-bottom-panel"
           >
             {balance !== undefined && (

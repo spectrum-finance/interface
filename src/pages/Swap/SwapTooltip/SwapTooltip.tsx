@@ -13,21 +13,21 @@ import {
   tap,
 } from 'rxjs';
 
-import { TokenControlValue } from '../../components/common/TokenControl/TokenControl';
-import { InfoTooltip } from '../../components/InfoTooltip/InfoTooltip';
-import { ERG_DECIMALS, MIN_EX_FEE, UI_FEE } from '../../constants/erg';
-import { defaultExFee } from '../../constants/settings';
-import { useSettings } from '../../context';
-import { Flex, FormInstance, Typography } from '../../ergodex-cdk';
-import { useObservableAction } from '../../hooks/useObservable';
+import { TokenControlValue } from '../../../components/common/TokenControl/TokenControl';
+import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
+import { ERG_DECIMALS, MIN_EX_FEE, UI_FEE } from '../../../constants/erg';
+import { defaultExFee } from '../../../constants/settings';
+import { useSettings } from '../../../context';
+import { Flex, FormInstance, Typography } from '../../../ergodex-cdk';
+import { useObservableAction } from '../../../hooks/useObservable';
 import {
   math,
   parseUserInputToFractions,
   renderFractions,
-} from '../../utils/math';
-import { calculateTotalFee } from '../../utils/transactions';
-import { getBaseInputParameters } from '../../utils/walletMath';
-import { renderPrice } from './Ratio';
+} from '../../../utils/math';
+import { calculateTotalFee } from '../../../utils/transactions';
+import { getBaseInputParameters } from '../../../utils/walletMath';
+import { renderPrice } from '../Ratio/Ratio';
 
 interface SwapFormModel {
   readonly from?: TokenControlValue;
@@ -66,7 +66,7 @@ const TxInfoTooltipContent: FC<{ form: FormInstance<SwapFormModel> }> = ({
   );
 
   return (
-    <Flex flexDirection="col">
+    <Flex direction="col">
       <Flex.Item marginBottom={3}>
         <Flex justify="space-between">
           <Flex.Item marginRight={6}>Output</Flex.Item>

@@ -8,7 +8,7 @@ const MobilePlug = (): JSX.Element => {
   return (
     <Flex justify="center">
       <Flex.Item marginTop={8}>
-        <Flex flexDirection="col" alignItems="center">
+        <Flex direction="col" align="center">
           <Flex.Item marginBottom={4}>
             <SmartphoneImage style={{ color: 'var(--ergo-primary-color)' }} />
           </Flex.Item>

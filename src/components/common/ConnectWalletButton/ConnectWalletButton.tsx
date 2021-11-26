@@ -1,16 +1,12 @@
 import './ConnectWalletButton.less';
 
-import { LoadingOutlined } from '@ant-design/icons';
 import cn from 'classnames';
 import React, { FC, ReactNode } from 'react';
 
-import { useAppLoadingState, useWallet } from '../../../context';
+import { useAppLoadingState } from '../../../context';
 import { Button, ButtonProps, Modal } from '../../../ergodex-cdk';
 import { useObservable } from '../../../hooks/useObservable';
-import {
-  isWalletConnected$,
-  isWalletLoading$,
-} from '../../../services/new/core';
+import { isWalletSetuped$ } from '../../../services/new/core';
 import { ChooseWalletModal } from './ChooseWalletModal/ChooseWalletModal';
 
 export interface ConnectWalletButtonProps {
@@ -24,19 +20,16 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = ({
   className,
   children,
 }) => {
-  const { isWalletConnected } = useWallet();
+  // const { isWalletConnected } = useWallet();
 
   // TODO: Update with rx [EDEX-487]
   // const [isWalletLoading] = useObservable(isWalletLoading$);
-  // const [isWalletConnected] = useObservable(isWalletConnected$);
+  const [isWalletConnected] = useObservable(isWalletSetuped$);
 
   const [{ isKYAAccepted }] = useAppLoadingState();
 
   const openChooseWalletModal = (): void => {
-    Modal.open(({ close }) => <ChooseWalletModal close={close} />, {
-      width: 372,
-      title: 'Select a wallet',
-    });
+    Modal.open(({ close }) => <ChooseWalletModal close={close} />);
   };
 
   return (

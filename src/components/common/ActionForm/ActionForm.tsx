@@ -6,6 +6,7 @@ import { combineLatest, first, map, Observable, of, startWith } from 'rxjs';
 
 import { Form, FormInstance } from '../../../ergodex-cdk';
 import { useObservableAction } from '../../../hooks/useObservable';
+import { isWalletLoading$ } from '../../../services/new/core';
 import { isOnline$ } from '../../../services/new/networkConnection';
 import { ActionButton, ActionButtonState } from './ActionButton/ActionButton';
 
@@ -61,6 +62,7 @@ const getButtonData = (
   );
 
   return combineLatest([
+    isWalletLoading$,
     isOnline$,
     isTokensNotSelected$,
     isAmountNotEntered$,
@@ -70,6 +72,7 @@ const getButtonData = (
   ]).pipe(
     map(
       ([
+        isWalletLoading,
         isOnline,
         isTokenNotSelected,
         isAmountNotEntered,
@@ -79,6 +82,8 @@ const getButtonData = (
       ]) => {
         if (!isOnline) {
           return { state: ActionButtonState.CHECK_INTERNET_CONNECTION };
+        } else if (isWalletLoading) {
+          return { state: ActionButtonState.LOADING };
         } else if (isTokenNotSelected) {
           return { state: ActionButtonState.SELECT_TOKEN };
         } else if (isAmountNotEntered) {

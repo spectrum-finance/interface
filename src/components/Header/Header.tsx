@@ -3,13 +3,17 @@ import './Header.less';
 import React from 'react';
 
 import { ERG_TOKEN_NAME } from '../../constants/erg';
-import { useSettings, useWallet } from '../../context';
+import { useSettings } from '../../context';
 import { Logo } from '../../ergodex-cdk';
 import { useObservable } from '../../hooks/useObservable';
-import { nativeTokenBalance$ } from '../../services/new/core';
+import {
+  nativeTokenBalance$,
+  WalletState,
+  walletState$,
+} from '../../services/new/core';
+import { TxHistory } from '../common/TxHistory/TxHistory';
 import { BurgerMenu } from './BurgerMenu/BurgerMenu';
 import { ConnectWallet } from './ConnectWallet/ConnectWallet';
-import { GlobalSettings } from './GlobalSettings/GlobalSettings';
 import { HeaderTabs } from './HeaderTabs';
 import { NetworkDropdown } from './NetworkDropdown/NetworkDropdown';
 
@@ -21,8 +25,8 @@ const networks = [
 export const Header: React.FC = () => {
   const [{ address }] = useSettings();
   // TODO: Update with rx [EDEX-487]
-  // const [balance] = useObservable(nativeTokenBalance$);
-  const { ergBalance } = useWallet();
+  const [balance] = useObservable(nativeTokenBalance$);
+  const [walletState] = useObservable(walletState$);
 
   return (
     <header className="header">
@@ -35,10 +39,10 @@ export const Header: React.FC = () => {
           <ConnectWallet
             numberOfPendingTxs={0}
             address={address}
-            balance={ergBalance}
+            balance={balance}
             currency={ERG_TOKEN_NAME}
           />
-          <GlobalSettings />
+          {walletState === WalletState.CONNECTED && <TxHistory />}
           <BurgerMenu />
         </div>
       </div>

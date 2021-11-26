@@ -3,6 +3,7 @@ import {
   combineLatest,
   filter,
   from,
+  iif,
   interval,
   map,
   Observable,
@@ -10,30 +11,63 @@ import {
   publishReplay,
   refCount,
   startWith,
+  Subject,
   switchMap,
+  tap,
 } from 'rxjs';
 
 import { ERG_DECIMALS, ERG_TOKEN_NAME } from '../../constants/erg';
 import { walletCookies } from '../../utils/cookies';
 import { renderFractions } from '../../utils/math';
 
-const TEN_SECONDS = 10 * 1000;
+const UPDATE_TIME = 5 * 1000;
 const ERGO_ID =
   '0000000000000000000000000000000000000000000000000000000000000000';
 
-export const isWalletConnected$ = of(
-  walletCookies.isSetConnected() && window.ergo_request_read_access,
-).pipe(
-  filter(Boolean),
-  switchMap(() => from(window.ergo_request_read_access())),
-  startWith(false),
+export enum WalletState {
+  NOT_CONNECTED,
+  CONNECTING,
+  CONNECTED,
+}
+
+const updateWalletState = new Subject();
+
+export const walletState$ = updateWalletState.pipe(
+  startWith(undefined),
+  switchMap(() =>
+    iif(
+      () => walletCookies.isSetConnected() && !!window.ergo_request_read_access,
+      from(window.ergo_request_read_access()).pipe(
+        map((value) =>
+          value ? WalletState.CONNECTED : WalletState.CONNECTING,
+        ),
+        startWith(WalletState.CONNECTING),
+      ),
+      of(WalletState.NOT_CONNECTED),
+    ),
+  ),
   publishReplay(1),
   refCount(),
 );
 
-export const appTick$ = isWalletConnected$.pipe(
-  filter(Boolean),
-  switchMap(() => interval(TEN_SECONDS).pipe(startWith(0))),
+export const connectWallet = () => {
+  updateWalletState.next(undefined);
+};
+
+export const isWalletSetuped$ = walletState$.pipe(
+  filter(
+    (state) =>
+      state === WalletState.CONNECTED || state === WalletState.CONNECTING,
+  ),
+  publishReplay(1),
+  refCount(),
+);
+
+export const appTick$ = walletState$.pipe(
+  filter((state) => state === WalletState.CONNECTED),
+  switchMap(() => interval(UPDATE_TIME).pipe(startWith(0))),
+  publishReplay(1),
+  refCount(),
 );
 
 export const utxos$ = appTick$.pipe(
@@ -62,7 +96,7 @@ export const isWalletLoading$ = combineLatest([
 );
 
 export const getTokenBalance = (tokenId: string): Observable<number> =>
-  isWalletConnected$.pipe(
+  isWalletSetuped$.pipe(
     filter(Boolean),
     switchMap(() =>
       from(

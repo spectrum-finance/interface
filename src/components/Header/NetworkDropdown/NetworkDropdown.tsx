@@ -41,7 +41,11 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
     >
       {networks.map(({ name, token, isDisabled }) => (
         <Menu.Item key={name} disabled={isDisabled}>
-          <Flex>
+          <Flex
+            className={
+              network.name === name ? 'network-dropdown-item__active' : ''
+            }
+          >
             <TokenIcon name={!isDisabled ? token : `${token}-disabled`} />
             <span style={{ marginLeft: '8px' }}>{capitalize(name)}</span>
           </Flex>
@@ -65,17 +69,20 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
         size="large"
         type="ghost"
       >
-        <Flex justify="center" flexDirection="row" alignItems="center">
+        <Flex justify="center" direction="row" align="center">
           <TokenIcon name={`${network.token}${disabled ? '-disabled' : ''}`} />
           <Typography.Body
-            style={{ color: 'var(--ergo-networkdropdown-hover-focus-color)' }}
+            style={{
+              color: 'var(--ergo-networkdropdown-hover-focus-color)',
+              marginLeft: 'calc(var(--ergo-base-gutter) * 2)',
+            }}
           >
             {capitalize(network.name)}
           </Typography.Body>
           <DownOutlined
             style={{
               color: 'var(--ergo-networkdropdown-hover-focus-color)',
-              marginLeft: '8px',
+              marginLeft: 'calc(var(--ergo-base-gutter) * 2)',
             }}
           />
         </Flex>

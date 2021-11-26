@@ -8,6 +8,8 @@ import {
 
 import { parseUserInputToFractions } from './math';
 
+const MIN_ERG_BALANCE_TO_PAY_FEES = 0.1;
+
 export const calculateAvailableAmount = (
   tokenId: string,
   boxes: ErgoBox[],
@@ -49,4 +51,8 @@ export const getBaseInputParameters = (
     baseInputAmount: baseInput,
     minOutput,
   };
+};
+
+export const isLowBalance = (balance: number): boolean => {
+  return balance <= MIN_ERG_BALANCE_TO_PAY_FEES;
 };

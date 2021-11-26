@@ -13,14 +13,14 @@ import {
   tap,
 } from 'rxjs';
 
-import { TokenControlValue } from '../../components/common/TokenControl/TokenControl';
-import { FormInstance, Typography } from '../../ergodex-cdk';
-import { useObservableAction } from '../../hooks/useObservable';
+import { TokenControlValue } from '../../../components/common/TokenControl/TokenControl';
+import { FormInstance, Typography } from '../../../ergodex-cdk';
+import { useObservableAction } from '../../../hooks/useObservable';
 import {
   math,
   parseUserInputToFractions,
   renderFractions,
-} from '../../utils/math';
+} from '../../../utils/math';
 
 interface SwapFormModel {
   readonly from?: TokenControlValue;

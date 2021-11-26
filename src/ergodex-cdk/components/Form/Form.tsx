@@ -1,3 +1,5 @@
+import './Form.less';
+
 import { Form, FormInstance, FormItemProps, FormProps } from 'antd';
 import { FieldData } from 'rc-field-form/lib/interface';
 

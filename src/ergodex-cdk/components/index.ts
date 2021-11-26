@@ -7,6 +7,7 @@ export * from './Flex/Flex';
 export * from './Form/Form';
 export * from './Icon/Icon';
 export * from './Input/Input';
+export * from './List/List';
 export * from './Logo/Logo';
 export * from './Menu/Menu';
 export * from './Modal/Modal';

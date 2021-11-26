@@ -23,11 +23,7 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
 }) => {
   const addressToRender = address ? getShortAddress(address) : '';
 
-  const openWalletModal = () =>
-    Modal.open(<WalletModal />, {
-      width: 440,
-      title: 'Wallet',
-    });
+  const openWalletModal = () => Modal.open(<WalletModal />);
 
   const addressButton = (
     <Box borderRadius="m" padding={[1, 1, 1, 2]}>
