@@ -1,3 +1,5 @@
+import './i18n';
+
 import { RustModule } from '@ergolabs/ergo-sdk';
 import React, { useEffect, useState } from 'react';
 import { Redirect, Route, Router, Switch } from 'react-router-dom';

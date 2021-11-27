@@ -80,6 +80,7 @@ const getButtonData = (
         insufficientTokenForFee,
         isLiquidityInsufficient,
       ]) => {
+        console.log('hello', isOnline);
         if (!isOnline) {
           return { state: ActionButtonState.CHECK_INTERNET_CONNECTION };
         } else if (isWalletLoading) {

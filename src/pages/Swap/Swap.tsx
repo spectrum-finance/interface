@@ -4,6 +4,7 @@ import './Swap.less';
 import { AmmPool } from '@ergolabs/ergo-dex-sdk';
 import { AssetAmount } from '@ergolabs/ergo-sdk';
 import React, { FC, useEffect, useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 import { Observable, of } from 'rxjs';
 
 import {
@@ -19,6 +20,7 @@ import {
   Operation,
 } from '../../components/ConfirmationModal/ConfirmationModal';
 import { FormPageWrapper } from '../../components/FormPageWrapper/FormPageWrapper';
+import { I18n } from '../../components/I18nTypography/I18n';
 import {
   ERG_DECIMALS,
   ERG_TOKEN_ID,
@@ -219,6 +221,7 @@ export const Swap: FC = () => {
   const [fromAssets] = useObservable(assets$);
   const [toAssets, updateToAssets] = useObservableAction(getAssetsByToken);
   const [pools, updatePoolsByPair] = useObservableAction(getAvailablePools);
+  const { t } = useTranslation();
   const [balance] = useWalletBalance();
   const [{ minerFee }] = useSettings();
   const [, setChanges] = useState<any>();
@@ -330,18 +333,18 @@ export const Swap: FC = () => {
         <Flex direction="col">
           <Flex direction="row" align="center">
             <Flex.Item flex={1}>
-              <Typography.Title level={4}>Swap</Typography.Title>
+              <Typography.Title level={4}>{t`swap.title`}</Typography.Title>
             </Flex.Item>
             <TransactionSettings />
           </Flex>
           <Flex.Item marginBottom={6}>
-            <Typography.Footnote>Ergo network</Typography.Footnote>
+            <Typography.Footnote>{t`swap.subtitle`}</Typography.Footnote>
           </Flex.Item>
           <Flex.Item marginBottom={1}>
             <TokenControlFormItem
               assets={fromAssets}
               name="from"
-              label="From"
+              label={t`swap.fromLabel`}
               maxButton
             />
           </Flex.Item>
@@ -349,7 +352,11 @@ export const Swap: FC = () => {
             <Button onClick={swapTokens} icon={<SwapOutlined />} size="large" />
           </Flex.Item>
           <Flex.Item marginBottom={4}>
-            <TokenControlFormItem assets={toAssets} name="to" label="To" />
+            <TokenControlFormItem
+              assets={toAssets}
+              name="to"
+              label={t`swap.toLabel`}
+            />
           </Flex.Item>
           <Flex.Item
             marginBottom={4}

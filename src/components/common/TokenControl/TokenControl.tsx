@@ -4,11 +4,13 @@ import { AssetInfo } from '@ergolabs/ergo-sdk';
 import { Form } from 'antd';
 import cn from 'classnames';
 import React, { FC, ReactNode, useEffect } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 import { of } from 'rxjs';
 
 import { Box, Button, Flex, Typography } from '../../../ergodex-cdk';
 import { useObservableAction } from '../../../hooks/useObservable';
 import { getBalanceByTokenId } from '../../../services/new/balance';
+import { I18n } from '../../I18nTypography/I18n';
 import {
   TokenAmountInput,
   TokenAmountInputValue,
@@ -48,6 +50,7 @@ export const TokenControl: FC<TokenControlProps> = ({
   noBottomInfo,
   bordered,
 }) => {
+  const { t } = useTranslation();
   const [balance, updateBalance] = useObservableAction(
     getTokenBalanceByTokenName,
   );
@@ -127,7 +130,8 @@ export const TokenControl: FC<TokenControlProps> = ({
             {balance !== undefined && (
               <Flex.Item marginRight={2}>
                 <Typography.Body>
-                  Balance: {balance} {value?.asset?.name}
+                  {t`common.tokenControl.balanceLabel`} {balance}{' '}
+                  {value?.asset?.name}
                 </Typography.Body>
               </Flex.Item>
             )}
@@ -138,7 +142,7 @@ export const TokenControl: FC<TokenControlProps> = ({
                 size="small"
                 onClick={onMaxButtonClick}
               >
-                Max
+                <Trans i18nKey="common.tokenControl.maxButton" />
               </Button>
             )}
           </Flex>

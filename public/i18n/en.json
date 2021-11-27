@@ -1,0 +1,14 @@
+{
+  "common": {
+    "tokenControl": {
+      "maxButton": "Max",
+      "balanceLabel": "Balance"
+    }
+  },
+  "swap": {
+    "title": "Swap",
+    "subtitle": "Ergo network",
+    "fromLabel": "From",
+    "toLabel": "to"
+  }
+}
