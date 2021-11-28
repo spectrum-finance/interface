@@ -4,7 +4,7 @@ import './Swap.less';
 import { AmmPool } from '@ergolabs/ergo-dex-sdk';
 import { AssetAmount } from '@ergolabs/ergo-sdk';
 import React, { FC, useEffect, useState } from 'react';
-import { Trans, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { Observable, of } from 'rxjs';
 
 import {
