@@ -47,7 +47,6 @@ export const walletState$ = updateWalletState.pipe(
       of(WalletState.NOT_CONNECTED),
     ),
   ),
-  tap(console.log),
   distinctUntilChanged(),
   publishReplay(1),
   refCount(),
