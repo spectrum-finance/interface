@@ -10,7 +10,6 @@ import { of } from 'rxjs';
 import { Box, Button, Flex, Typography } from '../../../ergodex-cdk';
 import { useObservableAction } from '../../../hooks/useObservable';
 import { getBalanceByTokenId } from '../../../services/new/balance';
-import { I18n } from '../../I18nTypography/I18n';
 import {
   TokenAmountInput,
   TokenAmountInputValue,

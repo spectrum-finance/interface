@@ -20,7 +20,6 @@ import {
   Operation,
 } from '../../components/ConfirmationModal/ConfirmationModal';
 import { FormPageWrapper } from '../../components/FormPageWrapper/FormPageWrapper';
-import { I18n } from '../../components/I18nTypography/I18n';
 import {
   ERG_DECIMALS,
   ERG_TOKEN_ID,
