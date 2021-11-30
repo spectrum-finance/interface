@@ -336,7 +336,7 @@ export const Swap: FC = () => {
             </Flex.Item>
             <TransactionSettings />
           </Flex>
-          <Flex.Item marginBottom={6}>
+          <Flex.Item marginBottom={6} marginTop={-1}>
             <Typography.Footnote>{t`swap.subtitle`}</Typography.Footnote>
           </Flex.Item>
           <Flex.Item marginBottom={1}>
