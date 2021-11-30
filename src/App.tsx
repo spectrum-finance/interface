@@ -10,7 +10,6 @@ import { TABLET_BRAKE_POINT } from './constants/screen';
 import {
   AppLoadingProvider,
   SettingsProvider,
-  // useAppLoadingState,
   WalletAddressesProvider,
   WalletContextProvider,
 } from './context';
