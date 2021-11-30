@@ -2,8 +2,8 @@ import { AmmDexOperation } from '@ergolabs/ergo-dex-sdk';
 import { uniqBy } from 'lodash';
 
 import { getFormattedDate } from '../../../utils/date';
+import { getAssetNameByMappedId } from '../../../utils/map';
 import { renderFractions } from '../../../utils/math';
-import { getVerifiedTokenNameById } from '../../../utils/verification';
 import { Operation } from './types';
 
 export const normalizeOperations = (ops: AmmDexOperation[]): Operation[] => {
@@ -14,12 +14,17 @@ export const normalizeOperations = (ops: AmmDexOperation[]): Operation[] => {
           return [
             ...acc,
             {
-              assetX: { name: op.order.from.asset.name || 'unknown' },
+              assetX: {
+                name:
+                  op.order.from.asset.name ||
+                  getAssetNameByMappedId(op.order.to.id) ||
+                  'unknown',
+              },
               //TODO:[SDK]ADD_ASSET_Y_AS_ASSET_AMOUNT[]
               assetY: {
                 name:
                   op.order.to.name ||
-                  getVerifiedTokenNameById(op.order.to.id) ||
+                  getAssetNameByMappedId(op.order.to.id) ||
                   'unknown',
               },
               type: op.order.type,
