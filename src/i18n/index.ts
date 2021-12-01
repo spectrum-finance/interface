@@ -13,6 +13,10 @@ i18n
     defaultNS: '',
     fallbackLng: 'en',
     debug: true,
+    react: {
+      wait: false,
+      useSuspense: false,
+    },
     keySeparator: '.',
     interpolation: {
       escapeValue: false,
