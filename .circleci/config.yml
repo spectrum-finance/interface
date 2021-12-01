@@ -56,7 +56,7 @@ workflows:
               ignore: master
   deployment:
     jobs:
-      - build-artifacts:
+      - build-app:
           filters:
             branches:
               only:
@@ -65,7 +65,7 @@ workflows:
           type: approval
       - deploy-to-dev:
           requires:
-            - build-artifacts
+            - build-app
           filters:
             branches:
               only: 
@@ -75,7 +75,7 @@ workflows:
       - deploy-to-prod:
           requires: 
             - hold
-            - build-artifacts
+            - build-app
           filters:
             branches:
               only: master
