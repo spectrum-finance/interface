@@ -26,7 +26,7 @@ jobs:
               CI: "false"
             command: yarn && yarn build
         - store_artifacts:
-            path: /tmp/app
+            path: /tmp/app/build
     deploy-to-dev:
       machine:
         enabled: true
