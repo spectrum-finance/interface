@@ -22,7 +22,7 @@ jobs:
         - run:
             name: Create Artifacts
             environment:
-              process.env.CI: "false"
+              CI: "false"
             command: |
                yarn && yarn build
                ls
