@@ -18,6 +18,7 @@ jobs:
       docker:
         - image: circleci/node:14-bullseye-browsers
       steps:
+        - checkout
         - run:
             name: Create Artifacts
             command: |
