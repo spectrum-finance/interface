@@ -17,6 +17,7 @@ jobs:
     build-app:
       docker:
         - image: circleci/node:14-bullseye-browsers
+      working_directory: /app
       steps:
         - checkout
         - run:
