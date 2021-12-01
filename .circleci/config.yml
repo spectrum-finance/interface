@@ -24,10 +24,9 @@ jobs:
             name: Create Artifacts
             environment:
               CI: "false"
-            command: |
-               yarn && yarn build
-               ls
-               pwd
+            command: yarn && yarn build
+        - store_artifacts:
+            path: /tmp/app
     deploy-to-dev:
       machine:
         enabled: true
