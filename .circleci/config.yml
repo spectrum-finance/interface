@@ -24,7 +24,7 @@ jobs:
             name: Create Artifacts
             environment:
               CI: "false"
-            command: yarn && yarn build
+            command: yarn && yarn build && printenv
         - store_artifacts:
             path: /tmp/app/build
     deploy-to-dev:
@@ -73,7 +73,6 @@ workflows:
             branches:
               only: 
                 - dev
-                - cicd-piplines
               ignore: master
       - deploy-to-prod:
           requires: 
