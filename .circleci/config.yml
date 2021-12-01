@@ -35,7 +35,7 @@ jobs:
         - run:
             name: Deploy
             command: |
-                    ${SERVER_CONNECTION_COMMAND} 'bin/bash /var/www/test_tmp/deployment.sh'
+                    ${SERVER_CONNECTION_COMMAND} '/bin/bash /var/www/test_tmp/deployment.sh'
     deploy-to-prod:
       machine:
         enabled: true
