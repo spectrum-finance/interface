@@ -35,7 +35,10 @@ jobs:
         - run:
             name: Deploy
             command: |
-                    ${SERVER_CONNECTION_COMMAND} 'source ~/.nvm/nvm.sh; cd /var/www/dev0; git pull origin dev; yarn; yarn build;'
+                    ${SERVER_CONNECTION_COMMAND} 'cd /var/www/test_tmp/ \
+                    curl -H "Circle-Token: ${DEPLOY_TOKEN}" https://circleci.com/api/v1.1/project/github/ergolabs/ergo-dex-frontend/${CIRCLE_BUILD_NUM}/artifacts \
+                        | grep -o 'https://[^"]*' \
+                        | wget --verbose --header "Circle-Token: 2865382f5c1a1f3e772ccee317246472d5fa4ce1" --input-file -'
     deploy-to-prod:
       machine:
         enabled: true
@@ -73,6 +76,7 @@ workflows:
             branches:
               only: 
                 - dev
+                - cicd-piplines
               ignore: master
       - deploy-to-prod:
           requires: 
