@@ -21,6 +21,8 @@ jobs:
         - checkout
         - run:
             name: Create Artifacts
+            environment:
+              process.env.CI: "false"
             command: |
                yarn && yarn build
                ls
