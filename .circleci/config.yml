@@ -57,7 +57,6 @@ workflows:
       - deploy-to-prod:
           requires: 
             - hold
-            - build-artifacts
           filters:
             branches:
               only: master
