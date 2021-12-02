@@ -14,19 +14,6 @@ jobs:
         - run: 
             name: Run Tests
             command: yarn test --passWithNoTests
-    build-app:
-      docker:
-        - image: circleci/node:14-bullseye-browsers
-      working_directory: /tmp/app/
-      steps:
-        - checkout
-        - run:
-            name: Create Artifacts
-            environment:
-              CI: "false"
-            command: yarn && yarn build && printenv
-        - store_artifacts:
-            path: /tmp/app/build
     deploy-to-dev:
       machine:
         enabled: true
@@ -35,10 +22,7 @@ jobs:
         - run:
             name: Deploy
             command: |
-                    ${SERVER_CONNECTION_COMMAND} 'cd /var/www/test_tmp/ \
-                    curl -H "Circle-Token: ${DEPLOY_TOKEN}" https://circleci.com/api/v1.1/project/github/ergolabs/ergo-dex-frontend/${CIRCLE_BUILD_NUM}/artifacts \
-                        | grep -o 'https://[^"]*' \
-                        | wget --verbose --header "Circle-Token: 2865382f5c1a1f3e772ccee317246472d5fa4ce1" --input-file -'
+                    ${SERVER_CONNECTION_COMMAND} 'source ~/.nvm/nvm.sh; cd /var/www/builds/front-stage; git pull origin dev; yarn; yarn build;'
     deploy-to-prod:
       machine:
         enabled: true
@@ -62,16 +46,9 @@ workflows:
               ignore: master
   deployment:
     jobs:
-      - build-app:
-          filters:
-            branches:
-              only:
-                - cicd-piplines
       - hold:
           type: approval
       - deploy-to-dev:
-          requires:
-            - build-app
           filters:
             branches:
               only: 
@@ -81,7 +58,7 @@ workflows:
       - deploy-to-prod:
           requires: 
             - hold
-            - build-app
+            - build-artifacts
           filters:
             branches:
               only: master
