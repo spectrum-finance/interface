@@ -45,7 +45,7 @@ jobs:
         - run:
             name: Deploy to demo
             command: |
-                    ${SERVER_CONNECTION_COMMAND} 'source ~/.nvm/nvm.sh; cd /var/www/builds/demo; git pull origin master; yarn; yarn build;'
+                    ${SERVER_CONNECTION_COMMAND} 'source ~/.nvm/nvm.sh; cd /var/www/builds/demo; git pull origin demo; yarn; yarn build;'
         - run:
             name: Release
             command: ${SERVER_CONNECTION_COMMAND} 'cp -r /var/www/builds/demo/build/. /var/www/demo' 
