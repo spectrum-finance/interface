@@ -24,7 +24,7 @@ jobs:
             command: ${SERVER_CONNECTION_COMMAND} 'source ~/.nvm/nvm.sh; cd /var/www/builds/front-stage; git pull origin dev; yarn; yarn build;'
         - run:
             name: Release
-            command: cp -r /var/www/builds/front-stage/build/. /var/www/beta/
+            command: ls && pwd
     deploy-to-prod:
       machine:
         enabled: true
