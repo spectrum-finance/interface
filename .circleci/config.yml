@@ -37,6 +37,18 @@ jobs:
         - run:
             name: Release
             command: ${SERVER_CONNECTION_COMMAND} 'cp -r /var/www/builds/front/build/. /var/www/app' 
+    deploy-to-demo:
+      machine:
+        enabled: true
+      steps:
+        - checkout
+        - run:
+            name: Deploy to demo
+            command: |
+                    ${SERVER_CONNECTION_COMMAND} 'source ~/.nvm/nvm.sh; cd /var/www/builds/demo; git pull origin master; yarn; yarn build;'
+        - run:
+            name: Release
+            command: ${SERVER_CONNECTION_COMMAND} 'cp -r /var/www/builds/demo/build/. /var/www/demo' 
 workflows:
   version: 2
   preparing:
@@ -53,6 +65,11 @@ workflows:
     jobs:
       - hold:
           type: approval
+      - deploy-to-demo:
+          filters:
+            branches:
+              only:
+                - demo 
       - deploy-to-dev:
           filters:
             branches:
