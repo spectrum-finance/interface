@@ -21,8 +21,10 @@ jobs:
         - checkout
         - run:
             name: Deploy
-            command: |
-                    ${SERVER_CONNECTION_COMMAND} 'source ~/.nvm/nvm.sh; cd /var/www/dev0; git pull origin dev; yarn; yarn build;'
+            command: ${SERVER_CONNECTION_COMMAND} 'source ~/.nvm/nvm.sh; cd /var/www/builds/front-dev; git pull origin dev; yarn; yarn build;'
+        - run:
+            name: Release
+            command: ${SERVER_CONNECTION_COMMAND} 'cp -r /var/www/builds/front-dev/build/. /var/www/dev0' 
     deploy-to-prod:
       machine:
         enabled: true
@@ -31,7 +33,10 @@ jobs:
         - run:
             name: Deploy to prod
             command: |
-                    ${SERVER_CONNECTION_COMMAND} 'source ~/.nvm/nvm.sh; cd /var/www/app; git pull origin master; yarn; yarn build;'
+                    ${SERVER_CONNECTION_COMMAND} 'source ~/.nvm/nvm.sh; cd /var/www/builds/front; git pull origin master; yarn; yarn build;'
+        - run:
+            name: Release
+            command: ${SERVER_CONNECTION_COMMAND} 'cp -r /var/www/builds/front/build/. /var/www/app' 
 workflows:
   version: 2
   preparing:
