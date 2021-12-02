@@ -21,8 +21,7 @@ jobs:
         - checkout
         - run:
             name: Deploy
-            command: |
-                    ${SERVER_CONNECTION_COMMAND} 'source ~/.nvm/nvm.sh; cd /var/www/builds/front-stage; git pull origin dev; yarn; yarn build;'
+            command: ${SERVER_CONNECTION_COMMAND} 'source ~/.nvm/nvm.sh; cd /var/www/builds/front-stage; git pull origin dev; yarn; yarn build;'
     deploy-to-prod:
       machine:
         enabled: true
