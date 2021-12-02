@@ -171,17 +171,17 @@ export const PoolPosition: React.FC = () => {
             </Flex.Item>
           </Flex> */}
 
-          <Flex direction="col" style={{ marginTop: 16 }}>
+          <Flex col style={{ marginTop: 16 }}>
             <Typography.Text>Current price</Typography.Text>
-            <Flex style={{ marginTop: 10 }}>
-              <Flex.Item flex={1} marginRight={1}>
+            <Flex style={{ marginTop: 10 }} col>
+              <Flex.Item flex={1} marginBottom={2}>
                 <PriceView
                   className="price__wrapper"
                   price={positionRatio.xPerY}
                   desc={`${pair.assetX.name} per ${pair.assetY.name}`}
                 />
               </Flex.Item>
-              <Flex.Item flex={1} marginLeft={1}>
+              <Flex.Item flex={1}>
                 <PriceView
                   className="price__wrapper"
                   price={positionRatio.yPerX}
