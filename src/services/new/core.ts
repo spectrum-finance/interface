@@ -1,111 +1,40 @@
-import { ergoBoxFromProxy } from '@ergolabs/ergo-sdk';
-import {
-  combineLatest,
-  distinctUntilChanged,
-  filter,
-  from,
-  iif,
-  interval,
-  map,
-  Observable,
-  of,
-  publishReplay,
-  refCount,
-  startWith,
-  Subject,
-  switchMap,
-  tap,
-} from 'rxjs';
+import { first, publishReplay, refCount, switchMap } from 'rxjs';
 
-import { ERG_DECIMALS, ERG_TOKEN_NAME } from '../../constants/erg';
-import { walletCookies } from '../../utils/cookies';
-import { renderFractions } from '../../utils/math';
+import { utxos$ as ergoUtxos$ } from '../../networks/ergo/ergo';
+import { selectedNetwork$ } from './network';
 
-const UPDATE_TIME = 5 * 1000;
-const ERGO_ID =
-  '0000000000000000000000000000000000000000000000000000000000000000';
-
-export enum WalletState {
-  NOT_CONNECTED,
-  CONNECTING,
-  CONNECTED,
-}
-
-const updateWalletState = new Subject();
-
-export const walletState$ = updateWalletState.pipe(
-  startWith(undefined),
-  switchMap(() =>
-    iif(
-      () => walletCookies.isSetConnected() && !!window.ergo_request_read_access,
-      from(window.ergo_request_read_access()).pipe(
-        map((value) =>
-          value ? WalletState.CONNECTED : WalletState.CONNECTING,
-        ),
-        startWith(WalletState.CONNECTING),
-      ),
-      of(WalletState.NOT_CONNECTED),
-    ),
-  ),
-  distinctUntilChanged(),
+export const nativeToken$ = selectedNetwork$.pipe(
+  switchMap((n) => n.nativeToken$),
   publishReplay(1),
   refCount(),
 );
+
+export const nativeTokenBalance$ = selectedNetwork$.pipe(
+  switchMap((n) => n.nativeTokenBalance$),
+  publishReplay(1),
+  refCount(),
+);
+
+export const walletState$ = selectedNetwork$.pipe(
+  switchMap((n) => n.walletState$),
+  publishReplay(1),
+  refCount(),
+);
+
+export const isWalletLoading$ = selectedNetwork$.pipe(
+  switchMap((n) => n.isWalletLoading$),
+  publishReplay(1),
+  refCount(),
+);
+
+export const isWalletSetuped$ = selectedNetwork$.pipe(
+  switchMap((n) => n.isWalletSetuped$),
+  publishReplay(1),
+  refCount(),
+);
+
+export const utxos$ = ergoUtxos$;
 
 export const connectWallet = () => {
-  updateWalletState.next(undefined);
+  selectedNetwork$.pipe(first()).subscribe((n) => n.connectWallet());
 };
-
-export const isWalletSetuped$ = walletState$.pipe(
-  filter(
-    (state) =>
-      state === WalletState.CONNECTED || state === WalletState.CONNECTING,
-  ),
-  publishReplay(1),
-  refCount(),
-);
-
-export const appTick$ = walletState$.pipe(
-  filter((state) => state === WalletState.CONNECTED),
-  switchMap(() => interval(UPDATE_TIME).pipe(startWith(0))),
-  publishReplay(1),
-  refCount(),
-);
-
-export const utxos$ = appTick$.pipe(
-  switchMap(() => from(ergo.get_utxos())),
-  map((bs) => bs?.map((b) => ergoBoxFromProxy(b))),
-  map((data) => data ?? []),
-  publishReplay(1),
-  refCount(),
-);
-
-export const nativeTokenBalance$ = appTick$.pipe(
-  switchMap(() => from(ergo.get_balance(ERG_TOKEN_NAME))),
-  map((balance) => renderFractions(balance, ERG_DECIMALS)),
-  publishReplay(1),
-  refCount(),
-);
-
-export const isWalletLoading$ = combineLatest([
-  utxos$,
-  nativeTokenBalance$,
-]).pipe(
-  map(() => false),
-  startWith(true),
-  publishReplay(1),
-  refCount(),
-);
-
-export const getTokenBalance = (tokenId: string): Observable<number> =>
-  isWalletSetuped$.pipe(
-    filter(Boolean),
-    switchMap(() =>
-      from(
-        tokenId === ERGO_ID
-          ? ergo.get_balance(ERG_TOKEN_NAME)
-          : ergo.get_balance(tokenId),
-      ),
-    ),
-    map((amount) => +renderFractions(amount, ERG_DECIMALS)),
-  );
