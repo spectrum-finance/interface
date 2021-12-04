@@ -3,7 +3,8 @@ import React from 'react';
 import { Box, Flex, Modal, Typography } from '../../ergodex-cdk';
 import { Tabs } from '../../ergodex-cdk/components/Tabs/Tabs';
 import { useObservable } from '../../hooks/useObservable';
-import { nativeTokenBalance$ } from '../../services/new/core';
+import { nativeToken$, nativeTokenBalance$ } from '../../services/new/core';
+import { selectedNetwork$ } from '../../services/new/network';
 import { isLowBalance } from '../../utils/walletMath';
 import { AddressesTab } from './AddressesTab/AddressesTab';
 import { LowBalanceWarning } from './LowBalanceWarning/LowBalanceWarning';
@@ -12,20 +13,27 @@ import { WalletActiveAddress } from './WalletActiveAddress/WalletActiveAddress';
 import { WalletTotalBalance } from './WalletTotalBalance/WalletTotalBalance';
 
 export const WalletModal: React.FC = () => {
-  const [ergBalance] = useObservable(nativeTokenBalance$);
+  const [nativeTokenBalance] = useObservable(nativeTokenBalance$);
+  const [nativeToken] = useObservable(nativeToken$);
+  const [selectedNetwork] = useObservable(selectedNetwork$);
 
   return (
     <>
       <Modal.Title>
         Wallet
-        <Typography.Paragraph>Ergo network</Typography.Paragraph>
+        <Typography.Paragraph>
+          {selectedNetwork?.name} network
+        </Typography.Paragraph>
       </Modal.Title>
       <Modal.Content width={440}>
         <Flex col>
           <Flex.Item marginBottom={4}>
-            <WalletTotalBalance balance={ergBalance} />
+            <WalletTotalBalance
+              balance={nativeTokenBalance}
+              token={nativeToken}
+            />
           </Flex.Item>
-          {isLowBalance(Number(ergBalance)) && (
+          {isLowBalance(Number(nativeTokenBalance)) && (
             <Flex.Item marginBottom={4}>
               <LowBalanceWarning />
             </Flex.Item>

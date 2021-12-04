@@ -12,6 +12,9 @@ import {
   Modal,
   Typography,
 } from '../../../ergodex-cdk';
+import { useObservable } from '../../../hooks/useObservable';
+import { nativeToken$ } from '../../../services/new/core';
+import { selectedNetwork$ } from '../../../services/new/network';
 import { InfoTooltip } from '../../InfoTooltip/InfoTooltip';
 
 interface GlobalSettingsModalProps {
@@ -31,6 +34,8 @@ const GlobalSettingsModal: React.FC<GlobalSettingsModalProps> = ({
 }): JSX.Element => {
   const [form] = Form.useForm<GlobalSettingsFormModel>();
 
+  const [selectedNetwork] = useObservable(selectedNetwork$);
+  const [nativeToken] = useObservable(nativeToken$);
   const [settings, setSettings] = useSettings();
 
   const [minerFeeError, setMinerFeeError] = useState<
@@ -112,8 +117,18 @@ const GlobalSettingsModal: React.FC<GlobalSettingsModalProps> = ({
               initialValues={initialValues}
               onValuesChange={onValuesChange}
             >
-              <Typography.Footnote>Miner Fee</Typography.Footnote>
-              <InfoTooltip content="Fee charged by miners" />
+              <Typography.Footnote>
+                {selectedNetwork?.name === 'ergo'
+                  ? 'Miner Fee'
+                  : 'Stake Pool Fee'}
+              </Typography.Footnote>
+              <InfoTooltip
+                content={
+                  selectedNetwork?.name === 'ergo'
+                    ? 'Fee charged by miners'
+                    : 'Fee charged by stake pools'
+                }
+              />
               <Flex>
                 <Flex.Item marginRight={1}>
                   <Button
@@ -139,7 +154,7 @@ const GlobalSettingsModal: React.FC<GlobalSettingsModalProps> = ({
                       placeholder="< 0.002"
                       autoCorrect="off"
                       autoComplete="off"
-                      suffix="ERG"
+                      suffix={nativeToken?.name}
                     />
                   </Form.Item>
                 </Flex.Item>

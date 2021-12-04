@@ -37,12 +37,11 @@ import {
   Skeleton,
   Typography,
 } from '../../../ergodex-cdk';
-import {
-  useObservable,
-  useObservableAction,
-} from '../../../hooks/useObservable';
+import { useObservable, useSubject } from '../../../hooks/useObservable';
 import { assets$, getAssetsByPairAsset } from '../../../services/new/assets';
 import { Balance, useWalletBalance } from '../../../services/new/balance';
+import { nativeToken$ } from '../../../services/new/core';
+import { selectedNetwork$ } from '../../../services/new/network';
 import { getPoolById, getPoolByPair } from '../../../services/new/pools';
 import {
   parseUserInputToFractions,
@@ -182,13 +181,27 @@ const AddLiquidity = (): JSX.Element => {
   const addLiquidityStrategy = new AddLiquidityStrategy(balance, minerFee);
   const [form] = Form.useForm<AddLiquidityFormModel>();
   const [xAssets] = useObservable(assets$);
-  const [yAssets, setYAssets] = useObservableAction(getAssetsByToken);
-  const [pools, setPools] = useObservableAction(getAvailablePools);
-  const [poolById, setPoolById] = useObservableAction(getPoolById);
+  const [yAssets, setYAssets] = useSubject(getAssetsByToken);
+  const [pools, setPools] = useSubject(getAvailablePools);
+  const [poolById, setPoolById] = useSubject(getPoolById);
+  const [nativeToken] = useObservable(nativeToken$);
+  const [selectedNetwork] = useObservable(selectedNetwork$);
 
   const [isPairSelected, setIsPairSelected] = useState(false);
 
   const [isFirstPageLoading, setIsFirstPageLoading] = useState(true);
+
+  useEffect(() => {
+    form.resetFields(['x', 'y', 'xAsset', 'yAsset']);
+    form.setFieldsValue({
+      x: {
+        name: nativeToken?.name,
+        id: nativeToken?.id as any,
+        decimals: ERG_DECIMALS,
+      },
+    });
+    setPools();
+  }, [selectedNetwork]);
 
   const onValuesChange = (
     changes: AddLiquidityFormModel,

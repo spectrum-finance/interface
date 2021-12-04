@@ -5,7 +5,7 @@ import React, { FC, ReactNode, useEffect, useState } from 'react';
 import { combineLatest, first, map, Observable, of, startWith } from 'rxjs';
 
 import { Form, FormInstance } from '../../../ergodex-cdk';
-import { useObservableAction } from '../../../hooks/useObservable';
+import { useSubject } from '../../../hooks/useObservable';
 import { isWalletLoading$ } from '../../../services/new/core';
 import { isOnline$ } from '../../../services/new/networkConnection';
 import { ActionButton, ActionButtonState } from './ActionButton/ActionButton';
@@ -118,7 +118,7 @@ export const ActionForm: FC<ActionFormProps> = ({
   onValuesChange,
 }) => {
   const [prevValue, setPrevValue] = useState(initialValues);
-  const [buttonData, updateButtonData] = useObservableAction(getButtonData, {
+  const [buttonData, updateButtonData] = useSubject(getButtonData, {
     state: ActionButtonState.CHECK_INTERNET_CONNECTION,
   });
   useEffect(() => {

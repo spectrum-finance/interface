@@ -1,4 +1,11 @@
-import { BehaviorSubject, defer, of, publishReplay, refCount } from 'rxjs';
+import {
+  BehaviorSubject,
+  defer,
+  distinctUntilChanged,
+  of,
+  publishReplay,
+  refCount,
+} from 'rxjs';
 
 import { ergoNetwork } from '../../networks/ergo/ergo';
 import { Network } from '../../networks/shared';
@@ -12,6 +19,9 @@ export const networks$ = defer(() => of(networks)).pipe(
   refCount(),
 );
 
-export const selectedNetwork$ = new BehaviorSubject<Network>(ergoNetwork);
+export const _selectedNetwork$ = new BehaviorSubject<Network>(ergoNetwork);
 
-export const setNetwork = (network: Network) => selectedNetwork$.next(network);
+export const selectedNetwork$ = _selectedNetwork$.pipe(distinctUntilChanged());
+selectedNetwork$.subscribe();
+
+export const setNetwork = (network: Network) => _selectedNetwork$.next(network);

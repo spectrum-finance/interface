@@ -1,8 +1,55 @@
 import memoizee from 'memoizee';
 import { useEffect, useState } from 'react';
-import { Observable, Subject, switchMap } from 'rxjs';
+import { Observable, Observer, Subject, switchMap } from 'rxjs';
+import { observe } from 'web-vitals/dist/modules/lib/observe';
 
 import { Unpacked } from '../utils/unpacked';
+
+export function useSubscription<T>(
+  observable: Observable<T>,
+  observer: Partial<Observer<T>>,
+): [T | undefined, boolean, Error];
+export function useSubscription<T>(
+  observable: Observable<T>,
+  observer: Partial<Observer<T>>,
+  defaultValue: T,
+): [T, boolean, Error];
+export function useSubscription<T>(
+  observable: Observable<T>,
+  observer: Partial<Observer<T>>,
+  defaultValue?: T,
+): [T | undefined, boolean, Error | undefined] {
+  const [data, setData] = useState<T | undefined>(defaultValue);
+  const [error, setError] = useState<Error | undefined>();
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    setLoading(true);
+    const subscription = observable.subscribe({
+      next: (value: T) => {
+        observer instanceof Function
+          ? observer(value)
+          : observer?.next
+          ? observer.next(value)
+          : undefined;
+        setLoading(false);
+      },
+      error: (error: Error) => {
+        observer instanceof Function
+          ? observer(error)
+          : observer?.error
+          ? observer.error(error)
+          : undefined;
+        setError(error);
+        setLoading(false);
+      },
+    });
+
+    return () => subscription.unsubscribe();
+  }, [observable, setError, setLoading, observer]);
+
+  return [data, loading, error];
+}
 
 export function useObservable<T>(
   observable: Observable<T>,
@@ -38,9 +85,7 @@ export function useObservable<T>(
   return [data, loading, error];
 }
 
-export function useObservableAction<
-  F extends (...args: any[]) => Observable<any>,
->(
+export function useSubject<F extends (...args: any[]) => Observable<any>>(
   observableAction: F,
 ): [
   Unpacked<ReturnType<F>> | undefined,
@@ -48,9 +93,7 @@ export function useObservableAction<
   boolean,
   Error | undefined,
 ];
-export function useObservableAction<
-  F extends (...args: any[]) => Observable<any>,
->(
+export function useSubject<F extends (...args: any[]) => Observable<any>>(
   observableAction: F,
   defaultValue: Unpacked<ReturnType<F>>,
 ): [
@@ -59,9 +102,7 @@ export function useObservableAction<
   boolean,
   Error | undefined,
 ];
-export function useObservableAction<
-  F extends (...args: any[]) => Observable<any>,
->(
+export function useSubject<F extends (...args: any[]) => Observable<any>>(
   observableAction: F,
   defaultValue?: Unpacked<ReturnType<F>>,
 ): [
