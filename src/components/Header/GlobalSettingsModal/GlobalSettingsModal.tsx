@@ -120,7 +120,7 @@ const GlobalSettingsModal: React.FC<GlobalSettingsModalProps> = ({
               <Typography.Footnote>
                 {selectedNetwork?.name === 'ergo'
                   ? 'Miner Fee'
-                  : 'Stake Pool Fee'}
+                  : 'Transaction Fee'}
               </Typography.Footnote>
               <InfoTooltip
                 content={

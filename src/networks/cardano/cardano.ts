@@ -35,7 +35,12 @@ export const pools = [
   new AmmPool(
     '2',
     new AssetAmount(
-      { name: 'ADA_Djed', id: '13', decimals: ERG_DECIMALS, description: '' },
+      {
+        name: 'ADA_DjedUSD',
+        id: '13',
+        decimals: ERG_DECIMALS,
+        description: '',
+      },
       100000000n,
     ),
     new AssetAmount(
@@ -43,7 +48,7 @@ export const pools = [
       100000000n,
     ),
     new AssetAmount(
-      { name: 'Djed', id: '3', decimals: ERG_DECIMALS, description: '' },
+      { name: 'DjedUSD', id: '3', decimals: ERG_DECIMALS, description: '' },
       100000000n,
     ),
     997,
@@ -100,7 +105,7 @@ export const cardanoNetwork: Network = {
       decimals: ERG_DECIMALS,
       description: 'Wrapped ERG',
     },
-    { name: 'Djed', id: '3', decimals: ERG_DECIMALS, description: 'COTI' },
+    { name: 'DjedUSD', id: '3', decimals: ERG_DECIMALS, description: 'COTI' },
     {
       name: 'GENS',
       id: '4',

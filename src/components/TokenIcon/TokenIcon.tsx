@@ -15,7 +15,7 @@ const accessibleTokens = [
   'ERGX',
   'ADA',
   'wErg',
-  'Djed',
+  'DjedUSD',
   'GENS',
   'SigUSD',
   'SigRSV',

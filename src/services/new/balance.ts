@@ -98,7 +98,7 @@ export const walletBalance$ = selectedNetwork$.pipe(
             [
               3000000000n,
               {
-                name: 'Djed',
+                name: 'DjedUSD',
                 id: '3',
                 decimals: ERG_DECIMALS,
                 description: 'COTI',
