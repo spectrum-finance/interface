@@ -15,7 +15,7 @@ import {
 
 import { TokenControlValue } from '../../../components/common/TokenControl/TokenControl';
 import { FormInstance, Typography } from '../../../ergodex-cdk';
-import { useObservableAction } from '../../../hooks/useObservable';
+import { useSubject } from '../../../hooks/useObservable';
 import {
   math,
   parseUserInputToFractions,
@@ -75,7 +75,7 @@ const calculateRatio = (form: FormInstance<SwapFormModel>) =>
   );
 
 export const Ratio = ({ form }: { form: FormInstance }) => {
-  const [ratio, updateRatio] = useObservableAction(calculateRatio);
+  const [ratio, updateRatio] = useSubject(calculateRatio);
 
   useEffect(() => {
     updateRatio(form);

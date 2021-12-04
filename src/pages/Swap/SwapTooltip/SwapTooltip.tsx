@@ -19,7 +19,7 @@ import { ERG_DECIMALS, MIN_EX_FEE, UI_FEE } from '../../../constants/erg';
 import { defaultExFee } from '../../../constants/settings';
 import { useSettings } from '../../../context';
 import { Flex, FormInstance, Typography } from '../../../ergodex-cdk';
-import { useObservableAction } from '../../../hooks/useObservable';
+import { useSubject } from '../../../hooks/useObservable';
 import {
   math,
   parseUserInputToFractions,
@@ -112,7 +112,7 @@ const calculateInfo = (form: FormInstance<SwapFormModel>) =>
   );
 
 export const SwapTooltip = ({ form }: { form: FormInstance }) => {
-  const [f, updateF] = useObservableAction(calculateInfo, form);
+  const [f, updateF] = useSubject(calculateInfo, form);
 
   useEffect(() => {
     updateF(form);

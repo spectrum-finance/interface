@@ -15,8 +15,10 @@ import {
   Skeleton,
   Typography,
 } from '../../../ergodex-cdk';
+import { useSubject } from '../../../hooks/useObservable';
 import { usePair } from '../../../hooks/usePair';
 import { usePosition } from '../../../hooks/usePosition';
+import { getPoolById } from '../../../services/new/pools';
 import { getPoolFee } from '../../../utils/pool';
 import { getPoolRatio } from '../../../utils/price';
 import { PriceView } from './PriceView';
@@ -30,8 +32,12 @@ export const PoolPosition: React.FC = () => {
   const { poolId } = useParams<URLParamTypes>();
   const [positionRatio, setPositionRatio] = useState<Ratio | undefined>();
 
-  const position = usePosition(poolId);
+  const [position, updatePosition] = useSubject(getPoolById);
   const { pair } = usePair(position);
+
+  useEffect(() => {
+    updatePosition(poolId);
+  }, [poolId, updatePosition]);
 
   useEffect(() => {
     if (position) {

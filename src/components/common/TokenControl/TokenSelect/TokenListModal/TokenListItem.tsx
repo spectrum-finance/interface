@@ -34,7 +34,7 @@ const TokenListItem: React.FC<TokenListItemProps> = ({
             className="token-item__box-left-name"
             type="secondary"
           >
-            {asset.name}
+            {asset.description || asset.name}
           </Typography.Text>
         </Box>
       </Box>

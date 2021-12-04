@@ -10,6 +10,8 @@ import {
   WalletAddressState,
 } from '../../../context';
 import { Box, Button, Flex, List, Typography } from '../../../ergodex-cdk';
+import { useObservable } from '../../../hooks/useObservable';
+import { nativeToken$ } from '../../../services/new/core';
 import { getBalance } from '../../../services/yoroi';
 import { renderFractions } from '../../../utils/math';
 import { getShortAddress } from '../../../utils/string/addres';
@@ -46,6 +48,7 @@ const AddressListItem: React.FC<AddressListItemProps> = ({
   active,
 }) => {
   const [addressBalance, setAddressBalance] = useState<any>({});
+  const [nativeToken] = useObservable(nativeToken$);
 
   useEffect(() => {
     getBalance(address).then(setAddressBalance);
@@ -75,7 +78,7 @@ const AddressListItem: React.FC<AddressListItemProps> = ({
               addressBalance['nErgs'] ? addressBalance['nErgs'] : 0,
               ERG_DECIMALS,
             ),
-          ).toFixed(2)} ERG`}</Typography.Text>
+          ).toFixed(2)} ${nativeToken?.name}`}</Typography.Text>
         </Flex.Item>
         <Flex.Item grow>
           <Flex justify="flex-end">
