@@ -3,6 +3,7 @@ import {
   combineLatest,
   map,
   Observable,
+  of,
   publishReplay,
   refCount,
   switchMap,
@@ -17,6 +18,7 @@ import {
 import { fractionsToNum, parseUserInputToFractions } from '../../utils/math';
 import { assets$ } from './assets';
 import { nativeTokenBalance$, utxos$ } from './core';
+import { selectedNetwork$ } from './network';
 
 const ERGO_ID =
   '0000000000000000000000000000000000000000000000000000000000000000';
@@ -48,7 +50,7 @@ export class Balance {
   }
 }
 
-export const walletBalance$ = combineLatest([
+export const ergoWalletBalance$ = combineLatest([
   nativeTokenBalance$.pipe(
     map((balance) => parseUserInputToFractions(balance, ERG_DECIMALS)),
   ),
@@ -68,6 +70,54 @@ export const walletBalance$ = combineLatest([
   publishReplay(1),
   refCount(),
 );
+
+export const walletBalance$ = selectedNetwork$.pipe(
+  switchMap((n) =>
+    n.name === 'ergo'
+      ? ergoWalletBalance$
+      : of(
+          new Balance([
+            [
+              10000000000n,
+              {
+                name: 'ADA',
+                id: '1',
+                decimals: ERG_DECIMALS,
+                description: 'Cardano',
+              },
+            ],
+            [
+              200000000000n,
+              {
+                name: 'wErg',
+                id: '2',
+                decimals: ERG_DECIMALS,
+                description: 'Wrapped ERG',
+              },
+            ],
+            [
+              3000000000n,
+              {
+                name: 'Djed',
+                id: '3',
+                decimals: ERG_DECIMALS,
+                description: 'COTI',
+              },
+            ],
+            [
+              1000000000000n,
+              {
+                name: 'GENS',
+                id: '4',
+                decimals: ERG_DECIMALS,
+                description: 'Genius Yield',
+              },
+            ],
+          ]),
+        ),
+  ),
+);
+
 walletBalance$.subscribe(() => {});
 
 export const useWalletBalance = () =>

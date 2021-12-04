@@ -93,10 +93,20 @@ export const cardanoNetwork: Network = {
   isWalletSetuped$: of(true),
   availablePools$: of(pools),
   assets$: of([
-    { name: 'ADA', id: '1', decimals: ERG_DECIMALS, description: 'ADA' },
-    { name: 'wERG', id: '2', decimals: ERG_DECIMALS, description: 'wERG' },
-    { name: 'Djed', id: '3', decimals: ERG_DECIMALS, description: 'Djed' },
-    { name: 'GENS', id: '4', decimals: ERG_DECIMALS, description: 'GENS' },
+    { name: 'ADA', id: '1', decimals: ERG_DECIMALS, description: 'Cardano' },
+    {
+      name: 'wERG',
+      id: '2',
+      decimals: ERG_DECIMALS,
+      description: 'Wrapped ERG',
+    },
+    { name: 'Djed', id: '3', decimals: ERG_DECIMALS, description: 'COTI' },
+    {
+      name: 'GENS',
+      id: '4',
+      decimals: ERG_DECIMALS,
+      description: 'Genius Yield',
+    },
   ]),
   getAssetById: (id: string) => of({} as any),
   getAssetsByPairAsset: (pairAssetId: string) =>

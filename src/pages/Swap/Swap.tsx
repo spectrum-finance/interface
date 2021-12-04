@@ -364,7 +364,9 @@ export const Swap: FC = () => {
             <TransactionSettings />
           </Flex>
           <Flex.Item marginBottom={6} marginTop={-1}>
-            <Typography.Footnote>{t`swap.subtitle`}</Typography.Footnote>
+            <Typography.Footnote>
+              {selectedNetwork?.name === 'ergo' ? 'Ergo' : 'Cardano'} Network
+            </Typography.Footnote>
           </Flex.Item>
           <Flex.Item marginBottom={1}>
             <TokenControlFormItem
