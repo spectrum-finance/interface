@@ -54,7 +54,7 @@ export const pools = [
     997,
   ),
   new AmmPool(
-    '2',
+    '3',
     new AssetAmount(
       { name: 'ADA_GENS', id: '14', decimals: ERG_DECIMALS, description: '' },
       100000000n,
@@ -87,6 +87,7 @@ export const cardanoNetwork: Network = {
   walletState$: of(WalletState.CONNECTED),
   connectWallet: () => {},
   getPoolById: (id: string) => {
+    console.log(id);
     return cardanoNetwork.availablePools$.pipe(
       map((pools) => {
         return pools.find((p) => p.id === id);

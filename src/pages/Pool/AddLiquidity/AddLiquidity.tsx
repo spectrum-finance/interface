@@ -38,10 +38,14 @@ import {
   Typography,
 } from '../../../ergodex-cdk';
 import { useObservable, useSubject } from '../../../hooks/useObservable';
+import { Network } from '../../../networks/shared';
 import { assets$, getAssetsByPairAsset } from '../../../services/new/assets';
 import { Balance, useWalletBalance } from '../../../services/new/balance';
 import { nativeToken$ } from '../../../services/new/core';
-import { selectedNetwork$ } from '../../../services/new/network';
+import {
+  _selectedNetwork$,
+  selectedNetwork$,
+} from '../../../services/new/network';
 import { getPoolById, getPoolByPair } from '../../../services/new/pools';
 import {
   parseUserInputToFractions,
@@ -158,13 +162,6 @@ class AddLiquidityStrategy implements ActionFormStrategy {
   }
 }
 
-const initialValues: AddLiquidityFormModel = {
-  x: {
-    name: 'ERG',
-    id: '0000000000000000000000000000000000000000000000000000000000000000',
-  },
-};
-
 const getAssetsByToken = (tokenId?: string) => {
   return tokenId ? getAssetsByPairAsset(tokenId) : of([]);
 };
@@ -176,6 +173,21 @@ const AddLiquidity = (): JSX.Element => {
   const [balance] = useWalletBalance();
   const [{ minerFee }] = useSettings();
 
+  const initialValues: AddLiquidityFormModel =
+    _selectedNetwork$.getValue().name === 'ergo'
+      ? {
+          x: {
+            name: 'ERG',
+            id: '0000000000000000000000000000000000000000000000000000000000000000',
+          },
+        }
+      : {
+          x: {
+            name: 'ADA',
+            id: '1',
+          },
+        };
+
   const { poolId } = useParams<{ poolId?: PoolId }>();
 
   const addLiquidityStrategy = new AddLiquidityStrategy(balance, minerFee);
@@ -184,6 +196,7 @@ const AddLiquidity = (): JSX.Element => {
   const [yAssets, setYAssets] = useSubject(getAssetsByToken);
   const [pools, setPools] = useSubject(getAvailablePools);
   const [poolById, setPoolById] = useSubject(getPoolById);
+  const [prevSelectedNetwork, setPrevSelectedNetwork] = useState<Network>();
   const [nativeToken] = useObservable(nativeToken$);
   const [selectedNetwork] = useObservable(selectedNetwork$);
 
@@ -200,6 +213,7 @@ const AddLiquidity = (): JSX.Element => {
         decimals: ERG_DECIMALS,
       },
     });
+    setPrevSelectedNetwork(selectedNetwork);
     setPools();
   }, [selectedNetwork]);
 
@@ -208,7 +222,10 @@ const AddLiquidity = (): JSX.Element => {
     value: AddLiquidityFormModel,
     prevValue: AddLiquidityFormModel,
   ) => {
-    if (value.x?.id !== prevValue.x?.id) {
+    if (
+      value.x?.id !== prevValue.x?.id &&
+      selectedNetwork?.name === prevSelectedNetwork?.name
+    ) {
       setYAssets(value?.x?.id);
       form.setFieldsValue({
         xAmount: undefined,
