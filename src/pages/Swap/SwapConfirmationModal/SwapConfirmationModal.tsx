@@ -26,7 +26,7 @@ import {
 } from '../../../ergodex-cdk';
 import { useObservable } from '../../../hooks/useObservable';
 import { explorer } from '../../../services/explorer';
-import { utxos$ } from '../../../services/new/core';
+import { nativeToken$, utxos$ } from '../../../services/new/core';
 import { poolActions } from '../../../services/poolActions';
 import { submitTx } from '../../../services/yoroi';
 import { makeTarget } from '../../../utils/ammMath';
@@ -59,6 +59,7 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
 
   const [{ minerFee, address, slippage, nitro }] = useSettings();
   const [utxos] = useObservable(utxos$);
+  const [nativeToken] = useObservable(nativeToken$);
 
   const [baseParams, setBaseParams] = useState<
     BaseInputParameters | undefined
@@ -268,13 +269,17 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
                                 <Flex.Item>
                                   <Flex justify="space-between">
                                     <Flex.Item>Miner Fee:</Flex.Item>
-                                    <Flex.Item>{minerFee} ERG</Flex.Item>
+                                    <Flex.Item>
+                                      {minerFee} {nativeToken?.name}
+                                    </Flex.Item>
                                   </Flex>
                                 </Flex.Item>
                                 <Flex.Item>
                                   <Flex justify="space-between">
                                     <Flex.Item>UI Fee:</Flex.Item>
-                                    <Flex.Item>{UI_FEE} ERG</Flex.Item>
+                                    <Flex.Item>
+                                      {UI_FEE} {nativeToken?.name}
+                                    </Flex.Item>
                                   </Flex>
                                 </Flex.Item>
                                 <Flex.Item>
@@ -289,7 +294,7 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
                                           operationVars[1].maxExFee,
                                           ERG_DECIMALS,
                                         )}`}{' '}
-                                      ERG
+                                      {nativeToken?.name}
                                     </Flex.Item>
                                   </Flex>
                                 </Flex.Item>

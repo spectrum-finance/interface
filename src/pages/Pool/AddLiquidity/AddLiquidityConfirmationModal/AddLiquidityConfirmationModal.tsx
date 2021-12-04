@@ -9,7 +9,7 @@ import { useSettings } from '../../../../context';
 import { Box, Button, Flex, Modal, Typography } from '../../../../ergodex-cdk';
 import { useObservable } from '../../../../hooks/useObservable';
 import { explorer } from '../../../../services/explorer';
-import { utxos$ } from '../../../../services/new/core';
+import { nativeToken$, utxos$ } from '../../../../services/new/core';
 import { poolActions } from '../../../../services/poolActions';
 import { submitTx } from '../../../../services/yoroi';
 import { makeTarget } from '../../../../utils/ammMath';
@@ -35,6 +35,7 @@ const AddLiquidityConfirmationModal: React.FC<ConfirmRemoveModalProps> = ({
   const uiFeeNErg = parseUserInputToFractions(UI_FEE, ERG_DECIMALS);
   const exFeeNErg = parseUserInputToFractions(defaultExFee, ERG_DECIMALS);
   const minerFeeNErgs = parseUserInputToFractions(minerFee, ERG_DECIMALS);
+  const [nativeToken] = useObservable(nativeToken$);
 
   const totalFees = calculateTotalFee(
     [minerFee, UI_FEE, defaultExFee],
@@ -114,19 +115,25 @@ const AddLiquidityConfirmationModal: React.FC<ConfirmRemoveModalProps> = ({
                           <Flex.Item>
                             <Flex justify="space-between">
                               <Flex.Item>Miner Fee:</Flex.Item>
-                              <Flex.Item>{minerFee} ERG</Flex.Item>
+                              <Flex.Item>
+                                {minerFee} {nativeToken?.name}
+                              </Flex.Item>
                             </Flex>
                           </Flex.Item>
                           <Flex.Item>
                             <Flex justify="space-between">
                               <Flex.Item>Execution Fee:</Flex.Item>
-                              <Flex.Item>{defaultExFee} ERG</Flex.Item>
+                              <Flex.Item>
+                                {defaultExFee} {nativeToken?.name}
+                              </Flex.Item>
                             </Flex>
                           </Flex.Item>
                           <Flex.Item>
                             <Flex justify="space-between">
                               <Flex.Item>UI Fee:</Flex.Item>
-                              <Flex.Item>{UI_FEE} ERG</Flex.Item>
+                              <Flex.Item>
+                                {UI_FEE} {nativeToken?.name}
+                              </Flex.Item>
                             </Flex>
                           </Flex.Item>
                         </Flex>
@@ -134,7 +141,9 @@ const AddLiquidityConfirmationModal: React.FC<ConfirmRemoveModalProps> = ({
                     />
                   </Flex.Item>
                   <Flex.Item>
-                    <Typography.Text strong>{totalFees} ERG</Typography.Text>
+                    <Typography.Text strong>
+                      {totalFees} {nativeToken?.name}
+                    </Typography.Text>
                   </Flex.Item>
                 </Flex>
               </Box>
