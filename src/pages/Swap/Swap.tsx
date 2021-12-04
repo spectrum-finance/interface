@@ -44,7 +44,10 @@ import {
 import { assets$, getAssetsByPairAsset } from '../../services/new/assets';
 import { Balance, useWalletBalance } from '../../services/new/balance';
 import { nativeToken$ } from '../../services/new/core';
-import { selectedNetwork$ } from '../../services/new/network';
+import {
+  _selectedNetwork$,
+  selectedNetwork$,
+} from '../../services/new/network';
 import { getPoolByPair, pools$ } from '../../services/new/pools';
 import { fractionsToNum, parseUserInputToFractions } from '../../utils/math';
 import { calculateTotalFee } from '../../utils/transactions';
@@ -79,8 +82,13 @@ class SwapStrategy implements ActionFormStrategy {
         ? totalFees + from.amount?.value!
         : totalFees;
 
-    return +totalFees > this.balance.get(ERG_TOKEN_ID)
-      ? ERG_TOKEN_NAME
+    return +totalFees >
+      this.balance.get(
+        _selectedNetwork$.getValue().name === 'ergo' ? ERG_TOKEN_ID : '1',
+      )
+      ? _selectedNetwork$.getValue().name === 'ergo'
+        ? ERG_TOKEN_NAME
+        : 'ADA'
       : undefined;
   }
 

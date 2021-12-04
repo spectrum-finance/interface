@@ -35,21 +35,26 @@ export const pools = [
   new AmmPool(
     '2',
     new AssetAmount(
-      { name: 'ADA_Djed', id: '13', decimals: ERG_DECIMALS, description: '' },
+      {
+        name: 'ADA_DjedUSD',
+        id: '13',
+        decimals: ERG_DECIMALS,
+        description: '',
+      },
       100000000n,
     ),
     new AssetAmount(
       { name: 'ADA', id: '1', decimals: ERG_DECIMALS, description: '' },
-      100000000n,
+      10000000n,
     ),
     new AssetAmount(
-      { name: 'Djed', id: '3', decimals: ERG_DECIMALS, description: '' },
+      { name: 'DjedUSD', id: '3', decimals: ERG_DECIMALS, description: '' },
       100000000n,
     ),
     997,
   ),
   new AmmPool(
-    '2',
+    '3',
     new AssetAmount(
       { name: 'ADA_GENS', id: '14', decimals: ERG_DECIMALS, description: '' },
       100000000n,
@@ -78,10 +83,11 @@ export const getPoolByPair = (xId: string, yId: string) => {
 
 export const cardanoNetwork: Network = {
   nativeToken$,
-  nativeTokenBalance$: of('10'),
+  nativeTokenBalance$: of('12.94'),
   walletState$: of(WalletState.CONNECTED),
   connectWallet: () => {},
   getPoolById: (id: string) => {
+    console.log(id);
     return cardanoNetwork.availablePools$.pipe(
       map((pools) => {
         return pools.find((p) => p.id === id);
@@ -100,7 +106,7 @@ export const cardanoNetwork: Network = {
       decimals: ERG_DECIMALS,
       description: 'Wrapped ERG',
     },
-    { name: 'Djed', id: '3', decimals: ERG_DECIMALS, description: 'COTI' },
+    { name: 'DjedUSD', id: '3', decimals: ERG_DECIMALS, description: 'COTI' },
     {
       name: 'GENS',
       id: '4',
