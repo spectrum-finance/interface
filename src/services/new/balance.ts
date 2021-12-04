@@ -78,7 +78,7 @@ export const walletBalance$ = selectedNetwork$.pipe(
       : of(
           new Balance([
             [
-              10000000000n,
+              12940000000n,
               {
                 name: 'ADA',
                 id: '1',

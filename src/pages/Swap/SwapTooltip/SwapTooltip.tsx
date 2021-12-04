@@ -19,7 +19,8 @@ import { ERG_DECIMALS, MIN_EX_FEE, UI_FEE } from '../../../constants/erg';
 import { defaultExFee } from '../../../constants/settings';
 import { useSettings } from '../../../context';
 import { Flex, FormInstance, Typography } from '../../../ergodex-cdk';
-import { useSubject } from '../../../hooks/useObservable';
+import { useObservable, useSubject } from '../../../hooks/useObservable';
+import { nativeToken$ } from '../../../services/new/core';
 import {
   math,
   parseUserInputToFractions,
@@ -40,6 +41,7 @@ const TxInfoTooltipContent: FC<{ form: FormInstance<SwapFormModel> }> = ({
 }) => {
   const { from, pool } = form.getFieldsValue();
   const [{ slippage, minerFee, nitro }] = useSettings();
+  const [nativeToken] = useObservable(nativeToken$);
   const swapExtremums = swapVars(
     MIN_EX_FEE,
     nitro,
@@ -82,7 +84,7 @@ const TxInfoTooltipContent: FC<{ form: FormInstance<SwapFormModel> }> = ({
       <Flex.Item>
         <Flex justify="space-between">
           <Flex.Item marginRight={6}>Total Fees</Flex.Item>
-          {totalFees} ERG
+          {totalFees} {nativeToken?.name}
         </Flex>
       </Flex.Item>
     </Flex>

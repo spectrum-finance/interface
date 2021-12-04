@@ -12,8 +12,10 @@ import { FormPageWrapper } from '../../components/FormPageWrapper/FormPageWrappe
 import { SubmitButton } from '../../components/SubmitButton/SubmitButton';
 import { TokenIconPair } from '../../components/TokenIconPair/TokenIconPair';
 import { Flex, Skeleton, Typography } from '../../ergodex-cdk';
+import { useSubject } from '../../hooks/useObservable';
 import { usePair } from '../../hooks/usePair';
 import { usePosition } from '../../hooks/usePosition';
+import { getPoolById } from '../../services/new/pools';
 import { parseUserInputToFractions } from '../../utils/math';
 import { ConfirmRemoveModal } from './ConfirmRemoveModal/ConfirmRemoveModal';
 import { PairSpace } from './PairSpace/PairSpace';
@@ -32,8 +34,12 @@ const Remove = (): JSX.Element => {
   const [isFirstPairLoading, setIsFirstPairLoading] = useState(true);
   const [lpToRemove, setLpToRemove] = useState<number | undefined>();
 
-  const position = usePosition(poolId);
+  const [position, updatePosition] = useSubject(getPoolById);
   const { pair, lpBalance, setPair } = usePair(position);
+
+  useEffect(() => {
+    updatePosition(poolId);
+  }, [poolId, updatePosition]);
 
   useEffect(() => {
     if (isFirstPairLoading && pair && lpBalance) {

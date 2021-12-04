@@ -45,7 +45,7 @@ export const pools = [
     ),
     new AssetAmount(
       { name: 'ADA', id: '1', decimals: ERG_DECIMALS, description: '' },
-      100000000n,
+      10000000n,
     ),
     new AssetAmount(
       { name: 'DjedUSD', id: '3', decimals: ERG_DECIMALS, description: '' },
@@ -83,7 +83,7 @@ export const getPoolByPair = (xId: string, yId: string) => {
 
 export const cardanoNetwork: Network = {
   nativeToken$,
-  nativeTokenBalance$: of('10'),
+  nativeTokenBalance$: of('12.94'),
   walletState$: of(WalletState.CONNECTED),
   connectWallet: () => {},
   getPoolById: (id: string) => {
