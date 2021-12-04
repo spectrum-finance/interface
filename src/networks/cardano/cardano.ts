@@ -104,7 +104,7 @@ export const cardanoNetwork: Network = {
       name: 'wERG',
       id: '2',
       decimals: ERG_DECIMALS,
-      description: 'Wrapped ERG',
+      description: 'Ergo',
     },
     { name: 'DjedUSD', id: '3', decimals: 2, description: 'COTI' },
     {

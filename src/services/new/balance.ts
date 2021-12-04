@@ -92,7 +92,7 @@ export const walletBalance$ = selectedNetwork$.pipe(
                 name: 'wErg',
                 id: '2',
                 decimals: ERG_DECIMALS,
-                description: 'Wrapped ERG',
+                description: 'Ergo',
               },
             ],
             [
