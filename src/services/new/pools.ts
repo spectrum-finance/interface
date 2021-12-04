@@ -1,25 +1,9 @@
-import {
-  AmmPool,
-  makeNativePools,
-  makePools,
-  NetworkPools,
-  PoolId,
-} from '@ergolabs/ergo-dex-sdk';
-import { ErgoBox } from '@ergolabs/ergo-sdk';
-import {
-  combineLatest,
-  defer,
-  from,
-  map,
-  Observable,
-  publishReplay,
-  refCount,
-  startWith,
-  switchMap,
-  zip,
-} from 'rxjs';
+import { PoolId } from '@ergolabs/ergo-dex-sdk';
+import { of, publishReplay, refCount, switchMap } from 'rxjs';
 
-import { selectedNetwork$ } from './network';
+import { getPoolByPair as cardanoGetPoolByPair } from '../../networks/cardano/cardano';
+import { getPoolByPair as ergoGetPoolByPair } from '../../networks/ergo/ergo';
+import { _selectedNetwork$, selectedNetwork$ } from './network';
 
 export const availablePools$ = selectedNetwork$.pipe(
   switchMap((n) => n.availablePools$),
@@ -30,11 +14,24 @@ export const availablePools$ = selectedNetwork$.pipe(
 export const getPoolById = (poolId: PoolId) =>
   selectedNetwork$.pipe(switchMap((n) => n.getPoolById(poolId)));
 
-export const getPoolByPair = (
-  xId: string,
-  yId: string,
-): Observable<AmmPool[]> =>
-  selectedNetwork$.pipe(switchMap((n) => n.getPoolByPair(xId, yId)));
+export const getPoolByPair = (xId: string, yId: string) =>
+  _selectedNetwork$.getValue().name === 'ergo'
+    ? ergoGetPoolByPair(xId, yId)
+    : cardanoGetPoolByPair(xId, yId);
+
+// export const getPoolByPair = (
+//   xId: string,
+//   yId: string,
+// ): Observable<AmmPool[]> => {
+//   console.log('call');
+//
+//   return selectedNetwork$.pipe(
+//     tap(console.log),
+//     first(),
+//     switchMap((n) => n.getPoolByPair(xId, yId)),
+//     tap(console.log),
+//   );
+// };
 
 export const pools$ = selectedNetwork$.pipe(
   switchMap((n) => n.pools$),

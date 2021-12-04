@@ -36,9 +36,15 @@ import {
   SwapOutlined,
   Typography,
 } from '../../ergodex-cdk';
-import { useObservable, useObservableAction } from '../../hooks/useObservable';
+import {
+  useObservable,
+  useSubject,
+  useSubscription,
+} from '../../hooks/useObservable';
 import { assets$, getAssetsByPairAsset } from '../../services/new/assets';
 import { Balance, useWalletBalance } from '../../services/new/balance';
+import { nativeToken$ } from '../../services/new/core';
+import { selectedNetwork$ } from '../../services/new/network';
 import { getPoolByPair, pools$ } from '../../services/new/pools';
 import { fractionsToNum, parseUserInputToFractions } from '../../utils/math';
 import { calculateTotalFee } from '../../utils/transactions';
@@ -218,14 +224,35 @@ const sortPoolByLpDesc = (poolA: AmmPool, poolB: AmmPool) =>
 export const Swap: FC = () => {
   const [form] = Form.useForm<SwapFormModel>();
   const [fromAssets] = useObservable(assets$);
-  const [toAssets, updateToAssets] = useObservableAction(getAssetsByToken);
-  const [pools, updatePoolsByPair] = useObservableAction(getAvailablePools);
+  const [toAssets, updateToAssets] = useSubject(getAssetsByToken);
+  const [pools, updatePoolsByPair] = useSubject(getAvailablePools);
   const { t } = useTranslation();
   const [balance] = useWalletBalance();
   const [{ minerFee }] = useSettings();
   const [, setChanges] = useState<any>();
+  const [selectedNetwork] = useObservable(selectedNetwork$);
+  const [nativeToken] = useObservable(nativeToken$);
 
   const swapStrategy = new SwapStrategy(balance, minerFee);
+
+  useEffect(() => {
+    form.resetFields(['from', 'to']);
+    form.setFieldsValue({
+      from: {
+        asset: {
+          name: nativeToken?.name,
+          id: nativeToken?.id as any,
+          decimals: ERG_DECIMALS,
+        },
+      },
+    });
+  }, [
+    form,
+    nativeToken?.id,
+    nativeToken?.name,
+    selectedNetwork,
+    updateToAssets,
+  ]);
 
   useEffect(() => {
     updateToAssets(initialValues.from?.asset?.id);

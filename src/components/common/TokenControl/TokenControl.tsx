@@ -8,7 +8,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import { of } from 'rxjs';
 
 import { Box, Button, Flex, Typography } from '../../../ergodex-cdk';
-import { useObservableAction } from '../../../hooks/useObservable';
+import { useSubject } from '../../../hooks/useObservable';
 import { getBalanceByTokenId } from '../../../services/new/balance';
 import {
   TokenAmountInput,
@@ -50,9 +50,7 @@ export const TokenControl: FC<TokenControlProps> = ({
   bordered,
 }) => {
   const { t } = useTranslation();
-  const [balance, updateBalance] = useObservableAction(
-    getTokenBalanceByTokenName,
-  );
+  const [balance, updateBalance] = useSubject(getTokenBalanceByTokenName);
 
   useEffect(() => {
     if (value?.asset) {
