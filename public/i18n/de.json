@@ -1,0 +1,52 @@
+{
+    "common": {
+      "search": "Suchen",
+      "selectToken": "Token auswählen",
+      "selectWallet": "Wallet auswählen",
+      "tokenControl": {
+        "maxButton": "Max",
+        "balanceLabel": "Saldo"
+      }
+    },
+    "header": {
+      "swap": "Swap",
+      "pool": "Pool",
+      "exchange": "Exchange",
+      "settings": {
+        "about": "Info",
+        "howTo": "Hilfe",
+        "docs": "Docs",
+        "gitHub": "GitHub",
+        "globalSettings": {
+          "title": "Globale Einstell.",
+          "minerFee": "Miner-Gebühr",
+          "minerFeeInfo": "Gebühre, die an Minern gezahlt werden",
+          "minimum": "Minimum",
+          "confirm": "Bestätigen"
+        },
+        "language": "Sprache",
+        "darkMode": "Dark Mode"
+      }
+    },
+    "wallet": {
+      "connect": "Wallet verbinden",
+      "kyaNotAccepted": "KYA nicht akzeptiert"
+    },
+    "swap": {
+      "title": "Swap",
+      "subtitle": "Ergo Netzwerk",
+      "fromLabel": "Von",
+      "toLabel": "Zu",
+      "txSettings": "Transaktionseinstellungen",
+      "slippageTolerance": "Slippage-Toleranz",
+      "slippageToleranceInfo": "Kosteneffiziente Netzwerke für cross-media Bandbreiten deutlich monetarisieren",
+      "nitro": "Nitro",
+      "nitroInfo": "Maximaler DEX-Gebührmultiplikator",
+      "auto": "Auto"
+    },
+    "pool": {
+      "title": "Pools-Übersicht",
+      "emptyList": "Deine Liquiditätspositionen werden hier angezeigt",
+      "newPosition": "+ Neue Position"
+    }
+  }

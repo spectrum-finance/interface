@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useHistory, useRouteMatch } from 'react-router-dom';
 
 import { Tabs } from '../../ergodex-cdk';
@@ -10,6 +11,7 @@ interface MatchParams {
 
 const HeaderTabs = (): JSX.Element => {
   const history = useHistory();
+  const { t } = useTranslation('', { keyPrefix: 'header' });
   const matchRoot = useRouteMatch<MatchParams>('/:page');
   const matchPoolPosition = useRouteMatch<MatchParams>('/pool/:id');
   const matchRemovePosition = useRouteMatch<MatchParams>('/remove/:id');
@@ -29,9 +31,9 @@ const HeaderTabs = (): JSX.Element => {
         type="card"
         onChange={onTabClick}
       >
-        <Tabs.TabPane tab="Swap" key="swap" />
-        <Tabs.TabPane tab="Pool" key="pool" />
-        <Tabs.TabPane tab="Exchange" key="exchange" disabled />
+        <Tabs.TabPane tab={t('swap')} key="swap" />
+        <Tabs.TabPane tab={t('pool')} key="pool" />
+        <Tabs.TabPane tab={t('exchange')} key="exchange" disabled />
       </Tabs>
     </div>
   );

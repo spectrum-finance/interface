@@ -2,6 +2,7 @@ import './TokenSelect.less';
 
 import { AssetInfo } from '@ergolabs/ergo-sdk';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import {
   Button,
@@ -28,6 +29,7 @@ const TokenSelect: React.FC<TokenSelectProps> = ({
   disabled,
   readonly,
 }) => {
+  const { t } = useTranslation('', { keyPrefix: 'common' });
   const openTokenModal = () => {
     if (readonly) {
       return;
@@ -79,7 +81,7 @@ const TokenSelect: React.FC<TokenSelectProps> = ({
           block
           disabled={disabled}
         >
-          Select a token
+          {t('selectToken')}
           {!readonly && <DownOutlined />}
         </Button>
       )}

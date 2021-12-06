@@ -1,14 +1,52 @@
 {
   "common": {
+    "search": "Search",
+    "selectToken": "Select a token",
+    "selectWallet": "Select a wallet",
     "tokenControl": {
       "maxButton": "Max",
       "balanceLabel": "Balance"
     }
   },
+  "header": {
+    "swap": "Swap",
+    "pool": "Pool",
+    "exchange": "Exchange",
+    "settings": {
+      "about": "About",
+      "howTo": "How to use",
+      "docs": "Docs",
+      "gitHub": "GitHub",
+      "globalSettings": {
+        "title": "Global Settings",
+        "minerFee": "Miner Fee",
+        "minerFeeInfo": "Fee charged by miners",
+        "minimum": "Minimum",
+        "confirm": "Confirm"
+      },
+      "language": "Language",
+      "darkMode": "Dark Mode"
+    }
+  },
+  "wallet": {
+    "connect": "Connect wallet",
+    "kyaNotAccepted": "KYA is not accepted"
+  },
   "swap": {
     "title": "Swap",
     "subtitle": "Ergo network",
     "fromLabel": "From",
-    "toLabel": "To"
+    "toLabel": "To",
+    "txSettings": "Transaction Settings",
+    "slippageTolerance": "Slippage tolerance",
+    "slippageToleranceInfo": "Distinctively monetize cost effective networks for cross-media bandwidth",
+    "nitro": "Nitro",
+    "nitroInfo": "Maximum DEX fee multiplier",
+    "auto": "Auto"
+  },
+  "pool": {
+    "title": "Pools overview",
+    "emptyList": "Your liquidity positions will appear here.",
+    "newPosition": "+ New position"
   }
 }

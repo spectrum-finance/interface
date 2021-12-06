@@ -1,6 +1,6 @@
 import { PublicKey } from '@ergolabs/ergo-sdk';
 import { useLocalStorage } from '@rehooks/local-storage';
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext, useEffect } from 'react';
 
 // import { LocalStorageReturnValue } from '@rehooks/local-storage/lib/use-localstorage';
 import { ERG_EXPLORER_URL } from '../constants/env';
@@ -16,6 +16,7 @@ export type Settings = {
   pk?: PublicKey;
   explorerUrl: string;
   theme: string;
+  language: string;
 };
 
 export const DefaultSettings: Readonly<Settings> = {
@@ -25,6 +26,7 @@ export const DefaultSettings: Readonly<Settings> = {
   explorerUrl: ERG_EXPLORER_URL,
   pk: '',
   theme: isDarkOsTheme() ? 'dark' : 'light',
+  language: 'en',
 };
 
 function noop() {
