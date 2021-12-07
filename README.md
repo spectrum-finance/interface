@@ -84,7 +84,7 @@ As a **global project**, supporting a wide variety of languages is crucial. To a
 
 1. Create a new json file with your language's iso-code under public/i18n/
 2. Translate the original content (en.json) to your language.
-3. Add that language to the "languages" object withing the BurgerMenu.tsx component
+3. Add that language to the "languages" object within the BurgerMenu.tsx component
 
 <!-- LICENSE -->
 ## License
