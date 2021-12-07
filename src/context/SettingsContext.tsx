@@ -1,6 +1,6 @@
 import { PublicKey } from '@ergolabs/ergo-sdk';
 import { useLocalStorage } from '@rehooks/local-storage';
-import React, { createContext, useContext, useEffect } from 'react';
+import React, { createContext, useContext } from 'react';
 
 // import { LocalStorageReturnValue } from '@rehooks/local-storage/lib/use-localstorage';
 import { ERG_EXPLORER_URL } from '../constants/env';
