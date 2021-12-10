@@ -4,13 +4,13 @@ import React from 'react';
 
 import { ERG_TOKEN_NAME } from '../../constants/erg';
 import { useSettings } from '../../context';
-import { Logo } from '../../ergodex-cdk';
 import { useObservable } from '../../hooks/useObservable';
 import {
   nativeTokenBalance$,
   WalletState,
   walletState$,
 } from '../../services/new/core';
+import { AppLogo } from '../common/AppLogo/AppLogo';
 import { TxHistory } from '../common/TxHistory/TxHistory';
 import { BurgerMenu } from './BurgerMenu/BurgerMenu';
 import { ConnectWallet } from './ConnectWallet/ConnectWallet';
@@ -31,9 +31,8 @@ export const Header: React.FC = () => {
   return (
     <header className="header">
       <div className="header__wrapper">
-        <Logo label />
+        <AppLogo />
         <HeaderTabs />
-
         <div className="header__options">
           <NetworkDropdown networks={networks} />
           <ConnectWallet
