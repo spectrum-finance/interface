@@ -1,38 +1,32 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { FormProps } from 'antd';
-import { FieldData } from 'rc-field-form/lib/interface';
-import React, { FC, ReactNode, useEffect, useState } from 'react';
-import { combineLatest, first, map, Observable, of, startWith } from 'rxjs';
+import React, { FC, ReactNode } from 'react';
+import { combineLatest, first, map, Observable, of } from 'rxjs';
 
-import { Form, FormInstance } from '../../../ergodex-cdk';
-import { useObservableAction } from '../../../hooks/useObservable';
+import { Flex } from '../../../ergodex-cdk';
+import { Form, FormGroup } from '../../../ergodex-cdk/components/Form/NewForm';
+import { useSubject, useSubscription } from '../../../hooks/useObservable';
 import { isWalletLoading$ } from '../../../services/new/core';
 import { isOnline$ } from '../../../services/new/networkConnection';
 import { ActionButton, ActionButtonState } from './ActionButton/ActionButton';
 
 export interface ActionFormStrategy<T = any> {
-  isTokensNotSelected: (form: FormInstance<T>) => boolean | Observable<boolean>;
-  isAmountNotEntered: (form: FormInstance<T>) => boolean | Observable<boolean>;
-  isLiquidityInsufficient: (
-    form: FormInstance<T>,
-  ) => boolean | Observable<boolean>;
+  isTokensNotSelected: (form: T) => boolean | Observable<boolean>;
+  isAmountNotEntered: (form: T) => boolean | Observable<boolean>;
+  isLiquidityInsufficient: (form: T) => boolean | Observable<boolean>;
   getInsufficientTokenForTx: (
-    form: FormInstance<T>,
+    form: T,
   ) => undefined | string | Observable<undefined | string>;
   getInsufficientTokenForFee: (
-    form: FormInstance<T>,
+    form: T,
   ) => undefined | string | Observable<undefined | string>;
-  request: (form: FormInstance<T>) => Promise<any> | Observable<any> | void;
+  request: (form: T) => Promise<any> | Observable<any> | void;
   actionButtonCaption: () => ReactNode;
 }
 
-export interface ActionFormProps {
-  readonly form: FormInstance;
-  readonly strategy: ActionFormStrategy;
+export interface ActionFormProps<T> {
+  readonly form: FormGroup<T>;
+  readonly strategy: any;
   readonly children?: ReactNode | ReactNode[];
-  readonly initialValues?: any;
-  readonly onFieldsChange?: FormProps['onFieldsChange'];
-  readonly onValuesChange?: (changes: any, value: any, prevValue: any) => void;
 }
 
 function normalizeState<T>(value: T | Observable<T>): Observable<T> {
@@ -41,8 +35,7 @@ function normalizeState<T>(value: T | Observable<T>): Observable<T> {
 
 const getButtonData = (
   strategy: ActionFormStrategy,
-  form: FormInstance,
-  values: any,
+  form: any,
 ): Observable<{
   state: ActionButtonState;
   data?: any;
@@ -109,40 +102,30 @@ const getButtonData = (
   );
 };
 
-export const ActionForm: FC<ActionFormProps> = ({
+export const ActionForm: FC<ActionFormProps<any>> = ({
   form,
   strategy,
   children,
-  initialValues,
-  onFieldsChange,
-  onValuesChange,
 }) => {
-  const [prevValue, setPrevValue] = useState(initialValues);
-  const [buttonData, updateButtonData] = useObservableAction(getButtonData, {
-    state: ActionButtonState.CHECK_INTERNET_CONNECTION,
+  const [buttonData, updateButtonData] = useSubject(getButtonData, {
+    defaultValue: {
+      state: ActionButtonState.CHECK_INTERNET_CONNECTION,
+    },
   });
-  useEffect(() => {
-    (form as any)['onFieldManuallyChange'] = (value: any) => {
-      updateButtonData(strategy, form, value);
-      setPrevValue(value);
-    };
-    updateButtonData(strategy, form, form.getFieldsValue());
-  }, [strategy, form]);
 
-  const onFormChange = (changedValues: any, values: any) => {
-    updateButtonData(strategy, form, values);
-    if (onValuesChange) {
-      onValuesChange(changedValues, values, prevValue);
-    }
-    setPrevValue(() => values);
-  };
-  const handleFieldsChange = (changes: FieldData[], values: any) => {
-    if (onFieldsChange) {
-      onFieldsChange(changes, values);
-    }
-  };
+  useSubscription(
+    form.valueChangesWithSilent$,
+    (value: any) => {
+      updateButtonData(strategy, value);
+    },
+    [strategy],
+  );
 
-  const handleClick = () => {
+  const handleSubmit = () => {
+    if (buttonData.state !== ActionButtonState.ACTION) {
+      return;
+    }
+
     const result = strategy.request(form);
 
     if (result instanceof Observable) {
@@ -151,22 +134,18 @@ export const ActionForm: FC<ActionFormProps> = ({
   };
 
   return (
-    <Form
-      form={form}
-      initialValues={initialValues}
-      onFieldsChange={handleFieldsChange}
-      onValuesChange={onFormChange}
-    >
+    <Form form={form} onSubmit={handleSubmit}>
       {children}
-
-      <ActionButton
-        onClick={handleClick}
-        state={buttonData.state}
-        token={buttonData.data?.token}
-        nativeToken={buttonData.data?.nativeToken}
-      >
-        {strategy.actionButtonCaption()}
-      </ActionButton>
+      <Flex.Item marginTop={4}>
+        <ActionButton
+          onClick={handleSubmit}
+          state={buttonData.state}
+          token={buttonData.data?.token}
+          nativeToken={buttonData.data?.nativeToken}
+        >
+          {strategy.actionButtonCaption()}
+        </ActionButton>
+      </Flex.Item>
     </Form>
   );
 };

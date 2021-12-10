@@ -119,11 +119,11 @@ export const ActionButton: FC<ActionButtonProps> = (props) => {
       size="extra-large"
     >
       <Button
+        htmlType="submit"
         {...other}
         style={{ fontSize: '20px', lineHeight: '28px' }}
         size="extra-large"
         block
-        onClick={handleClick}
       >
         {children}
       </Button>

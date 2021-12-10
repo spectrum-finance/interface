@@ -1,21 +1,23 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import memoizee from 'memoizee';
 import { useEffect, useState } from 'react';
-import { Observable, Subject, switchMap } from 'rxjs';
+import { map, Observable, Subject, Subscription, switchMap } from 'rxjs';
 
 import { Unpacked } from '../utils/unpacked';
 
 export function useObservable<T>(
   observable: Observable<T>,
+  config?: { deps?: any[] },
 ): [T | undefined, boolean, Error];
 export function useObservable<T>(
   observable: Observable<T>,
-  defaultValue: T,
+  config: { defaultValue: T; deps?: any[] },
 ): [T, boolean, Error];
 export function useObservable<T>(
   observable: Observable<T>,
-  defaultValue?: T,
+  config?: { defaultValue?: T; deps?: any[] },
 ): [T | undefined, boolean, Error | undefined] {
-  const [data, setData] = useState<T | undefined>(defaultValue);
+  const [data, setData] = useState<T | undefined>(config?.defaultValue);
   const [error, setError] = useState<Error | undefined>();
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -33,37 +35,32 @@ export function useObservable<T>(
     });
 
     return () => subscription.unsubscribe();
-  }, [observable, setError, setLoading, setData]);
+  }, config?.deps || []);
 
   return [data, loading, error];
 }
 
-export function useObservableAction<
-  F extends (...args: any[]) => Observable<any>,
->(
+export function useSubject<F extends (...args: any[]) => Observable<any>>(
   observableAction: F,
+  config?: { deps?: any[] },
 ): [
   Unpacked<ReturnType<F>> | undefined,
   (...args: Parameters<F>) => void,
   boolean,
   Error | undefined,
 ];
-export function useObservableAction<
-  F extends (...args: any[]) => Observable<any>,
->(
+export function useSubject<F extends (...args: any[]) => Observable<any>>(
   observableAction: F,
-  defaultValue: Unpacked<ReturnType<F>>,
+  config: { deps?: any[]; defaultValue: Unpacked<ReturnType<F>> },
 ): [
   Unpacked<ReturnType<F>>,
   (...args: Parameters<F>) => void,
   boolean,
   Error | undefined,
 ];
-export function useObservableAction<
-  F extends (...args: any[]) => Observable<any>,
->(
+export function useSubject<F extends (...args: any[]) => Observable<any>>(
   observableAction: F,
-  defaultValue?: Unpacked<ReturnType<F>>,
+  config?: { deps?: any[]; defaultValue?: Unpacked<ReturnType<F>> },
 ): [
   Unpacked<ReturnType<F>> | undefined,
   (...args: Parameters<F>) => void,
@@ -71,7 +68,7 @@ export function useObservableAction<
   Error | undefined,
 ] {
   const [data, setData] = useState<Unpacked<ReturnType<F>> | undefined>(
-    defaultValue,
+    config?.defaultValue,
   );
   const [error, setError] = useState<Error | undefined>();
   const [loading, setLoading] = useState<boolean>(true);
@@ -106,7 +103,53 @@ export function useObservableAction<
       });
 
     return () => subscription.unsubscribe();
-  }, [observableAction, setError, setLoading, setData, nextData]);
+  }, config?.deps || []);
 
   return [data, nextData.next, loading, error];
+}
+
+export function useSubscription<T>(
+  observable: Observable<T>,
+  callback: (value: T) => void,
+  deps?: any[],
+): void;
+export function useSubscription<T extends (...args: any[]) => Observable<any>>(
+  mapper: T,
+  callback: (value: Unpacked<ReturnType<T>>) => void,
+  deps?: any[],
+): [(...args: Parameters<T>) => void];
+export function useSubscription<T>(
+  item: any,
+  callback: any,
+  deps?: any[],
+): void | [any] {
+  const [nextData, setNextData] = useState<{
+    subject: Subject<any>;
+    next: (...args: any[]) => void;
+    //@ts-ignore
+  }>(() => {
+    const subject = new Subject();
+
+    return {
+      subject,
+      next: (...args: any[]) => subject.next(args),
+    };
+  });
+  useEffect(() => {
+    let subscription = Subscription.EMPTY;
+
+    if (item instanceof Function) {
+      const memoizedAction = memoizee(item);
+
+      subscription = nextData.subject
+        .pipe(switchMap((args) => memoizedAction(...args)))
+        .subscribe(callback);
+    } else {
+      subscription = item.subscribe(callback);
+    }
+
+    return () => subscription.unsubscribe();
+  }, deps || []);
+
+  return [nextData.next];
 }

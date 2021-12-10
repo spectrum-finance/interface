@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 import { AmmPool } from '@ergolabs/ergo-dex-sdk';
 import { AssetAmount } from '@ergolabs/ergo-sdk';
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import {
   distinctUntilChanged,
   filter,
@@ -15,18 +15,14 @@ import {
 
 import { TokenControlValue } from '../../../components/common/TokenControl/TokenControl';
 import { FormInstance, Typography } from '../../../ergodex-cdk';
-import { useObservableAction } from '../../../hooks/useObservable';
+import { FormGroup } from '../../../ergodex-cdk/components/Form/NewForm';
+import { useObservable, useSubject } from '../../../hooks/useObservable';
 import {
   math,
   parseUserInputToFractions,
   renderFractions,
 } from '../../../utils/math';
-
-interface SwapFormModel {
-  readonly from?: TokenControlValue;
-  readonly to?: TokenControlValue;
-  readonly pool?: AmmPool;
-}
+import { SwapFormModel } from '../SwapModel';
 
 export function renderPrice(x: AssetAmount, y: AssetAmount): string {
   const nameX = x.asset.name ?? x.asset.id.slice(0, 8);
@@ -37,49 +33,44 @@ export function renderPrice(x: AssetAmount, y: AssetAmount): string {
   return `1 ${nameX} - ${p} ${nameY}`;
 }
 
-const calculateRatio = (form: FormInstance<SwapFormModel>) =>
-  interval(100).pipe(
-    startWith(),
-    map(() => form.getFieldsValue()),
-    filter((value) => {
-      return (
-        value.from?.amount?.value &&
-        value.to?.amount?.value &&
-        value.from.asset?.id &&
-        (value.to.asset?.id as any)
-      );
-    }),
-    distinctUntilChanged(
-      (valueA, valueB) =>
-        valueA?.from?.amount?.value === valueB?.from?.amount?.value &&
-        valueA?.to?.amount?.value === valueB?.to?.amount?.value,
+const calculateRatio = (value: SwapFormModel) => {
+  return renderPrice(
+    new AssetAmount(
+      value?.fromAsset!,
+      parseUserInputToFractions(
+        value?.fromAmount?.value!,
+        value?.fromAsset?.decimals!,
+      ),
     ),
-    map((value) => {
-      return renderPrice(
-        new AssetAmount(
-          value?.from?.asset!,
-          parseUserInputToFractions(
-            value?.from?.amount?.value!,
-            value?.from?.asset?.decimals!,
-          ),
-        ),
-        new AssetAmount(
-          value?.to?.asset!,
-          parseUserInputToFractions(
-            value?.to?.amount?.value!,
-            value?.to?.asset?.decimals!,
-          ),
-        ),
-      );
-    }),
+    new AssetAmount(
+      value?.toAsset!,
+      parseUserInputToFractions(
+        value?.toAmount?.value!,
+        value?.toAsset?.decimals!,
+      ),
+    ),
   );
+};
 
-export const Ratio = ({ form }: { form: FormInstance }) => {
-  const [ratio, updateRatio] = useObservableAction(calculateRatio);
-
-  useEffect(() => {
-    updateRatio(form);
-  }, [form, updateRatio]);
+export const Ratio = ({ form }: { form: FormGroup<SwapFormModel> }) => {
+  const [ratio] = useObservable(
+    form.valueChangesWithSilent$.pipe(
+      map((value) => {
+        if (
+          value.fromAmount?.value &&
+          value.fromAsset &&
+          value.toAmount?.value &&
+          value.toAsset &&
+          value.pool
+        ) {
+          return calculateRatio(value);
+        } else {
+          return undefined;
+        }
+      }),
+    ),
+    { deps: [form] },
+  );
 
   return <Typography.Body>{ratio}</Typography.Body>;
 };
