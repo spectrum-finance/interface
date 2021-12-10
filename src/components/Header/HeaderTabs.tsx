@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import React, { useEffect, useState } from 'react';
 import { useHistory, useRouteMatch } from 'react-router-dom';
 
 import { Tabs } from '../../ergodex-cdk';
@@ -15,14 +16,21 @@ const HeaderTabs = (): JSX.Element => {
   const matchRoot = useRouteMatch<MatchParams>('/:page');
   const matchPoolPosition = useRouteMatch<MatchParams>('/pool/:id');
   const matchRemovePosition = useRouteMatch<MatchParams>('/remove/:id');
-  const onTabClick = (activeKey: string) => {
-    history.push('/' + activeKey);
-  };
 
-  const getDefaultActiveKey = (): string => {
-    if (matchPoolPosition || matchRemovePosition) return 'pool';
-    return matchRoot && matchRoot.isExact ? matchRoot.params.page : 'swap';
-  };
+  const [defaultActiveKey, setDefaultActiveKey] = useState('');
+
+  useEffect(() => {
+    if (matchPoolPosition || matchRemovePosition) {
+      setDefaultActiveKey('pool');
+      return;
+    }
+
+    setDefaultActiveKey(
+      matchRoot && matchRoot.isExact ? matchRoot.params.page : 'swap',
+    );
+  }, [matchPoolPosition, matchRemovePosition, matchRoot]);
+
+  const onTabClick = (key: string) => history.push(`/${key}`);
 
   return (
     <div className="header__tabs">
