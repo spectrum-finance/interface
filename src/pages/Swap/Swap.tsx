@@ -237,7 +237,7 @@ export const Swap = () => {
       form.controls.fromAmount.valueChanges$,
       form.controls.pool.valueChanges$,
     ]).pipe(
-      debounceTime(200),
+      debounceTime(100),
       filter(([amount, pool]) => !!amount && !!form.value.fromAsset && !!pool),
     ),
     ([amount, pool]) => {
@@ -258,7 +258,7 @@ export const Swap = () => {
       form.controls.toAmount.valueChanges$,
       form.controls.pool.valueChanges$,
     ]).pipe(
-      debounceTime(200),
+      debounceTime(100),
       filter(([amount, pool]) => !!amount && !!form.value.toAsset && !!pool),
     ),
     ([amount, pool]) => {

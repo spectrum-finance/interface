@@ -86,11 +86,9 @@ export function useSubject<F extends (...args: any[]) => Observable<any>>(
   });
 
   useEffect(() => {
-    const memoizedAction = memoizee(observableAction);
-
     setLoading(true);
     const subscription = nextData.subject
-      .pipe(switchMap((args) => memoizedAction(...args)))
+      .pipe(switchMap((args) => observableAction(...args)))
       .subscribe({
         next: (value: Unpacked<ReturnType<F>>) => {
           setData(() => value);
@@ -139,10 +137,8 @@ export function useSubscription<T>(
     let subscription = Subscription.EMPTY;
 
     if (item instanceof Function) {
-      const memoizedAction = memoizee(item);
-
       subscription = nextData.subject
-        .pipe(switchMap((args) => memoizedAction(...args)))
+        .pipe(switchMap((args) => item(...args)))
         .subscribe(callback);
     } else {
       subscription = item.subscribe(callback);
