@@ -1,6 +1,7 @@
 import './ChooseWalletModal.less';
 
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { ReactComponent as YoroiLogo } from '../../../../assets/icons/yoroi-logo-icon.svg';
 import { useWallet } from '../../../../context';
@@ -69,6 +70,7 @@ const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
   close,
 }): JSX.Element => {
   const walletCtx = useWallet();
+  const { t } = useTranslation('', { keyPrefix: 'common' });
 
   const wallets = [
     {
@@ -85,7 +87,7 @@ const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
 
   return (
     <>
-      <Modal.Title>Select a wallet</Modal.Title>
+      <Modal.Title>{t('selectWallet')}</Modal.Title>
       <Modal.Content width={400}>
         {wallets.map((wallet, index) => (
           <WalletItem key={index} close={close} wallet={wallet} />

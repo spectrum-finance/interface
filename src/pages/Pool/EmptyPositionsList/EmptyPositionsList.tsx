@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { ReactComponent as Empty } from '../../../assets/icons/empty.svg';
 import { ConnectWalletButton } from '../../../components/common/ConnectWalletButton/ConnectWalletButton';
@@ -11,6 +12,7 @@ interface EmptyPositionsListProps {
 const EmptyPositionsList: React.FC<EmptyPositionsListProps> = ({
   isWalletConnected,
 }) => {
+  const { t } = useTranslation('', { keyPrefix: 'pool' });
   return (
     <Box padding={[7, 2]} formWrapper>
       <Row justify="center" align="middle" bottomGutter={3}>
@@ -20,9 +22,7 @@ const EmptyPositionsList: React.FC<EmptyPositionsListProps> = ({
       </Row>
       <Row justify="center" align="middle" bottomGutter={3}>
         <Col>
-          <Typography.Body>
-            Your liquidity positions will appear here.
-          </Typography.Body>
+          <Typography.Body> {t('emptyList')} </Typography.Body>
         </Col>
       </Row>
       <Row justify="center" align="middle">
@@ -30,7 +30,7 @@ const EmptyPositionsList: React.FC<EmptyPositionsListProps> = ({
           {!isWalletConnected ? (
             <ConnectWalletButton />
           ) : (
-            <Button type="primary">+ New position</Button>
+            <Button type="primary">{t('newPosition')}</Button>
           )}
         </Col>
       </Row>

@@ -1,6 +1,7 @@
 import './TransactionSettings.less';
 
 import React, { ChangeEventHandler, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
 import { MIN_NITRO } from '../../../constants/erg';
@@ -25,6 +26,7 @@ import {
 const TransactionSettings = (): JSX.Element => {
   const [settings, setSettings] = useSettings();
   const [form] = Form.useForm();
+  const { t } = useTranslation('', { keyPrefix: 'swap' });
 
   const [isPopoverShown, setIsPopoverShown] = useState(false);
   const handlePopoverShown = (visible: boolean) => {
@@ -93,7 +95,7 @@ const TransactionSettings = (): JSX.Element => {
     <Box transparent padding={4}>
       <Flex direction="col" style={{ width: 288 }}>
         <Flex.Item marginBottom={4}>
-          <Typography.Title level={5}>Transaction Settings</Typography.Title>
+          <Typography.Title level={5}>{t('txSettings')}</Typography.Title>
         </Flex.Item>
         <Flex.Item>
           <Form
@@ -105,8 +107,8 @@ const TransactionSettings = (): JSX.Element => {
               nitro: settings.nitro,
             }}
           >
-            <Typography.Footnote>Slippage tolerance</Typography.Footnote>
-            <InfoTooltip content="Distinctively monetize cost effective networks for cross-media bandwidth" />
+            <Typography.Footnote>{t('slippageTolerance')}</Typography.Footnote>
+            <InfoTooltip content={t('slippageToleranceInfo')} />
             <Flex justify="space-between">
               <Flex.Item marginRight={1}>
                 <Button
@@ -115,7 +117,7 @@ const TransactionSettings = (): JSX.Element => {
                   size="small"
                   onClick={handleClickSlippageAuto}
                 >
-                  Auto
+                  {t('auto')}
                 </Button>
               </Flex.Item>
               <Flex.Item flex={1}>
@@ -139,8 +141,8 @@ const TransactionSettings = (): JSX.Element => {
                 </Form.Item>
               </Flex.Item>
             </Flex>
-            <Typography.Footnote>Nitro</Typography.Footnote>
-            <InfoTooltip content="Maximum DEX fee multiplier" />
+            <Typography.Footnote>{t('nitro')}</Typography.Footnote>
+            <InfoTooltip content={t('nitroInfo')} />
             <Flex justify="space-between">
               <Flex.Item marginRight={1}>
                 <Button
@@ -149,7 +151,7 @@ const TransactionSettings = (): JSX.Element => {
                   size="small"
                   onClick={handleClickNitroAuto}
                 >
-                  Auto
+                  {t('auto')}
                 </Button>
               </Flex.Item>
               <Flex.Item flex={1}>

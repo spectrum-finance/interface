@@ -2,6 +2,7 @@ import './TokenListModal.less';
 
 import { AssetInfo } from '@ergolabs/ergo-sdk';
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import {
   Box,
@@ -26,6 +27,7 @@ const TokenListModal: React.FC<TokenListModalProps> = ({
   assets,
 }) => {
   const [searchWords, setSearchWords] = useState('');
+  const { t, i18n } = useTranslation('', { keyPrefix: 'common' });
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchWords(e.target.value.toLowerCase());
@@ -46,10 +48,10 @@ const TokenListModal: React.FC<TokenListModalProps> = ({
 
   return (
     <>
-      <Modal.Title>Select a token</Modal.Title>
+      <Modal.Title>{t('selectToken')}</Modal.Title>
       <Modal.Content width={400}>
         <Input
-          placeholder="Search"
+          placeholder={t('search')}
           size="large"
           prefix={<SearchOutlined />}
           onChange={handleSearch}

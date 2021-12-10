@@ -1,8 +1,10 @@
-import Icon from '@ant-design/icons';
-import React, { useState } from 'react';
+import Icon, { GlobalOutlined, RightOutlined } from '@ant-design/icons';
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { ReactComponent as DarkModeOutlined } from '../../../assets/icons/darkmode.svg';
 import { ReactComponent as Dots } from '../../../assets/icons/icon-dots.svg';
+import { useSettings } from '../../../context';
 import {
   Button,
   Dropdown,
@@ -23,42 +25,53 @@ const DotsIcon = () => <Icon component={Dots} />;
 const BurgerMenu = (): JSX.Element => {
   const [isMainMenu, setIsMainMenu] = useState<boolean>(true);
   const [isMenuVisible, setMenuVisible] = useState<boolean>(false);
+  const { t, i18n } = useTranslation('', { keyPrefix: 'header.settings' });
+  const [settings, setSettings] = useSettings();
 
   const onMenuClicked = (e: { key: string }) => {
-    if (e.key !== '6') {
-      setMenuVisible(false);
+    if (e.key !== '6' && e.key !== '8') {
+      setMenuVisible(false); // only when entering or returning from languages menu, we do not close modal
     }
-
-    if (e.key === '7') {
+    if (e.key === '6') {
+      setIsMainMenu(false);
+    } else if (e.key === '7') {
       setIsMainMenu(false);
     } else if (e.key === '8') {
       setIsMainMenu(true);
     }
   };
 
+  function handleLanguageChange(language: string) {
+    i18n.changeLanguage(language);
+    setSettings({
+      ...settings,
+      language: language,
+    });
+  }
+
   const menu = [
     {
-      title: 'About',
+      title: t('about'),
       icon: <InfoCircleOutlined />,
       link: 'https://docs.ergodex.io/docs/about-ergodex/intro',
     },
     {
-      title: 'How to use',
+      title: t('howTo'),
       icon: <QuestionCircleOutlined />,
       link: 'https://docs.ergodex.io/docs/user-guides/quick-start',
     },
     {
-      title: 'Docs',
+      title: t('docs'),
       icon: <FileTextOutlined />,
       link: 'https://docs.ergodex.io',
     },
     {
-      title: 'GitHub',
+      title: t('gitHub'),
       icon: <GithubOutlined />,
       link: 'https://github.com/ergolabs',
     },
     {
-      title: 'Global Settings',
+      title: t('globalSettings.title'),
       icon: <SettingOutlined />,
       onClick: () =>
         Modal.open(({ close }) => <GlobalSettingsModal onClose={close} />),
@@ -68,13 +81,12 @@ const BurgerMenu = (): JSX.Element => {
     //   icon: <BarChartOutlined />,
     //   link: '#',
     // },
-    // {
-    //   title: 'Language',
-    //   icon: <GlobalOutlined />,
-    //   additional: <RightOutlined style={{ marginLeft: 36 }} />,
-    // },
     {
-      title: 'Dark mode',
+      title: t('language'),
+      icon: <GlobalOutlined />,
+    },
+    {
+      title: t('darkMode'),
       icon: <DarkModeOutlined />,
       additional: <ThemeSwitch defaultChecked size="small" />,
     },
@@ -108,19 +120,23 @@ const BurgerMenu = (): JSX.Element => {
     </Menu>
   );
 
+  const languages = [
+    { code: 'en', language: 'English' },
+    { code: 'de', language: 'Deutsch' },
+    { code: 'pt', language: 'Português' },
+  ];
+
   const menuLanguages = (
     <Menu onClick={onMenuClicked} style={{ width: 160 }}>
       <Menu.Item key="8" icon={<LeftOutlined />} />
-      <Menu.Item key="9">
-        <a target="_blank" rel="noopener noreferrer">
-          English
-        </a>
-      </Menu.Item>
-      <Menu.Item key="10">
-        <a target="_blank" rel="noopener noreferrer">
-          中国人
-        </a>
-      </Menu.Item>
+      {languages.map((item) => (
+        <Menu.Item
+          key={item.code}
+          onClick={() => handleLanguageChange(item.code)}
+        >
+          {i18n.language == item.code ? <b>{item.language}</b> : item.language}
+        </Menu.Item>
+      ))}
     </Menu>
   );
 
@@ -130,6 +146,13 @@ const BurgerMenu = (): JSX.Element => {
       setIsMainMenu(true);
     }
   };
+
+  useEffect(() => {
+    // switch to cached language
+    if (settings && i18n && i18n.language !== settings.language) {
+      i18n.changeLanguage(settings.language);
+    }
+  }, [i18n, settings]);
 
   return (
     <Dropdown

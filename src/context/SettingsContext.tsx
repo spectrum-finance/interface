@@ -16,6 +16,7 @@ export type Settings = {
   pk?: PublicKey;
   explorerUrl: string;
   theme: string;
+  language: string;
 };
 
 export const DefaultSettings: Readonly<Settings> = {
@@ -25,6 +26,7 @@ export const DefaultSettings: Readonly<Settings> = {
   explorerUrl: ERG_EXPLORER_URL,
   pk: '',
   theme: isDarkOsTheme() ? 'dark' : 'light',
+  language: 'en',
 };
 
 function noop() {

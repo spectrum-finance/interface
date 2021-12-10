@@ -1,3 +1,5 @@
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 import React, { useEffect, useState } from 'react';
 import { useHistory, useRouteMatch } from 'react-router-dom';
 
@@ -10,6 +12,7 @@ interface MatchParams {
 
 const HeaderTabs = (): JSX.Element => {
   const history = useHistory();
+  const { t } = useTranslation('', { keyPrefix: 'header' });
   const matchRoot = useRouteMatch<MatchParams>('/:page');
   const matchPoolPosition = useRouteMatch<MatchParams>('/pool/:id');
   const matchRemovePosition = useRouteMatch<MatchParams>('/remove/:id');
@@ -31,10 +34,14 @@ const HeaderTabs = (): JSX.Element => {
 
   return (
     <div className="header__tabs">
-      <Tabs activeKey={defaultActiveKey} type="card" onChange={onTabClick}>
-        <Tabs.TabPane tab="Swap" key="swap" />
-        <Tabs.TabPane tab="Pool" key="pool" />
-        <Tabs.TabPane tab="Exchange" key="exchange" disabled />
+      <Tabs
+        defaultActiveKey={getDefaultActiveKey()}
+        type="card"
+        onChange={onTabClick}
+      >
+        <Tabs.TabPane tab={t('swap')} key="swap" />
+        <Tabs.TabPane tab={t('pool')} key="pool" />
+        <Tabs.TabPane tab={t('exchange')} key="exchange" disabled />
       </Tabs>
     </div>
   );

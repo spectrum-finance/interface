@@ -1,6 +1,7 @@
 import './GlobalSettingsModal.less';
 
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { defaultMinerFee } from '../../../constants/settings';
 import { useSettings } from '../../../context';
@@ -30,8 +31,10 @@ const GlobalSettingsModal: React.FC<GlobalSettingsModalProps> = ({
   onClose,
 }): JSX.Element => {
   const [form] = Form.useForm<GlobalSettingsFormModel>();
-
   const [settings, setSettings] = useSettings();
+  const { t, i18n } = useTranslation('', {
+    keyPrefix: 'header.settings.globalSettings',
+  });
 
   const [minerFeeError, setMinerFeeError] = useState<
     { type: 'error' | 'warning'; message: string } | undefined
@@ -102,7 +105,7 @@ const GlobalSettingsModal: React.FC<GlobalSettingsModalProps> = ({
 
   return (
     <>
-      <Modal.Title>Global Settings</Modal.Title>
+      <Modal.Title>{t('title')}</Modal.Title>
       <Modal.Content width={450}>
         <Flex col>
           <Flex.Item>
@@ -112,8 +115,8 @@ const GlobalSettingsModal: React.FC<GlobalSettingsModalProps> = ({
               initialValues={initialValues}
               onValuesChange={onValuesChange}
             >
-              <Typography.Footnote>Miner Fee</Typography.Footnote>
-              <InfoTooltip content="Fee charged by miners" />
+              <Typography.Footnote>{t('minerFee')}</Typography.Footnote>
+              <InfoTooltip content={t('minerFeeInfo')} />
               <Flex>
                 <Flex.Item marginRight={1}>
                   <Button
@@ -122,7 +125,7 @@ const GlobalSettingsModal: React.FC<GlobalSettingsModalProps> = ({
                     onClick={handleClickMinimal}
                     block
                   >
-                    Minimum
+                    {t('minimum')}
                   </Button>
                 </Flex.Item>
                 <Flex.Item
@@ -160,7 +163,7 @@ const GlobalSettingsModal: React.FC<GlobalSettingsModalProps> = ({
               onClick={submitGlobalSettings}
               disabled={minerFeeError && minerFeeError.type === 'error'}
             >
-              Confirm
+              {t('confirm')}
             </Button>
           </Flex.Item>
         </Flex>

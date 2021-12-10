@@ -2,6 +2,7 @@ import './ConnectWalletButton.less';
 
 import cn from 'classnames';
 import React, { FC, ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { useAppLoadingState } from '../../../context';
 import { Button, ButtonProps, Modal } from '../../../ergodex-cdk';
@@ -21,7 +22,7 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = ({
   children,
 }) => {
   // const { isWalletConnected } = useWallet();
-
+  const { t } = useTranslation('', { keyPrefix: 'wallet' });
   // TODO: Update with rx [EDEX-487]
   // const [isWalletLoading] = useObservable(isWalletLoading$);
   const [isWalletConnected] = useObservable(isWalletSetuped$);
@@ -41,7 +42,7 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = ({
             onClick={openChooseWalletModal}
             className={cn(className, 'connect-wallet-btn')}
           >
-            Connect wallet
+            {t('connect')}
           </Button>
         ) : (
           children
@@ -52,7 +53,7 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = ({
           size={size}
           className={cn(className, 'connect-wallet-btn')}
         >
-          KYA is not accepted
+          {t('kyaNotAccepted')}
         </Button>
       )}
     </>
