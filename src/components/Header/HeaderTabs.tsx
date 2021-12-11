@@ -1,6 +1,5 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useHistory, useRouteMatch } from 'react-router-dom';
 
 import { Tabs } from '../../ergodex-cdk';
@@ -34,11 +33,7 @@ const HeaderTabs = (): JSX.Element => {
 
   return (
     <div className="header__tabs">
-      <Tabs
-        defaultActiveKey={getDefaultActiveKey()}
-        type="card"
-        onChange={onTabClick}
-      >
+      <Tabs activeKey={defaultActiveKey} type="card" onChange={onTabClick}>
         <Tabs.TabPane tab={t('swap')} key="swap" />
         <Tabs.TabPane tab={t('pool')} key="pool" />
         <Tabs.TabPane tab={t('exchange')} key="exchange" disabled />
