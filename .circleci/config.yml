@@ -76,6 +76,7 @@ workflows:
               only: 
                 - dev
                 - cicd-piplines
+                - bugtracking
               ignore: master
       - deploy-to-prod:
           requires: 
