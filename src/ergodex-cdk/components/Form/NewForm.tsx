@@ -261,7 +261,7 @@ export interface FormProps<T> {
   readonly children?: ReactNode | ReactNode[] | string;
 }
 
-const FormContext = createContext<{ form: FormGroup<any> }>({} as any);
+export const FormContext = createContext<{ form: FormGroup<any> }>({} as any);
 
 class _Form<T> extends React.Component<FormProps<T>> {
   constructor(props: FormProps<T>) {

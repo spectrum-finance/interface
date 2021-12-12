@@ -19,7 +19,7 @@ import {
 
 import { ActionForm } from '../../components/common/ActionForm/ActionForm';
 import { TokenAmountInputValue } from '../../components/common/TokenControl/TokenAmountInput/TokenAmountInput';
-import { NewTokenControl } from '../../components/common/TokenControl/TokenControl';
+import { TokenControlFormItem } from '../../components/common/TokenControl/TokenControl';
 import {
   openConfirmationModal,
   Operation,
@@ -295,7 +295,8 @@ export const Swap = () => {
             <Typography.Footnote>{t`swap.subtitle`}</Typography.Footnote>
           </Flex.Item>
           <Flex.Item marginBottom={1}>
-            <NewTokenControl
+            <TokenControlFormItem
+              maxButton
               assets={fromAssets}
               label={t`swap.fromLabel`}
               amountName="fromAmount"
@@ -306,7 +307,8 @@ export const Swap = () => {
             <Button onClick={swapTokens} icon={<SwapOutlined />} size="large" />
           </Flex.Item>
           <Flex.Item marginBottom={4}>
-            <NewTokenControl
+            <TokenControlFormItem
+              maxButton
               assets={toAssets}
               label={t`swap.toLabel`}
               amountName="toAmount"

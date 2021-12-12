@@ -8,10 +8,7 @@ import {
 } from '@ergolabs/ergo-sdk';
 import React, { FC, useEffect, useState } from 'react';
 
-import {
-  NewTokenControl,
-  TokenControlFormItem,
-} from '../../../components/common/TokenControl/TokenControl';
+import { TokenControlFormItem } from '../../../components/common/TokenControl/TokenControl';
 import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
 import { ERG_DECIMALS, UI_FEE } from '../../../constants/erg';
 import { defaultExFee } from '../../../constants/settings';
@@ -186,7 +183,7 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
         <Form form={form} onSubmit={swapOperation}>
           <Flex direction="col">
             <Flex.Item marginBottom={1}>
-              <NewTokenControl
+              <TokenControlFormItem
                 readonly
                 bordered
                 noBottomInfo
@@ -196,7 +193,7 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
               />
             </Flex.Item>
             <Flex.Item marginBottom={4}>
-              <NewTokenControl
+              <TokenControlFormItem
                 readonly
                 bordered
                 noBottomInfo
