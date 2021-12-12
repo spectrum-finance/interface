@@ -35,6 +35,8 @@
     "@types/react": "^17.0.17",
     "@types/react-dom": "^17.0.9",
     "@types/react-router-dom": "^5.1.8",
+    "@sentry/react": "^6.16.1",
+    "@sentry/tracing": "^6.16.1",
     "antd": "^4.17.0-alpha.5",
     "bignumber.js": "^9.0.1",
     "craco-less": "^1.20.0",
