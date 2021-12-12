@@ -5,10 +5,9 @@ import { AmmPool } from '@ergolabs/ergo-dex-sdk';
 import { AssetAmount } from '@ergolabs/ergo-sdk';
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import { maxBy } from 'lodash';
-import React, { FC, useEffect, useMemo, useState } from 'react';
+import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
-  bufferTime,
   combineLatest,
   debounceTime,
   filter,
@@ -18,16 +17,9 @@ import {
   switchMap,
 } from 'rxjs';
 
-import {
-  ActionForm,
-  ActionFormStrategy,
-} from '../../components/common/ActionForm/ActionForm';
+import { ActionForm } from '../../components/common/ActionForm/ActionForm';
 import { TokenAmountInputValue } from '../../components/common/TokenControl/TokenAmountInput/TokenAmountInput';
-import {
-  NewTokenControl,
-  TokenControlFormItem,
-  TokenControlValue,
-} from '../../components/common/TokenControl/TokenControl';
+import { NewTokenControl } from '../../components/common/TokenControl/TokenControl';
 import {
   openConfirmationModal,
   Operation,
@@ -42,19 +34,15 @@ import {
 import { defaultExFee } from '../../constants/settings';
 import { useSettings } from '../../context';
 import { Button, Flex, SwapOutlined, Typography } from '../../ergodex-cdk';
-import {
-  Form,
-  FormGroup,
-  useForm,
-} from '../../ergodex-cdk/components/Form/NewForm';
+import { useForm } from '../../ergodex-cdk/components/Form/NewForm';
 import {
   useObservable,
   useSubject,
   useSubscription,
 } from '../../hooks/useObservable';
 import { assets$, getAvailableAssetFor } from '../../services/new/assets';
-import { Balance, useWalletBalance } from '../../services/new/balance';
-import { getPoolByPair, pools$ } from '../../services/new/pools';
+import { useWalletBalance } from '../../services/new/balance';
+import { getPoolByPair } from '../../services/new/pools';
 import { fractionsToNum, parseUserInputToFractions } from '../../utils/math';
 import { calculateTotalFee } from '../../utils/transactions';
 import { Ratio } from './Ratio/Ratio';
@@ -62,75 +50,6 @@ import { SwapConfirmationModal } from './SwapConfirmationModal/SwapConfirmationM
 import { SwapFormModel } from './SwapModel';
 import { SwapTooltip } from './SwapTooltip/SwapTooltip';
 import { TransactionSettings } from './TransactionSettings/TransactionSettings';
-
-class SwapStrategy implements ActionFormStrategy<SwapFormModel> {
-  constructor(private balance: Balance, private minerFee: number) {}
-
-  actionButtonCaption(): React.ReactNode {
-    return 'Swap';
-  }
-
-  getInsufficientTokenForFee(value: SwapFormModel): string | undefined {
-    const { fromAmount, fromAsset } = value;
-    let totalFees = +calculateTotalFee(
-      [this.minerFee, UI_FEE, defaultExFee],
-      ERG_DECIMALS,
-    );
-    totalFees =
-      fromAsset?.id === ERG_TOKEN_ID
-        ? totalFees + fromAmount?.value!
-        : totalFees;
-
-    return +totalFees > this.balance.get(ERG_TOKEN_ID)
-      ? ERG_TOKEN_NAME
-      : undefined;
-  }
-
-  getInsufficientTokenForTx(
-    value: SwapFormModel,
-  ): Observable<string | undefined> | string | undefined {
-    const { fromAmount, fromAsset } = value;
-    const asset = fromAsset;
-    const amount = fromAmount?.value;
-
-    if (asset && amount && amount > this.balance.get(asset)) {
-      return asset.name;
-    }
-
-    return undefined;
-  }
-
-  isAmountNotEntered(value: SwapFormModel): boolean {
-    return !value.fromAmount?.value || !value.toAmount?.value;
-  }
-
-  isTokensNotSelected(value: SwapFormModel): boolean {
-    return !value.toAsset || !value.fromAsset;
-  }
-
-  request(value: SwapFormModel): void {
-    openConfirmationModal(
-      (next) => {
-        return <SwapConfirmationModal value={value} onClose={next} />;
-      },
-      Operation.SWAP,
-      { asset: value.fromAsset!, amount: value?.fromAmount?.value! },
-      { asset: value.toAsset!, amount: value?.toAmount?.value! },
-    );
-  }
-
-  isLiquidityInsufficient(value: SwapFormModel): boolean {
-    const { toAmount, pool } = value;
-
-    if (!toAmount?.value || !pool) {
-      return false;
-    }
-
-    return (
-      toAmount.value > fractionsToNum(pool?.y.amount, pool?.y.asset.decimals)
-    );
-  }
-}
 
 const convertToTo = (
   fromAmount: TokenAmountInputValue | undefined,
@@ -201,10 +120,74 @@ export const Swap = () => {
   const [toAssets, updateToAssets] = useSubject(getToAssets);
   const [balance] = useWalletBalance();
   const [{ minerFee }] = useSettings();
-  const strategy = useMemo(
-    () => new SwapStrategy(balance, minerFee),
-    [balance, minerFee],
+
+  const getInsufficientTokenForFee = useCallback(
+    (value: SwapFormModel) => {
+      const { fromAmount, fromAsset } = value;
+      let totalFees = +calculateTotalFee(
+        [minerFee, UI_FEE, defaultExFee],
+        ERG_DECIMALS,
+      );
+      totalFees =
+        fromAsset?.id === ERG_TOKEN_ID
+          ? totalFees + fromAmount?.value!
+          : totalFees;
+
+      return +totalFees > balance.get(ERG_TOKEN_ID)
+        ? ERG_TOKEN_NAME
+        : undefined;
+    },
+    [minerFee, balance],
   );
+
+  const getInsufficientTokenForTx = useCallback(
+    (value: SwapFormModel) => {
+      const { fromAmount, fromAsset } = value;
+      const asset = fromAsset;
+      const amount = fromAmount?.value;
+
+      if (asset && amount && amount > balance.get(asset)) {
+        return asset.name;
+      }
+
+      return undefined;
+    },
+    [balance],
+  );
+
+  const isAmountNotEntered = useCallback(
+    (value: SwapFormModel) =>
+      !value.fromAmount?.value || !value.toAmount?.value,
+    [],
+  );
+
+  const isTokensNotSelected = useCallback(
+    (value: SwapFormModel) => !value.toAsset || !value.fromAsset,
+    [],
+  );
+
+  const swapAction = useCallback((value: SwapFormModel) => {
+    openConfirmationModal(
+      (next) => {
+        return <SwapConfirmationModal value={value} onClose={next} />;
+      },
+      Operation.SWAP,
+      { asset: value.fromAsset!, amount: value?.fromAmount?.value! },
+      { asset: value.toAsset!, amount: value?.toAmount?.value! },
+    );
+  }, []);
+
+  const isLiquidityInsufficient = useCallback((value: SwapFormModel) => {
+    const { toAmount, pool } = value;
+
+    if (!toAmount?.value || !pool) {
+      return false;
+    }
+
+    return (
+      toAmount.value > fractionsToNum(pool?.y.amount, pool?.y.asset.decimals)
+    );
+  }, []);
 
   useSubscription(
     form.controls.fromAsset.valueChanges$,
@@ -291,7 +274,16 @@ export const Swap = () => {
 
   return (
     <FormPageWrapper width={480}>
-      <ActionForm form={form} strategy={strategy}>
+      <ActionForm
+        form={form}
+        actionButton="Swap"
+        getInsufficientTokenForFee={getInsufficientTokenForFee}
+        getInsufficientTokenForTx={getInsufficientTokenForTx}
+        isAmountNotEntered={isAmountNotEntered}
+        isTokensNotSelected={isTokensNotSelected}
+        isLiquidityInsufficient={isLiquidityInsufficient}
+        action={swapAction}
+      >
         <Flex col>
           <Flex row align="center">
             <Flex.Item flex={1}>

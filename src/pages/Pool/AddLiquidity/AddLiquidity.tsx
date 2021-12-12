@@ -1,52 +1,14 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain,react-hooks/exhaustive-deps */
 import './AddLiquidity.less';
 
-import { AmmPool, PoolId } from '@ergolabs/ergo-dex-sdk';
-import { AssetAmount, AssetInfo } from '@ergolabs/ergo-sdk';
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
-import { Observable, of } from 'rxjs';
+import { AmmPool } from '@ergolabs/ergo-dex-sdk';
+import React from 'react';
+import { of } from 'rxjs';
 
-import {
-  ActionForm,
-  ActionFormStrategy,
-} from '../../../components/common/ActionForm/ActionForm';
-import { PoolSelect } from '../../../components/common/PoolSelect/PoolSelect';
-import {
-  TokenControlFormItem,
-  TokenControlValue,
-} from '../../../components/common/TokenControl/TokenControl';
-import { TokeSelectFormItem } from '../../../components/common/TokenControl/TokenSelect/TokenSelect';
-import {
-  openConfirmationModal,
-  Operation,
-} from '../../../components/ConfirmationModal/ConfirmationModal';
+import { TokenControlValue } from '../../../components/common/TokenControl/TokenControl';
 import { FormPageWrapper } from '../../../components/FormPageWrapper/FormPageWrapper';
-import {
-  ERG_DECIMALS,
-  ERG_TOKEN_ID,
-  ERG_TOKEN_NAME,
-  UI_FEE,
-} from '../../../constants/erg';
-import { defaultExFee } from '../../../constants/settings';
-import { useSettings } from '../../../context';
-import {
-  Flex,
-  Form,
-  FormInstance,
-  Skeleton,
-  Typography,
-} from '../../../ergodex-cdk';
-import { useObservable, useSubject } from '../../../hooks/useObservable';
-import { assets$, getAvailableAssetFor } from '../../../services/new/assets';
-import { Balance, useWalletBalance } from '../../../services/new/balance';
-import { getPoolById, getPoolByPair } from '../../../services/new/pools';
-import {
-  parseUserInputToFractions,
-  renderFractions,
-} from '../../../utils/math';
-import { calculateTotalFee } from '../../../utils/transactions';
-import { AddLiquidityConfirmationModal } from './AddLiquidityConfirmationModal/AddLiquidityConfirmationModal';
+import { getAvailableAssetFor } from '../../../services/new/assets';
+import { getPoolByPair } from '../../../services/new/pools';
 
 interface AddLiquidityFormModel {
   readonly x?: TokenControlValue['asset'];

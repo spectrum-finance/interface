@@ -214,6 +214,22 @@ export const NewTokenControl: FC<NewTokenControlProps> = ({
 }) => {
   const { t } = useTranslation();
 
+  const isAmountReadOnly = () => {
+    if (typeof readonly === 'boolean') {
+      return readonly;
+    }
+
+    return readonly === 'amount';
+  };
+
+  const isAssetReadOnly = () => {
+    if (typeof readonly === 'boolean') {
+      return readonly;
+    }
+
+    return readonly === 'asset';
+  };
+
   return (
     <Box
       className={cn({
@@ -234,7 +250,7 @@ export const NewTokenControl: FC<NewTokenControlProps> = ({
               <Form.Item name={amountName}>
                 {({ value, onChange }) => (
                   <TokenAmountInput
-                    readonly={!!readonly && readonly !== 'asset'}
+                    readonly={isAmountReadOnly()}
                     value={value}
                     onChange={onChange}
                     disabled={disabled}
@@ -249,7 +265,7 @@ export const NewTokenControl: FC<NewTokenControlProps> = ({
                 {({ value, onChange }) => (
                   <TokenSelect
                     assets={assets}
-                    readonly={!!readonly && readonly !== 'amount'}
+                    readonly={isAssetReadOnly()}
                     value={value}
                     onChange={onChange}
                     disabled={disabled}
