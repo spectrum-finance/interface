@@ -1,6 +1,7 @@
-import { TokenControlValue } from '../../../components/common/TokenControl/TokenControl';
 import { AmmPool } from '@ergolabs/ergo-dex-sdk';
+
 import { TokenAmountInputValue } from '../../../components/common/TokenControl/TokenAmountInput/TokenAmountInput';
+import { TokenControlValue } from '../../../components/common/TokenControl/TokenControl';
 
 export interface AddLiquidityFormModel {
   readonly x?: TokenControlValue['asset'];
