@@ -1,7 +1,6 @@
 import './i18n';
 
 import { RustModule } from '@ergolabs/ergo-sdk';
-import { Spin } from 'antd';
 import React, { Suspense, useEffect, useState } from 'react';
 import { withTranslation } from 'react-i18next';
 import { Redirect, Route, Router, Switch } from 'react-router-dom';
