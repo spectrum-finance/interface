@@ -9,7 +9,7 @@ import { of } from 'rxjs';
 import { Box, Button, Flex, Typography } from '../../../ergodex-cdk';
 import {
   Form,
-  FormContext,
+  useFormContext,
 } from '../../../ergodex-cdk/components/Form/NewForm';
 import { useObservable, useSubject } from '../../../hooks/useObservable';
 import {
@@ -193,7 +193,7 @@ export const TokenControlFormItem: FC<NewTokenControlProps> = ({
   bordered,
 }) => {
   const { t } = useTranslation();
-  const { form } = useContext(FormContext);
+  const { form } = useFormContext();
   const [balance] = useWalletBalance();
   const [selectedAsset] = useObservable(
     tokenName ? form.controls[tokenName].valueChanges$ : of(undefined),

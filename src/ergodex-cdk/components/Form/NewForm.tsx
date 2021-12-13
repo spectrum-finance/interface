@@ -1,15 +1,11 @@
-import React, { createContext, FormEvent, ReactNode, useState } from 'react';
-import {
-  BehaviorSubject,
-  combineLatest,
-  map,
-  mapTo,
-  merge,
-  Observable,
-  publishReplay,
-  refCount,
-  Subscription,
-} from 'rxjs';
+import React, {
+  createContext,
+  FormEvent,
+  ReactNode,
+  useContext,
+  useState,
+} from 'react';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type CheckFn = () => {};
@@ -262,6 +258,8 @@ export interface FormProps<T> {
 }
 
 export const FormContext = createContext<{ form: FormGroup<any> }>({} as any);
+
+export const useFormContext = () => useContext(FormContext);
 
 class _Form<T> extends React.Component<FormProps<T>> {
   constructor(props: FormProps<T>) {

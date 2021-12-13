@@ -88,7 +88,7 @@ const AddLiquidity = (): JSX.Element => {
     ),
   );
 
-  const getInsufficientTokenForFee = useCallback(
+  const getInsufficientTokenNameForFee = useCallback(
     (value: AddLiquidityFormModel): string | undefined => {
       const { xAmount, x } = value;
 
@@ -107,7 +107,7 @@ const AddLiquidity = (): JSX.Element => {
     [balance, minerFee],
   );
 
-  const getInsufficientTokenForTx = useCallback(
+  const getInsufficientTokenNameForTx = useCallback(
     (value: AddLiquidityFormModel): string | undefined => {
       const { x, y, xAmount, yAmount } = value;
       const xAmountValue = xAmount?.value;
@@ -260,8 +260,8 @@ const AddLiquidity = (): JSX.Element => {
         <ActionForm
           form={form}
           actionButton="Add liquidity"
-          getInsufficientTokenForFee={getInsufficientTokenForFee}
-          getInsufficientTokenForTx={getInsufficientTokenForTx}
+          getInsufficientTokenNameForFee={getInsufficientTokenNameForFee}
+          getInsufficientTokenNameForTx={getInsufficientTokenNameForTx}
           isAmountNotEntered={isAmountNotEntered}
           isTokensNotSelected={isTokensNotSelected}
           action={addLiquidityAction}

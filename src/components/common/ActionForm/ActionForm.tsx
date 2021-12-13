@@ -15,8 +15,8 @@ export interface ActionFormProps<T> {
   readonly isTokensNotSelected?: (form: T) => boolean;
   readonly isAmountNotEntered?: (form: T) => boolean;
   readonly isLiquidityInsufficient?: (form: T) => boolean;
-  readonly getInsufficientTokenForTx?: (form: T) => undefined | string;
-  readonly getInsufficientTokenForFee?: (form: T) => undefined | string;
+  readonly getInsufficientTokenNameForTx?: (form: T) => undefined | string;
+  readonly getInsufficientTokenNameForFee?: (form: T) => undefined | string;
   readonly action?: (form: T) => Promise<any> | Observable<any> | void;
   readonly actionButton?: ReactNode | string;
 }
@@ -28,8 +28,8 @@ export const ActionForm: FC<ActionFormProps<any>> = ({
   actionButton,
   isAmountNotEntered,
   isTokensNotSelected,
-  getInsufficientTokenForFee,
-  getInsufficientTokenForTx,
+  getInsufficientTokenNameForFee,
+  getInsufficientTokenNameForTx,
   children,
 }) => {
   const [isOnline] = useObservable(isOnline$);
@@ -53,21 +53,21 @@ export const ActionForm: FC<ActionFormProps<any>> = ({
       setButtonData({ state: ActionButtonState.SELECT_TOKEN });
     } else if (isAmountNotEntered && isAmountNotEntered(value)) {
       setButtonData({ state: ActionButtonState.ENTER_AMOUNT });
-    } else if (getInsufficientTokenForTx && getInsufficientTokenForTx(value)) {
+    } else if (getInsufficientTokenNameForTx && getInsufficientTokenNameForTx(value)) {
       setButtonData({
         state: ActionButtonState.INSUFFICIENT_TOKEN_BALANCE,
         data: {
-          token: getInsufficientTokenForTx(value),
+          token: getInsufficientTokenNameForTx(value),
         },
       });
     } else if (
-      getInsufficientTokenForFee &&
-      getInsufficientTokenForFee(value)
+      getInsufficientTokenNameForFee &&
+      getInsufficientTokenNameForFee(value)
     ) {
       setButtonData({
         state: ActionButtonState.INSUFFICIENT_FEE_BALANCE,
         data: {
-          token: getInsufficientTokenForFee(value),
+          token: getInsufficientTokenNameForFee(value),
         },
       });
     } else if (isLiquidityInsufficient && isLiquidityInsufficient(value)) {

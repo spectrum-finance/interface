@@ -73,7 +73,6 @@ const PoolSelect: React.FC<PoolSelectProps> = ({
         handleChange(positionWithHighestLiquidity);
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [positions]);
 
   return (

@@ -121,7 +121,7 @@ export const Swap = () => {
   const [balance] = useWalletBalance();
   const [{ minerFee }] = useSettings();
 
-  const getInsufficientTokenForFee = useCallback(
+  const getInsufficientTokenNameForFee = useCallback(
     (value: SwapFormModel) => {
       const { fromAmount, fromAsset } = value;
       let totalFees = +calculateTotalFee(
@@ -140,7 +140,7 @@ export const Swap = () => {
     [minerFee, balance],
   );
 
-  const getInsufficientTokenForTx = useCallback(
+  const getInsufficientTokenNameForTx = useCallback(
     (value: SwapFormModel) => {
       const { fromAmount, fromAsset } = value;
       const asset = fromAsset;
@@ -277,8 +277,8 @@ export const Swap = () => {
       <ActionForm
         form={form}
         actionButton="Swap"
-        getInsufficientTokenForFee={getInsufficientTokenForFee}
-        getInsufficientTokenForTx={getInsufficientTokenForTx}
+        getInsufficientTokenNameForFee={getInsufficientTokenNameForFee}
+        getInsufficientTokenNameForTx={getInsufficientTokenNameForTx}
         isAmountNotEntered={isAmountNotEntered}
         isTokensNotSelected={isTokensNotSelected}
         isLiquidityInsufficient={isLiquidityInsufficient}
