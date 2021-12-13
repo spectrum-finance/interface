@@ -166,7 +166,7 @@ export const Swap = () => {
     [],
   );
 
-  const swapAction = useCallback((value: SwapFormModel) => {
+  const submitSwap = useCallback((value: SwapFormModel) => {
     openConfirmationModal(
       (next) => {
         return <SwapConfirmationModal value={value} onClose={next} />;
@@ -282,7 +282,7 @@ export const Swap = () => {
         isAmountNotEntered={isAmountNotEntered}
         isTokensNotSelected={isTokensNotSelected}
         isLiquidityInsufficient={isLiquidityInsufficient}
-        action={swapAction}
+        action={submitSwap}
       >
         <Flex col>
           <Flex row align="center">
