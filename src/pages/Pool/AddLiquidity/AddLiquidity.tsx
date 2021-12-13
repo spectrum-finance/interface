@@ -5,7 +5,7 @@ import { AmmPool, PoolId } from '@ergolabs/ergo-dex-sdk';
 import { AssetAmount } from '@ergolabs/ergo-sdk';
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import { Skeleton } from 'antd';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useParams } from 'react-router';
 import {
   combineLatest,
@@ -18,11 +18,22 @@ import {
   switchMap,
 } from 'rxjs';
 
+import { ActionForm } from '../../../components/common/ActionForm/ActionForm';
 import { PoolSelect } from '../../../components/common/PoolSelect/PoolSelect';
 import { TokenControlFormItem } from '../../../components/common/TokenControl/TokenControl';
 import { TokeSelectFormItem } from '../../../components/common/TokenControl/TokenSelect/TokenSelect';
+import {
+  openConfirmationModal,
+  Operation,
+} from '../../../components/ConfirmationModal/ConfirmationModal';
 import { FormPageWrapper } from '../../../components/FormPageWrapper/FormPageWrapper';
-import { ERG_DECIMALS } from '../../../constants/erg';
+import {
+  ERG_DECIMALS,
+  ERG_TOKEN_ID,
+  ERG_TOKEN_NAME,
+  UI_FEE,
+} from '../../../constants/erg';
+import { defaultExFee } from '../../../constants/settings';
 import { useSettings } from '../../../context';
 import { Flex, Typography } from '../../../ergodex-cdk';
 import { Form, useForm } from '../../../ergodex-cdk/components/Form/NewForm';
@@ -38,107 +49,9 @@ import {
   parseUserInputToFractions,
   renderFractions,
 } from '../../../utils/math';
+import { calculateTotalFee } from '../../../utils/transactions';
+import { AddLiquidityConfirmationModal } from './AddLiquidityConfirmationModal/AddLiquidityConfirmationModal';
 import { AddLiquidityFormModel } from './FormModel';
-
-// class AddLiquidityStrategy implements ActionFormStrategy {
-//   constructor(private balance: Balance, private minerFee: number) {}
-//
-//   actionButtonCaption(): React.ReactNode {
-//     return 'Add liquidity';
-//   }
-//
-//   getInsufficientTokenForFee(
-//     form: FormInstance<AddLiquidityFormModel>,
-//   ): string | undefined {
-//     const { xAmount } = form.getFieldsValue();
-//
-//     let totalFees = +calculateTotalFee(
-//       [this.minerFee, UI_FEE, defaultExFee],
-//       ERG_DECIMALS,
-//     );
-//
-//     totalFees =
-//       xAmount?.asset?.id === ERG_TOKEN_ID
-//         ? totalFees + xAmount.amount?.value!
-//         : totalFees;
-//
-//     return +totalFees > this.balance.get(ERG_TOKEN_ID)
-//       ? ERG_TOKEN_NAME
-//       : undefined;
-//   }
-//
-//   getInsufficientTokenForTx(
-//     form: FormInstance<AddLiquidityFormModel>,
-//   ): Observable<string | undefined> | string | undefined {
-//     const { x, y, xAmount, yAmount } = form.getFieldsValue();
-//     const xAmountValue = xAmount?.amount?.value;
-//     const yAmountValue = yAmount?.amount?.value;
-//
-//     if (
-//       x &&
-//       xAmount &&
-//       xAmount?.asset &&
-//       xAmountValue! > this.balance.get(xAmount?.asset?.id)
-//     ) {
-//       return x?.name;
-//     }
-//
-//     if (
-//       y &&
-//       yAmount &&
-//       yAmount?.asset &&
-//       yAmountValue! > this.balance.get(yAmount?.asset?.id)
-//     ) {
-//       return y?.name;
-//     }
-//
-//     return undefined;
-//   }
-//
-//   isAmountNotEntered(form: FormInstance<AddLiquidityFormModel>): boolean {
-//     const value = form.getFieldsValue();
-//
-//     return !value.xAmount?.amount?.value || !value.yAmount?.amount?.value;
-//   }
-//
-//   isTokensNotSelected(form: FormInstance<AddLiquidityFormModel>): boolean {
-//     const value = form.getFieldsValue();
-//
-//     return !value.activePool;
-//   }
-//
-//   request(form: FormInstance<AddLiquidityFormModel>): void {
-//     const value = form.getFieldsValue();
-//
-//     openConfirmationModal(
-//       (next) => {
-//         return (
-//           <AddLiquidityConfirmationModal
-//             position={value.activePool}
-//             pair={{
-//               assetX: {
-//                 name: value.xAmount?.asset?.name,
-//                 amount: value.xAmount?.amount?.value,
-//               },
-//               assetY: {
-//                 name: value.yAmount?.asset?.name,
-//                 amount: value.yAmount?.amount?.value,
-//               },
-//             }}
-//             onClose={next}
-//           />
-//         );
-//       },
-//       Operation.ADD_LIQUIDITY,
-//       { asset: value.x!, amount: value?.xAmount?.amount?.value! },
-//       { asset: value.y!, amount: value?.yAmount?.amount?.value! },
-//     );
-//   }
-//
-//   isLiquidityInsufficient(): boolean {
-//     return false;
-//   }
-// }
 
 const getAssetsByToken = (tokenId?: string) => {
   return tokenId ? getAvailableAssetFor(tokenId) : of([]);
@@ -174,6 +87,84 @@ const AddLiquidity = (): JSX.Element => {
       map(([x, y]) => !!x && !!y),
     ),
   );
+
+  const getInsufficientTokenForFee = useCallback(
+    (value: AddLiquidityFormModel): string | undefined => {
+      const { xAmount, x } = value;
+
+      let totalFees = +calculateTotalFee(
+        [minerFee, UI_FEE, defaultExFee],
+        ERG_DECIMALS,
+      );
+
+      totalFees =
+        x?.id === ERG_TOKEN_ID ? totalFees + xAmount?.value! : totalFees;
+
+      return +totalFees > balance.get(ERG_TOKEN_ID)
+        ? ERG_TOKEN_NAME
+        : undefined;
+    },
+    [balance, minerFee],
+  );
+
+  const getInsufficientTokenForTx = useCallback(
+    (value: AddLiquidityFormModel): string | undefined => {
+      const { x, y, xAmount, yAmount } = value;
+      const xAmountValue = xAmount?.value;
+      const yAmountValue = yAmount?.value;
+
+      if (x && xAmount && xAmountValue! > balance.get(x?.id)) {
+        return x?.name;
+      }
+
+      if (y && yAmount && yAmountValue! > balance.get(y?.id)) {
+        return y?.name;
+      }
+
+      return undefined;
+    },
+    [balance],
+  );
+
+  const isAmountNotEntered = useCallback(
+    (value: AddLiquidityFormModel): boolean => {
+      return !value.xAmount?.value || !value.yAmount?.value;
+    },
+    [],
+  );
+
+  const isTokensNotSelected = useCallback(
+    (value: AddLiquidityFormModel): boolean => {
+      return !value.activePool;
+    },
+    [],
+  );
+
+  const addLiquidityAction = useCallback((value: AddLiquidityFormModel) => {
+    openConfirmationModal(
+      (next) => {
+        return (
+          <AddLiquidityConfirmationModal
+            position={value.activePool}
+            pair={{
+              assetX: {
+                name: value.x?.name,
+                amount: value.xAmount?.value,
+              },
+              assetY: {
+                name: value.y?.name,
+                amount: value.yAmount?.value,
+              },
+            }}
+            onClose={next}
+          />
+        );
+      },
+      Operation.ADD_LIQUIDITY,
+      { asset: value.x!, amount: value?.xAmount?.value! },
+      { asset: value.y!, amount: value?.yAmount?.value! },
+    );
+  }, []);
 
   useSubscription(
     form.controls.x.valueChanges$,
@@ -266,7 +257,15 @@ const AddLiquidity = (): JSX.Element => {
       backTo="/pool"
     >
       {!poolId || (pools && pools.length) ? (
-        <Form form={form} onSubmit={() => {}}>
+        <ActionForm
+          form={form}
+          actionButton="Add liquidity"
+          getInsufficientTokenForFee={getInsufficientTokenForFee}
+          getInsufficientTokenForTx={getInsufficientTokenForTx}
+          isAmountNotEntered={isAmountNotEntered}
+          isTokensNotSelected={isTokensNotSelected}
+          action={addLiquidityAction}
+        >
           <Flex direction="col">
             <Flex.Item marginBottom={4}>
               <Typography.Body strong>Select Pair</Typography.Body>
@@ -321,7 +320,7 @@ const AddLiquidity = (): JSX.Element => {
               </Flex>
             </Flex.Item>
           </Flex>
-        </Form>
+        </ActionForm>
       ) : (
         <Skeleton active />
       )}
