@@ -53,7 +53,10 @@ export const ActionForm: FC<ActionFormProps<any>> = ({
       setButtonData({ state: ActionButtonState.SELECT_TOKEN });
     } else if (isAmountNotEntered && isAmountNotEntered(value)) {
       setButtonData({ state: ActionButtonState.ENTER_AMOUNT });
-    } else if (getInsufficientTokenNameForTx && getInsufficientTokenNameForTx(value)) {
+    } else if (
+      getInsufficientTokenNameForTx &&
+      getInsufficientTokenNameForTx(value)
+    ) {
       setButtonData({
         state: ActionButtonState.INSUFFICIENT_TOKEN_BALANCE,
         data: {
