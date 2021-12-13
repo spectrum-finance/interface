@@ -69,10 +69,12 @@ const PoolSelect: React.FC<PoolSelectProps> = ({
     if (positions && positions.length > 0) {
       const positionWithHighestLiquidity = maxBy(positions, (p) => p.lp.amount);
 
-      if (positionWithHighestLiquidity)
+      if (positionWithHighestLiquidity) {
         handleChange(positionWithHighestLiquidity);
+      }
     }
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [positions]);
 
   return (
     <>

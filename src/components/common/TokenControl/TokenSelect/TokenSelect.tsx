@@ -6,10 +6,10 @@ import React from 'react';
 import {
   Button,
   DownOutlined,
-  Form,
   Modal,
   Typography,
 } from '../../../../ergodex-cdk';
+import { Form } from '../../../../ergodex-cdk/components/Form/NewForm';
 import { TokenIcon } from '../../../TokenIcon/TokenIcon';
 import { TokenListModal } from './TokenListModal/TokenListModal';
 
@@ -88,7 +88,7 @@ const TokenSelect: React.FC<TokenSelectProps> = ({
 };
 
 interface TokeSelectFormItem extends TokenSelectProps {
-  name?: string;
+  name: string;
 }
 
 const TokeSelectFormItem: React.FC<TokeSelectFormItem> = ({
@@ -96,8 +96,8 @@ const TokeSelectFormItem: React.FC<TokeSelectFormItem> = ({
   ...rest
 }) => {
   return (
-    <Form.Item name={name} className="token-select-form-item">
-      <TokenSelect {...rest} />
+    <Form.Item name={name}>
+      {(params) => <TokenSelect {...{ ...rest, ...params }} />}
     </Form.Item>
   );
 };

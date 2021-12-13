@@ -1,22 +1,44 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain,react-hooks/exhaustive-deps */
 import './AddLiquidity.less';
 
-import { AmmPool } from '@ergolabs/ergo-dex-sdk';
+import { AmmPool, PoolId } from '@ergolabs/ergo-dex-sdk';
+import { AssetAmount } from '@ergolabs/ergo-sdk';
+import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
+import { Skeleton } from 'antd';
 import React from 'react';
-import { of } from 'rxjs';
+import { useParams } from 'react-router';
+import {
+  combineLatest,
+  debounceTime,
+  filter,
+  first,
+  map,
+  of,
+  skip,
+  switchMap,
+} from 'rxjs';
 
-import { TokenControlValue } from '../../../components/common/TokenControl/TokenControl';
+import { PoolSelect } from '../../../components/common/PoolSelect/PoolSelect';
+import { TokenControlFormItem } from '../../../components/common/TokenControl/TokenControl';
+import { TokeSelectFormItem } from '../../../components/common/TokenControl/TokenSelect/TokenSelect';
 import { FormPageWrapper } from '../../../components/FormPageWrapper/FormPageWrapper';
-import { getAvailableAssetFor } from '../../../services/new/assets';
-import { getPoolByPair } from '../../../services/new/pools';
-
-interface AddLiquidityFormModel {
-  readonly x?: TokenControlValue['asset'];
-  readonly y?: TokenControlValue['asset'];
-  readonly xAmount?: TokenControlValue;
-  readonly yAmount?: TokenControlValue;
-  readonly activePool?: AmmPool;
-}
+import { ERG_DECIMALS } from '../../../constants/erg';
+import { useSettings } from '../../../context';
+import { Flex, Typography } from '../../../ergodex-cdk';
+import { Form, useForm } from '../../../ergodex-cdk/components/Form/NewForm';
+import {
+  useObservable,
+  useSubject,
+  useSubscription,
+} from '../../../hooks/useObservable';
+import { assets$, getAvailableAssetFor } from '../../../services/new/assets';
+import { useWalletBalance } from '../../../services/new/balance';
+import { getPoolById, getPoolByPair } from '../../../services/new/pools';
+import {
+  parseUserInputToFractions,
+  renderFractions,
+} from '../../../utils/math';
+import { AddLiquidityFormModel } from './FormModel';
 
 // class AddLiquidityStrategy implements ActionFormStrategy {
 //   constructor(private balance: Balance, private minerFee: number) {}
@@ -118,13 +140,6 @@ interface AddLiquidityFormModel {
 //   }
 // }
 
-const initialValues: AddLiquidityFormModel = {
-  x: {
-    name: 'ERG',
-    id: '0000000000000000000000000000000000000000000000000000000000000000',
-  },
-};
-
 const getAssetsByToken = (tokenId?: string) => {
   return tokenId ? getAvailableAssetFor(tokenId) : of([]);
 };
@@ -133,145 +148,115 @@ const getAvailablePools = (xId?: string, yId?: string) =>
   xId && yId ? getPoolByPair(xId, yId) : of([]);
 
 const AddLiquidity = (): JSX.Element => {
-  // const [balance] = useWalletBalance();
-  // const [{ minerFee }] = useSettings();
-  //
-  // const { poolId } = useParams<{ poolId?: PoolId }>();
-  //
-  // const addLiquidityStrategy = new AddLiquidityStrategy(balance, minerFee);
-  // const [form] = Form.useForm<AddLiquidityFormModel>();
-  // const [xAssets] = useObservable(assets$);
-  // const [yAssets, setYAssets] = useSubject(getAssetsByToken);
-  // const [pools, setPools] = useSubject(getAvailablePools);
-  // const [poolById, setPoolById] = useSubject(getPoolById);
-  //
-  // const [isPairSelected, setIsPairSelected] = useState(false);
-  //
-  // const [isFirstPageLoading, setIsFirstPageLoading] = useState(true);
-  //
-  // const onValuesChange = (
-  //   changes: AddLiquidityFormModel,
-  //   value: AddLiquidityFormModel,
-  //   prevValue: AddLiquidityFormModel,
-  // ) => {
-  //   if (value.x?.id !== prevValue.x?.id) {
-  //     setYAssets(value?.x?.id);
-  //     form.setFieldsValue({
-  //       xAmount: undefined,
-  //       yAmount: undefined,
-  //       activePool: undefined,
-  //       y: undefined,
-  //     });
-  //     setPools();
-  //     setIsPairSelected(false);
-  //     return;
-  //   }
-  //
-  //   if (value?.activePool) {
-  //     if (changes?.xAmount) {
-  //       const newYAsset = value.activePool.depositAmount(
-  //         new AssetAmount(
-  //           changes.xAmount?.asset as AssetInfo,
-  //           parseUserInputToFractions(
-  //             changes.xAmount?.amount?.value ?? 0,
-  //             changes.xAmount?.asset?.decimals,
-  //           ),
-  //         ),
-  //       );
-  //
-  //       form.setFieldsValue({
-  //         yAmount: {
-  //           amount: {
-  //             viewValue: renderFractions(
-  //               newYAsset.amount,
-  //               newYAsset.asset.decimals,
-  //             ),
-  //             value: Number(
-  //               renderFractions(newYAsset.amount, newYAsset.asset.decimals),
-  //             ),
-  //           },
-  //         },
-  //       });
-  //     }
-  //
-  //     if (changes?.yAmount) {
-  //       const newXAsset = value.activePool.depositAmount(
-  //         new AssetAmount(
-  //           changes.yAmount?.asset as AssetInfo,
-  //           parseUserInputToFractions(
-  //             changes.yAmount?.amount?.value ?? 0,
-  //             changes.yAmount?.asset?.decimals,
-  //           ),
-  //         ),
-  //       );
-  //
-  //       form.setFieldsValue({
-  //         xAmount: {
-  //           amount: {
-  //             viewValue: renderFractions(
-  //               newXAsset.amount,
-  //               newXAsset.asset.decimals,
-  //             ),
-  //             value: Number(
-  //               renderFractions(newXAsset.amount, newXAsset.asset.decimals),
-  //             ),
-  //           },
-  //         },
-  //       });
-  //     }
-  //   }
-  //
-  //   if (changes?.activePool) {
-  //     form.setFieldsValue({
-  //       xAmount: { asset: changes.activePool.assetX },
-  //       yAmount: { asset: changes.activePool.assetY },
-  //     });
-  //   }
-  //
-  //   if (value?.x && value?.y) {
-  //     setPools(value.x.id, value.y.id);
-  //     setIsPairSelected(true);
-  //   }
-  // };
-  //
-  // useEffect(() => {
-  //   if (isFirstPageLoading && poolById) {
-  //     setYAssets(poolById?.x?.asset.id);
-  //
-  //     setPools(poolById?.x?.asset.id, poolById?.y?.asset.id);
-  //
-  //     form.setFieldsValue({
-  //       activePool: poolById,
-  //       x: {
-  //         name: poolById?.x.asset.name,
-  //         id: poolById?.x.asset.id,
-  //       },
-  //       y: {
-  //         name: poolById?.y.asset.name,
-  //         id: poolById?.y.asset.id,
-  //       },
-  //       xAmount: { asset: poolById?.x.asset },
-  //       yAmount: { asset: poolById?.y.asset },
-  //     });
-  //     setIsFirstPageLoading(false);
-  //   } else if (poolId && isFirstPageLoading) {
-  //     setPoolById(poolId);
-  //   }
-  // }, [
-  //   form,
-  //   isFirstPageLoading,
-  //   poolById,
-  //   poolId,
-  //   setPoolById,
-  //   setYAssets,
-  //   setPools,
-  // ]);
-  //
-  // useEffect(() => {
-  //   if (!poolId) {
-  //     setYAssets(initialValues?.x?.id);
-  //   }
-  // }, []);
+  const [balance] = useWalletBalance();
+  const [{ minerFee }] = useSettings();
+  const { poolId } = useParams<{ poolId?: PoolId }>();
+  const form = useForm<AddLiquidityFormModel>({
+    x: {
+      name: 'ERG',
+      id: '0000000000000000000000000000000000000000000000000000000000000000',
+      decimals: ERG_DECIMALS,
+    },
+    y: undefined,
+    activePool: undefined,
+    xAmount: undefined,
+    yAmount: undefined,
+  });
+  const [xAssets] = useObservable(assets$);
+  const [yAssets, updateYAssets] = useSubject(getAssetsByToken);
+  const [pools, updatePools] = useSubject(getAvailablePools);
+  const [isPairSelected] = useObservable(
+    combineLatest([
+      form.controls.x.valueChangesWithSystem$,
+      form.controls.y.valueChangesWithSystem$,
+    ]).pipe(
+      debounceTime(100),
+      map(([x, y]) => !!x && !!y),
+    ),
+  );
+
+  useSubscription(
+    form.controls.x.valueChanges$,
+    (token: AssetInfo | undefined) => updateYAssets(token?.id),
+  );
+
+  useSubscription(
+    of(poolId).pipe(
+      filter(Boolean),
+      switchMap((poolId) => getPoolById(poolId)),
+    ),
+    (pool) => {
+      form.patchValue(
+        {
+          x: pool?.x.asset,
+          y: pool?.y.asset,
+        },
+        { emitEvent: 'system' },
+      );
+    },
+  );
+
+  useSubscription(
+    combineLatest([
+      form.controls.x.valueChangesWithSystem$,
+      form.controls.y.valueChangesWithSystem$,
+    ]).pipe(debounceTime(100)),
+    ([x, y]) => {
+      updatePools(x?.id, y?.id);
+    },
+  );
+
+  useSubscription(form.controls.x.valueChanges$, () =>
+    form.patchValue({ y: undefined, activePool: undefined }),
+  );
+
+  useSubscription(
+    form.controls.xAmount.valueChanges$.pipe(skip(1)),
+    (amount) => {
+      const newYAmount = form.value.activePool!.depositAmount(
+        new AssetAmount(
+          form.value.x!,
+          parseUserInputToFractions(amount?.value ?? 0, form.value.x!.decimals),
+        ),
+      );
+
+      const value = Number(
+        renderFractions(newYAmount.amount, newYAmount.asset.decimals),
+      );
+
+      form.controls.yAmount.patchValue(
+        {
+          value,
+          viewValue: value.toString(),
+        },
+        { emitEvent: 'system' },
+      );
+    },
+  );
+
+  useSubscription(
+    form.controls.yAmount.valueChanges$.pipe(skip(1)),
+    (amount) => {
+      const newXAmount = form.value.activePool!.depositAmount(
+        new AssetAmount(
+          form.value.y!,
+          parseUserInputToFractions(amount?.value ?? 0, form.value.y!.decimals),
+        ),
+      );
+
+      const value = Number(
+        renderFractions(newXAmount.amount, newXAmount.asset.decimals),
+      );
+
+      form.controls.xAmount.patchValue(
+        {
+          value,
+          viewValue: value.toString(),
+        },
+        { emitEvent: 'system' },
+      );
+    },
+  );
 
   return (
     <FormPageWrapper
@@ -280,63 +265,66 @@ const AddLiquidity = (): JSX.Element => {
       withBackButton
       backTo="/pool"
     >
-      {/*  {!poolId || (pools && pools.length) ? (*/}
-      {/*    <ActionForm*/}
-      {/*      form={form}*/}
-      {/*      strategy={addLiquidityStrategy}*/}
-      {/*      initialValues={initialValues}*/}
-      {/*      onValuesChange={onValuesChange}*/}
-      {/*    >*/}
-      {/*      <Flex direction="col">*/}
-      {/*        <Flex.Item marginBottom={4}>*/}
-      {/*          <Typography.Body strong>Select Pair</Typography.Body>*/}
-      {/*          <Flex justify="center" align="center">*/}
-      {/*            <Flex.Item marginRight={2} style={{ width: '100%' }}>*/}
-      {/*              <TokeSelectFormItem name="x" assets={xAssets} />*/}
-      {/*            </Flex.Item>*/}
-      {/*            <Flex.Item style={{ width: '100%' }}>*/}
-      {/*              <TokeSelectFormItem name="y" assets={yAssets} />*/}
-      {/*            </Flex.Item>*/}
-      {/*          </Flex>*/}
-      {/*        </Flex.Item>*/}
-      {/*        <Flex.Item*/}
-      {/*          marginBottom={4}*/}
-      {/*          style={{ opacity: isPairSelected ? '' : '0.3' }}*/}
-      {/*        >*/}
-      {/*          <Typography.Body strong>Select Pool</Typography.Body>*/}
-      {/*          <Form.Item name="activePool" style={{ marginBottom: 0 }}>*/}
-      {/*            <PoolSelect positions={pools} />*/}
-      {/*          </Form.Item>*/}
-      {/*        </Flex.Item>*/}
-      {/*        <Flex.Item*/}
-      {/*          marginBottom={4}*/}
-      {/*          style={{ opacity: isPairSelected ? '' : '0.3' }}*/}
-      {/*        >*/}
-      {/*          <Typography.Body strong>Liquidity</Typography.Body>*/}
-      {/*          <Flex direction="col">*/}
-      {/*            <Flex.Item marginBottom={2}>*/}
-      {/*              <TokenControlFormItem*/}
-      {/*                readonly="asset"*/}
-      {/*                disabled={!isPairSelected}*/}
-      {/*                name="xAmount"*/}
-      {/*                assets={xAssets}*/}
-      {/*              />*/}
-      {/*            </Flex.Item>*/}
-      {/*            <Flex.Item>*/}
-      {/*              <TokenControlFormItem*/}
-      {/*                readonly="asset"*/}
-      {/*                disabled={!isPairSelected}*/}
-      {/*                name="yAmount"*/}
-      {/*                assets={yAssets}*/}
-      {/*              />*/}
-      {/*            </Flex.Item>*/}
-      {/*          </Flex>*/}
-      {/*        </Flex.Item>*/}
-      {/*      </Flex>*/}
-      {/*    </ActionForm>*/}
-      {/*  ) : (*/}
-      {/*    <Skeleton active />*/}
-      {/*  )}*/}
+      {!poolId || (pools && pools.length) ? (
+        <Form form={form} onSubmit={() => {}}>
+          <Flex direction="col">
+            <Flex.Item marginBottom={4}>
+              <Typography.Body strong>Select Pair</Typography.Body>
+              <Flex justify="center" align="center">
+                <Flex.Item marginRight={2} style={{ width: '100%' }}>
+                  <TokeSelectFormItem name="x" assets={xAssets} />
+                </Flex.Item>
+                <Flex.Item style={{ width: '100%' }}>
+                  <TokeSelectFormItem name="y" assets={yAssets} />
+                </Flex.Item>
+              </Flex>
+            </Flex.Item>
+            <Flex.Item
+              marginBottom={4}
+              style={{ opacity: isPairSelected ? '' : '0.3' }}
+            >
+              <Typography.Body strong>Select Pool</Typography.Body>
+              <Form.Item name="activePool">
+                {({ value, onChange }) => (
+                  <PoolSelect
+                    positions={pools}
+                    value={value}
+                    onChange={onChange}
+                  />
+                )}
+              </Form.Item>
+            </Flex.Item>
+            <Flex.Item
+              marginBottom={4}
+              style={{ opacity: isPairSelected ? '' : '0.3' }}
+            >
+              <Typography.Body strong>Liquidity</Typography.Body>
+              <Flex direction="col">
+                <Flex.Item marginBottom={2}>
+                  <TokenControlFormItem
+                    readonly="asset"
+                    disabled={!isPairSelected}
+                    amountName="xAmount"
+                    tokenName="x"
+                    assets={xAssets}
+                  />
+                </Flex.Item>
+                <Flex.Item>
+                  <TokenControlFormItem
+                    readonly="asset"
+                    disabled={!isPairSelected}
+                    amountName="yAmount"
+                    tokenName="y"
+                    assets={yAssets}
+                  />
+                </Flex.Item>
+              </Flex>
+            </Flex.Item>
+          </Flex>
+        </Form>
+      ) : (
+        <Skeleton active />
+      )}
     </FormPageWrapper>
   );
 };
