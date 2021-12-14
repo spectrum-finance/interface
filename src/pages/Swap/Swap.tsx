@@ -3,18 +3,23 @@ import './Swap.less';
 
 import { AmmPool } from '@ergolabs/ergo-dex-sdk';
 import { AssetAmount } from '@ergolabs/ergo-sdk';
-import React, { FC, useEffect, useState } from 'react';
+import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
+import { maxBy } from 'lodash';
+import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Observable, of } from 'rxjs';
+import {
+  combineLatest,
+  debounceTime,
+  filter,
+  map,
+  Observable,
+  of,
+  switchMap,
+} from 'rxjs';
 
-import {
-  ActionForm,
-  ActionFormStrategy,
-} from '../../components/common/ActionForm/ActionForm';
-import {
-  TokenControlFormItem,
-  TokenControlValue,
-} from '../../components/common/TokenControl/TokenControl';
+import { ActionForm } from '../../components/common/ActionForm/ActionForm';
+import { TokenAmountInputValue } from '../../components/common/TokenControl/TokenAmountInput/TokenAmountInput';
+import { TokenControlFormItem } from '../../components/common/TokenControl/TokenControl';
 import {
   openConfirmationModal,
   Operation,
@@ -28,146 +33,56 @@ import {
 } from '../../constants/erg';
 import { defaultExFee } from '../../constants/settings';
 import { useSettings } from '../../context';
+import { Button, Flex, SwapOutlined, Typography } from '../../ergodex-cdk';
+import { useForm } from '../../ergodex-cdk/components/Form/NewForm';
 import {
-  Button,
-  Flex,
-  Form,
-  FormInstance,
-  SwapOutlined,
-  Typography,
-} from '../../ergodex-cdk';
-import { useObservable, useObservableAction } from '../../hooks/useObservable';
-import { assets$, getAssetsByPairAsset } from '../../services/new/assets';
-import { Balance, useWalletBalance } from '../../services/new/balance';
-import { getPoolByPair, pools$ } from '../../services/new/pools';
+  useObservable,
+  useSubject,
+  useSubscription,
+} from '../../hooks/useObservable';
+import { assets$, getAvailableAssetFor } from '../../services/new/assets';
+import { useWalletBalance } from '../../services/new/balance';
+import { getPoolByPair } from '../../services/new/pools';
 import { fractionsToNum, parseUserInputToFractions } from '../../utils/math';
 import { calculateTotalFee } from '../../utils/transactions';
 import { Ratio } from './Ratio/Ratio';
 import { SwapConfirmationModal } from './SwapConfirmationModal/SwapConfirmationModal';
+import { SwapFormModel } from './SwapModel';
 import { SwapTooltip } from './SwapTooltip/SwapTooltip';
 import { TransactionSettings } from './TransactionSettings/TransactionSettings';
 
-interface SwapFormModel {
-  readonly from?: TokenControlValue;
-  readonly to?: TokenControlValue;
-  readonly pool?: AmmPool;
-}
-
-class SwapStrategy implements ActionFormStrategy {
-  constructor(private balance: Balance, private minerFee: number) {}
-
-  actionButtonCaption(): React.ReactNode {
-    return 'Swap';
-  }
-
-  getInsufficientTokenForFee(
-    form: FormInstance<SwapFormModel>,
-  ): string | undefined {
-    const { from } = form.getFieldsValue();
-    let totalFees = +calculateTotalFee(
-      [this.minerFee, UI_FEE, defaultExFee],
-      ERG_DECIMALS,
-    );
-    totalFees =
-      from?.asset?.id === ERG_TOKEN_ID
-        ? totalFees + from.amount?.value!
-        : totalFees;
-
-    return +totalFees > this.balance.get(ERG_TOKEN_ID)
-      ? ERG_TOKEN_NAME
-      : undefined;
-  }
-
-  getInsufficientTokenForTx(
-    form: FormInstance<SwapFormModel>,
-  ): Observable<string | undefined> | string | undefined {
-    const { from } = form.getFieldsValue();
-    const asset = from?.asset;
-    const amount = from?.amount?.value;
-
-    if (asset && amount && amount > this.balance.get(asset)) {
-      return asset.name;
-    }
-
+const convertToTo = (
+  fromAmount: TokenAmountInputValue | undefined,
+  fromAsset: AssetInfo,
+  pool: AmmPool,
+): number | undefined => {
+  if (!fromAmount) {
     return undefined;
   }
 
-  isAmountNotEntered(form: FormInstance<SwapFormModel>): boolean {
-    const value = form.getFieldsValue();
-
-    return !value.from?.amount?.value || !value.to?.amount?.value;
-  }
-
-  isTokensNotSelected(form: FormInstance<SwapFormModel>): boolean {
-    const value = form.getFieldsValue();
-
-    return !value.to?.asset || !value.from?.asset;
-  }
-
-  request(form: FormInstance): void {
-    const value = form.getFieldsValue();
-
-    openConfirmationModal(
-      (next) => {
-        return <SwapConfirmationModal value={value} onClose={next} />;
-      },
-      Operation.SWAP,
-      { asset: value.from?.asset!, amount: value?.from?.amount?.value! },
-      { asset: value.to?.asset!, amount: value?.to?.amount?.value! },
-    );
-  }
-
-  isLiquidityInsufficient(form: FormInstance<SwapFormModel>): boolean {
-    const { to, pool } = form.getFieldsValue();
-
-    if (!to?.amount?.value || !pool) {
-      return false;
-    }
-
-    return (
-      to.amount.value > fractionsToNum(pool?.y.amount, pool?.y.asset.decimals)
-    );
-  }
-}
-
-const getAssetsByToken = (pairAssetId?: string) =>
-  pairAssetId ? getAssetsByPairAsset(pairAssetId) : pools$;
-
-const initialValues: SwapFormModel = {
-  from: {
-    asset: {
-      name: 'ERG',
-      id: '0000000000000000000000000000000000000000000000000000000000000000',
-      decimals: ERG_DECIMALS,
-    },
-  },
-};
-
-const fromToTo = (fromValue: TokenControlValue, pool: AmmPool): number => {
   const toAmount = pool.outputAmount(
     new AssetAmount(
-      fromValue.asset!,
-      parseUserInputToFractions(
-        fromValue.amount?.value!,
-        fromValue.asset?.decimals,
-      ),
+      fromAsset,
+      parseUserInputToFractions(fromAmount.value!, fromAsset.decimals),
     ),
   );
 
   return fractionsToNum(toAmount.amount, toAmount.asset?.decimals);
 };
 
-const toToFrom = (
-  toValue: TokenControlValue,
+const convertToFrom = (
+  toAmount: TokenAmountInputValue | undefined,
+  toAsset: AssetInfo,
   pool: AmmPool,
 ): number | undefined => {
+  if (!toAmount) {
+    return undefined;
+  }
+
   const fromAmount = pool.inputAmount(
     new AssetAmount(
-      toValue.asset!,
-      parseUserInputToFractions(
-        toValue.amount?.value!,
-        toValue.asset?.decimals,
-      ),
+      toAsset,
+      parseUserInputToFractions(toAmount.value!, toAsset.decimals),
     ),
   );
 
@@ -176,161 +91,201 @@ const toToFrom = (
     : undefined;
 };
 
-const isFromFieldAssetChanged = (
-  value: SwapFormModel,
-  prevValue: SwapFormModel,
-): boolean => value?.from?.asset?.id !== prevValue?.from?.asset?.id;
+const getToAssets = (fromAsset?: string) =>
+  fromAsset ? getAvailableAssetFor(fromAsset) : assets$;
 
-const isToAssetChanged = (
-  value: SwapFormModel,
-  prevValue: SwapFormModel,
-): boolean =>
-  !!value?.from?.asset &&
-  !!value?.to?.asset &&
-  value?.to?.asset?.id !== prevValue?.to?.asset?.id;
+const getSelectedPool = (
+  xId?: string,
+  yId?: string,
+): Observable<AmmPool | undefined> =>
+  xId && yId
+    ? getPoolByPair(xId, yId).pipe(
+        map((pools) => maxBy(pools, (p) => p.lp.amount)),
+      )
+    : of(undefined);
 
-const getAvailablePools = (xId?: string, yId?: string): Observable<AmmPool[]> =>
-  xId && yId ? getPoolByPair(xId, yId) : of([]);
-
-const isFromAmountChangedWithEmptyPool = (
-  value: SwapFormModel,
-  prevValue: SwapFormModel,
-): boolean => !value?.pool && value?.from?.amount !== prevValue?.from?.amount;
-
-const isToAmountChangedWithEmptyPool = (
-  value: SwapFormModel,
-  prevValue: SwapFormModel,
-): boolean => !value?.pool && value?.to?.amount !== prevValue?.to?.amount;
-
-const isFromAmountChangedWithActivePool = (
-  value: SwapFormModel,
-  prevValue: SwapFormModel,
-): boolean => !!value?.pool && value?.from?.amount !== prevValue?.from?.amount;
-
-const isToAmountChangedWithActivePool = (
-  value: SwapFormModel,
-  prevValue: SwapFormModel,
-): boolean => !!value?.pool && value?.to?.amount !== prevValue?.to?.amount;
-
-const sortPoolByLpDesc = (poolA: AmmPool, poolB: AmmPool) =>
-  fractionsToNum(poolB.lp.amount) - fractionsToNum(poolA.lp.amount);
-
-export const Swap: FC = () => {
-  const [form] = Form.useForm<SwapFormModel>();
+export const Swap = () => {
+  const form = useForm<SwapFormModel>({
+    fromAmount: undefined,
+    toAmount: undefined,
+    fromAsset: {
+      name: 'ERG',
+      id: '0000000000000000000000000000000000000000000000000000000000000000',
+      decimals: ERG_DECIMALS,
+    },
+    toAsset: undefined,
+    pool: undefined,
+  });
   const [fromAssets] = useObservable(assets$);
-  const [toAssets, updateToAssets] = useObservableAction(getAssetsByToken);
-  const [pools, updatePoolsByPair] = useObservableAction(getAvailablePools);
-  const { t } = useTranslation();
+  const [toAssets, updateToAssets] = useSubject(getToAssets);
   const [balance] = useWalletBalance();
   const [{ minerFee }] = useSettings();
-  const [, setChanges] = useState<any>();
 
-  const swapStrategy = new SwapStrategy(balance, minerFee);
+  const getInsufficientTokenNameForFee = useCallback(
+    (value: SwapFormModel) => {
+      const { fromAmount, fromAsset } = value;
+      let totalFees = +calculateTotalFee(
+        [minerFee, UI_FEE, defaultExFee],
+        ERG_DECIMALS,
+      );
+      totalFees =
+        fromAsset?.id === ERG_TOKEN_ID
+          ? totalFees + fromAmount?.value!
+          : totalFees;
 
-  useEffect(() => {
-    updateToAssets(initialValues.from?.asset?.id);
-  }, [updateToAssets]);
+      return +totalFees > balance.get(ERG_TOKEN_ID)
+        ? ERG_TOKEN_NAME
+        : undefined;
+    },
+    [minerFee, balance],
+  );
 
-  useEffect(() => {
-    const { pool, to, from } = form.getFieldsValue();
-    const newPool = pools?.slice().sort(sortPoolByLpDesc)[0];
+  const getInsufficientTokenNameForTx = useCallback(
+    (value: SwapFormModel) => {
+      const { fromAmount, fromAsset } = value;
+      const asset = fromAsset;
+      const amount = fromAmount?.value;
 
-    if (!pool || pool.id !== newPool?.id) {
-      const fromAmount =
-        !from?.amount && to?.amount && newPool
-          ? {
-              value: toToFrom(to, newPool),
-              viewValue: toToFrom(to, newPool)?.toString(),
-            }
-          : from?.amount;
-      const toAmount =
-        from?.amount && newPool
-          ? {
-              value: fromToTo(from, newPool),
-              viewValue: fromToTo(from, newPool).toString(),
-            }
-          : to?.amount;
+      if (asset && amount && amount > balance.get(asset)) {
+        return asset.name;
+      }
 
-      form.setFieldsValue({
-        pool: newPool,
-        from: { ...from, amount: fromAmount },
-        to: { ...to, amount: toAmount },
-      });
-      setChanges({});
+      return undefined;
+    },
+    [balance],
+  );
+
+  const isAmountNotEntered = useCallback(
+    (value: SwapFormModel) =>
+      !value.fromAmount?.value || !value.toAmount?.value,
+    [],
+  );
+
+  const isTokensNotSelected = useCallback(
+    (value: SwapFormModel) => !value.toAsset || !value.fromAsset,
+    [],
+  );
+
+  const submitSwap = useCallback((value: SwapFormModel) => {
+    openConfirmationModal(
+      (next) => {
+        return <SwapConfirmationModal value={value} onClose={next} />;
+      },
+      Operation.SWAP,
+      { asset: value.fromAsset!, amount: value?.fromAmount?.value! },
+      { asset: value.toAsset!, amount: value?.toAmount?.value! },
+    );
+  }, []);
+
+  const isLiquidityInsufficient = useCallback((value: SwapFormModel) => {
+    const { toAmount, pool } = value;
+
+    if (!toAmount?.value || !pool) {
+      return false;
     }
-  }, [pools, form]);
 
-  const onValuesChange = (
-    changes: SwapFormModel,
-    value: SwapFormModel,
-    prevValue: SwapFormModel,
-  ) => {
-    if (isFromFieldAssetChanged(value, prevValue)) {
-      updateToAssets(value?.from?.asset?.id);
-      form.setFieldsValue({ to: undefined, pool: undefined });
-      updatePoolsByPair();
-    }
-    if (isToAssetChanged(value, prevValue)) {
-      updatePoolsByPair(value?.from?.asset?.id!, value?.to?.asset?.id!);
-    }
-    if (isFromAmountChangedWithEmptyPool(value, prevValue)) {
-      form.setFieldsValue({ to: undefined });
-    }
-    if (isToAmountChangedWithEmptyPool(value, prevValue)) {
-      form.setFieldsValue({ from: { ...value.from, amount: undefined } });
-    }
-    if (isFromAmountChangedWithActivePool(value, prevValue)) {
-      const toAmount = fromToTo(value.from!, value.pool!);
-      form.setFieldsValue({
-        to: {
-          ...value.to,
-          amount: { value: toAmount, viewValue: toAmount.toString() },
+    return (
+      toAmount.value > fractionsToNum(pool?.y.amount, pool?.y.asset.decimals)
+    );
+  }, []);
+
+  useSubscription(
+    form.controls.fromAsset.valueChanges$,
+    (token: AssetInfo | undefined) => updateToAssets(token?.id),
+  );
+
+  useSubscription(form.controls.fromAsset.valueChanges$, () =>
+    form.patchValue({
+      toAsset: undefined,
+      fromAmount: undefined,
+      toAmount: undefined,
+    }),
+  );
+
+  useSubscription(
+    combineLatest([
+      form.controls.fromAsset.valueChanges$,
+      form.controls.toAsset.valueChanges$,
+    ]).pipe(
+      debounceTime(100),
+      switchMap(([fromAsset, toAsset]) =>
+        getSelectedPool(fromAsset?.id, toAsset?.id),
+      ),
+    ),
+    (pool) => form.patchValue({ pool }),
+  );
+
+  useSubscription(
+    combineLatest([
+      form.controls.fromAmount.valueChanges$,
+      form.controls.pool.valueChanges$,
+    ]).pipe(
+      debounceTime(100),
+      filter(([amount, pool]) => !!amount && !!form.value.fromAsset && !!pool),
+    ),
+    ([amount, pool]) => {
+      const toAmount = convertToTo(amount!, form.value.fromAsset!, pool!);
+      form.patchValue(
+        {
+          toAmount: toAmount
+            ? { value: toAmount, viewValue: toAmount.toString() }
+            : undefined,
         },
-      });
-    }
-    if (isToAmountChangedWithActivePool(value, prevValue)) {
-      const fromAmount = toToFrom(value.to!, value.pool!);
-      form.setFieldsValue({
-        from: {
-          ...value.from,
-          amount: { value: fromAmount, viewValue: fromAmount?.toString() },
+        { emitEvent: 'system' },
+      );
+    },
+  );
+
+  useSubscription(
+    combineLatest([
+      form.controls.toAmount.valueChanges$,
+      form.controls.pool.valueChanges$,
+    ]).pipe(
+      debounceTime(100),
+      filter(([amount, pool]) => !!amount && !!form.value.toAsset && !!pool),
+    ),
+    ([amount, pool]) => {
+      const fromAmount = convertToFrom(amount!, form.value.toAsset!, pool!);
+
+      form.patchValue(
+        {
+          fromAmount: fromAmount
+            ? { value: fromAmount, viewValue: fromAmount.toString() }
+            : undefined,
         },
-      });
-    }
-    // if (
-    //   value.from &&
-    //   value.from?.amount?.value &&
-    //   value.to?.amount?.value &&
-    //   value.from?.asset &&
-    //   value.to?.asset &&
-    //   value.pool
-    // ) {
-    //   setRatio(calculateRatio(value));
-    // }
-    setChanges({});
-  };
+        { emitEvent: 'system' },
+      );
+    },
+  );
 
   const swapTokens = () => {
-    const { to, from } = form.getFieldsValue();
-
-    // TODO: REPLACE_WITH_SET_FIELDS_VALUES
-    form.setFields([
-      { name: 'from', value: to },
-      { name: 'to', value: from },
-    ]);
-    setChanges({});
+    form.patchValue(
+      {
+        fromAsset: form.value.toAsset,
+        fromAmount: form.value.toAmount,
+        toAsset: form.value.fromAsset,
+        toAmount: form.value.fromAmount,
+      },
+      { emitEvent: 'silent' },
+    );
   };
+
+  const { t } = useTranslation();
 
   return (
     <FormPageWrapper width={480}>
       <ActionForm
         form={form}
-        strategy={swapStrategy}
-        onValuesChange={onValuesChange}
-        initialValues={initialValues}
+        actionButton="Swap"
+        getInsufficientTokenNameForFee={getInsufficientTokenNameForFee}
+        getInsufficientTokenNameForTx={getInsufficientTokenNameForTx}
+        isAmountNotEntered={isAmountNotEntered}
+        isTokensNotSelected={isTokensNotSelected}
+        isLiquidityInsufficient={isLiquidityInsufficient}
+        action={submitSwap}
       >
-        <Flex direction="col">
-          <Flex direction="row" align="center">
+        <Flex col>
+          <Flex row align="center">
             <Flex.Item flex={1}>
               <Typography.Title level={4}>{t`swap.title`}</Typography.Title>
             </Flex.Item>
@@ -341,10 +296,11 @@ export const Swap: FC = () => {
           </Flex.Item>
           <Flex.Item marginBottom={1}>
             <TokenControlFormItem
-              assets={fromAssets}
-              name="from"
-              label={t`swap.fromLabel`}
               maxButton
+              assets={fromAssets}
+              label={t`swap.fromLabel`}
+              amountName="fromAmount"
+              tokenName="fromAsset"
             />
           </Flex.Item>
           <Flex.Item className="swap-button">
@@ -352,33 +308,21 @@ export const Swap: FC = () => {
           </Flex.Item>
           <Flex.Item marginBottom={4}>
             <TokenControlFormItem
+              maxButton
               assets={toAssets}
-              name="to"
               label={t`swap.toLabel`}
+              amountName="toAmount"
+              tokenName="toAsset"
             />
           </Flex.Item>
-          <Flex.Item
-            marginBottom={4}
-            display={
-              !!pools?.length &&
-              form.getFieldsValue()?.from?.amount?.value &&
-              form.getFieldsValue()?.to?.amount?.value
-                ? 'block'
-                : 'none'
-            }
-          >
-            <Flex>
-              <Flex.Item marginRight={1}>
-                <SwapTooltip form={form} />
-              </Flex.Item>
-              <Flex.Item flex={1}>
-                <Ratio form={form} />
-              </Flex.Item>
-              <Flex>
-                <Form.Item name="pool" style={{ marginBottom: 0 }} />
-              </Flex>
-            </Flex>
-          </Flex.Item>
+          <Flex>
+            <Flex.Item marginRight={1}>
+              <SwapTooltip form={form} />
+            </Flex.Item>
+            <Flex.Item flex={1}>
+              <Ratio form={form} />
+            </Flex.Item>
+          </Flex>
         </Flex>
       </ActionForm>
     </FormPageWrapper>

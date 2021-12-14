@@ -14,18 +14,16 @@ export const assets$ = pools$.pipe(
 export const getAssetById = (id: string): Observable<AssetInfo> =>
   assets$.pipe(map((assets) => find(assets, ['id', id])!));
 
-export const getAssetsByPairAsset = (pairAssetId: string) =>
+export const getAvailableAssetFor = (assetId: string) =>
   pools$.pipe(
     map((pools) =>
-      pools.filter(
-        (p) => p.assetX.id === pairAssetId || p.assetY.id === pairAssetId,
-      ),
+      pools.filter((p) => p.assetX.id === assetId || p.assetY.id === assetId),
     ),
     map((pools) =>
       pools
         .flatMap((p) => [
-          p.assetX.id !== pairAssetId ? p.assetX : undefined,
-          p.assetY.id !== pairAssetId ? p.assetY : undefined,
+          p.assetX.id !== assetId ? p.assetX : undefined,
+          p.assetY.id !== assetId ? p.assetY : undefined,
         ])
         .filter<AssetInfo>(Boolean as any),
     ),

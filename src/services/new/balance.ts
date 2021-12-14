@@ -71,7 +71,9 @@ export const walletBalance$ = combineLatest([
 walletBalance$.subscribe(() => {});
 
 export const useWalletBalance = () =>
-  useObservable(walletBalance$, new Balance([]));
+  useObservable(walletBalance$, {
+    defaultValue: new Balance([]),
+  });
 
 export const getBalanceByTokenId = (
   token: string | AssetInfo,
