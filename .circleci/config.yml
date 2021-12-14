@@ -34,7 +34,7 @@ jobs:
             name: Deploy to prod
             command: ${SERVER_CONNECTION_COMMAND} 'source ~/.nvm/nvm.sh; cd /var/www/builds/front; git pull origin master; yarn; yarn build;'
             environment:
-              SENTRY_DSN: ${SENTRY_DSN}
+              SENTRY_DSN: ${REACT_APP_SENTRY_DSN}
         - run:
             name: Release
             command: ${SERVER_CONNECTION_COMMAND} 'cp -r /var/www/builds/front/build/. /var/www/app' 
@@ -75,7 +75,6 @@ workflows:
             branches:
               only: 
                 - dev
-                - cicd-piplines
               ignore: master
       - deploy-to-prod:
           requires: 
