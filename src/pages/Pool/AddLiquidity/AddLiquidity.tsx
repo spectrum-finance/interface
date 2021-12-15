@@ -205,7 +205,7 @@ const AddLiquidity = (): JSX.Element => {
     combineLatest([
       form.controls.xAmount.valueChanges$.pipe(skip(1)),
       form.controls.activePool.valueChanges$,
-    ]),
+    ]).pipe(debounceTime(100)),
     ([amount]) => {
       const newYAmount = form.value.activePool!.depositAmount(
         new AssetAmount(
