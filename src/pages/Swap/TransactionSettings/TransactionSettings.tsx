@@ -1,11 +1,10 @@
 import './TransactionSettings.less';
 
-import React, { ChangeEventHandler, useState } from 'react';
+import React, { useState } from 'react';
 
 import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
 import { MIN_NITRO } from '../../../constants/erg';
 import {
-  defaultMinerFee,
   defaultSlippage,
   SlippageMax,
   SlippageMin,
@@ -91,8 +90,8 @@ const TransactionSettings = (): JSX.Element => {
 
   const Setting: JSX.Element = (
     <Box transparent padding={4}>
-      <Flex direction="col" style={{ width: 288 }}>
-        <Flex.Item marginBottom={4}>
+      <Flex direction="col" style={{ width: 188 }}>
+        <Flex.Item marginBottom={2}>
           <Typography.Title level={5}>Transaction Settings</Typography.Title>
         </Flex.Item>
         <Flex.Item>
@@ -106,13 +105,16 @@ const TransactionSettings = (): JSX.Element => {
             }}
           >
             <Typography.Footnote>Slippage tolerance</Typography.Footnote>
-            <InfoTooltip content="Distinctively monetize cost effective networks for cross-media bandwidth" />
-            <Flex justify="space-between">
+            <InfoTooltip
+              width={200}
+              content="Your transaction will revert if the price changes unfavorably by more than this percentage."
+            />
+            <Flex justify="space-between" style={{ marginBottom: '8px' }}>
               <Flex.Item marginRight={1}>
                 <Button
-                  style={{ width: 47 }}
+                  style={{ width: 62 }}
                   type="primary"
-                  size="small"
+                  size="middle"
                   onClick={handleClickSlippageAuto}
                 >
                   Auto
@@ -130,23 +132,38 @@ const TransactionSettings = (): JSX.Element => {
                   name="slippage"
                 >
                   <Input
+                    style={{ width: 120 }}
                     type="number"
                     min={SlippageMin}
                     max={SlippageMax}
-                    size="small"
+                    size="middle"
                     suffix="%"
                   />
                 </Form.Item>
               </Flex.Item>
             </Flex>
             <Typography.Footnote>Nitro</Typography.Footnote>
-            <InfoTooltip content="Maximum DEX fee multiplier" />
+
+            <InfoTooltip
+              content={
+                <>
+                  Maximum DEX fee multiplier
+                  <br />{' '}
+                  <Typography.Link
+                    href="https://docs.ergodex.io/docs/protocol-overview/fees/#execution-fee-formula"
+                    target="_blank"
+                  >
+                    Read more
+                  </Typography.Link>
+                </>
+              }
+            />
             <Flex justify="space-between">
               <Flex.Item marginRight={1}>
                 <Button
-                  style={{ width: 47 }}
+                  style={{ width: 62 }}
                   type="primary"
-                  size="small"
+                  size="middle"
                   onClick={handleClickNitroAuto}
                 >
                   Auto
@@ -159,7 +176,12 @@ const TransactionSettings = (): JSX.Element => {
                   help={nitroWarning ? 'Minimal Nitro value is 1.2' : undefined}
                   name="nitro"
                 >
-                  <Input type="number" min={MIN_NITRO} size="small" />
+                  <Input
+                    style={{ width: 120 }}
+                    type="number"
+                    min={MIN_NITRO}
+                    size="middle"
+                  />
                 </Form.Item>
               </Flex.Item>
             </Flex>
