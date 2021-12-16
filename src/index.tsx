@@ -3,12 +3,12 @@ import './assets/styles/styles.less';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { App } from './App';
+import { ApplicationInitializer } from './App';
 import { reportWebVitals } from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <ApplicationInitializer />
   </React.StrictMode>,
   document.getElementById('root'),
 );

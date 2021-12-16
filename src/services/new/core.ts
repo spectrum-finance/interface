@@ -36,16 +36,14 @@ const updateWalletState = new Subject();
 export const walletState$ = updateWalletState.pipe(
   startWith(undefined),
   switchMap(() =>
-    iif(
-      () => walletCookies.isSetConnected() && !!window.ergo_request_read_access,
-      from(window.ergo_request_read_access()).pipe(
-        map((value) =>
-          value ? WalletState.CONNECTED : WalletState.CONNECTING,
-        ),
-        startWith(WalletState.CONNECTING),
-      ),
-      of(WalletState.NOT_CONNECTED),
-    ),
+    walletCookies.isSetConnected() && !!window.ergo_request_read_access
+      ? from(window.ergo_request_read_access()).pipe(
+          map((value) =>
+            value ? WalletState.CONNECTED : WalletState.CONNECTING,
+          ),
+          startWith(WalletState.CONNECTING),
+        )
+      : of(WalletState.NOT_CONNECTED),
   ),
   distinctUntilChanged(),
   publishReplay(1),

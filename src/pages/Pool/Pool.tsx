@@ -12,7 +12,9 @@ import { LiquidityPositionsList } from './LiquidityPositionsList/LiquidityPositi
 const Pool = (): JSX.Element => {
   const { isWalletConnected } = useContext(WalletContext);
 
-  const [positions] = useObservable(availablePools$, []);
+  const [positions] = useObservable(availablePools$, {
+    defaultValue: [],
+  });
 
   const history = useHistory();
 

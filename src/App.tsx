@@ -1,7 +1,8 @@
 import './i18n';
 
 import { RustModule } from '@ergolabs/ergo-sdk';
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
+import { withTranslation } from 'react-i18next';
 import { Redirect, Route, Router, Switch } from 'react-router-dom';
 
 import Layout from './components/common/Layout/Layout';
@@ -24,18 +25,8 @@ import { Remove } from './pages/Remove/Remove';
 
 const NotFound = () => <Redirect to="/swap" />;
 
-export const App: React.FC = () => {
-  const [isRustModuleLoaded, setIsRustModuleLoaded] = useState(false);
-
+const Application = withTranslation()(() => {
   const [windowWidth] = useWindowSize();
-
-  useEffect(() => {
-    RustModule.load().then(() => setIsRustModuleLoaded(true));
-  }, []);
-
-  if (!isRustModuleLoaded) {
-    return null;
-  }
 
   return (
     <Router history={globalHistory}>
@@ -76,5 +67,23 @@ export const App: React.FC = () => {
         </WalletContextProvider>
       </AppLoadingProvider>
     </Router>
+  );
+});
+
+export const ApplicationInitializer: React.FC = () => {
+  const [isRustModuleLoaded, setIsRustModuleLoaded] = useState(false);
+
+  useEffect(() => {
+    RustModule.load().then(() => setIsRustModuleLoaded(true));
+  }, []);
+
+  if (!isRustModuleLoaded) {
+    return null;
+  }
+
+  return (
+    <Suspense fallback={''}>
+      <Application />
+    </Suspense>
   );
 };
