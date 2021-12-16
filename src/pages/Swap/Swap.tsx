@@ -5,16 +5,19 @@ import { AmmPool } from '@ergolabs/ergo-dex-sdk';
 import { AssetAmount } from '@ergolabs/ergo-sdk';
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import { maxBy } from 'lodash';
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
+  BehaviorSubject,
   combineLatest,
   debounceTime,
   filter,
   map,
   Observable,
   of,
+  Subject,
   switchMap,
+  tap,
 } from 'rxjs';
 
 import { ActionForm } from '../../components/common/ActionForm/ActionForm';
@@ -116,10 +119,16 @@ export const Swap = () => {
     toAsset: undefined,
     pool: undefined,
   });
-  const [fromAssets] = useObservable(assets$);
-  const [toAssets, updateToAssets] = useSubject(getToAssets);
   const [balance] = useWalletBalance();
   const [{ minerFee }] = useSettings();
+  const updateToAssets$ = useMemo(
+    () => new BehaviorSubject<string | undefined>(undefined),
+    [],
+  );
+  const toAssets$ = useMemo(
+    () => updateToAssets$.pipe(switchMap(getToAssets)),
+    [],
+  );
 
   const getInsufficientTokenNameForFee = useCallback(
     (value: SwapFormModel) => {
@@ -191,7 +200,7 @@ export const Swap = () => {
 
   useSubscription(
     form.controls.fromAsset.valueChangesWithSilent$,
-    (token: AssetInfo | undefined) => updateToAssets(token?.id),
+    (token: AssetInfo | undefined) => updateToAssets$.next(token?.id),
   );
 
   useSubscription(form.controls.fromAsset.valueChanges$, () =>
@@ -297,7 +306,7 @@ export const Swap = () => {
           <Flex.Item marginBottom={1}>
             <TokenControlFormItem
               maxButton
-              assets={fromAssets}
+              assets$={assets$}
               label={t`swap.fromLabel`}
               amountName="fromAmount"
               tokenName="fromAsset"
@@ -308,7 +317,7 @@ export const Swap = () => {
           </Flex.Item>
           <Flex.Item marginBottom={4}>
             <TokenControlFormItem
-              assets={toAssets}
+              assets$={toAssets$}
               label={t`swap.toLabel`}
               amountName="toAmount"
               tokenName="toAsset"

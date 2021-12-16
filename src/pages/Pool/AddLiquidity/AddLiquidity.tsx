@@ -5,9 +5,10 @@ import { AmmPool, PoolId } from '@ergolabs/ergo-dex-sdk';
 import { AssetAmount } from '@ergolabs/ergo-sdk';
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import { Skeleton } from 'antd';
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useParams } from 'react-router';
 import {
+  BehaviorSubject,
   combineLatest,
   debounceTime,
   filter,
@@ -75,8 +76,6 @@ const AddLiquidity = (): JSX.Element => {
     xAmount: undefined,
     yAmount: undefined,
   });
-  const [xAssets] = useObservable(assets$);
-  const [yAssets, updateYAssets] = useSubject(getAssetsByToken);
   const [pools, updatePools] = useSubject(getAvailablePools);
   const [isPairSelected] = useObservable(
     combineLatest([
@@ -86,6 +85,15 @@ const AddLiquidity = (): JSX.Element => {
       debounceTime(100),
       map(([x, y]) => !!x && !!y),
     ),
+  );
+
+  const updateYAssets$ = useMemo(
+    () => new BehaviorSubject<string | undefined>(undefined),
+    [],
+  );
+  const yAssets$ = useMemo(
+    () => updateYAssets$.pipe(switchMap(getAssetsByToken)),
+    [],
   );
 
   const getInsufficientTokenNameForFee = useCallback(
@@ -168,7 +176,7 @@ const AddLiquidity = (): JSX.Element => {
 
   useSubscription(
     form.controls.x.valueChanges$,
-    (token: AssetInfo | undefined) => updateYAssets(token?.id),
+    (token: AssetInfo | undefined) => updateYAssets$.next(token?.id),
   );
 
   useSubscription(
@@ -271,10 +279,10 @@ const AddLiquidity = (): JSX.Element => {
               <Typography.Body strong>Select Pair</Typography.Body>
               <Flex justify="center" align="center">
                 <Flex.Item marginRight={2} style={{ width: '100%' }}>
-                  <TokeSelectFormItem name="x" assets={xAssets} />
+                  <TokeSelectFormItem name="x" assets$={assets$} />
                 </Flex.Item>
                 <Flex.Item style={{ width: '100%' }}>
-                  <TokeSelectFormItem name="y" assets={yAssets} />
+                  <TokeSelectFormItem name="y" assets$={yAssets$} />
                 </Flex.Item>
               </Flex>
             </Flex.Item>
@@ -305,7 +313,7 @@ const AddLiquidity = (): JSX.Element => {
                     disabled={!isPairSelected}
                     amountName="xAmount"
                     tokenName="x"
-                    assets={xAssets}
+                    assets$={assets$}
                   />
                 </Flex.Item>
                 <Flex.Item>
@@ -314,7 +322,7 @@ const AddLiquidity = (): JSX.Element => {
                     disabled={!isPairSelected}
                     amountName="yAmount"
                     tokenName="y"
-                    assets={yAssets}
+                    assets$={yAssets$}
                   />
                 </Flex.Item>
               </Flex>
