@@ -1,34 +1,17 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
-import { AmmPool } from '@ergolabs/ergo-dex-sdk';
 import { swapVars } from '@ergolabs/ergo-dex-sdk/build/main/amm/math/swap';
-import React, { FC, useEffect } from 'react';
-import {
-  distinctUntilChanged,
-  filter,
-  interval,
-  map,
-  mapTo,
-  of,
-  startWith,
-  tap,
-} from 'rxjs';
+import React, { FC } from 'react';
 
-import { TokenControlValue } from '../../../components/common/TokenControl/TokenControl';
 import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
 import { ERG_DECIMALS, MIN_EX_FEE, UI_FEE } from '../../../constants/erg';
 import { defaultExFee } from '../../../constants/settings';
 import { useSettings } from '../../../context';
-import { Flex, FormInstance, Typography } from '../../../ergodex-cdk';
+import { Flex } from '../../../ergodex-cdk';
 import { FormGroup } from '../../../ergodex-cdk/components/Form/NewForm';
-import { useObservable, useSubject } from '../../../hooks/useObservable';
-import {
-  math,
-  parseUserInputToFractions,
-  renderFractions,
-} from '../../../utils/math';
+import { useObservable } from '../../../hooks/useObservable';
+import { renderFractions } from '../../../utils/math';
 import { calculateTotalFee } from '../../../utils/transactions';
 import { getBaseInputParameters } from '../../../utils/walletMath';
-import { renderPrice } from '../Ratio/Ratio';
 import { SwapFormModel } from '../SwapModel';
 
 const TxInfoTooltipContent: FC<{ value: SwapFormModel }> = ({ value }) => {
