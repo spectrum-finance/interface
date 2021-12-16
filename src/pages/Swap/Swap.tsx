@@ -190,7 +190,7 @@ export const Swap = () => {
   }, []);
 
   useSubscription(
-    form.controls.fromAsset.valueChanges$,
+    form.controls.fromAsset.valueChangesWithSilent$,
     (token: AssetInfo | undefined) => updateToAssets(token?.id),
   );
 
@@ -308,7 +308,6 @@ export const Swap = () => {
           </Flex.Item>
           <Flex.Item marginBottom={4}>
             <TokenControlFormItem
-              maxButton
               assets={toAssets}
               label={t`swap.toLabel`}
               amountName="toAmount"
