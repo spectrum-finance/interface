@@ -106,7 +106,9 @@ const getSelectedPool = (
 
 export const Swap = () => {
   const form = useForm<SwapFormModel>({
-    fromAmount: undefined,
+    fromAmount: useForm.ctrl<TokenAmountInputValue | undefined>(undefined, [
+      (val) => (!!val?.value && val.value > 0 ? 'positive' : undefined),
+    ]),
     toAmount: undefined,
     fromAsset: {
       name: 'ERG',

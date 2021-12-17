@@ -7,18 +7,41 @@ import React, {
 } from 'react';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-export type CheckFn = () => {};
+export type CheckFn<T = any> = (t: T) => string | undefined;
 
-export function useForm<T>(param: T): FormGroup<T> {
+export function _useForm<T>(param: FormGroupParams<T>): FormGroup<T> {
   const [form] = useState(new FormGroup<T>(param));
 
   return form;
 }
+function ctrl<T>(
+  value: T,
+  errorValidators?: CheckFn<T>[],
+  warningValidators?: CheckFn<T>[],
+): {
+  value: T;
+  errorValidators: CheckFn[];
+  warningValidators: CheckFn[];
+  __config: true;
+} {
+  return {
+    value,
+    errorValidators: errorValidators || [],
+    warningValidators: warningValidators || [],
+    __config: true,
+  };
+}
+(_useForm as any).ctrl = ctrl;
 
 interface EventConfig {
   readonly emitEvent: 'default' | 'system' | 'silent';
 }
+
+type Messages<T> = {
+  [key in keyof Partial<T>]: {
+    [key: string]: string | ((value: T[key]) => string);
+  };
+};
 
 interface AbstractFormItem<T> {
   readonly value: T;
@@ -38,7 +61,12 @@ interface AbstractFormItem<T> {
 
 export type FormControlParams<T> =
   | T
-  | { value: T; validators: CheckFn[]; warnings: CheckFn[] };
+  | {
+      value: T;
+      errorValidators: CheckFn[];
+      warningValidators: CheckFn[];
+      __config: true;
+    };
 
 export class FormControl<T> implements AbstractFormItem<T> {
   constructor(
@@ -47,16 +75,36 @@ export class FormControl<T> implements AbstractFormItem<T> {
     private parent: any,
   ) {}
 
-  invalid = false;
+  //@ts-ignore
+  value: T = this.getValueFromParam(this.param);
 
-  valid = true;
+  //@ts-ignore
+  errorValidators: CheckFn[] = this.getErrorValidatorsFromParam(this.param);
+
+  //@ts-ignore
+  warningValidators: CheckFn[] = this.getWarningValidatorsFromParam(this.param);
+
+  currentError: string | undefined = this.getCurrentCheckName(
+    this.value,
+    this.errorValidators,
+  );
+
+  invalid = !!this.currentError;
+
+  valid = !this.invalid;
+
+  currentWarning: string | undefined = this.getCurrentCheckName(
+    this.value,
+    this.warningValidators,
+  );
+
+  withWarnings = !!this.currentWarning;
+
+  withoutWarnings = !this.withWarnings;
 
   touched = false;
 
   untouched = true;
-
-  //@ts-ignore
-  value: T = this.getValueFromParam(this.param);
 
   get valueChanges$(): Observable<T> {
     return this._valueChanges$;
@@ -90,8 +138,20 @@ export class FormControl<T> implements AbstractFormItem<T> {
     this.touched = false;
   }
 
-  patchValue(partialValue: T, config?: EventConfig): void {
-    this.value = partialValue;
+  patchValue(value: T, config?: EventConfig): void {
+    this.value = value;
+    this.currentError = this.getCurrentCheckName(
+      this.value,
+      this.errorValidators,
+    );
+    this.invalid = !!this.currentError;
+    this.valid = !this.invalid;
+    this.currentWarning = this.getCurrentCheckName(
+      this.value,
+      this.warningValidators,
+    );
+    this.withWarnings = !!this.currentWarning;
+    this.withoutWarnings = !this.withWarnings;
     this.emitEvent(config);
   }
 
@@ -101,8 +161,7 @@ export class FormControl<T> implements AbstractFormItem<T> {
   }
 
   reset(value: T, config?: EventConfig): void {
-    this.value = value;
-    this.emitEvent(config);
+    this.patchValue(value, config);
     this.markAsUntouched();
   }
 
@@ -127,8 +186,37 @@ export class FormControl<T> implements AbstractFormItem<T> {
     }
   }
 
+  private getCurrentCheckName(
+    value: T,
+    checkFns: CheckFn<T>[],
+  ): string | undefined {
+    for (let i = 0; i < checkFns.length; i++) {
+      const result = checkFns[i](value);
+
+      if (result) {
+        return result;
+      }
+    }
+
+    return undefined;
+  }
+
   private getValueFromParam(param: FormControlParams<T>) {
-    return param instanceof Object && param.value ? param.value : param;
+    return param instanceof Object && param.__config ? param.value : param;
+  }
+
+  private getErrorValidatorsFromParam(param: FormControlParams<T>): CheckFn[] {
+    return param instanceof Object && param.__config
+      ? param.errorValidators || []
+      : [];
+  }
+
+  private getWarningValidatorsFromParam(
+    param: FormControlParams<T>,
+  ): CheckFn[] {
+    return param instanceof Object && param.__config
+      ? param.warningValidators || []
+      : [];
   }
 }
 
@@ -255,9 +343,15 @@ export interface FormProps<T> {
   readonly form: FormGroup<T>;
   readonly onSubmit: (form: FormGroup<T>) => void;
   readonly children?: ReactNode | ReactNode[] | string;
+  readonly errorMessages?: Messages<T>;
+  readonly warningMessages?: Messages<T>;
 }
 
-export const FormContext = createContext<{ form: FormGroup<any> }>({} as any);
+export const FormContext = createContext<{
+  form: FormGroup<any>;
+  errorMessages?: Messages<any>;
+  warningMessages?: Messages<any>;
+}>({} as any);
 
 export const useFormContext = () => useContext(FormContext);
 
@@ -274,11 +368,13 @@ class _Form<T> extends React.Component<FormProps<T>> {
   }
 
   render() {
-    const { children, form } = this.props;
+    const { children, form, errorMessages, warningMessages } = this.props;
 
     return (
       <form onSubmit={this.handleSubmit}>
-        <FormContext.Provider value={{ form }}>{children}</FormContext.Provider>
+        <FormContext.Provider value={{ errorMessages, warningMessages, form }}>
+          {children}
+        </FormContext.Provider>
       </form>
     );
   }
@@ -291,6 +387,8 @@ interface FormItemFnParams<T> {
   readonly untouched: boolean;
   readonly invalid: boolean;
   readonly valid: boolean;
+  readonly warningMessage?: string;
+  readonly errorMessage?: string;
 }
 
 export interface FormItemProps<T> {
@@ -317,13 +415,35 @@ class _FormItem<T = any> extends React.Component<FormItemProps<T>> {
 
     return (
       <FormContext.Consumer>
-        {({ form }) => {
+        {({ form, errorMessages, warningMessages }) => {
           const control = form.controls[name];
           if (!this.subscription && control) {
             this.subscription = control.valueChangesWithSilent$.subscribe(() =>
               this.forceUpdate(),
             );
           }
+
+          let warningMessage =
+            control.currentWarning &&
+            warningMessages &&
+            warningMessages[name] &&
+            warningMessages[name][control.currentWarning];
+
+          if (warningMessage instanceof Function) {
+            warningMessage = warningMessage(control.value);
+          }
+
+          let errorMessage =
+            control.currentError &&
+            errorMessages &&
+            errorMessages[name] &&
+            errorMessages[name][control.currentError];
+
+          if (errorMessage instanceof Function) {
+            errorMessage = errorMessage(control.value);
+          }
+
+          console.log(errorMessage, control.currentError);
 
           return children && control
             ? children({
@@ -333,6 +453,8 @@ class _FormItem<T = any> extends React.Component<FormItemProps<T>> {
                 untouched: control.untouched,
                 invalid: control.invalid,
                 valid: control.valid,
+                errorMessage,
+                warningMessage,
               })
             : undefined;
         }}
@@ -343,3 +465,5 @@ class _FormItem<T = any> extends React.Component<FormItemProps<T>> {
 
 export const Form: typeof _Form & { Item: typeof _FormItem } = _Form as any;
 Form.Item = _FormItem;
+
+export const useForm: typeof _useForm & { ctrl: typeof ctrl } = _useForm as any;
