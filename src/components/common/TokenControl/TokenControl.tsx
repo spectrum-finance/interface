@@ -242,16 +242,13 @@ export const TokenControlFormItem: FC<NewTokenControlProps> = ({
           <Flex.Item marginRight={2} flex={1}>
             {amountName && (
               <Form.Item name={amountName}>
-                {({ value, onChange, errorMessage }) => (
-                  <>
-                    {errorMessage}
-                    <TokenAmountInput
-                      readonly={isAmountReadOnly()}
-                      value={value}
-                      onChange={onChange}
-                      disabled={disabled}
-                    />
-                  </>
+                {({ value, onChange }) => (
+                  <TokenAmountInput
+                    readonly={isAmountReadOnly()}
+                    value={value}
+                    onChange={onChange}
+                    disabled={disabled}
+                  />
                 )}
               </Form.Item>
             )}
