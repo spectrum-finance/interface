@@ -1,171 +1,142 @@
 import './TransactionSettings.less';
 
-import React, { ChangeEventHandler, useState } from 'react';
+import React, { useState } from 'react';
+import { filter, skip } from 'rxjs';
 
 import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
 import { MIN_NITRO } from '../../../constants/erg';
-import {
-  defaultMinerFee,
-  defaultSlippage,
-  SlippageMax,
-  SlippageMin,
-} from '../../../constants/settings';
 import { useSettings } from '../../../context';
 import {
   Box,
   Button,
   Flex,
-  Form,
-  Input,
   Popover,
   SettingOutlined,
   Typography,
 } from '../../../ergodex-cdk';
+import {
+  CheckFn,
+  Form,
+  Messages,
+  useForm,
+} from '../../../ergodex-cdk/components/Form/NewForm';
+import { useSubscription } from '../../../hooks/useObservable';
+import { NitroInput } from './NitroInput/NitroInput';
+import { SlippageInput } from './SlippageInput/SlippageInput';
+
+interface SettingsModel {
+  readonly slippage: number;
+  readonly nitro: number;
+}
+
+const warningMessages: Messages<SettingsModel> = {
+  slippage: {
+    transactionFrontrun: 'Your transaction may be frontrun',
+  },
+};
+
+const errorMessages: Messages<SettingsModel> = {
+  nitro: {
+    minNitro: `Minimal Nitro value is ${MIN_NITRO}`,
+  },
+};
+
+const slippageCheck: CheckFn<number> = (value) => {
+  return value > 1 ? 'transactionFrontrun' : undefined;
+};
+
+const nitroCheck: CheckFn<number> = (value) => {
+  return value < MIN_NITRO ? 'minNitro' : undefined;
+};
 
 const TransactionSettings = (): JSX.Element => {
   const [settings, setSettings] = useSettings();
-  const [form] = Form.useForm();
-
   const [isPopoverShown, setIsPopoverShown] = useState(false);
+
+  const form = useForm<SettingsModel>({
+    slippage: useForm.ctrl(settings.slippage, [], [slippageCheck]),
+    nitro: useForm.ctrl(settings.nitro, [nitroCheck]),
+  });
   const handlePopoverShown = (visible: boolean) => {
     if (!visible) {
-      form.setFieldsValue({
-        slippage: settings.slippage,
-        nitro: settings.nitro,
-      });
-      setNitroWarning(false);
+      form.reset(
+        {
+          slippage: settings.slippage,
+          nitro: settings.nitro,
+        },
+        { emitEvent: 'system' },
+      );
     }
-
     setIsPopoverShown((prev) => !prev);
   };
-  // TODO: EXTRACT_WARNINGS_TO_ERGO_CDK_FORM.ITEM
-  const [slippageWarning, setSlippageWarning] = useState<boolean>(
-    settings.slippage > 1,
-  );
 
-  const [nitroWarning, setNitroWarning] = useState<boolean>(
-    +settings.nitro < MIN_NITRO,
-  );
-
-  const handleFormValuesChange = (changes: {
-    slippage?: number;
-    nitro?: number;
-  }) => {
-    if (changes.slippage) {
+  useSubscription(
+    form.controls.slippage.valueChanges$.pipe(skip(1), filter(Boolean)),
+    (slippage) =>
       setSettings({
         ...settings,
-        slippage: +changes.slippage,
-      });
-      setSlippageWarning(changes.slippage > 1);
-    }
-    if (changes.nitro) {
-      if (+changes.nitro >= MIN_NITRO) {
-        setSettings({
-          ...settings,
-          nitro: +changes.nitro,
-        });
-        setNitroWarning(false);
-      } else {
-        setNitroWarning(true);
-      }
-    }
-  };
+        slippage: slippage,
+      }),
+  );
 
-  const handleClickSlippageAuto = () => {
-    form.setFieldsValue({ slippage: defaultSlippage });
-    setSettings({
-      ...settings,
-      slippage: defaultSlippage,
-    });
-    setSlippageWarning(false);
-  };
-
-  const handleClickNitroAuto = () => {
-    form.setFieldsValue({ nitro: MIN_NITRO });
-    setSettings({
-      ...settings,
-      nitro: MIN_NITRO,
-    });
-    setSlippageWarning(false);
-  };
+  useSubscription(
+    form.controls.nitro.valueChanges$.pipe(
+      skip(1),
+      filter((value) => !!value && value >= MIN_NITRO),
+    ),
+    (nitro) =>
+      setSettings({
+        ...settings,
+        nitro: nitro,
+      }),
+  );
 
   const Setting: JSX.Element = (
-    <Box transparent padding={4}>
-      <Flex direction="col" style={{ width: 288 }}>
-        <Flex.Item marginBottom={4}>
-          <Typography.Title level={5}>Transaction Settings</Typography.Title>
-        </Flex.Item>
-        <Flex.Item>
-          <Form
-            form={form}
-            name="global-settings"
-            onValuesChange={handleFormValuesChange}
-            initialValues={{
-              slippage: settings.slippage,
-              nitro: settings.nitro,
-            }}
-          >
+    <Box transparent padding={4} width={360}>
+      <Form
+        form={form}
+        onSubmit={() => {}}
+        warningMessages={warningMessages}
+        errorMessages={errorMessages}
+      >
+        <Flex col>
+          <Flex.Item marginBottom={4}>
+            <Typography.Title level={5}>Transaction Settings</Typography.Title>
+          </Flex.Item>
+          <Flex.Item>
             <Typography.Footnote>Slippage tolerance</Typography.Footnote>
             <InfoTooltip content="Distinctively monetize cost effective networks for cross-media bandwidth" />
-            <Flex justify="space-between">
-              <Flex.Item marginRight={1}>
-                <Button
-                  style={{ width: 47 }}
-                  type="primary"
-                  size="small"
-                  onClick={handleClickSlippageAuto}
-                >
-                  Auto
-                </Button>
-              </Flex.Item>
-              <Flex.Item flex={1}>
-                <Form.Item
-                  className="transaction-settings_form-item"
-                  validateStatus={slippageWarning ? 'warning' : undefined}
-                  help={
-                    slippageWarning
-                      ? 'Your transaction may be frontrun'
-                      : undefined
-                  }
-                  name="slippage"
-                >
-                  <Input
-                    type="number"
-                    min={SlippageMin}
-                    max={SlippageMax}
-                    size="small"
-                    suffix="%"
-                  />
-                </Form.Item>
-              </Flex.Item>
-            </Flex>
+          </Flex.Item>
+          <Flex.Item marginBottom={2}>
+            <Form.Item name="slippage">
+              {({ onChange, value, withWarnings, warningMessage }) => (
+                <SlippageInput
+                  withWarnings={withWarnings}
+                  warningMessage={warningMessage}
+                  onChange={onChange}
+                  value={value}
+                />
+              )}
+            </Form.Item>
+          </Flex.Item>
+          <Flex.Item>
             <Typography.Footnote>Nitro</Typography.Footnote>
             <InfoTooltip content="Maximum DEX fee multiplier" />
-            <Flex justify="space-between">
-              <Flex.Item marginRight={1}>
-                <Button
-                  style={{ width: 47 }}
-                  type="primary"
-                  size="small"
-                  onClick={handleClickNitroAuto}
-                >
-                  Auto
-                </Button>
-              </Flex.Item>
-              <Flex.Item flex={1}>
-                <Form.Item
-                  className="transaction-settings_form-item"
-                  validateStatus={nitroWarning ? 'error' : undefined}
-                  help={nitroWarning ? 'Minimal Nitro value is 1.2' : undefined}
-                  name="nitro"
-                >
-                  <Input type="number" min={MIN_NITRO} size="small" />
-                </Form.Item>
-              </Flex.Item>
-            </Flex>
-          </Form>
-        </Flex.Item>
-      </Flex>
+          </Flex.Item>
+          <Flex.Item>
+            <Form.Item name="nitro">
+              {({ onChange, value, invalid, errorMessage }) => (
+                <NitroInput
+                  invalid={invalid}
+                  errorMessage={errorMessage}
+                  onChange={onChange}
+                  value={value}
+                />
+              )}
+            </Form.Item>
+          </Flex.Item>
+        </Flex>
+      </Form>
     </Box>
   );
 

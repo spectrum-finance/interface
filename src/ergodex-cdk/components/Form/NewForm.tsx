@@ -14,6 +14,7 @@ export function _useForm<T>(param: FormGroupParams<T>): FormGroup<T> {
 
   return form;
 }
+
 function ctrl<T>(
   value: T,
   errorValidators?: CheckFn<T>[],
@@ -31,13 +32,14 @@ function ctrl<T>(
     __config: true,
   };
 }
+
 (_useForm as any).ctrl = ctrl;
 
 interface EventConfig {
   readonly emitEvent: 'default' | 'system' | 'silent';
 }
 
-type Messages<T> = {
+export type Messages<T> = {
   [key in keyof Partial<T>]: {
     [key: string]: string | ((value: T[key]) => string);
   };
@@ -388,8 +390,12 @@ interface FormItemFnParams<T> {
   readonly invalid: boolean;
   readonly valid: boolean;
   readonly warningMessage?: string;
+  readonly withWarnings?: boolean;
+  readonly withoutWarnings?: boolean;
   readonly errorMessage?: string;
 }
+
+export type Control<T> = Omit<Partial<FormItemFnParams<T>>, 'children'>;
 
 export interface FormItemProps<T> {
   readonly name: string;
@@ -442,9 +448,6 @@ class _FormItem<T = any> extends React.Component<FormItemProps<T>> {
           if (errorMessage instanceof Function) {
             errorMessage = errorMessage(control.value);
           }
-
-          console.log(errorMessage, control.currentError);
-
           return children && control
             ? children({
                 onChange: this.onChange.bind(this, control),
@@ -453,6 +456,8 @@ class _FormItem<T = any> extends React.Component<FormItemProps<T>> {
                 untouched: control.untouched,
                 invalid: control.invalid,
                 valid: control.valid,
+                withWarnings: control.withWarnings,
+                withoutWarnings: control.withoutWarnings,
                 errorMessage,
                 warningMessage,
               })
