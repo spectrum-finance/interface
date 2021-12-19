@@ -14,7 +14,7 @@ import { AppLogo } from '../common/AppLogo/AppLogo';
 import { TxHistory } from '../common/TxHistory/TxHistory';
 import { BurgerMenu } from './BurgerMenu/BurgerMenu';
 import { ConnectWallet } from './ConnectWallet/ConnectWallet';
-import { HeaderTabs } from './HeaderTabs';
+import { HeaderTabs } from './HeaderTabs/HeaderTabs';
 import { NetworkDropdown } from './NetworkDropdown/NetworkDropdown';
 
 const networks = [
