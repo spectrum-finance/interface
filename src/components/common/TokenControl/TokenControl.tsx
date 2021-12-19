@@ -198,7 +198,9 @@ export const TokenControlFormItem: FC<NewTokenControlProps> = ({
   const { form } = useFormContext();
   const [balance] = useWalletBalance();
   const [selectedAsset] = useObservable(
-    tokenName ? form.controls[tokenName].valueChanges$ : of(undefined),
+    tokenName
+      ? form.controls[tokenName].valueChangesWithSilent$
+      : of(undefined),
   );
 
   const handleMaxButtonClick = (maxBalance: number) => {
