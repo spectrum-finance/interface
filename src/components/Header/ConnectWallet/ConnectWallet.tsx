@@ -29,7 +29,7 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
     <Box borderRadius="m" padding={[1, 1, 1, 2]}>
       <Flex align="center">
         <Flex.Item marginRight={2}>
-          <Typography.Body style={{ whiteSpace: 'nowrap' }}>
+          <Typography.Body style={{ whiteSpace: 'nowrap', fontSize: '16px' }}>
             {balance ? `${balance} ${currency}` : <LoadingOutlined />}
           </Typography.Body>
         </Flex.Item>
@@ -38,7 +38,7 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
             className="connect-wallet__address-btn"
             onClick={openWalletModal}
             icon={!!numberOfPendingTxs && <LoadingOutlined />}
-            size="middle"
+            size="large"
             type="default"
           >
             {numberOfPendingTxs > 0
