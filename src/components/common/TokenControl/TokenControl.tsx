@@ -4,7 +4,7 @@ import { AssetInfo } from '@ergolabs/ergo-sdk';
 import cn from 'classnames';
 import React, { FC, ReactNode, useContext, useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { Box, Button, Flex, Typography } from '../../../ergodex-cdk';
 import {
@@ -174,6 +174,7 @@ export interface NewTokenControlProps {
   readonly maxButton?: boolean;
   readonly hasBorder?: boolean;
   readonly assets?: AssetInfo[];
+  readonly assets$?: Observable<AssetInfo[]>;
   readonly disabled?: boolean;
   readonly readonly?: boolean | 'asset' | 'amount';
   readonly noBottomInfo?: boolean;
@@ -186,6 +187,7 @@ export const TokenControlFormItem: FC<NewTokenControlProps> = ({
   label,
   maxButton,
   assets,
+  assets$,
   hasBorder,
   disabled,
   readonly,
@@ -260,6 +262,7 @@ export const TokenControlFormItem: FC<NewTokenControlProps> = ({
               <Form.Item name={tokenName}>
                 {({ value, onChange }) => (
                   <TokenSelect
+                    assets$={assets$}
                     assets={assets}
                     readonly={isAssetReadOnly()}
                     value={value}
