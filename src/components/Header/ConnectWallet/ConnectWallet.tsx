@@ -3,7 +3,7 @@ import './ConnectWallet.less';
 import { LoadingOutlined } from '@ant-design/icons';
 import React from 'react';
 
-import { Box, Button, Modal, Space, Typography } from '../../../ergodex-cdk';
+import { Box, Button, Flex, Modal, Typography } from '../../../ergodex-cdk';
 import { getShortAddress } from '../../../utils/string/addres';
 import { ConnectWalletButton } from '../../common/ConnectWalletButton/ConnectWalletButton';
 import { WalletModal } from '../../WalletModal/WalletModal';
@@ -27,22 +27,26 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
 
   const addressButton = (
     <Box borderRadius="m" padding={[1, 1, 1, 2]}>
-      <Space>
-        <Typography.Body style={{ whiteSpace: 'nowrap' }}>
-          {balance ? `${balance} ${currency}` : <LoadingOutlined />}
-        </Typography.Body>
-        <Button
-          className="connect-wallet__address-btn"
-          onClick={openWalletModal}
-          icon={!!numberOfPendingTxs && <LoadingOutlined />}
-          size="middle"
-          type="default"
-        >
-          {numberOfPendingTxs > 0
-            ? `${numberOfPendingTxs} Pending`
-            : addressToRender}
-        </Button>
-      </Space>
+      <Flex align="center">
+        <Flex.Item marginRight={2}>
+          <Typography.Body style={{ whiteSpace: 'nowrap' }}>
+            {balance ? `${balance} ${currency}` : <LoadingOutlined />}
+          </Typography.Body>
+        </Flex.Item>
+        <Flex.Item>
+          <Button
+            className="connect-wallet__address-btn"
+            onClick={openWalletModal}
+            icon={!!numberOfPendingTxs && <LoadingOutlined />}
+            size="middle"
+            type="default"
+          >
+            {numberOfPendingTxs > 0
+              ? `${numberOfPendingTxs} Pending`
+              : addressToRender}
+          </Button>
+        </Flex.Item>
+      </Flex>
     </Box>
   );
 
