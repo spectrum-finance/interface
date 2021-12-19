@@ -31,6 +31,7 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
 
   const overlay = (
     <Menu
+      className="network-dropdown__menu"
       onClick={({ key }) => {
         setNetwork(networks.find((n) => n.name === key) || networks[0]);
         if (onSetNetwork) {
@@ -39,6 +40,9 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
       }}
       style={{ padding: '8px', width: '150px' }}
     >
+      <Typography.Body className="network-dropdown__menu-title" strong>
+        Select Network
+      </Typography.Body>
       {networks.map(({ name, token, isDisabled }) => (
         <Menu.Item key={name} disabled={isDisabled}>
           <Flex
