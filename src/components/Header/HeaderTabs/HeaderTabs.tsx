@@ -1,7 +1,9 @@
+import './HeaderTabs.less';
+
 import React, { useEffect, useState } from 'react';
 import { useHistory, useRouteMatch } from 'react-router-dom';
 
-import { Tabs } from '../../ergodex-cdk';
+import { Tabs } from '../../../ergodex-cdk';
 
 interface MatchParams {
   page: string;
@@ -30,7 +32,7 @@ const HeaderTabs = (): JSX.Element => {
   const onTabClick = (key: string) => history.push(`/${key}`);
 
   return (
-    <div className="header__tabs">
+    <div className="header-tabs">
       <Tabs activeKey={defaultActiveKey} type="card" onChange={onTabClick}>
         <Tabs.TabPane tab="Swap" key="swap" />
         <Tabs.TabPane tab="Pool" key="pool" />

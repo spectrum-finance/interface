@@ -53,19 +53,19 @@ const TxInfoTooltipContent: FC<{ value: SwapFormModel }> = ({ value }) => {
     <Flex direction="col">
       <Flex.Item marginBottom={3}>
         <Flex justify="space-between">
-          <Flex.Item marginRight={6}>Output</Flex.Item>
+          <Flex.Item marginRight={6}>Output:</Flex.Item>
           {output}
         </Flex>
       </Flex.Item>
       <Flex.Item marginBottom={3}>
         <Flex justify="space-between">
-          <Flex.Item marginRight={6}>Slippage tolerance</Flex.Item>
+          <Flex.Item marginRight={6}>Slippage tolerance:</Flex.Item>
           {slippage}%
         </Flex>
       </Flex.Item>
       <Flex.Item>
         <Flex justify="space-between">
-          <Flex.Item marginRight={6}>Total Fees</Flex.Item>
+          <Flex.Item marginRight={6}>Total Fees:</Flex.Item>
           {totalFees} ERG
         </Flex>
       </Flex.Item>
@@ -73,7 +73,11 @@ const TxInfoTooltipContent: FC<{ value: SwapFormModel }> = ({ value }) => {
   );
 };
 
-export const SwapTooltip = ({ form }: { form: FormGroup<SwapFormModel> }) => {
+export const SwapTooltip = ({
+  form,
+}: {
+  form: FormGroup<SwapFormModel>;
+}): JSX.Element => {
   const [value] = useObservable(form.valueChangesWithSilent$, {
     deps: [form],
     defaultValue: form.value,

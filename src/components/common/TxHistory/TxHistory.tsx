@@ -12,7 +12,7 @@ const TxHistory = (): JSX.Element => {
     <Tooltip title="Recent transactions" placement="bottom">
       <Button
         size="large"
-        type="text"
+        type="ghost"
         icon={<HistoryOutlined />}
         onClick={handleOpenTxHistoryModal}
       />

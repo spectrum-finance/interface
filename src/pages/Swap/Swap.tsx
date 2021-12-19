@@ -15,9 +15,7 @@ import {
   map,
   Observable,
   of,
-  Subject,
   switchMap,
-  tap,
 } from 'rxjs';
 
 import { ActionForm } from '../../components/common/ActionForm/ActionForm';
@@ -38,11 +36,7 @@ import { defaultExFee } from '../../constants/settings';
 import { useSettings } from '../../context';
 import { Button, Flex, SwapOutlined, Typography } from '../../ergodex-cdk';
 import { useForm } from '../../ergodex-cdk/components/Form/NewForm';
-import {
-  useObservable,
-  useSubject,
-  useSubscription,
-} from '../../hooks/useObservable';
+import { useSubscription } from '../../hooks/useObservable';
 import { assets$, getAvailableAssetFor } from '../../services/new/assets';
 import { useWalletBalance } from '../../services/new/balance';
 import { getPoolByPair } from '../../services/new/pools';
@@ -107,7 +101,7 @@ const getSelectedPool = (
       )
     : of(undefined);
 
-export const Swap = () => {
+export const Swap = (): JSX.Element => {
   const form = useForm<SwapFormModel>({
     fromAmount: undefined,
     toAmount: undefined,

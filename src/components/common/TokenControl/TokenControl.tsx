@@ -2,8 +2,8 @@ import './TokenControl.less';
 
 import { AssetInfo } from '@ergolabs/ergo-sdk';
 import cn from 'classnames';
-import React, { FC, ReactNode, useContext, useEffect, useState } from 'react';
-import { Trans, useTranslation } from 'react-i18next';
+import React, { FC, ReactNode, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Observable, of } from 'rxjs';
 
 import { Box, Button, Flex, Typography } from '../../../ergodex-cdk';

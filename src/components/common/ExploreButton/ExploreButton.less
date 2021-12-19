@@ -1,4 +1,6 @@
 .explore-button {
+  width: initial;
+  height: initial;
   padding: 0 !important;
   border: 0 !important;
   line-height: 0 !important;
@@ -6,5 +8,14 @@
   &:hover,&:focus {
     background: 0 !important;
     color: var(--ergo-primary-color) !important;
+  }
+
+  &--with-children {
+    display: flex;
+    align-items: center;
+
+    svg {
+      margin-right: 4px;
+    }
   }
 }
