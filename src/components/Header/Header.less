@@ -15,28 +15,24 @@
     flex-direction: row;
     align-items: center;
     padding: 1rem;
-    grid-template-columns: 120px 1fr 120px;
-
-    @media (max-width: 1310px) {
-      grid-template-columns: 120px 1fr 1fr;
-    }
-
-    @media (max-width: 960px) {
-          grid-template-columns: 1fr 1fr;
-    }
+    grid-template-columns: 1fr 1fr;
   }
 
-  .header__tabs {
+  &__left {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-self: flex-start;
 
-    @media (max-width: 960px) {
-      display: none;
+    > *:not(:last-child) {
+      margin-right: 8px;
+    }
+
+    > *:first-child {
+      margin-right: 16px;
     }
   }
 
-  .header__options {
+  &__options {
     display: flex;
     align-items: center;
     justify-self: flex-end;
