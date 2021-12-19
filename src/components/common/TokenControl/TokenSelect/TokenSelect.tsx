@@ -2,6 +2,7 @@ import './TokenSelect.less';
 
 import { AssetInfo } from '@ergolabs/ergo-sdk';
 import React from 'react';
+import { Observable } from 'rxjs';
 
 import {
   Button,
@@ -17,6 +18,7 @@ interface TokenSelectProps {
   readonly value?: AssetInfo | undefined;
   readonly onChange?: (value: AssetInfo) => void;
   readonly assets?: AssetInfo[];
+  readonly assets$?: Observable<AssetInfo[]>;
   readonly disabled?: boolean;
   readonly readonly?: boolean;
 }
@@ -27,6 +29,7 @@ const TokenSelect: React.FC<TokenSelectProps> = ({
   assets,
   disabled,
   readonly,
+  assets$,
 }) => {
   const openTokenModal = () => {
     if (readonly) {
@@ -34,6 +37,7 @@ const TokenSelect: React.FC<TokenSelectProps> = ({
     }
     Modal.open(({ close }) => (
       <TokenListModal
+        assets$={assets$}
         assets={assets}
         close={close}
         onSelectChanged={onChange}
