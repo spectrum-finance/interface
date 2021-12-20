@@ -12,7 +12,7 @@ import {
 } from '../../services/new/core';
 import { AppLogo } from '../common/AppLogo/AppLogo';
 import { TxHistory } from '../common/TxHistory/TxHistory';
-import { AnalyticsData } from './AnalyticsData/AnalyticsData';
+import { AnalyticsDataTag } from './AnalyticsDataTag/AnalyticsDataTag';
 import { BurgerMenu } from './BurgerMenu/BurgerMenu';
 import { ConnectWallet } from './ConnectWallet/ConnectWallet';
 import { HeaderTabs } from './HeaderTabs/HeaderTabs';
@@ -35,7 +35,7 @@ export const Header: React.FC = () => {
         <div className="header__left">
           <AppLogo isNoWording />
           <HeaderTabs />
-          <AnalyticsData />
+          <AnalyticsDataTag />
         </div>
         <div className="header__options">
           <NetworkDropdown networks={networks} />
