@@ -11,6 +11,7 @@ const TxHistory = (): JSX.Element => {
   return (
     <Tooltip title="Recent transactions" placement="bottom">
       <Button
+        className="header__btn"
         size="large"
         type="ghost"
         icon={<HistoryOutlined />}
