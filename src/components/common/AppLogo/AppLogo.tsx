@@ -2,13 +2,20 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { ReactComponent as LogoSVG } from '../../../assets/images/Logo.svg';
+import { ReactComponent as NoWordingLogoSVG } from '../../../assets/images/NoWordingLogo.svg';
 import { Typography } from '../../../ergodex-cdk';
 
-export const AppLogo: React.FC = (): JSX.Element => {
+interface AppLogoProps {
+  isNoWording?: boolean;
+}
+
+export const AppLogo: React.FC<AppLogoProps> = ({
+  isNoWording,
+}): JSX.Element => {
   return (
-    <Link to="/">
+    <Link to="/" style={{ height: '31px' }}>
       <Typography.Body>
-        <LogoSVG />
+        {isNoWording ? <NoWordingLogoSVG /> : <LogoSVG />}
       </Typography.Body>
     </Link>
   );

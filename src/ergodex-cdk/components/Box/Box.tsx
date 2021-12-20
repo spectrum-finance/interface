@@ -18,6 +18,8 @@ interface BoxProps extends React.PropsWithChildren<unknown> {
   overflow?: boolean;
   onClick?: React.MouseEventHandler<HTMLElement>;
   width?: number;
+  tag?: boolean;
+  height?: string;
 }
 
 const Box = ({
@@ -34,6 +36,8 @@ const Box = ({
   maxHeight,
   overflow,
   width,
+  tag,
+  height,
 }: BoxProps): JSX.Element => {
   return (
     <div
@@ -45,6 +49,7 @@ const Box = ({
         transparent && `ergodex-box--transparent`,
         inline && `ergodex-box--inline`,
         formWrapper && `ergodex-box--form-wrapper`,
+        tag && `ergodex-box--tag`,
         className,
       )}
       style={{
@@ -55,6 +60,7 @@ const Box = ({
         maxHeight: `${maxHeight}px`,
         overflow: overflow ? 'auto' : 'none',
         width: width,
+        height: height,
       }}
       onClick={onClick}
     >
