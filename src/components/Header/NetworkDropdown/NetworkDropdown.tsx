@@ -31,14 +31,18 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
 
   const overlay = (
     <Menu
+      className="network-dropdown__menu"
       onClick={({ key }) => {
         setNetwork(networks.find((n) => n.name === key) || networks[0]);
         if (onSetNetwork) {
           onSetNetwork(key);
         }
       }}
-      style={{ padding: '8px', width: '150px' }}
+      style={{ padding: '8px', width: '170px' }}
     >
+      <Typography.Body className="network-dropdown__menu-title" strong>
+        Select Network
+      </Typography.Body>
       {networks.map(({ name, token, isDisabled }) => (
         <Menu.Item key={name} disabled={isDisabled}>
           <Flex
@@ -71,14 +75,15 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
       >
         <Flex justify="center" direction="row" align="center">
           <TokenIcon name={`${network.token}${disabled ? '-disabled' : ''}`} />
-          <Typography.Body
+          <Typography.Text
             style={{
+              fontSize: '16px',
               color: 'var(--ergo-networkdropdown-hover-focus-color)',
               marginLeft: 'calc(var(--ergo-base-gutter) * 2)',
             }}
           >
             {capitalize(network.name)}
-          </Typography.Body>
+          </Typography.Text>
           <DownOutlined
             style={{
               color: 'var(--ergo-networkdropdown-hover-focus-color)',

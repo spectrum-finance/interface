@@ -9,17 +9,9 @@ import {
 import { WalletContextType } from '../../context';
 import { Typography } from '../../ergodex-cdk';
 import { walletCookies } from '../cookies';
-import { isBrave } from '../userAgent';
 
 export const connectYoroiWallet =
   (ctx: WalletContextType) => (): Promise<void | Error> => {
-    if (isBrave()) {
-      walletCookies.removeConnected();
-      return Promise.reject(
-        "Yoroi Nightly extension doesn't support Brave browser yet. Use Google Chrome instead, please.",
-      );
-    }
-
     if (!window.ergo_request_read_access) {
       return Promise.reject(
         <>

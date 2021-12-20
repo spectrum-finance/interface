@@ -5,7 +5,7 @@ import { Integrations } from '@sentry/tracing';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { App } from './App';
+import { ApplicationInitializer } from './App';
 import { reportWebVitals } from './reportWebVitals';
 
 Sentry.init({
@@ -16,7 +16,7 @@ Sentry.init({
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <ApplicationInitializer />
   </React.StrictMode>,
   document.getElementById('root'),
 );

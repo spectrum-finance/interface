@@ -31,10 +31,10 @@ const AddressView: React.FC<AddressViewProps> = ({ address }) => {
       <Flex.Item marginRight={1}>
         <Typography.Text strong>{getShortAddress(address)}</Typography.Text>
       </Flex.Item>
-      <Flex.Item marginRight={1}>
+      <Flex.Item marginRight={1} display="flex">
         <CopyButton text={address} />
       </Flex.Item>
-      <Flex.Item>
+      <Flex.Item display="flex">
         <ExploreButton to={address} />
       </Flex.Item>
     </Flex>

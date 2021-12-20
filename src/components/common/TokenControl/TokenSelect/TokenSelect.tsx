@@ -2,14 +2,15 @@ import './TokenSelect.less';
 
 import { AssetInfo } from '@ergolabs/ergo-sdk';
 import React from 'react';
+import { Observable } from 'rxjs';
 
 import {
   Button,
   DownOutlined,
-  Form,
   Modal,
   Typography,
 } from '../../../../ergodex-cdk';
+import { Form } from '../../../../ergodex-cdk/components/Form/NewForm';
 import { TokenIcon } from '../../../TokenIcon/TokenIcon';
 import { TokenListModal } from './TokenListModal/TokenListModal';
 
@@ -17,6 +18,7 @@ interface TokenSelectProps {
   readonly value?: AssetInfo | undefined;
   readonly onChange?: (value: AssetInfo) => void;
   readonly assets?: AssetInfo[];
+  readonly assets$?: Observable<AssetInfo[]>;
   readonly disabled?: boolean;
   readonly readonly?: boolean;
 }
@@ -27,6 +29,7 @@ const TokenSelect: React.FC<TokenSelectProps> = ({
   assets,
   disabled,
   readonly,
+  assets$,
 }) => {
   const openTokenModal = () => {
     if (readonly) {
@@ -34,6 +37,7 @@ const TokenSelect: React.FC<TokenSelectProps> = ({
     }
     Modal.open(({ close }) => (
       <TokenListModal
+        assets$={assets$}
         assets={assets}
         close={close}
         onSelectChanged={onChange}
@@ -88,7 +92,7 @@ const TokenSelect: React.FC<TokenSelectProps> = ({
 };
 
 interface TokeSelectFormItem extends TokenSelectProps {
-  name?: string;
+  name: string;
 }
 
 const TokeSelectFormItem: React.FC<TokeSelectFormItem> = ({
@@ -96,8 +100,8 @@ const TokeSelectFormItem: React.FC<TokeSelectFormItem> = ({
   ...rest
 }) => {
   return (
-    <Form.Item name={name} className="token-select-form-item">
-      <TokenSelect {...rest} />
+    <Form.Item name={name}>
+      {(params) => <TokenSelect {...{ ...rest, ...params }} />}
     </Form.Item>
   );
 };

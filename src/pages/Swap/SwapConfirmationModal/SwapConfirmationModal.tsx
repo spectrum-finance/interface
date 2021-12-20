@@ -1,4 +1,4 @@
-import { AmmPool, minValueForOrder, swapVars } from '@ergolabs/ergo-dex-sdk';
+import { minValueForOrder, swapVars } from '@ergolabs/ergo-dex-sdk';
 import { SwapExtremums } from '@ergolabs/ergo-dex-sdk/build/main/amm/math/swap';
 import {
   AssetAmount,
@@ -8,22 +8,13 @@ import {
 } from '@ergolabs/ergo-sdk';
 import React, { FC, useEffect, useState } from 'react';
 
-import {
-  TokenControlFormItem,
-  TokenControlValue,
-} from '../../../components/common/TokenControl/TokenControl';
+import { TokenControlFormItem } from '../../../components/common/TokenControl/TokenControl';
 import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
 import { ERG_DECIMALS, UI_FEE } from '../../../constants/erg';
 import { defaultExFee } from '../../../constants/settings';
 import { useSettings } from '../../../context';
-import {
-  Box,
-  Button,
-  Flex,
-  Form,
-  Modal,
-  Typography,
-} from '../../../ergodex-cdk';
+import { Box, Button, Flex, Modal, Typography } from '../../../ergodex-cdk';
+import { Form, useForm } from '../../../ergodex-cdk/components/Form/NewForm';
 import { useObservable } from '../../../hooks/useObservable';
 import { explorer } from '../../../services/explorer';
 import { utxos$ } from '../../../services/new/core';
@@ -39,12 +30,7 @@ import {
   BaseInputParameters,
   getBaseInputParameters,
 } from '../../../utils/walletMath';
-
-interface SwapFormModel {
-  readonly from?: TokenControlValue;
-  readonly to?: TokenControlValue;
-  readonly pool?: AmmPool;
-}
+import { SwapFormModel } from '../SwapModel';
 
 export interface SwapConfirmationModalProps {
   value: SwapFormModel;
@@ -55,7 +41,7 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
   value,
   onClose,
 }) => {
-  const [form] = Form.useForm();
+  const form = useForm<SwapFormModel>(value);
 
   const [{ minerFee, address, slippage, nitro }] = useSettings();
   const [utxos] = useObservable(utxos$);
@@ -77,8 +63,8 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
   const poolId = value.pool?.id;
   const poolFeeNum = value.pool?.poolFeeNum;
 
-  const inputAmount = value.from?.amount?.viewValue;
-  const inputAsset = value.from?.asset;
+  const inputAmount = value.fromAmount?.viewValue;
+  const inputAsset = value.fromAsset;
 
   useEffect(() => {
     if (value.pool && inputAmount && inputAsset) {
@@ -141,13 +127,13 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
       poolId &&
       operationVars &&
       value.pool &&
-      value.from?.amount?.viewValue &&
-      value.from?.asset &&
-      value.to?.asset?.id
+      value.fromAmount?.viewValue &&
+      value.fromAsset &&
+      value.toAsset?.id
     ) {
       const pk = publicKeyFromAddress(address)!;
       const actions = poolActions(value.pool);
-      const quoteAsset = value.to?.asset?.id;
+      const quoteAsset = value.toAsset?.id;
 
       const minNErgs = minValueForOrder(
         minerFeeNErgs,
@@ -194,14 +180,15 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
     <>
       <Modal.Title>Confirm swap</Modal.Title>
       <Modal.Content width={496}>
-        <Form form={form} initialValues={value}>
+        <Form form={form} onSubmit={swapOperation}>
           <Flex direction="col">
             <Flex.Item marginBottom={1}>
               <TokenControlFormItem
                 readonly
                 bordered
                 noBottomInfo
-                name="from"
+                amountName="fromAmount"
+                tokenName="fromAsset"
                 label="From"
               />
             </Flex.Item>
@@ -210,7 +197,8 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
                 readonly
                 bordered
                 noBottomInfo
-                name="to"
+                amountName="toAmount"
+                tokenName="toAsset"
                 label="To"
               />
             </Flex.Item>
@@ -310,12 +298,7 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
               </Box>
             </Flex.Item>
             <Flex.Item>
-              <Button
-                size="extra-large"
-                type="primary"
-                block
-                onClick={swapOperation}
-              >
+              <Button size="extra-large" type="primary" htmlType="submit" block>
                 Confirm swap
               </Button>
             </Flex.Item>

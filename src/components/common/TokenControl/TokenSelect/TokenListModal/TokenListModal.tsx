@@ -2,30 +2,26 @@ import './TokenListModal.less';
 
 import { AssetInfo } from '@ergolabs/ergo-sdk';
 import React, { useState } from 'react';
+import { Observable, of } from 'rxjs';
 
-import {
-  Box,
-  Col,
-  Flex,
-  Input,
-  Modal,
-  Row,
-  SearchOutlined,
-} from '../../../../../ergodex-cdk';
+import { Flex, Input, Modal, SearchOutlined } from '../../../../../ergodex-cdk';
+import { useObservable } from '../../../../../hooks/useObservable';
 import { TokenListItem } from './TokenListItem';
 
 interface TokenListModalProps {
   close: () => void;
   onSelectChanged?: (name: AssetInfo) => void | undefined;
+  readonly assets$?: Observable<AssetInfo[]>;
   readonly assets?: AssetInfo[];
 }
 
 const TokenListModal: React.FC<TokenListModalProps> = ({
   close,
   onSelectChanged,
-  assets,
+  assets$,
 }) => {
   const [searchWords, setSearchWords] = useState('');
+  const [assets] = useObservable(assets$ ?? of([]));
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchWords(e.target.value.toLowerCase());

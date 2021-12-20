@@ -1,54 +1,38 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
-import { AmmPool } from '@ergolabs/ergo-dex-sdk';
 import { swapVars } from '@ergolabs/ergo-dex-sdk/build/main/amm/math/swap';
-import React, { FC, useEffect } from 'react';
-import {
-  distinctUntilChanged,
-  filter,
-  interval,
-  map,
-  mapTo,
-  of,
-  startWith,
-  tap,
-} from 'rxjs';
+import React, { FC } from 'react';
 
-import { TokenControlValue } from '../../../components/common/TokenControl/TokenControl';
 import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
 import { ERG_DECIMALS, MIN_EX_FEE, UI_FEE } from '../../../constants/erg';
 import { defaultExFee } from '../../../constants/settings';
 import { useSettings } from '../../../context';
-import { Flex, FormInstance, Typography } from '../../../ergodex-cdk';
-import { useObservableAction } from '../../../hooks/useObservable';
-import {
-  math,
-  parseUserInputToFractions,
-  renderFractions,
-} from '../../../utils/math';
+import { Flex } from '../../../ergodex-cdk';
+import { FormGroup } from '../../../ergodex-cdk/components/Form/NewForm';
+import { useObservable } from '../../../hooks/useObservable';
+import { renderFractions } from '../../../utils/math';
 import { calculateTotalFee } from '../../../utils/transactions';
 import { getBaseInputParameters } from '../../../utils/walletMath';
-import { renderPrice } from '../Ratio/Ratio';
+import { SwapFormModel } from '../SwapModel';
 
-interface SwapFormModel {
-  readonly from?: TokenControlValue;
-  readonly to?: TokenControlValue;
-  readonly pool?: AmmPool;
-}
-
-const TxInfoTooltipContent: FC<{ form: FormInstance<SwapFormModel> }> = ({
-  form,
-}) => {
-  const { from, pool } = form.getFieldsValue();
+const TxInfoTooltipContent: FC<{ value: SwapFormModel }> = ({ value }) => {
   const [{ slippage, minerFee, nitro }] = useSettings();
-  const swapExtremums = swapVars(
-    MIN_EX_FEE,
-    nitro,
-    getBaseInputParameters(pool!, {
-      inputAmount: from?.amount?.value?.toString()!,
-      inputAsset: from?.asset!,
-      slippage,
-    }).minOutput,
-  );
+
+  const swapExtremums =
+    value.fromAmount?.value &&
+    value.fromAsset &&
+    value.toAmount?.value &&
+    value.toAsset &&
+    value.pool
+      ? swapVars(
+          MIN_EX_FEE,
+          nitro,
+          getBaseInputParameters(value.pool!, {
+            inputAmount: value.fromAmount?.value?.toString()!,
+            inputAsset: value.fromAsset!,
+            slippage,
+          }).minOutput,
+        )
+      : undefined;
 
   const output = swapExtremums
     ? `${renderFractions(
@@ -69,19 +53,19 @@ const TxInfoTooltipContent: FC<{ form: FormInstance<SwapFormModel> }> = ({
     <Flex direction="col">
       <Flex.Item marginBottom={3}>
         <Flex justify="space-between">
-          <Flex.Item marginRight={6}>Output</Flex.Item>
+          <Flex.Item marginRight={6}>Output:</Flex.Item>
           {output}
         </Flex>
       </Flex.Item>
       <Flex.Item marginBottom={3}>
         <Flex justify="space-between">
-          <Flex.Item marginRight={6}>Slippage tolerance</Flex.Item>
+          <Flex.Item marginRight={6}>Slippage tolerance:</Flex.Item>
           {slippage}%
         </Flex>
       </Flex.Item>
       <Flex.Item>
         <Flex justify="space-between">
-          <Flex.Item marginRight={6}>Total Fees</Flex.Item>
+          <Flex.Item marginRight={6}>Total Fees:</Flex.Item>
           {totalFees} ERG
         </Flex>
       </Flex.Item>
@@ -89,40 +73,27 @@ const TxInfoTooltipContent: FC<{ form: FormInstance<SwapFormModel> }> = ({
   );
 };
 
-const calculateInfo = (form: FormInstance<SwapFormModel>) =>
-  interval(100).pipe(
-    startWith(),
-    map(() => form.getFieldsValue()),
-    filter((value) => {
-      return (
-        value.from?.amount?.value &&
-        value.to?.amount?.value &&
-        value.from.asset?.id &&
-        (value.to.asset?.id as any)
-      );
-    }),
-    distinctUntilChanged(
-      (valueA, valueB) =>
-        valueA?.from?.amount?.value === valueB?.from?.amount?.value &&
-        valueA?.to?.amount?.value === valueB?.to?.amount?.value,
-    ),
-    map((value) => {
-      return form;
-    }),
-  );
+export const SwapTooltip = ({
+  form,
+}: {
+  form: FormGroup<SwapFormModel>;
+}): JSX.Element => {
+  const [value] = useObservable(form.valueChangesWithSilent$, {
+    deps: [form],
+    defaultValue: form.value,
+  });
 
-export const SwapTooltip = ({ form }: { form: FormInstance }) => {
-  const [f, updateF] = useObservableAction(calculateInfo, form);
-
-  useEffect(() => {
-    updateF(form);
-  }, [form, updateF]);
-
-  return (
+  return value.pool &&
+    value.toAsset &&
+    value.toAmount?.value &&
+    value.fromAsset &&
+    value.fromAmount?.value ? (
     <InfoTooltip
       className="swap-tooltip"
-      content={<TxInfoTooltipContent form={f} />}
+      content={<TxInfoTooltipContent value={value} />}
       placement="left"
     />
+  ) : (
+    <></>
   );
 };
