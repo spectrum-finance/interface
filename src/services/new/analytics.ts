@@ -46,7 +46,7 @@ export interface AmmAggregatedAnalytics {
 
 export const aggregatedAnalyticsData24H$ = defer(() =>
   from(
-    axios.get('/amm/platform/stats', {
+    axios.get('https://api.ergodex.io/v1/amm/platform/stats', {
       params: {
         from: DateTime.now().startOf('day').minus({ hour: 24 }).toMillis(),
         to: DateTime.now().toMillis(),
