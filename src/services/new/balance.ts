@@ -1,6 +1,7 @@
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import {
   combineLatest,
+  debounceTime,
   map,
   Observable,
   publishReplay,
@@ -55,6 +56,7 @@ export const walletBalance$ = combineLatest([
   utxos$.pipe(switchMap(() => assets$)),
   utxos$.pipe(map((utxos) => Object.values(getListAvailableTokens(utxos)))),
 ]).pipe(
+  debounceTime(200),
   map(([nativeTokenBalance, assets, boxAssets]) =>
     boxAssets
       .map<[bigint, AssetInfo]>((ba) => [
