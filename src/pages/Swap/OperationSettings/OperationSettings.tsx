@@ -47,7 +47,7 @@ const nitroCheck: CheckFn<number> = (value) => {
   return value < MIN_NITRO ? 'minNitro' : undefined;
 };
 
-const TransactionSettings = (): JSX.Element => {
+const OperationSettings = (): JSX.Element => {
   const [settings, setSettings] = useSettings();
   const [isPopoverShown, setIsPopoverShown] = useState(false);
 
@@ -151,4 +151,4 @@ const TransactionSettings = (): JSX.Element => {
   );
 };
 
-export { TransactionSettings };
+export { OperationSettings };
