@@ -1,5 +1,26 @@
 .connect-wallet {
   &__connect-btn {
     width: 175px;
+
+  }
+
+  &__address-btn {
+    height: 32px;
+    padding: 4px 8px;
+    border: 1px solid transparent;
+    background: var(--ergo-connect-wallet-address-btn-bg);
+    color: var(--ergo-connect-wallet-address-btn-color);
+
+    &:hover {
+      border: 1px solid var(--ergo-connect-wallet-address-btn-border-hover);
+      background: var(--ergo-connect-wallet-address-btn-bg);
+      color: var(--ergo-connect-wallet-address-btn-color);
+    }
+
+    &:active, &:focus {
+      border: 1px solid var(--ergo-connect-wallet-address-btn-border-active);
+      background: var(--ergo-connect-wallet-address-btn-bg);
+      color: var(--ergo-connect-wallet-address-btn-color);
+    }
   }
 }

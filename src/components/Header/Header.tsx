@@ -12,9 +12,10 @@ import {
 } from '../../services/new/core';
 import { AppLogo } from '../common/AppLogo/AppLogo';
 import { TxHistory } from '../common/TxHistory/TxHistory';
+import { AnalyticsDataTag } from './AnalyticsDataTag/AnalyticsDataTag';
 import { BurgerMenu } from './BurgerMenu/BurgerMenu';
 import { ConnectWallet } from './ConnectWallet/ConnectWallet';
-import { HeaderTabs } from './HeaderTabs';
+import { HeaderTabs } from './HeaderTabs/HeaderTabs';
 import { NetworkDropdown } from './NetworkDropdown/NetworkDropdown';
 
 const networks = [
@@ -31,8 +32,11 @@ export const Header: React.FC = () => {
   return (
     <header className="header">
       <div className="header__wrapper">
-        <AppLogo />
-        <HeaderTabs />
+        <div className="header__left">
+          <AppLogo isNoWording />
+          <HeaderTabs />
+          <AnalyticsDataTag />
+        </div>
         <div className="header__options">
           <NetworkDropdown networks={networks} />
           <ConnectWallet

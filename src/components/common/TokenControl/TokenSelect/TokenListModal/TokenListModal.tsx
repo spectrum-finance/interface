@@ -4,15 +4,7 @@ import { AssetInfo } from '@ergolabs/ergo-sdk';
 import React, { useState } from 'react';
 import { Observable, of } from 'rxjs';
 
-import {
-  Box,
-  Col,
-  Flex,
-  Input,
-  Modal,
-  Row,
-  SearchOutlined,
-} from '../../../../../ergodex-cdk';
+import { Flex, Input, Modal, SearchOutlined } from '../../../../../ergodex-cdk';
 import { useObservable } from '../../../../../hooks/useObservable';
 import { TokenListItem } from './TokenListItem';
 

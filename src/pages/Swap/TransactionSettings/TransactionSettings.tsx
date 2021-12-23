@@ -1,5 +1,3 @@
-import './TransactionSettings.less';
-
 import React, { useState } from 'react';
 import { filter, skip } from 'rxjs';
 

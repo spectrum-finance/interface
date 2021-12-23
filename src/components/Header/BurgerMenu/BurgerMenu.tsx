@@ -138,7 +138,7 @@ const BurgerMenu = (): JSX.Element => {
       visible={isMenuVisible}
       onVisibleChange={onMenuVisibleChange}
     >
-      <Button size="large" icon={<DotsIcon />} />
+      <Button className="header__btn" size="large" icon={<DotsIcon />} />
     </Dropdown>
   );
 };

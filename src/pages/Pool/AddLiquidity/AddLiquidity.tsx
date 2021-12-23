@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain,react-hooks/exhaustive-deps */
 import './AddLiquidity.less';
 
-import { AmmPool, PoolId } from '@ergolabs/ergo-dex-sdk';
+import { PoolId } from '@ergolabs/ergo-dex-sdk';
 import { AssetAmount } from '@ergolabs/ergo-sdk';
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import { Skeleton } from 'antd';
@@ -12,7 +12,6 @@ import {
   combineLatest,
   debounceTime,
   filter,
-  first,
   map,
   of,
   skip,
