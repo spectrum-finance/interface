@@ -11,6 +11,7 @@ import { reportWebVitals } from './reportWebVitals';
 Sentry.init({
   dsn: process.env.REACT_APP_SENTRY_DSN,
   integrations: [new Integrations.BrowserTracing()],
+  environment: process.env.REACT_APP_SENTRY_ENV_FLAG,
   tracesSampleRate: 1.0,
 });
 
