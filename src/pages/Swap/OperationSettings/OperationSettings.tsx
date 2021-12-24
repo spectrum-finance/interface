@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { filter, skip, tap } from 'rxjs';
+import { filter, skip } from 'rxjs';
 
 import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
 import { MIN_NITRO } from '../../../constants/erg';
+import { defaultSlippage } from '../../../constants/settings';
 import { useSettings } from '../../../context';
 import {
   Box,
@@ -30,6 +31,7 @@ interface SettingsModel {
 const warningMessages: Messages<SettingsModel> = {
   slippage: {
     transactionFrontrun: 'Your transaction may be frontrun',
+    transactionMayFail: 'Your transaction may fail',
   },
 };
 
@@ -43,6 +45,10 @@ const slippageCheck: CheckFn<number> = (value) => {
   return value > 1 ? 'transactionFrontrun' : undefined;
 };
 
+const slippageTxFailCheck: CheckFn<number> = (value) => {
+  return value <= defaultSlippage ? 'transactionMayFail' : undefined;
+};
+
 const nitroCheck: CheckFn<number> = (value) => {
   return value < MIN_NITRO ? 'minNitro' : undefined;
 };
@@ -52,7 +58,11 @@ const OperationSettings = (): JSX.Element => {
   const [isPopoverShown, setIsPopoverShown] = useState(false);
 
   const form = useForm<SettingsModel>({
-    slippage: useForm.ctrl(settings.slippage, [], [slippageCheck]),
+    slippage: useForm.ctrl(
+      settings.slippage,
+      [],
+      [slippageCheck, slippageTxFailCheck],
+    ),
     nitro: useForm.ctrl(settings.nitro, [nitroCheck]),
   });
   const handlePopoverShown = (visible: boolean) => {
