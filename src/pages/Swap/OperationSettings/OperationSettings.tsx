@@ -46,7 +46,7 @@ const slippageCheck: CheckFn<number> = (value) => {
 };
 
 const slippageTxFailCheck: CheckFn<number> = (value) => {
-  return value <= defaultSlippage ? 'transactionMayFail' : undefined;
+  return value < defaultSlippage ? 'transactionMayFail' : undefined;
 };
 
 const nitroCheck: CheckFn<number> = (value) => {
