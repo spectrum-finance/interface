@@ -307,7 +307,11 @@ export const Swap = (): JSX.Element => {
             />
           </Flex.Item>
           <Flex.Item className="swap-button">
-            <Button onClick={swapTokens} icon={<SwapOutlined />} size="large" />
+            <Button
+              onClick={swapTokens}
+              icon={<SwapOutlined />}
+              size="middle"
+            />
           </Flex.Item>
           <Flex.Item marginBottom={4}>
             <TokenControlFormItem
