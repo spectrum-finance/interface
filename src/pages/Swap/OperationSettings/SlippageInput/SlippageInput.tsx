@@ -1,16 +1,22 @@
 import './SlippageInput.less';
 
-import React, { ChangeEvent, FC } from 'react';
+import React, { ChangeEvent, FC, useState } from 'react';
 
 import {
   defaultSlippage,
   SlippageMax,
   SlippageMin,
 } from '../../../../constants/settings';
-import { Button, Flex, Input, Typography } from '../../../../ergodex-cdk';
+import { Alert, Button, Flex, Input } from '../../../../ergodex-cdk';
 import { Control } from '../../../../ergodex-cdk/components/Form/NewForm';
 
 export type NitroInputProps = Control<number>;
+
+const SLIPPAGE_OPTIONS = {
+  '0.1': defaultSlippage,
+  '0.5': 0.5,
+  '1': 1,
+};
 
 export const SlippageInput: FC<NitroInputProps> = ({
   value,
@@ -18,45 +24,74 @@ export const SlippageInput: FC<NitroInputProps> = ({
   warningMessage,
   withWarnings,
 }) => {
+  const [slippageActiveOption, setSlippageActiveOption] = useState<number>(
+    SLIPPAGE_OPTIONS['0.1'],
+  );
+
+  // useEffect(() => {
+  //   if (value) {
+  //     setSlippageActiveOption(value);
+  //   }
+  // }, [value]);
+
+  const handleClickSlippage = (pers: number) => {
+    if (onChange) {
+      onChange(pers);
+      setSlippageActiveOption(pers);
+    }
+  };
+
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (onChange) {
       onChange(e.target.valueAsNumber);
     }
   };
 
-  const handleClickSlippageAuto = () => {
-    if (onChange) {
-      onChange(defaultSlippage);
-    }
+  const handleInputFocus = () => {
+    console.log('focus');
+  };
+
+  const handleInputBlur = () => {
+    console.log('blur');
   };
 
   return (
     <Flex col>
-      <Flex justify="space-between">
-        <Flex.Item marginRight={1}>
-          <Button
-            style={{ width: 47 }}
-            type="primary"
-            size="small"
-            onClick={handleClickSlippageAuto}
-          >
-            Auto
-          </Button>
-        </Flex.Item>
-        <Flex.Item flex={1}>
-          <Input
-            value={value}
-            onChange={handleInputChange}
-            type="number"
-            state={withWarnings ? 'warning' : undefined}
-            min={SlippageMin}
-            max={SlippageMax}
-            size="small"
-            suffix="%"
-          />
-        </Flex.Item>
-      </Flex>
-      <Typography.Body type="warning">{warningMessage}</Typography.Body>
+      <Flex.Item marginBottom={2}>
+        <Flex justify="space-between">
+          {Object.values(SLIPPAGE_OPTIONS)
+            .sort()
+            .map((val, index) => (
+              <Flex.Item key={index} marginRight={1}>
+                <Button
+                  type={val == slippageActiveOption ? 'primary' : 'ghost'}
+                  size="middle"
+                  onClick={() => handleClickSlippage(val)}
+                >
+                  {val} %
+                </Button>
+              </Flex.Item>
+            ))}
+          <Flex.Item>
+            <Input
+              value={value}
+              type="number"
+              placeholder="1"
+              state={withWarnings ? 'warning' : undefined}
+              min={SlippageMin}
+              max={SlippageMax}
+              size="middle"
+              suffix="%"
+              onChange={handleInputChange}
+              onFocus={handleInputFocus}
+              onBlur={handleInputBlur}
+            />
+          </Flex.Item>
+        </Flex>
+      </Flex.Item>
+      {warningMessage && (
+        <Alert showIcon type="warning" message={warningMessage} />
+      )}
     </Flex>
   );
 };
