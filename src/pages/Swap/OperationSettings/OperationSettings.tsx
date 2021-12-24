@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { filter, skip } from 'rxjs';
+import { filter, skip, tap } from 'rxjs';
 
 import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
 import { MIN_NITRO } from '../../../constants/erg';
@@ -70,11 +70,10 @@ const OperationSettings = (): JSX.Element => {
 
   useSubscription(
     form.controls.slippage.valueChanges$.pipe(skip(1), filter(Boolean)),
-    (slippage) =>
-      setSettings({
-        ...settings,
-        slippage: slippage,
-      }),
+    (slippage) => {
+      setSettings({ ...settings, slippage });
+    },
+    [settings],
   );
 
   useSubscription(
@@ -82,11 +81,10 @@ const OperationSettings = (): JSX.Element => {
       skip(1),
       filter((value) => !!value && value >= MIN_NITRO),
     ),
-    (nitro) =>
-      setSettings({
-        ...settings,
-        nitro: nitro,
-      }),
+    (nitro) => {
+      setSettings({ ...settings, nitro });
+    },
+    [settings],
   );
 
   const Setting: JSX.Element = (
