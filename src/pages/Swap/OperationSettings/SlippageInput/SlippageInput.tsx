@@ -1,6 +1,6 @@
 import './SlippageInput.less';
 
-import React, { ChangeEvent, FC, useState } from 'react';
+import React, { ChangeEvent, FC, useEffect, useMemo, useState } from 'react';
 
 import {
   defaultSlippage,
@@ -24,35 +24,32 @@ export const SlippageInput: FC<NitroInputProps> = ({
   warningMessage,
   withWarnings,
 }) => {
-  const [slippageActiveOption, setSlippageActiveOption] = useState<number>(
-    SLIPPAGE_OPTIONS['0.1'],
-  );
+  const [slippageActiveOption, setSlippageActiveOption] = useState<
+    number | undefined
+  >(SLIPPAGE_OPTIONS['0.1']);
 
-  // useEffect(() => {
-  //   if (value) {
-  //     setSlippageActiveOption(value);
-  //   }
-  // }, [value]);
+  const isOneOfDefaultSlippageOptions = useMemo(() => {
+    return Object.values(SLIPPAGE_OPTIONS).some((val) => val === value);
+  }, [value]);
 
-  const handleClickSlippage = (pers: number) => {
+  useEffect(() => {
+    if (value && isOneOfDefaultSlippageOptions) {
+      setSlippageActiveOption(value);
+    }
+  }, [value, isOneOfDefaultSlippageOptions]);
+
+  const handleClickSlippage = (percentage: number) => {
     if (onChange) {
-      onChange(pers);
-      setSlippageActiveOption(pers);
+      onChange(percentage);
+      setSlippageActiveOption(percentage);
     }
   };
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (onChange) {
       onChange(e.target.valueAsNumber);
+      setSlippageActiveOption(undefined);
     }
-  };
-
-  const handleInputFocus = () => {
-    console.log('focus');
-  };
-
-  const handleInputBlur = () => {
-    console.log('blur');
   };
 
   return (
@@ -62,8 +59,9 @@ export const SlippageInput: FC<NitroInputProps> = ({
           {Object.values(SLIPPAGE_OPTIONS)
             .sort()
             .map((val, index) => (
-              <Flex.Item key={index} marginRight={1}>
+              <Flex.Item key={index} marginRight={1} style={{ width: '100%' }}>
                 <Button
+                  block
                   type={val == slippageActiveOption ? 'primary' : 'ghost'}
                   size="middle"
                   onClick={() => handleClickSlippage(val)}
@@ -74,17 +72,18 @@ export const SlippageInput: FC<NitroInputProps> = ({
             ))}
           <Flex.Item>
             <Input
+              className="slippage-input"
+              style={{ width: '72px' }}
               value={value}
-              type="number"
               placeholder="1"
               state={withWarnings ? 'warning' : undefined}
+              type="number"
               min={SlippageMin}
               max={SlippageMax}
               size="middle"
               suffix="%"
+              isActive={!isOneOfDefaultSlippageOptions}
               onChange={handleInputChange}
-              onFocus={handleInputFocus}
-              onBlur={handleInputBlur}
             />
           </Flex.Item>
         </Flex>
