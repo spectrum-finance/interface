@@ -1,6 +1,9 @@
+import './FormPageWrapper.less';
+
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 
+import { ReactComponent as Santa } from '../../assets/images/santa.svg';
 import {
   ArrowLeftOutlined,
   Box,
@@ -47,7 +50,13 @@ const FormPageWrapper: React.FC<FormPageWrapperProps> = ({
           </Flex.Item>
         )}
         <Flex.Item>
-          <Box formWrapper padding={[6, 6]} borderRadius="m">
+          <Box
+            className="ergodex-form-wrapper"
+            formWrapper
+            padding={[6, 6]}
+            borderRadius="m"
+          >
+            <Santa className="santa-icon" />
             {children}
           </Box>
         </Flex.Item>

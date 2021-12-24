@@ -1,8 +1,11 @@
+import './BurgerMenu.less';
+
 import Icon from '@ant-design/icons';
 import React, { useState } from 'react';
 
 import { ReactComponent as DarkModeOutlined } from '../../../assets/icons/darkmode.svg';
 import { ReactComponent as Dots } from '../../../assets/icons/icon-dots.svg';
+import { ReactComponent as Snowman } from '../../../assets/icons/icon-snowman.svg';
 import {
   Button,
   Dropdown,
@@ -15,6 +18,7 @@ import {
   QuestionCircleOutlined,
   SettingOutlined,
 } from '../../../ergodex-cdk';
+import { SnowfallSwitch } from '../../SnowfallSwitch/SnowfallSwitch';
 import { ThemeSwitch } from '../../ThemeSwitch/ThemeSwitch';
 import { GlobalSettingsModal } from '../GlobalSettingsModal/GlobalSettingsModal';
 
@@ -23,18 +27,6 @@ const DotsIcon = () => <Icon component={Dots} />;
 const BurgerMenu = (): JSX.Element => {
   const [isMainMenu, setIsMainMenu] = useState<boolean>(true);
   const [isMenuVisible, setMenuVisible] = useState<boolean>(false);
-
-  const onMenuClicked = (e: { key: string }) => {
-    if (e.key !== '6') {
-      setMenuVisible(false);
-    }
-
-    if (e.key === '7') {
-      setIsMainMenu(false);
-    } else if (e.key === '8') {
-      setIsMainMenu(true);
-    }
-  };
 
   const menu = [
     {
@@ -74,6 +66,11 @@ const BurgerMenu = (): JSX.Element => {
     //   additional: <RightOutlined style={{ marginLeft: 36 }} />,
     // },
     {
+      title: 'Snowfall',
+      icon: <Snowman />,
+      additional: <SnowfallSwitch defaultChecked size="small" />,
+    },
+    {
       title: 'Dark mode',
       icon: <DarkModeOutlined />,
       additional: <ThemeSwitch defaultChecked size="small" />,
@@ -81,24 +78,19 @@ const BurgerMenu = (): JSX.Element => {
   ];
 
   const menuOthers = (
-    <Menu onClick={onMenuClicked} style={{ width: 160 }}>
+    <Menu style={{ width: 160 }}>
       {menu.map((item, index) => (
-        <Menu.Item key={index + 1} icon={item.icon}>
+        <Menu.Item
+          className="ergodex-menu-item"
+          key={index + 1}
+          icon={item.icon}
+        >
           {item.onClick ? (
-            <a
-              rel="noreferrer"
-              style={{ marginRight: '24px' }}
-              onClick={item.onClick}
-            >
+            <a rel="noreferrer" onClick={item.onClick}>
               {item.title}
             </a>
           ) : (
-            <a
-              href={item.link}
-              target="_blank"
-              rel="noreferrer"
-              style={{ marginRight: '24px' }}
-            >
+            <a href={item.link} target="_blank" rel="noreferrer">
               {item.title}
             </a>
           )}
@@ -109,7 +101,7 @@ const BurgerMenu = (): JSX.Element => {
   );
 
   const menuLanguages = (
-    <Menu onClick={onMenuClicked} style={{ width: 160 }}>
+    <Menu style={{ width: 160 }}>
       <Menu.Item key="8" icon={<LeftOutlined />} />
       <Menu.Item key="9">
         <a target="_blank" rel="noopener noreferrer">
