@@ -98,12 +98,15 @@ const OperationSettings = (): JSX.Element => {
         errorMessages={errorMessages}
       >
         <Flex col>
-          <Flex.Item marginBottom={4}>
-            <Typography.Title level={5}>Transaction Settings</Typography.Title>
+          <Flex.Item marginBottom={2}>
+            <Typography.Title level={4}>Transaction Settings</Typography.Title>
           </Flex.Item>
-          <Flex.Item>
-            <Typography.Footnote>Slippage tolerance</Typography.Footnote>
-            <InfoTooltip content="Distinctively monetize cost effective networks for cross-media bandwidth" />
+          <Flex.Item marginBottom={1}>
+            <Typography.Body strong>Slippage tolerance</Typography.Body>
+            <InfoTooltip
+              width={200}
+              content="Your transaction will revert if the price changes unfavorably by more than this percentage"
+            />
           </Flex.Item>
           <Flex.Item marginBottom={2}>
             <Form.Item name="slippage">
@@ -117,9 +120,22 @@ const OperationSettings = (): JSX.Element => {
               )}
             </Form.Item>
           </Flex.Item>
-          <Flex.Item>
-            <Typography.Footnote>Nitro</Typography.Footnote>
-            <InfoTooltip content="Maximum DEX fee multiplier" />
+          <Flex.Item marginBottom={1}>
+            <Typography.Body strong>Nitro</Typography.Body>
+            <InfoTooltip
+              content={
+                <>
+                  Max execution fee multiplier
+                  <br />
+                  <Typography.Link
+                    target="_blank"
+                    href="https://docs.ergodex.io/docs/protocol-overview/fees#execution-fee-formula"
+                  >
+                    Read more
+                  </Typography.Link>
+                </>
+              }
+            />
           </Flex.Item>
           <Flex.Item>
             <Form.Item name="nitro">
