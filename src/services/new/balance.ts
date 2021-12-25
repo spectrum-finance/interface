@@ -18,34 +18,29 @@ import {
 import { fractionsToNum, parseUserInputToFractions } from '../../utils/math';
 import { assets$ } from './assets';
 import { nativeTokenBalance$, utxos$ } from './core';
+import { Currency } from './currency';
 
 const ERGO_ID =
   '0000000000000000000000000000000000000000000000000000000000000000';
 
 export class Balance {
-  private mapTokenIdToBalance = new Map<string, number>();
+  private mapAssetIdToBalance = new Map<string, Currency>();
 
-  constructor(tokens: [bigint, AssetInfo][]) {
-    this.mapTokenIdToBalance = new Map(
-      tokens.map(([amount, info]) => [
+  constructor(assetAmount: [bigint, AssetInfo][]) {
+    this.mapAssetIdToBalance = new Map(
+      assetAmount.map(([amount, info]) => [
         info.id,
-        fractionsToNum(amount, info.decimals),
+        new Currency(amount, info),
       ]),
     );
   }
 
-  get(token: string | AssetInfo) {
-    if (typeof token === 'string') {
-      return this.mapTokenIdToBalance.get(token) || 0;
-    }
-    if (isAsset(token)) {
-      return this.mapTokenIdToBalance.get(token.tokenId) || 0;
-    }
-    return this.mapTokenIdToBalance.get(token.id) || 0;
+  get(asset: AssetInfo): Currency {
+    return this.mapAssetIdToBalance.get(asset.id) || new Currency(0n, asset);
   }
 
   toArray() {
-    return this.mapTokenIdToBalance.entries();
+    return this.mapAssetIdToBalance.entries();
   }
 }
 
@@ -77,11 +72,9 @@ export const useWalletBalance = () =>
     defaultValue: new Balance([]),
   });
 
-export const getBalanceByTokenId = (
-  token: string | AssetInfo,
-): Observable<number> =>
+export const getBalanceByAsset = (asset: AssetInfo): Observable<Currency> =>
   walletBalance$.pipe(
-    map((balance) => balance.get(token)),
+    map((balance) => balance.get(asset)),
     publishReplay(1),
     refCount(),
   );

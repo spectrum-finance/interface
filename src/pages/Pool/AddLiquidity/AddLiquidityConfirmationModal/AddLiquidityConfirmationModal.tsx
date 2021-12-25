@@ -1,6 +1,6 @@
-import { AmmPool, minValueForOrder } from '@ergolabs/ergo-dex-sdk';
+import { minValueForOrder } from '@ergolabs/ergo-dex-sdk';
 import { BoxSelection, DefaultBoxSelector, ErgoTx } from '@ergolabs/ergo-sdk';
-import React from 'react';
+import React, { FC } from 'react';
 
 import { InfoTooltip } from '../../../../components/InfoTooltip/InfoTooltip';
 import { ERG_DECIMALS, UI_FEE } from '../../../../constants/erg';
@@ -9,56 +9,42 @@ import { useSettings } from '../../../../context';
 import { Box, Button, Flex, Modal, Typography } from '../../../../ergodex-cdk';
 import { useObservable } from '../../../../hooks/useObservable';
 import { explorer } from '../../../../services/explorer';
-import { utxos$ } from '../../../../services/new/core';
+import { useTotalFees, utxos$ } from '../../../../services/new/core';
 import { poolActions } from '../../../../services/poolActions';
 import { submitTx } from '../../../../services/yoroi';
 import { makeTarget } from '../../../../utils/ammMath';
 import { parseUserInputToFractions } from '../../../../utils/math';
-import { calculateTotalFee } from '../../../../utils/transactions';
 import { PairSpace } from '../../../Remove/PairSpace/PairSpace';
 import { RemoveFormSpaceWrapper } from '../../../Remove/RemoveFormSpaceWrapper/RemoveFormSpaceWrapper';
+import { AddLiquidityFormModel } from '../FormModel';
 
-interface ConfirmRemoveModalProps {
-  position?: AmmPool;
-  pair: AssetPair;
+interface AddLiquidityConfirmationModalProps {
+  value: Required<AddLiquidityFormModel>;
   onClose: (r: Promise<any>) => void;
 }
 
-const AddLiquidityConfirmationModal: React.FC<ConfirmRemoveModalProps> = ({
-  position,
-  pair,
+const AddLiquidityConfirmationModal: FC<AddLiquidityConfirmationModalProps> = ({
+  value,
   onClose,
 }) => {
   const [{ minerFee, address, pk }] = useSettings();
   const [utxos] = useObservable(utxos$);
+  const totalFees = useTotalFees();
 
   const uiFeeNErg = parseUserInputToFractions(UI_FEE, ERG_DECIMALS);
   const exFeeNErg = parseUserInputToFractions(defaultExFee, ERG_DECIMALS);
   const minerFeeNErgs = parseUserInputToFractions(minerFee, ERG_DECIMALS);
 
-  const totalFees = calculateTotalFee(
-    [minerFee, UI_FEE, defaultExFee],
-    ERG_DECIMALS,
-  );
-
   const addLiquidityOperation = async () => {
-    if (position && pk && address && utxos) {
-      const poolId = position.id;
+    const { pool, yAmount, xAmount } = value;
 
-      const actions = poolActions(position);
+    if (pool && pk && address && utxos) {
+      const poolId = pool.id;
 
-      const inputX = position.x.withAmount(
-        parseUserInputToFractions(
-          String(pair.assetX.amount),
-          position.x.asset.decimals,
-        ),
-      );
-      const inputY = position.y.withAmount(
-        parseUserInputToFractions(
-          String(pair.assetY.amount),
-          position.y.asset.decimals,
-        ),
-      );
+      const actions = poolActions(pool['pool']);
+
+      const inputX = pool['pool'].x.withAmount(xAmount.amount);
+      const inputY = pool['pool'].y.withAmount(yAmount.amount);
 
       const target = makeTarget(
         [inputX, inputY],
@@ -99,7 +85,11 @@ const AddLiquidityConfirmationModal: React.FC<ConfirmRemoveModalProps> = ({
       <Modal.Content width={436}>
         <Flex direction="col">
           <Flex.Item marginBottom={6}>
-            <PairSpace title="Assets" pair={pair} />
+            <PairSpace
+              title="Assets"
+              amountX={value.xAmount}
+              amountY={value.yAmount}
+            />
           </Flex.Item>
           <Flex.Item marginBottom={6}>
             <RemoveFormSpaceWrapper title="Fees">

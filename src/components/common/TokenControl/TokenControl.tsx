@@ -2,7 +2,7 @@ import './TokenControl.less';
 
 import { AssetInfo } from '@ergolabs/ergo-sdk';
 import cn from 'classnames';
-import React, { FC, ReactNode, useEffect } from 'react';
+import React, { FC, ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Observable, of } from 'rxjs';
 
@@ -11,11 +11,9 @@ import {
   Form,
   useFormContext,
 } from '../../../ergodex-cdk/components/Form/NewForm';
-import { useObservable, useSubject } from '../../../hooks/useObservable';
-import {
-  getBalanceByTokenId,
-  useWalletBalance,
-} from '../../../services/new/balance';
+import { useObservable } from '../../../hooks/useObservable';
+import { useWalletBalance } from '../../../services/new/balance';
+import { Currency } from '../../../services/new/currency';
 import {
   TokenAmountInput,
   TokenAmountInputValue,
@@ -39,121 +37,6 @@ export interface TokenControlProps {
   readonly noBottomInfo?: boolean;
   readonly bordered?: boolean;
 }
-
-const getTokenBalanceByTokenName = (tokenName: string | undefined) =>
-  tokenName ? getBalanceByTokenId(tokenName) : of(undefined);
-
-export const TokenControl: FC<TokenControlProps> = ({
-  label,
-  value,
-  onChange,
-  maxButton,
-  assets,
-  hasBorder,
-  disabled,
-  readonly,
-  noBottomInfo,
-  bordered,
-}) => {
-  const { t } = useTranslation();
-  const [balance, updateBalance] = useSubject(getTokenBalanceByTokenName);
-
-  useEffect(() => {
-    if (value?.asset) {
-      updateBalance(value?.asset?.id);
-    } else {
-      updateBalance(undefined);
-    }
-  }, [value, updateBalance]);
-
-  const onAmountChange = (amount: TokenAmountInputValue) => {
-    if (onChange) {
-      onChange({ ...value, amount });
-    }
-  };
-
-  const onTokenChange = (asset: AssetInfo) => {
-    if (onChange) {
-      onChange({ ...value, asset });
-    }
-  };
-
-  const onMaxButtonClick = () => {
-    if (onChange) {
-      onChange({
-        asset: value?.asset,
-        amount: { value: +(balance as any), viewValue: balance?.toString() },
-      });
-    }
-  };
-
-  return (
-    <Box
-      className={cn({
-        'token-control--bordered': bordered,
-        'token-control--has-border': hasBorder,
-      })}
-      padding={4}
-      borderRadius="l"
-      gray
-    >
-      <Flex direction="col">
-        <Flex.Item marginBottom={2}>
-          <Typography.Body type="secondary">{label}</Typography.Body>
-        </Flex.Item>
-
-        <Flex.Item marginBottom={noBottomInfo ? 0 : 2}>
-          <Flex direction="row">
-            <Flex.Item marginRight={2} flex={1}>
-              <TokenAmountInput
-                readonly={!!readonly && readonly !== 'asset'}
-                value={value?.amount}
-                decimals={value?.asset?.decimals}
-                onChange={onAmountChange}
-                disabled={disabled}
-              />
-            </Flex.Item>
-            <Flex.Item>
-              <TokenSelect
-                assets={assets}
-                readonly={!!readonly && readonly !== 'amount'}
-                value={value?.asset}
-                onChange={onTokenChange}
-                disabled={disabled}
-              />
-            </Flex.Item>
-          </Flex>
-        </Flex.Item>
-        {!noBottomInfo && (
-          <Flex
-            direction="row"
-            align="center"
-            className="token-control-bottom-panel"
-          >
-            {balance !== undefined && (
-              <Flex.Item marginRight={2}>
-                <Typography.Body>
-                  {t`common.tokenControl.balanceLabel`} {balance}{' '}
-                  {value?.asset?.name}
-                </Typography.Body>
-              </Flex.Item>
-            )}
-            {balance !== undefined && maxButton && (
-              <Button
-                ghost
-                type="primary"
-                size="small"
-                onClick={onMaxButtonClick}
-              >
-                {t`common.tokenControl.maxButton`}
-              </Button>
-            )}
-          </Flex>
-        )}
-      </Flex>
-    </Box>
-  );
-};
 
 export interface TokenControlFormItemProps {
   readonly name: string;
@@ -203,12 +86,9 @@ export const TokenControlFormItem: FC<NewTokenControlProps> = ({
       : of(undefined),
   );
 
-  const handleMaxButtonClick = (maxBalance: number) => {
+  const handleMaxButtonClick = (maxBalance: Currency) => {
     if (amountName) {
-      form.controls[amountName].patchValue({
-        value: maxBalance,
-        viewValue: maxBalance.toString(),
-      });
+      form.controls[amountName].patchValue(maxBalance);
     }
   };
 
@@ -250,6 +130,7 @@ export const TokenControlFormItem: FC<NewTokenControlProps> = ({
                   <TokenAmountInput
                     readonly={isAmountReadOnly()}
                     value={value}
+                    asset={selectedAsset}
                     onChange={onChange}
                     disabled={disabled}
                   />
@@ -285,7 +166,7 @@ export const TokenControlFormItem: FC<NewTokenControlProps> = ({
             <Flex.Item marginRight={2}>
               <Typography.Body>
                 {t`common.tokenControl.balanceLabel`}{' '}
-                {balance.get(selectedAsset)} {selectedAsset?.name}
+                {balance.get(selectedAsset).toString()}
               </Typography.Body>
             </Flex.Item>
           )}

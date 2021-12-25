@@ -155,11 +155,11 @@ export class FormControl<T> implements AbstractFormItem<T> {
     this.withWarnings = !!this.currentWarning;
     this.withoutWarnings = !this.withWarnings;
     this.emitEvent(config);
+    this.parent.emitEvent();
   }
 
   onChange(value: T): void {
     this.patchValue(value);
-    this.parent.emitEvent();
   }
 
   reset(value: T, config?: EventConfig): void {

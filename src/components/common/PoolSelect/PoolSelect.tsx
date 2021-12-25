@@ -1,6 +1,5 @@
 import './PoolSelect.less';
 
-import { AmmPool } from '@ergolabs/ergo-dex-sdk';
 import { maxBy } from 'lodash';
 import React, { useEffect } from 'react';
 
@@ -12,11 +11,12 @@ import {
   Menu,
   Typography,
 } from '../../../ergodex-cdk';
+import { Pool } from '../../../services/new/pools';
 import { TokenIconPair } from '../../TokenIconPair/TokenIconPair';
 import { FeeTag } from '../FeeTag/FeeTag';
 
 interface PoolOptionProps {
-  position: AmmPool;
+  position: Pool;
 }
 
 const PoolOption: React.FC<PoolOptionProps> = ({ position }) => {
@@ -49,9 +49,9 @@ const PoolOption: React.FC<PoolOptionProps> = ({ position }) => {
 };
 
 interface PoolSelectProps {
-  positions?: AmmPool[];
-  value?: AmmPool;
-  onChange?: (pool: AmmPool) => void;
+  positions?: Pool[];
+  value?: Pool;
+  onChange?: (pool: Pool) => void;
 }
 
 const PoolSelect: React.FC<PoolSelectProps> = ({
@@ -59,7 +59,7 @@ const PoolSelect: React.FC<PoolSelectProps> = ({
   value,
   onChange,
 }) => {
-  const handleChange = (position: AmmPool) => {
+  const handleChange = (position: Pool) => {
     if (onChange) {
       onChange(position);
     }

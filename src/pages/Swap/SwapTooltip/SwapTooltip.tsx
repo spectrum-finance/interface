@@ -18,16 +18,12 @@ const TxInfoTooltipContent: FC<{ value: SwapFormModel }> = ({ value }) => {
   const [{ slippage, minerFee, nitro }] = useSettings();
 
   const swapExtremums =
-    value.fromAmount?.value &&
-    value.fromAsset &&
-    value.toAmount?.value &&
-    value.toAsset &&
-    value.pool
+    value.fromAmount?.isPositive() && value.toAmount?.isPositive() && value.pool
       ? swapVars(
           MIN_EX_FEE,
           nitro,
-          getBaseInputParameters(value.pool!, {
-            inputAmount: value.fromAmount?.value?.toString()!,
+          getBaseInputParameters(value.pool['pool']!, {
+            inputAmount: value.fromAmount?.toString({ suffix: false })!,
             inputAsset: value.fromAsset!,
             slippage,
           }).minOutput,
@@ -85,9 +81,9 @@ export const SwapTooltip = ({
 
   return value.pool &&
     value.toAsset &&
-    value.toAmount?.value &&
+    value.toAmount?.isPositive() &&
     value.fromAsset &&
-    value.fromAmount?.value ? (
+    value.fromAmount?.isPositive() ? (
     <InfoTooltip
       className="swap-tooltip"
       content={<TxInfoTooltipContent value={value} />}

@@ -36,6 +36,22 @@ export class Currency {
     return this._asset;
   }
 
+  fromAmount(amount: bigint | string): Currency {
+    return this.changeAmount(amount);
+  }
+
+  isUnknownAsset(): boolean {
+    return isUnknownAsset(this.asset);
+  }
+
+  isAssetEquals(a: AssetInfo): boolean {
+    return a.id === this.asset.id;
+  }
+
+  isPositive() {
+    return this.amount > 0n;
+  }
+
   changeAmount(amount: bigint | string): Currency {
     return new Currency(amount, this.asset);
   }
@@ -89,8 +105,8 @@ export class Currency {
     return new Currency(this.amount - currency.amount, this.asset);
   }
 
-  toString(config?: { prefix: boolean }): string {
-    if ((!config || !!config?.prefix) && !isUnknownAsset(this.asset)) {
+  toString(config?: { suffix: boolean }): string {
+    if ((!config || !!config?.suffix) && !isUnknownAsset(this.asset)) {
       return `${renderFractions(this.amount, this.asset.decimals)} ${
         this.asset.name
       }`;

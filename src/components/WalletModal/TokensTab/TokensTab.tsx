@@ -6,14 +6,15 @@ import { Flex, List } from '../../../ergodex-cdk';
 import { useObservable } from '../../../hooks/useObservable';
 import { assets$ } from '../../../services/new/assets';
 import { Balance, walletBalance$ } from '../../../services/new/balance';
+import { Currency } from '../../../services/new/currency';
 import { TokenListItem } from './TokenListItem/TokenListItem';
 
 const userAssets$ = combineLatest([assets$, walletBalance$]).pipe(
-  map<[AssetInfo[], Balance], { asset: AssetInfo; balance: number }[]>(
+  map<[AssetInfo[], Balance], { asset: AssetInfo; balance: Currency }[]>(
     ([assets, balance]) =>
       assets
-        .filter((a) => balance.get(a.id) > 0)
-        .map((a) => ({ asset: a, balance: balance.get(a.id) })),
+        .filter((a) => balance.get(a)?.isPositive())
+        .map((a) => ({ asset: a, balance: balance.get(a) })),
   ),
 );
 
