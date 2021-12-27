@@ -46,6 +46,7 @@ interface PoolPositionWrapperProps {
 
 const testPoolIds = [
   'f1fb942ebd039dc782fd9109acdb60aabea4dc7e75e9c813b6528c62692fc781',
+  '65fa572bc4a7007e5a6450c9af2bfa1594e6dfb43b667027f1930eefddeac7bf',
 ];
 
 const isTestPool = (poolId: PoolId) => {
@@ -72,7 +73,7 @@ const PoolPositionMain: React.FC<PoolPositionMainProps> = ({
   const { xPerY, yPerX } = getPoolRatio(pool);
 
   return (
-    <Flex align="center" style={{ minWidth: '400px' }}>
+    <Flex align="center" justify="space-between" style={{ width: '60%' }}>
       <Flex.Item marginRight={2}>
         <Flex col>
           <Flex.Item marginBottom={2}>
@@ -213,11 +214,10 @@ const PoolPosition: React.FC<PoolPositionProps> = ({ pool, onClick }) => {
 
 const LiquidityPositionsList: FC = (): JSX.Element => {
   const history = useHistory();
-
+  const [walletLoading] = useObservable(isWalletLoading$);
   const [pools, loading] = useObservable(availablePools$, {
     defaultValue: [],
   });
-  const [walletLoading] = useObservable(isWalletLoading$);
 
   const onPositionClick = (id: PoolId) => {
     history.push(`/pool/${id}/`);
