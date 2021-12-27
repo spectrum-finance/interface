@@ -3,7 +3,7 @@ import { swapVars } from '@ergolabs/ergo-dex-sdk/build/main/amm/math/swap';
 import React, { FC } from 'react';
 
 import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
-import { ERG_DECIMALS, MIN_EX_FEE, UI_FEE } from '../../../constants/erg';
+import { ERG_DECIMALS, MIN_EX_FEE } from '../../../constants/erg';
 import { defaultExFee } from '../../../constants/settings';
 import { useSettings } from '../../../context';
 import { Flex } from '../../../ergodex-cdk';
@@ -44,10 +44,7 @@ const TxInfoTooltipContent: FC<{ value: SwapFormModel }> = ({ value }) => {
       )} ${swapExtremums[1].minOutput.asset.name}`
     : undefined;
 
-  const totalFees = calculateTotalFee(
-    [minerFee, UI_FEE, defaultExFee],
-    ERG_DECIMALS,
-  );
+  const totalFees = calculateTotalFee([minerFee, defaultExFee], ERG_DECIMALS);
 
   return (
     <Flex direction="col">

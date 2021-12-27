@@ -30,7 +30,6 @@ import {
   ERG_DECIMALS,
   ERG_TOKEN_ID,
   ERG_TOKEN_NAME,
-  UI_FEE,
 } from '../../constants/erg';
 import { defaultExFee } from '../../constants/settings';
 import { useSettings } from '../../context';
@@ -128,7 +127,7 @@ export const Swap = (): JSX.Element => {
     (value: SwapFormModel) => {
       const { fromAmount, fromAsset } = value;
       let totalFees = +calculateTotalFee(
-        [minerFee, UI_FEE, defaultExFee],
+        [minerFee, defaultExFee],
         ERG_DECIMALS,
       );
       totalFees =
