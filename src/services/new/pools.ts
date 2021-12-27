@@ -96,7 +96,6 @@ export const availablePools$: Observable<AmmPool[]> = zip([
   availableNetworkPools$,
 ]).pipe(
   map(([nativePools, pools]) => nativePools.concat(pools)),
-  startWith([]),
   publishReplay(1),
   refCount(),
 );

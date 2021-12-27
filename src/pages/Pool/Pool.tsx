@@ -1,19 +1,61 @@
+import { isEmpty } from 'lodash';
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 
+import { ConnectWalletButton } from '../../components/common/ConnectWalletButton/ConnectWalletButton';
+import { FormPageWrapper } from '../../components/FormPageWrapper/FormPageWrapper';
 import { WalletContext } from '../../context';
-import { Button, Col, PlusOutlined, Row, Typography } from '../../ergodex-cdk';
+import { Button, Flex, PlusOutlined, Typography } from '../../ergodex-cdk';
 import { useObservable } from '../../hooks/useObservable';
+import { isWalletSetuped$ } from '../../services/new/core';
 import { availablePools$ } from '../../services/new/pools';
-import { EmptyPositionsList } from './EmptyPositionsList/EmptyPositionsList';
-import { LiquidityPositionsList } from './LiquidityPositionsList/LiquidityPositionsList';
+import { EmptyPositionsWrapper } from './components/EmptyPositionsWrapper/EmptyPositionsWrapper';
+import { LiquidityPositionsList } from './components/LiquidityPositionsList/LiquidityPositionsList';
+import { PositionListLoader } from './components/PositionListLoader/PositionListLoader';
+
 // import { LPGuide } from './LPGuide/LPGuide';
 
-const Pool = (): JSX.Element => {
-  const { isWalletConnected } = useContext(WalletContext);
+interface PoolPageWrapperProps {
+  children?: React.ReactChild | React.ReactChild[];
+  isWalletConnected: boolean;
+  onClick: () => void;
+}
 
-  const [positions] = useObservable(availablePools$, {
-    defaultValue: [],
+const PoolPageWrapper: React.FC<PoolPageWrapperProps> = ({
+  children,
+  isWalletConnected,
+  onClick,
+}) => {
+  return (
+    <Flex col>
+      <Flex.Item marginBottom={isWalletConnected ? 2 : 0}>
+        <FormPageWrapper
+          width={832}
+          title="Pools overview"
+          bottomChildren={
+            isWalletConnected && (
+              <Button
+                type="primary"
+                size="extra-large"
+                onClick={onClick}
+                icon={<PlusOutlined />}
+                block
+              >
+                Add Position
+              </Button>
+            )
+          }
+        >
+          {children}
+        </FormPageWrapper>
+      </Flex.Item>
+    </Flex>
+  );
+};
+
+const Pool = (): JSX.Element => {
+  const [isWalletConnected] = useObservable(isWalletSetuped$, {
+    defaultValue: false,
   });
 
   const history = useHistory();
@@ -23,42 +65,18 @@ const Pool = (): JSX.Element => {
   }
 
   return (
-    <Row align="middle" justify="center">
-      <Col span={7}>
-        <Row bottomGutter={4}>
-          <Col span={24}>
-            <Typography.Title level={4}>Pools overview</Typography.Title>
-          </Col>
-        </Row>
-        {/*<Row bottomGutter={4}>*/}
-        {/*  <Col span={24}>*/}
-        {/*    <LPGuide />*/}
-        {/*  </Col>*/}
-        {/*</Row>*/}
-        <Row bottomGutter={4}>
-          <Col span={24}>
-            {!isWalletConnected ? (
-              <EmptyPositionsList isWalletConnected={isWalletConnected} />
-            ) : (
-              <LiquidityPositionsList positions={positions} />
-            )}
-          </Col>
-        </Row>
-        <Row>
-          {isWalletConnected && (
-            <Button
-              type="primary"
-              size="extra-large"
-              onClick={handleAddLiquidity}
-              icon={<PlusOutlined />}
-              block
-            >
-              Add Position
-            </Button>
-          )}
-        </Row>
-      </Col>
-    </Row>
+    <PoolPageWrapper
+      isWalletConnected={isWalletConnected}
+      onClick={handleAddLiquidity}
+    >
+      {isWalletConnected ? (
+        <LiquidityPositionsList />
+      ) : (
+        <EmptyPositionsWrapper>
+          <ConnectWalletButton />
+        </EmptyPositionsWrapper>
+      )}
+    </PoolPageWrapper>
   );
 };
 
