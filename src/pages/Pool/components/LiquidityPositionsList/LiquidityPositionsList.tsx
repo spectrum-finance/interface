@@ -29,10 +29,6 @@ import { EmptyPositionsWrapper } from '../EmptyPositionsWrapper/EmptyPositionsWr
 import { PositionListItemLoader } from '../PositionListItemLoader/PositionListItemLoader';
 import { PositionListLoader } from '../PositionListLoader/PositionListLoader';
 
-interface LiquidityPositionsListProps {
-  pools: Array<AmmPool>;
-}
-
 interface PoolPositionProps {
   pool: AmmPool;
   onClick: (poolId: PoolId) => void;
@@ -230,11 +226,11 @@ const LiquidityPositionsList: FC = (): JSX.Element => {
   function handleAddLiquidity() {
     history.push('/pool/add');
   }
-  console.log(walletLoading, loading, pools);
+
   if (walletLoading || loading) {
     return <PositionListLoader />;
   }
-  console.log(walletLoading, loading, pools);
+
   if (isEmpty(pools) && !loading) {
     return (
       <EmptyPositionsWrapper>
