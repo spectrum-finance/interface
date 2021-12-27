@@ -72,13 +72,8 @@ workflows:
       - deploy-to-demo:
           filters:
             branches:
-              ignore: /.*/
-              # only: 
-              #   - demo
-              #   - cicd-piplines
-            tags:
-              only:
-                - /^\d+\.\d+\.\d+$/
+              only: 
+                - demo
       - deploy-to-dev:
           filters:
             branches:
@@ -88,7 +83,7 @@ workflows:
             - hold
           filters:
             branches:
-              only: master
+              ignore: /.*/
             tags: 
               only: 
                 - /^\d+\.\d+\.\d+$/
