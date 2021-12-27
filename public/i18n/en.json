@@ -2,7 +2,7 @@
   "common": {
     "tokenControl": {
       "maxButton": "Max",
-      "balanceLabel": "Balance"
+      "balanceLabel": "Balance:"
     }
   },
   "swap": {

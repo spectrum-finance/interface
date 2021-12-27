@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { GuideBanner } from '../../../components/GuideBanner/GuideBanner';
+import { GuideBanner } from '../../../../components/GuideBanner/GuideBanner';
 
 const LPGuide = (): JSX.Element => {
   return (

@@ -30,7 +30,6 @@ import {
   ERG_DECIMALS,
   ERG_TOKEN_ID,
   ERG_TOKEN_NAME,
-  UI_FEE,
 } from '../../constants/erg';
 import { defaultExFee } from '../../constants/settings';
 import { useSettings } from '../../context';
@@ -42,11 +41,11 @@ import { useWalletBalance } from '../../services/new/balance';
 import { getPoolByPair } from '../../services/new/pools';
 import { fractionsToNum, parseUserInputToFractions } from '../../utils/math';
 import { calculateTotalFee } from '../../utils/transactions';
+import { OperationSettings } from './OperationSettings/OperationSettings';
 import { Ratio } from './Ratio/Ratio';
 import { SwapConfirmationModal } from './SwapConfirmationModal/SwapConfirmationModal';
 import { SwapFormModel } from './SwapModel';
 import { SwapTooltip } from './SwapTooltip/SwapTooltip';
-import { TransactionSettings } from './TransactionSettings/TransactionSettings';
 
 const convertToTo = (
   fromAmount: TokenAmountInputValue | undefined,
@@ -128,7 +127,7 @@ export const Swap = (): JSX.Element => {
     (value: SwapFormModel) => {
       const { fromAmount, fromAsset } = value;
       let totalFees = +calculateTotalFee(
-        [minerFee, UI_FEE, defaultExFee],
+        [minerFee, defaultExFee],
         ERG_DECIMALS,
       );
       totalFees =
@@ -292,7 +291,7 @@ export const Swap = (): JSX.Element => {
             <Flex.Item flex={1}>
               <Typography.Title level={4}>{t`swap.title`}</Typography.Title>
             </Flex.Item>
-            <TransactionSettings />
+            <OperationSettings />
           </Flex>
           <Flex.Item marginBottom={6} marginTop={-1}>
             <Typography.Footnote>{t`swap.subtitle`}</Typography.Footnote>
@@ -307,7 +306,11 @@ export const Swap = (): JSX.Element => {
             />
           </Flex.Item>
           <Flex.Item className="swap-button">
-            <Button onClick={swapTokens} icon={<SwapOutlined />} size="large" />
+            <Button
+              onClick={swapTokens}
+              icon={<SwapOutlined />}
+              size="middle"
+            />
           </Flex.Item>
           <Flex.Item marginBottom={4}>
             <TokenControlFormItem

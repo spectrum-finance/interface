@@ -8,7 +8,7 @@ import React, { FC } from 'react';
 type Align = 'left' | 'right' | 'center';
 
 interface Extensions {
-  Body: FC<{ align?: Align } & TextProps>;
+  Body: FC<{ align?: Align; small?: boolean } & TextProps>;
   Footnote: FC<{ align?: Align; small?: boolean } & TextProps>;
 }
 
@@ -17,10 +17,13 @@ const Typography: typeof BaseTypography & Extensions = BaseTypography as any;
 Typography.Body = ({
   children,
   align,
+  small,
   ...other
 }: TextProps & { align?: Align; small?: boolean }) => (
   <Typography.Text
-    className={`ant-typography-align--${align || 'initial'}`}
+    className={cn(`ant-typography-align--${align || 'initial'}`, {
+      'ant-typography--small': small,
+    })}
     {...other}
   >
     {children}

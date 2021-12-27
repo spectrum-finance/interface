@@ -7,6 +7,7 @@ import { useAppLoadingState, useSettings } from '../../../context';
 import { Modal } from '../../../ergodex-cdk';
 import { useBodyClass } from '../../../hooks/useBodyClass';
 import { Header } from '../../Header/Header';
+import { SocialLinks } from '../../SocialLinks/SocialLinks';
 import { KyaModal } from '../KyaModal/KyaModal';
 
 interface Props {
@@ -32,6 +33,7 @@ const Layout = ({ children }: Props): JSX.Element => {
       {settings.isSnowFallActive && <Snowfall color="rgba(255, 81, 53, 0.5)" />}
       <Header />
       <main>{children}</main>
+      <SocialLinks />
     </div>
   );
 };

@@ -7,6 +7,7 @@ import { FC } from 'react';
 
 export type InputProps = BaseInputProps & {
   state?: 'warning' | 'error';
+  isActive?: boolean;
 };
 
 interface Extension {
@@ -14,13 +15,19 @@ interface Extension {
   Password: typeof BaseInput.Password;
 }
 
-const _Input: FC<InputProps> & Extension = ({ state, className, ...rest }) =>
+const _Input: FC<InputProps> & Extension = ({
+  state,
+  isActive,
+  className,
+  ...rest
+}) =>
   (
     <BaseInput
       {...rest}
       className={cn(className, {
         'ant-input-state--warning': state === 'warning',
         'ant-input-state--error': state === 'error',
+        'ant-input-state--active': isActive,
       })}
     />
   ) as any;
