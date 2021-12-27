@@ -1,7 +1,8 @@
 import './LiquidityPositionsList.less';
 
 import { AmmPool, PoolId } from '@ergolabs/ergo-dex-sdk';
-import React, { useEffect } from 'react';
+import { isEmpty } from 'lodash';
+import React, { FC, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { DataTag } from '../../../../components/common/DataTag/DataTag';
@@ -9,18 +10,24 @@ import { FeeTag } from '../../../../components/common/FeeTag/FeeTag';
 import { TokenIconPair } from '../../../../components/TokenIconPair/TokenIconPair';
 import {
   Box,
+  Button,
   Flex,
+  PlusOutlined,
   Tag,
   Tooltip,
   Typography,
   WarningOutlined,
 } from '../../../../ergodex-cdk';
-import { useSubject } from '../../../../hooks/useObservable';
+import { useObservable, useSubject } from '../../../../hooks/useObservable';
 import { getAggregatedPoolAnalyticsDataById24H } from '../../../../services/new/analytics';
+import { isWalletLoading$ } from '../../../../services/new/core';
+import { availablePools$ } from '../../../../services/new/pools';
 import { formatToUSD } from '../../../../services/number';
 import { renderFractions } from '../../../../utils/math';
 import { getPoolRatio } from '../../../../utils/price';
+import { EmptyPositionsWrapper } from '../EmptyPositionsWrapper/EmptyPositionsWrapper';
 import { PositionListItemLoader } from '../PositionListItemLoader/PositionListItemLoader';
+import { PositionListLoader } from '../PositionListLoader/PositionListLoader';
 
 interface LiquidityPositionsListProps {
   pools: Array<AmmPool>;
@@ -208,27 +215,58 @@ const PoolPosition: React.FC<PoolPositionProps> = ({ pool, onClick }) => {
   );
 };
 
-const LiquidityPositionsList: React.FC<LiquidityPositionsListProps> = ({
-  pools,
-}): JSX.Element => {
+const LiquidityPositionsList: FC = (): JSX.Element => {
   const history = useHistory();
+
+  const [pools, loading] = useObservable(availablePools$, {
+    defaultValue: [],
+  });
+  const [walletLoading] = useObservable(isWalletLoading$);
 
   const onPositionClick = (id: PoolId) => {
     history.push(`/pool/${id}/`);
   };
 
+  function handleAddLiquidity() {
+    history.push('/pool/add');
+  }
+  console.log(walletLoading, loading, pools);
+  if (walletLoading || loading) {
+    return <PositionListLoader />;
+  }
+  console.log(walletLoading, loading, pools);
+  if (isEmpty(pools) && !loading) {
+    return (
+      <EmptyPositionsWrapper>
+        <Button
+          type="primary"
+          size="middle"
+          onClick={handleAddLiquidity}
+          icon={<PlusOutlined />}
+        >
+          Add Position
+        </Button>
+      </EmptyPositionsWrapper>
+    );
+  }
+
   return (
     <Flex col>
-      {pools.map((pool, index) => {
-        return (
-          <Flex.Item
-            key={index}
-            marginBottom={index + 1 === pools.length ? 0 : 2}
-          >
-            <PoolPosition pool={pool} onClick={onPositionClick} />
-          </Flex.Item>
-        );
-      })}
+      <Flex.Item marginBottom={2}>
+        <Typography.Title level={5}>Your positions</Typography.Title>
+      </Flex.Item>
+      <Flex col>
+        {pools.map((pool, index) => {
+          return (
+            <Flex.Item
+              key={index}
+              marginBottom={index + 1 === pools.length ? 0 : 2}
+            >
+              <PoolPosition pool={pool} onClick={onPositionClick} />
+            </Flex.Item>
+          );
+        })}
+      </Flex>
     </Flex>
   );
 };

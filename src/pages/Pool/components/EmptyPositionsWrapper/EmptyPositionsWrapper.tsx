@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { ReactComponent as Empty } from '../../../../assets/icons/empty.svg';
-import { Flex } from '../../../../ergodex-cdk';
+import { Flex, Typography } from '../../../../ergodex-cdk';
 
 interface EmptyPositionsListProps {
   children?: React.ReactChild | React.ReactChild[];
@@ -16,7 +16,9 @@ const EmptyPositionsWrapper: React.FC<EmptyPositionsListProps> = ({
         <Empty />
       </Flex.Item>
       <Flex.Item marginBottom={2}>
-        Your liquidity positions will appear here.
+        <Typography.Body>
+          Your liquidity positions will appear here.
+        </Typography.Body>
       </Flex.Item>
       <Flex.Item>{children}</Flex.Item>
     </Flex>

@@ -7,10 +7,12 @@ import { FormPageWrapper } from '../../components/FormPageWrapper/FormPageWrappe
 import { WalletContext } from '../../context';
 import { Button, Flex, PlusOutlined, Typography } from '../../ergodex-cdk';
 import { useObservable } from '../../hooks/useObservable';
+import { isWalletSetuped$ } from '../../services/new/core';
 import { availablePools$ } from '../../services/new/pools';
 import { EmptyPositionsWrapper } from './components/EmptyPositionsWrapper/EmptyPositionsWrapper';
 import { LiquidityPositionsList } from './components/LiquidityPositionsList/LiquidityPositionsList';
 import { PositionListLoader } from './components/PositionListLoader/PositionListLoader';
+
 // import { LPGuide } from './LPGuide/LPGuide';
 
 interface PoolPageWrapperProps {
@@ -52,10 +54,8 @@ const PoolPageWrapper: React.FC<PoolPageWrapperProps> = ({
 };
 
 const Pool = (): JSX.Element => {
-  const { isWalletConnected } = useContext(WalletContext);
-
-  const [pools, loading] = useObservable(availablePools$, {
-    defaultValue: [],
+  const [isWalletConnected] = useObservable(isWalletSetuped$, {
+    defaultValue: false,
   });
 
   const history = useHistory();
@@ -64,61 +64,18 @@ const Pool = (): JSX.Element => {
     history.push('/pool/add');
   }
 
-  if (loading) {
-    return (
-      <PoolPageWrapper
-        isWalletConnected={isWalletConnected}
-        onClick={handleAddLiquidity}
-      >
-        <PositionListLoader />
-      </PoolPageWrapper>
-    );
-  }
-
-  if (!isWalletConnected) {
-    return (
-      <PoolPageWrapper
-        isWalletConnected={isWalletConnected}
-        onClick={handleAddLiquidity}
-      >
-        <EmptyPositionsWrapper>
-          <ConnectWalletButton />
-        </EmptyPositionsWrapper>
-      </PoolPageWrapper>
-    );
-  }
-
-  if (isEmpty(pools) && !loading) {
-    return (
-      <PoolPageWrapper
-        isWalletConnected={isWalletConnected}
-        onClick={handleAddLiquidity}
-      >
-        <EmptyPositionsWrapper>
-          <Button
-            type="primary"
-            size="middle"
-            onClick={handleAddLiquidity}
-            icon={<PlusOutlined />}
-          >
-            Add Position
-          </Button>
-        </EmptyPositionsWrapper>
-      </PoolPageWrapper>
-    );
-  }
-
   return (
     <PoolPageWrapper
       isWalletConnected={isWalletConnected}
       onClick={handleAddLiquidity}
     >
-      <Flex col>
-        <Flex.Item marginBottom={2}>
-          <Typography.Title level={5}>Your positions</Typography.Title>
-        </Flex.Item>
-        <LiquidityPositionsList pools={pools} />
-      </Flex>
+      {isWalletConnected ? (
+        <LiquidityPositionsList />
+      ) : (
+        <EmptyPositionsWrapper>
+          <ConnectWalletButton />
+        </EmptyPositionsWrapper>
+      )}
     </PoolPageWrapper>
   );
 };
