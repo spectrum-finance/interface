@@ -4,6 +4,7 @@ import React from 'react';
 
 import { ReactComponent as DiscordIcon } from '../../assets/icons/social/Discord.svg';
 import { ReactComponent as MediumIcon } from '../../assets/icons/social/Medium.svg';
+import { ReactComponent as RedditIcon } from '../../assets/icons/social/Reddit.svg';
 import { ReactComponent as TelegramIcon } from '../../assets/icons/social/Telegram.svg';
 import { ReactComponent as TwitterIcon } from '../../assets/icons/social/Twitter.svg';
 
@@ -23,6 +24,10 @@ const channels = [
   {
     url: 'https://ergodex.medium.com/',
     icon: <MediumIcon />,
+  },
+  {
+    url: 'https://www.reddit.com/r/ergodex/',
+    icon: <RedditIcon />,
   },
 ];
 
