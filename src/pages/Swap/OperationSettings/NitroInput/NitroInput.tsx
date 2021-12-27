@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, useEffect, useState } from 'react';
+import React, { ChangeEvent, FC } from 'react';
 
 import { MIN_NITRO } from '../../../../constants/erg';
 import { Alert, Button, Flex, Input } from '../../../../ergodex-cdk';
@@ -12,22 +12,16 @@ export const NitroInput: FC<NitroInputProps> = ({
   errorMessage,
   invalid,
 }) => {
-  const [isMinimumNitro, setIsMinimumNitro] = useState(false);
-
-  useEffect(() => {
-    setIsMinimumNitro(value === MIN_NITRO);
-  }, [value]);
+  const isMinimumNitro = value === MIN_NITRO;
 
   const handleClickNitroAuto = () => {
     if (onChange) {
       onChange(MIN_NITRO);
-      setIsMinimumNitro(true);
     }
   };
 
   const handleNitroChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (onChange) {
-      setIsMinimumNitro(e.target.valueAsNumber === MIN_NITRO);
       onChange(e.target.valueAsNumber);
     }
   };

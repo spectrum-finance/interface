@@ -1,6 +1,6 @@
 import './SlippageInput.less';
 
-import React, { ChangeEvent, FC, useEffect, useMemo, useState } from 'react';
+import React, { ChangeEvent, FC, useState } from 'react';
 
 import {
   defaultSlippage,
@@ -28,15 +28,9 @@ export const SlippageInput: FC<NitroInputProps> = ({
     number | undefined
   >(SLIPPAGE_OPTIONS['0.1']);
 
-  const isOneOfDefaultSlippageOptions = useMemo(() => {
-    return Object.values(SLIPPAGE_OPTIONS).some((val) => val === value);
-  }, [value]);
-
-  useEffect(() => {
-    if (value && isOneOfDefaultSlippageOptions) {
-      setSlippageActiveOption(value);
-    }
-  }, [value, isOneOfDefaultSlippageOptions]);
+  const isOneOfDefaultSlippageOptions = Object.values(SLIPPAGE_OPTIONS).some(
+    (val) => val === value,
+  );
 
   const handleClickSlippage = (percentage: number) => {
     if (onChange) {
