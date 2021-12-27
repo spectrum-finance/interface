@@ -1,6 +1,6 @@
 import './FormPageWrapper.less';
 
-import React from 'react';
+import React, { JSXElementConstructor, ReactElement } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { ReactComponent as Santa } from '../../assets/images/santa.svg';
@@ -17,6 +17,11 @@ interface FormPageWrapperProps {
   title?: string;
   withBackButton?: boolean;
   backTo?: string;
+  bottomChildren?:
+    | ReactElement<any>
+    | JSXElementConstructor<any>
+    | undefined
+    | boolean;
 }
 
 const FormPageWrapper: React.FC<FormPageWrapperProps> = ({
@@ -25,6 +30,7 @@ const FormPageWrapper: React.FC<FormPageWrapperProps> = ({
   title,
   withBackButton,
   backTo,
+  bottomChildren,
 }) => {
   const history = useHistory();
 
@@ -49,7 +55,7 @@ const FormPageWrapper: React.FC<FormPageWrapperProps> = ({
             </Box>
           </Flex.Item>
         )}
-        <Flex.Item>
+        <Flex.Item marginBottom={bottomChildren ? 2 : 0}>
           <Box
             className="ergodex-form-wrapper"
             formWrapper
@@ -60,6 +66,7 @@ const FormPageWrapper: React.FC<FormPageWrapperProps> = ({
             {children}
           </Box>
         </Flex.Item>
+        <Flex.Item>{bottomChildren}</Flex.Item>
       </Flex>
     </Flex>
   );
