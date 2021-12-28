@@ -72,8 +72,10 @@ workflows:
       - deploy-to-demo:
           filters:
             branches:
+              ignore: /.*/
+            tags: 
               only: 
-                - demo
+                - /^\d+\.\d+\.\d+$/
       - deploy-to-dev:
           filters:
             branches:
@@ -84,9 +86,6 @@ workflows:
           filters:
             branches:
               only: master
-            tags: 
-              only: 
-                - /^\d+\.\d+\.\d+$/
-
+            
     
       
