@@ -1,3 +1,27 @@
+# Environments:
+# - local - developer's local machines
+# - dev - dev server for check developer's changes and run case on prod-like environment
+# - test - test server for QA. 
+# - demo - demo stand for pitch and demonstations for funds
+# - production - production. Nuff said
+# Usual Scenario:
+# - making some changes locally 
+# - push it to task-branch | are pre-push hooks needed to make sure that all changes haven't style issues
+# - check that all tests are passed successfully | task-branches. Run only linters and unit to make sure that changes not breaking something
+# - make pull request to demo branch, (comparing changes, merging, etc) | Reviewer checks that all ok and approves PR
+# - Commit to dev sent, changes was shipped to dev server. | run test one more time? 
+# - Changes was checked, nothing broken | -
+# - PR to test. | deploy to test server
+# - PR to master. | Deploy tags only
+# Unusual Scenario:
+# - PR master to demo
+# - Deploy to demo
+# Stages: 
+# - Test and linters | need to make sure that changes ok
+# - Build | Build react project from sources to js+css+html
+# - Deploy | Deploy to destination environment
+# - Security checks. | Need to check npm packages, to escape issues with vulns
+
 version: 2.1
 jobs:
     test-and-lint:
@@ -14,45 +38,9 @@ jobs:
         - run: 
             name: Run Tests
             command: yarn test --passWithNoTests
-    deploy-to-dev:
-      machine:
-        enabled: true
-      steps:
-        - checkout
-        - run:
-            name: Deploy
-            command: ${SERVER_CONNECTION_COMMAND} 'source ~/.nvm/nvm.sh; cd /var/www/builds/front-dev; git pull origin dev; yarn; yarn build;'
-            environment:
-              REACT_APP_SENTRY_DSN: ${REACT_APP_SENTRY_DSN}
-              REACT_APP_SENTRY_ENV_FLAG: 'dev'
-        - run:
-            name: Release
-            command: ${SERVER_CONNECTION_COMMAND} 'cp -r /var/www/builds/front-dev/build/. /var/www/dev0' 
-    deploy-to-prod:
-      machine:
-        enabled: true
-      steps:
-        - checkout
-        - run:
-            name: Deploy to prod
-            command: ${SERVER_CONNECTION_COMMAND} 'source ~/.nvm/nvm.sh; cd /var/www/builds/front; git pull origin master; yarn; yarn build;'
-            environment:
-              REACT_APP_SENTRY_DSN: ${REACT_APP_SENTRY_DSN}
-              REACT_APP_SENTRY_ENV_FLAG: 'production'
-        - run:
-            name: Release
-            command: ${SERVER_CONNECTION_COMMAND} 'cp -r /var/www/builds/front/build/. /var/www/app' 
-    deploy-to-demo:
-      machine:
-        enabled: true
-      steps:
-        - checkout
-        - run:
-            name: Deploy to demo
-            command: ${SERVER_CONNECTION_COMMAND} 'source ~/.nvm/nvm.sh; cd /var/www/builds/demo; git pull origin demo; yarn; yarn build;'
-        - run:
-            name: Release
-            command: ${SERVER_CONNECTION_COMMAND} 'cp -r /var/www/builds/demo/build/. /var/www/demo' 
+        - run: 
+            name: Security Audit
+            command: yarn audit
 workflows:
   version: 2
   preparing:
@@ -65,27 +53,4 @@ workflows:
           filters:
             branches:
               ignore: master
-  deployment:
-    jobs:
-      - hold:
-          type: approval
-      - deploy-to-demo:
-          filters:
-            branches:
-              ignore: /.*/
-            tags: 
-              only: 
-                - /^\d+\.\d+\.\d+$/
-      - deploy-to-dev:
-          filters:
-            branches:
-              only: dev
-      - deploy-to-prod:
-          requires: 
-            - hold
-          filters:
-            branches:
-              only: master
-            
-    
-      
+              
