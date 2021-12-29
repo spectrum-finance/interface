@@ -1,11 +1,9 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 import './Swap.less';
 
-import { AmmPool } from '@ergolabs/ergo-dex-sdk';
-import { AssetAmount } from '@ergolabs/ergo-sdk';
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import { maxBy } from 'lodash';
-import React, { useCallback, useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   BehaviorSubject,
@@ -19,19 +17,13 @@ import {
 } from 'rxjs';
 
 import { ActionForm } from '../../components/common/ActionForm/ActionForm';
-import { TokenAmountInputValue } from '../../components/common/TokenControl/TokenAmountInput/TokenAmountInput';
 import { TokenControlFormItem } from '../../components/common/TokenControl/TokenControl';
 import {
   openConfirmationModal,
   Operation,
 } from '../../components/ConfirmationModal/ConfirmationModal';
 import { FormPageWrapper } from '../../components/FormPageWrapper/FormPageWrapper';
-import {
-  ERG_DECIMALS,
-  ERG_TOKEN_ID,
-  ERG_TOKEN_NAME,
-  UI_FEE,
-} from '../../constants/erg';
+import { ERG_DECIMALS, UI_FEE } from '../../constants/erg';
 import { defaultExFee } from '../../constants/settings';
 import { useSettings } from '../../context';
 import { Button, Flex, SwapOutlined, Typography } from '../../ergodex-cdk';
@@ -39,9 +31,9 @@ import { useForm } from '../../ergodex-cdk/components/Form/NewForm';
 import { useSubscription } from '../../hooks/useObservable';
 import { assets$, getAvailableAssetFor } from '../../services/new/assets';
 import { useWalletBalance } from '../../services/new/balance';
+import { useNetworkAsset, useTotalFees } from '../../services/new/core';
 import { Currency } from '../../services/new/currency';
-import { getPoolByPair, Pool } from '../../services/new/pools';
-import { fractionsToNum, parseUserInputToFractions } from '../../utils/math';
+import { AmmPool, getPoolByPair } from '../../services/new/pools';
 import { calculateTotalFee } from '../../utils/transactions';
 import { Ratio } from './Ratio/Ratio';
 import { SwapConfirmationModal } from './SwapConfirmationModal/SwapConfirmationModal';
@@ -55,7 +47,7 @@ const getToAssets = (fromAsset?: string) =>
 const getSelectedPool = (
   xId?: string,
   yId?: string,
-): Observable<Pool | undefined> =>
+): Observable<AmmPool | undefined> =>
   xId && yId
     ? getPoolByPair(xId, yId).pipe(
         map((pools) => maxBy(pools, (p) => p.lp.amount)),
@@ -66,16 +58,14 @@ export const Swap = (): JSX.Element => {
   const form = useForm<SwapFormModel>({
     fromAmount: undefined,
     toAmount: undefined,
-    fromAsset: {
-      name: 'ERG',
-      id: '0000000000000000000000000000000000000000000000000000000000000000',
-      decimals: ERG_DECIMALS,
-    },
+    fromAsset: undefined,
     toAsset: undefined,
     pool: undefined,
   });
+  const networkAsset = useNetworkAsset();
   const [balance] = useWalletBalance();
   const [{ minerFee }] = useSettings();
+  const totalFees = useTotalFees();
   const updateToAssets$ = useMemo(
     () => new BehaviorSubject<string | undefined>(undefined),
     [],
@@ -85,27 +75,18 @@ export const Swap = (): JSX.Element => {
     [],
   );
 
-  const getInsufficientTokenNameForFee = (value: SwapFormModel) => {
-    const { fromAmount, fromAsset } = value;
-    let totalFees = new Currency(
-      calculateTotalFee([minerFee, UI_FEE, defaultExFee], ERG_DECIMALS),
-      {
-        name: 'ERG',
-        id: '0000000000000000000000000000000000000000000000000000000000000000',
-        decimals: ERG_DECIMALS,
-      },
-    );
-    totalFees =
-      fromAsset?.id === ERG_TOKEN_ID ? totalFees.plus(fromAmount!) : totalFees;
+  useEffect(() => {
+    form.patchValue({ fromAsset: networkAsset });
+  }, [networkAsset]);
 
-    return totalFees.gt(
-      balance.get({
-        name: 'ERG',
-        id: '0000000000000000000000000000000000000000000000000000000000000000',
-        decimals: ERG_DECIMALS,
-      }),
-    )
-      ? ERG_TOKEN_NAME
+  const getInsufficientTokenNameForFee = (value: Required<SwapFormModel>) => {
+    const { fromAmount } = value;
+    const totalFeesWithAmount = fromAmount.isAssetEquals(networkAsset)
+      ? fromAmount.plus(totalFees)
+      : totalFees;
+
+    return totalFeesWithAmount.gt(balance.get(networkAsset))
+      ? networkAsset.name
       : undefined;
   };
 

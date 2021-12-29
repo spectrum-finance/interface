@@ -4,7 +4,7 @@ import './AddLiquidity.less';
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import { Skeleton } from 'antd';
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useParams } from 'react-router';
 import {
   BehaviorSubject,
@@ -35,7 +35,7 @@ import {
 } from '../../../hooks/useObservable';
 import { assets$, getAvailableAssetFor } from '../../../services/new/assets';
 import { useWalletBalance } from '../../../services/new/balance';
-import { useNativeToken, useTotalFees } from '../../../services/new/core';
+import { useNetworkAsset, useTotalFees } from '../../../services/new/core';
 import { getPoolById, getPoolByPair } from '../../../services/new/pools';
 import { AddLiquidityConfirmationModal } from './AddLiquidityConfirmationModal/AddLiquidityConfirmationModal';
 import { AddLiquidityFormModel } from './FormModel';
@@ -50,7 +50,7 @@ const getAvailablePools = (xId?: string, yId?: string) =>
 const AddLiquidity = (): JSX.Element => {
   const [balance] = useWalletBalance();
   const totalFees = useTotalFees();
-  const nativeToken = useNativeToken();
+  const networkAsset = useNetworkAsset();
   const { poolId } = useParams<{ poolId?: PoolId }>();
   const form = useForm<AddLiquidityFormModel>({
     x: undefined,
@@ -69,6 +69,12 @@ const AddLiquidity = (): JSX.Element => {
       map(([x, y]) => !!x && !!y),
     ),
   );
+
+  useEffect(() => {
+    if (!poolId) {
+      form.patchValue({ x: networkAsset });
+    }
+  }, [networkAsset]);
 
   const updateYAssets$ = useMemo(
     () => new BehaviorSubject<string | undefined>(undefined),
@@ -140,12 +146,12 @@ const AddLiquidity = (): JSX.Element => {
   const getInsufficientTokenNameForFee = ({
     xAmount,
   }: Required<AddLiquidityFormModel>): string | undefined => {
-    const totalFeesWithAmount = xAmount.isAssetEquals(nativeToken)
+    const totalFeesWithAmount = xAmount.isAssetEquals(networkAsset)
       ? xAmount.plus(totalFees)
       : totalFees;
 
-    return totalFeesWithAmount.gt(balance.get(nativeToken))
-      ? nativeToken.name
+    return totalFeesWithAmount.gt(balance.get(networkAsset))
+      ? networkAsset.name
       : undefined;
   };
 

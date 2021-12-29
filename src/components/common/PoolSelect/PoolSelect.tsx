@@ -11,12 +11,12 @@ import {
   Menu,
   Typography,
 } from '../../../ergodex-cdk';
-import { Pool } from '../../../services/new/pools';
+import { AmmPool } from '../../../services/new/pools';
 import { TokenIconPair } from '../../TokenIconPair/TokenIconPair';
 import { FeeTag } from '../FeeTag/FeeTag';
 
 interface PoolOptionProps {
-  position: Pool;
+  position: AmmPool;
 }
 
 const PoolOption: React.FC<PoolOptionProps> = ({ position }) => {
@@ -49,9 +49,9 @@ const PoolOption: React.FC<PoolOptionProps> = ({ position }) => {
 };
 
 interface PoolSelectProps {
-  positions?: Pool[];
-  value?: Pool;
-  onChange?: (pool: Pool) => void;
+  positions?: AmmPool[];
+  value?: AmmPool;
+  onChange?: (pool: AmmPool) => void;
 }
 
 const PoolSelect: React.FC<PoolSelectProps> = ({
@@ -59,7 +59,7 @@ const PoolSelect: React.FC<PoolSelectProps> = ({
   value,
   onChange,
 }) => {
-  const handleChange = (position: Pool) => {
+  const handleChange = (position: AmmPool) => {
     if (onChange) {
       onChange(position);
     }

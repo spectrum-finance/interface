@@ -112,32 +112,26 @@ export const getTokenBalance = (tokenId: string): Observable<number> =>
     map((amount) => +renderFractions(amount, ERG_DECIMALS)),
   );
 
-export const nativeToken = {
+export const networkAsset = {
   name: 'ERG',
   id: ERGO_ID,
   decimals: ERG_DECIMALS,
 };
 
-export const nativeToken$: Observable<AssetInfo> = of(nativeToken).pipe(
+export const networkAsset$: Observable<AssetInfo> = of(networkAsset).pipe(
   publishReplay(1),
   refCount(),
 );
 
-export const uiFee$: Observable<Currency> = nativeToken$.pipe(
-  map((nativeToken) => new Currency(UI_FEE.toString(), nativeToken)),
-  publishReplay(1),
-  refCount(),
-);
-
-export const defaultExFee$: Observable<Currency> = nativeToken$.pipe(
+export const defaultExFee$: Observable<Currency> = networkAsset$.pipe(
   map((nativeToken) => new Currency(defaultExFee.toString(), nativeToken)),
   publishReplay(1),
   refCount(),
 );
 
-export const useNativeToken = (): AssetInfo => {
-  const [_nativeToken] = useObservable(nativeToken$, {
-    defaultValue: nativeToken,
+export const useNetworkAsset = (): AssetInfo => {
+  const [_nativeToken] = useObservable(networkAsset$, {
+    defaultValue: networkAsset,
   });
 
   return _nativeToken;
@@ -147,7 +141,7 @@ export const useTotalFees = (): Currency => {
   const [{ minerFee }] = useSettings();
 
   return new Currency(
-    calculateTotalFee([minerFee, UI_FEE, defaultExFee], ERG_DECIMALS),
-    nativeToken,
+    calculateTotalFee([minerFee, defaultExFee], ERG_DECIMALS),
+    networkAsset,
   );
 };

@@ -1,4 +1,4 @@
-import { AmmPool, minValueForOrder } from '@ergolabs/ergo-dex-sdk';
+import { minValueForOrder } from '@ergolabs/ergo-dex-sdk';
 import { BoxSelection, DefaultBoxSelector } from '@ergolabs/ergo-sdk';
 import React, { useCallback } from 'react';
 
@@ -17,7 +17,7 @@ import {
 import { useUTXOs } from '../../../hooks/useUTXOs';
 import { explorer } from '../../../services/explorer';
 import { Currency } from '../../../services/new/currency';
-import { Pool } from '../../../services/new/pools';
+import { AmmPool } from '../../../services/new/pools';
 import { poolActions } from '../../../services/poolActions';
 import { submitTx } from '../../../services/yoroi';
 import { makeTarget } from '../../../utils/ammMath';
@@ -28,7 +28,7 @@ import { RemoveFormSpaceWrapper } from '../RemoveFormSpaceWrapper/RemoveFormSpac
 
 interface ConfirmRemoveModalProps {
   onClose: (p: Promise<any>) => void;
-  pool: Pool;
+  pool: AmmPool;
   lpToRemove: number;
   xAmount: Currency;
   yAmount: Currency;
@@ -53,7 +53,7 @@ const ConfirmRemoveModal: React.FC<ConfirmRemoveModalProps> = ({
     ERG_DECIMALS,
   );
 
-  const removeOperation = async (pool: Pool) => {
+  const removeOperation = async (pool: AmmPool) => {
     const actions = poolActions(pool['pool']);
     const lp = pool['pool'].lp.withAmount(BigInt(lpToRemove.toFixed(0)));
 
@@ -103,8 +103,8 @@ const ConfirmRemoveModal: React.FC<ConfirmRemoveModalProps> = ({
             <Flex.Item marginBottom={6}>
               <PairSpace
                 title="Pooled assets"
-                amountX={xAmount}
-                amountY={yAmount}
+                xAmount={xAmount}
+                yAmount={yAmount}
               />
             </Flex.Item>
             <Flex.Item marginBottom={6}>

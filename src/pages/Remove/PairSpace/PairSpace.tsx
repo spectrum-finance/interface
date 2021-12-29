@@ -7,18 +7,17 @@ import { RemoveFormSpaceWrapper } from '../RemoveFormSpaceWrapper/RemoveFormSpac
 
 interface PairSpaceProps {
   readonly title: string;
-  readonly amountX: Currency;
-  readonly amountY: Currency;
+  readonly xAmount: Currency;
+  readonly yAmount: Currency;
   readonly fees?: boolean;
 }
 
 const PairSpace: React.FC<PairSpaceProps> = ({
   title,
-  amountX,
-  amountY,
+  xAmount,
+  yAmount,
   fees,
 }): JSX.Element => {
-  console.log(amountX, amountY);
   return (
     <RemoveFormSpaceWrapper title={title}>
       <Box contrast padding={4}>
@@ -28,11 +27,11 @@ const PairSpace: React.FC<PairSpaceProps> = ({
               <Flex.Item>
                 <Flex align="center">
                   <Flex.Item marginRight={2}>
-                    <TokenIcon name={amountX.asset.name} />
+                    <TokenIcon name={xAmount.asset.name} />
                   </Flex.Item>
                   <Flex.Item>
                     <Typography.Body strong>
-                      {amountX.asset.name}
+                      {xAmount.asset.name}
                     </Typography.Body>
                   </Flex.Item>
                 </Flex>
@@ -40,7 +39,7 @@ const PairSpace: React.FC<PairSpaceProps> = ({
               <Flex.Item>
                 <Flex>
                   <Typography.Body strong>
-                    {fees ? undefined : amountX.toString({ suffix: false })}
+                    {fees ? undefined : xAmount.toString({ suffix: false })}
                   </Typography.Body>
                 </Flex>
               </Flex.Item>
@@ -51,11 +50,11 @@ const PairSpace: React.FC<PairSpaceProps> = ({
               <Flex.Item>
                 <Flex>
                   <Flex.Item marginRight={2}>
-                    <TokenIcon name={amountY.asset.name} />
+                    <TokenIcon name={yAmount.asset.name} />
                   </Flex.Item>
                   <Flex.Item>
                     <Typography.Body strong>
-                      {amountY.asset.name}
+                      {yAmount.asset.name}
                     </Typography.Body>
                   </Flex.Item>
                 </Flex>
@@ -63,7 +62,7 @@ const PairSpace: React.FC<PairSpaceProps> = ({
               <Flex.Item>
                 <Flex>
                   <Typography.Body strong>
-                    {fees ? undefined : amountY.toString({ suffix: false })}
+                    {fees ? undefined : yAmount.toString({ suffix: false })}
                   </Typography.Body>
                 </Flex>
               </Flex.Item>

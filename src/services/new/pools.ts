@@ -1,5 +1,5 @@
 import {
-  AmmPool,
+  AmmPool as BaseAmmPool,
   makeNativePools,
   makePools,
   NetworkPools,
@@ -39,9 +39,9 @@ const utxosToTokenIds = (utxos: ErgoBox[]): string[] =>
   Object.values(getListAvailableTokens(utxos)).map((token) => token.tokenId);
 
 const filterPoolsByTokenIds = (
-  pools: AmmPool[],
+  pools: BaseAmmPool[],
   tokenIds: string[],
-): AmmPool[] => pools.filter((p) => tokenIds.includes(p.lp.asset.id));
+): BaseAmmPool[] => pools.filter((p) => tokenIds.includes(p.lp.asset.id));
 
 const nativeNetworkPools$ = defer(() =>
   from(nativeNetworkPools().getAll({ limit: 100, offset: 0 })),
@@ -65,7 +65,7 @@ export const pools$ = combineLatest([nativeNetworkPools$, networkPools$]).pipe(
       .concat(networkPools)
       .filter((p) => p.id != BlacklistedPoolId),
   ),
-  map((pools) => pools.map((p) => new Pool(p))),
+  map((pools) => pools.map((p) => new AmmPool(p))),
   publishReplay(1),
   refCount(),
 );
@@ -98,7 +98,7 @@ const availableNetworkPools$ = utxos$.pipe(
   refCount(),
 );
 
-export const availablePools$: Observable<AmmPool[]> = zip([
+export const availablePools$: Observable<BaseAmmPool[]> = zip([
   availableNativeNetworkPools$,
   availableNetworkPools$,
 ]).pipe(
@@ -108,24 +108,29 @@ export const availablePools$: Observable<AmmPool[]> = zip([
   refCount(),
 );
 
-export const getPoolById = (poolId: PoolId): Observable<AmmPool | undefined> =>
+export const getPoolById = (
+  poolId: PoolId,
+): Observable<BaseAmmPool | undefined> =>
   availablePools$.pipe(
     map((pools) => pools.find((position) => position.id === poolId)),
   );
 
-const byPair = (xId: string, yId: string) => (p: Pool) =>
+const byPair = (xId: string, yId: string) => (p: AmmPool) =>
   (p.x.asset.id === xId || p.y.asset.id === xId) &&
   (p.x.asset.id === yId || p.y.asset.id === yId);
 
-export const getPoolByPair = (xId: string, yId: string): Observable<Pool[]> =>
+export const getPoolByPair = (
+  xId: string,
+  yId: string,
+): Observable<AmmPool[]> =>
   pools$.pipe(
     map((pools) => pools.filter(byPair(xId, yId))),
     publishReplay(1),
     refCount(),
   );
 
-export class Pool {
-  constructor(private pool: AmmPool) {}
+export class AmmPool {
+  constructor(private pool: BaseAmmPool) {}
 
   get id(): PoolId {
     return this.pool.id;

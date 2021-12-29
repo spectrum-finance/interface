@@ -11,11 +11,8 @@ import {
 
 import { ERG_DECIMALS } from '../../constants/erg';
 import { useObservable } from '../../hooks/useObservable';
-import {
-  getListAvailableTokens,
-  isAsset,
-} from '../../utils/getListAvailableTokens';
-import { fractionsToNum, parseUserInputToFractions } from '../../utils/math';
+import { getListAvailableTokens } from '../../utils/getListAvailableTokens';
+import { parseUserInputToFractions } from '../../utils/math';
 import { assets$ } from './assets';
 import { nativeTokenBalance$, utxos$ } from './core';
 import { Currency } from './currency';
@@ -39,8 +36,12 @@ export class Balance {
     return this.mapAssetIdToBalance.get(asset.id) || new Currency(0n, asset);
   }
 
-  toArray() {
-    return this.mapAssetIdToBalance.entries();
+  entries() {
+    return Array.from(this.mapAssetIdToBalance.entries());
+  }
+
+  values() {
+    return Array.from(this.mapAssetIdToBalance.values());
   }
 }
 

@@ -87,8 +87,8 @@ const AddLiquidityConfirmationModal: FC<AddLiquidityConfirmationModalProps> = ({
           <Flex.Item marginBottom={6}>
             <PairSpace
               title="Assets"
-              amountX={value.xAmount}
-              amountY={value.yAmount}
+              xAmount={value.xAmount}
+              yAmount={value.yAmount}
             />
           </Flex.Item>
           <Flex.Item marginBottom={6}>

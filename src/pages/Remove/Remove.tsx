@@ -16,7 +16,7 @@ import { Flex, Skeleton, Typography } from '../../ergodex-cdk';
 import { usePair } from '../../hooks/usePair';
 import { usePosition } from '../../hooks/usePosition';
 import { Currency } from '../../services/new/currency';
-import { Pool } from '../../services/new/pools';
+import { AmmPool } from '../../services/new/pools';
 import { parseUserInputToFractions } from '../../utils/math';
 import { ConfirmRemoveModal } from './ConfirmRemoveModal/ConfirmRemoveModal';
 import { PairSpace } from './PairSpace/PairSpace';
@@ -93,7 +93,7 @@ export const Remove = (): JSX.Element => {
               onClose={next}
               xAmount={xAmount}
               yAmount={yAmount}
-              pool={new Pool(position)}
+              pool={new AmmPool(position)}
               lpToRemove={lpToRemove}
             />
           );
@@ -143,13 +143,13 @@ export const Remove = (): JSX.Element => {
             <Flex.Item marginBottom={4}>
               <PairSpace
                 title="Pooled Assets"
-                amountX={
+                xAmount={
                   new Currency(
                     pair.assetX.amount?.toString(),
                     pair.assetX.asset,
                   )
                 }
-                amountY={
+                yAmount={
                   new Currency(
                     pair.assetY.amount?.toString(),
                     pair.assetY.asset,
