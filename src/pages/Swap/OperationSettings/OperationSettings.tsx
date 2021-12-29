@@ -3,6 +3,7 @@ import { filter, skip } from 'rxjs';
 
 import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
 import { MIN_NITRO } from '../../../constants/erg';
+import { defaultSlippage } from '../../../constants/settings';
 import { useSettings } from '../../../context';
 import {
   Box,
@@ -30,6 +31,7 @@ interface SettingsModel {
 const warningMessages: Messages<SettingsModel> = {
   slippage: {
     transactionFrontrun: 'Your transaction may be frontrun',
+    transactionMayFail: 'Your transaction may fail',
   },
 };
 
@@ -43,16 +45,24 @@ const slippageCheck: CheckFn<number> = (value) => {
   return value > 1 ? 'transactionFrontrun' : undefined;
 };
 
+const slippageTxFailCheck: CheckFn<number> = (value) => {
+  return value < defaultSlippage ? 'transactionMayFail' : undefined;
+};
+
 const nitroCheck: CheckFn<number> = (value) => {
   return value < MIN_NITRO ? 'minNitro' : undefined;
 };
 
-const TransactionSettings = (): JSX.Element => {
+const OperationSettings = (): JSX.Element => {
   const [settings, setSettings] = useSettings();
   const [isPopoverShown, setIsPopoverShown] = useState(false);
 
   const form = useForm<SettingsModel>({
-    slippage: useForm.ctrl(settings.slippage, [], [slippageCheck]),
+    slippage: useForm.ctrl(
+      settings.slippage,
+      [],
+      [slippageCheck, slippageTxFailCheck],
+    ),
     nitro: useForm.ctrl(settings.nitro, [nitroCheck]),
   });
   const handlePopoverShown = (visible: boolean) => {
@@ -70,11 +80,10 @@ const TransactionSettings = (): JSX.Element => {
 
   useSubscription(
     form.controls.slippage.valueChanges$.pipe(skip(1), filter(Boolean)),
-    (slippage) =>
-      setSettings({
-        ...settings,
-        slippage: slippage,
-      }),
+    (slippage) => {
+      setSettings({ ...settings, slippage });
+    },
+    [settings],
   );
 
   useSubscription(
@@ -82,11 +91,10 @@ const TransactionSettings = (): JSX.Element => {
       skip(1),
       filter((value) => !!value && value >= MIN_NITRO),
     ),
-    (nitro) =>
-      setSettings({
-        ...settings,
-        nitro: nitro,
-      }),
+    (nitro) => {
+      setSettings({ ...settings, nitro });
+    },
+    [settings],
   );
 
   const Setting: JSX.Element = (
@@ -98,12 +106,15 @@ const TransactionSettings = (): JSX.Element => {
         errorMessages={errorMessages}
       >
         <Flex col>
-          <Flex.Item marginBottom={4}>
-            <Typography.Title level={5}>Transaction Settings</Typography.Title>
+          <Flex.Item marginBottom={2}>
+            <Typography.Title level={4}>Transaction Settings</Typography.Title>
           </Flex.Item>
-          <Flex.Item>
-            <Typography.Footnote>Slippage tolerance</Typography.Footnote>
-            <InfoTooltip content="Distinctively monetize cost effective networks for cross-media bandwidth" />
+          <Flex.Item marginBottom={1}>
+            <Typography.Body strong>Slippage tolerance</Typography.Body>
+            <InfoTooltip
+              width={200}
+              content="Your transaction will revert if the price changes unfavorably by more than this percentage"
+            />
           </Flex.Item>
           <Flex.Item marginBottom={2}>
             <Form.Item name="slippage">
@@ -117,9 +128,22 @@ const TransactionSettings = (): JSX.Element => {
               )}
             </Form.Item>
           </Flex.Item>
-          <Flex.Item>
-            <Typography.Footnote>Nitro</Typography.Footnote>
-            <InfoTooltip content="Maximum DEX fee multiplier" />
+          <Flex.Item marginBottom={1}>
+            <Typography.Body strong>Nitro</Typography.Body>
+            <InfoTooltip
+              content={
+                <>
+                  Max execution fee multiplier
+                  <br />
+                  <Typography.Link
+                    target="_blank"
+                    href="https://docs.ergodex.io/docs/protocol-overview/fees#execution-fee-formula"
+                  >
+                    Read more
+                  </Typography.Link>
+                </>
+              }
+            />
           </Flex.Item>
           <Flex.Item>
             <Form.Item name="nitro">
@@ -151,4 +175,4 @@ const TransactionSettings = (): JSX.Element => {
   );
 };
 
-export { TransactionSettings };
+export { OperationSettings };

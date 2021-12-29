@@ -6,7 +6,7 @@ import React from 'react';
 import { getGutter, Gutter } from '../../utils/gutter';
 
 interface BoxProps extends React.PropsWithChildren<unknown> {
-  borderRadius?: 's' | 'm' | 'l';
+  borderRadius?: 'xs' | 's' | 'm' | 'l';
   contrast?: boolean;
   gray?: boolean;
   transparent?: boolean;

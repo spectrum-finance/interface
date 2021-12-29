@@ -1,5 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import memoizee from 'memoizee';
 import { useEffect, useState } from 'react';
 import { map, Observable, Subject, Subscription, switchMap } from 'rxjs';
 

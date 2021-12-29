@@ -7,6 +7,7 @@ import {
   from,
   interval,
   map,
+  mapTo,
   Observable,
   of,
   publishReplay,
@@ -63,6 +64,7 @@ export const isWalletSetuped$ = walletState$.pipe(
     (state) =>
       state === WalletState.CONNECTED || state === WalletState.CONNECTING,
   ),
+  mapTo(true),
   publishReplay(1),
   refCount(),
 );
