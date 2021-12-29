@@ -23,23 +23,18 @@ import {
   Operation,
 } from '../../components/ConfirmationModal/ConfirmationModal';
 import { FormPageWrapper } from '../../components/FormPageWrapper/FormPageWrapper';
-import { ERG_DECIMALS, UI_FEE } from '../../constants/erg';
-import { defaultExFee } from '../../constants/settings';
-import { useSettings } from '../../context';
 import { Button, Flex, SwapOutlined, Typography } from '../../ergodex-cdk';
 import { useForm } from '../../ergodex-cdk/components/Form/NewForm';
 import { useSubscription } from '../../hooks/useObservable';
 import { assets$, getAvailableAssetFor } from '../../services/new/assets';
 import { useWalletBalance } from '../../services/new/balance';
 import { useNetworkAsset, useTotalFees } from '../../services/new/core';
-import { Currency } from '../../services/new/currency';
 import { AmmPool, getPoolByPair } from '../../services/new/pools';
-import { calculateTotalFee } from '../../utils/transactions';
+import { OperationSettings } from './OperationSettings/OperationSettings';
 import { Ratio } from './Ratio/Ratio';
 import { SwapConfirmationModal } from './SwapConfirmationModal/SwapConfirmationModal';
 import { SwapFormModel } from './SwapModel';
 import { SwapTooltip } from './SwapTooltip/SwapTooltip';
-import { TransactionSettings } from './TransactionSettings/TransactionSettings';
 
 const getToAssets = (fromAsset?: string) =>
   fromAsset ? getAvailableAssetFor(fromAsset) : assets$;
@@ -64,7 +59,6 @@ export const Swap = (): JSX.Element => {
   });
   const networkAsset = useNetworkAsset();
   const [balance] = useWalletBalance();
-  const [{ minerFee }] = useSettings();
   const totalFees = useTotalFees();
   const updateToAssets$ = useMemo(
     () => new BehaviorSubject<string | undefined>(undefined),
@@ -219,7 +213,7 @@ export const Swap = (): JSX.Element => {
             <Flex.Item flex={1}>
               <Typography.Title level={4}>{t`swap.title`}</Typography.Title>
             </Flex.Item>
-            <TransactionSettings />
+            <OperationSettings />
           </Flex>
           <Flex.Item marginBottom={6} marginTop={-1}>
             <Typography.Footnote>{t`swap.subtitle`}</Typography.Footnote>
