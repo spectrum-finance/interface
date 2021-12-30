@@ -48,7 +48,7 @@ export interface AmmAggregatedAnalytics {
 const get24hData = (url: string): Promise<any> => {
   return axios.get(url, {
     params: {
-      from: DateTime.now().startOf('day').toMillis(),
+      from: DateTime.now().minus({ day: 1 }).toMillis(),
     },
   });
 };
