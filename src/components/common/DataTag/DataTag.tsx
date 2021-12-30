@@ -1,14 +1,25 @@
 import React from 'react';
 
-import { Box, Flex, Typography } from '../../../ergodex-cdk';
+import { Box, Flex, Skeleton, Typography } from '../../../ergodex-cdk';
 
 interface DataTagProps {
   content?: number | string;
   contrast?: boolean;
   size?: 'small' | 'middle' | 'large';
+  loading?: boolean;
 }
 
-const DataTag: React.FC<DataTagProps> = ({ content, contrast, size }) => {
+const DataTag: React.FC<DataTagProps> = ({
+  content,
+  contrast,
+  size,
+  loading,
+}) => {
+  if (loading) {
+    const br = size === 'small' ? '4px' : '8px';
+    return <Skeleton.Block style={{ borderRadius: br }} active />;
+  }
+
   if (size === 'small') {
     return (
       <Box contrast={contrast} borderRadius={'xs'} padding={[0, 1]}>
