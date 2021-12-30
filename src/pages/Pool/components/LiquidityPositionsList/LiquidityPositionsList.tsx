@@ -26,7 +26,6 @@ import { formatToUSD } from '../../../../services/number';
 import { renderFractions } from '../../../../utils/math';
 import { getPoolRatio } from '../../../../utils/price';
 import { EmptyPositionsWrapper } from '../EmptyPositionsWrapper/EmptyPositionsWrapper';
-import { PositionListItemLoader } from '../PositionListItemLoader/PositionListItemLoader';
 import { PositionListLoader } from '../PositionListLoader/PositionListLoader';
 
 interface PoolPositionProps {
@@ -57,15 +56,13 @@ const PoolPositionWrapper: React.FC<PoolPositionWrapperProps> = ({
   poolId,
   children,
   onClick,
-}): JSX.Element => {
-  return (
-    <Box className="pool-position" padding={4} borderRadius="m">
-      <Flex onClick={() => onClick(poolId)} align="center">
-        {children}
-      </Flex>
-    </Box>
-  );
-};
+}): JSX.Element => (
+  <Box className="pool-position" padding={4} borderRadius="m">
+    <Flex onClick={() => onClick(poolId)} align="center">
+      {children}
+    </Flex>
+  </Box>
+);
 
 const PoolPositionMain: React.FC<PoolPositionMainProps> = ({
   pool,
@@ -134,7 +131,7 @@ const PoolPositionMain: React.FC<PoolPositionMainProps> = ({
 };
 
 const PoolPosition: React.FC<PoolPositionProps> = ({ pool, onClick }) => {
-  const [positionAnalytics, updatePositionAnalytics] = useSubject(
+  const [positionAnalytics, updatePositionAnalytics, loading] = useSubject(
     getAggregatedPoolAnalyticsDataById24H,
   );
 
@@ -151,64 +148,73 @@ const PoolPosition: React.FC<PoolPositionProps> = ({ pool, onClick }) => {
   }
 
   return (
-    <>
-      {positionAnalytics ? (
-        <PoolPositionWrapper poolId={pool.id} onClick={onClick}>
-          <PoolPositionMain pool={pool} />
-          <Flex.Item grow>
-            <Flex justify="space-between">
-              <Flex.Item>
-                <Flex col justify="space-between">
-                  <Flex.Item marginBottom={1}>
-                    <Typography.Footnote>TVL</Typography.Footnote>
-                  </Flex.Item>
-                  <DataTag
-                    size="large"
-                    content={formatToUSD(
-                      renderFractions(
-                        positionAnalytics?.tvl.value,
-                        positionAnalytics?.tvl.units.currency.decimals,
-                      ),
-                      'abbr',
-                    )}
-                  />
-                </Flex>
+    <PoolPositionWrapper poolId={pool.id} onClick={onClick}>
+      <PoolPositionMain pool={pool} />
+      <Flex.Item grow>
+        <Flex justify="space-between">
+          <Flex.Item>
+            <Flex col justify="space-between">
+              <Flex.Item marginBottom={1}>
+                <Typography.Footnote>TVL</Typography.Footnote>
               </Flex.Item>
-              <Flex.Item>
-                <Flex col justify="space-between">
-                  <Flex.Item marginBottom={1}>
-                    <Typography.Footnote>Volume 24H</Typography.Footnote>
-                  </Flex.Item>
-                  <DataTag
-                    size="large"
-                    content={formatToUSD(
-                      renderFractions(
-                        positionAnalytics?.volume.value,
-                        positionAnalytics?.volume.units.currency.decimals,
-                      ),
-                      'abbr',
-                    )}
-                  />
-                </Flex>
-              </Flex.Item>
-              <Flex.Item>
-                <Flex col justify="space-between">
-                  <Flex.Item marginBottom={1}>
-                    <Typography.Footnote>Yearly Fees</Typography.Footnote>
-                  </Flex.Item>
-                  <DataTag
-                    size="large"
-                    content={`${positionAnalytics.yearlyFeesPercent}%`}
-                  />
-                </Flex>
-              </Flex.Item>
+              <DataTag
+                loading={loading}
+                size="large"
+                content={
+                  positionAnalytics
+                    ? formatToUSD(
+                        renderFractions(
+                          positionAnalytics?.tvl.value,
+                          positionAnalytics?.tvl.units.currency.decimals,
+                        ),
+                        'abbr',
+                      )
+                    : '-'
+                }
+              />
             </Flex>
           </Flex.Item>
-        </PoolPositionWrapper>
-      ) : (
-        <PositionListItemLoader />
-      )}
-    </>
+          <Flex.Item>
+            <Flex col justify="space-between">
+              <Flex.Item marginBottom={1}>
+                <Typography.Footnote>Volume 24H</Typography.Footnote>
+              </Flex.Item>
+              <DataTag
+                loading={loading}
+                size="large"
+                content={
+                  positionAnalytics
+                    ? formatToUSD(
+                        renderFractions(
+                          positionAnalytics?.volume.value,
+                          positionAnalytics?.volume.units.currency.decimals,
+                        ),
+                        'abbr',
+                      )
+                    : '-'
+                }
+              />
+            </Flex>
+          </Flex.Item>
+          <Flex.Item>
+            <Flex col justify="space-between">
+              <Flex.Item marginBottom={1}>
+                <Typography.Footnote>Yearly Fees</Typography.Footnote>
+              </Flex.Item>
+              <DataTag
+                loading={loading}
+                size="large"
+                content={
+                  positionAnalytics
+                    ? `${positionAnalytics.yearlyFeesPercent}%`
+                    : `-`
+                }
+              />
+            </Flex>
+          </Flex.Item>
+        </Flex>
+      </Flex.Item>
+    </PoolPositionWrapper>
   );
 };
 
