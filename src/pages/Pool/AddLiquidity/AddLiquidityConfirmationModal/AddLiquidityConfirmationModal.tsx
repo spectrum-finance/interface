@@ -123,6 +123,12 @@ const AddLiquidityConfirmationModal: React.FC<ConfirmRemoveModalProps> = ({
                               <Flex.Item>{defaultExFee} ERG</Flex.Item>
                             </Flex>
                           </Flex.Item>
+                          <Flex.Item>
+                            <Flex justify="space-between">
+                              <Flex.Item>UI Fee:</Flex.Item>
+                              <Flex.Item>{UI_FEE} ERG</Flex.Item>
+                            </Flex>
+                          </Flex.Item>
                         </Flex>
                       }
                     />
