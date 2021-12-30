@@ -1,8 +1,8 @@
 import { AssetInfo } from '@ergolabs/ergo-sdk';
 import React, { useEffect } from 'react';
 
+import { Currency } from '../../../../common/models/Currency';
 import { Box, Flex, Typography } from '../../../../ergodex-cdk';
-import { Currency } from '../../../../services/new/currency';
 import { TokenIcon } from '../../../TokenIcon/TokenIcon';
 
 interface TokenListItemProps {

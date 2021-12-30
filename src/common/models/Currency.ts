@@ -1,6 +1,11 @@
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 
-import { parseUserInputToFractions, renderFractions } from '../../utils/math';
+import {
+  math,
+  parseUserInputToFractions,
+  renderFractions,
+} from '../../utils/math';
+import { getDecimalsCount, normalizeAmount } from '../utils/amount';
 
 const createUnknownAsset = (decimals = 0) => ({
   id: '-1',
@@ -127,7 +132,7 @@ export class Currency {
   }
 
   private checkAmountErrors(amount: string, asset: AssetInfo): void {
-    const decimalsCount = this.getDecimalsCount(amount);
+    const decimalsCount = getDecimalsCount(amount);
 
     if (isUnknownAsset(asset)) {
       this._asset = createUnknownAsset(decimalsCount);
@@ -138,30 +143,13 @@ export class Currency {
     }
   }
 
-  private getDecimalsCount(amount: string) {
-    const decimals = amount.split('.')[1];
-
-    if (decimals) {
-      return decimals.length;
-    }
-    return 0;
-  }
-
   private normalizeAmount(
     amount: bigint,
     currentAsset: AssetInfo,
     newAsset: AssetInfo,
   ): string {
     const amountString = renderFractions(amount, currentAsset.decimals);
-    const currentDecimalsCount = this.getDecimalsCount(amountString);
 
-    if (currentDecimalsCount <= (newAsset.decimals || 0)) {
-      return amountString;
-    }
-
-    return amountString.slice(
-      0,
-      amountString.length - currentDecimalsCount + (newAsset.decimals || 0),
-    );
+    return normalizeAmount(amountString, newAsset);
   }
 }

@@ -5,6 +5,8 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 
 import { AssetPair } from '../../@types/asset';
+import { AmmPool } from '../../common/models/AmmPool';
+import { Currency } from '../../common/models/Currency';
 import {
   openConfirmationModal,
   Operation,
@@ -15,8 +17,6 @@ import { TokenIconPair } from '../../components/TokenIconPair/TokenIconPair';
 import { Flex, Skeleton, Typography } from '../../ergodex-cdk';
 import { usePair } from '../../hooks/usePair';
 import { usePosition } from '../../hooks/usePosition';
-import { Currency } from '../../services/new/currency';
-import { AmmPool } from '../../services/new/pools';
 import { parseUserInputToFractions } from '../../utils/math';
 import { ConfirmRemoveModal } from './ConfirmRemoveModal/ConfirmRemoveModal';
 import { PairSpace } from './PairSpace/PairSpace';

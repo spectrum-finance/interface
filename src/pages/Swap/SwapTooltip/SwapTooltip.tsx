@@ -12,7 +12,7 @@ import { useObservable } from '../../../hooks/useObservable';
 import { renderFractions } from '../../../utils/math';
 import { calculateTotalFee } from '../../../utils/transactions';
 import { getBaseInputParameters } from '../../../utils/walletMath';
-import { SwapFormModel } from '../SwapModel';
+import { SwapFormModel } from '../SwapFormModel';
 
 const TxInfoTooltipContent: FC<{ value: SwapFormModel }> = ({ value }) => {
   const [{ slippage, minerFee, nitro }] = useSettings();

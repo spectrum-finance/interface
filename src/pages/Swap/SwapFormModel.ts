@@ -1,7 +1,7 @@
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 
-import { Currency } from '../../services/new/currency';
-import { AmmPool } from '../../services/new/pools';
+import { AmmPool } from '../../common/models/AmmPool';
+import { Currency } from '../../common/models/Currency';
 
 export interface SwapFormModel {
   readonly fromAmount?: Currency;

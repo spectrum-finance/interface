@@ -1,9 +1,9 @@
 import { TxId } from '@ergolabs/ergo-sdk';
 import React, { ReactNode } from 'react';
 
+import { Currency } from '../../common/models/Currency';
 import { Flex, Modal, Typography } from '../../ergodex-cdk';
 import { RequestProps } from '../../ergodex-cdk/components/Modal/presets/Request';
-import { Currency } from '../../services/new/currency';
 import { renderFractions } from '../../utils/math';
 import { exploreTx } from '../../utils/redirect';
 

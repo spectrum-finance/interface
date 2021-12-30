@@ -16,6 +16,7 @@ import {
   switchMap,
 } from 'rxjs';
 
+import { AmmPool } from '../../common/models/AmmPool';
 import { ActionForm } from '../../components/common/ActionForm/ActionForm';
 import { TokenControlFormItem } from '../../components/common/TokenControl/TokenControl';
 import {
@@ -29,11 +30,11 @@ import { useSubscription } from '../../hooks/useObservable';
 import { assets$, getAvailableAssetFor } from '../../services/new/assets';
 import { useWalletBalance } from '../../services/new/balance';
 import { useNetworkAsset, useTotalFees } from '../../services/new/core';
-import { AmmPool, getPoolByPair } from '../../services/new/pools';
+import { getPoolByPair } from '../../services/new/pools';
 import { OperationSettings } from './OperationSettings/OperationSettings';
-import { Ratio } from './Ratio/Ratio';
+import { PriceIndicator } from './PriceIndicator/PriceIndicator';
 import { SwapConfirmationModal } from './SwapConfirmationModal/SwapConfirmationModal';
-import { SwapFormModel } from './SwapModel';
+import { SwapFormModel } from './SwapFormModel';
 import { SwapTooltip } from './SwapTooltip/SwapTooltip';
 
 const getToAssets = (fromAsset?: string) =>
@@ -243,7 +244,7 @@ export const Swap = (): JSX.Element => {
               <SwapTooltip form={form} />
             </Flex.Item>
             <Flex.Item flex={1}>
-              <Ratio form={form} />
+              <PriceIndicator form={form} />
             </Flex.Item>
           </Flex>
         </Flex>

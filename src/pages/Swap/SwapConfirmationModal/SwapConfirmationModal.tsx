@@ -30,7 +30,7 @@ import {
   BaseInputParameters,
   getBaseInputParameters,
 } from '../../../utils/walletMath';
-import { SwapFormModel } from '../SwapModel';
+import { SwapFormModel } from '../SwapFormModel';
 
 export interface SwapConfirmationModalProps {
   value: Required<SwapFormModel>;
