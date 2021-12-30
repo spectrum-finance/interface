@@ -261,6 +261,12 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
                                 </Flex.Item>
                                 <Flex.Item>
                                   <Flex justify="space-between">
+                                    <Flex.Item>UI Fee:</Flex.Item>
+                                    <Flex.Item>{UI_FEE} ERG</Flex.Item>
+                                  </Flex>
+                                </Flex.Item>
+                                <Flex.Item>
+                                  <Flex justify="space-between">
                                     <Flex.Item>Execution Fee:</Flex.Item>
                                     <Flex.Item>
                                       {operationVars &&

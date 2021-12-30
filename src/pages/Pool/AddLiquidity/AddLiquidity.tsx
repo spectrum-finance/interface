@@ -31,6 +31,7 @@ import {
   ERG_DECIMALS,
   ERG_TOKEN_ID,
   ERG_TOKEN_NAME,
+  UI_FEE,
 } from '../../../constants/erg';
 import { defaultExFee } from '../../../constants/settings';
 import { useSettings } from '../../../context';
@@ -99,7 +100,7 @@ const AddLiquidity = (): JSX.Element => {
       const { xAmount, x } = value;
 
       let totalFees = +calculateTotalFee(
-        [minerFee, defaultExFee],
+        [minerFee, UI_FEE, defaultExFee],
         ERG_DECIMALS,
       );
 
