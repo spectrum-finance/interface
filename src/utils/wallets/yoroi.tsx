@@ -3,7 +3,6 @@ import React from 'react';
 import {
   DISCORD_SUPPORT_URL,
   TELEGRAM_SUPPORT_URL,
-  YOROI_DAPP_CONNECTOR_LINK,
   YOROI_NIGHTLY_LINK,
 } from '../../constants/env';
 import { WalletContextType } from '../../context';
@@ -19,10 +18,6 @@ export const connectYoroiWallet =
           <Typography.Link href={YOROI_NIGHTLY_LINK} target="_blank">
             Yoroi Nightly
           </Typography.Link>{' '}
-          and{' '}
-          <Typography.Link href={YOROI_DAPP_CONNECTOR_LINK} target="_blank">
-            Yoroi dAppConnector
-          </Typography.Link>
           .
         </>,
       );
