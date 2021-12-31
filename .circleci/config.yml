@@ -100,10 +100,6 @@ workflows:
     jobs:
       - hold:
           type: approval
-      - from_tag:
-          filters:
-            tags:
-              only: /^\d+\.\d+\.\d+$/
       - dev: 
           filters:
             tags: 
