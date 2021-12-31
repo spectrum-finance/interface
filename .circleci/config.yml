@@ -38,9 +38,49 @@ jobs:
         - run: 
             name: Run Tests
             command: yarn test --passWithNoTests
-        - run: 
-            name: Security Audit
-            command: yarn audit
+        # - run: 
+        #     name: Security Audit
+        #     command: yarn audit
+    dev:
+      machine:
+        enabled: true
+      steps:
+        - checkout
+        - run:
+            name: Deploy to dev
+            command: ${SERVER_CONNECTION_COMMAND} 'source ~/.nvm/nvm.sh; cd /var/www/builds/front-dev; git pull origin dev; yarn; yarn build;'
+            environment:
+              REACT_APP_SENTRY_DSN: ${REACT_APP_SENTRY_DSN}
+              REACT_APP_SENTRY_ENV_FLAG: 'dev'
+        - run:
+            name: Release
+            command: ${SERVER_CONNECTION_COMMAND} 'cp -r /var/www/builds/front-dev/build/. /var/www/dev0'
+            
+    prod:
+      machine: 
+        enabled: true
+      steps:
+        - checkout
+        - run:
+            name: Deploy to prod
+            command: ${SERVER_CONNECTION_COMMAND} 'source ~/.nvm/nvm.sh; cd /var/www/builds/front; git pull origin master; yarn; yarn build;'
+            environment:
+              REACT_APP_SENTRY_DSN: ${REACT_APP_SENTRY_DSN}
+              REACT_APP_SENTRY_ENV_FLAG: 'production'
+        - run:
+            name: Release
+            command: ${SERVER_CONNECTION_COMMAND} 'cp -r /var/www/builds/front/build/. /var/www/app'
+    demo:
+      machine:
+        enabled: true
+      steps:
+        - checkout
+        - run:
+            name: Deploy to demo
+            command: ${SERVER_CONNECTION_COMMAND} 'source ~/.nvm/nvm.sh; cd /var/www/builds/demo; git pull origin demo; yarn; yarn build;'
+        - run:
+            name: Release
+            command: ${SERVER_CONNECTION_COMMAND} 'cp -r /var/www/builds/demo/build/. /var/www/demo'
 workflows:
   version: 2
   preparing:
@@ -52,5 +92,33 @@ workflows:
                 command: yarn
           filters:
             branches:
-              ignore: master
-              
+              ignore: 
+                - master
+                - dev
+                - demo
+  deployment:
+    jobs:
+      - hold:
+          type: approval
+      - from_tag:
+          filters:
+            tags:
+              only: /^\d+\.\d+\.\d+$/
+      - dev: 
+          requires:
+            - from_tag
+          filters:
+            tags: 
+              only: /^\d+\.\d+\.\d+$/
+            branches:
+              ignore: /.*/
+      - prod:
+          filters:
+            branches:
+              only: master
+      - demo:
+          requires: 
+            - hold
+          filters:
+            branches:
+              only: master
