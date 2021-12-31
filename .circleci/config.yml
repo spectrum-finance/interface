@@ -38,9 +38,6 @@ jobs:
         - run: 
             name: Run Tests
             command: yarn test --passWithNoTests
-        # - run: 
-        #     name: Security Audit
-        #     command: yarn audit
     dev:
       machine:
         enabled: true
@@ -102,17 +99,17 @@ workflows:
           type: approval
       - dev: 
           filters:
+            branches: 
+              only: dev
+      - prod:
+          filters:
             tags: 
               only: /^\d+\.\d+\.\d+$/
             branches:
               ignore: /.*/
-      - prod:
-          filters:
-            branches:
-              only: master
       - demo:
           requires: 
             - hold
           filters:
             branches:
-              only: master
+              only: demo
