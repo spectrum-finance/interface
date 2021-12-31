@@ -102,17 +102,17 @@ workflows:
           type: approval
       - dev: 
           filters:
+            branches: 
+              only: dev
+      - prod:
+          filters:
             tags: 
               only: /^\d+\.\d+\.\d+$/
             branches:
               ignore: /.*/
-      - prod:
-          filters:
-            branches:
-              only: master
       - demo:
           requires: 
             - hold
           filters:
             branches:
-              only: master
+              only: demo
