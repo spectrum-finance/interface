@@ -104,8 +104,8 @@ workflows:
           filters:
             tags: 
               only: /^\d+\.\d+\.\d+$/
-            # branches:
-            #   ignore: /.*/
+            branches:
+              ignore: /.*/
       - prod:
           filters:
             branches:
