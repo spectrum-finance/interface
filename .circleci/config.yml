@@ -1,27 +1,3 @@
-# Environments:
-# - local - developer's local machines
-# - dev - dev server for check developer's changes and run case on prod-like environment
-# - test - test server for QA. 
-# - demo - demo stand for pitch and demonstations for funds
-# - production - production. Nuff said
-# Usual Scenario:
-# - making some changes locally 
-# - push it to task-branch | are pre-push hooks needed to make sure that all changes haven't style issues
-# - check that all tests are passed successfully | task-branches. Run only linters and unit to make sure that changes not breaking something
-# - make pull request to demo branch, (comparing changes, merging, etc) | Reviewer checks that all ok and approves PR
-# - Commit to dev sent, changes was shipped to dev server. | run test one more time? 
-# - Changes was checked, nothing broken | -
-# - PR to test. | deploy to test server
-# - PR to master. | Deploy tags only
-# Unusual Scenario:
-# - PR master to demo
-# - Deploy to demo
-# Stages: 
-# - Test and linters | need to make sure that changes ok
-# - Build | Build react project from sources to js+css+html
-# - Deploy | Deploy to destination environment
-# - Security checks. | Need to check npm packages, to escape issues with vulns
-
 version: 2.1
 jobs:
     test-and-lint:
@@ -38,9 +14,6 @@ jobs:
         - run: 
             name: Run Tests
             command: yarn test --passWithNoTests
-        # - run: 
-        #     name: Security Audit
-        #     command: yarn audit
     dev:
       machine:
         enabled: true
