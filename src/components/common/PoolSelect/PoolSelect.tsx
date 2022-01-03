@@ -1,6 +1,5 @@
 import './PoolSelect.less';
 
-import { AmmPool } from '@ergolabs/ergo-dex-sdk';
 import { maxBy } from 'lodash';
 import React, { useEffect } from 'react';
 
@@ -12,6 +11,7 @@ import {
   Menu,
   Typography,
 } from '../../../ergodex-cdk';
+import { AmmPool } from '../../../services/new/pools';
 import { TokenIconPair } from '../../TokenIconPair/TokenIconPair';
 import { FeeTag } from '../FeeTag/FeeTag';
 

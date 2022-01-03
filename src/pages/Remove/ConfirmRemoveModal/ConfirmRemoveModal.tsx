@@ -1,4 +1,4 @@
-import { AmmPool, minValueForOrder } from '@ergolabs/ergo-dex-sdk';
+import { minValueForOrder } from '@ergolabs/ergo-dex-sdk';
 import { BoxSelection, DefaultBoxSelector } from '@ergolabs/ergo-sdk';
 import React, { useCallback } from 'react';
 
@@ -16,6 +16,8 @@ import {
 } from '../../../ergodex-cdk';
 import { useUTXOs } from '../../../hooks/useUTXOs';
 import { explorer } from '../../../services/explorer';
+import { Currency } from '../../../services/new/currency';
+import { AmmPool } from '../../../services/new/pools';
 import { poolActions } from '../../../services/poolActions';
 import { submitTx } from '../../../services/yoroi';
 import { makeTarget } from '../../../utils/ammMath';
@@ -26,15 +28,17 @@ import { RemoveFormSpaceWrapper } from '../RemoveFormSpaceWrapper/RemoveFormSpac
 
 interface ConfirmRemoveModalProps {
   onClose: (p: Promise<any>) => void;
-  position: AmmPool;
+  pool: AmmPool;
   lpToRemove: number;
-  pair: AssetPair;
+  xAmount: Currency;
+  yAmount: Currency;
 }
 
 const ConfirmRemoveModal: React.FC<ConfirmRemoveModalProps> = ({
-  position,
+  pool,
   lpToRemove,
-  pair,
+  xAmount,
+  yAmount,
   onClose,
 }) => {
   const UTXOs = useUTXOs();
@@ -49,61 +53,46 @@ const ConfirmRemoveModal: React.FC<ConfirmRemoveModalProps> = ({
     ERG_DECIMALS,
   );
 
-  const removeOperation = useCallback(
-    async (position: AmmPool) => {
-      const actions = poolActions(position);
-      const lp = position.lp.withAmount(BigInt(lpToRemove.toFixed(0)));
+  const removeOperation = async (pool: AmmPool) => {
+    const actions = poolActions(pool['pool']);
+    const lp = pool['pool'].lp.withAmount(BigInt(lpToRemove.toFixed(0)));
 
-      const poolId = position.id;
+    const poolId = pool.id;
 
-      try {
-        const network = await explorer.getNetworkContext();
+    try {
+      const network = await explorer.getNetworkContext();
 
-        const inputs = DefaultBoxSelector.select(
-          UTXOs,
-          makeTarget(
-            [lp],
-            minValueForOrder(minerFeeNErgs, uiFeeNErg, exFeeNErg),
-          ),
-        ) as BoxSelection;
+      const inputs = DefaultBoxSelector.select(
+        UTXOs,
+        makeTarget([lp], minValueForOrder(minerFeeNErgs, uiFeeNErg, exFeeNErg)),
+      ) as BoxSelection;
 
-        if (address && pk) {
-          onClose(
-            actions
-              .redeem(
-                {
-                  poolId,
-                  pk,
-                  lp,
-                  exFee: exFeeNErg,
-                  uiFee: uiFeeNErg,
-                },
-                {
-                  inputs,
-                  changeAddress: address,
-                  selfAddress: address,
-                  feeNErgs: minerFeeNErgs,
-                  network,
-                },
-              )
-              .then((tx) => submitTx(tx)),
-          );
-        }
-      } catch (err) {
-        message.error('Network connection issue');
+      if (address && pk) {
+        onClose(
+          actions
+            .redeem(
+              {
+                poolId,
+                pk,
+                lp,
+                exFee: exFeeNErg,
+                uiFee: uiFeeNErg,
+              },
+              {
+                inputs,
+                changeAddress: address,
+                selfAddress: address,
+                feeNErgs: minerFeeNErgs,
+                network,
+              },
+            )
+            .then((tx) => submitTx(tx)),
+        );
       }
-    },
-    [
-      UTXOs,
-      address,
-      exFeeNErg,
-      lpToRemove,
-      minerFeeNErgs,
-      onClose,
-      pk,
-      uiFeeNErg,
-    ],
-  );
+    } catch (err) {
+      message.error('Network connection issue');
+    }
+  };
 
   return (
     <>
@@ -112,7 +101,11 @@ const ConfirmRemoveModal: React.FC<ConfirmRemoveModalProps> = ({
         <Box transparent>
           <Flex direction="col">
             <Flex.Item marginBottom={6}>
-              <PairSpace title="Pooled assets" pair={pair} />
+              <PairSpace
+                title="Pooled assets"
+                xAmount={xAmount}
+                yAmount={yAmount}
+              />
             </Flex.Item>
             <Flex.Item marginBottom={6}>
               <RemoveFormSpaceWrapper title="Fees">
@@ -136,12 +129,6 @@ const ConfirmRemoveModal: React.FC<ConfirmRemoveModalProps> = ({
                                 <Flex.Item>{defaultExFee} ERG</Flex.Item>
                               </Flex>
                             </Flex.Item>
-                            <Flex.Item>
-                              <Flex justify="space-between">
-                                <Flex.Item>UI Fee:</Flex.Item>
-                                <Flex.Item>{UI_FEE} ERG</Flex.Item>
-                              </Flex>
-                            </Flex.Item>
                           </Flex>
                         }
                       />
@@ -158,7 +145,7 @@ const ConfirmRemoveModal: React.FC<ConfirmRemoveModalProps> = ({
                 block
                 type="primary"
                 size="large"
-                onClick={() => removeOperation(position)}
+                onClick={() => removeOperation(pool)}
               >
                 Remove liquidity
               </Button>

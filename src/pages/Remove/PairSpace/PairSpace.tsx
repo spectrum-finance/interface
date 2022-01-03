@@ -2,17 +2,20 @@ import React from 'react';
 
 import { TokenIcon } from '../../../components/TokenIcon/TokenIcon';
 import { Box, Flex, Typography } from '../../../ergodex-cdk';
+import { Currency } from '../../../services/new/currency';
 import { RemoveFormSpaceWrapper } from '../RemoveFormSpaceWrapper/RemoveFormSpaceWrapper';
 
 interface PairSpaceProps {
-  title: string;
-  pair: AssetPair;
-  fees?: boolean;
+  readonly title: string;
+  readonly xAmount: Currency;
+  readonly yAmount: Currency;
+  readonly fees?: boolean;
 }
 
 const PairSpace: React.FC<PairSpaceProps> = ({
   title,
-  pair,
+  xAmount,
+  yAmount,
   fees,
 }): JSX.Element => {
   return (
@@ -24,17 +27,19 @@ const PairSpace: React.FC<PairSpaceProps> = ({
               <Flex.Item>
                 <Flex align="center">
                   <Flex.Item marginRight={2}>
-                    <TokenIcon name={pair.assetX.name} />
+                    <TokenIcon name={xAmount.asset.name} />
                   </Flex.Item>
                   <Flex.Item>
-                    <Typography.Body strong>{pair.assetX.name}</Typography.Body>
+                    <Typography.Body strong>
+                      {xAmount.asset.name}
+                    </Typography.Body>
                   </Flex.Item>
                 </Flex>
               </Flex.Item>
               <Flex.Item>
                 <Flex>
                   <Typography.Body strong>
-                    {fees ? pair.assetX.earnedFees : pair.assetX.amount}
+                    {fees ? undefined : xAmount.toString({ suffix: false })}
                   </Typography.Body>
                 </Flex>
               </Flex.Item>
@@ -45,17 +50,19 @@ const PairSpace: React.FC<PairSpaceProps> = ({
               <Flex.Item>
                 <Flex>
                   <Flex.Item marginRight={2}>
-                    <TokenIcon name={pair.assetY.name} />
+                    <TokenIcon name={yAmount.asset.name} />
                   </Flex.Item>
                   <Flex.Item>
-                    <Typography.Body strong>{pair.assetY.name}</Typography.Body>
+                    <Typography.Body strong>
+                      {yAmount.asset.name}
+                    </Typography.Body>
                   </Flex.Item>
                 </Flex>
               </Flex.Item>
               <Flex.Item>
                 <Flex>
                   <Typography.Body strong>
-                    {fees ? pair.assetY.earnedFees : pair.assetY.amount}
+                    {fees ? undefined : yAmount.toString({ suffix: false })}
                   </Typography.Body>
                 </Flex>
               </Flex.Item>

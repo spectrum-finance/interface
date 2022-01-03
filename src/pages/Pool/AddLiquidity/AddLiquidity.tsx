@@ -2,10 +2,9 @@
 import './AddLiquidity.less';
 
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
-import { AssetAmount } from '@ergolabs/ergo-sdk';
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import { Skeleton } from 'antd';
-import React, { useCallback, useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useParams } from 'react-router';
 import {
   BehaviorSubject,
@@ -27,14 +26,6 @@ import {
   Operation,
 } from '../../../components/ConfirmationModal/ConfirmationModal';
 import { FormPageWrapper } from '../../../components/FormPageWrapper/FormPageWrapper';
-import {
-  ERG_DECIMALS,
-  ERG_TOKEN_ID,
-  ERG_TOKEN_NAME,
-  UI_FEE,
-} from '../../../constants/erg';
-import { defaultExFee } from '../../../constants/settings';
-import { useSettings } from '../../../context';
 import { Flex, Typography } from '../../../ergodex-cdk';
 import { Form, useForm } from '../../../ergodex-cdk/components/Form/NewForm';
 import {
@@ -44,12 +35,8 @@ import {
 } from '../../../hooks/useObservable';
 import { assets$, getAvailableAssetFor } from '../../../services/new/assets';
 import { useWalletBalance } from '../../../services/new/balance';
+import { useNetworkAsset, useTotalFees } from '../../../services/new/core';
 import { getPoolById, getPoolByPair } from '../../../services/new/pools';
-import {
-  parseUserInputToFractions,
-  renderFractions,
-} from '../../../utils/math';
-import { calculateTotalFee } from '../../../utils/transactions';
 import { AddLiquidityConfirmationModal } from './AddLiquidityConfirmationModal/AddLiquidityConfirmationModal';
 import { AddLiquidityFormModel } from './FormModel';
 
@@ -62,16 +49,13 @@ const getAvailablePools = (xId?: string, yId?: string) =>
 
 const AddLiquidity = (): JSX.Element => {
   const [balance] = useWalletBalance();
-  const [{ minerFee }] = useSettings();
+  const totalFees = useTotalFees();
+  const networkAsset = useNetworkAsset();
   const { poolId } = useParams<{ poolId?: PoolId }>();
   const form = useForm<AddLiquidityFormModel>({
-    x: {
-      name: 'ERG',
-      id: '0000000000000000000000000000000000000000000000000000000000000000',
-      decimals: ERG_DECIMALS,
-    },
+    x: undefined,
     y: undefined,
-    activePool: undefined,
+    pool: undefined,
     xAmount: undefined,
     yAmount: undefined,
   });
@@ -86,6 +70,12 @@ const AddLiquidity = (): JSX.Element => {
     ),
   );
 
+  useEffect(() => {
+    if (!poolId) {
+      form.patchValue({ x: networkAsset });
+    }
+  }, [networkAsset]);
+
   const updateYAssets$ = useMemo(
     () => new BehaviorSubject<string | undefined>(undefined),
     [],
@@ -95,87 +85,23 @@ const AddLiquidity = (): JSX.Element => {
     [],
   );
 
-  const getInsufficientTokenNameForFee = useCallback(
-    (value: AddLiquidityFormModel): string | undefined => {
-      const { xAmount, x } = value;
-
-      let totalFees = +calculateTotalFee(
-        [minerFee, UI_FEE, defaultExFee],
-        ERG_DECIMALS,
-      );
-
-      totalFees =
-        x?.id === ERG_TOKEN_ID ? totalFees + xAmount?.value! : totalFees;
-
-      return +totalFees > balance.get(ERG_TOKEN_ID)
-        ? ERG_TOKEN_NAME
-        : undefined;
-    },
-    [balance, minerFee],
-  );
-
-  const getInsufficientTokenNameForTx = useCallback(
-    (value: AddLiquidityFormModel): string | undefined => {
-      const { x, y, xAmount, yAmount } = value;
-      const xAmountValue = xAmount?.value;
-      const yAmountValue = yAmount?.value;
-
-      if (x && xAmount && xAmountValue! > balance.get(x?.id)) {
-        return x?.name;
-      }
-
-      if (y && yAmount && yAmountValue! > balance.get(y?.id)) {
-        return y?.name;
-      }
-
-      return undefined;
-    },
-    [balance],
-  );
-
-  const isAmountNotEntered = useCallback(
-    (value: AddLiquidityFormModel): boolean => {
-      return !value.xAmount?.value || !value.yAmount?.value;
-    },
-    [],
-  );
-
-  const isTokensNotSelected = useCallback(
-    (value: AddLiquidityFormModel): boolean => {
-      return !value.activePool;
-    },
-    [],
-  );
-
-  const addLiquidityAction = useCallback((value: AddLiquidityFormModel) => {
-    openConfirmationModal(
-      (next) => {
-        return (
-          <AddLiquidityConfirmationModal
-            position={value.activePool}
-            pair={{
-              assetX: {
-                name: value.x?.name,
-                amount: value.xAmount?.value,
-              },
-              assetY: {
-                name: value.y?.name,
-                amount: value.yAmount?.value,
-              },
-            }}
-            onClose={next}
-          />
-        );
-      },
-      Operation.ADD_LIQUIDITY,
-      { asset: value.x!, amount: value?.xAmount?.value! },
-      { asset: value.y!, amount: value?.yAmount?.value! },
-    );
-  }, []);
-
   useSubscription(
     form.controls.x.valueChanges$,
     (token: AssetInfo | undefined) => updateYAssets$.next(token?.id),
+  );
+
+  useSubscription(form.controls.x.valueChanges$, () =>
+    form.patchValue({ y: undefined, pool: undefined }),
+  );
+
+  useSubscription(
+    combineLatest([
+      form.controls.x.valueChangesWithSystem$,
+      form.controls.y.valueChangesWithSystem$,
+    ]).pipe(debounceTime(100)),
+    ([x, y]) => {
+      updatePools(x?.id, y?.id);
+    },
   );
 
   useSubscription(
@@ -196,68 +122,72 @@ const AddLiquidity = (): JSX.Element => {
 
   useSubscription(
     combineLatest([
-      form.controls.x.valueChangesWithSystem$,
-      form.controls.y.valueChangesWithSystem$,
-    ]).pipe(debounceTime(100)),
-    ([x, y]) => {
-      updatePools(x?.id, y?.id);
-    },
-  );
-
-  useSubscription(form.controls.x.valueChanges$, () =>
-    form.patchValue({ y: undefined, activePool: undefined }),
-  );
-
-  useSubscription(
-    combineLatest([
       form.controls.xAmount.valueChanges$.pipe(skip(1)),
-      form.controls.activePool.valueChanges$,
+      form.controls.pool.valueChanges$,
     ]).pipe(debounceTime(100)),
-    ([amount]) => {
-      const newYAmount = form.value.activePool!.depositAmount(
-        new AssetAmount(
-          form.value.x!,
-          parseUserInputToFractions(amount?.value ?? 0, form.value.x!.decimals),
-        ),
-      );
-
-      const value = Number(
-        renderFractions(newYAmount.amount, newYAmount.asset.decimals),
-      );
-
+    ([amount]) =>
       form.controls.yAmount.patchValue(
-        {
-          value,
-          viewValue: value.toString(),
-        },
-        { emitEvent: 'system' },
-      );
-    },
+        amount ? form.value.pool!.calculateDepositAmount(amount) : undefined,
+        { emitEvent: 'silent' },
+      ),
   );
 
   useSubscription(
     form.controls.yAmount.valueChanges$.pipe(skip(1)),
     (amount) => {
-      const newXAmount = form.value.activePool!.depositAmount(
-        new AssetAmount(
-          form.value.y!,
-          parseUserInputToFractions(amount?.value ?? 0, form.value.y!.decimals),
-        ),
-      );
-
-      const value = Number(
-        renderFractions(newXAmount.amount, newXAmount.asset.decimals),
-      );
-
       form.controls.xAmount.patchValue(
-        {
-          value,
-          viewValue: value.toString(),
-        },
+        amount ? form.value.pool!.calculateDepositAmount(amount) : undefined,
         { emitEvent: 'system' },
       );
     },
+    [],
   );
+
+  const getInsufficientTokenNameForFee = ({
+    xAmount,
+  }: Required<AddLiquidityFormModel>): string | undefined => {
+    const totalFeesWithAmount = xAmount.isAssetEquals(networkAsset)
+      ? xAmount.plus(totalFees)
+      : totalFees;
+
+    return totalFeesWithAmount.gt(balance.get(networkAsset))
+      ? networkAsset.name
+      : undefined;
+  };
+
+  const getInsufficientTokenNameForTx = ({
+    xAmount,
+    yAmount,
+  }: Required<AddLiquidityFormModel>): string | undefined => {
+    if (xAmount.gt(balance.get(xAmount.asset))) {
+      return xAmount.asset.name;
+    }
+
+    if (yAmount.gt(balance.get(yAmount.asset))) {
+      return yAmount.asset.name;
+    }
+
+    return undefined;
+  };
+
+  const isAmountNotEntered = (value: AddLiquidityFormModel): boolean => {
+    return !value.xAmount?.isPositive() || !value.yAmount?.isPositive();
+  };
+
+  const isTokensNotSelected = (value: AddLiquidityFormModel): boolean => {
+    return !value.pool;
+  };
+
+  const addLiquidityAction = (value: Required<AddLiquidityFormModel>) => {
+    openConfirmationModal(
+      (next) => {
+        return <AddLiquidityConfirmationModal value={value} onClose={next} />;
+      },
+      Operation.ADD_LIQUIDITY,
+      value.xAmount!,
+      value.yAmount!,
+    );
+  };
 
   return (
     <FormPageWrapper
@@ -293,7 +223,7 @@ const AddLiquidity = (): JSX.Element => {
               style={{ opacity: isPairSelected ? '' : '0.3' }}
             >
               <Typography.Body strong>Select Pool</Typography.Body>
-              <Form.Item name="activePool">
+              <Form.Item name="pool">
                 {({ value, onChange }) => (
                   <PoolSelect
                     positions={pools}

@@ -2,6 +2,7 @@ import { AmmPool } from '@ergolabs/ergo-dex-sdk';
 import { AssetAmount } from '@ergolabs/ergo-sdk';
 import { useEffect, useState } from 'react';
 
+import { AssetPair } from '../@types/asset';
 import { parseUserInputToFractions, renderFractions } from '../utils/math';
 
 interface Pair {
@@ -33,12 +34,14 @@ const usePair = (pool: AmmPool | undefined): Pair => {
           amount: Number(
             renderFractions(sharedPair[0].amount, sharedPair[0].asset.decimals),
           ),
+          asset: sharedPair[0].asset,
         },
         assetY: {
           name: sharedPair[1].asset.name || '',
           amount: Number(
             renderFractions(sharedPair[1].amount, sharedPair[1].asset.decimals),
           ),
+          asset: sharedPair[1].asset,
         },
       };
 

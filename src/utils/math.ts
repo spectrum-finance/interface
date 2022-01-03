@@ -37,7 +37,7 @@ export function parseUserInputToFractions(
     formatOptions,
   );
   // TODO: CHECK_FUNCTION_LAST_CHANGE[]
-  return BigInt(Number(input).toFixed(0));
+  return BigInt(input);
 }
 
 export function renderFractions(

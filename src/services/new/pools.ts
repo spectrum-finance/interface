@@ -1,11 +1,11 @@
 import {
-  AmmPool,
+  AmmPool as BaseAmmPool,
   makeNativePools,
   makePools,
   NetworkPools,
   PoolId,
 } from '@ergolabs/ergo-dex-sdk';
-import { ErgoBox } from '@ergolabs/ergo-sdk';
+import { AssetAmount, ErgoBox } from '@ergolabs/ergo-sdk';
 import {
   combineLatest,
   defer,
@@ -20,8 +20,14 @@ import {
 } from 'rxjs';
 
 import { getListAvailableTokens } from '../../utils/getListAvailableTokens';
+import {
+  math,
+  parseUserInputToFractions,
+  renderFractions,
+} from '../../utils/math';
 import { explorer } from '../explorer';
 import { utxos$ } from './core';
+import { Currency } from './currency';
 
 export const networkPools = (): NetworkPools => makePools(explorer);
 export const nativeNetworkPools = (): NetworkPools => makeNativePools(explorer);
@@ -33,9 +39,9 @@ const utxosToTokenIds = (utxos: ErgoBox[]): string[] =>
   Object.values(getListAvailableTokens(utxos)).map((token) => token.tokenId);
 
 const filterPoolsByTokenIds = (
-  pools: AmmPool[],
+  pools: BaseAmmPool[],
   tokenIds: string[],
-): AmmPool[] => pools.filter((p) => tokenIds.includes(p.lp.asset.id));
+): BaseAmmPool[] => pools.filter((p) => tokenIds.includes(p.lp.asset.id));
 
 const nativeNetworkPools$ = defer(() =>
   from(nativeNetworkPools().getAll({ limit: 100, offset: 0 })),
@@ -59,6 +65,7 @@ export const pools$ = combineLatest([nativeNetworkPools$, networkPools$]).pipe(
       .concat(networkPools)
       .filter((p) => p.id != BlacklistedPoolId),
   ),
+  map((pools) => pools.map((p) => new AmmPool(p))),
   publishReplay(1),
   refCount(),
 );
@@ -91,7 +98,7 @@ const availableNetworkPools$ = utxos$.pipe(
   refCount(),
 );
 
-export const availablePools$: Observable<AmmPool[]> = zip([
+export const availablePools$: Observable<BaseAmmPool[]> = zip([
   availableNativeNetworkPools$,
   availableNetworkPools$,
 ]).pipe(
@@ -100,14 +107,16 @@ export const availablePools$: Observable<AmmPool[]> = zip([
   refCount(),
 );
 
-export const getPoolById = (poolId: PoolId): Observable<AmmPool | undefined> =>
+export const getPoolById = (
+  poolId: PoolId,
+): Observable<BaseAmmPool | undefined> =>
   availablePools$.pipe(
     map((pools) => pools.find((position) => position.id === poolId)),
   );
 
 const byPair = (xId: string, yId: string) => (p: AmmPool) =>
-  (p.assetX.id === xId || p.assetY.id === xId) &&
-  (p.assetX.id === yId || p.assetY.id === yId);
+  (p.x.asset.id === xId || p.y.asset.id === xId) &&
+  (p.x.asset.id === yId || p.y.asset.id === yId);
 
 export const getPoolByPair = (
   xId: string,
@@ -118,3 +127,55 @@ export const getPoolByPair = (
     publishReplay(1),
     refCount(),
   );
+
+export class AmmPool {
+  constructor(private pool: BaseAmmPool) {}
+
+  get id(): PoolId {
+    return this.pool.id;
+  }
+
+  get poolFeeNum(): number {
+    return this.pool.poolFeeNum;
+  }
+
+  get feeNum(): bigint {
+    return this.pool.feeNum;
+  }
+
+  get lp(): Currency {
+    return new Currency(this.pool.lp.amount, this.pool.lp.asset);
+  }
+
+  get y(): Currency {
+    return new Currency(this.pool.y.amount, this.pool.y.asset);
+  }
+
+  get x(): Currency {
+    return new Currency(this.pool.x.amount, this.pool.x.asset);
+  }
+
+  calculateDepositAmount(currency: Currency): Currency {
+    const depositAmount = this.pool.depositAmount(
+      new AssetAmount(currency.asset, currency.amount),
+    );
+
+    return new Currency(depositAmount?.amount || 0n, depositAmount?.asset);
+  }
+
+  calculateInputAmount(currency: Currency): Currency {
+    const inputAmount = this.pool.inputAmount(
+      new AssetAmount(currency.asset, currency.amount),
+    );
+
+    return new Currency(inputAmount?.amount || 0n, inputAmount?.asset);
+  }
+
+  calculateOutputAmount(currency: Currency): Currency {
+    const outputAmount = this.pool.outputAmount(
+      new AssetAmount(currency.asset, currency.amount),
+    );
+
+    return new Currency(outputAmount.amount || 0n, outputAmount?.asset);
+  }
+}

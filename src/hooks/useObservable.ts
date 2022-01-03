@@ -15,20 +15,25 @@ export function useObservable<T>(
   observable: Observable<T>,
   config?: { defaultValue?: T; deps?: any[] },
 ): [T | undefined, boolean, Error | undefined] {
-  const [data, setData] = useState<T | undefined>(config?.defaultValue);
-  const [error, setError] = useState<Error | undefined>();
-  const [loading, setLoading] = useState<boolean>(true);
+  const [{ data, error, loading }, setParams] = useState<{
+    data: T | undefined;
+    error: Error | undefined;
+    loading: boolean;
+  }>({
+    data: config?.defaultValue,
+    error: undefined,
+    loading: false,
+  });
 
   useEffect(() => {
-    setLoading(true);
+    setParams((params) => ({ ...params, loading: true }));
+
     const subscription = observable.subscribe({
       next: (value: T) => {
-        setData(() => value);
-        setLoading(false);
+        setParams((params) => ({ ...params, data: value, loading: false }));
       },
       error: (error: Error) => {
-        setError(error);
-        setLoading(false);
+        setParams((params) => ({ ...params, error, loading: false }));
       },
     });
 
@@ -65,12 +70,16 @@ export function useSubject<F extends (...args: any[]) => Observable<any>>(
   boolean,
   Error | undefined,
 ] {
-  const [data, setData] = useState<Unpacked<ReturnType<F>> | undefined>(
-    config?.defaultValue,
-  );
-  const [error, setError] = useState<Error | undefined>();
-  const [loading, setLoading] = useState<boolean>(true);
-  const [nextData, setNextData] = useState<{
+  const [{ data, error, loading }, setParams] = useState<{
+    data: any | undefined;
+    error: Error | undefined;
+    loading: boolean;
+  }>({
+    data: config?.defaultValue,
+    error: undefined,
+    loading: false,
+  });
+  const [nextData] = useState<{
     subject: Subject<Parameters<F>>;
     next: (...args: Parameters<F>) => void;
     //@ts-ignore
@@ -84,17 +93,15 @@ export function useSubject<F extends (...args: any[]) => Observable<any>>(
   });
 
   useEffect(() => {
-    setLoading(true);
+    setParams((params) => ({ ...params, loading: true }));
     const subscription = nextData.subject
       .pipe(switchMap((args) => observableAction(...args)))
       .subscribe({
         next: (value: Unpacked<ReturnType<F>>) => {
-          setData(() => value);
-          setLoading(false);
+          setParams((params) => ({ ...params, loading: false, data: value }));
         },
         error: (error: Error) => {
-          setError(error);
-          setLoading(false);
+          setParams((params) => ({ ...params, error, loading: false }));
         },
       });
 
