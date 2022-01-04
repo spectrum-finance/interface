@@ -4,7 +4,11 @@ const calculateHeight = (elt: HTMLDivElement) =>
   parseFloat(window.getComputedStyle(elt).height);
 
 export interface ExpandProps {
-  children?: ReactNode | ReactNode[] | string;
+  children?:
+    | ReactNode
+    | ReactNode[]
+    | string
+    | (() => ReactNode | ReactNode[] | string);
   duration?: number;
   expanded?: boolean;
 }
@@ -30,7 +34,11 @@ export const Expand: FC<ExpandProps> = ({ duration, children, expanded }) => {
         overflow: expanded ? 'initial' : 'hidden',
       }}
     >
-      {expanded && <div ref={containerRef as any}>{children}</div>}
+      {expanded && (
+        <div ref={containerRef as any}>
+          {children instanceof Function ? children() : children}
+        </div>
+      )}
     </div>
   );
 };

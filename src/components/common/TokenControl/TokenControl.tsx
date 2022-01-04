@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { Observable, of } from 'rxjs';
 
 import { Currency } from '../../../common/models/Currency';
-import { Box, Button, Flex, Typography } from '../../../ergodex-cdk';
+import { Animation, Box, Button, Flex, Typography } from '../../../ergodex-cdk';
 import {
   Form,
   useFormContext,
@@ -162,26 +162,30 @@ export const TokenControlFormItem: FC<NewTokenControlProps> = ({
           align="center"
           className="token-control-bottom-panel"
         >
-          {selectedAsset !== undefined && (
-            <Flex.Item marginRight={2}>
-              <Typography.Body>
-                {t`common.tokenControl.balanceLabel`}{' '}
-                {balance.get(selectedAsset).toString()}
-              </Typography.Body>
-            </Flex.Item>
-          )}
-          {selectedAsset !== undefined &&
-            !!balance.get(selectedAsset) &&
-            maxButton && (
-              <Button
-                ghost
-                type="primary"
-                size="small"
-                onClick={() => handleMaxButtonClick(balance.get(selectedAsset))}
-              >
-                {t`common.tokenControl.maxButton`}
-              </Button>
+          <Animation.Expand expanded={selectedAsset !== undefined}>
+            {() => (
+              <>
+                <Flex.Item marginRight={2}>
+                  <Typography.Body>
+                    {t`common.tokenControl.balanceLabel`}{' '}
+                    {balance.get(selectedAsset).toString()}
+                  </Typography.Body>
+                </Flex.Item>
+                {!!balance.get(selectedAsset) && maxButton && (
+                  <Button
+                    ghost
+                    type="primary"
+                    size="small"
+                    onClick={() =>
+                      handleMaxButtonClick(balance.get(selectedAsset))
+                    }
+                  >
+                    {t`common.tokenControl.maxButton`}
+                  </Button>
+                )}
+              </>
             )}
+          </Animation.Expand>
         </Flex>
       )}
     </Box>
