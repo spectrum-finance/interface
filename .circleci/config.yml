@@ -54,6 +54,17 @@ jobs:
         - run:
             name: Release
             command: ${SERVER_CONNECTION_COMMAND} 'cp -r /var/www/builds/demo/build/. /var/www/demo'
+    test:
+      machine:
+        true:
+      steps:
+        - checkout
+        - run:
+            name: Deploy to demo
+            command: ${SERVER_CONNECTION_COMMAND} 'source ~/.nvm/nvm.sh; cd /var/www/builds/test; git pull origin test; yarn; yarn build;'
+        - run:
+            name: Release
+            command: ${SERVER_CONNECTION_COMMAND} 'cp -r /var/www/builds/test/build/. /var/www/test'
 workflows:
   version: 2
   preparing:
@@ -89,3 +100,9 @@ workflows:
           filters:
             branches:
               only: demo
+      - test:
+          requires:
+            - hold
+          filters:
+            branches:
+              only: test
