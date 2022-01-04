@@ -6,8 +6,6 @@ export const LANDING_URL = 'https://ergodex.io';
 
 export const YOROI_NIGHTLY_LINK =
   'https://chrome.google.com/webstore/detail/yoroi-nightly/poonlenmfdfbjfeeballhiibknlknepo';
-export const YOROI_DAPP_CONNECTOR_LINK =
-  'https://chrome.google.com/webstore/detail/yoroi-ergo-dapp-connector/chifollcalpmjdiokipacefnpmbgjnle';
 export const YOROI_WALLET_LINK =
   'https://chrome.google.com/webstore/detail/yoroi/ffnbelfdoeiohenkjibnmadjiehjhajb';
 

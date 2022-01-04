@@ -33,7 +33,7 @@ export class AmmPool {
     return new Currency(this.pool.x.amount, this.pool.x.asset);
   }
 
-  calculateOutputRatio(inputCurrency: Currency): Currency {
+  calculateOutputPrice(inputCurrency: Currency): Currency {
     const outputCurrency = this.calculateOutputAmount(inputCurrency);
 
     if (inputCurrency.amount === 1n) {
@@ -51,7 +51,7 @@ export class AmmPool {
     );
   }
 
-  calculateInputRatio(outputCurrency: Currency): Currency {
+  calculateInputPrice(outputCurrency: Currency): Currency {
     const inputCurrency = this.calculateInputAmount(outputCurrency);
 
     if (outputCurrency.amount === 1n) {
