@@ -1,4 +1,5 @@
 export * from './Alert/Alert';
+export * from './Animation';
 export * from './Box/Box';
 export * from './Button/Button';
 export * from './Col/Col';

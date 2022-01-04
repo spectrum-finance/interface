@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { debounceTime, map, tap } from 'rxjs';
 
 import { Currency } from '../../../common/models/Currency';
-import { Typography } from '../../../ergodex-cdk';
+import { Animation, Typography } from '../../../ergodex-cdk';
 import { FormGroup } from '../../../ergodex-cdk/components/Form/NewForm';
 import { useObservable } from '../../../hooks/useObservable';
 import { SwapFormModel } from '../SwapFormModel';
@@ -64,12 +64,10 @@ export const PriceIndicator = ({
   const toggleReversed = () => setReversed((reversed) => !reversed);
 
   return (
-    <>
-      {form.value.pool && (
-        <Typography.Body className="price-indicator" onClick={toggleReversed}>
-          {ratio}
-        </Typography.Body>
-      )}
-    </>
+    <Animation.Expand expanded={!!form.value.pool}>
+      <Typography.Body className="price-indicator" onClick={toggleReversed}>
+        {ratio}
+      </Typography.Body>
+    </Animation.Expand>
   );
 };
