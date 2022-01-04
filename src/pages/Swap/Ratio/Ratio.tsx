@@ -1,7 +1,7 @@
-import './PriceIndicator.less';
+import './Ratio.less';
 
 import React, { useState } from 'react';
-import { debounceTime, map, tap } from 'rxjs';
+import { debounceTime, map } from 'rxjs';
 
 import { Currency } from '../../../common/models/Currency';
 import { Typography } from '../../../ergodex-cdk';
@@ -9,35 +9,31 @@ import { FormGroup } from '../../../ergodex-cdk/components/Form/NewForm';
 import { useObservable } from '../../../hooks/useObservable';
 import { SwapFormModel } from '../SwapFormModel';
 
-const calculateOutputRatio = ({
+const calculateOutputPrice = ({
   fromAmount,
   fromAsset,
   pool,
 }: Required<SwapFormModel>): Currency => {
   if (fromAmount?.isPositive()) {
-    return pool.calculateOutputRatio(fromAmount);
+    return pool.calculateOutputPrice(fromAmount);
   } else {
-    return pool.calculateOutputRatio(new Currency('1', fromAsset));
+    return pool.calculateOutputPrice(new Currency('1', fromAsset));
   }
 };
 
-const calculateInputRatio = ({
+const calculateInputPrice = ({
   toAmount,
   toAsset,
   pool,
 }: Required<SwapFormModel>): Currency => {
   if (toAmount?.isPositive()) {
-    return pool.calculateInputRatio(toAmount);
+    return pool.calculateInputPrice(toAmount);
   } else {
-    return pool.calculateInputRatio(new Currency('1', toAsset));
+    return pool.calculateInputPrice(new Currency('1', toAsset));
   }
 };
 
-export const PriceIndicator = ({
-  form,
-}: {
-  form: FormGroup<SwapFormModel>;
-}) => {
+export const Ratio = ({ form }: { form: FormGroup<SwapFormModel> }) => {
   const [reversed, setReversed] = useState(false);
   const [ratio] = useObservable(
     form.valueChangesWithSilent$.pipe(
@@ -46,9 +42,9 @@ export const PriceIndicator = ({
           return undefined;
         }
         if (reversed) {
-          return calculateInputRatio(value as Required<SwapFormModel>);
+          return calculateInputPrice(value as Required<SwapFormModel>);
         } else {
-          return calculateOutputRatio(value as Required<SwapFormModel>);
+          return calculateOutputPrice(value as Required<SwapFormModel>);
         }
       }),
       debounceTime(100),
