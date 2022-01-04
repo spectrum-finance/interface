@@ -37,6 +37,7 @@ export const Ratio = ({ form }: { form: FormGroup<SwapFormModel> }) => {
   const [reversed, setReversed] = useState(false);
   const [ratio] = useObservable(
     form.valueChangesWithSilent$.pipe(
+      debounceTime(100),
       map((value) => {
         if (!value.pool || !value.fromAsset) {
           return undefined;
@@ -47,7 +48,6 @@ export const Ratio = ({ form }: { form: FormGroup<SwapFormModel> }) => {
           return calculateOutputPrice(value as Required<SwapFormModel>);
         }
       }),
-      debounceTime(100),
       map((price) =>
         reversed
           ? `1 ${form.value.toAsset?.name} - ${price?.toString()}`
