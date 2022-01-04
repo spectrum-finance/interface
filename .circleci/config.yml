@@ -28,7 +28,6 @@ jobs:
         - run:
             name: Release
             command: ${SERVER_CONNECTION_COMMAND} 'cp -r /var/www/builds/front-dev/build/. /var/www/dev0'
-            
     prod:
       machine: 
         enabled: true
@@ -60,7 +59,7 @@ jobs:
       steps:
         - checkout
         - run:
-            name: Deploy to demo
+            name: Deploy to test
             command: ${SERVER_CONNECTION_COMMAND} 'source ~/.nvm/nvm.sh; cd /var/www/builds/test; git pull origin test; yarn; yarn build;'
         - run:
             name: Release
