@@ -6,6 +6,7 @@ import React, { FC, ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Observable, of } from 'rxjs';
 
+import { Currency } from '../../../common/models/Currency';
 import { Box, Button, Flex, Typography } from '../../../ergodex-cdk';
 import {
   Form,
@@ -13,7 +14,6 @@ import {
 } from '../../../ergodex-cdk/components/Form/NewForm';
 import { useObservable } from '../../../hooks/useObservable';
 import { useWalletBalance } from '../../../services/new/balance';
-import { Currency } from '../../../services/new/currency';
 import {
   TokenAmountInput,
   TokenAmountInputValue,

@@ -5,7 +5,7 @@ export type Gutter = number | GutterTwoNumbers | GutterFourNumbers;
 export const calcGutter = (n: number): string =>
   `calc(var(--ergo-base-gutter) * ${n})`;
 
-export const getGutter = (p: Gutter) => {
+export const getGutter = (p: Gutter): string => {
   if (p instanceof Array && p.length === 2) {
     return `${calcGutter(p[0])} ${calcGutter(p[1])}`;
   }

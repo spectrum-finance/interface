@@ -5,7 +5,7 @@ import {
   NetworkPools,
   PoolId,
 } from '@ergolabs/ergo-dex-sdk';
-import { AssetAmount, ErgoBox } from '@ergolabs/ergo-sdk';
+import { ErgoBox } from '@ergolabs/ergo-sdk';
 import {
   combineLatest,
   defer,
@@ -14,20 +14,14 @@ import {
   Observable,
   publishReplay,
   refCount,
-  startWith,
   switchMap,
   zip,
 } from 'rxjs';
 
+import { AmmPool } from '../../common/models/AmmPool';
 import { getListAvailableTokens } from '../../utils/getListAvailableTokens';
-import {
-  math,
-  parseUserInputToFractions,
-  renderFractions,
-} from '../../utils/math';
 import { explorer } from '../explorer';
 import { utxos$ } from './core';
-import { Currency } from './currency';
 
 export const networkPools = (): NetworkPools => makePools(explorer);
 export const nativeNetworkPools = (): NetworkPools => makeNativePools(explorer);
@@ -127,55 +121,3 @@ export const getPoolByPair = (
     publishReplay(1),
     refCount(),
   );
-
-export class AmmPool {
-  constructor(private pool: BaseAmmPool) {}
-
-  get id(): PoolId {
-    return this.pool.id;
-  }
-
-  get poolFeeNum(): number {
-    return this.pool.poolFeeNum;
-  }
-
-  get feeNum(): bigint {
-    return this.pool.feeNum;
-  }
-
-  get lp(): Currency {
-    return new Currency(this.pool.lp.amount, this.pool.lp.asset);
-  }
-
-  get y(): Currency {
-    return new Currency(this.pool.y.amount, this.pool.y.asset);
-  }
-
-  get x(): Currency {
-    return new Currency(this.pool.x.amount, this.pool.x.asset);
-  }
-
-  calculateDepositAmount(currency: Currency): Currency {
-    const depositAmount = this.pool.depositAmount(
-      new AssetAmount(currency.asset, currency.amount),
-    );
-
-    return new Currency(depositAmount?.amount || 0n, depositAmount?.asset);
-  }
-
-  calculateInputAmount(currency: Currency): Currency {
-    const inputAmount = this.pool.inputAmount(
-      new AssetAmount(currency.asset, currency.amount),
-    );
-
-    return new Currency(inputAmount?.amount || 0n, inputAmount?.asset);
-  }
-
-  calculateOutputAmount(currency: Currency): Currency {
-    const outputAmount = this.pool.outputAmount(
-      new AssetAmount(currency.asset, currency.amount),
-    );
-
-    return new Currency(outputAmount.amount || 0n, outputAmount?.asset);
-  }
-}

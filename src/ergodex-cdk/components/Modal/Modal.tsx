@@ -1,6 +1,6 @@
 import './Modal.less';
 
-import { Modal as BaseModal, Typography } from 'antd';
+import { Modal as BaseModal } from 'antd';
 import React, { ReactElement } from 'react';
 import { ReactNode } from 'react';
 import ReactDOM from 'react-dom';
@@ -9,7 +9,6 @@ import { ModalContent } from './ModalContent/ModalContent';
 import {
   ModalInnerTitle,
   ModalTitle,
-  ModalTitleContext,
   ModalTitleContextProvider,
 } from './ModalTitle/ModalTitle';
 import { Error } from './presets/Error';
@@ -26,7 +25,7 @@ export interface ModalParams<R = any> {
   readonly width?: number;
 }
 
-interface DialogRef<T = any> {
+export interface DialogRef<T = any> {
   close: (result?: T) => void;
 }
 
@@ -192,11 +191,11 @@ export class ContextModalProvider
 
   private modals = new Map<number, ReactElement>();
 
-  componentDidMount() {
+  componentDidMount(): void {
     Modal.provider = this;
   }
 
-  componentWillUnmount() {
+  componentWillUnmount(): void {
     Modal.provider = new BaseModalProvider();
   }
 
@@ -267,7 +266,7 @@ export class ContextModalProvider
     return { close };
   }
 
-  render() {
+  render(): ReactNode | ReactNode[] | string {
     return (
       <>
         {Array.from(this.modals.values()).map((modal) => (
@@ -280,7 +279,7 @@ export class ContextModalProvider
     );
   }
 
-  private createDialogId() {
+  private createDialogId(): number {
     return dialogId++;
   }
 }

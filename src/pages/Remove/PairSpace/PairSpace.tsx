@@ -1,8 +1,8 @@
 import React from 'react';
 
+import { Currency } from '../../../common/models/Currency';
 import { TokenIcon } from '../../../components/TokenIcon/TokenIcon';
 import { Box, Flex, Typography } from '../../../ergodex-cdk';
-import { Currency } from '../../../services/new/currency';
 import { RemoveFormSpaceWrapper } from '../RemoveFormSpaceWrapper/RemoveFormSpaceWrapper';
 
 interface PairSpaceProps {

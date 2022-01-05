@@ -1,7 +1,9 @@
 import { minValueForOrder } from '@ergolabs/ergo-dex-sdk';
 import { BoxSelection, DefaultBoxSelector } from '@ergolabs/ergo-sdk';
-import React, { useCallback } from 'react';
+import React from 'react';
 
+import { AmmPool } from '../../../common/models/AmmPool';
+import { Currency } from '../../../common/models/Currency';
 import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
 import { ERG_DECIMALS, UI_FEE } from '../../../constants/erg';
 import { defaultExFee } from '../../../constants/settings';
@@ -16,8 +18,6 @@ import {
 } from '../../../ergodex-cdk';
 import { useUTXOs } from '../../../hooks/useUTXOs';
 import { explorer } from '../../../services/explorer';
-import { Currency } from '../../../services/new/currency';
-import { AmmPool } from '../../../services/new/pools';
 import { poolActions } from '../../../services/poolActions';
 import { submitTx } from '../../../services/yoroi';
 import { makeTarget } from '../../../utils/ammMath';

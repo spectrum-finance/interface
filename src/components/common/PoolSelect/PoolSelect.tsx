@@ -3,6 +3,7 @@ import './PoolSelect.less';
 import { maxBy } from 'lodash';
 import React, { useEffect } from 'react';
 
+import { AmmPool } from '../../../common/models/AmmPool';
 import {
   Button,
   DownOutlined,
@@ -11,7 +12,6 @@ import {
   Menu,
   Typography,
 } from '../../../ergodex-cdk';
-import { AmmPool } from '../../../services/new/pools';
 import { TokenIconPair } from '../../TokenIconPair/TokenIconPair';
 import { FeeTag } from '../FeeTag/FeeTag';
 

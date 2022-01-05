@@ -9,13 +9,13 @@ import {
   switchMap,
 } from 'rxjs';
 
+import { Currency } from '../../common/models/Currency';
 import { ERG_DECIMALS } from '../../constants/erg';
 import { useObservable } from '../../hooks/useObservable';
 import { getListAvailableTokens } from '../../utils/getListAvailableTokens';
 import { parseUserInputToFractions } from '../../utils/math';
 import { assets$ } from './assets';
 import { nativeTokenBalance$, utxos$ } from './core';
-import { Currency } from './currency';
 
 const ERGO_ID =
   '0000000000000000000000000000000000000000000000000000000000000000';
@@ -36,11 +36,11 @@ export class Balance {
     return this.mapAssetIdToBalance.get(asset.id) || new Currency(0n, asset);
   }
 
-  entries() {
+  entries(): [string, Currency][] {
     return Array.from(this.mapAssetIdToBalance.entries());
   }
 
-  values() {
+  values(): Currency[] {
     return Array.from(this.mapAssetIdToBalance.values());
   }
 }

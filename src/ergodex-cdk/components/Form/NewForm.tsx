@@ -167,7 +167,7 @@ export class FormControl<T> implements AbstractFormItem<T> {
     this.markAsUntouched();
   }
 
-  emitEvent(config?: EventConfig) {
+  emitEvent(config?: EventConfig): void {
     if (
       config?.emitEvent === 'system' ||
       config?.emitEvent === 'default' ||
@@ -297,29 +297,29 @@ export class FormGroup<T> implements AbstractFormItem<T> {
     return dictionary;
   }
 
-  markAllAsTouched() {
+  markAllAsTouched(): void {
     this.controlsArray.forEach((c) => c.markAsTouched());
   }
 
-  markAllAsUntouched() {
+  markAllAsUntouched(): void {
     this.controlsArray.forEach((c) => c.markAsUntouched());
   }
 
-  patchValue(value: Partial<T>, config?: EventConfig) {
+  patchValue(value: Partial<T>, config?: EventConfig): void {
     Object.entries(value).forEach(([key, value]) =>
       this.controls[key as keyof T].patchValue(value as any, config),
     );
     this.emitEvent(config);
   }
 
-  reset(value: Partial<T>, config?: EventConfig) {
+  reset(value: Partial<T>, config?: EventConfig): void {
     Object.entries(value).forEach(([key, value]) =>
       this.controls[key as keyof T].reset(value as any, config),
     );
     this.emitEvent(config);
   }
 
-  private emitEvent(config?: EventConfig) {
+  private emitEvent(config?: EventConfig): void {
     if (
       config?.emitEvent === 'system' ||
       config?.emitEvent === 'default' ||

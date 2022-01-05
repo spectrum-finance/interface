@@ -1,41 +1,72 @@
-/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
+import './Ratio.less';
 
-import React from 'react';
-import { map } from 'rxjs';
+import React, { FC, useState } from 'react';
+import { debounceTime, map } from 'rxjs';
 
+import { Currency } from '../../../common/models/Currency';
 import { Typography } from '../../../ergodex-cdk';
 import { FormGroup } from '../../../ergodex-cdk/components/Form/NewForm';
 import { useObservable } from '../../../hooks/useObservable';
-import { Currency } from '../../../services/new/currency';
-import { math, renderFractions } from '../../../utils/math';
-import { SwapFormModel } from '../SwapModel';
+import { SwapFormModel } from '../SwapFormModel';
 
-export function renderPrice(x: Currency, y: Currency): string {
-  const nameX = x.asset.name;
-  const nameY = y.asset.name;
-  const fmtX = renderFractions(x.amount, x.asset.decimals);
-  const fmtY = renderFractions(y.amount, y.asset.decimals);
-  const p = math.evaluate!(`${fmtY} / ${fmtX}`).toFixed(y.asset.decimals ?? 0);
-  return `1 ${nameX} - ${p} ${nameY}`;
-}
+const calculateOutputPrice = ({
+  fromAmount,
+  fromAsset,
+  pool,
+}: Required<SwapFormModel>): Currency => {
+  if (fromAmount?.isPositive()) {
+    return pool.calculateOutputPrice(fromAmount);
+  } else {
+    return pool.calculateOutputPrice(new Currency('1', fromAsset));
+  }
+};
 
-export const Ratio = ({ form }: { form: FormGroup<SwapFormModel> }) => {
+const calculateInputPrice = ({
+  toAmount,
+  toAsset,
+  pool,
+}: Required<SwapFormModel>): Currency => {
+  if (toAmount?.isPositive()) {
+    return pool.calculateInputPrice(toAmount);
+  } else {
+    return pool.calculateInputPrice(new Currency('1', toAsset));
+  }
+};
+
+export const Ratio: FC<{ form: FormGroup<SwapFormModel> }> = ({ form }) => {
+  const [reversedRatio, setReversedRatio] = useState(false);
   const [ratio] = useObservable(
     form.valueChangesWithSilent$.pipe(
       map((value) => {
-        if (
-          value.fromAmount?.isPositive() &&
-          value.toAmount?.isPositive() &&
-          value.pool
-        ) {
-          return renderPrice(value.fromAmount, value.toAmount);
-        } else {
+        if (!value.pool || !value.fromAsset) {
           return undefined;
         }
+        if (reversedRatio) {
+          return calculateInputPrice(value as Required<SwapFormModel>);
+        } else {
+          return calculateOutputPrice(value as Required<SwapFormModel>);
+        }
       }),
+      debounceTime(100),
+      map((price) =>
+        reversedRatio
+          ? `1 ${form.value.toAsset?.name} - ${price?.toString()}`
+          : `1 ${form.value.fromAsset?.name} - ${price?.toString()}`,
+      ),
     ),
-    { deps: [form] },
+    { deps: [form, reversedRatio] },
   );
 
-  return <Typography.Body>{ratio}</Typography.Body>;
+  const toggleReversedRatio = () =>
+    setReversedRatio((reversedRatio) => !reversedRatio);
+
+  return (
+    <>
+      {form.value.pool && (
+        <Typography.Body className="ratio" onClick={toggleReversedRatio}>
+          {ratio}
+        </Typography.Body>
+      )}
+    </>
+  );
 };

@@ -1,8 +1,9 @@
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 
 import { parseUserInputToFractions, renderFractions } from '../../utils/math';
+import { getDecimalsCount, normalizeAmount } from '../utils/amount';
 
-const createUnknownAsset = (decimals = 0) => ({
+const createUnknownAsset = (decimals = 0): AssetInfo => ({
   id: '-1',
   name: 'unknown',
   decimals,
@@ -48,7 +49,7 @@ export class Currency {
     return a.id === this.asset.id;
   }
 
-  isPositive() {
+  isPositive(): boolean {
     return this.amount > 0n;
   }
 
@@ -68,17 +69,17 @@ export class Currency {
     return this.amount > currency.amount;
   }
 
-  lt(currency: Currency) {
+  lt(currency: Currency): boolean {
     this.checkComparisonErrors(currency);
     return this.amount < currency.amount;
   }
 
-  gte(currency: Currency) {
+  gte(currency: Currency): boolean {
     this.checkComparisonErrors(currency);
     return this.amount >= currency.amount;
   }
 
-  lte(currency: Currency) {
+  lte(currency: Currency): boolean {
     this.checkComparisonErrors(currency);
     return this.amount <= currency.amount;
   }
@@ -94,7 +95,7 @@ export class Currency {
     return new Currency(this.amount + currency.amount, this.asset);
   }
 
-  minus(currency: Currency) {
+  minus(currency: Currency): Currency {
     if (isUnknownAsset(this.asset)) {
       throw new Error("can't subtract unknown asset");
     }
@@ -115,7 +116,7 @@ export class Currency {
     return `${renderFractions(this.amount, this.asset.decimals)}`;
   }
 
-  toUsd() {}
+  toUsd(): void {}
 
   private checkComparisonErrors(currency: Currency): void {
     if (isUnknownAsset(this.asset)) {
@@ -127,7 +128,7 @@ export class Currency {
   }
 
   private checkAmountErrors(amount: string, asset: AssetInfo): void {
-    const decimalsCount = this.getDecimalsCount(amount);
+    const decimalsCount = getDecimalsCount(amount);
 
     if (isUnknownAsset(asset)) {
       this._asset = createUnknownAsset(decimalsCount);
@@ -138,30 +139,13 @@ export class Currency {
     }
   }
 
-  private getDecimalsCount(amount: string) {
-    const decimals = amount.split('.')[1];
-
-    if (decimals) {
-      return decimals.length;
-    }
-    return 0;
-  }
-
   private normalizeAmount(
     amount: bigint,
     currentAsset: AssetInfo,
     newAsset: AssetInfo,
   ): string {
     const amountString = renderFractions(amount, currentAsset.decimals);
-    const currentDecimalsCount = this.getDecimalsCount(amountString);
 
-    if (currentDecimalsCount <= (newAsset.decimals || 0)) {
-      return amountString;
-    }
-
-    return amountString.slice(
-      0,
-      amountString.length - currentDecimalsCount + (newAsset.decimals || 0),
-    );
+    return normalizeAmount(amountString, newAsset);
   }
 }

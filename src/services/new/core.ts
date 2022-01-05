@@ -17,14 +17,14 @@ import {
   switchMap,
 } from 'rxjs';
 
-import { ERG_DECIMALS, ERG_TOKEN_NAME, UI_FEE } from '../../constants/erg';
+import { Currency } from '../../common/models/Currency';
+import { ERG_DECIMALS, ERG_TOKEN_NAME } from '../../constants/erg';
 import { defaultExFee } from '../../constants/settings';
 import { useSettings } from '../../context';
 import { useObservable } from '../../hooks/useObservable';
 import { walletCookies } from '../../utils/cookies';
 import { renderFractions } from '../../utils/math';
 import { calculateTotalFee } from '../../utils/transactions';
-import { Currency } from './currency';
 
 const UPDATE_TIME = 5 * 1000;
 const ERGO_ID =
@@ -55,7 +55,7 @@ export const walletState$ = updateWalletState.pipe(
   refCount(),
 );
 
-export const connectWallet = () => {
+export const connectWallet = (): void => {
   updateWalletState.next(undefined);
 };
 

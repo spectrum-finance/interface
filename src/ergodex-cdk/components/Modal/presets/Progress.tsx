@@ -2,7 +2,6 @@ import { LoadingOutlined } from '@ant-design/icons';
 import React, { FC, ReactNode } from 'react';
 
 import { Flex } from '../../Flex/Flex';
-import { Row } from '../../Row/Row';
 import { Spin } from '../../Spin/Spin';
 import { ModalContent } from '../ModalContent/ModalContent';
 import { ModalTitle } from '../ModalTitle/ModalTitle';
