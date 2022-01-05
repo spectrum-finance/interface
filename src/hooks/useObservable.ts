@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { map, Observable, Subject, Subscription, switchMap } from 'rxjs';
+import { Observable, Subject, Subscription, switchMap } from 'rxjs';
 
 import { Unpacked } from '../utils/unpacked';
 

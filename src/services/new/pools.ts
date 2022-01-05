@@ -5,7 +5,7 @@ import {
   NetworkPools,
   PoolId,
 } from '@ergolabs/ergo-dex-sdk';
-import { AssetAmount, ErgoBox } from '@ergolabs/ergo-sdk';
+import { ErgoBox } from '@ergolabs/ergo-sdk';
 import {
   combineLatest,
   defer,
@@ -14,19 +14,12 @@ import {
   Observable,
   publishReplay,
   refCount,
-  startWith,
   switchMap,
   zip,
 } from 'rxjs';
 
 import { AmmPool } from '../../common/models/AmmPool';
-import { Currency } from '../../common/models/Currency';
 import { getListAvailableTokens } from '../../utils/getListAvailableTokens';
-import {
-  math,
-  parseUserInputToFractions,
-  renderFractions,
-} from '../../utils/math';
 import { explorer } from '../explorer';
 import { utxos$ } from './core';
 

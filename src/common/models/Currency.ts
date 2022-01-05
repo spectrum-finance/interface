@@ -1,13 +1,9 @@
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 
-import {
-  math,
-  parseUserInputToFractions,
-  renderFractions,
-} from '../../utils/math';
+import { parseUserInputToFractions, renderFractions } from '../../utils/math';
 import { getDecimalsCount, normalizeAmount } from '../utils/amount';
 
-const createUnknownAsset = (decimals = 0) => ({
+const createUnknownAsset = (decimals = 0): AssetInfo => ({
   id: '-1',
   name: 'unknown',
   decimals,
@@ -53,7 +49,7 @@ export class Currency {
     return a.id === this.asset.id;
   }
 
-  isPositive() {
+  isPositive(): boolean {
     return this.amount > 0n;
   }
 
@@ -73,17 +69,17 @@ export class Currency {
     return this.amount > currency.amount;
   }
 
-  lt(currency: Currency) {
+  lt(currency: Currency): boolean {
     this.checkComparisonErrors(currency);
     return this.amount < currency.amount;
   }
 
-  gte(currency: Currency) {
+  gte(currency: Currency): boolean {
     this.checkComparisonErrors(currency);
     return this.amount >= currency.amount;
   }
 
-  lte(currency: Currency) {
+  lte(currency: Currency): boolean {
     this.checkComparisonErrors(currency);
     return this.amount <= currency.amount;
   }
@@ -99,7 +95,7 @@ export class Currency {
     return new Currency(this.amount + currency.amount, this.asset);
   }
 
-  minus(currency: Currency) {
+  minus(currency: Currency): Currency {
     if (isUnknownAsset(this.asset)) {
       throw new Error("can't subtract unknown asset");
     }
@@ -120,7 +116,7 @@ export class Currency {
     return `${renderFractions(this.amount, this.asset.decimals)}`;
   }
 
-  toUsd() {}
+  toUsd(): void {}
 
   private checkComparisonErrors(currency: Currency): void {
     if (isUnknownAsset(this.asset)) {

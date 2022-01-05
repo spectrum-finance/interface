@@ -1,6 +1,6 @@
 import './Ratio.less';
 
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import { debounceTime, map } from 'rxjs';
 
 import { Currency } from '../../../common/models/Currency';
@@ -33,8 +33,8 @@ const calculateInputPrice = ({
   }
 };
 
-export const Ratio = ({ form }: { form: FormGroup<SwapFormModel> }) => {
-  const [reversed, setReversed] = useState(false);
+export const Ratio: FC<{ form: FormGroup<SwapFormModel> }> = ({ form }) => {
+  const [reversedRatio, setReversedRatio] = useState(false);
   const [ratio] = useObservable(
     form.valueChangesWithSilent$.pipe(
       debounceTime(100),
@@ -42,26 +42,27 @@ export const Ratio = ({ form }: { form: FormGroup<SwapFormModel> }) => {
         if (!value.pool || !value.fromAsset) {
           return undefined;
         }
-        if (reversed) {
+        if (reversedRatio) {
           return calculateInputPrice(value as Required<SwapFormModel>);
         } else {
           return calculateOutputPrice(value as Required<SwapFormModel>);
         }
       }),
       map((price) =>
-        reversed
+        reversedRatio
           ? `1 ${form.value.toAsset?.name} - ${price?.toString()}`
           : `1 ${form.value.fromAsset?.name} - ${price?.toString()}`,
       ),
     ),
-    { deps: [form, reversed] },
+    { deps: [form, reversedRatio] },
   );
 
-  const toggleReversed = () => setReversed((reversed) => !reversed);
+  const toggleReversedRatio = () =>
+    setReversedRatio((reversedRatio) => !reversedRatio);
 
   return (
     <Animation.Expand expanded={!!form.value.pool}>
-      <Typography.Body className="price-indicator" onClick={toggleReversed}>
+      <Typography.Body className="ratio" onClick={toggleReversedRatio}>
         {ratio}
       </Typography.Body>
     </Animation.Expand>

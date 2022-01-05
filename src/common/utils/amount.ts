@@ -1,6 +1,6 @@
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 
-export const getDecimalsCount = (amount: string) => {
+export const getDecimalsCount = (amount: string): number => {
   const decimals = amount.split('.')[1];
 
   if (decimals) {
@@ -9,7 +9,7 @@ export const getDecimalsCount = (amount: string) => {
   return 0;
 };
 
-export const normalizeAmount = (amount: string, asset: AssetInfo) => {
+export const normalizeAmount = (amount: string, asset: AssetInfo): string => {
   const currentDecimalsCount = getDecimalsCount(amount);
 
   if (currentDecimalsCount <= (asset.decimals || 0)) {

@@ -1,5 +1,4 @@
-import { AssetInfo } from '@ergolabs/ergo-sdk';
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import { Currency } from '../../../../common/models/Currency';
 import { Box, Flex, Typography } from '../../../../ergodex-cdk';
