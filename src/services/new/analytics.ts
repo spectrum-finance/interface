@@ -37,6 +37,7 @@ export interface AmmPoolAnalytics {
   tvl: AnalyticsData;
   volume: AnalyticsData;
   fees: AnalyticsData;
+  yearlyFeesPercent: number;
 }
 
 export interface AmmAggregatedAnalytics {
@@ -44,15 +45,18 @@ export interface AmmAggregatedAnalytics {
   volume: AnalyticsData;
 }
 
+const get24hData = (url: string): Promise<any> => {
+  return axios.get(url, {
+    params: {
+      from: DateTime.now().minus({ day: 1 }).toMillis(),
+    },
+  });
+};
+
 export const aggregatedAnalyticsData24H$ = defer(() =>
-  from(
-    axios.get('https://api.ergodex.io/v1/amm/platform/stats', {
-      params: {
-        from: DateTime.now().startOf('day').minus({ hour: 24 }).toMillis(),
-        to: DateTime.now().toMillis(),
-      },
-    }),
-  ).pipe(map((res) => res.data)),
+  from(get24hData('https://api.ergodex.io/v1/amm/platform/stats')).pipe(
+    map((res) => res.data),
+  ),
 );
 
 export const getAggregateAnalyticsDataByFrame = (
@@ -84,3 +88,10 @@ export const getAggregatedPoolAnalyticsDataById = (
       },
     ),
   ).pipe(map((res) => res.data));
+
+export const getAggregatedPoolAnalyticsDataById24H = (
+  poolId: PoolId,
+): Observable<AmmPoolAnalytics> =>
+  from(get24hData(`https://api.ergodex.io/v1/amm/pool/${poolId}/stats`)).pipe(
+    map((res) => res.data),
+  );

@@ -42,11 +42,11 @@ import { useWalletBalance } from '../../services/new/balance';
 import { getPoolByPair } from '../../services/new/pools';
 import { fractionsToNum, parseUserInputToFractions } from '../../utils/math';
 import { calculateTotalFee } from '../../utils/transactions';
+import { OperationSettings } from './OperationSettings/OperationSettings';
 import { Ratio } from './Ratio/Ratio';
 import { SwapConfirmationModal } from './SwapConfirmationModal/SwapConfirmationModal';
 import { SwapFormModel } from './SwapModel';
 import { SwapTooltip } from './SwapTooltip/SwapTooltip';
-import { TransactionSettings } from './TransactionSettings/TransactionSettings';
 
 const convertToTo = (
   fromAmount: TokenAmountInputValue | undefined,
@@ -292,7 +292,7 @@ export const Swap = (): JSX.Element => {
             <Flex.Item flex={1}>
               <Typography.Title level={4}>{t`swap.title`}</Typography.Title>
             </Flex.Item>
-            <TransactionSettings />
+            <OperationSettings />
           </Flex>
           <Flex.Item marginBottom={6} marginTop={-1}>
             <Typography.Footnote>{t`swap.subtitle`}</Typography.Footnote>
@@ -307,7 +307,11 @@ export const Swap = (): JSX.Element => {
             />
           </Flex.Item>
           <Flex.Item className="swap-button">
-            <Button onClick={swapTokens} icon={<SwapOutlined />} size="large" />
+            <Button
+              onClick={swapTokens}
+              icon={<SwapOutlined />}
+              size="middle"
+            />
           </Flex.Item>
           <Flex.Item marginBottom={4}>
             <TokenControlFormItem
