@@ -2,7 +2,7 @@ import { PoolId } from '@ergolabs/ergo-dex-sdk';
 import { AmmPool as BaseAmmPool } from '@ergolabs/ergo-dex-sdk/build/main/amm/entities/ammPool';
 import { AssetAmount } from '@ergolabs/ergo-sdk';
 
-import { math, renderFractions } from '../../utils/math';
+import { math } from '../../utils/math';
 import { normalizeAmount } from '../utils/amount';
 import { Currency } from './Currency';
 
@@ -74,7 +74,7 @@ export class AmmPool {
       new AssetAmount(currency.asset, currency.amount),
     );
 
-    return new Currency(depositAmount?.amount || 0n, depositAmount?.asset);
+    return new Currency(depositAmount?.amount, depositAmount?.asset);
   }
 
   calculateInputAmount(currency: Currency): Currency {
@@ -82,7 +82,7 @@ export class AmmPool {
       new AssetAmount(currency.asset, currency.amount),
     );
 
-    return new Currency(inputAmount?.amount || 0n, inputAmount?.asset);
+    return new Currency(inputAmount?.amount, inputAmount?.asset);
   }
 
   calculateOutputAmount(currency: Currency): Currency {
@@ -90,6 +90,6 @@ export class AmmPool {
       new AssetAmount(currency.asset, currency.amount),
     );
 
-    return new Currency(outputAmount.amount || 0n, outputAmount?.asset);
+    return new Currency(outputAmount.amount, outputAmount?.asset);
   }
 }

@@ -17,7 +17,6 @@ import { TokenIconPair } from '../../components/TokenIconPair/TokenIconPair';
 import { Flex, Skeleton, Typography } from '../../ergodex-cdk';
 import { usePair } from '../../hooks/usePair';
 import { usePosition } from '../../hooks/usePosition';
-import { parseUserInputToFractions } from '../../utils/math';
 import { ConfirmRemoveModal } from './ConfirmRemoveModal/ConfirmRemoveModal';
 import { PairSpace } from './PairSpace/PairSpace';
 import { RemoveFormSpaceWrapper } from './RemoveFormSpaceWrapper/RemoveFormSpaceWrapper';

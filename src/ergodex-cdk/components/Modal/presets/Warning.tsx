@@ -2,7 +2,6 @@ import { ExclamationCircleOutlined } from '@ant-design/icons';
 import React, { FC, ReactNode } from 'react';
 
 import { Flex } from '../../Flex/Flex';
-import { Row } from '../../Row/Row';
 import { ModalContent } from '../ModalContent/ModalContent';
 import { ModalTitle } from '../ModalTitle/ModalTitle';
 import { INFO_DIALOG_WIDTH } from './core';

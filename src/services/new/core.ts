@@ -18,7 +18,7 @@ import {
 } from 'rxjs';
 
 import { Currency } from '../../common/models/Currency';
-import { ERG_DECIMALS, ERG_TOKEN_NAME, UI_FEE } from '../../constants/erg';
+import { ERG_DECIMALS, ERG_TOKEN_NAME } from '../../constants/erg';
 import { defaultExFee } from '../../constants/settings';
 import { useSettings } from '../../context';
 import { useObservable } from '../../hooks/useObservable';
@@ -55,7 +55,7 @@ export const walletState$ = updateWalletState.pipe(
   refCount(),
 );
 
-export const connectWallet = () => {
+export const connectWallet = (): void => {
   updateWalletState.next(undefined);
 };
 

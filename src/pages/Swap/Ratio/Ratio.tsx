@@ -1,6 +1,6 @@
 import './Ratio.less';
 
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import { debounceTime, map } from 'rxjs';
 
 import { Currency } from '../../../common/models/Currency';
@@ -33,7 +33,7 @@ const calculateInputPrice = ({
   }
 };
 
-export const Ratio = ({ form }: { form: FormGroup<SwapFormModel> }) => {
+export const Ratio: FC<{ form: FormGroup<SwapFormModel> }> = ({ form }) => {
   const [reversed, setReversed] = useState(false);
   const [ratio] = useObservable(
     form.valueChangesWithSilent$.pipe(

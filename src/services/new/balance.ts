@@ -36,11 +36,11 @@ export class Balance {
     return this.mapAssetIdToBalance.get(asset.id) || new Currency(0n, asset);
   }
 
-  entries() {
+  entries(): [string, Currency][] {
     return Array.from(this.mapAssetIdToBalance.entries());
   }
 
-  values() {
+  values(): Currency[] {
     return Array.from(this.mapAssetIdToBalance.values());
   }
 }

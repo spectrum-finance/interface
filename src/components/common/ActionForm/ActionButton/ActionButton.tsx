@@ -107,12 +107,6 @@ export const ActionButton: FC<ActionButtonProps> = (props) => {
     props.children,
   );
 
-  const handleClick = () => {
-    if (props.state === ActionButtonState.ACTION && props.onClick) {
-      props.onClick();
-    }
-  };
-
   return (
     <ConnectWalletButton
       className="action-form__connect-btn"

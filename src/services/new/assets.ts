@@ -14,7 +14,9 @@ export const assets$ = pools$.pipe(
 export const getAssetById = (id: string): Observable<AssetInfo> =>
   assets$.pipe(map((assets) => find(assets, ['id', id])!));
 
-export const getAvailableAssetFor = (assetId: string) =>
+export const getAvailableAssetFor = (
+  assetId: string,
+): Observable<AssetInfo[]> =>
   pools$.pipe(
     map((pools) =>
       pools.filter((p) => p.x.asset.id === assetId || p.y.asset.id === assetId),

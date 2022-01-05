@@ -1,6 +1,6 @@
 import { minValueForOrder } from '@ergolabs/ergo-dex-sdk';
 import { BoxSelection, DefaultBoxSelector } from '@ergolabs/ergo-sdk';
-import React, { useCallback } from 'react';
+import React from 'react';
 
 import { AmmPool } from '../../../common/models/AmmPool';
 import { Currency } from '../../../common/models/Currency';

@@ -5,7 +5,6 @@ import React, { useEffect, useState } from 'react';
 
 import { Currency } from '../../../../common/models/Currency';
 import { Box, Input } from '../../../../ergodex-cdk';
-import { toFloat } from '../../../../utils/string/string';
 import { escapeRegExp } from './format';
 
 const inputRegex = RegExp(`^\\d*(?:\\\\[.])?\\d*$`); // match escaped "." characters via in a non-capturing group

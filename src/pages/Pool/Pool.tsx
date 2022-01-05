@@ -1,17 +1,13 @@
-import { isEmpty } from 'lodash';
-import React, { useContext } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { ConnectWalletButton } from '../../components/common/ConnectWalletButton/ConnectWalletButton';
 import { FormPageWrapper } from '../../components/FormPageWrapper/FormPageWrapper';
-import { WalletContext } from '../../context';
-import { Button, Flex, PlusOutlined, Typography } from '../../ergodex-cdk';
+import { Button, Flex, PlusOutlined } from '../../ergodex-cdk';
 import { useObservable } from '../../hooks/useObservable';
 import { isWalletSetuped$ } from '../../services/new/core';
-import { availablePools$ } from '../../services/new/pools';
 import { EmptyPositionsWrapper } from './components/EmptyPositionsWrapper/EmptyPositionsWrapper';
 import { LiquidityPositionsList } from './components/LiquidityPositionsList/LiquidityPositionsList';
-import { PositionListLoader } from './components/PositionListLoader/PositionListLoader';
 
 // import { LPGuide } from './LPGuide/LPGuide';
 
