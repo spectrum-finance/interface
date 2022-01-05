@@ -34,14 +34,14 @@ const calculateInputPrice = ({
 };
 
 export const Ratio: FC<{ form: FormGroup<SwapFormModel> }> = ({ form }) => {
-  const [reversed, setReversed] = useState(false);
+  const [reversedRatio, setReversedRatio] = useState(false);
   const [ratio] = useObservable(
     form.valueChangesWithSilent$.pipe(
       map((value) => {
         if (!value.pool || !value.fromAsset) {
           return undefined;
         }
-        if (reversed) {
+        if (reversedRatio) {
           return calculateInputPrice(value as Required<SwapFormModel>);
         } else {
           return calculateOutputPrice(value as Required<SwapFormModel>);
@@ -49,20 +49,21 @@ export const Ratio: FC<{ form: FormGroup<SwapFormModel> }> = ({ form }) => {
       }),
       debounceTime(100),
       map((price) =>
-        reversed
+        reversedRatio
           ? `1 ${form.value.toAsset?.name} - ${price?.toString()}`
           : `1 ${form.value.fromAsset?.name} - ${price?.toString()}`,
       ),
     ),
-    { deps: [form, reversed] },
+    { deps: [form, reversedRatio] },
   );
 
-  const toggleReversed = () => setReversed((reversed) => !reversed);
+  const toggleReversedRatio = () =>
+    setReversedRatio((reversedRatio) => !reversedRatio);
 
   return (
     <>
       {form.value.pool && (
-        <Typography.Body className="price-indicator" onClick={toggleReversed}>
+        <Typography.Body className="ratio" onClick={toggleReversedRatio}>
           {ratio}
         </Typography.Body>
       )}
