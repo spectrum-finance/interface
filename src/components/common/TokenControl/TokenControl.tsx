@@ -7,13 +7,14 @@ import { useTranslation } from 'react-i18next';
 import { Observable, of } from 'rxjs';
 
 import { Currency } from '../../../common/models/Currency';
-import { Box, Button, Flex, Typography } from '../../../ergodex-cdk';
+import { Animation, Box, Button, Flex, Typography } from '../../../ergodex-cdk';
 import {
   Form,
   useFormContext,
 } from '../../../ergodex-cdk/components/Form/NewForm';
 import { useObservable } from '../../../hooks/useObservable';
 import { useWalletBalance } from '../../../services/new/balance';
+import { isWalletLoading$ } from '../../../services/new/core';
 import {
   TokenAmountInput,
   TokenAmountInputValue,
@@ -79,12 +80,13 @@ export const TokenControlFormItem: FC<NewTokenControlProps> = ({
 }) => {
   const { t } = useTranslation();
   const { form } = useFormContext();
-  const [balance] = useWalletBalance();
+  const [balance, balanceLoading] = useWalletBalance();
   const [selectedAsset] = useObservable(
     tokenName
       ? form.controls[tokenName].valueChangesWithSilent$
       : of(undefined),
   );
+  const [isWalletLoading] = useObservable(isWalletLoading$);
 
   const handleMaxButtonClick = (maxBalance: Currency) => {
     if (amountName) {
@@ -155,35 +157,47 @@ export const TokenControlFormItem: FC<NewTokenControlProps> = ({
             )}
           </Flex.Item>
         </Flex.Item>
-      </Flex>
-      {!noBottomInfo && (
-        <Flex
-          direction="row"
-          align="center"
-          className="token-control-bottom-panel"
-        >
-          {selectedAsset !== undefined && (
-            <Flex.Item marginRight={2}>
-              <Typography.Body>
-                {t`common.tokenControl.balanceLabel`}{' '}
-                {balance.get(selectedAsset).toString()}
-              </Typography.Body>
-            </Flex.Item>
-          )}
-          {selectedAsset !== undefined &&
-            !!balance.get(selectedAsset) &&
-            maxButton && (
-              <Button
-                ghost
-                type="primary"
-                size="small"
-                onClick={() => handleMaxButtonClick(balance.get(selectedAsset))}
+        {!noBottomInfo && (
+          <Flex.Item marginBottom={1} marginTop={1}>
+            <Flex
+              direction="row"
+              align="center"
+              className="token-control-bottom-panel"
+            >
+              <Animation.Expand
+                expanded={
+                  selectedAsset !== undefined &&
+                  !isWalletLoading &&
+                  !balanceLoading
+                }
               >
-                {t`common.tokenControl.maxButton`}
-              </Button>
-            )}
-        </Flex>
-      )}
+                {() => (
+                  <>
+                    <Flex.Item marginRight={2}>
+                      <Typography.Body>
+                        {t`common.tokenControl.balanceLabel`}{' '}
+                        {balance.get(selectedAsset).toString()}
+                      </Typography.Body>
+                    </Flex.Item>
+                    {!!balance.get(selectedAsset) && maxButton && (
+                      <Button
+                        ghost
+                        type="primary"
+                        size="small"
+                        onClick={() =>
+                          handleMaxButtonClick(balance.get(selectedAsset))
+                        }
+                      >
+                        {t`common.tokenControl.maxButton`}
+                      </Button>
+                    )}
+                  </>
+                )}
+              </Animation.Expand>
+            </Flex>
+          </Flex.Item>
+        )}
+      </Flex>
     </Box>
   );
 };

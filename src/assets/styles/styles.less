@@ -7,7 +7,11 @@ body {
   background-color: var(--ergo-body-bg) !important;
 }
 
-*, *::before, *::after {
+* {
+  box-sizing: border-box !important;
+}
+
+*::before, *::after {
   box-sizing: border-box !important;
   transition: none !important;
 }
