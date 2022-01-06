@@ -4,7 +4,7 @@ import React, { FC, useState } from 'react';
 import { debounceTime, map } from 'rxjs';
 
 import { Currency } from '../../../common/models/Currency';
-import { Typography } from '../../../ergodex-cdk';
+import { Animation, Typography } from '../../../ergodex-cdk';
 import { FormGroup } from '../../../ergodex-cdk/components/Form/NewForm';
 import { useObservable } from '../../../hooks/useObservable';
 import { SwapFormModel } from '../SwapFormModel';
@@ -37,6 +37,7 @@ export const Ratio: FC<{ form: FormGroup<SwapFormModel> }> = ({ form }) => {
   const [reversedRatio, setReversedRatio] = useState(false);
   const [ratio] = useObservable(
     form.valueChangesWithSilent$.pipe(
+      debounceTime(100),
       map((value) => {
         if (!value.pool || !value.fromAsset) {
           return undefined;
@@ -47,7 +48,6 @@ export const Ratio: FC<{ form: FormGroup<SwapFormModel> }> = ({ form }) => {
           return calculateOutputPrice(value as Required<SwapFormModel>);
         }
       }),
-      debounceTime(100),
       map((price) =>
         reversedRatio
           ? `1 ${form.value.toAsset?.name} - ${price?.toString()}`
@@ -61,12 +61,10 @@ export const Ratio: FC<{ form: FormGroup<SwapFormModel> }> = ({ form }) => {
     setReversedRatio((reversedRatio) => !reversedRatio);
 
   return (
-    <>
-      {form.value.pool && (
-        <Typography.Body className="ratio" onClick={toggleReversedRatio}>
-          {ratio}
-        </Typography.Body>
-      )}
-    </>
+    <Animation.Expand expanded={!!form.value.pool}>
+      <Typography.Body className="ratio" onClick={toggleReversedRatio}>
+        {ratio}
+      </Typography.Body>
+    </Animation.Expand>
   );
 };
