@@ -50,8 +50,8 @@ export const Ratio: FC<{ form: FormGroup<SwapFormModel> }> = ({ form }) => {
       }),
       map((price) =>
         reversedRatio
-          ? `1 ${form.value.toAsset?.name} - ${price?.toString()}`
-          : `1 ${form.value.fromAsset?.name} - ${price?.toString()}`,
+          ? `1 ${form.value.toAsset?.name} = ${price?.toString()}`
+          : `1 ${form.value.fromAsset?.name} = ${price?.toString()}`,
       ),
     ),
     { deps: [form, reversedRatio] },

@@ -1,6 +1,7 @@
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
 import { AmmPool as BaseAmmPool } from '@ergolabs/ergo-dex-sdk/build/main/amm/entities/ammPool';
 import { AssetAmount } from '@ergolabs/ergo-sdk';
+import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 
 import { math } from '../../utils/math';
 import { normalizeAmount } from '../utils/amount';
@@ -31,6 +32,16 @@ export class AmmPool {
 
   get x(): Currency {
     return new Currency(this.pool.x.amount, this.pool.x.asset);
+  }
+
+  getAssetAmount(asset: AssetInfo): Currency {
+    if (this.pool.x.asset.id === asset.id) {
+      return this.x;
+    }
+    if (this.pool.y.asset.id === asset.id) {
+      return this.y;
+    }
+    throw new Error('unknown asset');
   }
 
   calculateOutputPrice(inputCurrency: Currency): Currency {
