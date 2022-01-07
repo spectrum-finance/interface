@@ -30,10 +30,10 @@ import {
   BaseInputParameters,
   getBaseInputParameters,
 } from '../../../utils/walletMath';
-import { SwapFormModel } from '../SwapModel';
+import { SwapFormModel } from '../SwapFormModel';
 
 export interface SwapConfirmationModalProps {
-  value: SwapFormModel;
+  value: Required<SwapFormModel>;
   onClose: (p: Promise<any>) => void;
 }
 
@@ -63,20 +63,17 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
   const poolId = value.pool?.id;
   const poolFeeNum = value.pool?.poolFeeNum;
 
-  const inputAmount = value.fromAmount?.viewValue;
-  const inputAsset = value.fromAsset;
-
   useEffect(() => {
-    if (value.pool && inputAmount && inputAsset) {
+    if (value.pool && value.fromAsset && value.fromAmount) {
       setBaseParams(
-        getBaseInputParameters(value.pool, {
-          inputAmount,
-          inputAsset,
+        getBaseInputParameters(value.pool['pool'], {
+          inputAmount: value.fromAmount.toString({ suffix: false }),
+          inputAsset: value.fromAsset,
           slippage,
         }),
       );
     }
-  }, [inputAmount, inputAsset, slippage, value.pool]);
+  }, [value.fromAmount, value.fromAsset, slippage, value.pool]);
 
   useEffect(() => {
     if (baseParams?.minOutput) {
@@ -115,12 +112,12 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
       poolId &&
       operationVars &&
       value.pool &&
-      value.fromAmount?.viewValue &&
+      value.fromAmount &&
       value.fromAsset &&
       value.toAsset?.id
     ) {
       const pk = publicKeyFromAddress(address)!;
-      const actions = poolActions(value.pool);
+      const actions = poolActions(value.pool['pool']);
       const quoteAsset = value.toAsset?.id;
 
       const minNErgs = minValueForOrder(
@@ -130,7 +127,7 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
       );
 
       const target = makeTarget(
-        [new AssetAmount(inputAsset!, baseParams.baseInputAmount)],
+        [new AssetAmount(value.fromAsset!, baseParams.baseInputAmount)],
         minNErgs,
       );
 

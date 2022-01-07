@@ -1,9 +1,9 @@
 import './PoolSelect.less';
 
-import { AmmPool } from '@ergolabs/ergo-dex-sdk';
 import { maxBy } from 'lodash';
 import React, { useEffect } from 'react';
 
+import { AmmPool } from '../../../common/models/AmmPool';
 import {
   Button,
   DownOutlined,

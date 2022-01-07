@@ -1,10 +1,10 @@
 import { ergoBoxFromProxy } from '@ergolabs/ergo-sdk';
+import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import {
   combineLatest,
   distinctUntilChanged,
   filter,
   from,
-  iif,
   interval,
   map,
   mapTo,
@@ -15,12 +15,16 @@ import {
   startWith,
   Subject,
   switchMap,
-  tap,
 } from 'rxjs';
 
+import { Currency } from '../../common/models/Currency';
 import { ERG_DECIMALS, ERG_TOKEN_NAME } from '../../constants/erg';
+import { defaultExFee } from '../../constants/settings';
+import { useSettings } from '../../context';
+import { useObservable } from '../../hooks/useObservable';
 import { walletCookies } from '../../utils/cookies';
 import { renderFractions } from '../../utils/math';
+import { calculateTotalFee } from '../../utils/transactions';
 
 const UPDATE_TIME = 5 * 1000;
 const ERGO_ID =
@@ -51,7 +55,7 @@ export const walletState$ = updateWalletState.pipe(
   refCount(),
 );
 
-export const connectWallet = () => {
+export const connectWallet = (): void => {
   updateWalletState.next(undefined);
 };
 
@@ -109,3 +113,37 @@ export const getTokenBalance = (tokenId: string): Observable<number> =>
     ),
     map((amount) => +renderFractions(amount, ERG_DECIMALS)),
   );
+
+export const networkAsset = {
+  name: 'ERG',
+  id: ERGO_ID,
+  decimals: ERG_DECIMALS,
+};
+
+export const networkAsset$: Observable<AssetInfo> = of(networkAsset).pipe(
+  publishReplay(1),
+  refCount(),
+);
+
+export const defaultExFee$: Observable<Currency> = networkAsset$.pipe(
+  map((nativeToken) => new Currency(defaultExFee.toString(), nativeToken)),
+  publishReplay(1),
+  refCount(),
+);
+
+export const useNetworkAsset = (): AssetInfo => {
+  const [_nativeToken] = useObservable(networkAsset$, {
+    defaultValue: networkAsset,
+  });
+
+  return _nativeToken;
+};
+
+export const useTotalFees = (): Currency => {
+  const [{ minerFee }] = useSettings();
+
+  return new Currency(
+    calculateTotalFee([minerFee, defaultExFee], ERG_DECIMALS),
+    networkAsset,
+  );
+};

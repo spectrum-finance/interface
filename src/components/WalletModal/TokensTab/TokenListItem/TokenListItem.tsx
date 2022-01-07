@@ -1,34 +1,28 @@
-import { AssetInfo } from '@ergolabs/ergo-sdk';
-import React, { useEffect } from 'react';
+import React from 'react';
 
+import { Currency } from '../../../../common/models/Currency';
 import { Box, Flex, Typography } from '../../../../ergodex-cdk';
 import { TokenIcon } from '../../../TokenIcon/TokenIcon';
 
 interface TokenListItemProps {
-  readonly asset: AssetInfo;
-  readonly balance: number;
+  readonly currency: Currency;
 }
 
-export const TokenListItem: React.FC<TokenListItemProps> = ({
-  asset,
-  balance,
-}) => (
+export const TokenListItem: React.FC<TokenListItemProps> = ({ currency }) => (
   <Box padding={[2, 4]}>
     <Flex align="center">
       <Flex.Item flex={1}>
         <Flex align="center">
           <Flex.Item marginRight={2}>
-            <TokenIcon name={asset.name} />
+            <TokenIcon name={currency.asset.name} />
           </Flex.Item>
           <Flex direction="col">
-            <Typography.Body>{asset.name}</Typography.Body>
+            <Typography.Body>{currency.asset.name}</Typography.Body>
             {/*<Typography.Footnote small>{asset.name}</Typography.Footnote>*/}
           </Flex>
         </Flex>
       </Flex.Item>
-      <Typography.Body>
-        {balance} {asset.name}
-      </Typography.Body>
+      <Typography.Body>{currency.toString({ suffix: false })}</Typography.Body>
     </Flex>
   </Box>
 );

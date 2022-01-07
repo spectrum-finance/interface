@@ -1,92 +1,42 @@
-/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 import './Swap.less';
 
-import { AmmPool } from '@ergolabs/ergo-dex-sdk';
-import { AssetAmount } from '@ergolabs/ergo-sdk';
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import { maxBy } from 'lodash';
-import React, { useCallback, useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   BehaviorSubject,
   combineLatest,
   debounceTime,
+  distinctUntilChanged,
   filter,
   map,
   Observable,
   of,
   switchMap,
+  tap,
 } from 'rxjs';
 
+import { AmmPool } from '../../common/models/AmmPool';
 import { ActionForm } from '../../components/common/ActionForm/ActionForm';
-import { TokenAmountInputValue } from '../../components/common/TokenControl/TokenAmountInput/TokenAmountInput';
 import { TokenControlFormItem } from '../../components/common/TokenControl/TokenControl';
 import {
   openConfirmationModal,
   Operation,
 } from '../../components/ConfirmationModal/ConfirmationModal';
 import { FormPageWrapper } from '../../components/FormPageWrapper/FormPageWrapper';
-import {
-  ERG_DECIMALS,
-  ERG_TOKEN_ID,
-  ERG_TOKEN_NAME,
-  UI_FEE,
-} from '../../constants/erg';
-import { defaultExFee } from '../../constants/settings';
-import { useSettings } from '../../context';
 import { Button, Flex, SwapOutlined, Typography } from '../../ergodex-cdk';
 import { useForm } from '../../ergodex-cdk/components/Form/NewForm';
 import { useSubscription } from '../../hooks/useObservable';
 import { assets$, getAvailableAssetFor } from '../../services/new/assets';
 import { useWalletBalance } from '../../services/new/balance';
+import { useNetworkAsset, useTotalFees } from '../../services/new/core';
 import { getPoolByPair } from '../../services/new/pools';
-import { fractionsToNum, parseUserInputToFractions } from '../../utils/math';
-import { calculateTotalFee } from '../../utils/transactions';
 import { OperationSettings } from './OperationSettings/OperationSettings';
 import { Ratio } from './Ratio/Ratio';
 import { SwapConfirmationModal } from './SwapConfirmationModal/SwapConfirmationModal';
-import { SwapFormModel } from './SwapModel';
+import { SwapFormModel } from './SwapFormModel';
 import { SwapTooltip } from './SwapTooltip/SwapTooltip';
-
-const convertToTo = (
-  fromAmount: TokenAmountInputValue | undefined,
-  fromAsset: AssetInfo,
-  pool: AmmPool,
-): number | undefined => {
-  if (!fromAmount) {
-    return undefined;
-  }
-
-  const toAmount = pool.outputAmount(
-    new AssetAmount(
-      fromAsset,
-      parseUserInputToFractions(fromAmount.value!, fromAsset.decimals),
-    ),
-  );
-
-  return fractionsToNum(toAmount.amount, toAmount.asset?.decimals);
-};
-
-const convertToFrom = (
-  toAmount: TokenAmountInputValue | undefined,
-  toAsset: AssetInfo,
-  pool: AmmPool,
-): number | undefined => {
-  if (!toAmount) {
-    return undefined;
-  }
-
-  const fromAmount = pool.inputAmount(
-    new AssetAmount(
-      toAsset,
-      parseUserInputToFractions(toAmount.value!, toAsset.decimals),
-    ),
-  );
-
-  return fromAmount
-    ? fractionsToNum(fromAmount.amount, fromAmount.asset?.decimals)
-    : undefined;
-};
 
 const getToAssets = (fromAsset?: string) =>
   fromAsset ? getAvailableAssetFor(fromAsset) : assets$;
@@ -105,16 +55,13 @@ export const Swap = (): JSX.Element => {
   const form = useForm<SwapFormModel>({
     fromAmount: undefined,
     toAmount: undefined,
-    fromAsset: {
-      name: 'ERG',
-      id: '0000000000000000000000000000000000000000000000000000000000000000',
-      decimals: ERG_DECIMALS,
-    },
+    fromAsset: undefined,
     toAsset: undefined,
     pool: undefined,
   });
+  const networkAsset = useNetworkAsset();
   const [balance] = useWalletBalance();
-  const [{ minerFee }] = useSettings();
+  const totalFees = useTotalFees();
   const updateToAssets$ = useMemo(
     () => new BehaviorSubject<string | undefined>(undefined),
     [],
@@ -124,73 +71,55 @@ export const Swap = (): JSX.Element => {
     [],
   );
 
-  const getInsufficientTokenNameForFee = useCallback(
-    (value: SwapFormModel) => {
-      const { fromAmount, fromAsset } = value;
-      let totalFees = +calculateTotalFee(
-        [minerFee, UI_FEE, defaultExFee],
-        ERG_DECIMALS,
-      );
-      totalFees =
-        fromAsset?.id === ERG_TOKEN_ID
-          ? totalFees + fromAmount?.value!
-          : totalFees;
+  useEffect(() => form.patchValue({ fromAsset: networkAsset }), [networkAsset]);
 
-      return +totalFees > balance.get(ERG_TOKEN_ID)
-        ? ERG_TOKEN_NAME
-        : undefined;
-    },
-    [minerFee, balance],
-  );
+  const getInsufficientTokenNameForFee = ({
+    fromAmount,
+  }: Required<SwapFormModel>) => {
+    const totalFeesWithAmount = fromAmount.isAssetEquals(networkAsset)
+      ? fromAmount.plus(totalFees)
+      : totalFees;
 
-  const getInsufficientTokenNameForTx = useCallback(
-    (value: SwapFormModel) => {
-      const { fromAmount, fromAsset } = value;
-      const asset = fromAsset;
-      const amount = fromAmount?.value;
+    return totalFeesWithAmount.gt(balance.get(networkAsset))
+      ? networkAsset.name
+      : undefined;
+  };
 
-      if (asset && amount && amount > balance.get(asset)) {
-        return asset.name;
-      }
+  const getInsufficientTokenNameForTx = ({
+    fromAsset,
+    fromAmount,
+  }: SwapFormModel) => {
+    if (fromAsset && fromAmount && fromAmount.gt(balance.get(fromAsset))) {
+      return fromAsset.name;
+    }
+    return undefined;
+  };
 
-      return undefined;
-    },
-    [balance],
-  );
+  const isAmountNotEntered = ({ toAmount, fromAmount }: SwapFormModel) =>
+    !fromAmount?.isPositive() || !toAmount?.isPositive();
 
-  const isAmountNotEntered = useCallback(
-    (value: SwapFormModel) =>
-      !value.fromAmount?.value || !value.toAmount?.value,
-    [],
-  );
+  const isTokensNotSelected = ({ toAsset, fromAsset }: SwapFormModel) =>
+    !toAsset || !fromAsset;
 
-  const isTokensNotSelected = useCallback(
-    (value: SwapFormModel) => !value.toAsset || !value.fromAsset,
-    [],
-  );
-
-  const submitSwap = useCallback((value: SwapFormModel) => {
+  const submitSwap = (value: Required<SwapFormModel>) => {
     openConfirmationModal(
       (next) => {
         return <SwapConfirmationModal value={value} onClose={next} />;
       },
       Operation.SWAP,
-      { asset: value.fromAsset!, amount: value?.fromAmount?.value! },
-      { asset: value.toAsset!, amount: value?.toAmount?.value! },
+      value.fromAmount!,
+      value.toAmount!,
     );
-  }, []);
+  };
 
-  const isLiquidityInsufficient = useCallback((value: SwapFormModel) => {
-    const { toAmount, pool } = value;
-
-    if (!toAmount?.value || !pool) {
+  const isLiquidityInsufficient = ({ toAmount, pool }: SwapFormModel) => {
+    if (!toAmount?.isPositive() || !pool) {
       return false;
     }
+    return toAmount?.gt(pool.getAssetAmount(toAmount?.asset));
+  };
 
-    return (
-      toAmount.value > fractionsToNum(pool?.y.amount, pool?.y.asset.decimals)
-    );
-  }, []);
+  useSubscription(form.valueChangesWithSilent$, (value) => console.log(value));
 
   useSubscription(
     form.controls.fromAsset.valueChangesWithSilent$,
@@ -207,10 +136,21 @@ export const Swap = (): JSX.Element => {
 
   useSubscription(
     combineLatest([
-      form.controls.fromAsset.valueChanges$,
-      form.controls.toAsset.valueChanges$,
+      form.controls.fromAsset.valueChangesWithSilent$.pipe(
+        distinctUntilChanged(),
+      ),
+      form.controls.toAsset.valueChangesWithSilent$.pipe(
+        distinctUntilChanged(),
+      ),
     ]).pipe(
       debounceTime(100),
+      distinctUntilChanged(([prevFrom, prevTo], [nextFrom, nextTo]) => {
+        return (
+          (prevFrom?.id === nextFrom?.id && prevTo?.id === nextTo?.id) ||
+          (prevFrom?.id === nextTo?.id && prevTo?.id === nextFrom?.id)
+        );
+      }),
+      tap(() => form.patchValue({ pool: undefined })),
       switchMap(([fromAsset, toAsset]) =>
         getSelectedPool(fromAsset?.id, toAsset?.id),
       ),
@@ -220,56 +160,45 @@ export const Swap = (): JSX.Element => {
 
   useSubscription(
     combineLatest([
-      form.controls.fromAmount.valueChanges$,
+      form.controls.fromAmount.valueChangesWithSystem$,
       form.controls.pool.valueChanges$,
     ]).pipe(
       debounceTime(100),
-      filter(([amount, pool]) => !!amount && !!form.value.fromAsset && !!pool),
+      filter(([_, pool]) => !!form.value.fromAsset && !!pool),
     ),
     ([amount, pool]) => {
-      const toAmount = convertToTo(amount!, form.value.fromAsset!, pool!);
       form.patchValue(
-        {
-          toAmount: toAmount
-            ? { value: toAmount, viewValue: toAmount.toString() }
-            : undefined,
-        },
-        { emitEvent: 'system' },
+        { toAmount: amount ? pool?.calculateOutputAmount(amount) : undefined },
+        { emitEvent: 'silent' },
       );
     },
   );
 
   useSubscription(
-    combineLatest([
-      form.controls.toAmount.valueChanges$,
-      form.controls.pool.valueChanges$,
-    ]).pipe(
+    form.controls.toAmount.valueChanges$.pipe(
       debounceTime(100),
-      filter(([amount, pool]) => !!amount && !!form.value.toAsset && !!pool),
+      filter(() => !!form.value.toAsset && !!form.value.pool),
     ),
-    ([amount, pool]) => {
-      const fromAmount = convertToFrom(amount!, form.value.toAsset!, pool!);
-
+    (amount) => {
       form.patchValue(
         {
-          fromAmount: fromAmount
-            ? { value: fromAmount, viewValue: fromAmount.toString() }
+          fromAmount: amount
+            ? form.value.pool?.calculateInputAmount(amount)
             : undefined,
         },
-        { emitEvent: 'system' },
+        { emitEvent: 'silent' },
       );
     },
   );
 
-  const swapTokens = () => {
+  const switchAssets = () => {
     form.patchValue(
       {
         fromAsset: form.value.toAsset,
         fromAmount: form.value.toAmount,
         toAsset: form.value.fromAsset,
-        toAmount: form.value.fromAmount,
       },
-      { emitEvent: 'silent' },
+      { emitEvent: 'system' },
     );
   };
 
@@ -308,9 +237,9 @@ export const Swap = (): JSX.Element => {
           </Flex.Item>
           <Flex.Item className="swap-button">
             <Button
-              onClick={swapTokens}
+              onClick={switchAssets}
               icon={<SwapOutlined />}
-              size="middle"
+              size="large"
             />
           </Flex.Item>
           <Flex.Item marginBottom={4}>

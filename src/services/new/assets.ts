@@ -5,7 +5,7 @@ import { map, Observable, publishReplay, refCount } from 'rxjs';
 import { pools$ } from './pools';
 
 export const assets$ = pools$.pipe(
-  map((pools) => pools.flatMap((p) => [p.assetX, p.assetY])),
+  map((pools) => pools.flatMap((p) => [p.x.asset, p.y.asset])),
   map((assets) => uniqBy(assets, 'id')),
   publishReplay(1),
   refCount(),
@@ -14,16 +14,18 @@ export const assets$ = pools$.pipe(
 export const getAssetById = (id: string): Observable<AssetInfo> =>
   assets$.pipe(map((assets) => find(assets, ['id', id])!));
 
-export const getAvailableAssetFor = (assetId: string) =>
+export const getAvailableAssetFor = (
+  assetId: string,
+): Observable<AssetInfo[]> =>
   pools$.pipe(
     map((pools) =>
-      pools.filter((p) => p.assetX.id === assetId || p.assetY.id === assetId),
+      pools.filter((p) => p.x.asset.id === assetId || p.y.asset.id === assetId),
     ),
     map((pools) =>
       pools
         .flatMap((p) => [
-          p.assetX.id !== assetId ? p.assetX : undefined,
-          p.assetY.id !== assetId ? p.assetY : undefined,
+          p.x.asset.id !== assetId ? p.x.asset : undefined,
+          p.y.asset.id !== assetId ? p.y.asset : undefined,
         ])
         .filter<AssetInfo>(Boolean as any),
     ),

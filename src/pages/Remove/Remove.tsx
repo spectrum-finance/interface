@@ -4,6 +4,9 @@ import { evaluate } from 'mathjs';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 
+import { AssetPair } from '../../@types/asset';
+import { AmmPool } from '../../common/models/AmmPool';
+import { Currency } from '../../common/models/Currency';
 import {
   openConfirmationModal,
   Operation,
@@ -14,7 +17,6 @@ import { TokenIconPair } from '../../components/TokenIconPair/TokenIconPair';
 import { Flex, Skeleton, Typography } from '../../ergodex-cdk';
 import { usePair } from '../../hooks/usePair';
 import { usePosition } from '../../hooks/usePosition';
-import { parseUserInputToFractions } from '../../utils/math';
 import { ConfirmRemoveModal } from './ConfirmRemoveModal/ConfirmRemoveModal';
 import { PairSpace } from './PairSpace/PairSpace';
 import { RemoveFormSpaceWrapper } from './RemoveFormSpaceWrapper/RemoveFormSpaceWrapper';
@@ -23,7 +25,7 @@ import { RemovePositionSlider } from './RemovePositionSlider/RemovePositionSlide
 const getPercent = (val: number | undefined, percent: string): number =>
   Number(evaluate(`${val} * ${percent}%`));
 
-const Remove = (): JSX.Element => {
+export const Remove = (): JSX.Element => {
   const { poolId } = useParams<{ poolId: PoolId }>();
 
   const DEFAULT_SLIDER_PERCENTAGE = '100';
@@ -52,12 +54,18 @@ const Remove = (): JSX.Element => {
         setPair({
           assetX: {
             name: pair.assetX.name,
-            amount: getPercent(initialPair.assetX.amount, percentage),
+            asset: pair.assetX.asset,
+            amount: +getPercent(initialPair.assetX.amount, percentage).toFixed(
+              pair.assetX.asset?.decimals,
+            ),
             earnedFees: pair.assetX?.earnedFees,
           },
           assetY: {
             name: pair.assetY.name,
-            amount: getPercent(initialPair.assetY.amount, percentage),
+            asset: pair.assetY.asset,
+            amount: +getPercent(initialPair.assetY.amount, percentage).toFixed(
+              pair.assetY.asset?.decimals,
+            ),
             earnedFees: pair.assetY?.earnedFees,
           },
         });
@@ -68,36 +76,30 @@ const Remove = (): JSX.Element => {
 
   const handleRemove = () => {
     if (pair && position && lpToRemove) {
+      const xAmount = new Currency(
+        pair.assetX.amount?.toString(),
+        position.x.asset,
+      );
+      const yAmount = new Currency(
+        pair.assetY.amount?.toString(),
+        position.y.asset,
+      );
+
       openConfirmationModal(
         (next) => {
           return (
             <ConfirmRemoveModal
               onClose={next}
-              pair={pair}
-              position={position}
+              xAmount={xAmount}
+              yAmount={yAmount}
+              pool={new AmmPool(position)}
               lpToRemove={lpToRemove}
             />
           );
         },
         Operation.REMOVE_LIQUIDITY,
-        {
-          asset: position?.x.asset,
-          amount: Number(
-            parseUserInputToFractions(
-              pair.assetX.amount!,
-              position?.x.asset.decimals,
-            ),
-          ),
-        },
-        {
-          asset: position?.y.asset,
-          amount: Number(
-            parseUserInputToFractions(
-              pair.assetY.amount!,
-              position?.y.asset.decimals,
-            ),
-          ),
-        },
+        xAmount,
+        yAmount,
       );
     }
   };
@@ -138,7 +140,21 @@ const Remove = (): JSX.Element => {
             </Flex.Item>
 
             <Flex.Item marginBottom={4}>
-              <PairSpace title="Pooled Assets" pair={pair} />
+              <PairSpace
+                title="Pooled Assets"
+                xAmount={
+                  new Currency(
+                    pair.assetX.amount?.toString(),
+                    pair.assetX.asset,
+                  )
+                }
+                yAmount={
+                  new Currency(
+                    pair.assetY.amount?.toString(),
+                    pair.assetY.asset,
+                  )
+                }
+              />
             </Flex.Item>
 
             {/*TODO: ADD_FEES_DISPLAY_AFTER_SDK_UPDATE[EDEX-468]*/}
@@ -157,5 +173,3 @@ const Remove = (): JSX.Element => {
     </>
   );
 };
-
-export { Remove };

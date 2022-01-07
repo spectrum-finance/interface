@@ -1,10 +1,9 @@
 import { TxId } from '@ergolabs/ergo-sdk';
-import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import React, { ReactNode } from 'react';
 
-import { Flex, Modal, Typography } from '../../ergodex-cdk';
+import { Currency } from '../../common/models/Currency';
+import { DialogRef, Flex, Modal, Typography } from '../../ergodex-cdk';
 import { RequestProps } from '../../ergodex-cdk/components/Modal/presets/Request';
-import { renderFractions } from '../../utils/math';
 import { exploreTx } from '../../utils/redirect';
 
 export enum Operation {
@@ -14,44 +13,27 @@ export enum Operation {
   REFUND,
 }
 
-export interface ConfirmationAssetAmount {
-  readonly amount: number;
-  readonly asset: AssetInfo;
-}
-
 const getDescriptionByData = (
   operation: Operation,
-  xAsset: ConfirmationAssetAmount,
-  yAsset: ConfirmationAssetAmount,
+  xAsset: Currency,
+  yAsset: Currency,
 ): ReactNode => {
   switch (operation) {
     case Operation.ADD_LIQUIDITY:
-      return `Adding liquidity ${xAsset.amount} ${xAsset.asset.name} and ${yAsset.amount} ${yAsset.asset.name}`;
+      return `Adding liquidity ${xAsset.toString()} and ${yAsset.toString()}`;
     case Operation.REFUND:
-      return `Refunding ${renderFractions(
-        xAsset.amount,
-        xAsset.asset.decimals,
-      )} ${xAsset.asset.name} and ${renderFractions(
-        yAsset.amount,
-        yAsset.asset.decimals,
-      )} ${yAsset.asset.name}`;
+      return `Refunding ${xAsset.toString()} and ${yAsset.toString()}`;
     case Operation.REMOVE_LIQUIDITY:
-      return `Removing liquidity ${renderFractions(
-        xAsset.amount,
-        xAsset.asset.decimals,
-      )} ${xAsset.asset.name} and ${renderFractions(
-        yAsset.amount,
-        yAsset.asset.decimals,
-      )} ${yAsset.asset.name}`;
+      return `Removing liquidity ${xAsset.toString()} and ${yAsset.toString()}`;
     case Operation.SWAP:
-      return `Swapping ${xAsset.amount} ${xAsset.asset.name} for ${yAsset.amount} ${yAsset.asset.name}`;
+      return `Swapping ${xAsset.toString()} for ${yAsset.toString()}`;
   }
 };
 
 const ProgressModalContent = (
   operation: Operation,
-  xAsset: ConfirmationAssetAmount,
-  yAsset: ConfirmationAssetAmount,
+  xAsset: Currency,
+  yAsset: Currency,
 ) => {
   return (
     <Flex col align="center">
@@ -74,8 +56,8 @@ const ProgressModalContent = (
 
 const ErrorModalContent = (
   operation: Operation,
-  xAsset: ConfirmationAssetAmount,
-  yAsset: ConfirmationAssetAmount,
+  xAsset: Currency,
+  yAsset: Currency,
 ) => (
   <Flex col align="center">
     <Flex.Item marginBottom={1}>
@@ -114,9 +96,9 @@ const SuccessModalContent = (txId: TxId) => (
 export const openConfirmationModal = (
   actionContent: RequestProps['actionContent'],
   operation: Operation,
-  xAsset: ConfirmationAssetAmount,
-  yAsset: ConfirmationAssetAmount,
-) => {
+  xAsset: Currency,
+  yAsset: Currency,
+): DialogRef => {
   return Modal.request({
     actionContent,
     errorContent: ErrorModalContent(operation, xAsset, yAsset),

@@ -1,5 +1,5 @@
 import {
-  AmmPool,
+  AmmPool as BaseAmmPool,
   makeNativePools,
   makePools,
   NetworkPools,
@@ -14,11 +14,11 @@ import {
   Observable,
   publishReplay,
   refCount,
-  startWith,
   switchMap,
   zip,
 } from 'rxjs';
 
+import { AmmPool } from '../../common/models/AmmPool';
 import { getListAvailableTokens } from '../../utils/getListAvailableTokens';
 import { explorer } from '../explorer';
 import { utxos$ } from './core';
@@ -33,9 +33,9 @@ const utxosToTokenIds = (utxos: ErgoBox[]): string[] =>
   Object.values(getListAvailableTokens(utxos)).map((token) => token.tokenId);
 
 const filterPoolsByTokenIds = (
-  pools: AmmPool[],
+  pools: BaseAmmPool[],
   tokenIds: string[],
-): AmmPool[] => pools.filter((p) => tokenIds.includes(p.lp.asset.id));
+): BaseAmmPool[] => pools.filter((p) => tokenIds.includes(p.lp.asset.id));
 
 const nativeNetworkPools$ = defer(() =>
   from(nativeNetworkPools().getAll({ limit: 100, offset: 0 })),
@@ -59,6 +59,7 @@ export const pools$ = combineLatest([nativeNetworkPools$, networkPools$]).pipe(
       .concat(networkPools)
       .filter((p) => p.id != BlacklistedPoolId),
   ),
+  map((pools) => pools.map((p) => new AmmPool(p))),
   publishReplay(1),
   refCount(),
 );
@@ -91,7 +92,7 @@ const availableNetworkPools$ = utxos$.pipe(
   refCount(),
 );
 
-export const availablePools$: Observable<AmmPool[]> = zip([
+export const availablePools$: Observable<BaseAmmPool[]> = zip([
   availableNativeNetworkPools$,
   availableNetworkPools$,
 ]).pipe(
@@ -100,14 +101,16 @@ export const availablePools$: Observable<AmmPool[]> = zip([
   refCount(),
 );
 
-export const getPoolById = (poolId: PoolId): Observable<AmmPool | undefined> =>
+export const getPoolById = (
+  poolId: PoolId,
+): Observable<BaseAmmPool | undefined> =>
   availablePools$.pipe(
     map((pools) => pools.find((position) => position.id === poolId)),
   );
 
 const byPair = (xId: string, yId: string) => (p: AmmPool) =>
-  (p.assetX.id === xId || p.assetY.id === xId) &&
-  (p.assetX.id === yId || p.assetY.id === yId);
+  (p.x.asset.id === xId || p.y.asset.id === xId) &&
+  (p.x.asset.id === yId || p.y.asset.id === yId);
 
 export const getPoolByPair = (
   xId: string,
