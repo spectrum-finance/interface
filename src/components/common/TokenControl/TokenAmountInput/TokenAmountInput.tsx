@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 
 import { Currency } from '../../../../common/models/Currency';
 import { Box, Input } from '../../../../ergodex-cdk';
+import { EventConfig } from '../../../../ergodex-cdk/components/Form/NewForm';
 import { escapeRegExp } from './format';
 
 const inputRegex = RegExp(`^\\d*(?:\\\\[.])?\\d*$`); // match escaped "." characters via in a non-capturing group
@@ -16,7 +17,7 @@ export interface TokenAmountInputValue {
 
 export interface TokenAmountInputProps {
   value?: Currency;
-  onChange?: (data: Currency | undefined) => void;
+  onChange?: (data: Currency | undefined, config?: EventConfig) => void;
   disabled?: boolean;
   readonly?: boolean;
   asset?: AssetInfo;
@@ -57,7 +58,7 @@ const TokenAmountInput: React.FC<TokenAmountInputProps> = ({
       setUserInput(newValue.toString({ suffix: false }));
 
       if (onChange && value.asset.id !== asset.id) {
-        onChange(newValue);
+        onChange(newValue, { emitEvent: 'silent' });
       }
     }
   }, [asset?.id]);

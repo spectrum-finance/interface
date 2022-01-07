@@ -35,7 +35,7 @@ function ctrl<T>(
 
 (_useForm as any).ctrl = ctrl;
 
-interface EventConfig {
+export interface EventConfig {
   readonly emitEvent: 'default' | 'system' | 'silent';
 }
 
@@ -158,8 +158,8 @@ export class FormControl<T> implements AbstractFormItem<T> {
     this.parent.emitEvent();
   }
 
-  onChange(value: T): void {
-    this.patchValue(value);
+  onChange(value: T, config?: EventConfig): void {
+    this.patchValue(value, config);
   }
 
   reset(value: T, config?: EventConfig): void {
@@ -384,7 +384,7 @@ class _Form<T> extends React.Component<FormProps<T>> {
 
 interface FormItemFnParams<T> {
   readonly value: T;
-  readonly onChange: (value: T) => void;
+  readonly onChange: (value: T, config?: EventConfig) => void;
   readonly touched: boolean;
   readonly untouched: boolean;
   readonly invalid: boolean;
@@ -412,8 +412,8 @@ class _FormItem<T = any> extends React.Component<FormItemProps<T>> {
     this.subscription?.unsubscribe();
   }
 
-  onChange(ctrl: FormControl<T>, value: T) {
-    ctrl.onChange(value);
+  onChange(ctrl: FormControl<T>, value: T, config?: EventConfig) {
+    ctrl.onChange(value, config);
   }
 
   render() {

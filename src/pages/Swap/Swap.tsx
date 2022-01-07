@@ -153,22 +153,22 @@ export const Swap = (): JSX.Element => {
     ),
     ([amount, pool]) => {
       form.patchValue(
-        { toAmount: amount ? pool!.calculateOutputAmount(amount) : undefined },
+        { toAmount: amount ? pool?.calculateOutputAmount(amount) : undefined },
         { emitEvent: 'system' },
       );
     },
   );
 
   useSubscription(
-    combineLatest([form.controls.toAmount.valueChanges$]).pipe(
+    form.controls.toAmount.valueChanges$.pipe(
       debounceTime(100),
       filter(() => !!form.value.toAsset && !!form.value.pool),
     ),
-    ([amount]) => {
+    (amount) => {
       form.patchValue(
         {
           fromAmount: amount
-            ? form.value.pool!.calculateInputAmount(amount!)
+            ? form.value.pool?.calculateInputAmount(amount)
             : undefined,
         },
         { emitEvent: 'system' },
