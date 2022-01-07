@@ -5,7 +5,6 @@ import React, { useState } from 'react';
 
 import { ReactComponent as DarkModeOutlined } from '../../../assets/icons/darkmode.svg';
 import { ReactComponent as Dots } from '../../../assets/icons/icon-dots.svg';
-import { ReactComponent as Snowman } from '../../../assets/icons/icon-snowman.svg';
 import {
   Button,
   Dropdown,
@@ -18,7 +17,6 @@ import {
   QuestionCircleOutlined,
   SettingOutlined,
 } from '../../../ergodex-cdk';
-import { SnowfallSwitch } from '../../SnowfallSwitch/SnowfallSwitch';
 import { ThemeSwitch } from '../../ThemeSwitch/ThemeSwitch';
 import { GlobalSettingsModal } from '../GlobalSettingsModal/GlobalSettingsModal';
 
@@ -65,11 +63,6 @@ const BurgerMenu = (): JSX.Element => {
     //   icon: <GlobalOutlined />,
     //   additional: <RightOutlined style={{ marginLeft: 36 }} />,
     // },
-    {
-      title: 'Snowfall',
-      icon: <Snowman />,
-      additional: <SnowfallSwitch defaultChecked size="small" />,
-    },
     {
       title: 'Dark mode',
       icon: <DarkModeOutlined />,
