@@ -141,11 +141,11 @@ const ConfirmRemoveModal: React.FC<ConfirmRemoveModalProps> = ({
                                 </Flex>
                               </Flex.Item>
                             )}
-
                           </Flex>
                         }
                       />
                     </Flex.Item>
+
                     <Flex.Item>
                       <Typography.Text strong>{totalFees} ERG</Typography.Text>
                     </Flex.Item>
