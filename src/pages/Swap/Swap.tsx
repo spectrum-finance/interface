@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 import './Swap.less';
 
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
@@ -70,12 +69,11 @@ export const Swap = (): JSX.Element => {
     [],
   );
 
-  useEffect(() => {
-    form.patchValue({ fromAsset: networkAsset });
-  }, [networkAsset]);
+  useEffect(() => form.patchValue({ fromAsset: networkAsset }), [networkAsset]);
 
-  const getInsufficientTokenNameForFee = (value: Required<SwapFormModel>) => {
-    const { fromAmount } = value;
+  const getInsufficientTokenNameForFee = ({
+    fromAmount,
+  }: Required<SwapFormModel>) => {
     const totalFeesWithAmount = fromAmount.isAssetEquals(networkAsset)
       ? fromAmount.plus(totalFees)
       : totalFees;
@@ -85,23 +83,21 @@ export const Swap = (): JSX.Element => {
       : undefined;
   };
 
-  const getInsufficientTokenNameForTx = (value: SwapFormModel) => {
-    const { fromAmount, fromAsset } = value;
-    const asset = fromAsset;
-    const amount = fromAmount;
-
-    if (asset && amount && amount.gt(balance.get(asset))) {
-      return asset.name;
+  const getInsufficientTokenNameForTx = ({
+    fromAsset,
+    fromAmount,
+  }: SwapFormModel) => {
+    if (fromAsset && fromAmount && fromAmount.gt(balance.get(fromAsset))) {
+      return fromAsset.name;
     }
-
     return undefined;
   };
 
-  const isAmountNotEntered = (value: SwapFormModel) =>
-    !value.fromAmount?.isPositive() || !value.toAmount?.isPositive();
+  const isAmountNotEntered = ({ toAmount, fromAmount }: SwapFormModel) =>
+    !fromAmount?.isPositive() || !toAmount?.isPositive();
 
-  const isTokensNotSelected = (value: SwapFormModel) =>
-    !value.toAsset || !value.fromAsset;
+  const isTokensNotSelected = ({ toAsset, fromAsset }: SwapFormModel) =>
+    !toAsset || !fromAsset;
 
   const submitSwap = (value: Required<SwapFormModel>) => {
     openConfirmationModal(
@@ -114,14 +110,11 @@ export const Swap = (): JSX.Element => {
     );
   };
 
-  const isLiquidityInsufficient = (value: SwapFormModel) => {
-    const { toAmount, pool } = value;
-
+  const isLiquidityInsufficient = ({ toAmount, pool }: SwapFormModel) => {
     if (!toAmount?.isPositive() || !pool) {
       return false;
     }
-
-    return toAmount?.gt(pool.y);
+    return toAmount?.gt(pool.getAssetAmount(toAmount?.asset));
   };
 
   useSubscription(

@@ -56,7 +56,7 @@ const TokenAmountInput: React.FC<TokenAmountInputProps> = ({
 
       setUserInput(newValue.toString({ suffix: false }));
 
-      if (onChange) {
+      if (onChange && value.asset.id !== asset.id) {
         onChange(newValue);
       }
     }

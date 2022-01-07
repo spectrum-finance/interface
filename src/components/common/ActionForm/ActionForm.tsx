@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { FC, ReactNode, useEffect, useState } from 'react';
-import { first, Observable } from 'rxjs';
+import { debounceTime, first, Observable } from 'rxjs';
 
 import { Flex } from '../../../ergodex-cdk';
 import { Form, FormGroup } from '../../../ergodex-cdk/components/Form/NewForm';
@@ -34,9 +34,13 @@ export const ActionForm: FC<ActionFormProps<any>> = ({
 }) => {
   const [isOnline] = useObservable(isOnline$);
   const [isWalletLoading] = useObservable(isWalletLoading$);
-  const [value] = useObservable(form.valueChangesWithSilent$, {
-    deps: [form],
-  });
+  const [value] = useObservable(
+    form.valueChangesWithSilent$.pipe(debounceTime(100)),
+    {
+      deps: [form],
+      defaultValue: {},
+    },
+  );
   const [buttonData, setButtonData] = useState<{
     state: ActionButtonState;
     data?: any;
@@ -70,7 +74,7 @@ export const ActionForm: FC<ActionFormProps<any>> = ({
       setButtonData({
         state: ActionButtonState.INSUFFICIENT_FEE_BALANCE,
         data: {
-          token: getInsufficientTokenNameForFee(value),
+          nativeToken: getInsufficientTokenNameForFee(value),
         },
       });
     } else if (isLiquidityInsufficient && isLiquidityInsufficient(value)) {
