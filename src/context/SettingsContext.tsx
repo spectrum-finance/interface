@@ -16,7 +16,6 @@ export type Settings = {
   pk?: PublicKey;
   explorerUrl: string;
   theme: string;
-  isSnowFallActive: boolean;
 };
 
 export const DefaultSettings: Readonly<Settings> = {
@@ -26,7 +25,6 @@ export const DefaultSettings: Readonly<Settings> = {
   explorerUrl: ERG_EXPLORER_URL,
   pk: '',
   theme: isDarkOsTheme() ? 'dark' : 'light',
-  isSnowFallActive: true,
 };
 
 function noop() {

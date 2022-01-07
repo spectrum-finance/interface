@@ -13977,13 +13977,6 @@ react-sizeme@^3.0.1:
     shallowequal "^1.1.0"
     throttle-debounce "^3.0.1"
 
-react-snowfall@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/react-snowfall/-/react-snowfall-1.1.1.tgz#bdd5e43ed622606fb6fdb9f1c82ca367608e65db"
-  integrity sha512-SREER5iikqVY8Fu0BpaYllzGHB1iKZacXY76E/rW1n1zKUH5ClqVWG1UZS+3fR6OTg9GkeGG459juSnARVoNGQ==
-  dependencies:
-    react-fast-compare "^3.2.0"
-
 react-syntax-highlighter@^13.5.3:
   version "13.5.3"
   resolved "https://registry.yarnpkg.com/react-syntax-highlighter/-/react-syntax-highlighter-13.5.3.tgz#9712850f883a3e19eb858cf93fad7bb357eea9c6"
