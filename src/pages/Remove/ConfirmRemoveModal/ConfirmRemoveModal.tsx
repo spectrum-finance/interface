@@ -96,7 +96,7 @@ const ConfirmRemoveModal: React.FC<ConfirmRemoveModalProps> = ({
 
   return (
     <>
-      <Modal.Title>Confirm operation</Modal.Title>
+      <Modal.Title>Confirm Remove Liquidity</Modal.Title>
       <Modal.Content width={436}>
         <Box transparent>
           <Flex direction="col">
@@ -116,19 +116,32 @@ const ConfirmRemoveModal: React.FC<ConfirmRemoveModalProps> = ({
                       <InfoTooltip
                         placement="rightBottom"
                         content={
-                          <Flex direction="col" style={{ width: '200px' }}>
+                          <Flex direction="col">
                             <Flex.Item>
-                              <Flex justify="space-between">
-                                <Flex.Item>Miner Fee:</Flex.Item>
+                              <Flex>
+                                <Flex.Item marginRight={1}>
+                                  Miner Fee:
+                                </Flex.Item>
                                 <Flex.Item>{minerFee} ERG</Flex.Item>
                               </Flex>
                             </Flex.Item>
                             <Flex.Item>
-                              <Flex justify="space-between">
-                                <Flex.Item>Execution Fee:</Flex.Item>
+                              <Flex>
+                                <Flex.Item marginRight={1}>
+                                  Execution Fee:
+                                </Flex.Item>
                                 <Flex.Item>{defaultExFee} ERG</Flex.Item>
                               </Flex>
                             </Flex.Item>
+                            {!!UI_FEE && (
+                              <Flex.Item>
+                                <Flex>
+                                  <Flex.Item marginRight={1}>UI Fee:</Flex.Item>
+                                  <Flex.Item>{UI_FEE} ERG</Flex.Item>
+                                </Flex>
+                              </Flex.Item>
+                            )}
+
                           </Flex>
                         }
                       />
@@ -147,7 +160,7 @@ const ConfirmRemoveModal: React.FC<ConfirmRemoveModalProps> = ({
                 size="large"
                 onClick={() => removeOperation(pool)}
               >
-                Remove liquidity
+                Remove Liquidity
               </Button>
             </Flex.Item>
           </Flex>

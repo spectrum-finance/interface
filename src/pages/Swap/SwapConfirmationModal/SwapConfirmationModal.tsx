@@ -237,16 +237,30 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
                           <InfoTooltip
                             placement="right"
                             content={
-                              <Flex direction="col" style={{ width: '250px' }}>
+                              <Flex direction="col">
                                 <Flex.Item>
-                                  <Flex justify="space-between">
-                                    <Flex.Item>Miner Fee:</Flex.Item>
+                                  <Flex>
+                                    <Flex.Item marginRight={1}>
+                                      Miner Fee:
+                                    </Flex.Item>
                                     <Flex.Item>{minerFee} ERG</Flex.Item>
                                   </Flex>
                                 </Flex.Item>
+                                {!!UI_FEE && (
+                                  <Flex.Item>
+                                    <Flex>
+                                      <Flex.Item marginRight={1}>
+                                        UI Fee:
+                                      </Flex.Item>
+                                      <Flex.Item>{UI_FEE} ERG</Flex.Item>
+                                    </Flex>
+                                  </Flex.Item>
+                                )}
                                 <Flex.Item>
-                                  <Flex justify="space-between">
-                                    <Flex.Item>Execution Fee:</Flex.Item>
+                                  <Flex>
+                                    <Flex.Item marginRight={1}>
+                                      Execution Fee:
+                                    </Flex.Item>
                                     <Flex.Item>
                                       {operationVars &&
                                         `${renderFractions(
@@ -278,7 +292,7 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
             </Flex.Item>
             <Flex.Item>
               <Button size="extra-large" type="primary" htmlType="submit" block>
-                Confirm swap
+                Confirm Swap
               </Button>
             </Flex.Item>
           </Flex>

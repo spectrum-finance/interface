@@ -1,7 +1,6 @@
 import './Layout.less';
 
 import React, { useEffect } from 'react';
-import Snowfall from 'react-snowfall';
 
 import { useAppLoadingState, useSettings } from '../../../context';
 import { Modal } from '../../../ergodex-cdk';
@@ -16,7 +15,6 @@ interface Props {
 
 const Layout = ({ children }: Props): JSX.Element => {
   const [{ theme }] = useSettings();
-  const [settings] = useSettings();
 
   useBodyClass(theme);
 
@@ -30,7 +28,6 @@ const Layout = ({ children }: Props): JSX.Element => {
 
   return (
     <div className="layout">
-      {settings.isSnowFallActive && <Snowfall color="rgba(255, 81, 53, 0.5)" />}
       <Header />
       <main>{children}</main>
       <SocialLinks />
