@@ -8,11 +8,13 @@ import {
   BehaviorSubject,
   combineLatest,
   debounceTime,
+  distinctUntilChanged,
   filter,
   map,
   Observable,
   of,
   switchMap,
+  tap,
 } from 'rxjs';
 
 import { AmmPool } from '../../common/models/AmmPool';
@@ -117,25 +119,41 @@ export const Swap = (): JSX.Element => {
     return toAmount?.gt(pool.getAssetAmount(toAmount?.asset));
   };
 
+  // useSubscription(form.valueChangesWithSilent$, (value) => console.log(value));
+
   useSubscription(
     form.controls.fromAsset.valueChangesWithSilent$,
     (token: AssetInfo | undefined) => updateToAssets$.next(token?.id),
   );
 
   useSubscription(form.controls.fromAsset.valueChanges$, () =>
-    form.patchValue({
-      toAsset: undefined,
-      fromAmount: undefined,
-      toAmount: undefined,
-    }),
+    form.patchValue(
+      {
+        toAsset: undefined,
+        fromAmount: undefined,
+        toAmount: undefined,
+      },
+      { emitEvent: 'silent' },
+    ),
   );
 
   useSubscription(
     combineLatest([
-      form.controls.fromAsset.valueChanges$,
-      form.controls.toAsset.valueChanges$,
+      form.controls.fromAsset.valueChangesWithSilent$.pipe(
+        distinctUntilChanged(),
+      ),
+      form.controls.toAsset.valueChangesWithSilent$.pipe(
+        distinctUntilChanged(),
+      ),
     ]).pipe(
       debounceTime(100),
+      distinctUntilChanged(([prevFrom, prevTo], [nextFrom, nextTo]) => {
+        return (
+          (prevFrom?.id === nextFrom?.id && prevTo?.id === nextTo?.id) ||
+          (prevFrom?.id === nextTo?.id && prevTo?.id === nextFrom?.id)
+        );
+      }),
+      tap(() => form.patchValue({ pool: undefined })),
       switchMap(([fromAsset, toAsset]) =>
         getSelectedPool(fromAsset?.id, toAsset?.id),
       ),
@@ -145,7 +163,7 @@ export const Swap = (): JSX.Element => {
 
   useSubscription(
     combineLatest([
-      form.controls.fromAmount.valueChanges$,
+      form.controls.fromAmount.valueChangesWithSystem$,
       form.controls.pool.valueChanges$,
     ]).pipe(
       debounceTime(100),
@@ -154,7 +172,7 @@ export const Swap = (): JSX.Element => {
     ([amount, pool]) => {
       form.patchValue(
         { toAmount: amount ? pool?.calculateOutputAmount(amount) : undefined },
-        { emitEvent: 'system' },
+        { emitEvent: 'silent' },
       );
     },
   );
@@ -171,20 +189,19 @@ export const Swap = (): JSX.Element => {
             ? form.value.pool?.calculateInputAmount(amount)
             : undefined,
         },
-        { emitEvent: 'system' },
+        { emitEvent: 'silent' },
       );
     },
   );
 
-  const swapTokens = () => {
+  const switchAssets = () => {
     form.patchValue(
       {
         fromAsset: form.value.toAsset,
         fromAmount: form.value.toAmount,
         toAsset: form.value.fromAsset,
-        toAmount: form.value.fromAmount,
       },
-      { emitEvent: 'silent' },
+      { emitEvent: 'system' },
     );
   };
 
@@ -222,7 +239,11 @@ export const Swap = (): JSX.Element => {
             />
           </Flex.Item>
           <Flex.Item className="swap-button">
-            <Button onClick={swapTokens} icon={<SwapOutlined />} size="large" />
+            <Button
+              onClick={switchAssets}
+              icon={<SwapOutlined />}
+              size="large"
+            />
           </Flex.Item>
           <Flex.Item marginBottom={4}>
             <TokenControlFormItem

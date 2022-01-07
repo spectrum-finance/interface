@@ -140,7 +140,7 @@ export class FormControl<T> implements AbstractFormItem<T> {
     this.touched = false;
   }
 
-  patchValue(value: T, config?: EventConfig): void {
+  internalPatchValue(value: T, config?: EventConfig): void {
     this.value = value;
     this.currentError = this.getCurrentCheckName(
       this.value,
@@ -155,7 +155,11 @@ export class FormControl<T> implements AbstractFormItem<T> {
     this.withWarnings = !!this.currentWarning;
     this.withoutWarnings = !this.withWarnings;
     this.emitEvent(config);
-    this.parent.emitEvent();
+  }
+
+  patchValue(value: T, config?: EventConfig): void {
+    this.internalPatchValue(value, config);
+    this.parent.emitEvent(config);
   }
 
   onChange(value: T, config?: EventConfig): void {
@@ -307,7 +311,7 @@ export class FormGroup<T> implements AbstractFormItem<T> {
 
   patchValue(value: Partial<T>, config?: EventConfig): void {
     Object.entries(value).forEach(([key, value]) =>
-      this.controls[key as keyof T].patchValue(value as any, config),
+      this.controls[key as keyof T].internalPatchValue(value as any, config),
     );
     this.emitEvent(config);
   }
