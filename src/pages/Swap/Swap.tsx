@@ -119,7 +119,7 @@ export const Swap = (): JSX.Element => {
     return toAmount?.gt(pool.getAssetAmount(toAmount?.asset));
   };
 
-  // useSubscription(form.valueChangesWithSilent$, (value) => console.log(value));
+  useSubscription(form.valueChangesWithSilent$, (value) => console.log(value));
 
   useSubscription(
     form.controls.fromAsset.valueChangesWithSilent$,
@@ -127,14 +127,11 @@ export const Swap = (): JSX.Element => {
   );
 
   useSubscription(form.controls.fromAsset.valueChanges$, () =>
-    form.patchValue(
-      {
-        toAsset: undefined,
-        fromAmount: undefined,
-        toAmount: undefined,
-      },
-      { emitEvent: 'silent' },
-    ),
+    form.patchValue({
+      toAsset: undefined,
+      fromAmount: undefined,
+      toAmount: undefined,
+    }),
   );
 
   useSubscription(

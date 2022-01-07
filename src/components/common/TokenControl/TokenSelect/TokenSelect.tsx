@@ -31,6 +31,12 @@ const TokenSelect: React.FC<TokenSelectProps> = ({
   readonly,
   assets$,
 }) => {
+  const handleSelectChange = (newValue: AssetInfo): void => {
+    if (value?.id !== newValue?.id && onChange) {
+      onChange(newValue);
+    }
+  };
+
   const openTokenModal = () => {
     if (readonly) {
       return;
@@ -40,7 +46,7 @@ const TokenSelect: React.FC<TokenSelectProps> = ({
         assets$={assets$}
         assets={assets}
         close={close}
-        onSelectChanged={onChange}
+        onSelectChanged={handleSelectChange}
       />
     ));
   };
