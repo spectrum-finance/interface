@@ -2,7 +2,7 @@ import './PoolPosition.less';
 
 import React from 'react';
 
-import { Box, Row, Typography } from '../../../ergodex-cdk';
+import { Box, Flex, Typography } from '../../../ergodex-cdk';
 
 interface PriceViewProps {
   className: string;
@@ -17,14 +17,16 @@ export const PriceView: React.FC<PriceViewProps> = ({
 }) => {
   return (
     <Box padding={3} borderRadius="s" className={className}>
-      <Row justify="center">
-        <Typography.Title level={2}>{price}</Typography.Title>
-      </Row>
-      <Row justify="center" topGutter={2}>
-        <Typography.Text type="secondary" style={{ fontSize: 12 }}>
-          {desc}
-        </Typography.Text>
-      </Row>
+      <Flex col justify="center" align="center">
+        <Flex.Item>
+          <Typography.Title level={5}>{price}</Typography.Title>
+        </Flex.Item>
+        <Flex.Item>
+          <Typography.Text type="secondary" style={{ fontSize: 12 }}>
+            {desc}
+          </Typography.Text>
+        </Flex.Item>
+      </Flex>
     </Box>
   );
 };
