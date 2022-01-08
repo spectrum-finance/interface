@@ -92,18 +92,22 @@ const availableNetworkPools$ = utxos$.pipe(
   refCount(),
 );
 
-export const availablePools$: Observable<BaseAmmPool[]> = zip([
+export const availablePools$: Observable<AmmPool[]> = zip([
   availableNativeNetworkPools$,
   availableNetworkPools$,
 ]).pipe(
   map(([nativePools, pools]) => nativePools.concat(pools)),
+  map((pools) => pools.map((p) => new AmmPool(p))),
   publishReplay(1),
   refCount(),
 );
 
-export const getPoolById = (
+export const getPoolById = (poolId: PoolId): Observable<AmmPool | undefined> =>
+  pools$.pipe(map((pools) => pools.find((position) => position.id === poolId)));
+
+export const getAvailablePoolById = (
   poolId: PoolId,
-): Observable<BaseAmmPool | undefined> =>
+): Observable<AmmPool | undefined> =>
   availablePools$.pipe(
     map((pools) => pools.find((position) => position.id === poolId)),
   );
