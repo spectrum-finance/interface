@@ -5,7 +5,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 
 import { AssetPair } from '../../@types/asset';
-import { AmmPool } from '../../common/models/AmmPool';
 import { Currency } from '../../common/models/Currency';
 import {
   openConfirmationModal,
@@ -92,7 +91,7 @@ export const Remove = (): JSX.Element => {
               onClose={next}
               xAmount={xAmount}
               yAmount={yAmount}
-              pool={new AmmPool(position)}
+              pool={position}
               lpToRemove={lpToRemove}
             />
           );

@@ -36,7 +36,10 @@ import {
 import { assets$, getAvailableAssetFor } from '../../../services/new/assets';
 import { useWalletBalance } from '../../../services/new/balance';
 import { useNetworkAsset, useTotalFees } from '../../../services/new/core';
-import { getPoolById, getPoolByPair } from '../../../services/new/pools';
+import {
+  getAvailablePoolById,
+  getPoolByPair,
+} from '../../../services/new/pools';
 import { AddLiquidityConfirmationModal } from './AddLiquidityConfirmationModal/AddLiquidityConfirmationModal';
 import { AddLiquidityFormModel } from './FormModel';
 
@@ -107,7 +110,7 @@ const AddLiquidity = (): JSX.Element => {
   useSubscription(
     of(poolId).pipe(
       filter(Boolean),
-      switchMap((poolId) => getPoolById(poolId)),
+      switchMap((poolId) => getAvailablePoolById(poolId)),
     ),
     (pool) => {
       form.patchValue(
