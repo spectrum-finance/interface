@@ -1,13 +1,12 @@
-import { AmmPool } from '@ergolabs/ergo-dex-sdk';
-import { AssetAmount } from '@ergolabs/ergo-sdk';
-
+import { AmmPool } from '../common/models/AmmPool';
+import { Currency } from '../common/models/Currency';
 import { math, renderFractions } from './math';
 
 export function getPoolRatio(pool: AmmPool): Ratio {
   return getRatio(pool.x, pool.y);
 }
 
-export function getRatio(x: AssetAmount, y: AssetAmount): Ratio {
+export function getRatio(x: Currency, y: Currency): Ratio {
   const xAmount = renderFractions(x.amount, x.asset.decimals);
   const yAmount = renderFractions(y.amount, y.asset.decimals);
 

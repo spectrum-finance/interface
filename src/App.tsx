@@ -17,11 +17,11 @@ import {
 import { globalHistory } from './createBrowserHistory';
 import { ContextModalProvider } from './ergodex-cdk';
 import { useWindowSize } from './hooks/useWindowSize';
-import { Swap } from './pages';
-import { AddLiquidity } from './pages';
+import { AddLiquidity } from './pages/Pool/AddLiquidity/AddLiquidity';
 import { Pool } from './pages/Pool/Pool';
 import { PoolPosition } from './pages/Pool/PoolPosition/PoolPosition';
 import { Remove } from './pages/Remove/Remove';
+import { Swap } from './pages/Swap/Swap';
 
 const NotFound = () => <Redirect to="/swap" />;
 
