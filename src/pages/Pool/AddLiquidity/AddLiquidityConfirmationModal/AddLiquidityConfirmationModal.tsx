@@ -129,7 +129,9 @@ const AddLiquidityConfirmationModal: FC<AddLiquidityConfirmationModalProps> = ({
                     />
                   </Flex.Item>
                   <Flex.Item>
-                    <Typography.Text strong>{totalFees} ERG</Typography.Text>
+                    <Typography.Text strong>
+                      {totalFees.toString()}
+                    </Typography.Text>
                   </Flex.Item>
                 </Flex>
               </Box>
