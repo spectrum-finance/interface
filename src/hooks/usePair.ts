@@ -1,31 +1,46 @@
-import { AmmPool } from '@ergolabs/ergo-dex-sdk';
 import { AssetAmount } from '@ergolabs/ergo-sdk';
 import { useEffect, useState } from 'react';
 
 import { AssetPair } from '../@types/asset';
+import { AmmPool } from '../common/models/AmmPool';
+import { isWalletLoading$ } from '../services/new/core';
 import { parseUserInputToFractions, renderFractions } from '../utils/math';
+import { useObservable } from './useObservable';
 
 interface Pair {
   pair?: AssetPair;
   lpBalance?: number;
   setPair?: (p: AssetPair) => void;
   setLpBalance?: (p: number) => void;
+  isPairLoading: boolean;
 }
 
 const usePair = (pool: AmmPool | undefined): Pair => {
   const [pair, setPair] = useState<AssetPair | undefined>();
   const [lpBalance, setLpBalance] = useState<number | undefined>();
+  const [isPairLoading, setIsPairLoading] = useState(true);
+  const [isWalletLoading] = useObservable(isWalletLoading$);
 
   useEffect(() => {
-    if (pool) {
-      ergo.get_balance(pool.lp.asset.id).then((lp) => setLpBalance(Number(lp)));
+    if (pool && !isWalletLoading) {
+      ergo
+        .get_balance(pool['pool'].lp.asset.id)
+        .then((lp) => setLpBalance(Number(lp)));
     }
-  }, [pool]);
+  }, [pool?.id, isWalletLoading]);
 
   useEffect(() => {
-    if (pool && lpBalance) {
-      const sharedPair = pool.shares(
-        new AssetAmount(pool.lp.asset, parseUserInputToFractions(lpBalance)),
+    if (lpBalance === 0) {
+      setPair(undefined);
+      setIsPairLoading(false);
+    }
+
+    if (pool && lpBalance && lpBalance !== 0) {
+      const sharedPair = pool['pool'].shares(
+        new AssetAmount(
+          pool['pool'].lp.asset,
+          parseUserInputToFractions(lpBalance),
+        ),
       );
 
       const positionPair = {
@@ -46,10 +61,11 @@ const usePair = (pool: AmmPool | undefined): Pair => {
       };
 
       setPair(positionPair);
+      setIsPairLoading(false);
     }
-  }, [pool, lpBalance]);
+  }, [pool?.id, lpBalance]);
 
-  return { pair, lpBalance, setPair, setLpBalance };
+  return { pair, lpBalance, setPair, setLpBalance, isPairLoading };
 };
 
 export { usePair };

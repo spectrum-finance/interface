@@ -69,7 +69,10 @@ const PoolSelect: React.FC<PoolSelectProps> = ({
     if (positions && positions.length > 0) {
       const positionWithHighestLiquidity = maxBy(positions, (p) => p.lp.amount);
 
-      if (positionWithHighestLiquidity) {
+      if (
+        positionWithHighestLiquidity &&
+        positionWithHighestLiquidity?.id !== value?.id
+      ) {
         handleChange(positionWithHighestLiquidity);
       }
     }

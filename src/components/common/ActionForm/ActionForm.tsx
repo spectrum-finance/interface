@@ -82,7 +82,14 @@ export const ActionForm: FC<ActionFormProps<any>> = ({
     } else {
       setButtonData({ state: ActionButtonState.ACTION });
     }
-  }, [isOnline, isWalletLoading, value]);
+  }, [
+    isOnline,
+    isWalletLoading,
+    value,
+    isLiquidityInsufficient,
+    getInsufficientTokenNameForFee,
+    getInsufficientTokenNameForTx,
+  ]);
 
   const handleSubmit = () => {
     if (buttonData.state !== ActionButtonState.ACTION || !action) {

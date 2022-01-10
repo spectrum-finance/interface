@@ -9,7 +9,12 @@ import { useSettings } from '../../../../context';
 import { Box, Button, Flex, Modal, Typography } from '../../../../ergodex-cdk';
 import { useObservable } from '../../../../hooks/useObservable';
 import { explorer } from '../../../../services/explorer';
-import { useTotalFees, utxos$ } from '../../../../services/new/core';
+import {
+  useMaxTotalFees,
+  useMinExFee,
+  useMinTotalFees,
+  utxos$,
+} from '../../../../services/new/core';
 import { poolActions } from '../../../../services/poolActions';
 import { submitTx } from '../../../../services/yoroi';
 import { makeTarget } from '../../../../utils/ammMath';
@@ -29,10 +34,11 @@ const AddLiquidityConfirmationModal: FC<AddLiquidityConfirmationModalProps> = ({
 }) => {
   const [{ minerFee, address, pk }] = useSettings();
   const [utxos] = useObservable(utxos$);
-  const totalFees = useTotalFees();
+  const totalFees = useMinTotalFees();
+  const minExFee = useMinExFee();
 
   const uiFeeNErg = parseUserInputToFractions(UI_FEE, ERG_DECIMALS);
-  const exFeeNErg = parseUserInputToFractions(defaultExFee, ERG_DECIMALS);
+  const exFeeNErg = minExFee.amount;
   const minerFeeNErgs = parseUserInputToFractions(minerFee, ERG_DECIMALS);
 
   const addLiquidityOperation = async () => {
@@ -112,7 +118,7 @@ const AddLiquidityConfirmationModal: FC<AddLiquidityConfirmationModalProps> = ({
                               <Flex.Item marginRight={1}>
                                 Execution Fee:
                               </Flex.Item>
-                              <Flex.Item>{defaultExFee} ERG</Flex.Item>
+                              <Flex.Item>{minExFee.toString()}</Flex.Item>
                             </Flex>
                           </Flex.Item>
 
@@ -129,7 +135,9 @@ const AddLiquidityConfirmationModal: FC<AddLiquidityConfirmationModalProps> = ({
                     />
                   </Flex.Item>
                   <Flex.Item>
-                    <Typography.Text strong>{totalFees} ERG</Typography.Text>
+                    <Typography.Text strong>
+                      {totalFees.toString()}
+                    </Typography.Text>
                   </Flex.Item>
                 </Flex>
               </Box>

@@ -35,8 +35,11 @@ import {
 } from '../../../hooks/useObservable';
 import { assets$, getAvailableAssetFor } from '../../../services/new/assets';
 import { useWalletBalance } from '../../../services/new/balance';
-import { useNetworkAsset, useTotalFees } from '../../../services/new/core';
-import { getPoolById, getPoolByPair } from '../../../services/new/pools';
+import { useMaxTotalFees, useNetworkAsset } from '../../../services/new/core';
+import {
+  getAvailablePoolById,
+  getPoolByPair,
+} from '../../../services/new/pools';
 import { AddLiquidityConfirmationModal } from './AddLiquidityConfirmationModal/AddLiquidityConfirmationModal';
 import { AddLiquidityFormModel } from './FormModel';
 
@@ -49,7 +52,7 @@ const getAvailablePools = (xId?: string, yId?: string) =>
 
 const AddLiquidity = (): JSX.Element => {
   const [balance] = useWalletBalance();
-  const totalFees = useTotalFees();
+  const totalFees = useMaxTotalFees();
   const networkAsset = useNetworkAsset();
   const { poolId } = useParams<{ poolId?: PoolId }>();
   const form = useForm<AddLiquidityFormModel>({
@@ -59,7 +62,7 @@ const AddLiquidity = (): JSX.Element => {
     xAmount: undefined,
     yAmount: undefined,
   });
-  const [pools, updatePools] = useSubject(getAvailablePools);
+  const [pools, updatePools, poolsLoading] = useSubject(getAvailablePools);
   const [isPairSelected] = useObservable(
     combineLatest([
       form.controls.x.valueChangesWithSystem$,
@@ -85,19 +88,19 @@ const AddLiquidity = (): JSX.Element => {
     [],
   );
 
-  useSubscription(
-    form.controls.x.valueChanges$,
-    (token: AssetInfo | undefined) => updateYAssets$.next(token?.id),
-  );
-
   useSubscription(form.controls.x.valueChanges$, () =>
-    form.patchValue({ y: undefined, pool: undefined }),
+    form.patchValue({
+      y: undefined,
+      pool: undefined,
+      yAmount: undefined,
+      xAmount: undefined,
+    }),
   );
 
   useSubscription(
     combineLatest([
       form.controls.x.valueChangesWithSystem$,
-      form.controls.y.valueChangesWithSystem$,
+      form.controls.y.valueChangesWithSystem$.pipe(skip(1)),
     ]).pipe(debounceTime(100)),
     ([x, y]) => {
       updatePools(x?.id, y?.id);
@@ -107,7 +110,7 @@ const AddLiquidity = (): JSX.Element => {
   useSubscription(
     of(poolId).pipe(
       filter(Boolean),
-      switchMap((poolId) => getPoolById(poolId)),
+      switchMap((poolId) => getAvailablePoolById(poolId)),
     ),
     (pool) => {
       form.patchValue(
@@ -141,6 +144,11 @@ const AddLiquidity = (): JSX.Element => {
       );
     },
     [],
+  );
+
+  useSubscription(
+    form.controls.x.valueChangesWithSilent$,
+    (token: AssetInfo | undefined) => updateYAssets$.next(token?.id),
   );
 
   const getInsufficientTokenNameForFee = ({
@@ -196,7 +204,7 @@ const AddLiquidity = (): JSX.Element => {
       withBackButton
       backTo="/pool"
     >
-      {!poolId || (pools && pools.length) ? (
+      {!poolId || !poolsLoading ? (
         <ActionForm
           form={form}
           actionButton="Add liquidity"
