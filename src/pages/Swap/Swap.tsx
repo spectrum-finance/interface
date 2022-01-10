@@ -239,7 +239,7 @@ export const Swap = (): JSX.Element => {
             <Button
               onClick={switchAssets}
               icon={<SwapOutlined />}
-              size="large"
+              size="middle"
             />
           </Flex.Item>
           <Flex.Item marginBottom={4}>
