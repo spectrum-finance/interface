@@ -18,6 +18,7 @@ import {
 } from '../../../ergodex-cdk';
 import { useUTXOs } from '../../../hooks/useUTXOs';
 import { explorer } from '../../../services/explorer';
+import { useMinExFee, useMinTotalFees } from '../../../services/new/core';
 import { poolActions } from '../../../services/poolActions';
 import { submitTx } from '../../../services/yoroi';
 import { makeTarget } from '../../../utils/ammMath';
@@ -43,15 +44,12 @@ const ConfirmRemoveModal: React.FC<ConfirmRemoveModalProps> = ({
 }) => {
   const UTXOs = useUTXOs();
   const [{ minerFee, address, pk }] = useSettings();
+  const minExFee = useMinExFee();
+  const totalFees = useMinTotalFees();
 
   const uiFeeNErg = parseUserInputToFractions(UI_FEE, ERG_DECIMALS);
-  const exFeeNErg = parseUserInputToFractions(defaultExFee, ERG_DECIMALS);
+  const exFeeNErg = minExFee.amount;
   const minerFeeNErgs = parseUserInputToFractions(minerFee, ERG_DECIMALS);
-
-  const totalFees = calculateTotalFee(
-    [minerFee, UI_FEE, defaultExFee],
-    ERG_DECIMALS,
-  );
 
   const removeOperation = async (pool: AmmPool) => {
     const actions = poolActions(pool['pool']);
@@ -130,7 +128,7 @@ const ConfirmRemoveModal: React.FC<ConfirmRemoveModalProps> = ({
                                 <Flex.Item marginRight={1}>
                                   Execution Fee:
                                 </Flex.Item>
-                                <Flex.Item>{defaultExFee} ERG</Flex.Item>
+                                <Flex.Item>{minExFee.toString()}</Flex.Item>
                               </Flex>
                             </Flex.Item>
                             {!!UI_FEE && (
@@ -147,7 +145,9 @@ const ConfirmRemoveModal: React.FC<ConfirmRemoveModalProps> = ({
                     </Flex.Item>
 
                     <Flex.Item>
-                      <Typography.Text strong>{totalFees} ERG</Typography.Text>
+                      <Typography.Text strong>
+                        {totalFees.toString()}
+                      </Typography.Text>
                     </Flex.Item>
                   </Flex>
                 </Box>

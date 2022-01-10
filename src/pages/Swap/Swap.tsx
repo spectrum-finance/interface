@@ -30,7 +30,7 @@ import { useForm } from '../../ergodex-cdk/components/Form/NewForm';
 import { useSubscription } from '../../hooks/useObservable';
 import { assets$, getAvailableAssetFor } from '../../services/new/assets';
 import { useWalletBalance } from '../../services/new/balance';
-import { useNetworkAsset, useTotalFees } from '../../services/new/core';
+import { useMaxTotalFees, useNetworkAsset } from '../../services/new/core';
 import { getPoolByPair } from '../../services/new/pools';
 import { OperationSettings } from './OperationSettings/OperationSettings';
 import { Ratio } from './Ratio/Ratio';
@@ -61,7 +61,7 @@ export const Swap = (): JSX.Element => {
   });
   const networkAsset = useNetworkAsset();
   const [balance] = useWalletBalance();
-  const totalFees = useTotalFees();
+  const totalFees = useMaxTotalFees();
   const updateToAssets$ = useMemo(
     () => new BehaviorSubject<string | undefined>(undefined),
     [],

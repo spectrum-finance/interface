@@ -17,7 +17,11 @@ import { Box, Button, Flex, Modal, Typography } from '../../../ergodex-cdk';
 import { Form, useForm } from '../../../ergodex-cdk/components/Form/NewForm';
 import { useObservable } from '../../../hooks/useObservable';
 import { explorer } from '../../../services/explorer';
-import { utxos$ } from '../../../services/new/core';
+import {
+  useMaxTotalFees,
+  useMinExFee,
+  utxos$,
+} from '../../../services/new/core';
 import { poolActions } from '../../../services/poolActions';
 import { submitTx } from '../../../services/yoroi';
 import { makeTarget } from '../../../utils/ammMath';
@@ -45,6 +49,8 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
 
   const [{ minerFee, address, slippage, nitro }] = useSettings();
   const [utxos] = useObservable(utxos$);
+  // const totalFees = useTotalFees();
+  const minExFee = useMinExFee();
 
   const [baseParams, setBaseParams] = useState<
     BaseInputParameters | undefined
@@ -57,7 +63,7 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
   >();
 
   const uiFeeNErg = parseUserInputToFractions(UI_FEE, ERG_DECIMALS);
-  const exFeeNErg = parseUserInputToFractions(defaultExFee, ERG_DECIMALS);
+  const exFeeNErg = minExFee.amount;
   const minerFeeNErgs = parseUserInputToFractions(minerFee, ERG_DECIMALS);
 
   const poolId = value.pool?.id;
