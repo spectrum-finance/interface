@@ -24,25 +24,19 @@ export const SlippageInput: FC<NitroInputProps> = ({
   warningMessage,
   withWarnings,
 }) => {
-  const [slippageActiveOption, setSlippageActiveOption] = useState<
-    number | undefined
-  >(SLIPPAGE_OPTIONS['0.1']);
-
-  const isOneOfDefaultSlippageOptions = Object.values(SLIPPAGE_OPTIONS).some(
+  const isCustomSlippage = !Object.values(SLIPPAGE_OPTIONS).some(
     (val) => val === value,
   );
 
   const handleClickSlippage = (percentage: number) => {
     if (onChange) {
       onChange(percentage);
-      setSlippageActiveOption(percentage);
     }
   };
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (onChange) {
       onChange(e.target.valueAsNumber);
-      setSlippageActiveOption(undefined);
     }
   };
 
@@ -56,7 +50,7 @@ export const SlippageInput: FC<NitroInputProps> = ({
               <Flex.Item key={index} marginRight={1} style={{ width: '100%' }}>
                 <Button
                   block
-                  type={val == slippageActiveOption ? 'primary' : 'ghost'}
+                  type={val === value ? 'primary' : 'ghost'}
                   size="middle"
                   onClick={() => handleClickSlippage(val)}
                 >
@@ -76,7 +70,7 @@ export const SlippageInput: FC<NitroInputProps> = ({
               max={SlippageMax}
               size="middle"
               suffix="%"
-              isActive={!isOneOfDefaultSlippageOptions}
+              isActive={isCustomSlippage}
               onChange={handleInputChange}
             />
           </Flex.Item>
