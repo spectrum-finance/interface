@@ -35,7 +35,7 @@ import {
 } from '../../../hooks/useObservable';
 import { assets$, getAvailableAssetFor } from '../../../services/new/assets';
 import { useWalletBalance } from '../../../services/new/balance';
-import { useNetworkAsset, useTotalFees } from '../../../services/new/core';
+import { useMaxTotalFees, useNetworkAsset } from '../../../services/new/core';
 import {
   getAvailablePoolById,
   getPoolByPair,
@@ -52,7 +52,7 @@ const getAvailablePools = (xId?: string, yId?: string) =>
 
 const AddLiquidity = (): JSX.Element => {
   const [balance] = useWalletBalance();
-  const totalFees = useTotalFees();
+  const totalFees = useMaxTotalFees();
   const networkAsset = useNetworkAsset();
   const { poolId } = useParams<{ poolId?: PoolId }>();
   const form = useForm<AddLiquidityFormModel>({

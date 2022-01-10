@@ -9,6 +9,7 @@ import { useSettings } from '../../../context';
 import { Flex } from '../../../ergodex-cdk';
 import { FormGroup } from '../../../ergodex-cdk/components/Form/NewForm';
 import { useObservable } from '../../../hooks/useObservable';
+import { useMaxTotalFees, useMinExFee } from '../../../services/new/core';
 import { renderFractions } from '../../../utils/math';
 import { calculateTotalFee } from '../../../utils/transactions';
 import { getBaseInputParameters } from '../../../utils/walletMath';
@@ -16,11 +17,13 @@ import { SwapFormModel } from '../SwapFormModel';
 
 const TxInfoTooltipContent: FC<{ value: SwapFormModel }> = ({ value }) => {
   const [{ slippage, minerFee, nitro }] = useSettings();
-
+  const totalFees = useMaxTotalFees();
+  const minExFee = useMinExFee();
+  console.log(totalFees, minExFee, minerFee);
   const swapExtremums =
     value.fromAmount?.isPositive() && value.toAmount?.isPositive() && value.pool
       ? swapVars(
-          MIN_EX_FEE,
+          minExFee.amount,
           nitro,
           getBaseInputParameters(value.pool['pool']!, {
             inputAmount: value.fromAmount?.toString({ suffix: false })!,
@@ -40,8 +43,6 @@ const TxInfoTooltipContent: FC<{ value: SwapFormModel }> = ({ value }) => {
       )} ${swapExtremums[1].minOutput.asset.name}`
     : undefined;
 
-  const totalFees = calculateTotalFee([minerFee, defaultExFee], ERG_DECIMALS);
-
   return (
     <Flex direction="col">
       <Flex.Item marginBottom={3}>
@@ -59,7 +60,7 @@ const TxInfoTooltipContent: FC<{ value: SwapFormModel }> = ({ value }) => {
       <Flex.Item>
         <Flex justify="space-between">
           <Flex.Item marginRight={6}>Total Fees:</Flex.Item>
-          {totalFees} ERG
+          {totalFees.toString()}
         </Flex>
       </Flex.Item>
     </Flex>
