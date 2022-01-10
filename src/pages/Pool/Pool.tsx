@@ -1,3 +1,5 @@
+import './Pool.less';
+
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 
@@ -78,7 +80,7 @@ const Pool = (): JSX.Element => {
       isWalletConnected={isWalletConnected}
       onClick={handleAddLiquidity}
     >
-      <Tabs type="card">
+      <Tabs type="card" className="pool__position-tabs">
         <Tabs.TabPane tab="Your Positions" key="your-positions">
           {isWalletConnected ? (
             <LiquidityPositionsList
