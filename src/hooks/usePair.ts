@@ -27,7 +27,7 @@ const usePair = (pool: AmmPool | undefined): Pair => {
         .get_balance(pool['pool'].lp.asset.id)
         .then((lp) => setLpBalance(Number(lp)));
     }
-  }, [pool, isWalletLoading]);
+  }, [pool?.id, isWalletLoading]);
 
   useEffect(() => {
     if (lpBalance === 0) {
@@ -63,7 +63,7 @@ const usePair = (pool: AmmPool | undefined): Pair => {
       setPair(positionPair);
       setIsPairLoading(false);
     }
-  }, [pool, lpBalance]);
+  }, [pool?.id, lpBalance]);
 
   return { pair, lpBalance, setPair, setLpBalance, isPairLoading };
 };
