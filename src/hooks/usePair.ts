@@ -3,7 +3,9 @@ import { useEffect, useState } from 'react';
 
 import { AssetPair } from '../@types/asset';
 import { AmmPool } from '../common/models/AmmPool';
+import { isWalletLoading$ } from '../services/new/core';
 import { parseUserInputToFractions, renderFractions } from '../utils/math';
+import { useObservable } from './useObservable';
 
 interface Pair {
   pair?: AssetPair;
@@ -17,14 +19,15 @@ const usePair = (pool: AmmPool | undefined): Pair => {
   const [pair, setPair] = useState<AssetPair | undefined>();
   const [lpBalance, setLpBalance] = useState<number | undefined>();
   const [isPairLoading, setIsPairLoading] = useState(true);
+  const [isWalletLoading] = useObservable(isWalletLoading$);
 
   useEffect(() => {
-    if (pool) {
+    if (pool && !isWalletLoading) {
       ergo
         .get_balance(pool['pool'].lp.asset.id)
         .then((lp) => setLpBalance(Number(lp)));
     }
-  }, [pool]);
+  }, [pool, isWalletLoading]);
 
   useEffect(() => {
     if (lpBalance === 0) {
