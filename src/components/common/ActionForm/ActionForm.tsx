@@ -36,10 +36,8 @@ export const ActionForm: FC<ActionFormProps<any>> = ({
   const [isWalletLoading] = useObservable(isWalletLoading$);
   const [value] = useObservable(
     form.valueChangesWithSilent$.pipe(debounceTime(100)),
-    {
-      deps: [form],
-      defaultValue: {},
-    },
+    [form],
+    {},
   );
   const [buttonData, setButtonData] = useState<{
     state: ActionButtonState;

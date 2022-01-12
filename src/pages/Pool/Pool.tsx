@@ -53,21 +53,16 @@ const PoolPageWrapper: React.FC<PoolPageWrapperProps> = ({
 };
 
 const Pool = (): JSX.Element => {
-  const [isWalletConnected] = useObservable(isWalletSetuped$, {
-    defaultValue: false,
-  });
+  const [isWalletConnected] = useObservable(isWalletSetuped$, [], false);
   const [isWalletLoading] = useObservable(isWalletLoading$);
 
   const [availablePools, isAvailablePoolsLoading] = useObservable(
     availablePools$,
-    {
-      defaultValue: [],
-    },
+    [],
+    [],
   );
 
-  const [pools, isPoolsLoading] = useObservable(pools$, {
-    defaultValue: [],
-  });
+  const [pools, isPoolsLoading] = useObservable(pools$, [], []);
 
   const history = useHistory();
 

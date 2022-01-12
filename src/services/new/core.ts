@@ -140,9 +140,7 @@ export const defaultExFee$: Observable<Currency> = networkAsset$.pipe(
 );
 
 export const useNetworkAsset = (): AssetInfo => {
-  const [_nativeToken] = useObservable(networkAsset$, {
-    defaultValue: networkAsset,
-  });
+  const [_nativeToken] = useObservable(networkAsset$, [], networkAsset);
 
   return _nativeToken;
 };

@@ -69,9 +69,7 @@ export const walletBalance$ = combineLatest([
 walletBalance$.subscribe(() => {});
 
 export const useWalletBalance = () =>
-  useObservable(walletBalance$, {
-    defaultValue: new Balance([]),
-  });
+  useObservable(walletBalance$, [], new Balance([]));
 
 export const getBalanceByAsset = (asset: AssetInfo): Observable<Currency> =>
   walletBalance$.pipe(

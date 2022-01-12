@@ -72,10 +72,11 @@ export const SwapTooltip = ({
 }: {
   form: FormGroup<SwapFormModel>;
 }): JSX.Element => {
-  const [value] = useObservable(form.valueChangesWithSilent$, {
-    deps: [form],
-    defaultValue: form.value,
-  });
+  const [value] = useObservable(
+    form.valueChangesWithSilent$,
+    [form],
+    form.value,
+  );
 
   return value.pool &&
     value.toAsset &&

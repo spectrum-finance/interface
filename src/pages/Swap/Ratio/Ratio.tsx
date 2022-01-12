@@ -54,7 +54,7 @@ export const Ratio: FC<{ form: FormGroup<SwapFormModel> }> = ({ form }) => {
           : `1 ${form.value.fromAsset?.name} = ${price?.toString()}`,
       ),
     ),
-    { deps: [form, reversedRatio] },
+    [form, reversedRatio],
   );
 
   const toggleReversedRatio = () =>

@@ -5,22 +5,24 @@ import { Unpacked } from '../utils/unpacked';
 
 export function useObservable<T>(
   observable: Observable<T>,
-  config?: { deps?: any[] },
+  deps?: any[],
 ): [T | undefined, boolean, Error];
 export function useObservable<T>(
   observable: Observable<T>,
-  config: { defaultValue: T; deps?: any[] },
+  deps: any[],
+  defaultValue: T,
 ): [T, boolean, Error];
 export function useObservable<T>(
   observable: Observable<T>,
-  config?: { defaultValue?: T; deps?: any[] },
+  deps?: any[],
+  defaultValue?: T,
 ): [T | undefined, boolean, Error | undefined] {
   const [{ data, error, loading }, setParams] = useState<{
     data: T | undefined;
     error: Error | undefined;
     loading: boolean;
   }>({
-    data: config?.defaultValue,
+    data: defaultValue,
     error: undefined,
     loading: false,
   });
@@ -38,7 +40,7 @@ export function useObservable<T>(
     });
 
     return () => subscription.unsubscribe();
-  }, config?.deps || []);
+  }, deps || []);
 
   return [data, loading, error];
 }
