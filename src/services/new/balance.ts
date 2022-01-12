@@ -9,9 +9,9 @@ import {
   switchMap,
 } from 'rxjs';
 
+import { useObservable } from '../../common/hooks/useObservable';
 import { Currency } from '../../common/models/Currency';
 import { ERG_DECIMALS } from '../../constants/erg';
-import { useObservable } from '../../hooks/useObservable';
 import { getListAvailableTokens } from '../../utils/getListAvailableTokens';
 import { parseUserInputToFractions } from '../../utils/math';
 import { assets$ } from './assets';

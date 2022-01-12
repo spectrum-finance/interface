@@ -3,10 +3,10 @@ import './Ratio.less';
 import React, { FC, useState } from 'react';
 import { debounceTime, map } from 'rxjs';
 
+import { useObservable } from '../../../common/hooks/useObservable';
 import { Currency } from '../../../common/models/Currency';
 import { Animation, Typography } from '../../../ergodex-cdk';
 import { FormGroup } from '../../../ergodex-cdk/components/Form/NewForm';
-import { useObservable } from '../../../hooks/useObservable';
 import { SwapFormModel } from '../SwapFormModel';
 
 const calculateOutputPrice = ({

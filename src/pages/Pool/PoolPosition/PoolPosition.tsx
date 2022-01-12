@@ -4,6 +4,7 @@ import { PoolId } from '@ergolabs/ergo-dex-sdk';
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 
+import { useSubject } from '../../../common/hooks/useObservable';
 import { FormPageWrapper } from '../../../components/FormPageWrapper/FormPageWrapper';
 import { TokenIcon } from '../../../components/TokenIcon/TokenIcon';
 import { TokenIconPair } from '../../../components/TokenIconPair/TokenIconPair';
@@ -16,7 +17,6 @@ import {
   Skeleton,
   Typography,
 } from '../../../ergodex-cdk';
-import { useSubject } from '../../../hooks/useObservable';
 import { usePair } from '../../../hooks/usePair';
 import { getPoolById } from '../../../services/new/pools';
 import { getPoolFee } from '../../../utils/pool';

@@ -17,6 +17,11 @@ import {
   switchMap,
 } from 'rxjs';
 
+import {
+  useObservable,
+  useSubject,
+  useSubscription,
+} from '../../../common/hooks/useObservable';
 import { ActionForm } from '../../../components/common/ActionForm/ActionForm';
 import { PoolSelect } from '../../../components/common/PoolSelect/PoolSelect';
 import { TokenControlFormItem } from '../../../components/common/TokenControl/TokenControl';
@@ -28,11 +33,6 @@ import {
 import { FormPageWrapper } from '../../../components/FormPageWrapper/FormPageWrapper';
 import { Flex, Typography } from '../../../ergodex-cdk';
 import { Form, useForm } from '../../../ergodex-cdk/components/Form/NewForm';
-import {
-  useObservable,
-  useSubject,
-  useSubscription,
-} from '../../../hooks/useObservable';
 import { assets$, getAvailableAssetFor } from '../../../services/new/assets';
 import { useWalletBalance } from '../../../services/new/balance';
 import { useMaxTotalFees, useNetworkAsset } from '../../../services/new/core';

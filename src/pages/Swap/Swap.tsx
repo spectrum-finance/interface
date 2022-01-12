@@ -17,6 +17,7 @@ import {
   tap,
 } from 'rxjs';
 
+import { useSubscription } from '../../common/hooks/useObservable';
 import { AmmPool } from '../../common/models/AmmPool';
 import { ActionForm } from '../../components/common/ActionForm/ActionForm';
 import { TokenControlFormItem } from '../../components/common/TokenControl/TokenControl';
@@ -27,7 +28,6 @@ import {
 import { FormPageWrapper } from '../../components/FormPageWrapper/FormPageWrapper';
 import { Button, Flex, SwapOutlined, Typography } from '../../ergodex-cdk';
 import { useForm } from '../../ergodex-cdk/components/Form/NewForm';
-import { useSubscription } from '../../hooks/useObservable';
 import { assets$, getAvailableAssetFor } from '../../services/new/assets';
 import { useWalletBalance } from '../../services/new/balance';
 import { useMaxTotalFees, useNetworkAsset } from '../../services/new/core';
@@ -118,8 +118,6 @@ export const Swap = (): JSX.Element => {
     }
     return toAmount?.gt(pool.getAssetAmount(toAmount?.asset));
   };
-
-  useSubscription(form.valueChangesWithSilent$, (value) => console.log(value));
 
   useSubscription(
     form.controls.fromAsset.valueChangesWithSilent$,

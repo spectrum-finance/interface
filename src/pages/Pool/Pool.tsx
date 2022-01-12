@@ -3,10 +3,10 @@ import './Pool.less';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 
+import { useObservable } from '../../common/hooks/useObservable';
 import { ConnectWalletButton } from '../../components/common/ConnectWalletButton/ConnectWalletButton';
 import { FormPageWrapper } from '../../components/FormPageWrapper/FormPageWrapper';
 import { Button, Flex, PlusOutlined, Tabs } from '../../ergodex-cdk';
-import { useObservable } from '../../hooks/useObservable';
 import { isWalletLoading$, isWalletSetuped$ } from '../../services/new/core';
 import { availablePools$, pools$ } from '../../services/new/pools';
 import { EmptyPositionsWrapper } from './components/EmptyPositionsWrapper/EmptyPositionsWrapper';

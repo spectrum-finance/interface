@@ -2,9 +2,9 @@ import './Header.less';
 
 import React from 'react';
 
+import { useObservable } from '../../common/hooks/useObservable';
 import { ERG_TOKEN_NAME } from '../../constants/erg';
 import { useSettings } from '../../context';
-import { useObservable } from '../../hooks/useObservable';
 import {
   nativeTokenBalance$,
   WalletState,

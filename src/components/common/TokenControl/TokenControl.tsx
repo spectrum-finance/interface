@@ -6,13 +6,13 @@ import React, { FC, ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Observable, of } from 'rxjs';
 
+import { useObservable } from '../../../common/hooks/useObservable';
 import { Currency } from '../../../common/models/Currency';
 import { Animation, Box, Button, Flex, Typography } from '../../../ergodex-cdk';
 import {
   Form,
   useFormContext,
 } from '../../../ergodex-cdk/components/Form/NewForm';
-import { useObservable } from '../../../hooks/useObservable';
 import { useWalletBalance } from '../../../services/new/balance';
 import { isWalletLoading$ } from '../../../services/new/core';
 import {
