@@ -29,7 +29,7 @@ import { FormPageWrapper } from '../../components/FormPageWrapper/FormPageWrappe
 import { Button, Flex, SwapOutlined, Typography } from '../../ergodex-cdk';
 import { useForm } from '../../ergodex-cdk/components/Form/NewForm';
 import { assets$, getAvailableAssetFor } from '../../services/new/assets';
-import { useWalletBalance } from '../../services/new/balance';
+import { useAssetWalletBalance } from '../../services/new/balance';
 import { useMaxTotalFees, useNetworkAsset } from '../../services/new/core';
 import { getPoolByPair } from '../../services/new/pools';
 import { OperationSettings } from './OperationSettings/OperationSettings';
@@ -60,7 +60,7 @@ export const Swap = (): JSX.Element => {
     pool: undefined,
   });
   const networkAsset = useNetworkAsset();
-  const [balance] = useWalletBalance();
+  const [balance] = useAssetWalletBalance();
   const totalFees = useMaxTotalFees();
   const updateToAssets$ = useMemo(
     () => new BehaviorSubject<string | undefined>(undefined),

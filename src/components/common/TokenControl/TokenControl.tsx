@@ -13,7 +13,7 @@ import {
   Form,
   useFormContext,
 } from '../../../ergodex-cdk/components/Form/NewForm';
-import { useWalletBalance } from '../../../services/new/balance';
+import { useAssetWalletBalance } from '../../../services/new/balance';
 import { isWalletLoading$ } from '../../../services/new/core';
 import {
   TokenAmountInput,
@@ -80,7 +80,7 @@ export const TokenControlFormItem: FC<NewTokenControlProps> = ({
 }) => {
   const { t } = useTranslation();
   const { form } = useFormContext();
-  const [balance, balanceLoading] = useWalletBalance();
+  const [balance, balanceLoading] = useAssetWalletBalance();
   const [selectedAsset] = useObservable(
     tokenName
       ? form.controls[tokenName].valueChangesWithSilent$

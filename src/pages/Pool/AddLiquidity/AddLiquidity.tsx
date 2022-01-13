@@ -34,7 +34,7 @@ import { FormPageWrapper } from '../../../components/FormPageWrapper/FormPageWra
 import { Flex, Typography } from '../../../ergodex-cdk';
 import { Form, useForm } from '../../../ergodex-cdk/components/Form/NewForm';
 import { assets$, getAvailableAssetFor } from '../../../services/new/assets';
-import { useWalletBalance } from '../../../services/new/balance';
+import { useAssetWalletBalance } from '../../../services/new/balance';
 import { useMaxTotalFees, useNetworkAsset } from '../../../services/new/core';
 import {
   getAvailablePoolById,
@@ -51,7 +51,7 @@ const getAvailablePools = (xId?: string, yId?: string) =>
   xId && yId ? getPoolByPair(xId, yId) : of([]);
 
 const AddLiquidity = (): JSX.Element => {
-  const [balance] = useWalletBalance();
+  const [balance] = useAssetWalletBalance();
   const totalFees = useMaxTotalFees();
   const networkAsset = useNetworkAsset();
   const { poolId } = useParams<{ poolId?: PoolId }>();
