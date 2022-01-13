@@ -10,15 +10,12 @@ const marks = {
   100: 'Max',
 };
 
-interface RemovePositionSliderProps {
+interface FormSliderProps {
   percent: string;
   onChange: (p: number) => void;
 }
 
-const RemovePositionSlider: React.FC<RemovePositionSliderProps> = ({
-  percent,
-  onChange,
-}) => {
+const FormSlider: React.FC<FormSliderProps> = ({ percent, onChange }) => {
   return (
     <Box contrast padding={4}>
       <Flex direction="col">
@@ -44,4 +41,4 @@ const RemovePositionSlider: React.FC<RemovePositionSliderProps> = ({
   );
 };
 
-export { RemovePositionSlider };
+export { FormSlider };
