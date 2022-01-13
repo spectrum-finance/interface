@@ -6,6 +6,7 @@ import { useParams } from 'react-router';
 
 import { AssetPair } from '../../@types/asset';
 import { Currency } from '../../common/models/Currency';
+import { FormSlider } from '../../components/common/FormSlider/FormSlider';
 import {
   openConfirmationModal,
   Operation,
@@ -19,7 +20,6 @@ import { usePosition } from '../../hooks/usePosition';
 import { ConfirmRemoveModal } from './ConfirmRemoveModal/ConfirmRemoveModal';
 import { PairSpace } from './PairSpace/PairSpace';
 import { RemoveFormSpaceWrapper } from './RemoveFormSpaceWrapper/RemoveFormSpaceWrapper';
-import { RemovePositionSlider } from './RemovePositionSlider/RemovePositionSlider';
 
 const getPercent = (val: number | undefined, percent: string): number =>
   Number(evaluate(`${val} * ${percent}%`));
@@ -97,8 +97,10 @@ export const Remove = (): JSX.Element => {
           );
         },
         Operation.REMOVE_LIQUIDITY,
-        xAmount,
-        yAmount,
+        {
+          xAsset: xAmount,
+          yAsset: yAmount,
+        },
       );
     }
   };
@@ -131,10 +133,7 @@ export const Remove = (): JSX.Element => {
             </Flex.Item>
             <Flex.Item marginBottom={4}>
               <RemoveFormSpaceWrapper title="Amount">
-                <RemovePositionSlider
-                  percent={percent}
-                  onChange={handleChangePercent}
-                />
+                <FormSlider percent={percent} onChange={handleChangePercent} />
               </RemoveFormSpaceWrapper>
             </Flex.Item>
 

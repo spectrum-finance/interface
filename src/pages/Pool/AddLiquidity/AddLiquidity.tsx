@@ -192,8 +192,10 @@ const AddLiquidity = (): JSX.Element => {
         return <AddLiquidityConfirmationModal value={value} onClose={next} />;
       },
       Operation.ADD_LIQUIDITY,
-      value.xAmount!,
-      value.yAmount!,
+      {
+        xAsset: value.xAmount!,
+        yAsset: value.yAmount!,
+      },
     );
   };
 

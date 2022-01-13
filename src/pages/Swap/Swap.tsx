@@ -107,8 +107,10 @@ export const Swap = (): JSX.Element => {
         return <SwapConfirmationModal value={value} onClose={next} />;
       },
       Operation.SWAP,
-      value.fromAmount!,
-      value.toAmount!,
+      {
+        xAsset: value.fromAmount!,
+        yAsset: value.toAmount!,
+      },
     );
   };
 
@@ -118,8 +120,6 @@ export const Swap = (): JSX.Element => {
     }
     return toAmount?.gt(pool.getAssetAmount(toAmount?.asset));
   };
-
-  useSubscription(form.valueChangesWithSilent$, (value) => console.log(value));
 
   useSubscription(
     form.controls.fromAsset.valueChangesWithSilent$,
