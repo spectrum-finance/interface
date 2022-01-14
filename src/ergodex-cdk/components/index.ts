@@ -3,6 +3,7 @@ export * from './Animation';
 export * from './Box/Box';
 export * from './Button/Button';
 export * from './Col/Col';
+export * from './DatePicker/DatePicker';
 export * from './Dropdown/Dropdown';
 export * from './Flex/Flex';
 export * from './Form/Form';
