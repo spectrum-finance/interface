@@ -13,6 +13,7 @@ import { AmmPool } from '../../common/models/AmmPool';
 import { Currency } from '../../common/models/Currency';
 import { FormHeader } from '../../components/common/FormView/FormHeader/FormHeader';
 import { FormPairSection } from '../../components/common/FormView/FormPairSection/FormPairSection';
+import { FormSection } from '../../components/common/FormView/FormSection/FormSection';
 import { FormSlider } from '../../components/common/FormView/FormSlider/FormSlider';
 import {
   openConfirmationModal,
@@ -29,7 +30,6 @@ import {
 import { lpWalletBalance$ } from '../../services/new/balance';
 import { getPoolById } from '../../services/new/pools';
 import { ConfirmRemoveModal } from './ConfirmRemoveModal/ConfirmRemoveModal';
-import { RemoveFormSpaceWrapper } from './RemoveFormSpaceWrapper/RemoveFormSpaceWrapper';
 
 interface PoolData {
   readonly pool: AmmPool;
@@ -126,18 +126,18 @@ export const Remove: FC = () => {
             </Flex.Item>
 
             <Flex.Item marginBottom={4}>
-              <RemoveFormSpaceWrapper title="Amount">
+              <FormSection title="Amount" noPadding>
                 <Form.Item name="percent">
                   {({ value, onChange }) => (
                     <FormSlider value={value} onChange={onChange} />
                   )}
                 </Form.Item>
-              </RemoveFormSpaceWrapper>
+              </FormSection>
             </Flex.Item>
 
             <Flex.Item marginBottom={4}>
               <FormPairSection
-                title="Pooled Assets"
+                title="Assets to remove"
                 xAmount={formValue?.xAmount || poolData.xAmount}
                 yAmount={formValue?.yAmount || poolData.yAmount}
               />

@@ -2,13 +2,20 @@ import React from 'react';
 
 import { Box } from '../../../../ergodex-cdk';
 
-const FormSpace: React.FC<{ children: React.ReactChild | React.ReactChild[] }> =
-  ({ children }): JSX.Element => {
-    return (
-      <Box contrast padding={4}>
-        {children}
-      </Box>
-    );
-  };
+interface FormSpaceProps {
+  children: React.ReactChild | React.ReactChild[];
+  noPadding?: boolean;
+}
+
+const FormSpace: React.FC<FormSpaceProps> = ({
+  children,
+  noPadding,
+}): JSX.Element => {
+  return (
+    <Box contrast padding={noPadding ? 0 : 4}>
+      {children}
+    </Box>
+  );
+};
 
 export { FormSpace };
