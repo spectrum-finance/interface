@@ -30,7 +30,7 @@ const PoolPageWrapper: React.FC<PoolPageWrapperProps> = ({
       <Flex.Item marginBottom={isWalletConnected ? 2 : 0}>
         <FormPageWrapper
           width={832}
-          title="Liquidity Positions"
+          title="Liquidity Pools"
           bottomChildren={
             isWalletConnected && (
               <Button
@@ -76,6 +76,9 @@ const Pool = (): JSX.Element => {
       onClick={handleAddLiquidity}
     >
       <Tabs type="card" className="pool__position-tabs">
+        <Tabs.TabPane tab="Pools Overview" key="positions-overview">
+          <LiquidityPositionsList pools={pools} loading={isPoolsLoading} />
+        </Tabs.TabPane>
         <Tabs.TabPane tab="Your Positions" key="your-positions">
           {isWalletConnected ? (
             <LiquidityPositionsList
@@ -87,9 +90,6 @@ const Pool = (): JSX.Element => {
               <ConnectWalletButton />
             </EmptyPositionsWrapper>
           )}
-        </Tabs.TabPane>
-        <Tabs.TabPane tab="Positions Overview" key="positions-overview">
-          <LiquidityPositionsList pools={pools} loading={isPoolsLoading} />
         </Tabs.TabPane>
       </Tabs>
     </PoolPageWrapper>
