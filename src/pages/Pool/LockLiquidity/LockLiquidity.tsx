@@ -21,7 +21,6 @@ import {
   Typography,
 } from '../../../ergodex-cdk';
 import { useForm } from '../../../ergodex-cdk/components/Form/NewForm';
-import { RemoveFormSpaceWrapper } from '../../Remove/RemoveFormSpaceWrapper/RemoveFormSpaceWrapper';
 import { LockLiquidityConfirmationModal } from './LockLiquidityConfirmationModal/LockLiquidityConfirmationModal';
 import { LockLiquidityDatePicker } from './LockLiquidityDatePicker/LockLiquidityDatePicker';
 import { LockLiquidityModel } from './LockLiquidityModel';
@@ -80,15 +79,6 @@ const LockLiquidity = () => {
               </Flex>
             </Flex.Item>
           </Flex>
-        </Flex.Item>
-
-        <Flex.Item marginBottom={4}>
-          <RemoveFormSpaceWrapper title="Amount of LP tokens">
-            <FormSlider
-              value={Number(percent)}
-              onChange={handleChangePercent}
-            />
-          </RemoveFormSpaceWrapper>
         </Flex.Item>
 
         <Flex.Item marginBottom={4}>

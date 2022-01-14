@@ -5,6 +5,7 @@ import React from 'react';
 import { AmmPool } from '../../../common/models/AmmPool';
 import { Currency } from '../../../common/models/Currency';
 import { FormPairSection } from '../../../components/common/FormView/FormPairSection/FormPairSection';
+import { FormSection } from '../../../components/common/FormView/FormSection/FormSection';
 import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
 import { ERG_DECIMALS, UI_FEE } from '../../../constants/erg';
 import { useSettings } from '../../../context';
@@ -23,7 +24,6 @@ import { poolActions } from '../../../services/poolActions';
 import { submitTx } from '../../../services/yoroi';
 import { makeTarget } from '../../../utils/ammMath';
 import { parseUserInputToFractions } from '../../../utils/math';
-import { RemoveFormSpaceWrapper } from '../RemoveFormSpaceWrapper/RemoveFormSpaceWrapper';
 
 interface ConfirmRemoveModalProps {
   onClose: (p: Promise<any>) => void;
@@ -104,52 +104,48 @@ const ConfirmRemoveModal: React.FC<ConfirmRemoveModalProps> = ({
               />
             </Flex.Item>
             <Flex.Item marginBottom={6}>
-              <RemoveFormSpaceWrapper title="Fees">
-                <Box contrast padding={4}>
-                  <Flex justify="space-between">
-                    <Flex.Item>
-                      <Typography.Text strong>Fees</Typography.Text>
-                      <InfoTooltip
-                        placement="rightBottom"
-                        content={
-                          <Flex direction="col">
-                            <Flex.Item>
-                              <Flex>
-                                <Flex.Item marginRight={1}>
-                                  Miner Fee:
-                                </Flex.Item>
-                                <Flex.Item>{minerFee} ERG</Flex.Item>
-                              </Flex>
-                            </Flex.Item>
-                            <Flex.Item>
-                              <Flex>
-                                <Flex.Item marginRight={1}>
-                                  Execution Fee:
-                                </Flex.Item>
-                                <Flex.Item>{minExFee.toString()}</Flex.Item>
-                              </Flex>
-                            </Flex.Item>
-                            {!!UI_FEE && (
-                              <Flex.Item>
-                                <Flex>
-                                  <Flex.Item marginRight={1}>UI Fee:</Flex.Item>
-                                  <Flex.Item>{UI_FEE} ERG</Flex.Item>
-                                </Flex>
+              <FormSection title="Fees">
+                <Flex justify="space-between">
+                  <Flex.Item>
+                    <Typography.Text strong>Fees</Typography.Text>
+                    <InfoTooltip
+                      placement="rightBottom"
+                      content={
+                        <Flex direction="col">
+                          <Flex.Item>
+                            <Flex>
+                              <Flex.Item marginRight={1}>Miner Fee:</Flex.Item>
+                              <Flex.Item>{minerFee} ERG</Flex.Item>
+                            </Flex>
+                          </Flex.Item>
+                          <Flex.Item>
+                            <Flex>
+                              <Flex.Item marginRight={1}>
+                                Execution Fee:
                               </Flex.Item>
-                            )}
-                          </Flex>
-                        }
-                      />
-                    </Flex.Item>
+                              <Flex.Item>{minExFee.toString()}</Flex.Item>
+                            </Flex>
+                          </Flex.Item>
+                          {!!UI_FEE && (
+                            <Flex.Item>
+                              <Flex>
+                                <Flex.Item marginRight={1}>UI Fee:</Flex.Item>
+                                <Flex.Item>{UI_FEE} ERG</Flex.Item>
+                              </Flex>
+                            </Flex.Item>
+                          )}
+                        </Flex>
+                      }
+                    />
+                  </Flex.Item>
 
-                    <Flex.Item>
-                      <Typography.Text strong>
-                        {totalFees.toString()}
-                      </Typography.Text>
-                    </Flex.Item>
-                  </Flex>
-                </Box>
-              </RemoveFormSpaceWrapper>
+                  <Flex.Item>
+                    <Typography.Text strong>
+                      {totalFees.toString()}
+                    </Typography.Text>
+                  </Flex.Item>
+                </Flex>
+              </FormSection>
             </Flex.Item>
             <Flex.Item>
               <Button
