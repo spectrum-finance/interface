@@ -85,10 +85,14 @@ export const lpWalletBalance$ = combineLatest([
   refCount(),
 );
 
+lpWalletBalance$.subscribe(() => {});
 assetWalletBalance$.subscribe(() => {});
 
 export const useAssetWalletBalance = () =>
   useObservable(assetWalletBalance$, [], new Balance([]));
+
+export const useLpWalletBalance = () =>
+  useObservable(lpWalletBalance$, [], new Balance([]));
 
 export const getBalanceByAsset = (asset: AssetInfo): Observable<Currency> =>
   assetWalletBalance$.pipe(
