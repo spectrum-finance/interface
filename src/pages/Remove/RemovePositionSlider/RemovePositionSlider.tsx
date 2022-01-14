@@ -11,12 +11,12 @@ const marks = {
 };
 
 interface RemovePositionSliderProps {
-  percent: string;
+  value: number;
   onChange: (p: number) => void;
 }
 
 const RemovePositionSlider: React.FC<RemovePositionSliderProps> = ({
-  percent,
+  value,
   onChange,
 }) => {
   return (
@@ -26,14 +26,14 @@ const RemovePositionSlider: React.FC<RemovePositionSliderProps> = ({
           <Flex direction="col">
             <Flex.Item marginBottom={4}>
               <Flex align="center" justify="center">
-                <Typography.Title level={1}>{percent}%</Typography.Title>
+                <Typography.Title level={1}>{value}%</Typography.Title>
               </Flex>
             </Flex.Item>
             <Flex.Item>
               <Slider
                 tooltipVisible={false}
                 marks={marks}
-                defaultValue={Number(percent)}
+                defaultValue={value}
                 onChange={onChange}
               />
             </Flex.Item>

@@ -3,9 +3,9 @@ import './ConnectWalletButton.less';
 import cn from 'classnames';
 import React, { FC, ReactNode } from 'react';
 
+import { useObservable } from '../../../common/hooks/useObservable';
 import { useAppLoadingState } from '../../../context';
 import { Button, ButtonProps, Modal } from '../../../ergodex-cdk';
-import { useObservable } from '../../../hooks/useObservable';
 import { isWalletSetuped$ } from '../../../services/new/core';
 import { ChooseWalletModal } from './ChooseWalletModal/ChooseWalletModal';
 

@@ -17,12 +17,12 @@ import {
   switchMap,
 } from 'rxjs';
 
+import { useObservable } from '../../common/hooks/useObservable';
 import { Currency } from '../../common/models/Currency';
 import { normalizeAmount } from '../../common/utils/amount';
 import { ERG_DECIMALS, ERG_TOKEN_NAME } from '../../constants/erg';
 import { defaultExFee } from '../../constants/settings';
 import { useSettings } from '../../context';
-import { useObservable } from '../../hooks/useObservable';
 import { walletCookies } from '../../utils/cookies';
 import { renderFractions } from '../../utils/math';
 import { calculateTotalFee } from '../../utils/transactions';
@@ -65,6 +65,13 @@ export const isWalletSetuped$ = walletState$.pipe(
     (state) =>
       state === WalletState.CONNECTED || state === WalletState.CONNECTING,
   ),
+  mapTo(true),
+  publishReplay(1),
+  refCount(),
+);
+
+export const isWalletConnected$ = walletState$.pipe(
+  filter((state) => state === WalletState.CONNECTED),
   mapTo(true),
   publishReplay(1),
   refCount(),
@@ -133,9 +140,7 @@ export const defaultExFee$: Observable<Currency> = networkAsset$.pipe(
 );
 
 export const useNetworkAsset = (): AssetInfo => {
-  const [_nativeToken] = useObservable(networkAsset$, {
-    defaultValue: networkAsset,
-  });
+  const [_nativeToken] = useObservable(networkAsset$, [], networkAsset);
 
   return _nativeToken;
 };

@@ -30,7 +30,7 @@ import { RemoveFormSpaceWrapper } from '../RemoveFormSpaceWrapper/RemoveFormSpac
 interface ConfirmRemoveModalProps {
   onClose: (p: Promise<any>) => void;
   pool: AmmPool;
-  lpToRemove: number;
+  lpToRemove: Currency;
   xAmount: Currency;
   yAmount: Currency;
 }
@@ -53,7 +53,7 @@ const ConfirmRemoveModal: React.FC<ConfirmRemoveModalProps> = ({
 
   const removeOperation = async (pool: AmmPool) => {
     const actions = poolActions(pool['pool']);
-    const lp = pool['pool'].lp.withAmount(BigInt(lpToRemove.toFixed(0)));
+    const lp = pool['pool'].lp.withAmount(lpToRemove.amount);
 
     const poolId = pool.id;
 
