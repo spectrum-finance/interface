@@ -2,15 +2,14 @@ import { minValueForOrder } from '@ergolabs/ergo-dex-sdk';
 import { BoxSelection, DefaultBoxSelector, ErgoTx } from '@ergolabs/ergo-sdk';
 import React, { FC } from 'react';
 
+import { FormPairSection } from '../../../../components/common/FormView/FormPairSection/FormPairSection';
 import { InfoTooltip } from '../../../../components/InfoTooltip/InfoTooltip';
 import { ERG_DECIMALS, UI_FEE } from '../../../../constants/erg';
-import { defaultExFee } from '../../../../constants/settings';
 import { useSettings } from '../../../../context';
 import { Box, Button, Flex, Modal, Typography } from '../../../../ergodex-cdk';
 import { useObservable } from '../../../../hooks/useObservable';
 import { explorer } from '../../../../services/explorer';
 import {
-  useMaxTotalFees,
   useMinExFee,
   useMinTotalFees,
   utxos$,
@@ -19,7 +18,6 @@ import { poolActions } from '../../../../services/poolActions';
 import { submitTx } from '../../../../services/yoroi';
 import { makeTarget } from '../../../../utils/ammMath';
 import { parseUserInputToFractions } from '../../../../utils/math';
-import { PairSpace } from '../../../Remove/PairSpace/PairSpace';
 import { RemoveFormSpaceWrapper } from '../../../Remove/RemoveFormSpaceWrapper/RemoveFormSpaceWrapper';
 import { AddLiquidityFormModel } from '../FormModel';
 
@@ -91,7 +89,7 @@ const AddLiquidityConfirmationModal: FC<AddLiquidityConfirmationModalProps> = ({
       <Modal.Content width={436}>
         <Flex direction="col">
           <Flex.Item marginBottom={6}>
-            <PairSpace
+            <FormPairSection
               title="Assets"
               xAmount={value.xAmount}
               yAmount={value.yAmount}

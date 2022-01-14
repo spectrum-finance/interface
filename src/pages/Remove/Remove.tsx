@@ -6,19 +6,19 @@ import { useParams } from 'react-router';
 
 import { AssetPair } from '../../@types/asset';
 import { Currency } from '../../common/models/Currency';
-import { FormSlider } from '../../components/common/FormSlider/FormSlider';
+import { FormHeader } from '../../components/common/FormView/FormHeader/FormHeader';
+import { FormPairSection } from '../../components/common/FormView/FormPairSection/FormPairSection';
+import { FormSlider } from '../../components/common/FormView/FormSlider/FormSlider';
 import {
   openConfirmationModal,
   Operation,
 } from '../../components/ConfirmationModal/ConfirmationModal';
 import { FormPageWrapper } from '../../components/FormPageWrapper/FormPageWrapper';
 import { SubmitButton } from '../../components/SubmitButton/SubmitButton';
-import { TokenIconPair } from '../../components/TokenIconPair/TokenIconPair';
-import { Flex, Skeleton, Typography } from '../../ergodex-cdk';
+import { Flex, Skeleton } from '../../ergodex-cdk';
 import { usePair } from '../../hooks/usePair';
 import { usePosition } from '../../hooks/usePosition';
 import { ConfirmRemoveModal } from './ConfirmRemoveModal/ConfirmRemoveModal';
-import { PairSpace } from './PairSpace/PairSpace';
 import { RemoveFormSpaceWrapper } from './RemoveFormSpaceWrapper/RemoveFormSpaceWrapper';
 
 const getPercent = (val: number | undefined, percent: string): number =>
@@ -111,25 +111,20 @@ export const Remove = (): JSX.Element => {
         {pair ? (
           <Flex direction="col">
             <Flex.Item marginBottom={2}>
-              <Flex justify="space-between" align="center">
-                <Flex.Item>
-                  <Flex align="center">
-                    <Flex.Item display="flex" marginRight={2}>
-                      <TokenIconPair
-                        tokenPair={{
-                          tokenA: pair.assetX.name,
-                          tokenB: pair.assetY.name,
-                        }}
-                      />
-                    </Flex.Item>
-                    <Flex.Item>
-                      <Typography.Title level={4}>
-                        {pair.assetX.name} / {pair.assetY.name}
-                      </Typography.Title>
-                    </Flex.Item>
-                  </Flex>
-                </Flex.Item>
-              </Flex>
+              <FormHeader
+                x={
+                  new Currency(
+                    pair.assetX.amount?.toString(),
+                    pair.assetX.asset,
+                  )
+                }
+                y={
+                  new Currency(
+                    pair.assetY.amount?.toString(),
+                    pair.assetY.asset,
+                  )
+                }
+              />
             </Flex.Item>
             <Flex.Item marginBottom={4}>
               <RemoveFormSpaceWrapper title="Amount">
@@ -138,7 +133,7 @@ export const Remove = (): JSX.Element => {
             </Flex.Item>
 
             <Flex.Item marginBottom={4}>
-              <PairSpace
+              <FormPairSection
                 title="Pooled Assets"
                 xAmount={
                   new Currency(

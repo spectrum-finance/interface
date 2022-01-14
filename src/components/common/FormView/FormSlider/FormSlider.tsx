@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { Box, Flex, Slider, Typography } from '../../../ergodex-cdk';
+import { Flex, Slider, Typography } from '../../../../ergodex-cdk';
+import { FormSpace } from '../FormSpace/FormSpace';
 
 const marks = {
   0: 'Min',
@@ -17,7 +18,7 @@ interface FormSliderProps {
 
 const FormSlider: React.FC<FormSliderProps> = ({ percent, onChange }) => {
   return (
-    <Box contrast padding={4}>
+    <FormSpace>
       <Flex direction="col">
         <Flex.Item>
           <Flex direction="col">
@@ -37,7 +38,7 @@ const FormSlider: React.FC<FormSliderProps> = ({ percent, onChange }) => {
           </Flex>
         </Flex.Item>
       </Flex>
-    </Box>
+    </FormSpace>
   );
 };
 
