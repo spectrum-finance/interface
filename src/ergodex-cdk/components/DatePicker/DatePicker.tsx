@@ -1,4 +1,3 @@
-import 'antd/es/date-picker/style/index';
 import './DatePicker.less';
 
 import generatePicker from 'antd/es/date-picker/generatePicker';

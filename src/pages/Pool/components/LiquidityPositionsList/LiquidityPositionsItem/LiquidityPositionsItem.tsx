@@ -1,9 +1,9 @@
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
 import React, { useEffect } from 'react';
 
+import { useSubject } from '../../../../../common/hooks/useObservable';
 import { AmmPool } from '../../../../../common/models/AmmPool';
 import { Flex } from '../../../../../ergodex-cdk';
-import { useSubject } from '../../../../../hooks/useObservable';
 import { getAggregatedPoolAnalyticsDataById24H } from '../../../../../services/new/analytics';
 import { LiquidityPositionsItemAnalytics } from './LiquidityPositionsItemAnalytics/LiquidityPositionsItemAnalytics';
 import { LiquidityPositionsItemWrapper } from './LiquidityPositionsItemWrapper/LiquidityPositionsItemWrapper';

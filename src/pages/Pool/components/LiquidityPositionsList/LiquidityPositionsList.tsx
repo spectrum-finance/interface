@@ -5,9 +5,9 @@ import { isEmpty } from 'lodash';
 import React, { FC } from 'react';
 import { useHistory } from 'react-router-dom';
 
+import { useObservable } from '../../../../common/hooks/useObservable';
 import { AmmPool } from '../../../../common/models/AmmPool';
 import { Button, Flex, List, PlusOutlined } from '../../../../ergodex-cdk';
-import { useObservable } from '../../../../hooks/useObservable';
 import { isWalletSetuped$ } from '../../../../services/new/core';
 import { EmptyPositionsWrapper } from '../EmptyPositionsWrapper/EmptyPositionsWrapper';
 import { PositionListLoader } from '../PositionListLoader/PositionListLoader';
@@ -22,9 +22,7 @@ const LiquidityPositionsList: FC<LiquidityPositionsListProps> = ({
   loading,
   pools,
 }): JSX.Element => {
-  const [isWalletConnected] = useObservable(isWalletSetuped$, {
-    defaultValue: false,
-  });
+  const [isWalletConnected] = useObservable(isWalletSetuped$, [], false);
 
   const history = useHistory();
 

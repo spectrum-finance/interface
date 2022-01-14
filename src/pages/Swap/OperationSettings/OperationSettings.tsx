@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { filter, skip } from 'rxjs';
 
+import { useSubscription } from '../../../common/hooks/useObservable';
 import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
 import { MIN_NITRO } from '../../../constants/erg';
 import { defaultSlippage } from '../../../constants/settings';
@@ -19,7 +20,6 @@ import {
   Messages,
   useForm,
 } from '../../../ergodex-cdk/components/Form/NewForm';
-import { useSubscription } from '../../../hooks/useObservable';
 import { NitroInput } from './NitroInput/NitroInput';
 import { SlippageInput } from './SlippageInput/SlippageInput';
 

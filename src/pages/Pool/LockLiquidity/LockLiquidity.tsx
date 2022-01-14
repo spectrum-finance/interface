@@ -84,7 +84,10 @@ const LockLiquidity = () => {
 
         <Flex.Item marginBottom={4}>
           <RemoveFormSpaceWrapper title="Amount of LP tokens">
-            <FormSlider percent={percent} onChange={handleChangePercent} />
+            <FormSlider
+              value={Number(percent)}
+              onChange={handleChangePercent}
+            />
           </RemoveFormSpaceWrapper>
         </Flex.Item>
 

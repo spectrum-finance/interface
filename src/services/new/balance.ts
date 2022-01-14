@@ -9,12 +9,12 @@ import {
   switchMap,
 } from 'rxjs';
 
+import { useObservable } from '../../common/hooks/useObservable';
 import { Currency } from '../../common/models/Currency';
 import { ERG_DECIMALS } from '../../constants/erg';
-import { useObservable } from '../../hooks/useObservable';
 import { getListAvailableTokens } from '../../utils/getListAvailableTokens';
 import { parseUserInputToFractions } from '../../utils/math';
-import { assets$ } from './assets';
+import { assets$, lpAssets$ } from './assets';
 import { nativeTokenBalance$, utxos$ } from './core';
 
 const ERGO_ID =
@@ -45,7 +45,7 @@ export class Balance {
   }
 }
 
-export const walletBalance$ = combineLatest([
+export const assetWalletBalance$ = combineLatest([
   nativeTokenBalance$.pipe(
     map((balance) => parseUserInputToFractions(balance, ERG_DECIMALS)),
   ),
@@ -66,15 +66,36 @@ export const walletBalance$ = combineLatest([
   publishReplay(1),
   refCount(),
 );
-walletBalance$.subscribe(() => {});
 
-export const useWalletBalance = () =>
-  useObservable(walletBalance$, {
-    defaultValue: new Balance([]),
-  });
+export const lpWalletBalance$ = combineLatest([
+  utxos$.pipe(switchMap(() => lpAssets$)),
+  utxos$.pipe(map((utxos) => Object.values(getListAvailableTokens(utxos)))),
+]).pipe(
+  debounceTime(200),
+  map(([assets, boxAssets]) =>
+    boxAssets
+      .map<[bigint, AssetInfo]>((ba) => [
+        ba.amount,
+        assets.find((a) => a.id === ba.tokenId)!,
+      ])
+      .filter((i) => !!i[1]),
+  ),
+  map((data) => new Balance(data)),
+  publishReplay(1),
+  refCount(),
+);
+
+lpWalletBalance$.subscribe(() => {});
+assetWalletBalance$.subscribe(() => {});
+
+export const useAssetWalletBalance = () =>
+  useObservable(assetWalletBalance$, [], new Balance([]));
+
+export const useLpWalletBalance = () =>
+  useObservable(lpWalletBalance$, [], new Balance([]));
 
 export const getBalanceByAsset = (asset: AssetInfo): Observable<Currency> =>
-  walletBalance$.pipe(
+  assetWalletBalance$.pipe(
     map((balance) => balance.get(asset)),
     publishReplay(1),
     refCount(),

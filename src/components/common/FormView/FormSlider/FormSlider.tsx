@@ -12,11 +12,11 @@ const marks = {
 };
 
 interface FormSliderProps {
-  percent: string;
+  value: number;
   onChange: (p: number) => void;
 }
 
-const FormSlider: React.FC<FormSliderProps> = ({ percent, onChange }) => {
+const FormSlider: React.FC<FormSliderProps> = ({ value, onChange }) => {
   return (
     <FormSpace>
       <Flex direction="col">
@@ -24,14 +24,14 @@ const FormSlider: React.FC<FormSliderProps> = ({ percent, onChange }) => {
           <Flex direction="col">
             <Flex.Item marginBottom={4}>
               <Flex align="center" justify="center">
-                <Typography.Title level={1}>{percent}%</Typography.Title>
+                <Typography.Title level={1}>{value}%</Typography.Title>
               </Flex>
             </Flex.Item>
             <Flex.Item>
               <Slider
                 tooltipVisible={false}
                 marks={marks}
-                defaultValue={Number(percent)}
+                defaultValue={value}
                 onChange={onChange}
               />
             </Flex.Item>

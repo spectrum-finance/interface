@@ -3,10 +3,10 @@ import './Pool.less';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 
+import { useObservable } from '../../common/hooks/useObservable';
 import { ConnectWalletButton } from '../../components/common/ConnectWalletButton/ConnectWalletButton';
 import { FormPageWrapper } from '../../components/FormPageWrapper/FormPageWrapper';
 import { Button, Flex, PlusOutlined, Tabs } from '../../ergodex-cdk';
-import { useObservable } from '../../hooks/useObservable';
 import { isWalletLoading$, isWalletSetuped$ } from '../../services/new/core';
 import { availablePools$, pools$ } from '../../services/new/pools';
 import { EmptyPositionsWrapper } from './components/EmptyPositionsWrapper/EmptyPositionsWrapper';
@@ -53,21 +53,16 @@ const PoolPageWrapper: React.FC<PoolPageWrapperProps> = ({
 };
 
 const Pool = (): JSX.Element => {
-  const [isWalletConnected] = useObservable(isWalletSetuped$, {
-    defaultValue: false,
-  });
+  const [isWalletConnected] = useObservable(isWalletSetuped$, [], false);
   const [isWalletLoading] = useObservable(isWalletLoading$);
 
   const [availablePools, isAvailablePoolsLoading] = useObservable(
     availablePools$,
-    {
-      defaultValue: [],
-    },
+    [],
+    [],
   );
 
-  const [pools, isPoolsLoading] = useObservable(pools$, {
-    defaultValue: [],
-  });
+  const [pools, isPoolsLoading] = useObservable(pools$, [], []);
 
   const history = useHistory();
 

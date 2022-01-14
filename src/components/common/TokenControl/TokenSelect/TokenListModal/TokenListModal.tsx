@@ -4,8 +4,8 @@ import { AssetInfo } from '@ergolabs/ergo-sdk';
 import React, { useState } from 'react';
 import { Observable, of } from 'rxjs';
 
+import { useObservable } from '../../../../../common/hooks/useObservable';
 import { Flex, Input, Modal, SearchOutlined } from '../../../../../ergodex-cdk';
-import { useObservable } from '../../../../../hooks/useObservable';
 import { TokenListItem } from './TokenListItem';
 
 interface TokenListModalProps {

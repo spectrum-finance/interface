@@ -2,12 +2,12 @@ import { minValueForOrder } from '@ergolabs/ergo-dex-sdk';
 import { BoxSelection, DefaultBoxSelector, ErgoTx } from '@ergolabs/ergo-sdk';
 import React, { FC } from 'react';
 
+import { useObservable } from '../../../../common/hooks/useObservable';
 import { FormPairSection } from '../../../../components/common/FormView/FormPairSection/FormPairSection';
 import { InfoTooltip } from '../../../../components/InfoTooltip/InfoTooltip';
 import { ERG_DECIMALS, UI_FEE } from '../../../../constants/erg';
 import { useSettings } from '../../../../context';
 import { Box, Button, Flex, Modal, Typography } from '../../../../ergodex-cdk';
-import { useObservable } from '../../../../hooks/useObservable';
 import { explorer } from '../../../../services/explorer';
 import {
   useMinExFee,
