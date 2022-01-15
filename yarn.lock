@@ -1658,25 +1658,10 @@
     mathjs "^9.4.4"
     ramda "0.27.1"
 
-"@ergolabs/ergo-sdk@0.1.19":
+"@ergolabs/ergo-sdk@0.1.19", "@ergolabs/ergo-sdk@^0.1.19":
   version "0.1.19"
   resolved "https://registry.yarnpkg.com/@ergolabs/ergo-sdk/-/ergo-sdk-0.1.19.tgz#1b2e8c5040bfb078daa11cb3520878877e20bbaa"
   integrity sha512-TcXBVFEXF+IHJ5n4spbQTfzUeCrC6jL4JpG8ya2ng91SGU+LSITH0tsqkOG+eClFjUsXelRhDcaSjDJKCeJRAQ==
-  dependencies:
-    axios "^0.21.1"
-    blakejs "^1.1.0"
-    bs58 "^4.0.1"
-    crypto-js "^4.0.0"
-    ergo-lib-wasm-browser "0.14.0"
-    ergo-lib-wasm-nodejs "0.14.0"
-    json-bigint "^1.0.0"
-    mathjs "^9.4.4"
-    ramda "0.27.1"
-
-"@ergolabs/ergo-sdk@^0.1.16":
-  version "0.1.16"
-  resolved "https://registry.yarnpkg.com/@ergolabs/ergo-sdk/-/ergo-sdk-0.1.16.tgz#df29add9651d3c4c24dbd69970e8d1f607997501"
-  integrity sha512-cfT23XdyjDb0tIFalLS+t6gzJoeDiUt6mLfwTSr3M7X9ZJRxsEti4YLGxsNzBIybw6/I7KLMMrn2EnhcFeH+GA==
   dependencies:
     axios "^0.21.1"
     blakejs "^1.1.0"
