@@ -9,50 +9,12 @@ import {
   Flex,
   Typography,
 } from '../../../../ergodex-cdk';
+import { getLockingPeriodString } from '../utils';
 
 interface LockLiquidityDatePickerProps {
   value?: DateTime | null | undefined;
   onChange: (value: DateTime | null | undefined) => void;
 }
-
-const getLockingPeriod = (date: DateTime): string => {
-  const duration = date
-    .endOf('day')
-    .diffNow(['days', 'years', 'months', 'hours']);
-  const yearsCount = duration.get('year');
-  const monthsCount = duration.get('month');
-  const daysCount = duration.get('day');
-
-  const years = yearsCount === 1 ? `1 Year` : `${yearsCount} Years`;
-  const months = monthsCount === 1 ? `1 Month` : `${monthsCount} Months`;
-  const days = daysCount === 1 ? `1 Day` : `${daysCount} Days`;
-
-  if (yearsCount && monthsCount && daysCount) {
-    return `${years}, ${months} and ${days}`;
-  }
-
-  if (yearsCount && monthsCount && !daysCount) {
-    return `${years}, ${months}`;
-  }
-
-  if (yearsCount && !monthsCount && daysCount) {
-    return `${years}, ${days}`;
-  }
-
-  if (!yearsCount && monthsCount && daysCount) {
-    return `${months}, ${days}`;
-  }
-
-  if (yearsCount && !monthsCount && !daysCount) {
-    return `${years}`;
-  }
-
-  if (!yearsCount && monthsCount && !daysCount) {
-    return `${months}`;
-  }
-
-  return days;
-};
 
 const LockLiquidityDatePicker: React.FC<LockLiquidityDatePickerProps> = ({
   value,
@@ -79,15 +41,13 @@ const LockLiquidityDatePicker: React.FC<LockLiquidityDatePickerProps> = ({
               </Flex.Item>
               <Flex.Item>
                 <Typography.Body strong secondary>
-                  Lock period: {getLockingPeriod(value)}
+                  Lock period: {getLockingPeriodString(value)}
                 </Typography.Body>
               </Flex.Item>
             </Animation.Expand>
           </Flex>
         ) : (
-          <Typography.Body strong secondary>
-            Choose date
-          </Typography.Body>
+          <Typography.Title level={5}>Choose date</Typography.Title>
         )}
       </Flex.Item>
       <Flex.Item>
