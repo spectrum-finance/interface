@@ -2,6 +2,7 @@ export * from './Alert/Alert';
 export * from './Animation';
 export * from './Box/Box';
 export * from './Button/Button';
+export * from './Checkbox/Checkbox';
 export * from './Col/Col';
 export * from './DatePicker/DatePicker';
 export * from './Dropdown/Dropdown';
