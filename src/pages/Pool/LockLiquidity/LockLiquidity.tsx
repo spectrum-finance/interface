@@ -1,9 +1,15 @@
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
-import { DateTime } from 'luxon';
-import React, { useCallback, useState } from 'react';
+import { Skeleton } from 'antd';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
+import { skip } from 'rxjs';
 
-import { Currency } from '../../../common/models/Currency';
+import {
+  useObservable,
+  useSubject,
+  useSubscription,
+} from '../../../common/hooks/useObservable';
+import { FormHeader } from '../../../components/common/FormView/FormHeader/FormHeader';
 import { FormPairSection } from '../../../components/common/FormView/FormPairSection/FormPairSection';
 import { FormSection } from '../../../components/common/FormView/FormSection/FormSection';
 import { FormSlider } from '../../../components/common/FormView/FormSlider/FormSlider';
@@ -13,22 +19,23 @@ import {
 } from '../../../components/ConfirmationModal/ConfirmationModal';
 import { FormPageWrapper } from '../../../components/FormPageWrapper/FormPageWrapper';
 import { SubmitButton } from '../../../components/SubmitButton/SubmitButton';
-import { TokenIconPair } from '../../../components/TokenIconPair/TokenIconPair';
+import { Alert, Animation, Flex, LockOutlined } from '../../../ergodex-cdk';
 import {
-  DatePicker,
-  Flex,
-  LockOutlined,
-  Typography,
-} from '../../../ergodex-cdk';
-import { useForm } from '../../../ergodex-cdk/components/Form/NewForm';
+  Form,
+  FormGroup,
+  useForm,
+} from '../../../ergodex-cdk/components/Form/NewForm';
+import {
+  getAvailablePoolDataById,
+  PoolData,
+} from '../../../services/new/pools';
 import { LockLiquidityConfirmationModal } from './LockLiquidityConfirmationModal/LockLiquidityConfirmationModal';
 import { LockLiquidityDatePicker } from './LockLiquidityDatePicker/LockLiquidityDatePicker';
 import { LockLiquidityModel } from './LockLiquidityModel';
 
-const LockLiquidity = () => {
-  const DEFAULT_SLIDER_PERCENTAGE = '100';
+const LockLiquidity = (): JSX.Element => {
   const { poolId } = useParams<{ poolId: PoolId }>();
-  const [percent, setPercent] = useState(DEFAULT_SLIDER_PERCENTAGE);
+  const [poolData, updatePoolData] = useSubject(getAvailablePoolDataById);
 
   const form = useForm<LockLiquidityModel>({
     xAmount: undefined,
@@ -36,85 +43,127 @@ const LockLiquidity = () => {
     lpAmount: undefined,
     locktime: undefined,
     pool: undefined,
+    percent: 100,
   });
 
-  const handleChangePercent = useCallback((p) => {
-    setPercent(p);
-  }, []);
+  const [formValue] = useObservable(form.valueChangesWithSilent$);
 
-  const handleChangeDate = (date: DateTime | null, dateString: string) => {
-    console.log('date >>', date?.toMillis());
-    form.patchValue({ locktime: date?.toMillis() });
-  };
+  useEffect(() => updatePoolData(poolId), []);
 
-  const handleLockLiquidity = () => {
-    // openConfirmationModal(
-    //   (next) => <LockLiquidityConfirmationModal />,
-    //   Operation.LOCK_LIQUIDITY,
-    //   xAmount,
-    //   yAmount,
-    // );
+  useSubscription(
+    form.controls.percent.valueChanges$.pipe(skip(1)),
+    (percent) => {
+      form.patchValue({
+        xAmount:
+          percent === 100
+            ? poolData?.xAmount
+            : poolData?.xAmount.percent(percent),
+        yAmount:
+          percent === 100
+            ? poolData?.yAmount
+            : poolData?.yAmount.percent(percent),
+      });
+    },
+    [poolData],
+  );
+
+  const handleLockLiquidity = (
+    form: FormGroup<LockLiquidityModel>,
+    poolData: PoolData,
+  ) => {
+    const xAsset = form.value.xAmount || poolData.xAmount;
+    const yAsset = form.value.yAmount || poolData.yAmount;
+    const lpAsset = form.value.lpAmount || poolData.lpAmount;
+    const timelock = form.value.locktime;
+
+    openConfirmationModal(
+      (next) => (
+        <LockLiquidityConfirmationModal
+          onClose={next}
+          xAsset={xAsset}
+          yAsset={yAsset}
+          lpAsset={lpAsset}
+          timelock={timelock}
+        />
+      ),
+      Operation.LOCK_LIQUIDITY,
+      {
+        xAsset,
+        yAsset,
+        lpAsset,
+        timelock,
+      },
+    );
   };
 
   return (
     <FormPageWrapper width={480} title="Lock liquidity" withBackButton>
-      <Flex direction="col">
-        <Flex.Item marginBottom={2}>
-          <Flex justify="space-between" align="center">
-            <Flex.Item>
-              <Flex align="center">
-                <Flex.Item display="flex" marginRight={2}>
-                  <TokenIconPair
-                    tokenPair={{
-                      tokenA: 'ERG',
-                      tokenB: 'SigUSD',
-                    }}
+      {poolData ? (
+        <Form
+          form={form}
+          onSubmit={(form) => handleLockLiquidity(form, poolData)}
+        >
+          <Flex direction="col">
+            <Flex.Item marginBottom={2}>
+              <FormHeader x={poolData.xAmount} y={poolData.yAmount} />
+            </Flex.Item>
+
+            <Flex.Item marginBottom={4}>
+              <FormSection title="Amount" noPadding>
+                <Form.Item name="percent">
+                  {({ value, onChange }) => (
+                    <FormSlider value={value} onChange={onChange} />
+                  )}
+                </Form.Item>
+              </FormSection>
+            </Flex.Item>
+
+            <Flex.Item marginBottom={4}>
+              <FormPairSection
+                title="Assets to lock"
+                xAmount={formValue?.xAmount || poolData.xAmount}
+                yAmount={formValue?.yAmount || poolData.yAmount}
+              />
+            </Flex.Item>
+
+            <Flex.Item marginBottom={4}>
+              <FormSection title="Unlock date">
+                <Form.Item name="locktime">
+                  {({ value, onChange }) => (
+                    <LockLiquidityDatePicker
+                      value={value}
+                      onChange={onChange}
+                    />
+                  )}
+                </Form.Item>
+              </FormSection>
+            </Flex.Item>
+
+            {!!formValue?.locktime && (
+              <Flex.Item marginBottom={4}>
+                <Animation.Expand expanded={!!formValue?.locktime}>
+                  <Alert
+                    type="warning"
+                    message="Once LP-tokens are locked they cannot be withdrawn under any circumstances until the timer has expired. Please ensure the parameters are correct, as they are final."
                   />
-                </Flex.Item>
-                <Flex.Item>
-                  <Typography.Title level={4}>
-                    {'ERG'} / {'SigUSD'}
-                  </Typography.Title>
-                </Flex.Item>
-              </Flex>
+                </Animation.Expand>
+              </Flex.Item>
+            )}
+
+            <Flex.Item>
+              <SubmitButton
+                disabled={!formValue?.locktime}
+                htmlType="submit"
+                icon={<LockOutlined />}
+              >
+                Lock
+              </SubmitButton>
             </Flex.Item>
           </Flex>
-        </Flex.Item>
-
-        <Flex.Item marginBottom={4}>
-          <FormPairSection
-            title="Assets to lock"
-            xAmount={
-              new Currency('122', {
-                id: '00',
-                name: 'ERG',
-                decimals: 9,
-                description: 'erg',
-              })
-            }
-            yAmount={
-              new Currency('123', {
-                id: '00',
-                name: 'ERG',
-                decimals: 9,
-                description: 'erg',
-              })
-            }
-          />
-        </Flex.Item>
-
-        <Flex.Item marginBottom={4}>
-          <FormSection title="Unlock date">
-            <LockLiquidityDatePicker onChange={handleChangeDate} />
-          </FormSection>
-        </Flex.Item>
-
-        <Flex.Item>
-          <SubmitButton onClick={handleLockLiquidity} icon={<LockOutlined />}>
-            Lock
-          </SubmitButton>
-        </Flex.Item>
-      </Flex>
+        </Form>
+      ) : (
+        <Skeleton active />
+      )}
     </FormPageWrapper>
   );
 };
