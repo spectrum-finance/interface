@@ -1,15 +1,13 @@
-// TODO: REPLACE_ANTD_SKELETON_COMPONENT[EDEX-467]
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
 import React, { FC, useEffect } from 'react';
 import { useParams } from 'react-router';
-import { combineLatest, map, Observable, of, skip } from 'rxjs';
+import { skip } from 'rxjs';
 
 import {
   useObservable,
   useSubject,
   useSubscription,
 } from '../../common/hooks/useObservable';
-import { AmmPool } from '../../common/models/AmmPool';
 import { Currency } from '../../common/models/Currency';
 import { FormHeader } from '../../components/common/FormView/FormHeader/FormHeader';
 import { FormPairSection } from '../../components/common/FormView/FormPairSection/FormPairSection';
@@ -27,16 +25,9 @@ import {
   FormGroup,
   useForm,
 } from '../../ergodex-cdk/components/Form/NewForm';
-import { lpWalletBalance$ } from '../../services/new/balance';
-import { getPoolById } from '../../services/new/pools';
+import { PoolData } from '../../services/new/pools';
+import { getAvailablePoolDataById } from '../../services/new/pools';
 import { ConfirmRemoveModal } from './ConfirmRemoveModal/ConfirmRemoveModal';
-
-interface PoolData {
-  readonly pool: AmmPool;
-  readonly lpBalance: Currency;
-  readonly xAmount: Currency;
-  readonly yAmount: Currency;
-}
 
 interface RemoveFormModel {
   readonly percent: number;
@@ -44,24 +35,9 @@ interface RemoveFormModel {
   readonly yAmount?: Currency;
 }
 
-const getPoolDataById = (poolId: PoolId): Observable<PoolData | undefined> =>
-  !poolId
-    ? of(undefined)
-    : combineLatest([getPoolById(poolId), lpWalletBalance$]).pipe(
-        map(([pool, balance]) => {
-          if (!pool) {
-            return undefined;
-          }
-          const lpBalance = balance.get(pool.lp.asset);
-          const [xAmount, assetY] = pool.shares(lpBalance);
-
-          return { pool, lpBalance, xAmount: xAmount, yAmount: assetY };
-        }),
-      );
-
 export const Remove: FC = () => {
   const { poolId } = useParams<{ poolId: PoolId }>();
-  const [poolData, updatePoolData] = useSubject(getPoolDataById);
+  const [poolData, updatePoolData] = useSubject(getAvailablePoolDataById);
   const form = useForm<RemoveFormModel>({
     percent: 100,
     xAmount: undefined,
@@ -104,7 +80,7 @@ export const Remove: FC = () => {
             xAmount={xAmount}
             yAmount={yAmount}
             pool={poolData.pool}
-            lpToRemove={poolData.lpBalance}
+            lpToRemove={poolData.lpAmount}
           />
         );
       },
