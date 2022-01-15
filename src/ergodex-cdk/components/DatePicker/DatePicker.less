@@ -112,6 +112,15 @@
     }
   }
 
+  .ant-picker-cell-disabled {
+    color: var(--ergo-datepicker-panel-cell-color) !important;
+    cursor: not-allowed;
+
+    &::before {
+      background-color: var(--ergo-datepicker-panel-border-color);
+    }
+  }
+
   .ant-picker-cell.ant-picker-cell-in-view, th {
     color: var(--ergo-primary-text);
   }
