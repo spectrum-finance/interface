@@ -75,25 +75,29 @@ const LockLiquidity = (): JSX.Element => {
     const yAsset = form.value.yAmount || poolData.yAmount;
     const lpAsset = form.value.lpAmount || poolData.lpAmount;
     const timelock = form.value.locktime;
+    const percent = form.value.percent;
 
-    openConfirmationModal(
-      (next) => (
-        <LockLiquidityConfirmationModal
-          onClose={next}
-          xAsset={xAsset}
-          yAsset={yAsset}
-          lpAsset={lpAsset}
-          timelock={timelock}
-        />
-      ),
-      Operation.LOCK_LIQUIDITY,
-      {
-        xAsset,
-        yAsset,
-        lpAsset,
-        timelock,
-      },
-    );
+    if (timelock) {
+      openConfirmationModal(
+        (next) => (
+          <LockLiquidityConfirmationModal
+            onClose={next}
+            xAsset={xAsset}
+            yAsset={yAsset}
+            lpAsset={lpAsset}
+            timelock={timelock}
+            percent={percent}
+          />
+        ),
+        Operation.LOCK_LIQUIDITY,
+        {
+          xAsset,
+          yAsset,
+          lpAsset,
+          timelock,
+        },
+      );
+    }
   };
 
   return (

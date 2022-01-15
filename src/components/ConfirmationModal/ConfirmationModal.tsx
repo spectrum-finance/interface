@@ -1,4 +1,5 @@
 import { TxId } from '@ergolabs/ergo-sdk';
+import { DateTime } from 'luxon';
 import React, { ReactNode } from 'react';
 
 import { Currency } from '../../common/models/Currency';
@@ -20,7 +21,7 @@ export interface ModalChainingPayload {
   xAsset: Currency;
   yAsset: Currency;
   lpAsset?: Currency;
-  timelock?: string;
+  timelock?: DateTime;
 }
 
 const getDescriptionByData = (
@@ -39,7 +40,7 @@ const getDescriptionByData = (
     case Operation.LOCK_LIQUIDITY:
       return `Locking ${xAsset.toString()} and ${yAsset.toString()} (${
         lpAsset && lpAsset.toString()
-      }) for ${timelock}`;
+      }) for ${timelock?.toFormat('DD MM YYYY')}`;
   }
 };
 
