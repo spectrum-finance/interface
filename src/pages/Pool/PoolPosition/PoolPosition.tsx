@@ -13,8 +13,10 @@ import {
   Box,
   Button,
   Flex,
+  LockOutlined,
   PlusOutlined,
   Skeleton,
+  Tooltip,
   Typography,
 } from '../../../ergodex-cdk';
 import { usePair } from '../../../hooks/usePair';
@@ -43,6 +45,10 @@ export const PoolPosition: React.FC = () => {
       setPoolRatio(ratio);
     }
   }, [pool]);
+
+  const handleLockLiquidityClick = (id: PoolId) => {
+    history.push(`/pool/lock/${id}/`);
+  };
 
   const handleRemovePositionClick = (id: PoolId) => {
     history.push(`/remove/${id}/`);
@@ -82,7 +88,19 @@ export const PoolPosition: React.FC = () => {
           </Flex>
 
           <Flex direction="col" style={{ marginTop: 16 }}>
-            <Typography.Text>Your Liquidity</Typography.Text>
+            <Flex justify="space-between">
+              <Typography.Text>Your Liquidity</Typography.Text>
+              <Flex.Item>
+                <Tooltip title="Lock liquidity">
+                  <Button
+                    onClick={() => handleLockLiquidityClick(poolId)}
+                    size="small"
+                    icon={<LockOutlined />}
+                  />
+                </Tooltip>
+              </Flex.Item>
+            </Flex>
+
             <Flex.Item marginTop={2}>
               {pair ? (
                 <Box padding={3} className="liquidity-info__wrapper">
