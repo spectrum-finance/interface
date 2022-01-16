@@ -33,6 +33,7 @@ interface RemoveFormModel {
   readonly percent: number;
   readonly xAmount?: Currency;
   readonly yAmount?: Currency;
+  readonly lpAmount?: Currency;
 }
 
 export const Remove: FC = () => {
@@ -42,6 +43,7 @@ export const Remove: FC = () => {
     percent: 100,
     xAmount: undefined,
     yAmount: undefined,
+    lpAmount: undefined,
   });
 
   const [formValue] = useObservable(form.valueChangesWithSilent$);
@@ -60,6 +62,10 @@ export const Remove: FC = () => {
           percent === 100
             ? poolData?.yAmount
             : poolData?.yAmount.percent(percent),
+        lpAmount:
+          percent === 100
+            ? poolData?.lpAmount
+            : poolData?.lpAmount.percent(percent),
       });
     },
     [poolData],
@@ -71,6 +77,7 @@ export const Remove: FC = () => {
   ) => {
     const xAmount = form.value.xAmount || poolData.xAmount;
     const yAmount = form.value.yAmount || poolData.yAmount;
+    const lpAmount = form.value.lpAmount || poolData.lpAmount;
 
     openConfirmationModal(
       (next) => {
@@ -79,8 +86,8 @@ export const Remove: FC = () => {
             onClose={next}
             xAmount={xAmount}
             yAmount={yAmount}
+            lpAmount={lpAmount}
             pool={poolData.pool}
-            lpToRemove={poolData.lpAmount}
           />
         );
       },
