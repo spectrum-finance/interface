@@ -2,16 +2,20 @@ import { minValueForOrder } from '@ergolabs/ergo-dex-sdk';
 import { BoxSelection, DefaultBoxSelector } from '@ergolabs/ergo-sdk';
 import React from 'react';
 
+import { useObservable } from '../../../common/hooks/useObservable';
 import { AmmPool } from '../../../common/models/AmmPool';
 import { Currency } from '../../../common/models/Currency';
 import { FormFeesSection } from '../../../components/common/FormView/FormFeesSection/FormFeesSection';
 import { FormPairSection } from '../../../components/common/FormView/FormPairSection/FormPairSection';
 import { ERG_DECIMALS, UI_FEE } from '../../../constants/erg';
 import { useSettings } from '../../../context';
-import { Box, Button, Flex, message, Modal } from '../../../ergodex-cdk';
-import { useUTXOs } from '../../../hooks/useUTXOs';
+import { Box, Button, Flex, Modal } from '../../../ergodex-cdk';
 import { explorer } from '../../../services/explorer';
-import { useMinExFee, useMinTotalFees } from '../../../services/new/core';
+import {
+  useMinExFee,
+  useMinTotalFees,
+  utxos$,
+} from '../../../services/new/core';
 import { poolActions } from '../../../services/poolActions';
 import { submitTx } from '../../../services/yoroi';
 import { makeTarget } from '../../../utils/ammMath';
@@ -20,19 +24,19 @@ import { parseUserInputToFractions } from '../../../utils/math';
 interface ConfirmRemoveModalProps {
   onClose: (p: Promise<any>) => void;
   pool: AmmPool;
-  lpToRemove: Currency;
+  lpAmount: Currency;
   xAmount: Currency;
   yAmount: Currency;
 }
 
 const ConfirmRemoveModal: React.FC<ConfirmRemoveModalProps> = ({
   pool,
-  lpToRemove,
+  lpAmount,
   xAmount,
   yAmount,
   onClose,
 }) => {
-  const UTXOs = useUTXOs();
+  const [utxos] = useObservable(utxos$);
   const [{ minerFee, address, pk }] = useSettings();
   const minExFee = useMinExFee();
   const totalFees = useMinTotalFees();
@@ -41,44 +45,46 @@ const ConfirmRemoveModal: React.FC<ConfirmRemoveModalProps> = ({
   const exFeeNErg = minExFee.amount;
   const minerFeeNErgs = parseUserInputToFractions(minerFee, ERG_DECIMALS);
 
+  // TODO: add try catch
   const removeOperation = async (pool: AmmPool) => {
     const actions = poolActions(pool['pool']);
-    const lp = pool['pool'].lp.withAmount(lpToRemove.amount);
+    const lpToRemove = pool['pool'].lp.withAmount(lpAmount.amount);
 
     const poolId = pool.id;
 
-    try {
-      const network = await explorer.getNetworkContext();
+    const network = await explorer.getNetworkContext();
 
-      const inputs = DefaultBoxSelector.select(
-        UTXOs,
-        makeTarget([lp], minValueForOrder(minerFeeNErgs, uiFeeNErg, exFeeNErg)),
-      ) as BoxSelection;
+    const minFeeForOrder = minValueForOrder(
+      minerFeeNErgs,
+      uiFeeNErg,
+      exFeeNErg,
+    );
 
-      if (address && pk) {
-        onClose(
-          actions
-            .redeem(
-              {
-                poolId,
-                pk,
-                lp,
-                exFee: exFeeNErg,
-                uiFee: uiFeeNErg,
-              },
-              {
-                inputs,
-                changeAddress: address,
-                selfAddress: address,
-                feeNErgs: minerFeeNErgs,
-                network,
-              },
-            )
-            .then((tx) => submitTx(tx)),
-        );
-      }
-    } catch (err) {
-      message.error('Network connection issue');
+    const target = makeTarget([lpToRemove], minFeeForOrder);
+
+    const inputs = DefaultBoxSelector.select(utxos!, target) as BoxSelection;
+
+    if (address && pk) {
+      onClose(
+        actions
+          .redeem(
+            {
+              poolId,
+              pk,
+              lp: lpToRemove,
+              exFee: exFeeNErg,
+              uiFee: uiFeeNErg,
+            },
+            {
+              inputs,
+              changeAddress: address,
+              selfAddress: address,
+              feeNErgs: minerFeeNErgs,
+              network,
+            },
+          )
+          .then((tx) => submitTx(tx)),
+      );
     }
   };
 
