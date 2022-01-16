@@ -62,6 +62,10 @@ const LockLiquidity = (): JSX.Element => {
           percent === 100
             ? poolData?.yAmount
             : poolData?.yAmount.percent(percent),
+        lpAmount:
+          percent === 100
+            ? poolData?.lpAmount
+            : poolData?.lpAmount.percent(percent),
       });
     },
     [poolData],
@@ -76,6 +80,7 @@ const LockLiquidity = (): JSX.Element => {
     const lpAsset = form.value.lpAmount || poolData.lpAmount;
     const timelock = form.value.locktime;
     const percent = form.value.percent;
+    const pool = poolData.pool;
 
     if (timelock) {
       openConfirmationModal(
@@ -87,6 +92,7 @@ const LockLiquidity = (): JSX.Element => {
             lpAsset={lpAsset}
             timelock={timelock}
             percent={percent}
+            pool={pool}
           />
         ),
         Operation.LOCK_LIQUIDITY,
