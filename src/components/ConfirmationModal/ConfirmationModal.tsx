@@ -5,6 +5,7 @@ import React, { ReactNode } from 'react';
 import { Currency } from '../../common/models/Currency';
 import { DialogRef, Flex, Modal, Typography } from '../../ergodex-cdk';
 import { RequestProps } from '../../ergodex-cdk/components/Modal/presets/Request';
+import { getLockingPeriodString } from '../../pages/Pool/LockLiquidity/utils';
 import { exploreTx } from '../../utils/redirect';
 
 export enum Operation {
@@ -39,8 +40,8 @@ const getDescriptionByData = (
       return `Swapping ${xAsset.toString()} for ${yAsset.toString()}`;
     case Operation.LOCK_LIQUIDITY:
       return `Locking ${xAsset.toString()} and ${yAsset.toString()} (${
-        lpAsset && lpAsset.toString()
-      }) for ${timelock?.toFormat('DD MM YYYY')}`;
+        lpAsset && lpAsset.toString({ suffix: false }) + ' LP-tokens'
+      }) for ${timelock && getLockingPeriodString(timelock)}`;
   }
 };
 
