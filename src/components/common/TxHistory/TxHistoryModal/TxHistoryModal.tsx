@@ -29,21 +29,8 @@ import { normalizeOperations } from '../utils';
 const DotsIconVertical = () => <Icon component={DotsVertical} />;
 
 const TxHistoryModal = (): JSX.Element => {
-  const TXS_TO_DISPLAY = 50;
-
-  const [operations, setOperations] = useState<Operation[] | undefined>();
   const [txs] = useObservable(transactionsHistory$);
   const walletAddresses = useWalletAddresses();
-
-  console.log(txs);
-
-  useEffect(() => {
-    if (walletAddresses.state === WalletAddressState.LOADED) {
-      networkHistory
-        .getAllByAddresses(walletAddresses.addresses, TXS_TO_DISPLAY)
-        .then((ops) => setOperations(normalizeOperations(ops)));
-    }
-  }, [walletAddresses]);
 
   const handleOpenRefundConfirmationModal = useCallback(
     (txId) => {
