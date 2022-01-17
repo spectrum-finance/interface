@@ -2,8 +2,8 @@ import './Header.less';
 
 import React from 'react';
 
+import { ERG_TOKEN_NAME } from '../../common/constants/erg';
 import { useObservable } from '../../common/hooks/useObservable';
-import { ERG_TOKEN_NAME } from '../../constants/erg';
 import { useSettings } from '../../context';
 import {
   nativeTokenBalance$,

@@ -3,9 +3,9 @@ import { useLocalStorage } from '@rehooks/local-storage';
 import React, { createContext, useContext } from 'react';
 
 // import { LocalStorageReturnValue } from '@rehooks/local-storage/lib/use-localstorage';
-import { ERG_EXPLORER_URL } from '../constants/env';
-import { MIN_NITRO } from '../constants/erg';
-import { defaultMinerFee, defaultSlippage } from '../constants/settings';
+import { ERG_EXPLORER_URL } from '../common/constants/env';
+import { MIN_NITRO } from '../common/constants/erg';
+import { defaultMinerFee, defaultSlippage } from '../common/constants/settings';
 import { isDarkOsTheme } from '../utils/osTheme';
 
 export type Settings = {

@@ -3,7 +3,9 @@ import { TxId } from '@ergolabs/ergo-sdk';
 import { Typography } from 'antd';
 import React, { useCallback, useEffect, useState } from 'react';
 
+import { transactionsHistory$ } from '../../../../api/transactionsHistory';
 import { ReactComponent as DotsVertical } from '../../../../assets/icons/icon-dots-vertical.svg';
+import { useObservable } from '../../../../common/hooks/useObservable';
 import { useWalletAddresses, WalletAddressState } from '../../../../context';
 import {
   Box,
@@ -30,7 +32,10 @@ const TxHistoryModal = (): JSX.Element => {
   const TXS_TO_DISPLAY = 50;
 
   const [operations, setOperations] = useState<Operation[] | undefined>();
+  const [txs] = useObservable(transactionsHistory$);
   const walletAddresses = useWalletAddresses();
+
+  console.log(txs);
 
   useEffect(() => {
     if (walletAddresses.state === WalletAddressState.LOADED) {
@@ -94,8 +99,8 @@ const TxHistoryModal = (): JSX.Element => {
               <Flex.Item style={{ width: '5%' }} />
             </Flex>
           </Flex.Item>
-          {operations ? (
-            operations.map((op, index) => {
+          {txs ? (
+            normalizeOperations(txs).map((op, index) => {
               return (
                 <Flex.Item
                   key={index}

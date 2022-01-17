@@ -2,11 +2,11 @@ import { minValueForOrder } from '@ergolabs/ergo-dex-sdk';
 import { BoxSelection, DefaultBoxSelector } from '@ergolabs/ergo-sdk';
 import React from 'react';
 
+import { ERG_DECIMALS, UI_FEE } from '../../../common/constants/erg';
+import { defaultExFee } from '../../../common/constants/settings';
 import { AmmPool } from '../../../common/models/AmmPool';
 import { Currency } from '../../../common/models/Currency';
 import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
-import { ERG_DECIMALS, UI_FEE } from '../../../constants/erg';
-import { defaultExFee } from '../../../constants/settings';
 import { useSettings } from '../../../context';
 import {
   Box,

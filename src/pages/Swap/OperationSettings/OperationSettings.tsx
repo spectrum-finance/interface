@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { filter, skip } from 'rxjs';
 
+import { MIN_NITRO } from '../../../common/constants/erg';
+import { defaultSlippage } from '../../../common/constants/settings';
 import { useSubscription } from '../../../common/hooks/useObservable';
 import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
-import { MIN_NITRO } from '../../../constants/erg';
-import { defaultSlippage } from '../../../constants/settings';
 import { useSettings } from '../../../context';
 import {
   Box,

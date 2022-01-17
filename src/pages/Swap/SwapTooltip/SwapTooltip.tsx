@@ -2,10 +2,10 @@
 import { swapVars } from '@ergolabs/ergo-dex-sdk/build/main/amm/math/swap';
 import React, { FC } from 'react';
 
+import { ERG_DECIMALS, MIN_EX_FEE } from '../../../common/constants/erg';
+import { defaultExFee } from '../../../common/constants/settings';
 import { useObservable } from '../../../common/hooks/useObservable';
 import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
-import { ERG_DECIMALS, MIN_EX_FEE } from '../../../constants/erg';
-import { defaultExFee } from '../../../constants/settings';
 import { useSettings } from '../../../context';
 import { Flex } from '../../../ergodex-cdk';
 import { FormGroup } from '../../../ergodex-cdk/components/Form/NewForm';

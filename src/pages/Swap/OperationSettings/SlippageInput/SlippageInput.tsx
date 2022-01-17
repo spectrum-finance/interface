@@ -6,7 +6,7 @@ import {
   defaultSlippage,
   SlippageMax,
   SlippageMin,
-} from '../../../../constants/settings';
+} from '../../../../common/constants/settings';
 import { Alert, Button, Flex, Input } from '../../../../ergodex-cdk';
 import { Control } from '../../../../ergodex-cdk/components/Form/NewForm';
 
