@@ -1,7 +1,7 @@
 import React from 'react';
 
+import { UI_FEE } from '../../../../common/constants/erg';
 import { Currency } from '../../../../common/models/Currency';
-import { UI_FEE } from '../../../../constants/erg';
 import { Flex, Typography } from '../../../../ergodex-cdk';
 import { InfoTooltip } from '../../../InfoTooltip/InfoTooltip';
 import { FormSection } from '../FormSection/FormSection';
