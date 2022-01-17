@@ -3,7 +3,6 @@ import { BoxSelection, DefaultBoxSelector } from '@ergolabs/ergo-sdk';
 import React from 'react';
 
 import { ERG_DECIMALS, UI_FEE } from '../../../common/constants/erg';
-import { defaultExFee } from '../../../common/constants/settings';
 import { AmmPool } from '../../../common/models/AmmPool';
 import { Currency } from '../../../common/models/Currency';
 import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
@@ -23,7 +22,6 @@ import { poolActions } from '../../../services/poolActions';
 import { submitTx } from '../../../services/yoroi';
 import { makeTarget } from '../../../utils/ammMath';
 import { parseUserInputToFractions } from '../../../utils/math';
-import { calculateTotalFee } from '../../../utils/transactions';
 import { PairSpace } from '../PairSpace/PairSpace';
 import { RemoveFormSpaceWrapper } from '../RemoveFormSpaceWrapper/RemoveFormSpaceWrapper';
 

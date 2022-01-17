@@ -1,6 +1,5 @@
 import './Swap.less';
 
-import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import { maxBy } from 'lodash';
 import React, { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -119,9 +118,8 @@ export const Swap = (): JSX.Element => {
     return toAmount?.gt(pool.getAssetAmount(toAmount?.asset));
   };
 
-  useSubscription(
-    form.controls.fromAsset.valueChangesWithSilent$,
-    (token: AssetInfo | undefined) => updateToAssets$.next(token?.id),
+  useSubscription(form.controls.fromAsset.valueChangesWithSilent$, (token) =>
+    updateToAssets$.next(token?.id),
   );
 
   useSubscription(form.controls.fromAsset.valueChanges$, () =>
@@ -162,7 +160,7 @@ export const Swap = (): JSX.Element => {
       form.controls.pool.valueChanges$,
     ]).pipe(
       debounceTime(100),
-      filter(([_, pool]) => !!form.value.fromAsset && !!pool),
+      filter(([, pool]) => !!form.value.fromAsset && !!pool),
     ),
     ([amount, pool]) => {
       form.patchValue(

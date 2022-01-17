@@ -42,7 +42,7 @@ const getTxsByAddress = (
 
       return [txs, txsCount, ops as any, ops.length];
     }),
-    switchMap(([txs, txsCount, ops, opsCount]) => {
+    switchMap(([, txsCount, ops, opsCount]) => {
       if (txsCount < TX_LIMIT || opsCount + prevOperationsCount > limit) {
         return of(ops);
       }

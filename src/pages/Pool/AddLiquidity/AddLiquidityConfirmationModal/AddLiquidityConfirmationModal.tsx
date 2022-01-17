@@ -9,7 +9,6 @@ import { useSettings } from '../../../../context';
 import { Box, Button, Flex, Modal, Typography } from '../../../../ergodex-cdk';
 import { explorer } from '../../../../services/explorer';
 import {
-  useMaxTotalFees,
   useMinExFee,
   useMinTotalFees,
   utxos$,

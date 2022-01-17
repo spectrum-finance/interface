@@ -1,5 +1,4 @@
-import { AmmDexOperation } from '@ergolabs/ergo-dex-sdk';
-import { Address, AugErgoTx } from '@ergolabs/ergo-sdk';
+import { AugErgoTx } from '@ergolabs/ergo-sdk';
 import {
   combineLatest,
   from,
@@ -14,12 +13,6 @@ import {
 import networkHistory from '../../../services/networkHistory';
 import { addresses$ } from '../addresses/addresses';
 import { TX_LIMIT } from './common';
-
-const parseOp = (
-  tx: AugErgoTx,
-  address: Address,
-): AmmDexOperation | undefined =>
-  networkHistory['parseOp'](tx, false, [address]);
 
 const getUTxsByAddress = (
   address: string,

@@ -74,6 +74,7 @@ export class FormControl<T> implements AbstractFormItem<T> {
   constructor(
     public name: string,
     private param: FormControlParams<T>,
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     private parent: any,
   ) {}
 
@@ -359,7 +360,11 @@ export const FormContext = createContext<{
   warningMessages?: Messages<any>;
 }>({} as any);
 
-export const useFormContext = () => useContext(FormContext);
+export const useFormContext = (): {
+  form: FormGroup<any>;
+  errorMessages?: Messages<any>;
+  warningMessages?: Messages<any>;
+} => useContext(FormContext);
 
 class _Form<T> extends React.Component<FormProps<T>> {
   constructor(props: FormProps<T>) {

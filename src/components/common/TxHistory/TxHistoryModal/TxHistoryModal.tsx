@@ -1,7 +1,7 @@
 import Icon from '@ant-design/icons';
 import { TxId } from '@ergolabs/ergo-sdk';
 import { Typography } from 'antd';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback } from 'react';
 
 import { transactionsHistory$ } from '../../../../api/transactionsHistory';
 import { ReactComponent as DotsVertical } from '../../../../assets/icons/icon-dots-vertical.svg';
@@ -16,14 +16,13 @@ import {
   Modal,
   Skeleton,
 } from '../../../../ergodex-cdk';
-import networkHistory from '../../../../services/networkHistory';
 import { isRefundableOperation } from '../../../../utils/ammOperations';
 import { exploreTx } from '../../../../utils/redirect';
 import { InputOutputColumn } from '../InputOutputColumn/InputOutputColumn';
 import { RefundConfirmationModal } from '../RefundConfirmationModal/RefundConfirmationModal';
 import { TxStatusTag } from '../TxStatusTag/TxStatusTag';
 import { TxTypeTag } from '../TxTypeTag/TxTypeTag';
-import { Operation, OperationStatus } from '../types';
+import { OperationStatus } from '../types';
 import { normalizeOperations } from '../utils';
 
 const DotsIconVertical = () => <Icon component={DotsVertical} />;

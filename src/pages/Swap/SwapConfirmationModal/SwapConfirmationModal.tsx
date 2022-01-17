@@ -9,7 +9,6 @@ import {
 import React, { FC, useEffect, useState } from 'react';
 
 import { ERG_DECIMALS, UI_FEE } from '../../../common/constants/erg';
-import { defaultExFee } from '../../../common/constants/settings';
 import { useObservable } from '../../../common/hooks/useObservable';
 import { TokenControlFormItem } from '../../../components/common/TokenControl/TokenControl';
 import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
@@ -17,11 +16,7 @@ import { useSettings } from '../../../context';
 import { Box, Button, Flex, Modal, Typography } from '../../../ergodex-cdk';
 import { Form, useForm } from '../../../ergodex-cdk/components/Form/NewForm';
 import { explorer } from '../../../services/explorer';
-import {
-  useMaxTotalFees,
-  useMinExFee,
-  utxos$,
-} from '../../../services/new/core';
+import { useMinExFee, utxos$ } from '../../../services/new/core';
 import { poolActions } from '../../../services/poolActions';
 import { submitTx } from '../../../services/yoroi';
 import { makeTarget } from '../../../utils/ammMath';

@@ -2,8 +2,6 @@ import { AmmDexOperation } from '@ergolabs/ergo-dex-sdk';
 import { Address } from '@ergolabs/ergo-sdk';
 import { Observable } from 'rxjs';
 
-import { getTxHistory } from './ergo/transactions/transactionsHistory';
-
 export interface Network {
   readonly addresses$: Observable<Address[]>;
   readonly pendingTransactionsCount$: Observable<number>;

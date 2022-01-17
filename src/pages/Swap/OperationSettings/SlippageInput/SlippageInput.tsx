@@ -1,6 +1,6 @@
 import './SlippageInput.less';
 
-import React, { ChangeEvent, FC, useState } from 'react';
+import React, { ChangeEvent, FC } from 'react';
 
 import {
   defaultSlippage,

@@ -1,6 +1,6 @@
 // TODO: REPLACE_ANTD_SKELETON_COMPONENT[EDEX-467]
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { FC, useEffect } from 'react';
 import { useParams } from 'react-router';
 import { combineLatest, debounceTime, map, Observable, of, skip } from 'rxjs';
 
