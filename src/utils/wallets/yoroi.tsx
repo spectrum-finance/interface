@@ -4,7 +4,7 @@ import {
   DISCORD_SUPPORT_URL,
   TELEGRAM_SUPPORT_URL,
   YOROI_NIGHTLY_LINK,
-} from '../../constants/env';
+} from '../../common/constants/env';
 import { WalletContextType } from '../../context';
 import { Typography } from '../../ergodex-cdk';
 import { walletCookies } from '../cookies';

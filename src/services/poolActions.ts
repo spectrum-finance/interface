@@ -1,6 +1,6 @@
 import { makeDefaultPoolActionsSelector } from '@ergolabs/ergo-dex-sdk';
 
-import { UiRewardAddress } from '../constants/settings';
+import { UiRewardAddress } from '../common/constants/settings';
 import { mainnetTxAssembler } from './defaultTxAssembler';
 import yoroiProver from './yoroi/prover';
 

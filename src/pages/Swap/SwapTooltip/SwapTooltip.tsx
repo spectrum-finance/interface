@@ -4,22 +4,19 @@ import React, { FC } from 'react';
 
 import { useObservable } from '../../../common/hooks/useObservable';
 import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
-import { ERG_DECIMALS, MIN_EX_FEE } from '../../../constants/erg';
-import { defaultExFee } from '../../../constants/settings';
 import { useSettings } from '../../../context';
 import { Flex } from '../../../ergodex-cdk';
 import { FormGroup } from '../../../ergodex-cdk/components/Form/NewForm';
 import { useMaxTotalFees, useMinExFee } from '../../../services/new/core';
 import { renderFractions } from '../../../utils/math';
-import { calculateTotalFee } from '../../../utils/transactions';
 import { getBaseInputParameters } from '../../../utils/walletMath';
 import { SwapFormModel } from '../SwapFormModel';
 
 const TxInfoTooltipContent: FC<{ value: SwapFormModel }> = ({ value }) => {
-  const [{ slippage, minerFee, nitro }] = useSettings();
+  const [{ slippage, nitro }] = useSettings();
   const totalFees = useMaxTotalFees();
   const minExFee = useMinExFee();
-  console.log(totalFees, minExFee, minerFee);
+
   const swapExtremums =
     value.fromAmount?.isPositive() && value.toAmount?.isPositive() && value.pool
       ? swapVars(

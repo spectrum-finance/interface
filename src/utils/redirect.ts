@@ -1,6 +1,6 @@
 import { Address, TxId } from '@ergolabs/ergo-sdk';
 
-import { ERG_EXPLORER_URL } from '../constants/env';
+import { ERG_EXPLORER_URL } from '../common/constants/env';
 
 export const exploreTx = (txId: TxId): unknown =>
   window.open(`${ERG_EXPLORER_URL}/transactions/${txId}`, '_blank');
