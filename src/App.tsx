@@ -21,7 +21,7 @@ import { AddLiquidity } from './pages/Pool/AddLiquidity/AddLiquidity';
 import { LockLiquidity } from './pages/Pool/LockLiquidity/LockLiquidity';
 import { Pool } from './pages/Pool/Pool';
 import { PoolPosition } from './pages/Pool/PoolPosition/PoolPosition';
-import { Remove } from './pages/Remove/Remove';
+import { RemoveLiquidity } from './pages/Pool/RemoveLiquidity/RemoveLiquidity';
 import { Swap } from './pages/Swap/Swap';
 
 const NotFound = () => <Redirect to="/swap" />;
@@ -46,6 +46,11 @@ const Application = withTranslation()(() => {
                       <Route path="/pool" exact component={Pool} />
                       <Route path="/pool/add" exact component={AddLiquidity} />
                       <Route
+                        path="/pool/remove/:poolId"
+                        exact
+                        component={RemoveLiquidity}
+                      />
+                      <Route
                         path="/pool/lock/:poolId"
                         exact
                         component={LockLiquidity}
@@ -60,7 +65,6 @@ const Application = withTranslation()(() => {
                         exact
                         component={PoolPosition}
                       />
-                      <Route path="/remove/:poolId" exact component={Remove} />
                       <Route component={NotFound} />
                     </Switch>
                   ) : (

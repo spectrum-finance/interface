@@ -46,17 +46,12 @@ export const PoolPosition: React.FC = () => {
     }
   }, [pool]);
 
-  const handleLockLiquidityClick = (id: PoolId) => {
-    history.push(`/pool/lock/${id}/`);
-  };
+  const handleLockLiquidityClick = () => history.push(`/pool/lock/${poolId}/`);
 
-  const handleRemovePositionClick = (id: PoolId) => {
-    history.push(`/remove/${id}/`);
-  };
+  const handleRemovePositionClick = () =>
+    history.push(`/pool/remove/${poolId}/`);
 
-  const handleAddLiquidity = (id: PoolId) => {
-    history.push(`/pool/add/${id}/`);
-  };
+  const handleAddLiquidity = () => history.push(`/pool/add/${poolId}/`);
 
   return (
     <FormPageWrapper
@@ -93,7 +88,7 @@ export const PoolPosition: React.FC = () => {
               <Flex.Item>
                 <Tooltip title="Lock liquidity">
                   <Button
-                    onClick={() => handleLockLiquidityClick(poolId)}
+                    onClick={handleLockLiquidityClick}
                     size="small"
                     icon={<LockOutlined />}
                   />
@@ -166,7 +161,7 @@ export const PoolPosition: React.FC = () => {
                   type="primary"
                   size="large"
                   icon={<PlusOutlined />}
-                  onClick={() => handleAddLiquidity(poolId)}
+                  onClick={handleAddLiquidity}
                   block
                 >
                   Increase Liquidity
@@ -178,7 +173,7 @@ export const PoolPosition: React.FC = () => {
                   disabled={!pair}
                   size="large"
                   block
-                  onClick={() => handleRemovePositionClick(poolId)}
+                  onClick={handleRemovePositionClick}
                 >
                   Remove Liquidity
                 </Button>
