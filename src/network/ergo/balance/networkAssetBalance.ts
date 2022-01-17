@@ -2,12 +2,9 @@ import {
   combineLatest,
   from,
   map,
-  mapTo,
-  of,
   publishReplay,
   refCount,
   switchMap,
-  tap,
 } from 'rxjs';
 
 import { Currency } from '../../../common/models/Currency';
