@@ -56,6 +56,16 @@ const Application = withTranslation()(() => {
                         component={LockLiquidity}
                       />
                       <Route
+                        path="/pool/relock/:poolId"
+                        exact
+                        component={LockLiquidity}
+                      />
+                      <Route
+                        path="/pool/withdrawal/:poolId"
+                        exact
+                        component={LockLiquidity}
+                      />
+                      <Route
                         path="/pool/add/:poolId"
                         exact
                         component={AddLiquidity}

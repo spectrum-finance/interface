@@ -1,30 +1,19 @@
-import Icon from '@ant-design/icons';
 import { TxId } from '@ergolabs/ergo-sdk';
 import { Typography } from 'antd';
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { ReactComponent as DotsVertical } from '../../../../assets/icons/icon-dots-vertical.svg';
 import { useWalletAddresses, WalletAddressState } from '../../../../context';
-import {
-  Box,
-  Button,
-  Dropdown,
-  Flex,
-  Menu,
-  Modal,
-  Skeleton,
-} from '../../../../ergodex-cdk';
+import { Box, Flex, Menu, Modal, Skeleton } from '../../../../ergodex-cdk';
 import networkHistory from '../../../../services/networkHistory';
 import { isRefundableOperation } from '../../../../utils/ammOperations';
 import { exploreTx } from '../../../../utils/redirect';
+import { OptionsButton } from '../../OptionsButton/OptionsButton';
 import { InputOutputColumn } from '../InputOutputColumn/InputOutputColumn';
 import { RefundConfirmationModal } from '../RefundConfirmationModal/RefundConfirmationModal';
 import { TxStatusTag } from '../TxStatusTag/TxStatusTag';
 import { TxTypeTag } from '../TxTypeTag/TxTypeTag';
 import { Operation, OperationStatus } from '../types';
 import { normalizeOperations } from '../utils';
-
-const DotsIconVertical = () => <Icon component={DotsVertical} />;
 
 const TxHistoryModal = (): JSX.Element => {
   const TXS_TO_DISPLAY = 50;
@@ -57,7 +46,7 @@ const TxHistoryModal = (): JSX.Element => {
 
   const renderTxActionsMenu = (status: OperationStatus, txId: TxId) => {
     return (
-      <Box padding={2}>
+      <>
         <Menu.Item>
           <a onClick={() => exploreTx(txId)} target="_blank" rel="noreferrer">
             View on Explorer
@@ -68,7 +57,7 @@ const TxHistoryModal = (): JSX.Element => {
             <a rel="noreferrer">Refund transaction</a>
           </Menu.Item>
         )}
-      </Box>
+      </>
     );
   };
 
@@ -121,21 +110,9 @@ const TxHistoryModal = (): JSX.Element => {
                         <TxStatusTag status={op.status} />
                       </Flex.Item>
                       <Flex.Item style={{ width: '5%' }}>
-                        <Dropdown
-                          overlay={
-                            <Menu style={{ width: 160, padding: 0 }}>
-                              {renderTxActionsMenu(op.status, op.txId)}
-                            </Menu>
-                          }
-                          trigger={['click']}
-                          placement={'bottomLeft'}
-                        >
-                          <Button
-                            type="text"
-                            size="middle"
-                            icon={<DotsIconVertical />}
-                          />
-                        </Dropdown>
+                        <OptionsButton type="text" placement="bottomLeft">
+                          {renderTxActionsMenu(op.status, op.txId)}
+                        </OptionsButton>
                       </Flex.Item>
                     </Flex>
                   </Box>

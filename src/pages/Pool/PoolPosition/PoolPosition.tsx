@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 
 import { useSubject } from '../../../common/hooks/useObservable';
+import { OptionsButton } from '../../../components/common/OptionsButton/OptionsButton';
 import { FormPageWrapper } from '../../../components/FormPageWrapper/FormPageWrapper';
 import { TokenIcon } from '../../../components/TokenIcon/TokenIcon';
 import { TokenIconPair } from '../../../components/TokenIconPair/TokenIconPair';
@@ -13,10 +14,9 @@ import {
   Box,
   Button,
   Flex,
-  LockOutlined,
+  Menu,
   PlusOutlined,
   Skeleton,
-  Tooltip,
   Typography,
 } from '../../../ergodex-cdk';
 import { usePair } from '../../../hooks/usePair';
@@ -52,6 +52,9 @@ export const PoolPosition: React.FC = () => {
     history.push(`/pool/remove/${poolId}/`);
 
   const handleAddLiquidity = () => history.push(`/pool/add/${poolId}/`);
+  const handleRelockLiquidity = () => history.push(`/pool/relock/${poolId}/`);
+  const handleWithdrawalLiquidity = () =>
+    history.push(`/pool/withdrawal/${poolId}/`);
 
   return (
     <FormPageWrapper
@@ -63,38 +66,42 @@ export const PoolPosition: React.FC = () => {
       {pool && poolRatio && !isPairLoading ? (
         <>
           <Flex align="center">
-            <TokenIconPair
-              size="large"
-              tokenPair={{
-                tokenA: pool.x.asset.name,
-                tokenB: pool.y.asset.name,
-              }}
-            />
-            <Typography.Title level={3} style={{ marginLeft: 8 }}>
-              {`${pool.x.asset.name} / ${pool.y.asset.name}`}
-            </Typography.Title>
-            <Flex.Item marginLeft={2}>
-              <Box padding={[0.5, 1]} contrast>
-                <Typography.Text style={{ fontSize: '12px' }}>
-                  {getPoolFee(pool.feeNum)}%
-                </Typography.Text>
-              </Box>
+            <Flex align="center">
+              <TokenIconPair
+                size="large"
+                tokenPair={{
+                  tokenA: pool.x.asset.name,
+                  tokenB: pool.y.asset.name,
+                }}
+              />
+              <Typography.Title level={3} style={{ marginLeft: 8 }}>
+                {`${pool.x.asset.name} / ${pool.y.asset.name}`}
+              </Typography.Title>
+              <Flex.Item marginLeft={2}>
+                <Box padding={[0.5, 1]} contrast>
+                  <Typography.Text style={{ fontSize: '12px' }}>
+                    {getPoolFee(pool.feeNum)}%
+                  </Typography.Text>
+                </Box>
+              </Flex.Item>
+            </Flex>
+            <Flex.Item>
+              <OptionsButton>
+                <Menu.Item>
+                  <Typography.Link>Hello</Typography.Link>
+                </Menu.Item>
+                <Menu.Item>
+                  <Typography.Link>Hello</Typography.Link>
+                </Menu.Item>
+                <Menu.Item>
+                  <Typography.Link>Hello</Typography.Link>
+                </Menu.Item>
+              </OptionsButton>
             </Flex.Item>
           </Flex>
 
           <Flex direction="col" style={{ marginTop: 16 }}>
-            <Flex justify="space-between">
-              <Typography.Text>Your Liquidity</Typography.Text>
-              <Flex.Item>
-                <Tooltip title="Lock liquidity">
-                  <Button
-                    onClick={handleLockLiquidityClick}
-                    size="small"
-                    icon={<LockOutlined />}
-                  />
-                </Tooltip>
-              </Flex.Item>
-            </Flex>
+            <Typography.Text>Your Liquidity</Typography.Text>
 
             <Flex.Item marginTop={2}>
               {pair ? (
