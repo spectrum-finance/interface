@@ -1,75 +1,52 @@
-// TODO: REPLACE_ANTD_SKELETON_COMPONENT[EDEX-467]
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
 import React, { FC, useEffect } from 'react';
 import { useParams } from 'react-router';
-import { combineLatest, debounceTime, map, Observable, of, skip } from 'rxjs';
+import { skip } from 'rxjs';
 
 import {
   useObservable,
   useSubject,
   useSubscription,
 } from '../../common/hooks/useObservable';
-import { AmmPool } from '../../common/models/AmmPool';
 import { Currency } from '../../common/models/Currency';
+import { FormHeader } from '../../components/common/FormView/FormHeader/FormHeader';
+import { FormPairSection } from '../../components/common/FormView/FormPairSection/FormPairSection';
+import { FormSection } from '../../components/common/FormView/FormSection/FormSection';
+import { FormSlider } from '../../components/common/FormView/FormSlider/FormSlider';
 import {
   openConfirmationModal,
   Operation,
 } from '../../components/ConfirmationModal/ConfirmationModal';
 import { FormPageWrapper } from '../../components/FormPageWrapper/FormPageWrapper';
 import { SubmitButton } from '../../components/SubmitButton/SubmitButton';
-import { TokenIconPair } from '../../components/TokenIconPair/TokenIconPair';
-import { Flex, Skeleton, Typography } from '../../ergodex-cdk';
+import { Flex, Skeleton } from '../../ergodex-cdk';
 import {
   Form,
   FormGroup,
   useForm,
 } from '../../ergodex-cdk/components/Form/NewForm';
-import { lpWalletBalance$ } from '../../services/new/balance';
-import { getPoolById } from '../../services/new/pools';
+import { PoolData } from '../../services/new/pools';
+import { getAvailablePoolDataById } from '../../services/new/pools';
 import { ConfirmRemoveModal } from './ConfirmRemoveModal/ConfirmRemoveModal';
-import { PairSpace } from './PairSpace/PairSpace';
-import { RemoveFormSpaceWrapper } from './RemoveFormSpaceWrapper/RemoveFormSpaceWrapper';
-import { RemovePositionSlider } from './RemovePositionSlider/RemovePositionSlider';
-
-interface PoolData {
-  readonly pool: AmmPool;
-  readonly lpBalance: Currency;
-  readonly xAmount: Currency;
-  readonly yAmount: Currency;
-}
 
 interface RemoveFormModel {
   readonly percent: number;
   readonly xAmount?: Currency;
   readonly yAmount?: Currency;
+  readonly lpAmount?: Currency;
 }
-
-const getPoolDataById = (poolId: PoolId): Observable<PoolData | undefined> =>
-  !poolId
-    ? of(undefined)
-    : combineLatest([getPoolById(poolId), lpWalletBalance$]).pipe(
-        map(([pool, balance]) => {
-          if (!pool) {
-            return undefined;
-          }
-          const lpBalance = balance.get(pool.lp.asset);
-          const [xAmount, assetY] = pool.shares(lpBalance);
-
-          return { pool, lpBalance, xAmount: xAmount, yAmount: assetY };
-        }),
-      );
 
 export const Remove: FC = () => {
   const { poolId } = useParams<{ poolId: PoolId }>();
-  const [poolData, updatePoolData] = useSubject(getPoolDataById);
+  const [poolData, updatePoolData] = useSubject(getAvailablePoolDataById);
   const form = useForm<RemoveFormModel>({
     percent: 100,
     xAmount: undefined,
     yAmount: undefined,
+    lpAmount: undefined,
   });
-  const [formValue] = useObservable(
-    form.valueChangesWithSilent$.pipe(debounceTime(100)),
-  );
+
+  const [formValue] = useObservable(form.valueChangesWithSilent$);
 
   useEffect(() => updatePoolData(poolId), []);
 
@@ -85,6 +62,10 @@ export const Remove: FC = () => {
           percent === 100
             ? poolData?.yAmount
             : poolData?.yAmount.percent(percent),
+        lpAmount:
+          percent === 100
+            ? poolData?.lpAmount
+            : poolData?.lpAmount.percent(percent),
       });
     },
     [poolData],
@@ -96,6 +77,7 @@ export const Remove: FC = () => {
   ) => {
     const xAmount = form.value.xAmount || poolData.xAmount;
     const yAmount = form.value.yAmount || poolData.yAmount;
+    const lpAmount = form.value.lpAmount || poolData.lpAmount;
 
     openConfirmationModal(
       (next) => {
@@ -104,14 +86,16 @@ export const Remove: FC = () => {
             onClose={next}
             xAmount={xAmount}
             yAmount={yAmount}
+            lpAmount={lpAmount}
             pool={poolData.pool}
-            lpToRemove={poolData.lpBalance}
           />
         );
       },
       Operation.REMOVE_LIQUIDITY,
-      xAmount,
-      yAmount,
+      {
+        xAsset: xAmount,
+        yAsset: yAmount,
+      },
     );
   };
 
@@ -121,38 +105,22 @@ export const Remove: FC = () => {
         <Form form={form} onSubmit={(form) => handleRemove(form, poolData)}>
           <Flex direction="col">
             <Flex.Item marginBottom={2}>
-              <Flex.Item>
-                <Flex align="center">
-                  <Flex.Item display="flex" marginRight={2}>
-                    <TokenIconPair
-                      tokenPair={{
-                        tokenA: poolData.xAmount.asset.name,
-                        tokenB: poolData.yAmount.asset.name,
-                      }}
-                    />
-                  </Flex.Item>
-                  <Flex.Item>
-                    <Typography.Title level={4}>
-                      {poolData?.xAmount.asset.name} /{' '}
-                      {poolData?.yAmount.asset.name}
-                    </Typography.Title>
-                  </Flex.Item>
-                </Flex>
-              </Flex.Item>
-            </Flex.Item>
-            <Flex.Item marginBottom={4}>
-              <RemoveFormSpaceWrapper title="Amount">
-                <Form.Item name="percent">
-                  {({ value, onChange }) => (
-                    <RemovePositionSlider value={value} onChange={onChange} />
-                  )}
-                </Form.Item>
-              </RemoveFormSpaceWrapper>
+              <FormHeader x={poolData.xAmount} y={poolData.yAmount} />
             </Flex.Item>
 
             <Flex.Item marginBottom={4}>
-              <PairSpace
-                title="Pooled Assets"
+              <FormSection title="Amount" noPadding>
+                <Form.Item name="percent">
+                  {({ value, onChange }) => (
+                    <FormSlider value={value} onChange={onChange} />
+                  )}
+                </Form.Item>
+              </FormSection>
+            </Flex.Item>
+
+            <Flex.Item marginBottom={4}>
+              <FormPairSection
+                title="Assets to remove"
                 xAmount={formValue?.xAmount || poolData.xAmount}
                 yAmount={formValue?.yAmount || poolData.yAmount}
               />

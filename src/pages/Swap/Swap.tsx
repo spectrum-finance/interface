@@ -106,8 +106,10 @@ export const Swap = (): JSX.Element => {
         return <SwapConfirmationModal value={value} onClose={next} />;
       },
       Operation.SWAP,
-      value.fromAmount!,
-      value.toAmount!,
+      {
+        xAsset: value.fromAmount!,
+        yAsset: value.toAmount!,
+      },
     );
   };
 

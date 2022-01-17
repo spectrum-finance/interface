@@ -18,6 +18,7 @@ import { globalHistory } from './createBrowserHistory';
 import { ContextModalProvider } from './ergodex-cdk';
 import { useWindowSize } from './hooks/useWindowSize';
 import { AddLiquidity } from './pages/Pool/AddLiquidity/AddLiquidity';
+import { LockLiquidity } from './pages/Pool/LockLiquidity/LockLiquidity';
 import { Pool } from './pages/Pool/Pool';
 import { PoolPosition } from './pages/Pool/PoolPosition/PoolPosition';
 import { Remove } from './pages/Remove/Remove';
@@ -44,6 +45,11 @@ const Application = withTranslation()(() => {
                       <Route path="/swap" exact component={Swap} />
                       <Route path="/pool" exact component={Pool} />
                       <Route path="/pool/add" exact component={AddLiquidity} />
+                      <Route
+                        path="/pool/lock/:poolId"
+                        exact
+                        component={LockLiquidity}
+                      />
                       <Route
                         path="/pool/add/:poolId"
                         exact

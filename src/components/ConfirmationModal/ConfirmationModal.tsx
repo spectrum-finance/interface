@@ -1,9 +1,11 @@
 import { TxId } from '@ergolabs/ergo-sdk';
+import { DateTime } from 'luxon';
 import React, { ReactNode } from 'react';
 
 import { Currency } from '../../common/models/Currency';
 import { DialogRef, Flex, Modal, Typography } from '../../ergodex-cdk';
 import { RequestProps } from '../../ergodex-cdk/components/Modal/presets/Request';
+import { getLockingPeriodString } from '../../pages/Pool/LockLiquidity/utils';
 import { exploreTx } from '../../utils/redirect';
 
 export enum Operation {
@@ -11,12 +13,21 @@ export enum Operation {
   ADD_LIQUIDITY,
   REMOVE_LIQUIDITY,
   REFUND,
+  LOCK_LIQUIDITY,
+  RELOCK_LIQUIDITY,
+  WITHDRAWAL_LIQUIDITY,
+}
+
+export interface ModalChainingPayload {
+  xAsset: Currency;
+  yAsset: Currency;
+  lpAsset?: Currency;
+  timelock?: DateTime;
 }
 
 const getDescriptionByData = (
   operation: Operation,
-  xAsset: Currency,
-  yAsset: Currency,
+  { xAsset, yAsset, lpAsset, timelock }: ModalChainingPayload,
 ): ReactNode => {
   switch (operation) {
     case Operation.ADD_LIQUIDITY:
@@ -27,13 +38,16 @@ const getDescriptionByData = (
       return `Removing liquidity ${xAsset.toString()} and ${yAsset.toString()}`;
     case Operation.SWAP:
       return `Swapping ${xAsset.toString()} for ${yAsset.toString()}`;
+    case Operation.LOCK_LIQUIDITY:
+      return `Locking ${xAsset.toString()} and ${yAsset.toString()} (${
+        lpAsset && lpAsset.toString({ suffix: false }) + ' LP-tokens'
+      }) for ${timelock && getLockingPeriodString(timelock)}`;
   }
 };
 
 const ProgressModalContent = (
   operation: Operation,
-  xAsset: Currency,
-  yAsset: Currency,
+  payload: ModalChainingPayload,
 ) => {
   return (
     <Flex col align="center">
@@ -42,7 +56,7 @@ const ProgressModalContent = (
       </Flex.Item>
       <Flex.Item marginBottom={1}>
         <Typography.Body align="center">
-          {getDescriptionByData(operation, xAsset, yAsset)}
+          {getDescriptionByData(operation, payload)}
         </Typography.Body>
       </Flex.Item>
       <Flex.Item marginBottom={1}>
@@ -56,8 +70,7 @@ const ProgressModalContent = (
 
 const ErrorModalContent = (
   operation: Operation,
-  xAsset: Currency,
-  yAsset: Currency,
+  payload: ModalChainingPayload,
 ) => (
   <Flex col align="center">
     <Flex.Item marginBottom={1}>
@@ -65,7 +78,7 @@ const ErrorModalContent = (
     </Flex.Item>
     <Flex.Item marginBottom={1}>
       <Typography.Body align="center">
-        {getDescriptionByData(operation, xAsset, yAsset)}
+        {getDescriptionByData(operation, payload)}
       </Typography.Body>
     </Flex.Item>
     <Flex.Item marginBottom={1}>
@@ -80,6 +93,7 @@ const ErrorModalContent = (
     </Flex.Item>
   </Flex>
 );
+
 const SuccessModalContent = (txId: TxId) => (
   <Flex col align="center">
     <Flex.Item marginBottom={1}>
@@ -96,13 +110,12 @@ const SuccessModalContent = (txId: TxId) => (
 export const openConfirmationModal = (
   actionContent: RequestProps['actionContent'],
   operation: Operation,
-  xAsset: Currency,
-  yAsset: Currency,
+  payload: ModalChainingPayload,
 ): DialogRef => {
   return Modal.request({
     actionContent,
-    errorContent: ErrorModalContent(operation, xAsset, yAsset),
-    progressContent: ProgressModalContent(operation, xAsset, yAsset),
+    errorContent: ErrorModalContent(operation, payload),
+    progressContent: ProgressModalContent(operation, payload),
     successContent: (txId) => SuccessModalContent(txId),
   });
 };
