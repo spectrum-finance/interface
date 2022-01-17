@@ -1642,12 +1642,12 @@
     ts-node "^9"
     tslib "^2"
 
-"@ergolabs/ergo-dex-sdk@1.3.3":
-  version "1.3.3"
-  resolved "https://registry.yarnpkg.com/@ergolabs/ergo-dex-sdk/-/ergo-dex-sdk-1.3.3.tgz#1839da0a5b62f3f1f36dad1da3523dc636795224"
-  integrity sha512-5DO3io6ng8L8XUN/YOZp7i4S4NbrnaL9eEYLJ110ZigFGvcmQ4wOXc7xqMo0RczEu3cX/hHdT8tdN2jCcEx0dg==
+"@ergolabs/ergo-dex-sdk@1.3.4":
+  version "1.3.4"
+  resolved "https://registry.yarnpkg.com/@ergolabs/ergo-dex-sdk/-/ergo-dex-sdk-1.3.4.tgz#e9b657453c398f7828f819da0ca248b75750a7b1"
+  integrity sha512-REQr6shhbxzsAc6UmoMVwx+ZA5OUz/uN6SzvFuiWfHijcr0IxP675n993VYyXYBfNgKm6JKbTVxcBhC/3YemBA==
   dependencies:
-    "@ergolabs/ergo-sdk" "0.1.19"
+    "@ergolabs/ergo-sdk" "0.1.20"
     axios "^0.21.1"
     blakejs "^1.1.0"
     bs58 "^4.0.1"
@@ -1658,10 +1658,10 @@
     mathjs "^9.4.4"
     ramda "0.27.1"
 
-"@ergolabs/ergo-sdk@0.1.19", "@ergolabs/ergo-sdk@^0.1.19":
-  version "0.1.19"
-  resolved "https://registry.yarnpkg.com/@ergolabs/ergo-sdk/-/ergo-sdk-0.1.19.tgz#1b2e8c5040bfb078daa11cb3520878877e20bbaa"
-  integrity sha512-TcXBVFEXF+IHJ5n4spbQTfzUeCrC6jL4JpG8ya2ng91SGU+LSITH0tsqkOG+eClFjUsXelRhDcaSjDJKCeJRAQ==
+"@ergolabs/ergo-sdk@0.1.20", "@ergolabs/ergo-sdk@^0.1.20":
+  version "0.1.20"
+  resolved "https://registry.yarnpkg.com/@ergolabs/ergo-sdk/-/ergo-sdk-0.1.20.tgz#2ce257fd809cc1c60cc58867df61e2e54b2e3b63"
+  integrity sha512-otMyIocrQDsQw3vONWJ77jhg4zYtVfwaP3J2qT6bCFuXQSLweqT34r23S8Y6hrJtNTMcVzghqUGFHy8X8xK2qA==
   dependencies:
     axios "^0.21.1"
     blakejs "^1.1.0"
