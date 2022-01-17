@@ -2,14 +2,10 @@ import './Header.less';
 
 import React from 'react';
 
-import { ERG_TOKEN_NAME } from '../../common/constants/erg';
+import { networkAssetBalance$ } from '../../api/networkAssetBalance';
 import { useObservable } from '../../common/hooks/useObservable';
 import { useSettings } from '../../context';
-import {
-  nativeTokenBalance$,
-  WalletState,
-  walletState$,
-} from '../../services/new/core';
+import { WalletState, walletState$ } from '../../services/new/core';
 import { AppLogo } from '../common/AppLogo/AppLogo';
 import { TxHistory } from '../common/TxHistory/TxHistory';
 import { AnalyticsDataTag } from './AnalyticsDataTag/AnalyticsDataTag';
@@ -26,7 +22,7 @@ const networks = [
 export const Header: React.FC = () => {
   const [{ address }] = useSettings();
   // TODO: Update with rx [EDEX-487]
-  const [balance] = useObservable(nativeTokenBalance$);
+  const [balance] = useObservable(networkAssetBalance$);
   const [walletState] = useObservable(walletState$);
 
   return (
@@ -43,7 +39,6 @@ export const Header: React.FC = () => {
             numberOfPendingTxs={0}
             address={address}
             balance={balance}
-            currency={ERG_TOKEN_NAME}
           />
           {walletState === WalletState.CONNECTED && <TxHistory />}
           <BurgerMenu />
