@@ -42,7 +42,7 @@ export const LockedPositionItem: FC<LockedPositionItemProps> = (
           </Flex>
         </Flex.Item>
         <Flex.Item>
-          <Flex col justify="space-between">
+          <Flex col justify="space-between" stretch>
             <Flex.Item marginBottom={1}>
               <Typography.Footnote>TVL</Typography.Footnote>
             </Flex.Item>
@@ -50,7 +50,7 @@ export const LockedPositionItem: FC<LockedPositionItemProps> = (
           </Flex>
         </Flex.Item>
         <Flex.Item>
-          <Flex col justify="space-between">
+          <Flex col justify="space-between" stretch>
             <Flex.Item marginBottom={1}>
               <Typography.Footnote>TVL</Typography.Footnote>
             </Flex.Item>
@@ -58,7 +58,7 @@ export const LockedPositionItem: FC<LockedPositionItemProps> = (
           </Flex>
         </Flex.Item>
         <Flex.Item>
-          <Flex col justify="space-between">
+          <Flex col justify="space-between" stretch>
             <Flex.Item marginBottom={1}>
               <Typography.Footnote>TVL</Typography.Footnote>
             </Flex.Item>
@@ -66,7 +66,7 @@ export const LockedPositionItem: FC<LockedPositionItemProps> = (
           </Flex>
         </Flex.Item>
         <Flex.Item>
-          <Flex col justify="space-between">
+          <Flex col justify="space-between" stretch>
             <Flex.Item marginBottom={1}>
               <Typography.Footnote>TVL</Typography.Footnote>
             </Flex.Item>
