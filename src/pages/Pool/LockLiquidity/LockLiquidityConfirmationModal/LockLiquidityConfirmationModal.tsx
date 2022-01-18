@@ -29,7 +29,7 @@ import { submitTx } from '../../../../services/yoroi';
 import yoroiProver from '../../../../services/yoroi/prover';
 import { makeTarget } from '../../../../utils/ammMath';
 import { parseUserInputToFractions } from '../../../../utils/math';
-import { getLockingPeriodString } from '../utils';
+import { getLockingPeriodString } from '../../utils';
 
 interface LockLiquidityConfirmationModalProps {
   onClose: (p: Promise<any>) => void;

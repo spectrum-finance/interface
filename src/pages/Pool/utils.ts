@@ -38,3 +38,10 @@ export const getLockingPeriodString = (date: DateTime): string => {
 
   return days;
 };
+
+export const getLockStatus = (deadline: DateTime): 'Locked' | 'Unlocked' => {
+  if (deadline < DateTime.now()) {
+    return 'Locked';
+  }
+  return 'Unlocked';
+};

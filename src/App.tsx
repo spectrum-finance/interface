@@ -19,11 +19,11 @@ import { ContextModalProvider } from './ergodex-cdk';
 import { useWindowSize } from './hooks/useWindowSize';
 import { AddLiquidity } from './pages/Pool/AddLiquidity/AddLiquidity';
 import { LockLiquidity } from './pages/Pool/LockLiquidity/LockLiquidity';
-import { RelockLiquidity } from './pages/Pool/LockLiquidity/RelockLiquidity';
-import { WithdrawalLiquidity } from './pages/Pool/LockLiquidity/WithdrawalLiquidity';
 import { Pool } from './pages/Pool/Pool';
 import { PoolPosition } from './pages/Pool/PoolPosition/PoolPosition';
+import { RelockLiquidity } from './pages/Pool/RelockLiquidity/RelockLiquidity';
 import { RemoveLiquidity } from './pages/Pool/RemoveLiquidity/RemoveLiquidity';
+import { WithdrawalLiquidity } from './pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity';
 import { Swap } from './pages/Swap/Swap';
 
 const NotFound = () => <Redirect to="/swap" />;

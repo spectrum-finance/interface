@@ -3,13 +3,8 @@ import './LockLiquidityDatePicker.less';
 import { DateTime } from 'luxon';
 import React from 'react';
 
-import {
-  Animation,
-  DatePicker,
-  Flex,
-  Typography,
-} from '../../../../ergodex-cdk';
-import { getLockingPeriodString } from '../utils';
+import { DatePicker, Flex, Typography } from '../../../../ergodex-cdk';
+import { getLockingPeriodString } from '../../utils';
 
 interface LockLiquidityDatePickerProps {
   value?: DateTime | null | undefined;
@@ -33,18 +28,16 @@ const LockLiquidityDatePicker: React.FC<LockLiquidityDatePickerProps> = ({
       <Flex.Item>
         {value ? (
           <Flex col>
-            <Animation.Expand expanded={!!value}>
-              <Flex.Item marginBottom={1}>
-                <Typography.Title level={5}>
-                  {value?.toLocaleString(DateTime.DATE_FULL)}
-                </Typography.Title>
-              </Flex.Item>
-              <Flex.Item>
-                <Typography.Body strong secondary>
-                  Lock period: {getLockingPeriodString(value)}
-                </Typography.Body>
-              </Flex.Item>
-            </Animation.Expand>
+            <Flex.Item marginBottom={1}>
+              <Typography.Title level={5}>
+                {value?.toLocaleString(DateTime.DATE_FULL)}
+              </Typography.Title>
+            </Flex.Item>
+            <Flex.Item>
+              <Typography.Body strong secondary>
+                Lock period: {getLockingPeriodString(value)}
+              </Typography.Body>
+            </Flex.Item>
           </Flex>
         ) : (
           <Typography.Title level={5}>Choose date</Typography.Title>
