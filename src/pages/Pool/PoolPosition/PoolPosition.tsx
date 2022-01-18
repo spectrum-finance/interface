@@ -4,6 +4,8 @@ import { PoolId } from '@ergolabs/ergo-dex-sdk';
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 
+import { ReactComponent as RelockIcon } from '../../../assets/icons/relock-icon.svg';
+import { ReactComponent as WithdrawalIcon } from '../../../assets/icons/withdrawal-icon.svg';
 import { useSubject } from '../../../common/hooks/useObservable';
 import { OptionsButton } from '../../../components/common/OptionsButton/OptionsButton';
 import { FormPageWrapper } from '../../../components/FormPageWrapper/FormPageWrapper';
@@ -14,6 +16,7 @@ import {
   Box,
   Button,
   Flex,
+  LockOutlined,
   Menu,
   PlusOutlined,
   Skeleton,
@@ -46,7 +49,7 @@ export const PoolPosition: React.FC = () => {
     }
   }, [pool]);
 
-  const handleLockLiquidityClick = () => history.push(`/pool/lock/${poolId}/`);
+  const handleLockLiquidity = () => history.push(`/pool/lock/${poolId}/`);
 
   const handleRemovePositionClick = () =>
     history.push(`/pool/remove/${poolId}/`);
@@ -65,7 +68,7 @@ export const PoolPosition: React.FC = () => {
     >
       {pool && poolRatio && !isPairLoading ? (
         <>
-          <Flex align="center">
+          <Flex align="center" justify="space-between">
             <Flex align="center">
               <TokenIconPair
                 size="large"
@@ -86,16 +89,27 @@ export const PoolPosition: React.FC = () => {
               </Flex.Item>
             </Flex>
             <Flex.Item>
-              <OptionsButton>
-                <Menu.Item>
-                  <Typography.Link>Hello</Typography.Link>
-                </Menu.Item>
-                <Menu.Item>
-                  <Typography.Link>Hello</Typography.Link>
-                </Menu.Item>
-                <Menu.Item>
-                  <Typography.Link>Hello</Typography.Link>
-                </Menu.Item>
+              <OptionsButton size="large" type="text" width={180}>
+                <Menu.ItemGroup title="Liquidity Locker">
+                  <Menu.Item
+                    icon={<LockOutlined />}
+                    onClick={handleLockLiquidity}
+                  >
+                    <a>Lock liquidity</a>
+                  </Menu.Item>
+                  <Menu.Item
+                    icon={<RelockIcon />}
+                    onClick={handleRelockLiquidity}
+                  >
+                    <a>Relock liquidity</a>
+                  </Menu.Item>
+                  <Menu.Item
+                    icon={<WithdrawalIcon />}
+                    onClick={handleWithdrawalLiquidity}
+                  >
+                    <a>Withdrawal</a>
+                  </Menu.Item>
+                </Menu.ItemGroup>
               </OptionsButton>
             </Flex.Item>
           </Flex>

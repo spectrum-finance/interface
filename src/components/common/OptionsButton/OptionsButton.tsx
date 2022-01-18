@@ -20,18 +20,20 @@ interface OptionsButtonProps {
   type?: 'default' | 'primary' | 'ghost' | 'dashed' | 'link' | 'text';
   size?: 'small' | 'middle' | 'large' | 'extra-large';
   placement?: Placement;
+  width?: number;
 }
 
 const OptionsButton: FC<OptionsButtonProps> = ({
   children,
   type,
   size,
+  width,
   placement,
 }) => {
   return (
     <Dropdown
       overlay={
-        <Menu style={{ width: 160, padding: 0 }}>
+        <Menu style={{ width: width ? width : 160, padding: 0 }}>
           <Box padding={2}>{children}</Box>
         </Menu>
       }

@@ -19,6 +19,8 @@ import { ContextModalProvider } from './ergodex-cdk';
 import { useWindowSize } from './hooks/useWindowSize';
 import { AddLiquidity } from './pages/Pool/AddLiquidity/AddLiquidity';
 import { LockLiquidity } from './pages/Pool/LockLiquidity/LockLiquidity';
+import { RelockLiquidity } from './pages/Pool/LockLiquidity/RelockLiquidity';
+import { WithdrawalLiquidity } from './pages/Pool/LockLiquidity/WithdrawalLiquidity';
 import { Pool } from './pages/Pool/Pool';
 import { PoolPosition } from './pages/Pool/PoolPosition/PoolPosition';
 import { RemoveLiquidity } from './pages/Pool/RemoveLiquidity/RemoveLiquidity';
@@ -58,12 +60,12 @@ const Application = withTranslation()(() => {
                       <Route
                         path="/pool/relock/:poolId"
                         exact
-                        component={LockLiquidity}
+                        component={RelockLiquidity}
                       />
                       <Route
                         path="/pool/withdrawal/:poolId"
                         exact
-                        component={LockLiquidity}
+                        component={WithdrawalLiquidity}
                       />
                       <Route
                         path="/pool/add/:poolId"
