@@ -2,7 +2,6 @@ import { BoxId } from '@ergolabs/ergo-sdk';
 import { DateTime } from 'luxon';
 import React, { useState } from 'react';
 
-import { useObservable } from '../../../common/hooks/useObservable';
 import { Currency } from '../../../common/models/Currency';
 import { FormHeader } from '../../../components/common/FormView/FormHeader/FormHeader';
 import { FormSection } from '../../../components/common/FormView/FormSection/FormSection';
@@ -43,8 +42,6 @@ export const RelockLiquidity = (): JSX.Element => {
     relocktime: undefined,
     boxId: undefined,
   });
-
-  const [formValue] = useObservable(form.valueChangesWithSilent$);
 
   const handleSetActive = (id: string) => {
     setActiveItemId((prev) => {

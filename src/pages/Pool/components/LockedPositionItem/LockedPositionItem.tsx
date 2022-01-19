@@ -18,7 +18,7 @@ interface LockedPositionItemProps {
 }
 
 export const LockedPositionItem: FC<LockedPositionItemProps> = (
-  { status, onClick, isActive, x, y, lp, pool } = { isActive: false },
+  { status, onClick, isActive } = { isActive: false },
 ) => {
   return (
     <ListItemWrapper onClick={onClick} isActive={isActive}>

@@ -49,15 +49,15 @@ export const PoolPosition: React.FC = () => {
     }
   }, [pool]);
 
-  const handleLockLiquidity = () => history.push(`/pool/lock/${poolId}/`);
+  const handleLockLiquidity = () => history.push(`/pool/${poolId}/lock`);
 
   const handleRemovePositionClick = () =>
-    history.push(`/pool/remove/${poolId}/`);
+    history.push(`/pool/${poolId}/remove`);
 
-  const handleAddLiquidity = () => history.push(`/pool/add/${poolId}/`);
-  const handleRelockLiquidity = () => history.push(`/pool/relock/${poolId}/`);
+  const handleAddLiquidity = () => history.push(`/pool/${poolId}/add`);
+  const handleRelockLiquidity = () => history.push(`/pool/${poolId}/relock`);
   const handleWithdrawalLiquidity = () =>
-    history.push(`/pool/withdrawal/${poolId}/`);
+    history.push(`/pool/${poolId}/withdrawal`);
 
   return (
     <FormPageWrapper
