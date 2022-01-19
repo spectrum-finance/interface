@@ -12,7 +12,7 @@ export const TokensTab: React.FC = () => {
       <Flex.Item marginTop={2}>
         <List
           rowKey="id"
-          dataSource={balance.values()}
+          dataSource={balance.values().filter((b) => b.isPositive())}
           height={224}
           transparent
           gap={2}
