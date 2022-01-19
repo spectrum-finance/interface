@@ -1,20 +1,20 @@
 import {
   LockParams,
   millisToBlocks,
-  minValueForOrder,
   mkLockActions,
   mkLockParser,
 } from '@ergolabs/ergo-dex-sdk';
 import {
   BoxSelection,
   DefaultBoxSelector,
+  MinBoxValue,
   RustModule,
   TransactionContext,
 } from '@ergolabs/ergo-sdk';
 import { DateTime } from 'luxon';
 import React, { useState } from 'react';
 
-import { ERG_DECIMALS, UI_FEE } from '../../../../common/constants/erg';
+import { ERG_DECIMALS } from '../../../../common/constants/erg';
 import { useObservable } from '../../../../common/hooks/useObservable';
 import { AmmPool } from '../../../../common/models/AmmPool';
 import { Currency } from '../../../../common/models/Currency';
@@ -24,16 +24,12 @@ import { useSettings } from '../../../../context';
 import { Button, Checkbox, Flex, Modal } from '../../../../ergodex-cdk';
 import { mainnetTxAssembler } from '../../../../services/defaultTxAssembler';
 import { explorer } from '../../../../services/explorer';
-import {
-  useMinExFee,
-  useMinTotalFees,
-  utxos$,
-} from '../../../../services/new/core';
+import { useNetworkAsset, utxos$ } from '../../../../services/new/core';
 import { submitTx } from '../../../../services/yoroi';
 import yoroiProver from '../../../../services/yoroi/prover';
 import { makeTarget } from '../../../../utils/ammMath';
 import { parseUserInputToFractions } from '../../../../utils/math';
-import { getLockingPeriodString } from '../utils';
+import { getLockingPeriodString } from '../../utils';
 
 interface LockLiquidityConfirmationModalProps {
   onClose: (p: Promise<any>) => void;
@@ -48,16 +44,15 @@ interface LockLiquidityConfirmationModalProps {
 const LockLiquidityConfirmationModal: React.FC<LockLiquidityConfirmationModalProps> =
   ({ onClose, xAsset, yAsset, lpAsset, timelock, percent, pool }) => {
     const [isChecked, setIsChecked] = useState<boolean>(false);
+    const networkAsset = useNetworkAsset();
 
     const now = DateTime.now().toMillis();
 
     const [utxos] = useObservable(utxos$);
     const [{ minerFee, address, pk }] = useSettings();
-    const minExFee = useMinExFee();
-    const totalFees = useMinTotalFees();
 
-    const uiFeeNErg = parseUserInputToFractions(UI_FEE, ERG_DECIMALS);
-    const exFeeNErg = minExFee.amount;
+    // const uiFeeNErg = parseUserInputToFractions(UI_FEE, ERG_DECIMALS);
+    // const exFeeNErg = minExFee.amount;
     const minerFeeNErgs = parseUserInputToFractions(minerFee, ERG_DECIMALS);
 
     const lpToLock = pool['pool'].lp.withAmount(lpAsset.amount);
@@ -68,14 +63,9 @@ const LockLiquidityConfirmationModal: React.FC<LockLiquidityConfirmationModalPro
     const lockOperation = async () => {
       const parser = mkLockParser();
 
-      // Possible issue: here (operation doesn't use uiFee and exFee)
-      const minFeeForOrder = minValueForOrder(
-        minerFeeNErgs,
-        uiFeeNErg,
-        exFeeNErg,
-      );
+      const minNErgForFee = minerFeeNErgs * 2n + MinBoxValue;
 
-      const target = makeTarget([lpToLock], minFeeForOrder);
+      const target = makeTarget([lpToLock], minNErgForFee);
 
       const inputs = DefaultBoxSelector.select(utxos!, target) as BoxSelection;
 
@@ -125,8 +115,7 @@ const LockLiquidityConfirmationModal: React.FC<LockLiquidityConfirmationModalPro
             <Flex.Item marginBottom={4}>
               <FormFeesSection
                 minerFee={minerFee}
-                minExFee={minExFee}
-                totalFees={totalFees}
+                totalFees={new Currency(minerFeeNErgs, networkAsset)}
               />
             </Flex.Item>
             <Flex.Item marginBottom={4}>
@@ -139,7 +128,7 @@ const LockLiquidityConfirmationModal: React.FC<LockLiquidityConfirmationModalPro
                   position, for a period of{' '}
                   <b>{getLockingPeriodString(timelock)}</b> (until{' '}
                   {timelock.toLocaleString(DateTime.DATE_FULL)}) without the
-                  ability to withdraw mine before the end of this period.
+                  ability to withdraw before the end of this period.
                 </Checkbox>
               </Flex>
             </Flex.Item>

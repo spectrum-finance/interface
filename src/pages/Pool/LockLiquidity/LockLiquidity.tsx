@@ -29,8 +29,8 @@ import {
   getAvailablePoolDataById,
   PoolData,
 } from '../../../services/new/pools';
+import { LiquidityDatePicker } from '../components/LockLiquidityDatePicker/LiquidityDatePicker';
 import { LockLiquidityConfirmationModal } from './LockLiquidityConfirmationModal/LockLiquidityConfirmationModal';
-import { LockLiquidityDatePicker } from './LockLiquidityDatePicker/LockLiquidityDatePicker';
 import { LockLiquidityModel } from './LockLiquidityModel';
 
 const LockLiquidity = (): JSX.Element => {
@@ -140,7 +140,8 @@ const LockLiquidity = (): JSX.Element => {
               <FormSection title="Unlock date">
                 <Form.Item name="locktime">
                   {({ value, onChange }) => (
-                    <LockLiquidityDatePicker
+                    <LiquidityDatePicker
+                      selectedPrefix="Lock period"
                       value={value}
                       onChange={onChange}
                     />

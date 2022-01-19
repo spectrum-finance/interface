@@ -5,7 +5,7 @@ import React, { ReactNode } from 'react';
 import { Currency } from '../../common/models/Currency';
 import { DialogRef, Flex, Modal, Typography } from '../../ergodex-cdk';
 import { RequestProps } from '../../ergodex-cdk/components/Modal/presets/Request';
-import { getLockingPeriodString } from '../../pages/Pool/LockLiquidity/utils';
+import { getLockingPeriodString } from '../../pages/Pool/utils';
 import { exploreTx } from '../../utils/redirect';
 
 export enum Operation {

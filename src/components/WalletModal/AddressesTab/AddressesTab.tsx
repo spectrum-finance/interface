@@ -1,5 +1,6 @@
 import './AddressTab.less';
 
+import { publicKeyFromAddress } from '@ergolabs/ergo-sdk';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { ERG_DECIMALS } from '../../../common/constants/erg';
@@ -58,6 +59,7 @@ const AddressListItem: React.FC<AddressListItemProps> = ({
       setSettings({
         ...settings,
         address: addr,
+        pk: publicKeyFromAddress(addr),
       });
     },
     [settings, setSettings],
