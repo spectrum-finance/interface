@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { Box, Flex, Slider, Typography } from '../../../ergodex-cdk';
+import { Flex, Slider, Typography } from '../../../../ergodex-cdk';
+import { FormSpace } from '../FormSpace/FormSpace';
 
 const marks = {
   0: 'Min',
@@ -10,17 +11,14 @@ const marks = {
   100: 'Max',
 };
 
-interface RemovePositionSliderProps {
+interface FormSliderProps {
   value: number;
   onChange: (p: number) => void;
 }
 
-const RemovePositionSlider: React.FC<RemovePositionSliderProps> = ({
-  value,
-  onChange,
-}) => {
+const FormSlider: React.FC<FormSliderProps> = ({ value, onChange }) => {
   return (
-    <Box contrast padding={4}>
+    <FormSpace>
       <Flex direction="col">
         <Flex.Item>
           <Flex direction="col">
@@ -40,8 +38,8 @@ const RemovePositionSlider: React.FC<RemovePositionSliderProps> = ({
           </Flex>
         </Flex.Item>
       </Flex>
-    </Box>
+    </FormSpace>
   );
 };
 
-export { RemovePositionSlider };
+export { FormSlider };

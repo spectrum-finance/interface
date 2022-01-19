@@ -1,0 +1,30 @@
+.liquidity-date-picker {
+  &__dropdown {
+    .ant-picker-footer {
+      display: none;
+    }
+  }
+
+  .ant-picker {
+    padding: calc(var(--ergo-base-gutter)*2);
+    background: none;
+    transition: all .5s ease;
+
+    .ant-picker-input {
+      background: 0;
+    }
+
+    .ant-picker-suffix {
+      margin: 0;
+    }
+
+    input {
+      display: none;
+    }
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}

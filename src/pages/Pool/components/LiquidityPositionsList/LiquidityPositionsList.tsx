@@ -1,5 +1,3 @@
-import './LiquidityPositionsList.less';
-
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
 import { isEmpty } from 'lodash';
 import React, { FC } from 'react';

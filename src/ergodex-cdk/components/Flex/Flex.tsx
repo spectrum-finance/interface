@@ -13,6 +13,7 @@ export type FlexProps = React.DetailedHTMLProps<
   direction?: 'row' | 'col';
   row?: boolean;
   col?: boolean;
+  stretch?: boolean;
   justify?:
     | 'flex-start'
     | 'stretch'
@@ -31,6 +32,7 @@ export const Flex: FC<FlexProps> & { Item: FC<ItemsProps> } = ({
   className,
   col,
   row,
+  stretch,
   ...other
 }) => (
   <div
@@ -40,6 +42,7 @@ export const Flex: FC<FlexProps> & { Item: FC<ItemsProps> } = ({
       `ergo-flex-direction--${(col && 'col') || (row && 'row') || direction}`,
       `ergo-flex-justify--${justify}`,
       `ergo-flex-align-items--${align}`,
+      { 'ergo-flex-stretch': stretch },
     ])}
     {...other}
   >

@@ -12,6 +12,7 @@ import {
   from,
   map,
   Observable,
+  of,
   publishReplay,
   refCount,
   switchMap,
@@ -19,8 +20,10 @@ import {
 } from 'rxjs';
 
 import { AmmPool } from '../../common/models/AmmPool';
+import { Currency } from '../../common/models/Currency';
 import { getListAvailableTokens } from '../../utils/getListAvailableTokens';
 import { explorer } from '../explorer';
+import { lpWalletBalance$ } from './balance';
 import { utxos$ } from './core';
 
 export const networkPools = (): NetworkPools => makePools(explorer);
@@ -28,6 +31,13 @@ export const nativeNetworkPools = (): NetworkPools => makeNativePools(explorer);
 
 const BlacklistedPoolId =
   'bee300e9c81e48d7ab5fc29294c7bbb536cf9dcd9c91ee3be9898faec91b11b6';
+
+export interface PoolData {
+  readonly pool: AmmPool;
+  readonly lpAmount: Currency;
+  readonly xAmount: Currency;
+  readonly yAmount: Currency;
+}
 
 const utxosToTokenIds = (utxos: ErgoBox[]): string[] =>
   Object.values(getListAvailableTokens(utxos)).map((token) => token.tokenId);
@@ -111,6 +121,23 @@ export const getAvailablePoolById = (
   availablePools$.pipe(
     map((pools) => pools.find((position) => position.id === poolId)),
   );
+
+export const getAvailablePoolDataById = (
+  poolId: PoolId,
+): Observable<PoolData | undefined> =>
+  !poolId
+    ? of(undefined)
+    : combineLatest([getPoolById(poolId), lpWalletBalance$]).pipe(
+        map(([pool, balance]) => {
+          if (!pool) {
+            return undefined;
+          }
+          const lpAmount = balance.get(pool.lp.asset);
+          const [xAmount, assetY] = pool.shares(lpAmount);
+
+          return { pool, lpAmount, xAmount: xAmount, yAmount: assetY };
+        }),
+      );
 
 const byPair = (xId: string, yId: string) => (p: AmmPool) =>
   (p.x.asset.id === xId || p.y.asset.id === xId) &&

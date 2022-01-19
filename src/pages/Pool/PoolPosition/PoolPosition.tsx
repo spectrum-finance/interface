@@ -4,7 +4,10 @@ import { PoolId } from '@ergolabs/ergo-dex-sdk';
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 
+import { ReactComponent as RelockIcon } from '../../../assets/icons/relock-icon.svg';
+import { ReactComponent as WithdrawalIcon } from '../../../assets/icons/withdrawal-icon.svg';
 import { useSubject } from '../../../common/hooks/useObservable';
+import { OptionsButton } from '../../../components/common/OptionsButton/OptionsButton';
 import { FormPageWrapper } from '../../../components/FormPageWrapper/FormPageWrapper';
 import { TokenIcon } from '../../../components/TokenIcon/TokenIcon';
 import { TokenIconPair } from '../../../components/TokenIconPair/TokenIconPair';
@@ -13,6 +16,8 @@ import {
   Box,
   Button,
   Flex,
+  LockOutlined,
+  Menu,
   PlusOutlined,
   Skeleton,
   Typography,
@@ -44,13 +49,15 @@ export const PoolPosition: React.FC = () => {
     }
   }, [pool]);
 
-  const handleRemovePositionClick = (id: PoolId) => {
-    history.push(`/remove/${id}/`);
-  };
+  const handleLockLiquidity = () => history.push(`/pool/lock/${poolId}/`);
 
-  const handleAddLiquidity = (id: PoolId) => {
-    history.push(`/pool/add/${id}/`);
-  };
+  const handleRemovePositionClick = () =>
+    history.push(`/pool/remove/${poolId}/`);
+
+  const handleAddLiquidity = () => history.push(`/pool/add/${poolId}/`);
+  const handleRelockLiquidity = () => history.push(`/pool/relock/${poolId}/`);
+  const handleWithdrawalLiquidity = () =>
+    history.push(`/pool/withdrawal/${poolId}/`);
 
   return (
     <FormPageWrapper
@@ -61,28 +68,55 @@ export const PoolPosition: React.FC = () => {
     >
       {pool && poolRatio && !isPairLoading ? (
         <>
-          <Flex align="center">
-            <TokenIconPair
-              size="large"
-              tokenPair={{
-                tokenA: pool.x.asset.name,
-                tokenB: pool.y.asset.name,
-              }}
-            />
-            <Typography.Title level={3} style={{ marginLeft: 8 }}>
-              {`${pool.x.asset.name} / ${pool.y.asset.name}`}
-            </Typography.Title>
-            <Flex.Item marginLeft={2}>
-              <Box padding={[0.5, 1]} contrast>
-                <Typography.Text style={{ fontSize: '12px' }}>
-                  {getPoolFee(pool.feeNum)}%
-                </Typography.Text>
-              </Box>
+          <Flex align="center" justify="space-between">
+            <Flex align="center">
+              <TokenIconPair
+                size="large"
+                tokenPair={{
+                  tokenA: pool.x.asset.name,
+                  tokenB: pool.y.asset.name,
+                }}
+              />
+              <Typography.Title level={3} style={{ marginLeft: 8 }}>
+                {`${pool.x.asset.name} / ${pool.y.asset.name}`}
+              </Typography.Title>
+              <Flex.Item marginLeft={2}>
+                <Box padding={[0.5, 1]} contrast>
+                  <Typography.Text style={{ fontSize: '12px' }}>
+                    {getPoolFee(pool.feeNum)}%
+                  </Typography.Text>
+                </Box>
+              </Flex.Item>
+            </Flex>
+            <Flex.Item>
+              <OptionsButton size="large" type="text" width={180}>
+                <Menu.ItemGroup title="Liquidity Locker">
+                  <Menu.Item
+                    icon={<LockOutlined />}
+                    onClick={handleLockLiquidity}
+                  >
+                    <a>Lock liquidity</a>
+                  </Menu.Item>
+                  <Menu.Item
+                    icon={<RelockIcon />}
+                    onClick={handleRelockLiquidity}
+                  >
+                    <a>Relock liquidity</a>
+                  </Menu.Item>
+                  <Menu.Item
+                    icon={<WithdrawalIcon />}
+                    onClick={handleWithdrawalLiquidity}
+                  >
+                    <a>Withdrawal</a>
+                  </Menu.Item>
+                </Menu.ItemGroup>
+              </OptionsButton>
             </Flex.Item>
           </Flex>
 
           <Flex direction="col" style={{ marginTop: 16 }}>
             <Typography.Text>Your Liquidity</Typography.Text>
+
             <Flex.Item marginTop={2}>
               {pair ? (
                 <Box padding={3} className="liquidity-info__wrapper">
@@ -148,7 +182,7 @@ export const PoolPosition: React.FC = () => {
                   type="primary"
                   size="large"
                   icon={<PlusOutlined />}
-                  onClick={() => handleAddLiquidity(poolId)}
+                  onClick={handleAddLiquidity}
                   block
                 >
                   Increase Liquidity
@@ -160,7 +194,7 @@ export const PoolPosition: React.FC = () => {
                   disabled={!pair}
                   size="large"
                   block
-                  onClick={() => handleRemovePositionClick(poolId)}
+                  onClick={handleRemovePositionClick}
                 >
                   Remove Liquidity
                 </Button>
