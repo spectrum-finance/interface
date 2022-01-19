@@ -8,10 +8,10 @@ import {
 } from '@ergolabs/ergo-sdk';
 import React, { FC, useEffect, useState } from 'react';
 
+import { ERG_DECIMALS, UI_FEE } from '../../../common/constants/erg';
 import { useObservable } from '../../../common/hooks/useObservable';
 import { TokenControlFormItem } from '../../../components/common/TokenControl/TokenControl';
 import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
-import { ERG_DECIMALS, UI_FEE } from '../../../constants/erg';
 import { useSettings } from '../../../context';
 import { Box, Button, Flex, Modal, Typography } from '../../../ergodex-cdk';
 import { Form, useForm } from '../../../ergodex-cdk/components/Form/NewForm';

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { useEffect, useState } from 'react';
 import { Observable, Subject, Subscription, switchMap } from 'rxjs';
 
@@ -125,7 +126,7 @@ export function useSubscription<T extends (...args: any[]) => Observable<any>>(
   callback: (value: Unpacked<ReturnType<T>>) => void,
   deps?: any[],
 ): [(...args: Parameters<T>) => void];
-export function useSubscription<T>(
+export function useSubscription(
   item: any,
   callback: any,
   deps?: any[],

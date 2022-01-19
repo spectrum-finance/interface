@@ -17,11 +17,11 @@ import {
   switchMap,
 } from 'rxjs';
 
+import { ERG_DECIMALS, ERG_TOKEN_NAME } from '../../common/constants/erg';
+import { defaultExFee } from '../../common/constants/settings';
 import { useObservable } from '../../common/hooks/useObservable';
 import { Currency } from '../../common/models/Currency';
 import { normalizeAmount } from '../../common/utils/amount';
-import { ERG_DECIMALS, ERG_TOKEN_NAME } from '../../constants/erg';
-import { defaultExFee } from '../../constants/settings';
 import { useSettings } from '../../context';
 import { walletCookies } from '../../utils/cookies';
 import { renderFractions } from '../../utils/math';

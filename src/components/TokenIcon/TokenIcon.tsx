@@ -1,7 +1,5 @@
 import React from 'react';
 
-import sprite from '../../assets/icons/sprite/sprite.svg';
-
 type TokenIconProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
   HTMLDivElement
@@ -38,16 +36,14 @@ const TokenIcon: React.FC<TokenIconProps> = ({ name, size, ...rest }) => {
       }}
       {...rest}
     >
-      <svg
+      <img
+        alt="Token"
+        src={`/assets/tokens/token-${
+          name && isAccessibleToken ? name.toLowerCase() : 'empty'
+        }.svg`}
         width={size === 'large' ? 32 : 24}
         height={size === 'large' ? 32 : 24}
-      >
-        <use
-          xlinkHref={`${sprite}#token-${
-            name && isAccessibleToken ? name.toLowerCase() : 'empty'
-          }`}
-        />
-      </svg>
+      />
     </span>
   );
 };

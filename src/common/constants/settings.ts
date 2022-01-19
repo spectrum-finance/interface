@@ -1,4 +1,4 @@
-import { fractionsToNum } from '../utils/math';
+import { fractionsToNum } from '../../utils/math';
 import { DEFAULT_MINER_FEE, ERG_DECIMALS, MIN_EX_FEE } from './erg';
 
 export const defaultMinerFee = fractionsToNum(DEFAULT_MINER_FEE, ERG_DECIMALS);

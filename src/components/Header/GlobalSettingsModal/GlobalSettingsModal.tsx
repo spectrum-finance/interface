@@ -2,7 +2,7 @@ import './GlobalSettingsModal.less';
 
 import React, { useState } from 'react';
 
-import { defaultMinerFee } from '../../../constants/settings';
+import { defaultMinerFee } from '../../../common/constants/settings';
 import { useSettings } from '../../../context';
 import {
   Button,

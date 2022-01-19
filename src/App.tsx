@@ -5,9 +5,9 @@ import React, { Suspense, useEffect, useState } from 'react';
 import { withTranslation } from 'react-i18next';
 import { Redirect, Route, Router, Switch } from 'react-router-dom';
 
+import { TABLET_BRAKE_POINT } from './common/constants/screen';
 import Layout from './components/common/Layout/Layout';
 import { MobilePlug } from './components/MobilePlug/MobilePlug';
-import { TABLET_BRAKE_POINT } from './constants/screen';
 import {
   AppLoadingProvider,
   SettingsProvider,
