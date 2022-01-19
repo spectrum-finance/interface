@@ -6,6 +6,7 @@ import React, { FC, ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Observable, of } from 'rxjs';
 
+import { useAssetsBalance } from '../../../api/assetBalance';
 import { useObservable } from '../../../common/hooks/useObservable';
 import { Currency } from '../../../common/models/Currency';
 import { Animation, Box, Button, Flex, Typography } from '../../../ergodex-cdk';
@@ -13,7 +14,6 @@ import {
   Form,
   useFormContext,
 } from '../../../ergodex-cdk/components/Form/NewForm';
-import { useAssetWalletBalance } from '../../../services/new/balance';
 import { isWalletLoading$ } from '../../../services/new/core';
 import {
   TokenAmountInput,
@@ -80,7 +80,7 @@ export const TokenControlFormItem: FC<NewTokenControlProps> = ({
 }) => {
   const { t } = useTranslation();
   const { form } = useFormContext();
-  const [balance, balanceLoading] = useAssetWalletBalance();
+  const [balance, balanceLoading] = useAssetsBalance();
   const [selectedAsset] = useObservable(
     tokenName
       ? form.controls[tokenName].valueChangesWithSilent$

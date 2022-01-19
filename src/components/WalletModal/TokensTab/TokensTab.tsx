@@ -1,11 +1,11 @@
 import React from 'react';
 
+import { useAssetsBalance } from '../../../api/assetBalance';
 import { Flex, List } from '../../../ergodex-cdk';
-import { useAssetWalletBalance } from '../../../services/new/balance';
 import { TokenListItem } from './TokenListItem/TokenListItem';
 
 export const TokensTab: React.FC = () => {
-  const [balance] = useAssetWalletBalance();
+  const [balance] = useAssetsBalance();
 
   return (
     <Flex direction="col">

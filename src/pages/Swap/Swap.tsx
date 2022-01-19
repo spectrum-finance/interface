@@ -16,7 +16,7 @@ import {
   tap,
 } from 'rxjs';
 
-import { useAssetBalance } from '../../api/assetBalance';
+import { useAssetsBalance } from '../../api/assetBalance';
 import { useSubscription } from '../../common/hooks/useObservable';
 import { AmmPool } from '../../common/models/AmmPool';
 import { ActionForm } from '../../components/common/ActionForm/ActionForm';
@@ -59,7 +59,7 @@ export const Swap = (): JSX.Element => {
     pool: undefined,
   });
   const networkAsset = useNetworkAsset();
-  const [balance] = useAssetBalance();
+  const [balance] = useAssetsBalance();
   const totalFees = useMaxTotalFees();
   const updateToAssets$ = useMemo(
     () => new BehaviorSubject<string | undefined>(undefined),
