@@ -1,3 +1,5 @@
+import './FormPageWrapper.less';
+
 import React, { JSXElementConstructor, ReactElement } from 'react';
 import { useHistory } from 'react-router-dom';
 
@@ -32,7 +34,7 @@ const FormPageWrapper: React.FC<FormPageWrapperProps> = ({
   const history = useHistory();
 
   return (
-    <Flex justify="center" align="center">
+    <Flex className="ergodex-form-page-wrapper" justify="center" align="center">
       <Flex direction="col" style={{ width: width ?? '100%' }}>
         {title && (
           <Flex.Item marginBottom={2}>

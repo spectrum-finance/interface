@@ -5,7 +5,7 @@ import { Currency } from '../../../../common/models/Currency';
 import { DataTag } from '../../../../components/common/DataTag/DataTag';
 import { ListItemWrapper } from '../../../../components/ListItemWrapper/ListItemWrapper';
 import { TokenIcon } from '../../../../components/TokenIcon/TokenIcon';
-import { Box, Flex, Typography } from '../../../../ergodex-cdk';
+import { Box, Flex, Tag, Typography } from '../../../../ergodex-cdk';
 
 interface LockedPositionItemProps {
   isActive: boolean;
@@ -14,25 +14,45 @@ interface LockedPositionItemProps {
   lp?: Currency;
   pool?: AmmPool;
   onClick?: () => void;
+  status?: string;
 }
 
 export const LockedPositionItem: FC<LockedPositionItemProps> = (
-  { onClick, isActive, x, y, lp, pool } = { isActive: false },
+  { status, onClick, isActive, x, y, lp, pool } = { isActive: false },
 ) => {
   return (
     <ListItemWrapper onClick={onClick} isActive={isActive}>
       <Flex>
-        <Flex.Item style={{ width: '30%' }} marginRight={2}>
+        <Flex.Item style={{ width: '230px' }} marginRight={4}>
           <Flex col justify="space-between">
             <Flex.Item marginBottom={1}>
-              <Box padding={0.5}>
-                <TokenIcon name={'ERG'} />
+              <Box padding={[0.5, 1]}>
+                <Flex justify="space-between">
+                  <Flex.Item marginRight={1}>
+                    <Flex>
+                      <Flex.Item marginRight={1}>
+                        <TokenIcon name={'ERG'} />
+                      </Flex.Item>
+                      <Typography.Title level={5}>ERG</Typography.Title>
+                    </Flex>
+                  </Flex.Item>
+                  <Typography.Title level={5}>
+                    213,332.230009340
+                  </Typography.Title>
+                </Flex>
               </Box>
             </Flex.Item>
             <Flex.Item>
-              <Box>
+              <Box padding={[0.5, 1]}>
                 <Flex justify="space-between">
-                  <TokenIcon name={'ERG'} />
+                  <Flex.Item marginRight={1}>
+                    <Flex>
+                      <Flex.Item marginRight={1}>
+                        <TokenIcon name={'ERG'} />
+                      </Flex.Item>
+                      <Typography.Title level={5}>ERG</Typography.Title>
+                    </Flex>
+                  </Flex.Item>
                   <Typography.Title level={5}>
                     213,332.230009340
                   </Typography.Title>
@@ -41,36 +61,41 @@ export const LockedPositionItem: FC<LockedPositionItemProps> = (
             </Flex.Item>
           </Flex>
         </Flex.Item>
-        <Flex.Item>
+        <Flex.Item style={{ width: '45px' }} marginRight={4}>
           <Flex col justify="space-between" stretch>
             <Flex.Item marginBottom={1}>
-              <Typography.Footnote>TVL</Typography.Footnote>
+              <Typography.Footnote>Share</Typography.Footnote>
             </Flex.Item>
-            <DataTag content={'hello'} />
+            <DataTag content={'99%'} />
           </Flex>
         </Flex.Item>
-        <Flex.Item>
+        <Flex.Item style={{ width: '183px' }} marginRight={4}>
           <Flex col justify="space-between" stretch>
             <Flex.Item marginBottom={1}>
-              <Typography.Footnote>TVL</Typography.Footnote>
+              <Typography.Footnote>Unlock Date</Typography.Footnote>
             </Flex.Item>
-            <DataTag content={'hello'} />
+            <DataTag content={`31 September 2022`} />
           </Flex>
         </Flex.Item>
-        <Flex.Item>
+        <Flex.Item style={{ width: '75px' }} marginRight={4}>
           <Flex col justify="space-between" stretch>
             <Flex.Item marginBottom={1}>
-              <Typography.Footnote>TVL</Typography.Footnote>
+              <Typography.Footnote>Unlock Block</Typography.Footnote>
             </Flex.Item>
-            <DataTag content={'hello'} />
+            <DataTag content={'1,667,285'} />
           </Flex>
         </Flex.Item>
-        <Flex.Item>
+        <Flex.Item style={{ width: '135px' }} marginRight={4}>
           <Flex col justify="space-between" stretch>
             <Flex.Item marginBottom={1}>
-              <Typography.Footnote>TVL</Typography.Footnote>
+              <Typography.Footnote>Status</Typography.Footnote>
             </Flex.Item>
-            <DataTag content={'hello'} />
+            <Tag
+              color={status === 'Locked' ? 'warning' : 'success'}
+              style={{ display: 'block', marginBottom: '2px' }}
+            >
+              {status}
+            </Tag>
           </Flex>
         </Flex.Item>
       </Flex>
