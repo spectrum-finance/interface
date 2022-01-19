@@ -37,7 +37,7 @@ const TokenIcon: React.FC<TokenIconProps> = ({ name, size, ...rest }) => {
       {...rest}
     >
       <img
-        alt="Token"
+        alt="Token Icon"
         src={`/assets/tokens/token-${
           name && isAccessibleToken ? name.toLowerCase() : 'empty'
         }.svg`}

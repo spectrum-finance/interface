@@ -48,27 +48,27 @@ const Application = withTranslation()(() => {
                       <Route path="/pool" exact component={Pool} />
                       <Route path="/pool/add" exact component={AddLiquidity} />
                       <Route
-                        path="/pool/remove/:poolId"
+                        path="/pool/:poolId/remove"
                         exact
                         component={RemoveLiquidity}
                       />
                       <Route
-                        path="/pool/lock/:poolId"
+                        path="/pool/:poolId/lock"
                         exact
                         component={LockLiquidity}
                       />
                       <Route
-                        path="/pool/relock/:poolId"
+                        path="/pool/:poolId/relock"
                         exact
                         component={RelockLiquidity}
                       />
                       <Route
-                        path="/pool/withdrawal/:poolId"
+                        path="/pool/:poolId/withdrawal"
                         exact
                         component={WithdrawalLiquidity}
                       />
                       <Route
-                        path="/pool/add/:poolId"
+                        path="/pool/:poolId/add"
                         exact
                         component={AddLiquidity}
                       />
