@@ -88,9 +88,6 @@ export const lpWalletBalance$ = combineLatest([
 lpWalletBalance$.subscribe(() => {});
 assetWalletBalance$.subscribe(() => {});
 
-// export const useAssetWalletBalance = (): [Balance, boolean, Error] =>
-//   useObservable(assetWalletBalance$, [], new Balance([]));
-
 export const useLpWalletBalance = (): [Balance, boolean, Error] =>
   useObservable(lpWalletBalance$, [], new Balance([]));
 
