@@ -47,7 +47,7 @@ const LiquidityPositionsList: FC<LiquidityPositionsListProps> = ({
           onClick={handleAddLiquidity}
           icon={<PlusOutlined />}
         >
-          Add Position
+          Add Liquidity
         </Button>
       </EmptyPositionsWrapper>
     );
