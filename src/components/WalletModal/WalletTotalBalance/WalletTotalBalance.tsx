@@ -1,10 +1,11 @@
 import React from 'react';
 
+import { Currency } from '../../../common/models/Currency';
 import { Box, Flex, LoadingOutlined, Typography } from '../../../ergodex-cdk';
 import { TokenIcon } from '../../TokenIcon/TokenIcon';
 
 interface WalletTotalBalanceProps {
-  balance?: string;
+  balance?: Currency;
 }
 
 export const WalletTotalBalance: React.FC<WalletTotalBalanceProps> = ({
@@ -22,7 +23,7 @@ export const WalletTotalBalance: React.FC<WalletTotalBalanceProps> = ({
           </Flex.Item>
           <Flex.Item flex={1}>
             <Typography.Title level={4}>
-              {balance ? `${balance} ERG` : <LoadingOutlined />}
+              {balance?.toString() ?? <LoadingOutlined />}
             </Typography.Title>
           </Flex.Item>
           <Flex.Item>
