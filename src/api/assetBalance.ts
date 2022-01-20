@@ -10,5 +10,5 @@ export const assetBalance$ = selectedNetwork$.pipe(
   refCount(),
 );
 
-export const useAssetBalance = (): [Balance, boolean, Error] =>
+export const useAssetsBalance = (): [Balance, boolean, Error] =>
   useObservable(assetBalance$, [], new Balance([]));

@@ -7,27 +7,27 @@ import {
   useObservable,
   useSubject,
   useSubscription,
-} from '../../common/hooks/useObservable';
-import { Currency } from '../../common/models/Currency';
-import { FormHeader } from '../../components/common/FormView/FormHeader/FormHeader';
-import { FormPairSection } from '../../components/common/FormView/FormPairSection/FormPairSection';
-import { FormSection } from '../../components/common/FormView/FormSection/FormSection';
-import { FormSlider } from '../../components/common/FormView/FormSlider/FormSlider';
+} from '../../../common/hooks/useObservable';
+import { Currency } from '../../../common/models/Currency';
+import { FormHeader } from '../../../components/common/FormView/FormHeader/FormHeader';
+import { FormPairSection } from '../../../components/common/FormView/FormPairSection/FormPairSection';
+import { FormSection } from '../../../components/common/FormView/FormSection/FormSection';
+import { FormSlider } from '../../../components/common/FormView/FormSlider/FormSlider';
 import {
   openConfirmationModal,
   Operation,
-} from '../../components/ConfirmationModal/ConfirmationModal';
-import { FormPageWrapper } from '../../components/FormPageWrapper/FormPageWrapper';
-import { SubmitButton } from '../../components/SubmitButton/SubmitButton';
-import { Flex, Skeleton } from '../../ergodex-cdk';
+} from '../../../components/ConfirmationModal/ConfirmationModal';
+import { FormPageWrapper } from '../../../components/FormPageWrapper/FormPageWrapper';
+import { SubmitButton } from '../../../components/SubmitButton/SubmitButton';
+import { Flex, Skeleton } from '../../../ergodex-cdk';
 import {
   Form,
   FormGroup,
   useForm,
-} from '../../ergodex-cdk/components/Form/NewForm';
-import { PoolData } from '../../services/new/pools';
-import { getAvailablePoolDataById } from '../../services/new/pools';
-import { ConfirmRemoveModal } from './ConfirmRemoveModal/ConfirmRemoveModal';
+} from '../../../ergodex-cdk/components/Form/NewForm';
+import { PoolData } from '../../../services/new/pools';
+import { getAvailablePoolDataById } from '../../../services/new/pools';
+import { RemoveLiquidityConfirmationModal } from './RemoveLiquidityConfirmationModal/RemoveLiquidityConfirmationModal';
 
 interface RemoveFormModel {
   readonly percent: number;
@@ -36,7 +36,7 @@ interface RemoveFormModel {
   readonly lpAmount?: Currency;
 }
 
-export const Remove: FC = () => {
+export const RemoveLiquidity: FC = () => {
   const { poolId } = useParams<{ poolId: PoolId }>();
   const [poolData, updatePoolData] = useSubject(getAvailablePoolDataById);
   const form = useForm<RemoveFormModel>({
@@ -82,7 +82,7 @@ export const Remove: FC = () => {
     openConfirmationModal(
       (next) => {
         return (
-          <ConfirmRemoveModal
+          <RemoveLiquidityConfirmationModal
             onClose={next}
             xAmount={xAmount}
             yAmount={yAmount}
