@@ -61,7 +61,7 @@ export const PoolPosition: React.FC = () => {
 
   return (
     <FormPageWrapper
-      title="Position overview"
+      title="Pool overview"
       width={480}
       withBackButton
       backTo="/pool"
