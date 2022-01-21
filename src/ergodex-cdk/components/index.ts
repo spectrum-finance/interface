@@ -14,6 +14,7 @@ export * from './List/List';
 export * from './Menu/Menu';
 export * from './Modal/Modal';
 export * from './Popover/Popover';
+export * from './Progress/Progress';
 export * from './Row/Row';
 export * from './Select/Select';
 export * from './Skeleton/Skeleton';
