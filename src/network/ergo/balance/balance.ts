@@ -1,23 +1,18 @@
-import { swap } from '@ergolabs/ergo-dex-sdk/build/main/amm/contracts/t2tPoolContracts';
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import {
   combineLatest,
   debounceTime,
   from,
   map,
-  of,
   publishReplay,
   refCount,
   switchMap,
-  tap,
 } from 'rxjs';
 
 import { Balance } from '../../../common/models/Balance';
 import { explorer } from '../../../services/explorer';
 import { utxos$ } from '../../../services/new/core';
 import { getListAvailableTokens } from '../../../utils/getListAvailableTokens';
-import { assets$ } from '../assets/assets';
-import { ERGO_ID } from '../networkAsset/networkAsset';
 import { pools$ } from '../pools/pools';
 import { networkAssetBalance$ } from './networkAssetBalance';
 

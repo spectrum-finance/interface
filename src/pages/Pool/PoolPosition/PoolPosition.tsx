@@ -26,6 +26,7 @@ import { usePair } from '../../../hooks/usePair';
 import { getPoolById } from '../../../services/new/pools';
 import { getPoolFee } from '../../../utils/pool';
 import { getPoolRatio } from '../../../utils/price';
+import { LockLiquidityChart } from './LockLiquidityChart/LockLiquidityChart';
 import { PriceView } from './PriceView';
 
 interface URLParamTypes {
@@ -114,7 +115,7 @@ export const PoolPosition: React.FC = () => {
             </Flex.Item>
           </Flex>
 
-          <Flex direction="col" style={{ marginTop: 16 }}>
+          <Flex direction="col" style={{ marginTop: 16, marginBottom: 16 }}>
             <Typography.Text>Your Liquidity</Typography.Text>
 
             <Flex.Item marginTop={2}>
@@ -157,6 +158,7 @@ export const PoolPosition: React.FC = () => {
               )}
             </Flex.Item>
           </Flex>
+          <LockLiquidityChart />
           <Flex col style={{ marginTop: 16 }}>
             <Typography.Text>Current Price</Typography.Text>
             <Flex style={{ marginTop: 10 }}>
