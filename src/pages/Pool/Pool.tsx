@@ -30,7 +30,7 @@ const PoolPageWrapper: React.FC<PoolPageWrapperProps> = ({
       <Flex.Item marginBottom={isWalletConnected ? 2 : 0}>
         <FormPageWrapper
           width={832}
-          title="Liquidity Pools"
+          title="Liquidity"
           bottomChildren={
             isWalletConnected && (
               <Button
@@ -40,7 +40,7 @@ const PoolPageWrapper: React.FC<PoolPageWrapperProps> = ({
                 icon={<PlusOutlined />}
                 block
               >
-                Add Position
+                Add Liquidity
               </Button>
             )
           }

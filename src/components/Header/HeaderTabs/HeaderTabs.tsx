@@ -35,7 +35,7 @@ const HeaderTabs = (): JSX.Element => {
     <div className="header-tabs">
       <Tabs activeKey={defaultActiveKey} type="card" onChange={onTabClick}>
         <Tabs.TabPane tab="Swap" key="swap" />
-        <Tabs.TabPane tab="Pool" key="pool" />
+        <Tabs.TabPane tab="Liquidity" key="pool" />
         <Tabs.TabPane tab="Exchange" key="exchange" disabled />
       </Tabs>
     </div>
