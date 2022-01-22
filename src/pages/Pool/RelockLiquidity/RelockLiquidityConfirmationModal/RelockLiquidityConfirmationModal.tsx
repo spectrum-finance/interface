@@ -66,7 +66,7 @@ const RelockLiquidityConfirmationModal: FC<RelockLiquidityConfirmationModalProps
     const lpToLock = pool['pool'].lp.withAmount(lpAsset.amount);
 
     const handleCheck = () => setIsChecked((prev) => !prev);
-
+    // TODO: add try catch
     const relockOperation = async () => {
       const parser = mkLockParser();
 

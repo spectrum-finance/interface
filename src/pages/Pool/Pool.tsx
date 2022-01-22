@@ -6,15 +6,7 @@ import { useHistory } from 'react-router-dom';
 import { useObservable } from '../../common/hooks/useObservable';
 import { ConnectWalletButton } from '../../components/common/ConnectWalletButton/ConnectWalletButton';
 import { FormPageWrapper } from '../../components/FormPageWrapper/FormPageWrapper';
-import {
-  Button,
-  DownOutlined,
-  Dropdown,
-  Flex,
-  Menu,
-  PlusOutlined,
-  Tabs,
-} from '../../ergodex-cdk';
+import { DownOutlined, Dropdown, Flex, Menu, Tabs } from '../../ergodex-cdk';
 import { isWalletLoading$, isWalletSetuped$ } from '../../services/new/core';
 import { availablePools$, pools$ } from '../../services/new/pools';
 import { EmptyPositionsWrapper } from './components/EmptyPositionsWrapper/EmptyPositionsWrapper';
@@ -47,9 +39,13 @@ const PoolPageWrapper: React.FC<PoolPageWrapperProps> = ({
                   icon={<DownOutlined />}
                   size="middle"
                   overlay={
-                    <Menu>
-                      <Menu.Item disabled key="1">
-                        Submit and continue
+                    <Menu style={{ padding: '8px', width: '200px' }}>
+                      <Menu.Item
+                        disabled
+                        key="1"
+                        className="ergodex-coming-soon"
+                      >
+                        Create pool
                       </Menu.Item>
                     </Menu>
                   }
