@@ -80,7 +80,8 @@ const LockLiquidityConfirmationModal: React.FC<LockLiquidityConfirmationModalPro
         RModule,
       );
 
-      const deadline = millisToBlocks(BigInt(timelock.toMillis() - now)) + 1;
+      const deadline =
+        network.height + millisToBlocks(BigInt(timelock.toMillis() - now)) + 1;
 
       if (address && pk) {
         const params: LockParams = {
