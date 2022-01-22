@@ -6,7 +6,15 @@ import { useHistory } from 'react-router-dom';
 import { useObservable } from '../../common/hooks/useObservable';
 import { ConnectWalletButton } from '../../components/common/ConnectWalletButton/ConnectWalletButton';
 import { FormPageWrapper } from '../../components/FormPageWrapper/FormPageWrapper';
-import { Button, Flex, PlusOutlined, Tabs } from '../../ergodex-cdk';
+import {
+  Button,
+  DownOutlined,
+  Dropdown,
+  Flex,
+  Menu,
+  PlusOutlined,
+  Tabs,
+} from '../../ergodex-cdk';
 import { isWalletLoading$, isWalletSetuped$ } from '../../services/new/core';
 import { availablePools$, pools$ } from '../../services/new/pools';
 import { EmptyPositionsWrapper } from './components/EmptyPositionsWrapper/EmptyPositionsWrapper';
@@ -31,17 +39,26 @@ const PoolPageWrapper: React.FC<PoolPageWrapperProps> = ({
         <FormPageWrapper
           width={832}
           title="Liquidity"
-          bottomChildren={
+          titleChildren={
             isWalletConnected && (
-              <Button
-                type="primary"
-                size="extra-large"
-                onClick={onClick}
-                icon={<PlusOutlined />}
-                block
-              >
-                Add Liquidity
-              </Button>
+              <>
+                <Dropdown.Button
+                  type="primary"
+                  icon={<DownOutlined />}
+                  size="middle"
+                  overlay={
+                    <Menu>
+                      <Menu.Item disabled key="1">
+                        Submit and continue
+                      </Menu.Item>
+                    </Menu>
+                  }
+                  trigger={['click']}
+                  onClick={onClick}
+                >
+                  + Add liquidity
+                </Dropdown.Button>
+              </>
             )
           }
         >
