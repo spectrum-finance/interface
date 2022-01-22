@@ -10,6 +10,7 @@ interface PairSpaceProps {
   readonly xAmount: Currency;
   readonly yAmount: Currency;
   readonly fees?: boolean;
+  readonly children?: React.ReactChild | React.ReactChild[];
 }
 
 const FormPairSection: React.FC<PairSpaceProps> = ({
@@ -17,6 +18,7 @@ const FormPairSection: React.FC<PairSpaceProps> = ({
   xAmount,
   yAmount,
   fees,
+  children,
 }): JSX.Element => {
   return (
     <FormSection title={title}>
@@ -42,7 +44,7 @@ const FormPairSection: React.FC<PairSpaceProps> = ({
             </Flex.Item>
           </Flex>
         </Flex.Item>
-        <Flex.Item>
+        <Flex.Item marginBottom={children ? 2 : 0}>
           <Flex justify="space-between">
             <Flex.Item>
               <Flex>
