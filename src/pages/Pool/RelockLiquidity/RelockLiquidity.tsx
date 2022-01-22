@@ -1,5 +1,8 @@
+import { mkLockParser } from '@ergolabs/ergo-dex-sdk';
+import { TokenLock } from '@ergolabs/ergo-dex-sdk/build/main/security/entities';
+import { mkLocksHistory } from '@ergolabs/ergo-dex-sdk/build/main/security/services/locksHistory';
 import { DateTime } from 'luxon';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { map } from 'rxjs';
 
 import { useObservable } from '../../../common/hooks/useObservable';
@@ -14,6 +17,8 @@ import {
   useForm,
 } from '../../../ergodex-cdk/components/Form/NewForm';
 import { mockCurrency } from '../../../mocks/asset';
+import { addresses$ } from '../../../network/ergo/addresses/addresses';
+import { explorer } from '../../../services/explorer';
 import { LockedPositionItem } from '../components/LockedPositionItem/LockedPositionItem';
 import { LiquidityDatePicker } from '../components/LockLiquidityDatePicker/LiquidityDatePicker';
 
@@ -36,6 +41,24 @@ export const RelockLiquidity = (): JSX.Element => {
     lockedPosition: undefined,
     relocktime: undefined,
   });
+
+  const [addresses] = useObservable(addresses$);
+
+  const [history, setHistory] = useState<TokenLock[] | undefined>();
+
+  useEffect(() => {
+    if (addresses) {
+      const parser = mkLockParser();
+      mkLocksHistory(explorer, parser)
+        .getAllByAddresses(addresses)
+        .then((hs) => {
+          setHistory(hs);
+        });
+    }
+  }, [addresses]);
+
+  console.log('addresses >>', addresses);
+  console.log('history >>', history);
 
   const [isLockedPositionSelected] = useObservable(
     form.controls.lockedPosition.valueChanges$.pipe(map(Boolean)),

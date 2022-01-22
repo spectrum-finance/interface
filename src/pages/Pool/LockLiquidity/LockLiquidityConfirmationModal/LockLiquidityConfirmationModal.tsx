@@ -103,7 +103,7 @@ const LockLiquidityConfirmationModal: React.FC<LockLiquidityConfirmationModalPro
 
     return (
       <>
-        <Modal.Title>Confirm Lock Liquidity</Modal.Title>
+        <Modal.Title>Confirm Lock</Modal.Title>
         <Modal.Content width={436}>
           <Flex col>
             <Flex.Item marginBottom={4}>
