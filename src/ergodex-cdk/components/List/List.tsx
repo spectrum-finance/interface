@@ -9,10 +9,15 @@ import { getGutter, Gutter } from '../../utils/gutter';
 export interface ListProps<T> {
   readonly dataSource?: BaseListProps<T>['dataSource'];
   readonly gap?: number;
+  readonly value?: T;
+  readonly onChange?: (item: T) => void;
   readonly id?: BaseListProps<T>['id'];
   readonly rowKey?: BaseListProps<T>['rowKey'];
   readonly padding?: Gutter;
-  readonly children?: (item: T) => ReactNode | ReactNode[] | string;
+  readonly children?: (
+    item: T,
+    selectedItem?: T,
+  ) => ReactNode | ReactNode[] | string;
   readonly className?: string;
   readonly transparent?: boolean;
   readonly height?: number;
@@ -28,6 +33,8 @@ export const List: FC<ListProps<any>> = ({
   rowKey,
   className,
   padding,
+  onChange,
+  value,
 }) => {
   const ref = useRef<HTMLDivElement>();
   const [overlay, setOverlay] = useState<'bottom' | 'top'>('bottom');
@@ -49,6 +56,22 @@ export const List: FC<ListProps<any>> = ({
     return () => container?.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const renderItem = (item: any): ReactNode | ReactNode[] => {
+    if (!children) {
+      return undefined;
+    }
+
+    return (
+      <div
+        onClick={() => {
+          onChange && onChange(item);
+        }}
+      >
+        {children(item, value)}
+      </div>
+    );
+  };
+
   return (
     <div
       style={{
@@ -66,7 +89,7 @@ export const List: FC<ListProps<any>> = ({
         />
       )}
       <BaseList
-        renderItem={children}
+        renderItem={renderItem}
         dataSource={dataSource}
         className={className}
         id={id}

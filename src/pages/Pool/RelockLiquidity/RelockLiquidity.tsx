@@ -59,16 +59,18 @@ export const RelockLiquidity = (): JSX.Element => {
               </Flex.Item>
               <Form.Item name="lockedPosition">
                 {({ value, onChange }) => (
-                  <List dataSource={mockedData} gap={2}>
-                    {(item) => {
-                      return (
-                        <LockedPositionItem
-                          isActive={value?.id === item.id}
-                          onClick={() => onChange(item)}
-                          status={item.status}
-                        />
-                      );
-                    }}
+                  <List
+                    dataSource={mockedData}
+                    gap={2}
+                    onChange={onChange}
+                    value={value}
+                  >
+                    {(item, activeItem) => (
+                      <LockedPositionItem
+                        isActive={activeItem?.id === item.id}
+                        status={item.status}
+                      />
+                    )}
                   </List>
                 )}
               </Form.Item>
