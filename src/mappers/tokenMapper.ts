@@ -28,4 +28,9 @@ export const TOKEN_MAPPER = new Map([
     '30974274078845f263b4f21787e33cc99e9ec19a17ad85a5bc6da2cca91c5a2e',
     'WT_ADA',
   ],
+  [
+    'd71693c49a84fbbecd4908c94813b46514b18b67a99952dc1e6e4791556de413',
+    'ergopad',
+  ],
+  ['472c3d4ecaa08fb7392ff041ee2e6af75f4a558810a74b28600549d5392810e8', 'NETA'],
 ]);
