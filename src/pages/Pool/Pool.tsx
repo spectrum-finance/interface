@@ -3,6 +3,7 @@ import './Pool.less';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 
+import { locks$ } from '../../api/locks';
 import { useObservable } from '../../common/hooks/useObservable';
 import { ConnectWalletButton } from '../../components/common/ConnectWalletButton/ConnectWalletButton';
 import { FormPageWrapper } from '../../components/FormPageWrapper/FormPageWrapper';
@@ -33,6 +34,10 @@ const PoolPageWrapper: React.FC<PoolPageWrapperProps> = ({
   isWalletConnected,
   onClick,
 }) => {
+  const [locks, loading] = useObservable(locks$);
+
+  console.log(locks, loading);
+
   return (
     <Flex col>
       <Flex.Item marginBottom={isWalletConnected ? 2 : 0}>
