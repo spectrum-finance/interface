@@ -1,4 +1,5 @@
 import { AmmDexOperation } from '@ergolabs/ergo-dex-sdk';
+import { TokenLock } from '@ergolabs/ergo-dex-sdk/build/main/security/entities';
 import { Address } from '@ergolabs/ergo-sdk';
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import { Observable } from 'rxjs';
@@ -13,6 +14,7 @@ export interface Network {
   readonly userPools$: Observable<AmmPool[]>;
   readonly assetBalance$: Observable<Balance>;
   readonly addresses$: Observable<Address[]>;
+  readonly locks$: Observable<TokenLock[]>;
   readonly pendingTransactionsCount$: Observable<number>;
   readonly getTxHistory: (limit: number) => Observable<AmmDexOperation[]>;
 
