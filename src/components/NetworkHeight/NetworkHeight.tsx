@@ -28,7 +28,8 @@ const NetworkHeight = (): JSX.Element => {
             placement="left"
           >
             <Flex justify="space-between" align="center">
-              <Flex.Item marginRight={1}>
+              <BlockIcon />
+              <Flex.Item marginLeft={1}>
                 <FlipNumbers
                   numbers={formatToInt(network.height)}
                   play
@@ -37,8 +38,6 @@ const NetworkHeight = (): JSX.Element => {
                   width={8}
                 />
               </Flex.Item>
-
-              <BlockIcon />
             </Flex>
           </Tooltip>
         </Typography.Link>
