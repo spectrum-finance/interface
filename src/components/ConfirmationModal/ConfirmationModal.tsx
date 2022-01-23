@@ -42,6 +42,10 @@ const getDescriptionByData = (
       return `Locking ${xAsset.toString()} and ${yAsset.toString()} (${
         lpAsset && lpAsset.toString({ suffix: false }) + ' LP-tokens'
       }) for ${timelock && getLockingPeriodString(timelock)}`;
+    case Operation.RELOCK_LIQUIDITY:
+      return `Relocking ${xAsset.toString()} and ${yAsset.toString()} (${
+        lpAsset && lpAsset.toString({ suffix: false }) + ' LP-tokens'
+      }) for ${timelock && getLockingPeriodString(timelock)}`;
   }
 };
 
