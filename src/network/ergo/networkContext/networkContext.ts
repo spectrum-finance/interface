@@ -11,8 +11,10 @@ import {
 
 import { explorer } from '../../../services/explorer';
 
+const TICK_TIME = 10 * 1000;
+
 export const networkContext$: Observable<{ height: number }> = interval(
-  10 * 1000,
+  TICK_TIME,
 ).pipe(
   startWith(undefined),
   switchMap(() => from(explorer.getNetworkContext())),
