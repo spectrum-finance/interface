@@ -1,12 +1,12 @@
-import { mkLockParser, PoolId } from '@ergolabs/ergo-dex-sdk';
+import { PoolId } from '@ergolabs/ergo-dex-sdk';
 import { TokenLock } from '@ergolabs/ergo-dex-sdk/build/main/security/entities';
-import { mkLocksHistory } from '@ergolabs/ergo-dex-sdk/build/main/security/services/locksHistory';
 import { DateTime } from 'luxon';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
 import { combineLatest, map } from 'rxjs';
 
 import { ergoExplorerContext$ } from '../../../api/explorer';
+import { getLockByPool } from '../../../api/locks';
 import { useObservable, useSubject } from '../../../common/hooks/useObservable';
 import { Currency } from '../../../common/models/Currency';
 import { FormHeader } from '../../../components/common/FormView/FormHeader/FormHeader';
@@ -30,8 +30,6 @@ import {
   useForm,
 } from '../../../ergodex-cdk/components/Form/NewForm';
 import { mockCurrency } from '../../../mocks/asset';
-import { addresses$ } from '../../../network/ergo/addresses/addresses';
-import { explorer } from '../../../services/explorer';
 import {
   getAvailablePoolDataById,
   PoolData,
@@ -45,6 +43,11 @@ interface RelockLiquidityModel {
   relocktime?: DateTime;
 }
 
+const getLockStatus = (currentHeight: number, deadline: number) => {
+  if (currentHeight < deadline) return 'Locked';
+  return 'Withdrawable';
+};
+
 export const RelockLiquidity = (): JSX.Element => {
   const form = useForm<RelockLiquidityModel>({
     lockedPosition: undefined,
@@ -52,27 +55,14 @@ export const RelockLiquidity = (): JSX.Element => {
   });
   const { poolId } = useParams<{ poolId: PoolId }>();
   const [poolData, updatePoolData] = useSubject(getAvailablePoolDataById);
+  const [locks, updateLocks] = useSubject(getLockByPool);
 
-  useEffect(() => updatePoolData(poolId), []);
-
-  const [addresses] = useObservable(addresses$);
   const [explorerContext] = useObservable(ergoExplorerContext$);
 
-  const [history, setHistory] = useState<TokenLock[] | undefined>();
-
+  useEffect(() => updatePoolData(poolId), []);
   useEffect(() => {
-    if (addresses) {
-      const parser = mkLockParser();
-      mkLocksHistory(explorer, parser)
-        .getAllByAddresses(addresses)
-        .then((lqHistory) => {
-          const history = lqHistory.filter((item) => {
-            return item.lockedAsset.asset.id === poolData?.lpAmount.asset.id;
-          });
-          setHistory(history);
-        });
-    }
-  }, [addresses]);
+    if (poolData) updateLocks(poolData.pool);
+  }, [poolData]);
 
   const [isLockedPositionSelected] = useObservable(
     form.controls.lockedPosition.valueChanges$.pipe(map(Boolean)),
@@ -123,7 +113,7 @@ export const RelockLiquidity = (): JSX.Element => {
 
   return (
     <FormPageWrapper width={760} title="Relock liquidity" withBackButton>
-      {poolData && history ? (
+      {poolData && locks && explorerContext ? (
         <Form
           form={form}
           onSubmit={(form) => handleRelockLiquidity(form, poolData)}
@@ -141,13 +131,16 @@ export const RelockLiquidity = (): JSX.Element => {
                 </Flex.Item>
                 <Form.Item name="lockedPosition">
                   {({ value, onChange }) => (
-                    <List dataSource={history} gap={2}>
-                      {(item: TokenLock) => {
+                    <List dataSource={locks} gap={2}>
+                      {(item) => {
                         return (
                           <LockedPositionItem
                             pool={poolData.pool}
                             unlockBlock={item.deadline}
-                            status={'Locked'}
+                            status={getLockStatus(
+                              explorerContext.height,
+                              item.deadline,
+                            )}
                             lockedAsset={
                               new Currency(
                                 item.lockedAsset.amount,
@@ -173,8 +166,11 @@ export const RelockLiquidity = (): JSX.Element => {
                         <LiquidityDatePicker
                           value={value}
                           selectedPrefix="Prefix"
-                          defaultValue="Select new unlock date"
+                          defaultValue="Select relock date"
                           onChange={onChange}
+                          disabledDate={(current) => {
+                            return current <= DateTime.now();
+                          }}
                         />
                       )}
                     </Form.Item>

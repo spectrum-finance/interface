@@ -12,9 +12,9 @@ export const locks$ = selectedNetwork$.pipe(
 
 export const getLockByPool = (
   pool: AmmPool,
-): Observable<TokenLock | undefined> =>
+): Observable<TokenLock[] | undefined> =>
   locks$.pipe(
     map((locks) =>
-      locks.find((l) => l.lockedAsset.asset.id === pool.lp.asset.id),
+      locks.filter((l) => l.lockedAsset.asset.id === pool.lp.asset.id),
     ),
   );
