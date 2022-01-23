@@ -38,7 +38,7 @@ interface RelockLiquidityConfirmationModalProps {
   yAsset: Currency;
   lpAsset: Currency;
   timelock: DateTime;
-  percent: number;
+  share: number;
 }
 
 const RelockLiquidityConfirmationModal: FC<RelockLiquidityConfirmationModalProps> =
@@ -48,7 +48,7 @@ const RelockLiquidityConfirmationModal: FC<RelockLiquidityConfirmationModalProps
     yAsset,
     lpAsset,
     timelock,
-    percent,
+    share,
     pool,
   }): JSX.Element => {
     const [isChecked, setIsChecked] = useState<boolean>(false);
@@ -132,7 +132,7 @@ const RelockLiquidityConfirmationModal: FC<RelockLiquidityConfirmationModalProps
                 <Checkbox onChange={handleCheck}>
                   I understand that I&apos;m locking{' '}
                   <b>{lpAsset.toString({ suffix: false })}</b> LP-tokens, which
-                  is <b>{percent}%</b> of my{' '}
+                  is <b>{share}%</b> of my{' '}
                   <b>{`${xAsset.asset.name}/${yAsset.asset.name}`}</b> liquidity
                   position, for a period of{' '}
                   <b>{getLockingPeriodString(timelock)}</b> (until{' '}

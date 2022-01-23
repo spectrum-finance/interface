@@ -1,3 +1,5 @@
+import { blocksToMillis } from '@ergolabs/ergo-dex-sdk/build/main/utils/blocks';
+import { DateTime } from 'luxon';
 import React, { FC } from 'react';
 
 import { AmmPool } from '../../../../common/models/AmmPool';
@@ -6,20 +8,31 @@ import { DataTag } from '../../../../components/common/DataTag/DataTag';
 import { ListItemWrapper } from '../../../../components/ListItemWrapper/ListItemWrapper';
 import { TokenIcon } from '../../../../components/TokenIcon/TokenIcon';
 import { Box, Flex, Tag, Typography } from '../../../../ergodex-cdk';
+import { formatToInt } from '../../../../services/number';
 
 interface LockedPositionItemProps {
+  lockedAsset: Currency;
+  pool: AmmPool;
+  status?: 'Locked' | 'Withdrawable';
+  unlockBlock: number;
   isActive: boolean;
-  x?: Currency;
-  y?: Currency;
-  lp?: Currency;
-  pool?: AmmPool;
   onClick?: () => void;
-  status?: string;
 }
 
-export const LockedPositionItem: FC<LockedPositionItemProps> = (
-  { status, onClick, isActive } = { isActive: false },
-) => {
+export const LockedPositionItem: FC<LockedPositionItemProps> = ({
+  pool,
+  status,
+  onClick,
+  isActive,
+  unlockBlock,
+  lockedAsset,
+}) => {
+  const timelock = DateTime.local(
+    Number(blocksToMillis(unlockBlock)),
+  ).toLocaleString(DateTime.DATE_FULL);
+
+  const [xAssetAmount, yAssetAmount] = pool.shares(lockedAsset);
+
   return (
     <ListItemWrapper onClick={onClick} isActive={isActive}>
       <Flex>
@@ -31,13 +44,15 @@ export const LockedPositionItem: FC<LockedPositionItemProps> = (
                   <Flex.Item marginRight={1}>
                     <Flex>
                       <Flex.Item marginRight={1}>
-                        <TokenIcon name={'ERG'} />
+                        <TokenIcon name={pool?.x.asset.name} />
                       </Flex.Item>
-                      <Typography.Title level={5}>ERG</Typography.Title>
+                      <Typography.Title level={5}>
+                        {pool?.x.asset.name}
+                      </Typography.Title>
                     </Flex>
                   </Flex.Item>
                   <Typography.Title level={5}>
-                    213,332.230009340
+                    {xAssetAmount.toString({ suffix: false })}
                   </Typography.Title>
                 </Flex>
               </Box>
@@ -48,33 +63,35 @@ export const LockedPositionItem: FC<LockedPositionItemProps> = (
                   <Flex.Item marginRight={1}>
                     <Flex>
                       <Flex.Item marginRight={1}>
-                        <TokenIcon name={'ERG'} />
+                        <TokenIcon name={pool?.y.asset.name} />
                       </Flex.Item>
-                      <Typography.Title level={5}>ERG</Typography.Title>
+                      <Typography.Title level={5}>
+                        {pool?.y.asset.name}
+                      </Typography.Title>
                     </Flex>
                   </Flex.Item>
                   <Typography.Title level={5}>
-                    213,332.230009340
+                    {yAssetAmount.toString({ suffix: false })}
                   </Typography.Title>
                 </Flex>
               </Box>
             </Flex.Item>
           </Flex>
         </Flex.Item>
-        <Flex.Item style={{ width: '45px' }} marginRight={4}>
-          <Flex col justify="space-between" stretch>
-            <Flex.Item marginBottom={1}>
-              <Typography.Footnote>Share</Typography.Footnote>
-            </Flex.Item>
-            <DataTag content={'99%'} />
-          </Flex>
-        </Flex.Item>
+        {/*<Flex.Item style={{ width: '45px' }} marginRight={4}>*/}
+        {/*  <Flex col justify="space-between" stretch>*/}
+        {/*    <Flex.Item marginBottom={1}>*/}
+        {/*      <Typography.Footnote>Share</Typography.Footnote>*/}
+        {/*    </Flex.Item>*/}
+        {/*    <DataTag content={'99%'} />*/}
+        {/*  </Flex>*/}
+        {/*</Flex.Item>*/}
         <Flex.Item style={{ width: '183px' }} marginRight={4}>
           <Flex col justify="space-between" stretch>
             <Flex.Item marginBottom={1}>
               <Typography.Footnote>Unlock Date</Typography.Footnote>
             </Flex.Item>
-            <DataTag content={`31 September 2022`} />
+            <DataTag content={timelock} />
           </Flex>
         </Flex.Item>
         <Flex.Item style={{ width: '75px' }} marginRight={4}>
@@ -82,7 +99,7 @@ export const LockedPositionItem: FC<LockedPositionItemProps> = (
             <Flex.Item marginBottom={1}>
               <Typography.Footnote>Unlock Block</Typography.Footnote>
             </Flex.Item>
-            <DataTag content={'1,667,285'} />
+            <DataTag content={formatToInt(unlockBlock)} />
           </Flex>
         </Flex.Item>
         <Flex.Item style={{ width: '135px' }} marginRight={4}>
