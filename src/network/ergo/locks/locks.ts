@@ -12,8 +12,11 @@ import {
   switchMap,
 } from 'rxjs';
 
+import { AssetLock } from '../../../common/models/AssetLock';
 import { explorer } from '../../../services/explorer';
 import { addresses$ } from '../addresses/addresses';
+import { networkContext$ } from '../networkContext/networkContext';
+import { pools$ } from '../pools/pools';
 import { TX_LIMIT } from '../transactions/common';
 
 const getAllByAddress = (
@@ -38,7 +41,7 @@ const getAllByAddress = (
 
 const parser = mkLockParser();
 
-export const locks$: Observable<TokenLock[]> = addresses$.pipe(
+const tokenLocks$: Observable<TokenLock[]> = addresses$.pipe(
   switchMap((addresses) => combineLatest(addresses.map(getAllByAddress))),
   map((txBoxes) => txBoxes.flatMap((txBox) => txBox)),
   map(
@@ -49,4 +52,21 @@ export const locks$: Observable<TokenLock[]> = addresses$.pipe(
   ),
   publishReplay(1),
   refCount(),
+);
+
+export const locks$: Observable<AssetLock[]> = combineLatest([
+  pools$,
+  tokenLocks$,
+  networkContext$,
+]).pipe(
+  map(([pools, tokenLocks, networkContext]) =>
+    tokenLocks.map(
+      (tl) =>
+        new AssetLock(
+          pools.find((p) => p.lp.asset.id === tl.lockedAsset.asset.id)!,
+          tl,
+          networkContext.height,
+        ),
+    ),
+  ),
 );
