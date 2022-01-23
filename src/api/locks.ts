@@ -11,7 +11,5 @@ export const locks$ = selectedNetwork$.pipe(
   refCount(),
 );
 
-export const getLockByPool = (
-  pool: AmmPool,
-): Observable<AssetLock | undefined> =>
-  locks$.pipe(map((locks) => locks.find((l) => l.pool.id === pool.id)));
+export const getLocksByPool = (pool: AmmPool): Observable<AssetLock[]> =>
+  locks$.pipe(map((locks) => locks.filter((l) => l.pool.id === pool.id)));
