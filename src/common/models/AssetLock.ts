@@ -12,10 +12,6 @@ export enum AssetLockStatus {
 }
 
 export class AssetLock {
-  get boxId(): BoxId {
-    return this.tokenLock.boxId;
-  }
-
   get deadline(): number {
     return this.tokenLock.deadline;
   }
@@ -52,6 +48,10 @@ export class AssetLock {
         blocksToMillis(this.deadline - this.currentBlock - 1),
       ),
     });
+  }
+
+  get boxId(): BoxId {
+    return this.tokenLock.boxId;
   }
 
   getDeadline(date: DateTime): number {

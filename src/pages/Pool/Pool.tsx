@@ -11,6 +11,7 @@ import { isWalletLoading$, isWalletSetuped$ } from '../../services/new/core';
 import { availablePools$, pools$ } from '../../services/new/pools';
 import { EmptyPositionsWrapper } from './components/EmptyPositionsWrapper/EmptyPositionsWrapper';
 import { LiquidityPositionsList } from './components/LiquidityPositionsList/LiquidityPositionsList';
+import { LockListView } from './components/LocksList/LockListView';
 
 // import { LPGuide } from './LPGuide/LPGuide';
 
@@ -103,6 +104,9 @@ const Pool = (): JSX.Element => {
               <ConnectWalletButton />
             </EmptyPositionsWrapper>
           )}
+        </Tabs.TabPane>
+        <Tabs.TabPane tab="Locked Positions" key="locked-positions">
+          <LockListView />
         </Tabs.TabPane>
       </Tabs>
     </PoolPageWrapper>

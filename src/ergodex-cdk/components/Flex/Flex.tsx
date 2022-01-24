@@ -14,6 +14,7 @@ export type FlexProps = React.DetailedHTMLProps<
   row?: boolean;
   col?: boolean;
   stretch?: boolean;
+  inline?: boolean;
   justify?:
     | 'flex-start'
     | 'stretch'
@@ -33,6 +34,7 @@ export const Flex: FC<FlexProps> & { Item: FC<ItemsProps> } = ({
   col,
   row,
   stretch,
+  inline,
   ...other
 }) => (
   <div
@@ -43,6 +45,7 @@ export const Flex: FC<FlexProps> & { Item: FC<ItemsProps> } = ({
       `ergo-flex-justify--${justify}`,
       `ergo-flex-align-items--${align}`,
       { 'ergo-flex-stretch': stretch },
+      { 'ergo-flex-inline': inline },
     ])}
     {...other}
   >

@@ -41,6 +41,7 @@ const OptionsButton: FC<OptionsButtonProps> = ({
         type={type ? type : 'default'}
         size={size ? size : 'middle'}
         icon={<DotsIcon rotate />}
+        onClick={(event) => event.stopPropagation()}
       />
     </Dropdown>
   );
