@@ -6,6 +6,7 @@ import { useAppLoadingState, useSettings } from '../../../context';
 import { Modal } from '../../../ergodex-cdk';
 import { useBodyClass } from '../../../hooks/useBodyClass';
 import { Header } from '../../Header/Header';
+import { NetworkHeight } from '../../NetworkHeight/NetworkHeight';
 import { SocialLinks } from '../../SocialLinks/SocialLinks';
 import { KyaModal } from '../KyaModal/KyaModal';
 
@@ -30,7 +31,10 @@ const Layout = ({ children }: Props): JSX.Element => {
     <div className="layout">
       <Header />
       <main>{children}</main>
-      <SocialLinks />
+      <footer>
+        <SocialLinks />
+        <NetworkHeight />
+      </footer>
     </div>
   );
 };

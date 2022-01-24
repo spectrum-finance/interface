@@ -1,5 +1,6 @@
 import { blocksToMillis, millisToBlocks } from '@ergolabs/ergo-dex-sdk';
 import { TokenLock } from '@ergolabs/ergo-dex-sdk/build/main/security/entities';
+import { BoxId } from '@ergolabs/ergo-sdk';
 import { DateTime } from 'luxon';
 
 import { AmmPool } from './AmmPool';
@@ -11,6 +12,10 @@ export enum AssetLockStatus {
 }
 
 export class AssetLock {
+  get boxId(): BoxId {
+    return this.tokenLock.boxId;
+  }
+
   get deadline(): number {
     return this.tokenLock.deadline;
   }
@@ -47,6 +52,14 @@ export class AssetLock {
         blocksToMillis(this.deadline - this.currentBlock - 1),
       ),
     });
+  }
+
+  getDeadline(date: DateTime): number {
+    return (
+      this.currentBlock +
+      millisToBlocks(BigInt(date.toMillis() - DateTime.now().toMillis())) +
+      1
+    );
   }
 
   constructor(

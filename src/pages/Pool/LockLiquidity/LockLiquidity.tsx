@@ -100,7 +100,7 @@ const LockLiquidity = (): JSX.Element => {
           xAsset,
           yAsset,
           lpAsset,
-          timelock,
+          time: timelock,
         },
       );
     }
