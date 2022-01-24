@@ -7,19 +7,12 @@ import { locks$ } from '../../api/locks';
 import { useObservable } from '../../common/hooks/useObservable';
 import { ConnectWalletButton } from '../../components/common/ConnectWalletButton/ConnectWalletButton';
 import { FormPageWrapper } from '../../components/FormPageWrapper/FormPageWrapper';
-import {
-  Button,
-  DownOutlined,
-  Dropdown,
-  Flex,
-  Menu,
-  PlusOutlined,
-  Tabs,
-} from '../../ergodex-cdk';
+import { DownOutlined, Dropdown, Flex, Menu, Tabs } from '../../ergodex-cdk';
 import { isWalletLoading$, isWalletSetuped$ } from '../../services/new/core';
 import { availablePools$, pools$ } from '../../services/new/pools';
 import { EmptyPositionsWrapper } from './components/EmptyPositionsWrapper/EmptyPositionsWrapper';
 import { LiquidityPositionsList } from './components/LiquidityPositionsList/LiquidityPositionsList';
+import { LockListView } from './components/LocksList/LockListView';
 
 // import { LPGuide } from './LPGuide/LPGuide';
 
@@ -34,10 +27,6 @@ const PoolPageWrapper: React.FC<PoolPageWrapperProps> = ({
   isWalletConnected,
   onClick,
 }) => {
-  const [locks, loading] = useObservable(locks$);
-
-  console.log(locks, loading);
-
   return (
     <Flex col>
       <Flex.Item marginBottom={isWalletConnected ? 2 : 0}>
@@ -112,6 +101,9 @@ const Pool = (): JSX.Element => {
               <ConnectWalletButton />
             </EmptyPositionsWrapper>
           )}
+        </Tabs.TabPane>
+        <Tabs.TabPane tab="Locked Positions" key="locked-positions">
+          <LockListView />
         </Tabs.TabPane>
       </Tabs>
     </PoolPageWrapper>

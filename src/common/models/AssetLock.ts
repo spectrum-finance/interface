@@ -1,5 +1,6 @@
 import { blocksToMillis, millisToBlocks } from '@ergolabs/ergo-dex-sdk';
 import { TokenLock } from '@ergolabs/ergo-dex-sdk/build/main/security/entities';
+import { BoxId } from '@ergolabs/ergo-sdk';
 import { DateTime } from 'luxon';
 
 import { AmmPool } from './AmmPool';
@@ -47,6 +48,10 @@ export class AssetLock {
         blocksToMillis(this.deadline - this.currentBlock - 1),
       ),
     });
+  }
+
+  get boxId(): BoxId {
+    return this.tokenLock.boxId;
   }
 
   constructor(
