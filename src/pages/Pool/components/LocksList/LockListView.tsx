@@ -27,11 +27,8 @@ interface LockItemViewProps {
 const LockItemView: FC<LockItemViewProps> = ({ lockAccumulator }) => {
   const history = useHistory();
 
-  const handleItemClick = () =>
-    history.push(`/pool/${lockAccumulator.pool.id}`);
-
   return (
-    <ListItemWrapper onClick={handleItemClick}>
+    <ListItemWrapper>
       <Flex>
         <Flex.Item style={{ width: '230px' }} marginRight={10}>
           <Flex col justify="space-between">
