@@ -136,7 +136,7 @@ const LockLiquidityConfirmationModal: React.FC<LockLiquidityConfirmationModalPro
           </Flex>
           <Button
             block
-            size="large"
+            size="extra-large"
             disabled={!isChecked}
             type="primary"
             onClick={lockOperation}

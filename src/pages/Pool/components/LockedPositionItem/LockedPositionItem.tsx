@@ -3,6 +3,10 @@ import { DateTime } from 'luxon';
 import React, { FC } from 'react';
 
 import { AmmPool } from '../../../../common/models/AmmPool';
+import {
+  AssetLock,
+  AssetLockStatus,
+} from '../../../../common/models/AssetLock';
 import { Currency } from '../../../../common/models/Currency';
 import { DataTag } from '../../../../components/common/DataTag/DataTag';
 import { ListItemWrapper } from '../../../../components/ListItemWrapper/ListItemWrapper';
@@ -11,27 +15,19 @@ import { Box, Flex, Tag, Typography } from '../../../../ergodex-cdk';
 import { formatToInt } from '../../../../services/number';
 
 interface LockedPositionItemProps {
-  lockedAsset: Currency;
+  assetLock: AssetLock;
   pool: AmmPool;
-  status?: 'Locked' | 'Withdrawable';
-  unlockBlock: number;
   isActive: boolean;
   onClick?: () => void;
 }
 
 export const LockedPositionItem: FC<LockedPositionItemProps> = ({
   pool,
-  status,
+  assetLock,
   onClick,
   isActive,
-  unlockBlock,
-  lockedAsset,
 }) => {
-  const timelock = DateTime.local(
-    Number(blocksToMillis(unlockBlock)),
-  ).toLocaleString(DateTime.DATE_FULL);
-
-  const [xAssetAmount, yAssetAmount] = pool.shares(lockedAsset);
+  const [xAssetAmount, yAssetAmount] = [assetLock.x, assetLock.y];
 
   return (
     <ListItemWrapper onClick={onClick} isActive={isActive}>
@@ -91,7 +87,9 @@ export const LockedPositionItem: FC<LockedPositionItemProps> = ({
             <Flex.Item marginBottom={1}>
               <Typography.Footnote>Unlock Date</Typography.Footnote>
             </Flex.Item>
-            <DataTag content={timelock} />
+            <DataTag
+              content={assetLock.unlockDate.toLocaleString(DateTime.DATE_FULL)}
+            />
           </Flex>
         </Flex.Item>
         <Flex.Item style={{ width: '75px' }} marginRight={4}>
@@ -99,7 +97,7 @@ export const LockedPositionItem: FC<LockedPositionItemProps> = ({
             <Flex.Item marginBottom={1}>
               <Typography.Footnote>Unlock Block</Typography.Footnote>
             </Flex.Item>
-            <DataTag content={formatToInt(unlockBlock)} />
+            <DataTag content={formatToInt(assetLock.deadline)} />
           </Flex>
         </Flex.Item>
         <Flex.Item style={{ width: '135px' }} marginRight={4}>
@@ -108,10 +106,14 @@ export const LockedPositionItem: FC<LockedPositionItemProps> = ({
               <Typography.Footnote>Status</Typography.Footnote>
             </Flex.Item>
             <Tag
-              color={status === 'Locked' ? 'warning' : 'success'}
+              color={
+                assetLock.status === AssetLockStatus.LOCKED
+                  ? 'warning'
+                  : 'success'
+              }
               style={{ display: 'block', marginBottom: '2px' }}
             >
-              {status}
+              {assetLock.status === 0 ? 'Locked' : 'Withdrawable'}
             </Tag>
           </Flex>
         </Flex.Item>

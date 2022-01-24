@@ -17,40 +17,42 @@ import React, { FC, useState } from 'react';
 import { ERG_DECIMALS } from '../../../../common/constants/erg';
 import { useObservable } from '../../../../common/hooks/useObservable';
 import { AmmPool } from '../../../../common/models/AmmPool';
+import { AssetLock } from '../../../../common/models/AssetLock';
 import { Currency } from '../../../../common/models/Currency';
 import { FormFeesSection } from '../../../../components/common/FormView/FormFeesSection/FormFeesSection';
 import { FormPairSection } from '../../../../components/common/FormView/FormPairSection/FormPairSection';
+import { FormSection } from '../../../../components/common/FormView/FormSection/FormSection';
 import { useSettings } from '../../../../context';
-import { Button, Checkbox, Flex, Modal } from '../../../../ergodex-cdk';
+import {
+  Button,
+  Checkbox,
+  Flex,
+  Modal,
+  Typography,
+} from '../../../../ergodex-cdk';
 import { mainnetTxAssembler } from '../../../../services/defaultTxAssembler';
 import { explorer } from '../../../../services/explorer';
+import { lockParser } from '../../../../services/locker/parser';
 import { useNetworkAsset, utxos$ } from '../../../../services/new/core';
+import { formatToInt } from '../../../../services/number';
 import { submitTx } from '../../../../services/yoroi';
 import yoroiProver from '../../../../services/yoroi/prover';
 import { makeTarget } from '../../../../utils/ammMath';
 import { parseUserInputToFractions } from '../../../../utils/math';
-import { getLockingPeriodString } from '../../utils';
+import { getFeeForLockTarget, getLockingPeriodString } from '../../utils';
 
 interface RelockLiquidityConfirmationModalProps {
   onClose: (p: Promise<any>) => void;
-  pool: AmmPool;
-  xAsset: Currency;
-  yAsset: Currency;
-  lpAsset: Currency;
-  timelock: DateTime;
-  share: number;
+  lockedPosition: AssetLock;
+  relocktime: DateTime;
 }
 
+const getBlocks = (time: DateTime) => {
+  return;
+};
+
 const RelockLiquidityConfirmationModal: FC<RelockLiquidityConfirmationModalProps> =
-  ({
-    onClose,
-    xAsset,
-    yAsset,
-    lpAsset,
-    timelock,
-    share,
-    pool,
-  }): JSX.Element => {
+  ({ onClose, lockedPosition, relocktime }): JSX.Element => {
     const [isChecked, setIsChecked] = useState<boolean>(false);
     const networkAsset = useNetworkAsset();
 
@@ -63,63 +65,148 @@ const RelockLiquidityConfirmationModal: FC<RelockLiquidityConfirmationModalProps
     // const exFeeNErg = minExFee.amount;
     const minerFeeNErgs = parseUserInputToFractions(minerFee, ERG_DECIMALS);
 
-    const lpToLock = pool['pool'].lp.withAmount(lpAsset.amount);
-
     const handleCheck = () => setIsChecked((prev) => !prev);
     // TODO: add try catch
-    const relockOperation = async () => {
-      const parser = mkLockParser();
+    {
+      /*const relockOperation = async () => {*/
+    }
+    {
+      /*  const target = makeTarget(*/
+    }
+    {
+      /*    [lockedPosition],*/
+    }
+    {
+      /*    getFeeForLockTarget(minerFeeNErgs),*/
+    }
+    {
+      /*  );*/
+    }
 
-      const minNErgForFee = minerFeeNErgs * 2n + MinBoxValue;
+    //   const inputs = DefaultBoxSelector.select(utxos!, target) as BoxSelection;
+    //
+    //   const network = await explorer.getNetworkContext();
+    {
+      /*  const RModule = await RustModule.load();*/
+    }
 
-      const target = makeTarget([lpToLock], minNErgForFee);
+    {
+      /*  const actions = mkLockActions(*/
+    }
+    {
+      /*    explorer,*/
+    }
+    {
+      /*    lockParser,*/
+    }
+    //     yoroiProver,
+    {
+      /*    mainnetTxAssembler,*/
+    }
+    {
+      /*    RModule,*/
+    }
+    {
+      /*  );*/
+    }
+    //
+    //   const deadline =
+    {
+      /*    network.height +*/
+    }
+    {
+      /*    millisToBlocks(BigInt(relocktime.toMillis() - now)) +*/
+    }
+    {
+      /*    1;*/
+    }
 
-      const inputs = DefaultBoxSelector.select(utxos!, target) as BoxSelection;
+    {
+      /*  if (address && pk) {*/
+    }
+    {
+      /*    const params: RelockParams = {*/
+    }
+    {
+      /*      // TODO: get box id*/
+    }
+    {
+      /*      boxId: '00',*/
+    }
+    {
+      /*      updateRedeemer: pk,*/
+    }
+    {
+      /*      updateDeadline: deadline,*/
+    }
+    {
+      /*    };*/
+    }
 
-      const network = await explorer.getNetworkContext();
-      const RModule = await RustModule.load();
-
-      const actions = mkLockActions(
-        explorer,
-        parser,
-        yoroiProver,
-        mainnetTxAssembler,
-        RModule,
-      );
-
-      const deadline =
-        network.height + millisToBlocks(BigInt(timelock.toMillis() - now)) + 1;
-
-      if (address && pk) {
-        const params: RelockParams = {
-          // TODO: get box id
-          boxId: '00',
-          updateRedeemer: pk,
-          updateDeadline: deadline,
-        };
-
-        const ctx: TransactionContext = {
-          inputs,
-          selfAddress: address,
-          changeAddress: address,
-          feeNErgs: minerFeeNErgs,
-          network,
-        };
-
-        onClose(actions.relockTokens(params, ctx).then((tx) => submitTx(tx)));
-      }
-    };
+    {
+      /*    const ctx: TransactionContext = {*/
+    }
+    //       inputs,
+    //       selfAddress: address,
+    //       changeAddress: address,
+    //       feeNErgs: minerFeeNErgs,
+    //       network,
+    //     };
+    //
+    //     onClose(actions.relockTokens(params, ctx).then((tx) => submitTx(tx)));
+    //   }
+    // };
     return (
       <>
         <Modal.Title>Confirm Relock</Modal.Title>
-        <Modal.Content>
+        <Modal.Content width={480}>
           <Flex col>
             <Flex.Item marginBottom={4}>
               <FormPairSection
-                title="Assets to lock"
-                xAmount={xAsset}
-                yAmount={yAsset}
+                title="Assets to relock"
+                xAmount={lockedPosition.x}
+                yAmount={lockedPosition.y}
               />
+            </Flex.Item>
+            <Flex.Item marginBottom={4}>
+              <Flex align="center" justify="space-between">
+                <Flex.Item grow marginRight={2}>
+                  <FormSection title="Previous unlock date">
+                    <Flex col justify="center">
+                      <Flex.Item marginBottom={1}>
+                        <Typography.Body strong>
+                          {lockedPosition.unlockDate.toLocaleString(
+                            DateTime.DATE_FULL,
+                          )}
+                        </Typography.Body>
+                      </Flex.Item>
+                      <Flex.Item>
+                        <Typography.Body secondary>
+                          Block: {formatToInt(lockedPosition.deadline)}
+                        </Typography.Body>
+                      </Flex.Item>
+                    </Flex>
+                  </FormSection>
+                </Flex.Item>
+
+                <Flex.Item grow>
+                  <FormSection title="Updated unlock date">
+                    <Flex col justify="center">
+                      <Flex.Item marginBottom={1}>
+                        <Typography.Body strong>
+                          {relocktime.toLocaleString(DateTime.DATE_FULL)}
+                        </Typography.Body>
+                      </Flex.Item>
+                      <Flex.Item>
+                        <Typography.Body secondary>
+                          Block:{' '}
+                          {formatToInt(lockedPosition.getDeadline(relocktime))}
+                        </Typography.Body>
+                      </Flex.Item>
+                    </Flex>
+                  </FormSection>
+                </Flex.Item>
+              </Flex>
             </Flex.Item>
             <Flex.Item marginBottom={4}>
               <FormFeesSection
@@ -127,27 +214,30 @@ const RelockLiquidityConfirmationModal: FC<RelockLiquidityConfirmationModalProps
                 totalFees={new Currency(minerFeeNErgs, networkAsset)}
               />
             </Flex.Item>
-            <Flex.Item>
+            <Flex.Item marginBottom={4}>
               <Flex>
                 <Checkbox onChange={handleCheck}>
-                  I understand that I&apos;m locking{' '}
-                  <b>{lpAsset.toString({ suffix: false })}</b> LP-tokens, which
-                  is <b>{share}%</b> of my{' '}
-                  <b>{`${xAsset.asset.name}/${yAsset.asset.name}`}</b> liquidity
-                  position, for a period of{' '}
-                  <b>{getLockingPeriodString(timelock)}</b> (until{' '}
-                  {timelock.toLocaleString(DateTime.DATE_FULL)}) without the
-                  ability to withdraw before the end of this period.
+                  I understand that I’m relocking{' '}
+                  <b>
+                    {formatToInt(lockedPosition.lp.toString({ suffix: false }))}
+                  </b>{' '}
+                  LP-tokens of my{' '}
+                  <b>{`${lockedPosition.x.asset.name}/${lockedPosition.y.asset.name}`}</b>{' '}
+                  position until{' '}
+                  <b>{relocktime.toLocaleString(DateTime.DATE_FULL)}</b> (or{' '}
+                  <b>{formatToInt(lockedPosition.getDeadline(relocktime))}</b>{' '}
+                  block) without the ability to withdraw before the end of this
+                  period.
                 </Checkbox>
               </Flex>
             </Flex.Item>
             <Flex.Item>
               <Button
                 block
-                size="large"
+                size="extra-large"
                 disabled={!isChecked}
                 type="primary"
-                onClick={relockOperation}
+                // onClick={relockOperation}
               >
                 Confirm Relock
               </Button>

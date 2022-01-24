@@ -1,4 +1,4 @@
-import { PoolId } from '@ergolabs/ergo-dex-sdk';
+import { blocksToMillis, PoolId } from '@ergolabs/ergo-dex-sdk';
 import { TokenLock } from '@ergolabs/ergo-dex-sdk/build/main/security/entities';
 import { DateTime } from 'luxon';
 import React, { useEffect } from 'react';
@@ -6,9 +6,9 @@ import { useParams } from 'react-router';
 import { combineLatest, map } from 'rxjs';
 
 import { ergoExplorerContext$ } from '../../../api/explorer';
-import { getLockByPool } from '../../../api/locks';
+import { getLocksByPool } from '../../../api/locks';
 import { useObservable, useSubject } from '../../../common/hooks/useObservable';
-import { Currency } from '../../../common/models/Currency';
+import { AssetLock } from '../../../common/models/AssetLock';
 import { FormHeader } from '../../../components/common/FormView/FormHeader/FormHeader';
 import { FormSection } from '../../../components/common/FormView/FormSection/FormSection';
 import {
@@ -39,7 +39,7 @@ import { LiquidityDatePicker } from '../components/LockLiquidityDatePicker/Liqui
 import { RelockLiquidityConfirmationModal } from './RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal';
 
 interface RelockLiquidityModel {
-  lockedPosition?: TokenLock;
+  lockedPosition?: AssetLock;
   relocktime?: DateTime;
 }
 
@@ -55,9 +55,11 @@ export const RelockLiquidity = (): JSX.Element => {
   });
   const { poolId } = useParams<{ poolId: PoolId }>();
   const [poolData, updatePoolData] = useSubject(getAvailablePoolDataById);
-  const [locks, updateLocks] = useSubject(getLockByPool);
+  const [locks, updateLocks] = useSubject(getLocksByPool);
 
   const [explorerContext] = useObservable(ergoExplorerContext$);
+
+  const currentBlock = explorerContext ? explorerContext.height : undefined;
 
   useEffect(() => updatePoolData(poolId), []);
   useEffect(() => {
@@ -75,37 +77,25 @@ export const RelockLiquidity = (): JSX.Element => {
     ]).pipe(map(([first, second]) => !!first && !!second)),
   );
 
-  const handleRelockLiquidity = (
-    form: FormGroup<RelockLiquidityModel>,
-    poolData: PoolData,
-  ) => {
+  console.log('form.value >>', form.value);
+
+  const handleRelockLiquidity = (form: FormGroup<RelockLiquidityModel>) => {
     const lockedPosition = form.value.lockedPosition;
-    const timelock = form.value.relocktime;
-    const pool = poolData.pool;
+    const relocktime = form.value.relocktime;
 
-    const xAsset = mockCurrency;
-    const yAsset = mockCurrency;
-    const lpAsset = mockCurrency;
-
-    if (lockedPosition && timelock) {
+    if (lockedPosition && relocktime) {
       openConfirmationModal(
         (next) => (
           <RelockLiquidityConfirmationModal
-            share={99}
             onClose={next}
-            timelock={timelock}
-            pool={pool}
-            xAsset={xAsset}
-            yAsset={yAsset}
-            lpAsset={lpAsset}
+            lockedPosition={lockedPosition}
+            relocktime={relocktime}
           />
         ),
         Operation.RELOCK_LIQUIDITY,
         {
-          xAsset,
-          yAsset,
-          lpAsset,
-          timelock,
+          assetLock: lockedPosition,
+          time: relocktime,
         },
       );
     }
@@ -114,10 +104,7 @@ export const RelockLiquidity = (): JSX.Element => {
   return (
     <FormPageWrapper width={760} title="Relock liquidity" withBackButton>
       {poolData && locks && explorerContext ? (
-        <Form
-          form={form}
-          onSubmit={(form) => handleRelockLiquidity(form, poolData)}
-        >
+        <Form form={form} onSubmit={(form) => handleRelockLiquidity(form)}>
           <Flex col>
             <Flex.Item marginBottom={2}>
               <FormHeader x={poolData.xAmount} y={poolData.yAmount} />
@@ -136,17 +123,7 @@ export const RelockLiquidity = (): JSX.Element => {
                         return (
                           <LockedPositionItem
                             pool={poolData.pool}
-                            unlockBlock={item.deadline}
-                            status={getLockStatus(
-                              explorerContext.height,
-                              item.deadline,
-                            )}
-                            lockedAsset={
-                              new Currency(
-                                item.lockedAsset.amount,
-                                item.lockedAsset.asset,
-                              )
-                            }
+                            assetLock={item}
                             isActive={value?.boxId === item.boxId}
                             onClick={() => onChange(item)}
                           />
@@ -169,7 +146,22 @@ export const RelockLiquidity = (): JSX.Element => {
                           defaultValue="Select relock date"
                           onChange={onChange}
                           disabledDate={(current) => {
-                            return current <= DateTime.now();
+                            const dl = form.value.lockedPosition?.deadline;
+                            if (dl && currentBlock) {
+                              if (currentBlock < dl) {
+                                return (
+                                  current.minus({
+                                    days: 1,
+                                    millisecond: Number(
+                                      blocksToMillis(dl - currentBlock),
+                                    ),
+                                  }) <= DateTime.now()
+                                );
+                              }
+                            }
+                            return (
+                              current.toMillis() <= DateTime.now().toMillis()
+                            );
                           }}
                         />
                       )}

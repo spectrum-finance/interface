@@ -1,11 +1,14 @@
+import { TokenLock } from '@ergolabs/ergo-dex-sdk/build/main/security/entities';
 import { TxId } from '@ergolabs/ergo-sdk';
 import { DateTime } from 'luxon';
 import React, { ReactNode } from 'react';
 
+import { AssetLock } from '../../common/models/AssetLock';
 import { Currency } from '../../common/models/Currency';
 import { DialogRef, Flex, Modal, Typography } from '../../ergodex-cdk';
 import { RequestProps } from '../../ergodex-cdk/components/Modal/presets/Request';
 import { getLockingPeriodString } from '../../pages/Pool/utils';
+import { LockedAsset } from '../../services/new/analytics';
 import { exploreTx } from '../../utils/redirect';
 
 export enum Operation {
@@ -19,33 +22,46 @@ export enum Operation {
 }
 
 export interface ModalChainingPayload {
-  xAsset: Currency;
-  yAsset: Currency;
+  xAsset?: Currency;
+  yAsset?: Currency;
   lpAsset?: Currency;
-  timelock?: DateTime;
+  time?: DateTime;
+  assetLock?: AssetLock;
 }
 
 const getDescriptionByData = (
   operation: Operation,
-  { xAsset, yAsset, lpAsset, timelock }: ModalChainingPayload,
+  { xAsset, yAsset, lpAsset, time, assetLock }: ModalChainingPayload,
 ): ReactNode => {
   switch (operation) {
     case Operation.ADD_LIQUIDITY:
-      return `Adding liquidity ${xAsset.toString()} and ${yAsset.toString()}`;
+      return xAsset && yAsset
+        ? `Adding liquidity ${xAsset.toString()} and ${yAsset.toString()}`
+        : '';
     case Operation.REFUND:
-      return `Refunding ${xAsset.toString()} and ${yAsset.toString()}`;
+      return xAsset && yAsset
+        ? `Refunding ${xAsset.toString()} and ${yAsset.toString()}`
+        : '';
     case Operation.REMOVE_LIQUIDITY:
-      return `Removing liquidity ${xAsset.toString()} and ${yAsset.toString()}`;
+      return xAsset && yAsset
+        ? `Removing liquidity ${xAsset.toString()} and ${yAsset.toString()}`
+        : '';
     case Operation.SWAP:
-      return `Swapping ${xAsset.toString()} for ${yAsset.toString()}`;
+      return xAsset && yAsset
+        ? `Swapping ${xAsset.toString()} for ${yAsset.toString()}`
+        : '';
     case Operation.LOCK_LIQUIDITY:
-      return `Locking ${xAsset.toString()} and ${yAsset.toString()} (${
-        lpAsset && lpAsset.toString({ suffix: false }) + ' LP-tokens'
-      }) for ${timelock && getLockingPeriodString(timelock)}`;
+      return xAsset && yAsset
+        ? `Locking ${xAsset.toString()} and ${yAsset.toString()} (${
+            lpAsset && lpAsset.toString({ suffix: false }) + ' LP-tokens'
+          }) for ${time && getLockingPeriodString(time)}`
+        : '';
     case Operation.RELOCK_LIQUIDITY:
-      return `Relocking ${xAsset.toString()} and ${yAsset.toString()} (${
+      return `Relocking ${assetLock?.x.asset.name} and ${
+        assetLock?.y.asset.name
+      } (${
         lpAsset && lpAsset.toString({ suffix: false }) + ' LP-tokens'
-      }) for ${timelock && getLockingPeriodString(timelock)}`;
+      }) for ${time && getLockingPeriodString(time)}`;
   }
 };
 
