@@ -3,7 +3,6 @@ import './Pool.less';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { locks$ } from '../../api/locks';
 import { useObservable } from '../../common/hooks/useObservable';
 import { ConnectWalletButton } from '../../components/common/ConnectWalletButton/ConnectWalletButton';
 import { FormPageWrapper } from '../../components/FormPageWrapper/FormPageWrapper';
@@ -41,9 +40,13 @@ const PoolPageWrapper: React.FC<PoolPageWrapperProps> = ({
                   icon={<DownOutlined />}
                   size="middle"
                   overlay={
-                    <Menu>
-                      <Menu.Item disabled key="1">
-                        Submit and continue
+                    <Menu style={{ padding: '8px', width: '200px' }}>
+                      <Menu.Item
+                        disabled
+                        key="1"
+                        className="ergodex-coming-soon"
+                      >
+                        Create pool
                       </Menu.Item>
                     </Menu>
                   }

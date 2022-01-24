@@ -1,6 +1,5 @@
 import { mkLockParser } from '@ergolabs/ergo-dex-sdk';
 import { TokenLock } from '@ergolabs/ergo-dex-sdk/build/main/security/entities';
-import { AugErgoTx } from '@ergolabs/ergo-sdk';
 import { AugErgoBox } from '@ergolabs/ergo-sdk/build/main/network/models';
 import {
   combineLatest,
@@ -11,7 +10,6 @@ import {
   publishReplay,
   refCount,
   switchMap,
-  tap,
 } from 'rxjs';
 
 import { AssetLock } from '../../../common/models/AssetLock';
@@ -20,7 +18,6 @@ import { addresses$ } from '../addresses/addresses';
 import { networkContext$ } from '../networkContext/networkContext';
 import { pools$ } from '../pools/pools';
 import { TX_LIMIT } from '../transactions/common';
-import { locksHistory } from './common';
 
 const getAllByAddress = (
   address: string,

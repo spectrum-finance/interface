@@ -30,3 +30,19 @@ body {
   background-color: var(--ergo-primary-color) !important;
   color: var(--ergo-primary-text) !important;
 }
+
+.ergodex-coming-soon {
+  &::after {
+    position:      relative;
+    top:           -2px;
+    right:         80px;
+    padding:       1px 8px;
+    border:        1px solid var(--ergo-tab-disabled-border-color);
+    background:    var(--ergo-tab-disabled-color);
+    border-radius: 4px;
+    content:       'Coming soon';
+    font-size:     8px;
+    line-height:   12px;
+    transform:     translate(calc(100% + 6px), -4px);
+  }
+}

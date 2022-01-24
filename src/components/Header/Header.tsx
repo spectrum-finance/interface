@@ -30,9 +30,9 @@ export const Header: React.FC = () => {
       <div className="header__wrapper">
         <div className="header__left">
           <AppLogo isNoWording />
+          <HeaderTabs />
           <AnalyticsDataTag />
         </div>
-        <HeaderTabs />
         <div className="header__options">
           <NetworkDropdown networks={networks} />
           <ConnectWallet

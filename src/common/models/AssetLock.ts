@@ -54,6 +54,14 @@ export class AssetLock {
     return this.tokenLock.boxId;
   }
 
+  getDeadline(date: DateTime): number {
+    return (
+      this.currentBlock +
+      millisToBlocks(BigInt(date.toMillis() - DateTime.now().toMillis())) +
+      1
+    );
+  }
+
   constructor(
     public pool: AmmPool,
     public tokenLock: TokenLock,

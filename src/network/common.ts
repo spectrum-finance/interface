@@ -1,5 +1,4 @@
 import { AmmDexOperation } from '@ergolabs/ergo-dex-sdk';
-import { TokenLock } from '@ergolabs/ergo-dex-sdk/build/main/security/entities';
 import { Address } from '@ergolabs/ergo-sdk';
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import { Observable } from 'rxjs';

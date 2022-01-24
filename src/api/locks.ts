@@ -1,5 +1,4 @@
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
-import { TokenLock } from '@ergolabs/ergo-dex-sdk/build/main/security/entities';
 import { map, Observable, publishReplay, refCount, switchMap } from 'rxjs';
 
 import { AmmPool } from '../common/models/AmmPool';
@@ -38,5 +37,9 @@ export const locksAccumulators$: Observable<AssetLockAccumulator[]> =
 export const getLocksByPoolId = (poolId: PoolId): Observable<AssetLock[]> =>
   locks$.pipe(map((locks) => locks.filter((l) => l.pool.id === poolId)));
 
-export const getLocksByPool = (pool: AmmPool): Observable<AssetLock[]> =>
-  locks$.pipe(map((locks) => locks.filter((l) => l.pool.id === pool.id)));
+export const getLocksByPool = (
+  pool: AmmPool,
+): Observable<AssetLock[] | undefined> =>
+  locks$.pipe(
+    map((locks) => locks.filter((l) => l.lp.asset.id == pool.lp.asset.id)),
+  );
