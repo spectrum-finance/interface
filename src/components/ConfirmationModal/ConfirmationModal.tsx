@@ -3,14 +3,14 @@ import { TxId } from '@ergolabs/ergo-sdk';
 import { DateTime } from 'luxon';
 import React, { ReactNode } from 'react';
 
+import { ReactComponent as DiscordIcon } from '../../assets/icons/social/Discord.svg';
+import { ReactComponent as TelegramIcon } from '../../assets/icons/social/Telegram.svg';
 import { AssetLock } from '../../common/models/AssetLock';
 import { Currency } from '../../common/models/Currency';
 import { DialogRef, Flex, Modal, Typography } from '../../ergodex-cdk';
 import { RequestProps } from '../../ergodex-cdk/components/Modal/presets/Request';
 import { getLockingPeriodString } from '../../pages/Pool/utils';
-import { LockedAsset } from '../../services/new/analytics';
 import { exploreTx } from '../../utils/redirect';
-import { SocialLinks } from '../SocialLinks/SocialLinks';
 
 export enum Operation {
   SWAP,
@@ -142,6 +142,30 @@ const YoroiIssueModalContent = () => (
       <Typography.Body align="center">
         Try again later. Contact ErgoDEX team:
       </Typography.Body>
+    </Flex.Item>
+    <Flex.Item marginBottom={1} justify="center">
+      <Flex>
+        <Flex.Item marginRight={1}>
+          <a
+            style={{ color: 'var(--ergo-primary-color)' }}
+            href="https://discord.com/invite/6MFFG4Fn4Y"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <DiscordIcon style={{ cursor: 'pointer' }} />
+          </a>
+        </Flex.Item>
+        <Flex.Item>
+          <a
+            style={{ color: 'var(--ergo-primary-color)' }}
+            href="https://t.me/ergodex_community"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <TelegramIcon style={{ cursor: 'pointer' }} />
+          </a>
+        </Flex.Item>
+      </Flex>
     </Flex.Item>
   </Flex>
 );
