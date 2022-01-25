@@ -70,7 +70,7 @@ export class AssetLockAccumulator {
     this.lp = lp;
     this.x = x;
     this.y = y;
-    this.withdrawableLp = withdrawableX;
+    this.withdrawableLp = withdrawableLp;
     this.withdrawableY = withdrawableY;
     this.withdrawableX = withdrawableX;
   }
