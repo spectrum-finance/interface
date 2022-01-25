@@ -34,6 +34,15 @@ export const locksAccumulators$: Observable<AssetLockAccumulator[]> =
     refCount(),
   );
 
+export const getLockAccumulatorByPoolId = (
+  poolId: PoolId,
+): Observable<AssetLockAccumulator | undefined> =>
+  locksAccumulators$.pipe(
+    map((locksAccumulators) =>
+      locksAccumulators.find((la) => la.pool.id === poolId),
+    ),
+  );
+
 export const getLocksByPoolId = (poolId: PoolId): Observable<AssetLock[]> =>
   locks$.pipe(map((locks) => locks.filter((l) => l.pool.id === poolId)));
 

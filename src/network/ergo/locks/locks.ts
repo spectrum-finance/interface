@@ -29,8 +29,8 @@ const getAllByAddress = (
       limit: TX_LIMIT,
     }),
   ).pipe(
-    switchMap(([txs, count]) => {
-      return count < TX_LIMIT
+    switchMap(([txs]) => {
+      return txs.length < TX_LIMIT
         ? of(txs.flatMap((tx) => tx.outputs))
         : getAllByAddress(address, offset + TX_LIMIT).pipe(
             map((newTxs) => txs.flatMap((tx) => tx.outputs).concat(newTxs)),
