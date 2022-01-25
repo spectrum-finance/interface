@@ -54,6 +54,10 @@ export class AssetLock {
     return this.tokenLock.boxId;
   }
 
+  get redeemer(): string {
+    return this.tokenLock.redeemer;
+  }
+
   getDeadline(date: DateTime): number {
     return (
       this.currentBlock +

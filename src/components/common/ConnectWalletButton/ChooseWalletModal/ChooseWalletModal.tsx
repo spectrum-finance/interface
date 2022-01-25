@@ -9,6 +9,7 @@ import {
   Button,
   Flex,
   Modal,
+  notification,
   Typography,
 } from '../../../../ergodex-cdk';
 import { connectWallet } from '../../../../services/new/core';
@@ -77,6 +78,12 @@ const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
       onClick: () => {
         return connectYoroiWallet(walletCtx)().then((res) => {
           connectWallet();
+          notification.info({
+            message: 'Yoroi Nightly tip',
+            description:
+              'Keep Yoroi Nightly extension window open, when you use ErgoDEX. So that it will sync faster.',
+            duration: null,
+          });
           return res;
         });
       },
