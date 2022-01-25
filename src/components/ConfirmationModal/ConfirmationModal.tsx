@@ -10,6 +10,7 @@ import { RequestProps } from '../../ergodex-cdk/components/Modal/presets/Request
 import { getLockingPeriodString } from '../../pages/Pool/utils';
 import { LockedAsset } from '../../services/new/analytics';
 import { exploreTx } from '../../utils/redirect';
+import { SocialLinks } from '../SocialLinks/SocialLinks';
 
 export enum Operation {
   SWAP,
@@ -127,6 +128,24 @@ const SuccessModalContent = (txId: TxId) => (
   </Flex>
 );
 
+const YoroiIssueModalContent = () => (
+  <Flex col align="center">
+    <Flex.Item marginBottom={1}>
+      <Typography.Title level={4}>Error</Typography.Title>
+    </Flex.Item>
+    <Flex.Item marginBottom={1}>
+      <Typography.Body align="center">
+        Seems like Yoroi Nightly has issues
+      </Typography.Body>
+    </Flex.Item>
+    <Flex.Item marginBottom={1}>
+      <Typography.Body align="center">
+        Try again later. Contact ErgoDEX team:
+      </Typography.Body>
+    </Flex.Item>
+  </Flex>
+);
+
 export const openConfirmationModal = (
   actionContent: RequestProps['actionContent'],
   operation: Operation,
@@ -134,6 +153,7 @@ export const openConfirmationModal = (
 ): DialogRef => {
   return Modal.request({
     actionContent,
+    timeoutContent: YoroiIssueModalContent(),
     errorContent: ErrorModalContent(operation, payload),
     progressContent: ProgressModalContent(operation, payload),
     successContent: (txId) => SuccessModalContent(txId),
