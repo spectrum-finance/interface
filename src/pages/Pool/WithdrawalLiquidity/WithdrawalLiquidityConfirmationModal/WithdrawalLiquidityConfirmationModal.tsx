@@ -1,9 +1,35 @@
+import {
+  millisToBlocks,
+  mkLockActions,
+  RelockParams,
+} from '@ergolabs/ergo-dex-sdk';
+import { WithdrawalParams } from '@ergolabs/ergo-dex-sdk/build/main/security/models';
+import {
+  AssetAmount,
+  BoxSelection,
+  DefaultBoxSelector,
+  RustModule,
+  TransactionContext,
+} from '@ergolabs/ergo-sdk';
+import { MinTransactionContext } from '@ergolabs/ergo-sdk/build/main/wallet/entities/transactionContext';
 import { DateTime } from 'luxon';
 import React, { FC } from 'react';
 
+import { ERG_DECIMALS } from '../../../../common/constants/erg';
+import { useObservable } from '../../../../common/hooks/useObservable';
 import { AssetLock } from '../../../../common/models/AssetLock';
 import { FormPairSection } from '../../../../components/common/FormView/FormPairSection/FormPairSection';
+import { useSettings } from '../../../../context';
 import { Button, Flex, Modal, Typography } from '../../../../ergodex-cdk';
+import { mainnetTxAssembler } from '../../../../services/defaultTxAssembler';
+import { explorer } from '../../../../services/explorer';
+import { lockParser } from '../../../../services/locker/parser';
+import { useNetworkAsset, utxos$ } from '../../../../services/new/core';
+import { submitTx } from '../../../../services/yoroi';
+import yoroiProver from '../../../../services/yoroi/prover';
+import { makeTarget } from '../../../../utils/ammMath';
+import { parseUserInputToFractions } from '../../../../utils/math';
+import { getFeeForLockTarget } from '../../utils';
 
 interface WithdrawalLiquidityConfirmationModalProps {
   onClose: (p: Promise<any>) => void;
@@ -12,8 +38,36 @@ interface WithdrawalLiquidityConfirmationModalProps {
 
 const WithdrawalLiquidityConfirmationModal: FC<WithdrawalLiquidityConfirmationModalProps> =
   ({ onClose, lock }): JSX.Element => {
-    const withdrawalOperation = () => {
-      return console.log('helo >>');
+    const [{ minerFee, address, pk }] = useSettings();
+
+    const minerFeeNErgs = parseUserInputToFractions(minerFee, ERG_DECIMALS);
+
+    const withdrawalOperation = async () => {
+      const network = await explorer.getNetworkContext();
+
+      const RModule = await RustModule.load();
+
+      const actions = mkLockActions(
+        explorer,
+        lockParser,
+        yoroiProver,
+        mainnetTxAssembler,
+        RModule,
+      );
+
+      if (address && pk) {
+        const params: WithdrawalParams = {
+          boxId: lock.boxId,
+          address: address,
+        };
+
+        const ctx: MinTransactionContext = {
+          feeNErgs: minerFeeNErgs,
+          network,
+        };
+
+        onClose(actions.withdrawTokens(params, ctx).then((tx) => submitTx(tx)));
+      }
     };
 
     return (
