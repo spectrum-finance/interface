@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import { Currency } from '../../../../common/models/Currency';
 import { Flex, Typography } from '../../../../ergodex-cdk';
@@ -10,7 +10,7 @@ interface PairSpaceProps {
   readonly xAmount: Currency;
   readonly yAmount: Currency;
   readonly fees?: boolean;
-  readonly children?: React.ReactChild | React.ReactChild[];
+  readonly children?: ReactNode | ReactNode[];
 }
 
 const FormPairSection: React.FC<PairSpaceProps> = ({
@@ -65,6 +65,7 @@ const FormPairSection: React.FC<PairSpaceProps> = ({
             </Flex.Item>
           </Flex>
         </Flex.Item>
+        {children}
       </Flex>
     </FormSection>
   );
