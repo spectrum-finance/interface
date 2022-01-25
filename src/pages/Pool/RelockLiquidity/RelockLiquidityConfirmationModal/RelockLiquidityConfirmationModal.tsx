@@ -1,13 +1,12 @@
 import {
   millisToBlocks,
   mkLockActions,
-  mkLockParser,
   RelockParams,
 } from '@ergolabs/ergo-dex-sdk';
 import {
+  AssetAmount,
   BoxSelection,
   DefaultBoxSelector,
-  MinBoxValue,
   RustModule,
   TransactionContext,
 } from '@ergolabs/ergo-sdk';
@@ -16,7 +15,6 @@ import React, { FC, useState } from 'react';
 
 import { ERG_DECIMALS } from '../../../../common/constants/erg';
 import { useObservable } from '../../../../common/hooks/useObservable';
-import { AmmPool } from '../../../../common/models/AmmPool';
 import { AssetLock } from '../../../../common/models/AssetLock';
 import { Currency } from '../../../../common/models/Currency';
 import { FormFeesSection } from '../../../../components/common/FormView/FormFeesSection/FormFeesSection';
@@ -39,17 +37,13 @@ import { submitTx } from '../../../../services/yoroi';
 import yoroiProver from '../../../../services/yoroi/prover';
 import { makeTarget } from '../../../../utils/ammMath';
 import { parseUserInputToFractions } from '../../../../utils/math';
-import { getFeeForLockTarget, getLockingPeriodString } from '../../utils';
+import { getFeeForLockTarget } from '../../utils';
 
 interface RelockLiquidityConfirmationModalProps {
   onClose: (p: Promise<any>) => void;
   lockedPosition: AssetLock;
   relocktime: DateTime;
 }
-
-const getBlocks = (time: DateTime) => {
-  return;
-};
 
 const RelockLiquidityConfirmationModal: FC<RelockLiquidityConfirmationModalProps> =
   ({ onClose, lockedPosition, relocktime }): JSX.Element => {
@@ -61,101 +55,58 @@ const RelockLiquidityConfirmationModal: FC<RelockLiquidityConfirmationModalProps
     const [utxos] = useObservable(utxos$);
     const [{ minerFee, address, pk }] = useSettings();
 
-    // const uiFeeNErg = parseUserInputToFractions(UI_FEE, ERG_DECIMALS);
-    // const exFeeNErg = minExFee.amount;
     const minerFeeNErgs = parseUserInputToFractions(minerFee, ERG_DECIMALS);
 
     const handleCheck = () => setIsChecked((prev) => !prev);
     // TODO: add try catch
-    {
-      /*const relockOperation = async () => {*/
-    }
-    {
-      /*  const target = makeTarget(*/
-    }
-    {
-      /*    [lockedPosition],*/
-    }
-    {
-      /*    getFeeForLockTarget(minerFeeNErgs),*/
-    }
-    {
-      /*  );*/
-    }
+    const relockOperation = async () => {
+      const lpAssetAmount = new AssetAmount(
+        lockedPosition.lp.asset,
+        lockedPosition.lp.amount,
+      );
 
-    //   const inputs = DefaultBoxSelector.select(utxos!, target) as BoxSelection;
-    //
-    //   const network = await explorer.getNetworkContext();
-    {
-      /*  const RModule = await RustModule.load();*/
-    }
+      const target = makeTarget(
+        [lpAssetAmount],
+        getFeeForLockTarget(minerFeeNErgs),
+      );
 
-    {
-      /*  const actions = mkLockActions(*/
-    }
-    {
-      /*    explorer,*/
-    }
-    {
-      /*    lockParser,*/
-    }
-    //     yoroiProver,
-    {
-      /*    mainnetTxAssembler,*/
-    }
-    {
-      /*    RModule,*/
-    }
-    {
-      /*  );*/
-    }
-    //
-    //   const deadline =
-    {
-      /*    network.height +*/
-    }
-    {
-      /*    millisToBlocks(BigInt(relocktime.toMillis() - now)) +*/
-    }
-    {
-      /*    1;*/
-    }
+      const inputs = DefaultBoxSelector.select(utxos!, target) as BoxSelection;
 
-    {
-      /*  if (address && pk) {*/
-    }
-    {
-      /*    const params: RelockParams = {*/
-    }
-    {
-      /*      // TODO: get box id*/
-    }
-    {
-      /*      boxId: '00',*/
-    }
-    {
-      /*      updateRedeemer: pk,*/
-    }
-    {
-      /*      updateDeadline: deadline,*/
-    }
-    {
-      /*    };*/
-    }
+      const network = await explorer.getNetworkContext();
 
-    {
-      /*    const ctx: TransactionContext = {*/
-    }
-    //       inputs,
-    //       selfAddress: address,
-    //       changeAddress: address,
-    //       feeNErgs: minerFeeNErgs,
-    //       network,
-    //     };
-    //
-    //     onClose(actions.relockTokens(params, ctx).then((tx) => submitTx(tx)));
-    //   }
-    // };
+      const RModule = await RustModule.load();
+
+      const actions = mkLockActions(
+        explorer,
+        lockParser,
+        yoroiProver,
+        mainnetTxAssembler,
+        RModule,
+      );
+
+      const updateDeadline =
+        network.height +
+        millisToBlocks(BigInt(relocktime.toMillis() - now)) +
+        1;
+
+      if (address && pk) {
+        const params: RelockParams = {
+          boxId: lockedPosition.boxId,
+          updateRedeemer: pk,
+          updateDeadline,
+        };
+
+        const ctx: TransactionContext = {
+          inputs,
+          selfAddress: address,
+          changeAddress: address,
+          feeNErgs: minerFeeNErgs,
+          network,
+        };
+
+        onClose(actions.relockTokens(params, ctx).then((tx) => submitTx(tx)));
+      }
+    };
     return (
       <>
         <Modal.Title>Confirm Relock</Modal.Title>
@@ -237,7 +188,7 @@ const RelockLiquidityConfirmationModal: FC<RelockLiquidityConfirmationModalProps
                 size="extra-large"
                 disabled={!isChecked}
                 type="primary"
-                // onClick={relockOperation}
+                onClick={relockOperation}
               >
                 Confirm Relock
               </Button>
