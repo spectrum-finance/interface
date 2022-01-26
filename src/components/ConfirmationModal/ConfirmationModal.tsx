@@ -4,6 +4,10 @@ import React, { ReactNode } from 'react';
 
 import { ReactComponent as DiscordIcon } from '../../assets/icons/social/Discord.svg';
 import { ReactComponent as TelegramIcon } from '../../assets/icons/social/Telegram.svg';
+import {
+  DISCORD_SUPPORT_URL,
+  TELEGRAM_SUPPORT_URL,
+} from '../../common/constants/env';
 import { AssetLock } from '../../common/models/AssetLock';
 import { Currency } from '../../common/models/Currency';
 import { DialogRef, Flex, Modal, Typography } from '../../ergodex-cdk';
@@ -132,12 +136,15 @@ const YoroiIssueModalContent = () => (
     </Flex.Item>
     <Flex.Item marginBottom={1}>
       <Typography.Body align="center">
-        Seems like Yoroi Nightly has issues
+        Seems like Yoroi Nightly has an issue
       </Typography.Body>
     </Flex.Item>
     <Flex.Item marginBottom={1}>
+      <Typography.Body align="center">Try again later</Typography.Body>
+    </Flex.Item>
+    <Flex.Item marginBottom={1}>
       <Typography.Body align="center">
-        Try again later. Contact ErgoDEX team:
+        Get help in our channels:
       </Typography.Body>
     </Flex.Item>
     <Flex.Item marginBottom={1} justify="center">
@@ -145,7 +152,7 @@ const YoroiIssueModalContent = () => (
         <Flex.Item marginRight={1}>
           <a
             style={{ color: 'var(--ergo-primary-color)' }}
-            href="https://discord.com/invite/6MFFG4Fn4Y"
+            href={DISCORD_SUPPORT_URL}
             target="_blank"
             rel="noreferrer"
           >
@@ -155,7 +162,7 @@ const YoroiIssueModalContent = () => (
         <Flex.Item>
           <a
             style={{ color: 'var(--ergo-primary-color)' }}
-            href="https://t.me/ergodex_community"
+            href={TELEGRAM_SUPPORT_URL}
             target="_blank"
             rel="noreferrer"
           >
