@@ -5,7 +5,7 @@ import { Progress } from './Progress';
 import { Success } from './Success';
 import { TimeoutError } from './TimeoutError';
 
-const TIMEOUT_TIME = 90 * 1000;
+const TIMEOUT_TIME = 120 * 1000;
 
 export interface RequestProps {
   readonly actionContent: (
