@@ -1,4 +1,3 @@
-import { TokenLock } from '@ergolabs/ergo-dex-sdk/build/main/security/entities';
 import { TxId } from '@ergolabs/ergo-sdk';
 import { DateTime } from 'luxon';
 import React, { ReactNode } from 'react';
@@ -58,11 +57,9 @@ const getDescriptionByData = (
           }) for ${time && getLockingPeriodString(time)}`
         : '';
     case Operation.RELOCK_LIQUIDITY:
-      return `Relocking ${assetLock?.x.asset.name} and ${
-        assetLock?.y.asset.name
-      } (${
-        lpAsset && lpAsset.toString({ suffix: false }) + ' LP-tokens'
-      }) for ${time && getLockingPeriodString(time)}`;
+      return `Relocking ${assetLock?.x.toString()} and ${assetLock?.y.toString()} (${
+        assetLock && assetLock.lp.toString({ suffix: false }) + ' LP-tokens'
+      })`;
   }
 };
 
