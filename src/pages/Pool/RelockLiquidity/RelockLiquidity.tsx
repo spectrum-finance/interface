@@ -1,5 +1,4 @@
 import { blocksToMillis, PoolId } from '@ergolabs/ergo-dex-sdk';
-import { TokenLock } from '@ergolabs/ergo-dex-sdk/build/main/security/entities';
 import { DateTime } from 'luxon';
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
@@ -29,11 +28,7 @@ import {
   FormGroup,
   useForm,
 } from '../../../ergodex-cdk/components/Form/NewForm';
-import { mockCurrency } from '../../../mocks/asset';
-import {
-  getAvailablePoolDataById,
-  PoolData,
-} from '../../../services/new/pools';
+import { getAvailablePoolDataById } from '../../../services/new/pools';
 import { LockedPositionItem } from '../components/LockedPositionItem/LockedPositionItem';
 import { LiquidityDatePicker } from '../components/LockLiquidityDatePicker/LiquidityDatePicker';
 import { RelockLiquidityConfirmationModal } from './RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal';
@@ -42,11 +37,6 @@ interface RelockLiquidityModel {
   lockedPosition?: AssetLock;
   relocktime?: DateTime;
 }
-
-const getLockStatus = (currentHeight: number, deadline: number) => {
-  if (currentHeight < deadline) return 'Locked';
-  return 'Withdrawable';
-};
 
 export const RelockLiquidity = (): JSX.Element => {
   const form = useForm<RelockLiquidityModel>({
@@ -76,8 +66,6 @@ export const RelockLiquidity = (): JSX.Element => {
       form.controls.relocktime.valueChanges$,
     ]).pipe(map(([first, second]) => !!first && !!second)),
   );
-
-  console.log('form.value >>', form.value);
 
   const handleRelockLiquidity = (form: FormGroup<RelockLiquidityModel>) => {
     const lockedPosition = form.value.lockedPosition;
@@ -142,7 +130,7 @@ export const RelockLiquidity = (): JSX.Element => {
                       {({ value, onChange }) => (
                         <LiquidityDatePicker
                           value={value}
-                          selectedPrefix="Prefix"
+                          selectedPrefix="Extension period"
                           defaultValue="Select relock date"
                           onChange={onChange}
                           disabledDate={(current) => {
