@@ -28,46 +28,102 @@ const LockItemView: FC<LockItemViewProps> = ({ lockAccumulator }) => {
   return (
     <ListItemWrapper>
       <Flex>
-        <Flex.Item style={{ width: '230px' }} marginRight={10}>
-          <Flex col justify="space-between">
+        <Flex.Item style={{ width: '230px' }} marginRight={16}>
+          <Flex col>
             <Flex.Item marginBottom={1}>
-              <Box padding={[0.5, 1]}>
-                <Flex justify="space-between">
-                  <Flex.Item marginRight={1}>
-                    <Flex>
-                      <Flex.Item marginRight={1}>
-                        <TokenIcon name={lockAccumulator.x.asset.name} />
-                      </Flex.Item>
-                      <Typography.Title level={5}>
-                        {lockAccumulator.x.asset.name}
-                      </Typography.Title>
-                    </Flex>
-                  </Flex.Item>
-                  <Typography.Title level={5}>
-                    {lockAccumulator.x.toString({ suffix: false })}
-                  </Typography.Title>
-                </Flex>
-              </Box>
+              <Typography.Footnote>Total locked</Typography.Footnote>
             </Flex.Item>
-            <Flex.Item>
-              <Box padding={[0.5, 1]}>
-                <Flex justify="space-between">
-                  <Flex.Item marginRight={1}>
-                    <Flex>
-                      <Flex.Item marginRight={1}>
-                        <TokenIcon name={lockAccumulator.y.asset.name} />
-                      </Flex.Item>
-                      <Typography.Title level={5}>
-                        {lockAccumulator.y.asset.name}
-                      </Typography.Title>
-                    </Flex>
-                  </Flex.Item>
-                  <Typography.Title level={5}>
-                    {lockAccumulator.y.toString({ suffix: false })}
-                  </Typography.Title>
-                </Flex>
-              </Box>
+            <Flex col justify="space-between">
+              <Flex.Item marginBottom={1}>
+                <Box padding={[0.5, 1]}>
+                  <Flex justify="space-between">
+                    <Flex.Item marginRight={1}>
+                      <Flex>
+                        <Flex.Item marginRight={1}>
+                          <TokenIcon name={lockAccumulator.x.asset.name} />
+                        </Flex.Item>
+                        <Typography.Title level={5}>
+                          {lockAccumulator.x.asset.name}
+                        </Typography.Title>
+                      </Flex>
+                    </Flex.Item>
+                    <Typography.Title level={5}>
+                      {lockAccumulator.x.toString({ suffix: false })}
+                    </Typography.Title>
+                  </Flex>
+                </Box>
+              </Flex.Item>
+              <Flex.Item>
+                <Box padding={[0.5, 1]}>
+                  <Flex justify="space-between">
+                    <Flex.Item marginRight={1}>
+                      <Flex>
+                        <Flex.Item marginRight={1}>
+                          <TokenIcon name={lockAccumulator.y.asset.name} />
+                        </Flex.Item>
+                        <Typography.Title level={5}>
+                          {lockAccumulator.y.asset.name}
+                        </Typography.Title>
+                      </Flex>
+                    </Flex.Item>
+                    <Typography.Title level={5}>
+                      {lockAccumulator.y.toString({ suffix: false })}
+                    </Typography.Title>
+                  </Flex>
+                </Box>
+              </Flex.Item>
+            </Flex>
+          </Flex>
+        </Flex.Item>
+        <Flex.Item style={{ width: '230px' }} marginRight={16}>
+          <Flex col>
+            <Flex.Item marginBottom={1}>
+              <Typography.Footnote>Total withdrawable </Typography.Footnote>
             </Flex.Item>
+            <Flex col justify="space-between">
+              <Flex.Item marginBottom={1}>
+                <Box padding={[0.5, 1]}>
+                  <Flex justify="space-between">
+                    <Flex.Item marginRight={1}>
+                      <Flex>
+                        <Flex.Item marginRight={1}>
+                          <TokenIcon name={lockAccumulator.x.asset.name} />
+                        </Flex.Item>
+                        <Typography.Title level={5}>
+                          {lockAccumulator.x.asset.name}
+                        </Typography.Title>
+                      </Flex>
+                    </Flex.Item>
+                    <Typography.Title level={5}>
+                      {lockAccumulator.withdrawableX.toString({
+                        suffix: false,
+                      })}
+                    </Typography.Title>
+                  </Flex>
+                </Box>
+              </Flex.Item>
+              <Flex.Item>
+                <Box padding={[0.5, 1]}>
+                  <Flex justify="space-between">
+                    <Flex.Item marginRight={1}>
+                      <Flex>
+                        <Flex.Item marginRight={1}>
+                          <TokenIcon name={lockAccumulator.y.asset.name} />
+                        </Flex.Item>
+                        <Typography.Title level={5}>
+                          {lockAccumulator.y.asset.name}
+                        </Typography.Title>
+                      </Flex>
+                    </Flex.Item>
+                    <Typography.Title level={5}>
+                      {lockAccumulator.withdrawableY.toString({
+                        suffix: false,
+                      })}
+                    </Typography.Title>
+                  </Flex>
+                </Box>
+              </Flex.Item>
+            </Flex>
           </Flex>
         </Flex.Item>
         <Flex.Item flex={1}>
@@ -81,23 +137,16 @@ const LockItemView: FC<LockItemViewProps> = ({ lockAccumulator }) => {
         <Flex.Item>
           <Flex stretch align="center">
             <OptionsButton size="large" type="text" width={180}>
-              <Menu.ItemGroup title="Liquidity Locker">
-                <Menu.Item icon={<LockOutlined />}>
-                  <Link to={`/pool/${lockAccumulator.pool.id}/lock`}>
-                    Lock liquidity
-                  </Link>
-                </Menu.Item>
-                <Menu.Item icon={<RelockIcon />}>
-                  <Link to={`/pool/${lockAccumulator.pool.id}/relock`}>
-                    Relock liquidity
-                  </Link>
-                </Menu.Item>
-                <Menu.Item icon={<WithdrawalIcon />}>
-                  <Link to={`/pool/${lockAccumulator.pool.id}/withdrawal`}>
-                    Withdrawal
-                  </Link>
-                </Menu.Item>
-              </Menu.ItemGroup>
+              <Menu.Item icon={<RelockIcon />}>
+                <Link to={`/pool/${lockAccumulator.pool.id}/relock`}>
+                  Relock liquidity
+                </Link>
+              </Menu.Item>
+              <Menu.Item icon={<WithdrawalIcon />}>
+                <Link to={`/pool/${lockAccumulator.pool.id}/withdrawal`}>
+                  Withdrawal
+                </Link>
+              </Menu.Item>
             </OptionsButton>
           </Flex>
         </Flex.Item>
