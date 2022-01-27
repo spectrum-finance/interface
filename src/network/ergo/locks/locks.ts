@@ -18,6 +18,7 @@ import { addresses$ } from '../addresses/addresses';
 import { networkContext$ } from '../networkContext/networkContext';
 import { pools$ } from '../pools/pools';
 import { TX_LIMIT } from '../transactions/common';
+import { locksHistory } from './common';
 
 const getAllByAddress = (
   address: string,
@@ -42,14 +43,15 @@ const getAllByAddress = (
 const parser = mkLockParser();
 
 const tokenLocks$: Observable<TokenLock[]> = addresses$.pipe(
-  switchMap((addresses) => combineLatest(addresses.map(getAllByAddress))),
-  map((txBoxes) => txBoxes.flatMap((txBox) => txBox)),
-  map(
-    (txBoxes) =>
-      txBoxes
-        .map((txBox) => parser.parseTokenLock(txBox))
-        .filter(Boolean) as any,
-  ),
+  switchMap((addresses) => locksHistory.getAllByAddresses(addresses)),
+  // switchMap((addresses) => combineLatest(addresses.map(getAllByAddress))),
+  // map((txBoxes) => txBoxes.flatMap((txBox) => txBox)),
+  // map(
+  //   (txBoxes) =>
+  //     txBoxes
+  //       .map((txBox) => parser.parseTokenLock(txBox))
+  //       .filter(Boolean) as any,
+  // ),
   publishReplay(1),
   refCount(),
 );

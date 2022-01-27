@@ -1,10 +1,9 @@
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
-import { map } from 'rxjs';
 
 import { getLockAccumulatorByPoolId } from '../../../api/locks';
-import { useObservable, useSubject } from '../../../common/hooks/useObservable';
+import { useSubject } from '../../../common/hooks/useObservable';
 import { AssetLock, AssetLockStatus } from '../../../common/models/AssetLock';
 import { FormHeader } from '../../../components/common/FormView/FormHeader/FormHeader';
 import { FormPairSection } from '../../../components/common/FormView/FormPairSection/FormPairSection';
@@ -13,7 +12,10 @@ import {
   Operation,
 } from '../../../components/ConfirmationModal/ConfirmationModal';
 import { FormPageWrapper } from '../../../components/FormPageWrapper/FormPageWrapper';
-import { SubmitButton } from '../../../components/SubmitButton/SubmitButton';
+import {
+  OperationForm,
+  OperationValidator,
+} from '../../../components/OperationForm/OperationForm';
 import { Flex, List, Skeleton, Typography } from '../../../ergodex-cdk';
 import {
   Form,
@@ -37,15 +39,16 @@ export const WithdrawalLiquidity = (): JSX.Element => {
   );
   useEffect(() => updateLocksAccumulator(poolId), []);
 
-  const [isButtonDisabled] = useObservable(
-    form.controls.lockedPosition.valueChanges$.pipe(
-      map((lock) => lock?.status === AssetLockStatus.LOCKED || !lock),
-    ),
-  );
+  const validators: OperationValidator<RelockLiquidityModel>[] = [
+    (form: FormGroup<RelockLiquidityModel>) =>
+      !form.value.lockedPosition && 'Select Locked Position',
+    (form: FormGroup<RelockLiquidityModel>) =>
+      form.value.lockedPosition?.status === AssetLockStatus.LOCKED &&
+      'This position is still locked',
+  ];
 
   const handleRelockLiquidity = (form: FormGroup<RelockLiquidityModel>) => {
     const lockedPosition = form.value.lockedPosition;
-
     if (lockedPosition) {
       openConfirmationModal(
         (next) => (
@@ -65,7 +68,12 @@ export const WithdrawalLiquidity = (): JSX.Element => {
   return (
     <FormPageWrapper width={760} title="Withdraw" withBackButton>
       {locksAccumulator ? (
-        <Form form={form} onSubmit={(form) => handleRelockLiquidity(form)}>
+        <OperationForm
+          form={form}
+          validators={validators}
+          onSubmit={handleRelockLiquidity}
+          actionCaption="Withdraw"
+        >
           <Flex col>
             <Flex.Item marginBottom={2}>
               <FormHeader x={locksAccumulator.x} y={locksAccumulator.y} />
@@ -88,36 +96,27 @@ export const WithdrawalLiquidity = (): JSX.Element => {
                 </Flex.Item>
               </Flex>
             </Flex.Item>
-            <Flex.Item marginBottom={4}>
-              <Flex col>
-                <Flex.Item marginBottom={2}>
-                  <Typography.Body strong>Locked positions</Typography.Body>
-                </Flex.Item>
-                <Form.Item name="lockedPosition">
-                  {({ value, onChange }) => (
-                    <List dataSource={locksAccumulator.locks} gap={2}>
-                      {(item) => {
-                        return (
-                          <LockedPositionItem
-                            pool={locksAccumulator.pool}
-                            assetLock={item}
-                            isActive={value?.boxId === item.boxId}
-                            onClick={() => onChange(item)}
-                          />
-                        );
-                      }}
-                    </List>
-                  )}
-                </Form.Item>
-              </Flex>
+            <Flex.Item marginBottom={2}>
+              <Typography.Body strong>Locked positions</Typography.Body>
             </Flex.Item>
             <Flex.Item>
-              <SubmitButton disabled={isButtonDisabled} htmlType="submit">
-                {isButtonDisabled ? 'Choose a deposit' : 'Withdraw'}
-              </SubmitButton>
+              <Form.Item name="lockedPosition">
+                {({ value, onChange }) => (
+                  <List dataSource={locksAccumulator.locks} gap={2}>
+                    {(item) => (
+                      <LockedPositionItem
+                        pool={locksAccumulator.pool}
+                        assetLock={item}
+                        isActive={value?.boxId === item.boxId}
+                        onClick={() => onChange(item)}
+                      />
+                    )}
+                  </List>
+                )}
+              </Form.Item>
             </Flex.Item>
           </Flex>
-        </Form>
+        </OperationForm>
       ) : (
         <Skeleton active />
       )}

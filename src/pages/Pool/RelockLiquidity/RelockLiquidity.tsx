@@ -15,6 +15,10 @@ import {
   Operation,
 } from '../../../components/ConfirmationModal/ConfirmationModal';
 import { FormPageWrapper } from '../../../components/FormPageWrapper/FormPageWrapper';
+import {
+  OperationForm,
+  OperationValidator,
+} from '../../../components/OperationForm/OperationForm';
 import { SubmitButton } from '../../../components/SubmitButton/SubmitButton';
 import {
   Animation,
@@ -51,6 +55,11 @@ export const RelockLiquidity = (): JSX.Element => {
 
   const currentBlock = explorerContext ? explorerContext.height : undefined;
 
+  const validators: OperationValidator<RelockLiquidityModel>[] = [
+    (form) => !form.value.lockedPosition && 'Select Locked Position',
+    (form) => !form.value.relocktime && 'Pick new unlock date',
+  ];
+
   useEffect(() => updatePoolData(poolId), []);
   useEffect(() => {
     if (poolData) updateLocks(poolData.pool);
@@ -58,13 +67,6 @@ export const RelockLiquidity = (): JSX.Element => {
 
   const [isLockedPositionSelected] = useObservable(
     form.controls.lockedPosition.valueChanges$.pipe(map(Boolean)),
-  );
-
-  const [isNotDisabled] = useObservable(
-    combineLatest([
-      form.controls.lockedPosition.valueChanges$,
-      form.controls.relocktime.valueChanges$,
-    ]).pipe(map(([first, second]) => !!first && !!second)),
   );
 
   const handleRelockLiquidity = (form: FormGroup<RelockLiquidityModel>) => {
@@ -92,12 +94,17 @@ export const RelockLiquidity = (): JSX.Element => {
   return (
     <FormPageWrapper width={760} title="Relock liquidity" withBackButton>
       {poolData && locks && explorerContext ? (
-        <Form form={form} onSubmit={(form) => handleRelockLiquidity(form)}>
+        <OperationForm
+          actionCaption="Relock position"
+          form={form}
+          onSubmit={handleRelockLiquidity}
+          validators={validators}
+        >
           <Flex col>
             <Flex.Item marginBottom={2}>
               <FormHeader x={poolData.xAmount} y={poolData.yAmount} />
             </Flex.Item>
-            <Flex.Item marginBottom={4}>
+            <Flex.Item>
               <Flex col>
                 <Flex.Item marginBottom={2}>
                   <Typography.Body strong>
@@ -107,23 +114,21 @@ export const RelockLiquidity = (): JSX.Element => {
                 <Form.Item name="lockedPosition">
                   {({ value, onChange }) => (
                     <List dataSource={locks} gap={2}>
-                      {(item) => {
-                        return (
-                          <LockedPositionItem
-                            pool={poolData.pool}
-                            assetLock={item}
-                            isActive={value?.boxId === item.boxId}
-                            onClick={() => onChange(item)}
-                          />
-                        );
-                      }}
+                      {(item) => (
+                        <LockedPositionItem
+                          pool={poolData.pool}
+                          assetLock={item}
+                          isActive={value?.boxId === item.boxId}
+                          onClick={() => onChange(item)}
+                        />
+                      )}
                     </List>
                   )}
                 </Form.Item>
               </Flex>
             </Flex.Item>
             {isLockedPositionSelected && (
-              <Flex.Item marginBottom={4}>
+              <Flex.Item marginTop={4}>
                 <Animation.Expand expanded={isLockedPositionSelected}>
                   <FormSection title="Unlock date">
                     <Form.Item name="relocktime">
@@ -158,14 +163,8 @@ export const RelockLiquidity = (): JSX.Element => {
                 </Animation.Expand>
               </Flex.Item>
             )}
-
-            <Flex.Item>
-              <SubmitButton disabled={!isNotDisabled} htmlType="submit">
-                Relock position
-              </SubmitButton>
-            </Flex.Item>
           </Flex>
-        </Form>
+        </OperationForm>
       ) : (
         <Skeleton active />
       )}
