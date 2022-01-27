@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { Meta, Story } from '@storybook/react';
 import React from 'react';
 

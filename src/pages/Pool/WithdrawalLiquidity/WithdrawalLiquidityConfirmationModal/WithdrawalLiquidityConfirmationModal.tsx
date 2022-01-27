@@ -1,22 +1,11 @@
-import {
-  millisToBlocks,
-  mkLockActions,
-  RelockParams,
-} from '@ergolabs/ergo-dex-sdk';
+import { mkLockActions } from '@ergolabs/ergo-dex-sdk';
 import { WithdrawalParams } from '@ergolabs/ergo-dex-sdk/build/main/security/models';
-import {
-  AssetAmount,
-  BoxSelection,
-  DefaultBoxSelector,
-  RustModule,
-  TransactionContext,
-} from '@ergolabs/ergo-sdk';
+import { RustModule } from '@ergolabs/ergo-sdk';
 import { MinTransactionContext } from '@ergolabs/ergo-sdk/build/main/wallet/entities/transactionContext';
 import { DateTime } from 'luxon';
 import React, { FC } from 'react';
 
 import { ERG_DECIMALS } from '../../../../common/constants/erg';
-import { useObservable } from '../../../../common/hooks/useObservable';
 import { AssetLock } from '../../../../common/models/AssetLock';
 import { FormPairSection } from '../../../../components/common/FormView/FormPairSection/FormPairSection';
 import { useSettings } from '../../../../context';
@@ -24,12 +13,9 @@ import { Button, Flex, Modal, Typography } from '../../../../ergodex-cdk';
 import { mainnetTxAssembler } from '../../../../services/defaultTxAssembler';
 import { explorer } from '../../../../services/explorer';
 import { lockParser } from '../../../../services/locker/parser';
-import { useNetworkAsset, utxos$ } from '../../../../services/new/core';
 import { submitTx } from '../../../../services/yoroi';
 import yoroiProver from '../../../../services/yoroi/prover';
-import { makeTarget } from '../../../../utils/ammMath';
 import { parseUserInputToFractions } from '../../../../utils/math';
-import { getFeeForLockTarget } from '../../utils';
 
 interface WithdrawalLiquidityConfirmationModalProps {
   onClose: (p: Promise<any>) => void;

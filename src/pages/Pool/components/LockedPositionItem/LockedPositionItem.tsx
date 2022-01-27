@@ -1,4 +1,3 @@
-import { blocksToMillis } from '@ergolabs/ergo-dex-sdk/build/main/utils/blocks';
 import { DateTime } from 'luxon';
 import React, { FC } from 'react';
 
@@ -7,7 +6,6 @@ import {
   AssetLock,
   AssetLockStatus,
 } from '../../../../common/models/AssetLock';
-import { Currency } from '../../../../common/models/Currency';
 import { DataTag } from '../../../../components/common/DataTag/DataTag';
 import { ListItemWrapper } from '../../../../components/ListItemWrapper/ListItemWrapper';
 import { TokenIcon } from '../../../../components/TokenIcon/TokenIcon';

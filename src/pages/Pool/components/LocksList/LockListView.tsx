@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { locksAccumulators$ } from '../../../../api/locks';
 import { ReactComponent as RelockIcon } from '../../../../assets/icons/relock-icon.svg';
@@ -25,8 +25,6 @@ interface LockItemViewProps {
 }
 
 const LockItemView: FC<LockItemViewProps> = ({ lockAccumulator }) => {
-  const history = useHistory();
-
   return (
     <ListItemWrapper>
       <Flex>
@@ -108,7 +106,7 @@ const LockItemView: FC<LockItemViewProps> = ({ lockAccumulator }) => {
   );
 };
 
-export const LockListView = () => {
+export const LockListView: FC = () => {
   const [locksAccumulators, loading] = useObservable(locksAccumulators$);
 
   if (loading) {
