@@ -3,8 +3,7 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
 import { map } from 'rxjs';
 
-import { ergoExplorerContext$ } from '../../../api/explorer';
-import { getLockAccumulatorByPoolId, getLocksByPool } from '../../../api/locks';
+import { getLockAccumulatorByPoolId } from '../../../api/locks';
 import { useObservable, useSubject } from '../../../common/hooks/useObservable';
 import { AssetLock, AssetLockStatus } from '../../../common/models/AssetLock';
 import { FormHeader } from '../../../components/common/FormView/FormHeader/FormHeader';
@@ -21,7 +20,6 @@ import {
   FormGroup,
   useForm,
 } from '../../../ergodex-cdk/components/Form/NewForm';
-import { getAvailablePoolDataById } from '../../../services/new/pools';
 import { LockedPositionItem } from '../components/LockedPositionItem/LockedPositionItem';
 import { WithdrawalLiquidityConfirmationModal } from './WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal';
 

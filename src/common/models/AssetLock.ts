@@ -36,7 +36,7 @@ export class AssetLock {
   }
 
   get status(): AssetLockStatus {
-    if (this.currentBlock < this.deadline) {
+    if (this.currentBlock <= this.deadline) {
       return AssetLockStatus.LOCKED;
     }
     return AssetLockStatus.UNLOCKED;
