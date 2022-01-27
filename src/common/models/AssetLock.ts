@@ -6,6 +6,7 @@ import { DateTime } from 'luxon';
 
 import { AmmPool } from './AmmPool';
 import { Currency } from './Currency';
+import { Position } from './Position';
 
 export enum AssetLockStatus {
   LOCKED,
@@ -13,6 +14,11 @@ export enum AssetLockStatus {
 }
 
 export class AssetLock {
+  @cache
+  get pool(): AmmPool {
+    return this.position.pool;
+  }
+
   @cache
   get deadline(): number {
     return this.tokenLock.deadline;
@@ -81,7 +87,7 @@ export class AssetLock {
   }
 
   constructor(
-    public pool: AmmPool,
+    public position: Position,
     public tokenLock: TokenLock,
     private currentBlock: number,
   ) {}

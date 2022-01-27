@@ -9,27 +9,20 @@ import {
 } from 'rxjs';
 
 import { AssetLock } from '../../../common/models/AssetLock';
-import { addresses$ } from '../addresses/addresses';
 import { networkContext$ } from '../networkContext/networkContext';
-import { pools$ } from '../pools/pools';
-import { locksHistory } from './common';
-
-const tokenLocks$: Observable<TokenLock[]> = addresses$.pipe(
-  switchMap((addresses) => locksHistory.getAllByAddresses(addresses)),
-  publishReplay(1),
-  refCount(),
-);
+import { positions$ } from '../positions/positions';
+import { tokenLocks$ } from './common';
 
 export const locks$: Observable<AssetLock[]> = combineLatest([
-  pools$,
+  positions$,
   tokenLocks$,
   networkContext$,
 ]).pipe(
-  map(([pools, tokenLocks, networkContext]) =>
+  map(([positions, tokenLocks, networkContext]) =>
     tokenLocks.map(
       (tl) =>
         new AssetLock(
-          pools.find((p) => p.lp.asset.id === tl.lockedAsset.asset.id)!,
+          positions.find((p) => p.lp.asset.id === tl.lockedAsset.asset.id)!,
           tl,
           networkContext.height,
         ),
