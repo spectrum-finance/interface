@@ -16,6 +16,10 @@ export class AssetLock {
     return this.tokenLock.deadline;
   }
 
+  get active(): boolean {
+    return this.tokenLock.active;
+  }
+
   get lp(): Currency {
     return new Currency(
       this.tokenLock.lockedAsset.amount,
