@@ -4,6 +4,7 @@ export * from './Box/Box';
 export * from './Button/Button';
 export * from './Checkbox/Checkbox';
 export * from './Col/Col';
+export * from './Collapse/Collapse';
 export * from './DatePicker/DatePicker';
 export * from './Dropdown/Dropdown';
 export * from './Flex/Flex';
