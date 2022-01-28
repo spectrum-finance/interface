@@ -1,7 +1,10 @@
 import './ActionButton.less';
 
+import { DateTime } from 'luxon';
 import React, { FC, ReactNode } from 'react';
+import { interval, map } from 'rxjs';
 
+import { useObservable } from '../../../../common/hooks/useObservable';
 import { Button, ButtonProps } from '../../../../ergodex-cdk';
 import { ConnectWalletButton } from '../../ConnectWalletButton/ConnectWalletButton';
 
@@ -13,8 +16,14 @@ export enum ActionButtonState {
   INSUFFICIENT_LIQUIDITY,
   LOADING,
   CHECK_INTERNET_CONNECTION,
+  ANETA_SWAP_LOCK,
   ACTION,
 }
+
+export const END_TIMER_DATE = DateTime.utc(2022, 1, 28, 17, 0, 0);
+
+export const LOCKED_TOKEN_ID =
+  '472c3d4ecaa08fb7392ff041ee2e6af75f4a558810a74b28600549d5392810e8';
 
 const selectTokenState = (): ButtonProps => ({
   children: 'Select a token',
@@ -99,7 +108,39 @@ export interface ActionButtonProps {
   readonly children: ReactNode;
 }
 
+const getDiff = () =>
+  END_TIMER_DATE.diffNow(['hour', 'minute', 'second', 'millisecond']);
+
+// const renderTimer = () =>
+
+const timer$ = interval(1000).pipe(map(() => getDiff()));
+
 export const ActionButton: FC<ActionButtonProps> = (props) => {
+  const [timer] = useObservable(timer$, [], getDiff());
+
+  if (props.state === ActionButtonState.ANETA_SWAP_LOCK) {
+    return (
+      <Button
+        htmlType="submit"
+        disabled={DateTime.now().toMillis() < END_TIMER_DATE.toMillis()}
+        onClick={() => {
+          if (DateTime.now().toMillis() < END_TIMER_DATE.toMillis()) {
+            return;
+          }
+          window.location.reload();
+        }}
+        style={{ fontSize: '20px', lineHeight: '28px' }}
+        size="extra-large"
+        block
+        type="primary"
+      >
+        {DateTime.now().toMillis() < END_TIMER_DATE.toMillis()
+          ? `Swapping is available in ${timer.toFormat('hh:mm:ss')}`
+          : `Refresh page`}
+      </Button>
+    );
+  }
+
   const { children, ...other } = getButtonPropsByState(
     props.state,
     props.token,

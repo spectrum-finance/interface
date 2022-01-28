@@ -6,6 +6,7 @@
   width: 100%;
   flex-flow: row nowrap;
   justify-content: space-between;
+  transition: transform .3s;
 
   &__wrapper {
     position: relative;
@@ -52,5 +53,9 @@
 
   &__btn {
     border: 1px solid transparent;
+  }
+
+  &_hidden {
+    transform: translateY(-72px);
   }
 }

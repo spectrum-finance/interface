@@ -68,7 +68,7 @@ const TokenSelect: React.FC<TokenSelectProps> = ({
               alignItems: 'center',
             }}
           >
-            <TokenIcon name={value.name} />
+            <TokenIcon asset={value} />
             <Typography.Title level={5} style={{ marginLeft: '8px' }}>
               {value.name}
             </Typography.Title>

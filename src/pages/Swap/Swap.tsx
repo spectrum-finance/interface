@@ -1,6 +1,7 @@
 import './Swap.less';
 
 import { maxBy } from 'lodash';
+import { DateTime } from 'luxon';
 import React, { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -19,6 +20,10 @@ import {
 import { useAssetsBalance } from '../../api/assetBalance';
 import { useSubscription } from '../../common/hooks/useObservable';
 import { AmmPool } from '../../common/models/AmmPool';
+import {
+  END_TIMER_DATE,
+  LOCKED_TOKEN_ID,
+} from '../../components/common/ActionForm/ActionButton/ActionButton';
 import { ActionForm } from '../../components/common/ActionForm/ActionForm';
 import { TokenControlFormItem } from '../../components/common/TokenControl/TokenControl';
 import {
@@ -99,6 +104,10 @@ export const Swap = (): JSX.Element => {
 
   const isTokensNotSelected = ({ toAsset, fromAsset }: SwapFormModel) =>
     !toAsset || !fromAsset;
+
+  const isSwapLocked = ({ toAsset, fromAsset }: SwapFormModel) =>
+    (toAsset?.id === LOCKED_TOKEN_ID || fromAsset?.id === LOCKED_TOKEN_ID) &&
+    DateTime.now().toMillis() < END_TIMER_DATE.toMillis();
 
   const submitSwap = (value: Required<SwapFormModel>) => {
     openConfirmationModal(
@@ -212,6 +221,7 @@ export const Swap = (): JSX.Element => {
         isAmountNotEntered={isAmountNotEntered}
         isTokensNotSelected={isTokensNotSelected}
         isLiquidityInsufficient={isLiquidityInsufficient}
+        isSwapLocked={isSwapLocked}
         action={submitSwap}
       >
         <Flex col>
