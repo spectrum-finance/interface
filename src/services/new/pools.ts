@@ -108,9 +108,7 @@ export const getPoolById = (poolId: PoolId): Observable<AmmPool | undefined> =>
 export const getAvailablePoolById = (
   poolId: PoolId,
 ): Observable<AmmPool | undefined> =>
-  availablePools$.pipe(
-    map((pools) => pools.find((position) => position.id === poolId)),
-  );
+  pools$.pipe(map((pools) => pools.find((position) => position.id === poolId)));
 
 const byPair = (xId: string, yId: string) => (p: AmmPool) =>
   (p.x.asset.id === xId || p.y.asset.id === xId) &&
