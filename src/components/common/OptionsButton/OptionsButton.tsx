@@ -1,11 +1,8 @@
-import Icon from '@ant-design/icons';
 import { Menu } from 'antd';
 import React, { FC, ReactNode } from 'react';
 
-import { ReactComponent as DotsVertical } from '../../../assets/icons/icon-dots-vertical.svg';
 import { Box, Button, Dropdown } from '../../../ergodex-cdk';
-
-const DotsIconVertical = () => <Icon component={DotsVertical} />;
+import { DotsIcon } from '../Icons/DotsIcon';
 
 type Placement =
   | 'topLeft'
@@ -43,7 +40,8 @@ const OptionsButton: FC<OptionsButtonProps> = ({
       <Button
         type={type ? type : 'default'}
         size={size ? size : 'middle'}
-        icon={<DotsIconVertical />}
+        icon={<DotsIcon rotate />}
+        onClick={(event) => event.stopPropagation()}
       />
     </Dropdown>
   );

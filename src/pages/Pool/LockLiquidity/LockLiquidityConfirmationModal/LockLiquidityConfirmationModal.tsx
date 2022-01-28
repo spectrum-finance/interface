@@ -80,7 +80,8 @@ const LockLiquidityConfirmationModal: React.FC<LockLiquidityConfirmationModalPro
         RModule,
       );
 
-      const deadline = millisToBlocks(BigInt(timelock.toMillis() - now)) + 1;
+      const deadline =
+        network.height + millisToBlocks(BigInt(timelock.toMillis() - now)) + 1;
 
       if (address && pk) {
         const params: LockParams = {
@@ -102,7 +103,7 @@ const LockLiquidityConfirmationModal: React.FC<LockLiquidityConfirmationModalPro
 
     return (
       <>
-        <Modal.Title>Confirm Lock Liquidity</Modal.Title>
+        <Modal.Title>Confirm Lock</Modal.Title>
         <Modal.Content width={436}>
           <Flex col>
             <Flex.Item marginBottom={4}>
@@ -135,7 +136,7 @@ const LockLiquidityConfirmationModal: React.FC<LockLiquidityConfirmationModalPro
           </Flex>
           <Button
             block
-            size="large"
+            size="extra-large"
             disabled={!isChecked}
             type="primary"
             onClick={lockOperation}

@@ -1,9 +1,13 @@
 import './LiquidityDatePicker.less';
 
+import { millisToBlocks } from '@ergolabs/ergo-dex-sdk';
 import { DateTime } from 'luxon';
 import React from 'react';
 
+import { useObservable } from '../../../../common/hooks/useObservable';
 import { DatePicker, Flex, Typography } from '../../../../ergodex-cdk';
+import { networkContext$ } from '../../../../network/ergo/networkContext/networkContext';
+import { formatToInt } from '../../../../services/number';
 import { getLockingPeriodString } from '../../utils';
 
 interface LockLiquidityDatePickerProps {
@@ -21,9 +25,17 @@ const LiquidityDatePicker: React.FC<LockLiquidityDatePickerProps> = ({
   disabledDate,
   selectedPrefix,
 }) => {
+  const [network] = useObservable(networkContext$);
   const handleChange = (date: DateTime | null) => {
     onChange(date);
   };
+
+  const block =
+    network?.height && value
+      ? network.height +
+        millisToBlocks(BigInt(value.toMillis() - DateTime.now().toMillis())) +
+        1
+      : undefined;
 
   return (
     <Flex
@@ -36,7 +48,8 @@ const LiquidityDatePicker: React.FC<LockLiquidityDatePickerProps> = ({
           <Flex col>
             <Flex.Item marginBottom={1}>
               <Typography.Title level={5}>
-                {value?.toLocaleString(DateTime.DATE_FULL)}
+                {value?.toLocaleString(DateTime.DATE_FULL)}{' '}
+                {block ? `(Block: ${formatToInt(block)})` : ''}
               </Typography.Title>
             </Flex.Item>
             <Flex.Item>

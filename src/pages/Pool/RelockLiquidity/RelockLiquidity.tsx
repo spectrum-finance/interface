@@ -1,100 +1,173 @@
-import { BoxId } from '@ergolabs/ergo-sdk';
+import { blocksToMillis, PoolId } from '@ergolabs/ergo-dex-sdk';
 import { DateTime } from 'luxon';
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
+import { useParams } from 'react-router';
+import { combineLatest, map } from 'rxjs';
 
-import { Currency } from '../../../common/models/Currency';
+import { ergoExplorerContext$ } from '../../../api/explorer';
+import { getLocksByPool } from '../../../api/locks';
+import { useObservable, useSubject } from '../../../common/hooks/useObservable';
+import { AssetLock } from '../../../common/models/AssetLock';
 import { FormHeader } from '../../../components/common/FormView/FormHeader/FormHeader';
 import { FormSection } from '../../../components/common/FormView/FormSection/FormSection';
+import {
+  openConfirmationModal,
+  Operation,
+} from '../../../components/ConfirmationModal/ConfirmationModal';
 import { FormPageWrapper } from '../../../components/FormPageWrapper/FormPageWrapper';
+import {
+  OperationForm,
+  OperationValidator,
+} from '../../../components/OperationForm/OperationForm';
 import { SubmitButton } from '../../../components/SubmitButton/SubmitButton';
-import { Animation, Flex, List, Typography } from '../../../ergodex-cdk';
-import { useForm } from '../../../ergodex-cdk/components/Form/NewForm';
-import { mockCurrency } from '../../../mocks/asset';
+import {
+  Animation,
+  Flex,
+  List,
+  Skeleton,
+  Typography,
+} from '../../../ergodex-cdk';
+import {
+  Form,
+  FormGroup,
+  useForm,
+} from '../../../ergodex-cdk/components/Form/NewForm';
+import { getAvailablePoolDataById } from '../../../services/new/pools';
 import { LockedPositionItem } from '../components/LockedPositionItem/LockedPositionItem';
 import { LiquidityDatePicker } from '../components/LockLiquidityDatePicker/LiquidityDatePicker';
-
-const xMock = mockCurrency;
-const yMock = mockCurrency;
-const mockedData = [
-  { id: '1234', status: 'Withdrawable' },
-  { id: '1235', status: 'Withdrawable' },
-  { id: '1236', status: 'Locked' },
-  { id: '1237', status: 'Locked' },
-];
+import { RelockLiquidityConfirmationModal } from './RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal';
 
 interface RelockLiquidityModel {
-  xAmount?: Currency;
-  yAmount?: Currency;
-  lpAmount?: Currency;
+  lockedPosition?: AssetLock;
   relocktime?: DateTime;
-  boxId?: BoxId;
 }
 
 export const RelockLiquidity = (): JSX.Element => {
-  const [activeItemId, setActiveItemId] = useState<string | undefined>();
-
-  const [dpval, setdpvalue] = useState<DateTime | null | undefined>();
-
   const form = useForm<RelockLiquidityModel>({
-    xAmount: undefined,
-    yAmount: undefined,
-    lpAmount: undefined,
+    lockedPosition: undefined,
     relocktime: undefined,
-    boxId: undefined,
   });
+  const { poolId } = useParams<{ poolId: PoolId }>();
+  const [poolData, updatePoolData] = useSubject(getAvailablePoolDataById);
+  const [locks, updateLocks] = useSubject(getLocksByPool);
 
-  const handleSetActive = (id: string) => {
-    setActiveItemId((prev) => {
-      if (prev === id) return;
-      return id;
-    });
+  const [explorerContext] = useObservable(ergoExplorerContext$);
+
+  const currentBlock = explorerContext ? explorerContext.height : undefined;
+
+  const validators: OperationValidator<RelockLiquidityModel>[] = [
+    (form) => !form.value.lockedPosition && 'Select Locked Position',
+    (form) => !form.value.relocktime && 'Pick new unlock date',
+  ];
+
+  useEffect(() => updatePoolData(poolId), []);
+  useEffect(() => {
+    if (poolData) updateLocks(poolData.pool);
+  }, [poolData]);
+
+  const [isLockedPositionSelected] = useObservable(
+    form.controls.lockedPosition.valueChanges$.pipe(map(Boolean)),
+  );
+
+  const handleRelockLiquidity = (form: FormGroup<RelockLiquidityModel>) => {
+    const lockedPosition = form.value.lockedPosition;
+    const relocktime = form.value.relocktime;
+
+    if (lockedPosition && relocktime) {
+      openConfirmationModal(
+        (next) => (
+          <RelockLiquidityConfirmationModal
+            onClose={next}
+            lockedPosition={lockedPosition}
+            relocktime={relocktime}
+          />
+        ),
+        Operation.RELOCK_LIQUIDITY,
+        {
+          assetLock: lockedPosition,
+          time: relocktime,
+        },
+      );
+    }
   };
 
   return (
     <FormPageWrapper width={760} title="Relock liquidity" withBackButton>
-      <Flex col>
-        <Flex.Item marginBottom={2}>
-          <FormHeader x={xMock} y={yMock} />
-        </Flex.Item>
-        <Flex.Item marginBottom={4}>
+      {poolData && locks && explorerContext ? (
+        <OperationForm
+          actionCaption="Relock position"
+          form={form}
+          onSubmit={handleRelockLiquidity}
+          validators={validators}
+        >
           <Flex col>
             <Flex.Item marginBottom={2}>
-              <Typography.Body strong>Select Locked Position</Typography.Body>
+              <FormHeader x={poolData.xAmount} y={poolData.yAmount} />
             </Flex.Item>
-            <List dataSource={mockedData} gap={2}>
-              {(item) => {
-                return (
-                  <LockedPositionItem
-                    isActive={item.id === activeItemId}
-                    onClick={() => handleSetActive(item.id)}
-                    status={item.status}
-                  />
-                );
-              }}
-            </List>
+            <Flex.Item>
+              <Flex col>
+                <Flex.Item marginBottom={2}>
+                  <Typography.Body strong>
+                    Select Locked Position
+                  </Typography.Body>
+                </Flex.Item>
+                <Form.Item name="lockedPosition">
+                  {({ value, onChange }) => (
+                    <List dataSource={locks} gap={2}>
+                      {(item) => (
+                        <LockedPositionItem
+                          pool={poolData.pool}
+                          assetLock={item}
+                          isActive={value?.boxId === item.boxId}
+                          onClick={() => onChange(item)}
+                        />
+                      )}
+                    </List>
+                  )}
+                </Form.Item>
+              </Flex>
+            </Flex.Item>
+            {isLockedPositionSelected && (
+              <Flex.Item marginTop={4}>
+                <Animation.Expand expanded={isLockedPositionSelected}>
+                  <FormSection title="Unlock date">
+                    <Form.Item name="relocktime">
+                      {({ value, onChange }) => (
+                        <LiquidityDatePicker
+                          value={value}
+                          selectedPrefix="Extension period"
+                          defaultValue="Select relock date"
+                          onChange={onChange}
+                          disabledDate={(current) => {
+                            const dl = form.value.lockedPosition?.deadline;
+                            if (dl && currentBlock) {
+                              if (currentBlock < dl) {
+                                return (
+                                  current.minus({
+                                    days: 1,
+                                    millisecond: Number(
+                                      blocksToMillis(dl - currentBlock),
+                                    ),
+                                  }) <= DateTime.now()
+                                );
+                              }
+                            }
+                            return (
+                              current.toMillis() <= DateTime.now().toMillis()
+                            );
+                          }}
+                        />
+                      )}
+                    </Form.Item>
+                  </FormSection>
+                </Animation.Expand>
+              </Flex.Item>
+            )}
           </Flex>
-        </Flex.Item>
-        {activeItemId && (
-          <Flex.Item marginBottom={4}>
-            <Animation.Expand expanded={!!activeItemId}>
-              <FormSection title="Unlock date">
-                <LiquidityDatePicker
-                  value={dpval}
-                  selectedPrefix="Prefix"
-                  defaultValue="Select new unlock date"
-                  onChange={(val) => setdpvalue(val)}
-                />
-              </FormSection>
-            </Animation.Expand>
-          </Flex.Item>
-        )}
-
-        <Flex.Item>
-          <SubmitButton disabled={!activeItemId} htmlType="submit">
-            Relock position
-          </SubmitButton>
-        </Flex.Item>
-      </Flex>
+        </OperationForm>
+      ) : (
+        <Skeleton active />
+      )}
     </FormPageWrapper>
   );
 };

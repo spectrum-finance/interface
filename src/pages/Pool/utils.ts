@@ -1,3 +1,4 @@
+import { MinBoxValue } from '@ergolabs/ergo-sdk';
 import { DateTime } from 'luxon';
 
 export const getLockingPeriodString = (date: DateTime): string => {
@@ -45,3 +46,6 @@ export const getLockStatus = (deadline: DateTime): 'Locked' | 'Unlocked' => {
   }
   return 'Unlocked';
 };
+
+export const getFeeForLockTarget = (minerFeeNErgs: bigint): bigint =>
+  MinBoxValue + minerFeeNErgs * 2n;
