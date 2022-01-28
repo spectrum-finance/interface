@@ -22,6 +22,7 @@ const accessibleTokens = [
   'Erdoge',
   'ADA-disabled',
   'LunaDog',
+  'NETA',
 ];
 
 const TokenIcon: React.FC<TokenIconProps> = ({
