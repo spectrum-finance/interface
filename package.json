@@ -43,6 +43,7 @@
     "axios": "^0.24.0",
     "bignumber.js": "^9.0.1",
     "craco-less": "^1.20.0",
+    "decorator-cache-getter": "^1.0.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "fast-levenshtein": "^3.0.0",
     "i18next": "^21.5.3",

@@ -1,10 +1,15 @@
+import { cache } from 'decorator-cache-getter';
+
 import { math } from '../../utils/math';
 import { AmmPool } from './AmmPool';
 import { AssetLock, AssetLockStatus } from './AssetLock';
 import { Currency } from './Currency';
+import { Position } from './Position';
 
 export class AssetLockAccumulator {
   readonly pool: AmmPool;
+
+  readonly position: Position;
 
   readonly lp: Currency;
 
@@ -18,9 +23,10 @@ export class AssetLockAccumulator {
 
   readonly withdrawableY: Currency;
 
+  @cache
   get share(): number {
     const lpAmount = this.lp.toString({ suffix: false });
-    const poolLiquidityAmount = this.pool.lp.toString({ suffix: false });
+    const poolLiquidityAmount = this.position.lp.toString({ suffix: false });
     return math.evaluate!(
       `${lpAmount} / (${lpAmount} + ${poolLiquidityAmount}) * 100`,
     ).toFixed(2);
@@ -34,6 +40,7 @@ export class AssetLockAccumulator {
       throw new Error("Can't accumulate locks with different lp id");
     }
     this.pool = this.locks[0].pool;
+    this.position = this.locks[0].position;
 
     const { lp, x, y, withdrawableLp, withdrawableY, withdrawableX } =
       locks.reduce<{

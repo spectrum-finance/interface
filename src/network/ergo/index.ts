@@ -5,6 +5,7 @@ import { networkAssetBalance$ } from './balance/networkAssetBalance';
 import { locks$ } from './locks/locks';
 import { networkAsset$, useNetworkAsset } from './networkAsset/networkAsset';
 import { userPools$ } from './pools/userPools';
+import { positions$ } from './positions/positions';
 import { pendingTransactionsCount$ } from './transactions/pendingTransactions';
 import { getTxHistory } from './transactions/transactionsHistory';
 
@@ -15,6 +16,7 @@ export const ergoNetwork: Network = {
   networkAssetBalance$,
   assetBalance$,
   locks$,
+  positions$,
   userPools$,
   getTxHistory,
   useNetworkAsset,
