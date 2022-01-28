@@ -2,7 +2,7 @@ import { blocksToMillis, PoolId } from '@ergolabs/ergo-dex-sdk';
 import { DateTime } from 'luxon';
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
-import { combineLatest, map } from 'rxjs';
+import { map } from 'rxjs';
 
 import { ergoExplorerContext$ } from '../../../api/explorer';
 import { getLocksByPool } from '../../../api/locks';
@@ -19,7 +19,6 @@ import {
   OperationForm,
   OperationValidator,
 } from '../../../components/OperationForm/OperationForm';
-import { SubmitButton } from '../../../components/SubmitButton/SubmitButton';
 import {
   Animation,
   Flex,

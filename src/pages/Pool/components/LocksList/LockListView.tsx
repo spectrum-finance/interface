@@ -10,14 +10,7 @@ import { DataTag } from '../../../../components/common/DataTag/DataTag';
 import { OptionsButton } from '../../../../components/common/OptionsButton/OptionsButton';
 import { ListItemWrapper } from '../../../../components/ListItemWrapper/ListItemWrapper';
 import { TokenIcon } from '../../../../components/TokenIcon/TokenIcon';
-import {
-  Box,
-  Flex,
-  List,
-  LockOutlined,
-  Menu,
-  Typography,
-} from '../../../../ergodex-cdk';
+import { Box, Flex, List, Menu, Typography } from '../../../../ergodex-cdk';
 import { PositionListLoader } from '../PositionListLoader/PositionListLoader';
 
 interface LockItemViewProps {

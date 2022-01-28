@@ -1,12 +1,4 @@
-import { TokenLock } from '@ergolabs/ergo-dex-sdk/build/main/security/entities';
-import {
-  combineLatest,
-  map,
-  Observable,
-  publishReplay,
-  refCount,
-  switchMap,
-} from 'rxjs';
+import { combineLatest, map, Observable } from 'rxjs';
 
 import { AssetLock } from '../../../common/models/AssetLock';
 import { networkContext$ } from '../networkContext/networkContext';
