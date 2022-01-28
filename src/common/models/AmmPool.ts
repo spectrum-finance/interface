@@ -2,6 +2,7 @@ import { PoolId } from '@ergolabs/ergo-dex-sdk';
 import { AmmPool as BaseAmmPool } from '@ergolabs/ergo-dex-sdk/build/main/amm/entities/ammPool';
 import { AssetAmount } from '@ergolabs/ergo-sdk';
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
+import { cache } from 'decorator-cache-getter';
 
 import { math } from '../../utils/math';
 import { normalizeAmount } from '../utils/amount';
@@ -10,26 +11,32 @@ import { Currency } from './Currency';
 export class AmmPool {
   constructor(private pool: BaseAmmPool) {}
 
+  @cache
   get id(): PoolId {
     return this.pool.id;
   }
 
+  @cache
   get poolFeeNum(): number {
     return this.pool.poolFeeNum;
   }
 
+  @cache
   get feeNum(): bigint {
     return this.pool.feeNum;
   }
 
+  @cache
   get lp(): Currency {
     return new Currency(this.pool.lp.amount, this.pool.lp.asset);
   }
 
+  @cache
   get y(): Currency {
     return new Currency(this.pool.y.amount, this.pool.y.asset);
   }
 
+  @cache
   get x(): Currency {
     return new Currency(this.pool.x.amount, this.pool.x.asset);
   }

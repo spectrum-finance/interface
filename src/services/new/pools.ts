@@ -5,6 +5,7 @@ import {
   NetworkPools,
   PoolId,
 } from '@ergolabs/ergo-dex-sdk';
+import { TokenLock } from '@ergolabs/ergo-dex-sdk/build/main/security/entities';
 import { ErgoBox } from '@ergolabs/ergo-sdk';
 import {
   combineLatest,
@@ -21,6 +22,7 @@ import {
 
 import { AmmPool } from '../../common/models/AmmPool';
 import { Currency } from '../../common/models/Currency';
+import { tokenLocks$ } from '../../network/ergo/locks/common';
 import { getListAvailableTokens } from '../../utils/getListAvailableTokens';
 import { explorer } from '../explorer';
 import { lpWalletBalance$ } from './balance';
@@ -82,7 +84,7 @@ const availableNativeNetworkPools$ = utxos$.pipe(
         limit: 500,
         offset: 0,
       }),
-    ).pipe(map(([pools]) => filterPoolsByTokenIds(pools, tokensIds))),
+    ).pipe(map(([pools]) => pools)),
   ),
   publishReplay(1),
   refCount(),
@@ -96,17 +98,63 @@ const availableNetworkPools$ = utxos$.pipe(
         limit: 500,
         offset: 0,
       }),
-    ).pipe(map(([pools]) => filterPoolsByTokenIds(pools, tokensIds))),
+    ).pipe(map(([pools]) => pools)),
   ),
   publishReplay(1),
   refCount(),
 );
 
-export const availablePools$: Observable<AmmPool[]> = zip([
-  availableNativeNetworkPools$,
-  availableNetworkPools$,
-]).pipe(
-  map(([nativePools, pools]) => nativePools.concat(pools)),
+export const availablePools$: Observable<AmmPool[]> = utxos$.pipe(
+  map(utxosToTokenIds),
+  switchMap((tokenIds) =>
+    combineLatest([
+      tokenLocks$,
+      zip([availableNativeNetworkPools$, availableNetworkPools$]),
+    ]).pipe(
+      map(
+        ([tokenLocks, [nativePools, pools]]) =>
+          [nativePools, pools, tokenLocks] as any,
+      ),
+      map(
+        ([nativePools, pools, tokenLocks]: [
+          BaseAmmPool[],
+          BaseAmmPool[],
+          TokenLock[],
+        ]) => {
+          const allPools = nativePools.concat(pools);
+          const filteredPools = filterPoolsByTokenIds(allPools, tokenIds).map(
+            (bap) => {
+              return tokenLocks
+                .filter((l) => l.lockedAsset.asset.id === bap.lp.asset.id)
+                .reduce<BaseAmmPool>((bap, l) => {
+                  //@ts-ignore
+                  bap.lp.amount += l.lockedAsset.amount;
+                  return bap;
+                }, bap);
+            },
+          );
+          const lockedPools = tokenLocks
+            .filter(
+              (l) =>
+                !filteredPools.some(
+                  (fp) => fp.lp.asset.id === l.lockedAsset.asset.id,
+                ),
+            )
+            .map((l) => {
+              const pool = allPools.find(
+                (p) => p.lp.asset.id === l.lockedAsset.asset.id,
+              )!;
+              //@ts-ignore
+              pool.lp.amount += l.lockedAsset.amount;
+
+              return pool;
+            });
+
+          return filteredPools.concat(lockedPools as any);
+        },
+      ),
+    ),
+  ),
   map((pools) => pools.map((p) => new AmmPool(p))),
   publishReplay(1),
   refCount(),
