@@ -11,6 +11,13 @@ export const assets$ = pools$.pipe(
   refCount(),
 );
 
+export const lpAssets$ = pools$.pipe(
+  map((pools) => pools.map((p) => p.lp.asset)),
+  map((assets) => uniqBy(assets, 'id')),
+  publishReplay(1),
+  refCount(),
+);
+
 export const getAssetById = (id: string): Observable<AssetInfo> =>
   assets$.pipe(map((assets) => find(assets, ['id', id])!));
 

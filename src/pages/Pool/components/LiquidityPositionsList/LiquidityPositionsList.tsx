@@ -5,8 +5,10 @@ import { isEmpty } from 'lodash';
 import React, { FC } from 'react';
 import { useHistory } from 'react-router-dom';
 
+import { useObservable } from '../../../../common/hooks/useObservable';
 import { AmmPool } from '../../../../common/models/AmmPool';
-import { Button, Flex, PlusOutlined } from '../../../../ergodex-cdk';
+import { Button, Flex, List, PlusOutlined } from '../../../../ergodex-cdk';
+import { isWalletSetuped$ } from '../../../../services/new/core';
 import { EmptyPositionsWrapper } from '../EmptyPositionsWrapper/EmptyPositionsWrapper';
 import { PositionListLoader } from '../PositionListLoader/PositionListLoader';
 import { LiquidityPositionsItem } from './LiquidityPositionsItem/LiquidityPositionsItem';
@@ -20,10 +22,14 @@ const LiquidityPositionsList: FC<LiquidityPositionsListProps> = ({
   loading,
   pools,
 }): JSX.Element => {
+  const [isWalletConnected] = useObservable(isWalletSetuped$, [], false);
+
   const history = useHistory();
 
   const onPositionClick = (id: PoolId) => {
-    history.push(`/pool/${id}/`);
+    if (isWalletConnected) {
+      history.push(`/pool/${id}/`);
+    }
   };
 
   function handleAddLiquidity() {
@@ -51,16 +57,11 @@ const LiquidityPositionsList: FC<LiquidityPositionsListProps> = ({
 
   return (
     <Flex col>
-      {pools.map((pool, index) => {
-        return (
-          <Flex.Item
-            key={index}
-            marginBottom={index + 1 === pools.length ? 0 : 2}
-          >
-            <LiquidityPositionsItem pool={pool} onClick={onPositionClick} />
-          </Flex.Item>
-        );
-      })}
+      <List dataSource={pools} gap={2}>
+        {(pool) => (
+          <LiquidityPositionsItem pool={pool} onClick={onPositionClick} />
+        )}
+      </List>
     </Flex>
   );
 };

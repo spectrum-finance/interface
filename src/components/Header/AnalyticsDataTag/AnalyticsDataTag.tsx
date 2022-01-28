@@ -1,16 +1,14 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import React from 'react';
 
+import { useObservable } from '../../../common/hooks/useObservable';
 import { Box, Flex, Typography } from '../../../ergodex-cdk';
-import { useObservable } from '../../../hooks/useObservable';
 import { aggregatedAnalyticsData24H$ } from '../../../services/new/analytics';
 import { formatToUSD } from '../../../services/number';
 import { renderFractions } from '../../../utils/math';
 
 export const AnalyticsDataTag = (): JSX.Element => {
-  const [currentStats] = useObservable(aggregatedAnalyticsData24H$, {
-    defaultValue: {},
-  });
+  const [currentStats] = useObservable(aggregatedAnalyticsData24H$, [], {});
 
   return (
     <Box height="40px" borderRadius="m">

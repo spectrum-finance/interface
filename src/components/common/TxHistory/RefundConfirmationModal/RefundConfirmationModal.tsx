@@ -1,6 +1,7 @@
 import { TxId } from '@ergolabs/ergo-sdk';
 import React, { useState } from 'react';
 
+import { useObservable } from '../../../../common/hooks/useObservable';
 import { Address, useSettings } from '../../../../context';
 import {
   Box,
@@ -12,7 +13,6 @@ import {
   Modal,
   Typography,
 } from '../../../../ergodex-cdk';
-import { useObservable } from '../../../../hooks/useObservable';
 import { utxos$ } from '../../../../services/new/core';
 import { submitTx } from '../../../../services/yoroi';
 import { refund } from '../../../../utils/ammOperations';

@@ -34,6 +34,17 @@ export class AmmPool {
     return new Currency(this.pool.x.amount, this.pool.x.asset);
   }
 
+  shares(input: Currency): [Currency, Currency] {
+    const [assetX, assetY] = this.pool.shares(
+      new AssetAmount(input.asset, input.amount),
+    );
+
+    return [
+      new Currency(assetX.amount, assetX.asset),
+      new Currency(assetY.amount, assetY.asset),
+    ];
+  }
+
   getAssetAmount(asset: AssetInfo): Currency {
     if (this.pool.x.asset.id === asset.id) {
       return this.x;

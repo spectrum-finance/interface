@@ -1,12 +1,12 @@
 import './SlippageInput.less';
 
-import React, { ChangeEvent, FC, useState } from 'react';
+import React, { ChangeEvent, FC } from 'react';
 
 import {
   defaultSlippage,
   SlippageMax,
   SlippageMin,
-} from '../../../../constants/settings';
+} from '../../../../common/constants/settings';
 import { Alert, Button, Flex, Input } from '../../../../ergodex-cdk';
 import { Control } from '../../../../ergodex-cdk/components/Form/NewForm';
 

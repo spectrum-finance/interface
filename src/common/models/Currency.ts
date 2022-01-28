@@ -1,6 +1,10 @@
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 
-import { parseUserInputToFractions, renderFractions } from '../../utils/math';
+import {
+  math,
+  parseUserInputToFractions,
+  renderFractions,
+} from '../../utils/math';
 import { getDecimalsCount, normalizeAmount } from '../utils/amount';
 
 const createUnknownAsset = (decimals = 0): AssetInfo => ({
@@ -104,6 +108,18 @@ export class Currency {
     }
 
     return new Currency(this.amount - currency.amount, this.asset);
+  }
+
+  percent(percent: number | string): Currency {
+    if (this.amount === 0n) {
+      return this;
+    }
+    const fmtAmount = this.toString({ suffix: false });
+    const newAmount = math.evaluate!(
+      `${fmtAmount} / 100 * ${percent}`,
+    ).toString();
+
+    return new Currency(normalizeAmount(newAmount, this.asset), this.asset);
   }
 
   toString(config?: { suffix: boolean }): string {

@@ -7,7 +7,7 @@ import React, {
   useState,
 } from 'react';
 
-import { ERG_DECIMALS, ERG_TOKEN_NAME } from '../constants/erg';
+import { ERG_DECIMALS, ERG_TOKEN_NAME } from '../common/constants/erg';
 import { useInterval } from '../hooks/useInterval';
 import { walletCookies } from '../utils/cookies';
 import { renderFractions } from '../utils/math';

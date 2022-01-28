@@ -2,10 +2,10 @@ import { AssetAmount } from '@ergolabs/ergo-sdk';
 import { useEffect, useState } from 'react';
 
 import { AssetPair } from '../@types/asset';
+import { useObservable } from '../common/hooks/useObservable';
 import { AmmPool } from '../common/models/AmmPool';
 import { isWalletLoading$ } from '../services/new/core';
 import { parseUserInputToFractions, renderFractions } from '../utils/math';
-import { useObservable } from './useObservable';
 
 interface Pair {
   pair?: AssetPair;

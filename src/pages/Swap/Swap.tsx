@@ -1,7 +1,7 @@
 import './Swap.less';
 
-import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import { maxBy } from 'lodash';
+import { DateTime } from 'luxon';
 import React, { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -17,7 +17,12 @@ import {
   tap,
 } from 'rxjs';
 
+import { useSubscription } from '../../common/hooks/useObservable';
 import { AmmPool } from '../../common/models/AmmPool';
+import {
+  END_TIMER_DATE,
+  LOCKED_TOKEN_ID,
+} from '../../components/common/ActionForm/ActionButton/ActionButton';
 import { ActionForm } from '../../components/common/ActionForm/ActionForm';
 import { TokenControlFormItem } from '../../components/common/TokenControl/TokenControl';
 import {
@@ -27,9 +32,8 @@ import {
 import { FormPageWrapper } from '../../components/FormPageWrapper/FormPageWrapper';
 import { Button, Flex, SwapOutlined, Typography } from '../../ergodex-cdk';
 import { useForm } from '../../ergodex-cdk/components/Form/NewForm';
-import { useSubscription } from '../../hooks/useObservable';
 import { assets$, getAvailableAssetFor } from '../../services/new/assets';
-import { useWalletBalance } from '../../services/new/balance';
+import { useAssetWalletBalance } from '../../services/new/balance';
 import { useMaxTotalFees, useNetworkAsset } from '../../services/new/core';
 import { getPoolByPair } from '../../services/new/pools';
 import { OperationSettings } from './OperationSettings/OperationSettings';
@@ -60,7 +64,7 @@ export const Swap = (): JSX.Element => {
     pool: undefined,
   });
   const networkAsset = useNetworkAsset();
-  const [balance] = useWalletBalance();
+  const [balance] = useAssetWalletBalance();
   const totalFees = useMaxTotalFees();
   const updateToAssets$ = useMemo(
     () => new BehaviorSubject<string | undefined>(undefined),
@@ -101,6 +105,10 @@ export const Swap = (): JSX.Element => {
   const isTokensNotSelected = ({ toAsset, fromAsset }: SwapFormModel) =>
     !toAsset || !fromAsset;
 
+  const isSwapLocked = ({ toAsset, fromAsset }: SwapFormModel) =>
+    (toAsset?.id === LOCKED_TOKEN_ID || fromAsset?.id === LOCKED_TOKEN_ID) &&
+    DateTime.now().toMillis() < END_TIMER_DATE.toMillis();
+
   const submitSwap = (value: Required<SwapFormModel>) => {
     openConfirmationModal(
       (next) => {
@@ -119,11 +127,8 @@ export const Swap = (): JSX.Element => {
     return toAmount?.gt(pool.getAssetAmount(toAmount?.asset));
   };
 
-  useSubscription(form.valueChangesWithSilent$, (value) => console.log(value));
-
-  useSubscription(
-    form.controls.fromAsset.valueChangesWithSilent$,
-    (token: AssetInfo | undefined) => updateToAssets$.next(token?.id),
+  useSubscription(form.controls.fromAsset.valueChangesWithSilent$, (token) =>
+    updateToAssets$.next(token?.id),
   );
 
   useSubscription(form.controls.fromAsset.valueChanges$, () =>
@@ -164,7 +169,7 @@ export const Swap = (): JSX.Element => {
       form.controls.pool.valueChanges$,
     ]).pipe(
       debounceTime(100),
-      filter(([_, pool]) => !!form.value.fromAsset && !!pool),
+      filter(([, pool]) => !!form.value.fromAsset && !!pool),
     ),
     ([amount, pool]) => {
       form.patchValue(
@@ -214,6 +219,7 @@ export const Swap = (): JSX.Element => {
         isAmountNotEntered={isAmountNotEntered}
         isTokensNotSelected={isTokensNotSelected}
         isLiquidityInsufficient={isLiquidityInsufficient}
+        isSwapLocked={isSwapLocked}
         action={submitSwap}
       >
         <Flex col>

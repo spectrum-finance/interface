@@ -1,10 +1,11 @@
 import './Header.less';
 
-import React from 'react';
+import cn from 'classnames';
+import React, { useEffect, useState } from 'react';
 
-import { ERG_TOKEN_NAME } from '../../constants/erg';
+import { ERG_TOKEN_NAME } from '../../common/constants/erg';
+import { useObservable } from '../../common/hooks/useObservable';
 import { useSettings } from '../../context';
-import { useObservable } from '../../hooks/useObservable';
 import {
   nativeTokenBalance$,
   WalletState,
@@ -28,9 +29,27 @@ export const Header: React.FC = () => {
   // TODO: Update with rx [EDEX-487]
   const [balance] = useObservable(nativeTokenBalance$);
   const [walletState] = useObservable(walletState$);
+  const [hidden, setHidden] = useState(false);
+
+  useEffect(() => {
+    let currentScrollY = window.scrollY;
+    const handleScroll = () => {
+      if (currentScrollY > window.scrollY) {
+        setHidden(false);
+      }
+      if (currentScrollY < window.scrollY) {
+        setHidden(true);
+      }
+      currentScrollY = window.scrollY;
+    };
+
+    document.addEventListener('scroll', handleScroll);
+
+    return () => document.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
-    <header className="header">
+    <header className={cn('header', { header_hidden: hidden })}>
       <div className="header__wrapper">
         <div className="header__left">
           <AppLogo isNoWording />

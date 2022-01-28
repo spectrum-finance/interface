@@ -2,9 +2,9 @@
 import React, { FC, ReactNode, useEffect, useState } from 'react';
 import { debounceTime, first, Observable } from 'rxjs';
 
+import { useObservable } from '../../../common/hooks/useObservable';
 import { Flex } from '../../../ergodex-cdk';
 import { Form, FormGroup } from '../../../ergodex-cdk/components/Form/NewForm';
-import { useObservable } from '../../../hooks/useObservable';
 import { isWalletLoading$ } from '../../../services/new/core';
 import { isOnline$ } from '../../../services/new/networkConnection';
 import { ActionButton, ActionButtonState } from './ActionButton/ActionButton';
@@ -15,6 +15,7 @@ export interface ActionFormProps<T> {
   readonly isTokensNotSelected?: (form: T) => boolean;
   readonly isAmountNotEntered?: (form: T) => boolean;
   readonly isLiquidityInsufficient?: (form: T) => boolean;
+  readonly isSwapLocked?: (form: T) => boolean;
   readonly getInsufficientTokenNameForTx?: (form: T) => undefined | string;
   readonly getInsufficientTokenNameForFee?: (form: T) => undefined | string;
   readonly action?: (form: T) => Promise<any> | Observable<any> | void;
@@ -29,6 +30,7 @@ export const ActionForm: FC<ActionFormProps<any>> = ({
   isAmountNotEntered,
   isTokensNotSelected,
   getInsufficientTokenNameForFee,
+  isSwapLocked,
   getInsufficientTokenNameForTx,
   children,
 }) => {
@@ -36,10 +38,8 @@ export const ActionForm: FC<ActionFormProps<any>> = ({
   const [isWalletLoading] = useObservable(isWalletLoading$);
   const [value] = useObservable(
     form.valueChangesWithSilent$.pipe(debounceTime(100)),
-    {
-      deps: [form],
-      defaultValue: {},
-    },
+    [form],
+    {},
   );
   const [buttonData, setButtonData] = useState<{
     state: ActionButtonState;
@@ -55,6 +55,8 @@ export const ActionForm: FC<ActionFormProps<any>> = ({
       setButtonData({ state: ActionButtonState.LOADING });
     } else if (isTokensNotSelected && isTokensNotSelected(value)) {
       setButtonData({ state: ActionButtonState.SELECT_TOKEN });
+    } else if (isSwapLocked && isSwapLocked(value)) {
+      setButtonData({ state: ActionButtonState.ANETA_SWAP_LOCK });
     } else if (isAmountNotEntered && isAmountNotEntered(value)) {
       setButtonData({ state: ActionButtonState.ENTER_AMOUNT });
     } else if (

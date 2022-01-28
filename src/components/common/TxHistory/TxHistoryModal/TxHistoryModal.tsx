@@ -1,9 +1,11 @@
 import Icon from '@ant-design/icons';
 import { TxId } from '@ergolabs/ergo-sdk';
 import { Typography } from 'antd';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback } from 'react';
 
+import { transactionsHistory$ } from '../../../../api/transactionsHistory';
 import { ReactComponent as DotsVertical } from '../../../../assets/icons/icon-dots-vertical.svg';
+import { useObservable } from '../../../../common/hooks/useObservable';
 import { useWalletAddresses, WalletAddressState } from '../../../../context';
 import {
   Box,
@@ -14,31 +16,20 @@ import {
   Modal,
   Skeleton,
 } from '../../../../ergodex-cdk';
-import networkHistory from '../../../../services/networkHistory';
 import { isRefundableOperation } from '../../../../utils/ammOperations';
 import { exploreTx } from '../../../../utils/redirect';
 import { InputOutputColumn } from '../InputOutputColumn/InputOutputColumn';
 import { RefundConfirmationModal } from '../RefundConfirmationModal/RefundConfirmationModal';
 import { TxStatusTag } from '../TxStatusTag/TxStatusTag';
 import { TxTypeTag } from '../TxTypeTag/TxTypeTag';
-import { Operation, OperationStatus } from '../types';
+import { OperationStatus } from '../types';
 import { normalizeOperations } from '../utils';
 
 const DotsIconVertical = () => <Icon component={DotsVertical} />;
 
 const TxHistoryModal = (): JSX.Element => {
-  const TXS_TO_DISPLAY = 50;
-
-  const [operations, setOperations] = useState<Operation[] | undefined>();
+  const [txs] = useObservable(transactionsHistory$);
   const walletAddresses = useWalletAddresses();
-
-  useEffect(() => {
-    if (walletAddresses.state === WalletAddressState.LOADED) {
-      networkHistory
-        .getAllByAddresses(walletAddresses.addresses, TXS_TO_DISPLAY)
-        .then((ops) => setOperations(normalizeOperations(ops)));
-    }
-  }, [walletAddresses]);
 
   const handleOpenRefundConfirmationModal = useCallback(
     (txId) => {
@@ -94,8 +85,8 @@ const TxHistoryModal = (): JSX.Element => {
               <Flex.Item style={{ width: '5%' }} />
             </Flex>
           </Flex.Item>
-          {operations ? (
-            operations.map((op, index) => {
+          {txs ? (
+            normalizeOperations(txs).map((op, index) => {
               return (
                 <Flex.Item
                   key={index}

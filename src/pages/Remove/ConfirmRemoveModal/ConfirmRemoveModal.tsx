@@ -2,11 +2,10 @@ import { minValueForOrder } from '@ergolabs/ergo-dex-sdk';
 import { BoxSelection, DefaultBoxSelector } from '@ergolabs/ergo-sdk';
 import React from 'react';
 
+import { ERG_DECIMALS, UI_FEE } from '../../../common/constants/erg';
 import { AmmPool } from '../../../common/models/AmmPool';
 import { Currency } from '../../../common/models/Currency';
 import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
-import { ERG_DECIMALS, UI_FEE } from '../../../constants/erg';
-import { defaultExFee } from '../../../constants/settings';
 import { useSettings } from '../../../context';
 import {
   Box,
@@ -23,14 +22,13 @@ import { poolActions } from '../../../services/poolActions';
 import { submitTx } from '../../../services/yoroi';
 import { makeTarget } from '../../../utils/ammMath';
 import { parseUserInputToFractions } from '../../../utils/math';
-import { calculateTotalFee } from '../../../utils/transactions';
 import { PairSpace } from '../PairSpace/PairSpace';
 import { RemoveFormSpaceWrapper } from '../RemoveFormSpaceWrapper/RemoveFormSpaceWrapper';
 
 interface ConfirmRemoveModalProps {
   onClose: (p: Promise<any>) => void;
   pool: AmmPool;
-  lpToRemove: number;
+  lpToRemove: Currency;
   xAmount: Currency;
   yAmount: Currency;
 }
@@ -53,7 +51,7 @@ const ConfirmRemoveModal: React.FC<ConfirmRemoveModalProps> = ({
 
   const removeOperation = async (pool: AmmPool) => {
     const actions = poolActions(pool['pool']);
-    const lp = pool['pool'].lp.withAmount(BigInt(lpToRemove.toFixed(0)));
+    const lp = pool['pool'].lp.withAmount(lpToRemove.amount);
 
     const poolId = pool.id;
 

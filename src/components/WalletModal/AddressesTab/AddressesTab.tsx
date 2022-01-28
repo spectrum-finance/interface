@@ -2,7 +2,7 @@ import './AddressTab.less';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { ERG_DECIMALS } from '../../../constants/erg';
+import { ERG_DECIMALS } from '../../../common/constants/erg';
 import {
   Address,
   useSettings,

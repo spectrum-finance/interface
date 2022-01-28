@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { useEffect, useState } from 'react';
 import { Observable, Subject, Subscription, switchMap } from 'rxjs';
 
@@ -5,22 +6,24 @@ import { Unpacked } from '../utils/unpacked';
 
 export function useObservable<T>(
   observable: Observable<T>,
-  config?: { deps?: any[] },
+  deps?: any[],
 ): [T | undefined, boolean, Error];
 export function useObservable<T>(
   observable: Observable<T>,
-  config: { defaultValue: T; deps?: any[] },
+  deps: any[],
+  defaultValue: T,
 ): [T, boolean, Error];
 export function useObservable<T>(
   observable: Observable<T>,
-  config?: { defaultValue?: T; deps?: any[] },
+  deps?: any[],
+  defaultValue?: T,
 ): [T | undefined, boolean, Error | undefined] {
   const [{ data, error, loading }, setParams] = useState<{
     data: T | undefined;
     error: Error | undefined;
     loading: boolean;
   }>({
-    data: config?.defaultValue,
+    data: defaultValue,
     error: undefined,
     loading: false,
   });
@@ -38,14 +41,14 @@ export function useObservable<T>(
     });
 
     return () => subscription.unsubscribe();
-  }, config?.deps || []);
+  }, deps || []);
 
   return [data, loading, error];
 }
 
 export function useSubject<F extends (...args: any[]) => Observable<any>>(
   observableAction: F,
-  config?: { deps?: any[] },
+  deps?: any[],
 ): [
   Unpacked<ReturnType<F>> | undefined,
   (...args: Parameters<F>) => void,
@@ -54,7 +57,8 @@ export function useSubject<F extends (...args: any[]) => Observable<any>>(
 ];
 export function useSubject<F extends (...args: any[]) => Observable<any>>(
   observableAction: F,
-  config: { deps?: any[]; defaultValue: Unpacked<ReturnType<F>> },
+  deps: any[],
+  defaultValue: Unpacked<ReturnType<F>>,
 ): [
   Unpacked<ReturnType<F>>,
   (...args: Parameters<F>) => void,
@@ -63,7 +67,8 @@ export function useSubject<F extends (...args: any[]) => Observable<any>>(
 ];
 export function useSubject<F extends (...args: any[]) => Observable<any>>(
   observableAction: F,
-  config?: { deps?: any[]; defaultValue?: Unpacked<ReturnType<F>> },
+  deps?: any[],
+  defaultValue?: Unpacked<ReturnType<F>>,
 ): [
   Unpacked<ReturnType<F>> | undefined,
   (...args: Parameters<F>) => void,
@@ -75,7 +80,7 @@ export function useSubject<F extends (...args: any[]) => Observable<any>>(
     error: Error | undefined;
     loading: boolean;
   }>({
-    data: config?.defaultValue,
+    data: defaultValue,
     error: undefined,
     loading: false,
   });
@@ -106,7 +111,7 @@ export function useSubject<F extends (...args: any[]) => Observable<any>>(
       });
 
     return () => subscription.unsubscribe();
-  }, config?.deps || []);
+  }, deps || []);
 
   return [data, nextData.next, loading, error];
 }
@@ -121,12 +126,12 @@ export function useSubscription<T extends (...args: any[]) => Observable<any>>(
   callback: (value: Unpacked<ReturnType<T>>) => void,
   deps?: any[],
 ): [(...args: Parameters<T>) => void];
-export function useSubscription<T>(
+export function useSubscription(
   item: any,
   callback: any,
   deps?: any[],
 ): void | [any] {
-  const [nextData, setNextData] = useState<{
+  const [nextData] = useState<{
     subject: Subject<any>;
     next: (...args: any[]) => void;
     //@ts-ignore

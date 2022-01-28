@@ -1,8 +1,8 @@
 import React from 'react';
 
+import { useObservable } from '../../common/hooks/useObservable';
 import { Box, Flex, Modal, Typography } from '../../ergodex-cdk';
 import { Tabs } from '../../ergodex-cdk/components/Tabs/Tabs';
-import { useObservable } from '../../hooks/useObservable';
 import { nativeTokenBalance$ } from '../../services/new/core';
 import { isLowBalance } from '../../utils/walletMath';
 import { AddressesTab } from './AddressesTab/AddressesTab';
