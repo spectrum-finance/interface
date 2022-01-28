@@ -1,10 +1,8 @@
 import './LockLiquidityChart.less';
 
-import { Collapse } from 'antd';
 import React, { FC } from 'react';
 import { Bar, BarChart, Label, Tooltip, XAxis, YAxis } from 'recharts';
 
-import { FormSection } from '../../../../components/common/FormView/FormSection/FormSection';
 import { Progress } from '../../../../ergodex-cdk';
 import { ChartContainer } from './ChartContainer/ChartContainer';
 
