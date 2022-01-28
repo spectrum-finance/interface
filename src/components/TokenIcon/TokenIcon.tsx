@@ -16,6 +16,7 @@ const accessibleTokens = [
   'SigRSV',
   'Kushti',
   'Erdoge',
+  'NETA',
   'ADA-disabled',
   'LunaDog',
 ];
