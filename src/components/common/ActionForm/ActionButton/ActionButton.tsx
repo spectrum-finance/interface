@@ -109,7 +109,12 @@ export interface ActionButtonProps {
 }
 
 const getDiff = () =>
-  END_TIMER_DATE.diffNow(['hour', 'minute', 'second', 'millisecond']);
+  END_TIMER_DATE.diff(DateTime.now().toUTC(), [
+    'hour',
+    'minute',
+    'second',
+    'millisecond',
+  ]);
 
 // const renderTimer = () =>
 
@@ -122,9 +127,9 @@ export const ActionButton: FC<ActionButtonProps> = (props) => {
     return (
       <Button
         htmlType="submit"
-        disabled={DateTime.now().toMillis() < END_TIMER_DATE.toMillis()}
+        disabled={DateTime.now().toUTC().toMillis() < END_TIMER_DATE.toMillis()}
         onClick={() => {
-          if (DateTime.now().toMillis() < END_TIMER_DATE.toMillis()) {
+          if (DateTime.now().toUTC().toMillis() < END_TIMER_DATE.toMillis()) {
             return;
           }
           window.location.reload();
@@ -134,7 +139,7 @@ export const ActionButton: FC<ActionButtonProps> = (props) => {
         block
         type="primary"
       >
-        {DateTime.now().toMillis() < END_TIMER_DATE.toMillis()
+        {DateTime.now().toUTC().toMillis() < END_TIMER_DATE.toMillis()
           ? `Swapping is available in ${timer.toFormat('hh:mm:ss')}`
           : `Refresh page`}
       </Button>

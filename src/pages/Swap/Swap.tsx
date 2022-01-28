@@ -107,7 +107,7 @@ export const Swap = (): JSX.Element => {
 
   const isSwapLocked = ({ toAsset, fromAsset }: SwapFormModel) =>
     (toAsset?.id === LOCKED_TOKEN_ID || fromAsset?.id === LOCKED_TOKEN_ID) &&
-    DateTime.now().toMillis() < END_TIMER_DATE.toMillis();
+    DateTime.now().toUTC().toMillis() < END_TIMER_DATE.toMillis();
 
   const submitSwap = (value: Required<SwapFormModel>) => {
     openConfirmationModal(
