@@ -1,5 +1,3 @@
-import './PoolOverview.less';
-
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
 import React, { useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
