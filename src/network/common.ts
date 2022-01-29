@@ -8,7 +8,6 @@ import { AssetLock } from '../common/models/AssetLock';
 import { Balance } from '../common/models/Balance';
 import { Currency } from '../common/models/Currency';
 import { Position } from '../common/models/Position';
-import { positions$ } from './ergo/positions/positions';
 
 export interface Network {
   readonly networkAsset$: Observable<AssetInfo>;
@@ -17,6 +16,7 @@ export interface Network {
   readonly assetBalance$: Observable<Balance>;
   readonly addresses$: Observable<Address[]>;
   readonly locks$: Observable<AssetLock[]>;
+  readonly ammPools$: Observable<AmmPool[]>;
   readonly positions$: Observable<Position[]>;
   readonly pendingTransactionsCount$: Observable<number>;
   readonly getTxHistory: (limit: number) => Observable<AmmDexOperation[]>;

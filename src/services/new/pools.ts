@@ -26,7 +26,7 @@ import { tokenLocks$ } from '../../network/ergo/locks/common';
 import { getListAvailableTokens } from '../../utils/getListAvailableTokens';
 import { explorer } from '../explorer';
 import { lpWalletBalance$ } from './balance';
-import { utxos$ } from './core';
+import { appTick$, utxos$ } from './core';
 
 export const networkPools = (): NetworkPools => makePools(explorer);
 export const nativeNetworkPools = (): NetworkPools => makeNativePools(explorer);
@@ -65,7 +65,8 @@ const networkPools$ = defer(() =>
   refCount(),
 );
 
-export const pools$ = combineLatest([nativeNetworkPools$, networkPools$]).pipe(
+export const pools$ = appTick$.pipe(
+  switchMap(() => combineLatest([nativeNetworkPools$, networkPools$])),
   map(([nativeNetworkPools, networkPools]) =>
     nativeNetworkPools
       .concat(networkPools)
