@@ -1,17 +1,14 @@
 import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 
-import { locksAccumulators$ } from '../../../../api/locks';
 import { ReactComponent as RelockIcon } from '../../../../assets/icons/relock-icon.svg';
 import { ReactComponent as WithdrawalIcon } from '../../../../assets/icons/withdrawal-icon.svg';
-import { useObservable } from '../../../../common/hooks/useObservable';
 import { AssetLockAccumulator } from '../../../../common/models/AssetLockAccumulator';
 import { DataTag } from '../../../../components/common/DataTag/DataTag';
 import { OptionsButton } from '../../../../components/common/OptionsButton/OptionsButton';
 import { ListItemWrapper } from '../../../../components/ListItemWrapper/ListItemWrapper';
 import { TokenIcon } from '../../../../components/TokenIcon/TokenIcon';
 import { Box, Flex, List, Menu, Typography } from '../../../../ergodex-cdk';
-import { PositionListLoader } from '../PositionListLoader/PositionListLoader';
 
 interface LockItemViewProps {
   readonly lockAccumulator: AssetLockAccumulator;
@@ -148,13 +145,11 @@ const LockItemView: FC<LockItemViewProps> = ({ lockAccumulator }) => {
   );
 };
 
-export const LockListView: FC = () => {
-  const [locksAccumulators, loading] = useObservable(locksAccumulators$);
+interface LockListViewProps {
+  locksAccumulators: AssetLockAccumulator[];
+}
 
-  if (loading) {
-    return <PositionListLoader />;
-  }
-
+export const LockListView: FC<LockListViewProps> = ({ locksAccumulators }) => {
   return (
     <List dataSource={locksAccumulators} gap={2}>
       {(lockAccumulator) => <LockItemView lockAccumulator={lockAccumulator} />}

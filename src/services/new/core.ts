@@ -27,7 +27,7 @@ import { walletCookies } from '../../utils/cookies';
 import { renderFractions } from '../../utils/math';
 import { calculateTotalFee } from '../../utils/transactions';
 
-const UPDATE_TIME = 5 * 1000;
+export const UPDATE_TIME = 5 * 1000;
 const ERGO_ID =
   '0000000000000000000000000000000000000000000000000000000000000000';
 
