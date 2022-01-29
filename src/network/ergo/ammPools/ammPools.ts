@@ -1,6 +1,15 @@
-import { combineLatest, defer, from, map, publishReplay, refCount } from 'rxjs';
+import {
+  combineLatest,
+  defer,
+  from,
+  map,
+  publishReplay,
+  refCount,
+  switchMap,
+} from 'rxjs';
 
 import { AmmPool } from '../../../common/models/AmmPool';
+import { appTick$ } from '../../../services/new/core';
 import { nativeNetworkPools, networkPools } from './common';
 
 const BlacklistedPoolId =
@@ -22,7 +31,8 @@ const networkPools$ = defer(() =>
   refCount(),
 );
 
-export const pools$ = combineLatest([nativeNetworkPools$, networkPools$]).pipe(
+export const ammPools$ = appTick$.pipe(
+  switchMap(() => combineLatest([nativeNetworkPools$, networkPools$])),
   map(([nativeNetworkPools, networkPools]) =>
     nativeNetworkPools
       .concat(networkPools)

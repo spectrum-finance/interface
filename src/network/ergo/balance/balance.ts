@@ -13,12 +13,12 @@ import { Balance } from '../../../common/models/Balance';
 import { explorer } from '../../../services/explorer';
 import { utxos$ } from '../../../services/new/core';
 import { getListAvailableTokens } from '../../../utils/getListAvailableTokens';
-import { pools$ } from '../pools/pools';
+import { ammPools$ } from '../ammPools/ammPools';
 import { networkAssetBalance$ } from './networkAssetBalance';
 
 export const assetBalance$ = combineLatest([
   networkAssetBalance$,
-  utxos$.pipe(switchMap(() => pools$)),
+  utxos$.pipe(switchMap(() => ammPools$)),
   utxos$.pipe(map((utxos) => Object.values(getListAvailableTokens(utxos)))),
 ]).pipe(
   debounceTime(200),

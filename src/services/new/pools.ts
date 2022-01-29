@@ -26,7 +26,7 @@ import { tokenLocks$ } from '../../network/ergo/locks/common';
 import { getListAvailableTokens } from '../../utils/getListAvailableTokens';
 import { explorer } from '../explorer';
 import { lpWalletBalance$ } from './balance';
-import { utxos$ } from './core';
+import { appTick$, utxos$ } from './core';
 
 export const networkPools = (): NetworkPools => makePools(explorer);
 export const nativeNetworkPools = (): NetworkPools => makeNativePools(explorer);
@@ -65,7 +65,8 @@ const networkPools$ = defer(() =>
   refCount(),
 );
 
-export const pools$ = combineLatest([nativeNetworkPools$, networkPools$]).pipe(
+export const pools$ = appTick$.pipe(
+  switchMap(() => combineLatest([nativeNetworkPools$, networkPools$])),
   map(([nativeNetworkPools, networkPools]) =>
     nativeNetworkPools
       .concat(networkPools)
@@ -133,19 +134,31 @@ export const availablePools$: Observable<AmmPool[]> = utxos$.pipe(
                 }, bap);
             },
           );
-          const lockedPools = tokenLocks
+          const locksGroups = Object.values(
+            tokenLocks.reduce<{ [key: string]: TokenLock[] }>((acc, lock) => {
+              if (!acc[lock.lockedAsset.asset.id]) {
+                acc[lock.lockedAsset.asset.id] = [];
+              }
+
+              acc[lock.lockedAsset.asset.id].push(lock);
+
+              return acc;
+            }, {}),
+          );
+
+          const lockedPools = locksGroups
             .filter(
               (l) =>
                 !filteredPools.some(
-                  (fp) => fp.lp.asset.id === l.lockedAsset.asset.id,
+                  (fp) => fp.lp.asset.id === l[0].lockedAsset.asset.id,
                 ),
             )
             .map((l) => {
               const pool = allPools.find(
-                (p) => p.lp.asset.id === l.lockedAsset.asset.id,
+                (p) => p.lp.asset.id === l[0].lockedAsset.asset.id,
               )!;
               //@ts-ignore
-              pool.lp.amount += l.lockedAsset.amount;
+              l.forEach((lc) => (pool.lp.amount += lc.lockedAsset.amount));
 
               return pool;
             });
@@ -161,11 +174,6 @@ export const availablePools$: Observable<AmmPool[]> = utxos$.pipe(
 );
 
 export const getPoolById = (poolId: PoolId): Observable<AmmPool | undefined> =>
-  pools$.pipe(map((pools) => pools.find((position) => position.id === poolId)));
-
-export const getAvailablePoolById = (
-  poolId: PoolId,
-): Observable<AmmPool | undefined> =>
   pools$.pipe(map((pools) => pools.find((position) => position.id === poolId)));
 
 export const getAvailablePoolDataById = (
@@ -184,17 +192,3 @@ export const getAvailablePoolDataById = (
           return { pool, lpAmount, xAmount: xAmount, yAmount: assetY };
         }),
       );
-
-const byPair = (xId: string, yId: string) => (p: AmmPool) =>
-  (p.x.asset.id === xId || p.y.asset.id === xId) &&
-  (p.x.asset.id === yId || p.y.asset.id === yId);
-
-export const getPoolByPair = (
-  xId: string,
-  yId: string,
-): Observable<AmmPool[]> =>
-  pools$.pipe(
-    map((pools) => pools.filter(byPair(xId, yId))),
-    publishReplay(1),
-    refCount(),
-  );
