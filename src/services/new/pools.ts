@@ -134,19 +134,31 @@ export const availablePools$: Observable<AmmPool[]> = utxos$.pipe(
                 }, bap);
             },
           );
-          const lockedPools = tokenLocks
+          const locksGroups = Object.values(
+            tokenLocks.reduce<{ [key: string]: TokenLock[] }>((acc, lock) => {
+              if (!acc[lock.lockedAsset.asset.id]) {
+                acc[lock.lockedAsset.asset.id] = [];
+              }
+
+              acc[lock.lockedAsset.asset.id].push(lock);
+
+              return acc;
+            }, {}),
+          );
+
+          const lockedPools = locksGroups
             .filter(
               (l) =>
                 !filteredPools.some(
-                  (fp) => fp.lp.asset.id === l.lockedAsset.asset.id,
+                  (fp) => fp.lp.asset.id === l[0].lockedAsset.asset.id,
                 ),
             )
             .map((l) => {
               const pool = allPools.find(
-                (p) => p.lp.asset.id === l.lockedAsset.asset.id,
+                (p) => p.lp.asset.id === l[0].lockedAsset.asset.id,
               )!;
               //@ts-ignore
-              pool.lp.amount += l.lockedAsset.amount;
+              l.forEach((lc) => (pool.lp.amount += lc.lockedAsset.amount));
 
               return pool;
             });
