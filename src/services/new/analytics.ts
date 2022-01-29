@@ -3,6 +3,8 @@ import axios from 'axios';
 import { DateTime } from 'luxon';
 import { defer, from, map, Observable } from 'rxjs';
 
+import { applicationConfig } from '../../applicationConfig';
+
 export interface LockedAsset {
   id: string;
   amount: number;
@@ -54,7 +56,7 @@ const get24hData = (url: string): Promise<any> => {
 };
 
 export const aggregatedAnalyticsData24H$ = defer(() =>
-  from(get24hData('https://api.ergodex.io/v1/amm/platform/stats')).pipe(
+  from(get24hData(`${applicationConfig.api}amm/platform/stats`)).pipe(
     map((res) => res.data),
   ),
 );
@@ -64,7 +66,7 @@ export const getAggregateAnalyticsDataByFrame = (
   to?: number,
 ): Observable<AmmAggregatedAnalytics> =>
   from(
-    axios.get('https://api.ergodex.io/v1/amm/platform/stats', {
+    axios.get(`${applicationConfig.api}amm/platform/stats`, {
       params: {
         from: frm,
         to,
@@ -79,7 +81,7 @@ export const getAggregatedPoolAnalyticsDataById = (
 ): Observable<AmmPoolAnalytics> =>
   from(
     axios.get<AmmPoolAnalytics>(
-      `https://api.ergodex.io/v1/amm/pool/${poolId}/stats`,
+      `${applicationConfig.api}amm/pool/${poolId}/stats`,
       {
         params: {
           from: frm,
@@ -92,6 +94,6 @@ export const getAggregatedPoolAnalyticsDataById = (
 export const getAggregatedPoolAnalyticsDataById24H = (
   poolId: PoolId,
 ): Observable<AmmPoolAnalytics> =>
-  from(get24hData(`https://api.ergodex.io/v1/amm/pool/${poolId}/stats`)).pipe(
+  from(get24hData(`${applicationConfig.api}amm/pool/${poolId}/stats`)).pipe(
     map((res) => res.data),
   );
