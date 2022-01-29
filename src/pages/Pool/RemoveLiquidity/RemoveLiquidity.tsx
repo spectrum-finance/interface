@@ -9,15 +9,15 @@ import {
   useSubscription,
 } from '../../../common/hooks/useObservable';
 import { Currency } from '../../../common/models/Currency';
-import { FormHeader } from '../../../components/common/FormView/FormHeader/FormHeader';
 import { FormPairSection } from '../../../components/common/FormView/FormPairSection/FormPairSection';
-import { FormSection } from '../../../components/common/FormView/FormSection/FormSection';
 import { FormSlider } from '../../../components/common/FormView/FormSlider/FormSlider';
 import {
   openConfirmationModal,
   Operation,
 } from '../../../components/ConfirmationModal/ConfirmationModal';
 import { Page } from '../../../components/Page/Page';
+import { PageHeader } from '../../../components/Page/PageHeader/PageHeader';
+import { PageSection } from '../../../components/Page/PageSection/PageSection';
 import { SubmitButton } from '../../../components/SubmitButton/SubmitButton';
 import { Flex, Skeleton } from '../../../ergodex-cdk';
 import {
@@ -105,17 +105,17 @@ export const RemoveLiquidity: FC = () => {
         <Form form={form} onSubmit={(form) => handleRemove(form, poolData)}>
           <Flex direction="col">
             <Flex.Item marginBottom={2}>
-              <FormHeader x={poolData.xAmount} y={poolData.yAmount} />
+              <PageHeader x={poolData.xAmount} y={poolData.yAmount} />
             </Flex.Item>
 
             <Flex.Item marginBottom={4}>
-              <FormSection title="Amount" noPadding>
+              <PageSection title="Amount" noPadding>
                 <Form.Item name="percent">
                   {({ value, onChange }) => (
                     <FormSlider value={value} onChange={onChange} />
                   )}
                 </Form.Item>
-              </FormSection>
+              </PageSection>
             </Flex.Item>
 
             <Flex.Item marginBottom={4}>

@@ -2,8 +2,8 @@ import React, { ReactNode } from 'react';
 
 import { Currency } from '../../../../common/models/Currency';
 import { Flex, Typography } from '../../../../ergodex-cdk';
+import { PageSection } from '../../../Page/PageSection/PageSection';
 import { TokenIcon } from '../../../TokenIcon/TokenIcon';
-import { FormSection } from '../FormSection/FormSection';
 
 interface PairSpaceProps {
   readonly title: string;
@@ -21,7 +21,7 @@ const FormPairSection: React.FC<PairSpaceProps> = ({
   children,
 }): JSX.Element => {
   return (
-    <FormSection title={title}>
+    <PageSection title={title}>
       <Flex direction="col">
         <Flex.Item marginBottom={2}>
           <Flex justify="space-between" align="center">
@@ -67,7 +67,7 @@ const FormPairSection: React.FC<PairSpaceProps> = ({
         </Flex.Item>
         {children}
       </Flex>
-    </FormSection>
+    </PageSection>
   );
 };
 

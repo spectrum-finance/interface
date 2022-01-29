@@ -5,7 +5,6 @@ import { useParams } from 'react-router';
 import { getLockAccumulatorByPoolId } from '../../../api/locks';
 import { useSubject } from '../../../common/hooks/useObservable';
 import { AssetLock, AssetLockStatus } from '../../../common/models/AssetLock';
-import { FormHeader } from '../../../components/common/FormView/FormHeader/FormHeader';
 import { FormPairSection } from '../../../components/common/FormView/FormPairSection/FormPairSection';
 import {
   openConfirmationModal,
@@ -16,6 +15,7 @@ import {
   OperationValidator,
 } from '../../../components/OperationForm/OperationForm';
 import { Page } from '../../../components/Page/Page';
+import { PageHeader } from '../../../components/Page/PageHeader/PageHeader';
 import { Flex, List, Skeleton, Typography } from '../../../ergodex-cdk';
 import {
   Form,
@@ -76,7 +76,7 @@ export const WithdrawalLiquidity = (): JSX.Element => {
         >
           <Flex col>
             <Flex.Item marginBottom={2}>
-              <FormHeader x={locksAccumulator.x} y={locksAccumulator.y} />
+              <PageHeader x={locksAccumulator.x} y={locksAccumulator.y} />
             </Flex.Item>
             <Flex.Item marginBottom={4}>
               <Flex>
