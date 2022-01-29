@@ -1,24 +1,19 @@
 import './PoolOverview.less';
 
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 
-import { getAmmPoolById } from '../../api/ammPools';
 import { getPositionByAmmPoolId } from '../../api/positions';
 import { ReactComponent as RelockIcon } from '../../assets/icons/relock-icon.svg';
 import { ReactComponent as WithdrawalIcon } from '../../assets/icons/withdrawal-icon.svg';
 import { useSubject } from '../../common/hooks/useObservable';
 import { FormPairSection } from '../../components/common/FormView/FormPairSection/FormPairSection';
-import { OptionsButton } from '../../components/common/OptionsButton/OptionsButton';
 import { Page } from '../../components/Page/Page';
 import { PageHeader } from '../../components/Page/PageHeader/PageHeader';
 import { PageSection } from '../../components/Page/PageSection/PageSection';
-import { TokenIcon } from '../../components/TokenIcon/TokenIcon';
-import { TokenIconPair } from '../../components/TokenIconPair/TokenIconPair';
 import {
   Alert,
-  Box,
   Button,
   Flex,
   LockOutlined,
@@ -27,8 +22,6 @@ import {
   Skeleton,
   Typography,
 } from '../../ergodex-cdk';
-import { getPoolFee } from '../../utils/pool';
-import { getRatio } from '../../utils/price';
 import { LockLiquidityChart } from './LockLiquidityChart/LockLiquidityChart';
 import { PoolFeeTag } from './PoolFeeTag/PoolFeeTag';
 import { PoolRatio } from './PoolRatio/PoolRatio';
