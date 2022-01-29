@@ -1,20 +1,10 @@
-import Icon from '@ant-design/icons';
 import { Typography } from 'antd';
 import React from 'react';
 
 import { transactionsHistory$ } from '../../../../api/transactionsHistory';
-import { ReactComponent as DotsVertical } from '../../../../assets/icons/icon-dots-vertical.svg';
 import { useObservable } from '../../../../common/hooks/useObservable';
 import { useWalletAddresses, WalletAddressState } from '../../../../context';
-import {
-  Box,
-  Button,
-  Dropdown,
-  Flex,
-  Menu,
-  Modal,
-  Skeleton,
-} from '../../../../ergodex-cdk';
+import { Box, Flex, Menu, Modal, Skeleton } from '../../../../ergodex-cdk';
 import { isRefundableOperation } from '../../../../utils/ammOperations';
 import { exploreTx } from '../../../../utils/redirect';
 import {
@@ -46,8 +36,7 @@ const TxHistoryModal = (): JSX.Element => {
           );
         },
         Operation.REFUND,
-        operation.assetX,
-        operation.assetY,
+        { xAsset: operation.assetX, yAsset: operation.assetY },
       );
     }
   };
