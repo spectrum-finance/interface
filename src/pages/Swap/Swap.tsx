@@ -17,6 +17,7 @@ import {
   tap,
 } from 'rxjs';
 
+import { useAssetsBalance } from '../../api/assetBalance';
 import { useSubscription } from '../../common/hooks/useObservable';
 import { AmmPool } from '../../common/models/AmmPool';
 import {
@@ -33,7 +34,6 @@ import { FormPageWrapper } from '../../components/FormPageWrapper/FormPageWrappe
 import { Button, Flex, SwapOutlined, Typography } from '../../ergodex-cdk';
 import { useForm } from '../../ergodex-cdk/components/Form/NewForm';
 import { assets$, getAvailableAssetFor } from '../../services/new/assets';
-import { useAssetWalletBalance } from '../../services/new/balance';
 import { useMaxTotalFees, useNetworkAsset } from '../../services/new/core';
 import { getPoolByPair } from '../../services/new/pools';
 import { OperationSettings } from './OperationSettings/OperationSettings';
@@ -64,7 +64,7 @@ export const Swap = (): JSX.Element => {
     pool: undefined,
   });
   const networkAsset = useNetworkAsset();
-  const [balance] = useAssetWalletBalance();
+  const [balance] = useAssetsBalance();
   const totalFees = useMaxTotalFees();
   const updateToAssets$ = useMemo(
     () => new BehaviorSubject<string | undefined>(undefined),
@@ -107,7 +107,7 @@ export const Swap = (): JSX.Element => {
 
   const isSwapLocked = ({ toAsset, fromAsset }: SwapFormModel) =>
     (toAsset?.id === LOCKED_TOKEN_ID || fromAsset?.id === LOCKED_TOKEN_ID) &&
-    DateTime.now().toMillis() < END_TIMER_DATE.toMillis();
+    DateTime.now().toUTC().toMillis() < END_TIMER_DATE.toMillis();
 
   const submitSwap = (value: Required<SwapFormModel>) => {
     openConfirmationModal(
@@ -115,8 +115,10 @@ export const Swap = (): JSX.Element => {
         return <SwapConfirmationModal value={value} onClose={next} />;
       },
       Operation.SWAP,
-      value.fromAmount!,
-      value.toAmount!,
+      {
+        xAsset: value.fromAmount!,
+        yAsset: value.toAmount!,
+      },
     );
   };
 

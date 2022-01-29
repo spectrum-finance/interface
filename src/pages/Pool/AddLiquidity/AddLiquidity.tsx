@@ -17,6 +17,7 @@ import {
   switchMap,
 } from 'rxjs';
 
+import { useAssetsBalance } from '../../../api/assetBalance';
 import {
   useObservable,
   useSubject,
@@ -34,7 +35,6 @@ import { FormPageWrapper } from '../../../components/FormPageWrapper/FormPageWra
 import { Flex, Typography } from '../../../ergodex-cdk';
 import { Form, useForm } from '../../../ergodex-cdk/components/Form/NewForm';
 import { assets$, getAvailableAssetFor } from '../../../services/new/assets';
-import { useAssetWalletBalance } from '../../../services/new/balance';
 import { useMaxTotalFees, useNetworkAsset } from '../../../services/new/core';
 import {
   getAvailablePoolById,
@@ -51,7 +51,7 @@ const getAvailablePools = (xId?: string, yId?: string) =>
   xId && yId ? getPoolByPair(xId, yId) : of([]);
 
 const AddLiquidity = (): JSX.Element => {
-  const [balance] = useAssetWalletBalance();
+  const [balance] = useAssetsBalance();
   const totalFees = useMaxTotalFees();
   const networkAsset = useNetworkAsset();
   const { poolId } = useParams<{ poolId?: PoolId }>();
@@ -192,8 +192,10 @@ const AddLiquidity = (): JSX.Element => {
         return <AddLiquidityConfirmationModal value={value} onClose={next} />;
       },
       Operation.ADD_LIQUIDITY,
-      value.xAmount!,
-      value.yAmount!,
+      {
+        xAsset: value.xAmount!,
+        yAsset: value.yAmount!,
+      },
     );
   };
 

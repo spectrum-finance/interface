@@ -34,7 +34,7 @@
   --ergo-font-family:                          Vela Sans;
 
   --ergo-disabled-color:                       @light-color-gray-3;
-  --ergo-disabled-text-constrast:              @light-color-gray-6;
+  --ergo-disabled-text-contrast:              @light-color-gray-6;
 
   // Typography
   --ergo-h1-font-size:                         38px;
@@ -198,7 +198,7 @@
   --ergo-slider-dot-active-border:             var(--ergo-slider-track-bg);
 
   --ergo-slider-disabled:                      @light-color-gray-4;
-  --ergo-slider-disabled-contrast:             var(--ergo-disabled-text-constrast);
+  --ergo-slider-disabled-contrast:             var(--ergo-disabled-text-contrast);
 
   // Modal
   --ergo-modal-radius:                         16px;
@@ -206,6 +206,10 @@
   --ergo-modal-close-x-color:                  var(--ergo-primary-text);
   --ergo-modal-close-x-size:                   24px;
   --ergo-modal-box-shadow:                     0 9px 28px 8px rgba(0, 0, 0, 0.05), 0p 6px 16px rgba(0, 0, 0, 0.08), 0 3px 6px -4px rgba(0, 0, 0, 0.12);
+
+  // Checkbox
+  --ergo-checkbox-disabled-color:               @light-color-gray-5;
+  --ergo-checkbox-disabled-bg:                  @light-color-gray-3;
 
   // Menu
   --ergo-menu-item-active-background:          @light-color-gray-3;
@@ -225,6 +229,16 @@
   --ergo-input-placeholder-color:              @light-color-gray-7;
   --ergo-input-error-box-shadow:               0 0 4px rgba(245, 34, 45, 0.5);
   --ergo-input-warning-box-shadow:             0 0 4px rgba(250, 173, 20, 0.5);
+
+  // DatePicker
+  --ergo-datepicker-bg:                        @light-color-gray-1;
+  --ergo-datepicker-border-hover:              @light-color-orange-6;
+  --ergo-datepicker-border-active:             var(--ergo-datepicker-border-hover);
+  --ergo-datepicker-box-shadow:                0 0 4px rgba(255, 81, 53, 0.5);
+
+  --ergo-datepicker-panel-border-color:        @light-color-gray-4;
+  --ergo-datepicker-panel-cell-color:          @light-color-gray-6;
+  --ergo-datepicker-panel-hover-color:         @light-color-gray-1;
 
   // Select
   --ergo-select-label-color:                @light-color-gray-9;
@@ -280,8 +294,8 @@
   --ergo-tab-color-active:                     var(--ergo-primary-color);
   --ergo-tab-text-contrast-active:             var(--ergo-primary-text-contrast);
   --ergo-tab-disabled-color:                   @light-color-gray-2;
-  --ergo-tab-disabled-border-color:            var(--ergo-disabled-text-constrast);
-  --ergo-tab-disabled-text-contrast:           var(--ergo-disabled-text-constrast);
+  --ergo-tab-disabled-border-color:            var(--ergo-disabled-text-contrast);
+  --ergo-tab-disabled-text-contrast:           var(--ergo-disabled-text-contrast);
 
   // Spin
   --ergo-spin-color:                           var(--ergo-primary-color);
@@ -347,4 +361,7 @@
 
   // List
   --ergo-list-overlay-gradient: rgba(245, 245, 245, 0) 73.01%, rgba(245, 245, 245, 0.65) 85.94%, #F5F5F5 100%;
+
+  // Progress
+  --ergo-progress-bg-color: linear-gradient(84.95deg, #FF5135 0%, #FF8C00 98.93%);
 }

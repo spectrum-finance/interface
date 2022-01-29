@@ -12,11 +12,7 @@ interface TokenListItemProps {
   onClick?: React.MouseEventHandler<HTMLElement>;
 }
 
-const TokenListItem: React.FC<TokenListItemProps> = ({
-  asset,
-  iconName,
-  onClick,
-}) => {
+const TokenListItem: React.FC<TokenListItemProps> = ({ asset, onClick }) => {
   return (
     <Box
       className="token-item"

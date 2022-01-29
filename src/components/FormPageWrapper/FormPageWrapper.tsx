@@ -1,3 +1,5 @@
+import './FormPageWrapper.less';
+
 import React, { JSXElementConstructor, ReactElement } from 'react';
 import { useHistory } from 'react-router-dom';
 
@@ -14,6 +16,11 @@ interface FormPageWrapperProps {
   title?: string;
   withBackButton?: boolean;
   backTo?: string;
+  titleChildren?:
+    | ReactElement<any>
+    | JSXElementConstructor<any>
+    | undefined
+    | boolean;
   bottomChildren?:
     | ReactElement<any>
     | JSXElementConstructor<any>
@@ -28,28 +35,35 @@ const FormPageWrapper: React.FC<FormPageWrapperProps> = ({
   withBackButton,
   backTo,
   bottomChildren,
+  titleChildren,
 }) => {
   const history = useHistory();
 
   return (
-    <Flex justify="center" align="center">
+    <Flex className="ergodex-form-page-wrapper" justify="center" align="center">
       <Flex direction="col" style={{ width: width ?? '100%' }}>
         {title && (
           <Flex.Item marginBottom={2}>
-            <Box transparent>
-              <Flex align="center">
-                {withBackButton && (
-                  <Button
-                    type="text"
-                    icon={<ArrowLeftOutlined />}
-                    onClick={() =>
-                      backTo ? history.push(backTo) : history.goBack()
-                    }
-                  />
-                )}
-                <Typography.Title level={4}>{title}</Typography.Title>
-              </Flex>
-            </Box>
+            <Flex align="center" justify="space-between">
+              <Flex.Item>
+                <Flex align="center">
+                  {withBackButton && (
+                    <Flex.Item marginRight={1}>
+                      <Button
+                        type="text"
+                        icon={<ArrowLeftOutlined />}
+                        onClick={() =>
+                          backTo ? history.push(backTo) : history.goBack()
+                        }
+                      />
+                    </Flex.Item>
+                  )}
+                  <Typography.Title level={4}>{title}</Typography.Title>
+                </Flex>
+              </Flex.Item>
+
+              <Flex justify="space-between">{titleChildren}</Flex>
+            </Flex>
           </Flex.Item>
         )}
         <Flex.Item marginBottom={bottomChildren ? 2 : 0}>

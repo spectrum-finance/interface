@@ -1,0 +1,157 @@
+.pickerInput() {
+  background-color: var(--ergo-datepicker-bg);
+  color: var(--ergo-primary-text) !important;
+  font-size: 14px;
+  line-height: 22px;
+  transition: none;
+}
+
+.pickerInputDisabled() {
+  background-color: var(--ergo-disabled-color);
+}
+
+.pickerDefault() {
+  .pickerInput();
+  border-color: var(--ergo-default-border-color);
+  border-radius: var(--ergo-border-radius-sm);
+  box-shadow: none;
+}
+
+.pickerHover() {
+  border-color: var(--ergo-datepicker-border-hover);
+}
+
+.pickerActive() {
+  border-color: var(--ergo-datepicker-border-active);
+  box-shadow: var(--ergo-datepicker-box-shadow);
+}
+
+.pickerDisabled() {
+  border-color: var(--ergo-default-border-color);
+  background-color: var(--ergo-disabled-color);
+  box-shadow: none;
+}
+
+.ant-picker {
+  cursor: pointer !important;
+  .pickerDefault();
+
+  &-input, input {
+    .pickerInput();
+  }
+
+  &-large {
+    border-radius: var(--ergo-border-radius-md);
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  &-suffix {
+    color: var(--ergo-input-placeholder-color) !important;
+  }
+
+  &:not(.ant-picker-disabled):hover {
+    .pickerHover();
+  }
+
+  &-focused {
+    .pickerActive()
+  }
+}
+
+.ant-picker-disabled {
+  cursor: not-allowed !important;
+  .pickerDisabled() !important;
+
+  .ant-picker-input {
+    .pickerInputDisabled();
+  }
+}
+
+.panelBg() {
+  background-color: var(--ergo-box-bg);
+}
+
+.ant-picker-panel-container {
+  border-radius: var(--ergo-border-radius-md);
+}
+
+//.
+//
+.ant-picker-panel {
+  border: 0;
+
+  .ant-picker-header {
+    .panelBg();
+    border-bottom: 1px solid var(--ergo-datepicker-panel-border-color);
+  }
+
+  .ant-picker-header-view {
+    color: var(--ergo-primary-text);
+  }
+
+  .ant-picker-body {
+    .panelBg();
+  }
+
+  .ant-picker-footer {
+    .panelBg();
+    border-top: 1px solid var(--ergo-datepicker-panel-border-color);
+  }
+
+  .ant-picker-cell {
+    color: var(--ergo-datepicker-panel-cell-color);
+    &:hover .ant-picker-cell-inner {
+      background-color: var(--ergo-primary-color) !important;
+      border-radius: var(--ergo-border-radius-sm) !important;
+      color: var(--ergo-datepicker-panel-hover-color) !important;
+    }
+
+    .ant-picker-cell-inner {
+      border-radius: var(--ergo-border-radius-sm);
+    }
+  }
+
+  .ant-picker-cell-disabled {
+    color: var(--ergo-datepicker-panel-cell-color) !important;
+    cursor: not-allowed;
+
+    &::before {
+      background-color: var(--ergo-datepicker-panel-border-color);
+    }
+  }
+
+  .ant-picker-cell.ant-picker-cell-in-view, th {
+    color: var(--ergo-primary-text);
+  }
+
+  button {
+    color: var(--ergo-primary-text);
+    &:hover {
+      color: var(--ergo-primary-color-hover);
+    }
+  }
+
+  a {
+    color: var(--ergo-primary-color);
+    &:hover {
+      color: var(--ergo-primary-color-hover)
+    }
+  }
+}
+
+.ant-picker-cell-in-view.ant-picker-cell-today .ant-picker-cell-inner::before {
+  border: 1px solid var(--ergo-primary-color);
+  border-radius: var(--ergo-border-radius-sm);
+}
+
+.ant-picker-clear {
+  background-color: var(--ergo-datepicker-bg);
+  svg {
+    color: var(--ergo-primary-text);
+  }
+}
+
+.ant-picker-cell-in-view.ant-picker-cell-selected .ant-picker-cell-inner, .ant-picker-cell-in-view.ant-picker-cell-range-start .ant-picker-cell-inner, .ant-picker-cell-in-view.ant-picker-cell-range-end .ant-picker-cell-inner {
+  background: var(--ergo-primary-color);
+}

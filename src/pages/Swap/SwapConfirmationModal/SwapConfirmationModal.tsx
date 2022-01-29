@@ -44,7 +44,6 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
 
   const [{ minerFee, address, slippage, nitro }] = useSettings();
   const [utxos] = useObservable(utxos$);
-  // const totalFees = useTotalFees();
   const minExFee = useMinExFee();
 
   const [baseParams, setBaseParams] = useState<
