@@ -17,7 +17,7 @@ import {
   openConfirmationModal,
   Operation,
 } from '../../../components/ConfirmationModal/ConfirmationModal';
-import { FormPageWrapper } from '../../../components/FormPageWrapper/FormPageWrapper';
+import { Page } from '../../../components/Page/Page';
 import { SubmitButton } from '../../../components/SubmitButton/SubmitButton';
 import { Flex, Skeleton } from '../../../ergodex-cdk';
 import {
@@ -100,7 +100,7 @@ export const RemoveLiquidity: FC = () => {
   };
 
   return (
-    <FormPageWrapper width={382} title="Remove liquidity" withBackButton>
+    <Page width={382} title="Remove liquidity" withBackButton>
       {poolData ? (
         <Form form={form} onSubmit={(form) => handleRemove(form, poolData)}>
           <Flex direction="col">
@@ -141,6 +141,6 @@ export const RemoveLiquidity: FC = () => {
       ) : (
         <Skeleton active />
       )}
-    </FormPageWrapper>
+    </Page>
   );
 };

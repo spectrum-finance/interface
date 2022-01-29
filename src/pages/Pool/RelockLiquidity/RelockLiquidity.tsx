@@ -14,11 +14,11 @@ import {
   openConfirmationModal,
   Operation,
 } from '../../../components/ConfirmationModal/ConfirmationModal';
-import { FormPageWrapper } from '../../../components/FormPageWrapper/FormPageWrapper';
 import {
   OperationForm,
   OperationValidator,
 } from '../../../components/OperationForm/OperationForm';
+import { Page } from '../../../components/Page/Page';
 import {
   Animation,
   Flex,
@@ -91,7 +91,7 @@ export const RelockLiquidity = (): JSX.Element => {
   };
 
   return (
-    <FormPageWrapper width={760} title="Relock liquidity" withBackButton>
+    <Page width={760} title="Relock liquidity" withBackButton>
       {poolData && locks && explorerContext ? (
         <OperationForm
           actionCaption="Relock position"
@@ -167,6 +167,6 @@ export const RelockLiquidity = (): JSX.Element => {
       ) : (
         <Skeleton active />
       )}
-    </FormPageWrapper>
+    </Page>
   );
 };

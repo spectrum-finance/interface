@@ -11,11 +11,11 @@ import {
   openConfirmationModal,
   Operation,
 } from '../../../components/ConfirmationModal/ConfirmationModal';
-import { FormPageWrapper } from '../../../components/FormPageWrapper/FormPageWrapper';
 import {
   OperationForm,
   OperationValidator,
 } from '../../../components/OperationForm/OperationForm';
+import { Page } from '../../../components/Page/Page';
 import { Flex, List, Skeleton, Typography } from '../../../ergodex-cdk';
 import {
   Form,
@@ -66,7 +66,7 @@ export const WithdrawalLiquidity = (): JSX.Element => {
   };
 
   return (
-    <FormPageWrapper width={760} title="Withdraw" withBackButton>
+    <Page width={760} title="Withdraw" withBackButton>
       {locksAccumulator ? (
         <OperationForm
           form={form}
@@ -120,6 +120,6 @@ export const WithdrawalLiquidity = (): JSX.Element => {
       ) : (
         <Skeleton active />
       )}
-    </FormPageWrapper>
+    </Page>
   );
 };

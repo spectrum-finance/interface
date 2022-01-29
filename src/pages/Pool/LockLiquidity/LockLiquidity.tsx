@@ -17,7 +17,7 @@ import {
   openConfirmationModal,
   Operation,
 } from '../../../components/ConfirmationModal/ConfirmationModal';
-import { FormPageWrapper } from '../../../components/FormPageWrapper/FormPageWrapper';
+import { Page } from '../../../components/Page/Page';
 import { SubmitButton } from '../../../components/SubmitButton/SubmitButton';
 import { Alert, Animation, Flex, LockOutlined } from '../../../ergodex-cdk';
 import {
@@ -107,7 +107,7 @@ const LockLiquidity = (): JSX.Element => {
   };
 
   return (
-    <FormPageWrapper width={480} title="Lock liquidity" withBackButton>
+    <Page width={480} title="Lock liquidity" withBackButton>
       {poolData ? (
         <Form
           form={form}
@@ -175,7 +175,7 @@ const LockLiquidity = (): JSX.Element => {
       ) : (
         <Skeleton active />
       )}
-    </FormPageWrapper>
+    </Page>
   );
 };
 

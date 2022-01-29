@@ -9,7 +9,7 @@ import { ReactComponent as RelockIcon } from '../../assets/icons/relock-icon.svg
 import { ReactComponent as WithdrawalIcon } from '../../assets/icons/withdrawal-icon.svg';
 import { useSubject } from '../../common/hooks/useObservable';
 import { OptionsButton } from '../../components/common/OptionsButton/OptionsButton';
-import { FormPageWrapper } from '../../components/FormPageWrapper/FormPageWrapper';
+import { Page } from '../../components/Page/Page';
 import { TokenIcon } from '../../components/TokenIcon/TokenIcon';
 import { TokenIconPair } from '../../components/TokenIconPair/TokenIconPair';
 import {
@@ -60,12 +60,7 @@ export const PoolOverview: React.FC = () => {
     history.push(`/pool/${poolId}/withdrawal`);
 
   return (
-    <FormPageWrapper
-      title="Pool overview"
-      width={480}
-      withBackButton
-      backTo="/pool"
-    >
+    <Page title="Pool overview" width={480} withBackButton backTo="/pool">
       {pool && poolRatio && !isPairLoading ? (
         <>
           <Flex align="center" justify="space-between">
@@ -206,6 +201,6 @@ export const PoolOverview: React.FC = () => {
       ) : (
         <Skeleton active />
       )}
-    </FormPageWrapper>
+    </Page>
   );
 };

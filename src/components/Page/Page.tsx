@@ -1,4 +1,4 @@
-import './FormPageWrapper.less';
+import './Page.less';
 
 import React, { JSXElementConstructor, ReactElement } from 'react';
 import { useHistory } from 'react-router-dom';
@@ -28,7 +28,7 @@ interface FormPageWrapperProps {
     | boolean;
 }
 
-const FormPageWrapper: React.FC<FormPageWrapperProps> = ({
+const Page: React.FC<FormPageWrapperProps> = ({
   children,
   width,
   title,
@@ -82,4 +82,4 @@ const FormPageWrapper: React.FC<FormPageWrapperProps> = ({
   );
 };
 
-export { FormPageWrapper };
+export { Page };
