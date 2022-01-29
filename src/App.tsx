@@ -20,10 +20,10 @@ import { useWindowSize } from './hooks/useWindowSize';
 import { AddLiquidity } from './pages/Pool/AddLiquidity/AddLiquidity';
 import { LockLiquidity } from './pages/Pool/LockLiquidity/LockLiquidity';
 import { Pool } from './pages/Pool/Pool';
-import { PoolPosition } from './pages/Pool/PoolPosition/PoolPosition';
 import { RelockLiquidity } from './pages/Pool/RelockLiquidity/RelockLiquidity';
 import { RemoveLiquidity } from './pages/Pool/RemoveLiquidity/RemoveLiquidity';
 import { WithdrawalLiquidity } from './pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity';
+import { PoolOverview } from './pages/PoolOverview/PoolOverview';
 import { Swap } from './pages/Swap/Swap';
 
 const NotFound = () => <Redirect to="/swap" />;
@@ -75,7 +75,7 @@ const Application = withTranslation()(() => {
                       <Route
                         path="/pool/:poolId"
                         exact
-                        component={PoolPosition}
+                        component={PoolOverview}
                       />
                       <Route component={NotFound} />
                     </Switch>

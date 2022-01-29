@@ -1,17 +1,17 @@
-import './PoolPosition.less';
+import './PoolOverview.less';
 
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 
-import { getAmmPoolById } from '../../../api/ammPools';
-import { ReactComponent as RelockIcon } from '../../../assets/icons/relock-icon.svg';
-import { ReactComponent as WithdrawalIcon } from '../../../assets/icons/withdrawal-icon.svg';
-import { useSubject } from '../../../common/hooks/useObservable';
-import { OptionsButton } from '../../../components/common/OptionsButton/OptionsButton';
-import { FormPageWrapper } from '../../../components/FormPageWrapper/FormPageWrapper';
-import { TokenIcon } from '../../../components/TokenIcon/TokenIcon';
-import { TokenIconPair } from '../../../components/TokenIconPair/TokenIconPair';
+import { getAmmPoolById } from '../../api/ammPools';
+import { ReactComponent as RelockIcon } from '../../assets/icons/relock-icon.svg';
+import { ReactComponent as WithdrawalIcon } from '../../assets/icons/withdrawal-icon.svg';
+import { useSubject } from '../../common/hooks/useObservable';
+import { OptionsButton } from '../../components/common/OptionsButton/OptionsButton';
+import { FormPageWrapper } from '../../components/FormPageWrapper/FormPageWrapper';
+import { TokenIcon } from '../../components/TokenIcon/TokenIcon';
+import { TokenIconPair } from '../../components/TokenIconPair/TokenIconPair';
 import {
   Alert,
   Box,
@@ -22,10 +22,10 @@ import {
   PlusOutlined,
   Skeleton,
   Typography,
-} from '../../../ergodex-cdk';
-import { usePair } from '../../../hooks/usePair';
-import { getPoolFee } from '../../../utils/pool';
-import { getPoolRatio } from '../../../utils/price';
+} from '../../ergodex-cdk';
+import { usePair } from '../../hooks/usePair';
+import { getPoolFee } from '../../utils/pool';
+import { getPoolRatio } from '../../utils/price';
 import { LockLiquidityChart } from './LockLiquidityChart/LockLiquidityChart';
 import { PriceView } from './PriceView';
 
@@ -33,7 +33,7 @@ interface URLParamTypes {
   poolId: PoolId;
 }
 
-export const PoolPosition: React.FC = () => {
+export const PoolOverview: React.FC = () => {
   const history = useHistory();
   const { poolId } = useParams<URLParamTypes>();
   const [poolRatio, setPoolRatio] = useState<Ratio | undefined>();

@@ -16,8 +16,6 @@ import { EmptyPositionsWrapper } from './components/EmptyPositionsWrapper/EmptyP
 import { LiquidityPositionsList } from './components/LiquidityPositionsList/LiquidityPositionsList';
 import { LockListView } from './components/LocksList/LockListView';
 
-// import { LPGuide } from './LPGuide/LPGuide';
-
 interface PoolPageWrapperProps {
   children?: React.ReactChild | React.ReactChild[];
   isWalletConnected: boolean;

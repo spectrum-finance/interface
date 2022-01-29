@@ -1,8 +1,8 @@
-import './PoolPosition.less';
+import './PoolOverview.less';
 
 import React from 'react';
 
-import { Box, Flex, Typography } from '../../../ergodex-cdk';
+import { Box, Flex, Typography } from '../../ergodex-cdk';
 
 interface PriceViewProps {
   className: string;
