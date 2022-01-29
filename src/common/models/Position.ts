@@ -22,5 +22,9 @@ export class Position {
     return y;
   }
 
-  constructor(public pool: AmmPool, public lp: Currency, public noop = false) {}
+  constructor(
+    public pool: AmmPool,
+    public lp: Currency,
+    public empty = false,
+  ) {}
 }
