@@ -4,7 +4,7 @@ import { AmmPool } from './AmmPool';
 import { Currency } from './Currency';
 
 export class Position {
-  static noop(pool: AmmPool) {
+  static noop(pool: AmmPool): Position {
     return new Position(pool, new Currency(0n, pool.lp.asset), true);
   }
 
