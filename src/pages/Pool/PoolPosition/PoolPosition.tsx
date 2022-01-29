@@ -39,7 +39,6 @@ export const PoolPosition: React.FC = () => {
   const [poolRatio, setPoolRatio] = useState<Ratio | undefined>();
 
   const [pool, updatePool] = useSubject(getAmmPoolById, []);
-  // console.log(pool);
   const { pair, isPairLoading } = usePair(pool);
 
   useEffect(() => updatePool(poolId), []);
