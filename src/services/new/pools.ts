@@ -11,11 +11,13 @@ import {
   combineLatest,
   defer,
   from,
+  interval,
   map,
   Observable,
   of,
   publishReplay,
   refCount,
+  startWith,
   switchMap,
   zip,
 } from 'rxjs';
@@ -26,7 +28,7 @@ import { tokenLocks$ } from '../../network/ergo/locks/common';
 import { getListAvailableTokens } from '../../utils/getListAvailableTokens';
 import { explorer } from '../explorer';
 import { lpWalletBalance$ } from './balance';
-import { appTick$, utxos$ } from './core';
+import { UPDATE_TIME, utxos$ } from './core';
 
 export const networkPools = (): NetworkPools => makePools(explorer);
 export const nativeNetworkPools = (): NetworkPools => makeNativePools(explorer);
@@ -65,17 +67,19 @@ const networkPools$ = defer(() =>
   refCount(),
 );
 
-export const pools$ = appTick$.pipe(
-  switchMap(() => combineLatest([nativeNetworkPools$, networkPools$])),
-  map(([nativeNetworkPools, networkPools]) =>
-    nativeNetworkPools
-      .concat(networkPools)
-      .filter((p) => p.id != BlacklistedPoolId),
-  ),
-  map((pools) => pools.map((p) => new AmmPool(p))),
-  publishReplay(1),
-  refCount(),
-);
+export const pools$ = interval(UPDATE_TIME)
+  .pipe(startWith(0))
+  .pipe(
+    switchMap(() => combineLatest([nativeNetworkPools$, networkPools$])),
+    map(([nativeNetworkPools, networkPools]) =>
+      nativeNetworkPools
+        .concat(networkPools)
+        .filter((p) => p.id != BlacklistedPoolId),
+    ),
+    map((pools) => pools.map((p) => new AmmPool(p))),
+    publishReplay(1),
+    refCount(),
+  );
 
 const availableNativeNetworkPools$ = utxos$.pipe(
   map(utxosToTokenIds),

@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { ammPools$ } from '../../api/ammPools';
+import { locksAccumulators$ } from '../../api/locks';
 import { useObservable } from '../../common/hooks/useObservable';
 import { ConnectWalletButton } from '../../components/common/ConnectWalletButton/ConnectWalletButton';
 import { FormPageWrapper } from '../../components/FormPageWrapper/FormPageWrapper';
@@ -87,6 +88,7 @@ const Pool = (): JSX.Element => {
   );
 
   const [pools, isPoolsLoading] = useObservable(ammPools$, [], []);
+  const [locksAccumulators] = useObservable(locksAccumulators$);
 
   const handleAddLiquidity = () => {
     history.push('/pool/add');
@@ -120,10 +122,11 @@ const Pool = (): JSX.Element => {
             </EmptyPositionsWrapper>
           )}
         </Tabs.TabPane>
-        {/*TODO: Add isWalletConnected and hasUserLockedPositions checks for this tab*/}
-        <Tabs.TabPane tab="Locked Positions" key="locked-positions">
-          <LockListView />
-        </Tabs.TabPane>
+        {isWalletConnected && locksAccumulators?.length && (
+          <Tabs.TabPane tab="Locked Positions" key="locked-positions">
+            <LockListView locksAccumulators={locksAccumulators} />
+          </Tabs.TabPane>
+        )}
       </Tabs>
     </PoolPageWrapper>
   );
