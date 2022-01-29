@@ -4,6 +4,7 @@ import { PoolId } from '@ergolabs/ergo-dex-sdk';
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 
+import { getAmmPoolById } from '../../../api/ammPools';
 import { ReactComponent as RelockIcon } from '../../../assets/icons/relock-icon.svg';
 import { ReactComponent as WithdrawalIcon } from '../../../assets/icons/withdrawal-icon.svg';
 import { useSubject } from '../../../common/hooks/useObservable';
@@ -23,7 +24,6 @@ import {
   Typography,
 } from '../../../ergodex-cdk';
 import { usePair } from '../../../hooks/usePair';
-import { getPoolById } from '../../../services/new/pools';
 import { getPoolFee } from '../../../utils/pool';
 import { getPoolRatio } from '../../../utils/price';
 import { LockLiquidityChart } from './LockLiquidityChart/LockLiquidityChart';
@@ -38,17 +38,17 @@ export const PoolPosition: React.FC = () => {
   const { poolId } = useParams<URLParamTypes>();
   const [poolRatio, setPoolRatio] = useState<Ratio | undefined>();
 
-  const [pool, updatePool] = useSubject(getPoolById);
-
+  const [pool, updatePool] = useSubject(getAmmPoolById, []);
+  // console.log(pool);
   const { pair, isPairLoading } = usePair(pool);
 
+  useEffect(() => updatePool(poolId), []);
   useEffect(() => {
-    updatePool(poolId);
     if (pool) {
       const ratio = getPoolRatio(pool);
       setPoolRatio(ratio);
     }
-  }, [pool]);
+  }, [pool?.id]);
 
   const handleLockLiquidity = () => history.push(`/pool/${poolId}/lock`);
 

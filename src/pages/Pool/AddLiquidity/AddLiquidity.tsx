@@ -10,6 +10,7 @@ import {
   BehaviorSubject,
   combineLatest,
   debounceTime,
+  distinctUntilChanged,
   filter,
   map,
   of,
@@ -17,6 +18,7 @@ import {
   switchMap,
 } from 'rxjs';
 
+import { getAmmPoolById, getAmmPoolsByPair } from '../../../api/ammPools';
 import { useAssetsBalance } from '../../../api/assetBalance';
 import {
   useObservable,
@@ -36,10 +38,6 @@ import { Flex, Typography } from '../../../ergodex-cdk';
 import { Form, useForm } from '../../../ergodex-cdk/components/Form/NewForm';
 import { assets$, getAvailableAssetFor } from '../../../services/new/assets';
 import { useMaxTotalFees, useNetworkAsset } from '../../../services/new/core';
-import {
-  getAvailablePoolById,
-  getPoolByPair,
-} from '../../../services/new/pools';
 import { AddLiquidityConfirmationModal } from './AddLiquidityConfirmationModal/AddLiquidityConfirmationModal';
 import { AddLiquidityFormModel } from './FormModel';
 
@@ -48,7 +46,7 @@ const getAssetsByToken = (tokenId?: string) => {
 };
 
 const getAvailablePools = (xId?: string, yId?: string) =>
-  xId && yId ? getPoolByPair(xId, yId) : of([]);
+  xId && yId ? getAmmPoolsByPair(xId, yId) : of([]);
 
 const AddLiquidity = (): JSX.Element => {
   const [balance] = useAssetsBalance();
@@ -110,7 +108,8 @@ const AddLiquidity = (): JSX.Element => {
   useSubscription(
     of(poolId).pipe(
       filter(Boolean),
-      switchMap((poolId) => getAvailablePoolById(poolId)),
+      switchMap((poolId) => getAmmPoolById(poolId)),
+      distinctUntilChanged((poolA, poolB) => poolA?.id === poolB?.id),
     ),
     (pool) => {
       form.patchValue(

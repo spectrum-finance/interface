@@ -17,6 +17,7 @@ import {
   tap,
 } from 'rxjs';
 
+import { getAmmPoolsByPair } from '../../api/ammPools';
 import { useAssetsBalance } from '../../api/assetBalance';
 import { useSubscription } from '../../common/hooks/useObservable';
 import { AmmPool } from '../../common/models/AmmPool';
@@ -35,7 +36,6 @@ import { Button, Flex, SwapOutlined, Typography } from '../../ergodex-cdk';
 import { useForm } from '../../ergodex-cdk/components/Form/NewForm';
 import { assets$, getAvailableAssetFor } from '../../services/new/assets';
 import { useMaxTotalFees, useNetworkAsset } from '../../services/new/core';
-import { getPoolByPair } from '../../services/new/pools';
 import { OperationSettings } from './OperationSettings/OperationSettings';
 import { Ratio } from './Ratio/Ratio';
 import { SwapConfirmationModal } from './SwapConfirmationModal/SwapConfirmationModal';
@@ -50,7 +50,7 @@ const getSelectedPool = (
   yId?: string,
 ): Observable<AmmPool | undefined> =>
   xId && yId
-    ? getPoolByPair(xId, yId).pipe(
+    ? getAmmPoolsByPair(xId, yId).pipe(
         map((pools) => maxBy(pools, (p) => p.lp.amount)),
       )
     : of(undefined);

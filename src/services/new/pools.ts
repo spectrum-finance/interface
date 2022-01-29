@@ -164,11 +164,6 @@ export const availablePools$: Observable<AmmPool[]> = utxos$.pipe(
 export const getPoolById = (poolId: PoolId): Observable<AmmPool | undefined> =>
   pools$.pipe(map((pools) => pools.find((position) => position.id === poolId)));
 
-export const getAvailablePoolById = (
-  poolId: PoolId,
-): Observable<AmmPool | undefined> =>
-  pools$.pipe(map((pools) => pools.find((position) => position.id === poolId)));
-
 export const getAvailablePoolDataById = (
   poolId: PoolId,
 ): Observable<PoolData | undefined> =>
@@ -185,17 +180,3 @@ export const getAvailablePoolDataById = (
           return { pool, lpAmount, xAmount: xAmount, yAmount: assetY };
         }),
       );
-
-const byPair = (xId: string, yId: string) => (p: AmmPool) =>
-  (p.x.asset.id === xId || p.y.asset.id === xId) &&
-  (p.x.asset.id === yId || p.y.asset.id === yId);
-
-export const getPoolByPair = (
-  xId: string,
-  yId: string,
-): Observable<AmmPool[]> =>
-  pools$.pipe(
-    map((pools) => pools.filter(byPair(xId, yId))),
-    publishReplay(1),
-    refCount(),
-  );
