@@ -105,7 +105,7 @@ const TxHistoryModal = (): JSX.Element => {
                       <Flex.Item style={{ width: '28%' }}>
                         {op.timestamp}
                       </Flex.Item>
-                      <Flex.Item style={{ width: '16%' }}>
+                      <Flex.Item style={{ width: '20%' }}>
                         <TxTypeTag type={op.type} />
                       </Flex.Item>
                       <Flex.Item style={{ width: '16%' }}>

@@ -1,4 +1,4 @@
-import { AmmPool } from '@ergolabs/ergo-dex-sdk';
+import { AmmPool, PoolId } from '@ergolabs/ergo-dex-sdk';
 import { TokenId } from '@ergolabs/ergo-sdk';
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 
@@ -10,6 +10,9 @@ export const isVerifiedToken = (token: AssetInfo): boolean =>
 
 export const isVerifiedPool = (pool: AmmPool): boolean =>
   VERIFIED_POOLS.has(pool.id);
+
+export const getVerifiedPoolByName = (poolId: PoolId) =>
+  VERIFIED_POOLS.get(poolId);
 
 export const getVerifiedTokenNameById = (
   tokenId: TokenId,

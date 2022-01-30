@@ -4,6 +4,7 @@ import { uniqBy } from 'lodash';
 import { Currency } from '../../../common/models/Currency';
 import { getFormattedDate } from '../../../utils/date';
 import { getAssetNameByMappedId } from '../../../utils/map';
+import { getVerifiedPoolByName } from '../../../utils/verification';
 import { Operation } from './types';
 
 export const normalizeOperations = (ops: AmmDexOperation[]): Operation[] => {
@@ -46,8 +47,24 @@ export const normalizeOperations = (ops: AmmDexOperation[]): Operation[] => {
           ];
         }
         if (op.order.type === 'redeem') {
-          // TODO:[SDK]ADD_REDEEM_PAIR[EDEX-478]
-          return acc;
+          return [
+            ...acc,
+            {
+              assetLp: new Currency(op.order.inLP.amount, op.order.inLP.asset),
+              assetX: new Currency(
+                0n,
+                getVerifiedPoolByName(op.order.poolId)?.assetX,
+              ),
+              assetY: new Currency(
+                0n,
+                getVerifiedPoolByName(op.order.poolId)?.assetY,
+              ),
+              type: op.order.type,
+              status: op.status,
+              txId: op.txId,
+              timestamp: getFormattedDate(op.timestamp),
+            },
+          ];
         }
       }
 
