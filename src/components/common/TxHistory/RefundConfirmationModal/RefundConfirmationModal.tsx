@@ -18,7 +18,6 @@ import { submitTx } from '../../../../services/yoroi';
 import { refund } from '../../../../utils/ammOperations';
 import { getShortAddress } from '../../../../utils/string/addres';
 import { InfoTooltip } from '../../../InfoTooltip/InfoTooltip';
-import { TokenControlFormItem } from '../../TokenControl/TokenControl';
 import { Operation } from '../types';
 
 interface RefundConfirmationModalProps {
@@ -62,26 +61,6 @@ const RefundConfirmationModal: React.FC<RefundConfirmationModalProps> = ({
       <Modal.Content width={570}>
         <Form onSubmit={() => {}} form={form}>
           <Flex col>
-            <Flex.Item marginBottom={1}>
-              <TokenControlFormItem
-                bordered
-                noBottomInfo
-                label="From"
-                tokenName="xAsset"
-                amountName="xAmount"
-                readonly
-              />
-            </Flex.Item>
-            <Flex.Item marginBottom={6}>
-              <TokenControlFormItem
-                bordered
-                noBottomInfo
-                label="To"
-                tokenName="yAsset"
-                amountName="yAmount"
-                readonly
-              />
-            </Flex.Item>
             <Flex.Item marginBottom={6}>
               <Box contrast padding={4}>
                 <Flex justify="space-between">
