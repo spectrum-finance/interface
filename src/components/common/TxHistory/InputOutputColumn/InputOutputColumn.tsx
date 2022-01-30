@@ -17,7 +17,7 @@ const InputOutputColumn: React.FC<InputOutputColumnProps> = ({
   y,
   type,
 }) => {
-  if (type === 'deposit') {
+  if (type === 'deposit' || type === 'redeem') {
     return (
       <Flex align="center">
         <Flex.Item marginRight={2}>
@@ -30,10 +30,16 @@ const InputOutputColumn: React.FC<InputOutputColumnProps> = ({
             <Flex.Item marginRight={2}>
               <Flex direction="col">
                 <Flex.Item>
-                  <Typography.Body strong>{x.asset.name}:</Typography.Body>
+                  <Typography.Body strong>
+                    {x.asset.name}
+                    {x.amount ? ':' : ''}
+                  </Typography.Body>
                 </Flex.Item>
                 <Flex.Item>
-                  <Typography.Body strong>{y.asset.name}:</Typography.Body>
+                  <Typography.Body strong>
+                    {y.asset.name}
+                    {y.amount ? ':' : ''}
+                  </Typography.Body>
                 </Flex.Item>
               </Flex>
             </Flex.Item>
@@ -41,12 +47,12 @@ const InputOutputColumn: React.FC<InputOutputColumnProps> = ({
               <Flex direction="col">
                 <Flex.Item>
                   <Typography.Footnote>
-                    {x.toString({ suffix: false })}
+                    {x.amount ? x.toString({ suffix: false }) : ''}
                   </Typography.Footnote>
                 </Flex.Item>
                 <Flex.Item>
                   <Typography.Footnote>
-                    {y.toString({ suffix: false })}
+                    {y.amount ? y.toString({ suffix: false }) : ''}
                   </Typography.Footnote>
                 </Flex.Item>
               </Flex>
