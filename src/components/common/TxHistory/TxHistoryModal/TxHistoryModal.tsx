@@ -1,7 +1,6 @@
 import Icon from '@ant-design/icons';
-import { TxId } from '@ergolabs/ergo-sdk';
 import { Typography } from 'antd';
-import React, { useCallback } from 'react';
+import React from 'react';
 
 import { transactionsHistory$ } from '../../../../api/transactionsHistory';
 import { ReactComponent as DotsVertical } from '../../../../assets/icons/icon-dots-vertical.svg';
@@ -18,11 +17,15 @@ import {
 } from '../../../../ergodex-cdk';
 import { isRefundableOperation } from '../../../../utils/ammOperations';
 import { exploreTx } from '../../../../utils/redirect';
+import {
+  openConfirmationModal,
+  Operation,
+} from '../../../ConfirmationModal/ConfirmationModal';
 import { InputOutputColumn } from '../InputOutputColumn/InputOutputColumn';
 import { RefundConfirmationModal } from '../RefundConfirmationModal/RefundConfirmationModal';
 import { TxStatusTag } from '../TxStatusTag/TxStatusTag';
 import { TxTypeTag } from '../TxTypeTag/TxTypeTag';
-import { OperationStatus } from '../types';
+import { Operation as DexOperation } from '../types';
 import { normalizeOperations } from '../utils';
 
 const DotsIconVertical = () => <Icon component={DotsVertical} />;
@@ -31,31 +34,39 @@ const TxHistoryModal = (): JSX.Element => {
   const [txs] = useObservable(transactionsHistory$);
   const walletAddresses = useWalletAddresses();
 
-  const handleOpenRefundConfirmationModal = useCallback(
-    (txId) => {
-      if (walletAddresses.state === WalletAddressState.LOADED) {
-        return Modal.open(({ close }) => (
-          <RefundConfirmationModal
-            txId={txId}
-            addresses={walletAddresses.addresses}
-            onClose={close}
-          />
-        ));
-      }
-    },
-    [walletAddresses],
-  );
+  const handleOpenRefundConfirmationModal = (operation: DexOperation) => {
+    if (walletAddresses.state === WalletAddressState.LOADED) {
+      openConfirmationModal(
+        (next) => {
+          return (
+            <RefundConfirmationModal
+              operation={operation}
+              addresses={walletAddresses.addresses}
+              onClose={next}
+            />
+          );
+        },
+        Operation.REFUND,
+        operation.assetX,
+        operation.assetY,
+      );
+    }
+  };
 
-  const renderTxActionsMenu = (status: OperationStatus, txId: TxId) => {
+  const renderTxActionsMenu = (op: DexOperation) => {
     return (
       <Box padding={2}>
         <Menu.Item>
-          <a onClick={() => exploreTx(txId)} target="_blank" rel="noreferrer">
+          <a
+            onClick={() => exploreTx(op.txId)}
+            target="_blank"
+            rel="noreferrer"
+          >
             View on Explorer
           </a>
         </Menu.Item>
-        {isRefundableOperation(status) && (
-          <Menu.Item onClick={() => handleOpenRefundConfirmationModal(txId)}>
+        {isRefundableOperation(op.status) && (
+          <Menu.Item onClick={() => handleOpenRefundConfirmationModal(op)}>
             <a rel="noreferrer">Refund transaction</a>
           </Menu.Item>
         )}
@@ -99,13 +110,14 @@ const TxHistoryModal = (): JSX.Element => {
                       <Flex.Item style={{ width: '35%' }}>
                         <InputOutputColumn
                           type={op.type}
-                          pair={{ x: op.assetX, y: op.assetY }}
+                          x={op.assetX}
+                          y={op.assetY}
                         />
                       </Flex.Item>
                       <Flex.Item style={{ width: '28%' }}>
                         {op.timestamp}
                       </Flex.Item>
-                      <Flex.Item style={{ width: '16%' }}>
+                      <Flex.Item style={{ width: '20%' }}>
                         <TxTypeTag type={op.type} />
                       </Flex.Item>
                       <Flex.Item style={{ width: '16%' }}>
@@ -115,7 +127,7 @@ const TxHistoryModal = (): JSX.Element => {
                         <Dropdown
                           overlay={
                             <Menu style={{ width: 160, padding: 0 }}>
-                              {renderTxActionsMenu(op.status, op.txId)}
+                              {renderTxActionsMenu(op)}
                             </Menu>
                           }
                           trigger={['click']}
