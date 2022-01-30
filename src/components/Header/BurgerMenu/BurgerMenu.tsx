@@ -1,6 +1,7 @@
 import './BurgerMenu.less';
 
 import React, { useState } from 'react';
+import { isMobile } from 'react-device-detect';
 
 import { ReactComponent as DarkModeOutlined } from '../../../assets/icons/darkmode.svg';
 import {
@@ -49,6 +50,7 @@ const BurgerMenu = (): JSX.Element => {
       icon: <SettingOutlined />,
       onClick: () =>
         Modal.open(({ close }) => <GlobalSettingsModal onClose={close} />),
+      isNotRenderMobile: true,
     },
     // {
     //   title: 'Analytics',
@@ -74,6 +76,9 @@ const BurgerMenu = (): JSX.Element => {
           className="ergodex-menu-item"
           key={index + 1}
           icon={item.icon}
+          style={{
+            display: isMobile && item.isNotRenderMobile ? 'none' : '',
+          }}
         >
           {item.onClick ? (
             <a rel="noreferrer" onClick={item.onClick}>
