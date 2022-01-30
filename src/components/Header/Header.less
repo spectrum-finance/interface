@@ -17,6 +17,10 @@
     align-items: center;
     padding: 1rem;
     grid-template-columns: 1fr 1fr;
+
+    @media (max-width: 720px) {
+        grid-template-columns: 36px 1fr;
+    }
   }
 
   &__left {
@@ -40,10 +44,6 @@
 
     > *:not(:last-child) {
       margin-right: 8px;
-
-      @media (max-width: 960px) {
-            display: none;
-      }
     }
   }
 
