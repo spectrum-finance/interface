@@ -1,9 +1,10 @@
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
 import axios from 'axios';
 import { DateTime } from 'luxon';
-import { defer, from, map, Observable } from 'rxjs';
+import { defer, from, map, Observable, switchMap } from 'rxjs';
 
 import { applicationConfig } from '../../applicationConfig';
+import { networkContext$ } from '../../network/ergo/networkContext/networkContext';
 
 export interface LockedAsset {
   id: string;
@@ -40,6 +41,14 @@ export interface AmmPoolAnalytics {
   volume: AnalyticsData;
   fees: AnalyticsData;
   yearlyFeesPercent: number;
+}
+
+export interface AmmPoolLocksAnalytics {
+  readonly poolId: string;
+  readonly deadline: number;
+  readonly amount: bigint;
+  readonly percent: number;
+  readonly redeemer: string;
 }
 
 export interface AmmAggregatedAnalytics {
@@ -96,4 +105,17 @@ export const getAggregatedPoolAnalyticsDataById24H = (
 ): Observable<AmmPoolAnalytics> =>
   from(get24hData(`${applicationConfig.api}amm/pool/${poolId}/stats`)).pipe(
     map((res) => res.data),
+  );
+
+export const getPoolLocksAnalyticsById = (
+  poolId: PoolId,
+): Observable<AmmPoolLocksAnalytics[]> =>
+  networkContext$.pipe(
+    switchMap((context) =>
+      from(
+        axios.get<AmmPoolLocksAnalytics[]>(
+          `${applicationConfig.api}amm/pool/${poolId}/locks?leastDeadline=${context.height}`,
+        ),
+      ).pipe(map((res) => res.data)),
+    ),
   );

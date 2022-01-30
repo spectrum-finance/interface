@@ -2,7 +2,6 @@ import { PoolId } from '@ergolabs/ergo-dex-sdk';
 import React, { useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 
-import { getPositionByAmmPoolId } from '../../api/positions';
 import { ReactComponent as RelockIcon } from '../../assets/icons/relock-icon.svg';
 import { ReactComponent as WithdrawalIcon } from '../../assets/icons/withdrawal-icon.svg';
 import { useSubject } from '../../common/hooks/useObservable';
@@ -23,6 +22,7 @@ import {
 import { LockLiquidityChart } from './LockLiquidityChart/LockLiquidityChart';
 import { PoolFeeTag } from './PoolFeeTag/PoolFeeTag';
 import { PoolRatio } from './PoolRatio/PoolRatio';
+import { getPositionWithAnalyticByAmmPoolId } from './PositionWithLocks';
 
 interface URLParamTypes {
   poolId: PoolId;
@@ -31,7 +31,10 @@ interface URLParamTypes {
 export const PoolOverview: React.FC = () => {
   const history = useHistory();
   const { poolId } = useParams<URLParamTypes>();
-  const [position, updatePosition] = useSubject(getPositionByAmmPoolId, []);
+  const [position, updatePosition] = useSubject(
+    getPositionWithAnalyticByAmmPoolId,
+    [],
+  );
 
   useEffect(() => updatePosition(poolId), []);
 
@@ -106,7 +109,7 @@ export const PoolOverview: React.FC = () => {
           </Flex.Item>
           <Flex.Item marginBottom={4}>
             <PageSection title="Locked liquidity" boxed={false}>
-              <LockLiquidityChart />
+              <LockLiquidityChart position={position} />
             </PageSection>
           </Flex.Item>
           <Flex.Item marginBottom={4}>
