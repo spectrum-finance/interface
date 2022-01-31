@@ -10,6 +10,7 @@ export const positions$ = selectedNetwork$.pipe(
   publishReplay(1),
   refCount(),
 );
+positions$.subscribe();
 
 export const getPositionByAmmPoolId = (
   ammPoolId: string,

@@ -18,6 +18,8 @@ export interface LocksAnalyticAccumulator {
   readonly y: Currency;
 }
 
+const MIN_RELEVANT_LOCK_PERCENT = 0.01;
+
 export class PositionWithLocksAnalytic implements Position {
   @cache
   get lp(): Currency {
@@ -78,6 +80,10 @@ export class PositionWithLocksAnalytic implements Position {
     return Object.values(
       this.locksAnalytics.reduce<{ [key: number]: LocksAnalyticAccumulator }>(
         (acc, la) => {
+          if (la.percent < MIN_RELEVANT_LOCK_PERCENT) {
+            return acc;
+          }
+
           const [x, y] = this.pool.shares(
             new Currency(la.amount, this.pool.lp.asset),
           );
