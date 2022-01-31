@@ -4,11 +4,13 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
 import { skip } from 'rxjs';
 
+import { getPositionByAmmPoolId } from '../../../api/positions';
 import {
   useObservable,
   useSubject,
   useSubscription,
 } from '../../../common/hooks/useObservable';
+import { Position } from '../../../common/models/Position';
 import { FormPairSection } from '../../../components/common/FormView/FormPairSection/FormPairSection';
 import { FormSlider } from '../../../components/common/FormView/FormSlider/FormSlider';
 import {
@@ -25,17 +27,13 @@ import {
   FormGroup,
   useForm,
 } from '../../../ergodex-cdk/components/Form/NewForm';
-import {
-  getAvailablePoolDataById,
-  PoolData,
-} from '../../../services/new/pools';
 import { LiquidityDatePicker } from '../components/LockLiquidityDatePicker/LiquidityDatePicker';
 import { LockLiquidityConfirmationModal } from './LockLiquidityConfirmationModal/LockLiquidityConfirmationModal';
 import { LockLiquidityModel } from './LockLiquidityModel';
 
 const LockLiquidity = (): JSX.Element => {
   const { poolId } = useParams<{ poolId: PoolId }>();
-  const [poolData, updatePoolData] = useSubject(getAvailablePoolDataById);
+  const [position, updatePosition] = useSubject(getPositionByAmmPoolId);
 
   const form = useForm<LockLiquidityModel>({
     xAmount: undefined,
@@ -48,39 +46,31 @@ const LockLiquidity = (): JSX.Element => {
 
   const [formValue] = useObservable(form.valueChangesWithSilent$);
 
-  useEffect(() => updatePoolData(poolId), []);
+  useEffect(() => updatePosition(poolId), []);
 
   useSubscription(
     form.controls.percent.valueChanges$.pipe(skip(1)),
     (percent) => {
       form.patchValue({
-        xAmount:
-          percent === 100
-            ? poolData?.xAmount
-            : poolData?.xAmount.percent(percent),
-        yAmount:
-          percent === 100
-            ? poolData?.yAmount
-            : poolData?.yAmount.percent(percent),
+        xAmount: percent === 100 ? position?.x : position?.x.percent(percent),
+        yAmount: percent === 100 ? position?.y : position?.y.percent(percent),
         lpAmount:
-          percent === 100
-            ? poolData?.lpAmount
-            : poolData?.lpAmount.percent(percent),
+          percent === 100 ? position?.lp : position?.lp.percent(percent),
       });
     },
-    [poolData],
+    [position],
   );
 
   const handleLockLiquidity = (
     form: FormGroup<LockLiquidityModel>,
-    poolData: PoolData,
+    position: Position,
   ) => {
-    const xAsset = form.value.xAmount || poolData.xAmount;
-    const yAsset = form.value.yAmount || poolData.yAmount;
-    const lpAsset = form.value.lpAmount || poolData.lpAmount;
+    const xAsset = form.value.xAmount || position.x;
+    const yAsset = form.value.yAmount || position.y;
+    const lpAsset = form.value.lpAmount || position.lp;
     const timelock = form.value.locktime;
     const percent = form.value.percent;
-    const pool = poolData.pool;
+    const pool = position.pool;
 
     if (timelock) {
       openConfirmationModal(
@@ -108,14 +98,14 @@ const LockLiquidity = (): JSX.Element => {
 
   return (
     <Page width={480} title="Lock liquidity" withBackButton>
-      {poolData ? (
+      {position ? (
         <Form
           form={form}
-          onSubmit={(form) => handleLockLiquidity(form, poolData)}
+          onSubmit={(form) => handleLockLiquidity(form, position)}
         >
           <Flex direction="col">
             <Flex.Item marginBottom={2}>
-              <PageHeader x={poolData.xAmount} y={poolData.yAmount} />
+              <PageHeader x={position.x} y={position.y} />
             </Flex.Item>
 
             <Flex.Item marginBottom={4}>
@@ -131,8 +121,8 @@ const LockLiquidity = (): JSX.Element => {
             <Flex.Item marginBottom={4}>
               <FormPairSection
                 title="Assets to lock"
-                xAmount={formValue?.xAmount || poolData.xAmount}
-                yAmount={formValue?.yAmount || poolData.yAmount}
+                xAmount={formValue?.xAmount || position.x}
+                yAmount={formValue?.yAmount || position.y}
               />
             </Flex.Item>
 
