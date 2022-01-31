@@ -12,7 +12,6 @@ import { Position } from '../common/models/Position';
 export interface Network {
   readonly networkAsset$: Observable<AssetInfo>;
   readonly networkAssetBalance$: Observable<Currency>;
-  readonly userPools$: Observable<AmmPool[]>;
   readonly assetBalance$: Observable<Balance>;
   readonly addresses$: Observable<Address[]>;
   readonly locks$: Observable<AssetLock[]>;
