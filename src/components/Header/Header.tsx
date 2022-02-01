@@ -2,6 +2,7 @@ import './Header.less';
 
 import cn from 'classnames';
 import React, { useEffect, useState } from 'react';
+import { isBrowser } from 'react-device-detect';
 
 import { networkAssetBalance$ } from '../../api/networkAssetBalance';
 import { useObservable } from '../../common/hooks/useObservable';
@@ -49,17 +50,25 @@ export const Header: React.FC = () => {
       <div className="header__wrapper">
         <div className="header__left">
           <AppLogo isNoWording />
-          <HeaderTabs />
-          <AnalyticsDataTag />
+          {isBrowser && (
+            <>
+              <HeaderTabs />
+              <AnalyticsDataTag />
+            </>
+          )}
         </div>
         <div className="header__options">
-          <NetworkDropdown networks={networks} />
-          <ConnectWallet
-            numberOfPendingTxs={0}
-            address={address}
-            balance={balance}
-          />
-          {walletState === WalletState.CONNECTED && <TxHistory />}
+          {isBrowser && (
+            <>
+              <NetworkDropdown networks={networks} />
+              <ConnectWallet
+                numberOfPendingTxs={0}
+                address={address}
+                balance={balance}
+              />
+              {walletState === WalletState.CONNECTED && <TxHistory />}
+            </>
+          )}
           <BurgerMenu />
         </div>
       </div>

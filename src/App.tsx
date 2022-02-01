@@ -2,10 +2,10 @@ import './i18n';
 
 import { RustModule } from '@ergolabs/ergo-sdk';
 import React, { Suspense, useEffect, useState } from 'react';
+import { BrowserView, MobileView } from 'react-device-detect';
 import { withTranslation } from 'react-i18next';
 import { Redirect, Route, Router, Switch } from 'react-router-dom';
 
-import { TABLET_BRAKE_POINT } from './common/constants/screen';
 import Layout from './components/common/Layout/Layout';
 import { MobilePlug } from './components/MobilePlug/MobilePlug';
 import {
@@ -16,7 +16,6 @@ import {
 } from './context';
 import { globalHistory } from './createBrowserHistory';
 import { ContextModalProvider } from './ergodex-cdk';
-import { useWindowSize } from './hooks/useWindowSize';
 import { AddLiquidity } from './pages/Pool/AddLiquidity/AddLiquidity';
 import { LockLiquidity } from './pages/Pool/LockLiquidity/LockLiquidity';
 import { Pool } from './pages/Pool/Pool';
@@ -29,8 +28,6 @@ import { Swap } from './pages/Swap/Swap';
 const NotFound = () => <Redirect to="/swap" />;
 
 const Application = withTranslation()(() => {
-  const [windowWidth] = useWindowSize();
-
   return (
     <Router history={globalHistory}>
       <AppLoadingProvider>
@@ -39,7 +36,7 @@ const Application = withTranslation()(() => {
             <WalletAddressesProvider>
               <ContextModalProvider>
                 <Layout>
-                  {windowWidth > TABLET_BRAKE_POINT ? (
+                  <BrowserView>
                     <Switch>
                       <Route path="/" exact>
                         <Redirect to="/swap" />
@@ -79,9 +76,10 @@ const Application = withTranslation()(() => {
                       />
                       <Route component={NotFound} />
                     </Switch>
-                  ) : (
+                  </BrowserView>
+                  <MobileView>
                     <MobilePlug />
-                  )}
+                  </MobileView>
                 </Layout>
               </ContextModalProvider>
             </WalletAddressesProvider>
