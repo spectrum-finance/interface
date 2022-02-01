@@ -25,9 +25,13 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
   const openWalletModal = () => Modal.open(<WalletModal />);
 
   const addressButton = (
-    <Box borderRadius="m" padding={[1, 1, 1, 2]}>
+    <Box borderRadius="m" padding={1}>
       <Flex align="center">
-        <Flex.Item marginRight={2}>
+        <Flex.Item
+          className="connect-wallet__balance"
+          marginRight={2}
+          marginLeft={1}
+        >
           <Typography.Body style={{ whiteSpace: 'nowrap', fontSize: '16px' }}>
             {balance?.toString() ?? <LoadingOutlined />}
           </Typography.Body>
