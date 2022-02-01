@@ -66,7 +66,7 @@ export const WithdrawalLiquidity = (): JSX.Element => {
   };
 
   return (
-    <FormPageWrapper width={760} title="Withdrawal" withBackButton>
+    <Page width={760} title="Withdrawal" withBackButton>
       {locksAccumulator ? (
         <OperationForm
           form={form}
