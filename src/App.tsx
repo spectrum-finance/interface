@@ -5,6 +5,7 @@ import React, { Suspense, useEffect, useState } from 'react';
 import { BrowserView, MobileView } from 'react-device-detect';
 import { withTranslation } from 'react-i18next';
 import { Redirect, Route, Router, Switch } from 'react-router-dom';
+
 import { initializeApp } from './common/streams/appTick';
 import Layout from './components/common/Layout/Layout';
 import { MobilePlug } from './components/MobilePlug/MobilePlug';
