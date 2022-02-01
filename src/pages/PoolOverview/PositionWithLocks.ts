@@ -4,6 +4,7 @@ import { map, Observable, of, switchMap } from 'rxjs';
 
 import { getPositionByAmmPoolId } from '../../api/positions';
 import { AmmPool } from '../../common/models/AmmPool';
+import { AssetLock } from '../../common/models/AssetLock';
 import { Currency } from '../../common/models/Currency';
 import { Position } from '../../common/models/Position';
 import {
@@ -110,6 +111,8 @@ export class PositionWithLocksAnalytic implements Position {
       ),
     );
   }
+
+  readonly locks: AssetLock[] = [];
 
   constructor(
     private position: Position,

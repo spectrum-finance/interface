@@ -22,7 +22,7 @@ import {
 
 import { AmmPool } from '../../common/models/AmmPool';
 import { Currency } from '../../common/models/Currency';
-import { tokenLocks$ } from '../../network/ergo/locks/common';
+import { tokenLocks$ } from '../../network/ergo/common/tokenLocks';
 import { getListAvailableTokens } from '../../utils/getListAvailableTokens';
 import { explorer } from '../explorer';
 import { UPDATE_TIME, utxos$ } from './core';

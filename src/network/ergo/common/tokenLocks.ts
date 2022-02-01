@@ -13,3 +13,20 @@ export const tokenLocks$: Observable<TokenLock[]> = addresses$.pipe(
   publishReplay(1),
   refCount(),
 );
+
+export const tokenLocksGroupedByLpAsset$: Observable<{
+  [key: string]: TokenLock[];
+}> = tokenLocks$.pipe(
+  map((locks) => locks.filter((l) => l.active)),
+  map((locks) =>
+    locks.reduce<{ [key: string]: TokenLock[] }>((acc, lock) => {
+      if (!acc[lock.lockedAsset.asset.id]) {
+        acc[lock.lockedAsset.asset.id] = [];
+      }
+
+      acc[lock.lockedAsset.asset.id].push(lock);
+
+      return acc;
+    }, {}),
+  ),
+);

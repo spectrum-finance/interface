@@ -8,11 +8,13 @@ import { AssetLock } from '../common/models/AssetLock';
 import { Balance } from '../common/models/Balance';
 import { Currency } from '../common/models/Currency';
 import { Position } from '../common/models/Position';
+import { lpBalance$ } from './ergo/balance/lpBalance';
 
 export interface Network {
   readonly networkAsset$: Observable<AssetInfo>;
   readonly networkAssetBalance$: Observable<Currency>;
   readonly assetBalance$: Observable<Balance>;
+  readonly lpBalance$: Observable<Balance>;
   readonly addresses$: Observable<Address[]>;
   readonly locks$: Observable<AssetLock[]>;
   readonly ammPools$: Observable<AmmPool[]>;

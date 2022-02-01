@@ -1,15 +1,38 @@
-import { combineLatest, map, publishReplay, refCount } from 'rxjs';
+import {
+  combineLatest,
+  debounceTime,
+  map,
+  publishReplay,
+  refCount,
+} from 'rxjs';
 
 import { Position } from '../../../common/models/Position';
 import { lpWalletBalance$ } from '../../../services/new/balance';
-import { availablePools$ } from '../../../services/new/pools';
+import { ammPools$ } from '../ammPools/ammPools';
+import { tokenLocksGroupedByLpAsset$ } from '../common/tokenLocks';
+import { networkContext$ } from '../networkContext/networkContext';
 
 export const positions$ = combineLatest([
-  availablePools$,
+  ammPools$,
   lpWalletBalance$,
+  tokenLocksGroupedByLpAsset$,
+  networkContext$,
 ]).pipe(
-  map(([pools, lpWalletBalance]) =>
-    pools.map((p) => new Position(p, lpWalletBalance.get(p.lp.asset))),
+  debounceTime(200),
+  map(
+    ([ammPools, lpWalletBalance, tokenLocksGroupedByLpAsset, networkContext]) =>
+      ammPools
+        .filter((ap) => lpWalletBalance.get(ap.lp.asset).isPositive())
+        .map(
+          (ap) =>
+            new Position(
+              ap,
+              lpWalletBalance.get(ap.lp.asset),
+              false,
+              tokenLocksGroupedByLpAsset[ap.lp.asset.id],
+              networkContext.height,
+            ),
+        ),
   ),
   publishReplay(1),
   refCount(),
