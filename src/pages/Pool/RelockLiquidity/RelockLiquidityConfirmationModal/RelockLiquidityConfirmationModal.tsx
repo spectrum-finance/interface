@@ -19,7 +19,7 @@ import { AssetLock } from '../../../../common/models/AssetLock';
 import { Currency } from '../../../../common/models/Currency';
 import { FormFeesSection } from '../../../../components/common/FormView/FormFeesSection/FormFeesSection';
 import { FormPairSection } from '../../../../components/common/FormView/FormPairSection/FormPairSection';
-import { FormSection } from '../../../../components/common/FormView/FormSection/FormSection';
+import { PageSection } from '../../../../components/Page/PageSection/PageSection';
 import { useSettings } from '../../../../context';
 import {
   Button,
@@ -122,7 +122,7 @@ const RelockLiquidityConfirmationModal: FC<RelockLiquidityConfirmationModalProps
             <Flex.Item marginBottom={4}>
               <Flex align="center" justify="space-between">
                 <Flex.Item grow marginRight={2}>
-                  <FormSection title="Previous unlock date">
+                  <PageSection title="Previous unlock date">
                     <Flex col justify="center">
                       <Flex.Item marginBottom={1}>
                         <Typography.Body strong>
@@ -137,11 +137,11 @@ const RelockLiquidityConfirmationModal: FC<RelockLiquidityConfirmationModalProps
                         </Typography.Body>
                       </Flex.Item>
                     </Flex>
-                  </FormSection>
+                  </PageSection>
                 </Flex.Item>
 
                 <Flex.Item grow>
-                  <FormSection title="Updated unlock date">
+                  <PageSection title="Updated unlock date">
                     <Flex col justify="center">
                       <Flex.Item marginBottom={1}>
                         <Typography.Body strong>
@@ -155,7 +155,7 @@ const RelockLiquidityConfirmationModal: FC<RelockLiquidityConfirmationModalProps
                         </Typography.Body>
                       </Flex.Item>
                     </Flex>
-                  </FormSection>
+                  </PageSection>
                 </Flex.Item>
               </Flex>
             </Flex.Item>

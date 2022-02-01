@@ -1,9 +1,10 @@
 import { AmmDexOperation } from '@ergolabs/ergo-dex-sdk';
 import { uniqBy } from 'lodash';
 
+import { Currency } from '../../../common/models/Currency';
 import { getFormattedDate } from '../../../utils/date';
 import { getAssetNameByMappedId } from '../../../utils/map';
-import { renderFractions } from '../../../utils/math';
+import { getVerifiedPoolByName } from '../../../utils/verification';
 import { Operation } from './types';
 
 export const normalizeOperations = (ops: AmmDexOperation[]): Operation[] => {
@@ -14,19 +15,17 @@ export const normalizeOperations = (ops: AmmDexOperation[]): Operation[] => {
           return [
             ...acc,
             {
-              assetX: {
-                name:
-                  op.order.from.asset.name ||
-                  getAssetNameByMappedId(op.order.to.id) ||
-                  'unknown',
-              },
+              assetX: new Currency(0n, op.order.from.asset),
               //TODO:[SDK]ADD_ASSET_Y_AS_ASSET_AMOUNT[]
-              assetY: {
-                name:
-                  op.order.to.name ||
-                  getAssetNameByMappedId(op.order.to.id) ||
-                  'unknown',
-              },
+              assetY: new Currency(
+                0n,
+                op.order.to.name
+                  ? op.order.to
+                  : {
+                      id: op.order.to.id,
+                      name: getAssetNameByMappedId(op.order.to.id),
+                    },
+              ),
               type: op.order.type,
               status: op.status,
               txId: op.txId,
@@ -38,24 +37,8 @@ export const normalizeOperations = (ops: AmmDexOperation[]): Operation[] => {
           return [
             ...acc,
             {
-              assetX: {
-                name: op.order.inX.asset.name || 'unknown',
-                amount: Number(
-                  renderFractions(
-                    op.order.inX.amount,
-                    op.order.inX.asset.decimals,
-                  ),
-                ),
-              },
-              assetY: {
-                name: op.order.inY.asset.name || 'unknown',
-                amount: Number(
-                  renderFractions(
-                    op.order.inY.amount,
-                    op.order.inY.asset.decimals,
-                  ),
-                ),
-              },
+              assetX: new Currency(op.order.inX.amount, op.order.inX.asset),
+              assetY: new Currency(op.order.inY.amount, op.order.inY.asset),
               type: op.order.type,
               status: op.status,
               txId: op.txId,
@@ -64,8 +47,24 @@ export const normalizeOperations = (ops: AmmDexOperation[]): Operation[] => {
           ];
         }
         if (op.order.type === 'redeem') {
-          // TODO:[SDK]ADD_REDEEM_PAIR[EDEX-478]
-          return acc;
+          return [
+            ...acc,
+            {
+              assetLp: new Currency(op.order.inLP.amount, op.order.inLP.asset),
+              assetX: new Currency(
+                0n,
+                getVerifiedPoolByName(op.order.poolId)?.assetX,
+              ),
+              assetY: new Currency(
+                0n,
+                getVerifiedPoolByName(op.order.poolId)?.assetY,
+              ),
+              type: op.order.type,
+              status: op.status,
+              txId: op.txId,
+              timestamp: getFormattedDate(op.timestamp),
+            },
+          ];
         }
       }
 

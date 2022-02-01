@@ -1,59 +1,60 @@
-import { TxId } from '@ergolabs/ergo-sdk';
 import { Typography } from 'antd';
-import React, { useCallback, useEffect, useState } from 'react';
+import React from 'react';
 
+import { transactionsHistory$ } from '../../../../api/transactionsHistory';
+import { useObservable } from '../../../../common/hooks/useObservable';
 import { useWalletAddresses, WalletAddressState } from '../../../../context';
 import { Box, Flex, Menu, Modal, Skeleton } from '../../../../ergodex-cdk';
-import networkHistory from '../../../../services/networkHistory';
 import { isRefundableOperation } from '../../../../utils/ammOperations';
 import { exploreTx } from '../../../../utils/redirect';
+import {
+  openConfirmationModal,
+  Operation,
+} from '../../../ConfirmationModal/ConfirmationModal';
 import { OptionsButton } from '../../OptionsButton/OptionsButton';
 import { InputOutputColumn } from '../InputOutputColumn/InputOutputColumn';
 import { RefundConfirmationModal } from '../RefundConfirmationModal/RefundConfirmationModal';
 import { TxStatusTag } from '../TxStatusTag/TxStatusTag';
 import { TxTypeTag } from '../TxTypeTag/TxTypeTag';
-import { Operation, OperationStatus } from '../types';
+import { Operation as DexOperation } from '../types';
 import { normalizeOperations } from '../utils';
 
 const TxHistoryModal = (): JSX.Element => {
-  const TXS_TO_DISPLAY = 50;
-
-  const [operations, setOperations] = useState<Operation[] | undefined>();
+  const [txs] = useObservable(transactionsHistory$);
   const walletAddresses = useWalletAddresses();
 
-  useEffect(() => {
+  const handleOpenRefundConfirmationModal = (operation: DexOperation) => {
     if (walletAddresses.state === WalletAddressState.LOADED) {
-      networkHistory
-        .getAllByAddresses(walletAddresses.addresses, TXS_TO_DISPLAY)
-        .then((ops) => setOperations(normalizeOperations(ops)));
+      openConfirmationModal(
+        (next) => {
+          return (
+            <RefundConfirmationModal
+              operation={operation}
+              addresses={walletAddresses.addresses}
+              onClose={next}
+            />
+          );
+        },
+        Operation.REFUND,
+        { xAsset: operation.assetX, yAsset: operation.assetY },
+      );
     }
-  }, [walletAddresses]);
+  };
 
-  const handleOpenRefundConfirmationModal = useCallback(
-    (txId) => {
-      if (walletAddresses.state === WalletAddressState.LOADED) {
-        return Modal.open(({ close }) => (
-          <RefundConfirmationModal
-            txId={txId}
-            addresses={walletAddresses.addresses}
-            onClose={close}
-          />
-        ));
-      }
-    },
-    [walletAddresses],
-  );
-
-  const renderTxActionsMenu = (status: OperationStatus, txId: TxId) => {
+  const renderTxActionsMenu = (op: DexOperation) => {
     return (
       <>
         <Menu.Item>
-          <a onClick={() => exploreTx(txId)} target="_blank" rel="noreferrer">
+          <a
+            onClick={() => exploreTx(op.txId)}
+            target="_blank"
+            rel="noreferrer"
+          >
             View on Explorer
           </a>
         </Menu.Item>
-        {isRefundableOperation(status) && (
-          <Menu.Item onClick={() => handleOpenRefundConfirmationModal(txId)}>
+        {isRefundableOperation(op.status) && (
+          <Menu.Item onClick={() => handleOpenRefundConfirmationModal(op)}>
             <a rel="noreferrer">Refund transaction</a>
           </Menu.Item>
         )}
@@ -83,8 +84,8 @@ const TxHistoryModal = (): JSX.Element => {
               <Flex.Item style={{ width: '5%' }} />
             </Flex>
           </Flex.Item>
-          {operations ? (
-            operations.map((op, index) => {
+          {txs ? (
+            normalizeOperations(txs).map((op, index) => {
               return (
                 <Flex.Item
                   key={index}
@@ -97,13 +98,14 @@ const TxHistoryModal = (): JSX.Element => {
                       <Flex.Item style={{ width: '35%' }}>
                         <InputOutputColumn
                           type={op.type}
-                          pair={{ x: op.assetX, y: op.assetY }}
+                          x={op.assetX}
+                          y={op.assetY}
                         />
                       </Flex.Item>
                       <Flex.Item style={{ width: '28%' }}>
                         {op.timestamp}
                       </Flex.Item>
-                      <Flex.Item style={{ width: '16%' }}>
+                      <Flex.Item style={{ width: '20%' }}>
                         <TxTypeTag type={op.type} />
                       </Flex.Item>
                       <Flex.Item style={{ width: '16%' }}>
@@ -111,7 +113,7 @@ const TxHistoryModal = (): JSX.Element => {
                       </Flex.Item>
                       <Flex.Item style={{ width: '5%' }}>
                         <OptionsButton type="text" placement="bottomLeft">
-                          {renderTxActionsMenu(op.status, op.txId)}
+                          {renderTxActionsMenu(op)}
                         </OptionsButton>
                       </Flex.Item>
                     </Flex>

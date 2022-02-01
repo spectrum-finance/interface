@@ -2,7 +2,7 @@ import './ChartContainer.less';
 
 import React, { FC, ReactNode } from 'react';
 
-import { Collapse } from '../../../../../ergodex-cdk';
+import { Collapse } from '../../../../ergodex-cdk';
 
 interface ChartCollapseProps {
   header?: ReactNode | ReactNode[] | string;

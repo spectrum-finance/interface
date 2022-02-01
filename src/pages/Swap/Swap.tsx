@@ -31,7 +31,7 @@ import {
   openConfirmationModal,
   Operation,
 } from '../../components/ConfirmationModal/ConfirmationModal';
-import { FormPageWrapper } from '../../components/FormPageWrapper/FormPageWrapper';
+import { Page } from '../../components/Page/Page';
 import { Button, Flex, SwapOutlined, Typography } from '../../ergodex-cdk';
 import { useForm } from '../../ergodex-cdk/components/Form/NewForm';
 import { assets$, getAvailableAssetFor } from '../../services/new/assets';
@@ -212,7 +212,7 @@ export const Swap = (): JSX.Element => {
   const { t } = useTranslation();
 
   return (
-    <FormPageWrapper width={480}>
+    <Page width={480}>
       <ActionForm
         form={form}
         actionButton="Swap"
@@ -268,6 +268,6 @@ export const Swap = (): JSX.Element => {
           </Flex>
         </Flex>
       </ActionForm>
-    </FormPageWrapper>
+    </Page>
   );
 };

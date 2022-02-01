@@ -2,6 +2,7 @@ import './SocialLinks.less';
 
 import React from 'react';
 
+import { applicationConfig } from '../../applicationConfig';
 import { ReactComponent as DiscordIcon } from '../../assets/icons/social/Discord.svg';
 import { ReactComponent as MediumIcon } from '../../assets/icons/social/Medium.svg';
 import { ReactComponent as RedditIcon } from '../../assets/icons/social/Reddit.svg';
@@ -10,23 +11,23 @@ import { ReactComponent as TwitterIcon } from '../../assets/icons/social/Twitter
 
 const channels = [
   {
-    url: 'https://twitter.com/ErgoDex',
+    url: applicationConfig.social.twitter,
     icon: <TwitterIcon />,
   },
   {
-    url: 'https://t.me/ergodex_community',
+    url: applicationConfig.social.telegram,
     icon: <TelegramIcon />,
   },
   {
-    url: 'https://discord.com/invite/6MFFG4Fn4Y',
+    url: applicationConfig.social.discord,
     icon: <DiscordIcon />,
   },
   {
-    url: 'https://ergodex.medium.com/',
+    url: applicationConfig.social.medium,
     icon: <MediumIcon />,
   },
   {
-    url: 'https://www.reddit.com/r/ergodex/',
+    url: applicationConfig.social.reddit,
     icon: <RedditIcon />,
   },
 ];

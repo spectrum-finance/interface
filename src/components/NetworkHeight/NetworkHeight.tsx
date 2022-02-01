@@ -4,14 +4,14 @@ import React from 'react';
 // @ts-ignore
 import FlipNumbers from 'react-flip-numbers';
 
-import { ergoExplorerContext$ } from '../../api/explorer';
 import { ReactComponent as BlockIcon } from '../../assets/icons/block-icon.svg';
 import { ERG_EXPLORER_URL } from '../../common/constants/env';
 import { useObservable } from '../../common/hooks/useObservable';
 import { Flex, Tooltip, Typography } from '../../ergodex-cdk';
+import { networkContext$ } from '../../network/ergo/networkContext/networkContext';
 import { formatToInt } from '../../services/number';
 const NetworkHeight = (): JSX.Element => {
-  const [network] = useObservable(ergoExplorerContext$);
+  const [network] = useObservable(networkContext$);
 
   return (
     <>

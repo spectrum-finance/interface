@@ -1,10 +1,7 @@
 import React from 'react';
 
-import {
-  DISCORD_SUPPORT_URL,
-  TELEGRAM_SUPPORT_URL,
-  YOROI_NIGHTLY_LINK,
-} from '../../common/constants/env';
+import { applicationConfig } from '../../applicationConfig';
+import { YOROI_NIGHTLY_LINK } from '../../common/constants/env';
 import { WalletContextType } from '../../context';
 import { Typography } from '../../ergodex-cdk';
 import { walletCookies } from '../cookies';
@@ -32,11 +29,17 @@ export const connectYoroiWallet =
         return Promise.reject(
           <>
             Seems like an issue on Yoroi side. Get help in{' '}
-            <Typography.Link href={DISCORD_SUPPORT_URL} target="_blank">
+            <Typography.Link
+              href={applicationConfig.support.discord}
+              target="_blank"
+            >
               Discord
             </Typography.Link>{' '}
             or{' '}
-            <Typography.Link href={TELEGRAM_SUPPORT_URL} target="_blank">
+            <Typography.Link
+              href={applicationConfig.support.telegram}
+              target="_blank"
+            >
               Telegram
             </Typography.Link>
             .

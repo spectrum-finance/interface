@@ -3,58 +3,27 @@ import './LockLiquidityChart.less';
 import React, { FC } from 'react';
 import { Bar, BarChart, Label, Tooltip, XAxis, YAxis } from 'recharts';
 
-import { Progress } from '../../../../ergodex-cdk';
+import { Progress, Typography } from '../../../ergodex-cdk';
+import { PositionWithLocksAnalytic } from '../PositionWithLocks';
 import { ChartContainer } from './ChartContainer/ChartContainer';
 
-const data = [
-  {
-    name: 'Page A',
-    uv: 40,
-    pv: 24,
-    amt: 2400,
-  },
-  {
-    name: 'Page B',
-    uv: 30,
-    pv: 13,
-    amt: 2210,
-  },
-  {
-    name: 'Page C',
-    uv: 20,
-    pv: 98,
-    amt: 2290,
-  },
-  {
-    name: 'Page D',
-    uv: 27,
-    pv: 39,
-    amt: 2000,
-  },
-  {
-    name: 'Page E',
-    uv: 18,
-    pv: 48,
-    amt: 2181,
-  },
-  {
-    name: 'Page F',
-    uv: 23,
-    pv: 38,
-    amt: 2500,
-  },
-  {
-    name: 'Page G',
-    uv: 34,
-    pv: 43,
-    amt: 2100,
-  },
-];
+interface LockLiquidityChartProps {
+  position: PositionWithLocksAnalytic;
+}
 
-export const LockLiquidityChart: FC = () => (
+export const LockLiquidityChart: FC<LockLiquidityChartProps> = ({
+  position,
+}) => (
   <>
-    <ChartContainer header={<Progress percent={40} />}>
-      <BarChart width={400} height={190} data={data} barCategoryGap={0}>
+    <ChartContainer
+      header={<Progress percent={position.totalAmmPoolLockedPercent} />}
+    >
+      <BarChart
+        width={400}
+        height={190}
+        data={position.locksAnalyticAccumulators}
+        barCategoryGap={0}
+      >
         <defs>
           <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
             <stop offset="5%" stopColor="#FF8C01" stopOpacity={1} />
@@ -62,7 +31,7 @@ export const LockLiquidityChart: FC = () => (
           </linearGradient>
         </defs>
         <Tooltip />
-        <Bar dataKey="uv" fill="url(#colorUv)" />
+        <Bar dataKey="percent" fill="url(#colorUv)" />
         <YAxis
           axisLine={false}
           tickLine={false}

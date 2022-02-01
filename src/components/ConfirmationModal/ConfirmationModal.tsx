@@ -2,12 +2,9 @@ import { TxId } from '@ergolabs/ergo-sdk';
 import { DateTime } from 'luxon';
 import React, { ReactNode } from 'react';
 
+import { applicationConfig } from '../../applicationConfig';
 import { ReactComponent as DiscordIcon } from '../../assets/icons/social/Discord.svg';
 import { ReactComponent as TelegramIcon } from '../../assets/icons/social/Telegram.svg';
-import {
-  DISCORD_SUPPORT_URL,
-  TELEGRAM_SUPPORT_URL,
-} from '../../common/constants/env';
 import { AssetLock } from '../../common/models/AssetLock';
 import { Currency } from '../../common/models/Currency';
 import { DialogRef, Flex, Modal, Typography } from '../../ergodex-cdk';
@@ -152,7 +149,7 @@ const YoroiIssueModalContent = () => (
         <Flex.Item marginRight={1}>
           <a
             style={{ color: 'var(--ergo-primary-color)' }}
-            href={DISCORD_SUPPORT_URL}
+            href={applicationConfig.support.discord}
             target="_blank"
             rel="noreferrer"
           >
@@ -162,7 +159,7 @@ const YoroiIssueModalContent = () => (
         <Flex.Item>
           <a
             style={{ color: 'var(--ergo-primary-color)' }}
-            href={TELEGRAM_SUPPORT_URL}
+            href={applicationConfig.support.telegram}
             target="_blank"
             rel="noreferrer"
           >

@@ -33,7 +33,7 @@ import {
   openConfirmationModal,
   Operation,
 } from '../../../components/ConfirmationModal/ConfirmationModal';
-import { FormPageWrapper } from '../../../components/FormPageWrapper/FormPageWrapper';
+import { Page } from '../../../components/Page/Page';
 import { Flex, Typography } from '../../../ergodex-cdk';
 import { Form, useForm } from '../../../ergodex-cdk/components/Form/NewForm';
 import { assets$, getAvailableAssetFor } from '../../../services/new/assets';
@@ -199,12 +199,7 @@ const AddLiquidity = (): JSX.Element => {
   };
 
   return (
-    <FormPageWrapper
-      title="Add liquidity"
-      width={480}
-      withBackButton
-      backTo="/pool"
-    >
+    <Page title="Add liquidity" width={480} withBackButton backTo="/pool">
       {!poolId || !poolsLoading ? (
         <ActionForm
           form={form}
@@ -273,7 +268,7 @@ const AddLiquidity = (): JSX.Element => {
       ) : (
         <Skeleton active />
       )}
-    </FormPageWrapper>
+    </Page>
   );
 };
 export { AddLiquidity };

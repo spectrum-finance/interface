@@ -5,8 +5,8 @@ import React, { FC } from 'react';
 import { ERG_DECIMALS, UI_FEE } from '../../../../common/constants/erg';
 import { useObservable } from '../../../../common/hooks/useObservable';
 import { FormPairSection } from '../../../../components/common/FormView/FormPairSection/FormPairSection';
-import { FormSection } from '../../../../components/common/FormView/FormSection/FormSection';
 import { InfoTooltip } from '../../../../components/InfoTooltip/InfoTooltip';
+import { PageSection } from '../../../../components/Page/PageSection/PageSection';
 import { useSettings } from '../../../../context';
 import { Button, Flex, Modal, Typography } from '../../../../ergodex-cdk';
 import { explorer } from '../../../../services/explorer';
@@ -96,7 +96,7 @@ const AddLiquidityConfirmationModal: FC<AddLiquidityConfirmationModalProps> = ({
             />
           </Flex.Item>
           <Flex.Item marginBottom={6}>
-            <FormSection title="Fees">
+            <PageSection title="Fees">
               <Flex justify="space-between">
                 <Flex.Item>
                   <Typography.Text strong>Fees</Typography.Text>
@@ -137,7 +137,7 @@ const AddLiquidityConfirmationModal: FC<AddLiquidityConfirmationModalProps> = ({
                   </Typography.Text>
                 </Flex.Item>
               </Flex>
-            </FormSection>
+            </PageSection>
           </Flex.Item>
           <Flex.Item>
             <Button

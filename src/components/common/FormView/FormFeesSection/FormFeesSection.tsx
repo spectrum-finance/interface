@@ -4,7 +4,7 @@ import { UI_FEE } from '../../../../common/constants/erg';
 import { Currency } from '../../../../common/models/Currency';
 import { Flex, Typography } from '../../../../ergodex-cdk';
 import { InfoTooltip } from '../../../InfoTooltip/InfoTooltip';
-import { FormSection } from '../FormSection/FormSection';
+import { PageSection } from '../../../Page/PageSection/PageSection';
 
 interface FormFeesSection {
   minerFee?: number;
@@ -18,7 +18,7 @@ const FormFeesSection: React.FC<FormFeesSection> = ({
   totalFees,
 }) => {
   return (
-    <FormSection title="Fees">
+    <PageSection title="Fees">
       <Flex justify="space-between">
         <Flex.Item>
           <Typography.Text strong>Fees</Typography.Text>
@@ -59,7 +59,7 @@ const FormFeesSection: React.FC<FormFeesSection> = ({
           <Typography.Text strong>{totalFees.toString()}</Typography.Text>
         </Flex.Item>
       </Flex>
-    </FormSection>
+    </PageSection>
   );
 };
 

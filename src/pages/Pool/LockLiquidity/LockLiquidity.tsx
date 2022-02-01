@@ -9,15 +9,15 @@ import {
   useSubject,
   useSubscription,
 } from '../../../common/hooks/useObservable';
-import { FormHeader } from '../../../components/common/FormView/FormHeader/FormHeader';
 import { FormPairSection } from '../../../components/common/FormView/FormPairSection/FormPairSection';
-import { FormSection } from '../../../components/common/FormView/FormSection/FormSection';
 import { FormSlider } from '../../../components/common/FormView/FormSlider/FormSlider';
 import {
   openConfirmationModal,
   Operation,
 } from '../../../components/ConfirmationModal/ConfirmationModal';
-import { FormPageWrapper } from '../../../components/FormPageWrapper/FormPageWrapper';
+import { Page } from '../../../components/Page/Page';
+import { PageHeader } from '../../../components/Page/PageHeader/PageHeader';
+import { PageSection } from '../../../components/Page/PageSection/PageSection';
 import { SubmitButton } from '../../../components/SubmitButton/SubmitButton';
 import { Alert, Animation, Flex, LockOutlined } from '../../../ergodex-cdk';
 import {
@@ -107,7 +107,7 @@ const LockLiquidity = (): JSX.Element => {
   };
 
   return (
-    <FormPageWrapper width={480} title="Lock liquidity" withBackButton>
+    <Page width={480} title="Lock liquidity" withBackButton>
       {poolData ? (
         <Form
           form={form}
@@ -115,17 +115,17 @@ const LockLiquidity = (): JSX.Element => {
         >
           <Flex direction="col">
             <Flex.Item marginBottom={2}>
-              <FormHeader x={poolData.xAmount} y={poolData.yAmount} />
+              <PageHeader x={poolData.xAmount} y={poolData.yAmount} />
             </Flex.Item>
 
             <Flex.Item marginBottom={4}>
-              <FormSection title="Amount" noPadding>
+              <PageSection title="Amount" noPadding>
                 <Form.Item name="percent">
                   {({ value, onChange }) => (
                     <FormSlider value={value} onChange={onChange} />
                   )}
                 </Form.Item>
-              </FormSection>
+              </PageSection>
             </Flex.Item>
 
             <Flex.Item marginBottom={4}>
@@ -137,7 +137,7 @@ const LockLiquidity = (): JSX.Element => {
             </Flex.Item>
 
             <Flex.Item marginBottom={4}>
-              <FormSection title="Unlock date">
+              <PageSection title="Unlock date">
                 <Form.Item name="locktime">
                   {({ value, onChange }) => (
                     <LiquidityDatePicker
@@ -147,7 +147,7 @@ const LockLiquidity = (): JSX.Element => {
                     />
                   )}
                 </Form.Item>
-              </FormSection>
+              </PageSection>
             </Flex.Item>
 
             {!!formValue?.locktime && (
@@ -175,7 +175,7 @@ const LockLiquidity = (): JSX.Element => {
       ) : (
         <Skeleton active />
       )}
-    </FormPageWrapper>
+    </Page>
   );
 };
 

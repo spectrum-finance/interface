@@ -8,17 +8,17 @@ import { ergoExplorerContext$ } from '../../../api/explorer';
 import { getLocksByPool } from '../../../api/locks';
 import { useObservable, useSubject } from '../../../common/hooks/useObservable';
 import { AssetLock } from '../../../common/models/AssetLock';
-import { FormHeader } from '../../../components/common/FormView/FormHeader/FormHeader';
-import { FormSection } from '../../../components/common/FormView/FormSection/FormSection';
 import {
   openConfirmationModal,
   Operation,
 } from '../../../components/ConfirmationModal/ConfirmationModal';
-import { FormPageWrapper } from '../../../components/FormPageWrapper/FormPageWrapper';
 import {
   OperationForm,
   OperationValidator,
 } from '../../../components/OperationForm/OperationForm';
+import { Page } from '../../../components/Page/Page';
+import { PageHeader } from '../../../components/Page/PageHeader/PageHeader';
+import { PageSection } from '../../../components/Page/PageSection/PageSection';
 import {
   Animation,
   Flex,
@@ -91,7 +91,7 @@ export const RelockLiquidity = (): JSX.Element => {
   };
 
   return (
-    <FormPageWrapper width={760} title="Relock liquidity" withBackButton>
+    <Page width={760} title="Relock liquidity" withBackButton>
       {poolData && locks && explorerContext ? (
         <OperationForm
           actionCaption="Relock position"
@@ -101,7 +101,7 @@ export const RelockLiquidity = (): JSX.Element => {
         >
           <Flex col>
             <Flex.Item marginBottom={2}>
-              <FormHeader x={poolData.xAmount} y={poolData.yAmount} />
+              <PageHeader x={poolData.xAmount} y={poolData.yAmount} />
             </Flex.Item>
             <Flex.Item>
               <Flex col>
@@ -129,7 +129,7 @@ export const RelockLiquidity = (): JSX.Element => {
             {isLockedPositionSelected && (
               <Flex.Item marginTop={4}>
                 <Animation.Expand expanded={isLockedPositionSelected}>
-                  <FormSection title="Unlock date">
+                  <PageSection title="Unlock date">
                     <Form.Item name="relocktime">
                       {({ value, onChange }) => (
                         <LiquidityDatePicker
@@ -158,7 +158,7 @@ export const RelockLiquidity = (): JSX.Element => {
                         />
                       )}
                     </Form.Item>
-                  </FormSection>
+                  </PageSection>
                 </Animation.Expand>
               </Flex.Item>
             )}
@@ -167,6 +167,6 @@ export const RelockLiquidity = (): JSX.Element => {
       ) : (
         <Skeleton active />
       )}
-    </FormPageWrapper>
+    </Page>
   );
 };

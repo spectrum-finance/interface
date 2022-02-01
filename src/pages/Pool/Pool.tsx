@@ -7,7 +7,7 @@ import { ammPools$ } from '../../api/ammPools';
 import { locksAccumulators$ } from '../../api/locks';
 import { useObservable } from '../../common/hooks/useObservable';
 import { ConnectWalletButton } from '../../components/common/ConnectWalletButton/ConnectWalletButton';
-import { FormPageWrapper } from '../../components/FormPageWrapper/FormPageWrapper';
+import { Page } from '../../components/Page/Page';
 import { DownOutlined, Dropdown, Flex, Menu, Tabs } from '../../ergodex-cdk';
 import { useQuery } from '../../hooks/useQuery';
 import { isWalletLoading$, isWalletSetuped$ } from '../../services/new/core';
@@ -15,8 +15,6 @@ import { availablePools$ } from '../../services/new/pools';
 import { EmptyPositionsWrapper } from './components/EmptyPositionsWrapper/EmptyPositionsWrapper';
 import { LiquidityPositionsList } from './components/LiquidityPositionsList/LiquidityPositionsList';
 import { LockListView } from './components/LocksList/LockListView';
-
-// import { LPGuide } from './LPGuide/LPGuide';
 
 interface PoolPageWrapperProps {
   children?: React.ReactChild | React.ReactChild[];
@@ -32,7 +30,7 @@ const PoolPageWrapper: React.FC<PoolPageWrapperProps> = ({
   return (
     <Flex col>
       <Flex.Item marginBottom={isWalletConnected ? 2 : 0}>
-        <FormPageWrapper
+        <Page
           width={832}
           title="Liquidity"
           titleChildren={
@@ -63,7 +61,7 @@ const PoolPageWrapper: React.FC<PoolPageWrapperProps> = ({
           }
         >
           {children}
-        </FormPageWrapper>
+        </Page>
       </Flex.Item>
     </Flex>
   );
