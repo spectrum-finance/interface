@@ -5,7 +5,6 @@ import { useParams } from 'react-router';
 import { map } from 'rxjs';
 
 import { ergoExplorerContext$ } from '../../../api/explorer';
-import { getLocksByPool } from '../../../api/locks';
 import { getPositionByAmmPoolId } from '../../../api/positions';
 import { useObservable, useSubject } from '../../../common/hooks/useObservable';
 import { AssetLock } from '../../../common/models/AssetLock';
@@ -48,7 +47,6 @@ export const RelockLiquidity = (): JSX.Element => {
   });
   const { poolId } = useParams<{ poolId: PoolId }>();
   const [position, updatePosition] = useSubject(getPositionByAmmPoolId);
-  const [locks, updateLocks] = useSubject(getLocksByPool);
 
   const [explorerContext] = useObservable(ergoExplorerContext$);
 
@@ -60,9 +58,6 @@ export const RelockLiquidity = (): JSX.Element => {
   ];
 
   useEffect(() => updatePosition(poolId), []);
-  useEffect(() => {
-    if (position) updateLocks(position.pool);
-  }, [position]);
 
   const [isLockedPositionSelected] = useObservable(
     form.controls.lockedPosition.valueChanges$.pipe(map(Boolean)),
@@ -92,7 +87,7 @@ export const RelockLiquidity = (): JSX.Element => {
 
   return (
     <Page width={760} title="Relock liquidity" withBackButton>
-      {position && locks && explorerContext ? (
+      {position && explorerContext ? (
         <OperationForm
           actionCaption="Relock position"
           form={form}
@@ -112,7 +107,7 @@ export const RelockLiquidity = (): JSX.Element => {
                 </Flex.Item>
                 <Form.Item name="lockedPosition">
                   {({ value, onChange }) => (
-                    <List dataSource={locks} gap={2}>
+                    <List dataSource={position.locks} gap={2}>
                       {(item) => (
                         <LockedPositionItem
                           pool={position.pool}

@@ -2,7 +2,7 @@ import { PoolId } from '@ergolabs/ergo-dex-sdk';
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
 
-import { getLockAccumulatorByPoolId } from '../../../api/locks';
+import { getPositionByAmmPoolId } from '../../../api/positions';
 import { useSubject } from '../../../common/hooks/useObservable';
 import { AssetLock, AssetLockStatus } from '../../../common/models/AssetLock';
 import { FormPairSection } from '../../../components/common/FormView/FormPairSection/FormPairSection';
@@ -34,10 +34,8 @@ export const WithdrawalLiquidity = (): JSX.Element => {
     lockedPosition: undefined,
   });
   const { poolId } = useParams<{ poolId: PoolId }>();
-  const [locksAccumulator, updateLocksAccumulator] = useSubject(
-    getLockAccumulatorByPoolId,
-  );
-  useEffect(() => updateLocksAccumulator(poolId), []);
+  const [position, updatePosition] = useSubject(getPositionByAmmPoolId);
+  useEffect(() => updatePosition(poolId), []);
 
   const validators: OperationValidator<RelockLiquidityModel>[] = [
     (form: FormGroup<RelockLiquidityModel>) =>
@@ -67,7 +65,7 @@ export const WithdrawalLiquidity = (): JSX.Element => {
 
   return (
     <Page width={760} title="Withdraw" withBackButton>
-      {locksAccumulator ? (
+      {position ? (
         <OperationForm
           form={form}
           validators={validators}
@@ -76,22 +74,22 @@ export const WithdrawalLiquidity = (): JSX.Element => {
         >
           <Flex col>
             <Flex.Item marginBottom={2}>
-              <PageHeader x={locksAccumulator.x} y={locksAccumulator.y} />
+              <PageHeader x={position.x} y={position.y} />
             </Flex.Item>
             <Flex.Item marginBottom={4}>
               <Flex>
                 <Flex.Item flex={1} marginRight={2}>
                   <FormPairSection
                     title="Total in locker"
-                    xAmount={locksAccumulator.x}
-                    yAmount={locksAccumulator.y}
+                    xAmount={position.totalLockedX}
+                    yAmount={position.totalLockedY}
                   />
                 </Flex.Item>
                 <Flex.Item flex={1}>
                   <FormPairSection
                     title="Withdrawable"
-                    xAmount={locksAccumulator.withdrawableX}
-                    yAmount={locksAccumulator.withdrawableY}
+                    xAmount={position.withdrawableLockedX}
+                    yAmount={position.withdrawableLockedY}
                   />
                 </Flex.Item>
               </Flex>
@@ -102,10 +100,10 @@ export const WithdrawalLiquidity = (): JSX.Element => {
             <Flex.Item>
               <Form.Item name="lockedPosition">
                 {({ value, onChange }) => (
-                  <List dataSource={locksAccumulator.locks} gap={2}>
+                  <List dataSource={position.locks} gap={2}>
                     {(item) => (
                       <LockedPositionItem
-                        pool={locksAccumulator.pool}
+                        pool={position.pool}
                         assetLock={item}
                         isActive={value?.boxId === item.boxId}
                         onClick={() => onChange(item)}
