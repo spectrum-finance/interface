@@ -66,13 +66,13 @@ export const WithdrawalLiquidity = (): JSX.Element => {
   };
 
   return (
-    <FormPageWrapper width={760} title="Withdraw" withBackButton>
+    <FormPageWrapper width={760} title="Withdrawal" withBackButton>
       {locksAccumulator ? (
         <OperationForm
           form={form}
           validators={validators}
           onSubmit={handleRelockLiquidity}
-          actionCaption="Withdraw"
+          actionCaption="Withdrawal"
         >
           <Flex col>
             <Flex.Item marginBottom={2}>
