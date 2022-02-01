@@ -4,10 +4,10 @@ import React, { ReactNode, useEffect, useState } from 'react';
 import { debounceTime, first, Observable } from 'rxjs';
 
 import { useObservable } from '../../common/hooks/useObservable';
+import { isOnline$ } from '../../common/streams/networkConnection';
 import { Button, Flex } from '../../ergodex-cdk';
 import { Form, FormGroup } from '../../ergodex-cdk/components/Form/NewForm';
 import { isWalletLoading$ } from '../../services/new/core';
-import { isOnline$ } from '../../services/new/networkConnection';
 import { ConnectWalletButton } from '../common/ConnectWalletButton/ConnectWalletButton';
 
 export type OperationValidator<T> = (

@@ -1,8 +1,8 @@
 import { Network } from '../common';
 import { addresses$ } from './addresses/addresses';
 import { ammPools$ } from './ammPools/ammPools';
-import { userPools$ } from './ammPools/userPools';
-import { assetBalance$ } from './balance/balance';
+import { assetBalance$ } from './balance/assetBalance';
+import { lpBalance$ } from './balance/lpBalance';
 import { networkAssetBalance$ } from './balance/networkAssetBalance';
 import { locks$ } from './locks/locks';
 import { networkAsset$, useNetworkAsset } from './networkAsset/networkAsset';
@@ -16,9 +16,9 @@ export const ergoNetwork: Network = {
   networkAsset$,
   networkAssetBalance$,
   assetBalance$,
+  lpBalance$,
   locks$,
   positions$,
-  userPools$,
   ammPools$,
   getTxHistory,
   useNetworkAsset,

@@ -3,7 +3,7 @@ import './LockLiquidityChart.less';
 import React, { FC } from 'react';
 import { Bar, BarChart, Label, Tooltip, XAxis, YAxis } from 'recharts';
 
-import { Progress, Typography } from '../../../ergodex-cdk';
+import { Progress } from '../../../ergodex-cdk';
 import { PositionWithLocksAnalytic } from '../PositionWithLocks';
 import { ChartContainer } from './ChartContainer/ChartContainer';
 

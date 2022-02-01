@@ -6,6 +6,7 @@ import { BrowserView, MobileView } from 'react-device-detect';
 import { withTranslation } from 'react-i18next';
 import { Redirect, Route, Router, Switch } from 'react-router-dom';
 
+import { initializeApp } from './common/streams/appTick';
 import Layout from './components/common/Layout/Layout';
 import { MobilePlug } from './components/MobilePlug/MobilePlug';
 import {
@@ -94,7 +95,10 @@ export const ApplicationInitializer: React.FC = () => {
   const [isRustModuleLoaded, setIsRustModuleLoaded] = useState(false);
 
   useEffect(() => {
-    RustModule.load().then(() => setIsRustModuleLoaded(true));
+    RustModule.load().then(() => {
+      initializeApp();
+      setIsRustModuleLoaded(true);
+    });
   }, []);
 
   if (!isRustModuleLoaded) {

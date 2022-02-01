@@ -3,7 +3,6 @@ import {
   makeNativePools,
   makePools,
   NetworkPools,
-  PoolId,
 } from '@ergolabs/ergo-dex-sdk';
 import { TokenLock } from '@ergolabs/ergo-dex-sdk/build/main/security/entities';
 import { ErgoBox } from '@ergolabs/ergo-sdk';
@@ -14,7 +13,6 @@ import {
   interval,
   map,
   Observable,
-  of,
   publishReplay,
   refCount,
   startWith,
@@ -24,10 +22,9 @@ import {
 
 import { AmmPool } from '../../common/models/AmmPool';
 import { Currency } from '../../common/models/Currency';
-import { tokenLocks$ } from '../../network/ergo/locks/common';
+import { tokenLocks$ } from '../../network/ergo/common/tokenLocks';
 import { getListAvailableTokens } from '../../utils/getListAvailableTokens';
 import { explorer } from '../explorer';
-import { lpWalletBalance$ } from './balance';
 import { UPDATE_TIME, utxos$ } from './core';
 
 export const networkPools = (): NetworkPools => makePools(explorer);
@@ -176,23 +173,3 @@ export const availablePools$: Observable<AmmPool[]> = utxos$.pipe(
   publishReplay(1),
   refCount(),
 );
-
-export const getPoolById = (poolId: PoolId): Observable<AmmPool | undefined> =>
-  pools$.pipe(map((pools) => pools.find((position) => position.id === poolId)));
-
-export const getAvailablePoolDataById = (
-  poolId: PoolId,
-): Observable<PoolData | undefined> =>
-  !poolId
-    ? of(undefined)
-    : combineLatest([getPoolById(poolId), lpWalletBalance$]).pipe(
-        map(([pool, balance]) => {
-          if (!pool) {
-            return undefined;
-          }
-          const lpAmount = balance.get(pool.lp.asset);
-          const [xAmount, assetY] = pool.shares(lpAmount);
-
-          return { pool, lpAmount, xAmount: xAmount, yAmount: assetY };
-        }),
-      );

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { ReactComponent as RelockIcon } from '../../../../assets/icons/relock-icon.svg';
 import { ReactComponent as WithdrawalIcon } from '../../../../assets/icons/withdrawal-icon.svg';
-import { AssetLockAccumulator } from '../../../../common/models/AssetLockAccumulator';
+import { Position } from '../../../../common/models/Position';
 import { DataTag } from '../../../../components/common/DataTag/DataTag';
 import { OptionsButton } from '../../../../components/common/OptionsButton/OptionsButton';
 import { ListItemWrapper } from '../../../../components/ListItemWrapper/ListItemWrapper';
@@ -11,10 +11,10 @@ import { TokenIcon } from '../../../../components/TokenIcon/TokenIcon';
 import { Box, Flex, List, Menu, Typography } from '../../../../ergodex-cdk';
 
 interface LockItemViewProps {
-  readonly lockAccumulator: AssetLockAccumulator;
+  readonly position: Position;
 }
 
-const LockItemView: FC<LockItemViewProps> = ({ lockAccumulator }) => {
+const LockItemView: FC<LockItemViewProps> = ({ position }) => {
   return (
     <ListItemWrapper>
       <Flex>
@@ -30,15 +30,15 @@ const LockItemView: FC<LockItemViewProps> = ({ lockAccumulator }) => {
                     <Flex.Item marginRight={1}>
                       <Flex>
                         <Flex.Item marginRight={1}>
-                          <TokenIcon name={lockAccumulator.x.asset.name} />
+                          <TokenIcon name={position.x.asset.name} />
                         </Flex.Item>
                         <Typography.Title level={5}>
-                          {lockAccumulator.x.asset.name}
+                          {position.x.asset.name}
                         </Typography.Title>
                       </Flex>
                     </Flex.Item>
                     <Typography.Title level={5}>
-                      {lockAccumulator.x.toString({ suffix: false })}
+                      {position.totalLockedX.toString({ suffix: false })}
                     </Typography.Title>
                   </Flex>
                 </Box>
@@ -49,15 +49,15 @@ const LockItemView: FC<LockItemViewProps> = ({ lockAccumulator }) => {
                     <Flex.Item marginRight={1}>
                       <Flex>
                         <Flex.Item marginRight={1}>
-                          <TokenIcon name={lockAccumulator.y.asset.name} />
+                          <TokenIcon name={position.y.asset.name} />
                         </Flex.Item>
                         <Typography.Title level={5}>
-                          {lockAccumulator.y.asset.name}
+                          {position.y.asset.name}
                         </Typography.Title>
                       </Flex>
                     </Flex.Item>
                     <Typography.Title level={5}>
-                      {lockAccumulator.y.toString({ suffix: false })}
+                      {position.totalLockedY.toString({ suffix: false })}
                     </Typography.Title>
                   </Flex>
                 </Box>
@@ -77,15 +77,15 @@ const LockItemView: FC<LockItemViewProps> = ({ lockAccumulator }) => {
                     <Flex.Item marginRight={1}>
                       <Flex>
                         <Flex.Item marginRight={1}>
-                          <TokenIcon name={lockAccumulator.x.asset.name} />
+                          <TokenIcon name={position.x.asset.name} />
                         </Flex.Item>
                         <Typography.Title level={5}>
-                          {lockAccumulator.x.asset.name}
+                          {position.x.asset.name}
                         </Typography.Title>
                       </Flex>
                     </Flex.Item>
                     <Typography.Title level={5}>
-                      {lockAccumulator.withdrawableX.toString({
+                      {position.withdrawableLockedX.toString({
                         suffix: false,
                       })}
                     </Typography.Title>
@@ -98,15 +98,15 @@ const LockItemView: FC<LockItemViewProps> = ({ lockAccumulator }) => {
                     <Flex.Item marginRight={1}>
                       <Flex>
                         <Flex.Item marginRight={1}>
-                          <TokenIcon name={lockAccumulator.y.asset.name} />
+                          <TokenIcon name={position.y.asset.name} />
                         </Flex.Item>
                         <Typography.Title level={5}>
-                          {lockAccumulator.y.asset.name}
+                          {position.y.asset.name}
                         </Typography.Title>
                       </Flex>
                     </Flex.Item>
                     <Typography.Title level={5}>
-                      {lockAccumulator.withdrawableY.toString({
+                      {position.withdrawableLockedY.toString({
                         suffix: false,
                       })}
                     </Typography.Title>
@@ -121,19 +121,19 @@ const LockItemView: FC<LockItemViewProps> = ({ lockAccumulator }) => {
             <Flex.Item marginBottom={1}>
               <Typography.Footnote>Share</Typography.Footnote>
             </Flex.Item>
-            <DataTag size="large" content={`${lockAccumulator.share}%`} />
+            <DataTag size="large" content={`${position.totalLockedPercent}%`} />
           </Flex>
         </Flex.Item>
         <Flex.Item>
           <Flex stretch align="center">
             <OptionsButton size="large" type="text" width={180}>
               <Menu.Item icon={<RelockIcon />}>
-                <Link to={`/pool/${lockAccumulator.pool.id}/relock`}>
+                <Link to={`/pool/${position.pool.id}/relock`}>
                   Relock liquidity
                 </Link>
               </Menu.Item>
               <Menu.Item icon={<WithdrawalIcon />}>
-                <Link to={`/pool/${lockAccumulator.pool.id}/withdrawal`}>
+                <Link to={`/pool/${position.pool.id}/withdrawal`}>
                   Withdrawal
                 </Link>
               </Menu.Item>
@@ -146,13 +146,13 @@ const LockItemView: FC<LockItemViewProps> = ({ lockAccumulator }) => {
 };
 
 interface LockListViewProps {
-  locksAccumulators: AssetLockAccumulator[];
+  positions: Position[];
 }
 
-export const LockListView: FC<LockListViewProps> = ({ locksAccumulators }) => {
+export const LockListView: FC<LockListViewProps> = ({ positions }) => {
   return (
-    <List dataSource={locksAccumulators} gap={2}>
-      {(lockAccumulator) => <LockItemView lockAccumulator={lockAccumulator} />}
+    <List dataSource={positions} gap={2}>
+      {(position) => <LockItemView position={position} />}
     </List>
   );
 };

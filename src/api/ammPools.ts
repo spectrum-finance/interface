@@ -17,15 +17,15 @@ export const getAmmPoolById = (
     map((pools) => pools.find((position) => position.id === ammPoolId)),
   );
 
-const byPair = (xId: string, yId: string) => (p: AmmPool) =>
+const byAssetPair = (xId: string, yId: string) => (p: AmmPool) =>
   (p.x.asset.id === xId || p.y.asset.id === xId) &&
   (p.x.asset.id === yId || p.y.asset.id === yId);
-export const getAmmPoolsByPair = (
+export const getAmmPoolsByAssetPair = (
   xId: string,
   yId: string,
 ): Observable<AmmPool[]> =>
   ammPools$.pipe(
-    map((pools) => pools.filter(byPair(xId, yId))),
+    map((pools) => pools.filter(byAssetPair(xId, yId))),
     publishReplay(1),
     refCount(),
   );

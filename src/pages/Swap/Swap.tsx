@@ -17,7 +17,7 @@ import {
   tap,
 } from 'rxjs';
 
-import { getAmmPoolsByPair } from '../../api/ammPools';
+import { getAmmPoolsByAssetPair } from '../../api/ammPools';
 import { useAssetsBalance } from '../../api/assetBalance';
 import { useSubscription } from '../../common/hooks/useObservable';
 import { AmmPool } from '../../common/models/AmmPool';
@@ -50,7 +50,7 @@ const getSelectedPool = (
   yId?: string,
 ): Observable<AmmPool | undefined> =>
   xId && yId
-    ? getAmmPoolsByPair(xId, yId).pipe(
+    ? getAmmPoolsByAssetPair(xId, yId).pipe(
         map((pools) => maxBy(pools, (p) => p.lp.amount)),
       )
     : of(undefined);

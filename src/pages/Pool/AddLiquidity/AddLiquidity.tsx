@@ -18,7 +18,7 @@ import {
   switchMap,
 } from 'rxjs';
 
-import { getAmmPoolById, getAmmPoolsByPair } from '../../../api/ammPools';
+import { getAmmPoolById, getAmmPoolsByAssetPair } from '../../../api/ammPools';
 import { useAssetsBalance } from '../../../api/assetBalance';
 import {
   useObservable,
@@ -46,7 +46,7 @@ const getAssetsByToken = (tokenId?: string) => {
 };
 
 const getAvailablePools = (xId?: string, yId?: string) =>
-  xId && yId ? getAmmPoolsByPair(xId, yId) : of([]);
+  xId && yId ? getAmmPoolsByAssetPair(xId, yId) : of([]);
 
 const AddLiquidity = (): JSX.Element => {
   const [balance] = useAssetsBalance();

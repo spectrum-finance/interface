@@ -5,7 +5,7 @@ import { useParams } from 'react-router';
 import { map } from 'rxjs';
 
 import { ergoExplorerContext$ } from '../../../api/explorer';
-import { getLocksByPool } from '../../../api/locks';
+import { getPositionByAmmPoolId } from '../../../api/positions';
 import { useObservable, useSubject } from '../../../common/hooks/useObservable';
 import { AssetLock } from '../../../common/models/AssetLock';
 import {
@@ -31,7 +31,6 @@ import {
   FormGroup,
   useForm,
 } from '../../../ergodex-cdk/components/Form/NewForm';
-import { getAvailablePoolDataById } from '../../../services/new/pools';
 import { LockedPositionItem } from '../components/LockedPositionItem/LockedPositionItem';
 import { LiquidityDatePicker } from '../components/LockLiquidityDatePicker/LiquidityDatePicker';
 import { RelockLiquidityConfirmationModal } from './RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal';
@@ -47,8 +46,7 @@ export const RelockLiquidity = (): JSX.Element => {
     relocktime: undefined,
   });
   const { poolId } = useParams<{ poolId: PoolId }>();
-  const [poolData, updatePoolData] = useSubject(getAvailablePoolDataById);
-  const [locks, updateLocks] = useSubject(getLocksByPool);
+  const [position, updatePosition] = useSubject(getPositionByAmmPoolId);
 
   const [explorerContext] = useObservable(ergoExplorerContext$);
 
@@ -59,10 +57,7 @@ export const RelockLiquidity = (): JSX.Element => {
     (form) => !form.value.relocktime && 'Pick new unlock date',
   ];
 
-  useEffect(() => updatePoolData(poolId), []);
-  useEffect(() => {
-    if (poolData) updateLocks(poolData.pool);
-  }, [poolData]);
+  useEffect(() => updatePosition(poolId), []);
 
   const [isLockedPositionSelected] = useObservable(
     form.controls.lockedPosition.valueChanges$.pipe(map(Boolean)),
@@ -92,7 +87,7 @@ export const RelockLiquidity = (): JSX.Element => {
 
   return (
     <Page width={760} title="Relock liquidity" withBackButton>
-      {poolData && locks && explorerContext ? (
+      {position && explorerContext ? (
         <OperationForm
           actionCaption="Relock position"
           form={form}
@@ -101,7 +96,7 @@ export const RelockLiquidity = (): JSX.Element => {
         >
           <Flex col>
             <Flex.Item marginBottom={2}>
-              <PageHeader x={poolData.xAmount} y={poolData.yAmount} />
+              <PageHeader x={position.x} y={position.y} />
             </Flex.Item>
             <Flex.Item>
               <Flex col>
@@ -112,10 +107,10 @@ export const RelockLiquidity = (): JSX.Element => {
                 </Flex.Item>
                 <Form.Item name="lockedPosition">
                   {({ value, onChange }) => (
-                    <List dataSource={locks} gap={2}>
+                    <List dataSource={position.locks} gap={2}>
                       {(item) => (
                         <LockedPositionItem
-                          pool={poolData.pool}
+                          pool={position.pool}
                           assetLock={item}
                           isActive={value?.boxId === item.boxId}
                           onClick={() => onChange(item)}
