@@ -129,7 +129,7 @@ const LockLiquidityConfirmationModal: React.FC<LockLiquidityConfirmationModalPro
                   position, for a period of{' '}
                   <b>{getLockingPeriodString(timelock)}</b> (until{' '}
                   {timelock.toLocaleString(DateTime.DATE_FULL)}) without the
-                  ability to withdraw before the end of this period.
+                  ability to withdrawal before the end of this period.
                 </Checkbox>
               </Flex>
             </Flex.Item>

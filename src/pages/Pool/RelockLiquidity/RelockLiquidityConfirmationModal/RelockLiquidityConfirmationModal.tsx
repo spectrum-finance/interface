@@ -177,8 +177,8 @@ const RelockLiquidityConfirmationModal: FC<RelockLiquidityConfirmationModalProps
                   position until{' '}
                   <b>{relocktime.toLocaleString(DateTime.DATE_FULL)}</b> (or{' '}
                   <b>{formatToInt(lockedPosition.getDeadline(relocktime))}</b>{' '}
-                  block) without the ability to withdraw before the end of this
-                  period.
+                  block) without the ability to withdrawal before the end of
+                  this period.
                 </Checkbox>
               </Flex>
             </Flex.Item>
