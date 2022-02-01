@@ -76,6 +76,7 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
         <Flex justify="center" direction="row" align="center">
           <TokenIcon name={`${network.token}${disabled ? '-disabled' : ''}`} />
           <Typography.Text
+            className="network-dropdown__btn-text"
             style={{
               fontSize: '16px',
               color: 'var(--ergo-networkdropdown-hover-focus-color)',
