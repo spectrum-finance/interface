@@ -118,6 +118,14 @@ export class PositionWithLocksAnalytic implements Position {
     private position: Position,
     private locksAnalytics: AmmPoolLocksAnalytics[] = [],
   ) {}
+
+  readonly totalLockedLp: Currency = new Currency(0n);
+  readonly totalLockedX: Currency = new Currency(0n);
+  readonly totalLockedY: Currency = new Currency(0n);
+  readonly withdrawableLockedLp: Currency = new Currency(0n);
+  readonly withdrawableLockedX: Currency = new Currency(0n);
+  readonly withdrawableLockedY: Currency = new Currency(0n);
+  readonly totalLockedPercent: number = 0;
 }
 
 export const getPositionWithAnalyticByAmmPoolId = (

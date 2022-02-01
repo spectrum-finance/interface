@@ -7,14 +7,14 @@ import {
 } from 'rxjs';
 
 import { Position } from '../../../common/models/Position';
-import { lpWalletBalance$ } from '../../../services/new/balance';
 import { ammPools$ } from '../ammPools/ammPools';
+import { lpBalance$ } from '../balance/lpBalance';
 import { tokenLocksGroupedByLpAsset$ } from '../common/tokenLocks';
 import { networkContext$ } from '../networkContext/networkContext';
 
 export const positions$ = combineLatest([
   ammPools$,
-  lpWalletBalance$,
+  lpBalance$,
   tokenLocksGroupedByLpAsset$,
   networkContext$,
 ]).pipe(
@@ -29,7 +29,7 @@ export const positions$ = combineLatest([
               ap,
               lpWalletBalance.get(ap.lp.asset),
               false,
-              tokenLocksGroupedByLpAsset[ap.lp.asset.id],
+              tokenLocksGroupedByLpAsset[ap.lp.asset.id] || [],
               networkContext.height,
             ),
         ),

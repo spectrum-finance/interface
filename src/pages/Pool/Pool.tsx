@@ -4,14 +4,13 @@ import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { ammPools$ } from '../../api/ammPools';
-import { locksAccumulators$ } from '../../api/locks';
+import { positions$ } from '../../api/positions';
 import { useObservable } from '../../common/hooks/useObservable';
 import { ConnectWalletButton } from '../../components/common/ConnectWalletButton/ConnectWalletButton';
 import { Page } from '../../components/Page/Page';
 import { DownOutlined, Dropdown, Flex, Menu, Tabs } from '../../ergodex-cdk';
 import { useQuery } from '../../hooks/useQuery';
 import { isWalletLoading$, isWalletSetuped$ } from '../../services/new/core';
-import { availablePools$ } from '../../services/new/pools';
 import { EmptyPositionsWrapper } from './components/EmptyPositionsWrapper/EmptyPositionsWrapper';
 import { LiquidityPositionsList } from './components/LiquidityPositionsList/LiquidityPositionsList';
 import { LockListView } from './components/LocksList/LockListView';
@@ -79,14 +78,9 @@ const Pool = (): JSX.Element => {
     history.push(`/pool?active=${query.get('active') ?? defaultActiveTabKey}`);
   }, []);
 
-  const [availablePools, isAvailablePoolsLoading] = useObservable(
-    availablePools$,
-    [],
-    [],
-  );
+  const [positions, isPositionLoading] = useObservable(positions$, [], []);
 
   const [pools, isPoolsLoading] = useObservable(ammPools$, [], []);
-  const [locksAccumulators] = useObservable(locksAccumulators$);
 
   const handleAddLiquidity = () => {
     history.push('/pool/add');
@@ -111,8 +105,8 @@ const Pool = (): JSX.Element => {
         <Tabs.TabPane tab="Your Positions" key="your-positions">
           {isWalletConnected ? (
             <LiquidityPositionsList
-              pools={availablePools}
-              loading={isWalletLoading || isAvailablePoolsLoading}
+              pools={positions.map((p) => p.pool)}
+              loading={isWalletLoading || isPositionLoading}
             />
           ) : (
             <EmptyPositionsWrapper>
@@ -120,9 +114,11 @@ const Pool = (): JSX.Element => {
             </EmptyPositionsWrapper>
           )}
         </Tabs.TabPane>
-        {isWalletConnected && locksAccumulators?.length && (
+        {isWalletConnected && positions.some((p) => p.locks.length) && (
           <Tabs.TabPane tab="Locked Positions" key="locked-positions">
-            <LockListView locksAccumulators={locksAccumulators} />
+            <LockListView
+              positions={positions.filter((p) => !!p.locks.length)}
+            />
           </Tabs.TabPane>
         )}
       </Tabs>
