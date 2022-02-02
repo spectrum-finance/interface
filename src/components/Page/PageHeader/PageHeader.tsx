@@ -9,6 +9,7 @@ interface FormHeaderProps {
   x: Currency;
   y: Currency;
   actionsMenu?: ReactNode | ReactNode[] | undefined;
+  actionsMenuWidth?: number;
   children?: ReactNode | ReactNode[] | undefined;
 }
 
@@ -16,6 +17,7 @@ const PageHeader: React.FC<FormHeaderProps> = ({
   x,
   y,
   actionsMenu,
+  actionsMenuWidth,
   children,
 }) => {
   return (
@@ -36,7 +38,9 @@ const PageHeader: React.FC<FormHeaderProps> = ({
         </Flex.Item>
         {children}
       </Flex>
-      {actionsMenu && <OptionsButton>{actionsMenu}</OptionsButton>}
+      {actionsMenu && (
+        <OptionsButton width={actionsMenuWidth}>{actionsMenu}</OptionsButton>
+      )}
     </Flex>
   );
 };

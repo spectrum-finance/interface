@@ -64,21 +64,25 @@ export const PoolOverview: React.FC = () => {
             <PageHeader
               x={position.x}
               y={position.y}
+              actionsMenuWidth={180}
               actionsMenu={
                 <Menu.ItemGroup title="Liquidity Locker">
                   <Menu.Item
+                    disabled={position.empty}
                     icon={<LockOutlined />}
                     onClick={handleLockLiquidity}
                   >
                     <a>Lock liquidity</a>
                   </Menu.Item>
                   <Menu.Item
+                    disabled={position.locks.length === 0}
                     icon={<RelockIcon />}
                     onClick={handleRelockLiquidity}
                   >
                     <a>Relock liquidity</a>
                   </Menu.Item>
                   <Menu.Item
+                    disabled={position.locks.length === 0}
                     icon={<WithdrawalIcon />}
                     onClick={handleWithdrawalLiquidity}
                   >
