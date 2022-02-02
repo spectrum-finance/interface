@@ -2,6 +2,7 @@ import { PoolId } from '@ergolabs/ergo-dex-sdk';
 import React, { useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 
+import { getPositionByAmmPoolId } from '../../api/positions';
 import { ReactComponent as RelockIcon } from '../../assets/icons/relock-icon.svg';
 import { ReactComponent as WithdrawalIcon } from '../../assets/icons/withdrawal-icon.svg';
 import { useSubject } from '../../common/hooks/useObservable';
@@ -20,25 +21,28 @@ import {
   Typography,
 } from '../../ergodex-cdk';
 import { LockLiquidityChart } from './LockLiquidityChart/LockLiquidityChart';
+import { getAmmPoolConfidenceAnalyticByAmmPoolId } from './LocksAnalytic';
 import { PoolFeeTag } from './PoolFeeTag/PoolFeeTag';
 import { PoolRatio } from './PoolRatio/PoolRatio';
-import { getPositionWithAnalyticByAmmPoolId } from './PositionWithLocks';
 
 interface URLParamTypes {
   poolId: PoolId;
 }
 
-const DISPLAY_LOCKS_MIN_PCT = 1;
+const MIN_RELEVANT_LOCKS_PCT = 1;
 
 export const PoolOverview: React.FC = () => {
   const history = useHistory();
   const { poolId } = useParams<URLParamTypes>();
-  const [position, updatePosition] = useSubject(
-    getPositionWithAnalyticByAmmPoolId,
-    [],
+  const [position, updatePosition] = useSubject(getPositionByAmmPoolId, []);
+  const [poolConfidenceAnalytic, updatePoolConfidenceAnalytic] = useSubject(
+    getAmmPoolConfidenceAnalyticByAmmPoolId,
   );
 
-  useEffect(() => updatePosition(poolId), []);
+  useEffect(() => {
+    updatePosition(poolId);
+    updatePoolConfidenceAnalytic(poolId);
+  }, []);
 
   const handleLockLiquidity = () => history.push(`/pool/${poolId}/lock`);
 
@@ -53,28 +57,32 @@ export const PoolOverview: React.FC = () => {
     history.push(`/pool/${poolId}/withdrawal`);
 
   return (
-    <Page title="Pool overview" width={480} withBackButton backTo="/pool">
-      {position ? (
+    <Page title="Pool overview" width={600} withBackButton backTo="/pool">
+      {position && poolConfidenceAnalytic ? (
         <Flex col>
           <Flex.Item marginBottom={5}>
             <PageHeader
               x={position.x}
               y={position.y}
+              actionsMenuWidth={180}
               actionsMenu={
                 <Menu.ItemGroup title="Liquidity Locker">
                   <Menu.Item
+                    disabled={position.empty}
                     icon={<LockOutlined />}
                     onClick={handleLockLiquidity}
                   >
                     <a>Lock liquidity</a>
                   </Menu.Item>
                   <Menu.Item
+                    disabled={position.locks.length === 0}
                     icon={<RelockIcon />}
                     onClick={handleRelockLiquidity}
                   >
                     <a>Relock liquidity</a>
                   </Menu.Item>
                   <Menu.Item
+                    disabled={position.locks.length === 0}
                     icon={<WithdrawalIcon />}
                     onClick={handleWithdrawalLiquidity}
                   >
@@ -109,10 +117,12 @@ export const PoolOverview: React.FC = () => {
               />
             )}
           </Flex.Item>
-          {position.totalAmmPoolLockedPercent >= DISPLAY_LOCKS_MIN_PCT && (
+          {poolConfidenceAnalytic.lockedPercent >= MIN_RELEVANT_LOCKS_PCT && (
             <Flex.Item marginBottom={4}>
               <PageSection title="Locked liquidity" boxed={false}>
-                <LockLiquidityChart position={position} />
+                <LockLiquidityChart
+                  poolConfidenceAnalytic={poolConfidenceAnalytic}
+                />
               </PageSection>
             </Flex.Item>
           )}

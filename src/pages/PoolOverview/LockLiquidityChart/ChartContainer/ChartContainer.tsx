@@ -6,6 +6,7 @@ import { Collapse } from '../../../../ergodex-cdk';
 
 interface ChartCollapseProps {
   header?: ReactNode | ReactNode[] | string;
+  disabled?: boolean;
   children?: ReactNode | ReactNode[] | string;
 }
 

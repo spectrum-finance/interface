@@ -9,7 +9,7 @@ type TokenIconProps = React.DetailedHTMLProps<
 > & {
   asset?: AssetInfo;
   name?: string;
-  size?: 'large';
+  size?: 'large' | 'small';
 };
 
 const accessibleTokens = [
