@@ -20,7 +20,7 @@ export enum ActionButtonState {
   ACTION,
 }
 
-export const END_TIMER_DATE = DateTime.utc(2022, 2, 2, 18, 30, 0);
+export const END_TIMER_DATE = DateTime.utc(2022, 2, 2, 19, 0, 0);
 
 export const LOCKED_TOKEN_ID =
   'd71693c49a84fbbecd4908c94813b46514b18b67a99952dc1e6e4791556de413';
