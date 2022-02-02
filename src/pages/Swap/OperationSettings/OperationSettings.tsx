@@ -42,7 +42,7 @@ const errorMessages: Messages<SettingsModel> = {
 };
 
 const slippageCheck: CheckFn<number> = (value) => {
-  return value > 1 ? 'transactionFrontrun' : undefined;
+  return value > 10 ? 'transactionFrontrun' : undefined;
 };
 
 const slippageTxFailCheck: CheckFn<number> = (value) => {
