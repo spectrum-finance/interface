@@ -1,9 +1,9 @@
 import React from 'react';
 
+import { networkAssetBalance$ } from '../../api/networkAssetBalance';
 import { useObservable } from '../../common/hooks/useObservable';
 import { Box, Flex, Modal, Typography } from '../../ergodex-cdk';
 import { Tabs } from '../../ergodex-cdk/components/Tabs/Tabs';
-import { nativeTokenBalance$ } from '../../services/new/core';
 import { isLowBalance } from '../../utils/walletMath';
 import { AddressesTab } from './AddressesTab/AddressesTab';
 import { LowBalanceWarning } from './LowBalanceWarning/LowBalanceWarning';
@@ -12,7 +12,7 @@ import { WalletActiveAddress } from './WalletActiveAddress/WalletActiveAddress';
 import { WalletTotalBalance } from './WalletTotalBalance/WalletTotalBalance';
 
 export const WalletModal: React.FC = () => {
-  const [ergBalance] = useObservable(nativeTokenBalance$);
+  const [ergBalance] = useObservable(networkAssetBalance$);
 
   return (
     <>
@@ -36,7 +36,7 @@ export const WalletModal: React.FC = () => {
           <Flex.Item>
             <Box contrast padding={4} borderRadius="m">
               <Tabs defaultActiveKey="1" centered type="card">
-                <Tabs.TabPane tab="Address" key="1">
+                <Tabs.TabPane tab="Addresses" key="1">
                   <Box transparent padding={[4, 0, 0, 0]}>
                     <AddressesTab />
                   </Box>

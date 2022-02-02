@@ -143,6 +143,7 @@ export const Default: Story = () => {
   const openRequestModal = () => {
     Modal.request({
       actionContent: (next) => <ActionModalContent next={next} />,
+      timeoutContent: <ErrorModalContent />,
       progressContent: <ProgressModalContent />,
       successContent: <SuccessModalContent />,
       errorContent: <ErrorModalContent />,

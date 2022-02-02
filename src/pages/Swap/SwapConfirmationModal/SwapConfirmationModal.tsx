@@ -44,7 +44,6 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
 
   const [{ minerFee, address, slippage, nitro }] = useSettings();
   const [utxos] = useObservable(utxos$);
-  // const totalFees = useTotalFees();
   const minExFee = useMinExFee();
 
   const [baseParams, setBaseParams] = useState<
@@ -283,7 +282,8 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
                       </Flex.Item>
                       <Flex.Item>
                         <Typography.Text>
-                          {totalFees && `${totalFees.min} - ${totalFees.max}`}
+                          {totalFees && `${totalFees.min} - ${totalFees.max}`}{' '}
+                          ERG
                         </Typography.Text>
                       </Flex.Item>
                     </Flex>

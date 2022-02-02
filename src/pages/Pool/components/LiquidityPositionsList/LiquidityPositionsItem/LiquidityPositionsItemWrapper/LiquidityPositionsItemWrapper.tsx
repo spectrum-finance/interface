@@ -4,9 +4,9 @@ import React from 'react';
 import { AmmPool } from '../../../../../../common/models/AmmPool';
 import { DataTag } from '../../../../../../components/common/DataTag/DataTag';
 import { FeeTag } from '../../../../../../components/common/FeeTag/FeeTag';
+import { ListItemWrapper } from '../../../../../../components/ListItemWrapper/ListItemWrapper';
 import { TokenIconPair } from '../../../../../../components/TokenIconPair/TokenIconPair';
 import {
-  Box,
   Flex,
   Tag,
   Tooltip,
@@ -35,8 +35,8 @@ const LiquidityPositionsItemWrapper: React.FC<LiquidityPositionsItemWrapperProps
     const { xPerY, yPerX } = getPoolRatio(pool);
 
     return (
-      <Box className="pool-position" padding={4} borderRadius="m">
-        <Flex onClick={() => onClick(pool.id)} align="center">
+      <ListItemWrapper onClick={() => onClick(pool.id)}>
+        <Flex align="center">
           <Flex align="center" justify="space-between" style={{ width: '60%' }}>
             <Flex.Item marginRight={2}>
               <Flex col>
@@ -96,7 +96,7 @@ const LiquidityPositionsItemWrapper: React.FC<LiquidityPositionsItemWrapperProps
           </Flex>
           {!isTestPool(pool.id) ? children : null}
         </Flex>
-      </Box>
+      </ListItemWrapper>
     );
   };
 

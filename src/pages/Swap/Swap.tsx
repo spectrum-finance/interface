@@ -17,6 +17,8 @@ import {
   tap,
 } from 'rxjs';
 
+import { getAmmPoolsByAssetPair } from '../../api/ammPools';
+import { useAssetsBalance } from '../../api/assetBalance';
 import { useSubscription } from '../../common/hooks/useObservable';
 import { AmmPool } from '../../common/models/AmmPool';
 import {
@@ -29,13 +31,11 @@ import {
   openConfirmationModal,
   Operation,
 } from '../../components/ConfirmationModal/ConfirmationModal';
-import { FormPageWrapper } from '../../components/FormPageWrapper/FormPageWrapper';
+import { Page } from '../../components/Page/Page';
 import { Button, Flex, SwapOutlined, Typography } from '../../ergodex-cdk';
 import { useForm } from '../../ergodex-cdk/components/Form/NewForm';
 import { assets$, getAvailableAssetFor } from '../../services/new/assets';
-import { useAssetWalletBalance } from '../../services/new/balance';
 import { useMaxTotalFees, useNetworkAsset } from '../../services/new/core';
-import { getPoolByPair } from '../../services/new/pools';
 import { OperationSettings } from './OperationSettings/OperationSettings';
 import { Ratio } from './Ratio/Ratio';
 import { SwapConfirmationModal } from './SwapConfirmationModal/SwapConfirmationModal';
@@ -50,7 +50,7 @@ const getSelectedPool = (
   yId?: string,
 ): Observable<AmmPool | undefined> =>
   xId && yId
-    ? getPoolByPair(xId, yId).pipe(
+    ? getAmmPoolsByAssetPair(xId, yId).pipe(
         map((pools) => maxBy(pools, (p) => p.lp.amount)),
       )
     : of(undefined);
@@ -64,7 +64,7 @@ export const Swap = (): JSX.Element => {
     pool: undefined,
   });
   const networkAsset = useNetworkAsset();
-  const [balance] = useAssetWalletBalance();
+  const [balance] = useAssetsBalance();
   const totalFees = useMaxTotalFees();
   const updateToAssets$ = useMemo(
     () => new BehaviorSubject<string | undefined>(undefined),
@@ -115,8 +115,10 @@ export const Swap = (): JSX.Element => {
         return <SwapConfirmationModal value={value} onClose={next} />;
       },
       Operation.SWAP,
-      value.fromAmount!,
-      value.toAmount!,
+      {
+        xAsset: value.fromAmount!,
+        yAsset: value.toAmount!,
+      },
     );
   };
 
@@ -210,7 +212,7 @@ export const Swap = (): JSX.Element => {
   const { t } = useTranslation();
 
   return (
-    <FormPageWrapper width={480}>
+    <Page width={480}>
       <ActionForm
         form={form}
         actionButton="Swap"
@@ -266,6 +268,6 @@ export const Swap = (): JSX.Element => {
           </Flex>
         </Flex>
       </ActionForm>
-    </FormPageWrapper>
+    </Page>
   );
 };

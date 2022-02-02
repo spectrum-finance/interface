@@ -9,7 +9,7 @@ type TokenIconProps = React.DetailedHTMLProps<
 > & {
   asset?: AssetInfo;
   name?: string;
-  size?: 'large';
+  size?: 'large' | 'small';
 };
 
 const accessibleTokens = [
@@ -23,6 +23,7 @@ const accessibleTokens = [
   'ADA-disabled',
   'LunaDog',
   'NETA',
+  'ergopad',
 ];
 
 const TokenIcon: React.FC<TokenIconProps> = ({
@@ -31,7 +32,7 @@ const TokenIcon: React.FC<TokenIconProps> = ({
   size,
   ...rest
 }) => {
-  let isAccessibleToken = false;
+  let isAccessibleToken;
 
   // TODO: REPLACE ALL STRINGS TO ASSET_INFO
   if (asset) {
@@ -56,6 +57,7 @@ const TokenIcon: React.FC<TokenIconProps> = ({
       {...rest}
     >
       <img
+        alt="Token Icon"
         src={`/assets/tokens/token-${
           iconName && isAccessibleToken ? iconName.toLowerCase() : 'empty'
         }.svg`}

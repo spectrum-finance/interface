@@ -10,6 +10,7 @@ import {
   BehaviorSubject,
   combineLatest,
   debounceTime,
+  distinctUntilChanged,
   filter,
   map,
   of,
@@ -17,6 +18,8 @@ import {
   switchMap,
 } from 'rxjs';
 
+import { getAmmPoolById, getAmmPoolsByAssetPair } from '../../../api/ammPools';
+import { useAssetsBalance } from '../../../api/assetBalance';
 import {
   useObservable,
   useSubject,
@@ -30,16 +33,11 @@ import {
   openConfirmationModal,
   Operation,
 } from '../../../components/ConfirmationModal/ConfirmationModal';
-import { FormPageWrapper } from '../../../components/FormPageWrapper/FormPageWrapper';
+import { Page } from '../../../components/Page/Page';
 import { Flex, Typography } from '../../../ergodex-cdk';
 import { Form, useForm } from '../../../ergodex-cdk/components/Form/NewForm';
 import { assets$, getAvailableAssetFor } from '../../../services/new/assets';
-import { useAssetWalletBalance } from '../../../services/new/balance';
 import { useMaxTotalFees, useNetworkAsset } from '../../../services/new/core';
-import {
-  getAvailablePoolById,
-  getPoolByPair,
-} from '../../../services/new/pools';
 import { AddLiquidityConfirmationModal } from './AddLiquidityConfirmationModal/AddLiquidityConfirmationModal';
 import { AddLiquidityFormModel } from './FormModel';
 
@@ -48,10 +46,10 @@ const getAssetsByToken = (tokenId?: string) => {
 };
 
 const getAvailablePools = (xId?: string, yId?: string) =>
-  xId && yId ? getPoolByPair(xId, yId) : of([]);
+  xId && yId ? getAmmPoolsByAssetPair(xId, yId) : of([]);
 
 const AddLiquidity = (): JSX.Element => {
-  const [balance] = useAssetWalletBalance();
+  const [balance] = useAssetsBalance();
   const totalFees = useMaxTotalFees();
   const networkAsset = useNetworkAsset();
   const { poolId } = useParams<{ poolId?: PoolId }>();
@@ -110,7 +108,8 @@ const AddLiquidity = (): JSX.Element => {
   useSubscription(
     of(poolId).pipe(
       filter(Boolean),
-      switchMap((poolId) => getAvailablePoolById(poolId)),
+      switchMap((poolId) => getAmmPoolById(poolId)),
+      distinctUntilChanged((poolA, poolB) => poolA?.id === poolB?.id),
     ),
     (pool) => {
       form.patchValue(
@@ -192,18 +191,15 @@ const AddLiquidity = (): JSX.Element => {
         return <AddLiquidityConfirmationModal value={value} onClose={next} />;
       },
       Operation.ADD_LIQUIDITY,
-      value.xAmount!,
-      value.yAmount!,
+      {
+        xAsset: value.xAmount!,
+        yAsset: value.yAmount!,
+      },
     );
   };
 
   return (
-    <FormPageWrapper
-      title="Add liquidity"
-      width={480}
-      withBackButton
-      backTo="/pool"
-    >
+    <Page title="Add liquidity" width={480} withBackButton backTo="/pool">
       {!poolId || !poolsLoading ? (
         <ActionForm
           form={form}
@@ -272,7 +268,7 @@ const AddLiquidity = (): JSX.Element => {
       ) : (
         <Skeleton active />
       )}
-    </FormPageWrapper>
+    </Page>
   );
 };
 export { AddLiquidity };

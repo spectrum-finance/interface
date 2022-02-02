@@ -1,10 +1,9 @@
 import './BurgerMenu.less';
 
-import Icon from '@ant-design/icons';
 import React, { useState } from 'react';
+import { isMobile } from 'react-device-detect';
 
 import { ReactComponent as DarkModeOutlined } from '../../../assets/icons/darkmode.svg';
-import { ReactComponent as Dots } from '../../../assets/icons/icon-dots.svg';
 import {
   Button,
   Dropdown,
@@ -17,10 +16,9 @@ import {
   QuestionCircleOutlined,
   SettingOutlined,
 } from '../../../ergodex-cdk';
+import { DotsIcon } from '../../common/Icons/DotsIcon';
 import { ThemeSwitch } from '../../ThemeSwitch/ThemeSwitch';
 import { GlobalSettingsModal } from '../GlobalSettingsModal/GlobalSettingsModal';
-
-const DotsIcon = () => <Icon component={Dots} />;
 
 const BurgerMenu = (): JSX.Element => {
   const [isMainMenu, setIsMainMenu] = useState<boolean>(true);
@@ -52,6 +50,7 @@ const BurgerMenu = (): JSX.Element => {
       icon: <SettingOutlined />,
       onClick: () =>
         Modal.open(({ close }) => <GlobalSettingsModal onClose={close} />),
+      isNotRenderMobile: true,
     },
     // {
     //   title: 'Analytics',
@@ -77,6 +76,9 @@ const BurgerMenu = (): JSX.Element => {
           className="ergodex-menu-item"
           key={index + 1}
           icon={item.icon}
+          style={{
+            display: isMobile && item.isNotRenderMobile ? 'none' : '',
+          }}
         >
           {item.onClick ? (
             <a rel="noreferrer" onClick={item.onClick}>

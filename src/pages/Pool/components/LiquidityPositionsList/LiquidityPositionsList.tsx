@@ -1,5 +1,3 @@
-import './LiquidityPositionsList.less';
-
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
 import { isEmpty } from 'lodash';
 import React, { FC } from 'react';
@@ -49,7 +47,7 @@ const LiquidityPositionsList: FC<LiquidityPositionsListProps> = ({
           onClick={handleAddLiquidity}
           icon={<PlusOutlined />}
         >
-          Add Position
+          Add Liquidity
         </Button>
       </EmptyPositionsWrapper>
     );

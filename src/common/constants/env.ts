@@ -8,6 +8,3 @@ export const YOROI_NIGHTLY_LINK =
   'https://chrome.google.com/webstore/detail/yoroi-nightly/poonlenmfdfbjfeeballhiibknlknepo';
 export const YOROI_WALLET_LINK =
   'https://chrome.google.com/webstore/detail/yoroi/ffnbelfdoeiohenkjibnmadjiehjhajb';
-
-export const DISCORD_SUPPORT_URL = 'https://discord.gg/Jya72kjDfq';
-export const TELEGRAM_SUPPORT_URL = 'https://t.me/ergodex_community';

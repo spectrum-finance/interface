@@ -1,7 +1,10 @@
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
 import axios from 'axios';
 import { DateTime } from 'luxon';
-import { defer, from, map, Observable } from 'rxjs';
+import { defer, from, map, Observable, switchMap } from 'rxjs';
+
+import { applicationConfig } from '../../applicationConfig';
+import { networkContext$ } from '../../network/ergo/networkContext/networkContext';
 
 export interface LockedAsset {
   id: string;
@@ -40,6 +43,14 @@ export interface AmmPoolAnalytics {
   yearlyFeesPercent: number;
 }
 
+export interface AmmPoolLocksAnalytic {
+  readonly poolId: string;
+  readonly deadline: number;
+  readonly amount: bigint;
+  readonly percent: number;
+  readonly redeemer: string;
+}
+
 export interface AmmAggregatedAnalytics {
   tvl: AnalyticsData;
   volume: AnalyticsData;
@@ -54,7 +65,7 @@ const get24hData = (url: string): Promise<any> => {
 };
 
 export const aggregatedAnalyticsData24H$ = defer(() =>
-  from(get24hData('https://api.ergodex.io/v1/amm/platform/stats')).pipe(
+  from(get24hData(`${applicationConfig.api}amm/platform/stats`)).pipe(
     map((res) => res.data),
   ),
 );
@@ -64,7 +75,7 @@ export const getAggregateAnalyticsDataByFrame = (
   to?: number,
 ): Observable<AmmAggregatedAnalytics> =>
   from(
-    axios.get('https://api.ergodex.io/v1/amm/platform/stats', {
+    axios.get(`${applicationConfig.api}amm/platform/stats`, {
       params: {
         from: frm,
         to,
@@ -79,7 +90,7 @@ export const getAggregatedPoolAnalyticsDataById = (
 ): Observable<AmmPoolAnalytics> =>
   from(
     axios.get<AmmPoolAnalytics>(
-      `https://api.ergodex.io/v1/amm/pool/${poolId}/stats`,
+      `${applicationConfig.api}amm/pool/${poolId}/stats`,
       {
         params: {
           from: frm,
@@ -92,6 +103,19 @@ export const getAggregatedPoolAnalyticsDataById = (
 export const getAggregatedPoolAnalyticsDataById24H = (
   poolId: PoolId,
 ): Observable<AmmPoolAnalytics> =>
-  from(get24hData(`https://api.ergodex.io/v1/amm/pool/${poolId}/stats`)).pipe(
+  from(get24hData(`${applicationConfig.api}amm/pool/${poolId}/stats`)).pipe(
     map((res) => res.data),
+  );
+
+export const getPoolLocksAnalyticsById = (
+  poolId: PoolId,
+): Observable<AmmPoolLocksAnalytic[]> =>
+  networkContext$.pipe(
+    switchMap((context) =>
+      from(
+        axios.get<AmmPoolLocksAnalytic[]>(
+          `${applicationConfig.api}amm/pool/${poolId}/locks?leastDeadline=${context.height}`,
+        ),
+      ).pipe(map((res) => res.data)),
+    ),
   );

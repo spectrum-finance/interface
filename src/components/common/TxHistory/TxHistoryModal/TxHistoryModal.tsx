@@ -1,34 +1,23 @@
-import Icon from '@ant-design/icons';
 import { Typography } from 'antd';
 import React from 'react';
 
 import { transactionsHistory$ } from '../../../../api/transactionsHistory';
-import { ReactComponent as DotsVertical } from '../../../../assets/icons/icon-dots-vertical.svg';
 import { useObservable } from '../../../../common/hooks/useObservable';
 import { useWalletAddresses, WalletAddressState } from '../../../../context';
-import {
-  Box,
-  Button,
-  Dropdown,
-  Flex,
-  Menu,
-  Modal,
-  Skeleton,
-} from '../../../../ergodex-cdk';
+import { Box, Flex, Menu, Modal, Skeleton } from '../../../../ergodex-cdk';
 import { isRefundableOperation } from '../../../../utils/ammOperations';
 import { exploreTx } from '../../../../utils/redirect';
 import {
   openConfirmationModal,
   Operation,
 } from '../../../ConfirmationModal/ConfirmationModal';
+import { OptionsButton } from '../../OptionsButton/OptionsButton';
 import { InputOutputColumn } from '../InputOutputColumn/InputOutputColumn';
 import { RefundConfirmationModal } from '../RefundConfirmationModal/RefundConfirmationModal';
 import { TxStatusTag } from '../TxStatusTag/TxStatusTag';
 import { TxTypeTag } from '../TxTypeTag/TxTypeTag';
 import { Operation as DexOperation } from '../types';
 import { normalizeOperations } from '../utils';
-
-const DotsIconVertical = () => <Icon component={DotsVertical} />;
 
 const TxHistoryModal = (): JSX.Element => {
   const [txs] = useObservable(transactionsHistory$);
@@ -47,15 +36,14 @@ const TxHistoryModal = (): JSX.Element => {
           );
         },
         Operation.REFUND,
-        operation.assetX,
-        operation.assetY,
+        { xAsset: operation.assetX, yAsset: operation.assetY },
       );
     }
   };
 
   const renderTxActionsMenu = (op: DexOperation) => {
     return (
-      <Box padding={2}>
+      <>
         <Menu.Item>
           <a
             onClick={() => exploreTx(op.txId)}
@@ -70,7 +58,7 @@ const TxHistoryModal = (): JSX.Element => {
             <a rel="noreferrer">Refund transaction</a>
           </Menu.Item>
         )}
-      </Box>
+      </>
     );
   };
 
@@ -124,21 +112,9 @@ const TxHistoryModal = (): JSX.Element => {
                         <TxStatusTag status={op.status} />
                       </Flex.Item>
                       <Flex.Item style={{ width: '5%' }}>
-                        <Dropdown
-                          overlay={
-                            <Menu style={{ width: 160, padding: 0 }}>
-                              {renderTxActionsMenu(op)}
-                            </Menu>
-                          }
-                          trigger={['click']}
-                          placement={'bottomLeft'}
-                        >
-                          <Button
-                            type="text"
-                            size="middle"
-                            icon={<DotsIconVertical />}
-                          />
-                        </Dropdown>
+                        <OptionsButton type="text" placement="bottomLeft">
+                          {renderTxActionsMenu(op)}
+                        </OptionsButton>
                       </Flex.Item>
                     </Flex>
                   </Box>

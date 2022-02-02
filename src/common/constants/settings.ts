@@ -6,7 +6,7 @@ export const defaultExFee = fractionsToNum(MIN_EX_FEE, ERG_DECIMALS);
 export const MinerFeeMax = 5;
 export const MinerFeeDecimals = 2;
 
-export const defaultSlippage = 0.1;
+export const defaultSlippage = 3;
 export const SlippageMin = 0.1;
 export const SlippageMax = 100;
 export const SlippageDecimals = 2;

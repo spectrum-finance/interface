@@ -3,21 +3,20 @@ import './ConnectWallet.less';
 import { LoadingOutlined } from '@ant-design/icons';
 import React from 'react';
 
+import { Currency } from '../../../common/models/Currency';
 import { Box, Button, Flex, Modal, Typography } from '../../../ergodex-cdk';
 import { getShortAddress } from '../../../utils/string/addres';
 import { ConnectWalletButton } from '../../common/ConnectWalletButton/ConnectWalletButton';
 import { WalletModal } from '../../WalletModal/WalletModal';
 
 export interface ConnectWalletProps {
-  balance?: string;
-  currency?: string;
+  balance?: Currency;
   address?: string;
   numberOfPendingTxs: number;
 }
 
 export const ConnectWallet: React.FC<ConnectWalletProps> = ({
   balance,
-  currency,
   address,
   numberOfPendingTxs,
 }) => {
@@ -26,11 +25,15 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
   const openWalletModal = () => Modal.open(<WalletModal />);
 
   const addressButton = (
-    <Box borderRadius="m" padding={[1, 1, 1, 2]}>
+    <Box borderRadius="m" padding={1}>
       <Flex align="center">
-        <Flex.Item marginRight={2}>
+        <Flex.Item
+          className="connect-wallet__balance"
+          marginRight={2}
+          marginLeft={1}
+        >
           <Typography.Body style={{ whiteSpace: 'nowrap', fontSize: '16px' }}>
-            {balance ? `${balance} ${currency}` : <LoadingOutlined />}
+            {balance?.toString() ?? <LoadingOutlined />}
           </Typography.Body>
         </Flex.Item>
         <Flex.Item>

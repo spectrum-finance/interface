@@ -2,34 +2,57 @@ import { PoolId } from '@ergolabs/ergo-dex-sdk';
 import { AmmPool as BaseAmmPool } from '@ergolabs/ergo-dex-sdk/build/main/amm/entities/ammPool';
 import { AssetAmount } from '@ergolabs/ergo-sdk';
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
+import { cache } from 'decorator-cache-getter';
+import { evaluate } from 'mathjs';
 
-import { math } from '../../utils/math';
+import { math, renderFractions } from '../../utils/math';
 import { normalizeAmount } from '../utils/amount';
 import { Currency } from './Currency';
 
 export class AmmPool {
   constructor(private pool: BaseAmmPool) {}
 
+  @cache
   get id(): PoolId {
     return this.pool.id;
   }
 
+  @cache
+  get poolFee(): number {
+    return evaluate(`(1 - ${this.pool.feeNum} / 1000) * 100`).toFixed(1);
+  }
+
+  @cache
   get poolFeeNum(): number {
     return this.pool.poolFeeNum;
   }
 
+  @cache
   get feeNum(): bigint {
     return this.pool.feeNum;
   }
 
+  @cache
   get lp(): Currency {
     return new Currency(this.pool.lp.amount, this.pool.lp.asset);
   }
 
+  @cache
   get y(): Currency {
     return new Currency(this.pool.y.amount, this.pool.y.asset);
   }
 
+  @cache
+  get xRatio(): Currency {
+    return this.getRatio(this.x, this.y);
+  }
+
+  @cache
+  get yRatio(): Currency {
+    return this.getRatio(this.y, this.x);
+  }
+
+  @cache
   get x(): Currency {
     return new Currency(this.pool.x.amount, this.pool.x.asset);
   }
@@ -113,5 +136,17 @@ export class AmmPool {
     );
 
     return new Currency(outputAmount.amount, outputAmount?.asset);
+  }
+
+  private getRatio(first: Currency, second: Currency): Currency {
+    const firstAmount = renderFractions(first.amount, first.asset.decimals);
+    const secondAmount = renderFractions(second.amount, second.asset.decimals);
+
+    return new Currency(
+      normalizeAmount(
+        math.evaluate!(`${firstAmount} / ${secondAmount}`).toString(),
+        first.asset,
+      ),
+    );
   }
 }

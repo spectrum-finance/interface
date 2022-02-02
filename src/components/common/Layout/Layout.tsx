@@ -1,11 +1,13 @@
 import './Layout.less';
 
 import React, { useEffect } from 'react';
+import { isBrowser } from 'react-device-detect';
 
 import { useAppLoadingState, useSettings } from '../../../context';
 import { Modal } from '../../../ergodex-cdk';
 import { useBodyClass } from '../../../hooks/useBodyClass';
 import { Header } from '../../Header/Header';
+import { NetworkHeight } from '../../NetworkHeight/NetworkHeight';
 import { SocialLinks } from '../../SocialLinks/SocialLinks';
 import { KyaModal } from '../KyaModal/KyaModal';
 
@@ -21,7 +23,7 @@ const Layout = ({ children }: Props): JSX.Element => {
   const [{ isKYAAccepted }] = useAppLoadingState();
 
   useEffect(() => {
-    if (!isKYAAccepted) {
+    if (!isKYAAccepted && isBrowser) {
       Modal.open(({ close }) => <KyaModal onClose={close} />);
     }
   }, [isKYAAccepted]);
@@ -30,7 +32,10 @@ const Layout = ({ children }: Props): JSX.Element => {
     <div className="layout">
       <Header />
       <main>{children}</main>
-      <SocialLinks />
+      <footer>
+        <SocialLinks />
+        <NetworkHeight />
+      </footer>
     </div>
   );
 };

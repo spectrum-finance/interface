@@ -14,6 +14,10 @@ span.ant-typography--small, div.ant-typography--small {
   font: var(--ergo-body-font-small);
 }
 
+span.ant-typography--secondary, div.ant-typography--secondary {
+  color: var(--ergo-disabled-text-contrast);
+}
+
 .ant-typography-align {
   &--left {
     display: inline-block;
@@ -32,7 +36,7 @@ span.ant-typography--small, div.ant-typography--small {
 }
 
 .ant-typography.ant-typography-disabled {
-  color: var(--ergo-disabled-text-constrast);
+  color: var(--ergo-disabled-text-contrast);
 }
 
 .ant-typography.ant-typography-secondary {
@@ -55,6 +59,13 @@ a.ant-typography {
 
   &:hover, &:active, &:focus {
     color: var(--ergo-primary-color-hover);
+  }
+
+  &.ant-typography-success {
+    color: var(--ergo-success-color);
+    &:hover, &:active, &:focus {
+      color: var(--ergo-success-color-hover);
+    }
   }
 }
 

@@ -20,10 +20,10 @@ export enum ActionButtonState {
   ACTION,
 }
 
-export const END_TIMER_DATE = DateTime.utc(2022, 1, 28, 17, 0, 0);
+export const END_TIMER_DATE = DateTime.utc(2022, 2, 2, 18, 30, 0);
 
 export const LOCKED_TOKEN_ID =
-  '472c3d4ecaa08fb7392ff041ee2e6af75f4a558810a74b28600549d5392810e8';
+  'd71693c49a84fbbecd4908c94813b46514b18b67a99952dc1e6e4791556de413';
 
 const selectTokenState = (): ButtonProps => ({
   children: 'Select a token',

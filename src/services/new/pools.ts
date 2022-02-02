@@ -3,25 +3,24 @@ import {
   makeNativePools,
   makePools,
   NetworkPools,
-  PoolId,
 } from '@ergolabs/ergo-dex-sdk';
-import { ErgoBox } from '@ergolabs/ergo-sdk';
 import {
   combineLatest,
   defer,
   from,
+  interval,
   map,
-  Observable,
   publishReplay,
   refCount,
+  startWith,
   switchMap,
-  zip,
 } from 'rxjs';
 
 import { AmmPool } from '../../common/models/AmmPool';
-import { getListAvailableTokens } from '../../utils/getListAvailableTokens';
+import { Currency } from '../../common/models/Currency';
+import { LOCKED_TOKEN_ID } from '../../components/common/ActionForm/ActionButton/ActionButton';
 import { explorer } from '../explorer';
-import { utxos$ } from './core';
+import { UPDATE_TIME } from './core';
 
 export const networkPools = (): NetworkPools => makePools(explorer);
 export const nativeNetworkPools = (): NetworkPools => makeNativePools(explorer);
@@ -29,13 +28,12 @@ export const nativeNetworkPools = (): NetworkPools => makeNativePools(explorer);
 const BlacklistedPoolId =
   'bee300e9c81e48d7ab5fc29294c7bbb536cf9dcd9c91ee3be9898faec91b11b6';
 
-const utxosToTokenIds = (utxos: ErgoBox[]): string[] =>
-  Object.values(getListAvailableTokens(utxos)).map((token) => token.tokenId);
-
-const filterPoolsByTokenIds = (
-  pools: BaseAmmPool[],
-  tokenIds: string[],
-): BaseAmmPool[] => pools.filter((p) => tokenIds.includes(p.lp.asset.id));
+export interface PoolData {
+  readonly pool: AmmPool;
+  readonly lpAmount: Currency;
+  readonly xAmount: Currency;
+  readonly yAmount: Currency;
+}
 
 const nativeNetworkPools$ = defer(() =>
   from(nativeNetworkPools().getAll({ limit: 100, offset: 0 })),
@@ -53,73 +51,22 @@ const networkPools$ = defer(() =>
   refCount(),
 );
 
-export const pools$ = combineLatest([nativeNetworkPools$, networkPools$]).pipe(
-  map(([nativeNetworkPools, networkPools]) =>
-    nativeNetworkPools
-      .concat(networkPools)
-      .filter((p) => p.id != BlacklistedPoolId),
-  ),
-  map((pools) => pools.map((p) => new AmmPool(p))),
-  publishReplay(1),
-  refCount(),
-);
-
-const availableNativeNetworkPools$ = utxos$.pipe(
-  map(utxosToTokenIds),
-  switchMap((tokensIds) =>
-    from(
-      nativeNetworkPools().getByTokensUnion(tokensIds, {
-        limit: 500,
-        offset: 0,
-      }),
-    ).pipe(map(([pools]) => filterPoolsByTokenIds(pools, tokensIds))),
-  ),
-  publishReplay(1),
-  refCount(),
-);
-
-const availableNetworkPools$ = utxos$.pipe(
-  map(utxosToTokenIds),
-  switchMap((tokensIds) =>
-    from(
-      networkPools().getByTokensUnion(tokensIds, {
-        limit: 500,
-        offset: 0,
-      }),
-    ).pipe(map(([pools]) => filterPoolsByTokenIds(pools, tokensIds))),
-  ),
-  publishReplay(1),
-  refCount(),
-);
-
-export const availablePools$: Observable<AmmPool[]> = zip([
-  availableNativeNetworkPools$,
-  availableNetworkPools$,
-]).pipe(
-  map(([nativePools, pools]) => nativePools.concat(pools)),
-  map((pools) => pools.map((p) => new AmmPool(p))),
-  publishReplay(1),
-  refCount(),
-);
-
-export const getPoolById = (poolId: PoolId): Observable<AmmPool | undefined> =>
-  pools$.pipe(map((pools) => pools.find((position) => position.id === poolId)));
-
-export const getAvailablePoolById = (
-  poolId: PoolId,
-): Observable<AmmPool | undefined> =>
-  pools$.pipe(map((pools) => pools.find((position) => position.id === poolId)));
-
-const byPair = (xId: string, yId: string) => (p: AmmPool) =>
-  (p.x.asset.id === xId || p.y.asset.id === xId) &&
-  (p.x.asset.id === yId || p.y.asset.id === yId);
-
-export const getPoolByPair = (
-  xId: string,
-  yId: string,
-): Observable<AmmPool[]> =>
-  pools$.pipe(
-    map((pools) => pools.filter(byPair(xId, yId))),
+export const pools$ = interval(UPDATE_TIME)
+  .pipe(startWith(0))
+  .pipe(
+    switchMap(() => combineLatest([nativeNetworkPools$, networkPools$])),
+    map(([nativeNetworkPools, networkPools]) =>
+      nativeNetworkPools
+        .concat(networkPools)
+        .filter((p) => p.id != BlacklistedPoolId),
+    ),
+    map((pools) =>
+      pools.filter(
+        (p) =>
+          p.x.asset.id !== LOCKED_TOKEN_ID && p.y.asset.id !== LOCKED_TOKEN_ID,
+      ),
+    ),
+    map((pools) => pools.map((p) => new AmmPool(p))),
     publishReplay(1),
     refCount(),
   );
