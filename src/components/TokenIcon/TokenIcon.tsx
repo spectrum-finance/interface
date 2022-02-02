@@ -23,6 +23,7 @@ const accessibleTokens = [
   'ADA-disabled',
   'LunaDog',
   'NETA',
+  'ergopad',
 ];
 
 const TokenIcon: React.FC<TokenIconProps> = ({
@@ -31,7 +32,7 @@ const TokenIcon: React.FC<TokenIconProps> = ({
   size,
   ...rest
 }) => {
-  let isAccessibleToken = false;
+  let isAccessibleToken;
 
   // TODO: REPLACE ALL STRINGS TO ASSET_INFO
   if (asset) {
