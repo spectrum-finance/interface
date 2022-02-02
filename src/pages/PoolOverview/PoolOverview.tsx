@@ -62,8 +62,8 @@ export const PoolOverview: React.FC = () => {
         <Flex col>
           <Flex.Item marginBottom={5}>
             <PageHeader
-              x={position.x}
-              y={position.y}
+              x={position.availableX}
+              y={position.availableY}
               actionsMenuWidth={180}
               actionsMenu={
                 <Menu.ItemGroup title="Liquidity Locker">
@@ -112,8 +112,8 @@ export const PoolOverview: React.FC = () => {
             ) : (
               <FormPairSection
                 title="Your liquidity"
-                yAmount={position.y}
-                xAmount={position.x}
+                yAmount={position.totalY}
+                xAmount={position.totalX}
               />
             )}
           </Flex.Item>

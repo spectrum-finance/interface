@@ -17,43 +17,23 @@ import {
   Asset,
   getListAvailableTokens,
 } from '../../../utils/getListAvailableTokens';
-import { tokenLocks$ } from '../common/tokenLocks';
 
 const toListAvailableTokens = (utxos: ErgoBox[]): Asset[] =>
   Object.values(getListAvailableTokens(utxos));
 
-export const availableTokensData$: Observable<[bigint, AssetInfo][]> =
-  combineLatest([utxos$.pipe(map(toListAvailableTokens)), tokenLocks$]).pipe(
+export const availableTokensData$: Observable<[bigint, AssetInfo][]> = utxos$
+  .pipe(map(toListAvailableTokens))
+  .pipe(
     debounceTime(200),
-    switchMap(([boxAssets, tokenLocks]) =>
+    switchMap((boxAssets) =>
       combineLatest<[bigint, AssetInfo][]>(
         boxAssets.map((ba) =>
           from(explorer.getFullTokenInfo(ba.tokenId)).pipe(
             map((assetInfo) => {
-              const locks = tokenLocks.filter(
-                (tl) => tl.lockedAsset.asset.id === assetInfo?.id,
-              );
-
-              return [
-                locks.reduce((acc, l) => acc + l.lockedAsset.amount, ba.amount),
-                assetInfo as AssetInfo,
-              ];
+              return [ba.amount, assetInfo as AssetInfo];
             }),
           ),
         ),
-      ).pipe(
-        map((availableTokensData) => {
-          const fullLockedPositions: [bigint, AssetInfo][] = tokenLocks
-            .filter(
-              (tl) =>
-                !availableTokensData.some(
-                  (atd) => atd[1].id === tl.lockedAsset.asset.id,
-                ),
-            )
-            .map((tl) => [tl.lockedAsset.amount, tl.lockedAsset.asset]);
-
-          return availableTokensData.concat(fullLockedPositions);
-        }),
       ),
     ),
     map((availableTokensData) =>

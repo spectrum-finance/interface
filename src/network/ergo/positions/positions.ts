@@ -22,7 +22,11 @@ export const positions$ = combineLatest([
   map(
     ([ammPools, lpWalletBalance, tokenLocksGroupedByLpAsset, networkContext]) =>
       ammPools
-        .filter((ap) => lpWalletBalance.get(ap.lp.asset).isPositive())
+        .filter(
+          (ap) =>
+            lpWalletBalance.get(ap.lp.asset).isPositive() ||
+            tokenLocksGroupedByLpAsset[ap.lp.asset.id]?.length > 0,
+        )
         .map(
           (ap) =>
             new Position(
