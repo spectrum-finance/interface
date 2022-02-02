@@ -43,7 +43,7 @@ export interface AmmPoolAnalytics {
   yearlyFeesPercent: number;
 }
 
-export interface AmmPoolLocksAnalytics {
+export interface AmmPoolLocksAnalytic {
   readonly poolId: string;
   readonly deadline: number;
   readonly amount: bigint;
@@ -109,11 +109,11 @@ export const getAggregatedPoolAnalyticsDataById24H = (
 
 export const getPoolLocksAnalyticsById = (
   poolId: PoolId,
-): Observable<AmmPoolLocksAnalytics[]> =>
+): Observable<AmmPoolLocksAnalytic[]> =>
   networkContext$.pipe(
     switchMap((context) =>
       from(
-        axios.get<AmmPoolLocksAnalytics[]>(
+        axios.get<AmmPoolLocksAnalytic[]>(
           `${applicationConfig.api}amm/pool/${poolId}/locks?leastDeadline=${context.height}`,
         ),
       ).pipe(map((res) => res.data)),

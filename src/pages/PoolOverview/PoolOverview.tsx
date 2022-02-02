@@ -2,6 +2,7 @@ import { PoolId } from '@ergolabs/ergo-dex-sdk';
 import React, { useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 
+import { getPositionByAmmPoolId } from '../../api/positions';
 import { ReactComponent as RelockIcon } from '../../assets/icons/relock-icon.svg';
 import { ReactComponent as WithdrawalIcon } from '../../assets/icons/withdrawal-icon.svg';
 import { useSubject } from '../../common/hooks/useObservable';
@@ -20,9 +21,9 @@ import {
   Typography,
 } from '../../ergodex-cdk';
 import { LockLiquidityChart } from './LockLiquidityChart/LockLiquidityChart';
+import { getAmmPoolConfidenceAnalyticByAmmPoolId } from './LocksAnalytic';
 import { PoolFeeTag } from './PoolFeeTag/PoolFeeTag';
 import { PoolRatio } from './PoolRatio/PoolRatio';
-import { getPositionWithAnalyticByAmmPoolId } from './PositionWithLocks';
 
 interface URLParamTypes {
   poolId: PoolId;
@@ -33,12 +34,15 @@ const DISPLAY_LOCKS_MIN_PCT = 1;
 export const PoolOverview: React.FC = () => {
   const history = useHistory();
   const { poolId } = useParams<URLParamTypes>();
-  const [position, updatePosition] = useSubject(
-    getPositionWithAnalyticByAmmPoolId,
-    [],
+  const [position, updatePosition] = useSubject(getPositionByAmmPoolId, []);
+  const [poolConfidenceAnalytic, updatePoolConfidenceAnalytic] = useSubject(
+    getAmmPoolConfidenceAnalyticByAmmPoolId,
   );
 
-  useEffect(() => updatePosition(poolId), []);
+  useEffect(() => {
+    updatePosition(poolId);
+    updatePoolConfidenceAnalytic(poolId);
+  }, []);
 
   const handleLockLiquidity = () => history.push(`/pool/${poolId}/lock`);
 
@@ -54,7 +58,7 @@ export const PoolOverview: React.FC = () => {
 
   return (
     <Page title="Pool overview" width={480} withBackButton backTo="/pool">
-      {position ? (
+      {position && poolConfidenceAnalytic ? (
         <Flex col>
           <Flex.Item marginBottom={5}>
             <PageHeader
@@ -109,13 +113,15 @@ export const PoolOverview: React.FC = () => {
               />
             )}
           </Flex.Item>
-          {position.totalAmmPoolLockedPercent >= DISPLAY_LOCKS_MIN_PCT && (
-            <Flex.Item marginBottom={4}>
-              <PageSection title="Locked liquidity" boxed={false}>
-                <LockLiquidityChart position={position} />
-              </PageSection>
-            </Flex.Item>
-          )}
+          {/*{position.totalAmmPoolLockedPercent >= DISPLAY_LOCKS_MIN_PCT && (*/}
+          <Flex.Item marginBottom={4}>
+            <PageSection title="Locked liquidity" boxed={false}>
+              <LockLiquidityChart
+                poolConfidenceAnalytic={poolConfidenceAnalytic}
+              />
+            </PageSection>
+          </Flex.Item>
+          {/*)}*/}
           <Flex.Item marginBottom={4}>
             <PageSection title="Current price" boxed={false}>
               <Flex>
