@@ -14,6 +14,8 @@ import {
 } from '../../services/new/analytics';
 import { math } from '../../utils/math';
 
+const MIN_RELEVANT_PCT_VALUE = 0.01;
+
 export class LocksGroup {
   @cache
   get deadline(): number {
@@ -118,7 +120,14 @@ export class AmmPoolConfidenceAnalytic {
   ) {
     this.locksGroups = Object.values(
       locksAnalytic.reduce(this.groupByDeadline, {}),
-    ).map((item) => new LocksGroup(this.pool, item, networkHeight));
+    ).map(
+      (items) =>
+        new LocksGroup(
+          this.pool,
+          items.filter((item) => item.percent >= MIN_RELEVANT_PCT_VALUE),
+          networkHeight,
+        ),
+    );
   }
 
   private groupByDeadline(

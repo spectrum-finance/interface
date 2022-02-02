@@ -29,7 +29,7 @@ interface URLParamTypes {
   poolId: PoolId;
 }
 
-const DISPLAY_LOCKS_MIN_PCT = 1;
+const MIN_RELEVANT_LOCKS_PCT = 1;
 
 export const PoolOverview: React.FC = () => {
   const history = useHistory();
@@ -113,15 +113,15 @@ export const PoolOverview: React.FC = () => {
               />
             )}
           </Flex.Item>
-          {/*{position.totalAmmPoolLockedPercent >= DISPLAY_LOCKS_MIN_PCT && (*/}
-          <Flex.Item marginBottom={4}>
-            <PageSection title="Locked liquidity" boxed={false}>
-              <LockLiquidityChart
-                poolConfidenceAnalytic={poolConfidenceAnalytic}
-              />
-            </PageSection>
-          </Flex.Item>
-          {/*)}*/}
+          {poolConfidenceAnalytic.lockedPercent >= MIN_RELEVANT_LOCKS_PCT && (
+            <Flex.Item marginBottom={4}>
+              <PageSection title="Locked liquidity" boxed={false}>
+                <LockLiquidityChart
+                  poolConfidenceAnalytic={poolConfidenceAnalytic}
+                />
+              </PageSection>
+            </Flex.Item>
+          )}
           <Flex.Item marginBottom={4}>
             <PageSection title="Current price" boxed={false}>
               <Flex>
