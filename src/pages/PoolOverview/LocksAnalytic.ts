@@ -1,28 +1,20 @@
 import { blocksToMillis, PoolId } from '@ergolabs/ergo-dex-sdk';
 import { cache } from 'decorator-cache-getter';
 import { DateTime } from 'luxon';
-import {
-  combineLatest,
-  debounceTime,
-  map,
-  Observable,
-  of,
-  switchMap,
-} from 'rxjs';
+import { combineLatest, map, Observable, of, switchMap } from 'rxjs';
 
 import { getAmmPoolById } from '../../api/ammPools';
 import { AmmPool } from '../../common/models/AmmPool';
 import { Currency } from '../../common/models/Currency';
-import { appTick$ } from '../../common/streams/appTick';
 import { Dictionary } from '../../common/utils/Dictionary';
 import { networkContext$ } from '../../network/ergo/networkContext/networkContext';
 import {
   AmmPoolLocksAnalytic,
   getPoolLocksAnalyticsById,
 } from '../../services/new/analytics';
-import { pools$ } from '../../services/new/pools';
+import { math } from '../../utils/math';
 
-class LocksGroup {
+export class LocksGroup {
   @cache
   get deadline(): number {
     return this.locksAnalytic[0].deadline;
@@ -36,7 +28,7 @@ class LocksGroup {
   @cache
   get lockedLp(): Currency {
     return this.locksAnalytic.reduce(
-      (lp, lg) => lp.plus(new Currency(lg.amount, this.pool.lp.asset)),
+      (lp, la) => lp.plus(new Currency(BigInt(la.amount), this.pool.lp.asset)),
       new Currency(0n, this.pool.lp.asset),
     );
   }
@@ -64,6 +56,15 @@ class LocksGroup {
     });
   }
 
+  @cache
+  get share(): Currency {
+    const lpAmount = this.lockedLp.toString({ suffix: false });
+    const poolLiquidityAmount = this.pool.lp.toString({ suffix: false });
+    return math.evaluate!(
+      `${lpAmount} / (${poolLiquidityAmount}) * 100`,
+    ).toFixed(2);
+  }
+
   constructor(
     public readonly pool: AmmPool,
     private locksAnalytic: AmmPoolLocksAnalytic[],
@@ -85,6 +86,15 @@ export class AmmPoolConfidenceAnalytic {
       (lp, lg) => lp.plus(lg.lockedLp),
       new Currency(0n, this.pool.lp.asset),
     );
+  }
+
+  @cache
+  get share(): Currency {
+    const lpAmount = this.lockedLp.toString({ suffix: false });
+    const poolLiquidityAmount = this.pool.lp.toString({ suffix: false });
+    return math.evaluate!(
+      `${lpAmount} / (${poolLiquidityAmount}) * 100`,
+    ).toFixed(2);
   }
 
   @cache

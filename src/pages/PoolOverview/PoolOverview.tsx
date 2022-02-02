@@ -57,7 +57,7 @@ export const PoolOverview: React.FC = () => {
     history.push(`/pool/${poolId}/withdrawal`);
 
   return (
-    <Page title="Pool overview" width={480} withBackButton backTo="/pool">
+    <Page title="Pool overview" width={600} withBackButton backTo="/pool">
       {position && poolConfidenceAnalytic ? (
         <Flex col>
           <Flex.Item marginBottom={5}>
