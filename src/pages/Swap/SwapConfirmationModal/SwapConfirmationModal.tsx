@@ -282,7 +282,8 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
                       </Flex.Item>
                       <Flex.Item>
                         <Typography.Text>
-                          {totalFees && `${totalFees.min} - ${totalFees.max}`}
+                          {totalFees && `${totalFees.min} - ${totalFees.max}`}{' '}
+                          ERG
                         </Typography.Text>
                       </Flex.Item>
                     </Flex>
