@@ -52,10 +52,18 @@ const LockLiquidity = (): JSX.Element => {
     form.controls.percent.valueChanges$.pipe(skip(1)),
     (percent) => {
       form.patchValue({
-        xAmount: percent === 100 ? position?.x : position?.x.percent(percent),
-        yAmount: percent === 100 ? position?.y : position?.y.percent(percent),
+        xAmount:
+          percent === 100
+            ? position?.availableX
+            : position?.availableX.percent(percent),
+        yAmount:
+          percent === 100
+            ? position?.availableY
+            : position?.availableY.percent(percent),
         lpAmount:
-          percent === 100 ? position?.lp : position?.lp.percent(percent),
+          percent === 100
+            ? position?.availableLp
+            : position?.availableLp.percent(percent),
       });
     },
     [position],
@@ -65,9 +73,9 @@ const LockLiquidity = (): JSX.Element => {
     form: FormGroup<LockLiquidityModel>,
     position: Position,
   ) => {
-    const xAsset = form.value.xAmount || position.x;
-    const yAsset = form.value.yAmount || position.y;
-    const lpAsset = form.value.lpAmount || position.lp;
+    const xAsset = form.value.xAmount || position.availableX;
+    const yAsset = form.value.yAmount || position.availableY;
+    const lpAsset = form.value.lpAmount || position.availableLp;
     const timelock = form.value.locktime;
     const percent = form.value.percent;
     const pool = position.pool;
@@ -105,7 +113,7 @@ const LockLiquidity = (): JSX.Element => {
         >
           <Flex direction="col">
             <Flex.Item marginBottom={2}>
-              <PageHeader x={position.x} y={position.y} />
+              <PageHeader x={position.availableX} y={position.availableY} />
             </Flex.Item>
 
             <Flex.Item marginBottom={4}>
@@ -121,8 +129,8 @@ const LockLiquidity = (): JSX.Element => {
             <Flex.Item marginBottom={4}>
               <FormPairSection
                 title="Assets to lock"
-                xAmount={formValue?.xAmount || position.x}
-                yAmount={formValue?.yAmount || position.y}
+                xAmount={formValue?.xAmount || position.availableX}
+                yAmount={formValue?.yAmount || position.availableY}
               />
             </Flex.Item>
 

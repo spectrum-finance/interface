@@ -21,32 +21,47 @@ export class Position {
 
   @cache
   get totalLockedPercent(): number {
-    const lpAmount = this.totalLockedLp.toString({ suffix: false });
-    const poolLiquidityAmount = this.lp.toString({ suffix: false });
+    const lpAmount = this.lockedLp.toString({ suffix: false });
+    const poolLiquidityAmount = this.totalLp.toString({ suffix: false });
     return math.evaluate!(
       `${lpAmount} / (${poolLiquidityAmount}) * 100`,
     ).toFixed(2);
   }
 
   @cache
-  get x(): Currency {
-    const [x] = this.pool.shares(this.lp);
+  get availableX(): Currency {
+    const [x] = this.pool.shares(this.availableLp);
 
     return x;
   }
 
   @cache
-  get y(): Currency {
-    const [, y] = this.pool.shares(this.lp);
+  get availableY(): Currency {
+    const [, y] = this.pool.shares(this.availableLp);
 
     return y;
   }
 
-  readonly totalLockedX: Currency;
+  @cache
+  get totalX(): Currency {
+    return this.availableX.plus(this.lockedX);
+  }
 
-  readonly totalLockedY: Currency;
+  @cache
+  get totalY(): Currency {
+    return this.availableY.plus(this.lockedY);
+  }
 
-  readonly totalLockedLp: Currency;
+  @cache
+  get totalLp(): Currency {
+    return this.availableLp.plus(this.lockedLp);
+  }
+
+  readonly lockedX: Currency;
+
+  readonly lockedY: Currency;
+
+  readonly lockedLp: Currency;
 
   readonly withdrawableLockedX: Currency;
 
@@ -56,7 +71,7 @@ export class Position {
 
   constructor(
     public pool: AmmPool,
-    public lp: Currency,
+    public availableLp: Currency,
     public empty = false,
     tokenLocks: TokenLock[],
     networkHeight: number,
@@ -100,9 +115,9 @@ export class Position {
       },
     );
 
-    this.totalLockedLp = totalLockedLp;
-    this.totalLockedX = totalLockedX;
-    this.totalLockedY = totalLockedY;
+    this.lockedLp = totalLockedLp;
+    this.lockedX = totalLockedX;
+    this.lockedY = totalLockedY;
     this.withdrawableLockedLp = withdrawableLockedLp;
     this.withdrawableLockedY = withdrawableLockedY;
     this.withdrawableLockedX = withdrawableLockedX;

@@ -30,15 +30,15 @@ const LockItemView: FC<LockItemViewProps> = ({ position }) => {
                     <Flex.Item marginRight={1}>
                       <Flex>
                         <Flex.Item marginRight={1}>
-                          <TokenIcon name={position.x.asset.name} />
+                          <TokenIcon name={position.availableX.asset.name} />
                         </Flex.Item>
                         <Typography.Title level={5}>
-                          {position.x.asset.name}
+                          {position.availableX.asset.name}
                         </Typography.Title>
                       </Flex>
                     </Flex.Item>
                     <Typography.Title level={5}>
-                      {position.totalLockedX.toString({ suffix: false })}
+                      {position.lockedX.toString({ suffix: false })}
                     </Typography.Title>
                   </Flex>
                 </Box>
@@ -49,15 +49,15 @@ const LockItemView: FC<LockItemViewProps> = ({ position }) => {
                     <Flex.Item marginRight={1}>
                       <Flex>
                         <Flex.Item marginRight={1}>
-                          <TokenIcon name={position.y.asset.name} />
+                          <TokenIcon name={position.availableY.asset.name} />
                         </Flex.Item>
                         <Typography.Title level={5}>
-                          {position.y.asset.name}
+                          {position.availableY.asset.name}
                         </Typography.Title>
                       </Flex>
                     </Flex.Item>
                     <Typography.Title level={5}>
-                      {position.totalLockedY.toString({ suffix: false })}
+                      {position.lockedY.toString({ suffix: false })}
                     </Typography.Title>
                   </Flex>
                 </Box>
@@ -77,10 +77,10 @@ const LockItemView: FC<LockItemViewProps> = ({ position }) => {
                     <Flex.Item marginRight={1}>
                       <Flex>
                         <Flex.Item marginRight={1}>
-                          <TokenIcon name={position.x.asset.name} />
+                          <TokenIcon name={position.availableX.asset.name} />
                         </Flex.Item>
                         <Typography.Title level={5}>
-                          {position.x.asset.name}
+                          {position.availableX.asset.name}
                         </Typography.Title>
                       </Flex>
                     </Flex.Item>
@@ -98,10 +98,10 @@ const LockItemView: FC<LockItemViewProps> = ({ position }) => {
                     <Flex.Item marginRight={1}>
                       <Flex>
                         <Flex.Item marginRight={1}>
-                          <TokenIcon name={position.y.asset.name} />
+                          <TokenIcon name={position.availableY.asset.name} />
                         </Flex.Item>
                         <Typography.Title level={5}>
-                          {position.y.asset.name}
+                          {position.availableY.asset.name}
                         </Typography.Title>
                       </Flex>
                     </Flex.Item>
