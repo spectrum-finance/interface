@@ -60,12 +60,6 @@ export const pools$ = interval(UPDATE_TIME)
         .concat(networkPools)
         .filter((p) => p.id != BlacklistedPoolId),
     ),
-    map((pools) =>
-      pools.filter(
-        (p) =>
-          p.x.asset.id !== LOCKED_TOKEN_ID && p.y.asset.id !== LOCKED_TOKEN_ID,
-      ),
-    ),
     map((pools) => pools.map((p) => new AmmPool(p))),
     publishReplay(1),
     refCount(),
