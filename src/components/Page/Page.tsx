@@ -53,7 +53,9 @@ const Page: React.FC<FormPageWrapperProps> = ({
                         type="text"
                         icon={<ArrowLeftOutlined />}
                         onClick={() =>
-                          backTo ? history.push(backTo) : history.goBack()
+                          history.length
+                            ? history.goBack()
+                            : backTo && history.push(backTo)
                         }
                       />
                     </Flex.Item>
