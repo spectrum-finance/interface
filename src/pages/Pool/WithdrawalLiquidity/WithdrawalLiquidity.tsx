@@ -74,15 +74,15 @@ export const WithdrawalLiquidity = (): JSX.Element => {
         >
           <Flex col>
             <Flex.Item marginBottom={2}>
-              <PageHeader x={position.x} y={position.y} />
+              <PageHeader x={position.availableX} y={position.availableY} />
             </Flex.Item>
             <Flex.Item marginBottom={4}>
               <Flex>
                 <Flex.Item flex={1} marginRight={2}>
                   <FormPairSection
                     title="Total in locker"
-                    xAmount={position.totalLockedX}
-                    yAmount={position.totalLockedY}
+                    xAmount={position.lockedX}
+                    yAmount={position.lockedY}
                   />
                 </Flex.Item>
                 <Flex.Item flex={1}>

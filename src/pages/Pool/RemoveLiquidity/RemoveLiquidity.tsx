@@ -54,10 +54,18 @@ export const RemoveLiquidity: FC = () => {
     form.controls.percent.valueChanges$.pipe(skip(1)),
     (percent) => {
       form.patchValue({
-        xAmount: percent === 100 ? position?.x : position?.x.percent(percent),
-        yAmount: percent === 100 ? position?.y : position?.y.percent(percent),
+        xAmount:
+          percent === 100
+            ? position?.availableX
+            : position?.availableX.percent(percent),
+        yAmount:
+          percent === 100
+            ? position?.availableY
+            : position?.availableY.percent(percent),
         lpAmount:
-          percent === 100 ? position?.lp : position?.lp.percent(percent),
+          percent === 100
+            ? position?.availableLp
+            : position?.availableLp.percent(percent),
       });
     },
     [position],
@@ -67,9 +75,9 @@ export const RemoveLiquidity: FC = () => {
     form: FormGroup<RemoveFormModel>,
     poolData: Position,
   ) => {
-    const xAmount = form.value.xAmount || poolData.x;
-    const yAmount = form.value.yAmount || poolData.y;
-    const lpAmount = form.value.lpAmount || poolData.lp;
+    const xAmount = form.value.xAmount || poolData.availableX;
+    const yAmount = form.value.yAmount || poolData.availableY;
+    const lpAmount = form.value.lpAmount || poolData.availableLp;
 
     openConfirmationModal(
       (next) => {
@@ -97,7 +105,7 @@ export const RemoveLiquidity: FC = () => {
         <Form form={form} onSubmit={(form) => handleRemove(form, position)}>
           <Flex direction="col">
             <Flex.Item marginBottom={2}>
-              <PageHeader x={position.x} y={position.y} />
+              <PageHeader x={position.availableX} y={position.availableY} />
             </Flex.Item>
 
             <Flex.Item marginBottom={4}>
@@ -113,8 +121,8 @@ export const RemoveLiquidity: FC = () => {
             <Flex.Item marginBottom={4}>
               <FormPairSection
                 title="Assets to remove"
-                xAmount={formValue?.xAmount || position.x}
-                yAmount={formValue?.yAmount || position.y}
+                xAmount={formValue?.xAmount || position.availableX}
+                yAmount={formValue?.yAmount || position.availableY}
               />
             </Flex.Item>
 
