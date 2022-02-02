@@ -13,9 +13,9 @@ import { Control } from '../../../../ergodex-cdk/components/Form/NewForm';
 export type NitroInputProps = Control<number>;
 
 const SLIPPAGE_OPTIONS = {
-  '0.1': defaultSlippage,
-  '0.5': 0.5,
   '1': 1,
+  '3': defaultSlippage,
+  '7': 7,
 };
 
 export const SlippageInput: FC<NitroInputProps> = ({

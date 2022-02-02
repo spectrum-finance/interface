@@ -34,7 +34,7 @@ const TxInfoTooltipContent: FC<{ value: SwapFormModel }> = ({ value }) => {
     ? `${renderFractions(
         swapExtremums[1].minOutput.amount,
         swapExtremums[1].minOutput.asset.decimals,
-      )} ${swapExtremums[1].minOutput.asset.name} - ${renderFractions(
+      )} - ${renderFractions(
         swapExtremums[1].maxOutput.amount,
         swapExtremums[1].maxOutput.asset.decimals,
       )} ${swapExtremums[1].minOutput.asset.name}`
