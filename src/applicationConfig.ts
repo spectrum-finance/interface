@@ -12,6 +12,7 @@ interface ApplicationConfig {
     readonly telegram: string;
   };
   readonly applicationTick: number;
+  readonly hiddenAssets: string[];
 }
 
 export const applicationConfig: ApplicationConfig = {
@@ -28,4 +29,7 @@ export const applicationConfig: ApplicationConfig = {
     telegram: 'https://t.me/ergodex_community',
   },
   applicationTick: 10 * 1000,
+  hiddenAssets: [
+    'd71693c49a84fbbecd4908c94813b46514b18b67a99952dc1e6e4791556de413',
+  ],
 };
