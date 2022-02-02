@@ -1,5 +1,5 @@
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
-import { find, uniqBy } from 'lodash';
+import { uniqBy } from 'lodash';
 import { map, Observable, publishReplay, refCount } from 'rxjs';
 
 import { pools$ } from './pools';
@@ -17,9 +17,6 @@ export const lpAssets$ = pools$.pipe(
   publishReplay(1),
   refCount(),
 );
-
-export const getAssetById = (id: string): Observable<AssetInfo> =>
-  assets$.pipe(map((assets) => find(assets, ['id', id])!));
 
 export const getAvailableAssetFor = (
   assetId: string,

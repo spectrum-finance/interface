@@ -11,6 +11,7 @@ import {
 
 import { AmmPool } from '../../../common/models/AmmPool';
 import { appTick$ } from '../../../common/streams/appTick';
+import { LOCKED_TOKEN_ID } from '../../../components/common/ActionForm/ActionButton/ActionButton';
 import { nativeNetworkPools, networkPools } from './common';
 
 const BlacklistedAmmPoolId =
@@ -43,6 +44,12 @@ export const ammPools$ = combineLatest([
     nativeNetworkPools
       .concat(networkPools)
       .filter((p) => p.id != BlacklistedAmmPoolId),
+  ),
+  map((pools) =>
+    pools.filter(
+      (p) =>
+        p.x.asset.id !== LOCKED_TOKEN_ID && p.y.asset.id !== LOCKED_TOKEN_ID,
+    ),
   ),
   map((pools) => pools.map((p) => new AmmPool(p))),
   publishReplay(1),
