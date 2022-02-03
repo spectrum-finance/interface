@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 
 import { getPositionByAmmPoolId } from '../../api/positions';
+import { applicationConfig } from '../../applicationConfig';
 import { ReactComponent as RelockIcon } from '../../assets/icons/relock-icon.svg';
 import { ReactComponent as WithdrawalIcon } from '../../assets/icons/withdrawal-icon.svg';
 import { useSubject } from '../../common/hooks/useObservable';
@@ -150,6 +151,9 @@ export const PoolOverview: React.FC = () => {
                   size="large"
                   icon={<PlusOutlined />}
                   onClick={handleAddLiquidity}
+                  disabled={applicationConfig.blacklistedPools.includes(
+                    position.pool.id,
+                  )}
                   block
                 >
                   Increase Liquidity

@@ -10,6 +10,7 @@ import {
   debounceTime,
   distinctUntilChanged,
   filter,
+  first,
   map,
   Observable,
   of,
@@ -159,7 +160,7 @@ export const Swap = (): JSX.Element => {
       }),
       tap(() => form.patchValue({ pool: undefined })),
       switchMap(([fromAsset, toAsset]) =>
-        getSelectedPool(fromAsset?.id, toAsset?.id),
+        getSelectedPool(fromAsset?.id, toAsset?.id).pipe(first()),
       ),
     ),
     (pool) => form.patchValue({ pool }),
