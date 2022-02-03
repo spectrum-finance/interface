@@ -14,9 +14,6 @@ import { AmmPool } from '../../../common/models/AmmPool';
 import { appTick$ } from '../../../common/streams/appTick';
 import { nativeNetworkPools, networkPools } from './common';
 
-const BlacklistedAmmPoolId =
-  'bee300e9c81e48d7ab5fc29294c7bbb536cf9dcd9c91ee3be9898faec91b11b6';
-
 const nativeNetworkAmmPools$ = appTick$.pipe(
   switchMap(() =>
     defer(() => from(nativeNetworkPools().getAll({ limit: 100, offset: 0 }))),

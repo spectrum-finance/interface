@@ -44,6 +44,7 @@ export const applicationConfig: ApplicationConfig = {
     'bee300e9c81e48d7ab5fc29294c7bbb536cf9dcd9c91ee3be9898faec91b11b6',
     '4e497db00769f6402580c351c092ec6ae0306f08575c7a9c719267c84049c840',
     '61a579c46d92f2718576fc9839a2a1983f172e889ec234af8504b5bbf10edd89',
+    'e24d17f85ac406827b0436a648f3960d8965e677700949ff28ab0ca9a37dd50e',
   ],
   operationsRestrictions: [
     {
