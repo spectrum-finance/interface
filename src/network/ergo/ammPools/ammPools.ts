@@ -9,13 +9,10 @@ import {
   switchMap,
 } from 'rxjs';
 
+import { applicationConfig } from '../../../applicationConfig';
 import { AmmPool } from '../../../common/models/AmmPool';
 import { appTick$ } from '../../../common/streams/appTick';
-import { LOCKED_TOKEN_ID } from '../../../components/common/ActionForm/ActionButton/ActionButton';
 import { nativeNetworkPools, networkPools } from './common';
-
-const BlacklistedAmmPoolId =
-  'bee300e9c81e48d7ab5fc29294c7bbb536cf9dcd9c91ee3be9898faec91b11b6';
 
 const nativeNetworkAmmPools$ = appTick$.pipe(
   switchMap(() =>
@@ -41,14 +38,14 @@ export const ammPools$ = combineLatest([
 ]).pipe(
   debounceTime(200),
   map(([nativeNetworkPools, networkPools]) =>
-    nativeNetworkPools
-      .concat(networkPools)
-      .filter((p) => p.id != BlacklistedAmmPoolId),
+    nativeNetworkPools.concat(networkPools),
   ),
   map((pools) =>
     pools.filter(
       (p) =>
-        p.x.asset.id !== LOCKED_TOKEN_ID && p.y.asset.id !== LOCKED_TOKEN_ID,
+        !applicationConfig.hiddenAssets.includes(p.x.asset.id) &&
+        !applicationConfig.hiddenAssets.includes(p.y.asset.id) &&
+        !applicationConfig.blacklistedPools.includes(p.id),
     ),
   ),
   map((pools) => pools.map((p) => new AmmPool(p))),

@@ -14,6 +14,8 @@ export interface Network {
   readonly networkAssetBalance$: Observable<Currency>;
   readonly assetBalance$: Observable<Balance>;
   readonly lpBalance$: Observable<Balance>;
+  readonly lpAssets$: Observable<AssetInfo[]>;
+  readonly assets$: Observable<AssetInfo[]>;
   readonly addresses$: Observable<Address[]>;
   readonly locks$: Observable<AssetLock[]>;
   readonly ammPools$: Observable<AmmPool[]>;
