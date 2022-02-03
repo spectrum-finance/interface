@@ -1,19 +1,20 @@
 import './Swap.less';
 
+import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import { maxBy } from 'lodash';
 import { DateTime } from 'luxon';
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   BehaviorSubject,
   combineLatest,
   debounceTime,
   distinctUntilChanged,
-  filter,
   first,
   map,
   Observable,
   of,
+  skip,
   switchMap,
   tap,
 } from 'rxjs';
@@ -46,6 +47,13 @@ import { SwapTooltip } from './SwapTooltip/SwapTooltip';
 const getToAssets = (fromAsset?: string) =>
   fromAsset ? getAvailableAssetFor(fromAsset) : assets$;
 
+const isAssetsPairEquals = (
+  [prevFrom, prevTo]: [AssetInfo | undefined, AssetInfo | undefined],
+  [nextFrom, nextTo]: [AssetInfo | undefined, AssetInfo | undefined],
+) =>
+  (prevFrom?.id === nextFrom?.id && prevTo?.id === nextTo?.id) ||
+  (prevFrom?.id === nextTo?.id && prevTo?.id === nextFrom?.id);
+
 const getSelectedPool = (
   xId?: string,
   yId?: string,
@@ -53,6 +61,7 @@ const getSelectedPool = (
   xId && yId
     ? getAmmPoolsByAssetPair(xId, yId).pipe(
         map((pools) => maxBy(pools, (p) => p.lp.amount)),
+        first(),
       )
     : of(undefined);
 
@@ -64,6 +73,7 @@ export const Swap = (): JSX.Element => {
     toAsset: undefined,
     pool: undefined,
   });
+  const [lastEditedField, setLastEditedField] = useState<'from' | 'to'>('from');
   const networkAsset = useNetworkAsset();
   const [balance] = useAssetsBalance();
   const totalFees = useMaxTotalFees();
@@ -110,6 +120,9 @@ export const Swap = (): JSX.Element => {
     (toAsset?.id === LOCKED_TOKEN_ID || fromAsset?.id === LOCKED_TOKEN_ID) &&
     DateTime.now().toUTC().toMillis() < END_TIMER_DATE.toMillis();
 
+  const isPoolLoading = ({ fromAsset, toAsset, pool }: SwapFormModel) =>
+    !!fromAsset && !!toAsset && !pool;
+
   const submitSwap = (value: Required<SwapFormModel>) => {
     openConfirmationModal(
       (next) => {
@@ -134,14 +147,6 @@ export const Swap = (): JSX.Element => {
     updateToAssets$.next(token?.id),
   );
 
-  useSubscription(form.controls.fromAsset.valueChanges$, () =>
-    form.patchValue({
-      toAsset: undefined,
-      fromAmount: undefined,
-      toAmount: undefined,
-    }),
-  );
-
   useSubscription(
     combineLatest([
       form.controls.fromAsset.valueChangesWithSilent$.pipe(
@@ -152,62 +157,104 @@ export const Swap = (): JSX.Element => {
       ),
     ]).pipe(
       debounceTime(100),
-      distinctUntilChanged(([prevFrom, prevTo], [nextFrom, nextTo]) => {
-        return (
-          (prevFrom?.id === nextFrom?.id && prevTo?.id === nextTo?.id) ||
-          (prevFrom?.id === nextTo?.id && prevTo?.id === nextFrom?.id)
-        );
-      }),
+      distinctUntilChanged(isAssetsPairEquals),
       tap(() => form.patchValue({ pool: undefined })),
       switchMap(([fromAsset, toAsset]) =>
-        getSelectedPool(fromAsset?.id, toAsset?.id).pipe(first()),
+        getSelectedPool(fromAsset?.id, toAsset?.id),
       ),
     ),
-    (pool) => form.patchValue({ pool }),
+    (pool) => {
+      if (pool) {
+        form.patchValue({ pool });
+      } else {
+        form.patchValue(
+          {
+            pool,
+            toAsset: undefined,
+            toAmount:
+              lastEditedField === 'to' ? form.value.toAmount : undefined,
+            fromAmount:
+              lastEditedField === 'from' ? form.value.fromAmount : undefined,
+          },
+          { emitEvent: 'silent' },
+        );
+      }
+    },
+    [lastEditedField],
+  );
+
+  useSubscription(
+    form.controls.fromAmount.valueChanges$.pipe(skip(1)),
+    (value) => {
+      setLastEditedField('from');
+
+      if (form.value.pool && value) {
+        form.controls.toAmount.patchValue(
+          form.value.pool.calculateOutputAmount(value),
+          { emitEvent: 'silent' },
+        );
+      } else {
+        form.controls.toAmount.patchValue(undefined, { emitEvent: 'silent' });
+      }
+    },
+  );
+
+  useSubscription(
+    form.controls.toAmount.valueChanges$.pipe(skip(1)),
+    (value) => {
+      setLastEditedField('to');
+
+      if (form.value.pool && value) {
+        form.controls.fromAmount.patchValue(
+          form.value.pool.calculateInputAmount(value),
+          { emitEvent: 'silent' },
+        );
+      } else {
+        form.controls.fromAmount.patchValue(undefined, { emitEvent: 'silent' });
+      }
+    },
   );
 
   useSubscription(
     combineLatest([
-      form.controls.fromAmount.valueChangesWithSystem$,
+      form.controls.toAsset.valueChanges$,
+      form.controls.fromAsset.valueChanges$,
       form.controls.pool.valueChanges$,
-    ]).pipe(
-      debounceTime(100),
-      filter(([, pool]) => !!form.value.fromAsset && !!pool),
-    ),
-    ([amount, pool]) => {
-      form.patchValue(
-        { toAmount: amount ? pool?.calculateOutputAmount(amount) : undefined },
-        { emitEvent: 'silent' },
-      );
-    },
-  );
+    ]).pipe(debounceTime(200)),
+    ([, , pool]) => {
+      if (!pool) {
+        return;
+      }
+      const fromAmount = form.value.fromAmount;
+      const toAmount = form.value.toAmount;
 
-  useSubscription(
-    form.controls.toAmount.valueChanges$.pipe(
-      debounceTime(100),
-      filter(() => !!form.value.toAsset && !!form.value.pool),
-    ),
-    (amount) => {
-      form.patchValue(
-        {
-          fromAmount: amount
-            ? form.value.pool?.calculateInputAmount(amount)
-            : undefined,
-        },
-        { emitEvent: 'silent' },
-      );
+      if (lastEditedField === 'from' && fromAmount && fromAmount.isPositive()) {
+        form.controls.toAmount.patchValue(
+          pool.calculateOutputAmount(fromAmount),
+          { emitEvent: 'silent' },
+        );
+      }
+      if (lastEditedField === 'to' && toAmount && toAmount.isPositive()) {
+        form.controls.fromAmount.patchValue(
+          pool.calculateInputAmount(toAmount),
+          { emitEvent: 'silent' },
+        );
+      }
     },
+    [lastEditedField],
   );
 
   const switchAssets = () => {
     form.patchValue(
       {
         fromAsset: form.value.toAsset,
-        fromAmount: form.value.toAmount,
         toAsset: form.value.fromAsset,
+        fromAmount: form.value.toAmount,
+        toAmount: form.value.fromAmount,
       },
-      { emitEvent: 'system' },
+      { emitEvent: 'silent' },
     );
+    setLastEditedField((prev) => (prev === 'from' ? 'to' : 'from'));
   };
 
   const { t } = useTranslation();
@@ -219,6 +266,7 @@ export const Swap = (): JSX.Element => {
         actionButton="Swap"
         getInsufficientTokenNameForFee={getInsufficientTokenNameForFee}
         getInsufficientTokenNameForTx={getInsufficientTokenNameForTx}
+        isLoading={isPoolLoading}
         isAmountNotEntered={isAmountNotEntered}
         isTokensNotSelected={isTokensNotSelected}
         isLiquidityInsufficient={isLiquidityInsufficient}
