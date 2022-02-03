@@ -1,19 +1,18 @@
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import { uniqBy } from 'lodash';
-import { map, Observable, publishReplay, refCount } from 'rxjs';
+import { map, Observable, publishReplay, refCount, switchMap } from 'rxjs';
 
-import { pools$ } from './pools';
+import { selectedNetwork$ } from '../network/network';
+import { ammPools$ } from './ammPools';
 
-export const assets$ = pools$.pipe(
-  map((pools) => pools.flatMap((p) => [p.x.asset, p.y.asset])),
-  map((assets) => uniqBy(assets, 'id')),
+export const assets$ = selectedNetwork$.pipe(
+  switchMap((network) => network.assets$),
   publishReplay(1),
   refCount(),
 );
 
-export const lpAssets$ = pools$.pipe(
-  map((pools) => pools.map((p) => p.lp.asset)),
-  map((assets) => uniqBy(assets, 'id')),
+export const lpAssets$ = selectedNetwork$.pipe(
+  switchMap((network) => network.lpAssets$),
   publishReplay(1),
   refCount(),
 );
@@ -21,7 +20,7 @@ export const lpAssets$ = pools$.pipe(
 export const getAvailableAssetFor = (
   assetId: string,
 ): Observable<AssetInfo[]> =>
-  pools$.pipe(
+  ammPools$.pipe(
     map((pools) =>
       pools.filter((p) => p.x.asset.id === assetId || p.y.asset.id === assetId),
     ),

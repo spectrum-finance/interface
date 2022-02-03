@@ -19,6 +19,7 @@ import {
 
 import { getAmmPoolsByAssetPair } from '../../api/ammPools';
 import { useAssetsBalance } from '../../api/assetBalance';
+import { assets$, getAvailableAssetFor } from '../../api/assets';
 import { useSubscription } from '../../common/hooks/useObservable';
 import { AmmPool } from '../../common/models/AmmPool';
 import {
@@ -34,7 +35,6 @@ import {
 import { Page } from '../../components/Page/Page';
 import { Button, Flex, SwapOutlined, Typography } from '../../ergodex-cdk';
 import { useForm } from '../../ergodex-cdk/components/Form/NewForm';
-import { assets$, getAvailableAssetFor } from '../../services/new/assets';
 import { useMaxTotalFees, useNetworkAsset } from '../../services/new/core';
 import { OperationSettings } from './OperationSettings/OperationSettings';
 import { Ratio } from './Ratio/Ratio';
