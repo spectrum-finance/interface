@@ -1,3 +1,11 @@
+import { DateTime } from 'luxon';
+
+interface OperationRestriction {
+  readonly asset: string;
+  readonly restrictionEnd: DateTime;
+  readonly operation: 'swap' | 'liquidity';
+}
+
 interface ApplicationConfig {
   readonly api: string;
   readonly social: {
@@ -13,6 +21,7 @@ interface ApplicationConfig {
   };
   readonly applicationTick: number;
   readonly hiddenAssets: string[];
+  readonly operationsRestrictions: OperationRestriction[];
 }
 
 export const applicationConfig: ApplicationConfig = {
@@ -31,5 +40,12 @@ export const applicationConfig: ApplicationConfig = {
   applicationTick: 10 * 1000,
   hiddenAssets: [
     'd71693c49a84fbbecd4908c94813b46514b18b67a99952dc1e6e4791556de413',
+  ],
+  operationsRestrictions: [
+    {
+      asset: 'd71693c49a84fbbecd4908c94813b46514b18b67a99952dc1e6e4791556de413',
+      restrictionEnd: DateTime.utc(2022, 2, 2, 19, 0, 0),
+      operation: 'swap',
+    },
   ],
 };
