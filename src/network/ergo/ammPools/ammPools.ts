@@ -41,15 +41,14 @@ export const ammPools$ = combineLatest([
 ]).pipe(
   debounceTime(200),
   map(([nativeNetworkPools, networkPools]) =>
-    nativeNetworkPools
-      .concat(networkPools)
-      .filter((p) => p.id != BlacklistedAmmPoolId),
+    nativeNetworkPools.concat(networkPools),
   ),
   map((pools) =>
     pools.filter(
       (p) =>
         !applicationConfig.hiddenAssets.includes(p.x.asset.id) &&
-        !applicationConfig.hiddenAssets.includes(p.y.asset.id),
+        !applicationConfig.hiddenAssets.includes(p.y.asset.id) &&
+        !applicationConfig.blacklistedPools.includes(p.id),
     ),
   ),
   map((pools) => pools.map((p) => new AmmPool(p))),

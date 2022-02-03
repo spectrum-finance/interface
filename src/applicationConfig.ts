@@ -21,6 +21,7 @@ interface ApplicationConfig {
   };
   readonly applicationTick: number;
   readonly hiddenAssets: string[];
+  readonly blacklistedPools: string[];
   readonly operationsRestrictions: OperationRestriction[];
 }
 
@@ -38,8 +39,11 @@ export const applicationConfig: ApplicationConfig = {
     telegram: 'https://t.me/ergodex_community',
   },
   applicationTick: 10 * 1000,
-  hiddenAssets: [
-    'd71693c49a84fbbecd4908c94813b46514b18b67a99952dc1e6e4791556de413',
+  hiddenAssets: [],
+  blacklistedPools: [
+    'bee300e9c81e48d7ab5fc29294c7bbb536cf9dcd9c91ee3be9898faec91b11b6',
+    '4e497db00769f6402580c351c092ec6ae0306f08575c7a9c719267c84049c840',
+    '61a579c46d92f2718576fc9839a2a1983f172e889ec234af8504b5bbf10edd89',
   ],
   operationsRestrictions: [
     {
