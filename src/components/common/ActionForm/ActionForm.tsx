@@ -14,6 +14,7 @@ export interface ActionFormProps<T> {
   readonly children?: ReactNode | ReactNode[];
   readonly isTokensNotSelected?: (form: T) => boolean;
   readonly isAmountNotEntered?: (form: T) => boolean;
+  readonly isLoading?: (form: T) => boolean;
   readonly isLiquidityInsufficient?: (form: T) => boolean;
   readonly isSwapLocked?: (form: T) => boolean;
   readonly getInsufficientTokenNameForTx?: (form: T) => undefined | string;
@@ -32,6 +33,7 @@ export const ActionForm: FC<ActionFormProps<any>> = ({
   getInsufficientTokenNameForFee,
   isSwapLocked,
   getInsufficientTokenNameForTx,
+  isLoading,
   children,
 }) => {
   const [isOnline] = useObservable(isOnline$);
@@ -51,7 +53,7 @@ export const ActionForm: FC<ActionFormProps<any>> = ({
   useEffect(() => {
     if (!isOnline) {
       setButtonData({ state: ActionButtonState.CHECK_INTERNET_CONNECTION });
-    } else if (isWalletLoading) {
+    } else if (isWalletLoading || (isLoading && isLoading(value))) {
       setButtonData({ state: ActionButtonState.LOADING });
     } else if (isTokensNotSelected && isTokensNotSelected(value)) {
       setButtonData({ state: ActionButtonState.SELECT_TOKEN });

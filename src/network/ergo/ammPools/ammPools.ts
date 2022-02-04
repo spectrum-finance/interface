@@ -9,7 +9,6 @@ import {
   switchMap,
 } from 'rxjs';
 
-import { applicationConfig } from '../../../applicationConfig';
 import { AmmPool } from '../../../common/models/AmmPool';
 import { appTick$ } from '../../../common/streams/appTick';
 import { nativeNetworkPools, networkPools } from './common';
@@ -39,14 +38,6 @@ export const ammPools$ = combineLatest([
   debounceTime(200),
   map(([nativeNetworkPools, networkPools]) =>
     nativeNetworkPools.concat(networkPools),
-  ),
-  map((pools) =>
-    pools.filter(
-      (p) =>
-        !applicationConfig.hiddenAssets.includes(p.x.asset.id) &&
-        !applicationConfig.hiddenAssets.includes(p.y.asset.id) &&
-        !applicationConfig.blacklistedPools.includes(p.id),
-    ),
   ),
   map((pools) => pools.map((p) => new AmmPool(p))),
   publishReplay(1),
