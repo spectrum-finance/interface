@@ -73,15 +73,15 @@ const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
 
   const wallets = [
     {
-      name: 'Yoroi Nightly',
+      name: 'Yoroi Wallet',
       logo: <YoroiLogo />,
       onClick: () => {
         return connectYoroiWallet(walletCtx)().then((res) => {
           connectWallet();
           notification.info({
-            message: 'Yoroi Nightly tip',
+            message: 'Yoroi Wallet tip',
             description:
-              'Keep Yoroi Nightly extension window open, when you use ErgoDEX. So that it will sync faster.',
+              'Keep Yoroi Wallet extension window open, when you use ErgoDEX. So that it will sync faster.',
             duration: null,
           });
           return res;
