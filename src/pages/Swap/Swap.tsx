@@ -11,7 +11,6 @@ import {
   debounceTime,
   distinctUntilChanged,
   filter,
-  first,
   map,
   Observable,
   of,
@@ -62,7 +61,6 @@ const getSelectedPool = (
   xId && yId
     ? getAmmPoolsByAssetPair(xId, yId).pipe(
         map((pools) => maxBy(pools, (p) => p.lp.amount)),
-        first(),
       )
     : of(undefined);
 
