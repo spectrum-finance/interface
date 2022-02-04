@@ -10,6 +10,7 @@ import {
   combineLatest,
   debounceTime,
   distinctUntilChanged,
+  filter,
   first,
   map,
   Observable,
@@ -150,9 +151,11 @@ export const Swap = (): JSX.Element => {
   useSubscription(
     combineLatest([
       form.controls.fromAsset.valueChangesWithSilent$.pipe(
+        filter(Boolean),
         distinctUntilChanged(),
       ),
       form.controls.toAsset.valueChangesWithSilent$.pipe(
+        filter(Boolean),
         distinctUntilChanged(),
       ),
     ]).pipe(
