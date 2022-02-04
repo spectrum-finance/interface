@@ -28,8 +28,8 @@ export const getAmmPoolById = (
   );
 
 const byAssetPair = (xId: string, yId: string) => (p: AmmPool) =>
-  (p.x.asset.id === xId || p.y.asset.id === xId) &&
-  (p.x.asset.id === yId || p.y.asset.id === yId);
+  (p.x.asset.id === xId && p.y.asset.id === yId) ||
+  (p.x.asset.id === yId && p.y.asset.id === xId);
 export const getAmmPoolsByAssetPair = (
   xId: string,
   yId: string,
