@@ -221,12 +221,12 @@ export const Swap = (): JSX.Element => {
       form.controls.fromAsset.valueChanges$,
       form.controls.pool.valueChanges$,
     ]).pipe(debounceTime(200)),
-    ([, , pool]) => {
+    () => {
+      const { fromAmount, toAmount, pool } = form.value;
+
       if (!pool) {
         return;
       }
-      const fromAmount = form.value.fromAmount;
-      const toAmount = form.value.toAmount;
 
       if (lastEditedField === 'from' && fromAmount && fromAmount.isPositive()) {
         form.controls.toAmount.patchValue(
