@@ -59,7 +59,7 @@ Please see the [ErgoDEX](https://github.com/ergolabs/ergo-dex) repository for a 
 2. `yarn`
 3. `yarn start`
 4. Open localhost:3000 in Chrome.
-5. Install [Yoroi Nightly](https://chrome.google.com/webstore/detail/yoroi-nightly/poonlenmfdfbjfeeballhiibknlknepo?hl=en&authuser=0) and [Yoroi-dapp-connector Nightly](https://chrome.google.com/webstore/detail/yoroi-ergo-dapp-connector/chifollcalpmjdiokipacefnpmbgjnle/related?hl=en&authuser=0)
+5. Install [Yoroi Wallet](https://chrome.google.com/webstore/detail/yoroi/ffnbelfdoeiohenkjibnmadjiehjhajb)
 
 <!-- ROADMAP -->
 ## Roadmap
