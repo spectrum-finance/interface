@@ -133,7 +133,7 @@ const YoroiIssueModalContent = () => (
     </Flex.Item>
     <Flex.Item marginBottom={1}>
       <Typography.Body align="center">
-        Seems like Yoroi Nightly has an issue
+        Seems like Yoroi Wallet has an issue
       </Typography.Body>
     </Flex.Item>
     <Flex.Item marginBottom={1}>

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { applicationConfig } from '../../applicationConfig';
-import { YOROI_NIGHTLY_LINK } from '../../common/constants/env';
+import { YOROI_LINK } from '../../common/constants/env';
 import { WalletContextType } from '../../context';
 import { Typography } from '../../ergodex-cdk';
 import { walletCookies } from '../cookies';
@@ -12,8 +12,8 @@ export const connectYoroiWallet =
       return Promise.reject(
         <>
           To use ErgoDEX install{' '}
-          <Typography.Link href={YOROI_NIGHTLY_LINK} target="_blank">
-            Yoroi Nightly
+          <Typography.Link href={YOROI_LINK} target="_blank">
+            Yoroi Wallet
           </Typography.Link>{' '}
           .
         </>,
