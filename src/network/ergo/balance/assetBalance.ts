@@ -4,8 +4,6 @@ import {
   map,
   publishReplay,
   refCount,
-  tap,
-  zip,
 } from 'rxjs';
 
 import { Balance } from '../../../common/models/Balance';
