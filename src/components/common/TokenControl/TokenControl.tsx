@@ -56,6 +56,7 @@ export interface NewTokenControlProps {
   readonly tokenName?: string;
   readonly label?: ReactNode;
   readonly maxButton?: boolean;
+  readonly handleMaxButtonClick?: (balance: Currency) => Currency;
   readonly hasBorder?: boolean;
   readonly assets?: AssetInfo[];
   readonly assets$?: Observable<AssetInfo[]>;
@@ -77,6 +78,7 @@ export const TokenControlFormItem: FC<NewTokenControlProps> = ({
   readonly,
   noBottomInfo,
   bordered,
+  handleMaxButtonClick,
 }) => {
   const { t } = useTranslation();
   const { form } = useFormContext();
@@ -88,9 +90,11 @@ export const TokenControlFormItem: FC<NewTokenControlProps> = ({
   );
   const [isWalletLoading] = useObservable(isWalletLoading$);
 
-  const handleMaxButtonClick = (maxBalance: Currency) => {
+  const _handleMaxButtonClick = (maxBalance: Currency) => {
     if (amountName) {
-      form.controls[amountName].patchValue(maxBalance);
+      form.controls[amountName].patchValue(
+        handleMaxButtonClick ? handleMaxButtonClick(maxBalance) : maxBalance,
+      );
     }
   };
 
@@ -185,7 +189,7 @@ export const TokenControlFormItem: FC<NewTokenControlProps> = ({
                         type="primary"
                         size="small"
                         onClick={() =>
-                          handleMaxButtonClick(balance.get(selectedAsset))
+                          _handleMaxButtonClick(balance.get(selectedAsset))
                         }
                       >
                         {t`common.tokenControl.maxButton`}

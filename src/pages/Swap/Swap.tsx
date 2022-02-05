@@ -24,6 +24,7 @@ import { useAssetsBalance } from '../../api/assetBalance';
 import { assets$, getAvailableAssetFor } from '../../api/assets';
 import { useSubscription } from '../../common/hooks/useObservable';
 import { AmmPool } from '../../common/models/AmmPool';
+import { Currency } from '../../common/models/Currency';
 import {
   END_TIMER_DATE,
   LOCKED_TOKEN_ID,
@@ -134,6 +135,9 @@ export const Swap = (): JSX.Element => {
       },
     );
   };
+
+  const handleMaxButtonClick = (balance: Currency) =>
+    balance.asset.id === networkAsset.id ? balance.minus(totalFees) : balance;
 
   const isLiquidityInsufficient = ({ toAmount, pool }: SwapFormModel) => {
     if (!toAmount?.isPositive() || !pool) {
@@ -287,6 +291,7 @@ export const Swap = (): JSX.Element => {
           <Flex.Item marginBottom={1}>
             <TokenControlFormItem
               maxButton
+              handleMaxButtonClick={handleMaxButtonClick}
               assets$={assets$}
               label={t`swap.fromLabel`}
               amountName="fromAmount"
