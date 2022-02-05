@@ -4,7 +4,10 @@ import React, { FC } from 'react';
 import { Currency } from '../../../../common/models/Currency';
 import { TokenIcon } from '../../../../components/TokenIcon/TokenIcon';
 import { Flex, Typography } from '../../../../ergodex-cdk';
-import { AmmPoolConfidenceAnalytic, LocksGroup } from '../../LocksAnalytic';
+import {
+  AmmPoolConfidenceAnalytic,
+  LocksGroup,
+} from '../../AmmPoolConfidenceAnalytic';
 
 export interface AnalyticOverviewProps {
   data: LocksGroup | AmmPoolConfidenceAnalytic;
@@ -47,7 +50,7 @@ export const AnalyticOverview: FC<AnalyticOverviewProps> = ({ data }) => {
             <Typography.Body secondary>Share</Typography.Body>
           </Flex.Item>
           <Flex.Item>
-            <Typography.Body>{data.share}</Typography.Body>
+            <Typography.Body>{data.lockedPercent.toFixed(2)}%</Typography.Body>
           </Flex.Item>
         </Flex>
       </Flex.Item>

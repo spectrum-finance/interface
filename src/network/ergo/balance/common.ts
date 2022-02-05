@@ -10,7 +10,6 @@ import {
   publishReplay,
   refCount,
   switchMap,
-  tap,
 } from 'rxjs';
 
 import { explorer } from '../../../services/explorer';
