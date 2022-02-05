@@ -3,6 +3,7 @@ import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import {
   combineLatest,
   distinctUntilChanged,
+  exhaustMap,
   filter,
   from,
   interval,
@@ -85,7 +86,7 @@ export const appTick$ = walletState$.pipe(
 );
 
 export const utxos$ = appTick$.pipe(
-  switchMap(() => from(ergo.get_utxos())),
+  exhaustMap(() => from(ergo.get_utxos())),
   map((bs) => bs?.map((b) => ergoBoxFromProxy(b))),
   map((data) => data ?? []),
   publishReplay(1),
@@ -93,7 +94,7 @@ export const utxos$ = appTick$.pipe(
 );
 
 export const nativeTokenBalance$ = appTick$.pipe(
-  switchMap(() => from(ergo.get_balance(ERG_TOKEN_NAME))),
+  exhaustMap(() => from(ergo.get_balance(ERG_TOKEN_NAME))),
   map((balance) => renderFractions(balance, ERG_DECIMALS)),
   publishReplay(1),
   refCount(),
