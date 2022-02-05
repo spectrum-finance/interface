@@ -10,7 +10,7 @@ import {
   combineLatest,
   debounceTime,
   distinctUntilChanged,
-  first,
+  filter,
   map,
   Observable,
   of,
@@ -61,7 +61,6 @@ const getSelectedPool = (
   xId && yId
     ? getAmmPoolsByAssetPair(xId, yId).pipe(
         map((pools) => maxBy(pools, (p) => p.lp.amount)),
-        first(),
       )
     : of(undefined);
 
@@ -150,9 +149,11 @@ export const Swap = (): JSX.Element => {
   useSubscription(
     combineLatest([
       form.controls.fromAsset.valueChangesWithSilent$.pipe(
+        filter(Boolean),
         distinctUntilChanged(),
       ),
       form.controls.toAsset.valueChangesWithSilent$.pipe(
+        filter(Boolean),
         distinctUntilChanged(),
       ),
     ]).pipe(
