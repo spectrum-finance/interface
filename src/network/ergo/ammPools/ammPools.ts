@@ -6,7 +6,9 @@ import {
   map,
   publishReplay,
   refCount,
+  retry,
   switchMap,
+  tap,
 } from 'rxjs';
 
 import { AmmPool } from '../../../common/models/AmmPool';
@@ -15,7 +17,9 @@ import { nativeNetworkPools, networkPools } from './common';
 
 const nativeNetworkAmmPools$ = appTick$.pipe(
   switchMap(() =>
-    defer(() => from(nativeNetworkPools().getAll({ limit: 100, offset: 0 }))),
+    defer(() =>
+      from(nativeNetworkPools().getAll({ limit: 100, offset: 0 })),
+    ).pipe(retry(3)),
   ),
   map(([pools]) => pools),
   publishReplay(1),
@@ -24,7 +28,9 @@ const nativeNetworkAmmPools$ = appTick$.pipe(
 
 const networkAmmPools$ = appTick$.pipe(
   switchMap(() =>
-    defer(() => from(networkPools().getAll({ limit: 100, offset: 0 }))),
+    defer(() => from(networkPools().getAll({ limit: 100, offset: 0 }))).pipe(
+      retry(3),
+    ),
   ),
   map(([pools]) => pools),
   publishReplay(1),
@@ -40,6 +46,7 @@ export const ammPools$ = combineLatest([
     nativeNetworkPools.concat(networkPools),
   ),
   map((pools) => pools.map((p) => new AmmPool(p))),
+  tap((res) => console.log(res)),
   publishReplay(1),
   refCount(),
 );
