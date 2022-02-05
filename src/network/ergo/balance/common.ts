@@ -10,6 +10,7 @@ import {
   publishReplay,
   refCount,
   switchMap,
+  tap,
 } from 'rxjs';
 
 import { explorer } from '../../../services/explorer';
@@ -30,9 +31,7 @@ export const availableTokensData$: Observable<[bigint, AssetInfo][]> = utxos$
       combineLatest<[bigint, AssetInfo][]>(
         boxAssets.map((ba) =>
           from(explorer.getFullTokenInfo(ba.tokenId)).pipe(
-            map((assetInfo) => {
-              return [ba.amount, assetInfo as AssetInfo];
-            }),
+            map((assetInfo) => [ba.amount, assetInfo as AssetInfo]),
           ),
         ),
       ).pipe(defaultIfEmpty([])),

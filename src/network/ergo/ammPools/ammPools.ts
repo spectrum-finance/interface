@@ -1,14 +1,8 @@
-import {
-  combineLatest,
-  from,
-  map,
-  publishReplay,
-  refCount,
-  switchMap,
-} from 'rxjs';
+import { from, map, publishReplay, refCount, switchMap, tap, zip } from 'rxjs';
 
 import { AmmPool } from '../../../common/models/AmmPool';
 import { appTick$ } from '../../../common/streams/appTick';
+import { networkContext$ } from '../networkContext/networkContext';
 import { nativeNetworkPools, networkPools } from './common';
 
 const getNativeNetworkAmmPools = () =>
@@ -21,10 +15,8 @@ const getNetworkAmmPools = () =>
     map(([pools]) => pools),
   );
 
-export const ammPools$ = appTick$.pipe(
-  switchMap(() =>
-    combineLatest([getNativeNetworkAmmPools(), getNetworkAmmPools()]),
-  ),
+export const ammPools$ = networkContext$.pipe(
+  switchMap(() => zip([getNativeNetworkAmmPools(), getNetworkAmmPools()])),
   map(([nativeNetworkPools, networkPools]) =>
     nativeNetworkPools.concat(networkPools),
   ),

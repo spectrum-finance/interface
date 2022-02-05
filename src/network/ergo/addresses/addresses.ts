@@ -1,35 +1,15 @@
-import {
-  combineLatest,
-  debounceTime,
-  from,
-  map,
-  publishReplay,
-  refCount,
-  switchMap,
-} from 'rxjs';
+import { from, map, publishReplay, refCount, switchMap, zip } from 'rxjs';
 
 import { appTick$ } from '../../../common/streams/appTick';
 import { isWalletConnected$ } from '../../../services/new/core';
 
-const usedAddresses$ = isWalletConnected$.pipe(
-  switchMap(() => appTick$),
-  switchMap(() => from(ergo.get_used_addresses())),
-  publishReplay(1),
-  refCount(),
-);
+const getUsedAddresses = () => from(ergo.get_used_addresses());
 
-const unusedAddresses$ = isWalletConnected$.pipe(
-  switchMap(() => appTick$),
-  switchMap(() => from(ergo.get_unused_addresses())),
-  publishReplay(1),
-  refCount(),
-);
+const getUnusedAddresses = () => from(ergo.get_unused_addresses());
 
-export const addresses$ = combineLatest([
-  usedAddresses$,
-  unusedAddresses$,
-]).pipe(
-  debounceTime(200),
+export const addresses$ = isWalletConnected$.pipe(
+  switchMap(() => appTick$),
+  switchMap(() => zip(getUsedAddresses(), getUnusedAddresses())),
   map(([usedAddrs, unusedAddrs]) => unusedAddrs.concat(usedAddrs)),
   publishReplay(1),
   refCount(),

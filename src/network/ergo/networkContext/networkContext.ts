@@ -1,4 +1,5 @@
 import {
+  distinctUntilKeyChanged,
   from,
   map,
   Observable,
@@ -12,11 +13,12 @@ import { explorer } from '../../../services/explorer';
 
 //@ts-ignore
 export const networkContext$: Observable<{
-  height: number;
-  lastBlockId: number;
+  readonly height: number;
+  readonly lastBlockId: number;
 }> = appTick$.pipe(
   switchMap(() => from(explorer.getNetworkContext())),
   map((ctx) => ctx),
+  distinctUntilKeyChanged('height'),
   publishReplay(1),
   refCount(),
 );
