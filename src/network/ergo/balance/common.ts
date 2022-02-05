@@ -3,6 +3,7 @@ import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import {
   combineLatest,
   debounceTime,
+  defaultIfEmpty,
   from,
   map,
   Observable,
@@ -34,7 +35,7 @@ export const availableTokensData$: Observable<[bigint, AssetInfo][]> = utxos$
             }),
           ),
         ),
-      ),
+      ).pipe(defaultIfEmpty([])),
     ),
     map((availableTokensData) =>
       availableTokensData.filter(([, assetInfo]) => !!assetInfo),
