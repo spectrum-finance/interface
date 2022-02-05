@@ -8,7 +8,6 @@ import {
   refCount,
   retry,
   switchMap,
-  tap,
 } from 'rxjs';
 
 import { AmmPool } from '../../../common/models/AmmPool';
@@ -46,7 +45,6 @@ export const ammPools$ = combineLatest([
     nativeNetworkPools.concat(networkPools),
   ),
   map((pools) => pools.map((p) => new AmmPool(p))),
-  tap((res) => console.log(res)),
   publishReplay(1),
   refCount(),
 );
