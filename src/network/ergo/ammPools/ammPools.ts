@@ -1,7 +1,5 @@
 import {
   combineLatest,
-  debounceTime,
-  defer,
   from,
   map,
   publishReplay,
@@ -13,29 +11,20 @@ import { AmmPool } from '../../../common/models/AmmPool';
 import { appTick$ } from '../../../common/streams/appTick';
 import { nativeNetworkPools, networkPools } from './common';
 
-const nativeNetworkAmmPools$ = appTick$.pipe(
-  switchMap(() =>
-    defer(() => from(nativeNetworkPools().getAll({ limit: 100, offset: 0 }))),
-  ),
-  map(([pools]) => pools),
-  publishReplay(1),
-  refCount(),
-);
+const getNativeNetworkAmmPools = () =>
+  from(nativeNetworkPools().getAll({ limit: 100, offset: 0 })).pipe(
+    map(([pools]) => pools),
+  );
 
-const networkAmmPools$ = appTick$.pipe(
-  switchMap(() =>
-    defer(() => from(networkPools().getAll({ limit: 100, offset: 0 }))),
-  ),
-  map(([pools]) => pools),
-  publishReplay(1),
-  refCount(),
-);
+const getNetworkAmmPools = () =>
+  from(networkPools().getAll({ limit: 100, offset: 0 })).pipe(
+    map(([pools]) => pools),
+  );
 
-export const ammPools$ = combineLatest([
-  nativeNetworkAmmPools$,
-  networkAmmPools$,
-]).pipe(
-  debounceTime(200),
+export const ammPools$ = appTick$.pipe(
+  switchMap(() =>
+    combineLatest([getNativeNetworkAmmPools(), getNetworkAmmPools()]),
+  ),
   map(([nativeNetworkPools, networkPools]) =>
     nativeNetworkPools.concat(networkPools),
   ),
