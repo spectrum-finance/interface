@@ -21,7 +21,7 @@ import {
 
 import { getAmmPoolsByAssetPair } from '../../api/ammPools';
 import { useAssetsBalance } from '../../api/assetBalance';
-import { assets$, getAvailableAssetFor } from '../../api/assets';
+import { getAvailableAssetFor, tokenAssets$ } from '../../api/assets';
 import { useSubscription } from '../../common/hooks/useObservable';
 import { AmmPool } from '../../common/models/AmmPool';
 import { Currency } from '../../common/models/Currency';
@@ -46,7 +46,7 @@ import { SwapFormModel } from './SwapFormModel';
 import { SwapTooltip } from './SwapTooltip/SwapTooltip';
 
 const getToAssets = (fromAsset?: string) =>
-  fromAsset ? getAvailableAssetFor(fromAsset) : assets$;
+  fromAsset ? getAvailableAssetFor(fromAsset) : tokenAssets$;
 
 const isAssetsPairEquals = (
   [prevFrom, prevTo]: [AssetInfo | undefined, AssetInfo | undefined],
@@ -292,7 +292,7 @@ export const Swap = (): JSX.Element => {
             <TokenControlFormItem
               maxButton
               handleMaxButtonClick={handleMaxButtonClick}
-              assets$={assets$}
+              assets$={tokenAssets$}
               label={t`swap.fromLabel`}
               amountName="fromAmount"
               tokenName="fromAsset"
