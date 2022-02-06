@@ -1,6 +1,9 @@
 import {
+  catchError,
+  filter,
   from,
   map,
+  of,
   publishReplay,
   refCount,
   retry,
@@ -29,6 +32,8 @@ export const ammPools$ = networkContext$.pipe(
   map(([nativeNetworkPools, networkPools]) =>
     nativeNetworkPools.concat(networkPools),
   ),
+  catchError(() => of(undefined)),
+  filter(Boolean),
   map((pools) => pools.map((p) => new AmmPool(p))),
   publishReplay(1),
   refCount(),
