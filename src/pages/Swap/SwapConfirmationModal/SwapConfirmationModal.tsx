@@ -142,7 +142,7 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
               pk,
               poolId,
               baseInput: baseParams.baseInput,
-              minQuoteOutput: operationVars[1].minOutput.amount,
+              minQuoteOutput: operationVars[1].minOutput.amount * 2n,
               exFeePerToken: operationVars[0],
               uiFee: uiFeeNErg,
               quoteAsset,
