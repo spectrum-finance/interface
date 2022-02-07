@@ -6,6 +6,7 @@ import {
   map,
   publishReplay,
   refCount,
+  retry,
   switchMap,
 } from 'rxjs';
 
@@ -15,7 +16,9 @@ import { nativeNetworkPools, networkPools } from './common';
 
 const nativeNetworkAmmPools$ = appTick$.pipe(
   switchMap(() =>
-    defer(() => from(nativeNetworkPools().getAll({ limit: 100, offset: 0 }))),
+    defer(() =>
+      from(nativeNetworkPools().getAll({ limit: 100, offset: 0 })),
+    ).pipe(retry(3)),
   ),
   map(([pools]) => pools),
   publishReplay(1),
@@ -24,7 +27,9 @@ const nativeNetworkAmmPools$ = appTick$.pipe(
 
 const networkAmmPools$ = appTick$.pipe(
   switchMap(() =>
-    defer(() => from(networkPools().getAll({ limit: 100, offset: 0 }))),
+    defer(() => from(networkPools().getAll({ limit: 100, offset: 0 }))).pipe(
+      retry(3),
+    ),
   ),
   map(([pools]) => pools),
   publishReplay(1),
