@@ -6,7 +6,11 @@ export const getFormattedDateTime = (timestamp: bigint): string =>
   });
 
 export const getFormattedDate = (timestamp: bigint): string =>
-  DateTime.fromMillis(Number(timestamp)).toLocaleString(DateTime.DATE_FULL);
+  DateTime.fromMillis(Number(timestamp)).toLocaleString(DateTime.DATE_FULL, {
+    locale: 'en',
+  });
 
 export const getFormattedTime = (timestamp: bigint): string =>
-  DateTime.fromMillis(Number(timestamp)).toLocaleString(DateTime.TIME_SIMPLE);
+  DateTime.fromMillis(Number(timestamp)).toLocaleString(DateTime.TIME_SIMPLE, {
+    locale: 'en',
+  });
