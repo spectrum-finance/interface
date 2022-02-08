@@ -6,12 +6,12 @@ import { useObservable } from '../../../../common/hooks/useObservable';
 import { useWalletAddresses, WalletAddressState } from '../../../../context';
 import { Box, Flex, Menu, Modal, Skeleton } from '../../../../ergodex-cdk';
 import { isRefundableOperation } from '../../../../utils/ammOperations';
-import { getFormattedDate, getFormattedTime } from '../../../../utils/date';
 import { exploreTx } from '../../../../utils/redirect';
 import {
   openConfirmationModal,
   Operation,
 } from '../../../ConfirmationModal/ConfirmationModal';
+import { DateTimeView } from '../../DateTimeView/DateTimeView';
 import { OptionsButton } from '../../OptionsButton/OptionsButton';
 import { InputOutputColumn } from '../InputOutputColumn/InputOutputColumn';
 import { RefundConfirmationModal } from '../RefundConfirmationModal/RefundConfirmationModal';
@@ -87,7 +87,7 @@ const TxHistoryModal = (): JSX.Element => {
           </Flex.Item>
           {txs ? (
             normalizeOperations(txs)
-              .sort((a, b) => Number(a.timestamp) + Number(b.timestamp))
+              .sort((a, b) => b.timestamp.toMillis() - a.timestamp.toMillis())
               .map((op, index) => {
                 return (
                   <Flex.Item
@@ -107,9 +107,9 @@ const TxHistoryModal = (): JSX.Element => {
                           />
                         </Flex.Item>
                         <Flex.Item style={{ width: '28%' }}>
-                          {getFormattedDate(op.timestamp)}
+                          <DateTimeView value={op.timestamp} />
                           <br />
-                          {getFormattedTime(op.timestamp)}
+                          <DateTimeView type="time" value={op.timestamp} />
                         </Flex.Item>
                         <Flex.Item style={{ width: '20%' }}>
                           <TxTypeTag type={op.type} />

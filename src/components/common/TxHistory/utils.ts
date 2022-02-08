@@ -1,5 +1,6 @@
 import { AmmDexOperation } from '@ergolabs/ergo-dex-sdk';
 import { uniqBy } from 'lodash';
+import { DateTime } from 'luxon';
 
 import { Currency } from '../../../common/models/Currency';
 import { getAssetNameByMappedId } from '../../../utils/map';
@@ -9,6 +10,8 @@ import { Operation } from './types';
 export const normalizeOperations = (ops: AmmDexOperation[]): Operation[] => {
   return uniqBy(
     ops.reduce((acc, op) => {
+      const timestamp = DateTime.fromMillis(Number(op.timestamp));
+
       if (op.type === 'order') {
         if (op.order.type === 'swap') {
           return [
@@ -28,7 +31,7 @@ export const normalizeOperations = (ops: AmmDexOperation[]): Operation[] => {
               type: op.order.type,
               status: op.status,
               txId: op.txId,
-              timestamp: op.timestamp,
+              timestamp,
             },
           ];
         }
@@ -41,7 +44,7 @@ export const normalizeOperations = (ops: AmmDexOperation[]): Operation[] => {
               type: op.order.type,
               status: op.status,
               txId: op.txId,
-              timestamp: op.timestamp,
+              timestamp,
             },
           ];
         }
@@ -61,7 +64,7 @@ export const normalizeOperations = (ops: AmmDexOperation[]): Operation[] => {
               type: op.order.type,
               status: op.status,
               txId: op.txId,
-              timestamp: op.timestamp,
+              timestamp,
             },
           ];
         }
