@@ -6,7 +6,6 @@ import { cache } from 'decorator-cache-getter';
 import { evaluate } from 'mathjs';
 
 import { math, renderFractions } from '../../utils/math';
-import { normalizeAmount } from '../utils/amount';
 import { Currency } from './Currency';
 import { Ratio } from './Ratio';
 

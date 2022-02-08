@@ -1,10 +1,4 @@
-import {
-  combineLatest,
-  debounceTime,
-  map,
-  publishReplay,
-  refCount,
-} from 'rxjs';
+import { map, publishReplay, refCount, tap, zip } from 'rxjs';
 
 import { Position } from '../../../common/models/Position';
 import { ammPools$ } from '../ammPools/ammPools';
@@ -12,13 +6,12 @@ import { lpBalance$ } from '../balance/lpBalance';
 import { tokenLocksGroupedByLpAsset$ } from '../common/tokenLocks';
 import { networkContext$ } from '../networkContext/networkContext';
 
-export const positions$ = combineLatest([
+export const positions$ = zip([
   ammPools$,
   lpBalance$,
   tokenLocksGroupedByLpAsset$,
   networkContext$,
 ]).pipe(
-  debounceTime(200),
   map(
     ([ammPools, lpWalletBalance, tokenLocksGroupedByLpAsset, networkContext]) =>
       ammPools

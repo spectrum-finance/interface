@@ -1,7 +1,7 @@
 import './Ratio.less';
 
 import React, { FC, useState } from 'react';
-import { debounceTime, map, tap } from 'rxjs';
+import { debounceTime, map } from 'rxjs';
 
 import { useObservable } from '../../../common/hooks/useObservable';
 import { Currency } from '../../../common/models/Currency';
