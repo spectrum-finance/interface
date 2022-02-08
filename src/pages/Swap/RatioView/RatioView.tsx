@@ -1,10 +1,11 @@
 import './Ratio.less';
 
 import React, { FC, useState } from 'react';
-import { debounceTime, map } from 'rxjs';
+import { debounceTime, map, tap } from 'rxjs';
 
 import { useObservable } from '../../../common/hooks/useObservable';
 import { Currency } from '../../../common/models/Currency';
+import { Ratio } from '../../../common/models/Ratio';
 import { Animation, Typography } from '../../../ergodex-cdk';
 import { FormGroup } from '../../../ergodex-cdk/components/Form/NewForm';
 import { SwapFormModel } from '../SwapFormModel';
@@ -13,7 +14,7 @@ const calculateOutputPrice = ({
   fromAmount,
   fromAsset,
   pool,
-}: Required<SwapFormModel>): Currency => {
+}: Required<SwapFormModel>): Ratio => {
   if (fromAmount?.isPositive()) {
     return pool.calculateOutputPrice(fromAmount);
   } else {
@@ -25,7 +26,7 @@ const calculateInputPrice = ({
   toAmount,
   toAsset,
   pool,
-}: Required<SwapFormModel>): Currency => {
+}: Required<SwapFormModel>): Ratio => {
   if (toAmount?.isPositive()) {
     return pool.calculateInputPrice(toAmount);
   } else {
@@ -33,7 +34,7 @@ const calculateInputPrice = ({
   }
 };
 
-export const Ratio: FC<{ form: FormGroup<SwapFormModel> }> = ({ form }) => {
+export const RatioView: FC<{ form: FormGroup<SwapFormModel> }> = ({ form }) => {
   const [reversedRatio, setReversedRatio] = useState(false);
   const [ratio] = useObservable(
     form.valueChangesWithSilent$.pipe(
@@ -42,6 +43,7 @@ export const Ratio: FC<{ form: FormGroup<SwapFormModel> }> = ({ form }) => {
         if (!value.pool || !value.fromAsset) {
           return undefined;
         }
+
         if (reversedRatio) {
           return calculateInputPrice(value as Required<SwapFormModel>);
         } else {

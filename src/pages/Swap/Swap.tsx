@@ -40,7 +40,7 @@ import { Button, Flex, SwapOutlined, Typography } from '../../ergodex-cdk';
 import { useForm } from '../../ergodex-cdk/components/Form/NewForm';
 import { useMaxTotalFees, useNetworkAsset } from '../../services/new/core';
 import { OperationSettings } from './OperationSettings/OperationSettings';
-import { Ratio } from './Ratio/Ratio';
+import { RatioView } from './RatioView/RatioView';
 import { SwapConfirmationModal } from './SwapConfirmationModal/SwapConfirmationModal';
 import { SwapFormModel } from './SwapFormModel';
 import { SwapTooltip } from './SwapTooltip/SwapTooltip';
@@ -318,7 +318,7 @@ export const Swap = (): JSX.Element => {
               <SwapTooltip form={form} />
             </Flex.Item>
             <Flex.Item flex={1}>
-              <Ratio form={form} />
+              <RatioView form={form} />
             </Flex.Item>
           </Flex>
         </Flex>
