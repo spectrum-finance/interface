@@ -15,5 +15,5 @@ export type Operation = {
   type: OperationType;
   status: OperationStatus;
   txId: TxId;
-  timestamp: string;
+  timestamp: bigint;
 };

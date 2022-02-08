@@ -6,6 +6,7 @@ import { useObservable } from '../../../../common/hooks/useObservable';
 import { useWalletAddresses, WalletAddressState } from '../../../../context';
 import { Box, Flex, Menu, Modal, Skeleton } from '../../../../ergodex-cdk';
 import { isRefundableOperation } from '../../../../utils/ammOperations';
+import { getFormattedDate, getFormattedTime } from '../../../../utils/date';
 import { exploreTx } from '../../../../utils/redirect';
 import {
   openConfirmationModal,
@@ -75,7 +76,7 @@ const TxHistoryModal = (): JSX.Element => {
               <Flex.Item style={{ width: '28%' }}>
                 <Typography.Title level={5}>Date</Typography.Title>
               </Flex.Item>
-              <Flex.Item style={{ width: '16%' }}>
+              <Flex.Item style={{ width: '20%' }}>
                 <Typography.Title level={5}>Type</Typography.Title>
               </Flex.Item>
               <Flex.Item style={{ width: '16%' }}>
@@ -85,42 +86,47 @@ const TxHistoryModal = (): JSX.Element => {
             </Flex>
           </Flex.Item>
           {txs ? (
-            normalizeOperations(txs).map((op, index) => {
-              return (
-                <Flex.Item
-                  key={index}
-                  style={{
-                    borderBottom: '1px solid var(--ergo-default-border-color)',
-                  }}
-                >
-                  <Box transparent padding={[5, 0]}>
-                    <Flex justify="space-between" align="center">
-                      <Flex.Item style={{ width: '35%' }}>
-                        <InputOutputColumn
-                          type={op.type}
-                          x={op.assetX}
-                          y={op.assetY}
-                        />
-                      </Flex.Item>
-                      <Flex.Item style={{ width: '28%' }}>
-                        {op.timestamp}
-                      </Flex.Item>
-                      <Flex.Item style={{ width: '20%' }}>
-                        <TxTypeTag type={op.type} />
-                      </Flex.Item>
-                      <Flex.Item style={{ width: '16%' }}>
-                        <TxStatusTag status={op.status} />
-                      </Flex.Item>
-                      <Flex.Item style={{ width: '5%' }}>
-                        <OptionsButton type="text" placement="bottomLeft">
-                          {renderTxActionsMenu(op)}
-                        </OptionsButton>
-                      </Flex.Item>
-                    </Flex>
-                  </Box>
-                </Flex.Item>
-              );
-            })
+            normalizeOperations(txs)
+              .sort((a, b) => Number(a.timestamp) + Number(b.timestamp))
+              .map((op, index) => {
+                return (
+                  <Flex.Item
+                    key={index}
+                    style={{
+                      borderBottom:
+                        '1px solid var(--ergo-default-border-color)',
+                    }}
+                  >
+                    <Box transparent padding={[5, 0]}>
+                      <Flex justify="space-between" align="center">
+                        <Flex.Item style={{ width: '35%' }}>
+                          <InputOutputColumn
+                            type={op.type}
+                            x={op.assetX}
+                            y={op.assetY}
+                          />
+                        </Flex.Item>
+                        <Flex.Item style={{ width: '28%' }}>
+                          {getFormattedDate(op.timestamp)}
+                          <br />
+                          {getFormattedTime(op.timestamp)}
+                        </Flex.Item>
+                        <Flex.Item style={{ width: '20%' }}>
+                          <TxTypeTag type={op.type} />
+                        </Flex.Item>
+                        <Flex.Item style={{ width: '16%' }}>
+                          <TxStatusTag status={op.status} />
+                        </Flex.Item>
+                        <Flex.Item style={{ width: '5%' }}>
+                          <OptionsButton placement="bottomLeft">
+                            {renderTxActionsMenu(op)}
+                          </OptionsButton>
+                        </Flex.Item>
+                      </Flex>
+                    </Box>
+                  </Flex.Item>
+                );
+              })
           ) : (
             <Skeleton active>
               {/*TODO:REPLACE_WITH_ORIGINAL_LOADING[EDEX-476]*/}

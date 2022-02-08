@@ -2,7 +2,6 @@ import { AmmDexOperation } from '@ergolabs/ergo-dex-sdk';
 import { uniqBy } from 'lodash';
 
 import { Currency } from '../../../common/models/Currency';
-import { getFormattedDate } from '../../../utils/date';
 import { getAssetNameByMappedId } from '../../../utils/map';
 import { getVerifiedPoolByName } from '../../../utils/verification';
 import { Operation } from './types';
@@ -29,7 +28,7 @@ export const normalizeOperations = (ops: AmmDexOperation[]): Operation[] => {
               type: op.order.type,
               status: op.status,
               txId: op.txId,
-              timestamp: getFormattedDate(op.timestamp),
+              timestamp: op.timestamp,
             },
           ];
         }
@@ -42,7 +41,7 @@ export const normalizeOperations = (ops: AmmDexOperation[]): Operation[] => {
               type: op.order.type,
               status: op.status,
               txId: op.txId,
-              timestamp: getFormattedDate(op.timestamp),
+              timestamp: op.timestamp,
             },
           ];
         }
@@ -62,7 +61,7 @@ export const normalizeOperations = (ops: AmmDexOperation[]): Operation[] => {
               type: op.order.type,
               status: op.status,
               txId: op.txId,
-              timestamp: getFormattedDate(op.timestamp),
+              timestamp: op.timestamp,
             },
           ];
         }
