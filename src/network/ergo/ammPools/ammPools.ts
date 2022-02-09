@@ -11,6 +11,7 @@ import {
   zip,
 } from 'rxjs';
 
+import { applicationConfig } from '../../../applicationConfig';
 import { AmmPool } from '../../../common/models/AmmPool';
 import { networkContext$ } from '../networkContext/networkContext';
 import { nativeNetworkPools, networkPools } from './common';
@@ -18,13 +19,13 @@ import { nativeNetworkPools, networkPools } from './common';
 const getNativeNetworkAmmPools = () =>
   from(nativeNetworkPools().getAll({ limit: 100, offset: 0 })).pipe(
     map(([pools]) => pools),
-    retry(3),
+    retry(applicationConfig.requestRetryCount),
   );
 
 const getNetworkAmmPools = () =>
   from(networkPools().getAll({ limit: 100, offset: 0 })).pipe(
     map(([pools]) => pools),
-    retry(3),
+    retry(applicationConfig.requestRetryCount),
   );
 
 export const ammPools$ = networkContext$.pipe(

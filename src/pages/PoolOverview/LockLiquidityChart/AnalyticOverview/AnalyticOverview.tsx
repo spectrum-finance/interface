@@ -4,6 +4,7 @@ import React, { FC } from 'react';
 import { Currency } from '../../../../common/models/Currency';
 import { TokenIcon } from '../../../../components/TokenIcon/TokenIcon';
 import { Flex, Typography } from '../../../../ergodex-cdk';
+import { formatToPercent } from '../../../../services/number';
 import {
   AmmPoolConfidenceAnalytic,
   LocksGroup,
@@ -50,7 +51,9 @@ export const AnalyticOverview: FC<AnalyticOverviewProps> = ({ data }) => {
             <Typography.Body secondary>Share</Typography.Body>
           </Flex.Item>
           <Flex.Item>
-            <Typography.Body>{data.lockedPercent.toFixed(2)}%</Typography.Body>
+            <Typography.Body>
+              {formatToPercent(data.lockedPercent)}
+            </Typography.Body>
           </Flex.Item>
         </Flex>
       </Flex.Item>
