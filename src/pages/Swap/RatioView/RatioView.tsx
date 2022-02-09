@@ -52,8 +52,12 @@ export const RatioView: FC<{ form: FormGroup<SwapFormModel> }> = ({ form }) => {
       }),
       map((price) =>
         reversedRatio
-          ? `1 ${form.value.toAsset?.name} = ${price?.toString()}`
-          : `1 ${form.value.fromAsset?.name} = ${price?.toString()}`,
+          ? `1 ${form.value.toAsset?.name} = ${price?.toString()} ${
+              price?.asset.name
+            }`
+          : `1 ${form.value.fromAsset?.name} = ${price?.toString()} ${
+              price?.asset.name
+            }`,
       ),
     ),
     [form, reversedRatio],

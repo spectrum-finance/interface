@@ -17,13 +17,7 @@ export class Ratio {
     );
   }
 
-  toString(config?: { suffix: boolean }): string {
-    if (!config || !!config?.suffix) {
-      return `${renderFractions(this.amount, this.decimals)} ${
-        this.asset.name
-      }`;
-    }
-
+  toString(): string {
     return `${renderFractions(this.amount, this.decimals)}`;
   }
 
