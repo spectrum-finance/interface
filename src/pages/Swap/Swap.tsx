@@ -110,8 +110,18 @@ export const Swap = (): JSX.Element => {
     return undefined;
   };
 
-  const isAmountNotEntered = ({ toAmount, fromAmount }: SwapFormModel) =>
-    !fromAmount?.isPositive() || !toAmount?.isPositive();
+  const isAmountNotEntered = ({ toAmount, fromAmount }: SwapFormModel) => {
+    if (
+      !fromAmount?.isPositive() &&
+      toAmount &&
+      toAmount.isPositive() &&
+      toAmount.gt(balance.get(toAmount.asset))
+    ) {
+      return false;
+    }
+
+    return !fromAmount?.isPositive() || !toAmount?.isPositive();
+  };
 
   const isTokensNotSelected = ({ toAsset, fromAsset }: SwapFormModel) =>
     !toAsset || !fromAsset;
