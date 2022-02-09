@@ -8,7 +8,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/ergolabs/ergo-dex-frontend/">
-    <img src="src/assets/images/logo.svg" alt="Logo" width="150">
+    <img src="src/assets/images/Logo.svg" alt="Logo" width="150">
   </a>
 <!--   <h3 align="center">Calamity</h3>O -->
 
