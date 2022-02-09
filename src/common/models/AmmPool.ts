@@ -157,9 +157,10 @@ export class AmmPool {
     const firstAmount = renderFractions(first.amount, first.asset.decimals);
     const secondAmount = renderFractions(second.amount, second.asset.decimals);
 
-    return new Ratio(
-      math.evaluate!(`${firstAmount} / ${secondAmount}`).toString(),
-      first.asset,
-    );
+    const ratioAmount = math.evaluate!(
+      `${firstAmount} / ${secondAmount}`,
+    ).toString();
+
+    return new Ratio(ratioAmount, first.asset);
   }
 }
