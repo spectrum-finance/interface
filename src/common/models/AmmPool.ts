@@ -88,14 +88,11 @@ export class AmmPool {
     }
 
     if (inputCurrency.amount === 1n) {
-      return new Ratio(
-        outputCurrency.toString({ suffix: false }),
-        outputCurrency.asset,
-      );
+      return new Ratio(outputCurrency.toAmount(), outputCurrency.asset);
     }
 
-    const fmtInput = inputCurrency.toString({ suffix: false });
-    const fmtOutput = outputCurrency.toString({ suffix: false });
+    const fmtInput = inputCurrency.toAmount();
+    const fmtOutput = outputCurrency.toAmount();
 
     const p = math.evaluate!(`${fmtOutput} / ${fmtInput}`).toString();
 
@@ -112,14 +109,11 @@ export class AmmPool {
     }
 
     if (outputCurrency.amount === 1n) {
-      return new Ratio(
-        inputCurrency.toString({ suffix: false }),
-        inputCurrency.asset,
-      );
+      return new Ratio(inputCurrency.toAmount(), inputCurrency.asset);
     }
 
-    const fmtInput = inputCurrency.toString({ suffix: false });
-    const fmtOutput = outputCurrency.toString({ suffix: false });
+    const fmtInput = inputCurrency.toAmount();
+    const fmtOutput = outputCurrency.toAmount();
 
     const p = math.evaluate!(`${fmtInput} / ${fmtOutput}`).toString();
 

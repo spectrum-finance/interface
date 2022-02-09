@@ -23,7 +23,7 @@ const TxInfoTooltipContent: FC<{ value: SwapFormModel }> = ({ value }) => {
           minExFee.amount,
           nitro,
           getBaseInputParameters(value.pool['pool']!, {
-            inputAmount: value.fromAmount?.toString({ suffix: false })!,
+            inputAmount: value.fromAmount?.toAmount()!,
             inputAsset: value.fromAsset!,
             slippage,
           }).minOutput,
@@ -57,7 +57,7 @@ const TxInfoTooltipContent: FC<{ value: SwapFormModel }> = ({ value }) => {
       <Flex.Item>
         <Flex justify="space-between">
           <Flex.Item marginRight={6}>Total Fees:</Flex.Item>
-          {totalFees.toString()}
+          {totalFees.toCurrencyString()}
         </Flex>
       </Flex.Item>
     </Flex>

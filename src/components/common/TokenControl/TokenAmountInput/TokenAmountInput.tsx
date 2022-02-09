@@ -46,8 +46,8 @@ const TokenAmountInput: React.FC<TokenAmountInputProps> = ({
   const [userInput, setUserInput] = useState<string | undefined>(undefined);
 
   useEffect(() => {
-    if (Number(value?.toString({ suffix: false })) !== Number(userInput)) {
-      setUserInput(value?.toString({ suffix: false }));
+    if (Number(value?.toAmount()) !== Number(userInput)) {
+      setUserInput(value?.toAmount());
     }
   }, [value]);
 
@@ -55,7 +55,7 @@ const TokenAmountInput: React.FC<TokenAmountInputProps> = ({
     if (value && asset) {
       const newValue = value?.changeAsset(asset);
 
-      setUserInput(newValue.toString({ suffix: false }));
+      setUserInput(newValue?.toAmount());
 
       if (onChange && value.asset.id !== asset.id) {
         onChange(newValue, { emitEvent: 'silent' });

@@ -115,7 +115,7 @@ const AddLiquidityConfirmationModal: FC<AddLiquidityConfirmationModalProps> = ({
                             <Flex.Item marginRight={1}>
                               Execution Fee:
                             </Flex.Item>
-                            <Flex.Item>{minExFee.toString()}</Flex.Item>
+                            <Flex.Item>{minExFee.toCurrencyString()}</Flex.Item>
                           </Flex>
                         </Flex.Item>
 
@@ -133,7 +133,7 @@ const AddLiquidityConfirmationModal: FC<AddLiquidityConfirmationModalProps> = ({
                 </Flex.Item>
                 <Flex.Item>
                   <Typography.Text strong>
-                    {totalFees.toString()}
+                    {totalFees.toCurrencyString()}
                   </Typography.Text>
                 </Flex.Item>
               </Flex>

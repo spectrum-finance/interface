@@ -33,7 +33,7 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
           marginLeft={1}
         >
           <Typography.Body style={{ whiteSpace: 'nowrap', fontSize: '16px' }}>
-            {balance?.toString() ?? <LoadingOutlined />}
+            {balance?.toCurrencyString() ?? <LoadingOutlined />}
           </Typography.Body>
         </Flex.Item>
         <Flex.Item>

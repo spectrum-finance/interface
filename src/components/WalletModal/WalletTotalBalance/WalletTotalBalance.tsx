@@ -23,7 +23,7 @@ export const WalletTotalBalance: React.FC<WalletTotalBalanceProps> = ({
           </Flex.Item>
           <Flex.Item flex={1}>
             <Typography.Title level={4}>
-              {balance?.toString() ?? <LoadingOutlined />}
+              {balance?.toCurrencyString() ?? <LoadingOutlined />}
             </Typography.Title>
           </Flex.Item>
           <Flex.Item>

@@ -180,7 +180,7 @@ export const TokenControlFormItem: FC<NewTokenControlProps> = ({
                     <Flex.Item marginRight={2}>
                       <Typography.Body>
                         {t`common.tokenControl.balanceLabel`}{' '}
-                        {balance.get(selectedAsset).toString()}
+                        {balance.get(selectedAsset).toCurrencyString()}
                       </Typography.Body>
                     </Flex.Item>
                     {!!balance.get(selectedAsset) && maxButton && (

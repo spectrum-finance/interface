@@ -22,7 +22,7 @@ export const TokenListItem: React.FC<TokenListItemProps> = ({ currency }) => (
           </Flex>
         </Flex>
       </Flex.Item>
-      <Typography.Body>{currency.toString({ suffix: false })}</Typography.Body>
+      <Typography.Body>{currency.toAmount()}</Typography.Body>
     </Flex>
   </Box>
 );
