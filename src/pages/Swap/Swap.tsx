@@ -160,7 +160,12 @@ export const Swap = (): JSX.Element => {
   const submitSwap = (value: Required<SwapFormModel>) => {
     openConfirmationModal(
       (next) => {
-        return <SwapConfirmationModal value={value} onClose={next} />;
+        return (
+          <SwapConfirmationModal
+            value={value}
+            onClose={(request: Promise<any>) => next(request.then(resetForm))}
+          />
+        );
       },
       Operation.SWAP,
       {
@@ -169,6 +174,12 @@ export const Swap = (): JSX.Element => {
       },
     );
   };
+
+  const resetForm = () =>
+    form.patchValue(
+      { fromAmount: undefined, toAmount: undefined },
+      { emitEvent: 'silent' },
+    );
 
   const handleMaxButtonClick = (balance: Currency) =>
     balance.asset.id === networkAsset.id ? balance.minus(totalFees) : balance;
