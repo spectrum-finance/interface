@@ -3,11 +3,13 @@ import { TokenLock } from '@ergolabs/ergo-dex-sdk/build/main/security/entities';
 import { map, Observable, publishReplay, refCount, switchMap } from 'rxjs';
 
 import { explorer } from '../../../services/explorer';
-import { addresses$ } from '../addresses/addresses';
+import { getAddresses } from '../addresses/addresses';
+import { networkContext$ } from '../networkContext/networkContext';
 
 export const locksHistory = mkLocksHistory(explorer, mkLockParser());
 
-export const tokenLocks$: Observable<TokenLock[]> = addresses$.pipe(
+export const tokenLocks$: Observable<TokenLock[]> = networkContext$.pipe(
+  switchMap(() => getAddresses()),
   switchMap((addresses) => locksHistory.getAllByAddresses(addresses)),
   map((locks) => locks.filter((l) => l.active)),
   publishReplay(1),

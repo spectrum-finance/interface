@@ -114,7 +114,7 @@ export class Currency {
     if (this.amount === 0n) {
       return this;
     }
-    const fmtAmount = this.toString({ suffix: false });
+    const fmtAmount = this.toAmount();
     const newAmount = math.evaluate!(
       `${fmtAmount} / 100 * ${percent}`,
     ).toString();
@@ -122,14 +122,14 @@ export class Currency {
     return new Currency(normalizeAmount(newAmount, this.asset), this.asset);
   }
 
-  toString(config?: { suffix: boolean }): string {
-    if ((!config || !!config?.suffix) && !isUnknownAsset(this.asset)) {
-      return `${renderFractions(this.amount, this.asset.decimals)} ${
-        this.asset.name
-      }`;
-    }
+  toAmount(): string {
+    return renderFractions(this.amount, this.asset.decimals);
+  }
 
-    return `${renderFractions(this.amount, this.asset.decimals)}`;
+  toCurrencyString(): string {
+    return `${this.toAmount()} ${
+      isUnknownAsset(this.asset) ? '' : this.asset.name
+    }`;
   }
 
   toUsd(): void {}

@@ -20,7 +20,7 @@ import {
 
 import { getAmmPoolById, getAmmPoolsByAssetPair } from '../../../api/ammPools';
 import { useAssetsBalance } from '../../../api/assetBalance';
-import { assets$, getAvailableAssetFor } from '../../../api/assets';
+import { getAvailableAssetFor, tokenAssets$ } from '../../../api/assets';
 import {
   useObservable,
   useSubject,
@@ -215,7 +215,7 @@ const AddLiquidity = (): JSX.Element => {
               <Typography.Body strong>Select Pair</Typography.Body>
               <Flex justify="center" align="center">
                 <Flex.Item marginRight={2} style={{ width: '100%' }}>
-                  <TokeSelectFormItem name="x" assets$={assets$} />
+                  <TokeSelectFormItem name="x" assets$={tokenAssets$} />
                 </Flex.Item>
                 <Flex.Item style={{ width: '100%' }}>
                   <TokeSelectFormItem name="y" assets$={yAssets$} />
@@ -249,7 +249,7 @@ const AddLiquidity = (): JSX.Element => {
                     disabled={!isPairSelected}
                     amountName="xAmount"
                     tokenName="x"
-                    assets$={assets$}
+                    assets$={tokenAssets$}
                   />
                 </Flex.Item>
                 <Flex.Item>

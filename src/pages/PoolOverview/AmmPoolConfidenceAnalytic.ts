@@ -12,7 +12,6 @@ import {
   AmmPoolLocksAnalytic,
   getPoolLocksAnalyticsById,
 } from '../../services/new/analytics';
-import { math } from '../../utils/math';
 
 const MIN_RELEVANT_PCT_VALUE = 0.01;
 
@@ -58,15 +57,6 @@ export class LocksGroup {
     });
   }
 
-  @cache
-  get share(): Currency {
-    const lpAmount = this.lockedLp.toString({ suffix: false });
-    const poolLiquidityAmount = this.pool.lp.toString({ suffix: false });
-    return math.evaluate!(
-      `${lpAmount} / (${poolLiquidityAmount}) * 100`,
-    ).toFixed(2);
-  }
-
   constructor(
     public readonly pool: AmmPool,
     private locksAnalytic: AmmPoolLocksAnalytic[],
@@ -91,15 +81,6 @@ export class AmmPoolConfidenceAnalytic {
   }
 
   @cache
-  get share(): Currency {
-    const lpAmount = this.lockedLp.toString({ suffix: false });
-    const poolLiquidityAmount = this.pool.lp.toString({ suffix: false });
-    return math.evaluate!(
-      `${lpAmount} / (${poolLiquidityAmount}) * 100`,
-    ).toFixed(2);
-  }
-
-  @cache
   get lockedX(): Currency {
     const [lockedX] = this.pool.shares(this.lockedLp);
 
@@ -120,20 +101,16 @@ export class AmmPoolConfidenceAnalytic {
   ) {
     this.locksGroups = Object.values(
       locksAnalytic.reduce(this.groupByDeadline, {}),
-    ).map(
-      (items) =>
-        new LocksGroup(
-          this.pool,
-          items.filter((item) => item.percent >= MIN_RELEVANT_PCT_VALUE),
-          networkHeight,
-        ),
-    );
+    ).map((items) => new LocksGroup(this.pool, items, networkHeight));
   }
 
   private groupByDeadline(
     acc: Dictionary<AmmPoolLocksAnalytic[]>,
     lockAnalytic: AmmPoolLocksAnalytic,
   ) {
+    if (lockAnalytic.percent < MIN_RELEVANT_PCT_VALUE) {
+      return acc;
+    }
     if (!acc[lockAnalytic.deadline]) {
       acc[lockAnalytic.deadline] = [];
     }

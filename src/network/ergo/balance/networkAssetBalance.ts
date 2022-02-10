@@ -9,10 +9,12 @@ import {
 
 import { Currency } from '../../../common/models/Currency';
 import { explorer } from '../../../services/explorer';
-import { addresses$ } from '../addresses/addresses';
+import { getAddresses } from '../addresses/addresses';
 import { networkAsset } from '../networkAsset/networkAsset';
+import { networkContext$ } from '../networkContext/networkContext';
 
-export const networkAssetBalance$ = addresses$.pipe(
+export const networkAssetBalance$ = networkContext$.pipe(
+  switchMap(() => getAddresses()),
   switchMap((addresses) =>
     combineLatest(
       addresses.map((address) => from(explorer.getBalanceByAddress(address))),

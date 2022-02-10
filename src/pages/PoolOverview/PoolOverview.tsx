@@ -21,8 +21,8 @@ import {
   Skeleton,
   Typography,
 } from '../../ergodex-cdk';
+import { getAmmPoolConfidenceAnalyticByAmmPoolId } from './AmmPoolConfidenceAnalytic';
 import { LockLiquidityChart } from './LockLiquidityChart/LockLiquidityChart';
-import { getAmmPoolConfidenceAnalyticByAmmPoolId } from './LocksAnalytic';
 import { PoolFeeTag } from './PoolFeeTag/PoolFeeTag';
 import { PoolRatio } from './PoolRatio/PoolRatio';
 

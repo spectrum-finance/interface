@@ -4,7 +4,11 @@ import React, { FC } from 'react';
 import { Currency } from '../../../../common/models/Currency';
 import { TokenIcon } from '../../../../components/TokenIcon/TokenIcon';
 import { Flex, Typography } from '../../../../ergodex-cdk';
-import { AmmPoolConfidenceAnalytic, LocksGroup } from '../../LocksAnalytic';
+import { formatToPercent } from '../../../../services/number';
+import {
+  AmmPoolConfidenceAnalytic,
+  LocksGroup,
+} from '../../AmmPoolConfidenceAnalytic';
 
 export interface AnalyticOverviewProps {
   data: LocksGroup | AmmPoolConfidenceAnalytic;
@@ -19,7 +23,7 @@ const AmountOverview: FC<{ currency: Currency }> = ({ currency }) => (
       <Typography.Body>{currency.asset.name}</Typography.Body>
     </Flex.Item>
     <Flex.Item>
-      <Typography.Body>{currency.toString({ suffix: false })}</Typography.Body>
+      <Typography.Body>{currency.toAmount()}</Typography.Body>
     </Flex.Item>
   </Flex>
 );
@@ -47,7 +51,9 @@ export const AnalyticOverview: FC<AnalyticOverviewProps> = ({ data }) => {
             <Typography.Body secondary>Share</Typography.Body>
           </Flex.Item>
           <Flex.Item>
-            <Typography.Body>{data.share}</Typography.Body>
+            <Typography.Body>
+              {formatToPercent(data.lockedPercent)}
+            </Typography.Body>
           </Flex.Item>
         </Flex>
       </Flex.Item>

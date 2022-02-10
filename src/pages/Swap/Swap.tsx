@@ -21,9 +21,10 @@ import {
 
 import { getAmmPoolsByAssetPair } from '../../api/ammPools';
 import { useAssetsBalance } from '../../api/assetBalance';
-import { assets$, getAvailableAssetFor } from '../../api/assets';
+import { getAvailableAssetFor, tokenAssets$ } from '../../api/assets';
 import { useSubscription } from '../../common/hooks/useObservable';
 import { AmmPool } from '../../common/models/AmmPool';
+import { Currency } from '../../common/models/Currency';
 import {
   END_TIMER_DATE,
   LOCKED_TOKEN_ID,
@@ -39,13 +40,13 @@ import { Button, Flex, SwapOutlined, Typography } from '../../ergodex-cdk';
 import { useForm } from '../../ergodex-cdk/components/Form/NewForm';
 import { useMaxTotalFees, useNetworkAsset } from '../../services/new/core';
 import { OperationSettings } from './OperationSettings/OperationSettings';
-import { Ratio } from './Ratio/Ratio';
+import { RatioView } from './RatioView/RatioView';
 import { SwapConfirmationModal } from './SwapConfirmationModal/SwapConfirmationModal';
 import { SwapFormModel } from './SwapFormModel';
 import { SwapTooltip } from './SwapTooltip/SwapTooltip';
 
 const getToAssets = (fromAsset?: string) =>
-  fromAsset ? getAvailableAssetFor(fromAsset) : assets$;
+  fromAsset ? getAvailableAssetFor(fromAsset) : tokenAssets$;
 
 const isAssetsPairEquals = (
   [prevFrom, prevTo]: [AssetInfo | undefined, AssetInfo | undefined],
@@ -109,8 +110,18 @@ export const Swap = (): JSX.Element => {
     return undefined;
   };
 
-  const isAmountNotEntered = ({ toAmount, fromAmount }: SwapFormModel) =>
-    !fromAmount?.isPositive() || !toAmount?.isPositive();
+  const isAmountNotEntered = ({ toAmount, fromAmount }: SwapFormModel) => {
+    if (
+      !fromAmount?.isPositive() &&
+      toAmount &&
+      toAmount.isPositive() &&
+      toAmount.gt(balance.get(toAmount.asset))
+    ) {
+      return false;
+    }
+
+    return !fromAmount?.isPositive() || !toAmount?.isPositive();
+  };
 
   const isTokensNotSelected = ({ toAsset, fromAsset }: SwapFormModel) =>
     !toAsset || !fromAsset;
@@ -134,6 +145,9 @@ export const Swap = (): JSX.Element => {
       },
     );
   };
+
+  const handleMaxButtonClick = (balance: Currency) =>
+    balance.asset.id === networkAsset.id ? balance.minus(totalFees) : balance;
 
   const isLiquidityInsufficient = ({ toAmount, pool }: SwapFormModel) => {
     if (!toAmount?.isPositive() || !pool) {
@@ -287,7 +301,8 @@ export const Swap = (): JSX.Element => {
           <Flex.Item marginBottom={1}>
             <TokenControlFormItem
               maxButton
-              assets$={assets$}
+              handleMaxButtonClick={handleMaxButtonClick}
+              assets$={tokenAssets$}
               label={t`swap.fromLabel`}
               amountName="fromAmount"
               tokenName="fromAsset"
@@ -313,7 +328,7 @@ export const Swap = (): JSX.Element => {
               <SwapTooltip form={form} />
             </Flex.Item>
             <Flex.Item flex={1}>
-              <Ratio form={form} />
+              <RatioView form={form} />
             </Flex.Item>
           </Flex>
         </Flex>

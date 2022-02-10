@@ -38,7 +38,7 @@ const LockItemView: FC<LockItemViewProps> = ({ position }) => {
                       </Flex>
                     </Flex.Item>
                     <Typography.Title level={5}>
-                      {position.lockedX.toString({ suffix: false })}
+                      {position.lockedX.toAmount()}
                     </Typography.Title>
                   </Flex>
                 </Box>
@@ -57,7 +57,7 @@ const LockItemView: FC<LockItemViewProps> = ({ position }) => {
                       </Flex>
                     </Flex.Item>
                     <Typography.Title level={5}>
-                      {position.lockedY.toString({ suffix: false })}
+                      {position.lockedY.toAmount()}
                     </Typography.Title>
                   </Flex>
                 </Box>
@@ -85,9 +85,7 @@ const LockItemView: FC<LockItemViewProps> = ({ position }) => {
                       </Flex>
                     </Flex.Item>
                     <Typography.Title level={5}>
-                      {position.withdrawableLockedX.toString({
-                        suffix: false,
-                      })}
+                      {position.withdrawableLockedX.toAmount()}
                     </Typography.Title>
                   </Flex>
                 </Box>
@@ -106,9 +104,7 @@ const LockItemView: FC<LockItemViewProps> = ({ position }) => {
                       </Flex>
                     </Flex.Item>
                     <Typography.Title level={5}>
-                      {position.withdrawableLockedY.toString({
-                        suffix: false,
-                      })}
+                      {position.withdrawableLockedY.toAmount()}
                     </Typography.Title>
                   </Flex>
                 </Box>

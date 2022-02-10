@@ -6,7 +6,6 @@ import {
   exhaustMap,
   filter,
   from,
-  interval,
   map,
   mapTo,
   Observable,
@@ -24,6 +23,7 @@ import { useObservable } from '../../common/hooks/useObservable';
 import { Currency } from '../../common/models/Currency';
 import { normalizeAmount } from '../../common/utils/amount';
 import { useSettings } from '../../context';
+import { networkContext$ } from '../../network/ergo/networkContext/networkContext';
 import { walletCookies } from '../../utils/cookies';
 import { renderFractions } from '../../utils/math';
 import { calculateTotalFee } from '../../utils/transactions';
@@ -80,7 +80,7 @@ export const isWalletConnected$ = walletState$.pipe(
 
 export const appTick$ = walletState$.pipe(
   filter((state) => state === WalletState.CONNECTED),
-  switchMap(() => interval(UPDATE_TIME).pipe(startWith(0))),
+  switchMap(() => networkContext$),
   publishReplay(1),
   refCount(),
 );
@@ -109,19 +109,6 @@ export const isWalletLoading$ = combineLatest([
   publishReplay(1),
   refCount(),
 );
-
-export const getTokenBalance = (tokenId: string): Observable<number> =>
-  isWalletSetuped$.pipe(
-    filter(Boolean),
-    switchMap(() =>
-      from(
-        tokenId === ERGO_ID
-          ? ergo.get_balance(ERG_TOKEN_NAME)
-          : ergo.get_balance(tokenId),
-      ),
-    ),
-    map((amount) => +renderFractions(amount, ERG_DECIMALS)),
-  );
 
 export const networkAsset = {
   name: 'ERG',
