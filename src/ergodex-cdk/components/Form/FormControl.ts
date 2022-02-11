@@ -1,6 +1,6 @@
 import { BehaviorSubject, Observable } from 'rxjs';
 
-import { AbstractFormItem, CheckFn, EventConfig } from './core';
+import { AbstractFormItem, CheckFn, EventConfig, FormItemState } from './core';
 
 export type FormControlParams<T> =
   | T
@@ -37,10 +37,9 @@ export class FormControl<T> implements AbstractFormItem<T> {
 
   valid = !this.invalid;
 
-  currentWarning: string | undefined = this.getCurrentCheckName(
-    this.value,
-    this.warningValidators,
-  );
+  currentWarning: string | undefined = this.valid
+    ? this.getCurrentCheckName(this.value, this.warningValidators)
+    : undefined;
 
   withWarnings = !!this.currentWarning;
 
@@ -49,6 +48,16 @@ export class FormControl<T> implements AbstractFormItem<T> {
   touched = false;
 
   untouched = true;
+
+  get state(): FormItemState {
+    if (this.invalid) {
+      return 'error';
+    }
+    if (this.withWarnings) {
+      return 'warning';
+    }
+    return undefined;
+  }
 
   get valueChanges$(): Observable<T> {
     return this._valueChanges$;
@@ -90,10 +99,9 @@ export class FormControl<T> implements AbstractFormItem<T> {
     );
     this.invalid = !!this.currentError;
     this.valid = !this.invalid;
-    this.currentWarning = this.getCurrentCheckName(
-      this.value,
-      this.warningValidators,
-    );
+    this.currentWarning = this.valid
+      ? this.getCurrentCheckName(this.value, this.warningValidators)
+      : undefined;
     this.withWarnings = !!this.currentWarning;
     this.withoutWarnings = !this.withWarnings;
     this.emitEvent(config);

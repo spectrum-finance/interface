@@ -12,12 +12,20 @@ export type Messages<T> = {
   };
 };
 
+export type FormItemState = 'error' | 'warning' | undefined;
+
 export interface AbstractFormItem<T> {
   readonly value: T;
 
   readonly invalid: boolean;
 
   readonly valid: boolean;
+
+  readonly withWarnings: boolean;
+
+  readonly withoutWarnings: boolean;
+
+  readonly state: FormItemState;
 
   readonly touched: boolean;
 

@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react';
 import { Subscription } from 'rxjs';
 
+import { FormItemState } from './core';
 import { FormContext } from './FormContext';
 
 interface FormListenerFnParams<T> {
@@ -9,9 +10,12 @@ interface FormListenerFnParams<T> {
   readonly untouched: boolean;
   readonly invalid: boolean;
   readonly valid: boolean;
+  readonly state: FormItemState;
   readonly withWarnings?: boolean;
   readonly withoutWarnings?: boolean;
 }
+
+export type Listener<T> = Omit<Partial<FormListenerFnParams<T>>, 'children'>;
 
 export interface FormListenerProps<T> {
   readonly name?: string;
@@ -50,6 +54,7 @@ export class FormListener<T = any> extends React.Component<
                 untouched: item.untouched,
                 invalid: item.invalid,
                 valid: item.valid,
+                state: item.state,
                 withWarnings: item.withWarnings,
                 withoutWarnings: item.withoutWarnings,
               })

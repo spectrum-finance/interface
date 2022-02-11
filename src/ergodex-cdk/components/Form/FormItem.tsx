@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import { Subscription } from 'rxjs';
 
-import { EventConfig } from './core';
+import { EventConfig, FormItemState } from './core';
 import { FormContext } from './FormContext';
 import { FormControl } from './FormControl';
 
@@ -12,10 +12,10 @@ interface FormItemFnParams<T> {
   readonly untouched: boolean;
   readonly invalid: boolean;
   readonly valid: boolean;
-  readonly warningMessage?: string;
+  readonly state: FormItemState;
   readonly withWarnings?: boolean;
   readonly withoutWarnings?: boolean;
-  readonly errorMessage?: string;
+  readonly message?: string;
 }
 
 export type Control<T> = Omit<Partial<FormItemFnParams<T>>, 'children'>;
@@ -52,24 +52,24 @@ export class FormItem<T = any> extends React.Component<FormItemProps<T>> {
             );
           }
 
-          let warningMessage =
-            control.currentWarning &&
-            warningMessages &&
-            warningMessages[name] &&
-            warningMessages[name][control.currentWarning];
+          let message = undefined;
 
-          if (warningMessage instanceof Function) {
-            warningMessage = warningMessage(control.value);
+          if (control.invalid) {
+            message =
+              control.currentError &&
+              errorMessages &&
+              errorMessages[name] &&
+              errorMessages[name][control.currentError];
+          } else if (control.withWarnings) {
+            message =
+              control.currentWarning &&
+              warningMessages &&
+              warningMessages[name] &&
+              warningMessages[name][control.currentWarning];
           }
 
-          let errorMessage =
-            control.currentError &&
-            errorMessages &&
-            errorMessages[name] &&
-            errorMessages[name][control.currentError];
-
-          if (errorMessage instanceof Function) {
-            errorMessage = errorMessage(control.value);
+          if (message instanceof Function) {
+            message = message(control.value);
           }
           return children && control
             ? children({
@@ -77,12 +77,12 @@ export class FormItem<T = any> extends React.Component<FormItemProps<T>> {
                 value: control.value,
                 touched: control.touched,
                 untouched: control.untouched,
+                state: control.state,
                 invalid: control.invalid,
                 valid: control.valid,
                 withWarnings: control.withWarnings,
                 withoutWarnings: control.withoutWarnings,
-                errorMessage,
-                warningMessage,
+                message,
               })
             : undefined;
         }}

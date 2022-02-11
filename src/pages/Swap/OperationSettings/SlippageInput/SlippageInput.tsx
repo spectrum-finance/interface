@@ -20,8 +20,8 @@ const SLIPPAGE_OPTIONS = {
 export const SlippageInput: FC<NitroInputProps> = ({
   value,
   onChange,
-  warningMessage,
-  withWarnings,
+  state,
+  message,
 }) => {
   const isCustomSlippage = !Object.values(SLIPPAGE_OPTIONS).some(
     (val) => val === value,
@@ -63,7 +63,7 @@ export const SlippageInput: FC<NitroInputProps> = ({
               style={{ width: '72px' }}
               value={value}
               placeholder="1"
-              state={withWarnings ? 'warning' : undefined}
+              state={state}
               type="number"
               min={SlippageMin}
               max={SlippageMax}
@@ -75,9 +75,7 @@ export const SlippageInput: FC<NitroInputProps> = ({
           </Flex.Item>
         </Flex>
       </Flex.Item>
-      {warningMessage && (
-        <Alert showIcon type="warning" message={warningMessage} />
-      )}
+      {message && <Alert showIcon type={state} message={message} />}
     </Flex>
   );
 };

@@ -92,21 +92,13 @@ const GlobalSettingsModal: React.FC<GlobalSettingsModalProps> = ({
                   style={{ width: '100%' }}
                 >
                   <Form.Item name="minerFee">
-                    {({
-                      value,
-                      onChange,
-                      warningMessage,
-                      withWarnings,
-                      errorMessage,
-                      invalid,
-                    }) => (
+                    {({ value, onChange, withWarnings, invalid }) => (
                       <Input
                         size="large"
                         placeholder="> 0.002"
                         type="number"
                         value={value}
                         onChange={(test: any) => {
-                          console.log(test.target.valueAsNumber);
                           onChange(test.target.valueAsNumber);
                         }}
                         state={

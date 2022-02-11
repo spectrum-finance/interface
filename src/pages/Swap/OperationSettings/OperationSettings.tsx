@@ -39,17 +39,14 @@ const errorMessages: Messages<SettingsModel> = {
   },
 };
 
-const slippageCheck: CheckFn<number> = (value) => {
-  return value > 10 ? 'transactionFrontrun' : undefined;
-};
+const slippageCheck: CheckFn<number> = (value) =>
+  value > 10 ? 'transactionFrontrun' : undefined;
 
-const slippageTxFailCheck: CheckFn<number> = (value) => {
-  return value < defaultSlippage ? 'transactionMayFail' : undefined;
-};
+const slippageTxFailCheck: CheckFn<number> = (value) =>
+  value < defaultSlippage ? 'transactionMayFail' : undefined;
 
-const nitroCheck: CheckFn<number> = (value) => {
-  return value < MIN_NITRO ? 'minNitro' : undefined;
-};
+const nitroCheck: CheckFn<number> = (value) =>
+  isNaN(value) || value < MIN_NITRO ? 'minNitro' : undefined;
 
 const OperationSettings = (): JSX.Element => {
   const [settings, setSettings] = useSettings();
@@ -116,10 +113,10 @@ const OperationSettings = (): JSX.Element => {
           </Flex.Item>
           <Flex.Item marginBottom={2}>
             <Form.Item name="slippage">
-              {({ onChange, value, withWarnings, warningMessage }) => (
+              {({ onChange, value, state, message }) => (
                 <SlippageInput
-                  withWarnings={withWarnings}
-                  warningMessage={warningMessage}
+                  state={state}
+                  message={message}
                   onChange={onChange}
                   value={value}
                 />
@@ -145,10 +142,10 @@ const OperationSettings = (): JSX.Element => {
           </Flex.Item>
           <Flex.Item>
             <Form.Item name="nitro">
-              {({ onChange, value, invalid, errorMessage }) => (
+              {({ onChange, value, state, message }) => (
                 <NitroInput
-                  invalid={invalid}
-                  errorMessage={errorMessage}
+                  state={state}
+                  message={message}
                   onChange={onChange}
                   value={value}
                 />

@@ -1,6 +1,6 @@
 import { BehaviorSubject, Observable } from 'rxjs';
 
-import { AbstractFormItem, EventConfig } from './core';
+import { AbstractFormItem, EventConfig, FormItemState } from './core';
 import { FormControl, FormControlParams } from './FormControl';
 
 export type FormGroupParams<T> = {
@@ -20,6 +20,16 @@ export class FormGroup<T> implements AbstractFormItem<T> {
 
   get valueChanges$(): Observable<T> {
     return this._valueChanges$;
+  }
+
+  get state(): FormItemState {
+    if (this.controlsArray.some((c) => c.state === 'error')) {
+      return 'error';
+    }
+    if (this.controlsArray.some((c) => c.state === 'warning')) {
+      return 'warning';
+    }
+    return undefined;
   }
 
   get valueChangesWithSystem$(): Observable<T> {

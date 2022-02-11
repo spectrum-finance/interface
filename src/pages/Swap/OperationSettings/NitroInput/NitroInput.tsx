@@ -8,8 +8,8 @@ export type NitroInputProps = Control<number>;
 export const NitroInput: FC<NitroInputProps> = ({
   onChange,
   value,
-  errorMessage,
-  invalid,
+  message,
+  state,
 }) => {
   const isMinimumNitro = value === MIN_NITRO;
 
@@ -44,7 +44,7 @@ export const NitroInput: FC<NitroInputProps> = ({
               isActive={!isMinimumNitro}
               type="number"
               min={MIN_NITRO}
-              state={invalid ? 'error' : undefined}
+              state={state}
               value={value}
               onChange={handleNitroChange}
               size="middle"
@@ -52,7 +52,8 @@ export const NitroInput: FC<NitroInputProps> = ({
           </Flex.Item>
         </Flex>
       </Flex.Item>
-      {errorMessage && <Alert showIcon type="error" message={errorMessage} />}
+      {state}
+      {message && <Alert showIcon type={state} message={message} />}
     </Flex>
   );
 };
