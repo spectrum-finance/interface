@@ -1,24 +1,20 @@
-import './GlobalSettingsModal.less';
-
-import React, { ChangeEvent } from 'react';
+import React from 'react';
 
 import { defaultMinerFee } from '../../../common/constants/settings';
 import { useSettings } from '../../../context';
 import {
-  Alert,
-  Animation,
   Button,
   CheckFn,
   Flex,
   Form,
   FormGroup,
-  Input,
   Messages,
   Modal,
   Typography,
   useForm,
 } from '../../../ergodex-cdk';
 import { InfoTooltip } from '../../InfoTooltip/InfoTooltip';
+import { MinerFeeInput } from './MinerFeeInput/MinerFeeInput';
 
 interface GlobalSettingsModalProps {
   onClose: () => void;
@@ -71,10 +67,6 @@ const GlobalSettingsModal: React.FC<GlobalSettingsModalProps> = ({
     ),
   });
 
-  const handleMinimalBtnClick = () => {
-    form.controls.minerFee.patchValue(defaultMinerFee);
-  };
-
   const submitGlobalSettings = (form: FormGroup<GlobalSettingsFormModel>) => {
     if (form.invalid) {
       return;
@@ -98,67 +90,32 @@ const GlobalSettingsModal: React.FC<GlobalSettingsModalProps> = ({
             <Flex.Item marginBottom={4}>
               <Typography.Footnote>Miner Fee</Typography.Footnote>
               <InfoTooltip content="Fee charged by miners" />
-              <Flex>
-                <Flex.Item marginRight={1}>
-                  <Button
-                    type="primary"
-                    size="large"
-                    onClick={handleMinimalBtnClick}
-                    block
-                  >
-                    Minimum
-                  </Button>
-                </Flex.Item>
-                <Flex.Item
-                  className="global-settings__miner-fee-wrapper"
-                  style={{ width: '100%' }}
-                >
-                  <Form.Item name="minerFee">
-                    {({ value, onChange, state }) => (
-                      <Input
-                        size="large"
-                        placeholder="> 0.002"
-                        type="number"
-                        value={value}
-                        onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                          onChange(event.target.valueAsNumber);
-                        }}
-                        state={state}
-                        autoCorrect="off"
-                        autoComplete="off"
-                        suffix="ERG"
-                      />
-                    )}
-                  </Form.Item>
-                </Flex.Item>
-              </Flex>
             </Flex.Item>
-            <Form.Listener name="minerFee">
-              {({ message, state }) => (
-                <Flex.Item marginBottom={!!message ? 4 : 0}>
-                  <Animation.Expand expanded={!!message}>
-                    {message && (
-                      <Alert showIcon type={state} message={message} />
-                    )}
-                  </Animation.Expand>
-                </Flex.Item>
+            <Flex.Item marginBottom={4}>
+              <Form.Item name="minerFee">
+                {({ value, onChange, state, message }) => (
+                  <MinerFeeInput
+                    value={value}
+                    onChange={onChange}
+                    state={state}
+                    message={message}
+                  />
+                )}
+              </Form.Item>
+            </Flex.Item>
+            <Form.Listener>
+              {({ invalid }) => (
+                <Button
+                  type="primary"
+                  size="large"
+                  block
+                  htmlType="submit"
+                  disabled={invalid}
+                >
+                  Confirm
+                </Button>
               )}
             </Form.Listener>
-            <Flex.Item>
-              <Form.Listener>
-                {({ invalid }) => (
-                  <Button
-                    type="primary"
-                    size="large"
-                    block
-                    htmlType="submit"
-                    disabled={invalid}
-                  >
-                    Confirm
-                  </Button>
-                )}
-              </Form.Listener>
-            </Flex.Item>
           </Flex>
         </Form>
       </Modal.Content>

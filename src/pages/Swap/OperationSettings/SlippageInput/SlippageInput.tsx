@@ -43,7 +43,7 @@ export const SlippageInput: FC<NitroInputProps> = ({
 
   return (
     <Flex col>
-      <Flex.Item marginBottom={2}>
+      <Flex.Item marginBottom={message ? 2 : 0}>
         <Box contrast>
           <Flex justify="space-between">
             {SLIPPAGE_OPTIONS.sort().map((val, index) => (

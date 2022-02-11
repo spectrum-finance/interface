@@ -40,7 +40,7 @@ export const NitroInput: FC<NitroInputProps> = ({
 
   return (
     <Flex col>
-      <Flex.Item marginBottom={1}>
+      <Flex.Item marginBottom={message ? 2 : 0}>
         <Flex align="center">
           <Flex.Item marginRight={2}>
             <Button
