@@ -3,6 +3,7 @@ import React, { FC, ReactNode, useEffect, useState } from 'react';
 import { debounceTime, first, Observable } from 'rxjs';
 
 import { useObservable } from '../../../common/hooks/useObservable';
+import { Currency } from '../../../common/models/Currency';
 import { isOnline$ } from '../../../common/streams/networkConnection';
 import { Flex } from '../../../ergodex-cdk';
 import { Form, FormGroup } from '../../../ergodex-cdk/components/Form/NewForm';
@@ -15,6 +16,7 @@ export interface ActionFormProps<T> {
   readonly isTokensNotSelected?: (form: T) => boolean;
   readonly isAmountNotEntered?: (form: T) => boolean;
   readonly isLoading?: (form: T) => boolean;
+  readonly getMinValueForToken?: (form: T) => undefined | Currency;
   readonly isLiquidityInsufficient?: (form: T) => boolean;
   readonly isSwapLocked?: (form: T) => boolean;
   readonly getInsufficientTokenNameForTx?: (form: T) => undefined | string;
@@ -33,6 +35,7 @@ export const ActionForm: FC<ActionFormProps<any>> = ({
   getInsufficientTokenNameForFee,
   isSwapLocked,
   getInsufficientTokenNameForTx,
+  getMinValueForToken,
   isLoading,
   children,
 }) => {
@@ -58,9 +61,16 @@ export const ActionForm: FC<ActionFormProps<any>> = ({
     } else if (isTokensNotSelected && isTokensNotSelected(value)) {
       setButtonData({ state: ActionButtonState.SELECT_TOKEN });
     } else if (isSwapLocked && isSwapLocked(value)) {
-      setButtonData({ state: ActionButtonState.ANETA_SWAP_LOCK });
+      setButtonData({ state: ActionButtonState.SWAP_LOCK });
     } else if (isAmountNotEntered && isAmountNotEntered(value)) {
       setButtonData({ state: ActionButtonState.ENTER_AMOUNT });
+    } else if (getMinValueForToken && getMinValueForToken(value)) {
+      setButtonData({
+        state: ActionButtonState.MIN_VALUE,
+        data: {
+          currency: getMinValueForToken(value),
+        },
+      });
     } else if (
       getInsufficientTokenNameForTx &&
       getInsufficientTokenNameForTx(value)
@@ -117,6 +127,7 @@ export const ActionForm: FC<ActionFormProps<any>> = ({
             state={buttonData.state}
             token={buttonData.data?.token}
             nativeToken={buttonData.data?.nativeToken}
+            currency={buttonData.data?.currency}
           >
             {actionButton}
           </ActionButton>

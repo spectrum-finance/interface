@@ -5,6 +5,7 @@ import React, { FC, ReactNode } from 'react';
 import { interval, map } from 'rxjs';
 
 import { useObservable } from '../../../../common/hooks/useObservable';
+import { Currency } from '../../../../common/models/Currency';
 import { Button, ButtonProps } from '../../../../ergodex-cdk';
 import { ConnectWalletButton } from '../../ConnectWalletButton/ConnectWalletButton';
 
@@ -16,7 +17,8 @@ export enum ActionButtonState {
   INSUFFICIENT_LIQUIDITY,
   LOADING,
   CHECK_INTERNET_CONNECTION,
-  ANETA_SWAP_LOCK,
+  SWAP_LOCK,
+  MIN_VALUE,
   ACTION,
 }
 
@@ -49,6 +51,12 @@ const insufficientFeeBalanceState = (token = ''): ButtonProps => ({
   disabled: true,
 });
 
+const minValueState = (c?: Currency): ButtonProps => ({
+  children: `Min value for ${c?.asset.name} is ${c?.toAmount()}`,
+  type: 'primary',
+  disabled: true,
+});
+
 const insufficientLiquidityState = (): ButtonProps => ({
   children: `Insufficient liquidity for this trade`,
   type: 'primary',
@@ -76,6 +84,7 @@ const getButtonPropsByState = (
   state: ActionButtonState,
   token?: string,
   nativeToken?: string,
+  currency?: Currency,
   caption?: ReactNode,
 ): ButtonProps => {
   switch (state) {
@@ -91,6 +100,8 @@ const getButtonPropsByState = (
       return insufficientTokenBalanceState(token);
     case ActionButtonState.SELECT_TOKEN:
       return selectTokenState();
+    case ActionButtonState.MIN_VALUE:
+      return minValueState(currency);
     case ActionButtonState.LOADING:
       return loadingState();
     case ActionButtonState.ACTION:
@@ -104,6 +115,7 @@ export interface ActionButtonProps {
   readonly state: ActionButtonState;
   readonly token?: string | undefined;
   readonly nativeToken?: string | undefined;
+  readonly currency?: Currency;
   readonly onClick?: () => void;
   readonly children: ReactNode;
 }
@@ -123,7 +135,7 @@ const timer$ = interval(1000).pipe(map(() => getDiff()));
 export const ActionButton: FC<ActionButtonProps> = (props) => {
   const [timer] = useObservable(timer$, [], getDiff());
 
-  if (props.state === ActionButtonState.ANETA_SWAP_LOCK) {
+  if (props.state === ActionButtonState.SWAP_LOCK) {
     return (
       <Button
         htmlType="submit"
@@ -150,6 +162,7 @@ export const ActionButton: FC<ActionButtonProps> = (props) => {
     props.state,
     props.token,
     props.nativeToken,
+    props.currency,
     props.children,
   );
 

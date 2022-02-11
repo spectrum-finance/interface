@@ -10,7 +10,6 @@ import {
   combineLatest,
   debounceTime,
   distinctUntilChanged,
-  filter,
   map,
   Observable,
   of,
@@ -112,15 +111,40 @@ export const Swap = (): JSX.Element => {
 
   const isAmountNotEntered = ({ toAmount, fromAmount }: SwapFormModel) => {
     if (
-      !fromAmount?.isPositive() &&
-      toAmount &&
-      toAmount.isPositive() &&
-      toAmount.gt(balance.get(toAmount.asset))
+      (!fromAmount?.isPositive() && toAmount?.isPositive()) ||
+      (!toAmount?.isPositive() && fromAmount?.isPositive())
     ) {
       return false;
     }
 
     return !fromAmount?.isPositive() || !toAmount?.isPositive();
+  };
+
+  const getMinValueForToken = ({
+    toAmount,
+    fromAmount,
+    fromAsset,
+    toAsset,
+    pool,
+  }: SwapFormModel): Currency | undefined => {
+    if (
+      !fromAmount?.isPositive() &&
+      toAmount &&
+      toAmount.isPositive() &&
+      pool &&
+      toAmount.gt(pool.getAssetAmount(toAmount.asset))
+    ) {
+      return undefined;
+    }
+
+    if (!fromAmount?.isPositive() && toAmount?.isPositive() && pool) {
+      // TODO: FIX_ERGOLABS_SDK_COMPUTING
+      return pool.calculateOutputAmount(new Currency(1n, fromAsset)).plus(1n);
+    }
+    if (!toAmount?.isPositive() && fromAmount?.isPositive() && pool) {
+      return pool.calculateInputAmount(new Currency(1n, toAsset));
+    }
+    return undefined;
   };
 
   const isTokensNotSelected = ({ toAsset, fromAsset }: SwapFormModel) =>
@@ -163,11 +187,9 @@ export const Swap = (): JSX.Element => {
   useSubscription(
     combineLatest([
       form.controls.fromAsset.valueChangesWithSilent$.pipe(
-        filter(Boolean),
         distinctUntilChanged(),
       ),
       form.controls.toAsset.valueChangesWithSilent$.pipe(
-        filter(Boolean),
         distinctUntilChanged(),
       ),
     ]).pipe(
@@ -231,11 +253,7 @@ export const Swap = (): JSX.Element => {
   );
 
   useSubscription(
-    combineLatest([
-      form.controls.toAsset.valueChanges$,
-      form.controls.fromAsset.valueChanges$,
-      form.controls.pool.valueChanges$,
-    ]).pipe(debounceTime(200)),
+    form.controls.pool.valueChanges$,
     () => {
       const { fromAmount, toAmount, pool } = form.value;
 
@@ -282,6 +300,7 @@ export const Swap = (): JSX.Element => {
         getInsufficientTokenNameForFee={getInsufficientTokenNameForFee}
         getInsufficientTokenNameForTx={getInsufficientTokenNameForTx}
         isLoading={isPoolLoading}
+        getMinValueForToken={getMinValueForToken}
         isAmountNotEntered={isAmountNotEntered}
         isTokensNotSelected={isTokensNotSelected}
         isLiquidityInsufficient={isLiquidityInsufficient}
