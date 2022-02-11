@@ -5,8 +5,7 @@ import { debounceTime, first, Observable } from 'rxjs';
 
 import { useObservable } from '../../common/hooks/useObservable';
 import { isOnline$ } from '../../common/streams/networkConnection';
-import { Button, Flex } from '../../ergodex-cdk';
-import { Form, FormGroup } from '../../ergodex-cdk/components/Form/NewForm';
+import { Button, Flex, Form, FormGroup } from '../../ergodex-cdk';
 import { isWalletLoading$ } from '../../services/new/core';
 import { ConnectWalletButton } from '../common/ConnectWalletButton/ConnectWalletButton';
 

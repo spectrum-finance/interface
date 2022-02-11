@@ -9,11 +9,15 @@ import { Observable, of } from 'rxjs';
 import { useAssetsBalance } from '../../../api/assetBalance';
 import { useObservable } from '../../../common/hooks/useObservable';
 import { Currency } from '../../../common/models/Currency';
-import { Animation, Box, Button, Flex, Typography } from '../../../ergodex-cdk';
 import {
+  Animation,
+  Box,
+  Button,
+  Flex,
   Form,
+  Typography,
   useFormContext,
-} from '../../../ergodex-cdk/components/Form/NewForm';
+} from '../../../ergodex-cdk';
 import { isWalletLoading$ } from '../../../services/new/core';
 import {
   TokenAmountInput,

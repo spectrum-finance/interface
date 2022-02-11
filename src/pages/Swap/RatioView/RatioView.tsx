@@ -6,8 +6,7 @@ import { debounceTime, map } from 'rxjs';
 import { useObservable } from '../../../common/hooks/useObservable';
 import { Currency } from '../../../common/models/Currency';
 import { Ratio } from '../../../common/models/Ratio';
-import { Animation, Typography } from '../../../ergodex-cdk';
-import { FormGroup } from '../../../ergodex-cdk/components/Form/NewForm';
+import { Animation, FormGroup, Typography } from '../../../ergodex-cdk';
 import { SwapFormModel } from '../SwapFormModel';
 
 const calculateOutputPrice = ({

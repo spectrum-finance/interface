@@ -13,8 +13,15 @@ import { useObservable } from '../../../common/hooks/useObservable';
 import { TokenControlFormItem } from '../../../components/common/TokenControl/TokenControl';
 import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
 import { useSettings } from '../../../context';
-import { Box, Button, Flex, Modal, Typography } from '../../../ergodex-cdk';
-import { Form, useForm } from '../../../ergodex-cdk/components/Form/NewForm';
+import {
+  Box,
+  Button,
+  Flex,
+  Form,
+  Modal,
+  Typography,
+  useForm,
+} from '../../../ergodex-cdk';
 import { explorer } from '../../../services/explorer';
 import { useMinExFee, utxos$ } from '../../../services/new/core';
 import { poolActions } from '../../../services/poolActions';

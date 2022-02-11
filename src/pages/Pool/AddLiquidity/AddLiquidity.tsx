@@ -35,8 +35,7 @@ import {
   Operation,
 } from '../../../components/ConfirmationModal/ConfirmationModal';
 import { Page } from '../../../components/Page/Page';
-import { Flex, Typography } from '../../../ergodex-cdk';
-import { Form, useForm } from '../../../ergodex-cdk/components/Form/NewForm';
+import { Flex, Form, Typography, useForm } from '../../../ergodex-cdk';
 import { useMaxTotalFees, useNetworkAsset } from '../../../services/new/core';
 import { AddLiquidityConfirmationModal } from './AddLiquidityConfirmationModal/AddLiquidityConfirmationModal';
 import { AddLiquidityFormModel } from './FormModel';

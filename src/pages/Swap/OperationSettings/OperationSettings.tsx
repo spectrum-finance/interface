@@ -9,17 +9,15 @@ import { useSettings } from '../../../context';
 import {
   Box,
   Button,
+  CheckFn,
   Flex,
+  Form,
+  Messages,
   Popover,
   SettingOutlined,
   Typography,
-} from '../../../ergodex-cdk';
-import {
-  CheckFn,
-  Form,
-  Messages,
   useForm,
-} from '../../../ergodex-cdk/components/Form/NewForm';
+} from '../../../ergodex-cdk';
 import { NitroInput } from './NitroInput/NitroInput';
 import { SlippageInput } from './SlippageInput/SlippageInput';
 

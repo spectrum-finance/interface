@@ -7,8 +7,7 @@ import {
   SlippageMax,
   SlippageMin,
 } from '../../../../common/constants/settings';
-import { Alert, Button, Flex, Input } from '../../../../ergodex-cdk';
-import { Control } from '../../../../ergodex-cdk/components/Form/NewForm';
+import { Alert, Button, Control, Flex, Input } from '../../../../ergodex-cdk';
 
 export type NitroInputProps = Control<number>;
 
