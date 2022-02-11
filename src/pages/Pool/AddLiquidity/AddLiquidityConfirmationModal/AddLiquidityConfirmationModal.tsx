@@ -47,8 +47,12 @@ const AddLiquidityConfirmationModal: FC<AddLiquidityConfirmationModalProps> = ({
 
       const actions = poolActions(pool['pool']);
 
-      const inputX = pool['pool'].x.withAmount(xAmount.amount);
-      const inputY = pool['pool'].y.withAmount(yAmount.amount);
+      const inputX = pool['pool'].x.withAmount(
+        xAmount.asset.id === pool.x.asset.id ? xAmount.amount : yAmount.amount,
+      );
+      const inputY = pool['pool'].y.withAmount(
+        yAmount.asset.id === pool.y.asset.id ? yAmount.amount : xAmount.amount,
+      );
 
       const target = makeTarget(
         [inputX, inputY],
