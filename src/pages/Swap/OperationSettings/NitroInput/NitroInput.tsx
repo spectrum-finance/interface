@@ -1,7 +1,18 @@
+import './NitroInput.less';
+
 import React, { ChangeEvent, FC } from 'react';
 
 import { MIN_NITRO } from '../../../../common/constants/erg';
-import { Alert, Button, Control, Flex, Input } from '../../../../ergodex-cdk';
+import {
+  Alert,
+  Animation,
+  Button,
+  Control,
+  Flex,
+  Input,
+  Typography,
+} from '../../../../ergodex-cdk';
+import { useMaxExFee, useMinExFee } from '../../../../services/new/core';
 
 export type NitroInputProps = Control<number>;
 
@@ -11,6 +22,8 @@ export const NitroInput: FC<NitroInputProps> = ({
   message,
   state,
 }) => {
+  const minExFee = useMinExFee();
+  const maxExFee = useMaxExFee();
   const isMinimumNitro = value === MIN_NITRO;
 
   const handleClickNitroAuto = () => {
@@ -28,8 +41,8 @@ export const NitroInput: FC<NitroInputProps> = ({
   return (
     <Flex col>
       <Flex.Item marginBottom={1}>
-        <Flex>
-          <Flex.Item marginRight={1}>
+        <Flex align="center">
+          <Flex.Item marginRight={2}>
             <Button
               type={isMinimumNitro ? 'primary' : 'ghost'}
               size="middle"
@@ -38,9 +51,9 @@ export const NitroInput: FC<NitroInputProps> = ({
               Minimum
             </Button>
           </Flex.Item>
-          <Flex.Item>
+          <Flex.Item marginRight={3}>
             <Input
-              style={{ maxWidth: '79px' }}
+              style={{ width: '90px' }}
               isActive={!isMinimumNitro}
               type="number"
               min={MIN_NITRO}
@@ -50,10 +63,20 @@ export const NitroInput: FC<NitroInputProps> = ({
               size="middle"
             />
           </Flex.Item>
+          <Flex col>
+            <Typography.Body className="nitro-execution-fee">
+              Execution Fee Range
+            </Typography.Body>
+            <Typography.Body className="nitro-execution-fee">
+              {minExFee.toAmount()} - {maxExFee.toAmount()}{' '}
+              {maxExFee.asset.name}
+            </Typography.Body>
+          </Flex>
         </Flex>
       </Flex.Item>
-      {state}
-      {message && <Alert showIcon type={state} message={message} />}
+      <Animation.Expand expanded={!!message}>
+        <Alert showIcon type={state} message={message} />
+      </Animation.Expand>
     </Flex>
   );
 };
