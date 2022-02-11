@@ -26,6 +26,7 @@ import {
   useSubject,
   useSubscription,
 } from '../../../common/hooks/useObservable';
+import { Currency } from '../../../common/models/Currency';
 import { ActionForm } from '../../../components/common/ActionForm/ActionForm';
 import { PoolSelect } from '../../../components/common/PoolSelect/PoolSelect';
 import { TokenControlFormItem } from '../../../components/common/TokenControl/TokenControl';
@@ -176,8 +177,34 @@ const AddLiquidity = (): JSX.Element => {
     return undefined;
   };
 
-  const isAmountNotEntered = (value: AddLiquidityFormModel): boolean => {
-    return !value.xAmount?.isPositive() || !value.yAmount?.isPositive();
+  const isAmountNotEntered = ({
+    xAmount,
+    yAmount,
+  }: AddLiquidityFormModel): boolean => {
+    if (
+      (!xAmount?.isPositive() && yAmount?.isPositive()) ||
+      (!yAmount?.isPositive() && xAmount?.isPositive())
+    ) {
+      return false;
+    }
+
+    return !xAmount?.isPositive() || !yAmount?.isPositive();
+  };
+
+  const getMinValueForToken = ({
+    xAmount,
+    yAmount,
+    x,
+    y,
+    pool,
+  }: AddLiquidityFormModel): Currency | undefined => {
+    if (!xAmount?.isPositive() && yAmount?.isPositive() && pool) {
+      return pool.calculateDepositAmount(new Currency(1n, x)).plus(1n);
+    }
+    if (!yAmount?.isPositive() && xAmount?.isPositive() && pool) {
+      return pool.calculateDepositAmount(new Currency(1n, y));
+    }
+    return undefined;
   };
 
   const isTokensNotSelected = (value: AddLiquidityFormModel): boolean => {
@@ -187,7 +214,12 @@ const AddLiquidity = (): JSX.Element => {
   const addLiquidityAction = (value: Required<AddLiquidityFormModel>) => {
     openConfirmationModal(
       (next) => {
-        return <AddLiquidityConfirmationModal value={value} onClose={next} />;
+        return (
+          <AddLiquidityConfirmationModal
+            value={value}
+            onClose={(request: Promise<any>) => next(request.then(resetForm))}
+          />
+        );
       },
       Operation.ADD_LIQUIDITY,
       {
@@ -197,12 +229,22 @@ const AddLiquidity = (): JSX.Element => {
     );
   };
 
+  const resetForm = () =>
+    form.patchValue(
+      {
+        xAmount: undefined,
+        yAmount: undefined,
+      },
+      { emitEvent: 'silent' },
+    );
+
   return (
     <Page title="Add liquidity" width={480} withBackButton backTo="/pool">
       {!poolId || !poolsLoading ? (
         <ActionForm
           form={form}
           actionButton="Add liquidity"
+          getMinValueForToken={getMinValueForToken}
           getInsufficientTokenNameForFee={getInsufficientTokenNameForFee}
           getInsufficientTokenNameForTx={getInsufficientTokenNameForTx}
           isAmountNotEntered={isAmountNotEntered}

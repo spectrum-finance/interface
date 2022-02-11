@@ -88,7 +88,11 @@ export class Currency {
     return this.amount <= currency.amount;
   }
 
-  plus(currency: Currency): Currency {
+  plus(currency: Currency | bigint): Currency {
+    if (typeof currency === 'bigint') {
+      return new Currency(this.amount + currency, this.asset);
+    }
+
     if (isUnknownAsset(this.asset)) {
       throw new Error("can't sum unknown asset");
     }
@@ -99,7 +103,11 @@ export class Currency {
     return new Currency(this.amount + currency.amount, this.asset);
   }
 
-  minus(currency: Currency): Currency {
+  minus(currency: Currency | bigint): Currency {
+    if (typeof currency === 'bigint') {
+      return new Currency(this.amount - currency, this.asset);
+    }
+
     if (isUnknownAsset(this.asset)) {
       throw new Error("can't subtract unknown asset");
     }

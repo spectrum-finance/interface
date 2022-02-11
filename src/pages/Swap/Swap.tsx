@@ -10,7 +10,6 @@ import {
   combineLatest,
   debounceTime,
   distinctUntilChanged,
-  filter,
   map,
   Observable,
   of,
@@ -144,7 +143,8 @@ export const Swap = (): JSX.Element => {
     }
 
     if (!fromAmount?.isPositive() && toAmount?.isPositive() && pool) {
-      return pool.calculateOutputAmount(new Currency(1n, fromAsset));
+      // TODO: FIX_ERGOLABS_SDK_COMPUTING
+      return pool.calculateOutputAmount(new Currency(1n, fromAsset)).plus(1n);
     }
     if (!toAmount?.isPositive() && fromAmount?.isPositive() && pool) {
       return pool.calculateInputAmount(new Currency(1n, toAsset));
@@ -203,11 +203,9 @@ export const Swap = (): JSX.Element => {
   useSubscription(
     combineLatest([
       form.controls.fromAsset.valueChangesWithSilent$.pipe(
-        filter(Boolean),
         distinctUntilChanged(),
       ),
       form.controls.toAsset.valueChangesWithSilent$.pipe(
-        filter(Boolean),
         distinctUntilChanged(),
       ),
     ]).pipe(
@@ -271,11 +269,7 @@ export const Swap = (): JSX.Element => {
   );
 
   useSubscription(
-    combineLatest([
-      form.controls.toAsset.valueChanges$,
-      form.controls.fromAsset.valueChanges$,
-      form.controls.pool.valueChanges$,
-    ]).pipe(debounceTime(200)),
+    form.controls.pool.valueChanges$,
     () => {
       const { fromAmount, toAmount, pool } = form.value;
 
