@@ -188,7 +188,12 @@ const AddLiquidity = (): JSX.Element => {
   const addLiquidityAction = (value: Required<AddLiquidityFormModel>) => {
     openConfirmationModal(
       (next) => {
-        return <AddLiquidityConfirmationModal value={value} onClose={next} />;
+        return (
+          <AddLiquidityConfirmationModal
+            value={value}
+            onClose={(request: Promise<any>) => next(request.then(resetForm))}
+          />
+        );
       },
       Operation.ADD_LIQUIDITY,
       {
@@ -197,6 +202,15 @@ const AddLiquidity = (): JSX.Element => {
       },
     );
   };
+
+  const resetForm = () =>
+    form.patchValue(
+      {
+        xAmount: undefined,
+        yAmount: undefined,
+      },
+      { emitEvent: 'silent' },
+    );
 
   return (
     <Page title="Add liquidity" width={480} withBackButton backTo="/pool">
