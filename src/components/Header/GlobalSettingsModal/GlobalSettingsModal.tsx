@@ -1,16 +1,19 @@
 import './GlobalSettingsModal.less';
 
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 
 import { defaultMinerFee } from '../../../common/constants/settings';
 import { useSettings } from '../../../context';
 import {
+  Alert,
+  Animation,
   Button,
   CheckFn,
   Flex,
   Form,
   FormGroup,
   Input,
+  Messages,
   Modal,
   Typography,
   useForm,
@@ -40,6 +43,20 @@ const recommendedMinerFeeCheck: CheckFn<number> = (minerFee) =>
   minerFee >= MAX_RECOMMENDED_ERG_FOR_TX && minerFee <= MAX_ERG_FOR_TX
     ? 'recommendedMinerFee'
     : undefined;
+
+const errorMessages: Messages<GlobalSettingsFormModel> = {
+  minerFee: {
+    minMinerFee: `Minimum value is ${MIN_ERG_FOR_TX} ERG`,
+    maxMinerFee: `The value can't be more than ${MAX_ERG_FOR_TX} ERG`,
+  },
+};
+
+const warningMessages: Messages<GlobalSettingsFormModel> = {
+  minerFee: {
+    recommendedMinerFee: (value: number | undefined) =>
+      `You will spend ${value} ERG for every operation.`,
+  },
+};
 
 const GlobalSettingsModal: React.FC<GlobalSettingsModalProps> = ({
   onClose,
@@ -71,9 +88,14 @@ const GlobalSettingsModal: React.FC<GlobalSettingsModalProps> = ({
     <>
       <Modal.Title>Global Settings</Modal.Title>
       <Modal.Content width={450}>
-        <Form form={form} onSubmit={submitGlobalSettings}>
+        <Form
+          form={form}
+          onSubmit={submitGlobalSettings}
+          errorMessages={errorMessages}
+          warningMessages={warningMessages}
+        >
           <Flex col>
-            <Flex.Item>
+            <Flex.Item marginBottom={4}>
               <Typography.Footnote>Miner Fee</Typography.Footnote>
               <InfoTooltip content="Fee charged by miners" />
               <Flex>
@@ -92,22 +114,16 @@ const GlobalSettingsModal: React.FC<GlobalSettingsModalProps> = ({
                   style={{ width: '100%' }}
                 >
                   <Form.Item name="minerFee">
-                    {({ value, onChange, withWarnings, invalid }) => (
+                    {({ value, onChange, state }) => (
                       <Input
                         size="large"
                         placeholder="> 0.002"
                         type="number"
                         value={value}
-                        onChange={(test: any) => {
-                          onChange(test.target.valueAsNumber);
+                        onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                          onChange(event.target.valueAsNumber);
                         }}
-                        state={
-                          withWarnings
-                            ? 'warning'
-                            : invalid
-                            ? 'error'
-                            : undefined
-                        }
+                        state={state}
                         autoCorrect="off"
                         autoComplete="off"
                         suffix="ERG"
@@ -116,13 +132,18 @@ const GlobalSettingsModal: React.FC<GlobalSettingsModalProps> = ({
                   </Form.Item>
                 </Flex.Item>
               </Flex>
-
-              {/*<Form.Item name="explorerUrl">*/}
-              {/*  <Typography.Footnote>Explorer URL</Typography.Footnote>*/}
-              {/*  <InfoTooltip content="Custom explorer URL" />*/}
-              {/*  <Input disabled size="large" placeholder={ERG_EXPLORER_URL} />*/}
-              {/*</Form.Item>*/}
             </Flex.Item>
+            <Form.Listener name="minerFee">
+              {({ message, state }) => (
+                <Flex.Item marginBottom={!!message ? 4 : 0}>
+                  <Animation.Expand expanded={!!message}>
+                    {message && (
+                      <Alert showIcon type={state} message={message} />
+                    )}
+                  </Animation.Expand>
+                </Flex.Item>
+              )}
+            </Form.Listener>
             <Flex.Item>
               <Form.Listener>
                 {({ invalid }) => (

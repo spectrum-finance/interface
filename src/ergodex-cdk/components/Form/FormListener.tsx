@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 
 import { FormItemState } from './core';
 import { FormContext } from './FormContext';
+import { FormGroup } from './FormGroup';
 
 interface FormListenerFnParams<T> {
   readonly value: T;
@@ -13,6 +14,7 @@ interface FormListenerFnParams<T> {
   readonly state: FormItemState;
   readonly withWarnings?: boolean;
   readonly withoutWarnings?: boolean;
+  readonly message?: string;
 }
 
 export type Listener<T> = Omit<Partial<FormListenerFnParams<T>>, 'children'>;
@@ -39,12 +41,34 @@ export class FormListener<T = any> extends React.Component<
 
     return (
       <FormContext.Consumer>
-        {({ form }) => {
+        {({ form, errorMessages, warningMessages }) => {
           const item = name ? form.controls[name] : form;
           if (!this.subscription && item) {
             this.subscription = item.valueChangesWithSilent$.subscribe(() =>
               this.forceUpdate(),
             );
+          }
+
+          let message = undefined;
+
+          if (item instanceof FormGroup) {
+            message = undefined;
+          } else if (item.invalid && name) {
+            message =
+              item.currentError &&
+              errorMessages &&
+              errorMessages[name] &&
+              errorMessages[name][item.currentError];
+          } else if (item.withWarnings && name) {
+            message =
+              item.currentWarning &&
+              warningMessages &&
+              warningMessages[name] &&
+              warningMessages[name][item.currentWarning];
+          }
+
+          if (message instanceof Function) {
+            message = message(item.value);
           }
 
           return children && item
@@ -57,6 +81,7 @@ export class FormListener<T = any> extends React.Component<
                 state: item.state,
                 withWarnings: item.withWarnings,
                 withoutWarnings: item.withoutWarnings,
+                message,
               })
             : undefined;
         }}

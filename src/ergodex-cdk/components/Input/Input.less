@@ -22,6 +22,7 @@
   box-shadow: none;
 }
 
+//noinspection Stylelint
 .ant-input {
   .inputStyles();
 
@@ -48,6 +49,15 @@
     border-radius: 12px;
     font-size: 16px;
     line-height: 24px;
+  }
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    margin: 0;
+    -webkit-appearance: none;
+  }
+  &[type=number] {
+    -moz-appearance: textfield;
   }
 }
 
