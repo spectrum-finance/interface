@@ -12,11 +12,11 @@ import {
 } from 'rxjs';
 
 import { explorer } from '../../../services/explorer';
-import { utxos$ } from '../../../services/new/core';
 import {
   Asset,
   getListAvailableTokens,
 } from '../../../utils/getListAvailableTokens';
+import { utxos$ } from '../common/utxos';
 
 const toListAvailableTokens = (utxos: ErgoBox[]): Asset[] =>
   Object.values(getListAvailableTokens(utxos));

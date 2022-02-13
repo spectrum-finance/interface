@@ -44,11 +44,13 @@ namespace ErgoBridge {
 declare let ergoConnector: {
   nautilus: any;
 };
+declare let NautilusErgoApi: any;
 
 declare let cardano: Record<string, any>;
 
 declare let ergo: ErgoBridge.ErgoAPI;
 
-declare let yoroi: ErgoBridge.ErgoAPI;
-
-declare let nautilus: ErgoBridge.ErgoAPI;
+interface Window {
+  yoroi: ErgoBridge.ErgoAPI;
+  nautilus: ErgoBridge.ErgoAPI;
+}

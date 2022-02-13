@@ -3,10 +3,10 @@ import { isEmpty } from 'lodash';
 import React, { FC } from 'react';
 import { useHistory } from 'react-router-dom';
 
+import { isWalletSetuped$ } from '../../../../api/wallets';
 import { useObservable } from '../../../../common/hooks/useObservable';
 import { AmmPool } from '../../../../common/models/AmmPool';
 import { Button, Flex, List, PlusOutlined } from '../../../../ergodex-cdk';
-import { isWalletSetuped$ } from '../../../../services/new/core';
 import { EmptyPositionsWrapper } from '../EmptyPositionsWrapper/EmptyPositionsWrapper';
 import { PositionListLoader } from '../PositionListLoader/PositionListLoader';
 import { LiquidityPositionsItem } from './LiquidityPositionsItem/LiquidityPositionsItem';

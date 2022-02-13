@@ -62,27 +62,6 @@ const WalletView: React.FC<WalletItemProps> = ({ wallet, onClick }) => {
 
 type ChooseWalletModalProps = DialogRef<boolean>;
 
-// const walletCtx = useWallet();
-//
-// const wallets = [
-//   {
-//     name: 'Yoroi Wallet',
-//     logo: <YoroiLogo />,
-//     onClick: () => {
-//       return connectYoroiWallet(walletCtx)().then((res) => {
-//         connectWallet();
-//         notification.info({
-//           message: 'Yoroi Wallet tip',
-//           description:
-//             'Keep Yoroi Wallet extension window open, when you use ErgoDEX. So that it will sync faster.',
-//           duration: null,
-//         });
-//         return res;
-//       });
-//     },
-//   },
-// ];
-
 const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
   close,
 }): JSX.Element => {

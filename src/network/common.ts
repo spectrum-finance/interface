@@ -21,10 +21,17 @@ export interface Network {
   readonly positions$: Observable<Position[]>;
   readonly pendingTransactionsCount$: Observable<number>;
   readonly getTxHistory: (limit: number) => Observable<AmmDexOperation[]>;
-
-  readonly wallets: Wallet[];
+  readonly wallets$: Observable<Wallet[]>;
+  readonly selectedWallet$: Observable<Wallet | undefined>;
+  readonly selectedWalletState$: Observable<WalletState>;
   readonly connectWallet: (w: Wallet) => Observable<any>;
   readonly useNetworkAsset: () => [AssetInfo, boolean, Error];
+}
+
+export enum WalletState {
+  NOT_CONNECTED,
+  CONNECTING,
+  CONNECTED,
 }
 
 export interface Wallet {
@@ -32,9 +39,6 @@ export interface Wallet {
   readonly icon: ReactNode;
   readonly experimental: boolean;
   readonly extensionLink: string;
-  readonly connectWallet: () => Observable<any>;
-
-  // getAddresses(): Observable<string[]>;
-  //
-  // readonly utxos$: Observable<ErgoBox[]>;
+  readonly connectWallet: () => Observable<boolean>;
+  readonly getUtxos: () => Observable<ErgoBox[]>;
 }

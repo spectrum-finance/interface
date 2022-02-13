@@ -9,9 +9,12 @@ import { networkAsset$, useNetworkAsset } from './networkAsset/networkAsset';
 import { positions$ } from './positions/positions';
 import { pendingTransactionsCount$ } from './transactions/pendingTransactions';
 import { getTxHistory } from './transactions/transactionsHistory';
-import { connectWallet } from './wallets/connectWallet';
-import { NautilusWallet } from './wallets/NautilusWallet';
-import { YoroiWallet } from './wallets/YoroiWallet';
+import {
+  connectWallet,
+  selectedWallet$,
+  selectedWalletState$,
+  wallets$,
+} from './wallets';
 
 export const ergoNetwork: Network = {
   addresses$,
@@ -26,5 +29,7 @@ export const ergoNetwork: Network = {
   getTxHistory,
   useNetworkAsset,
   connectWallet,
-  wallets: [YoroiWallet, NautilusWallet],
+  wallets$,
+  selectedWallet$,
+  selectedWalletState$,
 };

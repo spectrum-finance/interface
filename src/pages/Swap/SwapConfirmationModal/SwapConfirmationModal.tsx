@@ -22,8 +22,9 @@ import {
   Typography,
   useForm,
 } from '../../../ergodex-cdk';
+import { utxos$ } from '../../../network/ergo/common/utxos';
 import { explorer } from '../../../services/explorer';
-import { useMinExFee, utxos$ } from '../../../services/new/core';
+import { useMinExFee } from '../../../services/new/core';
 import { poolActions } from '../../../services/poolActions';
 import { submitTx } from '../../../services/yoroi';
 import { makeTarget } from '../../../utils/ammMath';

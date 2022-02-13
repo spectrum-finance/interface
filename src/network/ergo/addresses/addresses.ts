@@ -1,4 +1,5 @@
 import {
+  filter,
   from,
   map,
   Observable,
@@ -9,14 +10,16 @@ import {
 } from 'rxjs';
 
 import { appTick$ } from '../../../common/streams/appTick';
-import { isWalletConnected$ } from '../../../services/new/core';
+import { WalletState } from '../../common';
+import { selectedWalletState$ } from '../wallets';
 
 const getUsedAddresses = () => from(ergo.get_used_addresses());
 
 const getUnusedAddresses = () => from(ergo.get_unused_addresses());
 
 export const getAddresses = (): Observable<string[]> =>
-  isWalletConnected$.pipe(
+  selectedWalletState$.pipe(
+    filter((state) => state === WalletState.CONNECTED),
     switchMap(() => zip(getUsedAddresses(), getUnusedAddresses())),
     map(([usedAddrs, unusedAddrs]) => unusedAddrs.concat(usedAddrs)),
   );

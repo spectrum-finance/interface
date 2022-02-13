@@ -2,11 +2,11 @@
 import React, { FC, ReactNode, useEffect, useState } from 'react';
 import { debounceTime, first, Observable } from 'rxjs';
 
+import { useAssetsBalance } from '../../../api/assetBalance';
 import { useObservable } from '../../../common/hooks/useObservable';
 import { Currency } from '../../../common/models/Currency';
 import { isOnline$ } from '../../../common/streams/networkConnection';
 import { Flex, Form, FormGroup } from '../../../ergodex-cdk';
-import { isWalletLoading$ } from '../../../services/new/core';
 import { ActionButton, ActionButtonState } from './ActionButton/ActionButton';
 
 export interface ActionFormProps<T> {
@@ -39,7 +39,7 @@ export const ActionForm: FC<ActionFormProps<any>> = ({
   children,
 }) => {
   const [isOnline] = useObservable(isOnline$);
-  const [isWalletLoading] = useObservable(isWalletLoading$);
+  const [, isBalanceLoading] = useAssetsBalance();
   const [value] = useObservable(
     form.valueChangesWithSilent$.pipe(debounceTime(100)),
     [form],
@@ -55,7 +55,7 @@ export const ActionForm: FC<ActionFormProps<any>> = ({
   useEffect(() => {
     if (!isOnline) {
       setButtonData({ state: ActionButtonState.CHECK_INTERNET_CONNECTION });
-    } else if (isWalletLoading || (isLoading && isLoading(value))) {
+    } else if (isBalanceLoading || (isLoading && isLoading(value))) {
       setButtonData({ state: ActionButtonState.LOADING });
     } else if (isTokensNotSelected && isTokensNotSelected(value)) {
       setButtonData({ state: ActionButtonState.SELECT_TOKEN });
@@ -97,7 +97,7 @@ export const ActionForm: FC<ActionFormProps<any>> = ({
     }
   }, [
     isOnline,
-    isWalletLoading,
+    isBalanceLoading,
     value,
     isLiquidityInsufficient,
     getInsufficientTokenNameForFee,
