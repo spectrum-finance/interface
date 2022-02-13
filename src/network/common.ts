@@ -1,6 +1,7 @@
 import { AmmDexOperation } from '@ergolabs/ergo-dex-sdk';
-import { Address } from '@ergolabs/ergo-sdk';
+import { Address, ErgoBox } from '@ergolabs/ergo-sdk';
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
+import { ReactNode } from 'react';
 import { Observable } from 'rxjs';
 
 import { AmmPool } from '../common/models/AmmPool';
@@ -21,5 +22,19 @@ export interface Network {
   readonly pendingTransactionsCount$: Observable<number>;
   readonly getTxHistory: (limit: number) => Observable<AmmDexOperation[]>;
 
+  readonly wallets: Wallet[];
+  readonly connectWallet: (w: Wallet) => Observable<any>;
   readonly useNetworkAsset: () => [AssetInfo, boolean, Error];
+}
+
+export interface Wallet {
+  readonly name: string;
+  readonly icon: ReactNode;
+  readonly experimental: boolean;
+  readonly extensionLink: string;
+  readonly connectWallet: () => Observable<any>;
+
+  // getAddresses(): Observable<string[]>;
+  //
+  // readonly utxos$: Observable<ErgoBox[]>;
 }

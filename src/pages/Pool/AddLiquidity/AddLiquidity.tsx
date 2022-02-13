@@ -217,7 +217,14 @@ const AddLiquidity = (): JSX.Element => {
         return (
           <AddLiquidityConfirmationModal
             value={value}
-            onClose={(request: Promise<any>) => next(request.then(resetForm))}
+            onClose={(request: Promise<any>) =>
+              next(
+                request.then((tx) => {
+                  resetForm();
+                  return tx;
+                }),
+              )
+            }
           />
         );
       },
