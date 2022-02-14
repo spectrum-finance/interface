@@ -1,5 +1,7 @@
 import {
   catchError,
+  combineLatest,
+  first,
   map,
   Observable,
   of,
@@ -11,6 +13,7 @@ import {
   tap,
 } from 'rxjs';
 
+import { notification } from '../../../ergodex-cdk';
 import { Wallet, WalletState } from '../../common';
 import { walletSettings } from '../settings/walletSettings';
 import { NautilusWallet } from './NautilusWallet';
@@ -21,20 +24,29 @@ const updateSelectedWallet$ = new Subject<string | undefined>();
 export const wallets$ = of([YoroiWallet, NautilusWallet]);
 
 export const disconnectWallet = (): void => {
-  walletSettings.removeConnected();
-  location.reload();
+  selectedWallet$.pipe(first()).subscribe((wallet) => {
+    if (wallet?.onDisconnect) {
+      wallet.onDisconnect();
+    }
+    walletSettings.removeConnected();
+    location.reload();
+  });
 };
 
 export const connectWallet = (wallet: Wallet): Observable<any> => {
-  const connectedWallet = walletSettings.getConnected();
+  const connectedWalletName = walletSettings.getConnected();
   walletSettings.removeConnected();
 
-  if (connectedWallet) {
-    return wallet.connectWallet().pipe(
-      tap(() => {
+  if (connectedWalletName) {
+    return combineLatest([wallet.connectWallet(), selectedWallet$]).pipe(
+      tap(([, selectedWallet]) => {
+        if (selectedWallet?.onDisconnect) {
+          selectedWallet.onDisconnect();
+        }
         walletSettings.setConnected(wallet.name);
         location.reload();
       }),
+      map(([isConnected]) => isConnected),
     );
   }
 
@@ -57,6 +69,16 @@ export const selectedWallet$: Observable<Wallet | undefined> =
       return wallets$.pipe(
         map((wallets) => wallets.find((w) => w.name === walletName)),
       );
+    }),
+    tap((wallet) => {
+      if (!wallet?.getNotification) {
+        return;
+      }
+
+      const notificationArgs = wallet.getNotification();
+      if (notificationArgs) {
+        notification.info(notificationArgs);
+      }
     }),
     publishReplay(1),
     refCount(),
