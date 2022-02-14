@@ -38,7 +38,7 @@ const WalletView: React.FC<WalletItemProps> = ({ wallet, onClick }) => {
     <Box contrast padding={2}>
       <Flex col>
         <Flex.Item marginBottom={2} alignSelf="flex-end">
-          <Tag color="yellow">Experimental</Tag>
+          <Tag color="gold">Experimental</Tag>
         </Flex.Item>
         <Flex.Item marginBottom={2}>
           <Checkbox checked={checked} onChange={handleCheck}>
