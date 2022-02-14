@@ -20,8 +20,24 @@ const updateSelectedWallet$ = new Subject<string | undefined>();
 
 export const wallets$ = of([YoroiWallet, NautilusWallet]);
 
-export const connectWallet = (wallet: Wallet): Observable<any> => {
+export const disconnectWallet = (): void => {
   walletSettings.removeConnected();
+  location.reload();
+};
+
+export const connectWallet = (wallet: Wallet): Observable<any> => {
+  const connectedWallet = walletSettings.getConnected();
+  walletSettings.removeConnected();
+
+  if (connectedWallet) {
+    return wallet.connectWallet().pipe(
+      tap(() => {
+        walletSettings.setConnected(wallet.name);
+        location.reload();
+      }),
+    );
+  }
+
   updateSelectedWallet$.next(undefined);
   return wallet.connectWallet().pipe(
     tap(() => {

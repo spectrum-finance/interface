@@ -11,6 +11,7 @@ import { pendingTransactionsCount$ } from './transactions/pendingTransactions';
 import { getTxHistory } from './transactions/transactionsHistory';
 import {
   connectWallet,
+  disconnectWallet,
   selectedWallet$,
   selectedWalletState$,
   wallets$,
@@ -32,4 +33,5 @@ export const ergoNetwork: Network = {
   wallets$,
   selectedWallet$,
   selectedWalletState$,
+  disconnectWallet,
 };

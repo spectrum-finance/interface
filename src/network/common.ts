@@ -25,6 +25,7 @@ export interface Network {
   readonly selectedWallet$: Observable<Wallet | undefined>;
   readonly selectedWalletState$: Observable<WalletState>;
   readonly connectWallet: (w: Wallet) => Observable<any>;
+  readonly disconnectWallet: () => void;
   readonly useNetworkAsset: () => [AssetInfo, boolean, Error];
 }
 

@@ -44,3 +44,7 @@ export const connectWallet = (wallet: Wallet): Observable<any> =>
     switchMap((n) => n.connectWallet(wallet)),
     first(),
   );
+
+export const disconnectWallet = (): void => {
+  selectedNetwork$.pipe(first()).subscribe((n) => n.disconnectWallet());
+};

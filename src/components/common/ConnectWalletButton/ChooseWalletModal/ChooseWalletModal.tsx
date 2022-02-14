@@ -2,7 +2,11 @@ import './ChooseWalletModal.less';
 
 import React, { useState } from 'react';
 
-import { connectWallet, wallets$ } from '../../../../api/wallets';
+import {
+  connectWallet,
+  disconnectWallet,
+  wallets$,
+} from '../../../../api/wallets';
 import { useObservable } from '../../../../common/hooks/useObservable';
 import {
   Box,
@@ -10,6 +14,7 @@ import {
   Checkbox,
   DialogRef,
   Flex,
+  LogoutOutlined,
   Modal,
   Tag,
   Typography,
@@ -83,6 +88,13 @@ const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
               <WalletView onClick={handleWalletClick} wallet={wallet} />
             </Flex.Item>
           ))}
+          <Button
+            type="link"
+            icon={<LogoutOutlined />}
+            onClick={disconnectWallet}
+          >
+            Disconnect wallet
+          </Button>
         </Flex>
       </Modal.Content>
     </>

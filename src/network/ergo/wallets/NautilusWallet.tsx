@@ -1,6 +1,6 @@
 import { ErgoBox, ergoBoxFromProxy } from '@ergolabs/ergo-sdk';
 import React from 'react';
-import { from, map, Observable, tap, throwError } from 'rxjs';
+import { catchError, from, map, Observable, of, tap, throwError } from 'rxjs';
 
 import { ReactComponent as NautilusLogo } from '../../../assets/icons/nautilus-logo-icon.svg';
 import { Wallet } from '../../common';
@@ -11,6 +11,7 @@ const connectWallet = (): Observable<any> => {
   }
   return from(ergoConnector.nautilus.connect()).pipe(
     tap(() => (window.nautilus = Object.freeze(new NautilusErgoApi()))),
+    catchError(() => of(true)),
   );
 };
 
