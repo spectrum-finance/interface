@@ -22,15 +22,13 @@ import { PageSection } from '../../../components/Page/PageSection/PageSection';
 import {
   Animation,
   Flex,
+  Form,
+  FormGroup,
   List,
   Skeleton,
   Typography,
-} from '../../../ergodex-cdk';
-import {
-  Form,
-  FormGroup,
   useForm,
-} from '../../../ergodex-cdk/components/Form/NewForm';
+} from '../../../ergodex-cdk';
 import { LockedPositionItem } from '../components/LockedPositionItem/LockedPositionItem';
 import { LiquidityDatePicker } from '../components/LockLiquidityDatePicker/LiquidityDatePicker';
 import { RelockLiquidityConfirmationModal } from './RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal';

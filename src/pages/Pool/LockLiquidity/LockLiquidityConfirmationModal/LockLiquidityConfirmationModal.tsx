@@ -22,9 +22,10 @@ import { FormFeesSection } from '../../../../components/common/FormView/FormFees
 import { FormPairSection } from '../../../../components/common/FormView/FormPairSection/FormPairSection';
 import { useSettings } from '../../../../context';
 import { Button, Checkbox, Flex, Modal } from '../../../../ergodex-cdk';
+import { utxos$ } from '../../../../network/ergo/common/utxos';
 import { mainnetTxAssembler } from '../../../../services/defaultTxAssembler';
 import { explorer } from '../../../../services/explorer';
-import { useNetworkAsset, utxos$ } from '../../../../services/new/core';
+import { useNetworkAsset } from '../../../../services/new/core';
 import { submitTx } from '../../../../services/yoroi';
 import yoroiProver from '../../../../services/yoroi/prover';
 import { makeTarget } from '../../../../utils/ammMath';
@@ -122,9 +123,8 @@ const LockLiquidityConfirmationModal: React.FC<LockLiquidityConfirmationModalPro
             <Flex.Item marginBottom={4}>
               <Flex>
                 <Checkbox onChange={handleCheck}>
-                  I understand that I&apos;m locking{' '}
-                  <b>{lpAsset.toString({ suffix: false })}</b> LP-tokens, which
-                  is <b>{percent}%</b> of my{' '}
+                  I understand that I&apos;m locking <b>{lpAsset.toAmount()}</b>{' '}
+                  LP-tokens, which is <b>{percent}%</b> of my{' '}
                   <b>{`${xAsset.asset.name}/${yAsset.asset.name}`}</b> liquidity
                   position, for a period of{' '}
                   <b>{getLockingPeriodString(timelock)}</b> (until{' '}

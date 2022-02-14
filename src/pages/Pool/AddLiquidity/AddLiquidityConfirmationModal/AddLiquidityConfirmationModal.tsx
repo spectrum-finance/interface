@@ -9,12 +9,9 @@ import { InfoTooltip } from '../../../../components/InfoTooltip/InfoTooltip';
 import { PageSection } from '../../../../components/Page/PageSection/PageSection';
 import { useSettings } from '../../../../context';
 import { Button, Flex, Modal, Typography } from '../../../../ergodex-cdk';
+import { utxos$ } from '../../../../network/ergo/common/utxos';
 import { explorer } from '../../../../services/explorer';
-import {
-  useMinExFee,
-  useMinTotalFees,
-  utxos$,
-} from '../../../../services/new/core';
+import { useMinExFee, useMinTotalFees } from '../../../../services/new/core';
 import { poolActions } from '../../../../services/poolActions';
 import { submitTx } from '../../../../services/yoroi';
 import { makeTarget } from '../../../../utils/ammMath';
@@ -47,8 +44,12 @@ const AddLiquidityConfirmationModal: FC<AddLiquidityConfirmationModalProps> = ({
 
       const actions = poolActions(pool['pool']);
 
-      const inputX = pool['pool'].x.withAmount(xAmount.amount);
-      const inputY = pool['pool'].y.withAmount(yAmount.amount);
+      const inputX = pool['pool'].x.withAmount(
+        xAmount.asset.id === pool.x.asset.id ? xAmount.amount : yAmount.amount,
+      );
+      const inputY = pool['pool'].y.withAmount(
+        yAmount.asset.id === pool.y.asset.id ? yAmount.amount : xAmount.amount,
+      );
 
       const target = makeTarget(
         [inputX, inputY],
@@ -115,7 +116,7 @@ const AddLiquidityConfirmationModal: FC<AddLiquidityConfirmationModalProps> = ({
                             <Flex.Item marginRight={1}>
                               Execution Fee:
                             </Flex.Item>
-                            <Flex.Item>{minExFee.toString()}</Flex.Item>
+                            <Flex.Item>{minExFee.toCurrencyString()}</Flex.Item>
                           </Flex>
                         </Flex.Item>
 
@@ -133,7 +134,7 @@ const AddLiquidityConfirmationModal: FC<AddLiquidityConfirmationModalProps> = ({
                 </Flex.Item>
                 <Flex.Item>
                   <Typography.Text strong>
-                    {totalFees.toString()}
+                    {totalFees.toCurrencyString()}
                   </Typography.Text>
                 </Flex.Item>
               </Flex>

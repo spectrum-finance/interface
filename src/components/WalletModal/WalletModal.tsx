@@ -2,9 +2,10 @@ import React from 'react';
 
 import { networkAssetBalance$ } from '../../api/networkAssetBalance';
 import { useObservable } from '../../common/hooks/useObservable';
-import { Box, Flex, Modal, Typography } from '../../ergodex-cdk';
+import { Box, Button, Flex, Modal, Typography } from '../../ergodex-cdk';
 import { Tabs } from '../../ergodex-cdk/components/Tabs/Tabs';
 import { isLowBalance } from '../../utils/walletMath';
+import { ChooseWalletModal } from '../common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal';
 import { AddressesTab } from './AddressesTab/AddressesTab';
 import { LowBalanceWarning } from './LowBalanceWarning/LowBalanceWarning';
 import { TokensTab } from './TokensTab/TokensTab';
@@ -13,6 +14,10 @@ import { WalletTotalBalance } from './WalletTotalBalance/WalletTotalBalance';
 
 export const WalletModal: React.FC = () => {
   const [ergBalance] = useObservable(networkAssetBalance$);
+
+  const openChooseWalletModal = (): void => {
+    Modal.open(({ close }) => <ChooseWalletModal close={close} />);
+  };
 
   return (
     <>
@@ -33,7 +38,7 @@ export const WalletModal: React.FC = () => {
           <Flex.Item marginBottom={6}>
             <WalletActiveAddress />
           </Flex.Item>
-          <Flex.Item>
+          <Flex.Item marginBottom={6}>
             <Box contrast padding={4} borderRadius="m">
               <Tabs defaultActiveKey="1" centered type="card">
                 <Tabs.TabPane tab="Addresses" key="1">
@@ -49,6 +54,9 @@ export const WalletModal: React.FC = () => {
               </Tabs>
             </Box>
           </Flex.Item>
+          <Button type="default" size="large" onClick={openChooseWalletModal}>
+            Change wallet
+          </Button>
         </Flex>
       </Modal.Content>
     </>

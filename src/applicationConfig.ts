@@ -23,10 +23,12 @@ interface ApplicationConfig {
   readonly hiddenAssets: string[];
   readonly blacklistedPools: string[];
   readonly operationsRestrictions: OperationRestriction[];
+  readonly requestRetryCount: number;
 }
 
 export const applicationConfig: ApplicationConfig = {
   api: 'https://api.ergodex.io/v1/',
+  requestRetryCount: 3,
   social: {
     twitter: 'https://twitter.com/ErgoDex',
     telegram: 'https://t.me/ergodex_community',

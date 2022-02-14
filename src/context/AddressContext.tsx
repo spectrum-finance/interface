@@ -1,8 +1,11 @@
 import { publicKeyFromAddress } from '@ergolabs/ergo-sdk';
 import React, { createContext, useContext, useEffect, useState } from 'react';
+import { filter, mapTo } from 'rxjs';
 
+import { selectedWalletState$ } from '../api/wallets';
+import { useObservable } from '../common/hooks/useObservable';
+import { WalletState } from '../network/common';
 import { useSettings } from './SettingsContext';
-import { WalletContext } from './WalletContext';
 
 export type Address = string;
 
@@ -45,7 +48,12 @@ export const WalletAddressesProvider = ({
   children,
 }: WalletAddressesProviderProps): JSX.Element => {
   const [settings, setSettings] = useSettings();
-  const { isWalletConnected } = useContext(WalletContext);
+  const [isWalletConnected] = useObservable(
+    selectedWalletState$.pipe(
+      filter((state) => state === WalletState.CONNECTED),
+      mapTo(true),
+    ),
+  );
 
   const [walletAddresses, setWalletAddress] = useState<WalletAddresses>(
     DefaultWalletAddresses,

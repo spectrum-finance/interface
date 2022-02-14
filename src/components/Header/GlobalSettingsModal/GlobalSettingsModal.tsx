@@ -1,169 +1,123 @@
-import './GlobalSettingsModal.less';
-
-import React, { useState } from 'react';
+import React from 'react';
 
 import { defaultMinerFee } from '../../../common/constants/settings';
 import { useSettings } from '../../../context';
 import {
   Button,
+  CheckFn,
   Flex,
   Form,
-  Input,
+  FormGroup,
+  Messages,
   Modal,
   Typography,
+  useForm,
 } from '../../../ergodex-cdk';
 import { InfoTooltip } from '../../InfoTooltip/InfoTooltip';
+import { MinerFeeInput } from './MinerFeeInput/MinerFeeInput';
 
 interface GlobalSettingsModalProps {
   onClose: () => void;
 }
 
 interface GlobalSettingsFormModel {
-  readonly minerFee?: string;
+  readonly minerFee?: number;
   readonly explorerUrl?: string;
 }
 
 const MAX_ERG_FOR_TX = 2;
 const MAX_RECOMMENDED_ERG_FOR_TX = 0.3;
+const MIN_ERG_FOR_TX = defaultMinerFee;
+
+const minMinerFeeCheck: CheckFn<number> = (minerFee) =>
+  minerFee < MIN_ERG_FOR_TX ? 'minMinerFee' : undefined;
+
+const maxMinerFeeCheck: CheckFn<number> = (minerFee) =>
+  minerFee > MAX_ERG_FOR_TX ? 'maxMinerFee' : undefined;
+
+const recommendedMinerFeeCheck: CheckFn<number> = (minerFee) =>
+  minerFee >= MAX_RECOMMENDED_ERG_FOR_TX && minerFee <= MAX_ERG_FOR_TX
+    ? 'recommendedMinerFee'
+    : undefined;
+
+const errorMessages: Messages<GlobalSettingsFormModel> = {
+  minerFee: {
+    minMinerFee: `Minimum value is ${MIN_ERG_FOR_TX} ERG`,
+    maxMinerFee: `The value can't be more than ${MAX_ERG_FOR_TX} ERG`,
+  },
+};
+
+const warningMessages: Messages<GlobalSettingsFormModel> = {
+  minerFee: {
+    recommendedMinerFee: (value: number | undefined) =>
+      `You will spend ${value} ERG for every operation.`,
+  },
+};
 
 const GlobalSettingsModal: React.FC<GlobalSettingsModalProps> = ({
   onClose,
 }): JSX.Element => {
-  const [form] = Form.useForm<GlobalSettingsFormModel>();
-
   const [settings, setSettings] = useSettings();
 
-  const [minerFeeError, setMinerFeeError] = useState<
-    { type: 'error' | 'warning'; message: string } | undefined
-  >();
+  const form = useForm<GlobalSettingsFormModel>({
+    minerFee: useForm.ctrl(
+      settings.minerFee,
+      [minMinerFeeCheck, maxMinerFeeCheck],
+      [recommendedMinerFeeCheck],
+    ),
+  });
 
-  const initialValues = {
-    minerFee: settings.minerFee,
-    explorerUrl: settings.explorerUrl,
-  };
-
-  const handleClickMinimal = () => {
-    form.setFieldsValue({ minerFee: String(defaultMinerFee) || '' });
-    setMinerFeeError(undefined);
-  };
-
-  const submitGlobalSettings = () => {
-    const { minerFee } = form.getFieldsValue();
-
-    if (minerFee) {
-      setSettings({ ...settings, minerFee: Number(minerFee) });
-      onClose();
-    }
-  };
-
-  const onValuesChange = (changes: GlobalSettingsFormModel) => {
-    if (!changes.minerFee) {
-      setMinerFeeError({ type: 'error', message: 'Required' });
+  const submitGlobalSettings = (form: FormGroup<GlobalSettingsFormModel>) => {
+    if (form.invalid) {
       return;
     }
 
-    if (changes.minerFee) {
-      const val = Number(changes.minerFee);
-
-      if (isNaN(val)) {
-        setMinerFeeError({
-          type: 'error',
-          message: `Type a valid number`,
-        });
-        return;
-      }
-
-      if (val >= MAX_RECOMMENDED_ERG_FOR_TX && val <= MAX_ERG_FOR_TX) {
-        setMinerFeeError({
-          type: 'warning',
-          message: `You will spend ${val} ERG for every operation. We don't recommend use such big amounts`,
-        });
-        return;
-      }
-
-      if (val > MAX_ERG_FOR_TX) {
-        setMinerFeeError({
-          type: 'error',
-          message: `The value can't be more than ${MAX_ERG_FOR_TX} ERG`,
-        });
-        return;
-      }
-
-      if (val < defaultMinerFee) {
-        setMinerFeeError({
-          type: 'error',
-          message: `Minimum value is ${defaultMinerFee} ERG`,
-        });
-      } else {
-        setMinerFeeError(undefined);
-      }
-    }
+    setSettings({ ...settings, minerFee: form.value.minerFee! });
+    onClose();
   };
 
   return (
     <>
       <Modal.Title>Global Settings</Modal.Title>
       <Modal.Content width={450}>
-        <Flex col>
-          <Flex.Item>
-            <Form
-              name="global-settings"
-              form={form}
-              initialValues={initialValues}
-              onValuesChange={onValuesChange}
-            >
+        <Form
+          form={form}
+          onSubmit={submitGlobalSettings}
+          errorMessages={errorMessages}
+          warningMessages={warningMessages}
+        >
+          <Flex col>
+            <Flex.Item marginBottom={4}>
               <Typography.Footnote>Miner Fee</Typography.Footnote>
               <InfoTooltip content="Fee charged by miners" />
-              <Flex>
-                <Flex.Item marginRight={1}>
-                  <Button
-                    type="primary"
-                    size="large"
-                    onClick={handleClickMinimal}
-                    block
-                  >
-                    Minimum
-                  </Button>
-                </Flex.Item>
-                <Flex.Item
-                  className="global-settings__miner-fee-wrapper"
-                  style={{ width: '100%' }}
+            </Flex.Item>
+            <Flex.Item marginBottom={4}>
+              <Form.Item name="minerFee">
+                {({ value, onChange, state, message }) => (
+                  <MinerFeeInput
+                    value={value}
+                    onChange={onChange}
+                    state={state}
+                    message={message}
+                  />
+                )}
+              </Form.Item>
+            </Flex.Item>
+            <Form.Listener>
+              {({ invalid }) => (
+                <Button
+                  type="primary"
+                  size="large"
+                  block
+                  htmlType="submit"
+                  disabled={invalid}
                 >
-                  <Form.Item
-                    name="minerFee"
-                    validateStatus={minerFeeError ? minerFeeError.type : ''}
-                    help={minerFeeError ? minerFeeError.message : ''}
-                  >
-                    <Input
-                      size="large"
-                      placeholder="< 0.002"
-                      autoCorrect="off"
-                      autoComplete="off"
-                      suffix="ERG"
-                    />
-                  </Form.Item>
-                </Flex.Item>
-              </Flex>
-
-              {/*<Form.Item name="explorerUrl">*/}
-              {/*  <Typography.Footnote>Explorer URL</Typography.Footnote>*/}
-              {/*  <InfoTooltip content="Custom explorer URL" />*/}
-              {/*  <Input disabled size="large" placeholder={ERG_EXPLORER_URL} />*/}
-              {/*</Form.Item>*/}
-            </Form>
-          </Flex.Item>
-          <Flex.Item>
-            <Button
-              type="primary"
-              size="large"
-              block
-              onClick={submitGlobalSettings}
-              disabled={minerFeeError && minerFeeError.type === 'error'}
-            >
-              Confirm
-            </Button>
-          </Flex.Item>
-        </Flex>
+                  Confirm
+                </Button>
+              )}
+            </Form.Listener>
+          </Flex>
+        </Form>
       </Modal.Content>
     </>
   );

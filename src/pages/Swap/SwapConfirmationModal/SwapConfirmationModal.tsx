@@ -13,10 +13,18 @@ import { useObservable } from '../../../common/hooks/useObservable';
 import { TokenControlFormItem } from '../../../components/common/TokenControl/TokenControl';
 import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
 import { useSettings } from '../../../context';
-import { Box, Button, Flex, Modal, Typography } from '../../../ergodex-cdk';
-import { Form, useForm } from '../../../ergodex-cdk/components/Form/NewForm';
+import {
+  Box,
+  Button,
+  Flex,
+  Form,
+  Modal,
+  Typography,
+  useForm,
+} from '../../../ergodex-cdk';
+import { utxos$ } from '../../../network/ergo/common/utxos';
 import { explorer } from '../../../services/explorer';
-import { useMinExFee, utxos$ } from '../../../services/new/core';
+import { useMinExFee } from '../../../services/new/core';
 import { poolActions } from '../../../services/poolActions';
 import { submitTx } from '../../../services/yoroi';
 import { makeTarget } from '../../../utils/ammMath';
@@ -67,7 +75,7 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
     if (value.pool && value.fromAsset && value.fromAmount) {
       setBaseParams(
         getBaseInputParameters(value.pool['pool'], {
-          inputAmount: value.fromAmount.toString({ suffix: false }),
+          inputAmount: value.fromAmount.toAmount(),
           inputAsset: value.fromAsset,
           slippage,
         }),

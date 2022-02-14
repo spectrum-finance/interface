@@ -3,11 +3,10 @@ import './OperationForm.less';
 import React, { ReactNode, useEffect, useState } from 'react';
 import { debounceTime, first, Observable } from 'rxjs';
 
+import { useAssetsBalance } from '../../api/assetBalance';
 import { useObservable } from '../../common/hooks/useObservable';
 import { isOnline$ } from '../../common/streams/networkConnection';
-import { Button, Flex } from '../../ergodex-cdk';
-import { Form, FormGroup } from '../../ergodex-cdk/components/Form/NewForm';
-import { isWalletLoading$ } from '../../services/new/core';
+import { Button, Flex, Form, FormGroup } from '../../ergodex-cdk';
 import { ConnectWalletButton } from '../common/ConnectWalletButton/ConnectWalletButton';
 
 export type OperationValidator<T> = (
@@ -35,7 +34,7 @@ export function OperationForm<T>({
   actionCaption,
 }: OperationFormProps<T>): JSX.Element {
   const [isOnline] = useObservable(isOnline$);
-  const [isWalletLoading] = useObservable(isWalletLoading$);
+  const [, isBalanceLoading] = useAssetsBalance();
   const [value] = useObservable(
     form.valueChangesWithSilent$.pipe(debounceTime(100)),
     [form],
@@ -58,7 +57,7 @@ export function OperationForm<T>({
         loading: false,
         caption: CHECK_INTERNET_CONNECTION_CAPTION,
       });
-    } else if (isWalletLoading) {
+    } else if (isBalanceLoading) {
       setButtonProps({
         disabled: false,
         loading: true,
@@ -73,7 +72,7 @@ export function OperationForm<T>({
         caption: caption || actionCaption,
       });
     }
-  }, [isOnline, isWalletLoading, value, validators, actionCaption]);
+  }, [isOnline, isBalanceLoading, value, validators, actionCaption]);
 
   const handleSubmit = () => {
     if (loading || disabled) {

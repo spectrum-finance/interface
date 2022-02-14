@@ -4,8 +4,7 @@ import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import React, { useEffect, useState } from 'react';
 
 import { Currency } from '../../../../common/models/Currency';
-import { Box, Input } from '../../../../ergodex-cdk';
-import { EventConfig } from '../../../../ergodex-cdk/components/Form/NewForm';
+import { Box, EventConfig, Input } from '../../../../ergodex-cdk';
 import { escapeRegExp } from './format';
 
 const inputRegex = RegExp(`^\\d*(?:\\\\[.])?\\d*$`); // match escaped "." characters via in a non-capturing group
@@ -46,8 +45,8 @@ const TokenAmountInput: React.FC<TokenAmountInputProps> = ({
   const [userInput, setUserInput] = useState<string | undefined>(undefined);
 
   useEffect(() => {
-    if (Number(value?.toString({ suffix: false })) !== Number(userInput)) {
-      setUserInput(value?.toString({ suffix: false }));
+    if (Number(value?.toAmount()) !== Number(userInput)) {
+      setUserInput(value?.toAmount());
     }
   }, [value]);
 
@@ -55,7 +54,7 @@ const TokenAmountInput: React.FC<TokenAmountInputProps> = ({
     if (value && asset) {
       const newValue = value?.changeAsset(asset);
 
-      setUserInput(newValue.toString({ suffix: false }));
+      setUserInput(newValue?.toAmount());
 
       if (onChange && value.asset.id !== asset.id) {
         onChange(newValue, { emitEvent: 'silent' });

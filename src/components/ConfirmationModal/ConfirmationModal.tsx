@@ -37,29 +37,29 @@ const getDescriptionByData = (
   switch (operation) {
     case Operation.ADD_LIQUIDITY:
       return xAsset && yAsset
-        ? `Adding liquidity ${xAsset.toString()} and ${yAsset.toString()}`
+        ? `Adding liquidity ${xAsset.toCurrencyString()} and ${yAsset.toCurrencyString()}`
         : '';
     case Operation.REFUND:
       return xAsset && yAsset
-        ? `Refunding ${xAsset.toString()} and ${yAsset.toString()}`
+        ? `Refunding ${xAsset.toCurrencyString()} and ${yAsset.toCurrencyString()}`
         : '';
     case Operation.REMOVE_LIQUIDITY:
       return xAsset && yAsset
-        ? `Removing liquidity ${xAsset.toString()} and ${yAsset.toString()}`
+        ? `Removing liquidity ${xAsset.toCurrencyString()} and ${yAsset.toCurrencyString()}`
         : '';
     case Operation.SWAP:
       return xAsset && yAsset
-        ? `Swapping ${xAsset.toString()} for ${yAsset.toString()}`
+        ? `Swapping ${xAsset.toCurrencyString()} for ${yAsset.toCurrencyString()}`
         : '';
     case Operation.LOCK_LIQUIDITY:
       return xAsset && yAsset
-        ? `Locking ${xAsset.toString()} and ${yAsset.toString()} (${
-            lpAsset && lpAsset.toString({ suffix: false }) + ' LP-tokens'
+        ? `Locking ${xAsset.toCurrencyString()} and ${yAsset.toCurrencyString()} (${
+            lpAsset && lpAsset.toAmount() + ' LP-tokens'
           }) for ${time && getLockingPeriodString(time)}`
         : '';
     case Operation.RELOCK_LIQUIDITY:
-      return `Relocking ${assetLock?.x.toString()} and ${assetLock?.y.toString()} (${
-        assetLock && assetLock.lp.toString({ suffix: false }) + ' LP-tokens'
+      return `Relocking ${assetLock?.x.toCurrencyString()} and ${assetLock?.y.toCurrencyString()} (${
+        assetLock && assetLock.lp.toAmount() + ' LP-tokens'
       })`;
   }
 };

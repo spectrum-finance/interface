@@ -21,12 +21,7 @@ import { Page } from '../../../components/Page/Page';
 import { PageHeader } from '../../../components/Page/PageHeader/PageHeader';
 import { PageSection } from '../../../components/Page/PageSection/PageSection';
 import { SubmitButton } from '../../../components/SubmitButton/SubmitButton';
-import { Flex, Skeleton } from '../../../ergodex-cdk';
-import {
-  Form,
-  FormGroup,
-  useForm,
-} from '../../../ergodex-cdk/components/Form/NewForm';
+import { Flex, Form, FormGroup, Skeleton, useForm } from '../../../ergodex-cdk';
 import { RemoveLiquidityConfirmationModal } from './RemoveLiquidityConfirmationModal/RemoveLiquidityConfirmationModal';
 
 interface RemoveFormModel {

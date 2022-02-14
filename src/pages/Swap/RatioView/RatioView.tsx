@@ -5,15 +5,15 @@ import { debounceTime, map } from 'rxjs';
 
 import { useObservable } from '../../../common/hooks/useObservable';
 import { Currency } from '../../../common/models/Currency';
-import { Animation, Typography } from '../../../ergodex-cdk';
-import { FormGroup } from '../../../ergodex-cdk/components/Form/NewForm';
+import { Ratio } from '../../../common/models/Ratio';
+import { Animation, FormGroup, Typography } from '../../../ergodex-cdk';
 import { SwapFormModel } from '../SwapFormModel';
 
 const calculateOutputPrice = ({
   fromAmount,
   fromAsset,
   pool,
-}: Required<SwapFormModel>): Currency => {
+}: Required<SwapFormModel>): Ratio => {
   if (fromAmount?.isPositive()) {
     return pool.calculateOutputPrice(fromAmount);
   } else {
@@ -25,7 +25,7 @@ const calculateInputPrice = ({
   toAmount,
   toAsset,
   pool,
-}: Required<SwapFormModel>): Currency => {
+}: Required<SwapFormModel>): Ratio => {
   if (toAmount?.isPositive()) {
     return pool.calculateInputPrice(toAmount);
   } else {
@@ -33,7 +33,7 @@ const calculateInputPrice = ({
   }
 };
 
-export const Ratio: FC<{ form: FormGroup<SwapFormModel> }> = ({ form }) => {
+export const RatioView: FC<{ form: FormGroup<SwapFormModel> }> = ({ form }) => {
   const [reversedRatio, setReversedRatio] = useState(false);
   const [ratio] = useObservable(
     form.valueChangesWithSilent$.pipe(
@@ -42,6 +42,7 @@ export const Ratio: FC<{ form: FormGroup<SwapFormModel> }> = ({ form }) => {
         if (!value.pool || !value.fromAsset) {
           return undefined;
         }
+
         if (reversedRatio) {
           return calculateInputPrice(value as Required<SwapFormModel>);
         } else {
@@ -50,8 +51,12 @@ export const Ratio: FC<{ form: FormGroup<SwapFormModel> }> = ({ form }) => {
       }),
       map((price) =>
         reversedRatio
-          ? `1 ${form.value.toAsset?.name} = ${price?.toString()}`
-          : `1 ${form.value.fromAsset?.name} = ${price?.toString()}`,
+          ? `1 ${form.value.toAsset?.name} = ${price?.toString()} ${
+              price?.asset.name
+            }`
+          : `1 ${form.value.fromAsset?.name} = ${price?.toString()} ${
+              price?.asset.name
+            }`,
       ),
     ),
     [form, reversedRatio],

@@ -20,7 +20,7 @@ export const formatToUSD = (amount: number | string, type?: 'abbr'): string => {
 };
 
 export const formatToPercent = (amount: number | string): string => {
-  return numeral(amount).format(PERCENT_FORMAT);
+  return numeral(Number(amount) / 100).format(PERCENT_FORMAT);
 };
 
 export const formatToInt = (amount: number | string): string =>

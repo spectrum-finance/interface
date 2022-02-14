@@ -21,8 +21,8 @@ export class Position {
 
   @cache
   get totalLockedPercent(): number {
-    const lpAmount = this.lockedLp.toString({ suffix: false });
-    const poolLiquidityAmount = this.totalLp.toString({ suffix: false });
+    const lpAmount = this.lockedLp.toAmount();
+    const poolLiquidityAmount = this.totalLp.toAmount();
     return math.evaluate!(
       `${lpAmount} / (${poolLiquidityAmount}) * 100`,
     ).toFixed(2);

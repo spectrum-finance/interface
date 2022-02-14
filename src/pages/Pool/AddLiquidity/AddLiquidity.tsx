@@ -20,12 +20,13 @@ import {
 
 import { getAmmPoolById, getAmmPoolsByAssetPair } from '../../../api/ammPools';
 import { useAssetsBalance } from '../../../api/assetBalance';
-import { assets$, getAvailableAssetFor } from '../../../api/assets';
+import { getAvailableAssetFor, tokenAssets$ } from '../../../api/assets';
 import {
   useObservable,
   useSubject,
   useSubscription,
 } from '../../../common/hooks/useObservable';
+import { Currency } from '../../../common/models/Currency';
 import { ActionForm } from '../../../components/common/ActionForm/ActionForm';
 import { PoolSelect } from '../../../components/common/PoolSelect/PoolSelect';
 import { TokenControlFormItem } from '../../../components/common/TokenControl/TokenControl';
@@ -35,8 +36,7 @@ import {
   Operation,
 } from '../../../components/ConfirmationModal/ConfirmationModal';
 import { Page } from '../../../components/Page/Page';
-import { Flex, Typography } from '../../../ergodex-cdk';
-import { Form, useForm } from '../../../ergodex-cdk/components/Form/NewForm';
+import { Flex, Form, Typography, useForm } from '../../../ergodex-cdk';
 import { useMaxTotalFees, useNetworkAsset } from '../../../services/new/core';
 import { AddLiquidityConfirmationModal } from './AddLiquidityConfirmationModal/AddLiquidityConfirmationModal';
 import { AddLiquidityFormModel } from './FormModel';
@@ -177,8 +177,34 @@ const AddLiquidity = (): JSX.Element => {
     return undefined;
   };
 
-  const isAmountNotEntered = (value: AddLiquidityFormModel): boolean => {
-    return !value.xAmount?.isPositive() || !value.yAmount?.isPositive();
+  const isAmountNotEntered = ({
+    xAmount,
+    yAmount,
+  }: AddLiquidityFormModel): boolean => {
+    if (
+      (!xAmount?.isPositive() && yAmount?.isPositive()) ||
+      (!yAmount?.isPositive() && xAmount?.isPositive())
+    ) {
+      return false;
+    }
+
+    return !xAmount?.isPositive() || !yAmount?.isPositive();
+  };
+
+  const getMinValueForToken = ({
+    xAmount,
+    yAmount,
+    x,
+    y,
+    pool,
+  }: AddLiquidityFormModel): Currency | undefined => {
+    if (!xAmount?.isPositive() && yAmount?.isPositive() && pool) {
+      return pool.calculateDepositAmount(new Currency(1n, x)).plus(1n);
+    }
+    if (!yAmount?.isPositive() && xAmount?.isPositive() && pool) {
+      return pool.calculateDepositAmount(new Currency(1n, y));
+    }
+    return undefined;
   };
 
   const isTokensNotSelected = (value: AddLiquidityFormModel): boolean => {
@@ -188,7 +214,19 @@ const AddLiquidity = (): JSX.Element => {
   const addLiquidityAction = (value: Required<AddLiquidityFormModel>) => {
     openConfirmationModal(
       (next) => {
-        return <AddLiquidityConfirmationModal value={value} onClose={next} />;
+        return (
+          <AddLiquidityConfirmationModal
+            value={value}
+            onClose={(request: Promise<any>) =>
+              next(
+                request.then((tx) => {
+                  resetForm();
+                  return tx;
+                }),
+              )
+            }
+          />
+        );
       },
       Operation.ADD_LIQUIDITY,
       {
@@ -198,12 +236,22 @@ const AddLiquidity = (): JSX.Element => {
     );
   };
 
+  const resetForm = () =>
+    form.patchValue(
+      {
+        xAmount: undefined,
+        yAmount: undefined,
+      },
+      { emitEvent: 'silent' },
+    );
+
   return (
     <Page title="Add liquidity" width={480} withBackButton backTo="/pool">
       {!poolId || !poolsLoading ? (
         <ActionForm
           form={form}
           actionButton="Add liquidity"
+          getMinValueForToken={getMinValueForToken}
           getInsufficientTokenNameForFee={getInsufficientTokenNameForFee}
           getInsufficientTokenNameForTx={getInsufficientTokenNameForTx}
           isAmountNotEntered={isAmountNotEntered}
@@ -215,7 +263,7 @@ const AddLiquidity = (): JSX.Element => {
               <Typography.Body strong>Select Pair</Typography.Body>
               <Flex justify="center" align="center">
                 <Flex.Item marginRight={2} style={{ width: '100%' }}>
-                  <TokeSelectFormItem name="x" assets$={assets$} />
+                  <TokeSelectFormItem name="x" assets$={tokenAssets$} />
                 </Flex.Item>
                 <Flex.Item style={{ width: '100%' }}>
                   <TokeSelectFormItem name="y" assets$={yAssets$} />
@@ -249,7 +297,7 @@ const AddLiquidity = (): JSX.Element => {
                     disabled={!isPairSelected}
                     amountName="xAmount"
                     tokenName="x"
-                    assets$={assets$}
+                    assets$={tokenAssets$}
                   />
                 </Flex.Item>
                 <Flex.Item>

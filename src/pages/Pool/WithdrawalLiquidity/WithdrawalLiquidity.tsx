@@ -16,12 +16,15 @@ import {
 } from '../../../components/OperationForm/OperationForm';
 import { Page } from '../../../components/Page/Page';
 import { PageHeader } from '../../../components/Page/PageHeader/PageHeader';
-import { Flex, List, Skeleton, Typography } from '../../../ergodex-cdk';
 import {
+  Flex,
   Form,
   FormGroup,
+  List,
+  Skeleton,
+  Typography,
   useForm,
-} from '../../../ergodex-cdk/components/Form/NewForm';
+} from '../../../ergodex-cdk';
 import { LockedPositionItem } from '../components/LockedPositionItem/LockedPositionItem';
 import { WithdrawalLiquidityConfirmationModal } from './WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal';
 

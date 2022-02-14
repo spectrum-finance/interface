@@ -3,10 +3,10 @@ import './ConnectWalletButton.less';
 import cn from 'classnames';
 import React, { FC, ReactNode } from 'react';
 
+import { isWalletSetuped$ } from '../../../api/wallets';
 import { useObservable } from '../../../common/hooks/useObservable';
 import { useAppLoadingState } from '../../../context';
 import { Button, ButtonProps, Modal } from '../../../ergodex-cdk';
-import { isWalletSetuped$ } from '../../../services/new/core';
 import { ChooseWalletModal } from './ChooseWalletModal/ChooseWalletModal';
 
 export interface ConnectWalletButtonProps {
@@ -20,12 +20,7 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = ({
   className,
   children,
 }) => {
-  // const { isWalletConnected } = useWallet();
-
-  // TODO: Update with rx [EDEX-487]
-  // const [isWalletLoading] = useObservable(isWalletLoading$);
   const [isWalletConnected] = useObservable(isWalletSetuped$);
-
   const [{ isKYAAccepted }] = useAppLoadingState();
 
   const openChooseWalletModal = (): void => {

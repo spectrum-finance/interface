@@ -1,36 +1,31 @@
 import {
-  combineLatest,
-  debounceTime,
+  filter,
   from,
   map,
+  Observable,
   publishReplay,
   refCount,
   switchMap,
+  zip,
 } from 'rxjs';
 
 import { appTick$ } from '../../../common/streams/appTick';
-import { isWalletConnected$ } from '../../../services/new/core';
+import { WalletState } from '../../common';
+import { selectedWalletState$ } from '../wallets';
 
-const usedAddresses$ = isWalletConnected$.pipe(
-  switchMap(() => appTick$),
-  switchMap(() => from(ergo.get_used_addresses())),
-  publishReplay(1),
-  refCount(),
-);
+const getUsedAddresses = () => from(ergo.get_used_addresses());
 
-const unusedAddresses$ = isWalletConnected$.pipe(
-  switchMap(() => appTick$),
-  switchMap(() => from(ergo.get_unused_addresses())),
-  publishReplay(1),
-  refCount(),
-);
+const getUnusedAddresses = () => from(ergo.get_unused_addresses());
 
-export const addresses$ = combineLatest([
-  usedAddresses$,
-  unusedAddresses$,
-]).pipe(
-  debounceTime(200),
-  map(([usedAddrs, unusedAddrs]) => unusedAddrs.concat(usedAddrs)),
+export const getAddresses = (): Observable<string[]> =>
+  selectedWalletState$.pipe(
+    filter((state) => state === WalletState.CONNECTED),
+    switchMap(() => zip(getUsedAddresses(), getUnusedAddresses())),
+    map(([usedAddrs, unusedAddrs]) => unusedAddrs.concat(usedAddrs)),
+  );
+
+export const addresses$: Observable<string[]> = appTick$.pipe(
+  switchMap(() => getAddresses()),
   publishReplay(1),
   refCount(),
 );

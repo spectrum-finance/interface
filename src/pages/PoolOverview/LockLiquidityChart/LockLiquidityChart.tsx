@@ -4,7 +4,10 @@ import React, { FC, useState } from 'react';
 import { Bar, BarChart, Label, Tooltip, XAxis, YAxis } from 'recharts';
 
 import { Flex, Progress } from '../../../ergodex-cdk';
-import { AmmPoolConfidenceAnalytic, LocksGroup } from '../LocksAnalytic';
+import {
+  AmmPoolConfidenceAnalytic,
+  LocksGroup,
+} from '../AmmPoolConfidenceAnalytic';
 import { AnalyticOverview } from './AnalyticOverview/AnalyticOverview';
 import { ChartContainer } from './ChartContainer/ChartContainer';
 

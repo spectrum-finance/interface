@@ -7,26 +7,27 @@ import {
   SlippageMax,
   SlippageMin,
 } from '../../../../common/constants/settings';
-import { Alert, Button, Flex, Input } from '../../../../ergodex-cdk';
-import { Control } from '../../../../ergodex-cdk/components/Form/NewForm';
+import {
+  Alert,
+  Animation,
+  Box,
+  Button,
+  Control,
+  Flex,
+  Input,
+} from '../../../../ergodex-cdk';
 
 export type NitroInputProps = Control<number>;
 
-const SLIPPAGE_OPTIONS = {
-  '1': 1,
-  '3': defaultSlippage,
-  '7': 7,
-};
+const SLIPPAGE_OPTIONS = [1, defaultSlippage, 7];
 
 export const SlippageInput: FC<NitroInputProps> = ({
   value,
   onChange,
-  warningMessage,
-  withWarnings,
+  state,
+  message,
 }) => {
-  const isCustomSlippage = !Object.values(SLIPPAGE_OPTIONS).some(
-    (val) => val === value,
-  );
+  const isCustomSlippage = !SLIPPAGE_OPTIONS.some((val) => val === value);
 
   const handleClickSlippage = (percentage: number) => {
     if (onChange) {
@@ -42,15 +43,14 @@ export const SlippageInput: FC<NitroInputProps> = ({
 
   return (
     <Flex col>
-      <Flex.Item marginBottom={2}>
-        <Flex justify="space-between">
-          {Object.values(SLIPPAGE_OPTIONS)
-            .sort()
-            .map((val, index) => (
+      <Flex.Item marginBottom={message ? 2 : 0}>
+        <Box contrast>
+          <Flex justify="space-between">
+            {SLIPPAGE_OPTIONS.sort().map((val, index) => (
               <Flex.Item key={index} marginRight={1} style={{ width: '100%' }}>
                 <Button
                   block
-                  type={val === value ? 'primary' : 'ghost'}
+                  type={val === value ? 'primary' : 'text'}
                   size="middle"
                   onClick={() => handleClickSlippage(val)}
                 >
@@ -58,27 +58,28 @@ export const SlippageInput: FC<NitroInputProps> = ({
                 </Button>
               </Flex.Item>
             ))}
-          <Flex.Item>
-            <Input
-              className="slippage-input"
-              style={{ width: '72px' }}
-              value={value}
-              placeholder="1"
-              state={withWarnings ? 'warning' : undefined}
-              type="number"
-              min={SlippageMin}
-              max={SlippageMax}
-              size="middle"
-              suffix="%"
-              isActive={isCustomSlippage}
-              onChange={handleInputChange}
-            />
-          </Flex.Item>
-        </Flex>
+            <Flex.Item>
+              <Input
+                className="slippage-input"
+                style={{ width: '128px' }}
+                value={value}
+                placeholder="1"
+                state={state}
+                type="number"
+                min={SlippageMin}
+                max={SlippageMax}
+                size="middle"
+                suffix="%"
+                isActive={isCustomSlippage}
+                onChange={handleInputChange}
+              />
+            </Flex.Item>
+          </Flex>
+        </Box>
       </Flex.Item>
-      {warningMessage && (
-        <Alert showIcon type="warning" message={warningMessage} />
-      )}
+      <Animation.Expand expanded={!!message}>
+        <Alert showIcon type={state} message={message} />
+      </Animation.Expand>
     </Flex>
   );
 };

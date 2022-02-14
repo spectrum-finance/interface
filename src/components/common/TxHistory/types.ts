@@ -3,6 +3,7 @@ import {
   TxStatus,
 } from '@ergolabs/ergo-dex-sdk/build/main/amm/models/operations';
 import { TxId } from '@ergolabs/ergo-sdk';
+import { DateTime } from 'luxon';
 
 import { Currency } from '../../../common/models/Currency';
 
@@ -15,5 +16,5 @@ export type Operation = {
   type: OperationType;
   status: OperationStatus;
   txId: TxId;
-  timestamp: string;
+  timestamp: DateTime;
 };

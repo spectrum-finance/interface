@@ -10,12 +10,9 @@ import { FormFeesSection } from '../../../../components/common/FormView/FormFees
 import { FormPairSection } from '../../../../components/common/FormView/FormPairSection/FormPairSection';
 import { useSettings } from '../../../../context';
 import { Box, Button, Flex, Modal } from '../../../../ergodex-cdk';
+import { utxos$ } from '../../../../network/ergo/common/utxos';
 import { explorer } from '../../../../services/explorer';
-import {
-  useMinExFee,
-  useMinTotalFees,
-  utxos$,
-} from '../../../../services/new/core';
+import { useMinExFee, useMinTotalFees } from '../../../../services/new/core';
 import { poolActions } from '../../../../services/poolActions';
 import { submitTx } from '../../../../services/yoroi';
 import { makeTarget } from '../../../../utils/ammMath';

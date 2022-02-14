@@ -37,7 +37,7 @@ const FormFeesSection: React.FC<FormFeesSection> = ({
                     <Flex.Item>
                       <Flex>
                         <Flex.Item marginRight={1}>Execution Fee:</Flex.Item>
-                        <Flex.Item>{minExFee.toString()}</Flex.Item>
+                        <Flex.Item>{minExFee.toCurrencyString()}</Flex.Item>
                       </Flex>
                     </Flex.Item>
                   )}
@@ -56,7 +56,9 @@ const FormFeesSection: React.FC<FormFeesSection> = ({
         </Flex.Item>
 
         <Flex.Item>
-          <Typography.Text strong>{totalFees.toString()}</Typography.Text>
+          <Typography.Text strong>
+            {totalFees.toCurrencyString()}
+          </Typography.Text>
         </Flex.Item>
       </Flex>
     </PageSection>

@@ -5,8 +5,7 @@ import React, { FC } from 'react';
 import { useObservable } from '../../../common/hooks/useObservable';
 import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
 import { useSettings } from '../../../context';
-import { Flex } from '../../../ergodex-cdk';
-import { FormGroup } from '../../../ergodex-cdk/components/Form/NewForm';
+import { Flex, FormGroup } from '../../../ergodex-cdk';
 import { useMaxTotalFees, useMinExFee } from '../../../services/new/core';
 import { renderFractions } from '../../../utils/math';
 import { getBaseInputParameters } from '../../../utils/walletMath';
@@ -23,7 +22,7 @@ const TxInfoTooltipContent: FC<{ value: SwapFormModel }> = ({ value }) => {
           minExFee.amount,
           nitro,
           getBaseInputParameters(value.pool['pool']!, {
-            inputAmount: value.fromAmount?.toString({ suffix: false })!,
+            inputAmount: value.fromAmount?.toAmount()!,
             inputAsset: value.fromAsset!,
             slippage,
           }).minOutput,
@@ -57,7 +56,7 @@ const TxInfoTooltipContent: FC<{ value: SwapFormModel }> = ({ value }) => {
       <Flex.Item>
         <Flex justify="space-between">
           <Flex.Item marginRight={6}>Total Fees:</Flex.Item>
-          {totalFees.toString()}
+          {totalFees.toCurrencyString()}
         </Flex>
       </Flex.Item>
     </Flex>

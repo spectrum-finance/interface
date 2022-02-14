@@ -6,8 +6,8 @@ import { cache } from 'decorator-cache-getter';
 import { evaluate } from 'mathjs';
 
 import { math, renderFractions } from '../../utils/math';
-import { normalizeAmount } from '../utils/amount';
 import { Currency } from './Currency';
+import { Ratio } from './Ratio';
 
 export class AmmPool {
   constructor(private pool: BaseAmmPool) {}
@@ -43,12 +43,12 @@ export class AmmPool {
   }
 
   @cache
-  get xRatio(): Currency {
+  get xRatio(): Ratio {
     return this.getRatio(this.x, this.y);
   }
 
   @cache
-  get yRatio(): Currency {
+  get yRatio(): Ratio {
     return this.getRatio(this.y, this.x);
   }
 
@@ -78,40 +78,46 @@ export class AmmPool {
     throw new Error('unknown asset');
   }
 
-  calculateOutputPrice(inputCurrency: Currency): Currency {
+  calculateOutputPrice(inputCurrency: Currency): Ratio {
     const outputCurrency = this.calculateOutputAmount(inputCurrency);
 
-    if (inputCurrency.amount === 1n) {
-      return outputCurrency;
+    if (outputCurrency.amount === 0n) {
+      return outputCurrency.asset.id === this.x.asset.id
+        ? this.xRatio
+        : this.yRatio;
     }
 
-    const fmtInput = inputCurrency.toString({ suffix: false });
-    const fmtOutput = outputCurrency.toString({ suffix: false });
+    if (inputCurrency.amount === 1n) {
+      return new Ratio(outputCurrency.toAmount(), outputCurrency.asset);
+    }
+
+    const fmtInput = inputCurrency.toAmount();
+    const fmtOutput = outputCurrency.toAmount();
 
     const p = math.evaluate!(`${fmtOutput} / ${fmtInput}`).toString();
 
-    return new Currency(
-      normalizeAmount(p, outputCurrency.asset),
-      outputCurrency.asset,
-    );
+    return new Ratio(p, outputCurrency.asset);
   }
 
-  calculateInputPrice(outputCurrency: Currency): Currency {
+  calculateInputPrice(outputCurrency: Currency): Ratio {
     const inputCurrency = this.calculateInputAmount(outputCurrency);
 
-    if (outputCurrency.amount === 1n) {
-      return inputCurrency;
+    if (inputCurrency.amount === 0n) {
+      return inputCurrency.asset.id === this.x.asset.id
+        ? this.xRatio
+        : this.yRatio;
     }
 
-    const fmtInput = inputCurrency.toString({ suffix: false });
-    const fmtOutput = outputCurrency.toString({ suffix: false });
+    if (outputCurrency.amount === 1n) {
+      return new Ratio(inputCurrency.toAmount(), inputCurrency.asset);
+    }
+
+    const fmtInput = inputCurrency.toAmount();
+    const fmtOutput = outputCurrency.toAmount();
 
     const p = math.evaluate!(`${fmtInput} / ${fmtOutput}`).toString();
 
-    return new Currency(
-      normalizeAmount(p, inputCurrency.asset),
-      inputCurrency.asset,
-    );
+    return new Ratio(p, inputCurrency.asset);
   }
 
   calculateDepositAmount(currency: Currency): Currency {
@@ -127,6 +133,15 @@ export class AmmPool {
       new AssetAmount(currency.asset, currency.amount),
     );
 
+    if (!inputAmount) {
+      return new Currency(
+        0n,
+        currency.asset.id === this.pool.y.asset.id
+          ? this.pool.x.asset
+          : this.pool.y.asset,
+      );
+    }
+
     return new Currency(inputAmount?.amount, inputAmount?.asset);
   }
 
@@ -138,15 +153,14 @@ export class AmmPool {
     return new Currency(outputAmount.amount, outputAmount?.asset);
   }
 
-  private getRatio(first: Currency, second: Currency): Currency {
+  private getRatio(first: Currency, second: Currency): Ratio {
     const firstAmount = renderFractions(first.amount, first.asset.decimals);
     const secondAmount = renderFractions(second.amount, second.asset.decimals);
 
-    return new Currency(
-      normalizeAmount(
-        math.evaluate!(`${firstAmount} / ${secondAmount}`).toString(),
-        first.asset,
-      ),
-    );
+    const ratioAmount = math.evaluate!(
+      `${firstAmount} / ${secondAmount}`,
+    ).toString();
+
+    return new Ratio(ratioAmount, first.asset);
   }
 }

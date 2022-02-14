@@ -9,12 +9,15 @@ import { Observable, of } from 'rxjs';
 import { useAssetsBalance } from '../../../api/assetBalance';
 import { useObservable } from '../../../common/hooks/useObservable';
 import { Currency } from '../../../common/models/Currency';
-import { Animation, Box, Button, Flex, Typography } from '../../../ergodex-cdk';
 import {
+  Animation,
+  Box,
+  Button,
+  Flex,
   Form,
+  Typography,
   useFormContext,
-} from '../../../ergodex-cdk/components/Form/NewForm';
-import { isWalletLoading$ } from '../../../services/new/core';
+} from '../../../ergodex-cdk';
 import {
   TokenAmountInput,
   TokenAmountInputValue,
@@ -56,6 +59,7 @@ export interface NewTokenControlProps {
   readonly tokenName?: string;
   readonly label?: ReactNode;
   readonly maxButton?: boolean;
+  readonly handleMaxButtonClick?: (balance: Currency) => Currency;
   readonly hasBorder?: boolean;
   readonly assets?: AssetInfo[];
   readonly assets$?: Observable<AssetInfo[]>;
@@ -77,6 +81,7 @@ export const TokenControlFormItem: FC<NewTokenControlProps> = ({
   readonly,
   noBottomInfo,
   bordered,
+  handleMaxButtonClick,
 }) => {
   const { t } = useTranslation();
   const { form } = useFormContext();
@@ -86,11 +91,11 @@ export const TokenControlFormItem: FC<NewTokenControlProps> = ({
       ? form.controls[tokenName].valueChangesWithSilent$
       : of(undefined),
   );
-  const [isWalletLoading] = useObservable(isWalletLoading$);
-
-  const handleMaxButtonClick = (maxBalance: Currency) => {
+  const _handleMaxButtonClick = (maxBalance: Currency) => {
     if (amountName) {
-      form.controls[amountName].patchValue(maxBalance);
+      form.controls[amountName].patchValue(
+        handleMaxButtonClick ? handleMaxButtonClick(maxBalance) : maxBalance,
+      );
     }
   };
 
@@ -165,18 +170,14 @@ export const TokenControlFormItem: FC<NewTokenControlProps> = ({
               className="token-control-bottom-panel"
             >
               <Animation.Expand
-                expanded={
-                  selectedAsset !== undefined &&
-                  !isWalletLoading &&
-                  !balanceLoading
-                }
+                expanded={selectedAsset !== undefined && !balanceLoading}
               >
                 {() => (
                   <>
                     <Flex.Item marginRight={2}>
                       <Typography.Body>
                         {t`common.tokenControl.balanceLabel`}{' '}
-                        {balance.get(selectedAsset).toString()}
+                        {balance.get(selectedAsset).toCurrencyString()}
                       </Typography.Body>
                     </Flex.Item>
                     {!!balance.get(selectedAsset) && maxButton && (
@@ -185,7 +186,7 @@ export const TokenControlFormItem: FC<NewTokenControlProps> = ({
                         type="primary"
                         size="small"
                         onClick={() =>
-                          handleMaxButtonClick(balance.get(selectedAsset))
+                          _handleMaxButtonClick(balance.get(selectedAsset))
                         }
                       >
                         {t`common.tokenControl.maxButton`}

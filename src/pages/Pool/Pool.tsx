@@ -4,13 +4,14 @@ import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { ammPools$ } from '../../api/ammPools';
+import { useAssetsBalance } from '../../api/assetBalance';
 import { positions$ } from '../../api/positions';
+import { isWalletSetuped$ } from '../../api/wallets';
 import { useObservable } from '../../common/hooks/useObservable';
 import { ConnectWalletButton } from '../../components/common/ConnectWalletButton/ConnectWalletButton';
 import { Page } from '../../components/Page/Page';
 import { DownOutlined, Dropdown, Flex, Menu, Tabs } from '../../ergodex-cdk';
 import { useQuery } from '../../hooks/useQuery';
-import { isWalletLoading$, isWalletSetuped$ } from '../../services/new/core';
 import { EmptyPositionsWrapper } from './components/EmptyPositionsWrapper/EmptyPositionsWrapper';
 import { LiquidityPositionsList } from './components/LiquidityPositionsList/LiquidityPositionsList';
 import { LockListView } from './components/LocksList/LockListView';
@@ -68,7 +69,7 @@ const PoolPageWrapper: React.FC<PoolPageWrapperProps> = ({
 
 const Pool = (): JSX.Element => {
   const [isWalletConnected] = useObservable(isWalletSetuped$, [], false);
-  const [isWalletLoading] = useObservable(isWalletLoading$);
+  const [, isBalanceLoading] = useAssetsBalance();
   const history = useHistory();
   const query = useQuery();
 
@@ -106,7 +107,7 @@ const Pool = (): JSX.Element => {
           {isWalletConnected ? (
             <LiquidityPositionsList
               pools={positions.map((p) => p.pool)}
-              loading={isWalletLoading || isPositionLoading}
+              loading={isBalanceLoading || isPositionLoading}
             />
           ) : (
             <EmptyPositionsWrapper>

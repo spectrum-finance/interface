@@ -65,6 +65,7 @@ type ItemsProps = React.DetailedHTMLProps<
 > & {
   display?: 'flex' | 'block' | 'none';
   order?: number;
+  alignSelf?: 'flex-start' | 'stretch' | 'flex-end' | 'center';
   marginBottom?: number;
   marginTop?: number;
   marginLeft?: number;
@@ -75,6 +76,7 @@ type ItemsProps = React.DetailedHTMLProps<
 } & FlexProps;
 
 const Item: FC<ItemsProps> = ({
+  alignSelf,
   children,
   display,
   style,
@@ -99,6 +101,7 @@ const Item: FC<ItemsProps> = ({
       'ergo-flex',
       `ergo-flex-direction--${(col && 'col') || (row && 'row') || direction}`,
       `ergo-flex-justify--${justify}`,
+      `ergo-flex-align-self--${alignSelf}`,
       `ergo-flex-align-items--${align}`,
       { 'ergo-flex-item__grow': grow },
     ])}

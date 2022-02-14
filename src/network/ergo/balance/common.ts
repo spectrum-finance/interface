@@ -2,7 +2,6 @@ import { ErgoBox } from '@ergolabs/ergo-sdk';
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import {
   combineLatest,
-  debounceTime,
   defaultIfEmpty,
   from,
   map,
@@ -13,26 +12,23 @@ import {
 } from 'rxjs';
 
 import { explorer } from '../../../services/explorer';
-import { utxos$ } from '../../../services/new/core';
 import {
   Asset,
   getListAvailableTokens,
 } from '../../../utils/getListAvailableTokens';
+import { utxos$ } from '../common/utxos';
 
 const toListAvailableTokens = (utxos: ErgoBox[]): Asset[] =>
   Object.values(getListAvailableTokens(utxos));
 
-export const availableTokensData$: Observable<[bigint, AssetInfo][]> = utxos$
-  .pipe(map(toListAvailableTokens))
-  .pipe(
-    debounceTime(200),
+export const availableTokensData$: Observable<[bigint, AssetInfo][]> =
+  utxos$.pipe(
+    map(toListAvailableTokens),
     switchMap((boxAssets) =>
       combineLatest<[bigint, AssetInfo][]>(
         boxAssets.map((ba) =>
           from(explorer.getFullTokenInfo(ba.tokenId)).pipe(
-            map((assetInfo) => {
-              return [ba.amount, assetInfo as AssetInfo];
-            }),
+            map((assetInfo) => [ba.amount, assetInfo as AssetInfo]),
           ),
         ),
       ).pipe(defaultIfEmpty([])),
