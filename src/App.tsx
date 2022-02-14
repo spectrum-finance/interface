@@ -13,7 +13,6 @@ import {
   AppLoadingProvider,
   SettingsProvider,
   WalletAddressesProvider,
-  WalletContextProvider,
 } from './context';
 import { globalHistory } from './createBrowserHistory';
 import { ContextModalProvider } from './ergodex-cdk';
@@ -32,60 +31,58 @@ const Application = withTranslation()(() => {
   return (
     <Router history={globalHistory}>
       <AppLoadingProvider>
-        <WalletContextProvider>
-          <SettingsProvider>
-            <WalletAddressesProvider>
-              <ContextModalProvider>
-                <Layout>
-                  <BrowserView>
-                    <Switch>
-                      <Route path="/" exact>
-                        <Redirect to="/swap" />
-                      </Route>
-                      <Route path="/swap" exact component={Swap} />
-                      <Route path="/pool" exact component={Pool} />
-                      <Route path="/pool/add" exact component={AddLiquidity} />
-                      <Route
-                        path="/pool/:poolId/remove"
-                        exact
-                        component={RemoveLiquidity}
-                      />
-                      <Route
-                        path="/pool/:poolId/lock"
-                        exact
-                        component={LockLiquidity}
-                      />
-                      <Route
-                        path="/pool/:poolId/relock"
-                        exact
-                        component={RelockLiquidity}
-                      />
-                      <Route
-                        path="/pool/:poolId/withdrawal"
-                        exact
-                        component={WithdrawalLiquidity}
-                      />
-                      <Route
-                        path="/pool/:poolId/add"
-                        exact
-                        component={AddLiquidity}
-                      />
-                      <Route
-                        path="/pool/:poolId"
-                        exact
-                        component={PoolOverview}
-                      />
-                      <Route component={NotFound} />
-                    </Switch>
-                  </BrowserView>
-                  <MobileView>
-                    <MobilePlug />
-                  </MobileView>
-                </Layout>
-              </ContextModalProvider>
-            </WalletAddressesProvider>
-          </SettingsProvider>
-        </WalletContextProvider>
+        <SettingsProvider>
+          <WalletAddressesProvider>
+            <ContextModalProvider>
+              <Layout>
+                <BrowserView>
+                  <Switch>
+                    <Route path="/" exact>
+                      <Redirect to="/swap" />
+                    </Route>
+                    <Route path="/swap" exact component={Swap} />
+                    <Route path="/pool" exact component={Pool} />
+                    <Route path="/pool/add" exact component={AddLiquidity} />
+                    <Route
+                      path="/pool/:poolId/remove"
+                      exact
+                      component={RemoveLiquidity}
+                    />
+                    <Route
+                      path="/pool/:poolId/lock"
+                      exact
+                      component={LockLiquidity}
+                    />
+                    <Route
+                      path="/pool/:poolId/relock"
+                      exact
+                      component={RelockLiquidity}
+                    />
+                    <Route
+                      path="/pool/:poolId/withdrawal"
+                      exact
+                      component={WithdrawalLiquidity}
+                    />
+                    <Route
+                      path="/pool/:poolId/add"
+                      exact
+                      component={AddLiquidity}
+                    />
+                    <Route
+                      path="/pool/:poolId"
+                      exact
+                      component={PoolOverview}
+                    />
+                    <Route component={NotFound} />
+                  </Switch>
+                </BrowserView>
+                <MobileView>
+                  <MobilePlug />
+                </MobileView>
+              </Layout>
+            </ContextModalProvider>
+          </WalletAddressesProvider>
+        </SettingsProvider>
       </AppLoadingProvider>
     </Router>
   );

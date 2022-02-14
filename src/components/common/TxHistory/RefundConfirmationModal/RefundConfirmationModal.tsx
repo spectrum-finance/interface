@@ -14,7 +14,7 @@ import {
   Typography,
   useForm,
 } from '../../../../ergodex-cdk';
-import { utxos$ } from '../../../../services/new/core';
+import { utxos$ } from '../../../../network/ergo/common/utxos';
 import { submitTx } from '../../../../services/yoroi';
 import { refund } from '../../../../utils/ammOperations';
 import { getShortAddress } from '../../../../utils/string/addres';

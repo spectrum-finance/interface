@@ -18,7 +18,6 @@ import {
   Typography,
   useFormContext,
 } from '../../../ergodex-cdk';
-import { isWalletLoading$ } from '../../../services/new/core';
 import {
   TokenAmountInput,
   TokenAmountInputValue,
@@ -92,8 +91,6 @@ export const TokenControlFormItem: FC<NewTokenControlProps> = ({
       ? form.controls[tokenName].valueChangesWithSilent$
       : of(undefined),
   );
-  const [isWalletLoading] = useObservable(isWalletLoading$);
-
   const _handleMaxButtonClick = (maxBalance: Currency) => {
     if (amountName) {
       form.controls[amountName].patchValue(
@@ -173,11 +170,7 @@ export const TokenControlFormItem: FC<NewTokenControlProps> = ({
               className="token-control-bottom-panel"
             >
               <Animation.Expand
-                expanded={
-                  selectedAsset !== undefined &&
-                  !isWalletLoading &&
-                  !balanceLoading
-                }
+                expanded={selectedAsset !== undefined && !balanceLoading}
               >
                 {() => (
                   <>

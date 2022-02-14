@@ -9,12 +9,9 @@ import { InfoTooltip } from '../../../../components/InfoTooltip/InfoTooltip';
 import { PageSection } from '../../../../components/Page/PageSection/PageSection';
 import { useSettings } from '../../../../context';
 import { Button, Flex, Modal, Typography } from '../../../../ergodex-cdk';
+import { utxos$ } from '../../../../network/ergo/common/utxos';
 import { explorer } from '../../../../services/explorer';
-import {
-  useMinExFee,
-  useMinTotalFees,
-  utxos$,
-} from '../../../../services/new/core';
+import { useMinExFee, useMinTotalFees } from '../../../../services/new/core';
 import { poolActions } from '../../../../services/poolActions';
 import { submitTx } from '../../../../services/yoroi';
 import { makeTarget } from '../../../../utils/ammMath';

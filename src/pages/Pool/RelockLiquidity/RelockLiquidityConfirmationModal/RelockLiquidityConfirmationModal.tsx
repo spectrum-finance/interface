@@ -28,10 +28,11 @@ import {
   Modal,
   Typography,
 } from '../../../../ergodex-cdk';
+import { utxos$ } from '../../../../network/ergo/common/utxos';
 import { mainnetTxAssembler } from '../../../../services/defaultTxAssembler';
 import { explorer } from '../../../../services/explorer';
 import { lockParser } from '../../../../services/locker/parser';
-import { useNetworkAsset, utxos$ } from '../../../../services/new/core';
+import { useNetworkAsset } from '../../../../services/new/core';
 import { formatToInt } from '../../../../services/number';
 import { submitTx } from '../../../../services/yoroi';
 import yoroiProver from '../../../../services/yoroi/prover';

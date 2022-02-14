@@ -2,101 +2,110 @@ import './ChooseWalletModal.less';
 
 import React, { useState } from 'react';
 
-import { ReactComponent as YoroiLogo } from '../../../../assets/icons/yoroi-logo-icon.svg';
-import { useWallet } from '../../../../context';
 import {
-  Alert,
+  connectWallet,
+  disconnectWallet,
+  selectedWallet$,
+  wallets$,
+} from '../../../../api/wallets';
+import { useObservable } from '../../../../common/hooks/useObservable';
+import {
+  Box,
   Button,
+  Checkbox,
+  DialogRef,
   Flex,
+  LogoutOutlined,
   Modal,
-  notification,
+  Tag,
   Typography,
 } from '../../../../ergodex-cdk';
-import { connectWallet } from '../../../../services/new/core';
-import { connectYoroiWallet } from '../../../../utils/wallets/yoroi';
-
+import { Wallet } from '../../../../network/common';
 const { Body } = Typography;
 
-type WalletItemType = {
-  name: string;
-  logo: JSX.Element;
-  onClick: () => Promise<void | Error>;
-};
-
 interface WalletItemProps {
-  wallet: WalletItemType;
-  close: (result: boolean) => void;
+  wallet: Wallet;
+  onClick: (wallet: Wallet) => void;
 }
 
-const WalletItem: React.FC<WalletItemProps> = ({
-  wallet: { name, logo, onClick },
-  close,
-}) => {
-  const [warningMessage, setWarningMessage] = useState('');
-  return (
-    <Flex col>
-      <Flex.Item marginBottom={2}>
+const WalletView: React.FC<WalletItemProps> = ({ wallet, onClick }) => {
+  const [checked, setChecked] = useState<boolean>(false);
+
+  const handleCheck = () => setChecked((prev) => !prev);
+
+  const handleClick = () => onClick(wallet);
+
+  return wallet.experimental ? (
+    <Box contrast padding={2}>
+      <Flex col>
+        <Flex.Item marginBottom={2} alignSelf="flex-end">
+          <Tag color="gold">Experimental</Tag>
+        </Flex.Item>
+        <Flex.Item marginBottom={2}>
+          <Checkbox checked={checked} onChange={handleCheck}>
+            I understand that this wallet has not been audited. I will use it at
+            my own risk.
+          </Checkbox>
+        </Flex.Item>
         <Button
-          onClick={() => {
-            onClick()
-              .then(() => close(true))
-              .catch(setWarningMessage);
-          }}
           className="wallet-item__btn"
           size="large"
+          disabled={!checked}
+          onClick={handleClick}
         >
-          <Body>{name}</Body>
-          {logo}
+          <Body>{wallet.name}</Body>
+          {wallet.icon}
         </Button>
-      </Flex.Item>
-      {warningMessage && (
-        <Flex align="center" justify="center">
-          <Alert
-            type="warning"
-            description={warningMessage}
-            style={{ width: '100%' }}
-          />
-        </Flex>
-      )}
-    </Flex>
+      </Flex>
+    </Box>
+  ) : (
+    <Button className="wallet-item__btn" size="large" onClick={handleClick}>
+      <Body>{wallet.name}</Body>
+      {wallet.icon}
+    </Button>
   );
 };
 
-interface ChooseWalletModalProps {
-  close: (result: boolean) => void;
-}
+type ChooseWalletModalProps = DialogRef<boolean>;
 
 const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
   close,
 }): JSX.Element => {
-  const walletCtx = useWallet();
+  const [wallets] = useObservable(wallets$, [], []);
+  const [selectedWallet] = useObservable(selectedWallet$);
 
-  const wallets = [
-    {
-      name: 'Yoroi Wallet',
-      logo: <YoroiLogo />,
-      onClick: () => {
-        return connectYoroiWallet(walletCtx)().then((res) => {
-          connectWallet();
-          notification.info({
-            message: 'Yoroi Wallet tip',
-            description:
-              'Keep Yoroi Wallet extension window open, when you use ErgoDEX. So that it will sync faster.',
-            duration: null,
-          });
-          return res;
-        });
-      },
-    },
-  ];
+  const handleWalletClick = (wallet: Wallet) => {
+    connectWallet(wallet).subscribe(
+      () => close(true),
+      () => window.open(wallet.extensionLink),
+    );
+  };
 
   return (
     <>
       <Modal.Title>Select a wallet</Modal.Title>
       <Modal.Content width={400}>
-        {wallets.map((wallet, index) => (
-          <WalletItem key={index} close={close} wallet={wallet} />
-        ))}
+        <Flex col>
+          {wallets.map((wallet, index) => (
+            <Flex.Item
+              marginBottom={
+                index === wallets.length - 1 && !selectedWallet ? 0 : 4
+              }
+              key={index}
+            >
+              <WalletView onClick={handleWalletClick} wallet={wallet} />
+            </Flex.Item>
+          ))}
+          {selectedWallet && (
+            <Button
+              type="link"
+              icon={<LogoutOutlined />}
+              onClick={disconnectWallet}
+            >
+              Disconnect wallet
+            </Button>
+          )}
+        </Flex>
       </Modal.Content>
     </>
   );

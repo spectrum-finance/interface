@@ -4,10 +4,12 @@ import cn from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { isBrowser } from 'react-device-detect';
 
-import { networkAssetBalance$ } from '../../api/networkAssetBalance';
+import { useAssetsBalance } from '../../api/assetBalance';
+import { selectedWalletState$ } from '../../api/wallets';
 import { useObservable } from '../../common/hooks/useObservable';
 import { useSettings } from '../../context';
-import { WalletState, walletState$ } from '../../services/new/core';
+import { WalletState } from '../../network/common';
+import { useNetworkAsset } from '../../network/ergo/networkAsset/networkAsset';
 import { AppLogo } from '../common/AppLogo/AppLogo';
 import { TxHistory } from '../common/TxHistory/TxHistory';
 import { AnalyticsDataTag } from './AnalyticsDataTag/AnalyticsDataTag';
@@ -24,8 +26,9 @@ const networks = [
 export const Header: React.FC = () => {
   const [{ address }] = useSettings();
   // TODO: Update with rx [EDEX-487]
-  const [balance] = useObservable(networkAssetBalance$);
-  const [walletState] = useObservable(walletState$);
+  const [balance, isBalanceLoading] = useAssetsBalance();
+  const [networkAsset] = useNetworkAsset();
+  const [walletState] = useObservable(selectedWalletState$);
   const [hidden, setHidden] = useState(false);
 
   useEffect(() => {
@@ -64,7 +67,9 @@ export const Header: React.FC = () => {
               <ConnectWallet
                 numberOfPendingTxs={0}
                 address={address}
-                balance={balance}
+                balance={
+                  isBalanceLoading ? undefined : balance.get(networkAsset)
+                }
               />
               {walletState === WalletState.CONNECTED && <TxHistory />}
             </>
