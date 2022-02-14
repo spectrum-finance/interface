@@ -4,8 +4,7 @@ import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import React, { useEffect, useState } from 'react';
 
 import { Currency } from '../../../../common/models/Currency';
-import { Box, Input } from '../../../../ergodex-cdk';
-import { EventConfig } from '../../../../ergodex-cdk/components/Form/NewForm';
+import { Box, EventConfig, Input } from '../../../../ergodex-cdk';
 import { escapeRegExp } from './format';
 
 const inputRegex = RegExp(`^\\d*(?:\\\\[.])?\\d*$`); // match escaped "." characters via in a non-capturing group

@@ -7,10 +7,10 @@ import { Observable } from 'rxjs';
 import {
   Button,
   DownOutlined,
+  Form,
   Modal,
   Typography,
 } from '../../../../ergodex-cdk';
-import { Form } from '../../../../ergodex-cdk/components/Form/NewForm';
 import { TokenIcon } from '../../../TokenIcon/TokenIcon';
 import { TokenListModal } from './TokenListModal/TokenListModal';
 

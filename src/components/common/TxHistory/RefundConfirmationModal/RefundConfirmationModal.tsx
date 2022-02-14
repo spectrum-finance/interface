@@ -8,11 +8,12 @@ import {
   DownOutlined,
   Dropdown,
   Flex,
+  Form,
   Menu,
   Modal,
   Typography,
+  useForm,
 } from '../../../../ergodex-cdk';
-import { Form, useForm } from '../../../../ergodex-cdk/components/Form/NewForm';
 import { utxos$ } from '../../../../services/new/core';
 import { submitTx } from '../../../../services/yoroi';
 import { refund } from '../../../../utils/ammOperations';

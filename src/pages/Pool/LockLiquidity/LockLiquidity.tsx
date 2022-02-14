@@ -21,12 +21,15 @@ import { Page } from '../../../components/Page/Page';
 import { PageHeader } from '../../../components/Page/PageHeader/PageHeader';
 import { PageSection } from '../../../components/Page/PageSection/PageSection';
 import { SubmitButton } from '../../../components/SubmitButton/SubmitButton';
-import { Alert, Animation, Flex, LockOutlined } from '../../../ergodex-cdk';
 import {
+  Alert,
+  Animation,
+  Flex,
   Form,
   FormGroup,
+  LockOutlined,
   useForm,
-} from '../../../ergodex-cdk/components/Form/NewForm';
+} from '../../../ergodex-cdk';
 import { LiquidityDatePicker } from '../components/LockLiquidityDatePicker/LiquidityDatePicker';
 import { LockLiquidityConfirmationModal } from './LockLiquidityConfirmationModal/LockLiquidityConfirmationModal';
 import { LockLiquidityModel } from './LockLiquidityModel';

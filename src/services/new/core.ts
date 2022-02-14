@@ -142,6 +142,18 @@ export const useMinExFee = (): Currency => {
   return new Currency(calculateTotalFee([exFee], ERG_DECIMALS), networkAsset);
 };
 
+export const useMaxExFee = (): Currency => {
+  const [{ minerFee, nitro }] = useSettings();
+  const networkAsset = useNetworkAsset();
+
+  const exFee = +normalizeAmount(
+    (minerFee * 3 * nitro).toString(),
+    networkAsset,
+  );
+
+  return new Currency(calculateTotalFee([exFee], ERG_DECIMALS), networkAsset);
+};
+
 export const useMaxTotalFees = (): Currency => {
   const [{ minerFee, nitro }] = useSettings();
   const networkAsset = useNetworkAsset();

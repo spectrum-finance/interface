@@ -35,8 +35,13 @@ import {
   Operation,
 } from '../../components/ConfirmationModal/ConfirmationModal';
 import { Page } from '../../components/Page/Page';
-import { Button, Flex, SwapOutlined, Typography } from '../../ergodex-cdk';
-import { useForm } from '../../ergodex-cdk/components/Form/NewForm';
+import {
+  Button,
+  Flex,
+  SwapOutlined,
+  Typography,
+  useForm,
+} from '../../ergodex-cdk';
 import { useMaxTotalFees, useNetworkAsset } from '../../services/new/core';
 import { OperationSettings } from './OperationSettings/OperationSettings';
 import { RatioView } from './RatioView/RatioView';
