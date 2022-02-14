@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import {
   connectWallet,
   disconnectWallet,
+  selectedWallet$,
   wallets$,
 } from '../../../../api/wallets';
 import { useObservable } from '../../../../common/hooks/useObservable';
@@ -71,6 +72,8 @@ const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
   close,
 }): JSX.Element => {
   const [wallets] = useObservable(wallets$, [], []);
+  const [selectedWallet] = useObservable(selectedWallet$);
+
   const handleWalletClick = (wallet: Wallet) => {
     connectWallet(wallet).subscribe(
       () => close(true),
@@ -84,17 +87,24 @@ const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
       <Modal.Content width={400}>
         <Flex col>
           {wallets.map((wallet, index) => (
-            <Flex.Item marginBottom={4} key={index}>
+            <Flex.Item
+              marginBottom={
+                index === wallets.length - 1 && !selectedWallet ? 0 : 4
+              }
+              key={index}
+            >
               <WalletView onClick={handleWalletClick} wallet={wallet} />
             </Flex.Item>
           ))}
-          <Button
-            type="link"
-            icon={<LogoutOutlined />}
-            onClick={disconnectWallet}
-          >
-            Disconnect wallet
-          </Button>
+          {selectedWallet && (
+            <Button
+              type="link"
+              icon={<LogoutOutlined />}
+              onClick={disconnectWallet}
+            >
+              Disconnect wallet
+            </Button>
+          )}
         </Flex>
       </Modal.Content>
     </>
