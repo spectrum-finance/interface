@@ -16,7 +16,7 @@ import {
 } from './context';
 import { globalHistory } from './createBrowserHistory';
 import { ContextModalProvider } from './ergodex-cdk';
-import { AddLiquidity } from './pages/Pool/AddLiquidity/AddLiquidity';
+import { AddLiquidity } from './pages/AddLiquidity/AddLiquidity';
 import { LockLiquidity } from './pages/Pool/LockLiquidity/LockLiquidity';
 import { Pool } from './pages/Pool/Pool';
 import { RelockLiquidity } from './pages/Pool/RelockLiquidity/RelockLiquidity';
