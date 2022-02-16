@@ -93,8 +93,12 @@ export const TokenControlFormItem: FC<NewTokenControlProps> = ({
   );
   const _handleMaxButtonClick = (maxBalance: Currency) => {
     if (amountName) {
+      const newAmount = handleMaxButtonClick
+        ? handleMaxButtonClick(maxBalance)
+        : maxBalance;
+
       form.controls[amountName].patchValue(
-        handleMaxButtonClick ? handleMaxButtonClick(maxBalance) : maxBalance,
+        newAmount.isPositive() ? newAmount : maxBalance,
       );
     }
   };

@@ -18,26 +18,26 @@ import {
   switchMap,
 } from 'rxjs';
 
-import { getAmmPoolById, getAmmPoolsByAssetPair } from '../../../api/ammPools';
-import { useAssetsBalance } from '../../../api/assetBalance';
-import { getAvailableAssetFor, tokenAssets$ } from '../../../api/assets';
+import { getAmmPoolById, getAmmPoolsByAssetPair } from '../../api/ammPools';
+import { useAssetsBalance } from '../../api/assetBalance';
+import { getAvailableAssetFor, tokenAssets$ } from '../../api/assets';
 import {
   useObservable,
   useSubject,
   useSubscription,
-} from '../../../common/hooks/useObservable';
-import { Currency } from '../../../common/models/Currency';
-import { ActionForm } from '../../../components/common/ActionForm/ActionForm';
-import { PoolSelect } from '../../../components/common/PoolSelect/PoolSelect';
-import { TokenControlFormItem } from '../../../components/common/TokenControl/TokenControl';
-import { TokeSelectFormItem } from '../../../components/common/TokenControl/TokenSelect/TokenSelect';
+} from '../../common/hooks/useObservable';
+import { Currency } from '../../common/models/Currency';
+import { ActionForm } from '../../components/common/ActionForm/ActionForm';
+import { PoolSelect } from '../../components/common/PoolSelect/PoolSelect';
+import { TokenControlFormItem } from '../../components/common/TokenControl/TokenControl';
+import { TokeSelectFormItem } from '../../components/common/TokenControl/TokenSelect/TokenSelect';
 import {
   openConfirmationModal,
   Operation,
-} from '../../../components/ConfirmationModal/ConfirmationModal';
-import { Page } from '../../../components/Page/Page';
-import { Flex, Form, Typography, useForm } from '../../../ergodex-cdk';
-import { useMaxTotalFees, useNetworkAsset } from '../../../services/new/core';
+} from '../../components/ConfirmationModal/ConfirmationModal';
+import { Page } from '../../components/Page/Page';
+import { Button, Flex, Form, Typography, useForm } from '../../ergodex-cdk';
+import { useMaxTotalFees, useNetworkAsset } from '../../services/new/core';
 import { AddLiquidityConfirmationModal } from './AddLiquidityConfirmationModal/AddLiquidityConfirmationModal';
 import { AddLiquidityFormModel } from './FormModel';
 
@@ -47,6 +47,13 @@ const getAssetsByToken = (tokenId?: string) => {
 
 const getAvailablePools = (xId?: string, yId?: string) =>
   xId && yId ? getAmmPoolsByAssetPair(xId, yId) : of([]);
+
+const normalizeAmountWithFee = (
+  amount: Currency,
+  networkAsset: AssetInfo,
+  fee: Currency,
+): Currency =>
+  amount.asset.id === networkAsset.id ? amount.minus(fee) : amount;
 
 const AddLiquidity = (): JSX.Element => {
   const [balance] = useAssetsBalance();
@@ -236,6 +243,87 @@ const AddLiquidity = (): JSX.Element => {
     );
   };
 
+  const handleMaxLiquidityBtn = () => {
+    if (!form.value.x || !form.value.y || !form.value.pool) {
+      return;
+    }
+
+    let newXAmount = normalizeAmountWithFee(
+      balance.get(form.value.x),
+      networkAsset,
+      totalFees,
+    );
+    let newYAmount = normalizeAmountWithFee(
+      form.value.pool.calculateDepositAmount(newXAmount),
+      networkAsset,
+      totalFees,
+    );
+
+    if (
+      newXAmount.isPositive() &&
+      newYAmount.isPositive() &&
+      newYAmount.lte(balance.get(form.value.y))
+    ) {
+      form.patchValue(
+        {
+          xAmount: newXAmount,
+          yAmount: newYAmount,
+        },
+        { emitEvent: 'silent' },
+      );
+      return;
+    }
+
+    newYAmount = normalizeAmountWithFee(
+      balance.get(form.value.y),
+      networkAsset,
+      totalFees,
+    );
+    newXAmount = normalizeAmountWithFee(
+      form.value.pool.calculateDepositAmount(newYAmount),
+      networkAsset,
+      totalFees,
+    );
+
+    if (
+      newYAmount.isPositive() &&
+      newXAmount.isPositive() &&
+      newXAmount.lte(balance.get(form.value.x))
+    ) {
+      form.patchValue(
+        {
+          xAmount: newXAmount,
+          yAmount: newYAmount,
+        },
+        { emitEvent: 'silent' },
+      );
+      return;
+    }
+
+    if (balance.get(form.value.x).isPositive()) {
+      form.patchValue(
+        {
+          xAmount: balance.get(form.value.x),
+          yAmount: form.value.pool.calculateDepositAmount(
+            balance.get(form.value.x),
+          ),
+        },
+        { emitEvent: 'silent' },
+      );
+      return;
+    } else {
+      form.patchValue(
+        {
+          yAmount: balance.get(form.value.y),
+          xAmount: form.value.pool.calculateDepositAmount(
+            balance.get(form.value.y),
+          ),
+        },
+        { emitEvent: 'silent' },
+      );
+    }
+  };
+
   const resetForm = () =>
     form.patchValue(
       {
@@ -285,14 +373,28 @@ const AddLiquidity = (): JSX.Element => {
                 )}
               </Form.Item>
             </Flex.Item>
+            <Flex.Item />
             <Flex.Item
               marginBottom={4}
               style={{ opacity: isPairSelected ? '' : '0.3' }}
             >
-              <Typography.Body strong>Liquidity</Typography.Body>
               <Flex direction="col">
                 <Flex.Item marginBottom={2}>
+                  <Flex justify="space-between">
+                    <Typography.Body strong>Liquidity</Typography.Body>
+                    <Button
+                      type="default"
+                      size="small"
+                      disabled={!isPairSelected}
+                      onClick={handleMaxLiquidityBtn}
+                    >
+                      Add max liquidity
+                    </Button>
+                  </Flex>
+                </Flex.Item>
+                <Flex.Item marginBottom={2}>
                   <TokenControlFormItem
+                    bordered
                     readonly="asset"
                     disabled={!isPairSelected}
                     amountName="xAmount"
@@ -302,6 +404,7 @@ const AddLiquidity = (): JSX.Element => {
                 </Flex.Item>
                 <Flex.Item>
                   <TokenControlFormItem
+                    bordered
                     readonly="asset"
                     disabled={!isPairSelected}
                     amountName="yAmount"

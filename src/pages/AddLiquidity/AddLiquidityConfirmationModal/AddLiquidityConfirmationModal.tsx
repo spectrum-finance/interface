@@ -2,20 +2,20 @@ import { minValueForOrder } from '@ergolabs/ergo-dex-sdk';
 import { BoxSelection, DefaultBoxSelector, ErgoTx } from '@ergolabs/ergo-sdk';
 import React, { FC } from 'react';
 
-import { ERG_DECIMALS, UI_FEE } from '../../../../common/constants/erg';
-import { useObservable } from '../../../../common/hooks/useObservable';
-import { FormPairSection } from '../../../../components/common/FormView/FormPairSection/FormPairSection';
-import { InfoTooltip } from '../../../../components/InfoTooltip/InfoTooltip';
-import { PageSection } from '../../../../components/Page/PageSection/PageSection';
-import { useSettings } from '../../../../context';
-import { Button, Flex, Modal, Typography } from '../../../../ergodex-cdk';
-import { utxos$ } from '../../../../network/ergo/common/utxos';
-import { explorer } from '../../../../services/explorer';
-import { useMinExFee, useMinTotalFees } from '../../../../services/new/core';
-import { poolActions } from '../../../../services/poolActions';
-import { submitTx } from '../../../../services/yoroi';
-import { makeTarget } from '../../../../utils/ammMath';
-import { parseUserInputToFractions } from '../../../../utils/math';
+import { ERG_DECIMALS, UI_FEE } from '../../../common/constants/erg';
+import { useObservable } from '../../../common/hooks/useObservable';
+import { FormPairSection } from '../../../components/common/FormView/FormPairSection/FormPairSection';
+import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
+import { PageSection } from '../../../components/Page/PageSection/PageSection';
+import { useSettings } from '../../../context';
+import { Button, Flex, Modal, Typography } from '../../../ergodex-cdk';
+import { utxos$ } from '../../../network/ergo/common/utxos';
+import { explorer } from '../../../services/explorer';
+import { useMinExFee, useMinTotalFees } from '../../../services/new/core';
+import { poolActions } from '../../../services/poolActions';
+import { submitTx } from '../../../services/yoroi';
+import { makeTarget } from '../../../utils/ammMath';
+import { parseUserInputToFractions } from '../../../utils/math';
 import { AddLiquidityFormModel } from '../FormModel';
 
 interface AddLiquidityConfirmationModalProps {
