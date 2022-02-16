@@ -39,7 +39,11 @@ export const connectWallet = (wallet: Wallet): Observable<any> => {
 
   if (connectedWalletName) {
     return combineLatest([wallet.connectWallet(), selectedWallet$]).pipe(
-      tap(([, selectedWallet]) => {
+      tap(([isConnected, selectedWallet]) => {
+        if (!isConnected) {
+          return;
+        }
+
         if (selectedWallet?.onDisconnect) {
           selectedWallet.onDisconnect();
         }
@@ -52,9 +56,11 @@ export const connectWallet = (wallet: Wallet): Observable<any> => {
 
   updateSelectedWallet$.next(undefined);
   return wallet.connectWallet().pipe(
-    tap(() => {
-      walletSettings.setConnected(wallet.name);
-      updateSelectedWallet$.next(wallet.name);
+    tap((isConnected) => {
+      if (isConnected) {
+        walletSettings.setConnected(wallet.name);
+        updateSelectedWallet$.next(wallet.name);
+      }
     }),
   );
 };
