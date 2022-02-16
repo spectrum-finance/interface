@@ -80,6 +80,7 @@ const TokenAmountInput: React.FC<TokenAmountInputProps> = ({
       onChange(new Currency(nextUserInput, asset));
       return;
     }
+    setUserInput(userInput ? userInput : '');
   };
 
   return (
