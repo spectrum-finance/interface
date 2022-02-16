@@ -48,7 +48,7 @@ const getAssetsByToken = (tokenId?: string) => {
 const getAvailablePools = (xId?: string, yId?: string) =>
   xId && yId ? getAmmPoolsByAssetPair(xId, yId) : of([]);
 
-const normalizeAmount = (
+const normalizeAmountWithFee = (
   amount: Currency,
   networkAsset: AssetInfo,
   fee: Currency,
@@ -248,12 +248,12 @@ const AddLiquidity = (): JSX.Element => {
       return;
     }
 
-    let newXAmount = normalizeAmount(
+    let newXAmount = normalizeAmountWithFee(
       balance.get(form.value.x),
       networkAsset,
       totalFees,
     );
-    let newYAmount = normalizeAmount(
+    let newYAmount = normalizeAmountWithFee(
       form.value.pool.calculateDepositAmount(newXAmount),
       networkAsset,
       totalFees,
@@ -274,12 +274,12 @@ const AddLiquidity = (): JSX.Element => {
       return;
     }
 
-    newYAmount = normalizeAmount(
+    newYAmount = normalizeAmountWithFee(
       balance.get(form.value.y),
       networkAsset,
       totalFees,
     );
-    newXAmount = normalizeAmount(
+    newXAmount = normalizeAmountWithFee(
       form.value.pool.calculateDepositAmount(newYAmount),
       networkAsset,
       totalFees,
