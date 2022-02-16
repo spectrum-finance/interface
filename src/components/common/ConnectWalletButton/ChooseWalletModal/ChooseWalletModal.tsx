@@ -76,7 +76,7 @@ const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
 
   const handleWalletClick = (wallet: Wallet) => {
     connectWallet(wallet).subscribe(
-      () => close(true),
+      (isConnected) => isConnected && close(true),
       () => window.open(wallet.extensionLink),
     );
   };

@@ -11,7 +11,7 @@ const connectWallet = (): Observable<any> => {
   }
   return from(ergoConnector.nautilus.connect()).pipe(
     tap(() => (window.nautilus = Object.freeze(new NautilusErgoApi()))),
-    catchError(() => of(true)),
+    catchError(() => of(false)),
   );
 };
 
