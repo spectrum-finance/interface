@@ -25,8 +25,7 @@ export const SafewWallet: Wallet = {
   name: 'Safew',
   icon: <SafewLogo />,
   experimental: true,
-  extensionLink:
-    'https://github.com/ThierryM1212/SAFEW/releases',
+  extensionLink: 'https://github.com/ThierryM1212/SAFEW/releases',
   connectWallet,
   getUtxos,
 };
