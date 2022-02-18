@@ -33,13 +33,18 @@ import {
   Operation,
 } from '../../components/ConfirmationModal/ConfirmationModal';
 import { Page } from '../../components/Page/Page';
-import { Flex, SwapOutlined, Typography, useForm } from '../../ergodex-cdk';
+import {
+  Flex,
+  Form,
+  SwapOutlined,
+  Typography,
+  useForm,
+} from '../../ergodex-cdk';
 import { useMaxTotalFees, useNetworkAsset } from '../../services/new/core';
 import { OperationSettings } from './OperationSettings/OperationSettings';
-import { RatioView } from './RatioView/RatioView';
 import { SwapConfirmationModal } from './SwapConfirmationModal/SwapConfirmationModal';
 import { SwapFormModel } from './SwapFormModel';
-import { SwapTooltip } from './SwapTooltip/SwapTooltip';
+import { SwapInfo } from './SwapInfo/SwapInfo';
 import { SwitchButton } from './SwitchButton/SwitchButton';
 
 const getToAssets = (fromAsset?: string) =>
@@ -330,10 +335,7 @@ export const Swap = (): JSX.Element => {
             </Flex.Item>
             <OperationSettings />
           </Flex>
-          <Flex.Item marginBottom={6} marginTop={-1}>
-            <Typography.Footnote>{t`swap.subtitle`}</Typography.Footnote>
-          </Flex.Item>
-          <Flex.Item marginBottom={1}>
+          <Flex.Item marginBottom={1} marginTop={6}>
             <TokenControlFormItem
               maxButton
               handleMaxButtonClick={handleMaxButtonClick}
@@ -356,14 +358,9 @@ export const Swap = (): JSX.Element => {
               tokenName="toAsset"
             />
           </Flex.Item>
-          <Flex>
-            <Flex.Item marginRight={1}>
-              <SwapTooltip form={form} />
-            </Flex.Item>
-            <Flex.Item flex={1}>
-              <RatioView form={form} />
-            </Flex.Item>
-          </Flex>
+          <Form.Listener>
+            {({ value }) => <SwapInfo value={value} />}
+          </Form.Listener>
         </Flex>
       </ActionForm>
     </Page>

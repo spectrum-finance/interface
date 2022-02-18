@@ -1,12 +1,7 @@
-import { AmmPool } from '@ergolabs/ergo-dex-sdk';
-import {
-  AssetAmount,
-  AssetInfo,
-  ErgoBox,
-  NativeAssetId,
-} from '@ergolabs/ergo-sdk';
+import { AssetAmount, ErgoBox, NativeAssetId } from '@ergolabs/ergo-sdk';
 
-import { parseUserInputToFractions } from './math';
+import { AmmPool } from '../common/models/AmmPool';
+import { Currency } from '../common/models/Currency';
 
 const MIN_ERG_BALANCE_TO_PAY_FEES = 0.1;
 
@@ -33,22 +28,17 @@ export type BaseInputParameters = {
 
 export const getBaseInputParameters = (
   pool: AmmPool,
-  {
-    inputAmount,
-    inputAsset,
-    slippage,
-  }: { inputAmount: string; inputAsset: AssetInfo; slippage: number },
+  { inputAmount, slippage }: { inputAmount: Currency; slippage: number },
 ): BaseInputParameters => {
-  const baseInput = parseUserInputToFractions(inputAmount, inputAsset.decimals);
   const baseInputAmount =
-    inputAsset.id === pool.x.asset.id
-      ? pool.x.withAmount(baseInput)
-      : pool.y.withAmount(baseInput);
-  const minOutput = pool.outputAmount(baseInputAmount, slippage);
+    inputAmount.asset.id === pool.x.asset.id
+      ? pool['pool'].x.withAmount(inputAmount.amount)
+      : pool['pool'].y.withAmount(inputAmount.amount);
+  const minOutput = pool['pool'].outputAmount(baseInputAmount, slippage);
 
   return {
     baseInput: baseInputAmount,
-    baseInputAmount: baseInput,
+    baseInputAmount: inputAmount.amount,
     minOutput,
   };
 };
