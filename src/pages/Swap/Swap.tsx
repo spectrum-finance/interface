@@ -219,7 +219,7 @@ export const Swap = (): JSX.Element => {
     (pool) => {
       if (pool) {
         form.patchValue({ pool });
-      } else {
+      } else if (form.value.toAsset && form.value.fromAsset) {
         form.patchValue(
           {
             pool,
