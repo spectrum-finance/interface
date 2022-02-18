@@ -80,7 +80,7 @@ export const SwapTooltip = ({
     value.fromAsset &&
     value.fromAmount?.isPositive() ? (
     <InfoTooltip
-      className="swap-tooltip"
+      width={296}
       content={<TxInfoTooltipContent value={value} />}
       placement="left"
     />

@@ -1,5 +1,3 @@
-import './Swap.less';
-
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import { maxBy } from 'lodash';
 import { DateTime } from 'luxon';
@@ -35,19 +33,14 @@ import {
   Operation,
 } from '../../components/ConfirmationModal/ConfirmationModal';
 import { Page } from '../../components/Page/Page';
-import {
-  Button,
-  Flex,
-  SwapOutlined,
-  Typography,
-  useForm,
-} from '../../ergodex-cdk';
+import { Flex, SwapOutlined, Typography, useForm } from '../../ergodex-cdk';
 import { useMaxTotalFees, useNetworkAsset } from '../../services/new/core';
 import { OperationSettings } from './OperationSettings/OperationSettings';
 import { RatioView } from './RatioView/RatioView';
 import { SwapConfirmationModal } from './SwapConfirmationModal/SwapConfirmationModal';
 import { SwapFormModel } from './SwapFormModel';
 import { SwapTooltip } from './SwapTooltip/SwapTooltip';
+import { SwitchButton } from './SwitchButton/SwitchButton';
 
 const getToAssets = (fromAsset?: string) =>
   fromAsset ? getAvailableAssetFor(fromAsset) : tokenAssets$;
@@ -350,13 +343,11 @@ export const Swap = (): JSX.Element => {
               tokenName="fromAsset"
             />
           </Flex.Item>
-          <Flex.Item className="swap-button">
-            <Button
-              onClick={switchAssets}
-              icon={<SwapOutlined />}
-              size="middle"
-            />
-          </Flex.Item>
+          <SwitchButton
+            onClick={switchAssets}
+            icon={<SwapOutlined />}
+            size="middle"
+          />
           <Flex.Item marginBottom={4}>
             <TokenControlFormItem
               assets$={toAssets$}
