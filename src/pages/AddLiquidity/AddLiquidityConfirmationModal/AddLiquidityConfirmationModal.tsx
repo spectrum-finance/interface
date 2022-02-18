@@ -1,4 +1,5 @@
-import { minValueForOrder } from '@ergolabs/ergo-dex-sdk';
+import { makePoolSetupParams, minValueForOrder } from '@ergolabs/ergo-dex-sdk';
+import { minValueForSetup } from '@ergolabs/ergo-dex-sdk/build/main/amm/interpreters/mins';
 import { BoxSelection, DefaultBoxSelector, ErgoTx } from '@ergolabs/ergo-sdk';
 import React, { FC } from 'react';
 
@@ -53,34 +54,50 @@ const AddLiquidityConfirmationModal: FC<AddLiquidityConfirmationModalProps> = ({
 
       const target = makeTarget(
         [inputX, inputY],
-        minValueForOrder(minerFeeNErgs, uiFeeNErg, exFeeNErg),
+        minValueForSetup(minerFeeNErgs, 0n),
       );
 
       const network = await explorer.getNetworkContext();
 
       const inputs = DefaultBoxSelector.select(utxos, target) as BoxSelection;
 
-      onClose(
-        actions
-          .deposit(
-            {
-              pk,
-              poolId,
-              exFee: exFeeNErg,
-              uiFee: uiFeeNErg,
-              x: inputX,
-              y: inputY,
-            },
-            {
-              inputs,
-              changeAddress: address,
-              selfAddress: address,
-              feeNErgs: minerFeeNErgs,
-              network,
-            },
-          )
-          .then((tx: ErgoTx) => submitTx(tx)),
-      );
+      const poolSetupParams = makePoolSetupParams(inputX, inputY, 0.003, 0n);
+
+      if (poolSetupParams instanceof Array) {
+        return;
+      }
+
+      actions
+        .setup(poolSetupParams, {
+          inputs,
+          changeAddress: address,
+          selfAddress: address,
+          feeNErgs: minerFeeNErgs,
+          network,
+        })
+        .then(([tx1, tx2]) => submitTx(tx1).then(() => submitTx(tx2)));
+
+      // onClose(
+      //   actions
+      //     .deposit(
+      //       {
+      //         pk,
+      //         poolId,
+      //         exFee: exFeeNErg,
+      //         uiFee: uiFeeNErg,
+      //         x: inputX,
+      //         y: inputY,
+      //       },
+      //       {
+      //         inputs,
+      //         changeAddress: address,
+      //         selfAddress: address,
+      //         feeNErgs: minerFeeNErgs,
+      //         network,
+      //       },
+      //     )
+      //     .then((tx: ErgoTx) => submitTx(tx)),
+      // );
     }
   };
 
