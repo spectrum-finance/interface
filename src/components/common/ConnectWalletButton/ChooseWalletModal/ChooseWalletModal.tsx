@@ -20,6 +20,7 @@ import {
   Typography,
 } from '../../../../ergodex-cdk';
 import { Wallet } from '../../../../network/common';
+
 const { Body } = Typography;
 
 interface WalletItemProps {
@@ -30,8 +31,22 @@ interface WalletItemProps {
 const WalletButton = styled(Button)`
   align-items: center;
   display: flex;
+  height: 4rem;
   justify-content: space-between;
   width: 100%;
+
+  &:disabled {
+    border-color: var(--ergo-default-border-color) !important;
+  }
+`;
+
+const ExperimentalBox = styled(Box)`
+  background: var(--ergo-box-bg-tag);
+  border: 1px solid var(--ergo-default-border-color);
+
+  .dark & {
+    background: var(--ergo-box-bg-contrast);
+  }
 `;
 
 const WalletView: React.FC<WalletItemProps> = ({ wallet, onClick }) => {
@@ -42,7 +57,7 @@ const WalletView: React.FC<WalletItemProps> = ({ wallet, onClick }) => {
   const handleClick = () => onClick(wallet);
 
   return wallet.experimental ? (
-    <Box tag padding={2}>
+    <ExperimentalBox padding={2}>
       <Flex col>
         <Flex.Item marginBottom={2} alignSelf="flex-end">
           <Tag color="gold">Experimental</Tag>
@@ -58,7 +73,7 @@ const WalletView: React.FC<WalletItemProps> = ({ wallet, onClick }) => {
           {wallet.icon}
         </WalletButton>
       </Flex>
-    </Box>
+    </ExperimentalBox>
   ) : (
     <WalletButton size="large" onClick={handleClick}>
       <Body>{wallet.name}</Body>
