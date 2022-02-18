@@ -1,6 +1,5 @@
-import './ChooseWalletModal.less';
-
 import React, { useState } from 'react';
+import styled from 'styled-components';
 
 import {
   connectWallet,
@@ -28,6 +27,13 @@ interface WalletItemProps {
   onClick: (wallet: Wallet) => void;
 }
 
+const WalletButton = styled(Button)`
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+`;
+
 const WalletView: React.FC<WalletItemProps> = ({ wallet, onClick }) => {
   const [checked, setChecked] = useState<boolean>(false);
 
@@ -36,7 +42,7 @@ const WalletView: React.FC<WalletItemProps> = ({ wallet, onClick }) => {
   const handleClick = () => onClick(wallet);
 
   return wallet.experimental ? (
-    <Box contrast padding={2}>
+    <Box tag padding={2}>
       <Flex col>
         <Flex.Item marginBottom={2} alignSelf="flex-end">
           <Tag color="gold">Experimental</Tag>
@@ -47,22 +53,17 @@ const WalletView: React.FC<WalletItemProps> = ({ wallet, onClick }) => {
             my own risk.
           </Checkbox>
         </Flex.Item>
-        <Button
-          className="wallet-item__btn"
-          size="large"
-          disabled={!checked}
-          onClick={handleClick}
-        >
+        <WalletButton size="large" disabled={!checked} onClick={handleClick}>
           <Body>{wallet.name}</Body>
           {wallet.icon}
-        </Button>
+        </WalletButton>
       </Flex>
     </Box>
   ) : (
-    <Button className="wallet-item__btn" size="large" onClick={handleClick}>
+    <WalletButton size="large" onClick={handleClick}>
       <Body>{wallet.name}</Body>
       {wallet.icon}
-    </Button>
+    </WalletButton>
   );
 };
 
