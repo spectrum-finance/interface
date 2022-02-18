@@ -2,7 +2,10 @@ import React, { useState } from 'react';
 import { filter, skip } from 'rxjs';
 
 import { MIN_NITRO } from '../../../common/constants/erg';
-import { defaultSlippage } from '../../../common/constants/settings';
+import {
+  defaultSlippage,
+  MIN_SLIPPAGE,
+} from '../../../common/constants/settings';
 import { useSubscription } from '../../../common/hooks/useObservable';
 import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
 import { useSettings } from '../../../context';
@@ -37,6 +40,9 @@ const errorMessages: Messages<SettingsModel> = {
   nitro: {
     minNitro: `Minimal Nitro value is ${MIN_NITRO}`,
   },
+  slippage: {
+    minSlippage: `Minimal Slippage is ${MIN_SLIPPAGE}`,
+  },
 };
 
 const slippageCheck: CheckFn<number> = (value) =>
@@ -44,6 +50,9 @@ const slippageCheck: CheckFn<number> = (value) =>
 
 const slippageTxFailCheck: CheckFn<number> = (value) =>
   value < defaultSlippage ? 'transactionMayFail' : undefined;
+
+const minSlippageCheck: CheckFn<number> = (value) =>
+  isNaN(value) || value < MIN_SLIPPAGE ? 'minSlippage' : undefined;
 
 const nitroCheck: CheckFn<number> = (value) =>
   isNaN(value) || value < MIN_NITRO ? 'minNitro' : undefined;
@@ -55,7 +64,7 @@ const OperationSettings = (): JSX.Element => {
   const form = useForm<SettingsModel>({
     slippage: useForm.ctrl(
       settings.slippage,
-      [],
+      [minSlippageCheck],
       [slippageCheck, slippageTxFailCheck],
     ),
     nitro: useForm.ctrl(settings.nitro, [nitroCheck]),
@@ -74,7 +83,10 @@ const OperationSettings = (): JSX.Element => {
   };
 
   useSubscription(
-    form.controls.slippage.valueChanges$.pipe(skip(1), filter(Boolean)),
+    form.controls.slippage.valueChanges$.pipe(
+      skip(1),
+      filter((value) => !!value && value >= MIN_SLIPPAGE),
+    ),
     (slippage) => {
       setSettings({ ...settings, slippage });
     },
