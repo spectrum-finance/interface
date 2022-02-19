@@ -1,6 +1,5 @@
-import './SlippageInput.less';
-
 import React, { ChangeEvent, FC } from 'react';
+import styled from 'styled-components';
 
 import {
   defaultSlippage,
@@ -17,15 +16,16 @@ import {
   Input,
 } from '../../../../ergodex-cdk';
 
-export type NitroInputProps = Control<number>;
+export type NitroInputProps = Control<number> & { className?: string };
 
 const SLIPPAGE_OPTIONS = [1, defaultSlippage, 7];
 
-export const SlippageInput: FC<NitroInputProps> = ({
+const _SlippageInput: FC<NitroInputProps> = ({
   value,
   onChange,
   state,
   message,
+  className,
 }) => {
   const isCustomSlippage = !SLIPPAGE_OPTIONS.some((val) => val === value);
 
@@ -60,7 +60,7 @@ export const SlippageInput: FC<NitroInputProps> = ({
             ))}
             <Flex.Item>
               <Input
-                className="slippage-input"
+                className={className}
                 style={{ width: '128px' }}
                 value={value}
                 placeholder="1"
@@ -83,3 +83,19 @@ export const SlippageInput: FC<NitroInputProps> = ({
     </Flex>
   );
 };
+
+export const SlippageInput = styled(_SlippageInput)`
+  input {
+    text-align: right;
+
+    /* stylelint-disable-next-line */
+    -moz-appearance: textfield;
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      margin: 0;
+      /* stylelint-disable-next-line */
+      -webkit-appearance: none;
+    }
+  }
+`;

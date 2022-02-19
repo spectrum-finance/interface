@@ -337,6 +337,7 @@ export const Swap = (): JSX.Element => {
           </Flex>
           <Flex.Item marginBottom={1} marginTop={6}>
             <TokenControlFormItem
+              bordered
               maxButton
               handleMaxButtonClick={handleMaxButtonClick}
               assets$={tokenAssets$}
@@ -350,8 +351,9 @@ export const Swap = (): JSX.Element => {
             icon={<SwapOutlined />}
             size="middle"
           />
-          <Flex.Item marginBottom={4}>
+          <Flex.Item>
             <TokenControlFormItem
+              bordered
               assets$={toAssets$}
               label={t`swap.toLabel`}
               amountName="toAmount"
@@ -359,7 +361,11 @@ export const Swap = (): JSX.Element => {
             />
           </Flex.Item>
           <Form.Listener>
-            {({ value }) => <SwapInfo value={value} />}
+            {({ value }) => (
+              <Flex.Item marginTop={!!value.pool ? 4 : 0}>
+                <SwapInfo value={value} />
+              </Flex.Item>
+            )}
           </Form.Listener>
         </Flex>
       </ActionForm>

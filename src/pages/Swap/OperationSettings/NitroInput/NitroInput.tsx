@@ -1,6 +1,5 @@
-import './NitroInput.less';
-
 import React, { ChangeEvent, FC } from 'react';
+import styled from 'styled-components';
 
 import { MIN_NITRO } from '../../../../common/constants/erg';
 import {
@@ -14,13 +13,14 @@ import {
 } from '../../../../ergodex-cdk';
 import { useMaxExFee, useMinExFee } from '../../../../services/new/core';
 
-export type NitroInputProps = Control<number>;
+export type NitroInputProps = Control<number> & { className?: string };
 
-export const NitroInput: FC<NitroInputProps> = ({
+const _NitroInput: FC<NitroInputProps> = ({
   onChange,
   value,
   message,
   state,
+  className,
 }) => {
   const minExFee = useMinExFee();
   const maxExFee = useMaxExFee();
@@ -64,10 +64,10 @@ export const NitroInput: FC<NitroInputProps> = ({
             />
           </Flex.Item>
           <Flex col>
-            <Typography.Body className="nitro-execution-fee">
+            <Typography.Body className={className}>
               Execution Fee Range
             </Typography.Body>
-            <Typography.Body className="nitro-execution-fee">
+            <Typography.Body className={className}>
               {minExFee.toAmount()} - {maxExFee.toAmount()}{' '}
               {maxExFee.asset.name}
             </Typography.Body>
@@ -80,3 +80,8 @@ export const NitroInput: FC<NitroInputProps> = ({
     </Flex>
   );
 };
+
+export const NitroInput = styled(_NitroInput)`
+  font-size: 8px !important;
+  line-height: 12px !important;
+`;
