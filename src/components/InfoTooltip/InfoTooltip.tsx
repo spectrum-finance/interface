@@ -19,6 +19,7 @@ interface InfoTooltipProps {
     | 'leftBottom'
     | 'rightTop'
     | 'rightBottom';
+  size?: 'default' | 'small';
 }
 
 const InfoTooltip: React.FC<InfoTooltipProps> = ({
@@ -26,6 +27,7 @@ const InfoTooltip: React.FC<InfoTooltipProps> = ({
   content,
   placement,
   width,
+  size,
 }) => {
   return (
     <Tooltip
@@ -38,7 +40,12 @@ const InfoTooltip: React.FC<InfoTooltipProps> = ({
         type="ghost"
         icon={<QuestionCircleOutlined />}
         size="small"
-        style={{ border: 0, background: 0 }}
+        style={{
+          border: 0,
+          background: 0,
+          width: size === 'small' ? '12px' : '',
+          color: size === 'small' ? 'var(--ergo-footnote-text)' : '',
+        }}
       />
     </Tooltip>
   );
