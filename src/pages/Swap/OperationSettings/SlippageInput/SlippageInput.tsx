@@ -4,8 +4,8 @@ import React, { ChangeEvent, FC } from 'react';
 
 import {
   defaultSlippage,
-  SlippageMax,
-  SlippageMin,
+  MAX_SLIPPAGE,
+  MIN_SLIPPAGE,
 } from '../../../../common/constants/settings';
 import {
   Alert,
@@ -66,8 +66,8 @@ export const SlippageInput: FC<NitroInputProps> = ({
                 placeholder="1"
                 state={state}
                 type="number"
-                min={SlippageMin}
-                max={SlippageMax}
+                min={MIN_SLIPPAGE}
+                max={MAX_SLIPPAGE}
                 size="middle"
                 suffix="%"
                 isActive={isCustomSlippage}

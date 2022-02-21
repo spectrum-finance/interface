@@ -1,6 +1,5 @@
-import './ChooseWalletModal.less';
-
 import React, { useState } from 'react';
+import styled from 'styled-components';
 
 import {
   connectWallet,
@@ -21,12 +20,34 @@ import {
   Typography,
 } from '../../../../ergodex-cdk';
 import { Wallet } from '../../../../network/common';
+
 const { Body } = Typography;
 
 interface WalletItemProps {
   wallet: Wallet;
   onClick: (wallet: Wallet) => void;
 }
+
+const WalletButton = styled(Button)`
+  align-items: center;
+  display: flex;
+  height: 4rem;
+  justify-content: space-between;
+  width: 100%;
+
+  &:disabled {
+    border-color: var(--ergo-default-border-color) !important;
+  }
+`;
+
+const ExperimentalBox = styled(Box)`
+  background: var(--ergo-box-bg-tag);
+  border: 1px solid var(--ergo-default-border-color);
+
+  .dark & {
+    background: var(--ergo-box-bg-contrast);
+  }
+`;
 
 const WalletView: React.FC<WalletItemProps> = ({ wallet, onClick }) => {
   const [checked, setChecked] = useState<boolean>(false);
@@ -36,7 +57,7 @@ const WalletView: React.FC<WalletItemProps> = ({ wallet, onClick }) => {
   const handleClick = () => onClick(wallet);
 
   return wallet.experimental ? (
-    <Box contrast padding={2}>
+    <ExperimentalBox padding={2}>
       <Flex col>
         <Flex.Item marginBottom={2} alignSelf="flex-end">
           <Tag color="gold">Experimental</Tag>
@@ -47,22 +68,17 @@ const WalletView: React.FC<WalletItemProps> = ({ wallet, onClick }) => {
             my own risk.
           </Checkbox>
         </Flex.Item>
-        <Button
-          className="wallet-item__btn"
-          size="large"
-          disabled={!checked}
-          onClick={handleClick}
-        >
+        <WalletButton size="large" disabled={!checked} onClick={handleClick}>
           <Body>{wallet.name}</Body>
           {wallet.icon}
-        </Button>
+        </WalletButton>
       </Flex>
-    </Box>
+    </ExperimentalBox>
   ) : (
-    <Button className="wallet-item__btn" size="large" onClick={handleClick}>
+    <WalletButton size="large" onClick={handleClick}>
       <Body>{wallet.name}</Body>
       {wallet.icon}
-    </Button>
+    </WalletButton>
   );
 };
 
