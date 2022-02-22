@@ -42,6 +42,7 @@ import {
 } from '../../ergodex-cdk';
 import { useMaxTotalFees, useNetworkAsset } from '../../services/new/core';
 import { OperationSettings } from './OperationSettings/OperationSettings';
+import { PoolSelector } from './PoolSelector/PoolSelector';
 import { SwapConfirmationModal } from './SwapConfirmationModal/SwapConfirmationModal';
 import { SwapFormModel } from './SwapFormModel';
 import { SwapInfo } from './SwapInfo/SwapInfo';
@@ -314,19 +315,26 @@ export const Swap = (): JSX.Element => {
   const { t } = useTranslation();
 
   return (
-    <Page width={480}>
-      <ActionForm
-        form={form}
-        actionButton="Swap"
-        getInsufficientTokenNameForFee={getInsufficientTokenNameForFee}
-        getInsufficientTokenNameForTx={getInsufficientTokenNameForTx}
-        isLoading={isPoolLoading}
-        getMinValueForToken={getMinValueForToken}
-        isAmountNotEntered={isAmountNotEntered}
-        isTokensNotSelected={isTokensNotSelected}
-        isLiquidityInsufficient={isLiquidityInsufficient}
-        isSwapLocked={isSwapLocked}
-        action={submitSwap}
+    <ActionForm
+      form={form}
+      actionButton="Swap"
+      getInsufficientTokenNameForFee={getInsufficientTokenNameForFee}
+      getInsufficientTokenNameForTx={getInsufficientTokenNameForTx}
+      isLoading={isPoolLoading}
+      getMinValueForToken={getMinValueForToken}
+      isAmountNotEntered={isAmountNotEntered}
+      isTokensNotSelected={isTokensNotSelected}
+      isLiquidityInsufficient={isLiquidityInsufficient}
+      isSwapLocked={isSwapLocked}
+      action={submitSwap}
+    >
+      <Page
+        width={504}
+        bottomChildren={
+          <Form.Listener name="pool">
+            {({ value }) => <PoolSelector pool={value} />}
+          </Form.Listener>
+        }
       >
         <Flex col>
           <Flex row align="center">
@@ -368,7 +376,7 @@ export const Swap = (): JSX.Element => {
             )}
           </Form.Listener>
         </Flex>
-      </ActionForm>
-    </Page>
+      </Page>
+    </ActionForm>
   );
 };

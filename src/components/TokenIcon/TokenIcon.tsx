@@ -26,6 +26,12 @@ const accessibleTokens = [
   'ergopad',
 ];
 
+const MAP_SIZE_TO_NUMBER = {
+  small: 20,
+  medium: 24,
+  large: 32,
+};
+
 const TokenIcon: React.FC<TokenIconProps> = ({
   asset,
   name,
@@ -51,8 +57,8 @@ const TokenIcon: React.FC<TokenIconProps> = ({
       className={`token-icon token-icon-${iconName?.toLowerCase()}`}
       style={{
         display: 'inherit',
-        width: size === 'large' ? 32 : 24,
-        height: size === 'large' ? 32 : 24,
+        width: MAP_SIZE_TO_NUMBER[size || 'medium'],
+        height: MAP_SIZE_TO_NUMBER[size || 'medium'],
       }}
       {...rest}
     >
@@ -61,8 +67,8 @@ const TokenIcon: React.FC<TokenIconProps> = ({
         src={`/assets/tokens/token-${
           iconName && isAccessibleToken ? iconName.toLowerCase() : 'empty'
         }.svg`}
-        width={size === 'large' ? 32 : 24}
-        height={size === 'large' ? 32 : 24}
+        width={MAP_SIZE_TO_NUMBER[size || 'medium']}
+        height={MAP_SIZE_TO_NUMBER[size || 'medium']}
       />
     </span>
   );

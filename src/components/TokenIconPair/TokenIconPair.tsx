@@ -7,7 +7,7 @@ export type TokenPair = { tokenA?: string; tokenB?: string };
 
 interface TokenIconPairProps {
   tokenPair: TokenPair;
-  size?: 'large';
+  size?: 'large' | 'small';
 }
 
 const TokenIconPair: React.FC<TokenIconPairProps> = ({ tokenPair, size }) => {

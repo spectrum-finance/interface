@@ -68,7 +68,7 @@ const Page: React.FC<FormPageWrapperProps> = ({
             </Flex>
           </Flex.Item>
         )}
-        <Flex.Item marginBottom={bottomChildren ? 2 : 0}>
+        <Flex.Item style={{ zIndex: 2 }}>
           <Box
             className="ergodex-form-wrapper"
             formWrapper
@@ -78,7 +78,7 @@ const Page: React.FC<FormPageWrapperProps> = ({
             {children}
           </Box>
         </Flex.Item>
-        <Flex.Item>{bottomChildren}</Flex.Item>
+        <Flex.Item style={{ zIndex: 0 }}>{bottomChildren}</Flex.Item>
       </Flex>
     </Flex>
   );
