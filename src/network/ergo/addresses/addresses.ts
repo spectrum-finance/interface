@@ -1,6 +1,5 @@
 import {
   filter,
-  from,
   map,
   Observable,
   publishReplay,
@@ -11,16 +10,19 @@ import {
 
 import { appTick$ } from '../../../common/streams/appTick';
 import { WalletState } from '../../common';
-import { selectedWalletState$ } from '../wallets';
-
-const getUsedAddresses = () => from(ergo.get_used_addresses());
-
-const getUnusedAddresses = () => from(ergo.get_unused_addresses());
+import { selectedWallet$, selectedWalletState$ } from '../wallets';
 
 export const getAddresses = (): Observable<string[]> =>
   selectedWalletState$.pipe(
     filter((state) => state === WalletState.CONNECTED),
-    switchMap(() => zip(getUsedAddresses(), getUnusedAddresses())),
+    switchMap(() =>
+      selectedWallet$.pipe(
+        filter(Boolean),
+        switchMap((wallet) =>
+          zip(wallet.getUsedAddresses(), wallet.getUnusedAddresses()),
+        ),
+      ),
+    ),
     map(([usedAddrs, unusedAddrs]) => unusedAddrs.concat(usedAddrs)),
   );
 

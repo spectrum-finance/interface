@@ -1,7 +1,6 @@
-import { ErgoTx, ergoTxToProxy } from '@ergolabs/ergo-sdk';
+import { Address, ErgoTx, ergoTxToProxy } from '@ergolabs/ergo-sdk';
 import { Balance } from '@ergolabs/ergo-sdk/build/main/wallet/entities/balance';
 
-import { Address } from '../../context';
 import { explorer } from '../explorer';
 
 export const submitTx = async (tx: ErgoTx): Promise<any> => {

@@ -42,15 +42,9 @@ namespace ErgoBridge {
 }
 
 declare let ergoConnector: {
-  nautilus: any;
+  nautilus: {
+    connect: (params: { createErgoObject: boolean }) => Promise<boolean>;
+    getContext: () => Promise<ErgoBridge.ErgoAPI>;
+  };
 };
-declare let NautilusErgoApi: any;
-
-declare let cardano: Record<string, any>;
-
 declare let ergo: ErgoBridge.ErgoAPI;
-
-interface Window {
-  yoroi: ErgoBridge.ErgoAPI;
-  nautilus: ErgoBridge.ErgoAPI;
-}

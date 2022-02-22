@@ -1,7 +1,8 @@
+import { Address } from '@ergolabs/ergo-sdk';
 import React, { useState } from 'react';
 
 import { useObservable } from '../../../../common/hooks/useObservable';
-import { Address, useSettings } from '../../../../context';
+import { useSettings } from '../../../../context';
 import {
   Box,
   Button,
