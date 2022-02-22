@@ -4,7 +4,6 @@ import { DateTime } from 'luxon';
 import { defer, from, map, Observable, switchMap } from 'rxjs';
 
 import { applicationConfig } from '../../applicationConfig';
-import { AmmPoolAnalytics } from '../../common/streams/poolAnalytic';
 import { networkContext$ } from '../../network/ergo/networkContext/networkContext';
 
 export interface LockedAsset {
