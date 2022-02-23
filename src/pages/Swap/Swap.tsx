@@ -58,15 +58,8 @@ const isAssetsPairEquals = (
   (prevFrom?.id === nextFrom?.id && prevTo?.id === nextTo?.id) ||
   (prevFrom?.id === nextTo?.id && prevTo?.id === nextFrom?.id);
 
-const getSelectedPool = (
-  xId?: string,
-  yId?: string,
-): Observable<AmmPool | undefined> =>
-  xId && yId
-    ? getAmmPoolsByAssetPair(xId, yId).pipe(
-        map((pools) => maxBy(pools, (p) => p.lp.amount)),
-      )
-    : of(undefined);
+const getAvailablePools = (xId?: string, yId?: string): Observable<AmmPool[]> =>
+  xId && yId ? getAmmPoolsByAssetPair(xId, yId) : of([]);
 
 export const Swap = (): JSX.Element => {
   const form = useForm<SwapFormModel>({
@@ -219,16 +212,14 @@ export const Swap = (): JSX.Element => {
       distinctUntilChanged(isAssetsPairEquals),
       tap(() => form.patchValue({ pool: undefined })),
       switchMap(([fromAsset, toAsset]) =>
-        getSelectedPool(fromAsset?.id, toAsset?.id),
+        getAvailablePools(fromAsset?.id, toAsset?.id),
       ),
     ),
-    (pool) => {
-      if (pool) {
-        form.patchValue({ pool });
-      } else if (form.value.toAsset && form.value.fromAsset) {
+    (pools) => {
+      if (!pools.length && form.value.toAsset && form.value.fromAsset) {
         form.patchValue(
           {
-            pool,
+            pool: undefined,
             toAsset: undefined,
             toAmount:
               lastEditedField === 'to' ? form.value.toAmount : undefined,
@@ -237,7 +228,14 @@ export const Swap = (): JSX.Element => {
           },
           { emitEvent: 'silent' },
         );
+        return;
       }
+
+      const newPool =
+        pools.find((p) => p.id === form.value.pool?.id) ||
+        maxBy(pools, (p) => p.lp.amount);
+
+      form.patchValue({ pool: newPool });
     },
     [lastEditedField],
   );
