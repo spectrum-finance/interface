@@ -9,12 +9,20 @@ import { getAggregatedPoolAnalyticsDataById24H } from '../../../common/streams/p
 import { DataTag } from '../../../components/common/DataTag/DataTag';
 import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
 import { TokenIconPair } from '../../../components/TokenIconPair/TokenIconPair';
-import { Animation, Box, Button, Flex, Typography } from '../../../ergodex-cdk';
+import {
+  Animation,
+  Box,
+  Button,
+  Control,
+  Flex,
+  Modal,
+  Typography,
+} from '../../../ergodex-cdk';
 import { formatToUSD } from '../../../services/number';
+import { PoolSelectorModal } from './PoolSelectorModal/PoolSelectorModal';
 
-interface PoolSelectorProps {
+interface PoolSelectorProps extends Control<AmmPool> {
   readonly className?: string;
-  readonly pool?: AmmPool;
 }
 
 const selectedPoolAnalytic = (ammPoolId: string) =>
@@ -22,7 +30,11 @@ const selectedPoolAnalytic = (ammPoolId: string) =>
     catchError(() => of(undefined)),
   );
 
-const _PoolSelector: FC<PoolSelectorProps> = ({ className, pool }) => {
+const _PoolSelector: FC<PoolSelectorProps> = ({
+  className,
+  value,
+  onChange,
+}) => {
   const [ammPoolAnalytics, updateAmmPoolAnalytics, loading] =
     useSubject(selectedPoolAnalytic);
 
@@ -31,18 +43,23 @@ const _PoolSelector: FC<PoolSelectorProps> = ({ className, pool }) => {
   );
 
   useEffect(() => {
-    if (pool) {
-      updateAmmPoolAnalytics(pool.id);
-      updateAvailableAmmPools(pool.x.asset.id, pool.y.asset.id);
+    if (value) {
+      updateAmmPoolAnalytics(value.id);
+      updateAvailableAmmPools(value.x.asset.id, value.y.asset.id);
     }
-  }, [pool?.id]);
+  }, [value?.id]);
+
+  const openPoolSelectorModal = (pool: AmmPool) =>
+    Modal.open(({ close }) => (
+      <PoolSelectorModal value={pool} onChange={onChange} close={close} />
+    ));
 
   return (
     <>
       <Flex justify="center">
-        <Box className={className} padding={pool ? 6 : 0}>
-          <Animation.Expand expanded={!!pool} opacityDelay duration={200}>
-            {pool && (
+        <Box className={className} padding={value ? 6 : 0}>
+          <Animation.Expand expanded={!!value} opacityDelay duration={200}>
+            {value && (
               <Flex col>
                 <Flex.Item marginBottom={2}>
                   <Typography.Body>Liquidity Pool</Typography.Body>
@@ -61,21 +78,21 @@ const _PoolSelector: FC<PoolSelectorProps> = ({ className, pool }) => {
                       <TokenIconPair
                         size="small"
                         tokenPair={{
-                          tokenA: pool.x.asset.name,
-                          tokenB: pool.y.asset.name,
+                          tokenA: value.x.asset.name,
+                          tokenB: value.y.asset.name,
                         }}
                       />
                     </Flex.Item>
                     <Flex.Item marginRight={2}>
                       <Typography.Body strong>
-                        {pool.x.asset.name}/{pool.y.asset.name}
+                        {value.x.asset.name}/{value.y.asset.name}
                       </Typography.Body>
                     </Flex.Item>
                     <Flex.Item marginRight={1}>
                       <Typography.Footnote>Fee</Typography.Footnote>
                     </Flex.Item>
                     <Flex.Item marginRight={2}>
-                      <DataTag content={`${pool.poolFee}%`} />
+                      <DataTag content={`${value.poolFee}%`} />
                     </Flex.Item>
                     <Flex.Item marginRight={1}>
                       <Typography.Footnote>TVL</Typography.Footnote>
@@ -91,7 +108,10 @@ const _PoolSelector: FC<PoolSelectorProps> = ({ className, pool }) => {
                       />
                     </Flex.Item>
                     <Flex.Item flex={1} display="flex" justify="flex-end">
-                      <Button disabled={(availableAmmPools?.length || 0) < 2}>
+                      <Button
+                        disabled={(availableAmmPools?.length || 0) < 2}
+                        onClick={() => openPoolSelectorModal(value)}
+                      >
                         Change
                       </Button>
                     </Flex.Item>

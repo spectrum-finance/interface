@@ -331,9 +331,11 @@ export const Swap = (): JSX.Element => {
       <Page
         width={504}
         bottomChildren={
-          <Form.Listener name="pool">
-            {({ value }) => <PoolSelector pool={value} />}
-          </Form.Listener>
+          <Form.Item name="pool">
+            {({ value, onChange }) => (
+              <PoolSelector value={value} onChange={onChange} />
+            )}
+          </Form.Item>
         }
       >
         <Flex col>
