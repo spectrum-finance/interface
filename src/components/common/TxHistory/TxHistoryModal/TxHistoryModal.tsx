@@ -1,9 +1,9 @@
 import { Typography } from 'antd';
 import React from 'react';
 
+import { addresses$ } from '../../../../api/addresses';
 import { transactionsHistory$ } from '../../../../api/transactionsHistory';
 import { useObservable } from '../../../../common/hooks/useObservable';
-import { useWalletAddresses, WalletAddressState } from '../../../../context';
 import { Box, Flex, Menu, Modal, Skeleton } from '../../../../ergodex-cdk';
 import { isRefundableOperation } from '../../../../utils/ammOperations';
 import { exploreTx } from '../../../../utils/redirect';
@@ -22,16 +22,16 @@ import { normalizeOperations } from '../utils';
 
 const TxHistoryModal = (): JSX.Element => {
   const [txs] = useObservable(transactionsHistory$);
-  const walletAddresses = useWalletAddresses();
+  const [addresses] = useObservable(addresses$);
 
   const handleOpenRefundConfirmationModal = (operation: DexOperation) => {
-    if (walletAddresses.state === WalletAddressState.LOADED) {
+    if (addresses) {
       openConfirmationModal(
         (next) => {
           return (
             <RefundConfirmationModal
               operation={operation}
-              addresses={walletAddresses.addresses}
+              addresses={addresses}
               onClose={next}
             />
           );

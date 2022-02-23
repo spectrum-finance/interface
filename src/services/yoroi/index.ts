@@ -1,11 +1,16 @@
-import { ErgoTx, ergoTxToProxy } from '@ergolabs/ergo-sdk';
+import { Address, ErgoTx, ergoTxToProxy } from '@ergolabs/ergo-sdk';
 import { Balance } from '@ergolabs/ergo-sdk/build/main/wallet/entities/balance';
 
-import { Address } from '../../context';
 import { explorer } from '../explorer';
-
+// TODO: WALLET_REFACTORING
 export const submitTx = async (tx: ErgoTx): Promise<any> => {
-  return await ergo.submit_tx(ergoTxToProxy(tx));
+  try {
+    return await ergo.submit_tx(ergoTxToProxy(tx));
+  } catch {
+    return ergoConnector.nautilus
+      .getContext()
+      .then((context) => context.submit_tx(ergoTxToProxy(tx)));
+  }
 };
 
 export const getBalance = async (

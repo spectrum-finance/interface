@@ -1,0 +1,1 @@
+export const MESSAGE_COOKIE = 'YOROI_MESSAGE_COOKIE';

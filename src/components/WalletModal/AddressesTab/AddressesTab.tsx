@@ -1,15 +1,12 @@
 import './AddressTab.less';
 
-import { publicKeyFromAddress } from '@ergolabs/ergo-sdk';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { Address, publicKeyFromAddress } from '@ergolabs/ergo-sdk';
+import React, { useCallback, useEffect, useState } from 'react';
 
+import { addresses$ } from '../../../api/addresses';
 import { ERG_DECIMALS } from '../../../common/constants/erg';
-import {
-  Address,
-  useSettings,
-  useWalletAddresses,
-  WalletAddressState,
-} from '../../../context';
+import { useObservable } from '../../../common/hooks/useObservable';
+import { useSettings } from '../../../context';
 import { Box, Button, Flex, List, Typography } from '../../../ergodex-cdk';
 import { getBalance } from '../../../services/yoroi';
 import { renderFractions } from '../../../utils/math';
@@ -96,18 +93,12 @@ const AddressListItem: React.FC<AddressListItemProps> = ({
 };
 
 export const AddressesTab: React.FC = () => {
-  const walletAddresses = useWalletAddresses();
+  const [addresses] = useObservable(addresses$);
   const [{ address }] = useSettings();
-
-  const addressList = useMemo(() => {
-    return walletAddresses.state === WalletAddressState.LOADED
-      ? walletAddresses.addresses
-      : [];
-  }, [walletAddresses]);
 
   return (
     <Flex col>
-      <List dataSource={addressList} transparent height={250}>
+      <List dataSource={addresses} transparent height={250}>
         {(a) => <AddressListItem key={a} address={a} active={a === address} />}
       </List>
     </Flex>
