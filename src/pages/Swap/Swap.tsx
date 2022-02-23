@@ -8,7 +8,6 @@ import {
   combineLatest,
   debounceTime,
   distinctUntilChanged,
-  map,
   Observable,
   of,
   skip,
@@ -315,7 +314,6 @@ export const Swap = (): JSX.Element => {
   return (
     <ActionForm
       form={form}
-      actionButton="Swap"
       getInsufficientTokenNameForFee={getInsufficientTokenNameForFee}
       getInsufficientTokenNameForTx={getInsufficientTokenNameForTx}
       isLoading={isPoolLoading}
@@ -375,6 +373,9 @@ export const Swap = (): JSX.Element => {
               </Flex.Item>
             )}
           </Form.Listener>
+          <Flex.Item marginTop={4}>
+            <ActionForm.Button>Swap</ActionForm.Button>
+          </Flex.Item>
         </Flex>
       </Page>
     </ActionForm>
