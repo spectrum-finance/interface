@@ -36,7 +36,7 @@ export const LockLiquidityChart: FC<LockLiquidityChartProps> = ({
             />
           </Flex.Item>
           <BarChart
-            width={400}
+            width={520}
             height={190}
             data={poolConfidenceAnalytic.locksGroups}
             barCategoryGap={0}
