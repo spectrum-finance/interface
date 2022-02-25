@@ -6,10 +6,11 @@ import { cache } from 'decorator-cache-getter';
 import { evaluate } from 'mathjs';
 
 import { math, renderFractions } from '../../utils/math';
+import { Searchable } from '../utils/Searchable';
 import { Currency } from './Currency';
 import { Ratio } from './Ratio';
 
-export class AmmPool {
+export class AmmPool implements Searchable {
   constructor(private pool: BaseAmmPool) {}
 
   @cache
@@ -151,6 +152,21 @@ export class AmmPool {
     );
 
     return new Currency(outputAmount.amount, outputAmount?.asset);
+  }
+
+  match(term?: string): boolean {
+    if (!term) {
+      return true;
+    }
+    const normalizedTerm = term.toLowerCase().replaceAll('/', '');
+
+    return (
+      this.x.asset.name?.toLowerCase().startsWith(normalizedTerm) ||
+      this.y.asset.name?.toLowerCase().startsWith(normalizedTerm) ||
+      `${this.x.asset.name?.toLowerCase()}${this.y.asset.name?.toLowerCase()}`.startsWith(
+        normalizedTerm,
+      )
+    );
   }
 
   private getRatio(first: Currency, second: Currency): Ratio {

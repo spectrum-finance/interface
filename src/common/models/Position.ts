@@ -2,11 +2,12 @@ import { TokenLock } from '@ergolabs/ergo-dex-sdk/build/main/security/entities';
 import { cache } from 'decorator-cache-getter';
 
 import { math } from '../../utils/math';
+import { Searchable } from '../utils/Searchable';
 import { AmmPool } from './AmmPool';
 import { AssetLock, AssetLockStatus } from './AssetLock';
 import { Currency } from './Currency';
 
-export class Position {
+export class Position implements Searchable {
   static noop(ammPool: AmmPool): Position {
     return new Position(
       ammPool,
@@ -55,6 +56,21 @@ export class Position {
   @cache
   get totalLp(): Currency {
     return this.availableLp.plus(this.lockedLp);
+  }
+
+  match(term?: string): boolean {
+    if (!term) {
+      return true;
+    }
+    const normalizedTerm = term.toLowerCase().replaceAll('/', '');
+
+    return (
+      this.pool.x.asset.name?.toLowerCase().startsWith(normalizedTerm) ||
+      this.pool.y.asset.name?.toLowerCase().startsWith(normalizedTerm) ||
+      `${this.pool.x.asset.name?.toLowerCase()}${this.pool.x.asset.name?.toLowerCase()}`.startsWith(
+        normalizedTerm,
+      )
+    );
   }
 
   readonly lockedX: Currency;
