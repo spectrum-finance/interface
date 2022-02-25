@@ -1,10 +1,14 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
+import { catchError, of } from 'rxjs';
 import styled, { css } from 'styled-components';
 
+import { useSubject } from '../../../../../common/hooks/useObservable';
 import { AmmPool } from '../../../../../common/models/AmmPool';
+import { getAggregatedPoolAnalyticsDataById24H } from '../../../../../common/streams/poolAnalytic';
 import { DataTag } from '../../../../../components/common/DataTag/DataTag';
 import { TokenIconPair } from '../../../../../components/TokenIconPair/TokenIconPair';
 import { Box, Flex, Typography } from '../../../../../ergodex-cdk';
+import { formatToUSD } from '../../../../../services/number';
 
 interface PoolItemViewProps {
   readonly pool: AmmPool;
@@ -13,15 +17,40 @@ interface PoolItemViewProps {
   readonly onClick?: (pool: AmmPool) => void;
 }
 
-const _PoolItemView: FC<PoolItemViewProps> = ({ pool, className, onClick }) => {
+const selectedPoolAnalytic = (ammPoolId: string) =>
+  getAggregatedPoolAnalyticsDataById24H(ammPoolId).pipe(
+    catchError(() => of(undefined)),
+  );
+
+const _PoolItemView: FC<PoolItemViewProps> = ({
+  pool,
+  className,
+  onClick,
+  active,
+}) => {
+  const [mouseEntered, setMouseEntered] = useState<boolean>(false);
+  const [ammPoolAnalytics, updateAmmPoolAnalytics, loading] =
+    useSubject(selectedPoolAnalytic);
+
+  useEffect(() => {
+    updateAmmPoolAnalytics(pool.id);
+  }, [pool.id]);
+
   const handleClick = () => {
     if (onClick) {
       onClick(pool);
     }
   };
 
+  const handleMouseEnter = () => setMouseEntered(true);
+
+  const handleMouseLeave = () => setMouseEntered(false);
+
   return (
     <Box
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      bordered={false}
       className={className}
       borderRadius="s"
       padding={[0, 4]}
@@ -46,13 +75,24 @@ const _PoolItemView: FC<PoolItemViewProps> = ({ pool, className, onClick }) => {
           <Typography.Footnote>Fee</Typography.Footnote>
         </Flex.Item>
         <Flex.Item marginRight={2}>
-          <DataTag content={`${pool.poolFee}%`} />
+          <DataTag
+            secondary={!mouseEntered && !active}
+            content={`${pool.poolFee}%`}
+          />
         </Flex.Item>
         <Flex.Item marginRight={1}>
-          <Typography.Footnote>Fee</Typography.Footnote>
+          <Typography.Footnote>TVL</Typography.Footnote>
         </Flex.Item>
         <Flex.Item marginRight={2}>
-          <DataTag content={`${pool.poolFee}%`} />
+          <DataTag
+            secondary={!mouseEntered && !active}
+            loading={loading}
+            content={
+              ammPoolAnalytics?.tvl
+                ? formatToUSD(ammPoolAnalytics.tvl.currency, 'abbr')
+                : '–––'
+            }
+          />
         </Flex.Item>
       </Flex>
     </Box>
@@ -66,14 +106,14 @@ export const PoolItemView = styled(_PoolItemView)`
   ${(props) =>
     props.active &&
     css`
-      background: var(--ergo-slider-disabled);
+      background: var(--ergo-pool-selector-item-active);
     `}
 
   ${(props) =>
     !props.active &&
     css`
       &:hover {
-        background: var(--ergo-default-card-background);
+        background: var(--ergo-pool-selector-item-hover);
       }
     `}
 `;

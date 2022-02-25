@@ -101,9 +101,11 @@ const _SwapInfo: FC<SwapInfoProps> = ({ className, value }) => {
 };
 
 export const SwapInfo = styled(_SwapInfo)`
-  border: 1px solid var(--ergo-default-card-background);
+  background: var(--ergo-box-bg-contrast);
+  border: 1px solid var(--ergo-box-border-color);
 
   .ant-collapse-content-box {
+    background: var(--ergo-box-bg-contrast);
     padding-top: 0;
   }
 `;

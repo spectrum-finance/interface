@@ -92,18 +92,19 @@ const _PoolSelector: FC<PoolSelectorProps> = ({
                       <Typography.Footnote>Fee</Typography.Footnote>
                     </Flex.Item>
                     <Flex.Item marginRight={2}>
-                      <DataTag content={`${value.poolFee}%`} />
+                      <DataTag secondary content={`${value.poolFee}%`} />
                     </Flex.Item>
                     <Flex.Item marginRight={1}>
                       <Typography.Footnote>TVL</Typography.Footnote>
                     </Flex.Item>
                     <Flex.Item marginRight={2}>
                       <DataTag
+                        secondary
                         loading={loading}
                         content={
                           ammPoolAnalytics?.tvl
-                            ? formatToUSD(ammPoolAnalytics.tvl.value, 'abbr')
-                            : '–'
+                            ? formatToUSD(ammPoolAnalytics.tvl.currency, 'abbr')
+                            : '–––'
                         }
                       />
                     </Flex.Item>

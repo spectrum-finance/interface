@@ -1,7 +1,7 @@
 import './Box.less';
 
 import cn from 'classnames';
-import React from 'react';
+import React, { MouseEventHandler } from 'react';
 
 import { getGutter, Gutter } from '../../utils/gutter';
 
@@ -16,9 +16,10 @@ interface BoxProps extends React.PropsWithChildren<unknown> {
   maxHeight?: number;
   overflow?: boolean;
   bordered?: boolean;
-  onClick?: React.MouseEventHandler<HTMLElement>;
+  onClick?: MouseEventHandler<HTMLElement>;
+  onMouseEnter?: MouseEventHandler<HTMLElement> | undefined;
+  onMouseLeave?: MouseEventHandler<HTMLElement> | undefined;
   width?: number;
-  tag?: boolean;
   height?: string | number;
 }
 
@@ -34,13 +35,16 @@ const Box = ({
   onClick,
   maxHeight,
   overflow,
+  onMouseEnter,
+  onMouseLeave,
   width,
-  tag,
   height,
   bordered,
 }: BoxProps): JSX.Element => {
   return (
     <div
+      onMouseLeave={onMouseLeave}
+      onMouseEnter={onMouseEnter}
       className={cn(
         'ergodex-box',
         borderRadius && `ergodex-box--radius-${borderRadius}`,
@@ -49,7 +53,6 @@ const Box = ({
         transparent && `ergodex-box--transparent`,
         control && 'ergodex-box--control',
         inline && `ergodex-box--inline`,
-        tag && `ergodex-box--tag`,
         className,
       )}
       style={{

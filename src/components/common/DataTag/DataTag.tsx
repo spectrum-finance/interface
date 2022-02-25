@@ -1,19 +1,21 @@
 import React from 'react';
+import styled from 'styled-components';
 
 import { Box, Flex, Skeleton, Typography } from '../../../ergodex-cdk';
 
 interface DataTagProps {
+  className?: string;
   content?: number | string;
-  contrast?: boolean;
+  secondary?: boolean;
   size?: 'small' | 'middle' | 'large';
   loading?: boolean;
 }
 
-const DataTag: React.FC<DataTagProps> = ({
+const _DataTag: React.FC<DataTagProps> = ({
   content,
-  contrast,
   size,
   loading,
+  className,
 }) => {
   if (loading) {
     const br = size === 'small' ? '4px' : '8px';
@@ -22,7 +24,12 @@ const DataTag: React.FC<DataTagProps> = ({
 
   if (size === 'small') {
     return (
-      <Box contrast={contrast} borderRadius={'xs'} padding={[0, 1]}>
+      <Box
+        className={className}
+        borderRadius={'xs'}
+        padding={[0, 1]}
+        bordered={false}
+      >
         <Flex justify="center">
           <Typography.Body small>{content}</Typography.Body>
         </Flex>
@@ -30,7 +37,7 @@ const DataTag: React.FC<DataTagProps> = ({
     );
   } else if (size === 'large') {
     return (
-      <Box contrast={contrast} borderRadius="s" padding={1}>
+      <Box className={className} borderRadius="s" padding={1} bordered={false}>
         <Flex justify="center">
           <Typography.Title level={5}>{content}</Typography.Title>
         </Flex>
@@ -39,7 +46,7 @@ const DataTag: React.FC<DataTagProps> = ({
   }
 
   return (
-    <Box contrast={contrast} borderRadius="s" padding={1}>
+    <Box className={className} borderRadius="s" padding={1} bordered={false}>
       <Flex justify="center">
         <Typography.Body strong>{content}</Typography.Body>
       </Flex>
@@ -47,4 +54,9 @@ const DataTag: React.FC<DataTagProps> = ({
   );
 };
 
-export { DataTag };
+export const DataTag = styled(_DataTag)`
+  background: var(--ergo-tag-primary) !important;
+
+  ${(props) =>
+    props.secondary && 'background: var(--ergo-tag-secondary) !important'}
+`;

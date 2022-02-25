@@ -9,6 +9,7 @@ import {
 } from '../../../../ergodex-cdk';
 import { SwapFormModel } from '../../SwapFormModel';
 import { RatioView } from './RatioView/RatioView';
+import { SlippageTag } from './SlippageTag/SlippageTag';
 
 export interface SwapInfoHeaderProps {
   readonly value: SwapFormModel;
@@ -23,9 +24,16 @@ const _SwapInfoHeader: FC<SwapInfoHeaderProps> = ({
 }) => (
   <Flex justify="space-between" align="center" className={className}>
     <RatioView value={value} />
-    <Typography.Body>
-      {collapsed ? <DownOutlined /> : <UpOutlined />}
-    </Typography.Body>
+    <Flex align="center">
+      {!collapsed && (
+        <Flex.Item marginRight={4}>
+          <SlippageTag />
+        </Flex.Item>
+      )}
+      <Typography.Body>
+        {collapsed ? <DownOutlined /> : <UpOutlined />}
+      </Typography.Body>
+    </Flex>
   </Flex>
 );
 

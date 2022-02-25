@@ -4,6 +4,7 @@ import { DateTime } from 'luxon';
 import { defer, from, map, Observable, switchMap } from 'rxjs';
 
 import { applicationConfig } from '../../applicationConfig';
+import { Currency } from '../../common/models/Currency';
 import { networkContext$ } from '../../network/ergo/networkContext/networkContext';
 
 export interface LockedAsset {
@@ -14,15 +15,16 @@ export interface LockedAsset {
 }
 
 export interface Units {
-  currency: Currency;
+  currency: CurrencyInfo;
 }
 
-export interface Currency {
+export interface CurrencyInfo {
   id: string;
   decimals: number;
 }
 
 export interface AnalyticsData {
+  currency: Currency;
   value: string;
   units: Units;
   window?: Window;
