@@ -35,7 +35,7 @@ export interface LockItemViewProps {
 
 export const LockItemView: FC<LockItemViewProps> = ({ position }) => (
   <ListItemWrapper>
-    <Flex>
+    <Flex align="center">
       <LockItemViewColumn title="Pair" width={164} marginRight={4}>
         <Flex col stretch>
           <Flex.Item marginBottom={3}>
@@ -81,7 +81,7 @@ export const LockItemView: FC<LockItemViewProps> = ({ position }) => (
         </Flex>
       </LockItemViewColumn>
       <LockItemViewColumn title="Share" width={100}>
-        <Flex col stretch>
+        <Flex col style={{ height: 60 }} justify="center">
           <DataTag size="large" content={`${position.totalLockedPercent}%`} />
         </Flex>
       </LockItemViewColumn>
