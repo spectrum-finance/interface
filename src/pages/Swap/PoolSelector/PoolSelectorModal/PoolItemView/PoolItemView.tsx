@@ -60,10 +60,8 @@ const _PoolItemView: FC<PoolItemViewProps> = ({
         <Flex.Item marginRight={1}>
           <TokenIconPair
             size="small"
-            tokenPair={{
-              tokenA: pool.x.asset.name,
-              tokenB: pool.y.asset.name,
-            }}
+            assetX={pool.x.asset}
+            assetY={pool.y.asset}
           />
         </Flex.Item>
         <Flex.Item marginRight={4}>

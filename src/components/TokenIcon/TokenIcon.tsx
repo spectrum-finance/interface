@@ -1,30 +1,15 @@
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import React from 'react';
 
-import { isVerifiedToken } from '../../utils/verification';
+const EMPTY_TOKEN = `https://raw.githubusercontent.com/ergolabs/ergo-dex-asset-icons/master/empty.svg`;
 
 type TokenIconProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
   HTMLDivElement
 > & {
   asset?: AssetInfo;
-  name?: string;
   size?: 'large' | 'small';
 };
-
-const accessibleTokens = [
-  'ERG',
-  'ERGX',
-  'ADA',
-  'SigUSD',
-  'SigRSV',
-  'Kushti',
-  'Erdoge',
-  'ADA-disabled',
-  'LunaDog',
-  'NETA',
-  'ergopad',
-];
 
 const MAP_SIZE_TO_NUMBER = {
   small: 20,
@@ -32,24 +17,8 @@ const MAP_SIZE_TO_NUMBER = {
   large: 32,
 };
 
-const TokenIcon: React.FC<TokenIconProps> = ({
-  asset,
-  name,
-  size,
-  ...rest
-}) => {
-  let isAccessibleToken;
-
-  // TODO: REPLACE ALL STRINGS TO ASSET_INFO
-  if (asset) {
-    isAccessibleToken = isVerifiedToken(asset);
-  } else {
-    isAccessibleToken = accessibleTokens.some(
-      (tokenName) => tokenName.toLowerCase() === name?.toLocaleLowerCase(),
-    );
-  }
-
-  const iconName = asset?.name || name;
+const TokenIcon: React.FC<TokenIconProps> = ({ asset, size, ...rest }) => {
+  const iconName = asset?.id || 'empty';
 
   return (
     <span
@@ -64,9 +33,9 @@ const TokenIcon: React.FC<TokenIconProps> = ({
     >
       <img
         alt="Token Icon"
-        src={`/assets/tokens/token-${
-          iconName && isAccessibleToken ? iconName.toLowerCase() : 'empty'
-        }.svg`}
+        src={`https://raw.githubusercontent.com/ergolabs/ergo-dex-asset-icons/master/${iconName}.svg`}
+        //@ts-ignore
+        onError={(e) => (e.target.src = EMPTY_TOKEN)}
         width={MAP_SIZE_TO_NUMBER[size || 'medium']}
         height={MAP_SIZE_TO_NUMBER[size || 'medium']}
       />

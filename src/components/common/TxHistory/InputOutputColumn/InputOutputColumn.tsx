@@ -21,9 +21,7 @@ const InputOutputColumn: React.FC<InputOutputColumnProps> = ({
     return (
       <Flex align="center">
         <Flex.Item marginRight={2}>
-          <TokenIconPair
-            tokenPair={{ tokenA: x.asset.name, tokenB: y.asset.name }}
-          />
+          <TokenIconPair assetX={x.asset} assetY={y.asset} />
         </Flex.Item>
         <Flex.Item>
           <Flex>
@@ -68,7 +66,7 @@ const InputOutputColumn: React.FC<InputOutputColumnProps> = ({
       <Flex.Item marginRight={2}>
         <Flex align="center">
           <Flex.Item marginRight={1}>
-            <TokenIcon name={x.asset.name} />
+            <TokenIcon asset={x.asset} />
           </Flex.Item>
           <Typography.Body strong>{x.asset.name}</Typography.Body>
         </Flex>
@@ -81,7 +79,7 @@ const InputOutputColumn: React.FC<InputOutputColumnProps> = ({
       <Flex.Item>
         <Flex align="center">
           <Flex.Item marginRight={1}>
-            <TokenIcon name={y.asset.name} />
+            <TokenIcon asset={y.asset} />
           </Flex.Item>
           <Typography.Body strong>{y.asset.name}</Typography.Body>
         </Flex>

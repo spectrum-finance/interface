@@ -11,7 +11,7 @@ export interface TokenTitleProps {
 export const TokenTitle: FC<TokenTitleProps> = ({ value }) => (
   <Flex align="center">
     <Flex.Item marginRight={1}>
-      <TokenIcon name={value.name} />
+      <TokenIcon asset={value} />
     </Flex.Item>
     <Typography.Title level={5}>{value.name}</Typography.Title>
   </Flex>

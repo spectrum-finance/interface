@@ -77,10 +77,8 @@ const _PoolSelector: FC<PoolSelectorProps> = ({
                     <Flex.Item marginRight={1}>
                       <TokenIconPair
                         size="small"
-                        tokenPair={{
-                          tokenA: value.x.asset.name,
-                          tokenB: value.y.asset.name,
-                        }}
+                        assetX={value.x.asset}
+                        assetY={value.y.asset}
                       />
                     </Flex.Item>
                     <Flex.Item marginRight={2}>

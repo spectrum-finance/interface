@@ -42,12 +42,12 @@ export const WalletModal: React.FC = () => {
             <Box contrast padding={4} borderRadius="m">
               <Tabs defaultActiveKey="1" centered type="card">
                 <Tabs.TabPane tab="Addresses" key="1">
-                  <Box transparent padding={[4, 0, 0, 0]}>
+                  <Box transparent padding={[4, 0, 0, 0]} bordered={false}>
                     <AddressesTab />
                   </Box>
                 </Tabs.TabPane>
                 <Tabs.TabPane tab="Tokens" key="2">
-                  <Box transparent padding={[4, 0, 0, 0]}>
+                  <Box transparent padding={[4, 0, 0, 0]} bordered={false}>
                     <TokensTab />
                   </Box>
                 </Tabs.TabPane>

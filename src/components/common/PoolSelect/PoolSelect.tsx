@@ -27,10 +27,8 @@ const PoolOption: React.FC<PoolOptionProps> = ({ position }) => {
           <Flex.Item marginRight={2}>
             <Flex>
               <TokenIconPair
-                tokenPair={{
-                  tokenA: position.x.asset.name,
-                  tokenB: position.y.asset.name,
-                }}
+                assetX={position.x.asset}
+                assetY={position.y.asset}
               />
             </Flex>
           </Flex.Item>

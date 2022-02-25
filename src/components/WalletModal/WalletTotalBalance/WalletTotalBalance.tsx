@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Currency } from '../../../common/models/Currency';
 import { Box, Flex, LoadingOutlined, Typography } from '../../../ergodex-cdk';
+import { networkAsset } from '../../../services/new/core';
 import { TokenIcon } from '../../TokenIcon/TokenIcon';
 
 interface WalletTotalBalanceProps {
@@ -19,7 +20,7 @@ export const WalletTotalBalance: React.FC<WalletTotalBalanceProps> = ({
       <Box padding={[2, 4]} borderRadius="m" contrast>
         <Flex row align="center">
           <Flex.Item marginRight={2}>
-            <TokenIcon name="erg" />
+            <TokenIcon asset={networkAsset} />
           </Flex.Item>
           <Flex.Item flex={1}>
             <Typography.Title level={4}>
