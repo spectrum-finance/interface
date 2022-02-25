@@ -10,10 +10,16 @@ export interface ExpandProps {
     | string
     | (() => ReactNode | ReactNode[] | string);
   duration?: number;
+  opacityDelay?: boolean;
   expanded?: boolean;
 }
 
-export const Expand: FC<ExpandProps> = ({ duration, children, expanded }) => {
+export const Expand: FC<ExpandProps> = ({
+  duration,
+  children,
+  expanded,
+  opacityDelay,
+}) => {
   const containerRef = useRef<HTMLDivElement>();
   const [height, setHeight] = useState<number>(0);
 
@@ -30,7 +36,9 @@ export const Expand: FC<ExpandProps> = ({ duration, children, expanded }) => {
       style={{
         height,
         opacity: expanded ? '1' : '0',
-        transition: `height ${duration || 300}ms, opacity ${duration || 300}ms`,
+        transition: `height ${duration || 300}ms, opacity ${
+          duration || 300
+        }ms ${opacityDelay ? `${duration || 300}ms` : ''}`,
         overflow: expanded ? 'initial' : 'hidden',
       }}
     >

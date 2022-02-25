@@ -1,26 +1,14 @@
 import './ActionButton.less';
 
 import { DateTime } from 'luxon';
-import React, { FC, ReactNode } from 'react';
+import React, { FC, ReactNode, useContext } from 'react';
 import { interval, map } from 'rxjs';
 
 import { useObservable } from '../../../../common/hooks/useObservable';
 import { Currency } from '../../../../common/models/Currency';
 import { Button, ButtonProps } from '../../../../ergodex-cdk';
 import { ConnectWalletButton } from '../../ConnectWalletButton/ConnectWalletButton';
-
-export enum ActionButtonState {
-  SELECT_TOKEN,
-  ENTER_AMOUNT,
-  INSUFFICIENT_TOKEN_BALANCE,
-  INSUFFICIENT_FEE_BALANCE,
-  INSUFFICIENT_LIQUIDITY,
-  LOADING,
-  CHECK_INTERNET_CONNECTION,
-  SWAP_LOCK,
-  MIN_VALUE,
-  ACTION,
-}
+import { ActionButtonState, ActionFormContext } from '../ActionFormContext';
 
 export const END_TIMER_DATE = DateTime.utc(2022, 2, 2, 19, 0, 0);
 
@@ -112,11 +100,6 @@ const getButtonPropsByState = (
 };
 
 export interface ActionButtonProps {
-  readonly state: ActionButtonState;
-  readonly token?: string | undefined;
-  readonly nativeToken?: string | undefined;
-  readonly currency?: Currency;
-  readonly onClick?: () => void;
   readonly children: ReactNode;
 }
 
@@ -134,8 +117,9 @@ const timer$ = interval(1000).pipe(map(() => getDiff()));
 
 export const ActionButton: FC<ActionButtonProps> = (props) => {
   const [timer] = useObservable(timer$, [], getDiff());
+  const formContext = useContext(ActionFormContext);
 
-  if (props.state === ActionButtonState.SWAP_LOCK) {
+  if (formContext.state === ActionButtonState.SWAP_LOCK) {
     return (
       <Button
         htmlType="submit"
@@ -159,10 +143,10 @@ export const ActionButton: FC<ActionButtonProps> = (props) => {
   }
 
   const { children, ...other } = getButtonPropsByState(
-    props.state,
-    props.token,
-    props.nativeToken,
-    props.currency,
+    formContext.state,
+    formContext.token,
+    formContext.nativeToken,
+    formContext.currency,
     props.children,
   );
 

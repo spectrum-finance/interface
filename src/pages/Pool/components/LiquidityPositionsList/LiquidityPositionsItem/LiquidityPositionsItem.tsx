@@ -3,8 +3,8 @@ import React, { useEffect } from 'react';
 
 import { useSubject } from '../../../../../common/hooks/useObservable';
 import { AmmPool } from '../../../../../common/models/AmmPool';
+import { getAggregatedPoolAnalyticsDataById24H } from '../../../../../common/streams/poolAnalytic';
 import { Flex } from '../../../../../ergodex-cdk';
-import { getAggregatedPoolAnalyticsDataById24H } from '../../../../../services/new/analytics';
 import { LiquidityPositionsItemAnalytics } from './LiquidityPositionsItemAnalytics/LiquidityPositionsItemAnalytics';
 import { LiquidityPositionsItemWrapper } from './LiquidityPositionsItemWrapper/LiquidityPositionsItemWrapper';
 

@@ -74,9 +74,8 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
   useEffect(() => {
     if (value.pool && value.fromAsset && value.fromAmount) {
       setBaseParams(
-        getBaseInputParameters(value.pool['pool'], {
-          inputAmount: value.fromAmount.toAmount(),
-          inputAsset: value.fromAsset,
+        getBaseInputParameters(value.pool, {
+          inputAmount: value.fromAmount,
           slippage,
         }),
       );

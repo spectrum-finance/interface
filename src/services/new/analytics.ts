@@ -33,16 +33,6 @@ export interface Window {
   to: number;
 }
 
-export interface AmmPoolAnalytics {
-  id: PoolId;
-  lockedX: LockedAsset;
-  lockedY: LockedAsset;
-  tvl: AnalyticsData;
-  volume: AnalyticsData;
-  fees: AnalyticsData;
-  yearlyFeesPercent: number;
-}
-
 export interface AmmPoolLocksAnalytic {
   readonly poolId: string;
   readonly deadline: number;
@@ -82,30 +72,6 @@ export const getAggregateAnalyticsDataByFrame = (
       },
     }),
   ).pipe(map((res) => res.data));
-
-export const getAggregatedPoolAnalyticsDataById = (
-  poolId: PoolId,
-  frm?: number,
-  to?: number,
-): Observable<AmmPoolAnalytics> =>
-  from(
-    axios.get<AmmPoolAnalytics>(
-      `${applicationConfig.api}amm/pool/${poolId}/stats`,
-      {
-        params: {
-          from: frm,
-          to,
-        },
-      },
-    ),
-  ).pipe(map((res) => res.data));
-
-export const getAggregatedPoolAnalyticsDataById24H = (
-  poolId: PoolId,
-): Observable<AmmPoolAnalytics> =>
-  from(get24hData(`${applicationConfig.api}amm/pool/${poolId}/stats`)).pipe(
-    map((res) => res.data),
-  );
 
 export const getPoolLocksAnalyticsById = (
   poolId: PoolId,

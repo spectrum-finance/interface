@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import { Button, QuestionCircleOutlined, Tooltip } from '../../ergodex-cdk';
 
 interface InfoTooltipProps {
-  content: React.ReactNode | React.ReactNode[] | string;
+  content: ReactNode | ReactNode[] | string;
+  children?: ReactNode | ReactNode[] | string;
   className?: string;
   width?: number;
   placement?:

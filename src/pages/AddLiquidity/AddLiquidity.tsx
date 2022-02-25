@@ -338,7 +338,6 @@ const AddLiquidity = (): JSX.Element => {
       {!poolId || !poolsLoading ? (
         <ActionForm
           form={form}
-          actionButton="Add liquidity"
           getMinValueForToken={getMinValueForToken}
           getInsufficientTokenNameForFee={getInsufficientTokenNameForFee}
           getInsufficientTokenNameForTx={getInsufficientTokenNameForTx}
@@ -413,6 +412,9 @@ const AddLiquidity = (): JSX.Element => {
                   />
                 </Flex.Item>
               </Flex>
+            </Flex.Item>
+            <Flex.Item>
+              <ActionForm.Button>Add liquidity</ActionForm.Button>
             </Flex.Item>
           </Flex>
         </ActionForm>

@@ -1,9 +1,9 @@
 import React from 'react';
 
+import { AmmPoolAnalytics } from '../../../../../../common/streams/poolAnalytic';
 import { DataTag } from '../../../../../../components/common/DataTag/DataTag';
 import { InfoTooltip } from '../../../../../../components/InfoTooltip/InfoTooltip';
 import { Flex, Typography } from '../../../../../../ergodex-cdk';
-import { AmmPoolAnalytics } from '../../../../../../services/new/analytics';
 import { formatToUSD } from '../../../../../../services/number';
 import { renderFractions } from '../../../../../../utils/math';
 
