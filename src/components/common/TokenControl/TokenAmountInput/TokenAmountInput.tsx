@@ -1,10 +1,9 @@
-import './TokenAmountInput.less';
-
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
 
 import { Currency } from '../../../../common/models/Currency';
-import { Box, EventConfig, Input } from '../../../../ergodex-cdk';
+import { EventConfig, Input } from '../../../../ergodex-cdk';
 import { escapeRegExp } from './format';
 
 const inputRegex = RegExp(`^\\d*(?:\\\\[.])?\\d*$`); // match escaped "." characters via in a non-capturing group
@@ -20,6 +19,7 @@ export interface TokenAmountInputProps {
   disabled?: boolean;
   readonly?: boolean;
   asset?: AssetInfo;
+  className?: string;
 }
 
 const isValidAmount = (
@@ -35,12 +35,13 @@ const isValidAmount = (
   return (value.split('.')[1]?.length || 0) <= (asset?.decimals || 0);
 };
 
-const TokenAmountInput: React.FC<TokenAmountInputProps> = ({
+const _TokenAmountInput: React.FC<TokenAmountInputProps> = ({
   value,
   onChange,
   disabled,
   readonly,
   asset,
+  className,
 }) => {
   const [userInput, setUserInput] = useState<string | undefined>(undefined);
 
@@ -84,19 +85,26 @@ const TokenAmountInput: React.FC<TokenAmountInputProps> = ({
   };
 
   return (
-    <Box className="swap-input" borderRadius="m" padding={0}>
-      <Input
-        readOnly={readonly}
-        value={userInput}
-        onChange={(event) => {
-          enforcer(event.target.value.replace(/,/g, '.'));
-        }}
-        placeholder="0.0"
-        size="large"
-        disabled={disabled}
-      />
-    </Box>
+    <Input
+      readOnly={readonly}
+      value={userInput}
+      onChange={(event) => {
+        enforcer(event.target.value.replace(/,/g, '.'));
+      }}
+      className={className}
+      placeholder="0.0"
+      size="large"
+      disabled={disabled}
+    />
   );
 };
 
-export { TokenAmountInput };
+export const TokenAmountInput = styled(_TokenAmountInput)`
+  background-color: var(--ergo-swap-input-bg) !important;
+  box-shadow: none !important;
+  font-size: 24px !important;
+  font-weight: 600;
+  height: 100%;
+  line-height: 32px !important;
+  padding: 5px 12px;
+`;

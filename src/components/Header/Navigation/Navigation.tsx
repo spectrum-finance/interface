@@ -1,7 +1,6 @@
-import './HeaderTabs.less';
-
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { useHistory, useRouteMatch } from 'react-router-dom';
+import styled from 'styled-components';
 
 import { Tabs } from '../../../ergodex-cdk';
 
@@ -10,7 +9,11 @@ interface MatchParams {
   id: string;
 }
 
-const HeaderTabs = (): JSX.Element => {
+interface NavigationProps {
+  className?: string;
+}
+
+const _Navigation: FC<NavigationProps> = ({ className }) => {
   const history = useHistory();
   const matchRoot = useRouteMatch<MatchParams>('/:page');
   const matchPoolPosition = useRouteMatch<MatchParams>('/pool/:id');
@@ -32,14 +35,32 @@ const HeaderTabs = (): JSX.Element => {
   const onTabClick = (key: string) => history.push(`/${key}`);
 
   return (
-    <div className="header-tabs">
-      <Tabs activeKey={defaultActiveKey} type="card" onChange={onTabClick}>
-        <Tabs.TabPane tab="Swap" key="swap" />
-        <Tabs.TabPane tab="Liquidity" key="pool" />
-        {/*<Tabs.TabPane tab="Exchange" key="exchange" disabled />*/}
-      </Tabs>
-    </div>
+    <Tabs
+      activeKey={defaultActiveKey}
+      type="card"
+      onChange={onTabClick}
+      className={className}
+    >
+      <Tabs.TabPane tab="Swap" key="swap" />
+      <Tabs.TabPane tab="Liquidity" key="pool" />
+    </Tabs>
   );
 };
 
-export { HeaderTabs };
+export const Navigation = styled(_Navigation)`
+  .ant-tabs-nav-list {
+    height: 40px;
+  }
+
+  .ant-tabs-tab-btn {
+    font-size: 16px;
+    line-height: 22px;
+  }
+
+  @media (max-width: 768px) {
+    position: fixed;
+    right: 50%;
+    bottom: 1rem;
+    transform: translate(50%, 0);
+  }
+`;

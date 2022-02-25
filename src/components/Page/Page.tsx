@@ -1,7 +1,8 @@
 import './Page.less';
 
-import React, { JSXElementConstructor, ReactElement } from 'react';
+import React, { ReactNode } from 'react';
 import { useHistory } from 'react-router-dom';
+import styled from 'styled-components';
 
 import {
   ArrowLeftOutlined,
@@ -11,30 +12,24 @@ import {
   Typography,
 } from '../../ergodex-cdk';
 
-interface FormPageWrapperProps {
+interface PageProps {
   width?: number;
   title?: string;
   withBackButton?: boolean;
   backTo?: string;
-  titleChildren?:
-    | ReactElement<any>
-    | JSXElementConstructor<any>
-    | undefined
-    | boolean;
-  bottomChildren?:
-    | ReactElement<any>
-    | JSXElementConstructor<any>
-    | undefined
-    | boolean;
+  titleChildren?: ReactNode | ReactNode[] | string;
+  className?: string;
+  footer?: ReactNode | ReactNode[] | string;
 }
 
-const Page: React.FC<FormPageWrapperProps> = ({
+const _Page: React.FC<PageProps> = ({
   children,
   width,
   title,
   withBackButton,
   backTo,
-  bottomChildren,
+  footer,
+  className,
   titleChildren,
 }) => {
   const history = useHistory();
@@ -70,18 +65,20 @@ const Page: React.FC<FormPageWrapperProps> = ({
         )}
         <Flex.Item style={{ zIndex: 2 }}>
           <Box
-            className="ergodex-form-wrapper"
-            formWrapper
+            bordered={false}
+            className={className}
             padding={[6, 6]}
-            borderRadius="m"
+            borderRadius="l"
           >
             {children}
           </Box>
         </Flex.Item>
-        <Flex.Item style={{ zIndex: 0 }}>{bottomChildren}</Flex.Item>
+        <Flex.Item style={{ zIndex: 0 }}>{footer}</Flex.Item>
       </Flex>
     </Flex>
   );
 };
 
-export { Page };
+export const Page = styled(_Page)`
+  box-shadow: var(--ergo-box-box-shadow-form-wrapper);
+`;

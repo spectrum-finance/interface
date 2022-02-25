@@ -1,5 +1,7 @@
 import numeral from 'numeral';
 
+import { Currency } from '../common/models/Currency';
+
 const INT_FORMAT = '0,0';
 const CURRENCY_FORMAT = '0,0.00';
 const USD_FORMAT = `$${CURRENCY_FORMAT}`;
@@ -10,12 +12,19 @@ export const formatToCurrency = (amount: number | string): string => {
   return numeral(amount).format(CURRENCY_FORMAT);
 };
 
-export const formatToUSD = (amount: number | string, type?: 'abbr'): string => {
+export const formatToUSD = (
+  amount: number | string | Currency,
+  type?: 'abbr',
+): string => {
   switch (type) {
     case 'abbr':
-      return numeral(amount).format(USD_ABBREVIATION_FORMAT);
+      return amount instanceof Currency
+        ? numeral(amount.toAmount()).format(USD_ABBREVIATION_FORMAT)
+        : numeral(amount).format(USD_ABBREVIATION_FORMAT);
     default:
-      return numeral(amount).format(USD_FORMAT);
+      return amount instanceof Currency
+        ? numeral(amount.toAmount()).format(USD_FORMAT)
+        : numeral(amount).format(USD_FORMAT);
   }
 };
 

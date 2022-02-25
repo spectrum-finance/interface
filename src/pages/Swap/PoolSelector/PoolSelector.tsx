@@ -57,7 +57,7 @@ const _PoolSelector: FC<PoolSelectorProps> = ({
   return (
     <>
       <Flex justify="center">
-        <Box className={className} padding={value ? 6 : 0}>
+        <Box className={className} padding={value ? 6 : 0} bordered={false}>
           <Animation.Expand expanded={!!value} opacityDelay duration={200}>
             {value && (
               <Flex col>
@@ -127,6 +127,7 @@ const _PoolSelector: FC<PoolSelectorProps> = ({
 };
 
 export const PoolSelector = styled(_PoolSelector)`
+  background: var(--ergo-page-footer-bg);
   border-top-left-radius: initial;
   border-top-right-radius: initial;
   width: 472px;

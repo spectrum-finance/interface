@@ -2,373 +2,381 @@
 
 .defaultTheme () {
   // Geometry
-  --ergo-border-radius-lg:                     20px;
-  --ergo-border-radius-md:                     12px;
-  --ergo-border-radius-sm:                     8px;
-  --ergo-base-gutter:                          4px;
+  --ergo-border-radius-lg:                         20px;
+  --ergo-border-radius-page:                       16px;
+  --ergo-border-radius-md:                         12px;
+  --ergo-border-radius-sm:                         8px;
+  --ergo-base-gutter:                              4px;
   // -- Color --
 
-  --ergo-body-bg:                              @light-color-background-1;
+  --ergo-body-bg:                                  @light-color-background-1;
 
-  --ergo-box-bg:                               @light-color-gray-1;
-  --ergo-box-bg-form-wrapper:                  var(--ergo-box-bg);
-  --ergo-box-bg-tag:                           @light-color-gray-2;
-  --ergo-box-bg-contrast:                      @light-color-gray-3;
-  --ergo-box-bg-gray:                          @light-color-gray-3;
-  --ergo-box-box-shadow-form-wrapper:          0 9px 28px 8px rgba(0, 0, 0, 0.05), 0 6px 16px rgba(0, 0, 0, 0.08);
+  --ergo-box-border-color:                         @light-color-gray-3;
+  --ergo-box-bg:                                   @light-color-gray-1;
+  --ergo-box-bg-contrast:                          @light-color-gray-2;
+  --ergo-box-bg-control:                           @light-color-gray-2;
+  --ergo-box-bg-tag:                               @light-color-gray-3;
+  --ergo-box-box-shadow-form-wrapper:              0 9px 28px 8px rgba(0, 0, 0, 0.05), 0 6px 16px rgba(0, 0, 0, 0.08);
 
   // Primary
-  --ergo-primary-color:                        @light-color-orange-6;
-  --ergo-primary-color-hover:                  @light-color-orange-5;
-  --ergo-primary-color-active:                 @light-color-orange-7;
-  --ergo-primary-text-contrast:                @light-color-gray-1;
-  --ergo-primary-text-contrast-hover:          var(--ergo-primary-text-contrast);
-  --ergo-primary-text-contrast-active:         var(--ergo-primary-text-contrast);
+  --ergo-primary-color:                            @light-color-orange-6;
+  --ergo-primary-color-hover:                      @light-color-orange-5;
+  --ergo-primary-color-active:                     @light-color-orange-7;
+  --ergo-primary-text-contrast:                    @light-color-gray-1;
+  --ergo-primary-text-contrast-hover:              var(--ergo-primary-text-contrast);
+  --ergo-primary-text-contrast-active:             var(--ergo-primary-text-contrast);
 
-  --ergo-default-card-background:              @light-color-gray-1;
-  --ergo-dark-card-background:                 @light-color-gray-2;
-  --ergo-ghost-background:                     rgba(255, 255, 255, .35);
-  --ergo-default-border-color:                 @light-color-gray-5;
-  --ergo-primary-text:                         @light-color-gray-9;
-  --ergo-footnote-text:                        @light-color-gray-8;
-  --ergo-font-family:                          Vela Sans;
+  --ergo-default-card-background:                  @light-color-gray-1;
+  --ergo-dark-card-background:                     @light-color-gray-2;
+  --ergo-ghost-background:                         rgba(255, 255, 255, .35);
+  --ergo-default-border-color:                     @light-color-gray-5;
+  --ergo-primary-text:                             @light-color-gray-9;
+  --ergo-footnote-text:                            @light-color-gray-8;
+  --ergo-font-family:                              Vela Sans;
 
-  --ergo-disabled-color:                       @light-color-gray-3;
-  --ergo-disabled-text-contrast:              @light-color-gray-6;
+  --ergo-disabled-color:                           @light-color-gray-3;
+  --ergo-disabled-text-contrast:                   @light-color-gray-6;
 
   // Typography
-  --ergo-h1-font-size:                         38px;
-  --ergo-h1-line-height:                       46px;
-  --ergo-h1-font-weight:                       600;
-  --ergo-h1-font:                              var(--ergo-h1-font-weight) var(--ergo-h1-font-size)/var(--ergo-h1-line-height) var(--ergo-font-family);
+  --ergo-h1-font-size:                             38px;
+  --ergo-h1-line-height:                           46px;
+  --ergo-h1-font-weight:                           600;
+  --ergo-h1-font:                                  var(--ergo-h1-font-weight) var(--ergo-h1-font-size)/var(--ergo-h1-line-height) var(--ergo-font-family);
 
-  --ergo-h2-font-size:                         30px;
-  --ergo-h2-line-height:                       38px;
-  --ergo-h2-font-weight:                       600;
-  --ergo-h2-font:                              var(--ergo-h2-font-weight) var(--ergo-h2-font-size)/var(--ergo-h2-line-height) var(--ergo-font-family);
+  --ergo-h2-font-size:                             30px;
+  --ergo-h2-line-height:                           38px;
+  --ergo-h2-font-weight:                           600;
+  --ergo-h2-font:                                  var(--ergo-h2-font-weight) var(--ergo-h2-font-size)/var(--ergo-h2-line-height) var(--ergo-font-family);
 
-  --ergo-h3-font-size:                         24px;
-  --ergo-h3-line-height:                       32px;
-  --ergo-h3-font-weight:                       600;
-  --ergo-h3-font:                              var(--ergo-h3-font-weight) var(--ergo-h3-font-size)/var(--ergo-h3-line-height) var(--ergo-font-family);
+  --ergo-h3-font-size:                             24px;
+  --ergo-h3-line-height:                           32px;
+  --ergo-h3-font-weight:                           600;
+  --ergo-h3-font:                                  var(--ergo-h3-font-weight) var(--ergo-h3-font-size)/var(--ergo-h3-line-height) var(--ergo-font-family);
 
-  --ergo-h4-font-size:                         20px;
-  --ergo-h4-line-height:                       28px;
-  --ergo-h4-font-weight:                       600;
-  --ergo-h4-font:                              var(--ergo-h4-font-weight) var(--ergo-h4-font-size)/var(--ergo-h4-line-height) var(--ergo-font-family);
+  --ergo-h4-font-size:                             20px;
+  --ergo-h4-line-height:                           28px;
+  --ergo-h4-font-weight:                           600;
+  --ergo-h4-font:                                  var(--ergo-h4-font-weight) var(--ergo-h4-font-size)/var(--ergo-h4-line-height) var(--ergo-font-family);
 
-  --ergo-h5-font-size:                         16px;
-  --ergo-h5-line-height:                       24px;
-  --ergo-h5-font-weight:                       600;
-  --ergo-h5-font:                              var(--ergo-h5-font-weight) var(--ergo-h5-font-size)/var(--ergo-h5-line-height) var(--ergo-font-family);
+  --ergo-h5-font-size:                             16px;
+  --ergo-h5-line-height:                           24px;
+  --ergo-h5-font-weight:                           600;
+  --ergo-h5-font:                                  var(--ergo-h5-font-weight) var(--ergo-h5-font-size)/var(--ergo-h5-line-height) var(--ergo-font-family);
 
-  --ergo-body-font-size:                       14px;
-  --ergo-body-line-height:                     22px;
-  --ergo-body-font:                            var(--ergo-body-font-size)/var(--ergo-body-line-height) var(--ergo-font-family);
+  --ergo-body-font-size:                           14px;
+  --ergo-body-line-height:                         22px;
+  --ergo-body-font:                                var(--ergo-body-font-size)/var(--ergo-body-line-height) var(--ergo-font-family);
 
-  --ergo-body-font-size-small:                  10px;
-  --ergo-body-line-height-small:                15px;
-  --ergo-body-font-small:                       var(--ergo-body-font-size-small)/var(--ergo-body-line-height-small) var(--ergo-font-family);
+  --ergo-body-font-size-small:                     10px;
+  --ergo-body-line-height-small:                   15px;
+  --ergo-body-font-small:                          var(--ergo-body-font-size-small)/var(--ergo-body-line-height-small) var(--ergo-font-family);
 
-  --ergo-footnote-font-size:                   12px;
-  --ergo-footnote-line-height:                 20px;
-  --ergo-footnote-font:                        var(--ergo-footnote-font-size)/var(--ergo-footnote-line-height) var(--ergo-font-family);
+  --ergo-footnote-font-size:                       12px;
+  --ergo-footnote-line-height:                     20px;
+  --ergo-footnote-font:                            var(--ergo-footnote-font-size)/var(--ergo-footnote-line-height) var(--ergo-font-family);
 
   // Info
-  --ergo-info-color:                           @light-color-blue-6;
-  --ergo-info-color-hover:                     @light-color-blue-5;
-  --ergo-info-color-active:                    var(--ergo-info-color);
-  --ergo-info-border-color:                    @light-color-blue-3;
-  --ergo-info-bg-color:                        @light-color-blue-1;
-  --ergo-info-icon-color:                      var(--ergo-info-color-active);
+  --ergo-info-color:                               @light-color-blue-6;
+  --ergo-info-color-hover:                         @light-color-blue-5;
+  --ergo-info-color-active:                        var(--ergo-info-color);
+  --ergo-info-border-color:                        @light-color-blue-3;
+  --ergo-info-bg-color:                            @light-color-blue-1;
+  --ergo-info-icon-color:                          var(--ergo-info-color-active);
 
   // Success
-  --ergo-success-color:                        @light-color-green-6;
-  --ergo-success-color-hover:                  @light-color-green-5;
-  --ergo-success-color-active:                 var(--ergo-success-color);
-  --ergo-success-border-color:                 @light-color-green-3;
-  --ergo-success-bg-color:                     @light-color-green-1;
-  --ergo-success-icon-color:                   var(--ergo-success-color-active);
+  --ergo-success-color:                            @light-color-green-6;
+  --ergo-success-color-hover:                      @light-color-green-5;
+  --ergo-success-color-active:                     var(--ergo-success-color);
+  --ergo-success-border-color:                     @light-color-green-3;
+  --ergo-success-bg-color:                         @light-color-green-1;
+  --ergo-success-icon-color:                       var(--ergo-success-color-active);
 
   // Warning
-  --ergo-warning-color:                        @light-color-gold-6;
-  --ergo-warning-color-hover:                  @light-color-gold-5;
-  --ergo-warning-color-active:                 var(--ergo-warning-color);
-  --ergo-warning-border-color:                 @light-color-gold-3;
-  --ergo-warning-bg-color:                     @light-color-gold-1;
-  --ergo-warning-icon-color:                   var(--ergo-warning-color);
+  --ergo-warning-color:                            @light-color-gold-6;
+  --ergo-warning-color-hover:                      @light-color-gold-5;
+  --ergo-warning-color-active:                     var(--ergo-warning-color);
+  --ergo-warning-border-color:                     @light-color-gold-3;
+  --ergo-warning-bg-color:                         @light-color-gold-1;
+  --ergo-warning-icon-color:                       var(--ergo-warning-color);
 
   // Error
-  --ergo-error-color:                          @light-color-dust-red-6;
-  --ergo-error-color-hover:                    @light-color-dust-red-5;
-  --ergo-error-color-active:                   var(--ergo-error-color);
-  --ergo-error-border-color:                   @light-color-dust-red-3;
-  --ergo-error-bg-color:                       @light-color-dust-red-1;
-  --ergo-error-icon-color:                     var(--ergo-error-color-active);
+  --ergo-error-color:                              @light-color-dust-red-6;
+  --ergo-error-color-hover:                        @light-color-dust-red-5;
+  --ergo-error-color-active:                       var(--ergo-error-color);
+  --ergo-error-border-color:                       @light-color-dust-red-3;
+  --ergo-error-bg-color:                           @light-color-dust-red-1;
+  --ergo-error-icon-color:                         var(--ergo-error-color-active);
 
   // Magenta
-  --ergo-magenta-color:                        @light-color-magenta-6;
-  --ergo-magenta-border-color:                 @light-color-magenta-3;
-  --ergo-magenta-bg-color:                     @light-color-magenta-1;
+  --ergo-magenta-color:                            @light-color-magenta-6;
+  --ergo-magenta-border-color:                     @light-color-magenta-3;
+  --ergo-magenta-bg-color:                         @light-color-magenta-1;
 
   // Red
-  --ergo-red-color:                            @light-color-dust-red-6;
-  --ergo-red-border-color:                     @light-color-dust-red-3;
-  --ergo-red-bg-color:                         @light-color-dust-red-1;
+  --ergo-red-color:                                @light-color-dust-red-6;
+  --ergo-red-border-color:                         @light-color-dust-red-3;
+  --ergo-red-bg-color:                             @light-color-dust-red-1;
 
   // Volcano
-  --ergo-volcano-color:                        @light-color-volcano-6;
-  --ergo-volcano-border-color:                 @light-color-volcano-3;
-  --ergo-volcano-bg-color:                     @light-color-volcano-1;
+  --ergo-volcano-color:                            @light-color-volcano-6;
+  --ergo-volcano-border-color:                     @light-color-volcano-3;
+  --ergo-volcano-bg-color:                         @light-color-volcano-1;
 
   // Orange
-  --ergo-orange-color:                         @light-color-sunset-6;
-  --ergo-orange-border-color:                  @light-color-sunset-3;
-  --ergo-orange-bg-color:                      @light-color-sunset-1;
+  --ergo-orange-color:                             @light-color-sunset-6;
+  --ergo-orange-border-color:                      @light-color-sunset-3;
+  --ergo-orange-bg-color:                          @light-color-sunset-1;
 
   // Gold
-  --ergo-gold-color:                           @light-color-gold-6;
-  --ergo-gold-border-color:                    @light-color-gold-3;
-  --ergo-gold-bg-color:                        @light-color-gold-1;
+  --ergo-gold-color:                               @light-color-gold-6;
+  --ergo-gold-border-color:                        @light-color-gold-3;
+  --ergo-gold-bg-color:                            @light-color-gold-1;
 
   // Lime
-  --ergo-lime-color:                           @light-color-lime-6;
-  --ergo-lime-border-color:                    @light-color-lime-3;
-  --ergo-lime-bg-color:                        @light-color-lime-1;
+  --ergo-lime-color:                               @light-color-lime-6;
+  --ergo-lime-border-color:                        @light-color-lime-3;
+  --ergo-lime-bg-color:                            @light-color-lime-1;
 
   // Green
-  --ergo-green-color:                          @light-color-green-6;
-  --ergo-green-border-color:                   @light-color-green-3;
-  --ergo-green-bg-color:                       @light-color-green-1;
+  --ergo-green-color:                              @light-color-green-6;
+  --ergo-green-border-color:                       @light-color-green-3;
+  --ergo-green-bg-color:                           @light-color-green-1;
 
   // Cyan
-  --ergo-cyan-color:                           @light-color-cyan-6;
-  --ergo-cyan-border-color:                    @light-color-cyan-3;
-  --ergo-cyan-bg-color:                        @light-color-cyan-1;
+  --ergo-cyan-color:                               @light-color-cyan-6;
+  --ergo-cyan-border-color:                        @light-color-cyan-3;
+  --ergo-cyan-bg-color:                            @light-color-cyan-1;
 
   // Blue
-  --ergo-blue-color:                           @light-color-blue-6;
-  --ergo-blue-border-color:                    @light-color-blue-3;
-  --ergo-blue-bg-color:                        @light-color-blue-1;
+  --ergo-blue-color:                               @light-color-blue-6;
+  --ergo-blue-border-color:                        @light-color-blue-3;
+  --ergo-blue-bg-color:                            @light-color-blue-1;
 
   // Geek-blue
-  --ergo-geek-blue-color:                      @light-color-geekblue-6;
-  --ergo-geek-blue-border-color:               @light-color-geekblue-3;
-  --ergo-geek-blue-bg-color:                   @light-color-geekblue-1;
+  --ergo-geek-blue-color:                          @light-color-geekblue-6;
+  --ergo-geek-blue-border-color:                   @light-color-geekblue-3;
+  --ergo-geek-blue-bg-color:                       @light-color-geekblue-1;
 
   // Purple
-  --ergo-purple-color:                         @light-color-purple-6;
-  --ergo-purple-border-color:                  @light-color-purple-3;
-  --ergo-purple-bg-color:                      @light-color-purple-1;
+  --ergo-purple-color:                             @light-color-purple-6;
+  --ergo-purple-border-color:                      @light-color-purple-3;
+  --ergo-purple-bg-color:                          @light-color-purple-1;
 
   // -- Components --
 
   // Scroll
-  --ergo-scroll-bg:                            @light-color-gray-5;
-  --ergo-scroll-border:                        @light-color-gray-1;
+  --ergo-scroll-bg:                                @light-color-gray-5;
+  --ergo-scroll-border:                            @light-color-gray-1;
 
   // Glow
-  --ergo-glow-gradient:                        radial-gradient(50% 50% at 50% 50%, rgba(255, 115, 92, 0.8) 0%, rgba(240, 242, 245, 0.8) 100%);
+  --ergo-glow-gradient:                            radial-gradient(50% 50% at 50% 50%, rgba(255, 115, 92, 0.8) 0%, rgba(240, 242, 245, 0.8) 100%);
 
   // Button
-  --ergo-btn-default-color:                    @light-color-gray-1;
-  --ergo-btn-danger-color:                     @light-color-dust-red-6;
-  --ergo-btn-danger-border-color:              var(--ergo-btn-danger-color);
+  --ergo-btn-default-color:                        @light-color-gray-1;
+  --ergo-btn-danger-color:                         @light-color-dust-red-6;
+  --ergo-btn-danger-border-color:                  var(--ergo-btn-danger-color);
 
 
-  --ergo-button-danger-color:                  @light-color-dust-red-6;
-  --ergo-button-danger-color-hover:            @light-color-dust-red-5;
-  --ergo-button-danger-color-active:           @light-color-dust-red-7;
-  --ergo-button-danger-text-contrast:          var(--ergo-primary-text-contrast);
-  --ergo-button-danger-text-contrast-hover:    var(--ergo-primary-text-contrast-hover);
-  --ergo-button-danger-text-contrast-active:   var(--ergo-primary-text-contrast-active);
+  --ergo-button-danger-color:                      @light-color-dust-red-6;
+  --ergo-button-danger-color-hover:                @light-color-dust-red-5;
+  --ergo-button-danger-color-active:               @light-color-dust-red-7;
+  --ergo-button-danger-text-contrast:              var(--ergo-primary-text-contrast);
+  --ergo-button-danger-text-contrast-hover:        var(--ergo-primary-text-contrast-hover);
+  --ergo-button-danger-text-contrast-active:       var(--ergo-primary-text-contrast-active);
 
   // Alert
-  --ergo-alert-message-color:                  var(--ergo-primary-text);
-  --ergo-alert-close-color:                    @light-color-gray-7;
+  --ergo-alert-message-color:                      var(--ergo-primary-text);
+  --ergo-alert-close-color:                        @light-color-gray-7;
 
   // Slider
-  --ergo-slider-rail-bg:                       @light-color-gray-4;
-  --ergo-slider-track-bg:                      var(--ergo-primary-color);
+  --ergo-slider-rail-bg:                           @light-color-gray-4;
+  --ergo-slider-track-bg:                          var(--ergo-primary-color);
 
-  --ergo-slider-handle-bg:                     var(--ergo-default-card-background);
-  --ergo-slider-handle-bg-hover:               var(--ergo-default-card-background);
-  --ergo-slider-handle-border:                 var(--ergo-primary-color);
-  --ergo-slider-handle-border-hover:           var(--ergo-primary-color-hover);
+  --ergo-slider-handle-bg:                         var(--ergo-default-card-background);
+  --ergo-slider-handle-bg-hover:                   var(--ergo-default-card-background);
+  --ergo-slider-handle-border:                     var(--ergo-primary-color);
+  --ergo-slider-handle-border-hover:               var(--ergo-primary-color-hover);
 
-  --ergo-slider-dot-bg:                        var(--ergo-default-card-background);
-  --ergo-slider-dot-border:                    @light-color-gray-5;
-  --ergo-slider-dot-active-bg:                 var(--ergo-slider-track-bg);
-  --ergo-slider-dot-active-border:             var(--ergo-slider-track-bg);
+  --ergo-slider-dot-bg:                            var(--ergo-default-card-background);
+  --ergo-slider-dot-border:                        @light-color-gray-5;
+  --ergo-slider-dot-active-bg:                     var(--ergo-slider-track-bg);
+  --ergo-slider-dot-active-border:                 var(--ergo-slider-track-bg);
 
-  --ergo-slider-disabled:                      @light-color-gray-4;
-  --ergo-slider-disabled-contrast:             var(--ergo-disabled-text-contrast);
+  --ergo-slider-disabled:                          @light-color-gray-4;
+  --ergo-slider-disabled-contrast:                 var(--ergo-disabled-text-contrast);
 
   // Modal
-  --ergo-modal-radius:                         16px;
-  --ergo-modal-color:                          var(--ergo-default-card-background);
-  --ergo-modal-close-x-color:                  var(--ergo-primary-text);
-  --ergo-modal-close-x-size:                   24px;
-  --ergo-modal-box-shadow:                     0 9px 28px 8px rgba(0, 0, 0, 0.05), 0p 6px 16px rgba(0, 0, 0, 0.08), 0 3px 6px -4px rgba(0, 0, 0, 0.12);
+  --ergo-modal-radius:                             16px;
+  --ergo-modal-color:                              var(--ergo-default-card-background);
+  --ergo-modal-close-x-color:                      var(--ergo-primary-text);
+  --ergo-modal-close-x-size:                       24px;
+  --ergo-modal-box-shadow:                         0 9px 28px 8px rgba(0, 0, 0, 0.05), 0 p 6px 16px rgba(0, 0, 0, 0.08), 0 3px 6px -4px rgba(0, 0, 0, 0.12);
 
   // Checkbox
-  --ergo-checkbox-disabled-color:               @light-color-gray-5;
-  --ergo-checkbox-disabled-bg:                  @light-color-gray-3;
+  --ergo-checkbox-disabled-color:                  @light-color-gray-5;
+  --ergo-checkbox-disabled-bg:                     @light-color-gray-3;
 
   // Menu
-  --ergo-menu-item-active-background:          @light-color-gray-3;
-  --ergo-dropdown-menu-background:             @light-color-gray-1;
-  --ergo-dropdown-menu-item-not-disable:       @light-color-gray-9;
-  --ergo-dropdown-menu-item-disable:           @light-color-gray-3;
-  --ergo-dropdown-menu-item-disable-text:      @light-color-gray-6;
-  --ergo-dropdown-menu-item-danger:            @light-color-dust-red-6;
-  --ergo-dropdown-menu-item-hover-bg:          @light-color-gray-3;
-  --ergo-dropdown-menu-item-hover-color:       @light-color-orange-6;
+  --ergo-menu-item-active-background:              @light-color-gray-3;
+  --ergo-dropdown-menu-background:                 @light-color-gray-1;
+  --ergo-dropdown-menu-item-not-disable:           @light-color-gray-9;
+  --ergo-dropdown-menu-item-disable:               @light-color-gray-3;
+  --ergo-dropdown-menu-item-disable-text:          @light-color-gray-6;
+  --ergo-dropdown-menu-item-danger:                @light-color-dust-red-6;
+  --ergo-dropdown-menu-item-hover-bg:              @light-color-gray-3;
+  --ergo-dropdown-menu-item-hover-color:           @light-color-orange-6;
 
   // Input
-  --ergo-input-bg:                             @light-color-gray-1;
-  --ergo-input-box-shadow:                     0 0 4px rgba(255, 114, 92, 0.5);
-  --ergo-input-color-hover:                    var(--ergo-primary-color-hover);
-  --ergo-input-color-active:                   @light-color-orange-6;
-  --ergo-input-placeholder-color:              @light-color-gray-7;
-  --ergo-input-error-box-shadow:               0 0 4px rgba(245, 34, 45, 0.5);
-  --ergo-input-warning-box-shadow:             0 0 4px rgba(250, 173, 20, 0.5);
+  --ergo-input-bg:                                 @light-color-gray-1;
+  --ergo-input-box-shadow:                         0 0 4px rgba(255, 114, 92, 0.5);
+  --ergo-input-color-hover:                        var(--ergo-primary-color-hover);
+  --ergo-input-color-active:                       @light-color-orange-6;
+  --ergo-input-placeholder-color:                  @light-color-gray-7;
+  --ergo-input-error-box-shadow:                   0 0 4px rgba(245, 34, 45, 0.5);
+  --ergo-input-warning-box-shadow:                 0 0 4px rgba(250, 173, 20, 0.5);
 
   // DatePicker
-  --ergo-datepicker-bg:                        @light-color-gray-1;
-  --ergo-datepicker-border-hover:              @light-color-orange-6;
-  --ergo-datepicker-border-active:             var(--ergo-datepicker-border-hover);
-  --ergo-datepicker-box-shadow:                0 0 4px rgba(255, 81, 53, 0.5);
+  --ergo-datepicker-bg:                            @light-color-gray-1;
+  --ergo-datepicker-border-hover:                  @light-color-orange-6;
+  --ergo-datepicker-border-active:                 var(--ergo-datepicker-border-hover);
+  --ergo-datepicker-box-shadow:                    0 0 4px rgba(255, 81, 53, 0.5);
 
-  --ergo-datepicker-panel-border-color:        @light-color-gray-4;
-  --ergo-datepicker-panel-cell-color:          @light-color-gray-6;
-  --ergo-datepicker-panel-hover-color:         @light-color-gray-1;
+  --ergo-datepicker-panel-border-color:            @light-color-gray-4;
+  --ergo-datepicker-panel-cell-color:              @light-color-gray-6;
+  --ergo-datepicker-panel-hover-color:             @light-color-gray-1;
 
   // Select
-  --ergo-select-label-color:                @light-color-gray-9;
+  --ergo-select-label-color:                       @light-color-gray-9;
 
   // Message
-  --ergo-message-box-shadow:                   0 9px 28px 8px rgba(0, 0, 0, 0.05),
-                                               0 6px 16px rgba(0, 0, 0, 0.08),
-                                               0 3px 6px -4px rgba(0, 0, 0, 0.12);
+  --ergo-message-box-shadow:                       0 9px 28px 8px rgba(0, 0, 0, 0.05),
+                                                   0 6px 16px rgba(0, 0, 0, 0.08),
+                                                   0 3px 6px -4px rgba(0, 0, 0, 0.12);
 
   // Token Select
-  --ergo-tokenselect-default-bg:               var(--ergo-primary-color);
-  --ergo-tokenselect-lbl-color:                @light-color-gray-1;
-  --ergo-tokenselect-border-color:             var(--ergo-default-border-color);
+  --ergo-tokenselect-default-bg:                   var(--ergo-primary-color);
+  --ergo-tokenselect-lbl-color:                    @light-color-gray-1;
+  --ergo-tokenselect-border-color:                 var(--ergo-default-border-color);
 
-  --ergo-tokenselect-hover-bg:                 var(--ergo-primary-color-hover);
-  --ergo-tokenselect-active-bg:                var(--ergo-primary-color-active);
+  --ergo-tokenselect-hover-bg:                     var(--ergo-primary-color-hover);
+  --ergo-tokenselect-active-bg:                    var(--ergo-primary-color-active);
 
-  --ergo-tokenselect-selected-background:      @light-color-gray-1;
-  --ergo-tokenselect-selected-color:           var(--ergo-primary-text);
-  --ergo-tokenselect-selected-hover-bg:        @light-color-gray-3;
-  --ergo-tokenselect-selected-active-bg:       @light-color-gray-2;
+  --ergo-tokenselect-selected-background:          @light-color-gray-1;
+  --ergo-tokenselect-selected-color:               var(--ergo-primary-text);
+  --ergo-tokenselect-selected-hover-bg:            @light-color-gray-3;
+  --ergo-tokenselect-selected-active-bg:           @light-color-gray-2;
 
   // Tooltip
-  --ergo-tooltip-text-color:                   @light-color-gray-1;
-  --ergo-tooltip-bg-color:                     @light-color-gray-9;
+  --ergo-tooltip-text-color:                       @light-color-gray-1;
+  --ergo-tooltip-bg-color:                         @light-color-gray-9;
 
   // Popover
-  --ergo-popover-bg-color:                     @light-color-gray-2;
-  --ergo-popover-border-color:                 none;
-  --ergo-popover-box-shadow:                   0 9px 28px 8px rgba(0, 0, 0, 0.05),
-                                               0 6px 16px rgba(0, 0, 0, 0.08),
-                                               0 3px 6px -4px rgba(0, 0, 0, 0.12);
+  --ergo-popover-bg-color:                         @light-color-gray-2;
+  --ergo-popover-border-color:                     none;
+  --ergo-popover-box-shadow:                       0 9px 28px 8px rgba(0, 0, 0, 0.05),
+                                                   0 6px 16px rgba(0, 0, 0, 0.08),
+                                                   0 3px 6px -4px rgba(0, 0, 0, 0.12);
 
   // Swap Input
-  --ergo-swap-input-bg:                        @light-color-gray-1;
+  --ergo-swap-input-bg:                            @light-color-gray-1;
 
   // Token Input
-  --ergo-token-input-bg:                       @light-color-gray-3;
-  --ergo-token-input-label-color:              @light-color-gray-8;
+  --ergo-token-input-bg:                           @light-color-gray-3;
+  --ergo-token-input-label-color:                  @light-color-gray-8;
 
   // NetworkDropdown
-  --ergo-networkdropdown-hover-focus-color:    @light-color-gray-2;
+  --ergo-networkdropdown-hover-focus-color:        @light-color-gray-2;
 
   // Switch
-  --ergo-switch-box-shadow:                    0 2px 4px rgba(0, 35, 11, 0.2);
-  --ergo-switch-handle-bg-color:               @light-color-gray-2;
+  --ergo-switch-box-shadow:                        0 2px 4px rgba(0, 35, 11, 0.2);
+  --ergo-switch-handle-bg-color:                   @light-color-gray-2;
 
   // Tabs
-  --ergo-tabs-nav-list-color:                  var(--ergo-default-card-background);
-  --ergo-tabs-nav-list-border-radius:          var(--ergo-border-radius-md);
-  --ergo-tab-border-radius:                    var(--ergo-border-radius-sm);
-  --ergo-tab-text-contrast:                    var(--ergo-primary-text);
-  --ergo-tab-color-active:                     var(--ergo-primary-color);
-  --ergo-tab-text-contrast-active:             var(--ergo-primary-text-contrast);
-  --ergo-tab-disabled-color:                   @light-color-gray-2;
-  --ergo-tab-disabled-border-color:            var(--ergo-disabled-text-contrast);
-  --ergo-tab-disabled-text-contrast:           var(--ergo-disabled-text-contrast);
+  --ergo-tabs-nav-list-color:                      var(--ergo-default-card-background);
+  --ergo-tabs-nav-list-border-radius:              var(--ergo-border-radius-md);
+  --ergo-tab-border-radius:                        var(--ergo-border-radius-sm);
+  --ergo-tab-border-color:                         @light-color-gray-3;
+  --ergo-tab-text-contrast:                        var(--ergo-primary-text);
+  --ergo-tab-color-active:                         var(--ergo-primary-color);
+  --ergo-tab-text-contrast-active:                 var(--ergo-primary-text-contrast);
+  --ergo-tab-disabled-color:                       @light-color-gray-2;
+  --ergo-tab-disabled-border-color:                var(--ergo-disabled-text-contrast);
+  --ergo-tab-disabled-text-contrast:               var(--ergo-disabled-text-contrast);
+
+  // App analytic
+  --ergo-app-analytic-tag:                         @light-color-gray-3;
+
+  // Pool Selector
+  --ergo-page-footer-bg:                           rgba(255, 255, 255, 0.65);
 
   // Spin
-  --ergo-spin-color:                           var(--ergo-primary-color);
+  --ergo-spin-color:                               var(--ergo-primary-color);
 
   // Connect Wallet
-  --ergo-connect-wallet-btn-bg:                rgba(255, 114, 92, 0.20);
-  --ergo-connect-wallet-btn-color:             @light-color-orange-6;
-  --ergo-connect-wallet-btn-border:            @light-color-orange-5;
-  --ergo-connect-wallet-address-btn-color:     @light-color-gray-7;
-  --ergo-connect-wallet-address-btn-bg:        @light-color-gray-3;
-  --ergo-connect-wallet-address-btn-border-hover: @light-color-gray-5;
+  --ergo-connect-wallet-btn-bg:                    rgba(255, 114, 92, 0.20);
+  --ergo-connect-wallet-btn-color:                 @light-color-orange-6;
+  --ergo-connect-wallet-btn-border:                @light-color-orange-5;
+  --ergo-connect-wallet-address-btn-color:         @light-color-gray-7;
+  --ergo-connect-wallet-address-btn-bg:            @light-color-gray-3;
+  --ergo-connect-wallet-address-btn-border-hover:  @light-color-gray-5;
   --ergo-connect-wallet-address-btn-border-active: @light-color-gray-7;
 
   // Header
-  --ergo-header-settings-btn-color:            var(--ergo-primary-text);
-  --ergo-header-settings-btn-bg-hover-color:   @light-color-gray-2;
-  --ergo-header-settings-btn-bg-active-color:  @light-color-gray-3;
-  --ergo-header-others-btn-bg-color:           @light-color-gray-1;
-  --ergo-header-others-btn-icon-default-color: var(--ergo-primary-text);
-  --ergo-header-others-btn-icon-hover-color:   @light-color-orange-6;
-  --ergo-header-others-btn-icon-active-color:  @light-color-orange-4;
+  --ergo-header-settings-btn-color:                var(--ergo-primary-text);
+  --ergo-header-settings-btn-bg-hover-color:       @light-color-gray-2;
+  --ergo-header-settings-btn-bg-active-color:      @light-color-gray-3;
+  --ergo-header-others-btn-bg-color:               @light-color-gray-1;
+  --ergo-header-others-btn-icon-default-color:     var(--ergo-primary-text);
+  --ergo-header-others-btn-icon-hover-color:       @light-color-orange-6;
+  --ergo-header-others-btn-icon-active-color:      @light-color-orange-4;
 
   // Token List Modal
-  --ergo-token-list-modal-token-name:          @light-color-gray-8;
+  --ergo-token-list-modal-token-name:              @light-color-gray-8;
 
   // Logo
-  --ergo-logo-lbl-color:                       @light-color-gray-10;
+  --ergo-logo-lbl-color:                           @light-color-gray-10;
 
   // Wallet Modal
-  --ergo-wallet-modal-component-bg:            @light-color-gray-2;
-  --ergo-wallet-modal-lbl:                     @light-color-gray-8;
-  --ergo-wallet-modal-icon-color:              @light-color-gray-9;
-  --ergo-wallet-modal-address-item-border:     @light-color-gray-4;
-  --ergo-wallet-modal-token-item-wrapper-bg:   @light-color-gray-1;
+  --ergo-wallet-modal-component-bg:                @light-color-gray-2;
+  --ergo-wallet-modal-lbl:                         @light-color-gray-8;
+  --ergo-wallet-modal-icon-color:                  @light-color-gray-9;
+  --ergo-wallet-modal-address-item-border:         @light-color-gray-4;
+  --ergo-wallet-modal-token-item-wrapper-bg:       @light-color-gray-1;
 
   // ChooseWalletModal
-  --ergo-choose-wallet-modal-item-bg:          @light-color-gray-3;
-  --ergo-choose-wallet-modal-item-border:      transparent;
-  --ergo-choose-wallet-modal-border-hover:     @light-color-orange-5;
-  --ergo-choose-wallet-modal-disabled-border:  @light-color-gray-5;
-  --ergo-choose-wallet-modal-disabled-color:   @light-color-gray-6;
+  --ergo-choose-wallet-modal-item-bg:              @light-color-gray-3;
+  --ergo-choose-wallet-modal-item-border:          transparent;
+  --ergo-choose-wallet-modal-border-hover:         @light-color-orange-5;
+  --ergo-choose-wallet-modal-disabled-border:      @light-color-gray-5;
+  --ergo-choose-wallet-modal-disabled-color:       @light-color-gray-6;
 
   // Table
-  --ergo-table-head-color:                     @light-color-gray-8;
-  --ergo-table-color:                          var(--ergo-primary-text);
-  --ergo-table-border-color:                   @light-color-gray-4;
-  --ergo-table-td-hover-color:                 @light-color-gray-4;
+  --ergo-table-head-color:                         @light-color-gray-8;
+  --ergo-table-color:                              var(--ergo-primary-text);
+  --ergo-table-border-color:                       @light-color-gray-4;
+  --ergo-table-td-hover-color:                     @light-color-gray-4;
 
   // GuideBanner
-  --ergo-guide-banner-bg:                      linear-gradient(267.4deg, #91A0E3 0%, #9E72CB 99.63%);
-  --ergo-guide-banner-text-color:              @light-color-gray-1;
-  --ergo-guide-banner-btn-bg:                  @light-color-purple-6;
+  --ergo-guide-banner-bg:                          linear-gradient(267.4deg, #91A0E3 0%, #9E72CB 99.63%);
+  --ergo-guide-banner-text-color:                  @light-color-gray-1;
+  --ergo-guide-banner-btn-bg:                      @light-color-purple-6;
 
   // Pool Position Item
-  --ergo-pool-position-bg:                     @light-color-gray-2;
-  --ergo-pool-position-bg-hover:               @light-color-gray-3;
+  --ergo-pool-position-bg:                         @light-color-gray-2;
+  --ergo-pool-position-bg-hover:                   @light-color-gray-3;
 
-  --ergo-pool-position-bg-1:                   @light-color-gray-1;
-  --ergo-profit-color:                          @light-color-green-5;
+  --ergo-pool-position-bg-1:                       @light-color-gray-1;
+  --ergo-profit-color:                             @light-color-green-5;
 
   // Swap
-  --ergo-swap-form-icon:                       @light-color-orange-6;
+  --ergo-swap-form-icon:                           @light-color-orange-6;
 
   // List
-  --ergo-list-overlay-gradient: rgba(245, 245, 245, 0) 73.01%, rgba(245, 245, 245, 0.65) 85.94%, #F5F5F5 100%;
+  --ergo-list-overlay-gradient:                    rgba(245, 245, 245, 0) 73.01%, rgba(245, 245, 245, 0.65) 85.94%, #F5F5F5 100%;
 
   // Progress
-  --ergo-progress-bg-color: linear-gradient(84.95deg, #FF5135 0%, #FF8C00 98.93%);
+  --ergo-progress-bg-color:                        linear-gradient(84.95deg, #FF5135 0%, #FF8C00 98.93%);
 
   //Chart
-  --ergo-bar-hover-color: @light-color-gray-6;
+  --ergo-bar-hover-color:                          @light-color-gray-6;
 }
