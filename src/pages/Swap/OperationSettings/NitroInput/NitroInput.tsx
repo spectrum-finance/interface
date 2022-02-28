@@ -5,6 +5,7 @@ import { MIN_NITRO } from '../../../../common/constants/erg';
 import {
   Alert,
   Animation,
+  Box,
   Button,
   Control,
   Flex,
@@ -40,39 +41,38 @@ const _NitroInput: FC<NitroInputProps> = ({
 
   return (
     <Flex col>
-      <Flex.Item marginBottom={message ? 2 : 0}>
-        <Flex align="center">
-          <Flex.Item marginRight={2}>
-            <Button
-              type={isMinimumNitro ? 'primary' : 'ghost'}
-              size="middle"
-              onClick={handleClickNitroAuto}
-            >
-              Minimum
-            </Button>
-          </Flex.Item>
-          <Flex.Item marginRight={3}>
-            <Input
-              style={{ width: '90px' }}
-              isActive={!isMinimumNitro}
-              type="number"
-              min={MIN_NITRO}
-              state={state}
-              value={value}
-              onChange={handleNitroChange}
-              size="middle"
-            />
-          </Flex.Item>
-          <Flex col>
-            <Typography.Body className={className}>
-              Execution Fee Range
-            </Typography.Body>
-            <Typography.Body className={className}>
-              {minExFee.toAmount()} - {maxExFee.toAmount()}{' '}
-              {maxExFee.asset.name}
-            </Typography.Body>
+      <Flex.Item marginBottom={1}>
+        <Box control borderRadius="m">
+          <Flex align="center">
+            <Flex.Item marginRight={2}>
+              <Button
+                type={isMinimumNitro ? 'primary' : 'ghost'}
+                size="middle"
+                onClick={handleClickNitroAuto}
+              >
+                Minimum
+              </Button>
+            </Flex.Item>
+            <Flex.Item flex={1}>
+              <Input
+                isActive={!isMinimumNitro}
+                type="number"
+                style={{ textAlign: 'right' }}
+                min={MIN_NITRO}
+                state={state}
+                value={value}
+                onChange={handleNitroChange}
+                size="middle"
+              />
+            </Flex.Item>
           </Flex>
-        </Flex>
+        </Box>
+      </Flex.Item>
+      <Flex.Item marginBottom={message ? 2 : 0}>
+        <Typography.Body className={className}>
+          Execution Fee Range {minExFee.toAmount()} - {maxExFee.toAmount()}{' '}
+          {maxExFee.asset.name}
+        </Typography.Body>
       </Flex.Item>
       <Animation.Expand expanded={!!message}>
         <Alert showIcon type={state} message={message} />
@@ -82,6 +82,6 @@ const _NitroInput: FC<NitroInputProps> = ({
 };
 
 export const NitroInput = styled(_NitroInput)`
-  font-size: 8px !important;
-  line-height: 12px !important;
+  font-size: 12px !important;
+  line-height: 20px !important;
 `;

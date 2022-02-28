@@ -1,6 +1,6 @@
 import './Pool.less';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { ammPools$ } from '../../api/ammPools';
@@ -10,7 +10,15 @@ import { isWalletSetuped$ } from '../../api/wallets';
 import { useObservable } from '../../common/hooks/useObservable';
 import { ConnectWalletButton } from '../../components/common/ConnectWalletButton/ConnectWalletButton';
 import { Page } from '../../components/Page/Page';
-import { DownOutlined, Dropdown, Flex, Menu, Tabs } from '../../ergodex-cdk';
+import {
+  DownOutlined,
+  Dropdown,
+  Flex,
+  Input,
+  Menu,
+  SearchOutlined,
+  Tabs,
+} from '../../ergodex-cdk';
 import { useQuery } from '../../hooks/useQuery';
 import { EmptyPositionsWrapper } from './components/EmptyPositionsWrapper/EmptyPositionsWrapper';
 import { LiquidityPositionsList } from './components/LiquidityPositionsList/LiquidityPositionsList';
@@ -72,6 +80,7 @@ const Pool = (): JSX.Element => {
   const [, isBalanceLoading] = useAssetsBalance();
   const history = useHistory();
   const query = useQuery();
+  const [term, setTerm] = useState<string | undefined>();
 
   const defaultActiveTabKey = 'positions-overview';
 
@@ -83,6 +92,9 @@ const Pool = (): JSX.Element => {
 
   const [pools, isPoolsLoading] = useObservable(ammPools$, [], []);
 
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setTerm(e.target.value);
+
   const handleAddLiquidity = () => {
     history.push('/pool/add');
   };
@@ -93,6 +105,17 @@ const Pool = (): JSX.Element => {
       onClick={handleAddLiquidity}
     >
       <Tabs
+        tabBarExtraContent={{
+          right: (
+            <Input
+              onChange={handleSearchChange}
+              prefix={<SearchOutlined />}
+              placeholder="search"
+              size="large"
+              style={{ width: 300 }}
+            />
+          ),
+        }}
         defaultActiveKey={query.get('active')!}
         type="card"
         className="pool__position-tabs"
@@ -101,12 +124,15 @@ const Pool = (): JSX.Element => {
         }}
       >
         <Tabs.TabPane tab="Pools Overview" key={defaultActiveTabKey}>
-          <LiquidityPositionsList pools={pools} loading={isPoolsLoading} />
+          <LiquidityPositionsList
+            pools={pools.filter((p) => p.match(term))}
+            loading={isPoolsLoading}
+          />
         </Tabs.TabPane>
         <Tabs.TabPane tab="Your Positions" key="your-positions">
           {isWalletConnected ? (
             <LiquidityPositionsList
-              pools={positions.map((p) => p.pool)}
+              pools={positions.map((p) => p.pool).filter((p) => p.match(term))}
               loading={isBalanceLoading || isPositionLoading}
             />
           ) : (
@@ -118,7 +144,9 @@ const Pool = (): JSX.Element => {
         {isWalletConnected && positions.some((p) => p.locks.length) && (
           <Tabs.TabPane tab="Locked Positions" key="locked-positions">
             <LockListView
-              positions={positions.filter((p) => !!p.locks.length)}
+              positions={positions.filter(
+                (p) => !!p.locks.length && p.match(term),
+              )}
             />
           </Tabs.TabPane>
         )}

@@ -105,7 +105,7 @@ const OperationSettings = (): JSX.Element => {
   );
 
   const Setting: JSX.Element = (
-    <Box transparent padding={4} width={360}>
+    <Box bordered={false} borderRadius="m" padding={4} width={360}>
       <Form
         form={form}
         onSubmit={() => {}}

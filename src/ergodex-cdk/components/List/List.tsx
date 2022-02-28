@@ -16,6 +16,7 @@ export interface ListProps<T> {
   readonly className?: string;
   readonly transparent?: boolean;
   readonly height?: number;
+  readonly maxHeight?: number;
 }
 
 export const List: FC<ListProps<any>> = ({
@@ -24,6 +25,7 @@ export const List: FC<ListProps<any>> = ({
   children,
   transparent,
   height,
+  maxHeight,
   id,
   rowKey,
   className,
@@ -57,7 +59,7 @@ export const List: FC<ListProps<any>> = ({
       }}
       ref={ref as any}
     >
-      {transparent && height && (
+      {transparent && (height || maxHeight) && (
         <div
           className={cn('ant-list-overlay', {
             'ant-list-overlay--top': overlay === 'top',
@@ -74,7 +76,8 @@ export const List: FC<ListProps<any>> = ({
         style={
           {
             height,
-            overflow: !!height ? 'auto' : 'initial',
+            maxHeight,
+            overflow: !!height || !!maxHeight ? 'auto' : 'initial',
             '--item-gap': `calc(var(--ergo-base-gutter) * ${gap})`,
           } as any
         }

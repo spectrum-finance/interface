@@ -326,7 +326,7 @@ export const Swap = (): JSX.Element => {
     >
       <Page
         width={504}
-        bottomChildren={
+        footer={
           <Form.Item name="pool">
             {({ value, onChange }) => (
               <PoolSelector value={value} onChange={onChange} />

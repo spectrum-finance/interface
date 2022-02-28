@@ -1,21 +1,26 @@
-import './AnalyticsDataTag.less';
-
 import { LoadingOutlined } from '@ant-design/icons';
-import React from 'react';
+import React, { FC } from 'react';
+import styled from 'styled-components';
 
 import { useObservable } from '../../../common/hooks/useObservable';
 import { Box, Flex, Typography } from '../../../ergodex-cdk';
 import { aggregatedAnalyticsData24H$ } from '../../../services/new/analytics';
 import { formatToUSD } from '../../../services/number';
 import { renderFractions } from '../../../utils/math';
-export const AnalyticsDataTag = (): JSX.Element => {
+import { AnalyticTag } from './AnalyticTag/AnalyticTag';
+
+interface AnalyticsProps {
+  className?: string;
+}
+
+const _Analytics: FC<AnalyticsProps> = ({ className }) => {
   const [currentStats] = useObservable(aggregatedAnalyticsData24H$, [], {});
 
   return (
-    <Box className="analytics-data-tag" height="40px" borderRadius="m">
-      <Flex align="center" style={{ height: '100%' }}>
-        <Flex.Item display="flex" marginRight={2}>
-          <Box padding={[1, 2]} borderRadius="s" tag>
+    <Box height={40} borderRadius="m" className={className}>
+      <Flex align="center" stretch>
+        <Flex.Item marginRight={2}>
+          <AnalyticTag>
             <Typography.Body style={{ whiteSpace: 'nowrap' }}>
               TVL:{' '}
               {currentStats?.tvl ? (
@@ -32,27 +37,31 @@ export const AnalyticsDataTag = (): JSX.Element => {
                 <LoadingOutlined />
               )}
             </Typography.Body>
-          </Box>
+          </AnalyticTag>
         </Flex.Item>
-        <Flex.Item display="flex">
-          <Box padding={[1, 2]} borderRadius="s" tag>
-            <Typography.Body style={{ whiteSpace: 'nowrap' }}>
-              Volume 24H:{' '}
-              {currentStats?.volume ? (
-                formatToUSD(
-                  renderFractions(
-                    currentStats?.volume.value,
-                    currentStats.volume.units.currency.decimals,
-                  ),
-                  'abbr',
-                )
-              ) : (
-                <LoadingOutlined />
-              )}
-            </Typography.Body>
-          </Box>
-        </Flex.Item>
+        <AnalyticTag>
+          <Typography.Body style={{ whiteSpace: 'nowrap' }}>
+            Volume 24H:{' '}
+            {currentStats?.volume ? (
+              formatToUSD(
+                renderFractions(
+                  currentStats?.volume.value,
+                  currentStats.volume.units.currency.decimals,
+                ),
+                'abbr',
+              )
+            ) : (
+              <LoadingOutlined />
+            )}
+          </Typography.Body>
+        </AnalyticTag>
       </Flex>
     </Box>
   );
 };
+
+export const Analytics = styled(_Analytics)`
+  @media (max-width: 1024px) {
+    display: none;
+  }
+`;

@@ -97,7 +97,7 @@ const TxHistoryModal = (): JSX.Element => {
                         '1px solid var(--ergo-default-border-color)',
                     }}
                   >
-                    <Box transparent padding={[5, 0]}>
+                    <Box transparent padding={[5, 0]} bordered={false}>
                       <Flex justify="space-between" align="center">
                         <Flex.Item style={{ width: '35%' }}>
                           <InputOutputColumn

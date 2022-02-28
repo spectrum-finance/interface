@@ -53,3 +53,4 @@ Typography.Footnote = ({
 );
 
 export { Typography };
+export type { TextProps as BodyProps };

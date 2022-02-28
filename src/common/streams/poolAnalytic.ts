@@ -5,6 +5,7 @@ import { from, map, Observable } from 'rxjs';
 
 import { applicationConfig } from '../../applicationConfig';
 import { AnalyticsData, LockedAsset } from '../../services/new/analytics';
+import { Currency } from '../models/Currency';
 
 export interface AmmPoolAnalytics {
   id: PoolId;
@@ -45,5 +46,16 @@ export const getAggregatedPoolAnalyticsDataById24H = (
   poolId: PoolId,
 ): Observable<AmmPoolAnalytics> =>
   from(get24hData(`${applicationConfig.api}amm/pool/${poolId}/stats`)).pipe(
-    map((res) => res.data),
+    map((res) => ({
+      ...res.data,
+      tvl: res.data.tvl
+        ? {
+            ...res.data.tvl,
+            currency: new Currency(BigInt(res.data.tvl.value), {
+              decimals: 2,
+              id: 'USD',
+            }),
+          }
+        : undefined,
+    })),
   );

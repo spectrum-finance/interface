@@ -57,7 +57,7 @@ const _PoolSelector: FC<PoolSelectorProps> = ({
   return (
     <>
       <Flex justify="center">
-        <Box className={className} padding={value ? 6 : 0}>
+        <Box className={className} padding={value ? 6 : 0} bordered={false}>
           <Animation.Expand expanded={!!value} opacityDelay duration={200}>
             {value && (
               <Flex col>
@@ -92,18 +92,19 @@ const _PoolSelector: FC<PoolSelectorProps> = ({
                       <Typography.Footnote>Fee</Typography.Footnote>
                     </Flex.Item>
                     <Flex.Item marginRight={2}>
-                      <DataTag content={`${value.poolFee}%`} />
+                      <DataTag secondary content={`${value.poolFee}%`} />
                     </Flex.Item>
                     <Flex.Item marginRight={1}>
                       <Typography.Footnote>TVL</Typography.Footnote>
                     </Flex.Item>
                     <Flex.Item marginRight={2}>
                       <DataTag
+                        secondary
                         loading={loading}
                         content={
                           ammPoolAnalytics?.tvl
-                            ? formatToUSD(ammPoolAnalytics.tvl.value, 'abbr')
-                            : '–'
+                            ? formatToUSD(ammPoolAnalytics.tvl.currency, 'abbr')
+                            : '–––'
                         }
                       />
                     </Flex.Item>
@@ -127,6 +128,7 @@ const _PoolSelector: FC<PoolSelectorProps> = ({
 };
 
 export const PoolSelector = styled(_PoolSelector)`
+  background: var(--ergo-page-footer-bg);
   border-top-left-radius: initial;
   border-top-right-radius: initial;
   width: 472px;

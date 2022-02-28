@@ -1,25 +1,26 @@
 import './Box.less';
 
 import cn from 'classnames';
-import React from 'react';
+import React, { MouseEventHandler } from 'react';
 
 import { getGutter, Gutter } from '../../utils/gutter';
 
 interface BoxProps extends React.PropsWithChildren<unknown> {
-  borderRadius?: 'xs' | 's' | 'm' | 'l';
+  borderRadius?: 'xs' | 's' | 'm' | 'l' | 'xl';
   contrast?: boolean;
-  gray?: boolean;
+  control?: boolean;
   transparent?: boolean;
   inline?: boolean;
-  formWrapper?: boolean;
   className?: string;
   padding?: Gutter;
   maxHeight?: number;
   overflow?: boolean;
-  onClick?: React.MouseEventHandler<HTMLElement>;
+  bordered?: boolean;
+  onClick?: MouseEventHandler<HTMLElement>;
+  onMouseEnter?: MouseEventHandler<HTMLElement> | undefined;
+  onMouseLeave?: MouseEventHandler<HTMLElement> | undefined;
   width?: number;
-  tag?: boolean;
-  height?: string;
+  height?: string | number;
 }
 
 const Box = ({
@@ -27,29 +28,31 @@ const Box = ({
   className,
   borderRadius,
   contrast,
-  gray,
+  control,
   padding,
   transparent,
   inline,
   onClick,
-  formWrapper,
   maxHeight,
   overflow,
+  onMouseEnter,
+  onMouseLeave,
   width,
-  tag,
   height,
+  bordered,
 }: BoxProps): JSX.Element => {
   return (
     <div
+      onMouseLeave={onMouseLeave}
+      onMouseEnter={onMouseEnter}
       className={cn(
         'ergodex-box',
         borderRadius && `ergodex-box--radius-${borderRadius}`,
         contrast && `ergodex-box--contrast`,
-        gray && `ergodex-box--gray`,
+        (bordered === undefined || bordered) && `ergodex-box--bordered`,
         transparent && `ergodex-box--transparent`,
+        control && 'ergodex-box--control',
         inline && `ergodex-box--inline`,
-        formWrapper && `ergodex-box--form-wrapper`,
-        tag && `ergodex-box--tag`,
         className,
       )}
       style={{
@@ -60,7 +63,7 @@ const Box = ({
         maxHeight: `${maxHeight}px`,
         overflow: overflow ? 'auto' : 'none',
         width: width,
-        height: height,
+        height: typeof height === 'number' ? `${height}px` : height,
       }}
       onClick={onClick}
     >
