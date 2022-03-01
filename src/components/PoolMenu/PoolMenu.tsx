@@ -13,8 +13,8 @@ interface PoolMenuProps {
 }
 
 const PoolMenu: React.FC<PoolMenuProps> = ({
-  fromToken,
-  toToken,
+  // fromToken,
+  // toToken,
   percent,
   disable,
   className,
