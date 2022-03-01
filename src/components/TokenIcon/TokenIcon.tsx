@@ -1,7 +1,10 @@
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
-import React from 'react';
+import React, { SyntheticEvent, useState } from 'react';
 
-const EMPTY_TOKEN = `https://raw.githubusercontent.com/ergolabs/ergo-dex-asset-icons/master/empty.svg`;
+import { applicationConfig } from '../../applicationConfig';
+import { useSettings } from '../../context';
+
+const EMPTY_TOKEN_ID = `empty`;
 
 type TokenIconProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
@@ -17,8 +20,31 @@ const MAP_SIZE_TO_NUMBER = {
   large: 32,
 };
 
+enum ErrorState {
+  DARK_ICON_NOT_FOUND,
+  ICON_NOT_FOUND,
+}
+
 const TokenIcon: React.FC<TokenIconProps> = ({ asset, size, ...rest }) => {
   const iconName = asset?.id || 'empty';
+  const [{ theme }] = useSettings();
+  const [errorState, setErrorState] = useState<ErrorState | undefined>(
+    undefined,
+  );
+
+  const handleLoad = () => setErrorState(0);
+
+  const handleError = (e: SyntheticEvent<HTMLImageElement>) => {
+    if (theme === 'dark' && !errorState) {
+      //@ts-ignore
+      e.target.src = `${applicationConfig.iconsRepository}/light/${iconName}.svg`;
+      setErrorState(ErrorState.DARK_ICON_NOT_FOUND);
+    } else {
+      //@ts-ignore
+      e.target.src = `${applicationConfig.iconsRepository}/${EMPTY_TOKEN_ID}.svg`;
+      setErrorState(ErrorState.ICON_NOT_FOUND);
+    }
+  };
 
   return (
     <span
@@ -33,9 +59,9 @@ const TokenIcon: React.FC<TokenIconProps> = ({ asset, size, ...rest }) => {
     >
       <img
         alt="Token Icon"
-        src={`https://raw.githubusercontent.com/ergolabs/ergo-dex-asset-icons/master/${iconName}.svg`}
-        //@ts-ignore
-        onError={(e) => (e.target.src = EMPTY_TOKEN)}
+        src={`${applicationConfig.iconsRepository}/light/${iconName}.svg`}
+        onLoad={handleLoad}
+        onError={handleError}
         width={MAP_SIZE_TO_NUMBER[size || 'medium']}
         height={MAP_SIZE_TO_NUMBER[size || 'medium']}
       />
