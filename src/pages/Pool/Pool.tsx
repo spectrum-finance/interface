@@ -110,7 +110,7 @@ const Pool = (): JSX.Element => {
             <Input
               onChange={handleSearchChange}
               prefix={<SearchOutlined />}
-              placeholder="search"
+              placeholder="Search"
               size="large"
               style={{ width: 300 }}
             />

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import styled from 'styled-components';
 
 import {
@@ -9,6 +9,7 @@ import {
 } from '../../../../api/wallets';
 import { useObservable } from '../../../../common/hooks/useObservable';
 import {
+  Alert,
   Box,
   Button,
   Checkbox,
@@ -25,7 +26,7 @@ const { Body } = Typography;
 
 interface WalletItemProps {
   wallet: Wallet;
-  onClick: (wallet: Wallet) => void;
+  close: (result?: boolean) => void;
 }
 
 const WalletButton = styled(Button)`
@@ -49,12 +50,24 @@ const ExperimentalBox = styled(Box)`
   }
 `;
 
-const WalletView: React.FC<WalletItemProps> = ({ wallet, onClick }) => {
+const WalletView: React.FC<WalletItemProps> = ({ wallet, close }) => {
   const [checked, setChecked] = useState<boolean>(false);
+  const [warning, setWarning] = useState<ReactNode | undefined>(undefined);
+
+  const handleClick = () => {
+    connectWallet(wallet).subscribe(
+      (isConnected) => {
+        if (typeof isConnected === 'boolean' && isConnected) {
+          close(true);
+        } else if (isConnected) {
+          setWarning(isConnected);
+        }
+      },
+      () => window.open(wallet.extensionLink),
+    );
+  };
 
   const handleCheck = () => setChecked((prev) => !prev);
-
-  const handleClick = () => onClick(wallet);
 
   return wallet.experimental ? (
     <ExperimentalBox padding={2}>
@@ -68,6 +81,15 @@ const WalletView: React.FC<WalletItemProps> = ({ wallet, onClick }) => {
             my own risk.
           </Checkbox>
         </Flex.Item>
+        {warning && (
+          <Flex.Item marginBottom={2}>
+            <Alert
+              type="warning"
+              description={warning}
+              style={{ width: '100%' }}
+            />
+          </Flex.Item>
+        )}
         <WalletButton size="large" disabled={!checked} onClick={handleClick}>
           <Body>{wallet.name}</Body>
           {wallet.icon}
@@ -90,13 +112,6 @@ const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
   const [wallets] = useObservable(wallets$, [], []);
   const [selectedWallet] = useObservable(selectedWallet$);
 
-  const handleWalletClick = (wallet: Wallet) => {
-    connectWallet(wallet).subscribe(
-      (isConnected) => isConnected && close(true),
-      () => window.open(wallet.extensionLink),
-    );
-  };
-
   return (
     <>
       <Modal.Title>Select a wallet</Modal.Title>
@@ -109,7 +124,7 @@ const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
               }
               key={index}
             >
-              <WalletView onClick={handleWalletClick} wallet={wallet} />
+              <WalletView close={close} wallet={wallet} />
             </Flex.Item>
           ))}
           {selectedWallet && (

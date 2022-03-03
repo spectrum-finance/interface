@@ -31,7 +31,7 @@ const _SwapInfoHeader: FC<SwapInfoHeaderProps> = ({
         </Flex.Item>
       )}
       <Typography.Body>
-        {collapsed ? <DownOutlined /> : <UpOutlined />}
+        {collapsed ? <UpOutlined /> : <DownOutlined />}
       </Typography.Body>
     </Flex>
   </Flex>
