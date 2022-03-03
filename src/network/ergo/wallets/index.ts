@@ -97,13 +97,17 @@ export const selectedWalletState$: Observable<WalletState> =
         return of(WalletState.NOT_CONNECTED);
       }
 
-      return wallet.connectWallet().pipe(
-        map((isConnected) =>
-          isConnected ? WalletState.CONNECTED : WalletState.NOT_CONNECTED,
-        ),
-        startWith(WalletState.CONNECTING),
-        catchError(() => of(WalletState.NOT_CONNECTED)),
-      );
+      try {
+        return wallet.connectWallet().pipe(
+          map((isConnected) =>
+            isConnected ? WalletState.CONNECTED : WalletState.NOT_CONNECTED,
+          ),
+          startWith(WalletState.CONNECTING),
+          catchError(() => of(WalletState.NOT_CONNECTED)),
+        );
+      } catch {
+        return of(WalletState.NOT_CONNECTED);
+      }
     }),
     publishReplay(1),
     refCount(),

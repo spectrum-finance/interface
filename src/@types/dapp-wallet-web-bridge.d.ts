@@ -48,3 +48,4 @@ declare let ergoConnector: {
   };
 };
 declare let ergo: ErgoBridge.ErgoAPI;
+declare let cardano: any;
