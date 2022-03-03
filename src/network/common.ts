@@ -42,7 +42,7 @@ export interface Wallet {
   readonly experimental: boolean;
   readonly extensionLink: string;
   readonly getAddresses: () => Observable<Address[]>;
-  readonly connectWallet: () => Observable<boolean>;
+  readonly connectWallet: () => Observable<boolean | ReactNode>;
   readonly getUtxos: () => Observable<ErgoBox[]>;
   readonly getNotification?: () => ArgsProps | undefined;
   readonly onDisconnect?: () => void;
