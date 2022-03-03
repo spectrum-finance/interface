@@ -1,30 +1,18 @@
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
-import React from 'react';
+import React, { SyntheticEvent, useState } from 'react';
 
-import { isVerifiedToken } from '../../utils/verification';
+import { applicationConfig } from '../../applicationConfig';
+import { useSettings } from '../../context';
+
+const EMPTY_TOKEN_ID = `empty`;
 
 type TokenIconProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
   HTMLDivElement
 > & {
   asset?: AssetInfo;
-  name?: string;
   size?: 'large' | 'small';
 };
-
-const accessibleTokens = [
-  'ERG',
-  'ERGX',
-  'ADA',
-  'SigUSD',
-  'SigRSV',
-  'Kushti',
-  'Erdoge',
-  'ADA-disabled',
-  'LunaDog',
-  'NETA',
-  'ergopad',
-];
 
 const MAP_SIZE_TO_NUMBER = {
   small: 20,
@@ -32,24 +20,31 @@ const MAP_SIZE_TO_NUMBER = {
   large: 32,
 };
 
-const TokenIcon: React.FC<TokenIconProps> = ({
-  asset,
-  name,
-  size,
-  ...rest
-}) => {
-  let isAccessibleToken;
+enum ErrorState {
+  DARK_ICON_NOT_FOUND,
+  ICON_NOT_FOUND,
+}
 
-  // TODO: REPLACE ALL STRINGS TO ASSET_INFO
-  if (asset) {
-    isAccessibleToken = isVerifiedToken(asset);
-  } else {
-    isAccessibleToken = accessibleTokens.some(
-      (tokenName) => tokenName.toLowerCase() === name?.toLocaleLowerCase(),
-    );
-  }
+const TokenIcon: React.FC<TokenIconProps> = ({ asset, size, ...rest }) => {
+  const iconName = asset?.id || 'empty';
+  const [{ theme }] = useSettings();
+  const [errorState, setErrorState] = useState<ErrorState | undefined>(
+    undefined,
+  );
 
-  const iconName = asset?.name || name;
+  const handleLoad = () => setErrorState(0);
+
+  const handleError = (e: SyntheticEvent<HTMLImageElement>) => {
+    if (theme === 'dark' && !errorState) {
+      //@ts-ignore
+      e.target.src = `${applicationConfig.iconsRepository}/light/${iconName}.svg`;
+      setErrorState(ErrorState.DARK_ICON_NOT_FOUND);
+    } else {
+      //@ts-ignore
+      e.target.src = `${applicationConfig.iconsRepository}/${EMPTY_TOKEN_ID}.svg`;
+      setErrorState(ErrorState.ICON_NOT_FOUND);
+    }
+  };
 
   return (
     <span
@@ -64,9 +59,9 @@ const TokenIcon: React.FC<TokenIconProps> = ({
     >
       <img
         alt="Token Icon"
-        src={`/assets/tokens/token-${
-          iconName && isAccessibleToken ? iconName.toLowerCase() : 'empty'
-        }.svg`}
+        src={`${applicationConfig.iconsRepository}/light/${iconName}.svg`}
+        onLoad={handleLoad}
+        onError={handleError}
         width={MAP_SIZE_TO_NUMBER[size || 'medium']}
         height={MAP_SIZE_TO_NUMBER[size || 'medium']}
       />

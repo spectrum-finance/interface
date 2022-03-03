@@ -19,8 +19,14 @@ import { Navigation } from './Navigation/Navigation';
 import { NetworkDropdown } from './NetworkDropdown/NetworkDropdown';
 
 const networks = [
-  { name: 'ergo', token: 'erg', isDisabled: false },
-  { name: 'cardano', token: 'ada', isDisabled: true },
+  {
+    name: 'ergo',
+    token: {
+      id: '0000000000000000000000000000000000000000000000000000000000000000',
+    },
+    isDisabled: false,
+  },
+  { name: 'cardano', token: { id: 'ada-disabled' }, isDisabled: true },
 ];
 
 export const Header: React.FC = () => {

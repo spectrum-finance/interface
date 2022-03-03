@@ -63,7 +63,12 @@ const AddressListItem: React.FC<AddressListItemProps> = ({
   );
 
   return (
-    <Box padding={[4, 2]} transparent className="wallet-address-item">
+    <Box
+      padding={[4, 2]}
+      transparent
+      className="wallet-address-item"
+      bordered={false}
+    >
       <Flex align="center">
         <Flex.Item style={{ width: '45%' }}>
           <AddressView address={address} />

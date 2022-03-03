@@ -38,7 +38,7 @@ export const LockedPositionItem: FC<LockedPositionItemProps> = ({
                   <Flex.Item marginRight={1}>
                     <Flex>
                       <Flex.Item marginRight={1}>
-                        <TokenIcon name={pool?.x.asset.name} />
+                        <TokenIcon asset={pool?.x.asset} />
                       </Flex.Item>
                       <Typography.Title level={5}>
                         {pool?.x.asset.name}
@@ -57,7 +57,7 @@ export const LockedPositionItem: FC<LockedPositionItemProps> = ({
                   <Flex.Item marginRight={1}>
                     <Flex>
                       <Flex.Item marginRight={1}>
-                        <TokenIcon name={pool?.y.asset.name} />
+                        <TokenIcon asset={pool?.y.asset} />
                       </Flex.Item>
                       <Typography.Title level={5}>
                         {pool?.y.asset.name}

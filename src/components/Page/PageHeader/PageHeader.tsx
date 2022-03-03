@@ -24,12 +24,7 @@ const PageHeader: React.FC<FormHeaderProps> = ({
     <Flex justify="space-between" align="center">
       <Flex align="center">
         <Flex.Item display="flex" marginRight={2}>
-          <TokenIconPair
-            tokenPair={{
-              tokenA: x.asset.name,
-              tokenB: y.asset.name,
-            }}
-          />
+          <TokenIconPair assetX={x.asset} assetY={y.asset} />
         </Flex.Item>
         <Flex.Item marginRight={2}>
           <Typography.Title level={4}>

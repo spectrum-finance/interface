@@ -9,12 +9,12 @@ interface TokenListItemProps {
 }
 
 export const TokenListItem: React.FC<TokenListItemProps> = ({ currency }) => (
-  <Box padding={[2, 4]}>
+  <Box padding={[2, 4]} bordered={false}>
     <Flex align="center">
       <Flex.Item flex={1}>
         <Flex align="center">
           <Flex.Item marginRight={2}>
-            <TokenIcon name={currency.asset.name} />
+            <TokenIcon asset={currency.asset} />
           </Flex.Item>
           <Flex direction="col">
             <Typography.Body>{currency.asset.name}</Typography.Body>

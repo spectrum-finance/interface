@@ -13,8 +13,8 @@ interface PoolMenuProps {
 }
 
 const PoolMenu: React.FC<PoolMenuProps> = ({
-  fromToken,
-  toToken,
+  // fromToken,
+  // toToken,
   percent,
   disable,
   className,
@@ -23,29 +23,29 @@ const PoolMenu: React.FC<PoolMenuProps> = ({
     <Menu>
       <Menu.Item className="liquidity__pool-menu-list">
         <MenuItem
-          fromTokenName={fromToken}
-          toTokenName={toToken}
+          fromToken={undefined}
+          toTokenName={undefined}
           percentage={percent}
         />
       </Menu.Item>
       <Menu.Item className="liquidity__pool-menu-list">
         <MenuItem
-          fromTokenName={fromToken}
-          toTokenName={toToken}
+          fromToken={undefined}
+          toTokenName={undefined}
           percentage={percent}
         />
       </Menu.Item>
       <Menu.Item className="liquidity__pool-menu-list">
         <MenuItem
-          fromTokenName={fromToken}
-          toTokenName={toToken}
+          fromToken={undefined}
+          toTokenName={undefined}
           percentage={percent}
         />
       </Menu.Item>
       <Menu.Item className="liquidity__pool-menu-list">
         <MenuItem
-          fromTokenName={fromToken}
-          toTokenName={toToken}
+          fromToken={undefined}
+          toTokenName={undefined}
           percentage={percent}
         />
       </Menu.Item>

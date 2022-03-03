@@ -43,10 +43,8 @@ const LiquidityPositionsItemWrapper: React.FC<LiquidityPositionsItemWrapperProps
                   <Flex align="center">
                     <Flex.Item marginRight={1}>
                       <TokenIconPair
-                        tokenPair={{
-                          tokenA: pool.x.asset.name,
-                          tokenB: pool.y.asset.name,
-                        }}
+                        assetX={pool.x.asset}
+                        assetY={pool.y.asset}
                         size="large"
                       />
                     </Flex.Item>
