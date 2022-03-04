@@ -26,7 +26,7 @@ const networks = [
     },
     isDisabled: false,
   },
-  { name: 'cardano', token: { id: 'ada-disabled' }, isDisabled: true },
+  { name: 'cardano', token: { id: 'token-ada-disabled' }, isDisabled: true },
 ];
 
 export const Header: React.FC = () => {
