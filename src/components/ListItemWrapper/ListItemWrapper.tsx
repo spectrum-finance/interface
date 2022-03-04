@@ -1,5 +1,6 @@
 import './ListItemWrapper.less';
 
+import cn from 'classnames';
 import React, { FC } from 'react';
 
 import { ReactComponent as CheckedIcon } from '../../assets/icons/checked-icon.svg';
@@ -20,9 +21,9 @@ const ListItemWrapper: FC<ListItemWrapper> = ({
     <Box
       control
       onClick={onClick}
-      // className={cn('ergodex-list-item-wrapper', {
-      //   'ergodex-list-item-wrapper--active': isActive,
-      // })}
+      className={cn('ergodex-list-item-wrapper', {
+        'ergodex-list-item-wrapper--active': isActive,
+      })}
       padding={4}
       borderRadius="m"
     >
