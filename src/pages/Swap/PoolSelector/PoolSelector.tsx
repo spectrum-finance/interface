@@ -1,5 +1,5 @@
 import React, { FC, useEffect } from 'react';
-import { catchError, of } from 'rxjs';
+import { catchError, of, startWith } from 'rxjs';
 import styled from 'styled-components';
 
 import { getAmmPoolsByAssetPair } from '../../../api/ammPools';
@@ -27,7 +27,8 @@ interface PoolSelectorProps extends Control<AmmPool> {
 
 const selectedPoolAnalytic = (ammPoolId: string) =>
   getAggregatedPoolAnalyticsDataById24H(ammPoolId).pipe(
-    catchError(() => of(undefined)),
+    startWith(undefined),
+    catchError(() => of(null)),
   );
 
 const _PoolSelector: FC<PoolSelectorProps> = ({
@@ -98,7 +99,7 @@ const _PoolSelector: FC<PoolSelectorProps> = ({
                     <Flex.Item marginRight={2}>
                       <DataTag
                         secondary
-                        loading={loading}
+                        loading={ammPoolAnalytics === undefined}
                         content={
                           ammPoolAnalytics?.tvl
                             ? formatToUSD(ammPoolAnalytics.tvl.currency, 'abbr')
