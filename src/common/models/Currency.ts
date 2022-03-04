@@ -185,7 +185,6 @@ export class Currency {
   private createFormatter(decimals: number): Intl.NumberFormat {
     return new Intl.NumberFormat('en-US', {
       maximumFractionDigits: decimals,
-      minimumFractionDigits: decimals,
       currencySign: undefined,
       currency: undefined,
     });
