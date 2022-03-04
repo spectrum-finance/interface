@@ -106,6 +106,7 @@ export const SwapInfo = styled(_SwapInfo)`
 
   .ant-collapse-content-box {
     background: var(--ergo-box-bg-contrast);
+    border-radius: var(--ergo-border-radius-md);
     padding-top: 0;
   }
 `;
