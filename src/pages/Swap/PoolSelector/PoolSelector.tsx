@@ -36,7 +36,7 @@ const _PoolSelector: FC<PoolSelectorProps> = ({
   value,
   onChange,
 }) => {
-  const [ammPoolAnalytics, updateAmmPoolAnalytics, loading] =
+  const [ammPoolAnalytics, updateAmmPoolAnalytics] =
     useSubject(selectedPoolAnalytic);
 
   const [availableAmmPools, updateAvailableAmmPools] = useSubject(
