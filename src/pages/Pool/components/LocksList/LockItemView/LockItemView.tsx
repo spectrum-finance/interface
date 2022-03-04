@@ -74,13 +74,13 @@ export const LockItemView: FC<LockItemViewProps> = ({ position }) => (
         <Flex col stretch>
           <Flex.Item marginBottom={1}>
             <DataTag
-              content={position.withdrawableLockedX.toAmount()}
+              content={position.withdrawableLockedX.toString()}
               justify="flex-end"
               width={120}
             />
           </Flex.Item>
           <DataTag
-            content={position.withdrawableLockedY.toAmount()}
+            content={position.withdrawableLockedY.toString()}
             justify="flex-end"
             width={120}
           />

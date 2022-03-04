@@ -16,6 +16,8 @@ const createUnknownAsset = (decimals = 0): AssetInfo => ({
 const isUnknownAsset = (asset: AssetInfo): boolean => asset.name === 'unknown';
 
 export class Currency {
+  private formatter: Intl.NumberFormat;
+
   private _amount = 0n;
 
   private _asset: AssetInfo = createUnknownAsset(0);
@@ -31,6 +33,7 @@ export class Currency {
       this.checkAmountErrors(amount, this._asset);
       this._amount = parseUserInputToFractions(amount, this._asset.decimals);
     }
+    this.formatter = this.createFormatter(this._asset?.decimals || 0);
   }
 
   get amount(): bigint {
@@ -122,7 +125,7 @@ export class Currency {
     if (this.amount === 0n) {
       return this;
     }
-    const fmtAmount = this.toAmount();
+    const fmtAmount = this.toString();
     const newAmount = math.evaluate!(
       `${fmtAmount} / 100 * ${percent}`,
     ).toString();
@@ -134,8 +137,14 @@ export class Currency {
     return renderFractions(this.amount, this.asset.decimals);
   }
 
+  toString(): string {
+    return this.formatter.format(
+      +renderFractions(this.amount, this.asset.decimals),
+    );
+  }
+
   toCurrencyString(): string {
-    return `${this.toAmount()} ${
+    return `${this.toString()} ${
       isUnknownAsset(this.asset) ? '' : this.asset.name
     }`;
   }
@@ -171,5 +180,14 @@ export class Currency {
     const amountString = renderFractions(amount, currentAsset.decimals);
 
     return normalizeAmount(amountString, newAsset);
+  }
+
+  private createFormatter(decimals: number): Intl.NumberFormat {
+    return new Intl.NumberFormat('en-US', {
+      maximumFractionDigits: decimals,
+      minimumFractionDigits: decimals,
+      currencySign: undefined,
+      currency: undefined,
+    });
   }
 }

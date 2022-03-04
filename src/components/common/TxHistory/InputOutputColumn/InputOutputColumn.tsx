@@ -45,12 +45,12 @@ const InputOutputColumn: React.FC<InputOutputColumnProps> = ({
               <Flex direction="col">
                 <Flex.Item>
                   <Typography.Footnote>
-                    {x.amount ? x.toAmount() : ''}
+                    {x.amount ? x.toString() : ''}
                   </Typography.Footnote>
                 </Flex.Item>
                 <Flex.Item>
                   <Typography.Footnote>
-                    {y.amount ? y.toAmount() : ''}
+                    {y.amount ? y.toString() : ''}
                   </Typography.Footnote>
                 </Flex.Item>
               </Flex>

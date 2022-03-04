@@ -70,7 +70,7 @@ const _NitroInput: FC<NitroInputProps> = ({
       </Flex.Item>
       <Flex.Item marginBottom={message ? 2 : 0}>
         <Typography.Body className={className}>
-          Execution Fee Range {minExFee.toAmount()} - {maxExFee.toAmount()}{' '}
+          Execution Fee Range {minExFee.toString()} - {maxExFee.toString()}{' '}
           {maxExFee.asset.name}
         </Typography.Body>
       </Flex.Item>

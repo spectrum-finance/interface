@@ -123,7 +123,7 @@ const LockLiquidityConfirmationModal: React.FC<LockLiquidityConfirmationModalPro
             <Flex.Item marginBottom={4}>
               <Flex>
                 <Checkbox onChange={handleCheck}>
-                  I understand that I&apos;m locking <b>{lpAsset.toAmount()}</b>{' '}
+                  I understand that I&apos;m locking <b>{lpAsset.toString()}</b>{' '}
                   LP-tokens, which is <b>{percent}%</b> of my{' '}
                   <b>{`${xAsset.asset.name}/${yAsset.asset.name}`}</b> liquidity
                   position, for a period of{' '}
