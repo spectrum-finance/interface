@@ -8,14 +8,16 @@ interface ChartCollapseProps {
   disabled?: boolean;
   children?: ReactNode | ReactNode[] | string;
   className?: string;
+  onChange?: () => void;
 }
 
 const _ChartContainer: FC<ChartCollapseProps> = ({
   header,
   children,
   className,
+  onChange,
 }) => (
-  <Collapse className={className}>
+  <Collapse className={className} onChange={onChange}>
     <Collapse.Panel key="chart" header={header} showArrow={false}>
       {children}
     </Collapse.Panel>
@@ -27,6 +29,7 @@ export const ChartContainer = styled(_ChartContainer)`
   border: initial;
   background: var(--ergo-box-bg-contrast);
   border-radius: 12px;
+  border: 1px solid var(--ergo-box-border-color);
 
   .ant-collapse-header {
     padding: 0 !important;

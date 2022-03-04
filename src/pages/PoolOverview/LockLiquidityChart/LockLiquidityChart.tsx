@@ -3,31 +3,42 @@ import './LockLiquidityChart.less';
 import React, { FC, useState } from 'react';
 import { Bar, BarChart, Label, Tooltip, XAxis, YAxis } from 'recharts';
 
-import { Flex, Progress } from '../../../ergodex-cdk';
+import { Flex } from '../../../ergodex-cdk';
 import {
   AmmPoolConfidenceAnalytic,
   LocksGroup,
 } from '../AmmPoolConfidenceAnalytic';
 import { AnalyticOverview } from './AnalyticOverview/AnalyticOverview';
 import { ChartContainer } from './ChartContainer/ChartContainer';
+import { ProgressHeader } from './ProgressHeader/ProgressHeader';
 
 interface LockLiquidityChartProps {
   poolConfidenceAnalytic: AmmPoolConfidenceAnalytic;
+  collapsed?: boolean;
 }
 
 export const LockLiquidityChart: FC<LockLiquidityChartProps> = ({
   poolConfidenceAnalytic,
 }) => {
+  const [collapsed, setCollapsed] = useState<boolean>(false);
   const [selectedLocksGroup, setSelectedLocksGroup] = useState<
     LocksGroup | undefined
   >();
 
   const tickFormatter = (value: number) => value.toFixed(2);
 
+  const handleChange = () => setCollapsed((prev) => !prev);
+
   return (
     <>
       <ChartContainer
-        header={<Progress percent={poolConfidenceAnalytic.lockedPercent} />}
+        onChange={handleChange}
+        header={
+          <ProgressHeader
+            collapsed={collapsed}
+            poolConfidenceAnalytic={poolConfidenceAnalytic}
+          />
+        }
       >
         <Flex col>
           <Flex.Item marginBottom={6}>
