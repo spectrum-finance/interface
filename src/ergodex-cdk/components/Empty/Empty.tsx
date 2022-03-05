@@ -10,7 +10,7 @@ interface EmptyProps {
 }
 
 export const Empty: FC<EmptyProps> = ({ children }) => (
-  <Flex col>
+  <Flex col align="center">
     <Flex.Item marginBottom={3}>
       <EmptyIcon />
     </Flex.Item>
