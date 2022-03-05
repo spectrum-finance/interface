@@ -103,7 +103,7 @@ export const AddressesTab: React.FC = () => {
 
   return (
     <Flex col>
-      <List dataSource={addresses} transparent height={250}>
+      <List dataSource={addresses} height={250}>
         {(a) => <AddressListItem key={a} address={a} active={a === address} />}
       </List>
     </Flex>

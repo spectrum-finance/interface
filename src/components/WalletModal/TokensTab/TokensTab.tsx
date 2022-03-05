@@ -14,7 +14,6 @@ export const TokensTab: React.FC = () => {
           rowKey="id"
           dataSource={balance.values().filter((b) => b.isPositive())}
           height={224}
-          transparent
           gap={2}
         >
           {(item) => <TokenListItem currency={item} />}
