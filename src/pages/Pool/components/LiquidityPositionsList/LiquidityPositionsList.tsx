@@ -1,5 +1,4 @@
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
-import { isEmpty } from 'lodash';
 import React, { FC } from 'react';
 import { useHistory } from 'react-router-dom';
 
@@ -7,18 +6,21 @@ import { isWalletSetuped$ } from '../../../../api/wallets';
 import { useObservable } from '../../../../common/hooks/useObservable';
 import { AmmPool } from '../../../../common/models/AmmPool';
 import { Button, Flex, List, PlusOutlined } from '../../../../ergodex-cdk';
+import { EmptyTemplateContainer } from '../../common/EmptyTemplateContainer/EmptyTemplateContainer';
 import { EmptyPositionsWrapper } from '../EmptyPositionsWrapper/EmptyPositionsWrapper';
 import { PositionListLoader } from '../PositionListLoader/PositionListLoader';
 import { LiquidityPositionsItem } from './LiquidityPositionsItem/LiquidityPositionsItem';
 
 interface LiquidityPositionsListProps {
   loading: boolean;
+  totalCount: number;
   pools: AmmPool[];
 }
 
 const LiquidityPositionsList: FC<LiquidityPositionsListProps> = ({
   loading,
   pools,
+  totalCount,
 }): JSX.Element => {
   const [isWalletConnected] = useObservable(isWalletSetuped$, [], false);
 
@@ -38,7 +40,7 @@ const LiquidityPositionsList: FC<LiquidityPositionsListProps> = ({
     return <PositionListLoader />;
   }
 
-  if (isEmpty(pools) && !loading) {
+  if (!totalCount && !loading) {
     return (
       <EmptyPositionsWrapper>
         <Button
@@ -55,7 +57,13 @@ const LiquidityPositionsList: FC<LiquidityPositionsListProps> = ({
 
   return (
     <Flex col>
-      <List dataSource={pools} gap={2}>
+      <List
+        dataSource={pools}
+        gap={2}
+        emptyTemplate={
+          <EmptyTemplateContainer>No results found</EmptyTemplateContainer>
+        }
+      >
         {(pool) => (
           <LiquidityPositionsItem pool={pool} onClick={onPositionClick} />
         )}

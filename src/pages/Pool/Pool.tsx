@@ -125,6 +125,7 @@ const Pool = (): JSX.Element => {
       >
         <Tabs.TabPane tab="Pools Overview" key={defaultActiveTabKey}>
           <LiquidityPositionsList
+            totalCount={pools.length}
             pools={pools.filter((p) => p.match(term))}
             loading={isPoolsLoading}
           />
@@ -132,6 +133,7 @@ const Pool = (): JSX.Element => {
         <Tabs.TabPane tab="Your Positions" key="your-positions">
           {isWalletConnected ? (
             <LiquidityPositionsList
+              totalCount={positions.length}
               pools={positions.map((p) => p.pool).filter((p) => p.match(term))}
               loading={isBalanceLoading || isPositionLoading}
             />
