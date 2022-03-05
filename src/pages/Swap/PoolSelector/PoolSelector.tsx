@@ -88,13 +88,13 @@ const _PoolSelector: FC<PoolSelectorProps> = ({
                       </Typography.Body>
                     </Flex.Item>
                     <Flex.Item marginRight={1}>
-                      <Typography.Footnote>Fee</Typography.Footnote>
+                      <Typography.Footnote>Fee:</Typography.Footnote>
                     </Flex.Item>
                     <Flex.Item marginRight={2}>
                       <DataTag secondary content={`${value.poolFee}%`} />
                     </Flex.Item>
                     <Flex.Item marginRight={1}>
-                      <Typography.Footnote>TVL</Typography.Footnote>
+                      <Typography.Footnote>TVL:</Typography.Footnote>
                     </Flex.Item>
                     <Flex.Item marginRight={2}>
                       <DataTag

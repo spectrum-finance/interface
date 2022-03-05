@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { ReactComponent as Empty } from '../../../../assets/icons/empty.svg';
 import { Flex, Typography } from '../../../../ergodex-cdk';
+import { Empty } from '../../../../ergodex-cdk/components/Empty/Empty';
 
 interface EmptyPositionsListProps {
   children?: React.ReactChild | React.ReactChild[];
