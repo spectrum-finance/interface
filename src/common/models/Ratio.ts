@@ -24,6 +24,10 @@ export class Ratio {
     return this.formatter.format(+renderFractions(this.amount, this.decimals));
   }
 
+  toAmount(): string {
+    return renderFractions(this.amount, this.decimals);
+  }
+
   private getRelevantDecimalsCount(amount: string): number {
     const decimalsPart = amount.split('.')[1] || '';
 

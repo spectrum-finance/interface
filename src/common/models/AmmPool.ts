@@ -6,7 +6,6 @@ import { cache } from 'decorator-cache-getter';
 import { evaluate } from 'mathjs';
 
 import { math, renderFractions } from '../../utils/math';
-import { normalizeAmount } from '../utils/amount';
 import { Searchable } from '../utils/Searchable';
 import { Currency } from './Currency';
 import { Ratio } from './Ratio';
@@ -147,22 +146,24 @@ export class AmmPool implements Searchable {
     return new Currency(inputAmount?.amount, inputAmount?.asset);
   }
 
-  calculateLpFee(currency: Currency): Currency {
-    const currencyAmount = currency.toAmount();
-    const currencyFeeAmount = normalizeAmount(
-      math.evaluate!(`${currencyAmount} / 100 * ${this.poolFee}`).toString(),
-      currency.asset,
-    );
-
-    return new Currency(currencyFeeAmount, currency.asset);
-  }
-
   calculateOutputAmount(currency: Currency): Currency {
     const outputAmount = this.pool.outputAmount(
       new AssetAmount(currency.asset, currency.amount),
     );
 
     return new Currency(outputAmount.amount, outputAmount?.asset);
+  }
+
+  calculatePriceImpact(input: Currency): number {
+    const ratio =
+      input.asset.id === this.x.asset.id
+        ? this.getRatio(this.y, this.x).toAmount()
+        : this.getRatio(this.x, this.y).toAmount();
+    const outputRatio = this.calculateOutputPrice(input).toAmount();
+
+    return Math.abs(
+      math.evaluate!(`(${outputRatio} * 100 / ${ratio}) - 100`).toFixed(2),
+    );
   }
 
   match(term?: string): boolean {
@@ -172,9 +173,9 @@ export class AmmPool implements Searchable {
     const normalizedTerm = term.toLowerCase().replaceAll('/', '');
 
     return (
-      this.x.asset.name?.toLowerCase().startsWith(normalizedTerm) ||
-      this.y.asset.name?.toLowerCase().startsWith(normalizedTerm) ||
-      `${this.x.asset.name?.toLowerCase()}${this.y.asset.name?.toLowerCase()}`.startsWith(
+      this.x.asset.name?.toLowerCase().includes(normalizedTerm) ||
+      this.y.asset.name?.toLowerCase().includes(normalizedTerm) ||
+      `${this.x.asset.name?.toLowerCase()}${this.y.asset.name?.toLowerCase()}`.includes(
         normalizedTerm,
       )
     );

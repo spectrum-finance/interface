@@ -28,6 +28,14 @@ const _SwapInfo: FC<SwapInfoProps> = ({ className, value }) => {
   const [{ minerFee, slippage, nitro }] = useSettings();
 
   const handleCollapseChange = () => setCollapsed((prev) => !prev);
+
+  const priceImpact =
+    value.fromAmount?.isPositive() &&
+    value.toAmount?.isPositive() &&
+    !!value.pool
+      ? `${value.pool.calculatePriceImpact(value.fromAmount)}%`
+      : '–';
+
   const [minOutput, maxOutput] =
     value.fromAmount?.isPositive() &&
     value.toAmount?.isPositive() &&
@@ -56,6 +64,9 @@ const _SwapInfo: FC<SwapInfoProps> = ({ className, value }) => {
                   title="Slippage tolerance:"
                   value={`${slippage}%`}
                 />
+              </Flex.Item>
+              <Flex.Item marginBottom={2}>
+                <SwapInfoItem title="Price impact:" value={priceImpact} />
               </Flex.Item>
               <Flex.Item marginBottom={2}>
                 <SwapInfoItem
@@ -88,20 +99,7 @@ const _SwapInfo: FC<SwapInfoProps> = ({ className, value }) => {
               </Flex.Item>
               <Flex.Item marginBottom={2}>
                 <SwapInfoItem
-                  title="Lp fee:"
-                  value={
-                    value.fromAmount?.isPositive()
-                      ? value.pool
-                          .calculateLpFee(value.fromAmount)
-                          .toCurrencyString()
-                      : '–'
-                  }
-                  secondary
-                />
-              </Flex.Item>
-              <Flex.Item marginBottom={2}>
-                <SwapInfoItem
-                  title="Total fees(except LP):"
+                  title="Total fees:"
                   value={`${minTotalFee.toCurrencyString()} - ${maxTotalFee.toCurrencyString()}`}
                 />
               </Flex.Item>
