@@ -6,7 +6,7 @@ import { isWalletSetuped$ } from '../../../../api/wallets';
 import { useObservable } from '../../../../common/hooks/useObservable';
 import { AmmPool } from '../../../../common/models/AmmPool';
 import { Button, Flex, List, PlusOutlined } from '../../../../ergodex-cdk';
-import { EmptyTemplateContainer } from '../../common/EmptyTemplateContainer/EmptyTemplateContainer';
+import { EmptySearchResult } from '../../common/EmptySearchResult/EmptySearchResult';
 import { EmptyPositionsWrapper } from '../EmptyPositionsWrapper/EmptyPositionsWrapper';
 import { PositionListLoader } from '../PositionListLoader/PositionListLoader';
 import { LiquidityPositionsItem } from './LiquidityPositionsItem/LiquidityPositionsItem';
@@ -57,13 +57,7 @@ const LiquidityPositionsList: FC<LiquidityPositionsListProps> = ({
 
   return (
     <Flex col>
-      <List
-        dataSource={pools}
-        gap={2}
-        emptyTemplate={
-          <EmptyTemplateContainer>No results found</EmptyTemplateContainer>
-        }
-      >
+      <List dataSource={pools} gap={2} emptyTemplate={<EmptySearchResult />}>
         {(pool) => (
           <LiquidityPositionsItem pool={pool} onClick={onPositionClick} />
         )}
