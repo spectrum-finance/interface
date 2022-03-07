@@ -88,7 +88,20 @@ const _SwapInfo: FC<SwapInfoProps> = ({ className, value }) => {
               </Flex.Item>
               <Flex.Item marginBottom={2}>
                 <SwapInfoItem
-                  title="Total fees:"
+                  title="Lp fee:"
+                  value={
+                    value.fromAmount?.isPositive()
+                      ? value.pool
+                          .calculateLpFee(value.fromAmount)
+                          .toCurrencyString()
+                      : '–'
+                  }
+                  secondary
+                />
+              </Flex.Item>
+              <Flex.Item marginBottom={2}>
+                <SwapInfoItem
+                  title="Total fees(except LP):"
                   value={`${minTotalFee.toCurrencyString()} - ${maxTotalFee.toCurrencyString()}`}
                 />
               </Flex.Item>

@@ -6,6 +6,7 @@ import { cache } from 'decorator-cache-getter';
 import { evaluate } from 'mathjs';
 
 import { math, renderFractions } from '../../utils/math';
+import { normalizeAmount } from '../utils/amount';
 import { Searchable } from '../utils/Searchable';
 import { Currency } from './Currency';
 import { Ratio } from './Ratio';
@@ -144,6 +145,16 @@ export class AmmPool implements Searchable {
     }
 
     return new Currency(inputAmount?.amount, inputAmount?.asset);
+  }
+
+  calculateLpFee(currency: Currency): Currency {
+    const currencyAmount = currency.toAmount();
+    const currencyFeeAmount = normalizeAmount(
+      math.evaluate!(`${currencyAmount} / 100 * ${this.poolFee}`).toString(),
+      currency.asset,
+    );
+
+    return new Currency(currencyFeeAmount, currency.asset);
   }
 
   calculateOutputAmount(currency: Currency): Currency {
