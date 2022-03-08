@@ -125,7 +125,7 @@ export class Currency {
     if (this.amount === 0n) {
       return this;
     }
-    const fmtAmount = this.toString();
+    const fmtAmount = this.toAmount();
     const newAmount = math.evaluate!(
       `${fmtAmount} / 100 * ${percent}`,
     ).toString();
