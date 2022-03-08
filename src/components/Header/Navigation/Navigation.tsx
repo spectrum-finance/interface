@@ -37,7 +37,6 @@ const _Navigation: FC<NavigationProps> = ({ className }) => {
   return (
     <Tabs
       activeKey={defaultActiveKey}
-      type="card"
       onChange={onTabClick}
       className={className}
     >

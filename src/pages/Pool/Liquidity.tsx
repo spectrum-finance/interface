@@ -117,7 +117,6 @@ const Liquidity = (): JSX.Element => {
           ),
         }}
         defaultActiveKey={query.get('active')!}
-        type="card"
         className="pool__position-tabs"
         onChange={(key) => {
           history.push(`/pool?active=${key}`);
