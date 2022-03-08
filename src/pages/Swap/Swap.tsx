@@ -12,7 +12,6 @@ import {
   of,
   skip,
   switchMap,
-  tap,
 } from 'rxjs';
 
 import { getAmmPoolsByAssetPair } from '../../api/ammPools';
@@ -209,7 +208,6 @@ export const Swap = (): JSX.Element => {
     ]).pipe(
       debounceTime(100),
       distinctUntilChanged(isAssetsPairEquals),
-      tap(() => form.patchValue({ pool: undefined })),
       switchMap(([fromAsset, toAsset]) =>
         getAvailablePools(fromAsset?.id, toAsset?.id),
       ),

@@ -23,7 +23,7 @@ const AmountOverview: FC<{ currency: Currency }> = ({ currency }) => (
       <Typography.Body>{currency.asset.name}</Typography.Body>
     </Flex.Item>
     <Flex.Item>
-      <Typography.Body>{currency.toAmount()}</Typography.Body>
+      <Typography.Body>{currency.toString()}</Typography.Body>
     </Flex.Item>
   </Flex>
 );

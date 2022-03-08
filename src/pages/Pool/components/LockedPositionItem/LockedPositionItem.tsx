@@ -46,7 +46,7 @@ export const LockedPositionItem: FC<LockedPositionItemProps> = ({
                     </Flex>
                   </Flex.Item>
                   <Typography.Title level={5}>
-                    {xAssetAmount.toAmount()}
+                    {xAssetAmount.toString()}
                   </Typography.Title>
                 </Flex>
               </Box>
@@ -65,7 +65,7 @@ export const LockedPositionItem: FC<LockedPositionItemProps> = ({
                     </Flex>
                   </Flex.Item>
                   <Typography.Title level={5}>
-                    {yAssetAmount.toAmount()}
+                    {yAssetAmount.toString()}
                   </Typography.Title>
                 </Flex>
               </Box>

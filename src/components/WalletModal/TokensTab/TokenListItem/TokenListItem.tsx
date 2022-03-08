@@ -18,11 +18,10 @@ export const TokenListItem: React.FC<TokenListItemProps> = ({ currency }) => (
           </Flex.Item>
           <Flex direction="col">
             <Typography.Body>{currency.asset.name}</Typography.Body>
-            {/*<Typography.Footnote small>{asset.name}</Typography.Footnote>*/}
           </Flex>
         </Flex>
       </Flex.Item>
-      <Typography.Body>{currency.toAmount()}</Typography.Body>
+      <Typography.Body>{currency.toString()}</Typography.Body>
     </Flex>
   </Box>
 );

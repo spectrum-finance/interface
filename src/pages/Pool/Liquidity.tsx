@@ -20,7 +20,7 @@ import {
   Tabs,
 } from '../../ergodex-cdk';
 import { useQuery } from '../../hooks/useQuery';
-import { EmptyPositionsWrapper } from './components/EmptyPositionsWrapper/EmptyPositionsWrapper';
+import { EmptyPositionsList } from './common/EmptyPositionsList/EmptyPositionsList';
 import { LiquidityPositionsList } from './components/LiquidityPositionsList/LiquidityPositionsList';
 import { LockListView } from './components/LocksList/LockListView';
 
@@ -75,7 +75,7 @@ const PoolPageWrapper: React.FC<PoolPageWrapperProps> = ({
   );
 };
 
-const Pool = (): JSX.Element => {
+const Liquidity = (): JSX.Element => {
   const [isWalletConnected] = useObservable(isWalletSetuped$, [], false);
   const [, isBalanceLoading] = useAssetsBalance();
   const history = useHistory();
@@ -125,6 +125,7 @@ const Pool = (): JSX.Element => {
       >
         <Tabs.TabPane tab="Pools Overview" key={defaultActiveTabKey}>
           <LiquidityPositionsList
+            totalCount={pools.length}
             pools={pools.filter((p) => p.match(term))}
             loading={isPoolsLoading}
           />
@@ -132,13 +133,14 @@ const Pool = (): JSX.Element => {
         <Tabs.TabPane tab="Your Positions" key="your-positions">
           {isWalletConnected ? (
             <LiquidityPositionsList
+              totalCount={positions.length}
               pools={positions.map((p) => p.pool).filter((p) => p.match(term))}
               loading={isBalanceLoading || isPositionLoading}
             />
           ) : (
-            <EmptyPositionsWrapper>
+            <EmptyPositionsList>
               <ConnectWalletButton />
-            </EmptyPositionsWrapper>
+            </EmptyPositionsList>
           )}
         </Tabs.TabPane>
         {isWalletConnected && positions.some((p) => p.locks.length) && (
@@ -155,4 +157,4 @@ const Pool = (): JSX.Element => {
   );
 };
 
-export { Pool };
+export { Liquidity };

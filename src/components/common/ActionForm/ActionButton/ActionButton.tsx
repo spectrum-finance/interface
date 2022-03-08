@@ -40,7 +40,7 @@ const insufficientFeeBalanceState = (token = ''): ButtonProps => ({
 });
 
 const minValueState = (c?: Currency): ButtonProps => ({
-  children: `Min value for ${c?.asset.name} is ${c?.toAmount()}`,
+  children: `Min value for ${c?.asset.name} is ${c?.toString()}`,
   type: 'primary',
   disabled: true,
 });

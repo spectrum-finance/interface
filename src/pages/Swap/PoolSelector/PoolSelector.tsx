@@ -1,5 +1,5 @@
 import React, { FC, useEffect } from 'react';
-import { catchError, of } from 'rxjs';
+import { catchError, of, startWith } from 'rxjs';
 import styled from 'styled-components';
 
 import { getAmmPoolsByAssetPair } from '../../../api/ammPools';
@@ -27,7 +27,8 @@ interface PoolSelectorProps extends Control<AmmPool> {
 
 const selectedPoolAnalytic = (ammPoolId: string) =>
   getAggregatedPoolAnalyticsDataById24H(ammPoolId).pipe(
-    catchError(() => of(undefined)),
+    startWith(undefined),
+    catchError(() => of(null)),
   );
 
 const _PoolSelector: FC<PoolSelectorProps> = ({
@@ -35,7 +36,7 @@ const _PoolSelector: FC<PoolSelectorProps> = ({
   value,
   onChange,
 }) => {
-  const [ammPoolAnalytics, updateAmmPoolAnalytics, loading] =
+  const [ammPoolAnalytics, updateAmmPoolAnalytics] =
     useSubject(selectedPoolAnalytic);
 
   const [availableAmmPools, updateAvailableAmmPools] = useSubject(
@@ -87,18 +88,18 @@ const _PoolSelector: FC<PoolSelectorProps> = ({
                       </Typography.Body>
                     </Flex.Item>
                     <Flex.Item marginRight={1}>
-                      <Typography.Footnote>Fee</Typography.Footnote>
+                      <Typography.Footnote>Fee:</Typography.Footnote>
                     </Flex.Item>
                     <Flex.Item marginRight={2}>
                       <DataTag secondary content={`${value.poolFee}%`} />
                     </Flex.Item>
                     <Flex.Item marginRight={1}>
-                      <Typography.Footnote>TVL</Typography.Footnote>
+                      <Typography.Footnote>TVL:</Typography.Footnote>
                     </Flex.Item>
                     <Flex.Item marginRight={2}>
                       <DataTag
                         secondary
-                        loading={loading}
+                        loading={ammPoolAnalytics === undefined}
                         content={
                           ammPoolAnalytics?.tvl
                             ? formatToUSD(ammPoolAnalytics.tvl.currency, 'abbr')

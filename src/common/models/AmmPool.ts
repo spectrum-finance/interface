@@ -10,6 +10,21 @@ import { Searchable } from '../utils/Searchable';
 import { Currency } from './Currency';
 import { Ratio } from './Ratio';
 
+const calculatePureOutputAmount = (
+  input: Currency,
+  ammPool: AmmPool,
+): string => {
+  if (input.asset.id === ammPool.x.asset.id) {
+    return math.evaluate!(
+      `(${ammPool.y.toAmount()} * ${input.toAmount()}) / (${ammPool.x.toAmount()} + ${input.toAmount()})`,
+    ).toString();
+  } else {
+    return math.evaluate!(
+      `(${ammPool.x.toAmount()} * ${input.toAmount()}) / (${ammPool.y.toAmount()} + ${input.toAmount()})`,
+    ).toString();
+  }
+};
+
 export class AmmPool implements Searchable {
   constructor(private pool: BaseAmmPool) {}
 
@@ -154,6 +169,34 @@ export class AmmPool implements Searchable {
     return new Currency(outputAmount.amount, outputAmount?.asset);
   }
 
+  calculatePureOutputAmount(currency: Currency): Currency {
+    const outputAmount = this.pool.pureOutputAmount(
+      new AssetAmount(currency.asset, currency.amount),
+    );
+
+    return new Currency(outputAmount.amount, outputAmount?.asset);
+  }
+
+  calculatePriceImpact(input: Currency): number {
+    const ratio =
+      input.asset.id === this.x.asset.id
+        ? math.evaluate!(
+            `${this.y.toAmount()} / ${this.x.toAmount()}`,
+          ).toString()
+        : math.evaluate!(
+            `${this.x.toAmount()} / ${this.y.toAmount()}`,
+          ).toString();
+
+    const outputAmount = calculatePureOutputAmount(input, this);
+    const outputRatio = math.evaluate!(
+      `${outputAmount} / ${input.toAmount()}`,
+    ).toString();
+
+    return Math.abs(
+      math.evaluate!(`(${outputRatio} * 100 / ${ratio}) - 100`).toFixed(2),
+    );
+  }
+
   match(term?: string): boolean {
     if (!term) {
       return true;
@@ -161,9 +204,9 @@ export class AmmPool implements Searchable {
     const normalizedTerm = term.toLowerCase().replaceAll('/', '');
 
     return (
-      this.x.asset.name?.toLowerCase().startsWith(normalizedTerm) ||
-      this.y.asset.name?.toLowerCase().startsWith(normalizedTerm) ||
-      `${this.x.asset.name?.toLowerCase()}${this.y.asset.name?.toLowerCase()}`.startsWith(
+      this.x.asset.name?.toLowerCase().includes(normalizedTerm) ||
+      this.y.asset.name?.toLowerCase().includes(normalizedTerm) ||
+      `${this.x.asset.name?.toLowerCase()}${this.y.asset.name?.toLowerCase()}`.includes(
         normalizedTerm,
       )
     );

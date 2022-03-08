@@ -13,8 +13,8 @@ import { AppLoadingProvider, SettingsProvider } from './context';
 import { globalHistory } from './createBrowserHistory';
 import { ContextModalProvider } from './ergodex-cdk';
 import { AddLiquidity } from './pages/AddLiquidity/AddLiquidity';
+import { Liquidity } from './pages/Pool/Liquidity';
 import { LockLiquidity } from './pages/Pool/LockLiquidity/LockLiquidity';
-import { Pool } from './pages/Pool/Pool';
 import { RelockLiquidity } from './pages/Pool/RelockLiquidity/RelockLiquidity';
 import { RemoveLiquidity } from './pages/Pool/RemoveLiquidity/RemoveLiquidity';
 import { WithdrawalLiquidity } from './pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity';
@@ -36,7 +36,7 @@ const Application = withTranslation()(() => {
                     <Redirect to="/swap" />
                   </Route>
                   <Route path="/swap" exact component={Swap} />
-                  <Route path="/pool" exact component={Pool} />
+                  <Route path="/pool" exact component={Liquidity} />
                   <Route path="/pool/add" exact component={AddLiquidity} />
                   <Route
                     path="/pool/:poolId/remove"

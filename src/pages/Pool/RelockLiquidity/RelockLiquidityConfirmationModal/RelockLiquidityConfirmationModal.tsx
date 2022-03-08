@@ -170,7 +170,7 @@ const RelockLiquidityConfirmationModal: FC<RelockLiquidityConfirmationModalProps
               <Flex>
                 <Checkbox onChange={handleCheck}>
                   I understand that I’m relocking{' '}
-                  <b>{formatToInt(lockedPosition.lp.toAmount())}</b> LP-tokens
+                  <b>{formatToInt(lockedPosition.lp.toString())}</b> LP-tokens
                   of my{' '}
                   <b>{`${lockedPosition.x.asset.name}/${lockedPosition.y.asset.name}`}</b>{' '}
                   position until{' '}

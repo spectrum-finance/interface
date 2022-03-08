@@ -25,7 +25,7 @@ export const WalletModal: React.FC = () => {
         Wallet
         <Typography.Paragraph>Ergo network</Typography.Paragraph>
       </Modal.Title>
-      <Modal.Content width={440}>
+      <Modal.Content width={460}>
         <Flex col>
           <Flex.Item marginBottom={4}>
             <WalletTotalBalance balance={ergBalance} />
