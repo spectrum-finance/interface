@@ -180,8 +180,13 @@ export class AmmPool implements Searchable {
   calculatePriceImpact(input: Currency): number {
     const ratio =
       input.asset.id === this.x.asset.id
-        ? this.getRatio(this.y, this.x).toAmount()
-        : this.getRatio(this.x, this.y).toAmount();
+        ? math.evaluate!(
+            `${this.y.toAmount()} / ${this.x.toAmount()}`,
+          ).toString()
+        : math.evaluate!(
+            `${this.x.toAmount()} / ${this.y.toAmount()}`,
+          ).toString();
+
     const outputAmount = calculatePureOutputAmount(input, this);
     const outputRatio = math.evaluate!(
       `${outputAmount} / ${input.toAmount()}`,

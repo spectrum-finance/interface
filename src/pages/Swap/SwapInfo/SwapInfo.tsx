@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { calculateOutputs } from '../../../common/utils/calculateOutputs';
 import { useSettings } from '../../../context';
-import { Collapse, Divider, Flex } from '../../../ergodex-cdk';
+import { Collapse, Divider, Flex, Typography } from '../../../ergodex-cdk';
 import {
   useMaxExFee,
   useMaxTotalFees,
@@ -19,6 +19,21 @@ export interface SwapInfoProps {
   className?: string;
 }
 
+const getPriceImpactStatus = (
+  priceImpact: number | undefined,
+): 'success' | 'warning' | 'danger' | undefined => {
+  if (priceImpact === undefined) {
+    return undefined;
+  }
+  if (priceImpact < 1) {
+    return 'success';
+  }
+  if (1 <= priceImpact && priceImpact <= 5) {
+    return 'warning';
+  }
+  return 'danger';
+};
+
 const _SwapInfo: FC<SwapInfoProps> = ({ className, value }) => {
   const [collapsed, setCollapsed] = useState<boolean>(false);
   const minExFee = useMinExFee();
@@ -29,12 +44,13 @@ const _SwapInfo: FC<SwapInfoProps> = ({ className, value }) => {
 
   const handleCollapseChange = () => setCollapsed((prev) => !prev);
 
-  const priceImpact =
+  const priceImpact: number | undefined =
     value.fromAmount?.isPositive() &&
     value.toAmount?.isPositive() &&
     !!value.pool
-      ? `${value.pool.calculatePriceImpact(value.fromAmount)}%`
-      : '–';
+      ? value.pool.calculatePriceImpact(value.fromAmount)
+      : undefined;
+  const priceImpactStatus = getPriceImpactStatus(priceImpact);
 
   const [minOutput, maxOutput] =
     value.fromAmount?.isPositive() &&
@@ -65,9 +81,16 @@ const _SwapInfo: FC<SwapInfoProps> = ({ className, value }) => {
                   value={`${slippage}%`}
                 />
               </Flex.Item>
-              {/*<Flex.Item marginBottom={2}>*/}
-              {/*  <SwapInfoItem title="Price impact:" value={priceImpact} />*/}
-              {/*</Flex.Item>*/}
+              <Flex.Item marginBottom={2}>
+                <SwapInfoItem
+                  title="Price impact:"
+                  value={
+                    <Typography.Body type={priceImpactStatus}>
+                      {priceImpact !== undefined ? `${priceImpact}%` : '–'}
+                    </Typography.Body>
+                  }
+                />
+              </Flex.Item>
               <Flex.Item marginBottom={2}>
                 <SwapInfoItem
                   title="Minimum received:"
