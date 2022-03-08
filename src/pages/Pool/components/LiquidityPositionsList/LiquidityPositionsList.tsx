@@ -6,8 +6,8 @@ import { isWalletSetuped$ } from '../../../../api/wallets';
 import { useObservable } from '../../../../common/hooks/useObservable';
 import { AmmPool } from '../../../../common/models/AmmPool';
 import { Button, Flex, List, PlusOutlined } from '../../../../ergodex-cdk';
+import { EmptyPositionsList } from '../../common/EmptyPositionsList/EmptyPositionsList';
 import { EmptySearchResult } from '../../common/EmptySearchResult/EmptySearchResult';
-import { EmptyPositionsWrapper } from '../EmptyPositionsWrapper/EmptyPositionsWrapper';
 import { PositionListLoader } from '../PositionListLoader/PositionListLoader';
 import { LiquidityPositionsItem } from './LiquidityPositionsItem/LiquidityPositionsItem';
 
@@ -42,7 +42,7 @@ const LiquidityPositionsList: FC<LiquidityPositionsListProps> = ({
 
   if (!totalCount && !loading) {
     return (
-      <EmptyPositionsWrapper>
+      <EmptyPositionsList>
         <Button
           type="primary"
           size="middle"
@@ -51,7 +51,7 @@ const LiquidityPositionsList: FC<LiquidityPositionsListProps> = ({
         >
           Add Liquidity
         </Button>
-      </EmptyPositionsWrapper>
+      </EmptyPositionsList>
     );
   }
 

@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 
-import { EmptyTemplateContainer } from '../EmptyTemplateContainer/EmptyTemplateContainer';
+import { PositionListEmptyTemplate } from '../EmptyTemplateContainer/PositionListEmptyTemplate';
 
 export const EmptySearchResult: FC = () => (
-  <EmptyTemplateContainer>No results found</EmptyTemplateContainer>
+  <PositionListEmptyTemplate>No results found</PositionListEmptyTemplate>
 );

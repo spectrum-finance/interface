@@ -1,17 +1,17 @@
 import React from 'react';
 
 import { Flex, Typography } from '../../../../ergodex-cdk';
-import { EmptyTemplateContainer } from '../../common/EmptyTemplateContainer/EmptyTemplateContainer';
+import { PositionListEmptyTemplate } from '../EmptyTemplateContainer/PositionListEmptyTemplate';
 
 interface EmptyPositionsListProps {
   children?: React.ReactChild | React.ReactChild[];
 }
 
-const EmptyPositionsWrapper: React.FC<EmptyPositionsListProps> = ({
+const EmptyPositionsList: React.FC<EmptyPositionsListProps> = ({
   children,
 }) => {
   return (
-    <EmptyTemplateContainer>
+    <PositionListEmptyTemplate>
       <Flex col align="center" justify="center">
         <Flex.Item marginBottom={2}>
           <Typography.Body>
@@ -20,8 +20,8 @@ const EmptyPositionsWrapper: React.FC<EmptyPositionsListProps> = ({
         </Flex.Item>
         <Flex.Item>{children}</Flex.Item>
       </Flex>
-    </EmptyTemplateContainer>
+    </PositionListEmptyTemplate>
   );
 };
 
-export { EmptyPositionsWrapper };
+export { EmptyPositionsList };

@@ -9,7 +9,7 @@ export interface EmptyTemplateContainer {
   children?: ReactNode | ReactNode[] | string;
 }
 
-const _EmptyTemplateContainer: FC<EmptyTemplateContainer> = ({
+const _PositionListEmptyTemplate: FC<EmptyTemplateContainer> = ({
   className,
   children,
 }) => (
@@ -20,7 +20,7 @@ const _EmptyTemplateContainer: FC<EmptyTemplateContainer> = ({
   </Box>
 );
 
-export const EmptyTemplateContainer = styled(_EmptyTemplateContainer)`
+export const PositionListEmptyTemplate = styled(_PositionListEmptyTemplate)`
   background: var(--ergo-pool-position-bg);
   height: 160px;
 `;

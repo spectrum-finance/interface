@@ -79,8 +79,10 @@ export class AmmPool implements Searchable {
     throw new Error('unknown asset');
   }
 
-  calculateOutputPrice(inputCurrency: Currency): Ratio {
-    const outputCurrency = this.calculateOutputAmount(inputCurrency);
+  calculateOutputPrice(inputCurrency: Currency, isPure = false): Ratio {
+    const outputCurrency = isPure
+      ? this.calculateOutputAmount(inputCurrency)
+      : this.calculateOutputAmount(inputCurrency);
 
     if (outputCurrency.amount === 0n) {
       return outputCurrency.asset.id === this.x.asset.id
@@ -159,7 +161,7 @@ export class AmmPool implements Searchable {
       input.asset.id === this.x.asset.id
         ? this.getRatio(this.y, this.x).toAmount()
         : this.getRatio(this.x, this.y).toAmount();
-    const outputRatio = this.calculateOutputPrice(input).toAmount();
+    const outputRatio = this.calculateOutputPrice(input, true).toAmount();
 
     return Math.abs(
       math.evaluate!(`(${outputRatio} * 100 / ${ratio}) - 100`).toFixed(2),
