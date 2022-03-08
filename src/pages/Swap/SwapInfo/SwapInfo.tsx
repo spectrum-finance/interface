@@ -65,9 +65,9 @@ const _SwapInfo: FC<SwapInfoProps> = ({ className, value }) => {
                   value={`${slippage}%`}
                 />
               </Flex.Item>
-              <Flex.Item marginBottom={2}>
-                <SwapInfoItem title="Price impact:" value={priceImpact} />
-              </Flex.Item>
+              {/*<Flex.Item marginBottom={2}>*/}
+              {/*  <SwapInfoItem title="Price impact:" value={priceImpact} />*/}
+              {/*</Flex.Item>*/}
               <Flex.Item marginBottom={2}>
                 <SwapInfoItem
                   title="Minimum received:"

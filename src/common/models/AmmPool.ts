@@ -10,6 +10,21 @@ import { Searchable } from '../utils/Searchable';
 import { Currency } from './Currency';
 import { Ratio } from './Ratio';
 
+const calculatePureOutputAmount = (
+  input: Currency,
+  ammPool: AmmPool,
+): string => {
+  if (input.asset.id === ammPool.x.asset.id) {
+    return math.evaluate!(
+      `(${ammPool.y.toAmount()} * ${input.toAmount()}) / (${ammPool.x.toAmount()} + ${input.toAmount()})`,
+    ).toString();
+  } else {
+    return math.evaluate!(
+      `(${ammPool.x.toAmount()} * ${input.toAmount()}) / (${ammPool.y.toAmount()} + ${input.toAmount()})`,
+    ).toString();
+  }
+};
+
 export class AmmPool implements Searchable {
   constructor(private pool: BaseAmmPool) {}
 
@@ -79,10 +94,8 @@ export class AmmPool implements Searchable {
     throw new Error('unknown asset');
   }
 
-  calculateOutputPrice(inputCurrency: Currency, isPure = false): Ratio {
-    const outputCurrency = isPure
-      ? this.calculateOutputAmount(inputCurrency)
-      : this.calculateOutputAmount(inputCurrency);
+  calculateOutputPrice(inputCurrency: Currency): Ratio {
+    const outputCurrency = this.calculateOutputAmount(inputCurrency);
 
     if (outputCurrency.amount === 0n) {
       return outputCurrency.asset.id === this.x.asset.id
@@ -156,12 +169,23 @@ export class AmmPool implements Searchable {
     return new Currency(outputAmount.amount, outputAmount?.asset);
   }
 
+  calculatePureOutputAmount(currency: Currency): Currency {
+    const outputAmount = this.pool.pureOutputAmount(
+      new AssetAmount(currency.asset, currency.amount),
+    );
+
+    return new Currency(outputAmount.amount, outputAmount?.asset);
+  }
+
   calculatePriceImpact(input: Currency): number {
     const ratio =
       input.asset.id === this.x.asset.id
         ? this.getRatio(this.y, this.x).toAmount()
         : this.getRatio(this.x, this.y).toAmount();
-    const outputRatio = this.calculateOutputPrice(input, true).toAmount();
+    const outputAmount = calculatePureOutputAmount(input, this);
+    const outputRatio = math.evaluate!(
+      `${outputAmount} / ${input.toAmount()}`,
+    ).toString();
 
     return Math.abs(
       math.evaluate!(`(${outputRatio} * 100 / ${ratio}) - 100`).toFixed(2),
