@@ -40,7 +40,7 @@ export const WalletModal: React.FC = () => {
           </Flex.Item>
           <Flex.Item marginBottom={6}>
             <Box contrast padding={4} borderRadius="m">
-              <Tabs defaultActiveKey="1" centered type="card">
+              <Tabs defaultActiveKey="1" centered>
                 <Tabs.TabPane tab="Addresses" key="1">
                   <Box transparent padding={[4, 0, 0, 0]} bordered={false}>
                     <AddressesTab />

@@ -62,7 +62,7 @@ const _PoolSelector: FC<PoolSelectorProps> = ({
           <Animation.Expand expanded={!!value} opacityDelay duration={200}>
             {value && (
               <Flex col>
-                <Flex.Item marginBottom={2}>
+                <Flex.Item marginBottom={2} align="center">
                   <Typography.Body>Liquidity Pool</Typography.Body>
                   <InfoTooltip
                     content={
