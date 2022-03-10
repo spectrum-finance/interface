@@ -7,4 +7,7 @@ export const getUtxos = (): Observable<ErgoBox[]> =>
   ).pipe(
     map((bs: any) => bs?.map((b: any) => ergoBoxFromProxy(b))),
     map((data) => data ?? []),
+    map((data) =>
+      data.filter((i: any) => i.confrmed === undefined || !!i.confrmed),
+    ),
   );

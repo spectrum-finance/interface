@@ -53,6 +53,7 @@ const TokenListModal: React.FC<TokenListModalProps> = ({
         <Flex col>
           <Flex.Item marginBottom={2}>
             <Input
+              autoFocus
               placeholder="Search"
               size="large"
               prefix={<SearchOutlined />}
