@@ -7,6 +7,7 @@ import { FC } from 'react';
 
 export type InputProps = BaseInputProps & {
   state?: 'warning' | 'error';
+  align?: 'left' | 'right' | 'center';
   isActive?: boolean;
 };
 
@@ -19,6 +20,7 @@ const _Input: FC<InputProps> & Extension = ({
   state,
   isActive,
   className,
+  align,
   ...rest
 }) =>
   (
@@ -28,6 +30,9 @@ const _Input: FC<InputProps> & Extension = ({
         'ant-input-state--warning': state === 'warning',
         'ant-input-state--error': state === 'error',
         'ant-input-state--active': isActive,
+        'ant-input-align--right': align === 'right',
+        'ant-input-align--left': align === 'left',
+        'ant-input-align--center': align === 'center',
       })}
     />
   ) as any;

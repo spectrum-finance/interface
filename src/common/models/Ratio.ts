@@ -1,8 +1,16 @@
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 
-import { parseUserInputToFractions, renderFractions } from '../../utils/math';
+import {
+  math,
+  parseUserInputToFractions,
+  renderFractions,
+} from '../../utils/math';
+import { normalizeAmount } from '../utils/amount';
+import { Currency } from './Currency';
 export class Ratio {
-  readonly asset: AssetInfo;
+  readonly baseAsset: AssetInfo;
+
+  readonly quoteAsset: AssetInfo;
 
   readonly amount: bigint;
 
@@ -10,8 +18,9 @@ export class Ratio {
 
   private readonly decimals: number;
 
-  constructor(amount: string, asset: AssetInfo) {
-    this.asset = asset;
+  constructor(amount: string, baseAsset: AssetInfo, quoteAsset: AssetInfo) {
+    this.baseAsset = baseAsset;
+    this.quoteAsset = quoteAsset;
     this.decimals = this.getRelevantDecimalsCount(amount);
     this.amount = parseUserInputToFractions(
       Number(amount).toFixed(this.decimals),
@@ -28,12 +37,35 @@ export class Ratio {
     return renderFractions(this.amount, this.decimals);
   }
 
+  toCurrency(quoteCurrency: Currency): Currency {
+    if (quoteCurrency.asset.id !== this.quoteAsset.id) {
+      throw new Error(`currency should be quote: ${quoteCurrency.asset.name}`);
+    }
+
+    const baseCurrencyAmount = normalizeAmount(
+      math.evaluate!(
+        `${quoteCurrency.toAmount()} * ${this.toAmount()}`,
+      ).toString(),
+      this.baseAsset,
+    );
+
+    return new Currency(baseCurrencyAmount, this.baseAsset);
+  }
+
+  invertRatio(): Ratio {
+    return new Ratio(
+      (1 / +this.toAmount()).toString(),
+      this.quoteAsset,
+      this.baseAsset,
+    );
+  }
+
   private getRelevantDecimalsCount(amount: string): number {
     const decimalsPart = amount.split('.')[1] || '';
 
     return Math.max(
       decimalsPart.split('').findIndex((symbol) => Number(symbol) > 0) + 1,
-      this.asset.decimals || 0,
+      this.baseAsset.decimals || 0,
     );
   }
 
