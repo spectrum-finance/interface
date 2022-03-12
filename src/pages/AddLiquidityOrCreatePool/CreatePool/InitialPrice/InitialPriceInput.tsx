@@ -3,6 +3,7 @@ import React, { FC, useState } from 'react';
 import styled from 'styled-components';
 
 import { Ratio } from '../../../../common/models/Ratio';
+import { normalizeAmount } from '../../../../common/utils/amount';
 import { escapeRegExp } from '../../../../components/common/TokenControl/TokenAmountInput/format';
 import {
   Box,
@@ -33,6 +34,9 @@ export interface InitialPrice extends Control<Ratio | undefined> {
 
 const inputRegex = RegExp(`^\\d*(?:\\\\[.])?\\d*$`); // match escaped "." characters via in a non-capturing group
 
+const _normalizeAmount = (amount: string, asset: AssetInfo): string =>
+  Math.floor(Number(amount)) > 0 ? normalizeAmount(amount, asset) : amount;
+
 const getRelevantDecimalsCount = (amount: string, asset: AssetInfo): number => {
   const numberAmount = Math.floor(Number(amount));
 
@@ -61,7 +65,6 @@ const isValidAmount = (
   if (!decimalsCount && value.indexOf('.') !== -1) {
     return false;
   }
-  console.log(decimalsCount);
   return (value.split('.')[1]?.length || 0) <= decimalsCount;
 };
 
@@ -80,7 +83,11 @@ export const InitialPriceInput: FC<InitialPrice> = ({
     const newQuoteAsset = baseAsset.id === xAsset.id ? xAsset : yAsset;
 
     const newRatio: Ratio | undefined = userInput
-      ? new Ratio(userInput, newBaseAsset, newQuoteAsset)
+      ? new Ratio(
+          _normalizeAmount(userInput, newBaseAsset),
+          newBaseAsset,
+          newQuoteAsset,
+        )
       : undefined;
 
     setBaseAsset(newBaseAsset);
