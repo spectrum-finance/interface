@@ -1,6 +1,6 @@
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import React, { FC, useState } from 'react';
-import { combineLatest, skip } from 'rxjs';
+import { skip } from 'rxjs';
 
 import { useSubscription } from '../../../common/hooks/useObservable';
 import { Currency } from '../../../common/models/Currency';
@@ -49,7 +49,7 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
       setLastEditedField('x');
     }
 
-    const { initialPrice, yAsset } = form.value;
+    const { initialPrice } = form.value;
 
     if (!x) {
       form.patchValue({ y: undefined }, { emitEvent: 'silent' });
@@ -61,9 +61,9 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
     }
 
     const ratio: Ratio =
-      initialPrice.baseAsset.id === x?.asset.id
-        ? getOppositeRatio(initialPrice, yAsset)
-        : getMainRatio(initialPrice, x?.asset);
+      initialPrice.quoteAsset.id === x?.asset.id
+        ? initialPrice
+        : initialPrice.invertRatio();
 
     form.patchValue(
       {
@@ -78,7 +78,7 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
       setLastEditedField('y');
     }
 
-    const { initialPrice, xAsset } = form.value;
+    const { initialPrice } = form.value;
 
     if (!y) {
       form.patchValue({ x: undefined }, { emitEvent: 'silent' });
@@ -90,9 +90,9 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
     }
 
     const ratio: Ratio =
-      initialPrice.baseAsset.id === y?.asset.id
-        ? getMainRatio(initialPrice, y?.asset)
-        : getOppositeRatio(initialPrice, xAsset);
+      initialPrice.quoteAsset.id === y?.asset.id
+        ? initialPrice
+        : initialPrice.invertRatio();
 
     form.patchValue(
       {
