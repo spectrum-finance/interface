@@ -37,7 +37,22 @@ export class Ratio {
     return renderFractions(this.amount, this.decimals);
   }
 
-  toCurrency(quoteCurrency: Currency): Currency {
+  toQuoteCurrency(baseCurrency: Currency): Currency {
+    if (baseCurrency.asset.id !== this.quoteAsset.id) {
+      throw new Error(`currency should be base: ${baseCurrency.asset.name}`);
+    }
+
+    const quoteCurrencyAmount = normalizeAmount(
+      math.evaluate!(
+        `${baseCurrency.toAmount()} * ${this.invertRatio().toAmount()}`,
+      ).toString(),
+      this.quoteAsset,
+    );
+
+    return new Currency(quoteCurrencyAmount, this.quoteAsset);
+  }
+
+  toBaseCurrency(quoteCurrency: Currency): Currency {
     if (quoteCurrency.asset.id !== this.quoteAsset.id) {
       throw new Error(`currency should be quote: ${quoteCurrency.asset.name}`);
     }
@@ -54,10 +69,14 @@ export class Ratio {
 
   invertRatio(): Ratio {
     return new Ratio(
-      (1 / +this.toAmount()).toString(),
+      math.evaluate!(`1 / ${this.toAmount()}`).toFixed(),
       this.quoteAsset,
       this.baseAsset,
     );
+  }
+
+  isPositive(): boolean {
+    return this.amount > 0n;
   }
 
   private getRelevantDecimalsCount(amount: string): number {

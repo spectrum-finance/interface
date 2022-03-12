@@ -2,14 +2,20 @@ import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import React, { FC, useState } from 'react';
 import { skip } from 'rxjs';
 
+import { useAssetsBalance } from '../../../api/assetBalance';
 import { useSubscription } from '../../../common/hooks/useObservable';
 import { Currency } from '../../../common/models/Currency';
 import { Ratio } from '../../../common/models/Ratio';
 import { TokenControlFormItem } from '../../../components/common/TokenControl/TokenControl';
-import { OperationForm } from '../../../components/OperationForm/OperationForm';
+import {
+  OperationForm,
+  OperationValidator,
+} from '../../../components/OperationForm/OperationForm';
 import { RatioBox } from '../../../components/RatioBox/RatioBox';
 import { Section } from '../../../components/Section/Section';
 import { Flex, Form, useForm } from '../../../ergodex-cdk';
+import { useMaxTotalFees, useNetworkAsset } from '../../../services/new/core';
+import { AddLiquidityFormModel } from '../../AddLiquidity/FormModel';
 import { FeeSelector } from './FeeSelector/FeeSelector';
 import { InitialPriceInput } from './InitialPrice/InitialPriceInput';
 
@@ -29,6 +35,9 @@ interface CreatePoolFormModel {
 
 export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
   const [lastEditedField, setLastEditedField] = useState<'x' | 'y'>('x');
+  const [balance] = useAssetsBalance();
+  const networkAsset = useNetworkAsset();
+  const totalFees = useMaxTotalFees();
   const form = useForm<CreatePoolFormModel>({
     initialPrice: undefined,
     x: undefined,
@@ -67,7 +76,7 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
 
     form.patchValue(
       {
-        y: ratio.toCurrency(x),
+        y: ratio.toBaseCurrency(x),
       },
       { emitEvent: 'silent' },
     );
@@ -96,11 +105,91 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
 
     form.patchValue(
       {
-        x: ratio.toCurrency(y),
+        x: ratio.toBaseCurrency(y),
       },
       { emitEvent: 'silent' },
     );
   };
+
+  const feeValidator: OperationValidator<CreatePoolFormModel> = ({
+    value: { fee },
+  }) => !fee && 'Enter a Fee';
+
+  const initialPriceValidator: OperationValidator<CreatePoolFormModel> = ({
+    value: { initialPrice },
+  }) => !initialPrice?.isPositive() && 'Enter an Initial Price';
+
+  const amountValidator: OperationValidator<CreatePoolFormModel> = ({
+    value: { x, y },
+  }) => {
+    if (
+      (!x?.isPositive() && y?.isPositive()) ||
+      (!y?.isPositive() && x?.isPositive())
+    ) {
+      return undefined;
+    }
+
+    return (!x?.isPositive() || !y?.isPositive()) && 'Enter an A  mount';
+  };
+
+  const minValueValidator: OperationValidator<CreatePoolFormModel> = ({
+    value: { x, y, initialPrice, xAsset, yAsset },
+  }): string | undefined => {
+    let c: Currency | undefined;
+
+    if (!x?.isPositive() && y?.isPositive() && initialPrice) {
+      c =
+        initialPrice.quoteAsset.id === xAsset.id
+          ? initialPrice.toBaseCurrency(new Currency(1n, xAsset))
+          : initialPrice.toQuoteCurrency(new Currency(1n, xAsset));
+    }
+    if (!y?.isPositive() && x?.isPositive() && initialPrice) {
+      c =
+        initialPrice.quoteAsset.id === yAsset.id
+          ? initialPrice.toBaseCurrency(new Currency(1n, yAsset))
+          : initialPrice.toQuoteCurrency(new Currency(1n, yAsset));
+    }
+    return c ? `Min value for ${c?.asset.name} is ${c?.toString()}` : undefined;
+  };
+
+  const balanceValidator: OperationValidator<CreatePoolFormModel> = ({
+    value: { x, y },
+  }) => {
+    if (x?.gt(balance.get(x?.asset))) {
+      return `Insufficient ${x?.asset.name} Balance`;
+    }
+
+    if (y?.gt(balance.get(y?.asset))) {
+      return `Insufficient ${y?.asset.name} Balance`;
+    }
+
+    return undefined;
+  };
+
+  const insufficientFeeValidator: OperationValidator<CreatePoolFormModel> = ({
+    value: { x, y },
+  }) => {
+    let totalFeesWithAmount = x?.isAssetEquals(networkAsset)
+      ? x?.plus(totalFees)
+      : totalFees;
+
+    totalFeesWithAmount = y?.isAssetEquals(networkAsset)
+      ? totalFeesWithAmount.plus(y)
+      : totalFees;
+
+    return totalFeesWithAmount.gt(balance.get(networkAsset))
+      ? `Insufficient ${networkAsset.name} Balance for Fees`
+      : undefined;
+  };
+
+  const validators: OperationValidator<CreatePoolFormModel>[] = [
+    feeValidator,
+    initialPriceValidator,
+    amountValidator,
+    minValueValidator,
+    balanceValidator,
+    insufficientFeeValidator,
+  ];
 
   useSubscription(form.controls.x.valueChanges$.pipe(skip(1)), handleXChange, [
     lastEditedField,
@@ -128,7 +217,12 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
   );
 
   return (
-    <OperationForm form={form} onSubmit={() => {}} actionCaption="test">
+    <OperationForm
+      form={form}
+      onSubmit={() => {}}
+      actionCaption="Create pool"
+      validators={validators}
+    >
       <Flex col>
         <Flex.Item marginBottom={4}>
           <Section title="Choose a fee" tooltip="test">
