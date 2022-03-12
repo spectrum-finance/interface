@@ -12,7 +12,6 @@ import { MobilePlug } from './components/MobilePlug/MobilePlug';
 import { AppLoadingProvider, SettingsProvider } from './context';
 import { globalHistory } from './createBrowserHistory';
 import { ContextModalProvider } from './ergodex-cdk';
-import { AddLiquidity } from './pages/AddLiquidity/AddLiquidity';
 import { AddLiquidityOrCreatePool } from './pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool';
 import { Liquidity } from './pages/Pool/Liquidity';
 import { LockLiquidity } from './pages/Pool/LockLiquidity/LockLiquidity';
