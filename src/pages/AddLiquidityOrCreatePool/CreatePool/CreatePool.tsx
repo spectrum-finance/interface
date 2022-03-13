@@ -1,5 +1,5 @@
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { skip } from 'rxjs';
 
 import { useAssetsBalance } from '../../../api/assetBalance';
@@ -15,7 +15,6 @@ import { RatioBox } from '../../../components/RatioBox/RatioBox';
 import { Section } from '../../../components/Section/Section';
 import { Flex, Form, useForm } from '../../../ergodex-cdk';
 import { useMaxTotalFees, useNetworkAsset } from '../../../services/new/core';
-import { AddLiquidityFormModel } from '../../AddLiquidity/FormModel';
 import { FeeSelector } from './FeeSelector/FeeSelector';
 import { InitialPriceInput } from './InitialPrice/InitialPriceInput';
 
@@ -46,6 +45,24 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
     y: undefined,
     fee: undefined,
   });
+
+  useEffect(() => {
+    if (xAsset.id !== form.value.xAsset.id) {
+      form.patchValue(
+        { xAsset, x: undefined, y: undefined },
+        { emitEvent: 'silent' },
+      );
+    }
+  }, [xAsset.id]);
+
+  useEffect(() => {
+    if (yAsset.id !== form.value.yAsset.id) {
+      form.patchValue(
+        { yAsset, x: undefined, y: undefined },
+        { emitEvent: 'silent' },
+      );
+    }
+  }, [yAsset.id]);
 
   const getMainRatio = (ratio: Ratio, xAsset: AssetInfo) =>
     ratio.baseAsset.id === xAsset.id ? ratio : ratio.invertRatio();
@@ -235,11 +252,11 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
         </Flex.Item>
         <Flex.Item marginBottom={4}>
           <Section title="Set initial price" tooltip="test">
-            <Form.Item name="initialPrice">
-              {({ value, onChange }) => (
+            <Form.Item name="initialPrice" watchForm>
+              {({ value, onChange, parent }) => (
                 <InitialPriceInput
-                  xAsset={xAsset}
-                  yAsset={yAsset}
+                  xAsset={parent.value.xAsset}
+                  yAsset={parent.value.yAsset}
                   onChange={onChange}
                   value={value}
                 />

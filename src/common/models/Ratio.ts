@@ -39,7 +39,7 @@ export class Ratio {
 
   toQuoteCurrency(baseCurrency: Currency): Currency {
     if (baseCurrency.asset.id !== this.baseAsset.id) {
-      throw new Error(`currency should be base: ${this.baseAsset.name}`);
+      throw new Error(`quote currency should be base: ${this.baseAsset.name}`);
     }
 
     const quoteCurrencyAmount = normalizeAmount(
@@ -54,7 +54,7 @@ export class Ratio {
 
   toBaseCurrency(quoteCurrency: Currency): Currency {
     if (quoteCurrency.asset.id !== this.quoteAsset.id) {
-      throw new Error(`currency should be quote: ${this.quoteAsset.name}`);
+      throw new Error(`base currency should be quote: ${this.quoteAsset.name}`);
     }
 
     const baseCurrencyAmount = normalizeAmount(

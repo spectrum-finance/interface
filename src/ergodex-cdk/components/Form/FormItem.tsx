@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { EventConfig, FormItemState } from './core';
 import { FormContext } from './FormContext';
 import { FormControl } from './FormControl';
+import { FormGroup } from './FormGroup';
 
 interface FormItemFnParams<T> {
   readonly value: T;
@@ -14,6 +15,7 @@ interface FormItemFnParams<T> {
   readonly valid: boolean;
   readonly state: FormItemState;
   readonly withWarnings?: boolean;
+  readonly parent: FormGroup<any>;
   readonly withoutWarnings?: boolean;
   readonly message?: string;
 }
@@ -22,6 +24,7 @@ export type Control<T> = Omit<Partial<FormItemFnParams<T>>, 'children'>;
 
 export interface FormItemProps<T> {
   readonly name: string;
+  readonly watchForm?: boolean;
   readonly children?: (
     params: FormItemFnParams<T>,
   ) => ReactNode | ReactNode[] | string;
@@ -47,9 +50,11 @@ export class FormItem<T = any> extends React.Component<FormItemProps<T>> {
         {({ form, errorMessages, warningMessages }) => {
           const control = form.controls[name];
           if (!this.subscription && control) {
-            this.subscription = control.valueChangesWithSilent$.subscribe(() =>
-              this.forceUpdate(),
-            );
+            this.subscription = this.props.watchForm
+              ? form.valueChangesWithSilent$.subscribe(() => this.forceUpdate())
+              : control.valueChangesWithSilent$.subscribe(() =>
+                  this.forceUpdate(),
+                );
           }
 
           let message = undefined;
@@ -80,6 +85,7 @@ export class FormItem<T = any> extends React.Component<FormItemProps<T>> {
                 state: control.state,
                 invalid: control.invalid,
                 valid: control.valid,
+                parent: control.parent,
                 withWarnings: control.withWarnings,
                 withoutWarnings: control.withoutWarnings,
                 message,
