@@ -1,5 +1,5 @@
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { Ratio } from '../../../../common/models/Ratio';
@@ -72,15 +72,35 @@ export const InitialPriceInput: FC<InitialPrice> = ({
   xAsset,
   yAsset,
   onChange,
+  value,
 }) => {
   const [userInput, setUserInput] = useState<string | undefined>(undefined);
-  const [baseAsset, setBaseAsset] = useState<AssetInfo>(xAsset);
+  const [baseAssetSign, setBaseAssetSign] = useState<'x' | 'y'>('x');
 
-  const quoteAsset = baseAsset.id === xAsset.id ? yAsset : xAsset;
+  const baseAsset = baseAssetSign === 'x' ? xAsset : yAsset;
+  const quoteAsset = baseAssetSign === 'y' ? xAsset : yAsset;
+
+  useEffect(() => {
+    if (!value || !xAsset || !userInput) {
+      return;
+    }
+
+    const newRatio =
+      baseAssetSign === 'y'
+        ? new Ratio(value.toAmount(), value.baseAsset, xAsset)
+        : new Ratio(
+            _normalizeAmount(userInput, xAsset),
+            xAsset,
+            value.quoteAsset,
+          );
+
+    setUserInput(newRatio.toAmount());
+    onChange && onChange(newRatio);
+  }, [xAsset?.id]);
 
   const handleBaseAssetChange = () => {
-    const newBaseAsset = baseAsset.id === xAsset.id ? yAsset : xAsset;
-    const newQuoteAsset = baseAsset.id === xAsset.id ? xAsset : yAsset;
+    const newBaseAsset = baseAssetSign === 'x' ? yAsset : xAsset;
+    const newQuoteAsset = baseAssetSign === 'x' ? xAsset : yAsset;
 
     const newRatio: Ratio | undefined = userInput
       ? new Ratio(
@@ -90,7 +110,7 @@ export const InitialPriceInput: FC<InitialPrice> = ({
         )
       : undefined;
 
-    setBaseAsset(newBaseAsset);
+    setBaseAssetSign((prev) => (prev === 'x' ? 'y' : 'x'));
     if (newRatio) {
       setUserInput(newRatio.toAmount());
       onChange && onChange(newRatio);
