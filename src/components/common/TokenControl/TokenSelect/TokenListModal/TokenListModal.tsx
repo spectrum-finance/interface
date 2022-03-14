@@ -5,7 +5,13 @@ import React, { useState } from 'react';
 import { Observable, of } from 'rxjs';
 
 import { useObservable } from '../../../../../common/hooks/useObservable';
-import { Flex, Input, Modal, SearchOutlined } from '../../../../../ergodex-cdk';
+import {
+  Flex,
+  Input,
+  List,
+  Modal,
+  SearchOutlined,
+} from '../../../../../ergodex-cdk';
 import { TokenListItem } from './TokenListItem';
 
 interface TokenListModalProps {
@@ -44,23 +50,26 @@ const TokenListModal: React.FC<TokenListModalProps> = ({
     <>
       <Modal.Title>Select a token</Modal.Title>
       <Modal.Content width={400}>
-        <Input
-          placeholder="Search"
-          size="large"
-          prefix={<SearchOutlined />}
-          onChange={handleSearch}
-        />
-        <Flex direction="col">
-          {/*<Col span={24}>*/}
-          {assets?.filter(byTerm).map((asset) => (
-            <TokenListItem
-              key={asset.id}
-              asset={asset}
-              iconName={asset.name}
-              onClick={() => handleClick(asset)}
+        <Flex col>
+          <Flex.Item marginBottom={2}>
+            <Input
+              autoFocus
+              placeholder="Search"
+              size="large"
+              prefix={<SearchOutlined />}
+              onChange={handleSearch}
             />
-          ))}
-          {/*</Col>*/}
+          </Flex.Item>
+          <List dataSource={assets?.filter(byTerm)} gap={0} maxHeight={500}>
+            {(asset) => (
+              <TokenListItem
+                key={asset.id}
+                asset={asset}
+                iconName={asset.name}
+                onClick={() => handleClick(asset)}
+              />
+            )}
+          </List>
         </Flex>
       </Modal.Content>
     </>

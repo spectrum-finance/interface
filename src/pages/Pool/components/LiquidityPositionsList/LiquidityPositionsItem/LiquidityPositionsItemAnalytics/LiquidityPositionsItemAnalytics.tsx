@@ -1,8 +1,9 @@
 import React from 'react';
 
+import { AmmPoolAnalytics } from '../../../../../../common/streams/poolAnalytic';
 import { DataTag } from '../../../../../../components/common/DataTag/DataTag';
+import { InfoTooltip } from '../../../../../../components/InfoTooltip/InfoTooltip';
 import { Flex, Typography } from '../../../../../../ergodex-cdk';
-import { AmmPoolAnalytics } from '../../../../../../services/new/analytics';
 import { formatToUSD } from '../../../../../../services/number';
 import { renderFractions } from '../../../../../../utils/math';
 
@@ -62,7 +63,32 @@ const LiquidityPositionsItemAnalytics: React.FC<LiquidityPositionsItemAnalyticsP
         <Flex.Item>
           <Flex col justify="space-between">
             <Flex.Item marginBottom={1}>
-              <Typography.Footnote>Yearly Fees</Typography.Footnote>
+              <Flex align="center">
+                <Flex.Item marginRight={1}>
+                  <Typography.Footnote>APR </Typography.Footnote>
+                </Flex.Item>
+                <Flex.Item>
+                  <InfoTooltip
+                    size="small"
+                    width={300}
+                    placement="top"
+                    content={
+                      <>
+                        Annual Percentage Rate. Average estimation of how much
+                        you may potentially earn providing liquidity to this
+                        pool.
+                        <br />
+                        <Typography.Link
+                          target="_blank"
+                          href="https://docs.ergodex.io/docs/protocol-overview/analytics#apr"
+                        >
+                          Read more
+                        </Typography.Link>
+                      </>
+                    }
+                  />
+                </Flex.Item>
+              </Flex>
             </Flex.Item>
             <DataTag
               loading={loading}

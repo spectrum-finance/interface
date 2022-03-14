@@ -1,7 +1,4 @@
-import './TokenControl.less';
-
 import { AssetInfo } from '@ergolabs/ergo-sdk';
-import cn from 'classnames';
 import React, { FC, ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Observable, of } from 'rxjs';
@@ -76,11 +73,9 @@ export const TokenControlFormItem: FC<NewTokenControlProps> = ({
   maxButton,
   assets,
   assets$,
-  hasBorder,
   disabled,
   readonly,
   noBottomInfo,
-  bordered,
   handleMaxButtonClick,
 }) => {
   const { t } = useTranslation();
@@ -93,8 +88,12 @@ export const TokenControlFormItem: FC<NewTokenControlProps> = ({
   );
   const _handleMaxButtonClick = (maxBalance: Currency) => {
     if (amountName) {
+      const newAmount = handleMaxButtonClick
+        ? handleMaxButtonClick(maxBalance)
+        : maxBalance;
+
       form.controls[amountName].patchValue(
-        handleMaxButtonClick ? handleMaxButtonClick(maxBalance) : maxBalance,
+        newAmount.isPositive() ? newAmount : maxBalance,
       );
     }
   };
@@ -116,15 +115,7 @@ export const TokenControlFormItem: FC<NewTokenControlProps> = ({
   };
 
   return (
-    <Box
-      className={cn({
-        'token-control--bordered': bordered,
-        'token-control--has-border': hasBorder,
-      })}
-      padding={4}
-      borderRadius="l"
-      gray
-    >
+    <Box padding={4} contrast borderRadius="m">
       <Flex col>
         <Flex.Item marginBottom={2}>
           <Typography.Body type="secondary">{label}</Typography.Body>

@@ -1,6 +1,5 @@
-import './ChooseWalletModal.less';
-
-import React, { useState } from 'react';
+import React, { ReactNode, useState } from 'react';
+import styled from 'styled-components';
 
 import {
   connectWallet,
@@ -10,6 +9,7 @@ import {
 } from '../../../../api/wallets';
 import { useObservable } from '../../../../common/hooks/useObservable';
 import {
+  Alert,
   Box,
   Button,
   Checkbox,
@@ -21,22 +21,56 @@ import {
   Typography,
 } from '../../../../ergodex-cdk';
 import { Wallet } from '../../../../network/common';
+
 const { Body } = Typography;
 
 interface WalletItemProps {
   wallet: Wallet;
-  onClick: (wallet: Wallet) => void;
+  close: (result?: boolean) => void;
 }
 
-const WalletView: React.FC<WalletItemProps> = ({ wallet, onClick }) => {
+const WalletButton = styled(Button)`
+  align-items: center;
+  display: flex;
+  height: 4rem;
+  justify-content: space-between;
+  width: 100%;
+
+  &:disabled {
+    border-color: var(--ergo-default-border-color) !important;
+  }
+`;
+
+const ExperimentalBox = styled(Box)`
+  background: var(--ergo-box-bg-tag);
+  border: 1px solid var(--ergo-default-border-color);
+
+  .dark & {
+    background: var(--ergo-box-bg-contrast);
+  }
+`;
+
+const WalletView: React.FC<WalletItemProps> = ({ wallet, close }) => {
   const [checked, setChecked] = useState<boolean>(false);
+  const [warning, setWarning] = useState<ReactNode | undefined>(undefined);
+
+  const handleClick = () => {
+    connectWallet(wallet).subscribe(
+      (isConnected) => {
+        if (typeof isConnected === 'boolean' && isConnected) {
+          close(true);
+        } else if (isConnected) {
+          setWarning(isConnected);
+        }
+      },
+      () => window.open(wallet.extensionLink),
+    );
+  };
 
   const handleCheck = () => setChecked((prev) => !prev);
 
-  const handleClick = () => onClick(wallet);
-
   return wallet.experimental ? (
-    <Box contrast padding={2}>
+    <ExperimentalBox padding={2}>
       <Flex col>
         <Flex.Item marginBottom={2} alignSelf="flex-end">
           <Tag color="gold">Experimental</Tag>
@@ -47,22 +81,26 @@ const WalletView: React.FC<WalletItemProps> = ({ wallet, onClick }) => {
             my own risk.
           </Checkbox>
         </Flex.Item>
-        <Button
-          className="wallet-item__btn"
-          size="large"
-          disabled={!checked}
-          onClick={handleClick}
-        >
+        {warning && (
+          <Flex.Item marginBottom={2}>
+            <Alert
+              type="warning"
+              description={warning}
+              style={{ width: '100%' }}
+            />
+          </Flex.Item>
+        )}
+        <WalletButton size="large" disabled={!checked} onClick={handleClick}>
           <Body>{wallet.name}</Body>
           {wallet.icon}
-        </Button>
+        </WalletButton>
       </Flex>
-    </Box>
+    </ExperimentalBox>
   ) : (
-    <Button className="wallet-item__btn" size="large" onClick={handleClick}>
+    <WalletButton size="large" onClick={handleClick}>
       <Body>{wallet.name}</Body>
       {wallet.icon}
-    </Button>
+    </WalletButton>
   );
 };
 
@@ -73,13 +111,6 @@ const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
 }): JSX.Element => {
   const [wallets] = useObservable(wallets$, [], []);
   const [selectedWallet] = useObservable(selectedWallet$);
-
-  const handleWalletClick = (wallet: Wallet) => {
-    connectWallet(wallet).subscribe(
-      (isConnected) => isConnected && close(true),
-      () => window.open(wallet.extensionLink),
-    );
-  };
 
   return (
     <>
@@ -93,7 +124,7 @@ const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
               }
               key={index}
             >
-              <WalletView onClick={handleWalletClick} wallet={wallet} />
+              <WalletView close={close} wallet={wallet} />
             </Flex.Item>
           ))}
           {selectedWallet && (

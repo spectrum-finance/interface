@@ -6,8 +6,9 @@ import { useAssetsBalance } from '../../../api/assetBalance';
 import { useObservable } from '../../../common/hooks/useObservable';
 import { Currency } from '../../../common/models/Currency';
 import { isOnline$ } from '../../../common/streams/networkConnection';
-import { Flex, Form, FormGroup } from '../../../ergodex-cdk';
-import { ActionButton, ActionButtonState } from './ActionButton/ActionButton';
+import { Form, FormGroup } from '../../../ergodex-cdk';
+import { ActionButton } from './ActionButton/ActionButton';
+import { ActionButtonState, ActionFormContext } from './ActionFormContext';
 
 export interface ActionFormProps<T> {
   readonly form: FormGroup<T>;
@@ -24,11 +25,10 @@ export interface ActionFormProps<T> {
   readonly actionButton?: ReactNode | string;
 }
 
-export const ActionForm: FC<ActionFormProps<any>> = ({
+const _ActionForm: FC<ActionFormProps<any>> = ({
   form,
   isLiquidityInsufficient,
   action,
-  actionButton,
   isAmountNotEntered,
   isTokensNotSelected,
   getInsufficientTokenNameForFee,
@@ -118,20 +118,22 @@ export const ActionForm: FC<ActionFormProps<any>> = ({
 
   return (
     <Form form={form} onSubmit={handleSubmit}>
-      <Flex col>
+      <ActionFormContext.Provider
+        value={{
+          state: buttonData.state,
+          token: buttonData.data?.token,
+          nativeToken: buttonData.data?.nativeToken,
+          currency: buttonData.data?.currency,
+        }}
+      >
         {children}
-        <Flex.Item marginTop={4}>
-          <ActionButton
-            onClick={handleSubmit}
-            state={buttonData.state}
-            token={buttonData.data?.token}
-            nativeToken={buttonData.data?.nativeToken}
-            currency={buttonData.data?.currency}
-          >
-            {actionButton}
-          </ActionButton>
-        </Flex.Item>
-      </Flex>
+      </ActionFormContext.Provider>
     </Form>
   );
 };
+
+export const ActionForm: typeof _ActionForm & {
+  Button: typeof ActionButton;
+} = _ActionForm as any;
+
+ActionForm.Button = ActionButton;

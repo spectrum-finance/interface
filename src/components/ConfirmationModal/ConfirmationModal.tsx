@@ -54,12 +54,12 @@ const getDescriptionByData = (
     case Operation.LOCK_LIQUIDITY:
       return xAsset && yAsset
         ? `Locking ${xAsset.toCurrencyString()} and ${yAsset.toCurrencyString()} (${
-            lpAsset && lpAsset.toAmount() + ' LP-tokens'
+            lpAsset && lpAsset.toString() + ' LP-tokens'
           }) for ${time && getLockingPeriodString(time)}`
         : '';
     case Operation.RELOCK_LIQUIDITY:
       return `Relocking ${assetLock?.x.toCurrencyString()} and ${assetLock?.y.toCurrencyString()} (${
-        assetLock && assetLock.lp.toAmount() + ' LP-tokens'
+        assetLock && assetLock.lp.toString() + ' LP-tokens'
       })`;
   }
 };

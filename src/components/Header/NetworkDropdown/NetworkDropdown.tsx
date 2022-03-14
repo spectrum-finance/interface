@@ -1,5 +1,6 @@
 import './NetworkDropdown.less';
 
+import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import cn from 'classnames';
 import capitalize from 'lodash/capitalize';
 import React, { useState } from 'react';
@@ -14,7 +15,7 @@ import {
 } from '../../../ergodex-cdk';
 import { TokenIcon } from '../../TokenIcon/TokenIcon';
 
-type Network = { name: string; token: string; isDisabled: boolean };
+type Network = { name: string; token: AssetInfo; isDisabled: boolean };
 
 interface NetworkDropdownProps {
   networks: Array<Network>;
@@ -50,7 +51,7 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
               network.name === name ? 'network-dropdown-item__active' : ''
             }
           >
-            <TokenIcon name={!isDisabled ? token : `${token}-disabled`} />
+            <TokenIcon asset={token} />
             <span style={{ marginLeft: '8px' }}>{capitalize(name)}</span>
           </Flex>
         </Menu.Item>
@@ -74,7 +75,7 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
         type="ghost"
       >
         <Flex justify="center" direction="row" align="center">
-          <TokenIcon name={`${network.token}${disabled ? '-disabled' : ''}`} />
+          <TokenIcon asset={network.token} />
           <Typography.Text
             className="network-dropdown__btn-text"
             style={{

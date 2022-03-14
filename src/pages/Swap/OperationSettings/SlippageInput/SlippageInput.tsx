@@ -1,11 +1,10 @@
-import './SlippageInput.less';
-
 import React, { ChangeEvent, FC } from 'react';
+import styled from 'styled-components';
 
 import {
   defaultSlippage,
-  SlippageMax,
-  SlippageMin,
+  MAX_SLIPPAGE,
+  MIN_SLIPPAGE,
 } from '../../../../common/constants/settings';
 import {
   Alert,
@@ -17,15 +16,16 @@ import {
   Input,
 } from '../../../../ergodex-cdk';
 
-export type NitroInputProps = Control<number>;
+export type NitroInputProps = Control<number> & { className?: string };
 
 const SLIPPAGE_OPTIONS = [1, defaultSlippage, 7];
 
-export const SlippageInput: FC<NitroInputProps> = ({
+const _SlippageInput: FC<NitroInputProps> = ({
   value,
   onChange,
   state,
   message,
+  className,
 }) => {
   const isCustomSlippage = !SLIPPAGE_OPTIONS.some((val) => val === value);
 
@@ -44,7 +44,7 @@ export const SlippageInput: FC<NitroInputProps> = ({
   return (
     <Flex col>
       <Flex.Item marginBottom={message ? 2 : 0}>
-        <Box contrast>
+        <Box control borderRadius="m">
           <Flex justify="space-between">
             {SLIPPAGE_OPTIONS.sort().map((val, index) => (
               <Flex.Item key={index} marginRight={1} style={{ width: '100%' }}>
@@ -60,14 +60,14 @@ export const SlippageInput: FC<NitroInputProps> = ({
             ))}
             <Flex.Item>
               <Input
-                className="slippage-input"
+                className={className}
                 style={{ width: '128px' }}
                 value={value}
                 placeholder="1"
                 state={state}
                 type="number"
-                min={SlippageMin}
-                max={SlippageMax}
+                min={MIN_SLIPPAGE}
+                max={MAX_SLIPPAGE}
                 size="middle"
                 suffix="%"
                 isActive={isCustomSlippage}
@@ -83,3 +83,19 @@ export const SlippageInput: FC<NitroInputProps> = ({
     </Flex>
   );
 };
+
+export const SlippageInput = styled(_SlippageInput)`
+  input {
+    text-align: right;
+
+    /* stylelint-disable-next-line */
+    -moz-appearance: textfield;
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      margin: 0;
+      /* stylelint-disable-next-line */
+      -webkit-appearance: none;
+    }
+  }
+`;

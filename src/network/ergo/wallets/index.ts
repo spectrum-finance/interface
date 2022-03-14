@@ -16,12 +16,12 @@ import {
 import { notification } from '../../../ergodex-cdk';
 import { Wallet, WalletState } from '../../common';
 import { walletSettings } from '../settings/walletSettings';
-import { NautilusWallet } from './NautilusWallet';
-import { YoroiWallet } from './YoroiWallet';
+import { Nautilus } from './nautilus';
+import { Yoroi } from './yoroi';
 
 const updateSelectedWallet$ = new Subject<string | undefined>();
 
-export const wallets$ = of([YoroiWallet, NautilusWallet]);
+export const wallets$ = of([Yoroi, Nautilus]);
 
 export const disconnectWallet = (): void => {
   selectedWallet$.pipe(first()).subscribe((wallet) => {
@@ -40,7 +40,7 @@ export const connectWallet = (wallet: Wallet): Observable<any> => {
   if (connectedWalletName) {
     return combineLatest([wallet.connectWallet(), selectedWallet$]).pipe(
       tap(([isConnected, selectedWallet]) => {
-        if (!isConnected) {
+        if (!isConnected || !(typeof isConnected === 'boolean')) {
           return;
         }
 
@@ -57,7 +57,7 @@ export const connectWallet = (wallet: Wallet): Observable<any> => {
   updateSelectedWallet$.next(undefined);
   return wallet.connectWallet().pipe(
     tap((isConnected) => {
-      if (isConnected) {
+      if (isConnected && typeof isConnected === 'boolean') {
         walletSettings.setConnected(wallet.name);
         updateSelectedWallet$.next(wallet.name);
       }
@@ -97,13 +97,19 @@ export const selectedWalletState$: Observable<WalletState> =
         return of(WalletState.NOT_CONNECTED);
       }
 
-      return wallet.connectWallet().pipe(
-        map((isConnected) =>
-          isConnected ? WalletState.CONNECTED : WalletState.NOT_CONNECTED,
-        ),
-        startWith(WalletState.CONNECTING),
-        catchError(() => of(WalletState.NOT_CONNECTED)),
-      );
+      try {
+        return wallet.connectWallet().pipe(
+          map((isConnected) =>
+            typeof isConnected === 'boolean' && isConnected
+              ? WalletState.CONNECTED
+              : WalletState.NOT_CONNECTED,
+          ),
+          startWith(WalletState.CONNECTING),
+          catchError(() => of(WalletState.NOT_CONNECTED)),
+        );
+      } catch {
+        return of(WalletState.NOT_CONNECTED);
+      }
     }),
     publishReplay(1),
     refCount(),

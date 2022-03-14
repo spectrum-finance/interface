@@ -4,6 +4,7 @@ import { DateTime } from 'luxon';
 import { defer, from, map, Observable, switchMap } from 'rxjs';
 
 import { applicationConfig } from '../../applicationConfig';
+import { Currency } from '../../common/models/Currency';
 import { networkContext$ } from '../../network/ergo/networkContext/networkContext';
 
 export interface LockedAsset {
@@ -14,15 +15,16 @@ export interface LockedAsset {
 }
 
 export interface Units {
-  currency: Currency;
+  currency: CurrencyInfo;
 }
 
-export interface Currency {
+export interface CurrencyInfo {
   id: string;
   decimals: number;
 }
 
 export interface AnalyticsData {
+  currency: Currency;
   value: string;
   units: Units;
   window?: Window;
@@ -31,16 +33,6 @@ export interface AnalyticsData {
 export interface Window {
   from: number;
   to: number;
-}
-
-export interface AmmPoolAnalytics {
-  id: PoolId;
-  lockedX: LockedAsset;
-  lockedY: LockedAsset;
-  tvl: AnalyticsData;
-  volume: AnalyticsData;
-  fees: AnalyticsData;
-  yearlyFeesPercent: number;
 }
 
 export interface AmmPoolLocksAnalytic {
@@ -82,30 +74,6 @@ export const getAggregateAnalyticsDataByFrame = (
       },
     }),
   ).pipe(map((res) => res.data));
-
-export const getAggregatedPoolAnalyticsDataById = (
-  poolId: PoolId,
-  frm?: number,
-  to?: number,
-): Observable<AmmPoolAnalytics> =>
-  from(
-    axios.get<AmmPoolAnalytics>(
-      `${applicationConfig.api}amm/pool/${poolId}/stats`,
-      {
-        params: {
-          from: frm,
-          to,
-        },
-      },
-    ),
-  ).pipe(map((res) => res.data));
-
-export const getAggregatedPoolAnalyticsDataById24H = (
-  poolId: PoolId,
-): Observable<AmmPoolAnalytics> =>
-  from(get24hData(`${applicationConfig.api}amm/pool/${poolId}/stats`)).pipe(
-    map((res) => res.data),
-  );
 
 export const getPoolLocksAnalyticsById = (
   poolId: PoolId,

@@ -84,7 +84,7 @@ export const RemoveLiquidityConfirmationModal: React.FC<ConfirmRemoveModalProps>
       <>
         <Modal.Title>Confirm Remove Liquidity</Modal.Title>
         <Modal.Content width={436}>
-          <Box transparent>
+          <Box transparent bordered={false}>
             <Flex direction="col">
               <Flex.Item marginBottom={6}>
                 <FormPairSection

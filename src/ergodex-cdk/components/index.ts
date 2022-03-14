@@ -6,6 +6,7 @@ export * from './Checkbox/Checkbox';
 export * from './Col/Col';
 export * from './Collapse/Collapse';
 export * from './DatePicker/DatePicker';
+export * from './Divider/Divider';
 export * from './Dropdown/Dropdown';
 export * from './Flex/Flex';
 export * from './Form';

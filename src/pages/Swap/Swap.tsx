@@ -1,5 +1,3 @@
-import './Swap.less';
-
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import { maxBy } from 'lodash';
 import { DateTime } from 'luxon';
@@ -10,12 +8,10 @@ import {
   combineLatest,
   debounceTime,
   distinctUntilChanged,
-  map,
   Observable,
   of,
   skip,
   switchMap,
-  tap,
 } from 'rxjs';
 
 import { getAmmPoolsByAssetPair } from '../../api/ammPools';
@@ -36,18 +32,19 @@ import {
 } from '../../components/ConfirmationModal/ConfirmationModal';
 import { Page } from '../../components/Page/Page';
 import {
-  Button,
   Flex,
+  Form,
   SwapOutlined,
   Typography,
   useForm,
 } from '../../ergodex-cdk';
 import { useMaxTotalFees, useNetworkAsset } from '../../services/new/core';
 import { OperationSettings } from './OperationSettings/OperationSettings';
-import { RatioView } from './RatioView/RatioView';
+import { PoolSelector } from './PoolSelector/PoolSelector';
 import { SwapConfirmationModal } from './SwapConfirmationModal/SwapConfirmationModal';
 import { SwapFormModel } from './SwapFormModel';
-import { SwapTooltip } from './SwapTooltip/SwapTooltip';
+import { SwapInfo } from './SwapInfo/SwapInfo';
+import { SwitchButton } from './SwitchButton/SwitchButton';
 
 const getToAssets = (fromAsset?: string) =>
   fromAsset ? getAvailableAssetFor(fromAsset) : tokenAssets$;
@@ -59,15 +56,8 @@ const isAssetsPairEquals = (
   (prevFrom?.id === nextFrom?.id && prevTo?.id === nextTo?.id) ||
   (prevFrom?.id === nextTo?.id && prevTo?.id === nextFrom?.id);
 
-const getSelectedPool = (
-  xId?: string,
-  yId?: string,
-): Observable<AmmPool | undefined> =>
-  xId && yId
-    ? getAmmPoolsByAssetPair(xId, yId).pipe(
-        map((pools) => maxBy(pools, (p) => p.lp.amount)),
-      )
-    : of(undefined);
+const getAvailablePools = (xId?: string, yId?: string): Observable<AmmPool[]> =>
+  xId && yId ? getAmmPoolsByAssetPair(xId, yId) : of([]);
 
 export const Swap = (): JSX.Element => {
   const form = useForm<SwapFormModel>({
@@ -218,18 +208,15 @@ export const Swap = (): JSX.Element => {
     ]).pipe(
       debounceTime(100),
       distinctUntilChanged(isAssetsPairEquals),
-      tap(() => form.patchValue({ pool: undefined })),
       switchMap(([fromAsset, toAsset]) =>
-        getSelectedPool(fromAsset?.id, toAsset?.id),
+        getAvailablePools(fromAsset?.id, toAsset?.id),
       ),
     ),
-    (pool) => {
-      if (pool) {
-        form.patchValue({ pool });
-      } else {
+    (pools) => {
+      if (!pools.length && form.value.toAsset && form.value.fromAsset) {
         form.patchValue(
           {
-            pool,
+            pool: undefined,
             toAsset: undefined,
             toAmount:
               lastEditedField === 'to' ? form.value.toAmount : undefined,
@@ -238,7 +225,14 @@ export const Swap = (): JSX.Element => {
           },
           { emitEvent: 'silent' },
         );
+        return;
       }
+
+      const newPool =
+        pools.find((p) => p.id === form.value.pool?.id) ||
+        maxBy(pools, (p) => p.lp.amount);
+
+      form.patchValue({ pool: newPool });
     },
     [lastEditedField],
   );
@@ -316,19 +310,27 @@ export const Swap = (): JSX.Element => {
   const { t } = useTranslation();
 
   return (
-    <Page width={480}>
-      <ActionForm
-        form={form}
-        actionButton="Swap"
-        getInsufficientTokenNameForFee={getInsufficientTokenNameForFee}
-        getInsufficientTokenNameForTx={getInsufficientTokenNameForTx}
-        isLoading={isPoolLoading}
-        getMinValueForToken={getMinValueForToken}
-        isAmountNotEntered={isAmountNotEntered}
-        isTokensNotSelected={isTokensNotSelected}
-        isLiquidityInsufficient={isLiquidityInsufficient}
-        isSwapLocked={isSwapLocked}
-        action={submitSwap}
+    <ActionForm
+      form={form}
+      getInsufficientTokenNameForFee={getInsufficientTokenNameForFee}
+      getInsufficientTokenNameForTx={getInsufficientTokenNameForTx}
+      isLoading={isPoolLoading}
+      getMinValueForToken={getMinValueForToken}
+      isAmountNotEntered={isAmountNotEntered}
+      isTokensNotSelected={isTokensNotSelected}
+      isLiquidityInsufficient={isLiquidityInsufficient}
+      isSwapLocked={isSwapLocked}
+      action={submitSwap}
+    >
+      <Page
+        width={504}
+        footer={
+          <Form.Item name="pool">
+            {({ value, onChange }) => (
+              <PoolSelector value={value} onChange={onChange} />
+            )}
+          </Form.Item>
+        }
       >
         <Flex col>
           <Flex row align="center">
@@ -337,11 +339,9 @@ export const Swap = (): JSX.Element => {
             </Flex.Item>
             <OperationSettings />
           </Flex>
-          <Flex.Item marginBottom={6} marginTop={-1}>
-            <Typography.Footnote>{t`swap.subtitle`}</Typography.Footnote>
-          </Flex.Item>
-          <Flex.Item marginBottom={1}>
+          <Flex.Item marginBottom={1} marginTop={6}>
             <TokenControlFormItem
+              bordered
               maxButton
               handleMaxButtonClick={handleMaxButtonClick}
               assets$={tokenAssets$}
@@ -350,31 +350,32 @@ export const Swap = (): JSX.Element => {
               tokenName="fromAsset"
             />
           </Flex.Item>
-          <Flex.Item className="swap-button">
-            <Button
-              onClick={switchAssets}
-              icon={<SwapOutlined />}
-              size="middle"
-            />
-          </Flex.Item>
-          <Flex.Item marginBottom={4}>
+          <SwitchButton
+            onClick={switchAssets}
+            icon={<SwapOutlined />}
+            size="middle"
+          />
+          <Flex.Item>
             <TokenControlFormItem
+              bordered
               assets$={toAssets$}
               label={t`swap.toLabel`}
               amountName="toAmount"
               tokenName="toAsset"
             />
           </Flex.Item>
-          <Flex>
-            <Flex.Item marginRight={1}>
-              <SwapTooltip form={form} />
-            </Flex.Item>
-            <Flex.Item flex={1}>
-              <RatioView form={form} />
-            </Flex.Item>
-          </Flex>
+          <Form.Listener>
+            {({ value }) => (
+              <Flex.Item marginTop={!!value.pool ? 4 : 0}>
+                <SwapInfo value={value} />
+              </Flex.Item>
+            )}
+          </Form.Listener>
+          <Flex.Item marginTop={4}>
+            <ActionForm.Button>Swap</ActionForm.Button>
+          </Flex.Item>
         </Flex>
-      </ActionForm>
-    </Page>
+      </Page>
+    </ActionForm>
   );
 };

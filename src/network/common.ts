@@ -41,7 +41,8 @@ export interface Wallet {
   readonly icon: ReactNode;
   readonly experimental: boolean;
   readonly extensionLink: string;
-  readonly connectWallet: () => Observable<boolean>;
+  readonly getAddresses: () => Observable<Address[]>;
+  readonly connectWallet: () => Observable<boolean | ReactNode>;
   readonly getUtxos: () => Observable<ErgoBox[]>;
   readonly getNotification?: () => ArgsProps | undefined;
   readonly onDisconnect?: () => void;

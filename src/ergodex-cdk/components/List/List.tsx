@@ -1,10 +1,15 @@
 import './List.less';
 
-import { List as BaseList, ListProps as BaseListProps } from 'antd';
+import {
+  ConfigProvider,
+  List as BaseList,
+  ListProps as BaseListProps,
+} from 'antd';
 import cn from 'classnames';
 import React, { FC, ReactNode, useEffect, useRef, useState } from 'react';
 
 import { getGutter, Gutter } from '../../utils/gutter';
+import { Empty } from '../Empty/Empty';
 
 export interface ListProps<T> {
   readonly dataSource?: BaseListProps<T>['dataSource'];
@@ -16,6 +21,9 @@ export interface ListProps<T> {
   readonly className?: string;
   readonly transparent?: boolean;
   readonly height?: number;
+  readonly maxHeight?: number;
+  readonly emptyMessage?: ReactNode | string | ReactNode[];
+  readonly emptyTemplate?: ReactNode | string | ReactNode[];
 }
 
 export const List: FC<ListProps<any>> = ({
@@ -24,10 +32,13 @@ export const List: FC<ListProps<any>> = ({
   children,
   transparent,
   height,
+  maxHeight,
   id,
   rowKey,
   className,
   padding,
+  emptyMessage,
+  emptyTemplate,
 }) => {
   const ref = useRef<HTMLDivElement>();
   const [overlay, setOverlay] = useState<'bottom' | 'top'>('bottom');
@@ -57,7 +68,7 @@ export const List: FC<ListProps<any>> = ({
       }}
       ref={ref as any}
     >
-      {transparent && height && (
+      {transparent && (height || maxHeight) && (
         <div
           className={cn('ant-list-overlay', {
             'ant-list-overlay--top': overlay === 'top',
@@ -65,20 +76,27 @@ export const List: FC<ListProps<any>> = ({
           })}
         />
       )}
-      <BaseList
-        renderItem={children}
-        dataSource={dataSource}
-        className={className}
-        id={id}
-        rowKey={rowKey}
-        style={
-          {
-            height,
-            overflow: !!height ? 'auto' : 'initial',
-            '--item-gap': `calc(var(--ergo-base-gutter) * ${gap})`,
-          } as any
+      <ConfigProvider
+        renderEmpty={() =>
+          emptyTemplate ? emptyTemplate : <Empty>{emptyMessage}</Empty>
         }
-      />
+      >
+        <BaseList
+          renderItem={children}
+          dataSource={dataSource}
+          className={className}
+          id={id}
+          rowKey={rowKey}
+          style={
+            {
+              height,
+              maxHeight,
+              overflow: !!height || !!maxHeight ? 'auto' : 'initial',
+              '--item-gap': `calc(var(--ergo-base-gutter) * ${gap})`,
+            } as any
+          }
+        />
+      </ConfigProvider>
     </div>
   );
 };

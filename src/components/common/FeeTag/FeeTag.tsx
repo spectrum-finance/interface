@@ -10,16 +10,9 @@ interface FeeTagProps {
   loading?: boolean;
 }
 
-const FeeTag: React.FC<FeeTagProps> = ({ fee, contrast, size, loading }) => {
+const FeeTag: React.FC<FeeTagProps> = ({ fee, size, loading }) => {
   const _fee = typeof fee === 'number' ? fee : getPoolFee(fee);
-  return (
-    <DataTag
-      content={`${_fee}%`}
-      size={size}
-      contrast={contrast}
-      loading={loading}
-    />
-  );
+  return <DataTag content={`${_fee}%`} size={size} loading={loading} />;
 };
 
 export { FeeTag };

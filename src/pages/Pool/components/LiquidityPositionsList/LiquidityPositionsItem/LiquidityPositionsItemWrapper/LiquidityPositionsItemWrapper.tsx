@@ -3,7 +3,6 @@ import React from 'react';
 
 import { AmmPool } from '../../../../../../common/models/AmmPool';
 import { DataTag } from '../../../../../../components/common/DataTag/DataTag';
-import { FeeTag } from '../../../../../../components/common/FeeTag/FeeTag';
 import { ListItemWrapper } from '../../../../../../components/ListItemWrapper/ListItemWrapper';
 import { TokenIconPair } from '../../../../../../components/TokenIconPair/TokenIconPair';
 import {
@@ -44,10 +43,8 @@ const LiquidityPositionsItemWrapper: React.FC<LiquidityPositionsItemWrapperProps
                   <Flex align="center">
                     <Flex.Item marginRight={1}>
                       <TokenIconPair
-                        tokenPair={{
-                          tokenA: pool.x.asset.name,
-                          tokenB: pool.y.asset.name,
-                        }}
+                        assetX={pool.x.asset}
+                        assetY={pool.y.asset}
                         size="large"
                       />
                     </Flex.Item>
@@ -90,7 +87,7 @@ const LiquidityPositionsItemWrapper: React.FC<LiquidityPositionsItemWrapperProps
                 <Flex.Item marginBottom={1}>
                   <Typography.Footnote>Fee tier</Typography.Footnote>
                 </Flex.Item>
-                <FeeTag fee={pool.feeNum} size="large" />
+                <DataTag content={`${pool.poolFee}%`} size="large" />
               </Flex>
             </Flex.Item>
           </Flex>

@@ -24,6 +24,7 @@ interface ApplicationConfig {
   readonly blacklistedPools: string[];
   readonly operationsRestrictions: OperationRestriction[];
   readonly requestRetryCount: number;
+  readonly iconsRepository: string;
 }
 
 export const applicationConfig: ApplicationConfig = {
@@ -55,4 +56,6 @@ export const applicationConfig: ApplicationConfig = {
       operation: 'swap',
     },
   ],
+  iconsRepository:
+    'https://raw.githubusercontent.com/ergolabs/ergo-dex-asset-icons/master',
 };

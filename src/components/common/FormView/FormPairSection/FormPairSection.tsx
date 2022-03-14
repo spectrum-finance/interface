@@ -28,7 +28,7 @@ const FormPairSection: React.FC<PairSpaceProps> = ({
             <Flex.Item>
               <Flex align="center">
                 <Flex.Item marginRight={2}>
-                  <TokenIcon name={xAmount.asset.name} />
+                  <TokenIcon asset={xAmount.asset} />
                 </Flex.Item>
                 <Flex.Item>
                   <Typography.Body strong>{xAmount.asset.name}</Typography.Body>
@@ -38,7 +38,7 @@ const FormPairSection: React.FC<PairSpaceProps> = ({
             <Flex.Item>
               <Flex>
                 <Typography.Body strong>
-                  {fees ? undefined : xAmount.toAmount()}
+                  {fees ? undefined : xAmount.toString()}
                 </Typography.Body>
               </Flex>
             </Flex.Item>
@@ -49,7 +49,7 @@ const FormPairSection: React.FC<PairSpaceProps> = ({
             <Flex.Item>
               <Flex>
                 <Flex.Item marginRight={2}>
-                  <TokenIcon name={yAmount.asset.name} />
+                  <TokenIcon asset={yAmount.asset} />
                 </Flex.Item>
                 <Flex.Item>
                   <Typography.Body strong>{yAmount.asset.name}</Typography.Body>
@@ -59,7 +59,7 @@ const FormPairSection: React.FC<PairSpaceProps> = ({
             <Flex.Item>
               <Flex>
                 <Typography.Body strong>
-                  {fees ? undefined : yAmount.toAmount()}
+                  {fees ? undefined : yAmount.toString()}
                 </Typography.Body>
               </Flex>
             </Flex.Item>
