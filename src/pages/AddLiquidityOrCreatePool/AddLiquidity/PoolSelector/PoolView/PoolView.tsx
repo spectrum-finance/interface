@@ -52,7 +52,6 @@ export const PoolView: FC<PoolSelectorItemProps> = ({
         <DataTag
           size="default"
           secondary={!hover && !active}
-          loading={ammPoolAnalytics === undefined}
           content={`${ammPool.poolFee}%`}
         />
       </Flex.Item>
@@ -63,7 +62,6 @@ export const PoolView: FC<PoolSelectorItemProps> = ({
         <DataTag
           size="default"
           secondary={!hover && !active}
-          loading={ammPoolAnalytics === undefined}
           content={
             ammPoolAnalytics?.tvl
               ? formatToUSD(ammPoolAnalytics.tvl.currency, 'abbr')

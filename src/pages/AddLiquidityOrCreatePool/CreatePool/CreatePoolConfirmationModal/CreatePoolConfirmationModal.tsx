@@ -33,6 +33,7 @@ interface CreatePoolConfirmationModalProps {
 
 const CreatePoolConfirmationModal: FC<CreatePoolConfirmationModalProps> = ({
   value,
+  onClose,
 }) => {
   const [{ minerFee, address, pk }] = useSettings();
   const [utxos] = useObservable(utxos$);
@@ -40,7 +41,7 @@ const CreatePoolConfirmationModal: FC<CreatePoolConfirmationModalProps> = ({
   const minExFee = useMinExFee();
   const minerFeeNErgs = parseUserInputToFractions(minerFee, ERG_DECIMALS);
 
-  const addLiquidityOperation = async () => {
+  const createPoolOperation = async () => {
     const { y, x } = value;
 
     if (pk && address && utxos) {
@@ -56,22 +57,29 @@ const CreatePoolConfirmationModal: FC<CreatePoolConfirmationModalProps> = ({
 
       const inputs = DefaultBoxSelector.select(utxos, target) as BoxSelection;
 
-      const poolSetupParams = makePoolSetupParams(inputX, inputY, 0.003, 0n);
+      const poolSetupParams = makePoolSetupParams(
+        inputX,
+        inputY,
+        Number((value.fee / 10).toFixed(3)),
+        0n,
+      );
       const actions = poolActions(poolSetupParams as PoolSetupParams);
 
       if (poolSetupParams instanceof Array) {
         return;
       }
 
-      actions
-        .setup(poolSetupParams, {
-          inputs,
-          changeAddress: address,
-          selfAddress: address,
-          feeNErgs: minerFeeNErgs,
-          network,
-        })
-        .then(([tx1, tx2]) => submitTx(tx1).then(() => submitTx(tx2)));
+      onClose(
+        actions
+          .setup(poolSetupParams, {
+            inputs,
+            changeAddress: address,
+            selfAddress: address,
+            feeNErgs: minerFeeNErgs,
+            network,
+          })
+          .then(([tx1, tx2]) => submitTx(tx1).then(() => submitTx(tx2))),
+      );
     }
   };
 
@@ -136,9 +144,9 @@ const CreatePoolConfirmationModal: FC<CreatePoolConfirmationModalProps> = ({
               block
               type="primary"
               size="extra-large"
-              onClick={() => addLiquidityOperation()}
+              onClick={() => createPoolOperation()}
             >
-              Add Liquidity
+              Create pool
             </Button>
           </Flex.Item>
         </Flex>
