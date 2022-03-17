@@ -9,6 +9,10 @@ import { AmmPool } from '../../../common/models/AmmPool';
 import { Currency } from '../../../common/models/Currency';
 import { TokenControlFormItem } from '../../../components/common/TokenControl/TokenControl';
 import {
+  openConfirmationModal,
+  Operation,
+} from '../../../components/ConfirmationModal/ConfirmationModal';
+import {
   OperationForm,
   OperationValidator,
 } from '../../../components/OperationForm/OperationForm';
@@ -17,11 +21,13 @@ import {
   Button,
   Flex,
   Form,
+  FormGroup,
   PlusOutlined,
   useForm,
 } from '../../../ergodex-cdk';
 import { useMaxTotalFees, useNetworkAsset } from '../../../services/new/core';
 import { PoolRatio } from '../../PoolOverview/PoolRatio/PoolRatio';
+import { AddLiquidityConfirmationModal } from './AddLiquidityConfirmationModal/AddLiquidityConfirmationModal';
 import { AddLiquidityFormModel } from './AddLiquidityFormModel';
 import { PoolSelector } from './PoolSelector/PoolSelector';
 
@@ -189,7 +195,7 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
       return undefined;
     }
 
-    return (!x?.isPositive() || !y?.isPositive()) && 'Enter an A  mount';
+    return (!x?.isPositive() || !y?.isPositive()) && 'Enter an Amount';
   };
 
   const minValueValidator: OperationValidator<AddLiquidityFormModel> = ({
@@ -209,6 +215,40 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
     value: { pool },
   }) => !pool && 'Select a token';
 
+  const resetForm = () =>
+    form.patchValue(
+      {
+        x: undefined,
+        y: undefined,
+      },
+      { emitEvent: 'silent' },
+    );
+
+  const addLiquidityAction = ({ value }: FormGroup<AddLiquidityFormModel>) => {
+    openConfirmationModal(
+      (next) => {
+        return (
+          <AddLiquidityConfirmationModal
+            value={value as Required<AddLiquidityFormModel>}
+            onClose={(request: Promise<any>) =>
+              next(
+                request.then((tx) => {
+                  resetForm();
+                  return tx;
+                }),
+              )
+            }
+          />
+        );
+      },
+      Operation.ADD_LIQUIDITY,
+      {
+        xAsset: value.x,
+        yAsset: value.y,
+      },
+    );
+  };
+
   const validators: OperationValidator<AddLiquidityFormModel>[] = [
     selectTokenValidator,
     amountValidator,
@@ -220,7 +260,7 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
   return (
     <OperationForm
       form={form}
-      onSubmit={() => {}}
+      onSubmit={addLiquidityAction}
       validators={validators}
       actionCaption="Add Liquidity"
     >
