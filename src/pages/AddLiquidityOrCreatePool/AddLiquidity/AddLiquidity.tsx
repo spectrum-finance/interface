@@ -15,6 +15,7 @@ import {
   PlusOutlined,
   useForm,
 } from '../../../ergodex-cdk';
+import { PoolRatio } from '../../PoolOverview/PoolRatio/PoolRatio';
 import { AddLiquidityFormModel } from './AddLiquidityFormModel';
 import { PoolSelector } from './PoolSelector/PoolSelector';
 
@@ -43,26 +44,32 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
   useEffect(() => {
     if (form.value.xAsset?.id !== xAsset?.id) {
       // TODO: CHANGE_TOKEN_INPUT_BEHAVIOR
-      form.patchValue({
-        xAsset,
-        x:
-          lastEditedField === 'x' && xAsset
-            ? form.value.x?.changeAsset(xAsset)
-            : undefined,
-      });
+      form.patchValue(
+        {
+          xAsset,
+          x:
+            lastEditedField === 'x' && xAsset
+              ? form.value.x?.changeAsset(xAsset)
+              : undefined,
+        },
+        { emitEvent: 'silent' },
+      );
     }
   }, [xAsset?.id]);
 
   useEffect(() => {
     if (form.value.yAsset?.id !== yAsset?.id) {
       // TODO: CHANGE_TOKEN_INPUT_BEHAVIOR
-      form.patchValue({
-        yAsset,
-        y:
-          lastEditedField === 'y' && yAsset
-            ? form.value.y?.changeAsset(yAsset)
-            : undefined,
-      });
+      form.patchValue(
+        {
+          yAsset,
+          y:
+            lastEditedField === 'y' && yAsset
+              ? form.value.y?.changeAsset(yAsset)
+              : undefined,
+        },
+        { emitEvent: 'silent' },
+      );
     }
   }, [yAsset?.id]);
 
@@ -163,18 +170,40 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
             </Flex>
           </Section>
         </Flex.Item>
-        <Flex.Item marginBottom={2}>
-          <TokenControlFormItem
-            amountName="x"
-            tokenName="xAsset"
-            readonly="asset"
-          />
+        <Flex.Item marginBottom={4}>
+          <Section title="Liquidity">
+            <Flex col>
+              <Flex.Item marginBottom={2}>
+                <TokenControlFormItem
+                  amountName="x"
+                  tokenName="xAsset"
+                  readonly="asset"
+                />
+              </Flex.Item>
+              <Flex.Item>
+                <TokenControlFormItem
+                  amountName="y"
+                  tokenName="yAsset"
+                  readonly="asset"
+                />
+              </Flex.Item>
+            </Flex>
+          </Section>
         </Flex.Item>
-        <TokenControlFormItem
-          amountName="y"
-          tokenName="yAsset"
-          readonly="asset"
-        />
+        <Form.Listener>
+          {({ value }) =>
+            value.pool && (
+              <Flex.Item justify="center">
+                <Flex.Item flex={1} marginRight={2}>
+                  <PoolRatio ammPool={value.pool} ratioOf="x" />
+                </Flex.Item>
+                <Flex.Item flex={1}>
+                  <PoolRatio ammPool={value.pool} ratioOf="y" />
+                </Flex.Item>
+              </Flex.Item>
+            )
+          }
+        </Form.Listener>
       </Flex>
     </OperationForm>
   );
