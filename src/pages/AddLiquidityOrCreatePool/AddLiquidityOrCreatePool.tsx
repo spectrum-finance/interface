@@ -149,6 +149,8 @@ export const AddLiquidityOrCreatePool: FC = () => {
                 !x ? (
                   <AddLiquidity
                     pools={pools}
+                    xAsset={x}
+                    yAsset={y}
                     onNewPoolButtonClick={handleNewPoolButtonClick}
                   />
                 ) : (

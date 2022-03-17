@@ -2,7 +2,14 @@ import React, { FC, useState } from 'react';
 import styled from 'styled-components';
 
 import { AmmPool } from '../../../../common/models/AmmPool';
-import { Button, Control, Dropdown } from '../../../../ergodex-cdk';
+import {
+  Button,
+  Control,
+  DownOutlined,
+  Dropdown,
+  Flex,
+  UpOutlined,
+} from '../../../../ergodex-cdk';
 import { PoolSelectorOverlay } from './PoolSelectorOverlay/PoolSelectorOverlay';
 import { PoolView } from './PoolView/PoolView';
 
@@ -43,7 +50,12 @@ const _PoolSelector: FC<PoolSelectorProps> = ({
           trigger={['click']}
         >
           <Button size="large" block>
-            {value && <PoolView ammPool={value} />}
+            <Flex align="center">
+              {value && <PoolView ammPool={value} />}
+              <Flex.Item justify="flex-end" flex={1}>
+                {opened ? <UpOutlined /> : <DownOutlined />}
+              </Flex.Item>
+            </Flex>
           </Button>
         </Dropdown>
       ) : (
