@@ -64,7 +64,7 @@ const _PoolItemView: FC<PoolItemViewProps> = ({
             assetY={pool.y.asset}
           />
         </Flex.Item>
-        <Flex.Item marginRight={4}>
+        <Flex.Item marginRight={2}>
           <Typography.Title level={5}>
             {pool.x.asset.name}/{pool.y.asset.name}
           </Typography.Title>

@@ -1,9 +1,13 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
+import { catchError, of, startWith } from 'rxjs';
 
+import { useSubject } from '../../../../../common/hooks/useObservable';
 import { AmmPool } from '../../../../../common/models/AmmPool';
+import { getAggregatedPoolAnalyticsDataById24H } from '../../../../../common/streams/poolAnalytic';
 import { DataTag } from '../../../../../components/common/DataTag/DataTag';
 import { TokenIconPair } from '../../../../../components/TokenIconPair/TokenIconPair';
 import { Flex, Typography } from '../../../../../ergodex-cdk';
+import { formatToUSD } from '../../../../../services/number';
 
 interface PoolSelectorItemProps {
   readonly ammPool: AmmPool;
@@ -11,11 +15,26 @@ interface PoolSelectorItemProps {
   readonly active?: boolean;
 }
 
+const selectedPoolAnalytic = (ammPoolId: string) =>
+  getAggregatedPoolAnalyticsDataById24H(ammPoolId).pipe(
+    startWith(undefined),
+    catchError(() => of(null)),
+  );
+
 export const PoolView: FC<PoolSelectorItemProps> = ({
   ammPool,
   hover,
   active,
 }) => {
+  const [ammPoolAnalytics, updateAmmPoolAnalytics] =
+    useSubject(selectedPoolAnalytic);
+
+  useEffect(() => {
+    if (ammPool) {
+      updateAmmPoolAnalytics(ammPool.id);
+    }
+  }, [ammPool?.id]);
+
   return (
     <Flex align="center" stretch>
       <Flex.Item marginRight={1}>
@@ -33,6 +52,7 @@ export const PoolView: FC<PoolSelectorItemProps> = ({
         <DataTag
           size="default"
           secondary={!hover && !active}
+          loading={ammPoolAnalytics === undefined}
           content={`${ammPool.poolFee}%`}
         />
       </Flex.Item>
@@ -43,7 +63,12 @@ export const PoolView: FC<PoolSelectorItemProps> = ({
         <DataTag
           size="default"
           secondary={!hover && !active}
-          content={`${ammPool.poolFee}%`}
+          loading={ammPoolAnalytics === undefined}
+          content={
+            ammPoolAnalytics?.tvl
+              ? formatToUSD(ammPoolAnalytics.tvl.currency, 'abbr')
+              : '–––'
+          }
         />
       </Flex.Item>
     </Flex>
