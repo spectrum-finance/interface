@@ -8,28 +8,25 @@ import { Currency } from '../../../common/models/Currency';
 import { Ratio } from '../../../common/models/Ratio';
 import { TokenControlFormItem } from '../../../components/common/TokenControl/TokenControl';
 import {
+  openConfirmationModal,
+  Operation,
+} from '../../../components/ConfirmationModal/ConfirmationModal';
+import {
   OperationForm,
   OperationValidator,
 } from '../../../components/OperationForm/OperationForm';
 import { RatioBox } from '../../../components/RatioBox/RatioBox';
 import { Section } from '../../../components/Section/Section';
-import { Flex, Form, useForm } from '../../../ergodex-cdk';
+import { Flex, Form, FormGroup, useForm } from '../../../ergodex-cdk';
 import { useMaxTotalFees, useNetworkAsset } from '../../../services/new/core';
+import { CreatePoolConfirmationModal } from './CreatePoolConfirmationModal/CreatePoolConfirmationModal';
+import { CreatePoolFormModel } from './CreatePoolFormModel';
 import { FeeSelector } from './FeeSelector/FeeSelector';
 import { InitialPriceInput } from './InitialPrice/InitialPriceInput';
 
 export interface CreatePoolProps {
   readonly xAsset: AssetInfo;
   readonly yAsset: AssetInfo;
-}
-
-interface CreatePoolFormModel {
-  readonly initialPrice?: Ratio;
-  readonly x?: Currency;
-  readonly y?: Currency;
-  readonly xAsset: AssetInfo;
-  readonly yAsset: AssetInfo;
-  readonly fee?: number;
 }
 
 export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
@@ -233,10 +230,44 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
     [lastEditedField],
   );
 
+  const resetForm = () =>
+    form.patchValue(
+      {
+        x: undefined,
+        y: undefined,
+      },
+      { emitEvent: 'silent' },
+    );
+
+  const createPoolAction = ({ value }: FormGroup<CreatePoolFormModel>) => {
+    openConfirmationModal(
+      (next) => {
+        return (
+          <CreatePoolConfirmationModal
+            value={value as Required<CreatePoolFormModel>}
+            onClose={(request: Promise<any>) =>
+              next(
+                request.then((tx) => {
+                  resetForm();
+                  return tx;
+                }),
+              )
+            }
+          />
+        );
+      },
+      Operation.ADD_LIQUIDITY,
+      {
+        xAsset: value.x,
+        yAsset: value.y,
+      },
+    );
+  };
+
   return (
     <OperationForm
       form={form}
-      onSubmit={() => {}}
+      onSubmit={createPoolAction}
       actionCaption="Create pool"
       validators={validators}
     >

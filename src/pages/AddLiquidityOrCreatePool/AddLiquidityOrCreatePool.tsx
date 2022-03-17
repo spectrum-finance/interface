@@ -1,6 +1,5 @@
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
-import { Skeleton } from 'antd';
 import React, { FC, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router';
 import {
@@ -21,7 +20,7 @@ import { AmmPool } from '../../common/models/AmmPool';
 import { TokeSelectFormItem } from '../../components/common/TokenControl/TokenSelect/TokenSelect';
 import { Page } from '../../components/Page/Page';
 import { Section } from '../../components/Section/Section';
-import { Flex, Form, useForm } from '../../ergodex-cdk';
+import { Flex, Form, Skeleton, useForm } from '../../ergodex-cdk';
 import { useNetworkAsset } from '../../services/new/core';
 import { AddLiquidity } from './AddLiquidity/AddLiquidity';
 import { CreatePool } from './CreatePool/CreatePool';
@@ -126,7 +125,7 @@ export const AddLiquidityOrCreatePool: FC = () => {
 
   return (
     <Page title="Create pool" width={510} withBackButton>
-      <Form form={form} onSubmit={() => {}}>
+      <Form form={form}>
         {initialized ? (
           <Flex col>
             <Flex.Item marginBottom={4} display="flex" col>
