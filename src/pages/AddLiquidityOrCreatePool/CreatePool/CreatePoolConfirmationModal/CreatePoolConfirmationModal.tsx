@@ -10,16 +10,21 @@ import {
 } from '@ergolabs/ergo-sdk';
 import React, { FC } from 'react';
 
-import { ERG_DECIMALS, UI_FEE } from '../../../../common/constants/erg';
+import { ERG_DECIMALS } from '../../../../common/constants/erg';
 import { useObservable } from '../../../../common/hooks/useObservable';
 import { FormPairSection } from '../../../../components/common/FormView/FormPairSection/FormPairSection';
 import { InfoTooltip } from '../../../../components/InfoTooltip/InfoTooltip';
 import { PageSection } from '../../../../components/Page/PageSection/PageSection';
 import { useSettings } from '../../../../context';
-import { Button, Flex, Modal, Typography } from '../../../../ergodex-cdk';
+import {
+  Button,
+  Divider,
+  Flex,
+  Modal,
+  Typography,
+} from '../../../../ergodex-cdk';
 import { utxos$ } from '../../../../network/ergo/common/utxos';
 import { explorer } from '../../../../services/explorer';
-import { useMinExFee, useMinTotalFees } from '../../../../services/new/core';
 import { poolActions } from '../../../../services/poolActions';
 import { submitTx } from '../../../../services/yoroi';
 import { makeTarget } from '../../../../utils/ammMath';
@@ -37,8 +42,6 @@ const CreatePoolConfirmationModal: FC<CreatePoolConfirmationModalProps> = ({
 }) => {
   const [{ minerFee, address, pk }] = useSettings();
   const [utxos] = useObservable(utxos$);
-  const totalFees = useMinTotalFees();
-  const minExFee = useMinExFee();
   const minerFeeNErgs = parseUserInputToFractions(minerFee, ERG_DECIMALS);
 
   const createPoolOperation = async () => {
@@ -85,15 +88,25 @@ const CreatePoolConfirmationModal: FC<CreatePoolConfirmationModalProps> = ({
 
   return (
     <>
-      <Modal.Title>Confirm Add Liquidity</Modal.Title>
+      <Modal.Title>Confirm pool creation</Modal.Title>
       <Modal.Content width={436}>
         <Flex direction="col">
           <Flex.Item marginBottom={6}>
             <FormPairSection
-              title="Assets"
+              title="Initial liquidity"
               xAmount={value.x}
               yAmount={value.y}
-            />
+            >
+              <Flex col>
+                <Flex.Item marginTop={2} marginBottom={2}>
+                  <Divider />
+                </Flex.Item>
+                <Flex.Item align="center" justify="space-between">
+                  <Typography.Body strong>Fee tier</Typography.Body>
+                  <Typography.Body strong>{value.fee}%</Typography.Body>
+                </Flex.Item>
+              </Flex>
+            </FormPairSection>
           </Flex.Item>
           <Flex.Item marginBottom={6}>
             <PageSection title="Fees">
@@ -110,31 +123,12 @@ const CreatePoolConfirmationModal: FC<CreatePoolConfirmationModalProps> = ({
                             <Flex.Item>{minerFee} ERG</Flex.Item>
                           </Flex>
                         </Flex.Item>
-                        <Flex.Item>
-                          <Flex>
-                            <Flex.Item marginRight={1}>
-                              Execution Fee:
-                            </Flex.Item>
-                            <Flex.Item>{minExFee.toCurrencyString()}</Flex.Item>
-                          </Flex>
-                        </Flex.Item>
-
-                        {!!UI_FEE && (
-                          <Flex.Item>
-                            <Flex>
-                              <Flex.Item marginRight={1}>UI Fee:</Flex.Item>
-                              <Flex.Item>{UI_FEE} ERG</Flex.Item>
-                            </Flex>
-                          </Flex.Item>
-                        )}
                       </Flex>
                     }
                   />
                 </Flex.Item>
                 <Flex.Item>
-                  <Typography.Text strong>
-                    {totalFees.toCurrencyString()}
-                  </Typography.Text>
+                  <Typography.Text strong>{minerFee} ERG</Typography.Text>
                 </Flex.Item>
               </Flex>
             </PageSection>
