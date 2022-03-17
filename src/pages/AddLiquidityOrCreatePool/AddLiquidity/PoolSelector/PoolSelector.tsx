@@ -35,34 +35,28 @@ const _PoolSelector: FC<PoolSelectorProps> = ({
 
   return (
     <>
-      {ammPools?.length ? (
-        <Dropdown
-          overlayClassName={className}
-          overlay={
-            <PoolSelectorOverlay
-              onChange={handleChange}
-              value={value}
-              ammPools={ammPools}
-            />
-          }
-          onVisibleChange={(visible) => setOpened(visible)}
-          visible={opened}
-          trigger={['click']}
-        >
-          <Button size="large" block>
-            <Flex align="center">
-              {value && <PoolView ammPool={value} />}
-              <Flex.Item justify="flex-end" flex={1}>
-                {opened ? <UpOutlined /> : <DownOutlined />}
-              </Flex.Item>
-            </Flex>
-          </Button>
-        </Dropdown>
-      ) : (
-        <Button size="large" block disabled>
-          Select pair
+      <Dropdown
+        overlayClassName={className}
+        overlay={
+          <PoolSelectorOverlay
+            onChange={handleChange}
+            value={value}
+            ammPools={ammPools || []}
+          />
+        }
+        onVisibleChange={(visible) => setOpened(visible)}
+        visible={opened}
+        trigger={['click']}
+      >
+        <Button size="large" block>
+          <Flex align="center">
+            {value ? <PoolView ammPool={value} /> : 'Select Pool'}
+            <Flex.Item justify="flex-end" flex={1}>
+              {opened ? <UpOutlined /> : <DownOutlined />}
+            </Flex.Item>
+          </Flex>
         </Button>
-      )}
+      </Dropdown>
     </>
   );
 };

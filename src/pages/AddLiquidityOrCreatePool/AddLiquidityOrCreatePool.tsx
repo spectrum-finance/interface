@@ -124,8 +124,23 @@ export const AddLiquidityOrCreatePool: FC = () => {
   );
 
   return (
-    <Page title="Create pool" width={510} withBackButton>
-      <Form form={form}>
+    <Form form={form}>
+      <Page
+        title={
+          <Form.Listener>
+            {({ value: { x, y, pools } }) =>
+              (pools?.length &&
+                componentState === ComponentState.ADD_LIQUIDITY) ||
+              !y ||
+              !x
+                ? 'Add Liquidity'
+                : 'Create Pool'
+            }
+          </Form.Listener>
+        }
+        width={510}
+        withBackButton
+      >
         {initialized ? (
           <Flex col>
             <Flex.Item marginBottom={4} display="flex" col>
@@ -161,7 +176,7 @@ export const AddLiquidityOrCreatePool: FC = () => {
         ) : (
           <Skeleton active />
         )}
-      </Form>
-    </Page>
+      </Page>
+    </Form>
   );
 };
