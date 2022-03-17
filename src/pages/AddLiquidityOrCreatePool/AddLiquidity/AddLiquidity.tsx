@@ -3,10 +3,15 @@ import { maxBy } from 'lodash';
 import React, { FC, useEffect, useState } from 'react';
 import { skip } from 'rxjs';
 
+import { useAssetsBalance } from '../../../api/assetBalance';
 import { useSubscription } from '../../../common/hooks/useObservable';
 import { AmmPool } from '../../../common/models/AmmPool';
+import { Currency } from '../../../common/models/Currency';
 import { TokenControlFormItem } from '../../../components/common/TokenControl/TokenControl';
-import { OperationForm } from '../../../components/OperationForm/OperationForm';
+import {
+  OperationForm,
+  OperationValidator,
+} from '../../../components/OperationForm/OperationForm';
 import { Section } from '../../../components/Section/Section';
 import {
   Button,
@@ -15,6 +20,7 @@ import {
   PlusOutlined,
   useForm,
 } from '../../../ergodex-cdk';
+import { useMaxTotalFees, useNetworkAsset } from '../../../services/new/core';
 import { PoolRatio } from '../../PoolOverview/PoolRatio/PoolRatio';
 import { AddLiquidityFormModel } from './AddLiquidityFormModel';
 import { PoolSelector } from './PoolSelector/PoolSelector';
@@ -33,6 +39,9 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
   onNewPoolButtonClick,
 }) => {
   const [lastEditedField, setLastEditedField] = useState<'x' | 'y'>('x');
+  const [balance] = useAssetsBalance();
+  const totalFees = useMaxTotalFees();
+  const networkAsset = useNetworkAsset();
   const form = useForm<AddLiquidityFormModel>({
     xAsset,
     yAsset,
@@ -140,11 +149,79 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
     [lastEditedField],
   );
 
+  const insufficientFeeValidator: OperationValidator<AddLiquidityFormModel> = ({
+    value: { x, y },
+  }) => {
+    let totalFeesWithAmount = x?.isAssetEquals(networkAsset)
+      ? x?.plus(totalFees)
+      : totalFees;
+
+    totalFeesWithAmount = y?.isAssetEquals(networkAsset)
+      ? totalFeesWithAmount.plus(y)
+      : totalFees;
+
+    return totalFeesWithAmount.gt(balance.get(networkAsset))
+      ? `Insufficient ${networkAsset.name} Balance for Fees`
+      : undefined;
+  };
+
+  const balanceValidator: OperationValidator<AddLiquidityFormModel> = ({
+    value: { x, y },
+  }) => {
+    if (x?.gt(balance.get(x?.asset))) {
+      return `Insufficient ${x?.asset.name} Balance`;
+    }
+
+    if (y?.gt(balance.get(y?.asset))) {
+      return `Insufficient ${y?.asset.name} Balance`;
+    }
+
+    return undefined;
+  };
+
+  const amountValidator: OperationValidator<AddLiquidityFormModel> = ({
+    value: { x, y },
+  }) => {
+    if (
+      (!x?.isPositive() && y?.isPositive()) ||
+      (!y?.isPositive() && x?.isPositive())
+    ) {
+      return undefined;
+    }
+
+    return (!x?.isPositive() || !y?.isPositive()) && 'Enter an A  mount';
+  };
+
+  const minValueValidator: OperationValidator<AddLiquidityFormModel> = ({
+    value: { xAsset, yAsset, x, y, pool },
+  }) => {
+    let c: Currency | undefined;
+    if (!x?.isPositive() && y?.isPositive() && pool) {
+      c = pool.calculateDepositAmount(new Currency(1n, xAsset)).plus(1n);
+    }
+    if (!y?.isPositive() && x?.isPositive() && pool) {
+      c = pool.calculateDepositAmount(new Currency(1n, yAsset));
+    }
+    return c && `Min value for ${c?.asset.name} is ${c?.toString()}`;
+  };
+
+  const selectTokenValidator: OperationValidator<AddLiquidityFormModel> = ({
+    value: { pool },
+  }) => !pool && 'Select a token';
+
+  const validators: OperationValidator<AddLiquidityFormModel>[] = [
+    selectTokenValidator,
+    amountValidator,
+    minValueValidator,
+    balanceValidator,
+    insufficientFeeValidator,
+  ];
+
   return (
     <OperationForm
       form={form}
       onSubmit={() => {}}
-      validators={[]}
+      validators={validators}
       actionCaption="Add Liquidity"
     >
       <Flex col>
