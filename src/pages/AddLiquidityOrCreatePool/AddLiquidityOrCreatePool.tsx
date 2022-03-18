@@ -24,6 +24,7 @@ import { Flex, Form, Skeleton, useForm } from '../../ergodex-cdk';
 import { useNetworkAsset } from '../../services/new/core';
 import { AddLiquidity } from './AddLiquidity/AddLiquidity';
 import { CreatePool } from './CreatePool/CreatePool';
+import { Overlay } from './Overlay/Overlay';
 
 interface AssetFormModel {
   readonly x?: AssetInfo;
@@ -156,21 +157,23 @@ export const AddLiquidityOrCreatePool: FC = () => {
               </Section>
             </Flex.Item>
             <Form.Listener>
-              {({ value: { x, y, pools } }) =>
-                (pools?.length &&
-                  componentState === ComponentState.ADD_LIQUIDITY) ||
-                !y ||
-                !x ? (
-                  <AddLiquidity
-                    pools={pools}
-                    xAsset={x}
-                    yAsset={y}
-                    onNewPoolButtonClick={handleNewPoolButtonClick}
-                  />
-                ) : (
-                  <CreatePool xAsset={x} yAsset={y} />
-                )
-              }
+              {({ value: { x, y, pools } }) => (
+                <Overlay enabled={!x || !y}>
+                  {(pools?.length &&
+                    componentState === ComponentState.ADD_LIQUIDITY) ||
+                  !y ||
+                  !x ? (
+                    <AddLiquidity
+                      pools={pools}
+                      xAsset={x}
+                      yAsset={y}
+                      onNewPoolButtonClick={handleNewPoolButtonClick}
+                    />
+                  ) : (
+                    <CreatePool xAsset={x} yAsset={y} />
+                  )}
+                </Overlay>
+              )}
             </Form.Listener>
           </Flex>
         ) : (
