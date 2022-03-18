@@ -108,7 +108,10 @@ export const AddLiquidityOrCreatePool: FC = () => {
       form.controls.x.valueChangesWithSilent$.pipe(distinctUntilChanged()),
       form.controls.y.valueChangesWithSilent$.pipe(distinctUntilChanged()),
     ]).pipe(switchMap(([x, y]) => getAvailablePools(x?.id, y?.id))),
-    (pools) => form.patchValue({ pools }),
+    (pools) => {
+      setComponentState(ComponentState.ADD_LIQUIDITY);
+      form.patchValue({ pools });
+    },
   );
 
   useSubscription(
