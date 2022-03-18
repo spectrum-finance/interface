@@ -24,6 +24,7 @@ import { Flex, Form, Skeleton, useForm } from '../../ergodex-cdk';
 import { useNetworkAsset } from '../../services/new/core';
 import { AddLiquidity } from './AddLiquidity/AddLiquidity';
 import { CreatePool } from './CreatePool/CreatePool';
+import { NoPoolInfoAlert } from './NoPoolInfoAlert/NoPoolInfoAlert';
 import { Overlay } from './Overlay/Overlay';
 
 interface AssetFormModel {
@@ -132,6 +133,15 @@ export const AddLiquidityOrCreatePool: FC = () => {
     !y ||
     !x;
 
+  const isInfoAlertVisible = (
+    { x, y, pools }: AssetFormModel,
+    componentState: ComponentState,
+  ): boolean =>
+    !pools?.length &&
+    componentState === ComponentState.ADD_LIQUIDITY &&
+    !!y &&
+    !!x;
+
   return (
     <Form form={form}>
       <Page
@@ -161,6 +171,19 @@ export const AddLiquidityOrCreatePool: FC = () => {
                 </Flex>
               </Section>
             </Flex.Item>
+            <Form.Listener>
+              {({ value }) =>
+                isInfoAlertVisible(value, componentState) && (
+                  <Flex.Item marginBottom={4} display="flex" col>
+                    <NoPoolInfoAlert>
+                      The pool with such a pair has not yet been initialized. To
+                      create a pool enter an initial price. Then add the deposit
+                      amount.
+                    </NoPoolInfoAlert>
+                  </Flex.Item>
+                )
+              }
+            </Form.Listener>
             <Form.Listener>
               {({ value }) => (
                 <Overlay enabled={!value.x || !value.y}>
