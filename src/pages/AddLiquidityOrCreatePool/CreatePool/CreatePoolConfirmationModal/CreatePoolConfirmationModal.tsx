@@ -8,13 +8,17 @@ import {
   BoxSelection,
   DefaultBoxSelector,
 } from '@ergolabs/ergo-sdk';
+import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import React, { FC } from 'react';
 
 import { ERG_DECIMALS } from '../../../../common/constants/erg';
 import { useObservable } from '../../../../common/hooks/useObservable';
+import { Ratio } from '../../../../common/models/Ratio';
 import { FormPairSection } from '../../../../components/common/FormView/FormPairSection/FormPairSection';
 import { InfoTooltip } from '../../../../components/InfoTooltip/InfoTooltip';
 import { PageSection } from '../../../../components/Page/PageSection/PageSection';
+import { RatioBox } from '../../../../components/RatioBox/RatioBox';
+import { Section } from '../../../../components/Section/Section';
 import { useSettings } from '../../../../context';
 import {
   Button,
@@ -44,6 +48,12 @@ const CreatePoolConfirmationModal: FC<CreatePoolConfirmationModalProps> = ({
   const [utxos] = useObservable(utxos$);
   const minerFeeNErgs = parseUserInputToFractions(minerFee, ERG_DECIMALS);
 
+  const getMainRatio = (ratio: Ratio, xAsset: AssetInfo) =>
+    ratio.baseAsset.id === xAsset.id ? ratio : ratio.invertRatio();
+
+  const getOppositeRatio = (ratio: Ratio, yAsset: AssetInfo) =>
+    ratio.baseAsset.id === yAsset.id ? ratio : ratio.invertRatio();
+
   const createPoolOperation = async () => {
     const { y, x } = value;
 
@@ -63,7 +73,7 @@ const CreatePoolConfirmationModal: FC<CreatePoolConfirmationModalProps> = ({
       const poolSetupParams = makePoolSetupParams(
         inputX,
         inputY,
-        Number((value.fee / 10).toFixed(3)),
+        Number((value.fee / 100).toFixed(3)),
         0n,
       );
       const actions = poolActions(poolSetupParams as PoolSetupParams);
@@ -107,6 +117,34 @@ const CreatePoolConfirmationModal: FC<CreatePoolConfirmationModalProps> = ({
                 </Flex.Item>
               </Flex>
             </FormPairSection>
+          </Flex.Item>
+          <Flex.Item marginBottom={6}>
+            <Section title="Initial price">
+              <Flex>
+                <Flex.Item flex={1} marginRight={2}>
+                  <RatioBox
+                    mainAsset={value.xAsset}
+                    oppositeAsset={value.yAsset}
+                    ratio={
+                      value.initialPrice
+                        ? getMainRatio(value.initialPrice, value.xAsset)
+                        : undefined
+                    }
+                  />
+                </Flex.Item>
+                <Flex.Item flex={1}>
+                  <RatioBox
+                    mainAsset={value.yAsset}
+                    oppositeAsset={value.xAsset}
+                    ratio={
+                      value.initialPrice
+                        ? getOppositeRatio(value.initialPrice, value.yAsset)
+                        : undefined
+                    }
+                  />
+                </Flex.Item>
+              </Flex>
+            </Section>
           </Flex.Item>
           <Flex.Item marginBottom={6}>
             <PageSection title="Fees">

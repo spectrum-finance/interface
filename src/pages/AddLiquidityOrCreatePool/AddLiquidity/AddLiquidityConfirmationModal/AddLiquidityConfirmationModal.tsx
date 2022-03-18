@@ -7,6 +7,7 @@ import { useObservable } from '../../../../common/hooks/useObservable';
 import { FormPairSection } from '../../../../components/common/FormView/FormPairSection/FormPairSection';
 import { InfoTooltip } from '../../../../components/InfoTooltip/InfoTooltip';
 import { PageSection } from '../../../../components/Page/PageSection/PageSection';
+import { Section } from '../../../../components/Section/Section';
 import { useSettings } from '../../../../context';
 import { Button, Flex, Modal, Typography } from '../../../../ergodex-cdk';
 import { utxos$ } from '../../../../network/ergo/common/utxos';
@@ -16,6 +17,7 @@ import { poolActions } from '../../../../services/poolActions';
 import { submitTx } from '../../../../services/yoroi';
 import { makeTarget } from '../../../../utils/ammMath';
 import { parseUserInputToFractions } from '../../../../utils/math';
+import { PoolRatio } from '../../../PoolOverview/PoolRatio/PoolRatio';
 import { AddLiquidityFormModel } from '../AddLiquidityFormModel';
 
 interface AddLiquidityConfirmationModalProps {
@@ -95,6 +97,18 @@ const AddLiquidityConfirmationModal: FC<AddLiquidityConfirmationModalProps> = ({
               xAmount={value.x}
               yAmount={value.y}
             />
+          </Flex.Item>
+          <Flex.Item marginBottom={6}>
+            <Section title="Initial price">
+              <Flex>
+                <Flex.Item flex={1} marginRight={2}>
+                  <PoolRatio ammPool={value.pool} ratioOf="x" />
+                </Flex.Item>
+                <Flex.Item flex={1}>
+                  <PoolRatio ammPool={value.pool} ratioOf="y" />
+                </Flex.Item>
+              </Flex>
+            </Section>
           </Flex.Item>
           <Flex.Item marginBottom={6}>
             <PageSection title="Fees">

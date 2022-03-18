@@ -11,11 +11,6 @@ interface FeeDescriptor {
 
 const FEES: FeeDescriptor[] = [
   {
-    percent: 0.05,
-    description: 'Best for stable pairs',
-    content: '0.05% fee',
-  },
-  {
     percent: 0.3,
     description: 'Best for most pairs',
     content: '0.3% fee',
