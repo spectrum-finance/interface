@@ -124,16 +124,21 @@ export const AddLiquidityOrCreatePool: FC = () => {
     },
   );
 
+  const isAddLiquidityPageVisible = (
+    { x, y, pools }: AssetFormModel,
+    componentState: ComponentState,
+  ): boolean =>
+    (pools?.length && componentState === ComponentState.ADD_LIQUIDITY) ||
+    !y ||
+    !x;
+
   return (
     <Form form={form}>
       <Page
         title={
           <Form.Listener>
-            {({ value: { x, y, pools } }) =>
-              (pools?.length &&
-                componentState === ComponentState.ADD_LIQUIDITY) ||
-              !y ||
-              !x
+            {({ value }) =>
+              isAddLiquidityPageVisible(value, componentState)
                 ? 'Add Liquidity'
                 : 'Create Pool'
             }
@@ -157,20 +162,17 @@ export const AddLiquidityOrCreatePool: FC = () => {
               </Section>
             </Flex.Item>
             <Form.Listener>
-              {({ value: { x, y, pools } }) => (
-                <Overlay enabled={!x || !y}>
-                  {(pools?.length &&
-                    componentState === ComponentState.ADD_LIQUIDITY) ||
-                  !y ||
-                  !x ? (
+              {({ value }) => (
+                <Overlay enabled={!value.x || !value.y}>
+                  {isAddLiquidityPageVisible(value, componentState) ? (
                     <AddLiquidity
-                      pools={pools}
-                      xAsset={x}
-                      yAsset={y}
+                      pools={value.pools}
+                      xAsset={value.x}
+                      yAsset={value.y}
                       onNewPoolButtonClick={handleNewPoolButtonClick}
                     />
                   ) : (
-                    <CreatePool xAsset={x} yAsset={y} />
+                    <CreatePool xAsset={value.x} yAsset={value.y} />
                   )}
                 </Overlay>
               )}
