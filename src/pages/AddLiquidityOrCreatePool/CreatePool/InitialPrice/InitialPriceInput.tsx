@@ -98,6 +98,24 @@ export const InitialPriceInput: FC<InitialPrice> = ({
     onChange && onChange(newRatio);
   }, [xAsset?.id]);
 
+  useEffect(() => {
+    if (!value || !yAsset || !userInput) {
+      return;
+    }
+
+    const newRatio =
+      baseAssetSign === 'x'
+        ? new Ratio(value.toAmount(), value.baseAsset, yAsset)
+        : new Ratio(
+            _normalizeAmount(userInput, yAsset),
+            yAsset,
+            value.quoteAsset,
+          );
+
+    setUserInput(newRatio.toAmount());
+    onChange && onChange(newRatio);
+  }, [yAsset?.id]);
+
   const handleBaseAssetChange = () => {
     const newBaseAsset = baseAssetSign === 'x' ? yAsset : xAsset;
     const newQuoteAsset = baseAssetSign === 'x' ? xAsset : yAsset;

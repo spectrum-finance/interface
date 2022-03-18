@@ -35,7 +35,7 @@ export class AmmPool implements Searchable {
 
   @cache
   get poolFee(): number {
-    return evaluate(`(1 - ${this.pool.feeNum} / 1000) * 100`).toFixed(1);
+    return evaluate(`(1 - ${this.pool.feeNum} / 1000) * 10`).toFixed(2);
   }
 
   @cache
