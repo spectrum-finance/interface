@@ -1,3 +1,4 @@
+import { Trans } from '@lingui/macro';
 import React, { ReactNode, useState } from 'react';
 import styled from 'styled-components';
 
@@ -73,12 +74,16 @@ const WalletView: React.FC<WalletItemProps> = ({ wallet, close }) => {
     <ExperimentalBox padding={2}>
       <Flex col>
         <Flex.Item marginBottom={2} alignSelf="flex-end">
-          <Tag color="gold">Experimental</Tag>
+          <Tag color="gold">
+            <Trans>Experimental</Trans>
+          </Tag>
         </Flex.Item>
         <Flex.Item marginBottom={2}>
           <Checkbox checked={checked} onChange={handleCheck}>
-            I understand that this wallet has not been audited. I will use it at
-            my own risk.
+            <Trans>
+              I understand that this wallet has not been audited. I will use it
+              at my own risk.
+            </Trans>
           </Checkbox>
         </Flex.Item>
         {warning && (
@@ -114,7 +119,9 @@ const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
 
   return (
     <>
-      <Modal.Title>Select a wallet</Modal.Title>
+      <Modal.Title>
+        <Trans>Select a wallet</Trans>
+      </Modal.Title>
       <Modal.Content width={400}>
         <Flex col>
           {wallets.map((wallet, index) => (
@@ -133,7 +140,7 @@ const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
               icon={<LogoutOutlined />}
               onClick={disconnectWallet}
             >
-              Disconnect wallet
+              <Trans>Disconnect wallet</Trans>
             </Button>
           )}
         </Flex>

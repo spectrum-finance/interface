@@ -1,6 +1,5 @@
 import { AssetInfo } from '@ergolabs/ergo-sdk';
 import React, { FC, ReactNode } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Observable, of } from 'rxjs';
 
 import { useAssetsBalance } from '../../../api/assetBalance';
@@ -78,7 +77,6 @@ export const TokenControlFormItem: FC<NewTokenControlProps> = ({
   noBottomInfo,
   handleMaxButtonClick,
 }) => {
-  const { t } = useTranslation();
   const { form } = useFormContext();
   const [balance, balanceLoading] = useAssetsBalance();
   const [selectedAsset] = useObservable(
@@ -167,8 +165,7 @@ export const TokenControlFormItem: FC<NewTokenControlProps> = ({
                   <>
                     <Flex.Item marginRight={2}>
                       <Typography.Body>
-                        {t`common.tokenControl.balanceLabel`}{' '}
-                        {balance.get(selectedAsset).toCurrencyString()}
+                        Balance: {balance.get(selectedAsset).toCurrencyString()}
                       </Typography.Body>
                     </Flex.Item>
                     {!!balance.get(selectedAsset) && maxButton && (
@@ -180,7 +177,7 @@ export const TokenControlFormItem: FC<NewTokenControlProps> = ({
                           _handleMaxButtonClick(balance.get(selectedAsset))
                         }
                       >
-                        {t`common.tokenControl.maxButton`}
+                        Max
                       </Button>
                     )}
                   </>
