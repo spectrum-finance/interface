@@ -43,7 +43,7 @@ export interface SupportedFeatures {
 export interface Wallet {
   readonly name: string;
   readonly icon: ReactNode;
-  readonly experimental: boolean;
+  readonly definition: 'experimental' | 'recommended' | 'default';
   readonly extensionLink: string;
   readonly getAddresses: () => Observable<Address[]>;
   readonly connectWallet: () => Observable<boolean | ReactNode>;
