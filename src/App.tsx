@@ -12,7 +12,7 @@ import { MobilePlug } from './components/MobilePlug/MobilePlug';
 import { AppLoadingProvider, SettingsProvider } from './context';
 import { globalHistory } from './createBrowserHistory';
 import { ContextModalProvider } from './ergodex-cdk';
-import { AddLiquidity } from './pages/AddLiquidity/AddLiquidity';
+import { AddLiquidityOrCreatePool } from './pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool';
 import { Liquidity } from './pages/Pool/Liquidity';
 import { LockLiquidity } from './pages/Pool/LockLiquidity/LockLiquidity';
 import { RelockLiquidity } from './pages/Pool/RelockLiquidity/RelockLiquidity';
@@ -37,7 +37,11 @@ const Application = withTranslation()(() => {
                   </Route>
                   <Route path="/swap" exact component={Swap} />
                   <Route path="/pool" exact component={Liquidity} />
-                  <Route path="/pool/add" exact component={AddLiquidity} />
+                  <Route
+                    path="/pool/add"
+                    exact
+                    component={AddLiquidityOrCreatePool}
+                  />
                   <Route
                     path="/pool/:poolId/remove"
                     exact
@@ -61,7 +65,7 @@ const Application = withTranslation()(() => {
                   <Route
                     path="/pool/:poolId/add"
                     exact
-                    component={AddLiquidity}
+                    component={AddLiquidityOrCreatePool}
                   />
                   <Route path="/pool/:poolId" exact component={PoolOverview} />
                   <Route component={NotFound} />

@@ -104,7 +104,11 @@ export class AmmPool implements Searchable {
     }
 
     if (inputCurrency.amount === 1n) {
-      return new Ratio(outputCurrency.toAmount(), outputCurrency.asset);
+      return new Ratio(
+        outputCurrency.toAmount(),
+        outputCurrency.asset,
+        inputCurrency.asset,
+      );
     }
 
     const fmtInput = inputCurrency.toAmount();
@@ -112,7 +116,7 @@ export class AmmPool implements Searchable {
 
     const p = math.evaluate!(`${fmtOutput} / ${fmtInput}`).toString();
 
-    return new Ratio(p, outputCurrency.asset);
+    return new Ratio(p, outputCurrency.asset, inputCurrency.asset);
   }
 
   calculateInputPrice(outputCurrency: Currency): Ratio {
@@ -125,7 +129,11 @@ export class AmmPool implements Searchable {
     }
 
     if (outputCurrency.amount === 1n) {
-      return new Ratio(inputCurrency.toAmount(), inputCurrency.asset);
+      return new Ratio(
+        inputCurrency.toAmount(),
+        inputCurrency.asset,
+        outputCurrency.asset,
+      );
     }
 
     const fmtInput = inputCurrency.toAmount();
@@ -133,7 +141,7 @@ export class AmmPool implements Searchable {
 
     const p = math.evaluate!(`${fmtInput} / ${fmtOutput}`).toString();
 
-    return new Ratio(p, inputCurrency.asset);
+    return new Ratio(p, inputCurrency.asset, outputCurrency.asset);
   }
 
   calculateDepositAmount(currency: Currency): Currency {
@@ -220,6 +228,6 @@ export class AmmPool implements Searchable {
       `${firstAmount} / ${secondAmount}`,
     ).toString();
 
-    return new Ratio(ratioAmount, first.asset);
+    return new Ratio(ratioAmount, first.asset, second.asset);
   }
 }

@@ -2,21 +2,23 @@ import { minValueForOrder } from '@ergolabs/ergo-dex-sdk';
 import { BoxSelection, DefaultBoxSelector, ErgoTx } from '@ergolabs/ergo-sdk';
 import React, { FC } from 'react';
 
-import { ERG_DECIMALS, UI_FEE } from '../../../common/constants/erg';
-import { useObservable } from '../../../common/hooks/useObservable';
-import { FormPairSection } from '../../../components/common/FormView/FormPairSection/FormPairSection';
-import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
-import { PageSection } from '../../../components/Page/PageSection/PageSection';
-import { useSettings } from '../../../context';
-import { Button, Flex, Modal, Typography } from '../../../ergodex-cdk';
-import { utxos$ } from '../../../network/ergo/common/utxos';
-import { explorer } from '../../../services/explorer';
-import { useMinExFee, useMinTotalFees } from '../../../services/new/core';
-import { poolActions } from '../../../services/poolActions';
-import { submitTx } from '../../../services/yoroi';
-import { makeTarget } from '../../../utils/ammMath';
-import { parseUserInputToFractions } from '../../../utils/math';
-import { AddLiquidityFormModel } from '../FormModel';
+import { ERG_DECIMALS, UI_FEE } from '../../../../common/constants/erg';
+import { useObservable } from '../../../../common/hooks/useObservable';
+import { FormPairSection } from '../../../../components/common/FormView/FormPairSection/FormPairSection';
+import { InfoTooltip } from '../../../../components/InfoTooltip/InfoTooltip';
+import { PageSection } from '../../../../components/Page/PageSection/PageSection';
+import { Section } from '../../../../components/Section/Section';
+import { useSettings } from '../../../../context';
+import { Button, Flex, Modal, Typography } from '../../../../ergodex-cdk';
+import { utxos$ } from '../../../../network/ergo/common/utxos';
+import { explorer } from '../../../../services/explorer';
+import { useMinExFee, useMinTotalFees } from '../../../../services/new/core';
+import { poolActions } from '../../../../services/poolActions';
+import { submitTx } from '../../../../services/yoroi';
+import { makeTarget } from '../../../../utils/ammMath';
+import { parseUserInputToFractions } from '../../../../utils/math';
+import { PoolRatio } from '../../../PoolOverview/PoolRatio/PoolRatio';
+import { AddLiquidityFormModel } from '../AddLiquidityFormModel';
 
 interface AddLiquidityConfirmationModalProps {
   value: Required<AddLiquidityFormModel>;
@@ -37,7 +39,7 @@ const AddLiquidityConfirmationModal: FC<AddLiquidityConfirmationModalProps> = ({
   const minerFeeNErgs = parseUserInputToFractions(minerFee, ERG_DECIMALS);
 
   const addLiquidityOperation = async () => {
-    const { pool, yAmount, xAmount } = value;
+    const { pool, y, x } = value;
 
     if (pool && pk && address && utxos) {
       const poolId = pool.id;
@@ -45,10 +47,10 @@ const AddLiquidityConfirmationModal: FC<AddLiquidityConfirmationModalProps> = ({
       const actions = poolActions(pool['pool']);
 
       const inputX = pool['pool'].x.withAmount(
-        xAmount.asset.id === pool.x.asset.id ? xAmount.amount : yAmount.amount,
+        x.asset.id === pool.x.asset.id ? x.amount : y.amount,
       );
       const inputY = pool['pool'].y.withAmount(
-        yAmount.asset.id === pool.y.asset.id ? yAmount.amount : xAmount.amount,
+        y.asset.id === pool.y.asset.id ? y.amount : x.amount,
       );
 
       const target = makeTarget(
@@ -92,9 +94,21 @@ const AddLiquidityConfirmationModal: FC<AddLiquidityConfirmationModalProps> = ({
           <Flex.Item marginBottom={6}>
             <FormPairSection
               title="Assets"
-              xAmount={value.xAmount}
-              yAmount={value.yAmount}
+              xAmount={value.x}
+              yAmount={value.y}
             />
+          </Flex.Item>
+          <Flex.Item marginBottom={6}>
+            <Section title="Initial price">
+              <Flex>
+                <Flex.Item flex={1} marginRight={2}>
+                  <PoolRatio ammPool={value.pool} ratioOf="x" />
+                </Flex.Item>
+                <Flex.Item flex={1}>
+                  <PoolRatio ammPool={value.pool} ratioOf="y" />
+                </Flex.Item>
+              </Flex>
+            </Section>
           </Flex.Item>
           <Flex.Item marginBottom={6}>
             <PageSection title="Fees">

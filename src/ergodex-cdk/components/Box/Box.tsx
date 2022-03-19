@@ -6,7 +6,7 @@ import React, { MouseEventHandler } from 'react';
 import { getGutter, Gutter } from '../../utils/gutter';
 
 interface BoxProps extends React.PropsWithChildren<unknown> {
-  borderRadius?: 'xs' | 's' | 'm' | 'l' | 'xl';
+  borderRadius?: 'none' | 'xs' | 's' | 'm' | 'l' | 'xl';
   contrast?: boolean;
   control?: boolean;
   transparent?: boolean;

@@ -14,7 +14,7 @@ import {
 
 interface PageProps {
   width?: number;
-  title?: string;
+  title?: ReactNode | ReactNode[] | string;
   withBackButton?: boolean;
   backTo?: string;
   titleChildren?: ReactNode | ReactNode[] | string;
