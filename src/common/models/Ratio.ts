@@ -26,7 +26,7 @@ export class Ratio {
       Number(amount).toFixed(this.decimals),
       this.decimals,
     );
-    this.formatter = this.createFormatter(this.decimals);
+    this.formatter = Ratio.createFormatter(this.decimals);
   }
 
   toString(): string {
@@ -39,7 +39,7 @@ export class Ratio {
 
   toQuoteCurrency(baseCurrency: Currency): Currency {
     if (baseCurrency.asset.id !== this.baseAsset.id) {
-      throw new Error(`quote currency should be base: ${this.baseAsset.name}`);
+      throw new Error(`Quote currency should be base: ${this.baseAsset.name}`);
     }
 
     const quoteCurrencyAmount = normalizeAmount(
@@ -54,7 +54,7 @@ export class Ratio {
 
   toBaseCurrency(quoteCurrency: Currency): Currency {
     if (quoteCurrency.asset.id !== this.quoteAsset.id) {
-      throw new Error(`base currency should be quote: ${this.quoteAsset.name}`);
+      throw new Error(`Base currency should be quote: ${this.quoteAsset.name}`);
     }
 
     const baseCurrencyAmount = normalizeAmount(
@@ -88,7 +88,7 @@ export class Ratio {
     );
   }
 
-  private createFormatter(decimals: number): Intl.NumberFormat {
+  private static createFormatter(decimals: number): Intl.NumberFormat {
     return new Intl.NumberFormat('en-US', {
       maximumFractionDigits: decimals,
       minimumFractionDigits: decimals,
