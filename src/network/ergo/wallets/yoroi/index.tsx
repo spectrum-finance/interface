@@ -7,6 +7,7 @@ import { getAddresses } from './getAddresses';
 import { getNotification } from './getNotification';
 import { getUtxos } from './getUtxos';
 import { onDisconnect } from './onDisconnect';
+import { supportedFeatures } from './supportedFeatures';
 
 export const Yoroi: Wallet = {
   name: 'Yoroi',
@@ -19,4 +20,5 @@ export const Yoroi: Wallet = {
   getNotification,
   onDisconnect,
   getAddresses,
+  supportedFeatures,
 };

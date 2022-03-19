@@ -15,7 +15,11 @@ import {
 
 import { getAmmPoolById, getAmmPoolsByAssetPair } from '../../api/ammPools';
 import { assetBalance$ } from '../../api/assetBalance';
-import { useSubscription } from '../../common/hooks/useObservable';
+import { selectedWallet$ } from '../../api/wallets';
+import {
+  useObservable,
+  useSubscription,
+} from '../../common/hooks/useObservable';
 import { AmmPool } from '../../common/models/AmmPool';
 import { TokeSelectFormItem } from '../../components/common/TokenControl/TokenSelect/TokenSelect';
 import { Page } from '../../components/Page/Page';
@@ -24,6 +28,7 @@ import { Flex, Form, Skeleton, useForm } from '../../ergodex-cdk';
 import { useNetworkAsset } from '../../services/new/core';
 import { AddLiquidity } from './AddLiquidity/AddLiquidity';
 import { CreatePool } from './CreatePool/CreatePool';
+import { CreatePoolUnsupportedAlert } from './CreatePoolUnsupportedAlert/CreatePoolUnsupportedAlert';
 import { NoPoolInfoAlert } from './NoPoolInfoAlert/NoPoolInfoAlert';
 import { Overlay } from './Overlay/Overlay';
 
@@ -61,6 +66,7 @@ export const AddLiquidityOrCreatePool: FC = () => {
   const { poolId } = useParams<{ poolId?: PoolId }>();
   const [initialized, setInitialized] = useState<boolean>(!poolId);
   const networkAsset = useNetworkAsset();
+  const [selectedWallet] = useObservable(selectedWallet$);
   const form = useForm<AssetFormModel>({
     x: undefined,
     y: undefined,
@@ -136,12 +142,18 @@ export const AddLiquidityOrCreatePool: FC = () => {
     !y ||
     !x;
 
+  const isCreatePoolPageVisible = (
+    value: AssetFormModel,
+    componentState: ComponentState,
+  ): boolean => !isAddLiquidityPageVisible(value, componentState);
+
   const isInfoAlertVisible = (
     { x, y, pools }: AssetFormModel,
     componentState: ComponentState,
   ): boolean =>
     !pools?.length &&
     componentState === ComponentState.ADD_LIQUIDITY &&
+    !!selectedWallet?.supportedFeatures.createPool &&
     !!y &&
     !!x;
 
@@ -188,8 +200,31 @@ export const AddLiquidityOrCreatePool: FC = () => {
               }
             </Form.Listener>
             <Form.Listener>
+              {({ value }) =>
+                selectedWallet?.supportedFeatures.createPool === false &&
+                isCreatePoolPageVisible(value, componentState) && (
+                  <Flex.Item marginBottom={4} display="flex" col>
+                    <CreatePoolUnsupportedAlert
+                      walletName={selectedWallet.name}
+                    >
+                      The pool with such a pair has not yet been initialized. To
+                      create a pool enter an initial price. Then add the deposit
+                      amount.
+                    </CreatePoolUnsupportedAlert>
+                  </Flex.Item>
+                )
+              }
+            </Form.Listener>
+            <Form.Listener>
               {({ value }) => (
-                <Overlay enabled={!value.x || !value.y}>
+                <Overlay
+                  enabled={
+                    !value.x ||
+                    !value.y ||
+                    (isCreatePoolPageVisible(value, componentState) &&
+                      !selectedWallet?.supportedFeatures.createPool)
+                  }
+                >
                   {isAddLiquidityPageVisible(value, componentState) ? (
                     <AddLiquidity
                       pools={value.pools}
