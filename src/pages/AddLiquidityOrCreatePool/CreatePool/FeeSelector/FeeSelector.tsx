@@ -49,7 +49,7 @@ export const FeeSelector: FC<FeeSelectorProps> = ({ value, onChange }) => {
             <Input
               size="small"
               type="number"
-              align="right"
+              textAlign="right"
               onChange={(e) => handleInputChange(e.target.valueAsNumber)}
               suffix={<Typography.Body>%</Typography.Body>}
             />

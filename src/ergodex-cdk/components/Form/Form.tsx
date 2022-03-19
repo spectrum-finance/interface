@@ -38,11 +38,9 @@ class _Form<T> extends React.Component<FormProps<T>> {
         </FormContext.Provider>
       </form>
     ) : (
-      <div>
-        <FormContext.Provider value={{ errorMessages, warningMessages, form }}>
-          {children}
-        </FormContext.Provider>
-      </div>
+      <FormContext.Provider value={{ errorMessages, warningMessages, form }}>
+        {children}
+      </FormContext.Provider>
     );
   }
 }

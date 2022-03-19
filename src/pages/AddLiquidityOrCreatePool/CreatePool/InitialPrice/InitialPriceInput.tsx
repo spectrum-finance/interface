@@ -165,7 +165,7 @@ export const InitialPriceInput: FC<InitialPrice> = ({
             onChange={(event) => {
               enforcer(event.target.value.replace(/,/g, '.'));
             }}
-            align="right"
+            textAlign="right"
             suffix={
               <Typography.Body>
                 {baseAsset.name} per {quoteAsset.name}

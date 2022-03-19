@@ -127,7 +127,7 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
 
   const feeValidator: OperationValidator<CreatePoolFormModel> = ({
     value: { fee },
-  }) => !fee && 'Enter a Fee';
+  }) => !fee && 'Select a fee tier';
 
   const initialPriceValidator: OperationValidator<CreatePoolFormModel> = ({
     value: { initialPrice },
