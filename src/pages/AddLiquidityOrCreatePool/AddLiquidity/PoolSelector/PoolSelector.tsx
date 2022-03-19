@@ -1,3 +1,4 @@
+import { t } from '@lingui/macro';
 import React, { FC, useState } from 'react';
 import styled from 'styled-components';
 
@@ -50,7 +51,7 @@ const _PoolSelector: FC<PoolSelectorProps> = ({
       >
         <Button size="large" block>
           <Flex align="center">
-            {value ? <PoolView ammPool={value} /> : 'Select Pool'}
+            {value ? <PoolView ammPool={value} /> : t`Select Pool`}
             <Flex.Item justify="flex-end" flex={1}>
               {opened ? <UpOutlined /> : <DownOutlined />}
             </Flex.Item>

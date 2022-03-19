@@ -1,5 +1,6 @@
 import './Pool.less';
 
+import { t, Trans } from '@lingui/macro';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
@@ -40,7 +41,7 @@ const PoolPageWrapper: React.FC<PoolPageWrapperProps> = ({
       <Flex.Item marginBottom={isWalletConnected ? 2 : 0}>
         <Page
           width={832}
-          title="Liquidity"
+          title={t`Liquidity`}
           titleChildren={
             isWalletConnected && (
               <>
@@ -55,14 +56,14 @@ const PoolPageWrapper: React.FC<PoolPageWrapperProps> = ({
                         key="1"
                         className="ergodex-coming-soon"
                       >
-                        Create pool
+                        <Trans>Create pool</Trans>
                       </Menu.Item>
                     </Menu>
                   }
                   trigger={['click']}
                   onClick={onClick}
                 >
-                  + Add liquidity
+                  + <Trans>Add liquidity</Trans>
                 </Dropdown.Button>
               </>
             )
@@ -110,7 +111,7 @@ const Liquidity = (): JSX.Element => {
             <Input
               onChange={handleSearchChange}
               prefix={<SearchOutlined />}
-              placeholder="Search"
+              placeholder={t`Search`}
               size="large"
               style={{ width: 300 }}
             />
@@ -122,14 +123,14 @@ const Liquidity = (): JSX.Element => {
           history.push(`/pool?active=${key}`);
         }}
       >
-        <Tabs.TabPane tab="Pools Overview" key={defaultActiveTabKey}>
+        <Tabs.TabPane tab={t`Pools Overview`} key={defaultActiveTabKey}>
           <LiquidityPositionsList
             totalCount={pools.length}
             pools={pools.filter((p) => p.match(term))}
             loading={isPoolsLoading}
           />
         </Tabs.TabPane>
-        <Tabs.TabPane tab="Your Positions" key="your-positions">
+        <Tabs.TabPane tab={t`Your Positions`} key="your-positions">
           {isWalletConnected ? (
             <LiquidityPositionsList
               totalCount={positions.length}
@@ -143,7 +144,7 @@ const Liquidity = (): JSX.Element => {
           )}
         </Tabs.TabPane>
         {isWalletConnected && positions.some((p) => p.locks.length) && (
-          <Tabs.TabPane tab="Locked Positions" key="locked-positions">
+          <Tabs.TabPane tab={t`Locked Positions`} key="locked-positions">
             <LockListView
               positions={positions.filter(
                 (p) => !!p.locks.length && p.match(term),

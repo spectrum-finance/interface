@@ -1,3 +1,4 @@
+import { t, Trans } from '@lingui/macro';
 import React, { useState } from 'react';
 import { filter, skip } from 'rxjs';
 
@@ -31,17 +32,17 @@ interface SettingsModel {
 
 const warningMessages: Messages<SettingsModel> = {
   slippage: {
-    transactionFrontrun: 'Your transaction may be frontrun',
-    transactionMayFail: 'Your transaction may fail',
+    transactionFrontrun: t`Your transaction may be frontrun`,
+    transactionMayFail: t`Your transaction may fail`,
   },
 };
 
 const errorMessages: Messages<SettingsModel> = {
   nitro: {
-    minNitro: `Minimal Nitro value is ${MIN_NITRO}`,
+    minNitro: t`Minimal Nitro value is ${MIN_NITRO}`,
   },
   slippage: {
-    minSlippage: `Minimal Slippage is ${MIN_SLIPPAGE}`,
+    minSlippage: t`Minimal Slippage is ${MIN_SLIPPAGE}`,
   },
 };
 
@@ -114,13 +115,17 @@ const OperationSettings = (): JSX.Element => {
       >
         <Flex col>
           <Flex.Item marginBottom={2}>
-            <Typography.Title level={4}>Transaction Settings</Typography.Title>
+            <Typography.Title level={4}>
+              <Trans>Transaction Settings</Trans>
+            </Typography.Title>
           </Flex.Item>
           <Flex.Item marginBottom={1}>
-            <Typography.Body strong>Slippage tolerance</Typography.Body>
+            <Typography.Body strong>
+              <Trans>Slippage tolerance</Trans>
+            </Typography.Body>
             <InfoTooltip
               width={200}
-              content="Your transaction will revert if the price changes unfavorably by more than this percentage"
+              content={t`Your transaction will revert if the price changes unfavorably by more than this percentage`}
             />
           </Flex.Item>
           <Flex.Item marginBottom={2}>
@@ -136,17 +141,19 @@ const OperationSettings = (): JSX.Element => {
             </Form.Item>
           </Flex.Item>
           <Flex.Item marginBottom={1}>
-            <Typography.Body strong>Nitro</Typography.Body>
+            <Typography.Body strong>
+              <Trans>Nitro</Trans>
+            </Typography.Body>
             <InfoTooltip
               content={
                 <>
-                  Max execution fee multiplier
+                  <Trans>Max execution fee multiplier</Trans>
                   <br />
                   <Typography.Link
                     target="_blank"
                     href="https://docs.ergodex.io/docs/protocol-overview/fees#execution-fee-formula"
                   >
-                    Read more
+                    <Trans>Read more</Trans>
                   </Typography.Link>
                 </>
               }

@@ -1,3 +1,4 @@
+import { Trans } from '@lingui/macro';
 import React from 'react';
 
 import { Flex, Tag, Typography } from '../../../ergodex-cdk';
@@ -13,11 +14,13 @@ const LowBalanceWarning = (): JSX.Element => {
     >
       <Flex direction="col">
         <Flex.Item marginBottom={2}>
-          <Typography.Title level={5}>ERG balance is low</Typography.Title>
+          <Typography.Title level={5}>
+            <Trans>ERG balance is low</Trans>
+          </Typography.Title>
         </Flex.Item>
         <Flex.Item>
           <Typography.Body>
-            You need ERG to pay transaction fees
+            <Trans>You need ERG to pay transaction fees</Trans>
           </Typography.Body>
         </Flex.Item>
         <Flex.Item>
@@ -25,7 +28,7 @@ const LowBalanceWarning = (): JSX.Element => {
             href="https://docs.ergodex.io/docs/user-guides/quick-start#3-get-assets"
             target="_blank"
           >
-            Learn how to get ERG
+            <Trans>Learn how to get ERG</Trans>
           </Typography.Link>
         </Flex.Item>
       </Flex>

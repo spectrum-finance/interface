@@ -1,5 +1,6 @@
 import './GuideLink.less';
 
+import { Trans } from '@lingui/macro';
 import React from 'react';
 
 import {
@@ -35,7 +36,7 @@ const GuideBanner: React.FC<GuideLinkProps> = ({
         <Col span={6}>
           <Row justify="end" align="middle" fillHeight>
             <Button className="guide-banner__btn" href={href} target="_blank">
-              Read Guide
+              <Trans>Read Guide</Trans>
             </Button>
           </Row>
         </Col>

@@ -1,3 +1,4 @@
+import { t } from '@lingui/macro';
 import React, { FC, useEffect, useState } from 'react';
 import { useHistory, useRouteMatch } from 'react-router-dom';
 import styled from 'styled-components';
@@ -40,8 +41,8 @@ const _Navigation: FC<NavigationProps> = ({ className }) => {
       onChange={onTabClick}
       className={className}
     >
-      <Tabs.TabPane tab="Swap" key="swap" />
-      <Tabs.TabPane tab="Liquidity" key="pool" />
+      <Tabs.TabPane tab={t`Swap`} key="swap" />
+      <Tabs.TabPane tab={t`Liquidity`} key="pool" />
     </Tabs>
   );
 };

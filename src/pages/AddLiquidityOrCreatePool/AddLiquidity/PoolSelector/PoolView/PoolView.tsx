@@ -1,3 +1,4 @@
+import { Trans } from '@lingui/macro';
 import React, { FC, useEffect } from 'react';
 import { catchError, of, startWith } from 'rxjs';
 
@@ -46,7 +47,9 @@ export const PoolView: FC<PoolSelectorItemProps> = ({
         </Typography.Title>
       </Flex.Item>
       <Flex.Item marginRight={1} align="center">
-        <Typography.Footnote>Fee:</Typography.Footnote>
+        <Typography.Footnote>
+          <Trans>Fee:</Trans>
+        </Typography.Footnote>
       </Flex.Item>
       <Flex.Item marginRight={2} align="center">
         <DataTag

@@ -1,3 +1,4 @@
+import { t } from '@lingui/macro';
 import React from 'react';
 
 import { Button, HistoryOutlined, Modal, Tooltip } from '../../../ergodex-cdk';
@@ -9,7 +10,7 @@ const TxHistory = (): JSX.Element => {
   };
 
   return (
-    <Tooltip title="Recent transactions" placement="bottom">
+    <Tooltip title={t`Recent transactions`} placement="bottom">
       <Button
         className="header__btn"
         size="large"

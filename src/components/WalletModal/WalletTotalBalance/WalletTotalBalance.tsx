@@ -1,3 +1,4 @@
+import { Trans } from '@lingui/macro';
 import React from 'react';
 
 import { Currency } from '../../../common/models/Currency';
@@ -15,7 +16,9 @@ export const WalletTotalBalance: React.FC<WalletTotalBalanceProps> = ({
   return (
     <Flex col>
       <Flex.Item marginBottom={2}>
-        <Typography.Body strong>Total balance</Typography.Body>
+        <Typography.Body strong>
+          <Trans>Total balance</Trans>
+        </Typography.Body>
       </Flex.Item>
       <Box padding={[2, 4]} borderRadius="m" contrast>
         <Flex row align="center">

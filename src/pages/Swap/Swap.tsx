@@ -1,4 +1,5 @@
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
+import { t, Trans } from '@lingui/macro';
 import { maxBy } from 'lodash';
 import { DateTime } from 'luxon';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -332,7 +333,9 @@ export const Swap = (): JSX.Element => {
         <Flex col>
           <Flex row align="center">
             <Flex.Item flex={1}>
-              <Typography.Title level={4}>Swap</Typography.Title>
+              <Typography.Title level={4}>
+                <Trans>Swap</Trans>
+              </Typography.Title>
             </Flex.Item>
             <OperationSettings />
           </Flex>
@@ -342,7 +345,7 @@ export const Swap = (): JSX.Element => {
               maxButton
               handleMaxButtonClick={handleMaxButtonClick}
               assets$={tokenAssets$}
-              label="From"
+              label={t`From`}
               amountName="fromAmount"
               tokenName="fromAsset"
             />
@@ -356,7 +359,7 @@ export const Swap = (): JSX.Element => {
             <TokenControlFormItem
               bordered
               assets$={toAssets$}
-              label="To"
+              label={t`To`}
               amountName="toAmount"
               tokenName="toAsset"
             />
@@ -369,7 +372,9 @@ export const Swap = (): JSX.Element => {
             )}
           </Form.Listener>
           <Flex.Item marginTop={4}>
-            <ActionForm.Button>Swap</ActionForm.Button>
+            <ActionForm.Button>
+              <Trans>Swap</Trans>
+            </ActionForm.Button>
           </Flex.Item>
         </Flex>
       </Page>

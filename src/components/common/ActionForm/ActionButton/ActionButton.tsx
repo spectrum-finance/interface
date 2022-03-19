@@ -1,5 +1,6 @@
 import './ActionButton.less';
 
+import { t } from '@lingui/macro';
 import { DateTime } from 'luxon';
 import React, { FC, ReactNode, useContext } from 'react';
 import { interval, map } from 'rxjs';
@@ -16,49 +17,49 @@ export const LOCKED_TOKEN_ID =
   'd71693c49a84fbbecd4908c94813b46514b18b67a99952dc1e6e4791556de413';
 
 const selectTokenState = (): ButtonProps => ({
-  children: 'Select a token',
+  children: t`Select a token`,
   type: 'primary',
   disabled: true,
 });
 
 const enterAmountState = (): ButtonProps => ({
-  children: 'Enter an Amount',
+  children: t`Enter an Amount`,
   type: 'primary',
   disabled: true,
 });
 
 const insufficientTokenBalanceState = (token = ''): ButtonProps => ({
-  children: `Insufficient ${token} Balance`,
+  children: t`Insufficient ${token} Balance`,
   type: 'primary',
   disabled: true,
 });
 
 const insufficientFeeBalanceState = (token = ''): ButtonProps => ({
-  children: `Insufficient ${token} Balance for Fees`,
+  children: t`Insufficient ${token} Balance for Fees`,
   type: 'primary',
   disabled: true,
 });
 
 const minValueState = (c?: Currency): ButtonProps => ({
-  children: `Min value for ${c?.asset.name} is ${c?.toString()}`,
+  children: t`Min value for ${c?.asset.name} is ${c?.toString()}`,
   type: 'primary',
   disabled: true,
 });
 
 const insufficientLiquidityState = (): ButtonProps => ({
-  children: `Insufficient liquidity for this trade`,
+  children: t`Insufficient liquidity for this trade`,
   type: 'primary',
   disabled: true,
 });
 
 const loadingState = (): ButtonProps => ({
-  children: `Wait a second`,
+  children: t`Loading`,
   type: 'primary',
   loading: true,
 });
 
 const checkInternetConnectionState = (): ButtonProps => ({
-  children: `Check Internet Connection`,
+  children: t`Check Internet Connection`,
   type: 'primary',
   disabled: true,
 });
@@ -136,8 +137,8 @@ export const ActionButton: FC<ActionButtonProps> = (props) => {
         type="primary"
       >
         {DateTime.now().toUTC().toMillis() < END_TIMER_DATE.toMillis()
-          ? `Swapping is available in ${timer.toFormat('hh:mm:ss')}`
-          : `Refresh page`}
+          ? t`Swapping is available in ${timer.toFormat('hh:mm:ss')}`
+          : t`Refresh page`}
       </Button>
     );
   }

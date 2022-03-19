@@ -1,8 +1,9 @@
 import './ExploreButton.less';
 
 import { Address, TxId } from '@ergolabs/ergo-sdk';
+import { t } from '@lingui/macro';
 import cn from 'classnames';
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import { ReactComponent as ExploreIcon } from '../../../assets/icons/icon-explore.svg';
 import { Button, Tooltip } from '../../../ergodex-cdk';
@@ -11,7 +12,7 @@ import { isTxId } from '../../../utils/string/txId';
 
 interface ExploreButtonProps {
   to: Address | TxId;
-  children?: string;
+  children?: ReactNode | string;
 }
 
 const ExploreButton: React.FC<ExploreButtonProps> = ({ to, children }) => {
@@ -24,7 +25,7 @@ const ExploreButton: React.FC<ExploreButtonProps> = ({ to, children }) => {
   };
 
   return (
-    <Tooltip title="View on explorer." trigger={children ? 'none' : 'hover'}>
+    <Tooltip title={t`View on explorer.`} trigger={children ? 'none' : 'hover'}>
       <Button
         className={cn(
           'explore-button',

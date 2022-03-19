@@ -1,3 +1,4 @@
+import { t } from '@lingui/macro';
 import React from 'react';
 
 import { Tag } from '../../../../ergodex-cdk';
@@ -10,13 +11,13 @@ interface TxTypeTagProps {
 const getTxType = (type: OperationType): { text: string; color: string } => {
   switch (type) {
     case 'swap':
-      return { text: 'Swap', color: 'magenta' };
+      return { text: t`Swap`, color: 'magenta' };
     case 'deposit':
-      return { text: 'Add liquidity', color: 'geekblue' };
+      return { text: t`Add liquidity`, color: 'geekblue' };
     case 'redeem':
-      return { text: 'Remove liquidity', color: 'default' };
+      return { text: t`Remove liquidity`, color: 'default' };
     case 'refund':
-      return { text: 'Refund', color: 'orange' };
+      return { text: t`Refund`, color: 'orange' };
   }
 };
 

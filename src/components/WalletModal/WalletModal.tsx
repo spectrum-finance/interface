@@ -1,3 +1,4 @@
+import { Trans } from '@lingui/macro';
 import React from 'react';
 
 import { networkAssetBalance$ } from '../../api/networkAssetBalance';
@@ -22,8 +23,10 @@ export const WalletModal: React.FC = () => {
   return (
     <>
       <Modal.Title>
-        Wallet
-        <Typography.Paragraph>Ergo network</Typography.Paragraph>
+        <Trans>Wallet</Trans>
+        <Typography.Paragraph>
+          <Trans>Ergo network</Trans>
+        </Typography.Paragraph>
       </Modal.Title>
       <Modal.Content width={460}>
         <Flex col>
@@ -55,7 +58,7 @@ export const WalletModal: React.FC = () => {
             </Box>
           </Flex.Item>
           <Button type="default" size="large" onClick={openChooseWalletModal}>
-            Change wallet
+            <Trans>Change wallet</Trans>
           </Button>
         </Flex>
       </Modal.Content>

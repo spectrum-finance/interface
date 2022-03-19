@@ -1,3 +1,4 @@
+import { Trans } from '@lingui/macro';
 import React from 'react';
 
 import { Button, DownOutlined, Dropdown, Menu } from '../../ergodex-cdk';
@@ -12,13 +13,7 @@ interface PoolMenuProps {
   className?: string;
 }
 
-const PoolMenu: React.FC<PoolMenuProps> = ({
-  // fromToken,
-  // toToken,
-  percent,
-  disable,
-  className,
-}) => {
+const PoolMenu: React.FC<PoolMenuProps> = ({ percent, disable, className }) => {
   const menu = (
     <Menu>
       <Menu.Item className="liquidity__pool-menu-list">
@@ -60,7 +55,8 @@ const PoolMenu: React.FC<PoolMenuProps> = ({
       disabled={disable}
     >
       <Button className="liquidity__pool-select">
-        Select pools <DownOutlined className="liquidity__pool-select-icon" />
+        <Trans>Select pools</Trans>{' '}
+        <DownOutlined className="liquidity__pool-select-icon" />
       </Button>
     </Dropdown>
   );

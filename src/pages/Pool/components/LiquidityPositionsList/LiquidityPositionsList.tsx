@@ -1,4 +1,5 @@
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
+import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 import { useHistory } from 'react-router-dom';
 
@@ -49,7 +50,7 @@ const LiquidityPositionsList: FC<LiquidityPositionsListProps> = ({
           onClick={handleAddLiquidity}
           icon={<PlusOutlined />}
         >
-          Add Liquidity
+          <Trans>Add Liquidity</Trans>
         </Button>
       </EmptyPositionsList>
     );

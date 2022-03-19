@@ -1,4 +1,5 @@
 import { AssetInfo } from '@ergolabs/ergo-sdk';
+import { t, Trans } from '@lingui/macro';
 import React, { FC, ReactNode } from 'react';
 import { Observable, of } from 'rxjs';
 
@@ -165,7 +166,9 @@ export const TokenControlFormItem: FC<NewTokenControlProps> = ({
                   <>
                     <Flex.Item marginRight={2}>
                       <Typography.Body>
-                        Balance: {balance.get(selectedAsset).toCurrencyString()}
+                        {t`Balance: ${balance
+                          .get(selectedAsset)
+                          .toCurrencyString()}`}
                       </Typography.Body>
                     </Flex.Item>
                     {!!balance.get(selectedAsset) && maxButton && (
@@ -177,7 +180,7 @@ export const TokenControlFormItem: FC<NewTokenControlProps> = ({
                           _handleMaxButtonClick(balance.get(selectedAsset))
                         }
                       >
-                        Max
+                        <Trans>Max</Trans>
                       </Button>
                     )}
                   </>

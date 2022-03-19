@@ -1,3 +1,4 @@
+import { Trans } from '@lingui/macro';
 import React, { FC, useEffect } from 'react';
 import { catchError, of, startWith } from 'rxjs';
 import styled from 'styled-components';
@@ -63,12 +64,16 @@ const _PoolSelector: FC<PoolSelectorProps> = ({
             {value && (
               <Flex col>
                 <Flex.Item marginBottom={2} align="center">
-                  <Typography.Body>Liquidity Pool</Typography.Body>
+                  <Typography.Body>
+                    <Trans>Liquidity Pool</Trans>
+                  </Typography.Body>
                   <InfoTooltip
                     content={
                       <>
-                        Your operation will be executed in this pool. <br /> You
-                        can also choose another pool for this pair
+                        <Trans>
+                          Your operation will be executed in this pool. <br />{' '}
+                          You can also choose another pool for this pair
+                        </Trans>
                       </>
                     }
                   />
@@ -112,7 +117,7 @@ const _PoolSelector: FC<PoolSelectorProps> = ({
                         disabled={(availableAmmPools?.length || 0) < 2}
                         onClick={() => openPoolSelectorModal(value)}
                       >
-                        Change
+                        <Trans>Change</Trans>
                       </Button>
                     </Flex.Item>
                   </Flex>

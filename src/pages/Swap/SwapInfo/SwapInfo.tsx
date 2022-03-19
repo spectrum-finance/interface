@@ -1,3 +1,4 @@
+import { t } from '@lingui/macro';
 import React, { FC, useState } from 'react';
 import styled from 'styled-components';
 
@@ -77,13 +78,13 @@ const _SwapInfo: FC<SwapInfoProps> = ({ className, value }) => {
             <Flex col>
               <Flex.Item marginBottom={2}>
                 <SwapInfoItem
-                  title="Slippage tolerance:"
+                  title={t`Slippage tolerance:`}
                   value={`${slippage}%`}
                 />
               </Flex.Item>
               <Flex.Item marginBottom={2}>
                 <SwapInfoItem
-                  title="Price impact:"
+                  title={t`Price impact:`}
                   value={
                     <Typography.Body type={priceImpactStatus}>
                       {priceImpact !== undefined ? `${priceImpact}%` : '–'}
@@ -93,13 +94,13 @@ const _SwapInfo: FC<SwapInfoProps> = ({ className, value }) => {
               </Flex.Item>
               <Flex.Item marginBottom={2}>
                 <SwapInfoItem
-                  title="Minimum received:"
+                  title={t`Minimum received:`}
                   value={minOutput?.toCurrencyString() || '–'}
                 />
               </Flex.Item>
               <Flex.Item marginBottom={4}>
                 <SwapInfoItem
-                  title="Maximum received:"
+                  title={t`Maximum received:`}
                   value={maxOutput?.toCurrencyString() || '–'}
                 />
               </Flex.Item>
@@ -108,21 +109,21 @@ const _SwapInfo: FC<SwapInfoProps> = ({ className, value }) => {
               </Flex.Item>
               <Flex.Item marginBottom={2}>
                 <SwapInfoItem
-                  title="Execution Fee"
+                  title={t`Execution Fee`}
                   value={`${minExFee.toCurrencyString()} - ${maxExFee.toCurrencyString()}`}
                   secondary
                 />
               </Flex.Item>
               <Flex.Item marginBottom={2}>
                 <SwapInfoItem
-                  title="Miner fee:"
+                  title={t`Miner fee:`}
                   value={`${minerFee} ERG`}
                   secondary
                 />
               </Flex.Item>
               <Flex.Item marginBottom={2}>
                 <SwapInfoItem
-                  title="Total fees:"
+                  title={t`Total fees:`}
                   value={`${minTotalFee.toCurrencyString()} - ${maxTotalFee.toCurrencyString()}`}
                 />
               </Flex.Item>

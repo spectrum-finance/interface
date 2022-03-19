@@ -1,5 +1,6 @@
 import './BurgerMenu.less';
 
+import { t } from '@lingui/macro';
 import React, { useState } from 'react';
 import { isMobile } from 'react-device-detect';
 
@@ -26,17 +27,17 @@ const BurgerMenu = (): JSX.Element => {
 
   const menu = [
     {
-      title: 'About',
+      title: t`About`,
       icon: <InfoCircleOutlined />,
       link: 'https://docs.ergodex.io/docs/about-ergodex/intro',
     },
     {
-      title: 'How to use',
+      title: t`How to use`,
       icon: <QuestionCircleOutlined />,
       link: 'https://docs.ergodex.io/docs/user-guides/quick-start',
     },
     {
-      title: 'Docs',
+      title: t`Docs`,
       icon: <FileTextOutlined />,
       link: 'https://docs.ergodex.io',
     },
@@ -46,7 +47,7 @@ const BurgerMenu = (): JSX.Element => {
       link: 'https://github.com/ergolabs',
     },
     {
-      title: 'Global Settings',
+      title: t`Global Settings`,
       icon: <SettingOutlined />,
       onClick: () =>
         Modal.open(({ close }) => <GlobalSettingsModal onClose={close} />),
@@ -63,7 +64,7 @@ const BurgerMenu = (): JSX.Element => {
     //   additional: <RightOutlined style={{ marginLeft: 36 }} />,
     // },
     {
-      title: 'Dark mode',
+      title: t`Dark mode`,
       icon: <DarkModeOutlined />,
       additional: <ThemeSwitch defaultChecked size="small" />,
     },

@@ -1,4 +1,5 @@
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
+import { t } from '@lingui/macro';
 import { maxBy } from 'lodash';
 import React, { FC, useEffect, useState } from 'react';
 import { skip } from 'rxjs';
@@ -167,7 +168,7 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
       : totalFees;
 
     return totalFeesWithAmount.gt(balance.get(networkAsset))
-      ? `Insufficient ${networkAsset.name} Balance for Fees`
+      ? t`Insufficient ${networkAsset.name} Balance for Fees`
       : undefined;
   };
 
@@ -175,11 +176,11 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
     value: { x, y },
   }) => {
     if (x?.gt(balance.get(x?.asset))) {
-      return `Insufficient ${x?.asset.name} Balance`;
+      return t`Insufficient ${x?.asset.name} Balance`;
     }
 
     if (y?.gt(balance.get(y?.asset))) {
-      return `Insufficient ${y?.asset.name} Balance`;
+      return t`Insufficient ${y?.asset.name} Balance`;
     }
 
     return undefined;
@@ -195,7 +196,7 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
       return undefined;
     }
 
-    return (!x?.isPositive() || !y?.isPositive()) && 'Enter an Amount';
+    return (!x?.isPositive() || !y?.isPositive()) && t`Enter an Amount`;
   };
 
   const minValueValidator: OperationValidator<AddLiquidityFormModel> = ({
@@ -208,12 +209,12 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
     if (!y?.isPositive() && x?.isPositive() && pool) {
       c = pool.calculateDepositAmount(new Currency(1n, yAsset));
     }
-    return c && `Min value for ${c?.asset.name} is ${c?.toString()}`;
+    return c && t`Min value for ${c?.asset.name} is ${c?.toString()}`;
   };
 
   const selectTokenValidator: OperationValidator<AddLiquidityFormModel> = ({
     value: { pool },
-  }) => !pool && 'Select a token';
+  }) => !pool && t`Select a token`;
 
   const resetForm = () =>
     form.patchValue(
@@ -262,11 +263,11 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
       form={form}
       onSubmit={addLiquidityAction}
       validators={validators}
-      actionCaption="Add Liquidity"
+      actionCaption={t`Add Liquidity`}
     >
       <Flex col>
         <Flex.Item marginBottom={4}>
-          <Section title="Pool">
+          <Section title={t`Pool`}>
             <Flex>
               <Flex.Item marginRight={1} flex={1}>
                 <Form.Item name="pool">
@@ -288,7 +289,7 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
           </Section>
         </Flex.Item>
         <Flex.Item marginBottom={4}>
-          <Section title="Liquidity">
+          <Section title={t`Liquidity`}>
             <Flex col>
               <Flex.Item marginBottom={2}>
                 <TokenControlFormItem

@@ -1,3 +1,4 @@
+import { t, Trans } from '@lingui/macro';
 import React from 'react';
 
 import { useSettings } from '../../../context';
@@ -14,8 +15,12 @@ export const WalletActiveAddress = (): JSX.Element => {
   return (
     <Flex col>
       <Flex.Item marginBottom={2}>
-        <Typography.Body strong>Active address</Typography.Body>
-        <InfoTooltip content="All output assets will be received at this address." />
+        <Typography.Body strong>
+          <Trans>Active address</Trans>
+        </Typography.Body>
+        <InfoTooltip
+          content={t`All output assets will be received at this address.`}
+        />
       </Flex.Item>
       <Box padding={[2, 4]} borderRadius="m" contrast>
         {address ? (
@@ -28,10 +33,14 @@ export const WalletActiveAddress = (): JSX.Element => {
             <Flex.Item marginBottom={1}>
               <Flex>
                 <Flex.Item marginRight={4} display="flex">
-                  <CopyButton text={address}>Copy Address</CopyButton>
+                  <CopyButton text={address}>
+                    <Trans>Copy Address</Trans>
+                  </CopyButton>
                 </Flex.Item>
                 <Flex.Item display="flex">
-                  <ExploreButton to={address}>View on explorer</ExploreButton>
+                  <ExploreButton to={address}>
+                    <Trans>View on explorer</Trans>
+                  </ExploreButton>
                 </Flex.Item>
               </Flex>
             </Flex.Item>

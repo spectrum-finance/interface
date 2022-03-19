@@ -1,3 +1,4 @@
+import { t, Trans } from '@lingui/macro';
 import React from 'react';
 
 import { defaultMinerFee } from '../../../common/constants/settings';
@@ -42,15 +43,15 @@ const recommendedMinerFeeCheck: CheckFn<number> = (minerFee) =>
 
 const errorMessages: Messages<GlobalSettingsFormModel> = {
   minerFee: {
-    minMinerFee: `Minimum value is ${MIN_ERG_FOR_TX} ERG`,
-    maxMinerFee: `The value can't be more than ${MAX_ERG_FOR_TX} ERG`,
+    minMinerFee: t`Minimum value is ${MIN_ERG_FOR_TX} ERG`,
+    maxMinerFee: t`The value can't be more than ${MAX_ERG_FOR_TX} ERG`,
   },
 };
 
 const warningMessages: Messages<GlobalSettingsFormModel> = {
   minerFee: {
     recommendedMinerFee: (value: number | undefined) =>
-      `You will spend ${value} ERG for every operation.`,
+      t`You will spend ${value} ERG for every operation.`,
   },
 };
 
@@ -78,7 +79,9 @@ const GlobalSettingsModal: React.FC<GlobalSettingsModalProps> = ({
 
   return (
     <>
-      <Modal.Title>Global Settings</Modal.Title>
+      <Modal.Title>
+        <Trans>Global Settings</Trans>
+      </Modal.Title>
       <Modal.Content width={450}>
         <Form
           form={form}
@@ -88,7 +91,9 @@ const GlobalSettingsModal: React.FC<GlobalSettingsModalProps> = ({
         >
           <Flex col>
             <Flex.Item marginBottom={4}>
-              <Typography.Footnote>Miner Fee</Typography.Footnote>
+              <Typography.Footnote>
+                <Trans>Miner Fee</Trans>
+              </Typography.Footnote>
               <InfoTooltip content="Fee charged by miners" />
             </Flex.Item>
             <Flex.Item marginBottom={4}>
@@ -112,7 +117,7 @@ const GlobalSettingsModal: React.FC<GlobalSettingsModalProps> = ({
                   htmlType="submit"
                   disabled={invalid}
                 >
-                  Confirm
+                  <Trans>Confirm</Trans>
                 </Button>
               )}
             </Form.Listener>
