@@ -63,7 +63,7 @@ const PoolPageWrapper: React.FC<PoolPageWrapperProps> = ({
                   trigger={['click']}
                   onClick={onClick}
                 >
-                  + <Trans>Add liquidity</Trans>
+                  <Trans>Add liquidity</Trans>
                 </Dropdown.Button>
               </>
             )
@@ -86,7 +86,7 @@ const Liquidity = (): JSX.Element => {
   const defaultActiveTabKey = 'positions-overview';
 
   useEffect(() => {
-    history.push(`/pool?active=${query.get('active') ?? defaultActiveTabKey}`);
+    history.push(`/pool?active=${query.active ?? defaultActiveTabKey}`);
   }, []);
 
   const [positions, isPositionLoading] = useObservable(positions$, [], []);
@@ -117,7 +117,7 @@ const Liquidity = (): JSX.Element => {
             />
           ),
         }}
-        defaultActiveKey={query.get('active')!}
+        defaultActiveKey={String(query.active)}
         className="pool__position-tabs"
         onChange={(key) => {
           history.push(`/pool?active=${key}`);

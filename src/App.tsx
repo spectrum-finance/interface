@@ -1,8 +1,6 @@
-import './i18n';
+import './i18n/i18n';
 
 import { RustModule } from '@ergolabs/ergo-sdk';
-import { i18n } from '@lingui/core';
-import { I18nProvider } from '@lingui/react';
 import React, { Suspense, useEffect, useState } from 'react';
 import { BrowserView, MobileView } from 'react-device-detect';
 import { Redirect, Route, Router, Switch } from 'react-router-dom';
@@ -13,6 +11,7 @@ import { MobilePlug } from './components/MobilePlug/MobilePlug';
 import { AppLoadingProvider, SettingsProvider } from './context';
 import { globalHistory } from './createBrowserHistory';
 import { ContextModalProvider } from './ergodex-cdk';
+import { LanguageProvider } from './i18n/i18n';
 import { AddLiquidityOrCreatePool } from './pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool';
 import { Liquidity } from './pages/Pool/Liquidity';
 import { LockLiquidity } from './pages/Pool/LockLiquidity/LockLiquidity';
@@ -27,7 +26,7 @@ const NotFound = () => <Redirect to="/swap" />;
 const Application = () => {
   return (
     <Router history={globalHistory}>
-      <I18nProvider forceRenderOnLocaleChange={false} i18n={i18n}>
+      <LanguageProvider>
         <AppLoadingProvider>
           <SettingsProvider>
             <ContextModalProvider>
@@ -84,7 +83,7 @@ const Application = () => {
             </ContextModalProvider>
           </SettingsProvider>
         </AppLoadingProvider>
-      </I18nProvider>
+      </LanguageProvider>
     </Router>
   );
 };

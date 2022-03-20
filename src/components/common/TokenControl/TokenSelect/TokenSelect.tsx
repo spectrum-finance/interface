@@ -91,7 +91,16 @@ const TokenSelect: React.FC<TokenSelectProps> = ({
           disabled={disabled}
         >
           <Trans>Select a token</Trans>
-          {!readonly && <DownOutlined />}
+          {!readonly && (
+            <DownOutlined
+              style={{
+                display: 'inherit',
+                marginLeft: '8px',
+                width: '12px',
+                height: '14px',
+              }}
+            />
+          )}
         </Button>
       )}
     </>

@@ -3,9 +3,9 @@ import { useLocalStorage } from '@rehooks/local-storage';
 import React, { createContext, useContext, useEffect } from 'react';
 
 import { addresses$ } from '../api/addresses';
-// import { LocalStorageReturnValue } from '@rehooks/local-storage/lib/use-localstorage';
 import { ERG_EXPLORER_URL } from '../common/constants/env';
 import { MIN_NITRO } from '../common/constants/erg';
+import { DEFAULT_LOCALE, SupportedLocale } from '../common/constants/locales';
 import { defaultMinerFee, defaultSlippage } from '../common/constants/settings';
 import { useObservable } from '../common/hooks/useObservable';
 import { isDarkOsTheme } from '../utils/osTheme';
@@ -18,6 +18,7 @@ export type Settings = {
   pk?: PublicKey;
   explorerUrl: string;
   theme: string;
+  lang: SupportedLocale;
 };
 
 export const DefaultSettings: Readonly<Settings> = {
@@ -27,6 +28,8 @@ export const DefaultSettings: Readonly<Settings> = {
   explorerUrl: ERG_EXPLORER_URL,
   pk: '',
   theme: isDarkOsTheme() ? 'dark' : 'light',
+  lang: DEFAULT_LOCALE,
+  address: undefined,
 };
 
 function noop() {
@@ -49,16 +52,50 @@ const defaultContextValue: LocalStorageReturnValue<Settings> = [
 
 const SettingsContext = createContext(defaultContextValue);
 
+export const getSetting = (
+  setting: keyof Settings,
+): Settings[keyof Settings] => {
+  const settings = localStorage.getItem('settings');
+  // @ts-ignore
+  return settings ? settings[setting] : undefined;
+};
+
 export const SettingsProvider = ({
   children,
 }: React.PropsWithChildren<unknown>): JSX.Element => {
   const ctxValue = useLocalStorage('settings', DefaultSettings);
   const [addresses] = useObservable(addresses$);
+  const [userSettings, setUserSettings] = ctxValue;
 
   useEffect(() => {
-    if (!ctxValue[0].address && addresses) {
-      ctxValue[1]({
-        ...ctxValue[0],
+    const userSettingsKeys = Object.keys(userSettings);
+    const defaultSettingsKeys = Object.keys(DefaultSettings);
+    const filteredDefaultSettingsKeys = defaultSettingsKeys.filter(
+      (val) => !userSettingsKeys.includes(val),
+    );
+    const isEqualUserAndDefaultSettingsFields =
+      filteredDefaultSettingsKeys.length === 0;
+
+    if (!isEqualUserAndDefaultSettingsFields) {
+      const diffs = filteredDefaultSettingsKeys.reduce((acc, key) => {
+        return {
+          ...acc,
+          // @ts-ignore
+          [key]: DefaultSettings[key],
+        };
+      }, {} as any);
+
+      setUserSettings({
+        ...userSettings,
+        ...diffs,
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!userSettings.address && addresses) {
+      setUserSettings({
+        ...userSettings,
         address: addresses[0],
         pk: publicKeyFromAddress(addresses[0]),
       });
