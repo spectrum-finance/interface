@@ -17,6 +17,7 @@ interface PageProps {
   title?: ReactNode | ReactNode[] | string;
   withBackButton?: boolean;
   backTo?: string;
+  onBackButtonClick?: () => void;
   titleChildren?: ReactNode | ReactNode[] | string;
   className?: string;
   footer?: ReactNode | ReactNode[] | string;
@@ -31,6 +32,7 @@ const _Page: React.FC<PageProps> = ({
   footer,
   className,
   titleChildren,
+  onBackButtonClick,
 }) => {
   const history = useHistory();
 
@@ -47,11 +49,12 @@ const _Page: React.FC<PageProps> = ({
                       <Button
                         type="text"
                         icon={<ArrowLeftOutlined />}
-                        onClick={() =>
+                        onClick={() => {
                           history.length
                             ? history.goBack()
-                            : backTo && history.push(backTo)
-                        }
+                            : backTo && history.push(backTo);
+                          onBackButtonClick && onBackButtonClick();
+                        }}
                       />
                     </Flex.Item>
                   )}

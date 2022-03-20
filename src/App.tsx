@@ -43,6 +43,11 @@ const Application = withTranslation()(() => {
                     component={AddLiquidityOrCreatePool}
                   />
                   <Route
+                    path="/pool/create"
+                    exact
+                    component={AddLiquidityOrCreatePool}
+                  />
+                  <Route
                     path="/pool/:poolId/remove"
                     exact
                     component={RemoveLiquidity}
