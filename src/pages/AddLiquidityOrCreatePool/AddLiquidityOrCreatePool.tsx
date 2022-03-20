@@ -118,14 +118,6 @@ export const AddLiquidityOrCreatePool: FC = () => {
   );
 
   useSubscription(
-    combineLatest([
-      form.controls.x.valueChangesWithSilent$.pipe(distinctUntilChanged()),
-      form.controls.y.valueChangesWithSilent$.pipe(distinctUntilChanged()),
-    ]),
-    () => setComponentState(ComponentState.ADD_LIQUIDITY),
-  );
-
-  useSubscription(
     form.controls.x.valueChangesWithSilent$,
     (asset: AssetInfo | undefined) => updateYAssets$.next(asset?.id),
   );
@@ -140,12 +132,11 @@ export const AddLiquidityOrCreatePool: FC = () => {
   );
 
   const isAddLiquidityPageVisible = (
-    { x, y, pools }: AssetFormModel,
+    { pools, x, y }: AssetFormModel,
     componentState: ComponentState,
   ): boolean =>
-    (pools?.length && componentState === ComponentState.ADD_LIQUIDITY) ||
-    !y ||
-    !x;
+    (!!pools?.length || !x || !y) &&
+    componentState === ComponentState.ADD_LIQUIDITY;
 
   const isCreatePoolPageVisible = (
     value: AssetFormModel,
