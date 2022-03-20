@@ -27,6 +27,8 @@ import {
 } from '../../../ergodex-cdk';
 import { useMaxTotalFees, useNetworkAsset } from '../../../services/new/core';
 import { PoolRatio } from '../../PoolOverview/PoolRatio/PoolRatio';
+import { normalizeAmountWithFee } from '../common/utils';
+import { LiquidityPercentInput } from '../LiquidityPercentInput/LiquidityPercentInput';
 import { AddLiquidityConfirmationModal } from './AddLiquidityConfirmationModal/AddLiquidityConfirmationModal';
 import { AddLiquidityFormModel } from './AddLiquidityFormModel';
 import { PoolSelector } from './PoolSelector/PoolSelector';
@@ -249,6 +251,89 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
     );
   };
 
+  const handleMaxLiquidityClick = (pct: number) => {
+    const { xAsset, yAsset, pool } = form.value;
+
+    if (!xAsset || !yAsset || !pool) {
+      return;
+    }
+
+    let newXAmount = normalizeAmountWithFee(
+      balance.get(xAsset).percent(pct),
+      balance.get(xAsset),
+      networkAsset,
+      totalFees,
+    );
+    let newYAmount = normalizeAmountWithFee(
+      pool.calculateDepositAmount(newXAmount),
+      balance.get(yAsset),
+      networkAsset,
+      totalFees,
+    );
+
+    if (
+      newXAmount.isPositive() &&
+      newYAmount.isPositive() &&
+      newYAmount.lte(balance.get(yAsset))
+    ) {
+      form.patchValue(
+        {
+          x: newXAmount,
+          y: newYAmount,
+        },
+        { emitEvent: 'silent' },
+      );
+      return;
+    }
+
+    newYAmount = normalizeAmountWithFee(
+      balance.get(yAsset).percent(pct),
+      balance.get(yAsset),
+      networkAsset,
+      totalFees,
+    );
+    newXAmount = normalizeAmountWithFee(
+      pool.calculateDepositAmount(newYAmount),
+      balance.get(xAsset),
+      networkAsset,
+      totalFees,
+    );
+
+    if (
+      newYAmount.isPositive() &&
+      newXAmount.isPositive() &&
+      newXAmount.lte(balance.get(xAsset))
+    ) {
+      form.patchValue(
+        {
+          x: newXAmount,
+          y: newYAmount,
+        },
+        { emitEvent: 'silent' },
+      );
+      return;
+    }
+
+    if (balance.get(xAsset).isPositive()) {
+      form.patchValue(
+        {
+          x: balance.get(xAsset).percent(pct),
+          y: pool.calculateDepositAmount(balance.get(xAsset).percent(pct)),
+        },
+        { emitEvent: 'silent' },
+      );
+      return;
+    } else {
+      form.patchValue(
+        {
+          y: balance.get(yAsset).percent(pct),
+          x: pool.calculateDepositAmount(balance.get(yAsset).percent(pct)),
+        },
+        { emitEvent: 'silent' },
+      );
+    }
+  };
+
   const validators: OperationValidator<AddLiquidityFormModel>[] = [
     selectTokenValidator,
     amountValidator,
@@ -288,7 +373,14 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
           </Section>
         </Flex.Item>
         <Flex.Item marginBottom={4}>
-          <Section title="Liquidity">
+          <Section
+            title="Liquidity"
+            extra={
+              <Flex justify="flex-end">
+                <LiquidityPercentInput onClick={handleMaxLiquidityClick} />
+              </Flex>
+            }
+          >
             <Flex col>
               <Flex.Item marginBottom={2}>
                 <TokenControlFormItem
