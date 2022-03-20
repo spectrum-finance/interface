@@ -1,5 +1,5 @@
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { applicationConfig } from '../../applicationConfig';
 
@@ -29,6 +29,12 @@ const TokenIcon: React.FC<TokenIconProps> = ({ asset, size, ...rest }) => {
   const [errorState, setErrorState] = useState<ErrorState | undefined>(
     undefined,
   );
+
+  useEffect(() => {
+    if (asset) {
+      setErrorState(undefined);
+    }
+  }, [asset]);
 
   const handleError = () => {
     setErrorState(ErrorState.ICON_NOT_FOUND);

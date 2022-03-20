@@ -114,10 +114,15 @@ export const AddLiquidityOrCreatePool: FC = () => {
       form.controls.x.valueChangesWithSilent$.pipe(distinctUntilChanged()),
       form.controls.y.valueChangesWithSilent$.pipe(distinctUntilChanged()),
     ]).pipe(switchMap(([x, y]) => getAvailablePools(x?.id, y?.id))),
-    (pools) => {
-      setComponentState(ComponentState.ADD_LIQUIDITY);
-      form.patchValue({ pools });
-    },
+    (pools) => form.patchValue({ pools }),
+  );
+
+  useSubscription(
+    combineLatest([
+      form.controls.x.valueChangesWithSilent$.pipe(distinctUntilChanged()),
+      form.controls.y.valueChangesWithSilent$.pipe(distinctUntilChanged()),
+    ]),
+    () => setComponentState(ComponentState.ADD_LIQUIDITY),
   );
 
   useSubscription(
@@ -206,11 +211,7 @@ export const AddLiquidityOrCreatePool: FC = () => {
                   <Flex.Item marginBottom={4} display="flex" col>
                     <CreatePoolUnsupportedAlert
                       walletName={selectedWallet.name}
-                    >
-                      The pool with such a pair has not yet been initialized. To
-                      create a pool enter an initial price. Then add the deposit
-                      amount.
-                    </CreatePoolUnsupportedAlert>
+                    />
                   </Flex.Item>
                 )
               }

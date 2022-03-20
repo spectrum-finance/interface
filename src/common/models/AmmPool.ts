@@ -5,7 +5,9 @@ import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import { cache } from 'decorator-cache-getter';
 import { evaluate } from 'mathjs';
 
+import { AnalyticsData } from '../../services/new/analytics';
 import { math, renderFractions } from '../../utils/math';
+import { AmmPoolAnalytics } from '../streams/poolAnalytic';
 import { Searchable } from '../utils/Searchable';
 import { Currency } from './Currency';
 import { Ratio } from './Ratio';
@@ -26,7 +28,25 @@ const calculatePureOutputAmount = (
 };
 
 export class AmmPool implements Searchable {
-  constructor(private pool: BaseAmmPool) {}
+  constructor(
+    private pool: BaseAmmPool,
+    private poolAnalytics?: AmmPoolAnalytics,
+  ) {}
+
+  @cache
+  get tvl(): AnalyticsData | undefined {
+    return this.poolAnalytics?.tvl;
+  }
+
+  @cache
+  get volume(): AnalyticsData | undefined {
+    return this.poolAnalytics?.volume;
+  }
+
+  @cache
+  get yearlyFeesPercent(): number | undefined {
+    return this.poolAnalytics?.yearlyFeesPercent;
+  }
 
   @cache
   get id(): PoolId {
