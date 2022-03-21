@@ -10,4 +10,6 @@ export const colorTable: string[] = [
   '#3C8618',
   '#138585',
   '#263EA0',
+  '#51258F',
+  '#A02669',
 ];
