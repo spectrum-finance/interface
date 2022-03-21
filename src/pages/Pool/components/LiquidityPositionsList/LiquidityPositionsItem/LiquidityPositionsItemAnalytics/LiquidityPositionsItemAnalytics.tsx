@@ -31,7 +31,7 @@ const LiquidityPositionsItemAnalytics: React.FC<LiquidityPositionsItemAnalyticsP
                       ),
                       'abbr',
                     )
-                  : '-'
+                  : '–'
               }
             />
           </Flex>
@@ -52,7 +52,7 @@ const LiquidityPositionsItemAnalytics: React.FC<LiquidityPositionsItemAnalyticsP
                       ),
                       'abbr',
                     )
-                  : '-'
+                  : '–'
               }
             />
           </Flex>
@@ -89,7 +89,9 @@ const LiquidityPositionsItemAnalytics: React.FC<LiquidityPositionsItemAnalyticsP
             </Flex.Item>
             <DataTag
               size="large"
-              content={pool ? `${pool.yearlyFeesPercent}%` : `-`}
+              content={
+                pool?.yearlyFeesPercent ? `${pool.yearlyFeesPercent}%` : `–`
+              }
             />
           </Flex>
         </Flex.Item>

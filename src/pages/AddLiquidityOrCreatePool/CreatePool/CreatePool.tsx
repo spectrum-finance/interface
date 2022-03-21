@@ -381,7 +381,7 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
     >
       <Flex col>
         <Flex.Item marginBottom={4}>
-          <Section title="Choose a fee" tooltip="test">
+          <Section title="Choose fee tier" tooltip="test">
             <Form.Item name="fee">
               {({ value, onChange }) => (
                 <FeeSelector value={value} onChange={onChange} />
