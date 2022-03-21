@@ -5,7 +5,9 @@ import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import { cache } from 'decorator-cache-getter';
 import { evaluate } from 'mathjs';
 
+import { AnalyticsData } from '../../services/new/analytics';
 import { math, renderFractions } from '../../utils/math';
+import { AmmPoolAnalytics } from '../streams/poolAnalytic';
 import { Searchable } from '../utils/Searchable';
 import { Currency } from './Currency';
 import { Ratio } from './Ratio';
@@ -26,7 +28,25 @@ const calculatePureOutputAmount = (
 };
 
 export class AmmPool implements Searchable {
-  constructor(private pool: BaseAmmPool) {}
+  constructor(
+    private pool: BaseAmmPool,
+    private poolAnalytics?: AmmPoolAnalytics,
+  ) {}
+
+  @cache
+  get tvl(): AnalyticsData | undefined {
+    return this.poolAnalytics?.tvl;
+  }
+
+  @cache
+  get volume(): AnalyticsData | undefined {
+    return this.poolAnalytics?.volume;
+  }
+
+  @cache
+  get yearlyFeesPercent(): number | undefined {
+    return this.poolAnalytics?.yearlyFeesPercent;
+  }
 
   @cache
   get id(): PoolId {
@@ -104,7 +124,11 @@ export class AmmPool implements Searchable {
     }
 
     if (inputCurrency.amount === 1n) {
-      return new Ratio(outputCurrency.toAmount(), outputCurrency.asset);
+      return new Ratio(
+        outputCurrency.toAmount(),
+        outputCurrency.asset,
+        inputCurrency.asset,
+      );
     }
 
     const fmtInput = inputCurrency.toAmount();
@@ -112,7 +136,7 @@ export class AmmPool implements Searchable {
 
     const p = math.evaluate!(`${fmtOutput} / ${fmtInput}`).toString();
 
-    return new Ratio(p, outputCurrency.asset);
+    return new Ratio(p, outputCurrency.asset, inputCurrency.asset);
   }
 
   calculateInputPrice(outputCurrency: Currency): Ratio {
@@ -125,7 +149,11 @@ export class AmmPool implements Searchable {
     }
 
     if (outputCurrency.amount === 1n) {
-      return new Ratio(inputCurrency.toAmount(), inputCurrency.asset);
+      return new Ratio(
+        inputCurrency.toAmount(),
+        inputCurrency.asset,
+        outputCurrency.asset,
+      );
     }
 
     const fmtInput = inputCurrency.toAmount();
@@ -133,7 +161,7 @@ export class AmmPool implements Searchable {
 
     const p = math.evaluate!(`${fmtInput} / ${fmtOutput}`).toString();
 
-    return new Ratio(p, inputCurrency.asset);
+    return new Ratio(p, inputCurrency.asset, outputCurrency.asset);
   }
 
   calculateDepositAmount(currency: Currency): Currency {
@@ -220,6 +248,6 @@ export class AmmPool implements Searchable {
       `${firstAmount} / ${secondAmount}`,
     ).toString();
 
-    return new Ratio(ratioAmount, first.asset);
+    return new Ratio(ratioAmount, first.asset, second.asset);
   }
 }

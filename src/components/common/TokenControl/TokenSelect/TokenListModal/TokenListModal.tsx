@@ -49,7 +49,7 @@ const TokenListModal: React.FC<TokenListModalProps> = ({
   return (
     <>
       <Modal.Title>Select a token</Modal.Title>
-      <Modal.Content width={400}>
+      <Modal.Content width={500}>
         <Flex col>
           <Flex.Item marginBottom={2}>
             <Input
@@ -60,7 +60,7 @@ const TokenListModal: React.FC<TokenListModalProps> = ({
               onChange={handleSearch}
             />
           </Flex.Item>
-          <List dataSource={assets?.filter(byTerm)} gap={0} maxHeight={500}>
+          <List dataSource={assets?.filter(byTerm)} gap={0} maxHeight={350}>
             {(asset) => (
               <TokenListItem
                 key={asset.id}

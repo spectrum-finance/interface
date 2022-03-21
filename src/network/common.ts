@@ -36,14 +36,19 @@ export enum WalletState {
   CONNECTED,
 }
 
+export interface SupportedFeatures {
+  createPool: boolean;
+}
+
 export interface Wallet {
   readonly name: string;
   readonly icon: ReactNode;
-  readonly experimental: boolean;
+  readonly definition: 'experimental' | 'recommended' | 'default';
   readonly extensionLink: string;
   readonly getAddresses: () => Observable<Address[]>;
   readonly connectWallet: () => Observable<boolean | ReactNode>;
   readonly getUtxos: () => Observable<ErgoBox[]>;
   readonly getNotification?: () => ArgsProps | undefined;
   readonly onDisconnect?: () => void;
+  readonly supportedFeatures: SupportedFeatures;
 }

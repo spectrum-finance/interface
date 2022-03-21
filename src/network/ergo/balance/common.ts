@@ -1,5 +1,6 @@
 import { ErgoBox } from '@ergolabs/ergo-sdk';
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
+import { AugAssetInfo } from '@ergolabs/ergo-sdk/build/main/network/models';
 import {
   combineLatest,
   defaultIfEmpty,
@@ -21,20 +22,23 @@ import { utxos$ } from '../common/utxos';
 const toListAvailableTokens = (utxos: ErgoBox[]): Asset[] =>
   Object.values(getListAvailableTokens(utxos));
 
+const isNotNFT = (assetInfo: AugAssetInfo | undefined): boolean =>
+  !!assetInfo && assetInfo.emissionAmount !== 1n;
+
 export const availableTokensData$: Observable<[bigint, AssetInfo][]> =
   utxos$.pipe(
     map(toListAvailableTokens),
     switchMap((boxAssets) =>
-      combineLatest<[bigint, AssetInfo][]>(
+      combineLatest<[bigint, AugAssetInfo][]>(
         boxAssets.map((ba) =>
           from(explorer.getFullTokenInfo(ba.tokenId)).pipe(
-            map((assetInfo) => [ba.amount, assetInfo as AssetInfo]),
+            map((assetInfo) => [ba.amount, assetInfo as AugAssetInfo]),
           ),
         ),
       ).pipe(defaultIfEmpty([])),
     ),
     map((availableTokensData) =>
-      availableTokensData.filter(([, assetInfo]) => !!assetInfo),
+      availableTokensData.filter(([, assetInfo]) => isNotNFT(assetInfo)),
     ),
     publishReplay(1),
     refCount(),

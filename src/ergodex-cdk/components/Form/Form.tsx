@@ -8,7 +8,7 @@ import { FormListener } from './FormListener';
 
 export interface FormProps<T> {
   readonly form: FormGroup<T>;
-  readonly onSubmit: (form: FormGroup<T>) => void;
+  readonly onSubmit?: (form: FormGroup<T>) => void;
   readonly children?: ReactNode | ReactNode[] | string;
   readonly errorMessages?: Messages<T>;
   readonly warningMessages?: Messages<T>;
@@ -23,18 +23,24 @@ class _Form<T> extends React.Component<FormProps<T>> {
 
   private handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    this.props.onSubmit(this.props.form);
+    if (this.props.onSubmit) {
+      this.props.onSubmit(this.props.form);
+    }
   }
 
   render() {
     const { children, form, errorMessages, warningMessages } = this.props;
 
-    return (
+    return this.props.onSubmit ? (
       <form onSubmit={this.handleSubmit}>
         <FormContext.Provider value={{ errorMessages, warningMessages, form }}>
           {children}
         </FormContext.Provider>
       </form>
+    ) : (
+      <FormContext.Provider value={{ errorMessages, warningMessages, form }}>
+        {children}
+      </FormContext.Provider>
     );
   }
 }

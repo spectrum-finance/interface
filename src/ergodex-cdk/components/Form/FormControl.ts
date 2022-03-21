@@ -16,7 +16,7 @@ export class FormControl<T> implements AbstractFormItem<T> {
     public name: string,
     private param: FormControlParams<T>,
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    private parent: any,
+    public parent: any,
   ) {}
 
   //@ts-ignore

@@ -48,8 +48,10 @@ const createRatioString = (
     : calculateOutputPrice(value as Required<SwapFormModel>);
 
   return reversedRatio
-    ? `1 ${value.toAsset?.name} = ${price?.toString()} ${price?.asset.name}`
-    : `1 ${value.fromAsset?.name} = ${price?.toString()} ${price?.asset.name}`;
+    ? `1 ${value.toAsset?.name} = ${price?.toString()} ${price?.baseAsset.name}`
+    : `1 ${value.fromAsset?.name} = ${price?.toString()} ${
+        price?.baseAsset.name
+      }`;
 };
 
 const _RatioView: FC<RatioViewProps> = ({ value, className }) => {

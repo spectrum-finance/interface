@@ -1,10 +1,7 @@
-import React, { FC, useEffect, useState } from 'react';
-import { catchError, of } from 'rxjs';
+import React, { FC, useState } from 'react';
 import styled, { css } from 'styled-components';
 
-import { useSubject } from '../../../../../common/hooks/useObservable';
 import { AmmPool } from '../../../../../common/models/AmmPool';
-import { getAggregatedPoolAnalyticsDataById24H } from '../../../../../common/streams/poolAnalytic';
 import { DataTag } from '../../../../../components/common/DataTag/DataTag';
 import { TokenIconPair } from '../../../../../components/TokenIconPair/TokenIconPair';
 import { Box, Flex, Typography } from '../../../../../ergodex-cdk';
@@ -17,11 +14,6 @@ interface PoolItemViewProps {
   readonly onClick?: (pool: AmmPool) => void;
 }
 
-const selectedPoolAnalytic = (ammPoolId: string) =>
-  getAggregatedPoolAnalyticsDataById24H(ammPoolId).pipe(
-    catchError(() => of(undefined)),
-  );
-
 const _PoolItemView: FC<PoolItemViewProps> = ({
   pool,
   className,
@@ -29,12 +21,6 @@ const _PoolItemView: FC<PoolItemViewProps> = ({
   active,
 }) => {
   const [mouseEntered, setMouseEntered] = useState<boolean>(false);
-  const [ammPoolAnalytics, updateAmmPoolAnalytics, loading] =
-    useSubject(selectedPoolAnalytic);
-
-  useEffect(() => {
-    updateAmmPoolAnalytics(pool.id);
-  }, [pool.id]);
 
   const handleClick = () => {
     if (onClick) {
@@ -64,7 +50,7 @@ const _PoolItemView: FC<PoolItemViewProps> = ({
             assetY={pool.y.asset}
           />
         </Flex.Item>
-        <Flex.Item marginRight={4}>
+        <Flex.Item marginRight={2}>
           <Typography.Title level={5}>
             {pool.x.asset.name}/{pool.y.asset.name}
           </Typography.Title>
@@ -84,12 +70,7 @@ const _PoolItemView: FC<PoolItemViewProps> = ({
         <Flex.Item marginRight={2}>
           <DataTag
             secondary={!mouseEntered && !active}
-            loading={loading}
-            content={
-              ammPoolAnalytics?.tvl
-                ? formatToUSD(ammPoolAnalytics.tvl.currency, 'abbr')
-                : '–––'
-            }
+            content={pool?.tvl ? formatToUSD(pool.tvl.currency, 'abbr') : '–––'}
           />
         </Flex.Item>
       </Flex>

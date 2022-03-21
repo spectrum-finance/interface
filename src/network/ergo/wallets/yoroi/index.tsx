@@ -7,11 +7,12 @@ import { getAddresses } from './getAddresses';
 import { getNotification } from './getNotification';
 import { getUtxos } from './getUtxos';
 import { onDisconnect } from './onDisconnect';
+import { supportedFeatures } from './supportedFeatures';
 
 export const Yoroi: Wallet = {
-  name: 'Yoroi',
+  name: 'Yoroi Wallet',
   icon: <YoroiLogo />,
-  experimental: false,
+  definition: 'experimental',
   extensionLink:
     'https://chrome.google.com/webstore/detail/yoroi/ffnbelfdoeiohenkjibnmadjiehjhajb',
   connectWallet,
@@ -19,4 +20,5 @@ export const Yoroi: Wallet = {
   getNotification,
   onDisconnect,
   getAddresses,
+  supportedFeatures,
 };
