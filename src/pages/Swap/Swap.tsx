@@ -1,4 +1,5 @@
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
+import { maxBy } from 'lodash';
 import { DateTime } from 'luxon';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -228,7 +229,8 @@ export const Swap = (): JSX.Element => {
       }
 
       const newPool =
-        pools.find((p) => p.id === form.value.pool?.id) || pools[0];
+        pools.find((p) => p.id === form.value.pool?.id) ||
+        maxBy(pools, (p) => p.x.amount * p.y.amount);
 
       form.patchValue({ pool: newPool });
     },

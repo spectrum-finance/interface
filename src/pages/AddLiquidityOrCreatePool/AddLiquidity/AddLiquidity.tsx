@@ -1,4 +1,5 @@
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
+import { maxBy } from 'lodash';
 import React, { FC, useEffect, useState } from 'react';
 import { skip } from 'rxjs';
 
@@ -93,15 +94,19 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
     if (!pools) {
       return;
     }
-    const poolWithHighestTvl = pools[0];
+    const poolWithHighestLiquidity = maxBy(
+      pools,
+      (p) => p.x.amount * p.y.amount,
+    );
 
     if (!!form.value.pool?.id) {
       form.patchValue({
         pool:
-          pools.find((p) => p.id === form.value.pool?.id) || poolWithHighestTvl,
+          pools.find((p) => p.id === form.value.pool?.id) ||
+          poolWithHighestLiquidity,
       });
     } else {
-      form.patchValue({ pool: poolWithHighestTvl });
+      form.patchValue({ pool: poolWithHighestLiquidity });
     }
   }, [pools]);
 
