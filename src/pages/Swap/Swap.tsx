@@ -230,7 +230,7 @@ export const Swap = (): JSX.Element => {
 
       const newPool =
         pools.find((p) => p.id === form.value.pool?.id) ||
-        maxBy(pools, (p) => p.lp.amount);
+        maxBy(pools, (p) => p.x.amount * p.y.amount);
 
       form.patchValue({ pool: newPool });
     },
