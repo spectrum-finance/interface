@@ -10,7 +10,7 @@ const byTvl = (poolA: AmmPool, poolB: AmmPool): number => {
     return 1;
   }
   if (!poolB.tvl) {
-    return 1;
+    return -1;
   }
   return Number(poolB.tvl.value) - Number(poolA.tvl.value);
 };
