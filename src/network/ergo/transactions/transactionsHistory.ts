@@ -58,6 +58,7 @@ const getTxsByAddress = (
 
 export const getTxHistory = (limit: number): Observable<AmmDexOperation[]> =>
   addresses$.pipe(
+    first(),
     switchMap((addresses) =>
       combineLatest(addresses.map((a) => getTxsByAddress(a, limit))),
     ),
