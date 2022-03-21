@@ -2,8 +2,7 @@ import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import React, { useEffect, useState } from 'react';
 
 import { applicationConfig } from '../../applicationConfig';
-
-const EMPTY_TOKEN_ID = `empty`;
+import { UnknownTokenIcon } from '../UnknownTokenIcon/UnknownTokenIcon';
 
 type TokenIconProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
@@ -51,17 +50,20 @@ const TokenIcon: React.FC<TokenIconProps> = ({ asset, size, ...rest }) => {
       }}
       {...rest}
     >
-      <img
-        alt="Token Icon"
-        src={
-          errorState === ErrorState.ICON_NOT_FOUND
-            ? `${applicationConfig.iconsRepository}/${EMPTY_TOKEN_ID}.svg`
-            : `${applicationConfig.iconsRepository}/light/${iconName}.svg`
-        }
-        onError={handleError}
-        width={MAP_SIZE_TO_NUMBER[size || 'medium']}
-        height={MAP_SIZE_TO_NUMBER[size || 'medium']}
-      />
+      {errorState === ErrorState.ICON_NOT_FOUND ? (
+        <UnknownTokenIcon
+          asset={asset}
+          size={MAP_SIZE_TO_NUMBER[size || 'medium']}
+        />
+      ) : (
+        <img
+          alt="Token Icon"
+          src={`${applicationConfig.iconsRepository}/light/${iconName}.svg`}
+          onError={handleError}
+          width={MAP_SIZE_TO_NUMBER[size || 'medium']}
+          height={MAP_SIZE_TO_NUMBER[size || 'medium']}
+        />
+      )}
     </span>
   );
 };
