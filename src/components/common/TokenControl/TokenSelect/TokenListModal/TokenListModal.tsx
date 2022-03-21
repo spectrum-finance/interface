@@ -60,7 +60,7 @@ const TokenListModal: React.FC<TokenListModalProps> = ({
               onChange={handleSearch}
             />
           </Flex.Item>
-          <List dataSource={assets?.filter(byTerm)} gap={0} maxHeight={500}>
+          <List dataSource={assets?.filter(byTerm)} gap={0} maxHeight={350}>
             {(asset) => (
               <TokenListItem
                 key={asset.id}

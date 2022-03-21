@@ -35,7 +35,7 @@ export const PoolSelectorModal: FC<PoolSelectorModalProps> = ({
     <>
       <Modal.Title>Choose Pool</Modal.Title>
       <Modal.Content width={480}>
-        <List dataSource={availableAmmPools} gap={1} transparent>
+        <List dataSource={availableAmmPools} gap={1} maxHeight={400}>
           {(pool) => (
             <PoolItemView
               pool={pool}
