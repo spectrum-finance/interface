@@ -36,12 +36,18 @@ const WalletButton = styled(Button)`
   justify-content: space-between;
   width: 100%;
 
-  &:disabled {
+  &:disabled,
+  &:disabled:hover {
     border-color: var(--ergo-default-border-color) !important;
+    filter: grayscale(1);
+
+    span {
+      color: var(--ergo-default-border-color) !important;
+    }
   }
 `;
 
-const ExperimentalBox = styled(Box)`
+const ExperimentalWalletBox = styled(Box)`
   background: var(--ergo-box-bg-tag);
   border: 1px solid var(--ergo-default-border-color);
 
@@ -69,39 +75,69 @@ const WalletView: React.FC<WalletItemProps> = ({ wallet, close }) => {
 
   const handleCheck = () => setChecked((prev) => !prev);
 
-  return wallet.experimental ? (
-    <ExperimentalBox padding={2}>
-      <Flex col>
-        <Flex.Item marginBottom={2} alignSelf="flex-end">
-          <Tag color="gold">Experimental</Tag>
-        </Flex.Item>
-        <Flex.Item marginBottom={2}>
-          <Checkbox checked={checked} onChange={handleCheck}>
-            I understand that this wallet has not been audited. I will use it at
-            my own risk.
-          </Checkbox>
-        </Flex.Item>
-        {warning && (
-          <Flex.Item marginBottom={2}>
-            <Alert
-              type="warning"
-              description={warning}
-              style={{ width: '100%' }}
-            />
+  switch (wallet.definition) {
+    case 'experimental':
+      return (
+        <ExperimentalWalletBox padding={2}>
+          <Flex col>
+            <Flex.Item marginBottom={2} alignSelf="flex-end">
+              <Tag color="gold">Experimental</Tag>
+            </Flex.Item>
+            <Flex.Item marginBottom={2}>
+              <Checkbox checked={checked} onChange={handleCheck}>
+                This wallet may not always work as expected. I understand what I
+                do and will use it at my own risk.
+              </Checkbox>
+            </Flex.Item>
+            {warning && (
+              <Flex.Item marginBottom={2}>
+                <Alert
+                  type="warning"
+                  description={warning}
+                  style={{ width: '100%' }}
+                />
+              </Flex.Item>
+            )}
+            <WalletButton
+              size="large"
+              disabled={!checked}
+              onClick={handleClick}
+            >
+              <Body>{wallet.name}</Body>
+              {wallet.icon}
+            </WalletButton>
+          </Flex>
+        </ExperimentalWalletBox>
+      );
+    case 'recommended':
+      return (
+        <Flex col>
+          <Flex.Item marginBottom={2} alignSelf="flex-end">
+            <Tag color="success">Recommended</Tag>
           </Flex.Item>
-        )}
-        <WalletButton size="large" disabled={!checked} onClick={handleClick}>
-          <Body>{wallet.name}</Body>
+          {warning && (
+            <Flex.Item marginBottom={2}>
+              <Alert
+                type="warning"
+                description={warning}
+                style={{ width: '100%' }}
+              />
+            </Flex.Item>
+          )}
+          <WalletButton size="large" onClick={handleClick}>
+            <Body>{wallet.name}</Body>
+            {wallet.icon}
+          </WalletButton>
+        </Flex>
+      );
+    default:
+      return (
+        <WalletButton size="large" onClick={handleClick}>
+          {wallet.name}
           {wallet.icon}
         </WalletButton>
-      </Flex>
-    </ExperimentalBox>
-  ) : (
-    <WalletButton size="large" onClick={handleClick}>
-      <Body>{wallet.name}</Body>
-      {wallet.icon}
-    </WalletButton>
-  );
+      );
+  }
 };
 
 type ChooseWalletModalProps = DialogRef<boolean>;

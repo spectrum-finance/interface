@@ -8,9 +8,9 @@ import { getUtxos } from './getUtxos';
 import { supportedFeatures } from './supportedFeatures';
 
 export const Nautilus: Wallet = {
-  name: 'Nautilus',
+  name: 'Nautilus Wallet',
   icon: <NautilusLogo />,
-  experimental: true,
+  definition: 'recommended',
   extensionLink:
     'https://chrome.google.com/webstore/detail/nautilus-wallet/gjlmehlldlphhljhpnlddaodbjjcchai',
   connectWallet,
