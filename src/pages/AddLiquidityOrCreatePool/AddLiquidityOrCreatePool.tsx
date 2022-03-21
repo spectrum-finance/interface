@@ -2,6 +2,7 @@ import { PoolId } from '@ergolabs/ergo-dex-sdk';
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import React, { FC, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router';
+import { useHistory, useLocation } from 'react-router-dom';
 import {
   BehaviorSubject,
   combineLatest,
@@ -60,13 +61,18 @@ enum ComponentState {
 }
 
 export const AddLiquidityOrCreatePool: FC = () => {
-  const [componentState, setComponentState] = useState<ComponentState>(
-    ComponentState.ADD_LIQUIDITY,
-  );
   const { poolId } = useParams<{ poolId?: PoolId }>();
   const [initialized, setInitialized] = useState<boolean>(!poolId);
   const networkAsset = useNetworkAsset();
   const [selectedWallet] = useObservable(selectedWallet$);
+  const history = useHistory();
+  const location = useLocation();
+  const [componentState, setComponentState] = useState<ComponentState>(
+    location.pathname.endsWith('create')
+      ? ComponentState.CREATE_POOL
+      : ComponentState.ADD_LIQUIDITY,
+  );
+
   const form = useForm<AssetFormModel>({
     x: undefined,
     y: undefined,
@@ -82,8 +88,16 @@ export const AddLiquidityOrCreatePool: FC = () => {
     [],
   );
 
-  const handleNewPoolButtonClick = () =>
+  const handleNewPoolButtonClick = () => {
+    history.push('/pool/create');
     setComponentState(ComponentState.CREATE_POOL);
+  };
+
+  const handleBackButtonClick = () => {
+    if (ComponentState.CREATE_POOL && history.length) {
+      setComponentState(ComponentState.ADD_LIQUIDITY);
+    }
+  };
 
   useEffect(() => {
     if (!poolId) {
@@ -114,10 +128,7 @@ export const AddLiquidityOrCreatePool: FC = () => {
       form.controls.x.valueChangesWithSilent$.pipe(distinctUntilChanged()),
       form.controls.y.valueChangesWithSilent$.pipe(distinctUntilChanged()),
     ]).pipe(switchMap(([x, y]) => getAvailablePools(x?.id, y?.id))),
-    (pools) => {
-      setComponentState(ComponentState.ADD_LIQUIDITY);
-      form.patchValue({ pools });
-    },
+    (pools) => form.patchValue({ pools }),
   );
 
   useSubscription(
@@ -135,12 +146,11 @@ export const AddLiquidityOrCreatePool: FC = () => {
   );
 
   const isAddLiquidityPageVisible = (
-    { x, y, pools }: AssetFormModel,
+    { pools, x, y }: AssetFormModel,
     componentState: ComponentState,
   ): boolean =>
-    (pools?.length && componentState === ComponentState.ADD_LIQUIDITY) ||
-    !y ||
-    !x;
+    (!!pools?.length || !x || !y) &&
+    componentState === ComponentState.ADD_LIQUIDITY;
 
   const isCreatePoolPageVisible = (
     value: AssetFormModel,
@@ -171,6 +181,8 @@ export const AddLiquidityOrCreatePool: FC = () => {
         }
         width={510}
         withBackButton
+        onBackButtonClick={handleBackButtonClick}
+        backTo="/pool"
       >
         {initialized ? (
           <Flex col>
@@ -206,11 +218,7 @@ export const AddLiquidityOrCreatePool: FC = () => {
                   <Flex.Item marginBottom={4} display="flex" col>
                     <CreatePoolUnsupportedAlert
                       walletName={selectedWallet.name}
-                    >
-                      The pool with such a pair has not yet been initialized. To
-                      create a pool enter an initial price. Then add the deposit
-                      amount.
-                    </CreatePoolUnsupportedAlert>
+                    />
                   </Flex.Item>
                 )
               }

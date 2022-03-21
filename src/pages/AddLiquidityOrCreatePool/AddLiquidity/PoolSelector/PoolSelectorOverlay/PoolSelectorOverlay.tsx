@@ -19,7 +19,7 @@ const _PoolSelectorOverlay: FC<PoolSelectorOverlayProps> = ({
   onChange,
 }) => (
   <Box borderRadius="m" padding={[1, 0, 1, 0]} className={className}>
-    <List dataSource={ammPools}>
+    <List dataSource={ammPools} maxHeight={250}>
       {(ammPool) => (
         <PoolSelectorOverlayItemView
           onChange={onChange}

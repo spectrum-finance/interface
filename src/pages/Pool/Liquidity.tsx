@@ -1,7 +1,7 @@
 import './Pool.less';
 
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import { ammPools$ } from '../../api/ammPools';
 import { useAssetsBalance } from '../../api/assetBalance';
@@ -50,12 +50,8 @@ const PoolPageWrapper: React.FC<PoolPageWrapperProps> = ({
                   size="middle"
                   overlay={
                     <Menu style={{ padding: '8px', width: '200px' }}>
-                      <Menu.Item
-                        disabled
-                        key="1"
-                        className="ergodex-coming-soon"
-                      >
-                        Create pool
+                      <Menu.Item key="1">
+                        <Link to="pool/create">Create pool</Link>
                       </Menu.Item>
                     </Menu>
                   }

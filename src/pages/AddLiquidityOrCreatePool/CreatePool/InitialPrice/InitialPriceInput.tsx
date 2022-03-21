@@ -28,8 +28,8 @@ const SwitchButton = styled(_SwitchButton)`
 `;
 
 export interface InitialPrice extends Control<Ratio | undefined> {
-  readonly xAsset: AssetInfo;
-  readonly yAsset: AssetInfo;
+  readonly xAsset?: AssetInfo;
+  readonly yAsset?: AssetInfo;
 }
 
 const inputRegex = RegExp(`^\\d*(?:\\\\[.])?\\d*$`); // match escaped "." characters via in a non-capturing group
@@ -77,8 +77,13 @@ export const InitialPriceInput: FC<InitialPrice> = ({
   const [userInput, setUserInput] = useState<string | undefined>(undefined);
   const [baseAssetSign, setBaseAssetSign] = useState<'x' | 'y'>('x');
 
-  const baseAsset = baseAssetSign === 'x' ? xAsset : yAsset;
-  const quoteAsset = baseAssetSign === 'y' ? xAsset : yAsset;
+  let baseAsset: AssetInfo | undefined = undefined;
+  let quoteAsset: AssetInfo | undefined = undefined;
+
+  if (xAsset && yAsset) {
+    baseAsset = baseAssetSign === 'x' ? xAsset : yAsset;
+    quoteAsset = baseAssetSign === 'y' ? xAsset : yAsset;
+  }
 
   useEffect(() => {
     if (!value || !xAsset || !userInput) {
@@ -117,6 +122,10 @@ export const InitialPriceInput: FC<InitialPrice> = ({
   }, [yAsset?.id]);
 
   const handleBaseAssetChange = () => {
+    if (!yAsset || !xAsset) {
+      return;
+    }
+
     const newBaseAsset = baseAssetSign === 'x' ? yAsset : xAsset;
     const newQuoteAsset = baseAssetSign === 'x' ? xAsset : yAsset;
 
@@ -138,6 +147,10 @@ export const InitialPriceInput: FC<InitialPrice> = ({
   const enforcer = (nextUserInput: string) => {
     if (nextUserInput.startsWith('.')) {
       nextUserInput = nextUserInput.replace('.', '0.');
+    }
+    if (!baseAsset || !quoteAsset) {
+      setUserInput(nextUserInput);
+      return;
     }
     if (nextUserInput === '' && onChange) {
       setUserInput('');
@@ -167,9 +180,13 @@ export const InitialPriceInput: FC<InitialPrice> = ({
             }}
             textAlign="right"
             suffix={
-              <Typography.Body>
-                {baseAsset.name} per {quoteAsset.name}
-              </Typography.Body>
+              baseAsset && quoteAsset ? (
+                <Typography.Body>
+                  {baseAsset.name} per {quoteAsset.name}
+                </Typography.Body>
+              ) : (
+                ' '
+              )
             }
           />
         </Flex.Item>

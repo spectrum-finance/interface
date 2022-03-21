@@ -7,7 +7,7 @@ export interface CreatePoolFormModel {
   readonly initialPrice?: Ratio;
   readonly x?: Currency;
   readonly y?: Currency;
-  readonly xAsset: AssetInfo;
-  readonly yAsset: AssetInfo;
+  readonly xAsset?: AssetInfo;
+  readonly yAsset?: AssetInfo;
   readonly fee?: number;
 }

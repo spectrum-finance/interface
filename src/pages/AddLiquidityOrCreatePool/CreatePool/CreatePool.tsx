@@ -25,8 +25,8 @@ import { FeeSelector } from './FeeSelector/FeeSelector';
 import { InitialPriceInput } from './InitialPrice/InitialPriceInput';
 
 export interface CreatePoolProps {
-  readonly xAsset: AssetInfo;
-  readonly yAsset: AssetInfo;
+  readonly xAsset?: AssetInfo;
+  readonly yAsset?: AssetInfo;
 }
 
 export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
@@ -44,22 +44,22 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
   });
 
   useEffect(() => {
-    if (xAsset.id !== form.value.xAsset.id) {
+    if (xAsset?.id !== form.value.xAsset?.id) {
       form.patchValue(
         { xAsset, x: undefined, y: undefined },
         { emitEvent: 'silent' },
       );
     }
-  }, [xAsset.id]);
+  }, [xAsset?.id]);
 
   useEffect(() => {
-    if (yAsset.id !== form.value.yAsset.id) {
+    if (yAsset?.id !== form.value.yAsset?.id) {
       form.patchValue(
         { yAsset, x: undefined, y: undefined },
         { emitEvent: 'silent' },
       );
     }
-  }, [yAsset.id]);
+  }, [yAsset?.id]);
 
   const getMainRatio = (ratio: Ratio, xAsset: AssetInfo) =>
     ratio.baseAsset.id === xAsset.id ? ratio : ratio.invertRatio();
@@ -125,6 +125,10 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
     );
   };
 
+  const selectTokenValidator: OperationValidator<CreatePoolFormModel> = ({
+    value: { xAsset, yAsset },
+  }) => (!xAsset || !yAsset ? 'Select a token' : undefined);
+
   const feeValidator: OperationValidator<CreatePoolFormModel> = ({
     value: { fee },
   }) => !fee && 'Select a fee tier';
@@ -143,7 +147,7 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
       return undefined;
     }
 
-    return (!x?.isPositive() || !y?.isPositive()) && 'Enter an A  mount';
+    return (!x?.isPositive() || !y?.isPositive()) && 'Enter an Amount';
   };
 
   const minValueValidator: OperationValidator<CreatePoolFormModel> = ({
@@ -151,13 +155,13 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
   }): string | undefined => {
     let c: Currency | undefined;
 
-    if (!x?.isPositive() && y?.isPositive() && initialPrice) {
+    if (!x?.isPositive() && y?.isPositive() && initialPrice && xAsset) {
       c =
         initialPrice.quoteAsset.id === xAsset.id
           ? initialPrice.toBaseCurrency(new Currency(1n, xAsset))
           : initialPrice.toQuoteCurrency(new Currency(1n, xAsset));
     }
-    if (!y?.isPositive() && x?.isPositive() && initialPrice) {
+    if (!y?.isPositive() && x?.isPositive() && initialPrice && yAsset) {
       c =
         initialPrice.quoteAsset.id === yAsset.id
           ? initialPrice.toBaseCurrency(new Currency(1n, yAsset))
@@ -197,6 +201,7 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
   };
 
   const validators: OperationValidator<CreatePoolFormModel>[] = [
+    selectTokenValidator,
     feeValidator,
     initialPriceValidator,
     amountValidator,
@@ -313,38 +318,37 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
             </Flex>
           </Section>
         </Flex.Item>
-        <Flex.Item justify="center">
-          <Flex.Item flex={1} marginRight={2}>
-            <Form.Listener>
-              {({ value }) => (
-                <RatioBox
-                  mainAsset={value.xAsset}
-                  oppositeAsset={value.yAsset}
-                  ratio={
-                    value.initialPrice
-                      ? getMainRatio(value.initialPrice, value.xAsset)
-                      : undefined
-                  }
-                />
-              )}
-            </Form.Listener>
-          </Flex.Item>
-          <Flex.Item flex={1}>
-            <Form.Listener>
-              {({ value }) => (
-                <RatioBox
-                  mainAsset={value.yAsset}
-                  oppositeAsset={value.xAsset}
-                  ratio={
-                    value.initialPrice
-                      ? getOppositeRatio(value.initialPrice, value.yAsset)
-                      : undefined
-                  }
-                />
-              )}
-            </Form.Listener>
-          </Flex.Item>
-        </Flex.Item>
+        <Form.Listener>
+          {({ value }) =>
+            value.xAsset &&
+            value.yAsset && (
+              <Flex.Item justify="center">
+                <Flex.Item flex={1} marginRight={2}>
+                  <RatioBox
+                    mainAsset={value.xAsset}
+                    oppositeAsset={value.yAsset}
+                    ratio={
+                      value.initialPrice
+                        ? getMainRatio(value.initialPrice, value.xAsset)
+                        : undefined
+                    }
+                  />
+                </Flex.Item>
+                <Flex.Item flex={1}>
+                  <RatioBox
+                    mainAsset={value.yAsset}
+                    oppositeAsset={value.xAsset}
+                    ratio={
+                      value.initialPrice
+                        ? getOppositeRatio(value.initialPrice, value.yAsset)
+                        : undefined
+                    }
+                  />
+                </Flex.Item>
+              </Flex.Item>
+            )
+          }
+        </Form.Listener>
       </Flex>
     </OperationForm>
   );

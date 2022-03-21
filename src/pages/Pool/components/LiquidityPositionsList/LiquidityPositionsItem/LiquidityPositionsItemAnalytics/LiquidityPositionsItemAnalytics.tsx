@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { AmmPoolAnalytics } from '../../../../../../common/streams/poolAnalytic';
+import { AmmPool } from '../../../../../../common/models/AmmPool';
 import { DataTag } from '../../../../../../components/common/DataTag/DataTag';
 import { InfoTooltip } from '../../../../../../components/InfoTooltip/InfoTooltip';
 import { Flex, Typography } from '../../../../../../ergodex-cdk';
@@ -8,12 +8,11 @@ import { formatToUSD } from '../../../../../../services/number';
 import { renderFractions } from '../../../../../../utils/math';
 
 interface LiquidityPositionsItemAnalyticsProps {
-  data?: AmmPoolAnalytics;
-  loading: boolean;
+  pool: AmmPool;
 }
 
 const LiquidityPositionsItemAnalytics: React.FC<LiquidityPositionsItemAnalyticsProps> =
-  ({ data, loading }) => {
+  ({ pool }) => {
     return (
       <Flex justify="space-between">
         <Flex.Item>
@@ -22,14 +21,13 @@ const LiquidityPositionsItemAnalytics: React.FC<LiquidityPositionsItemAnalyticsP
               <Typography.Footnote>TVL</Typography.Footnote>
             </Flex.Item>
             <DataTag
-              loading={loading}
               size="large"
               content={
-                data
+                pool.tvl
                   ? formatToUSD(
                       renderFractions(
-                        data?.tvl.value,
-                        data?.tvl.units.currency.decimals,
+                        pool.tvl.value,
+                        pool.tvl.units.currency.decimals,
                       ),
                       'abbr',
                     )
@@ -44,14 +42,13 @@ const LiquidityPositionsItemAnalytics: React.FC<LiquidityPositionsItemAnalyticsP
               <Typography.Footnote>Volume 24H</Typography.Footnote>
             </Flex.Item>
             <DataTag
-              loading={loading}
               size="large"
               content={
-                data
+                pool.volume
                   ? formatToUSD(
                       renderFractions(
-                        data?.volume.value,
-                        data?.volume.units.currency.decimals,
+                        pool.volume.value,
+                        pool.volume.units.currency.decimals,
                       ),
                       'abbr',
                     )
@@ -91,9 +88,8 @@ const LiquidityPositionsItemAnalytics: React.FC<LiquidityPositionsItemAnalyticsP
               </Flex>
             </Flex.Item>
             <DataTag
-              loading={loading}
               size="large"
-              content={data ? `${data.yearlyFeesPercent}%` : `-`}
+              content={pool ? `${pool.yearlyFeesPercent}%` : `-`}
             />
           </Flex>
         </Flex.Item>

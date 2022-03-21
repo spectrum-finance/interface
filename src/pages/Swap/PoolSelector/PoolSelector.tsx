@@ -1,11 +1,9 @@
 import React, { FC, useEffect } from 'react';
-import { catchError, of, startWith } from 'rxjs';
 import styled from 'styled-components';
 
 import { getAmmPoolsByAssetPair } from '../../../api/ammPools';
 import { useSubject } from '../../../common/hooks/useObservable';
 import { AmmPool } from '../../../common/models/AmmPool';
-import { getAggregatedPoolAnalyticsDataById24H } from '../../../common/streams/poolAnalytic';
 import { DataTag } from '../../../components/common/DataTag/DataTag';
 import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
 import { TokenIconPair } from '../../../components/TokenIconPair/TokenIconPair';
@@ -25,27 +23,17 @@ interface PoolSelectorProps extends Control<AmmPool> {
   readonly className?: string;
 }
 
-const selectedPoolAnalytic = (ammPoolId: string) =>
-  getAggregatedPoolAnalyticsDataById24H(ammPoolId).pipe(
-    startWith(undefined),
-    catchError(() => of(null)),
-  );
-
 const _PoolSelector: FC<PoolSelectorProps> = ({
   className,
   value,
   onChange,
 }) => {
-  const [ammPoolAnalytics, updateAmmPoolAnalytics] =
-    useSubject(selectedPoolAnalytic);
-
   const [availableAmmPools, updateAvailableAmmPools] = useSubject(
     getAmmPoolsByAssetPair,
   );
 
   useEffect(() => {
     if (value) {
-      updateAmmPoolAnalytics(value.id);
       updateAvailableAmmPools(value.x.asset.id, value.y.asset.id);
     }
   }, [value?.id]);
@@ -99,10 +87,9 @@ const _PoolSelector: FC<PoolSelectorProps> = ({
                     <Flex.Item marginRight={2}>
                       <DataTag
                         secondary
-                        loading={ammPoolAnalytics === undefined}
                         content={
-                          ammPoolAnalytics?.tvl
-                            ? formatToUSD(ammPoolAnalytics.tvl.currency, 'abbr')
+                          value?.tvl
+                            ? formatToUSD(value.tvl.currency, 'abbr')
                             : '–––'
                         }
                       />

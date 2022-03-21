@@ -5,6 +5,16 @@ import { applicationConfig } from '../applicationConfig';
 import { AmmPool } from '../common/models/AmmPool';
 import { selectedNetwork$ } from '../network/network';
 
+const byTvl = (poolA: AmmPool, poolB: AmmPool): number => {
+  if (!poolA.tvl) {
+    return 1;
+  }
+  if (!poolB.tvl) {
+    return 1;
+  }
+  return Number(poolB.tvl.value) - Number(poolA.tvl.value);
+};
+
 export const ammPools$ = selectedNetwork$.pipe(
   switchMap((network) => network.ammPools$),
   map((pools) =>
@@ -15,6 +25,7 @@ export const ammPools$ = selectedNetwork$.pipe(
         !applicationConfig.blacklistedPools.includes(p.id),
     ),
   ),
+  map((pools) => pools.slice().sort(byTvl)),
   publishReplay(1),
   refCount(),
 );
