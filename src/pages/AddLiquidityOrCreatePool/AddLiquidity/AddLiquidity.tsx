@@ -94,7 +94,10 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
     if (!pools) {
       return;
     }
-    const poolWithHighestLiquidity = maxBy(pools, (p) => p.lp.amount);
+    const poolWithHighestLiquidity = maxBy(
+      pools,
+      (p) => p.x.amount * p.y.amount,
+    );
 
     if (!!form.value.pool?.id) {
       form.patchValue({
