@@ -22,7 +22,7 @@ import { utxos$ } from '../common/utxos';
 const toListAvailableTokens = (utxos: ErgoBox[]): Asset[] =>
   Object.values(getListAvailableTokens(utxos));
 
-const isNotEmptyAndNotNFT = (assetInfo: AugAssetInfo | undefined): boolean =>
+const isNotNFT = (assetInfo: AugAssetInfo | undefined): boolean =>
   !!assetInfo && assetInfo.emissionAmount !== 1n;
 
 export const availableTokensData$: Observable<[bigint, AssetInfo][]> =
@@ -38,9 +38,7 @@ export const availableTokensData$: Observable<[bigint, AssetInfo][]> =
       ).pipe(defaultIfEmpty([])),
     ),
     map((availableTokensData) =>
-      availableTokensData.filter(([, assetInfo]) =>
-        isNotEmptyAndNotNFT(assetInfo),
-      ),
+      availableTokensData.filter(([, assetInfo]) => isNotNFT(assetInfo)),
     ),
     publishReplay(1),
     refCount(),
