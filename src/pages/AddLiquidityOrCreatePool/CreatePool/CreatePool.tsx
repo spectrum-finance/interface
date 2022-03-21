@@ -19,6 +19,8 @@ import { RatioBox } from '../../../components/RatioBox/RatioBox';
 import { Section } from '../../../components/Section/Section';
 import { Flex, Form, FormGroup, useForm } from '../../../ergodex-cdk';
 import { useMaxTotalFees, useNetworkAsset } from '../../../services/new/core';
+import { normalizeAmountWithFee } from '../common/utils';
+import { LiquidityPercentInput } from '../LiquidityPercentInput/LiquidityPercentInput';
 import { CreatePoolConfirmationModal } from './CreatePoolConfirmationModal/CreatePoolConfirmationModal';
 import { CreatePoolFormModel } from './CreatePoolFormModel';
 import { FeeSelector } from './FeeSelector/FeeSelector';
@@ -269,6 +271,107 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
     );
   };
 
+  const handleMaxLiquidityClick = (pct: number) => {
+    const { xAsset, yAsset, initialPrice } = form.value;
+
+    if (!xAsset || !yAsset || !initialPrice) {
+      return;
+    }
+
+    let newXAmount = normalizeAmountWithFee(
+      balance.get(xAsset).percent(pct),
+      balance.get(xAsset),
+      networkAsset,
+      totalFees,
+    );
+    let ratio: Ratio =
+      initialPrice.quoteAsset.id === newXAmount?.asset.id
+        ? initialPrice
+        : initialPrice.invertRatio();
+    let newYAmount = normalizeAmountWithFee(
+      ratio.toBaseCurrency(newXAmount),
+      balance.get(yAsset),
+      networkAsset,
+      totalFees,
+    );
+
+    if (
+      newXAmount.isPositive() &&
+      newYAmount.isPositive() &&
+      newYAmount.lte(balance.get(yAsset))
+    ) {
+      form.patchValue(
+        {
+          x: newXAmount,
+          y: newYAmount,
+        },
+        { emitEvent: 'silent' },
+      );
+      return;
+    }
+
+    newYAmount = normalizeAmountWithFee(
+      balance.get(yAsset).percent(pct),
+      balance.get(yAsset),
+      networkAsset,
+      totalFees,
+    );
+    ratio =
+      initialPrice.quoteAsset.id === newYAmount?.asset.id
+        ? initialPrice
+        : initialPrice.invertRatio();
+    newXAmount = normalizeAmountWithFee(
+      ratio.toBaseCurrency(newYAmount),
+      balance.get(xAsset),
+      networkAsset,
+      totalFees,
+    );
+
+    if (
+      newYAmount.isPositive() &&
+      newXAmount.isPositive() &&
+      newXAmount.lte(balance.get(xAsset))
+    ) {
+      form.patchValue(
+        {
+          x: newXAmount,
+          y: newYAmount,
+        },
+        { emitEvent: 'silent' },
+      );
+      return;
+    }
+
+    if (balance.get(xAsset).isPositive()) {
+      ratio =
+        initialPrice.quoteAsset.id === xAsset.id
+          ? initialPrice
+          : initialPrice.invertRatio();
+
+      form.patchValue(
+        {
+          x: balance.get(xAsset).percent(pct),
+          y: ratio.toBaseCurrency(balance.get(xAsset).percent(pct)),
+        },
+        { emitEvent: 'silent' },
+      );
+      return;
+    } else {
+      ratio =
+        initialPrice.quoteAsset.id === yAsset.id
+          ? initialPrice
+          : initialPrice.invertRatio();
+
+      form.patchValue(
+        {
+          y: balance.get(yAsset).percent(pct),
+          x: ratio.toBaseCurrency(balance.get(yAsset).percent(pct)),
+        },
+        { emitEvent: 'silent' },
+      );
+    }
+  };
+
   return (
     <OperationForm
       form={form}
@@ -301,7 +404,14 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
           </Section>
         </Flex.Item>
         <Flex.Item marginBottom={4}>
-          <Section title="Liquidity">
+          <Section
+            title="Liquidity"
+            extra={
+              <Flex justify="flex-end">
+                <LiquidityPercentInput onClick={handleMaxLiquidityClick} />
+              </Flex>
+            }
+          >
             <Flex col>
               <Flex.Item marginBottom={1}>
                 <TokenControlFormItem
