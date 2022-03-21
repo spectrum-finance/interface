@@ -381,7 +381,10 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
     >
       <Flex col>
         <Flex.Item marginBottom={4}>
-          <Section title="Choose fee tier" tooltip="test">
+          <Section
+            title="Choose fee tier"
+            tooltip="The % you will earn in fees"
+          >
             <Form.Item name="fee">
               {({ value, onChange }) => (
                 <FeeSelector value={value} onChange={onChange} />
@@ -390,7 +393,7 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
           </Section>
         </Flex.Item>
         <Flex.Item marginBottom={4}>
-          <Section title="Set initial price" tooltip="test">
+          <Section title="Set initial price">
             <Form.Item name="initialPrice" watchForm>
               {({ value, onChange, parent }) => (
                 <InitialPriceInput
