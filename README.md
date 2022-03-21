@@ -8,7 +8,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/ergolabs/ergo-dex-frontend/">
-    <img src="src/assets/images/logo.svg" alt="Logo" width="150">
+    <img src="src/assets/images/Logo.svg" alt="Logo" width="150">
   </a>
 <!--   <h3 align="center">Calamity</h3>O -->
 
@@ -49,22 +49,16 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-Please see the [ErgoDEX](https://github.com/ergolabs/ergo-dex) repository for a full description.
+Please see the [ErgoDEX protocol](https://github.com/ergolabs/ergo-dex) repository for a full description.
 
 
 <!-- USAGE EXAMPLES -->
-## Usage
+## How to launch locally?
 
 1. Clone and checkout `dev` branch 
 2. `yarn`
 3. `yarn start`
 4. Open localhost:3000 in Chrome.
-5. Install [Yoroi Wallet](https://chrome.google.com/webstore/detail/yoroi/ffnbelfdoeiohenkjibnmadjiehjhajb)
-
-<!-- ROADMAP -->
-## Roadmap
-
-See the [open issues](https://github.com/ergolabs/ergo-dex-frontend/issues) for a list of proposed features (and known issues).
 
 <!-- CONTRIBUTING -->
 ## Contributing
