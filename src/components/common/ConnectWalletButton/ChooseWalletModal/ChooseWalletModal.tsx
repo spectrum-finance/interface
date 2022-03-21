@@ -8,6 +8,7 @@ import {
   wallets$,
 } from '../../../../api/wallets';
 import { useObservable } from '../../../../common/hooks/useObservable';
+import { useSettings } from '../../../../context';
 import {
   Alert,
   Box,
@@ -53,11 +54,13 @@ const ExperimentalBox = styled(Box)`
 const WalletView: React.FC<WalletItemProps> = ({ wallet, close }) => {
   const [checked, setChecked] = useState<boolean>(false);
   const [warning, setWarning] = useState<ReactNode | undefined>(undefined);
+  const [settings, setSettings] = useSettings();
 
   const handleClick = () => {
     connectWallet(wallet).subscribe(
       (isConnected) => {
         if (typeof isConnected === 'boolean' && isConnected) {
+          setSettings({ ...settings, address: undefined, pk: undefined });
           close(true);
         } else if (isConnected) {
           setWarning(isConnected);
@@ -111,6 +114,12 @@ const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
 }): JSX.Element => {
   const [wallets] = useObservable(wallets$, [], []);
   const [selectedWallet] = useObservable(selectedWallet$);
+  const [settings, setSettings] = useSettings();
+
+  const handleDisconnectWalletClick = () => {
+    setSettings({ ...settings, address: undefined, pk: undefined });
+    disconnectWallet();
+  };
 
   return (
     <>
@@ -131,7 +140,7 @@ const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
             <Button
               type="link"
               icon={<LogoutOutlined />}
-              onClick={disconnectWallet}
+              onClick={handleDisconnectWalletClick}
             >
               Disconnect wallet
             </Button>
