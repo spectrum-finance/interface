@@ -106,7 +106,7 @@ export const LanguageProvider = ({
   const locale = useLocale();
 
   useEffect(() => {
-    dynamicActivate(initialLocale)
+    dynamicActivate(locale)
       .then(() => {
         document.documentElement.setAttribute('lang', locale);
         setSettings({
@@ -117,10 +117,10 @@ export const LanguageProvider = ({
       .catch((error) => {
         console.error('Failed to activate locale', locale, error);
       });
-  }, [settings, setSettings, locale]);
+  }, [setSettings, locale]);
 
   return (
-    <I18nProvider forceRenderOnLocaleChange={true} i18n={i18n}>
+    <I18nProvider forceRenderOnLocaleChange={false} i18n={i18n}>
       {children}
     </I18nProvider>
   );

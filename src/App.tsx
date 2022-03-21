@@ -26,9 +26,9 @@ const NotFound = () => <Redirect to="/swap" />;
 const Application = () => {
   return (
     <Router history={globalHistory}>
-      <LanguageProvider>
-        <AppLoadingProvider>
-          <SettingsProvider>
+      <AppLoadingProvider>
+        <SettingsProvider>
+          <LanguageProvider>
             <ContextModalProvider>
               <Layout>
                 <BrowserView>
@@ -81,9 +81,9 @@ const Application = () => {
                 </MobileView>
               </Layout>
             </ContextModalProvider>
-          </SettingsProvider>
-        </AppLoadingProvider>
-      </LanguageProvider>
+          </LanguageProvider>
+        </SettingsProvider>
+      </AppLoadingProvider>
     </Router>
   );
 };

@@ -8,6 +8,7 @@ export function parsedQueryString(search?: string): ParsedQs {
     const hash = window.location.hash;
     search = hash.substr(hash.indexOf('?'));
   }
+
   return search && search.length > 1
     ? parse(search, { parseArrays: false, ignoreQueryPrefix: true })
     : {};
