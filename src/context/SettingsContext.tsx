@@ -74,13 +74,11 @@ export const SettingsProvider = ({
       newSelectedAddress = unusedAddresses[0] || usedAddresses[0];
     }
 
-    if (!ctxValue[0].address && addresses) {
-      ctxValue[1]({
-        ...ctxValue[0],
-        address: newSelectedAddress,
-        pk: publicKeyFromAddress(newSelectedAddress),
-      });
-    }
+    ctxValue[1]({
+      ...ctxValue[0],
+      address: newSelectedAddress,
+      pk: publicKeyFromAddress(newSelectedAddress),
+    });
   }, [usedAddresses, unusedAddresses]);
 
   return (
