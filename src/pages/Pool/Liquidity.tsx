@@ -106,7 +106,7 @@ const Liquidity = (): JSX.Element => {
             <Input
               onChange={handleSearchChange}
               prefix={<SearchOutlined />}
-              placeholder="Search"
+              placeholder="Type token name or pool id"
               size="large"
               style={{ width: 300 }}
             />
