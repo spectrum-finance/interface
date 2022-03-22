@@ -2,6 +2,7 @@ import React from 'react';
 
 import { ReactComponent as YoroiLogo } from '../../../../assets/icons/yoroi-logo-icon.svg';
 import { Wallet } from '../../../common';
+import { getUnusedAddresses, getUsedAddresses } from '../nautilus/getAddresses';
 import { connectWallet } from './connectWallet';
 import { getAddresses } from './getAddresses';
 import { getNotification } from './getNotification';
@@ -19,6 +20,8 @@ export const Yoroi: Wallet = {
   getUtxos,
   getNotification,
   onDisconnect,
+  getUsedAddresses,
+  getUnusedAddresses,
   getAddresses,
   supportedFeatures,
 };

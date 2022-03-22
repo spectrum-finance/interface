@@ -232,6 +232,7 @@ export class AmmPool implements Searchable {
     const normalizedTerm = term.toLowerCase().replaceAll('/', '');
 
     return (
+      this.pool.id?.toLowerCase().includes(normalizedTerm) ||
       this.x.asset.name?.toLowerCase().includes(normalizedTerm) ||
       this.y.asset.name?.toLowerCase().includes(normalizedTerm) ||
       `${this.x.asset.name?.toLowerCase()}${this.y.asset.name?.toLowerCase()}`.includes(

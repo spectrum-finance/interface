@@ -1,5 +1,10 @@
 import { Network } from '../common';
-import { addresses$ } from './addresses/addresses';
+import {
+  addresses$,
+  getAddresses,
+  getUnusedAddresses,
+  getUsedAddresses,
+} from './addresses/addresses';
 import { ammPools$ } from './ammPools/ammPools';
 import { assetBalance$ } from './balance/assetBalance';
 import { lpBalance$ } from './balance/lpBalance';
@@ -34,4 +39,7 @@ export const ergoNetwork: Network = {
   selectedWallet$,
   selectedWalletState$,
   disconnectWallet,
+  getAddresses,
+  getUsedAddresses,
+  getUnusedAddresses,
 };
