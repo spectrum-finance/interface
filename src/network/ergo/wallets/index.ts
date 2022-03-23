@@ -21,7 +21,7 @@ import { Yoroi } from './yoroi';
 
 const updateSelectedWallet$ = new Subject<string | undefined>();
 
-export const wallets$ = of([Yoroi, Nautilus]);
+export const wallets$ = of([Nautilus, Yoroi]);
 
 export const disconnectWallet = (): void => {
   selectedWallet$.pipe(first()).subscribe((wallet) => {

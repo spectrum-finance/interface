@@ -9,6 +9,7 @@ import {
   wallets$,
 } from '../../../../api/wallets';
 import { useObservable } from '../../../../common/hooks/useObservable';
+import { useSettings } from '../../../../context';
 import {
   Alert,
   Box,
@@ -37,12 +38,18 @@ const WalletButton = styled(Button)`
   justify-content: space-between;
   width: 100%;
 
-  &:disabled {
+  &:disabled,
+  &:disabled:hover {
     border-color: var(--ergo-default-border-color) !important;
+    filter: grayscale(1);
+
+    span {
+      color: var(--ergo-default-border-color) !important;
+    }
   }
 `;
 
-const ExperimentalBox = styled(Box)`
+const ExperimentalWalletBox = styled(Box)`
   background: var(--ergo-box-bg-tag);
   border: 1px solid var(--ergo-default-border-color);
 
@@ -54,11 +61,13 @@ const ExperimentalBox = styled(Box)`
 const WalletView: React.FC<WalletItemProps> = ({ wallet, close }) => {
   const [checked, setChecked] = useState<boolean>(false);
   const [warning, setWarning] = useState<ReactNode | undefined>(undefined);
+  const [settings, setSettings] = useSettings();
 
   const handleClick = () => {
     connectWallet(wallet).subscribe(
       (isConnected) => {
         if (typeof isConnected === 'boolean' && isConnected) {
+          setSettings({ ...settings, address: undefined, pk: undefined });
           close(true);
         } else if (isConnected) {
           setWarning(isConnected);
@@ -70,43 +79,75 @@ const WalletView: React.FC<WalletItemProps> = ({ wallet, close }) => {
 
   const handleCheck = () => setChecked((prev) => !prev);
 
-  return wallet.experimental ? (
-    <ExperimentalBox padding={2}>
-      <Flex col>
-        <Flex.Item marginBottom={2} alignSelf="flex-end">
-          <Tag color="gold">
-            <Trans>Experimental</Trans>
-          </Tag>
-        </Flex.Item>
-        <Flex.Item marginBottom={2}>
-          <Checkbox checked={checked} onChange={handleCheck}>
-            <Trans>
-              I understand that this wallet has not been audited. I will use it
-              at my own risk.
-            </Trans>
-          </Checkbox>
-        </Flex.Item>
-        {warning && (
-          <Flex.Item marginBottom={2}>
-            <Alert
-              type="warning"
-              description={warning}
-              style={{ width: '100%' }}
-            />
+  switch (wallet.definition) {
+    case 'experimental':
+      return (
+        <ExperimentalWalletBox padding={2}>
+          <Flex col>
+            <Flex.Item marginBottom={2} alignSelf="flex-end">
+              <Tag color="gold">
+                <Trans>Experimental</Trans>
+              </Tag>
+            </Flex.Item>
+            <Flex.Item marginBottom={2}>
+              <Checkbox checked={checked} onChange={handleCheck}>
+                <Trans>
+                  This wallet may not always work as expected. I understand what
+                  I do andwill use it at my own risk.
+                </Trans>
+              </Checkbox>
+            </Flex.Item>
+            {warning && (
+              <Flex.Item marginBottom={2}>
+                <Alert
+                  type="warning"
+                  description={warning}
+                  style={{ width: '100%' }}
+                />
+              </Flex.Item>
+            )}
+            <WalletButton
+              size="large"
+              disabled={!checked}
+              onClick={handleClick}
+            >
+              <Body>{wallet.name}</Body>
+              {wallet.icon}
+            </WalletButton>
+          </Flex>
+        </ExperimentalWalletBox>
+      );
+    case 'recommended':
+      return (
+        <Flex col>
+          <Flex.Item marginBottom={2} alignSelf="flex-end">
+            <Tag color="success">
+              <Trans>Recommended</Trans>
+            </Tag>
           </Flex.Item>
-        )}
-        <WalletButton size="large" disabled={!checked} onClick={handleClick}>
-          <Body>{wallet.name}</Body>
+          {warning && (
+            <Flex.Item marginBottom={2}>
+              <Alert
+                type="warning"
+                description={warning}
+                style={{ width: '100%' }}
+              />
+            </Flex.Item>
+          )}
+          <WalletButton size="large" onClick={handleClick}>
+            <Body>{wallet.name}</Body>
+            {wallet.icon}
+          </WalletButton>
+        </Flex>
+      );
+    default:
+      return (
+        <WalletButton size="large" onClick={handleClick}>
+          {wallet.name}
           {wallet.icon}
         </WalletButton>
-      </Flex>
-    </ExperimentalBox>
-  ) : (
-    <WalletButton size="large" onClick={handleClick}>
-      <Body>{wallet.name}</Body>
-      {wallet.icon}
-    </WalletButton>
-  );
+      );
+  }
 };
 
 type ChooseWalletModalProps = DialogRef<boolean>;
@@ -116,6 +157,12 @@ const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
 }): JSX.Element => {
   const [wallets] = useObservable(wallets$, [], []);
   const [selectedWallet] = useObservable(selectedWallet$);
+  const [settings, setSettings] = useSettings();
+
+  const handleDisconnectWalletClick = () => {
+    setSettings({ ...settings, address: undefined, pk: undefined });
+    disconnectWallet();
+  };
 
   return (
     <>
@@ -138,7 +185,7 @@ const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
             <Button
               type="link"
               icon={<LogoutOutlined />}
-              onClick={disconnectWallet}
+              onClick={handleDisconnectWalletClick}
             >
               <Trans>Disconnect wallet</Trans>
             </Button>

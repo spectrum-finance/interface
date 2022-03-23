@@ -1,6 +1,7 @@
 import { t } from '@lingui/macro';
-import React, { FC, ReactNode } from 'react';
+import React, { FC, ReactNode, useState } from 'react';
 
+import { escapeRegExp } from '../../../../components/common/TokenControl/TokenAmountInput/format';
 import { Control, Flex, Input, Typography } from '../../../../ergodex-cdk';
 import { FeeBox } from './FeeBox/FeeBox';
 
@@ -9,6 +10,8 @@ interface FeeDescriptor {
   readonly description: string;
   readonly content: ReactNode | ReactNode[] | string;
 }
+
+const inputRegex = RegExp(`^\\d*(?:\\\\[.])?\\d*$`);
 
 const FEES: FeeDescriptor[] = [
   {
@@ -23,12 +26,37 @@ const FEES: FeeDescriptor[] = [
   },
 ];
 
-export type FeeSelectorProps = Control<number>;
+const isValidAmount = (value: string): boolean => {
+  return (value.split('.')[1]?.length || 0) <= 1;
+};
+
+export type FeeSelectorProps = Control<number | undefined>;
 
 export const FeeSelector: FC<FeeSelectorProps> = ({ value, onChange }) => {
+  const [userInput, setUserInput] = useState<string | undefined>(undefined);
   const handleItemClick = (percent: number) => onChange && onChange(percent);
 
-  const handleInputChange = (percent: number) => onChange && onChange(percent);
+  const handleInputChange = (nextUserInput: string) => {
+    if (nextUserInput.startsWith('.')) {
+      nextUserInput = nextUserInput.replace('.', '0.');
+    }
+    if (nextUserInput === '' && onChange) {
+      setUserInput('');
+      onChange(undefined);
+      return;
+    }
+    if (
+      inputRegex.test(escapeRegExp(nextUserInput)) &&
+      onChange &&
+      isValidAmount(nextUserInput)
+    ) {
+      const newValue = Number(nextUserInput);
+      setUserInput(newValue > 100 ? '100' : nextUserInput);
+      onChange(newValue > 100 ? 100 : newValue);
+      return;
+    }
+    setUserInput(userInput ?? '');
+  };
 
   return (
     <Flex>
@@ -45,13 +73,13 @@ export const FeeSelector: FC<FeeSelectorProps> = ({ value, onChange }) => {
       <Flex.Item flex={1}>
         <FeeBox
           active={!!value && FEES.every((fee) => value !== fee.percent)}
-          description="Custom fee tier"
+          description={t`Custom fee tier`}
           content={
             <Input
               size="small"
-              type="number"
               textAlign="right"
-              onChange={(e) => handleInputChange(e.target.valueAsNumber)}
+              value={userInput}
+              onChange={(e) => handleInputChange(e.target.value)}
               suffix={<Typography.Body>%</Typography.Body>}
             />
           }

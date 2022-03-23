@@ -1,5 +1,3 @@
-import './i18n/i18n';
-
 import { RustModule } from '@ergolabs/ergo-sdk';
 import React, { Suspense, useEffect, useState } from 'react';
 import { BrowserView, MobileView } from 'react-device-detect';
@@ -40,6 +38,11 @@ const Application = () => {
                     <Route path="/pool" exact component={Liquidity} />
                     <Route
                       path="/pool/add"
+                      exact
+                      component={AddLiquidityOrCreatePool}
+                    />
+                    <Route
+                      path="/pool/create"
                       exact
                       component={AddLiquidityOrCreatePool}
                     />

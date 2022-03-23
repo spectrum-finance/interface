@@ -1,8 +1,8 @@
-import { PublicKey, publicKeyFromAddress } from '@ergolabs/ergo-sdk';
+import { Address, PublicKey, publicKeyFromAddress } from '@ergolabs/ergo-sdk';
 import { useLocalStorage } from '@rehooks/local-storage';
 import React, { createContext, useContext, useEffect } from 'react';
 
-import { addresses$ } from '../api/addresses';
+import { getUnusedAddresses, getUsedAddresses } from '../api/addresses';
 import { ERG_EXPLORER_URL } from '../common/constants/env';
 import { MIN_NITRO } from '../common/constants/erg';
 import { DEFAULT_LOCALE, SupportedLocale } from '../common/constants/locales';
@@ -52,6 +52,11 @@ const defaultContextValue: LocalStorageReturnValue<Settings> = [
 
 const SettingsContext = createContext(defaultContextValue);
 
+const isCurrentAddressValid = (
+  address: Address | undefined,
+  addresses: Address[],
+): boolean => !!address && addresses.includes(address);
+
 export const getSetting = (
   setting: keyof Settings,
 ): Settings[keyof Settings] => {
@@ -64,7 +69,8 @@ export const SettingsProvider = ({
   children,
 }: React.PropsWithChildren<unknown>): JSX.Element => {
   const ctxValue = useLocalStorage('settings', DefaultSettings);
-  const [addresses] = useObservable(addresses$);
+  const [usedAddresses] = useObservable(getUsedAddresses());
+  const [unusedAddresses] = useObservable(getUnusedAddresses());
   const [userSettings, setUserSettings] = ctxValue;
 
   useEffect(() => {
@@ -93,14 +99,25 @@ export const SettingsProvider = ({
   }, []);
 
   useEffect(() => {
-    if (!userSettings.address && addresses) {
-      setUserSettings({
-        ...userSettings,
-        address: addresses[0],
-        pk: publicKeyFromAddress(addresses[0]),
-      });
+    if (!usedAddresses || !unusedAddresses) {
+      return;
     }
-  }, [addresses]);
+    let newSelectedAddress: Address;
+    const addresses = unusedAddresses.concat(usedAddresses);
+    const currentSelectedAddress = ctxValue[0].address;
+
+    if (isCurrentAddressValid(currentSelectedAddress, addresses)) {
+      newSelectedAddress = currentSelectedAddress!;
+    } else {
+      newSelectedAddress = unusedAddresses[0] || usedAddresses[0];
+    }
+
+    ctxValue[1]({
+      ...ctxValue[0],
+      address: newSelectedAddress,
+      pk: publicKeyFromAddress(newSelectedAddress),
+    });
+  }, [usedAddresses, unusedAddresses]);
 
   return (
     <SettingsContext.Provider value={ctxValue}>

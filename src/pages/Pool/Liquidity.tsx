@@ -2,7 +2,7 @@ import './Pool.less';
 
 import { t, Trans } from '@lingui/macro';
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import { ammPools$ } from '../../api/ammPools';
 import { useAssetsBalance } from '../../api/assetBalance';
@@ -51,12 +51,10 @@ const PoolPageWrapper: React.FC<PoolPageWrapperProps> = ({
                   size="middle"
                   overlay={
                     <Menu style={{ padding: '8px', width: '200px' }}>
-                      <Menu.Item
-                        disabled
-                        key="1"
-                        className="ergodex-coming-soon"
-                      >
-                        <Trans>Create pool</Trans>
+                      <Menu.Item key="1">
+                        <Link to="pool/create">
+                          <Trans>Create pool</Trans>
+                        </Link>
                       </Menu.Item>
                     </Menu>
                   }
@@ -111,7 +109,7 @@ const Liquidity = (): JSX.Element => {
             <Input
               onChange={handleSearchChange}
               prefix={<SearchOutlined />}
-              placeholder={t`Search`}
+              placeholder="Search"
               size="large"
               style={{ width: 300 }}
             />

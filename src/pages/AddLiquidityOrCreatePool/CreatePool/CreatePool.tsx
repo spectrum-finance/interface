@@ -20,14 +20,16 @@ import { RatioBox } from '../../../components/RatioBox/RatioBox';
 import { Section } from '../../../components/Section/Section';
 import { Flex, Form, FormGroup, useForm } from '../../../ergodex-cdk';
 import { useMaxTotalFees, useNetworkAsset } from '../../../services/new/core';
+import { normalizeAmountWithFee } from '../common/utils';
+import { LiquidityPercentInput } from '../LiquidityPercentInput/LiquidityPercentInput';
 import { CreatePoolConfirmationModal } from './CreatePoolConfirmationModal/CreatePoolConfirmationModal';
 import { CreatePoolFormModel } from './CreatePoolFormModel';
 import { FeeSelector } from './FeeSelector/FeeSelector';
 import { InitialPriceInput } from './InitialPrice/InitialPriceInput';
 
 export interface CreatePoolProps {
-  readonly xAsset: AssetInfo;
-  readonly yAsset: AssetInfo;
+  readonly xAsset?: AssetInfo;
+  readonly yAsset?: AssetInfo;
 }
 
 export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
@@ -45,22 +47,22 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
   });
 
   useEffect(() => {
-    if (xAsset.id !== form.value.xAsset.id) {
+    if (xAsset?.id !== form.value.xAsset?.id) {
       form.patchValue(
         { xAsset, x: undefined, y: undefined },
         { emitEvent: 'silent' },
       );
     }
-  }, [xAsset.id]);
+  }, [xAsset?.id]);
 
   useEffect(() => {
-    if (yAsset.id !== form.value.yAsset.id) {
+    if (yAsset?.id !== form.value.yAsset?.id) {
       form.patchValue(
         { yAsset, x: undefined, y: undefined },
         { emitEvent: 'silent' },
       );
     }
-  }, [yAsset.id]);
+  }, [yAsset?.id]);
 
   const getMainRatio = (ratio: Ratio, xAsset: AssetInfo) =>
     ratio.baseAsset.id === xAsset.id ? ratio : ratio.invertRatio();
@@ -126,6 +128,10 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
     );
   };
 
+  const selectTokenValidator: OperationValidator<CreatePoolFormModel> = ({
+    value: { xAsset, yAsset },
+  }) => (!xAsset || !yAsset ? 'Select a token' : undefined);
+
   const feeValidator: OperationValidator<CreatePoolFormModel> = ({
     value: { fee },
   }) => !fee && t`Select a fee tier`;
@@ -144,7 +150,7 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
       return undefined;
     }
 
-    return (!x?.isPositive() || !y?.isPositive()) && t`Enter an A  mount`;
+    return (!x?.isPositive() || !y?.isPositive()) && t`Enter an Amount`;
   };
 
   const minValueValidator: OperationValidator<CreatePoolFormModel> = ({
@@ -152,13 +158,13 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
   }): string | undefined => {
     let c: Currency | undefined;
 
-    if (!x?.isPositive() && y?.isPositive() && initialPrice) {
+    if (!x?.isPositive() && y?.isPositive() && initialPrice && xAsset) {
       c =
         initialPrice.quoteAsset.id === xAsset.id
           ? initialPrice.toBaseCurrency(new Currency(1n, xAsset))
           : initialPrice.toQuoteCurrency(new Currency(1n, xAsset));
     }
-    if (!y?.isPositive() && x?.isPositive() && initialPrice) {
+    if (!y?.isPositive() && x?.isPositive() && initialPrice && yAsset) {
       c =
         initialPrice.quoteAsset.id === yAsset.id
           ? initialPrice.toBaseCurrency(new Currency(1n, yAsset))
@@ -200,6 +206,7 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
   };
 
   const validators: OperationValidator<CreatePoolFormModel>[] = [
+    selectTokenValidator,
     feeValidator,
     initialPriceValidator,
     amountValidator,
@@ -267,6 +274,107 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
     );
   };
 
+  const handleMaxLiquidityClick = (pct: number) => {
+    const { xAsset, yAsset, initialPrice } = form.value;
+
+    if (!xAsset || !yAsset || !initialPrice) {
+      return;
+    }
+
+    let newXAmount = normalizeAmountWithFee(
+      balance.get(xAsset).percent(pct),
+      balance.get(xAsset),
+      networkAsset,
+      totalFees,
+    );
+    let ratio: Ratio =
+      initialPrice.quoteAsset.id === newXAmount?.asset.id
+        ? initialPrice
+        : initialPrice.invertRatio();
+    let newYAmount = normalizeAmountWithFee(
+      ratio.toBaseCurrency(newXAmount),
+      balance.get(yAsset),
+      networkAsset,
+      totalFees,
+    );
+
+    if (
+      newXAmount.isPositive() &&
+      newYAmount.isPositive() &&
+      newYAmount.lte(balance.get(yAsset))
+    ) {
+      form.patchValue(
+        {
+          x: newXAmount,
+          y: newYAmount,
+        },
+        { emitEvent: 'silent' },
+      );
+      return;
+    }
+
+    newYAmount = normalizeAmountWithFee(
+      balance.get(yAsset).percent(pct),
+      balance.get(yAsset),
+      networkAsset,
+      totalFees,
+    );
+    ratio =
+      initialPrice.quoteAsset.id === newYAmount?.asset.id
+        ? initialPrice
+        : initialPrice.invertRatio();
+    newXAmount = normalizeAmountWithFee(
+      ratio.toBaseCurrency(newYAmount),
+      balance.get(xAsset),
+      networkAsset,
+      totalFees,
+    );
+
+    if (
+      newYAmount.isPositive() &&
+      newXAmount.isPositive() &&
+      newXAmount.lte(balance.get(xAsset))
+    ) {
+      form.patchValue(
+        {
+          x: newXAmount,
+          y: newYAmount,
+        },
+        { emitEvent: 'silent' },
+      );
+      return;
+    }
+
+    if (balance.get(xAsset).isPositive()) {
+      ratio =
+        initialPrice.quoteAsset.id === xAsset.id
+          ? initialPrice
+          : initialPrice.invertRatio();
+
+      form.patchValue(
+        {
+          x: balance.get(xAsset).percent(pct),
+          y: ratio.toBaseCurrency(balance.get(xAsset).percent(pct)),
+        },
+        { emitEvent: 'silent' },
+      );
+      return;
+    } else {
+      ratio =
+        initialPrice.quoteAsset.id === yAsset.id
+          ? initialPrice
+          : initialPrice.invertRatio();
+
+      form.patchValue(
+        {
+          y: balance.get(yAsset).percent(pct),
+          x: ratio.toBaseCurrency(balance.get(yAsset).percent(pct)),
+        },
+        { emitEvent: 'silent' },
+      );
+    }
+  };
+
   return (
     <OperationForm
       form={form}
@@ -276,7 +384,10 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
     >
       <Flex col>
         <Flex.Item marginBottom={4}>
-          <Section title={t`Choose a fee`} tooltip="test">
+          <Section
+            title={t`Choose a fee`}
+            tooltip={t`The % you will earn in fees`}
+          >
             <Form.Item name="fee">
               {({ value, onChange }) => (
                 <FeeSelector value={value} onChange={onChange} />
@@ -285,7 +396,7 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
           </Section>
         </Flex.Item>
         <Flex.Item marginBottom={4}>
-          <Section title={t`Set initial price`} tooltip="test">
+          <Section title={t`Set initial price`}>
             <Form.Item name="initialPrice" watchForm>
               {({ value, onChange, parent }) => (
                 <InitialPriceInput
@@ -299,7 +410,14 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
           </Section>
         </Flex.Item>
         <Flex.Item marginBottom={4}>
-          <Section title={t`Liquidity`}>
+          <Section
+            title={t`Liquidity`}
+            extra={
+              <Flex justify="flex-end">
+                <LiquidityPercentInput onClick={handleMaxLiquidityClick} />
+              </Flex>
+            }
+          >
             <Flex col>
               <Flex.Item marginBottom={1}>
                 <TokenControlFormItem
@@ -316,38 +434,37 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
             </Flex>
           </Section>
         </Flex.Item>
-        <Flex.Item justify="center">
-          <Flex.Item flex={1} marginRight={2}>
-            <Form.Listener>
-              {({ value }) => (
-                <RatioBox
-                  mainAsset={value.xAsset}
-                  oppositeAsset={value.yAsset}
-                  ratio={
-                    value.initialPrice
-                      ? getMainRatio(value.initialPrice, value.xAsset)
-                      : undefined
-                  }
-                />
-              )}
-            </Form.Listener>
-          </Flex.Item>
-          <Flex.Item flex={1}>
-            <Form.Listener>
-              {({ value }) => (
-                <RatioBox
-                  mainAsset={value.yAsset}
-                  oppositeAsset={value.xAsset}
-                  ratio={
-                    value.initialPrice
-                      ? getOppositeRatio(value.initialPrice, value.yAsset)
-                      : undefined
-                  }
-                />
-              )}
-            </Form.Listener>
-          </Flex.Item>
-        </Flex.Item>
+        <Form.Listener>
+          {({ value }) =>
+            value.xAsset &&
+            value.yAsset && (
+              <Flex.Item justify="center">
+                <Flex.Item flex={1} marginRight={2}>
+                  <RatioBox
+                    mainAsset={value.xAsset}
+                    oppositeAsset={value.yAsset}
+                    ratio={
+                      value.initialPrice
+                        ? getMainRatio(value.initialPrice, value.xAsset)
+                        : undefined
+                    }
+                  />
+                </Flex.Item>
+                <Flex.Item flex={1}>
+                  <RatioBox
+                    mainAsset={value.yAsset}
+                    oppositeAsset={value.xAsset}
+                    ratio={
+                      value.initialPrice
+                        ? getOppositeRatio(value.initialPrice, value.yAsset)
+                        : undefined
+                    }
+                  />
+                </Flex.Item>
+              </Flex.Item>
+            )
+          }
+        </Form.Listener>
       </Flex>
     </OperationForm>
   );

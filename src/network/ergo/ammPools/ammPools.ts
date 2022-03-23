@@ -1,8 +1,12 @@
+import { AmmPool as BaseAmmPool } from '@ergolabs/ergo-dex-sdk';
 import {
   catchError,
+  combineLatest,
+  defaultIfEmpty,
   filter,
   from,
   map,
+  Observable,
   of,
   publishReplay,
   refCount,
@@ -13,6 +17,7 @@ import {
 
 import { applicationConfig } from '../../../applicationConfig';
 import { AmmPool } from '../../../common/models/AmmPool';
+import { getAggregatedPoolAnalyticsDataById24H } from '../../../common/streams/poolAnalytic';
 import { networkContext$ } from '../networkContext/networkContext';
 import { nativeNetworkPools, networkPools } from './common';
 
@@ -28,6 +33,12 @@ const getNetworkAmmPools = () =>
     retry(applicationConfig.requestRetryCount),
   );
 
+const toAmmPool = (p: BaseAmmPool): Observable<AmmPool> =>
+  getAggregatedPoolAnalyticsDataById24H(p.id).pipe(
+    catchError(() => of(undefined)),
+    map((poolAnalytics) => new AmmPool(p, poolAnalytics)),
+  );
+
 export const ammPools$ = networkContext$.pipe(
   switchMap(() => zip([getNativeNetworkAmmPools(), getNetworkAmmPools()])),
   map(([nativeNetworkPools, networkPools]) =>
@@ -35,7 +46,9 @@ export const ammPools$ = networkContext$.pipe(
   ),
   catchError(() => of(undefined)),
   filter(Boolean),
-  map((pools) => pools.map((p) => new AmmPool(p))),
+  switchMap((pools) =>
+    combineLatest(pools.map(toAmmPool)).pipe(defaultIfEmpty([])),
+  ),
   publishReplay(1),
   refCount(),
 );
