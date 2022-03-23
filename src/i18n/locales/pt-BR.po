@@ -5,20 +5,20 @@ msgstr ""
 "POT-Creation-Date: \n"
 "PO-Revision-Date: 2022-03-23 15:48\n"
 "Last-Translator: \n"
-"Language: de_DE\n"
-"Language-Team: German\n"
+"Language: pt_BR\n"
+"Language-Team: Portuguese, Brazilian\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Crowdin-Project: ergodex-frontend\n"
 "X-Crowdin-Project-ID: 504102\n"
-"X-Crowdin-Language: de\n"
+"X-Crowdin-Language: pt-BR\n"
 "X-Crowdin-File: /init-localization/src/i18n/locales/en-US.po\n"
 "X-Crowdin-File-ID: 46\n"
 
 #: src/pages/Pool/components/LockLiquidityDatePicker/LiquidityDatePicker.tsx
 msgid "(Block: {0})"
-msgstr "(Block: {0})"
+msgstr ""
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
 msgid "(Unlock block: {0})"
@@ -38,23 +38,23 @@ msgstr ""
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
 msgid "0.3% fee"
-msgstr "0.3% Gebühr"
+msgstr ""
 
 #: src/pages/Pool/utils.ts
 msgid "1 Day"
-msgstr "1 Tag"
+msgstr ""
 
 #: src/pages/Pool/utils.ts
 msgid "1 Month"
-msgstr "1 Monat"
+msgstr ""
 
 #: src/pages/Pool/utils.ts
 msgid "1 Year"
-msgstr "1 Jahr"
+msgstr ""
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
 msgid "1% fee"
-msgstr "1% Gebühr"
+msgstr ""
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "1. You will use the product at your own peril and risk;"
@@ -70,23 +70,23 @@ msgstr ""
 
 #: src/components/WalletModal/AddressesTab/AddressesTab.tsx
 msgid "Active"
-msgstr "Aktiv"
+msgstr ""
 
 #: src/components/WalletModal/WalletActiveAddress/WalletActiveAddress.tsx
 msgid "Active address"
-msgstr "Aktive Adresse"
+msgstr ""
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool.tsx
 #: src/pages/Pool/components/LiquidityPositionsList/LiquidityPositionsList.tsx
 msgid "Add Liquidity"
-msgstr "Liquidität hinzufügen"
+msgstr ""
 
 #: src/components/common/TxHistory/TxTypeTag/TxTypeTag.tsx
 #: src/pages/Pool/Liquidity.tsx
 msgid "Add liquidity"
-msgstr "Liquidität hinzufügen"
+msgstr ""
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Adding liquidity {0} and {1}"
@@ -99,7 +99,7 @@ msgstr ""
 #: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidity.tsx
 msgid "Amount"
-msgstr "Betrag"
+msgstr ""
 
 #: src/pages/Pool/components/LiquidityPositionsList/LiquidityPositionsItem/LiquidityPositionsItemAnalytics/LiquidityPositionsItemAnalytics.tsx
 msgid "Annual Percentage Rate. Average estimation of how much you may potentially earn providing liquidity to this pool."
@@ -126,7 +126,7 @@ msgstr ""
 
 #: src/components/MobilePlug/MobilePlug.tsx
 msgid "Back to Home"
-msgstr "Zurück zur Startseite"
+msgstr ""
 
 #: src/components/common/TokenControl/TokenControl.tsx
 msgid "Balance: {0}"
@@ -172,24 +172,24 @@ msgstr ""
 
 #: src/components/WalletModal/AddressesTab/AddressesTab.tsx
 msgid "Choose"
-msgstr "Auswählen"
+msgstr ""
 
 #: src/pages/Pool/components/LockLiquidityDatePicker/LiquidityDatePicker.tsx
 msgid "Choose Date"
-msgstr "Datum auswählen"
+msgstr ""
 
 #: src/pages/Swap/PoolSelector/PoolSelectorModal/PoolSelectorModal.tsx
 msgid "Choose Pool"
-msgstr "Pool auswählen"
+msgstr ""
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Choose a fee"
-msgstr "Gebühr auswählen"
+msgstr ""
 
 #: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
 #: src/components/common/TxHistory/RefundConfirmationModal/RefundConfirmationModal.tsx
 msgid "Confirm"
-msgstr "Bestätigen"
+msgstr ""
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 msgid "Confirm Add Liquidity"
@@ -197,7 +197,7 @@ msgstr ""
 
 #: src/pages/Pool/LockLiquidity/LockLiquidityConfirmationModal/LockLiquidityConfirmationModal.tsx
 msgid "Confirm Lock"
-msgstr "Sperre bestätigen"
+msgstr ""
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
 msgid "Confirm Relock"
@@ -209,11 +209,11 @@ msgstr ""
 
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Confirm Swap"
-msgstr "Tausch bestätigen"
+msgstr ""
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
 msgid "Confirm Withdrawal"
-msgstr "Abhebung bestätigen"
+msgstr ""
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
 msgid "Confirm pool creation"
@@ -221,7 +221,7 @@ msgstr ""
 
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Confirm swap"
-msgstr "Tausch bestätigen"
+msgstr ""
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Confirm this transaction in your wallet"
