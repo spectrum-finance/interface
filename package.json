@@ -5,6 +5,7 @@
   "scripts": {
     "start": "HTTPS=true react-app-rewired start",
     "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
     "prei18n:extract": "touch src/i18n/locales/en-US.po",
     "i18n:extract": "lingui extract --locale en-US",
     "i18n:compile": "yarn i18n:extract && lingui compile",
