@@ -71,7 +71,7 @@ const plurals: LocalePlural = {
   // 'nl-NL': nl,
   // 'no-NO': no,
   // 'pl-PL': pl,
-  // 'pt-BR': pt,
+  'pt-BR': pt,
   'pt-PT': pt,
   // 'ro-RO': ro,
   // 'ru-RU': ru,

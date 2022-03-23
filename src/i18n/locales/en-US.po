@@ -436,6 +436,10 @@ msgstr "It is impossible to display statistics for this pool"
 msgid "KYA is not accepted"
 msgstr "KYA is not accepted"
 
+#: src/components/Header/BurgerMenu/BurgerMenu.tsx
+msgid "Language"
+msgstr "Language"
+
 #: src/components/WalletModal/LowBalanceWarning/LowBalanceWarning.tsx
 msgid "Learn how to get ERG"
 msgstr "Learn how to get ERG"
