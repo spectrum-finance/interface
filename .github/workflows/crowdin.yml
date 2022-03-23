@@ -48,4 +48,4 @@ jobs:
           source: 'src/i18n/locales/en-US.po'
           translation: 'src/i18n/locales/%locale%.po'
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.SECTER_TOKEN }}
