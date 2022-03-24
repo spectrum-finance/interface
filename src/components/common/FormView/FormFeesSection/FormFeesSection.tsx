@@ -1,3 +1,4 @@
+import { t, Trans } from '@lingui/macro';
 import React from 'react';
 
 import { UI_FEE } from '../../../../common/constants/erg';
@@ -18,7 +19,7 @@ const FormFeesSection: React.FC<FormFeesSection> = ({
   totalFees,
 }) => {
   return (
-    <PageSection title="Fees">
+    <PageSection title={t`Fees`}>
       <Flex justify="space-between">
         <Flex.Item>
           <Typography.Text strong>Fees</Typography.Text>
@@ -29,14 +30,18 @@ const FormFeesSection: React.FC<FormFeesSection> = ({
                 <Flex direction="col">
                   <Flex.Item>
                     <Flex>
-                      <Flex.Item marginRight={1}>Miner Fee:</Flex.Item>
+                      <Flex.Item marginRight={1}>
+                        <Trans>Miner Fee:</Trans>
+                      </Flex.Item>
                       <Flex.Item>{minerFee} ERG</Flex.Item>
                     </Flex>
                   </Flex.Item>
                   {!!minExFee && (
                     <Flex.Item>
                       <Flex>
-                        <Flex.Item marginRight={1}>Execution Fee:</Flex.Item>
+                        <Flex.Item marginRight={1}>
+                          <Trans>Execution Fee:</Trans>
+                        </Flex.Item>
                         <Flex.Item>{minExFee.toCurrencyString()}</Flex.Item>
                       </Flex>
                     </Flex.Item>
@@ -44,7 +49,9 @@ const FormFeesSection: React.FC<FormFeesSection> = ({
                   {!!UI_FEE && (
                     <Flex.Item>
                       <Flex>
-                        <Flex.Item marginRight={1}>UI Fee:</Flex.Item>
+                        <Flex.Item marginRight={1}>
+                          <Trans>UI Fee:</Trans>
+                        </Flex.Item>
                         <Flex.Item>{UI_FEE} ERG</Flex.Item>
                       </Flex>
                     </Flex.Item>

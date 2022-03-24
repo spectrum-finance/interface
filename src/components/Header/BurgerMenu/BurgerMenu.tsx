@@ -1,42 +1,58 @@
 import './BurgerMenu.less';
 
+import { t } from '@lingui/macro';
+import { stringify } from 'qs';
 import React, { useState } from 'react';
 import { isMobile } from 'react-device-detect';
+import { Link, useLocation } from 'react-router-dom';
 
 import { ReactComponent as DarkModeOutlined } from '../../../assets/icons/darkmode.svg';
+import {
+  LOCALE_LABEL,
+  SUPPORTED_LOCALES,
+} from '../../../common/constants/locales';
+import { useSettings } from '../../../context';
 import {
   Button,
   Dropdown,
   FileTextOutlined,
   GithubOutlined,
+  GlobalOutlined,
   InfoCircleOutlined,
   LeftOutlined,
   Menu,
   Modal,
   QuestionCircleOutlined,
+  RightOutlined,
   SettingOutlined,
 } from '../../../ergodex-cdk';
+import { useQuery } from '../../../hooks/useQuery';
 import { DotsIcon } from '../../common/Icons/DotsIcon';
 import { ThemeSwitch } from '../../ThemeSwitch/ThemeSwitch';
 import { GlobalSettingsModal } from '../GlobalSettingsModal/GlobalSettingsModal';
 
+const MENU_WIDTH = 160;
+
 const BurgerMenu = (): JSX.Element => {
   const [isMainMenu, setIsMainMenu] = useState<boolean>(true);
   const [isMenuVisible, setMenuVisible] = useState<boolean>(false);
+  const [settings, setSettings] = useSettings();
+  const location = useLocation();
+  const qs = useQuery();
 
   const menu = [
     {
-      title: 'About',
+      title: t`About`,
       icon: <InfoCircleOutlined />,
       link: 'https://docs.ergodex.io/docs/about-ergodex/intro',
     },
     {
-      title: 'How to use',
+      title: t`How to use`,
       icon: <QuestionCircleOutlined />,
       link: 'https://docs.ergodex.io/docs/user-guides/quick-start',
     },
     {
-      title: 'Docs',
+      title: t`Docs`,
       icon: <FileTextOutlined />,
       link: 'https://docs.ergodex.io',
     },
@@ -46,31 +62,34 @@ const BurgerMenu = (): JSX.Element => {
       link: 'https://github.com/ergolabs',
     },
     {
-      title: 'Global Settings',
+      title: t`Global Settings`,
       icon: <SettingOutlined />,
       onClick: () =>
         Modal.open(({ close }) => <GlobalSettingsModal onClose={close} />),
       isNotRenderMobile: true,
     },
-    // {
-    //   title: 'Analytics',
-    //   icon: <BarChartOutlined />,
-    //   link: '#',
-    // },
-    // {
-    //   title: 'Language',
-    //   icon: <GlobalOutlined />,
-    //   additional: <RightOutlined style={{ marginLeft: 36 }} />,
-    // },
     {
-      title: 'Dark mode',
+      title: t`Language`,
+      icon: <GlobalOutlined />,
+      additional: <RightOutlined style={{ marginLeft: 36 }} />,
+      onClick: () => setIsMainMenu(false),
+    },
+    {
+      title: t`Dark mode`,
       icon: <DarkModeOutlined />,
       additional: <ThemeSwitch defaultChecked size="small" />,
     },
   ];
 
+  const changeLanguage = (locale: string) => {
+    setSettings({
+      ...settings,
+      lang: locale,
+    });
+  };
+
   const menuOthers = (
-    <Menu style={{ width: 160 }}>
+    <Menu style={{ width: MENU_WIDTH }}>
       {menu.map((item, index) => (
         <Menu.Item
           className="ergodex-menu-item"
@@ -96,18 +115,30 @@ const BurgerMenu = (): JSX.Element => {
   );
 
   const menuLanguages = (
-    <Menu style={{ width: 160 }}>
-      <Menu.Item key="8" icon={<LeftOutlined />} />
-      <Menu.Item key="9">
-        <a target="_blank" rel="noopener noreferrer">
-          English
-        </a>
+    <Menu
+      style={{
+        width: MENU_WIDTH,
+      }}
+    >
+      <Menu.Item key="langs-back" icon={<LeftOutlined />}>
+        <a onClick={() => setIsMainMenu(true)} rel="noopener noreferrer" />
       </Menu.Item>
-      <Menu.Item key="10">
-        <a target="_blank" rel="noopener noreferrer">
-          中国人
-        </a>
-      </Menu.Item>
+      {SUPPORTED_LOCALES.map((locale) => {
+        return (
+          <Menu.Item key={locale}>
+            <Link
+              to={{
+                ...location,
+                search: stringify({ ...qs, lng: locale }),
+              }}
+              rel="noopener noreferrer"
+              onClick={() => changeLanguage(locale)}
+            >
+              {LOCALE_LABEL[locale]}
+            </Link>
+          </Menu.Item>
+        );
+      })}
     </Menu>
   );
 

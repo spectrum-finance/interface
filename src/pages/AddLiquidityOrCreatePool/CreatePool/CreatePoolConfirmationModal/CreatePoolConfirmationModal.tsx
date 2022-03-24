@@ -9,6 +9,7 @@ import {
   DefaultBoxSelector,
 } from '@ergolabs/ergo-sdk';
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
+import { t, Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 
 import { ERG_DECIMALS } from '../../../../common/constants/erg';
@@ -98,12 +99,14 @@ const CreatePoolConfirmationModal: FC<CreatePoolConfirmationModalProps> = ({
 
   return (
     <>
-      <Modal.Title>Confirm pool creation</Modal.Title>
+      <Modal.Title>
+        <Trans>Confirm pool creation</Trans>
+      </Modal.Title>
       <Modal.Content width={436}>
         <Flex direction="col">
           <Flex.Item marginBottom={6}>
             <FormPairSection
-              title="Initial liquidity"
+              title={t`Initial liquidity`}
               xAmount={value.x}
               yAmount={value.y}
             >
@@ -112,14 +115,16 @@ const CreatePoolConfirmationModal: FC<CreatePoolConfirmationModalProps> = ({
                   <Divider />
                 </Flex.Item>
                 <Flex.Item align="center" justify="space-between">
-                  <Typography.Body strong>Fee tier</Typography.Body>
+                  <Typography.Body strong>
+                    <Trans>Fee tier</Trans>
+                  </Typography.Body>
                   <Typography.Body strong>{value.fee}%</Typography.Body>
                 </Flex.Item>
               </Flex>
             </FormPairSection>
           </Flex.Item>
           <Flex.Item marginBottom={6}>
-            <Section title="Initial price">
+            <Section title={t`Initial price`}>
               <Flex>
                 <Flex.Item flex={1} marginRight={2}>
                   <RatioBox
@@ -147,17 +152,21 @@ const CreatePoolConfirmationModal: FC<CreatePoolConfirmationModalProps> = ({
             </Section>
           </Flex.Item>
           <Flex.Item marginBottom={6}>
-            <PageSection title="Fees">
+            <PageSection title={t`Fees`}>
               <Flex justify="space-between">
                 <Flex.Item>
-                  <Typography.Text strong>Fees</Typography.Text>
+                  <Typography.Text strong>
+                    <Trans>Fees</Trans>
+                  </Typography.Text>
                   <InfoTooltip
                     placement="rightBottom"
                     content={
                       <Flex direction="col">
                         <Flex.Item>
                           <Flex>
-                            <Flex.Item marginRight={1}>Miner Fee:</Flex.Item>
+                            <Flex.Item marginRight={1}>
+                              <Trans>Miner Fee:</Trans>
+                            </Flex.Item>
                             <Flex.Item>{minerFee} ERG</Flex.Item>
                           </Flex>
                         </Flex.Item>
@@ -178,7 +187,7 @@ const CreatePoolConfirmationModal: FC<CreatePoolConfirmationModalProps> = ({
               size="extra-large"
               onClick={() => createPoolOperation()}
             >
-              Create pool
+              <Trans>Create pool</Trans>
             </Button>
           </Flex.Item>
         </Flex>

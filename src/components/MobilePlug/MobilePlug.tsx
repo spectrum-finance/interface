@@ -1,3 +1,4 @@
+import { Trans } from '@lingui/macro';
 import React from 'react';
 
 import { ReactComponent as SmartphoneImage } from '../../assets/images/smartphone.svg';
@@ -14,17 +15,17 @@ const MobilePlug = (): JSX.Element => {
           </Flex.Item>
           <Flex.Item marginBottom={2}>
             <Typography.Title level={2}>
-              Mobile version is not supported yet
+              <Trans>Mobile version is not supported yet</Trans>
             </Typography.Title>
           </Flex.Item>
           <Flex.Item marginBottom={8}>
             <Typography.Body>
-              Use the desktop version and Google Chrome browser
+              <Trans>Use the desktop version and Google Chrome browser</Trans>
             </Typography.Body>
           </Flex.Item>
           <Flex.Item>
             <Button type="primary" size="large" href={LANDING_URL}>
-              Back to Home
+              <Trans>Back to Home</Trans>
             </Button>
           </Flex.Item>
         </Flex>

@@ -1,4 +1,5 @@
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
+import { t, Trans } from '@lingui/macro';
 import React from 'react';
 
 import { AmmPool } from '../../../../../../common/models/AmmPool';
@@ -55,7 +56,9 @@ const LiquidityPositionsItemWrapper: React.FC<LiquidityPositionsItemWrapperProps
                     </Flex.Item>
                     {isTestPool(pool.id) && (
                       <Flex.Item marginLeft={2}>
-                        <Tooltip title="It is impossible to display statistics for this pool">
+                        <Tooltip
+                          title={t`It is impossible to display statistics for this pool`}
+                        >
                           <Tag color="warning" icon={<WarningOutlined />}>
                             TIP
                           </Tag>
@@ -85,7 +88,9 @@ const LiquidityPositionsItemWrapper: React.FC<LiquidityPositionsItemWrapperProps
             <Flex.Item marginRight={16}>
               <Flex col justify="space-between">
                 <Flex.Item marginBottom={1}>
-                  <Typography.Footnote>Fee tier</Typography.Footnote>
+                  <Typography.Footnote>
+                    <Trans>Fee tier</Trans>
+                  </Typography.Footnote>
                 </Flex.Item>
                 <DataTag content={`${pool.poolFee}%`} size="large" />
               </Flex>

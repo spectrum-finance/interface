@@ -1,3 +1,4 @@
+import { Trans } from '@lingui/macro';
 import { Typography } from 'antd';
 import React from 'react';
 
@@ -51,12 +52,14 @@ const TxHistoryModal = (): JSX.Element => {
             target="_blank"
             rel="noreferrer"
           >
-            View on Explorer
+            <Trans>View on Explorer</Trans>
           </a>
         </Menu.Item>
         {isRefundableOperation(op.status) && (
           <Menu.Item onClick={() => handleOpenRefundConfirmationModal(op)}>
-            <a rel="noreferrer">Refund transaction</a>
+            <a rel="noreferrer">
+              <Trans>Refund transaction</Trans>
+            </a>
           </Menu.Item>
         )}
       </>
@@ -65,22 +68,32 @@ const TxHistoryModal = (): JSX.Element => {
 
   return (
     <>
-      <Modal.Title>Recent transactions</Modal.Title>
+      <Modal.Title>
+        <Trans>Recent transactions</Trans>
+      </Modal.Title>
       <Modal.Content width={680}>
         <Flex col style={{ overflowY: 'auto', maxHeight: '500px' }}>
           <Flex.Item>
             <Flex justify="space-between" align="center">
               <Flex.Item style={{ width: '35%' }}>
-                <Typography.Title level={5}>Assets</Typography.Title>
+                <Typography.Title level={5}>
+                  <Trans>Assets</Trans>
+                </Typography.Title>
               </Flex.Item>
               <Flex.Item style={{ width: '28%' }}>
-                <Typography.Title level={5}>Date</Typography.Title>
+                <Typography.Title level={5}>
+                  <Trans>Date</Trans>
+                </Typography.Title>
               </Flex.Item>
               <Flex.Item style={{ width: '20%' }}>
-                <Typography.Title level={5}>Type</Typography.Title>
+                <Typography.Title level={5}>
+                  <Trans>Type</Trans>
+                </Typography.Title>
               </Flex.Item>
               <Flex.Item style={{ width: '16%' }}>
-                <Typography.Title level={5}>Status</Typography.Title>
+                <Typography.Title level={5}>
+                  <Trans>Status</Trans>
+                </Typography.Title>
               </Flex.Item>
               <Flex.Item style={{ width: '5%' }} />
             </Flex>

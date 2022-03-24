@@ -1,3 +1,4 @@
+import { t, Trans } from '@lingui/macro';
 import React, { FC, ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -42,7 +43,7 @@ export interface LockItemViewProps {
 export const LockItemView: FC<LockItemViewProps> = ({ position }) => (
   <ListItemWrapper>
     <Flex align="center">
-      <LockItemViewColumn title="Pair" width={164} marginRight={4}>
+      <LockItemViewColumn title={t`Pair`} width={164} marginRight={4}>
         <Flex col stretch>
           <Flex.Item marginBottom={3}>
             <TokenTitle value={position.availableX.asset} />
@@ -50,7 +51,7 @@ export const LockItemView: FC<LockItemViewProps> = ({ position }) => (
           <TokenTitle value={position.availableY.asset} />
         </Flex>
       </LockItemViewColumn>
-      <LockItemViewColumn title="Total locked" width={180} marginRight={4}>
+      <LockItemViewColumn title={t`Total locked`} width={180} marginRight={4}>
         <Flex col stretch>
           <Flex.Item marginBottom={1}>
             <DataTag
@@ -67,7 +68,7 @@ export const LockItemView: FC<LockItemViewProps> = ({ position }) => (
         </Flex>
       </LockItemViewColumn>
       <LockItemViewColumn
-        title="Total withdrawable"
+        title={t`Total withdrawable`}
         width={180}
         marginRight={4}
       >
@@ -86,7 +87,7 @@ export const LockItemView: FC<LockItemViewProps> = ({ position }) => (
           />
         </Flex>
       </LockItemViewColumn>
-      <LockItemViewColumn title="Share" width={100}>
+      <LockItemViewColumn title={t`Share`} width={100}>
         <Flex col style={{ height: 60 }} justify="center">
           <DataTag size="large" content={`${position.totalLockedPercent}%`} />
         </Flex>
@@ -96,12 +97,12 @@ export const LockItemView: FC<LockItemViewProps> = ({ position }) => (
           <OptionsButton size="large" type="text" width={160}>
             <Menu.Item icon={<RelockIcon />}>
               <Link to={`/pool/${position.pool.id}/relock`}>
-                Relock liquidity
+                <Trans>Relock liquidity</Trans>
               </Link>
             </Menu.Item>
             <Menu.Item icon={<WithdrawalIcon />}>
               <Link to={`/pool/${position.pool.id}/withdrawal`}>
-                Withdrawal
+                <Trans>Withdrawal</Trans>
               </Link>
             </Menu.Item>
           </OptionsButton>

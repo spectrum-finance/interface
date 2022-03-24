@@ -1,3 +1,4 @@
+import { Trans } from '@lingui/macro';
 import React, { ChangeEvent, FC } from 'react';
 
 import { defaultMinerFee } from '../../../../common/constants/settings';
@@ -29,7 +30,7 @@ export const MinerFeeInput: FC<MinerFeeInputProps> = ({
         <Flex>
           <Flex.Item marginRight={1}>
             <Button type="primary" size="large" onClick={handleMinimalBtnClick}>
-              Minimum
+              <Trans>Minimum</Trans>
             </Button>
           </Flex.Item>
           <Flex.Item flex={1}>

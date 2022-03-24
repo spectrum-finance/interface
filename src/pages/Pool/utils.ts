@@ -1,4 +1,5 @@
 import { MinBoxValue } from '@ergolabs/ergo-sdk';
+import { t } from '@lingui/macro';
 import { DateTime } from 'luxon';
 
 export const getLockingPeriodString = (date: DateTime): string => {
@@ -9,9 +10,9 @@ export const getLockingPeriodString = (date: DateTime): string => {
   const monthsCount = duration.get('month');
   const daysCount = duration.get('day');
 
-  const years = yearsCount === 1 ? `1 Year` : `${yearsCount} Years`;
-  const months = monthsCount === 1 ? `1 Month` : `${monthsCount} Months`;
-  const days = daysCount === 1 ? `1 Day` : `${daysCount} Days`;
+  const years = yearsCount === 1 ? t`1 Year` : t`${yearsCount} Years`;
+  const months = monthsCount === 1 ? t`1 Month` : t`${monthsCount} Months`;
+  const days = daysCount === 1 ? t`1 Day` : t`${daysCount} Days`;
 
   if (yearsCount && monthsCount && daysCount) {
     return `${years}, ${months} and ${days}`;
@@ -40,11 +41,11 @@ export const getLockingPeriodString = (date: DateTime): string => {
   return days;
 };
 
-export const getLockStatus = (deadline: DateTime): 'Locked' | 'Unlocked' => {
+export const getLockStatus = (deadline: DateTime): string => {
   if (deadline < DateTime.now()) {
-    return 'Locked';
+    return t`Locked`;
   }
-  return 'Unlocked';
+  return t`Unlocked`;
 };
 
 export const getFeeForLockTarget = (minerFeeNErgs: bigint): bigint =>

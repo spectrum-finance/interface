@@ -11,6 +11,7 @@ import {
   RustModule,
   TransactionContext,
 } from '@ergolabs/ergo-sdk';
+import { t, Trans } from '@lingui/macro';
 import { DateTime } from 'luxon';
 import React, { useState } from 'react';
 
@@ -104,12 +105,14 @@ const LockLiquidityConfirmationModal: React.FC<LockLiquidityConfirmationModalPro
 
     return (
       <>
-        <Modal.Title>Confirm Lock</Modal.Title>
+        <Modal.Title>
+          <Trans>Confirm Lock</Trans>
+        </Modal.Title>
         <Modal.Content width={436}>
           <Flex col>
             <Flex.Item marginBottom={4}>
               <FormPairSection
-                title="Assets to lock"
+                title={t`Assets to lock`}
                 xAmount={xAsset}
                 yAmount={yAsset}
               />
@@ -123,13 +126,16 @@ const LockLiquidityConfirmationModal: React.FC<LockLiquidityConfirmationModalPro
             <Flex.Item marginBottom={4}>
               <Flex>
                 <Checkbox onChange={handleCheck}>
-                  I understand that I&apos;m locking <b>{lpAsset.toString()}</b>{' '}
-                  LP-tokens, which is <b>{percent}%</b> of my{' '}
-                  <b>{`${xAsset.asset.name}/${yAsset.asset.name}`}</b> liquidity
-                  position, for a period of{' '}
-                  <b>{getLockingPeriodString(timelock)}</b> (until{' '}
-                  {timelock.toLocaleString(DateTime.DATE_FULL)}) without the
-                  ability to withdrawal before the end of this period.
+                  <Trans>
+                    I understand that I&apos;m locking{' '}
+                    <b>{lpAsset.toString()}</b> LP-tokens, which is{' '}
+                    <b>{percent}%</b> of my{' '}
+                    <b>{`${xAsset.asset.name}/${yAsset.asset.name}`}</b>{' '}
+                    liquidity position, for a period of{' '}
+                    <b>{getLockingPeriodString(timelock)}</b> (until{' '}
+                    {timelock.toLocaleString(DateTime.DATE_FULL)}) without the
+                    ability to withdrawal before the end of this period.
+                  </Trans>
                 </Checkbox>
               </Flex>
             </Flex.Item>
@@ -141,7 +147,7 @@ const LockLiquidityConfirmationModal: React.FC<LockLiquidityConfirmationModalPro
             type="primary"
             onClick={lockOperation}
           >
-            Lock Liquidity
+            <Trans>Lock Liquidity</Trans>
           </Button>
         </Modal.Content>
       </>

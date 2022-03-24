@@ -1,5 +1,6 @@
 import './OperationForm.less';
 
+import { t } from '@lingui/macro';
 import React, { ReactNode, useEffect, useState } from 'react';
 import { debounceTime, first, Observable } from 'rxjs';
 
@@ -23,8 +24,8 @@ export interface OperationFormProps<T> {
   readonly children?: ReactNode | ReactNode[] | string;
 }
 
-const CHECK_INTERNET_CONNECTION_CAPTION = 'Check Internet Connection';
-const LOADING_WALLET_CAPTION = 'Wait a second';
+const CHECK_INTERNET_CONNECTION_CAPTION = t`Check Internet Connection`;
+const LOADING_WALLET_CAPTION = t`Loading`;
 
 export function OperationForm<T>({
   validators,
