@@ -54,4 +54,4 @@ jobs:
           localization_branch_name: dev
           commit_message: "chore(i18n): synchronize translations from crowdin [skip ci]"
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.SECTER_TOKEN }}
