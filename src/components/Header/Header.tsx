@@ -2,7 +2,6 @@ import './Header.less';
 
 import cn from 'classnames';
 import React, { useEffect, useState } from 'react';
-import { isBrowser } from 'react-device-detect';
 
 import { useAssetsBalance } from '../../api/assetBalance';
 import { selectedWalletState$ } from '../../api/wallets';
@@ -59,27 +58,21 @@ export const Header: React.FC = () => {
       <div className="header__wrapper">
         <div className="header__left">
           <AppLogo isNoWording />
-          {isBrowser && (
-            <>
-              <Navigation />
-              <Analytics />
-            </>
-          )}
+          <>
+            <Navigation />
+            <Analytics />
+          </>
         </div>
         <div className="header__options">
-          {isBrowser && (
-            <>
-              <NetworkDropdown networks={networks} />
-              <ConnectWallet
-                numberOfPendingTxs={0}
-                address={address}
-                balance={
-                  isBalanceLoading ? undefined : balance.get(networkAsset)
-                }
-              />
-              {walletState === WalletState.CONNECTED && <TxHistory />}
-            </>
-          )}
+          <>
+            <NetworkDropdown networks={networks} />
+            <ConnectWallet
+              numberOfPendingTxs={0}
+              address={address}
+              balance={isBalanceLoading ? undefined : balance.get(networkAsset)}
+            />
+            {walletState === WalletState.CONNECTED && <TxHistory />}
+          </>
           <BurgerMenu />
         </div>
       </div>

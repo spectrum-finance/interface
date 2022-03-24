@@ -3,7 +3,6 @@ import './BurgerMenu.less';
 import { t } from '@lingui/macro';
 import { stringify } from 'qs';
 import React, { useState } from 'react';
-import { isMobile } from 'react-device-detect';
 import { Link, useLocation } from 'react-router-dom';
 
 import { ReactComponent as DarkModeOutlined } from '../../../assets/icons/darkmode.svg';
@@ -66,7 +65,6 @@ const BurgerMenu = (): JSX.Element => {
       icon: <SettingOutlined />,
       onClick: () =>
         Modal.open(({ close }) => <GlobalSettingsModal onClose={close} />),
-      isNotRenderMobile: true,
     },
     {
       title: t`Language`,
@@ -95,9 +93,6 @@ const BurgerMenu = (): JSX.Element => {
           className="ergodex-menu-item"
           key={index + 1}
           icon={item.icon}
-          style={{
-            display: isMobile && item.isNotRenderMobile ? 'none' : '',
-          }}
         >
           {item.onClick ? (
             <a rel="noreferrer" onClick={item.onClick}>
