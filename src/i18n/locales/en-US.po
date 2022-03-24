@@ -256,6 +256,10 @@ msgstr "Create pool"
 msgid "Current price"
 msgstr "Current price"
 
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
+msgid "Custom fee tier"
+msgstr "Custom fee tier"
+
 #: src/components/Header/BurgerMenu/BurgerMenu.tsx
 msgid "Dark mode"
 msgstr "Dark mode"
@@ -277,11 +281,12 @@ msgid "ERG balance is low"
 msgstr "ERG balance is low"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
-msgid "Enter an A  mount"
-msgstr "Enter an A  mount"
+#~ msgid "Enter an A  mount"
+#~ msgstr "Enter an A  mount"
 
 #: src/components/common/ActionForm/ActionButton/ActionButton.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Enter an Amount"
 msgstr "Enter an Amount"
 
@@ -384,8 +389,8 @@ msgid "I understand that I’m relocking <0>{0}</0> LP-tokens of my <1>{1}/{2}</
 msgstr "I understand that I’m relocking <0>{0}</0> LP-tokens of my <1>{1}/{2}</1> position until <2>{3}</2> (or <3>{4}</3> block) without the ability to withdrawal before the end of this period."
 
 #: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
-msgid "I understand that this wallet has not been audited. I will use it at my own risk."
-msgstr "I understand that this wallet has not been audited. I will use it at my own risk."
+#~ msgid "I understand that this wallet has not been audited. I will use it at my own risk."
+#~ msgstr "I understand that this wallet has not been audited. I will use it at my own risk."
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "I understand the risks and accept the KYA"
@@ -634,6 +639,10 @@ msgstr "Read more"
 msgid "Recent transactions"
 msgstr "Recent transactions"
 
+#: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
+msgid "Recommended"
+msgstr "Recommended"
+
 #: src/components/common/ActionForm/ActionButton/ActionButton.tsx
 msgid "Refresh page"
 msgstr "Refresh page"
@@ -691,7 +700,6 @@ msgid "Removing liquidity {0} and {1}"
 msgstr "Removing liquidity {0} and {1}"
 
 #: src/components/common/TokenControl/TokenSelect/TokenListModal/TokenListModal.tsx
-#: src/pages/Pool/Liquidity.tsx
 msgid "Search"
 msgstr "Search"
 
@@ -725,6 +733,7 @@ msgstr "Select a fee tier"
 #: src/components/common/TokenControl/TokenSelect/TokenListModal/TokenListModal.tsx
 #: src/components/common/TokenControl/TokenSelect/TokenSelect.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Select a token"
 msgstr "Select a token"
 
@@ -790,11 +799,14 @@ msgstr "Swapping is available in {0}"
 msgid "Swapping {0} for {1}"
 msgstr "Swapping {0} for {1}"
 
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
+msgid "The % you will earn in fees"
+msgstr "The % you will earn in fees"
+
 #: src/components/NetworkHeight/NetworkHeight.tsx
 msgid "The most recent block in Ergo network"
 msgstr "The most recent block in Ergo network"
 
-#: src/pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool.tsx
 msgid "The pool with such a pair has not yet been initialized. To create a pool enter an initial price. Then add the deposit amount."
 msgstr "The pool with such a pair has not yet been initialized. To create a pool enter an initial price. Then add the deposit amount."
@@ -806,6 +818,10 @@ msgstr "The value can't be more than {MAX_ERG_FOR_TX} ERG"
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
 msgid "This position is still locked"
 msgstr "This position is still locked"
+
+#: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
+msgid "This wallet may not always work as expected. I understand what I do andwill use it at my own risk."
+msgstr "This wallet may not always work as expected. I understand what I do andwill use it at my own risk."
 
 #: src/pages/Swap/Swap.tsx
 msgid "To"
