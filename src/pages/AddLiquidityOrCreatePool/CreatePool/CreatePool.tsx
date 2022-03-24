@@ -130,7 +130,7 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
 
   const selectTokenValidator: OperationValidator<CreatePoolFormModel> = ({
     value: { xAsset, yAsset },
-  }) => (!xAsset || !yAsset ? 'Select a token' : undefined);
+  }) => (!xAsset || !yAsset ? t`Select a token` : undefined);
 
   const feeValidator: OperationValidator<CreatePoolFormModel> = ({
     value: { fee },
