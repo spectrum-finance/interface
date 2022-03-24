@@ -1,14 +1,16 @@
-name: Crowdin Upload
+name: Crowdin Download
 
-# on any push to main, we upload the translations to be translated
+# hourly we sync translations from Crowdin
 on:
-  push:
-    branches:
-      - dev
+  schedule:
+    - cron: '0 * * * *' # every hour we download translations and update the pr from crowdin
+
+  # manual trigger
+  workflow_dispatch:
 
 jobs:
-  synchronize-with-crowdin:
-    name: Upload sources to Crowdin
+  download-translations:
+    name: Download translations
     runs-on: ubuntu-latest
 
     steps:
@@ -32,6 +34,7 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
+
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
@@ -41,11 +44,14 @@ jobs:
       - name: Synchronize
         uses: crowdin/github-action@1.1.0
         with:
-          upload_sources: true
-          download_translations: false
+          upload_sources: false
+          download_translations: true
           project_id: 504102
           token: ${{ secrets.CROWDIN_PERSONAL_TOKEN_SECRET }}
           source: 'src/i18n/locales/en-US.po'
           translation: 'src/i18n/locales/%locale%.po'
+          create_pull_request: false
+          localization_branch_name: dev
+          commit_message: "chore(i18n): synchronize translations from crowdin [skip ci]"
         env:
-          GITHUB_TOKEN: ${{ secrets.SECTER_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
