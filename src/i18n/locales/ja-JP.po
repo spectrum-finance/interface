@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ergodex-frontend\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-03-23 14:37\n"
+"PO-Revision-Date: 2022-03-25 13:07\n"
 "Last-Translator: \n"
 "Language: ja_JP\n"
 "Language-Team: Japanese\n"
@@ -13,8 +13,8 @@ msgstr ""
 "X-Crowdin-Project: ergodex-frontend\n"
 "X-Crowdin-Project-ID: 504102\n"
 "X-Crowdin-Language: ja\n"
-"X-Crowdin-File: /init-localization/src/i18n/locales/en-US.po\n"
-"X-Crowdin-File-ID: 46\n"
+"X-Crowdin-File: /dev/src/i18n/locales/en-US.po\n"
+"X-Crowdin-File-ID: 68\n"
 
 #: src/pages/Pool/components/LockLiquidityDatePicker/LiquidityDatePicker.tsx
 msgid "(Block: {0})"
@@ -34,7 +34,7 @@ msgstr "- ErgoDEXにおける取引はブロックチェーン上に記録され
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "- Every transaction can be viewed via"
-msgstr ""
+msgstr "- すべてトランザクションを確認"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
 msgid "0.3% fee"
@@ -261,6 +261,10 @@ msgstr "プールを作成"
 msgid "Current price"
 msgstr "現在価格"
 
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
+msgid "Custom fee tier"
+msgstr "カスタム手数料"
+
 #: src/components/Header/BurgerMenu/BurgerMenu.tsx
 msgid "Dark mode"
 msgstr "ダークモード"
@@ -282,11 +286,12 @@ msgid "ERG balance is low"
 msgstr "ERGの残高が不足しています"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
-msgid "Enter an A  mount"
-msgstr "金額を入力"
+#~ msgid "Enter an A  mount"
+#~ msgstr "Enter an A  mount"
 
 #: src/components/common/ActionForm/ActionButton/ActionButton.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Enter an Amount"
 msgstr "金額を入力"
 
@@ -382,15 +387,15 @@ msgstr "使い方"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidityConfirmationModal/LockLiquidityConfirmationModal.tsx
 msgid "I understand that I'm locking <0>{0}</0> LP-tokens, which is <1>{percent}%</1> of my <2>{1}/{2}</2> liquidity position, for a period of <3>{3}</3> (until {4}) without the ability to withdrawal before the end of this period."
-msgstr ""
+msgstr "<0>{0}</0>LPトークン(<2>{1}/{2}</2>の流動性ポジションの<1>{percent}%</1>)をロックし、<3>{3}</3>間または{4}まで引き出せないことを理解しました。"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
 msgid "I understand that I’m relocking <0>{0}</0> LP-tokens of my <1>{1}/{2}</1> position until <2>{3}</2> (or <3>{4}</3> block) without the ability to withdrawal before the end of this period."
-msgstr ""
+msgstr "私は<0>{0}</0>私の <1>{1}/{2}</1>のLPトークンを再ロックし、<2>{3}</2>(または<3>{4}</3>ブロック)まで引き出せないことを理解しました。"
 
 #: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
-msgid "I understand that this wallet has not been audited. I will use it at my own risk."
-msgstr "私はこの財布が監査されていないことを理解しており、自己責任で使用します。"
+#~ msgid "I understand that this wallet has not been audited. I will use it at my own risk."
+#~ msgstr "I understand that this wallet has not been audited. I will use it at my own risk."
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "I understand the risks and accept the KYA"
@@ -441,6 +446,10 @@ msgstr "このプールの統計情報は表示できません"
 msgid "KYA is not accepted"
 msgstr "KYAが承認されていません。"
 
+#: src/components/Header/BurgerMenu/BurgerMenu.tsx
+msgid "Language"
+msgstr "言語"
+
 #: src/components/WalletModal/LowBalanceWarning/LowBalanceWarning.tsx
 msgid "Learn how to get ERG"
 msgstr "ERGを入手する方法を学ぶ"
@@ -454,7 +463,7 @@ msgstr "流動性"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Liquidity Locker"
-msgstr ""
+msgstr "流動性のロック"
 
 #: src/pages/Swap/PoolSelector/PoolSelector.tsx
 msgid "Liquidity Pool"
@@ -516,13 +525,13 @@ msgstr ""
 
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
 msgid "Maximum received:"
-msgstr ""
+msgstr "最大受取り額:"
 
 #: src/components/common/ActionForm/ActionButton/ActionButton.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Min value for {0} is {1}"
-msgstr ""
+msgstr "{0} の最小値は {1} です"
 
 #: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
 msgid "Miner Fee"
@@ -635,6 +644,10 @@ msgstr "続きを読む"
 msgid "Recent transactions"
 msgstr "最新のトランザクション"
 
+#: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
+msgid "Recommended"
+msgstr "推奨"
+
 #: src/components/common/ActionForm/ActionButton/ActionButton.tsx
 msgid "Refresh page"
 msgstr "ページの更新"
@@ -657,58 +670,57 @@ msgstr "このアドレスに返金されます"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Refunding {0} and {1}"
-msgstr ""
+msgstr "{0} と {1} を返金をする"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
 #: src/pages/Pool/components/LocksList/LockItemView/LockItemView.tsx
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Relock liquidity"
-msgstr ""
+msgstr "流動性を再ロック"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
 msgid "Relock position"
-msgstr ""
+msgstr "ポジションを再ロック"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Relocking {0} and {1} ({2})"
-msgstr ""
+msgstr "{0} と {1} ({2}) を再ロック中"
 
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidity.tsx
 msgid "Remove"
-msgstr ""
+msgstr "削除"
 
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidityConfirmationModal/RemoveLiquidityConfirmationModal.tsx
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Remove Liquidity"
-msgstr ""
+msgstr "流動性を削除"
 
 #: src/components/common/TxHistory/TxTypeTag/TxTypeTag.tsx
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidity.tsx
 msgid "Remove liquidity"
-msgstr ""
+msgstr "流動性を削除"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Removing liquidity {0} and {1}"
-msgstr ""
+msgstr "{0} と {1} の流動性を削除中"
 
 #: src/components/common/TokenControl/TokenSelect/TokenListModal/TokenListModal.tsx
-#: src/pages/Pool/Liquidity.tsx
 msgid "Search"
-msgstr ""
+msgstr "検索"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Seems like Yoroi Wallet has an issue"
-msgstr ""
+msgstr "Yoroiウォレットに問題があるようです"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
 #: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
 msgid "Select Locked Position"
-msgstr ""
+msgstr "ロックされたポジションを選択"
 
 #: src/components/Header/NetworkDropdown/NetworkDropdown.tsx
 msgid "Select Network"
-msgstr ""
+msgstr "ネットワークを選択"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool.tsx
 msgid "Select Pair"
@@ -726,6 +738,7 @@ msgstr "手数料を選択"
 #: src/components/common/TokenControl/TokenSelect/TokenListModal/TokenListModal.tsx
 #: src/components/common/TokenControl/TokenSelect/TokenSelect.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Select a token"
 msgstr "トークンを選択"
 
@@ -791,11 +804,14 @@ msgstr "スワップは {0} で利用可能です"
 msgid "Swapping {0} for {1}"
 msgstr "{0} を {1} にスワップ中"
 
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
+msgid "The % you will earn in fees"
+msgstr "手数料を獲得する%"
+
 #: src/components/NetworkHeight/NetworkHeight.tsx
 msgid "The most recent block in Ergo network"
 msgstr "Ergoネットワークの最新ブロック"
 
-#: src/pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool.tsx
 msgid "The pool with such a pair has not yet been initialized. To create a pool enter an initial price. Then add the deposit amount."
 msgstr "このようなペアのプールはまだありません。プールを作成するには、当初価格を入力して入金します。"
@@ -807,6 +823,10 @@ msgstr "値は {MAX_ERG_FOR_TX} ERG 以上にすることはできません"
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
 msgid "This position is still locked"
 msgstr "このポジションはまだロックされています"
+
+#: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
+msgid "This wallet may not always work as expected. I understand what I do andwill use it at my own risk."
+msgstr "このウォレットは常に期待どおりに動作するとは限りません。自己責任で使用することを理解しています。"
 
 #: src/pages/Swap/Swap.tsx
 msgid "To"
@@ -826,7 +846,7 @@ msgstr "手数料の合計:"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
 msgid "Total in locker"
-msgstr ""
+msgstr "ロックされたトークンの合計"
 
 #: src/pages/Pool/components/LocksList/LockItemView/LockItemView.tsx
 msgid "Total locked"
@@ -869,7 +889,7 @@ msgstr "ブロックのロック解除"
 
 #: src/pages/Pool/components/LockedPositionItem/LockedPositionItem.tsx
 msgid "Unlock Date"
-msgstr ""
+msgstr "ロック解除日"
 
 #: src/pages/PoolOverview/LockLiquidityChart/AnalyticOverview/AnalyticOverview.tsx
 msgid "Unlock block"
@@ -880,7 +900,7 @@ msgstr "ブロックのロック解除"
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
 #: src/pages/PoolOverview/LockLiquidityChart/AnalyticOverview/AnalyticOverview.tsx
 msgid "Unlock date"
-msgstr ""
+msgstr "ロック解除日"
 
 #: src/pages/Pool/utils.ts
 msgid "Unlocked"
@@ -932,48 +952,48 @@ msgstr "引出し"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "You didn't provide liquidity to this pool yet."
-msgstr ""
+msgstr "まだこのプールに流動性を提供していません。"
 
 #: src/components/WalletModal/LowBalanceWarning/LowBalanceWarning.tsx
 msgid "You need ERG to pay transaction fees"
-msgstr ""
+msgstr "取引手数料を支払うためにERGが必要です"
 
 #: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
 msgid "You will spend {value} ERG for every operation."
-msgstr ""
+msgstr "オーダーごとに {value} ERGを使用します。"
 
 #: src/pages/Pool/Liquidity.tsx
 msgid "Your Positions"
-msgstr ""
+msgstr "あなたのポジション"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Your liquidity"
-msgstr ""
+msgstr "あなたの流動性"
 
 #: src/pages/Pool/common/EmptyPositionsList/EmptyPositionsList.tsx
 msgid "Your liquidity positions will appear here."
-msgstr ""
+msgstr "流動性ポジションはここに表示されます。"
 
 #: src/pages/Swap/PoolSelector/PoolSelector.tsx
 msgid "Your operation will be executed in this pool. <0/> You can also choose another pool for this pair"
-msgstr ""
+msgstr "オーダーはこのプールで実行されます。<0/>このペアの別のプールを選択することもできます。"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Your transaction may be frontrun"
-msgstr ""
+msgstr "トランザクションがフロントランする可能性があります"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Your transaction may fail"
-msgstr ""
+msgstr "トランザクションが承認されない可能性があります"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Your transaction will revert if the price changes unfavorably by more than this percentage"
-msgstr ""
+msgstr "価格がこのパーセントを超えるとトランザクションは元に戻ります"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "explorer"
-msgstr ""
+msgstr "エクスプローラー"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "meet your expectations."
@@ -981,30 +1001,30 @@ msgstr ""
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "only on top of the Ergo Blockchain."
-msgstr ""
+msgstr "Ergoブロックチェーン上にのみ"
 
 #: src/pages/PoolOverview/PoolRatio/PoolRatio.tsx
 #: src/pages/PoolOverview/PoolRatio/PoolRatio.tsx
 msgid "{0} per {1}"
-msgstr ""
+msgstr "{0} / {1}"
 
 #: src/pages/Pool/utils.ts
 msgid "{daysCount} Days"
-msgstr ""
+msgstr "{daysCount} 日"
 
 #: src/pages/Pool/utils.ts
 msgid "{monthsCount} Months"
-msgstr ""
+msgstr "{monthsCount} ヶ月"
 
 #: src/components/Header/ConnectWallet/ConnectWallet.tsx
 msgid "{numberOfPendingTxs} Pending"
-msgstr ""
+msgstr "{numberOfPendingTxs} が保留中"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePoolUnsupportedAlert/CreatePoolUnsupportedAlert.tsx
 msgid "{walletName} Wallet doesn’t support “create pool” functionality yet. Choose another wallet to perform the operation."
-msgstr ""
+msgstr "{walletName} Walletはまだ「プールの作成」機能をサポートしていません。プールを作成するには別のウォレットを選択してください。"
 
 #: src/pages/Pool/utils.ts
 msgid "{yearsCount} Years"
-msgstr ""
+msgstr "{yearsCount} 年"
 
