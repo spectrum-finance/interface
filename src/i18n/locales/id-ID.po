@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ergodex-frontend\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-03-23 11:39\n"
+"PO-Revision-Date: 2022-03-25 13:07\n"
 "Last-Translator: \n"
 "Language: id_ID\n"
 "Language-Team: Indonesian\n"
@@ -13,8 +13,8 @@ msgstr ""
 "X-Crowdin-Project: ergodex-frontend\n"
 "X-Crowdin-Project-ID: 504102\n"
 "X-Crowdin-Language: id\n"
-"X-Crowdin-File: /init-localization/src/i18n/locales/en-US.po\n"
-"X-Crowdin-File-ID: 46\n"
+"X-Crowdin-File: /dev/src/i18n/locales/en-US.po\n"
+"X-Crowdin-File-ID: 68\n"
 
 #: src/pages/Pool/components/LockLiquidityDatePicker/LiquidityDatePicker.tsx
 msgid "(Block: {0})"
@@ -261,6 +261,10 @@ msgstr ""
 msgid "Current price"
 msgstr ""
 
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
+msgid "Custom fee tier"
+msgstr ""
+
 #: src/components/Header/BurgerMenu/BurgerMenu.tsx
 msgid "Dark mode"
 msgstr ""
@@ -282,11 +286,12 @@ msgid "ERG balance is low"
 msgstr ""
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
-msgid "Enter an A  mount"
-msgstr ""
+#~ msgid "Enter an A  mount"
+#~ msgstr "Enter an A  mount"
 
 #: src/components/common/ActionForm/ActionButton/ActionButton.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Enter an Amount"
 msgstr ""
 
@@ -389,8 +394,8 @@ msgid "I understand that I’m relocking <0>{0}</0> LP-tokens of my <1>{1}/{2}</
 msgstr ""
 
 #: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
-msgid "I understand that this wallet has not been audited. I will use it at my own risk."
-msgstr ""
+#~ msgid "I understand that this wallet has not been audited. I will use it at my own risk."
+#~ msgstr "I understand that this wallet has not been audited. I will use it at my own risk."
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "I understand the risks and accept the KYA"
@@ -439,6 +444,10 @@ msgstr ""
 
 #: src/components/common/ConnectWalletButton/ConnectWalletButton.tsx
 msgid "KYA is not accepted"
+msgstr ""
+
+#: src/components/Header/BurgerMenu/BurgerMenu.tsx
+msgid "Language"
 msgstr ""
 
 #: src/components/WalletModal/LowBalanceWarning/LowBalanceWarning.tsx
@@ -635,6 +644,10 @@ msgstr ""
 msgid "Recent transactions"
 msgstr ""
 
+#: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
+msgid "Recommended"
+msgstr ""
+
 #: src/components/common/ActionForm/ActionButton/ActionButton.tsx
 msgid "Refresh page"
 msgstr ""
@@ -692,7 +705,6 @@ msgid "Removing liquidity {0} and {1}"
 msgstr ""
 
 #: src/components/common/TokenControl/TokenSelect/TokenListModal/TokenListModal.tsx
-#: src/pages/Pool/Liquidity.tsx
 msgid "Search"
 msgstr ""
 
@@ -726,6 +738,7 @@ msgstr ""
 #: src/components/common/TokenControl/TokenSelect/TokenListModal/TokenListModal.tsx
 #: src/components/common/TokenControl/TokenSelect/TokenSelect.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Select a token"
 msgstr ""
 
@@ -791,11 +804,14 @@ msgstr ""
 msgid "Swapping {0} for {1}"
 msgstr ""
 
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
+msgid "The % you will earn in fees"
+msgstr ""
+
 #: src/components/NetworkHeight/NetworkHeight.tsx
 msgid "The most recent block in Ergo network"
 msgstr ""
 
-#: src/pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool.tsx
 msgid "The pool with such a pair has not yet been initialized. To create a pool enter an initial price. Then add the deposit amount."
 msgstr ""
@@ -806,6 +822,10 @@ msgstr ""
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
 msgid "This position is still locked"
+msgstr ""
+
+#: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
+msgid "This wallet may not always work as expected. I understand what I do andwill use it at my own risk."
 msgstr ""
 
 #: src/pages/Swap/Swap.tsx
