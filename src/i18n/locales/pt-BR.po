@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ergodex-frontend\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-03-26 03:56\n"
+"PO-Revision-Date: 2022-03-26 13:42\n"
 "Last-Translator: \n"
 "Language: pt_BR\n"
 "Language-Team: Portuguese, Brazilian\n"
@@ -760,176 +760,176 @@ msgstr "Selecione a pool"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
 msgid "Select relock date"
-msgstr ""
+msgstr "Selecionar data de rebloqueio"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Set initial price"
-msgstr ""
+msgstr "Definir preço inicial"
 
 #: src/pages/Pool/components/LocksList/LockItemView/LockItemView.tsx
 #: src/pages/PoolOverview/LockLiquidityChart/AnalyticOverview/AnalyticOverview.tsx
 msgid "Share"
-msgstr ""
+msgstr "Compartilhar"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Slippage tolerance"
-msgstr ""
+msgstr "Tolerância de Slippage"
 
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
 msgid "Slippage tolerance:"
-msgstr ""
+msgstr "Tolerância de Slippage:"
 
 #: src/pages/Swap/SwapInfo/SwapInfoHeader/SlippageTag/SlippageTag.tsx
 msgid "Slippage: {slippage}"
-msgstr ""
+msgstr "Slippage: {slippage}"
 
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
 #: src/pages/Pool/components/LockedPositionItem/LockedPositionItem.tsx
 msgid "Status"
-msgstr ""
+msgstr "Status"
 
 #: src/components/Header/Navigation/Navigation.tsx
 #: src/components/common/TxHistory/TxTypeTag/TxTypeTag.tsx
 #: src/pages/Swap/Swap.tsx
 #: src/pages/Swap/Swap.tsx
 msgid "Swap"
-msgstr ""
+msgstr "Trocar"
 
 #: src/components/common/ActionForm/ActionButton/ActionButton.tsx
 msgid "Swapping is available in {0}"
-msgstr ""
+msgstr "Troca está disponível em {0}"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Swapping {0} for {1}"
-msgstr ""
+msgstr "Trocando {0} por {1}"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "The % you will earn in fees"
-msgstr ""
+msgstr "A % que você ganhará em taxas"
 
 #: src/components/NetworkHeight/NetworkHeight.tsx
 msgid "The most recent block in Ergo network"
-msgstr ""
+msgstr "O bloco mais recente na rede Ergo"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool.tsx
 msgid "The pool with such a pair has not yet been initialized. To create a pool enter an initial price. Then add the deposit amount."
-msgstr ""
+msgstr "A pool com este par ainda não foi inicializada. Para criar uma pool insira um preço inicial. Em seguida, adicione o valor do depósito."
 
 #: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
 msgid "The value can't be more than {MAX_ERG_FOR_TX} ERG"
-msgstr ""
+msgstr "O valor não pode ser maior que {MAX_ERG_FOR_TX} ERG"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
 msgid "This position is still locked"
-msgstr ""
+msgstr "Essa posição ainda está bloqueada"
 
 #: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
 msgid "This wallet may not always work as expected. I understand what I do andwill use it at my own risk."
-msgstr ""
+msgstr "Esta carteira pode nem sempre funcionar como o esperado. Eu entendo o que eu faço e usarei por minha conta e risco."
 
 #: src/pages/Swap/Swap.tsx
 msgid "To"
-msgstr ""
+msgstr "Para"
 
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Total Fees"
-msgstr ""
+msgstr "Taxas Totais"
 
 #: src/components/WalletModal/WalletTotalBalance/WalletTotalBalance.tsx
 msgid "Total balance"
-msgstr ""
+msgstr "Balanço total"
 
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
 msgid "Total fees:"
-msgstr ""
+msgstr "Taxas totais:"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
 msgid "Total in locker"
-msgstr ""
+msgstr "Total no bloqueio"
 
 #: src/pages/Pool/components/LocksList/LockItemView/LockItemView.tsx
 msgid "Total locked"
-msgstr ""
+msgstr "Total bloqueado"
 
 #: src/pages/Pool/components/LocksList/LockItemView/LockItemView.tsx
 msgid "Total withdrawable"
-msgstr ""
+msgstr "Possível saque total"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Transaction Settings"
-msgstr ""
+msgstr "Configurações de transação"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Transaction rejected"
-msgstr ""
+msgstr "Transação rejeitada"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Transaction submitted"
-msgstr ""
+msgstr "Transação enviada"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Try again later"
-msgstr ""
+msgstr "Tente novamente mais tarde"
 
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
 msgid "Type"
-msgstr ""
+msgstr "Tipo"
 
 #: src/components/common/FormView/FormFeesSection/FormFeesSection.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "UI Fee:"
-msgstr ""
+msgstr "Taxa da UI:"
 
 #: src/pages/Pool/components/LockedPositionItem/LockedPositionItem.tsx
 msgid "Unlock Block"
-msgstr ""
+msgstr "Bloco de Desbloqueio"
 
 #: src/pages/Pool/components/LockedPositionItem/LockedPositionItem.tsx
 msgid "Unlock Date"
-msgstr ""
+msgstr "Data de Desbloqueio"
 
 #: src/pages/PoolOverview/LockLiquidityChart/AnalyticOverview/AnalyticOverview.tsx
 msgid "Unlock block"
-msgstr ""
+msgstr "Bloco de desbloqueio"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
 #: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
 #: src/pages/PoolOverview/LockLiquidityChart/AnalyticOverview/AnalyticOverview.tsx
 msgid "Unlock date"
-msgstr ""
+msgstr "Data de desbloqueio"
 
 #: src/pages/Pool/utils.ts
 msgid "Unlocked"
-msgstr ""
+msgstr "Desbloqueado"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
 msgid "Updated unlock date"
-msgstr ""
+msgstr "Data de desbloqueio atualizada"
 
 #: src/components/MobilePlug/MobilePlug.tsx
 msgid "Use the desktop version and Google Chrome browser"
-msgstr ""
+msgstr "Use a versão desktop e o navegador Google Chrome"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
 msgid "View on Explorer"
-msgstr ""
+msgstr "Visualizar no Explorer"
 
 #: src/components/WalletModal/WalletActiveAddress/WalletActiveAddress.tsx
 msgid "View on explorer"
-msgstr ""
+msgstr "Visualizar no explorer"
 
 #: src/components/common/ExploreButton/ExploreButton.tsx
 msgid "View on explorer."
-msgstr ""
+msgstr "Visualizar no explorer."
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Waiting for confirmation"
-msgstr ""
+msgstr "Aguardando confirmação"
 
 #: src/components/WalletModal/WalletModal.tsx
 msgid "Wallet"
