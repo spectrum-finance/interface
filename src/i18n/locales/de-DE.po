@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ergodex-frontend\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-03-25 13:07\n"
+"PO-Revision-Date: 2022-03-26 11:36\n"
 "Last-Translator: \n"
 "Language: de_DE\n"
 "Language-Team: German\n"
@@ -103,7 +103,7 @@ msgstr "Betrag"
 
 #: src/pages/Pool/components/LiquidityPositionsList/LiquidityPositionsItem/LiquidityPositionsItemAnalytics/LiquidityPositionsItemAnalytics.tsx
 msgid "Annual Percentage Rate. Average estimation of how much you may potentially earn providing liquidity to this pool."
-msgstr "Effektiver Jahreszins. Durschnittliche Schätzung, wie viel du möglicherweise verdienen kannst in dem du Liquidität in diesem Pool bereitstellst."
+msgstr "Effektiver Jahreszins. Durchschnittliche Schätzung, wie viel du möglicherweise verdienen kannst, indem du Liquidität in diesem Pool bereitstellst."
 
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
@@ -309,7 +309,7 @@ msgstr "ErgoDEX Smart Contracts"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "ErgoDEX Team doesn’t guarantee the absence of bugs and errors."
-msgstr "Das ErgoDEX Team kann nicht ausschließen das Fehler und Bugs auftreten können."
+msgstr "Das ErgoDEX-Team kann Fehler und Bugs nicht gänzlich ausschließen."
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "ErgoDEX is a decentralized financial (DeFi) application which means it doesn’t have a central government body. ErgoDEX includes AMM (Swap, Add liquidity and Remove liquidity) functionality"
