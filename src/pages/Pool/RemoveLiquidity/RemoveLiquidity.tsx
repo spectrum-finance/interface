@@ -100,7 +100,7 @@ export const RemoveLiquidity: FC = () => {
         <Form form={form} onSubmit={(form) => handleRemove(form, position)}>
           <Flex direction="col">
             <Flex.Item marginBottom={2}>
-              <PageHeader x={position.availableX} y={position.availableY} />
+              <PageHeader position={position} />
             </Flex.Item>
 
             <Flex.Item marginBottom={4}>

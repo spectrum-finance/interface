@@ -94,7 +94,7 @@ export const RelockLiquidity = (): JSX.Element => {
         >
           <Flex col>
             <Flex.Item marginBottom={2}>
-              <PageHeader x={position.availableX} y={position.availableY} />
+              <PageHeader position={position} />
             </Flex.Item>
             <Flex.Item>
               <Flex col>

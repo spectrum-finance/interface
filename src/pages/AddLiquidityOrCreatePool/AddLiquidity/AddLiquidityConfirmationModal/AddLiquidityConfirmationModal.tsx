@@ -1,6 +1,6 @@
 import { minValueForOrder } from '@ergolabs/ergo-dex-sdk';
 import { BoxSelection, DefaultBoxSelector, ErgoTx } from '@ergolabs/ergo-sdk';
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 
 import { ERG_DECIMALS, UI_FEE } from '../../../../common/constants/erg';
 import { useObservable } from '../../../../common/hooks/useObservable';
@@ -9,7 +9,14 @@ import { InfoTooltip } from '../../../../components/InfoTooltip/InfoTooltip';
 import { PageSection } from '../../../../components/Page/PageSection/PageSection';
 import { Section } from '../../../../components/Section/Section';
 import { useSettings } from '../../../../context';
-import { Button, Flex, Modal, Typography } from '../../../../ergodex-cdk';
+import {
+  Alert,
+  Button,
+  Checkbox,
+  Flex,
+  Modal,
+  Typography,
+} from '../../../../ergodex-cdk';
 import { utxos$ } from '../../../../network/ergo/common/utxos';
 import { explorer } from '../../../../services/explorer';
 import { useMinExFee, useMinTotalFees } from '../../../../services/new/core';
@@ -29,6 +36,9 @@ const AddLiquidityConfirmationModal: FC<AddLiquidityConfirmationModalProps> = ({
   value,
   onClose,
 }) => {
+  const [isChecked, setIsChecked] = useState<boolean | undefined>(
+    value.pool.verified,
+  );
   const [{ minerFee, address, pk }] = useSettings();
   const [utxos] = useObservable(utxos$);
   const totalFees = useMinTotalFees();
@@ -89,7 +99,7 @@ const AddLiquidityConfirmationModal: FC<AddLiquidityConfirmationModalProps> = ({
   return (
     <>
       <Modal.Title>Confirm Add Liquidity</Modal.Title>
-      <Modal.Content width={436}>
+      <Modal.Content width={468}>
         <Flex direction="col">
           <Flex.Item marginBottom={6}>
             <FormPairSection
@@ -154,11 +164,28 @@ const AddLiquidityConfirmationModal: FC<AddLiquidityConfirmationModalProps> = ({
               </Flex>
             </PageSection>
           </Flex.Item>
+          {!value.pool.verified && (
+            <>
+              <Flex.Item marginBottom={4}>
+                <Alert
+                  type="error"
+                  message="This pair has not been verified by the ErgoDEX team"
+                  description=" This operation may include fake or scam assets. Only confirm if you have done your own research."
+                />
+              </Flex.Item>
+              <Flex.Item marginBottom={4}>
+                <Checkbox onChange={() => setIsChecked((p) => !p)}>
+                  I understand the risks
+                </Checkbox>
+              </Flex.Item>
+            </>
+          )}
           <Flex.Item>
             <Button
               block
               type="primary"
               size="extra-large"
+              disabled={!isChecked}
               onClick={() => addLiquidityOperation()}
             >
               Add Liquidity

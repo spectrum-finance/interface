@@ -5,23 +5,9 @@ import { AmmPool } from '../../../../../../common/models/AmmPool';
 import { DataTag } from '../../../../../../components/common/DataTag/DataTag';
 import { ListItemWrapper } from '../../../../../../components/ListItemWrapper/ListItemWrapper';
 import { TokenIconPair } from '../../../../../../components/TokenIconPair/TokenIconPair';
-import {
-  Flex,
-  Tag,
-  Tooltip,
-  Typography,
-  WarningOutlined,
-} from '../../../../../../ergodex-cdk';
+import { VerificationMark } from '../../../../../../components/VerificationMark/VerificationMark';
+import { Flex, Typography } from '../../../../../../ergodex-cdk';
 import { getPoolRatio } from '../../../../../../utils/price';
-
-const testPoolIds = [
-  'f1fb942ebd039dc782fd9109acdb60aabea4dc7e75e9c813b6528c62692fc781',
-  '65fa572bc4a7007e5a6450c9af2bfa1594e6dfb43b667027f1930eefddeac7bf',
-];
-
-const isTestPool = (poolId: PoolId) => {
-  return testPoolIds.some((id) => id === poolId);
-};
 
 interface LiquidityPositionsItemWrapperProps {
   pool: AmmPool;
@@ -53,13 +39,9 @@ const LiquidityPositionsItemWrapper: React.FC<LiquidityPositionsItemWrapperProps
                         level={5}
                       >{`${pool.x.asset.name} / ${pool.y.asset.name}`}</Typography.Title>
                     </Flex.Item>
-                    {isTestPool(pool.id) && (
-                      <Flex.Item marginLeft={2}>
-                        <Tooltip title="It is impossible to display statistics for this pool">
-                          <Tag color="warning" icon={<WarningOutlined />}>
-                            TIP
-                          </Tag>
-                        </Tooltip>
+                    {pool.verified && (
+                      <Flex.Item marginLeft={1} align="center">
+                        <VerificationMark />
                       </Flex.Item>
                     )}
                   </Flex>
@@ -91,7 +73,7 @@ const LiquidityPositionsItemWrapper: React.FC<LiquidityPositionsItemWrapperProps
               </Flex>
             </Flex.Item>
           </Flex>
-          {!isTestPool(pool.id) ? children : null}
+          {children}
         </Flex>
       </ListItemWrapper>
     );
