@@ -4,6 +4,7 @@ import styled, { css } from 'styled-components';
 import { AmmPool } from '../../../../../common/models/AmmPool';
 import { DataTag } from '../../../../../components/common/DataTag/DataTag';
 import { TokenIconPair } from '../../../../../components/TokenIconPair/TokenIconPair';
+import { VerificationMark } from '../../../../../components/VerificationMark/VerificationMark';
 import { Box, Flex, Typography } from '../../../../../ergodex-cdk';
 import { formatToUSD } from '../../../../../services/number';
 
@@ -55,6 +56,11 @@ const _PoolItemView: FC<PoolItemViewProps> = ({
             {pool.x.asset.name}/{pool.y.asset.name}
           </Typography.Title>
         </Flex.Item>
+        {pool.verified && (
+          <Flex.Item marginRight={2} align="center">
+            <VerificationMark />
+          </Flex.Item>
+        )}
         <Flex.Item marginRight={1}>
           <Typography.Footnote>Fee</Typography.Footnote>
         </Flex.Item>

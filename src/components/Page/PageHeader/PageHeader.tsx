@@ -1,21 +1,19 @@
 import React, { ReactNode } from 'react';
 
-import { Currency } from '../../../common/models/Currency';
+import { Position } from '../../../common/models/Position';
 import { Flex, Typography } from '../../../ergodex-cdk';
 import { OptionsButton } from '../../common/OptionsButton/OptionsButton';
 import { TokenIconPair } from '../../TokenIconPair/TokenIconPair';
-
+import { VerificationMark } from '../../VerificationMark/VerificationMark';
 interface FormHeaderProps {
-  x: Currency;
-  y: Currency;
+  position: Position;
   actionsMenu?: ReactNode | ReactNode[] | undefined;
   actionsMenuWidth?: number;
   children?: ReactNode | ReactNode[] | undefined;
 }
 
 const PageHeader: React.FC<FormHeaderProps> = ({
-  x,
-  y,
+  position,
   actionsMenu,
   actionsMenuWidth,
   children,
@@ -24,13 +22,21 @@ const PageHeader: React.FC<FormHeaderProps> = ({
     <Flex justify="space-between" align="center">
       <Flex align="center">
         <Flex.Item display="flex" marginRight={2}>
-          <TokenIconPair assetX={x.asset} assetY={y.asset} />
+          <TokenIconPair
+            assetX={position.availableX.asset}
+            assetY={position.availableY.asset}
+          />
         </Flex.Item>
         <Flex.Item marginRight={2}>
           <Typography.Title level={4}>
-            {x.asset.name} / {y.asset.name}
+            {position.availableX.asset.name} / {position.availableY.asset.name}
           </Typography.Title>
         </Flex.Item>
+        {position.verified && (
+          <Flex.Item marginRight={children ? 2 : 0} align="center">
+            <VerificationMark />
+          </Flex.Item>
+        )}
         {children}
       </Flex>
       {actionsMenu && (

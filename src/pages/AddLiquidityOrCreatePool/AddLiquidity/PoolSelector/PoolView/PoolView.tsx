@@ -3,6 +3,7 @@ import React, { FC } from 'react';
 import { AmmPool } from '../../../../../common/models/AmmPool';
 import { DataTag } from '../../../../../components/common/DataTag/DataTag';
 import { TokenIconPair } from '../../../../../components/TokenIconPair/TokenIconPair';
+import { VerificationMark } from '../../../../../components/VerificationMark/VerificationMark';
 import { Flex, Typography } from '../../../../../ergodex-cdk';
 import { formatToUSD } from '../../../../../services/number';
 
@@ -26,6 +27,11 @@ export const PoolView: FC<PoolSelectorItemProps> = ({
         {ammPool.x.asset.name}/{ammPool.y.asset.name}
       </Typography.Title>
     </Flex.Item>
+    {ammPool.verified && (
+      <Flex.Item marginRight={1} align="center">
+        <VerificationMark />
+      </Flex.Item>
+    )}
     <Flex.Item marginRight={1} align="center">
       <Typography.Footnote>Fee:</Typography.Footnote>
     </Flex.Item>

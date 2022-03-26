@@ -63,8 +63,7 @@ export const PoolOverview: React.FC = () => {
         <Flex col>
           <Flex.Item marginBottom={5}>
             <PageHeader
-              x={position.availableX}
-              y={position.availableY}
+              position={position}
               actionsMenuWidth={180}
               actionsMenu={
                 <Menu.ItemGroup title="Liquidity Locker">
@@ -95,6 +94,15 @@ export const PoolOverview: React.FC = () => {
               <PoolFeeTag ammPool={position.pool} />
             </PageHeader>
           </Flex.Item>
+          {!position.verified && (
+            <Flex.Item marginBottom={4}>
+              <Alert
+                type="error"
+                message="This pool has not been verified by the ErgoDEX team"
+                description="The pool may contain fake or scam assets. Only use this pool if you have done your own research."
+              />
+            </Flex.Item>
+          )}
           <Flex.Item marginBottom={4}>
             <FormPairSection
               title="Pool liquidity"
