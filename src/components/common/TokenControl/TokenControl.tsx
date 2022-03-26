@@ -135,7 +135,7 @@ export const TokenControlFormItem: FC<NewTokenControlProps> = ({
               </Form.Item>
             )}
           </Flex.Item>
-          <Flex.Item>
+          <Flex.Item style={{ overflow: 'hidden' }} flex={1}>
             {tokenName && (
               <Form.Item name={tokenName}>
                 {({ value, onChange }) => (
