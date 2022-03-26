@@ -31,6 +31,7 @@ export class AmmPool implements Searchable {
   constructor(
     private pool: BaseAmmPool,
     private poolAnalytics?: AmmPoolAnalytics,
+    public verified?: boolean,
   ) {}
 
   @cache
