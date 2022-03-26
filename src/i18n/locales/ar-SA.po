@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ergodex-frontend\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-03-25 13:07\n"
+"PO-Revision-Date: 2022-03-26 15:01\n"
 "Last-Translator: \n"
 "Language: ar_SA\n"
 "Language-Team: Arabic\n"
@@ -263,7 +263,7 @@ msgstr "السعر الحالي"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
 msgid "Custom fee tier"
-msgstr ""
+msgstr "مستوى رسوم مخصص"
 
 #: src/components/Header/BurgerMenu/BurgerMenu.tsx
 msgid "Dark mode"
@@ -448,7 +448,7 @@ msgstr "الأحكام غير مقبولة"
 
 #: src/components/Header/BurgerMenu/BurgerMenu.tsx
 msgid "Language"
-msgstr ""
+msgstr "اللغة"
 
 #: src/components/WalletModal/LowBalanceWarning/LowBalanceWarning.tsx
 msgid "Learn how to get ERG"
@@ -646,7 +646,7 @@ msgstr "المعاملات الأخيرة"
 
 #: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
 msgid "Recommended"
-msgstr ""
+msgstr "موصى بها"
 
 #: src/components/common/ActionForm/ActionButton/ActionButton.tsx
 msgid "Refresh page"
@@ -806,7 +806,7 @@ msgstr "مبادلة {0} لـ {1}"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "The % you will earn in fees"
-msgstr ""
+msgstr "النسبة المئوية التي ستكسبها من الرسوم"
 
 #: src/components/NetworkHeight/NetworkHeight.tsx
 msgid "The most recent block in Ergo network"
@@ -826,7 +826,7 @@ msgstr "هذه السيولة لا يزال مقفلاً عليها"
 
 #: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
 msgid "This wallet may not always work as expected. I understand what I do andwill use it at my own risk."
-msgstr ""
+msgstr "قد لا تعمل هذه المحفظة دائمًا كما هو متوقع. أنا أفهم ما أفعله وسوف أستخدمها على مسؤوليتي الخاصة."
 
 #: src/pages/Swap/Swap.tsx
 msgid "To"
