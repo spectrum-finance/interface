@@ -66,7 +66,7 @@ export const LOCALE_LABEL: { [locale in SupportedLocale]: string } = {
   // 'nl-NL': 'Nederlands',
   // 'no-NO': 'norsk',
   // 'pl-PL': 'Polskie',
-  'pt-BR': 'Português',
+  'pt-BR': 'Português Brazilian',
   // 'ro-RO': 'Română',
   // 'ru-RU': 'Русский',
   // 'sr-SP': 'Српски',
