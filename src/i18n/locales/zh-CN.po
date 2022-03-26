@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ergodex-frontend\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-03-25 13:07\n"
+"PO-Revision-Date: 2022-03-26 11:36\n"
 "Last-Translator: \n"
 "Language: zh_CN\n"
 "Language-Team: Chinese Simplified\n"
@@ -263,7 +263,7 @@ msgstr "当前价格"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
 msgid "Custom fee tier"
-msgstr ""
+msgstr "自定义收费级别"
 
 #: src/components/Header/BurgerMenu/BurgerMenu.tsx
 msgid "Dark mode"
@@ -448,7 +448,7 @@ msgstr "未接受 KYA"
 
 #: src/components/Header/BurgerMenu/BurgerMenu.tsx
 msgid "Language"
-msgstr ""
+msgstr "语言"
 
 #: src/components/WalletModal/LowBalanceWarning/LowBalanceWarning.tsx
 msgid "Learn how to get ERG"
@@ -646,7 +646,7 @@ msgstr "最近的交易"
 
 #: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
 msgid "Recommended"
-msgstr ""
+msgstr "推荐"
 
 #: src/components/common/ActionForm/ActionButton/ActionButton.tsx
 msgid "Refresh page"
@@ -806,7 +806,7 @@ msgstr "将 {0} 交换为 {1}"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "The % you will earn in fees"
-msgstr ""
+msgstr "您将赚取的手续费百分比。"
 
 #: src/components/NetworkHeight/NetworkHeight.tsx
 msgid "The most recent block in Ergo network"
@@ -826,7 +826,7 @@ msgstr "此仓位仍然被锁定"
 
 #: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
 msgid "This wallet may not always work as expected. I understand what I do andwill use it at my own risk."
-msgstr ""
+msgstr "这个钱包可能并不总是能够正常工作。我知道我做了什么和我会承担使用它的风险。"
 
 #: src/pages/Swap/Swap.tsx
 msgid "To"
