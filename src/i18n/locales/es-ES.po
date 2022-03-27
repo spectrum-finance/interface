@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ergodex-frontend\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-03-25 13:07\n"
+"PO-Revision-Date: 2022-03-26 18:18\n"
 "Last-Translator: \n"
 "Language: es_ES\n"
 "Language-Team: Spanish\n"
@@ -26,15 +26,15 @@ msgstr "(Bloque de desbloqueo: {0})"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "- By creating an order you send your funds to a specific smart-contract, all such contracts are wired into the UI. Thus, orders are created entirely in your browser (on your machine)."
-msgstr "- Al crear una orden envías tus fondos a un contrato inteligente concreto, todos estos contratos se conectan a la interfaz de usuario. Así, las órdenes se crean por completo en su navegador (en tu dispositivo)."
+msgstr "- Al crear una orden, envías tus fondos a un contrato inteligente concreto, todos estos contratos están conectados a la interfaz de usuario. Así, las órdenes se crean por completo en tu navegador (en tu dispositivo)."
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "- ErgoDEX operates on a live blockchain, thus trades are final, and irreversible once they have status «executed»;"
-msgstr "- ErgoDEX opera en una blockchain en vivo, por lo que las operaciones son definitivas e irreveribles una vez que tienen el estado «ejecutado»;"
+msgstr "- ErgoDEX opera en una blockchain en vivo, por lo que las operaciones son definitivas e irreversibles una vez se establecen como «ejecutado»;"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "- Every transaction can be viewed via"
-msgstr "- Cada transacción se puede vista desde"
+msgstr "- Cada transacción se puede ver desde"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
 msgid "0.3% fee"
@@ -58,11 +58,11 @@ msgstr "1% de tarifa"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "1. You will use the product at your own peril and risk;"
-msgstr "1. Usted utilizará el producto bajo su propia responsabilidad y riesgo;"
+msgstr "1. Usted utilizará el producto bajo su propia responsabilidad y asumiendo el riesgo;"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "2. Only YOU are responsible for your assets;"
-msgstr "2. Sólo USTED es responsable de sus activos;"
+msgstr "2. Únicamente USTED es responsable de sus activos;"
 
 #: src/components/Header/BurgerMenu/BurgerMenu.tsx
 msgid "About"
@@ -263,7 +263,7 @@ msgstr "Precio actual"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
 msgid "Custom fee tier"
-msgstr ""
+msgstr "Nivel de comisión personalizado"
 
 #: src/components/Header/BurgerMenu/BurgerMenu.tsx
 msgid "Dark mode"
@@ -448,7 +448,7 @@ msgstr "KYA no ha sido aceptado"
 
 #: src/components/Header/BurgerMenu/BurgerMenu.tsx
 msgid "Language"
-msgstr ""
+msgstr "Idioma"
 
 #: src/components/WalletModal/LowBalanceWarning/LowBalanceWarning.tsx
 msgid "Learn how to get ERG"
@@ -646,7 +646,7 @@ msgstr "Transacciones recientes"
 
 #: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
 msgid "Recommended"
-msgstr ""
+msgstr "Elegir tipo de billetera"
 
 #: src/components/common/ActionForm/ActionButton/ActionButton.tsx
 msgid "Refresh page"
@@ -806,7 +806,7 @@ msgstr "Intercambiando {0} por {1}"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "The % you will earn in fees"
-msgstr ""
+msgstr "El % que ganarás en comisiones"
 
 #: src/components/NetworkHeight/NetworkHeight.tsx
 msgid "The most recent block in Ergo network"
@@ -826,7 +826,7 @@ msgstr "Esta posición todavía está bloqueada"
 
 #: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
 msgid "This wallet may not always work as expected. I understand what I do andwill use it at my own risk."
-msgstr ""
+msgstr "Esta billetera puede no funcionar correctamente. Entiendo lo que estoy haciendo y asumo el riesgo al usarla."
 
 #: src/pages/Swap/Swap.tsx
 msgid "To"
