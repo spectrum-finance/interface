@@ -31,10 +31,11 @@ import { TxStatusTag } from '../TxStatusTag/TxStatusTag';
 import { TxTypeTag } from '../TxTypeTag/TxTypeTag';
 import { Operation as DexOperation } from '../types';
 import { normalizeOperations } from '../utils';
+import { TxHistoryEmptyState } from './TxHistoryEmptyState';
 
 const TxHistoryModal = (): JSX.Element => {
   const [isSyncing] = useObservable(isTransactionsHistorySyncing$);
-  const [txs] = useObservable(transactionsHistory$);
+  const [txs, txsLoading] = useObservable(transactionsHistory$);
   const [addresses] = useObservable(addresses$);
 
   const handleOpenRefundConfirmationModal = (operation: DexOperation) => {
@@ -94,65 +95,73 @@ const TxHistoryModal = (): JSX.Element => {
       </Modal.Title>
       <Modal.Content width={680}>
         <Flex col style={{ overflowY: 'auto', maxHeight: '500px' }}>
-          <Flex.Item>
-            <Flex justify="space-between" align="center">
-              <Flex.Item style={{ width: '35%' }}>
-                <Typography.Title level={5}>Assets</Typography.Title>
-              </Flex.Item>
-              <Flex.Item style={{ width: '28%' }}>
-                <Typography.Title level={5}>Date</Typography.Title>
-              </Flex.Item>
-              <Flex.Item style={{ width: '20%' }}>
-                <Typography.Title level={5}>Type</Typography.Title>
-              </Flex.Item>
-              <Flex.Item style={{ width: '16%' }}>
-                <Typography.Title level={5}>Status</Typography.Title>
-              </Flex.Item>
-              <Flex.Item style={{ width: '5%' }} />
-            </Flex>
-          </Flex.Item>
-          {txs ? (
-            normalizeOperations(txs)
-              .sort((a, b) => b.timestamp.toMillis() - a.timestamp.toMillis())
-              .map((op, index) => {
-                return (
-                  <Flex.Item
-                    key={index}
-                    style={{
-                      borderBottom:
-                        '1px solid var(--ergo-default-border-color)',
-                    }}
-                  >
-                    <Box transparent padding={[5, 0]} bordered={false}>
-                      <Flex justify="space-between" align="center">
-                        <Flex.Item style={{ width: '35%' }}>
-                          <InputOutputColumn
-                            type={op.type}
-                            x={op.assetX}
-                            y={op.assetY}
-                          />
-                        </Flex.Item>
-                        <Flex.Item style={{ width: '28%' }}>
-                          <DateTimeView value={op.timestamp} />
-                          <br />
-                          <DateTimeView type="time" value={op.timestamp} />
-                        </Flex.Item>
-                        <Flex.Item style={{ width: '20%' }}>
-                          <TxTypeTag type={op.type} />
-                        </Flex.Item>
-                        <Flex.Item style={{ width: '16%' }}>
-                          <TxStatusTag status={op.status} />
-                        </Flex.Item>
-                        <Flex.Item style={{ width: '5%' }}>
-                          <OptionsButton placement="bottomLeft">
-                            {renderTxActionsMenu(op)}
-                          </OptionsButton>
-                        </Flex.Item>
-                      </Flex>
-                    </Box>
-                  </Flex.Item>
-                );
-              })
+          {!txsLoading ? (
+            txs?.length ? (
+              <>
+                <Flex.Item>
+                  <Flex justify="space-between" align="center">
+                    <Flex.Item style={{ width: '35%' }}>
+                      <Typography.Title level={5}>Assets</Typography.Title>
+                    </Flex.Item>
+                    <Flex.Item style={{ width: '28%' }}>
+                      <Typography.Title level={5}>Date</Typography.Title>
+                    </Flex.Item>
+                    <Flex.Item style={{ width: '20%' }}>
+                      <Typography.Title level={5}>Type</Typography.Title>
+                    </Flex.Item>
+                    <Flex.Item style={{ width: '16%' }}>
+                      <Typography.Title level={5}>Status</Typography.Title>
+                    </Flex.Item>
+                    <Flex.Item style={{ width: '5%' }} />
+                  </Flex>
+                </Flex.Item>
+                {normalizeOperations(txs)
+                  .sort(
+                    (a, b) => b.timestamp.toMillis() - a.timestamp.toMillis(),
+                  )
+                  .map((op, index) => {
+                    return (
+                      <Flex.Item
+                        key={index}
+                        style={{
+                          borderBottom:
+                            '1px solid var(--ergo-default-border-color)',
+                        }}
+                      >
+                        <Box transparent padding={[5, 0]} bordered={false}>
+                          <Flex justify="space-between" align="center">
+                            <Flex.Item style={{ width: '35%' }}>
+                              <InputOutputColumn
+                                type={op.type}
+                                x={op.assetX}
+                                y={op.assetY}
+                              />
+                            </Flex.Item>
+                            <Flex.Item style={{ width: '28%' }}>
+                              <DateTimeView value={op.timestamp} />
+                              <br />
+                              <DateTimeView type="time" value={op.timestamp} />
+                            </Flex.Item>
+                            <Flex.Item style={{ width: '20%' }}>
+                              <TxTypeTag type={op.type} />
+                            </Flex.Item>
+                            <Flex.Item style={{ width: '16%' }}>
+                              <TxStatusTag status={op.status} />
+                            </Flex.Item>
+                            <Flex.Item style={{ width: '5%' }}>
+                              <OptionsButton placement="bottomLeft">
+                                {renderTxActionsMenu(op)}
+                              </OptionsButton>
+                            </Flex.Item>
+                          </Flex>
+                        </Box>
+                      </Flex.Item>
+                    );
+                  })}
+              </>
+            ) : (
+              <TxHistoryEmptyState />
+            )
           ) : (
             <Skeleton active>
               {/*TODO:REPLACE_WITH_ORIGINAL_LOADING[EDEX-476]*/}
