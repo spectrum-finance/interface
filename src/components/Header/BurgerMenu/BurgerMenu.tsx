@@ -89,7 +89,7 @@ const BurgerMenu = (): JSX.Element => {
   };
 
   const menuOthers = (
-    <Menu style={{ width: MENU_WIDTH }}>
+    <Menu style={{ minWidth: MENU_WIDTH }}>
       {menu.map((item, index) => (
         <Menu.Item
           className="ergodex-menu-item"
@@ -117,7 +117,7 @@ const BurgerMenu = (): JSX.Element => {
   const menuLanguages = (
     <Menu
       style={{
-        width: MENU_WIDTH,
+        minWidth: MENU_WIDTH,
       }}
     >
       <Menu.Item key="langs-back" icon={<LeftOutlined />}>
