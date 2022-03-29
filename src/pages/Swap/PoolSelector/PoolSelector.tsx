@@ -8,6 +8,7 @@ import { AmmPool } from '../../../common/models/AmmPool';
 import { DataTag } from '../../../components/common/DataTag/DataTag';
 import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
 import { TokenIconPair } from '../../../components/TokenIconPair/TokenIconPair';
+import { VerificationMark } from '../../../components/VerificationMark/VerificationMark';
 import {
   Animation,
   Box,
@@ -80,6 +81,11 @@ const _PoolSelector: FC<PoolSelectorProps> = ({
                         {value.x.asset.name}/{value.y.asset.name}
                       </Typography.Body>
                     </Flex.Item>
+                    {value.verified && (
+                      <Flex.Item marginRight={2} align="center">
+                        <VerificationMark />
+                      </Flex.Item>
+                    )}
                     <Flex.Item marginRight={1}>
                       <Typography.Footnote>Fee:</Typography.Footnote>
                     </Flex.Item>

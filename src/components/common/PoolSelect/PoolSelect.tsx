@@ -14,6 +14,7 @@ import {
   Typography,
 } from '../../../ergodex-cdk';
 import { TokenIconPair } from '../../TokenIconPair/TokenIconPair';
+import { VerificationMark } from '../../VerificationMark/VerificationMark';
 import { FeeTag } from '../FeeTag/FeeTag';
 
 interface PoolOptionProps {
@@ -38,6 +39,11 @@ const PoolOption: React.FC<PoolOptionProps> = ({ position }) => {
               level={5}
             >{`${position.x.asset.name}/${position.y.asset.name}`}</Typography.Title>
           </Flex.Item>
+          {position.verified && (
+            <Flex.Item align="center" marginLeft={1}>
+              <VerificationMark />
+            </Flex.Item>
+          )}
         </Flex>
       </Flex.Item>
       <Flex.Item>
