@@ -1,11 +1,29 @@
 import { AmmDexOperation } from '@ergolabs/ergo-dex-sdk';
-import { defer, first, map, of, switchMap, tap } from 'rxjs';
+import {
+  defer,
+  first,
+  map,
+  of,
+  publishReplay,
+  refCount,
+  switchMap,
+  takeUntil,
+} from 'rxjs';
 import TxHistoryWorker from 'worker-loader!./transactionHistory.worker';
 
+import { tabClosing$ } from '../../../common/streams/tabClosing';
 import { Dictionary } from '../../../common/utils/Dictionary';
 import { localStorageManager } from '../../../common/utils/localStorageManager';
 import { TxHistoryManager } from '../../common';
 import { getAddresses } from '../addresses/addresses';
+import {
+  addToTabQueue,
+  clearTabQueue,
+  getSyncProcessTabs,
+  isPrimaryTab,
+  removeFromTabQueue,
+  syncProcessTabs$,
+} from './tabManager';
 import {
   WorkerBatchMessage,
   WorkerBatchMessageData,
@@ -26,6 +44,10 @@ const TX_HISTORY_SYNCING_KEY = 'tx-history-syncing';
 
 const txHistoryWorker = new TxHistoryWorker();
 
+const addresses$ = getAddresses().pipe(first(), publishReplay(1), refCount());
+
+let isWorkerActive = false;
+
 const handleSyncEndMessage = () => {
   const historyCache = localStorageManager.get<TxHistoryCache>(
     TX_HISTORY_SYNC_CACHE_KEY,
@@ -34,12 +56,14 @@ const handleSyncEndMessage = () => {
     operations: {},
   };
 
+  clearTabQueue();
   localStorageManager.set(TX_HISTORY_SYNCING_KEY, false);
   localStorageManager.set(TX_HISTORY_CACHE_KEY, {
     ...historyCache,
     operations: historyCache.operations,
   });
   localStorageManager.remove(TX_HISTORY_SYNC_CACHE_KEY);
+  isWorkerActive = false;
 };
 
 const handleBatchMessage = ({
@@ -47,6 +71,7 @@ const handleBatchMessage = ({
   address,
   operations,
 }: WorkerBatchMessageData) => {
+  // console.log('batch');
   let newHistoryCache = localStorageManager.get<TxHistoryCache>(
     TX_HISTORY_SYNC_CACHE_KEY,
   );
@@ -59,7 +84,7 @@ const handleBatchMessage = ({
     handledTxs: {
       ...newHistoryCache.handledTxs,
       [address]: {
-        ...(newHistoryCache.handledTxs[address] || {}),
+        ...((newHistoryCache.handledTxs || {})[address] || {}),
         ...handledTxs,
       },
     },
@@ -87,34 +112,54 @@ txHistoryWorker.addEventListener(
   },
 );
 
-export const sync = (): void => {
+export const sync = (historyCacheKey: string = TX_HISTORY_CACHE_KEY): void => {
   localStorageManager.set(TX_HISTORY_SYNCING_KEY, true);
+  addToTabQueue();
+  isWorkerActive = true;
+  addresses$.subscribe((addresses) => {
+    const historyCache = localStorageManager.get<TxHistoryCache>(
+      historyCacheKey,
+    ) || { tmpOperations: {}, operations: {}, handledTxs: {} };
+    const startMsg: WorkerStartMessage = {
+      message: 'start',
+      payload: {
+        addresses,
+        oldHandledTxs: historyCache.handledTxs,
+        oldOperations: historyCache.operations,
+      },
+    };
 
-  getAddresses()
-    .pipe(first())
-    .subscribe((addresses) => {
-      const historyCache = localStorageManager.get<TxHistoryCache>(
-        TX_HISTORY_CACHE_KEY,
-      ) || { tmpOperations: {}, operations: {}, handledTxs: {} };
-      const startMsg: WorkerStartMessage = {
-        message: 'start',
-        payload: {
-          addresses,
-          oldHandledTxs: historyCache.handledTxs,
-          oldOperations: historyCache.operations,
-        },
-      };
-
-      txHistoryWorker.postMessage(startMsg);
-    });
+    txHistoryWorker.postMessage(startMsg);
+  });
 };
+
+tabClosing$.subscribe(() => removeFromTabQueue());
+
+syncProcessTabs$.pipe(takeUntil(tabClosing$)).subscribe(() => {
+  const isSyncing = localStorageManager.get(TX_HISTORY_SYNCING_KEY);
+  const txHistory = localStorageManager.get(TX_HISTORY_CACHE_KEY);
+  // TODO: FIX STREAM EVENT PRIORITY
+  const tabs = getSyncProcessTabs();
+
+  if (
+    (!txHistory && !isSyncing) ||
+    (isSyncing && !tabs.length) ||
+    (isSyncing && isPrimaryTab() && !isWorkerActive)
+  ) {
+    // console.log('start syncing');
+    sync(TX_HISTORY_SYNC_CACHE_KEY);
+  }
+  if (isSyncing && tabs.length) {
+    // console.log('adding to queue');
+    addToTabQueue();
+  }
+});
 
 export const isSyncing$ = localStorageManager
   .getStream<boolean>(TX_HISTORY_SYNCING_KEY)
   .pipe(map(Boolean));
 
-export const transactionHistory$ = getAddresses().pipe(
-  first(),
+export const transactionHistory$ = addresses$.pipe(
   switchMap((addresses) =>
     localStorageManager
       .getStream<TxHistoryCache>(TX_HISTORY_CACHE_KEY)
@@ -125,11 +170,6 @@ export const transactionHistory$ = getAddresses().pipe(
         >((txHistory) => [txHistory, addresses]),
       ),
   ),
-  tap(([txHistory]) => {
-    if (!txHistory) {
-      sync();
-    }
-  }),
   switchMap(([txHistory, addresses]) => {
     if (!txHistory) {
       return of([]);

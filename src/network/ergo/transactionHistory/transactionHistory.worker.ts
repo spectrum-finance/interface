@@ -29,7 +29,11 @@ const parseOperation = (
   address: Address,
 ): AmmDexOperation | undefined => {
   if (oldHandledTxs[address] && oldHandledTxs[address][tx.id]) {
-    return oldOperations[address]?.find((op) => op.txId === tx.id);
+    const op = oldOperations[address]?.find((op) => op.txId === tx.id);
+
+    if (op?.status !== 'pending' && op?.status !== 'submitted') {
+      return oldOperations[address]?.find((op) => op.txId === tx.id);
+    }
   }
 
   return networkHistory['parseOp'](tx, true, [address]);

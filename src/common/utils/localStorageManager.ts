@@ -8,7 +8,10 @@ const stringifyBigIntReviewer = (key: string, value: any) =>
 const stringifyBigIntReplacer = (key: string, value: any) =>
   !!value?._bigint ? BigInt(value.value) : value;
 
-const mapKeyToBehaviorSubject = new Map<string, BehaviorSubject<any>>();
+const mapKeyToBehaviorSubject = new Map<
+  string,
+  { stream: BehaviorSubject<any>; disableSelf: boolean }
+>();
 
 window.addEventListener('storage', ({ key, newValue }) => {
   if (!key) {
@@ -22,10 +25,12 @@ window.addEventListener('storage', ({ key, newValue }) => {
   }
 
   if (newValue === undefined || newValue === null) {
-    return subject.next(newValue);
+    return subject.stream.next(newValue);
   }
 
-  return subject.next(JSON.parse(newValue, stringifyBigIntReplacer) as any);
+  return subject.stream.next(
+    JSON.parse(newValue, stringifyBigIntReplacer) as any,
+  );
 });
 
 const set = <T>(key: string, value: T | undefined): void => {
@@ -36,9 +41,11 @@ const set = <T>(key: string, value: T | undefined): void => {
   localStorage.setItem(key, newValue);
 
   if (!mapKeyToBehaviorSubject.has(key)) {
-    mapKeyToBehaviorSubject.set(key, new BehaviorSubject(get(key)));
+    return;
   }
-  mapKeyToBehaviorSubject.get(key)!.next(value);
+  if (!mapKeyToBehaviorSubject.get(key)!.disableSelf) {
+    mapKeyToBehaviorSubject.get(key)!.stream.next(value);
+  }
 };
 
 const get = <T>(key: string): T | undefined | null => {
@@ -60,12 +67,18 @@ const getStrict = <T>(key: string): T | undefined | null => {
   }
 };
 
-const getStream = <T>(key: string): Observable<T | undefined | null> => {
+const getStream = <T>(
+  key: string,
+  disableSelf = false,
+): Observable<T | undefined | null> => {
   if (!mapKeyToBehaviorSubject.has(key)) {
-    mapKeyToBehaviorSubject.set(key, new BehaviorSubject(get(key)));
+    mapKeyToBehaviorSubject.set(key, {
+      stream: new BehaviorSubject(get(key)),
+      disableSelf,
+    });
   }
 
-  return mapKeyToBehaviorSubject.get(key)!;
+  return mapKeyToBehaviorSubject.get(key)!.stream;
 };
 
 const remove = (key: string): void => localStorage.removeItem(key);
