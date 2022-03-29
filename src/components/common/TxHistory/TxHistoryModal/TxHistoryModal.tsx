@@ -1,4 +1,4 @@
-import { Trans, t } from '@lingui/macro';
+import { t, Trans } from '@lingui/macro';
 import { Typography } from 'antd';
 import React from 'react';
 
@@ -85,10 +85,8 @@ const TxHistoryModal = (): JSX.Element => {
       <Modal.Title>
         <Flex align="center">
           <Flex.Item marginRight={4}>
-            <Trans>
-            Transaction history
-              </Trans>
-            </Flex.Item>
+            <Trans>Transaction history</Trans>
+          </Flex.Item>
           <Flex.Item>
             <Button
               loading={isSyncing}
