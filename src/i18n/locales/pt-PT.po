@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ergodex-frontend\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-03-29 20:22\n"
+"PO-Revision-Date: 2022-03-29 20:48\n"
 "Last-Translator: \n"
 "Language: pt_PT\n"
 "Language-Team: Portuguese\n"
@@ -14,7 +14,7 @@ msgstr ""
 "X-Crowdin-Project-ID: 504102\n"
 "X-Crowdin-Language: pt-PT\n"
 "X-Crowdin-File: /dev/src/i18n/locales/en-US.po\n"
-"X-Crowdin-File-ID: 68\n"
+"X-Crowdin-File-ID: 78\n"
 
 #: src/pages/Pool/components/LockLiquidityDatePicker/LiquidityDatePicker.tsx
 msgid "(Block: {0})"
@@ -305,7 +305,7 @@ msgstr ""
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "ErgoDEX Smart Contracts"
-msgstr "ErgoDEX Smart Contracts"
+msgstr ""
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "ErgoDEX Team doesn’t guarantee the absence of bugs and errors."
@@ -344,7 +344,7 @@ msgstr "Taxa de execução:"
 
 #: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
 msgid "Experimental"
-msgstr "Experimental"
+msgstr ""
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
 msgid "Extension period"
@@ -581,11 +581,11 @@ msgstr ""
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Nitro"
-msgstr "Nitro"
+msgstr ""
 
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Nitro:"
-msgstr "Nitro:"
+msgstr ""
 
 #: src/pages/Pool/common/EmptySearchResult/EmptySearchResult.tsx
 msgid "No results found"
@@ -609,7 +609,7 @@ msgstr "Escolha uma nova data de desbloqueio"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
 msgid "Pool"
-msgstr "Pool"
+msgstr ""
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Pool liquidity"
