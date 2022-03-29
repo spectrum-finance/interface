@@ -1,10 +1,15 @@
-import { LoadingOutlined } from '@ant-design/icons';
 import { t } from '@lingui/macro';
 import React from 'react';
 
 import { isTransactionsHistorySyncing$ } from '../../../api/transactionsHistory';
 import { useObservable } from '../../../common/hooks/useObservable';
-import { Button, HistoryOutlined, Modal, Tooltip } from '../../../ergodex-cdk';
+import {
+  Button,
+  HistoryOutlined,
+  LoadingOutlined,
+  Modal,
+  Tooltip,
+} from '../../../ergodex-cdk';
 import { TxHistoryModal } from './TxHistoryModal/TxHistoryModal';
 
 const TxHistory = (): JSX.Element => {

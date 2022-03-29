@@ -71,7 +71,6 @@ const handleBatchMessage = ({
   address,
   operations,
 }: WorkerBatchMessageData) => {
-  // console.log('batch');
   let newHistoryCache = localStorageManager.get<TxHistoryCache>(
     TX_HISTORY_SYNC_CACHE_KEY,
   );
@@ -146,11 +145,9 @@ syncProcessTabs$.pipe(takeUntil(tabClosing$)).subscribe(() => {
     (isSyncing && !tabs.length) ||
     (isSyncing && isPrimaryTab() && !isWorkerActive)
   ) {
-    // console.log('start syncing');
     sync(TX_HISTORY_SYNC_CACHE_KEY);
   }
   if (isSyncing && tabs.length) {
-    // console.log('adding to queue');
     addToTabQueue();
   }
 });

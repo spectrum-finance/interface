@@ -1,5 +1,4 @@
 import { t, Trans } from '@lingui/macro';
-import { Typography } from 'antd';
 import React from 'react';
 
 import { addresses$ } from '../../../../api/addresses';
@@ -17,6 +16,7 @@ import {
   Modal,
   ReloadOutlined,
   Skeleton,
+  Typography,
 } from '../../../../ergodex-cdk';
 import { isRefundableOperation } from '../../../../utils/ammOperations';
 import { exploreTx } from '../../../../utils/redirect';
