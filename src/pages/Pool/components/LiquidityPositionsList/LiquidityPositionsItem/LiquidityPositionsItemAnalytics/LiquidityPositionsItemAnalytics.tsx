@@ -1,3 +1,4 @@
+import { Trans } from '@lingui/macro';
 import React from 'react';
 
 import { AmmPool } from '../../../../../../common/models/AmmPool';
@@ -71,15 +72,17 @@ const LiquidityPositionsItemAnalytics: React.FC<LiquidityPositionsItemAnalyticsP
                     placement="top"
                     content={
                       <>
-                        Annual Percentage Rate. Average estimation of how much
-                        you may potentially earn providing liquidity to this
-                        pool.
+                        <Trans>
+                          Annual Percentage Rate. Average estimation of how much
+                          you may potentially earn providing liquidity to this
+                          pool.
+                        </Trans>
                         <br />
                         <Typography.Link
                           target="_blank"
                           href="https://docs.ergodex.io/docs/protocol-overview/analytics#apr"
                         >
-                          Read more
+                          <Trans>Read more</Trans>
                         </Typography.Link>
                       </>
                     }

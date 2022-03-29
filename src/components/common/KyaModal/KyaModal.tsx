@@ -1,3 +1,4 @@
+import { Trans } from '@lingui/macro';
 import React, { useCallback } from 'react';
 
 import { useAppLoadingState } from '../../../context';
@@ -22,27 +23,33 @@ const KyaModal: React.FC<KyaModalProps> = ({ onClose }): JSX.Element => {
         <Flex direction="col" className="kya-modal">
           <Flex.Item marginBottom={4}>
             <Typography.Body>
-              ErgoDEX is a decentralized financial (DeFi) application which
-              means it doesn’t have a central government body. ErgoDEX includes
-              AMM (Swap, Add liquidity and Remove liquidity) functionality{' '}
+              <Trans>
+                ErgoDEX is a decentralized financial (DeFi) application which
+                means it doesn’t have a central government body. ErgoDEX
+                includes AMM (Swap, Add liquidity and Remove liquidity)
+                functionality{' '}
+              </Trans>
+
               <Typography.Body strong>
-                only on top of the Ergo Blockchain.
+                <Trans>only on top of the Ergo Blockchain.</Trans>
               </Typography.Body>
             </Typography.Body>
           </Flex.Item>
           <Flex.Item>
             <Typography.Body strong>
-              By accepting these KYA, you agree that:
+              <Trans>By accepting these KYA, you agree that:</Trans>
             </Typography.Body>
           </Flex.Item>
           <Flex.Item>
             <Typography.Body>
-              1. You will use the product at your own peril and risk;
+              <Trans>
+                1. You will use the product at your own peril and risk;
+              </Trans>
             </Typography.Body>
           </Flex.Item>
           <Flex.Item>
             <Typography.Body>
-              2. Only YOU are responsible for your assets;
+              <Trans>2. Only YOU are responsible for your assets;</Trans>
             </Typography.Body>
           </Flex.Item>
           <Flex.Item marginBottom={4}>
@@ -55,23 +62,27 @@ const KyaModal: React.FC<KyaModalProps> = ({ onClose }): JSX.Element => {
                 target="_blank"
                 rel="noreferrer"
               >
-                ErgoDEX Smart Contracts
+                <Trans>ErgoDEX Smart Contracts</Trans>
               </Button>{' '}
-              meet your expectations.
+              <Trans>meet your expectations.</Trans>
             </Typography.Body>
           </Flex.Item>
           <Flex.Item>
-            <Typography.Body strong>Notice that:</Typography.Body>
-          </Flex.Item>
-          <Flex.Item>
-            <Typography.Body>
-              - ErgoDEX operates on a live blockchain, thus trades are final,
-              and irreversible once they have status &laquo;executed&raquo;;
+            <Typography.Body strong>
+              <Trans>Notice that:</Trans>
             </Typography.Body>
           </Flex.Item>
           <Flex.Item>
             <Typography.Body>
-              - Every transaction can be viewed via{' '}
+              <Trans>
+                - ErgoDEX operates on a live blockchain, thus trades are final,
+                and irreversible once they have status &laquo;executed&raquo;;
+              </Trans>
+            </Typography.Body>
+          </Flex.Item>
+          <Flex.Item>
+            <Typography.Body>
+              <Trans>- Every transaction can be viewed via </Trans>
               <Button
                 type="link"
                 style={{ padding: '0', lineHeight: '16px', height: '100%' }}
@@ -79,41 +90,49 @@ const KyaModal: React.FC<KyaModalProps> = ({ onClose }): JSX.Element => {
                 target="_blank"
                 rel="noreferrer"
               >
-                explorer
+                <Trans>explorer</Trans>
               </Button>
               ;
             </Typography.Body>
           </Flex.Item>
           <Flex.Item marginBottom={4}>
             <Typography.Body>
-              - By creating an order you send your funds to a specific
-              smart-contract, all such contracts are wired into the UI. Thus,
-              orders are created entirely in your browser (on your machine).
+              <Trans>
+                - By creating an order you send your funds to a specific
+                smart-contract, all such contracts are wired into the UI. Thus,
+                orders are created entirely in your browser (on your machine).
+              </Trans>
             </Typography.Body>
           </Flex.Item>
           <Flex.Item marginBottom={4}>
             <Typography.Body strong>
-              ErgoDEX Team doesn’t guarantee the absence of bugs and errors.
+              <Trans>
+                ErgoDEX Team doesn’t guarantee the absence of bugs and errors.
+              </Trans>
             </Typography.Body>
           </Flex.Item>
           <Flex.Item marginBottom={4}>
             <Typography.Body strong>
-              ErgoDEX offers a form of added security, as buyers and sellers do
-              not have to give their information to any 3rd party. However,
-              ErgoDEX is without a know your customer (KYC) process and can
-              offer NO assistance if a user is hacked or cheated out of
-              passwords, currency or private wallet keys.
+              <Trans>
+                ErgoDEX offers a form of added security, as buyers and sellers
+                do not have to give their information to any 3rd party. However,
+                ErgoDEX is without a know your customer (KYC) process and can
+                offer NO assistance if a user is hacked or cheated out of
+                passwords, currency or private wallet keys.
+              </Trans>
             </Typography.Body>
           </Flex.Item>
           <Flex.Item marginBottom={4}>
             <Typography.Body strong>
-              We recommend that you DO NOT use ErgoDEX to operate large amounts
-              of assets!
+              <Trans>
+                We recommend that you DO NOT use ErgoDEX to operate large
+                amounts of assets!
+              </Trans>
             </Typography.Body>
           </Flex.Item>
           <Flex.Item>
             <Button type="primary" size="large" block onClick={handleConfirm}>
-              I understand the risks and accept the KYA
+              <Trans>I understand the risks and accept the KYA</Trans>
             </Button>
           </Flex.Item>
         </Flex>

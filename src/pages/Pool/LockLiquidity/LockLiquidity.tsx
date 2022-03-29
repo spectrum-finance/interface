@@ -1,4 +1,5 @@
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
+import { t, Trans } from '@lingui/macro';
 import { Skeleton } from 'antd';
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
@@ -108,7 +109,7 @@ const LockLiquidity = (): JSX.Element => {
   };
 
   return (
-    <Page width={480} title="Lock liquidity" withBackButton>
+    <Page width={480} title={t`Lock liquidity`} withBackButton>
       {position ? (
         <Form
           form={form}
@@ -120,7 +121,7 @@ const LockLiquidity = (): JSX.Element => {
             </Flex.Item>
 
             <Flex.Item marginBottom={4}>
-              <PageSection title="Amount" noPadding>
+              <PageSection title={t`Amount`} noPadding>
                 <Form.Item name="percent">
                   {({ value, onChange }) => (
                     <FormSlider value={value} onChange={onChange} />
@@ -131,18 +132,18 @@ const LockLiquidity = (): JSX.Element => {
 
             <Flex.Item marginBottom={4}>
               <FormPairSection
-                title="Assets to lock"
+                title={t`Assets to lock`}
                 xAmount={formValue?.xAmount || position.availableX}
                 yAmount={formValue?.yAmount || position.availableY}
               />
             </Flex.Item>
 
             <Flex.Item marginBottom={4}>
-              <PageSection title="Unlock date">
+              <PageSection title={t`Unlock date`}>
                 <Form.Item name="locktime">
                   {({ value, onChange }) => (
                     <LiquidityDatePicker
-                      selectedPrefix="Lock period"
+                      selectedPrefix={t`Lock period`}
                       value={value}
                       onChange={onChange}
                     />
@@ -156,7 +157,7 @@ const LockLiquidity = (): JSX.Element => {
                 <Animation.Expand expanded={!!formValue?.locktime}>
                   <Alert
                     type="warning"
-                    message="Once LP-tokens are locked they cannot be withdrawn under any circumstances until the timer has expired. Please ensure the parameters are correct, as they are final."
+                    message={t`Once LP-tokens are locked they cannot be withdrawn under any circumstances until the timer has expired. Please ensure the parameters are correct, as they are final.`}
                   />
                 </Animation.Expand>
               </Flex.Item>
@@ -168,7 +169,7 @@ const LockLiquidity = (): JSX.Element => {
                 htmlType="submit"
                 icon={<LockOutlined />}
               >
-                Lock
+                <Trans>Lock</Trans>
               </SubmitButton>
             </Flex.Item>
           </Flex>

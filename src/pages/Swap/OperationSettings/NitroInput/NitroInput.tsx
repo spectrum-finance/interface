@@ -1,3 +1,4 @@
+import { Trans } from '@lingui/macro';
 import React, { ChangeEvent, FC } from 'react';
 import styled from 'styled-components';
 
@@ -50,7 +51,7 @@ const _NitroInput: FC<NitroInputProps> = ({
                 size="middle"
                 onClick={handleClickNitroAuto}
               >
-                Minimum
+                <Trans>Minimum</Trans>
               </Button>
             </Flex.Item>
             <Flex.Item flex={1}>
@@ -70,8 +71,10 @@ const _NitroInput: FC<NitroInputProps> = ({
       </Flex.Item>
       <Flex.Item marginBottom={message ? 2 : 0}>
         <Typography.Body className={className}>
-          Execution Fee Range {minExFee.toString()} - {maxExFee.toString()}{' '}
-          {maxExFee.asset.name}
+          <Trans>
+            Execution Fee Range {minExFee.toString()} - {maxExFee.toString()}{' '}
+            {maxExFee.asset.name}
+          </Trans>
         </Typography.Body>
       </Flex.Item>
       <Animation.Expand expanded={!!message}>

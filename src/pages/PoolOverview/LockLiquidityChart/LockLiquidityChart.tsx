@@ -1,5 +1,6 @@
 import './LockLiquidityChart.less';
 
+import { t } from '@lingui/macro';
 import React, { FC, useState } from 'react';
 import { Bar, BarChart, Label, Tooltip, XAxis, YAxis } from 'recharts';
 
@@ -78,7 +79,7 @@ export const LockLiquidityChart: FC<LockLiquidityChartProps> = ({
               <Label
                 offset={0}
                 position="insideBottomRight"
-                value="Lock time"
+                value={t`Lock time`}
               />
             </XAxis>
           </BarChart>

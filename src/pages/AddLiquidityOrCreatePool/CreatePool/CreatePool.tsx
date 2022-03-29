@@ -1,4 +1,5 @@
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
+import { t } from '@lingui/macro';
 import React, { FC, useEffect, useState } from 'react';
 import { skip } from 'rxjs';
 
@@ -129,15 +130,15 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
 
   const selectTokenValidator: OperationValidator<CreatePoolFormModel> = ({
     value: { xAsset, yAsset },
-  }) => (!xAsset || !yAsset ? 'Select a token' : undefined);
+  }) => (!xAsset || !yAsset ? t`Select a token` : undefined);
 
   const feeValidator: OperationValidator<CreatePoolFormModel> = ({
     value: { fee },
-  }) => !fee && 'Select a fee tier';
+  }) => !fee && t`Select a fee tier`;
 
   const initialPriceValidator: OperationValidator<CreatePoolFormModel> = ({
     value: { initialPrice },
-  }) => !initialPrice?.isPositive() && 'Enter an Initial Price';
+  }) => !initialPrice?.isPositive() && t`Enter an Initial Price`;
 
   const amountValidator: OperationValidator<CreatePoolFormModel> = ({
     value: { x, y },
@@ -149,7 +150,7 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
       return undefined;
     }
 
-    return (!x?.isPositive() || !y?.isPositive()) && 'Enter an Amount';
+    return (!x?.isPositive() || !y?.isPositive()) && t`Enter an Amount`;
   };
 
   const minValueValidator: OperationValidator<CreatePoolFormModel> = ({
@@ -169,18 +170,20 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
           ? initialPrice.toBaseCurrency(new Currency(1n, yAsset))
           : initialPrice.toQuoteCurrency(new Currency(1n, yAsset));
     }
-    return c ? `Min value for ${c?.asset.name} is ${c?.toString()}` : undefined;
+    return c
+      ? t`Min value for ${c?.asset.name} is ${c?.toString()}`
+      : undefined;
   };
 
   const balanceValidator: OperationValidator<CreatePoolFormModel> = ({
     value: { x, y },
   }) => {
     if (x?.gt(balance.get(x?.asset))) {
-      return `Insufficient ${x?.asset.name} Balance`;
+      return t`Insufficient ${x?.asset.name} Balance`;
     }
 
     if (y?.gt(balance.get(y?.asset))) {
-      return `Insufficient ${y?.asset.name} Balance`;
+      return t`Insufficient ${y?.asset.name} Balance`;
     }
 
     return undefined;
@@ -198,7 +201,7 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
       : totalFees;
 
     return totalFeesWithAmount.gt(balance.get(networkAsset))
-      ? `Insufficient ${networkAsset.name} Balance for Fees`
+      ? t`Insufficient ${networkAsset.name} Balance for Fees`
       : undefined;
   };
 
@@ -376,14 +379,14 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
     <OperationForm
       form={form}
       onSubmit={createPoolAction}
-      actionCaption="Create pool"
+      actionCaption={t`Create pool`}
       validators={validators}
     >
       <Flex col>
         <Flex.Item marginBottom={4}>
           <Section
-            title="Choose fee tier"
-            tooltip="The % you will earn in fees"
+            title={t`Choose a fee`}
+            tooltip={t`The % you will earn in fees`}
           >
             <Form.Item name="fee">
               {({ value, onChange }) => (
@@ -393,7 +396,7 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
           </Section>
         </Flex.Item>
         <Flex.Item marginBottom={4}>
-          <Section title="Set initial price">
+          <Section title={t`Set initial price`}>
             <Form.Item name="initialPrice" watchForm>
               {({ value, onChange, parent }) => (
                 <InitialPriceInput
@@ -408,7 +411,7 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
         </Flex.Item>
         <Flex.Item marginBottom={4}>
           <Section
-            title="Liquidity"
+            title={t`Liquidity`}
             extra={
               <Flex justify="flex-end">
                 <LiquidityPercentInput onClick={handleMaxLiquidityClick} />

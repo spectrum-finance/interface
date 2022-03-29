@@ -2,6 +2,7 @@ import { mkLockActions } from '@ergolabs/ergo-dex-sdk';
 import { WithdrawalParams } from '@ergolabs/ergo-dex-sdk/build/main/security/models';
 import { RustModule } from '@ergolabs/ergo-sdk';
 import { MinTransactionContext } from '@ergolabs/ergo-sdk/build/main/wallet/entities/transactionContext';
+import { t, Trans } from '@lingui/macro';
 import { DateTime } from 'luxon';
 import React, { FC } from 'react';
 
@@ -58,12 +59,14 @@ const WithdrawalLiquidityConfirmationModal: FC<WithdrawalLiquidityConfirmationMo
 
     return (
       <>
-        <Modal.Title>Confirm withdrawal</Modal.Title>
+        <Modal.Title>
+          <Trans>Confirm withdrawal</Trans>
+        </Modal.Title>
         <Modal.Content width={480}>
           <Flex col>
             <Flex.Item marginBottom={4}>
               <FormPairSection
-                title="Assets to lock"
+                title={t`Assets to lock`}
                 xAmount={lock.x}
                 yAmount={lock.y}
               >
@@ -73,7 +76,9 @@ const WithdrawalLiquidityConfirmationModal: FC<WithdrawalLiquidityConfirmationMo
                     <Flex.Item>
                       <Flex align="center">
                         <Flex.Item>
-                          <Typography.Body strong>Unlock date</Typography.Body>
+                          <Typography.Body strong>
+                            <Trans>Unlock date</Trans>
+                          </Typography.Body>
                         </Flex.Item>
                       </Flex>
                     </Flex.Item>
@@ -83,7 +88,7 @@ const WithdrawalLiquidityConfirmationModal: FC<WithdrawalLiquidityConfirmationMo
                           {lock.unlockDate.toLocaleString(DateTime.DATE_FULL)}
                         </Typography.Body>{' '}
                         <Typography.Body secondary>
-                          (Unlock block: {lock.deadline})
+                          <Trans>(Unlock block: {lock.deadline})</Trans>
                         </Typography.Body>
                       </Flex>
                     </Flex.Item>
@@ -97,7 +102,7 @@ const WithdrawalLiquidityConfirmationModal: FC<WithdrawalLiquidityConfirmationMo
               type="primary"
               onClick={withdrawalOperation}
             >
-              Confirm Withdrawal
+              <Trans>Confirm Withdrawal</Trans>
             </Button>
           </Flex>
         </Modal.Content>

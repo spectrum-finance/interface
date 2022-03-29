@@ -1,4 +1,5 @@
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
+import { t, Trans } from '@lingui/macro';
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
 
@@ -42,10 +43,10 @@ export const WithdrawalLiquidity = (): JSX.Element => {
 
   const validators: OperationValidator<RelockLiquidityModel>[] = [
     (form: FormGroup<RelockLiquidityModel>) =>
-      !form.value.lockedPosition && 'Select Locked Position',
+      !form.value.lockedPosition && t`Select Locked Position`,
     (form: FormGroup<RelockLiquidityModel>) =>
       form.value.lockedPosition?.status === AssetLockStatus.LOCKED &&
-      'This position is still locked',
+      t`This position is still locked`,
   ];
 
   const handleRelockLiquidity = (form: FormGroup<RelockLiquidityModel>) => {
@@ -67,13 +68,13 @@ export const WithdrawalLiquidity = (): JSX.Element => {
   };
 
   return (
-    <Page width={760} title="Withdrawal" withBackButton>
+    <Page width={760} title={t`Withdrawal`} withBackButton>
       {position ? (
         <OperationForm
           form={form}
           validators={validators}
           onSubmit={handleRelockLiquidity}
-          actionCaption="Withdrawal"
+          actionCaption={t`Withdrawal`}
         >
           <Flex col>
             <Flex.Item marginBottom={2}>
@@ -83,14 +84,14 @@ export const WithdrawalLiquidity = (): JSX.Element => {
               <Flex>
                 <Flex.Item flex={1} marginRight={2}>
                   <FormPairSection
-                    title="Total in locker"
+                    title={t`Total in locker`}
                     xAmount={position.lockedX}
                     yAmount={position.lockedY}
                   />
                 </Flex.Item>
                 <Flex.Item flex={1}>
                   <FormPairSection
-                    title="Withdrawable"
+                    title={t`Withdrawable`}
                     xAmount={position.withdrawableLockedX}
                     yAmount={position.withdrawableLockedY}
                   />
@@ -98,7 +99,9 @@ export const WithdrawalLiquidity = (): JSX.Element => {
               </Flex>
             </Flex.Item>
             <Flex.Item marginBottom={2}>
-              <Typography.Body strong>Locked positions</Typography.Body>
+              <Typography.Body strong>
+                <Trans>Locked positions</Trans>
+              </Typography.Body>
             </Flex.Item>
             <Flex.Item>
               <Form.Item name="lockedPosition">

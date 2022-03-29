@@ -1,4 +1,5 @@
 import { blocksToMillis, PoolId } from '@ergolabs/ergo-dex-sdk';
+import { t, Trans } from '@lingui/macro';
 import { DateTime } from 'luxon';
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
@@ -51,8 +52,8 @@ export const RelockLiquidity = (): JSX.Element => {
   const currentBlock = explorerContext ? explorerContext.height : undefined;
 
   const validators: OperationValidator<RelockLiquidityModel>[] = [
-    (form) => !form.value.lockedPosition && 'Select Locked Position',
-    (form) => !form.value.relocktime && 'Pick new unlock date',
+    (form) => !form.value.lockedPosition && t`Select Locked Position`,
+    (form) => !form.value.relocktime && t`Pick new unlock date`,
   ];
 
   useEffect(() => updatePosition(poolId), []);
@@ -84,10 +85,10 @@ export const RelockLiquidity = (): JSX.Element => {
   };
 
   return (
-    <Page width={760} title="Relock liquidity" withBackButton>
+    <Page width={760} title={t`Relock liquidity`} withBackButton>
       {position && explorerContext ? (
         <OperationForm
-          actionCaption="Relock position"
+          actionCaption={t`Relock position`}
           form={form}
           onSubmit={handleRelockLiquidity}
           validators={validators}
@@ -100,7 +101,7 @@ export const RelockLiquidity = (): JSX.Element => {
               <Flex col>
                 <Flex.Item marginBottom={2}>
                   <Typography.Body strong>
-                    Select Locked Position
+                    <Trans>Select Locked Position</Trans>
                   </Typography.Body>
                 </Flex.Item>
                 <Form.Item name="lockedPosition">
@@ -122,13 +123,13 @@ export const RelockLiquidity = (): JSX.Element => {
             {isLockedPositionSelected && (
               <Flex.Item marginTop={4}>
                 <Animation.Expand expanded={isLockedPositionSelected}>
-                  <PageSection title="Unlock date">
+                  <PageSection title={t`Unlock date`}>
                     <Form.Item name="relocktime">
                       {({ value, onChange }) => (
                         <LiquidityDatePicker
                           value={value}
-                          selectedPrefix="Extension period"
-                          defaultValue="Select relock date"
+                          selectedPrefix={t`Extension period`}
+                          defaultValue={t`Select relock date`}
                           onChange={onChange}
                           disabledDate={(current) => {
                             const dl = form.value.lockedPosition?.deadline;

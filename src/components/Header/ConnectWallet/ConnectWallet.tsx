@@ -1,6 +1,7 @@
 import './ConnectWallet.less';
 
 import { LoadingOutlined } from '@ant-design/icons';
+import { t } from '@lingui/macro';
 import React from 'react';
 
 import { Currency } from '../../../common/models/Currency';
@@ -45,7 +46,7 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
             type="default"
           >
             {numberOfPendingTxs > 0
-              ? `${numberOfPendingTxs} Pending`
+              ? t`${numberOfPendingTxs} Pending`
               : addressToRender}
           </Button>
         </Flex.Item>

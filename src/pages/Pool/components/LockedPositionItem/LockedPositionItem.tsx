@@ -1,3 +1,4 @@
+import { Trans } from '@lingui/macro';
 import { DateTime } from 'luxon';
 import React, { FC } from 'react';
 
@@ -83,7 +84,9 @@ export const LockedPositionItem: FC<LockedPositionItemProps> = ({
         <Flex.Item style={{ width: '183px' }} marginRight={4}>
           <Flex col justify="space-between" stretch>
             <Flex.Item marginBottom={1}>
-              <Typography.Footnote>Unlock Date</Typography.Footnote>
+              <Typography.Footnote>
+                <Trans>Unlock Date</Trans>
+              </Typography.Footnote>
             </Flex.Item>
             <DataTag
               content={assetLock.unlockDate.toLocaleString(DateTime.DATE_FULL)}
@@ -93,7 +96,9 @@ export const LockedPositionItem: FC<LockedPositionItemProps> = ({
         <Flex.Item style={{ width: '75px' }} marginRight={4}>
           <Flex col justify="space-between" stretch>
             <Flex.Item marginBottom={1}>
-              <Typography.Footnote>Unlock Block</Typography.Footnote>
+              <Typography.Footnote>
+                <Trans>Unlock Block</Trans>
+              </Typography.Footnote>
             </Flex.Item>
             <DataTag content={formatToInt(assetLock.deadline)} />
           </Flex>
@@ -101,7 +106,9 @@ export const LockedPositionItem: FC<LockedPositionItemProps> = ({
         <Flex.Item style={{ width: '135px' }} marginRight={4}>
           <Flex col justify="space-between" stretch>
             <Flex.Item marginBottom={1}>
-              <Typography.Footnote>Status</Typography.Footnote>
+              <Typography.Footnote>
+                <Trans>Status</Trans>
+              </Typography.Footnote>
             </Flex.Item>
             <Tag
               color={

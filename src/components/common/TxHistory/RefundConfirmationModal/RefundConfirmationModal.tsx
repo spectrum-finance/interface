@@ -1,4 +1,5 @@
 import { Address } from '@ergolabs/ergo-sdk';
+import { t, Trans } from '@lingui/macro';
 import React, { useState } from 'react';
 
 import { useObservable } from '../../../../common/hooks/useObservable';
@@ -28,7 +29,6 @@ interface RefundConfirmationModalProps {
   operation: Operation;
 }
 
-// TODO:ADD_REFUND_CONFIRMATION_MODAL[EDEX-481]
 const RefundConfirmationModal: React.FC<RefundConfirmationModalProps> = ({
   onClose,
   addresses,
@@ -59,7 +59,9 @@ const RefundConfirmationModal: React.FC<RefundConfirmationModalProps> = ({
 
   return (
     <>
-      <Modal.Title>Refund confirmation</Modal.Title>
+      <Modal.Title>
+        <Trans>Refund confirmation</Trans>
+      </Modal.Title>
       <Modal.Content width={570}>
         <Form onSubmit={() => {}} form={form}>
           <Flex col>
@@ -67,14 +69,18 @@ const RefundConfirmationModal: React.FC<RefundConfirmationModalProps> = ({
               <Box contrast padding={4}>
                 <Flex justify="space-between">
                   <Flex.Item>
-                    <Typography.Text strong>Fees</Typography.Text>
+                    <Typography.Text strong>
+                      <Trans>Fees</Trans>
+                    </Typography.Text>
                     <InfoTooltip
                       placement="rightBottom"
                       content={
                         <Flex direction="col" style={{ width: '200px' }}>
                           <Flex.Item>
                             <Flex justify="space-between">
-                              <Flex.Item>Miner Fee:</Flex.Item>
+                              <Flex.Item>
+                                <Trans>Miner Fee:</Trans>
+                              </Flex.Item>
                               <Flex.Item>{minerFee} ERG</Flex.Item>
                             </Flex>
                           </Flex.Item>
@@ -91,10 +97,12 @@ const RefundConfirmationModal: React.FC<RefundConfirmationModalProps> = ({
             <Flex.Item marginBottom={4}>
               <Flex direction="col">
                 <Flex.Item marginBottom={2}>
-                  <Typography.Body strong>Select address</Typography.Body>
+                  <Typography.Body strong>
+                    <Trans>Select address</Trans>
+                  </Typography.Body>
                   <InfoTooltip
                     placement="rightBottom"
-                    content="You will receive refund to this address"
+                    content={t`Refund will be performed to this address`}
                   />
                 </Flex.Item>
                 <Flex.Item>
@@ -129,7 +137,7 @@ const RefundConfirmationModal: React.FC<RefundConfirmationModalProps> = ({
                 block
                 onClick={handleRefund}
               >
-                Confirm
+                <Trans>Confirm</Trans>
               </Button>
             </Flex.Item>
           </Flex>

@@ -1,5 +1,6 @@
 import { minValueForOrder } from '@ergolabs/ergo-dex-sdk';
 import { BoxSelection, DefaultBoxSelector, ErgoTx } from '@ergolabs/ergo-sdk';
+import { t, Trans } from '@lingui/macro';
 import React, { FC, useState } from 'react';
 
 import { ERG_DECIMALS, UI_FEE } from '../../../../common/constants/erg';
@@ -98,18 +99,20 @@ const AddLiquidityConfirmationModal: FC<AddLiquidityConfirmationModalProps> = ({
 
   return (
     <>
-      <Modal.Title>Confirm Add Liquidity</Modal.Title>
+      <Modal.Title>
+        <Trans>Confirm Add Liquidity</Trans>
+      </Modal.Title>
       <Modal.Content width={468}>
         <Flex direction="col">
           <Flex.Item marginBottom={6}>
             <FormPairSection
-              title="Assets"
+              title={t`Assets`}
               xAmount={value.x}
               yAmount={value.y}
             />
           </Flex.Item>
           <Flex.Item marginBottom={6}>
-            <Section title="Initial price">
+            <Section title={t`Initial price`}>
               <Flex>
                 <Flex.Item flex={1} marginRight={2}>
                   <PoolRatio ammPool={value.pool} ratioOf="x" />
@@ -121,24 +124,28 @@ const AddLiquidityConfirmationModal: FC<AddLiquidityConfirmationModalProps> = ({
             </Section>
           </Flex.Item>
           <Flex.Item marginBottom={6}>
-            <PageSection title="Fees">
+            <PageSection title={t`Fees`}>
               <Flex justify="space-between">
                 <Flex.Item>
-                  <Typography.Text strong>Fees</Typography.Text>
+                  <Typography.Text strong>
+                    <Trans>Fees</Trans>
+                  </Typography.Text>
                   <InfoTooltip
                     placement="rightBottom"
                     content={
                       <Flex direction="col">
                         <Flex.Item>
                           <Flex>
-                            <Flex.Item marginRight={1}>Miner Fee:</Flex.Item>
+                            <Flex.Item marginRight={1}>
+                              <Trans>Miner Fee:</Trans>
+                            </Flex.Item>
                             <Flex.Item>{minerFee} ERG</Flex.Item>
                           </Flex>
                         </Flex.Item>
                         <Flex.Item>
                           <Flex>
                             <Flex.Item marginRight={1}>
-                              Execution Fee:
+                              <Trans>Execution Fee:</Trans>
                             </Flex.Item>
                             <Flex.Item>{minExFee.toCurrencyString()}</Flex.Item>
                           </Flex>
@@ -147,7 +154,9 @@ const AddLiquidityConfirmationModal: FC<AddLiquidityConfirmationModalProps> = ({
                         {!!UI_FEE && (
                           <Flex.Item>
                             <Flex>
-                              <Flex.Item marginRight={1}>UI Fee:</Flex.Item>
+                              <Flex.Item marginRight={1}>
+                                <Trans>UI Fee:</Trans>
+                              </Flex.Item>
                               <Flex.Item>{UI_FEE} ERG</Flex.Item>
                             </Flex>
                           </Flex.Item>
@@ -169,13 +178,13 @@ const AddLiquidityConfirmationModal: FC<AddLiquidityConfirmationModalProps> = ({
               <Flex.Item marginBottom={4}>
                 <Alert
                   type="error"
-                  message="This pair has not been verified by the ErgoDEX team"
-                  description=" This operation may include fake or scam assets. Only confirm if you have done your own research."
+                  message={t`This pair has not been verified by the ErgoDEX team`}
+                  description={t`This operation may include fake or scam assets. Only confirm if you have done your own research.`}
                 />
               </Flex.Item>
               <Flex.Item marginBottom={4}>
                 <Checkbox onChange={() => setIsChecked((p) => !p)}>
-                  I understand the risks
+                  <Trans>I understand the risks</Trans>
                 </Checkbox>
               </Flex.Item>
             </>
@@ -188,7 +197,7 @@ const AddLiquidityConfirmationModal: FC<AddLiquidityConfirmationModalProps> = ({
               disabled={!isChecked}
               onClick={() => addLiquidityOperation()}
             >
-              Add Liquidity
+              <Trans>Add Liquidity</Trans>
             </Button>
           </Flex.Item>
         </Flex>
