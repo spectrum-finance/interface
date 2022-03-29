@@ -1,3 +1,0 @@
-{
-  "presets": ["@babel/plugin-syntax-optional-chaining"]
-}

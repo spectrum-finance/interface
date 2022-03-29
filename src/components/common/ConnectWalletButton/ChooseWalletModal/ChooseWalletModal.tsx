@@ -1,3 +1,4 @@
+import { Trans } from '@lingui/macro';
 import React, { ReactNode, useState } from 'react';
 import styled from 'styled-components';
 
@@ -84,12 +85,16 @@ const WalletView: React.FC<WalletItemProps> = ({ wallet, close }) => {
         <ExperimentalWalletBox padding={2}>
           <Flex col>
             <Flex.Item marginBottom={2} alignSelf="flex-end">
-              <Tag color="gold">Experimental</Tag>
+              <Tag color="gold">
+                <Trans>Experimental</Trans>
+              </Tag>
             </Flex.Item>
             <Flex.Item marginBottom={2}>
               <Checkbox checked={checked} onChange={handleCheck}>
-                This wallet may not always work as expected. I understand what I
-                do and will use it at my own risk.
+                <Trans>
+                  This wallet may not always work as expected. I understand what
+                  I do andwill use it at my own risk.
+                </Trans>
               </Checkbox>
             </Flex.Item>
             {warning && (
@@ -116,7 +121,9 @@ const WalletView: React.FC<WalletItemProps> = ({ wallet, close }) => {
       return (
         <Flex col>
           <Flex.Item marginBottom={2} alignSelf="flex-end">
-            <Tag color="success">Recommended</Tag>
+            <Tag color="success">
+              <Trans>Recommended</Trans>
+            </Tag>
           </Flex.Item>
           {warning && (
             <Flex.Item marginBottom={2}>
@@ -159,7 +166,9 @@ const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
 
   return (
     <>
-      <Modal.Title>Select a wallet</Modal.Title>
+      <Modal.Title>
+        <Trans>Select a wallet</Trans>
+      </Modal.Title>
       <Modal.Content width={400}>
         <Flex col>
           {wallets.map((wallet, index) => (
@@ -178,7 +187,7 @@ const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
               icon={<LogoutOutlined />}
               onClick={handleDisconnectWalletClick}
             >
-              Disconnect wallet
+              <Trans>Disconnect wallet</Trans>
             </Button>
           )}
         </Flex>

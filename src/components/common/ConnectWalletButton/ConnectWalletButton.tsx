@@ -1,5 +1,6 @@
 import './ConnectWalletButton.less';
 
+import { Trans } from '@lingui/macro';
 import cn from 'classnames';
 import React, { FC, ReactNode } from 'react';
 
@@ -36,7 +37,7 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = ({
             onClick={openChooseWalletModal}
             className={cn(className, 'connect-wallet-btn')}
           >
-            Connect wallet
+            <Trans>Connect wallet</Trans>
           </Button>
         ) : (
           children
@@ -47,7 +48,7 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = ({
           size={size}
           className={cn(className, 'connect-wallet-btn')}
         >
-          KYA is not accepted
+          <Trans>KYA is not accepted</Trans>
         </Button>
       )}
     </>

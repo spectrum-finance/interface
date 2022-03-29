@@ -1,5 +1,6 @@
 import './NetworkHeight.less';
 
+import { t } from '@lingui/macro';
 import React from 'react';
 // @ts-ignore
 import FlipNumbers from 'react-flip-numbers';
@@ -24,7 +25,7 @@ const NetworkHeight = (): JSX.Element => {
           target="_blank"
         >
           <Tooltip
-            title="The most recent block in Ergo network"
+            title={t`The most recent block in Ergo network`}
             placement="left"
           >
             <Flex justify="space-between" align="center">

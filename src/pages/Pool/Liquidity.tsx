@@ -1,5 +1,6 @@
 import './Pool.less';
 
+import { t, Trans } from '@lingui/macro';
 import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 
@@ -40,7 +41,7 @@ const PoolPageWrapper: React.FC<PoolPageWrapperProps> = ({
       <Flex.Item marginBottom={isWalletConnected ? 2 : 0}>
         <Page
           width={832}
-          title="Liquidity"
+          title={t`Liquidity`}
           titleChildren={
             isWalletConnected && (
               <>
@@ -51,14 +52,16 @@ const PoolPageWrapper: React.FC<PoolPageWrapperProps> = ({
                   overlay={
                     <Menu style={{ padding: '8px', width: '200px' }}>
                       <Menu.Item key="1">
-                        <Link to="pool/create">Create pool</Link>
+                        <Link to="pool/create">
+                          <Trans>Create pool</Trans>
+                        </Link>
                       </Menu.Item>
                     </Menu>
                   }
                   trigger={['click']}
                   onClick={onClick}
                 >
-                  + Add liquidity
+                  <Trans>Add liquidity</Trans>
                 </Dropdown.Button>
               </>
             )
@@ -81,7 +84,7 @@ const Liquidity = (): JSX.Element => {
   const defaultActiveTabKey = 'positions-overview';
 
   useEffect(() => {
-    history.push(`/pool?active=${query.get('active') ?? defaultActiveTabKey}`);
+    history.push(`/pool?active=${query.active ?? defaultActiveTabKey}`);
   }, []);
 
   const [positions, isPositionLoading] = useObservable(positions$, [], []);
@@ -106,26 +109,26 @@ const Liquidity = (): JSX.Element => {
             <Input
               onChange={handleSearchChange}
               prefix={<SearchOutlined />}
-              placeholder="Type token name or pool id"
+              placeholder="Search"
               size="large"
               style={{ width: 300 }}
             />
           ),
         }}
-        defaultActiveKey={query.get('active')!}
+        defaultActiveKey={String(query.active)}
         className="pool__position-tabs"
         onChange={(key) => {
           history.push(`/pool?active=${key}`);
         }}
       >
-        <Tabs.TabPane tab="Pools Overview" key={defaultActiveTabKey}>
+        <Tabs.TabPane tab={t`Pools Overview`} key={defaultActiveTabKey}>
           <LiquidityPositionsList
             totalCount={pools.length}
             pools={pools.filter((p) => p.match(term))}
             loading={isPoolsLoading}
           />
         </Tabs.TabPane>
-        <Tabs.TabPane tab="Your Positions" key="your-positions">
+        <Tabs.TabPane tab={t`Your Positions`} key="your-positions">
           {isWalletConnected ? (
             <LiquidityPositionsList
               totalCount={positions.length}
@@ -139,7 +142,7 @@ const Liquidity = (): JSX.Element => {
           )}
         </Tabs.TabPane>
         {isWalletConnected && positions.some((p) => p.locks.length) && (
-          <Tabs.TabPane tab="Locked Positions" key="locked-positions">
+          <Tabs.TabPane tab={t`Locked Positions`} key="locked-positions">
             <LockListView
               positions={positions.filter(
                 (p) => !!p.locks.length && p.match(term),

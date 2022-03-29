@@ -1,3 +1,4 @@
+import { Trans } from '@lingui/macro';
 import React, { FC, useEffect } from 'react';
 
 import { getAmmPoolsByAssetPair } from '../../../../api/ammPools';
@@ -33,7 +34,9 @@ export const PoolSelectorModal: FC<PoolSelectorModalProps> = ({
 
   return (
     <>
-      <Modal.Title>Choose Pool</Modal.Title>
+      <Modal.Title>
+        <Trans>Choose Pool</Trans>
+      </Modal.Title>
       <Modal.Content width={480}>
         <List dataSource={availableAmmPools} gap={1} maxHeight={400}>
           {(pool) => (

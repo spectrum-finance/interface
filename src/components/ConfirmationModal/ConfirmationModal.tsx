@@ -1,4 +1,5 @@
 import { TxId } from '@ergolabs/ergo-sdk';
+import { t, Trans } from '@lingui/macro';
 import { DateTime } from 'luxon';
 import React, { ReactNode } from 'react';
 
@@ -37,28 +38,28 @@ const getDescriptionByData = (
   switch (operation) {
     case Operation.ADD_LIQUIDITY:
       return xAsset && yAsset
-        ? `Adding liquidity ${xAsset.toCurrencyString()} and ${yAsset.toCurrencyString()}`
+        ? t`Adding liquidity ${xAsset.toCurrencyString()} and ${yAsset.toCurrencyString()}`
         : '';
     case Operation.REFUND:
       return xAsset && yAsset
-        ? `Refunding ${xAsset.toCurrencyString()} and ${yAsset.toCurrencyString()}`
+        ? t`Refunding ${xAsset.toCurrencyString()} and ${yAsset.toCurrencyString()}`
         : '';
     case Operation.REMOVE_LIQUIDITY:
       return xAsset && yAsset
-        ? `Removing liquidity ${xAsset.toCurrencyString()} and ${yAsset.toCurrencyString()}`
+        ? t`Removing liquidity ${xAsset.toCurrencyString()} and ${yAsset.toCurrencyString()}`
         : '';
     case Operation.SWAP:
       return xAsset && yAsset
-        ? `Swapping ${xAsset.toCurrencyString()} for ${yAsset.toCurrencyString()}`
+        ? t`Swapping ${xAsset.toCurrencyString()} for ${yAsset.toCurrencyString()}`
         : '';
     case Operation.LOCK_LIQUIDITY:
       return xAsset && yAsset
-        ? `Locking ${xAsset.toCurrencyString()} and ${yAsset.toCurrencyString()} (${
+        ? t`Locking ${xAsset.toCurrencyString()} and ${yAsset.toCurrencyString()} (${
             lpAsset && lpAsset.toString() + ' LP-tokens'
           }) for ${time && getLockingPeriodString(time)}`
         : '';
     case Operation.RELOCK_LIQUIDITY:
-      return `Relocking ${assetLock?.x.toCurrencyString()} and ${assetLock?.y.toCurrencyString()} (${
+      return t`Relocking ${assetLock?.x.toCurrencyString()} and ${assetLock?.y.toCurrencyString()} (${
         assetLock && assetLock.lp.toString() + ' LP-tokens'
       })`;
   }
@@ -71,7 +72,9 @@ const ProgressModalContent = (
   return (
     <Flex col align="center">
       <Flex.Item marginBottom={1}>
-        <Typography.Title level={4}>Waiting for confirmation</Typography.Title>
+        <Typography.Title level={4}>
+          <Trans>Waiting for confirmation</Trans>
+        </Typography.Title>
       </Flex.Item>
       <Flex.Item marginBottom={1}>
         <Typography.Body align="center">
@@ -80,7 +83,7 @@ const ProgressModalContent = (
       </Flex.Item>
       <Flex.Item marginBottom={1}>
         <Typography.Body type="secondary" align="center">
-          Confirm this transaction in your wallet
+          <Trans>Confirm this transaction in your wallet</Trans>
         </Typography.Body>
       </Flex.Item>
     </Flex>
@@ -93,7 +96,9 @@ const ErrorModalContent = (
 ) => (
   <Flex col align="center">
     <Flex.Item marginBottom={1}>
-      <Typography.Title level={4}>Error</Typography.Title>
+      <Typography.Title level={4}>
+        <Trans>Error</Trans>
+      </Typography.Title>
     </Flex.Item>
     <Flex.Item marginBottom={1}>
       <Typography.Body align="center">
@@ -102,12 +107,12 @@ const ErrorModalContent = (
     </Flex.Item>
     <Flex.Item marginBottom={1}>
       <Typography.Body align="center" type="secondary">
-        Transaction rejected
+        <Trans>Transaction rejected</Trans>
       </Typography.Body>
     </Flex.Item>
     <Flex.Item marginBottom={1}>
       <Typography.Body align="center" type="secondary">
-        Try again later
+        <Trans>Try again later</Trans>
       </Typography.Body>
     </Flex.Item>
   </Flex>
@@ -116,11 +121,13 @@ const ErrorModalContent = (
 const SuccessModalContent = (txId: TxId) => (
   <Flex col align="center">
     <Flex.Item marginBottom={1}>
-      <Typography.Title level={4}>Transaction submitted</Typography.Title>
+      <Typography.Title level={4}>
+        <Trans>Transaction submitted</Trans>
+      </Typography.Title>
     </Flex.Item>
     <Flex.Item marginBottom={1}>
       <Typography.Link onClick={() => exploreTx(txId)}>
-        View on Explorer
+        <Trans>View on Explorer</Trans>
       </Typography.Link>
     </Flex.Item>
   </Flex>
@@ -129,19 +136,23 @@ const SuccessModalContent = (txId: TxId) => (
 const YoroiIssueModalContent = () => (
   <Flex col align="center">
     <Flex.Item marginBottom={1}>
-      <Typography.Title level={4}>Error</Typography.Title>
+      <Typography.Title level={4}>
+        <Trans>Error</Trans>
+      </Typography.Title>
     </Flex.Item>
     <Flex.Item marginBottom={1}>
       <Typography.Body align="center">
-        Seems like Yoroi Wallet has an issue
+        <Trans>Seems like Yoroi Wallet has an issue</Trans>
       </Typography.Body>
     </Flex.Item>
     <Flex.Item marginBottom={1}>
-      <Typography.Body align="center">Try again later</Typography.Body>
+      <Typography.Body align="center">
+        <Trans>Try again later</Trans>
+      </Typography.Body>
     </Flex.Item>
     <Flex.Item marginBottom={1}>
       <Typography.Body align="center">
-        Get help in our channels:
+        <Trans>Get help in our channels:</Trans>
       </Typography.Body>
     </Flex.Item>
     <Flex.Item marginBottom={1} justify="center">

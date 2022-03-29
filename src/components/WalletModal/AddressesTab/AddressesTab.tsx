@@ -1,6 +1,7 @@
 import './AddressTab.less';
 
 import { Address, publicKeyFromAddress } from '@ergolabs/ergo-sdk';
+import { t } from '@lingui/macro';
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { addresses$ } from '../../../api/addresses';
@@ -88,7 +89,7 @@ const AddressListItem: React.FC<AddressListItemProps> = ({
               disabled={active}
               onClick={() => handleSetAddress(address)}
             >
-              {active ? 'Active' : 'Choose'}
+              {active ? t`Active` : t`Choose`}
             </Button>
           </Flex>
         </Flex.Item>

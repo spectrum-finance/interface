@@ -1,5 +1,6 @@
 import { minValueForOrder } from '@ergolabs/ergo-dex-sdk';
 import { BoxSelection, DefaultBoxSelector } from '@ergolabs/ergo-sdk';
+import { t, Trans } from '@lingui/macro';
 import React from 'react';
 
 import { ERG_DECIMALS, UI_FEE } from '../../../../common/constants/erg';
@@ -82,13 +83,15 @@ export const RemoveLiquidityConfirmationModal: React.FC<ConfirmRemoveModalProps>
 
     return (
       <>
-        <Modal.Title>Confirm Remove Liquidity</Modal.Title>
+        <Modal.Title>
+          <Trans>Confirm Remove Liquidity</Trans>
+        </Modal.Title>
         <Modal.Content width={436}>
           <Box transparent bordered={false}>
             <Flex direction="col">
               <Flex.Item marginBottom={6}>
                 <FormPairSection
-                  title="Pooled assets"
+                  title={t`Pooled assets`}
                   xAmount={xAmount}
                   yAmount={yAmount}
                 />
@@ -107,7 +110,7 @@ export const RemoveLiquidityConfirmationModal: React.FC<ConfirmRemoveModalProps>
                   size="large"
                   onClick={() => removeOperation(pool)}
                 >
-                  Remove Liquidity
+                  <Trans>Remove Liquidity</Trans>
                 </Button>
               </Flex.Item>
             </Flex>

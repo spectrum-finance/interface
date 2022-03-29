@@ -1,5 +1,6 @@
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
+import { t, Trans } from '@lingui/macro';
 import React, { FC, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router';
 import { useHistory, useLocation } from 'react-router-dom';
@@ -174,8 +175,8 @@ export const AddLiquidityOrCreatePool: FC = () => {
           <Form.Listener>
             {({ value }) =>
               isAddLiquidityPageVisible(value, componentState)
-                ? 'Add Liquidity'
-                : 'Create Pool'
+                ? t`Add Liquidity`
+                : t`Create Pool`
             }
           </Form.Listener>
         }
@@ -187,7 +188,7 @@ export const AddLiquidityOrCreatePool: FC = () => {
         {initialized ? (
           <Flex col>
             <Flex.Item marginBottom={4} display="flex" col>
-              <Section title="Select Pair">
+              <Section title={t`Select Pair`}>
                 <Flex justify="center" align="center">
                   <Flex.Item marginRight={2} flex={1}>
                     <TokeSelectFormItem name="x" assets$={xAssets$} />
@@ -203,9 +204,11 @@ export const AddLiquidityOrCreatePool: FC = () => {
                 isInfoAlertVisible(value, componentState) && (
                   <Flex.Item marginBottom={4} display="flex" col>
                     <NoPoolInfoAlert>
-                      The pool with such a pair has not yet been initialized. To
-                      create a pool enter an initial price. Then add the deposit
-                      amount.
+                      <Trans>
+                        The pool with such a pair has not yet been initialized.
+                        To create a pool enter an initial price. Then add the
+                        deposit amount.
+                      </Trans>
                     </NoPoolInfoAlert>
                   </Flex.Item>
                 )

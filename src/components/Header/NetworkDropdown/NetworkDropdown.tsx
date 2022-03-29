@@ -1,6 +1,7 @@
 import './NetworkDropdown.less';
 
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
+import { Trans } from '@lingui/macro';
 import cn from 'classnames';
 import capitalize from 'lodash/capitalize';
 import React, { useState } from 'react';
@@ -42,7 +43,7 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
       style={{ padding: '8px', width: '170px' }}
     >
       <Typography.Body className="network-dropdown__menu-title" strong>
-        Select Network
+        <Trans>Select Network</Trans>
       </Typography.Body>
       {networks.map(({ name, token, isDisabled }) => (
         <Menu.Item key={name} disabled={isDisabled}>

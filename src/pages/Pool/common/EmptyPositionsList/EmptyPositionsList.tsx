@@ -1,3 +1,4 @@
+import { Trans } from '@lingui/macro';
 import React from 'react';
 
 import { Flex, Typography } from '../../../../ergodex-cdk';
@@ -15,7 +16,7 @@ const EmptyPositionsList: React.FC<EmptyPositionsListProps> = ({
       <Flex col align="center" justify="center">
         <Flex.Item marginBottom={2}>
           <Typography.Body>
-            Your liquidity positions will appear here.
+            <Trans>Your liquidity positions will appear here.</Trans>
           </Typography.Body>
         </Flex.Item>
         <Flex.Item>{children}</Flex.Item>

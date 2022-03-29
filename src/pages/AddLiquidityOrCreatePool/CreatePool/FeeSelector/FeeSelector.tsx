@@ -1,3 +1,4 @@
+import { t } from '@lingui/macro';
 import React, { FC, ReactNode, useState } from 'react';
 
 import { escapeRegExp } from '../../../../components/common/TokenControl/TokenAmountInput/format';
@@ -15,13 +16,13 @@ const inputRegex = RegExp(`^\\d*(?:\\\\[.])?\\d*$`);
 const FEES: FeeDescriptor[] = [
   {
     percent: 0.3,
-    description: 'Best for most pairs',
-    content: '0.3% fee',
+    description: t`Best for most pairs`,
+    content: t`0.3% fee`,
   },
   {
     percent: 1,
-    description: 'Best for exotic pairs',
-    content: '1% fee',
+    description: t`Best for exotic pairs`,
+    content: t`1% fee`,
   },
 ];
 
@@ -72,7 +73,7 @@ export const FeeSelector: FC<FeeSelectorProps> = ({ value, onChange }) => {
       <Flex.Item flex={1}>
         <FeeBox
           active={!!value && FEES.every((fee) => value !== fee.percent)}
-          description="Custom fee tier"
+          description={t`Custom fee tier`}
           content={
             <Input
               size="small"

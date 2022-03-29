@@ -1,4 +1,5 @@
 import { LoadingOutlined } from '@ant-design/icons';
+import { t } from '@lingui/macro';
 import React from 'react';
 
 import { isTransactionsHistorySyncing$ } from '../../../api/transactionsHistory';
@@ -14,7 +15,7 @@ const TxHistory = (): JSX.Element => {
   };
 
   return (
-    <Tooltip title="Recent transactions" placement="bottom">
+    <Tooltip title={t`Recent transactions`} placement="bottom">
       <Button
         className="header__btn"
         size="large"
@@ -22,7 +23,7 @@ const TxHistory = (): JSX.Element => {
         icon={isTxHistorySyncing ? <LoadingOutlined /> : <HistoryOutlined />}
         onClick={handleOpenTxHistoryModal}
       >
-        {isTxHistorySyncing ? 'Syncing...' : ''}
+        {isTxHistorySyncing && t`Syncing...`}
       </Button>
     </Tooltip>
   );

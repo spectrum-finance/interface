@@ -1,3 +1,4 @@
+import { Trans } from '@lingui/macro';
 import { DateTime } from 'luxon';
 import React, { FC } from 'react';
 
@@ -48,7 +49,9 @@ export const AnalyticOverview: FC<AnalyticOverviewProps> = ({ data }) => {
       <Flex.Item marginRight={6}>
         <Flex col>
           <Flex.Item marginBottom={2}>
-            <Typography.Body secondary>Share</Typography.Body>
+            <Typography.Body secondary>
+              <Trans>Share</Trans>
+            </Typography.Body>
           </Flex.Item>
           <Flex.Item>
             <Typography.Body>
@@ -62,7 +65,9 @@ export const AnalyticOverview: FC<AnalyticOverviewProps> = ({ data }) => {
           <Flex.Item marginRight={6}>
             <Flex col>
               <Flex.Item marginBottom={2}>
-                <Typography.Body secondary>Unlock date</Typography.Body>
+                <Typography.Body secondary>
+                  <Trans>Unlock date</Trans>
+                </Typography.Body>
               </Flex.Item>
               <Flex.Item>
                 <Typography.Body>
@@ -74,7 +79,9 @@ export const AnalyticOverview: FC<AnalyticOverviewProps> = ({ data }) => {
           <Flex.Item>
             <Flex col>
               <Flex.Item marginBottom={2}>
-                <Typography.Body secondary>Unlock block</Typography.Body>
+                <Typography.Body secondary>
+                  <Trans>Unlock block</Trans>
+                </Typography.Body>
               </Flex.Item>
               <Flex.Item>
                 <Typography.Body>{data.deadline}</Typography.Body>

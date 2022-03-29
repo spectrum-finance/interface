@@ -8,6 +8,8 @@ interface DateTimeViewProps {
   value: DateTime;
 }
 
+// TODO: Localize DateTime
+
 const DateTimeView: React.FC<DateTimeViewProps> = ({ type, value }) => {
   const getDate = () => {
     if (type === 'time') return value.toLocaleString(DateTime.TIME_SIMPLE);

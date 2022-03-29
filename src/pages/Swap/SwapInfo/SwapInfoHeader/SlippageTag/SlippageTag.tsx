@@ -1,3 +1,4 @@
+import { Trans } from '@lingui/macro';
 import React from 'react';
 import { FC } from 'react';
 import styled from 'styled-components';
@@ -14,7 +15,9 @@ const _SlippageTag: FC<SlippageTagProps> = ({ className }) => {
 
   return (
     <Box padding={[0.5, 1]} className={className}>
-      <Typography.Body>Slippage: {slippage}%</Typography.Body>
+      <Typography.Body>
+        <Trans>Slippage: {slippage}</Trans>%
+      </Typography.Body>
     </Box>
   );
 };

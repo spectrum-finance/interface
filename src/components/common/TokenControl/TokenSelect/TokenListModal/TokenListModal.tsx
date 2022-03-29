@@ -1,6 +1,7 @@
 import './TokenListModal.less';
 
 import { AssetInfo } from '@ergolabs/ergo-sdk';
+import { t, Trans } from '@lingui/macro';
 import React, { useState } from 'react';
 import { Observable, of } from 'rxjs';
 
@@ -48,13 +49,15 @@ const TokenListModal: React.FC<TokenListModalProps> = ({
 
   return (
     <>
-      <Modal.Title>Select a token</Modal.Title>
+      <Modal.Title>
+        <Trans>Select a token</Trans>
+      </Modal.Title>
       <Modal.Content width={500}>
         <Flex col>
           <Flex.Item marginBottom={2}>
             <Input
               autoFocus
-              placeholder="Search"
+              placeholder={t`Search`}
               size="large"
               prefix={<SearchOutlined />}
               onChange={handleSearch}

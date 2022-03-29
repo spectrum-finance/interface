@@ -1,6 +1,7 @@
 import './LiquidityDatePicker.less';
 
 import { millisToBlocks } from '@ergolabs/ergo-dex-sdk';
+import { t } from '@lingui/macro';
 import { DateTime } from 'luxon';
 import React from 'react';
 
@@ -49,7 +50,7 @@ const LiquidityDatePicker: React.FC<LockLiquidityDatePickerProps> = ({
             <Flex.Item marginBottom={1}>
               <Typography.Title level={5}>
                 {value?.toLocaleString(DateTime.DATE_FULL)}{' '}
-                {block ? `(Block: ${formatToInt(block)})` : ''}
+                {block ? t`(Block: ${formatToInt(block)})` : ''}
               </Typography.Title>
             </Flex.Item>
             <Flex.Item>
@@ -63,7 +64,7 @@ const LiquidityDatePicker: React.FC<LockLiquidityDatePickerProps> = ({
             style={{ color: 'var(--ergo-disabled-text-contrast)' }}
             level={5}
           >
-            {defaultValue ? defaultValue : 'Choose Date'}
+            {defaultValue ? defaultValue : t`Choose Date`}
           </Typography.Title>
         )}
       </Flex.Item>

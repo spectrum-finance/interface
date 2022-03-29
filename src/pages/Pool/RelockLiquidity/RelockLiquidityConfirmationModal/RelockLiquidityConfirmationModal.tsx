@@ -10,6 +10,7 @@ import {
   RustModule,
   TransactionContext,
 } from '@ergolabs/ergo-sdk';
+import { t, Trans } from '@lingui/macro';
 import { DateTime } from 'luxon';
 import React, { FC, useState } from 'react';
 
@@ -115,7 +116,7 @@ const RelockLiquidityConfirmationModal: FC<RelockLiquidityConfirmationModalProps
           <Flex col>
             <Flex.Item marginBottom={4}>
               <FormPairSection
-                title="Assets to relock"
+                title={t`Assets to relock`}
                 xAmount={lockedPosition.x}
                 yAmount={lockedPosition.y}
               />
@@ -123,7 +124,7 @@ const RelockLiquidityConfirmationModal: FC<RelockLiquidityConfirmationModalProps
             <Flex.Item marginBottom={4}>
               <Flex align="center" justify="space-between">
                 <Flex.Item grow marginRight={2}>
-                  <PageSection title="Previous unlock date">
+                  <PageSection title={t`Previous unlock date`}>
                     <Flex col justify="center">
                       <Flex.Item marginBottom={1}>
                         <Typography.Body strong>
@@ -134,7 +135,8 @@ const RelockLiquidityConfirmationModal: FC<RelockLiquidityConfirmationModalProps
                       </Flex.Item>
                       <Flex.Item>
                         <Typography.Body secondary>
-                          Block: {formatToInt(lockedPosition.deadline)}
+                          <Trans>Block:</Trans>{' '}
+                          {formatToInt(lockedPosition.deadline)}
                         </Typography.Body>
                       </Flex.Item>
                     </Flex>
@@ -142,7 +144,7 @@ const RelockLiquidityConfirmationModal: FC<RelockLiquidityConfirmationModalProps
                 </Flex.Item>
 
                 <Flex.Item grow>
-                  <PageSection title="Updated unlock date">
+                  <PageSection title={t`Updated unlock date`}>
                     <Flex col justify="center">
                       <Flex.Item marginBottom={1}>
                         <Typography.Body strong>
@@ -151,7 +153,7 @@ const RelockLiquidityConfirmationModal: FC<RelockLiquidityConfirmationModalProps
                       </Flex.Item>
                       <Flex.Item>
                         <Typography.Body secondary>
-                          Block:{' '}
+                          <Trans>Block:</Trans>{' '}
                           {formatToInt(lockedPosition.getDeadline(relocktime))}
                         </Typography.Body>
                       </Flex.Item>
@@ -169,15 +171,17 @@ const RelockLiquidityConfirmationModal: FC<RelockLiquidityConfirmationModalProps
             <Flex.Item marginBottom={4}>
               <Flex>
                 <Checkbox onChange={handleCheck}>
-                  I understand that I’m relocking{' '}
-                  <b>{formatToInt(lockedPosition.lp.toString())}</b> LP-tokens
-                  of my{' '}
-                  <b>{`${lockedPosition.x.asset.name}/${lockedPosition.y.asset.name}`}</b>{' '}
-                  position until{' '}
-                  <b>{relocktime.toLocaleString(DateTime.DATE_FULL)}</b> (or{' '}
-                  <b>{formatToInt(lockedPosition.getDeadline(relocktime))}</b>{' '}
-                  block) without the ability to withdrawal before the end of
-                  this period.
+                  <Trans>
+                    I understand that I’m relocking{' '}
+                    <b>{formatToInt(lockedPosition.lp.toString())}</b> LP-tokens
+                    of my{' '}
+                    <b>{`${lockedPosition.x.asset.name}/${lockedPosition.y.asset.name}`}</b>{' '}
+                    position until{' '}
+                    <b>{relocktime.toLocaleString(DateTime.DATE_FULL)}</b> (or{' '}
+                    <b>{formatToInt(lockedPosition.getDeadline(relocktime))}</b>{' '}
+                    block) without the ability to withdrawal before the end of
+                    this period.
+                  </Trans>
                 </Checkbox>
               </Flex>
             </Flex.Item>
@@ -189,7 +193,7 @@ const RelockLiquidityConfirmationModal: FC<RelockLiquidityConfirmationModalProps
                 type="primary"
                 onClick={relockOperation}
               >
-                Confirm Relock
+                <Trans>Confirm Relock</Trans>
               </Button>
             </Flex.Item>
           </Flex>
