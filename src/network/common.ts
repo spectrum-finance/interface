@@ -31,6 +31,7 @@ export interface Network {
   readonly getUsedAddresses: () => Observable<Address[]>;
   readonly getUnusedAddresses: () => Observable<Address[]>;
   readonly getAddresses: () => Observable<Address[]>;
+  readonly txHistoryManager: TxHistoryManager;
 }
 
 export enum WalletState {
@@ -56,4 +57,10 @@ export interface Wallet {
   readonly getNotification?: () => ArgsProps | undefined;
   readonly onDisconnect?: () => void;
   readonly supportedFeatures: SupportedFeatures;
+}
+
+export interface TxHistoryManager {
+  readonly transactionHistory$: Observable<AmmDexOperation[]>;
+  readonly isSyncing$: Observable<boolean>;
+  readonly sync: () => void;
 }
