@@ -2,9 +2,21 @@ import { Typography } from 'antd';
 import React from 'react';
 
 import { addresses$ } from '../../../../api/addresses';
-import { transactionsHistory$ } from '../../../../api/transactionsHistory';
+import {
+  isTransactionsHistorySyncing$,
+  syncTransactionsHistory,
+  transactionsHistory$,
+} from '../../../../api/transactionsHistory';
 import { useObservable } from '../../../../common/hooks/useObservable';
-import { Box, Flex, Menu, Modal, Skeleton } from '../../../../ergodex-cdk';
+import {
+  Box,
+  Button,
+  Flex,
+  Menu,
+  Modal,
+  ReloadOutlined,
+  Skeleton,
+} from '../../../../ergodex-cdk';
 import { isRefundableOperation } from '../../../../utils/ammOperations';
 import { exploreTx } from '../../../../utils/redirect';
 import {
@@ -21,6 +33,7 @@ import { Operation as DexOperation } from '../types';
 import { normalizeOperations } from '../utils';
 
 const TxHistoryModal = (): JSX.Element => {
+  const [isSyncing] = useObservable(isTransactionsHistorySyncing$);
   const [txs] = useObservable(transactionsHistory$);
   const [addresses] = useObservable(addresses$);
 
@@ -65,7 +78,20 @@ const TxHistoryModal = (): JSX.Element => {
 
   return (
     <>
-      <Modal.Title>Recent transactions</Modal.Title>
+      <Modal.Title>
+        <Flex align="center">
+          <Flex.Item marginRight={4}>Transaction history</Flex.Item>
+          <Flex.Item>
+            <Button
+              loading={isSyncing}
+              onClick={syncTransactionsHistory}
+              icon={<ReloadOutlined />}
+            >
+              {isSyncing ? 'Syncing...' : 'Sync'}
+            </Button>
+          </Flex.Item>
+        </Flex>
+      </Modal.Title>
       <Modal.Content width={680}>
         <Flex col style={{ overflowY: 'auto', maxHeight: '500px' }}>
           <Flex.Item>

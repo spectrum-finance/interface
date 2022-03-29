@@ -1,5 +1,13 @@
 import { BehaviorSubject, Observable } from 'rxjs';
 
+const stringifyBigIntReviewer = (key: string, value: any) =>
+  typeof value === 'bigint'
+    ? { value: value.toString(), _bigint: true }
+    : value;
+
+const stringifyBigIntReplacer = (key: string, value: any) =>
+  !!value?._bigint ? BigInt(value.value) : value;
+
 const mapKeyToBehaviorSubject = new Map<string, BehaviorSubject<any>>();
 
 window.addEventListener('storage', ({ key, newValue }) => {
@@ -17,14 +25,14 @@ window.addEventListener('storage', ({ key, newValue }) => {
     return subject.next(newValue);
   }
 
-  return subject.next(JSON.parse(newValue) as any);
+  return subject.next(JSON.parse(newValue, stringifyBigIntReplacer) as any);
 });
 
 const set = <T>(key: string, value: T | undefined): void => {
   if (value === undefined || value === null) {
     localStorage.removeItem(key);
   }
-  const newValue = JSON.stringify(value);
+  const newValue = JSON.stringify(value, stringifyBigIntReviewer);
   localStorage.setItem(key, newValue);
 
   if (!mapKeyToBehaviorSubject.has(key)) {
@@ -40,14 +48,14 @@ const get = <T>(key: string): T | undefined | null => {
     return rawValue;
   }
 
-  return JSON.parse(rawValue) as any;
+  return JSON.parse(rawValue, stringifyBigIntReplacer) as any;
 };
 
 const getStrict = <T>(key: string): T | undefined | null => {
   const rawValue = localStorage.getItem(key);
 
   try {
-    return JSON.parse(rawValue as any) as any;
+    return JSON.parse(rawValue as any, stringifyBigIntReplacer) as any;
   } finally {
   }
 };
