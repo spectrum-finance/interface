@@ -13,6 +13,7 @@ export class Position implements Searchable {
       ammPool,
       new Currency(0n, ammPool.lp.asset),
       true,
+      ammPool.verified,
       [],
       0,
     );
@@ -89,6 +90,7 @@ export class Position implements Searchable {
     public pool: AmmPool,
     public availableLp: Currency,
     public empty = false,
+    public verified = false,
     tokenLocks: TokenLock[],
     networkHeight: number,
   ) {
@@ -137,5 +139,6 @@ export class Position implements Searchable {
     this.withdrawableLockedLp = withdrawableLockedLp;
     this.withdrawableLockedY = withdrawableLockedY;
     this.withdrawableLockedX = withdrawableLockedX;
+    this.verified = verified;
   }
 }

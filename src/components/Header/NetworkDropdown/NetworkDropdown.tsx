@@ -40,7 +40,7 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
           onSetNetwork(key);
         }
       }}
-      style={{ padding: '8px', width: '170px' }}
+      style={{ padding: '8px', minWidth: '170px' }}
     >
       <Typography.Body className="network-dropdown__menu-title" strong>
         <Trans>Select Network</Trans>

@@ -1,7 +1,7 @@
 import './Pool.less';
 
 import { t, Trans } from '@lingui/macro';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 
 import { ammPools$ } from '../../api/ammPools';
@@ -9,9 +9,11 @@ import { useAssetsBalance } from '../../api/assetBalance';
 import { positions$ } from '../../api/positions';
 import { isWalletSetuped$ } from '../../api/wallets';
 import { useObservable } from '../../common/hooks/useObservable';
+import { AmmPool } from '../../common/models/AmmPool';
 import { ConnectWalletButton } from '../../components/common/ConnectWalletButton/ConnectWalletButton';
 import { Page } from '../../components/Page/Page';
 import {
+  Button,
   DownOutlined,
   Dropdown,
   Flex,
@@ -26,15 +28,17 @@ import { LiquidityPositionsList } from './components/LiquidityPositionsList/Liqu
 import { LockListView } from './components/LocksList/LockListView';
 
 interface PoolPageWrapperProps {
-  children?: React.ReactChild | React.ReactChild[];
+  children?: React.ReactNode | React.ReactNode[];
   isWalletConnected: boolean;
   onClick: () => void;
+  isCurrentTabDefault: boolean;
 }
 
 const PoolPageWrapper: React.FC<PoolPageWrapperProps> = ({
   children,
   isWalletConnected,
   onClick,
+  isCurrentTabDefault,
 }) => {
   return (
     <Flex col>
@@ -42,6 +46,7 @@ const PoolPageWrapper: React.FC<PoolPageWrapperProps> = ({
         <Page
           width={832}
           title={t`Liquidity`}
+          padding={isCurrentTabDefault ? [6, 6, 2, 6] : [6, 6]}
           titleChildren={
             isWalletConnected && (
               <>
@@ -80,6 +85,8 @@ const Liquidity = (): JSX.Element => {
   const history = useHistory();
   const query = useQuery();
   const [term, setTerm] = useState<string | undefined>();
+  const [isCommunityPoolsShown, setIsCommunityPoolsShown] =
+    useState<boolean>(false);
 
   const defaultActiveTabKey = 'positions-overview';
 
@@ -98,10 +105,26 @@ const Liquidity = (): JSX.Element => {
     history.push('/pool/add');
   };
 
+  const filterCommunityPools = useCallback(
+    (pools: AmmPool[]): AmmPool[] => {
+      return isCommunityPoolsShown
+        ? pools
+        : pools.filter((pool) => pool.verified);
+    },
+    [isCommunityPoolsShown],
+  );
+
+  const handleShowCommunityPools = () => {
+    setIsCommunityPoolsShown((prev) => !prev);
+  };
+
+  const isCurrentTabDefault = query.active === defaultActiveTabKey;
+
   return (
     <PoolPageWrapper
       isWalletConnected={isWalletConnected}
       onClick={handleAddLiquidity}
+      isCurrentTabDefault={isCurrentTabDefault}
     >
       <Tabs
         tabBarExtraContent={{
@@ -109,7 +132,7 @@ const Liquidity = (): JSX.Element => {
             <Input
               onChange={handleSearchChange}
               prefix={<SearchOutlined />}
-              placeholder="Search"
+              placeholder={t`Type token name or pool id`}
               size="large"
               style={{ width: 300 }}
             />
@@ -124,7 +147,7 @@ const Liquidity = (): JSX.Element => {
         <Tabs.TabPane tab={t`Pools Overview`} key={defaultActiveTabKey}>
           <LiquidityPositionsList
             totalCount={pools.length}
-            pools={pools.filter((p) => p.match(term))}
+            pools={filterCommunityPools(pools.filter((p) => p.match(term)))}
             loading={isPoolsLoading}
           />
         </Tabs.TabPane>
@@ -151,6 +174,13 @@ const Liquidity = (): JSX.Element => {
           </Tabs.TabPane>
         )}
       </Tabs>
+      {isCurrentTabDefault && (
+        <Flex justify="center" align="center">
+          <Button size="large" type="link" onClick={handleShowCommunityPools}>
+            {t`${isCommunityPoolsShown ? 'Hide' : 'Show'} Community Pools`}
+          </Button>
+        </Flex>
+      )}
     </PoolPageWrapper>
   );
 };

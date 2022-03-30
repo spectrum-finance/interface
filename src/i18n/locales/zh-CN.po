@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ergodex-frontend\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-03-26 11:36\n"
+"PO-Revision-Date: 2022-03-29 20:22\n"
 "Last-Translator: \n"
 "Language: zh_CN\n"
 "Language-Team: Chinese Simplified\n"
@@ -397,6 +397,11 @@ msgstr "我知道我正在重新鎖定我 <1>{1}/{2}</1> 的仓位的 <0>{0}</0>
 #~ msgid "I understand that this wallet has not been audited. I will use it at my own risk."
 #~ msgstr "I understand that this wallet has not been audited. I will use it at my own risk."
 
+#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
+#: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
+msgid "I understand the risks"
+msgstr ""
+
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "I understand the risks and accept the KYA"
 msgstr "我理解风险并接受 KYA"
@@ -439,8 +444,8 @@ msgid "Insufficient {token} Balance for Fees"
 msgstr "{token} 余额不足以支付费用"
 
 #: src/pages/Pool/components/LiquidityPositionsList/LiquidityPositionsItem/LiquidityPositionsItemWrapper/LiquidityPositionsItemWrapper.tsx
-msgid "It is impossible to display statistics for this pool"
-msgstr "无法显示此資金池的统计数据"
+#~ msgid "It is impossible to display statistics for this pool"
+#~ msgstr "It is impossible to display statistics for this pool"
 
 #: src/components/common/ConnectWalletButton/ConnectWalletButton.tsx
 msgid "KYA is not accepted"
@@ -820,6 +825,16 @@ msgstr "这币对的流动池尚未初始化。你需要请输入初始价格来
 msgid "The value can't be more than {MAX_ERG_FOR_TX} ERG"
 msgstr "数量不能超过 {MAX_ERG_FOR_TX} ERG"
 
+#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
+#: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
+msgid "This operation may include fake or scam assets. Only confirm if you have done your own research."
+msgstr ""
+
+#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
+#: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
+msgid "This pair has not been verified by the ErgoDEX team"
+msgstr ""
+
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
 msgid "This position is still locked"
 msgstr "此仓位仍然被锁定"
@@ -876,6 +891,10 @@ msgstr "请稍后再试"
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
 msgid "Type"
 msgstr "类型"
+
+#: src/pages/Pool/Liquidity.tsx
+msgid "Type token name or pool id"
+msgstr ""
 
 #: src/components/common/FormView/FormFeesSection/FormFeesSection.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
@@ -1002,6 +1021,10 @@ msgstr "符合你的期望。"
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "only on top of the Ergo Blockchain."
 msgstr "仅在Ergo 区块链上"
+
+#: src/pages/Pool/Liquidity.tsx
+msgid "{0} Community Pools"
+msgstr ""
 
 #: src/pages/PoolOverview/PoolRatio/PoolRatio.tsx
 #: src/pages/PoolOverview/PoolRatio/PoolRatio.tsx

@@ -6,7 +6,7 @@ import {
   DefaultBoxSelector,
   publicKeyFromAddress,
 } from '@ergolabs/ergo-sdk';
-import { Trans } from '@lingui/macro';
+import { t, Trans } from '@lingui/macro';
 import React, { FC, useEffect, useState } from 'react';
 
 import { ERG_DECIMALS, UI_FEE } from '../../../common/constants/erg';
@@ -15,8 +15,10 @@ import { TokenControlFormItem } from '../../../components/common/TokenControl/To
 import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
 import { useSettings } from '../../../context';
 import {
+  Alert,
   Box,
   Button,
+  Checkbox,
   Flex,
   Form,
   Modal,
@@ -49,6 +51,9 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
   value,
   onClose,
 }) => {
+  const [isChecked, setIsChecked] = useState<boolean | undefined>(
+    value.pool.verified,
+  );
   const form = useForm<SwapFormModel>(value);
 
   const [{ minerFee, address, slippage, nitro }] = useSettings();
@@ -307,8 +312,30 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
                 </Flex>
               </Box>
             </Flex.Item>
+            {!value.pool.verified && (
+              <>
+                <Flex.Item marginBottom={4}>
+                  <Alert
+                    type="error"
+                    message={t`This pair has not been verified by the ErgoDEX team`}
+                    description={t`This operation may include fake or scam assets. Only confirm if you have done your own research.`}
+                  />
+                </Flex.Item>
+                <Flex.Item marginBottom={4}>
+                  <Checkbox onChange={() => setIsChecked((p) => !p)}>
+                    <Trans>I understand the risks</Trans>
+                  </Checkbox>
+                </Flex.Item>
+              </>
+            )}
             <Flex.Item>
-              <Button size="extra-large" type="primary" htmlType="submit" block>
+              <Button
+                size="extra-large"
+                type="primary"
+                htmlType="submit"
+                disabled={!isChecked}
+                block
+              >
                 <Trans>Confirm Swap</Trans>
               </Button>
             </Flex.Item>

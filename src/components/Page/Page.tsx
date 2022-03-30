@@ -11,6 +11,7 @@ import {
   Flex,
   Typography,
 } from '../../ergodex-cdk';
+import { Gutter } from '../../ergodex-cdk/utils/gutter';
 
 interface PageProps {
   width?: number;
@@ -21,6 +22,7 @@ interface PageProps {
   titleChildren?: ReactNode | ReactNode[] | string;
   className?: string;
   footer?: ReactNode | ReactNode[] | string;
+  padding?: Gutter;
 }
 
 const _Page: React.FC<PageProps> = ({
@@ -33,6 +35,7 @@ const _Page: React.FC<PageProps> = ({
   className,
   titleChildren,
   onBackButtonClick,
+  padding,
 }) => {
   const history = useHistory();
 
@@ -70,7 +73,7 @@ const _Page: React.FC<PageProps> = ({
           <Box
             bordered={false}
             className={className}
-            padding={[6, 6]}
+            padding={padding ? padding : [6, 6]}
             borderRadius="l"
           >
             {children}
