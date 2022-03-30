@@ -33,7 +33,7 @@ export class Currency {
       this.checkAmountErrors(amount, this._asset);
       this._amount = parseUserInputToFractions(amount, this._asset.decimals);
     }
-    this.formatter = this.createFormatter(this._asset?.decimals || 0);
+    this.formatter = Currency.createFormatter(this._asset?.decimals || 0);
   }
 
   get amount(): bigint {
@@ -66,7 +66,7 @@ export class Currency {
 
   changeAsset(asset: AssetInfo): Currency {
     return new Currency(
-      this.normalizeAmount(this.amount, this.asset, asset),
+      Currency.normalizeAmount(this.amount, this.asset, asset),
       asset,
     );
   }
@@ -97,10 +97,10 @@ export class Currency {
     }
 
     if (isUnknownAsset(this.asset)) {
-      throw new Error("can't sum unknown asset");
+      throw new Error("Can't sum unknown asset");
     }
     if (this.asset.id !== currency.asset.id) {
-      throw new Error("can't sum currencies with different assets");
+      throw new Error("Can't sum currencies with different assets");
     }
 
     return new Currency(this.amount + currency.amount, this.asset);
@@ -112,10 +112,10 @@ export class Currency {
     }
 
     if (isUnknownAsset(this.asset)) {
-      throw new Error("can't subtract unknown asset");
+      throw new Error("Can't subtract unknown asset");
     }
     if (this.asset.id !== currency.asset.id) {
-      throw new Error("can't subtract currencies with different assets");
+      throw new Error("Can't subtract currencies with different assets");
     }
 
     return new Currency(this.amount - currency.amount, this.asset);
@@ -153,10 +153,10 @@ export class Currency {
 
   private checkComparisonErrors(currency: Currency): void {
     if (isUnknownAsset(this.asset)) {
-      throw new Error("can't compare unknown asset");
+      throw new Error("Can't compare unknown asset");
     }
     if (this.asset.id !== currency.asset.id) {
-      throw new Error("can't compare currencies with different assets");
+      throw new Error("Can't compare currencies with different assets");
     }
   }
 
@@ -168,11 +168,11 @@ export class Currency {
       return;
     }
     if (decimalsCount > (asset?.decimals || 0)) {
-      throw new Error('amount has to many fractions');
+      throw new Error('Amount has to many fractions');
     }
   }
 
-  private normalizeAmount(
+  private static normalizeAmount(
     amount: bigint,
     currentAsset: AssetInfo,
     newAsset: AssetInfo,
@@ -182,7 +182,7 @@ export class Currency {
     return normalizeAmount(amountString, newAsset);
   }
 
-  private createFormatter(decimals: number): Intl.NumberFormat {
+  private static createFormatter(decimals: number): Intl.NumberFormat {
     return new Intl.NumberFormat('en-US', {
       maximumFractionDigits: decimals,
       currencySign: undefined,

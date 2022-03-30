@@ -1,3 +1,4 @@
+import { t } from '@lingui/macro';
 import React, { FC } from 'react';
 
 import { AmmPool } from '../../../common/models/AmmPool';
@@ -12,8 +13,8 @@ export const PoolRatio: FC<PoolPriceProps> = ({ ammPool, ratioOf }) => {
   const price = ratioOf === 'x' ? ammPool.xRatio : ammPool.yRatio;
   const description =
     ratioOf === 'x'
-      ? `${ammPool.x.asset.name} per ${ammPool.y.asset.name}`
-      : `${ammPool.y.asset.name} per ${ammPool.x.asset.name}`;
+      ? t`${ammPool.x.asset.name} per ${ammPool.y.asset.name}`
+      : t`${ammPool.y.asset.name} per ${ammPool.x.asset.name}`;
 
   return (
     <Box padding={3} borderRadius="s" contrast>

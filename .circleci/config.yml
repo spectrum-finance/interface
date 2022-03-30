@@ -1,17 +1,17 @@
 version: 2.1
 jobs:
     test-and-lint:
-      docker: 
+      docker:
         - image: circleci/node:14-bullseye-browsers
       steps:
         - checkout
-        - run: 
+        - run:
             name: Run Style linter
             command: yarn lint:stylelint
         - run:
             name: Run Eslint
             command: yarn lint:eslint
-        - run: 
+        - run:
             name: Run Tests
             command: yarn test --passWithNoTests
     dev:
@@ -21,7 +21,7 @@ jobs:
         - checkout
         - run:
             name: Deploy to dev
-            command: ${SERVER_CONNECTION_COMMAND} 'source ~/.nvm/nvm.sh; cd /var/www/builds/front-dev; git pull origin dev; yarn; yarn build;'
+            command: ${SERVER_CONNECTION_COMMAND} 'source ~/.nvm/nvm.sh; cd /var/www/builds/front-dev; git pull origin dev; yarn; yarn run prei18n:extract; yarn run i18n:extract; yarn run i18n:compile; yarn build;'
             environment:
               REACT_APP_SENTRY_DSN: ${REACT_APP_SENTRY_DSN}
               REACT_APP_SENTRY_ENV_FLAG: 'dev'
@@ -29,13 +29,13 @@ jobs:
             name: Release
             command: ${SERVER_CONNECTION_COMMAND} 'cp -r /var/www/builds/front-dev/build/. /var/www/dev0'
     prod:
-      machine: 
+      machine:
         enabled: true
       steps:
         - checkout
         - run:
             name: Deploy to prod
-            command: ${SERVER_CONNECTION_COMMAND} 'source ~/.nvm/nvm.sh; cd /var/www/builds/front; git pull origin master; yarn; yarn build;'
+            command: ${SERVER_CONNECTION_COMMAND} 'source ~/.nvm/nvm.sh; cd /var/www/builds/front; git pull origin master; yarn; yarn run prei18n:extract; yarn run i18n:extract; yarn run i18n:compile; yarn build;'
             environment:
               REACT_APP_SENTRY_DSN: ${REACT_APP_SENTRY_DSN}
               REACT_APP_SENTRY_ENV_FLAG: 'production'
@@ -49,7 +49,7 @@ jobs:
         - checkout
         - run:
             name: Deploy to demo
-            command: ${SERVER_CONNECTION_COMMAND} 'source ~/.nvm/nvm.sh; cd /var/www/builds/demo; git pull origin demo; yarn; yarn build;'
+            command: ${SERVER_CONNECTION_COMMAND} 'source ~/.nvm/nvm.sh; cd /var/www/builds/demo; git pull origin demo; yarn; yarn run prei18n:extract; yarn run i18n:extract; yarn run i18n:compile; yarn build;'
         - run:
             name: Release
             command: ${SERVER_CONNECTION_COMMAND} 'cp -r /var/www/builds/demo/build/. /var/www/demo'
@@ -71,11 +71,11 @@ workflows:
       - test-and-lint:
           pre-steps:
             - checkout
-            - run: 
+            - run:
                 command: yarn
           filters:
             branches:
-              ignore: 
+              ignore:
                 - master
                 - dev
                 - demo
@@ -83,18 +83,18 @@ workflows:
     jobs:
       - hold:
           type: approval
-      - dev: 
+      - dev:
           filters:
-            branches: 
+            branches:
               only: dev
       - prod:
           filters:
-            tags: 
+            tags:
               only: /^\d+\.\d+\.\d+$/
             branches:
               ignore: /.*/
       - demo:
-          requires: 
+          requires:
             - hold
           filters:
             branches:

@@ -1,4 +1,5 @@
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
+import { t, Trans } from '@lingui/macro';
 import React, { FC, useEffect } from 'react';
 import { useParams } from 'react-router';
 import { skip } from 'rxjs';
@@ -95,7 +96,7 @@ export const RemoveLiquidity: FC = () => {
   };
 
   return (
-    <Page width={382} title="Remove liquidity" withBackButton>
+    <Page width={382} title={t`Remove liquidity`} withBackButton>
       {position ? (
         <Form form={form} onSubmit={(form) => handleRemove(form, position)}>
           <Flex direction="col">
@@ -104,7 +105,7 @@ export const RemoveLiquidity: FC = () => {
             </Flex.Item>
 
             <Flex.Item marginBottom={4}>
-              <PageSection title="Amount" noPadding>
+              <PageSection title={t`Amount`} noPadding>
                 <Form.Item name="percent">
                   {({ value, onChange }) => (
                     <FormSlider value={value} onChange={onChange} />
@@ -115,7 +116,7 @@ export const RemoveLiquidity: FC = () => {
 
             <Flex.Item marginBottom={4}>
               <FormPairSection
-                title="Assets to remove"
+                title={t`Assets to remove`}
                 xAmount={formValue?.xAmount || position.availableX}
                 yAmount={formValue?.yAmount || position.availableY}
               />
@@ -128,7 +129,7 @@ export const RemoveLiquidity: FC = () => {
 
             <Flex.Item>
               <SubmitButton disabled={!formValue?.percent} htmlType="submit">
-                Remove
+                <Trans>Remove</Trans>
               </SubmitButton>
             </Flex.Item>
           </Flex>

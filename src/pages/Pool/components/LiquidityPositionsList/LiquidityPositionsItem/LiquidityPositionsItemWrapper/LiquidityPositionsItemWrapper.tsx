@@ -1,4 +1,5 @@
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
+import { Trans } from '@lingui/macro';
 import React from 'react';
 
 import { AmmPool } from '../../../../../../common/models/AmmPool';
@@ -67,7 +68,9 @@ const LiquidityPositionsItemWrapper: React.FC<LiquidityPositionsItemWrapperProps
             <Flex.Item marginRight={16}>
               <Flex col justify="space-between">
                 <Flex.Item marginBottom={1}>
-                  <Typography.Footnote>Fee tier</Typography.Footnote>
+                  <Typography.Footnote>
+                    <Trans>Fee tier</Trans>
+                  </Typography.Footnote>
                 </Flex.Item>
                 <DataTag content={`${pool.poolFee}%`} size="large" />
               </Flex>

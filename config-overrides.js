@@ -2,7 +2,7 @@ const path = require('path');
 const rewireTypingsForCssModule = require('react-app-rewire-typings-for-css-module');
 const addLessLoader = require('customize-cra-less-loader');
 
-module.exports = function override(config, env) {
+module.exports = function override(config) {
   /**
    * Add WASM support
    */
@@ -31,13 +31,14 @@ module.exports = function override(config, env) {
       loader: 'babel-loader',
       options: {
         presets: [['@babel/preset-env', { targets: 'defaults' }]],
-        plugins: ['@babel/plugin-syntax-optional-chaining'],
       },
     },
   });
 
   config = rewireTypingsForCssModule.factory({})(config);
-  config = addLessLoader({ lessLoaderOptions: { lessOptions: { javascriptEnabled: true } }  })(config);
+  config = addLessLoader({
+    lessLoaderOptions: { lessOptions: { javascriptEnabled: true } },
+  })(config);
 
   return config;
 };

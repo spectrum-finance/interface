@@ -1,3 +1,4 @@
+import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 
 import { AmmPool } from '../../../../../common/models/AmmPool';
@@ -33,7 +34,9 @@ export const PoolView: FC<PoolSelectorItemProps> = ({
       </Flex.Item>
     )}
     <Flex.Item marginRight={1} align="center">
-      <Typography.Footnote>Fee:</Typography.Footnote>
+      <Typography.Footnote>
+        <Trans>Fee:</Trans>
+      </Typography.Footnote>
     </Flex.Item>
     <Flex.Item marginRight={2} align="center">
       <DataTag

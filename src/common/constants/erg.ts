@@ -1,4 +1,3 @@
-export const ERG_TOKEN_NAME = 'ERG';
 export const DEFAULT_MINER_FEE = BigInt(2_000_000);
 export const ERG_DECIMALS = 9;
 

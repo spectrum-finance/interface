@@ -1,5 +1,6 @@
 import './PoolSelect.less';
 
+import { Trans } from '@lingui/macro';
 import { maxBy } from 'lodash';
 import React, { useEffect } from 'react';
 
@@ -114,7 +115,7 @@ const PoolSelect: React.FC<PoolSelectProps> = ({
         </Dropdown>
       ) : (
         <Button size="large" block disabled>
-          Select pair
+          <Trans>Select pair</Trans>
         </Button>
       )}
     </>

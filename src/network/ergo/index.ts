@@ -12,6 +12,7 @@ import { networkAssetBalance$ } from './balance/networkAssetBalance';
 import { locks$ } from './locks/locks';
 import { networkAsset$, useNetworkAsset } from './networkAsset/networkAsset';
 import { positions$ } from './positions/positions';
+import { txHistoryManager } from './transactionHistory/transactionHistory';
 import { pendingTransactionsCount$ } from './transactions/pendingTransactions';
 import { getTxHistory } from './transactions/transactionsHistory';
 import {
@@ -42,4 +43,5 @@ export const ergoNetwork: Network = {
   getAddresses,
   getUsedAddresses,
   getUnusedAddresses,
+  txHistoryManager,
 };

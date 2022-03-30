@@ -1,4 +1,5 @@
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
+import { t, Trans } from '@lingui/macro';
 import React, { useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 
@@ -58,7 +59,7 @@ export const PoolOverview: React.FC = () => {
     history.push(`/pool/${poolId}/withdrawal`);
 
   return (
-    <Page title="Pool overview" width={600} withBackButton backTo="/pool">
+    <Page title={t`Pool overview`} width={600} withBackButton backTo="/pool">
       {position && poolConfidenceAnalytic ? (
         <Flex col>
           <Flex.Item marginBottom={5}>
@@ -66,27 +67,33 @@ export const PoolOverview: React.FC = () => {
               position={position}
               actionsMenuWidth={180}
               actionsMenu={
-                <Menu.ItemGroup title="Liquidity Locker">
+                <Menu.ItemGroup title={t`Liquidity Locker`}>
                   <Menu.Item
                     disabled={position.empty}
                     icon={<LockOutlined />}
                     onClick={handleLockLiquidity}
                   >
-                    <a>Lock liquidity</a>
+                    <a>
+                      <Trans>Lock liquidity</Trans>
+                    </a>
                   </Menu.Item>
                   <Menu.Item
                     disabled={position.locks.length === 0}
                     icon={<RelockIcon />}
                     onClick={handleRelockLiquidity}
                   >
-                    <a>Relock liquidity</a>
+                    <a>
+                      <Trans>Relock liquidity</Trans>
+                    </a>
                   </Menu.Item>
                   <Menu.Item
                     disabled={position.locks.length === 0}
                     icon={<WithdrawalIcon />}
                     onClick={handleWithdrawalLiquidity}
                   >
-                    <a>Withdrawal</a>
+                    <a>
+                      <Trans>Withdrawal</Trans>
+                    </a>
                   </Menu.Item>
                 </Menu.ItemGroup>
               }
@@ -105,22 +112,22 @@ export const PoolOverview: React.FC = () => {
           )}
           <Flex.Item marginBottom={4}>
             <FormPairSection
-              title="Pool liquidity"
+              title={t`Pool liquidity`}
               yAmount={position.pool.y}
               xAmount={position.pool.x}
             />
           </Flex.Item>
           <Flex.Item marginBottom={4}>
             {position.empty ? (
-              <PageSection title="Your liquidity" boxed={false}>
+              <PageSection title={t`Your liquidity`} boxed={false}>
                 <Alert
                   type="warning"
-                  message="You didn't provide liquidity to this pool yet."
+                  message={t`You didn't provide liquidity to this pool yet.`}
                 />
               </PageSection>
             ) : (
               <FormPairSection
-                title="Your liquidity"
+                title={t`Your liquidity`}
                 yAmount={position.totalY}
                 xAmount={position.totalX}
               />
@@ -128,7 +135,7 @@ export const PoolOverview: React.FC = () => {
           </Flex.Item>
           {poolConfidenceAnalytic.lockedPercent >= MIN_RELEVANT_LOCKS_PCT && (
             <Flex.Item marginBottom={4}>
-              <PageSection title="Locked liquidity" boxed={false}>
+              <PageSection title={t`Locked liquidity`} boxed={false}>
                 <LockLiquidityChart
                   poolConfidenceAnalytic={poolConfidenceAnalytic}
                 />
@@ -136,7 +143,7 @@ export const PoolOverview: React.FC = () => {
             </Flex.Item>
           )}
           <Flex.Item marginBottom={4}>
-            <PageSection title="Current price" boxed={false}>
+            <PageSection title={t`Current price`} boxed={false}>
               <Flex>
                 <Flex.Item flex={1} marginRight={2}>
                   <Typography.Body>
@@ -164,7 +171,7 @@ export const PoolOverview: React.FC = () => {
                   )}
                   block
                 >
-                  Increase Liquidity
+                  <Trans>Increase Liquidity</Trans>
                 </Button>
               </Flex.Item>
               <Flex.Item flex={1}>
@@ -175,7 +182,7 @@ export const PoolOverview: React.FC = () => {
                   block
                   onClick={handleRemovePositionClick}
                 >
-                  Remove Liquidity
+                  <Trans>Remove Liquidity</Trans>
                 </Button>
               </Flex.Item>
             </Flex>

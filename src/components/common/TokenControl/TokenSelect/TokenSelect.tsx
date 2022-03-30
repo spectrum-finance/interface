@@ -1,6 +1,7 @@
 import './TokenSelect.less';
 
 import { AssetInfo } from '@ergolabs/ergo-sdk';
+import { Trans } from '@lingui/macro';
 import React from 'react';
 import { Observable } from 'rxjs';
 
@@ -89,8 +90,17 @@ const TokenSelect: React.FC<TokenSelectProps> = ({
           block
           disabled={disabled}
         >
-          Select a token
-          {!readonly && <DownOutlined />}
+          <Trans>Select a token</Trans>
+          {!readonly && (
+            <DownOutlined
+              style={{
+                display: 'inherit',
+                marginLeft: '8px',
+                width: '12px',
+                height: '14px',
+              }}
+            />
+          )}
         </Button>
       )}
     </>

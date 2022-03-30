@@ -1,10 +1,23 @@
-import { Typography } from 'antd';
+import { t, Trans } from '@lingui/macro';
 import React from 'react';
 
 import { addresses$ } from '../../../../api/addresses';
-import { transactionsHistory$ } from '../../../../api/transactionsHistory';
+import {
+  isTransactionsHistorySyncing$,
+  syncTransactionsHistory,
+  transactionsHistory$,
+} from '../../../../api/transactionsHistory';
 import { useObservable } from '../../../../common/hooks/useObservable';
-import { Box, Flex, Menu, Modal, Skeleton } from '../../../../ergodex-cdk';
+import {
+  Box,
+  Button,
+  Flex,
+  Menu,
+  Modal,
+  ReloadOutlined,
+  Skeleton,
+  Typography,
+} from '../../../../ergodex-cdk';
 import { isRefundableOperation } from '../../../../utils/ammOperations';
 import { exploreTx } from '../../../../utils/redirect';
 import {
@@ -19,9 +32,11 @@ import { TxStatusTag } from '../TxStatusTag/TxStatusTag';
 import { TxTypeTag } from '../TxTypeTag/TxTypeTag';
 import { Operation as DexOperation } from '../types';
 import { normalizeOperations } from '../utils';
+import { TxHistoryEmptyState } from './TxHistoryEmptyState';
 
 const TxHistoryModal = (): JSX.Element => {
-  const [txs] = useObservable(transactionsHistory$);
+  const [isSyncing] = useObservable(isTransactionsHistorySyncing$);
+  const [txs, txsLoading] = useObservable(transactionsHistory$);
   const [addresses] = useObservable(addresses$);
 
   const handleOpenRefundConfirmationModal = (operation: DexOperation) => {
@@ -51,12 +66,14 @@ const TxHistoryModal = (): JSX.Element => {
             target="_blank"
             rel="noreferrer"
           >
-            View on Explorer
+            <Trans>View on Explorer</Trans>
           </a>
         </Menu.Item>
         {isRefundableOperation(op.status) && (
           <Menu.Item onClick={() => handleOpenRefundConfirmationModal(op)}>
-            <a rel="noreferrer">Refund transaction</a>
+            <a rel="noreferrer">
+              <Trans>Refund transaction</Trans>
+            </a>
           </Menu.Item>
         )}
       </>
@@ -65,68 +82,99 @@ const TxHistoryModal = (): JSX.Element => {
 
   return (
     <>
-      <Modal.Title>Recent transactions</Modal.Title>
+      <Modal.Title>
+        <Flex align="center">
+          <Flex.Item marginRight={4}>
+            <Trans>Transaction history</Trans>
+          </Flex.Item>
+          <Flex.Item>
+            <Button
+              loading={isSyncing}
+              onClick={syncTransactionsHistory}
+              icon={<ReloadOutlined />}
+            >
+              {isSyncing ? t`Syncing...` : t`Sync`}
+            </Button>
+          </Flex.Item>
+        </Flex>
+      </Modal.Title>
       <Modal.Content width={680}>
         <Flex col style={{ overflowY: 'auto', maxHeight: '500px' }}>
-          <Flex.Item>
-            <Flex justify="space-between" align="center">
-              <Flex.Item style={{ width: '35%' }}>
-                <Typography.Title level={5}>Assets</Typography.Title>
-              </Flex.Item>
-              <Flex.Item style={{ width: '28%' }}>
-                <Typography.Title level={5}>Date</Typography.Title>
-              </Flex.Item>
-              <Flex.Item style={{ width: '20%' }}>
-                <Typography.Title level={5}>Type</Typography.Title>
-              </Flex.Item>
-              <Flex.Item style={{ width: '16%' }}>
-                <Typography.Title level={5}>Status</Typography.Title>
-              </Flex.Item>
-              <Flex.Item style={{ width: '5%' }} />
-            </Flex>
-          </Flex.Item>
-          {txs ? (
-            normalizeOperations(txs)
-              .sort((a, b) => b.timestamp.toMillis() - a.timestamp.toMillis())
-              .map((op, index) => {
-                return (
-                  <Flex.Item
-                    key={index}
-                    style={{
-                      borderBottom:
-                        '1px solid var(--ergo-default-border-color)',
-                    }}
-                  >
-                    <Box transparent padding={[5, 0]} bordered={false}>
-                      <Flex justify="space-between" align="center">
-                        <Flex.Item style={{ width: '35%' }}>
-                          <InputOutputColumn
-                            type={op.type}
-                            x={op.assetX}
-                            y={op.assetY}
-                          />
-                        </Flex.Item>
-                        <Flex.Item style={{ width: '28%' }}>
-                          <DateTimeView value={op.timestamp} />
-                          <br />
-                          <DateTimeView type="time" value={op.timestamp} />
-                        </Flex.Item>
-                        <Flex.Item style={{ width: '20%' }}>
-                          <TxTypeTag type={op.type} />
-                        </Flex.Item>
-                        <Flex.Item style={{ width: '16%' }}>
-                          <TxStatusTag status={op.status} />
-                        </Flex.Item>
-                        <Flex.Item style={{ width: '5%' }}>
-                          <OptionsButton placement="bottomLeft">
-                            {renderTxActionsMenu(op)}
-                          </OptionsButton>
-                        </Flex.Item>
-                      </Flex>
-                    </Box>
-                  </Flex.Item>
-                );
-              })
+          {!txsLoading ? (
+            txs?.length ? (
+              <>
+                <Flex.Item>
+                  <Flex justify="space-between" align="center">
+                    <Flex.Item style={{ width: '35%' }}>
+                      <Typography.Title level={5}>
+                        <Trans>Assets</Trans>
+                      </Typography.Title>
+                    </Flex.Item>
+                    <Flex.Item style={{ width: '28%' }}>
+                      <Typography.Title level={5}>
+                        <Trans>Date</Trans>
+                      </Typography.Title>
+                    </Flex.Item>
+                    <Flex.Item style={{ width: '20%' }}>
+                      <Typography.Title level={5}>
+                        <Trans>Type</Trans>
+                      </Typography.Title>
+                    </Flex.Item>
+                    <Flex.Item style={{ width: '16%' }}>
+                      <Typography.Title level={5}>
+                        <Trans>Status</Trans>
+                      </Typography.Title>
+                    </Flex.Item>
+                    <Flex.Item style={{ width: '5%' }} />
+                  </Flex>
+                </Flex.Item>
+                {normalizeOperations(txs)
+                  .sort(
+                    (a, b) => b.timestamp.toMillis() - a.timestamp.toMillis(),
+                  )
+                  .map((op, index) => {
+                    return (
+                      <Flex.Item
+                        key={index}
+                        style={{
+                          borderBottom:
+                            '1px solid var(--ergo-default-border-color)',
+                        }}
+                      >
+                        <Box transparent padding={[5, 0]} bordered={false}>
+                          <Flex justify="space-between" align="center">
+                            <Flex.Item style={{ width: '35%' }}>
+                              <InputOutputColumn
+                                type={op.type}
+                                x={op.assetX}
+                                y={op.assetY}
+                              />
+                            </Flex.Item>
+                            <Flex.Item style={{ width: '28%' }}>
+                              <DateTimeView value={op.timestamp} />
+                              <br />
+                              <DateTimeView type="time" value={op.timestamp} />
+                            </Flex.Item>
+                            <Flex.Item style={{ width: '20%' }}>
+                              <TxTypeTag type={op.type} />
+                            </Flex.Item>
+                            <Flex.Item style={{ width: '16%' }}>
+                              <TxStatusTag status={op.status} />
+                            </Flex.Item>
+                            <Flex.Item style={{ width: '5%' }}>
+                              <OptionsButton placement="bottomLeft">
+                                {renderTxActionsMenu(op)}
+                              </OptionsButton>
+                            </Flex.Item>
+                          </Flex>
+                        </Box>
+                      </Flex.Item>
+                    );
+                  })}
+              </>
+            ) : (
+              <TxHistoryEmptyState />
+            )
           ) : (
             <Skeleton active>
               {/*TODO:REPLACE_WITH_ORIGINAL_LOADING[EDEX-476]*/}
