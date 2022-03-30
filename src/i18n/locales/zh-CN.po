@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ergodex-frontend\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-03-30 12:24\n"
+"PO-Revision-Date: 2022-03-30 13:34\n"
 "Last-Translator: \n"
 "Language: zh_CN\n"
 "Language-Team: Chinese Simplified\n"
@@ -293,7 +293,7 @@ msgstr "ERG 余额過低"
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Enter an Amount"
-msgstr "输入數量"
+msgstr "输入数量"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Enter an Initial Price"
@@ -309,15 +309,15 @@ msgstr "Ergodex智能合約"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "ErgoDEX Team doesn’t guarantee the absence of bugs and errors."
-msgstr "ErgodeX 团队不能保证不存在错误和漏洞。"
+msgstr "ErgoDEX 团队不能保证不存在错误和漏洞。"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "ErgoDEX is a decentralized financial (DeFi) application which means it doesn’t have a central government body. ErgoDEX includes AMM (Swap, Add liquidity and Remove liquidity) functionality"
-msgstr "ErgodeX是一种去中心去化金融 (DeFi) 应用程序，这意味着它没有一个中心化的管理机构。 ErgodeX 包括AMM (交易, 添加流动性和删除流动性) "
+msgstr "ErgodeX是一种去中心去化金融 (DeFi) 应用程序，这意味着它没有一个中心化的管理机构。 ErgoDEX 包括AMM (交易, 添加流动性和删除流动性)"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "ErgoDEX offers a form of added security, as buyers and sellers do not have to give their information to any 3rd party. However, ErgoDEX is without a know your customer (KYC) process and can offer NO assistance if a user is hacked or cheated out of passwords, currency or private wallet keys."
-msgstr "Ergodex提供了额外的私隱安全,  因為买方和卖方不必向任何第三方提供信息。 然而，ErgoDEX 沒有執行《知道您的客户》(KYC) 程序，如果用户的密碼、貨幣或私钥被破解或騙取，ErgoDEX不能提供任何援助。"
+msgstr "Ergodex提供了额外的私隐安全, 因为买方和卖方不必向任何第三方提供信息。 然而，ErgoDEX 没有执行《知道您的客户》(KYC) 程序，如果用户的密码、货币或私钥被破解或骗取，ErgoDEX不能提供任何援助"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
@@ -494,7 +494,7 @@ msgstr "锁定流动性"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
 msgid "Lock period"
-msgstr "锁定周期"
+msgstr "锁定期"
 
 #: src/pages/PoolOverview/LockLiquidityChart/LockLiquidityChart.tsx
 msgid "Lock time"
@@ -536,11 +536,11 @@ msgstr "最大获得量："
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Min value for {0} is {1}"
-msgstr "{0} 的最小價格为 {1}"
+msgstr "{0} 的最小价格为 {1}"
 
 #: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
 msgid "Miner Fee"
-msgstr "矿工收费"
+msgstr "矿工费"
 
 #: src/components/common/FormView/FormFeesSection/FormFeesSection.tsx
 #: src/components/common/TxHistory/RefundConfirmationModal/RefundConfirmationModal.tsx
@@ -548,11 +548,11 @@ msgstr "矿工收费"
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Miner Fee:"
-msgstr "矿工收费："
+msgstr "矿工费："
 
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
 msgid "Miner fee:"
-msgstr "矿工收费："
+msgstr "矿工费："
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Minimal Nitro value is {MIN_NITRO}"
@@ -560,7 +560,7 @@ msgstr "最小Nitro值是 {MIN_NITRO}"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Minimal Slippage is {MIN_SLIPPAGE}"
-msgstr "最小滑點是 {MIN_SLIPPAGE}"
+msgstr "最小滑点是 {MIN_SLIPPAGE}"
 
 #: src/components/Header/GlobalSettingsModal/MinerFeeInput/MinerFeeInput.tsx
 #: src/pages/Swap/OperationSettings/NitroInput/NitroInput.tsx
@@ -593,7 +593,7 @@ msgstr "未找到任何结果"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "Notice that:"
-msgstr "請注意："
+msgstr "请注意："
 
 #: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
 msgid "Once LP-tokens are locked they cannot be withdrawn under any circumstances until the timer has expired. Please ensure the parameters are correct, as they are final."
@@ -609,23 +609,23 @@ msgstr "选择新的解锁日期"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
 msgid "Pool"
-msgstr "資金池"
+msgstr "资金池"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Pool liquidity"
-msgstr "流动池"
+msgstr "池流动性"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Pool overview"
-msgstr "資金池概览"
+msgstr "资金池概览"
 
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidityConfirmationModal/RemoveLiquidityConfirmationModal.tsx
 msgid "Pooled assets"
-msgstr "資金池的资产"
+msgstr "资金池的资产"
 
 #: src/pages/Pool/Liquidity.tsx
 msgid "Pools Overview"
-msgstr "資金池概览"
+msgstr "资金池概览"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
 msgid "Previous unlock date"
@@ -733,7 +733,7 @@ msgstr "选择配对"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/PoolSelector/PoolSelector.tsx
 msgid "Select Pool"
-msgstr "选择資金池"
+msgstr "选择流动池"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Select a fee tier"
@@ -778,12 +778,12 @@ msgstr "分享"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Slippage tolerance"
-msgstr "滑点范围"
+msgstr "滑点容差"
 
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
 msgid "Slippage tolerance:"
-msgstr "滑点范围:"
+msgstr "滑点容差:"
 
 #: src/pages/Swap/SwapInfo/SwapInfoHeader/SlippageTag/SlippageTag.tsx
 msgid "Slippage: {slippage}"
@@ -799,11 +799,11 @@ msgstr "状态"
 #: src/pages/Swap/Swap.tsx
 #: src/pages/Swap/Swap.tsx
 msgid "Swap"
-msgstr "交易"
+msgstr "兑换"
 
 #: src/components/common/ActionForm/ActionButton/ActionButton.tsx
 msgid "Swapping is available in {0}"
-msgstr "{0} 是可以进行交易"
+msgstr "{0} 是可以进行兑换"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Swapping {0} for {1}"
