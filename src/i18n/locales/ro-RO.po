@@ -1,0 +1,1053 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: ergodex-frontend\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2022-03-30 21:08\n"
+"Last-Translator: \n"
+"Language: ro_RO\n"
+"Language-Team: Romanian\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100>0 && n%100<20)) ? 1 : 2);\n"
+"X-Crowdin-Project: ergodex-frontend\n"
+"X-Crowdin-Project-ID: 504102\n"
+"X-Crowdin-Language: ro\n"
+"X-Crowdin-File: /dev/src/i18n/locales/en-US.po\n"
+"X-Crowdin-File-ID: 78\n"
+
+#: src/pages/Pool/components/LockLiquidityDatePicker/LiquidityDatePicker.tsx
+msgid "(Block: {0})"
+msgstr ""
+
+#: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
+msgid "(Unlock block: {0})"
+msgstr ""
+
+#: src/components/common/KyaModal/KyaModal.tsx
+msgid "- By creating an order you send your funds to a specific smart-contract, all such contracts are wired into the UI. Thus, orders are created entirely in your browser (on your machine)."
+msgstr ""
+
+#: src/components/common/KyaModal/KyaModal.tsx
+msgid "- ErgoDEX operates on a live blockchain, thus trades are final, and irreversible once they have status «executed»;"
+msgstr ""
+
+#: src/components/common/KyaModal/KyaModal.tsx
+msgid "- Every transaction can be viewed via"
+msgstr ""
+
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
+msgid "0.3% fee"
+msgstr ""
+
+#: src/pages/Pool/utils.ts
+msgid "1 Day"
+msgstr ""
+
+#: src/pages/Pool/utils.ts
+msgid "1 Month"
+msgstr ""
+
+#: src/pages/Pool/utils.ts
+msgid "1 Year"
+msgstr ""
+
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
+msgid "1% fee"
+msgstr ""
+
+#: src/components/common/KyaModal/KyaModal.tsx
+msgid "1. You will use the product at your own peril and risk;"
+msgstr ""
+
+#: src/components/common/KyaModal/KyaModal.tsx
+msgid "2. Only YOU are responsible for your assets;"
+msgstr ""
+
+#: src/components/Header/BurgerMenu/BurgerMenu.tsx
+msgid "About"
+msgstr ""
+
+#: src/components/WalletModal/AddressesTab/AddressesTab.tsx
+msgid "Active"
+msgstr ""
+
+#: src/components/WalletModal/WalletActiveAddress/WalletActiveAddress.tsx
+msgid "Active address"
+msgstr ""
+
+#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
+#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
+#: src/pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool.tsx
+#: src/pages/Pool/components/LiquidityPositionsList/LiquidityPositionsList.tsx
+msgid "Add Liquidity"
+msgstr ""
+
+#: src/components/common/TxHistory/TxTypeTag/TxTypeTag.tsx
+#: src/pages/Pool/Liquidity.tsx
+msgid "Add liquidity"
+msgstr ""
+
+#: src/components/ConfirmationModal/ConfirmationModal.tsx
+msgid "Adding liquidity {0} and {1}"
+msgstr ""
+
+#: src/components/WalletModal/WalletActiveAddress/WalletActiveAddress.tsx
+msgid "All output assets will be received at this address."
+msgstr ""
+
+#: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
+#: src/pages/Pool/RemoveLiquidity/RemoveLiquidity.tsx
+msgid "Amount"
+msgstr ""
+
+#: src/pages/Pool/components/LiquidityPositionsList/LiquidityPositionsItem/LiquidityPositionsItemAnalytics/LiquidityPositionsItemAnalytics.tsx
+msgid "Annual Percentage Rate. Average estimation of how much you may potentially earn providing liquidity to this pool."
+msgstr ""
+
+#: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
+#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
+msgid "Assets"
+msgstr ""
+
+#: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
+#: src/pages/Pool/LockLiquidity/LockLiquidityConfirmationModal/LockLiquidityConfirmationModal.tsx
+#: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
+msgid "Assets to lock"
+msgstr ""
+
+#: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
+msgid "Assets to relock"
+msgstr ""
+
+#: src/pages/Pool/RemoveLiquidity/RemoveLiquidity.tsx
+msgid "Assets to remove"
+msgstr ""
+
+#: src/components/MobilePlug/MobilePlug.tsx
+msgid "Back to Home"
+msgstr ""
+
+#: src/components/common/TokenControl/TokenControl.tsx
+msgid "Balance: {0}"
+msgstr ""
+
+#: src/pages/Pool/components/LPGuide/LPGuide.tsx
+msgid "Become a liquidity provider"
+msgstr ""
+
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
+msgid "Best for exotic pairs"
+msgstr ""
+
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
+msgid "Best for most pairs"
+msgstr ""
+
+#: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
+#: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
+msgid "Block:"
+msgstr ""
+
+#: src/components/common/KyaModal/KyaModal.tsx
+msgid "By accepting these KYA, you agree that:"
+msgstr ""
+
+#: src/pages/Swap/PoolSelector/PoolSelector.tsx
+msgid "Change"
+msgstr ""
+
+#: src/components/WalletModal/WalletModal.tsx
+msgid "Change wallet"
+msgstr ""
+
+#: src/components/OperationForm/OperationForm.tsx
+#: src/components/common/ActionForm/ActionButton/ActionButton.tsx
+msgid "Check Internet Connection"
+msgstr ""
+
+#: src/pages/Pool/components/LPGuide/LPGuide.tsx
+msgid "Check out our guides how to become a liquidity provider"
+msgstr ""
+
+#: src/components/WalletModal/AddressesTab/AddressesTab.tsx
+msgid "Choose"
+msgstr ""
+
+#: src/pages/Pool/components/LockLiquidityDatePicker/LiquidityDatePicker.tsx
+msgid "Choose Date"
+msgstr ""
+
+#: src/pages/Swap/PoolSelector/PoolSelectorModal/PoolSelectorModal.tsx
+msgid "Choose Pool"
+msgstr ""
+
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
+msgid "Choose a fee"
+msgstr ""
+
+#: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
+#: src/components/common/TxHistory/RefundConfirmationModal/RefundConfirmationModal.tsx
+msgid "Confirm"
+msgstr ""
+
+#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
+msgid "Confirm Add Liquidity"
+msgstr ""
+
+#: src/pages/Pool/LockLiquidity/LockLiquidityConfirmationModal/LockLiquidityConfirmationModal.tsx
+msgid "Confirm Lock"
+msgstr ""
+
+#: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
+msgid "Confirm Relock"
+msgstr ""
+
+#: src/pages/Pool/RemoveLiquidity/RemoveLiquidityConfirmationModal/RemoveLiquidityConfirmationModal.tsx
+msgid "Confirm Remove Liquidity"
+msgstr ""
+
+#: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
+msgid "Confirm Swap"
+msgstr ""
+
+#: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
+msgid "Confirm Withdrawal"
+msgstr ""
+
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
+msgid "Confirm pool creation"
+msgstr ""
+
+#: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
+msgid "Confirm swap"
+msgstr ""
+
+#: src/components/ConfirmationModal/ConfirmationModal.tsx
+msgid "Confirm this transaction in your wallet"
+msgstr ""
+
+#: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
+msgid "Confirm withdrawal"
+msgstr ""
+
+#: src/components/common/ConnectWalletButton/ConnectWalletButton.tsx
+msgid "Connect wallet"
+msgstr ""
+
+#: src/components/common/CopyButton/CopyButton.tsx
+msgid "Copied to clipboard!"
+msgstr ""
+
+#: src/components/WalletModal/WalletActiveAddress/WalletActiveAddress.tsx
+msgid "Copy Address"
+msgstr ""
+
+#: src/components/common/CopyButton/CopyButton.tsx
+msgid "Copy to clipboard."
+msgstr ""
+
+#: src/pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool.tsx
+msgid "Create Pool"
+msgstr ""
+
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
+#: src/pages/Pool/Liquidity.tsx
+msgid "Create pool"
+msgstr ""
+
+#: src/pages/PoolOverview/PoolOverview.tsx
+msgid "Current price"
+msgstr ""
+
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
+msgid "Custom fee tier"
+msgstr ""
+
+#: src/components/Header/BurgerMenu/BurgerMenu.tsx
+msgid "Dark mode"
+msgstr ""
+
+#: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
+msgid "Date"
+msgstr ""
+
+#: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
+msgid "Disconnect wallet"
+msgstr ""
+
+#: src/components/Header/BurgerMenu/BurgerMenu.tsx
+msgid "Docs"
+msgstr ""
+
+#: src/components/WalletModal/LowBalanceWarning/LowBalanceWarning.tsx
+msgid "ERG balance is low"
+msgstr ""
+
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
+#~ msgid "Enter an A  mount"
+#~ msgstr "Enter an A  mount"
+
+#: src/components/common/ActionForm/ActionButton/ActionButton.tsx
+#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
+msgid "Enter an Amount"
+msgstr ""
+
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
+msgid "Enter an Initial Price"
+msgstr ""
+
+#: src/components/WalletModal/WalletModal.tsx
+msgid "Ergo network"
+msgstr ""
+
+#: src/components/common/KyaModal/KyaModal.tsx
+msgid "ErgoDEX Smart Contracts"
+msgstr ""
+
+#: src/components/common/KyaModal/KyaModal.tsx
+msgid "ErgoDEX Team doesn’t guarantee the absence of bugs and errors."
+msgstr ""
+
+#: src/components/common/KyaModal/KyaModal.tsx
+msgid "ErgoDEX is a decentralized financial (DeFi) application which means it doesn’t have a central government body. ErgoDEX includes AMM (Swap, Add liquidity and Remove liquidity) functionality"
+msgstr ""
+
+#: src/components/common/KyaModal/KyaModal.tsx
+msgid "ErgoDEX offers a form of added security, as buyers and sellers do not have to give their information to any 3rd party. However, ErgoDEX is without a know your customer (KYC) process and can offer NO assistance if a user is hacked or cheated out of passwords, currency or private wallet keys."
+msgstr ""
+
+#: src/components/ConfirmationModal/ConfirmationModal.tsx
+#: src/components/ConfirmationModal/ConfirmationModal.tsx
+msgid "Error"
+msgstr ""
+
+#: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
+msgid "Estimated output:"
+msgstr ""
+
+#: src/pages/Swap/SwapInfo/SwapInfo.tsx
+msgid "Execution Fee"
+msgstr ""
+
+#: src/pages/Swap/OperationSettings/NitroInput/NitroInput.tsx
+msgid "Execution Fee Range {0} - {1} {2}"
+msgstr ""
+
+#: src/components/common/FormView/FormFeesSection/FormFeesSection.tsx
+#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
+#: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
+msgid "Execution Fee:"
+msgstr ""
+
+#: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
+msgid "Experimental"
+msgstr ""
+
+#: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
+msgid "Extension period"
+msgstr ""
+
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
+#: src/pages/Pool/components/LiquidityPositionsList/LiquidityPositionsItem/LiquidityPositionsItemWrapper/LiquidityPositionsItemWrapper.tsx
+msgid "Fee tier"
+msgstr ""
+
+#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/PoolSelector/PoolView/PoolView.tsx
+msgid "Fee:"
+msgstr ""
+
+#: src/components/common/FormView/FormFeesSection/FormFeesSection.tsx
+#: src/components/common/TxHistory/RefundConfirmationModal/RefundConfirmationModal.tsx
+#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
+#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
+msgid "Fees"
+msgstr ""
+
+#: src/pages/Swap/Swap.tsx
+msgid "From"
+msgstr ""
+
+#: src/components/ConfirmationModal/ConfirmationModal.tsx
+msgid "Get help in our channels:"
+msgstr ""
+
+#: src/components/Header/BurgerMenu/BurgerMenu.tsx
+#: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
+msgid "Global Settings"
+msgstr ""
+
+#: src/components/Header/BurgerMenu/BurgerMenu.tsx
+msgid "How to use"
+msgstr ""
+
+#: src/pages/Pool/LockLiquidity/LockLiquidityConfirmationModal/LockLiquidityConfirmationModal.tsx
+msgid "I understand that I'm locking <0>{0}</0> LP-tokens, which is <1>{percent}%</1> of my <2>{1}/{2}</2> liquidity position, for a period of <3>{3}</3> (until {4}) without the ability to withdrawal before the end of this period."
+msgstr ""
+
+#: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
+msgid "I understand that I’m relocking <0>{0}</0> LP-tokens of my <1>{1}/{2}</1> position until <2>{3}</2> (or <3>{4}</3> block) without the ability to withdrawal before the end of this period."
+msgstr ""
+
+#: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
+#~ msgid "I understand that this wallet has not been audited. I will use it at my own risk."
+#~ msgstr "I understand that this wallet has not been audited. I will use it at my own risk."
+
+#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
+#: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
+msgid "I understand the risks"
+msgstr ""
+
+#: src/components/common/KyaModal/KyaModal.tsx
+msgid "I understand the risks and accept the KYA"
+msgstr ""
+
+#: src/pages/PoolOverview/PoolOverview.tsx
+msgid "Increase Liquidity"
+msgstr ""
+
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
+msgid "Initial liquidity"
+msgstr ""
+
+#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
+msgid "Initial price"
+msgstr ""
+
+#: src/components/common/ActionForm/ActionButton/ActionButton.tsx
+msgid "Insufficient liquidity for this trade"
+msgstr ""
+
+#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
+#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
+msgid "Insufficient {0} Balance"
+msgstr ""
+
+#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
+msgid "Insufficient {0} Balance for Fees"
+msgstr ""
+
+#: src/components/common/ActionForm/ActionButton/ActionButton.tsx
+msgid "Insufficient {token} Balance"
+msgstr ""
+
+#: src/components/common/ActionForm/ActionButton/ActionButton.tsx
+msgid "Insufficient {token} Balance for Fees"
+msgstr ""
+
+#: src/pages/Pool/components/LiquidityPositionsList/LiquidityPositionsItem/LiquidityPositionsItemWrapper/LiquidityPositionsItemWrapper.tsx
+#~ msgid "It is impossible to display statistics for this pool"
+#~ msgstr "It is impossible to display statistics for this pool"
+
+#: src/components/common/ConnectWalletButton/ConnectWalletButton.tsx
+msgid "KYA is not accepted"
+msgstr ""
+
+#: src/components/Header/BurgerMenu/BurgerMenu.tsx
+msgid "Language"
+msgstr ""
+
+#: src/components/WalletModal/LowBalanceWarning/LowBalanceWarning.tsx
+msgid "Learn how to get ERG"
+msgstr ""
+
+#: src/components/Header/Navigation/Navigation.tsx
+#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
+#: src/pages/Pool/Liquidity.tsx
+msgid "Liquidity"
+msgstr ""
+
+#: src/pages/PoolOverview/PoolOverview.tsx
+msgid "Liquidity Locker"
+msgstr ""
+
+#: src/pages/Swap/PoolSelector/PoolSelector.tsx
+msgid "Liquidity Pool"
+msgstr ""
+
+#: src/components/OperationForm/OperationForm.tsx
+#: src/components/common/ActionForm/ActionButton/ActionButton.tsx
+msgid "Loading"
+msgstr ""
+
+#: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
+msgid "Lock"
+msgstr ""
+
+#: src/pages/Pool/LockLiquidity/LockLiquidityConfirmationModal/LockLiquidityConfirmationModal.tsx
+msgid "Lock Liquidity"
+msgstr ""
+
+#: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
+#: src/pages/PoolOverview/PoolOverview.tsx
+msgid "Lock liquidity"
+msgstr ""
+
+#: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
+msgid "Lock period"
+msgstr ""
+
+#: src/pages/PoolOverview/LockLiquidityChart/LockLiquidityChart.tsx
+msgid "Lock time"
+msgstr ""
+
+#: src/pages/Pool/utils.ts
+msgid "Locked"
+msgstr ""
+
+#: src/pages/Pool/Liquidity.tsx
+msgid "Locked Positions"
+msgstr ""
+
+#: src/pages/PoolOverview/PoolOverview.tsx
+msgid "Locked liquidity"
+msgstr ""
+
+#: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
+msgid "Locked positions"
+msgstr ""
+
+#: src/components/ConfirmationModal/ConfirmationModal.tsx
+msgid "Locking {0} and {1} ({2}) for {3}"
+msgstr ""
+
+#: src/components/common/TokenControl/TokenControl.tsx
+msgid "Max"
+msgstr ""
+
+#: src/pages/Swap/OperationSettings/OperationSettings.tsx
+msgid "Max execution fee multiplier"
+msgstr ""
+
+#: src/pages/Swap/SwapInfo/SwapInfo.tsx
+msgid "Maximum received:"
+msgstr ""
+
+#: src/components/common/ActionForm/ActionButton/ActionButton.tsx
+#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
+msgid "Min value for {0} is {1}"
+msgstr ""
+
+#: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
+msgid "Miner Fee"
+msgstr ""
+
+#: src/components/common/FormView/FormFeesSection/FormFeesSection.tsx
+#: src/components/common/TxHistory/RefundConfirmationModal/RefundConfirmationModal.tsx
+#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
+#: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
+msgid "Miner Fee:"
+msgstr ""
+
+#: src/pages/Swap/SwapInfo/SwapInfo.tsx
+msgid "Miner fee:"
+msgstr ""
+
+#: src/pages/Swap/OperationSettings/OperationSettings.tsx
+msgid "Minimal Nitro value is {MIN_NITRO}"
+msgstr ""
+
+#: src/pages/Swap/OperationSettings/OperationSettings.tsx
+msgid "Minimal Slippage is {MIN_SLIPPAGE}"
+msgstr ""
+
+#: src/components/Header/GlobalSettingsModal/MinerFeeInput/MinerFeeInput.tsx
+#: src/pages/Swap/OperationSettings/NitroInput/NitroInput.tsx
+msgid "Minimum"
+msgstr ""
+
+#: src/pages/Swap/SwapInfo/SwapInfo.tsx
+msgid "Minimum received:"
+msgstr ""
+
+#: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
+msgid "Minimum value is {MIN_ERG_FOR_TX} ERG"
+msgstr ""
+
+#: src/components/MobilePlug/MobilePlug.tsx
+msgid "Mobile version is not supported yet"
+msgstr ""
+
+#: src/pages/Swap/OperationSettings/OperationSettings.tsx
+msgid "Nitro"
+msgstr ""
+
+#: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
+msgid "Nitro:"
+msgstr ""
+
+#: src/pages/Pool/common/EmptySearchResult/EmptySearchResult.tsx
+msgid "No results found"
+msgstr ""
+
+#: src/components/common/KyaModal/KyaModal.tsx
+msgid "Notice that:"
+msgstr ""
+
+#: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
+msgid "Once LP-tokens are locked they cannot be withdrawn under any circumstances until the timer has expired. Please ensure the parameters are correct, as they are final."
+msgstr ""
+
+#: src/pages/Pool/components/LocksList/LockItemView/LockItemView.tsx
+msgid "Pair"
+msgstr ""
+
+#: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
+msgid "Pick new unlock date"
+msgstr ""
+
+#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
+msgid "Pool"
+msgstr ""
+
+#: src/pages/PoolOverview/PoolOverview.tsx
+msgid "Pool liquidity"
+msgstr ""
+
+#: src/pages/PoolOverview/PoolOverview.tsx
+msgid "Pool overview"
+msgstr ""
+
+#: src/pages/Pool/RemoveLiquidity/RemoveLiquidityConfirmationModal/RemoveLiquidityConfirmationModal.tsx
+msgid "Pooled assets"
+msgstr ""
+
+#: src/pages/Pool/Liquidity.tsx
+msgid "Pools Overview"
+msgstr ""
+
+#: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
+msgid "Previous unlock date"
+msgstr ""
+
+#: src/pages/Swap/SwapInfo/SwapInfo.tsx
+msgid "Price impact:"
+msgstr ""
+
+#: src/components/GuideBanner/GuideBanner.tsx
+msgid "Read Guide"
+msgstr ""
+
+#: src/pages/Pool/components/LiquidityPositionsList/LiquidityPositionsItem/LiquidityPositionsItemAnalytics/LiquidityPositionsItemAnalytics.tsx
+#: src/pages/Swap/OperationSettings/OperationSettings.tsx
+msgid "Read more"
+msgstr ""
+
+#: src/components/common/TxHistory/TxHistory.tsx
+#: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
+msgid "Recent transactions"
+msgstr ""
+
+#: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
+msgid "Recommended"
+msgstr ""
+
+#: src/components/common/ActionForm/ActionButton/ActionButton.tsx
+msgid "Refresh page"
+msgstr ""
+
+#: src/components/common/TxHistory/TxTypeTag/TxTypeTag.tsx
+msgid "Refund"
+msgstr ""
+
+#: src/components/common/TxHistory/RefundConfirmationModal/RefundConfirmationModal.tsx
+msgid "Refund confirmation"
+msgstr ""
+
+#: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
+msgid "Refund transaction"
+msgstr ""
+
+#: src/components/common/TxHistory/RefundConfirmationModal/RefundConfirmationModal.tsx
+msgid "Refund will be performed to this address"
+msgstr ""
+
+#: src/components/ConfirmationModal/ConfirmationModal.tsx
+msgid "Refunding {0} and {1}"
+msgstr ""
+
+#: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
+#: src/pages/Pool/components/LocksList/LockItemView/LockItemView.tsx
+#: src/pages/PoolOverview/PoolOverview.tsx
+msgid "Relock liquidity"
+msgstr ""
+
+#: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
+msgid "Relock position"
+msgstr ""
+
+#: src/components/ConfirmationModal/ConfirmationModal.tsx
+msgid "Relocking {0} and {1} ({2})"
+msgstr ""
+
+#: src/pages/Pool/RemoveLiquidity/RemoveLiquidity.tsx
+msgid "Remove"
+msgstr ""
+
+#: src/pages/Pool/RemoveLiquidity/RemoveLiquidityConfirmationModal/RemoveLiquidityConfirmationModal.tsx
+#: src/pages/PoolOverview/PoolOverview.tsx
+msgid "Remove Liquidity"
+msgstr ""
+
+#: src/components/common/TxHistory/TxTypeTag/TxTypeTag.tsx
+#: src/pages/Pool/RemoveLiquidity/RemoveLiquidity.tsx
+msgid "Remove liquidity"
+msgstr ""
+
+#: src/components/ConfirmationModal/ConfirmationModal.tsx
+msgid "Removing liquidity {0} and {1}"
+msgstr ""
+
+#: src/components/common/TokenControl/TokenSelect/TokenListModal/TokenListModal.tsx
+msgid "Search"
+msgstr ""
+
+#: src/components/ConfirmationModal/ConfirmationModal.tsx
+msgid "Seems like Yoroi Wallet has an issue"
+msgstr ""
+
+#: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
+#: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
+#: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
+msgid "Select Locked Position"
+msgstr ""
+
+#: src/components/Header/NetworkDropdown/NetworkDropdown.tsx
+msgid "Select Network"
+msgstr ""
+
+#: src/pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool.tsx
+msgid "Select Pair"
+msgstr ""
+
+#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/PoolSelector/PoolSelector.tsx
+msgid "Select Pool"
+msgstr ""
+
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
+msgid "Select a fee tier"
+msgstr ""
+
+#: src/components/common/ActionForm/ActionButton/ActionButton.tsx
+#: src/components/common/TokenControl/TokenSelect/TokenListModal/TokenListModal.tsx
+#: src/components/common/TokenControl/TokenSelect/TokenSelect.tsx
+#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
+msgid "Select a token"
+msgstr ""
+
+#: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
+msgid "Select a wallet"
+msgstr ""
+
+#: src/components/common/TxHistory/RefundConfirmationModal/RefundConfirmationModal.tsx
+msgid "Select address"
+msgstr ""
+
+#: src/components/common/PoolSelect/PoolSelect.tsx
+msgid "Select pair"
+msgstr ""
+
+#: src/components/PoolMenu/PoolMenu.tsx
+msgid "Select pools"
+msgstr ""
+
+#: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
+msgid "Select relock date"
+msgstr ""
+
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
+msgid "Set initial price"
+msgstr ""
+
+#: src/pages/Pool/components/LocksList/LockItemView/LockItemView.tsx
+#: src/pages/PoolOverview/LockLiquidityChart/AnalyticOverview/AnalyticOverview.tsx
+msgid "Share"
+msgstr ""
+
+#: src/pages/Swap/OperationSettings/OperationSettings.tsx
+msgid "Slippage tolerance"
+msgstr ""
+
+#: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
+#: src/pages/Swap/SwapInfo/SwapInfo.tsx
+msgid "Slippage tolerance:"
+msgstr ""
+
+#: src/pages/Swap/SwapInfo/SwapInfoHeader/SlippageTag/SlippageTag.tsx
+msgid "Slippage: {slippage}"
+msgstr ""
+
+#: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
+#: src/pages/Pool/components/LockedPositionItem/LockedPositionItem.tsx
+msgid "Status"
+msgstr ""
+
+#: src/components/Header/Navigation/Navigation.tsx
+#: src/components/common/TxHistory/TxTypeTag/TxTypeTag.tsx
+#: src/pages/Swap/Swap.tsx
+#: src/pages/Swap/Swap.tsx
+msgid "Swap"
+msgstr ""
+
+#: src/components/common/ActionForm/ActionButton/ActionButton.tsx
+msgid "Swapping is available in {0}"
+msgstr ""
+
+#: src/components/ConfirmationModal/ConfirmationModal.tsx
+msgid "Swapping {0} for {1}"
+msgstr ""
+
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
+msgid "The % you will earn in fees"
+msgstr ""
+
+#: src/components/NetworkHeight/NetworkHeight.tsx
+msgid "The most recent block in Ergo network"
+msgstr ""
+
+#: src/pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool.tsx
+msgid "The pool with such a pair has not yet been initialized. To create a pool enter an initial price. Then add the deposit amount."
+msgstr ""
+
+#: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
+msgid "The value can't be more than {MAX_ERG_FOR_TX} ERG"
+msgstr ""
+
+#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
+#: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
+msgid "This operation may include fake or scam assets. Only confirm if you have done your own research."
+msgstr ""
+
+#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
+#: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
+msgid "This pair has not been verified by the ErgoDEX team"
+msgstr ""
+
+#: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
+msgid "This position is still locked"
+msgstr ""
+
+#: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
+msgid "This wallet may not always work as expected. I understand what I do andwill use it at my own risk."
+msgstr ""
+
+#: src/pages/Swap/Swap.tsx
+msgid "To"
+msgstr ""
+
+#: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
+msgid "Total Fees"
+msgstr ""
+
+#: src/components/WalletModal/WalletTotalBalance/WalletTotalBalance.tsx
+msgid "Total balance"
+msgstr ""
+
+#: src/pages/Swap/SwapInfo/SwapInfo.tsx
+msgid "Total fees:"
+msgstr ""
+
+#: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
+msgid "Total in locker"
+msgstr ""
+
+#: src/pages/Pool/components/LocksList/LockItemView/LockItemView.tsx
+msgid "Total locked"
+msgstr ""
+
+#: src/pages/Pool/components/LocksList/LockItemView/LockItemView.tsx
+msgid "Total withdrawable"
+msgstr ""
+
+#: src/pages/Swap/OperationSettings/OperationSettings.tsx
+msgid "Transaction Settings"
+msgstr ""
+
+#: src/components/ConfirmationModal/ConfirmationModal.tsx
+msgid "Transaction rejected"
+msgstr ""
+
+#: src/components/ConfirmationModal/ConfirmationModal.tsx
+msgid "Transaction submitted"
+msgstr ""
+
+#: src/components/ConfirmationModal/ConfirmationModal.tsx
+#: src/components/ConfirmationModal/ConfirmationModal.tsx
+msgid "Try again later"
+msgstr ""
+
+#: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
+msgid "Type"
+msgstr ""
+
+#: src/pages/Pool/Liquidity.tsx
+msgid "Type token name or pool id"
+msgstr ""
+
+#: src/components/common/FormView/FormFeesSection/FormFeesSection.tsx
+#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
+#: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
+msgid "UI Fee:"
+msgstr ""
+
+#: src/pages/Pool/components/LockedPositionItem/LockedPositionItem.tsx
+msgid "Unlock Block"
+msgstr ""
+
+#: src/pages/Pool/components/LockedPositionItem/LockedPositionItem.tsx
+msgid "Unlock Date"
+msgstr ""
+
+#: src/pages/PoolOverview/LockLiquidityChart/AnalyticOverview/AnalyticOverview.tsx
+msgid "Unlock block"
+msgstr ""
+
+#: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
+#: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
+#: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
+#: src/pages/PoolOverview/LockLiquidityChart/AnalyticOverview/AnalyticOverview.tsx
+msgid "Unlock date"
+msgstr ""
+
+#: src/pages/Pool/utils.ts
+msgid "Unlocked"
+msgstr ""
+
+#: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
+msgid "Updated unlock date"
+msgstr ""
+
+#: src/components/MobilePlug/MobilePlug.tsx
+msgid "Use the desktop version and Google Chrome browser"
+msgstr ""
+
+#: src/components/ConfirmationModal/ConfirmationModal.tsx
+#: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
+msgid "View on Explorer"
+msgstr ""
+
+#: src/components/WalletModal/WalletActiveAddress/WalletActiveAddress.tsx
+msgid "View on explorer"
+msgstr ""
+
+#: src/components/common/ExploreButton/ExploreButton.tsx
+msgid "View on explorer."
+msgstr ""
+
+#: src/components/ConfirmationModal/ConfirmationModal.tsx
+msgid "Waiting for confirmation"
+msgstr ""
+
+#: src/components/WalletModal/WalletModal.tsx
+msgid "Wallet"
+msgstr ""
+
+#: src/components/common/KyaModal/KyaModal.tsx
+msgid "We recommend that you DO NOT use ErgoDEX to operate large amounts of assets!"
+msgstr ""
+
+#: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
+msgid "Withdrawable"
+msgstr ""
+
+#: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
+#: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
+#: src/pages/Pool/components/LocksList/LockItemView/LockItemView.tsx
+#: src/pages/PoolOverview/PoolOverview.tsx
+msgid "Withdrawal"
+msgstr ""
+
+#: src/pages/PoolOverview/PoolOverview.tsx
+msgid "You didn't provide liquidity to this pool yet."
+msgstr ""
+
+#: src/components/WalletModal/LowBalanceWarning/LowBalanceWarning.tsx
+msgid "You need ERG to pay transaction fees"
+msgstr ""
+
+#: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
+msgid "You will spend {value} ERG for every operation."
+msgstr ""
+
+#: src/pages/Pool/Liquidity.tsx
+msgid "Your Positions"
+msgstr ""
+
+#: src/pages/PoolOverview/PoolOverview.tsx
+#: src/pages/PoolOverview/PoolOverview.tsx
+msgid "Your liquidity"
+msgstr ""
+
+#: src/pages/Pool/common/EmptyPositionsList/EmptyPositionsList.tsx
+msgid "Your liquidity positions will appear here."
+msgstr ""
+
+#: src/pages/Swap/PoolSelector/PoolSelector.tsx
+msgid "Your operation will be executed in this pool. <0/> You can also choose another pool for this pair"
+msgstr ""
+
+#: src/pages/Swap/OperationSettings/OperationSettings.tsx
+msgid "Your transaction may be frontrun"
+msgstr ""
+
+#: src/pages/Swap/OperationSettings/OperationSettings.tsx
+msgid "Your transaction may fail"
+msgstr ""
+
+#: src/pages/Swap/OperationSettings/OperationSettings.tsx
+msgid "Your transaction will revert if the price changes unfavorably by more than this percentage"
+msgstr ""
+
+#: src/components/common/KyaModal/KyaModal.tsx
+msgid "explorer"
+msgstr ""
+
+#: src/components/common/KyaModal/KyaModal.tsx
+msgid "meet your expectations."
+msgstr ""
+
+#: src/components/common/KyaModal/KyaModal.tsx
+msgid "only on top of the Ergo Blockchain."
+msgstr ""
+
+#: src/pages/Pool/Liquidity.tsx
+msgid "{0} Community Pools"
+msgstr ""
+
+#: src/pages/PoolOverview/PoolRatio/PoolRatio.tsx
+#: src/pages/PoolOverview/PoolRatio/PoolRatio.tsx
+msgid "{0} per {1}"
+msgstr ""
+
+#: src/pages/Pool/utils.ts
+msgid "{daysCount} Days"
+msgstr ""
+
+#: src/pages/Pool/utils.ts
+msgid "{monthsCount} Months"
+msgstr ""
+
+#: src/components/Header/ConnectWallet/ConnectWallet.tsx
+msgid "{numberOfPendingTxs} Pending"
+msgstr ""
+
+#: src/pages/AddLiquidityOrCreatePool/CreatePoolUnsupportedAlert/CreatePoolUnsupportedAlert.tsx
+msgid "{walletName} Wallet doesn’t support “create pool” functionality yet. Choose another wallet to perform the operation."
+msgstr ""
+
+#: src/pages/Pool/utils.ts
+msgid "{yearsCount} Years"
+msgstr ""
+
