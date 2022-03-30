@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ergodex-frontend\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-03-30 18:00\n"
+"PO-Revision-Date: 2022-03-30 18:59\n"
 "Last-Translator: \n"
 "Language: tr_TR\n"
 "Language-Team: Turkish\n"
@@ -22,15 +22,15 @@ msgstr "(Blok: {0})"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
 msgid "(Unlock block: {0})"
-msgstr ""
+msgstr "(Blok kilidini aç: {0})"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "- By creating an order you send your funds to a specific smart-contract, all such contracts are wired into the UI. Thus, orders are created entirely in your browser (on your machine)."
-msgstr ""
+msgstr "- Emir vererek paralarınızı belirli bir akıllı sözleşmeye gönderirsiniz, bu sözleşmeler kullanıcı arayüzüne bağlıdırlar. Bu yüzden emirler tamamen tarayıcınızda (makinenizde) oluşturulur."
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "- ErgoDEX operates on a live blockchain, thus trades are final, and irreversible once they have status «executed»;"
-msgstr ""
+msgstr "- ErgoDEX hareketli bir blokzincir üzerinde çalışır, bu yüzden takaslar nihaidir ve «yapıldı» konumuna geçtiklerinde geri döndürülemezdir;"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "- Every transaction can be viewed via"
@@ -38,194 +38,194 @@ msgstr ""
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
 msgid "0.3% fee"
-msgstr ""
+msgstr "%0,3 ücret"
 
 #: src/pages/Pool/utils.ts
 msgid "1 Day"
-msgstr ""
+msgstr "1 Gün"
 
 #: src/pages/Pool/utils.ts
 msgid "1 Month"
-msgstr ""
+msgstr "1 Ay"
 
 #: src/pages/Pool/utils.ts
 msgid "1 Year"
-msgstr ""
+msgstr "1 Yıl"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
 msgid "1% fee"
-msgstr ""
+msgstr "%1 ücret"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "1. You will use the product at your own peril and risk;"
-msgstr ""
+msgstr "1. Ürünü kendi sorumluluğunuzda kullanacaksınız;"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "2. Only YOU are responsible for your assets;"
-msgstr ""
+msgstr "2. Varlıklarınızdan yalnızca SİZ sorumlusunuz;"
 
 #: src/components/Header/BurgerMenu/BurgerMenu.tsx
 msgid "About"
-msgstr ""
+msgstr "Hakkında"
 
 #: src/components/WalletModal/AddressesTab/AddressesTab.tsx
 msgid "Active"
-msgstr ""
+msgstr "Aktif"
 
 #: src/components/WalletModal/WalletActiveAddress/WalletActiveAddress.tsx
 msgid "Active address"
-msgstr ""
+msgstr "Aktif adresler"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool.tsx
 #: src/pages/Pool/components/LiquidityPositionsList/LiquidityPositionsList.tsx
 msgid "Add Liquidity"
-msgstr ""
+msgstr "Likidite Ekle"
 
 #: src/components/common/TxHistory/TxTypeTag/TxTypeTag.tsx
 #: src/pages/Pool/Liquidity.tsx
 msgid "Add liquidity"
-msgstr ""
+msgstr "Likidite ekle"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Adding liquidity {0} and {1}"
-msgstr ""
+msgstr "{0} ve {1} likiditesi ekleniyor"
 
 #: src/components/WalletModal/WalletActiveAddress/WalletActiveAddress.tsx
 msgid "All output assets will be received at this address."
-msgstr ""
+msgstr "Tüm çıktı varlıklar bu adres tarafından alınacaktır."
 
 #: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidity.tsx
 msgid "Amount"
-msgstr ""
+msgstr "Miktar"
 
 #: src/pages/Pool/components/LiquidityPositionsList/LiquidityPositionsItem/LiquidityPositionsItemAnalytics/LiquidityPositionsItemAnalytics.tsx
 msgid "Annual Percentage Rate. Average estimation of how much you may potentially earn providing liquidity to this pool."
-msgstr ""
+msgstr "Yıllık Yüzde Oranı. Bu havuza likidite sağlayarak ortalama ne kadar kazanabileceğinin tahmini."
 
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 msgid "Assets"
-msgstr ""
+msgstr "Varlıklar"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
 #: src/pages/Pool/LockLiquidity/LockLiquidityConfirmationModal/LockLiquidityConfirmationModal.tsx
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
 msgid "Assets to lock"
-msgstr ""
+msgstr "Hapsedilecek varlıklar"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
 msgid "Assets to relock"
-msgstr ""
+msgstr "Yeniden hapsedilecek varlıklar"
 
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidity.tsx
 msgid "Assets to remove"
-msgstr ""
+msgstr "Çıkarılacak varlıklar"
 
 #: src/components/MobilePlug/MobilePlug.tsx
 msgid "Back to Home"
-msgstr ""
+msgstr "Ana Sayfaya Dön"
 
 #: src/components/common/TokenControl/TokenControl.tsx
 msgid "Balance: {0}"
-msgstr ""
+msgstr "Bakiye: {0}"
 
 #: src/pages/Pool/components/LPGuide/LPGuide.tsx
 msgid "Become a liquidity provider"
-msgstr ""
+msgstr "Likidite sağlayıcısı ol"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
 msgid "Best for exotic pairs"
-msgstr ""
+msgstr "Egzotik çiftler için en iyisi"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
 msgid "Best for most pairs"
-msgstr ""
+msgstr "Çoğu çift için en iyisi"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
 #: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
 msgid "Block:"
-msgstr ""
+msgstr "Blok:"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "By accepting these KYA, you agree that:"
-msgstr ""
+msgstr "Bu bilgilendirme metnini kabul ederek bunları kabul ediyorsun:"
 
 #: src/pages/Swap/PoolSelector/PoolSelector.tsx
 msgid "Change"
-msgstr ""
+msgstr "Değiştir"
 
 #: src/components/WalletModal/WalletModal.tsx
 msgid "Change wallet"
-msgstr ""
+msgstr "Cüzdan değiştir"
 
 #: src/components/OperationForm/OperationForm.tsx
 #: src/components/common/ActionForm/ActionButton/ActionButton.tsx
 msgid "Check Internet Connection"
-msgstr ""
+msgstr "İnternet bağlantısını kontrol edin"
 
 #: src/pages/Pool/components/LPGuide/LPGuide.tsx
 msgid "Check out our guides how to become a liquidity provider"
-msgstr ""
+msgstr "Likidite sağlayıcısı nasıl olunur öğrenmek için rehberimize göz atın"
 
 #: src/components/WalletModal/AddressesTab/AddressesTab.tsx
 msgid "Choose"
-msgstr ""
+msgstr "Seç"
 
 #: src/pages/Pool/components/LockLiquidityDatePicker/LiquidityDatePicker.tsx
 msgid "Choose Date"
-msgstr ""
+msgstr "Tarih Seç"
 
 #: src/pages/Swap/PoolSelector/PoolSelectorModal/PoolSelectorModal.tsx
 msgid "Choose Pool"
-msgstr ""
+msgstr "Havuz Seç"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Choose a fee"
-msgstr ""
+msgstr "Ücretlendirme seç"
 
 #: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
 #: src/components/common/TxHistory/RefundConfirmationModal/RefundConfirmationModal.tsx
 msgid "Confirm"
-msgstr ""
+msgstr "Onayla"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 msgid "Confirm Add Liquidity"
-msgstr ""
+msgstr "Likidite Eklemeyi Onayla"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidityConfirmationModal/LockLiquidityConfirmationModal.tsx
 msgid "Confirm Lock"
-msgstr ""
+msgstr "Hapsetmeyi Onayla"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
 msgid "Confirm Relock"
-msgstr ""
+msgstr "Yeniden Hapsetmeyi Onayla"
 
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidityConfirmationModal/RemoveLiquidityConfirmationModal.tsx
 msgid "Confirm Remove Liquidity"
-msgstr ""
+msgstr "Likidite Çıkarmayı Onayla"
 
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Confirm Swap"
-msgstr ""
+msgstr "Takası Onayla"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
 msgid "Confirm Withdrawal"
-msgstr ""
+msgstr "Çekimi Onayla"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
 msgid "Confirm pool creation"
-msgstr ""
+msgstr "Havuz oluşturmayı onayla"
 
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Confirm swap"
-msgstr ""
+msgstr "Takası onayla"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Confirm this transaction in your wallet"
-msgstr ""
+msgstr "Bu işlemi cüzdanında onayla"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
 msgid "Confirm withdrawal"
@@ -457,80 +457,80 @@ msgstr ""
 
 #: src/components/WalletModal/LowBalanceWarning/LowBalanceWarning.tsx
 msgid "Learn how to get ERG"
-msgstr ""
+msgstr "Nasıl ERG elde edeceğini öğren"
 
 #: src/components/Header/Navigation/Navigation.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 #: src/pages/Pool/Liquidity.tsx
 msgid "Liquidity"
-msgstr ""
+msgstr "Likidite"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Liquidity Locker"
-msgstr ""
+msgstr "Likidite Dolabı"
 
 #: src/pages/Swap/PoolSelector/PoolSelector.tsx
 msgid "Liquidity Pool"
-msgstr ""
+msgstr "Likidite Havuzu"
 
 #: src/components/OperationForm/OperationForm.tsx
 #: src/components/common/ActionForm/ActionButton/ActionButton.tsx
 msgid "Loading"
-msgstr ""
+msgstr "Yükleniyor"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
 msgid "Lock"
-msgstr ""
+msgstr "Hapset"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidityConfirmationModal/LockLiquidityConfirmationModal.tsx
 msgid "Lock Liquidity"
-msgstr ""
+msgstr "Likidite Hapset"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Lock liquidity"
-msgstr ""
+msgstr "Likidite hapset"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
 msgid "Lock period"
-msgstr ""
+msgstr "Hapis periyodu"
 
 #: src/pages/PoolOverview/LockLiquidityChart/LockLiquidityChart.tsx
 msgid "Lock time"
-msgstr ""
+msgstr "Hapis süresi"
 
 #: src/pages/Pool/utils.ts
 msgid "Locked"
-msgstr ""
+msgstr "Hapsedildi"
 
 #: src/pages/Pool/Liquidity.tsx
 msgid "Locked Positions"
-msgstr ""
+msgstr "Hapis Pozisyonlar"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Locked liquidity"
-msgstr ""
+msgstr "Hapis likidite"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
 msgid "Locked positions"
-msgstr ""
+msgstr "Hapis pozisyonlar"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Locking {0} and {1} ({2}) for {3}"
-msgstr ""
+msgstr "{3} için {0} ve {1} ({2}) hapsediliyor"
 
 #: src/components/common/TokenControl/TokenControl.tsx
 msgid "Max"
-msgstr ""
+msgstr "Maksimum"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Max execution fee multiplier"
-msgstr ""
+msgstr "Maksimum uygulama ücreti çarpanı"
 
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
 msgid "Maximum received:"
-msgstr ""
+msgstr "Maksimum alınan:"
 
 #: src/components/common/ActionForm/ActionButton/ActionButton.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
