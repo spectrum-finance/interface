@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ergodex-frontend\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-03-29 20:21\n"
+"PO-Revision-Date: 2022-03-29 20:48\n"
 "Last-Translator: \n"
 "Language: fr_FR\n"
 "Language-Team: French\n"
@@ -14,7 +14,7 @@ msgstr ""
 "X-Crowdin-Project-ID: 504102\n"
 "X-Crowdin-Language: fr\n"
 "X-Crowdin-File: /dev/src/i18n/locales/en-US.po\n"
-"X-Crowdin-File-ID: 68\n"
+"X-Crowdin-File-ID: 78\n"
 
 #: src/pages/Pool/components/LockLiquidityDatePicker/LiquidityDatePicker.tsx
 msgid "(Block: {0})"
@@ -272,7 +272,7 @@ msgstr "Mode Sombre"
 
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
 msgid "Date"
-msgstr "Date"
+msgstr ""
 
 #: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
 msgid "Disconnect wallet"
@@ -566,7 +566,7 @@ msgstr "Le slippage minimal est de {MIN_SLIPPAGE}"
 #: src/components/Header/GlobalSettingsModal/MinerFeeInput/MinerFeeInput.tsx
 #: src/pages/Swap/OperationSettings/NitroInput/NitroInput.tsx
 msgid "Minimum"
-msgstr "Minimum"
+msgstr ""
 
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
 msgid "Minimum received:"
@@ -582,7 +582,7 @@ msgstr "La version mobile n'est pas encore prise en charge"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Nitro"
-msgstr "Nitro"
+msgstr ""
 
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Nitro:"
@@ -602,7 +602,7 @@ msgstr "Une fois que les jetons LP sont verrouillés, ils ne peuvent en aucun ca
 
 #: src/pages/Pool/components/LocksList/LockItemView/LockItemView.tsx
 msgid "Pair"
-msgstr "Pair"
+msgstr ""
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
 msgid "Pick new unlock date"
@@ -610,7 +610,7 @@ msgstr "Choisissez une nouvelle date de déverrouillage"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
 msgid "Pool"
-msgstr "Pool"
+msgstr ""
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Pool liquidity"
@@ -788,7 +788,7 @@ msgstr "Tolérance de slippage:"
 
 #: src/pages/Swap/SwapInfo/SwapInfoHeader/SlippageTag/SlippageTag.tsx
 msgid "Slippage: {slippage}"
-msgstr "Slippage: {slippage}"
+msgstr ""
 
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
 #: src/pages/Pool/components/LockedPositionItem/LockedPositionItem.tsx
@@ -800,7 +800,7 @@ msgstr "Statut"
 #: src/pages/Swap/Swap.tsx
 #: src/pages/Swap/Swap.tsx
 msgid "Swap"
-msgstr "Swap"
+msgstr ""
 
 #: src/components/common/ActionForm/ActionButton/ActionButton.tsx
 msgid "Swapping is available in {0}"
@@ -891,7 +891,7 @@ msgstr "Veuillez réessayer ultérieurement"
 
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
 msgid "Type"
-msgstr "Type"
+msgstr ""
 
 #: src/pages/Pool/Liquidity.tsx
 msgid "Type token name or pool id"
@@ -953,7 +953,7 @@ msgstr "En attente de confirmation"
 
 #: src/components/WalletModal/WalletModal.tsx
 msgid "Wallet"
-msgstr "Wallet"
+msgstr ""
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "We recommend that you DO NOT use ErgoDEX to operate large amounts of assets!"
