@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ergodex-frontend\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-03-29 20:48\n"
+"PO-Revision-Date: 2022-03-30 13:34\n"
 "Last-Translator: \n"
 "Language: ja_JP\n"
 "Language-Team: Japanese\n"
@@ -400,7 +400,7 @@ msgstr "私は<0>{0}</0>私の <1>{1}/{2}</1>のLPトークンを再ロックし
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "I understand the risks"
-msgstr ""
+msgstr "リスクを理解しています。"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "I understand the risks and accept the KYA"
@@ -828,12 +828,12 @@ msgstr "値は {MAX_ERG_FOR_TX} ERG 以上にすることはできません"
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "This operation may include fake or scam assets. Only confirm if you have done your own research."
-msgstr ""
+msgstr "このオーダーには偽物または詐欺資産がある可能性があります。充分に確認を行った場合の承認してください。"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "This pair has not been verified by the ErgoDEX team"
-msgstr ""
+msgstr "ErgoDEXチームはこのペアを検証していません。"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
 msgid "This position is still locked"
@@ -894,7 +894,7 @@ msgstr "種類"
 
 #: src/pages/Pool/Liquidity.tsx
 msgid "Type token name or pool id"
-msgstr ""
+msgstr "トークン名またはプールIDを入力"
 
 #: src/components/common/FormView/FormFeesSection/FormFeesSection.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
@@ -1024,7 +1024,7 @@ msgstr "Ergoブロックチェーン上にのみ"
 
 #: src/pages/Pool/Liquidity.tsx
 msgid "{0} Community Pools"
-msgstr ""
+msgstr "{0} コミュニティプール"
 
 #: src/pages/PoolOverview/PoolRatio/PoolRatio.tsx
 #: src/pages/PoolOverview/PoolRatio/PoolRatio.tsx
