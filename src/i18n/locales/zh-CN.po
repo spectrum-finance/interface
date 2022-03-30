@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ergodex-frontend\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-03-29 20:48\n"
+"PO-Revision-Date: 2022-03-30 12:24\n"
 "Last-Translator: \n"
 "Language: zh_CN\n"
 "Language-Team: Chinese Simplified\n"
@@ -62,7 +62,7 @@ msgstr "1. 使用这产品的风险和危险将由你自己承担"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "2. Only YOU are responsible for your assets;"
-msgstr "2. 只有\"你\"對你的資產負責"
+msgstr "2. 只有\"你\"对你的资产负责"
 
 #: src/components/Header/BurgerMenu/BurgerMenu.tsx
 msgid "About"
@@ -400,7 +400,7 @@ msgstr "我知道我正在重新鎖定我 <1>{1}/{2}</1> 的仓位的 <0>{0}</0>
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "I understand the risks"
-msgstr ""
+msgstr "我了解风险"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "I understand the risks and accept the KYA"
@@ -828,12 +828,12 @@ msgstr "数量不能超过 {MAX_ERG_FOR_TX} ERG"
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "This operation may include fake or scam assets. Only confirm if you have done your own research."
-msgstr ""
+msgstr "此操作可能包括假冒或诈骗资产。只有在您完成了自己的研究后才去确认。"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "This pair has not been verified by the ErgoDEX team"
-msgstr ""
+msgstr "这币对尚未被ErgodeX团队验证"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
 msgid "This position is still locked"
@@ -894,7 +894,7 @@ msgstr "类型"
 
 #: src/pages/Pool/Liquidity.tsx
 msgid "Type token name or pool id"
-msgstr ""
+msgstr "输入代币名称或池号"
 
 #: src/components/common/FormView/FormFeesSection/FormFeesSection.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
@@ -1024,7 +1024,7 @@ msgstr "仅在Ergo 区块链上"
 
 #: src/pages/Pool/Liquidity.tsx
 msgid "{0} Community Pools"
-msgstr ""
+msgstr "{0} 社区池子"
 
 #: src/pages/PoolOverview/PoolRatio/PoolRatio.tsx
 #: src/pages/PoolOverview/PoolRatio/PoolRatio.tsx
