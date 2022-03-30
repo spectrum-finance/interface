@@ -23,6 +23,7 @@ import {
   Menu,
   Modal,
   QuestionCircleOutlined,
+  ReloadOutlined,
   RightOutlined,
   SettingOutlined,
 } from '../../../ergodex-cdk';
@@ -30,6 +31,7 @@ import { useQuery } from '../../../hooks/useQuery';
 import { DotsIcon } from '../../common/Icons/DotsIcon';
 import { ThemeSwitch } from '../../ThemeSwitch/ThemeSwitch';
 import { GlobalSettingsModal } from '../GlobalSettingsModal/GlobalSettingsModal';
+import { ManualRefundModal } from './ManualRefundModal/ManualRefundModal';
 
 const MENU_WIDTH = 160;
 
@@ -60,6 +62,11 @@ const BurgerMenu = (): JSX.Element => {
       title: 'GitHub',
       icon: <GithubOutlined />,
       link: 'https://github.com/ergolabs',
+    },
+    {
+      title: t`Manual Refund`,
+      icon: <ReloadOutlined />,
+      onClick: () => Modal.open(() => <ManualRefundModal />),
     },
     {
       title: t`Global Settings`,
