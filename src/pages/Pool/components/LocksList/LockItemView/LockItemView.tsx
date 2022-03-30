@@ -20,9 +20,9 @@ export const LockItemView: FC<LockItemViewProps> = ({ position }) => (
     <TableListItemView.Column title={t`Pair`} width={164} marginRight={4}>
       <Flex col stretch>
         <Flex.Item marginBottom={3}>
-          <TokenTitle value={position.availableX.asset} />
+          <TokenTitle asset={position.availableX.asset} />
         </Flex.Item>
-        <TokenTitle value={position.availableY.asset} />
+        <TokenTitle asset={position.availableY.asset} />
       </Flex>
     </TableListItemView.Column>
     <TableListItemView.Column

@@ -77,7 +77,11 @@ export const TransactionFindForm: FC<TransactionFindFormProps> = ({
           </Flex>
         </Section>
         <Flex.Item marginTop={errorMessage ? 2 : 0}>
-          <Animation.Expand expanded={!!errorMessage}>
+          <Animation.Expand
+            expanded={!!errorMessage}
+            opacityDelay={true}
+            duration={200}
+          >
             <Flex.Item marginTop={2}>
               <Alert showIcon type="error" message={errorMessage} />
             </Flex.Item>

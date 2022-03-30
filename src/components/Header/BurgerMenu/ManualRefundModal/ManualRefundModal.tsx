@@ -1,22 +1,38 @@
 import { t, Trans } from '@lingui/macro';
 import React, { FC } from 'react';
+import { map, Observable } from 'rxjs';
 
 import { getOperationByTxId } from '../../../../api/transactionsHistory';
 import { useSubject } from '../../../../common/hooks/useObservable';
-import { Flex, Modal } from '../../../../ergodex-cdk';
+import { Animation, Flex, Modal } from '../../../../ergodex-cdk';
+import { Operation } from '../../../common/TxHistory/types';
+import { normalizeOperations } from '../../../common/TxHistory/utils';
 import { TransactionFindForm } from './TransactionFindForm/TransactionFindForm';
 import { TransactionInfo } from './TransactionInfo/TransactionInfo';
 
-export const ManualRefundModal: FC = () => {
-  const [tx, requestTx, txLoading, txError] = useSubject(getOperationByTxId);
+const getNormalizedOperationByTxId = (
+  txId: string,
+): Observable<Operation | undefined> =>
+  getOperationByTxId(txId).pipe(
+    map((dexOp) => (dexOp ? normalizeOperations([dexOp])[0] : dexOp)),
+  );
 
-  const findTx = (txId: string) => requestTx(txId);
+export const ManualRefundModal: FC<{ close: () => void }> = ({ close }) => {
+  const [operation, requestOperation, operationLoading, operationError] =
+    useSubject(getNormalizedOperationByTxId);
+
+  const findTx = (txId: string) => requestOperation(txId);
 
   let errorMessage: string | undefined = undefined;
 
-  if (txError) {
+  if (operationError) {
     errorMessage = t`Transaction not found`;
-  } else if (!txLoading && tx && tx.status !== 'refund') {
+  } else if (
+    !operationLoading &&
+    operation &&
+    operation.status !== 'pending' &&
+    operation.status !== 'submitted'
+  ) {
     errorMessage = t`Unable to refund a transaction.`;
   }
 
@@ -30,9 +46,17 @@ export const ManualRefundModal: FC = () => {
           <TransactionFindForm
             errorMessage={errorMessage}
             onSubmit={findTx}
-            loading={txLoading}
+            loading={operationLoading}
           />
-          <TransactionInfo operation={{} as any} />
+          <Flex.Item marginTop={!!operation && !errorMessage ? 6 : 0}>
+            <Animation.Expand
+              expanded={!!operation && !errorMessage}
+              duration={200}
+              opacityDelay={true}
+            >
+              {() => <TransactionInfo operation={operation!} close={close} />}
+            </Animation.Expand>
+          </Flex.Item>
         </Flex>
       </Modal.Content>
     </>

@@ -66,7 +66,8 @@ const BurgerMenu = (): JSX.Element => {
     {
       title: t`Manual Refund`,
       icon: <ReloadOutlined />,
-      onClick: () => Modal.open(() => <ManualRefundModal />),
+      onClick: () =>
+        Modal.open(({ close }) => <ManualRefundModal close={close} />),
     },
     {
       title: t`Global Settings`,
