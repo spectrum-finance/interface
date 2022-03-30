@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ergodex-frontend\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-03-30 13:34\n"
+"PO-Revision-Date: 2022-03-30 15:42\n"
 "Last-Translator: \n"
 "Language: zh_CN\n"
 "Language-Team: Chinese Simplified\n"
@@ -556,7 +556,7 @@ msgstr "矿工费："
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Minimal Nitro value is {MIN_NITRO}"
-msgstr "最小Nitro值是 {MIN_NITRO}"
+msgstr "最小倍数值是 {MIN_NITRO}"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Minimal Slippage is {MIN_SLIPPAGE}"
@@ -581,11 +581,11 @@ msgstr "尚不支持移动版本"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Nitro"
-msgstr "编号"
+msgstr "倍数"
 
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Nitro:"
-msgstr "编号："
+msgstr "倍数:"
 
 #: src/pages/Pool/common/EmptySearchResult/EmptySearchResult.tsx
 msgid "No results found"
@@ -936,11 +936,11 @@ msgstr "使用桌面版本和 Google Chrome 浏览器"
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
 msgid "View on Explorer"
-msgstr "在浏览器上查看"
+msgstr "在区块链浏览器查看"
 
 #: src/components/WalletModal/WalletActiveAddress/WalletActiveAddress.tsx
 msgid "View on explorer"
-msgstr "在浏览器上查看"
+msgstr "在区块链浏览器查看"
 
 #: src/components/common/ExploreButton/ExploreButton.tsx
 msgid "View on explorer."
@@ -1000,7 +1000,7 @@ msgstr "您的操作将在这个池中执行。<0/> 您也可以为这币对选�
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Your transaction may be frontrun"
-msgstr "您的交易可能會提前交易"
+msgstr "您的交易可能会被别人“抢先”（从而赚取差价）"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Your transaction may fail"
@@ -1024,7 +1024,7 @@ msgstr "仅在Ergo 区块链上"
 
 #: src/pages/Pool/Liquidity.tsx
 msgid "{0} Community Pools"
-msgstr "{0} 社区池子"
+msgstr "{0} 社区池"
 
 #: src/pages/PoolOverview/PoolRatio/PoolRatio.tsx
 #: src/pages/PoolOverview/PoolRatio/PoolRatio.tsx
