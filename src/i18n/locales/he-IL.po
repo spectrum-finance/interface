@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ergodex-frontend\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-03-31 10:11\n"
+"PO-Revision-Date: 2022-03-31 19:19\n"
 "Last-Translator: \n"
 "Language: he_IL\n"
 "Language-Team: Hebrew\n"
@@ -26,15 +26,15 @@ msgstr "(בטלי נעילת בלוק: {0})"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "- By creating an order you send your funds to a specific smart-contract, all such contracts are wired into the UI. Thus, orders are created entirely in your browser (on your machine)."
-msgstr "- ביצירת פקודה אתה שולח את הכסף שלך לחוזה חכם מסויים; כל החוזים האלה מתחברים לתוך ה-UI. לפיכך, פקודות נוצרות בתוך הדפדפן שלך בלבד (במחשב שלך)."
+msgstr "- על ידי יצירת פקודה אתה שולח את המטבעות שלך לחוזה חכם מסויים; כל החוזים האלה מתחברים לתוך ממשק המשתמש. לפיכך, פקודות נוצרות בתוך הדפדפן שלך בלבד (במחשב שלך)."
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "- ErgoDEX operates on a live blockchain, thus trades are final, and irreversible once they have status «executed»;"
-msgstr "- ErgoDEX פועל בבלוקצ'ין חי, לפיכך פעולות מסחר הן סופיות, ובלתי ניתנות לביטול משעה שהסטטוס שלהן «בוצע»;"
+msgstr "- ErgoDEX פועל בבלוקצ'יין \"חי\", לפיכך פעולות מסחר הן סופיות, ובלתי ניתנות לביטול משעה שהסטטוס שלהן «בוצע»;"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "- Every transaction can be viewed via"
-msgstr "ניתן לצפות בכל פעולת מסחר דרך"
+msgstr ""
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
 msgid "0.3% fee"
