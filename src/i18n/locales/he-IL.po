@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ergodex-frontend\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-03-30 21:08\n"
+"PO-Revision-Date: 2022-03-31 06:33\n"
 "Last-Translator: \n"
 "Language: he_IL\n"
 "Language-Team: Hebrew\n"
@@ -498,23 +498,23 @@ msgstr "תקופת נעילה"
 
 #: src/pages/PoolOverview/LockLiquidityChart/LockLiquidityChart.tsx
 msgid "Lock time"
-msgstr ""
+msgstr "זמן חסימה"
 
 #: src/pages/Pool/utils.ts
 msgid "Locked"
-msgstr ""
+msgstr "חסום"
 
 #: src/pages/Pool/Liquidity.tsx
 msgid "Locked Positions"
-msgstr ""
+msgstr "פוזיציות חסומות"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Locked liquidity"
-msgstr ""
+msgstr "נזילות חסומה"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
 msgid "Locked positions"
-msgstr ""
+msgstr "פוזיציות חסומות"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Locking {0} and {1} ({2}) for {3}"
@@ -707,7 +707,7 @@ msgstr ""
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Removing liquidity {0} and {1}"
-msgstr ""
+msgstr "מסיר נזילות {0} ו {1}"
 
 #: src/components/common/TokenControl/TokenSelect/TokenListModal/TokenListModal.tsx
 msgid "Search"
@@ -919,104 +919,104 @@ msgstr "פתח נעילת בלוק"
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
 #: src/pages/PoolOverview/LockLiquidityChart/AnalyticOverview/AnalyticOverview.tsx
 msgid "Unlock date"
-msgstr ""
+msgstr "תאריך סיום חסימה"
 
 #: src/pages/Pool/utils.ts
 msgid "Unlocked"
-msgstr ""
+msgstr "משוחרר"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
 msgid "Updated unlock date"
-msgstr ""
+msgstr "תאריך שחרור חסימה מעודכן"
 
 #: src/components/MobilePlug/MobilePlug.tsx
 msgid "Use the desktop version and Google Chrome browser"
-msgstr ""
+msgstr "השתמש בגירסת דסקטופ ובדפדפן גוגל כרום"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
 msgid "View on Explorer"
-msgstr ""
+msgstr "צפה ב-Explorer"
 
 #: src/components/WalletModal/WalletActiveAddress/WalletActiveAddress.tsx
 msgid "View on explorer"
-msgstr ""
+msgstr "צפה ב-Explorer"
 
 #: src/components/common/ExploreButton/ExploreButton.tsx
 msgid "View on explorer."
-msgstr ""
+msgstr "צפה ב-Explorer."
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Waiting for confirmation"
-msgstr ""
+msgstr "ממתין לאישור"
 
 #: src/components/WalletModal/WalletModal.tsx
 msgid "Wallet"
-msgstr ""
+msgstr "ארנק"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "We recommend that you DO NOT use ErgoDEX to operate large amounts of assets!"
-msgstr ""
+msgstr "אנחנו ממליצים שלא תשתמש ב-ErgoDEX לתפעל נכסים בשווי גבוה!"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
 msgid "Withdrawable"
-msgstr ""
+msgstr "זמין למשיכה"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
 #: src/pages/Pool/components/LocksList/LockItemView/LockItemView.tsx
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Withdrawal"
-msgstr ""
+msgstr "משיכה"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "You didn't provide liquidity to this pool yet."
-msgstr ""
+msgstr "טרם הוספת נזילות לפּוּל זה."
 
 #: src/components/WalletModal/LowBalanceWarning/LowBalanceWarning.tsx
 msgid "You need ERG to pay transaction fees"
-msgstr ""
+msgstr "את זקוקה ל-ERG כדי לשלם עמלות עיסקה"
 
 #: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
 msgid "You will spend {value} ERG for every operation."
-msgstr ""
+msgstr "אתה תוציא {value} ERG לכל פעולה."
 
 #: src/pages/Pool/Liquidity.tsx
 msgid "Your Positions"
-msgstr ""
+msgstr "הפוזיציות שלך"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Your liquidity"
-msgstr ""
+msgstr "הנזילות שלך"
 
 #: src/pages/Pool/common/EmptyPositionsList/EmptyPositionsList.tsx
 msgid "Your liquidity positions will appear here."
-msgstr ""
+msgstr "פוזיציות הנזילות שלך יוצגו כאן."
 
 #: src/pages/Swap/PoolSelector/PoolSelector.tsx
 msgid "Your operation will be executed in this pool. <0/> You can also choose another pool for this pair"
-msgstr ""
+msgstr "הפעולה שלך תבוצע בפּוּל הנוכחי. <0/> את יכולה גם לבחור פּוּל אחר עבור הצמד הזה"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Your transaction may be frontrun"
-msgstr ""
+msgstr "יתכן שמישהו יקדים את הטרנזאקציה שלך"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Your transaction may fail"
-msgstr ""
+msgstr "יתכן שהטרנזאקציה שלך תכשל"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Your transaction will revert if the price changes unfavorably by more than this percentage"
-msgstr ""
+msgstr "הטרנזאקציה שלך תבוטל אם המחיר ישתנה לרעתך ביותר מהאחוז הבא"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "explorer"
-msgstr ""
+msgstr "אקספלורר"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "meet your expectations."
-msgstr ""
+msgstr "עני על הציפיות שלך."
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "only on top of the Ergo Blockchain."
@@ -1024,30 +1024,30 @@ msgstr ""
 
 #: src/pages/Pool/Liquidity.tsx
 msgid "{0} Community Pools"
-msgstr ""
+msgstr "{0} פּוּלים קהילתיים"
 
 #: src/pages/PoolOverview/PoolRatio/PoolRatio.tsx
 #: src/pages/PoolOverview/PoolRatio/PoolRatio.tsx
 msgid "{0} per {1}"
-msgstr ""
+msgstr "{0} עבור {1}"
 
 #: src/pages/Pool/utils.ts
 msgid "{daysCount} Days"
-msgstr ""
+msgstr "{daysCount} ימים"
 
 #: src/pages/Pool/utils.ts
 msgid "{monthsCount} Months"
-msgstr ""
+msgstr "{monthsCount} חודשים"
 
 #: src/components/Header/ConnectWallet/ConnectWallet.tsx
 msgid "{numberOfPendingTxs} Pending"
-msgstr ""
+msgstr "{numberOfPendingTxs} ממתינות"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePoolUnsupportedAlert/CreatePoolUnsupportedAlert.tsx
 msgid "{walletName} Wallet doesn’t support “create pool” functionality yet. Choose another wallet to perform the operation."
-msgstr ""
+msgstr "ארנק {walletName} אינו תומך עדין בפונקציונליות \"צור פּוּל\". בחרי ארנק אחר על מנת לבצע את הפעולה."
 
 #: src/pages/Pool/utils.ts
 msgid "{yearsCount} Years"
-msgstr ""
+msgstr "{yearsCount} שנים"
 
