@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ergodex-frontend\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-03-31 19:19\n"
+"PO-Revision-Date: 2022-03-31 20:21\n"
 "Last-Translator: \n"
 "Language: he_IL\n"
 "Language-Team: Hebrew\n"
@@ -34,7 +34,7 @@ msgstr "- ErgoDEX פועל בבלוקצ'יין \"חי\", לפיכך פעולות
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "- Every transaction can be viewed via"
-msgstr ""
+msgstr "- ניתן לצפות בכל פעולת מסחר דרך"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
 msgid "0.3% fee"
@@ -58,11 +58,11 @@ msgstr "עמלה 1%"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "1. You will use the product at your own peril and risk;"
-msgstr "1. השימוש במוצר הוא באחריותך בלבד ואתה היחיד שנוטל סיכון בשל כך;"
+msgstr "1. אתה תשתמש במוצר על אחריותך בלבד;"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "2. Only YOU are responsible for your assets;"
-msgstr "2. רק אתה ואתה בלבד אחראי לנכסים שלך;"
+msgstr "2. אתה האחראי הבלעדי לנכסים שלך;"
 
 #: src/components/Header/BurgerMenu/BurgerMenu.tsx
 msgid "About"
@@ -103,7 +103,7 @@ msgstr "כמות"
 
 #: src/pages/Pool/components/LiquidityPositionsList/LiquidityPositionsItem/LiquidityPositionsItemAnalytics/LiquidityPositionsItemAnalytics.tsx
 msgid "Annual Percentage Rate. Average estimation of how much you may potentially earn providing liquidity to this pool."
-msgstr "שיעור ריבית שנתי. הערכה ממוצעת של כמה את עשויה להרוויח אם תספקי נזילות לפּוּל זה."
+msgstr "שיעור ריבית שנתית. הערכה ממוצעת של כמה את עשויה להרוויח אם תספקי נזילות לפּוּל זה."
 
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
@@ -138,11 +138,11 @@ msgstr "הפוך לספק נזילות"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
 msgid "Best for exotic pairs"
-msgstr "הטוב ביותר עבור צמדים אקזוטיים"
+msgstr "הטוב ביותר עבור צמדים \"אקזוטיים\""
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
 msgid "Best for most pairs"
-msgstr "הטוב ביותר עבור רב הצמדים"
+msgstr "הטוב ביותר עבור רוב הצמדים"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
 #: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
@@ -168,7 +168,7 @@ msgstr "בדוק את החיבור לאינטרנט"
 
 #: src/pages/Pool/components/LPGuide/LPGuide.tsx
 msgid "Check out our guides how to become a liquidity provider"
-msgstr "עבור על המדריכים שלנו על איך להפוך לספק נזילות"
+msgstr "עיין במדריך שלנו כדי לדעת איך להפוך לספק נזילות"
 
 #: src/components/WalletModal/AddressesTab/AddressesTab.tsx
 msgid "Choose"
@@ -193,7 +193,7 @@ msgstr "אשרי"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 msgid "Confirm Add Liquidity"
-msgstr "אשר הוסף נזילות"
+msgstr "אשרי הוסף נזילות"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidityConfirmationModal/LockLiquidityConfirmationModal.tsx
 msgid "Confirm Lock"
@@ -209,7 +209,7 @@ msgstr "אשר הסרת נזילות"
 
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Confirm Swap"
-msgstr "אשרי ביצוע החלפה"
+msgstr "אשרי ביצוע המרה"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
 msgid "Confirm Withdrawal"
@@ -221,7 +221,7 @@ msgstr "אשרי יצירת פּוּל"
 
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Confirm swap"
-msgstr "אשרי ביצוע החלפה"
+msgstr "אשרי ביצוע המרה"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Confirm this transaction in your wallet"
@@ -263,7 +263,7 @@ msgstr "מחיר נוכחי"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
 msgid "Custom fee tier"
-msgstr "מדרגת עמלה מיוחדת"
+msgstr "מדרגת עמלה מותאמת אישית"
 
 #: src/components/Header/BurgerMenu/BurgerMenu.tsx
 msgid "Dark mode"
@@ -293,11 +293,11 @@ msgstr "יתרת ERG נמוכה"
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Enter an Amount"
-msgstr "הזיני סכום"
+msgstr "הכנס סכום"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Enter an Initial Price"
-msgstr "הזן מחיר התחלתי"
+msgstr "הכנס מחיר התחלתי"
 
 #: src/components/WalletModal/WalletModal.tsx
 msgid "Ergo network"
@@ -309,15 +309,15 @@ msgstr "חוזים חכמים של ErgoDEX"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "ErgoDEX Team doesn’t guarantee the absence of bugs and errors."
-msgstr "צוות ErgoDEX אינו מתחייב שאין כאן בגים וטעויות."
+msgstr "צוות ErgoDEX אינו מתחייב שאין באתר בגים או טעויות."
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "ErgoDEX is a decentralized financial (DeFi) application which means it doesn’t have a central government body. ErgoDEX includes AMM (Swap, Add liquidity and Remove liquidity) functionality"
-msgstr "ErgoDEX היא אפליקצייה פיננסית מבוזרת (DeFi), כלומר שאין לה ממשל מרכזי. ErgoDEX כוללת פונקציונליות של AMM (החלף, הוסף נזילות והסר נזילות)"
+msgstr "ErgoDEX היא אפליקצייה פיננסית מבוזרת (DeFi), כלומר שאין לה ממשל מרכזי. ErgoDEX כוללת פונקציונליות של AMM (המרה, הוספת נזילות והסרת נזילות)"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "ErgoDEX offers a form of added security, as buyers and sellers do not have to give their information to any 3rd party. However, ErgoDEX is without a know your customer (KYC) process and can offer NO assistance if a user is hacked or cheated out of passwords, currency or private wallet keys."
-msgstr "ErgoDEX מציעה סוג של הגנה נוספת, בכך שקונים ומוכרים לא חייבים למסור מידע אודות עצמם לצד שלישי. יחד עם זה, אין ב-ErgoDEX תהליך של \"הכר את הלקוח\" (KYC) ולכן אינה יכולה להציע כל עזרה אם משתמש עובר פריצה, או שנגנבות ממנו ססמאות, כספים או מילות המפתח של הארנק."
+msgstr "ErgoDEX מציעה הגנה נוספת, בכך שקונים ומוכרים אינם חייבים למסור מידע אודות עצמם לצד שלישי. למרות זאת, מאחר ואין ב-ErgoDEX תהליך של \"הכר את הלקוח\" (KYC), היא אינה יכולה להציע כל עזרה במקרה של פריצה לחשבון של משתמש, או שנגנבות ממנו ססמאות, כספים או מילות המפתח של הארנק."
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
@@ -326,7 +326,7 @@ msgstr "שגיאה"
 
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Estimated output:"
-msgstr "תפוקה משוערת:"
+msgstr "כמות משוערת:"
 
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
 msgid "Execution Fee"
@@ -379,7 +379,7 @@ msgstr "קבלי עזרה בערוצים שלנו:"
 #: src/components/Header/BurgerMenu/BurgerMenu.tsx
 #: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
 msgid "Global Settings"
-msgstr "הגדרות גלובליות"
+msgstr "הגדרות כלליות"
 
 #: src/components/Header/BurgerMenu/BurgerMenu.tsx
 msgid "How to use"
