@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ergodex-frontend\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-03-31 06:33\n"
+"PO-Revision-Date: 2022-03-31 07:29\n"
 "Last-Translator: \n"
 "Language: he_IL\n"
 "Language-Team: Hebrew\n"
@@ -22,19 +22,19 @@ msgstr "(בלוק: {0})"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
 msgid "(Unlock block: {0})"
-msgstr "(בטל/י נעילת בלוק: {0})"
+msgstr "(בטלי נעילת בלוק: {0})"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "- By creating an order you send your funds to a specific smart-contract, all such contracts are wired into the UI. Thus, orders are created entirely in your browser (on your machine)."
-msgstr "- ביצירת פקודה אתה שולח את הכסף שלך לחוזה חכם מסויים, כל החוזים האלה מחוברים לתוך ה-UI. לפיכך, פקודות נוצרות בתוך הדפדפן שלך בלבד (במחשב שלך)."
+msgstr "- ביצירת פקודה אתה שולח את הכסף שלך לחוזה חכם מסויים; כל החוזים האלה מתחברים לתוך ה-UI. לפיכך, פקודות נוצרות בתוך הדפדפן שלך בלבד (במחשב שלך)."
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "- ErgoDEX operates on a live blockchain, thus trades are final, and irreversible once they have status «executed»;"
-msgstr "- ארגודקס פועל בבלוקצ'ין חי, לפיכך פעולות מסחר הן סופיות, ובלתי ניתנות לביטול משעה שהסטטוס שלהן «בוצע»;"
+msgstr "- ErgoDEX פועל בבלוקצ'ין חי, לפיכך פעולות מסחר הן סופיות, ובלתי ניתנות לביטול משעה שהסטטוס שלהן «בוצע»;"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "- Every transaction can be viewed via"
-msgstr "ניתן לצפות בכל פעולת מסחר/טרנזאקציה דרך"
+msgstr "ניתן לצפות בכל פעולת מסחר דרך"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
 msgid "0.3% fee"
@@ -58,11 +58,11 @@ msgstr "עמלה 1%"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "1. You will use the product at your own peril and risk;"
-msgstr "1. תשתמש/י במוצר על אחריותך בלבד;"
+msgstr "1. השימוש במוצר הוא באחריותך בלבד ואתה היחיד שנוטל סיכון בשל כך;"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "2. Only YOU are responsible for your assets;"
-msgstr "2. רק את/ה ואת/ה בלבד אחראי/ת לנכסים שלך;"
+msgstr "2. רק אתה ואתה בלבד אחראי לנכסים שלך;"
 
 #: src/components/Header/BurgerMenu/BurgerMenu.tsx
 msgid "About"
@@ -90,11 +90,11 @@ msgstr "הוסף נזילות"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Adding liquidity {0} and {1}"
-msgstr "הוסף נזילות {0} ו {1}"
+msgstr "מוסיף נזילות {0} ו {1}"
 
 #: src/components/WalletModal/WalletActiveAddress/WalletActiveAddress.tsx
 msgid "All output assets will be received at this address."
-msgstr "כל הנכסים התוצאתיים/המונפקים יתקבלו בכתובת זו."
+msgstr "כל הנכסים המונפקים יתקבלו בכתובת זו."
 
 #: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidity.tsx
@@ -103,7 +103,7 @@ msgstr "סכום/כמות"
 
 #: src/pages/Pool/components/LiquidityPositionsList/LiquidityPositionsItem/LiquidityPositionsItemAnalytics/LiquidityPositionsItemAnalytics.tsx
 msgid "Annual Percentage Rate. Average estimation of how much you may potentially earn providing liquidity to this pool."
-msgstr "שיעור ריבית שנתי. הערכה ממוצעת של כמה את/ה עשוי/ה להרוויח אם תספק נזילות לפּוּל זה."
+msgstr "שיעור ריבית שנתי. הערכה ממוצעת של כמה את עשויה להרוויח אם תספקי נזילות לפּוּל זה."
 
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
@@ -114,15 +114,15 @@ msgstr "נכסים"
 #: src/pages/Pool/LockLiquidity/LockLiquidityConfirmationModal/LockLiquidityConfirmationModal.tsx
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
 msgid "Assets to lock"
-msgstr "נכסים לנעילה"
+msgstr "נכסים לחסימה"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
 msgid "Assets to relock"
-msgstr "נכסים לנעילה חוזרת"
+msgstr "נכסים לחסימה חוזרת"
 
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidity.tsx
 msgid "Assets to remove"
-msgstr "נכסים להסרה/לגריעה"
+msgstr "נכסים לגריעה"
 
 #: src/components/MobilePlug/MobilePlug.tsx
 msgid "Back to Home"
@@ -134,15 +134,15 @@ msgstr "יתרה: {0}"
 
 #: src/pages/Pool/components/LPGuide/LPGuide.tsx
 msgid "Become a liquidity provider"
-msgstr "תהיה ספק נזילות"
+msgstr "הפוך לספק נזילות"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
 msgid "Best for exotic pairs"
-msgstr "הטוב ביותר עבור זוגות אקזוטיים"
+msgstr "הטוב ביותר עבור צמדים אקזוטיים"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
 msgid "Best for most pairs"
-msgstr "הטוב ביותר עבור רב הזוגות"
+msgstr "הטוב ביותר עבור רב הצמדים"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
 #: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
@@ -151,7 +151,7 @@ msgstr "בלוק:"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "By accepting these KYA, you agree that:"
-msgstr "בכך שתקבל/י את ה-KYA הבאים, את/ה מסכימ/ה כי:"
+msgstr "בכך שתקבל את ה-KYA הבאים, אתה מסכים כי:"
 
 #: src/pages/Swap/PoolSelector/PoolSelector.tsx
 msgid "Change"
@@ -168,32 +168,32 @@ msgstr "בדוק את החיבור לאינטרנט"
 
 #: src/pages/Pool/components/LPGuide/LPGuide.tsx
 msgid "Check out our guides how to become a liquidity provider"
-msgstr "עבור על המדריכים שלנו על איך להיות ספק נזילות"
+msgstr "עבור על המדריכים שלנו על איך להפוך לספק נזילות"
 
 #: src/components/WalletModal/AddressesTab/AddressesTab.tsx
 msgid "Choose"
-msgstr "בחר/י"
+msgstr "בחרי"
 
 #: src/pages/Pool/components/LockLiquidityDatePicker/LiquidityDatePicker.tsx
 msgid "Choose Date"
-msgstr "בחר/י תאריך"
+msgstr "בחרי תאריך"
 
 #: src/pages/Swap/PoolSelector/PoolSelectorModal/PoolSelectorModal.tsx
 msgid "Choose Pool"
-msgstr "בחר/י פּוּל"
+msgstr "בחרי פּוּל"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Choose a fee"
-msgstr "בחר/י תשלום"
+msgstr "בחר עמלה"
 
 #: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
 #: src/components/common/TxHistory/RefundConfirmationModal/RefundConfirmationModal.tsx
 msgid "Confirm"
-msgstr "אשר/י"
+msgstr "אשרי"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 msgid "Confirm Add Liquidity"
-msgstr "אשר/י הוסף נזילות"
+msgstr "אשר הוסף נזילות"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidityConfirmationModal/LockLiquidityConfirmationModal.tsx
 msgid "Confirm Lock"
@@ -518,29 +518,29 @@ msgstr "פוזיציות חסומות"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Locking {0} and {1} ({2}) for {3}"
-msgstr ""
+msgstr "חוסם {0} ו {1} ({2}) ל {3}"
 
 #: src/components/common/TokenControl/TokenControl.tsx
 msgid "Max"
-msgstr ""
+msgstr "מקסימום"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Max execution fee multiplier"
-msgstr ""
+msgstr "מכפיל עמלת ביצוע מקסימלית"
 
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
 msgid "Maximum received:"
-msgstr ""
+msgstr "מקסימום שהתקבל:"
 
 #: src/components/common/ActionForm/ActionButton/ActionButton.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Min value for {0} is {1}"
-msgstr ""
+msgstr "ערך מינימאלי עבור {0} הוא {1}"
 
 #: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
 msgid "Miner Fee"
-msgstr ""
+msgstr "עמלת כּורה"
 
 #: src/components/common/FormView/FormFeesSection/FormFeesSection.tsx
 #: src/components/common/TxHistory/RefundConfirmationModal/RefundConfirmationModal.tsx
@@ -548,162 +548,162 @@ msgstr ""
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Miner Fee:"
-msgstr ""
+msgstr "עמלת כּוֹרה:"
 
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
 msgid "Miner fee:"
-msgstr ""
+msgstr "עמלת כּוֹרה:"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Minimal Nitro value is {MIN_NITRO}"
-msgstr ""
+msgstr "ערך ניטרו מינימלי הוא {MIN_NITRO}"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Minimal Slippage is {MIN_SLIPPAGE}"
-msgstr ""
+msgstr "תנודת המחיר המינימלית היא {MIN_SLIPPAGE}"
 
 #: src/components/Header/GlobalSettingsModal/MinerFeeInput/MinerFeeInput.tsx
 #: src/pages/Swap/OperationSettings/NitroInput/NitroInput.tsx
 msgid "Minimum"
-msgstr ""
+msgstr "מינימום"
 
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
 msgid "Minimum received:"
-msgstr ""
+msgstr "מינימום שהתקבל:"
 
 #: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
 msgid "Minimum value is {MIN_ERG_FOR_TX} ERG"
-msgstr ""
+msgstr "הערך המינימלי הוא {MIN_ERG_FOR_TX} ERG"
 
 #: src/components/MobilePlug/MobilePlug.tsx
 msgid "Mobile version is not supported yet"
-msgstr ""
+msgstr "גירסת נייד אינה נתמכת עדיין"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Nitro"
-msgstr ""
+msgstr "ניטרוֹ"
 
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Nitro:"
-msgstr ""
+msgstr "ניטרוֹ:"
 
 #: src/pages/Pool/common/EmptySearchResult/EmptySearchResult.tsx
 msgid "No results found"
-msgstr ""
+msgstr "לא נמצאו תוצאות"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "Notice that:"
-msgstr ""
+msgstr "שימי לב ש:"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
 msgid "Once LP-tokens are locked they cannot be withdrawn under any circumstances until the timer has expired. Please ensure the parameters are correct, as they are final."
-msgstr ""
+msgstr "משעה ש-LP-token נחסמו לא ניתן למושכם בשום מצב עד שפג תוקף הטיימר. אנא וודאי שהפרמטרים מדוייקים שכן הם סופיים."
 
 #: src/pages/Pool/components/LocksList/LockItemView/LockItemView.tsx
 msgid "Pair"
-msgstr ""
+msgstr "צמד"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
 msgid "Pick new unlock date"
-msgstr ""
+msgstr "בחר תאריך חדש לשחרור מחסימה"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
 msgid "Pool"
-msgstr ""
+msgstr "פּוּל"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Pool liquidity"
-msgstr ""
+msgstr "פּוּל נזילות"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Pool overview"
-msgstr ""
+msgstr "סקירה כללית של הפּוּל"
 
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidityConfirmationModal/RemoveLiquidityConfirmationModal.tsx
 msgid "Pooled assets"
-msgstr ""
+msgstr "נכסים מאוחדים"
 
 #: src/pages/Pool/Liquidity.tsx
 msgid "Pools Overview"
-msgstr ""
+msgstr "סקירה כללית של פּוּלים"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
 msgid "Previous unlock date"
-msgstr ""
+msgstr "תאריך קודם של שחרור מחסימה"
 
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
 msgid "Price impact:"
-msgstr ""
+msgstr "השפעת המחיר:"
 
 #: src/components/GuideBanner/GuideBanner.tsx
 msgid "Read Guide"
-msgstr ""
+msgstr "עיין במדריך"
 
 #: src/pages/Pool/components/LiquidityPositionsList/LiquidityPositionsItem/LiquidityPositionsItemAnalytics/LiquidityPositionsItemAnalytics.tsx
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Read more"
-msgstr ""
+msgstr "קרא עוד"
 
 #: src/components/common/TxHistory/TxHistory.tsx
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
 msgid "Recent transactions"
-msgstr ""
+msgstr "פעולות אחרונות"
 
 #: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
 msgid "Recommended"
-msgstr ""
+msgstr "מומלץ"
 
 #: src/components/common/ActionForm/ActionButton/ActionButton.tsx
 msgid "Refresh page"
-msgstr ""
+msgstr "רענן עמוד"
 
 #: src/components/common/TxHistory/TxTypeTag/TxTypeTag.tsx
 msgid "Refund"
-msgstr ""
+msgstr "החזר"
 
 #: src/components/common/TxHistory/RefundConfirmationModal/RefundConfirmationModal.tsx
 msgid "Refund confirmation"
-msgstr ""
+msgstr "אישור זיכוי"
 
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
 msgid "Refund transaction"
-msgstr ""
+msgstr "עיסקת זיכוי"
 
 #: src/components/common/TxHistory/RefundConfirmationModal/RefundConfirmationModal.tsx
 msgid "Refund will be performed to this address"
-msgstr ""
+msgstr "החזר יבוצע לכתובת זו"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Refunding {0} and {1}"
-msgstr ""
+msgstr "מחזיר {0} ו {1}"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
 #: src/pages/Pool/components/LocksList/LockItemView/LockItemView.tsx
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Relock liquidity"
-msgstr ""
+msgstr "חסום מחדש נזילות"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
 msgid "Relock position"
-msgstr ""
+msgstr "חסום מחדש פוזיציה"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Relocking {0} and {1} ({2})"
-msgstr ""
+msgstr "חוסם מחדש {0} ו {1} ({2})"
 
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidity.tsx
 msgid "Remove"
-msgstr ""
+msgstr "הסר"
 
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidityConfirmationModal/RemoveLiquidityConfirmationModal.tsx
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Remove Liquidity"
-msgstr ""
+msgstr "הסר נזילות"
 
 #: src/components/common/TxHistory/TxTypeTag/TxTypeTag.tsx
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidity.tsx
 msgid "Remove liquidity"
-msgstr ""
+msgstr "הסר נזילות"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Removing liquidity {0} and {1}"
@@ -894,7 +894,7 @@ msgstr "סוג"
 
 #: src/pages/Pool/Liquidity.tsx
 msgid "Type token name or pool id"
-msgstr "הקלד שם טוקן או ת. ז. פול"
+msgstr "הקלד שם טוקן או ID של הפול"
 
 #: src/components/common/FormView/FormFeesSection/FormFeesSection.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
@@ -1020,7 +1020,7 @@ msgstr "עני על הציפיות שלך."
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "only on top of the Ergo Blockchain."
-msgstr ""
+msgstr "רק בראש הבלוקצ'אין של Ergo."
 
 #: src/pages/Pool/Liquidity.tsx
 msgid "{0} Community Pools"
