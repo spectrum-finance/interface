@@ -2,8 +2,6 @@ import { t, Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 
 import {
-  Alert,
-  Animation,
   Button,
   Flex,
   Form,
@@ -18,13 +16,11 @@ interface TransactionFindFormModel {
 }
 
 interface TransactionFindFormProps {
-  readonly errorMessage?: string;
   readonly onSubmit: (txId: string) => void;
   readonly loading?: boolean;
 }
 
 export const TransactionFindForm: FC<TransactionFindFormProps> = ({
-  errorMessage,
   loading,
   onSubmit,
 }) => {
@@ -76,17 +72,6 @@ export const TransactionFindForm: FC<TransactionFindFormProps> = ({
             </Form.Listener>
           </Flex>
         </Section>
-        <Flex.Item marginTop={errorMessage ? 2 : 0}>
-          <Animation.Expand
-            expanded={!!errorMessage}
-            opacityDelay={true}
-            duration={200}
-          >
-            <Flex.Item marginTop={2}>
-              <Alert showIcon type="error" message={errorMessage} />
-            </Flex.Item>
-          </Animation.Expand>
-        </Flex.Item>
       </Flex>
     </Form>
   );

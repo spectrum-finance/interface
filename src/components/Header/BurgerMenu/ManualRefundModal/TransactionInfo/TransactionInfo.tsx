@@ -3,7 +3,7 @@ import React, { FC } from 'react';
 
 import { addresses$ } from '../../../../../api/addresses';
 import { useObservable } from '../../../../../common/hooks/useObservable';
-import { Button, Flex } from '../../../../../ergodex-cdk';
+import { Alert, Button, Flex } from '../../../../../ergodex-cdk';
 import { RefundConfirmationModal } from '../../../../common/TxHistory/RefundConfirmationModal/RefundConfirmationModal';
 import { Operation } from '../../../../common/TxHistory/types';
 import {
@@ -14,12 +14,14 @@ import { Section } from '../../../../Section/Section';
 import { OperationItemView } from '../../../common/OperationItem/OperationItemView';
 
 export interface TransactionInfoProps {
-  operation: Operation;
+  operation?: Operation;
+  errorMessage?: string;
   close: (result: boolean) => void;
 }
 
 export const TransactionInfo: FC<TransactionInfoProps> = ({
   operation,
+  errorMessage,
   close,
 }) => {
   const [addresses, addressesLoading] = useObservable(addresses$);
@@ -45,19 +47,22 @@ export const TransactionInfo: FC<TransactionInfoProps> = ({
 
   return (
     <Section title={t`Transaction info`}>
-      <Flex col>
-        <Flex.Item marginBottom={6}>
-          <OperationItemView operation={operation} />
-        </Flex.Item>
-        <Button
-          type="primary"
-          size="large"
-          loading={addressesLoading}
-          onClick={() => handleOpenRefundConfirmationModal(operation)}
-        >
-          <Trans>Refund Transaction</Trans>
-        </Button>
-      </Flex>
+      {!!errorMessage && <Alert showIcon type="error" message={errorMessage} />}
+      {!errorMessage && !!operation && (
+        <Flex col>
+          <Flex.Item marginBottom={6}>
+            <OperationItemView operation={operation} />
+          </Flex.Item>
+          <Button
+            type="primary"
+            size="large"
+            loading={addressesLoading}
+            onClick={() => handleOpenRefundConfirmationModal(operation)}
+          >
+            <Trans>Refund Transaction</Trans>
+          </Button>
+        </Flex>
+      )}
     </Section>
   );
 };

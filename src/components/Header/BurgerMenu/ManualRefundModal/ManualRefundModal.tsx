@@ -15,6 +15,7 @@ const getNormalizedOperationByTxId = (
 ): Observable<Operation | undefined> =>
   getOperationByTxId(txId).pipe(
     map((dexOp) => (dexOp ? normalizeOperations([dexOp])[0] : dexOp)),
+    map((op) => (op ? { ...op, status: 'pending' } : undefined)),
   );
 
 export const ManualRefundModal: FC<{ close: () => void }> = ({ close }) => {
@@ -43,18 +44,19 @@ export const ManualRefundModal: FC<{ close: () => void }> = ({ close }) => {
       </Modal.Title>
       <Modal.Content width={750}>
         <Flex col>
-          <TransactionFindForm
-            errorMessage={errorMessage}
-            onSubmit={findTx}
-            loading={operationLoading}
-          />
-          <Flex.Item marginTop={!!operation && !errorMessage ? 6 : 0}>
+          <TransactionFindForm onSubmit={findTx} loading={operationLoading} />
+          <Flex.Item marginTop={!!operation || !!errorMessage ? 6 : 0}>
             <Animation.Expand
-              expanded={!!operation && !errorMessage}
-              duration={200}
+              expanded={!!operation || !!errorMessage}
               opacityDelay={true}
             >
-              {() => <TransactionInfo operation={operation!} close={close} />}
+              {() => (
+                <TransactionInfo
+                  operation={operation}
+                  close={close}
+                  errorMessage={errorMessage}
+                />
+              )}
             </Animation.Expand>
           </Flex.Item>
         </Flex>
