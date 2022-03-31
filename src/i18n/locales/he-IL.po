@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ergodex-frontend\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-03-31 07:29\n"
+"PO-Revision-Date: 2022-03-31 07:56\n"
 "Last-Translator: \n"
 "Language: he_IL\n"
 "Language-Team: Hebrew\n"
@@ -205,35 +205,35 @@ msgstr "אשר/י נעילה מחדש"
 
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidityConfirmationModal/RemoveLiquidityConfirmationModal.tsx
 msgid "Confirm Remove Liquidity"
-msgstr "אשר/י הסרת/גריעת נזילות"
+msgstr "אשר הסרת נזילות"
 
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Confirm Swap"
-msgstr "אשר/י החלפה"
+msgstr "אשרי החלפה"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
 msgid "Confirm Withdrawal"
-msgstr "אשר משיכה"
+msgstr "אשרי משיכה"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
 msgid "Confirm pool creation"
-msgstr "אשר/י יצירת פּוּל"
+msgstr "אשרי יצירת פּוּל"
 
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Confirm swap"
-msgstr "אשר/י החלפה"
+msgstr "אשרי החלפה"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Confirm this transaction in your wallet"
-msgstr "אשר/י עיסקה זו בתוך הארנק שלך"
+msgstr "אשרי עיסקה זו בתוך הארנק שלך"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
 msgid "Confirm withdrawal"
-msgstr "אשר/י משיכה"
+msgstr "אשרי משיכה"
 
 #: src/components/common/ConnectWalletButton/ConnectWalletButton.tsx
 msgid "Connect wallet"
-msgstr "חבר/י ארנק"
+msgstr "חבר ארנק"
 
 #: src/components/common/CopyButton/CopyButton.tsx
 msgid "Copied to clipboard!"
@@ -255,7 +255,7 @@ msgstr "צור/צרי פּוּל"
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
 #: src/pages/Pool/Liquidity.tsx
 msgid "Create pool"
-msgstr "צור/צרי פּוּל"
+msgstr "צרי פּוּל"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Current price"
@@ -293,15 +293,15 @@ msgstr "יתרת ERG נמוכה"
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Enter an Amount"
-msgstr "הקלד סכום"
+msgstr "הזיני סכום"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Enter an Initial Price"
-msgstr "הקלד מחיר התחלתי"
+msgstr "הזן מחיר התחלתי"
 
 #: src/components/WalletModal/WalletModal.tsx
 msgid "Ergo network"
-msgstr "רשת ארגוֹ"
+msgstr "רשת Ergo"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "ErgoDEX Smart Contracts"
@@ -313,11 +313,11 @@ msgstr "צוות ErgoDEX אינו מתחייב שאין בגים וטעויות.
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "ErgoDEX is a decentralized financial (DeFi) application which means it doesn’t have a central government body. ErgoDEX includes AMM (Swap, Add liquidity and Remove liquidity) functionality"
-msgstr "ErgoDEX היא אפליקצייה פיננסית מבוזרת (DeFi), כלומר שאין לה ממשל מרכזי. ErgoDEX כוללת פונקציונליות של AMM (החלף, הוסף נזילות, הסר נזילות)"
+msgstr "ErgoDEX היא אפליקצייה פיננסית מבוזרת (DeFi), כלומר שאין לה ממשל מרכזי. ErgoDEX כוללת פונקציונליות של AMM (החלף, הוסף נזילות והסר נזילות)"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "ErgoDEX offers a form of added security, as buyers and sellers do not have to give their information to any 3rd party. However, ErgoDEX is without a know your customer (KYC) process and can offer NO assistance if a user is hacked or cheated out of passwords, currency or private wallet keys."
-msgstr "ErgoDEX מציעה סוג של אבטחה נוספת, בכך שקונים ומוכרים לא חייבים למסור מידע אודות עצמם לצד שלישי. יחד עם זה, ErgoDEX היא ללא תהליך של הכר את הלקוח (KYC) ולכן אינה יכולה להציע כל עזרה אם משתמש עובר הקינג, או שנגנבות ממנו ססמאות, כספים או מילות המפתח של הארנק."
+msgstr "ErgoDEX מציעה סוג של הגנה נוספת, בכך שקונים ומוכרים לא חייבים למסור מידע אודות עצמם לצד שלישי. יחד עם זה, אין ב-ErgoDEX תהליך של \"הכר את הלקוח\" (KYC) ולכן אינה יכולה להציע כל עזרה אם משתמש עובר פריצה, או שנגנבות ממנו ססמאות, כספים או מילות המפתח של הארנק."
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
@@ -408,7 +408,7 @@ msgstr "אני מבין את הסיכונים ומקבל את ה-KYA"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Increase Liquidity"
-msgstr "העלה נזילות"
+msgstr "הוסף נזילות"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
 msgid "Initial liquidity"
@@ -468,7 +468,7 @@ msgstr "נזילות"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Liquidity Locker"
-msgstr "נועל נזילות"
+msgstr "נועל/חוסם נזילות"
 
 #: src/pages/Swap/PoolSelector/PoolSelector.tsx
 msgid "Liquidity Pool"
@@ -481,7 +481,7 @@ msgstr "טוען"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
 msgid "Lock"
-msgstr "נעל"
+msgstr "נעל/חסום"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidityConfirmationModal/LockLiquidityConfirmationModal.tsx
 msgid "Lock Liquidity"
@@ -873,11 +873,11 @@ msgstr "סך כל שניתן למשיכה"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Transaction Settings"
-msgstr "ה"
+msgstr "הגדרות טרנזאקציה/פעולה"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Transaction rejected"
-msgstr "הגדרות עיסקה"
+msgstr "עיסקה נדחתה"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Transaction submitted"
@@ -940,7 +940,7 @@ msgstr "צפה ב-Explorer"
 
 #: src/components/WalletModal/WalletActiveAddress/WalletActiveAddress.tsx
 msgid "View on explorer"
-msgstr "צפה ב-Explorer"
+msgstr "צפה ב-Explorer/סייר"
 
 #: src/components/common/ExploreButton/ExploreButton.tsx
 msgid "View on explorer."
@@ -956,11 +956,11 @@ msgstr "ארנק"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "We recommend that you DO NOT use ErgoDEX to operate large amounts of assets!"
-msgstr "אנחנו ממליצים שלא תשתמש ב-ErgoDEX לתפעל נכסים בשווי גבוה!"
+msgstr "אנחנו ממליצים שלא תשתמש ב-ErgoDEX לתפעל נכסים בכמויות גדולות!"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
 msgid "Withdrawable"
-msgstr "זמין למשיכה"
+msgstr "ניתן למשיכה"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
@@ -1024,7 +1024,7 @@ msgstr "רק בראש הבלוקצ'אין של Ergo."
 
 #: src/pages/Pool/Liquidity.tsx
 msgid "{0} Community Pools"
-msgstr "{0} פּוּלים קהילתיים"
+msgstr "{0} פּוּלים של הקהילה"
 
 #: src/pages/PoolOverview/PoolRatio/PoolRatio.tsx
 #: src/pages/PoolOverview/PoolRatio/PoolRatio.tsx
@@ -1045,7 +1045,7 @@ msgstr "{numberOfPendingTxs} ממתינות"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePoolUnsupportedAlert/CreatePoolUnsupportedAlert.tsx
 msgid "{walletName} Wallet doesn’t support “create pool” functionality yet. Choose another wallet to perform the operation."
-msgstr "ארנק {walletName} אינו תומך עדין בפונקציונליות \"צור פּוּל\". בחרי ארנק אחר על מנת לבצע את הפעולה."
+msgstr "ארנק {walletName} אינו תומך עדין בפונקציונליות \"צרי פּוּל\". בחרי ארנק אחר על מנת לבצע את הפעולה."
 
 #: src/pages/Pool/utils.ts
 msgid "{yearsCount} Years"
