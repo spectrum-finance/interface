@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ergodex-frontend\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-03-30 20:00\n"
+"PO-Revision-Date: 2022-03-31 06:33\n"
 "Last-Translator: \n"
 "Language: tr_TR\n"
 "Language-Team: Turkish\n"
@@ -34,7 +34,7 @@ msgstr "- ErgoDEX hareketli bir blokzincir üzerinde çalışır, bu yüzden tak
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "- Every transaction can be viewed via"
-msgstr ""
+msgstr "- Her işleme göz atmak için:"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
 msgid "0.3% fee"
@@ -229,61 +229,61 @@ msgstr "Bu işlemi cüzdanında onayla"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
 msgid "Confirm withdrawal"
-msgstr ""
+msgstr "Çekimi onayla"
 
 #: src/components/common/ConnectWalletButton/ConnectWalletButton.tsx
 msgid "Connect wallet"
-msgstr ""
+msgstr "Cüzdanı bağla"
 
 #: src/components/common/CopyButton/CopyButton.tsx
 msgid "Copied to clipboard!"
-msgstr ""
+msgstr "Panoya kopyalandı!"
 
 #: src/components/WalletModal/WalletActiveAddress/WalletActiveAddress.tsx
 msgid "Copy Address"
-msgstr ""
+msgstr "Adresi Kopyala"
 
 #: src/components/common/CopyButton/CopyButton.tsx
 msgid "Copy to clipboard."
-msgstr ""
+msgstr "Panoya kopyala."
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool.tsx
 msgid "Create Pool"
-msgstr ""
+msgstr "Havuz Oluştur"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
 #: src/pages/Pool/Liquidity.tsx
 msgid "Create pool"
-msgstr ""
+msgstr "Havuz oluştur"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Current price"
-msgstr ""
+msgstr "Güncel fiyat"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
 msgid "Custom fee tier"
-msgstr ""
+msgstr "Özel ücret sınıfı"
 
 #: src/components/Header/BurgerMenu/BurgerMenu.tsx
 msgid "Dark mode"
-msgstr ""
+msgstr "Karanlık mod"
 
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
 msgid "Date"
-msgstr ""
+msgstr "Tarih"
 
 #: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
 msgid "Disconnect wallet"
-msgstr ""
+msgstr "Cüzdanla bağlantıyı kes"
 
 #: src/components/Header/BurgerMenu/BurgerMenu.tsx
 msgid "Docs"
-msgstr ""
+msgstr "Belgeler"
 
 #: src/components/WalletModal/LowBalanceWarning/LowBalanceWarning.tsx
 msgid "ERG balance is low"
-msgstr ""
+msgstr "ERG bakiyesi düşük"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 #~ msgid "Enter an A  mount"
@@ -293,27 +293,27 @@ msgstr ""
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Enter an Amount"
-msgstr ""
+msgstr "Bir Miktar Girin"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Enter an Initial Price"
-msgstr ""
+msgstr "Bir Başlangıç Fiyatı Girin"
 
 #: src/components/WalletModal/WalletModal.tsx
 msgid "Ergo network"
-msgstr ""
+msgstr "Ergo ağı"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "ErgoDEX Smart Contracts"
-msgstr ""
+msgstr "ErgoDEX Akıllı Sözleşmeler"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "ErgoDEX Team doesn’t guarantee the absence of bugs and errors."
-msgstr ""
+msgstr "ErgoDEX Takımı yazılım hataları veya sorunların olmayacağını garanti etmez."
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "ErgoDEX is a decentralized financial (DeFi) application which means it doesn’t have a central government body. ErgoDEX includes AMM (Swap, Add liquidity and Remove liquidity) functionality"
-msgstr ""
+msgstr "ErgoDEX bir merkeziyetsiz finans (DeFi) uygulamasıdır ve bu merkezi bir yönetim zümresi olmadığı anlamına gelir. ErgoDEX'te AMM (Takas et, Likidite ekle ve Likidite çıkar) fonksiyonları bulunur"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "ErgoDEX offers a form of added security, as buyers and sellers do not have to give their information to any 3rd party. However, ErgoDEX is without a know your customer (KYC) process and can offer NO assistance if a user is hacked or cheated out of passwords, currency or private wallet keys."
