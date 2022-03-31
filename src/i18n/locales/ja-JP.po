@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ergodex-frontend\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-03-31 11:56\n"
+"PO-Revision-Date: 2022-03-31 12:57\n"
 "Last-Translator: \n"
 "Language: ja_JP\n"
 "Language-Team: Japanese\n"
@@ -99,7 +99,7 @@ msgstr "すべてのアウトプットアセットはこのアドレスに送ら
 #: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidity.tsx
 msgid "Amount"
-msgstr "金額"
+msgstr "数量"
 
 #: src/pages/Pool/components/LiquidityPositionsList/LiquidityPositionsItem/LiquidityPositionsItemAnalytics/LiquidityPositionsItemAnalytics.tsx
 msgid "Annual Percentage Rate. Average estimation of how much you may potentially earn providing liquidity to this pool."
@@ -122,7 +122,7 @@ msgstr "再ロックするアセット"
 
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidity.tsx
 msgid "Assets to remove"
-msgstr "削除するアセット"
+msgstr "引き出すアセット"
 
 #: src/components/MobilePlug/MobilePlug.tsx
 msgid "Back to Home"
@@ -189,7 +189,7 @@ msgstr "手数料を選択"
 #: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
 #: src/components/common/TxHistory/RefundConfirmationModal/RefundConfirmationModal.tsx
 msgid "Confirm"
-msgstr "確認する"
+msgstr "適用"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 msgid "Confirm Add Liquidity"
@@ -205,7 +205,7 @@ msgstr "再ロックを確認"
 
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidityConfirmationModal/RemoveLiquidityConfirmationModal.tsx
 msgid "Confirm Remove Liquidity"
-msgstr "流動性の削除を確認"
+msgstr "流動性の引き出しを確認"
 
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Confirm Swap"
@@ -225,7 +225,7 @@ msgstr "スワップを確認"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Confirm this transaction in your wallet"
-msgstr "ウォレットでこの取引を確認する"
+msgstr "ウォレットでこの取引を承認する"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
 msgid "Confirm withdrawal"
@@ -293,7 +293,7 @@ msgstr "ERGの残高が不足しています"
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Enter an Amount"
-msgstr "金額を入力"
+msgstr "数量を入力"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Enter an Initial Price"
@@ -326,7 +326,7 @@ msgstr "エラー"
 
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Estimated output:"
-msgstr "推定アウトプット:"
+msgstr "推定受取り額:"
 
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
 msgid "Execution Fee"
@@ -370,7 +370,7 @@ msgstr "手数料:"
 
 #: src/pages/Swap/Swap.tsx
 msgid "From"
-msgstr "から"
+msgstr "From"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Get help in our channels:"
@@ -617,7 +617,7 @@ msgstr "プールの流動性"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Pool overview"
-msgstr "プールの概要"
+msgstr "プール一覧"
 
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidityConfirmationModal/RemoveLiquidityConfirmationModal.tsx
 msgid "Pooled assets"
@@ -642,7 +642,7 @@ msgstr "ガイドをご覧ください"
 #: src/pages/Pool/components/LiquidityPositionsList/LiquidityPositionsItem/LiquidityPositionsItemAnalytics/LiquidityPositionsItemAnalytics.tsx
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Read more"
-msgstr "続きを読む"
+msgstr "詳細"
 
 #: src/components/common/TxHistory/TxHistory.tsx
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
@@ -693,21 +693,21 @@ msgstr "{0} と {1} ({2}) を再ロック中"
 
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidity.tsx
 msgid "Remove"
-msgstr "削除"
+msgstr "引き出し"
 
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidityConfirmationModal/RemoveLiquidityConfirmationModal.tsx
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Remove Liquidity"
-msgstr "流動性を削除"
+msgstr "流動性を引き出す"
 
 #: src/components/common/TxHistory/TxTypeTag/TxTypeTag.tsx
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidity.tsx
 msgid "Remove liquidity"
-msgstr "流動性を削除"
+msgstr "流動性を引き出す"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Removing liquidity {0} and {1}"
-msgstr "{0} と {1} の流動性を削除中"
+msgstr "{0} と {1} の流動性を引き出し中"
 
 #: src/components/common/TokenControl/TokenSelect/TokenListModal/TokenListModal.tsx
 msgid "Search"
@@ -845,7 +845,7 @@ msgstr "このウォレットは常に期待どおりに動作するとは限り
 
 #: src/pages/Swap/Swap.tsx
 msgid "To"
-msgstr "に"
+msgstr "To"
 
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Total Fees"
