@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ergodex-frontend\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-03-31 07:56\n"
+"PO-Revision-Date: 2022-03-31 10:11\n"
 "Last-Translator: \n"
 "Language: he_IL\n"
 "Language-Team: Hebrew\n"
@@ -99,7 +99,7 @@ msgstr "כל הנכסים המונפקים יתקבלו בכתובת זו."
 #: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidity.tsx
 msgid "Amount"
-msgstr "סכום/כמות"
+msgstr "כמות"
 
 #: src/pages/Pool/components/LiquidityPositionsList/LiquidityPositionsItem/LiquidityPositionsItemAnalytics/LiquidityPositionsItemAnalytics.tsx
 msgid "Annual Percentage Rate. Average estimation of how much you may potentially earn providing liquidity to this pool."
@@ -122,7 +122,7 @@ msgstr "נכסים לחסימה חוזרת"
 
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidity.tsx
 msgid "Assets to remove"
-msgstr "נכסים לגריעה"
+msgstr "נכסים להסרה"
 
 #: src/components/MobilePlug/MobilePlug.tsx
 msgid "Back to Home"
@@ -197,11 +197,11 @@ msgstr "אשר הוסף נזילות"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidityConfirmationModal/LockLiquidityConfirmationModal.tsx
 msgid "Confirm Lock"
-msgstr "אשר נעילה"
+msgstr "אשר חסימה"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
 msgid "Confirm Relock"
-msgstr "אשר/י נעילה מחדש"
+msgstr "אשרי חסימה מחדש"
 
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidityConfirmationModal/RemoveLiquidityConfirmationModal.tsx
 msgid "Confirm Remove Liquidity"
@@ -209,7 +209,7 @@ msgstr "אשר הסרת נזילות"
 
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Confirm Swap"
-msgstr "אשרי החלפה"
+msgstr "אשרי ביצוע החלפה"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
 msgid "Confirm Withdrawal"
@@ -221,7 +221,7 @@ msgstr "אשרי יצירת פּוּל"
 
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Confirm swap"
-msgstr "אשרי החלפה"
+msgstr "אשרי ביצוע החלפה"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Confirm this transaction in your wallet"
@@ -249,7 +249,7 @@ msgstr "העתק ללוח."
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool.tsx
 msgid "Create Pool"
-msgstr "צור/צרי פּוּל"
+msgstr "צור פּוּל"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
@@ -309,7 +309,7 @@ msgstr "חוזים חכמים של ErgoDEX"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "ErgoDEX Team doesn’t guarantee the absence of bugs and errors."
-msgstr "צוות ErgoDEX אינו מתחייב שאין בגים וטעויות."
+msgstr "צוות ErgoDEX אינו מתחייב שאין כאן בגים וטעויות."
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "ErgoDEX is a decentralized financial (DeFi) application which means it doesn’t have a central government body. ErgoDEX includes AMM (Swap, Add liquidity and Remove liquidity) functionality"
@@ -387,11 +387,11 @@ msgstr "כיצד להשתמש"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidityConfirmationModal/LockLiquidityConfirmationModal.tsx
 msgid "I understand that I'm locking <0>{0}</0> LP-tokens, which is <1>{percent}%</1> of my <2>{1}/{2}</2> liquidity position, for a period of <3>{3}</3> (until {4}) without the ability to withdrawal before the end of this period."
-msgstr "אני מבינה שאני נועלת <0>{0}</0> LP-tokens, שהם <1>{percent}%</1> מה <2>{1}/{2}</2> עמדת הנזילות שלי, לתקופה של <3>{3}</3> (עד {4}) ללא אפשרות למשיכה לפני תום התקופה הזו."
+msgstr "אני מבינה שאני חוסמת <0>{0}</0> LP-tokens, שהם <1>{percent}%</1> מ <2>{1}/{2}</2> עמדת הנזילות שלי, לתקופה של <3>{3}</3> (עד {4}) ללא אפשרות למשיכה לפני תום התקופה הזו."
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
 msgid "I understand that I’m relocking <0>{0}</0> LP-tokens of my <1>{1}/{2}</1> position until <2>{3}</2> (or <3>{4}</3> block) without the ability to withdrawal before the end of this period."
-msgstr "אני מבינה שאני נועלת מחדש <0>{0}</0> LP-tokens מה <1>{1}/{2}</1> עמדה שלי עד <2>{3}</2> (או בלוק <3>{4}</3>) ללא אפשרות למשיכה לפני סוף תקופה זו."
+msgstr "אני מבינה שאני חוסמת מחדש <0>{0}</0> LP-tokens מ <1>{1}/{2}</1> עמדה שלי עד <2>{3}</2> (או בלוק <3>{4}</3>) ללא אפשרות למשיכה לפני סוף תקופה זו."
 
 #: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
 #~ msgid "I understand that this wallet has not been audited. I will use it at my own risk."
@@ -412,7 +412,7 @@ msgstr "הוסף נזילות"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
 msgid "Initial liquidity"
-msgstr "נזילות ראשונית"
+msgstr "נזילות התחלתית"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
@@ -468,7 +468,7 @@ msgstr "נזילות"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Liquidity Locker"
-msgstr "נועל/חוסם נזילות"
+msgstr "חוסם נזילות"
 
 #: src/pages/Swap/PoolSelector/PoolSelector.tsx
 msgid "Liquidity Pool"
@@ -481,24 +481,24 @@ msgstr "טוען"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
 msgid "Lock"
-msgstr "נעל/חסום"
+msgstr "חַסוֹם"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidityConfirmationModal/LockLiquidityConfirmationModal.tsx
 msgid "Lock Liquidity"
-msgstr "נעל נזילות"
+msgstr "חַסוֹם נזילות"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Lock liquidity"
-msgstr "נעל נזילות"
+msgstr "חַסוֹם נזילות"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
 msgid "Lock period"
-msgstr "תקופת נעילה"
+msgstr "תקופת חסימה"
 
 #: src/pages/PoolOverview/LockLiquidityChart/LockLiquidityChart.tsx
 msgid "Lock time"
-msgstr "זמן חסימה"
+msgstr "תקופת חסימה"
 
 #: src/pages/Pool/utils.ts
 msgid "Locked"
@@ -526,11 +526,11 @@ msgstr "מקסימום"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Max execution fee multiplier"
-msgstr "מכפיל עמלת ביצוע מקסימלית"
+msgstr "בחר מכפיל עמלת ביצוע מקסימלי"
 
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
 msgid "Maximum received:"
-msgstr "מקסימום שהתקבל:"
+msgstr "מקסימום שיכול להתקבל:"
 
 #: src/components/common/ActionForm/ActionButton/ActionButton.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
@@ -569,7 +569,7 @@ msgstr "מינימום"
 
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
 msgid "Minimum received:"
-msgstr "מינימום שהתקבל:"
+msgstr "מינימום שעשוי להתקבל:"
 
 #: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
 msgid "Minimum value is {MIN_ERG_FOR_TX} ERG"
@@ -597,7 +597,7 @@ msgstr "שימי לב ש:"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
 msgid "Once LP-tokens are locked they cannot be withdrawn under any circumstances until the timer has expired. Please ensure the parameters are correct, as they are final."
-msgstr "משעה ש-LP-token נחסמו לא ניתן למושכם בשום מצב עד שפג תוקף הטיימר. אנא וודאי שהפרמטרים מדוייקים שכן הם סופיים."
+msgstr "משעה שה-LP-token נחסמו, לא ניתן למושכם בשום מצב עד שפג תוקף הטיימר. אנא וודאי שהפרמטרים מדוייקים שכן הם סופיים."
 
 #: src/pages/Pool/components/LocksList/LockItemView/LockItemView.tsx
 msgid "Pair"
@@ -659,7 +659,7 @@ msgstr "רענן עמוד"
 
 #: src/components/common/TxHistory/TxTypeTag/TxTypeTag.tsx
 msgid "Refund"
-msgstr "החזר"
+msgstr "בקש החזר"
 
 #: src/components/common/TxHistory/RefundConfirmationModal/RefundConfirmationModal.tsx
 msgid "Refund confirmation"
