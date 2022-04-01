@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ergodex-frontend\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-04-01 10:54\n"
+"PO-Revision-Date: 2022-04-01 11:50\n"
 "Last-Translator: \n"
 "Language: ro_RO\n"
 "Language-Team: Romanian\n"
@@ -18,11 +18,11 @@ msgstr ""
 
 #: src/pages/Pool/components/LockLiquidityDatePicker/LiquidityDatePicker.tsx
 msgid "(Block: {0})"
-msgstr "(Block: {0})"
+msgstr "(Bloc: {0})"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
 msgid "(Unlock block: {0})"
-msgstr "(Deblochează block-ul: {0})"
+msgstr "(Deblochează blocul: {0})"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "- By creating an order you send your funds to a specific smart-contract, all such contracts are wired into the UI. Thus, orders are created entirely in your browser (on your machine)."
@@ -58,174 +58,174 @@ msgstr "1% taxă"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "1. You will use the product at your own peril and risk;"
-msgstr ""
+msgstr "1. Veți utiliza produsul pe propriul risc;"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "2. Only YOU are responsible for your assets;"
-msgstr ""
+msgstr "2. Doar TU ești responsabil pentru bunurile tale;"
 
 #: src/components/Header/BurgerMenu/BurgerMenu.tsx
 msgid "About"
-msgstr ""
+msgstr "Despre"
 
 #: src/components/WalletModal/AddressesTab/AddressesTab.tsx
 msgid "Active"
-msgstr ""
+msgstr "Activ"
 
 #: src/components/WalletModal/WalletActiveAddress/WalletActiveAddress.tsx
 msgid "Active address"
-msgstr ""
+msgstr "Adresa activă"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool.tsx
 #: src/pages/Pool/components/LiquidityPositionsList/LiquidityPositionsList.tsx
 msgid "Add Liquidity"
-msgstr ""
+msgstr "Adăugați Lichiditate"
 
 #: src/components/common/TxHistory/TxTypeTag/TxTypeTag.tsx
 #: src/pages/Pool/Liquidity.tsx
 msgid "Add liquidity"
-msgstr ""
+msgstr "Adăugați lichiditate"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Adding liquidity {0} and {1}"
-msgstr ""
+msgstr "Adăugare de lichiditate {0} și {1}"
 
 #: src/components/WalletModal/WalletActiveAddress/WalletActiveAddress.tsx
 msgid "All output assets will be received at this address."
-msgstr ""
+msgstr "Toate bunurile ieșite vor fi primite la această adresă."
 
 #: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidity.tsx
 msgid "Amount"
-msgstr ""
+msgstr "Cantitate"
 
 #: src/pages/Pool/components/LiquidityPositionsList/LiquidityPositionsItem/LiquidityPositionsItemAnalytics/LiquidityPositionsItemAnalytics.tsx
 msgid "Annual Percentage Rate. Average estimation of how much you may potentially earn providing liquidity to this pool."
-msgstr ""
+msgstr "Rata anuală a procentelor. Estimarea medie a câștigurilor pe care le poți dobândi oferind lichiditate acestui fond comun."
 
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 msgid "Assets"
-msgstr ""
+msgstr "Bunuri"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
 #: src/pages/Pool/LockLiquidity/LockLiquidityConfirmationModal/LockLiquidityConfirmationModal.tsx
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
 msgid "Assets to lock"
-msgstr ""
+msgstr "Bunuri de blocat"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
 msgid "Assets to relock"
-msgstr ""
+msgstr "Bunuri de reblocat"
 
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidity.tsx
 msgid "Assets to remove"
-msgstr ""
+msgstr "Bunuri de eliminat"
 
 #: src/components/MobilePlug/MobilePlug.tsx
 msgid "Back to Home"
-msgstr ""
+msgstr "Înapoi la pagina principală"
 
 #: src/components/common/TokenControl/TokenControl.tsx
 msgid "Balance: {0}"
-msgstr ""
+msgstr "Balanță: {0}"
 
 #: src/pages/Pool/components/LPGuide/LPGuide.tsx
 msgid "Become a liquidity provider"
-msgstr ""
+msgstr "Deveniți un furnizor de lichidități"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
 msgid "Best for exotic pairs"
-msgstr ""
+msgstr "Cele mai bune pentru perechi exotice"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
 msgid "Best for most pairs"
-msgstr ""
+msgstr "Cele mai bune pentru majoritatea perechilor"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
 #: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
 msgid "Block:"
-msgstr ""
+msgstr "Bloc:"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "By accepting these KYA, you agree that:"
-msgstr ""
+msgstr "Prin acceptarea acestor KYA, sunteți de acord că:"
 
 #: src/pages/Swap/PoolSelector/PoolSelector.tsx
 msgid "Change"
-msgstr ""
+msgstr "Schimbă"
 
 #: src/components/WalletModal/WalletModal.tsx
 msgid "Change wallet"
-msgstr ""
+msgstr "Schimbă portofelul"
 
 #: src/components/OperationForm/OperationForm.tsx
 #: src/components/common/ActionForm/ActionButton/ActionButton.tsx
 msgid "Check Internet Connection"
-msgstr ""
+msgstr "Verificați conexiunea la Internet"
 
 #: src/pages/Pool/components/LPGuide/LPGuide.tsx
 msgid "Check out our guides how to become a liquidity provider"
-msgstr ""
+msgstr "Consultați ghidurile noastre despre cum puteți devenii furnizor de lichiditate"
 
 #: src/components/WalletModal/AddressesTab/AddressesTab.tsx
 msgid "Choose"
-msgstr ""
+msgstr "Alege"
 
 #: src/pages/Pool/components/LockLiquidityDatePicker/LiquidityDatePicker.tsx
 msgid "Choose Date"
-msgstr ""
+msgstr "Alege Data"
 
 #: src/pages/Swap/PoolSelector/PoolSelectorModal/PoolSelectorModal.tsx
 msgid "Choose Pool"
-msgstr ""
+msgstr "Alege fondul comun"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Choose a fee"
-msgstr ""
+msgstr "Alege o taxă"
 
 #: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
 #: src/components/common/TxHistory/RefundConfirmationModal/RefundConfirmationModal.tsx
 msgid "Confirm"
-msgstr ""
+msgstr "Confirmă"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 msgid "Confirm Add Liquidity"
-msgstr ""
+msgstr "Confirmă adăugarea de lichiditate"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidityConfirmationModal/LockLiquidityConfirmationModal.tsx
 msgid "Confirm Lock"
-msgstr ""
+msgstr "Confirmă blocarea"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
 msgid "Confirm Relock"
-msgstr ""
+msgstr "Confirmă Reblocarea"
 
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidityConfirmationModal/RemoveLiquidityConfirmationModal.tsx
 msgid "Confirm Remove Liquidity"
-msgstr ""
+msgstr "Confirmă eliminarea de lichiditate"
 
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Confirm Swap"
-msgstr ""
+msgstr "Confirmă Schimbul"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
 msgid "Confirm Withdrawal"
-msgstr ""
+msgstr "Confirmă retragerea"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
 msgid "Confirm pool creation"
-msgstr ""
+msgstr "Confirmă crearea fondului comun"
 
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Confirm swap"
-msgstr ""
+msgstr "Confirmă schimbul"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Confirm this transaction in your wallet"
-msgstr ""
+msgstr "Confirmă această tranzacție în portofelul tău"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
 msgid "Confirm withdrawal"
@@ -464,83 +464,83 @@ msgstr ""
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 #: src/pages/Pool/Liquidity.tsx
 msgid "Liquidity"
-msgstr ""
+msgstr "Lichiditate"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Liquidity Locker"
-msgstr ""
+msgstr "Blocare de lichiditate"
 
 #: src/pages/Swap/PoolSelector/PoolSelector.tsx
 msgid "Liquidity Pool"
-msgstr ""
+msgstr "Fond comun de lichiditate"
 
 #: src/components/OperationForm/OperationForm.tsx
 #: src/components/common/ActionForm/ActionButton/ActionButton.tsx
 msgid "Loading"
-msgstr ""
+msgstr "Încărcare"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
 msgid "Lock"
-msgstr ""
+msgstr "Blochează"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidityConfirmationModal/LockLiquidityConfirmationModal.tsx
 msgid "Lock Liquidity"
-msgstr ""
+msgstr "Blochează lichiditatea"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Lock liquidity"
-msgstr ""
+msgstr "Blochează lichiditatea"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
 msgid "Lock period"
-msgstr ""
+msgstr "Perioadă de blocare"
 
 #: src/pages/PoolOverview/LockLiquidityChart/LockLiquidityChart.tsx
 msgid "Lock time"
-msgstr ""
+msgstr "Timp de blocare"
 
 #: src/pages/Pool/utils.ts
 msgid "Locked"
-msgstr ""
+msgstr "Blocat"
 
 #: src/pages/Pool/Liquidity.tsx
 msgid "Locked Positions"
-msgstr ""
+msgstr "Poziții blocate"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Locked liquidity"
-msgstr ""
+msgstr "Lichiditate blocată"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
 msgid "Locked positions"
-msgstr ""
+msgstr "Poziții blocate"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Locking {0} and {1} ({2}) for {3}"
-msgstr ""
+msgstr "Se blochează {0} și {1} ({2}) pentru {3}"
 
 #: src/components/common/TokenControl/TokenControl.tsx
 msgid "Max"
-msgstr ""
+msgstr "Maxim"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Max execution fee multiplier"
-msgstr ""
+msgstr "Multiplicator maxim al taxei de execuție"
 
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
 msgid "Maximum received:"
-msgstr ""
+msgstr "Maximul primit:"
 
 #: src/components/common/ActionForm/ActionButton/ActionButton.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Min value for {0} is {1}"
-msgstr ""
+msgstr "Valoarea minimă pentru {0} este {1}"
 
 #: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
 msgid "Miner Fee"
-msgstr ""
+msgstr "Taxa pentru Miner"
 
 #: src/components/common/FormView/FormFeesSection/FormFeesSection.tsx
 #: src/components/common/TxHistory/RefundConfirmationModal/RefundConfirmationModal.tsx
@@ -548,130 +548,130 @@ msgstr ""
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Miner Fee:"
-msgstr ""
+msgstr "Taxa pentru Miner:"
 
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
 msgid "Miner fee:"
-msgstr ""
+msgstr "Taxa pentru miner:"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Minimal Nitro value is {MIN_NITRO}"
-msgstr ""
+msgstr "Valoarea minimă Nitro este {MIN_NITRO}"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Minimal Slippage is {MIN_SLIPPAGE}"
-msgstr ""
+msgstr "Îngăduință minimă este {MIN_SLIPPAGE}"
 
 #: src/components/Header/GlobalSettingsModal/MinerFeeInput/MinerFeeInput.tsx
 #: src/pages/Swap/OperationSettings/NitroInput/NitroInput.tsx
 msgid "Minimum"
-msgstr ""
+msgstr "Minim"
 
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
 msgid "Minimum received:"
-msgstr ""
+msgstr "Minimul primit:"
 
 #: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
 msgid "Minimum value is {MIN_ERG_FOR_TX} ERG"
-msgstr ""
+msgstr "Valoarea minimă este {MIN_ERG_FOR_TX} ERG"
 
 #: src/components/MobilePlug/MobilePlug.tsx
 msgid "Mobile version is not supported yet"
-msgstr ""
+msgstr "Versiunea mobilă nu este încă suportată"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Nitro"
-msgstr ""
+msgstr "Nitro"
 
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Nitro:"
-msgstr ""
+msgstr "Nitro:"
 
 #: src/pages/Pool/common/EmptySearchResult/EmptySearchResult.tsx
 msgid "No results found"
-msgstr ""
+msgstr "Nu s-au găsit rezultate"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "Notice that:"
-msgstr ""
+msgstr "Observă că:"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
 msgid "Once LP-tokens are locked they cannot be withdrawn under any circumstances until the timer has expired. Please ensure the parameters are correct, as they are final."
-msgstr ""
+msgstr "Odată ce jetoanele LP sunt blocate, ele nu pot fi retrase în niciun caz până când cronometrul a expirat. Asigurați-vă că parametrii sunt corecți, deoarece sunt finali."
 
 #: src/pages/Pool/components/LocksList/LockItemView/LockItemView.tsx
 msgid "Pair"
-msgstr ""
+msgstr "Asociază"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
 msgid "Pick new unlock date"
-msgstr ""
+msgstr "Alege o nouă dată de deblocare"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
 msgid "Pool"
-msgstr ""
+msgstr "Fond Comun"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Pool liquidity"
-msgstr ""
+msgstr "Fond comun de lichiditate"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Pool overview"
-msgstr ""
+msgstr "Prezentarea generală a fondului comun"
 
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidityConfirmationModal/RemoveLiquidityConfirmationModal.tsx
 msgid "Pooled assets"
-msgstr ""
+msgstr "Fondul comun de bunuri"
 
 #: src/pages/Pool/Liquidity.tsx
 msgid "Pools Overview"
-msgstr ""
+msgstr "Prezentarea generală a fondurilor comune"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
 msgid "Previous unlock date"
-msgstr ""
+msgstr "Data anterioară de deblocare"
 
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
 msgid "Price impact:"
-msgstr ""
+msgstr "Impactul prețului:"
 
 #: src/components/GuideBanner/GuideBanner.tsx
 msgid "Read Guide"
-msgstr ""
+msgstr "Citește Ghidul"
 
 #: src/pages/Pool/components/LiquidityPositionsList/LiquidityPositionsItem/LiquidityPositionsItemAnalytics/LiquidityPositionsItemAnalytics.tsx
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Read more"
-msgstr ""
+msgstr "Citește mai mult"
 
 #: src/components/common/TxHistory/TxHistory.tsx
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
 msgid "Recent transactions"
-msgstr ""
+msgstr "Tranzacții recente"
 
 #: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
 msgid "Recommended"
-msgstr ""
+msgstr "Recomandat"
 
 #: src/components/common/ActionForm/ActionButton/ActionButton.tsx
 msgid "Refresh page"
-msgstr ""
+msgstr "Actualizați pagina"
 
 #: src/components/common/TxHistory/TxTypeTag/TxTypeTag.tsx
 msgid "Refund"
-msgstr ""
+msgstr "Restituire"
 
 #: src/components/common/TxHistory/RefundConfirmationModal/RefundConfirmationModal.tsx
 msgid "Refund confirmation"
-msgstr ""
+msgstr "Confirmare restituire"
 
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
 msgid "Refund transaction"
-msgstr ""
+msgstr "Tranzacție de restituire"
 
 #: src/components/common/TxHistory/RefundConfirmationModal/RefundConfirmationModal.tsx
 msgid "Refund will be performed to this address"
-msgstr ""
+msgstr "Restituirea va fi efectuată la această adresă"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Refunding {0} and {1}"
@@ -894,80 +894,80 @@ msgstr ""
 
 #: src/pages/Pool/Liquidity.tsx
 msgid "Type token name or pool id"
-msgstr ""
+msgstr "Numele token-ului sau id-ul fondului comun"
 
 #: src/components/common/FormView/FormFeesSection/FormFeesSection.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "UI Fee:"
-msgstr ""
+msgstr "Taxa UI:"
 
 #: src/pages/Pool/components/LockedPositionItem/LockedPositionItem.tsx
 msgid "Unlock Block"
-msgstr ""
+msgstr "Deblochează Blocul"
 
 #: src/pages/Pool/components/LockedPositionItem/LockedPositionItem.tsx
 msgid "Unlock Date"
-msgstr ""
+msgstr "Data de deblocare"
 
 #: src/pages/PoolOverview/LockLiquidityChart/AnalyticOverview/AnalyticOverview.tsx
 msgid "Unlock block"
-msgstr ""
+msgstr "Deblochează blocul"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
 #: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
 #: src/pages/PoolOverview/LockLiquidityChart/AnalyticOverview/AnalyticOverview.tsx
 msgid "Unlock date"
-msgstr ""
+msgstr "Data de deblocare"
 
 #: src/pages/Pool/utils.ts
 msgid "Unlocked"
-msgstr ""
+msgstr "Deblocat"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
 msgid "Updated unlock date"
-msgstr ""
+msgstr "Data de deblocare actualizată"
 
 #: src/components/MobilePlug/MobilePlug.tsx
 msgid "Use the desktop version and Google Chrome browser"
-msgstr ""
+msgstr "Folosiți versiunea desktop și browserul Google Chrome"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
 msgid "View on Explorer"
-msgstr ""
+msgstr "Vizualizează pe Explorer"
 
 #: src/components/WalletModal/WalletActiveAddress/WalletActiveAddress.tsx
 msgid "View on explorer"
-msgstr ""
+msgstr "Vizualizează pe explorer"
 
 #: src/components/common/ExploreButton/ExploreButton.tsx
 msgid "View on explorer."
-msgstr ""
+msgstr "Vizualizează pe explorer."
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Waiting for confirmation"
-msgstr ""
+msgstr "Aşteptă confirmarea"
 
 #: src/components/WalletModal/WalletModal.tsx
 msgid "Wallet"
-msgstr ""
+msgstr "Portofel"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "We recommend that you DO NOT use ErgoDEX to operate large amounts of assets!"
-msgstr ""
+msgstr "Vă recomandăm să NU utilizaţi ErgoDEX pentru a opera cantităţi mari de bunuri!"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
 msgid "Withdrawable"
-msgstr ""
+msgstr "Retragere"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
 #: src/pages/Pool/components/LocksList/LockItemView/LockItemView.tsx
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Withdrawal"
-msgstr ""
+msgstr "Retragere"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "You didn't provide liquidity to this pool yet."
