@@ -3,287 +3,287 @@ msgstr ""
 "Project-Id-Version: ergodex-frontend\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-03-30 15:42\n"
+"PO-Revision-Date: 2022-04-01 14:15\n"
 "Last-Translator: \n"
-"Language: zh_CN\n"
-"Language-Team: Chinese Simplified\n"
+"Language: he_IL\n"
+"Language-Team: Hebrew\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Plural-Forms: nplurals=4; plural=n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3;\n"
 "X-Crowdin-Project: ergodex-frontend\n"
 "X-Crowdin-Project-ID: 504102\n"
-"X-Crowdin-Language: zh-CN\n"
+"X-Crowdin-Language: he\n"
 "X-Crowdin-File: /dev/src/i18n/locales/en-US.po\n"
 "X-Crowdin-File-ID: 78\n"
 
 #: src/pages/Pool/components/LockLiquidityDatePicker/LiquidityDatePicker.tsx
 msgid "(Block: {0})"
-msgstr "(块: {0})"
+msgstr "(בלוק: {0})"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
 msgid "(Unlock block: {0})"
-msgstr "(解锁区块： {0})"
+msgstr "(בטלי נעילת בלוק: {0})"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "- By creating an order you send your funds to a specific smart-contract, all such contracts are wired into the UI. Thus, orders are created entirely in your browser (on your machine)."
-msgstr "- 创建订单後，您将会发送您的资金到特定的智能合约，所有这些智能合约都己接入用户介面。 因此，整个创建订单的过程是完全在您的浏览器(你的装置上的) 中完成"
+msgstr "- על ידי יצירת פקודה אתה שולח את המטבעות שלך לחוזה חכם מסוים; כל החוזים האלה מתחברים לתוך ממשק המשתמש. לפיכך, פקודות נוצרות בתוך הדפדפן שלך בלבד (במחשב שלך)."
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "- ErgoDEX operates on a live blockchain, thus trades are final, and irreversible once they have status «executed»;"
-msgstr "- ErgodeX 在一个实时区块链上运行，因此交易是最终的和不可逆的，一旦他们拥有“执行”状态；"
+msgstr "- ErgoDEX פועל בבלוקצ'יין \"חי\", לפיכך פעולות מסחר הן סופיות, ובלתי ניתנות לביטול משעה שהסטטוס שלהן «בוצע»;"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "- Every transaction can be viewed via"
-msgstr "- 每笔交易都可以通过以下方式查看"
+msgstr "- ניתן לצפות בכל פעולת מסחר דרך"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
 msgid "0.3% fee"
-msgstr "0.3% 手续费"
+msgstr "עמלה 0.3%"
 
 #: src/pages/Pool/utils.ts
 msgid "1 Day"
-msgstr "1 天"
+msgstr "יום 1"
 
 #: src/pages/Pool/utils.ts
 msgid "1 Month"
-msgstr "1个月"
+msgstr "חודש 1"
 
 #: src/pages/Pool/utils.ts
 msgid "1 Year"
-msgstr "1 年"
+msgstr "שנה 1"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
 msgid "1% fee"
-msgstr "1% 手续费"
+msgstr "עמלה 1%"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "1. You will use the product at your own peril and risk;"
-msgstr "1. 使用这产品的风险和危险将由你自己承担"
+msgstr "1. אתה תשתמש במוצר על אחריותך בלבד;"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "2. Only YOU are responsible for your assets;"
-msgstr "2. 只有\"你\"对你的资产负责"
+msgstr "2. אתה האחראי הבלעדי לנכסים שלך;"
 
 #: src/components/Header/BurgerMenu/BurgerMenu.tsx
 msgid "About"
-msgstr "关于"
+msgstr "אודות"
 
 #: src/components/WalletModal/AddressesTab/AddressesTab.tsx
 msgid "Active"
-msgstr "启用"
+msgstr "פעיל"
 
 #: src/components/WalletModal/WalletActiveAddress/WalletActiveAddress.tsx
 msgid "Active address"
-msgstr "已启用地址"
+msgstr "כתובת פעילה"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool.tsx
 #: src/pages/Pool/components/LiquidityPositionsList/LiquidityPositionsList.tsx
 msgid "Add Liquidity"
-msgstr "添加流动性"
+msgstr "הוסף נזילות"
 
 #: src/components/common/TxHistory/TxTypeTag/TxTypeTag.tsx
 #: src/pages/Pool/Liquidity.tsx
 msgid "Add liquidity"
-msgstr "添加流动性"
+msgstr "הוסף נזילות"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Adding liquidity {0} and {1}"
-msgstr "添加 {0} 和 {1} 的流动性"
+msgstr "מוסיף נזילות {0} ו {1}"
 
 #: src/components/WalletModal/WalletActiveAddress/WalletActiveAddress.tsx
 msgid "All output assets will be received at this address."
-msgstr "所有输出资产都将在该地址接收。"
+msgstr "כל הנכסים המונפקים יתקבלו בכתובת זו."
 
 #: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidity.tsx
 msgid "Amount"
-msgstr "数量"
+msgstr "כמות"
 
 #: src/pages/Pool/components/LiquidityPositionsList/LiquidityPositionsItem/LiquidityPositionsItemAnalytics/LiquidityPositionsItemAnalytics.tsx
 msgid "Annual Percentage Rate. Average estimation of how much you may potentially earn providing liquidity to this pool."
-msgstr "年度收益率，你為这个資金池提供流动性的潛在收益的平均估计。"
+msgstr "שיעור ריבית שנתית. הערכה ממוצעת של כמה את עשויה להרוויח אם תספקי נזילות לפּוּל זה."
 
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 msgid "Assets"
-msgstr "资产"
+msgstr "נכסים"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
 #: src/pages/Pool/LockLiquidity/LockLiquidityConfirmationModal/LockLiquidityConfirmationModal.tsx
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
 msgid "Assets to lock"
-msgstr "要锁定的资产"
+msgstr "נכסים לחסימה"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
 msgid "Assets to relock"
-msgstr "要重新锁定的资产"
+msgstr "נכסים לחסימה חוזרת"
 
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidity.tsx
 msgid "Assets to remove"
-msgstr "要移除的资产"
+msgstr "נכסים להסרה"
 
 #: src/components/MobilePlug/MobilePlug.tsx
 msgid "Back to Home"
-msgstr "返回首页"
+msgstr "חזרה לדף הבית"
 
 #: src/components/common/TokenControl/TokenControl.tsx
 msgid "Balance: {0}"
-msgstr "余额：{0}"
+msgstr "יתרה: {0}"
 
 #: src/pages/Pool/components/LPGuide/LPGuide.tsx
 msgid "Become a liquidity provider"
-msgstr "成为流动性提供者"
+msgstr "הפוך לספק נזילות"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
 msgid "Best for exotic pairs"
-msgstr "适合低交易量的币對"
+msgstr "הטוב ביותר עבור צמדים \"אקזוטיים\""
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
 msgid "Best for most pairs"
-msgstr "适合大多数币對"
+msgstr "הטוב ביותר עבור רוב הצמדים"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
 #: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
 msgid "Block:"
-msgstr "区块："
+msgstr "בלוק:"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "By accepting these KYA, you agree that:"
-msgstr "通过接受这些 KYA，您同意："
+msgstr "בכך שתקבל את ה-KYA הבאים, אתה מסכים כי:"
 
 #: src/pages/Swap/PoolSelector/PoolSelector.tsx
 msgid "Change"
-msgstr "更改"
+msgstr "שינוי"
 
 #: src/components/WalletModal/WalletModal.tsx
 msgid "Change wallet"
-msgstr "更换钱包"
+msgstr "החלף ארנק"
 
 #: src/components/OperationForm/OperationForm.tsx
 #: src/components/common/ActionForm/ActionButton/ActionButton.tsx
 msgid "Check Internet Connection"
-msgstr "请检查网络连接"
+msgstr "בדוק את החיבור לאינטרנט"
 
 #: src/pages/Pool/components/LPGuide/LPGuide.tsx
 msgid "Check out our guides how to become a liquidity provider"
-msgstr "看看我们的指南如何成为流动资金提供者"
+msgstr "עיין במדריך שלנו כדי לדעת איך להפוך לספק נזילות"
 
 #: src/components/WalletModal/AddressesTab/AddressesTab.tsx
 msgid "Choose"
-msgstr "选择"
+msgstr "בחרי"
 
 #: src/pages/Pool/components/LockLiquidityDatePicker/LiquidityDatePicker.tsx
 msgid "Choose Date"
-msgstr "选择日期"
+msgstr "בחרי תאריך"
 
 #: src/pages/Swap/PoolSelector/PoolSelectorModal/PoolSelectorModal.tsx
 msgid "Choose Pool"
-msgstr "选择資金池"
+msgstr "בחרי פּוּל"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Choose a fee"
-msgstr "选择手续费級別"
+msgstr "בחר עמלה"
 
 #: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
 #: src/components/common/TxHistory/RefundConfirmationModal/RefundConfirmationModal.tsx
 msgid "Confirm"
-msgstr "确认"
+msgstr "אשרי"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 msgid "Confirm Add Liquidity"
-msgstr "确认添加流动性"
+msgstr "אשרי הוסף נזילות"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidityConfirmationModal/LockLiquidityConfirmationModal.tsx
 msgid "Confirm Lock"
-msgstr "确认锁定"
+msgstr "אשר חסימה"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
 msgid "Confirm Relock"
-msgstr "确认重新锁定"
+msgstr "אשרי חסימה מחדש"
 
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidityConfirmationModal/RemoveLiquidityConfirmationModal.tsx
 msgid "Confirm Remove Liquidity"
-msgstr "确认移除流动性"
+msgstr "אשר הסרת נזילות"
 
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Confirm Swap"
-msgstr "确认交易"
+msgstr "אשרי ביצוע המרה"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
 msgid "Confirm Withdrawal"
-msgstr "确认提款"
+msgstr "אשרי משיכה"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
 msgid "Confirm pool creation"
-msgstr "确认池创建"
+msgstr "אשרי יצירת פּוּל"
 
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Confirm swap"
-msgstr "确认交易"
+msgstr "אשרי ביצוע המרה"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Confirm this transaction in your wallet"
-msgstr "在你的钱包中确认这笔交易"
+msgstr "אשרי עיסקה זו בארנק שלך"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
 msgid "Confirm withdrawal"
-msgstr "确认提款"
+msgstr "אשרי משיכה"
 
 #: src/components/common/ConnectWalletButton/ConnectWalletButton.tsx
 msgid "Connect wallet"
-msgstr "连接钱包"
+msgstr "חבר ארנק"
 
 #: src/components/common/CopyButton/CopyButton.tsx
 msgid "Copied to clipboard!"
-msgstr "已复制到剪贴板！"
+msgstr "הועתק ללוח!"
 
 #: src/components/WalletModal/WalletActiveAddress/WalletActiveAddress.tsx
 msgid "Copy Address"
-msgstr "拷贝地址"
+msgstr "העתק כתובת"
 
 #: src/components/common/CopyButton/CopyButton.tsx
 msgid "Copy to clipboard."
-msgstr "已复制到剪贴板！"
+msgstr "העתק ללוח."
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool.tsx
 msgid "Create Pool"
-msgstr "创建資金池"
+msgstr "צור פּוּל"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
 #: src/pages/Pool/Liquidity.tsx
 msgid "Create pool"
-msgstr "创建資金池"
+msgstr "צרי פּוּל"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Current price"
-msgstr "当前价格"
+msgstr "מחיר נוכחי"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
 msgid "Custom fee tier"
-msgstr "自定义收费级别"
+msgstr "מדרגת עמלה מותאמת אישית"
 
 #: src/components/Header/BurgerMenu/BurgerMenu.tsx
 msgid "Dark mode"
-msgstr "深色模式"
+msgstr "מצב כהה"
 
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
 msgid "Date"
-msgstr "日期"
+msgstr "תאריך"
 
 #: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
 msgid "Disconnect wallet"
-msgstr "断开连接"
+msgstr "נתק ארנק"
 
 #: src/components/Header/BurgerMenu/BurgerMenu.tsx
 msgid "Docs"
-msgstr "文档"
+msgstr "מסמכים"
 
 #: src/components/WalletModal/LowBalanceWarning/LowBalanceWarning.tsx
 msgid "ERG balance is low"
-msgstr "ERG 余额過低"
+msgstr "יתרת ERG נמוכה"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 #~ msgid "Enter an A  mount"
@@ -293,71 +293,71 @@ msgstr "ERG 余额過低"
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Enter an Amount"
-msgstr "输入数量"
+msgstr "הכנס סכום"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Enter an Initial Price"
-msgstr "输入初始价格"
+msgstr "הכנס מחיר התחלתי"
 
 #: src/components/WalletModal/WalletModal.tsx
 msgid "Ergo network"
-msgstr "Ergo 网络"
+msgstr "רשת Ergo"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "ErgoDEX Smart Contracts"
-msgstr "Ergodex智能合約"
+msgstr "חוזים חכמים של ErgoDEX"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "ErgoDEX Team doesn’t guarantee the absence of bugs and errors."
-msgstr "ErgoDEX 团队不能保证不存在错误和漏洞。"
+msgstr "צוות ErgoDEX אינו מתחייב שאין באתר בגים או טעויות."
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "ErgoDEX is a decentralized financial (DeFi) application which means it doesn’t have a central government body. ErgoDEX includes AMM (Swap, Add liquidity and Remove liquidity) functionality"
-msgstr "ErgodeX是一种去中心去化金融 (DeFi) 应用程序，这意味着它没有一个中心化的管理机构。 ErgoDEX 包括AMM (交易, 添加流动性和删除流动性)"
+msgstr "ErgoDEX היא אפליקצייה פיננסית מבוזרת (DeFi), כלומר שאין לה ממשל מרכזי. ErgoDEX כוללת פונקציונליות של AMM (המרה, הוספת נזילות והסרת נזילות)"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "ErgoDEX offers a form of added security, as buyers and sellers do not have to give their information to any 3rd party. However, ErgoDEX is without a know your customer (KYC) process and can offer NO assistance if a user is hacked or cheated out of passwords, currency or private wallet keys."
-msgstr "Ergodex提供了额外的私隐安全, 因为买方和卖方不必向任何第三方提供信息。 然而，ErgoDEX 没有执行《知道您的客户》(KYC) 程序，如果用户的密码、货币或私钥被破解或骗取，ErgoDEX不能提供任何援助"
+msgstr "ErgoDEX מציעה הגנה נוספת, בכך שקונים ומוכרים אינם חייבים למסור מידע אודות עצמם לצד שלישי. למרות זאת, מאחר ואין ב-ErgoDEX תהליך של \"הכר את הלקוח\" (KYC), היא אינה יכולה להציע כל עזרה במקרה של פריצה לחשבון של משתמש, או שנגנבות ממנו ססמאות, כספים או מילות המפתח של הארנק."
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Error"
-msgstr "错误"
+msgstr "שגיאה"
 
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Estimated output:"
-msgstr "预计输出："
+msgstr "כמות משוערת:"
 
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
 msgid "Execution Fee"
-msgstr "执行费用"
+msgstr "עמלת ביצוע"
 
 #: src/pages/Swap/OperationSettings/NitroInput/NitroInput.tsx
 msgid "Execution Fee Range {0} - {1} {2}"
-msgstr "执行费用范围 {0} - {1} {2}"
+msgstr "טווח עמלת ביצוע {0} - {1} {2}"
 
 #: src/components/common/FormView/FormFeesSection/FormFeesSection.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Execution Fee:"
-msgstr "执行费用:"
+msgstr "עמלת ביצוע:"
 
 #: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
 msgid "Experimental"
-msgstr "实验性"
+msgstr "נסיוני"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
 msgid "Extension period"
-msgstr "延长期限"
+msgstr "תקופת הארכה"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
 #: src/pages/Pool/components/LiquidityPositionsList/LiquidityPositionsItem/LiquidityPositionsItemWrapper/LiquidityPositionsItemWrapper.tsx
 msgid "Fee tier"
-msgstr "手续费级別"
+msgstr "מדרגת עמלה"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/PoolSelector/PoolView/PoolView.tsx
 msgid "Fee:"
-msgstr "手续费:"
+msgstr "עמלה:"
 
 #: src/components/common/FormView/FormFeesSection/FormFeesSection.tsx
 #: src/components/common/TxHistory/RefundConfirmationModal/RefundConfirmationModal.tsx
@@ -366,32 +366,32 @@ msgstr "手续费:"
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
 msgid "Fees"
-msgstr "手续费"
+msgstr "עמלות"
 
 #: src/pages/Swap/Swap.tsx
 msgid "From"
-msgstr "从"
+msgstr "מ"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Get help in our channels:"
-msgstr "在我们的频道中获得帮助："
+msgstr "קבלי עזרה בערוצים שלנו:"
 
 #: src/components/Header/BurgerMenu/BurgerMenu.tsx
 #: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
 msgid "Global Settings"
-msgstr "全局设置"
+msgstr "הגדרות כלליות"
 
 #: src/components/Header/BurgerMenu/BurgerMenu.tsx
 msgid "How to use"
-msgstr "如何使用"
+msgstr "כיצד להשתמש"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidityConfirmationModal/LockLiquidityConfirmationModal.tsx
 msgid "I understand that I'm locking <0>{0}</0> LP-tokens, which is <1>{percent}%</1> of my <2>{1}/{2}</2> liquidity position, for a period of <3>{3}</3> (until {4}) without the ability to withdrawal before the end of this period."
-msgstr "我知道我正在锁定<0>{0}</0> LP-代币，它是我<2>{1}/{2}</2> 流动资金仓位的 <1>{percent}%</1> ，在 <3>{3}</3> (直到 {4}) 期间内没有能力在此期间结束前提款。"
+msgstr "אני מבינה שאני חוסמת <0>{0}</0> LP-tokens, שהם <1>{percent}%</1> מ <2>{1}/{2}</2> עמדת הנזילות שלי, לתקופה של <3>{3}</3> (עד {4}) ללא אפשרות לביצוע משיכה לפני תום התקופה הזו."
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
 msgid "I understand that I’m relocking <0>{0}</0> LP-tokens of my <1>{1}/{2}</1> position until <2>{3}</2> (or <3>{4}</3> block) without the ability to withdrawal before the end of this period."
-msgstr "我知道我正在重新鎖定我 <1>{1}/{2}</1> 的仓位的 <0>{0}</0> LP 代币，直到<2>{3}</2> (或 <3>{4}</3>區塊) 結束前都不能夠提款。"
+msgstr "אני מבינה שאני חוסמת מחדש <0>{0}</0> LP-tokens מ <1>{1}/{2}</1> עמדה שלי עד <2>{3}</2> (או בלוק <3>{4}</3>) ללא אפשרות למשיכה לפני סוף תקופה זו."
 
 #: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
 #~ msgid "I understand that this wallet has not been audited. I will use it at my own risk."
@@ -400,48 +400,48 @@ msgstr "我知道我正在重新鎖定我 <1>{1}/{2}</1> 的仓位的 <0>{0}</0>
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "I understand the risks"
-msgstr "我了解风险"
+msgstr "אני מבינה את הסיכונים"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "I understand the risks and accept the KYA"
-msgstr "我理解风险并接受 KYA"
+msgstr "אני מבין את הסיכונים ומקבל את ה-KYA"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Increase Liquidity"
-msgstr "添加流动性"
+msgstr "הוסף נזילות"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
 msgid "Initial liquidity"
-msgstr "初始流动性"
+msgstr "נזילות התחלתית"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
 msgid "Initial price"
-msgstr "初始价格"
+msgstr "מחיר התחלתי"
 
 #: src/components/common/ActionForm/ActionButton/ActionButton.tsx
 msgid "Insufficient liquidity for this trade"
-msgstr "此交易的流动性不足"
+msgstr "אין מספיק נזילות לצורך עסקה זו"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Insufficient {0} Balance"
-msgstr "{0} 余额不足"
+msgstr "יתרה {0} לא מספיקה"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Insufficient {0} Balance for Fees"
-msgstr "{0} 余额不足以支付费用"
+msgstr "יתרה {0} לא מספיקה לעמלות"
 
 #: src/components/common/ActionForm/ActionButton/ActionButton.tsx
 msgid "Insufficient {token} Balance"
-msgstr "{token} 余额不足"
+msgstr "יתרת {token} לא מספיקה"
 
 #: src/components/common/ActionForm/ActionButton/ActionButton.tsx
 msgid "Insufficient {token} Balance for Fees"
-msgstr "{token} 余额不足以支付费用"
+msgstr "יתרת {token} לא מספיקה לעמלות"
 
 #: src/pages/Pool/components/LiquidityPositionsList/LiquidityPositionsItem/LiquidityPositionsItemWrapper/LiquidityPositionsItemWrapper.tsx
 #~ msgid "It is impossible to display statistics for this pool"
@@ -449,98 +449,98 @@ msgstr "{token} 余额不足以支付费用"
 
 #: src/components/common/ConnectWalletButton/ConnectWalletButton.tsx
 msgid "KYA is not accepted"
-msgstr "未接受 KYA"
+msgstr "KYA לא התקבל"
 
 #: src/components/Header/BurgerMenu/BurgerMenu.tsx
 msgid "Language"
-msgstr "语言"
+msgstr "שפה"
 
 #: src/components/WalletModal/LowBalanceWarning/LowBalanceWarning.tsx
 msgid "Learn how to get ERG"
-msgstr "了解如何获得ERG"
+msgstr "למד איך להשיג ERG"
 
 #: src/components/Header/Navigation/Navigation.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 #: src/pages/Pool/Liquidity.tsx
 msgid "Liquidity"
-msgstr "流动性"
+msgstr "נזילות"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Liquidity Locker"
-msgstr "流动性锁定"
+msgstr "חוסם נזילות"
 
 #: src/pages/Swap/PoolSelector/PoolSelector.tsx
 msgid "Liquidity Pool"
-msgstr "流动性池"
+msgstr "פּוּל נזילות"
 
 #: src/components/OperationForm/OperationForm.tsx
 #: src/components/common/ActionForm/ActionButton/ActionButton.tsx
 msgid "Loading"
-msgstr "载入中"
+msgstr "טוען"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
 msgid "Lock"
-msgstr "锁定"
+msgstr "חַסוֹם"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidityConfirmationModal/LockLiquidityConfirmationModal.tsx
 msgid "Lock Liquidity"
-msgstr "锁定流动性"
+msgstr "חַסוֹם נזילות"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Lock liquidity"
-msgstr "锁定流动性"
+msgstr "חַסוֹם נזילות"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
 msgid "Lock period"
-msgstr "锁定期"
+msgstr "תקופת חסימה"
 
 #: src/pages/PoolOverview/LockLiquidityChart/LockLiquidityChart.tsx
 msgid "Lock time"
-msgstr "锁定时间"
+msgstr "משך החסימה"
 
 #: src/pages/Pool/utils.ts
 msgid "Locked"
-msgstr "已锁定"
+msgstr "חסוּם"
 
 #: src/pages/Pool/Liquidity.tsx
 msgid "Locked Positions"
-msgstr "已锁定仓位"
+msgstr "פוזיציות חסומות"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Locked liquidity"
-msgstr "已锁定流动性"
+msgstr "נזילות חסומה"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
 msgid "Locked positions"
-msgstr "已锁定仓位"
+msgstr "פוזיציות חסומות"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Locking {0} and {1} ({2}) for {3}"
-msgstr "锁定 {0} 和 {1} ({2}) 由於{3}"
+msgstr "חוסם {0} ו {1} ({2}) ל {3}"
 
 #: src/components/common/TokenControl/TokenControl.tsx
 msgid "Max"
-msgstr "最大值"
+msgstr "מקסימום"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Max execution fee multiplier"
-msgstr "最大执行费倍数"
+msgstr "בחר מכפיל עמלת ביצוע מקסימלי"
 
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
 msgid "Maximum received:"
-msgstr "最大获得量："
+msgstr "מקסימום שיכול להתקבל:"
 
 #: src/components/common/ActionForm/ActionButton/ActionButton.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Min value for {0} is {1}"
-msgstr "{0} 的最小价格为 {1}"
+msgstr "ערך מינימאלי עבור {0} הוא {1}"
 
 #: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
 msgid "Miner Fee"
-msgstr "矿工费"
+msgstr "עמלת כּורה"
 
 #: src/components/common/FormView/FormFeesSection/FormFeesSection.tsx
 #: src/components/common/TxHistory/RefundConfirmationModal/RefundConfirmationModal.tsx
@@ -548,196 +548,196 @@ msgstr "矿工费"
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Miner Fee:"
-msgstr "矿工费："
+msgstr "עמלת כּוֹרה:"
 
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
 msgid "Miner fee:"
-msgstr "矿工费："
+msgstr "עמלת כּוֹרה:"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Minimal Nitro value is {MIN_NITRO}"
-msgstr "最小倍数值是 {MIN_NITRO}"
+msgstr "ערך ניטרו מינימלי הוא {MIN_NITRO}"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Minimal Slippage is {MIN_SLIPPAGE}"
-msgstr "最小滑点是 {MIN_SLIPPAGE}"
+msgstr "תנודת המחיר המינימלית היא {MIN_SLIPPAGE}"
 
 #: src/components/Header/GlobalSettingsModal/MinerFeeInput/MinerFeeInput.tsx
 #: src/pages/Swap/OperationSettings/NitroInput/NitroInput.tsx
 msgid "Minimum"
-msgstr "最小值"
+msgstr "מינימום"
 
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
 msgid "Minimum received:"
-msgstr "最小获得量："
+msgstr "מינימום שעשוי להתקבל:"
 
 #: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
 msgid "Minimum value is {MIN_ERG_FOR_TX} ERG"
-msgstr "最小值是 {MIN_ERG_FOR_TX} ERG"
+msgstr "הערך המינימלי הוא {MIN_ERG_FOR_TX} ERG"
 
 #: src/components/MobilePlug/MobilePlug.tsx
 msgid "Mobile version is not supported yet"
-msgstr "尚不支持移动版本"
+msgstr "גירסת נייד אינה נתמכת עדיין"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Nitro"
-msgstr "倍数"
+msgstr "ניטרוֹ"
 
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Nitro:"
-msgstr "倍数:"
+msgstr "ניטרוֹ:"
 
 #: src/pages/Pool/common/EmptySearchResult/EmptySearchResult.tsx
 msgid "No results found"
-msgstr "未找到任何结果"
+msgstr "לא נמצאו תוצאות"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "Notice that:"
-msgstr "请注意："
+msgstr "שימי לב ש:"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
 msgid "Once LP-tokens are locked they cannot be withdrawn under any circumstances until the timer has expired. Please ensure the parameters are correct, as they are final."
-msgstr "一旦LP 代币被锁定，它们在任何情况下都不能被提走，直到计时器执行完成后才能提走。 请确保参数是正确的，因为它们是最终的。"
+msgstr "משעה שה-LP-tokens נחסמו, לא ניתן למושכם בשום מצב עד שפג תוקף הטיימר. אנא וודאי שהפרמטרים מדוייקים שכן הם סופיים."
 
 #: src/pages/Pool/components/LocksList/LockItemView/LockItemView.tsx
 msgid "Pair"
-msgstr "币对"
+msgstr "צמד"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
 msgid "Pick new unlock date"
-msgstr "选择新的解锁日期"
+msgstr "בחר תאריך חדש לשחרור מחסימה"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
 msgid "Pool"
-msgstr "资金池"
+msgstr "פּוּל"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Pool liquidity"
-msgstr "池流动性"
+msgstr "נזילות פּוּל"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Pool overview"
-msgstr "资金池概览"
+msgstr "סקירה כללית של הפּוּל"
 
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidityConfirmationModal/RemoveLiquidityConfirmationModal.tsx
 msgid "Pooled assets"
-msgstr "资金池的资产"
+msgstr "נכסים שבַּפּוּל"
 
 #: src/pages/Pool/Liquidity.tsx
 msgid "Pools Overview"
-msgstr "资金池概览"
+msgstr "סקירה כללית של פּוּלים"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
 msgid "Previous unlock date"
-msgstr "先前的解锁日期"
+msgstr "תאריך קודם של שחרור מחסימה"
 
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
 msgid "Price impact:"
-msgstr "价格影响："
+msgstr "השפעת המחיר:"
 
 #: src/components/GuideBanner/GuideBanner.tsx
 msgid "Read Guide"
-msgstr "阅读指南"
+msgstr "קרא במדריך"
 
 #: src/pages/Pool/components/LiquidityPositionsList/LiquidityPositionsItem/LiquidityPositionsItemAnalytics/LiquidityPositionsItemAnalytics.tsx
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Read more"
-msgstr "了解更多"
+msgstr "קרא עוד"
 
 #: src/components/common/TxHistory/TxHistory.tsx
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
 msgid "Recent transactions"
-msgstr "最近的交易"
+msgstr "עסקאות אחרונות"
 
 #: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
 msgid "Recommended"
-msgstr "推荐"
+msgstr "מומלץ/ים"
 
 #: src/components/common/ActionForm/ActionButton/ActionButton.tsx
 msgid "Refresh page"
-msgstr "刷新页面"
+msgstr "רענן עמוד"
 
 #: src/components/common/TxHistory/TxTypeTag/TxTypeTag.tsx
 msgid "Refund"
-msgstr "退款"
+msgstr "בקש החזר"
 
 #: src/components/common/TxHistory/RefundConfirmationModal/RefundConfirmationModal.tsx
 msgid "Refund confirmation"
-msgstr "退款确认"
+msgstr "אישור החזר"
 
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
 msgid "Refund transaction"
-msgstr "退款交易"
+msgstr "עיסקת זיכוי/החזר עיסקה"
 
 #: src/components/common/TxHistory/RefundConfirmationModal/RefundConfirmationModal.tsx
 msgid "Refund will be performed to this address"
-msgstr "将对此地址进行退款"
+msgstr "החזר יבוצע לכתובת זו"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Refunding {0} and {1}"
-msgstr "退款 {0} 和 {1}"
+msgstr "מחזיר {0} ו {1}"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
 #: src/pages/Pool/components/LocksList/LockItemView/LockItemView.tsx
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Relock liquidity"
-msgstr "重新锁定流动性"
+msgstr "חסום מחדש נזילות"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
 msgid "Relock position"
-msgstr "重新锁定仓位"
+msgstr "חסום מחדש פוזיציה"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Relocking {0} and {1} ({2})"
-msgstr "正在重新锁定 {0} 和 {1} ({2})"
+msgstr "חוֹסם מחדש {0} ו {1} ({2})"
 
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidity.tsx
 msgid "Remove"
-msgstr "移除"
+msgstr "הסר"
 
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidityConfirmationModal/RemoveLiquidityConfirmationModal.tsx
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Remove Liquidity"
-msgstr "移除流动性"
+msgstr "הסר נזילות"
 
 #: src/components/common/TxHistory/TxTypeTag/TxTypeTag.tsx
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidity.tsx
 msgid "Remove liquidity"
-msgstr "移除流动性"
+msgstr "הסר נזילות"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Removing liquidity {0} and {1}"
-msgstr "移除流动性 {0} 和 {1}"
+msgstr "מסיר נזילות {0} ו {1}"
 
 #: src/components/common/TokenControl/TokenSelect/TokenListModal/TokenListModal.tsx
 msgid "Search"
-msgstr "搜索"
+msgstr "חיפוש"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Seems like Yoroi Wallet has an issue"
-msgstr "似乎Yoroi Wallet 有些问题"
+msgstr "נראה שארנק Yoroi נתקל בבעייה"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
 #: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
 msgid "Select Locked Position"
-msgstr "选择已锁定仓位"
+msgstr "בחרי עמדת נעילה/בחרי עמדה נעולה"
 
 #: src/components/Header/NetworkDropdown/NetworkDropdown.tsx
 msgid "Select Network"
-msgstr "请选择网络"
+msgstr "בחרי רשת"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool.tsx
 msgid "Select Pair"
-msgstr "选择配对"
+msgstr "בחר צמד"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/PoolSelector/PoolSelector.tsx
 msgid "Select Pool"
-msgstr "选择流动池"
+msgstr "בחרי פּוּל"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Select a fee tier"
-msgstr "选择收费级别"
+msgstr "בחרי מדרגת עמלה"
 
 #: src/components/common/ActionForm/ActionButton/ActionButton.tsx
 #: src/components/common/TokenControl/TokenSelect/TokenListModal/TokenListModal.tsx
@@ -745,309 +745,309 @@ msgstr "选择收费级别"
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Select a token"
-msgstr "选择代币"
+msgstr "בחר טוֹקן"
 
 #: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
 msgid "Select a wallet"
-msgstr "选择钱包"
+msgstr "בחרי ארנק"
 
 #: src/components/common/TxHistory/RefundConfirmationModal/RefundConfirmationModal.tsx
 msgid "Select address"
-msgstr "选择地址"
+msgstr "בחר כתובת"
 
 #: src/components/common/PoolSelect/PoolSelect.tsx
 msgid "Select pair"
-msgstr "选择配对"
+msgstr "בחרי צמד"
 
 #: src/components/PoolMenu/PoolMenu.tsx
 msgid "Select pools"
-msgstr "选择資金池"
+msgstr "בחר פּוּלים"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
 msgid "Select relock date"
-msgstr "选择重新锁定日期"
+msgstr "בחרי תאריך נעילה מחדש"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Set initial price"
-msgstr "设置初始价格"
+msgstr "קבע מחיר התחלתי"
 
 #: src/pages/Pool/components/LocksList/LockItemView/LockItemView.tsx
 #: src/pages/PoolOverview/LockLiquidityChart/AnalyticOverview/AnalyticOverview.tsx
 msgid "Share"
-msgstr "分享"
+msgstr "שתף"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Slippage tolerance"
-msgstr "滑点容差"
+msgstr "תנודת מחיר מקובלת"
 
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
 msgid "Slippage tolerance:"
-msgstr "滑点容差:"
+msgstr "תנודת מחיר מקובלת:"
 
 #: src/pages/Swap/SwapInfo/SwapInfoHeader/SlippageTag/SlippageTag.tsx
 msgid "Slippage: {slippage}"
-msgstr "滑点： {slippage}"
+msgstr "תנודת מחיר: {slippage}"
 
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
 #: src/pages/Pool/components/LockedPositionItem/LockedPositionItem.tsx
 msgid "Status"
-msgstr "状态"
+msgstr "מצב"
 
 #: src/components/Header/Navigation/Navigation.tsx
 #: src/components/common/TxHistory/TxTypeTag/TxTypeTag.tsx
 #: src/pages/Swap/Swap.tsx
 #: src/pages/Swap/Swap.tsx
 msgid "Swap"
-msgstr "兑换"
+msgstr "המרה"
 
 #: src/components/common/ActionForm/ActionButton/ActionButton.tsx
 msgid "Swapping is available in {0}"
-msgstr "{0} 是可以进行兑换"
+msgstr "המרה זמינה ב {0}"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Swapping {0} for {1}"
-msgstr "将 {0} 交换为 {1}"
+msgstr "ממיר {0} תמורת {1}"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "The % you will earn in fees"
-msgstr "您将赚取的手续费百分比。"
+msgstr "ה-% שתרוויחי בעמלות"
 
 #: src/components/NetworkHeight/NetworkHeight.tsx
 msgid "The most recent block in Ergo network"
-msgstr "Ergo 网络中最近的區块"
+msgstr "הבלוק העדכני ברשת Ergo"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool.tsx
 msgid "The pool with such a pair has not yet been initialized. To create a pool enter an initial price. Then add the deposit amount."
-msgstr "这币对的流动池尚未初始化。你需要请输入初始价格来创建池，然后添加存款金额。"
+msgstr "פּוּל עם צמד כזה טרם אותחל. על מנת לצור פּוּל הכניסי מחיר ראשוני, ואז הוסיפי את סכום ההפקדה."
 
 #: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
 msgid "The value can't be more than {MAX_ERG_FOR_TX} ERG"
-msgstr "数量不能超过 {MAX_ERG_FOR_TX} ERG"
+msgstr "הסכום לא יכול להיות יותר מ-{MAX_ERG_FOR_TX} ERG"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "This operation may include fake or scam assets. Only confirm if you have done your own research."
-msgstr "此操作可能包括假冒或诈骗资产。只有在您完成了自己的研究后才去确认。"
+msgstr "פעולה זו עלולה לכלול נכסים שנוצרו בזיוף או הונאה. אשרי רק אם ערכת את המחקר שלך לגביהם."
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "This pair has not been verified by the ErgoDEX team"
-msgstr "这币对尚未被ErgodeX团队验证"
+msgstr "צמד זה לא אומת על ידי צוות ErgoDEX"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
 msgid "This position is still locked"
-msgstr "此仓位仍然被锁定"
+msgstr "פוזיציה זו עדיין נעולה"
 
 #: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
 msgid "This wallet may not always work as expected. I understand what I do andwill use it at my own risk."
-msgstr "这个钱包可能并不总是能够正常工作。我知道我做了什么和我会承担使用它的风险。"
+msgstr "יתכן שארנק זה לא תמיד יעבוד כמצופה. אני מבינה מה אני עושה ואשתמש בו על אחריותי בלבד."
 
 #: src/pages/Swap/Swap.tsx
 msgid "To"
-msgstr "到"
+msgstr "אל"
 
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Total Fees"
-msgstr "总费用"
+msgstr "סך עמלות"
 
 #: src/components/WalletModal/WalletTotalBalance/WalletTotalBalance.tsx
 msgid "Total balance"
-msgstr "总余额"
+msgstr "יתרה כוללת"
 
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
 msgid "Total fees:"
-msgstr "总费用:"
+msgstr "סך העמלות:"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
 msgid "Total in locker"
-msgstr "锁仓总额"
+msgstr "סך הכל בַּלוֹֹקר"
 
 #: src/pages/Pool/components/LocksList/LockItemView/LockItemView.tsx
 msgid "Total locked"
-msgstr "已锁定总数"
+msgstr "סך הכל נעול"
 
 #: src/pages/Pool/components/LocksList/LockItemView/LockItemView.tsx
 msgid "Total withdrawable"
-msgstr "可提取总额"
+msgstr "סכום כולל? שניתן למשיכה"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Transaction Settings"
-msgstr "交易设置"
+msgstr "הגדרות טרנזאקציה"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Transaction rejected"
-msgstr "交易被拒绝"
+msgstr "טרנזאקציה נדחתה"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Transaction submitted"
-msgstr "交易已提交"
+msgstr "טרנזאקציה הוגשה"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Try again later"
-msgstr "请稍后再试"
+msgstr "נסי שוב מאוחר יותר"
 
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
 msgid "Type"
-msgstr "类型"
+msgstr "סוג"
 
 #: src/pages/Pool/Liquidity.tsx
 msgid "Type token name or pool id"
-msgstr "输入代币名称或池号"
+msgstr "הקלד שם טוקן או ID של הפול"
 
 #: src/components/common/FormView/FormFeesSection/FormFeesSection.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "UI Fee:"
-msgstr "用户界面费用："
+msgstr "עמלת ממשק משתמש:"
 
 #: src/pages/Pool/components/LockedPositionItem/LockedPositionItem.tsx
 msgid "Unlock Block"
-msgstr "解锁區块"
+msgstr "פתח נעילת בלוק"
 
 #: src/pages/Pool/components/LockedPositionItem/LockedPositionItem.tsx
 msgid "Unlock Date"
-msgstr "解锁日期"
+msgstr "פתח נעילת תאריך"
 
 #: src/pages/PoolOverview/LockLiquidityChart/AnalyticOverview/AnalyticOverview.tsx
 msgid "Unlock block"
-msgstr "解锁區块"
+msgstr "פתח נעילת בלוק"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
 #: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
 #: src/pages/PoolOverview/LockLiquidityChart/AnalyticOverview/AnalyticOverview.tsx
 msgid "Unlock date"
-msgstr "解锁日期"
+msgstr "תאריך סיום חסימה/בטל חסימת תאריך"
 
 #: src/pages/Pool/utils.ts
 msgid "Unlocked"
-msgstr "已解锁"
+msgstr "לא נעול"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
 msgid "Updated unlock date"
-msgstr "更新解锁日期"
+msgstr "תאריך שחרור נעילה מעודכן"
 
 #: src/components/MobilePlug/MobilePlug.tsx
 msgid "Use the desktop version and Google Chrome browser"
-msgstr "使用桌面版本和 Google Chrome 浏览器"
+msgstr "השתמש בגירסת דסקטופ ובדפדפן גוגל כרום"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
 msgid "View on Explorer"
-msgstr "在区块链浏览器查看"
+msgstr "צפה ב-Explorer"
 
 #: src/components/WalletModal/WalletActiveAddress/WalletActiveAddress.tsx
 msgid "View on explorer"
-msgstr "在区块链浏览器查看"
+msgstr "צפה בסייר"
 
 #: src/components/common/ExploreButton/ExploreButton.tsx
 msgid "View on explorer."
-msgstr "在浏览器上查看."
+msgstr "צפה בסייר."
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Waiting for confirmation"
-msgstr "等待确认"
+msgstr "ממתין לאישור"
 
 #: src/components/WalletModal/WalletModal.tsx
 msgid "Wallet"
-msgstr "钱包"
+msgstr "ארנק"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "We recommend that you DO NOT use ErgoDEX to operate large amounts of assets!"
-msgstr "我们建议您不要使用 ErgoDEX 来操作大量资产！"
+msgstr "אנחנו ממליצים שלא תשתמש ב-ErgoDEX לתפעל נכסים בכמויות גדולות!"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
 msgid "Withdrawable"
-msgstr "可提款"
+msgstr "ניתן למשיכה"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
 #: src/pages/Pool/components/LocksList/LockItemView/LockItemView.tsx
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Withdrawal"
-msgstr "提款"
+msgstr "משיכה"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "You didn't provide liquidity to this pool yet."
-msgstr "您尚未向这个池提供流动资金。"
+msgstr "טרם הוסַפְת נזילות לפּוּל זה."
 
 #: src/components/WalletModal/LowBalanceWarning/LowBalanceWarning.tsx
 msgid "You need ERG to pay transaction fees"
-msgstr "您需要ERG来支付交易费用"
+msgstr "את זקוקה ל-ERG כדי לשלם עמלות עיסקה"
 
 #: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
 msgid "You will spend {value} ERG for every operation."
-msgstr "您的每次操作将会花费 {value} ERG。"
+msgstr "אתה תוציא {value} ERG לכל פעולה."
 
 #: src/pages/Pool/Liquidity.tsx
 msgid "Your Positions"
-msgstr "你的仓位"
+msgstr "הפוזיציות שלך"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Your liquidity"
-msgstr "你的流动性"
+msgstr "הנזילות שלך"
 
 #: src/pages/Pool/common/EmptyPositionsList/EmptyPositionsList.tsx
 msgid "Your liquidity positions will appear here."
-msgstr "您的流动资金头寸将显示在这里。"
+msgstr "פוזיציות הנזילות שלך יוצגו כאן."
 
 #: src/pages/Swap/PoolSelector/PoolSelector.tsx
 msgid "Your operation will be executed in this pool. <0/> You can also choose another pool for this pair"
-msgstr "您的操作将在这个池中执行。<0/> 您也可以为这币对选择另一个池。"
+msgstr "הפעולה שלך תבוצע בפּוּל הנוכחי. <0/> את יכולה גם לבחור פּוּל אחר עבור הצמד הזה"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Your transaction may be frontrun"
-msgstr "您的交易可能会被别人“抢先”（从而赚取差价）"
+msgstr "יתכן שמישהו יטרים את הטרנזאקציה שלך"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Your transaction may fail"
-msgstr "您的交易可能会失败"
+msgstr "יתכן שהטרנזאקציה שלך תכשל"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Your transaction will revert if the price changes unfavorably by more than this percentage"
-msgstr "如果价格变动超过此百分比，您的交易将恢复"
+msgstr "הטרנזאקציה שלך תבוטל אם המחיר ישתנה לרעתך ביותר מהאחוז הבא"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "explorer"
-msgstr "浏览器"
+msgstr "סייר Ergo"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "meet your expectations."
-msgstr "符合你的期望。"
+msgstr "עני על הציפיות שלך."
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "only on top of the Ergo Blockchain."
-msgstr "仅在Ergo 区块链上"
+msgstr "רק על גבי הבלוקצ'איין של Ergo."
 
 #: src/pages/Pool/Liquidity.tsx
 msgid "{0} Community Pools"
-msgstr "{0} 社区池"
+msgstr "{0} פּוּלים של הקהילה"
 
 #: src/pages/PoolOverview/PoolRatio/PoolRatio.tsx
 #: src/pages/PoolOverview/PoolRatio/PoolRatio.tsx
 msgid "{0} per {1}"
-msgstr "{0} / {1}"
+msgstr "{0} עבור {1}"
 
 #: src/pages/Pool/utils.ts
 msgid "{daysCount} Days"
-msgstr "{daysCount} 天"
+msgstr "{daysCount} ימים"
 
 #: src/pages/Pool/utils.ts
 msgid "{monthsCount} Months"
-msgstr "{monthsCount} 个月"
+msgstr "{monthsCount} חודשים"
 
 #: src/components/Header/ConnectWallet/ConnectWallet.tsx
 msgid "{numberOfPendingTxs} Pending"
-msgstr "{numberOfPendingTxs} 个待处理"
+msgstr "{numberOfPendingTxs} ממתינות"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePoolUnsupportedAlert/CreatePoolUnsupportedAlert.tsx
 msgid "{walletName} Wallet doesn’t support “create pool” functionality yet. Choose another wallet to perform the operation."
-msgstr "{walletName} 钱包还不支持\"创建池\"功能。請选择另一个钱包来执行操作。"
+msgstr "ארנק {walletName} אינו תומך עדין בפונקציונליות \"צרי פּוּל\". בחרי ארנק אחר על מנת לבצע את הפעולה."
 
 #: src/pages/Pool/utils.ts
 msgid "{yearsCount} Years"
-msgstr "{yearsCount} 年"
+msgstr "{yearsCount} שנים"
 
