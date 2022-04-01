@@ -1,9 +1,10 @@
 import './PoolSelect.less';
 
-import { AmmPool } from '@ergolabs/ergo-dex-sdk';
+import { Trans } from '@lingui/macro';
 import { maxBy } from 'lodash';
 import React, { useEffect } from 'react';
 
+import { AmmPool } from '../../../common/models/AmmPool';
 import {
   Button,
   DownOutlined,
@@ -13,6 +14,7 @@ import {
   Typography,
 } from '../../../ergodex-cdk';
 import { TokenIconPair } from '../../TokenIconPair/TokenIconPair';
+import { VerificationMark } from '../../VerificationMark/VerificationMark';
 import { FeeTag } from '../FeeTag/FeeTag';
 
 interface PoolOptionProps {
@@ -21,16 +23,14 @@ interface PoolOptionProps {
 
 const PoolOption: React.FC<PoolOptionProps> = ({ position }) => {
   return (
-    <Flex justify="space-between" alignItems="center">
+    <Flex justify="space-between" align="center">
       <Flex.Item>
         <Flex>
           <Flex.Item marginRight={2}>
             <Flex>
               <TokenIconPair
-                tokenPair={{
-                  tokenA: position.x.asset.name,
-                  tokenB: position.y.asset.name,
-                }}
+                assetX={position.x.asset}
+                assetY={position.y.asset}
               />
             </Flex>
           </Flex.Item>
@@ -39,6 +39,11 @@ const PoolOption: React.FC<PoolOptionProps> = ({ position }) => {
               level={5}
             >{`${position.x.asset.name}/${position.y.asset.name}`}</Typography.Title>
           </Flex.Item>
+          {position.verified && (
+            <Flex.Item align="center" marginLeft={1}>
+              <VerificationMark />
+            </Flex.Item>
+          )}
         </Flex>
       </Flex.Item>
       <Flex.Item>
@@ -69,10 +74,14 @@ const PoolSelect: React.FC<PoolSelectProps> = ({
     if (positions && positions.length > 0) {
       const positionWithHighestLiquidity = maxBy(positions, (p) => p.lp.amount);
 
-      if (positionWithHighestLiquidity)
+      if (
+        positionWithHighestLiquidity &&
+        positionWithHighestLiquidity?.id !== value?.id
+      ) {
         handleChange(positionWithHighestLiquidity);
+      }
     }
-  });
+  }, [positions]);
 
   return (
     <>
@@ -97,7 +106,7 @@ const PoolSelect: React.FC<PoolSelectProps> = ({
                 {value && <PoolOption position={value} />}
               </Flex.Item>
               <Flex.Item>
-                <Flex alignItems="center" style={{ height: '100%' }}>
+                <Flex align="center" style={{ height: '100%' }}>
                   <DownOutlined />
                 </Flex>
               </Flex.Item>
@@ -106,7 +115,7 @@ const PoolSelect: React.FC<PoolSelectProps> = ({
         </Dropdown>
       ) : (
         <Button size="large" block disabled>
-          Select pair
+          <Trans>Select pair</Trans>
         </Button>
       )}
     </>

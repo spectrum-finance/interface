@@ -1,35 +1,53 @@
-import { Form, FormInstance, FormItemProps, FormProps } from 'antd';
-import { FieldData } from 'rc-field-form/lib/interface';
+import React, { FormEvent, ReactNode } from 'react';
 
-const oldUseForm = Form.useForm;
+import { Messages } from './core';
+import { FormContext } from './FormContext';
+import { FormGroup } from './FormGroup';
+import { FormItem } from './FormItem';
+import { FormListener } from './FormListener';
 
-// TODO: WRITE_OWN_FORMS
-Form.useForm = (form?: FormInstance<any>) => {
-  const [newForm] = oldUseForm(form);
+export interface FormProps<T> {
+  readonly form: FormGroup<T>;
+  readonly onSubmit?: (form: FormGroup<T>) => void;
+  readonly children?: ReactNode | ReactNode[] | string;
+  readonly errorMessages?: Messages<T>;
+  readonly warningMessages?: Messages<T>;
+}
 
-  const oldSetFieldsValue = newForm.setFieldsValue;
-  const oldSetFields = newForm.setFields;
+class _Form<T> extends React.Component<FormProps<T>> {
+  constructor(props: FormProps<T>) {
+    super(props);
 
-  newForm.setFieldsValue = function (value: any) {
-    oldSetFieldsValue.call(this, value);
-    Promise.resolve().then(() => {
-      if ((this as any)?.onFieldManuallyChange) {
-        (this as any)?.onFieldManuallyChange(newForm.getFieldsValue());
-      }
-    });
-  };
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
 
-  newForm.setFields = function (fields: FieldData[]) {
-    oldSetFields.call(this, fields);
-    Promise.resolve().then(() => {
-      if ((this as any)?.onFieldManuallyChange) {
-        (this as any)?.onFieldManuallyChange(newForm.getFieldsValue());
-      }
-    });
-  };
+  private handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    if (this.props.onSubmit) {
+      this.props.onSubmit(this.props.form);
+    }
+  }
 
-  return [newForm];
-};
+  render() {
+    const { children, form, errorMessages, warningMessages } = this.props;
 
-export { Form };
-export type { FormInstance, FormItemProps, FormProps };
+    return this.props.onSubmit ? (
+      <form onSubmit={this.handleSubmit}>
+        <FormContext.Provider value={{ errorMessages, warningMessages, form }}>
+          {children}
+        </FormContext.Provider>
+      </form>
+    ) : (
+      <FormContext.Provider value={{ errorMessages, warningMessages, form }}>
+        {children}
+      </FormContext.Provider>
+    );
+  }
+}
+
+export const Form: typeof _Form & {
+  Item: typeof FormItem;
+  Listener: typeof FormListener;
+} = _Form as any;
+Form.Item = FormItem;
+Form.Listener = FormListener;

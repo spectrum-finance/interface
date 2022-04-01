@@ -4,7 +4,10 @@
     "lib": [
       "dom",
       "dom.iterable",
-      "es2019"
+      "es2018",
+      "es2019",
+      "es2020.string",
+      "esnext"
     ],
     "typeRoots": [
       "src/@types"
@@ -14,6 +17,7 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
+    "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "module": "esnext",

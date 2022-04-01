@@ -1,16 +1,13 @@
 import './ConnectWalletButton.less';
 
-import { LoadingOutlined } from '@ant-design/icons';
+import { Trans } from '@lingui/macro';
 import cn from 'classnames';
 import React, { FC, ReactNode } from 'react';
 
-import { useAppLoadingState, useWallet } from '../../../context';
+import { isWalletSetuped$ } from '../../../api/wallets';
+import { useObservable } from '../../../common/hooks/useObservable';
+import { useAppLoadingState } from '../../../context';
 import { Button, ButtonProps, Modal } from '../../../ergodex-cdk';
-import { useObservable } from '../../../hooks/useObservable';
-import {
-  isWalletConnected$,
-  isWalletLoading$,
-} from '../../../services/new/core';
 import { ChooseWalletModal } from './ChooseWalletModal/ChooseWalletModal';
 
 export interface ConnectWalletButtonProps {
@@ -24,19 +21,11 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = ({
   className,
   children,
 }) => {
-  const { isWalletConnected } = useWallet();
-
-  // TODO: Update with rx [EDEX-487]
-  // const [isWalletLoading] = useObservable(isWalletLoading$);
-  // const [isWalletConnected] = useObservable(isWalletConnected$);
-
+  const [isWalletConnected] = useObservable(isWalletSetuped$);
   const [{ isKYAAccepted }] = useAppLoadingState();
 
   const openChooseWalletModal = (): void => {
-    Modal.open(({ close }) => <ChooseWalletModal close={close} />, {
-      width: 372,
-      title: 'Select a wallet',
-    });
+    Modal.open(({ close }) => <ChooseWalletModal close={close} />);
   };
 
   return (
@@ -48,7 +37,7 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = ({
             onClick={openChooseWalletModal}
             className={cn(className, 'connect-wallet-btn')}
           >
-            Connect wallet
+            <Trans>Connect wallet</Trans>
           </Button>
         ) : (
           children
@@ -59,7 +48,7 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = ({
           size={size}
           className={cn(className, 'connect-wallet-btn')}
         >
-          KYA is not accepted
+          <Trans>KYA is not accepted</Trans>
         </Button>
       )}
     </>

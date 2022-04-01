@@ -1,36 +1,104 @@
 import { RustModule } from '@ergolabs/ergo-sdk';
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
+import { BrowserView, MobileView } from 'react-device-detect';
 import { Redirect, Route, Router, Switch } from 'react-router-dom';
 
+import { initializeApp } from './common/streams/appTick';
 import Layout from './components/common/Layout/Layout';
 import { MobilePlug } from './components/MobilePlug/MobilePlug';
-import { TABLET_BRAKE_POINT } from './constants/screen';
-import {
-  AppLoadingProvider,
-  SettingsProvider,
-  // useAppLoadingState,
-  WalletAddressesProvider,
-  WalletContextProvider,
-} from './context';
-import { ConnectionContextProvider } from './context/ConnectionContext';
+import { AppLoadingProvider, SettingsProvider } from './context';
 import { globalHistory } from './createBrowserHistory';
 import { ContextModalProvider } from './ergodex-cdk';
-import { useWindowSize } from './hooks/useWindowSize';
-import { Swap } from './pages';
-import { AddLiquidity } from './pages';
-import { Pool } from './pages/Pool/Pool';
-import { PoolPosition } from './pages/Pool/PoolPosition/PoolPosition';
-import { Remove } from './pages/Remove/Remove';
+import { LanguageProvider } from './i18n/i18n';
+import { AddLiquidityOrCreatePool } from './pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool';
+import { Liquidity } from './pages/Pool/Liquidity';
+import { LockLiquidity } from './pages/Pool/LockLiquidity/LockLiquidity';
+import { RelockLiquidity } from './pages/Pool/RelockLiquidity/RelockLiquidity';
+import { RemoveLiquidity } from './pages/Pool/RemoveLiquidity/RemoveLiquidity';
+import { WithdrawalLiquidity } from './pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity';
+import { PoolOverview } from './pages/PoolOverview/PoolOverview';
+import { Swap } from './pages/Swap/Swap';
 
 const NotFound = () => <Redirect to="/swap" />;
 
-export const App: React.FC = () => {
+const Application = () => {
+  return (
+    <Router history={globalHistory}>
+      <AppLoadingProvider>
+        <SettingsProvider>
+          <LanguageProvider>
+            <ContextModalProvider>
+              <Layout>
+                <BrowserView>
+                  <Switch>
+                    <Route path="/" exact>
+                      <Redirect to="/swap" />
+                    </Route>
+                    <Route path="/swap" exact component={Swap} />
+                    <Route path="/pool" exact component={Liquidity} />
+                    <Route
+                      path="/pool/add"
+                      exact
+                      component={AddLiquidityOrCreatePool}
+                    />
+                    <Route
+                      path="/pool/create"
+                      exact
+                      component={AddLiquidityOrCreatePool}
+                    />
+                    <Route
+                      path="/pool/:poolId/remove"
+                      exact
+                      component={RemoveLiquidity}
+                    />
+                    <Route
+                      path="/pool/:poolId/lock"
+                      exact
+                      component={LockLiquidity}
+                    />
+                    <Route
+                      path="/pool/:poolId/relock"
+                      exact
+                      component={RelockLiquidity}
+                    />
+                    <Route
+                      path="/pool/:poolId/withdrawal"
+                      exact
+                      component={WithdrawalLiquidity}
+                    />
+                    <Route
+                      path="/pool/:poolId/add"
+                      exact
+                      component={AddLiquidityOrCreatePool}
+                    />
+                    <Route
+                      path="/pool/:poolId"
+                      exact
+                      component={PoolOverview}
+                    />
+                    <Route component={NotFound} />
+                  </Switch>
+                </BrowserView>
+                <MobileView>
+                  <MobilePlug />
+                </MobileView>
+              </Layout>
+            </ContextModalProvider>
+          </LanguageProvider>
+        </SettingsProvider>
+      </AppLoadingProvider>
+    </Router>
+  );
+};
+
+export const ApplicationInitializer: React.FC = () => {
   const [isRustModuleLoaded, setIsRustModuleLoaded] = useState(false);
 
-  const [windowWidth] = useWindowSize();
-
   useEffect(() => {
-    RustModule.load().then(() => setIsRustModuleLoaded(true));
+    RustModule.load().then(() => {
+      initializeApp();
+      setIsRustModuleLoaded(true);
+    });
   }, []);
 
   if (!isRustModuleLoaded) {
@@ -38,53 +106,8 @@ export const App: React.FC = () => {
   }
 
   return (
-    <ConnectionContextProvider>
-      <Router history={globalHistory}>
-        <AppLoadingProvider>
-          <WalletContextProvider>
-            <SettingsProvider>
-              <WalletAddressesProvider>
-                <ContextModalProvider>
-                  <Layout>
-                    {windowWidth > TABLET_BRAKE_POINT ? (
-                      <Switch>
-                        <Route path="/" exact>
-                          <Redirect to="/swap" />
-                        </Route>
-                        <Route path="/swap" exact component={Swap} />
-                        <Route path="/pool" exact component={Pool} />
-                        <Route
-                          path="/pool/add"
-                          exact
-                          component={AddLiquidity}
-                        />
-                        <Route
-                          path="/pool/add/:poolId"
-                          exact
-                          component={AddLiquidity}
-                        />
-                        <Route
-                          path="/pool/:poolId"
-                          exact
-                          component={PoolPosition}
-                        />
-                        <Route
-                          path="/remove/:poolId"
-                          exact
-                          component={Remove}
-                        />
-                        <Route component={NotFound} />
-                      </Switch>
-                    ) : (
-                      <MobilePlug />
-                    )}
-                  </Layout>
-                </ContextModalProvider>
-              </WalletAddressesProvider>
-            </SettingsProvider>
-          </WalletContextProvider>
-        </AppLoadingProvider>
-      </Router>
-    </ConnectionContextProvider>
+    <Suspense fallback={''}>
+      <Application />
+    </Suspense>
   );
 };

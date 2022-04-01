@@ -11,6 +11,9 @@
 # production
 /build
 
+# locales
+/src/i18n/locales
+
 # misc
 .DS_Store
 .env

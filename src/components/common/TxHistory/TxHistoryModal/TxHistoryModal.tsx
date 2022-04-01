@@ -1,152 +1,188 @@
-import Icon from '@ant-design/icons';
-import { TxId } from '@ergolabs/ergo-sdk';
-import { Typography } from 'antd';
-import React, { useCallback, useEffect, useState } from 'react';
+import { t, Trans } from '@lingui/macro';
+import React from 'react';
 
-import { ReactComponent as DotsVertical } from '../../../../assets/icons/icon-dots-vertical.svg';
-import { useWalletAddresses, WalletAddressState } from '../../../../context';
+import { addresses$ } from '../../../../api/addresses';
+import {
+  isTransactionsHistorySyncing$,
+  syncTransactionsHistory,
+  transactionsHistory$,
+} from '../../../../api/transactionsHistory';
+import { useObservable } from '../../../../common/hooks/useObservable';
 import {
   Box,
   Button,
-  Dropdown,
   Flex,
   Menu,
   Modal,
+  ReloadOutlined,
   Skeleton,
+  Typography,
 } from '../../../../ergodex-cdk';
-import networkHistory from '../../../../services/networkHistory';
 import { isRefundableOperation } from '../../../../utils/ammOperations';
 import { exploreTx } from '../../../../utils/redirect';
+import {
+  openConfirmationModal,
+  Operation,
+} from '../../../ConfirmationModal/ConfirmationModal';
+import { DateTimeView } from '../../DateTimeView/DateTimeView';
+import { OptionsButton } from '../../OptionsButton/OptionsButton';
 import { InputOutputColumn } from '../InputOutputColumn/InputOutputColumn';
 import { RefundConfirmationModal } from '../RefundConfirmationModal/RefundConfirmationModal';
 import { TxStatusTag } from '../TxStatusTag/TxStatusTag';
 import { TxTypeTag } from '../TxTypeTag/TxTypeTag';
-import { Operation, OperationStatus } from '../types';
+import { Operation as DexOperation } from '../types';
 import { normalizeOperations } from '../utils';
-
-const DotsIconVertical = () => <Icon component={DotsVertical} />;
+import { TxHistoryEmptyState } from './TxHistoryEmptyState';
 
 const TxHistoryModal = (): JSX.Element => {
-  const TXS_TO_DISPLAY = 50;
+  const [isSyncing] = useObservable(isTransactionsHistorySyncing$);
+  const [txs, txsLoading] = useObservable(transactionsHistory$);
+  const [addresses] = useObservable(addresses$);
 
-  const [operations, setOperations] = useState<Operation[] | undefined>();
-  const walletAddresses = useWalletAddresses();
-
-  useEffect(() => {
-    if (walletAddresses.state === WalletAddressState.LOADED) {
-      networkHistory
-        .getAllByAddresses(walletAddresses.addresses, TXS_TO_DISPLAY)
-        .then((ops) => setOperations(normalizeOperations(ops)));
-    }
-  }, [walletAddresses]);
-
-  const handleOpenRefundConfirmationModal = useCallback(
-    (txId) => {
-      if (walletAddresses.state === WalletAddressState.LOADED) {
-        return Modal.open(
-          ({ close }) => (
+  const handleOpenRefundConfirmationModal = (operation: DexOperation) => {
+    if (addresses) {
+      openConfirmationModal(
+        (next) => {
+          return (
             <RefundConfirmationModal
-              txId={txId}
-              addresses={walletAddresses.addresses}
-              onClose={close}
+              operation={operation}
+              addresses={addresses}
+              onClose={next}
             />
-          ),
-          {
-            title: 'Refund transaction',
-            width: 570,
-          },
-        );
-      }
-    },
-    [walletAddresses],
-  );
+          );
+        },
+        Operation.REFUND,
+        { xAsset: operation.assetX, yAsset: operation.assetY },
+      );
+    }
+  };
 
-  const renderTxActionsMenu = (status: OperationStatus, txId: TxId) => {
+  const renderTxActionsMenu = (op: DexOperation) => {
     return (
-      <Box padding={2}>
+      <>
         <Menu.Item>
-          <a onClick={() => exploreTx(txId)} target="_blank" rel="noreferrer">
-            View on Explorer
+          <a
+            onClick={() => exploreTx(op.txId)}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <Trans>View on Explorer</Trans>
           </a>
         </Menu.Item>
-        {isRefundableOperation(status) && (
-          <Menu.Item onClick={() => handleOpenRefundConfirmationModal(txId)}>
-            <a rel="noreferrer">Refund transaction</a>
+        {isRefundableOperation(op.status) && (
+          <Menu.Item onClick={() => handleOpenRefundConfirmationModal(op)}>
+            <a rel="noreferrer">
+              <Trans>Refund transaction</Trans>
+            </a>
           </Menu.Item>
         )}
-      </Box>
+      </>
     );
   };
 
   return (
-    <Flex flexDirection="col" style={{ overflowY: 'auto', maxHeight: '500px' }}>
-      <Flex.Item>
-        <Flex justify="space-between" alignItems="center">
-          <Flex.Item style={{ width: '44%' }}>
-            <Typography.Title level={5}>Input / Output</Typography.Title>
+    <>
+      <Modal.Title>
+        <Flex align="center">
+          <Flex.Item marginRight={4}>
+            <Trans>Transaction history</Trans>
           </Flex.Item>
-          <Flex.Item style={{ width: '23%' }}>
-            <Typography.Title level={5}>Type</Typography.Title>
-          </Flex.Item>
-          <Flex.Item style={{ width: '23%' }}>
-            <Typography.Title level={5}>Status</Typography.Title>
-          </Flex.Item>
-          <Flex.Item style={{ width: '10%' }}>
-            <Typography.Title level={5}>Action</Typography.Title>
+          <Flex.Item>
+            <Button
+              loading={isSyncing}
+              onClick={syncTransactionsHistory}
+              icon={<ReloadOutlined />}
+            >
+              {isSyncing ? t`Syncing...` : t`Sync`}
+            </Button>
           </Flex.Item>
         </Flex>
-      </Flex.Item>
-      {operations ? (
-        operations.map((op, index) => {
-          return (
-            <Flex.Item
-              key={index}
-              style={{
-                borderBottom: '1px solid var(--ergo-default-border-color)',
-              }}
-            >
-              <Box transparent padding={[5, 0]}>
-                <Flex justify="space-between" alignItems="center">
-                  <Flex.Item style={{ width: '44%' }}>
-                    <InputOutputColumn
-                      type={op.type}
-                      pair={{ x: op.assetX, y: op.assetY }}
-                    />
-                  </Flex.Item>
-                  <Flex.Item style={{ width: '23%' }}>
-                    <TxTypeTag type={op.type} />
-                  </Flex.Item>
-                  <Flex.Item style={{ width: '23%' }}>
-                    <TxStatusTag status={op.status} />
-                  </Flex.Item>
-                  <Flex.Item style={{ width: '10%' }}>
-                    <Dropdown
-                      overlay={
-                        <Menu style={{ width: 160, padding: 0 }}>
-                          {renderTxActionsMenu(op.status, op.txId)}
-                        </Menu>
-                      }
-                      trigger={['click']}
-                      placement={'bottomLeft'}
-                    >
-                      <Button
-                        type="text"
-                        size="large"
-                        icon={<DotsIconVertical />}
-                      />
-                    </Dropdown>
-                  </Flex.Item>
-                </Flex>
-              </Box>
-            </Flex.Item>
-          );
-        })
-      ) : (
-        <Skeleton active>
-          {/*TODO:REPLACE_WITH_ORIGINAL_LOADING[EDEX-476]*/}
-        </Skeleton>
-      )}
-    </Flex>
+      </Modal.Title>
+      <Modal.Content width={680}>
+        <Flex col style={{ overflowY: 'auto', maxHeight: '500px' }}>
+          {!txsLoading ? (
+            txs?.length ? (
+              <>
+                <Flex.Item>
+                  <Flex justify="space-between" align="center">
+                    <Flex.Item style={{ width: '35%' }}>
+                      <Typography.Title level={5}>
+                        <Trans>Assets</Trans>
+                      </Typography.Title>
+                    </Flex.Item>
+                    <Flex.Item style={{ width: '28%' }}>
+                      <Typography.Title level={5}>
+                        <Trans>Date</Trans>
+                      </Typography.Title>
+                    </Flex.Item>
+                    <Flex.Item style={{ width: '20%' }}>
+                      <Typography.Title level={5}>
+                        <Trans>Type</Trans>
+                      </Typography.Title>
+                    </Flex.Item>
+                    <Flex.Item style={{ width: '16%' }}>
+                      <Typography.Title level={5}>
+                        <Trans>Status</Trans>
+                      </Typography.Title>
+                    </Flex.Item>
+                    <Flex.Item style={{ width: '5%' }} />
+                  </Flex>
+                </Flex.Item>
+                {normalizeOperations(txs)
+                  .sort(
+                    (a, b) => b.timestamp.toMillis() - a.timestamp.toMillis(),
+                  )
+                  .map((op, index) => {
+                    return (
+                      <Flex.Item
+                        key={index}
+                        style={{
+                          borderBottom:
+                            '1px solid var(--ergo-default-border-color)',
+                        }}
+                      >
+                        <Box transparent padding={[5, 0]} bordered={false}>
+                          <Flex justify="space-between" align="center">
+                            <Flex.Item style={{ width: '35%' }}>
+                              <InputOutputColumn
+                                type={op.type}
+                                x={op.assetX}
+                                y={op.assetY}
+                              />
+                            </Flex.Item>
+                            <Flex.Item style={{ width: '28%' }}>
+                              <DateTimeView value={op.timestamp} />
+                              <br />
+                              <DateTimeView type="time" value={op.timestamp} />
+                            </Flex.Item>
+                            <Flex.Item style={{ width: '20%' }}>
+                              <TxTypeTag type={op.type} />
+                            </Flex.Item>
+                            <Flex.Item style={{ width: '16%' }}>
+                              <TxStatusTag status={op.status} />
+                            </Flex.Item>
+                            <Flex.Item style={{ width: '5%' }}>
+                              <OptionsButton placement="bottomLeft">
+                                {renderTxActionsMenu(op)}
+                              </OptionsButton>
+                            </Flex.Item>
+                          </Flex>
+                        </Box>
+                      </Flex.Item>
+                    );
+                  })}
+              </>
+            ) : (
+              <TxHistoryEmptyState />
+            )
+          ) : (
+            <Skeleton active>
+              {/*TODO:REPLACE_WITH_ORIGINAL_LOADING[EDEX-476]*/}
+            </Skeleton>
+          )}
+        </Flex>
+      </Modal.Content>
+    </>
   );
 };
 

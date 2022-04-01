@@ -4,21 +4,79 @@ import cn from 'classnames';
 import React from 'react';
 import { FC } from 'react';
 
+import { Gutter } from '../../utils/gutter';
+
+export type FlexProps = React.DetailedHTMLProps<
+  React.HTMLAttributes<HTMLDivElement>,
+  HTMLDivElement
+> & {
+  direction?: 'row' | 'col';
+  row?: boolean;
+  col?: boolean;
+  stretch?: boolean;
+  inline?: boolean;
+  justify?:
+    | 'flex-start'
+    | 'stretch'
+    | 'flex-end'
+    | 'center'
+    | 'space-between'
+    | 'space-around';
+  align?: 'flex-start' | 'stretch' | 'flex-end' | 'center';
+};
+
+export const Flex: FC<FlexProps> & { Item: FC<ItemsProps> } = ({
+  children,
+  justify,
+  align,
+  direction,
+  className,
+  col,
+  row,
+  stretch,
+  inline,
+  ...other
+}) => (
+  <div
+    className={cn([
+      className,
+      'ergo-flex',
+      `ergo-flex-direction--${(col && 'col') || (row && 'row') || direction}`,
+      `ergo-flex-justify--${justify}`,
+      `ergo-flex-align-items--${align}`,
+      { 'ergo-flex-stretch': stretch },
+      { 'ergo-flex-inline': inline },
+    ])}
+    {...other}
+  >
+    {children}
+  </div>
+);
+
+Flex.defaultProps = {
+  direction: 'row',
+  justify: 'stretch',
+  align: 'stretch',
+};
+
 type ItemsProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
   HTMLDivElement
 > & {
   display?: 'flex' | 'block' | 'none';
   order?: number;
+  alignSelf?: 'flex-start' | 'stretch' | 'flex-end' | 'center';
   marginBottom?: number;
   marginTop?: number;
   marginLeft?: number;
   marginRight?: number;
+  margin?: Gutter;
   flex?: number;
   grow?: boolean;
-};
+} & FlexProps;
 
 const Item: FC<ItemsProps> = ({
+  alignSelf,
   children,
   display,
   style,
@@ -29,14 +87,28 @@ const Item: FC<ItemsProps> = ({
   marginRight,
   flex,
   grow,
+  justify,
+  direction,
+  align,
+  col,
+  row,
+  className,
   ...other
 }) => (
   <div
-    className={grow ? 'ergo-flex-item__grow' : ''}
+    className={cn([
+      className,
+      'ergo-flex',
+      `ergo-flex-direction--${(col && 'col') || (row && 'row') || direction}`,
+      `ergo-flex-justify--${justify}`,
+      `ergo-flex-align-self--${alignSelf}`,
+      `ergo-flex-align-items--${align}`,
+      { 'ergo-flex-item__grow': grow },
+    ])}
     style={{
       ...(style || {}),
       order,
-      display: display && display,
+      display: display || (justify || direction || align ? 'flex' : 'initial'),
       flex,
       marginBottom: `calc(var(--ergo-base-gutter) * ${marginBottom})`,
       marginTop: `calc(var(--ergo-base-gutter) * ${marginTop})`,
@@ -51,52 +123,11 @@ const Item: FC<ItemsProps> = ({
 Item.defaultProps = {
   order: undefined,
   flex: undefined,
+  row: true,
   marginBottom: 0,
   marginRight: 0,
   marginLeft: 0,
   marginTop: 0,
 };
 
-export type FlexProps = React.DetailedHTMLProps<
-  React.HTMLAttributes<HTMLDivElement>,
-  HTMLDivElement
-> & {
-  flexDirection?: 'row' | 'col';
-  justify?:
-    | 'flex-start'
-    | 'stretch'
-    | 'flex-end'
-    | 'center'
-    | 'space-between'
-    | 'space-around';
-  alignItems?: 'flex-start' | 'stretch' | 'flex-end' | 'center';
-};
-
-export const Flex: FC<FlexProps> & { Item: FC<ItemsProps> } = ({
-  children,
-  justify,
-  alignItems,
-  flexDirection,
-  className,
-  ...other
-}) => (
-  <div
-    className={cn([
-      className,
-      'ergo-flex',
-      `ergo-flex-direction--${flexDirection}`,
-      `ergo-flex-justify--${justify}`,
-      `ergo-flex-align-items--${alignItems}`,
-    ])}
-    {...other}
-  >
-    {children}
-  </div>
-);
-
-Flex.defaultProps = {
-  flexDirection: 'row',
-  justify: 'stretch',
-  alignItems: 'stretch',
-};
 Flex.Item = Item;

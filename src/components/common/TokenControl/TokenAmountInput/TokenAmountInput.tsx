@@ -1,9 +1,9 @@
-import './TokenAmountInput.less';
+import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
 
-import React from 'react';
-
-import { Box, Input } from '../../../../ergodex-cdk';
-import { toFloat } from '../../../../utils/string/string';
+import { Currency } from '../../../../common/models/Currency';
+import { EventConfig, Input } from '../../../../ergodex-cdk';
 import { escapeRegExp } from './format';
 
 const inputRegex = RegExp(`^\\d*(?:\\\\[.])?\\d*$`); // match escaped "." characters via in a non-capturing group
@@ -14,57 +14,97 @@ export interface TokenAmountInputValue {
 }
 
 export interface TokenAmountInputProps {
-  value?: TokenAmountInputValue | number;
-  onChange?: (data: TokenAmountInputValue) => void;
+  value?: Currency;
+  onChange?: (data: Currency | undefined, config?: EventConfig) => void;
   disabled?: boolean;
   readonly?: boolean;
-  decimals?: number;
+  asset?: AssetInfo;
+  className?: string;
 }
 
-const TokenAmountInput: React.FC<TokenAmountInputProps> = ({
+const isValidAmount = (
+  value: string,
+  asset: AssetInfo | undefined,
+): boolean => {
+  if (!asset) {
+    return true;
+  }
+  if (!asset.decimals && value.indexOf('.') !== -1) {
+    return false;
+  }
+  return (value.split('.')[1]?.length || 0) <= (asset?.decimals || 0);
+};
+
+const _TokenAmountInput: React.FC<TokenAmountInputProps> = ({
   value,
   onChange,
   disabled,
   readonly,
-  decimals,
+  asset,
+  className,
 }) => {
-  const normalizeViewValue = (
-    value: TokenAmountInputValue | number | undefined,
-  ): string | undefined => {
-    if (typeof value === 'number') {
-      return toFloat(value.toString(), decimals);
-    }
+  const [userInput, setUserInput] = useState<string | undefined>(undefined);
 
-    return toFloat(value?.viewValue || '', decimals);
-  };
+  useEffect(() => {
+    if (Number(value?.toAmount()) !== Number(userInput)) {
+      setUserInput(value?.toAmount());
+    }
+  }, [value]);
+
+  useEffect(() => {
+    if (value && asset) {
+      const newValue = value?.changeAsset(asset);
+
+      setUserInput(newValue?.toAmount());
+
+      if (onChange && value.asset.id !== asset.id) {
+        onChange(newValue, { emitEvent: 'silent' });
+      }
+    }
+  }, [asset?.id]);
 
   const enforcer = (nextUserInput: string) => {
     if (nextUserInput.startsWith('.')) {
       nextUserInput = nextUserInput.replace('.', '0.');
     }
-    if (nextUserInput === '' || inputRegex.test(escapeRegExp(nextUserInput))) {
-      onChange &&
-        onChange({
-          viewValue: nextUserInput,
-          value: nextUserInput !== undefined ? +nextUserInput : undefined,
-        });
+    if (nextUserInput === '' && onChange) {
+      setUserInput('');
+      onChange(undefined);
+      return;
     }
+    if (
+      inputRegex.test(escapeRegExp(nextUserInput)) &&
+      onChange &&
+      isValidAmount(nextUserInput, asset)
+    ) {
+      setUserInput(nextUserInput);
+      onChange(new Currency(nextUserInput, asset));
+      return;
+    }
+    setUserInput(userInput ?? '');
   };
 
   return (
-    <Box className="swap-input" borderRadius="m" padding={0}>
-      <Input
-        readOnly={readonly}
-        value={normalizeViewValue(value)}
-        onChange={(event) => {
-          enforcer(event.target.value.replace(/,/g, '.'));
-        }}
-        placeholder="0.0"
-        size="large"
-        disabled={disabled}
-      />
-    </Box>
+    <Input
+      readOnly={readonly}
+      value={userInput}
+      onChange={(event) => {
+        enforcer(event.target.value.replace(/,/g, '.'));
+      }}
+      className={className}
+      placeholder="0.0"
+      size="large"
+      disabled={disabled}
+    />
   );
 };
 
-export { TokenAmountInput };
+export const TokenAmountInput = styled(_TokenAmountInput)`
+  background-color: var(--ergo-swap-input-bg) !important;
+  box-shadow: none !important;
+  font-size: 24px !important;
+  font-weight: 600;
+  height: 100%;
+  line-height: 32px !important;
+  padding: 5px 12px;
+`;

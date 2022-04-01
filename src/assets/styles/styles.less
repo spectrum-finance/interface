@@ -7,9 +7,29 @@ body {
   background-color: var(--ergo-body-bg) !important;
 }
 
-*, *::before, *::after {
+* {
+  box-sizing: border-box !important;
+}
+
+*::before, *::after {
   box-sizing: border-box !important;
   transition: none !important;
+}
+
+*::-webkit-scrollbar {
+  width:  6px;
+  height: 56px;
+}
+
+*::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  border: 1px solid var(--ergo-scroll-border);
+  background-color: var(--ergo-scroll-bg);
+  border-radius: var(--ergo-border-radius-sm);
+  cursor: pointer;
 }
 
 .ant-click-animating-node {
@@ -25,4 +45,20 @@ body {
 ::selection {
   background-color: var(--ergo-primary-color) !important;
   color: var(--ergo-primary-text) !important;
+}
+
+.ergodex-coming-soon {
+  &::after {
+    position:      relative;
+    top:           -2px;
+    right:         80px;
+    padding:       1px 8px;
+    border:        1px solid var(--ergo-tab-disabled-border-color);
+    background:    var(--ergo-tab-disabled-color);
+    border-radius: 4px;
+    content:       'Coming soon';
+    font-size:     8px;
+    line-height:   12px;
+    transform:     translate(calc(100% + 6px), -4px);
+  }
 }

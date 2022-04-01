@@ -8,7 +8,7 @@ import {
   TxId,
 } from '@ergolabs/ergo-sdk';
 
-import { ERG_DECIMALS } from '../constants/erg';
+import { ERG_DECIMALS } from '../common/constants/erg';
 import { ammOrderRefunds } from '../services/amm';
 import { explorer } from '../services/explorer';
 import { parseUserInputToFractions } from './math';

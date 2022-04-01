@@ -1,73 +1,69 @@
 import './Box.less';
 
 import cn from 'classnames';
-import React from 'react';
+import React, { MouseEventHandler } from 'react';
 
-type PaddingTwoNumbers = [number, number];
-type PaddingFourNumbers = [number, number, number, number];
-type Padding = number | PaddingTwoNumbers | PaddingFourNumbers;
+import { getGutter, Gutter } from '../../utils/gutter';
 
 interface BoxProps extends React.PropsWithChildren<unknown> {
-  borderRadius?: 's' | 'm' | 'l';
+  borderRadius?: 'none' | 'xs' | 's' | 'm' | 'l' | 'xl';
   contrast?: boolean;
-  gray?: boolean;
+  control?: boolean;
   transparent?: boolean;
   inline?: boolean;
-  formWrapper?: boolean;
   className?: string;
-  padding?: Padding;
+  padding?: Gutter;
   maxHeight?: number;
   overflow?: boolean;
-  onClick?: React.MouseEventHandler<HTMLElement>;
+  bordered?: boolean;
+  onClick?: MouseEventHandler<HTMLElement>;
+  onMouseEnter?: MouseEventHandler<HTMLElement> | undefined;
+  onMouseLeave?: MouseEventHandler<HTMLElement> | undefined;
+  width?: number;
+  height?: string | number;
 }
-
-const calcGutter = (n: number): string =>
-  `calc(var(--ergo-base-gutter) * ${n})`;
 
 const Box = ({
   children,
   className,
   borderRadius,
   contrast,
-  gray,
+  control,
   padding,
   transparent,
   inline,
   onClick,
-  formWrapper,
   maxHeight,
   overflow,
+  onMouseEnter,
+  onMouseLeave,
+  width,
+  height,
+  bordered,
 }: BoxProps): JSX.Element => {
-  const getPadding = (p: Padding) => {
-    if (p instanceof Array && p.length === 2) {
-      return `${calcGutter(p[0])} ${calcGutter(p[1])}`;
-    }
-    if (p instanceof Array && p.length === 4) {
-      return `${calcGutter(p[0])} ${calcGutter(p[1])} ${calcGutter(
-        p[2],
-      )} ${calcGutter(p[3])}`;
-    }
-    return `calc(var(--ergo-base-gutter) * ${p})`;
-  };
   return (
     <div
+      onMouseLeave={onMouseLeave}
+      onMouseEnter={onMouseEnter}
       className={cn(
         'ergodex-box',
         borderRadius && `ergodex-box--radius-${borderRadius}`,
         contrast && `ergodex-box--contrast`,
-        gray && `ergodex-box--gray`,
+        (bordered === undefined || bordered) && `ergodex-box--bordered`,
         transparent && `ergodex-box--transparent`,
+        control && 'ergodex-box--control',
         inline && `ergodex-box--inline`,
-        formWrapper && `ergodex-box--form-wrapper`,
         className,
       )}
       style={{
         padding:
           padding != null
-            ? getPadding(padding)
+            ? getGutter(padding)
             : `calc(var(--ergo-base-gutter))`,
         maxHeight: `${maxHeight}px`,
         overflow: overflow ? 'auto' : 'none',
+        width: width,
+        height: typeof height === 'number' ? `${height}px` : height,
       }}
       onClick={onClick}
     >

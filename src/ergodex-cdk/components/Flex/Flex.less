@@ -2,6 +2,10 @@
   display: flex;
 }
 
+.ergo-flex-inline {
+  display: inline-flex;
+}
+
 .ergo-flex-item__grow {
   flex-grow: 1;
 }
@@ -58,4 +62,26 @@
   &--center {
     align-items: center;
   }
+}
+
+.ergo-flex-align-self {
+  &--flex-start {
+    align-self: flex-start;
+  }
+
+  &--flex-end {
+    align-self: flex-end;
+  }
+
+  &--stretch {
+    align-self: stretch;
+  }
+
+  &--center {
+    align-self: center;
+  }
+}
+
+.ergo-flex-stretch {
+  height: 100%;
 }

@@ -49,6 +49,17 @@
     font-size: 16px;
     line-height: 24px;
   }
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    margin:             0;
+    /* stylelint-disable-next-line */
+    -webkit-appearance: none;
+  }
+  &[type="number"] {
+    /* stylelint-disable-next-line */
+    -moz-appearance: textfield;
+  }
 }
 
 .ant-input-affix-wrapper {
@@ -211,5 +222,36 @@
     .ant-input-prefix {
       color: var(--ergo-warning-color);
     }
+  }
+}
+
+
+.ant-input-state--warning {
+  border-color: var(--ergo-warning-color) !important;
+}
+
+.ant-input-state--error {
+  border-color: var(--ergo-error-color) !important;
+}
+
+.ant-input-state--active:not(.ant-input-state--warning, .ant-input-state--error) {
+  border-color: var(--ergo-primary-color) !important;
+}
+
+.ant-input-text-align--left {
+  input {
+    text-align: left;
+  }
+}
+
+.ant-input-text-align--right {
+  input {
+    text-align: right;
+  }
+}
+
+.ant-input-text-align--center {
+  input {
+    text-align: center;
   }
 }

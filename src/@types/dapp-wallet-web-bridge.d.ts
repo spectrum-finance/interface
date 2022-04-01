@@ -27,7 +27,7 @@ namespace ErgoBridge {
 
     get_used_addresses: (paginate?: Paging) => Promise<Address[]>;
 
-    get_unused_addresses: () => Address[];
+    get_unused_addresses: () => Promise<Address[]>;
 
     sign_tx: (tx: UnsignedErgoTxProxy) => Promise<ErgoTxProxy>;
 
@@ -41,4 +41,11 @@ namespace ErgoBridge {
   }
 }
 
+declare let ergoConnector: {
+  nautilus: {
+    connect: (params: { createErgoObject: boolean }) => Promise<boolean>;
+    getContext: () => Promise<ErgoBridge.ErgoAPI>;
+  };
+};
 declare let ergo: ErgoBridge.ErgoAPI;
+declare let cardano: any;

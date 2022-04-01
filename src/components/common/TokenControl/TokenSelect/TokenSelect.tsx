@@ -1,7 +1,9 @@
 import './TokenSelect.less';
 
 import { AssetInfo } from '@ergolabs/ergo-sdk';
+import { Trans } from '@lingui/macro';
 import React from 'react';
+import { Observable } from 'rxjs';
 
 import {
   Button,
@@ -17,6 +19,7 @@ interface TokenSelectProps {
   readonly value?: AssetInfo | undefined;
   readonly onChange?: (value: AssetInfo) => void;
   readonly assets?: AssetInfo[];
+  readonly assets$?: Observable<AssetInfo[]>;
   readonly disabled?: boolean;
   readonly readonly?: boolean;
 }
@@ -27,21 +30,26 @@ const TokenSelect: React.FC<TokenSelectProps> = ({
   assets,
   disabled,
   readonly,
+  assets$,
 }) => {
+  const handleSelectChange = (newValue: AssetInfo): void => {
+    if (value?.id !== newValue?.id && onChange) {
+      onChange(newValue);
+    }
+  };
+
   const openTokenModal = () => {
     if (readonly) {
       return;
     }
-    Modal.open(
-      ({ close }) => (
-        <TokenListModal
-          assets={assets}
-          close={close}
-          onSelectChanged={onChange}
-        />
-      ),
-      { title: 'Select a token', width: 400 },
-    );
+    Modal.open(({ close }) => (
+      <TokenListModal
+        assets$={assets$}
+        assets={assets}
+        close={close}
+        onSelectChanged={handleSelectChange}
+      />
+    ));
   };
 
   return (
@@ -61,7 +69,7 @@ const TokenSelect: React.FC<TokenSelectProps> = ({
               alignItems: 'center',
             }}
           >
-            <TokenIcon name={value.name} />
+            <TokenIcon asset={value} />
             <Typography.Title level={5} style={{ marginLeft: '8px' }}>
               {value.name}
             </Typography.Title>
@@ -82,8 +90,17 @@ const TokenSelect: React.FC<TokenSelectProps> = ({
           block
           disabled={disabled}
         >
-          Select a token
-          {!readonly && <DownOutlined />}
+          <Trans>Select a token</Trans>
+          {!readonly && (
+            <DownOutlined
+              style={{
+                display: 'inherit',
+                marginLeft: '8px',
+                width: '12px',
+                height: '14px',
+              }}
+            />
+          )}
         </Button>
       )}
     </>
@@ -91,7 +108,7 @@ const TokenSelect: React.FC<TokenSelectProps> = ({
 };
 
 interface TokeSelectFormItem extends TokenSelectProps {
-  name?: string;
+  name: string;
 }
 
 const TokeSelectFormItem: React.FC<TokeSelectFormItem> = ({
@@ -99,8 +116,8 @@ const TokeSelectFormItem: React.FC<TokeSelectFormItem> = ({
   ...rest
 }) => {
   return (
-    <Form.Item name={name} className="token-select-form-item">
-      <TokenSelect {...rest} />
+    <Form.Item name={name}>
+      {(params) => <TokenSelect {...{ ...rest, ...params }} />}
     </Form.Item>
   );
 };

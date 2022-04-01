@@ -1,14 +1,20 @@
-import './TokenControl.less';
-
 import { AssetInfo } from '@ergolabs/ergo-sdk';
-import { Form } from 'antd';
-import cn from 'classnames';
-import React, { FC, ReactNode, useEffect } from 'react';
-import { of } from 'rxjs';
+import { t, Trans } from '@lingui/macro';
+import React, { FC, ReactNode } from 'react';
+import { Observable, of } from 'rxjs';
 
-import { Box, Button, Flex, Typography } from '../../../ergodex-cdk';
-import { useObservableAction } from '../../../hooks/useObservable';
-import { getBalanceByTokenId } from '../../../services/new/balance';
+import { useAssetsBalance } from '../../../api/assetBalance';
+import { useObservable } from '../../../common/hooks/useObservable';
+import { Currency } from '../../../common/models/Currency';
+import {
+  Animation,
+  Box,
+  Button,
+  Flex,
+  Form,
+  Typography,
+  useFormContext,
+} from '../../../ergodex-cdk';
 import {
   TokenAmountInput,
   TokenAmountInputValue,
@@ -33,121 +39,6 @@ export interface TokenControlProps {
   readonly bordered?: boolean;
 }
 
-const getTokenBalanceByTokenName = (tokenName: string | undefined) =>
-  tokenName ? getBalanceByTokenId(tokenName) : of(undefined);
-
-export const TokenControl: FC<TokenControlProps> = ({
-  label,
-  value,
-  onChange,
-  maxButton,
-  assets,
-  hasBorder,
-  disabled,
-  readonly,
-  noBottomInfo,
-  bordered,
-}) => {
-  const [balance, updateBalance] = useObservableAction(
-    getTokenBalanceByTokenName,
-  );
-
-  useEffect(() => {
-    if (value?.asset) {
-      updateBalance(value?.asset?.id);
-    } else {
-      updateBalance(undefined);
-    }
-  }, [value, updateBalance]);
-
-  const onAmountChange = (amount: TokenAmountInputValue) => {
-    if (onChange) {
-      onChange({ ...value, amount });
-    }
-  };
-
-  const onTokenChange = (asset: AssetInfo) => {
-    if (onChange) {
-      onChange({ ...value, asset });
-    }
-  };
-
-  const onMaxButtonClick = () => {
-    if (onChange) {
-      onChange({
-        asset: value?.asset,
-        amount: { value: +(balance as any), viewValue: balance?.toString() },
-      });
-    }
-  };
-
-  return (
-    <Box
-      className={cn({
-        'token-control--bordered': bordered,
-        'token-control--has-border': hasBorder,
-      })}
-      padding={4}
-      borderRadius="l"
-      gray
-    >
-      <Flex flexDirection="col">
-        <Flex.Item marginBottom={2}>
-          <Typography.Body type="secondary">{label}</Typography.Body>
-        </Flex.Item>
-
-        <Flex.Item marginBottom={noBottomInfo ? 0 : 2}>
-          <Flex flexDirection="row">
-            <Flex.Item marginRight={2} flex={1}>
-              <TokenAmountInput
-                readonly={!!readonly && readonly !== 'asset'}
-                value={value?.amount}
-                decimals={value?.asset?.decimals}
-                onChange={onAmountChange}
-                disabled={disabled}
-              />
-            </Flex.Item>
-            <Flex.Item>
-              <TokenSelect
-                assets={assets}
-                readonly={!!readonly && readonly !== 'amount'}
-                value={value?.asset}
-                onChange={onTokenChange}
-                disabled={disabled}
-              />
-            </Flex.Item>
-          </Flex>
-        </Flex.Item>
-        {!noBottomInfo && (
-          <Flex
-            flexDirection="row"
-            alignItems="center"
-            className="token-control-bottom-panel"
-          >
-            {balance !== undefined && (
-              <Flex.Item marginRight={2}>
-                <Typography.Body>
-                  Balance: {balance} {value?.asset?.name}
-                </Typography.Body>
-              </Flex.Item>
-            )}
-            {balance !== undefined && maxButton && (
-              <Button
-                ghost
-                type="primary"
-                size="small"
-                onClick={onMaxButtonClick}
-              >
-                Max
-              </Button>
-            )}
-          </Flex>
-        )}
-      </Flex>
-    </Box>
-  );
-};
-
 export interface TokenControlFormItemProps {
   readonly name: string;
   readonly label?: ReactNode;
@@ -160,29 +51,145 @@ export interface TokenControlFormItemProps {
   readonly bordered?: boolean;
 }
 
-export const TokenControlFormItem: FC<TokenControlFormItemProps> = ({
+export interface NewTokenControlProps {
+  readonly amountName?: string;
+  readonly tokenName?: string;
+  readonly label?: ReactNode;
+  readonly maxButton?: boolean;
+  readonly handleMaxButtonClick?: (balance: Currency) => Currency;
+  readonly hasBorder?: boolean;
+  readonly assets?: AssetInfo[];
+  readonly assets$?: Observable<AssetInfo[]>;
+  readonly disabled?: boolean;
+  readonly readonly?: boolean | 'asset' | 'amount';
+  readonly noBottomInfo?: boolean;
+  readonly bordered?: boolean;
+}
+
+export const TokenControlFormItem: FC<NewTokenControlProps> = ({
+  amountName,
+  tokenName,
   label,
-  name,
   maxButton,
   assets,
-  hasBorder,
+  assets$,
   disabled,
   readonly,
   noBottomInfo,
-  bordered,
+  handleMaxButtonClick,
 }) => {
+  const { form } = useFormContext();
+  const [balance, balanceLoading] = useAssetsBalance();
+  const [selectedAsset] = useObservable(
+    tokenName
+      ? form.controls[tokenName].valueChangesWithSilent$
+      : of(undefined),
+  );
+  const _handleMaxButtonClick = (maxBalance: Currency) => {
+    if (amountName) {
+      const newAmount = handleMaxButtonClick
+        ? handleMaxButtonClick(maxBalance)
+        : maxBalance;
+
+      form.controls[amountName].patchValue(
+        newAmount.isPositive() ? newAmount : maxBalance,
+      );
+    }
+  };
+
+  const isAmountReadOnly = () => {
+    if (typeof readonly === 'boolean') {
+      return readonly;
+    }
+
+    return readonly === 'amount';
+  };
+
+  const isAssetReadOnly = () => {
+    if (typeof readonly === 'boolean') {
+      return readonly;
+    }
+
+    return readonly === 'asset';
+  };
+
   return (
-    <Form.Item name={name} className="token-form-item">
-      <TokenControl
-        bordered={bordered}
-        noBottomInfo={noBottomInfo}
-        readonly={readonly}
-        assets={assets}
-        maxButton={maxButton}
-        label={label}
-        hasBorder={hasBorder}
-        disabled={disabled}
-      />
-    </Form.Item>
+    <Box padding={4} contrast borderRadius="m">
+      <Flex col>
+        <Flex.Item marginBottom={2}>
+          <Typography.Body type="secondary">{label}</Typography.Body>
+        </Flex.Item>
+        <Flex.Item display="flex" row marginBottom={noBottomInfo ? 0 : 2}>
+          <Flex.Item marginRight={2} flex={1}>
+            {amountName && (
+              <Form.Item name={amountName}>
+                {({ value, onChange }) => (
+                  <TokenAmountInput
+                    readonly={isAmountReadOnly()}
+                    value={value}
+                    asset={selectedAsset}
+                    onChange={onChange}
+                    disabled={disabled}
+                  />
+                )}
+              </Form.Item>
+            )}
+          </Flex.Item>
+          <Flex.Item>
+            {tokenName && (
+              <Form.Item name={tokenName}>
+                {({ value, onChange }) => (
+                  <TokenSelect
+                    assets$={assets$}
+                    assets={assets}
+                    readonly={isAssetReadOnly()}
+                    value={value}
+                    onChange={onChange}
+                    disabled={disabled}
+                  />
+                )}
+              </Form.Item>
+            )}
+          </Flex.Item>
+        </Flex.Item>
+        {!noBottomInfo && (
+          <Flex.Item marginBottom={1} marginTop={1}>
+            <Flex
+              direction="row"
+              align="center"
+              className="token-control-bottom-panel"
+            >
+              <Animation.Expand
+                expanded={selectedAsset !== undefined && !balanceLoading}
+              >
+                {() => (
+                  <>
+                    <Flex.Item marginRight={2}>
+                      <Typography.Body>
+                        {t`Balance: ${balance
+                          .get(selectedAsset)
+                          .toCurrencyString()}`}
+                      </Typography.Body>
+                    </Flex.Item>
+                    {!!balance.get(selectedAsset) && maxButton && (
+                      <Button
+                        ghost
+                        type="primary"
+                        size="small"
+                        onClick={() =>
+                          _handleMaxButtonClick(balance.get(selectedAsset))
+                        }
+                      >
+                        <Trans>Max</Trans>
+                      </Button>
+                    )}
+                  </>
+                )}
+              </Animation.Expand>
+            </Flex>
+          </Flex.Item>
+        )}
+      </Flex>
+    </Box>
   );
 };

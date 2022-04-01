@@ -1,8 +1,14 @@
+import './AddressTab.less';
+
+import { Address, publicKeyFromAddress } from '@ergolabs/ergo-sdk';
+import { t } from '@lingui/macro';
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { ERG_DECIMALS } from '../../../constants/erg';
-import { Address, useSettings } from '../../../context';
-import { Box, Button, Flex, Typography } from '../../../ergodex-cdk';
+import { addresses$ } from '../../../api/addresses';
+import { ERG_DECIMALS } from '../../../common/constants/erg';
+import { useObservable } from '../../../common/hooks/useObservable';
+import { useSettings } from '../../../context';
+import { Box, Button, Flex, List, Typography } from '../../../ergodex-cdk';
 import { getBalance } from '../../../services/yoroi';
 import { renderFractions } from '../../../utils/math';
 import { getShortAddress } from '../../../utils/string/addres';
@@ -20,14 +26,14 @@ interface AddressViewProps {
 
 const AddressView: React.FC<AddressViewProps> = ({ address }) => {
   return (
-    <Flex alignItems="center">
+    <Flex align="center">
       <Flex.Item marginRight={1}>
         <Typography.Text strong>{getShortAddress(address)}</Typography.Text>
       </Flex.Item>
-      <Flex.Item marginRight={1}>
+      <Flex.Item marginRight={1} display="flex">
         <CopyButton text={address} />
       </Flex.Item>
-      <Flex.Item>
+      <Flex.Item display="flex">
         <ExploreButton to={address} />
       </Flex.Item>
     </Flex>
@@ -51,14 +57,20 @@ const AddressListItem: React.FC<AddressListItemProps> = ({
       setSettings({
         ...settings,
         address: addr,
+        pk: publicKeyFromAddress(addr),
       });
     },
     [settings, setSettings],
   );
 
   return (
-    <Box padding={[2, 0]} transparent>
-      <Flex alignItems="center">
+    <Box
+      padding={[4, 2]}
+      transparent
+      className="wallet-address-item"
+      bordered={false}
+    >
+      <Flex align="center">
         <Flex.Item style={{ width: '45%' }}>
           <AddressView address={address} />
         </Flex.Item>
@@ -77,7 +89,7 @@ const AddressListItem: React.FC<AddressListItemProps> = ({
               disabled={active}
               onClick={() => handleSetAddress(address)}
             >
-              {active ? 'Active' : 'Choose'}
+              {active ? t`Active` : t`Choose`}
             </Button>
           </Flex>
         </Flex.Item>
@@ -86,42 +98,15 @@ const AddressListItem: React.FC<AddressListItemProps> = ({
   );
 };
 
-interface AddressListViewProps {
-  addressList: string[];
-  activeAddress: string;
-}
+export const AddressesTab: React.FC = () => {
+  const [addresses] = useObservable(addresses$);
+  const [{ address }] = useSettings();
 
-export const AddressesTab: React.FC<AddressListViewProps> = ({
-  addressList,
-  activeAddress,
-}) => {
   return (
-    <Box transparent>
-      <Flex flexDirection="col">
-        <Flex.Item>
-          <Box transparent padding={[0, 0, 2, 0]}>
-            <Flex>
-              <Flex.Item style={{ width: '45%' }}>
-                <Typography.Text strong>Address</Typography.Text>
-              </Flex.Item>
-              <Flex.Item>
-                <Typography.Text strong>Balance</Typography.Text>
-              </Flex.Item>
-            </Flex>
-          </Box>
-        </Flex.Item>
-        <Flex.Item>
-          <Box transparent maxHeight={250} overflow>
-            {addressList.map((item, index) => (
-              <AddressListItem
-                key={index}
-                address={item}
-                active={item === activeAddress}
-              />
-            ))}
-          </Box>
-        </Flex.Item>
-      </Flex>
-    </Box>
+    <Flex col>
+      <List dataSource={addresses} height={250}>
+        {(a) => <AddressListItem key={a} address={a} active={a === address} />}
+      </List>
+    </Flex>
   );
 };

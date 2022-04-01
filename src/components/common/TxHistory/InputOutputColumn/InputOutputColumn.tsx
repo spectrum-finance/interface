@@ -1,49 +1,57 @@
 import React from 'react';
 
+import { Currency } from '../../../../common/models/Currency';
 import { ArrowRightOutlined, Flex, Typography } from '../../../../ergodex-cdk';
 import { TokenIcon } from '../../../TokenIcon/TokenIcon';
 import { TokenIconPair } from '../../../TokenIconPair/TokenIconPair';
-import { OperationAsset, OperationType } from '../types';
+import { OperationType } from '../types';
 
 interface InputOutputColumnProps {
-  pair: {
-    x: OperationAsset;
-    y: OperationAsset;
-  };
+  x: Currency;
+  y: Currency;
   type: OperationType;
 }
 
 const InputOutputColumn: React.FC<InputOutputColumnProps> = ({
-  pair,
+  x,
+  y,
   type,
 }) => {
-  if (type === 'deposit') {
+  if (type === 'deposit' || type === 'redeem') {
     return (
-      <Flex alignItems="center">
+      <Flex align="center">
         <Flex.Item marginRight={2}>
-          <TokenIconPair
-            tokenPair={{ tokenA: pair.x.name, tokenB: pair.y.name }}
-          />
+          <TokenIconPair assetX={x.asset} assetY={y.asset} />
         </Flex.Item>
         <Flex.Item>
           <Flex>
             <Flex.Item marginRight={2}>
-              <Flex flexDirection="col">
+              <Flex direction="col">
                 <Flex.Item>
-                  <Typography.Body strong>{pair.x.name}:</Typography.Body>
+                  <Typography.Body strong>
+                    {x.asset.name}
+                    {x.amount ? ':' : ''}
+                  </Typography.Body>
                 </Flex.Item>
                 <Flex.Item>
-                  <Typography.Body strong>{pair.y.name}:</Typography.Body>
+                  <Typography.Body strong>
+                    {y.asset.name}
+                    {y.amount ? ':' : ''}
+                  </Typography.Body>
                 </Flex.Item>
               </Flex>
             </Flex.Item>
             <Flex.Item>
-              <Flex flexDirection="col">
+              <Flex direction="col">
                 <Flex.Item>
-                  <Typography.Footnote>{pair.x.amount}</Typography.Footnote>
+                  <Typography.Footnote>
+                    {x.amount ? x.toString() : ''}
+                  </Typography.Footnote>
                 </Flex.Item>
                 <Flex.Item>
-                  <Typography.Footnote>{pair.y.amount}</Typography.Footnote>
+                  <Typography.Footnote>
+                    {y.amount ? y.toString() : ''}
+                  </Typography.Footnote>
                 </Flex.Item>
               </Flex>
             </Flex.Item>
@@ -56,11 +64,11 @@ const InputOutputColumn: React.FC<InputOutputColumnProps> = ({
   return (
     <Flex>
       <Flex.Item marginRight={2}>
-        <Flex>
+        <Flex align="center">
           <Flex.Item marginRight={1}>
-            <TokenIcon name={pair.x.name} />
+            <TokenIcon asset={x.asset} />
           </Flex.Item>
-          <Typography.Body strong>{pair.x.name}</Typography.Body>
+          <Typography.Body strong>{x.asset.name}</Typography.Body>
         </Flex>
       </Flex.Item>
       <Flex.Item marginRight={2}>
@@ -69,11 +77,11 @@ const InputOutputColumn: React.FC<InputOutputColumnProps> = ({
         </Typography.Body>
       </Flex.Item>
       <Flex.Item>
-        <Flex>
+        <Flex align="center">
           <Flex.Item marginRight={1}>
-            <TokenIcon name={pair.y.name} />
+            <TokenIcon asset={y.asset} />
           </Flex.Item>
-          <Typography.Body strong>{pair.y.name}</Typography.Body>
+          <Typography.Body strong>{y.asset.name}</Typography.Body>
         </Flex>
       </Flex.Item>
     </Flex>

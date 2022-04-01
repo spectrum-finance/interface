@@ -3,19 +3,18 @@ import {
   TxStatus,
 } from '@ergolabs/ergo-dex-sdk/build/main/amm/models/operations';
 import { TxId } from '@ergolabs/ergo-sdk';
+import { DateTime } from 'luxon';
+
+import { Currency } from '../../../common/models/Currency';
 
 export type OperationStatus = TxStatus | AmmOrderStatus;
 export type OperationType = 'swap' | 'deposit' | 'redeem' | 'refund';
 
-export type OperationAsset = {
-  name: string;
-  amount?: number;
-};
-
 export type Operation = {
-  assetX: OperationAsset;
-  assetY: OperationAsset;
+  assetX: Currency;
+  assetY: Currency;
   type: OperationType;
   status: OperationStatus;
   txId: TxId;
+  timestamp: DateTime;
 };

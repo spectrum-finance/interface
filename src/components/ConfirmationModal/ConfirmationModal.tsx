@@ -1,118 +1,197 @@
-import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
+import { TxId } from '@ergolabs/ergo-sdk';
+import { t, Trans } from '@lingui/macro';
+import { DateTime } from 'luxon';
 import React, { ReactNode } from 'react';
 
-import { Modal, Row, Typography } from '../../ergodex-cdk';
+import { applicationConfig } from '../../applicationConfig';
+import { ReactComponent as DiscordIcon } from '../../assets/icons/social/Discord.svg';
+import { ReactComponent as TelegramIcon } from '../../assets/icons/social/Telegram.svg';
+import { AssetLock } from '../../common/models/AssetLock';
+import { Currency } from '../../common/models/Currency';
+import { DialogRef, Flex, Modal, Typography } from '../../ergodex-cdk';
 import { RequestProps } from '../../ergodex-cdk/components/Modal/presets/Request';
-import { renderFractions } from '../../utils/math';
+import { getLockingPeriodString } from '../../pages/Pool/utils';
+import { exploreTx } from '../../utils/redirect';
 
 export enum Operation {
   SWAP,
   ADD_LIQUIDITY,
   REMOVE_LIQUIDITY,
   REFUND,
+  LOCK_LIQUIDITY,
+  RELOCK_LIQUIDITY,
+  WITHDRAWAL_LIQUIDITY,
 }
 
-export interface ConfirmationAssetAmount {
-  readonly amount: number;
-  readonly asset: AssetInfo;
+export interface ModalChainingPayload {
+  xAsset?: Currency;
+  yAsset?: Currency;
+  lpAsset?: Currency;
+  time?: DateTime;
+  assetLock?: AssetLock;
 }
 
 const getDescriptionByData = (
   operation: Operation,
-  xAsset: ConfirmationAssetAmount,
-  yAsset: ConfirmationAssetAmount,
+  { xAsset, yAsset, lpAsset, time, assetLock }: ModalChainingPayload,
 ): ReactNode => {
   switch (operation) {
     case Operation.ADD_LIQUIDITY:
-      return `Adding liquidity ${xAsset.amount} ${xAsset.asset.name} and ${yAsset.amount} ${yAsset.asset.name}`;
+      return xAsset && yAsset
+        ? t`Adding liquidity ${xAsset.toCurrencyString()} and ${yAsset.toCurrencyString()}`
+        : '';
     case Operation.REFUND:
-      return `Refunding ${renderFractions(
-        xAsset.amount,
-        xAsset.asset.decimals,
-      )} ${xAsset.asset.name} and ${renderFractions(
-        yAsset.amount,
-        yAsset.asset.decimals,
-      )} ${yAsset.asset.name}`;
+      return xAsset && yAsset
+        ? t`Refunding ${xAsset.toCurrencyString()} and ${yAsset.toCurrencyString()}`
+        : '';
     case Operation.REMOVE_LIQUIDITY:
-      return `Removing liquidity ${renderFractions(
-        xAsset.amount,
-        xAsset.asset.decimals,
-      )} ${xAsset.asset.name} and ${renderFractions(
-        yAsset.amount,
-        yAsset.asset.decimals,
-      )} ${yAsset.asset.name}`;
+      return xAsset && yAsset
+        ? t`Removing liquidity ${xAsset.toCurrencyString()} and ${yAsset.toCurrencyString()}`
+        : '';
     case Operation.SWAP:
-      return `Swapping ${xAsset.amount} ${xAsset.asset.name} for ${yAsset.amount} ${yAsset.asset.name}`;
+      return xAsset && yAsset
+        ? t`Swapping ${xAsset.toCurrencyString()} for ${yAsset.toCurrencyString()}`
+        : '';
+    case Operation.LOCK_LIQUIDITY:
+      return xAsset && yAsset
+        ? t`Locking ${xAsset.toCurrencyString()} and ${yAsset.toCurrencyString()} (${
+            lpAsset && lpAsset.toString() + ' LP-tokens'
+          }) for ${time && getLockingPeriodString(time)}`
+        : '';
+    case Operation.RELOCK_LIQUIDITY:
+      return t`Relocking ${assetLock?.x.toCurrencyString()} and ${assetLock?.y.toCurrencyString()} (${
+        assetLock && assetLock.lp.toString() + ' LP-tokens'
+      })`;
   }
 };
 
 const ProgressModalContent = (
   operation: Operation,
-  xAsset: ConfirmationAssetAmount,
-  yAsset: ConfirmationAssetAmount,
+  payload: ModalChainingPayload,
 ) => {
   return (
-    <>
-      <Row justify="center" bottomGutter={1}>
-        <Typography.Title level={4}>Waiting for confirmation</Typography.Title>
-      </Row>
-      <Row justify="center" bottomGutter={1}>
-        <Typography.Text>
-          {getDescriptionByData(operation, xAsset, yAsset)}
-        </Typography.Text>
-      </Row>
-      <Row justify="center" bottomGutter={1}>
-        <Typography.Text type="secondary">
-          Confirm this transaction in your wallet
-        </Typography.Text>
-      </Row>
-    </>
+    <Flex col align="center">
+      <Flex.Item marginBottom={1}>
+        <Typography.Title level={4}>
+          <Trans>Waiting for confirmation</Trans>
+        </Typography.Title>
+      </Flex.Item>
+      <Flex.Item marginBottom={1}>
+        <Typography.Body align="center">
+          {getDescriptionByData(operation, payload)}
+        </Typography.Body>
+      </Flex.Item>
+      <Flex.Item marginBottom={1}>
+        <Typography.Body type="secondary" align="center">
+          <Trans>Confirm this transaction in your wallet</Trans>
+        </Typography.Body>
+      </Flex.Item>
+    </Flex>
   );
 };
 
 const ErrorModalContent = (
   operation: Operation,
-  xAsset: ConfirmationAssetAmount,
-  yAsset: ConfirmationAssetAmount,
+  payload: ModalChainingPayload,
 ) => (
-  <>
-    <Row justify="center" gutter={0.5}>
-      <Typography.Title level={4}>Error</Typography.Title>
-    </Row>
-    <Row justify="center" gutter={0.5}>
-      <Typography.Text>
-        {getDescriptionByData(operation, xAsset, yAsset)}
-      </Typography.Text>
-    </Row>
-    <Row justify="center" gutter={0.5}>
-      <Typography.Text type="secondary">Transaction rejected</Typography.Text>
-    </Row>
-    <Row justify="center" gutter={0.5}>
-      <Typography.Text type="secondary">Try again later</Typography.Text>
-    </Row>
-  </>
+  <Flex col align="center">
+    <Flex.Item marginBottom={1}>
+      <Typography.Title level={4}>
+        <Trans>Error</Trans>
+      </Typography.Title>
+    </Flex.Item>
+    <Flex.Item marginBottom={1}>
+      <Typography.Body align="center">
+        {getDescriptionByData(operation, payload)}
+      </Typography.Body>
+    </Flex.Item>
+    <Flex.Item marginBottom={1}>
+      <Typography.Body align="center" type="secondary">
+        <Trans>Transaction rejected</Trans>
+      </Typography.Body>
+    </Flex.Item>
+    <Flex.Item marginBottom={1}>
+      <Typography.Body align="center" type="secondary">
+        <Trans>Try again later</Trans>
+      </Typography.Body>
+    </Flex.Item>
+  </Flex>
 );
-const SuccessModalContent = () => (
-  <>
-    <Row justify="center" gutter={0.5}>
-      <Typography.Title level={4}>Transaction submitted</Typography.Title>
-    </Row>
-    <Row justify="center" gutter={0.5}>
-      <Typography.Link>View on Explorer</Typography.Link>
-    </Row>
-  </>
+
+const SuccessModalContent = (txId: TxId) => (
+  <Flex col align="center">
+    <Flex.Item marginBottom={1}>
+      <Typography.Title level={4}>
+        <Trans>Transaction submitted</Trans>
+      </Typography.Title>
+    </Flex.Item>
+    <Flex.Item marginBottom={1}>
+      <Typography.Link onClick={() => exploreTx(txId)}>
+        <Trans>View on Explorer</Trans>
+      </Typography.Link>
+    </Flex.Item>
+  </Flex>
+);
+
+const YoroiIssueModalContent = () => (
+  <Flex col align="center">
+    <Flex.Item marginBottom={1}>
+      <Typography.Title level={4}>
+        <Trans>Error</Trans>
+      </Typography.Title>
+    </Flex.Item>
+    <Flex.Item marginBottom={1}>
+      <Typography.Body align="center">
+        <Trans>Seems like Yoroi Wallet has an issue</Trans>
+      </Typography.Body>
+    </Flex.Item>
+    <Flex.Item marginBottom={1}>
+      <Typography.Body align="center">
+        <Trans>Try again later</Trans>
+      </Typography.Body>
+    </Flex.Item>
+    <Flex.Item marginBottom={1}>
+      <Typography.Body align="center">
+        <Trans>Get help in our channels:</Trans>
+      </Typography.Body>
+    </Flex.Item>
+    <Flex.Item marginBottom={1} justify="center">
+      <Flex>
+        <Flex.Item marginRight={1}>
+          <a
+            style={{ color: 'var(--ergo-primary-color)' }}
+            href={applicationConfig.support.discord}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <DiscordIcon style={{ cursor: 'pointer' }} />
+          </a>
+        </Flex.Item>
+        <Flex.Item>
+          <a
+            style={{ color: 'var(--ergo-primary-color)' }}
+            href={applicationConfig.support.telegram}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <TelegramIcon style={{ cursor: 'pointer' }} />
+          </a>
+        </Flex.Item>
+      </Flex>
+    </Flex.Item>
+  </Flex>
 );
 
 export const openConfirmationModal = (
   actionContent: RequestProps['actionContent'],
   operation: Operation,
-  xAsset: ConfirmationAssetAmount,
-  yAsset: ConfirmationAssetAmount,
-) => {
+  payload: ModalChainingPayload,
+): DialogRef => {
   return Modal.request({
     actionContent,
-    errorContent: ErrorModalContent(operation, xAsset, yAsset),
-    progressContent: ProgressModalContent(operation, xAsset, yAsset),
-    successContent: SuccessModalContent(),
+    timeoutContent: YoroiIssueModalContent(),
+    errorContent: ErrorModalContent(operation, payload),
+    progressContent: ProgressModalContent(operation, payload),
+    successContent: (txId) => SuccessModalContent(txId),
   });
 };

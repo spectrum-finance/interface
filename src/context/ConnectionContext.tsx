@@ -14,7 +14,8 @@ const ConnectionContext = createContext<ConnectionContextType>({
   online: true,
 });
 
-export const useConnection = () => useContext(ConnectionContext);
+export const useConnection = (): ConnectionContextType =>
+  useContext(ConnectionContext);
 
 export const ConnectionContextProvider: FC<React.PropsWithChildren<unknown>> =
   ({ children }) => {

@@ -1,5 +1,7 @@
 import './NetworkDropdown.less';
 
+import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
+import { Trans } from '@lingui/macro';
 import cn from 'classnames';
 import capitalize from 'lodash/capitalize';
 import React, { useState } from 'react';
@@ -14,7 +16,7 @@ import {
 } from '../../../ergodex-cdk';
 import { TokenIcon } from '../../TokenIcon/TokenIcon';
 
-type Network = { name: string; token: string; isDisabled: boolean };
+type Network = { name: string; token: AssetInfo; isDisabled: boolean };
 
 interface NetworkDropdownProps {
   networks: Array<Network>;
@@ -31,18 +33,26 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
 
   const overlay = (
     <Menu
+      className="network-dropdown__menu"
       onClick={({ key }) => {
         setNetwork(networks.find((n) => n.name === key) || networks[0]);
         if (onSetNetwork) {
           onSetNetwork(key);
         }
       }}
-      style={{ padding: '8px', width: '150px' }}
+      style={{ padding: '8px', minWidth: '170px' }}
     >
+      <Typography.Body className="network-dropdown__menu-title" strong>
+        <Trans>Select Network</Trans>
+      </Typography.Body>
       {networks.map(({ name, token, isDisabled }) => (
         <Menu.Item key={name} disabled={isDisabled}>
-          <Flex>
-            <TokenIcon name={!isDisabled ? token : `${token}-disabled`} />
+          <Flex
+            className={
+              network.name === name ? 'network-dropdown-item__active' : ''
+            }
+          >
+            <TokenIcon asset={token} />
             <span style={{ marginLeft: '8px' }}>{capitalize(name)}</span>
           </Flex>
         </Menu.Item>
@@ -65,17 +75,22 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
         size="large"
         type="ghost"
       >
-        <Flex justify="center" flexDirection="row" alignItems="center">
-          <TokenIcon name={`${network.token}${disabled ? '-disabled' : ''}`} />
-          <Typography.Body
-            style={{ color: 'var(--ergo-networkdropdown-hover-focus-color)' }}
+        <Flex justify="center" direction="row" align="center">
+          <TokenIcon asset={network.token} />
+          <Typography.Text
+            className="network-dropdown__btn-text"
+            style={{
+              fontSize: '16px',
+              color: 'var(--ergo-networkdropdown-hover-focus-color)',
+              marginLeft: 'calc(var(--ergo-base-gutter) * 2)',
+            }}
           >
             {capitalize(network.name)}
-          </Typography.Body>
+          </Typography.Text>
           <DownOutlined
             style={{
               color: 'var(--ergo-networkdropdown-hover-focus-color)',
-              marginLeft: '8px',
+              marginLeft: 'calc(var(--ergo-base-gutter) * 2)',
             }}
           />
         </Flex>

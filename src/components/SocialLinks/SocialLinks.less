@@ -1,0 +1,35 @@
+.social-links {
+  position: fixed;
+  bottom: 1rem;
+  left: 1rem;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+
+  &__item {
+    margin-right: 4px;
+  }
+
+  &__link {
+    color: var(--ergo-primary-color);
+
+    &:active {
+      color: var(--ergo-primary-color);
+    }
+
+    &:hover {
+      color: var(--ergo-primary-color-hover);
+    }
+  }
+
+  &, &__item, &__link, svg {
+    width: 30px;
+    height: 30px;
+  }
+
+  @media (max-width: 720px) {
+    display: none;
+  }
+}

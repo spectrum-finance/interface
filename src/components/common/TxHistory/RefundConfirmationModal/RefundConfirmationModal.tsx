@@ -1,126 +1,149 @@
-import { TxId } from '@ergolabs/ergo-sdk';
+import { Address } from '@ergolabs/ergo-sdk';
+import { t, Trans } from '@lingui/macro';
 import React, { useState } from 'react';
 
-import { Address, useSettings } from '../../../../context';
+import { useObservable } from '../../../../common/hooks/useObservable';
+import { useSettings } from '../../../../context';
 import {
   Box,
   Button,
   DownOutlined,
   Dropdown,
   Flex,
+  Form,
   Menu,
+  Modal,
   Typography,
+  useForm,
 } from '../../../../ergodex-cdk';
-import { useObservable } from '../../../../hooks/useObservable';
-import { utxos$ } from '../../../../services/new/core';
+import { utxos$ } from '../../../../network/ergo/common/utxos';
 import { submitTx } from '../../../../services/yoroi';
 import { refund } from '../../../../utils/ammOperations';
 import { getShortAddress } from '../../../../utils/string/addres';
 import { InfoTooltip } from '../../../InfoTooltip/InfoTooltip';
+import { Operation } from '../types';
 
 interface RefundConfirmationModalProps {
-  onClose: () => void;
+  onClose: (p: Promise<any>) => void;
   addresses: Address[];
-  txId: TxId;
+  operation: Operation;
 }
 
-// TODO:ADD_REFUND_CONFIRMATION_MODAL[EDEX-481]
 const RefundConfirmationModal: React.FC<RefundConfirmationModalProps> = ({
   onClose,
   addresses,
-  txId,
+  operation,
 }): JSX.Element => {
+  const form = useForm({
+    xAmount: operation.assetX,
+    yAmount: operation.assetY,
+    xAsset: operation.assetX.asset,
+    yAsset: operation.assetY.asset,
+  });
   const [utxos] = useObservable(utxos$);
   const [{ minerFee, address }] = useSettings();
 
   const [activeAddress, setActiveAddress] = useState(address);
 
-  const handleRefund = async () => {
+  const handleRefund = () => {
     if (utxos?.length && activeAddress) {
-      try {
-        const tx = await refund(utxos, {
+      onClose(
+        refund(utxos, {
           address: activeAddress,
-          txId,
+          txId: operation.txId,
           minerFee: minerFee,
-        });
-        await submitTx(tx);
-      } catch (err) {
-        console.error(err);
-      }
+        }).then((tx) => submitTx(tx)),
+      );
     }
-    onClose();
   };
 
   return (
-    <Flex flexDirection="col">
-      <Flex.Item marginBottom={4}>
-        <Flex flexDirection="col">
-          <Flex.Item marginBottom={2}>
-            <Typography.Body strong>Fees</Typography.Body>
-          </Flex.Item>
-          <Flex.Item>
-            <Box contrast padding={4}>
-              <Flex justify="space-between">
-                <Flex.Item>
-                  <Typography.Text strong>Fees</Typography.Text>
+    <>
+      <Modal.Title>
+        <Trans>Refund confirmation</Trans>
+      </Modal.Title>
+      <Modal.Content width={570}>
+        <Form onSubmit={() => {}} form={form}>
+          <Flex col>
+            <Flex.Item marginBottom={6}>
+              <Box contrast padding={4}>
+                <Flex justify="space-between">
+                  <Flex.Item>
+                    <Typography.Text strong>
+                      <Trans>Fees</Trans>
+                    </Typography.Text>
+                    <InfoTooltip
+                      placement="rightBottom"
+                      content={
+                        <Flex direction="col" style={{ width: '200px' }}>
+                          <Flex.Item>
+                            <Flex justify="space-between">
+                              <Flex.Item>
+                                <Trans>Miner Fee:</Trans>
+                              </Flex.Item>
+                              <Flex.Item>{minerFee} ERG</Flex.Item>
+                            </Flex>
+                          </Flex.Item>
+                        </Flex>
+                      }
+                    />
+                  </Flex.Item>
+                  <Flex.Item>
+                    <Typography.Text strong>{minerFee} ERG</Typography.Text>
+                  </Flex.Item>
+                </Flex>
+              </Box>
+            </Flex.Item>
+            <Flex.Item marginBottom={4}>
+              <Flex direction="col">
+                <Flex.Item marginBottom={2}>
+                  <Typography.Body strong>
+                    <Trans>Select address</Trans>
+                  </Typography.Body>
                   <InfoTooltip
                     placement="rightBottom"
-                    content={
-                      <Flex flexDirection="col" style={{ width: '200px' }}>
-                        <Flex.Item>
-                          <Flex justify="space-between">
-                            <Flex.Item>Miner Fee:</Flex.Item>
-                            <Flex.Item>{minerFee} ERG</Flex.Item>
-                          </Flex>
-                        </Flex.Item>
-                      </Flex>
-                    }
+                    content={t`Refund will be performed to this address`}
                   />
                 </Flex.Item>
                 <Flex.Item>
-                  <Typography.Text strong>{minerFee} ERG</Typography.Text>
+                  <Dropdown
+                    trigger={['click']}
+                    overlay={
+                      <Menu style={{ overflowY: 'auto', maxHeight: '200px' }}>
+                        {addresses.map((a) => (
+                          <Menu.Item
+                            key={a}
+                            onClick={() => setActiveAddress(a)}
+                          >
+                            {a}
+                          </Menu.Item>
+                        ))}
+                      </Menu>
+                    }
+                  >
+                    <Button size="large" style={{ width: '100%' }}>
+                      {getShortAddress(activeAddress ?? '')}
+                      <DownOutlined />
+                    </Button>
+                  </Dropdown>
                 </Flex.Item>
               </Flex>
-            </Box>
-          </Flex.Item>
-        </Flex>
-      </Flex.Item>
-      <Flex.Item marginBottom={4}>
-        <Flex flexDirection="col">
-          <Flex.Item marginBottom={2}>
-            <Typography.Body strong>Select address</Typography.Body>
-            <InfoTooltip
-              placement="rightBottom"
-              content="You will receive refund to this address"
-            />
-          </Flex.Item>
-          <Flex.Item>
-            <Dropdown
-              trigger={['click']}
-              overlay={
-                <Menu style={{ overflowY: 'auto', maxHeight: '200px' }}>
-                  {addresses.map((a) => (
-                    <Menu.Item key={a} onClick={() => setActiveAddress(a)}>
-                      {a}
-                    </Menu.Item>
-                  ))}
-                </Menu>
-              }
-            >
-              <Button size="large">
-                {getShortAddress(activeAddress ?? '')}
-                <DownOutlined />
+            </Flex.Item>
+            <Flex.Item>
+              <Button
+                htmlType="submit"
+                size="large"
+                type="primary"
+                block
+                onClick={handleRefund}
+              >
+                <Trans>Confirm</Trans>
               </Button>
-            </Dropdown>
-          </Flex.Item>
-        </Flex>
-      </Flex.Item>
-      <Flex.Item>
-        <Button size="large" type="primary" block onClick={handleRefund}>
-          Refund
-        </Button>
-      </Flex.Item>
-    </Flex>
+            </Flex.Item>
+          </Flex>
+        </Form>
+      </Modal.Content>
+    </>
   );
 };
 

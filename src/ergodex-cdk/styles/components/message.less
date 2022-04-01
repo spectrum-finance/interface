@@ -3,17 +3,8 @@
   right: 24px !important;
   bottom: 24px !important;
   left: initial !important;
-  max-width: 300px;
-
-  > div {
-    display: flex;
-    flex-direction: column;
-    text-align: right;
-  }
-}
-
-.ergodex-message {
   display: inline-block;
+  max-width: 300px;
   padding: 8px 0 !important;
   color: var(--ergo-primary-text);
 
@@ -22,31 +13,35 @@
     border-radius: 8px;
   }
 
-  .ant-message {
-    &-info {
-      svg {
-        fill: var(--ergo-info-color);
-      }
+  > div {
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+  }
+
+  &-info {
+    svg {
+      fill: var(--ergo-info-color);
     }
-    &-loading {
-      svg {
-        fill: var(--ergo-info-color);
-      }
+  }
+  &-loading {
+    svg {
+      fill: var(--ergo-info-color);
     }
-    &-success {
-      svg {
-        fill: var(--ergo-success-color);
-      }
+  }
+  &-success {
+    svg {
+      fill: var(--ergo-success-color);
     }
-    &-warning {
-      svg {
-        fill: var(--ergo-warning-color);
-      }
+  }
+  &-warning {
+    svg {
+      fill: var(--ergo-warning-color);
     }
-    &-error {
-      svg {
-        fill: var(--ergo-error-color);
-      }
+  }
+  &-error {
+    svg {
+      fill: var(--ergo-error-color);
     }
   }
 }
