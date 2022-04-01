@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ergodex-frontend\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-03-30 21:08\n"
+"PO-Revision-Date: 2022-04-01 10:54\n"
 "Last-Translator: \n"
 "Language: ro_RO\n"
 "Language-Team: Romanian\n"
@@ -18,43 +18,43 @@ msgstr ""
 
 #: src/pages/Pool/components/LockLiquidityDatePicker/LiquidityDatePicker.tsx
 msgid "(Block: {0})"
-msgstr ""
+msgstr "(Block: {0})"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
 msgid "(Unlock block: {0})"
-msgstr ""
+msgstr "(Deblochează block-ul: {0})"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "- By creating an order you send your funds to a specific smart-contract, all such contracts are wired into the UI. Thus, orders are created entirely in your browser (on your machine)."
-msgstr ""
+msgstr "- Prin crearea unei comenzi, trimiteți fondurile către un anumit contract-inteligent iar toate contractele sunt conectate în interfața de utilizare. Astfel, comenzile sunt create în întregime în browserul dumneavoastră (pe dispozitivul dumneavoastră)."
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "- ErgoDEX operates on a live blockchain, thus trades are final, and irreversible once they have status «executed»;"
-msgstr ""
+msgstr "- ErgoDEX operează pe un blockchain live, astfel tranzacțiile sunt finale și ireversibile odată ce au statutul „executat”;"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "- Every transaction can be viewed via"
-msgstr ""
+msgstr "- Fiecare tranzacție poate fi vizualizată prin intermediul"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
 msgid "0.3% fee"
-msgstr ""
+msgstr "0.3% taxă"
 
 #: src/pages/Pool/utils.ts
 msgid "1 Day"
-msgstr ""
+msgstr "1 Zi"
 
 #: src/pages/Pool/utils.ts
 msgid "1 Month"
-msgstr ""
+msgstr "1 Lună"
 
 #: src/pages/Pool/utils.ts
 msgid "1 Year"
-msgstr ""
+msgstr "1 An"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
 msgid "1% fee"
-msgstr ""
+msgstr "1% taxă"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "1. You will use the product at your own peril and risk;"
