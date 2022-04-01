@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ergodex-frontend\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-04-01 06:32\n"
+"PO-Revision-Date: 2022-04-01 07:29\n"
 "Last-Translator: \n"
 "Language: he_IL\n"
 "Language-Team: Hebrew\n"
@@ -841,7 +841,7 @@ msgstr "פוזיציה זו עדיין נעולה"
 
 #: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
 msgid "This wallet may not always work as expected. I understand what I do andwill use it at my own risk."
-msgstr "יתכן שהארנק לא תמיד יעבוד כמצופה. אני מבינה מה אני עושה ואשתמש בכך על אחריותי בלבד."
+msgstr "יתכן שארנק זה לא תמיד יעבוד/תמיד כמצופה. אני מבינה מה אני עושה ואשתמש בו על אחריותי בלבד."
 
 #: src/pages/Swap/Swap.tsx
 msgid "To"
@@ -861,7 +861,7 @@ msgstr "סך העמלות:"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
 msgid "Total in locker"
-msgstr "סך הכל בלוֹקר"
+msgstr "סך הכל בַּלוֹֹקר"
 
 #: src/pages/Pool/components/LocksList/LockItemView/LockItemView.tsx
 msgid "Total locked"
@@ -869,7 +869,7 @@ msgstr "סך הכל נעול"
 
 #: src/pages/Pool/components/LocksList/LockItemView/LockItemView.tsx
 msgid "Total withdrawable"
-msgstr "סכום שניתן למשיכה"
+msgstr "סכום כולל? שניתן למשיכה"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Transaction Settings"
@@ -971,7 +971,7 @@ msgstr "משיכה"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "You didn't provide liquidity to this pool yet."
-msgstr "טרם הוספת נזילות לפּוּל זה."
+msgstr "טרם הוסַפְת נזילות לפּוּל זה."
 
 #: src/components/WalletModal/LowBalanceWarning/LowBalanceWarning.tsx
 msgid "You need ERG to pay transaction fees"
