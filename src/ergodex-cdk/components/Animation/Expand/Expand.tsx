@@ -29,7 +29,7 @@ export const Expand: FC<ExpandProps> = ({
     } else {
       setHeight(0);
     }
-  }, [expanded]);
+  }, [expanded, children]);
 
   return (
     <div

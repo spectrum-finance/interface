@@ -1,6 +1,14 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { useEffect, useState } from 'react';
-import { Observable, Subject, Subscription, switchMap } from 'rxjs';
+import {
+  catchError,
+  Observable,
+  of,
+  Subject,
+  Subscription,
+  switchMap,
+  tap,
+} from 'rxjs';
 
 import { Unpacked } from '../utils/unpacked';
 
@@ -98,15 +106,39 @@ export function useSubject<F extends (...args: any[]) => Observable<any>>(
   });
 
   useEffect(() => {
-    setParams((params) => ({ ...params, loading: true }));
+    setParams((params) => ({ ...params, loading: false }));
     const subscription = nextData.subject
-      .pipe(switchMap((args) => observableAction(...args)))
+      .pipe(
+        tap(() =>
+          setParams((params) => ({
+            ...params,
+            loading: true,
+            error: undefined,
+          })),
+        ),
+        switchMap((args) =>
+          observableAction(...args).pipe(
+            catchError((error: Error) => of(error)),
+          ),
+        ),
+      )
       .subscribe({
-        next: (value: Unpacked<ReturnType<F>>) => {
-          setParams((params) => ({ ...params, loading: false, data: value }));
-        },
-        error: (error: Error) => {
-          setParams((params) => ({ ...params, error, loading: false }));
+        next: (value: Unpacked<ReturnType<F>> | Error) => {
+          if (value instanceof Error) {
+            setParams((params) => ({
+              ...params,
+              loading: false,
+              error: value,
+              value: undefined,
+            }));
+          } else {
+            setParams((params) => ({
+              ...params,
+              loading: false,
+              data: value,
+              error: undefined,
+            }));
+          }
         },
       });
 
