@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ergodex-frontend\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-04-01 07:29\n"
+"PO-Revision-Date: 2022-04-01 08:48\n"
 "Last-Translator: \n"
 "Language: he_IL\n"
 "Language-Team: Hebrew\n"
@@ -26,7 +26,7 @@ msgstr "(בטלי נעילת בלוק: {0})"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "- By creating an order you send your funds to a specific smart-contract, all such contracts are wired into the UI. Thus, orders are created entirely in your browser (on your machine)."
-msgstr "- על ידי יצירת פקודה אתה שולח את המטבעות שלך לחוזה חכם מסויים; כל החוזים האלה מתחברים לתוך ממשק המשתמש. לפיכך, פקודות נוצרות בתוך הדפדפן שלך בלבד (במחשב שלך)."
+msgstr "- על ידי יצירת פקודה אתה שולח את המטבעות שלך לחוזה חכם מסוים; כל החוזים האלה מתחברים לתוך ממשק המשתמש. לפיכך, פקודות נוצרות בתוך הדפדפן שלך בלבד (במחשב שלך)."
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "- ErgoDEX operates on a live blockchain, thus trades are final, and irreversible once they have status «executed»;"
@@ -841,7 +841,7 @@ msgstr "פוזיציה זו עדיין נעולה"
 
 #: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
 msgid "This wallet may not always work as expected. I understand what I do andwill use it at my own risk."
-msgstr "יתכן שארנק זה לא תמיד יעבוד/תמיד כמצופה. אני מבינה מה אני עושה ואשתמש בו על אחריותי בלבד."
+msgstr "יתכן שארנק זה לא תמיד יעבוד כמצופה. אני מבינה מה אני עושה ואשתמש בו על אחריותי בלבד."
 
 #: src/pages/Swap/Swap.tsx
 msgid "To"
@@ -1000,7 +1000,7 @@ msgstr "הפעולה שלך תבוצע בפּוּל הנוכחי. <0/> את יכ
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Your transaction may be frontrun"
-msgstr "יתכן שמישהו יקדים את הטרנזאקציה שלך"
+msgstr "יתכן שמישהו יטרים את הטרנזאקציה שלך"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Your transaction may fail"
