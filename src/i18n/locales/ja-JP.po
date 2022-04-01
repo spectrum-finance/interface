@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ergodex-frontend\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-03-31 12:57\n"
+"PO-Revision-Date: 2022-04-01 14:15\n"
 "Last-Translator: \n"
 "Language: ja_JP\n"
 "Language-Team: Japanese\n"
@@ -26,7 +26,7 @@ msgstr "(ブロックのロックを解除: {0})"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "- By creating an order you send your funds to a specific smart-contract, all such contracts are wired into the UI. Thus, orders are created entirely in your browser (on your machine)."
-msgstr "- 注文すると特定のスマートコントラクトに資金を送ることができます。スマートコントラクトはブラウザ上のUIと繋がっており、注文は完全にブラウザ(ローカル)上で作成されます。"
+msgstr "- スマートコントラクトはブラウザ上のUIと紐づいているため、オーダーは完全にブラウザ(ローカル)上で作成されます。オーダーを作成するとスマートコントラクトに資金が送られます。"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "- ErgoDEX operates on a live blockchain, thus trades are final, and irreversible once they have status «executed»;"
@@ -34,7 +34,7 @@ msgstr "- ErgoDEXにおける取引はブロックチェーン上に記録され
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "- Every transaction can be viewed via"
-msgstr "- すべてトランザクションを確認"
+msgstr "- 次のリンクからすべてトランザクションを確認できます: "
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
 msgid "0.3% fee"
@@ -313,7 +313,7 @@ msgstr "ErgoDEXチームはバグやエラーがないことを保証いたし�
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "ErgoDEX is a decentralized financial (DeFi) application which means it doesn’t have a central government body. ErgoDEX includes AMM (Swap, Add liquidity and Remove liquidity) functionality"
-msgstr "ErgoDEXは中央管理者がいない分散型金融(DeFi)アプリです。 ErgoDEXにはAMM(スワップ、流動性の追加、清算)機能があります"
+msgstr "ErgoDEXはErgoブロックチェーン上の中央管理者がいない分散型金融(DeFi)のAMM(スワップ、流動性の追加、清算)アプリです。"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "ErgoDEX offers a form of added security, as buyers and sellers do not have to give their information to any 3rd party. However, ErgoDEX is without a know your customer (KYC) process and can offer NO assistance if a user is hacked or cheated out of passwords, currency or private wallet keys."
@@ -1016,11 +1016,11 @@ msgstr "エクスプローラー"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "meet your expectations."
-msgstr "期待値を満たしている"
+msgstr "があなたの期待値以上である"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "only on top of the Ergo Blockchain."
-msgstr "Ergoブロックチェーン上にのみ"
+msgstr " "
 
 #: src/pages/Pool/Liquidity.tsx
 msgid "{0} Community Pools"
