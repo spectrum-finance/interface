@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ergodex-frontend\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-03-31 21:13\n"
+"PO-Revision-Date: 2022-04-01 06:32\n"
 "Last-Translator: \n"
 "Language: he_IL\n"
 "Language-Team: Hebrew\n"
@@ -387,7 +387,7 @@ msgstr "כיצד להשתמש"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidityConfirmationModal/LockLiquidityConfirmationModal.tsx
 msgid "I understand that I'm locking <0>{0}</0> LP-tokens, which is <1>{percent}%</1> of my <2>{1}/{2}</2> liquidity position, for a period of <3>{3}</3> (until {4}) without the ability to withdrawal before the end of this period."
-msgstr "אני מבינה שאני חוסמת <0>{0}</0> LP-tokens, שהם <1>{percent}%</1> מ <2>{1}/{2}</2> עמדת הנזילות שלי, לתקופה של <3>{3}</3> (עד {4}) ללא אפשרות למשיכה לפני תום התקופה הזו."
+msgstr "אני מבינה שאני חוסמת <0>{0}</0> LP-tokens, שהם <1>{percent}%</1> מ <2>{1}/{2}</2> עמדת הנזילות שלי, לתקופה של <3>{3}</3> (עד {4}) ללא אפשרות לביצוע משיכה לפני תום התקופה הזו."
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
 msgid "I understand that I’m relocking <0>{0}</0> LP-tokens of my <1>{1}/{2}</1> position until <2>{3}</2> (or <3>{4}</3> block) without the ability to withdrawal before the end of this period."
@@ -597,7 +597,7 @@ msgstr "שימי לב ש:"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
 msgid "Once LP-tokens are locked they cannot be withdrawn under any circumstances until the timer has expired. Please ensure the parameters are correct, as they are final."
-msgstr "משעה שה-LP-token נחסמו, לא ניתן למושכם בשום מצב עד שפג תוקף הטיימר. אנא וודאי שהפרמטרים מדוייקים שכן הם סופיים."
+msgstr "משעה שה-LP-tokens נחסמו, לא ניתן למושכם בשום מצב עד שפג תוקף הטיימר. אנא וודאי שהפרמטרים מדוייקים שכן הם סופיים."
 
 #: src/pages/Pool/components/LocksList/LockItemView/LockItemView.tsx
 msgid "Pair"
@@ -621,7 +621,7 @@ msgstr "סקירה כללית של הפּוּל"
 
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidityConfirmationModal/RemoveLiquidityConfirmationModal.tsx
 msgid "Pooled assets"
-msgstr "נכסים שבּפּוּל"
+msgstr "נכסים שבַּפּוּל"
 
 #: src/pages/Pool/Liquidity.tsx
 msgid "Pools Overview"
@@ -689,7 +689,7 @@ msgstr "חסום מחדש פוזיציה"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Relocking {0} and {1} ({2})"
-msgstr "חוסם מחדש {0} ו {1} ({2})"
+msgstr "חוֹסם מחדש {0} ו {1} ({2})"
 
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidity.tsx
 msgid "Remove"
@@ -721,7 +721,7 @@ msgstr "נראה שארנק Yoroi נתקל בבעייה"
 #: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
 msgid "Select Locked Position"
-msgstr "בחרי עמדת נעילה"
+msgstr "בחרי עמדת נעילה/בחרי עמדה נעולה"
 
 #: src/components/Header/NetworkDropdown/NetworkDropdown.tsx
 msgid "Select Network"
