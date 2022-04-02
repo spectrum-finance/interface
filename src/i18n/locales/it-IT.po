@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ergodex-frontend\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-04-02 16:05\n"
+"PO-Revision-Date: 2022-04-02 17:01\n"
 "Last-Translator: \n"
 "Language: it_IT\n"
 "Language-Team: Italian\n"
@@ -912,7 +912,7 @@ msgstr "Data Di Sblocco"
 
 #: src/pages/PoolOverview/LockLiquidityChart/AnalyticOverview/AnalyticOverview.tsx
 msgid "Unlock block"
-msgstr "Sblocca Blocco"
+msgstr "Sblocca blocco"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
 #: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
@@ -936,7 +936,7 @@ msgstr "Usa la versione desktop e il browser Google Chrome"
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
 msgid "View on Explorer"
-msgstr "Visualizza sull'explorer"
+msgstr "Visualizza sull'Explorer"
 
 #: src/components/WalletModal/WalletActiveAddress/WalletActiveAddress.tsx
 msgid "View on explorer"
@@ -983,7 +983,7 @@ msgstr "Spenderai {value} ERG per ogni operazione."
 
 #: src/pages/Pool/Liquidity.tsx
 msgid "Your Positions"
-msgstr "La tua posizione"
+msgstr "La tua Posizione"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 #: src/pages/PoolOverview/PoolOverview.tsx
@@ -1024,7 +1024,7 @@ msgstr "solo sulla Blockchain di Ergo."
 
 #: src/pages/Pool/Liquidity.tsx
 msgid "{0} Community Pools"
-msgstr "{0} pools della comunità"
+msgstr "{0} Pools della Comunità"
 
 #: src/pages/PoolOverview/PoolRatio/PoolRatio.tsx
 #: src/pages/PoolOverview/PoolRatio/PoolRatio.tsx
