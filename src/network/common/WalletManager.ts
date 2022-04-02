@@ -119,10 +119,10 @@ export const makeWalletManager = <W extends Wallet>(
             ? WalletState.CONNECTED
             : WalletState.NOT_CONNECTED,
         ),
+        startWith(WalletState.CONNECTING),
+        catchError(() => of(WalletState.NOT_CONNECTED)),
       );
     }),
-    catchError(() => of(WalletState.NOT_CONNECTED)),
-    startWith(WalletState.CONNECTED),
   );
 
   return {

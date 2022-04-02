@@ -81,7 +81,16 @@ const getStream = <T>(
   return mapKeyToBehaviorSubject.get(key)!.stream;
 };
 
-const remove = (key: string): void => localStorage.removeItem(key);
+const remove = (key: string): void => {
+  localStorage.removeItem(key);
+
+  if (!mapKeyToBehaviorSubject.has(key)) {
+    return;
+  }
+  if (!mapKeyToBehaviorSubject.get(key)!.disableSelf) {
+    mapKeyToBehaviorSubject.get(key)!.stream.next(undefined);
+  }
+};
 
 const clear = (): void => localStorage.clear();
 
