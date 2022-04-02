@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ergodex-frontend\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-04-02 12:03\n"
+"PO-Revision-Date: 2022-04-02 12:04\n"
 "Last-Translator: \n"
 "Language: ja_JP\n"
 "Language-Team: Japanese\n"
@@ -62,7 +62,7 @@ msgstr "1. 自己責任で本アプリを使用すること。"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "2. Only YOU are responsible for your assets;"
-msgstr "2. あなたの資産の責任者はあなたです。"
+msgstr "2. あなたの資産の責任者は自分自身であること。"
 
 #: src/components/Header/BurgerMenu/BurgerMenu.tsx
 msgid "About"
@@ -1016,7 +1016,7 @@ msgstr "エクスプローラー"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "meet your expectations."
-msgstr "があなたの期待値以上である"
+msgstr "があなたの期待値以上であること"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "only on top of the Ergo Blockchain."
