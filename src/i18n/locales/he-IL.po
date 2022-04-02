@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ergodex-frontend\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-04-01 14:15\n"
+"PO-Revision-Date: 2022-04-02 05:47\n"
 "Last-Translator: \n"
 "Language: he_IL\n"
 "Language-Team: Hebrew\n"
@@ -305,7 +305,7 @@ msgstr "רשת Ergo"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "ErgoDEX Smart Contracts"
-msgstr "חוזים חכמים של ErgoDEX"
+msgstr "החוזים חכמים של ErgoDEX"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "ErgoDEX Team doesn’t guarantee the absence of bugs and errors."
@@ -317,7 +317,7 @@ msgstr "ErgoDEX היא אפליקצייה פיננסית מבוזרת (DeFi), כ
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "ErgoDEX offers a form of added security, as buyers and sellers do not have to give their information to any 3rd party. However, ErgoDEX is without a know your customer (KYC) process and can offer NO assistance if a user is hacked or cheated out of passwords, currency or private wallet keys."
-msgstr "ErgoDEX מציעה הגנה נוספת, בכך שקונים ומוכרים אינם חייבים למסור מידע אודות עצמם לצד שלישי. למרות זאת, מאחר ואין ב-ErgoDEX תהליך של \"הכר את הלקוח\" (KYC), היא אינה יכולה להציע כל עזרה במקרה של פריצה לחשבון של משתמש, או שנגנבות ממנו ססמאות, כספים או מילות המפתח של הארנק."
+msgstr "ErgoDEX מציעה סוג של הגנה נוספת, בכך שקונים ומוכרים אינם חייבים למסור מידע אודות עצמם לצד שלישי. למרות זאת, מאחר ואין ב-ErgoDEX תהליך של \"הכר את הלקוח\" (KYC), היא אינה יכולה להציע כל עזרה במקרה של פריצה לחשבון של משתמש, או שנגנבות ממנו ססמאות, כספים או מילות המפתח של הארנק."
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
