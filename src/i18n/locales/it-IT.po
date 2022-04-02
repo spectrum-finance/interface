@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ergodex-frontend\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-03-30 16:38\n"
+"PO-Revision-Date: 2022-04-02 14:22\n"
 "Last-Translator: \n"
 "Language: it_IT\n"
 "Language-Team: Italian\n"
@@ -30,7 +30,7 @@ msgstr "- Creando un ordine invii i tuoi fondi a uno specifico smart-contract, t
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "- ErgoDEX operates on a live blockchain, thus trades are final, and irreversible once they have status «executed»;"
-msgstr "ErgoDEX opera su una blockchain live, quindi gli scambi sono definitivi e irreversibili una volta che hanno raggiunto lo stato «eseguito»;"
+msgstr "- ErgoDEX opera su una blockchain live, quindi gli scambi sono definitivi e irreversibili una volta che hanno raggiunto lo stato «eseguito»;"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "- Every transaction can be viewed via"
@@ -46,11 +46,11 @@ msgstr "1 Giorno"
 
 #: src/pages/Pool/utils.ts
 msgid "1 Month"
-msgstr "1 mese"
+msgstr "1 Mese"
 
 #: src/pages/Pool/utils.ts
 msgid "1 Year"
-msgstr "1 anno"
+msgstr "1 Anno"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
 msgid "1% fee"
@@ -62,7 +62,7 @@ msgstr "1. Userete il prodotto a vostro rischio e pericolo;"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "2. Only YOU are responsible for your assets;"
-msgstr "2. Solo voi siete responsabili dei vostri beni;"
+msgstr "2. Solo VOI siete responsabili dei vostri beni;"
 
 #: src/components/Header/BurgerMenu/BurgerMenu.tsx
 msgid "About"
@@ -81,7 +81,7 @@ msgstr "Indirizzi attivi"
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool.tsx
 #: src/pages/Pool/components/LiquidityPositionsList/LiquidityPositionsList.tsx
 msgid "Add Liquidity"
-msgstr "Aggiungi liquidità"
+msgstr "Aggiungi Liquidità"
 
 #: src/components/common/TxHistory/TxTypeTag/TxTypeTag.tsx
 #: src/pages/Pool/Liquidity.tsx
@@ -103,7 +103,7 @@ msgstr "Importo"
 
 #: src/pages/Pool/components/LiquidityPositionsList/LiquidityPositionsItem/LiquidityPositionsItemAnalytics/LiquidityPositionsItemAnalytics.tsx
 msgid "Annual Percentage Rate. Average estimation of how much you may potentially earn providing liquidity to this pool."
-msgstr "Tasso percentuale annuo. Stima media di quanto si può potenzialmente guadagnare fornendo liquidità a questa pool."
+msgstr "Tasso Percentuale Annuo. Stima media di quanto si può potenzialmente guadagnare fornendo liquidità a questa pool."
 
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
@@ -118,7 +118,7 @@ msgstr "Beni da bloccare"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
 msgid "Assets to relock"
-msgstr "Beni da bloccare"
+msgstr "Beni da ribloccare"
 
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidity.tsx
 msgid "Assets to remove"
@@ -164,7 +164,7 @@ msgstr "Cambia portafoglio"
 #: src/components/OperationForm/OperationForm.tsx
 #: src/components/common/ActionForm/ActionButton/ActionButton.tsx
 msgid "Check Internet Connection"
-msgstr "Controlla la connessione Internet"
+msgstr "Controlla la Connessione Internet"
 
 #: src/pages/Pool/components/LPGuide/LPGuide.tsx
 msgid "Check out our guides how to become a liquidity provider"
@@ -193,7 +193,7 @@ msgstr "Conferma"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 msgid "Confirm Add Liquidity"
-msgstr "Conferma aggiunta di liquidità"
+msgstr "Conferma Aggiunta di Liquidità"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidityConfirmationModal/LockLiquidityConfirmationModal.tsx
 msgid "Confirm Lock"
@@ -213,7 +213,7 @@ msgstr "Conferma Scambio"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
 msgid "Confirm Withdrawal"
-msgstr "Conferma prelievo"
+msgstr "Conferma Prelievo"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
 msgid "Confirm pool creation"
@@ -241,7 +241,7 @@ msgstr "Copiato negli appunti!"
 
 #: src/components/WalletModal/WalletActiveAddress/WalletActiveAddress.tsx
 msgid "Copy Address"
-msgstr "Copia indirizzo"
+msgstr "Copia Indirizzo"
 
 #: src/components/common/CopyButton/CopyButton.tsx
 msgid "Copy to clipboard."
@@ -249,7 +249,7 @@ msgstr "Copia negli appunti."
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool.tsx
 msgid "Create Pool"
-msgstr "Crea pool"
+msgstr "Crea Pool"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
@@ -267,7 +267,7 @@ msgstr "Commissione personalizzata"
 
 #: src/components/Header/BurgerMenu/BurgerMenu.tsx
 msgid "Dark mode"
-msgstr "Dark Mode"
+msgstr "Dark mode"
 
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
 msgid "Date"
@@ -275,7 +275,7 @@ msgstr "Data"
 
 #: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
 msgid "Disconnect wallet"
-msgstr "Disconnetti Portafoglio"
+msgstr "Disconnetti portafoglio"
 
 #: src/components/Header/BurgerMenu/BurgerMenu.tsx
 msgid "Docs"
@@ -293,11 +293,11 @@ msgstr "Il saldo di ERG è basso"
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Enter an Amount"
-msgstr "Inserisci un importo"
+msgstr "Inserisci un Importo"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Enter an Initial Price"
-msgstr "Inserisci un prezzo iniziale"
+msgstr "Inserisci un Prezzo Iniziale"
 
 #: src/components/WalletModal/WalletModal.tsx
 msgid "Ergo network"
@@ -334,7 +334,7 @@ msgstr "Costo Di Esecuzione"
 
 #: src/pages/Swap/OperationSettings/NitroInput/NitroInput.tsx
 msgid "Execution Fee Range {0} - {1} {2}"
-msgstr "Intervallo commissioni di esecuzione {0} - {1} {2}"
+msgstr "Intervallo Commissioni di Esecuzione {0} - {1} {2}"
 
 #: src/components/common/FormView/FormFeesSection/FormFeesSection.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
