@@ -1,16 +1,16 @@
 import React from 'react';
 
 import { ReactComponent as YoroiLogo } from '../../../../assets/icons/yoroi-logo-icon.svg';
-import { Wallet } from '../../../common';
+import { ErgoWalletContract } from '../common/ErgoWalletContract';
 import { getUnusedAddresses, getUsedAddresses } from '../nautilus/getAddresses';
 import { connectWallet } from './connectWallet';
 import { getAddresses } from './getAddresses';
-import { getNotification } from './getNotification';
 import { getUtxos } from './getUtxos';
+import { onConnect } from './onConnect';
 import { onDisconnect } from './onDisconnect';
-import { supportedFeatures } from './supportedFeatures';
+import { walletSupportedFeatures } from './supportedFeatures';
 
-export const Yoroi: Wallet = {
+export const Yoroi: ErgoWalletContract = {
   name: 'Yoroi Wallet',
   icon: <YoroiLogo />,
   definition: 'experimental',
@@ -18,10 +18,10 @@ export const Yoroi: Wallet = {
     'https://chrome.google.com/webstore/detail/yoroi/ffnbelfdoeiohenkjibnmadjiehjhajb',
   connectWallet,
   getUtxos,
-  getNotification,
+  onConnect,
   onDisconnect,
   getUsedAddresses,
   getUnusedAddresses,
   getAddresses,
-  supportedFeatures,
+  walletSupportedFeatures,
 };

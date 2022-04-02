@@ -1,32 +1,31 @@
-import { filter, Observable, publishReplay, refCount, switchMap } from 'rxjs';
+import { Address } from '@ergolabs/ergo-sdk';
+import { Observable, of, publishReplay, refCount, switchMap } from 'rxjs';
 
-import { appTick$ } from '../../../common/streams/appTick';
-import { WalletState } from '../../common';
-import { selectedWallet$, selectedWalletState$ } from '../wallets';
+import { connectedWalletChange$ } from '../wallet/connectedWalletChange';
 
-export const getAddresses = (): Observable<string[]> =>
-  selectedWalletState$.pipe(
-    filter((state) => state === WalletState.CONNECTED),
-    switchMap(() => selectedWallet$.pipe(filter(Boolean))),
-    switchMap((wallet) => wallet.getAddresses()),
+export const getAddresses = (): Observable<Address[]> =>
+  connectedWalletChange$.pipe(
+    switchMap((selectedWallet) =>
+      selectedWallet ? selectedWallet.getAddresses() : of([]),
+    ),
+    publishReplay(1),
+    refCount(),
   );
 
-export const getUsedAddresses = (): Observable<string[]> =>
-  selectedWalletState$.pipe(
-    filter((state) => state === WalletState.CONNECTED),
-    switchMap(() => selectedWallet$.pipe(filter(Boolean))),
-    switchMap((wallet) => wallet.getUsedAddresses()),
+export const getUsedAddresses = (): Observable<Address[] | undefined> =>
+  connectedWalletChange$.pipe(
+    switchMap((selectedWallet) =>
+      selectedWallet ? selectedWallet.getUsedAddresses() : of(undefined),
+    ),
+    publishReplay(1),
+    refCount(),
   );
 
-export const getUnusedAddresses = (): Observable<string[]> =>
-  selectedWalletState$.pipe(
-    filter((state) => state === WalletState.CONNECTED),
-    switchMap(() => selectedWallet$.pipe(filter(Boolean))),
-    switchMap((wallet) => wallet.getUnusedAddresses()),
+export const getUnusedAddresses = (): Observable<Address[] | undefined> =>
+  connectedWalletChange$.pipe(
+    switchMap((selectedWallet) =>
+      selectedWallet ? selectedWallet.getUnusedAddresses() : of(undefined),
+    ),
+    publishReplay(1),
+    refCount(),
   );
-
-export const addresses$: Observable<string[]> = appTick$.pipe(
-  switchMap(() => getAddresses()),
-  publishReplay(1),
-  refCount(),
-);

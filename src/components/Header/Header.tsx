@@ -8,7 +8,7 @@ import { useAssetsBalance } from '../../api/assetBalance';
 import { selectedWalletState$ } from '../../api/wallets';
 import { useObservable } from '../../common/hooks/useObservable';
 import { useSettings } from '../../context';
-import { WalletState } from '../../network/common';
+import { WalletState } from '../../network/common/Wallet';
 import { useNetworkAsset } from '../../network/ergo/networkAsset/networkAsset';
 import { AppLogo } from '../common/AppLogo/AppLogo';
 import { TxHistory } from '../common/TxHistory/TxHistory';

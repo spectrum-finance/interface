@@ -17,7 +17,7 @@ import {
   Asset,
   getListAvailableTokens,
 } from '../../../utils/getListAvailableTokens';
-import { utxos$ } from '../common/utxos';
+import { utxos$ } from '../utxos/utxos';
 
 const toListAvailableTokens = (utxos: ErgoBox[]): Asset[] =>
   Object.values(getListAvailableTokens(utxos));

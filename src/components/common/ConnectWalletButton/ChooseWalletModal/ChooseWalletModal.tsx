@@ -22,7 +22,7 @@ import {
   Tag,
   Typography,
 } from '../../../../ergodex-cdk';
-import { Wallet } from '../../../../network/common';
+import { Wallet } from '../../../../network/common/Wallet';
 
 const { Body } = Typography;
 

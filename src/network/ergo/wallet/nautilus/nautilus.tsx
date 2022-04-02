@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { ReactComponent as NautilusLogo } from '../../../../assets/icons/nautilus-logo-icon.svg';
-import { Wallet } from '../../../common';
+import { ErgoWalletContract } from '../common/ErgoWalletContract';
 import { connectWallet } from './connectWallet';
 import {
   getAddresses,
@@ -9,9 +9,9 @@ import {
   getUsedAddresses,
 } from './getAddresses';
 import { getUtxos } from './getUtxos';
-import { supportedFeatures } from './supportedFeatures';
+import { walletSupportedFeatures } from './walletSupportedFeatures';
 
-export const Nautilus: Wallet = {
+export const Nautilus: ErgoWalletContract = {
   name: 'Nautilus Wallet',
   icon: <NautilusLogo />,
   definition: 'recommended',
@@ -22,5 +22,5 @@ export const Nautilus: Wallet = {
   getUsedAddresses,
   getUnusedAddresses,
   getAddresses,
-  supportedFeatures,
+  walletSupportedFeatures,
 };

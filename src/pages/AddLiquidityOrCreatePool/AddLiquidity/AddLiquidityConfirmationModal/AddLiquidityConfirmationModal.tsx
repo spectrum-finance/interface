@@ -18,7 +18,7 @@ import {
   Modal,
   Typography,
 } from '../../../../ergodex-cdk';
-import { utxos$ } from '../../../../network/ergo/common/utxos';
+import { utxos$ } from '../../../../network/ergo/utxos/utxos';
 import { explorer } from '../../../../services/explorer';
 import { useMinExFee, useMinTotalFees } from '../../../../services/new/core';
 import { poolActions } from '../../../../services/poolActions';

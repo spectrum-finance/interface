@@ -1,12 +1,12 @@
 import { BehaviorSubject, Observable } from 'rxjs';
 
-import { Network } from './common';
-import { ergoNetwork } from './ergo';
+import { Network } from './common/Network';
+import { ergoNetwork } from './ergo/ergo';
 
-const updateSelectedNetwork$ = new BehaviorSubject<Network>(ergoNetwork);
+const updateSelectedNetwork$ = new BehaviorSubject<Network<any>>(ergoNetwork);
 
-export const changeSelectedNetwork = (network: Network): void =>
+export const changeSelectedNetwork = (network: Network<any>): void =>
   updateSelectedNetwork$.next(network);
 
-export const selectedNetwork$: Observable<Network> =
+export const selectedNetwork$: Observable<Network<any>> =
   updateSelectedNetwork$.asObservable();

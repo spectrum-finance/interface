@@ -20,7 +20,7 @@ import { AmmPool } from '../../../common/models/AmmPool';
 import { getAggregatedPoolAnalyticsDataById24H } from '../../../common/streams/poolAnalytic';
 import { verifiedAssets$ } from '../../../common/streams/verifiedAssets';
 import { networkContext$ } from '../networkContext/networkContext';
-import { nativeNetworkPools, networkPools } from './common';
+import { nativeNetworkPools, networkPools } from './utils';
 
 const getNativeNetworkAmmPools = () =>
   from(nativeNetworkPools().getAll({ limit: 100, offset: 0 })).pipe(

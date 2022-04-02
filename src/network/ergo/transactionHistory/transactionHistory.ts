@@ -14,7 +14,7 @@ import TxHistoryWorker from 'worker-loader!./transactionHistory.worker';
 import { tabClosing$ } from '../../../common/streams/tabClosing';
 import { Dictionary } from '../../../common/utils/Dictionary';
 import { localStorageManager } from '../../../common/utils/localStorageManager';
-import { TxHistoryManager } from '../../common';
+import { TxHistoryManager } from '../../common/TxHistoryManager';
 import { getAddresses } from '../addresses/addresses';
 import {
   addToTabQueue,

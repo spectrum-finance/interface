@@ -1,18 +1,17 @@
 import {
-  filter,
   first,
-  mapTo,
+  map,
   Observable,
   publishReplay,
   refCount,
   switchMap,
 } from 'rxjs';
 
-import { Wallet, WalletState } from '../network/common';
+import { Wallet, WalletState } from '../network/common/Wallet';
 import { selectedNetwork$ } from '../network/network';
 
 export const wallets$ = selectedNetwork$.pipe(
-  switchMap((n) => n.wallets$),
+  map((n) => n.availableWallets),
   publishReplay(1),
   refCount(),
 );
@@ -24,17 +23,16 @@ export const selectedWallet$ = selectedNetwork$.pipe(
 );
 
 export const selectedWalletState$ = selectedNetwork$.pipe(
-  switchMap((n) => n.selectedWalletState$),
+  switchMap((n) => n.walletState$),
   publishReplay(1),
   refCount(),
 );
 
 export const isWalletSetuped$ = selectedWalletState$.pipe(
-  filter(
+  map(
     (state) =>
       state === WalletState.CONNECTED || state === WalletState.CONNECTING,
   ),
-  mapTo(true),
   publishReplay(1),
   refCount(),
 );

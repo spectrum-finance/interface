@@ -1,6 +1,5 @@
-import { Network } from '../common';
+import { Network } from '../common/Network';
 import {
-  addresses$,
   getAddresses,
   getUnusedAddresses,
   getUsedAddresses,
@@ -13,19 +12,17 @@ import { locks$ } from './locks/locks';
 import { networkAsset$, useNetworkAsset } from './networkAsset/networkAsset';
 import { positions$ } from './positions/positions';
 import { txHistoryManager } from './transactionHistory/transactionHistory';
-import { pendingTransactionsCount$ } from './transactions/pendingTransactions';
-import { getTxHistory } from './transactions/transactionsHistory';
+import { ErgoWalletContract } from './wallet/common/ErgoWalletContract';
 import {
+  availableWallets,
   connectWallet,
   disconnectWallet,
   selectedWallet$,
-  selectedWalletState$,
-  wallets$,
-} from './wallets';
+  supportedWalletFeatures$,
+  walletState$,
+} from './wallet/wallet';
 
-export const ergoNetwork: Network = {
-  addresses$,
-  pendingTransactionsCount$,
+export const ergoNetwork: Network<ErgoWalletContract> = {
   networkAsset$,
   networkAssetBalance$,
   assetBalance$,
@@ -33,15 +30,15 @@ export const ergoNetwork: Network = {
   locks$,
   positions$,
   ammPools$,
-  getTxHistory,
   useNetworkAsset,
-  connectWallet,
-  wallets$,
-  selectedWallet$,
-  selectedWalletState$,
-  disconnectWallet,
   getAddresses,
   getUsedAddresses,
   getUnusedAddresses,
   txHistoryManager,
+  connectWallet,
+  disconnectWallet,
+  availableWallets,
+  walletState$,
+  selectedWallet$,
+  supportedFeatures$: supportedWalletFeatures$,
 };

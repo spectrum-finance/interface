@@ -102,6 +102,7 @@ export const SettingsProvider = ({
     if (!usedAddresses || !unusedAddresses) {
       return;
     }
+    // console.log(usedAddresses, unusedAddresses);
     let newSelectedAddress: Address;
     const addresses = unusedAddresses.concat(usedAddresses);
     const currentSelectedAddress = ctxValue[0].address;
