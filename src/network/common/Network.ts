@@ -15,7 +15,6 @@ import { Wallet, WalletState } from './Wallet';
 export interface Network<W extends Wallet> {
   readonly name: string;
   readonly networkAsset: AssetInfo;
-  readonly networkAsset$: Observable<AssetInfo>;
   readonly networkAssetBalance$: Observable<Currency>;
   readonly assetBalance$: Observable<Balance>;
   readonly lpBalance$: Observable<Balance>;
@@ -23,7 +22,6 @@ export interface Network<W extends Wallet> {
   readonly ammPools$: Observable<AmmPool[]>;
   readonly positions$: Observable<Position[]>;
   readonly txHistoryManager: TxHistoryManager;
-  readonly useNetworkAsset: () => [AssetInfo, boolean, Error];
   readonly getUsedAddresses: () => Observable<Address[] | undefined>;
   readonly getUnusedAddresses: () => Observable<Address[] | undefined>;
   readonly getAddresses: () => Observable<Address[] | undefined>;

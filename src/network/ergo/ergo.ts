@@ -9,11 +9,7 @@ import { assetBalance$ } from './api/balance/assetBalance';
 import { lpBalance$ } from './api/balance/lpBalance';
 import { networkAssetBalance$ } from './api/balance/networkAssetBalance';
 import { locks$ } from './api/locks/locks';
-import {
-  networkAsset,
-  networkAsset$,
-  useNetworkAsset,
-} from './api/networkAsset/networkAsset';
+import { networkAsset } from './api/networkAsset/networkAsset';
 import { positions$ } from './api/positions/positions';
 import { txHistoryManager } from './api/transactionHistory/transactionHistory';
 import { ErgoWalletContract } from './api/wallet/common/ErgoWalletContract';
@@ -29,14 +25,12 @@ import {
 export const ergoNetwork: Network<ErgoWalletContract> = {
   name: 'ergo',
   networkAsset,
-  networkAsset$,
   networkAssetBalance$,
   assetBalance$,
   lpBalance$,
   locks$,
   positions$,
   ammPools$,
-  useNetworkAsset,
   getAddresses,
   getUsedAddresses,
   getUnusedAddresses,

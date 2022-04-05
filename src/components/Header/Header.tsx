@@ -5,11 +5,11 @@ import React, { useEffect, useState } from 'react';
 import { isBrowser } from 'react-device-detect';
 
 import { useAssetsBalance } from '../../api/assetBalance';
+import { useNetworkAsset } from '../../api/networkAsset';
 import { selectedWalletState$ } from '../../api/wallets';
 import { useObservable } from '../../common/hooks/useObservable';
 import { useSettings } from '../../context';
 import { WalletState } from '../../network/common/Wallet';
-import { useNetworkAsset } from '../../network/ergo/api/networkAsset/networkAsset';
 import { AppLogo } from '../common/AppLogo/AppLogo';
 import { TxHistory } from '../common/TxHistory/TxHistory';
 import { Analytics } from './Analytics/Analytics';
