@@ -29,7 +29,7 @@ import {
   Modal,
   Typography,
 } from '../../../../ergodex-cdk';
-import { utxos$ } from '../../../../network/ergo/utxos/utxos';
+import { utxos$ } from '../../../../network/ergo/api/utxos/utxos';
 import { mainnetTxAssembler } from '../../../../services/defaultTxAssembler';
 import { explorer } from '../../../../services/explorer';
 import { lockParser } from '../../../../services/locker/parser';

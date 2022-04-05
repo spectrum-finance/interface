@@ -13,6 +13,8 @@ import { TxHistoryManager } from './TxHistoryManager';
 import { Wallet, WalletState } from './Wallet';
 
 export interface Network<W extends Wallet> {
+  readonly name: string;
+  readonly networkAsset: AssetInfo;
   readonly networkAsset$: Observable<AssetInfo>;
   readonly networkAssetBalance$: Observable<Currency>;
   readonly assetBalance$: Observable<Balance>;

@@ -7,7 +7,7 @@ import { getAmmPoolById } from '../../api/ammPools';
 import { AmmPool } from '../../common/models/AmmPool';
 import { Currency } from '../../common/models/Currency';
 import { Dictionary } from '../../common/utils/Dictionary';
-import { networkContext$ } from '../../network/ergo/networkContext/networkContext';
+import { networkContext$ } from '../../network/ergo/api/networkContext/networkContext';
 import {
   AmmPoolLocksAnalytic,
   getPoolLocksAnalyticsById,

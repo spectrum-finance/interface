@@ -5,7 +5,7 @@ import { defer, from, map, Observable, switchMap } from 'rxjs';
 
 import { applicationConfig } from '../../applicationConfig';
 import { Currency } from '../../common/models/Currency';
-import { networkContext$ } from '../../network/ergo/networkContext/networkContext';
+import { networkContext$ } from '../../network/ergo/api/networkContext/networkContext';
 
 export interface LockedAsset {
   id: string;

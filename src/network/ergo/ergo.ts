@@ -3,16 +3,20 @@ import {
   getAddresses,
   getUnusedAddresses,
   getUsedAddresses,
-} from './addresses/addresses';
-import { ammPools$ } from './ammPools/ammPools';
-import { assetBalance$ } from './balance/assetBalance';
-import { lpBalance$ } from './balance/lpBalance';
-import { networkAssetBalance$ } from './balance/networkAssetBalance';
-import { locks$ } from './locks/locks';
-import { networkAsset$, useNetworkAsset } from './networkAsset/networkAsset';
-import { positions$ } from './positions/positions';
-import { txHistoryManager } from './transactionHistory/transactionHistory';
-import { ErgoWalletContract } from './wallet/common/ErgoWalletContract';
+} from './api/addresses/addresses';
+import { ammPools$ } from './api/ammPools/ammPools';
+import { assetBalance$ } from './api/balance/assetBalance';
+import { lpBalance$ } from './api/balance/lpBalance';
+import { networkAssetBalance$ } from './api/balance/networkAssetBalance';
+import { locks$ } from './api/locks/locks';
+import {
+  networkAsset,
+  networkAsset$,
+  useNetworkAsset,
+} from './api/networkAsset/networkAsset';
+import { positions$ } from './api/positions/positions';
+import { txHistoryManager } from './api/transactionHistory/transactionHistory';
+import { ErgoWalletContract } from './api/wallet/common/ErgoWalletContract';
 import {
   availableWallets,
   connectWallet,
@@ -20,9 +24,11 @@ import {
   selectedWallet$,
   supportedWalletFeatures$,
   walletState$,
-} from './wallet/wallet';
+} from './api/wallet/wallet';
 
 export const ergoNetwork: Network<ErgoWalletContract> = {
+  name: 'ergo',
+  networkAsset,
   networkAsset$,
   networkAssetBalance$,
   assetBalance$,

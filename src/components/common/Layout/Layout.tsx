@@ -16,9 +16,9 @@ interface Props {
 }
 
 const Layout = ({ children }: Props): JSX.Element => {
-  const [{ theme }] = useSettings();
+  const [{ theme, network }] = useSettings();
 
-  useBodyClass(theme);
+  useBodyClass([theme, network]);
 
   const [{ isKYAAccepted }] = useAppLoadingState();
 

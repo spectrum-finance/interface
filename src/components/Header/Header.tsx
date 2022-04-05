@@ -9,7 +9,7 @@ import { selectedWalletState$ } from '../../api/wallets';
 import { useObservable } from '../../common/hooks/useObservable';
 import { useSettings } from '../../context';
 import { WalletState } from '../../network/common/Wallet';
-import { useNetworkAsset } from '../../network/ergo/networkAsset/networkAsset';
+import { useNetworkAsset } from '../../network/ergo/api/networkAsset/networkAsset';
 import { AppLogo } from '../common/AppLogo/AppLogo';
 import { TxHistory } from '../common/TxHistory/TxHistory';
 import { Analytics } from './Analytics/Analytics';
@@ -17,17 +17,6 @@ import { BurgerMenu } from './BurgerMenu/BurgerMenu';
 import { ConnectWallet } from './ConnectWallet/ConnectWallet';
 import { Navigation } from './Navigation/Navigation';
 import { NetworkDropdown } from './NetworkDropdown/NetworkDropdown';
-
-const networks = [
-  {
-    name: 'ergo',
-    token: {
-      id: '0000000000000000000000000000000000000000000000000000000000000000',
-    },
-    isDisabled: false,
-  },
-  { name: 'cardano', token: { id: 'token-ada-disabled' }, isDisabled: true },
-];
 
 export const Header: React.FC = () => {
   const [{ address }] = useSettings();
@@ -69,7 +58,7 @@ export const Header: React.FC = () => {
         <div className="header__options">
           {isBrowser && (
             <>
-              <NetworkDropdown networks={networks} />
+              <NetworkDropdown />
               <ConnectWallet
                 numberOfPendingTxs={0}
                 address={address}

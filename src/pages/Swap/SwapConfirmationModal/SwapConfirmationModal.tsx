@@ -25,7 +25,7 @@ import {
   Typography,
   useForm,
 } from '../../../ergodex-cdk';
-import { utxos$ } from '../../../network/ergo/utxos/utxos';
+import { utxos$ } from '../../../network/ergo/api/utxos/utxos';
 import { explorer } from '../../../services/explorer';
 import { useMinExFee } from '../../../services/new/core';
 import { poolActions } from '../../../services/poolActions';

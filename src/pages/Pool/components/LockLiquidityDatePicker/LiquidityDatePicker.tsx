@@ -7,7 +7,7 @@ import React from 'react';
 
 import { useObservable } from '../../../../common/hooks/useObservable';
 import { DatePicker, Flex, Typography } from '../../../../ergodex-cdk';
-import { networkContext$ } from '../../../../network/ergo/networkContext/networkContext';
+import { networkContext$ } from '../../../../network/ergo/api/networkContext/networkContext';
 import { formatToInt } from '../../../../services/number';
 import { getLockingPeriodString } from '../../utils';
 
