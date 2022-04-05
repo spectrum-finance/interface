@@ -17,6 +17,7 @@ import {
 import { getAmmPoolsByAssetPair } from '../../api/ammPools';
 import { useAssetsBalance } from '../../api/assetBalance';
 import { getAvailableAssetFor, tokenAssets$ } from '../../api/assets';
+import { useNetworkAsset } from '../../api/networkAsset';
 import { useSubscription } from '../../common/hooks/useObservable';
 import { AmmPool } from '../../common/models/AmmPool';
 import { Currency } from '../../common/models/Currency';
@@ -38,7 +39,7 @@ import {
   Typography,
   useForm,
 } from '../../ergodex-cdk';
-import { useMaxTotalFees, useNetworkAsset } from '../../services/new/core';
+import { useMaxTotalFees } from '../../services/new/core';
 import { OperationSettings } from './OperationSettings/OperationSettings';
 import { PoolSelector } from './PoolSelector/PoolSelector';
 import { SwapConfirmationModal } from './SwapConfirmationModal/SwapConfirmationModal';
@@ -68,7 +69,7 @@ export const Swap = (): JSX.Element => {
     pool: undefined,
   });
   const [lastEditedField, setLastEditedField] = useState<'from' | 'to'>('from');
-  const networkAsset = useNetworkAsset();
+  const [networkAsset] = useNetworkAsset();
   const [balance] = useAssetsBalance();
   const totalFees = useMaxTotalFees();
   const updateToAssets$ = useMemo(
