@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { ReactComponent as FlintLogo } from '../../../../../assets/icons/flint-logo-icon.svg';
 import { CardanoWalletContract } from '../common/CardanoWalletContract';
 import { makeCardanoWallet } from '../common/makeCardanoWallet';
+import { ReactComponent as FlintLogo } from './flint-icon.svg';
 
 export const Flint: CardanoWalletContract = makeCardanoWallet({
   variableName: 'flint',

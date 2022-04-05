@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { ReactComponent as NamiLogo } from '../../../../../assets/icons/nami-logo-icon.svg';
 import { CardanoWalletContract } from '../common/CardanoWalletContract';
 import { makeCardanoWallet } from '../common/makeCardanoWallet';
+import { ReactComponent as NamiLogo } from './nami-icon.svg';
 
 export const Nami: CardanoWalletContract = makeCardanoWallet({
   variableName: 'nami',
@@ -10,5 +10,5 @@ export const Nami: CardanoWalletContract = makeCardanoWallet({
     'https://chrome.google.com/webstore/detail/nami/lpfcbjknijpeeillifnkikgncikgfhdo?hl=en',
   walletSupportedFeatures: { createPool: true },
   name: 'Nami',
-  icon: <NamiLogo width={26} height={26} />,
+  icon: <NamiLogo />,
 });

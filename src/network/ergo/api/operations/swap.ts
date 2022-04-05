@@ -1,4 +1,4 @@
-import { Observable, of, retry } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { AmmPool } from '../../../../common/models/AmmPool';
 import { Currency } from '../../../../common/models/Currency';
