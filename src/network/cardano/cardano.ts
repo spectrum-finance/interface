@@ -1,10 +1,12 @@
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
+import { AmmPool } from '../../common/models/AmmPool';
 import { Balance } from '../../common/models/Balance';
 import { Currency } from '../../common/models/Currency';
+import { TxId } from '../../common/types';
 import { Network } from '../common/Network';
 import { networkAsset } from './api/networkAsset/networkAsset';
-import { CardanoWalletContract } from './api/wallet/CardanoWalletContract';
+import { CardanoWalletContract } from './api/wallet/common/CardanoWalletContract';
 import {
   availableWallets,
   connectWallet,
@@ -33,4 +35,7 @@ export const cardanoNetwork: Network<CardanoWalletContract> = {
   walletState$: walletState$,
   selectedWallet$: selectedWallet$,
   supportedFeatures$: supportedWalletFeatures$,
+  swap(pool: AmmPool, from: Currency, to: Currency): Observable<TxId> {
+    return of('');
+  },
 };

@@ -3,7 +3,7 @@ import { filter, map, Observable, publishReplay, refCount } from 'rxjs';
 
 import { WalletState, WalletSupportedFeatures } from '../../../common/Wallet';
 import { makeWalletManager } from '../../../common/WalletManager';
-import { CardanoWalletContract } from './CardanoWalletContract';
+import { CardanoWalletContract } from './common/CardanoWalletContract';
 import { Eternl } from './eternl/eternl';
 import { Flint } from './flint/flint';
 import { Gero } from './gero/gero';

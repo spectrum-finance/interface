@@ -10,6 +10,7 @@ import { lpBalance$ } from './api/balance/lpBalance';
 import { networkAssetBalance$ } from './api/balance/networkAssetBalance';
 import { locks$ } from './api/locks/locks';
 import { networkAsset } from './api/networkAsset/networkAsset';
+import { swap } from './api/operations/swap';
 import { positions$ } from './api/positions/positions';
 import { txHistoryManager } from './api/transactionHistory/transactionHistory';
 import { ErgoWalletContract } from './api/wallet/common/ErgoWalletContract';
@@ -41,4 +42,5 @@ export const ergoNetwork: Network<ErgoWalletContract> = {
   walletState$,
   selectedWallet$,
   supportedFeatures$: supportedWalletFeatures$,
+  swap,
 };
