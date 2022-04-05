@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ergodex-frontend\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-04-02 06:47\n"
+"PO-Revision-Date: 2022-04-05 20:08\n"
 "Last-Translator: \n"
 "Language: he_IL\n"
 "Language-Team: Hebrew\n"
@@ -26,7 +26,7 @@ msgstr "(בטלי נעילת בלוק: {0})"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "- By creating an order you send your funds to a specific smart-contract, all such contracts are wired into the UI. Thus, orders are created entirely in your browser (on your machine)."
-msgstr "- על ידי יצירת פקודה אתה שולח את המטבעות שלך לחוזה חכם מסוים; כל החוזים האלה מתחברים לתוך ממשק המשתמש. לפיכך, פקודות נוצרות בתוך הדפדפן שלך בלבד (במחשב שלך)."
+msgstr "- על ידי יצירת פקודה אתה שולח את המטבעות שלך לחוזה חכם מסוים; כל החוזים האלה מתחברים אל ממשק המשתמש. לפיכך, פקודות נוצרות בתוך הדפדפן שלך בלבד (במחשב שלך)."
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "- ErgoDEX operates on a live blockchain, thus trades are final, and irreversible once they have status «executed»;"
@@ -34,7 +34,7 @@ msgstr "- ErgoDEX פועל בבלוקצ'יין \"חי\", לפיכך פעולות
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "- Every transaction can be viewed via"
-msgstr "- ניתן לצפות בכל פעולת מסחר דרך"
+msgstr "- ניתן לצפות בכל פעולת מסחר דרך/באמצעות"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
 msgid "0.3% fee"
@@ -58,7 +58,7 @@ msgstr "עמלה 1%"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "1. You will use the product at your own peril and risk;"
-msgstr "1. תשתמש במוצר על אחריותך בלבד;"
+msgstr "1. השימוש במוצר על אחריותך בלבד;"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "2. Only YOU are responsible for your assets;"
