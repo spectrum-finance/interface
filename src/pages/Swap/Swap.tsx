@@ -14,10 +14,6 @@ import {
   switchMap,
 } from 'rxjs';
 
-import { getAmmPoolsByAssetPair } from '../../api/ammPools';
-import { useAssetsBalance } from '../../api/assetBalance';
-import { getAvailableAssetFor, tokenAssets$ } from '../../api/assets';
-import { useNetworkAsset } from '../../api/networkAsset';
 import { useSubscription } from '../../common/hooks/useObservable';
 import { AmmPool } from '../../common/models/AmmPool';
 import { Currency } from '../../common/models/Currency';
@@ -39,6 +35,10 @@ import {
   Typography,
   useForm,
 } from '../../ergodex-cdk';
+import { getAmmPoolsByAssetPair } from '../../gateway/ammPools';
+import { useAssetsBalance } from '../../gateway/assetBalance';
+import { getAvailableAssetFor, tokenAssets$ } from '../../gateway/assets';
+import { useNetworkAsset } from '../../gateway/networkAsset';
 import { useMaxTotalFees } from '../../services/new/core';
 import { OperationSettings } from './OperationSettings/OperationSettings';
 import { PoolSelector } from './PoolSelector/PoolSelector';

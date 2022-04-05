@@ -3,7 +3,6 @@ import { t, Trans } from '@lingui/macro';
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
 
-import { getPositionByAmmPoolId } from '../../../api/positions';
 import { useSubject } from '../../../common/hooks/useObservable';
 import { AssetLock, AssetLockStatus } from '../../../common/models/AssetLock';
 import { FormPairSection } from '../../../components/common/FormView/FormPairSection/FormPairSection';
@@ -26,6 +25,7 @@ import {
   Typography,
   useForm,
 } from '../../../ergodex-cdk';
+import { getPositionByAmmPoolId } from '../../../gateway/positions';
 import { LockedPositionItem } from '../components/LockedPositionItem/LockedPositionItem';
 import { WithdrawalLiquidityConfirmationModal } from './WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal';
 

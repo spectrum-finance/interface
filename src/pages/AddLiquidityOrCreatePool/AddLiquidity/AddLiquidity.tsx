@@ -4,7 +4,6 @@ import { maxBy } from 'lodash';
 import React, { FC, useEffect, useState } from 'react';
 import { skip } from 'rxjs';
 
-import { useAssetsBalance } from '../../../api/assetBalance';
 import { useSubscription } from '../../../common/hooks/useObservable';
 import { AmmPool } from '../../../common/models/AmmPool';
 import { Currency } from '../../../common/models/Currency';
@@ -26,6 +25,7 @@ import {
   PlusOutlined,
   useForm,
 } from '../../../ergodex-cdk';
+import { useAssetsBalance } from '../../../gateway/assetBalance';
 import { useMaxTotalFees, useNetworkAsset } from '../../../services/new/core';
 import { PoolRatio } from '../../PoolOverview/PoolRatio/PoolRatio';
 import { normalizeAmountWithFee } from '../common/utils';

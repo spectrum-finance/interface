@@ -5,7 +5,6 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
 import { skip } from 'rxjs';
 
-import { getPositionByAmmPoolId } from '../../../api/positions';
 import {
   useObservable,
   useSubject,
@@ -31,6 +30,7 @@ import {
   LockOutlined,
   useForm,
 } from '../../../ergodex-cdk';
+import { getPositionByAmmPoolId } from '../../../gateway/positions';
 import { LiquidityDatePicker } from '../components/LockLiquidityDatePicker/LiquidityDatePicker';
 import { LockLiquidityConfirmationModal } from './LockLiquidityConfirmationModal/LockLiquidityConfirmationModal';
 import { LockLiquidityModel } from './LockLiquidityModel';

@@ -3,7 +3,6 @@ import { t, Trans } from '@lingui/macro';
 import React, { useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 
-import { getPositionByAmmPoolId } from '../../api/positions';
 import { applicationConfig } from '../../applicationConfig';
 import { ReactComponent as RelockIcon } from '../../assets/icons/relock-icon.svg';
 import { ReactComponent as WithdrawalIcon } from '../../assets/icons/withdrawal-icon.svg';
@@ -22,6 +21,7 @@ import {
   Skeleton,
   Typography,
 } from '../../ergodex-cdk';
+import { getPositionByAmmPoolId } from '../../gateway/positions';
 import { getAmmPoolConfidenceAnalyticByAmmPoolId } from './AmmPoolConfidenceAnalytic';
 import { LockLiquidityChart } from './LockLiquidityChart/LockLiquidityChart';
 import { PoolFeeTag } from './PoolFeeTag/PoolFeeTag';

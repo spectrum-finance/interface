@@ -4,7 +4,6 @@ import React, { FC, useEffect } from 'react';
 import { useParams } from 'react-router';
 import { skip } from 'rxjs';
 
-import { getPositionByAmmPoolId } from '../../../api/positions';
 import {
   useObservable,
   useSubject,
@@ -23,6 +22,7 @@ import { PageHeader } from '../../../components/Page/PageHeader/PageHeader';
 import { PageSection } from '../../../components/Page/PageSection/PageSection';
 import { SubmitButton } from '../../../components/SubmitButton/SubmitButton';
 import { Flex, Form, FormGroup, Skeleton, useForm } from '../../../ergodex-cdk';
+import { getPositionByAmmPoolId } from '../../../gateway/positions';
 import { RemoveLiquidityConfirmationModal } from './RemoveLiquidityConfirmationModal/RemoveLiquidityConfirmationModal';
 
 interface RemoveFormModel {

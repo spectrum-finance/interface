@@ -4,10 +4,6 @@ import { t, Trans } from '@lingui/macro';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 
-import { ammPools$ } from '../../api/ammPools';
-import { useAssetsBalance } from '../../api/assetBalance';
-import { positions$ } from '../../api/positions';
-import { isWalletSetuped$ } from '../../api/wallets';
 import { useObservable } from '../../common/hooks/useObservable';
 import { AmmPool } from '../../common/models/AmmPool';
 import { ConnectWalletButton } from '../../components/common/ConnectWalletButton/ConnectWalletButton';
@@ -22,6 +18,10 @@ import {
   SearchOutlined,
   Tabs,
 } from '../../ergodex-cdk';
+import { ammPools$ } from '../../gateway/ammPools';
+import { useAssetsBalance } from '../../gateway/assetBalance';
+import { positions$ } from '../../gateway/positions';
+import { isWalletSetuped$ } from '../../gateway/wallets';
 import { useQuery } from '../../hooks/useQuery';
 import { EmptyPositionsList } from './common/EmptyPositionsList/EmptyPositionsList';
 import { LiquidityPositionsList } from './components/LiquidityPositionsList/LiquidityPositionsList';

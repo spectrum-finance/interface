@@ -2,7 +2,6 @@ import { Trans } from '@lingui/macro';
 import React, { FC, useEffect } from 'react';
 import styled from 'styled-components';
 
-import { getAmmPoolsByAssetPair } from '../../../api/ammPools';
 import { useSubject } from '../../../common/hooks/useObservable';
 import { AmmPool } from '../../../common/models/AmmPool';
 import { DataTag } from '../../../components/common/DataTag/DataTag';
@@ -18,6 +17,7 @@ import {
   Modal,
   Typography,
 } from '../../../ergodex-cdk';
+import { getAmmPoolsByAssetPair } from '../../../gateway/ammPools';
 import { formatToUSD } from '../../../services/number';
 import { PoolSelectorModal } from './PoolSelectorModal/PoolSelectorModal';
 

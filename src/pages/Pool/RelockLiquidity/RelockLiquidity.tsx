@@ -5,8 +5,6 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
 import { map } from 'rxjs';
 
-import { ergoExplorerContext$ } from '../../../api/explorer';
-import { getPositionByAmmPoolId } from '../../../api/positions';
 import { useObservable, useSubject } from '../../../common/hooks/useObservable';
 import { AssetLock } from '../../../common/models/AssetLock';
 import {
@@ -30,6 +28,8 @@ import {
   Typography,
   useForm,
 } from '../../../ergodex-cdk';
+import { ergoExplorerContext$ } from '../../../gateway/explorer';
+import { getPositionByAmmPoolId } from '../../../gateway/positions';
 import { LockedPositionItem } from '../components/LockedPositionItem/LockedPositionItem';
 import { LiquidityDatePicker } from '../components/LockLiquidityDatePicker/LiquidityDatePicker';
 import { RelockLiquidityConfirmationModal } from './RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal';

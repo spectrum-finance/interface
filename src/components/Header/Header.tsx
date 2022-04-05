@@ -4,11 +4,11 @@ import cn from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { isBrowser } from 'react-device-detect';
 
-import { useAssetsBalance } from '../../api/assetBalance';
-import { useNetworkAsset } from '../../api/networkAsset';
-import { selectedWalletState$ } from '../../api/wallets';
 import { useObservable } from '../../common/hooks/useObservable';
 import { useSettings } from '../../context';
+import { useAssetsBalance } from '../../gateway/assetBalance';
+import { useNetworkAsset } from '../../gateway/networkAsset';
+import { selectedWalletState$ } from '../../gateway/wallets';
 import { WalletState } from '../../network/common/Wallet';
 import { AppLogo } from '../common/AppLogo/AppLogo';
 import { TxHistory } from '../common/TxHistory/TxHistory';

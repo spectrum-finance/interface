@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { useAssetsBalance } from '../../../api/assetBalance';
 import { Flex, List } from '../../../ergodex-cdk';
+import { useAssetsBalance } from '../../../gateway/assetBalance';
 import { TokenListItem } from './TokenListItem/TokenListItem';
 
 export const TokensTab: React.FC = () => {

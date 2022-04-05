@@ -2,12 +2,12 @@ import { Address, PublicKey, publicKeyFromAddress } from '@ergolabs/ergo-sdk';
 import { useLocalStorage } from '@rehooks/local-storage';
 import React, { createContext, useContext, useEffect } from 'react';
 
-import { getUnusedAddresses, getUsedAddresses } from '../api/addresses';
 import { ERG_EXPLORER_URL } from '../common/constants/env';
 import { MIN_NITRO } from '../common/constants/erg';
 import { DEFAULT_LOCALE, SupportedLocale } from '../common/constants/locales';
 import { defaultMinerFee, defaultSlippage } from '../common/constants/settings';
 import { useObservable } from '../common/hooks/useObservable';
+import { getUnusedAddresses, getUsedAddresses } from '../gateway/addresses';
 import { isDarkOsTheme } from '../utils/osTheme';
 
 export type Settings = {

@@ -3,10 +3,10 @@ import { cache } from 'decorator-cache-getter';
 import { DateTime } from 'luxon';
 import { combineLatest, map, Observable, of, switchMap } from 'rxjs';
 
-import { getAmmPoolById } from '../../api/ammPools';
 import { AmmPool } from '../../common/models/AmmPool';
 import { Currency } from '../../common/models/Currency';
 import { Dictionary } from '../../common/utils/Dictionary';
+import { getAmmPoolById } from '../../gateway/ammPools';
 import { networkContext$ } from '../../network/ergo/api/networkContext/networkContext';
 import {
   AmmPoolLocksAnalytic,

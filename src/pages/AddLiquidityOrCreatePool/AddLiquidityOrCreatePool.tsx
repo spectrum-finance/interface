@@ -15,9 +15,6 @@ import {
   switchMap,
 } from 'rxjs';
 
-import { getAmmPoolById, getAmmPoolsByAssetPair } from '../../api/ammPools';
-import { assetBalance$ } from '../../api/assetBalance';
-import { selectedWallet$ } from '../../api/wallets';
 import {
   useObservable,
   useSubscription,
@@ -27,6 +24,9 @@ import { TokeSelectFormItem } from '../../components/common/TokenControl/TokenSe
 import { Page } from '../../components/Page/Page';
 import { Section } from '../../components/Section/Section';
 import { Flex, Form, Skeleton, useForm } from '../../ergodex-cdk';
+import { getAmmPoolById, getAmmPoolsByAssetPair } from '../../gateway/ammPools';
+import { assetBalance$ } from '../../gateway/assetBalance';
+import { selectedWallet$ } from '../../gateway/wallets';
 import { useNetworkAsset } from '../../services/new/core';
 import { AddLiquidity } from './AddLiquidity/AddLiquidity';
 import { CreatePool } from './CreatePool/CreatePool';

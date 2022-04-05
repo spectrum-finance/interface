@@ -3,7 +3,6 @@ import { t, Trans } from '@lingui/macro';
 import React, { FC, ReactNode } from 'react';
 import { Observable, of } from 'rxjs';
 
-import { useAssetsBalance } from '../../../api/assetBalance';
 import { useObservable } from '../../../common/hooks/useObservable';
 import { Currency } from '../../../common/models/Currency';
 import {
@@ -15,6 +14,7 @@ import {
   Typography,
   useFormContext,
 } from '../../../ergodex-cdk';
+import { useAssetsBalance } from '../../../gateway/assetBalance';
 import {
   TokenAmountInput,
   TokenAmountInputValue,

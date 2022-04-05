@@ -2,12 +2,6 @@ import { Trans } from '@lingui/macro';
 import React, { ReactNode, useState } from 'react';
 import styled from 'styled-components';
 
-import {
-  connectWallet,
-  disconnectWallet,
-  selectedWallet$,
-  wallets$,
-} from '../../../../api/wallets';
 import { useObservable } from '../../../../common/hooks/useObservable';
 import { useSettings } from '../../../../context';
 import {
@@ -22,6 +16,12 @@ import {
   Tag,
   Typography,
 } from '../../../../ergodex-cdk';
+import {
+  connectWallet,
+  disconnectWallet,
+  selectedWallet$,
+  wallets$,
+} from '../../../../gateway/wallets';
 import { Wallet } from '../../../../network/common/Wallet';
 
 const { Body } = Typography;

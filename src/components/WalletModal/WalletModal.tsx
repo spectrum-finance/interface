@@ -1,10 +1,10 @@
 import { Trans } from '@lingui/macro';
 import React from 'react';
 
-import { networkAssetBalance$ } from '../../api/networkAssetBalance';
 import { useObservable } from '../../common/hooks/useObservable';
 import { Box, Button, Flex, Modal, Typography } from '../../ergodex-cdk';
 import { Tabs } from '../../ergodex-cdk/components/Tabs/Tabs';
+import { networkAssetBalance$ } from '../../gateway/networkAssetBalance';
 import { isLowBalance } from '../../utils/walletMath';
 import { ChooseWalletModal } from '../common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal';
 import { AddressesTab } from './AddressesTab/AddressesTab';

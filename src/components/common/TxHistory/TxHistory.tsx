@@ -1,7 +1,6 @@
 import { t } from '@lingui/macro';
 import React from 'react';
 
-import { isTransactionsHistorySyncing$ } from '../../../api/transactionsHistory';
 import { useObservable } from '../../../common/hooks/useObservable';
 import {
   Button,
@@ -10,6 +9,7 @@ import {
   Modal,
   Tooltip,
 } from '../../../ergodex-cdk';
+import { isTransactionsHistorySyncing$ } from '../../../gateway/transactionsHistory';
 import { TxHistoryModal } from './TxHistoryModal/TxHistoryModal';
 
 const TxHistory = (): JSX.Element => {
