@@ -1,9 +1,9 @@
 import { BehaviorSubject, Observable } from 'rxjs';
 
 import { useObservable } from '../common/hooks/useObservable';
-import { cardanoNetwork } from './cardano/cardano';
-import { Network } from './common/Network';
-import { ergoNetwork } from './ergo/ergo';
+import { cardanoNetwork } from '../network/cardano/cardano';
+import { Network } from '../network/common/Network';
+import { ergoNetwork } from '../network/ergo/ergo';
 
 const updateSelectedNetwork$ = new BehaviorSubject<Network<any>>(ergoNetwork);
 

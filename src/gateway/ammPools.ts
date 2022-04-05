@@ -3,7 +3,7 @@ import { map, Observable, publishReplay, refCount, switchMap } from 'rxjs';
 
 import { applicationConfig } from '../applicationConfig';
 import { AmmPool } from '../common/models/AmmPool';
-import { selectedNetwork$ } from '../network/network';
+import { selectedNetwork$ } from './network';
 
 const byTvl = (poolA: AmmPool, poolB: AmmPool): number => {
   if (!poolA.tvl) {

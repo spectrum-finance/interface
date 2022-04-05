@@ -2,8 +2,8 @@ import { map, Observable, of, publishReplay, refCount, switchMap } from 'rxjs';
 
 import { AmmPool } from '../common/models/AmmPool';
 import { Position } from '../common/models/Position';
-import { selectedNetwork$ } from '../network/network';
 import { ammPools$ } from './ammPools';
+import { selectedNetwork$ } from './network';
 
 export const positions$ = selectedNetwork$.pipe(
   switchMap((network) => network.positions$),

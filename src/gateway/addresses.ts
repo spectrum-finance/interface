@@ -8,7 +8,7 @@ import {
 } from 'rxjs';
 
 import { appTick$ } from '../common/streams/appTick';
-import { selectedNetwork$ } from '../network/network';
+import { selectedNetwork$ } from './network';
 
 export const addresses$ = appTick$.pipe(
   switchMapTo(selectedNetwork$),

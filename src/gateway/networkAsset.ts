@@ -3,7 +3,7 @@ import { map, publishReplay, refCount } from 'rxjs';
 
 import { useObservable } from '../common/hooks/useObservable';
 import { ergoNetwork } from '../network/ergo/ergo';
-import { selectedNetwork$ } from '../network/network';
+import { selectedNetwork$ } from './network';
 
 export const networkAsset$ = selectedNetwork$.pipe(
   map((n) => n.networkAsset),
