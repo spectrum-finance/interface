@@ -1,4 +1,10 @@
-import { BehaviorSubject, Observable } from 'rxjs';
+import {
+  BehaviorSubject,
+  distinctUntilKeyChanged,
+  Observable,
+  publishReplay,
+  refCount,
+} from 'rxjs';
 
 import { useObservable } from '../../common/hooks/useObservable';
 import { cardanoNetwork } from '../../network/cardano/cardano';
@@ -13,7 +19,11 @@ export const changeSelectedNetwork = (network: Network<any>): void =>
   updateSelectedNetwork$.next(network);
 
 export const selectedNetwork$: Observable<Network<any>> =
-  updateSelectedNetwork$.asObservable();
+  updateSelectedNetwork$.pipe(
+    distinctUntilKeyChanged('name'),
+    publishReplay(1),
+    refCount(),
+  );
 
 export const useSelectedNetwork = (): [Network<any>, boolean, Error] =>
   useObservable(selectedNetwork$, [], ergoNetwork);

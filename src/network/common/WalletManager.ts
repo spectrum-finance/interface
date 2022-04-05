@@ -74,11 +74,11 @@ export const makeWalletManager = <W extends Wallet>(
   };
 
   const setSelectedWallet = (wallet: W) => {
+    const prevWallet = getCurrentWallet();
+
     return getWalletConnectionCheck(wallet).pipe(
       tap((status) => {
         if (typeof status === 'boolean' && status) {
-          const prevWallet = getCurrentWallet();
-
           prevWallet?.onDisconnect && prevWallet.onDisconnect();
           wallet.onConnect && wallet.onConnect();
           localStorageManager.set<WalletDescriptor>(

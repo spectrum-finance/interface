@@ -12,12 +12,12 @@ import {
   switchMap,
 } from 'rxjs';
 
-import { explorer } from '../../../../services/explorer';
 import {
   Asset,
   getListAvailableTokens,
 } from '../../../../utils/getListAvailableTokens';
 import { utxos$ } from '../utxos/utxos';
+import { getFullTokenInfo } from './tokenInfoManager';
 
 const toListAvailableTokens = (utxos: ErgoBox[]): Asset[] =>
   Object.values(getListAvailableTokens(utxos));
@@ -31,7 +31,7 @@ export const availableTokensData$: Observable<[bigint, AssetInfo][]> =
     switchMap((boxAssets) =>
       combineLatest<[bigint, AugAssetInfo][]>(
         boxAssets.map((ba) =>
-          from(explorer.getFullTokenInfo(ba.tokenId)).pipe(
+          from(getFullTokenInfo(ba.tokenId)).pipe(
             map((assetInfo) => [ba.amount, assetInfo as AugAssetInfo]),
           ),
         ),

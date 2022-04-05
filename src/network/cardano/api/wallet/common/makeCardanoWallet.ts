@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { from, Observable, throwError } from 'rxjs';
+import { catchError, from, Observable, of, throwError } from 'rxjs';
 
 import {
   WalletDefinition,
@@ -33,6 +33,8 @@ export const makeCardanoWallet = ({
     if (!cardano || !cardano[variableName]) {
       return throwError(() => new Error('EXTENSION_NOT_FOUND'));
     }
-    return from(cardano[variableName].enable().then(() => true)) as any;
+    return from(cardano[variableName].enable().then(() => true)).pipe(
+      catchError(() => of(false)),
+    ) as any;
   },
 });

@@ -14,7 +14,7 @@ import { WalletActiveAddress } from './WalletActiveAddress/WalletActiveAddress';
 import { WalletTotalBalance } from './WalletTotalBalance/WalletTotalBalance';
 
 export const WalletModal: React.FC = () => {
-  const [ergBalance] = useObservable(networkAssetBalance$);
+  const [networkAssetBalance] = useObservable(networkAssetBalance$);
 
   const openChooseWalletModal = (): void => {
     Modal.open(({ close }) => <ChooseWalletModal close={close} />);
@@ -31,9 +31,9 @@ export const WalletModal: React.FC = () => {
       <Modal.Content width={470}>
         <Flex col>
           <Flex.Item marginBottom={4}>
-            <WalletTotalBalance balance={ergBalance} />
+            <WalletTotalBalance balance={networkAssetBalance} />
           </Flex.Item>
-          {isLowBalance(Number(ergBalance)) && (
+          {isLowBalance(Number(networkAssetBalance)) && (
             <Flex.Item marginBottom={4}>
               <LowBalanceWarning />
             </Flex.Item>
