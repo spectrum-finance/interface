@@ -7,8 +7,8 @@ import {
   switchMap,
 } from 'rxjs';
 
-import { Wallet, WalletState } from '../network/common/Wallet';
-import { selectedNetwork$ } from './network';
+import { Wallet, WalletState } from '../../network/common/Wallet';
+import { selectedNetwork$ } from '../common/network';
 
 export const wallets$ = selectedNetwork$.pipe(
   map((n) => n.availableWallets),

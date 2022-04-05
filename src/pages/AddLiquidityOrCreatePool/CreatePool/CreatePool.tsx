@@ -18,7 +18,7 @@ import {
 import { RatioBox } from '../../../components/RatioBox/RatioBox';
 import { Section } from '../../../components/Section/Section';
 import { Flex, Form, FormGroup, useForm } from '../../../ergodex-cdk';
-import { useAssetsBalance } from '../../../gateway/assetBalance';
+import { useAssetsBalance } from '../../../gateway/api/assetBalance';
 import { useMaxTotalFees, useNetworkAsset } from '../../../services/new/core';
 import { normalizeAmountWithFee } from '../common/utils';
 import { LiquidityPercentInput } from '../LiquidityPercentInput/LiquidityPercentInput';

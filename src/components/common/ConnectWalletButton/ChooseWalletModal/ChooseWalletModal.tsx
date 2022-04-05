@@ -21,7 +21,7 @@ import {
   disconnectWallet,
   selectedWallet$,
   wallets$,
-} from '../../../../gateway/wallets';
+} from '../../../../gateway/api/wallets';
 import { Wallet } from '../../../../network/common/Wallet';
 
 const { Body } = Typography;

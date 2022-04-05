@@ -1,6 +1,6 @@
 import { map, publishReplay, refCount, switchMap } from 'rxjs';
 
-import { selectedNetwork$ } from './network';
+import { selectedNetwork$ } from '../common/network';
 
 export const locks$ = selectedNetwork$.pipe(
   switchMap((network) => network.locks$),

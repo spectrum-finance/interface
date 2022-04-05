@@ -35,10 +35,10 @@ import {
   Typography,
   useForm,
 } from '../../ergodex-cdk';
-import { getAmmPoolsByAssetPair } from '../../gateway/ammPools';
-import { useAssetsBalance } from '../../gateway/assetBalance';
-import { getAvailableAssetFor, tokenAssets$ } from '../../gateway/assets';
-import { useNetworkAsset } from '../../gateway/networkAsset';
+import { getAmmPoolsByAssetPair } from '../../gateway/api/ammPools';
+import { useAssetsBalance } from '../../gateway/api/assetBalance';
+import { getAvailableAssetFor, tokenAssets$ } from '../../gateway/api/assets';
+import { useNetworkAsset } from '../../gateway/api/networkAsset';
 import { useMaxTotalFees } from '../../services/new/core';
 import { OperationSettings } from './OperationSettings/OperationSettings';
 import { PoolSelector } from './PoolSelector/PoolSelector';

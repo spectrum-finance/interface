@@ -12,12 +12,12 @@ import {
   Skeleton,
   Typography,
 } from '../../../../ergodex-cdk';
-import { addresses$ } from '../../../../gateway/addresses';
+import { addresses$ } from '../../../../gateway/api/addresses';
 import {
   isTransactionsHistorySyncing$,
   syncTransactionsHistory,
   transactionsHistory$,
-} from '../../../../gateway/transactionsHistory';
+} from '../../../../gateway/api/transactionsHistory';
 import { isRefundableOperation } from '../../../../utils/ammOperations';
 import { exploreTx } from '../../../../utils/redirect';
 import {

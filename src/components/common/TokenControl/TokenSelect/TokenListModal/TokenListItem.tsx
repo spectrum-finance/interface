@@ -4,7 +4,7 @@ import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import React from 'react';
 
 import { Box, Flex, Typography } from '../../../../../ergodex-cdk';
-import { useAssetsBalance } from '../../../../../gateway/assetBalance';
+import { useAssetsBalance } from '../../../../../gateway/api/assetBalance';
 import { TokenIcon } from '../../../../TokenIcon/TokenIcon';
 
 interface TokenListItemProps {

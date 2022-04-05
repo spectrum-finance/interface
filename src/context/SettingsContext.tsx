@@ -7,7 +7,7 @@ import { MIN_NITRO } from '../common/constants/erg';
 import { DEFAULT_LOCALE, SupportedLocale } from '../common/constants/locales';
 import { defaultMinerFee, defaultSlippage } from '../common/constants/settings';
 import { useObservable } from '../common/hooks/useObservable';
-import { getUnusedAddresses, getUsedAddresses } from '../gateway/addresses';
+import { getUnusedAddresses, getUsedAddresses } from '../gateway/api/addresses';
 import { isDarkOsTheme } from '../utils/osTheme';
 
 export type Settings = {

@@ -24,9 +24,12 @@ import { TokeSelectFormItem } from '../../components/common/TokenControl/TokenSe
 import { Page } from '../../components/Page/Page';
 import { Section } from '../../components/Section/Section';
 import { Flex, Form, Skeleton, useForm } from '../../ergodex-cdk';
-import { getAmmPoolById, getAmmPoolsByAssetPair } from '../../gateway/ammPools';
-import { assetBalance$ } from '../../gateway/assetBalance';
-import { selectedWallet$ } from '../../gateway/wallets';
+import {
+  getAmmPoolById,
+  getAmmPoolsByAssetPair,
+} from '../../gateway/api/ammPools';
+import { assetBalance$ } from '../../gateway/api/assetBalance';
+import { selectedWallet$ } from '../../gateway/api/wallets';
 import { useNetworkAsset } from '../../services/new/core';
 import { AddLiquidity } from './AddLiquidity/AddLiquidity';
 import { CreatePool } from './CreatePool/CreatePool';

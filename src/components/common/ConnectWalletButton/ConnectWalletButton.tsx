@@ -7,7 +7,7 @@ import React, { FC, ReactNode } from 'react';
 import { useObservable } from '../../../common/hooks/useObservable';
 import { useAppLoadingState } from '../../../context';
 import { Button, ButtonProps, Modal } from '../../../ergodex-cdk';
-import { isWalletSetuped$ } from '../../../gateway/wallets';
+import { isWalletSetuped$ } from '../../../gateway/api/wallets';
 import { ChooseWalletModal } from './ChooseWalletModal/ChooseWalletModal';
 
 export interface ConnectWalletButtonProps {

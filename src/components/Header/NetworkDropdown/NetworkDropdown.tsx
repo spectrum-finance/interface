@@ -18,7 +18,7 @@ import {
   changeSelectedNetwork,
   networks,
   useSelectedNetwork,
-} from '../../../gateway/network';
+} from '../../../gateway/common/network';
 import { TokenIcon } from '../../TokenIcon/TokenIcon';
 
 interface NetworkDropdownProps {

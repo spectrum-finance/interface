@@ -1,6 +1,6 @@
 import { first, switchMap } from 'rxjs';
 
-import { selectedNetwork$ } from './network';
+import { selectedNetwork$ } from '../common/network';
 
 export const transactionsHistory$ = selectedNetwork$.pipe(
   switchMap((network) => network.txHistoryManager.transactionHistory$),

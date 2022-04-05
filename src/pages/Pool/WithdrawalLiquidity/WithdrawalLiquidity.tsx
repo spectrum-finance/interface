@@ -25,7 +25,7 @@ import {
   Typography,
   useForm,
 } from '../../../ergodex-cdk';
-import { getPositionByAmmPoolId } from '../../../gateway/positions';
+import { getPositionByAmmPoolId } from '../../../gateway/api/positions';
 import { LockedPositionItem } from '../components/LockedPositionItem/LockedPositionItem';
 import { WithdrawalLiquidityConfirmationModal } from './WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal';
 

@@ -17,7 +17,7 @@ import {
   Modal,
   Typography,
 } from '../../../ergodex-cdk';
-import { getAmmPoolsByAssetPair } from '../../../gateway/ammPools';
+import { getAmmPoolsByAssetPair } from '../../../gateway/api/ammPools';
 import { formatToUSD } from '../../../services/number';
 import { PoolSelectorModal } from './PoolSelectorModal/PoolSelectorModal';
 

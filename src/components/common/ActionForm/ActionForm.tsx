@@ -6,7 +6,7 @@ import { useObservable } from '../../../common/hooks/useObservable';
 import { Currency } from '../../../common/models/Currency';
 import { isOnline$ } from '../../../common/streams/networkConnection';
 import { Form, FormGroup } from '../../../ergodex-cdk';
-import { useAssetsBalance } from '../../../gateway/assetBalance';
+import { useAssetsBalance } from '../../../gateway/api/assetBalance';
 import { ActionButton } from './ActionButton/ActionButton';
 import { ActionButtonState, ActionFormContext } from './ActionFormContext';
 

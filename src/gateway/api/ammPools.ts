@@ -1,9 +1,9 @@
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
 import { map, Observable, publishReplay, refCount, switchMap } from 'rxjs';
 
-import { applicationConfig } from '../applicationConfig';
-import { AmmPool } from '../common/models/AmmPool';
-import { selectedNetwork$ } from './network';
+import { applicationConfig } from '../../applicationConfig';
+import { AmmPool } from '../../common/models/AmmPool';
+import { selectedNetwork$ } from '../common/network';
 
 const byTvl = (poolA: AmmPool, poolB: AmmPool): number => {
   if (!poolA.tvl) {

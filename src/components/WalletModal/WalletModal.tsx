@@ -4,7 +4,7 @@ import React from 'react';
 import { useObservable } from '../../common/hooks/useObservable';
 import { Box, Button, Flex, Modal, Typography } from '../../ergodex-cdk';
 import { Tabs } from '../../ergodex-cdk/components/Tabs/Tabs';
-import { networkAssetBalance$ } from '../../gateway/networkAssetBalance';
+import { networkAssetBalance$ } from '../../gateway/api/networkAssetBalance';
 import { isLowBalance } from '../../utils/walletMath';
 import { ChooseWalletModal } from '../common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal';
 import { AddressesTab } from './AddressesTab/AddressesTab';

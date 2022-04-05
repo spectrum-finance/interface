@@ -9,7 +9,7 @@ import {
   switchMap,
 } from 'rxjs';
 
-import { explorer } from '../services/explorer';
+import { explorer } from '../../services/explorer';
 
 const UPDATE_TIME = 1000 * 10;
 

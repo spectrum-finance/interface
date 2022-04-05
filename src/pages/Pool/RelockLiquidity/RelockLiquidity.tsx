@@ -28,8 +28,8 @@ import {
   Typography,
   useForm,
 } from '../../../ergodex-cdk';
-import { ergoExplorerContext$ } from '../../../gateway/explorer';
-import { getPositionByAmmPoolId } from '../../../gateway/positions';
+import { ergoExplorerContext$ } from '../../../gateway/api/explorer';
+import { getPositionByAmmPoolId } from '../../../gateway/api/positions';
 import { LockedPositionItem } from '../components/LockedPositionItem/LockedPositionItem';
 import { LiquidityDatePicker } from '../components/LockLiquidityDatePicker/LiquidityDatePicker';
 import { RelockLiquidityConfirmationModal } from './RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal';

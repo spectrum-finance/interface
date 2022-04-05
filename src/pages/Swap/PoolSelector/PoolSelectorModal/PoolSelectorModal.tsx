@@ -4,7 +4,7 @@ import React, { FC, useEffect } from 'react';
 import { useSubject } from '../../../../common/hooks/useObservable';
 import { AmmPool } from '../../../../common/models/AmmPool';
 import { Control, DialogRef, List, Modal } from '../../../../ergodex-cdk';
-import { getAmmPoolsByAssetPair } from '../../../../gateway/ammPools';
+import { getAmmPoolsByAssetPair } from '../../../../gateway/api/ammPools';
 import { PoolItemView } from './PoolItemView/PoolItemView';
 
 interface PoolSelectorModalProps extends DialogRef<boolean> {

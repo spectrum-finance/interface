@@ -6,7 +6,7 @@ import { combineLatest, map, Observable, of, switchMap } from 'rxjs';
 import { AmmPool } from '../../common/models/AmmPool';
 import { Currency } from '../../common/models/Currency';
 import { Dictionary } from '../../common/utils/Dictionary';
-import { getAmmPoolById } from '../../gateway/ammPools';
+import { getAmmPoolById } from '../../gateway/api/ammPools';
 import { networkContext$ } from '../../network/ergo/api/networkContext/networkContext';
 import {
   AmmPoolLocksAnalytic,

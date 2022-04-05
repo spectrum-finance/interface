@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom';
 import { useObservable } from '../../../../common/hooks/useObservable';
 import { AmmPool } from '../../../../common/models/AmmPool';
 import { Button, Flex, List, PlusOutlined } from '../../../../ergodex-cdk';
-import { isWalletSetuped$ } from '../../../../gateway/wallets';
+import { isWalletSetuped$ } from '../../../../gateway/api/wallets';
 import { EmptyPositionsList } from '../../common/EmptyPositionsList/EmptyPositionsList';
 import { EmptySearchResult } from '../../common/EmptySearchResult/EmptySearchResult';
 import { PositionListLoader } from '../PositionListLoader/PositionListLoader';

@@ -9,7 +9,7 @@ import {
   Modal,
   Tooltip,
 } from '../../../ergodex-cdk';
-import { isTransactionsHistorySyncing$ } from '../../../gateway/transactionsHistory';
+import { isTransactionsHistorySyncing$ } from '../../../gateway/api/transactionsHistory';
 import { TxHistoryModal } from './TxHistoryModal/TxHistoryModal';
 
 const TxHistory = (): JSX.Element => {

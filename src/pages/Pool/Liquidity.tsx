@@ -18,10 +18,10 @@ import {
   SearchOutlined,
   Tabs,
 } from '../../ergodex-cdk';
-import { ammPools$ } from '../../gateway/ammPools';
-import { useAssetsBalance } from '../../gateway/assetBalance';
-import { positions$ } from '../../gateway/positions';
-import { isWalletSetuped$ } from '../../gateway/wallets';
+import { ammPools$ } from '../../gateway/api/ammPools';
+import { useAssetsBalance } from '../../gateway/api/assetBalance';
+import { positions$ } from '../../gateway/api/positions';
+import { isWalletSetuped$ } from '../../gateway/api/wallets';
 import { useQuery } from '../../hooks/useQuery';
 import { EmptyPositionsList } from './common/EmptyPositionsList/EmptyPositionsList';
 import { LiquidityPositionsList } from './components/LiquidityPositionsList/LiquidityPositionsList';

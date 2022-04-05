@@ -8,7 +8,7 @@ import { ERG_DECIMALS } from '../../../common/constants/erg';
 import { useObservable } from '../../../common/hooks/useObservable';
 import { useSettings } from '../../../context';
 import { Box, Button, Flex, List, Typography } from '../../../ergodex-cdk';
-import { addresses$ } from '../../../gateway/addresses';
+import { addresses$ } from '../../../gateway/api/addresses';
 import { getBalance } from '../../../services/yoroi';
 import { renderFractions } from '../../../utils/math';
 import { getShortAddress } from '../../../utils/string/addres';
