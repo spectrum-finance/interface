@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ergodex-frontend\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-04-01 14:15\n"
+"PO-Revision-Date: 2022-04-05 20:08\n"
 "Last-Translator: \n"
 "Language: he_IL\n"
 "Language-Team: Hebrew\n"
@@ -26,15 +26,15 @@ msgstr "(בטלי נעילת בלוק: {0})"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "- By creating an order you send your funds to a specific smart-contract, all such contracts are wired into the UI. Thus, orders are created entirely in your browser (on your machine)."
-msgstr "- על ידי יצירת פקודה אתה שולח את המטבעות שלך לחוזה חכם מסוים; כל החוזים האלה מתחברים לתוך ממשק המשתמש. לפיכך, פקודות נוצרות בתוך הדפדפן שלך בלבד (במחשב שלך)."
+msgstr "- על ידי יצירת פקודה אתה שולח את המטבעות שלך לחוזה חכם מסוים; כל החוזים האלה מתחברים אל ממשק המשתמש. לפיכך, פקודות נוצרות בתוך הדפדפן שלך בלבד (במחשב שלך)."
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "- ErgoDEX operates on a live blockchain, thus trades are final, and irreversible once they have status «executed»;"
-msgstr "- ErgoDEX פועל בבלוקצ'יין \"חי\", לפיכך פעולות מסחר הן סופיות, ובלתי ניתנות לביטול משעה שהסטטוס שלהן «בוצע»;"
+msgstr "- ErgoDEX פועל בבלוקצ'יין \"חי\", לפיכך פעולות מסחר הן סופיות, ובלתי ניתנות לביטול משעה שהסטטוס שלהן הפך ל- «בוצע»;"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "- Every transaction can be viewed via"
-msgstr "- ניתן לצפות בכל פעולת מסחר דרך"
+msgstr "- ניתן לצפות בכל פעולת מסחר דרך/באמצעות"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
 msgid "0.3% fee"
@@ -58,7 +58,7 @@ msgstr "עמלה 1%"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "1. You will use the product at your own peril and risk;"
-msgstr "1. אתה תשתמש במוצר על אחריותך בלבד;"
+msgstr "1. השימוש במוצר על אחריותך בלבד;"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "2. Only YOU are responsible for your assets;"
@@ -155,7 +155,7 @@ msgstr "בכך שתקבל את ה-KYA הבאים, אתה מסכים כי:"
 
 #: src/pages/Swap/PoolSelector/PoolSelector.tsx
 msgid "Change"
-msgstr "שינוי"
+msgstr "החלף"
 
 #: src/components/WalletModal/WalletModal.tsx
 msgid "Change wallet"
@@ -184,7 +184,7 @@ msgstr "בחרי פּוּל"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Choose a fee"
-msgstr "בחר עמלה"
+msgstr "בחרי עמלה"
 
 #: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
 #: src/components/common/TxHistory/RefundConfirmationModal/RefundConfirmationModal.tsx
@@ -197,7 +197,7 @@ msgstr "אשרי הוסף נזילות"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidityConfirmationModal/LockLiquidityConfirmationModal.tsx
 msgid "Confirm Lock"
-msgstr "אשר חסימה"
+msgstr "אשרי חסימה"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
 msgid "Confirm Relock"
@@ -305,7 +305,7 @@ msgstr "רשת Ergo"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "ErgoDEX Smart Contracts"
-msgstr "חוזים חכמים של ErgoDEX"
+msgstr "החוזים חכמים של ErgoDEX"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "ErgoDEX Team doesn’t guarantee the absence of bugs and errors."
@@ -317,7 +317,7 @@ msgstr "ErgoDEX היא אפליקצייה פיננסית מבוזרת (DeFi), כ
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "ErgoDEX offers a form of added security, as buyers and sellers do not have to give their information to any 3rd party. However, ErgoDEX is without a know your customer (KYC) process and can offer NO assistance if a user is hacked or cheated out of passwords, currency or private wallet keys."
-msgstr "ErgoDEX מציעה הגנה נוספת, בכך שקונים ומוכרים אינם חייבים למסור מידע אודות עצמם לצד שלישי. למרות זאת, מאחר ואין ב-ErgoDEX תהליך של \"הכר את הלקוח\" (KYC), היא אינה יכולה להציע כל עזרה במקרה של פריצה לחשבון של משתמש, או שנגנבות ממנו ססמאות, כספים או מילות המפתח של הארנק."
+msgstr "ErgoDEX מציעה סוג של הגנה נוספת, בכך שקונים ומוכרים אינם חייבים למסור מידע אודות עצמם לצד שלישי. למרות זאת, מאחר ואין ב-ErgoDEX תהליך של \"הכר את הלקוח\" (KYC), היא אינה יכולה להציע כל עזרה במקרה של פריצה לחשבון של משתמש, או שנגנבות ממנו ססמאות, כספים או מילות המפתח של הארנק."
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
@@ -526,7 +526,7 @@ msgstr "מקסימום"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Max execution fee multiplier"
-msgstr "בחר מכפיל עמלת ביצוע מקסימלי"
+msgstr "מכפיל עמלת ביצוע מקסימלי"
 
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
 msgid "Maximum received:"
@@ -593,7 +593,7 @@ msgstr "לא נמצאו תוצאות"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "Notice that:"
-msgstr "שימי לב ש:"
+msgstr "שימי לב לכך:"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
 msgid "Once LP-tokens are locked they cannot be withdrawn under any circumstances until the timer has expired. Please ensure the parameters are correct, as they are final."
@@ -617,7 +617,7 @@ msgstr "נזילות פּוּל"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Pool overview"
-msgstr "סקירה כללית של הפּוּל"
+msgstr "סקירה כללית של הפּוּלים"
 
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidityConfirmationModal/RemoveLiquidityConfirmationModal.tsx
 msgid "Pooled assets"
@@ -869,7 +869,7 @@ msgstr "סך הכל נעול"
 
 #: src/pages/Pool/components/LocksList/LockItemView/LockItemView.tsx
 msgid "Total withdrawable"
-msgstr "סכום כולל? שניתן למשיכה"
+msgstr "כל הסכום שניתן למשיכה"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Transaction Settings"
@@ -936,15 +936,15 @@ msgstr "השתמש בגירסת דסקטופ ובדפדפן גוגל כרום"
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
 msgid "View on Explorer"
-msgstr "צפה ב-Explorer"
+msgstr "צפה באמצעות הסייר"
 
 #: src/components/WalletModal/WalletActiveAddress/WalletActiveAddress.tsx
 msgid "View on explorer"
-msgstr "צפה בסייר"
+msgstr "צפה באמצעות הסייר"
 
 #: src/components/common/ExploreButton/ExploreButton.tsx
 msgid "View on explorer."
-msgstr "צפה בסייר."
+msgstr "צפה באמצעות הסייר."
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Waiting for confirmation"
@@ -1000,7 +1000,7 @@ msgstr "הפעולה שלך תבוצע בפּוּל הנוכחי. <0/> את יכ
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Your transaction may be frontrun"
-msgstr "יתכן שמישהו יטרים את הטרנזאקציה שלך"
+msgstr "יתכן שמישהו יטרים (frontrun) את הטרנזאקציה שלך"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Your transaction may fail"
@@ -1012,11 +1012,11 @@ msgstr "הטרנזאקציה שלך תבוטל אם המחיר ישתנה לרע
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "explorer"
-msgstr "סייר Ergo"
+msgstr "סייר Ergo/אקפלורר/סייר - או הסייר, האקספלורר"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "meet your expectations."
-msgstr "עני על הציפיות שלך."
+msgstr "עונים על הציפיות שלך."
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "only on top of the Ergo Blockchain."
