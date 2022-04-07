@@ -67,7 +67,7 @@ const LockLiquidityConfirmationModal: React.FC<LockLiquidityConfirmationModalPro
 
       const minNErgForFee = minerFeeNErgs * 2n + MinBoxValue;
 
-      const target = makeTarget([lpToLock], minNErgForFee);
+      const target = makeTarget([lpToLock as any], minNErgForFee);
 
       const inputs = DefaultBoxSelector.select(utxos!, target) as BoxSelection;
 

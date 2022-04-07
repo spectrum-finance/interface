@@ -40,7 +40,7 @@ export const RemoveLiquidityConfirmationModal: React.FC<ConfirmRemoveModalProps>
 
     // TODO: add try catch
     const removeOperation = async (pool: AmmPool) => {
-      const actions = poolActions(pool['pool']);
+      const actions = poolActions(pool['pool'] as any);
       const lpToRemove = pool['pool'].lp.withAmount(lpAmount.amount);
 
       const poolId = pool.id;
@@ -53,7 +53,7 @@ export const RemoveLiquidityConfirmationModal: React.FC<ConfirmRemoveModalProps>
         exFeeNErg,
       );
 
-      const target = makeTarget([lpToRemove], minFeeForOrder);
+      const target = makeTarget([lpToRemove as any], minFeeForOrder);
 
       const inputs = DefaultBoxSelector.select(utxos!, target) as BoxSelection;
 
@@ -64,7 +64,7 @@ export const RemoveLiquidityConfirmationModal: React.FC<ConfirmRemoveModalProps>
               {
                 poolId,
                 pk,
-                lp: lpToRemove,
+                lp: lpToRemove as any,
                 exFee: exFeeNErg,
                 uiFee: uiFeeNErg,
               },

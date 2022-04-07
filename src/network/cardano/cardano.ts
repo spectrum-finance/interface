@@ -5,7 +5,7 @@ import { Balance } from '../../common/models/Balance';
 import { Currency } from '../../common/models/Currency';
 import { TxId } from '../../common/types';
 import { Network } from '../common/Network';
-import { ammPools$ } from './api/ammPool/ammPool';
+import { ammPools$ } from './api/ammPools/ammPools';
 import { networkAsset } from './api/networkAsset/networkAsset';
 import { CardanoWalletContract } from './api/wallet/common/CardanoWalletContract';
 import {

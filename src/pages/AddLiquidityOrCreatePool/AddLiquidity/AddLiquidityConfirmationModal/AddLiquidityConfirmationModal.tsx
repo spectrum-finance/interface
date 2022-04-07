@@ -55,7 +55,7 @@ const AddLiquidityConfirmationModal: FC<AddLiquidityConfirmationModalProps> = ({
     if (pool && pk && address && utxos) {
       const poolId = pool.id;
 
-      const actions = poolActions(pool['pool']);
+      const actions = poolActions(pool['pool'] as any);
 
       const inputX = pool['pool'].x.withAmount(
         x.asset.id === pool.x.asset.id ? x.amount : y.amount,
@@ -65,7 +65,7 @@ const AddLiquidityConfirmationModal: FC<AddLiquidityConfirmationModalProps> = ({
       );
 
       const target = makeTarget(
-        [inputX, inputY],
+        [inputX as any, inputY as any],
         minValueForOrder(minerFeeNErgs, uiFeeNErg, exFeeNErg),
       );
 
@@ -81,8 +81,8 @@ const AddLiquidityConfirmationModal: FC<AddLiquidityConfirmationModalProps> = ({
               poolId,
               exFee: exFeeNErg,
               uiFee: uiFeeNErg,
-              x: inputX,
-              y: inputY,
+              x: inputX as any,
+              y: inputY as any,
             },
             {
               inputs,

@@ -130,7 +130,7 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
       value.toAsset?.id
     ) {
       const pk = publicKeyFromAddress(address)!;
-      const actions = poolActions(value.pool['pool']);
+      const actions = poolActions(value.pool['pool'] as any);
       const quoteAsset = value.toAsset?.id;
 
       const minNErgs = minValueForOrder(

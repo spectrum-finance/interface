@@ -10,5 +10,3 @@ export const basePoolMock = new BaseAmmPool(
   mockAsset,
   995,
 );
-
-export const mockPool = new AmmPool(basePoolMock);

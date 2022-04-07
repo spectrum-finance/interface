@@ -52,13 +52,17 @@ const LiquidityPositionsItemWrapper: React.FC<LiquidityPositionsItemWrapperProps
                     <Flex.Item marginRight={1}>
                       <DataTag
                         size="small"
-                        content={`${pool.x.asset.name} / ${pool.y.asset.name}: ${xPerY}`}
+                        content={`${pool.x.asset.name} / ${
+                          pool.y.asset.name
+                        }: ${pool.xRatio.toString()}`}
                       />
                     </Flex.Item>
                     <Flex.Item>
                       <DataTag
                         size="small"
-                        content={`${pool.y.asset.name} / ${pool.x.asset.name}: ${yPerX}`}
+                        content={`${pool.y.asset.name} / ${
+                          pool.x.asset.name
+                        }: ${pool.yRatio.toString()}`}
                       />
                     </Flex.Item>
                   </Flex>

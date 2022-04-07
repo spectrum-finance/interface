@@ -20,6 +20,7 @@ import { AmmPool } from '../../../../common/models/AmmPool';
 import { getAggregatedPoolAnalyticsDataById24H } from '../../../../common/streams/poolAnalytic';
 import { verifiedAssets$ } from '../../../../common/streams/verifiedAssets';
 import { networkContext$ } from '../networkContext/networkContext';
+import { ErgoAmmPool } from './ErgoAmmPool';
 import { nativeNetworkPools, networkPools } from './utils';
 
 const getNativeNetworkAmmPools = () =>
@@ -46,7 +47,7 @@ const toAmmPool = (p: BaseAmmPool): Observable<AmmPool> =>
   ]).pipe(
     map(
       ([poolAnalytics, verifiedAssets]) =>
-        new AmmPool(p, poolAnalytics, isPoolVerified(p, verifiedAssets)),
+        new ErgoAmmPool(p, poolAnalytics, isPoolVerified(p, verifiedAssets)),
     ),
   );
 

@@ -34,12 +34,12 @@ export const getBaseInputParameters = (
     inputAmount.asset.id === pool.x.asset.id
       ? pool['pool'].x.withAmount(inputAmount.amount)
       : pool['pool'].y.withAmount(inputAmount.amount);
-  const minOutput = pool['pool'].outputAmount(baseInputAmount, slippage);
+  const minOutput = pool['pool'].outputAmount(baseInputAmount as any, slippage);
 
   return {
-    baseInput: baseInputAmount,
+    baseInput: baseInputAmount as any,
     baseInputAmount: inputAmount.amount,
-    minOutput,
+    minOutput: minOutput as any,
   };
 };
 
