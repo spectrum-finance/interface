@@ -30,6 +30,7 @@ const Layout = ({ children }: Props): JSX.Element => {
 
   return (
     <div className="layout">
+      <div className="glow" />
       <Header />
       <main>{children}</main>
       <footer>

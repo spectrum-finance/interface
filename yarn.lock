@@ -1775,6 +1775,11 @@
   resolved "https://registry.yarnpkg.com/@emurgo/cardano-serialization-lib-browser/-/cardano-serialization-lib-browser-10.0.0-beta.8.tgz#4e90b55db74ff4c873d775a541fd567f228b4ebd"
   integrity sha512-KkTAT8OuAAEc/y1GsJggPf2qNFKaiEsKuOchY41ny+5n19uMwb0DtOYpnCNpxJbhQ8/aUKtcj2iiqKvoT8OWtw==
 
+"@emurgo/cardano-serialization-lib-nodejs@^10.0.4":
+  version "10.0.4"
+  resolved "https://registry.yarnpkg.com/@emurgo/cardano-serialization-lib-nodejs/-/cardano-serialization-lib-nodejs-10.0.4.tgz#e3e3530e1cdfd6540c14c4c4fe8f1be1a0055e19"
+  integrity sha512-s0/bzBvR+wCL8IwB/2IU0yHdSybfGVORrOPxCuEMOFvvIM4KO5aYVoHMFjqzEO2A4aXk+yPx6E2R2zyndxWGVA==
+
 "@endemolshinegroup/cosmiconfig-typescript-loader@^3.0.2":
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/@endemolshinegroup/cosmiconfig-typescript-loader/-/cosmiconfig-typescript-loader-3.0.2.tgz#eea4635828dde372838b0909693ebd9aafeec22d"
@@ -1785,10 +1790,10 @@
     ts-node "^9"
     tslib "^2"
 
-"@ergolabs/cardano-dex-sdk@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@ergolabs/cardano-dex-sdk/-/cardano-dex-sdk-0.0.1.tgz#f08067266fd55bc31362063136322a6ff4671a76"
-  integrity sha512-xfIBfZUBGpVQ4F7yDyvyYVHEmn2pTNU3746JF6wvP7dYqKBj8kVOHt4JtIAkamnrDXY6+fgHWTcakRY1ss+nUw==
+"@ergolabs/cardano-dex-sdk@^0.0.6":
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/@ergolabs/cardano-dex-sdk/-/cardano-dex-sdk-0.0.6.tgz#5a6218d86e3bd8d11b8e0e8b3aa8187dec222d9e"
+  integrity sha512-+pCQ9Z9FEcAWdOfYoNdIG3mEoy+aJDM7/mjjD1Bs5YrCYPW09IvC62isUqjcpx0bpHmppChEnUsJEw9s+K+Muw==
   dependencies:
     "@emurgo/cardano-serialization-lib-browser" "10.0.0-beta.8"
     axios "^0.21.1"

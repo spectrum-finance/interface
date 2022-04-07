@@ -5,6 +5,7 @@ import { Balance } from '../../common/models/Balance';
 import { Currency } from '../../common/models/Currency';
 import { TxId } from '../../common/types';
 import { Network } from '../common/Network';
+import { ammPools$ } from './api/ammPool/ammPool';
 import { networkAsset } from './api/networkAsset/networkAsset';
 import { CardanoWalletContract } from './api/wallet/common/CardanoWalletContract';
 import {
@@ -24,7 +25,7 @@ export const cardanoNetwork: Network<CardanoWalletContract> = {
   lpBalance$: of(new Balance([])),
   locks$: of([]),
   positions$: of([]),
-  ammPools$: of([]),
+  ammPools$,
   getAddresses: () => of([]),
   getUsedAddresses: () => of(undefined),
   getUnusedAddresses: () => of(undefined),
