@@ -9,6 +9,7 @@ import { ammPools$ } from './ammPools/ammPools';
 import { assetBalance$ } from './balance/assetBalance';
 import { lpBalance$ } from './balance/lpBalance';
 import { networkAssetBalance$ } from './balance/networkAssetBalance';
+import { convertToUsd } from './ergoUsdRatio/ergoUsdRatio';
 import { locks$ } from './locks/locks';
 import { networkAsset$, useNetworkAsset } from './networkAsset/networkAsset';
 import { positions$ } from './positions/positions';
@@ -24,6 +25,7 @@ import {
 } from './wallets';
 
 export const ergoNetwork: Network = {
+  convertToUsd,
   addresses$,
   pendingTransactionsCount$,
   networkAsset$,
