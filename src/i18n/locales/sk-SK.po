@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ergodex-frontend\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-04-12 12:40\n"
+"PO-Revision-Date: 2022-04-12 13:05\n"
 "Last-Translator: \n"
 "Language: sk_SK\n"
 "Language-Team: Slovak\n"
@@ -58,7 +58,7 @@ msgstr "1% poplatok"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "1. You will use the product at your own peril and risk;"
-msgstr ""
+msgstr "1. Službu používate na vlastné riziko;"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "2. Only YOU are responsible for your assets;"
@@ -94,7 +94,7 @@ msgstr "Pridanie likvidity {0} a {1}"
 
 #: src/components/WalletModal/WalletActiveAddress/WalletActiveAddress.tsx
 msgid "All output assets will be received at this address."
-msgstr ""
+msgstr "Všetky prostriedky budú zaslané na túto adresu."
 
 #: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidity.tsx
@@ -103,7 +103,7 @@ msgstr "Množstvo"
 
 #: src/pages/Pool/components/LiquidityPositionsList/LiquidityPositionsItem/LiquidityPositionsItemAnalytics/LiquidityPositionsItemAnalytics.tsx
 msgid "Annual Percentage Rate. Average estimation of how much you may potentially earn providing liquidity to this pool."
-msgstr ""
+msgstr "Ročná Percentuálna Miera Nákladov. Priemerný odhad toho, koľko môžete ročne zarobiť na poskytovaní likvidity tomuto pool-u."
 
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
@@ -193,19 +193,19 @@ msgstr "Potvrdiť"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 msgid "Confirm Add Liquidity"
-msgstr ""
+msgstr "Potvrdiť Pridanie Likvidity"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidityConfirmationModal/LockLiquidityConfirmationModal.tsx
 msgid "Confirm Lock"
-msgstr ""
+msgstr "Potvrdiť Uzamknutie"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
 msgid "Confirm Relock"
-msgstr ""
+msgstr "Potvrdiť Znovu-uzamknutie"
 
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidityConfirmationModal/RemoveLiquidityConfirmationModal.tsx
 msgid "Confirm Remove Liquidity"
-msgstr ""
+msgstr "Potvrdiť Výber Likvidity"
 
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Confirm Swap"
@@ -213,11 +213,11 @@ msgstr ""
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
 msgid "Confirm Withdrawal"
-msgstr ""
+msgstr "Potvrdiť Výber Prostriedkov"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
 msgid "Confirm pool creation"
-msgstr ""
+msgstr "Potvrdiť vytvorenie pool-u"
 
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Confirm swap"
@@ -225,7 +225,7 @@ msgstr ""
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Confirm this transaction in your wallet"
-msgstr ""
+msgstr "Potvrďte túto transakciu vo Vašej peňaženke"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
 msgid "Confirm withdrawal"
@@ -249,13 +249,13 @@ msgstr "Okopíruj do clipboard-u."
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool.tsx
 msgid "Create Pool"
-msgstr ""
+msgstr "Vytvoriť Pool"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
 #: src/pages/Pool/Liquidity.tsx
 msgid "Create pool"
-msgstr ""
+msgstr "Vytvoriť pool"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Current price"
@@ -263,7 +263,7 @@ msgstr "Aktuálna cena"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
 msgid "Custom fee tier"
-msgstr ""
+msgstr "Vlastný poplatok"
 
 #: src/components/Header/BurgerMenu/BurgerMenu.tsx
 msgid "Dark mode"
@@ -305,19 +305,20 @@ msgstr "Ergo sieť"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "ErgoDEX Smart Contracts"
-msgstr ""
+msgstr "ErgoDEX Smart Kontrakty"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "ErgoDEX Team doesn’t guarantee the absence of bugs and errors."
-msgstr ""
+msgstr "ErgoDEX Tím negarantuje absenciu chýb a zraniteľností."
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "ErgoDEX is a decentralized financial (DeFi) application which means it doesn’t have a central government body. ErgoDEX includes AMM (Swap, Add liquidity and Remove liquidity) functionality"
-msgstr ""
+msgstr "ErgoDEX je aplikácia takzvaný decentralizovaných financií (DeFi), čo znamená, že nemá žiadnu centrálnu autoritu, ktorá by ju riadila. ErgoDEX zahŕňa AMM (Swap, Pridanie likvidity, Odstránenie likvidity) funkcionalitu"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "ErgoDEX offers a form of added security, as buyers and sellers do not have to give their information to any 3rd party. However, ErgoDEX is without a know your customer (KYC) process and can offer NO assistance if a user is hacked or cheated out of passwords, currency or private wallet keys."
-msgstr ""
+msgstr "ErgoDEX poskytuje pridanú formu zabezpečenia a súkromia nakoľko predajcovia ani kupujúci nemusia dávať žiadne informácie \n"
+"tretím stranám. Z tohto faktu však vyplýva to, že ErgoDEX nemá štandardný \"know your customer\" (KYC) proces a tým pádom ani nemôže svoji užívateľom poskytnúť žiadnu pomoc v prípade ak by bol užívateľ hacknutý alebo iným spôsobom podvedený o jeho heslo, peniaze alebo privátne kľúče od jeho peňaženky."
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
@@ -326,25 +327,25 @@ msgstr "Chyba"
 
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Estimated output:"
-msgstr ""
+msgstr "Očakávaný výstup:"
 
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
 msgid "Execution Fee"
-msgstr ""
+msgstr "Poplatok za vykonanie"
 
 #: src/pages/Swap/OperationSettings/NitroInput/NitroInput.tsx
 msgid "Execution Fee Range {0} - {1} {2}"
-msgstr ""
+msgstr "Rozsah poplatku za vykonanie {0} - {1} {2}"
 
 #: src/components/common/FormView/FormFeesSection/FormFeesSection.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Execution Fee:"
-msgstr ""
+msgstr "Poplatok za vykonanie:"
 
 #: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
 msgid "Experimental"
-msgstr ""
+msgstr "Experimentálna peňaženka"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
 msgid "Extension period"
