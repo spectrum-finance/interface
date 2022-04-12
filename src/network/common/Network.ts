@@ -8,6 +8,7 @@ import { Balance } from '../../common/models/Balance';
 import { Currency } from '../../common/models/Currency';
 import { Position } from '../../common/models/Position';
 import { Address, TxId } from '../../common/types';
+import { NetworkContext } from './NetworkContext';
 import { SupportedFeatures } from './SupportedFeatures';
 import { TxHistoryManager } from './TxHistoryManager';
 import { Wallet, WalletState } from './Wallet';
@@ -29,6 +30,7 @@ export interface NetworkData<W extends Wallet> {
   readonly walletState$: Observable<WalletState>;
   readonly selectedWallet$: Observable<W | undefined>;
   readonly supportedFeatures$: Observable<SupportedFeatures>;
+  readonly networkContext$: Observable<NetworkContext>;
 }
 
 export interface NetworkOperations {

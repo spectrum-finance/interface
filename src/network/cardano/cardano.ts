@@ -1,3 +1,8 @@
+import {
+  AssetName,
+  AssetNames,
+  ScriptHash,
+} from '@emurgo/cardano-serialization-lib-nodejs';
 import { Observable, of } from 'rxjs';
 
 import { AmmPool } from '../../common/models/AmmPool';
@@ -5,8 +10,16 @@ import { Balance } from '../../common/models/Balance';
 import { Currency } from '../../common/models/Currency';
 import { TxId } from '../../common/types';
 import { Network } from '../common/Network';
+import {
+  getAddresses,
+  getUnusedAddresses,
+  getUsedAddresses,
+} from './api/addresses/addresses';
 import { ammPools$ } from './api/ammPools/ammPools';
+import { assetBalance$ } from './api/balance/assetBalance';
 import { networkAsset } from './api/networkAsset/networkAsset';
+import { networkContext$ } from './api/networkContext/networkContext';
+import { utxos$ } from './api/utxos/utxos';
 import { CardanoWalletContract } from './api/wallet/common/CardanoWalletContract';
 import {
   availableWallets,
@@ -21,14 +34,14 @@ export const cardanoNetwork: Network<CardanoWalletContract> = {
   name: 'cardano',
   networkAsset,
   networkAssetBalance$: of(new Currency(0n, networkAsset)),
-  assetBalance$: of(new Balance([])),
+  assetBalance$,
   lpBalance$: of(new Balance([])),
   locks$: of([]),
   positions$: of([]),
   ammPools$,
-  getAddresses: () => of([]),
-  getUsedAddresses: () => of(undefined),
-  getUnusedAddresses: () => of(undefined),
+  getAddresses: getAddresses,
+  getUsedAddresses: getUsedAddresses,
+  getUnusedAddresses: getUnusedAddresses,
   txHistoryManager: {} as any,
   connectWallet: connectWallet,
   disconnectWallet: disconnectWallet,
@@ -36,7 +49,12 @@ export const cardanoNetwork: Network<CardanoWalletContract> = {
   walletState$: walletState$,
   selectedWallet$: selectedWallet$,
   supportedFeatures$: supportedWalletFeatures$,
+  networkContext$,
   swap(pool: AmmPool, from: Currency, to: Currency): Observable<TxId> {
     return of('');
   },
 };
+
+utxos$.subscribe((res) => {
+  console.log(res);
+});

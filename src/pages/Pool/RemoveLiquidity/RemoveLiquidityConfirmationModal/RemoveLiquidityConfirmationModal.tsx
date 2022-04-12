@@ -15,10 +15,10 @@ import { utxos$ } from '../../../../network/ergo/api/utxos/utxos';
 import { explorer } from '../../../../services/explorer';
 import { useMinExFee, useMinTotalFees } from '../../../../services/new/core';
 import { poolActions } from '../../../../services/poolActions';
+// import { poolActions } from '../../../../services/poolActions';
 import { submitTx } from '../../../../services/yoroi';
 import { makeTarget } from '../../../../utils/ammMath';
 import { parseUserInputToFractions } from '../../../../utils/math';
-
 interface ConfirmRemoveModalProps {
   onClose: (p: Promise<any>) => void;
   pool: AmmPool;

@@ -1,6 +1,8 @@
+import { pubKeyHashFromAddr } from '@ergolabs/cardano-dex-sdk';
+import { RustModule } from '@ergolabs/cardano-dex-sdk/build/main/utils/rustLoader';
 import { Address, PublicKey, publicKeyFromAddress } from '@ergolabs/ergo-sdk';
 import { useLocalStorage } from '@rehooks/local-storage';
-import React, { createContext, useContext, useEffect } from 'react';
+import React, { createContext, useContext, useEffect, useMemo } from 'react';
 
 import { ERG_EXPLORER_URL } from '../common/constants/env';
 import { MIN_NITRO } from '../common/constants/erg';
@@ -71,8 +73,11 @@ export const SettingsProvider = ({
   children,
 }: React.PropsWithChildren<unknown>): JSX.Element => {
   const ctxValue = useLocalStorage('settings', DefaultSettings);
-  const [usedAddresses] = useObservable(getUsedAddresses());
-  const [unusedAddresses] = useObservable(getUnusedAddresses());
+  const usedAddresses$ = useMemo(() => getUsedAddresses(), []);
+  const unusedAddresses$ = useMemo(() => getUnusedAddresses(), []);
+
+  const [usedAddresses] = useObservable(usedAddresses$);
+  const [unusedAddresses] = useObservable(unusedAddresses$);
   const [userSettings, setUserSettings] = ctxValue;
 
   useEffect(() => {
@@ -104,7 +109,7 @@ export const SettingsProvider = ({
     if (!usedAddresses || !unusedAddresses) {
       return;
     }
-    // console.log(usedAddresses, unusedAddresses);
+
     let newSelectedAddress: Address;
     const addresses = unusedAddresses.concat(usedAddresses);
     const currentSelectedAddress = ctxValue[0].address;
@@ -115,10 +120,18 @@ export const SettingsProvider = ({
       newSelectedAddress = unusedAddresses[0] || usedAddresses[0];
     }
 
+    let pk: string | undefined;
+
+    try {
+      pk = publicKeyFromAddress(newSelectedAddress);
+    } catch (e: any) {
+      pk = pubKeyHashFromAddr(newSelectedAddress, RustModule._wasm!);
+    }
+
     ctxValue[1]({
       ...ctxValue[0],
       address: newSelectedAddress,
-      pk: publicKeyFromAddress(newSelectedAddress),
+      pk,
     });
   }, [usedAddresses, unusedAddresses]);
 

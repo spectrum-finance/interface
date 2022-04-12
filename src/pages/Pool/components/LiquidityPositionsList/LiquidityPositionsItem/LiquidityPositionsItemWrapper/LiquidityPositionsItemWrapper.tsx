@@ -18,8 +18,6 @@ interface LiquidityPositionsItemWrapperProps {
 
 const LiquidityPositionsItemWrapper: React.FC<LiquidityPositionsItemWrapperProps> =
   ({ pool, onClick, children }): JSX.Element => {
-    const { xPerY, yPerX } = getPoolRatio(pool);
-
     return (
       <ListItemWrapper onClick={() => onClick(pool.id)}>
         <Flex align="center">

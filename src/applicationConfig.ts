@@ -1,13 +1,20 @@
 import { DateTime } from 'luxon';
 
+import { Dictionary } from './common/utils/Dictionary';
+
 interface OperationRestriction {
   readonly asset: string;
   readonly restrictionEnd: DateTime;
   readonly operation: 'swap' | 'liquidity';
 }
 
+interface NetworkConfig {
+  readonly url: string;
+}
+
 interface ApplicationConfig {
   readonly api: string;
+  readonly networksSettings: Dictionary<NetworkConfig>;
   readonly social: {
     readonly twitter: string;
     readonly telegram: string;
@@ -30,6 +37,11 @@ interface ApplicationConfig {
 export const applicationConfig: ApplicationConfig = {
   api: 'https://api.ergodex.io/v1/',
   requestRetryCount: 3,
+  networksSettings: {
+    cardano: {
+      url: 'https://testnet-api.quickblue.io/v1',
+    },
+  },
   social: {
     twitter: 'https://twitter.com/ErgoDex',
     telegram: 'https://t.me/ergodex_community',

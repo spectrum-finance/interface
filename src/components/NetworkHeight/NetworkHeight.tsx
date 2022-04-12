@@ -9,7 +9,7 @@ import { ReactComponent as BlockIcon } from '../../assets/icons/block-icon.svg';
 import { ERG_EXPLORER_URL } from '../../common/constants/env';
 import { useObservable } from '../../common/hooks/useObservable';
 import { Flex, Tooltip, Typography } from '../../ergodex-cdk';
-import { networkContext$ } from '../../network/ergo/api/networkContext/networkContext';
+import { networkContext$ } from '../../gateway/api/networkContext';
 import { formatToInt } from '../../services/number';
 const NetworkHeight = (): JSX.Element => {
   const [network] = useObservable(networkContext$);

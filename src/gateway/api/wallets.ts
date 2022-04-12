@@ -16,7 +16,7 @@ export const wallets$ = selectedNetwork$.pipe(
   refCount(),
 );
 
-export const selectedWallet$ = selectedNetwork$.pipe(
+export const selectedWallet$: Observable<Wallet> = selectedNetwork$.pipe(
   switchMap((n) => n.selectedWallet$),
   publishReplay(1),
   refCount(),

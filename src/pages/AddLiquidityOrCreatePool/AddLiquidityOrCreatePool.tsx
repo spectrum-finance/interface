@@ -167,7 +167,7 @@ export const AddLiquidityOrCreatePool: FC = () => {
   ): boolean =>
     !pools?.length &&
     componentState === ComponentState.ADD_LIQUIDITY &&
-    !!selectedWallet?.supportedFeatures.createPool &&
+    !!selectedWallet?.walletSupportedFeatures.createPool &&
     !!y &&
     !!x;
 
@@ -219,7 +219,7 @@ export const AddLiquidityOrCreatePool: FC = () => {
             </Form.Listener>
             <Form.Listener>
               {({ value }) =>
-                selectedWallet?.supportedFeatures.createPool === false &&
+                selectedWallet?.walletSupportedFeatures.createPool === false &&
                 isCreatePoolPageVisible(value, componentState) && (
                   <Flex.Item marginBottom={4} display="flex" col>
                     <CreatePoolUnsupportedAlert
@@ -236,7 +236,7 @@ export const AddLiquidityOrCreatePool: FC = () => {
                     !value.x ||
                     !value.y ||
                     (isCreatePoolPageVisible(value, componentState) &&
-                      !selectedWallet?.supportedFeatures.createPool)
+                      !selectedWallet?.walletSupportedFeatures.createPool)
                   }
                 >
                   {isAddLiquidityPageVisible(value, componentState) ? (
