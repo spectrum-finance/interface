@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ergodex-frontend\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-04-12 10:46\n"
+"PO-Revision-Date: 2022-04-12 11:42\n"
 "Last-Translator: \n"
 "Language: sk_SK\n"
 "Language-Team: Slovak\n"
@@ -18,23 +18,23 @@ msgstr ""
 
 #: src/pages/Pool/components/LockLiquidityDatePicker/LiquidityDatePicker.tsx
 msgid "(Block: {0})"
-msgstr ""
+msgstr "(Blok: {0})"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
 msgid "(Unlock block: {0})"
-msgstr ""
+msgstr "(Odomknutie v bloku: {0})"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "- By creating an order you send your funds to a specific smart-contract, all such contracts are wired into the UI. Thus, orders are created entirely in your browser (on your machine)."
-msgstr ""
+msgstr "- Vytvorením tejto objednávky zasielate Vaše prostriedky na špecifický smart-kontrakt. Všetky takéto smart-kontraky boli vygenerované čisto vo Vašom prehliadači (na Vašom počítači)."
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "- ErgoDEX operates on a live blockchain, thus trades are final, and irreversible once they have status «executed»;"
-msgstr ""
+msgstr "- ErgoDEX funguje na \"živom\" tj. reálnom blokchain-e čo znamená, že všetky obchody sú definitívne a nedajú sa stornovať pokiaľ sa nachádzajú v stave «executed»;"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "- Every transaction can be viewed via"
-msgstr ""
+msgstr "- Každá transakcia môže byť zobrazená za pomoci"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
 msgid "0.3% fee"
@@ -62,15 +62,15 @@ msgstr ""
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "2. Only YOU are responsible for your assets;"
-msgstr ""
+msgstr "2. Iba VY ste zodpovedný za Vaše prostriedy;"
 
 #: src/components/Header/BurgerMenu/BurgerMenu.tsx
 msgid "About"
-msgstr ""
+msgstr "O projekte"
 
 #: src/components/WalletModal/AddressesTab/AddressesTab.tsx
 msgid "Active"
-msgstr ""
+msgstr "Aktívna"
 
 #: src/components/WalletModal/WalletActiveAddress/WalletActiveAddress.tsx
 msgid "Active address"
@@ -108,7 +108,7 @@ msgstr ""
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 msgid "Assets"
-msgstr ""
+msgstr "Prostriedky"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
 #: src/pages/Pool/LockLiquidity/LockLiquidityConfirmationModal/LockLiquidityConfirmationModal.tsx
@@ -134,24 +134,24 @@ msgstr ""
 
 #: src/pages/Pool/components/LPGuide/LPGuide.tsx
 msgid "Become a liquidity provider"
-msgstr ""
+msgstr "Staňte sa poskytovateľom likvidity"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
 msgid "Best for exotic pairs"
-msgstr ""
+msgstr "Najvhodnejšie pre \"exotické\" menové páry"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
 msgid "Best for most pairs"
-msgstr ""
+msgstr "Najvhodnejšie pre väčšinu menových párov"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
 #: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
 msgid "Block:"
-msgstr ""
+msgstr "Blok:"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "By accepting these KYA, you agree that:"
-msgstr ""
+msgstr "Akceptovaním tohto KYA dialógu súhlasíte s nasledujúcim:"
 
 #: src/pages/Swap/PoolSelector/PoolSelector.tsx
 msgid "Change"
@@ -159,7 +159,7 @@ msgstr ""
 
 #: src/components/WalletModal/WalletModal.tsx
 msgid "Change wallet"
-msgstr ""
+msgstr "Zmeniť peňaženku"
 
 #: src/components/OperationForm/OperationForm.tsx
 #: src/components/common/ActionForm/ActionButton/ActionButton.tsx
@@ -172,7 +172,7 @@ msgstr "Prečítajte si našu príručku o tom ako sa stať poskytovateľom likv
 
 #: src/components/WalletModal/AddressesTab/AddressesTab.tsx
 msgid "Choose"
-msgstr ""
+msgstr "Zvoliť"
 
 #: src/pages/Pool/components/LockLiquidityDatePicker/LiquidityDatePicker.tsx
 msgid "Choose Date"
@@ -849,15 +849,15 @@ msgstr ""
 
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Total Fees"
-msgstr ""
+msgstr "Celkové Poplatky"
 
 #: src/components/WalletModal/WalletTotalBalance/WalletTotalBalance.tsx
 msgid "Total balance"
-msgstr ""
+msgstr "Celkový zostatok"
 
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
 msgid "Total fees:"
-msgstr ""
+msgstr "Celkové poplatky:"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
 msgid "Total in locker"
@@ -886,7 +886,7 @@ msgstr ""
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Try again later"
-msgstr ""
+msgstr "Skúste znovu neskôr"
 
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
 msgid "Type"
@@ -894,13 +894,13 @@ msgstr ""
 
 #: src/pages/Pool/Liquidity.tsx
 msgid "Type token name or pool id"
-msgstr ""
+msgstr "Napíšte názov tokenu alebo id pool-u"
 
 #: src/components/common/FormView/FormFeesSection/FormFeesSection.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "UI Fee:"
-msgstr ""
+msgstr "UI Poplatok:"
 
 #: src/pages/Pool/components/LockedPositionItem/LockedPositionItem.tsx
 msgid "Unlock Block"
@@ -971,7 +971,7 @@ msgstr ""
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "You didn't provide liquidity to this pool yet."
-msgstr ""
+msgstr "Zatiaľ ste neposkytli likviditu tomuto pool-u."
 
 #: src/components/WalletModal/LowBalanceWarning/LowBalanceWarning.tsx
 msgid "You need ERG to pay transaction fees"
@@ -979,7 +979,7 @@ msgstr "Potrebujete vlastniť ERG na úhradu transakčných poplatkov"
 
 #: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
 msgid "You will spend {value} ERG for every operation."
-msgstr ""
+msgstr "Každá operácia Vás bude stáť {value} ERG."
 
 #: src/pages/Pool/Liquidity.tsx
 msgid "Your Positions"
@@ -1004,15 +1004,15 @@ msgstr ""
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Your transaction may fail"
-msgstr ""
+msgstr "Vaša transakcia môže zlyhať"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Your transaction will revert if the price changes unfavorably by more than this percentage"
-msgstr ""
+msgstr "Vaša transakcia bude zrušená pokiaľ sa cena pohne pre Vás nevýhodným smerom o viac ako tento počet percent"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "explorer"
-msgstr ""
+msgstr "explorer"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "meet your expectations."
@@ -1024,20 +1024,20 @@ msgstr ""
 
 #: src/pages/Pool/Liquidity.tsx
 msgid "{0} Community Pools"
-msgstr ""
+msgstr "{0} Komunitné Pool-y"
 
 #: src/pages/PoolOverview/PoolRatio/PoolRatio.tsx
 #: src/pages/PoolOverview/PoolRatio/PoolRatio.tsx
 msgid "{0} per {1}"
-msgstr ""
+msgstr "{0} za {1}"
 
 #: src/pages/Pool/utils.ts
 msgid "{daysCount} Days"
-msgstr ""
+msgstr "{daysCount} Dní"
 
 #: src/pages/Pool/utils.ts
 msgid "{monthsCount} Months"
-msgstr ""
+msgstr "{monthsCount} Mesiacov"
 
 #: src/components/Header/ConnectWallet/ConnectWallet.tsx
 msgid "{numberOfPendingTxs} Pending"
@@ -1045,9 +1045,9 @@ msgstr ""
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePoolUnsupportedAlert/CreatePoolUnsupportedAlert.tsx
 msgid "{walletName} Wallet doesn’t support “create pool” functionality yet. Choose another wallet to perform the operation."
-msgstr ""
+msgstr "{walletName} peňaženka nepodporuje funkciu vytvárania pool-ov. Prosím zvoľte inú peňaženku pre vykonanie tejto operácie."
 
 #: src/pages/Pool/utils.ts
 msgid "{yearsCount} Years"
-msgstr ""
+msgstr "{yearsCount} Rokov"
 
