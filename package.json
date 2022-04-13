@@ -24,7 +24,7 @@
     "@babel/preset-env": "^7.15.6",
     "@craco/craco": "^6.3.0",
     "@emurgo/cardano-serialization-lib-nodejs": "^10.0.4",
-    "@ergolabs/cardano-dex-sdk": "0.0.18",
+    "@ergolabs/cardano-dex-sdk": "0.0.22",
     "@ergolabs/ergo-dex-sdk": "^1.4.0",
     "@ergolabs/ergo-sdk": "^0.1.28",
     "@rehooks/local-storage": "2.4.0",

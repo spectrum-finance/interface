@@ -26,7 +26,8 @@ import {
   useForm,
 } from '../../../ergodex-cdk';
 import { useAssetsBalance } from '../../../gateway/api/assetBalance';
-import { useMaxTotalFees, useNetworkAsset } from '../../../services/new/core';
+import { useNetworkAsset } from '../../../gateway/api/networkAsset';
+import { useMaxTotalFees } from '../../../services/new/core';
 import { PoolRatio } from '../../PoolOverview/PoolRatio/PoolRatio';
 import { normalizeAmountWithFee } from '../common/utils';
 import { LiquidityPercentInput } from '../LiquidityPercentInput/LiquidityPercentInput';
@@ -50,7 +51,7 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
   const [lastEditedField, setLastEditedField] = useState<'x' | 'y'>('x');
   const [balance] = useAssetsBalance();
   const totalFees = useMaxTotalFees();
-  const networkAsset = useNetworkAsset();
+  const [networkAsset] = useNetworkAsset();
   const form = useForm<AddLiquidityFormModel>({
     xAsset,
     yAsset,

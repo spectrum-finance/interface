@@ -76,23 +76,10 @@ export const makeCardanoWallet = ({
       map(([usedAddrs, unusedAddrs]) => unusedAddrs.concat(usedAddrs)),
     );
   },
-  getBalance(): Observable<Balance> {
+  getBalance(): Observable<Value> {
     return this.getCtx().pipe(
       switchMap((ctx) => from(ctx.getBalance() as Promise<string>)),
       map((hex) => decodeWasmValue(hex, RustModule._wasm!)),
-      map(
-        (values) =>
-          new Balance(
-            values.map((i) => [
-              i.quantity,
-              {
-                name: i.name,
-                id: `${i.policyId}-${i.name}`,
-                decimals: 0,
-              },
-            ]),
-          ),
-      ),
     );
   },
 });

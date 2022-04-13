@@ -19,7 +19,8 @@ import { RatioBox } from '../../../components/RatioBox/RatioBox';
 import { Section } from '../../../components/Section/Section';
 import { Flex, Form, FormGroup, useForm } from '../../../ergodex-cdk';
 import { useAssetsBalance } from '../../../gateway/api/assetBalance';
-import { useMaxTotalFees, useNetworkAsset } from '../../../services/new/core';
+import { useNetworkAsset } from '../../../gateway/api/networkAsset';
+import { useMaxTotalFees } from '../../../services/new/core';
 import { normalizeAmountWithFee } from '../common/utils';
 import { LiquidityPercentInput } from '../LiquidityPercentInput/LiquidityPercentInput';
 import { CreatePoolConfirmationModal } from './CreatePoolConfirmationModal/CreatePoolConfirmationModal';
@@ -35,7 +36,7 @@ export interface CreatePoolProps {
 export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
   const [lastEditedField, setLastEditedField] = useState<'x' | 'y'>('x');
   const [balance] = useAssetsBalance();
-  const networkAsset = useNetworkAsset();
+  const [networkAsset] = useNetworkAsset();
   const totalFees = useMaxTotalFees();
   const form = useForm<CreatePoolFormModel>({
     initialPrice: undefined,

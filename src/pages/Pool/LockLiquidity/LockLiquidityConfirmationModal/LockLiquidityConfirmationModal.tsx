@@ -23,10 +23,10 @@ import { FormFeesSection } from '../../../../components/common/FormView/FormFees
 import { FormPairSection } from '../../../../components/common/FormView/FormPairSection/FormPairSection';
 import { useSettings } from '../../../../context';
 import { Button, Checkbox, Flex, Modal } from '../../../../ergodex-cdk';
+import { useNetworkAsset } from '../../../../gateway/api/networkAsset';
 import { utxos$ } from '../../../../network/ergo/api/utxos/utxos';
 import { mainnetTxAssembler } from '../../../../services/defaultTxAssembler';
 import { explorer } from '../../../../services/explorer';
-import { useNetworkAsset } from '../../../../services/new/core';
 import { submitTx } from '../../../../services/yoroi';
 import yoroiProver from '../../../../services/yoroi/prover';
 import { makeTarget } from '../../../../utils/ammMath';
@@ -46,7 +46,7 @@ interface LockLiquidityConfirmationModalProps {
 const LockLiquidityConfirmationModal: React.FC<LockLiquidityConfirmationModalProps> =
   ({ onClose, xAsset, yAsset, lpAsset, timelock, percent, pool }) => {
     const [isChecked, setIsChecked] = useState<boolean>(false);
-    const networkAsset = useNetworkAsset();
+    const [networkAsset] = useNetworkAsset();
 
     const now = DateTime.now().toMillis();
 

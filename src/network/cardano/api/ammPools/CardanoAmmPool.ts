@@ -3,15 +3,26 @@ import {
   AssetAmount,
   AssetClass,
 } from '@ergolabs/cardano-dex-sdk';
+import { mkSubject } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/assetClass';
 import { AssetInfo as ErgoAssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import { cache } from 'decorator-cache-getter';
 
 import { AmmPool } from '../../../../common/models/AmmPool';
 import { Currency } from '../../../../common/models/Currency';
 import { AnalyticsData } from '../../../../services/new/analytics';
+import { AssetInfo } from '../assetManager/AssetInfo';
+
+export interface AssetInfoDictionary {
+  readonly lp?: AssetInfo;
+  readonly x?: AssetInfo;
+  readonly y?: AssetInfo;
+}
 
 export class CardanoAmmPool extends AmmPool {
-  constructor(public pool: CardanoBaseAmmPool) {
+  constructor(
+    public pool: CardanoBaseAmmPool,
+    private assetInfoDictionary: AssetInfoDictionary,
+  ) {
     super();
   }
 
@@ -76,17 +87,44 @@ export class CardanoAmmPool extends AmmPool {
     if (!asset) {
       return undefined;
     }
+    const assetSubject = mkSubject(asset);
+    let assetInfo: AssetInfo | undefined;
+
+    if (assetSubject === this.assetInfoDictionary.x?.subject) {
+      assetInfo = this.assetInfoDictionary.x;
+    }
+    if (assetSubject === this.assetInfoDictionary.y?.subject) {
+      assetInfo = this.assetInfoDictionary.y;
+    }
+    if (assetSubject === this.assetInfoDictionary.lp?.subject) {
+      assetInfo = this.assetInfoDictionary.lp;
+    }
+
     return {
       name: asset.name,
-      id: `${asset.policyId}-${asset.name}`,
-      decimals: 0,
+      id: assetInfo?.subject || `${asset.policyId}-${asset.name}`,
+      decimals: assetInfo?.decimals.value || 0,
     };
   }
 
   private toAssetClass(asset: ErgoAssetInfo): AssetClass {
-    const [policyId, name] = asset.id.split('-');
+    const assetSubject = asset.id;
+    let assetInfo: AssetInfo | undefined;
 
-    return { policyId, name };
+    if (assetSubject === this.assetInfoDictionary.x?.subject) {
+      assetInfo = this.assetInfoDictionary.x;
+    }
+    if (assetSubject === this.assetInfoDictionary.y?.subject) {
+      assetInfo = this.assetInfoDictionary.y;
+    }
+    if (assetSubject === this.assetInfoDictionary.lp?.subject) {
+      assetInfo = this.assetInfoDictionary.lp;
+    }
+
+    return {
+      policyId: assetInfo?.policy || '',
+      name: assetInfo?.name.value || '',
+    };
   }
 
   calculateDepositAmount(currency: Currency): Currency {
@@ -104,6 +142,13 @@ export class CardanoAmmPool extends AmmPool {
     const inputAmount = this.pool.inputAmount(
       new AssetAmount(this.toAssetClass(currency.asset), currency.amount),
     );
+
+    if (!inputAmount) {
+      return new Currency(
+        0n,
+        currency.asset.id === this.y.asset.id ? this.x.asset : this.y.asset,
+      );
+    }
 
     return new Currency(
       inputAmount?.amount,

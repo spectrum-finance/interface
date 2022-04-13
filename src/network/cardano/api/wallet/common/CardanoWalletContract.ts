@@ -1,3 +1,4 @@
+import { Value } from '@ergolabs/cardano-dex-sdk';
 import { ReactNode } from 'react';
 import { Observable } from 'rxjs';
 
@@ -9,7 +10,7 @@ export interface CardanoWalletContract extends Wallet {
   readonly connectWallet: () => Observable<boolean | ReactNode>;
   readonly getUsedAddresses: () => Observable<Address[]>;
   readonly getAddresses: () => Observable<Address[]>;
-  readonly getBalance: () => Observable<Balance>;
+  readonly getBalance: () => Observable<Value>;
   readonly getUnusedAddresses: () => Observable<Address[]>;
   readonly getCtx: () => Observable<any>;
 }

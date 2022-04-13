@@ -29,8 +29,8 @@ import {
   getAmmPoolsByAssetPair,
 } from '../../gateway/api/ammPools';
 import { assetBalance$ } from '../../gateway/api/assetBalance';
+import { useNetworkAsset } from '../../gateway/api/networkAsset';
 import { selectedWallet$ } from '../../gateway/api/wallets';
-import { useNetworkAsset } from '../../services/new/core';
 import { AddLiquidity } from './AddLiquidity/AddLiquidity';
 import { CreatePool } from './CreatePool/CreatePool';
 import { CreatePoolUnsupportedAlert } from './CreatePoolUnsupportedAlert/CreatePoolUnsupportedAlert';
@@ -67,7 +67,7 @@ enum ComponentState {
 export const AddLiquidityOrCreatePool: FC = () => {
   const { poolId } = useParams<{ poolId?: PoolId }>();
   const [initialized, setInitialized] = useState<boolean>(!poolId);
-  const networkAsset = useNetworkAsset();
+  const [networkAsset] = useNetworkAsset();
   const [selectedWallet] = useObservable(selectedWallet$);
   const history = useHistory();
   const location = useLocation();

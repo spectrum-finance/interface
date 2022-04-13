@@ -172,7 +172,7 @@ export abstract class AmmPool {
 
     const ratioAmount = math.evaluate!(
       `${firstAmount} / ${secondAmount}`,
-    ).toString();
+    ).toFixed();
 
     return new Ratio(ratioAmount, first.asset, second.asset);
   }

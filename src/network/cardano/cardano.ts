@@ -17,6 +17,7 @@ import {
 } from './api/addresses/addresses';
 import { ammPools$ } from './api/ammPools/ammPools';
 import { assetBalance$ } from './api/balance/assetBalance';
+import { balance$ } from './api/balance/balance';
 import { networkAsset } from './api/networkAsset/networkAsset';
 import { networkContext$ } from './api/networkContext/networkContext';
 import { utxos$ } from './api/utxos/utxos';
@@ -55,6 +56,6 @@ export const cardanoNetwork: Network<CardanoWalletContract> = {
   },
 };
 
-utxos$.subscribe((res) => {
+balance$.subscribe((res) => {
   console.log(res);
 });

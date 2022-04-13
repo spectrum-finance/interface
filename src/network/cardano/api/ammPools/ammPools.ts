@@ -8,15 +8,18 @@ import { mkPoolsParser } from '@ergolabs/cardano-dex-sdk/build/main/amm/parsers/
 import { RustModule } from '@ergolabs/cardano-dex-sdk/build/main/utils/rustLoader';
 import {
   catchError,
+  combineLatest,
   filter,
   from,
   map,
   of,
   publishReplay,
   refCount,
+  switchMap,
   tap,
 } from 'rxjs';
 
+import { getAssetInfo } from '../assetManager/getAssetInfo';
 import { CardanoAmmPool } from './CardanoAmmPool';
 
 const req = RustModule.load().then((wasm) => {
@@ -34,10 +37,18 @@ const req = RustModule.load().then((wasm) => {
 export const ammPools$ = from(req).pipe(
   catchError(() => of(undefined)),
   filter(Boolean),
-  tap((res) => console.log(res)),
-  map(([pools]: [AmmPool[], number]) =>
-    pools.map((p) => new CardanoAmmPool(p)),
+  switchMap(([pools]: [AmmPool[], number]) =>
+    combineLatest(
+      pools.map((p) =>
+        combineLatest(
+          [p.lp.asset, p.x.asset, p.y.asset].map((asset) =>
+            getAssetInfo(asset),
+          ),
+        ).pipe(map(([lp, x, y]) => new CardanoAmmPool(p, { lp, x, y }))),
+      ),
+    ),
   ),
+  tap((res) => console.log(res)),
   publishReplay(1),
   refCount(),
 );

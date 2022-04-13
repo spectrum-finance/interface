@@ -7,6 +7,7 @@ import { useObservable } from '../../common/hooks/useObservable';
 import { Currency } from '../../common/models/Currency';
 import { normalizeAmount } from '../../common/utils/amount';
 import { useSettings } from '../../context';
+import { useNetworkAsset } from '../../gateway/api/networkAsset';
 import { calculateTotalFee } from '../../utils/transactions';
 
 export const UPDATE_TIME = 5 * 1000;
@@ -30,15 +31,9 @@ export const defaultExFee$: Observable<Currency> = networkAsset$.pipe(
   refCount(),
 );
 
-export const useNetworkAsset = (): AssetInfo => {
-  const [_nativeToken] = useObservable(networkAsset$, [], networkAsset);
-
-  return _nativeToken;
-};
-
 export const useMinExFee = (): Currency => {
   const [{ minerFee }] = useSettings();
-  const networkAsset = useNetworkAsset();
+  const [networkAsset] = useNetworkAsset();
 
   const exFee = +normalizeAmount((minerFee * 3).toString(), networkAsset);
 
@@ -47,7 +42,7 @@ export const useMinExFee = (): Currency => {
 
 export const useMaxExFee = (): Currency => {
   const [{ minerFee, nitro }] = useSettings();
-  const networkAsset = useNetworkAsset();
+  const [networkAsset] = useNetworkAsset();
 
   const exFee = +normalizeAmount(
     (minerFee * 3 * nitro).toString(),
@@ -59,7 +54,7 @@ export const useMaxExFee = (): Currency => {
 
 export const useMaxTotalFees = (): Currency => {
   const [{ minerFee, nitro }] = useSettings();
-  const networkAsset = useNetworkAsset();
+  const [networkAsset] = useNetworkAsset();
 
   const exFee = +normalizeAmount(
     (minerFee * 3 * nitro).toString(),
@@ -74,7 +69,7 @@ export const useMaxTotalFees = (): Currency => {
 
 export const useMinTotalFees = (): Currency => {
   const [{ minerFee }] = useSettings();
-  const networkAsset = useNetworkAsset();
+  const [networkAsset] = useNetworkAsset();
 
   const exFee = +normalizeAmount((minerFee * 3).toString(), networkAsset);
 
