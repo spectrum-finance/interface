@@ -174,6 +174,15 @@ export class AmmPool implements Searchable {
   }
 
   calculateInputAmount(currency: Currency): Currency {
+    if (currency.eq(this.getAssetAmount(currency.asset))) {
+      return new Currency(
+        0n,
+        currency.asset.id === this.pool.y.asset.id
+          ? this.pool.x.asset
+          : this.pool.y.asset,
+      );
+    }
+
     const inputAmount = this.pool.inputAmount(
       new AssetAmount(currency.asset, currency.amount),
     );
