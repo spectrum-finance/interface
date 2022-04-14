@@ -5,6 +5,7 @@ import { Currency } from '../../../common/models/Currency';
 import { Box, Flex, LoadingOutlined, Typography } from '../../../ergodex-cdk';
 import { networkAsset } from '../../../services/new/core';
 import { TokenIcon } from '../../TokenIcon/TokenIcon';
+import { UsdView } from '../../UsdView/UsdView';
 
 interface WalletTotalBalanceProps {
   balance?: Currency;
@@ -17,7 +18,7 @@ export const WalletTotalBalance: React.FC<WalletTotalBalanceProps> = ({
     <Flex col>
       <Flex.Item marginBottom={2}>
         <Typography.Body strong>
-          <Trans>Total balance</Trans>
+          <Trans>Total ERG balance</Trans>
         </Typography.Body>
       </Flex.Item>
       <Box padding={[2, 4]} borderRadius="m" contrast>
@@ -31,7 +32,9 @@ export const WalletTotalBalance: React.FC<WalletTotalBalanceProps> = ({
             </Typography.Title>
           </Flex.Item>
           <Flex.Item>
-            {/*<Typography.Body>{'~$300'}</Typography.Body>*/}
+            <Typography.Footnote>
+              <UsdView value={balance} prefix="~" />
+            </Typography.Footnote>
           </Flex.Item>
         </Flex>
       </Box>

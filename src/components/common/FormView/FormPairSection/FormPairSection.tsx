@@ -4,6 +4,7 @@ import { Currency } from '../../../../common/models/Currency';
 import { Flex, Typography } from '../../../../ergodex-cdk';
 import { PageSection } from '../../../Page/PageSection/PageSection';
 import { TokenIcon } from '../../../TokenIcon/TokenIcon';
+import { UsdView } from '../../../UsdView/UsdView';
 
 interface PairSpaceProps {
   readonly title: string;
@@ -38,7 +39,8 @@ const FormPairSection: React.FC<PairSpaceProps> = ({
             <Flex.Item>
               <Flex>
                 <Typography.Body strong>
-                  {fees ? undefined : xAmount.toString()}
+                  {fees ? undefined : xAmount.toString()} (
+                  <UsdView value={xAmount} prefix="~" />)
                 </Typography.Body>
               </Flex>
             </Flex.Item>
@@ -59,7 +61,8 @@ const FormPairSection: React.FC<PairSpaceProps> = ({
             <Flex.Item>
               <Flex>
                 <Typography.Body strong>
-                  {fees ? undefined : yAmount.toString()}
+                  {fees ? undefined : yAmount.toString()} (
+                  <UsdView value={yAmount} prefix="~" />)
                 </Typography.Body>
               </Flex>
             </Flex.Item>

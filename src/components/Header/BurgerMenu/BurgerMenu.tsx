@@ -3,7 +3,6 @@ import './BurgerMenu.less';
 import { t } from '@lingui/macro';
 import { stringify } from 'qs';
 import React, { useState } from 'react';
-import { isMobile } from 'react-device-detect';
 import { Link, useLocation } from 'react-router-dom';
 
 import { ReactComponent as DarkModeOutlined } from '../../../assets/icons/darkmode.svg';
@@ -25,12 +24,10 @@ import {
   QuestionCircleOutlined,
   ReloadOutlined,
   RightOutlined,
-  SettingOutlined,
 } from '../../../ergodex-cdk';
 import { useQuery } from '../../../hooks/useQuery';
 import { DotsIcon } from '../../common/Icons/DotsIcon';
 import { ThemeSwitch } from '../../ThemeSwitch/ThemeSwitch';
-import { GlobalSettingsModal } from '../GlobalSettingsModal/GlobalSettingsModal';
 import { ManualRefundModal } from './ManualRefundModal/ManualRefundModal';
 
 const MENU_WIDTH = 160;
@@ -70,13 +67,6 @@ const BurgerMenu = (): JSX.Element => {
         Modal.open(({ close }) => <ManualRefundModal close={close} />),
     },
     {
-      title: t`Global Settings`,
-      icon: <SettingOutlined />,
-      onClick: () =>
-        Modal.open(({ close }) => <GlobalSettingsModal onClose={close} />),
-      isNotRenderMobile: true,
-    },
-    {
       title: t`Language`,
       icon: <GlobalOutlined />,
       additional: <RightOutlined style={{ marginLeft: 36 }} />,
@@ -103,9 +93,6 @@ const BurgerMenu = (): JSX.Element => {
           className="ergodex-menu-item"
           key={index + 1}
           icon={item.icon}
-          style={{
-            display: isMobile && item.isNotRenderMobile ? 'none' : '',
-          }}
         >
           {item.onClick ? (
             <a rel="noreferrer" onClick={item.onClick}>

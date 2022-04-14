@@ -40,6 +40,7 @@ import {
   BaseInputParameters,
   getBaseInputParameters,
 } from '../../../utils/walletMath';
+import { PriceImpactView } from '../PriceImpactView/PriceImpactView';
 import { SwapFormModel } from '../SwapFormModel';
 
 export interface SwapConfirmationModalProps {
@@ -226,6 +227,18 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
                       </Flex.Item>
                       <Flex.Item>
                         <Typography.Text>{nitro}</Typography.Text>
+                      </Flex.Item>
+                    </Flex>
+                  </Flex.Item>
+                  <Flex.Item marginBottom={2}>
+                    <Flex direction="row">
+                      <Flex.Item flex={1}>
+                        <Typography.Text>
+                          <Trans>Price impact:</Trans>
+                        </Typography.Text>
+                      </Flex.Item>
+                      <Flex.Item>
+                        <PriceImpactView value={value} />
                       </Flex.Item>
                     </Flex>
                   </Flex.Item>

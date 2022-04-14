@@ -339,7 +339,7 @@ export const Swap = (): JSX.Element => {
             </Flex.Item>
             <OperationSettings />
           </Flex>
-          <Flex.Item marginBottom={1} marginTop={6}>
+          <Flex.Item marginBottom={1} marginTop={2}>
             <TokenControlFormItem
               bordered
               maxButton

@@ -3,14 +3,16 @@ import React, { FC, useState } from 'react';
 import styled from 'styled-components';
 
 import { calculateOutputs } from '../../../common/utils/calculateOutputs';
+import { UsdView } from '../../../components/UsdView/UsdView';
 import { useSettings } from '../../../context';
-import { Collapse, Divider, Flex, Typography } from '../../../ergodex-cdk';
+import { Collapse, Divider, Flex } from '../../../ergodex-cdk';
 import {
   useMaxExFee,
   useMaxTotalFees,
   useMinExFee,
   useMinTotalFees,
 } from '../../../services/new/core';
+import { PriceImpactView } from '../PriceImpactView/PriceImpactView';
 import { SwapFormModel } from '../SwapFormModel';
 import { SwapInfoHeader } from './SwapInfoHeader/SwapInfoHeader';
 import { SwapInfoItem } from './SwapInfoItem/SwapInfoItem';
@@ -19,21 +21,6 @@ export interface SwapInfoProps {
   value: SwapFormModel;
   className?: string;
 }
-
-const getPriceImpactStatus = (
-  priceImpact: number | undefined,
-): 'success' | 'warning' | 'danger' | undefined => {
-  if (priceImpact === undefined) {
-    return undefined;
-  }
-  if (priceImpact < 1) {
-    return 'success';
-  }
-  if (1 <= priceImpact && priceImpact <= 5) {
-    return 'warning';
-  }
-  return 'danger';
-};
 
 const _SwapInfo: FC<SwapInfoProps> = ({ className, value }) => {
   const [collapsed, setCollapsed] = useState<boolean>(false);
@@ -44,14 +31,6 @@ const _SwapInfo: FC<SwapInfoProps> = ({ className, value }) => {
   const [{ minerFee, slippage, nitro }] = useSettings();
 
   const handleCollapseChange = () => setCollapsed((prev) => !prev);
-
-  const priceImpact: number | undefined =
-    value.fromAmount?.isPositive() &&
-    value.toAmount?.isPositive() &&
-    !!value.pool
-      ? value.pool.calculatePriceImpact(value.fromAmount)
-      : undefined;
-  const priceImpactStatus = getPriceImpactStatus(priceImpact);
 
   const [minOutput, maxOutput] =
     value.fromAmount?.isPositive() &&
@@ -85,23 +64,37 @@ const _SwapInfo: FC<SwapInfoProps> = ({ className, value }) => {
               <Flex.Item marginBottom={2}>
                 <SwapInfoItem
                   title={t`Price impact:`}
-                  value={
-                    <Typography.Body type={priceImpactStatus}>
-                      {priceImpact !== undefined ? `${priceImpact}%` : '–'}
-                    </Typography.Body>
-                  }
+                  value={<PriceImpactView value={value} />}
                 />
               </Flex.Item>
               <Flex.Item marginBottom={2}>
                 <SwapInfoItem
-                  title={t`Minimum received:`}
-                  value={minOutput?.toCurrencyString() || '–'}
+                  title={t`Minimum output:`}
+                  value={
+                    (
+                      <>
+                        {minOutput?.toCurrencyString()}
+                        {' ('}
+                        <UsdView value={minOutput} />
+                        {')'}
+                      </>
+                    ) || '–'
+                  }
                 />
               </Flex.Item>
               <Flex.Item marginBottom={4}>
                 <SwapInfoItem
-                  title={t`Maximum received:`}
-                  value={maxOutput?.toCurrencyString() || '–'}
+                  title={t`Maximum output:`}
+                  value={
+                    (
+                      <>
+                        {maxOutput?.toCurrencyString()}
+                        {' ('}
+                        <UsdView value={maxOutput} />
+                        {')'}
+                      </>
+                    ) || '–'
+                  }
                 />
               </Flex.Item>
               <Flex.Item marginBottom={4}>
@@ -110,21 +103,39 @@ const _SwapInfo: FC<SwapInfoProps> = ({ className, value }) => {
               <Flex.Item marginBottom={2}>
                 <SwapInfoItem
                   title={t`Execution Fee`}
-                  value={`${minExFee.toCurrencyString()} - ${maxExFee.toCurrencyString()}`}
+                  value={
+                    <>
+                      ${minExFee.toCurrencyString()} - $
+                      {maxExFee.toCurrencyString()}
+                      {' ('}
+                      <UsdView value={minExFee} /> -
+                      <UsdView value={maxExFee} />
+                      {')'}
+                    </>
+                  }
                   secondary
                 />
               </Flex.Item>
               <Flex.Item marginBottom={2}>
                 <SwapInfoItem
                   title={t`Miner fee:`}
-                  value={`${minerFee} ERG`}
+                  value={<>${minerFee} ERG</>}
                   secondary
                 />
               </Flex.Item>
               <Flex.Item marginBottom={2}>
                 <SwapInfoItem
                   title={t`Total fees:`}
-                  value={`${minTotalFee.toCurrencyString()} - ${maxTotalFee.toCurrencyString()}`}
+                  value={
+                    <>
+                      ${minTotalFee.toCurrencyString()} - $
+                      {maxTotalFee.toCurrencyString()}
+                      {' ('}
+                      <UsdView value={minTotalFee} /> -
+                      <UsdView value={maxTotalFee} />
+                      {')'}
+                    </>
+                  }
                 />
               </Flex.Item>
             </Flex>

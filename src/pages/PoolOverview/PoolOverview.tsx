@@ -112,7 +112,7 @@ export const PoolOverview: React.FC = () => {
           )}
           <Flex.Item marginBottom={4}>
             <FormPairSection
-              title={t`Pool liquidity`}
+              title={t`Total liquidity`}
               yAmount={position.pool.y}
               xAmount={position.pool.x}
             />
