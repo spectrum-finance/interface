@@ -1,11 +1,24 @@
-import { AssetClass } from '@ergolabs/cardano-dex-sdk';
-import { mkSubject } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/assetClass';
-import { Observable, of } from 'rxjs';
+import { Subject } from '@ergolabs/cardano-dex-sdk/build/main/cardano/types';
+import { HexString } from '@ergolabs/ergo-sdk';
 
-import { Dictionary } from '../../../../common/utils/Dictionary';
-import { AssetInfo } from './AssetInfo';
+import { Dictionary } from '../../../../../common/utils/Dictionary';
 
-export const assets: Dictionary<AssetInfo> = {
+interface CardanoAssetInfoItem<T> {
+  readonly value: T;
+}
+
+export interface CardanoAssetInfo {
+  readonly subject: Subject;
+  readonly policy: HexString;
+  readonly url: CardanoAssetInfoItem<string>;
+  readonly name: CardanoAssetInfoItem<string>;
+  readonly ticker: CardanoAssetInfoItem<string>;
+  readonly logo: CardanoAssetInfoItem<string>;
+  readonly description: CardanoAssetInfoItem<string>;
+  readonly decimals: CardanoAssetInfoItem<number>;
+}
+
+export const assets: Dictionary<CardanoAssetInfo> = {
   '805fe1efcdea11f1e959eff4f422f118aa76dca2d0d797d184e487da6572676f54657374546f6b656e42':
     {
       subject:
@@ -79,7 +92,3 @@ export const assets: Dictionary<AssetInfo> = {
       },
     },
 };
-
-export const getAssetInfo = (
-  a: AssetClass,
-): Observable<AssetInfo | undefined> => of(assets[mkSubject(a)]);

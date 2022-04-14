@@ -1,7 +1,5 @@
-import { mkSubject } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/assetClass';
 import {
-  combineLatest,
-  map,
+  mapTo,
   Observable,
   of,
   publishReplay,
@@ -10,34 +8,14 @@ import {
 } from 'rxjs';
 
 import { Balance } from '../../../../common/models/Balance';
-import { getAssetInfo } from '../assetManager/getAssetInfo';
+import { networkContext$ } from '../networkContext/networkContext';
 import { connectedWalletChange$ } from '../wallet/connectedWalletChange';
 
 export const balance$: Observable<Balance> = connectedWalletChange$.pipe(
-  // switchMap((selectedWallet) => networkContext$.pipe(mapTo(selectedWallet))),
+  switchMap((selectedWallet) => networkContext$.pipe(mapTo(selectedWallet))),
   switchMap((selectedWallet) =>
-    selectedWallet ? selectedWallet.getBalance() : of(undefined),
+    selectedWallet ? selectedWallet.getBalance() : of(new Balance([])),
   ),
-  switchMap((data) => {
-    if (!data?.length) {
-      return of([]);
-    }
-    return combineLatest(
-      data.map((item) =>
-        getAssetInfo(item).pipe(
-          map((info) => [
-            item.quantity,
-            {
-              name: info?.name.value || item.name,
-              id: info?.subject || item.name,
-              decimals: info?.decimals.value || 0,
-            },
-          ]),
-        ),
-      ),
-    );
-  }),
-  map((items) => new Balance(items as any)),
   publishReplay(1),
   refCount(),
 );

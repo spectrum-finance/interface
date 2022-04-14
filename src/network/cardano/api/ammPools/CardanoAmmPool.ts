@@ -10,12 +10,12 @@ import { cache } from 'decorator-cache-getter';
 import { AmmPool } from '../../../../common/models/AmmPool';
 import { Currency } from '../../../../common/models/Currency';
 import { AnalyticsData } from '../../../../services/new/analytics';
-import { AssetInfo } from '../assetManager/AssetInfo';
+import { CardanoAssetInfo } from '../common/cardanoAssetInfo/mocks';
 
 export interface AssetInfoDictionary {
-  readonly lp?: AssetInfo;
-  readonly x?: AssetInfo;
-  readonly y?: AssetInfo;
+  readonly lp?: CardanoAssetInfo;
+  readonly x?: CardanoAssetInfo;
+  readonly y?: CardanoAssetInfo;
 }
 
 export class CardanoAmmPool extends AmmPool {
@@ -88,7 +88,7 @@ export class CardanoAmmPool extends AmmPool {
       return undefined;
     }
     const assetSubject = mkSubject(asset);
-    let assetInfo: AssetInfo | undefined;
+    let assetInfo: CardanoAssetInfo | undefined;
 
     if (assetSubject === this.assetInfoDictionary.x?.subject) {
       assetInfo = this.assetInfoDictionary.x;
@@ -109,7 +109,7 @@ export class CardanoAmmPool extends AmmPool {
 
   private toAssetClass(asset: ErgoAssetInfo): AssetClass {
     const assetSubject = asset.id;
-    let assetInfo: AssetInfo | undefined;
+    let assetInfo: CardanoAssetInfo | undefined;
 
     if (assetSubject === this.assetInfoDictionary.x?.subject) {
       assetInfo = this.assetInfoDictionary.x;

@@ -1,14 +1,15 @@
-import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import { Observable, of, publishReplay, refCount } from 'rxjs';
 
-import { ERG_DECIMALS } from '../../../../common/constants/erg';
+import { AssetInfo } from '../../../../common/models/AssetInfo';
 
-export const ADA_ID = 'token-ada';
+const ADA_ID = 'token-ada';
+const ADA_DECIMALS = 6;
 
 export const networkAsset = {
   name: 'ADA',
+  ticker: 'ADA',
   id: ADA_ID,
-  decimals: ERG_DECIMALS,
+  decimals: ADA_DECIMALS,
 };
 
 export const networkAsset$: Observable<AssetInfo> = of(networkAsset).pipe(

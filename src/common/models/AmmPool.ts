@@ -1,11 +1,11 @@
 import { AmmPool as CardanoBaseAmmPool } from '@ergolabs/cardano-dex-sdk';
 import { AmmPool as ErgoBaseAmmPool } from '@ergolabs/ergo-dex-sdk';
-import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import { cache } from 'decorator-cache-getter';
 import { evaluate } from 'mathjs';
 
 import { AnalyticsData } from '../../services/new/analytics';
 import { math, renderFractions } from '../../utils/math';
+import { AssetInfo } from './AssetInfo';
 import { Currency } from './Currency';
 import { Ratio } from './Ratio';
 

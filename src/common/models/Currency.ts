@@ -1,11 +1,10 @@
-import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
-
 import {
   math,
   parseUserInputToFractions,
   renderFractions,
 } from '../../utils/math';
 import { getDecimalsCount, normalizeAmount } from '../utils/amount';
+import { AssetInfo } from './AssetInfo';
 
 const createUnknownAsset = (decimals = 0): AssetInfo => ({
   id: '-1',
