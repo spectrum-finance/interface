@@ -1,4 +1,14 @@
-import { decodeAddr, decodeWasmValue, Value } from '@ergolabs/cardano-dex-sdk';
+import {
+  decodeAddr,
+  decodeWasmUtxo,
+  decodeWasmValue,
+  Value,
+} from '@ergolabs/cardano-dex-sdk';
+import {
+  RawTx,
+  RawUnsignedTx,
+} from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/tx';
+import { TxOut } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/txOut';
 import { RustModule } from '@ergolabs/cardano-dex-sdk/build/main/utils/rustLoader';
 import React, { ReactNode } from 'react';
 import {
@@ -108,6 +118,20 @@ export const makeCardanoWallet = ({
     );
   };
 
+  const getUtxos = (): Observable<TxOut[]> => {
+    return zip([
+      ctx$.pipe(switchMap((ctx) => from(ctx.getUtxos()))),
+      cardanoWasm$,
+    ]).pipe(
+      map(
+        ([hexes, wasm]) => hexes?.map((hex) => decodeWasmUtxo(hex, wasm)) || [],
+      ),
+    );
+  };
+
+  const sign = (tx: RawUnsignedTx): Promise<RawTx> =>
+    ctx$.pipe(switchMap((ctx) => ctx.signTx(tx))).toPromise();
+
   return {
     name,
     icon,
@@ -119,5 +143,7 @@ export const makeCardanoWallet = ({
     getUnusedAddresses,
     getAddresses,
     getBalance,
+    getUtxos,
+    sign,
   };
 };

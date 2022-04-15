@@ -26,7 +26,7 @@ export const PoolSelectorModal: FC<PoolSelectorModalProps> = ({
   }, [value.id]);
 
   const handlePoolItemClick = (pool: AmmPool): void => {
-    if (onChange && pool.id !== value.id) {
+    if (onChange) {
       onChange(pool);
       close();
     }

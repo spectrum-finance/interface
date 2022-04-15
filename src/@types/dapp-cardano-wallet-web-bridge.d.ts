@@ -1,4 +1,8 @@
 namespace CardanoBridge {
+  import {
+    RawTx,
+    RawUnsignedTx,
+  } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/tx';
   import { Paging } from '@ergolabs/cardano-dex-sdk';
   import { HexString } from '@ergolabs/ergo-sdk';
 
@@ -14,6 +18,7 @@ namespace CardanoBridge {
     getBalance(): Promise<EncodedBalance>;
     getUsedAddresses(paginate?: Paging): Promise<EncodedAddress[]>;
     getUnusedAddresses(paginate?: Paging): Promise<EncodedAddress[]>;
+    signTx(tx: RawUnsignedTx, partialSign: boolean = false): Promise<RawTx>;
   }
 
   export interface ConnectorAPI {

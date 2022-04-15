@@ -1,11 +1,22 @@
-import { minValueForOrder, swapVars } from '@ergolabs/ergo-dex-sdk';
-import { SwapExtremums } from '@ergolabs/ergo-dex-sdk/build/main/amm/math/swap';
+import { Transaction } from '@emurgo/cardano-serialization-lib-nodejs';
 import {
-  AssetAmount,
-  BoxSelection,
-  DefaultBoxSelector,
-  publicKeyFromAddress,
-} from '@ergolabs/ergo-sdk';
+  mkAmmActions,
+  mkAmmOutputs,
+  OrderRequestKind,
+} from '@ergolabs/cardano-dex-sdk';
+import { FeePerToken } from '@ergolabs/cardano-dex-sdk/build/main/amm/domain/models';
+import { PoolId } from '@ergolabs/cardano-dex-sdk/build/main/amm/domain/types';
+import { OrderAddrsV1 } from '@ergolabs/cardano-dex-sdk/build/main/amm/scripts';
+import { Addr } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/address';
+import { AssetClass } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/assetClass';
+import { PubKeyHash } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/publicKey';
+import { FullTxIn } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/txIn';
+import { TxOut } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/txOut';
+import { Lovelace } from '@ergolabs/cardano-dex-sdk/build/main/cardano/types';
+import { AssetAmount } from '@ergolabs/cardano-dex-sdk/build/main/domain/assetAmount';
+import { RustModule } from '@ergolabs/cardano-dex-sdk/build/main/utils/rustLoader';
+import { swapVars } from '@ergolabs/ergo-dex-sdk';
+import { SwapExtremums } from '@ergolabs/ergo-dex-sdk/build/main/amm/math/swap';
 import { t, Trans } from '@lingui/macro';
 import React, { FC, useEffect, useState } from 'react';
 
@@ -25,12 +36,9 @@ import {
   Typography,
   useForm,
 } from '../../../ergodex-cdk';
-import { utxos$ } from '../../../network/ergo/api/utxos/utxos';
-import { explorer } from '../../../services/explorer';
+import { submitTx } from '../../../network/cardano/api/operations/submitTx';
+import { utxos$ } from '../../../network/cardano/api/utxos/utxos';
 import { useMinExFee } from '../../../services/new/core';
-import { poolActions } from '../../../services/poolActions';
-import { submitTx } from '../../../services/yoroi';
-import { makeTarget } from '../../../utils/ammMath';
 import {
   parseUserInputToFractions,
   renderFractions,
@@ -56,7 +64,7 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
   );
   const form = useForm<SwapFormModel>(value);
 
-  const [{ minerFee, address, slippage, nitro }] = useSettings();
+  const [{ minerFee, address, slippage, nitro, pk }] = useSettings();
   const [utxos] = useObservable(utxos$);
   const minExFee = useMinExFee();
 
@@ -129,48 +137,42 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
       value.fromAsset &&
       value.toAsset?.id
     ) {
-      const pk = publicKeyFromAddress(address)!;
-      const actions = poolActions(value.pool['pool'] as any);
-      const quoteAsset = value.toAsset?.id;
+      const ammOutputs = mkAmmOutputs(OrderAddrsV1, RustModule._wasm!);
+      const ammActions = mkAmmActions(ammOutputs, address);
 
-      const minNErgs = minValueForOrder(
-        minerFeeNErgs,
-        uiFeeNErg,
-        operationVars[1].maxExFee,
+      const quoteAsset =
+        value.fromAmount?.asset.id === value.pool.x.asset.id
+          ? value.pool['pool'].y.asset
+          : value.pool['pool'].x.asset;
+
+      const baseInput =
+        value.fromAmount?.asset.id === value.pool.x.asset.id
+          ? value.pool['pool'].x.withAmount(value.fromAmount.amount)
+          : value.pool['pool'].y.withAmount(value.fromAmount.amount);
+
+      const txCandidate = ammActions.createOrder(
+        {
+          kind: OrderRequestKind.Swap,
+          poolId: value.pool['pool'].id as AssetClass,
+          rewardPkh: pk!,
+          poolFeeNum: value.pool.poolFeeNum,
+          baseInput: baseInput as any,
+          quoteAsset: quoteAsset as any,
+          minQuoteOutput: value.toAmount.amount,
+          uiFee: 0n,
+          exFeePerToken: {
+            numerator: 1n,
+            denominator: 1n,
+          },
+        },
+        {
+          changeAddr: address,
+          collateralInputs: [],
+          inputs: utxos.map((u) => ({ txOut: u })),
+        },
       );
 
-      const target = makeTarget(
-        [new AssetAmount(value.fromAsset!, baseParams.baseInputAmount)],
-        minNErgs,
-      );
-
-      const inputs = DefaultBoxSelector.select(utxos, target) as BoxSelection;
-
-      const network = await explorer.getNetworkContext();
-
-      onClose(
-        actions
-          .swap(
-            {
-              pk,
-              poolId,
-              baseInput: baseParams.baseInput,
-              minQuoteOutput: operationVars[1].minOutput.amount,
-              exFeePerToken: operationVars[0],
-              uiFee: uiFeeNErg,
-              quoteAsset,
-              poolFeeNum,
-            },
-            {
-              inputs,
-              changeAddress: address,
-              selfAddress: address,
-              feeNErgs: minerFeeNErgs,
-              network,
-            },
-          )
-          .then((tx) => submitTx(tx)),
-      );
+      submitTx(txCandidate);
     }
   };
 
