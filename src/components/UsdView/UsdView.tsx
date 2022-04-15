@@ -7,7 +7,7 @@ import { Currency } from '../../common/models/Currency';
 import { LoadingOutlined } from '../../ergodex-cdk';
 
 export interface UsdViewProps {
-  readonly value: Currency | undefined;
+  readonly value: Currency | Currency[] | undefined;
   readonly prefix?: string;
   readonly defaultValue?: string;
 }
@@ -15,13 +15,13 @@ export interface UsdViewProps {
 export const UsdView: FC<UsdViewProps> = ({ value, prefix, defaultValue }) => {
   const usdValue$ = useMemo(
     () => (value ? convertToUsd(value) : of(undefined)),
-    [value?.amount, value?.asset?.id],
+    value instanceof Array ? [value] : [value?.amount, value?.asset?.id],
   );
 
-  const [usdValue, isLoadingUsdValue] = useObservable(usdValue$, [
-    value?.amount,
-    value?.asset?.id,
-  ]);
+  const [usdValue, isLoadingUsdValue] = useObservable(
+    usdValue$,
+    value instanceof Array ? [value] : [value?.amount, value?.asset?.id],
+  );
 
   return (
     <>

@@ -243,6 +243,8 @@ export class AmmPool implements Searchable {
 
     return (
       this.pool.id?.toLowerCase().includes(normalizedTerm) ||
+      this.pool.x.asset.id?.toLowerCase().includes(normalizedTerm) ||
+      this.pool.y.asset.id?.toLowerCase().includes(normalizedTerm) ||
       this.x.asset.name?.toLowerCase().includes(normalizedTerm) ||
       this.y.asset.name?.toLowerCase().includes(normalizedTerm) ||
       `${this.x.asset.name?.toLowerCase()}${this.y.asset.name?.toLowerCase()}`.includes(

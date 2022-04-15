@@ -9,42 +9,43 @@ import {
 } from 'rxjs';
 
 import { emptyUsdCurrency } from '../constants/usdAsset';
-import { AmmPool } from '../models/AmmPool';
 import { Currency } from '../models/Currency';
 import { Ratio } from '../models/Ratio';
+import { AssetGraph } from './AssetGraph';
 
-const byAssetPair = (xId: string, yId: string) => (p: AmmPool) =>
-  (p.x.asset.id === xId && p.y.asset.id === yId) ||
-  (p.x.asset.id === yId && p.y.asset.id === xId);
-
-const getRatioFromPools = (
-  pools: AmmPool[],
+const getRatioFromGraph = (
+  graph: AssetGraph,
   base: AssetInfo,
   quote: AssetInfo,
 ): Ratio | undefined => {
-  const pool = pools.find(byAssetPair(base.id, quote.id));
+  const path = graph.getPath(base, quote);
 
-  if (!pool) {
-    return undefined;
-  }
-  return pool.x.asset.id === base.id ? pool.xRatio : pool.yRatio;
+  return path.reduce<Ratio | undefined>((ratio, pool) => {
+    if (!ratio) {
+      return pool.x.asset.id === base.id ? pool.xRatio : pool.yRatio;
+    }
+
+    return ratio.cross(
+      pool.x.asset.id === ratio.baseAsset.id ? pool.xRatio : pool.yRatio,
+    );
+  }, undefined);
 };
 
 export const makeUsdConverter = (
-  pools$: Observable<AmmPool[]>,
+  assetGraph$: Observable<AssetGraph>,
   networkAssetToUsdRatio$: Observable<Ratio>,
 ): ((from: Currency | Currency[]) => Observable<Currency>) => {
   const ratioStreamCache: Map<string, Observable<Ratio>> = new Map();
 
   const createRateStream = (fromAsset: AssetInfo): Observable<Ratio> => {
-    return combineLatest([pools$, networkAssetToUsdRatio$]).pipe(
-      map(([pools, networkAssetRatio]) => {
+    return combineLatest([assetGraph$, networkAssetToUsdRatio$]).pipe(
+      map(([graph, networkAssetRatio]) => {
         if (fromAsset.id === networkAssetRatio.baseAsset.id) {
           return networkAssetRatio;
         }
 
-        const toNetworkAssetRatio: Ratio | undefined = getRatioFromPools(
-          pools,
+        const toNetworkAssetRatio: Ratio | undefined = getRatioFromGraph(
+          graph,
           fromAsset,
           networkAssetRatio.baseAsset,
         );

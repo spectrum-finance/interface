@@ -11,6 +11,7 @@ import {
 
 import { usdAsset } from '../../../common/constants/usdAsset';
 import { Ratio } from '../../../common/models/Ratio';
+import { AssetGraph } from '../../../common/services/AssetGraph';
 import { makeUsdConverter } from '../../../common/services/CurrencyUsdRate';
 import { appTick$ } from '../../../common/streams/appTick';
 import { ammPools$ } from '../ammPools/ammPools';
@@ -37,4 +38,10 @@ export const ergoUsdRatio$: Observable<any> = appTick$.pipe(
   refCount(),
 );
 
-export const convertToUsd = makeUsdConverter(ammPools$, ergoUsdRatio$);
+const assetGraph$ = ammPools$.pipe(
+  map(AssetGraph.fromPools),
+  publishReplay(1),
+  refCount(),
+);
+
+export const convertToUsd = makeUsdConverter(assetGraph$, ergoUsdRatio$);
