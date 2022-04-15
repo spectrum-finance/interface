@@ -12,7 +12,7 @@ import { Position } from '../common/models/Position';
 import { ArgsProps } from '../ergodex-cdk';
 
 export interface Network {
-  readonly convertToUsd: (from: Currency) => Observable<Currency>;
+  readonly convertToUsd: (from: Currency | Currency[]) => Observable<Currency>;
   readonly networkAsset$: Observable<AssetInfo>;
   readonly networkAssetBalance$: Observable<Currency>;
   readonly assetBalance$: Observable<Balance>;

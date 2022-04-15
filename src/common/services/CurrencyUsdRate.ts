@@ -1,6 +1,14 @@
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
-import { combineLatest, map, Observable, publishReplay, refCount } from 'rxjs';
+import {
+  combineLatest,
+  map,
+  Observable,
+  of,
+  publishReplay,
+  refCount,
+} from 'rxjs';
 
+import { emptyUsdCurrency } from '../constants/usdAsset';
 import { AmmPool } from '../models/AmmPool';
 import { Currency } from '../models/Currency';
 import { Ratio } from '../models/Ratio';
@@ -25,7 +33,7 @@ const getRatioFromPools = (
 export const makeUsdConverter = (
   pools$: Observable<AmmPool[]>,
   networkAssetToUsdRatio$: Observable<Ratio>,
-): ((from: Currency) => Observable<Currency>) => {
+): ((from: Currency | Currency[]) => Observable<Currency>) => {
   const ratioStreamCache: Map<string, Observable<Ratio>> = new Map();
 
   const createRateStream = (fromAsset: AssetInfo): Observable<Ratio> => {
@@ -58,10 +66,25 @@ export const makeUsdConverter = (
     return ratioStreamCache.get(from.id)!;
   };
 
-  return (from: Currency): Observable<Currency> =>
-    rate(from.asset).pipe(
-      map((usdRate) => {
-        return usdRate.toQuoteCurrency(from);
-      }),
+  return (from: Currency | Currency[]): Observable<Currency> => {
+    if (from instanceof Currency) {
+      return rate(from.asset).pipe(
+        map((usdRate) => usdRate.toQuoteCurrency(from)),
+      );
+    }
+
+    if (!from.length) {
+      return of(emptyUsdCurrency);
+    }
+
+    return combineLatest(
+      from.map((i) =>
+        rate(i.asset).pipe(map((usdRate) => usdRate.toQuoteCurrency(i))),
+      ),
+    ).pipe(
+      map((currencies) =>
+        currencies.reduce((acc, c) => acc.plus(c), emptyUsdCurrency),
+      ),
     );
+  };
 };
