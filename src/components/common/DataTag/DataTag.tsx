@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import styled from 'styled-components';
 
 import {
@@ -11,7 +11,7 @@ import {
 
 interface DataTagProps {
   className?: string;
-  content?: number | string;
+  content?: number | string | ReactNode | ReactNode[];
   secondary?: boolean;
   size?: 'small' | 'default' | 'middle' | 'large';
   width?: number;
