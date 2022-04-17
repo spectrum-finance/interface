@@ -26,8 +26,13 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
   const openWalletModal = () => Modal.open(<WalletModal />);
 
   const addressButton = (
-    <Box borderRadius="m" padding={1}>
-      <Flex align="center">
+    <Box
+      borderRadius="m"
+      padding={1}
+      className="wallet-info-box"
+      onClick={openWalletModal}
+    >
+      <Flex align="center" stretch>
         <Flex.Item
           className="connect-wallet__balance"
           marginRight={2}
@@ -38,17 +43,18 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
           </Typography.Body>
         </Flex.Item>
         <Flex.Item>
-          <Button
-            className="connect-wallet__address-btn"
-            onClick={openWalletModal}
-            icon={!!numberOfPendingTxs && <LoadingOutlined />}
-            size="large"
-            type="default"
-          >
-            {numberOfPendingTxs > 0
-              ? t`${numberOfPendingTxs} Pending`
-              : addressToRender}
-          </Button>
+          {balance !== undefined && (
+            <Button
+              className="connect-wallet__address-btn"
+              icon={!!numberOfPendingTxs && <LoadingOutlined />}
+              size="large"
+              type="default"
+            >
+              {numberOfPendingTxs > 0
+                ? t`${numberOfPendingTxs} Pending`
+                : addressToRender}
+            </Button>
+          )}
         </Flex.Item>
       </Flex>
     </Box>

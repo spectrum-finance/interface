@@ -1,6 +1,6 @@
 import { Address, PublicKey, publicKeyFromAddress } from '@ergolabs/ergo-sdk';
 import { useLocalStorage } from '@rehooks/local-storage';
-import React, { createContext, useContext, useEffect } from 'react';
+import React, { createContext, useContext, useEffect, useMemo } from 'react';
 
 import { getUnusedAddresses, getUsedAddresses } from '../api/addresses';
 import { ERG_EXPLORER_URL } from '../common/constants/env';
@@ -68,9 +68,12 @@ export const getSetting = (
 export const SettingsProvider = ({
   children,
 }: React.PropsWithChildren<unknown>): JSX.Element => {
+  const usedAddresses$ = useMemo(() => getUsedAddresses(), []);
+  const unusedAddresses$ = useMemo(() => getUnusedAddresses(), []);
+
   const ctxValue = useLocalStorage('settings', DefaultSettings);
-  const [usedAddresses] = useObservable(getUsedAddresses());
-  const [unusedAddresses] = useObservable(getUnusedAddresses());
+  const [usedAddresses] = useObservable(usedAddresses$);
+  const [unusedAddresses] = useObservable(unusedAddresses$);
   const [userSettings, setUserSettings] = ctxValue;
 
   useEffect(() => {
