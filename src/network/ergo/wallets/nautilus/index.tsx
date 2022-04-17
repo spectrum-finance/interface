@@ -14,6 +14,7 @@ import { supportedFeatures } from './supportedFeatures';
 export const Nautilus: Wallet = {
   name: 'Nautilus Wallet',
   icon: <NautilusLogo />,
+  previewIcon: <NautilusLogo width={21} height={21} />,
   definition: 'recommended',
   extensionLink:
     'https://chrome.google.com/webstore/detail/nautilus-wallet/gjlmehlldlphhljhpnlddaodbjjcchai',
