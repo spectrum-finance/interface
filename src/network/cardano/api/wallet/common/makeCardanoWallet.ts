@@ -1,7 +1,13 @@
 import {
+  Transaction,
+  TransactionWitnessSet,
+} from '@emurgo/cardano-serialization-lib-nodejs';
+import {
   decodeAddr,
   decodeWasmUtxo,
   decodeWasmValue,
+  HexString,
+  RawTxWitnessSet,
   Value,
 } from '@ergolabs/cardano-dex-sdk';
 import {
@@ -9,7 +15,6 @@ import {
   RawUnsignedTx,
 } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/tx';
 import { TxOut } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/txOut';
-import { RustModule } from '@ergolabs/cardano-dex-sdk/build/main/utils/rustLoader';
 import React, { ReactNode } from 'react';
 import {
   catchError,
@@ -23,6 +28,7 @@ import {
   publishReplay,
   refCount,
   switchMap,
+  tap,
   throwError,
   zip,
 } from 'rxjs';
@@ -129,8 +135,11 @@ export const makeCardanoWallet = ({
     );
   };
 
-  const sign = (tx: RawUnsignedTx): Promise<RawTx> =>
-    ctx$.pipe(switchMap((ctx) => ctx.signTx(tx))).toPromise();
+  const sign = (tx: RawUnsignedTx): Promise<RawTxWitnessSet> =>
+    ctx$.pipe(switchMap((ctx) => from(ctx.signTx(tx)))).toPromise();
+
+  const submit = (tx: RawTx): Observable<HexString> =>
+    ctx$.pipe(switchMap((ctx) => from(ctx.submitTx(tx))));
 
   return {
     name,
@@ -145,5 +154,6 @@ export const makeCardanoWallet = ({
     getBalance,
     getUtxos,
     sign,
+    submit,
   };
 };

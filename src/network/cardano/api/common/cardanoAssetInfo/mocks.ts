@@ -40,7 +40,7 @@ export const assets: Dictionary<CardanoAssetInfo> = {
         value: 'ergoTestTokenB',
       },
       decimals: {
-        value: 2,
+        value: 0,
       },
     },
   '805fe1efcdea11f1e959eff4f422f118aa76dca2d0d797d184e487da6572676f54657374546f6b656e41':
@@ -64,7 +64,7 @@ export const assets: Dictionary<CardanoAssetInfo> = {
         value: 'ergoTestTokenA',
       },
       decimals: {
-        value: 6,
+        value: 0,
       },
     },
   '805fe1efcdea11f1e959eff4f422f118aa76dca2d0d797d184e487da6572676f54657374546f6b656e4c50':

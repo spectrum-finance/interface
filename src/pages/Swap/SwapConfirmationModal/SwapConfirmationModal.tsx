@@ -2,11 +2,12 @@ import { Transaction } from '@emurgo/cardano-serialization-lib-nodejs';
 import {
   mkAmmActions,
   mkAmmOutputs,
+  mkTxMath,
   OrderRequestKind,
 } from '@ergolabs/cardano-dex-sdk';
 import { FeePerToken } from '@ergolabs/cardano-dex-sdk/build/main/amm/domain/models';
 import { PoolId } from '@ergolabs/cardano-dex-sdk/build/main/amm/domain/types';
-import { OrderAddrsV1 } from '@ergolabs/cardano-dex-sdk/build/main/amm/scripts';
+import { OrderAddrsV1Testnet } from '@ergolabs/cardano-dex-sdk/build/main/amm/scripts';
 import { Addr } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/address';
 import { AssetClass } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/assetClass';
 import { PubKeyHash } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/publicKey';
@@ -36,6 +37,7 @@ import {
   Typography,
   useForm,
 } from '../../../ergodex-cdk';
+import { cardanoNetworkParams$ } from '../../../network/cardano/api/common/cardanoNetwork';
 import { submitTx } from '../../../network/cardano/api/operations/submitTx';
 import { utxos$ } from '../../../network/cardano/api/utxos/utxos';
 import { useMinExFee } from '../../../services/new/core';
@@ -67,6 +69,7 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
   const [{ minerFee, address, slippage, nitro, pk }] = useSettings();
   const [utxos] = useObservable(utxos$);
   const minExFee = useMinExFee();
+  const [networkParams] = useObservable(cardanoNetworkParams$);
 
   const [baseParams, setBaseParams] = useState<
     BaseInputParameters | undefined
@@ -135,9 +138,16 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
       value.pool &&
       value.fromAmount &&
       value.fromAsset &&
-      value.toAsset?.id
+      value.toAsset?.id &&
+      networkParams
     ) {
-      const ammOutputs = mkAmmOutputs(OrderAddrsV1, RustModule._wasm!);
+      const txMath = mkTxMath(networkParams.pparams, RustModule.CardanoWasm);
+
+      const ammOutputs = mkAmmOutputs(
+        OrderAddrsV1Testnet,
+        txMath,
+        RustModule.CardanoWasm,
+      );
       const ammActions = mkAmmActions(ammOutputs, address);
 
       const quoteAsset =
@@ -171,6 +181,7 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
           inputs: utxos.map((u) => ({ txOut: u })),
         },
       );
+      console.log(txCandidate);
 
       submitTx(txCandidate);
     }

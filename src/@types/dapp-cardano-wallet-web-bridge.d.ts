@@ -9,6 +9,7 @@ namespace CardanoBridge {
   type EncodedTxOut = HexString;
   type EncodedBalance = HexString;
   type EncodedAddress = HexString;
+  type TxId = HexString;
 
   export interface ConnectorContextApi {
     getUtxos(
@@ -19,6 +20,7 @@ namespace CardanoBridge {
     getUsedAddresses(paginate?: Paging): Promise<EncodedAddress[]>;
     getUnusedAddresses(paginate?: Paging): Promise<EncodedAddress[]>;
     signTx(tx: RawUnsignedTx, partialSign: boolean = false): Promise<RawTx>;
+    submitTx(tx: RawTx): Promise<TxId>;
   }
 
   export interface ConnectorAPI {

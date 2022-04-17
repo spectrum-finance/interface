@@ -31,16 +31,17 @@ export const submitTx = (txCandidate: TxCandidate): Subscription =>
     connectedWalletChange$.pipe(filter(Boolean), first()),
   ])
     .pipe(
+      first(),
       tap((res) => console.log(res)),
-      map(([cardanoNetwork, networkParams, wallet]) =>
-        mkTxCompletionPipeline(
-          mkTxAsm(networkParams, RustModule._wasm!),
-          wallet,
-          cardanoNetwork,
-        ),
-      ),
-      switchMap((completionPipeline) =>
-        from(completionPipeline.complete(txCandidate)),
+      switchMap(([cardanoNetwork, networkParams, wallet]) =>
+        from(
+          mkTxCompletionPipeline(
+            mkTxAsm(networkParams, RustModule.CardanoWasm),
+            wallet,
+            cardanoNetwork,
+            RustModule.CardanoWasm,
+          ).complete(txCandidate),
+        ).pipe(switchMap((rawTx) => wallet.submit(rawTx))),
       ),
     )
-    .subscribe(console.log);
+    .subscribe(console.log, console.error);

@@ -28,7 +28,7 @@ export class CardanoAmmPool extends AmmPool {
 
   @cache
   get id(): string {
-    return `${this.pool.id.policyId}${this.pool.id.name}`;
+    return mkSubject(this.pool.id);
   }
 
   @cache
