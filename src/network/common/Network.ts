@@ -33,6 +33,15 @@ export interface NetworkData<W extends Wallet> {
   readonly networkContext$: Observable<NetworkContext>;
 }
 
+interface BaseNetworkConfig {
+  readonly address: Address;
+}
+
+export interface NetworkSettings<T extends BaseNetworkConfig> {
+  settings$: Observable<T>;
+  setSettings: (value: T) => void;
+}
+
 export interface NetworkOperations {
   swap(pool: AmmPool, from: Currency, to: Currency): Observable<TxId>;
 }
