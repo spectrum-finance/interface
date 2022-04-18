@@ -1,7 +1,7 @@
-import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import { uniqBy } from 'lodash';
 import { map, Observable, publishReplay, refCount } from 'rxjs';
 
+import { AssetInfo } from '../../common/models/AssetInfo';
 import { ammPools$ } from './ammPools';
 
 export const tokenAssets$ = ammPools$.pipe(

@@ -1,4 +1,3 @@
-import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import { t } from '@lingui/macro';
 import { maxBy } from 'lodash';
 import React, { FC, useEffect, useState } from 'react';
@@ -6,6 +5,7 @@ import { skip } from 'rxjs';
 
 import { useSubscription } from '../../../common/hooks/useObservable';
 import { AmmPool } from '../../../common/models/AmmPool';
+import { AssetInfo } from '../../../common/models/AssetInfo';
 import { Currency } from '../../../common/models/Currency';
 import { TokenControlFormItem } from '../../../components/common/TokenControl/TokenControl';
 import {

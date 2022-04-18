@@ -1,5 +1,4 @@
-import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
-
+import { AssetInfo } from '../../../common/models/AssetInfo';
 import { Currency } from '../../../common/models/Currency';
 import { Ratio } from '../../../common/models/Ratio';
 

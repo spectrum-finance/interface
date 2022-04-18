@@ -1,8 +1,8 @@
-import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import { ReactNode } from 'react';
 import { Observable } from 'rxjs';
 
 import { AmmPool } from '../../common/models/AmmPool';
+import { AssetInfo } from '../../common/models/AssetInfo';
 import { AssetLock } from '../../common/models/AssetLock';
 import { Balance } from '../../common/models/Balance';
 import { Currency } from '../../common/models/Currency';

@@ -1,7 +1,7 @@
-import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import React, { useEffect, useState } from 'react';
 
 import { applicationConfig } from '../../applicationConfig';
+import { AssetInfo } from '../../common/models/AssetInfo';
 import { UnknownTokenIcon } from '../UnknownTokenIcon/UnknownTokenIcon';
 
 type TokenIconProps = React.DetailedHTMLProps<

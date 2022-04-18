@@ -1,7 +1,7 @@
-import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import React, { FC } from 'react';
 import styled from 'styled-components';
 
+import { AssetInfo } from '../../common/models/AssetInfo';
 import { colorTable } from './colorTable';
 
 export interface UnknownTokenIconProps {

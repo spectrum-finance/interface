@@ -1,7 +1,7 @@
-import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import React, { FC, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
+import { AssetInfo } from '../../../../common/models/AssetInfo';
 import { Ratio } from '../../../../common/models/Ratio';
 import { normalizeAmount } from '../../../../common/utils/amount';
 import { escapeRegExp } from '../../../../components/common/TokenControl/TokenAmountInput/format';

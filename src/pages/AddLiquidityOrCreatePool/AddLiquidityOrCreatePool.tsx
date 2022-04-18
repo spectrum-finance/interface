@@ -1,5 +1,4 @@
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
-import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import { t, Trans } from '@lingui/macro';
 import React, { FC, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router';
@@ -20,6 +19,7 @@ import {
   useSubscription,
 } from '../../common/hooks/useObservable';
 import { AmmPool } from '../../common/models/AmmPool';
+import { AssetInfo } from '../../common/models/AssetInfo';
 import { TokeSelectFormItem } from '../../components/common/TokenControl/TokenSelect/TokenSelect';
 import { Page } from '../../components/Page/Page';
 import { Section } from '../../components/Section/Section';

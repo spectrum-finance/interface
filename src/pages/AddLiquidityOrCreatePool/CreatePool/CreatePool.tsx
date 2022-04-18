@@ -1,9 +1,9 @@
-import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import { t } from '@lingui/macro';
 import React, { FC, useEffect, useState } from 'react';
 import { skip } from 'rxjs';
 
 import { useSubscription } from '../../../common/hooks/useObservable';
+import { AssetInfo } from '../../../common/models/AssetInfo';
 import { Currency } from '../../../common/models/Currency';
 import { Ratio } from '../../../common/models/Ratio';
 import { TokenControlFormItem } from '../../../components/common/TokenControl/TokenControl';

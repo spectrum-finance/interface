@@ -1,6 +1,6 @@
-import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import React from 'react';
 
+import { AssetInfo } from '../../common/models/AssetInfo';
 import { Flex } from '../../ergodex-cdk';
 import { TokenIcon } from '../TokenIcon/TokenIcon';
 

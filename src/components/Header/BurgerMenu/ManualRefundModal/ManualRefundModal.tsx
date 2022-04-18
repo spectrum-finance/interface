@@ -2,9 +2,9 @@ import { t, Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 import { map, Observable } from 'rxjs';
 
-import { getOperationByTxId } from '../../../../api/transactionsHistory';
 import { useSubject } from '../../../../common/hooks/useObservable';
 import { Animation, Flex, Modal } from '../../../../ergodex-cdk';
+import { getOperationByTxId } from '../../../../gateway/api/transactionsHistory';
 import { Operation } from '../../../common/TxHistory/types';
 import { normalizeOperations } from '../../../common/TxHistory/utils';
 import { TransactionFindForm } from './TransactionFindForm/TransactionFindForm';

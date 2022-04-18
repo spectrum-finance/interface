@@ -1,4 +1,3 @@
-import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import { t, Trans } from '@lingui/macro';
 import { maxBy } from 'lodash';
 import { DateTime } from 'luxon';
@@ -16,6 +15,7 @@ import {
 
 import { useSubscription } from '../../common/hooks/useObservable';
 import { AmmPool } from '../../common/models/AmmPool';
+import { AssetInfo } from '../../common/models/AssetInfo';
 import { Currency } from '../../common/models/Currency';
 import {
   END_TIMER_DATE,
