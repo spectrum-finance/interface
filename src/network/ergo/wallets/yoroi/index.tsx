@@ -13,6 +13,7 @@ import { supportedFeatures } from './supportedFeatures';
 export const Yoroi: Wallet = {
   name: 'Yoroi Wallet',
   icon: <YoroiLogo />,
+  previewIcon: <YoroiLogo width={21} height={21} />,
   definition: 'experimental',
   extensionLink:
     'https://chrome.google.com/webstore/detail/yoroi/ffnbelfdoeiohenkjibnmadjiehjhajb',
