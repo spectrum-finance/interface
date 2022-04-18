@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ergodex-frontend\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-03-29 20:22\n"
+"PO-Revision-Date: 2022-03-30 15:42\n"
 "Last-Translator: \n"
 "Language: zh_CN\n"
 "Language-Team: Chinese Simplified\n"
@@ -14,7 +14,7 @@ msgstr ""
 "X-Crowdin-Project-ID: 504102\n"
 "X-Crowdin-Language: zh-CN\n"
 "X-Crowdin-File: /dev/src/i18n/locales/en-US.po\n"
-"X-Crowdin-File-ID: 68\n"
+"X-Crowdin-File-ID: 78\n"
 
 #: src/pages/Pool/components/LockLiquidityDatePicker/LiquidityDatePicker.tsx
 msgid "(Block: {0})"
@@ -62,7 +62,7 @@ msgstr "1. 使用这产品的风险和危险将由你自己承担"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "2. Only YOU are responsible for your assets;"
-msgstr "2. 只有\"你\"對你的資產負責"
+msgstr "2. 只有\"你\"对你的资产负责"
 
 #: src/components/Header/BurgerMenu/BurgerMenu.tsx
 msgid "About"
@@ -293,7 +293,7 @@ msgstr "ERG 余额過低"
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Enter an Amount"
-msgstr "输入數量"
+msgstr "输入数量"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Enter an Initial Price"
@@ -309,15 +309,15 @@ msgstr "Ergodex智能合約"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "ErgoDEX Team doesn’t guarantee the absence of bugs and errors."
-msgstr "ErgodeX 团队不能保证不存在错误和漏洞。"
+msgstr "ErgoDEX 团队不能保证不存在错误和漏洞。"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "ErgoDEX is a decentralized financial (DeFi) application which means it doesn’t have a central government body. ErgoDEX includes AMM (Swap, Add liquidity and Remove liquidity) functionality"
-msgstr "ErgodeX是一种去中心去化金融 (DeFi) 应用程序，这意味着它没有一个中心化的管理机构。 ErgodeX 包括AMM (交易, 添加流动性和删除流动性) "
+msgstr "ErgodeX是一种去中心去化金融 (DeFi) 应用程序，这意味着它没有一个中心化的管理机构。 ErgoDEX 包括AMM (交易, 添加流动性和删除流动性)"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "ErgoDEX offers a form of added security, as buyers and sellers do not have to give their information to any 3rd party. However, ErgoDEX is without a know your customer (KYC) process and can offer NO assistance if a user is hacked or cheated out of passwords, currency or private wallet keys."
-msgstr "Ergodex提供了额外的私隱安全,  因為买方和卖方不必向任何第三方提供信息。 然而，ErgoDEX 沒有執行《知道您的客户》(KYC) 程序，如果用户的密碼、貨幣或私钥被破解或騙取，ErgoDEX不能提供任何援助。"
+msgstr "Ergodex提供了额外的私隐安全, 因为买方和卖方不必向任何第三方提供信息。 然而，ErgoDEX 没有执行《知道您的客户》(KYC) 程序，如果用户的密码、货币或私钥被破解或骗取，ErgoDEX不能提供任何援助"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
@@ -400,7 +400,7 @@ msgstr "我知道我正在重新鎖定我 <1>{1}/{2}</1> 的仓位的 <0>{0}</0>
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "I understand the risks"
-msgstr ""
+msgstr "我了解风险"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "I understand the risks and accept the KYA"
@@ -494,7 +494,7 @@ msgstr "锁定流动性"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
 msgid "Lock period"
-msgstr "锁定周期"
+msgstr "锁定期"
 
 #: src/pages/PoolOverview/LockLiquidityChart/LockLiquidityChart.tsx
 msgid "Lock time"
@@ -536,11 +536,11 @@ msgstr "最大获得量："
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Min value for {0} is {1}"
-msgstr "{0} 的最小價格为 {1}"
+msgstr "{0} 的最小价格为 {1}"
 
 #: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
 msgid "Miner Fee"
-msgstr "矿工收费"
+msgstr "矿工费"
 
 #: src/components/common/FormView/FormFeesSection/FormFeesSection.tsx
 #: src/components/common/TxHistory/RefundConfirmationModal/RefundConfirmationModal.tsx
@@ -548,19 +548,19 @@ msgstr "矿工收费"
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Miner Fee:"
-msgstr "矿工收费："
+msgstr "矿工费："
 
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
 msgid "Miner fee:"
-msgstr "矿工收费："
+msgstr "矿工费："
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Minimal Nitro value is {MIN_NITRO}"
-msgstr "最小Nitro值是 {MIN_NITRO}"
+msgstr "最小倍数值是 {MIN_NITRO}"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Minimal Slippage is {MIN_SLIPPAGE}"
-msgstr "最小滑點是 {MIN_SLIPPAGE}"
+msgstr "最小滑点是 {MIN_SLIPPAGE}"
 
 #: src/components/Header/GlobalSettingsModal/MinerFeeInput/MinerFeeInput.tsx
 #: src/pages/Swap/OperationSettings/NitroInput/NitroInput.tsx
@@ -581,11 +581,11 @@ msgstr "尚不支持移动版本"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Nitro"
-msgstr "编号"
+msgstr "倍数"
 
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Nitro:"
-msgstr "编号："
+msgstr "倍数:"
 
 #: src/pages/Pool/common/EmptySearchResult/EmptySearchResult.tsx
 msgid "No results found"
@@ -593,7 +593,7 @@ msgstr "未找到任何结果"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "Notice that:"
-msgstr "請注意："
+msgstr "请注意："
 
 #: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
 msgid "Once LP-tokens are locked they cannot be withdrawn under any circumstances until the timer has expired. Please ensure the parameters are correct, as they are final."
@@ -609,23 +609,23 @@ msgstr "选择新的解锁日期"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
 msgid "Pool"
-msgstr "資金池"
+msgstr "资金池"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Pool liquidity"
-msgstr "流动池"
+msgstr "池流动性"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Pool overview"
-msgstr "資金池概览"
+msgstr "资金池概览"
 
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidityConfirmationModal/RemoveLiquidityConfirmationModal.tsx
 msgid "Pooled assets"
-msgstr "資金池的资产"
+msgstr "资金池的资产"
 
 #: src/pages/Pool/Liquidity.tsx
 msgid "Pools Overview"
-msgstr "資金池概览"
+msgstr "资金池概览"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
 msgid "Previous unlock date"
@@ -733,7 +733,7 @@ msgstr "选择配对"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/PoolSelector/PoolSelector.tsx
 msgid "Select Pool"
-msgstr "选择資金池"
+msgstr "选择流动池"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Select a fee tier"
@@ -778,12 +778,12 @@ msgstr "分享"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Slippage tolerance"
-msgstr "滑点范围"
+msgstr "滑点容差"
 
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
 msgid "Slippage tolerance:"
-msgstr "滑点范围:"
+msgstr "滑点容差:"
 
 #: src/pages/Swap/SwapInfo/SwapInfoHeader/SlippageTag/SlippageTag.tsx
 msgid "Slippage: {slippage}"
@@ -799,11 +799,11 @@ msgstr "状态"
 #: src/pages/Swap/Swap.tsx
 #: src/pages/Swap/Swap.tsx
 msgid "Swap"
-msgstr "交易"
+msgstr "兑换"
 
 #: src/components/common/ActionForm/ActionButton/ActionButton.tsx
 msgid "Swapping is available in {0}"
-msgstr "{0} 是可以进行交易"
+msgstr "{0} 是可以进行兑换"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Swapping {0} for {1}"
@@ -828,12 +828,12 @@ msgstr "数量不能超过 {MAX_ERG_FOR_TX} ERG"
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "This operation may include fake or scam assets. Only confirm if you have done your own research."
-msgstr ""
+msgstr "此操作可能包括假冒或诈骗资产。只有在您完成了自己的研究后才去确认。"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "This pair has not been verified by the ErgoDEX team"
-msgstr ""
+msgstr "这币对尚未被ErgodeX团队验证"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
 msgid "This position is still locked"
@@ -894,7 +894,7 @@ msgstr "类型"
 
 #: src/pages/Pool/Liquidity.tsx
 msgid "Type token name or pool id"
-msgstr ""
+msgstr "输入代币名称或池号"
 
 #: src/components/common/FormView/FormFeesSection/FormFeesSection.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
@@ -936,11 +936,11 @@ msgstr "使用桌面版本和 Google Chrome 浏览器"
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
 msgid "View on Explorer"
-msgstr "在浏览器上查看"
+msgstr "在区块链浏览器查看"
 
 #: src/components/WalletModal/WalletActiveAddress/WalletActiveAddress.tsx
 msgid "View on explorer"
-msgstr "在浏览器上查看"
+msgstr "在区块链浏览器查看"
 
 #: src/components/common/ExploreButton/ExploreButton.tsx
 msgid "View on explorer."
@@ -1000,7 +1000,7 @@ msgstr "您的操作将在这个池中执行。<0/> 您也可以为这币对选�
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Your transaction may be frontrun"
-msgstr "您的交易可能會提前交易"
+msgstr "您的交易可能会被别人“抢先”（从而赚取差价）"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Your transaction may fail"
@@ -1024,7 +1024,7 @@ msgstr "仅在Ergo 区块链上"
 
 #: src/pages/Pool/Liquidity.tsx
 msgid "{0} Community Pools"
-msgstr ""
+msgstr "{0} 社区池"
 
 #: src/pages/PoolOverview/PoolRatio/PoolRatio.tsx
 #: src/pages/PoolOverview/PoolRatio/PoolRatio.tsx

@@ -45,7 +45,7 @@ const PoolPageWrapper: React.FC<PoolPageWrapperProps> = ({
       <Flex.Item marginBottom={isWalletConnected ? 2 : 0}>
         <Page
           width={832}
-          title={t`Liquidity`}
+          title={<Trans>Liquidity</Trans>}
           padding={isCurrentTabDefault ? [6, 6, 2, 6] : [6, 6]}
           titleChildren={
             isWalletConnected && (
@@ -144,14 +144,17 @@ const Liquidity = (): JSX.Element => {
           history.push(`/pool?active=${key}`);
         }}
       >
-        <Tabs.TabPane tab={t`Pools Overview`} key={defaultActiveTabKey}>
+        <Tabs.TabPane
+          tab={<Trans>Pools Overview</Trans>}
+          key={defaultActiveTabKey}
+        >
           <LiquidityPositionsList
             totalCount={pools.length}
             pools={filterCommunityPools(pools.filter((p) => p.match(term)))}
             loading={isPoolsLoading}
           />
         </Tabs.TabPane>
-        <Tabs.TabPane tab={t`Your Positions`} key="your-positions">
+        <Tabs.TabPane tab={<Trans>Your Positions</Trans>} key="your-positions">
           {isWalletConnected ? (
             <LiquidityPositionsList
               totalCount={positions.length}
@@ -165,7 +168,10 @@ const Liquidity = (): JSX.Element => {
           )}
         </Tabs.TabPane>
         {isWalletConnected && positions.some((p) => p.locks.length) && (
-          <Tabs.TabPane tab={t`Locked Positions`} key="locked-positions">
+          <Tabs.TabPane
+            tab={<Trans>Locked Positions</Trans>}
+            key="locked-positions"
+          >
             <LockListView
               positions={positions.filter(
                 (p) => !!p.locks.length && p.match(term),

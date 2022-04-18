@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ergodex-frontend\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-03-29 20:21\n"
+"PO-Revision-Date: 2022-04-02 17:01\n"
 "Last-Translator: \n"
 "Language: fr_FR\n"
 "Language-Team: French\n"
@@ -14,7 +14,7 @@ msgstr ""
 "X-Crowdin-Project-ID: 504102\n"
 "X-Crowdin-Language: fr\n"
 "X-Crowdin-File: /dev/src/i18n/locales/en-US.po\n"
-"X-Crowdin-File-ID: 68\n"
+"X-Crowdin-File-ID: 78\n"
 
 #: src/pages/Pool/components/LockLiquidityDatePicker/LiquidityDatePicker.tsx
 msgid "(Block: {0})"
@@ -81,7 +81,7 @@ msgstr "Adresses actives"
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool.tsx
 #: src/pages/Pool/components/LiquidityPositionsList/LiquidityPositionsList.tsx
 msgid "Add Liquidity"
-msgstr "Ajouter des liquidités"
+msgstr "Ajouter des Liquidités"
 
 #: src/components/common/TxHistory/TxTypeTag/TxTypeTag.tsx
 #: src/pages/Pool/Liquidity.tsx
@@ -103,7 +103,7 @@ msgstr "Montant"
 
 #: src/pages/Pool/components/LiquidityPositionsList/LiquidityPositionsItem/LiquidityPositionsItemAnalytics/LiquidityPositionsItemAnalytics.tsx
 msgid "Annual Percentage Rate. Average estimation of how much you may potentially earn providing liquidity to this pool."
-msgstr "Taux annuel en pourcentage. Estimation moyenne du montant que vous pouvez potentiellement gagner en fournissant des liquidités à ce pool."
+msgstr "Taux Annuel en Pourcentage. Estimation moyenne du montant que vous pouvez potentiellement gagner en fournissant des liquidités à ce pool."
 
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
@@ -147,7 +147,7 @@ msgstr "Le meilleur pour la plupart des paires"
 #: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
 #: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
 msgid "Block:"
-msgstr "Block"
+msgstr "Block:"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "By accepting these KYA, you agree that:"
@@ -164,7 +164,7 @@ msgstr "Changer de portefeuille"
 #: src/components/OperationForm/OperationForm.tsx
 #: src/components/common/ActionForm/ActionButton/ActionButton.tsx
 msgid "Check Internet Connection"
-msgstr "Vérifiez votre connexion Internet"
+msgstr "Vérifiez votre Connexion Internet"
 
 #: src/pages/Pool/components/LPGuide/LPGuide.tsx
 msgid "Check out our guides how to become a liquidity provider"
@@ -176,7 +176,7 @@ msgstr "Sélectionner"
 
 #: src/pages/Pool/components/LockLiquidityDatePicker/LiquidityDatePicker.tsx
 msgid "Choose Date"
-msgstr "Choisir une date"
+msgstr "Choisir une Date"
 
 #: src/pages/Swap/PoolSelector/PoolSelectorModal/PoolSelectorModal.tsx
 msgid "Choose Pool"
@@ -193,28 +193,27 @@ msgstr "Confirmer"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 msgid "Confirm Add Liquidity"
-msgstr "Confirmer l'ajout de liquidité"
+msgstr "Confirmer l'Ajout de Liquidité"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidityConfirmationModal/LockLiquidityConfirmationModal.tsx
 msgid "Confirm Lock"
-msgstr "Confirmer le verrouillage"
+msgstr "Confirmer le Verrouillage"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
 msgid "Confirm Relock"
-msgstr "\n"
-"Confirmer le reverrouillage"
+msgstr "Confirmer le Reverrouillage"
 
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidityConfirmationModal/RemoveLiquidityConfirmationModal.tsx
 msgid "Confirm Remove Liquidity"
-msgstr "Confirmer la suppression de liquidité"
+msgstr "Confirmer la Suppression de Liquidité"
 
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Confirm Swap"
-msgstr "Valider le swap"
+msgstr "Valider le Swap"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
 msgid "Confirm Withdrawal"
-msgstr "Valider le retrait"
+msgstr "Valider le Retrait"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
 msgid "Confirm pool creation"
@@ -242,7 +241,7 @@ msgstr "Copié dans le presse-papiers !"
 
 #: src/components/WalletModal/WalletActiveAddress/WalletActiveAddress.tsx
 msgid "Copy Address"
-msgstr "Copier l'adresse"
+msgstr "Copier l'Adresse"
 
 #: src/components/common/CopyButton/CopyButton.tsx
 msgid "Copy to clipboard."
@@ -250,7 +249,7 @@ msgstr "Copier dans le presse-papiers."
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool.tsx
 msgid "Create Pool"
-msgstr "Créer une pool"
+msgstr "Créer une Pool"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
@@ -268,11 +267,11 @@ msgstr "Frais personnalisés"
 
 #: src/components/Header/BurgerMenu/BurgerMenu.tsx
 msgid "Dark mode"
-msgstr "Mode Sombre"
+msgstr "Mode sombre"
 
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
 msgid "Date"
-msgstr "Date"
+msgstr ""
 
 #: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
 msgid "Disconnect wallet"
@@ -294,11 +293,11 @@ msgstr "Solde ERG faible"
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Enter an Amount"
-msgstr "Entrez un montant"
+msgstr "Entrez un Montant"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Enter an Initial Price"
-msgstr "Entrez un prix initial"
+msgstr "Entrez un Prix Initial"
 
 #: src/components/WalletModal/WalletModal.tsx
 msgid "Ergo network"
@@ -331,17 +330,17 @@ msgstr "Sortie estimée :"
 
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
 msgid "Execution Fee"
-msgstr "Frais d'exécution"
+msgstr "Frais d'Exécution"
 
 #: src/pages/Swap/OperationSettings/NitroInput/NitroInput.tsx
 msgid "Execution Fee Range {0} - {1} {2}"
-msgstr "Fourchette des frais d'exécution {0} - {1} {2}"
+msgstr "Fourchette des Frais d'Exécution {0} - {1} {2}"
 
 #: src/components/common/FormView/FormFeesSection/FormFeesSection.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Execution Fee:"
-msgstr "Frais d'exécution:"
+msgstr "Frais d'Exécution:"
 
 #: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
 msgid "Experimental"
@@ -358,7 +357,7 @@ msgstr "Niveau de frais"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/PoolSelector/PoolView/PoolView.tsx
 msgid "Fee:"
-msgstr "Frais :"
+msgstr "Frais:"
 
 #: src/components/common/FormView/FormFeesSection/FormFeesSection.tsx
 #: src/components/common/TxHistory/RefundConfirmationModal/RefundConfirmationModal.tsx
@@ -380,7 +379,7 @@ msgstr "Obtenez de l'aide sur nos canaux :"
 #: src/components/Header/BurgerMenu/BurgerMenu.tsx
 #: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
 msgid "Global Settings"
-msgstr "Paramètres généraux"
+msgstr "Paramètres Généraux"
 
 #: src/components/Header/BurgerMenu/BurgerMenu.tsx
 msgid "How to use"
@@ -409,7 +408,7 @@ msgstr "Je comprends les risques et j'accepte le KYA"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Increase Liquidity"
-msgstr "Augmenter la liquidité"
+msgstr "Augmenter la Liquidité"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
 msgid "Initial liquidity"
@@ -429,20 +428,20 @@ msgstr "Pas assez de liquidités pour cette transaction"
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Insufficient {0} Balance"
-msgstr "Solde de {0} insuffisant"
+msgstr "Solde de {0} Insuffisant"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Insufficient {0} Balance for Fees"
-msgstr "Solde de {0} insuffisant pour les frais"
+msgstr "Solde de {0} Insuffisant pour les Frais"
 
 #: src/components/common/ActionForm/ActionButton/ActionButton.tsx
 msgid "Insufficient {token} Balance"
-msgstr "Solde de {token} insuffisant"
+msgstr "Solde de {token} Insuffisant"
 
 #: src/components/common/ActionForm/ActionButton/ActionButton.tsx
 msgid "Insufficient {token} Balance for Fees"
-msgstr "Solde de {token} insuffisant pour les frais"
+msgstr "Solde de {token} Insuffisant pour les Frais"
 
 #: src/pages/Pool/components/LiquidityPositionsList/LiquidityPositionsItem/LiquidityPositionsItemWrapper/LiquidityPositionsItemWrapper.tsx
 #~ msgid "It is impossible to display statistics for this pool"
@@ -469,7 +468,7 @@ msgstr "Liquidité"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Liquidity Locker"
-msgstr "Verrou de liquidité"
+msgstr "Verrou de Liquidité"
 
 #: src/pages/Swap/PoolSelector/PoolSelector.tsx
 msgid "Liquidity Pool"
@@ -486,7 +485,7 @@ msgstr "Verrouiller"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidityConfirmationModal/LockLiquidityConfirmationModal.tsx
 msgid "Lock Liquidity"
-msgstr "Verrouiller la liquidité"
+msgstr "Verrouiller la Liquidité"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
 #: src/pages/PoolOverview/PoolOverview.tsx
@@ -511,7 +510,7 @@ msgstr "Positions Vérouillées"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Locked liquidity"
-msgstr "Liquidités Bloquées"
+msgstr "Liquidités bloquées"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
 msgid "Locked positions"
@@ -541,7 +540,7 @@ msgstr "La valeur minimale pour {0} est {1}"
 
 #: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
 msgid "Miner Fee"
-msgstr "Frais de mineur"
+msgstr "Frais de Mineur"
 
 #: src/components/common/FormView/FormFeesSection/FormFeesSection.tsx
 #: src/components/common/TxHistory/RefundConfirmationModal/RefundConfirmationModal.tsx
@@ -549,7 +548,7 @@ msgstr "Frais de mineur"
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Miner Fee:"
-msgstr "Frais de mineur:"
+msgstr "Frais de Mineur:"
 
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
 msgid "Miner fee:"
@@ -561,12 +560,12 @@ msgstr "La valeur minimale de Nitro est de {MIN_NITRO}"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Minimal Slippage is {MIN_SLIPPAGE}"
-msgstr "Le slippage minimal est de {MIN_SLIPPAGE}"
+msgstr "Le Slippage Minimal est de {MIN_SLIPPAGE}"
 
 #: src/components/Header/GlobalSettingsModal/MinerFeeInput/MinerFeeInput.tsx
 #: src/pages/Swap/OperationSettings/NitroInput/NitroInput.tsx
 msgid "Minimum"
-msgstr "Minimum"
+msgstr ""
 
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
 msgid "Minimum received:"
@@ -582,11 +581,11 @@ msgstr "La version mobile n'est pas encore prise en charge"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Nitro"
-msgstr "Nitro"
+msgstr ""
 
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Nitro:"
-msgstr "Nitro :"
+msgstr "Nitro:"
 
 #: src/pages/Pool/common/EmptySearchResult/EmptySearchResult.tsx
 msgid "No results found"
@@ -602,7 +601,7 @@ msgstr "Une fois que les jetons LP sont verrouillés, ils ne peuvent en aucun ca
 
 #: src/pages/Pool/components/LocksList/LockItemView/LockItemView.tsx
 msgid "Pair"
-msgstr "Pair"
+msgstr ""
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
 msgid "Pick new unlock date"
@@ -610,7 +609,7 @@ msgstr "Choisissez une nouvelle date de déverrouillage"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
 msgid "Pool"
-msgstr "Pool"
+msgstr ""
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Pool liquidity"
@@ -626,7 +625,7 @@ msgstr "Actifs mis en commun"
 
 #: src/pages/Pool/Liquidity.tsx
 msgid "Pools Overview"
-msgstr "Vue d'ensemble des pools"
+msgstr "Vue d'Ensemble des Pools"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
 msgid "Previous unlock date"
@@ -638,7 +637,7 @@ msgstr "Impact sur le prix:"
 
 #: src/components/GuideBanner/GuideBanner.tsx
 msgid "Read Guide"
-msgstr "Lire le guide"
+msgstr "Lire le Guide"
 
 #: src/pages/Pool/components/LiquidityPositionsList/LiquidityPositionsItem/LiquidityPositionsItemAnalytics/LiquidityPositionsItemAnalytics.tsx
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
@@ -699,7 +698,7 @@ msgstr "Supprimer"
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidityConfirmationModal/RemoveLiquidityConfirmationModal.tsx
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Remove Liquidity"
-msgstr "Supprimer la liquidité"
+msgstr "Supprimer la Liquidité"
 
 #: src/components/common/TxHistory/TxTypeTag/TxTypeTag.tsx
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidity.tsx
@@ -722,19 +721,19 @@ msgstr "Il semblerait que le portefeuille Yoroi ait un problème"
 #: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
 msgid "Select Locked Position"
-msgstr "Sélectionner la position verrouillée"
+msgstr "Sélectionner la Position Verrouillée"
 
 #: src/components/Header/NetworkDropdown/NetworkDropdown.tsx
 msgid "Select Network"
-msgstr "Sélectionner un réseau"
+msgstr "Sélectionner un Réseau"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool.tsx
 msgid "Select Pair"
-msgstr "Sélectionner une paire"
+msgstr "Sélectionner une Paire"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/PoolSelector/PoolSelector.tsx
 msgid "Select Pool"
-msgstr "Sélectionner le pool"
+msgstr "Sélectionner le Pool"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Select a fee tier"
@@ -788,7 +787,7 @@ msgstr "Tolérance de slippage:"
 
 #: src/pages/Swap/SwapInfo/SwapInfoHeader/SlippageTag/SlippageTag.tsx
 msgid "Slippage: {slippage}"
-msgstr "Slippage: {slippage}"
+msgstr ""
 
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
 #: src/pages/Pool/components/LockedPositionItem/LockedPositionItem.tsx
@@ -800,7 +799,7 @@ msgstr "Statut"
 #: src/pages/Swap/Swap.tsx
 #: src/pages/Swap/Swap.tsx
 msgid "Swap"
-msgstr "Swap"
+msgstr ""
 
 #: src/components/common/ActionForm/ActionButton/ActionButton.tsx
 msgid "Swapping is available in {0}"
@@ -850,7 +849,7 @@ msgstr "À"
 
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Total Fees"
-msgstr "Total des frais"
+msgstr "Total des Frais"
 
 #: src/components/WalletModal/WalletTotalBalance/WalletTotalBalance.tsx
 msgid "Total balance"
@@ -874,7 +873,7 @@ msgstr "Total pouvant être retiré"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Transaction Settings"
-msgstr "Paramètres de transaction"
+msgstr "Paramètres de Transaction"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Transaction rejected"
@@ -891,7 +890,7 @@ msgstr "Veuillez réessayer ultérieurement"
 
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
 msgid "Type"
-msgstr "Type"
+msgstr ""
 
 #: src/pages/Pool/Liquidity.tsx
 msgid "Type token name or pool id"
@@ -901,15 +900,15 @@ msgstr ""
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "UI Fee:"
-msgstr "Frais d'interface utilisateur :"
+msgstr "Frais d'Interface Utilisateur:"
 
 #: src/pages/Pool/components/LockedPositionItem/LockedPositionItem.tsx
 msgid "Unlock Block"
-msgstr "Bloc de déverrouillage"
+msgstr "Bloc de Déverrouillage"
 
 #: src/pages/Pool/components/LockedPositionItem/LockedPositionItem.tsx
 msgid "Unlock Date"
-msgstr "Date de déverrouillage"
+msgstr "Date de Déverrouillage"
 
 #: src/pages/PoolOverview/LockLiquidityChart/AnalyticOverview/AnalyticOverview.tsx
 msgid "Unlock block"
@@ -941,11 +940,11 @@ msgstr "Voir sur Explorer"
 
 #: src/components/WalletModal/WalletActiveAddress/WalletActiveAddress.tsx
 msgid "View on explorer"
-msgstr "Voir sur Explorer"
+msgstr "Voir sur explorer"
 
 #: src/components/common/ExploreButton/ExploreButton.tsx
 msgid "View on explorer."
-msgstr "Voir sur Explorer."
+msgstr "Voir sur explorer."
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Waiting for confirmation"
@@ -953,7 +952,7 @@ msgstr "En attente de confirmation"
 
 #: src/components/WalletModal/WalletModal.tsx
 msgid "Wallet"
-msgstr "Wallet"
+msgstr ""
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "We recommend that you DO NOT use ErgoDEX to operate large amounts of assets!"
@@ -984,7 +983,7 @@ msgstr "Vous allez dépenser {value} ERG pour chaque opération."
 
 #: src/pages/Pool/Liquidity.tsx
 msgid "Your Positions"
-msgstr "Votre position"
+msgstr "Votre Position"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 #: src/pages/PoolOverview/PoolOverview.tsx

@@ -1,8 +1,11 @@
 import { AmmDexOperation } from '@ergolabs/ergo-dex-sdk';
+import { AugErgoTx } from '@ergolabs/ergo-sdk';
 import {
   defer,
   first,
+  from,
   map,
+  Observable,
   of,
   publishReplay,
   refCount,
@@ -182,8 +185,26 @@ export const transactionHistory$ = addresses$.pipe(
   }),
 );
 
+const toOperation = (
+  tx: AugErgoTx | undefined,
+): Observable<AmmDexOperation | undefined> => {
+  if (!tx) {
+    return of(undefined);
+  }
+
+  return addresses$.pipe(
+    map((addresses) => networkHistory['parseOp'](tx, true, addresses)),
+  );
+};
+
+export const getOperationByTxId = (
+  txId: string,
+): Observable<AmmDexOperation | undefined> =>
+  from(networkHistory.network.getTx(txId)).pipe(switchMap(toOperation));
+
 export const txHistoryManager: TxHistoryManager = {
   sync,
   transactionHistory$,
   isSyncing$,
+  getOperationByTxId,
 };

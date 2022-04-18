@@ -59,6 +59,7 @@
     "memoizee": "^0.4.15",
     "numeral": "^2.0.6",
     "qs": "^6.10.3",
+    "rc-virtual-list": "^3.4.4",
     "react": "^17.0.2",
     "react-app-rewired": "^2.1.8",
     "react-copy-to-clipboard": "^5.0.3",

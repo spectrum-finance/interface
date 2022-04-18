@@ -1,4 +1,5 @@
-import { first, switchMap } from 'rxjs';
+import { AmmDexOperation } from '@ergolabs/ergo-dex-sdk';
+import { first, Observable, switchMap } from 'rxjs';
 
 import { selectedNetwork$ } from '../common/network';
 
@@ -15,3 +16,11 @@ export const syncTransactionsHistory = (): void => {
     .pipe(first())
     .subscribe((network) => network.txHistoryManager.sync());
 };
+
+export const getOperationByTxId = (
+  txId: string,
+): Observable<AmmDexOperation | undefined> =>
+  selectedNetwork$.pipe(
+    first(),
+    switchMap((network) => network.txHistoryManager.getOperationByTxId(txId)),
+  );

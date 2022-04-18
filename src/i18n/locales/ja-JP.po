@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ergodex-frontend\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-03-29 20:22\n"
+"PO-Revision-Date: 2022-04-02 12:04\n"
 "Last-Translator: \n"
 "Language: ja_JP\n"
 "Language-Team: Japanese\n"
@@ -14,7 +14,7 @@ msgstr ""
 "X-Crowdin-Project-ID: 504102\n"
 "X-Crowdin-Language: ja\n"
 "X-Crowdin-File: /dev/src/i18n/locales/en-US.po\n"
-"X-Crowdin-File-ID: 68\n"
+"X-Crowdin-File-ID: 78\n"
 
 #: src/pages/Pool/components/LockLiquidityDatePicker/LiquidityDatePicker.tsx
 msgid "(Block: {0})"
@@ -26,7 +26,7 @@ msgstr "(ブロックのロックを解除: {0})"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "- By creating an order you send your funds to a specific smart-contract, all such contracts are wired into the UI. Thus, orders are created entirely in your browser (on your machine)."
-msgstr "- 注文すると特定のスマートコントラクトに資金を送ることができます。スマートコントラクトはブラウザ上のUIと繋がっており、注文は完全にブラウザ(ローカル)上で作成されます。"
+msgstr "- スマートコントラクトはブラウザ上のUIと紐づいているため、オーダーは完全にブラウザ(ローカル)上で作成されます。オーダーを作成するとスマートコントラクトに資金が送られます。"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "- ErgoDEX operates on a live blockchain, thus trades are final, and irreversible once they have status «executed»;"
@@ -34,7 +34,7 @@ msgstr "- ErgoDEXにおける取引はブロックチェーン上に記録され
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "- Every transaction can be viewed via"
-msgstr "- すべてトランザクションを確認"
+msgstr "- 次のリンクからすべてトランザクションを確認できます: "
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
 msgid "0.3% fee"
@@ -58,11 +58,11 @@ msgstr "1%の手数料"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "1. You will use the product at your own peril and risk;"
-msgstr "1. 本アプリは自己責任のもとで使用してください。"
+msgstr "1. 自己責任で本アプリを使用すること。"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "2. Only YOU are responsible for your assets;"
-msgstr "2. あなたの資産の責任者はあなたです。"
+msgstr "2. あなたの資産の責任者は自分自身であること。"
 
 #: src/components/Header/BurgerMenu/BurgerMenu.tsx
 msgid "About"
@@ -99,7 +99,7 @@ msgstr "すべてのアウトプットアセットはこのアドレスに送ら
 #: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidity.tsx
 msgid "Amount"
-msgstr "金額"
+msgstr "数量"
 
 #: src/pages/Pool/components/LiquidityPositionsList/LiquidityPositionsItem/LiquidityPositionsItemAnalytics/LiquidityPositionsItemAnalytics.tsx
 msgid "Annual Percentage Rate. Average estimation of how much you may potentially earn providing liquidity to this pool."
@@ -122,7 +122,7 @@ msgstr "再ロックするアセット"
 
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidity.tsx
 msgid "Assets to remove"
-msgstr "削除するアセット"
+msgstr "引き出すアセット"
 
 #: src/components/MobilePlug/MobilePlug.tsx
 msgid "Back to Home"
@@ -189,7 +189,7 @@ msgstr "手数料を選択"
 #: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
 #: src/components/common/TxHistory/RefundConfirmationModal/RefundConfirmationModal.tsx
 msgid "Confirm"
-msgstr "確認する"
+msgstr "適用"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 msgid "Confirm Add Liquidity"
@@ -205,7 +205,7 @@ msgstr "再ロックを確認"
 
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidityConfirmationModal/RemoveLiquidityConfirmationModal.tsx
 msgid "Confirm Remove Liquidity"
-msgstr "流動性の削除を確認"
+msgstr "流動性の引き出しを確認"
 
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Confirm Swap"
@@ -225,7 +225,7 @@ msgstr "スワップを確認"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Confirm this transaction in your wallet"
-msgstr "ウォレットでこの取引を確認する"
+msgstr "ウォレットでこの取引を承認する"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
 msgid "Confirm withdrawal"
@@ -293,7 +293,7 @@ msgstr "ERGの残高が不足しています"
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Enter an Amount"
-msgstr "金額を入力"
+msgstr "数量を入力"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Enter an Initial Price"
@@ -313,7 +313,7 @@ msgstr "ErgoDEXチームはバグやエラーがないことを保証いたし�
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "ErgoDEX is a decentralized financial (DeFi) application which means it doesn’t have a central government body. ErgoDEX includes AMM (Swap, Add liquidity and Remove liquidity) functionality"
-msgstr "ErgoDEXは中央管理者がいない分散型金融(DeFi)アプリです。 ErgoDEXにはAMM(スワップ、流動性の追加、清算)機能があります"
+msgstr "ErgoDEXはErgoブロックチェーン上の中央管理者がいない分散型金融(DeFi)のAMM(スワップ、流動性の追加、清算)アプリです。"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "ErgoDEX offers a form of added security, as buyers and sellers do not have to give their information to any 3rd party. However, ErgoDEX is without a know your customer (KYC) process and can offer NO assistance if a user is hacked or cheated out of passwords, currency or private wallet keys."
@@ -326,7 +326,7 @@ msgstr "エラー"
 
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Estimated output:"
-msgstr "推定アウトプット:"
+msgstr "推定受取り額:"
 
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
 msgid "Execution Fee"
@@ -353,7 +353,7 @@ msgstr "延長する期間"
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
 #: src/pages/Pool/components/LiquidityPositionsList/LiquidityPositionsItem/LiquidityPositionsItemWrapper/LiquidityPositionsItemWrapper.tsx
 msgid "Fee tier"
-msgstr "各手数料"
+msgstr "手数料"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/PoolSelector/PoolView/PoolView.tsx
 msgid "Fee:"
@@ -370,7 +370,7 @@ msgstr "手数料:"
 
 #: src/pages/Swap/Swap.tsx
 msgid "From"
-msgstr "から"
+msgstr "From"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Get help in our channels:"
@@ -400,7 +400,7 @@ msgstr "私は<0>{0}</0>私の <1>{1}/{2}</1>のLPトークンを再ロックし
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "I understand the risks"
-msgstr ""
+msgstr "リスクを理解しています。"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "I understand the risks and accept the KYA"
@@ -617,7 +617,7 @@ msgstr "プールの流動性"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Pool overview"
-msgstr "プールの概要"
+msgstr "プール一覧"
 
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidityConfirmationModal/RemoveLiquidityConfirmationModal.tsx
 msgid "Pooled assets"
@@ -642,7 +642,7 @@ msgstr "ガイドをご覧ください"
 #: src/pages/Pool/components/LiquidityPositionsList/LiquidityPositionsItem/LiquidityPositionsItemAnalytics/LiquidityPositionsItemAnalytics.tsx
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Read more"
-msgstr "続きを読む"
+msgstr "詳細"
 
 #: src/components/common/TxHistory/TxHistory.tsx
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
@@ -693,21 +693,21 @@ msgstr "{0} と {1} ({2}) を再ロック中"
 
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidity.tsx
 msgid "Remove"
-msgstr "削除"
+msgstr "引き出し"
 
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidityConfirmationModal/RemoveLiquidityConfirmationModal.tsx
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Remove Liquidity"
-msgstr "流動性を削除"
+msgstr "流動性を引き出す"
 
 #: src/components/common/TxHistory/TxTypeTag/TxTypeTag.tsx
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidity.tsx
 msgid "Remove liquidity"
-msgstr "流動性を削除"
+msgstr "流動性を引き出す"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Removing liquidity {0} and {1}"
-msgstr "{0} と {1} の流動性を削除中"
+msgstr "{0} と {1} の流動性を引き出し中"
 
 #: src/components/common/TokenControl/TokenSelect/TokenListModal/TokenListModal.tsx
 msgid "Search"
@@ -828,12 +828,12 @@ msgstr "値は {MAX_ERG_FOR_TX} ERG 以上にすることはできません"
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "This operation may include fake or scam assets. Only confirm if you have done your own research."
-msgstr ""
+msgstr "このオーダーには偽物または詐欺資産がある可能性があります。充分に確認を行った場合の承認してください。"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "This pair has not been verified by the ErgoDEX team"
-msgstr ""
+msgstr "ErgoDEXチームはこのペアを検証していません。"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
 msgid "This position is still locked"
@@ -845,7 +845,7 @@ msgstr "このウォレットは常に期待どおりに動作するとは限り
 
 #: src/pages/Swap/Swap.tsx
 msgid "To"
-msgstr "に"
+msgstr "To"
 
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Total Fees"
@@ -894,7 +894,7 @@ msgstr "種類"
 
 #: src/pages/Pool/Liquidity.tsx
 msgid "Type token name or pool id"
-msgstr ""
+msgstr "トークン名またはプールIDを入力"
 
 #: src/components/common/FormView/FormFeesSection/FormFeesSection.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
@@ -1016,15 +1016,15 @@ msgstr "エクスプローラー"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "meet your expectations."
-msgstr "期待値を満たしている"
+msgstr "があなたの期待値以上であること"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "only on top of the Ergo Blockchain."
-msgstr "Ergoブロックチェーン上にのみ"
+msgstr " "
 
 #: src/pages/Pool/Liquidity.tsx
 msgid "{0} Community Pools"
-msgstr ""
+msgstr "{0} コミュニティプール"
 
 #: src/pages/PoolOverview/PoolRatio/PoolRatio.tsx
 #: src/pages/PoolOverview/PoolRatio/PoolRatio.tsx

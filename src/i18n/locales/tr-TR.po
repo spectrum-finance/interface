@@ -3,287 +3,287 @@ msgstr ""
 "Project-Id-Version: ergodex-frontend\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-03-29 20:48\n"
+"PO-Revision-Date: 2022-03-31 09:05\n"
 "Last-Translator: \n"
-"Language: pt_BR\n"
-"Language-Team: Portuguese, Brazilian\n"
+"Language: tr_TR\n"
+"Language-Team: Turkish\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Crowdin-Project: ergodex-frontend\n"
 "X-Crowdin-Project-ID: 504102\n"
-"X-Crowdin-Language: pt-BR\n"
+"X-Crowdin-Language: tr\n"
 "X-Crowdin-File: /dev/src/i18n/locales/en-US.po\n"
 "X-Crowdin-File-ID: 78\n"
 
 #: src/pages/Pool/components/LockLiquidityDatePicker/LiquidityDatePicker.tsx
 msgid "(Block: {0})"
-msgstr "(Bloco: {0})"
+msgstr "(Blok: {0})"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
 msgid "(Unlock block: {0})"
-msgstr "(Desbloquear bloco: {0})"
+msgstr "(Hapis bitim bloğu: {0})"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "- By creating an order you send your funds to a specific smart-contract, all such contracts are wired into the UI. Thus, orders are created entirely in your browser (on your machine)."
-msgstr "- Ao criar um pedido, você envia os seus fundos para um smart-contract específico, todos esses contratos são conectados à interface do usuário. Assim, as ordens são criadas inteiramente no seu navegador (na sua máquina)."
+msgstr "- Emir vererek paralarınızı belirli bir akıllı sözleşmeye gönderirsiniz, bu sözleşmeler kullanıcı arayüzüne bağlıdırlar. Bu yüzden emirler tamamen tarayıcınızda (makinenizde) oluşturulur."
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "- ErgoDEX operates on a live blockchain, thus trades are final, and irreversible once they have status «executed»;"
-msgstr "- A ErgoDEX opera em uma blockchain ao vivo, portanto as negociações são finais, e irreversíveis assim que têm o status «executado»;"
+msgstr "- ErgoDEX hareketli bir blokzincir üzerinde çalışır, bu yüzden takaslar nihaidir ve «yapıldı» konumuna geçtiklerinde geri döndürülemezdir;"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "- Every transaction can be viewed via"
-msgstr "- Cada transação pode ser visualizada via"
+msgstr "- Her işleme göz atmak için:"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
 msgid "0.3% fee"
-msgstr "Taxa de 0.3%"
+msgstr "%0,3 ücret"
 
 #: src/pages/Pool/utils.ts
 msgid "1 Day"
-msgstr "1 Dia"
+msgstr "1 Gün"
 
 #: src/pages/Pool/utils.ts
 msgid "1 Month"
-msgstr "1 Mês"
+msgstr "1 Ay"
 
 #: src/pages/Pool/utils.ts
 msgid "1 Year"
-msgstr "1 Ano"
+msgstr "1 Yıl"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
 msgid "1% fee"
-msgstr "Taxa de 1%"
+msgstr "%1 ücret"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "1. You will use the product at your own peril and risk;"
-msgstr "1. Você usará o produto por sua conta e risco;"
+msgstr "1. Ürünü kendi sorumluluğunuzda kullanacaksınız;"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "2. Only YOU are responsible for your assets;"
-msgstr "2. Apenas VOCÊ é responsável pelos seus ativos;"
+msgstr "2. Varlıklarınızdan yalnızca SİZ sorumlusunuz;"
 
 #: src/components/Header/BurgerMenu/BurgerMenu.tsx
 msgid "About"
-msgstr "Sobre"
+msgstr "Hakkında"
 
 #: src/components/WalletModal/AddressesTab/AddressesTab.tsx
 msgid "Active"
-msgstr "Ativo"
+msgstr "Aktif"
 
 #: src/components/WalletModal/WalletActiveAddress/WalletActiveAddress.tsx
 msgid "Active address"
-msgstr "Endereço ativo"
+msgstr "Aktif adresler"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool.tsx
 #: src/pages/Pool/components/LiquidityPositionsList/LiquidityPositionsList.tsx
 msgid "Add Liquidity"
-msgstr "Adicionar Liquidez"
+msgstr "Likidite Ekle"
 
 #: src/components/common/TxHistory/TxTypeTag/TxTypeTag.tsx
 #: src/pages/Pool/Liquidity.tsx
 msgid "Add liquidity"
-msgstr "Adicionar liquidez"
+msgstr "Likidite ekle"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Adding liquidity {0} and {1}"
-msgstr "Adicionando liquidez {0} e {1}"
+msgstr "{0} ve {1} likiditesi ekleniyor"
 
 #: src/components/WalletModal/WalletActiveAddress/WalletActiveAddress.tsx
 msgid "All output assets will be received at this address."
-msgstr "Todos os ativos de saída serão recebidos neste endereço."
+msgstr "Tüm çıktı varlıklar bu adres tarafından alınacaktır."
 
 #: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidity.tsx
 msgid "Amount"
-msgstr "Quantidade"
+msgstr "Miktar"
 
 #: src/pages/Pool/components/LiquidityPositionsList/LiquidityPositionsItem/LiquidityPositionsItemAnalytics/LiquidityPositionsItemAnalytics.tsx
 msgid "Annual Percentage Rate. Average estimation of how much you may potentially earn providing liquidity to this pool."
-msgstr "Taxa de porcentagem anual. Estimativa média de quanto você pode ganhar potencialmente, proporcionando liquidez nesta pool."
+msgstr "Yıllık Yüzde Oranı. Bu havuza likidite sağlayarak ortalama ne kadar kazanabileceğinin tahmini."
 
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 msgid "Assets"
-msgstr "Ativos"
+msgstr "Varlıklar"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
 #: src/pages/Pool/LockLiquidity/LockLiquidityConfirmationModal/LockLiquidityConfirmationModal.tsx
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
 msgid "Assets to lock"
-msgstr "Ativos a bloquear"
+msgstr "Hapsedilecek varlıklar"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
 msgid "Assets to relock"
-msgstr "Ativos a rebloquear"
+msgstr "Yeniden hapsedilecek varlıklar"
 
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidity.tsx
 msgid "Assets to remove"
-msgstr "Ativos a remover"
+msgstr "Çıkarılacak varlıklar"
 
 #: src/components/MobilePlug/MobilePlug.tsx
 msgid "Back to Home"
-msgstr "Voltar ao Início"
+msgstr "Ana Sayfaya Dön"
 
 #: src/components/common/TokenControl/TokenControl.tsx
 msgid "Balance: {0}"
-msgstr "Saldo: {0}"
+msgstr "Bakiye: {0}"
 
 #: src/pages/Pool/components/LPGuide/LPGuide.tsx
 msgid "Become a liquidity provider"
-msgstr "Torne-se um provedor de liquidez"
+msgstr "Likidite sağlayıcısı ol"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
 msgid "Best for exotic pairs"
-msgstr "Melhor para pares exóticos"
+msgstr "Egzotik çiftler için en iyisi"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
 msgid "Best for most pairs"
-msgstr "Melhor para a maioria dos pares"
+msgstr "Çoğu çift için en iyisi"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
 #: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
 msgid "Block:"
-msgstr "Bloco:"
+msgstr "Blok:"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "By accepting these KYA, you agree that:"
-msgstr "Ao aceitar o conhecimento de suas suposições, você concorda que:"
+msgstr "Bu bilgilendirme metnini kabul ederek bunları kabul ediyorsun:"
 
 #: src/pages/Swap/PoolSelector/PoolSelector.tsx
 msgid "Change"
-msgstr "Alterar"
+msgstr "Değiştir"
 
 #: src/components/WalletModal/WalletModal.tsx
 msgid "Change wallet"
-msgstr "Alterar carteira"
+msgstr "Cüzdan değiştir"
 
 #: src/components/OperationForm/OperationForm.tsx
 #: src/components/common/ActionForm/ActionButton/ActionButton.tsx
 msgid "Check Internet Connection"
-msgstr "Verifique a conexão com a Internet"
+msgstr "İnternet bağlantısını kontrol edin"
 
 #: src/pages/Pool/components/LPGuide/LPGuide.tsx
 msgid "Check out our guides how to become a liquidity provider"
-msgstr "Veja nossos guias como se tornar um provedor de liquidez"
+msgstr "Likidite sağlayıcısı nasıl olunur öğrenmek için rehberimize göz atın"
 
 #: src/components/WalletModal/AddressesTab/AddressesTab.tsx
 msgid "Choose"
-msgstr "Escolha"
+msgstr "Seç"
 
 #: src/pages/Pool/components/LockLiquidityDatePicker/LiquidityDatePicker.tsx
 msgid "Choose Date"
-msgstr "Escolha a Data"
+msgstr "Tarih Seç"
 
 #: src/pages/Swap/PoolSelector/PoolSelectorModal/PoolSelectorModal.tsx
 msgid "Choose Pool"
-msgstr "Escolha a Pool"
+msgstr "Havuz Seç"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Choose a fee"
-msgstr "Escolha a taxa"
+msgstr "Ücretlendirme seç"
 
 #: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
 #: src/components/common/TxHistory/RefundConfirmationModal/RefundConfirmationModal.tsx
 msgid "Confirm"
-msgstr "Confirmar"
+msgstr "Onayla"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 msgid "Confirm Add Liquidity"
-msgstr "Confirmar Adicionar Liquidez"
+msgstr "Likidite Eklemeyi Onayla"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidityConfirmationModal/LockLiquidityConfirmationModal.tsx
 msgid "Confirm Lock"
-msgstr "Confirmar bloqueio"
+msgstr "Hapsetmeyi Onayla"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
 msgid "Confirm Relock"
-msgstr "Confirmar Rebloqueio"
+msgstr "Yeniden Hapsetmeyi Onayla"
 
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidityConfirmationModal/RemoveLiquidityConfirmationModal.tsx
 msgid "Confirm Remove Liquidity"
-msgstr "Confirmar Remover Liquidez"
+msgstr "Likidite Çıkarmayı Onayla"
 
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Confirm Swap"
-msgstr "Confirmar Troca"
+msgstr "Takası Onayla"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
 msgid "Confirm Withdrawal"
-msgstr "Confirmar Saque"
+msgstr "Çekimi Onayla"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
 msgid "Confirm pool creation"
-msgstr "Confirmar criação de pool"
+msgstr "Havuz oluşturmayı onayla"
 
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Confirm swap"
-msgstr "Confirmar troca"
+msgstr "Takası onayla"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Confirm this transaction in your wallet"
-msgstr "Confirme esta transação em sua carteira"
+msgstr "Bu işlemi cüzdanında onayla"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
 msgid "Confirm withdrawal"
-msgstr "Confirmar saque"
+msgstr "Çekimi onayla"
 
 #: src/components/common/ConnectWalletButton/ConnectWalletButton.tsx
 msgid "Connect wallet"
-msgstr "Conectar carteira"
+msgstr "Cüzdanı bağla"
 
 #: src/components/common/CopyButton/CopyButton.tsx
 msgid "Copied to clipboard!"
-msgstr "Copiado para a área de transferência!"
+msgstr "Panoya kopyalandı!"
 
 #: src/components/WalletModal/WalletActiveAddress/WalletActiveAddress.tsx
 msgid "Copy Address"
-msgstr "Copiar Endereço"
+msgstr "Adresi Kopyala"
 
 #: src/components/common/CopyButton/CopyButton.tsx
 msgid "Copy to clipboard."
-msgstr "Copiar para a área de transferência."
+msgstr "Panoya kopyala."
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool.tsx
 msgid "Create Pool"
-msgstr "Criar Pool"
+msgstr "Havuz Oluştur"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
 #: src/pages/Pool/Liquidity.tsx
 msgid "Create pool"
-msgstr "Criar pool"
+msgstr "Havuz oluştur"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Current price"
-msgstr "Preço atual"
+msgstr "Güncel fiyat"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
 msgid "Custom fee tier"
-msgstr "Nível de taxa personalizado"
+msgstr "Özel ücret sınıfı"
 
 #: src/components/Header/BurgerMenu/BurgerMenu.tsx
 msgid "Dark mode"
-msgstr "Modo escuro"
+msgstr "Karanlık mod"
 
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
 msgid "Date"
-msgstr "Data"
+msgstr "Tarih"
 
 #: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
 msgid "Disconnect wallet"
-msgstr "Desconectar carteira"
+msgstr "Cüzdanla bağlantıyı kes"
 
 #: src/components/Header/BurgerMenu/BurgerMenu.tsx
 msgid "Docs"
-msgstr "Documentação"
+msgstr "Belgeler"
 
 #: src/components/WalletModal/LowBalanceWarning/LowBalanceWarning.tsx
 msgid "ERG balance is low"
-msgstr "O saldo de ERG está baixo"
+msgstr "ERG bakiyesi düşük"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 #~ msgid "Enter an A  mount"
@@ -293,71 +293,71 @@ msgstr "O saldo de ERG está baixo"
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Enter an Amount"
-msgstr "Insira uma Quantidade"
+msgstr "Bir Miktar Girin"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Enter an Initial Price"
-msgstr "Insira um Preço Inicial"
+msgstr "Bir Başlangıç Fiyatı Girin"
 
 #: src/components/WalletModal/WalletModal.tsx
 msgid "Ergo network"
-msgstr "Rede Ergo"
+msgstr "Ergo ağı"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "ErgoDEX Smart Contracts"
-msgstr ""
+msgstr "ErgoDEX Akıllı Sözleşmeler"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "ErgoDEX Team doesn’t guarantee the absence of bugs and errors."
-msgstr "A equipe ErgoDEX não garante a ausência de bugs e erros."
+msgstr "ErgoDEX Takımı yazılım hataları veya sorunların olmayacağını garanti etmez."
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "ErgoDEX is a decentralized financial (DeFi) application which means it doesn’t have a central government body. ErgoDEX includes AMM (Swap, Add liquidity and Remove liquidity) functionality"
-msgstr "ErgoDEX é uma aplicação financeira descentralizada (DeFi), o que significa que não tem um órgão de governo central. ErgoDEX inclui a funcionalidade AMM (Troca, Adicionar liquidez e Remover liquidez)"
+msgstr "ErgoDEX bir merkeziyetsiz finans (DeFi) uygulamasıdır ve bu merkezi bir yönetim zümresi olmadığı anlamına gelir. ErgoDEX'te AMM (Takas et, Likidite ekle ve Likidite çıkar) fonksiyonları bulunur"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "ErgoDEX offers a form of added security, as buyers and sellers do not have to give their information to any 3rd party. However, ErgoDEX is without a know your customer (KYC) process and can offer NO assistance if a user is hacked or cheated out of passwords, currency or private wallet keys."
-msgstr "ErgoDEX oferece uma forma de segurança adicional, já que compradores e vendedores não precisam fornecer suas informações a terceiros. No entanto, ErgoDEX não tem nenhum processo know your customer (KYC) e NÃO pode oferecer assistência se um usuário for hackeado ou tiver senhas, moeda ou chaves de carteira privada roubadas."
+msgstr "Satıcılar ve alıcılar bilgilerini 3'üncü bir tarafla paylaşmak zorunda olmadıkları için ErgoDEX bir tür ek güvenlik sunar. Yine de ErgoDEX'te KYC (\"know your customer\" - müşterini tanı) prosesi yoktur ve eğer bir kullanıcı hacklenirse veya şifresini veya kişisel cüzdan anahtarlarını bir dolandırıcıya kaptırırsa uygulama HİÇBİR destek sağlayamaz."
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Error"
-msgstr "Erro"
+msgstr "Hata"
 
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Estimated output:"
-msgstr "Saída estimada:"
+msgstr "Tahmini çıktı:"
 
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
 msgid "Execution Fee"
-msgstr "Taxa de execução"
+msgstr "İşlem Ücreti"
 
 #: src/pages/Swap/OperationSettings/NitroInput/NitroInput.tsx
 msgid "Execution Fee Range {0} - {1} {2}"
-msgstr "Faixa de Taxa de Execução {0} - {1} {2}"
+msgstr "İşlem Ücret Aralığı {0} - {1} {2}"
 
 #: src/components/common/FormView/FormFeesSection/FormFeesSection.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Execution Fee:"
-msgstr "Taxa de execução:"
+msgstr "İşlem Ücreti:"
 
 #: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
 msgid "Experimental"
-msgstr ""
+msgstr "Deneme sürecinde"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
 msgid "Extension period"
-msgstr "Período de extensão"
+msgstr "Uzatma periyodu"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
 #: src/pages/Pool/components/LiquidityPositionsList/LiquidityPositionsItem/LiquidityPositionsItemWrapper/LiquidityPositionsItemWrapper.tsx
 msgid "Fee tier"
-msgstr "Rank de taxa"
+msgstr "Ücret sınıfı"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/PoolSelector/PoolView/PoolView.tsx
 msgid "Fee:"
-msgstr "Taxa:"
+msgstr "Ücret:"
 
 #: src/components/common/FormView/FormFeesSection/FormFeesSection.tsx
 #: src/components/common/TxHistory/RefundConfirmationModal/RefundConfirmationModal.tsx
@@ -366,32 +366,32 @@ msgstr "Taxa:"
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
 msgid "Fees"
-msgstr "Taxas"
+msgstr "Ücretler"
 
 #: src/pages/Swap/Swap.tsx
 msgid "From"
-msgstr "De"
+msgstr "Bundan"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Get help in our channels:"
-msgstr "Obtenha ajuda em nossos canais:"
+msgstr "Kanallarımızdan yardım alın:"
 
 #: src/components/Header/BurgerMenu/BurgerMenu.tsx
 #: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
 msgid "Global Settings"
-msgstr "Configurações Globais"
+msgstr "Genel Ayarlar"
 
 #: src/components/Header/BurgerMenu/BurgerMenu.tsx
 msgid "How to use"
-msgstr "Como usar"
+msgstr "Nasıl kullanılır"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidityConfirmationModal/LockLiquidityConfirmationModal.tsx
 msgid "I understand that I'm locking <0>{0}</0> LP-tokens, which is <1>{percent}%</1> of my <2>{1}/{2}</2> liquidity position, for a period of <3>{3}</3> (until {4}) without the ability to withdrawal before the end of this period."
-msgstr "Eu entendo que estou bloqueando <0>{0}</0> LP-tokens, que é <1>{percent}%</1> da minha <2>{1}/{2}</2> posição de liquidez, por um período de <3>{3}</3> (até {4}) sem a habilidade de saque antes do final deste período."
+msgstr "<2>{1}/{2}</2> Likidite pozisyonumun <1>%{percent}</1> kadarını oluşturan <0>{0}</0> likidite havuzu tokenımı <3>{3}</3> süresince ({4} tarihine kadar) hapsettiğimi ve bu periyod sona ermeden geri çekemeyeceğimi anlıyorum."
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
 msgid "I understand that I’m relocking <0>{0}</0> LP-tokens of my <1>{1}/{2}</1> position until <2>{3}</2> (or <3>{4}</3> block) without the ability to withdrawal before the end of this period."
-msgstr "Eu entendo que estou rebloqueando <0>{0}</0> LP-tokens da minha <1>{1}/{2}</1> posição até <2>{3}</2> (ou <3>{4}</3>) sem a capacidade de saque antes do final deste período."
+msgstr "<1>{1}/{2}</1> pozisyonundaki <0>{0}</0> likidite havuzu tokenımı <2>{3}</2> tarihine kadar (ya da <3>{4}</3> bloğa dek) yeniden hapsettiğimi ve bu periyod sona ermeden geri çekemeyeceğimi anlıyorum."
 
 #: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
 #~ msgid "I understand that this wallet has not been audited. I will use it at my own risk."
@@ -400,48 +400,48 @@ msgstr "Eu entendo que estou rebloqueando <0>{0}</0> LP-tokens da minha <1>{1}/{
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "I understand the risks"
-msgstr ""
+msgstr "Riskleri anlıyorum"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "I understand the risks and accept the KYA"
-msgstr "Eu entendo os riscos e aceito o conhecimento de suas suposições (KYA)"
+msgstr "Riskleri anlıyor ve Bilgilendirme Metnini kabul ediyorum"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Increase Liquidity"
-msgstr "Aumentar Liquidez"
+msgstr "Likiditeyi Artır"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
 msgid "Initial liquidity"
-msgstr "Liquidez Inicial"
+msgstr "Başlangıç likiditesi"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
 msgid "Initial price"
-msgstr "Preço inicial"
+msgstr "Başlangıç fiyatı"
 
 #: src/components/common/ActionForm/ActionButton/ActionButton.tsx
 msgid "Insufficient liquidity for this trade"
-msgstr "Liquidez insuficiente para esta troca"
+msgstr "Bu takas için yetersiz likidite"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Insufficient {0} Balance"
-msgstr "Saldo insuficiente {0}"
+msgstr "Yetersiz {0} Bakiye"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Insufficient {0} Balance for Fees"
-msgstr "Saldo Insuficiente de {0} para Taxas"
+msgstr "Ücretler için Yetersiz {0} Bakiye"
 
 #: src/components/common/ActionForm/ActionButton/ActionButton.tsx
 msgid "Insufficient {token} Balance"
-msgstr "Saldo insuficiente {token}"
+msgstr "Yetersiz {token} Bakiye"
 
 #: src/components/common/ActionForm/ActionButton/ActionButton.tsx
 msgid "Insufficient {token} Balance for Fees"
-msgstr "Saldo Insuficiente de {token} para Taxas"
+msgstr "Ücretler için Yetersiz {token} Bakiye"
 
 #: src/pages/Pool/components/LiquidityPositionsList/LiquidityPositionsItem/LiquidityPositionsItemWrapper/LiquidityPositionsItemWrapper.tsx
 #~ msgid "It is impossible to display statistics for this pool"
@@ -449,98 +449,98 @@ msgstr "Saldo Insuficiente de {token} para Taxas"
 
 #: src/components/common/ConnectWalletButton/ConnectWalletButton.tsx
 msgid "KYA is not accepted"
-msgstr "Conhecimento de suas suposições (KYA) não é aceito"
+msgstr "Bilgilendirme Metni kabul edilmedi"
 
 #: src/components/Header/BurgerMenu/BurgerMenu.tsx
 msgid "Language"
-msgstr "Idioma"
+msgstr "Dil"
 
 #: src/components/WalletModal/LowBalanceWarning/LowBalanceWarning.tsx
 msgid "Learn how to get ERG"
-msgstr "Saiba como obter o ERG"
+msgstr "Nasıl ERG elde edeceğini öğren"
 
 #: src/components/Header/Navigation/Navigation.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 #: src/pages/Pool/Liquidity.tsx
 msgid "Liquidity"
-msgstr "Liquidez"
+msgstr "Likidite"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Liquidity Locker"
-msgstr "Bloqueador de Liquidez"
+msgstr "Likidite Dolabı"
 
 #: src/pages/Swap/PoolSelector/PoolSelector.tsx
 msgid "Liquidity Pool"
-msgstr "Pool de Liquidez"
+msgstr "Likidite Havuzu"
 
 #: src/components/OperationForm/OperationForm.tsx
 #: src/components/common/ActionForm/ActionButton/ActionButton.tsx
 msgid "Loading"
-msgstr "Carregando"
+msgstr "Yükleniyor"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
 msgid "Lock"
-msgstr "Bloquear"
+msgstr "Hapset"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidityConfirmationModal/LockLiquidityConfirmationModal.tsx
 msgid "Lock Liquidity"
-msgstr "Bloquear Liquidez"
+msgstr "Likidite Hapset"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Lock liquidity"
-msgstr "Bloquear liquidez"
+msgstr "Likidite hapset"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
 msgid "Lock period"
-msgstr "Bloquear período"
+msgstr "Hapis periyodu"
 
 #: src/pages/PoolOverview/LockLiquidityChart/LockLiquidityChart.tsx
 msgid "Lock time"
-msgstr "Tempo de bloqueio"
+msgstr "Hapis süresi"
 
 #: src/pages/Pool/utils.ts
 msgid "Locked"
-msgstr "Bloqueado"
+msgstr "Hapsedildi"
 
 #: src/pages/Pool/Liquidity.tsx
 msgid "Locked Positions"
-msgstr "Posições bloqueadas"
+msgstr "Hapis Pozisyonlar"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Locked liquidity"
-msgstr "Liquidez bloqueada"
+msgstr "Hapis likidite"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
 msgid "Locked positions"
-msgstr "Posições bloqueadas"
+msgstr "Hapis pozisyonlar"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Locking {0} and {1} ({2}) for {3}"
-msgstr "Bloqueando {0} e {1} ({2}) por {3}"
+msgstr "{3} için {0} ve {1} ({2}) hapsediliyor"
 
 #: src/components/common/TokenControl/TokenControl.tsx
 msgid "Max"
-msgstr "Máximo"
+msgstr "Maksimum"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Max execution fee multiplier"
-msgstr "Multiplicador máximo de taxa de execução"
+msgstr "Maksimum uygulama ücreti çarpanı"
 
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
 msgid "Maximum received:"
-msgstr "Máximo recebido:"
+msgstr "Maksimum alınan:"
 
 #: src/components/common/ActionForm/ActionButton/ActionButton.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Min value for {0} is {1}"
-msgstr "O valor mínimo para {0} é {1}"
+msgstr "{0} için minimum değer {1} olacaktır"
 
 #: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
 msgid "Miner Fee"
-msgstr "Taxa do Minerador"
+msgstr "Madenci Ücreti"
 
 #: src/components/common/FormView/FormFeesSection/FormFeesSection.tsx
 #: src/components/common/TxHistory/RefundConfirmationModal/RefundConfirmationModal.tsx
@@ -548,196 +548,196 @@ msgstr "Taxa do Minerador"
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Miner Fee:"
-msgstr "Taxa do Minerador:"
+msgstr "Madenci Ücreti:"
 
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
 msgid "Miner fee:"
-msgstr "Taxa do minerador:"
+msgstr "Madenci ücreti:"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Minimal Nitro value is {MIN_NITRO}"
-msgstr "O valor mínimo do Nitro é {MIN_NITRO}"
+msgstr "Asgari Nitro değeri {MIN_NITRO}"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Minimal Slippage is {MIN_SLIPPAGE}"
-msgstr "O Slippage Mínimo é {MIN_SLIPPAGE}"
+msgstr "Asgari Kayma {MIN_SLIPPAGE}"
 
 #: src/components/Header/GlobalSettingsModal/MinerFeeInput/MinerFeeInput.tsx
 #: src/pages/Swap/OperationSettings/NitroInput/NitroInput.tsx
 msgid "Minimum"
-msgstr "Mínimo"
+msgstr "Minimum"
 
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
 msgid "Minimum received:"
-msgstr "Mínimo recebido:"
+msgstr "Minimum alınan:"
 
 #: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
 msgid "Minimum value is {MIN_ERG_FOR_TX} ERG"
-msgstr "O valor mínimo é {MIN_ERG_FOR_TX} ERG"
+msgstr "Minimum değer {MIN_ERG_FOR_TX} ERG"
 
 #: src/components/MobilePlug/MobilePlug.tsx
 msgid "Mobile version is not supported yet"
-msgstr "A versão para celular ainda não é suportada"
+msgstr "Mobil sürüm henüz desteklenmemektedir"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Nitro"
-msgstr ""
+msgstr "Nitro"
 
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Nitro:"
-msgstr ""
+msgstr "Nitro:"
 
 #: src/pages/Pool/common/EmptySearchResult/EmptySearchResult.tsx
 msgid "No results found"
-msgstr "Nenhum resultado encontrado"
+msgstr "Sonuç bulunamadı"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "Notice that:"
-msgstr "Observe que:"
+msgstr "Şu satırlara dikkat:"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
 msgid "Once LP-tokens are locked they cannot be withdrawn under any circumstances until the timer has expired. Please ensure the parameters are correct, as they are final."
-msgstr "Uma vez que os LP-tokens são bloqueados, eles não podem ser retirados em nenhuma circunstância até que o temporizador tenha expirado. Por favor, certifique-se que os parâmetros estão corretos, pois eles são finais."
+msgstr "Tokenlar bir kez Likidite havuzuna hapsedildiğinde süre dolana kadar hiçbir surette çekilemeyeceklerdir. Parametreler nihai oldukları için lütfen doğruluklarını kontrol ediniz."
 
 #: src/pages/Pool/components/LocksList/LockItemView/LockItemView.tsx
 msgid "Pair"
-msgstr "Par"
+msgstr "Çift"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
 msgid "Pick new unlock date"
-msgstr "Escolher nova data de desbloqueio"
+msgstr "Yeni bir hapis bitim tarihi seçin"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
 msgid "Pool"
-msgstr ""
+msgstr "Havuz"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Pool liquidity"
-msgstr "Liquidez da pool"
+msgstr "Havuz likiditesi"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Pool overview"
-msgstr "Visão geral da pool"
+msgstr "Havuz özeti"
 
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidityConfirmationModal/RemoveLiquidityConfirmationModal.tsx
 msgid "Pooled assets"
-msgstr "Ativos agrupados"
+msgstr "Havuzdaki varlıklar"
 
 #: src/pages/Pool/Liquidity.tsx
 msgid "Pools Overview"
-msgstr "Visão geral das Pools"
+msgstr "Havuzların Özeti"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
 msgid "Previous unlock date"
-msgstr "Data de desbloqueio anterior"
+msgstr "Önceki hapis bitim tarihi"
 
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
 msgid "Price impact:"
-msgstr "Impacto no preço:"
+msgstr "Fiyat etkisi:"
 
 #: src/components/GuideBanner/GuideBanner.tsx
 msgid "Read Guide"
-msgstr "Ler Guia"
+msgstr "Kılavuzu Oku"
 
 #: src/pages/Pool/components/LiquidityPositionsList/LiquidityPositionsItem/LiquidityPositionsItemAnalytics/LiquidityPositionsItemAnalytics.tsx
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Read more"
-msgstr "Ler mais"
+msgstr "Daha fazlasını oku"
 
 #: src/components/common/TxHistory/TxHistory.tsx
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
 msgid "Recent transactions"
-msgstr "Transações recentes"
+msgstr "Son İşlemler"
 
 #: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
 msgid "Recommended"
-msgstr "Recomendado"
+msgstr "Önerilen"
 
 #: src/components/common/ActionForm/ActionButton/ActionButton.tsx
 msgid "Refresh page"
-msgstr "Atualizar página"
+msgstr "Sayfayı yenile"
 
 #: src/components/common/TxHistory/TxTypeTag/TxTypeTag.tsx
 msgid "Refund"
-msgstr "Reembolso"
+msgstr "Para iadesi"
 
 #: src/components/common/TxHistory/RefundConfirmationModal/RefundConfirmationModal.tsx
 msgid "Refund confirmation"
-msgstr "Confirmação de reembolso"
+msgstr "İade onayı"
 
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
 msgid "Refund transaction"
-msgstr "Transação de reembolso"
+msgstr "İade işlemi"
 
 #: src/components/common/TxHistory/RefundConfirmationModal/RefundConfirmationModal.tsx
 msgid "Refund will be performed to this address"
-msgstr "Reembolso será efetuado para este endereço"
+msgstr "İade bu adrese yapılacaktır"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Refunding {0} and {1}"
-msgstr "Reembolsando {0} e {1}"
+msgstr "{0} ve {1} iade ediliyor"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
 #: src/pages/Pool/components/LocksList/LockItemView/LockItemView.tsx
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Relock liquidity"
-msgstr "Rebloquear liquidez"
+msgstr "Likiditeyi yeniden hapset"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
 msgid "Relock position"
-msgstr "Rebloquear posição"
+msgstr "Yeniden hapis pozisyonu"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Relocking {0} and {1} ({2})"
-msgstr "Rebloqueando {0} e {1} ({2})"
+msgstr "{0} ve {1} ({2}) yeniden hapsediliyor"
 
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidity.tsx
 msgid "Remove"
-msgstr "Remover"
+msgstr "Kaldır"
 
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidityConfirmationModal/RemoveLiquidityConfirmationModal.tsx
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Remove Liquidity"
-msgstr "Remover Liquidez"
+msgstr "Likiditeyi Kaldır"
 
 #: src/components/common/TxHistory/TxTypeTag/TxTypeTag.tsx
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidity.tsx
 msgid "Remove liquidity"
-msgstr "Remover liquidez"
+msgstr "Likiditeyi kaldır"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Removing liquidity {0} and {1}"
-msgstr "Removendo liquidez {0} e {1}"
+msgstr "{0} ve {1} likiditesi kaldırılıyor"
 
 #: src/components/common/TokenControl/TokenSelect/TokenListModal/TokenListModal.tsx
 msgid "Search"
-msgstr "Buscar"
+msgstr "Ara"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Seems like Yoroi Wallet has an issue"
-msgstr "Parece que a Carteira Yoroi tem um problema"
+msgstr "Yoroi cüzdanda bir sorun var gibi"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
 #: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
 msgid "Select Locked Position"
-msgstr "Selecione a posição bloqueada"
+msgstr "Hapsedilmiş Pozisyonu Seç"
 
 #: src/components/Header/NetworkDropdown/NetworkDropdown.tsx
 msgid "Select Network"
-msgstr "Selecionar rede"
+msgstr "Ağı Seç"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool.tsx
 msgid "Select Pair"
-msgstr "Selecionar par"
+msgstr "İşlem Çifti Seç"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/PoolSelector/PoolSelector.tsx
 msgid "Select Pool"
-msgstr "Selecionar pool"
+msgstr "Havuz Seç"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Select a fee tier"
-msgstr "Selecione um nível de taxa"
+msgstr "Ücretlendirme sınıfını seç"
 
 #: src/components/common/ActionForm/ActionButton/ActionButton.tsx
 #: src/components/common/TokenControl/TokenSelect/TokenListModal/TokenListModal.tsx
@@ -745,309 +745,309 @@ msgstr "Selecione um nível de taxa"
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Select a token"
-msgstr "Selecione um token"
+msgstr "Token seç"
 
 #: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
 msgid "Select a wallet"
-msgstr "Selecione uma carteira"
+msgstr "Cüzdan seç"
 
 #: src/components/common/TxHistory/RefundConfirmationModal/RefundConfirmationModal.tsx
 msgid "Select address"
-msgstr "Selecione endereço"
+msgstr "Adres seç"
 
 #: src/components/common/PoolSelect/PoolSelect.tsx
 msgid "Select pair"
-msgstr "Selecione o par"
+msgstr "İşlem çifti seç"
 
 #: src/components/PoolMenu/PoolMenu.tsx
 msgid "Select pools"
-msgstr "Selecione a pool"
+msgstr "Havuzları seç"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
 msgid "Select relock date"
-msgstr "Selecionar data de rebloqueio"
+msgstr "Yeniden hapis tarihi seç"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Set initial price"
-msgstr "Definir preço inicial"
+msgstr "Başlangıç fiyatını belirle"
 
 #: src/pages/Pool/components/LocksList/LockItemView/LockItemView.tsx
 #: src/pages/PoolOverview/LockLiquidityChart/AnalyticOverview/AnalyticOverview.tsx
 msgid "Share"
-msgstr "Compartilhar"
+msgstr "Paylaş"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Slippage tolerance"
-msgstr "Tolerância de Slippage"
+msgstr "Kayma toleransı"
 
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
 msgid "Slippage tolerance:"
-msgstr "Tolerância de Slippage:"
+msgstr "Kayma toleransı:"
 
 #: src/pages/Swap/SwapInfo/SwapInfoHeader/SlippageTag/SlippageTag.tsx
 msgid "Slippage: {slippage}"
-msgstr ""
+msgstr "Kayma: {slippage}"
 
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
 #: src/pages/Pool/components/LockedPositionItem/LockedPositionItem.tsx
 msgid "Status"
-msgstr ""
+msgstr "Durum"
 
 #: src/components/Header/Navigation/Navigation.tsx
 #: src/components/common/TxHistory/TxTypeTag/TxTypeTag.tsx
 #: src/pages/Swap/Swap.tsx
 #: src/pages/Swap/Swap.tsx
 msgid "Swap"
-msgstr "Trocar"
+msgstr "Takas"
 
 #: src/components/common/ActionForm/ActionButton/ActionButton.tsx
 msgid "Swapping is available in {0}"
-msgstr "Troca está disponível em {0}"
+msgstr "Takas {0} içinde kullanılabilir"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Swapping {0} for {1}"
-msgstr "Trocando {0} por {1}"
+msgstr "{0} için {1} takas ediliyor"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "The % you will earn in fees"
-msgstr "A % que você ganhará em taxas"
+msgstr "Ücretlerden kazanacağın %"
 
 #: src/components/NetworkHeight/NetworkHeight.tsx
 msgid "The most recent block in Ergo network"
-msgstr "O bloco mais recente na rede Ergo"
+msgstr "Ergo ağındaki en son blok"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool.tsx
 msgid "The pool with such a pair has not yet been initialized. To create a pool enter an initial price. Then add the deposit amount."
-msgstr "A pool com este par ainda não foi inicializada. Para criar uma pool insira um preço inicial. Em seguida, adicione o valor do depósito."
+msgstr "Böyle bir işlem çiftiyle bir havuz başlatılmadı. Havuz oluşturmak için başlangıç fiyatı girin. Daha sonra depozito miktarını ekleyin."
 
 #: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
 msgid "The value can't be more than {MAX_ERG_FOR_TX} ERG"
-msgstr "O valor não pode ser maior que {MAX_ERG_FOR_TX} ERG"
+msgstr "Değer {MAX_ERG_FOR_TX} ERG'den fazla olamaz"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "This operation may include fake or scam assets. Only confirm if you have done your own research."
-msgstr ""
+msgstr "Bu işlemde sahte veya dolandırıcılık amaçlı varlıklar bulunabilir. Yalnızca araştırmanızı yaptıysanız onay verin."
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "This pair has not been verified by the ErgoDEX team"
-msgstr ""
+msgstr "Bu işlem çifti ErgoDEX takımı tarafından doğrulanmamıştır"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
 msgid "This position is still locked"
-msgstr "Essa posição ainda está bloqueada"
+msgstr "Bu pozisyon hala hapis halindedir"
 
 #: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
 msgid "This wallet may not always work as expected. I understand what I do andwill use it at my own risk."
-msgstr "Esta carteira pode nem sempre funcionar como o esperado. Eu entendo o que eu faço e usarei por minha conta e risco."
+msgstr "Bu cüzdan her zaman beklendiği gibi çalışmayabilir. Ne yaptığımı anlıyorum ve kullanımı kendi sorumluluğumdadır."
 
 #: src/pages/Swap/Swap.tsx
 msgid "To"
-msgstr "Para"
+msgstr "Buna"
 
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Total Fees"
-msgstr "Taxas Totais"
+msgstr "Toplam Ücretler"
 
 #: src/components/WalletModal/WalletTotalBalance/WalletTotalBalance.tsx
 msgid "Total balance"
-msgstr "Balanço total"
+msgstr "Toplam bakiye"
 
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
 msgid "Total fees:"
-msgstr "Taxas totais:"
+msgstr "Toplam ücretler:"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
 msgid "Total in locker"
-msgstr "Total no bloqueio"
+msgstr "Dolap toplamı"
 
 #: src/pages/Pool/components/LocksList/LockItemView/LockItemView.tsx
 msgid "Total locked"
-msgstr "Total bloqueado"
+msgstr "Toplam hapsedilen"
 
 #: src/pages/Pool/components/LocksList/LockItemView/LockItemView.tsx
 msgid "Total withdrawable"
-msgstr "Possível saque total"
+msgstr "Toplam çekilebilecek"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Transaction Settings"
-msgstr "Configurações de transação"
+msgstr "İşlem Ayarları"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Transaction rejected"
-msgstr "Transação rejeitada"
+msgstr "İşlem reddedildi"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Transaction submitted"
-msgstr "Transação enviada"
+msgstr "İşlem gönderildi"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Try again later"
-msgstr "Tente novamente mais tarde"
+msgstr "Daha sonra tekrar deneyin"
 
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
 msgid "Type"
-msgstr "Tipo"
+msgstr "Tip"
 
 #: src/pages/Pool/Liquidity.tsx
 msgid "Type token name or pool id"
-msgstr ""
+msgstr "Token adı veya havuz no gir"
 
 #: src/components/common/FormView/FormFeesSection/FormFeesSection.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "UI Fee:"
-msgstr "Taxa da UI:"
+msgstr "UI Ücreti:"
 
 #: src/pages/Pool/components/LockedPositionItem/LockedPositionItem.tsx
 msgid "Unlock Block"
-msgstr "Bloco de Desbloqueio"
+msgstr "Hapis Bitim Bloğu"
 
 #: src/pages/Pool/components/LockedPositionItem/LockedPositionItem.tsx
 msgid "Unlock Date"
-msgstr "Data de Desbloqueio"
+msgstr "Hapis Bitim Tarihi"
 
 #: src/pages/PoolOverview/LockLiquidityChart/AnalyticOverview/AnalyticOverview.tsx
 msgid "Unlock block"
-msgstr "Bloco de desbloqueio"
+msgstr "Hapis bitim bloğu"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
 #: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
 #: src/pages/PoolOverview/LockLiquidityChart/AnalyticOverview/AnalyticOverview.tsx
 msgid "Unlock date"
-msgstr "Data de desbloqueio"
+msgstr "Hapis bitim tarihi"
 
 #: src/pages/Pool/utils.ts
 msgid "Unlocked"
-msgstr "Desbloqueado"
+msgstr "Hapsi biten"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
 msgid "Updated unlock date"
-msgstr "Data de desbloqueio atualizada"
+msgstr "Güncellenmiş hapis bitim tarihi"
 
 #: src/components/MobilePlug/MobilePlug.tsx
 msgid "Use the desktop version and Google Chrome browser"
-msgstr "Use a versão desktop e o navegador Google Chrome"
+msgstr "Masaüstü sürümü ve Google Chrome tarayıcısını kullanın"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
 msgid "View on Explorer"
-msgstr "Visualizar no Explorer"
+msgstr "Explorer'da görüntüle"
 
 #: src/components/WalletModal/WalletActiveAddress/WalletActiveAddress.tsx
 msgid "View on explorer"
-msgstr "Visualizar no explorer"
+msgstr "Explorer'da görüntüle"
 
 #: src/components/common/ExploreButton/ExploreButton.tsx
 msgid "View on explorer."
-msgstr "Visualizar no explorer."
+msgstr "Explorer'da görüntüle."
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Waiting for confirmation"
-msgstr "Aguardando confirmação"
+msgstr "Onay bekleniyor"
 
 #: src/components/WalletModal/WalletModal.tsx
 msgid "Wallet"
-msgstr "Carteira"
+msgstr "Cüzdan"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "We recommend that you DO NOT use ErgoDEX to operate large amounts of assets!"
-msgstr "Recomendamos que você NÃO use a ErgoDEX para operar grandes quantidades de ativos!"
+msgstr "Yüklü miktarda varlıklarla işlem yapmak için ErgoDEX'i KULLANMAMANIZI tavsiye ederiz!"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
 msgid "Withdrawable"
-msgstr "Disponível para saque"
+msgstr "Çekilebilir"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
 #: src/pages/Pool/components/LocksList/LockItemView/LockItemView.tsx
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Withdrawal"
-msgstr "Saque"
+msgstr "Geri çekme"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "You didn't provide liquidity to this pool yet."
-msgstr "Você ainda não forneceu liquidez a esta pool."
+msgstr "Bu havuza henüz likidite sağlamadın."
 
 #: src/components/WalletModal/LowBalanceWarning/LowBalanceWarning.tsx
 msgid "You need ERG to pay transaction fees"
-msgstr "Você precisa de ERG para pagar as taxas de transação"
+msgstr "İşlem ücretlerini ödemek için ERG gerek"
 
 #: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
 msgid "You will spend {value} ERG for every operation."
-msgstr "Você gastará {value} ERG para cada operação."
+msgstr "Her işlem için {value} ERG harcayacaksın."
 
 #: src/pages/Pool/Liquidity.tsx
 msgid "Your Positions"
-msgstr "Suas posições"
+msgstr "Pozisyonların"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Your liquidity"
-msgstr "Sua Liquidez"
+msgstr "Likiditen"
 
 #: src/pages/Pool/common/EmptyPositionsList/EmptyPositionsList.tsx
 msgid "Your liquidity positions will appear here."
-msgstr "As suas posições de liquidez aparecerão aqui."
+msgstr "Likidite pozisyonların burada görünecek."
 
 #: src/pages/Swap/PoolSelector/PoolSelector.tsx
 msgid "Your operation will be executed in this pool. <0/> You can also choose another pool for this pair"
-msgstr "Sua operação será executada nesta pool. <0/> Você também pode escolher outra pool para este par"
+msgstr "İşlemin bu havuzda gerçekleştirilecek. <0/> Bu işlem çifti için başka bir havuz da seçebilirsin"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Your transaction may be frontrun"
-msgstr "Sua transação pode ser antecipada (frontrun)"
+msgstr "İşleminiz varlık fiyatını etkileyebilir"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Your transaction may fail"
-msgstr "Sua transação pode falhar"
+msgstr "İşleminiz başarısız olabilir"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Your transaction will revert if the price changes unfavorably by more than this percentage"
-msgstr "Sua transação será revertida se o preço mudar desfavoravelmente em mais do que esta porcentagem"
+msgstr "Fiyat bu yüzdeden fazla bir şekilde alehinize olacak şekilde değişirse işleminiz geri alınacaktır"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "explorer"
-msgstr ""
+msgstr "explorer"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "meet your expectations."
-msgstr "atenda às suas expectativas."
+msgstr "beklentilerinizle yüz yüze gelin."
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "only on top of the Ergo Blockchain."
-msgstr "somente em cima da Ergo Blockchain."
+msgstr "yalnızca Ergo Blokzincir üzerinde."
 
 #: src/pages/Pool/Liquidity.tsx
 msgid "{0} Community Pools"
-msgstr ""
+msgstr "{0} Topluluk Havuzu"
 
 #: src/pages/PoolOverview/PoolRatio/PoolRatio.tsx
 #: src/pages/PoolOverview/PoolRatio/PoolRatio.tsx
 msgid "{0} per {1}"
-msgstr "{0} por {1}"
+msgstr "{1} için {0}"
 
 #: src/pages/Pool/utils.ts
 msgid "{daysCount} Days"
-msgstr "{daysCount} Dias"
+msgstr "{daysCount} Gün"
 
 #: src/pages/Pool/utils.ts
 msgid "{monthsCount} Months"
-msgstr "{monthsCount} Meses"
+msgstr "{monthsCount} Ay"
 
 #: src/components/Header/ConnectWallet/ConnectWallet.tsx
 msgid "{numberOfPendingTxs} Pending"
-msgstr "{numberOfPendingTxs} Pendentes"
+msgstr "{numberOfPendingTxs} Bekleyen"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePoolUnsupportedAlert/CreatePoolUnsupportedAlert.tsx
 msgid "{walletName} Wallet doesn’t support “create pool” functionality yet. Choose another wallet to perform the operation."
-msgstr "A Carteira {walletName} ainda não suporta a funcionalidade de \"criar pool\". Escolha outra carteira para executar a operação."
+msgstr "{walletName} cüzdanı şimdilik \"havuz oluştur\" özelliğini desteklememektedir. İşlemi gerçekleştirmek için başka bir cüzdan seçin."
 
 #: src/pages/Pool/utils.ts
 msgid "{yearsCount} Years"
-msgstr "{yearsCount} Anos"
+msgstr "{yearsCount} Yıl"
 

@@ -128,7 +128,7 @@ export const Swap = (): JSX.Element => {
       toAmount &&
       toAmount.isPositive() &&
       pool &&
-      toAmount.gt(pool.getAssetAmount(toAmount.asset))
+      toAmount.gte(pool.getAssetAmount(toAmount.asset))
     ) {
       return undefined;
     }
@@ -191,7 +191,7 @@ export const Swap = (): JSX.Element => {
     if (!toAmount?.isPositive() || !pool) {
       return false;
     }
-    return toAmount?.gt(pool.getAssetAmount(toAmount?.asset));
+    return toAmount?.gte(pool.getAssetAmount(toAmount?.asset));
   };
 
   useSubscription(form.controls.fromAsset.valueChangesWithSilent$, (token) =>

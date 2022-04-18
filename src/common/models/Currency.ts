@@ -90,6 +90,11 @@ export class Currency {
     return this.amount <= currency.amount;
   }
 
+  eq(currency: Currency): boolean {
+    this.checkComparisonErrors(currency);
+    return this.amount === currency.amount;
+  }
+
   plus(currency: Currency | bigint): Currency {
     if (typeof currency === 'bigint') {
       return new Currency(this.amount + currency, this.asset);

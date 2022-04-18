@@ -5,14 +5,15 @@ import { Flex, Typography } from '../ergodex-cdk';
 import { TokenIcon } from './TokenIcon/TokenIcon';
 
 export interface TokenTitleProps {
-  readonly value: AssetInfo;
+  readonly asset: AssetInfo;
+  readonly size?: 'large' | 'small';
 }
 
-export const TokenTitle: FC<TokenTitleProps> = ({ value }) => (
+export const TokenTitle: FC<TokenTitleProps> = ({ asset, size }) => (
   <Flex align="center">
     <Flex.Item marginRight={1}>
-      <TokenIcon asset={value} />
+      <TokenIcon size={size} asset={asset} />
     </Flex.Item>
-    <Typography.Title level={5}>{value.name}</Typography.Title>
+    <Typography.Title level={5}>{asset.name}</Typography.Title>
   </Flex>
 );
