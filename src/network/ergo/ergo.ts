@@ -23,11 +23,20 @@ import {
   supportedWalletFeatures$,
   walletState$,
 } from './api/wallet/wallet';
+import { initialize, initialized$ } from './initialized';
+import {
+  ErgoSettings,
+  setSettings,
+  settings,
+  settings$,
+} from './settings/settings';
 import { GlobalSettingsModal } from './widgets/GlobalSettings/GlobalSettingsModal';
 
-export const ergoNetwork: Network<ErgoWalletContract> = {
+export const ergoNetwork: Network<ErgoWalletContract, ErgoSettings> = {
   name: 'ergo',
   networkAsset,
+  initialized$,
+  initialize: initialize,
   networkAssetBalance$,
   assetBalance$,
   lpBalance$,
@@ -45,6 +54,11 @@ export const ergoNetwork: Network<ErgoWalletContract> = {
   selectedWallet$,
   supportedFeatures$: supportedWalletFeatures$,
   networkContext$,
+
+  settings$,
+  settings,
+  setSettings,
+
   swap,
 
   GlobalSettingsModal,

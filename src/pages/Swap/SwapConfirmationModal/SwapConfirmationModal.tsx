@@ -25,7 +25,6 @@ import { ERG_DECIMALS, UI_FEE } from '../../../common/constants/erg';
 import { useObservable } from '../../../common/hooks/useObservable';
 import { TokenControlFormItem } from '../../../components/common/TokenControl/TokenControl';
 import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
-import { useSettings } from '../../../context';
 import {
   Alert,
   Box,
@@ -37,6 +36,7 @@ import {
   Typography,
   useForm,
 } from '../../../ergodex-cdk';
+import { useSettings } from '../../../gateway/settings/settings';
 import { cardanoNetworkParams$ } from '../../../network/cardano/api/common/cardanoNetwork';
 import { submitTx } from '../../../network/cardano/api/operations/submitTx';
 import { utxos$ } from '../../../network/cardano/api/utxos/utxos';
@@ -66,7 +66,8 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
   );
   const form = useForm<SwapFormModel>(value);
 
-  const [{ minerFee, address, slippage, nitro, pk }] = useSettings();
+  //@ts-ignore
+  const { minerFee, address, slippage, nitro, ph } = useSettings();
   const [utxos] = useObservable(utxos$);
   const minExFee = useMinExFee();
   const [networkParams] = useObservable(cardanoNetworkParams$);
@@ -164,7 +165,7 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
         {
           kind: OrderRequestKind.Swap,
           poolId: value.pool['pool'].id as AssetClass,
-          rewardPkh: pk!,
+          rewardPkh: ph!,
           poolFeeNum: value.pool.poolFeeNum,
           baseInput: baseInput as any,
           quoteAsset: quoteAsset as any,
@@ -181,8 +182,6 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
           inputs: utxos.map((u) => ({ txOut: u })),
         },
       );
-      console.log(txCandidate);
-
       submitTx(txCandidate);
     }
   };

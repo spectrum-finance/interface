@@ -105,35 +105,35 @@ export const SettingsProvider = ({
     }
   }, []);
 
-  useEffect(() => {
-    if (!usedAddresses || !unusedAddresses) {
-      return;
-    }
-
-    let newSelectedAddress: Address;
-    const addresses = unusedAddresses.concat(usedAddresses);
-    const currentSelectedAddress = ctxValue[0].address;
-
-    if (isCurrentAddressValid(currentSelectedAddress, addresses)) {
-      newSelectedAddress = currentSelectedAddress!;
-    } else {
-      newSelectedAddress = unusedAddresses[0] || usedAddresses[0];
-    }
-
-    let pk: string | undefined;
-
-    try {
-      pk = publicKeyFromAddress(newSelectedAddress);
-    } catch (e: any) {
-      pk = pubKeyHashFromAddr(newSelectedAddress, RustModule._wasm!);
-    }
-
-    ctxValue[1]({
-      ...ctxValue[0],
-      address: newSelectedAddress,
-      pk,
-    });
-  }, [usedAddresses, unusedAddresses]);
+  // useEffect(() => {
+  //   if (!usedAddresses || !unusedAddresses) {
+  //     return;
+  //   }
+  //
+  //   let newSelectedAddress: Address;
+  //   const addresses = unusedAddresses.concat(usedAddresses);
+  //   const currentSelectedAddress = ctxValue[0].address;
+  //
+  //   if (isCurrentAddressValid(currentSelectedAddress, addresses)) {
+  //     newSelectedAddress = currentSelectedAddress!;
+  //   } else {
+  //     newSelectedAddress = unusedAddresses[0] || usedAddresses[0];
+  //   }
+  //
+  //   let pk: string | undefined;
+  //
+  //   try {
+  //     pk = publicKeyFromAddress(newSelectedAddress);
+  //   } catch (e: any) {
+  //     pk = pubKeyHashFromAddr(newSelectedAddress, RustModule._wasm!);
+  //   }
+  //
+  //   ctxValue[1]({
+  //     ...ctxValue[0],
+  //     address: newSelectedAddress,
+  //     pk,
+  //   });
+  // }, [usedAddresses, unusedAddresses]);
 
   return (
     <SettingsContext.Provider value={ctxValue}>

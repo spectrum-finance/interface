@@ -24,10 +24,19 @@ import {
   supportedWalletFeatures$,
   walletState$,
 } from './api/wallet/wallet';
+import { initialize, initialized$ } from './initialized';
+import {
+  CardanoSettings,
+  setSettings,
+  settings,
+  settings$,
+} from './settings/settings';
 
-export const cardanoNetwork: Network<CardanoWalletContract> = {
+export const cardanoNetwork: Network<CardanoWalletContract, CardanoSettings> = {
   name: 'cardano',
   networkAsset,
+  initialized$,
+  initialize,
   networkAssetBalance$,
   assetBalance$,
   lpBalance$: of(new Balance([])),
@@ -45,6 +54,11 @@ export const cardanoNetwork: Network<CardanoWalletContract> = {
   selectedWallet$: selectedWallet$,
   supportedFeatures$: supportedWalletFeatures$,
   networkContext$,
+
+  settings,
+  settings$,
+  setSettings,
+
   swap(pool: AmmPool, from: Currency, to: Currency): Observable<TxId> {
     return of('');
   },

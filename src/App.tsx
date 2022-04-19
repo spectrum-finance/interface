@@ -3,12 +3,17 @@ import React, { Suspense, useEffect, useState } from 'react';
 import { BrowserView, MobileView } from 'react-device-detect';
 import { Redirect, Route, Router, Switch } from 'react-router-dom';
 
+import { useObservable } from './common/hooks/useObservable';
 import { initializeApp } from './common/streams/appTick';
 import Layout from './components/common/Layout/Layout';
 import { MobilePlug } from './components/MobilePlug/MobilePlug';
 import { AppLoadingProvider, SettingsProvider } from './context';
 import { globalHistory } from './createBrowserHistory';
 import { ContextModalProvider } from './ergodex-cdk';
+import {
+  initializeNetworks,
+  networksInitialized$,
+} from './gateway/common/network';
 import { LanguageProvider } from './i18n/i18n';
 import { AddLiquidityOrCreatePool } from './pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool';
 import { Liquidity } from './pages/Pool/Liquidity';
@@ -92,16 +97,19 @@ const Application = () => {
 };
 
 export const ApplicationInitializer: React.FC = () => {
-  const [isRustModuleLoaded, setIsRustModuleLoaded] = useState(false);
+  const [networksInitialized] = useObservable(networksInitialized$);
 
   useEffect(() => {
-    RustModule.load().then(() => {
-      initializeApp();
-      setIsRustModuleLoaded(true);
-    });
+    initializeNetworks();
   }, []);
 
-  if (!isRustModuleLoaded) {
+  useEffect(() => {
+    if (networksInitialized) {
+      initializeApp();
+    }
+  }, [networksInitialized]);
+
+  if (!networksInitialized) {
     return null;
   }
 

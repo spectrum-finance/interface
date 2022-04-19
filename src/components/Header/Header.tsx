@@ -9,6 +9,7 @@ import { useSettings } from '../../context';
 import { useAssetsBalance } from '../../gateway/api/assetBalance';
 import { useNetworkAsset } from '../../gateway/api/networkAsset';
 import { selectedWalletState$ } from '../../gateway/api/wallets';
+import { settings$ } from '../../gateway/settings/settings';
 import { WalletState } from '../../network/common/Wallet';
 import { AppLogo } from '../common/AppLogo/AppLogo';
 import { TxHistory } from '../common/TxHistory/TxHistory';
@@ -19,7 +20,7 @@ import { Navigation } from './Navigation/Navigation';
 import { NetworkDropdown } from './NetworkDropdown/NetworkDropdown';
 
 export const Header: React.FC = () => {
-  const [{ address }] = useSettings();
+  const [settings] = useObservable(settings$);
   // TODO: Update with rx [EDEX-487]
   const [balance, isBalanceLoading] = useAssetsBalance();
   const [networkAsset] = useNetworkAsset();
@@ -61,7 +62,7 @@ export const Header: React.FC = () => {
               <NetworkDropdown />
               <ConnectWallet
                 numberOfPendingTxs={0}
-                address={address}
+                address={settings?.address}
                 balance={
                   isBalanceLoading ? undefined : balance.get(networkAsset)
                 }
