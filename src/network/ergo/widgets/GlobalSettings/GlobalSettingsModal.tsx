@@ -1,8 +1,9 @@
 import { t, Trans } from '@lingui/macro';
 import React from 'react';
 
-import { defaultMinerFee } from '../../../common/constants/settings';
-import { useSettings } from '../../../context';
+import { defaultMinerFee } from '../../../../common/constants/settings';
+import { InfoTooltip } from '../../../../components/InfoTooltip/InfoTooltip';
+import { useSettings } from '../../../../context';
 import {
   Button,
   CheckFn,
@@ -13,8 +14,7 @@ import {
   Modal,
   Typography,
   useForm,
-} from '../../../ergodex-cdk';
-import { InfoTooltip } from '../../InfoTooltip/InfoTooltip';
+} from '../../../../ergodex-cdk';
 import { MinerFeeInput } from './MinerFeeInput/MinerFeeInput';
 
 interface GlobalSettingsModalProps {

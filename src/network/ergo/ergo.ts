@@ -23,6 +23,7 @@ import {
   supportedWalletFeatures$,
   walletState$,
 } from './api/wallet/wallet';
+import { GlobalSettingsModal } from './widgets/GlobalSettings/GlobalSettingsModal';
 
 export const ergoNetwork: Network<ErgoWalletContract> = {
   name: 'ergo',
@@ -45,4 +46,6 @@ export const ergoNetwork: Network<ErgoWalletContract> = {
   supportedFeatures$: supportedWalletFeatures$,
   networkContext$,
   swap,
+
+  GlobalSettingsModal,
 };

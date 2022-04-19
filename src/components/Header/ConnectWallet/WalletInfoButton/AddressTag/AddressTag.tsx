@@ -8,12 +8,12 @@ import { selectedWallet$ } from '../../../../../gateway/api/wallets';
 import { getShortAddress } from '../../../../../utils/string/addres';
 import { DataTag } from '../../../../common/DataTag/DataTag';
 
-export interface AddressTag {
+export interface AddressTagProps {
   readonly address?: string;
   readonly className?: string;
 }
 
-const _AddressTag: FC<AddressTag> = ({ address, className }) => {
+export const AddressTag: FC<AddressTagProps> = ({ address, className }) => {
   const addressToRender = address ? getShortAddress(address) : '';
   const [selectedWallet] = useObservable(selectedWallet$);
 
@@ -37,5 +37,3 @@ const _AddressTag: FC<AddressTag> = ({ address, className }) => {
     />
   );
 };
-
-export const AddressTag = styled(_AddressTag)``;
