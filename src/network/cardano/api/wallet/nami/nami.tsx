@@ -11,4 +11,5 @@ export const Nami: CardanoWalletContract = makeCardanoWallet({
   walletSupportedFeatures: { createPool: true },
   name: 'Nami',
   icon: <NamiLogo />,
+  previewIcon: <NamiLogo width={21} height={21} />,
 });

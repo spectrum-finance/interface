@@ -11,4 +11,5 @@ export const Eternl: CardanoWalletContract = makeCardanoWallet({
   walletSupportedFeatures: { createPool: true },
   name: 'Eternl',
   icon: <EternlLogo />,
+  previewIcon: <EternlLogo width={21} height={21} />,
 });

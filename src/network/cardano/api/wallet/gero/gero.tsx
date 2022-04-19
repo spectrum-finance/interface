@@ -11,4 +11,5 @@ export const Gero: CardanoWalletContract = makeCardanoWallet({
   walletSupportedFeatures: { createPool: true },
   name: 'GeroWallet',
   icon: <GeroWalletLogo />,
+  previewIcon: <GeroWalletLogo width={21} height={21} />,
 });

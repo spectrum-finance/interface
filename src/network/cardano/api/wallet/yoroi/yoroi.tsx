@@ -12,4 +12,5 @@ export const Yoroi: CardanoWalletContract = makeCardanoWallet({
   walletSupportedFeatures: { createPool: true },
   name: 'Yoroi',
   icon: <YoroiLogo />,
+  previewIcon: <YoroiLogo height={21} width={21} />,
 });

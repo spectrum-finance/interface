@@ -11,4 +11,5 @@ export const Flint: CardanoWalletContract = makeCardanoWallet({
   walletSupportedFeatures: { createPool: true },
   name: 'FlintWallet',
   icon: <FlintLogo width={26} height={26} />,
+  previewIcon: <FlintLogo width={21} height={21} />,
 });

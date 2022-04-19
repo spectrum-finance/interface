@@ -7,7 +7,7 @@ import { AssetLock } from '../../common/models/AssetLock';
 import { Balance } from '../../common/models/Balance';
 import { Currency } from '../../common/models/Currency';
 import { Position } from '../../common/models/Position';
-import { Address, TxId } from '../../common/types';
+import { Address, Nitro, Percent, TxId } from '../../common/types';
 import { NetworkContext } from './NetworkContext';
 import { SupportedFeatures } from './SupportedFeatures';
 import { TxHistoryManager } from './TxHistoryManager';
@@ -35,6 +35,8 @@ export interface NetworkData<W extends Wallet> {
 
 interface BaseNetworkConfig {
   readonly address: Address;
+  readonly slippage: Percent;
+  readonly nitro: Nitro;
 }
 
 export interface NetworkSettings<T extends BaseNetworkConfig> {

@@ -9,6 +9,7 @@ export type WalletDefinition = 'experimental' | 'recommended' | 'default';
 export interface Wallet {
   readonly name: string;
   readonly icon: ReactNode;
+  readonly previewIcon: ReactNode;
   readonly definition: WalletDefinition;
   readonly extensionLink: string;
   readonly onConnect?: () => void;

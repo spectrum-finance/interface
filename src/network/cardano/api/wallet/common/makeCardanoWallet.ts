@@ -1,8 +1,4 @@
 import {
-  Transaction,
-  TransactionWitnessSet,
-} from '@emurgo/cardano-serialization-lib-nodejs';
-import {
   decodeAddr,
   decodeWasmUtxo,
   decodeWasmValue,
@@ -47,6 +43,7 @@ import { CardanoWalletContract } from './CardanoWalletContract';
 export interface CardanoWalletConfig {
   readonly name: string;
   readonly icon: ReactNode;
+  readonly previewIcon: ReactNode;
   readonly extensionLink: string;
   readonly definition?: WalletDefinition;
   readonly variableName: string;
@@ -74,6 +71,7 @@ export const makeCardanoWallet = ({
   definition,
   walletSupportedFeatures,
   variableName,
+  previewIcon,
 }: CardanoWalletConfig): CardanoWalletContract => {
   const ctx$ = defer(() => from(cardano[variableName].enable())).pipe(
     publishReplay(1),
@@ -145,6 +143,7 @@ export const makeCardanoWallet = ({
     name,
     icon,
     extensionLink,
+    previewIcon,
     definition: definition || 'default',
     walletSupportedFeatures,
     connectWallet,
