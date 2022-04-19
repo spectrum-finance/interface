@@ -44,6 +44,9 @@ export interface NetworkSettings<T extends BaseNetworkConfig> {
 
 export interface NetworkOperations {
   swap(pool: AmmPool, from: Currency, to: Currency): Observable<TxId>;
+  deposit(pool: AmmPool, x: Currency, y: Currency): Observable<TxId>;
+  redeem(pool: AmmPool, lp: Currency): Observable<TxId>;
+  refund(address: string, txIs: string, fee: number): Observable<TxId>;
 }
 
 export interface Network<W extends Wallet>

@@ -181,7 +181,6 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
           inputs: utxos.map((u) => ({ txOut: u })),
         },
       );
-      console.log(txCandidate);
 
       submitTx(txCandidate);
     }
