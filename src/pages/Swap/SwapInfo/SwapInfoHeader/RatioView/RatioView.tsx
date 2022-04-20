@@ -1,10 +1,10 @@
 import React, { FC, useState } from 'react';
 import styled from 'styled-components';
 
-import { Currency } from '../../../../common/models/Currency';
-import { Ratio } from '../../../../common/models/Ratio';
-import { Typography } from '../../../../ergodex-cdk';
-import { SwapFormModel } from '../../../../pages/Swap/SwapFormModel';
+import { Currency } from '../../../../../common/models/Currency';
+import { Ratio } from '../../../../../common/models/Ratio';
+import { Typography } from '../../../../../ergodex-cdk';
+import { SwapFormModel } from '../../../SwapFormModel';
 
 const calculateOutputPrice = ({
   fromAmount,

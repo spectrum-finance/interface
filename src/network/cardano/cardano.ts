@@ -59,6 +59,8 @@ export const cardanoNetwork: Network<CardanoWalletContract, CardanoSettings> = {
   settings$,
   setSettings,
 
+  SwapInfoContent: () => null,
+
   swap(pool: AmmPool, from: Currency, to: Currency): Observable<TxId> {
     return of('');
   },

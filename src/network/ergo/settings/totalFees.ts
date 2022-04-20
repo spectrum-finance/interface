@@ -1,11 +1,12 @@
 import { combineLatest, map, publishReplay, refCount } from 'rxjs';
 
+import { Currency } from '../../../common/models/Currency';
 import { calculateTotalFee } from '../../../common/utils/calculateTotalFee';
 import { networkAsset } from '../api/networkAsset/networkAsset';
-import { maxExecutionFee$, minExecutionFee$ } from './executionFee';
-import { minerFee$ } from './minerFee';
+import { maxExFee$, minExFee$, useMaxExFee, useMinExFee } from './executionFee';
+import { minerFee$, useMinerFee } from './minerFee';
 
-export const minTotalFee$ = combineLatest([minerFee$, minExecutionFee$]).pipe(
+export const minTotalFee$ = combineLatest([minerFee$, minExFee$]).pipe(
   map(([minerFee, minExecutionFee]) =>
     calculateTotalFee([minerFee, minExecutionFee], networkAsset),
   ),
@@ -13,10 +14,24 @@ export const minTotalFee$ = combineLatest([minerFee$, minExecutionFee$]).pipe(
   refCount(),
 );
 
-export const maxTotalFee$ = combineLatest([minerFee$, maxExecutionFee$]).pipe(
+export const maxTotalFee$ = combineLatest([minerFee$, maxExFee$]).pipe(
   map(([minerFee, maxExecutionFee]) =>
     calculateTotalFee([minerFee, maxExecutionFee], networkAsset),
   ),
   publishReplay(1),
   refCount(),
 );
+
+export const useMinTotalFee = (): Currency => {
+  const minExFee = useMinExFee();
+  const minerFee = useMinerFee();
+
+  return calculateTotalFee([minerFee, minExFee], networkAsset);
+};
+
+export const useMaxTotalFee = (): Currency => {
+  const maxExFee = useMaxExFee();
+  const minerFee = useMinerFee();
+
+  return calculateTotalFee([minerFee, maxExFee], networkAsset);
+};

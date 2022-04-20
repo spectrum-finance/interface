@@ -1,20 +1,37 @@
-import { distinctUntilChanged, map, publishReplay, refCount } from 'rxjs';
+import {
+  distinctUntilChanged,
+  map,
+  Observable,
+  publishReplay,
+  refCount,
+} from 'rxjs';
 
+import { useObservable } from '../../../common/hooks/useObservable';
 import { Currency } from '../../../common/models/Currency';
 import { normalizeAmount } from '../../../common/utils/amount';
 import { networkAsset } from '../api/networkAsset/networkAsset';
-import { settings$ } from './settings';
+import { settings, settings$ } from './settings';
 
-export const minerFee$ = settings$.pipe(
+const toMinerFee = (minerFee: number): Currency =>
+  new Currency(
+    normalizeAmount(minerFee.toString(), networkAsset),
+    networkAsset,
+  );
+
+export const minerFee$: Observable<Currency> = settings$.pipe(
   map((settings) => settings.minerFee),
   distinctUntilChanged(),
-  map(
-    (minerFee) =>
-      new Currency(
-        normalizeAmount(minerFee.toString(), networkAsset),
-        networkAsset,
-      ),
-  ),
+  map(toMinerFee),
   publishReplay(1),
   refCount(),
 );
+
+export const useMinerFee = (): Currency => {
+  const [minerFee] = useObservable(
+    minerFee$,
+    [],
+    toMinerFee(settings.minerFee),
+  );
+
+  return minerFee;
+};

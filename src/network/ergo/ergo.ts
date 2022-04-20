@@ -31,6 +31,7 @@ import {
   settings$,
 } from './settings/settings';
 import { GlobalSettingsModal } from './widgets/GlobalSettings/GlobalSettingsModal';
+import { SwapInfoContent } from './widgets/SwapInfoContent/SwapInfoContent';
 
 export const ergoNetwork: Network<ErgoWalletContract, ErgoSettings> = {
   name: 'ergo',
@@ -62,4 +63,5 @@ export const ergoNetwork: Network<ErgoWalletContract, ErgoSettings> = {
   swap,
 
   GlobalSettingsModal,
+  SwapInfoContent,
 };

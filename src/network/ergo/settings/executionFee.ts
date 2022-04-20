@@ -2,52 +2,58 @@ import {
   combineLatest,
   distinctUntilChanged,
   map,
-  Observable,
   publishReplay,
   refCount,
 } from 'rxjs';
 
 import { Currency } from '../../../common/models/Currency';
 import { normalizeAmount } from '../../../common/utils/amount';
+import { math } from '../../../utils/math';
 import { networkAsset } from '../api/networkAsset/networkAsset';
-import { settings$ } from './settings';
+import { minerFee$, useMinerFee } from './minerFee';
+import { nitro$, useNitro } from './nitro';
 
-const minerFee$: Observable<number> = settings$.pipe(
-  map((settings) => settings.minerFee),
+const toMinExFee = (minerFee: Currency): Currency =>
+  new Currency(
+    normalizeAmount(
+      math.evaluate!(`${minerFee.toAmount()} * 3`).toFixed(),
+      networkAsset,
+    ),
+    networkAsset,
+  );
+
+const toMaxExFee = (minerFee: Currency, nitro: number): Currency =>
+  new Currency(
+    normalizeAmount(
+      math.evaluate!(`${minerFee.toAmount()} * 3 * ${nitro}`).toFixed(),
+      networkAsset,
+    ),
+    networkAsset,
+  );
+
+export const minExFee$ = minerFee$.pipe(
+  map(toMinExFee),
   distinctUntilChanged(),
-  publishReplay(1),
+  publishReplay(),
   refCount(),
 );
 
-const nitro$: Observable<number> = settings$.pipe(
-  map((settings) => settings.nitro),
-  distinctUntilChanged(),
-  publishReplay(1),
-  refCount(),
-);
-
-export const minExecutionFee$ = minerFee$.pipe(
-  map(
-    (minerFee) =>
-      new Currency(
-        normalizeAmount((minerFee * 3).toString(), networkAsset),
-        networkAsset,
-      ),
-  ),
+export const maxExFee$ = combineLatest([minerFee$, nitro$]).pipe(
+  map(([minerFee, nitro]) => toMaxExFee(minerFee, nitro)),
   distinctUntilChanged(),
   publishReplay(),
   refCount(),
 );
 
-export const maxExecutionFee$ = combineLatest([minerFee$, nitro$]).pipe(
-  map(
-    ([minerFee, nitro]) =>
-      new Currency(
-        normalizeAmount((minerFee * 3 * nitro).toString(), networkAsset),
-        networkAsset,
-      ),
-  ),
-  distinctUntilChanged(),
-  publishReplay(),
-  refCount(),
-);
+export const useMinExFee = (): Currency => {
+  const minerFee = useMinerFee();
+
+  return toMinExFee(minerFee);
+};
+
+export const useMaxExFee = (): Currency => {
+  const minerFee = useMinerFee();
+  const nitro = useNitro();
+
+  return toMaxExFee(minerFee, nitro);
+};

@@ -6,8 +6,8 @@ import {
   Flex,
   Typography,
   UpOutlined,
-} from '../../../ergodex-cdk';
-import { SwapFormModel } from '../../../pages/Swap/SwapFormModel';
+} from '../../../../ergodex-cdk';
+import { SwapFormModel } from '../../SwapFormModel';
 import { RatioView } from './RatioView/RatioView';
 import { SlippageTag } from './SlippageTag/SlippageTag';
 

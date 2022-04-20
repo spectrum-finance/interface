@@ -95,6 +95,10 @@ export class Currency {
     return this.amount === currency.amount;
   }
 
+  mult(multiplier: number | bigint): Currency {
+    return new Currency(this.amount * BigInt(multiplier), this.asset);
+  }
+
   plus(currency: Currency | bigint): Currency {
     if (typeof currency === 'bigint') {
       return new Currency(this.amount + currency, this.asset);
