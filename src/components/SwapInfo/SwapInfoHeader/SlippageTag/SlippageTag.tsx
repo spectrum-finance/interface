@@ -3,8 +3,8 @@ import React from 'react';
 import { FC } from 'react';
 import styled from 'styled-components';
 
-import { useSettings } from '../../../../../context';
-import { Box, Typography } from '../../../../../ergodex-cdk';
+import { useSettings } from '../../../../context';
+import { Box, Typography } from '../../../../ergodex-cdk';
 
 interface SlippageTagProps {
   className?: string;

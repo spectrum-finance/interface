@@ -2,16 +2,16 @@ import { t } from '@lingui/macro';
 import React, { FC, useState } from 'react';
 import styled from 'styled-components';
 
-import { calculateOutputs } from '../../../common/utils/calculateOutputs';
-import { useSettings } from '../../../context';
-import { Collapse, Divider, Flex, Typography } from '../../../ergodex-cdk';
+import { calculateOutputs } from '../../common/utils/calculateOutputs';
+import { useSettings } from '../../context';
+import { Collapse, Divider, Flex, Typography } from '../../ergodex-cdk';
+import { SwapFormModel } from '../../pages/Swap/SwapFormModel';
 import {
   useMaxExFee,
   useMaxTotalFees,
   useMinExFee,
   useMinTotalFees,
-} from '../../../services/new/core';
-import { SwapFormModel } from '../SwapFormModel';
+} from '../../services/new/core';
 import { SwapInfoHeader } from './SwapInfoHeader/SwapInfoHeader';
 import { SwapInfoItem } from './SwapInfoItem/SwapInfoItem';
 

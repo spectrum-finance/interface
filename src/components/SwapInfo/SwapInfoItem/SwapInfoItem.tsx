@@ -1,6 +1,6 @@
 import React, { FC, ReactNode } from 'react';
 
-import { Flex, Typography } from '../../../../ergodex-cdk';
+import { Flex, Typography } from '../../../ergodex-cdk';
 
 export interface SwapInfoItemProps {
   title: ReactNode;
