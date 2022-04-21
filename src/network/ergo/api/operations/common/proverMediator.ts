@@ -6,7 +6,7 @@ import {
 } from '@ergolabs/ergo-sdk';
 import { filter, first, switchMap } from 'rxjs';
 
-import { selectedWallet$ } from '../wallet/wallet';
+import { selectedWallet$ } from '../../wallet/wallet';
 
 const sign = (tx: UnsignedErgoTx): Promise<ErgoTx> =>
   selectedWallet$
