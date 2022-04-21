@@ -11,6 +11,7 @@ import {
   of,
   skip,
   switchMap,
+  tap,
 } from 'rxjs';
 
 import { useSubscription } from '../../common/hooks/useObservable';
@@ -159,12 +160,14 @@ export const Swap = (): JSX.Element => {
         return (
           <SwapConfirmationModal
             value={value}
-            onClose={(request: Promise<any>) =>
+            onClose={(request) =>
               next(
-                request.then((tx) => {
-                  resetForm();
-                  return tx;
-                }),
+                request.pipe(
+                  tap((tx) => {
+                    resetForm();
+                    return tx;
+                  }),
+                ),
               )
             }
           />

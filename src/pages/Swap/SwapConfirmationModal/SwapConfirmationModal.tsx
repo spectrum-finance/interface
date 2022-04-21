@@ -1,28 +1,11 @@
-import { Transaction } from '@emurgo/cardano-serialization-lib-nodejs';
-import {
-  mkAmmActions,
-  mkAmmOutputs,
-  mkTxMath,
-  OrderRequestKind,
-} from '@ergolabs/cardano-dex-sdk';
-import { FeePerToken } from '@ergolabs/cardano-dex-sdk/build/main/amm/domain/models';
-import { PoolId } from '@ergolabs/cardano-dex-sdk/build/main/amm/domain/types';
-import { OrderAddrsV1Testnet } from '@ergolabs/cardano-dex-sdk/build/main/amm/scripts';
-import { Addr } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/address';
-import { AssetClass } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/assetClass';
-import { PubKeyHash } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/publicKey';
-import { FullTxIn } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/txIn';
-import { TxOut } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/txOut';
-import { Lovelace } from '@ergolabs/cardano-dex-sdk/build/main/cardano/types';
-import { AssetAmount } from '@ergolabs/cardano-dex-sdk/build/main/domain/assetAmount';
-import { RustModule } from '@ergolabs/cardano-dex-sdk/build/main/utils/rustLoader';
 import { swapVars } from '@ergolabs/ergo-dex-sdk';
 import { SwapExtremums } from '@ergolabs/ergo-dex-sdk/build/main/amm/math/swap';
 import { t, Trans } from '@lingui/macro';
 import React, { FC, useEffect, useState } from 'react';
+import { Observable } from 'rxjs';
 
 import { ERG_DECIMALS, UI_FEE } from '../../../common/constants/erg';
-import { useObservable } from '../../../common/hooks/useObservable';
+import { TxId } from '../../../common/types';
 import { TokenControlFormItem } from '../../../components/common/TokenControl/TokenControl';
 import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
 import {
@@ -36,15 +19,10 @@ import {
   Typography,
   useForm,
 } from '../../../ergodex-cdk';
+import { swap } from '../../../gateway/api/operations/swap';
 import { useSettings } from '../../../gateway/settings/settings';
-import { cardanoNetworkParams$ } from '../../../network/cardano/api/common/cardanoNetwork';
-import { submitTx } from '../../../network/cardano/api/operations/submitTx';
-import { utxos$ } from '../../../network/cardano/api/utxos/utxos';
 import { useMinExFee } from '../../../services/new/core';
-import {
-  parseUserInputToFractions,
-  renderFractions,
-} from '../../../utils/math';
+import { renderFractions } from '../../../utils/math';
 import { calculateTotalFee } from '../../../utils/transactions';
 import {
   BaseInputParameters,
@@ -54,7 +32,7 @@ import { SwapFormModel } from '../SwapFormModel';
 
 export interface SwapConfirmationModalProps {
   value: Required<SwapFormModel>;
-  onClose: (p: Promise<any>) => void;
+  onClose: (p: Observable<TxId>) => void;
 }
 
 export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
@@ -67,10 +45,8 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
   const form = useForm<SwapFormModel>(value);
 
   //@ts-ignore
-  const { minerFee, address, slippage, nitro, ph } = useSettings();
-  const [utxos] = useObservable(utxos$);
+  const { minerFee, slippage, nitro } = useSettings();
   const minExFee = useMinExFee();
-  const [networkParams] = useObservable(cardanoNetworkParams$);
 
   const [baseParams, setBaseParams] = useState<
     BaseInputParameters | undefined
@@ -82,12 +58,7 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
     { max: string; min: string } | undefined
   >();
 
-  const uiFeeNErg = parseUserInputToFractions(UI_FEE, ERG_DECIMALS);
   const exFeeNErg = minExFee.amount;
-  const minerFeeNErgs = parseUserInputToFractions(minerFee, ERG_DECIMALS);
-
-  const poolId = value.pool?.id;
-  const poolFeeNum = value.pool?.poolFeeNum;
 
   useEffect(() => {
     if (value.pool && value.fromAsset && value.fromAmount) {
@@ -129,60 +100,8 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
   }, [baseParams, exFeeNErg, nitro, minerFee]);
 
   const swapOperation = async () => {
-    if (
-      poolFeeNum &&
-      baseParams &&
-      utxos &&
-      address &&
-      poolId &&
-      operationVars &&
-      value.pool &&
-      value.fromAmount &&
-      value.fromAsset &&
-      value.toAsset?.id &&
-      networkParams
-    ) {
-      const txMath = mkTxMath(networkParams.pparams, RustModule.CardanoWasm);
-
-      const ammOutputs = mkAmmOutputs(
-        OrderAddrsV1Testnet,
-        txMath,
-        RustModule.CardanoWasm,
-      );
-      const ammActions = mkAmmActions(ammOutputs, address);
-
-      const quoteAsset =
-        value.fromAmount?.asset.id === value.pool.x.asset.id
-          ? value.pool['pool'].y.asset
-          : value.pool['pool'].x.asset;
-
-      const baseInput =
-        value.fromAmount?.asset.id === value.pool.x.asset.id
-          ? value.pool['pool'].x.withAmount(value.fromAmount.amount)
-          : value.pool['pool'].y.withAmount(value.fromAmount.amount);
-
-      const txCandidate = ammActions.createOrder(
-        {
-          kind: OrderRequestKind.Swap,
-          poolId: value.pool['pool'].id as AssetClass,
-          rewardPkh: ph!,
-          poolFeeNum: value.pool.poolFeeNum,
-          baseInput: baseInput as any,
-          quoteAsset: quoteAsset as any,
-          minQuoteOutput: value.toAmount.amount,
-          uiFee: 0n,
-          exFeePerToken: {
-            numerator: 1n,
-            denominator: 1n,
-          },
-        },
-        {
-          changeAddr: address,
-          collateralInputs: [],
-          inputs: utxos.map((u) => ({ txOut: u })),
-        },
-      );
-      submitTx(txCandidate);
+    if (value.pool && value.fromAmount && value.toAmount) {
+      onClose(swap(value.pool, value.fromAmount, value.toAmount));
     }
   };
 

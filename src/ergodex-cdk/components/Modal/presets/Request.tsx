@@ -1,4 +1,6 @@
+import { instance } from '@storybook/node-logger';
 import React, { FC, ReactNode, useState } from 'react';
+import { Observable } from 'rxjs';
 
 import { Error } from './Error';
 import { Progress } from './Progress';
@@ -9,7 +11,7 @@ const TIMEOUT_TIME = 120 * 1000;
 
 export interface RequestProps {
   readonly actionContent: (
-    next: (request: Promise<any>) => void,
+    next: (request: Promise<any> | Observable<any>) => void,
   ) => ReactNode | ReactNode[] | string;
   readonly progressContent: ReactNode | ReactNode[] | string;
   readonly timeoutContent: ReactNode | ReactNode[] | string;
@@ -45,10 +47,10 @@ export const Request: FC<RequestProps> = ({
   );
   const [result, setResult] = useState<any>(undefined);
 
-  const handleRequest = (request: Promise<any>) => {
+  const handleRequest = (request: Promise<any> | Observable<any>) => {
     setRequestState(RequestState.PROGRESS);
     Promise.race([
-      request,
+      request instanceof Observable ? request.toPromise() : request,
       new Promise((_, reject) => {
         setTimeout(
           () => reject(new TimeoutError('yoroi issues')),
