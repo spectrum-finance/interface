@@ -9,6 +9,8 @@ import {
   getUsedAddresses,
 } from './getAddresses';
 import { getUtxos } from './getUtxos';
+import { sign } from './sign';
+import { signInput } from './signInput';
 import { walletSupportedFeatures } from './walletSupportedFeatures';
 
 export const Nautilus: ErgoWalletContract = {
@@ -23,5 +25,7 @@ export const Nautilus: ErgoWalletContract = {
   getUsedAddresses,
   getUnusedAddresses,
   getAddresses,
+  sign,
+  signInput,
   walletSupportedFeatures,
 };

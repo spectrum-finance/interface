@@ -8,6 +8,8 @@ import { getAddresses } from './getAddresses';
 import { getUtxos } from './getUtxos';
 import { onConnect } from './onConnect';
 import { onDisconnect } from './onDisconnect';
+import { sign } from './sign';
+import { signInput } from './signInput';
 import { walletSupportedFeatures } from './supportedFeatures';
 
 export const Yoroi: ErgoWalletContract = {
@@ -25,4 +27,6 @@ export const Yoroi: ErgoWalletContract = {
   getUnusedAddresses,
   getAddresses,
   walletSupportedFeatures,
+  sign,
+  signInput,
 };
