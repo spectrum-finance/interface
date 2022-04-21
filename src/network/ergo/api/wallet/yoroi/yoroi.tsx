@@ -10,6 +10,7 @@ import { onConnect } from './onConnect';
 import { onDisconnect } from './onDisconnect';
 import { sign } from './sign';
 import { signInput } from './signInput';
+import { submitTx } from './submitTx';
 import { walletSupportedFeatures } from './supportedFeatures';
 
 export const Yoroi: ErgoWalletContract = {
@@ -29,4 +30,5 @@ export const Yoroi: ErgoWalletContract = {
   walletSupportedFeatures,
   sign,
   signInput,
+  submitTx,
 };
