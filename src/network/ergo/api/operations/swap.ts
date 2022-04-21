@@ -1,26 +1,13 @@
-import { minValueForOrder, SwapParams } from '@ergolabs/ergo-dex-sdk';
+import { SwapParams } from '@ergolabs/ergo-dex-sdk';
 import {
   SwapExtremums,
   swapVars,
 } from '@ergolabs/ergo-dex-sdk/build/main/amm/math/swap';
-import {
-  AssetAmount,
-  DefaultBoxSelector,
-  ErgoBox,
-  InsufficientInputs,
-  OverallAmount,
-  TransactionContext,
-} from '@ergolabs/ergo-sdk';
+import { AssetAmount, ErgoBox, TransactionContext } from '@ergolabs/ergo-sdk';
 import { NetworkContext } from '@ergolabs/ergo-sdk/build/main/entities/networkContext';
-import {
-  first,
-  from as fromPromise,
-  Observable,
-  of,
-  switchMap,
-  zip,
-} from 'rxjs';
+import { first, from as fromPromise, Observable, switchMap, zip } from 'rxjs';
 
+import { UI_FEE_BIGINT } from '../../../../common/constants/erg';
 import { Currency } from '../../../../common/models/Currency';
 import { TxId } from '../../../../common/types';
 import { getBaseInputParameters } from '../../../../utils/walletMath';
@@ -31,11 +18,12 @@ import { ErgoSettings, settings$ } from '../../settings/settings';
 import { ErgoAmmPool } from '../ammPools/ErgoAmmPool';
 import { networkContext$ } from '../networkContext/networkContext';
 import { utxos$ } from '../utxos/utxos';
-import { makeTarget } from './common/makeTarget';
+import { getInputs } from './common/getInputs';
+import { getTxContext } from './common/getTxContext';
 import { poolActions } from './common/poolActions';
 import { submitTx } from './common/submitTx';
 
-interface TxCandidateParams {
+interface SwapOperationCandidateParams {
   readonly pool: ErgoAmmPool;
   readonly from: Currency;
   readonly to: Currency;
@@ -43,7 +31,13 @@ interface TxCandidateParams {
   readonly utxos: ErgoBox[];
   readonly minerFee: Currency;
   readonly minExFee: Currency;
-  readonly networkContext: NetworkContext;
+  // TODO: refactor in SDK || or here in frontend repo (operations: swap, redeem, deposit, refund)
+  readonly networkContext:
+    | NetworkContext
+    | {
+        readonly height: number;
+        readonly lastBlockId: number;
+      };
   readonly nitro: number;
 }
 
@@ -57,9 +51,9 @@ const toSwapOperationArgs = ({
   utxos,
   minExFee,
   nitro,
-}: TxCandidateParams): [SwapParams, TransactionContext] => {
+}: SwapOperationCandidateParams): [SwapParams, TransactionContext] => {
   if (!settings.address || !settings.pk) {
-    throw new Error('address not selected');
+    throw new Error('[swap]: wallet address is not selected');
   }
 
   const { baseInput, baseInputAmount, minOutput } = getBaseInputParameters(
@@ -76,19 +70,20 @@ const toSwapOperationArgs = ({
   );
 
   if (!swapVariables) {
-    throw new Error('incorrect swap data');
+    throw new Error('[swap]: an error occurred in swapVariables');
   }
 
   const [exFeePerToken, extremum] = swapVariables;
-  const target: OverallAmount = makeTarget(
-    [new AssetAmount(from.asset, baseInputAmount)],
-    minValueForOrder(minerFee.amount, 0n, extremum.maxExFee),
-  );
-  const inputs = DefaultBoxSelector.select(utxos, target);
 
-  if (inputs instanceof InsufficientInputs) {
-    throw new Error('not enough money');
-  }
+  const inputs = getInputs(
+    utxos,
+    [new AssetAmount(from.asset, baseInputAmount)],
+    {
+      minerFee: minerFee.amount,
+      uiFee: UI_FEE_BIGINT,
+      exFee: extremum.maxExFee,
+    },
+  );
 
   const swapParams: SwapParams = {
     poolId: pool.pool.id,
@@ -96,17 +91,16 @@ const toSwapOperationArgs = ({
     baseInput,
     minQuoteOutput: extremum.minOutput.amount,
     exFeePerToken,
-    uiFee: 0n,
+    uiFee: UI_FEE_BIGINT,
     quoteAsset: to.asset.id,
     poolFeeNum: pool.pool.poolFeeNum,
   };
-  const txContext: TransactionContext = {
+  const txContext: TransactionContext = getTxContext(
     inputs,
-    changeAddress: settings.address,
-    selfAddress: settings.address,
-    feeNErgs: minerFee.amount,
-    network: networkContext,
-  };
+    networkContext as NetworkContext,
+    settings.address,
+    minerFee.amount,
+  );
 
   return [swapParams, txContext];
 };
@@ -126,7 +120,7 @@ export const swap = (
           settings,
           pool,
           minerFee,
-          networkContext: networkContext as any,
+          networkContext,
           utxos,
           minExFee,
           nitro,
