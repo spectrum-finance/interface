@@ -22,20 +22,18 @@ import { submitTx } from './common/submitTx';
 
 interface DepositTxCandidateConfig {
   readonly pool: CardanoAmmPool;
-  readonly x: Currency;
-  readonly y: Currency;
+  readonly lq: Currency;
   readonly settings: CardanoSettings;
   readonly utxos: TxOut[];
   readonly networkParams: NetworkParams;
 }
 
-const toDepositTxCandidate = ({
+const toRedeemTxCandidate = ({
   pool,
-  x,
-  y,
   settings,
   networkParams,
   utxos,
+  lq,
 }: DepositTxCandidateConfig): TxCandidate => {
   if (!settings.address || !settings.ph) {
     throw new Error('[deposit]: wallet address is not selected');
@@ -48,20 +46,18 @@ const toDepositTxCandidate = ({
     RustModule.CardanoWasm,
   );
   const ammActions = mkAmmActions(ammOutputs, settings.address);
-  const xAmount = pool.pool.x.withAmount(x.amount);
-  const yAmount = pool.pool.y.withAmount(y.amount);
+  const lqAmount = pool.pool.lp.withAmount(lq.amount);
 
   return ammActions.createOrder(
     {
-      kind: OrderRequestKind.Deposit,
+      kind: OrderRequestKind.Redeem,
       poolId: pool.pool.id,
-      x: xAmount,
-      y: yAmount,
-      lq: pool.pool.lp.asset,
+      x: pool.pool.x.asset,
+      y: pool.pool.y.asset,
+      lq: lqAmount,
       rewardPkh: settings.ph,
       uiFee: UI_FEE_BIGINT,
       exFee: 1n,
-      collateralAda: 0n,
     },
     {
       changeAddr: settings.address,
@@ -71,19 +67,14 @@ const toDepositTxCandidate = ({
   );
 };
 
-export const deposit = (
-  pool: CardanoAmmPool,
-  x: Currency,
-  y: Currency,
-): Observable<TxId> =>
+export const redeem = (pool: CardanoAmmPool, lq: Currency): Observable<TxId> =>
   zip([cardanoNetworkParams$, utxos$, settings$]).pipe(
     first(),
     switchMap(([networkParams, utxos, settings]) =>
       submitTx(
-        toDepositTxCandidate({
+        toRedeemTxCandidate({
           pool,
-          x,
-          y,
+          lq,
           networkParams,
           utxos,
           settings,

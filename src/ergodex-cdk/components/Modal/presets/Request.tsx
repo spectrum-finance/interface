@@ -1,4 +1,3 @@
-import { instance } from '@storybook/node-logger';
 import React, { FC, ReactNode, useState } from 'react';
 import { Observable } from 'rxjs';
 

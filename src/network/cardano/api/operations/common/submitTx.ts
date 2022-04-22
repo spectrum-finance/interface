@@ -1,22 +1,10 @@
 import {
-  HexString,
   mkTxAsm,
   mkTxCompletionPipeline,
   TxCandidate,
 } from '@ergolabs/cardano-dex-sdk';
 import { RustModule } from '@ergolabs/cardano-dex-sdk/build/main/utils/rustLoader';
-import {
-  filter,
-  first,
-  from,
-  map,
-  Observable,
-  of,
-  Subscription,
-  switchMap,
-  tap,
-  zip,
-} from 'rxjs';
+import { filter, first, from, Observable, of, switchMap, zip } from 'rxjs';
 
 import { TxId } from '../../../../../common/types';
 import {
@@ -32,7 +20,6 @@ export const submitTx = (txCandidate: TxCandidate): Observable<TxId> =>
     connectedWalletChange$.pipe(filter(Boolean), first()),
   ]).pipe(
     first(),
-    tap((res) => console.log(res)),
     switchMap(([cardanoNetwork, networkParams, wallet]) =>
       from(
         mkTxCompletionPipeline(

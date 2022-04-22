@@ -1,8 +1,6 @@
 import { Observable, of } from 'rxjs';
 
-import { AmmPool } from '../../common/models/AmmPool';
 import { Balance } from '../../common/models/Balance';
-import { Currency } from '../../common/models/Currency';
 import { TxId } from '../../common/types';
 import { Network } from '../common/Network';
 import {
@@ -16,6 +14,7 @@ import { networkAssetBalance$ } from './api/balance/networkAssetBalance';
 import { networkAsset } from './api/networkAsset/networkAsset';
 import { networkContext$ } from './api/networkContext/networkContext';
 import { deposit } from './api/operations/deposit';
+import { redeem } from './api/operations/redeem';
 import { swap } from './api/operations/swap';
 import { CardanoWalletContract } from './api/wallet/common/CardanoWalletContract';
 import {
@@ -65,9 +64,7 @@ export const cardanoNetwork: Network<CardanoWalletContract, CardanoSettings> = {
 
   swap,
   deposit,
-  redeem(pool: AmmPool, lp: Currency): Observable<TxId> {
-    return of('');
-  },
+  redeem,
   refund(address: string, txId: string): Observable<TxId> {
     return of('');
   },

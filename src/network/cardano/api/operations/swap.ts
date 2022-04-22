@@ -11,6 +11,7 @@ import { TxOut } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/txO
 import { RustModule } from '@ergolabs/cardano-dex-sdk/build/main/utils/rustLoader';
 import { first, Observable, switchMap, zip } from 'rxjs';
 
+import { UI_FEE_BIGINT } from '../../../../common/constants/erg';
 import { Currency } from '../../../../common/models/Currency';
 import { TxId } from '../../../../common/types';
 import { CardanoSettings, settings$ } from '../../settings/settings';
@@ -63,7 +64,7 @@ const toSwapTxCandidate = ({
       baseInput: baseInput,
       quoteAsset: quoteAsset,
       minQuoteOutput: to.amount,
-      uiFee: 0n,
+      uiFee: UI_FEE_BIGINT,
       exFeePerToken: {
         numerator: 2500000n,
         denominator: 1n,
