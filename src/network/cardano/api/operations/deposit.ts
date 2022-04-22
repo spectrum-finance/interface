@@ -19,25 +19,25 @@ import { cardanoNetworkParams$ } from '../common/cardanoNetwork';
 import { utxos$ } from '../utxos/utxos';
 import { submitTx } from './common/submitTx';
 
-interface SwapTxCandidateConfig {
-  readonly networkParams: NetworkParams;
-  readonly settings: CardanoSettings;
+interface DepositTxCandidateConfig {
   readonly pool: CardanoAmmPool;
-  readonly from: Currency;
-  readonly to: Currency;
+  readonly x: Currency;
+  readonly y: Currency;
+  readonly settings: CardanoSettings;
   readonly utxos: TxOut[];
+  readonly networkParams: NetworkParams;
 }
 
-const toSwapTxCandidate = ({
-  networkParams,
-  settings,
+const toDepositOperationArgs = ({
   pool,
-  from,
-  to,
+  x,
+  y,
+  settings,
+  networkParams,
   utxos,
-}: SwapTxCandidateConfig): TxCandidate => {
+}: DepositTxCandidateConfig): TxCandidate => {
   if (!settings.address || !settings.ph) {
-    throw new Error('[swap]: address is not selected');
+    throw new Error('[deposit]: wallet address is not selected');
   }
 
   const txMath = mkTxMath(networkParams.pparams, RustModule.CardanoWasm);
@@ -47,27 +47,20 @@ const toSwapTxCandidate = ({
     RustModule.CardanoWasm,
   );
   const ammActions = mkAmmActions(ammOutputs, settings.address);
-  const quoteAsset =
-    from.asset.id === pool.x.asset.id ? pool.pool.y.asset : pool.pool.x.asset;
-  const baseInput =
-    from.asset.id === pool.x.asset.id
-      ? pool.pool.x.withAmount(from.amount)
-      : pool.pool.y.withAmount(from.amount);
+  const xAmount = pool.pool.x.withAmount(x.amount);
+  const yAmount = pool.pool.y.withAmount(y.amount);
 
   return ammActions.createOrder(
     {
-      kind: OrderRequestKind.Swap,
+      kind: OrderRequestKind.Deposit,
       poolId: pool.pool.id,
+      x: xAmount,
+      y: yAmount,
+      lq: pool.pool.lp.asset,
       rewardPkh: settings.ph,
-      poolFeeNum: pool.poolFeeNum,
-      baseInput: baseInput,
-      quoteAsset: quoteAsset,
-      minQuoteOutput: to.amount,
       uiFee: 0n,
-      exFeePerToken: {
-        numerator: 2500000n,
-        denominator: 1n,
-      },
+      exFee: 1n,
+      collateralAda: 0n,
     },
     {
       changeAddr: settings.address,
@@ -77,19 +70,19 @@ const toSwapTxCandidate = ({
   );
 };
 
-export const swap = (
+export const deposit = (
   pool: CardanoAmmPool,
-  from: Currency,
-  to: Currency,
+  x: Currency,
+  y: Currency,
 ): Observable<TxId> =>
   zip([cardanoNetworkParams$, utxos$, settings$]).pipe(
     first(),
     switchMap(([networkParams, utxos, settings]) =>
       submitTx(
-        toSwapTxCandidate({
+        toDepositOperationArgs({
           pool,
-          from,
-          to,
+          x,
+          y,
           networkParams,
           utxos,
           settings,

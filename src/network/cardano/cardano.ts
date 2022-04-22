@@ -15,6 +15,7 @@ import { assetBalance$ } from './api/balance/assetBalance';
 import { networkAssetBalance$ } from './api/balance/networkAssetBalance';
 import { networkAsset } from './api/networkAsset/networkAsset';
 import { networkContext$ } from './api/networkContext/networkContext';
+import { deposit } from './api/operations/deposit';
 import { swap } from './api/operations/swap';
 import { CardanoWalletContract } from './api/wallet/common/CardanoWalletContract';
 import {
@@ -63,4 +64,11 @@ export const cardanoNetwork: Network<CardanoWalletContract, CardanoSettings> = {
   SwapInfoContent: () => null,
 
   swap,
+  deposit,
+  redeem(pool: AmmPool, lp: Currency): Observable<TxId> {
+    return of('');
+  },
+  refund(address: string, txId: string): Observable<TxId> {
+    return of('');
+  },
 };
