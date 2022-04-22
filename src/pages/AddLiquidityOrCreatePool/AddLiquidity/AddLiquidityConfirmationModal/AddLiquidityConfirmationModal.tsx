@@ -1,10 +1,9 @@
-import { minValueForOrder } from '@ergolabs/ergo-dex-sdk';
-import { BoxSelection, DefaultBoxSelector, ErgoTx } from '@ergolabs/ergo-sdk';
 import { t, Trans } from '@lingui/macro';
 import React, { FC, useState } from 'react';
+import { Observable } from 'rxjs';
 
-import { ERG_DECIMALS, UI_FEE } from '../../../../common/constants/erg';
-import { useObservable } from '../../../../common/hooks/useObservable';
+import { UI_FEE } from '../../../../common/constants/erg';
+import { TxId } from '../../../../common/types';
 import { FormPairSection } from '../../../../components/common/FormView/FormPairSection/FormPairSection';
 import { InfoTooltip } from '../../../../components/InfoTooltip/InfoTooltip';
 import { PageSection } from '../../../../components/Page/PageSection/PageSection';
@@ -18,19 +17,14 @@ import {
   Modal,
   Typography,
 } from '../../../../ergodex-cdk';
-import { utxos$ } from '../../../../network/ergo/api/utxos/utxos';
-import { explorer } from '../../../../services/explorer';
+import { deposit } from '../../../../gateway/api/operations/deposit';
 import { useMinExFee, useMinTotalFees } from '../../../../services/new/core';
-import { poolActions } from '../../../../services/poolActions';
-import { submitTx } from '../../../../services/yoroi';
-import { makeTarget } from '../../../../utils/ammMath';
-import { parseUserInputToFractions } from '../../../../utils/math';
 import { PoolRatio } from '../../../PoolOverview/PoolRatio/PoolRatio';
 import { AddLiquidityFormModel } from '../AddLiquidityFormModel';
 
 interface AddLiquidityConfirmationModalProps {
   value: Required<AddLiquidityFormModel>;
-  onClose: (r: Promise<any>) => void;
+  onClose: (r: Observable<TxId>) => void;
 }
 
 const AddLiquidityConfirmationModal: FC<AddLiquidityConfirmationModalProps> = ({
@@ -40,60 +34,14 @@ const AddLiquidityConfirmationModal: FC<AddLiquidityConfirmationModalProps> = ({
   const [isChecked, setIsChecked] = useState<boolean | undefined>(
     value.pool.verified,
   );
-  const [{ minerFee, address, pk }] = useSettings();
-  const [utxos] = useObservable(utxos$);
+  const [{ minerFee }] = useSettings();
   const totalFees = useMinTotalFees();
   const minExFee = useMinExFee();
-
-  const uiFeeNErg = parseUserInputToFractions(UI_FEE, ERG_DECIMALS);
-  const exFeeNErg = minExFee.amount;
-  const minerFeeNErgs = parseUserInputToFractions(minerFee, ERG_DECIMALS);
-
   const addLiquidityOperation = async () => {
     const { pool, y, x } = value;
 
-    if (pool && pk && address && utxos) {
-      const poolId = pool.id;
-
-      const actions = poolActions(pool['pool'] as any);
-
-      const inputX = pool['pool'].x.withAmount(
-        x.asset.id === pool.x.asset.id ? x.amount : y.amount,
-      );
-      const inputY = pool['pool'].y.withAmount(
-        y.asset.id === pool.y.asset.id ? y.amount : x.amount,
-      );
-
-      const target = makeTarget(
-        [inputX as any, inputY as any],
-        minValueForOrder(minerFeeNErgs, uiFeeNErg, exFeeNErg),
-      );
-
-      const network = await explorer.getNetworkContext();
-
-      const inputs = DefaultBoxSelector.select(utxos, target) as BoxSelection;
-
-      onClose(
-        actions
-          .deposit(
-            {
-              pk,
-              poolId,
-              exFee: exFeeNErg,
-              uiFee: uiFeeNErg,
-              x: inputX as any,
-              y: inputY as any,
-            },
-            {
-              inputs,
-              changeAddress: address,
-              selfAddress: address,
-              feeNErgs: minerFeeNErgs,
-              network,
-            },
-          )
-          .then((tx: ErgoTx) => submitTx(tx)),
-      );
+    if (pool && x && y) {
+      onClose(deposit(pool, x, y));
     }
   };
 
