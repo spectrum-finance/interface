@@ -1,5 +1,4 @@
-import { RustModule } from '@ergolabs/ergo-sdk';
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import { BrowserView, MobileView } from 'react-device-detect';
 import { Redirect, Route, Router, Switch } from 'react-router-dom';
 
@@ -23,6 +22,7 @@ import { RemoveLiquidity } from './pages/Pool/RemoveLiquidity/RemoveLiquidity';
 import { WithdrawalLiquidity } from './pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity';
 import { PoolOverview } from './pages/PoolOverview/PoolOverview';
 import { Swap } from './pages/Swap/Swap';
+import { openCardanoFaucetNotification } from './services/notifications/cardanoFaucet/cardanoFaucet';
 
 const NotFound = () => <Redirect to="/swap" />;
 
@@ -99,8 +99,14 @@ const Application = () => {
 export const ApplicationInitializer: React.FC = () => {
   const [networksInitialized] = useObservable(networksInitialized$);
 
+  // TODO: Replace with a real one + add check [isTestAssetsReceived]
+  const IS_CARDANO = true;
+
   useEffect(() => {
     initializeNetworks();
+    if (IS_CARDANO) {
+      openCardanoFaucetNotification();
+    }
   }, []);
 
   useEffect(() => {
