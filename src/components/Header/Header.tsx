@@ -5,7 +5,6 @@ import React, { useEffect, useState } from 'react';
 import { isBrowser } from 'react-device-detect';
 
 import { useObservable } from '../../common/hooks/useObservable';
-import { useSettings } from '../../context';
 import { useAssetsBalance } from '../../gateway/api/assetBalance';
 import { useNetworkAsset } from '../../gateway/api/networkAsset';
 import { selectedWalletState$ } from '../../gateway/api/wallets';

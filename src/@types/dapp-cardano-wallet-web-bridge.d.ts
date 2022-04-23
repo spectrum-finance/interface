@@ -9,11 +9,12 @@ namespace CardanoBridge {
   type EncodedTxOut = HexString;
   type EncodedBalance = HexString;
   type EncodedAddress = HexString;
+  type EncodedAmount = HexString;
   type TxId = HexString;
 
   export interface ConnectorContextApi {
     getUtxos(
-      amount?: CardanoWasm.Value,
+      amount?: EncodedAmount,
       paginate?: Paging,
     ): Promise<EncodedTxOut[] | undefined>;
     getBalance(): Promise<EncodedBalance>;

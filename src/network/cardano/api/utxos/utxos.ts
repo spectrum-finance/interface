@@ -1,4 +1,14 @@
-import { mapTo, of, publishReplay, refCount, switchMap } from 'rxjs';
+import { Value } from '@ergolabs/cardano-dex-sdk';
+import { TxOut } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/txOut';
+import {
+  first,
+  mapTo,
+  Observable,
+  of,
+  publishReplay,
+  refCount,
+  switchMap,
+} from 'rxjs';
 
 import { networkContext$ } from '../networkContext/networkContext';
 import { connectedWalletChange$ } from '../wallet/connectedWalletChange';
@@ -11,3 +21,13 @@ export const utxos$ = connectedWalletChange$.pipe(
   publishReplay(1),
   refCount(),
 );
+
+export const getUtxosByAmount = (amount: Value): Observable<TxOut[]> =>
+  connectedWalletChange$.pipe(
+    first(),
+    switchMap((selectedWallet) =>
+      selectedWallet ? selectedWallet.getUtxos(amount) : of([]),
+    ),
+    publishReplay(1),
+    refCount(),
+  );

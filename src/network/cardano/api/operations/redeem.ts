@@ -2,9 +2,9 @@ import {
   mkAmmActions,
   mkAmmOutputs,
   mkTxMath,
-  OrderRequestKind,
   TxCandidate,
 } from '@ergolabs/cardano-dex-sdk';
+import { OrderKind } from '@ergolabs/cardano-dex-sdk/build/main/amm/models/opRequests';
 import { OrderAddrsV1Testnet } from '@ergolabs/cardano-dex-sdk/build/main/amm/scripts';
 import { NetworkParams } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/env';
 import { TxOut } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/txOut';
@@ -50,7 +50,7 @@ const toRedeemTxCandidate = ({
 
   return ammActions.createOrder(
     {
-      kind: OrderRequestKind.Redeem,
+      kind: OrderKind.Redeem,
       poolId: pool.pool.id,
       x: pool.pool.x.asset,
       y: pool.pool.y.asset,
@@ -58,7 +58,7 @@ const toRedeemTxCandidate = ({
       rewardPkh: settings.ph,
       uiFee: UI_FEE_BIGINT,
       exFee: 1n,
-    },
+    } as any,
     {
       changeAddr: settings.address,
       collateralInputs: [],

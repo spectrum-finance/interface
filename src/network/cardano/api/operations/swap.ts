@@ -1,23 +1,27 @@
 import {
+  minBudgetForSwap,
   mkAmmActions,
   mkAmmOutputs,
   mkTxMath,
-  OrderRequestKind,
   TxCandidate,
 } from '@ergolabs/cardano-dex-sdk';
+import { OrderKind } from '@ergolabs/cardano-dex-sdk/build/main/amm/models/opRequests';
 import { OrderAddrsV1Testnet } from '@ergolabs/cardano-dex-sdk/build/main/amm/scripts';
 import { NetworkParams } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/env';
-import { TxOut } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/txOut';
 import { RustModule } from '@ergolabs/cardano-dex-sdk/build/main/utils/rustLoader';
-import { first, Observable, switchMap, zip } from 'rxjs';
+import { first, map, Observable, switchMap, zip } from 'rxjs';
 
 import { UI_FEE_BIGINT } from '../../../../common/constants/erg';
 import { Currency } from '../../../../common/models/Currency';
-import { TxId } from '../../../../common/types';
+import { Nitro, Percent, TxId } from '../../../../common/types';
+import { nitro$ } from '../../../ergo/settings/nitro';
+import { slippage$ } from '../../../ergo/settings/slippage';
 import { CardanoSettings, settings$ } from '../../settings/settings';
 import { CardanoAmmPool } from '../ammPools/CardanoAmmPool';
 import { cardanoNetworkParams$ } from '../common/cardanoNetwork';
-import { utxos$ } from '../utxos/utxos';
+import { getUtxosByAmount } from '../utxos/utxos';
+import { ammTxFeeMapping } from './common/ammTxFeeMapping';
+import { minExecutorReward } from './common/minExecutorReward';
 import { submitTx } from './common/submitTx';
 
 interface SwapTxCandidateConfig {
@@ -26,7 +30,8 @@ interface SwapTxCandidateConfig {
   readonly pool: CardanoAmmPool;
   readonly from: Currency;
   readonly to: Currency;
-  readonly utxos: TxOut[];
+  readonly slippage: Percent;
+  readonly nitro: Nitro;
 }
 
 const toSwapTxCandidate = ({
@@ -35,8 +40,9 @@ const toSwapTxCandidate = ({
   pool,
   from,
   to,
-  utxos,
-}: SwapTxCandidateConfig): TxCandidate => {
+  slippage,
+  nitro,
+}: SwapTxCandidateConfig): Observable<TxCandidate> => {
   if (!settings.address || !settings.ph) {
     throw new Error('[swap]: address is not selected');
   }
@@ -48,33 +54,50 @@ const toSwapTxCandidate = ({
     RustModule.CardanoWasm,
   );
   const ammActions = mkAmmActions(ammOutputs, settings.address);
-  const quoteAsset =
-    from.asset.id === pool.x.asset.id ? pool.pool.y.asset : pool.pool.x.asset;
   const baseInput =
     from.asset.id === pool.x.asset.id
       ? pool.pool.x.withAmount(from.amount)
       : pool.pool.y.withAmount(from.amount);
+  const quoteOutput = pool.pool.outputAmount(baseInput, slippage);
 
-  return ammActions.createOrder(
-    {
-      kind: OrderRequestKind.Swap,
-      poolId: pool.pool.id,
-      rewardPkh: settings.ph,
-      poolFeeNum: pool.poolFeeNum,
-      baseInput: baseInput,
-      quoteAsset: quoteAsset,
-      minQuoteOutput: to.amount,
-      uiFee: UI_FEE_BIGINT,
-      exFeePerToken: {
-        numerator: 2500000n,
-        denominator: 1n,
-      },
-    },
-    {
-      changeAddr: settings.address,
-      collateralInputs: [],
-      inputs: utxos.map((u) => ({ txOut: u })),
-    },
+  const swapVariables = minBudgetForSwap(
+    baseInput,
+    quoteOutput,
+    nitro,
+    ammTxFeeMapping,
+    minExecutorReward,
+    UI_FEE_BIGINT,
+    txMath,
+  );
+
+  if (!swapVariables) {
+    throw new Error('incorrect swap params');
+  }
+
+  const [swapBudget, swapValue, feePerToken, swapExtremums] = swapVariables;
+
+  return getUtxosByAmount(swapBudget).pipe(
+    map((utxos) =>
+      ammActions.createOrder(
+        {
+          kind: OrderKind.Swap,
+          poolId: pool.pool.id,
+          rewardPkh: settings.ph!,
+          poolFeeNum: pool.poolFeeNum,
+          baseInput: baseInput,
+          quoteAsset: quoteOutput.asset,
+          minQuoteOutput: to.amount,
+          uiFee: UI_FEE_BIGINT,
+          exFeePerToken: feePerToken,
+          orderValue: swapValue,
+        },
+        {
+          changeAddr: settings.address!,
+          collateralInputs: [],
+          inputs: utxos.map((txOut) => ({ txOut })),
+        },
+      ),
+    ),
   );
 };
 
@@ -83,18 +106,18 @@ export const swap = (
   from: Currency,
   to: Currency,
 ): Observable<TxId> =>
-  zip([cardanoNetworkParams$, utxos$, settings$]).pipe(
+  zip([cardanoNetworkParams$, settings$, slippage$, nitro$]).pipe(
     first(),
-    switchMap(([networkParams, utxos, settings]) =>
-      submitTx(
-        toSwapTxCandidate({
-          pool,
-          from,
-          to,
-          networkParams,
-          utxos,
-          settings,
-        }),
-      ),
+    switchMap(([networkParams, settings, slippage, nitro]) =>
+      toSwapTxCandidate({
+        pool,
+        from,
+        to,
+        networkParams,
+        settings,
+        slippage,
+        nitro,
+      }),
     ),
+    switchMap(submitTx),
   );

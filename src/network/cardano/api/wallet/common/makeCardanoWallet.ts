@@ -4,6 +4,7 @@ import {
   decodeWasmValue,
   HexString,
   RawTxWitnessSet,
+  toWasmValue,
   Value,
 } from '@ergolabs/cardano-dex-sdk';
 import {
@@ -11,6 +12,8 @@ import {
   RawUnsignedTx,
 } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/tx';
 import { TxOut } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/txOut';
+import { encodeHex } from '@ergolabs/cardano-dex-sdk/build/main/utils/hex';
+import { RustModule } from '@ergolabs/cardano-dex-sdk/build/main/utils/rustLoader';
 import React, { ReactNode } from 'react';
 import {
   catchError,
@@ -121,9 +124,21 @@ export const makeCardanoWallet = ({
     );
   };
 
-  const getUtxos = (): Observable<TxOut[]> => {
+  const getUtxos = (amount?: Value): Observable<TxOut[]> => {
     return zip([
-      ctx$.pipe(switchMap((ctx) => from(ctx.getUtxos()))),
+      ctx$.pipe(
+        switchMap((ctx) =>
+          from(
+            ctx.getUtxos(
+              amount
+                ? encodeHex(
+                    toWasmValue(amount, RustModule.CardanoWasm).to_bytes(),
+                  )
+                : amount,
+            ),
+          ),
+        ),
+      ),
       cardanoWasm$,
     ]).pipe(
       map(
