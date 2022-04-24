@@ -1,7 +1,6 @@
 import { t } from '@lingui/macro';
 import React, { FC } from 'react';
 
-import { AmmPool } from '../../../../common/models/AmmPool';
 import { Typography } from '../../../../ergodex-cdk';
 import { SwapFormModel } from '../../SwapFormModel';
 import { SwapInfoItem } from '../SwapInfoItem/SwapInfoItem';

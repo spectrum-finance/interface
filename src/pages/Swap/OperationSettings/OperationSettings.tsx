@@ -1,5 +1,5 @@
 import { t, Trans } from '@lingui/macro';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { filter, skip } from 'rxjs';
 
 import { MIN_NITRO } from '../../../common/constants/erg';

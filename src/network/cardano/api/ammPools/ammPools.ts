@@ -16,7 +16,6 @@ import {
   publishReplay,
   refCount,
   switchMap,
-  tap,
 } from 'rxjs';
 
 import { getCardanoAssetInfo } from '../common/cardanoAssetInfo/getCardanoAssetInfo';
@@ -48,7 +47,6 @@ export const ammPools$ = from(req).pipe(
       ),
     ),
   ),
-  tap((res) => console.log(res)),
   publishReplay(1),
   refCount(),
 );

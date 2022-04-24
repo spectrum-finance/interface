@@ -8,7 +8,6 @@ import { ListItemWrapper } from '../../../../../../components/ListItemWrapper/Li
 import { TokenIconPair } from '../../../../../../components/TokenIconPair/TokenIconPair';
 import { VerificationMark } from '../../../../../../components/VerificationMark/VerificationMark';
 import { Flex, Typography } from '../../../../../../ergodex-cdk';
-import { getPoolRatio } from '../../../../../../utils/price';
 
 interface LiquidityPositionsItemWrapperProps {
   pool: AmmPool;

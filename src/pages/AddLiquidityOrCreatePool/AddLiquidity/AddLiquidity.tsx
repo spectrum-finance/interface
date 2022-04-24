@@ -1,12 +1,13 @@
 import { t } from '@lingui/macro';
 import { maxBy } from 'lodash';
 import React, { FC, useEffect, useState } from 'react';
-import { skip } from 'rxjs';
+import { Observable, skip, tap } from 'rxjs';
 
 import { useSubscription } from '../../../common/hooks/useObservable';
 import { AmmPool } from '../../../common/models/AmmPool';
 import { AssetInfo } from '../../../common/models/AssetInfo';
 import { Currency } from '../../../common/models/Currency';
+import { TxId } from '../../../common/types';
 import { TokenControlFormItem } from '../../../components/common/TokenControl/TokenControl';
 import {
   openConfirmationModal,
@@ -237,12 +238,14 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
         return (
           <AddLiquidityConfirmationModal
             value={value as Required<AddLiquidityFormModel>}
-            onClose={(request: Promise<any>) =>
+            onClose={(request: Observable<TxId>) =>
               next(
-                request.then((tx) => {
-                  resetForm();
-                  return tx;
-                }),
+                request.pipe(
+                  tap((tx) => {
+                    resetForm();
+                    return tx;
+                  }),
+                ),
               )
             }
           />

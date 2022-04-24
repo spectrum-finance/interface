@@ -1,6 +1,4 @@
-import { pubKeyHashFromAddr } from '@ergolabs/cardano-dex-sdk';
-import { RustModule } from '@ergolabs/cardano-dex-sdk/build/main/utils/rustLoader';
-import { Address, PublicKey, publicKeyFromAddress } from '@ergolabs/ergo-sdk';
+import { Address, PublicKey } from '@ergolabs/ergo-sdk';
 import { useLocalStorage } from '@rehooks/local-storage';
 import React, { createContext, useContext, useEffect, useMemo } from 'react';
 
