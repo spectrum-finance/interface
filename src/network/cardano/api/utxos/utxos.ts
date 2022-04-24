@@ -28,6 +28,4 @@ export const getUtxosByAmount = (amount: Value): Observable<TxOut[]> =>
     switchMap((selectedWallet) =>
       selectedWallet ? selectedWallet.getUtxos(amount) : of([]),
     ),
-    publishReplay(1),
-    refCount(),
   );

@@ -27,6 +27,7 @@ import {
   publishReplay,
   refCount,
   switchMap,
+  tap,
   throwError,
   zip,
 } from 'rxjs';
@@ -127,6 +128,16 @@ export const makeCardanoWallet = ({
   const getUtxos = (amount?: Value): Observable<TxOut[]> => {
     return zip([
       ctx$.pipe(
+        tap(() => {
+          console.log(
+            amount,
+            amount
+              ? encodeHex(
+                  toWasmValue(amount, RustModule.CardanoWasm).to_bytes(),
+                )
+              : amount,
+          );
+        }),
         switchMap((ctx) =>
           from(
             ctx.getUtxos(
