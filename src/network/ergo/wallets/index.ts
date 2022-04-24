@@ -17,11 +17,12 @@ import { notification } from '../../../ergodex-cdk';
 import { Wallet, WalletState } from '../../common';
 import { walletSettings } from '../settings/walletSettings';
 import { Nautilus } from './nautilus';
+import { Safew } from './safew';
 import { Yoroi } from './yoroi';
 
 const updateSelectedWallet$ = new Subject<string | undefined>();
 
-export const wallets$ = of([Nautilus, Yoroi]);
+export const wallets$ = of([Nautilus, Safew, Yoroi]);
 
 export const disconnectWallet = (): void => {
   selectedWallet$.pipe(first()).subscribe((wallet) => {

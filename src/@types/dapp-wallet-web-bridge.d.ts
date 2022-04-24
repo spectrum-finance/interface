@@ -41,11 +41,14 @@ namespace ErgoBridge {
   }
 }
 
+interface ErgoWallet {
+  connect: (params: { createErgoObject: boolean }) => Promise<boolean>;
+  getContext: () => Promise<ErgoBridge.ErgoAPI>;
+}
+
 declare let ergoConnector: {
-  nautilus: {
-    connect: (params: { createErgoObject: boolean }) => Promise<boolean>;
-    getContext: () => Promise<ErgoBridge.ErgoAPI>;
-  };
+  nautilus: ErgoWallet;
+  safew: ErgoWallet;
 };
 declare let ergo: ErgoBridge.ErgoAPI;
 declare let cardano: any;
