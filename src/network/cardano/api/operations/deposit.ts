@@ -1,4 +1,5 @@
 import {
+  minBudgetForDeposit,
   mkAmmActions,
   mkAmmOutputs,
   mkTxMath,
@@ -7,9 +8,8 @@ import {
 import { OrderKind } from '@ergolabs/cardano-dex-sdk/build/main/amm/models/opRequests';
 import { OrderAddrsV1Testnet } from '@ergolabs/cardano-dex-sdk/build/main/amm/scripts';
 import { NetworkParams } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/env';
-import { TxOut } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/txOut';
 import { RustModule } from '@ergolabs/cardano-dex-sdk/build/main/utils/rustLoader';
-import { first, Observable, switchMap, zip } from 'rxjs';
+import { first, map, Observable, switchMap, zip } from 'rxjs';
 
 import { UI_FEE_BIGINT } from '../../../../common/constants/erg';
 import { Currency } from '../../../../common/models/Currency';
@@ -17,7 +17,9 @@ import { TxId } from '../../../../common/types';
 import { CardanoSettings, settings$ } from '../../settings/settings';
 import { CardanoAmmPool } from '../ammPools/CardanoAmmPool';
 import { cardanoNetworkParams$ } from '../common/cardanoNetwork';
-import { utxos$ } from '../utxos/utxos';
+import { getUtxosByAmount } from '../utxos/utxos';
+import { ammTxFeeMapping } from './common/ammTxFeeMapping';
+import { minExecutorReward } from './common/minExecutorReward';
 import { submitTx } from './common/submitTx';
 
 interface DepositTxCandidateConfig {
@@ -25,7 +27,6 @@ interface DepositTxCandidateConfig {
   readonly x: Currency;
   readonly y: Currency;
   readonly settings: CardanoSettings;
-  readonly utxos: TxOut[];
   readonly networkParams: NetworkParams;
 }
 
@@ -35,8 +36,7 @@ const toDepositTxCandidate = ({
   y,
   settings,
   networkParams,
-  utxos,
-}: DepositTxCandidateConfig): TxCandidate => {
+}: DepositTxCandidateConfig): Observable<TxCandidate> => {
   if (!settings.address || !settings.ph) {
     throw new Error('[deposit]: wallet address is not selected');
   }
@@ -50,24 +50,46 @@ const toDepositTxCandidate = ({
   const ammActions = mkAmmActions(ammOutputs, settings.address);
   const xAmount = pool.pool.x.withAmount(x.amount);
   const yAmount = pool.pool.y.withAmount(y.amount);
+  const lpAmount = pool.pool.lp.withAmount(x.amount * y.amount);
 
-  return ammActions.createOrder(
-    {
-      kind: OrderKind.Deposit,
-      poolId: pool.pool.id,
-      x: xAmount,
-      y: yAmount,
-      lq: pool.pool.lp.asset,
-      rewardPkh: settings.ph,
-      uiFee: UI_FEE_BIGINT,
-      exFee: 1n,
-      collateralAda: 0n,
-    } as any,
-    {
-      changeAddr: settings.address,
-      collateralInputs: [],
-      inputs: utxos.map((u) => ({ txOut: u })),
-    },
+  const depositVariables = minBudgetForDeposit(
+    xAmount,
+    yAmount,
+    lpAmount,
+    ammTxFeeMapping,
+    minExecutorReward,
+    UI_FEE_BIGINT,
+    txMath,
+  );
+
+  if (!depositVariables) {
+    throw new Error('incorrect deposit values');
+  }
+
+  const [depositBudget, depositValue, depositCollateral] = depositVariables;
+
+  return getUtxosByAmount(depositValue).pipe(
+    map((utxos) =>
+      ammActions.createOrder(
+        {
+          kind: OrderKind.Deposit,
+          poolId: pool.pool.id,
+          x: xAmount,
+          y: yAmount,
+          lq: pool.pool.lp.asset,
+          rewardPkh: settings.ph!,
+          uiFee: UI_FEE_BIGINT,
+          exFee: 1n,
+          orderValue: depositBudget,
+          collateralAda: depositCollateral,
+        },
+        {
+          changeAddr: settings.address!,
+          collateralInputs: [],
+          inputs: utxos.map((u) => ({ txOut: u })),
+        },
+      ),
+    ),
   );
 };
 
@@ -76,18 +98,16 @@ export const deposit = (
   x: Currency,
   y: Currency,
 ): Observable<TxId> =>
-  zip([cardanoNetworkParams$, utxos$, settings$]).pipe(
+  zip([cardanoNetworkParams$, settings$]).pipe(
     first(),
-    switchMap(([networkParams, utxos, settings]) =>
-      submitTx(
-        toDepositTxCandidate({
-          pool,
-          x,
-          y,
-          networkParams,
-          utxos,
-          settings,
-        }),
-      ),
+    switchMap(([networkParams, settings]) =>
+      toDepositTxCandidate({
+        pool,
+        x,
+        y,
+        networkParams,
+        settings,
+      }),
     ),
+    switchMap(submitTx),
   );
