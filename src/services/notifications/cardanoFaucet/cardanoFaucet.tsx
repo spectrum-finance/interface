@@ -1,37 +1,42 @@
 import './cardanoFaucet.less';
 
+import { t } from '@lingui/macro';
 import React from 'react';
 
+import { useSubject } from '../../../common/hooks/useObservable';
 import { Button, Flex, notification, Typography } from '../../../ergodex-cdk';
+import { getTestnetTokens } from '../../../network/cardano/api/faucet/faucet';
 
-export const openCardanoFaucetNotification = (): void => {
-  const key = 'faucet-notification';
+const NOTIFICATION_KEY = 'faucet-notification';
 
-  const getTestTokens = () => {
-    console.log('receive tokens');
-  };
+const GetTokensButton = () => {
+  const [, getTokens, isLoading, err] = useSubject(getTestnetTokens, []);
 
-  const btn = (
-    <Button type="primary" onClick={getTestTokens}>
+  return (
+    <Button type="primary" onClick={getTokens} loading={isLoading}>
       Get testnet tokens
     </Button>
   );
+};
 
+export const openCardanoFaucetNotification = (): void => {
   const message = (
     <>
       <Flex col>
         <Flex.Item>
-          <Typography.Title level={4}>Get your testnet tokens</Typography.Title>
+          <Typography.Title level={4}>
+            {t`Get your testnet tokens`}
+          </Typography.Title>
         </Flex.Item>
         <Flex.Item>
           <Typography.Body>
-            To start interacting with ErgoDEX Cardano testnet user interface you
-            need to get test tokens.
+            {t`To start interacting with ErgoDEX Cardano testnet user interface you
+            need to get test tokens.`}
           </Typography.Body>
         </Flex.Item>
         <Flex.Item>
           <Typography.Footnote>
-            Note: you may receive tokens only once per wallet.
+            {t`Note: you may receive tokens only once per wallet.`}
           </Typography.Footnote>
         </Flex.Item>
       </Flex>
@@ -40,11 +45,12 @@ export const openCardanoFaucetNotification = (): void => {
 
   notification.open({
     className: 'cardano-testnet-faucet',
-    key,
+    key: NOTIFICATION_KEY,
     message,
     duration: 0,
     placement: 'bottomLeft',
     bottom: 48,
-    btn,
+    btn: <GetTokensButton />,
+    closeIcon: <></>,
   });
 };

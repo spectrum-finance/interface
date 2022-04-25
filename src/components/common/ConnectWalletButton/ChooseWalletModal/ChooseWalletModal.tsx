@@ -90,7 +90,7 @@ const WalletView: React.FC<WalletItemProps> = ({ wallet, close }) => {
               <Checkbox checked={checked} onChange={handleCheck}>
                 <Trans>
                   This wallet may not always work as expected. I understand what
-                  I do andwill use it at my own risk.
+                  I do and will use it at my own risk.
                 </Trans>
               </Checkbox>
             </Flex.Item>
