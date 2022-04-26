@@ -10,12 +10,14 @@ import {
 } from './api/addresses/addresses';
 import { ammPools$ } from './api/ammPools/ammPools';
 import { assetBalance$ } from './api/balance/assetBalance';
+import { lpBalance$ } from './api/balance/lpBalance';
 import { networkAssetBalance$ } from './api/balance/networkAssetBalance';
 import { networkAsset } from './api/networkAsset/networkAsset';
 import { networkContext$ } from './api/networkContext/networkContext';
 import { deposit } from './api/operations/deposit';
 import { redeem } from './api/operations/redeem';
 import { swap } from './api/operations/swap';
+import { positions$ } from './api/positions/positions';
 import { CardanoWalletContract } from './api/wallet/common/CardanoWalletContract';
 import {
   availableWallets,
@@ -40,9 +42,9 @@ export const cardanoNetwork: Network<CardanoWalletContract, CardanoSettings> = {
   initialize,
   networkAssetBalance$,
   assetBalance$,
-  lpBalance$: of(new Balance([])),
+  lpBalance$,
   locks$: of([]),
-  positions$: of([]),
+  positions$,
   ammPools$,
   getAddresses: getAddresses,
   getUsedAddresses: getUsedAddresses,

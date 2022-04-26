@@ -53,9 +53,9 @@ export interface CardanoWalletConfig {
   readonly walletSupportedFeatures: WalletSupportedFeatures;
 }
 
-const toBalance = (wasmValue: Value): Observable<Balance> => {
+const toBalance = (wasmValue: Value): Observable<[bigint, AssetInfo][]> => {
   if (!wasmValue?.length) {
-    return of(new Balance([]));
+    return of([]);
   }
 
   return combineLatest(
@@ -64,7 +64,7 @@ const toBalance = (wasmValue: Value): Observable<Balance> => {
         map<AssetInfo, [bigint, AssetInfo]>((ai) => [item.quantity, ai]),
       ),
     ),
-  ).pipe(map((data: [bigint, AssetInfo][]) => new Balance(data)));
+  );
 };
 
 export const makeCardanoWallet = ({
@@ -115,7 +115,7 @@ export const makeCardanoWallet = ({
     );
   };
 
-  const getBalance = (): Observable<Balance> => {
+  const getBalance = (): Observable<[bigint, AssetInfo][]> => {
     return zip([
       ctx$.pipe(switchMap((ctx) => from(ctx.getBalance()))),
       cardanoWasm$,
@@ -126,34 +126,22 @@ export const makeCardanoWallet = ({
   };
 
   const getUtxos = (amount?: Value): Observable<TxOut[]> => {
-    return zip([
-      ctx$.pipe(
-        tap(() => {
-          console.log(
-            amount,
+    return ctx$.pipe(
+      switchMap((ctx) =>
+        from(
+          ctx.getUtxos(
             amount
               ? encodeHex(
                   toWasmValue(amount, RustModule.CardanoWasm).to_bytes(),
                 )
               : amount,
-          );
-        }),
-        switchMap((ctx) =>
-          from(
-            ctx.getUtxos(
-              amount
-                ? encodeHex(
-                    toWasmValue(amount, RustModule.CardanoWasm).to_bytes(),
-                  )
-                : amount,
-            ),
           ),
         ),
       ),
-      cardanoWasm$,
-    ]).pipe(
       map(
-        ([hexes, wasm]) => hexes?.map((hex) => decodeWasmUtxo(hex, wasm)) || [],
+        (hexes) =>
+          hexes?.map((hex) => decodeWasmUtxo(hex, RustModule.CardanoWasm)) ||
+          [],
       ),
     );
   };

@@ -4,7 +4,7 @@ import { TxOut } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/txO
 import { ReactNode } from 'react';
 import { Observable } from 'rxjs';
 
-import { Balance } from '../../../../../common/models/Balance';
+import { AssetInfo } from '../../../../../common/models/AssetInfo';
 import { Address } from '../../../../../common/types';
 import { Wallet } from '../../../../common/Wallet';
 
@@ -13,7 +13,7 @@ export interface CardanoWalletContract extends Wallet, Prover {
   readonly getUsedAddresses: () => Observable<Address[]>;
   readonly getAddresses: () => Observable<Address[]>;
   readonly getUnusedAddresses: () => Observable<Address[]>;
-  readonly getBalance: () => Observable<Balance>;
+  readonly getBalance: () => Observable<[bigint, AssetInfo][]>;
   readonly getUtxos: (amount?: Value) => Observable<TxOut[]>;
   readonly submit: (tx: RawTx) => Observable<HexString>;
 }
