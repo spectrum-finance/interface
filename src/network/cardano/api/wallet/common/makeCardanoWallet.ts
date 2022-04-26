@@ -33,7 +33,6 @@ import {
 } from 'rxjs';
 
 import { AssetInfo } from '../../../../../common/models/AssetInfo';
-import { Balance } from '../../../../../common/models/Balance';
 import { Address } from '../../../../../common/types';
 import {
   WalletDefinition,
