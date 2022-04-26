@@ -50,7 +50,7 @@ const toDepositTxCandidate = ({
   const ammActions = mkAmmActions(ammOutputs, settings.address);
   const xAmount = pool.pool.x.withAmount(x.amount);
   const yAmount = pool.pool.y.withAmount(y.amount);
-  const lpAmount = pool.pool.lp.withAmount(x.amount * y.amount);
+  const lpAmount = pool.pool.rewardLP(xAmount, yAmount);
 
   const depositVariables = minBudgetForDeposit(
     xAmount,
@@ -76,10 +76,10 @@ const toDepositTxCandidate = ({
           poolId: pool.pool.id,
           x: xAmount,
           y: yAmount,
-          lq: pool.pool.lp.asset,
+          lq: lpAmount.asset,
           rewardPkh: settings.ph!,
           uiFee: UI_FEE_BIGINT,
-          exFee: 1n,
+          exFee: minExecutorReward,
           orderValue: depositBudget,
           collateralAda: depositCollateral,
         },

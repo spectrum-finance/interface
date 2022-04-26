@@ -86,7 +86,7 @@ const toSwapTxCandidate = ({
           poolFeeNum: pool.poolFeeNum,
           baseInput: baseInput,
           quoteAsset: quoteOutput.asset,
-          minQuoteOutput: to.amount,
+          minQuoteOutput: swapExtremums.minOutput.amount,
           uiFee: UI_FEE_BIGINT,
           exFeePerToken: feePerToken,
           orderValue: swapValue,
