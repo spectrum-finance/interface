@@ -18,7 +18,6 @@ export type Settings = {
   pk?: PublicKey;
   explorerUrl: string;
   theme: string;
-  network: string;
   lang: SupportedLocale;
 };
 
@@ -30,7 +29,6 @@ export const DefaultSettings: Readonly<Settings> = {
   pk: '',
   theme: isDarkOsTheme() ? 'dark' : 'light',
   lang: DEFAULT_LOCALE,
-  network: 'ergo',
   address: undefined,
 };
 
