@@ -71,7 +71,7 @@ const toSwapTxCandidate = ({
   );
 
   if (!swapVariables) {
-    throw new Error('incorrect swap params');
+    throw new Error('incorrect swap variables');
   }
 
   const [swapBudget, swapValue, feePerToken, swapExtremums] = swapVariables;
@@ -119,6 +119,5 @@ export const swap = (
         nitro,
       }),
     ),
-    tap((res) => console.log(res)),
     switchMap(submitTx),
   );

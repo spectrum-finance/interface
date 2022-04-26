@@ -63,7 +63,7 @@ const toDepositTxCandidate = ({
   );
 
   if (!depositVariables) {
-    throw new Error('incorrect deposit values');
+    throw new Error('incorrect deposit variables');
   }
 
   const [depositBudget, depositValue, depositCollateral] = depositVariables;
