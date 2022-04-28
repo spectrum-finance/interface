@@ -119,5 +119,6 @@ export const swap = (
         nitro,
       }),
     ),
+    tap((res) => console.log(res), console.log),
     switchMap(submitTx),
   );

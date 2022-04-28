@@ -19,7 +19,7 @@ import { Lovelace } from '@ergolabs/cardano-dex-sdk/build/main/cardano/types';
 import { TxMath } from '@ergolabs/cardano-dex-sdk/build/main/cardano/wallet/txMath';
 import { AssetAmount } from '@ergolabs/cardano-dex-sdk/build/main/domain/assetAmount';
 import { RustModule } from '@ergolabs/cardano-dex-sdk/build/main/utils/rustLoader';
-import { first, map, Observable, switchMap, zip } from 'rxjs';
+import { first, map, Observable, switchMap, tap, zip } from 'rxjs';
 
 import { UI_FEE_BIGINT } from '../../../../common/constants/erg';
 import { Currency } from '../../../../common/models/Currency';
@@ -110,5 +110,7 @@ export const redeem = (pool: CardanoAmmPool, lq: Currency): Observable<TxId> =>
         settings,
       }),
     ),
+    tap((res) => console.log(res)),
     switchMap(submitTx),
+    tap(null, console.log),
   );
