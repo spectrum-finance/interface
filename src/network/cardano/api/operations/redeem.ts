@@ -3,6 +3,7 @@ import {
   mkAmmActions,
   mkAmmOutputs,
   mkTxMath,
+  stakeKeyHashFromAddr,
   TxCandidate,
 } from '@ergolabs/cardano-dex-sdk';
 import { PoolId } from '@ergolabs/cardano-dex-sdk/build/main/amm/domain/types';
@@ -85,6 +86,10 @@ const toRedeemTxCandidate = ({
           y: pool.pool.y.asset,
           lq: lqAmount,
           rewardPkh: settings.ph!,
+          stakePkh: stakeKeyHashFromAddr(
+            settings.address!,
+            RustModule.CardanoWasm,
+          ),
           exFee: minExecutorReward,
           uiFee: UI_FEE_BIGINT,
           orderValue: redeemBudget,

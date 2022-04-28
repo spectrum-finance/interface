@@ -3,6 +3,7 @@ import {
   mkAmmActions,
   mkAmmOutputs,
   mkTxMath,
+  stakeKeyHashFromAddr,
   TxCandidate,
 } from '@ergolabs/cardano-dex-sdk';
 import { OrderKind } from '@ergolabs/cardano-dex-sdk/build/main/amm/models/opRequests';
@@ -83,6 +84,10 @@ const toSwapTxCandidate = ({
           kind: OrderKind.Swap,
           poolId: pool.pool.id,
           rewardPkh: settings.ph!,
+          stakePkh: stakeKeyHashFromAddr(
+            settings.address!,
+            RustModule.CardanoWasm,
+          ),
           poolFeeNum: pool.poolFeeNum,
           baseInput: baseInput,
           quoteAsset: quoteOutput.asset,

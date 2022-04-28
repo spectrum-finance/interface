@@ -3,6 +3,7 @@ import {
   mkAmmActions,
   mkAmmOutputs,
   mkTxMath,
+  stakeKeyHashFromAddr,
   TxCandidate,
 } from '@ergolabs/cardano-dex-sdk';
 import { OrderKind } from '@ergolabs/cardano-dex-sdk/build/main/amm/models/opRequests';
@@ -78,6 +79,10 @@ const toDepositTxCandidate = ({
           y: yAmount,
           lq: lpAmount.asset,
           rewardPkh: settings.ph!,
+          stakePkh: stakeKeyHashFromAddr(
+            settings.address!,
+            RustModule.CardanoWasm,
+          ),
           uiFee: UI_FEE_BIGINT,
           exFee: minExecutorReward,
           orderValue: depositBudget,
