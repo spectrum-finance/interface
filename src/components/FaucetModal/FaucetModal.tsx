@@ -3,6 +3,7 @@ import { evaluate } from 'mathjs';
 import React, { useEffect, useState } from 'react';
 
 import { useObservable } from '../../common/hooks/useObservable';
+import { localStorageManager } from '../../common/utils/localStorageManager';
 import {
   Button,
   DownOutlined,
@@ -29,6 +30,8 @@ interface TestToken {
 
 const convertAmount = (a: number) => `${evaluate(`${a} / 1000000`)}.00`;
 
+export const FAUCET_KEY = 'ergodex-faucet-key';
+
 const FaucetModal: React.FC<FaucetModalProps> = ({ close }) => {
   const [availableTestnetTokens] = useObservable(
     getAvailableTestnetTokensList(),
@@ -47,7 +50,7 @@ const FaucetModal: React.FC<FaucetModalProps> = ({ close }) => {
       getTestnetTokens(
         `${activeToken.dripAsset.unAssetClass[0].unCurrencySymbol}.${activeToken.dripAsset.unAssetClass[1].unTokenName}`,
       ).subscribe(() => {
-        // TODO: add logic to never open notification message
+        localStorageManager.set(FAUCET_KEY, true);
       });
     }
     close(true);

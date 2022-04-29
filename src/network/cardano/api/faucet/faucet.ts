@@ -5,9 +5,9 @@ import { applicationConfig } from '../../../../applicationConfig';
 import { getAddresses } from '../addresses/addresses';
 
 export const getAvailableTestnetTokensList = () =>
-  from(axios.get(`${applicationConfig.faucet}assets`)).pipe(
-    map((res) => res.data),
-  );
+  from(
+    axios.get(`${applicationConfig.networksSettings.cardano.faucet}assets`),
+  ).pipe(map((res) => res.data));
 
 export const getTestnetTokens = (tokenId: string) =>
   getAddresses().pipe(
@@ -16,10 +16,13 @@ export const getTestnetTokens = (tokenId: string) =>
     switchMap((addresses) => {
       return addresses
         ? from(
-            axios.post(`${applicationConfig.faucet}askdrip`, {
-              requestAddress: addresses[0],
-              requestAsset: tokenId,
-            }),
+            axios.post(
+              `${applicationConfig.networksSettings.cardano.faucet}askdrip`,
+              {
+                requestAddress: addresses[0],
+                requestAsset: tokenId,
+              },
+            ),
           )
         : of(undefined);
     }),

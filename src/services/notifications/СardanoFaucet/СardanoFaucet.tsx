@@ -3,7 +3,11 @@ import './СardanoFaucet.less';
 import { t } from '@lingui/macro';
 import React from 'react';
 
-import { FaucetModal } from '../../../components/FaucetModal/FaucetModal';
+import { localStorageManager } from '../../../common/utils/localStorageManager';
+import {
+  FAUCET_KEY,
+  FaucetModal,
+} from '../../../components/FaucetModal/FaucetModal';
 import {
   Button,
   Flex,
@@ -12,13 +16,15 @@ import {
   Typography,
 } from '../../../ergodex-cdk';
 
-const NOTIFICATION_KEY = 'faucet-notification';
+export const NOTIFICATION_KEY = 'faucet-notification';
 
 const GetTokensButton = () => {
   const openModal = () => {
     Modal.open(({ close }) => <FaucetModal close={close} />, {
       afterClose: () => {
-        openCardanoFaucetNotification();
+        if (!localStorageManager.get<boolean>(FAUCET_KEY)) {
+          openCardanoFaucetNotification();
+        }
       },
     });
     notification.close(NOTIFICATION_KEY);
@@ -55,8 +61,12 @@ export const openCardanoFaucetNotification = (): void => {
     </>
   );
 
+  if (localStorageManager.get<boolean>(FAUCET_KEY)) {
+    return;
+  }
+
   notification.open({
-    className: 'cardano-testnet-faucet',
+    className: 'cardano-testnet-faucet cardano',
     key: NOTIFICATION_KEY,
     message,
     duration: 0,

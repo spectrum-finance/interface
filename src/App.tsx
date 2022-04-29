@@ -8,10 +8,11 @@ import Layout from './components/common/Layout/Layout';
 import { MobilePlug } from './components/MobilePlug/MobilePlug';
 import { AppLoadingProvider, SettingsProvider } from './context';
 import { globalHistory } from './createBrowserHistory';
-import { ContextModalProvider } from './ergodex-cdk';
+import { ContextModalProvider, notification } from './ergodex-cdk';
 import {
   initializeNetworks,
   networksInitialized$,
+  useSelectedNetwork,
 } from './gateway/common/network';
 import { LanguageProvider } from './i18n/i18n';
 import { AddLiquidityOrCreatePool } from './pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool';
@@ -22,7 +23,10 @@ import { RemoveLiquidity } from './pages/Pool/RemoveLiquidity/RemoveLiquidity';
 import { WithdrawalLiquidity } from './pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity';
 import { PoolOverview } from './pages/PoolOverview/PoolOverview';
 import { Swap } from './pages/Swap/Swap';
-import { openCardanoFaucetNotification } from './services/notifications/СardanoFaucet/СardanoFaucet';
+import {
+  NOTIFICATION_KEY,
+  openCardanoFaucetNotification,
+} from './services/notifications/СardanoFaucet/СardanoFaucet';
 
 const NotFound = () => <Redirect to="/swap" />;
 
@@ -98,16 +102,16 @@ const Application = () => {
 
 export const ApplicationInitializer: React.FC = () => {
   const [networksInitialized] = useObservable(networksInitialized$);
-
-  // TODO: Replace with a real one + add check [isTestAssetsReceived]
-  const IS_CARDANO = true;
+  const [selectedNetwork] = useSelectedNetwork();
 
   useEffect(() => {
     initializeNetworks();
-    if (IS_CARDANO) {
+    if (selectedNetwork.name === 'cardano') {
       openCardanoFaucetNotification();
+    } else {
+      notification.close(NOTIFICATION_KEY);
     }
-  }, []);
+  }, [selectedNetwork]);
 
   useEffect(() => {
     if (networksInitialized) {
