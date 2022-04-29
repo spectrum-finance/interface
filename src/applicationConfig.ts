@@ -9,12 +9,14 @@ interface OperationRestriction {
 }
 
 interface NetworkConfig {
-  readonly url: string;
+  readonly explorerUrl: string;
+  readonly networkUrl: string;
+  readonly analyticUrl?: string;
+  readonly metadataUrl: string;
+  readonly faucet?: string;
 }
 
 interface ApplicationConfig {
-  readonly api: string;
-  readonly faucet: string;
   readonly networksSettings: Dictionary<NetworkConfig>;
   readonly social: {
     readonly twitter: string;
@@ -32,16 +34,23 @@ interface ApplicationConfig {
   readonly blacklistedPools: string[];
   readonly operationsRestrictions: OperationRestriction[];
   readonly requestRetryCount: number;
-  readonly iconsRepository: string;
 }
 
 export const applicationConfig: ApplicationConfig = {
-  api: 'https://api.ergodex.io/v1/',
-  faucet: 'https://faucet.ergodex.io/v1/',
   requestRetryCount: 3,
   networksSettings: {
     cardano: {
-      url: 'https://testnet-api.quickblue.io/v1',
+      metadataUrl: '',
+      networkUrl: 'https://testnet-api.quickblue.io/v1',
+      explorerUrl: 'https://testnet.cardanoscan.io',
+      faucet: 'https://faucet.ergodex.io/v1/',
+    },
+    ergo: {
+      metadataUrl:
+        'https://raw.githubusercontent.com/ergolabs/ergo-dex-asset-icons/master',
+      networkUrl: 'https://api.ergoplatform.com',
+      explorerUrl: 'https://explorer.ergoplatform.com',
+      analyticUrl: 'https://api.ergodex.io/v1/',
     },
   },
   social: {
@@ -70,6 +79,4 @@ export const applicationConfig: ApplicationConfig = {
       operation: 'swap',
     },
   ],
-  iconsRepository:
-    'https://raw.githubusercontent.com/ergolabs/ergo-dex-asset-icons/master',
 };

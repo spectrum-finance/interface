@@ -10,8 +10,8 @@ import { AssetLock } from '../../common/models/AssetLock';
 import { Currency } from '../../common/models/Currency';
 import { DialogRef, Flex, Modal, Typography } from '../../ergodex-cdk';
 import { RequestProps } from '../../ergodex-cdk/components/Modal/presets/Request';
+import { exploreTx } from '../../gateway/utils/exploreAddress';
 import { getLockingPeriodString } from '../../pages/Pool/utils';
-import { exploreTx } from '../../utils/redirect';
 
 export enum Operation {
   SWAP,

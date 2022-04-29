@@ -10,18 +10,29 @@ import {
 } from 'rxjs';
 
 import { useObservable } from '../../common/hooks/useObservable';
+import { localStorageManager } from '../../common/utils/localStorageManager';
 import { cardanoNetwork } from '../../network/cardano/cardano';
 import { Network } from '../../network/common/Network';
 import { ergoNetwork } from '../../network/ergo/ergo';
 
-const updateSelectedNetwork$ = new BehaviorSubject<Network<any, any>>(
-  ergoNetwork,
-);
+const SELECTED_NETWORK_KEY = 'ergodex-selected-network-key';
 
 export const networks = [ergoNetwork, cardanoNetwork];
 
-export const changeSelectedNetwork = (network: Network<any, any>): void =>
+const initialNetworkName =
+  localStorageManager.get<string>(SELECTED_NETWORK_KEY);
+const initialNetwork: Network<any, any> = initialNetworkName
+  ? networks.find((n) => n.name === initialNetworkName)!
+  : ergoNetwork;
+
+const updateSelectedNetwork$ = new BehaviorSubject<Network<any, any>>(
+  initialNetwork,
+);
+
+export const changeSelectedNetwork = (network: Network<any, any>): void => {
+  localStorageManager.set(SELECTED_NETWORK_KEY, network.name);
   updateSelectedNetwork$.next(network);
+};
 
 export const selectedNetwork$: Observable<Network<any, any>> =
   updateSelectedNetwork$.pipe(
@@ -43,4 +54,4 @@ export const initializeNetworks = (): void =>
   networks.forEach((n) => n.initialize());
 
 export const useSelectedNetwork = (): [Network<any, any>, boolean, Error] =>
-  useObservable(selectedNetwork$, [], ergoNetwork);
+  useObservable(selectedNetwork$, [], initialNetwork);

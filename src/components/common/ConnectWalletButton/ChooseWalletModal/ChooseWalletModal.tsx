@@ -139,10 +139,21 @@ const WalletView: React.FC<WalletItemProps> = ({ wallet, close }) => {
       );
     default:
       return (
-        <WalletButton size="large" onClick={handleClick}>
-          {wallet.name}
-          {wallet.icon}
-        </WalletButton>
+        <>
+          <WalletButton size="large" onClick={handleClick}>
+            {wallet.name}
+            {wallet.icon}
+          </WalletButton>
+          {warning && (
+            <Flex.Item marginBottom={2}>
+              <Alert
+                type="warning"
+                description={warning}
+                style={{ width: '100%' }}
+              />
+            </Flex.Item>
+          )}
+        </>
       );
   }
 };

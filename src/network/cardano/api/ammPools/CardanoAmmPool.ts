@@ -8,6 +8,7 @@ import { AssetInfo as ErgoAssetInfo } from '@ergolabs/ergo-sdk/build/main/entiti
 import { cache } from 'decorator-cache-getter';
 
 import { AmmPool } from '../../../../common/models/AmmPool';
+import { AssetInfo } from '../../../../common/models/AssetInfo';
 import { Currency } from '../../../../common/models/Currency';
 import { AnalyticsData } from '../../../../services/new/analytics';
 import { CardanoAssetInfo } from '../common/cardanoAssetInfo/mocks';
@@ -83,7 +84,7 @@ export class CardanoAmmPool extends AmmPool {
 
   private toAssetInfo(
     asset: AssetClass | undefined,
-  ): ErgoAssetInfo | undefined {
+  ): AssetInfo<AssetClass> | undefined {
     if (!asset) {
       return undefined;
     }
@@ -102,12 +103,13 @@ export class CardanoAmmPool extends AmmPool {
 
     return {
       name: asset.name,
-      id: assetInfo?.subject || `${asset.policyId}-${asset.name}`,
+      id: assetInfo?.subject || mkSubject(asset),
       decimals: assetInfo?.decimals.value || 0,
+      data: asset,
     };
   }
 
-  private toAssetClass(asset: ErgoAssetInfo): AssetClass {
+  private toAssetClass(asset: AssetInfo<AssetClass>): AssetClass {
     const assetSubject = asset.id;
     let assetInfo: CardanoAssetInfo | undefined;
 
@@ -121,10 +123,7 @@ export class CardanoAmmPool extends AmmPool {
       assetInfo = this.assetInfoDictionary.lp;
     }
 
-    return {
-      policyId: assetInfo?.policy || '',
-      name: assetInfo?.name.value || '',
-    };
+    return asset.data!;
   }
 
   calculateDepositAmount(currency: Currency): Currency {

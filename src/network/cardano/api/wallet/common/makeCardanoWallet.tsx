@@ -4,6 +4,7 @@ import {
   decodeWasmValue,
   HexString,
   RawTxWitnessSet,
+  toWasmValue,
   Value,
 } from '@ergolabs/cardano-dex-sdk';
 import {
@@ -11,6 +12,8 @@ import {
   RawUnsignedTx,
 } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/tx';
 import { TxOut } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/txOut';
+import { encodeHex } from '@ergolabs/cardano-dex-sdk/build/main/utils/hex';
+import { RustModule } from '@ergolabs/cardano-dex-sdk/build/main/utils/rustLoader';
 import React, { ReactNode } from 'react';
 import {
   catchError,
@@ -24,12 +27,12 @@ import {
   publishReplay,
   refCount,
   switchMap,
+  tap,
   throwError,
   zip,
 } from 'rxjs';
 
 import { AssetInfo } from '../../../../../common/models/AssetInfo';
-import { Balance } from '../../../../../common/models/Balance';
 import { Address } from '../../../../../common/types';
 import {
   WalletDefinition,
@@ -37,7 +40,7 @@ import {
 } from '../../../../common/Wallet';
 import { mapAssetClassToAssetInfo } from '../../common/cardanoAssetInfo/getCardanoAssetInfo';
 import { cardanoWasm$ } from '../../common/cardanoWasm';
-import { CardanoWalletContract } from './CardanoWalletContract';
+import { CardanoNetwork, CardanoWalletContract } from './CardanoWalletContract';
 
 export interface CardanoWalletConfig {
   readonly name: string;
@@ -49,9 +52,9 @@ export interface CardanoWalletConfig {
   readonly walletSupportedFeatures: WalletSupportedFeatures;
 }
 
-const toBalance = (wasmValue: Value): Observable<Balance> => {
+const toBalance = (wasmValue: Value): Observable<[bigint, AssetInfo][]> => {
   if (!wasmValue?.length) {
-    return of(new Balance([]));
+    return of([]);
   }
 
   return combineLatest(
@@ -60,7 +63,7 @@ const toBalance = (wasmValue: Value): Observable<Balance> => {
         map<AssetInfo, [bigint, AssetInfo]>((ai) => [item.quantity, ai]),
       ),
     ),
-  ).pipe(map((data: [bigint, AssetInfo][]) => new Balance(data)));
+  );
 };
 
 export const makeCardanoWallet = ({
@@ -81,8 +84,12 @@ export const makeCardanoWallet = ({
     if (!cardano || !cardano[variableName]) {
       return throwError(() => new Error('EXTENSION_NOT_FOUND'));
     }
+
     return ctx$.pipe(
-      mapTo(true),
+      switchMap((ctx) => from(ctx.getNetworkId())),
+      map((networkId) =>
+        networkId === CardanoNetwork.TESTNET ? true : <div>Error</div>,
+      ),
       catchError(() => of(false)),
     );
   };
@@ -111,7 +118,7 @@ export const makeCardanoWallet = ({
     );
   };
 
-  const getBalance = (): Observable<Balance> => {
+  const getBalance = (): Observable<[bigint, AssetInfo][]> => {
     return zip([
       ctx$.pipe(switchMap((ctx) => from(ctx.getBalance()))),
       cardanoWasm$,
@@ -121,13 +128,23 @@ export const makeCardanoWallet = ({
     );
   };
 
-  const getUtxos = (): Observable<TxOut[]> => {
-    return zip([
-      ctx$.pipe(switchMap((ctx) => from(ctx.getUtxos()))),
-      cardanoWasm$,
-    ]).pipe(
+  const getUtxos = (amount?: Value): Observable<TxOut[]> => {
+    return ctx$.pipe(
+      switchMap((ctx) =>
+        from(
+          ctx.getUtxos(
+            amount
+              ? encodeHex(
+                  toWasmValue(amount, RustModule.CardanoWasm).to_bytes(),
+                )
+              : amount,
+          ),
+        ),
+      ),
       map(
-        ([hexes, wasm]) => hexes?.map((hex) => decodeWasmUtxo(hex, wasm)) || [],
+        (hexes) =>
+          hexes?.map((hex) => decodeWasmUtxo(hex, RustModule.CardanoWasm)) ||
+          [],
       ),
     );
   };

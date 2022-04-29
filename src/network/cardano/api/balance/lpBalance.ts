@@ -4,17 +4,16 @@ import { Balance } from '../../../../common/models/Balance';
 import { ammPools$ } from '../ammPools/ammPools';
 import { balanceItems$ } from './balance';
 
-export const assetBalance$: Observable<Balance> = zip([
+export const lpBalance$: Observable<Balance> = zip([
   balanceItems$,
   ammPools$,
 ]).pipe(
-  map(([balanceItems, pools]) => {
-    return balanceItems.filter(
-      ([, info]) => !pools.some((p) => p.lp.asset.id === info.id),
-    );
-  }),
+  map(([balanceItems, pools]) =>
+    balanceItems.filter(([, info]) =>
+      pools.some((p) => p.lp.asset.id === info.id),
+    ),
+  ),
   map((data) => new Balance(data)),
-  tap((res) => console.log(res)),
   publishReplay(1),
   refCount(),
 );

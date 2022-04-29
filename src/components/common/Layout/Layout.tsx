@@ -5,6 +5,7 @@ import { isBrowser } from 'react-device-detect';
 
 import { useAppLoadingState, useSettings } from '../../../context';
 import { Modal } from '../../../ergodex-cdk';
+import { useSelectedNetwork } from '../../../gateway/common/network';
 import { useBodyClass } from '../../../hooks/useBodyClass';
 import { Header } from '../../Header/Header';
 import { NetworkHeight } from '../../NetworkHeight/NetworkHeight';
@@ -16,9 +17,10 @@ interface Props {
 }
 
 const Layout = ({ children }: Props): JSX.Element => {
-  const [{ theme, network }] = useSettings();
+  const [{ theme }] = useSettings();
+  const [network] = useSelectedNetwork();
 
-  useBodyClass([theme, network]);
+  useBodyClass([theme, network.name.toLowerCase()]);
 
   const [{ isKYAAccepted }] = useAppLoadingState();
 

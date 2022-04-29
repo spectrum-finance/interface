@@ -57,9 +57,11 @@ const get24hData = (url: string): Promise<any> => {
 };
 
 export const aggregatedAnalyticsData24H$ = defer(() =>
-  from(get24hData(`${applicationConfig.api}amm/platform/stats`)).pipe(
-    map((res) => res.data),
-  ),
+  from(
+    get24hData(
+      `${applicationConfig.networksSettings.ergo.analyticUrl}amm/platform/stats`,
+    ),
+  ).pipe(map((res) => res.data)),
 );
 
 export const getAggregateAnalyticsDataByFrame = (
@@ -67,12 +69,15 @@ export const getAggregateAnalyticsDataByFrame = (
   to?: number,
 ): Observable<AmmAggregatedAnalytics> =>
   from(
-    axios.get(`${applicationConfig.api}amm/platform/stats`, {
-      params: {
-        from: frm,
-        to,
+    axios.get(
+      `${applicationConfig.networksSettings.ergo.analyticUrl}amm/platform/stats`,
+      {
+        params: {
+          from: frm,
+          to,
+        },
       },
-    }),
+    ),
   ).pipe(map((res) => res.data));
 
 export const getPoolLocksAnalyticsById = (
@@ -82,7 +87,7 @@ export const getPoolLocksAnalyticsById = (
     switchMap((context) =>
       from(
         axios.get<AmmPoolLocksAnalytic[]>(
-          `${applicationConfig.api}amm/pool/${poolId}/locks?leastDeadline=${context.height}`,
+          `${applicationConfig.networksSettings.ergo.analyticUrl}amm/pool/${poolId}/locks?leastDeadline=${context.height}`,
         ),
       ).pipe(map((res) => res.data)),
     ),

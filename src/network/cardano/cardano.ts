@@ -10,12 +10,14 @@ import {
 } from './api/addresses/addresses';
 import { ammPools$ } from './api/ammPools/ammPools';
 import { assetBalance$ } from './api/balance/assetBalance';
+import { lpBalance$ } from './api/balance/lpBalance';
 import { networkAssetBalance$ } from './api/balance/networkAssetBalance';
 import { networkAsset } from './api/networkAsset/networkAsset';
 import { networkContext$ } from './api/networkContext/networkContext';
 import { deposit } from './api/operations/deposit';
 import { redeem } from './api/operations/redeem';
 import { swap } from './api/operations/swap';
+import { positions$ } from './api/positions/positions';
 import { CardanoWalletContract } from './api/wallet/common/CardanoWalletContract';
 import {
   availableWallets,
@@ -32,6 +34,7 @@ import {
   settings,
   settings$,
 } from './settings/settings';
+import { exploreAddress, exploreLastBlock, exploreTx } from './utils/utils';
 
 export const cardanoNetwork: Network<CardanoWalletContract, CardanoSettings> = {
   name: 'cardano',
@@ -40,9 +43,9 @@ export const cardanoNetwork: Network<CardanoWalletContract, CardanoSettings> = {
   initialize,
   networkAssetBalance$,
   assetBalance$,
-  lpBalance$: of(new Balance([])),
+  lpBalance$,
   locks$: of([]),
-  positions$: of([]),
+  positions$,
   ammPools$,
   getAddresses: getAddresses,
   getUsedAddresses: getUsedAddresses,
@@ -61,6 +64,10 @@ export const cardanoNetwork: Network<CardanoWalletContract, CardanoSettings> = {
   setSettings,
 
   SwapInfoContent: () => null,
+
+  exploreTx,
+  exploreAddress,
+  exploreLastBlock,
 
   swap,
   deposit,

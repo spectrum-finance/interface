@@ -45,7 +45,6 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
           key={network.name}
           onClick={() => {
             changeSelectedNetwork(network);
-            setSettings({ ...settings, network: network.name });
           }}
         >
           <Flex

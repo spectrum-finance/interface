@@ -18,8 +18,8 @@ import {
   syncTransactionsHistory,
   transactionsHistory$,
 } from '../../../../gateway/api/transactionsHistory';
+import { exploreTx } from '../../../../gateway/utils/exploreAddress';
 import { isRefundableOperation } from '../../../../utils/ammOperations';
-import { exploreTx } from '../../../../utils/redirect';
 import {
   openConfirmationModal,
   Operation,

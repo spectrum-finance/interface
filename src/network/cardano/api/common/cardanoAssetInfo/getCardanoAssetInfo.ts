@@ -10,10 +10,14 @@ import { AssetInfo } from '../../../../../common/models/AssetInfo';
 import { networkAsset } from '../../networkAsset/networkAsset';
 import { assets, CardanoAssetInfo } from './mocks';
 
-const toAssetInfo = (ac: AssetClass, cai?: CardanoAssetInfo): AssetInfo => ({
+const toAssetInfo = (
+  ac: AssetClass,
+  cai?: CardanoAssetInfo,
+): AssetInfo<AssetClass> => ({
   id: cai?.subject || mkSubject(ac),
   name: cai?.name.value || ac.name,
   decimals: cai?.decimals.value || 0,
+  data: ac,
 });
 
 export const getCardanoAssetInfo = (

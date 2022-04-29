@@ -24,7 +24,7 @@ export const getAggregatedPoolAnalyticsDataById = (
 ): Observable<AmmPoolAnalytics> =>
   from(
     axios.get<AmmPoolAnalytics>(
-      `${applicationConfig.api}amm/pool/${poolId}/stats`,
+      `${applicationConfig.networksSettings.ergo.analyticUrl}amm/pool/${poolId}/stats`,
       {
         params: {
           from: frm,
@@ -45,7 +45,11 @@ const get24hData = (url: string): Promise<any> => {
 export const getAggregatedPoolAnalyticsDataById24H = (
   poolId: PoolId,
 ): Observable<AmmPoolAnalytics> =>
-  from(get24hData(`${applicationConfig.api}amm/pool/${poolId}/stats`)).pipe(
+  from(
+    get24hData(
+      `${applicationConfig.networksSettings.ergo.analyticUrl}amm/pool/${poolId}/stats`,
+    ),
+  ).pipe(
     map((res) => ({
       ...res.data,
       tvl: res.data.tvl
