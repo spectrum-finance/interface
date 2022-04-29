@@ -14,6 +14,7 @@ interface NetworkConfig {
 
 interface ApplicationConfig {
   readonly api: string;
+  readonly faucet: string;
   readonly networksSettings: Dictionary<NetworkConfig>;
   readonly social: {
     readonly twitter: string;
@@ -36,6 +37,7 @@ interface ApplicationConfig {
 
 export const applicationConfig: ApplicationConfig = {
   api: 'https://api.ergodex.io/v1/',
+  faucet: 'https://faucet.ergodex.io/v1/',
   requestRetryCount: 3,
   networksSettings: {
     cardano: {

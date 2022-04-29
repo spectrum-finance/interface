@@ -22,7 +22,7 @@ import { RemoveLiquidity } from './pages/Pool/RemoveLiquidity/RemoveLiquidity';
 import { WithdrawalLiquidity } from './pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity';
 import { PoolOverview } from './pages/PoolOverview/PoolOverview';
 import { Swap } from './pages/Swap/Swap';
-import { openCardanoFaucetNotification } from './services/notifications/cardanoFaucet/cardanoFaucet';
+import { openCardanoFaucetNotification } from './services/notifications/СardanoFaucet/СardanoFaucet';
 
 const NotFound = () => <Redirect to="/swap" />;
 

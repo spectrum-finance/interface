@@ -1,19 +1,26 @@
 import axios from 'axios';
-import { filter, from, of, switchMap } from 'rxjs';
+import { filter, first, from, map, of, switchMap } from 'rxjs';
 
+import { applicationConfig } from '../../../../applicationConfig';
 import { getAddresses } from '../addresses/addresses';
 
-export const getTestnetTokens = () =>
-  getAddresses()
-    .pipe(filter(Boolean))
-    .pipe(
-      switchMap((addresses) =>
-        addresses
-          ? from(
-              axios.post('url', {
-                address: addresses[0],
-              }),
-            )
-          : of(undefined),
-      ),
-    );
+export const getAvailableTestnetTokensList = () =>
+  from(axios.get(`${applicationConfig.faucet}assets`)).pipe(
+    map((res) => res.data),
+  );
+
+export const getTestnetTokens = (tokenId: string) =>
+  getAddresses().pipe(
+    filter(Boolean),
+    first(),
+    switchMap((addresses) => {
+      return addresses
+        ? from(
+            axios.post(`${applicationConfig.faucet}askdrip`, {
+              requestAddress: addresses[0],
+              requestAsset: tokenId,
+            }),
+          )
+        : of(undefined);
+    }),
+  );

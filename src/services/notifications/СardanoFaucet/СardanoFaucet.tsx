@@ -1,19 +1,31 @@
-import './cardanoFaucet.less';
+import './СardanoFaucet.less';
 
 import { t } from '@lingui/macro';
 import React from 'react';
 
-import { useSubject } from '../../../common/hooks/useObservable';
-import { Button, Flex, notification, Typography } from '../../../ergodex-cdk';
-import { getTestnetTokens } from '../../../network/cardano/api/faucet/faucet';
+import { FaucetModal } from '../../../components/FaucetModal/FaucetModal';
+import {
+  Button,
+  Flex,
+  Modal,
+  notification,
+  Typography,
+} from '../../../ergodex-cdk';
 
 const NOTIFICATION_KEY = 'faucet-notification';
 
 const GetTokensButton = () => {
-  const [, getTokens, isLoading, err] = useSubject(getTestnetTokens, []);
+  const openModal = () => {
+    Modal.open(({ close }) => <FaucetModal close={close} />, {
+      afterClose: () => {
+        openCardanoFaucetNotification();
+      },
+    });
+    notification.close(NOTIFICATION_KEY);
+  };
 
   return (
-    <Button type="primary" onClick={getTokens} loading={isLoading}>
+    <Button type="primary" onClick={openModal}>
       Get testnet tokens
     </Button>
   );
@@ -36,7 +48,7 @@ export const openCardanoFaucetNotification = (): void => {
         </Flex.Item>
         <Flex.Item>
           <Typography.Footnote>
-            {t`Note: you may receive tokens only once per wallet.`}
+            {t`Note: you may receive tokens only once per wallet per day.`}
           </Typography.Footnote>
         </Flex.Item>
       </Flex>
