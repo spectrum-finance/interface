@@ -40,7 +40,7 @@ import {
 } from '../../../../common/Wallet';
 import { mapAssetClassToAssetInfo } from '../../common/cardanoAssetInfo/getCardanoAssetInfo';
 import { cardanoWasm$ } from '../../common/cardanoWasm';
-import { CardanoWalletContract } from './CardanoWalletContract';
+import { CardanoNetwork, CardanoWalletContract } from './CardanoWalletContract';
 
 export interface CardanoWalletConfig {
   readonly name: string;
@@ -84,8 +84,12 @@ export const makeCardanoWallet = ({
     if (!cardano || !cardano[variableName]) {
       return throwError(() => new Error('EXTENSION_NOT_FOUND'));
     }
+
     return ctx$.pipe(
-      mapTo(true),
+      switchMap((ctx) => from(ctx.getNetworkId())),
+      map((networkId) =>
+        networkId === CardanoNetwork.TESTNET ? true : <div>Error</div>,
+      ),
       catchError(() => of(false)),
     );
   };

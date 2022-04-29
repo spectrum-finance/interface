@@ -21,6 +21,7 @@ namespace CardanoBridge {
     getUsedAddresses(paginate?: Paging): Promise<EncodedAddress[]>;
     getUnusedAddresses(paginate?: Paging): Promise<EncodedAddress[]>;
     signTx(tx: RawUnsignedTx, partialSign: boolean = false): Promise<RawTx>;
+    getNetworkId(): Promise<number>;
     submitTx(tx: RawTx): Promise<TxId>;
   }
 

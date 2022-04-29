@@ -8,6 +8,11 @@ import { AssetInfo } from '../../../../../common/models/AssetInfo';
 import { Address } from '../../../../../common/types';
 import { Wallet } from '../../../../common/Wallet';
 
+export enum CardanoNetwork {
+  TESTNET,
+  MAINNET,
+}
+
 export interface CardanoWalletContract extends Wallet, Prover {
   readonly connectWallet: () => Observable<boolean | ReactNode>;
   readonly getUsedAddresses: () => Observable<Address[]>;

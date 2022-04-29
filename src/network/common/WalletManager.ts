@@ -85,6 +85,8 @@ export const makeWalletManager = <W extends Wallet>(
             key,
             toWalletDescriptor(wallet),
           );
+        } else if (typeof status !== 'boolean' && status) {
+          console.log(status);
         }
       }),
     );
