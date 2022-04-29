@@ -5,7 +5,7 @@ import { from, Observable, publishReplay, refCount } from 'rxjs';
 import { applicationConfig } from '../../../../applicationConfig';
 
 export const cardanoNetwork = new Quickblue(
-  applicationConfig.networksSettings.cardano.url,
+  applicationConfig.networksSettings.cardano.networkUrl,
 );
 
 export const cardanoNetworkParams$: Observable<NetworkParams> = from(

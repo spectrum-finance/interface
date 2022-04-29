@@ -34,6 +34,7 @@ import {
   settings,
   settings$,
 } from './settings/settings';
+import { exploreAddress, exploreLastBlock, exploreTx } from './utils/utils';
 
 export const cardanoNetwork: Network<CardanoWalletContract, CardanoSettings> = {
   name: 'cardano',
@@ -63,6 +64,10 @@ export const cardanoNetwork: Network<CardanoWalletContract, CardanoSettings> = {
   setSettings,
 
   SwapInfoContent: () => null,
+
+  exploreTx,
+  exploreAddress,
+  exploreLastBlock,
 
   swap,
   deposit,

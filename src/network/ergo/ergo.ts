@@ -33,6 +33,7 @@ import {
   settings,
   settings$,
 } from './settings/settings';
+import { exploreAddress, exploreLastBlock, exploreTx } from './utils/utils';
 import { GlobalSettingsModal } from './widgets/GlobalSettings/GlobalSettingsModal';
 import { SwapInfoContent } from './widgets/SwapInfoContent/SwapInfoContent';
 
@@ -67,6 +68,10 @@ export const ergoNetwork: Network<ErgoWalletContract, ErgoSettings> = {
   deposit,
   redeem,
   refund,
+
+  exploreAddress,
+  exploreTx,
+  exploreLastBlock,
 
   GlobalSettingsModal,
   SwapInfoContent,

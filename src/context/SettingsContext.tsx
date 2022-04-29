@@ -2,7 +2,6 @@ import { Address, PublicKey } from '@ergolabs/ergo-sdk';
 import { useLocalStorage } from '@rehooks/local-storage';
 import React, { createContext, useContext, useEffect, useMemo } from 'react';
 
-import { ERG_EXPLORER_URL } from '../common/constants/env';
 import { MIN_NITRO } from '../common/constants/erg';
 import { DEFAULT_LOCALE, SupportedLocale } from '../common/constants/locales';
 import { defaultMinerFee, defaultSlippage } from '../common/constants/settings';
@@ -25,7 +24,7 @@ export const DefaultSettings: Readonly<Settings> = {
   minerFee: defaultMinerFee,
   nitro: MIN_NITRO,
   slippage: defaultSlippage,
-  explorerUrl: ERG_EXPLORER_URL,
+  explorerUrl: '',
   pk: '',
   theme: isDarkOsTheme() ? 'dark' : 'light',
   lang: DEFAULT_LOCALE,

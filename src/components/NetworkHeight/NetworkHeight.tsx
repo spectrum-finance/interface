@@ -6,10 +6,10 @@ import React from 'react';
 import FlipNumbers from 'react-flip-numbers';
 
 import { ReactComponent as BlockIcon } from '../../assets/icons/block-icon.svg';
-import { ERG_EXPLORER_URL } from '../../common/constants/env';
 import { useObservable } from '../../common/hooks/useObservable';
 import { Flex, Tooltip, Typography } from '../../ergodex-cdk';
 import { networkContext$ } from '../../gateway/api/networkContext';
+import { exploreLastBlock } from '../../gateway/utils/exploreAddress';
 import { formatToInt } from '../../services/number';
 const NetworkHeight = (): JSX.Element => {
   const [network] = useObservable(networkContext$);
@@ -18,7 +18,7 @@ const NetworkHeight = (): JSX.Element => {
     <>
       {network ? (
         <Typography.Link
-          href={`${ERG_EXPLORER_URL}/blocks/${network.lastBlockId}`}
+          onClick={() => exploreLastBlock(network?.lastBlockId)}
           strong
           className="network-height"
           type="success"
