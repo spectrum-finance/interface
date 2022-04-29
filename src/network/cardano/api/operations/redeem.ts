@@ -115,7 +115,5 @@ export const redeem = (pool: CardanoAmmPool, lq: Currency): Observable<TxId> =>
         settings,
       }),
     ),
-    tap((res) => console.log(res)),
     switchMap(submitTx),
-    tap(null, console.log),
   );
