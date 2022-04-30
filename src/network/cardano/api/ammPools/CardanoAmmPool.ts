@@ -105,7 +105,7 @@ export class CardanoAmmPool extends AmmPool {
     }
 
     if (asset.name === AdaAssetName && asset.policyId === AdaPolicyId) {
-      return { ...networkAsset, data: asset };
+      return networkAsset;
     }
 
     return {

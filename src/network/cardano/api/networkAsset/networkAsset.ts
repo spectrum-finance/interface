@@ -1,3 +1,4 @@
+import { AdaAssetClass } from '@ergolabs/cardano-dex-sdk';
 import { Observable, of, publishReplay, refCount } from 'rxjs';
 
 import { AssetInfo } from '../../../../common/models/AssetInfo';
@@ -10,6 +11,7 @@ export const networkAsset = {
   ticker: 'ADA',
   id: ADA_ID,
   decimals: ADA_DECIMALS,
+  data: AdaAssetClass,
 };
 
 export const networkAsset$: Observable<AssetInfo> = of(networkAsset).pipe(
