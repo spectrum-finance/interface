@@ -2,6 +2,7 @@ import { t } from '@lingui/macro';
 import React, { FC } from 'react';
 
 import { calculateOutputs } from '../../../../common/utils/calculateOutputs';
+import { Truncate } from '../../../../components/Truncate/Truncate';
 import { Divider, Flex } from '../../../../ergodex-cdk';
 import { SwapFormModel } from '../../../../pages/Swap/SwapFormModel';
 import { SwapInfoItem } from '../../../../pages/Swap/SwapInfo/SwapInfoItem/SwapInfoItem';
@@ -49,13 +50,31 @@ export const SwapInfoContent: FC<SwapInfoContent> = ({ value }) => {
       <Flex.Item marginBottom={2}>
         <SwapInfoItem
           title={t`Minimum received:`}
-          value={minOutput?.toCurrencyString() || '–'}
+          value={
+            minOutput ? (
+              <>
+                {minOutput?.toString()}{' '}
+                <Truncate>{minOutput?.asset.name}</Truncate>
+              </>
+            ) : (
+              '–'
+            )
+          }
         />
       </Flex.Item>
       <Flex.Item marginBottom={4}>
         <SwapInfoItem
           title={t`Maximum received:`}
-          value={maxOutput?.toCurrencyString() || '–'}
+          value={
+            maxOutput ? (
+              <>
+                {maxOutput?.toString()}{' '}
+                <Truncate>{maxOutput?.asset.name}</Truncate>
+              </>
+            ) : (
+              '–'
+            )
+          }
         />
       </Flex.Item>
       <Flex.Item marginBottom={4}>

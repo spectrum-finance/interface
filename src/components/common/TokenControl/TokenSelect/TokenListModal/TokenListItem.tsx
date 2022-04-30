@@ -6,6 +6,7 @@ import React from 'react';
 import { Box, Flex, Typography } from '../../../../../ergodex-cdk';
 import { useAssetsBalance } from '../../../../../gateway/api/assetBalance';
 import { TokenIcon } from '../../../../TokenIcon/TokenIcon';
+import { Truncate } from '../../../../Truncate/Truncate';
 
 interface TokenListItemProps {
   asset: AssetInfo;
@@ -29,13 +30,7 @@ const TokenListItem: React.FC<TokenListItemProps> = ({ asset, onClick }) => {
         <Box className="token-item__box" padding={0} bordered={false}>
           <Box className="token-item__box-left" padding={0} bordered={false}>
             <Typography.Text className="token-item__box-left-symbol">
-              {asset.name}
-            </Typography.Text>
-            <Typography.Text
-              className="token-item__box-left-name"
-              type="secondary"
-            >
-              {asset.name}
+              <Truncate>{asset.name}</Truncate>
             </Typography.Text>
           </Box>
         </Box>
