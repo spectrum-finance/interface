@@ -7,6 +7,7 @@ import { AmmPool } from '../../../common/models/AmmPool';
 import { DataTag } from '../../../components/common/DataTag/DataTag';
 import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
 import { TokenIconPair } from '../../../components/TokenIconPair/TokenIconPair';
+import { Truncate } from '../../../components/Truncate/Truncate';
 import { VerificationMark } from '../../../components/VerificationMark/VerificationMark';
 import {
   Animation,
@@ -78,7 +79,8 @@ const _PoolSelector: FC<PoolSelectorProps> = ({
                     </Flex.Item>
                     <Flex.Item marginRight={2}>
                       <Typography.Body strong>
-                        {value.x.asset.name}/{value.y.asset.name}
+                        <Truncate>{value.x.asset.name}</Truncate>/
+                        <Truncate>{value.y.asset.name}</Truncate>
                       </Typography.Body>
                     </Flex.Item>
                     {value.verified && (

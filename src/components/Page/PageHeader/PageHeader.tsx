@@ -4,6 +4,7 @@ import { Position } from '../../../common/models/Position';
 import { Flex, Typography } from '../../../ergodex-cdk';
 import { OptionsButton } from '../../common/OptionsButton/OptionsButton';
 import { TokenIconPair } from '../../TokenIconPair/TokenIconPair';
+import { Truncate } from '../../Truncate/Truncate';
 import { VerificationMark } from '../../VerificationMark/VerificationMark';
 interface FormHeaderProps {
   position: Position;
@@ -29,7 +30,8 @@ const PageHeader: React.FC<FormHeaderProps> = ({
         </Flex.Item>
         <Flex.Item marginRight={2}>
           <Typography.Title level={4}>
-            {position.availableX.asset.name} / {position.availableY.asset.name}
+            <Truncate>{position.availableX.asset.name}</Truncate> /{' '}
+            <Truncate>{position.availableY.asset.name}</Truncate>
           </Typography.Title>
         </Flex.Item>
         {position.verified && (

@@ -105,8 +105,8 @@ export const PoolOverview: React.FC = () => {
             <Flex.Item marginBottom={4}>
               <Alert
                 type="error"
-                message="This pool has not been verified by the ErgoDEX team"
-                description="The pool may contain fake or scam assets. Only use this pool if you have done your own research."
+                message={t`This pool has not been verified by the ErgoDEX team`}
+                description={t`The pool may contain fake or scam assets. Only use this pool if you have done your own research.`}
               />
             </Flex.Item>
           )}

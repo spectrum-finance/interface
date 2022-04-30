@@ -15,6 +15,7 @@ import {
   useFormContext,
 } from '../../../ergodex-cdk';
 import { useAssetsBalance } from '../../../gateway/api/assetBalance';
+import { Truncate } from '../../Truncate/Truncate';
 import {
   TokenAmountInput,
   TokenAmountInputValue,
@@ -166,9 +167,10 @@ export const TokenControlFormItem: FC<NewTokenControlProps> = ({
                   <>
                     <Flex.Item marginRight={2}>
                       <Typography.Body>
-                        {t`Balance: ${balance
-                          .get(selectedAsset)
-                          .toCurrencyString()}`}
+                        {t`Balance: ${balance.get(selectedAsset).toString()}`}{' '}
+                        <Truncate limit={10}>
+                          {balance.get(selectedAsset).asset.name}
+                        </Truncate>
                       </Typography.Body>
                     </Flex.Item>
                     {!!balance.get(selectedAsset) && maxButton && (

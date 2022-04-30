@@ -4,6 +4,7 @@ import { Currency } from '../../../../common/models/Currency';
 import { Flex, Typography } from '../../../../ergodex-cdk';
 import { PageSection } from '../../../Page/PageSection/PageSection';
 import { TokenIcon } from '../../../TokenIcon/TokenIcon';
+import { Truncate } from '../../../Truncate/Truncate';
 
 interface PairSpaceProps {
   readonly title: string;
@@ -12,6 +13,8 @@ interface PairSpaceProps {
   readonly fees?: boolean;
   readonly children?: ReactNode | ReactNode[];
 }
+
+const TOKEN_NAME_SYMBOLS_LIMIT = 15;
 
 const FormPairSection: React.FC<PairSpaceProps> = ({
   title,
@@ -31,7 +34,11 @@ const FormPairSection: React.FC<PairSpaceProps> = ({
                   <TokenIcon asset={xAmount.asset} />
                 </Flex.Item>
                 <Flex.Item>
-                  <Typography.Body strong>{xAmount.asset.name}</Typography.Body>
+                  <Typography.Body strong>
+                    <Truncate limit={TOKEN_NAME_SYMBOLS_LIMIT}>
+                      {xAmount.asset.name}
+                    </Truncate>
+                  </Typography.Body>
                 </Flex.Item>
               </Flex>
             </Flex.Item>
@@ -52,7 +59,11 @@ const FormPairSection: React.FC<PairSpaceProps> = ({
                   <TokenIcon asset={yAmount.asset} />
                 </Flex.Item>
                 <Flex.Item>
-                  <Typography.Body strong>{yAmount.asset.name}</Typography.Body>
+                  <Typography.Body strong>
+                    <Truncate limit={TOKEN_NAME_SYMBOLS_LIMIT}>
+                      {yAmount.asset.name}
+                    </Truncate>
+                  </Typography.Body>
                 </Flex.Item>
               </Flex>
             </Flex.Item>
