@@ -1,4 +1,6 @@
 import {
+  AdaAssetName,
+  AdaPolicyId,
   AmmPool as CardanoBaseAmmPool,
   AssetAmount,
   AssetClass,
@@ -12,11 +14,12 @@ import { AssetInfo } from '../../../../common/models/AssetInfo';
 import { Currency } from '../../../../common/models/Currency';
 import { AnalyticsData } from '../../../../services/new/analytics';
 import { CardanoAssetInfo } from '../common/cardanoAssetInfo/mocks';
+import { networkAsset } from '../networkAsset/networkAsset';
 
 export interface AssetInfoDictionary {
-  readonly lp?: CardanoAssetInfo;
-  readonly x?: CardanoAssetInfo;
-  readonly y?: CardanoAssetInfo;
+  readonly lp?: AssetInfo;
+  readonly x?: AssetInfo;
+  readonly y?: AssetInfo;
 }
 
 export class CardanoAmmPool extends AmmPool {
@@ -89,40 +92,31 @@ export class CardanoAmmPool extends AmmPool {
       return undefined;
     }
     const assetSubject = mkSubject(asset);
-    let assetInfo: CardanoAssetInfo | undefined;
+    let assetInfo: AssetInfo | undefined;
 
-    if (assetSubject === this.assetInfoDictionary.x?.subject) {
+    if (assetSubject === this.assetInfoDictionary.x?.id) {
       assetInfo = this.assetInfoDictionary.x;
     }
-    if (assetSubject === this.assetInfoDictionary.y?.subject) {
+    if (assetSubject === this.assetInfoDictionary.y?.id) {
       assetInfo = this.assetInfoDictionary.y;
     }
-    if (assetSubject === this.assetInfoDictionary.lp?.subject) {
+    if (assetSubject === this.assetInfoDictionary.lp?.id) {
       assetInfo = this.assetInfoDictionary.lp;
+    }
+
+    if (asset.name === AdaAssetName && asset.policyId === AdaPolicyId) {
+      return { ...networkAsset, data: asset };
     }
 
     return {
       name: asset.name,
-      id: assetInfo?.subject || mkSubject(asset),
-      decimals: assetInfo?.decimals.value || 0,
+      id: assetInfo?.id || mkSubject(asset),
+      decimals: assetInfo?.decimals || 0,
       data: asset,
     };
   }
 
   private toAssetClass(asset: AssetInfo<AssetClass>): AssetClass {
-    const assetSubject = asset.id;
-    let assetInfo: CardanoAssetInfo | undefined;
-
-    if (assetSubject === this.assetInfoDictionary.x?.subject) {
-      assetInfo = this.assetInfoDictionary.x;
-    }
-    if (assetSubject === this.assetInfoDictionary.y?.subject) {
-      assetInfo = this.assetInfoDictionary.y;
-    }
-    if (assetSubject === this.assetInfoDictionary.lp?.subject) {
-      assetInfo = this.assetInfoDictionary.lp;
-    }
-
     return asset.data!;
   }
 
