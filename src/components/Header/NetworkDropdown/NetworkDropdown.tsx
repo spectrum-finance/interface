@@ -5,7 +5,6 @@ import cn from 'classnames';
 import capitalize from 'lodash/capitalize';
 import React from 'react';
 
-import { useSettings } from '../../../context';
 import {
   Button,
   DownOutlined,
@@ -30,7 +29,6 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
   disabled,
 }) => {
   const [selectedNetwork] = useSelectedNetwork();
-  const [settings, setSettings] = useSettings();
 
   const overlay = (
     <Menu
