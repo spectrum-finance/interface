@@ -6,6 +6,7 @@ import { AmmPool } from '../../../../../../common/models/AmmPool';
 import { DataTag } from '../../../../../../components/common/DataTag/DataTag';
 import { ListItemWrapper } from '../../../../../../components/ListItemWrapper/ListItemWrapper';
 import { TokenIconPair } from '../../../../../../components/TokenIconPair/TokenIconPair';
+import { Truncate } from '../../../../../../components/Truncate/Truncate';
 import { VerificationMark } from '../../../../../../components/VerificationMark/VerificationMark';
 import { Flex, Typography } from '../../../../../../ergodex-cdk';
 
@@ -33,9 +34,10 @@ const LiquidityPositionsItemWrapper: React.FC<LiquidityPositionsItemWrapperProps
                       />
                     </Flex.Item>
                     <Flex.Item>
-                      <Typography.Title
-                        level={5}
-                      >{`${pool.x.asset.name} / ${pool.y.asset.name}`}</Typography.Title>
+                      <Typography.Title level={5}>
+                        <Truncate>{pool.x.asset.name}</Truncate>/
+                        <Truncate>{pool.y.asset.name}</Truncate>
+                      </Typography.Title>
                     </Flex.Item>
                     {pool.verified && (
                       <Flex.Item marginLeft={1} align="center">
@@ -49,17 +51,25 @@ const LiquidityPositionsItemWrapper: React.FC<LiquidityPositionsItemWrapperProps
                     <Flex.Item marginRight={1}>
                       <DataTag
                         size="small"
-                        content={`${pool.x.asset.name} / ${
-                          pool.y.asset.name
-                        }: ${pool.xRatio.toString()}`}
+                        content={
+                          <>
+                            <Truncate>{pool.x.asset.name}</Truncate>/
+                            <Truncate>{pool.y.asset.name}</Truncate>:{' '}
+                            {pool.xRatio.toString()}
+                          </>
+                        }
                       />
                     </Flex.Item>
                     <Flex.Item>
                       <DataTag
                         size="small"
-                        content={`${pool.y.asset.name} / ${
-                          pool.x.asset.name
-                        }: ${pool.yRatio.toString()}`}
+                        content={
+                          <>
+                            <Truncate>{pool.y.asset.name}</Truncate>/
+                            <Truncate>{pool.x.asset.name}</Truncate>:{' '}
+                            {pool.yRatio.toString()}
+                          </>
+                        }
                       />
                     </Flex.Item>
                   </Flex>
