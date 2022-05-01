@@ -24,9 +24,6 @@ export const WalletModal: React.FC = () => {
     <>
       <Modal.Title>
         <Trans>Wallet</Trans>
-        <Typography.Paragraph>
-          <Trans>Ergo network</Trans>
-        </Typography.Paragraph>
       </Modal.Title>
       <Modal.Content width={470}>
         <Flex col>

@@ -13,6 +13,7 @@ import {
   openConfirmationModal,
   Operation,
 } from '../../../components/ConfirmationModal/ConfirmationModal';
+import { IsErgo } from '../../../components/IsErgo/IsErgo';
 import {
   OperationForm,
   OperationValidator,
@@ -372,11 +373,13 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
                   )}
                 </Form.Item>
               </Flex.Item>
-              <Button
-                size="large"
-                onClick={onNewPoolButtonClick}
-                icon={<PlusOutlined style={{ fontSize: 20 }} />}
-              />
+              <IsErgo>
+                <Button
+                  size="large"
+                  onClick={onNewPoolButtonClick}
+                  icon={<PlusOutlined style={{ fontSize: 20 }} />}
+                />
+              </IsErgo>
             </Flex>
           </Section>
         </Flex.Item>

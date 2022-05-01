@@ -7,6 +7,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { useObservable } from '../../common/hooks/useObservable';
 import { AmmPool } from '../../common/models/AmmPool';
 import { ConnectWalletButton } from '../../components/common/ConnectWalletButton/ConnectWalletButton';
+import { IsErgo } from '../../components/IsErgo/IsErgo';
 import { Page } from '../../components/Page/Page';
 import {
   Button,
@@ -22,6 +23,7 @@ import { ammPools$ } from '../../gateway/api/ammPools';
 import { useAssetsBalance } from '../../gateway/api/assetBalance';
 import { positions$ } from '../../gateway/api/positions';
 import { isWalletSetuped$ } from '../../gateway/api/wallets';
+import { useSelectedNetwork } from '../../gateway/common/network';
 import { useQuery } from '../../hooks/useQuery';
 import { EmptyPositionsList } from './common/EmptyPositionsList/EmptyPositionsList';
 import { LiquidityPositionsList } from './components/LiquidityPositionsList/LiquidityPositionsList';
@@ -82,6 +84,7 @@ const PoolPageWrapper: React.FC<PoolPageWrapperProps> = ({
 const Liquidity = (): JSX.Element => {
   const [isWalletConnected] = useObservable(isWalletSetuped$, [], false);
   const [, isBalanceLoading] = useAssetsBalance();
+  const [selectedNetwork] = useSelectedNetwork();
   const history = useHistory();
   const query = useQuery();
   const [term, setTerm] = useState<string | undefined>();
@@ -89,6 +92,10 @@ const Liquidity = (): JSX.Element => {
     useState<boolean>(false);
 
   const defaultActiveTabKey = 'positions-overview';
+
+  useEffect(() => {
+    setIsCommunityPoolsShown(selectedNetwork.name === 'cardano');
+  }, [selectedNetwork]);
 
   useEffect(() => {
     history.push(`/pool?active=${query.active ?? defaultActiveTabKey}`);
@@ -180,13 +187,15 @@ const Liquidity = (): JSX.Element => {
           </Tabs.TabPane>
         )}
       </Tabs>
-      {isCurrentTabDefault && (
-        <Flex justify="center" align="center">
-          <Button size="large" type="link" onClick={handleShowCommunityPools}>
-            {t`${isCommunityPoolsShown ? 'Hide' : 'Show'} Community Pools`}
-          </Button>
-        </Flex>
-      )}
+      <IsErgo>
+        {isCurrentTabDefault && (
+          <Flex justify="center" align="center">
+            <Button size="large" type="link" onClick={handleShowCommunityPools}>
+              {t`${isCommunityPoolsShown ? 'Hide' : 'Show'} Community Pools`}
+            </Button>
+          </Flex>
+        )}
+      </IsErgo>
     </PoolPageWrapper>
   );
 };

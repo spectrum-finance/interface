@@ -41,7 +41,7 @@ export class CardanoAmmPool extends AmmPool {
   }
 
   get verified(): boolean {
-    return true;
+    return false;
   }
 
   @cache
