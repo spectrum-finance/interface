@@ -4,6 +4,7 @@ import { AmmPool } from '../common/models/AmmPool';
 import { Currency } from '../common/models/Currency';
 
 const MIN_ERG_BALANCE_TO_PAY_FEES = 0.1;
+const MIN_ADA_BALANCE_TO_PAY_FEES = 0.5;
 
 export const calculateAvailableAmount = (
   tokenId: string,
@@ -43,6 +44,11 @@ export const getBaseInputParameters = (
   };
 };
 
-export const isLowBalance = (balance: number): boolean => {
-  return balance <= MIN_ERG_BALANCE_TO_PAY_FEES;
+export const isLowBalance = (balance: number, network?: string): boolean => {
+  switch (network) {
+    case 'cardano':
+      return balance <= MIN_ADA_BALANCE_TO_PAY_FEES;
+    default:
+      return balance <= MIN_ERG_BALANCE_TO_PAY_FEES;
+  }
 };
