@@ -40,7 +40,7 @@ export const applicationConfig: ApplicationConfig = {
   requestRetryCount: 3,
   networksSettings: {
     cardano: {
-      metadataUrl: 'http://176.9.9.198:8080/metadata',
+      metadataUrl: 'https://meta.ergodex.io/metadata',
       networkUrl: 'https://testnet-api.quickblue.io/v1',
       explorerUrl: 'https://testnet.cardanoscan.io',
       faucet: 'https://faucet.ergodex.io/v1/',
