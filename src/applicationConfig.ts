@@ -1,3 +1,4 @@
+import { mkSubject } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/assetClass';
 import { DateTime } from 'luxon';
 
 import { Dictionary } from './common/utils/Dictionary';
@@ -14,6 +15,7 @@ interface NetworkConfig {
   readonly analyticUrl?: string;
   readonly metadataUrl: string;
   readonly faucet?: string;
+  readonly lowBalanceGuide?: string;
 }
 
 interface ApplicationConfig {
@@ -44,6 +46,7 @@ export const applicationConfig: ApplicationConfig = {
       networkUrl: 'https://testnet-api.quickblue.io/v1',
       explorerUrl: 'https://testnet.cardanoscan.io',
       faucet: 'https://faucet.ergodex.io/v1/',
+      lowBalanceGuide: '',
     },
     ergo: {
       metadataUrl:
@@ -51,6 +54,8 @@ export const applicationConfig: ApplicationConfig = {
       networkUrl: 'https://api.ergoplatform.com',
       explorerUrl: 'https://explorer.ergoplatform.com',
       analyticUrl: 'https://api.ergodex.io/v1/',
+      lowBalanceGuide:
+        'https://docs.ergodex.io/docs/user-guides/quick-start#3-get-assets',
     },
   },
   social: {
@@ -65,12 +70,17 @@ export const applicationConfig: ApplicationConfig = {
     telegram: 'https://t.me/ergodex_community',
   },
   applicationTick: 10 * 1000,
-  hiddenAssets: [],
+  hiddenAssets: ['ergoTestTokenA', 'ergoTestTokenB'],
   blacklistedPools: [
     'bee300e9c81e48d7ab5fc29294c7bbb536cf9dcd9c91ee3be9898faec91b11b6',
     '4e497db00769f6402580c351c092ec6ae0306f08575c7a9c719267c84049c840',
     '61a579c46d92f2718576fc9839a2a1983f172e889ec234af8504b5bbf10edd89',
     'e24d17f85ac406827b0436a648f3960d8965e677700949ff28ab0ca9a37dd50e',
+    '805fe1efcdea11f1e959eff4f422f118aa76dca2d0d797d184e487da',
+    mkSubject({
+      policyId: '805fe1efcdea11f1e959eff4f422f118aa76dca2d0d797d184e487da',
+      name: '321ergoTestNFT321',
+    }),
   ],
   operationsRestrictions: [
     {

@@ -2,9 +2,10 @@ import { Trans } from '@lingui/macro';
 import React from 'react';
 
 import { useObservable } from '../../common/hooks/useObservable';
-import { Box, Button, Flex, Modal, Typography } from '../../ergodex-cdk';
+import { Box, Button, Flex, Modal } from '../../ergodex-cdk';
 import { Tabs } from '../../ergodex-cdk/components/Tabs/Tabs';
 import { networkAssetBalance$ } from '../../gateway/api/networkAssetBalance';
+import { useSelectedNetwork } from '../../gateway/common/network';
 import { isLowBalance } from '../../utils/walletMath';
 import { ChooseWalletModal } from '../common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal';
 import { AddressesTab } from './AddressesTab/AddressesTab';
@@ -15,6 +16,7 @@ import { WalletTotalBalance } from './WalletTotalBalance/WalletTotalBalance';
 
 export const WalletModal: React.FC = () => {
   const [networkAssetBalance] = useObservable(networkAssetBalance$);
+  const [network] = useSelectedNetwork();
 
   const openChooseWalletModal = (): void => {
     Modal.open(({ close }) => <ChooseWalletModal close={close} />);
@@ -30,9 +32,9 @@ export const WalletModal: React.FC = () => {
           <Flex.Item marginBottom={4}>
             <WalletTotalBalance balance={networkAssetBalance} />
           </Flex.Item>
-          {isLowBalance(Number(networkAssetBalance)) && (
+          {isLowBalance(Number(networkAssetBalance), network.name) && (
             <Flex.Item marginBottom={4}>
-              <LowBalanceWarning />
+              <LowBalanceWarning network={network} />
             </Flex.Item>
           )}
           <Flex.Item marginBottom={6}>

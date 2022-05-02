@@ -21,7 +21,6 @@ import { NetworkDropdown } from './NetworkDropdown/NetworkDropdown';
 
 export const Header: React.FC = () => {
   const [settings] = useObservable(settings$);
-  // TODO: Update with rx [EDEX-487]
   const [balance, isBalanceLoading] = useAssetsBalance();
   const [networkAsset] = useNetworkAsset();
   const [walletState] = useObservable(selectedWalletState$);

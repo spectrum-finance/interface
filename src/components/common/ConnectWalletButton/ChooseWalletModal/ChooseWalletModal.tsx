@@ -193,6 +193,7 @@ const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
               icon={<LogoutOutlined />}
               onClick={handleDisconnectWalletClick}
             >
+              {' '}
               <Trans>Disconnect wallet</Trans>
             </Button>
           )}

@@ -34,6 +34,7 @@ interface PoolPageWrapperProps {
   isWalletConnected: boolean;
   onClick: () => void;
   isCurrentTabDefault: boolean;
+  isCardano: boolean;
 }
 
 const PoolPageWrapper: React.FC<PoolPageWrapperProps> = ({
@@ -41,6 +42,7 @@ const PoolPageWrapper: React.FC<PoolPageWrapperProps> = ({
   isWalletConnected,
   onClick,
   isCurrentTabDefault,
+  isCardano,
 }) => {
   return (
     <Flex col>
@@ -48,7 +50,7 @@ const PoolPageWrapper: React.FC<PoolPageWrapperProps> = ({
         <Page
           width={832}
           title={<Trans>Liquidity</Trans>}
-          padding={isCurrentTabDefault ? [6, 6, 2, 6] : [6, 6]}
+          padding={isCurrentTabDefault && !isCardano ? [6, 6, 2, 6] : [6, 6]}
           titleChildren={
             isWalletConnected && (
               <>
@@ -132,6 +134,7 @@ const Liquidity = (): JSX.Element => {
       isWalletConnected={isWalletConnected}
       onClick={handleAddLiquidity}
       isCurrentTabDefault={isCurrentTabDefault}
+      isCardano={isCommunityPoolsShown}
     >
       <Tabs
         tabBarExtraContent={{
