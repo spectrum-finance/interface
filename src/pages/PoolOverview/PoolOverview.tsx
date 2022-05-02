@@ -22,6 +22,7 @@ import {
   Typography,
 } from '../../ergodex-cdk';
 import { getPositionByAmmPoolId } from '../../gateway/api/positions';
+import { useSelectedNetwork } from '../../gateway/common/network';
 import { getAmmPoolConfidenceAnalyticByAmmPoolId } from './AmmPoolConfidenceAnalytic';
 import { LockLiquidityChart } from './LockLiquidityChart/LockLiquidityChart';
 import { PoolFeeTag } from './PoolFeeTag/PoolFeeTag';
@@ -36,6 +37,7 @@ const MIN_RELEVANT_LOCKS_PCT = 1;
 export const PoolOverview: React.FC = () => {
   const history = useHistory();
   const { poolId } = useParams<URLParamTypes>();
+  const [selectedNetwork] = useSelectedNetwork();
   const [position, updatePosition] = useSubject(getPositionByAmmPoolId, []);
   const [poolConfidenceAnalytic, updatePoolConfidenceAnalytic] = useSubject(
     getAmmPoolConfidenceAnalyticByAmmPoolId,
@@ -67,35 +69,37 @@ export const PoolOverview: React.FC = () => {
               position={position}
               actionsMenuWidth={180}
               actionsMenu={
-                <Menu.ItemGroup title={t`Liquidity Locker`}>
-                  <Menu.Item
-                    disabled={position.empty}
-                    icon={<LockOutlined />}
-                    onClick={handleLockLiquidity}
-                  >
-                    <a>
-                      <Trans>Lock liquidity</Trans>
-                    </a>
-                  </Menu.Item>
-                  <Menu.Item
-                    disabled={position.locks.length === 0}
-                    icon={<RelockIcon />}
-                    onClick={handleRelockLiquidity}
-                  >
-                    <a>
-                      <Trans>Relock liquidity</Trans>
-                    </a>
-                  </Menu.Item>
-                  <Menu.Item
-                    disabled={position.locks.length === 0}
-                    icon={<WithdrawalIcon />}
-                    onClick={handleWithdrawalLiquidity}
-                  >
-                    <a>
-                      <Trans>Withdrawal</Trans>
-                    </a>
-                  </Menu.Item>
-                </Menu.ItemGroup>
+                selectedNetwork.name !== 'cardano' && (
+                  <Menu.ItemGroup title={t`Liquidity Locker`}>
+                    <Menu.Item
+                      disabled={position.empty}
+                      icon={<LockOutlined />}
+                      onClick={handleLockLiquidity}
+                    >
+                      <a>
+                        <Trans>Lock liquidity</Trans>
+                      </a>
+                    </Menu.Item>
+                    <Menu.Item
+                      disabled={position.locks.length === 0}
+                      icon={<RelockIcon />}
+                      onClick={handleRelockLiquidity}
+                    >
+                      <a>
+                        <Trans>Relock liquidity</Trans>
+                      </a>
+                    </Menu.Item>
+                    <Menu.Item
+                      disabled={position.locks.length === 0}
+                      icon={<WithdrawalIcon />}
+                      onClick={handleWithdrawalLiquidity}
+                    >
+                      <a>
+                        <Trans>Withdrawal</Trans>
+                      </a>
+                    </Menu.Item>
+                  </Menu.ItemGroup>
+                )
               }
             >
               <PoolFeeTag ammPool={position.pool} />
@@ -105,8 +109,8 @@ export const PoolOverview: React.FC = () => {
             <Flex.Item marginBottom={4}>
               <Alert
                 type="error"
-                message="This pool has not been verified by the ErgoDEX team"
-                description="The pool may contain fake or scam assets. Only use this pool if you have done your own research."
+                message={t`This pool has not been verified by the ErgoDEX team`}
+                description={t`The pool may contain fake or scam assets. Only use this pool if you have done your own research.`}
               />
             </Flex.Item>
           )}

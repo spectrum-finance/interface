@@ -12,6 +12,7 @@ import { settings$ } from '../../gateway/settings/settings';
 import { WalletState } from '../../network/common/Wallet';
 import { AppLogo } from '../common/AppLogo/AppLogo';
 import { TxHistory } from '../common/TxHistory/TxHistory';
+import { IsErgo } from '../IsErgo/IsErgo';
 import { Analytics } from './Analytics/Analytics';
 import { BurgerMenu } from './BurgerMenu/BurgerMenu';
 import { ConnectWallet } from './ConnectWallet/ConnectWallet';
@@ -51,7 +52,9 @@ export const Header: React.FC = () => {
           {isBrowser && (
             <>
               <Navigation />
-              <Analytics />
+              <IsErgo>
+                <Analytics />
+              </IsErgo>
             </>
           )}
         </div>
@@ -66,7 +69,9 @@ export const Header: React.FC = () => {
                   isBalanceLoading ? undefined : balance.get(networkAsset)
                 }
               />
-              {walletState === WalletState.CONNECTED && <TxHistory />}
+              <IsErgo>
+                {walletState === WalletState.CONNECTED && <TxHistory />}
+              </IsErgo>
             </>
           )}
           <BurgerMenu />

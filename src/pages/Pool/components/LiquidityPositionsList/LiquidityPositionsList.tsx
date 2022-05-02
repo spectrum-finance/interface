@@ -50,6 +50,7 @@ const LiquidityPositionsList: FC<LiquidityPositionsListProps> = ({
           onClick={handleAddLiquidity}
           icon={<PlusOutlined />}
         >
+          {' '}
           <Trans>Add Liquidity</Trans>
         </Button>
       </EmptyPositionsList>

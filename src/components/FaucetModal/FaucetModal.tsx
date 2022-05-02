@@ -11,6 +11,7 @@ import {
   Flex,
   Menu,
   Modal,
+  Typography,
 } from '../../ergodex-cdk';
 import {
   getAvailableTestnetTokensList,
@@ -64,6 +65,27 @@ const FaucetModal: React.FC<FaucetModalProps> = ({ close }) => {
       <Modal.Content width={470}>
         <Flex col>
           <Flex.Item marginBottom={2}>
+            <Typography.Body>
+              <Trans>
+                To get testnet ADA coins (tADA) go to the official{' '}
+                <Typography.Link
+                  href="https://testnets.cardano.org/en/testnets/cardano/tools/faucet/"
+                  target="_black"
+                >
+                  Cardano Faucet
+                </Typography.Link>
+              </Trans>
+            </Typography.Body>
+          </Flex.Item>
+          <Flex.Item marginBottom={2}>
+            <Typography.Body>
+              <Trans>
+                To get ErgoDEX testnet tokens select a token that you want to
+                receive and press &quot;Get testnet token&quot; button
+              </Trans>
+            </Typography.Body>
+          </Flex.Item>
+          <Flex.Item marginBottom={2}>
             {availableTestnetTokens && activeToken && (
               <Dropdown
                 overlay={
@@ -110,7 +132,7 @@ const FaucetModal: React.FC<FaucetModalProps> = ({ close }) => {
           </Flex.Item>
           <Flex.Item>
             <Button onClick={getTokens} type="primary" block size="extra-large">
-              <Trans>Get testnet tokens</Trans>
+              <Trans>Get testnet token</Trans>
             </Button>
           </Flex.Item>
         </Flex>

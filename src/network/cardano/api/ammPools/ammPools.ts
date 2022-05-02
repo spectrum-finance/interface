@@ -18,7 +18,7 @@ import {
   switchMap,
 } from 'rxjs';
 
-import { getCardanoAssetInfo } from '../common/cardanoAssetInfo/getCardanoAssetInfo';
+import { mapAssetClassToAssetInfo } from '../common/cardanoAssetInfo/getCardanoAssetInfo';
 import { CardanoAmmPool } from './CardanoAmmPool';
 
 const req = RustModule.load().then((wasm) => {
@@ -41,7 +41,7 @@ export const ammPools$ = from(req).pipe(
       pools.map((p) =>
         combineLatest(
           [p.lp.asset, p.x.asset, p.y.asset].map((asset) =>
-            getCardanoAssetInfo(asset),
+            mapAssetClassToAssetInfo(asset),
           ),
         ).pipe(map(([lp, x, y]) => new CardanoAmmPool(p, { lp, x, y }))),
       ),

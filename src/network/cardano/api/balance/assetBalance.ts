@@ -1,4 +1,4 @@
-import { map, Observable, publishReplay, refCount, tap, zip } from 'rxjs';
+import { map, Observable, publishReplay, refCount, zip } from 'rxjs';
 
 import { Balance } from '../../../../common/models/Balance';
 import { ammPools$ } from '../ammPools/ammPools';
@@ -14,7 +14,6 @@ export const assetBalance$: Observable<Balance> = zip([
     );
   }),
   map((data) => new Balance(data)),
-  tap((res) => console.log(res)),
   publishReplay(1),
   refCount(),
 );

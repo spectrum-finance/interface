@@ -8,6 +8,7 @@ import { ERG_DECIMALS, UI_FEE } from '../../../common/constants/erg';
 import { TxId } from '../../../common/types';
 import { TokenControlFormItem } from '../../../components/common/TokenControl/TokenControl';
 import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
+import { Truncate } from '../../../components/Truncate/Truncate';
 import {
   Alert,
   Box,
@@ -169,14 +170,20 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
                       </Flex.Item>
                       <Flex.Item>
                         <Typography.Text>
-                          {operationVars &&
-                            `${renderFractions(
-                              operationVars[1].minOutput.amount,
-                              operationVars[1].minOutput.asset.decimals,
-                            )} - ${renderFractions(
-                              operationVars[1].maxOutput.amount,
-                              operationVars[1].maxOutput.asset.decimals,
-                            )} ${operationVars[1].maxOutput.asset.name}`}
+                          {operationVars && (
+                            <>
+                              {`${renderFractions(
+                                operationVars[1].minOutput.amount,
+                                operationVars[1].minOutput.asset.decimals,
+                              )} - ${renderFractions(
+                                operationVars[1].maxOutput.amount,
+                                operationVars[1].maxOutput.asset.decimals,
+                              )} `}
+                              <Truncate>
+                                {operationVars[1].maxOutput.asset.name}
+                              </Truncate>
+                            </>
+                          )}
                         </Typography.Text>
                       </Flex.Item>
                     </Flex>

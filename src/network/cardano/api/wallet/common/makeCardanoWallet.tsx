@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import {
   decodeAddr,
   decodeWasmUtxo,
@@ -14,6 +15,7 @@ import {
 import { TxOut } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/txOut';
 import { encodeHex } from '@ergolabs/cardano-dex-sdk/build/main/utils/hex';
 import { RustModule } from '@ergolabs/cardano-dex-sdk/build/main/utils/rustLoader';
+import { uniq } from 'lodash';
 import React, { ReactNode } from 'react';
 import {
   catchError,
@@ -21,7 +23,6 @@ import {
   defer,
   from,
   map,
-  mapTo,
   Observable,
   of,
   publishReplay,
@@ -34,6 +35,7 @@ import {
 
 import { AssetInfo } from '../../../../../common/models/AssetInfo';
 import { Address } from '../../../../../common/types';
+import { notification } from '../../../../../ergodex-cdk';
 import {
   WalletDefinition,
   WalletSupportedFeatures,
@@ -80,16 +82,32 @@ export const makeCardanoWallet = ({
     refCount(),
   );
 
+  const assetNetworkId = (networkId: CardanoNetwork): boolean => {
+    if (networkId === CardanoNetwork.TESTNET) {
+      return true;
+    }
+
+    notification.error({
+      message: 'Wallet Network Error',
+      description: (
+        <>
+          To use ErgoDEX in Cardano testnet, adjust your wallet's connection to
+          be for the testnet <a href="">Read guide for {name}</a>
+        </>
+      ),
+    });
+
+    return false;
+  };
+
   const connectWallet = (): Observable<boolean | React.ReactNode> => {
-    if (!cardano || !cardano[variableName]) {
+    if (!cardano || (!!cardano && !cardano[variableName])) {
       return throwError(() => new Error('EXTENSION_NOT_FOUND'));
     }
 
     return ctx$.pipe(
       switchMap((ctx) => from(ctx.getNetworkId())),
-      map((networkId) =>
-        networkId === CardanoNetwork.TESTNET ? true : <div>Error</div>,
-      ),
+      map(assetNetworkId),
       catchError(() => of(false)),
     );
   };
@@ -115,6 +133,7 @@ export const makeCardanoWallet = ({
   const getAddresses = (): Observable<Address[]> => {
     return zip(getUsedAddresses(), getUnusedAddresses()).pipe(
       map(([usedAddrs, unusedAddrs]) => unusedAddrs.concat(usedAddrs)),
+      map(uniq),
     );
   };
 
