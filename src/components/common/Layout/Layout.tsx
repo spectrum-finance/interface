@@ -8,8 +8,10 @@ import { Modal } from '../../../ergodex-cdk';
 import { useSelectedNetwork } from '../../../gateway/common/network';
 import { useBodyClass } from '../../../hooks/useBodyClass';
 import { Header } from '../../Header/Header';
+import { IsCardano } from '../../IsCardano/IsCardano';
 import { NetworkHeight } from '../../NetworkHeight/NetworkHeight';
 import { SocialLinks } from '../../SocialLinks/SocialLinks';
+import { UserButtons } from '../../UserButtons/UserButtons';
 import { KyaModal } from '../KyaModal/KyaModal';
 
 interface Props {
@@ -37,6 +39,9 @@ const Layout = ({ children }: Props): JSX.Element => {
       <main>{children}</main>
       <footer>
         <SocialLinks />
+        <IsCardano>
+          <UserButtons />
+        </IsCardano>
         <NetworkHeight />
       </footer>
     </div>

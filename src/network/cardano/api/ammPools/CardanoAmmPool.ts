@@ -6,7 +6,6 @@ import {
   AssetClass,
 } from '@ergolabs/cardano-dex-sdk';
 import { mkSubject } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/assetClass';
-import { AssetInfo as ErgoAssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import { cache } from 'decorator-cache-getter';
 
 import { AmmPool } from '../../../../common/models/AmmPool';
