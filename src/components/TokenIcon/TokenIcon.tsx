@@ -58,7 +58,10 @@ const TokenIcon: React.FC<TokenIconProps> = ({ asset, size, ...rest }) => {
       ) : (
         <img
           alt="Token Icon"
-          src={`${applicationConfig.networksSettings.ergo.metadataUrl}/light/${iconName}.svg`}
+          src={
+            asset?.icon ||
+            `${applicationConfig.networksSettings.ergo.metadataUrl}/light/${iconName}.svg`
+          }
           onError={handleError}
           width={MAP_SIZE_TO_NUMBER[size || 'medium']}
           height={MAP_SIZE_TO_NUMBER[size || 'medium']}

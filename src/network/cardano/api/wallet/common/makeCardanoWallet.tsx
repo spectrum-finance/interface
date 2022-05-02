@@ -101,7 +101,11 @@ export const makeCardanoWallet = ({
   };
 
   const connectWallet = (): Observable<boolean | React.ReactNode> => {
-    if (!cardano || (!!cardano && !cardano[variableName])) {
+    try {
+      if (!cardano || !cardano[variableName]) {
+        return throwError(() => new Error('EXTENSION_NOT_FOUND'));
+      }
+    } catch {
       return throwError(() => new Error('EXTENSION_NOT_FOUND'));
     }
 

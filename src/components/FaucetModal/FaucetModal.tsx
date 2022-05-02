@@ -34,6 +34,7 @@ const convertAmount = (a: number) => `${evaluate(`${a} / 1000000`)}.00`;
 export const FAUCET_KEY = 'ergodex-faucet-key';
 
 const FaucetModal: React.FC<FaucetModalProps> = ({ close }) => {
+  const [submitting, setSubmitting] = useState<boolean>(false);
   const [availableTestnetTokens] = useObservable(
     getAvailableTestnetTokensList(),
     [],
@@ -48,13 +49,18 @@ const FaucetModal: React.FC<FaucetModalProps> = ({ close }) => {
 
   const getTokens = () => {
     if (activeToken) {
+      setSubmitting(true);
       getTestnetTokens(
         `${activeToken.dripAsset.unAssetClass[0].unCurrencySymbol}.${activeToken.dripAsset.unAssetClass[1].unTokenName}`,
-      ).subscribe(() => {
-        localStorageManager.set(FAUCET_KEY, true);
-      });
+      ).subscribe(
+        () => {
+          localStorageManager.set(FAUCET_KEY, true);
+          setSubmitting(false);
+          close(true);
+        },
+        () => setSubmitting(false),
+      );
     }
-    close(true);
   };
 
   return (
@@ -131,7 +137,13 @@ const FaucetModal: React.FC<FaucetModalProps> = ({ close }) => {
             )}
           </Flex.Item>
           <Flex.Item>
-            <Button onClick={getTokens} type="primary" block size="extra-large">
+            <Button
+              loading={submitting}
+              onClick={getTokens}
+              type="primary"
+              block
+              size="extra-large"
+            >
               <Trans>Get testnet token</Trans>
             </Button>
           </Flex.Item>

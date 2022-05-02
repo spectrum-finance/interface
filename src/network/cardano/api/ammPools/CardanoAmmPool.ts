@@ -112,6 +112,7 @@ export class CardanoAmmPool extends AmmPool {
       name: asset.name,
       id: assetInfo?.id || mkSubject(asset),
       decimals: assetInfo?.decimals || 0,
+      icon: assetInfo?.icon,
       data: asset,
     };
   }
