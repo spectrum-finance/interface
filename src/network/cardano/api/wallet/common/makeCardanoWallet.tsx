@@ -142,12 +142,12 @@ export const makeCardanoWallet = ({
   };
 
   const getBalance = (): Observable<[bigint, AssetInfo][]> => {
-    return zip([
-      ctx$.pipe(switchMap((ctx) => from(ctx.getBalance()))),
-      cardanoWasm$,
-    ]).pipe(
-      map(([hex, wasm]) => decodeWasmValue(hex, wasm)),
+    return ctx$.pipe(
+      switchMap((ctx) => from(ctx.getBalance())),
+      map((hex) => decodeWasmValue(hex, RustModule.CardanoWasm)),
+      tap(console.log, console.log),
       switchMap((value) => toBalance(value)),
+      tap(console.log, console.log),
     );
   };
 
