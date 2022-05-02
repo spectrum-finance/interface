@@ -1,5 +1,4 @@
 import { t } from '@lingui/macro';
-import { notification } from 'antd';
 import React from 'react';
 import styled from 'styled-components';
 

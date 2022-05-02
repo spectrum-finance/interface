@@ -8,6 +8,7 @@ import { Modal } from '../../../ergodex-cdk';
 import { useSelectedNetwork } from '../../../gateway/common/network';
 import { useBodyClass } from '../../../hooks/useBodyClass';
 import { Header } from '../../Header/Header';
+import { IsCardano } from '../../IsCardano/IsCardano';
 import { NetworkHeight } from '../../NetworkHeight/NetworkHeight';
 import { SocialLinks } from '../../SocialLinks/SocialLinks';
 import { UserButtons } from '../../UserButtons/UserButtons';
@@ -38,7 +39,9 @@ const Layout = ({ children }: Props): JSX.Element => {
       <main>{children}</main>
       <footer>
         <SocialLinks />
-        <UserButtons />
+        <IsCardano>
+          <UserButtons />
+        </IsCardano>
         <NetworkHeight />
       </footer>
     </div>
