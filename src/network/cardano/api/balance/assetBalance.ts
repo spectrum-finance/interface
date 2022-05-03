@@ -1,10 +1,17 @@
-import { map, Observable, publishReplay, refCount, zip } from 'rxjs';
+import {
+  combineLatest,
+  map,
+  Observable,
+  publishReplay,
+  refCount,
+  zip,
+} from 'rxjs';
 
 import { Balance } from '../../../../common/models/Balance';
 import { ammPools$ } from '../ammPools/ammPools';
 import { balanceItems$ } from './balance';
 
-export const assetBalance$: Observable<Balance> = zip([
+export const assetBalance$: Observable<Balance> = combineLatest([
   balanceItems$,
   ammPools$,
 ]).pipe(
