@@ -3,7 +3,10 @@ import {
   from,
   map,
   Observable,
+  publishReplay,
+  refCount,
   switchMap,
+  tap,
 } from 'rxjs';
 
 import { appTick$ } from '../../../../common/streams/appTick';
@@ -19,4 +22,6 @@ export const networkContext$: Observable<{
     lastBlockId: Number(ctx.blockNo),
   })),
   distinctUntilKeyChanged('height'),
+  publishReplay(1),
+  refCount(),
 );

@@ -19,21 +19,29 @@ import {
 } from 'rxjs';
 
 import { mapAssetClassToAssetInfo } from '../common/cardanoAssetInfo/getCardanoAssetInfo';
+import { cardanoNetwork } from '../common/cardanoNetwork';
+import { cardanoWasm$ } from '../common/cardanoWasm';
+import { networkContext$ } from '../networkContext/networkContext';
 import { CardanoAmmPool } from './CardanoAmmPool';
 
-const req = RustModule.load().then((wasm) => {
-  const cardanoNetwork = new Quickblue('https://testnet-api.quickblue.io/v1');
-  const poolsParser = mkPoolsParser(wasm);
-  const poolsRepository = mkNetworkPoolsV1(
-    cardanoNetwork,
-    poolsParser,
-    ScriptCredsV1,
+const getPools = () =>
+  cardanoWasm$.pipe(
+    map(() =>
+      mkNetworkPoolsV1(
+        cardanoNetwork,
+        mkPoolsParser(RustModule.CardanoWasm),
+        ScriptCredsV1,
+      ),
+    ),
+    switchMap((poolsRepository) =>
+      from(poolsRepository.getAll({ offset: 0, limit: 100 })),
+    ),
+    publishReplay(1),
+    refCount(),
   );
 
-  return poolsRepository.getAll({ offset: 0, limit: 100 });
-});
-
-export const ammPools$ = from(req).pipe(
+export const ammPools$ = networkContext$.pipe(
+  switchMap(() => getPools()),
   catchError(() => of(undefined)),
   filter(Boolean),
   switchMap(([pools]: [AmmPool[], number]) =>

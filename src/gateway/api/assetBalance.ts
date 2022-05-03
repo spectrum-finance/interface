@@ -5,7 +5,7 @@ import { Balance } from '../../common/models/Balance';
 import { selectedNetwork$ } from '../common/network';
 
 export const assetBalance$ = selectedNetwork$.pipe(
-  switchMap((network) => network.assetBalance$),
+  switchMap((n) => n.assetBalance$),
   publishReplay(1),
   refCount(),
 );
