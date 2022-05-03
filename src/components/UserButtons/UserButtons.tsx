@@ -1,6 +1,5 @@
-import { t, Trans } from '@lingui/macro';
+import { Trans } from '@lingui/macro';
 import React from 'react';
-import styled from 'styled-components';
 
 import {
   Button,
@@ -8,7 +7,6 @@ import {
   Flex,
   MessageOutlined,
   Modal,
-  Tooltip,
 } from '../../ergodex-cdk';
 import { FaucetModal } from '../FaucetModal/FaucetModal';
 
@@ -20,15 +18,15 @@ const FEEDBACK_URL =
   'https://docs.google.com/forms/d/e/1FAIpQLSfTh-mvSY5xAEjvRXml0F0ZK8yHk9ZAQlEhpHNtTomybHIFNw/viewform?usp=sf_link';
 
 export const UserButtons: React.FC<UserButtonsProps> = ({ className }) => {
-  const openFaucetModal = () => {
+  const openFaucetModal = () =>
     Modal.open(({ close }) => <FaucetModal close={close} />);
-  };
 
   return (
     <Flex className={className}>
       <Flex.Item marginRight={2}>
         <Button
           block
+          size="large"
           type="primary"
           style={{ height: 40 }}
           onClick={openFaucetModal}
@@ -40,6 +38,7 @@ export const UserButtons: React.FC<UserButtonsProps> = ({ className }) => {
       <Button
         block
         type="primary"
+        size="large"
         style={{ height: 40, lineHeight: '40px' }}
         href={FEEDBACK_URL}
         target="_blank"
