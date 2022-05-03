@@ -2,8 +2,8 @@ import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 
 import { AmmPool } from '../../../../../common/models/AmmPool';
+import { TokenIconPair } from '../../../../../components/AssetIconPair/TokenIconPair';
 import { DataTag } from '../../../../../components/common/DataTag/DataTag';
-import { TokenIconPair } from '../../../../../components/TokenIconPair/TokenIconPair';
 import { Truncate } from '../../../../../components/Truncate/Truncate';
 import { VerificationMark } from '../../../../../components/VerificationMark/VerificationMark';
 import { Flex, Typography } from '../../../../../ergodex-cdk';

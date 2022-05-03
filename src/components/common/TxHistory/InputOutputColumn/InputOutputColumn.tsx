@@ -2,8 +2,8 @@ import React from 'react';
 
 import { Currency } from '../../../../common/models/Currency';
 import { ArrowRightOutlined, Flex, Typography } from '../../../../ergodex-cdk';
-import { TokenIcon } from '../../../TokenIcon/TokenIcon';
-import { TokenIconPair } from '../../../TokenIconPair/TokenIconPair';
+import { AssetIcon } from '../../../AssetIcon/AssetIcon';
+import { TokenIconPair } from '../../../AssetIconPair/TokenIconPair';
 import { OperationType } from '../types';
 
 interface InputOutputColumnProps {
@@ -66,7 +66,7 @@ const InputOutputColumn: React.FC<InputOutputColumnProps> = ({
       <Flex.Item marginRight={2}>
         <Flex align="center">
           <Flex.Item marginRight={1}>
-            <TokenIcon asset={x.asset} />
+            <AssetIcon asset={x.asset} />
           </Flex.Item>
           <Typography.Body strong>{x.asset.name}</Typography.Body>
         </Flex>
@@ -79,7 +79,7 @@ const InputOutputColumn: React.FC<InputOutputColumnProps> = ({
       <Flex.Item>
         <Flex align="center">
           <Flex.Item marginRight={1}>
-            <TokenIcon asset={y.asset} />
+            <AssetIcon asset={y.asset} />
           </Flex.Item>
           <Typography.Body strong>{y.asset.name}</Typography.Body>
         </Flex>

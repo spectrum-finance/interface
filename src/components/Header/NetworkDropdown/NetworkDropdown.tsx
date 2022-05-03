@@ -18,7 +18,7 @@ import {
   networks,
   useSelectedNetwork,
 } from '../../../gateway/common/network';
-import { TokenIcon } from '../../TokenIcon/TokenIcon';
+import { AssetIcon } from '../../AssetIcon/AssetIcon';
 
 interface NetworkDropdownProps {
   onSetNetwork?: (val: string) => void;
@@ -52,7 +52,7 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
                 : ''
             }
           >
-            <TokenIcon asset={network.networkAsset} />
+            <AssetIcon asset={network.networkAsset} />
             <span style={{ marginLeft: '8px' }}>
               {capitalize(network.name)}
             </span>
@@ -78,7 +78,7 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
         type="ghost"
       >
         <Flex justify="center" direction="row" align="center">
-          <TokenIcon asset={selectedNetwork.networkAsset} />
+          <AssetIcon asset={selectedNetwork.networkAsset} />
           <Typography.Text
             className="network-dropdown__btn-text"
             style={{

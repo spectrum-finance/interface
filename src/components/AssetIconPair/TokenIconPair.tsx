@@ -2,7 +2,7 @@ import React from 'react';
 
 import { AssetInfo } from '../../common/models/AssetInfo';
 import { Flex } from '../../ergodex-cdk';
-import { TokenIcon } from '../TokenIcon/TokenIcon';
+import { AssetIcon } from '../AssetIcon/AssetIcon';
 
 export type TokenPair = { tokenA?: string; tokenB?: string };
 
@@ -19,8 +19,8 @@ const TokenIconPair: React.FC<TokenIconPairProps> = ({
 }) => {
   return (
     <Flex align="center">
-      <TokenIcon size={size} asset={assetX} />
-      <TokenIcon
+      <AssetIcon size={size} asset={assetX} />
+      <AssetIcon
         size={size}
         style={{ display: 'flex', marginLeft: '-10px' }}
         asset={assetY}

@@ -2,8 +2,8 @@ import React, { ReactNode } from 'react';
 
 import { Position } from '../../../common/models/Position';
 import { Flex, Typography } from '../../../ergodex-cdk';
+import { TokenIconPair } from '../../AssetIconPair/TokenIconPair';
 import { OptionsButton } from '../../common/OptionsButton/OptionsButton';
-import { TokenIconPair } from '../../TokenIconPair/TokenIconPair';
 import { Truncate } from '../../Truncate/Truncate';
 import { VerificationMark } from '../../VerificationMark/VerificationMark';
 interface FormHeaderProps {

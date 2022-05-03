@@ -2,8 +2,8 @@ import React, { ReactNode } from 'react';
 
 import { Currency } from '../../../../common/models/Currency';
 import { Flex, Typography } from '../../../../ergodex-cdk';
+import { AssetIcon } from '../../../AssetIcon/AssetIcon';
 import { PageSection } from '../../../Page/PageSection/PageSection';
-import { TokenIcon } from '../../../TokenIcon/TokenIcon';
 import { Truncate } from '../../../Truncate/Truncate';
 
 interface PairSpaceProps {
@@ -31,7 +31,7 @@ const FormPairSection: React.FC<PairSpaceProps> = ({
             <Flex.Item>
               <Flex align="center">
                 <Flex.Item marginRight={2}>
-                  <TokenIcon asset={xAmount.asset} />
+                  <AssetIcon asset={xAmount.asset} />
                 </Flex.Item>
                 <Flex.Item>
                   <Typography.Body strong>
@@ -56,7 +56,7 @@ const FormPairSection: React.FC<PairSpaceProps> = ({
             <Flex.Item>
               <Flex>
                 <Flex.Item marginRight={2}>
-                  <TokenIcon asset={yAmount.asset} />
+                  <AssetIcon asset={yAmount.asset} />
                 </Flex.Item>
                 <Flex.Item>
                   <Typography.Body strong>

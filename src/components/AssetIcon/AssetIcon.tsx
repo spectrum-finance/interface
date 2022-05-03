@@ -23,7 +23,7 @@ enum ErrorState {
   ICON_NOT_FOUND,
 }
 
-const TokenIcon: React.FC<TokenIconProps> = ({ asset, size, ...rest }) => {
+const AssetIcon: React.FC<TokenIconProps> = ({ asset, size, ...rest }) => {
   const iconName = asset?.id || 'empty';
   const [errorState, setErrorState] = useState<ErrorState | undefined>(
     undefined,
@@ -71,4 +71,4 @@ const TokenIcon: React.FC<TokenIconProps> = ({ asset, size, ...rest }) => {
   );
 };
 
-export { TokenIcon };
+export { AssetIcon };

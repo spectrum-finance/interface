@@ -12,7 +12,7 @@ import {
   Modal,
   Typography,
 } from '../../../../ergodex-cdk';
-import { TokenIcon } from '../../../TokenIcon/TokenIcon';
+import { AssetIcon } from '../../../AssetIcon/AssetIcon';
 import { Truncate } from '../../../Truncate/Truncate';
 import { TokenListModal } from './TokenListModal/TokenListModal';
 
@@ -70,7 +70,7 @@ const TokenSelect: React.FC<TokenSelectProps> = ({
               alignItems: 'center',
             }}
           >
-            <TokenIcon asset={value} />
+            <AssetIcon asset={value} />
             <Typography.Title level={5} style={{ marginLeft: '8px' }}>
               <Truncate>{value.name}</Truncate>
             </Typography.Title>

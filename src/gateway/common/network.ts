@@ -31,7 +31,8 @@ const updateSelectedNetwork$ = new BehaviorSubject<Network<any, any>>(
 
 export const changeSelectedNetwork = (network: Network<any, any>): void => {
   localStorageManager.set(SELECTED_NETWORK_KEY, network.name);
-  updateSelectedNetwork$.next(network);
+  window.location.reload();
+  // updateSelectedNetwork$.next(network);
 };
 
 export const selectedNetwork$: Observable<Network<any, any>> =
