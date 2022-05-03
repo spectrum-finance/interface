@@ -28,8 +28,8 @@ import {
   publishReplay,
   refCount,
   switchMap,
-  tap,
   throwError,
+  timer,
   zip,
 } from 'rxjs';
 
@@ -101,18 +101,22 @@ export const makeCardanoWallet = ({
   };
 
   const connectWallet = (): Observable<boolean | React.ReactNode> => {
-    try {
-      if (!cardano || !cardano[variableName]) {
-        return throwError(() => new Error('EXTENSION_NOT_FOUND'));
-      }
-    } catch {
-      return throwError(() => new Error('EXTENSION_NOT_FOUND'));
-    }
+    return timer(2000).pipe(
+      switchMap(() => {
+        try {
+          if (!cardano || !cardano[variableName]) {
+            return throwError(() => new Error('EXTENSION_NOT_FOUND'));
+          }
+        } catch (err) {
+          return throwError(() => new Error('EXTENSION_NOT_FOUND'));
+        }
 
-    return ctx$.pipe(
-      switchMap((ctx) => from(ctx.getNetworkId())),
-      map(assetNetworkId),
-      catchError(() => of(false)),
+        return ctx$.pipe(
+          switchMap((ctx) => from(ctx.getNetworkId())),
+          map(assetNetworkId),
+          catchError(() => of(false)),
+        );
+      }),
     );
   };
 
@@ -145,9 +149,7 @@ export const makeCardanoWallet = ({
     return ctx$.pipe(
       switchMap((ctx) => from(ctx.getBalance())),
       map((hex) => decodeWasmValue(hex, RustModule.CardanoWasm)),
-      tap(console.log, console.log),
       switchMap((value) => toBalance(value)),
-      tap(console.log, console.log),
     );
   };
 

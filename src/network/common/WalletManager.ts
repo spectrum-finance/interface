@@ -5,6 +5,8 @@ import {
   map,
   Observable,
   of,
+  publishReplay,
+  refCount,
   startWith,
   switchMap,
   tap,
@@ -106,6 +108,8 @@ export const makeWalletManager = <W extends Wallet>(
       }
       return toWalletContract(ergoWalletDescriptor.name);
     }),
+    publishReplay(1),
+    refCount(),
   );
 
   const selectedWalletState$: Observable<WalletState> = selectedWallet$.pipe(

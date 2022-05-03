@@ -8,7 +8,6 @@ import {
 } from 'rxjs';
 
 import { AssetInfo } from '../../../../common/models/AssetInfo';
-import { Balance } from '../../../../common/models/Balance';
 import { networkContext$ } from '../networkContext/networkContext';
 import { connectedWalletChange$ } from '../wallet/connectedWalletChange';
 
