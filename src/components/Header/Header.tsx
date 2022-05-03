@@ -12,7 +12,9 @@ import { settings$ } from '../../gateway/settings/settings';
 import { WalletState } from '../../network/common/Wallet';
 import { AppLogo } from '../common/AppLogo/AppLogo';
 import { TxHistory } from '../common/TxHistory/TxHistory';
+import { IsCardano } from '../IsCardano/IsCardano';
 import { IsErgo } from '../IsErgo/IsErgo';
+import { UserButtons } from '../UserButtons/UserButtons';
 import { Analytics } from './Analytics/Analytics';
 import { BurgerMenu } from './BurgerMenu/BurgerMenu';
 import { ConnectWallet } from './ConnectWallet/ConnectWallet';
@@ -54,6 +56,9 @@ export const Header: React.FC = () => {
               <IsErgo>
                 <Analytics />
               </IsErgo>
+              <IsCardano>
+                <UserButtons />
+              </IsCardano>
             </>
           )}
         </div>

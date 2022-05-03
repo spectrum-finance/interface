@@ -1,4 +1,4 @@
-import { t } from '@lingui/macro';
+import { t, Trans } from '@lingui/macro';
 import React from 'react';
 import styled from 'styled-components';
 
@@ -19,45 +19,34 @@ interface UserButtonsProps {
 const FEEDBACK_URL =
   'https://docs.google.com/forms/d/e/1FAIpQLSfTh-mvSY5xAEjvRXml0F0ZK8yHk9ZAQlEhpHNtTomybHIFNw/viewform?usp=sf_link';
 
-const _UserButtons: React.FC<UserButtonsProps> = ({ className }) => {
+export const UserButtons: React.FC<UserButtonsProps> = ({ className }) => {
   const openFaucetModal = () => {
     Modal.open(({ close }) => <FaucetModal close={close} />);
   };
 
   return (
-    <Flex col className={className}>
-      <Flex.Item marginBottom={2}>
-        <Tooltip title={t`Get testnet tokens`} placement="left">
-          <Button
-            block
-            type="primary"
-            size="large"
-            onClick={openFaucetModal}
-            icon={<DollarOutlined />}
-          />
-        </Tooltip>
+    <Flex className={className}>
+      <Flex.Item marginRight={2}>
+        <Button
+          block
+          type="primary"
+          style={{ height: 40 }}
+          onClick={openFaucetModal}
+          icon={<DollarOutlined style={{ marginRight: 4 }} />}
+        >
+          <Trans>Get test tokens</Trans>
+        </Button>
       </Flex.Item>
-      <Flex.Item>
-        <Tooltip title={t`Leave feedback`} placement="left">
-          <Button
-            block
-            type="primary"
-            size="large"
-            href={FEEDBACK_URL}
-            target="_blank"
-            icon={<MessageOutlined />}
-          />
-        </Tooltip>
-      </Flex.Item>
+      <Button
+        block
+        type="primary"
+        style={{ height: 40, lineHeight: '40px' }}
+        href={FEEDBACK_URL}
+        target="_blank"
+        icon={<MessageOutlined style={{ marginRight: 4 }} />}
+      >
+        <Trans>Leave feedback</Trans>
+      </Button>
     </Flex>
   );
 };
-
-const UserButtons = styled(_UserButtons)`
-  position: fixed;
-  right: 16px;
-  top: 300px;
-  transform: translate(0, -50%);
-`;
-
-export { UserButtons };
