@@ -54,7 +54,7 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
           >
             <AssetIcon asset={network.networkAsset} />
             <span style={{ marginLeft: '8px' }}>
-              {capitalize(network.name)}
+              {capitalize(network.label)}
             </span>
           </Flex>
         </Menu.Item>
@@ -87,7 +87,7 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
               marginLeft: 'calc(var(--ergo-base-gutter) * 2)',
             }}
           >
-            {capitalize(selectedNetwork.name)}
+            {capitalize(selectedNetwork.label)}
           </Typography.Text>
           <DownOutlined
             style={{

@@ -39,6 +39,7 @@ import { SwapInfoContent } from './widgets/SwapInfoContent/SwapInfoContent';
 
 export const ergoNetwork: Network<ErgoWalletContract, ErgoSettings> = {
   name: 'ergo',
+  label: 'ergo',
   networkAsset,
   initialized$,
   initialize,

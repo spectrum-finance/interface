@@ -38,6 +38,7 @@ import { exploreAddress, exploreLastBlock, exploreTx } from './utils/utils';
 
 export const cardanoNetwork: Network<CardanoWalletContract, CardanoSettings> = {
   name: 'cardano',
+  label: 'cardano (Testnet)',
   networkAsset,
   initialized$,
   initialize,
