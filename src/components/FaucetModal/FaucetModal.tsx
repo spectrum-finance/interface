@@ -1,8 +1,10 @@
+import { LoadingOutlined } from '@ant-design/icons';
 import { Trans } from '@lingui/macro';
 import { evaluate } from 'mathjs';
 import React, { useEffect, useState } from 'react';
 
 import { useObservable } from '../../common/hooks/useObservable';
+import { Currency } from '../../common/models/Currency';
 import { localStorageManager } from '../../common/utils/localStorageManager';
 import {
   Button,
@@ -14,45 +16,31 @@ import {
   Typography,
 } from '../../ergodex-cdk';
 import {
-  getAvailableTestnetTokensList,
-  getTestnetTokens,
+  availableAssets$,
+  requestTestnetAsset,
 } from '../../network/cardano/api/faucet/faucet';
+import { AssetIcon } from '../AssetIcon/AssetIcon';
 
 interface FaucetModalProps {
   close: (result?: boolean) => void;
 }
 
-interface TestToken {
-  dripAmount: number;
-  dripAsset: {
-    unAssetClass: [{ unCurrencySymbol: string }, { unTokenName: string }];
-  };
-}
-
-const convertAmount = (a: number) => `${evaluate(`${a} / 1000000`)}.00`;
-
 export const FAUCET_KEY = 'ergodex-faucet-key';
 
 const FaucetModal: React.FC<FaucetModalProps> = ({ close }) => {
   const [submitting, setSubmitting] = useState<boolean>(false);
-  const [availableTestnetTokens] = useObservable(
-    getAvailableTestnetTokensList(),
-    [],
-  );
-  const [activeToken, setActiveToken] = useState<TestToken>();
-
+  const [availableAssets] = useObservable(availableAssets$);
+  const [activeAsset, setActiveAsset] = useState<Currency>();
   useEffect(() => {
-    if (availableTestnetTokens) {
-      setActiveToken(availableTestnetTokens[0]);
+    if (availableAssets) {
+      setActiveAsset(availableAssets[0]);
     }
-  }, [availableTestnetTokens]);
+  }, [availableAssets]);
 
   const getTokens = () => {
-    if (activeToken) {
+    if (activeAsset) {
       setSubmitting(true);
-      getTestnetTokens(
-        `${activeToken.dripAsset.unAssetClass[0].unCurrencySymbol}.${activeToken.dripAsset.unAssetClass[1].unTokenName}`,
-      ).subscribe(
+      requestTestnetAsset(activeAsset.asset).subscribe(
         () => {
           localStorageManager.set(FAUCET_KEY, true);
           setSubmitting(false);
@@ -91,50 +79,56 @@ const FaucetModal: React.FC<FaucetModalProps> = ({ close }) => {
               </Trans>
             </Typography.Body>
           </Flex.Item>
-          <Flex.Item marginBottom={2}>
-            {availableTestnetTokens && activeToken && (
-              <Dropdown
-                overlay={
-                  <Menu>
-                    {availableTestnetTokens.map(
-                      (token: TestToken, i: number) => {
-                        return (
-                          <Menu.Item
-                            key={i}
-                            onClick={() => setActiveToken(token)}
-                          >
-                            {`${
-                              token.dripAsset.unAssetClass[1].unTokenName
-                            }: ${convertAmount(token.dripAmount)}`}
-                          </Menu.Item>
-                        );
-                      },
-                    )}
-                  </Menu>
-                }
-                trigger={['click']}
+          <Flex.Item marginBottom={4}>
+            <Dropdown
+              overlay={
+                <Menu>
+                  {availableAssets?.map((currency: Currency, i: number) => {
+                    return (
+                      <Menu.Item
+                        key={i}
+                        onClick={() => setActiveAsset(currency)}
+                      >
+                        <Flex>
+                          <Flex.Item marginRight={2}>
+                            <AssetIcon asset={currency.asset} />
+                          </Flex.Item>
+                          {currency.asset.name}: {currency.toString()}
+                        </Flex>
+                      </Menu.Item>
+                    );
+                  })}
+                </Menu>
+              }
+              trigger={availableAssets ? ['click'] : []}
+            >
+              <Button
+                size="large"
+                block
+                style={{ padding: '0 12px', textAlign: 'left' }}
+                disabled
               >
-                <Button
-                  size="large"
-                  block
-                  style={{ padding: '0 12px', textAlign: 'left' }}
-                  disabled
-                >
-                  <Flex justify="space-between">
-                    <Flex.Item marginRight={2} grow>
-                      {`${
-                        activeToken.dripAsset.unAssetClass[1].unTokenName
-                      }: ${convertAmount(activeToken.dripAmount)}`}
-                    </Flex.Item>
-                    <Flex.Item>
-                      <Flex align="center" style={{ height: '100%' }}>
-                        <DownOutlined />
-                      </Flex>
-                    </Flex.Item>
-                  </Flex>
-                </Button>
-              </Dropdown>
-            )}
+                <Flex justify="space-between">
+                  <Flex.Item marginRight={2} grow>
+                    {activeAsset ? (
+                      <>
+                        <Flex.Item marginRight={2}>
+                          <AssetIcon asset={activeAsset.asset} />
+                        </Flex.Item>
+                        {activeAsset.asset.name}: {activeAsset.toString()}
+                      </>
+                    ) : (
+                      <LoadingOutlined />
+                    )}
+                  </Flex.Item>
+                  <Flex.Item>
+                    <Flex align="center" style={{ height: '100%' }}>
+                      <DownOutlined />
+                    </Flex>
+                  </Flex.Item>
+                </Flex>
+              </Button>
+            </Dropdown>
           </Flex.Item>
           <Flex.Item>
             <Button
