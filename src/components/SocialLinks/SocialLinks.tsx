@@ -8,6 +8,8 @@ import { ReactComponent as MediumIcon } from '../../assets/icons/social/Medium.s
 import { ReactComponent as RedditIcon } from '../../assets/icons/social/Reddit.svg';
 import { ReactComponent as TelegramIcon } from '../../assets/icons/social/Telegram.svg';
 import { ReactComponent as TwitterIcon } from '../../assets/icons/social/Twitter.svg';
+import { IsCardano } from '../IsCardano/IsCardano';
+import { LeaveFeedback } from './LeaveFeedback/LeaveFeedback';
 
 const channels = [
   {
@@ -49,6 +51,11 @@ const SocialLinks = (): JSX.Element => {
           </li>
         );
       })}
+      <IsCardano>
+        <li className="social-links__leave-feedback">
+          <LeaveFeedback />
+        </li>
+      </IsCardano>
     </ul>
   );
 };

@@ -14,10 +14,10 @@ import { AppLogo } from '../common/AppLogo/AppLogo';
 import { TxHistory } from '../common/TxHistory/TxHistory';
 import { IsCardano } from '../IsCardano/IsCardano';
 import { IsErgo } from '../IsErgo/IsErgo';
-import { UserButtons } from '../UserButtons/UserButtons';
 import { Analytics } from './Analytics/Analytics';
 import { BurgerMenu } from './BurgerMenu/BurgerMenu';
 import { ConnectWallet } from './ConnectWallet/ConnectWallet';
+import { GetTestTokensButton } from './GetTestTokensButton/GetTestTokensButton';
 import { Navigation } from './Navigation/Navigation';
 import { NetworkDropdown } from './NetworkDropdown/NetworkDropdown';
 
@@ -57,7 +57,7 @@ export const Header: React.FC = () => {
                 <Analytics />
               </IsErgo>
               <IsCardano>
-                <UserButtons />
+                <GetTestTokensButton />
               </IsCardano>
             </>
           )}
