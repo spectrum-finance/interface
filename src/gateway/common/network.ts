@@ -25,6 +25,11 @@ const initialNetwork: Network<any, any> = initialNetworkName
   ? networks.find((n) => n.name === initialNetworkName)!
   : ergoNetwork;
 
+const link = document.querySelector<HTMLLinkElement>("link[rel~='icon']");
+if (link) {
+  link.href = `/favicon-${initialNetwork.name}.svg`;
+}
+
 const updateSelectedNetwork$ = new BehaviorSubject<Network<any, any>>(
   initialNetwork,
 );
