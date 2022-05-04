@@ -21,6 +21,7 @@ export enum Operation {
   LOCK_LIQUIDITY,
   RELOCK_LIQUIDITY,
   WITHDRAWAL_LIQUIDITY,
+  REQUEST_TESTNET_ASSET,
 }
 
 export interface ModalChainingPayload {
