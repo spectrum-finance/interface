@@ -1,1 +1,1 @@
-export const minExecutorReward = 2000000n;
+export const minExecutorReward = 1000000n;
