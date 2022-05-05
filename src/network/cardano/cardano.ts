@@ -12,6 +12,7 @@ import { ammPools$ } from './api/ammPools/ammPools';
 import { assetBalance$ } from './api/balance/assetBalance';
 import { lpBalance$ } from './api/balance/lpBalance';
 import { networkAssetBalance$ } from './api/balance/networkAssetBalance';
+import { txHistory } from './api/history/txHistory';
 import { networkAsset } from './api/networkAsset/networkAsset';
 import { networkContext$ } from './api/networkContext/networkContext';
 import { deposit } from './api/operations/deposit';
@@ -35,6 +36,7 @@ import {
   settings$,
 } from './settings/settings';
 import { exploreAddress, exploreLastBlock, exploreTx } from './utils/utils';
+import { SwapInfoContent } from './widgets/SwapInfoContent/SwapInfoContent';
 
 export const cardanoNetwork: Network<CardanoWalletContract, CardanoSettings> = {
   name: 'cardano',
@@ -64,7 +66,7 @@ export const cardanoNetwork: Network<CardanoWalletContract, CardanoSettings> = {
   settings$,
   setSettings,
 
-  SwapInfoContent: () => null,
+  SwapInfoContent,
 
   exploreTx,
   exploreAddress,
