@@ -9,7 +9,7 @@ export interface LeaveFeedbackProps {
 }
 
 const FEEDBACK_URL =
-  'https://docs.google.com/forms/d/e/1FAIpQLSfTh-mvSY5xAEjvRXml0F0ZK8yHk9ZAQlEhpHNtTomybHIFNw/viewform?usp=sf_link';
+  'https://docs.google.com/forms/d/e/1FAIpQLSfTh-mvSY5xAEjvRXml0F0ZK8yHk9ZAQlEhpHNtTomybHIFNw/viewform';
 
 const _LeaveFeedback: FC<LeaveFeedbackProps> = ({ className }) => (
   <Button
