@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ergodex-frontend\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-04-05 20:08\n"
+"PO-Revision-Date: 2022-04-29 06:19\n"
 "Last-Translator: \n"
 "Language: he_IL\n"
 "Language-Team: Hebrew\n"
@@ -34,7 +34,7 @@ msgstr "- ErgoDEX פועל בבלוקצ'יין \"חי\", לפיכך פעולות
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "- Every transaction can be viewed via"
-msgstr "- ניתן לצפות בכל פעולת מסחר דרך/באמצעות"
+msgstr "- ניתן לצפות בכל פעולת מסחר באמצעות"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
 msgid "0.3% fee"
