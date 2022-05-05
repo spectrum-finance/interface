@@ -6,21 +6,11 @@ import {
   stakeKeyHashFromAddr,
   TxCandidate,
 } from '@ergolabs/cardano-dex-sdk';
-import { PoolId } from '@ergolabs/cardano-dex-sdk/build/main/amm/domain/types';
-import { AmmTxFeeMapping } from '@ergolabs/cardano-dex-sdk/build/main/amm/math/order';
-import { RedeemBudget } from '@ergolabs/cardano-dex-sdk/build/main/amm/math/redeem';
 import { OrderKind } from '@ergolabs/cardano-dex-sdk/build/main/amm/models/opRequests';
 import { OrderAddrsV1Testnet } from '@ergolabs/cardano-dex-sdk/build/main/amm/scripts';
-import { AssetClass } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/assetClass';
 import { NetworkParams } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/env';
-import { PubKeyHash } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/publicKey';
-import { TxOut } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/txOut';
-import { Value } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/value';
-import { Lovelace } from '@ergolabs/cardano-dex-sdk/build/main/cardano/types';
-import { TxMath } from '@ergolabs/cardano-dex-sdk/build/main/cardano/wallet/txMath';
-import { AssetAmount } from '@ergolabs/cardano-dex-sdk/build/main/domain/assetAmount';
 import { RustModule } from '@ergolabs/cardano-dex-sdk/build/main/utils/rustLoader';
-import { first, map, Observable, switchMap, tap, zip } from 'rxjs';
+import { first, map, Observable, switchMap, zip } from 'rxjs';
 
 import { UI_FEE_BIGINT } from '../../../../common/constants/erg';
 import { Currency } from '../../../../common/models/Currency';
@@ -28,7 +18,7 @@ import { TxId } from '../../../../common/types';
 import { CardanoSettings, settings$ } from '../../settings/settings';
 import { CardanoAmmPool } from '../ammPools/CardanoAmmPool';
 import { cardanoNetworkParams$ } from '../common/cardanoNetwork';
-import { getUtxosByAmount, utxos$ } from '../utxos/utxos';
+import { getUtxosByAmount } from '../utxos/utxos';
 import { ammTxFeeMapping } from './common/ammTxFeeMapping';
 import { minExecutorReward } from './common/minExecutorReward';
 import { submitTx } from './common/submitTx';
@@ -90,7 +80,7 @@ const toRedeemTxCandidate = ({
             settings.address!,
             RustModule.CardanoWasm,
           ),
-          exFee: minExecutorReward,
+          exFee: minExecutorReward + ammTxFeeMapping.redeemExecution,
           uiFee: UI_FEE_BIGINT,
           orderValue: redeemBudget,
         },

@@ -84,7 +84,7 @@ const toDepositTxCandidate = ({
             RustModule.CardanoWasm,
           ),
           uiFee: UI_FEE_BIGINT,
-          exFee: minExecutorReward,
+          exFee: minExecutorReward + ammTxFeeMapping.depositExecution,
           orderValue: depositBudget,
           collateralAda: depositCollateral,
         },
