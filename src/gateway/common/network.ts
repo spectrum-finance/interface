@@ -21,7 +21,7 @@ export const networks = [ergoNetwork, cardanoNetwork];
 
 const initialNetworkName =
   localStorageManager.get<string>(SELECTED_NETWORK_KEY);
-const initialNetwork: Network<any, any> = initialNetworkName
+export const initialNetwork: Network<any, any> = initialNetworkName
   ? networks.find((n) => n.name === initialNetworkName)!
   : ergoNetwork;
 
