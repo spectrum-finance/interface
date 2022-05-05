@@ -49,7 +49,7 @@ export const SwapInfoContent: FC<SwapInfoContent> = ({ value }) => {
       </Flex.Item>
       <Flex.Item marginBottom={2}>
         <SwapInfoItem
-          title={t`Minimum received:`}
+          title={t`Minimum receivable:`}
           value={
             minOutput ? (
               <>
@@ -64,7 +64,7 @@ export const SwapInfoContent: FC<SwapInfoContent> = ({ value }) => {
       </Flex.Item>
       <Flex.Item marginBottom={4}>
         <SwapInfoItem
-          title={t`Maximum received:`}
+          title={t`Maximum receivable:`}
           value={
             maxOutput ? (
               <>

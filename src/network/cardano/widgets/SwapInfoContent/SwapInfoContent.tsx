@@ -137,7 +137,7 @@ export const SwapInfoContent: FC<SwapInfoContentProps> = ({ value }) => {
       </Flex.Item>
       <Flex.Item marginBottom={2}>
         <SwapInfoItem
-          title={t`Minimum received:`}
+          title={t`Minimum receivable:`}
           value={
             swapInfo?.minOutput ? (
               <>
@@ -152,7 +152,7 @@ export const SwapInfoContent: FC<SwapInfoContentProps> = ({ value }) => {
       </Flex.Item>
       <Flex.Item marginBottom={4}>
         <SwapInfoItem
-          title={t`Maximum received:`}
+          title={t`Maximum receivable:`}
           value={
             swapInfo?.maxOutput ? (
               <>
