@@ -19,6 +19,7 @@ interface NetworkConfig {
 }
 
 interface ApplicationConfig {
+  readonly reCaptchaKey: string;
   readonly networksSettings: Dictionary<NetworkConfig>;
   readonly social: {
     readonly twitter: string;
@@ -39,6 +40,7 @@ interface ApplicationConfig {
 }
 
 export const applicationConfig: ApplicationConfig = {
+  reCaptchaKey: '6LeUJ8YfAAAAAMYIqGvtOmJGLeJtCSv6FBH_5sA3',
   requestRetryCount: 3,
   networksSettings: {
     cardano: {

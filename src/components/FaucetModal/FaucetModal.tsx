@@ -2,6 +2,8 @@ import { LoadingOutlined } from '@ant-design/icons';
 import { Trans } from '@lingui/macro';
 import { evaluate } from 'mathjs';
 import React, { useEffect, useState } from 'react';
+import { GoogleReCaptcha, useGoogleReCaptcha } from 'react-google-recaptcha-v3';
+import { defer, from, switchMap } from 'rxjs';
 
 import { useObservable } from '../../common/hooks/useObservable';
 import { Currency } from '../../common/models/Currency';
@@ -31,6 +33,7 @@ const FaucetModal: React.FC<FaucetModalProps> = ({ close }) => {
   const [submitting, setSubmitting] = useState<boolean>(false);
   const [availableAssets] = useObservable(availableAssets$);
   const [activeAsset, setActiveAsset] = useState<Currency>();
+  const { executeRecaptcha } = useGoogleReCaptcha();
   useEffect(() => {
     if (availableAssets) {
       setActiveAsset(availableAssets[0]);
@@ -38,16 +41,23 @@ const FaucetModal: React.FC<FaucetModalProps> = ({ close }) => {
   }, [availableAssets]);
 
   const getTokens = () => {
-    if (activeAsset) {
+    if (activeAsset && executeRecaptcha) {
       setSubmitting(true);
-      requestTestnetAsset(activeAsset.asset).subscribe(
-        () => {
-          localStorageManager.set(FAUCET_KEY, true);
-          setSubmitting(false);
-          close(true);
-        },
-        () => setSubmitting(false),
-      );
+
+      defer(() => executeRecaptcha())
+        .pipe(
+          switchMap((recaptchaToken) =>
+            requestTestnetAsset(activeAsset.asset, recaptchaToken),
+          ),
+        )
+        .subscribe(
+          () => {
+            localStorageManager.set(FAUCET_KEY, true);
+            setSubmitting(false);
+            close(true);
+          },
+          () => setSubmitting(false),
+        );
     }
   };
 
@@ -93,7 +103,9 @@ const FaucetModal: React.FC<FaucetModalProps> = ({ close }) => {
                           <Flex.Item marginRight={2}>
                             <AssetIcon asset={currency.asset} />
                           </Flex.Item>
-                          {currency.asset.name}: {currency.toString()}
+                          <Flex.Item flex={1}>
+                            {currency.asset.name}: {currency.toString()}
+                          </Flex.Item>
                         </Flex>
                       </Menu.Item>
                     );
@@ -109,13 +121,15 @@ const FaucetModal: React.FC<FaucetModalProps> = ({ close }) => {
                 disabled
               >
                 <Flex justify="space-between">
-                  <Flex.Item marginRight={2} grow>
+                  <Flex.Item marginRight={2} grow flex={1} display="flex">
                     {activeAsset ? (
                       <>
                         <Flex.Item marginRight={2}>
                           <AssetIcon asset={activeAsset.asset} />
                         </Flex.Item>
-                        {activeAsset.asset.name}: {activeAsset.toString()}
+                        <Flex.Item flex={1}>
+                          {activeAsset.asset.name}: {activeAsset.toString()}
+                        </Flex.Item>
                       </>
                     ) : (
                       <LoadingOutlined />

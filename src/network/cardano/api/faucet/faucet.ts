@@ -52,7 +52,10 @@ export const availableAssets$: Observable<Currency[]> = defer(() =>
   refCount(),
 );
 
-export const requestTestnetAsset = (assetInfo: AssetInfo<AssetClass>) =>
+export const requestTestnetAsset = (
+  assetInfo: AssetInfo<AssetClass>,
+  recaptchaToken: string,
+) =>
   getAddresses().pipe(
     filter(Boolean),
     first(),
@@ -64,6 +67,7 @@ export const requestTestnetAsset = (assetInfo: AssetInfo<AssetClass>) =>
               {
                 requestAddress: addresses[0],
                 requestAsset: `${assetInfo.data?.policyId}.${assetInfo.data?.name}`,
+                reCaptchaToken: recaptchaToken,
               },
             ),
           )
