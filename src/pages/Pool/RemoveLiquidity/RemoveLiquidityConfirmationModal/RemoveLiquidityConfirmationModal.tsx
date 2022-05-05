@@ -2,15 +2,15 @@ import { t, Trans } from '@lingui/macro';
 import React from 'react';
 import { Observable } from 'rxjs';
 
+import { useObservable } from '../../../../common/hooks/useObservable';
 import { AmmPool } from '../../../../common/models/AmmPool';
 import { Currency } from '../../../../common/models/Currency';
 import { TxId } from '../../../../common/types';
-import { FormFeesSection } from '../../../../components/common/FormView/FormFeesSection/FormFeesSection';
 import { FormPairSection } from '../../../../components/common/FormView/FormPairSection/FormPairSection';
-import { useSettings } from '../../../../context';
+import { PageSection } from '../../../../components/Page/PageSection/PageSection';
 import { Box, Button, Flex, Modal } from '../../../../ergodex-cdk';
 import { redeem } from '../../../../gateway/api/operations/redeem';
-import { useMinExFee, useMinTotalFees } from '../../../../services/new/core';
+import { redeemFees$ } from '../../../../gateway/widgets/redeemFees';
 
 // import { poolActions } from '../../../../services/poolActions';
 interface ConfirmRemoveModalProps {
@@ -23,9 +23,7 @@ interface ConfirmRemoveModalProps {
 
 export const RemoveLiquidityConfirmationModal: React.FC<ConfirmRemoveModalProps> =
   ({ pool, lpAmount, xAmount, yAmount, onClose }) => {
-    const [{ minerFee }] = useSettings();
-    const minExFee = useMinExFee();
-    const totalFees = useMinTotalFees();
+    const [RedeemFees] = useObservable(redeemFees$);
 
     // TODO: add try catch
     const removeOperation = async (pool: AmmPool, lpAmount: Currency) => {
@@ -50,11 +48,9 @@ export const RemoveLiquidityConfirmationModal: React.FC<ConfirmRemoveModalProps>
                 />
               </Flex.Item>
               <Flex.Item marginBottom={6}>
-                <FormFeesSection
-                  minerFee={minerFee}
-                  minExFee={minExFee}
-                  totalFees={totalFees}
-                />
+                <PageSection title={t`Fees`}>
+                  {RedeemFees ? <RedeemFees /> : ''}
+                </PageSection>
               </Flex.Item>
               <Flex.Item>
                 <Button
