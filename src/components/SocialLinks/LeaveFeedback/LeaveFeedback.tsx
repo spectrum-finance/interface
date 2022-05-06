@@ -25,6 +25,8 @@ const _LeaveFeedback: FC<LeaveFeedbackProps> = ({ className }) => (
 );
 
 export const LeaveFeedback = styled(_LeaveFeedback)`
+  color: var(--ergo-body-bg) !important;
+
   svg {
     font-size: 14px;
     width: 14px;

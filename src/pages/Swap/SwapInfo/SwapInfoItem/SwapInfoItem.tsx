@@ -22,7 +22,13 @@ export const SwapInfoItem: FC<SwapInfoItemProps> = ({
         <Typography.Body secondary={secondary}>{title}</Typography.Body>
       </Flex.Item>
       <Flex.Item>
-        {tooltip && <InfoTooltip width={300} content={tooltip} secondary />}
+        {tooltip && (
+          <InfoTooltip
+            width={300}
+            content={tooltip}
+            size={secondary ? 'small' : 'default'}
+          />
+        )}
       </Flex.Item>
     </Flex.Item>
     <Flex.Item>
