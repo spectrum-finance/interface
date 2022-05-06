@@ -114,7 +114,7 @@ const WalletView: React.FC<WalletItemProps> = ({ wallet, close }) => {
               onClick={handleClick}
               loading={loading}
             >
-              <Flex.Item flex={1} display="flex">
+              <Flex.Item flex={1} display="flex" align="center">
                 <Body>{wallet.name}</Body>
               </Flex.Item>
               {wallet.icon}
@@ -140,12 +140,10 @@ const WalletView: React.FC<WalletItemProps> = ({ wallet, close }) => {
             </Flex.Item>
           )}
           <WalletButton size="large" onClick={handleClick} loading={loading}>
-            <Flex>
-              <Flex.Item flex={1} display="flex">
-                <Body>{wallet.name}</Body>
-              </Flex.Item>
-              {wallet.icon}
-            </Flex>
+            <Flex.Item flex={1} display="flex" align="center">
+              <Body>{wallet.name}</Body>
+            </Flex.Item>
+            {wallet.icon}
           </WalletButton>
         </Flex>
       );
@@ -153,7 +151,7 @@ const WalletView: React.FC<WalletItemProps> = ({ wallet, close }) => {
       return (
         <>
           <WalletButton size="large" onClick={handleClick} loading={loading}>
-            <Flex.Item flex={1} display="flex">
+            <Flex.Item flex={1} display="flex" align="center">
               {wallet.name}
             </Flex.Item>
             {wallet.icon}
