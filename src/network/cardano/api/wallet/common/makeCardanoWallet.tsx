@@ -92,7 +92,8 @@ export const makeCardanoWallet = ({
       description: (
         <>
           To use ErgoDEX in Cardano testnet, adjust your wallet's connection to
-          be for the testnet <a href="">Read guide for {name}</a>
+          be for the testnet <br />
+          <a href="">Read guide for {name}</a>
         </>
       ),
     });
