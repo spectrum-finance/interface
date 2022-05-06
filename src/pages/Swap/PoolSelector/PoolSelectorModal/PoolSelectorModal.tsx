@@ -1,10 +1,10 @@
 import { Trans } from '@lingui/macro';
 import React, { FC, useEffect } from 'react';
 
-import { getAmmPoolsByAssetPair } from '../../../../api/ammPools';
 import { useSubject } from '../../../../common/hooks/useObservable';
 import { AmmPool } from '../../../../common/models/AmmPool';
 import { Control, DialogRef, List, Modal } from '../../../../ergodex-cdk';
+import { getAmmPoolsByAssetPair } from '../../../../gateway/api/ammPools';
 import { PoolItemView } from './PoolItemView/PoolItemView';
 
 interface PoolSelectorModalProps extends DialogRef<boolean> {
@@ -26,7 +26,7 @@ export const PoolSelectorModal: FC<PoolSelectorModalProps> = ({
   }, [value.id]);
 
   const handlePoolItemClick = (pool: AmmPool): void => {
-    if (onChange && pool.id !== value.id) {
+    if (onChange) {
       onChange(pool);
       close();
     }

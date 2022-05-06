@@ -1,4 +1,7 @@
+import { mkSubject } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/assetClass';
 import { DateTime } from 'luxon';
+
+import { Dictionary } from './common/utils/Dictionary';
 
 interface OperationRestriction {
   readonly asset: string;
@@ -6,8 +9,18 @@ interface OperationRestriction {
   readonly operation: 'swap' | 'liquidity';
 }
 
+interface NetworkConfig {
+  readonly explorerUrl: string;
+  readonly networkUrl: string;
+  readonly analyticUrl?: string;
+  readonly metadataUrl: string;
+  readonly faucet?: string;
+  readonly lowBalanceGuide?: string;
+}
+
 interface ApplicationConfig {
-  readonly api: string;
+  readonly reCaptchaKey: string;
+  readonly networksSettings: Dictionary<NetworkConfig>;
   readonly social: {
     readonly twitter: string;
     readonly telegram: string;
@@ -24,12 +37,29 @@ interface ApplicationConfig {
   readonly blacklistedPools: string[];
   readonly operationsRestrictions: OperationRestriction[];
   readonly requestRetryCount: number;
-  readonly iconsRepository: string;
 }
 
 export const applicationConfig: ApplicationConfig = {
-  api: 'https://api.ergodex.io/v1/',
+  reCaptchaKey: '6LeUJ8YfAAAAAMYIqGvtOmJGLeJtCSv6FBH_5sA3',
   requestRetryCount: 3,
+  networksSettings: {
+    cardano: {
+      metadataUrl: 'https://testnet-meta.ergodex.io/metadata',
+      networkUrl: 'https://testnet-api.quickblue.io/v1',
+      explorerUrl: 'https://testnet.cardanoscan.io',
+      faucet: 'https://faucet.ergodex.io/v1/',
+      lowBalanceGuide: '',
+    },
+    ergo: {
+      metadataUrl:
+        'https://raw.githubusercontent.com/ergolabs/ergo-dex-asset-icons/master',
+      networkUrl: 'https://api.ergoplatform.com',
+      explorerUrl: 'https://explorer.ergoplatform.com',
+      analyticUrl: 'https://api.ergodex.io/v1/',
+      lowBalanceGuide:
+        'https://docs.ergodex.io/docs/user-guides/quick-start#3-get-assets',
+    },
+  },
   social: {
     twitter: 'https://twitter.com/ErgoDex',
     telegram: 'https://t.me/ergodex_community',
@@ -48,6 +78,15 @@ export const applicationConfig: ApplicationConfig = {
     '4e497db00769f6402580c351c092ec6ae0306f08575c7a9c719267c84049c840',
     '61a579c46d92f2718576fc9839a2a1983f172e889ec234af8504b5bbf10edd89',
     'e24d17f85ac406827b0436a648f3960d8965e677700949ff28ab0ca9a37dd50e',
+    '805fe1efcdea11f1e959eff4f422f118aa76dca2d0d797d184e487da',
+    mkSubject({
+      policyId: '805fe1efcdea11f1e959eff4f422f118aa76dca2d0d797d184e487da',
+      name: '321ergoTestNFT321',
+    }),
+    mkSubject({
+      name: 'C3t_MELDt_nft',
+      policyId: '1d27e0100eb24fb797501b2692f160e7ba372f93b3527080774150b3',
+    }),
   ],
   operationsRestrictions: [
     {
@@ -56,6 +95,4 @@ export const applicationConfig: ApplicationConfig = {
       operation: 'swap',
     },
   ],
-  iconsRepository:
-    'https://raw.githubusercontent.com/ergolabs/ergo-dex-asset-icons/master',
 };

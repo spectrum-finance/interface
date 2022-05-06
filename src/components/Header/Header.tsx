@@ -4,34 +4,25 @@ import cn from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { isBrowser } from 'react-device-detect';
 
-import { useAssetsBalance } from '../../api/assetBalance';
-import { selectedWalletState$ } from '../../api/wallets';
 import { useObservable } from '../../common/hooks/useObservable';
-import { useSettings } from '../../context';
-import { WalletState } from '../../network/common';
-import { useNetworkAsset } from '../../network/ergo/networkAsset/networkAsset';
+import { useAssetsBalance } from '../../gateway/api/assetBalance';
+import { useNetworkAsset } from '../../gateway/api/networkAsset';
+import { selectedWalletState$ } from '../../gateway/api/wallets';
+import { settings$ } from '../../gateway/settings/settings';
+import { WalletState } from '../../network/common/Wallet';
 import { AppLogo } from '../common/AppLogo/AppLogo';
 import { TxHistory } from '../common/TxHistory/TxHistory';
+import { IsCardano } from '../IsCardano/IsCardano';
+import { IsErgo } from '../IsErgo/IsErgo';
 import { Analytics } from './Analytics/Analytics';
 import { BurgerMenu } from './BurgerMenu/BurgerMenu';
 import { ConnectWallet } from './ConnectWallet/ConnectWallet';
+import { GetTestTokensButton } from './GetTestTokensButton/GetTestTokensButton';
 import { Navigation } from './Navigation/Navigation';
 import { NetworkDropdown } from './NetworkDropdown/NetworkDropdown';
 
-const networks = [
-  {
-    name: 'ergo',
-    token: {
-      id: '0000000000000000000000000000000000000000000000000000000000000000',
-    },
-    isDisabled: false,
-  },
-  { name: 'cardano', token: { id: 'token-ada-disabled' }, isDisabled: true },
-];
-
 export const Header: React.FC = () => {
-  const [{ address }] = useSettings();
-  // TODO: Update with rx [EDEX-487]
+  const [settings] = useObservable(settings$);
   const [balance, isBalanceLoading] = useAssetsBalance();
   const [networkAsset] = useNetworkAsset();
   const [walletState] = useObservable(selectedWalletState$);
@@ -62,22 +53,29 @@ export const Header: React.FC = () => {
           {isBrowser && (
             <>
               <Navigation />
-              <Analytics />
+              <IsErgo>
+                <Analytics />
+              </IsErgo>
+              <IsCardano>
+                <GetTestTokensButton />
+              </IsCardano>
             </>
           )}
         </div>
         <div className="header__options">
           {isBrowser && (
             <>
-              <NetworkDropdown networks={networks} />
+              <NetworkDropdown />
               <ConnectWallet
                 numberOfPendingTxs={0}
-                address={address}
+                address={settings?.address}
                 balance={
                   isBalanceLoading ? undefined : balance.get(networkAsset)
                 }
               />
-              {walletState === WalletState.CONNECTED && <TxHistory />}
+              <IsErgo>
+                {walletState === WalletState.CONNECTED && <TxHistory />}
+              </IsErgo>
             </>
           )}
           <BurgerMenu />

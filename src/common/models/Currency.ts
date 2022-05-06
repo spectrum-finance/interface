@@ -1,11 +1,10 @@
-import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
-
 import {
   math,
   parseUserInputToFractions,
   renderFractions,
 } from '../../utils/math';
 import { getDecimalsCount, normalizeAmount } from '../utils/amount';
+import { AssetInfo } from './AssetInfo';
 
 const createUnknownAsset = (decimals = 0): AssetInfo => ({
   id: '-1',
@@ -94,6 +93,10 @@ export class Currency {
   eq(currency: Currency): boolean {
     this.checkComparisonErrors(currency);
     return this.amount === currency.amount;
+  }
+
+  mult(multiplier: number | bigint): Currency {
+    return new Currency(this.amount * BigInt(multiplier), this.asset);
   }
 
   plus(currency: Currency | bigint): Currency {

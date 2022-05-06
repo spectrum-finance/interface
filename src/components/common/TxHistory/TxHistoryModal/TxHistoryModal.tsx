@@ -1,12 +1,6 @@
 import { t, Trans } from '@lingui/macro';
 import React from 'react';
 
-import { addresses$ } from '../../../../api/addresses';
-import {
-  isTransactionsHistorySyncing$,
-  syncTransactionsHistory,
-  transactionsHistory$,
-} from '../../../../api/transactionsHistory';
 import { useObservable } from '../../../../common/hooks/useObservable';
 import {
   Box,
@@ -18,8 +12,14 @@ import {
   Skeleton,
   Typography,
 } from '../../../../ergodex-cdk';
+import { addresses$ } from '../../../../gateway/api/addresses';
+import {
+  isTransactionsHistorySyncing$,
+  syncTransactionsHistory,
+  transactionsHistory$,
+} from '../../../../gateway/api/transactionsHistory';
+import { exploreTx } from '../../../../gateway/utils/exploreAddress';
 import { isRefundableOperation } from '../../../../utils/ammOperations';
-import { exploreTx } from '../../../../utils/redirect';
 import {
   openConfirmationModal,
   Operation,

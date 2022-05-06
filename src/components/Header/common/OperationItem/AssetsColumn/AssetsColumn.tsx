@@ -7,8 +7,8 @@ import {
   Flex,
   Typography,
 } from '../../../../../ergodex-cdk';
+import { TokenIconPair } from '../../../../AssetIconPair/TokenIconPair';
 import { Operation } from '../../../../common/TxHistory/types';
-import { TokenIconPair } from '../../../../TokenIconPair/TokenIconPair';
 import { TokenTitle } from '../../../../TokenTitle';
 
 const SwapAssetsView: FC<{ from: Currency; to: Currency }> = ({ from, to }) => (

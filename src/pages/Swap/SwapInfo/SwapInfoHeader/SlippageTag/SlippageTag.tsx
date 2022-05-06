@@ -3,15 +3,15 @@ import React from 'react';
 import { FC } from 'react';
 import styled from 'styled-components';
 
-import { useSettings } from '../../../../../context';
 import { Box, Typography } from '../../../../../ergodex-cdk';
+import { useSettings } from '../../../../../gateway/settings/settings';
 
 interface SlippageTagProps {
   className?: string;
 }
 
 const _SlippageTag: FC<SlippageTagProps> = ({ className }) => {
-  const [{ slippage }] = useSettings();
+  const { slippage } = useSettings();
 
   return (
     <Box padding={[0.5, 1]} className={className}>

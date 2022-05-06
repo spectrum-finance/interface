@@ -1,5 +1,4 @@
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
-import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import { t, Trans } from '@lingui/macro';
 import React, { FC, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router';
@@ -15,19 +14,23 @@ import {
   switchMap,
 } from 'rxjs';
 
-import { getAmmPoolById, getAmmPoolsByAssetPair } from '../../api/ammPools';
-import { assetBalance$ } from '../../api/assetBalance';
-import { selectedWallet$ } from '../../api/wallets';
 import {
   useObservable,
   useSubscription,
 } from '../../common/hooks/useObservable';
 import { AmmPool } from '../../common/models/AmmPool';
+import { AssetInfo } from '../../common/models/AssetInfo';
 import { TokeSelectFormItem } from '../../components/common/TokenControl/TokenSelect/TokenSelect';
 import { Page } from '../../components/Page/Page';
 import { Section } from '../../components/Section/Section';
 import { Flex, Form, Skeleton, useForm } from '../../ergodex-cdk';
-import { useNetworkAsset } from '../../services/new/core';
+import {
+  getAmmPoolById,
+  getAmmPoolsByAssetPair,
+} from '../../gateway/api/ammPools';
+import { assetBalance$ } from '../../gateway/api/assetBalance';
+import { useNetworkAsset } from '../../gateway/api/networkAsset';
+import { selectedWallet$ } from '../../gateway/api/wallets';
 import { AddLiquidity } from './AddLiquidity/AddLiquidity';
 import { CreatePool } from './CreatePool/CreatePool';
 import { CreatePoolUnsupportedAlert } from './CreatePoolUnsupportedAlert/CreatePoolUnsupportedAlert';
@@ -64,7 +67,7 @@ enum ComponentState {
 export const AddLiquidityOrCreatePool: FC = () => {
   const { poolId } = useParams<{ poolId?: PoolId }>();
   const [initialized, setInitialized] = useState<boolean>(!poolId);
-  const networkAsset = useNetworkAsset();
+  const [networkAsset] = useNetworkAsset();
   const [selectedWallet] = useObservable(selectedWallet$);
   const history = useHistory();
   const location = useLocation();
@@ -164,7 +167,7 @@ export const AddLiquidityOrCreatePool: FC = () => {
   ): boolean =>
     !pools?.length &&
     componentState === ComponentState.ADD_LIQUIDITY &&
-    !!selectedWallet?.supportedFeatures.createPool &&
+    !!selectedWallet?.walletSupportedFeatures.createPool &&
     !!y &&
     !!x;
 
@@ -216,7 +219,7 @@ export const AddLiquidityOrCreatePool: FC = () => {
             </Form.Listener>
             <Form.Listener>
               {({ value }) =>
-                selectedWallet?.supportedFeatures.createPool === false &&
+                selectedWallet?.walletSupportedFeatures.createPool === false &&
                 isCreatePoolPageVisible(value, componentState) && (
                   <Flex.Item marginBottom={4} display="flex" col>
                     <CreatePoolUnsupportedAlert
@@ -233,7 +236,7 @@ export const AddLiquidityOrCreatePool: FC = () => {
                     !value.x ||
                     !value.y ||
                     (isCreatePoolPageVisible(value, componentState) &&
-                      !selectedWallet?.supportedFeatures.createPool)
+                      !selectedWallet?.walletSupportedFeatures.createPool)
                   }
                 >
                   {isAddLiquidityPageVisible(value, componentState) ? (

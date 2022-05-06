@@ -1,18 +1,19 @@
-import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import { t } from '@lingui/macro';
 import { maxBy } from 'lodash';
 import React, { FC, useEffect, useState } from 'react';
-import { skip } from 'rxjs';
+import { Observable, skip, tap } from 'rxjs';
 
-import { useAssetsBalance } from '../../../api/assetBalance';
 import { useSubscription } from '../../../common/hooks/useObservable';
 import { AmmPool } from '../../../common/models/AmmPool';
+import { AssetInfo } from '../../../common/models/AssetInfo';
 import { Currency } from '../../../common/models/Currency';
+import { TxId } from '../../../common/types';
 import { TokenControlFormItem } from '../../../components/common/TokenControl/TokenControl';
 import {
   openConfirmationModal,
   Operation,
 } from '../../../components/ConfirmationModal/ConfirmationModal';
+import { IsErgo } from '../../../components/IsErgo/IsErgo';
 import {
   OperationForm,
   OperationValidator,
@@ -26,7 +27,10 @@ import {
   PlusOutlined,
   useForm,
 } from '../../../ergodex-cdk';
-import { useMaxTotalFees, useNetworkAsset } from '../../../services/new/core';
+import { useAssetsBalance } from '../../../gateway/api/assetBalance';
+import { useNetworkAsset } from '../../../gateway/api/networkAsset';
+import { useSwapValidationFee } from '../../../gateway/api/validationFees';
+import { useMaxTotalFees } from '../../../services/new/core';
 import { PoolRatio } from '../../PoolOverview/PoolRatio/PoolRatio';
 import { normalizeAmountWithFee } from '../common/utils';
 import { LiquidityPercentInput } from '../LiquidityPercentInput/LiquidityPercentInput';
@@ -49,8 +53,8 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
 }) => {
   const [lastEditedField, setLastEditedField] = useState<'x' | 'y'>('x');
   const [balance] = useAssetsBalance();
-  const totalFees = useMaxTotalFees();
-  const networkAsset = useNetworkAsset();
+  const totalFees = useSwapValidationFee();
+  const [networkAsset] = useNetworkAsset();
   const form = useForm<AddLiquidityFormModel>({
     xAsset,
     yAsset,
@@ -236,12 +240,14 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
         return (
           <AddLiquidityConfirmationModal
             value={value as Required<AddLiquidityFormModel>}
-            onClose={(request: Promise<any>) =>
+            onClose={(request: Observable<TxId>) =>
               next(
-                request.then((tx) => {
-                  resetForm();
-                  return tx;
-                }),
+                request.pipe(
+                  tap((tx) => {
+                    resetForm();
+                    return tx;
+                  }),
+                ),
               )
             }
           />
@@ -368,11 +374,13 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
                   )}
                 </Form.Item>
               </Flex.Item>
-              <Button
-                size="large"
-                onClick={onNewPoolButtonClick}
-                icon={<PlusOutlined style={{ fontSize: 20 }} />}
-              />
+              <IsErgo>
+                <Button
+                  size="large"
+                  onClick={onNewPoolButtonClick}
+                  icon={<PlusOutlined style={{ fontSize: 20 }} />}
+                />
+              </IsErgo>
             </Flex>
           </Section>
         </Flex.Item>

@@ -29,11 +29,11 @@ import {
   Modal,
   Typography,
 } from '../../../../ergodex-cdk';
-import { utxos$ } from '../../../../network/ergo/common/utxos';
+import { useNetworkAsset } from '../../../../gateway/api/networkAsset';
+import { utxos$ } from '../../../../network/ergo/api/utxos/utxos';
 import { mainnetTxAssembler } from '../../../../services/defaultTxAssembler';
 import { explorer } from '../../../../services/explorer';
 import { lockParser } from '../../../../services/locker/parser';
-import { useNetworkAsset } from '../../../../services/new/core';
 import { formatToInt } from '../../../../services/number';
 import { submitTx } from '../../../../services/yoroi';
 import yoroiProver from '../../../../services/yoroi/prover';
@@ -50,7 +50,7 @@ interface RelockLiquidityConfirmationModalProps {
 const RelockLiquidityConfirmationModal: FC<RelockLiquidityConfirmationModalProps> =
   ({ onClose, lockedPosition, relocktime }): JSX.Element => {
     const [isChecked, setIsChecked] = useState<boolean>(false);
-    const networkAsset = useNetworkAsset();
+    const [networkAsset] = useNetworkAsset();
 
     const now = DateTime.now().toMillis();
 

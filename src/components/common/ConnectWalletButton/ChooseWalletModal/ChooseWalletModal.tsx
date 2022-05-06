@@ -2,12 +2,6 @@ import { Trans } from '@lingui/macro';
 import React, { ReactNode, useState } from 'react';
 import styled from 'styled-components';
 
-import {
-  connectWallet,
-  disconnectWallet,
-  selectedWallet$,
-  wallets$,
-} from '../../../../api/wallets';
 import { useObservable } from '../../../../common/hooks/useObservable';
 import {
   Alert,
@@ -21,7 +15,13 @@ import {
   Tag,
   Typography,
 } from '../../../../ergodex-cdk';
-import { Wallet } from '../../../../network/common';
+import {
+  connectWallet,
+  disconnectWallet,
+  selectedWallet$,
+  wallets$,
+} from '../../../../gateway/api/wallets';
+import { Wallet } from '../../../../network/common/Wallet';
 
 const { Body } = Typography;
 
@@ -34,7 +34,6 @@ const WalletButton = styled(Button)`
   align-items: center;
   display: flex;
   height: 4rem;
-  justify-content: space-between;
   width: 100%;
 
   &:disabled,
@@ -59,18 +58,24 @@ const ExperimentalWalletBox = styled(Box)`
 
 const WalletView: React.FC<WalletItemProps> = ({ wallet, close }) => {
   const [checked, setChecked] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [warning, setWarning] = useState<ReactNode | undefined>(undefined);
 
   const handleClick = () => {
+    setLoading(true);
     connectWallet(wallet).subscribe(
       (isConnected) => {
+        setLoading(false);
         if (typeof isConnected === 'boolean' && isConnected) {
           close(true);
         } else if (isConnected) {
           setWarning(isConnected);
         }
       },
-      () => window.open(wallet.extensionLink),
+      () => {
+        setLoading(false);
+        window.open(wallet.extensionLink);
+      },
     );
   };
 
@@ -90,7 +95,7 @@ const WalletView: React.FC<WalletItemProps> = ({ wallet, close }) => {
               <Checkbox checked={checked} onChange={handleCheck}>
                 <Trans>
                   This wallet may not always work as expected. I understand what
-                  I do andwill use it at my own risk.
+                  I do and will use it at my own risk.
                 </Trans>
               </Checkbox>
             </Flex.Item>
@@ -107,8 +112,11 @@ const WalletView: React.FC<WalletItemProps> = ({ wallet, close }) => {
               size="large"
               disabled={!checked}
               onClick={handleClick}
+              loading={loading}
             >
-              <Body>{wallet.name}</Body>
+              <Flex.Item flex={1} display="flex">
+                <Body>{wallet.name}</Body>
+              </Flex.Item>
               {wallet.icon}
             </WalletButton>
           </Flex>
@@ -131,18 +139,35 @@ const WalletView: React.FC<WalletItemProps> = ({ wallet, close }) => {
               />
             </Flex.Item>
           )}
-          <WalletButton size="large" onClick={handleClick}>
-            <Body>{wallet.name}</Body>
-            {wallet.icon}
+          <WalletButton size="large" onClick={handleClick} loading={loading}>
+            <Flex>
+              <Flex.Item flex={1} display="flex">
+                <Body>{wallet.name}</Body>
+              </Flex.Item>
+              {wallet.icon}
+            </Flex>
           </WalletButton>
         </Flex>
       );
     default:
       return (
-        <WalletButton size="large" onClick={handleClick}>
-          {wallet.name}
-          {wallet.icon}
-        </WalletButton>
+        <>
+          <WalletButton size="large" onClick={handleClick} loading={loading}>
+            <Flex.Item flex={1} display="flex">
+              {wallet.name}
+            </Flex.Item>
+            {wallet.icon}
+          </WalletButton>
+          {warning && (
+            <Flex.Item marginBottom={2}>
+              <Alert
+                type="warning"
+                description={warning}
+                style={{ width: '100%' }}
+              />
+            </Flex.Item>
+          )}
+        </>
       );
   }
 };
@@ -182,6 +207,7 @@ const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
               icon={<LogoutOutlined />}
               onClick={handleDisconnectWalletClick}
             >
+              {' '}
               <Trans>Disconnect wallet</Trans>
             </Button>
           )}

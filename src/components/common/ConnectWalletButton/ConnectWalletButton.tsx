@@ -4,10 +4,10 @@ import { Trans } from '@lingui/macro';
 import cn from 'classnames';
 import React, { FC, ReactNode } from 'react';
 
-import { isWalletSetuped$ } from '../../../api/wallets';
 import { useObservable } from '../../../common/hooks/useObservable';
 import { useAppLoadingState } from '../../../context';
 import { Button, ButtonProps, Modal } from '../../../ergodex-cdk';
+import { isWalletSetuped$ } from '../../../gateway/api/wallets';
 import { ChooseWalletModal } from './ChooseWalletModal/ChooseWalletModal';
 
 export interface ConnectWalletButtonProps {

@@ -7,7 +7,10 @@ import React, { ReactNode } from 'react';
 
 import { ReactComponent as ExploreIcon } from '../../../assets/icons/icon-explore.svg';
 import { Button, Tooltip } from '../../../ergodex-cdk';
-import { exploreAddress, exploreTx } from '../../../utils/redirect';
+import {
+  exploreAddress,
+  exploreTx,
+} from '../../../gateway/utils/exploreAddress';
 import { isTxId } from '../../../utils/string/txId';
 
 interface ExploreButtonProps {

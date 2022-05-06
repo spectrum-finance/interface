@@ -22,7 +22,7 @@ const _WalletInfoButton: FC<WalletInfoButtonProps> = ({
   const openWalletModal = () => Modal.open(<WalletModal />);
 
   return (
-    <Button className={className} onClick={openWalletModal}>
+    <Button className={className} onClick={openWalletModal} size="large">
       {balance !== undefined ? (
         <Flex align="center" stretch>
           <Flex.Item marginRight={2} marginLeft={1}>
@@ -40,7 +40,7 @@ const _WalletInfoButton: FC<WalletInfoButtonProps> = ({
 };
 
 export const WalletInfoButton = styled(_WalletInfoButton)`
-  height: 42px;
+  height: 40px;
   padding: 4px 8px;
   border: 1px solid var(--ergo-box-border-color);
   background: var(--ergo-connect-wallet-address-btn-bg);

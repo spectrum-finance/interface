@@ -5,6 +5,7 @@ import { Button, QuestionCircleOutlined, Tooltip } from '../../ergodex-cdk';
 interface InfoTooltipProps {
   content: ReactNode | ReactNode[] | string;
   children?: ReactNode | ReactNode[] | string;
+  secondary?: boolean;
   className?: string;
   width?: number;
   placement?:
@@ -29,6 +30,7 @@ const InfoTooltip: React.FC<InfoTooltipProps> = ({
   placement,
   width,
   size,
+  secondary,
 }) => {
   return (
     <Tooltip
@@ -45,7 +47,8 @@ const InfoTooltip: React.FC<InfoTooltipProps> = ({
           border: 0,
           background: 0,
           width: size === 'small' ? '12px' : '',
-          color: size === 'small' ? 'var(--ergo-footnote-text)' : '',
+          color:
+            size === 'small' || secondary ? 'var(--ergo-footnote-text)' : '',
         }}
       />
     </Tooltip>

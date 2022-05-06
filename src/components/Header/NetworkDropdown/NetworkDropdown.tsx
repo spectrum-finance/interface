@@ -1,10 +1,9 @@
 import './NetworkDropdown.less';
 
-import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import { Trans } from '@lingui/macro';
 import cn from 'classnames';
 import capitalize from 'lodash/capitalize';
-import React, { useState } from 'react';
+import React from 'react';
 
 import {
   Button,
@@ -14,46 +13,49 @@ import {
   Menu,
   Typography,
 } from '../../../ergodex-cdk';
-import { TokenIcon } from '../../TokenIcon/TokenIcon';
-
-type Network = { name: string; token: AssetInfo; isDisabled: boolean };
+import {
+  changeSelectedNetwork,
+  networks,
+  useSelectedNetwork,
+} from '../../../gateway/common/network';
+import { AssetIcon } from '../../AssetIcon/AssetIcon';
 
 interface NetworkDropdownProps {
-  networks: Array<Network>;
   onSetNetwork?: (val: string) => void;
   disabled?: boolean;
 }
 
 export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
-  networks,
-  onSetNetwork,
   disabled,
 }) => {
-  const [network, setNetwork] = useState<Network>(networks[0]);
+  const [selectedNetwork] = useSelectedNetwork();
 
   const overlay = (
     <Menu
       className="network-dropdown__menu"
-      onClick={({ key }) => {
-        setNetwork(networks.find((n) => n.name === key) || networks[0]);
-        if (onSetNetwork) {
-          onSetNetwork(key);
-        }
-      }}
       style={{ padding: '8px', minWidth: '170px' }}
     >
       <Typography.Body className="network-dropdown__menu-title" strong>
         <Trans>Select Network</Trans>
       </Typography.Body>
-      {networks.map(({ name, token, isDisabled }) => (
-        <Menu.Item key={name} disabled={isDisabled}>
+      {networks.map((network) => (
+        <Menu.Item
+          key={network.name}
+          onClick={() => {
+            changeSelectedNetwork(network);
+          }}
+        >
           <Flex
             className={
-              network.name === name ? 'network-dropdown-item__active' : ''
+              selectedNetwork.name === network.name
+                ? 'network-dropdown-item__active'
+                : ''
             }
           >
-            <TokenIcon asset={token} />
-            <span style={{ marginLeft: '8px' }}>{capitalize(name)}</span>
+            <AssetIcon asset={network.networkAsset} />
+            <span style={{ marginLeft: '8px' }}>
+              {capitalize(network.label)}
+            </span>
           </Flex>
         </Menu.Item>
       ))}
@@ -70,13 +72,13 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
       <Button
         className={cn(
           `network-dropdown__btn`,
-          `network-dropdown__btn--${network.name}`,
+          `network-dropdown__btn--${selectedNetwork.name}`,
         )}
         size="large"
         type="ghost"
       >
         <Flex justify="center" direction="row" align="center">
-          <TokenIcon asset={network.token} />
+          <AssetIcon asset={selectedNetwork.networkAsset} />
           <Typography.Text
             className="network-dropdown__btn-text"
             style={{
@@ -85,7 +87,7 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
               marginLeft: 'calc(var(--ergo-base-gutter) * 2)',
             }}
           >
-            {capitalize(network.name)}
+            {capitalize(selectedNetwork.label)}
           </Typography.Text>
           <DownOutlined
             style={{
