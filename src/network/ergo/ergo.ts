@@ -33,6 +33,11 @@ import {
   settings,
   settings$,
 } from './settings/settings';
+import {
+  useDepositValidationFee,
+  useRedeemValidationFee,
+  useSwapValidationFee,
+} from './settings/totalFees';
 import { exploreAddress, exploreLastBlock, exploreTx } from './utils/utils';
 import { DepositFees } from './widgets/DepositFees/DepositFees';
 import { GlobalSettingsModal } from './widgets/GlobalSettings/GlobalSettingsModal';
@@ -82,4 +87,8 @@ export const ergoNetwork: Network<ErgoWalletContract, ErgoSettings> = {
   SwapFees,
   DepositFees,
   RedeemFees,
+
+  useSwapValidationFee,
+  useDepositValidationFee,
+  useRedeemValidationFee,
 };

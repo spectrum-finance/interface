@@ -29,6 +29,7 @@ import {
 } from '../../../ergodex-cdk';
 import { useAssetsBalance } from '../../../gateway/api/assetBalance';
 import { useNetworkAsset } from '../../../gateway/api/networkAsset';
+import { useSwapValidationFee } from '../../../gateway/api/validationFees';
 import { useMaxTotalFees } from '../../../services/new/core';
 import { PoolRatio } from '../../PoolOverview/PoolRatio/PoolRatio';
 import { normalizeAmountWithFee } from '../common/utils';
@@ -52,7 +53,7 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
 }) => {
   const [lastEditedField, setLastEditedField] = useState<'x' | 'y'>('x');
   const [balance] = useAssetsBalance();
-  const totalFees = useMaxTotalFees();
+  const totalFees = useSwapValidationFee();
   const [networkAsset] = useNetworkAsset();
   const form = useForm<AddLiquidityFormModel>({
     xAsset,

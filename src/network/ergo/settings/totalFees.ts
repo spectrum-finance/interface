@@ -35,3 +35,9 @@ export const useMaxTotalFee = (): Currency => {
 
   return calculateTotalFee([minerFee, maxExFee], networkAsset);
 };
+
+export const useSwapValidationFee = (): Currency => useMaxTotalFee();
+
+export const useDepositValidationFee = (): Currency => useMinTotalFee();
+
+export const useRedeemValidationFee = (): Currency => useMinTotalFee();

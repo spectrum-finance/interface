@@ -33,6 +33,11 @@ import {
   settings,
   settings$,
 } from './settings/settings';
+import {
+  useDepositValidationFee,
+  useRedeemValidationFee,
+  useSwapValidationFee,
+} from './settings/totalFee';
 import { exploreAddress, exploreLastBlock, exploreTx } from './utils/utils';
 import { DepositFees } from './widgets/DepositFees/DepositFees';
 import { RedeemFees } from './widgets/RedeemFees/RedeemFees';
@@ -82,4 +87,8 @@ export const cardanoNetwork: Network<CardanoWalletContract, CardanoSettings> = {
   refund(address: string, txId: string): Observable<TxId> {
     return of('');
   },
+
+  useSwapValidationFee,
+  useDepositValidationFee,
+  useRedeemValidationFee,
 };

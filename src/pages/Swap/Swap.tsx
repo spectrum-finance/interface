@@ -40,7 +40,7 @@ import { getAmmPoolsByAssetPair } from '../../gateway/api/ammPools';
 import { useAssetsBalance } from '../../gateway/api/assetBalance';
 import { getAvailableAssetFor, tokenAssets$ } from '../../gateway/api/assets';
 import { useNetworkAsset } from '../../gateway/api/networkAsset';
-import { useMaxTotalFees } from '../../services/new/core';
+import { useSwapValidationFee } from '../../gateway/api/validationFees';
 import { OperationSettings } from './OperationSettings/OperationSettings';
 import { PoolSelector } from './PoolSelector/PoolSelector';
 import { SwapConfirmationModal } from './SwapConfirmationModal/SwapConfirmationModal';
@@ -72,7 +72,7 @@ export const Swap = (): JSX.Element => {
   const [lastEditedField, setLastEditedField] = useState<'from' | 'to'>('from');
   const [networkAsset] = useNetworkAsset();
   const [balance] = useAssetsBalance();
-  const totalFees = useMaxTotalFees();
+  const totalFees = useSwapValidationFee();
   const updateToAssets$ = useMemo(
     () => new BehaviorSubject<string | undefined>(undefined),
     [],
