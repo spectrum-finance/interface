@@ -1,5 +1,6 @@
 import './СardanoFaucet.less';
 
+import { CloseCircleOutlined } from '@ant-design/icons';
 import { t } from '@lingui/macro';
 import React from 'react';
 
@@ -10,6 +11,7 @@ import {
 } from '../../../components/FaucetModal/FaucetModal';
 import {
   Button,
+  CloseOutlined,
   Flex,
   Modal,
   notification,
@@ -73,6 +75,7 @@ export const openCardanoFaucetNotification = (): void => {
     placement: 'bottomLeft',
     bottom: 48,
     btn: <GetTokensButton />,
-    closeIcon: <></>,
+    closeIcon: <CloseOutlined size={24} />,
+    onClose: () => localStorageManager.set(FAUCET_KEY, true),
   });
 };
