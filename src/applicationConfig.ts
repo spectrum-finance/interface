@@ -83,6 +83,10 @@ export const applicationConfig: ApplicationConfig = {
       policyId: '805fe1efcdea11f1e959eff4f422f118aa76dca2d0d797d184e487da',
       name: '321ergoTestNFT321',
     }),
+    mkSubject({
+      name: 'C3t_MELDt_nft',
+      policyId: '1d27e0100eb24fb797501b2692f160e7ba372f93b3527080774150b3',
+    }),
   ],
   operationsRestrictions: [
     {
