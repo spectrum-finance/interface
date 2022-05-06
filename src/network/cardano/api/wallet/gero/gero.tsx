@@ -7,9 +7,9 @@ import { ReactComponent as GeroWalletLogo } from './gerowallet-icon.svg';
 export const Gero: CardanoWalletContract = makeCardanoWallet({
   variableName: 'gerowallet',
   extensionLink:
-    'https://chrome.google.com/webstore/detail/gerowallet/bgpipimickeadkjlklgciifhnalhdjhe/overview',
+    'https://chrome.google.com/webstore/detail/gerowallet-testnet/iifeegfcfhlhhnilhfoeihllenamcfgc',
   walletSupportedFeatures: { createPool: true },
-  name: 'GeroWallet',
+  name: 'GeroWallet Testnet',
   icon: <GeroWalletLogo />,
   previewIcon: <GeroWalletLogo width={21} height={21} />,
 });
