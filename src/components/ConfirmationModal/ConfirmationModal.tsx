@@ -143,7 +143,7 @@ const YoroiIssueModalContent = () => (
     </Flex.Item>
     <Flex.Item marginBottom={1}>
       <Typography.Body align="center">
-        <Trans>Seems like Yoroi Wallet has an issue</Trans>
+        <Trans>Timeout error</Trans>
       </Typography.Body>
     </Flex.Item>
     <Flex.Item marginBottom={1}>
