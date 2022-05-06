@@ -1,5 +1,6 @@
 import React from 'react';
 import { FC } from 'react';
+import styled from 'styled-components';
 
 import { useObservable } from '../../../../../common/hooks/useObservable';
 import { Flex, Typography } from '../../../../../ergodex-cdk';
@@ -12,21 +13,20 @@ export interface AddressTagProps {
   readonly className?: string;
 }
 
-export const AddressTag: FC<AddressTagProps> = ({ address, className }) => {
+const _AddressTag: FC<AddressTagProps> = ({ address, className }) => {
   const addressToRender = address ? getShortAddress(address) : '';
   const [selectedWallet] = useObservable(selectedWallet$);
 
   return (
     <DataTag
       secondary
-      className={className}
       content={
         <Flex align="center">
           <Flex.Item align="center" marginRight={1}>
             {selectedWallet?.previewIcon}
           </Flex.Item>
           <Typography.Body
-            secondary
+            className={className}
             style={{ whiteSpace: 'nowrap', fontSize: '16px' }}
           >
             {addressToRender}
@@ -36,3 +36,7 @@ export const AddressTag: FC<AddressTagProps> = ({ address, className }) => {
     />
   );
 };
+
+export const AddressTag = styled(_AddressTag)`
+  color: var(--ergo-connect-wallet-address-tag-color) !important;
+`;

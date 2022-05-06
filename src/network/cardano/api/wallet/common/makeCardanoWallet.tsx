@@ -52,6 +52,7 @@ export interface CardanoWalletConfig {
   readonly definition?: WalletDefinition;
   readonly variableName: string;
   readonly walletSupportedFeatures: WalletSupportedFeatures;
+  readonly testnetSwitchGuideUrl: string;
 }
 
 const toBalance = (wasmValue: Value): Observable<[bigint, AssetInfo][]> => {
@@ -76,6 +77,7 @@ export const makeCardanoWallet = ({
   walletSupportedFeatures,
   variableName,
   previewIcon,
+  testnetSwitchGuideUrl,
 }: CardanoWalletConfig): CardanoWalletContract => {
   const ctx$ = defer(() => from(cardano[variableName].enable())).pipe(
     publishReplay(1),
@@ -93,7 +95,7 @@ export const makeCardanoWallet = ({
         <>
           To use ErgoDEX in Cardano testnet, adjust your wallet's connection to
           be for the testnet <br />
-          <a href="">Read guide for {name}</a>
+          <a href={testnetSwitchGuideUrl}>Read guide for {name}</a>
         </>
       ),
     });
@@ -184,6 +186,7 @@ export const makeCardanoWallet = ({
   return {
     name,
     icon,
+    testnetSwitchGuideUrl,
     extensionLink,
     previewIcon,
     definition: definition || 'default',

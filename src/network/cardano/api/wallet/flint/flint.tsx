@@ -11,5 +11,7 @@ export const Flint: CardanoWalletContract = makeCardanoWallet({
   walletSupportedFeatures: { createPool: true },
   name: 'FlintWallet',
   icon: <FlintLogo width={26} height={26} />,
+  testnetSwitchGuideUrl:
+    'https://docs.ergodex.io/docs/user-guides/change-wallet-to-testnet/#flint-wallet',
   previewIcon: <FlintLogo width={21} height={21} />,
 });

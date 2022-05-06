@@ -11,5 +11,7 @@ export const Eternl: CardanoWalletContract = makeCardanoWallet({
   walletSupportedFeatures: { createPool: true },
   name: 'Eternl',
   icon: <EternlLogo />,
+  testnetSwitchGuideUrl:
+    'https://docs.ergodex.io/docs/user-guides/change-wallet-to-testnet#eternl-wallet',
   previewIcon: <EternlLogo width={21} height={21} />,
 });

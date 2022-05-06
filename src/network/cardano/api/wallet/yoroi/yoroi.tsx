@@ -11,6 +11,7 @@ export const Yoroi: CardanoWalletContract = makeCardanoWallet({
     'https://chrome.google.com/webstore/detail/eternlcc/kmhcihpebfmpgmihbkipmjlmmioameka',
   walletSupportedFeatures: { createPool: true },
   name: 'Yoroi',
+  testnetSwitchGuideUrl: '',
   icon: <YoroiLogo />,
   previewIcon: <YoroiLogo height={21} width={21} />,
 });

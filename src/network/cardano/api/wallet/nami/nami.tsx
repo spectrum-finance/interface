@@ -11,5 +11,7 @@ export const Nami: CardanoWalletContract = makeCardanoWallet({
   walletSupportedFeatures: { createPool: true },
   name: 'Nami',
   icon: <NamiLogo />,
+  testnetSwitchGuideUrl:
+    'https://docs.ergodex.io/docs/user-guides/change-wallet-to-testnet/#nami-wallet',
   previewIcon: <NamiLogo width={21} height={21} />,
 });

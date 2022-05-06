@@ -10,6 +10,7 @@ export const CardWallet: CardanoWalletContract = makeCardanoWallet({
     'https://chrome.google.com/webstore/detail/cwallet/apnehcjmnengpnmccpaibjmhhoadaico',
   walletSupportedFeatures: { createPool: true },
   name: 'CardWallet',
+  testnetSwitchGuideUrl: '',
   icon: <CardWalletLogo />,
   previewIcon: <CardWalletLogo width={21} height={21} />,
 });
