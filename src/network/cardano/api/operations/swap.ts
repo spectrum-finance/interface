@@ -40,7 +40,6 @@ const toSwapTxCandidate = ({
   settings,
   pool,
   from,
-  to,
   slippage,
   nitro,
 }: SwapTxCandidateConfig): Observable<TxCandidate> => {

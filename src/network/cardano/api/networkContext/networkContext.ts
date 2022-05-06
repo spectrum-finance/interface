@@ -6,7 +6,6 @@ import {
   publishReplay,
   refCount,
   switchMap,
-  tap,
 } from 'rxjs';
 
 import { appTick$ } from '../../../../common/streams/appTick';

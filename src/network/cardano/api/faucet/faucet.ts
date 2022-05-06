@@ -12,7 +12,6 @@ import {
   publishReplay,
   refCount,
   switchMap,
-  tap,
 } from 'rxjs';
 
 import { applicationConfig } from '../../../../applicationConfig';

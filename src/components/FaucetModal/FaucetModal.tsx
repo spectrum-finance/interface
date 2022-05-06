@@ -1,9 +1,8 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import { Trans } from '@lingui/macro';
-import { evaluate } from 'mathjs';
 import React, { useEffect, useState } from 'react';
-import { GoogleReCaptcha, useGoogleReCaptcha } from 'react-google-recaptcha-v3';
-import { defer, from, switchMap } from 'rxjs';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
+import { defer, switchMap } from 'rxjs';
 
 import { useObservable } from '../../common/hooks/useObservable';
 import { Currency } from '../../common/models/Currency';

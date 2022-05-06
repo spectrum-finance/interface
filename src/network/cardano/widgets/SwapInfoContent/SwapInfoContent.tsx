@@ -2,7 +2,7 @@ import { minBudgetForSwap, mkTxMath } from '@ergolabs/cardano-dex-sdk';
 import { RustModule } from '@ergolabs/cardano-dex-sdk/build/main/utils/rustLoader';
 import { t, Trans } from '@lingui/macro';
 import React, { FC, useEffect } from 'react';
-import { from, map, Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 import { UI_FEE_BIGINT } from '../../../../common/constants/erg';
 import {
@@ -59,7 +59,7 @@ const calculateSwapInfo = ({
         BigInt(Math.floor(Number(minExFee.amount) * nitro)),
         networkAsset,
       );
-      console.log(minExFee, maxExFee);
+
       if (!fromAmount || !toAmount || !pool) {
         return {
           minExFee,

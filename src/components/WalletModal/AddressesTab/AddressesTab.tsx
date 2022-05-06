@@ -3,7 +3,6 @@ import './AddressTab.less';
 import { t } from '@lingui/macro';
 import React, { useEffect, useState } from 'react';
 
-import { ERG_DECIMALS } from '../../../common/constants/erg';
 import { useObservable } from '../../../common/hooks/useObservable';
 import { Currency } from '../../../common/models/Currency';
 import { Address } from '../../../common/types';
@@ -12,7 +11,6 @@ import { addresses$ } from '../../../gateway/api/addresses';
 import { useSelectedNetwork } from '../../../gateway/common/network';
 import { setSettings, useSettings } from '../../../gateway/settings/settings';
 import { getBalance } from '../../../services/yoroi';
-import { renderFractions } from '../../../utils/math';
 import { getShortAddress } from '../../../utils/string/addres';
 import { CopyButton } from '../../common/CopyButton/CopyButton';
 import { ExploreButton } from '../../common/ExploreButton/ExploreButton';

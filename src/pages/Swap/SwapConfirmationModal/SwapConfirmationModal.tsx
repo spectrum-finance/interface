@@ -4,11 +4,9 @@ import { t, Trans } from '@lingui/macro';
 import React, { FC, useEffect, useState } from 'react';
 import { Observable } from 'rxjs';
 
-import { ERG_DECIMALS, UI_FEE } from '../../../common/constants/erg';
 import { useObservable } from '../../../common/hooks/useObservable';
 import { TxId } from '../../../common/types';
 import { TokenControlFormItem } from '../../../components/common/TokenControl/TokenControl';
-import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
 import { Truncate } from '../../../components/Truncate/Truncate';
 import {
   Alert,
@@ -26,7 +24,6 @@ import { useSettings } from '../../../gateway/settings/settings';
 import { swapFees$ } from '../../../gateway/widgets/swapFees';
 import { useMinExFee } from '../../../services/new/core';
 import { renderFractions } from '../../../utils/math';
-import { calculateTotalFee } from '../../../utils/transactions';
 import {
   BaseInputParameters,
   getBaseInputParameters,

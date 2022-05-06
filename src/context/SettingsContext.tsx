@@ -1,12 +1,10 @@
-import { Address, PublicKey } from '@ergolabs/ergo-sdk';
+import { PublicKey } from '@ergolabs/ergo-sdk';
 import { useLocalStorage } from '@rehooks/local-storage';
-import React, { createContext, useContext, useEffect, useMemo } from 'react';
+import React, { createContext, useContext, useEffect } from 'react';
 
 import { MIN_NITRO } from '../common/constants/erg';
 import { DEFAULT_LOCALE, SupportedLocale } from '../common/constants/locales';
 import { defaultMinerFee, defaultSlippage } from '../common/constants/settings';
-import { useObservable } from '../common/hooks/useObservable';
-import { getUnusedAddresses, getUsedAddresses } from '../gateway/api/addresses';
 import { isDarkOsTheme } from '../utils/osTheme';
 
 export type Settings = {
@@ -51,11 +49,6 @@ const defaultContextValue: LocalStorageReturnValue<Settings> = [
 
 const SettingsContext = createContext(defaultContextValue);
 
-const isCurrentAddressValid = (
-  address: Address | undefined,
-  addresses: Address[],
-): boolean => !!address && addresses.includes(address);
-
 export const getSetting = (
   setting: keyof Settings,
 ): Settings[keyof Settings] => {
@@ -68,11 +61,7 @@ export const SettingsProvider = ({
   children,
 }: React.PropsWithChildren<unknown>): JSX.Element => {
   const ctxValue = useLocalStorage('settings', DefaultSettings);
-  const usedAddresses$ = useMemo(() => getUsedAddresses(), []);
-  const unusedAddresses$ = useMemo(() => getUnusedAddresses(), []);
 
-  const [usedAddresses] = useObservable(usedAddresses$);
-  const [unusedAddresses] = useObservable(unusedAddresses$);
   const [userSettings, setUserSettings] = ctxValue;
 
   useEffect(() => {

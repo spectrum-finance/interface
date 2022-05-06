@@ -1,7 +1,6 @@
 import {
   AmmPool,
   mkNetworkPoolsV1,
-  Quickblue,
   ScriptCredsV1,
 } from '@ergolabs/cardano-dex-sdk';
 import { mkPoolsParser } from '@ergolabs/cardano-dex-sdk/build/main/amm/parsers/poolsParser';

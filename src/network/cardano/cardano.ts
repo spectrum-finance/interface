@@ -1,6 +1,5 @@
 import { Observable, of } from 'rxjs';
 
-import { Balance } from '../../common/models/Balance';
 import { TxId } from '../../common/types';
 import { Network } from '../common/Network';
 import {
@@ -12,7 +11,6 @@ import { ammPools$ } from './api/ammPools/ammPools';
 import { assetBalance$ } from './api/balance/assetBalance';
 import { lpBalance$ } from './api/balance/lpBalance';
 import { networkAssetBalance$ } from './api/balance/networkAssetBalance';
-import { txHistory } from './api/history/txHistory';
 import { networkAsset } from './api/networkAsset/networkAsset';
 import { networkContext$ } from './api/networkContext/networkContext';
 import { deposit } from './api/operations/deposit';

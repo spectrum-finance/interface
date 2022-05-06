@@ -1,12 +1,4 @@
-import {
-  combineLatest,
-  map,
-  Observable,
-  publishReplay,
-  refCount,
-  tap,
-  zip,
-} from 'rxjs';
+import { combineLatest, map, Observable, publishReplay, refCount } from 'rxjs';
 
 import { Balance } from '../../../../common/models/Balance';
 import { ammPools$ } from '../ammPools/ammPools';
