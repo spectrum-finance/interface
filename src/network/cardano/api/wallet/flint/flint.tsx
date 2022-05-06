@@ -8,7 +8,7 @@ export const Flint: CardanoWalletContract = makeCardanoWallet({
   variableName: 'flint',
   extensionLink:
     'https://chrome.google.com/webstore/detail/flint-wallet/hnhobjmcibchnmglfbldbfabcgaknlkj?hl=en',
-  walletSupportedFeatures: { createPool: true },
+  walletSupportedFeatures: { createPool: false },
   name: 'FlintWallet',
   icon: <FlintLogo width={26} height={26} />,
   testnetSwitchGuideUrl:

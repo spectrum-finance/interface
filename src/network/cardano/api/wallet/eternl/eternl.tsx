@@ -8,7 +8,7 @@ export const Eternl: CardanoWalletContract = makeCardanoWallet({
   variableName: 'eternl',
   extensionLink:
     'https://chrome.google.com/webstore/detail/eternlcc/kmhcihpebfmpgmihbkipmjlmmioameka',
-  walletSupportedFeatures: { createPool: true },
+  walletSupportedFeatures: { createPool: false },
   name: 'Eternl',
   icon: <EternlLogo />,
   testnetSwitchGuideUrl:

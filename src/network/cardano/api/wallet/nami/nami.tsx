@@ -8,7 +8,7 @@ export const Nami: CardanoWalletContract = makeCardanoWallet({
   variableName: 'nami',
   extensionLink:
     'https://chrome.google.com/webstore/detail/nami/lpfcbjknijpeeillifnkikgncikgfhdo?hl=en',
-  walletSupportedFeatures: { createPool: true },
+  walletSupportedFeatures: { createPool: false },
   name: 'Nami',
   icon: <NamiLogo />,
   testnetSwitchGuideUrl:

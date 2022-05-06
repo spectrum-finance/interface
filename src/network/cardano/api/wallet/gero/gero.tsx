@@ -8,7 +8,7 @@ export const Gero: CardanoWalletContract = makeCardanoWallet({
   variableName: 'gerowallet',
   extensionLink:
     'https://chrome.google.com/webstore/detail/gerowallet-testnet/iifeegfcfhlhhnilhfoeihllenamcfgc',
-  walletSupportedFeatures: { createPool: true },
+  walletSupportedFeatures: { createPool: false },
   name: 'GeroWallet Testnet',
   testnetSwitchGuideUrl: '',
   icon: <GeroWalletLogo />,

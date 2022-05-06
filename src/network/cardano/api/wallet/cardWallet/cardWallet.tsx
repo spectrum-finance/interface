@@ -8,7 +8,7 @@ export const CardWallet: CardanoWalletContract = makeCardanoWallet({
   variableName: 'cardwallet',
   extensionLink:
     'https://chrome.google.com/webstore/detail/cwallet/apnehcjmnengpnmccpaibjmhhoadaico',
-  walletSupportedFeatures: { createPool: true },
+  walletSupportedFeatures: { createPool: false },
   name: 'CardWallet',
   testnetSwitchGuideUrl: '',
   icon: <CardWalletLogo />,
