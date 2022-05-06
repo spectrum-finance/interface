@@ -21,9 +21,9 @@ const toAssetInfo = (
 ): AssetInfo<AssetClass> => {
   return {
     id: cai?.subject || mkSubject(ac),
-    name: cai?.name.value || ac.name,
-    decimals: cai?.decimals.value || 0,
-    icon: `data:image/png;base64, ${cai?.logo.value || ''}`,
+    name: cai?.name?.value || ac.name,
+    decimals: cai?.decimals?.value || 0,
+    icon: `data:image/png;base64, ${cai?.logo?.value || ''}`,
     data: ac,
   };
 };

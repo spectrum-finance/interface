@@ -9,13 +9,12 @@ import { Eternl } from './eternl/eternl';
 import { Flint } from './flint/flint';
 import { Gero } from './gero/gero';
 import { Nami } from './nami/nami';
-import { Yoroi } from './yoroi/yoroi';
 
 const CARDANO_SELECTED_WALLET_TOKEN = 'cardano-selected-wallet';
 
 export const cardanoWalletManager = makeWalletManager<CardanoWalletContract>(
   CARDANO_SELECTED_WALLET_TOKEN,
-  [Nami, Eternl, Gero, Flint, CardWallet, Yoroi],
+  [Nami, Eternl, Gero, Flint, CardWallet],
   (w: CardanoWalletContract) => w.connectWallet(),
 );
 
