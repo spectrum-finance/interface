@@ -1,6 +1,6 @@
 import { minBudgetForSwap, mkTxMath } from '@ergolabs/cardano-dex-sdk';
 import { RustModule } from '@ergolabs/cardano-dex-sdk/build/main/utils/rustLoader';
-import { t } from '@lingui/macro';
+import { t, Trans } from '@lingui/macro';
 import React, { FC, useEffect } from 'react';
 import { from, map, Observable } from 'rxjs';
 
@@ -21,6 +21,7 @@ import { cardanoNetworkParams$ } from '../../api/common/cardanoNetwork';
 import { networkAsset } from '../../api/networkAsset/networkAsset';
 import { ammTxFeeMapping } from '../../api/operations/common/ammTxFeeMapping';
 import { minExecutorReward } from '../../api/operations/common/minExecutorReward';
+import { depositAda } from '../../settings/depositAda';
 import { useMaxExFee, useMinExFee } from '../../settings/executionFee';
 import { settings, settings$ } from '../../settings/settings';
 import { useMaxTotalFee, useMinTotalFee } from '../../settings/totalFee';
@@ -170,6 +171,7 @@ export const SwapInfoContent: FC<SwapInfoContentProps> = ({ value }) => {
       </Flex.Item>
       <Flex.Item marginBottom={2}>
         <SwapInfoItem
+          tooltip={t`Will be charged by off-chain execution bots and distributed among validators.`}
           title={t`Execution Fee`}
           value={`${minExFee.toCurrencyString()} - ${maxExFee.toCurrencyString()}`}
           secondary
@@ -177,8 +179,32 @@ export const SwapInfoContent: FC<SwapInfoContentProps> = ({ value }) => {
       </Flex.Item>
       <Flex.Item marginBottom={2}>
         <SwapInfoItem
+          tooltip={t`A small amount of ADA charged by Cardano blockchain.`}
           title={t`Transaction fee:`}
           value={transactionFee.toCurrencyString()}
+          secondary
+        />
+      </Flex.Item>
+      <Flex.Item marginBottom={2}>
+        <SwapInfoItem
+          tooltip={
+            <>
+              <Trans>
+                This amount of ADA will be held to construct the transaction and
+                will be returned when your order is executed or cancelled.
+              </Trans>
+              <br />
+              <a
+                href="https://docs.cardano.org/plutus/collateral-mechanism"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <Trans>Read More</Trans>
+              </a>
+            </>
+          }
+          title={t`Deposit ADA:`}
+          value={depositAda.toCurrencyString()}
           secondary
         />
       </Flex.Item>

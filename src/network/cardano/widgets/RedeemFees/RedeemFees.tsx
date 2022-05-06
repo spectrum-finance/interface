@@ -5,6 +5,7 @@ import {
   FeesView,
   FeesViewItem,
 } from '../../../../components/FeesBox/FeesView';
+import { depositAda } from '../../settings/depositAda';
 import { useMinExFee } from '../../settings/executionFee';
 import { useMinTotalFee } from '../../settings/totalFee';
 import { useTransactionFee } from '../../settings/transactionFee';
@@ -17,6 +18,7 @@ export const RedeemFees: FC = () => {
   const fees: FeesViewItem[] = [
     { caption: t`Transaction Fee`, currency: transactionFee },
     { caption: t`Execution Fee`, currency: minExFee },
+    { caption: t`Deposit ADA`, currency: depositAda },
   ];
 
   return <FeesView totalFees={minTotalFee} fees={fees} />;
