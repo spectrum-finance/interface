@@ -90,6 +90,7 @@ export const makeCardanoWallet = ({
     }
 
     notification.error({
+      key: 'wallet_network_error',
       message: 'Wallet Network Error',
       description: (
         <>

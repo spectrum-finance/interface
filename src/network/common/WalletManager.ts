@@ -2,6 +2,7 @@ import { DateTime } from 'luxon';
 import { ReactNode } from 'react';
 import {
   catchError,
+  distinctUntilChanged,
   map,
   Observable,
   of,
@@ -125,6 +126,9 @@ export const makeWalletManager = <W extends Wallet>(
         ),
         startWith(WalletState.CONNECTING),
         catchError(() => of(WalletState.NOT_CONNECTED)),
+        distinctUntilChanged(),
+        publishReplay(1),
+        refCount(),
       );
     }),
   );
