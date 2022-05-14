@@ -1,5 +1,6 @@
 import { t, Trans } from '@lingui/macro';
 import React from 'react';
+import CopyToClipboard from 'react-copy-to-clipboard';
 
 import { useObservable } from '../../../../common/hooks/useObservable';
 import {
@@ -7,6 +8,7 @@ import {
   Button,
   Flex,
   Menu,
+  message,
   Modal,
   ReloadOutlined,
   Skeleton,
@@ -69,6 +71,15 @@ const TxHistoryModal = (): JSX.Element => {
             <Trans>View on Explorer</Trans>
           </a>
         </Menu.Item>
+
+        <CopyToClipboard
+          text={op.txId}
+          onCopy={() => message.success(t`Copied to clipboard!`)}
+        >
+          <Menu.Item>
+            <Trans>Copy transaction ID</Trans>
+          </Menu.Item>
+        </CopyToClipboard>
         {isRefundableOperation(op.status) && (
           <Menu.Item onClick={() => handleOpenRefundConfirmationModal(op)}>
             <a rel="noreferrer">
