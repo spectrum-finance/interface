@@ -3,6 +3,7 @@ import React, { FC, ReactNode } from 'react';
 
 import { Currency } from '../../common/models/Currency';
 import { Flex, Typography } from '../../ergodex-cdk';
+import { BoxInfoItem } from '../BoxInfoItem/BoxInfoItem';
 import { InfoTooltip } from '../InfoTooltip/InfoTooltip';
 
 export interface FeesViewItem {
@@ -16,8 +17,8 @@ export interface FeesViewProps {
 }
 
 export const FeesView: FC<FeesViewProps> = ({ fees, totalFees }) => (
-  <Flex>
-    <Flex.Item flex={1}>
+  <BoxInfoItem
+    title={
       <Typography.Text>
         <Trans>Total Fees</Trans>
         <InfoTooltip
@@ -41,13 +42,15 @@ export const FeesView: FC<FeesViewProps> = ({ fees, totalFees }) => (
         />
         :
       </Typography.Text>
-    </Flex.Item>
-    <Typography.Text>
-      {totalFees instanceof Array
-        ? `${totalFees[0].toString()} - ${totalFees[1].toString()} ${
-            totalFees[0].asset.name
-          }`
-        : totalFees.toCurrencyString()}
-    </Typography.Text>
-  </Flex>
+    }
+    value={
+      <Typography.Text>
+        {totalFees instanceof Array
+          ? `${totalFees[0].toString()} - ${totalFees[1].toString()} ${
+              totalFees[0].asset.name
+            }`
+          : totalFees.toCurrencyString()}
+      </Typography.Text>
+    }
+  />
 );

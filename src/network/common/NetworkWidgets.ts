@@ -5,7 +5,7 @@ import { SwapFormModel } from '../../pages/Swap/SwapFormModel';
 export interface NetworkWidgets {
   GlobalSettingsModal?: FC<{ onClose: () => void }>;
   SwapInfoContent: FC<{ value: SwapFormModel }>;
-  SwapConfirmationInfo: FC;
+  SwapConfirmationInfo: FC<{ value: SwapFormModel }>;
   DepositConfirmationInfo: FC;
   RedeemConfirmationInfo: FC;
 }
