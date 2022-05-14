@@ -9,7 +9,7 @@ import { useMinExFee } from '../../settings/executionFee';
 import { useMinerFee } from '../../settings/minerFee';
 import { useMinTotalFee } from '../../settings/totalFees';
 
-export const RedeemFees: FC = () => {
+export const DepositConfirmationInfo: FC = () => {
   const minExFee = useMinExFee();
   const minTotalFee = useMinTotalFee();
   const minerFee = useMinerFee();

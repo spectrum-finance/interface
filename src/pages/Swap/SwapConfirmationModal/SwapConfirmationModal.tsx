@@ -21,7 +21,7 @@ import {
 } from '../../../ergodex-cdk';
 import { swap } from '../../../gateway/api/operations/swap';
 import { useSettings } from '../../../gateway/settings/settings';
-import { swapFees$ } from '../../../gateway/widgets/swapFees';
+import { swapConfirmationInfo$ } from '../../../gateway/widgets/swapConfirmationInfo';
 import { useMinExFee } from '../../../services/new/core';
 import { renderFractions } from '../../../utils/math';
 import {
@@ -42,7 +42,7 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
   const [isChecked, setIsChecked] = useState<boolean | undefined>(
     value.pool.verified,
   );
-  const [SwapFees] = useObservable(swapFees$);
+  const [SwapFees] = useObservable(swapConfirmationInfo$);
   const form = useForm<SwapFormModel>(value);
 
   //@ts-ignore

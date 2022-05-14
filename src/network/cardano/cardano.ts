@@ -39,9 +39,9 @@ import {
   useSwapValidationFee,
 } from './settings/totalFee';
 import { exploreAddress, exploreLastBlock, exploreTx } from './utils/utils';
-import { DepositFees } from './widgets/DepositFees/DepositFees';
-import { RedeemFees } from './widgets/RedeemFees/RedeemFees';
-import { SwapFees } from './widgets/SwapFees/SwapFees';
+import { DepositConfirmationInfo } from './widgets/DepositConfirmationInfo/DepositConfirmationInfo';
+import { RedeemConfirmationInfo } from './widgets/RedeemConfirmationInfo/RedeemConfirmationInfo';
+import { SwapConfirmationInfo } from './widgets/SwapConfirmationInfo/SwapConfirmationInfo';
 import { SwapInfoContent } from './widgets/SwapInfoContent/SwapInfoContent';
 
 export const cardanoNetwork: Network<CardanoWalletContract, CardanoSettings> = {
@@ -73,9 +73,9 @@ export const cardanoNetwork: Network<CardanoWalletContract, CardanoSettings> = {
   setSettings,
 
   SwapInfoContent,
-  SwapFees,
-  DepositFees,
-  RedeemFees,
+  SwapConfirmationInfo,
+  DepositConfirmationInfo,
+  RedeemConfirmationInfo,
 
   exploreTx,
   exploreAddress,

@@ -39,10 +39,10 @@ import {
   useSwapValidationFee,
 } from './settings/totalFees';
 import { exploreAddress, exploreLastBlock, exploreTx } from './utils/utils';
-import { DepositFees } from './widgets/DepositFees/DepositFees';
+import { DepositConfirmationInfo } from './widgets/DepositConfirmationInfo/DepositConfirmationInfo';
 import { GlobalSettingsModal } from './widgets/GlobalSettings/GlobalSettingsModal';
-import { RedeemFees } from './widgets/RedeemFees/RedeemFees';
-import { SwapFees } from './widgets/SwapFees/SwapFees';
+import { RedeemConfirmationInfo } from './widgets/RedeemConfirmationInfo/RedeemConfirmationInfo';
+import { SwapConfirmationInfo } from './widgets/SwapConfirmationInfo/SwapConfirmationInfo';
 import { SwapInfoContent } from './widgets/SwapInfoContent/SwapInfoContent';
 
 export const ergoNetwork: Network<ErgoWalletContract, ErgoSettings> = {
@@ -84,9 +84,9 @@ export const ergoNetwork: Network<ErgoWalletContract, ErgoSettings> = {
 
   GlobalSettingsModal,
   SwapInfoContent,
-  SwapFees,
-  DepositFees,
-  RedeemFees,
+  SwapConfirmationInfo,
+  DepositConfirmationInfo,
+  RedeemConfirmationInfo,
 
   useSwapValidationFee,
   useDepositValidationFee,

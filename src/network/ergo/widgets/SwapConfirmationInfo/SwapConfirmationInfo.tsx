@@ -10,7 +10,7 @@ import { useMaxExFee, useMinExFee } from '../../settings/executionFee';
 import { useMinerFee } from '../../settings/minerFee';
 import { useMaxTotalFee, useMinTotalFee } from '../../settings/totalFees';
 
-export const SwapFees: FC = () => {
+export const SwapConfirmationInfo: FC = () => {
   const minExFee = useMinExFee();
   const maxExFee = useMaxExFee();
   const minTotalFee = useMinTotalFee();
