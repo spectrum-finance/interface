@@ -8,6 +8,7 @@ import { Wallet } from '../../../../common/Wallet';
 export interface ErgoWalletContract extends Wallet, Prover {
   readonly getUsedAddresses: () => Observable<Address[]>;
   readonly getUnusedAddresses: () => Observable<Address[]>;
+  readonly getChangeAddress: () => Observable<Address>;
   readonly getAddresses: () => Observable<Address[]>;
   readonly connectWallet: () => Observable<boolean | ReactNode>;
   readonly getUtxos: () => Observable<ErgoBox[]>;

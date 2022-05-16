@@ -21,6 +21,15 @@ export const getUsedAddresses = (): Observable<Address[] | undefined> =>
     refCount(),
   );
 
+export const getChangeAddress = (): Observable<Address | undefined> =>
+  connectedWalletChange$.pipe(
+    switchMap((selectedWallet) =>
+      selectedWallet ? selectedWallet.getChangeAddress() : of(undefined),
+    ),
+    publishReplay(1),
+    refCount(),
+  );
+
 export const getUnusedAddresses = (): Observable<Address[] | undefined> =>
   connectedWalletChange$.pipe(
     switchMap((selectedWallet) =>

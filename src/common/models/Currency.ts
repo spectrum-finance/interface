@@ -145,14 +145,20 @@ export class Currency {
     return renderFractions(this.amount, this.asset.decimals);
   }
 
-  toString(): string {
+  toString(maxDecimals?: number): string {
+    if (maxDecimals !== null && maxDecimals !== undefined) {
+      return Currency.createFormatter(maxDecimals).format(
+        +renderFractions(this.amount, this.asset.decimals),
+      );
+    }
+
     return this.formatter.format(
       +renderFractions(this.amount, this.asset.decimals),
     );
   }
 
-  toCurrencyString(): string {
-    return `${this.toString()} ${
+  toCurrencyString(maxDecimals?: number): string {
+    return `${this.toString(maxDecimals)} ${
       isUnknownAsset(this.asset) ? '' : this.asset.name
     }`;
   }

@@ -78,7 +78,7 @@ const AddressListItem: React.FC<AddressListItemProps> = ({
         </Flex.Item>
         <Flex.Item>
           <Typography.Text strong>
-            {addressBalance.toCurrencyString()}
+            {addressBalance.toCurrencyString(2)}
           </Typography.Text>
         </Flex.Item>
         <Flex.Item grow>
