@@ -10,7 +10,7 @@ import { FormPairSection } from '../../../../components/common/FormView/FormPair
 import { PageSection } from '../../../../components/Page/PageSection/PageSection';
 import { Box, Button, Flex, Modal } from '../../../../ergodex-cdk';
 import { redeem } from '../../../../gateway/api/operations/redeem';
-import { redeemFees$ } from '../../../../gateway/widgets/redeemFees';
+import { redeemConfirmationInfo$ } from '../../../../gateway/widgets/redeemConfirmationInfo';
 
 // import { poolActions } from '../../../../services/poolActions';
 interface ConfirmRemoveModalProps {
@@ -23,7 +23,7 @@ interface ConfirmRemoveModalProps {
 
 export const RemoveLiquidityConfirmationModal: React.FC<ConfirmRemoveModalProps> =
   ({ pool, lpAmount, xAmount, yAmount, onClose }) => {
-    const [RedeemFees] = useObservable(redeemFees$);
+    const [RedeemFees] = useObservable(redeemConfirmationInfo$);
 
     // TODO: add try catch
     const removeOperation = async (pool: AmmPool, lpAmount: Currency) => {

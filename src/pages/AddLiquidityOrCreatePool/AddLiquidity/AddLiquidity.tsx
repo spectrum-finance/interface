@@ -30,7 +30,6 @@ import {
 import { useAssetsBalance } from '../../../gateway/api/assetBalance';
 import { useNetworkAsset } from '../../../gateway/api/networkAsset';
 import { useSwapValidationFee } from '../../../gateway/api/validationFees';
-import { useMaxTotalFees } from '../../../services/new/core';
 import { PoolRatio } from '../../PoolOverview/PoolRatio/PoolRatio';
 import { normalizeAmountWithFee } from '../common/utils';
 import { LiquidityPercentInput } from '../LiquidityPercentInput/LiquidityPercentInput';

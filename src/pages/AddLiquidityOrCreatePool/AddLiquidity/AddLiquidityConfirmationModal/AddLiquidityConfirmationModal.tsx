@@ -9,7 +9,7 @@ import { PageSection } from '../../../../components/Page/PageSection/PageSection
 import { Section } from '../../../../components/Section/Section';
 import { Alert, Button, Checkbox, Flex, Modal } from '../../../../ergodex-cdk';
 import { deposit } from '../../../../gateway/api/operations/deposit';
-import { depositFees$ } from '../../../../gateway/widgets/depositFees';
+import { depositConfirmationInfo$ } from '../../../../gateway/widgets/depositConfirmationInfo';
 import { PoolRatio } from '../../../PoolOverview/PoolRatio/PoolRatio';
 import { AddLiquidityFormModel } from '../AddLiquidityFormModel';
 
@@ -25,7 +25,7 @@ const AddLiquidityConfirmationModal: FC<AddLiquidityConfirmationModalProps> = ({
   const [isChecked, setIsChecked] = useState<boolean | undefined>(
     value.pool.verified,
   );
-  const [DepositFees] = useObservable(depositFees$);
+  const [DepositFees] = useObservable(depositConfirmationInfo$);
   const addLiquidityOperation = async () => {
     const { pool, y, x } = value;
 
