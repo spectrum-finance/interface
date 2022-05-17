@@ -126,6 +126,13 @@ export const makeCardanoWallet = ({
     );
   };
 
+  const getChangeAddress = (): Observable<Address> => {
+    return zip([
+      ctx$.pipe(switchMap((ctx) => from(ctx.getChangeAddress()))),
+      cardanoWasm$,
+    ]).pipe(map(([address, wasm]) => decodeAddr(address, wasm)));
+  };
+
   const getUsedAddresses = (): Observable<Address[]> => {
     return zip([
       ctx$.pipe(switchMap((ctx) => from(ctx.getUsedAddresses()))),
@@ -197,6 +204,7 @@ export const makeCardanoWallet = ({
     connectWallet,
     getUsedAddresses,
     getUnusedAddresses,
+    getChangeAddress,
     getAddresses,
     getBalance,
     getUtxos,

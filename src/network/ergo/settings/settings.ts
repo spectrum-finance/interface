@@ -11,6 +11,7 @@ import { isCurrentAddressValid } from '../../../common/utils/isCurrenctAddressVa
 import { localStorageManager } from '../../../common/utils/localStorageManager';
 import { BaseNetworkSettings } from '../../common/NetworkSettings';
 import {
+  getChangeAddress,
   getUnusedAddresses,
   getUsedAddresses,
 } from '../api/addresses/addresses';
@@ -34,6 +35,7 @@ const updateAddressSettings = (
   settings: ErgoSettings,
   usedAddresses: Address[],
   unusedAddresses: Address[],
+  walletAddress: Address,
 ): void => {
   let newSelectedAddress: Address;
 
@@ -45,7 +47,7 @@ const updateAddressSettings = (
   ) {
     newSelectedAddress = settings.address!;
   } else {
-    newSelectedAddress = unusedAddresses[0] || usedAddresses[0];
+    newSelectedAddress = walletAddress;
   }
 
   setSettings({
@@ -59,17 +61,20 @@ export const initializeSettings = (): void => {
   zip([
     getUsedAddresses().pipe(filter(Boolean)),
     getUnusedAddresses().pipe(filter(Boolean)),
+    getChangeAddress().pipe(filter(Boolean)),
   ])
     .pipe(startWith(undefined))
     .subscribe((addresses) => {
       if (!addresses) {
         return;
       }
-      const [usedAddresses, unusedAddresses] = addresses;
+      const [usedAddresses, unusedAddresses, walletAddress] = addresses;
+
       updateAddressSettings(
         localStorageManager.get(SETTINGS_KEY) || defaultErgoSettings,
         usedAddresses,
         unusedAddresses,
+        walletAddress,
       );
     });
 };
