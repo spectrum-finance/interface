@@ -11,6 +11,7 @@ import {
 import { Truncate } from '../../../../components/Truncate/Truncate';
 import { Box, Flex, Typography } from '../../../../ergodex-cdk';
 import { SwapFormModel } from '../../../../pages/Swap/SwapFormModel';
+import { ErgoAmmPool } from '../../api/ammPools/ErgoAmmPool';
 import { useMaxExFee, useMinExFee } from '../../settings/executionFee';
 import { useMinerFee } from '../../settings/minerFee';
 import { useNitro } from '../../settings/nitro';
@@ -18,7 +19,7 @@ import { useSlippage } from '../../settings/slippage';
 import { useMaxTotalFee, useMinTotalFee } from '../../settings/totalFees';
 
 export interface SwapConfirmationInfoProps {
-  readonly value: SwapFormModel;
+  readonly value: SwapFormModel<ErgoAmmPool>;
 }
 
 export const SwapConfirmationInfo: FC<SwapConfirmationInfoProps> = ({
@@ -70,14 +71,13 @@ export const SwapConfirmationInfo: FC<SwapConfirmationInfoProps> = ({
           <BoxInfoItem
             title={<Trans>Estimated output:</Trans>}
             value={
-              <>
-                {minOutput && maxOutput && (
-                  <Typography.Text>
-                    {`${minOutput?.toString()} - ${maxOutput?.toString()} `}
-                    <Truncate>{maxOutput?.asset.name}</Truncate>
-                  </Typography.Text>
-                )}
-              </>
+              minOutput &&
+              maxOutput && (
+                <Typography.Text>
+                  {`${minOutput?.toString()} - ${maxOutput?.toString()} `}
+                  <Truncate>{maxOutput?.asset.name}</Truncate>
+                </Typography.Text>
+              )
             }
           />
         </Flex.Item>

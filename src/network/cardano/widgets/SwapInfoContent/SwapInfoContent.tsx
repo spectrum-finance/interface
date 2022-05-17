@@ -7,6 +7,7 @@ import { Divider, Flex } from '../../../../ergodex-cdk';
 import { SwapFormModel } from '../../../../pages/Swap/SwapFormModel';
 import { SwapInfoItem } from '../../../../pages/Swap/SwapInfo/SwapInfoItem/SwapInfoItem';
 import { SwapInfoPriceImpact } from '../../../../pages/Swap/SwapInfo/SwapInfoPriceImpact/SwapInfoPriceImpact';
+import { CardanoAmmPool } from '../../api/ammPools/CardanoAmmPool';
 import { depositAda } from '../../settings/depositAda';
 import { useMaxExFee, useMinExFee } from '../../settings/executionFee';
 import { useMaxTotalFee, useMinTotalFee } from '../../settings/totalFee';
@@ -14,7 +15,7 @@ import { useTransactionFee } from '../../settings/transactionFee';
 import { calculateSwapInfo, useSettings } from '../utils';
 
 export interface SwapInfoContentProps {
-  readonly value: SwapFormModel;
+  readonly value: SwapFormModel<CardanoAmmPool>;
 }
 
 export const SwapInfoContent: FC<SwapInfoContentProps> = ({ value }) => {

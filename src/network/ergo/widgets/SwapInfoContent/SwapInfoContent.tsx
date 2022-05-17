@@ -7,6 +7,7 @@ import { Divider, Flex } from '../../../../ergodex-cdk';
 import { SwapFormModel } from '../../../../pages/Swap/SwapFormModel';
 import { SwapInfoItem } from '../../../../pages/Swap/SwapInfo/SwapInfoItem/SwapInfoItem';
 import { SwapInfoPriceImpact } from '../../../../pages/Swap/SwapInfo/SwapInfoPriceImpact/SwapInfoPriceImpact';
+import { ErgoAmmPool } from '../../api/ammPools/ErgoAmmPool';
 import { useMaxExFee, useMinExFee } from '../../settings/executionFee';
 import { useMinerFee } from '../../settings/minerFee';
 import { useNitro } from '../../settings/nitro';
@@ -14,7 +15,7 @@ import { useSlippage } from '../../settings/slippage';
 import { useMaxTotalFee, useMinTotalFee } from '../../settings/totalFees';
 
 export interface SwapInfoContent {
-  readonly value: SwapFormModel;
+  readonly value: SwapFormModel<ErgoAmmPool>;
 }
 
 export const SwapInfoContent: FC<SwapInfoContent> = ({ value }) => {

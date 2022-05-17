@@ -5,6 +5,7 @@ import {
   getUsedAddresses,
 } from './api/addresses/addresses';
 import { ammPools$ } from './api/ammPools/ammPools';
+import { ErgoAmmPool } from './api/ammPools/ErgoAmmPool';
 import { assetBalance$ } from './api/balance/assetBalance';
 import { lpBalance$ } from './api/balance/lpBalance';
 import { networkAssetBalance$ } from './api/balance/networkAssetBalance';
@@ -45,7 +46,11 @@ import { RedeemConfirmationInfo } from './widgets/RedeemConfirmationInfo/RedeemC
 import { SwapConfirmationInfo } from './widgets/SwapConfirmationInfo/SwapConfirmationInfo';
 import { SwapInfoContent } from './widgets/SwapInfoContent/SwapInfoContent';
 
-export const ergoNetwork: Network<ErgoWalletContract, ErgoSettings> = {
+export const ergoNetwork: Network<
+  ErgoWalletContract,
+  ErgoSettings,
+  ErgoAmmPool
+> = {
   name: 'ergo',
   label: 'ergo',
   networkAsset,

@@ -8,6 +8,7 @@ import {
   getUsedAddresses,
 } from './api/addresses/addresses';
 import { ammPools$ } from './api/ammPools/ammPools';
+import { CardanoAmmPool } from './api/ammPools/CardanoAmmPool';
 import { assetBalance$ } from './api/balance/assetBalance';
 import { lpBalance$ } from './api/balance/lpBalance';
 import { networkAssetBalance$ } from './api/balance/networkAssetBalance';
@@ -44,7 +45,11 @@ import { RedeemConfirmationInfo } from './widgets/RedeemConfirmationInfo/RedeemC
 import { SwapConfirmationInfo } from './widgets/SwapConfirmationInfo/SwapConfirmationInfo';
 import { SwapInfoContent } from './widgets/SwapInfoContent/SwapInfoContent';
 
-export const cardanoNetwork: Network<CardanoWalletContract, CardanoSettings> = {
+export const cardanoNetwork: Network<
+  CardanoWalletContract,
+  CardanoSettings,
+  CardanoAmmPool
+> = {
   name: 'cardano',
   label: 'cardano (Testnet)',
   networkAsset,

@@ -17,11 +17,11 @@ import { ergoNetwork } from '../../network/ergo/ergo';
 
 const SELECTED_NETWORK_KEY = 'ergodex-selected-network-key';
 
-export const networks = [ergoNetwork, cardanoNetwork];
+export const networks: Network<any, any, any>[] = [ergoNetwork, cardanoNetwork];
 
 const initialNetworkName =
   localStorageManager.get<string>(SELECTED_NETWORK_KEY);
-export const initialNetwork: Network<any, any> = initialNetworkName
+export const initialNetwork: Network<any, any, any> = initialNetworkName
   ? networks.find((n) => n.name === initialNetworkName)!
   : cardanoNetwork;
 

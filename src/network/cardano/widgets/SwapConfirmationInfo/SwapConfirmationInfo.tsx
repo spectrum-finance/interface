@@ -11,6 +11,7 @@ import {
 import { Truncate } from '../../../../components/Truncate/Truncate';
 import { Box, Flex, Typography } from '../../../../ergodex-cdk';
 import { SwapFormModel } from '../../../../pages/Swap/SwapFormModel';
+import { CardanoAmmPool } from '../../api/ammPools/CardanoAmmPool';
 import { depositAda } from '../../settings/depositAda';
 import { useMaxExFee, useMinExFee } from '../../settings/executionFee';
 import { useMaxTotalFee, useMinTotalFee } from '../../settings/totalFee';
@@ -18,7 +19,7 @@ import { useTransactionFee } from '../../settings/transactionFee';
 import { calculateSwapInfo, useSettings } from '../utils';
 
 export interface SwapConfirmationInfoProps {
-  readonly value: SwapFormModel;
+  readonly value: SwapFormModel<CardanoAmmPool>;
 }
 
 export const SwapConfirmationInfo: FC<SwapConfirmationInfoProps> = ({
@@ -37,7 +38,7 @@ export const SwapConfirmationInfo: FC<SwapConfirmationInfoProps> = ({
       nitro,
       slippage,
       fromAmount: value.fromAmount,
-      pool: value.pool as any,
+      pool: value.pool,
       toAmount: value.toAmount,
     });
   }, [value.fromAmount, value.toAmount, value.pool, nitro, slippage]);
