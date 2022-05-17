@@ -4,6 +4,7 @@ import {
   renderFractions,
 } from '../../utils/math';
 import { getDecimalsCount, normalizeAmount } from '../utils/amount';
+import { getFormatter } from '../utils/createFormatter';
 import { AssetInfo } from './AssetInfo';
 
 const createUnknownAsset = (decimals = 0): AssetInfo => ({
@@ -197,10 +198,6 @@ export class Currency {
   }
 
   private static createFormatter(decimals: number): Intl.NumberFormat {
-    return new Intl.NumberFormat('en-US', {
-      maximumFractionDigits: decimals,
-      currencySign: undefined,
-      currency: undefined,
-    });
+    return getFormatter(decimals);
   }
 }
