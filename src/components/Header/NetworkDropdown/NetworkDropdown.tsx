@@ -32,9 +32,6 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
 
   const overlay = (
     <Menu style={{ padding: '8px', minWidth: '170px' }}>
-      <Typography.Body className="network-dropdown__menu-title" strong>
-        <Trans>Select Network</Trans>
-      </Typography.Body>
       {networks.map((network) => (
         <Menu.Item
           key={network.name}
