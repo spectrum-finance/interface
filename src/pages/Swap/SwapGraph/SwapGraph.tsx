@@ -1,88 +1,43 @@
 import { t } from '@lingui/macro';
-import { DateTime, DurationLike } from 'luxon';
-import React, { useCallback, useEffect, useState } from 'react';
+import { DateTime } from 'luxon';
+import React, { useCallback, useState } from 'react';
 import { Area, AreaChart, Tooltip, XAxis, YAxis } from 'recharts';
 
 import { useObservable } from '../../../common/hooks/useObservable';
 import { AmmPool } from '../../../common/models/AmmPool';
-import { PoolChartData } from '../../../common/models/PoolChartData';
 import { getPoolChartData } from '../../../common/streams/poolChart';
 import { TokenIconPair } from '../../../components/AssetIconPair/TokenIconPair';
 import { Truncate } from '../../../components/Truncate/Truncate';
 import { Button, Flex, Tabs, Typography } from '../../../ergodex-cdk';
+import { useActiveData } from './useActiveData';
+import { Period, usePeriodSettings } from './usePeriodSettings';
 
 interface SwapGraphProps {
   pool: AmmPool;
 }
 
-type Period = 'D' | 'W' | 'M' | 'Y' | string;
-
-const getDurationFromPeriod = (period: Period): DurationLike => {
-  switch (period) {
-    case 'D':
-    default:
-      return { day: 1 };
-    case 'W':
-      return { week: 1 };
-    case 'M':
-      return { month: 1 };
-    case 'Y':
-      return { year: 1 };
-  }
-};
-
-const getFormatXAxis = (period: Period): Intl.DateTimeFormatOptions => {
-  switch (period) {
-    case 'D':
-      return DateTime.TIME_SIMPLE;
-    default:
-    case 'W':
-    case 'M':
-    case 'Y':
-      return {
-        month: 'long',
-        day: 'numeric',
-      };
-  }
-};
-
 export const SwapGraph: React.FC<SwapGraphProps> = ({ pool }) => {
   const [defaultActivePeriod, setDefaultActivePeriod] = useState<Period>('D');
   const [isInverted, setInverted] = useState(false);
+  const { durationOffset, timeFormat, resolution } =
+    usePeriodSettings(defaultActivePeriod);
   const getData = () =>
     getPoolChartData(pool, {
-      from: DateTime.now()
-        .minus(getDurationFromPeriod(defaultActivePeriod))
-        .valueOf(),
+      from: DateTime.now().minus(durationOffset).valueOf(),
+      resolution,
     });
   const [data] = useObservable(getData, [pool.id, defaultActivePeriod], []);
-
-  const [activeData, setActiveData] = useState<PoolChartData>(
-    data[data.length - 1],
-  );
-  useEffect(() => {
-    setActiveData(data[data.length - 1]);
-  }, [data]);
-
-  const onPeriodChange = (key: string) => {
-    setDefaultActivePeriod(key);
-  };
+  const [activeData, setActiveData] = useActiveData(data);
 
   const formatXAxis = useCallback(
-    (ts: number) =>
-      DateTime.fromMillis(ts).toLocaleString(
-        getFormatXAxis(defaultActivePeriod),
-      ),
+    (ts: number) => DateTime.fromMillis(ts).toLocaleString(timeFormat),
     [defaultActivePeriod],
   );
 
   return (
     <Flex col style={{ position: 'relative' }}>
-      <Flex.Item>
-        <Flex
-          align="center"
-          style={{ marginTop: '16px', marginLeft: '24px', marginRight: '16px' }}
-        >
+      <Flex.Item marginTop={4} marginLeft={6} marginRight={4}>
+        <Flex align="center">
           <TokenIconPair
             size="small"
             assetX={pool?.x.asset}
@@ -103,7 +58,7 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({ pool }) => {
           <Flex.Item style={{ marginLeft: 'auto' }}>
             <Tabs
               defaultActiveKey={defaultActivePeriod}
-              onChange={onPeriodChange}
+              onChange={(key) => setDefaultActivePeriod(key)}
             >
               <Tabs.TabPane tab="D" key="D" />
               <Tabs.TabPane tab="W" key="W" />
@@ -149,11 +104,12 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({ pool }) => {
             left: 0,
             bottom: 0,
           }}
+          reverseStackOrder
           onMouseMove={(state: any) => {
-            const active = state?.activePayload?.[0]?.payload;
-            setActiveData(active || data[data.length - 1]);
+            setActiveData(state?.activePayload?.[0]?.payload);
           }}
-          onMouseLeave={() => setActiveData(data[data.length - 1])}
+          syncMethod="index"
+          onMouseLeave={() => setActiveData(null)}
         >
           <YAxis
             dataKey={isInverted ? 'invertedPrice' : 'price'}

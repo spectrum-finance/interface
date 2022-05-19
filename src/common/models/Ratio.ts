@@ -28,6 +28,10 @@ export class Ratio {
     this.formatter = Ratio.createFormatter(this.decimals);
   }
 
+  valueOf(): number {
+    return +renderFractions(this.amount, this.decimals);
+  }
+
   toString(): string {
     return this.formatter.format(+renderFractions(this.amount, this.decimals));
   }
