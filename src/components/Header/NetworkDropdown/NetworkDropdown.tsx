@@ -31,10 +31,7 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
   const [selectedNetwork] = useSelectedNetwork();
 
   const overlay = (
-    <Menu
-      className="network-dropdown__menu"
-      style={{ padding: '8px', minWidth: '170px' }}
-    >
+    <Menu style={{ padding: '8px', minWidth: '170px' }}>
       <Typography.Body className="network-dropdown__menu-title" strong>
         <Trans>Select Network</Trans>
       </Typography.Body>
