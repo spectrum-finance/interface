@@ -14,7 +14,10 @@ import {
   tap,
 } from 'rxjs';
 
-import { useSubscription } from '../../common/hooks/useObservable';
+import {
+  useObservable,
+  useSubscription,
+} from '../../common/hooks/useObservable';
 import { AmmPool } from '../../common/models/AmmPool';
 import { AssetInfo } from '../../common/models/AssetInfo';
 import { Currency } from '../../common/models/Currency';
@@ -45,6 +48,7 @@ import { OperationSettings } from './OperationSettings/OperationSettings';
 import { PoolSelector } from './PoolSelector/PoolSelector';
 import { SwapConfirmationModal } from './SwapConfirmationModal/SwapConfirmationModal';
 import { SwapFormModel } from './SwapFormModel';
+import { SwapGraph } from './SwapGraph/SwapGraph';
 import { SwapInfo } from './SwapInfo/SwapInfo';
 import { SwitchButton } from './SwitchButton/SwitchButton';
 
@@ -311,6 +315,8 @@ export const Swap = (): JSX.Element => {
     setLastEditedField((prev) => (prev === 'from' ? 'to' : 'from'));
   };
 
+  const [pool] = useObservable(form.controls.pool.valueChangesWithSilent$);
+
   return (
     <ActionForm
       form={form}
@@ -326,6 +332,7 @@ export const Swap = (): JSX.Element => {
     >
       <Page
         width={504}
+        leftWidget={pool?.id && <SwapGraph pool={pool} />}
         footer={
           <Form.Item name="pool">
             {({ value, onChange }) => (

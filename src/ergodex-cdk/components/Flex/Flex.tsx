@@ -1,7 +1,12 @@
 import './Flex.less';
 
 import cn from 'classnames';
-import React from 'react';
+import React, {
+  forwardRef,
+  ForwardRefExoticComponent,
+  PropsWithoutRef,
+  RefAttributes,
+} from 'react';
 import { FC } from 'react';
 
 import { Gutter } from '../../utils/gutter';
@@ -25,33 +30,48 @@ export type FlexProps = React.DetailedHTMLProps<
   align?: 'flex-start' | 'stretch' | 'flex-end' | 'center';
 };
 
-export const Flex: FC<FlexProps> & { Item: FC<ItemsProps> } = ({
-  children,
-  justify,
-  align,
-  direction,
-  className,
-  col,
-  row,
-  stretch,
-  inline,
-  ...other
-}) => (
-  <div
-    className={cn([
+// @ts-ignore because of Flex.Item
+export const Flex: ForwardRefExoticComponent<
+  PropsWithoutRef<FlexProps> & RefAttributes<HTMLDivElement>
+> & { Item: FC<ItemsProps> } = forwardRef<HTMLDivElement, FlexProps>(
+  (
+    {
+      children,
+      justify,
+      align,
+      direction,
       className,
-      'ergo-flex',
-      `ergo-flex-direction--${(col && 'col') || (row && 'row') || direction}`,
-      `ergo-flex-justify--${justify}`,
-      `ergo-flex-align-items--${align}`,
-      { 'ergo-flex-stretch': stretch },
-      { 'ergo-flex-inline': inline },
-    ])}
-    {...other}
-  >
-    {children}
-  </div>
+      col,
+      row,
+      stretch,
+      inline,
+      ...other
+    },
+    ref,
+  ) => {
+    return (
+      <div
+        ref={ref}
+        className={cn([
+          className,
+          'ergo-flex',
+          `ergo-flex-direction--${
+            (col && 'col') || (row && 'row') || direction
+          }`,
+          `ergo-flex-justify--${justify}`,
+          `ergo-flex-align-items--${align}`,
+          { 'ergo-flex-stretch': stretch },
+          { 'ergo-flex-inline': inline },
+        ])}
+        {...other}
+      >
+        {children}
+      </div>
+    );
+  },
 );
+
+Flex.displayName = 'Flex';
 
 Flex.defaultProps = {
   direction: 'row',
@@ -106,7 +126,6 @@ const Item: FC<ItemsProps> = ({
       { 'ergo-flex-item__grow': grow },
     ])}
     style={{
-      ...(style || {}),
       order,
       display: display || (justify || direction || align ? 'flex' : 'initial'),
       flex,
@@ -114,6 +133,7 @@ const Item: FC<ItemsProps> = ({
       marginTop: `calc(var(--ergo-base-gutter) * ${marginTop})`,
       marginRight: `calc(var(--ergo-base-gutter) * ${marginRight})`,
       marginLeft: `calc(var(--ergo-base-gutter) * ${marginLeft})`,
+      ...style,
     }}
     {...other}
   >

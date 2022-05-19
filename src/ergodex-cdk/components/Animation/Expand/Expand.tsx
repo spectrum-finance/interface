@@ -15,7 +15,7 @@ export interface ExpandProps {
 }
 
 export const Expand: FC<ExpandProps> = ({
-  duration,
+  duration = 300,
   children,
   expanded,
   opacityDelay,
@@ -36,9 +36,9 @@ export const Expand: FC<ExpandProps> = ({
       style={{
         height,
         opacity: expanded ? '1' : '0',
-        transition: `height ${duration || 300}ms, opacity ${
-          duration || 300
-        }ms ${opacityDelay ? `${duration || 300}ms` : ''}`,
+        transition: `height ${duration}ms, opacity ${duration}ms ${
+          opacityDelay ? `${duration}ms` : ''
+        }`,
         overflow: expanded ? 'initial' : 'hidden',
       }}
     >

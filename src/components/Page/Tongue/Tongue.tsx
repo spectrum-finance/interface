@@ -1,4 +1,5 @@
 import React, {
+  CSSProperties,
   MouseEventHandler,
   ReactElement,
   ReactNode,
@@ -11,6 +12,7 @@ import styled from 'styled-components';
 import { TongueArrowButton } from './TongueArrowButton/TongueArrowButton';
 
 interface TongueProps {
+  style?: CSSProperties;
   onClick?: MouseEventHandler;
   icon?: ReactNode;
   arrow?: ReactElement;
@@ -27,6 +29,7 @@ export const TongueIconContainer = styled.div<{ disabled: boolean }>`
 `;
 
 export const Tongue: React.FC<TongueProps> = ({
+  style,
   onClick,
   iconDisabled = false,
   icon,
@@ -45,6 +48,7 @@ export const Tongue: React.FC<TongueProps> = ({
       style={{
         transform: `translateX(${showIcon ? 0 : 46}px)`,
         transition: 'transform .4s',
+        ...style,
       }}
       onMouseEnter={() => !iconDisabled && setShowIcon(true)}
       onMouseLeave={() => !iconDisabled && setShowIcon(false)}
