@@ -47,7 +47,7 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
             }
           >
             <AssetIcon asset={network.networkAsset} />
-            <span style={{ marginLeft: '8px' }}>
+            <span style={{ marginLeft: '12px' }}>
               {capitalize(network.label)}
             </span>
           </Flex>
