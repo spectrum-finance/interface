@@ -76,21 +76,7 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
         )}
         size="large"
         type="ghost"
-      >
-        <Flex justify="center" direction="row" align="center">
-          <AssetIcon asset={selectedNetwork.networkAsset} />
-          <Typography.Text
-            className="network-dropdown__btn-text"
-            style={{
-              fontSize: '16px',
-              color: 'var(--ergo-networkdropdown-hover-focus-color)',
-              marginLeft: 'calc(var(--ergo-base-gutter) * 2)',
-            }}
-          >
-            {capitalize(selectedNetwork.label)}
-          </Typography.Text>
-        </Flex>
-      </Button>
+      />
     </Dropdown>
   );
 };
