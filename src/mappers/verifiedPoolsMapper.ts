@@ -1,4 +1,16 @@
-export const VERIFIED_POOLS = new Map([
+export interface VerifiedPool {
+  id: string;
+  assetX: {
+    id: string;
+    name: string;
+  };
+  assetY: {
+    id: string;
+    name: string;
+  };
+}
+
+export const VERIFIED_POOLS = new Map<string, VerifiedPool>([
   [
     '7d2e28431063cbb1e9e14468facc47b984d962532c19b0b14f74d0ce9ed459be',
     {

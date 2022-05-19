@@ -1,4 +1,5 @@
-import { VERIFIED_POOLS } from '../mappers/verifiedPoolsMapper';
+import { VERIFIED_POOLS, VerifiedPool } from '../mappers/verifiedPoolsMapper';
 
-export const getVerifiedPoolByName = (poolId: string) =>
-  VERIFIED_POOLS.get(poolId);
+export const getVerifiedPoolByName = (
+  poolId: string,
+): VerifiedPool | undefined => VERIFIED_POOLS.get(poolId);

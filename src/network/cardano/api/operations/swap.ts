@@ -124,5 +124,6 @@ export const swap = (
       }),
     ),
     switchMap(submitTx),
+    // eslint-disable-next-line no-console
     tap((res) => console.log(res), console.log),
   );

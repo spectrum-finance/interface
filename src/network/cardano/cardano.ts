@@ -89,6 +89,7 @@ export const cardanoNetwork: Network<
   swap,
   deposit,
   redeem,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   refund(address: string, txId: string): Observable<TxId> {
     return of('');
   },

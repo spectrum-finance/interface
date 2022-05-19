@@ -54,7 +54,7 @@ export const availableAssets$: Observable<Currency[]> = defer(() =>
 export const requestTestnetAsset = (
   assetInfo: AssetInfo<AssetClass>,
   recaptchaToken: string,
-) =>
+): Observable<any> =>
   getAddresses().pipe(
     filter(Boolean),
     first(),
