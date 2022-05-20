@@ -1,7 +1,9 @@
 import { Explorer } from '@ergolabs/ergo-sdk';
 
-import { ERGO_BASE_URL } from '../common/constants/env';
+import { applicationConfig } from '../applicationConfig';
 
-const explorer = new Explorer(ERGO_BASE_URL);
+const explorer = new Explorer(
+  applicationConfig.networksSettings.ergo.networkUrl,
+);
 
 export { explorer };

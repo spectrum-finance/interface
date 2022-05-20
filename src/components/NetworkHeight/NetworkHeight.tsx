@@ -6,33 +6,37 @@ import React from 'react';
 import FlipNumbers from 'react-flip-numbers';
 
 import { ReactComponent as BlockIcon } from '../../assets/icons/block-icon.svg';
-import { ERG_EXPLORER_URL } from '../../common/constants/env';
 import { useObservable } from '../../common/hooks/useObservable';
 import { Flex, Tooltip, Typography } from '../../ergodex-cdk';
-import { networkContext$ } from '../../network/ergo/networkContext/networkContext';
+import { networkContext$ } from '../../gateway/api/networkContext';
+import { useSelectedNetwork } from '../../gateway/common/network';
+import { exploreLastBlock } from '../../gateway/utils/exploreAddress';
 import { formatToInt } from '../../services/number';
 const NetworkHeight = (): JSX.Element => {
-  const [network] = useObservable(networkContext$);
+  const [networkContext] = useObservable(networkContext$);
+  const [selectedNetwork] = useSelectedNetwork();
+
+  const tooltip =
+    selectedNetwork.name === 'cardano'
+      ? t`The most recent block in Cardano (Testnet) network`
+      : t`The most recent block in Ergo network`;
 
   return (
     <>
-      {network ? (
+      {networkContext ? (
         <Typography.Link
-          href={`${ERG_EXPLORER_URL}/blocks/${network.lastBlockId}`}
+          onClick={() => exploreLastBlock(networkContext?.lastBlockId)}
           strong
           className="network-height"
           type="success"
           target="_blank"
         >
-          <Tooltip
-            title={t`The most recent block in Ergo network`}
-            placement="left"
-          >
+          <Tooltip title={tooltip} placement="left">
             <Flex justify="space-between" align="center">
               <BlockIcon />
               <Flex.Item marginLeft={1}>
                 <FlipNumbers
-                  numbers={formatToInt(network.height)}
+                  numbers={formatToInt(networkContext.height)}
                   play
                   perspective={100}
                   height={12}

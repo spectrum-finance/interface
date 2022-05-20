@@ -1,14 +1,11 @@
-import { PoolId } from '@ergolabs/ergo-dex-sdk';
-import { AmmPool as BaseAmmPool } from '@ergolabs/ergo-dex-sdk/build/main/amm/entities/ammPool';
-import { AssetAmount } from '@ergolabs/ergo-sdk';
-import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
+import { AmmPool as CardanoBaseAmmPool } from '@ergolabs/cardano-dex-sdk';
+import { AmmPool as ErgoBaseAmmPool } from '@ergolabs/ergo-dex-sdk';
 import { cache } from 'decorator-cache-getter';
 import { evaluate } from 'mathjs';
 
 import { AnalyticsData } from '../../services/new/analytics';
 import { math, renderFractions } from '../../utils/math';
-import { AmmPoolAnalytics } from '../streams/poolAnalytic';
-import { Searchable } from '../utils/Searchable';
+import { AssetInfo } from './AssetInfo';
 import { Currency } from './Currency';
 import { Ratio } from './Ratio';
 
@@ -27,56 +24,40 @@ const calculatePureOutputAmount = (
   }
 };
 
-export class AmmPool implements Searchable {
-  constructor(
-    private pool: BaseAmmPool,
-    private poolAnalytics?: AmmPoolAnalytics,
-    public verified?: boolean,
-  ) {}
+export abstract class AmmPool {
+  abstract readonly pool: CardanoBaseAmmPool | ErgoBaseAmmPool;
 
-  @cache
-  get tvl(): AnalyticsData | undefined {
-    return this.poolAnalytics?.tvl;
-  }
+  abstract get verified(): boolean;
 
-  @cache
-  get volume(): AnalyticsData | undefined {
-    return this.poolAnalytics?.volume;
-  }
+  abstract get tvl(): AnalyticsData | undefined;
 
-  @cache
-  get yearlyFeesPercent(): number | undefined {
-    return this.poolAnalytics?.yearlyFeesPercent;
-  }
+  abstract get volume(): AnalyticsData | undefined;
 
-  @cache
-  get id(): PoolId {
-    return this.pool.id;
-  }
+  abstract get yearlyFeesPercent(): number | undefined;
+
+  abstract get id(): string;
+
+  abstract get feeNum(): bigint;
+
+  abstract get poolFeeNum(): number;
+
+  abstract get lp(): Currency;
+
+  abstract get x(): Currency;
+
+  abstract get y(): Currency;
+
+  abstract shares(input: Currency): [Currency, Currency];
+
+  abstract calculateDepositAmount(currency: Currency): Currency;
+
+  abstract calculateInputAmount(currency: Currency): Currency;
+
+  abstract calculateOutputAmount(currency: Currency): Currency;
 
   @cache
   get poolFee(): number {
-    return evaluate(`(1 - ${this.pool.feeNum} / 1000) * 100`).toFixed(1);
-  }
-
-  @cache
-  get poolFeeNum(): number {
-    return this.pool.poolFeeNum;
-  }
-
-  @cache
-  get feeNum(): bigint {
-    return this.pool.feeNum;
-  }
-
-  @cache
-  get lp(): Currency {
-    return new Currency(this.pool.lp.amount, this.pool.lp.asset);
-  }
-
-  @cache
-  get y(): Currency {
-    return new Currency(this.pool.y.amount, this.pool.y.asset);
+    return evaluate(`(1 - ${this.feeNum} / 1000) * 100`).toFixed(1);
   }
 
   @cache
@@ -89,27 +70,11 @@ export class AmmPool implements Searchable {
     return this.getRatio(this.y, this.x);
   }
 
-  @cache
-  get x(): Currency {
-    return new Currency(this.pool.x.amount, this.pool.x.asset);
-  }
-
-  shares(input: Currency): [Currency, Currency] {
-    const [assetX, assetY] = this.pool.shares(
-      new AssetAmount(input.asset, input.amount),
-    );
-
-    return [
-      new Currency(assetX.amount, assetX.asset),
-      new Currency(assetY.amount, assetY.asset),
-    ];
-  }
-
   getAssetAmount(asset: AssetInfo): Currency {
-    if (this.pool.x.asset.id === asset.id) {
+    if (this.x.asset.id === asset.id) {
       return this.x;
     }
-    if (this.pool.y.asset.id === asset.id) {
+    if (this.y.asset.id === asset.id) {
       return this.y;
     }
     throw new Error('unknown asset');
@@ -165,56 +130,6 @@ export class AmmPool implements Searchable {
     return new Ratio(p, inputCurrency.asset, outputCurrency.asset);
   }
 
-  calculateDepositAmount(currency: Currency): Currency {
-    const depositAmount = this.pool.depositAmount(
-      new AssetAmount(currency.asset, currency.amount),
-    );
-
-    return new Currency(depositAmount?.amount, depositAmount?.asset);
-  }
-
-  calculateInputAmount(currency: Currency): Currency {
-    if (currency.eq(this.getAssetAmount(currency.asset))) {
-      return new Currency(
-        0n,
-        currency.asset.id === this.pool.y.asset.id
-          ? this.pool.x.asset
-          : this.pool.y.asset,
-      );
-    }
-
-    const inputAmount = this.pool.inputAmount(
-      new AssetAmount(currency.asset, currency.amount),
-    );
-
-    if (!inputAmount) {
-      return new Currency(
-        0n,
-        currency.asset.id === this.pool.y.asset.id
-          ? this.pool.x.asset
-          : this.pool.y.asset,
-      );
-    }
-
-    return new Currency(inputAmount?.amount, inputAmount?.asset);
-  }
-
-  calculateOutputAmount(currency: Currency): Currency {
-    const outputAmount = this.pool.outputAmount(
-      new AssetAmount(currency.asset, currency.amount),
-    );
-
-    return new Currency(outputAmount.amount, outputAmount?.asset);
-  }
-
-  calculatePureOutputAmount(currency: Currency): Currency {
-    const outputAmount = this.pool.pureOutputAmount(
-      new AssetAmount(currency.asset, currency.amount),
-    );
-
-    return new Currency(outputAmount.amount, outputAmount?.asset);
-  }
-
   calculatePriceImpact(input: Currency): number {
     const ratio =
       input.asset.id === this.x.asset.id
@@ -242,9 +157,7 @@ export class AmmPool implements Searchable {
     const normalizedTerm = term.toLowerCase().replaceAll('/', '');
 
     return (
-      this.pool.id?.toLowerCase().includes(normalizedTerm) ||
-      this.pool.x.asset.id?.toLowerCase().includes(normalizedTerm) ||
-      this.pool.y.asset.id?.toLowerCase().includes(normalizedTerm) ||
+      this.id?.toLowerCase().includes(normalizedTerm) ||
       this.x.asset.name?.toLowerCase().includes(normalizedTerm) ||
       this.y.asset.name?.toLowerCase().includes(normalizedTerm) ||
       `${this.x.asset.name?.toLowerCase()}${this.y.asset.name?.toLowerCase()}`.includes(
@@ -259,7 +172,7 @@ export class AmmPool implements Searchable {
 
     const ratioAmount = math.evaluate!(
       `${firstAmount} / ${secondAmount}`,
-    ).toString();
+    ).toFixed();
 
     return new Ratio(ratioAmount, first.asset, second.asset);
   }

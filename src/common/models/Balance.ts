@@ -1,5 +1,4 @@
-import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
-
+import { AssetInfo } from './AssetInfo';
 import { Currency } from './Currency';
 
 export class Balance {

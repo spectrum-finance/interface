@@ -1,13 +1,20 @@
 import { blocksToMillis, PoolId } from '@ergolabs/ergo-dex-sdk';
 import { cache } from 'decorator-cache-getter';
 import { DateTime } from 'luxon';
-import { combineLatest, map, Observable, of, switchMap } from 'rxjs';
+import {
+  catchError,
+  combineLatest,
+  map,
+  Observable,
+  of,
+  switchMap,
+} from 'rxjs';
 
-import { getAmmPoolById } from '../../api/ammPools';
 import { AmmPool } from '../../common/models/AmmPool';
 import { Currency } from '../../common/models/Currency';
 import { Dictionary } from '../../common/utils/Dictionary';
-import { networkContext$ } from '../../network/ergo/networkContext/networkContext';
+import { getAmmPoolById } from '../../gateway/api/ammPools';
+import { networkContext$ } from '../../network/ergo/api/networkContext/networkContext';
 import {
   AmmPoolLocksAnalytic,
   getPoolLocksAnalyticsById,
@@ -131,7 +138,7 @@ export const getAmmPoolConfidenceAnalyticByAmmPoolId = (
 
       return combineLatest([
         networkContext$,
-        getPoolLocksAnalyticsById(ammPoolId),
+        getPoolLocksAnalyticsById(ammPoolId).pipe(catchError(() => of([]))),
       ]).pipe(
         map(
           ([networkContext, poolLocksAnalytics]) =>

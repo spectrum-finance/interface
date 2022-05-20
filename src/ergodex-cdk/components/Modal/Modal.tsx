@@ -23,6 +23,7 @@ export interface ModalParams<R = any> {
   readonly afterOpen?: () => void;
   readonly afterClose?: (result: R) => void;
   readonly width?: number;
+  readonly closable?: boolean;
 }
 
 export interface DialogRef<T = any> {
@@ -100,6 +101,7 @@ class BaseModalProvider implements ModalProvider {
             footer={params.footer}
             title={<ModalInnerTitle />}
             afterClose={afterClose}
+            closable={params.closable}
           >
             <>
               {visible && afterOpen()}

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import { Currency } from '../../../../../common/models/Currency';
 import { Ratio } from '../../../../../common/models/Ratio';
+import { Truncate } from '../../../../../components/Truncate/Truncate';
 import { Typography } from '../../../../../ergodex-cdk';
 import { SwapFormModel } from '../../../SwapFormModel';
 
@@ -35,23 +36,35 @@ export interface RatioViewProps {
   readonly className?: string;
 }
 
-const createRatioString = (
-  value: SwapFormModel,
-  reversedRatio: boolean,
-): string | undefined => {
+interface RatioStringProps {
+  value: SwapFormModel;
+  reversedRatio: boolean;
+}
+
+const RatioString: React.FC<RatioStringProps> = ({ value, reversedRatio }) => {
   if (!value.pool || !value.fromAsset) {
-    return undefined;
+    return <></>;
   }
 
   const price = reversedRatio
     ? calculateInputPrice(value as Required<SwapFormModel>)
     : calculateOutputPrice(value as Required<SwapFormModel>);
 
-  return reversedRatio
-    ? `1 ${value.toAsset?.name} = ${price?.toString()} ${price?.baseAsset.name}`
-    : `1 ${value.fromAsset?.name} = ${price?.toString()} ${
-        price?.baseAsset.name
-      }`;
+  return (
+    <>
+      {reversedRatio ? (
+        <>
+          1 <Truncate>{value.toAsset?.name}</Truncate> ={' '}
+          {`${price?.toString()}`} <Truncate>{price?.baseAsset.name}</Truncate>
+        </>
+      ) : (
+        <>
+          1 <Truncate>{value.fromAsset?.name}</Truncate> ={' '}
+          {`${price?.toString()}`} <Truncate>{price?.baseAsset.name}</Truncate>
+        </>
+      )}
+    </>
+  );
 };
 
 const _RatioView: FC<RatioViewProps> = ({ value, className }) => {
@@ -64,7 +77,7 @@ const _RatioView: FC<RatioViewProps> = ({ value, className }) => {
 
   return (
     <Typography.Body className={className} onClick={toggleReversedRatio}>
-      {createRatioString(value, reversedRatio)}
+      <RatioString value={value} reversedRatio={reversedRatio} />
     </Typography.Body>
   );
 };

@@ -1,24 +1,19 @@
 import './AddressTab.less';
 
-import { Address, publicKeyFromAddress } from '@ergolabs/ergo-sdk';
 import { t } from '@lingui/macro';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { addresses$ } from '../../../api/addresses';
-import { ERG_DECIMALS } from '../../../common/constants/erg';
 import { useObservable } from '../../../common/hooks/useObservable';
-import { useSettings } from '../../../context';
+import { Currency } from '../../../common/models/Currency';
+import { Address } from '../../../common/types';
 import { Box, Button, Flex, List, Typography } from '../../../ergodex-cdk';
+import { addresses$ } from '../../../gateway/api/addresses';
+import { useSelectedNetwork } from '../../../gateway/common/network';
+import { setSettings, useSettings } from '../../../gateway/settings/settings';
 import { getBalance } from '../../../services/yoroi';
-import { renderFractions } from '../../../utils/math';
 import { getShortAddress } from '../../../utils/string/addres';
 import { CopyButton } from '../../common/CopyButton/CopyButton';
 import { ExploreButton } from '../../common/ExploreButton/ExploreButton';
-
-interface AddressListItemProps {
-  address: string;
-  active: boolean;
-}
 
 interface AddressViewProps {
   address: Address;
@@ -40,28 +35,35 @@ const AddressView: React.FC<AddressViewProps> = ({ address }) => {
   );
 };
 
+interface AddressListItemProps {
+  address: Address;
+  active: boolean;
+  onClick: (address: Address) => void;
+}
+
 const AddressListItem: React.FC<AddressListItemProps> = ({
   address,
   active,
+  onClick,
 }) => {
-  const [addressBalance, setAddressBalance] = useState<any>({});
+  const [selectedNetwork] = useSelectedNetwork();
+  const [addressBalance, setAddressBalance] = useState<Currency>(
+    new Currency(0n, selectedNetwork.networkAsset),
+  );
 
   useEffect(() => {
-    getBalance(address).then(setAddressBalance);
+    if (selectedNetwork.name !== 'cardano') {
+      getBalance(address).then((balance) =>
+        setAddressBalance(
+          new Currency(balance?.nErgs || 0n, selectedNetwork.networkAsset),
+        ),
+      );
+    }
+  }, [selectedNetwork]);
+
+  useEffect(() => {
+    setAddressBalance(new Currency(0n, selectedNetwork.networkAsset));
   }, [address]);
-
-  const [settings, setSettings] = useSettings();
-
-  const handleSetAddress = useCallback(
-    (addr) => {
-      setSettings({
-        ...settings,
-        address: addr,
-        pk: publicKeyFromAddress(addr),
-      });
-    },
-    [settings, setSettings],
-  );
 
   return (
     <Box
@@ -75,19 +77,16 @@ const AddressListItem: React.FC<AddressListItemProps> = ({
           <AddressView address={address} />
         </Flex.Item>
         <Flex.Item>
-          <Typography.Text strong>{`${parseFloat(
-            renderFractions(
-              addressBalance['nErgs'] ? addressBalance['nErgs'] : 0,
-              ERG_DECIMALS,
-            ),
-          ).toFixed(2)} ERG`}</Typography.Text>
+          <Typography.Text strong>
+            {addressBalance.toCurrencyString(2)}
+          </Typography.Text>
         </Flex.Item>
         <Flex.Item grow>
           <Flex justify="flex-end">
             <Button
               type="primary"
               disabled={active}
-              onClick={() => handleSetAddress(address)}
+              onClick={() => onClick(address)}
             >
               {active ? t`Active` : t`Choose`}
             </Button>
@@ -100,12 +99,23 @@ const AddressListItem: React.FC<AddressListItemProps> = ({
 
 export const AddressesTab: React.FC = () => {
   const [addresses] = useObservable(addresses$);
-  const [{ address }] = useSettings();
+  const settings = useSettings();
+
+  const setAddress = (address: Address) => {
+    setSettings({ ...settings, address });
+  };
 
   return (
     <Flex col>
       <List dataSource={addresses} height={250}>
-        {(a) => <AddressListItem key={a} address={a} active={a === address} />}
+        {(a) => (
+          <AddressListItem
+            key={a}
+            address={a}
+            onClick={setAddress}
+            active={a === settings.address}
+          />
+        )}
       </List>
     </Flex>
   );

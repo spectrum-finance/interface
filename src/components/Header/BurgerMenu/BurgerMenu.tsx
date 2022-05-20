@@ -3,6 +3,7 @@ import './BurgerMenu.less';
 import { t } from '@lingui/macro';
 import { stringify } from 'qs';
 import React, { useState } from 'react';
+import { isMobile } from 'react-device-detect';
 import { Link, useLocation } from 'react-router-dom';
 
 import { ReactComponent as DarkModeOutlined } from '../../../assets/icons/darkmode.svg';
@@ -10,6 +11,7 @@ import {
   LOCALE_LABEL,
   SUPPORTED_LOCALES,
 } from '../../../common/constants/locales';
+import { useObservable } from '../../../common/hooks/useObservable';
 import { useSettings } from '../../../context';
 import {
   Button,
@@ -24,7 +26,9 @@ import {
   QuestionCircleOutlined,
   ReloadOutlined,
   RightOutlined,
+  SettingOutlined,
 } from '../../../ergodex-cdk';
+import { globalSettingsModal$ } from '../../../gateway/widgets/globalSettingsModal';
 import { useQuery } from '../../../hooks/useQuery';
 import { DotsIcon } from '../../common/Icons/DotsIcon';
 import { ThemeSwitch } from '../../ThemeSwitch/ThemeSwitch';
@@ -33,6 +37,7 @@ import { ManualRefundModal } from './ManualRefundModal/ManualRefundModal';
 const MENU_WIDTH = 160;
 
 const BurgerMenu = (): JSX.Element => {
+  const [GlobalSettingsModal] = useObservable(globalSettingsModal$);
   const [isMainMenu, setIsMainMenu] = useState<boolean>(true);
   const [isMenuVisible, setMenuVisible] = useState<boolean>(false);
   const [settings, setSettings] = useSettings();
@@ -66,6 +71,15 @@ const BurgerMenu = (): JSX.Element => {
       onClick: () =>
         Modal.open(({ close }) => <ManualRefundModal close={close} />),
     },
+    GlobalSettingsModal
+      ? {
+          title: t`Global Settings`,
+          icon: <SettingOutlined />,
+          onClick: () =>
+            Modal.open(({ close }) => <GlobalSettingsModal onClose={close} />),
+          isNotRenderMobile: true,
+        }
+      : undefined,
     {
       title: t`Language`,
       icon: <GlobalOutlined />,
@@ -88,24 +102,30 @@ const BurgerMenu = (): JSX.Element => {
 
   const menuOthers = (
     <Menu style={{ minWidth: MENU_WIDTH }}>
-      {menu.map((item, index) => (
-        <Menu.Item
-          className="ergodex-menu-item"
-          key={index + 1}
-          icon={item.icon}
-        >
-          {item.onClick ? (
-            <a rel="noreferrer" onClick={item.onClick}>
-              {item.title}
-            </a>
-          ) : (
-            <a href={item.link} target="_blank" rel="noreferrer">
-              {item.title}
-            </a>
-          )}
-          {item.additional && item.additional}
-        </Menu.Item>
-      ))}
+      {menu.map(
+        (item, index) =>
+          item && (
+            <Menu.Item
+              className="ergodex-menu-item"
+              key={index + 1}
+              icon={item.icon}
+              style={{
+                display: isMobile && item.isNotRenderMobile ? 'none' : '',
+              }}
+            >
+              {item.onClick ? (
+                <a rel="noreferrer" onClick={item.onClick}>
+                  {item.title}
+                </a>
+              ) : (
+                <a href={item.link} target="_blank" rel="noreferrer">
+                  {item.title}
+                </a>
+              )}
+              {item.additional && item.additional}
+            </Menu.Item>
+          ),
+      )}
     </Menu>
   );
 

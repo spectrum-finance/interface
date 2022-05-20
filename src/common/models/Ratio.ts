@@ -1,11 +1,10 @@
-import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
-
 import {
   math,
   parseUserInputToFractions,
   renderFractions,
 } from '../../utils/math';
 import { normalizeAmount } from '../utils/amount';
+import { AssetInfo } from './AssetInfo';
 import { Currency } from './Currency';
 export class Ratio {
   readonly baseAsset: AssetInfo;

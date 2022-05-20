@@ -3,10 +3,10 @@ import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { isWalletSetuped$ } from '../../../../api/wallets';
 import { useObservable } from '../../../../common/hooks/useObservable';
 import { AmmPool } from '../../../../common/models/AmmPool';
 import { Button, Flex, List, PlusOutlined } from '../../../../ergodex-cdk';
+import { isWalletSetuped$ } from '../../../../gateway/api/wallets';
 import { EmptyPositionsList } from '../../common/EmptyPositionsList/EmptyPositionsList';
 import { EmptySearchResult } from '../../common/EmptySearchResult/EmptySearchResult';
 import { PositionListLoader } from '../PositionListLoader/PositionListLoader';
@@ -50,6 +50,7 @@ const LiquidityPositionsList: FC<LiquidityPositionsListProps> = ({
           onClick={handleAddLiquidity}
           icon={<PlusOutlined />}
         >
+          {' '}
           <Trans>Add Liquidity</Trans>
         </Button>
       </EmptyPositionsList>

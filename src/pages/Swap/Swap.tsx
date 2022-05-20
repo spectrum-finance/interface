@@ -1,4 +1,3 @@
-import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import { t, Trans } from '@lingui/macro';
 import { maxBy } from 'lodash';
 import { DateTime } from 'luxon';
@@ -12,13 +11,12 @@ import {
   of,
   skip,
   switchMap,
+  tap,
 } from 'rxjs';
 
-import { getAmmPoolsByAssetPair } from '../../api/ammPools';
-import { useAssetsBalance } from '../../api/assetBalance';
-import { getAvailableAssetFor, tokenAssets$ } from '../../api/assets';
 import { useSubscription } from '../../common/hooks/useObservable';
 import { AmmPool } from '../../common/models/AmmPool';
+import { AssetInfo } from '../../common/models/AssetInfo';
 import { Currency } from '../../common/models/Currency';
 import {
   END_TIMER_DATE,
@@ -38,7 +36,11 @@ import {
   Typography,
   useForm,
 } from '../../ergodex-cdk';
-import { useMaxTotalFees, useNetworkAsset } from '../../services/new/core';
+import { getAmmPoolsByAssetPair } from '../../gateway/api/ammPools';
+import { useAssetsBalance } from '../../gateway/api/assetBalance';
+import { getAvailableAssetFor, tokenAssets$ } from '../../gateway/api/assets';
+import { useNetworkAsset } from '../../gateway/api/networkAsset';
+import { useSwapValidationFee } from '../../gateway/api/validationFees';
 import { OperationSettings } from './OperationSettings/OperationSettings';
 import { PoolSelector } from './PoolSelector/PoolSelector';
 import { SwapConfirmationModal } from './SwapConfirmationModal/SwapConfirmationModal';
@@ -68,9 +70,9 @@ export const Swap = (): JSX.Element => {
     pool: undefined,
   });
   const [lastEditedField, setLastEditedField] = useState<'from' | 'to'>('from');
-  const networkAsset = useNetworkAsset();
+  const [networkAsset] = useNetworkAsset();
   const [balance] = useAssetsBalance();
-  const totalFees = useMaxTotalFees();
+  const totalFees = useSwapValidationFee();
   const updateToAssets$ = useMemo(
     () => new BehaviorSubject<string | undefined>(undefined),
     [],
@@ -158,12 +160,14 @@ export const Swap = (): JSX.Element => {
         return (
           <SwapConfirmationModal
             value={value}
-            onClose={(request: Promise<any>) =>
+            onClose={(request) =>
               next(
-                request.then((tx) => {
-                  resetForm();
-                  return tx;
-                }),
+                request.pipe(
+                  tap((tx) => {
+                    resetForm();
+                    return tx;
+                  }),
+                ),
               )
             }
           />

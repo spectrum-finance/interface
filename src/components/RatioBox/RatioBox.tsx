@@ -1,6 +1,6 @@
-import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import React, { FC } from 'react';
 
+import { AssetInfo } from '../../common/models/AssetInfo';
 import { Ratio } from '../../common/models/Ratio';
 import { Box, Flex, Typography } from '../../ergodex-cdk';
 

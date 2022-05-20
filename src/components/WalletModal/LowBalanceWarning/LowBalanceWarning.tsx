@@ -1,9 +1,17 @@
 import { Trans } from '@lingui/macro';
 import React from 'react';
 
+import { applicationConfig } from '../../../applicationConfig';
 import { Flex, Tag, Typography } from '../../../ergodex-cdk';
+import { Network } from '../../../network/common/Network';
 
-const LowBalanceWarning = (): JSX.Element => {
+interface LowBalanceWarningProps {
+  network: Network<any, any>;
+}
+
+const LowBalanceWarning: React.FC<LowBalanceWarningProps> = ({
+  network,
+}): JSX.Element => {
   return (
     <Tag
       style={{
@@ -12,23 +20,27 @@ const LowBalanceWarning = (): JSX.Element => {
       }}
       color="warning"
     >
-      <Flex direction="col">
-        <Flex.Item marginBottom={2}>
+      <Flex direction="col" align="flex-start">
+        <Flex.Item>
           <Typography.Title level={5}>
-            <Trans>ERG balance is low</Trans>
+            <Trans>{network.networkAsset.name} balance is low</Trans>
           </Typography.Title>
         </Flex.Item>
         <Flex.Item>
           <Typography.Body>
-            <Trans>You need ERG to pay transaction fees</Trans>
+            <Trans>
+              You need {network.networkAsset.name} to pay transaction fees
+            </Trans>
           </Typography.Body>
         </Flex.Item>
         <Flex.Item>
           <Typography.Link
-            href="https://docs.ergodex.io/docs/user-guides/quick-start#3-get-assets"
+            href={
+              applicationConfig.networksSettings[network.name].lowBalanceGuide
+            }
             target="_blank"
           >
-            <Trans>Learn how to get ERG</Trans>
+            <Trans>Learn how to get {network.networkAsset.name}</Trans>
           </Typography.Link>
         </Flex.Item>
       </Flex>

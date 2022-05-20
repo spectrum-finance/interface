@@ -9,7 +9,6 @@ import {
 } from '../../../common/constants/settings';
 import { useSubscription } from '../../../common/hooks/useObservable';
 import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
-import { useSettings } from '../../../context';
 import {
   Box,
   Button,
@@ -22,6 +21,7 @@ import {
   Typography,
   useForm,
 } from '../../../ergodex-cdk';
+import { setSettings, useSettings } from '../../../gateway/settings/settings';
 import { NitroInput } from './NitroInput/NitroInput';
 import { SlippageInput } from './SlippageInput/SlippageInput';
 
@@ -59,7 +59,7 @@ const nitroCheck: CheckFn<number> = (value) =>
   isNaN(value) || value < MIN_NITRO ? 'minNitro' : undefined;
 
 const OperationSettings = (): JSX.Element => {
-  const [settings, setSettings] = useSettings();
+  const settings = useSettings();
   const [isPopoverShown, setIsPopoverShown] = useState(false);
 
   const form = useForm<SettingsModel>({
@@ -70,6 +70,7 @@ const OperationSettings = (): JSX.Element => {
     ),
     nitro: useForm.ctrl(settings.nitro, [nitroCheck]),
   });
+
   const handlePopoverShown = (visible: boolean) => {
     if (!visible) {
       form.reset(

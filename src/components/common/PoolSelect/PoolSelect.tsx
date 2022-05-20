@@ -13,7 +13,7 @@ import {
   Menu,
   Typography,
 } from '../../../ergodex-cdk';
-import { TokenIconPair } from '../../TokenIconPair/TokenIconPair';
+import { TokenIconPair } from '../../AssetIconPair/TokenIconPair';
 import { VerificationMark } from '../../VerificationMark/VerificationMark';
 import { FeeTag } from '../FeeTag/FeeTag';
 

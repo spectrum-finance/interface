@@ -7,9 +7,9 @@ import {
   AssetLock,
   AssetLockStatus,
 } from '../../../../common/models/AssetLock';
+import { AssetIcon } from '../../../../components/AssetIcon/AssetIcon';
 import { DataTag } from '../../../../components/common/DataTag/DataTag';
 import { ListItemWrapper } from '../../../../components/ListItemWrapper/ListItemWrapper';
-import { TokenIcon } from '../../../../components/TokenIcon/TokenIcon';
 import { Box, Flex, Tag, Typography } from '../../../../ergodex-cdk';
 import { formatToInt } from '../../../../services/number';
 
@@ -39,7 +39,7 @@ export const LockedPositionItem: FC<LockedPositionItemProps> = ({
                   <Flex.Item marginRight={1}>
                     <Flex>
                       <Flex.Item marginRight={1}>
-                        <TokenIcon asset={pool?.x.asset} />
+                        <AssetIcon asset={pool?.x.asset} />
                       </Flex.Item>
                       <Typography.Title level={5}>
                         {pool?.x.asset.name}
@@ -58,7 +58,7 @@ export const LockedPositionItem: FC<LockedPositionItemProps> = ({
                   <Flex.Item marginRight={1}>
                     <Flex>
                       <Flex.Item marginRight={1}>
-                        <TokenIcon asset={pool?.y.asset} />
+                        <AssetIcon asset={pool?.y.asset} />
                       </Flex.Item>
                       <Typography.Title level={5}>
                         {pool?.y.asset.name}

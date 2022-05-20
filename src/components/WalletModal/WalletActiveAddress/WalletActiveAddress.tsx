@@ -1,16 +1,16 @@
 import { t, Trans } from '@lingui/macro';
 import React from 'react';
 
-import { useSettings } from '../../../context';
 import { Box, Flex, Typography } from '../../../ergodex-cdk';
 import { Spin } from '../../../ergodex-cdk/components/Spin/Spin';
+import { useSettings } from '../../../gateway/settings/settings';
 import { getShortAddress } from '../../../utils/string/addres';
 import { CopyButton } from '../../common/CopyButton/CopyButton';
 import { ExploreButton } from '../../common/ExploreButton/ExploreButton';
 import { InfoTooltip } from '../../InfoTooltip/InfoTooltip';
 
 export const WalletActiveAddress = (): JSX.Element => {
-  const [{ address }] = useSettings();
+  const { address } = useSettings();
 
   return (
     <Flex col>

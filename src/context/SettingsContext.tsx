@@ -1,13 +1,10 @@
-import { Address, PublicKey, publicKeyFromAddress } from '@ergolabs/ergo-sdk';
+import { PublicKey } from '@ergolabs/ergo-sdk';
 import { useLocalStorage } from '@rehooks/local-storage';
 import React, { createContext, useContext, useEffect } from 'react';
 
-import { getUnusedAddresses, getUsedAddresses } from '../api/addresses';
-import { ERG_EXPLORER_URL } from '../common/constants/env';
 import { MIN_NITRO } from '../common/constants/erg';
 import { DEFAULT_LOCALE, SupportedLocale } from '../common/constants/locales';
 import { defaultMinerFee, defaultSlippage } from '../common/constants/settings';
-import { useObservable } from '../common/hooks/useObservable';
 import { isDarkOsTheme } from '../utils/osTheme';
 
 export type Settings = {
@@ -25,7 +22,7 @@ export const DefaultSettings: Readonly<Settings> = {
   minerFee: defaultMinerFee,
   nitro: MIN_NITRO,
   slippage: defaultSlippage,
-  explorerUrl: ERG_EXPLORER_URL,
+  explorerUrl: '',
   pk: '',
   theme: isDarkOsTheme() ? 'dark' : 'light',
   lang: DEFAULT_LOCALE,
@@ -52,11 +49,6 @@ const defaultContextValue: LocalStorageReturnValue<Settings> = [
 
 const SettingsContext = createContext(defaultContextValue);
 
-const isCurrentAddressValid = (
-  address: Address | undefined,
-  addresses: Address[],
-): boolean => !!address && addresses.includes(address);
-
 export const getSetting = (
   setting: keyof Settings,
 ): Settings[keyof Settings] => {
@@ -69,8 +61,7 @@ export const SettingsProvider = ({
   children,
 }: React.PropsWithChildren<unknown>): JSX.Element => {
   const ctxValue = useLocalStorage('settings', DefaultSettings);
-  const [usedAddresses] = useObservable(getUsedAddresses());
-  const [unusedAddresses] = useObservable(getUnusedAddresses());
+
   const [userSettings, setUserSettings] = ctxValue;
 
   useEffect(() => {
@@ -98,26 +89,35 @@ export const SettingsProvider = ({
     }
   }, []);
 
-  useEffect(() => {
-    if (!usedAddresses || !unusedAddresses) {
-      return;
-    }
-    let newSelectedAddress: Address;
-    const addresses = unusedAddresses.concat(usedAddresses);
-    const currentSelectedAddress = ctxValue[0].address;
-
-    if (isCurrentAddressValid(currentSelectedAddress, addresses)) {
-      newSelectedAddress = currentSelectedAddress!;
-    } else {
-      newSelectedAddress = unusedAddresses[0] || usedAddresses[0];
-    }
-
-    ctxValue[1]({
-      ...ctxValue[0],
-      address: newSelectedAddress,
-      pk: publicKeyFromAddress(newSelectedAddress),
-    });
-  }, [usedAddresses, unusedAddresses]);
+  // useEffect(() => {
+  //   if (!usedAddresses || !unusedAddresses) {
+  //     return;
+  //   }
+  //
+  //   let newSelectedAddress: Address;
+  //   const addresses = unusedAddresses.concat(usedAddresses);
+  //   const currentSelectedAddress = ctxValue[0].address;
+  //
+  //   if (isCurrentAddressValid(currentSelectedAddress, addresses)) {
+  //     newSelectedAddress = currentSelectedAddress!;
+  //   } else {
+  //     newSelectedAddress = unusedAddresses[0] || usedAddresses[0];
+  //   }
+  //
+  //   let pk: string | undefined;
+  //
+  //   try {
+  //     pk = publicKeyFromAddress(newSelectedAddress);
+  //   } catch (e: any) {
+  //     pk = pubKeyHashFromAddr(newSelectedAddress, RustModule._wasm!);
+  //   }
+  //
+  //   ctxValue[1]({
+  //     ...ctxValue[0],
+  //     address: newSelectedAddress,
+  //     pk,
+  //   });
+  // }, [usedAddresses, unusedAddresses]);
 
   return (
     <SettingsContext.Provider value={ctxValue}>

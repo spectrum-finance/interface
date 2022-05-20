@@ -4,13 +4,10 @@ import { t, Trans } from '@lingui/macro';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 
-import { ammPools$ } from '../../api/ammPools';
-import { useAssetsBalance } from '../../api/assetBalance';
-import { positions$ } from '../../api/positions';
-import { isWalletSetuped$ } from '../../api/wallets';
 import { useObservable } from '../../common/hooks/useObservable';
 import { AmmPool } from '../../common/models/AmmPool';
 import { ConnectWalletButton } from '../../components/common/ConnectWalletButton/ConnectWalletButton';
+import { IsErgo } from '../../components/IsErgo/IsErgo';
 import { Page } from '../../components/Page/Page';
 import {
   Button,
@@ -22,6 +19,11 @@ import {
   SearchOutlined,
   Tabs,
 } from '../../ergodex-cdk';
+import { ammPools$ } from '../../gateway/api/ammPools';
+import { useAssetsBalance } from '../../gateway/api/assetBalance';
+import { positions$ } from '../../gateway/api/positions';
+import { isWalletSetuped$ } from '../../gateway/api/wallets';
+import { useSelectedNetwork } from '../../gateway/common/network';
 import { useQuery } from '../../hooks/useQuery';
 import { EmptyPositionsList } from './common/EmptyPositionsList/EmptyPositionsList';
 import { LiquidityPositionsList } from './components/LiquidityPositionsList/LiquidityPositionsList';
@@ -32,6 +34,7 @@ interface PoolPageWrapperProps {
   isWalletConnected: boolean;
   onClick: () => void;
   isCurrentTabDefault: boolean;
+  isCardano: boolean;
 }
 
 const PoolPageWrapper: React.FC<PoolPageWrapperProps> = ({
@@ -39,6 +42,7 @@ const PoolPageWrapper: React.FC<PoolPageWrapperProps> = ({
   isWalletConnected,
   onClick,
   isCurrentTabDefault,
+  isCardano,
 }) => {
   return (
     <Flex col>
@@ -46,7 +50,7 @@ const PoolPageWrapper: React.FC<PoolPageWrapperProps> = ({
         <Page
           width={832}
           title={<Trans>Liquidity</Trans>}
-          padding={isCurrentTabDefault ? [6, 6, 2, 6] : [6, 6]}
+          padding={isCurrentTabDefault && !isCardano ? [6, 6, 2, 6] : [6, 6]}
           titleChildren={
             isWalletConnected && (
               <>
@@ -82,6 +86,7 @@ const PoolPageWrapper: React.FC<PoolPageWrapperProps> = ({
 const Liquidity = (): JSX.Element => {
   const [isWalletConnected] = useObservable(isWalletSetuped$, [], false);
   const [, isBalanceLoading] = useAssetsBalance();
+  const [selectedNetwork] = useSelectedNetwork();
   const history = useHistory();
   const query = useQuery();
   const [term, setTerm] = useState<string | undefined>();
@@ -89,6 +94,10 @@ const Liquidity = (): JSX.Element => {
     useState<boolean>(false);
 
   const defaultActiveTabKey = 'positions-overview';
+
+  useEffect(() => {
+    setIsCommunityPoolsShown(selectedNetwork.name === 'cardano');
+  }, [selectedNetwork]);
 
   useEffect(() => {
     history.push(`/pool?active=${query.active ?? defaultActiveTabKey}`);
@@ -125,6 +134,7 @@ const Liquidity = (): JSX.Element => {
       isWalletConnected={isWalletConnected}
       onClick={handleAddLiquidity}
       isCurrentTabDefault={isCurrentTabDefault}
+      isCardano={isCommunityPoolsShown}
     >
       <Tabs
         tabBarExtraContent={{
@@ -180,13 +190,15 @@ const Liquidity = (): JSX.Element => {
           </Tabs.TabPane>
         )}
       </Tabs>
-      {isCurrentTabDefault && (
-        <Flex justify="center" align="center">
-          <Button size="large" type="link" onClick={handleShowCommunityPools}>
-            {t`${isCommunityPoolsShown ? 'Hide' : 'Show'} Community Pools`}
-          </Button>
-        </Flex>
-      )}
+      <IsErgo>
+        {isCurrentTabDefault && (
+          <Flex justify="center" align="center">
+            <Button size="large" type="link" onClick={handleShowCommunityPools}>
+              {t`${isCommunityPoolsShown ? 'Hide' : 'Show'} Community Pools`}
+            </Button>
+          </Flex>
+        )}
+      </IsErgo>
     </PoolPageWrapper>
   );
 };

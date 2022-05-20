@@ -28,7 +28,7 @@ import {
   Modal,
   Typography,
 } from '../../../../ergodex-cdk';
-import { utxos$ } from '../../../../network/ergo/common/utxos';
+import { utxos$ } from '../../../../network/ergo/api/utxos/utxos';
 import { explorer } from '../../../../services/explorer';
 import { poolActions } from '../../../../services/poolActions';
 import { submitTx } from '../../../../services/yoroi';

@@ -1,6 +1,5 @@
-import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
-
 import { AmmPool } from '../../../common/models/AmmPool';
+import { AssetInfo } from '../../../common/models/AssetInfo';
 import { Currency } from '../../../common/models/Currency';
 
 export interface AddLiquidityFormModel {

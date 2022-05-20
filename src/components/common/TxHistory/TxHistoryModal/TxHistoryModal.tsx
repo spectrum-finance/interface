@@ -1,25 +1,27 @@
 import { t, Trans } from '@lingui/macro';
 import React from 'react';
+import CopyToClipboard from 'react-copy-to-clipboard';
 
-import { addresses$ } from '../../../../api/addresses';
-import {
-  isTransactionsHistorySyncing$,
-  syncTransactionsHistory,
-  transactionsHistory$,
-} from '../../../../api/transactionsHistory';
 import { useObservable } from '../../../../common/hooks/useObservable';
 import {
   Box,
   Button,
   Flex,
   Menu,
+  message,
   Modal,
   ReloadOutlined,
   Skeleton,
   Typography,
 } from '../../../../ergodex-cdk';
+import { addresses$ } from '../../../../gateway/api/addresses';
+import {
+  isTransactionsHistorySyncing$,
+  syncTransactionsHistory,
+  transactionsHistory$,
+} from '../../../../gateway/api/transactionsHistory';
+import { exploreTx } from '../../../../gateway/utils/exploreAddress';
 import { isRefundableOperation } from '../../../../utils/ammOperations';
-import { exploreTx } from '../../../../utils/redirect';
 import {
   openConfirmationModal,
   Operation,
@@ -69,6 +71,15 @@ const TxHistoryModal = (): JSX.Element => {
             <Trans>View on Explorer</Trans>
           </a>
         </Menu.Item>
+
+        <CopyToClipboard
+          text={op.txId}
+          onCopy={() => message.success(t`Copied to clipboard!`)}
+        >
+          <Menu.Item>
+            <Trans>Copy transaction ID</Trans>
+          </Menu.Item>
+        </CopyToClipboard>
         {isRefundableOperation(op.status) && (
           <Menu.Item onClick={() => handleOpenRefundConfirmationModal(op)}>
             <a rel="noreferrer">

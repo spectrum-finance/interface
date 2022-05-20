@@ -3,7 +3,7 @@ import { DateTime } from 'luxon';
 import React, { FC } from 'react';
 
 import { Currency } from '../../../../common/models/Currency';
-import { TokenIcon } from '../../../../components/TokenIcon/TokenIcon';
+import { AssetIcon } from '../../../../components/AssetIcon/AssetIcon';
 import { Flex, Typography } from '../../../../ergodex-cdk';
 import { formatToPercent } from '../../../../services/number';
 import {
@@ -18,7 +18,7 @@ export interface AnalyticOverviewProps {
 const AmountOverview: FC<{ currency: Currency }> = ({ currency }) => (
   <Flex align="center">
     <Flex.Item marginRight={1}>
-      <TokenIcon asset={currency.asset} />
+      <AssetIcon asset={currency.asset} />
     </Flex.Item>
     <Flex.Item marginRight={1}>
       <Typography.Body>{currency.asset.name}</Typography.Body>

@@ -2,8 +2,8 @@ import React, { FC, useState } from 'react';
 import styled, { css } from 'styled-components';
 
 import { AmmPool } from '../../../../../common/models/AmmPool';
+import { TokenIconPair } from '../../../../../components/AssetIconPair/TokenIconPair';
 import { DataTag } from '../../../../../components/common/DataTag/DataTag';
-import { TokenIconPair } from '../../../../../components/TokenIconPair/TokenIconPair';
 import { VerificationMark } from '../../../../../components/VerificationMark/VerificationMark';
 import { Box, Flex, Typography } from '../../../../../ergodex-cdk';
 import { formatToUSD } from '../../../../../services/number';
