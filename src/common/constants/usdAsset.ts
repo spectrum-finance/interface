@@ -1,10 +1,10 @@
-import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
-
+import { AssetInfo } from '../models/AssetInfo';
 import { Currency } from '../models/Currency';
 
 export const usdAsset: AssetInfo = {
   id: 'USD',
   name: 'USD',
+  prefix: '$',
   decimals: 2,
 };
 

@@ -4,8 +4,9 @@ import styled from 'styled-components';
 
 import { Currency } from '../../../../common/models/Currency';
 import { EventConfig, Input } from '../../../../ergodex-cdk';
-import { UsdView } from '../../../UsdView/UsdView';
+import { ConvenientAssetView } from '../../../ConvenientAssetView/ConvenientAssetView';
 import { escapeRegExp } from './format';
+
 const inputRegex = RegExp(`^\\d*(?:\\\\[.])?\\d*$`); // match escaped "." characters via in a non-capturing group
 
 export interface TokenAmountInputValue {
@@ -95,21 +96,17 @@ const _TokenAmountInput: React.FC<TokenAmountInputProps> = ({
       placeholder="0.0"
       size="large"
       disabled={disabled}
-      suffix={<UsdView value={value} prefix="~" defaultValue="~$0.00" />}
     />
   );
 };
 
 export const TokenAmountInput = styled(_TokenAmountInput)`
-  background-color: var(--ergo-swap-input-bg) !important;
-  font-size: 12px;
-  input {
-    background-color: var(--ergo-swap-input-bg) !important;
-    box-shadow: none !important;
-    font-size: 24px !important;
-    font-weight: 600;
-    height: 100%;
-    line-height: 32px !important;
-    padding: 5px 12px;
-  }
+  border-radius: initial !important;
+  border-color: transparent !important;
+  background-color: transparent !important;
+  padding: 0 !important;
+  font-size: 24px !important;
+  font-weight: 600;
+  line-height: 32px !important;
+  height: 100%;
 `;

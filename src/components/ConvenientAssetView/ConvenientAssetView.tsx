@@ -6,20 +6,24 @@ import { useObservable } from '../../common/hooks/useObservable';
 import { Currency } from '../../common/models/Currency';
 import { LoadingOutlined } from '../../ergodex-cdk';
 
-export interface UsdViewProps {
+export interface ConvenientAssetViewProps {
   readonly value: Currency | Currency[] | undefined;
   readonly prefix?: string;
   readonly defaultValue?: string;
 }
 
-export const UsdView: FC<UsdViewProps> = ({ value, prefix, defaultValue }) => {
-  const usdValue$ = useMemo(
+export const ConvenientAssetView: FC<ConvenientAssetViewProps> = ({
+  value,
+  prefix,
+  defaultValue,
+}) => {
+  const convenientAssetValue$ = useMemo(
     () => (value ? convertToConvenientNetworkAsset(value) : of(undefined)),
     value instanceof Array ? [value] : [value?.amount, value?.asset?.id],
   );
 
   const [usdValue, isLoadingUsdValue] = useObservable(
-    usdValue$,
+    convenientAssetValue$,
     value instanceof Array ? [value] : [value?.amount, value?.asset?.id],
   );
 
@@ -28,7 +32,7 @@ export const UsdView: FC<UsdViewProps> = ({ value, prefix, defaultValue }) => {
       {isLoadingUsdValue ? (
         <LoadingOutlined />
       ) : value && usdValue?.toString() !== '0' ? (
-        `${prefix}$${usdValue?.toString()}`
+        `${prefix || '~'}${usdValue?.toCurrencyString()}`
       ) : defaultValue ? (
         defaultValue
       ) : (

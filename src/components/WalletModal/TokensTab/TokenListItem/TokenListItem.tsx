@@ -3,7 +3,7 @@ import React from 'react';
 import { Currency } from '../../../../common/models/Currency';
 import { Box, Flex, Typography } from '../../../../ergodex-cdk';
 import { AssetIcon } from '../../../AssetIcon/AssetIcon';
-import { UsdView } from '../../../UsdView/UsdView';
+import { ConvenientAssetView } from '../../../ConvenientAssetView/ConvenientAssetView';
 
 interface TokenListItemProps {
   readonly currency: Currency;
@@ -28,7 +28,7 @@ export const TokenListItem: React.FC<TokenListItemProps> = ({ currency }) => (
         </Flex.Item>
         <Flex.Item>
           <Typography.Footnote>
-            <UsdView value={currency} prefix="~" />
+            <ConvenientAssetView value={currency} prefix="~" />
           </Typography.Footnote>
         </Flex.Item>
       </Flex>

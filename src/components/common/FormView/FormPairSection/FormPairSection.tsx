@@ -3,9 +3,9 @@ import React, { ReactNode } from 'react';
 import { Currency } from '../../../../common/models/Currency';
 import { Flex, Typography } from '../../../../ergodex-cdk';
 import { AssetIcon } from '../../../AssetIcon/AssetIcon';
+import { ConvenientAssetView } from '../../../ConvenientAssetView/ConvenientAssetView';
 import { PageSection } from '../../../Page/PageSection/PageSection';
 import { Truncate } from '../../../Truncate/Truncate';
-import { UsdView } from '../../../UsdView/UsdView';
 
 interface PairSpaceProps {
   readonly title: string;
@@ -47,7 +47,7 @@ const FormPairSection: React.FC<PairSpaceProps> = ({
               <Flex>
                 <Typography.Body strong>
                   {fees ? undefined : xAmount.toString()} (
-                  <UsdView value={xAmount} prefix="~" />)
+                  <ConvenientAssetView value={xAmount} prefix="~" />)
                 </Typography.Body>
               </Flex>
             </Flex.Item>
@@ -73,7 +73,7 @@ const FormPairSection: React.FC<PairSpaceProps> = ({
               <Flex>
                 <Typography.Body strong>
                   {fees ? undefined : yAmount.toString()} (
-                  <UsdView value={yAmount} prefix="~" />)
+                  <ConvenientAssetView value={yAmount} prefix="~" />)
                 </Typography.Body>
               </Flex>
             </Flex.Item>
