@@ -3,10 +3,8 @@ import { map, Observable, publishReplay, refCount, switchMap } from 'rxjs';
 
 import { applicationConfig } from '../../applicationConfig';
 import { AmmPool } from '../../common/models/AmmPool';
-import { comparePoolByTvl } from '../common/utils/comparePoolByTvl';
-
+import { comparePoolByTvl } from '../../common/utils/comparePoolByTvl';
 import { selectedNetwork$ } from '../common/network';
-
 
 export const ammPools$ = selectedNetwork$.pipe(
   switchMap((network) => network.ammPools$),

@@ -2,8 +2,8 @@ import React from 'react';
 
 import { Currency } from '../../../../common/models/Currency';
 import { Box, Flex, Typography } from '../../../../ergodex-cdk';
-import { UsdView } from '../../../UsdView/UsdView';
 import { AssetIcon } from '../../../AssetIcon/AssetIcon';
+import { UsdView } from '../../../UsdView/UsdView';
 
 interface TokenListItemProps {
   readonly currency: Currency;

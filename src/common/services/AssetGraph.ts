@@ -49,6 +49,7 @@ export class AssetGraph {
       this.vertices.set(asset.id, new Set<string>());
     }
   }
+
   private addEdge(assetA: AssetInfo, assetB: AssetInfo): void {
     const setA = this.vertices.get(assetA.id)!;
     const setB = this.vertices.get(assetB.id)!;
@@ -73,7 +74,9 @@ export class AssetGraph {
   }
 
   private getPairKey(assetAId: string, assetBId: string): string {
-    return `${assetAId}-${assetBId}`;
+    return assetAId < assetBId
+      ? `${assetAId}-${assetBId}`
+      : `${assetBId}-${assetAId}`;
   }
 
   private bfs(asset: AssetInfo) {

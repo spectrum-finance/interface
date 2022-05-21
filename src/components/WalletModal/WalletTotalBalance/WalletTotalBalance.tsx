@@ -6,7 +6,6 @@ import { Box, Flex, LoadingOutlined, Typography } from '../../../ergodex-cdk';
 import { AssetIcon } from '../../AssetIcon/AssetIcon';
 import { UsdView } from '../../UsdView/UsdView';
 
-
 interface WalletTotalBalanceProps {
   balance?: Currency;
 }

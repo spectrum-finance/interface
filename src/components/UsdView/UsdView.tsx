@@ -1,7 +1,7 @@
 import React, { FC, useMemo } from 'react';
 import { of } from 'rxjs';
 
-import { convertToUsd } from '../../api/convertToUsd';
+import { convertToConvenientNetworkAsset } from '../../api/convertToConvenientNetworkAsset';
 import { useObservable } from '../../common/hooks/useObservable';
 import { Currency } from '../../common/models/Currency';
 import { LoadingOutlined } from '../../ergodex-cdk';
@@ -14,7 +14,7 @@ export interface UsdViewProps {
 
 export const UsdView: FC<UsdViewProps> = ({ value, prefix, defaultValue }) => {
   const usdValue$ = useMemo(
-    () => (value ? convertToUsd(value) : of(undefined)),
+    () => (value ? convertToConvenientNetworkAsset(value) : of(undefined)),
     value instanceof Array ? [value] : [value?.amount, value?.asset?.id],
   );
 

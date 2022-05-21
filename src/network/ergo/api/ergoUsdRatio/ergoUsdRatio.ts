@@ -9,11 +9,11 @@ import {
   switchMap,
 } from 'rxjs';
 
-import { usdAsset } from '../../../common/constants/usdAsset';
-import { Ratio } from '../../../common/models/Ratio';
-import { AssetGraph } from '../../../common/services/AssetGraph';
-import { makeUsdConverter } from '../../../common/services/CurrencyUsdRate';
-import { appTick$ } from '../../../common/streams/appTick';
+import { usdAsset } from '../../../../common/constants/usdAsset';
+import { Ratio } from '../../../../common/models/Ratio';
+import { AssetGraph } from '../../../../common/services/AssetGraph';
+import { makeCurrencyConverter } from '../../../../common/services/CurrencyConverter';
+import { appTick$ } from '../../../../common/streams/appTick';
 import { ammPools$ } from '../ammPools/ammPools';
 import { networkAsset } from '../networkAsset/networkAsset';
 
@@ -44,4 +44,8 @@ const assetGraph$ = ammPools$.pipe(
   refCount(),
 );
 
-export const convertToUsd = makeUsdConverter(assetGraph$, ergoUsdRatio$);
+export const convertToConvenientNetworkAsset = makeCurrencyConverter(
+  assetGraph$,
+  ergoUsdRatio$,
+  usdAsset,
+);

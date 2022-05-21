@@ -8,7 +8,6 @@ import {
   refCount,
 } from 'rxjs';
 
-import { emptyUsdCurrency } from '../constants/usdAsset';
 import { Currency } from '../models/Currency';
 import { Ratio } from '../models/Ratio';
 import { AssetGraph } from './AssetGraph';
@@ -31,14 +30,20 @@ const getRatioFromGraph = (
   }, undefined);
 };
 
-export const makeUsdConverter = (
+export const makeCurrencyConverter = (
   assetGraph$: Observable<AssetGraph>,
-  networkAssetToUsdRatio$: Observable<Ratio>,
+  networkAssetToConvenientAssetRatio$: Observable<Ratio>,
+  convenientAsset: AssetInfo,
 ): ((from: Currency | Currency[]) => Observable<Currency>) => {
   const ratioStreamCache: Map<string, Observable<Ratio>> = new Map();
 
+  const emptyConvenientAssetCurrency = new Currency(0n, convenientAsset);
+
   const createRateStream = (fromAsset: AssetInfo): Observable<Ratio> => {
-    return combineLatest([assetGraph$, networkAssetToUsdRatio$]).pipe(
+    return combineLatest([
+      assetGraph$,
+      networkAssetToConvenientAssetRatio$,
+    ]).pipe(
       map(([graph, networkAssetRatio]) => {
         if (fromAsset.id === networkAssetRatio.baseAsset.id) {
           return networkAssetRatio;
@@ -70,21 +75,26 @@ export const makeUsdConverter = (
   return (from: Currency | Currency[]): Observable<Currency> => {
     if (from instanceof Currency) {
       return rate(from.asset).pipe(
-        map((usdRate) => usdRate.toQuoteCurrency(from)),
+        map((convenientAssetRate) => convenientAssetRate.toQuoteCurrency(from)),
       );
     }
 
     if (!from.length) {
-      return of(emptyUsdCurrency);
+      return of(emptyConvenientAssetCurrency);
     }
 
     return combineLatest(
       from.map((i) =>
-        rate(i.asset).pipe(map((usdRate) => usdRate.toQuoteCurrency(i))),
+        rate(i.asset).pipe(
+          map((convenientAssetRate) => convenientAssetRate.toQuoteCurrency(i)),
+        ),
       ),
     ).pipe(
       map((currencies) =>
-        currencies.reduce((acc, c) => acc.plus(c), emptyUsdCurrency),
+        currencies.reduce(
+          (acc, c) => acc.plus(c),
+          emptyConvenientAssetCurrency,
+        ),
       ),
     );
   };
