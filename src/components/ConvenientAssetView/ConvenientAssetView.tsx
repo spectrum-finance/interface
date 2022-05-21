@@ -5,6 +5,7 @@ import { convertToConvenientNetworkAsset } from '../../api/convertToConvenientNe
 import { useObservable } from '../../common/hooks/useObservable';
 import { Currency } from '../../common/models/Currency';
 import { LoadingOutlined } from '../../ergodex-cdk';
+import { useSelectedNetwork } from '../../gateway/common/network';
 
 export interface ConvenientAssetViewProps {
   readonly value: Currency | Currency[] | undefined;
@@ -17,6 +18,8 @@ export const ConvenientAssetView: FC<ConvenientAssetViewProps> = ({
   prefix,
   defaultValue,
 }) => {
+  const [selectedNetwork] = useSelectedNetwork();
+
   const convenientAssetValue$ = useMemo(
     () => (value ? convertToConvenientNetworkAsset(value) : of(undefined)),
     value instanceof Array ? [value] : [value?.amount, value?.asset?.id],
@@ -33,8 +36,8 @@ export const ConvenientAssetView: FC<ConvenientAssetViewProps> = ({
         <LoadingOutlined />
       ) : value && usdValue?.toString() !== '0' ? (
         `${prefix || '~'}${usdValue?.toCurrencyString()}`
-      ) : defaultValue ? (
-        defaultValue
+      ) : selectedNetwork.convenientAssetDefaultPreview ? (
+        `${prefix || '~'}${selectedNetwork.convenientAssetDefaultPreview}`
       ) : (
         '-'
       )}

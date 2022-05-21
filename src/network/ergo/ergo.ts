@@ -54,6 +54,7 @@ export const ergoNetwork: Network<
 > = {
   name: 'ergo',
   label: 'ergo',
+  convenientAssetDefaultPreview: '$0.00',
   networkAsset,
   initialized$,
   initialize,

@@ -117,17 +117,20 @@ export const TokenControlFormItem: FC<NewTokenControlProps> = ({
   return (
     <Box padding={4} contrast borderRadius="m">
       <Flex col>
-        <Flex.Item align="center" marginBottom={2}>
-          <Flex.Item flex={1}>
-            <Typography.Body secondary>{label}</Typography.Body>
-          </Flex.Item>
-          <Typography.Body secondary>
+        {label && (
+          <Flex.Item align="center" marginBottom={2}>
+            <Flex.Item flex={1}>
+              <Typography.Body secondary>{label}</Typography.Body>
+            </Flex.Item>
             {selectedAsset !== undefined &&
               !balanceLoading &&
-              readonly !== true &&
-              t`Balance: ${balance.get(selectedAsset).toString()}`}
-          </Typography.Body>
-        </Flex.Item>
+              readonly !== true && (
+                <Typography.Body secondary>
+                  {t`Balance:`} ${balance.get(selectedAsset).toString()}
+                </Typography.Body>
+              )}
+          </Flex.Item>
+        )}
         <Flex.Item align="center" marginBottom={2}>
           <Flex.Item marginRight={2} flex={1}>
             {amountName && (
@@ -175,13 +178,25 @@ export const TokenControlFormItem: FC<NewTokenControlProps> = ({
             )}
           </Flex.Item>
         </Flex.Item>
-        <Form.Listener name={amountName}>
-          {({ value }) => (
-            <Typography.Body secondary>
-              <ConvenientAssetView value={value} defaultValue="~$0.00" />
-            </Typography.Body>
-          )}
-        </Form.Listener>
+        <Flex.Item align="center">
+          <Flex.Item flex={1}>
+            <Form.Listener name={amountName}>
+              {({ value }) => (
+                <Typography.Body secondary>
+                  <ConvenientAssetView value={value} defaultValue="~$0.00" />
+                </Typography.Body>
+              )}
+            </Form.Listener>
+          </Flex.Item>
+          {selectedAsset !== undefined &&
+            !balanceLoading &&
+            readonly !== true &&
+            !label && (
+              <Typography.Body secondary>
+                {t`Balance:`} ${balance.get(selectedAsset).toString()}
+              </Typography.Body>
+            )}
+        </Flex.Item>
       </Flex>
     </Box>
   );
