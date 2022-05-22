@@ -49,73 +49,54 @@ const _PoolSelector: FC<PoolSelectorProps> = ({
   return (
     <>
       <Flex justify="center">
-        <Box className={className} padding={value ? 6 : 0} bordered={false}>
+        <Box className={className} padding={value ? 4 : 0}>
           <Animation.Expand expanded={!!value} opacityDelay duration={200}>
             {value && (
-              <Flex col>
-                <Flex.Item marginBottom={2} align="center">
-                  <Typography.Body>
-                    <Trans>Liquidity Pool</Trans>
+              <Flex align="center">
+                <Flex.Item marginRight={1}>
+                  <TokenIconPair
+                    size="small"
+                    assetX={value.x.asset}
+                    assetY={value.y.asset}
+                  />
+                </Flex.Item>
+                <Flex.Item marginRight={2}>
+                  <Typography.Body strong>
+                    <Truncate>{value.x.asset.name}</Truncate>/
+                    <Truncate>{value.y.asset.name}</Truncate>
                   </Typography.Body>
-                  <InfoTooltip
+                </Flex.Item>
+                {value.verified && (
+                  <Flex.Item marginRight={2} align="center">
+                    <VerificationMark />
+                  </Flex.Item>
+                )}
+                <Flex.Item marginRight={1}>
+                  <Typography.Footnote>Fee:</Typography.Footnote>
+                </Flex.Item>
+                <Flex.Item marginRight={2}>
+                  <DataTag secondary content={`${value.poolFee}%`} />
+                </Flex.Item>
+                <Flex.Item marginRight={1}>
+                  <Typography.Footnote>TVL:</Typography.Footnote>
+                </Flex.Item>
+                <Flex.Item marginRight={2}>
+                  <DataTag
+                    secondary
                     content={
-                      <>
-                        <Trans>
-                          Your operation will be executed in this pool. <br />{' '}
-                          You can also choose another pool for this pair
-                        </Trans>
-                      </>
+                      value?.tvl
+                        ? formatToUSD(value.tvl.currency, 'abbr')
+                        : '–––'
                     }
                   />
                 </Flex.Item>
-                <Flex.Item>
-                  <Flex align="center">
-                    <Flex.Item marginRight={1}>
-                      <TokenIconPair
-                        size="small"
-                        assetX={value.x.asset}
-                        assetY={value.y.asset}
-                      />
-                    </Flex.Item>
-                    <Flex.Item marginRight={2}>
-                      <Typography.Body strong>
-                        <Truncate>{value.x.asset.name}</Truncate>/
-                        <Truncate>{value.y.asset.name}</Truncate>
-                      </Typography.Body>
-                    </Flex.Item>
-                    {value.verified && (
-                      <Flex.Item marginRight={2} align="center">
-                        <VerificationMark />
-                      </Flex.Item>
-                    )}
-                    <Flex.Item marginRight={1}>
-                      <Typography.Footnote>Fee:</Typography.Footnote>
-                    </Flex.Item>
-                    <Flex.Item marginRight={2}>
-                      <DataTag secondary content={`${value.poolFee}%`} />
-                    </Flex.Item>
-                    <Flex.Item marginRight={1}>
-                      <Typography.Footnote>TVL:</Typography.Footnote>
-                    </Flex.Item>
-                    <Flex.Item marginRight={2}>
-                      <DataTag
-                        secondary
-                        content={
-                          value?.tvl
-                            ? formatToUSD(value.tvl.currency, 'abbr')
-                            : '–––'
-                        }
-                      />
-                    </Flex.Item>
-                    <Flex.Item flex={1} display="flex" justify="flex-end">
-                      <Button
-                        disabled={(availableAmmPools?.length || 0) < 2}
-                        onClick={() => openPoolSelectorModal(value)}
-                      >
-                        <Trans>Change</Trans>
-                      </Button>
-                    </Flex.Item>
-                  </Flex>
+                <Flex.Item flex={1} display="flex" justify="flex-end">
+                  <Button
+                    disabled={(availableAmmPools?.length || 0) < 2}
+                    onClick={() => openPoolSelectorModal(value)}
+                  >
+                    <Trans>Change</Trans>
+                  </Button>
                 </Flex.Item>
               </Flex>
             )}
@@ -127,8 +108,5 @@ const _PoolSelector: FC<PoolSelectorProps> = ({
 };
 
 export const PoolSelector = styled(_PoolSelector)`
-  background: var(--ergo-page-footer-bg);
-  border-top-left-radius: initial;
-  border-top-right-radius: initial;
-  width: 472px;
+  width: 100%;
 `;

@@ -324,16 +324,7 @@ export const Swap = (): JSX.Element => {
       isSwapLocked={isSwapLocked}
       action={submitSwap}
     >
-      <Page
-        width={504}
-        footer={
-          <Form.Item name="pool">
-            {({ value, onChange }) => (
-              <PoolSelector value={value} onChange={onChange} />
-            )}
-          </Form.Item>
-        }
-      >
+      <Page width={504}>
         <Flex col>
           <Flex row align="center">
             <Flex.Item flex={1}>
@@ -368,6 +359,13 @@ export const Swap = (): JSX.Element => {
               tokenName="toAsset"
             />
           </Flex.Item>
+          <Form.Item name="pool">
+            {({ value, onChange }) => (
+              <Flex.Item marginTop={!!value ? 4 : 0}>
+                <PoolSelector value={value} onChange={onChange} />
+              </Flex.Item>
+            )}
+          </Form.Item>
           <Form.Listener>
             {({ value }) => (
               <Flex.Item marginTop={!!value.pool ? 4 : 0}>
