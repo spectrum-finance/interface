@@ -16,7 +16,6 @@ export interface ConvenientAssetViewProps {
 export const ConvenientAssetView: FC<ConvenientAssetViewProps> = ({
   value,
   prefix,
-  defaultValue,
 }) => {
   const [selectedNetwork] = useSelectedNetwork();
 

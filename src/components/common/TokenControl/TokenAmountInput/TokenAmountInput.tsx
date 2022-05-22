@@ -4,7 +4,6 @@ import styled from 'styled-components';
 
 import { Currency } from '../../../../common/models/Currency';
 import { EventConfig, Input } from '../../../../ergodex-cdk';
-import { ConvenientAssetView } from '../../../ConvenientAssetView/ConvenientAssetView';
 import { escapeRegExp } from './format';
 
 const inputRegex = RegExp(`^\\d*(?:\\\\[.])?\\d*$`); // match escaped "." characters via in a non-capturing group

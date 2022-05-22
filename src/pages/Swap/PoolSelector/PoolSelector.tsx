@@ -6,7 +6,6 @@ import { useSubject } from '../../../common/hooks/useObservable';
 import { AmmPool } from '../../../common/models/AmmPool';
 import { TokenIconPair } from '../../../components/AssetIconPair/TokenIconPair';
 import { DataTag } from '../../../components/common/DataTag/DataTag';
-import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
 import { Truncate } from '../../../components/Truncate/Truncate';
 import { VerificationMark } from '../../../components/VerificationMark/VerificationMark';
 import {

@@ -6,7 +6,6 @@ import { Observable, of } from 'rxjs';
 import { useObservable } from '../../../common/hooks/useObservable';
 import { Currency } from '../../../common/models/Currency';
 import {
-  Animation,
   Box,
   Button,
   Flex,
@@ -16,7 +15,6 @@ import {
 } from '../../../ergodex-cdk';
 import { useAssetsBalance } from '../../../gateway/api/assetBalance';
 import { ConvenientAssetView } from '../../ConvenientAssetView/ConvenientAssetView';
-import { Truncate } from '../../Truncate/Truncate';
 import {
   TokenAmountInput,
   TokenAmountInputValue,
