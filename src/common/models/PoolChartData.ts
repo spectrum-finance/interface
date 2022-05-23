@@ -11,12 +11,12 @@ interface PoolChartDataRaw {
 export class PoolChartData {
   public readonly price: Ratio;
   public readonly invertedPrice: Ratio;
-  public readonly date: DateTime;
+  public date: DateTime;
 
   constructor(
     private raw: PoolChartDataRaw,
-    assetX: AssetInfo,
-    assetY: AssetInfo,
+    private assetX: AssetInfo,
+    private assetY: AssetInfo,
   ) {
     this.price = new Ratio(this.raw.price.toString(), assetX, assetY);
     this.invertedPrice = this.price.invertRatio();
@@ -29,5 +29,9 @@ export class PoolChartData {
 
   getRatio(isInverted = false): Ratio {
     return isInverted ? this.invertedPrice : this.price;
+  }
+
+  clone(raw?: Partial<PoolChartDataRaw>): PoolChartData {
+    return new PoolChartData({ ...this.raw, ...raw }, this.assetX, this.assetY);
   }
 }

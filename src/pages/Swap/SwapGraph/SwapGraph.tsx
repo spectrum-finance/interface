@@ -1,6 +1,7 @@
 import { t } from '@lingui/macro';
-import { DateTime } from 'luxon';
+import { DateTime, Duration, DurationLike } from 'luxon';
 import React, { useCallback, useState } from 'react';
+import { useMemo } from 'react';
 import { Area, AreaChart, Tooltip, XAxis, YAxis } from 'recharts';
 
 import { useObservable } from '../../../common/hooks/useObservable';
@@ -12,6 +13,28 @@ import { Button, Flex, Tabs, Typography } from '../../../ergodex-cdk';
 import { useActiveData } from './useActiveData';
 import { Period, usePeriodSettings } from './usePeriodSettings';
 
+const getTicksArray = (
+  tick: DurationLike,
+  durationOffset: DurationLike,
+  preLastFromNow: (d: DateTime) => DateTime,
+): DateTime[] => {
+  const now = DateTime.now();
+  const tickMillis = Duration.fromDurationLike(tick).toMillis();
+  const preLast = preLastFromNow(now);
+
+  now.minus(tick);
+  return Array(
+    Math.floor(now.diff(now.minus(durationOffset)).toMillis() / tickMillis),
+  )
+    .fill(undefined)
+    .map((_, i) =>
+      preLast.minus({
+        millisecond: tickMillis * i,
+      }),
+    )
+    .reverse();
+};
+
 interface SwapGraphProps {
   pool: AmmPool;
 }
@@ -19,14 +42,36 @@ interface SwapGraphProps {
 export const SwapGraph: React.FC<SwapGraphProps> = ({ pool }) => {
   const [defaultActivePeriod, setDefaultActivePeriod] = useState<Period>('D');
   const [isInverted, setInverted] = useState(false);
-  const { durationOffset, timeFormat, resolution } =
+  const { durationOffset, timeFormat, tick, preLastFromNow, resolution } =
     usePeriodSettings(defaultActivePeriod);
+
+  const ticks = useMemo(
+    () => getTicksArray(tick, durationOffset, preLastFromNow),
+    [defaultActivePeriod],
+  );
+
   const getData = () =>
     getPoolChartData(pool, {
       from: DateTime.now().minus(durationOffset).valueOf(),
       resolution,
     });
-  const [data] = useObservable(getData, [pool.id, defaultActivePeriod], []);
+
+  const [rawData] = useObservable(getData, [pool.id, defaultActivePeriod], []);
+
+  const data = useMemo(() => {
+    if (rawData.length < 1) {
+      return [];
+    }
+
+    let j = -1;
+    return ticks.map((lts: DateTime) => {
+      while (rawData[j + 1]?.ts < lts.valueOf()) {
+        j++;
+      }
+      return rawData[j === -1 ? 0 : j].clone({ timestamp: lts.valueOf() });
+    });
+  }, [rawData]);
+
   const [activeData, setActiveData] = useActiveData(data);
 
   const formatXAxis = useCallback(
