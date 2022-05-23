@@ -11,7 +11,6 @@ import { Header } from '../../Header/Header';
 import { NetworkHeight } from '../../NetworkHeight/NetworkHeight';
 import { SocialLinks } from '../../SocialLinks/SocialLinks';
 import { KyaModal } from '../KyaModal/KyaModal';
-import { CardanoMaintenance } from './CardanoMaintenance/CardanoMaintenance';
 
 interface Props {
   children: React.ReactChild | React.ReactChild[];
@@ -34,7 +33,6 @@ const Layout = ({ children }: Props): JSX.Element => {
   return (
     <div className="layout">
       <div className="glow" />
-      <CardanoMaintenance />
       <Header />
       <main>{children}</main>
       <footer>

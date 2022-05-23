@@ -13,6 +13,7 @@ import { useSelectedNetwork } from '../../gateway/common/network';
 import { settings$ } from '../../gateway/settings/settings';
 import { WalletState } from '../../network/common/Wallet';
 import { AppLogo } from '../common/AppLogo/AppLogo';
+import { CardanoMaintenance } from '../common/Layout/CardanoMaintenance/CardanoMaintenance';
 import { TxHistory } from '../common/TxHistory/TxHistory';
 import { IsCardano } from '../IsCardano/IsCardano';
 import { IsErgo } from '../IsErgo/IsErgo';
@@ -26,7 +27,6 @@ import { NetworkDropdown } from './NetworkDropdown/NetworkDropdown';
 export const Header: React.FC = () => {
   const [settings] = useObservable(settings$);
   const [balance, isBalanceLoading] = useAssetsBalance();
-  const [selectedNetwork] = useSelectedNetwork();
   const [networkAsset] = useNetworkAsset();
   const [walletState] = useObservable(selectedWalletState$);
   const [hidden, setHidden] = useState(false);
@@ -52,11 +52,9 @@ export const Header: React.FC = () => {
     <header
       className={cn('header', {
         header_hidden: hidden,
-        header_maintenance:
-          applicationConfig.cardanoMaintenance &&
-          selectedNetwork.name === 'cardano',
       })}
     >
+      <CardanoMaintenance />
       <div className="header__wrapper">
         <div className="header__left">
           <AppLogo isNoWording />
