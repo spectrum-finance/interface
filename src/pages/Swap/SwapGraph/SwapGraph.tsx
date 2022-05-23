@@ -64,12 +64,14 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({ pool }) => {
     }
 
     let j = -1;
-    const res = ticks.map((lts: DateTime) => {
-      while (rawData[j + 1]?.ts < lts.valueOf()) {
-        j++;
-      }
-      return rawData[j === -1 ? 0 : j].clone({ timestamp: lts.valueOf() });
-    });
+    const res = ticks
+      .filter((lts) => lts.valueOf() > rawData[0].ts)
+      .map((lts: DateTime) => {
+        while (rawData[j + 1]?.ts < lts.valueOf()) {
+          j++;
+        }
+        return rawData[j === -1 ? 0 : j].clone({ timestamp: lts.valueOf() });
+      });
     res.push(rawData[rawData.length - 1]);
     return res;
   }, [rawData]);
