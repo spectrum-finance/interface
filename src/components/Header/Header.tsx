@@ -1,7 +1,7 @@
 import './Header.less';
 
 import cn from 'classnames';
-import React, { MutableRefObject, RefObject, useEffect, useState } from 'react';
+import React, {RefObject, useEffect, useState } from 'react';
 import { isBrowser } from 'react-device-detect';
 
 import { useObservable } from '../../common/hooks/useObservable';
