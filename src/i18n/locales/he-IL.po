@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ergodex-frontend\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-04-29 06:19\n"
+"PO-Revision-Date: 2022-05-07 17:28\n"
 "Last-Translator: \n"
 "Language: he_IL\n"
 "Language-Team: Hebrew\n"
@@ -919,7 +919,7 @@ msgstr "פתח נעילת בלוק"
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
 #: src/pages/PoolOverview/LockLiquidityChart/AnalyticOverview/AnalyticOverview.tsx
 msgid "Unlock date"
-msgstr "תאריך סיום חסימה/בטל חסימת תאריך"
+msgstr "תאריך סיום חסימה"
 
 #: src/pages/Pool/utils.ts
 msgid "Unlocked"
@@ -1012,7 +1012,7 @@ msgstr "הטרנזאקציה שלך תבוטל אם המחיר ישתנה לרע
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "explorer"
-msgstr "סייר Ergo/אקפלורר/סייר - או הסייר, האקספלורר"
+msgstr "סייר ארגו"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "meet your expectations."

@@ -4,12 +4,12 @@ import React, { FC } from 'react';
 import {
   FeesView,
   FeesViewItem,
-} from '../../../../components/FeesBox/FeesView';
+} from '../../../../components/FeesView/FeesView';
 import { useMinExFee } from '../../settings/executionFee';
 import { useMinerFee } from '../../settings/minerFee';
 import { useMinTotalFee } from '../../settings/totalFees';
 
-export const RedeemFees: FC = () => {
+export const RedeemConfirmationInfo: FC = () => {
   const minExFee = useMinExFee();
   const minTotalFee = useMinTotalFee();
   const minerFee = useMinerFee();

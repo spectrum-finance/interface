@@ -5,6 +5,7 @@ import {
   getUsedAddresses,
 } from './api/addresses/addresses';
 import { ammPools$ } from './api/ammPools/ammPools';
+import { ErgoAmmPool } from './api/ammPools/ErgoAmmPool';
 import { assetBalance$ } from './api/balance/assetBalance';
 import { lpBalance$ } from './api/balance/lpBalance';
 import { networkAssetBalance$ } from './api/balance/networkAssetBalance';
@@ -39,13 +40,17 @@ import {
   useSwapValidationFee,
 } from './settings/totalFees';
 import { exploreAddress, exploreLastBlock, exploreTx } from './utils/utils';
-import { DepositFees } from './widgets/DepositFees/DepositFees';
+import { DepositConfirmationInfo } from './widgets/DepositConfirmationInfo/DepositConfirmationInfo';
 import { GlobalSettingsModal } from './widgets/GlobalSettings/GlobalSettingsModal';
-import { RedeemFees } from './widgets/RedeemFees/RedeemFees';
-import { SwapFees } from './widgets/SwapFees/SwapFees';
+import { RedeemConfirmationInfo } from './widgets/RedeemConfirmationInfo/RedeemConfirmationInfo';
+import { SwapConfirmationInfo } from './widgets/SwapConfirmationInfo/SwapConfirmationInfo';
 import { SwapInfoContent } from './widgets/SwapInfoContent/SwapInfoContent';
 
-export const ergoNetwork: Network<ErgoWalletContract, ErgoSettings> = {
+export const ergoNetwork: Network<
+  ErgoWalletContract,
+  ErgoSettings,
+  ErgoAmmPool
+> = {
   name: 'ergo',
   label: 'ergo',
   networkAsset,
@@ -84,9 +89,9 @@ export const ergoNetwork: Network<ErgoWalletContract, ErgoSettings> = {
 
   GlobalSettingsModal,
   SwapInfoContent,
-  SwapFees,
-  DepositFees,
-  RedeemFees,
+  SwapConfirmationInfo,
+  DepositConfirmationInfo,
+  RedeemConfirmationInfo,
 
   useSwapValidationFee,
   useDepositValidationFee,

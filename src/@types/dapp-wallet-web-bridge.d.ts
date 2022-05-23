@@ -27,6 +27,8 @@ namespace ErgoBridge {
 
     get_used_addresses: (paginate?: Paging) => Promise<Address[]>;
 
+    get_change_address: () => Promise<Address>;
+
     get_unused_addresses: () => Promise<Address[]>;
 
     sign_tx: (tx: UnsignedErgoTxProxy) => Promise<ErgoTxProxy>;

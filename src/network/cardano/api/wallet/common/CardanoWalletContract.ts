@@ -17,6 +17,7 @@ export interface CardanoWalletContract extends Wallet, Prover {
   readonly testnetSwitchGuideUrl: string;
   readonly connectWallet: () => Observable<boolean | ReactNode>;
   readonly getUsedAddresses: () => Observable<Address[]>;
+  readonly getChangeAddress: () => Observable<Address>;
   readonly getAddresses: () => Observable<Address[]>;
   readonly getUnusedAddresses: () => Observable<Address[]>;
   readonly getBalance: () => Observable<[bigint, AssetInfo][]>;
