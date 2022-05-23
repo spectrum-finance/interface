@@ -1,6 +1,6 @@
 import './Layout.less';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { isBrowser } from 'react-device-detect';
 
 import { useAppLoadingState, useSettings } from '../../../context';
@@ -19,6 +19,7 @@ interface Props {
 const Layout = ({ children }: Props): JSX.Element => {
   const [{ theme }] = useSettings();
   const [network] = useSelectedNetwork();
+  const ref = useRef<HTMLDivElement>(null);
 
   useBodyClass([theme, network.name.toLowerCase()]);
 
@@ -31,9 +32,9 @@ const Layout = ({ children }: Props): JSX.Element => {
   }, [isKYAAccepted]);
 
   return (
-    <div className="layout">
+    <div className="layout" ref={ref}>
       <div className="glow" />
-      <Header />
+      <Header layoutRef={ref} />
       <main>{children}</main>
       <footer>
         <SocialLinks />

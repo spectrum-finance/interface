@@ -1,7 +1,7 @@
 import './Header.less';
 
 import cn from 'classnames';
-import React, { useEffect, useState } from 'react';
+import React, { MutableRefObject, RefObject, useEffect, useState } from 'react';
 import { isBrowser } from 'react-device-detect';
 
 import { useObservable } from '../../common/hooks/useObservable';
@@ -22,7 +22,11 @@ import { GetTestTokensButton } from './GetTestTokensButton/GetTestTokensButton';
 import { Navigation } from './Navigation/Navigation';
 import { NetworkDropdown } from './NetworkDropdown/NetworkDropdown';
 
-export const Header: React.FC = () => {
+export interface HeaderProps {
+  layoutRef: RefObject<HTMLDivElement>;
+}
+
+export const Header: React.FC<HeaderProps> = ({ layoutRef }) => {
   const [settings] = useObservable(settings$);
   const [balance, isBalanceLoading] = useAssetsBalance();
   const [networkAsset] = useNetworkAsset();
@@ -30,21 +34,22 @@ export const Header: React.FC = () => {
   const [hidden, setHidden] = useState(false);
 
   useEffect(() => {
-    let currentScrollY = window.scrollY;
+    let currentScrollY = layoutRef.current?.scrollTop || 0;
+
     const handleScroll = () => {
-      if (currentScrollY > window.scrollY) {
+      if (currentScrollY > (layoutRef.current?.scrollTop || 0)) {
         setHidden(false);
       }
-      if (currentScrollY < window.scrollY) {
+      if (currentScrollY < (layoutRef.current?.scrollTop || 0)) {
         setHidden(true);
       }
-      currentScrollY = window.scrollY;
+      currentScrollY = layoutRef.current?.scrollTop || 0;
     };
 
-    document.addEventListener('scroll', handleScroll);
+    layoutRef.current?.addEventListener('scroll', handleScroll);
 
     return () => document.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [layoutRef]);
 
   return (
     <header
