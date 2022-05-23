@@ -4,13 +4,14 @@ import React from 'react';
 import { Box, Flex, Typography } from '../../../ergodex-cdk';
 import { Spin } from '../../../ergodex-cdk/components/Spin/Spin';
 import { useSettings } from '../../../gateway/settings/settings';
-import { getShortAddress } from '../../../utils/string/addres';
+import { splitStr } from '../../../utils/string/splitStr';
 import { CopyButton } from '../../common/CopyButton/CopyButton';
 import { ExploreButton } from '../../common/ExploreButton/ExploreButton';
 import { InfoTooltip } from '../../InfoTooltip/InfoTooltip';
 
 export const WalletActiveAddress = (): JSX.Element => {
   const { address } = useSettings();
+  const [addressBegin, addressSuffix] = splitStr(address);
 
   return (
     <Flex col>
@@ -26,8 +27,14 @@ export const WalletActiveAddress = (): JSX.Element => {
         {address ? (
           <Flex col>
             <Flex.Item marginBottom={1}>
-              <Typography.Title level={4}>
-                {address ? getShortAddress(address) : ''}
+              <Typography.Title
+                level={4}
+                ellipsis={{
+                  rows: 1,
+                  suffix: addressSuffix,
+                }}
+              >
+                {addressBegin}
               </Typography.Title>
             </Flex.Item>
             <Flex.Item marginBottom={1}>
