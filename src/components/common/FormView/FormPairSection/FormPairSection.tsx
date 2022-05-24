@@ -3,6 +3,7 @@ import React, { ReactNode } from 'react';
 import { Currency } from '../../../../common/models/Currency';
 import { Flex, Typography } from '../../../../ergodex-cdk';
 import { AssetIcon } from '../../../AssetIcon/AssetIcon';
+import { ConvenientAssetView } from '../../../ConvenientAssetView/ConvenientAssetView';
 import { PageSection } from '../../../Page/PageSection/PageSection';
 import { Truncate } from '../../../Truncate/Truncate';
 
@@ -45,7 +46,8 @@ const FormPairSection: React.FC<PairSpaceProps> = ({
             <Flex.Item>
               <Flex>
                 <Typography.Body strong>
-                  {fees ? undefined : xAmount.toString()}
+                  {fees ? undefined : xAmount.toString()} (
+                  <ConvenientAssetView value={xAmount} prefix="~" />)
                 </Typography.Body>
               </Flex>
             </Flex.Item>
@@ -70,7 +72,8 @@ const FormPairSection: React.FC<PairSpaceProps> = ({
             <Flex.Item>
               <Flex>
                 <Typography.Body strong>
-                  {fees ? undefined : yAmount.toString()}
+                  {fees ? undefined : yAmount.toString()} (
+                  <ConvenientAssetView value={yAmount} prefix="~" />)
                 </Typography.Body>
               </Flex>
             </Flex.Item>
