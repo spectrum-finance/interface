@@ -1,3 +1,4 @@
+import { MinBoxValue } from '@ergolabs/ergo-sdk';
 import { combineLatest, map, publishReplay, refCount } from 'rxjs';
 
 import { Currency } from '../../../common/models/Currency';
@@ -36,8 +37,11 @@ export const useMaxTotalFee = (): Currency => {
   return calculateTotalFee([minerFee, maxExFee], networkAsset);
 };
 
-export const useSwapValidationFee = (): Currency => useMaxTotalFee();
+export const useSwapValidationFee = (): Currency =>
+  useMaxTotalFee().plus(MinBoxValue);
 
-export const useDepositValidationFee = (): Currency => useMinTotalFee();
+export const useDepositValidationFee = (): Currency =>
+  useMinTotalFee().plus(MinBoxValue);
 
-export const useRedeemValidationFee = (): Currency => useMinTotalFee();
+export const useRedeemValidationFee = (): Currency =>
+  useMinTotalFee().plus(MinBoxValue);
