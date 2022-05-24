@@ -89,7 +89,7 @@ export const cardanoNetwork: Network<
   swap,
   deposit,
   redeem,
-  refund(address: string, txId: string): Observable<TxId> {
+  refund(): Observable<TxId> {
     return of('');
   },
 
