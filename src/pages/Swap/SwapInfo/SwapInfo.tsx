@@ -39,6 +39,13 @@ export const SwapInfo = styled(_SwapInfo)`
   background: var(--ergo-box-bg-contrast);
   border: 1px solid var(--ergo-box-border-color);
 
+  .ant-collapse-item,
+  .ant-collapse-content,
+  .ant-collapse-content-box {
+    will-change: height;
+    transform: translateZ(0);
+  }
+
   .ant-collapse-content-box {
     background: var(--ergo-box-bg-contrast);
     border-radius: var(--ergo-border-radius-md);
