@@ -5,9 +5,11 @@ import { AmmPool } from '../../common/models/AmmPool';
 import { AssetLock } from '../../common/models/AssetLock';
 import { Balance } from '../../common/models/Balance';
 import { Currency } from '../../common/models/Currency';
+import { PoolChartData } from '../../common/models/PoolChartData';
 import { Position } from '../../common/models/Position';
 import { Address } from '../../common/types';
 import { NetworkContext } from './NetworkContext';
+import { PoolChartDataParams } from './PoolChartDataParams';
 import { SupportedFeatures } from './SupportedFeatures';
 import { TxHistoryManager } from './TxHistoryManager';
 import { Wallet, WalletState } from './Wallet';
@@ -37,4 +39,9 @@ export interface NetworkData<W extends Wallet> {
   readonly useSwapValidationFee: () => Currency;
   readonly useDepositValidationFee: () => Currency;
   readonly useRedeemValidationFee: () => Currency;
+
+  readonly getPoolChartData: (
+    pool: AmmPool,
+    params?: PoolChartDataParams,
+  ) => Observable<PoolChartData[]>;
 }

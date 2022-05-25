@@ -162,9 +162,16 @@ const TxHistoryModal = (): JSX.Element => {
                               />
                             </Flex.Item>
                             <Flex.Item style={{ width: '28%' }}>
-                              <DateTimeView value={op.timestamp} />
+                              <Typography.Body>
+                                <DateTimeView value={op.timestamp} />
+                              </Typography.Body>
                               <br />
-                              <DateTimeView type="time" value={op.timestamp} />
+                              <Typography.Body>
+                                <DateTimeView
+                                  type="time"
+                                  value={op.timestamp}
+                                />
+                              </Typography.Body>
                             </Flex.Item>
                             <Flex.Item style={{ width: '20%' }}>
                               <TxTypeTag type={op.type} />

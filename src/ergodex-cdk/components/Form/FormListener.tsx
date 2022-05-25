@@ -29,8 +29,7 @@ export interface FormListenerProps<T> {
 export class FormListener<T = any> extends React.Component<
   FormListenerProps<T>
 > {
-  //@ts-ignore
-  private subscription: Subscription;
+  private subscription?: Subscription;
 
   componentWillUnmount(): void {
     this.subscription?.unsubscribe();

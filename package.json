@@ -12,7 +12,7 @@
     "i18n:pseudo": "lingui extract --locale pseudo && lingui compile",
     "lint:stylelint": "stylelint src/**/*.{scss,css,less}",
     "lint:eslint": "eslint --ext .js,.ts,.tsx src",
-    "lint": "yarn lint:eslint && yarn lint:stylelint",
+    "lint": "yarn lint:eslxint && yarn lint:stylelint",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
     "sprite:tokens": "svg-sprite -s --symbol-dest src/assets/icons/sprite --symbol-sprite sprite.svg src/assets/icons/tokens/*.svg"
