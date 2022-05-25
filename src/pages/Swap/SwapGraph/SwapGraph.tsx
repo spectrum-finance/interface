@@ -1,39 +1,19 @@
-import { t } from '@lingui/macro';
-import { DateTime, Duration, DurationLike } from 'luxon';
+import { Trans } from '@lingui/macro';
+import { DateTime } from 'luxon';
 import React, { useCallback, useState } from 'react';
-import { useMemo } from 'react';
 import { Area, AreaChart, Tooltip, XAxis, YAxis } from 'recharts';
 
 import { useObservable } from '../../../common/hooks/useObservable';
 import { AmmPool } from '../../../common/models/AmmPool';
-import { getPoolChartData } from '../../../common/streams/poolChart';
 import { TokenIconPair } from '../../../components/AssetIconPair/TokenIconPair';
+import { DateTimeView } from '../../../components/common/DateTimeView/DateTimeView';
 import { Truncate } from '../../../components/Truncate/Truncate';
 import { Button, Flex, Tabs, Typography } from '../../../ergodex-cdk';
+import { getPoolChartData } from '../../../network/ergo/api/poolChart/poolChart';
 import { useActiveData } from './useActiveData';
+import { useAggregatedByDateData } from './useAggregatedByDateData';
 import { Period, usePeriodSettings } from './usePeriodSettings';
-
-const getTicksArray = (
-  tick: DurationLike,
-  durationOffset: DurationLike,
-  preLastFromNow: (d: DateTime) => DateTime,
-): DateTime[] => {
-  const now = DateTime.now();
-  const tickMillis = Duration.fromDurationLike(tick).toMillis();
-  const preLast = preLastFromNow(now);
-
-  now.minus(tick);
-  return Array(
-    Math.floor(now.diff(now.minus(durationOffset)).toMillis() / tickMillis),
-  )
-    .fill(undefined)
-    .map((_, i) =>
-      preLast.minus({
-        millisecond: tickMillis * i,
-      }),
-    )
-    .reverse();
-};
+import { useTicks } from './useTicks';
 
 interface SwapGraphProps {
   pool: AmmPool;
@@ -45,36 +25,19 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({ pool }) => {
   const { durationOffset, timeFormat, tick, preLastFromNow, resolution } =
     usePeriodSettings(defaultActivePeriod);
 
-  const ticks = useMemo(
-    () => getTicksArray(tick, durationOffset, preLastFromNow),
-    [defaultActivePeriod],
+  const ticks = useTicks(tick, durationOffset, preLastFromNow, [
+    defaultActivePeriod,
+  ]);
+  const [rawData] = useObservable(
+    () =>
+      getPoolChartData(pool, {
+        from: DateTime.now().minus(durationOffset).valueOf(),
+        resolution,
+      }),
+    [pool.id, defaultActivePeriod],
+    [],
   );
-
-  const getData = () =>
-    getPoolChartData(pool, {
-      from: DateTime.now().minus(durationOffset).valueOf(),
-      resolution,
-    });
-
-  const [rawData] = useObservable(getData, [pool.id, defaultActivePeriod], []);
-
-  const data = useMemo(() => {
-    if (rawData.length < 1) {
-      return [];
-    }
-
-    let j = -1;
-    const res = ticks
-      .filter((lts) => lts.valueOf() > rawData[0].ts)
-      .map((lts: DateTime) => {
-        while (rawData[j + 1]?.ts < lts.valueOf()) {
-          j++;
-        }
-        return rawData[j === -1 ? 0 : j].clone({ timestamp: lts.valueOf() });
-      });
-    res.push(rawData[rawData.length - 1]);
-    return res;
-  }, [rawData]);
+  const data = useAggregatedByDateData(rawData, ticks);
 
   const [activeData, setActiveData] = useActiveData(data);
 
@@ -100,11 +63,11 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({ pool }) => {
           </Flex.Item>
           <Flex.Item marginRight={2}>
             <Button size="small" onClick={() => setInverted(!isInverted)}>
-              {t`Switch ratio`}
+              <Trans>Switch ratio</Trans>
             </Button>
           </Flex.Item>
 
-          <Flex.Item style={{ marginLeft: 'auto' }}>
+          <Flex.Item marginLeft="auto">
             <Tabs
               defaultActiveKey={defaultActivePeriod}
               onChange={(key) => setDefaultActivePeriod(key)}
@@ -138,21 +101,15 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({ pool }) => {
             </Flex.Item>
           </Flex>
           <Typography.Text style={{ marginLeft: '24px' }} type="secondary">
-            {activeData.date.toLocaleString(DateTime.DATETIME_MED)}
+            <DateTimeView type="datetime" value={activeData.date} />
           </Typography.Text>
         </>
       )}
-      <Flex.Item marginLeft={6}>
+      <Flex.Item marginLeft={6} marginRight={4}>
         <AreaChart
           width={624}
           height={320}
           data={data}
-          margin={{
-            top: 10,
-            right: 30,
-            left: 0,
-            bottom: 0,
-          }}
           reverseStackOrder
           onMouseMove={(state: any) => {
             setActiveData(state?.activePayload?.[0]?.payload);

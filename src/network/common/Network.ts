@@ -18,7 +18,7 @@ export interface Network<
     NetworkWidgets<P>,
     NetworkUtils,
     NetworkSettings<S> {
-  readonly name: string;
+  readonly name: 'ergo' | 'cardano';
   readonly label: string;
   readonly networkAsset: AssetInfo;
   readonly initialized$: Observable<boolean>;

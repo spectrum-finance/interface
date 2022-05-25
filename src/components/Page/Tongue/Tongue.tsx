@@ -6,9 +6,9 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-import { Flex, LeftOutlined } from 'src/ergodex-cdk';
 import styled from 'styled-components';
 
+import { Flex, LeftOutlined } from '../../../ergodex-cdk';
 import { TongueArrowButton } from './TongueArrowButton/TongueArrowButton';
 
 interface TongueProps {

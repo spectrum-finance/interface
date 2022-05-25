@@ -2,6 +2,8 @@ import './Page.less';
 
 import React, { ReactNode, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import styled from 'styled-components';
+
 import {
   ArrowLeftOutlined,
   Box,
@@ -11,9 +13,7 @@ import {
   LineChartOutlined,
   RightOutlined,
   Typography,
-} from 'src/ergodex-cdk';
-import styled from 'styled-components';
-
+} from '../../ergodex-cdk';
 import { Gutter } from '../../ergodex-cdk/utils/gutter';
 import { Tongue } from './Tongue/Tongue';
 
@@ -35,6 +35,12 @@ const Widget = styled.div`
   background: var(--ergo-page-footer-bg);
   border-radius: 16px 0 0 16px;
   margin: 16px 0;
+`;
+
+const TongueContainer = styled.div`
+  top: 32px;
+  position: absolute;
+  left: -66px;
 `;
 
 const _Page: React.FC<PageProps> = ({
@@ -59,27 +65,18 @@ const _Page: React.FC<PageProps> = ({
       justify="center"
       align="flex-start"
     >
-      <Flex
-        col
-        align="center"
-        style={{
-          position: 'relative',
-        }}
-      >
+      <Flex col align="center" position="relative">
         {leftWidget && (
-          <Tongue
-            style={{
-              top: '32px',
-              position: 'absolute',
-              left: '-66px',
-            }}
-            arrow={leftWidgetOpened ? <RightOutlined /> : <LeftOutlined />}
-            icon={<LineChartOutlined size={16} />}
-            iconDisabled
-            onClick={() => {
-              setLeftWidgetOpened(!leftWidgetOpened);
-            }}
-          />
+          <TongueContainer>
+            <Tongue
+              arrow={leftWidgetOpened ? <RightOutlined /> : <LeftOutlined />}
+              icon={<LineChartOutlined size={16} />}
+              iconDisabled
+              onClick={() => {
+                setLeftWidgetOpened(!leftWidgetOpened);
+              }}
+            />
+          </TongueContainer>
         )}
         {title && (
           <Flex.Item marginBottom={2}>
@@ -108,21 +105,23 @@ const _Page: React.FC<PageProps> = ({
             </Flex>
           </Flex.Item>
         )}
-        <Flex.Item style={{ zIndex: 2 }}>
-          <Flex justify="center">
-            {leftWidgetOpened && <Widget>{leftWidget}</Widget>}
-            <Box
-              bordered={false}
-              className={className}
-              padding={padding ? padding : [6, 6]}
-              borderRadius="l"
-              width={width ?? 0}
-            >
-              {children}
-            </Box>
+        <Flex justify="center" align="flex-start">
+          {leftWidgetOpened && <Widget>{leftWidget}</Widget>}
+          <Flex col>
+            <Flex.Item style={{ zIndex: 2 }}>
+              <Box
+                bordered={false}
+                className={className}
+                padding={padding ? padding : [6, 6]}
+                borderRadius="l"
+                width={width ?? 0}
+              >
+                {children}
+              </Box>
+            </Flex.Item>
+            <Flex.Item style={{ zIndex: 0 }}>{footer}</Flex.Item>
           </Flex>
-        </Flex.Item>
-        <Flex.Item style={{ zIndex: 0 }}>{footer}</Flex.Item>
+        </Flex>
       </Flex>
     </Flex>
   );

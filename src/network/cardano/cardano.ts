@@ -96,4 +96,6 @@ export const cardanoNetwork: Network<
   useSwapValidationFee,
   useDepositValidationFee,
   useRedeemValidationFee,
+
+  getPoolChartData: () => of([]),
 };

@@ -44,6 +44,7 @@ import { useAssetsBalance } from '../../gateway/api/assetBalance';
 import { getAvailableAssetFor, tokenAssets$ } from '../../gateway/api/assets';
 import { useNetworkAsset } from '../../gateway/api/networkAsset';
 import { useSwapValidationFee } from '../../gateway/api/validationFees';
+import { useSelectedNetwork } from '../../gateway/common/network';
 import { OperationSettings } from './OperationSettings/OperationSettings';
 import { PoolSelector } from './PoolSelector/PoolSelector';
 import { SwapConfirmationModal } from './SwapConfirmationModal/SwapConfirmationModal';
@@ -74,6 +75,7 @@ export const Swap = (): JSX.Element => {
     pool: undefined,
   });
   const [lastEditedField, setLastEditedField] = useState<'from' | 'to'>('from');
+  const [selectedNetwork] = useSelectedNetwork();
   const [networkAsset] = useNetworkAsset();
   const [balance] = useAssetsBalance();
   const totalFees = useSwapValidationFee();
@@ -332,7 +334,10 @@ export const Swap = (): JSX.Element => {
     >
       <Page
         width={504}
-        leftWidget={pool?.id && <SwapGraph pool={pool} />}
+        leftWidget={
+          selectedNetwork.name === 'ergo' &&
+          pool?.id && <SwapGraph pool={pool} />
+        }
         footer={
           <Form.Item name="pool">
             {({ value, onChange }) => (

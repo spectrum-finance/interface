@@ -1,26 +1,20 @@
 import type { PoolId } from '@ergolabs/ergo-dex-sdk';
 import axios from 'axios';
-import { DateTime } from 'luxon';
 import { from, map, Observable } from 'rxjs';
 
-import { applicationConfig } from '../../applicationConfig';
-import { AmmPool } from '../models/AmmPool';
-import { PoolChartData } from '../models/PoolChartData';
+import { applicationConfig } from '../../../../applicationConfig';
+import { AmmPool } from '../../../../common/models/AmmPool';
+import { PoolChartData } from '../../../../common/models/PoolChartData';
+import { PoolChartDataParams } from '../../../common/PoolChartDataParams';
 
 interface PoolChartDataRaw {
   price: number;
   timestamp: number;
 }
 
-interface getPoolChartDataParams {
-  from?: number;
-  to?: number;
-  resolution?: number;
-}
-
 export const getPoolChartDataRaw = (
   poolId: PoolId,
-  params?: getPoolChartDataParams,
+  params?: PoolChartDataParams,
 ): Observable<PoolChartDataRaw[]> =>
   from(
     axios.get<PoolChartDataRaw[]>(
@@ -33,7 +27,7 @@ export const getPoolChartDataRaw = (
 
 export const getPoolChartData = (
   pool: AmmPool,
-  params?: getPoolChartDataParams,
+  params?: PoolChartDataParams,
 ): Observable<PoolChartData[]> => {
   return getPoolChartDataRaw(pool.id, params).pipe(
     map((data) =>

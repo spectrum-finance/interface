@@ -16,6 +16,7 @@ import { deposit } from './api/operations/deposit';
 import { redeem } from './api/operations/redeem';
 import { refund } from './api/operations/refund';
 import { swap } from './api/operations/swap';
+import { getPoolChartData } from './api/poolChart/poolChart';
 import { positions$ } from './api/positions/positions';
 import { txHistoryManager } from './api/transactionHistory/transactionHistory';
 import { ErgoWalletContract } from './api/wallet/common/ErgoWalletContract';
@@ -96,4 +97,6 @@ export const ergoNetwork: Network<
   useSwapValidationFee,
   useDepositValidationFee,
   useRedeemValidationFee,
+
+  getPoolChartData,
 };

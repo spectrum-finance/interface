@@ -20,6 +20,7 @@ export type FlexProps = React.DetailedHTMLProps<
   col?: boolean;
   stretch?: boolean;
   inline?: boolean;
+  position?: 'relative' | 'absolute' | 'static' | 'fixed';
   justify?:
     | 'flex-start'
     | 'stretch'
@@ -36,6 +37,7 @@ export const Flex: ForwardRefExoticComponent<
 > & { Item: FC<ItemsProps> } = forwardRef<HTMLDivElement, FlexProps>(
   (
     {
+      position,
       children,
       justify,
       align,
@@ -54,6 +56,7 @@ export const Flex: ForwardRefExoticComponent<
         ref={ref}
         className={cn([
           className,
+          position ? `ergo-flex-position--${position}` : '',
           'ergo-flex',
           `ergo-flex-direction--${
             (col && 'col') || (row && 'row') || direction
@@ -86,10 +89,10 @@ type ItemsProps = React.DetailedHTMLProps<
   display?: 'flex' | 'block' | 'none';
   order?: number;
   alignSelf?: 'flex-start' | 'stretch' | 'flex-end' | 'center';
-  marginBottom?: number;
-  marginTop?: number;
-  marginLeft?: number;
-  marginRight?: number;
+  marginBottom?: number | 'auto';
+  marginTop?: number | 'auto';
+  marginLeft?: number | 'auto';
+  marginRight?: number | 'auto';
   margin?: Gutter;
   flex?: number;
   grow?: boolean;
@@ -129,10 +132,22 @@ const Item: FC<ItemsProps> = ({
       order,
       display: display || (justify || direction || align ? 'flex' : 'initial'),
       flex,
-      marginBottom: `calc(var(--ergo-base-gutter) * ${marginBottom})`,
-      marginTop: `calc(var(--ergo-base-gutter) * ${marginTop})`,
-      marginRight: `calc(var(--ergo-base-gutter) * ${marginRight})`,
-      marginLeft: `calc(var(--ergo-base-gutter) * ${marginLeft})`,
+      marginBottom:
+        marginBottom === 'auto'
+          ? 'auto'
+          : `calc(var(--ergo-base-gutter) * ${marginBottom})`,
+      marginTop:
+        marginTop === 'auto'
+          ? 'auto'
+          : `calc(var(--ergo-base-gutter) * ${marginTop})`,
+      marginRight:
+        marginRight === 'auto'
+          ? 'auto'
+          : `calc(var(--ergo-base-gutter) * ${marginRight})`,
+      marginLeft:
+        marginLeft === 'auto'
+          ? 'auto'
+          : `calc(var(--ergo-base-gutter) * ${marginLeft})`,
       ...style,
     }}
     {...other}
