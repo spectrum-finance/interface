@@ -100,11 +100,12 @@ const _TokenAmountInput: React.FC<TokenAmountInputProps> = ({
 };
 
 export const TokenAmountInput = styled(_TokenAmountInput)`
-  background-color: var(--ergo-swap-input-bg) !important;
-  box-shadow: none !important;
+  border-radius: initial !important;
+  border-color: transparent !important;
+  background-color: transparent !important;
+  padding: 0 !important;
   font-size: 24px !important;
   font-weight: 600;
-  height: 100%;
   line-height: 32px !important;
-  padding: 5px 12px;
+  height: 100%;
 `;

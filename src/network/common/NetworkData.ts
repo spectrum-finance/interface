@@ -15,6 +15,9 @@ import { TxHistoryManager } from './TxHistoryManager';
 import { Wallet, WalletState } from './Wallet';
 
 export interface NetworkData<W extends Wallet> {
+  readonly convertToConvenientNetworkAsset: (
+    from: Currency | Currency[],
+  ) => Observable<Currency>;
   readonly networkAssetBalance$: Observable<Currency>;
   readonly assetBalance$: Observable<Balance>;
   readonly lpBalance$: Observable<Balance>;

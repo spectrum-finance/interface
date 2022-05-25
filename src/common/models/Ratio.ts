@@ -78,6 +78,18 @@ export class Ratio {
     );
   }
 
+  cross(to: Ratio): Ratio {
+    if (this.quoteAsset.id !== to.baseAsset.id) {
+      throw new Error("can't calculate cross rate with different assets");
+    }
+
+    return new Ratio(
+      math.evaluate!(`${this.toAmount()} * ${to.toAmount()}`).toFixed(),
+      this.baseAsset,
+      to.quoteAsset,
+    );
+  }
+
   isPositive(): boolean {
     return this.amount > 0n;
   }

@@ -6,7 +6,6 @@ import { Observable, of } from 'rxjs';
 import { useObservable } from '../../../common/hooks/useObservable';
 import { Currency } from '../../../common/models/Currency';
 import {
-  Animation,
   Box,
   Button,
   Flex,
@@ -15,7 +14,7 @@ import {
   useFormContext,
 } from '../../../ergodex-cdk';
 import { useAssetsBalance } from '../../../gateway/api/assetBalance';
-import { Truncate } from '../../Truncate/Truncate';
+import { ConvenientAssetView } from '../../ConvenientAssetView/ConvenientAssetView';
 import {
   TokenAmountInput,
   TokenAmountInputValue,
@@ -76,7 +75,6 @@ export const TokenControlFormItem: FC<NewTokenControlProps> = ({
   assets$,
   disabled,
   readonly,
-  noBottomInfo,
   handleMaxButtonClick,
 }) => {
   const { form } = useFormContext();
@@ -117,10 +115,21 @@ export const TokenControlFormItem: FC<NewTokenControlProps> = ({
   return (
     <Box padding={4} contrast borderRadius="m">
       <Flex col>
-        <Flex.Item marginBottom={2}>
-          <Typography.Body type="secondary">{label}</Typography.Body>
-        </Flex.Item>
-        <Flex.Item display="flex" row marginBottom={noBottomInfo ? 0 : 2}>
+        {label && (
+          <Flex.Item align="center" marginBottom={2}>
+            <Flex.Item flex={1}>
+              <Typography.Body secondary>{label}</Typography.Body>
+            </Flex.Item>
+            {selectedAsset !== undefined &&
+              !balanceLoading &&
+              readonly !== true && (
+                <Typography.Body secondary>
+                  {t`Balance:`} ${balance.get(selectedAsset).toString()}
+                </Typography.Body>
+              )}
+          </Flex.Item>
+        )}
+        <Flex.Item align="center" marginBottom={2}>
           <Flex.Item marginRight={2} flex={1}>
             {amountName && (
               <Form.Item name={amountName}>
@@ -136,7 +145,21 @@ export const TokenControlFormItem: FC<NewTokenControlProps> = ({
               </Form.Item>
             )}
           </Flex.Item>
-          <Flex.Item>
+          {selectedAsset !== undefined &&
+            !balanceLoading &&
+            !!balance.get(selectedAsset) &&
+            maxButton && (
+              <Button
+                type="link"
+                size="small"
+                onClick={() =>
+                  _handleMaxButtonClick(balance.get(selectedAsset))
+                }
+              >
+                <Trans>Max</Trans>
+              </Button>
+            )}
+          <Flex.Item marginLeft={2}>
             {tokenName && (
               <Form.Item name={tokenName}>
                 {({ value, onChange }) => (
@@ -153,44 +176,25 @@ export const TokenControlFormItem: FC<NewTokenControlProps> = ({
             )}
           </Flex.Item>
         </Flex.Item>
-        {!noBottomInfo && (
-          <Flex.Item marginBottom={1} marginTop={1}>
-            <Flex
-              direction="row"
-              align="center"
-              className="token-control-bottom-panel"
-            >
-              <Animation.Expand
-                expanded={selectedAsset !== undefined && !balanceLoading}
-              >
-                {() => (
-                  <>
-                    <Flex.Item marginRight={2}>
-                      <Typography.Body>
-                        {t`Balance: ${balance.get(selectedAsset).toString()}`}{' '}
-                        <Truncate limit={10}>
-                          {balance.get(selectedAsset).asset.name}
-                        </Truncate>
-                      </Typography.Body>
-                    </Flex.Item>
-                    {!!balance.get(selectedAsset) && maxButton && (
-                      <Button
-                        ghost
-                        type="primary"
-                        size="small"
-                        onClick={() =>
-                          _handleMaxButtonClick(balance.get(selectedAsset))
-                        }
-                      >
-                        <Trans>Max</Trans>
-                      </Button>
-                    )}
-                  </>
-                )}
-              </Animation.Expand>
-            </Flex>
+        <Flex.Item align="center">
+          <Flex.Item flex={1}>
+            <Form.Listener name={amountName}>
+              {({ value }) => (
+                <Typography.Body secondary>
+                  <ConvenientAssetView value={value} defaultValue="~$0.00" />
+                </Typography.Body>
+              )}
+            </Form.Listener>
           </Flex.Item>
-        )}
+          {selectedAsset !== undefined &&
+            !balanceLoading &&
+            readonly !== true &&
+            !label && (
+              <Typography.Body secondary>
+                {t`Balance:`} ${balance.get(selectedAsset).toString()}
+              </Typography.Body>
+            )}
+        </Flex.Item>
       </Flex>
     </Box>
   );

@@ -9,6 +9,7 @@ import { ErgoAmmPool } from './api/ammPools/ErgoAmmPool';
 import { assetBalance$ } from './api/balance/assetBalance';
 import { lpBalance$ } from './api/balance/lpBalance';
 import { networkAssetBalance$ } from './api/balance/networkAssetBalance';
+import { convertToConvenientNetworkAsset } from './api/ergoUsdRatio/ergoUsdRatio';
 import { locks$ } from './api/locks/locks';
 import { networkAsset } from './api/networkAsset/networkAsset';
 import { networkContext$ } from './api/networkContext/networkContext';
@@ -54,6 +55,7 @@ export const ergoNetwork: Network<
 > = {
   name: 'ergo',
   label: 'ergo',
+  convenientAssetDefaultPreview: '$0.00',
   networkAsset,
   initialized$,
   initialize,
@@ -93,6 +95,8 @@ export const ergoNetwork: Network<
   SwapConfirmationInfo,
   DepositConfirmationInfo,
   RedeemConfirmationInfo,
+
+  convertToConvenientNetworkAsset,
 
   useSwapValidationFee,
   useDepositValidationFee,

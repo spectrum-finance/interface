@@ -338,13 +338,6 @@ export const Swap = (): JSX.Element => {
           selectedNetwork.name === 'ergo' &&
           pool?.id && <SwapGraph pool={pool} />
         }
-        footer={
-          <Form.Item name="pool">
-            {({ value, onChange }) => (
-              <PoolSelector value={value} onChange={onChange} />
-            )}
-          </Form.Item>
-        }
       >
         <Flex col>
           <Flex row align="center">
@@ -355,7 +348,7 @@ export const Swap = (): JSX.Element => {
             </Flex.Item>
             <OperationSettings />
           </Flex>
-          <Flex.Item marginBottom={1} marginTop={3}>
+          <Flex.Item marginBottom={1} marginTop={2}>
             <TokenControlFormItem
               bordered
               maxButton
@@ -380,6 +373,13 @@ export const Swap = (): JSX.Element => {
               tokenName="toAsset"
             />
           </Flex.Item>
+          <Form.Item name="pool">
+            {({ value, onChange }) => (
+              <Flex.Item marginTop={!!value ? 4 : 0}>
+                <PoolSelector value={value} onChange={onChange} />
+              </Flex.Item>
+            )}
+          </Form.Item>
           <Form.Listener>
             {({ value }) => (
               <Flex.Item marginTop={!!value.pool ? 4 : 0}>
