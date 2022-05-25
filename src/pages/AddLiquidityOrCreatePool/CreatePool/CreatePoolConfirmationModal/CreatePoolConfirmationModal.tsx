@@ -20,7 +20,6 @@ import { InfoTooltip } from '../../../../components/InfoTooltip/InfoTooltip';
 import { PageSection } from '../../../../components/Page/PageSection/PageSection';
 import { RatioBox } from '../../../../components/RatioBox/RatioBox';
 import { Section } from '../../../../components/Section/Section';
-import { useSettings } from '../../../../context';
 import {
   Button,
   Divider,
@@ -28,6 +27,7 @@ import {
   Modal,
   Typography,
 } from '../../../../ergodex-cdk';
+import { useSettings } from '../../../../gateway/settings/settings';
 import { utxos$ } from '../../../../network/ergo/api/utxos/utxos';
 import { explorer } from '../../../../services/explorer';
 import { poolActions } from '../../../../services/poolActions';
@@ -45,7 +45,8 @@ const CreatePoolConfirmationModal: FC<CreatePoolConfirmationModalProps> = ({
   value,
   onClose,
 }) => {
-  const [{ minerFee, address, pk }] = useSettings();
+  //@ts-ignore
+  const { minerFee, address, pk } = useSettings();
   const [utxos] = useObservable(utxos$);
   const minerFeeNErgs = parseUserInputToFractions(minerFee, ERG_DECIMALS);
 
