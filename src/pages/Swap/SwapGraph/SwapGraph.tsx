@@ -42,7 +42,12 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({ pool }) => {
   const [activeData, setActiveData] = useActiveData(data);
 
   const formatXAxis = useCallback(
-    (ts: number) => DateTime.fromMillis(ts).toLocaleString(timeFormat),
+    (ts: number | string) => {
+      if (typeof ts === 'string') {
+        return ts;
+      }
+      return DateTime.fromMillis(ts).toLocaleString(timeFormat);
+    },
     [defaultActivePeriod],
   );
 
@@ -123,7 +128,7 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({ pool }) => {
             domain={['auto', 'auto']}
             hide
           />
-          <XAxis dataKey="ts" scale="time" tickFormatter={formatXAxis} />
+          <XAxis dataKey="ts" tickFormatter={formatXAxis} />
           <defs>
             <linearGradient id="gradientColor" x1="0" y1="0" x2="0" y2="1">
               <stop

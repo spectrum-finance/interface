@@ -9,9 +9,9 @@ interface DateTimeViewProps {
 }
 
 const formatMap: Record<DateTimeViewType, Intl.DateTimeFormatOptions> = {
-  date: DateTime.DATETIME_MED,
+  date: DateTime.DATE_FULL,
   time: DateTime.TIME_SIMPLE,
-  datetime: DateTime.DATE_FULL,
+  datetime: DateTime.DATETIME_MED,
 };
 
 // TODO: Localize DateTime
