@@ -48,7 +48,9 @@ const InfoTooltip: React.FC<InfoTooltipProps> = ({
           background: 0,
           width: size === 'small' ? '12px' : '',
           color:
-            size === 'small' || secondary ? 'var(--ergo-footnote-text)' : '',
+            size === 'small' || secondary
+              ? 'var(--ergo-disabled-text-contrast)'
+              : '',
         }}
       />
     </Tooltip>
