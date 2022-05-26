@@ -3,6 +3,7 @@ export default {
     {
       path: '<rootDir>/src/i18n/locales/{locale}',
       include: ['<rootDir>/src'],
+      exclude: ['**/*.d.ts'],
     },
   ],
   compileNamespace: 'cjs',
