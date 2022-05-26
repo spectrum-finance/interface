@@ -125,7 +125,7 @@ export const TokenControlFormItem: FC<NewTokenControlProps> = ({
               !balanceLoading &&
               readonly !== true && (
                 <Typography.Body secondary>
-                  {t`Balance:`} {balance.get(selectedAsset).toCurrencyString()}
+                  {t`Balance:`} {balance.get(selectedAsset).toString()}
                 </Typography.Body>
               )}
           </Flex.Item>
