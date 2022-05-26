@@ -2,14 +2,18 @@ import { Trans } from '@lingui/macro';
 import { DateTime } from 'luxon';
 import React, { useCallback, useState } from 'react';
 import { Area, AreaChart, Tooltip, XAxis, YAxis } from 'recharts';
+import styled from 'styled-components';
 
 import { useObservable } from '../../../common/hooks/useObservable';
 import { AmmPool } from '../../../common/models/AmmPool';
+import { PoolChartData } from '../../../common/models/PoolChartData';
 import { TokenIconPair } from '../../../components/AssetIconPair/TokenIconPair';
 import { DateTimeView } from '../../../components/common/DateTimeView/DateTimeView';
 import { Truncate } from '../../../components/Truncate/Truncate';
-import { Button, Flex, Tabs, Typography } from '../../../ergodex-cdk';
+import { Box, Button, Flex, Tabs, Typography } from '../../../ergodex-cdk';
+import { Empty } from '../../../ergodex-cdk/components/Empty/Empty';
 import { getPoolChartData } from '../../../network/ergo/api/poolChart/poolChart';
+import { Difference } from './Difference/Difference';
 import { useActiveData } from './useActiveData';
 import { useAggregatedByDateData } from './useAggregatedByDateData';
 import { Period, usePeriodSettings } from './usePeriodSettings';
@@ -18,6 +22,13 @@ import { useTicks } from './useTicks';
 interface SwapGraphProps {
   pool: AmmPool;
 }
+
+const EmptyText = styled.span`
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--ergo-empty-text-color);
+`;
 
 export const SwapGraph: React.FC<SwapGraphProps> = ({ pool }) => {
   const [defaultActivePeriod, setDefaultActivePeriod] = useState<Period>('D');
@@ -41,6 +52,8 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({ pool }) => {
 
   const [activeData, setActiveData] = useActiveData(data);
 
+  const isEmpty = data.length === 0;
+
   const formatXAxis = useCallback(
     (ts: number | string) => {
       if (typeof ts === 'string') {
@@ -50,6 +63,8 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({ pool }) => {
     },
     [defaultActivePeriod],
   );
+
+  const dataKey = (data: PoolChartData) => data.getRatio(isInverted).valueOf();
 
   return (
     <Flex col style={{ position: 'relative' }}>
@@ -93,16 +108,22 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({ pool }) => {
                 {activeData.getRatio(isInverted).toString()}
               </Typography.Title>
             </Flex.Item>
-            <Flex.Item marginBottom={0.5}>
+            <Flex.Item marginBottom={0.5} marginRight={2}>
               <Typography.Title level={4}>
-                <Truncate>
-                  {activeData.getRatio(isInverted).baseAsset.name}
-                </Truncate>
-                {' / '}
                 <Truncate>
                   {activeData.getRatio(isInverted).quoteAsset.name}
                 </Truncate>
+                {' / '}
+                <Truncate>
+                  {activeData.getRatio(isInverted).baseAsset.name}
+                </Truncate>
               </Typography.Title>
+            </Flex.Item>
+            <Flex.Item marginBottom={0.5}>
+              <Difference
+                ratioX={data[0].getRatio(isInverted)}
+                ratioY={activeData.getRatio(isInverted)}
+              />
             </Flex.Item>
           </Flex>
           <Typography.Text style={{ marginLeft: '24px' }} type="secondary">
@@ -111,44 +132,60 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({ pool }) => {
         </>
       )}
       <Flex.Item marginLeft={6} marginRight={4}>
-        <AreaChart
-          width={624}
-          height={320}
-          data={data}
-          reverseStackOrder
-          onMouseMove={(state: any) => {
-            setActiveData(state?.activePayload?.[0]?.payload);
-          }}
-          syncMethod="index"
-          onMouseLeave={() => setActiveData(null)}
-        >
-          <YAxis
-            dataKey={isInverted ? 'invertedPrice' : 'price'}
-            type="number"
-            domain={['auto', 'auto']}
-            hide
-          />
-          <XAxis dataKey="ts" tickFormatter={formatXAxis} />
-          <defs>
-            <linearGradient id="gradientColor" x1="0" y1="0" x2="0" y2="1">
-              <stop
-                stopColor="var(--ergo-primary-color-hover)"
-                stopOpacity="0.5"
-              />
-              <stop
-                offset="1"
-                stopColor="var(--ergo-primary-color-hover)"
-                stopOpacity="0"
-              />
-            </linearGradient>
-          </defs>
-          <Tooltip wrapperStyle={{ display: 'none' }} formatter={() => null} />
-          <Area
-            dataKey={isInverted ? 'invertedPrice' : 'price'}
-            stroke="var(--ergo-primary-color-hover)"
-            fill="url(#gradientColor)"
-          />
-        </AreaChart>
+        {!isEmpty && (
+          <AreaChart
+            width={624}
+            height={320}
+            data={data}
+            reverseStackOrder
+            onMouseMove={(state: any) => {
+              setActiveData(state?.activePayload?.[0]?.payload);
+            }}
+            syncMethod="index"
+            onMouseLeave={() => setActiveData(null)}
+          >
+            <YAxis
+              dataKey={dataKey}
+              type="number"
+              domain={['auto', 'auto']}
+              hide
+            />
+            <XAxis dataKey="ts" tickFormatter={formatXAxis} />
+            <defs>
+              <linearGradient id="gradientColor" x1="0" y1="0" x2="0" y2="1">
+                <stop
+                  stopColor="var(--ergo-primary-color-hover)"
+                  stopOpacity="0.5"
+                />
+                <stop
+                  offset="1"
+                  stopColor="var(--ergo-primary-color-hover)"
+                  stopOpacity="0"
+                />
+              </linearGradient>
+            </defs>
+            <Tooltip
+              wrapperStyle={{ display: 'none' }}
+              formatter={() => null}
+            />
+            <Area
+              dataKey={dataKey}
+              stroke="var(--ergo-primary-color-hover)"
+              fill="url(#gradientColor)"
+            />
+          </AreaChart>
+        )}
+        {isEmpty && (
+          <Box width={624} height={380} transparent bordered={false}>
+            <Flex col justify="center" stretch align="center">
+              <Empty>
+                <EmptyText>
+                  <Trans>Not enough data</Trans>
+                </EmptyText>
+              </Empty>
+            </Flex>
+          </Box>
+        )}
       </Flex.Item>
     </Flex>
   );

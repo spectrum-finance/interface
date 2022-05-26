@@ -32,7 +32,7 @@ export class Ratio {
   }
 
   valueOf(): number {
-    return +renderFractions(this.amount, this.decimals);
+    return Number(this.rawAmount);
   }
 
   toString(): string {
@@ -76,6 +76,20 @@ export class Ratio {
   invertRatio(): Ratio {
     return new Ratio(
       math.evaluate!(`1 / ${this.rawAmount}`).toFixed(),
+      this.quoteAsset,
+      this.baseAsset,
+    );
+  }
+
+  minus(r: Ratio): Ratio {
+    if (
+      r.baseAsset.id !== this.baseAsset.id ||
+      r.quoteAsset.id !== this.quoteAsset.id
+    ) {
+      throw new Error('Wrong Ratio assets');
+    }
+    return new Ratio(
+      math.evaluate!(`${this.rawAmount}-${r.rawAmount}`).toFixed(),
       this.quoteAsset,
       this.baseAsset,
     );
