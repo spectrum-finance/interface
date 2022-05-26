@@ -79,7 +79,7 @@ const _Page: React.FC<PageProps> = ({
           </TongueContainer>
         )}
         {title && (
-          <Flex.Item marginBottom={2}>
+          <Flex.Item marginBottom={2} flex={1} style={{ width: '100%' }}>
             <Flex align="center" justify="space-between">
               <Flex.Item>
                 <Flex align="center">
