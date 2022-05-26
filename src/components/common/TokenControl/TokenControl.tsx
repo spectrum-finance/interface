@@ -6,6 +6,7 @@ import { Observable, of } from 'rxjs';
 import { useObservable } from '../../../common/hooks/useObservable';
 import { Currency } from '../../../common/models/Currency';
 import {
+  Animation,
   Box,
   Button,
   Flex,
@@ -124,12 +125,12 @@ export const TokenControlFormItem: FC<NewTokenControlProps> = ({
               !balanceLoading &&
               readonly !== true && (
                 <Typography.Body secondary>
-                  {t`Balance:`} ${balance.get(selectedAsset).toString()}
+                  {t`Balance:`} {balance.get(selectedAsset).toCurrencyString()}
                 </Typography.Body>
               )}
           </Flex.Item>
         )}
-        <Flex.Item align="center" marginBottom={2}>
+        <Flex.Item align="center">
           <Flex.Item marginRight={2} flex={1}>
             {amountName && (
               <Form.Item name={amountName}>
@@ -176,25 +177,36 @@ export const TokenControlFormItem: FC<NewTokenControlProps> = ({
             )}
           </Flex.Item>
         </Flex.Item>
-        <Flex.Item align="center">
-          <Flex.Item flex={1}>
-            <Form.Listener name={amountName}>
-              {({ value }) => (
-                <Typography.Body secondary>
-                  <ConvenientAssetView value={value} defaultValue="~$0.00" />
-                </Typography.Body>
-              )}
-            </Form.Listener>
-          </Flex.Item>
-          {selectedAsset !== undefined &&
-            !balanceLoading &&
-            readonly !== true &&
-            !label && (
-              <Typography.Body secondary>
-                {t`Balance:`} ${balance.get(selectedAsset).toString()}
-              </Typography.Body>
-            )}
-        </Flex.Item>
+
+        <Form.Listener name={amountName}>
+          {({ value }) => (
+            <Animation.Expand
+              expanded={
+                (selectedAsset !== undefined &&
+                  !balanceLoading &&
+                  readonly !== true &&
+                  !label) ||
+                value?.isPositive()
+              }
+            >
+              <Flex.Item align="center" marginTop={2}>
+                <Flex.Item flex={1}>
+                  <Typography.Body secondary>
+                    <ConvenientAssetView value={value} defaultValue="~$0.00" />
+                  </Typography.Body>
+                </Flex.Item>
+                {selectedAsset !== undefined &&
+                  !balanceLoading &&
+                  readonly !== true &&
+                  !label && (
+                    <Typography.Body secondary>
+                      {t`Balance:`} ${balance.get(selectedAsset).toString()}
+                    </Typography.Body>
+                  )}
+              </Flex.Item>
+            </Animation.Expand>
+          )}
+        </Form.Listener>
       </Flex>
     </Box>
   );

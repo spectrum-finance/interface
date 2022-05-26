@@ -17,10 +17,13 @@ export class Ratio {
 
   private readonly decimals: number;
 
+  private readonly rawAmount: string;
+
   constructor(amount: string, baseAsset: AssetInfo, quoteAsset: AssetInfo) {
     this.baseAsset = baseAsset;
     this.quoteAsset = quoteAsset;
     this.decimals = this.getRelevantDecimalsCount(amount);
+    this.rawAmount = amount;
     this.amount = parseUserInputToFractions(
       Number(amount).toFixed(this.decimals),
       this.decimals,
@@ -47,7 +50,7 @@ export class Ratio {
 
     const quoteCurrencyAmount = normalizeAmount(
       math.evaluate!(
-        `${baseCurrency.toAmount()} * ${this.invertRatio().toAmount()}`,
+        `${baseCurrency.toAmount()} * ${this.invertRatio().rawAmount}`,
       ).toString(),
       this.quoteAsset,
     );
@@ -62,7 +65,7 @@ export class Ratio {
 
     const baseCurrencyAmount = normalizeAmount(
       math.evaluate!(
-        `${quoteCurrency.toAmount()} * ${this.toAmount()}`,
+        `${quoteCurrency.toAmount()} * ${this.rawAmount}`,
       ).toString(),
       this.baseAsset,
     );
@@ -72,7 +75,7 @@ export class Ratio {
 
   invertRatio(): Ratio {
     return new Ratio(
-      math.evaluate!(`1 / ${this.toAmount()}`).toFixed(),
+      math.evaluate!(`1 / ${this.rawAmount}`).toFixed(),
       this.quoteAsset,
       this.baseAsset,
     );
@@ -84,7 +87,7 @@ export class Ratio {
     }
 
     return new Ratio(
-      math.evaluate!(`${this.toAmount()} * ${to.toAmount()}`).toFixed(),
+      math.evaluate!(`${this.rawAmount} * ${to.rawAmount}`).toFixed(),
       this.baseAsset,
       to.quoteAsset,
     );
