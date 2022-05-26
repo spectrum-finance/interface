@@ -25,8 +25,10 @@ export const Difference: React.FC<DifferenceProps> = ({ ratioX, ratioY }) => {
   const isPositive = diff.isPositive();
 
   const arrow = isPositive ? '↑' : '↓';
-  const percent = Number((diff.valueOf() / ratioX.valueOf()) * 100).toFixed(2);
-  const diffValue = diff.toString();
+  const percent = Number(
+    Math.abs(diff.valueOf() / ratioX.valueOf()) * 100,
+  ).toFixed(2);
+  const diffValue = diff.toAbsoluteString();
 
   return (
     <DifferenceView

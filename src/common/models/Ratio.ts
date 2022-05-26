@@ -35,6 +35,12 @@ export class Ratio {
     return Number(this.rawAmount);
   }
 
+  toAbsoluteString(): string {
+    return this.formatter.format(
+      Math.abs(+renderFractions(this.amount, this.decimals)),
+    );
+  }
+
   toString(): string {
     return this.formatter.format(+renderFractions(this.amount, this.decimals));
   }
