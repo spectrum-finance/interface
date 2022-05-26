@@ -100,7 +100,7 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({ pool }) => {
           </Flex.Item>
         </Flex>
       </Flex.Item>
-      {activeData && (
+      {activeData && data.length > 0 && (
         <>
           <Flex align="flex-end">
             <Flex.Item marginLeft={6} marginRight={2}>
