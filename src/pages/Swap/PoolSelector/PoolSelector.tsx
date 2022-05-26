@@ -49,7 +49,7 @@ const _PoolSelector: FC<PoolSelectorProps> = ({
   return (
     <>
       <Flex justify="center">
-        <Box className={className} padding={value ? 4 : 0}>
+        <Box className={className} padding={value ? 4 : 0} bordered={!!value}>
           <Animation.Expand expanded={!!value} opacityDelay duration={200}>
             {value && (
               <Flex col>
