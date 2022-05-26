@@ -1,7 +1,7 @@
 import React, { FC, ReactNode } from 'react';
 
-import { Typography } from '../..';
 import { Flex } from '../Flex/Flex';
+import { Typography } from '../Typography/Typography';
 import { ReactComponent as EmptyIcon } from './empty.svg';
 
 interface EmptyProps {
