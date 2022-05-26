@@ -1,5 +1,6 @@
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import React, { useEffect, useState } from 'react';
+import NumberFormat from 'react-number-format';
 import styled from 'styled-components';
 
 import { Currency } from '../../../../common/models/Currency';
@@ -85,15 +86,21 @@ const _TokenAmountInput: React.FC<TokenAmountInputProps> = ({
   };
 
   return (
-    <Input
+    <NumberFormat
       readOnly={readonly}
       value={userInput}
-      onChange={(event) => {
-        enforcer(event.target.value.replace(/,/g, '.'));
-      }}
       className={className}
-      placeholder="0.0"
+      type="tel"
+      onValueChange={({ value }, { source }) => {
+        if (source === 'event') {
+          enforcer(value);
+        }
+      }}
+      thousandSeparator=" "
+      decimalSeparator="."
       size="large"
+      placeholder="0.0"
+      customInput={Input}
       disabled={disabled}
     />
   );
