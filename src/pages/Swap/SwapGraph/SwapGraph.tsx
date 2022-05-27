@@ -14,7 +14,6 @@ import { Box, Button, Flex, Tabs, Typography } from '../../../ergodex-cdk';
 import { Empty } from '../../../ergodex-cdk/components/Empty/Empty';
 import { getPoolChartData } from '../../../network/ergo/api/poolChart/poolChart';
 import { Difference } from './Difference/Difference';
-import { useActiveData } from './useActiveData';
 import { useAggregatedByDateData } from './useAggregatedByDateData';
 import { Period, usePeriodSettings } from './usePeriodSettings';
 import { useTicks } from './useTicks';
@@ -50,7 +49,7 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({ pool }) => {
   );
   const data = useAggregatedByDateData(rawData, ticks);
 
-  const [activeData, setActiveData] = useActiveData(data);
+  const [activeData, setActiveData] = useState<PoolChartData | null>();
 
   const isEmpty = data.length === 0;
 
@@ -65,6 +64,11 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({ pool }) => {
   );
 
   const dataKey = (data: PoolChartData) => data.getRatio(isInverted).valueOf();
+
+  const active = activeData ?? data[data.length - 1];
+  const differenceX = activeData ?? data[0];
+  const differenceY = data[data.length - 1];
+  const showDiff = differenceX !== differenceY;
 
   return (
     <Flex col style={{ position: 'relative' }}>
@@ -100,34 +104,36 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({ pool }) => {
           </Flex.Item>
         </Flex>
       </Flex.Item>
-      {activeData && data.length > 0 && (
+      {active && data.length > 0 && (
         <>
           <Flex align="flex-end">
             <Flex.Item marginLeft={6} marginRight={2}>
               <Typography.Title level={2}>
-                {activeData.getRatio(isInverted).toString()}
+                {active.getRatio(isInverted).toString()}
               </Typography.Title>
             </Flex.Item>
             <Flex.Item marginBottom={0.5} marginRight={2}>
               <Typography.Title level={4}>
                 <Truncate>
-                  {activeData.getRatio(isInverted).quoteAsset.name}
+                  {active.getRatio(isInverted).baseAsset.name}
                 </Truncate>
                 {' / '}
                 <Truncate>
-                  {activeData.getRatio(isInverted).baseAsset.name}
+                  {active.getRatio(isInverted).quoteAsset.name}
                 </Truncate>
               </Typography.Title>
             </Flex.Item>
             <Flex.Item marginBottom={0.5}>
-              <Difference
-                ratioX={data[0].getRatio(isInverted)}
-                ratioY={activeData.getRatio(isInverted)}
-              />
+              {showDiff && (
+                <Difference
+                  ratioX={differenceX.getRatio(isInverted)}
+                  ratioY={differenceY.getRatio(isInverted)}
+                />
+              )}
             </Flex.Item>
           </Flex>
           <Typography.Text style={{ marginLeft: '24px' }} type="secondary">
-            <DateTimeView type="datetime" value={activeData.date} />
+            <DateTimeView type="datetime" value={active.date} />
           </Typography.Text>
         </>
       )}

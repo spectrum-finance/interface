@@ -18,7 +18,7 @@ export class PoolChartData {
     private assetX: AssetInfo,
     private assetY: AssetInfo,
   ) {
-    this.price = new Ratio(this.raw.price.toString(), assetX, assetY);
+    this.price = new Ratio(this.raw.price.toString(), assetY, assetX);
     this.invertedPrice = this.price.invertRatio();
     this.date = DateTime.fromMillis(this.raw.timestamp);
   }

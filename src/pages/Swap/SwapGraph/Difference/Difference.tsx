@@ -33,6 +33,6 @@ export const Difference: React.FC<DifferenceProps> = ({ ratioX, ratioY }) => {
   return (
     <DifferenceView
       isPositive={isPositive}
-    >{`${arrow}${diffValue}(${arrow}${percent}%)`}</DifferenceView>
+    >{`${arrow}${diffValue} (${arrow}${percent}%)`}</DifferenceView>
   );
 };
