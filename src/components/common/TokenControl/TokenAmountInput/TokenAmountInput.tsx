@@ -5,9 +5,6 @@ import styled from 'styled-components';
 
 import { Currency } from '../../../../common/models/Currency';
 import { EventConfig, Input } from '../../../../ergodex-cdk';
-import { escapeRegExp } from './format';
-
-const inputRegex = RegExp(`^\\d*(?:\\\\[.])?\\d*$`); // match escaped "." characters via in a non-capturing group
 
 export interface TokenAmountInputValue {
   viewValue: string | undefined;
@@ -22,19 +19,6 @@ export interface TokenAmountInputProps {
   asset?: AssetInfo;
   className?: string;
 }
-
-const isValidAmount = (
-  value: string,
-  asset: AssetInfo | undefined,
-): boolean => {
-  if (!asset) {
-    return true;
-  }
-  if (!asset.decimals && value.indexOf('.') !== -1) {
-    return false;
-  }
-  return (value.split('.')[1]?.length || 0) <= (asset?.decimals || 0);
-};
 
 const _TokenAmountInput: React.FC<TokenAmountInputProps> = ({
   value,
@@ -68,18 +52,9 @@ const _TokenAmountInput: React.FC<TokenAmountInputProps> = ({
     if (nextUserInput.startsWith('.')) {
       nextUserInput = nextUserInput.replace('.', '0.');
     }
-    if (nextUserInput === '' && onChange) {
-      setUserInput('');
-      onChange(undefined);
-      return;
-    }
-    if (
-      inputRegex.test(escapeRegExp(nextUserInput)) &&
-      onChange &&
-      isValidAmount(nextUserInput, asset)
-    ) {
+    if (onChange) {
       setUserInput(nextUserInput);
-      onChange(new Currency(nextUserInput, asset));
+      onChange(nextUserInput ? new Currency(nextUserInput, asset) : undefined);
       return;
     }
     setUserInput(userInput ?? '');
@@ -96,6 +71,8 @@ const _TokenAmountInput: React.FC<TokenAmountInputProps> = ({
           enforcer(value);
         }
       }}
+      allowNegative={false}
+      decimalScale={asset?.decimals || 0}
       thousandSeparator=" "
       decimalSeparator="."
       size="large"
