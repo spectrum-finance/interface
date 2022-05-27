@@ -96,8 +96,8 @@ export class Ratio {
     }
     return new Ratio(
       math.evaluate!(`${this.rawAmount}-${r.rawAmount}`).toFixed(),
-      this.quoteAsset,
       this.baseAsset,
+      this.quoteAsset,
     );
   }
 
