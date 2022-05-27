@@ -12,6 +12,7 @@ import { DateTimeView } from '../../../components/common/DateTimeView/DateTimeVi
 import { Truncate } from '../../../components/Truncate/Truncate';
 import { Box, Button, Flex, Tabs, Typography } from '../../../ergodex-cdk';
 import { Empty } from '../../../ergodex-cdk/components/Empty/Empty';
+import { Spin } from '../../../ergodex-cdk/components/Spin/Spin';
 import { getPoolChartData } from '../../../network/ergo/api/poolChart/poolChart';
 import { Difference } from './Difference/Difference';
 import { useAggregatedByDateData } from './useAggregatedByDateData';
@@ -29,6 +30,26 @@ const EmptyText = styled.span`
   color: var(--ergo-empty-text-color);
 `;
 
+const _ChartLoader: React.FC<{ className?: string }> = ({ className }) => (
+  <Flex
+    position="absolute"
+    col
+    justify="center"
+    className={className}
+    align="center"
+  >
+    <Spin />
+  </Flex>
+);
+
+const ChartLoader = styled(_ChartLoader)`
+  top: 60px;
+  border-radius: 8px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+`;
+
 export const SwapGraph: React.FC<SwapGraphProps> = ({ pool }) => {
   const [defaultActivePeriod, setDefaultActivePeriod] = useState<Period>('D');
   const [isInverted, setInverted] = useState(false);
@@ -38,7 +59,7 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({ pool }) => {
   const ticks = useTicks(tick, durationOffset, preLastFromNow, [
     defaultActivePeriod,
   ]);
-  const [rawData] = useObservable(
+  const [rawData, loading] = useObservable(
     () =>
       getPoolChartData(pool, {
         from: DateTime.now().minus(durationOffset).valueOf(),
@@ -71,7 +92,7 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({ pool }) => {
   const showDiff = differenceX !== differenceY;
 
   return (
-    <Flex col style={{ position: 'relative' }}>
+    <Flex col position="relative">
       <Flex.Item marginTop={4} marginLeft={6} marginRight={4}>
         <Flex align="center">
           <TokenIconPair
@@ -137,7 +158,7 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({ pool }) => {
           </Typography.Text>
         </>
       )}
-      <Flex.Item marginLeft={6} marginRight={4}>
+      <Flex.Item marginLeft={6} marginRight={4} position="relative">
         {!isEmpty && (
           <AreaChart
             width={624}
@@ -149,6 +170,9 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({ pool }) => {
             }}
             syncMethod="index"
             onMouseLeave={() => setActiveData(null)}
+            style={{
+              visibility: loading ? 'hidden' : 'visible',
+            }}
           >
             <YAxis
               dataKey={dataKey}
@@ -192,6 +216,7 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({ pool }) => {
             </Flex>
           </Box>
         )}
+        {loading && <ChartLoader />}
       </Flex.Item>
     </Flex>
   );
