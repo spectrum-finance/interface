@@ -1,6 +1,6 @@
 import './Page.less';
 
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -9,20 +9,16 @@ import {
   Box,
   Button,
   Flex,
-  LeftOutlined,
-  LineChartOutlined,
-  RightOutlined,
   Typography,
 } from '../../ergodex-cdk';
 import { Gutter } from '../../ergodex-cdk/utils/gutter';
-import { Tongue } from './Tongue/Tongue';
 
 interface PageProps {
   width?: number;
   title?: ReactNode | ReactNode[] | string;
   withBackButton?: boolean;
   leftWidget?: ReactNode;
-  leftWidgetDisabled?: boolean;
+  widgetOpened?: boolean;
   backTo?: string;
   onBackButtonClick?: () => void;
   titleChildren?: ReactNode | ReactNode[] | string;
@@ -37,18 +33,13 @@ const Widget = styled.div`
   margin: 16px 0;
 `;
 
-const TongueContainer = styled.div`
-  top: 32px;
-  position: absolute;
-  left: -66px;
-`;
-
 const _Page: React.FC<PageProps> = ({
   children,
   width,
   title,
   withBackButton,
   leftWidget,
+  widgetOpened,
   backTo,
   footer,
   className,
@@ -57,7 +48,6 @@ const _Page: React.FC<PageProps> = ({
   padding,
 }) => {
   const history = useHistory();
-  const [leftWidgetOpened, setLeftWidgetOpened] = useState<boolean>(false);
 
   return (
     <Flex
@@ -66,18 +56,6 @@ const _Page: React.FC<PageProps> = ({
       align="flex-start"
     >
       <Flex col align="center" position="relative">
-        {leftWidget && (
-          <TongueContainer>
-            <Tongue
-              arrow={leftWidgetOpened ? <RightOutlined /> : <LeftOutlined />}
-              icon={<LineChartOutlined size={16} />}
-              iconDisabled
-              onClick={() => {
-                setLeftWidgetOpened(!leftWidgetOpened);
-              }}
-            />
-          </TongueContainer>
-        )}
         {title && (
           <Flex.Item marginBottom={2} flex={1} style={{ width: '100%' }}>
             <Flex align="center" justify="space-between">
@@ -106,7 +84,7 @@ const _Page: React.FC<PageProps> = ({
           </Flex.Item>
         )}
         <Flex justify="center" align="flex-start">
-          {leftWidgetOpened && <Widget>{leftWidget}</Widget>}
+          {widgetOpened && <Widget>{leftWidget}</Widget>}
           <Flex col>
             <Flex.Item style={{ zIndex: 2 }}>
               <Box

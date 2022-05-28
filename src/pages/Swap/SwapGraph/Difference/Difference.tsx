@@ -22,16 +22,15 @@ const textType = (num: number | bigint): BaseType => {
 export const Difference: React.FC<DifferenceProps> = ({ ratioX, ratioY }) => {
   const diff = ratioY.minus(ratioX);
   const isPositive = diff.isPositive();
+  const isNotZero = diff.amount !== 0n;
 
-  const arrow = isPositive ? '↑' : '↓';
-  const percent = Number(
-    Math.abs(diff.valueOf() / ratioX.valueOf()) * 100,
-  ).toFixed(2);
+  const arrow = isNotZero ? (isPositive ? '↑' : '↓') : '';
+  const percent = Number(Math.abs(diff.valueOf() / ratioX.valueOf()) * 100);
   const diffValue = diff.toAbsoluteString();
 
   return (
     <Typography.Title level={4} type={textType(diff.amount)}>{`${arrow}${
-      diff.amount !== 0n ? diffValue : '-'
-    } (${arrow}${percent}%)`}</Typography.Title>
+      isNotZero ? diffValue : '-'
+    } (${arrow}${percent.toFixed(percent !== 0 ? 2 : 0)}%)`}</Typography.Title>
   );
 };
