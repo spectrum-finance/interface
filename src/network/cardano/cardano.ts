@@ -12,6 +12,7 @@ import { CardanoAmmPool } from './api/ammPools/CardanoAmmPool';
 import { assetBalance$ } from './api/balance/assetBalance';
 import { lpBalance$ } from './api/balance/lpBalance';
 import { networkAssetBalance$ } from './api/balance/networkAssetBalance';
+import { txHistory } from './api/history/txHistory';
 import { networkAsset } from './api/networkAsset/networkAsset';
 import { networkContext$ } from './api/networkContext/networkContext';
 import { deposit } from './api/operations/deposit';
@@ -97,3 +98,5 @@ export const cardanoNetwork: Network<
   useDepositValidationFee,
   useRedeemValidationFee,
 };
+
+txHistory.subscribe(console.log);
