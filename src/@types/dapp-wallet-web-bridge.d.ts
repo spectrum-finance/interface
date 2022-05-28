@@ -48,5 +48,9 @@ declare let ergoConnector: {
     connect: (params: { createErgoObject: boolean }) => Promise<boolean>;
     getContext: () => Promise<ErgoBridge.ErgoAPI>;
   };
+  safew: {
+    connect: (params: { createErgoObject: boolean }) => Promise<boolean>;
+    getContext: () => Promise<ErgoBridge.ErgoAPI>;
+  };
 };
 declare let ergo: ErgoBridge.ErgoAPI;
