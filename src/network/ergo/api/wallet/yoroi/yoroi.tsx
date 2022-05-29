@@ -2,9 +2,13 @@ import React from 'react';
 
 import { ReactComponent as YoroiLogo } from '../../../../../assets/icons/yoroi-logo-icon.svg';
 import { ErgoWalletContract } from '../common/ErgoWalletContract';
-import { getUnusedAddresses, getUsedAddresses } from '../nautilus/getAddresses';
 import { connectWallet } from './connectWallet';
-import { getAddresses } from './getAddresses';
+import {
+  getAddresses,
+  getChangeAddress,
+  getUnusedAddresses,
+  getUsedAddresses,
+} from './getAddresses';
 import { getUtxos } from './getUtxos';
 import { onConnect } from './onConnect';
 import { onDisconnect } from './onDisconnect';
@@ -26,6 +30,7 @@ export const Yoroi: ErgoWalletContract = {
   onDisconnect,
   getUsedAddresses,
   getUnusedAddresses,
+  getChangeAddress,
   getAddresses,
   walletSupportedFeatures,
   sign,

@@ -4,6 +4,7 @@ import {
   renderFractions,
 } from '../../utils/math';
 import { getDecimalsCount, normalizeAmount } from '../utils/amount';
+import { getFormatter } from '../utils/createFormatter';
 import { AssetInfo } from './AssetInfo';
 
 const createUnknownAsset = (decimals = 0): AssetInfo => ({
@@ -145,16 +146,28 @@ export class Currency {
     return renderFractions(this.amount, this.asset.decimals);
   }
 
-  toString(): string {
+  toString(maxDecimals?: number): string {
+    if (maxDecimals !== null && maxDecimals !== undefined) {
+      return Currency.createFormatter(maxDecimals).format(
+        +renderFractions(this.amount, this.asset.decimals),
+      );
+    }
+
     return this.formatter.format(
       +renderFractions(this.amount, this.asset.decimals),
     );
   }
 
-  toCurrencyString(): string {
-    return `${this.toString()} ${
-      isUnknownAsset(this.asset) ? '' : this.asset.name
-    }`;
+  toCurrencyString(maxDecimals?: number): string {
+    if (this.asset.prefix) {
+      return `${
+        isUnknownAsset(this.asset) ? '' : this.asset.prefix
+      } ${this.toString(maxDecimals)}`;
+    } else {
+      return `${this.toString(maxDecimals)} ${
+        isUnknownAsset(this.asset) ? '' : this.asset.name
+      }`;
+    }
   }
 
   toUsd(): void {}
@@ -191,10 +204,6 @@ export class Currency {
   }
 
   private static createFormatter(decimals: number): Intl.NumberFormat {
-    return new Intl.NumberFormat('en-US', {
-      maximumFractionDigits: decimals,
-      currencySign: undefined,
-      currency: undefined,
-    });
+    return getFormatter(decimals);
   }
 }

@@ -5,6 +5,7 @@ import { ErgoWalletContract } from '../common/ErgoWalletContract';
 import { connectWallet } from './connectWallet';
 import {
   getAddresses,
+  getChangeAddress,
   getUnusedAddresses,
   getUsedAddresses,
 } from './getAddresses';
@@ -25,6 +26,7 @@ export const Nautilus: ErgoWalletContract = {
   getUtxos,
   getUsedAddresses,
   getUnusedAddresses,
+  getChangeAddress,
   getAddresses,
   sign,
   signInput,

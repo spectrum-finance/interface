@@ -1,6 +1,5 @@
 import './СardanoFaucet.less';
 
-import { CloseCircleOutlined } from '@ant-design/icons';
 import { t } from '@lingui/macro';
 import React from 'react';
 

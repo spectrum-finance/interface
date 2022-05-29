@@ -17,6 +17,8 @@ interface PageProps {
   width?: number;
   title?: ReactNode | ReactNode[] | string;
   withBackButton?: boolean;
+  leftWidget?: ReactNode;
+  widgetOpened?: boolean;
   backTo?: string;
   onBackButtonClick?: () => void;
   titleChildren?: ReactNode | ReactNode[] | string;
@@ -25,11 +27,19 @@ interface PageProps {
   padding?: Gutter;
 }
 
+const Widget = styled.div`
+  background: var(--ergo-page-footer-bg);
+  border-radius: 16px 0 0 16px;
+  margin: 16px 0;
+`;
+
 const _Page: React.FC<PageProps> = ({
   children,
   width,
   title,
   withBackButton,
+  leftWidget,
+  widgetOpened,
   backTo,
   footer,
   className,
@@ -40,10 +50,14 @@ const _Page: React.FC<PageProps> = ({
   const history = useHistory();
 
   return (
-    <Flex className="ergodex-form-page-wrapper" justify="center" align="center">
-      <Flex direction="col" style={{ width: width ?? '100%' }}>
+    <Flex
+      className="ergodex-form-page-wrapper"
+      justify="center"
+      align="flex-start"
+    >
+      <Flex col align="center" position="relative">
         {title && (
-          <Flex.Item marginBottom={2}>
+          <Flex.Item marginBottom={2} flex={1} style={{ width: '100%' }}>
             <Flex align="center" justify="space-between">
               <Flex.Item>
                 <Flex align="center">
@@ -69,17 +83,23 @@ const _Page: React.FC<PageProps> = ({
             </Flex>
           </Flex.Item>
         )}
-        <Flex.Item style={{ zIndex: 2 }}>
-          <Box
-            bordered={false}
-            className={className}
-            padding={padding ? padding : [6, 6]}
-            borderRadius="l"
-          >
-            {children}
-          </Box>
-        </Flex.Item>
-        <Flex.Item style={{ zIndex: 0 }}>{footer}</Flex.Item>
+        <Flex justify="center" align="flex-start">
+          {widgetOpened && <Widget>{leftWidget}</Widget>}
+          <Flex col>
+            <Flex.Item style={{ zIndex: 2 }}>
+              <Box
+                bordered={false}
+                className={className}
+                padding={padding ? padding : [6, 6]}
+                borderRadius="l"
+                width={width ?? 0}
+              >
+                {children}
+              </Box>
+            </Flex.Item>
+            <Flex.Item style={{ zIndex: 0 }}>{footer}</Flex.Item>
+          </Flex>
+        </Flex>
       </Flex>
     </Flex>
   );

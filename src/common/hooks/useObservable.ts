@@ -13,16 +13,16 @@ import {
 import { Unpacked } from '../utils/unpacked';
 
 export function useObservable<T>(
-  observable: Observable<T>,
+  observable: Observable<T> | (() => Observable<T>),
   deps?: any[],
 ): [T | undefined, boolean, Error];
 export function useObservable<T>(
-  observable: Observable<T>,
+  observable: Observable<T> | (() => Observable<T>),
   deps: any[],
   defaultValue: T,
 ): [T, boolean, Error];
 export function useObservable<T>(
-  observable: Observable<T>,
+  observable: Observable<T> | (() => Observable<T>),
   deps?: any[],
   defaultValue?: T,
 ): [T | undefined, boolean, Error | undefined] {
@@ -39,7 +39,9 @@ export function useObservable<T>(
   useEffect(() => {
     setParams((params) => ({ ...params, loading: true }));
 
-    const subscription = observable.subscribe({
+    const subscription = (
+      observable instanceof Function ? observable() : observable
+    ).subscribe({
       next: (value: T) => {
         setParams((params) => ({ ...params, data: value, loading: false }));
       },

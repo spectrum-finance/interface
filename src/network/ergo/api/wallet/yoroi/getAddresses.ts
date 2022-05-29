@@ -11,3 +11,6 @@ export const getAddresses = (): Observable<Address[]> =>
   zip(getUsedAddresses(), getUnusedAddresses()).pipe(
     map(([usedAddrs, unusedAddrs]) => unusedAddrs.concat(usedAddrs)),
   );
+
+export const getChangeAddress = (): Observable<Address> =>
+  from(ergo.get_change_address());

@@ -1,5 +1,6 @@
 import { Observable } from 'rxjs';
 
+import { AmmPool } from '../../common/models/AmmPool';
 import { AssetInfo } from '../../common/models/AssetInfo';
 import { NetworkData } from './NetworkData';
 import { NetworkOperations } from './NetworkOperations';
@@ -8,14 +9,18 @@ import { NetworkUtils } from './NetworkUtils';
 import { NetworkWidgets } from './NetworkWidgets';
 import { Wallet } from './Wallet';
 
-export interface Network<W extends Wallet, S extends BaseNetworkSettings>
-  extends NetworkData<W>,
+export interface Network<
+  W extends Wallet,
+  S extends BaseNetworkSettings,
+  P extends AmmPool = AmmPool,
+> extends NetworkData<W>,
     NetworkOperations,
-    NetworkWidgets,
+    NetworkWidgets<P>,
     NetworkUtils,
     NetworkSettings<S> {
-  readonly name: string;
+  readonly name: 'ergo' | 'cardano';
   readonly label: string;
+  readonly convenientAssetDefaultPreview: string;
   readonly networkAsset: AssetInfo;
   readonly initialized$: Observable<boolean>;
   readonly initialize: () => void;

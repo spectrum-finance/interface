@@ -4,6 +4,7 @@ import React from 'react';
 import { Currency } from '../../../common/models/Currency';
 import { Box, Flex, LoadingOutlined, Typography } from '../../../ergodex-cdk';
 import { AssetIcon } from '../../AssetIcon/AssetIcon';
+import { ConvenientAssetView } from '../../ConvenientAssetView/ConvenientAssetView';
 
 interface WalletTotalBalanceProps {
   balance?: Currency;
@@ -30,7 +31,9 @@ export const WalletTotalBalance: React.FC<WalletTotalBalanceProps> = ({
             </Typography.Title>
           </Flex.Item>
           <Flex.Item>
-            {/*<Typography.Body>{'~$300'}</Typography.Body>*/}
+            <Typography.Footnote>
+              <ConvenientAssetView value={balance} prefix="~" />
+            </Typography.Footnote>
           </Flex.Item>
         </Flex>
       </Box>

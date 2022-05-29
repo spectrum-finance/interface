@@ -2,12 +2,14 @@ import { Observable, of } from 'rxjs';
 
 import { TxId } from '../../common/types';
 import { Network } from '../common/Network';
+import { convertToConvenientNetworkAsset } from './api/adaRatio/adaRatio';
 import {
   getAddresses,
   getUnusedAddresses,
   getUsedAddresses,
 } from './api/addresses/addresses';
 import { ammPools$ } from './api/ammPools/ammPools';
+import { CardanoAmmPool } from './api/ammPools/CardanoAmmPool';
 import { assetBalance$ } from './api/balance/assetBalance';
 import { lpBalance$ } from './api/balance/lpBalance';
 import { networkAssetBalance$ } from './api/balance/networkAssetBalance';
@@ -39,14 +41,19 @@ import {
   useSwapValidationFee,
 } from './settings/totalFee';
 import { exploreAddress, exploreLastBlock, exploreTx } from './utils/utils';
-import { DepositFees } from './widgets/DepositFees/DepositFees';
-import { RedeemFees } from './widgets/RedeemFees/RedeemFees';
-import { SwapFees } from './widgets/SwapFees/SwapFees';
+import { DepositConfirmationInfo } from './widgets/DepositConfirmationInfo/DepositConfirmationInfo';
+import { RedeemConfirmationInfo } from './widgets/RedeemConfirmationInfo/RedeemConfirmationInfo';
+import { SwapConfirmationInfo } from './widgets/SwapConfirmationInfo/SwapConfirmationInfo';
 import { SwapInfoContent } from './widgets/SwapInfoContent/SwapInfoContent';
 
-export const cardanoNetwork: Network<CardanoWalletContract, CardanoSettings> = {
+export const cardanoNetwork: Network<
+  CardanoWalletContract,
+  CardanoSettings,
+  CardanoAmmPool
+> = {
   name: 'cardano',
   label: 'cardano (Testnet)',
+  convenientAssetDefaultPreview: '0 ADA',
   networkAsset,
   initialized$,
   initialize,
@@ -73,9 +80,9 @@ export const cardanoNetwork: Network<CardanoWalletContract, CardanoSettings> = {
   setSettings,
 
   SwapInfoContent,
-  SwapFees,
-  DepositFees,
-  RedeemFees,
+  SwapConfirmationInfo,
+  DepositConfirmationInfo,
+  RedeemConfirmationInfo,
 
   exploreTx,
   exploreAddress,
@@ -84,11 +91,13 @@ export const cardanoNetwork: Network<CardanoWalletContract, CardanoSettings> = {
   swap,
   deposit,
   redeem,
-  refund(address: string, txId: string): Observable<TxId> {
+  refund(): Observable<TxId> {
     return of('');
   },
-
+  convertToConvenientNetworkAsset,
   useSwapValidationFee,
   useDepositValidationFee,
   useRedeemValidationFee,
+
+  getPoolChartData: () => of([]),
 };

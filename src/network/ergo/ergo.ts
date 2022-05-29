@@ -5,9 +5,11 @@ import {
   getUsedAddresses,
 } from './api/addresses/addresses';
 import { ammPools$ } from './api/ammPools/ammPools';
+import { ErgoAmmPool } from './api/ammPools/ErgoAmmPool';
 import { assetBalance$ } from './api/balance/assetBalance';
 import { lpBalance$ } from './api/balance/lpBalance';
 import { networkAssetBalance$ } from './api/balance/networkAssetBalance';
+import { convertToConvenientNetworkAsset } from './api/ergoUsdRatio/ergoUsdRatio';
 import { locks$ } from './api/locks/locks';
 import { networkAsset } from './api/networkAsset/networkAsset';
 import { networkContext$ } from './api/networkContext/networkContext';
@@ -15,6 +17,7 @@ import { deposit } from './api/operations/deposit';
 import { redeem } from './api/operations/redeem';
 import { refund } from './api/operations/refund';
 import { swap } from './api/operations/swap';
+import { getPoolChartData } from './api/poolChart/poolChart';
 import { positions$ } from './api/positions/positions';
 import { txHistoryManager } from './api/transactionHistory/transactionHistory';
 import { ErgoWalletContract } from './api/wallet/common/ErgoWalletContract';
@@ -39,15 +42,20 @@ import {
   useSwapValidationFee,
 } from './settings/totalFees';
 import { exploreAddress, exploreLastBlock, exploreTx } from './utils/utils';
-import { DepositFees } from './widgets/DepositFees/DepositFees';
+import { DepositConfirmationInfo } from './widgets/DepositConfirmationInfo/DepositConfirmationInfo';
 import { GlobalSettingsModal } from './widgets/GlobalSettings/GlobalSettingsModal';
-import { RedeemFees } from './widgets/RedeemFees/RedeemFees';
-import { SwapFees } from './widgets/SwapFees/SwapFees';
+import { RedeemConfirmationInfo } from './widgets/RedeemConfirmationInfo/RedeemConfirmationInfo';
+import { SwapConfirmationInfo } from './widgets/SwapConfirmationInfo/SwapConfirmationInfo';
 import { SwapInfoContent } from './widgets/SwapInfoContent/SwapInfoContent';
 
-export const ergoNetwork: Network<ErgoWalletContract, ErgoSettings> = {
+export const ergoNetwork: Network<
+  ErgoWalletContract,
+  ErgoSettings,
+  ErgoAmmPool
+> = {
   name: 'ergo',
   label: 'ergo',
+  convenientAssetDefaultPreview: '$0.00',
   networkAsset,
   initialized$,
   initialize,
@@ -84,11 +92,15 @@ export const ergoNetwork: Network<ErgoWalletContract, ErgoSettings> = {
 
   GlobalSettingsModal,
   SwapInfoContent,
-  SwapFees,
-  DepositFees,
-  RedeemFees,
+  SwapConfirmationInfo,
+  DepositConfirmationInfo,
+  RedeemConfirmationInfo,
+
+  convertToConvenientNetworkAsset,
 
   useSwapValidationFee,
   useDepositValidationFee,
   useRedeemValidationFee,
+
+  getPoolChartData,
 };

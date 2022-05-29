@@ -49,15 +49,16 @@ const _PoolSelector: FC<PoolSelectorProps> = ({
   return (
     <>
       <Flex justify="center">
-        <Box className={className} padding={value ? 6 : 0} bordered={false}>
+        <Box className={className} padding={value ? 4 : 0} bordered={!!value}>
           <Animation.Expand expanded={!!value} opacityDelay duration={200}>
             {value && (
               <Flex col>
                 <Flex.Item marginBottom={2} align="center">
-                  <Typography.Body>
+                  <Typography.Body secondary>
                     <Trans>Liquidity Pool</Trans>
                   </Typography.Body>
                   <InfoTooltip
+                    secondary
                     content={
                       <>
                         <Trans>
@@ -127,8 +128,5 @@ const _PoolSelector: FC<PoolSelectorProps> = ({
 };
 
 export const PoolSelector = styled(_PoolSelector)`
-  background: var(--ergo-page-footer-bg);
-  border-top-left-radius: initial;
-  border-top-right-radius: initial;
-  width: 472px;
+  width: 100%;
 `;

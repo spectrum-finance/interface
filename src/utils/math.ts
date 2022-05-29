@@ -21,7 +21,7 @@ const formatOptions: FormatOptions = {
 
 export const math = create(all, mathConf) as Partial<MathJsStatic>;
 
-export const allowedNumPat = new RegExp(/^\d+\.?\d*$/);
+export const allowedNumPat = new RegExp(/^-?\d+\.?\d*$/);
 
 export function parseUserInputToFractions(
   rawInput: string | number,
