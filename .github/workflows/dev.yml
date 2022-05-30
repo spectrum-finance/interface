@@ -2,7 +2,7 @@ name: Run on dev
 on: 
   push:
     branches:
-      - "dev"
+      - "feature/github-actions"
 jobs:
   deploy:
     name: Dev deploy
