@@ -1,0 +1,14 @@
+name: Release app
+on:
+  push:
+    tags:
+      - /^\d+\.\d+\.\d+$/
+jobs:
+  deploy:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Deploy
+      - name: Release
