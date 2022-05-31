@@ -1,6 +1,12 @@
 name: Push Worfklow
 
-on: push
+on: 
+  push:
+    branches-ignore:
+      - "master"
+      - "dev"
+      - "test"
+      - "demo"
 
 jobs:
   build:
