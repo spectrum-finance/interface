@@ -9,6 +9,7 @@ import { ErgoAmmPool } from './api/ammPools/ErgoAmmPool';
 import { assetBalance$ } from './api/balance/assetBalance';
 import { lpBalance$ } from './api/balance/lpBalance';
 import { networkAssetBalance$ } from './api/balance/networkAssetBalance';
+import { convertToConvenientNetworkAsset } from './api/ergoUsdRatio/ergoUsdRatio';
 import { locks$ } from './api/locks/locks';
 import { networkAsset } from './api/networkAsset/networkAsset';
 import { networkContext$ } from './api/networkContext/networkContext';
@@ -16,6 +17,7 @@ import { deposit } from './api/operations/deposit';
 import { redeem } from './api/operations/redeem';
 import { refund } from './api/operations/refund';
 import { swap } from './api/operations/swap';
+import { getPoolChartData } from './api/poolChart/poolChart';
 import { positions$ } from './api/positions/positions';
 import { txHistoryManager } from './api/transactionHistory/transactionHistory';
 import { ErgoWalletContract } from './api/wallet/common/ErgoWalletContract';
@@ -53,6 +55,7 @@ export const ergoNetwork: Network<
 > = {
   name: 'ergo',
   label: 'ergo',
+  convenientAssetDefaultPreview: '$0.00',
   networkAsset,
   initialized$,
   initialize,
@@ -93,7 +96,11 @@ export const ergoNetwork: Network<
   DepositConfirmationInfo,
   RedeemConfirmationInfo,
 
+  convertToConvenientNetworkAsset,
+
   useSwapValidationFee,
   useDepositValidationFee,
   useRedeemValidationFee,
+
+  getPoolChartData,
 };

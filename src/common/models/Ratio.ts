@@ -17,15 +17,28 @@ export class Ratio {
 
   private readonly decimals: number;
 
+  private readonly rawAmount: string;
+
   constructor(amount: string, baseAsset: AssetInfo, quoteAsset: AssetInfo) {
     this.baseAsset = baseAsset;
     this.quoteAsset = quoteAsset;
     this.decimals = this.getRelevantDecimalsCount(amount);
+    this.rawAmount = amount;
     this.amount = parseUserInputToFractions(
       Number(amount).toFixed(this.decimals),
       this.decimals,
     );
     this.formatter = Ratio.createFormatter(this.decimals);
+  }
+
+  valueOf(): number {
+    return Number(this.rawAmount);
+  }
+
+  toAbsoluteString(): string {
+    return this.formatter.format(
+      Math.abs(+renderFractions(this.amount, this.decimals)),
+    );
   }
 
   toString(): string {
@@ -43,7 +56,7 @@ export class Ratio {
 
     const quoteCurrencyAmount = normalizeAmount(
       math.evaluate!(
-        `${baseCurrency.toAmount()} * ${this.invertRatio().toAmount()}`,
+        `${baseCurrency.toAmount()} * ${this.invertRatio().rawAmount}`,
       ).toString(),
       this.quoteAsset,
     );
@@ -58,7 +71,7 @@ export class Ratio {
 
     const baseCurrencyAmount = normalizeAmount(
       math.evaluate!(
-        `${quoteCurrency.toAmount()} * ${this.toAmount()}`,
+        `${quoteCurrency.toAmount()} * ${this.rawAmount}`,
       ).toString(),
       this.baseAsset,
     );
@@ -68,9 +81,35 @@ export class Ratio {
 
   invertRatio(): Ratio {
     return new Ratio(
-      math.evaluate!(`1 / ${this.toAmount()}`).toFixed(),
+      math.evaluate!(`1 / ${this.rawAmount}`).toFixed(),
       this.quoteAsset,
       this.baseAsset,
+    );
+  }
+
+  minus(r: Ratio): Ratio {
+    if (
+      r.baseAsset.id !== this.baseAsset.id ||
+      r.quoteAsset.id !== this.quoteAsset.id
+    ) {
+      throw new Error('Wrong Ratio assets');
+    }
+    return new Ratio(
+      math.evaluate!(`${this.rawAmount}-${r.rawAmount}`).toFixed(),
+      this.baseAsset,
+      this.quoteAsset,
+    );
+  }
+
+  cross(to: Ratio): Ratio {
+    if (this.quoteAsset.id !== to.baseAsset.id) {
+      throw new Error("can't calculate cross rate with different assets");
+    }
+
+    return new Ratio(
+      math.evaluate!(`${this.rawAmount} * ${to.rawAmount}`).toFixed(),
+      this.baseAsset,
+      to.quoteAsset,
     );
   }
 

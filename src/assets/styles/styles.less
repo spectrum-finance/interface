@@ -4,7 +4,16 @@
 @import './variables/gradients.less';
 @import '../../network/styles';
 
+html {
+  overflow:   hidden;
+  width:      100vw;
+  height:     100vh;
+}
+
 body {
+  overflow:   hidden;
+  width:      100%;
+  height:     100%;
   background-color: var(--ergo-body-bg) !important;
 }
 
@@ -23,7 +32,7 @@ body {
 
 *::-webkit-scrollbar {
   width:  6px;
-  height: 56px;
+  height: 6px;
 }
 
 *::-webkit-scrollbar-track {
@@ -31,14 +40,14 @@ body {
 }
 
 *::-webkit-scrollbar-thumb {
-  border: 1px solid var(--ergo-scroll-border);
+  border:           1px solid var(--ergo-scroll-border);
   background-color: var(--ergo-scroll-bg);
-  border-radius: var(--ergo-border-radius-sm);
-  cursor: pointer;
+  border-radius:    var(--ergo-border-radius-sm);
+  cursor:           pointer;
 }
 
 .ant-click-animating-node {
-  display: none !important;
+  display:    none !important;
   box-shadow: none !important;
 }
 
@@ -49,7 +58,7 @@ body {
 
 ::selection {
   background-color: var(--ergo-primary-color) !important;
-  color: var(--ergo-primary-text) !important;
+  color:            var(--ergo-primary-text) !important;
 }
 
 .ergodex-coming-soon {

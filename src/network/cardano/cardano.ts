@@ -2,6 +2,7 @@ import { Observable, of } from 'rxjs';
 
 import { TxId } from '../../common/types';
 import { Network } from '../common/Network';
+import { convertToConvenientNetworkAsset } from './api/adaRatio/adaRatio';
 import {
   getAddresses,
   getUnusedAddresses,
@@ -52,6 +53,7 @@ export const cardanoNetwork: Network<
 > = {
   name: 'cardano',
   label: 'cardano (Testnet)',
+  convenientAssetDefaultPreview: '0 ADA',
   networkAsset,
   initialized$,
   initialize,
@@ -89,11 +91,13 @@ export const cardanoNetwork: Network<
   swap,
   deposit,
   redeem,
-  refund(address: string, txId: string): Observable<TxId> {
+  refund(): Observable<TxId> {
     return of('');
   },
-
+  convertToConvenientNetworkAsset,
   useSwapValidationFee,
   useDepositValidationFee,
   useRedeemValidationFee,
+
+  getPoolChartData: () => of([]),
 };

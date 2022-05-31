@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon';
 import React, { FC } from 'react';
 
-import { Flex } from '../../../../../ergodex-cdk';
+import { Flex, Typography } from '../../../../../ergodex-cdk';
 import { DateTimeView } from '../../../../common/DateTimeView/DateTimeView';
 
 export interface DateTimeViewProps {
@@ -11,10 +11,14 @@ export interface DateTimeViewProps {
 export const DateTimeColumn: FC<DateTimeViewProps> = ({ dateTime }) => (
   <Flex col>
     <Flex.Item marginBottom={1}>
-      <DateTimeView type="date" value={dateTime} />
+      <Typography.Body>
+        <DateTimeView type="date" value={dateTime} />
+      </Typography.Body>
     </Flex.Item>
     <Flex.Item>
-      <DateTimeView type="time" value={dateTime} />
+      <Typography.Body>
+        <DateTimeView type="time" value={dateTime} />
+      </Typography.Body>
     </Flex.Item>
   </Flex>
 );

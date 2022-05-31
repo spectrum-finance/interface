@@ -14,7 +14,10 @@ import {
   tap,
 } from 'rxjs';
 
-import { useSubscription } from '../../common/hooks/useObservable';
+import {
+  useObservable,
+  useSubscription,
+} from '../../common/hooks/useObservable';
 import { AmmPool } from '../../common/models/AmmPool';
 import { AssetInfo } from '../../common/models/AssetInfo';
 import { Currency } from '../../common/models/Currency';
@@ -41,10 +44,12 @@ import { useAssetsBalance } from '../../gateway/api/assetBalance';
 import { getAvailableAssetFor, tokenAssets$ } from '../../gateway/api/assets';
 import { useNetworkAsset } from '../../gateway/api/networkAsset';
 import { useSwapValidationFee } from '../../gateway/api/validationFees';
+import { useSelectedNetwork } from '../../gateway/common/network';
 import { OperationSettings } from './OperationSettings/OperationSettings';
 import { PoolSelector } from './PoolSelector/PoolSelector';
 import { SwapConfirmationModal } from './SwapConfirmationModal/SwapConfirmationModal';
 import { SwapFormModel } from './SwapFormModel';
+import { SwapGraph } from './SwapGraph/SwapGraph';
 import { SwapInfo } from './SwapInfo/SwapInfo';
 import { SwitchButton } from './SwitchButton/SwitchButton';
 
@@ -70,6 +75,7 @@ export const Swap = (): JSX.Element => {
     pool: undefined,
   });
   const [lastEditedField, setLastEditedField] = useState<'from' | 'to'>('from');
+  const [selectedNetwork] = useSelectedNetwork();
   const [networkAsset] = useNetworkAsset();
   const [balance] = useAssetsBalance();
   const totalFees = useSwapValidationFee();
@@ -311,6 +317,8 @@ export const Swap = (): JSX.Element => {
     setLastEditedField((prev) => (prev === 'from' ? 'to' : 'from'));
   };
 
+  const [pool] = useObservable(form.controls.pool.valueChangesWithSilent$);
+
   return (
     <ActionForm
       form={form}
@@ -326,12 +334,9 @@ export const Swap = (): JSX.Element => {
     >
       <Page
         width={504}
-        footer={
-          <Form.Item name="pool">
-            {({ value, onChange }) => (
-              <PoolSelector value={value} onChange={onChange} />
-            )}
-          </Form.Item>
+        leftWidget={
+          selectedNetwork.name === 'ergo' &&
+          pool?.id && <SwapGraph pool={pool} />
         }
       >
         <Flex col>
@@ -343,7 +348,7 @@ export const Swap = (): JSX.Element => {
             </Flex.Item>
             <OperationSettings />
           </Flex>
-          <Flex.Item marginBottom={1} marginTop={3}>
+          <Flex.Item marginBottom={1} marginTop={2}>
             <TokenControlFormItem
               bordered
               maxButton
@@ -368,6 +373,13 @@ export const Swap = (): JSX.Element => {
               tokenName="toAsset"
             />
           </Flex.Item>
+          <Form.Item name="pool">
+            {({ value, onChange }) => (
+              <Flex.Item marginTop={!!value ? 4 : 0}>
+                <PoolSelector value={value} onChange={onChange} />
+              </Flex.Item>
+            )}
+          </Form.Item>
           <Form.Listener>
             {({ value }) => (
               <Flex.Item marginTop={!!value.pool ? 4 : 0}>

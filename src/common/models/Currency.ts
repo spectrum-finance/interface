@@ -159,9 +159,15 @@ export class Currency {
   }
 
   toCurrencyString(maxDecimals?: number): string {
-    return `${this.toString(maxDecimals)} ${
-      isUnknownAsset(this.asset) ? '' : this.asset.name
-    }`;
+    if (this.asset.prefix) {
+      return `${
+        isUnknownAsset(this.asset) ? '' : this.asset.prefix
+      } ${this.toString(maxDecimals)}`;
+    } else {
+      return `${this.toString(maxDecimals)} ${
+        isUnknownAsset(this.asset) ? '' : this.asset.name
+      }`;
+    }
   }
 
   toUsd(): void {}
