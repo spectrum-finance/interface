@@ -1,11 +1,18 @@
 import './Header.less';
 
+import { t } from '@lingui/macro';
 import cn from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { isBrowser } from 'react-device-detect';
 
 import { applicationConfig } from '../../applicationConfig';
 import { useObservable } from '../../common/hooks/useObservable';
+import {
+  Button,
+  HistoryOutlined,
+  LoadingOutlined,
+  Modal,
+} from '../../ergodex-cdk';
 import { useAssetsBalance } from '../../gateway/api/assetBalance';
 import { useNetworkAsset } from '../../gateway/api/networkAsset';
 import { selectedWalletState$ } from '../../gateway/api/wallets';
@@ -13,6 +20,7 @@ import { useSelectedNetwork } from '../../gateway/common/network';
 import { settings$ } from '../../gateway/settings/settings';
 import { WalletState } from '../../network/common/Wallet';
 import { AppLogo } from '../common/AppLogo/AppLogo';
+import { CardanoTxHistory } from '../common/CardanoTxHistory/CardanoTxHistory';
 import { TxHistory } from '../common/TxHistory/TxHistory';
 import { IsCardano } from '../IsCardano/IsCardano';
 import { IsErgo } from '../IsErgo/IsErgo';
@@ -47,6 +55,8 @@ export const Header: React.FC = () => {
 
     return () => document.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const handleModal = () => Modal.open(<CardanoTxHistory />);
 
   return (
     <header
@@ -86,6 +96,12 @@ export const Header: React.FC = () => {
               <IsErgo>
                 {walletState === WalletState.CONNECTED && <TxHistory />}
               </IsErgo>
+              <Button
+                size="large"
+                type="ghost"
+                icon={<HistoryOutlined />}
+                onClick={handleModal}
+              />
             </>
           )}
           <BurgerMenu />

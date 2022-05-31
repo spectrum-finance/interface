@@ -1,3 +1,5 @@
+import { DateTime } from 'luxon';
+
 import { TxId } from '../types';
 import { Currency } from './Currency';
 
@@ -11,6 +13,7 @@ export interface OperationContract<T extends string> {
   readonly id: TxId;
   readonly txId: TxId;
   readonly type: T;
+  readonly dateTime: DateTime;
   readonly status: OperationStatus;
 }
 
@@ -29,3 +32,7 @@ export interface OtherOperation
 }
 
 export type Operation = SwapOperation | OtherOperation;
+
+export const isSwapOperation = (
+  operation: SwapOperation | OtherOperation,
+): operation is SwapOperation => operation.type === 'swap';
