@@ -1,4 +1,4 @@
-import { DateTime } from 'luxon';
+import { DateTime, Settings } from 'luxon';
 import React from 'react';
 
 type DateTimeViewType = 'date' | 'time' | 'datetime' | 'datetimeWithWeekday';
@@ -22,7 +22,9 @@ const DateTimeView: React.FC<DateTimeViewProps> = ({
   value,
 }) => {
   const format = formatMap[type] || DateTime.DATE_FULL;
-  return <>{value?.toLocaleString(format)}</>;
+  return (
+    <>{value?.toLocaleString(format, { locale: Settings.defaultLocale })}</>
+  );
 };
 
 export { DateTimeView };
