@@ -63,7 +63,7 @@ const _TokenAmountInput: React.FC<TokenAmountInputProps> = ({
   return (
     <NumberFormat
       readOnly={readonly}
-      value={userInput}
+      value={userInput || ''}
       className={className}
       type="tel"
       onValueChange={({ value }, { source }) => {
