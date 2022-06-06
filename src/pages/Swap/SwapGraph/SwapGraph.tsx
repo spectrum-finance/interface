@@ -55,12 +55,10 @@ const AbsoluteContainer = styled(_AbsoluteContainer)`
 export const SwapGraph: React.FC<SwapGraphProps> = ({ pool }) => {
   const [defaultActivePeriod, setDefaultActivePeriod] = useState<Period>('D');
   const [isInverted, setInverted] = useState(false);
-  const { durationOffset, timeFormat, tick, preLastFromNow, resolution } =
+  const { durationOffset, timeFormat, tick, resolution } =
     usePeriodSettings(defaultActivePeriod);
 
-  const ticks = useTicks(tick, durationOffset, preLastFromNow, [
-    defaultActivePeriod,
-  ]);
+  const ticks = useTicks(tick, durationOffset, [defaultActivePeriod]);
   const [rawData, loading] = useObservable(
     () =>
       getPoolChartData(pool, {
