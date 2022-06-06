@@ -1,6 +1,6 @@
 import { Trans } from '@lingui/macro';
 import { DateTime } from 'luxon';
-import React, { ReactNode, useCallback, useState } from 'react';
+import React, { ReactNode, useCallback, useMemo, useState } from 'react';
 import { Area, AreaChart, Tooltip, XAxis, YAxis } from 'recharts';
 import styled from 'styled-components';
 
@@ -90,6 +90,20 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({ pool }) => {
   const differenceX = data[0];
   const differenceY = data[data.length - 1];
   const showDiff = !activeData;
+
+  const displayedTicks = useMemo(() => {
+    const formattedTicksSet = new Set(
+      ticks
+        .filter((a) => a.valueOf() > differenceX?.ts)
+        .map((a) => a.toLocaleString(timeFormat)),
+    );
+    return ticks
+      .filter((a) => {
+        const formatted = a.toLocaleString(timeFormat);
+        return formattedTicksSet.delete(formatted);
+      })
+      .map((a) => a.valueOf());
+  }, [data, ticks]);
 
   return (
     <Flex col position="relative">
@@ -184,7 +198,14 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({ pool }) => {
             domain={['auto', 'auto']}
             hide
           />
-          <XAxis dataKey="ts" tickFormatter={formatXAxis} />
+          <XAxis
+            dataKey="ts"
+            type="number"
+            scale="time"
+            domain={['dataMin', 'dataMax']}
+            ticks={displayedTicks}
+            tickFormatter={formatXAxis}
+          />
           <defs>
             <linearGradient id="gradientColor" x1="0" y1="0" x2="0" y2="1">
               <stop
