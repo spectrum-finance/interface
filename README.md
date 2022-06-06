@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/circleci/circleci-docs.svg?style=svg)](https://circleci.com/gh/ergolabs/ergo-dex-frontend)
+![example workflow](https://github.com/ergolabs/ergo-dex-frontend/blob/dev/.github/workflows/release.yml)
 
 ## Learn More
 
