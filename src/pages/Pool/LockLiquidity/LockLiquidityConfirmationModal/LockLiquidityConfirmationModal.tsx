@@ -21,10 +21,11 @@ import { AmmPool } from '../../../../common/models/AmmPool';
 import { Currency } from '../../../../common/models/Currency';
 import { FormFeesSection } from '../../../../components/common/FormView/FormFeesSection/FormFeesSection';
 import { FormPairSection } from '../../../../components/common/FormView/FormPairSection/FormPairSection';
-import { useSettings } from '../../../../context';
 import { Button, Checkbox, Flex, Modal } from '../../../../ergodex-cdk';
 import { useNetworkAsset } from '../../../../gateway/api/networkAsset';
+import { useSettings } from '../../../../gateway/settings/settings';
 import { utxos$ } from '../../../../network/ergo/api/utxos/utxos';
+import { ErgoSettings } from '../../../../network/ergo/settings/settings';
 import { mainnetTxAssembler } from '../../../../services/defaultTxAssembler';
 import { explorer } from '../../../../services/explorer';
 import { submitTx } from '../../../../services/yoroi';
@@ -51,7 +52,7 @@ const LockLiquidityConfirmationModal: React.FC<LockLiquidityConfirmationModalPro
     const now = DateTime.now().toMillis();
 
     const [utxos] = useObservable(utxos$);
-    const [{ minerFee, address, pk }] = useSettings();
+    const { minerFee, address, pk } = useSettings() as ErgoSettings;
 
     // const uiFeeNErg = parseUserInputToFractions(UI_FEE, ERG_DECIMALS);
     // const exFeeNErg = minExFee.amount;

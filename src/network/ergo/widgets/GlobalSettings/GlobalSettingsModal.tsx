@@ -3,7 +3,6 @@ import React from 'react';
 
 import { defaultMinerFee } from '../../../../common/constants/settings';
 import { InfoTooltip } from '../../../../components/InfoTooltip/InfoTooltip';
-import { useSettings } from '../../../../context';
 import {
   Button,
   CheckFn,
@@ -15,6 +14,7 @@ import {
   Typography,
   useForm,
 } from '../../../../ergodex-cdk';
+import { patchSettings, useSettings } from '../../settings/settings';
 import { MinerFeeInput } from './MinerFeeInput/MinerFeeInput';
 
 interface GlobalSettingsModalProps {
@@ -58,11 +58,11 @@ const warningMessages: Messages<GlobalSettingsFormModel> = {
 const GlobalSettingsModal: React.FC<GlobalSettingsModalProps> = ({
   onClose,
 }): JSX.Element => {
-  const [settings, setSettings] = useSettings();
+  const [{ minerFee }] = useSettings();
 
   const form = useForm<GlobalSettingsFormModel>({
     minerFee: useForm.ctrl(
-      settings.minerFee,
+      minerFee,
       [minMinerFeeCheck, maxMinerFeeCheck],
       [recommendedMinerFeeCheck],
     ),
@@ -73,7 +73,7 @@ const GlobalSettingsModal: React.FC<GlobalSettingsModalProps> = ({
       return;
     }
 
-    setSettings({ ...settings, minerFee: form.value.minerFee! });
+    patchSettings({ minerFee: form.value.minerFee! });
     onClose();
   };
 

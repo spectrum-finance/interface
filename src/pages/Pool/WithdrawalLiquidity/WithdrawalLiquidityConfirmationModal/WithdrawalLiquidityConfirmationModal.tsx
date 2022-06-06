@@ -9,8 +9,9 @@ import React, { FC } from 'react';
 import { ERG_DECIMALS } from '../../../../common/constants/erg';
 import { AssetLock } from '../../../../common/models/AssetLock';
 import { FormPairSection } from '../../../../components/common/FormView/FormPairSection/FormPairSection';
-import { useSettings } from '../../../../context';
 import { Button, Flex, Modal, Typography } from '../../../../ergodex-cdk';
+import { useSettings } from '../../../../gateway/settings/settings';
+import { ErgoSettings } from '../../../../network/ergo/settings/settings';
 import { mainnetTxAssembler } from '../../../../services/defaultTxAssembler';
 import { explorer } from '../../../../services/explorer';
 import { lockParser } from '../../../../services/locker/parser';
@@ -25,7 +26,7 @@ interface WithdrawalLiquidityConfirmationModalProps {
 
 const WithdrawalLiquidityConfirmationModal: FC<WithdrawalLiquidityConfirmationModalProps> =
   ({ onClose, lock }): JSX.Element => {
-    const [{ minerFee, address, pk }] = useSettings();
+    const { minerFee, address, pk } = useSettings() as ErgoSettings;
 
     const minerFeeNErgs = parseUserInputToFractions(minerFee, ERG_DECIMALS);
 

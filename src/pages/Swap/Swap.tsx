@@ -33,8 +33,10 @@ import {
 } from '../../components/ConfirmationModal/ConfirmationModal';
 import { Page } from '../../components/Page/Page';
 import {
+  Button,
   Flex,
   Form,
+  LineChartOutlined,
   SwapOutlined,
   Typography,
   useForm,
@@ -74,6 +76,7 @@ export const Swap = (): JSX.Element => {
     toAsset: undefined,
     pool: undefined,
   });
+  const [leftWidgetOpened, setLeftWidgetOpened] = useState<boolean>(false);
   const [lastEditedField, setLastEditedField] = useState<'from' | 'to'>('from');
   const [selectedNetwork] = useSelectedNetwork();
   const [networkAsset] = useNetworkAsset();
@@ -338,6 +341,7 @@ export const Swap = (): JSX.Element => {
           selectedNetwork.name === 'ergo' &&
           pool?.id && <SwapGraph pool={pool} />
         }
+        widgetOpened={leftWidgetOpened}
       >
         <Flex col>
           <Flex row align="center">
@@ -346,6 +350,14 @@ export const Swap = (): JSX.Element => {
                 <Trans>Swap</Trans>
               </Typography.Title>
             </Flex.Item>
+            {selectedNetwork.name === 'ergo' && pool?.id && (
+              <Button
+                type="text"
+                size="large"
+                icon={<LineChartOutlined />}
+                onClick={() => setLeftWidgetOpened(!leftWidgetOpened)}
+              />
+            )}
             <OperationSettings />
           </Flex>
           <Flex.Item marginBottom={1} marginTop={2}>
