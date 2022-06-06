@@ -1,6 +1,6 @@
 import { Trans } from '@lingui/macro';
 import { DateTime } from 'luxon';
-import React, { ReactNode, useCallback, useState } from 'react';
+import React, { ReactNode, useCallback, useMemo, useState } from 'react';
 import { Area, AreaChart, Tooltip, XAxis, YAxis } from 'recharts';
 import styled from 'styled-components';
 
@@ -71,6 +71,8 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({ pool }) => {
     [],
   );
   const data = useAggregatedByDateData(rawData, ticks);
+  // recharts couldn't animate when dataKey is changed
+  const chartData = useMemo(() => [...data], [data, isInverted]);
 
   const [activeData, setActiveData] = useState<PoolChartData | null>();
 
@@ -169,7 +171,7 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({ pool }) => {
         <AreaChart
           width={624}
           height={320}
-          data={data}
+          data={chartData}
           reverseStackOrder
           onMouseMove={(state: any) => {
             setActiveData(state?.activePayload?.[0]?.payload);
