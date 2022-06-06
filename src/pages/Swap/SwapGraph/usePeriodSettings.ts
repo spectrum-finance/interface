@@ -13,13 +13,13 @@ const PeriodSettings: Record<Period, PeriodSetting> = {
   D: {
     resolution: 1,
     durationOffset: { day: 1 },
-    tick: { hour: 1 },
+    tick: { minute: 30 },
     timeFormat: DateTime.TIME_SIMPLE,
   },
   W: {
     resolution: 1,
     durationOffset: { week: 1 },
-    tick: { hour: 6 },
+    tick: { hour: 3 },
     timeFormat: {
       month: 'long',
       day: 'numeric',
@@ -28,7 +28,7 @@ const PeriodSettings: Record<Period, PeriodSetting> = {
   M: {
     resolution: 1,
     durationOffset: { month: 1 },
-    tick: { day: 1 },
+    tick: { hour: 12 },
     timeFormat: {
       month: 'long',
       day: 'numeric',
@@ -37,7 +37,7 @@ const PeriodSettings: Record<Period, PeriodSetting> = {
   Y: {
     resolution: 1,
     durationOffset: { year: 1 },
-    tick: { day: 15 },
+    tick: { day: 7 },
     timeFormat: {
       month: 'long',
       day: 'numeric',
