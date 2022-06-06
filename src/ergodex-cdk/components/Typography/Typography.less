@@ -67,6 +67,12 @@ a.ant-typography {
       color: var(--ergo-success-color-hover);
     }
   }
+  &.ant-typography-danger {
+    color: var(--ergo-error-color);
+    &:hover, &:active, &:focus {
+      color: var(--ergo-error-color-hover);
+    }
+  }
 }
 
 h1.ant-typography {
@@ -91,6 +97,20 @@ h4.ant-typography {
   margin: 0;
   color:  var(--ergo-primary-text);
   font:   var(--ergo-h4-font);
+
+  &.ant-typography-success {
+    color: var(--ergo-success-color);
+    &:hover, &:active, &:focus {
+      color: var(--ergo-success-color-hover);
+    }
+  }
+
+  &.ant-typography-danger {
+    color: var(--ergo-error-color);
+    &:hover, &:active, &:focus {
+      color: var(--ergo-error-color-hover);
+    }
+  }
 }
 
 h5.ant-typography {
