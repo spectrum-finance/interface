@@ -1,5 +1,8 @@
-## Learn More
+![prod](https://github.com/ergolabs/ergo-dex-frontend/blob/dev/.github/workflows/release.yml/badge.svg?branch=master)
+![test](https://github.com/ergolabs/ergo-dex-frontend/blob/dev/.github/workflows/test.yml/badge.svg?branch=test)
+![dev](https://github.com/ergolabs/ergo-dex-frontend/blob/dev/.github/workflows/dev.yml/badge.svg?branch=dev)
 
+## Learn More
 
 
 <!-- PROJECT LOGO -->
