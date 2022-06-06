@@ -86,7 +86,7 @@ type ItemsProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
   HTMLDivElement
 > & {
-  display?: 'flex' | 'block' | 'none';
+  display?: 'flex' | 'block' | 'none' | 'inline-block';
   order?: number;
   alignSelf?: 'flex-start' | 'stretch' | 'flex-end' | 'center';
   marginBottom?: number | 'auto';

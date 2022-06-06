@@ -44,15 +44,16 @@ export const txHistory$ = getAddresses().pipe(
             1000,
           ),
         ).pipe(
+          tap((res) => console.log(res)),
           switchMap((ammDexOperations) =>
             combineLatest(ammDexOperations.map(mapToOperation)),
           ),
           map((operations) => operations.filter(Boolean)),
+          tap(console.log),
         ),
       ),
     ),
   ),
-  tap(console.log),
   publishReplay(1),
   refCount(),
 );
