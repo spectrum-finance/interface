@@ -19,6 +19,7 @@ interface NetworkConfig {
 }
 
 interface ApplicationConfig {
+  readonly connectWalletDelayMs: number;
   readonly cardanoMaintenance: boolean;
   readonly reCaptchaKey: string;
   readonly networksSettings: Dictionary<NetworkConfig>;
@@ -41,6 +42,7 @@ interface ApplicationConfig {
 }
 
 export const applicationConfig: ApplicationConfig = {
+  connectWalletDelayMs: 2000,
   cardanoMaintenance: true,
   reCaptchaKey: '6LeUJ8YfAAAAAMYIqGvtOmJGLeJtCSv6FBH_5sA3',
   requestRetryCount: 3,

@@ -1,20 +1,25 @@
-import { catchError, from, Observable, of, throwError } from 'rxjs';
+import {
+  catchError,
+  from,
+  Observable,
+  of,
+  switchMap,
+  throwError,
+  timer,
+} from 'rxjs';
+
+import { applicationConfig } from '../../../../../applicationConfig';
 
 export const connectWallet = (): Observable<any> => {
-  // Wait 0.2s to be sure the ergoConnector is loaded in the page
-  // With mv3, there is no guarantee for it to be loaded before the page
-  const start = new Date().getTime();
-  for (let i = 0; i < 1e7; i++) {
-    if (new Date().getTime() - start > 200) {
-      break;
-    }
-  }
+  return timer(applicationConfig.connectWalletDelayMs).pipe(
+    switchMap(() => {
+      if (!ergoConnector?.safew) {
+        return throwError(() => new Error('EXTENSION_NOT_FOUND'));
+      }
 
-  if (!ergoConnector?.safew) {
-    return throwError(() => new Error('EXTENSION_NOT_FOUND'));
-  }
-
-  return from(ergoConnector.safew.connect({ createErgoObject: false })).pipe(
-    catchError(() => of(false)),
+      return from(
+        ergoConnector.safew.connect({ createErgoObject: false }),
+      ).pipe(catchError(() => of(false)));
+    }),
   );
 };

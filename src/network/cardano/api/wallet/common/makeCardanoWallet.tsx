@@ -33,6 +33,7 @@ import {
   zip,
 } from 'rxjs';
 
+import { applicationConfig } from '../../../../../applicationConfig';
 import { AssetInfo } from '../../../../../common/models/AssetInfo';
 import { Address } from '../../../../../common/types';
 import { notification } from '../../../../../ergodex-cdk';
@@ -107,7 +108,7 @@ export const makeCardanoWallet = ({
   };
 
   const connectWallet = (): Observable<boolean | React.ReactNode> => {
-    return timer(2000).pipe(
+    return timer(applicationConfig.connectWalletDelayMs).pipe(
       switchMap(() => {
         try {
           if (!cardano || !cardano[variableName]) {
