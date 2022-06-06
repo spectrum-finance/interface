@@ -21,7 +21,7 @@ const PeriodSettings: Record<Period, PeriodSetting> = {
   W: {
     resolution: 1,
     durationOffset: { week: 1 },
-    tick: { hour: 12 },
+    tick: { hour: 6 },
     preLastFromNow: (d: DateTime) => {
       if (d.hour < 12) {
         return d.startOf('day');
