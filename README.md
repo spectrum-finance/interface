@@ -1,5 +1,3 @@
-![example workflow](https://github.com/ergolabs/ergo-dex-frontend/blob/dev/.github/workflows/release.yml)
-
 ## Learn More
 
 
