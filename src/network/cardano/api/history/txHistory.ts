@@ -1,5 +1,5 @@
 import {
-  extractPayemntCred,
+  extractPaymentCred,
   mkHistory,
   ScriptCredsV1,
 } from '@ergolabs/cardano-dex-sdk';
@@ -37,7 +37,7 @@ export const txHistory = getAddresses().pipe(
       switchMap((hr) =>
         from(
           hr.getAllByPCreds(
-            addresses.map((a) => extractPayemntCred(a, RustModule.CardanoWasm)),
+            addresses.map((a) => extractPaymentCred(a, RustModule.CardanoWasm)),
             20,
           ),
         ),
