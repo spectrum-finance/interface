@@ -11,20 +11,18 @@ interface PoolChartDataRaw {
 export class PoolChartData {
   public readonly price: Ratio;
   public readonly invertedPrice: Ratio;
-  public date: DateTime;
+  public readonly date: DateTime;
+  public readonly ts: number;
 
   constructor(
     private raw: PoolChartDataRaw,
     private assetX: AssetInfo,
     private assetY: AssetInfo,
   ) {
+    this.ts = this.raw.timestamp;
     this.price = new Ratio(this.raw.price.toString(), assetY, assetX);
     this.invertedPrice = this.price.invertRatio();
     this.date = DateTime.fromMillis(this.raw.timestamp);
-  }
-
-  get ts(): number {
-    return this.date.valueOf();
   }
 
   getRatio(isInverted = false): Ratio {

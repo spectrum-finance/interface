@@ -4,11 +4,11 @@ import { DependencyList, useMemo } from 'react';
 const getTicksArray = (
   tick: DurationLike,
   durationOffset: DurationLike,
-  preLastFromNow: (d: DateTime) => DateTime,
 ): DateTime[] => {
   const now = DateTime.now();
   const tickMillis = Duration.fromDurationLike(tick).toMillis();
-  const preLast = preLastFromNow(now);
+  const preLastOffset = now.plus({ minute: now.offset }).valueOf() % tickMillis;
+  const preLast = now.minus({ millisecond: preLastOffset });
 
   now.minus(tick);
   return Array(
@@ -26,7 +26,5 @@ const getTicksArray = (
 export const useTicks = (
   tick: DurationLike,
   durationOffset: DurationLike,
-  preLastFromNow: (d: DateTime) => DateTime,
   deps: DependencyList,
-): DateTime[] =>
-  useMemo(() => getTicksArray(tick, durationOffset, preLastFromNow), deps);
+): DateTime[] => useMemo(() => getTicksArray(tick, durationOffset), deps);

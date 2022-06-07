@@ -1,4 +1,5 @@
 import { Trans } from '@lingui/macro';
+import { sortedUniqBy } from 'lodash';
 import { DateTime } from 'luxon';
 import React, { ReactNode, useCallback, useMemo, useState } from 'react';
 import { Area, AreaChart, Tooltip, XAxis, YAxis } from 'recharts';
@@ -55,12 +56,10 @@ const AbsoluteContainer = styled(_AbsoluteContainer)`
 export const SwapGraph: React.FC<SwapGraphProps> = ({ pool }) => {
   const [defaultActivePeriod, setDefaultActivePeriod] = useState<Period>('D');
   const [isInverted, setInverted] = useState(false);
-  const { durationOffset, timeFormat, tick, preLastFromNow, resolution } =
+  const { durationOffset, timeFormat, tick, resolution } =
     usePeriodSettings(defaultActivePeriod);
 
-  const ticks = useTicks(tick, durationOffset, preLastFromNow, [
-    defaultActivePeriod,
-  ]);
+  const ticks = useTicks(tick, durationOffset, [defaultActivePeriod]);
   const [rawData, loading] = useObservable(
     () =>
       getPoolChartData(pool, {
@@ -94,6 +93,15 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({ pool }) => {
   const differenceX = data[0];
   const differenceY = data[data.length - 1];
   const showDiff = !activeData;
+
+  const displayedTicks = useMemo(
+    () =>
+      sortedUniqBy(
+        ticks.filter((a) => a.valueOf() > data[0]?.ts),
+        (a) => a.toLocaleString(timeFormat),
+      ).map((a) => a.valueOf()),
+    [data, ticks, timeFormat],
+  );
 
   return (
     <Flex col position="relative">
@@ -191,7 +199,14 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({ pool }) => {
             domain={['auto', 'auto']}
             hide
           />
-          <XAxis dataKey="ts" tickFormatter={formatXAxis} />
+          <XAxis
+            dataKey="ts"
+            type="number"
+            scale="time"
+            domain={['dataMin', 'dataMax']}
+            ticks={displayedTicks}
+            tickFormatter={formatXAxis}
+          />
           <defs>
             <linearGradient id="gradientColor" x1="0" y1="0" x2="0" y2="1">
               <stop
