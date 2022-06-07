@@ -6,6 +6,7 @@ import {
   defaultMinerFee,
   defaultSlippage,
 } from '../../../common/constants/settings';
+import { useObservable } from '../../../common/hooks/useObservable';
 import { Address } from '../../../common/types';
 import { isCurrentAddressValid } from '../../../common/utils/isCurrenctAddressValid';
 import { localStorageManager } from '../../../common/utils/localStorageManager';
@@ -85,6 +86,15 @@ export const settings =
 export const setSettings = (newSettings: ErgoSettings): void =>
   localStorageManager.set(SETTINGS_KEY, newSettings);
 
+export const patchSettings = (newSettings: Partial<ErgoSettings>): void =>
+  localStorageManager.set(SETTINGS_KEY, {
+    ...(localStorageManager.get<ErgoSettings>(SETTINGS_KEY) ||
+      defaultErgoSettings),
+    ...newSettings,
+  });
+
 export const settings$: Observable<ErgoSettings> = localStorageManager
   .getStream<ErgoSettings>(SETTINGS_KEY)
   .pipe(map((settings) => settings || defaultErgoSettings));
+
+export const useSettings = () => useObservable(settings$, [], settings);
