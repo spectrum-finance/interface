@@ -21,7 +21,6 @@ import { Currency } from '../../../../common/models/Currency';
 import { FormFeesSection } from '../../../../components/common/FormView/FormFeesSection/FormFeesSection';
 import { FormPairSection } from '../../../../components/common/FormView/FormPairSection/FormPairSection';
 import { PageSection } from '../../../../components/Page/PageSection/PageSection';
-import { useSettings } from '../../../../context';
 import {
   Button,
   Checkbox,
@@ -30,7 +29,9 @@ import {
   Typography,
 } from '../../../../ergodex-cdk';
 import { useNetworkAsset } from '../../../../gateway/api/networkAsset';
+import { useSettings } from '../../../../gateway/settings/settings';
 import { utxos$ } from '../../../../network/ergo/api/utxos/utxos';
+import { ErgoSettings } from '../../../../network/ergo/settings/settings';
 import { mainnetTxAssembler } from '../../../../services/defaultTxAssembler';
 import { explorer } from '../../../../services/explorer';
 import { lockParser } from '../../../../services/locker/parser';
@@ -55,7 +56,7 @@ const RelockLiquidityConfirmationModal: FC<RelockLiquidityConfirmationModalProps
     const now = DateTime.now().toMillis();
 
     const [utxos] = useObservable(utxos$);
-    const [{ minerFee, address, pk }] = useSettings();
+    const { minerFee, address, pk } = useSettings() as ErgoSettings;
 
     const minerFeeNErgs = parseUserInputToFractions(minerFee, ERG_DECIMALS);
 

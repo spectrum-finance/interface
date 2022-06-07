@@ -21,7 +21,7 @@ export const useAggregatedByDateData = (
         }
         return rawData[j === -1 ? 0 : j].clone({ timestamp: lts.valueOf() });
       });
-    res.push(rawData[rawData.length - 1]);
+    res.push(rawData[rawData.length - 1].clone({ timestamp: Date.now() }));
     return res;
   }, [rawData]);
 };
