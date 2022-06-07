@@ -1,6 +1,6 @@
 import type { PoolId } from '@ergolabs/ergo-dex-sdk';
 import axios from 'axios';
-import { from, map, Observable } from 'rxjs';
+import { from, map, Observable, of } from 'rxjs';
 
 import { applicationConfig } from '../../../../applicationConfig';
 import { AmmPool } from '../../../../common/models/AmmPool';
@@ -26,9 +26,12 @@ export const getPoolChartDataRaw = (
   ).pipe(map(({ data }) => data));
 
 export const getPoolChartData = (
-  pool: AmmPool,
+  pool?: AmmPool,
   params?: PoolChartDataParams,
 ): Observable<PoolChartData[]> => {
+  if (!pool) {
+    return of([]);
+  }
   return getPoolChartDataRaw(pool.id, params).pipe(
     map((data) =>
       data.map((d) => new PoolChartData(d, pool.x.asset, pool.y.asset)),

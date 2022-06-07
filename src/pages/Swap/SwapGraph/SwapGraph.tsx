@@ -1,6 +1,6 @@
 import { Trans } from '@lingui/macro';
 import { DateTime } from 'luxon';
-import React, { ReactNode, useCallback, useState } from 'react';
+import React, { ReactNode, useCallback, useMemo, useState } from 'react';
 import { Area, AreaChart, Tooltip, XAxis, YAxis } from 'recharts';
 import styled from 'styled-components';
 
@@ -21,7 +21,7 @@ import { Period, usePeriodSettings } from './usePeriodSettings';
 import { useTicks } from './useTicks';
 
 interface SwapGraphProps {
-  pool: AmmPool;
+  pool?: AmmPool;
 }
 
 interface AbsoluteContainerProps {
@@ -67,10 +67,12 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({ pool }) => {
         from: DateTime.now().minus(durationOffset).valueOf(),
         resolution,
       }),
-    [pool.id, defaultActivePeriod],
+    [pool?.id, defaultActivePeriod],
     [],
   );
   const data = useAggregatedByDateData(rawData, ticks);
+  // recharts couldn't animate when dataKey is changed
+  const chartData = useMemo(() => [...data], [data, isInverted]);
 
   const [activeData, setActiveData] = useState<PoolChartData | null>();
 
@@ -97,23 +99,26 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({ pool }) => {
     <Flex col position="relative">
       <Flex.Item marginTop={4} marginLeft={6} marginRight={4}>
         <Flex align="center">
-          <TokenIconPair
-            size="small"
-            assetX={pool?.x.asset}
-            assetY={pool?.y.asset}
-          />
-          <Flex.Item marginRight={1} marginLeft={1}>
-            <Typography.Title level={4}>
-              <Truncate>{pool?.x.asset.name}</Truncate> /{' '}
-              <Truncate>{pool?.y.asset.name}</Truncate>
-            </Typography.Title>
-          </Flex.Item>
-          <Flex.Item marginRight={2}>
-            <Button size="small" onClick={() => setInverted(!isInverted)}>
-              <Trans>Switch ratio</Trans>
-            </Button>
-          </Flex.Item>
-
+          {pool && (
+            <>
+              <TokenIconPair
+                size="small"
+                assetX={pool.x.asset}
+                assetY={pool.y.asset}
+              />
+              <Flex.Item marginRight={1} marginLeft={1}>
+                <Typography.Title level={4}>
+                  <Truncate>{pool.x.asset.name}</Truncate> /{' '}
+                  <Truncate>{pool.y.asset.name}</Truncate>
+                </Typography.Title>
+              </Flex.Item>
+              <Flex.Item marginRight={2}>
+                <Button size="small" onClick={() => setInverted(!isInverted)}>
+                  <Trans>Switch ratio</Trans>
+                </Button>
+              </Flex.Item>
+            </>
+          )}
           <Flex.Item marginLeft="auto">
             <Tabs
               defaultActiveKey={defaultActivePeriod}
@@ -168,8 +173,8 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({ pool }) => {
       >
         <AreaChart
           width={624}
-          height={320}
-          data={data}
+          height={pool ? 320 : 230}
+          data={chartData}
           reverseStackOrder
           onMouseMove={(state: any) => {
             setActiveData(state?.activePayload?.[0]?.payload);
@@ -211,7 +216,11 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({ pool }) => {
           <AbsoluteContainer>
             <Empty>
               <Typography.Text>
-                <Trans>Not enough data</Trans>
+                {pool ? (
+                  <Trans>Not enough data</Trans>
+                ) : (
+                  <Trans>Select a token</Trans>
+                )}
               </Typography.Text>
             </Empty>
           </AbsoluteContainer>
