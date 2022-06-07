@@ -1,4 +1,5 @@
 import { Trans } from '@lingui/macro';
+import { sortedUniqBy } from 'lodash';
 import { DateTime } from 'luxon';
 import React, { ReactNode, useCallback, useMemo, useState } from 'react';
 import { Area, AreaChart, Tooltip, XAxis, YAxis } from 'recharts';
@@ -91,19 +92,14 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({ pool }) => {
   const differenceY = data[data.length - 1];
   const showDiff = !activeData;
 
-  const displayedTicks = useMemo(() => {
-    const formattedTicksSet = new Set(
-      ticks
-        .filter((a) => a.valueOf() > differenceX?.ts)
-        .map((a) => a.toLocaleString(timeFormat)),
-    );
-    return ticks
-      .filter((a) => {
-        const formatted = a.toLocaleString(timeFormat);
-        return formattedTicksSet.delete(formatted);
-      })
-      .map((a) => a.valueOf());
-  }, [data, ticks]);
+  const displayedTicks = useMemo(
+    () =>
+      sortedUniqBy(
+        ticks.filter((a) => a.valueOf() > data[0]?.ts),
+        (a) => a.toLocaleString(timeFormat),
+      ).map((a) => a.valueOf()),
+    [data, ticks, timeFormat],
+  );
 
   return (
     <Flex col position="relative">
