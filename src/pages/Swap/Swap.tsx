@@ -338,8 +338,7 @@ export const Swap = (): JSX.Element => {
       <Page
         width={504}
         leftWidget={
-          selectedNetwork.name === 'ergo' &&
-          pool?.id && <SwapGraph pool={pool} />
+          selectedNetwork.name === 'ergo' && <SwapGraph pool={pool} />
         }
         widgetOpened={leftWidgetOpened}
       >
@@ -350,7 +349,7 @@ export const Swap = (): JSX.Element => {
                 <Trans>Swap</Trans>
               </Typography.Title>
             </Flex.Item>
-            {selectedNetwork.name === 'ergo' && pool?.id && (
+            {selectedNetwork.name === 'ergo' && (
               <Button
                 type="text"
                 size="large"

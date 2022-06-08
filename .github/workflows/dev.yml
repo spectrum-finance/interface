@@ -1,5 +1,5 @@
 name: Run on dev
-on: 
+on:
   push:
     branches:
       - "dev"
@@ -15,7 +15,7 @@ jobs:
           username: ${{secrets.USERNAME}}
           key: ${{secrets.KEY}}
           script: source ~/.nvm/nvm.sh; cd /var/www/builds/front-dev; git pull origin dev; yarn; yarn run prei18n:extract; yarn run i18n:extract; yarn run i18n:compile; yarn build;
-          
+
       - name: Release
         uses: appleboy/ssh-action@master
         with:
