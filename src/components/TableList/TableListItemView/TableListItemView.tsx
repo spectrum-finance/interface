@@ -1,8 +1,8 @@
 import React, { FC, ReactNode } from 'react';
 import styled, { css } from 'styled-components';
 
-import { Box, Flex } from '../../ergodex-cdk';
-import { Gutter } from '../../ergodex-cdk/utils/gutter';
+import { Box, Flex } from '../../../ergodex-cdk';
+import { Gutter } from '../../../ergodex-cdk/utils/gutter';
 import { Column } from './Column/Column';
 
 export interface TableListItemViewProps {
@@ -35,7 +35,7 @@ export const TableListItemView: typeof _TableListItemView & {
   Column: typeof Column;
 } = styled(_TableListItemView)`
   transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
-  background: var(--ergo-pool-position-bg);
+  background: var(--ergo-table-list-item-bg);
   width: 100%;
 
   ${(props) =>
@@ -45,7 +45,7 @@ export const TableListItemView: typeof _TableListItemView & {
       &:hover,
       &:focus,
       &:active {
-        background: var(--ergo-pool-position-bg-hover);
+        background: var(--ergo-table-list-item-hover);
       }
     `}
 ` as any;

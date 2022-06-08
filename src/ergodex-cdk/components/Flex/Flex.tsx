@@ -20,6 +20,7 @@ export type FlexProps = React.DetailedHTMLProps<
   col?: boolean;
   stretch?: boolean;
   inline?: boolean;
+  width?: number;
   position?: 'relative' | 'absolute' | 'static' | 'fixed';
   justify?:
     | 'flex-start'
@@ -47,6 +48,7 @@ export const Flex: ForwardRefExoticComponent<
       row,
       stretch,
       inline,
+      width,
       ...other
     },
     ref,
@@ -66,6 +68,10 @@ export const Flex: ForwardRefExoticComponent<
           { 'ergo-flex-stretch': stretch },
           { 'ergo-flex-inline': inline },
         ])}
+        style={{
+          width,
+          ...other?.style,
+        }}
         {...other}
       >
         {children}

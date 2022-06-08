@@ -28,7 +28,6 @@ export interface OtherOperation
   > {
   readonly x: Currency;
   readonly y: Currency;
-  readonly lp: Currency;
 }
 
 export type Operation = SwapOperation | OtherOperation;

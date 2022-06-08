@@ -1,6 +1,6 @@
 import React, { FC, ReactNode } from 'react';
 
-import { Flex, Typography } from '../../../ergodex-cdk';
+import { Flex, Typography } from '../../../../ergodex-cdk';
 
 interface TableListItemViewColumnProps {
   readonly title?: ReactNode | ReactNode[] | string | boolean;

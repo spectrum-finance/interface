@@ -1,20 +1,13 @@
 import React, { FC } from 'react';
-import styled from 'styled-components';
 
 import { OperationStatus } from '../../../../common/models/Operation';
 import {
-  Box,
   CheckOutlined,
   Flex,
   Loading3QuartersOutlined,
   LockOutlined,
   Tag,
-  Typography,
 } from '../../../../ergodex-cdk';
-
-interface InnerStatusCellProps {
-  readonly className?: string;
-}
 
 interface StatusCellProps {
   readonly status: OperationStatus;

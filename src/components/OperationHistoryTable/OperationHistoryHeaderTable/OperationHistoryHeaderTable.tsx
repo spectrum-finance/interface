@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 
 import { Typography } from '../../../ergodex-cdk';
-import { TableListItemView } from '../../TableListItemView/TableListItemView';
+import { TableListItemView } from '../../TableList/TableListItemView/TableListItemView';
 
 export const OperationHistoryHeaderTable: FC = () => (
   <TableListItemView height={40} padding={[0, 6]}>

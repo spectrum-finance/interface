@@ -1,12 +1,9 @@
 import React, { FC } from 'react';
 
-import {
-  isSwapOperation,
-  Operation,
-  OperationStatus,
-} from '../../../common/models/Operation';
-import { TableListItemView } from '../../TableListItemView/TableListItemView';
+import { isSwapOperation, Operation } from '../../../common/models/Operation';
+import { TableListItemView } from '../../TableList/TableListItemView/TableListItemView';
 import { DateTimeCell } from './DateTimeCell/DateTimeCell';
+import { DepositAssetCell } from './DepositAssetCell/DepositAssetCell';
 import { StatusCell } from './StatusCell/StatusCell';
 import { SwapAssetCell } from './SwapAssetCell/SwapAssetCell';
 import { TypeCell } from './TypeCell/TypeCell';
@@ -21,7 +18,7 @@ export const OperationHistoryTableItem: FC<OperationHistoryTableItemProps> = ({
   const swapAssetCell = isSwapOperation(operation) ? (
     <SwapAssetCell base={operation.base} quote={operation.quote} />
   ) : (
-    ''
+    <DepositAssetCell x={operation.x} y={operation.y} />
   );
 
   return (

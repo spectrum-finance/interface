@@ -2,7 +2,7 @@ import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 
 import { AmmPool } from '../../../../../common/models/AmmPool';
-import { TokenIconPair } from '../../../../../components/AssetIconPair/TokenIconPair';
+import { AssetIconPair } from '../../../../../components/AssetIconPair/AssetIconPair';
 import { DataTag } from '../../../../../components/common/DataTag/DataTag';
 import { Truncate } from '../../../../../components/Truncate/Truncate';
 import { VerificationMark } from '../../../../../components/VerificationMark/VerificationMark';
@@ -22,7 +22,7 @@ export const PoolView: FC<PoolSelectorItemProps> = ({
 }) => (
   <Flex align="center" stretch>
     <Flex.Item marginRight={1}>
-      <TokenIconPair assetX={ammPool.x.asset} assetY={ammPool.y.asset} />
+      <AssetIconPair assetX={ammPool.x.asset} assetY={ammPool.y.asset} />
     </Flex.Item>
     <Flex.Item marginRight={1} align="center">
       <Typography.Title level={5}>

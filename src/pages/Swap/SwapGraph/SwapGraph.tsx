@@ -8,7 +8,7 @@ import styled from 'styled-components';
 import { useObservable } from '../../../common/hooks/useObservable';
 import { AmmPool } from '../../../common/models/AmmPool';
 import { PoolChartData } from '../../../common/models/PoolChartData';
-import { TokenIconPair } from '../../../components/AssetIconPair/TokenIconPair';
+import { AssetIconPair } from '../../../components/AssetIconPair/AssetIconPair';
 import { DateTimeView } from '../../../components/common/DateTimeView/DateTimeView';
 import { Truncate } from '../../../components/Truncate/Truncate';
 import { Button, Flex, Tabs, Typography } from '../../../ergodex-cdk';
@@ -109,7 +109,7 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({ pool }) => {
         <Flex align="center">
           {pool && (
             <>
-              <TokenIconPair
+              <AssetIconPair
                 size="small"
                 assetX={pool.x.asset}
                 assetY={pool.y.asset}

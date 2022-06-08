@@ -14,13 +14,13 @@ import {
   publishReplay,
   refCount,
   switchMap,
-  tap,
 } from 'rxjs';
 
+import { Operation } from '../../../../common/models/Operation';
 import { getAddresses } from '../addresses/addresses';
 import { cardanoNetwork } from '../common/cardanoNetwork';
 import { cardanoWasm$ } from '../common/cardanoWasm';
-import { mapToOperation } from './common';
+import { mapToOperationOrEmpty } from './common';
 
 const historyRepository$: Observable<History> = cardanoWasm$.pipe(
   map((cardanoWasm) =>
@@ -34,26 +34,27 @@ const historyRepository$: Observable<History> = cardanoWasm$.pipe(
   refCount(),
 );
 
-export const txHistory$ = getAddresses().pipe(
-  switchMap((addresses) =>
-    historyRepository$.pipe(
-      switchMap((hr) =>
-        from(
-          hr.getAllByPCreds(
-            addresses.map((a) => extractPaymentCred(a, RustModule.CardanoWasm)),
-            1000,
+export const getTransactionHistory = (): Observable<Operation[]> =>
+  getAddresses().pipe(
+    switchMap((addresses) =>
+      historyRepository$.pipe(
+        switchMap((hr) =>
+          from(
+            hr.getAllByPCreds(
+              addresses.map((a) =>
+                extractPaymentCred(a, RustModule.CardanoWasm),
+              ),
+              1000,
+            ),
+          ).pipe(
+            switchMap((ammDexOperations) =>
+              combineLatest(ammDexOperations.map(mapToOperationOrEmpty)),
+            ),
+            map((operations) => operations.filter(Boolean) as Operation[]),
           ),
-        ).pipe(
-          tap((res) => console.log(res)),
-          switchMap((ammDexOperations) =>
-            combineLatest(ammDexOperations.map(mapToOperation)),
-          ),
-          map((operations) => operations.filter(Boolean)),
-          tap(console.log),
         ),
       ),
     ),
-  ),
-  publishReplay(1),
-  refCount(),
-);
+    publishReplay(1),
+    refCount(),
+  );

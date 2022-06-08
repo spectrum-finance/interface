@@ -7,7 +7,7 @@ import {
   Flex,
   Typography,
 } from '../../../../../ergodex-cdk';
-import { TokenIconPair } from '../../../../AssetIconPair/TokenIconPair';
+import { AssetIconPair } from '../../../../AssetIconPair/AssetIconPair';
 import { Operation } from '../../../../common/TxHistory/types';
 import { TokenTitle } from '../../../../TokenTitle';
 
@@ -31,7 +31,7 @@ const DepositAndRedeemAssetsView: FC<{ x: Currency; y: Currency }> = ({
 }) => (
   <Flex stretch align="center">
     <Flex.Item marginRight={2}>
-      <TokenIconPair size="small" assetX={x.asset} assetY={y.asset} />
+      <AssetIconPair size="small" assetX={x.asset} assetY={y.asset} />
     </Flex.Item>
     <Flex.Item col display="flex" marginRight={2}>
       <Typography.Body strong>{x.asset.name}</Typography.Body>

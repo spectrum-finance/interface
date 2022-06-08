@@ -57,6 +57,7 @@ const AssetIcon: React.FC<TokenIconProps> = ({ asset, size, ...rest }) => {
         />
       ) : (
         <img
+          style={{ verticalAlign: 'initial' }}
           alt="Token Icon"
           src={
             asset?.icon ||

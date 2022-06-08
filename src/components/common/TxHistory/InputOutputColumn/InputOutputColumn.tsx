@@ -3,7 +3,7 @@ import React from 'react';
 import { Currency } from '../../../../common/models/Currency';
 import { ArrowRightOutlined, Flex, Typography } from '../../../../ergodex-cdk';
 import { AssetIcon } from '../../../AssetIcon/AssetIcon';
-import { TokenIconPair } from '../../../AssetIconPair/TokenIconPair';
+import { AssetIconPair } from '../../../AssetIconPair/AssetIconPair';
 import { OperationType } from '../types';
 
 interface InputOutputColumnProps {
@@ -21,7 +21,7 @@ const InputOutputColumn: React.FC<InputOutputColumnProps> = ({
     return (
       <Flex align="center">
         <Flex.Item marginRight={2}>
-          <TokenIconPair assetX={x.asset} assetY={y.asset} />
+          <AssetIconPair assetX={x.asset} assetY={y.asset} />
         </Flex.Item>
         <Flex.Item>
           <Flex>
