@@ -59,11 +59,19 @@ const _TableView: FC<TableViewProps<any>> = ({
 
   const addAction = (a: Action<any>) => setActions((prev) => prev.concat(a));
 
-  const toggleFilter = (index: number) =>
+  const changeFilter = (index: number, value: any) => {
+    setFiltersState((prev) => ({
+      ...prev,
+      [index]: { ...prev[index], value },
+    }));
+  };
+
+  const toggleFilterVisibility = (index: number) => {
     setFiltersState((prev) => ({
       ...prev,
       [index]: { ...prev[index], opened: !prev[index]?.opened },
     }));
+  };
 
   const currentState: State<any> | undefined = Object.values(states).find(
     (s) => s.condition,
@@ -75,6 +83,8 @@ const _TableView: FC<TableViewProps<any>> = ({
   const contentMaxHeight = maxHeight
     ? maxHeight - HEADER_HEIGHT - GAP_STEP * (gap || 0)
     : maxHeight;
+  // const completedItems = items
+  //   .filter(i => Object.values(i))
 
   return (
     <>
@@ -89,8 +99,9 @@ const _TableView: FC<TableViewProps<any>> = ({
             height={HEADER_HEIGHT}
             columns={columns}
             padding={tableHeaderPadding || tablePadding}
-            toggleFilter={toggleFilter}
+            toggleFilterVisibility={toggleFilterVisibility}
             filtersState={filtersState}
+            changeFilter={changeFilter}
           />
         </Flex.Item>
         {currentState &&

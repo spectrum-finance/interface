@@ -13,7 +13,8 @@ export interface TableViewHeaderProps {
   readonly columns: Column<any>[];
   readonly padding?: Gutter;
   readonly filtersState: Dictionary<FilterState<any>>;
-  readonly toggleFilter: (i: number) => void;
+  readonly toggleFilterVisibility: (i: number) => void;
+  readonly changeFilter: (i: number, value: any) => void;
 }
 
 export const TableViewHeader: FC<TableViewHeaderProps> = ({
@@ -21,7 +22,8 @@ export const TableViewHeader: FC<TableViewHeaderProps> = ({
   columns,
   padding,
   filtersState,
-  toggleFilter,
+  toggleFilterVisibility,
+  changeFilter,
 }) => (
   <TableItemView height={height} padding={padding}>
     {columns.map((c, i) => (
@@ -37,10 +39,13 @@ export const TableViewHeader: FC<TableViewHeaderProps> = ({
             <Flex.Item marginLeft={1}>
               <Popover
                 trigger="click"
-                content={c.filter({})}
+                content={c.filter({
+                  value: filtersState[i]?.value,
+                  onChange: changeFilter.bind(null, i),
+                })}
                 placement="bottomRight"
                 visible={filtersState[i]?.opened}
-                onVisibleChange={() => toggleFilter(i)}
+                onVisibleChange={() => toggleFilterVisibility(i)}
               >
                 <FilterButton active={filtersState[i]?.opened} />
               </Popover>

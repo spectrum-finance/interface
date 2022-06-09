@@ -5,6 +5,12 @@ import CopyToClipboard from 'react-copy-to-clipboard';
 import { isSwapOperation, Operation } from '../../common/models/Operation';
 import { DialogRef, message } from '../../ergodex-cdk';
 import { exploreTx } from '../../gateway/utils/exploreAddress';
+import { OperationType } from '../common/TxHistory/types';
+import { Filter } from '../TableView/common/Filter';
+import {
+  MultiselectFilter,
+  MultiselectFilterItem,
+} from '../TableView/filters/MultiselectFilter/MultiselectFilter';
 import { TableView } from '../TableView/TableView';
 import { DateTimeCell } from './cells/DateTimeCell/DateTimeCell';
 import { DepositAssetCell } from './cells/DepositAssetCell/DepositAssetCell';
@@ -22,7 +28,7 @@ export interface TransactionHistoryTableProps extends DialogRef {
   readonly emptyOperations: boolean;
 }
 
-const CopyToClipboardDecorator = (
+const copyToClipboardDecorator = (
   children: ReactNode | ReactNode[] | string,
   op: Operation,
 ): ReactNode | ReactNode[] | string => (
@@ -32,6 +38,22 @@ const CopyToClipboardDecorator = (
   >
     {children}
   </CopyToClipboard>
+);
+
+const typesFilterItems: MultiselectFilterItem<OperationType>[] = [
+  { value: 'swap', caption: t`Swap` },
+  { value: 'deposit', caption: t`Deposit` },
+];
+const typeFilter = ({
+  value,
+  onChange,
+}: Filter<Set<OperationType>>): ReactNode | ReactNode[] | string => (
+  <MultiselectFilter
+    items={typesFilterItems}
+    value={value}
+    onChange={onChange}
+    close={() => {}}
+  />
 );
 
 export const OperationHistoryTable: FC<TransactionHistoryTableProps> = ({
@@ -60,11 +82,7 @@ export const OperationHistoryTable: FC<TransactionHistoryTableProps> = ({
         )
       }
     </TableView.Column>
-    <TableView.Column
-      title="Type"
-      width={152}
-      filter={({ value, onChange }) => <div>1</div>}
-    >
+    <TableView.Column title="Type" width={152} filter={typeFilter}>
       {(op: Operation) => <TypeCell type={op.type} />}
     </TableView.Column>
     <TableView.Column title="Date & Time" width={152}>
@@ -91,7 +109,7 @@ export const OperationHistoryTable: FC<TransactionHistoryTableProps> = ({
     <TableView.Action onClick={(op: Operation) => exploreTx(op.txId)}>
       <Trans>View on Explorer</Trans>
     </TableView.Action>
-    <TableView.Action decorate={CopyToClipboardDecorator}>
+    <TableView.Action decorate={copyToClipboardDecorator}>
       <Trans>Copy Transaction Id</Trans>
     </TableView.Action>
   </TableView>
