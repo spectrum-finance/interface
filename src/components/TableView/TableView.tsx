@@ -1,13 +1,21 @@
 import React, { FC, ReactNode, useState } from 'react';
+import styled from 'styled-components';
 
 import { Dictionary } from '../../common/utils/Dictionary';
-import { Flex, List, Menu, Typography } from '../../ergodex-cdk';
+import {
+  Button,
+  Flex,
+  List,
+  Menu,
+  Popover,
+  Typography,
+} from '../../ergodex-cdk';
 import { Gutter } from '../../ergodex-cdk/utils/gutter';
 import { OptionsButton } from '../common/OptionsButton/OptionsButton';
 import { Action } from './common/Action';
 import { Column } from './common/Column';
 import { State } from './common/State';
-import { FilterIcon } from './FilterIcon/FilterIcon';
+import { FilterButton } from './FilterButton/FilterButton';
 import { TableItemView } from './TableItemView/TableListItemView';
 import { TableViewAction } from './TableViewAction/TableViewAction';
 import { TableViewColumn } from './TableViewColumn/TableViewColumn';
@@ -99,10 +107,15 @@ const _TableView: FC<TableViewProps<any>> = ({
                   <Typography.Body>{c.title}</Typography.Body>
                   {c.filter && (
                     <Flex.Item marginLeft={1}>
-                      <FilterIcon
-                        active={filtersState[i]?.opened}
-                        onClick={() => toggleFilter(i)}
-                      />
+                      <Popover
+                        trigger="click"
+                        content={c.filter({})}
+                        placement="bottomRight"
+                        visible={filtersState[i]?.opened}
+                        onVisibleChange={() => toggleFilter(i)}
+                      >
+                        <FilterButton active={filtersState[i]?.opened} />
+                      </Popover>
                     </Flex.Item>
                   )}
                 </Flex>

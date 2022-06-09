@@ -63,7 +63,7 @@ export const OperationHistoryTable: FC<TransactionHistoryTableProps> = ({
     <TableView.Column
       title="Type"
       width={152}
-      filter={({ value, onChange }) => <></>}
+      filter={({ value, onChange }) => <div>1</div>}
     >
       {(op: Operation) => <TypeCell type={op.type} />}
     </TableView.Column>
