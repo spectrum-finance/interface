@@ -35,3 +35,35 @@ export type Operation = SwapOperation | OtherOperation;
 export const isSwapOperation = (
   operation: SwapOperation | OtherOperation,
 ): operation is SwapOperation => operation.type === 'swap';
+
+export const filterOperations = (
+  operations: Operation[],
+  term: string | undefined,
+): Operation[] => {
+  if (!term) {
+    return operations;
+  }
+  const normalizedTerm = term.toLowerCase();
+
+  return operations.filter((o) => {
+    if (o.id.toLowerCase() === term) {
+      return o;
+    }
+    if (isSwapOperation(o)) {
+      return (
+        o.quote.asset.name?.toLowerCase().includes(normalizedTerm) ||
+        o.base.asset.name?.toLowerCase().includes(normalizedTerm) ||
+        `${o.base.asset.name || ''}${o.quote.asset.name || ''}`
+          .toLowerCase()
+          .includes(normalizedTerm)
+      );
+    }
+    return (
+      o.x.asset.name?.toLowerCase().includes(normalizedTerm) ||
+      o.y.asset.name?.toLowerCase().includes(normalizedTerm) ||
+      `${o.x.asset.name || ''}${o.y.asset.name || ''}`
+        .toLowerCase()
+        .includes(normalizedTerm)
+    );
+  });
+};

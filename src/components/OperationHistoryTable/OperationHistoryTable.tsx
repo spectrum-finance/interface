@@ -15,11 +15,15 @@ import { OperationsEmptyState } from './states/OperationsEmptyState/OperationsEm
 export interface TransactionHistoryTableProps extends DialogRef {
   readonly operations: Operation[];
   readonly loading: boolean;
+  readonly emptySearch: boolean;
+  readonly emptyOperations: boolean;
 }
 
 export const OperationHistoryTable: FC<TransactionHistoryTableProps> = ({
   operations,
   loading,
+  emptySearch,
+  emptyOperations,
   close,
 }) => (
   <TableView
@@ -52,10 +56,10 @@ export const OperationHistoryTable: FC<TransactionHistoryTableProps> = ({
     <TableView.State condition={loading} name="loading">
       <LoadingState />
     </TableView.State>
-    <TableView.State condition={!operations.length} name="empty">
+    <TableView.State condition={emptyOperations} name="empty">
       <OperationsEmptyState onSwapNowButtonClick={close} />
     </TableView.State>
-    <TableView.State condition={true} name="search">
+    <TableView.State condition={emptySearch} name="search">
       <OperationSearchEmptyState />
     </TableView.State>
   </TableView>
