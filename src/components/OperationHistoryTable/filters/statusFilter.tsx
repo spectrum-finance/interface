@@ -1,7 +1,7 @@
 import { t } from '@lingui/macro';
 import React, { ReactNode } from 'react';
 
-import { OperationStatus } from '../../../common/models/Operation';
+import { Operation, OperationStatus } from '../../../common/models/Operation';
 import { Filter } from '../../TableView/common/Filter';
 import {
   MultiselectFilter,
@@ -24,3 +24,13 @@ export const statusFilter = ({
     close={() => {}}
   />
 );
+
+export const statusFilterMatch = (
+  filters: Set<OperationStatus> | undefined,
+  op: Operation,
+): boolean => {
+  if (!filters) {
+    return true;
+  }
+  return filters.has(op.status);
+};

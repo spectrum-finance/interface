@@ -11,3 +11,5 @@ export interface FilterState<T> {
   readonly opened: boolean;
   readonly value: T[keyof T];
 }
+
+export type FilterMatch<T> = (filters: Set<any>, item: T) => boolean;

@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-import { Filter } from './Filter';
+import { Filter, FilterMatch } from './Filter';
 
 export interface Column<T> {
   readonly title?: ReactNode | ReactNode[] | string;
@@ -10,5 +10,6 @@ export interface Column<T> {
   readonly filter?: (
     config: Filter<T[keyof T]>,
   ) => ReactNode | ReactNode[] | string;
+  readonly match?: FilterMatch<T>;
   readonly headerWidth?: number | string;
 }

@@ -1,6 +1,7 @@
 import { t } from '@lingui/macro';
 import React, { ReactNode } from 'react';
 
+import { Operation } from '../../../common/models/Operation';
 import { OperationType } from '../../common/TxHistory/types';
 import { Filter } from '../../TableView/common/Filter';
 import {
@@ -23,3 +24,23 @@ export const typeFilter = ({
     close={() => {}}
   />
 );
+
+export const typeFilterMatch = (
+  filters:
+    | Set<
+        | 'deposit'
+        | 'redeem'
+        | 'lock'
+        | 'relock'
+        | 'widthdrawal'
+        | 'refund'
+        | 'swap'
+      >
+    | undefined,
+  op: Operation,
+): boolean => {
+  if (!filters) {
+    return true;
+  }
+  return filters.has(op.type);
+};

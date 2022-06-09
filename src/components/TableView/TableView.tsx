@@ -7,6 +7,7 @@ import { Action } from './common/Action';
 import { Column } from './common/Column';
 import { GAP_STEP, HEADER_HEIGHT } from './common/constants';
 import { FilterState } from './common/Filter';
+import { filterItem } from './common/filterItem';
 import { State } from './common/State';
 import { TableViewAction } from './TableViewAction/TableViewAction';
 import { TableViewColumn } from './TableViewColumn/TableViewColumn';
@@ -27,6 +28,7 @@ export interface TableViewProps<T> {
   readonly tableItemViewPadding?: Gutter;
   readonly tableHeaderPadding?: Gutter;
   readonly children?: ReactNode | ReactNode[] | string;
+  readonly emptyFilterView?: ReactNode | ReactNode[] | string;
 }
 
 const _TableView: FC<TableViewProps<any>> = ({
@@ -41,6 +43,7 @@ const _TableView: FC<TableViewProps<any>> = ({
   tablePadding,
   itemHeight,
   children,
+  emptyFilterView,
 }) => {
   const [states, setStates] = useState<Dictionary<State<any>>>({});
   const [columns, setColumns] = useState<Column<any>[]>([]);
@@ -83,8 +86,9 @@ const _TableView: FC<TableViewProps<any>> = ({
   const contentMaxHeight = maxHeight
     ? maxHeight - HEADER_HEIGHT - GAP_STEP * (gap || 0)
     : maxHeight;
-  // const completedItems = items
-  //   .filter(i => Object.values(i))
+  const completedItems = items.filter((item) =>
+    columns.every((c, i) => filterItem(item, c, i, filtersState)),
+  );
 
   return (
     <>
@@ -108,13 +112,17 @@ const _TableView: FC<TableViewProps<any>> = ({
           (currentState.children instanceof Function
             ? currentState.children(items)
             : currentState.children)}
-        {!currentState && (
+        {!currentState &&
+          emptyFilterView &&
+          !completedItems.length &&
+          emptyFilterView}
+        {!currentState && !!completedItems.length && (
           <TableViewContent
             columns={columns}
             padding={tableItemViewPadding || tablePadding}
             maxHeight={contentMaxHeight}
             height={contentHeight}
-            items={items}
+            items={completedItems}
             gap={gap}
             itemHeight={itemHeight}
             itemKey={itemKey}
