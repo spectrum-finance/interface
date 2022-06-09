@@ -1,9 +1,5 @@
-import { Trans } from '@lingui/macro';
 import React, { FC, ReactNode, useState } from 'react';
-import { Link } from 'react-router-dom';
 
-import { ReactComponent as RelockIcon } from '../../assets/icons/relock-icon.svg';
-import { ReactComponent as WithdrawalIcon } from '../../assets/icons/withdrawal-icon.svg';
 import { Dictionary } from '../../common/utils/Dictionary';
 import { Flex, List, Menu, Typography } from '../../ergodex-cdk';
 import { Gutter } from '../../ergodex-cdk/utils/gutter';
@@ -11,6 +7,7 @@ import { OptionsButton } from '../common/OptionsButton/OptionsButton';
 import { Action } from './common/Action';
 import { Column } from './common/Column';
 import { State } from './common/State';
+import { FilterIcon } from './FilterIcon/FilterIcon';
 import { TableItemView } from './TableItemView/TableListItemView';
 import { TableViewAction } from './TableViewAction/TableViewAction';
 import { TableViewColumn } from './TableViewColumn/TableViewColumn';
@@ -49,6 +46,9 @@ const _TableView: FC<TableViewProps<any>> = ({
   const [states, setStates] = useState<Dictionary<State<any>>>({});
   const [columns, setColumns] = useState<Column<any>[]>([]);
   const [actions, setActions] = useState<Action<any>[]>([]);
+  const [filtersState, setFiltersState] = useState<
+    Dictionary<{ opened: boolean; value: any }>
+  >({});
 
   const addState = (s: State<any>) =>
     setStates((prev) => ({
@@ -59,6 +59,12 @@ const _TableView: FC<TableViewProps<any>> = ({
   const addColumn = (c: Column<any>) => setColumns((prev) => prev.concat(c));
 
   const addAction = (a: Action<any>) => setActions((prev) => prev.concat(a));
+
+  const toggleFilter = (name: number) =>
+    setFiltersState((prev) => ({
+      ...prev,
+      [name]: { ...prev[name], opened: !prev[name]?.opened },
+    }));
 
   const currentState: State<any> | undefined = Object.values(states).find(
     (s) => s.condition,
@@ -89,7 +95,17 @@ const _TableView: FC<TableViewProps<any>> = ({
                 title={false}
                 flex={c.flex}
               >
-                <Typography.Body>{c.title}</Typography.Body>
+                <Flex align="center">
+                  <Typography.Body>{c.title}</Typography.Body>
+                  {c.filter && (
+                    <Flex.Item marginLeft={1}>
+                      <FilterIcon
+                        active={filtersState[i]?.opened}
+                        onClick={() => toggleFilter(i)}
+                      />
+                    </Flex.Item>
+                  )}
+                </Flex>
               </TableItemView.Column>
             ))}
           </TableItemView>

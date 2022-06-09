@@ -1,5 +1,5 @@
 import { t, Trans } from '@lingui/macro';
-import React, { FC } from 'react';
+import React, { FC, ReactNode } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
 import { isSwapOperation, Operation } from '../../common/models/Operation';
@@ -21,6 +21,18 @@ export interface TransactionHistoryTableProps extends DialogRef {
   readonly emptySearch: boolean;
   readonly emptyOperations: boolean;
 }
+
+const CopyToClipboardDecorator = (
+  children: ReactNode | ReactNode[] | string,
+  op: Operation,
+): ReactNode | ReactNode[] | string => (
+  <CopyToClipboard
+    text={op.txId}
+    onCopy={() => message.success(t`Copied to clipboard!`)}
+  >
+    {children}
+  </CopyToClipboard>
+);
 
 export const OperationHistoryTable: FC<TransactionHistoryTableProps> = ({
   operations,
@@ -48,13 +60,21 @@ export const OperationHistoryTable: FC<TransactionHistoryTableProps> = ({
         )
       }
     </TableView.Column>
-    <TableView.Column title="Type" width={152}>
+    <TableView.Column
+      title="Type"
+      width={152}
+      filter={({ value, onChange }) => <></>}
+    >
       {(op: Operation) => <TypeCell type={op.type} />}
     </TableView.Column>
     <TableView.Column title="Date & Time" width={152}>
       {(op: Operation) => <DateTimeCell dateTime={op.dateTime} />}
     </TableView.Column>
-    <TableView.Column title="Status" width={152}>
+    <TableView.Column
+      title="Status"
+      width={152}
+      filter={({ value, onChange }) => <></>}
+    >
       {(op: Operation) => <StatusCell status={op.status} />}
     </TableView.Column>
 
@@ -71,16 +91,7 @@ export const OperationHistoryTable: FC<TransactionHistoryTableProps> = ({
     <TableView.Action onClick={(op: Operation) => exploreTx(op.txId)}>
       <Trans>View on Explorer</Trans>
     </TableView.Action>
-    <TableView.Action
-      decorate={(children, op: Operation) => (
-        <CopyToClipboard
-          text={op.txId}
-          onCopy={() => message.success(t`Copied to clipboard!`)}
-        >
-          {children}
-        </CopyToClipboard>
-      )}
-    >
+    <TableView.Action decorate={CopyToClipboardDecorator}>
       <Trans>Copy Transaction Id</Trans>
     </TableView.Action>
   </TableView>
