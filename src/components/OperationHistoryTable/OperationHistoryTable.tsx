@@ -5,18 +5,14 @@ import CopyToClipboard from 'react-copy-to-clipboard';
 import { isSwapOperation, Operation } from '../../common/models/Operation';
 import { DialogRef, message } from '../../ergodex-cdk';
 import { exploreTx } from '../../gateway/utils/exploreAddress';
-import { OperationType } from '../common/TxHistory/types';
-import { Filter } from '../TableView/common/Filter';
-import {
-  MultiselectFilter,
-  MultiselectFilterItem,
-} from '../TableView/filters/MultiselectFilter/MultiselectFilter';
 import { TableView } from '../TableView/TableView';
 import { DateTimeCell } from './cells/DateTimeCell/DateTimeCell';
 import { DepositAssetCell } from './cells/DepositAssetCell/DepositAssetCell';
 import { StatusCell } from './cells/StatusCell/StatusCell';
 import { SwapAssetCell } from './cells/SwapAssetCell/SwapAssetCell';
 import { TypeCell } from './cells/TypeCell/TypeCell';
+import { statusFilter } from './filters/statusFilter';
+import { typeFilter } from './filters/typeFilter';
 import { LoadingState } from './states/LoadingState/LoadingState';
 import { OperationSearchEmptyState } from './states/OperationSearchEmptyState/OperationSearchEmptyState';
 import { OperationsEmptyState } from './states/OperationsEmptyState/OperationsEmptyState';
@@ -38,22 +34,6 @@ const copyToClipboardDecorator = (
   >
     {children}
   </CopyToClipboard>
-);
-
-const typesFilterItems: MultiselectFilterItem<OperationType>[] = [
-  { value: 'swap', caption: t`Swap` },
-  { value: 'deposit', caption: t`Deposit` },
-];
-const typeFilter = ({
-  value,
-  onChange,
-}: Filter<Set<OperationType>>): ReactNode | ReactNode[] | string => (
-  <MultiselectFilter
-    items={typesFilterItems}
-    value={value}
-    onChange={onChange}
-    close={() => {}}
-  />
 );
 
 export const OperationHistoryTable: FC<TransactionHistoryTableProps> = ({
@@ -88,11 +68,7 @@ export const OperationHistoryTable: FC<TransactionHistoryTableProps> = ({
     <TableView.Column title="Date & Time" width={152}>
       {(op: Operation) => <DateTimeCell dateTime={op.dateTime} />}
     </TableView.Column>
-    <TableView.Column
-      title="Status"
-      width={152}
-      filter={({ value, onChange }) => <></>}
-    >
+    <TableView.Column title="Status" width={152} filter={statusFilter}>
       {(op: Operation) => <StatusCell status={op.status} />}
     </TableView.Column>
 

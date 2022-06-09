@@ -47,7 +47,9 @@ export const TableViewHeader: FC<TableViewHeaderProps> = ({
                 visible={filtersState[i]?.opened}
                 onVisibleChange={() => toggleFilterVisibility(i)}
               >
-                <FilterButton active={filtersState[i]?.opened} />
+                <FilterButton
+                  active={filtersState[i]?.opened || filtersState[i]?.value}
+                />
               </Popover>
             </Flex.Item>
           )}

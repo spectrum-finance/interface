@@ -31,7 +31,7 @@ export const MultiselectFilter: FC<MultiselectFilterProps<any>> = ({
     } else {
       newValue!.delete(key);
     }
-    onChange(newValue);
+    onChange(newValue.size ? newValue : undefined);
   };
 
   return (

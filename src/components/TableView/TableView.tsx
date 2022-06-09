@@ -59,7 +59,7 @@ const _TableView: FC<TableViewProps<any>> = ({
 
   const addAction = (a: Action<any>) => setActions((prev) => prev.concat(a));
 
-  const changeFilter = (index: number, value: any) => {
+  const changeFilter = (index: number, value: any | undefined) => {
     setFiltersState((prev) => ({
       ...prev,
       [index]: { ...prev[index], value },

@@ -1,11 +1,9 @@
 export interface Filter<T> {
-  readonly value?: T;
-  readonly onChange?: (t: T) => void;
+  readonly value?: T | undefined;
+  readonly onChange?: (t: T | undefined) => void;
 }
 
-export interface FilterControlProps<T> {
-  readonly value?: T;
-  readonly onChange?: (t: T) => void;
+export interface FilterControlProps<T> extends Filter<T> {
   readonly close: () => void;
 }
 
