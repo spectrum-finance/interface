@@ -1,12 +1,7 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
 
-import {
-  ArrowDownOutlined,
-  Box,
-  Flex,
-  Typography,
-} from '../../../../../ergodex-cdk';
+import { ArrowDownOutlined, Box, Flex } from '../../../../../ergodex-cdk';
 
 interface ArrowIcon {
   readonly className?: string;

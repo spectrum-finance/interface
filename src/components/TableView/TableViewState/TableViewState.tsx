@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import { FC, useEffect } from 'react';
 
 import { State } from '../common/State';
 import { useTableViewContext } from '../TableViewContext/TableViewContext';

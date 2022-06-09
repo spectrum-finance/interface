@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useEffect } from 'react';
+import { FC, useEffect } from 'react';
 
 import { Column } from '../common/Column';
 import { useTableViewContext } from '../TableViewContext/TableViewContext';
