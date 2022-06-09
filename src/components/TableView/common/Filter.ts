@@ -8,3 +8,8 @@ export interface FilterControlProps<T> {
   readonly onChange?: (t: T) => void;
   readonly close: () => void;
 }
+
+export interface FilterState<T> {
+  readonly opened: boolean;
+  readonly value: T[keyof T];
+}

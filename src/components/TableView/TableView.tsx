@@ -1,25 +1,18 @@
 import React, { FC, ReactNode, useState } from 'react';
-import styled from 'styled-components';
 
 import { Dictionary } from '../../common/utils/Dictionary';
-import {
-  Button,
-  Flex,
-  List,
-  Menu,
-  Popover,
-  Typography,
-} from '../../ergodex-cdk';
+import { Flex } from '../../ergodex-cdk';
 import { Gutter } from '../../ergodex-cdk/utils/gutter';
-import { OptionsButton } from '../common/OptionsButton/OptionsButton';
 import { Action } from './common/Action';
 import { Column } from './common/Column';
+import { GAP_STEP, HEADER_HEIGHT } from './common/constants';
+import { FilterState } from './common/Filter';
 import { State } from './common/State';
-import { FilterButton } from './FilterButton/FilterButton';
-import { TableItemView } from './TableItemView/TableListItemView';
 import { TableViewAction } from './TableViewAction/TableViewAction';
 import { TableViewColumn } from './TableViewColumn/TableViewColumn';
+import { TableViewContent } from './TableViewContent/TableViewContent';
 import { TableViewContext } from './TableViewContext/TableViewContext';
+import { TableViewHeader } from './TableViewHeader/TableViewHeader';
 import { TableViewState } from './TableViewState/TableViewState';
 
 export interface TableViewProps<T> {
@@ -35,8 +28,6 @@ export interface TableViewProps<T> {
   readonly tableHeaderPadding?: Gutter;
   readonly children?: ReactNode | ReactNode[] | string;
 }
-
-const GAP_STEP = 4;
 
 const _TableView: FC<TableViewProps<any>> = ({
   actionsWidth,
@@ -55,7 +46,7 @@ const _TableView: FC<TableViewProps<any>> = ({
   const [columns, setColumns] = useState<Column<any>[]>([]);
   const [actions, setActions] = useState<Action<any>[]>([]);
   const [filtersState, setFiltersState] = useState<
-    Dictionary<{ opened: boolean; value: any }>
+    Dictionary<FilterState<any>>
   >({});
 
   const addState = (s: State<any>) =>
@@ -68,19 +59,21 @@ const _TableView: FC<TableViewProps<any>> = ({
 
   const addAction = (a: Action<any>) => setActions((prev) => prev.concat(a));
 
-  const toggleFilter = (name: number) =>
+  const toggleFilter = (index: number) =>
     setFiltersState((prev) => ({
       ...prev,
-      [name]: { ...prev[name], opened: !prev[name]?.opened },
+      [index]: { ...prev[index], opened: !prev[index]?.opened },
     }));
 
   const currentState: State<any> | undefined = Object.values(states).find(
     (s) => s.condition,
   );
 
-  const contentHeight = height ? height - 40 - GAP_STEP * (gap || 0) : height;
+  const contentHeight = height
+    ? height - HEADER_HEIGHT - GAP_STEP * (gap || 0)
+    : height;
   const contentMaxHeight = maxHeight
-    ? maxHeight - 40 - GAP_STEP * (gap || 0)
+    ? maxHeight - HEADER_HEIGHT - GAP_STEP * (gap || 0)
     : maxHeight;
 
   return (
@@ -92,97 +85,31 @@ const _TableView: FC<TableViewProps<any>> = ({
       </TableViewContext.Provider>
       <Flex col>
         <Flex.Item marginBottom={gap}>
-          <TableItemView
-            height={40}
+          <TableViewHeader
+            height={HEADER_HEIGHT}
+            columns={columns}
             padding={tableHeaderPadding || tablePadding}
-          >
-            {columns.map((c, i) => (
-              <TableItemView.Column
-                key={i}
-                width={c.headerWidth || c.width}
-                title={false}
-                flex={c.flex}
-              >
-                <Flex align="center">
-                  <Typography.Body>{c.title}</Typography.Body>
-                  {c.filter && (
-                    <Flex.Item marginLeft={1}>
-                      <Popover
-                        trigger="click"
-                        content={c.filter({})}
-                        placement="bottomRight"
-                        visible={filtersState[i]?.opened}
-                        onVisibleChange={() => toggleFilter(i)}
-                      >
-                        <FilterButton active={filtersState[i]?.opened} />
-                      </Popover>
-                    </Flex.Item>
-                  )}
-                </Flex>
-              </TableItemView.Column>
-            ))}
-          </TableItemView>
+            toggleFilter={toggleFilter}
+            filtersState={filtersState}
+          />
         </Flex.Item>
         {currentState &&
           (currentState.children instanceof Function
             ? currentState.children(items)
             : currentState.children)}
         {!currentState && (
-          <List
-            rowKey={itemKey}
-            dataSource={items}
+          <TableViewContent
+            columns={columns}
+            padding={tableItemViewPadding || tablePadding}
             maxHeight={contentMaxHeight}
             height={contentHeight}
+            items={items}
             gap={gap}
-          >
-            {(item) => (
-              <TableItemView
-                height={itemHeight}
-                padding={tableItemViewPadding || tablePadding}
-              >
-                {columns.map((c, i) => (
-                  <TableItemView.Column
-                    key={i}
-                    width={c.width}
-                    title={false}
-                    flex={c.flex}
-                  >
-                    {c.children ? c.children(item) : null}
-                  </TableItemView.Column>
-                ))}
-                {actions?.length && (
-                  <TableItemView.Column flex={1}>
-                    <Flex stretch align="center" justify="flex-end">
-                      <OptionsButton size="middle" width={actionsWidth}>
-                        {actions.map((a, i) =>
-                          a.decorate ? (
-                            a.decorate(
-                              <Menu.Item
-                                key={i}
-                                icon={a.icon}
-                                onClick={() => a.onClick && a.onClick(item)}
-                              >
-                                {a.children}
-                              </Menu.Item>,
-                              item,
-                            )
-                          ) : (
-                            <Menu.Item
-                              key={i}
-                              icon={a.icon}
-                              onClick={() => a.onClick && a.onClick(item)}
-                            >
-                              {a.children}
-                            </Menu.Item>
-                          ),
-                        )}
-                      </OptionsButton>
-                    </Flex>
-                  </TableItemView.Column>
-                )}
-              </TableItemView>
-            )}
-          </List>
+            itemHeight={itemHeight}
+            itemKey={itemKey}
+            actions={actions}
+            actionsWidth={actionsWidth}
+          />
         )}
       </Flex>
     </>
