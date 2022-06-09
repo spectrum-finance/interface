@@ -23,7 +23,7 @@ const TxHistory = (): JSX.Element => {
   };
 
   const handleOpenTxCardanoHistoryModal = () => {
-    return Modal.open(<CardanoTxHistory />);
+    return Modal.open(({ close }) => <CardanoTxHistory close={close} />);
   };
 
   return (
