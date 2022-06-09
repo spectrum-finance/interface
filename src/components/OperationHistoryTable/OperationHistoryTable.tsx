@@ -1,7 +1,10 @@
+import { t, Trans } from '@lingui/macro';
 import React, { FC } from 'react';
+import CopyToClipboard from 'react-copy-to-clipboard';
 
 import { isSwapOperation, Operation } from '../../common/models/Operation';
-import { DialogRef } from '../../ergodex-cdk';
+import { DialogRef, message } from '../../ergodex-cdk';
+import { exploreTx } from '../../gateway/utils/exploreAddress';
 import { TableView } from '../TableView/TableView';
 import { DateTimeCell } from './cells/DateTimeCell/DateTimeCell';
 import { DepositAssetCell } from './cells/DepositAssetCell/DepositAssetCell';
@@ -27,6 +30,7 @@ export const OperationHistoryTable: FC<TransactionHistoryTableProps> = ({
   close,
 }) => (
   <TableView
+    actionsWidth={168}
     itemHeight={80}
     items={operations}
     maxHeight={376}
@@ -53,6 +57,7 @@ export const OperationHistoryTable: FC<TransactionHistoryTableProps> = ({
     <TableView.Column title="Status" width={152}>
       {(op: Operation) => <StatusCell status={op.status} />}
     </TableView.Column>
+
     <TableView.State condition={loading} name="loading">
       <LoadingState />
     </TableView.State>
@@ -62,5 +67,21 @@ export const OperationHistoryTable: FC<TransactionHistoryTableProps> = ({
     <TableView.State condition={emptySearch} name="search">
       <OperationSearchEmptyState />
     </TableView.State>
+
+    <TableView.Action onClick={(op: Operation) => exploreTx(op.txId)}>
+      <Trans>View on Explorer</Trans>
+    </TableView.Action>
+    <TableView.Action
+      decorate={(children, op: Operation) => (
+        <CopyToClipboard
+          text={op.txId}
+          onCopy={() => message.success(t`Copied to clipboard!`)}
+        >
+          {children}
+        </CopyToClipboard>
+      )}
+    >
+      <Trans>Copy Transaction Id</Trans>
+    </TableView.Action>
   </TableView>
 );

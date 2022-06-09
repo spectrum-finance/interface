@@ -1,16 +1,24 @@
+import { Trans } from '@lingui/macro';
 import React, { FC, ReactNode, useState } from 'react';
+import { Link } from 'react-router-dom';
 
+import { ReactComponent as RelockIcon } from '../../assets/icons/relock-icon.svg';
+import { ReactComponent as WithdrawalIcon } from '../../assets/icons/withdrawal-icon.svg';
 import { Dictionary } from '../../common/utils/Dictionary';
-import { Flex, List, Typography } from '../../ergodex-cdk';
+import { Flex, List, Menu, Typography } from '../../ergodex-cdk';
 import { Gutter } from '../../ergodex-cdk/utils/gutter';
+import { OptionsButton } from '../common/OptionsButton/OptionsButton';
+import { Action } from './common/Action';
 import { Column } from './common/Column';
 import { State } from './common/State';
 import { TableItemView } from './TableItemView/TableListItemView';
+import { TableViewAction } from './TableViewAction/TableViewAction';
 import { TableViewColumn } from './TableViewColumn/TableViewColumn';
 import { TableViewContext } from './TableViewContext/TableViewContext';
 import { TableViewState } from './TableViewState/TableViewState';
 
 export interface TableViewProps<T> {
+  readonly actionsWidth?: number;
   readonly maxHeight?: number;
   readonly height?: number;
   readonly items: T[];
@@ -26,6 +34,7 @@ export interface TableViewProps<T> {
 const GAP_STEP = 4;
 
 const _TableView: FC<TableViewProps<any>> = ({
+  actionsWidth,
   maxHeight,
   items,
   height,
@@ -39,6 +48,7 @@ const _TableView: FC<TableViewProps<any>> = ({
 }) => {
   const [states, setStates] = useState<Dictionary<State<any>>>({});
   const [columns, setColumns] = useState<Column<any>[]>([]);
+  const [actions, setActions] = useState<Action<any>[]>([]);
 
   const addState = (s: State<any>) =>
     setStates((prev) => ({
@@ -47,6 +57,8 @@ const _TableView: FC<TableViewProps<any>> = ({
     }));
 
   const addColumn = (c: Column<any>) => setColumns((prev) => prev.concat(c));
+
+  const addAction = (a: Action<any>) => setActions((prev) => prev.concat(a));
 
   const currentState: State<any> | undefined = Object.values(states).find(
     (s) => s.condition,
@@ -60,7 +72,7 @@ const _TableView: FC<TableViewProps<any>> = ({
   return (
     <>
       <TableViewContext.Provider
-        value={{ states, columns, addState, addColumn }}
+        value={{ states, columns, actions, addState, addColumn, addAction }}
       >
         {children}
       </TableViewContext.Provider>
@@ -109,6 +121,36 @@ const _TableView: FC<TableViewProps<any>> = ({
                     {c.children ? c.children(item) : null}
                   </TableItemView.Column>
                 ))}
+                {actions?.length && (
+                  <TableItemView.Column flex={1}>
+                    <Flex stretch align="center" justify="flex-end">
+                      <OptionsButton size="middle" width={actionsWidth}>
+                        {actions.map((a, i) =>
+                          a.decorate ? (
+                            a.decorate(
+                              <Menu.Item
+                                key={i}
+                                icon={a.icon}
+                                onClick={() => a.onClick && a.onClick(item)}
+                              >
+                                {a.children}
+                              </Menu.Item>,
+                              item,
+                            )
+                          ) : (
+                            <Menu.Item
+                              key={i}
+                              icon={a.icon}
+                              onClick={() => a.onClick && a.onClick(item)}
+                            >
+                              {a.children}
+                            </Menu.Item>
+                          ),
+                        )}
+                      </OptionsButton>
+                    </Flex>
+                  </TableItemView.Column>
+                )}
               </TableItemView>
             )}
           </List>
@@ -121,7 +163,9 @@ const _TableView: FC<TableViewProps<any>> = ({
 export const TableView: typeof _TableView & {
   Column: typeof TableViewColumn;
   State: typeof TableViewState;
+  Action: typeof TableViewAction;
 } = _TableView as any;
 
 TableView.Column = TableViewColumn;
 TableView.State = TableViewState;
+TableView.Action = TableViewAction;
