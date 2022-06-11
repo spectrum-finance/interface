@@ -6,7 +6,6 @@ export const sortItems = (
   columns: Column<any>[],
   items: any[],
 ): any[] => {
-  console.log(sort);
   if (!sort) {
     return items;
   }

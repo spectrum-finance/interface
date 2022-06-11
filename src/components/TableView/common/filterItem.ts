@@ -3,11 +3,11 @@ import { Column } from './Column';
 import { FilterState } from './Filter';
 
 export const filterItem = (
-  item: any,
+  item: unknown,
   column: Column<any>,
   columnNum: number,
   filtersState: Dictionary<FilterState<any>>,
-) => {
+): boolean => {
   const filterStateArray = Object.values(filtersState);
 
   if (!filterStateArray.length || !column.filterMatch) {
