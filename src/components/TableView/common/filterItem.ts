@@ -1,6 +1,6 @@
 import { Dictionary } from '../../../common/utils/Dictionary';
 import { Column } from './Column';
-import { FilterState } from './Filter';
+import { FilterState } from './FilterDescription';
 
 export const filterItem = (
   item: unknown,
@@ -10,9 +10,9 @@ export const filterItem = (
 ): boolean => {
   const filterStateArray = Object.values(filtersState);
 
-  if (!filterStateArray.length || !column.filterMatch) {
+  if (!filterStateArray.length || !column.filter?.match) {
     return true;
   }
 
-  return column.filterMatch(filtersState[columnNum]?.value, item);
+  return column.filter.match(filtersState[columnNum]?.value, item);
 };

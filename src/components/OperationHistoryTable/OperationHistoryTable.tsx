@@ -12,8 +12,8 @@ import { DepositAssetCell } from './cells/DepositAssetCell/DepositAssetCell';
 import { StatusCell } from './cells/StatusCell/StatusCell';
 import { SwapAssetCell } from './cells/SwapAssetCell/SwapAssetCell';
 import { TypeCell } from './cells/TypeCell/TypeCell';
-import { statusFilter, statusFilterMatch } from './filters/statusFilter';
-import { typeFilter, typeFilterMatch } from './filters/typeFilter';
+import { statusFilter } from './filters/statusFilter';
+import { typeFilter } from './filters/typeFilter';
 import { LoadingState } from './states/LoadingState/LoadingState';
 import { OperationSearchEmptyState } from './states/OperationSearchEmptyState/OperationSearchEmptyState';
 import { OperationsEmptyState } from './states/OperationsEmptyState/OperationsEmptyState';
@@ -68,7 +68,6 @@ export const OperationHistoryTable: FC<TransactionHistoryTableProps> = ({
       title="Type"
       width={152}
       filter={typeFilter}
-      filterMatch={typeFilterMatch}
       sortBy={(op: Operation) => op.type}
     >
       {(op: Operation) => <TypeCell type={op.type} />}
@@ -85,7 +84,6 @@ export const OperationHistoryTable: FC<TransactionHistoryTableProps> = ({
       title="Status"
       width={152}
       filter={statusFilter}
-      filterMatch={statusFilterMatch}
       sortBy={(op: Operation) => op.status}
     >
       {(op: Operation) => <StatusCell status={op.status} />}

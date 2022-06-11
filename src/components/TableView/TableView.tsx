@@ -6,7 +6,7 @@ import { Gutter } from '../../ergodex-cdk/utils/gutter';
 import { Action } from './common/Action';
 import { Column } from './common/Column';
 import { GAP_STEP, HEADER_HEIGHT } from './common/constants';
-import { FilterState } from './common/Filter';
+import { FilterState } from './common/FilterDescription';
 import { filterItem } from './common/filterItem';
 import { Sort, SortDirection } from './common/Sort';
 import { sortItems } from './common/sortItems';

@@ -1,14 +1,14 @@
 import React, { FC, ReactNode } from 'react';
 
 import { Checkbox, List } from '../../../../ergodex-cdk';
-import { FilterControlProps } from '../../common/Filter';
+import { FilterControlProps } from '../../common/FilterDescription';
 
 export interface MultiselectFilterItem<T> {
   readonly value: T;
   readonly caption: ReactNode | ReactNode[] | string;
 }
 
-export interface MultiselectFilterProps<T> extends FilterControlProps<Set<T>> {
+export interface MultiselectFilterProps<T> extends FilterControlProps<T> {
   readonly items: MultiselectFilterItem<T>[];
   readonly className?: string;
 }

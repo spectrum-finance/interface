@@ -1,8 +1,12 @@
 import { t } from '@lingui/macro';
-import React, { ReactNode } from 'react';
+import React from 'react';
 
 import { Operation, OperationStatus } from '../../../common/models/Operation';
-import { Filter } from '../../TableView/common/Filter';
+import {
+  Filter,
+  FilterMatch,
+  FilterRenderer,
+} from '../../TableView/common/FilterDescription';
 import {
   MultiselectFilter,
   MultiselectFilterItem,
@@ -13,10 +17,10 @@ const statusesFilterItems: MultiselectFilterItem<OperationStatus>[] = [
   { value: OperationStatus.Pending, caption: t`Pending` },
   { value: OperationStatus.Locked, caption: t`Locked` },
 ];
-export const statusFilter = ({
+const statusFilterRender: FilterRenderer<OperationStatus> = ({
   value,
   onChange,
-}: Filter<Set<OperationStatus>>): ReactNode | ReactNode[] | string => (
+}) => (
   <MultiselectFilter
     items={statusesFilterItems}
     value={value}
@@ -25,12 +29,17 @@ export const statusFilter = ({
   />
 );
 
-export const statusFilterMatch = (
-  filters: Set<OperationStatus> | undefined,
-  op: Operation,
-): boolean => {
+const statusFilterMatch: FilterMatch<Operation, OperationStatus> = (
+  filters,
+  op,
+) => {
   if (!filters) {
     return true;
   }
   return filters.has(op.status);
+};
+
+export const statusFilter: Filter<Operation, OperationStatus> = {
+  render: statusFilterRender,
+  match: statusFilterMatch,
 };

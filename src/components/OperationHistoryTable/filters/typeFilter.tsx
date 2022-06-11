@@ -3,7 +3,11 @@ import React, { ReactNode } from 'react';
 
 import { Operation } from '../../../common/models/Operation';
 import { OperationType } from '../../common/TxHistory/types';
-import { Filter } from '../../TableView/common/Filter';
+import {
+  Filter,
+  FilterMatch,
+  FilterRenderer,
+} from '../../TableView/common/FilterDescription';
 import {
   MultiselectFilter,
   MultiselectFilterItem,
@@ -13,10 +17,10 @@ const typesFilterItems: MultiselectFilterItem<OperationType>[] = [
   { value: 'swap', caption: t`Swap` },
   { value: 'deposit', caption: t`Deposit` },
 ];
-export const typeFilter = ({
+const typeFilterRender: FilterRenderer<Operation['type']> = ({
   value,
   onChange,
-}: Filter<Set<OperationType>>): ReactNode | ReactNode[] | string => (
+}): ReactNode | ReactNode[] | string => (
   <MultiselectFilter
     items={typesFilterItems}
     value={value}
@@ -25,22 +29,17 @@ export const typeFilter = ({
   />
 );
 
-export const typeFilterMatch = (
-  filters:
-    | Set<
-        | 'deposit'
-        | 'redeem'
-        | 'lock'
-        | 'relock'
-        | 'widthdrawal'
-        | 'refund'
-        | 'swap'
-      >
-    | undefined,
-  op: Operation,
-): boolean => {
+const typeFilterMatch: FilterMatch<Operation, Operation['type']> = (
+  filters,
+  op,
+) => {
   if (!filters) {
     return true;
   }
   return filters.has(op.type);
+};
+
+export const typeFilter: Filter<Operation, Operation['type']> = {
+  render: typeFilterRender,
+  match: typeFilterMatch,
 };

@@ -4,7 +4,7 @@ import { Dictionary } from '../../../common/utils/Dictionary';
 import { Flex, Popover, Typography } from '../../../ergodex-cdk';
 import { Gutter } from '../../../ergodex-cdk/utils/gutter';
 import { Column } from '../common/Column';
-import { FilterState } from '../common/Filter';
+import { FilterState } from '../common/FilterDescription';
 import { Sort, SortDirection } from '../common/Sort';
 import { FilterButton } from '../FilterButton/FilterButton';
 import { SortButton } from '../SortButton/SortButton';
@@ -53,7 +53,7 @@ export const TableViewHeader: FC<TableViewHeaderProps> = ({
             <Flex.Item marginLeft={2}>
               <Popover
                 trigger="click"
-                content={c.filter({
+                content={c.filter.render({
                   value: filtersState[i]?.value,
                   onChange: changeFilter.bind(null, i),
                 })}
