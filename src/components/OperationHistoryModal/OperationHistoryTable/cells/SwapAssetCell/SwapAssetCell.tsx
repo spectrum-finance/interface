@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 
-import { Currency } from '../../../../common/models/Currency';
-import { Flex } from '../../../../ergodex-cdk';
+import { Currency } from '../../../../../common/models/Currency';
+import { Flex } from '../../../../../ergodex-cdk';
 import { ArrowIcon } from './ArrowIcon/ArrowIcon';
 import { AssetBox } from './AssetBox/AssetBox';
 

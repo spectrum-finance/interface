@@ -1,13 +1,13 @@
 import React, { FC } from 'react';
 
-import { OperationStatus } from '../../../../common/models/Operation';
+import { OperationStatus } from '../../../../../common/models/Operation';
 import {
   CheckOutlined,
   Flex,
   Loading3QuartersOutlined,
   LockOutlined,
   Tag,
-} from '../../../../ergodex-cdk';
+} from '../../../../../ergodex-cdk';
 
 interface StatusCellProps {
   readonly status: OperationStatus;

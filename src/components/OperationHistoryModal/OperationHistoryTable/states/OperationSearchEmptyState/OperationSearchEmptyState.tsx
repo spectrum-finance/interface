@@ -1,7 +1,7 @@
 import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 
-import { TableViewEmptySearchState } from '../../../TableView/states/TableViewEmptySearchState/TableViewEmptySearchState';
+import { TableViewEmptySearchState } from '../../../../TableView/states/TableViewEmptySearchState/TableViewEmptySearchState';
 
 export const OperationSearchEmptyState: FC = () => (
   <TableViewEmptySearchState height={275}>

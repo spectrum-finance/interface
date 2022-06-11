@@ -26,7 +26,7 @@ export interface ModalParams<R = any> {
   readonly closable?: boolean;
 }
 
-export interface DialogRef<T = any> {
+export interface ModalRef<T = any> {
   close: (result?: T) => void;
 }
 
@@ -37,9 +37,9 @@ interface ModalProvider {
     content:
       | ReactNode
       | ReactNode[]
-      | ((dialogRef: DialogRef) => ReactNode | ReactNode[] | string),
+      | ((dialogRef: ModalRef) => ReactNode | ReactNode[] | string),
     params?: ModalParams,
-  ) => DialogRef;
+  ) => ModalRef;
 }
 
 class BaseModalProvider implements ModalProvider {
@@ -56,9 +56,9 @@ class BaseModalProvider implements ModalProvider {
     content:
       | ReactNode
       | ReactNode[]
-      | ((dialogRef: DialogRef) => ReactNode | ReactNode[] | string),
+      | ((dialogRef: ModalRef) => ReactNode | ReactNode[] | string),
     params: ModalParams = this.defaultParams,
-  ): DialogRef {
+  ): ModalRef {
     const dialogId = this.createDialogId();
     const container = this.createContainer(dialogId);
 
@@ -137,24 +137,24 @@ export const Modal = {
     content:
       | ReactNode
       | ReactNode[]
-      | ((dialogRef: DialogRef) => ReactNode | ReactNode[] | string),
+      | ((dialogRef: ModalRef) => ReactNode | ReactNode[] | string),
     params?: ModalParams,
-  ): DialogRef {
+  ): ModalRef {
     return this.provider.openDialog(content, params);
   },
-  progress(content: ReactNode | ReactNode[] | string): DialogRef {
+  progress(content: ReactNode | ReactNode[] | string): ModalRef {
     return this.open(<Progress content={content} />, { width: 343 });
   },
-  error(content: ReactNode | ReactNode[] | string): DialogRef {
+  error(content: ReactNode | ReactNode[] | string): ModalRef {
     return this.open(<Error content={content} />, { width: 343 });
   },
-  warning(content: ReactNode | ReactNode[] | string): DialogRef {
+  warning(content: ReactNode | ReactNode[] | string): ModalRef {
     return this.open(<Warning content={content} />, { width: 343 });
   },
-  success(content: ReactNode | ReactNode[] | string): DialogRef {
+  success(content: ReactNode | ReactNode[] | string): ModalRef {
     return this.open(<Success content={content} />, { width: 343 });
   },
-  request(config: RequestProps): DialogRef {
+  request(config: RequestProps): ModalRef {
     return this.open(<Request {...config} />);
   },
 };
@@ -205,11 +205,9 @@ export class ContextModalProvider
     content:
       | React.ReactNode
       | React.ReactNode[]
-      | ((
-          dialogRef: DialogRef,
-        ) => React.ReactNode | React.ReactNode[] | string),
+      | ((dialogRef: ModalRef) => React.ReactNode | React.ReactNode[] | string),
     params: ModalParams = this.defaultParams,
-  ): DialogRef {
+  ): ModalRef {
     const dialogId = this.createDialogId();
     params = { ...this.defaultParams, ...params };
     let dialogResult: any = undefined;

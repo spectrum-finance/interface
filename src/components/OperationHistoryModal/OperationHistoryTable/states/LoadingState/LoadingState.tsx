@@ -1,7 +1,7 @@
 import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 
-import { TableViewLoading } from '../../../TableView/states/TableViewLoadingState/TableViewLoading';
+import { TableViewLoading } from '../../../../TableView/states/TableViewLoadingState/TableViewLoading';
 
 export const LoadingState: FC = () => (
   <TableViewLoading height={275}>

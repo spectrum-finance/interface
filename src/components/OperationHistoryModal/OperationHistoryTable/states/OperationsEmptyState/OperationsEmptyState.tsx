@@ -1,8 +1,8 @@
 import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 
-import { Button, Flex } from '../../../../ergodex-cdk';
-import { TableViewEmptyState } from '../../../TableView/states/TableViewEmptyState/TableViewEmptyState';
+import { Button, Flex } from '../../../../../ergodex-cdk';
+import { TableViewEmptyState } from '../../../../TableView/states/TableViewEmptyState/TableViewEmptyState';
 
 export interface OperationsEmptyStateProps {
   readonly onSwapNowButtonClick?: () => void;

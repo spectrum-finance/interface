@@ -2,11 +2,11 @@ import { t, Trans } from '@lingui/macro';
 import React, { FC, ReactNode } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
-import { isSwapOperation, Operation } from '../../common/models/Operation';
-import { DialogRef, message } from '../../ergodex-cdk';
-import { exploreTx } from '../../gateway/utils/exploreAddress';
-import { SortDirection } from '../TableView/common/Sort';
-import { TableView } from '../TableView/TableView';
+import { isSwapOperation, Operation } from '../../../common/models/Operation';
+import { message, ModalRef } from '../../../ergodex-cdk';
+import { exploreTx } from '../../../gateway/utils/exploreAddress';
+import { SortDirection } from '../../TableView/common/Sort';
+import { TableView } from '../../TableView/TableView';
 import { DateTimeCell } from './cells/DateTimeCell/DateTimeCell';
 import { DepositAssetCell } from './cells/DepositAssetCell/DepositAssetCell';
 import { StatusCell } from './cells/StatusCell/StatusCell';
@@ -18,7 +18,7 @@ import { LoadingState } from './states/LoadingState/LoadingState';
 import { OperationSearchEmptyState } from './states/OperationSearchEmptyState/OperationSearchEmptyState';
 import { OperationsEmptyState } from './states/OperationsEmptyState/OperationsEmptyState';
 
-export interface TransactionHistoryTableProps extends DialogRef {
+export interface TransactionHistoryTableProps extends ModalRef {
   readonly operations: Operation[];
   readonly loading: boolean;
   readonly emptySearch: boolean;

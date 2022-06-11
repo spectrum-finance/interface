@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
 
-import { Currency } from '../../../../../common/models/Currency';
-import { Box, Flex, Typography } from '../../../../../ergodex-cdk';
-import { AssetIcon } from '../../../../AssetIcon/AssetIcon';
-import { DataTag } from '../../../../common/DataTag/DataTag';
+import { Currency } from '../../../../../../common/models/Currency';
+import { Box, Flex, Typography } from '../../../../../../ergodex-cdk';
+import { AssetIcon } from '../../../../../AssetIcon/AssetIcon';
+import { DataTag } from '../../../../../common/DataTag/DataTag';
 
 interface AssetBoxProps {
   readonly currency: Currency;
