@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useState } from 'react';
+import React, { FC, ReactNode, useEffect, useState } from 'react';
 
 import { Dictionary } from '../../common/utils/Dictionary';
 import { Flex } from '../../ergodex-cdk';
@@ -8,6 +8,8 @@ import { Column } from './common/Column';
 import { GAP_STEP, HEADER_HEIGHT } from './common/constants';
 import { FilterState } from './common/Filter';
 import { filterItem } from './common/filterItem';
+import { Sort, SortDirection } from './common/Sort';
+import { sortItems } from './common/sortItems';
 import { State } from './common/State';
 import { TableViewAction } from './TableViewAction/TableViewAction';
 import { TableViewColumn } from './TableViewColumn/TableViewColumn';
@@ -31,6 +33,17 @@ export interface TableViewProps<T> {
   readonly emptyFilterView?: ReactNode | ReactNode[] | string;
 }
 
+const getDefaultSort = (columns: Column<any>[]): Sort | undefined => {
+  const defaultSortColumnIndex = columns.findIndex((c) => c.defaultDirection);
+
+  return defaultSortColumnIndex !== -1
+    ? {
+        column: defaultSortColumnIndex,
+        direction: columns[defaultSortColumnIndex].defaultDirection,
+      }
+    : undefined;
+};
+
 const _TableView: FC<TableViewProps<any>> = ({
   actionsWidth,
   maxHeight,
@@ -48,9 +61,14 @@ const _TableView: FC<TableViewProps<any>> = ({
   const [states, setStates] = useState<Dictionary<State<any>>>({});
   const [columns, setColumns] = useState<Column<any>[]>([]);
   const [actions, setActions] = useState<Action<any>[]>([]);
+  const [sort, setSort] = useState<Sort | undefined>();
   const [filtersState, setFiltersState] = useState<
     Dictionary<FilterState<any>>
   >({});
+
+  useEffect(() => {
+    setSort(getDefaultSort(columns));
+  }, [columns]);
 
   const addState = (s: State<any>) =>
     setStates((prev) => ({
@@ -61,6 +79,17 @@ const _TableView: FC<TableViewProps<any>> = ({
   const addColumn = (c: Column<any>) => setColumns((prev) => prev.concat(c));
 
   const addAction = (a: Action<any>) => setActions((prev) => prev.concat(a));
+
+  const changeSort = (column: number, direction: SortDirection | undefined) => {
+    setSort(
+      direction
+        ? {
+            column,
+            direction,
+          }
+        : undefined,
+    );
+  };
 
   const changeFilter = (index: number, value: any | undefined) => {
     setFiltersState((prev) => ({
@@ -86,8 +115,12 @@ const _TableView: FC<TableViewProps<any>> = ({
   const contentMaxHeight = maxHeight
     ? maxHeight - HEADER_HEIGHT - GAP_STEP * (gap || 0)
     : maxHeight;
-  const completedItems = items.filter((item) =>
-    columns.every((c, i) => filterItem(item, c, i, filtersState)),
+  const completedItems = sortItems(
+    sort,
+    columns,
+    items.filter((item) =>
+      columns.every((c, i) => filterItem(item, c, i, filtersState)),
+    ),
   );
 
   return (
@@ -106,6 +139,8 @@ const _TableView: FC<TableViewProps<any>> = ({
             toggleFilterVisibility={toggleFilterVisibility}
             filtersState={filtersState}
             changeFilter={changeFilter}
+            sort={sort}
+            changeSort={changeSort}
           />
         </Flex.Item>
         {currentState &&

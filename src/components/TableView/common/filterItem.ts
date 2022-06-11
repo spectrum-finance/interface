@@ -10,9 +10,9 @@ export const filterItem = (
 ) => {
   const filterStateArray = Object.values(filtersState);
 
-  if (!filterStateArray.length || !column.match) {
+  if (!filterStateArray.length || !column.filterMatch) {
     return true;
   }
 
-  return column.match(filtersState[columnNum]?.value, item);
+  return column.filterMatch(filtersState[columnNum]?.value, item);
 };

@@ -5,6 +5,7 @@ import CopyToClipboard from 'react-copy-to-clipboard';
 import { isSwapOperation, Operation } from '../../common/models/Operation';
 import { DialogRef, message } from '../../ergodex-cdk';
 import { exploreTx } from '../../gateway/utils/exploreAddress';
+import { SortDirection } from '../TableView/common/Sort';
 import { TableView } from '../TableView/TableView';
 import { DateTimeCell } from './cells/DateTimeCell/DateTimeCell';
 import { DepositAssetCell } from './cells/DepositAssetCell/DepositAssetCell';
@@ -67,18 +68,25 @@ export const OperationHistoryTable: FC<TransactionHistoryTableProps> = ({
       title="Type"
       width={152}
       filter={typeFilter}
-      match={typeFilterMatch}
+      filterMatch={typeFilterMatch}
+      sortBy={(op: Operation) => op.type}
     >
       {(op: Operation) => <TypeCell type={op.type} />}
     </TableView.Column>
-    <TableView.Column title="Date & Time" width={152}>
+    <TableView.Column
+      defaultDirection={SortDirection.DESC}
+      title="Date & Time"
+      width={152}
+      sortBy={(op: Operation) => op.dateTime}
+    >
       {(op: Operation) => <DateTimeCell dateTime={op.dateTime} />}
     </TableView.Column>
     <TableView.Column
       title="Status"
       width={152}
       filter={statusFilter}
-      match={statusFilterMatch}
+      filterMatch={statusFilterMatch}
+      sortBy={(op: Operation) => op.status}
     >
       {(op: Operation) => <StatusCell status={op.status} />}
     </TableView.Column>
