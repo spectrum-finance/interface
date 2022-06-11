@@ -11,7 +11,7 @@ export interface TableViewEmptySearchStateProps {
 
 const SearchIcon = styled(SearchOutlined)`
   font-size: 40px;
-  color: var(--ergo-table-list-icon);
+  color: var(--ergo-table-view-icon);
 `;
 
 export const TableViewEmptySearchState: FC<TableViewEmptySearchStateProps> = ({

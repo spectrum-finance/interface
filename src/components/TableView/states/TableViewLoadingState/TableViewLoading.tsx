@@ -11,7 +11,7 @@ export interface TableViewLoadingProps {
 
 const LoadingIcon = styled(LoadingOutlined)`
   font-size: 40px;
-  color: var(--ergo-table-list-icon);
+  color: var(--ergo-table-view-icon);
 `;
 
 export const TableViewLoading: FC<TableViewLoadingProps> = ({

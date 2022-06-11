@@ -35,7 +35,7 @@ export const TableItemView: typeof _TableItemView & {
   Column: typeof Column;
 } = styled(_TableItemView)`
   transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
-  background: var(--ergo-table-list-item-bg);
+  background: var(--ergo-table-view-item-bg);
   width: 100%;
 
   ${(props) =>
@@ -45,7 +45,7 @@ export const TableItemView: typeof _TableItemView & {
       &:hover,
       &:focus,
       &:active {
-        background: var(--ergo-table-list-item-hover);
+        background: var(--ergo-table-view-item-hover);
       }
     `}
 ` as any;

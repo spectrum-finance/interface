@@ -26,7 +26,7 @@ export const FilterButton = styled(_FilterIcon)`
     color: ${(props) =>
       props.active
         ? 'var(--ergo-primary-color)'
-        : 'var(--ergo-table-list-column-icon)'};
+        : 'var(--ergo-table-view-column-icon)'};
     font-size: 12px;
   }
 `;

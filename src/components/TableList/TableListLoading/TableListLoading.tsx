@@ -13,7 +13,7 @@ export interface TableListLoadingProps {
 
 const LoadingIcon = styled(LoadingOutlined)`
   font-size: 40px;
-  color: var(--ergo-table-list-icon);
+  color: var(--ergo-table-view-icon);
 `;
 
 const _TableListLoading: FC<TableListLoadingProps> = ({

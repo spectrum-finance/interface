@@ -49,7 +49,7 @@ export const SortButton = styled(_SortButton)`
   }
 
   .anticon {
-    color: var(--ergo-table-list-column-icon);
+    color: var(--ergo-table-view-column-icon);
     font-size: 10px;
   }
 `;
