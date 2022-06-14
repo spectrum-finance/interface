@@ -28,7 +28,6 @@ const statusFilterRender: FilterRenderer<OperationStatus> = ({
     items={statusesFilterItems}
     value={value}
     onChange={onChange}
-    close={() => {}}
   />
 );
 

@@ -55,18 +55,19 @@ export const TableViewContent: FC<TableViewContentProps<any>> = ({
           <TableItemView.Column flex={1}>
             <Flex stretch align="center" justify="flex-end">
               <OptionsButton size="middle" width={actionsWidth}>
-                {actions.map((a, i) =>
-                  a.decorate ? (
-                    a.decorate(
+                {actions.map((a, i) => {
+                  const Decorator = a.decorator;
+
+                  return Decorator ? (
+                    <Decorator item={item}>
                       <Menu.Item
                         key={i}
                         icon={a.icon}
                         onClick={() => a.onClick && a.onClick(item)}
                       >
                         {a.children}
-                      </Menu.Item>,
-                      item,
-                    )
+                      </Menu.Item>
+                    </Decorator>
                   ) : (
                     <Menu.Item
                       key={i}
@@ -75,8 +76,8 @@ export const TableViewContent: FC<TableViewContentProps<any>> = ({
                     >
                       {a.children}
                     </Menu.Item>
-                  ),
-                )}
+                  );
+                })}
               </OptionsButton>
             </Flex>
           </TableItemView.Column>

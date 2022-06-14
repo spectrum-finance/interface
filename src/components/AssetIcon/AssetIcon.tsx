@@ -42,7 +42,6 @@ const AssetIcon: React.FC<TokenIconProps> = ({ asset, size, ...rest }) => {
   return (
     <span
       role="img"
-      className={`token-icon token-icon-${iconName?.toLowerCase()}`}
       style={{
         display: 'inherit',
         width: MAP_SIZE_TO_NUMBER[size || 'medium'],

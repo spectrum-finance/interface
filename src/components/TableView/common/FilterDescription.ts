@@ -6,7 +6,7 @@ export interface FilterDescription<T> {
 }
 
 export interface FilterControlProps<T> extends FilterDescription<T> {
-  readonly close: () => void;
+  readonly close?: () => void;
 }
 
 export interface FilterState<T> {

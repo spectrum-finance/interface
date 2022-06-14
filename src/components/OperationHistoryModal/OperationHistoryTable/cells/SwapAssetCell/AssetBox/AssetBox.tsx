@@ -11,7 +11,7 @@ interface AssetBoxProps {
   readonly className?: string;
 }
 
-const _AssetBox: FC<AssetBoxProps> = ({ currency, className }) => (
+export const AssetBox: FC<AssetBoxProps> = ({ currency, className }) => (
   <Box padding={[1, 2]} className={className} transparent>
     <Flex align="center">
       <Flex.Item marginRight={1}>
@@ -29,5 +29,3 @@ const _AssetBox: FC<AssetBoxProps> = ({ currency, className }) => (
     </Flex>
   </Box>
 );
-
-export const AssetBox = styled(_AssetBox)``;

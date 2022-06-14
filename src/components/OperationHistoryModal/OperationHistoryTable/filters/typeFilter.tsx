@@ -25,7 +25,6 @@ const typeFilterRender: FilterRenderer<Operation['type']> = ({
     items={typesFilterItems}
     value={value}
     onChange={onChange}
-    close={() => {}}
   />
 );
 

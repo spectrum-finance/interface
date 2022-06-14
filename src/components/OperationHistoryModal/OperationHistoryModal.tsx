@@ -1,4 +1,4 @@
-import { Trans } from '@lingui/macro';
+import { t, Trans } from '@lingui/macro';
 import React, { FC, ReactNode, useState } from 'react';
 import { Observable } from 'rxjs';
 import styled from 'styled-components';
@@ -53,7 +53,7 @@ export const OperationHistoryModal: FC<OperationHistoryModalProps> = ({
             <SearchInput
               onChange={(e) => setTerm(e.target.value)}
               prefix={<SearchOutlined />}
-              placeholder="Search"
+              placeholder={t`Search`}
             />
             <Flex.Item marginLeft={1} flex={1} justify="flex-end">
               {content}

@@ -12,6 +12,7 @@ import { DepositAssetCell } from './cells/DepositAssetCell/DepositAssetCell';
 import { StatusCell } from './cells/StatusCell/StatusCell';
 import { SwapAssetCell } from './cells/SwapAssetCell/SwapAssetCell';
 import { TypeCell } from './cells/TypeCell/TypeCell';
+import { ClipboardDecorator } from './decorators/ClipboardDecorator';
 import { statusFilter } from './filters/statusFilter';
 import { typeFilter } from './filters/typeFilter';
 import { LoadingState } from './states/LoadingState/LoadingState';
@@ -24,18 +25,6 @@ export interface TransactionHistoryTableProps extends ModalRef {
   readonly emptySearch: boolean;
   readonly emptyOperations: boolean;
 }
-
-const copyToClipboardDecorator = (
-  children: ReactNode | ReactNode[] | string,
-  op: Operation,
-): ReactNode | ReactNode[] | string => (
-  <CopyToClipboard
-    text={op.txId}
-    onCopy={() => message.success(t`Copied to clipboard!`)}
-  >
-    {children}
-  </CopyToClipboard>
-);
 
 export const OperationHistoryTable: FC<TransactionHistoryTableProps> = ({
   operations,
@@ -102,7 +91,7 @@ export const OperationHistoryTable: FC<TransactionHistoryTableProps> = ({
     <TableView.Action onClick={(op: Operation) => exploreTx(op.txId)}>
       <Trans>View on Explorer</Trans>
     </TableView.Action>
-    <TableView.Action decorate={copyToClipboardDecorator}>
+    <TableView.Action decorator={ClipboardDecorator}>
       <Trans>Copy Transaction Id</Trans>
     </TableView.Action>
   </TableView>
