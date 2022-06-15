@@ -2,7 +2,7 @@ import { PoolId } from '@ergolabs/ergo-dex-sdk';
 import { t, Trans } from '@lingui/macro';
 import React, { FC, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import {
   BehaviorSubject,
   combineLatest,
@@ -69,7 +69,7 @@ export const AddLiquidityOrCreatePool: FC = () => {
   const [initialized, setInitialized] = useState<boolean>(!poolId);
   const [networkAsset] = useNetworkAsset();
   const [selectedWallet] = useObservable(selectedWallet$);
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
   const [componentState, setComponentState] = useState<ComponentState>(
     location.pathname.endsWith('create')
@@ -93,7 +93,7 @@ export const AddLiquidityOrCreatePool: FC = () => {
   );
 
   const handleNewPoolButtonClick = () => {
-    history.push('/pool/create');
+    navigate('/pool/create');
     setComponentState(ComponentState.CREATE_POOL);
   };
 

@@ -1,7 +1,7 @@
 import React, { Suspense, useEffect } from 'react';
 import { BrowserView, MobileView } from 'react-device-detect';
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
-import { Redirect, Route, Router, Switch } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import {
   BehaviorSubject,
   filter,
@@ -18,7 +18,6 @@ import { startAppTicks } from './common/streams/appTick';
 import Layout from './components/common/Layout/Layout';
 import { MobilePlug } from './components/MobilePlug/MobilePlug';
 import { AppLoadingProvider, SettingsProvider } from './context';
-import { globalHistory } from './createBrowserHistory';
 import { ContextModalProvider } from './ergodex-cdk';
 import {
   initializeNetwork,
@@ -35,15 +34,13 @@ import { PoolOverview } from './pages/PoolOverview/PoolOverview';
 import { Swap } from './pages/Swap/Swap';
 import { openCookiePolicy } from './services/notifications/CookiePolicy/CookiePolicy';
 
-const NotFound = () => <Redirect to="/swap" />;
-
 const Application = () => {
   useEffect(() => {
     openCookiePolicy();
   }, []);
 
   return (
-    <Router history={globalHistory}>
+    <BrowserRouter>
       <AppLoadingProvider>
         <SettingsProvider>
           <GoogleReCaptchaProvider
@@ -53,54 +50,41 @@ const Application = () => {
               <ContextModalProvider>
                 <Layout>
                   <BrowserView>
-                    <Switch>
-                      <Route path="/" exact>
-                        <Redirect to="/swap" />
-                      </Route>
-                      <Route path="/swap" exact component={Swap} />
-                      <Route path="/pool" exact component={Liquidity} />
+                    <Routes>
+                      <Route path="/" element={<Navigate to="/swap" />} />
+                      <Route path="/swap" element={<Swap />} />
+                      <Route path="/pool" element={<Liquidity />} />
                       <Route
                         path="/pool/add"
-                        exact
-                        component={AddLiquidityOrCreatePool}
+                        element={<AddLiquidityOrCreatePool />}
                       />
                       <Route
                         path="/pool/create"
-                        exact
-                        component={AddLiquidityOrCreatePool}
+                        element={<AddLiquidityOrCreatePool />}
                       />
                       <Route
                         path="/pool/:poolId/remove"
-                        exact
-                        component={RemoveLiquidity}
+                        element={<RemoveLiquidity />}
                       />
                       <Route
                         path="/pool/:poolId/lock"
-                        exact
-                        component={LockLiquidity}
+                        element={<LockLiquidity />}
                       />
                       <Route
                         path="/pool/:poolId/relock"
-                        exact
-                        component={RelockLiquidity}
+                        element={<RelockLiquidity />}
                       />
                       <Route
                         path="/pool/:poolId/withdrawal"
-                        exact
-                        component={WithdrawalLiquidity}
+                        element={<WithdrawalLiquidity />}
                       />
                       <Route
                         path="/pool/:poolId/add"
-                        exact
-                        component={AddLiquidityOrCreatePool}
+                        element={<AddLiquidityOrCreatePool />}
                       />
-                      <Route
-                        path="/pool/:poolId"
-                        exact
-                        component={PoolOverview}
-                      />
-                      <Route component={NotFound} />
-                    </Switch>
+                      <Route path="/pool/:poolId" element={<PoolOverview />} />
+                      <Route path="*" element={<Navigate to="/swap" />} />
+                    </Routes>
                   </BrowserView>
                   <MobileView>
                     <MobilePlug />
@@ -111,7 +95,7 @@ const Application = () => {
           </GoogleReCaptchaProvider>
         </SettingsProvider>
       </AppLoadingProvider>
-    </Router>
+    </BrowserRouter>
   );
 };
 

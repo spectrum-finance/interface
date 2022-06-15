@@ -2,7 +2,6 @@ import { PoolId } from '@ergolabs/ergo-dex-sdk';
 import { t, Trans } from '@lingui/macro';
 import { Skeleton } from 'antd';
 import React, { useEffect } from 'react';
-import { useParams } from 'react-router';
 import { skip } from 'rxjs';
 
 import {
@@ -10,6 +9,7 @@ import {
   useSubject,
   useSubscription,
 } from '../../../common/hooks/useObservable';
+import { useParamsStrict } from '../../../common/hooks/useParamsStrict';
 import { Position } from '../../../common/models/Position';
 import { FormPairSection } from '../../../components/common/FormView/FormPairSection/FormPairSection';
 import { FormSlider } from '../../../components/common/FormView/FormSlider/FormSlider';
@@ -36,7 +36,7 @@ import { LockLiquidityConfirmationModal } from './LockLiquidityConfirmationModal
 import { LockLiquidityModel } from './LockLiquidityModel';
 
 const LockLiquidity = (): JSX.Element => {
-  const { poolId } = useParams<{ poolId: PoolId }>();
+  const { poolId } = useParamsStrict<{ poolId: PoolId }>();
   const [position, updatePosition] = useSubject(getPositionByAmmPoolId);
 
   const form = useForm<LockLiquidityModel>({

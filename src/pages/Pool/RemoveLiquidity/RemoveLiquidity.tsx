@@ -1,7 +1,6 @@
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
 import { t, Trans } from '@lingui/macro';
 import React, { FC, useEffect } from 'react';
-import { useParams } from 'react-router';
 import { skip } from 'rxjs';
 
 import {
@@ -9,6 +8,7 @@ import {
   useSubject,
   useSubscription,
 } from '../../../common/hooks/useObservable';
+import { useParamsStrict } from '../../../common/hooks/useParamsStrict';
 import { Currency } from '../../../common/models/Currency';
 import { Position } from '../../../common/models/Position';
 import { FormPairSection } from '../../../components/common/FormView/FormPairSection/FormPairSection';
@@ -33,7 +33,7 @@ interface RemoveFormModel {
 }
 
 export const RemoveLiquidity: FC = () => {
-  const { poolId } = useParams<{ poolId: PoolId }>();
+  const { poolId } = useParamsStrict<{ poolId: PoolId }>();
   const [position, updatePosition] = useSubject(getPositionByAmmPoolId);
   const form = useForm<RemoveFormModel>({
     percent: 100,

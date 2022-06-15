@@ -1,7 +1,7 @@
 import './Page.less';
 
 import React, { ReactNode } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import {
@@ -47,7 +47,7 @@ const _Page: React.FC<PageProps> = ({
   onBackButtonClick,
   padding,
 }) => {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   return (
     <Flex
@@ -68,8 +68,8 @@ const _Page: React.FC<PageProps> = ({
                         icon={<ArrowLeftOutlined />}
                         onClick={() => {
                           history.length
-                            ? history.goBack()
-                            : backTo && history.push(backTo);
+                            ? navigate(-1)
+                            : backTo && navigate(backTo);
                           onBackButtonClick && onBackButtonClick();
                         }}
                       />
