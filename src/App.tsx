@@ -34,6 +34,10 @@ import {
 const NotFound = () => <Redirect to="/swap" />;
 
 const Application = () => {
+  useEffect(() => {
+    openCookiePolicy();
+  }, []);
+
   return (
     <Router history={globalHistory}>
       <AppLoadingProvider>
@@ -119,10 +123,6 @@ export const ApplicationInitializer: React.FC = () => {
       notification.close(NOTIFICATION_KEY);
     }
   }, [selectedNetwork]);
-
-  useEffect(() => {
-    openCookiePolicy();
-  }, []);
 
   useEffect(() => {
     if (networksInitialized) {
