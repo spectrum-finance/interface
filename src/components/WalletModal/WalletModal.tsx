@@ -1,12 +1,11 @@
 import { Trans } from '@lingui/macro';
-import React, { CSSProperties } from 'react';
+import React from 'react';
 
 import { useObservable } from '../../common/hooks/useObservable';
 import { Box, Button, Flex, Modal } from '../../ergodex-cdk';
 import { Tabs } from '../../ergodex-cdk/components/Tabs/Tabs';
 import { networkAssetBalance$ } from '../../gateway/api/networkAssetBalance';
 import { useSelectedNetwork } from '../../gateway/common/network';
-import { useDevice } from '../../hooks/useDevice';
 import { isLowBalance } from '../../utils/walletMath';
 import { ChooseWalletModal } from '../common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal';
 import { IsCardano } from '../IsCardano/IsCardano';
@@ -18,7 +17,6 @@ import { WalletActiveAddress } from './WalletActiveAddress/WalletActiveAddress';
 import { WalletTotalBalance } from './WalletTotalBalance/WalletTotalBalance';
 
 export const WalletModal: React.FC = () => {
-  const { valBySize } = useDevice();
   const [networkAssetBalance] = useObservable(networkAssetBalance$);
   const [network] = useSelectedNetwork();
 
@@ -31,7 +29,7 @@ export const WalletModal: React.FC = () => {
       <Modal.Title>
         <Trans>Wallet</Trans>
       </Modal.Title>
-      <Modal.Content width={valBySize<CSSProperties['width']>('100%', 470)}>
+      <Modal.Content width={470}>
         <Flex col>
           <Flex.Item marginBottom={4}>
             <WalletTotalBalance balance={networkAssetBalance} />
