@@ -111,7 +111,7 @@ const Liquidity = (): JSX.Element => {
     setTerm(e.target.value);
 
   const handleAddLiquidity = () => {
-    navigate('/pool/add');
+    navigate('../add');
   };
 
   const filterCommunityPools = useCallback(

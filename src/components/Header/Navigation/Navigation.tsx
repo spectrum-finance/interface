@@ -19,7 +19,7 @@ const _Navigation: FC<NavigationProps> = ({ className }) => {
     setDefaultActiveKey(matchLiquidityPage ? 'pool' : 'swap');
   }, [matchLiquidityPage]);
 
-  const onTabClick = (key: string) => navigate(`/${key}`);
+  const onTabClick = (key: string) => navigate(`../${key}`);
 
   return (
     <Tabs

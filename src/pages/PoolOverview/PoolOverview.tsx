@@ -45,16 +45,15 @@ export const PoolOverview: React.FC = () => {
     updatePoolConfidenceAnalytic(poolId);
   }, []);
 
-  const handleLockLiquidity = () => navigate(`/pool/${poolId}/lock`);
+  const handleLockLiquidity = () => navigate(`lock`);
 
-  const handleRemovePositionClick = () => navigate(`/pool/${poolId}/remove`);
+  const handleRemovePositionClick = () => navigate(`remove`);
 
-  const handleAddLiquidity = () => navigate(`/pool/${poolId}/add`);
+  const handleAddLiquidity = () => navigate(`add`);
 
-  const handleRelockLiquidity = () => navigate(`/pool/${poolId}/relock`);
+  const handleRelockLiquidity = () => navigate(`relock`);
 
-  const handleWithdrawalLiquidity = () =>
-    navigate(`/pool/${poolId}/withdrawal`);
+  const handleWithdrawalLiquidity = () => navigate(`withdrawal`);
 
   return (
     <Page title={t`Pool overview`} width={600} withBackButton backTo="/pool">

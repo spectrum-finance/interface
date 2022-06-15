@@ -52,38 +52,41 @@ const Application = () => {
                   <BrowserView>
                     <Routes>
                       <Route path="/" element={<Navigate to="/swap" />} />
-                      <Route path="/swap" element={<Swap />} />
-                      <Route path="/pool" element={<Liquidity />} />
-                      <Route
-                        path="/pool/add"
-                        element={<AddLiquidityOrCreatePool />}
-                      />
-                      <Route
-                        path="/pool/create"
-                        element={<AddLiquidityOrCreatePool />}
-                      />
-                      <Route
-                        path="/pool/:poolId/remove"
-                        element={<RemoveLiquidity />}
-                      />
-                      <Route
-                        path="/pool/:poolId/lock"
-                        element={<LockLiquidity />}
-                      />
-                      <Route
-                        path="/pool/:poolId/relock"
-                        element={<RelockLiquidity />}
-                      />
-                      <Route
-                        path="/pool/:poolId/withdrawal"
-                        element={<WithdrawalLiquidity />}
-                      />
-                      <Route
-                        path="/pool/:poolId/add"
-                        element={<AddLiquidityOrCreatePool />}
-                      />
-                      <Route path="/pool/:poolId" element={<PoolOverview />} />
-                      <Route path="*" element={<Navigate to="/swap" />} />
+                      <Route path="" element={<Navigate to="swap" />} />
+                      <Route path="swap" element={<Swap />} />
+                      <Route path="pool">
+                        <Route path="" element={<Liquidity />} />
+                        <Route
+                          path="add"
+                          element={<AddLiquidityOrCreatePool />}
+                        />
+                        <Route
+                          path="create"
+                          element={<AddLiquidityOrCreatePool />}
+                        />
+                        <Route
+                          path=":poolId/remove"
+                          element={<RemoveLiquidity />}
+                        />
+                        <Route
+                          path=":poolId/lock"
+                          element={<LockLiquidity />}
+                        />
+                        <Route
+                          path=":poolId/relock"
+                          element={<RelockLiquidity />}
+                        />
+                        <Route
+                          path=":poolId/withdrawal"
+                          element={<WithdrawalLiquidity />}
+                        />
+                        <Route
+                          path=":poolId/add"
+                          element={<AddLiquidityOrCreatePool />}
+                        />
+                        <Route path=":poolId" element={<PoolOverview />} />
+                      </Route>
+                      <Route path="*" element={<Navigate to="/" />} />
                     </Routes>
                   </BrowserView>
                   <MobileView>
