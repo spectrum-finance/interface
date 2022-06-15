@@ -17,19 +17,19 @@ const SELECTED_NETWORK_KEY = 'ergodex-selected-network-key';
 
 export const networks: Network<any, any, any>[] = [ergoNetwork, cardanoNetwork];
 
-const initialNetworkName =
+const selectedNetworkName =
   localStorageManager.get<string>(SELECTED_NETWORK_KEY);
-export const initialNetwork: Network<any, any, any> = initialNetworkName
-  ? networks.find((n) => n.name === initialNetworkName)!
+export const selectedNetwork: Network<any, any, any> = selectedNetworkName
+  ? networks.find((n) => n.name === selectedNetworkName)!
   : cardanoNetwork;
 
 const link = document.querySelector<HTMLLinkElement>("link[rel~='icon']");
 if (link) {
-  link.href = `/favicon-${initialNetwork.name}.svg`;
+  link.href = `/favicon-${selectedNetwork.name}.svg`;
 }
 
 const updateSelectedNetwork$ = new BehaviorSubject<Network<any, any>>(
-  initialNetwork,
+  selectedNetwork,
 );
 
 export const changeSelectedNetwork = (network: Network<any, any>): void => {
@@ -44,13 +44,13 @@ export const selectedNetwork$: Observable<Network<any, any>> =
     refCount(),
   );
 
-export const networksInitialized$ = initialNetwork.initialized$.pipe(
+export const networksInitialized$ = selectedNetwork.initialized$.pipe(
   distinctUntilChanged(),
   publishReplay(1),
   refCount(),
 );
 
-export const initializeNetwork = (): void => initialNetwork.initialize();
+export const initializeNetwork = (): void => selectedNetwork.initialize();
 
 export const useSelectedNetwork = (): [Network<any, any>, boolean, Error] =>
-  useObservable(selectedNetwork$, [], initialNetwork);
+  useObservable(selectedNetwork$, [], selectedNetwork);
