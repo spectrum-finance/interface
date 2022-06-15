@@ -2,19 +2,27 @@ import React, { Suspense, useEffect } from 'react';
 import { BrowserView, MobileView } from 'react-device-detect';
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 import { Redirect, Route, Router, Switch } from 'react-router-dom';
+import {
+  BehaviorSubject,
+  filter,
+  first,
+  mapTo,
+  Observable,
+  tap,
+  zip,
+} from 'rxjs';
 
 import { applicationConfig } from './applicationConfig';
 import { useObservable } from './common/hooks/useObservable';
-import { initializeApp } from './common/streams/appTick';
+import { startAppTicks } from './common/streams/appTick';
 import Layout from './components/common/Layout/Layout';
 import { MobilePlug } from './components/MobilePlug/MobilePlug';
 import { AppLoadingProvider, SettingsProvider } from './context';
 import { globalHistory } from './createBrowserHistory';
-import { ContextModalProvider, notification } from './ergodex-cdk';
+import { ContextModalProvider } from './ergodex-cdk';
 import {
-  initializeNetworks,
+  initializeNetwork,
   networksInitialized$,
-  useSelectedNetwork,
 } from './gateway/common/network';
 import { LanguageProvider } from './i18n/i18n';
 import { AddLiquidityOrCreatePool } from './pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool';
@@ -26,10 +34,6 @@ import { WithdrawalLiquidity } from './pages/Pool/WithdrawalLiquidity/Withdrawal
 import { PoolOverview } from './pages/PoolOverview/PoolOverview';
 import { Swap } from './pages/Swap/Swap';
 import { openCookiePolicy } from './services/notifications/CookiePolicy/CookiePolicy';
-import {
-  NOTIFICATION_KEY,
-  openCardanoFaucetNotification,
-} from './services/notifications/СardanoFaucet/СardanoFaucet';
 
 const NotFound = () => <Redirect to="/swap" />;
 
@@ -111,26 +115,28 @@ const Application = () => {
   );
 };
 
+const initializers: Observable<true>[] = [
+  networksInitialized$.pipe(filter(Boolean)),
+];
+
+const isAppInitialized$ = new BehaviorSubject(false);
+const initializeApp = () => {
+  zip(initializers)
+    .pipe(
+      mapTo(true),
+      tap(() => startAppTicks()),
+      first(),
+    )
+    .subscribe(isAppInitialized$);
+  initializeNetwork();
+};
+
 export const ApplicationInitializer: React.FC = () => {
-  const [networksInitialized] = useObservable(networksInitialized$);
-  const [selectedNetwork] = useSelectedNetwork();
+  const [isAppInitialized] = useObservable(isAppInitialized$, [], false);
 
-  useEffect(() => {
-    initializeNetworks();
-    if (selectedNetwork.name === 'cardano') {
-      openCardanoFaucetNotification();
-    } else {
-      notification.close(NOTIFICATION_KEY);
-    }
-  }, [selectedNetwork]);
+  useEffect(() => initializeApp(), []);
 
-  useEffect(() => {
-    if (networksInitialized) {
-      initializeApp();
-    }
-  }, [networksInitialized]);
-
-  if (!networksInitialized) {
+  if (!isAppInitialized) {
     return null;
   }
 

@@ -2,11 +2,9 @@ import {
   BehaviorSubject,
   distinctUntilChanged,
   distinctUntilKeyChanged,
-  map,
   Observable,
   publishReplay,
   refCount,
-  zip,
 } from 'rxjs';
 
 import { useObservable } from '../../common/hooks/useObservable';
@@ -37,7 +35,6 @@ const updateSelectedNetwork$ = new BehaviorSubject<Network<any, any>>(
 export const changeSelectedNetwork = (network: Network<any, any>): void => {
   localStorageManager.set(SELECTED_NETWORK_KEY, network.name);
   window.location.reload();
-  // updateSelectedNetwork$.next(network);
 };
 
 export const selectedNetwork$: Observable<Network<any, any>> =
@@ -47,17 +44,13 @@ export const selectedNetwork$: Observable<Network<any, any>> =
     refCount(),
   );
 
-export const networksInitialized$ = zip(
-  networks.map((n) => n.initialized$),
-).pipe(
-  map((networksInitialized) => networksInitialized.every(Boolean)),
+export const networksInitialized$ = initialNetwork.initialized$.pipe(
   distinctUntilChanged(),
   publishReplay(1),
   refCount(),
 );
 
-export const initializeNetworks = (): void =>
-  networks.forEach((n) => n.initialize());
+export const initializeNetwork = (): void => initialNetwork.initialize();
 
 export const useSelectedNetwork = (): [Network<any, any>, boolean, Error] =>
   useObservable(selectedNetwork$, [], initialNetwork);

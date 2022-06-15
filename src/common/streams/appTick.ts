@@ -10,11 +10,11 @@ import {
 
 import { applicationConfig } from '../../applicationConfig';
 
-export const initializeApp = (): void => appInitialized$.next(true);
+export const startAppTicks = (): void => appTicksStarted$.next(true);
 
-const appInitialized$ = new BehaviorSubject(false);
+const appTicksStarted$ = new BehaviorSubject(false);
 
-export const appTick$ = appInitialized$.pipe(
+export const appTick$ = appTicksStarted$.pipe(
   filter(Boolean),
   switchMap(() =>
     interval(applicationConfig.applicationTick).pipe(startWith(0)),
