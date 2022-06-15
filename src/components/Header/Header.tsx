@@ -2,7 +2,6 @@ import './Header.less';
 
 import cn from 'classnames';
 import React, { RefObject, useEffect, useState } from 'react';
-import { isBrowser } from 'react-device-detect';
 
 import { useObservable } from '../../common/hooks/useObservable';
 import { useAssetsBalance } from '../../gateway/api/assetBalance';
@@ -61,34 +60,24 @@ export const Header: React.FC<HeaderProps> = ({ layoutRef }) => {
       <div className="header__wrapper">
         <div className="header__left">
           <AppLogo isNoWording />
-          {isBrowser && (
-            <>
-              <Navigation />
-              <IsErgo>
-                <Analytics />
-              </IsErgo>
-              <IsCardano>
-                <GetTestTokensButton />
-              </IsCardano>
-            </>
-          )}
+          <Navigation />
+          <IsErgo>
+            <Analytics />
+          </IsErgo>
+          <IsCardano>
+            <GetTestTokensButton />
+          </IsCardano>
         </div>
         <div className="header__options">
-          {isBrowser && (
-            <>
-              <NetworkDropdown />
-              <ConnectWallet
-                numberOfPendingTxs={0}
-                address={settings?.address}
-                balance={
-                  isBalanceLoading ? undefined : balance.get(networkAsset)
-                }
-              />
-              <IsErgo>
-                {walletState === WalletState.CONNECTED && <TxHistory />}
-              </IsErgo>
-            </>
-          )}
+          <NetworkDropdown />
+          <ConnectWallet
+            numberOfPendingTxs={0}
+            address={settings?.address}
+            balance={isBalanceLoading ? undefined : balance.get(networkAsset)}
+          />
+          <IsErgo>
+            {walletState === WalletState.CONNECTED && <TxHistory />}
+          </IsErgo>
           <BurgerMenu />
         </div>
       </div>
