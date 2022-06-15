@@ -40,7 +40,7 @@ const OptionsButton: FC<OptionsButtonProps> = ({
       <Button
         type={type ? type : 'default'}
         size={size ? size : 'middle'}
-        icon={<DotsIcon rotate />}
+        icon={<DotsIcon />}
         onClick={(event) => event.stopPropagation()}
       />
     </Dropdown>

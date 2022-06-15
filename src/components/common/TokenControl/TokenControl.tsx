@@ -200,7 +200,7 @@ export const TokenControlFormItem: FC<NewTokenControlProps> = ({
                   readonly !== true &&
                   !label && (
                     <Typography.Body secondary>
-                      {t`Balance:`} ${balance.get(selectedAsset).toString()}
+                      {t`Balance:`} {balance.get(selectedAsset).toString()}
                     </Typography.Body>
                   )}
               </Flex.Item>

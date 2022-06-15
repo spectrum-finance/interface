@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { useSubject } from '../../../common/hooks/useObservable';
 import { AmmPool } from '../../../common/models/AmmPool';
-import { TokenIconPair } from '../../../components/AssetIconPair/TokenIconPair';
+import { AssetIconPair } from '../../../components/AssetIconPair/AssetIconPair';
 import { DataTag } from '../../../components/common/DataTag/DataTag';
 import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
 import { Truncate } from '../../../components/Truncate/Truncate';
@@ -72,7 +72,7 @@ const _PoolSelector: FC<PoolSelectorProps> = ({
                 <Flex.Item>
                   <Flex align="center">
                     <Flex.Item marginRight={1}>
-                      <TokenIconPair
+                      <AssetIconPair
                         size="small"
                         assetX={value.x.asset}
                         assetY={value.y.asset}

@@ -23,6 +23,7 @@ import { RemoveLiquidity } from './pages/Pool/RemoveLiquidity/RemoveLiquidity';
 import { WithdrawalLiquidity } from './pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity';
 import { PoolOverview } from './pages/PoolOverview/PoolOverview';
 import { Swap } from './pages/Swap/Swap';
+import { openCookiePolicy } from './services/notifications/CookiePolicy/CookiePolicy';
 import {
   NOTIFICATION_KEY,
   openCardanoFaucetNotification,
@@ -111,6 +112,10 @@ export const ApplicationInitializer: React.FC = () => {
       notification.close(NOTIFICATION_KEY);
     }
   }, [selectedNetwork]);
+
+  useEffect(() => {
+    openCookiePolicy();
+  }, []);
 
   useEffect(() => {
     if (networksInitialized) {
