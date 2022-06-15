@@ -40,11 +40,11 @@ interface TxHistoryCache {
   readonly operations: Dictionary<AmmDexOperation[]>;
 }
 
-const TX_HISTORY_CACHE_KEY = 'tx-history-cache';
+const TX_HISTORY_CACHE_KEY = 'tx-transactionHistory-cache';
 
-const TX_HISTORY_SYNC_CACHE_KEY = 'tx-history-sync-cache';
+const TX_HISTORY_SYNC_CACHE_KEY = 'tx-transactionHistory-sync-cache';
 
-const TX_HISTORY_SYNCING_KEY = 'tx-history-syncing';
+const TX_HISTORY_SYNCING_KEY = 'tx-transactionHistory-syncing';
 
 const txHistoryWorker = new TxHistoryWorker();
 

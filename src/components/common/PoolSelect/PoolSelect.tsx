@@ -13,7 +13,7 @@ import {
   Menu,
   Typography,
 } from '../../../ergodex-cdk';
-import { TokenIconPair } from '../../AssetIconPair/TokenIconPair';
+import { AssetIconPair } from '../../AssetIconPair/AssetIconPair';
 import { VerificationMark } from '../../VerificationMark/VerificationMark';
 import { FeeTag } from '../FeeTag/FeeTag';
 
@@ -28,7 +28,7 @@ const PoolOption: React.FC<PoolOptionProps> = ({ position }) => {
         <Flex>
           <Flex.Item marginRight={2}>
             <Flex>
-              <TokenIconPair
+              <AssetIconPair
                 assetX={position.x.asset}
                 assetY={position.y.asset}
               />

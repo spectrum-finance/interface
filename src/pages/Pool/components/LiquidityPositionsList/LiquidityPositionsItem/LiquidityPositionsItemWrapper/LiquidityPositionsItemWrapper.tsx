@@ -3,7 +3,7 @@ import { Trans } from '@lingui/macro';
 import React from 'react';
 
 import { AmmPool } from '../../../../../../common/models/AmmPool';
-import { TokenIconPair } from '../../../../../../components/AssetIconPair/TokenIconPair';
+import { AssetIconPair } from '../../../../../../components/AssetIconPair/AssetIconPair';
 import { DataTag } from '../../../../../../components/common/DataTag/DataTag';
 import { ListItemWrapper } from '../../../../../../components/ListItemWrapper/ListItemWrapper';
 import { Truncate } from '../../../../../../components/Truncate/Truncate';
@@ -27,7 +27,7 @@ const LiquidityPositionsItemWrapper: React.FC<LiquidityPositionsItemWrapperProps
                 <Flex.Item marginBottom={2}>
                   <Flex align="center">
                     <Flex.Item marginRight={1}>
-                      <TokenIconPair
+                      <AssetIconPair
                         assetX={pool.x.asset}
                         assetY={pool.y.asset}
                         size="large"

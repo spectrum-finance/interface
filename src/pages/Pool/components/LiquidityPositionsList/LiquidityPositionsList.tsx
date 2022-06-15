@@ -59,7 +59,12 @@ const LiquidityPositionsList: FC<LiquidityPositionsListProps> = ({
 
   return (
     <Flex col>
-      <List dataSource={pools} gap={2} emptyTemplate={<EmptySearchResult />}>
+      <List
+        dataSource={pools}
+        gap={2}
+        emptyTemplate={<EmptySearchResult />}
+        maxHeight={410}
+      >
         {(pool) => (
           <LiquidityPositionsItem pool={pool} onClick={onPositionClick} />
         )}

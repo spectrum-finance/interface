@@ -1,4 +1,3 @@
-import { LoadingOutlined } from '@ant-design/icons';
 import { Trans } from '@lingui/macro';
 import React, { useEffect, useState } from 'react';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
@@ -12,6 +11,7 @@ import {
   DownOutlined,
   Dropdown,
   Flex,
+  LoadingOutlined,
   Menu,
   Modal,
   Typography,

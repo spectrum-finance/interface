@@ -8,7 +8,7 @@ import { ReactComponent as DiscordIcon } from '../../assets/icons/social/Discord
 import { ReactComponent as TelegramIcon } from '../../assets/icons/social/Telegram.svg';
 import { AssetLock } from '../../common/models/AssetLock';
 import { Currency } from '../../common/models/Currency';
-import { DialogRef, Flex, Modal, Typography } from '../../ergodex-cdk';
+import { Flex, Modal, ModalRef, Typography } from '../../ergodex-cdk';
 import { RequestProps } from '../../ergodex-cdk/components/Modal/presets/Request';
 import { exploreTx } from '../../gateway/utils/exploreAddress';
 import { getLockingPeriodString } from '../../pages/Pool/utils';
@@ -187,7 +187,7 @@ export const openConfirmationModal = (
   actionContent: RequestProps['actionContent'],
   operation: Operation,
   payload: ModalChainingPayload,
-): DialogRef => {
+): ModalRef => {
   return Modal.request({
     actionContent,
     timeoutContent: YoroiIssueModalContent(),
