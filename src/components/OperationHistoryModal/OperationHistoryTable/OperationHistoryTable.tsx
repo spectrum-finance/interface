@@ -1,9 +1,8 @@
-import { t, Trans } from '@lingui/macro';
-import React, { FC, ReactNode } from 'react';
-import CopyToClipboard from 'react-copy-to-clipboard';
+import { Trans } from '@lingui/macro';
+import React, { FC } from 'react';
 
 import { isSwapOperation, Operation } from '../../../common/models/Operation';
-import { message, ModalRef } from '../../../ergodex-cdk';
+import { ModalRef } from '../../../ergodex-cdk';
 import { exploreTx } from '../../../gateway/utils/exploreAddress';
 import { SortDirection } from '../../TableView/common/Sort';
 import { TableView } from '../../TableView/TableView';
