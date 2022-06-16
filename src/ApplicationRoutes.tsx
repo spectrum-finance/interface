@@ -36,7 +36,7 @@ const routesConfig: RouteConfigExtended[] = [
         element: <AddLiquidityOrCreatePool />,
       },
       {
-        title: 'Create Liquidity',
+        title: 'Create Pool',
         path: 'create',
         element: <AddLiquidityOrCreatePool />,
       },
