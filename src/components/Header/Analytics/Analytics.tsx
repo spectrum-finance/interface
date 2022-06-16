@@ -1,9 +1,8 @@
-import { LoadingOutlined } from '@ant-design/icons';
 import React, { FC } from 'react';
 import styled from 'styled-components';
 
 import { useObservable } from '../../../common/hooks/useObservable';
-import { Box, Flex, Typography } from '../../../ergodex-cdk';
+import { Box, Flex, LoadingOutlined, Typography } from '../../../ergodex-cdk';
 import { aggregatedAnalyticsData24H$ } from '../../../services/new/analytics';
 import { formatToUSD } from '../../../services/number';
 import { renderFractions } from '../../../utils/math';

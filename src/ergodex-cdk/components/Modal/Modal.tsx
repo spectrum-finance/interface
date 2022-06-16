@@ -1,10 +1,12 @@
 import './Modal.less';
 
 import { Modal as BaseModal } from 'antd';
-import React, { ReactElement } from 'react';
+import React, { PropsWithChildren, ReactElement } from 'react';
 import { ReactNode } from 'react';
+import { BrowserView, MobileView } from 'react-device-detect';
 import ReactDOM from 'react-dom';
 
+import { BaseMobileModal } from './BaseMobileModal';
 import { ModalContent } from './ModalContent/ModalContent';
 import {
   ModalInnerTitle,
@@ -93,21 +95,38 @@ class BaseModalProvider implements ModalProvider {
     const modalFactory = (visible: boolean) => {
       return (
         <ModalTitleContextProvider>
-          <BaseModal
-            key={dialogId}
-            width={params.width}
-            visible={visible}
-            onCancel={onCancel}
-            footer={params.footer}
-            title={<ModalInnerTitle />}
-            afterClose={afterClose}
-            closable={params.closable}
-          >
-            <>
-              {visible && afterOpen()}
-              {content instanceof Function ? content({ close }) : content}
-            </>
-          </BaseModal>
+          <BrowserView>
+            <BaseModal
+              key={dialogId}
+              width={params.width}
+              visible={visible}
+              onCancel={onCancel}
+              footer={params.footer}
+              title={<ModalInnerTitle />}
+              afterClose={afterClose}
+              closable={params.closable}
+            >
+              <>
+                {visible && afterOpen()}
+                {content instanceof Function ? content({ close }) : content}
+              </>
+            </BaseModal>
+          </BrowserView>
+          <MobileView>
+            <BaseMobileModal
+              key={dialogId}
+              visible={visible}
+              onClose={onCancel}
+              title={<ModalInnerTitle />}
+              footer={params.footer}
+              afterClose={afterClose}
+            >
+              <>
+                {visible && afterOpen()}
+                {content instanceof Function ? content({ close }) : content}
+              </>
+            </BaseMobileModal>
+          </MobileView>
         </ModalTitleContextProvider>
       );
     };
@@ -176,12 +195,11 @@ class Portal extends React.Component<{ root: HTMLElement }> {
 }
 
 interface ModalProviderProps {
-  children?: any;
   rootElement?: string | HTMLElement;
 }
 
 export class ContextModalProvider
-  extends React.Component<ModalProviderProps>
+  extends React.Component<PropsWithChildren<ModalProviderProps>>
   implements ModalProvider
 {
   private defaultParams: ModalParams = {
@@ -242,20 +260,37 @@ export class ContextModalProvider
     const modalFactory = (visible: boolean) => {
       return (
         <ModalTitleContextProvider key={dialogId}>
-          <BaseModal
-            key={dialogId}
-            width={params.width}
-            visible={visible}
-            onCancel={onCancel}
-            footer={params.footer}
-            title={<ModalInnerTitle />}
-            afterClose={afterClose}
-          >
-            <>
-              {visible && afterOpen()}
-              {content instanceof Function ? content({ close }) : content}
-            </>
-          </BaseModal>
+          <BrowserView>
+            <BaseModal
+              key={dialogId}
+              width={params.width}
+              visible={visible}
+              onCancel={onCancel}
+              footer={params.footer}
+              title={<ModalInnerTitle />}
+              afterClose={afterClose}
+            >
+              <>
+                {visible && afterOpen()}
+                {content instanceof Function ? content({ close }) : content}
+              </>
+            </BaseModal>
+          </BrowserView>
+          <MobileView>
+            <BaseMobileModal
+              key={dialogId}
+              visible={visible}
+              onClose={onCancel}
+              title={<ModalInnerTitle />}
+              footer={params.footer}
+              afterClose={afterClose}
+            >
+              <>
+                {visible && afterOpen()}
+                {content instanceof Function ? content({ close }) : content}
+              </>
+            </BaseMobileModal>
+          </MobileView>
         </ModalTitleContextProvider>
       );
     };

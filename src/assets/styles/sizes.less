@@ -1,0 +1,12 @@
+@s: 320px;
+@m: 520px;
+@l: 960px;
+@xl: 1280px;
+@xxl: 1920px;
+
+.s(@rules) { @media (min-width: @s) { @rules(); }}
+.m(@rules) { @media (min-width: @m) { @rules(); }}
+.l(@rules) { @media (min-width: @l) { @rules(); }}
+.xl(@rules) { @media (min-width: @xl) { @rules(); }}
+.xxl(@rules) { @media (min-width: @xxl) { @rules(); }}
+
