@@ -1,5 +1,5 @@
 import { AmmDexOperation } from '@ergolabs/ergo-dex-sdk';
-import { uniqBy } from 'lodash';
+import uniqBy from 'lodash/uniqBy';
 import { DateTime } from 'luxon';
 
 import { Currency } from '../../../common/models/Currency';

@@ -1,5 +1,5 @@
 import { t, Trans } from '@lingui/macro';
-import { maxBy } from 'lodash';
+import maxBy from 'lodash/maxBy';
 import { DateTime } from 'luxon';
 import React, { useEffect, useMemo, useState } from 'react';
 import {

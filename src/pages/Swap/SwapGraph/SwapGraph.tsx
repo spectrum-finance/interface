@@ -1,5 +1,5 @@
 import { Trans } from '@lingui/macro';
-import { sortedUniqBy } from 'lodash';
+import sortedUniqBy from 'lodash/sortedUniqBy';
 import { DateTime } from 'luxon';
 import React, { ReactNode, useCallback, useMemo, useState } from 'react';
 import { Area, AreaChart, Tooltip, XAxis, YAxis } from 'recharts';

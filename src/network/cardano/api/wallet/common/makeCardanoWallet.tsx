@@ -15,7 +15,7 @@ import {
 import { TxOut } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/txOut';
 import { encodeHex } from '@ergolabs/cardano-dex-sdk/build/main/utils/hex';
 import { RustModule } from '@ergolabs/cardano-dex-sdk/build/main/utils/rustLoader';
-import { uniq } from 'lodash';
+import uniq from 'lodash/uniq';
 import React, { ReactNode } from 'react';
 import {
   catchError,
