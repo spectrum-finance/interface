@@ -55,6 +55,7 @@ export const ergoNetwork: Network<
 > = {
   name: 'ergo',
   label: 'ergo',
+  favicon: '/favicon-ergo.svg',
   convenientAssetDefaultPreview: '$0.00',
   networkAsset,
   initialized$,

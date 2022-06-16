@@ -11,7 +11,7 @@ interface NavigationProps {
 
 const _Navigation: FC<NavigationProps> = ({ className }) => {
   const navigate = useNavigate();
-  const matchLiquidityPage = useMatch({ path: '/pool', end: false });
+  const matchLiquidityPage = useMatch({ path: ':network/pool', end: false });
 
   const [defaultActiveKey, setDefaultActiveKey] = useState('');
 
@@ -19,7 +19,7 @@ const _Navigation: FC<NavigationProps> = ({ className }) => {
     setDefaultActiveKey(matchLiquidityPage ? 'pool' : 'swap');
   }, [matchLiquidityPage]);
 
-  const onTabClick = (key: string) => navigate(`/${key}`);
+  const onTabClick = (key: string) => navigate(key);
 
   return (
     <Tabs

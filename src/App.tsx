@@ -13,17 +13,14 @@ import {
 } from 'rxjs';
 
 import { applicationConfig } from './applicationConfig';
-import { ApplicationRoutes } from './ApplicationRoutes';
+import { ApplicationRoutes, routesConfig } from './ApplicationRoutes';
 import { useObservable } from './common/hooks/useObservable';
+import { NetworkDomManager } from './common/services/NetworkDomManager';
 import { startAppTicks } from './common/streams/appTick';
 import Layout from './components/common/Layout/Layout';
 import { MobilePlug } from './components/MobilePlug/MobilePlug';
 import { AppLoadingProvider, SettingsProvider } from './context';
 import { ContextModalProvider } from './ergodex-cdk';
-import {
-  initializeNetwork,
-  networksInitialized$,
-} from './gateway/common/network';
 import { LanguageProvider } from './i18n/i18n';
 import { openCookiePolicy } from './services/notifications/CookiePolicy/CookiePolicy';
 
@@ -41,14 +38,14 @@ const Application = () => {
           >
             <LanguageProvider>
               <ContextModalProvider>
-                <Layout>
-                  <BrowserView>
-                    <ApplicationRoutes />
-                  </BrowserView>
-                  <MobileView>
+                <BrowserView>
+                  <ApplicationRoutes />
+                </BrowserView>
+                <MobileView>
+                  <Layout>
                     <MobilePlug />
-                  </MobileView>
-                </Layout>
+                  </Layout>
+                </MobileView>
               </ContextModalProvider>
             </LanguageProvider>
           </GoogleReCaptchaProvider>
@@ -59,7 +56,7 @@ const Application = () => {
 };
 
 const initializers: Observable<true>[] = [
-  networksInitialized$.pipe(filter(Boolean)),
+  NetworkDomManager.initialized$.pipe(filter(Boolean)),
 ];
 
 const isAppInitialized$ = new BehaviorSubject(false);
@@ -71,7 +68,7 @@ const initializeApp = () => {
       first(),
     )
     .subscribe(isAppInitialized$);
-  initializeNetwork();
+  NetworkDomManager.init(routesConfig);
 };
 
 export const ApplicationInitializer: React.FC = () => {

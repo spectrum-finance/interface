@@ -100,7 +100,7 @@ const Liquidity = (): JSX.Element => {
   }, [selectedNetwork]);
 
   useEffect(() => {
-    navigate(`/pool?active=${query.active ?? defaultActiveTabKey}`);
+    navigate(`?active=${query.active ?? defaultActiveTabKey}`);
   }, []);
 
   const [positions, isPositionLoading] = useObservable(positions$, [], []);
@@ -151,7 +151,7 @@ const Liquidity = (): JSX.Element => {
         defaultActiveKey={String(query.active)}
         className="pool__position-tabs"
         onChange={(key) => {
-          navigate(`/pool?active=${key}`);
+          navigate(`?active=${key}`);
         }}
       >
         <Tabs.TabPane

@@ -32,7 +32,7 @@ export const RouterTitle: FC<RouterTitleProps> = ({
       divider,
       matchRoutesExtended(routesConfig, location),
     );
-  }, [location]);
+  }, [location, pageTitle]);
 
   return null;
 };
