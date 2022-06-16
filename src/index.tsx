@@ -15,6 +15,7 @@ Sentry.init({
   tracesSampleRate: 1.0,
 });
 
+// TODO: fix toggle-group behavior after switch to react v18 root api.
 ReactDOM.render(
   <React.StrictMode>
     <ApplicationInitializer />

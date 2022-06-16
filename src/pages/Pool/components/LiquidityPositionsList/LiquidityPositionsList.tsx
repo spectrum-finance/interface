@@ -29,12 +29,12 @@ const LiquidityPositionsList: FC<LiquidityPositionsListProps> = ({
 
   const onPositionClick = (id: PoolId) => {
     if (isWalletConnected) {
-      navigate(`../${id}/`);
+      navigate(`${id}`);
     }
   };
 
   function handleAddLiquidity() {
-    navigate('../add');
+    navigate('add');
   }
 
   if (loading) {

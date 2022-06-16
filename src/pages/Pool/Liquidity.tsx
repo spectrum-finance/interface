@@ -61,7 +61,7 @@ const PoolPageWrapper: React.FC<PoolPageWrapperProps> = ({
                   overlay={
                     <Menu style={{ padding: '8px', width: '200px' }}>
                       <Menu.Item key="1">
-                        <Link to="pool/create">
+                        <Link to="create">
                           <Trans>Create pool</Trans>
                         </Link>
                       </Menu.Item>
@@ -111,7 +111,7 @@ const Liquidity = (): JSX.Element => {
     setTerm(e.target.value);
 
   const handleAddLiquidity = () => {
-    navigate('../add');
+    navigate('add');
   };
 
   const filterCommunityPools = useCallback(
