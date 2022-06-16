@@ -2,20 +2,13 @@ import React, { Suspense, useEffect } from 'react';
 import { BrowserView, MobileView } from 'react-device-detect';
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 import { BrowserRouter } from 'react-router-dom';
-import {
-  BehaviorSubject,
-  filter,
-  first,
-  mapTo,
-  Observable,
-  tap,
-  zip,
-} from 'rxjs';
+import { BehaviorSubject, first, mapTo, Observable, tap, zip } from 'rxjs';
 
 import { applicationConfig } from './applicationConfig';
 import { ApplicationRoutes, routesConfig } from './ApplicationRoutes';
 import { useObservable } from './common/hooks/useObservable';
-import { NetworkDomManager } from './common/services/NetworkDomManager';
+import { networkDomInitializer } from './common/initializers/networkDomInitializer';
+import { sentryInitializer } from './common/initializers/sentryInitializer';
 import { startAppTicks } from './common/streams/appTick';
 import Layout from './components/common/Layout/Layout';
 import { MobilePlug } from './components/MobilePlug/MobilePlug';
@@ -56,7 +49,8 @@ const Application = () => {
 };
 
 const initializers: Observable<true>[] = [
-  NetworkDomManager.initialized$.pipe(filter(Boolean)),
+  sentryInitializer(),
+  networkDomInitializer(routesConfig),
 ];
 
 const isAppInitialized$ = new BehaviorSubject(false);
@@ -68,7 +62,6 @@ const initializeApp = () => {
       first(),
     )
     .subscribe(isAppInitialized$);
-  NetworkDomManager.init(routesConfig);
 };
 
 export const ApplicationInitializer: React.FC = () => {
