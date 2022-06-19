@@ -1,6 +1,5 @@
+import { Skeleton } from '@ergolabs/ui-kit';
 import React from 'react';
-
-import { Skeleton } from '../../../../ergodex-cdk';
 
 const PositionListItemLoader = (): JSX.Element => {
   return (

@@ -1,18 +1,5 @@
 import './BurgerMenu.less';
 
-import { t } from '@lingui/macro';
-import { stringify } from 'qs';
-import React, { useState } from 'react';
-import { isMobile } from 'react-device-detect';
-import { Link, useLocation } from 'react-router-dom';
-
-import { ReactComponent as DarkModeOutlined } from '../../../assets/icons/darkmode.svg';
-import {
-  LOCALE_LABEL,
-  SUPPORTED_LOCALES,
-} from '../../../common/constants/locales';
-import { useObservable } from '../../../common/hooks/useObservable';
-import { useSettings } from '../../../context';
 import {
   Button,
   Dropdown,
@@ -27,7 +14,20 @@ import {
   ReloadOutlined,
   RightOutlined,
   SettingOutlined,
-} from '../../../ergodex-cdk';
+} from '@ergolabs/ui-kit';
+import { t } from '@lingui/macro';
+import { stringify } from 'qs';
+import React, { useState } from 'react';
+import { isMobile } from 'react-device-detect';
+import { Link, useLocation } from 'react-router-dom';
+
+import { ReactComponent as DarkModeOutlined } from '../../../assets/icons/darkmode.svg';
+import {
+  LOCALE_LABEL,
+  SUPPORTED_LOCALES,
+} from '../../../common/constants/locales';
+import { useObservable } from '../../../common/hooks/useObservable';
+import { useSettings } from '../../../context';
 import { globalSettingsModal$ } from '../../../gateway/widgets/globalSettingsModal';
 import { useQuery } from '../../../hooks/useQuery';
 import { DotsIcon } from '../../common/Icons/DotsIcon';

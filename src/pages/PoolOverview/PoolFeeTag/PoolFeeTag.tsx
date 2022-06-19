@@ -1,7 +1,7 @@
+import { Box, Typography } from '@ergolabs/ui-kit';
 import React, { FC } from 'react';
 
 import { AmmPool } from '../../../common/models/AmmPool';
-import { Box, Typography } from '../../../ergodex-cdk';
 
 interface PoolFeeTagProps {
   readonly ammPool: AmmPool;

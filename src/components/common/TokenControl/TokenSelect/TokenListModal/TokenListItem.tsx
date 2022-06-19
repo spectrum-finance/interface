@@ -1,9 +1,9 @@
 import './TokenListItem.less';
 
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
+import { Box, Flex, Typography } from '@ergolabs/ui-kit';
 import React from 'react';
 
-import { Box, Flex, Typography } from '../../../../../ergodex-cdk';
 import { useAssetsBalance } from '../../../../../gateway/api/assetBalance';
 import { AssetIcon } from '../../../../AssetIcon/AssetIcon';
 import { Truncate } from '../../../../Truncate/Truncate';

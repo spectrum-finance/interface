@@ -1,4 +1,5 @@
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
+import { Flex, Typography } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React from 'react';
 
@@ -8,7 +9,6 @@ import { DataTag } from '../../../../../../components/common/DataTag/DataTag';
 import { ListItemWrapper } from '../../../../../../components/ListItemWrapper/ListItemWrapper';
 import { Truncate } from '../../../../../../components/Truncate/Truncate';
 import { VerificationMark } from '../../../../../../components/VerificationMark/VerificationMark';
-import { Flex, Typography } from '../../../../../../ergodex-cdk';
 
 interface LiquidityPositionsItemWrapperProps {
   pool: AmmPool;

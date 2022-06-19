@@ -1,5 +1,13 @@
 import './СardanoFaucet.less';
 
+import {
+  Button,
+  CloseOutlined,
+  Flex,
+  Modal,
+  notification,
+  Typography,
+} from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
 import React from 'react';
 
@@ -8,14 +16,6 @@ import {
   FAUCET_KEY,
   FaucetModal,
 } from '../../../components/FaucetModal/FaucetModal';
-import {
-  Button,
-  CloseOutlined,
-  Flex,
-  Modal,
-  notification,
-  Typography,
-} from '../../../ergodex-cdk';
 
 export const NOTIFICATION_KEY = 'faucet-notification';
 

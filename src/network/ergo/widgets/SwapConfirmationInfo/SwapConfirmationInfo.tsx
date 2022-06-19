@@ -1,3 +1,4 @@
+import { Box, Flex, Typography } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 
@@ -9,7 +10,6 @@ import {
   FeesViewItem,
 } from '../../../../components/FeesView/FeesView';
 import { Truncate } from '../../../../components/Truncate/Truncate';
-import { Box, Flex, Typography } from '../../../../ergodex-cdk';
 import { SwapFormModel } from '../../../../pages/Swap/SwapFormModel';
 import { ErgoAmmPool } from '../../api/ammPools/ErgoAmmPool';
 import { useMaxExFee, useMinExFee } from '../../settings/executionFee';

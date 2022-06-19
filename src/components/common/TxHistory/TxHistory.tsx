@@ -1,14 +1,14 @@
-import { t } from '@lingui/macro';
-import React from 'react';
-
-import { useObservable } from '../../../common/hooks/useObservable';
 import {
   Button,
   HistoryOutlined,
   LoadingOutlined,
   Modal,
   Tooltip,
-} from '../../../ergodex-cdk';
+} from '@ergolabs/ui-kit';
+import { t } from '@lingui/macro';
+import React from 'react';
+
+import { useObservable } from '../../../common/hooks/useObservable';
 import { isTransactionsHistorySyncing$ } from '../../../gateway/api/transactionsHistory';
 import { IsCardano } from '../../IsCardano/IsCardano';
 import { IsErgo } from '../../IsErgo/IsErgo';

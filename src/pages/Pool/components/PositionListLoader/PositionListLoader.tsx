@@ -1,6 +1,6 @@
+import { Flex } from '@ergolabs/ui-kit';
 import React from 'react';
 
-import { Flex } from '../../../../ergodex-cdk';
 import { PositionListItemLoader } from '../PositionListItemLoader/PositionListItemLoader';
 
 const PositionListLoader = (): JSX.Element => {

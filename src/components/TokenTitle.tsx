@@ -1,7 +1,7 @@
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
+import { Flex, Typography } from '@ergolabs/ui-kit';
 import React, { FC } from 'react';
 
-import { Flex, Typography } from '../ergodex-cdk';
 import { AssetIcon } from './AssetIcon/AssetIcon';
 
 export interface TokenTitleProps {

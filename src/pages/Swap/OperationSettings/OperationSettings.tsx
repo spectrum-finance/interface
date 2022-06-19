@@ -1,14 +1,3 @@
-import { t, Trans } from '@lingui/macro';
-import React, { useState } from 'react';
-import { filter, skip } from 'rxjs';
-
-import { MIN_NITRO } from '../../../common/constants/erg';
-import {
-  defaultSlippage,
-  MIN_SLIPPAGE,
-} from '../../../common/constants/settings';
-import { useSubscription } from '../../../common/hooks/useObservable';
-import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
 import {
   Box,
   Button,
@@ -20,7 +9,18 @@ import {
   SettingOutlined,
   Typography,
   useForm,
-} from '../../../ergodex-cdk';
+} from '@ergolabs/ui-kit';
+import { t, Trans } from '@lingui/macro';
+import React, { useState } from 'react';
+import { filter, skip } from 'rxjs';
+
+import { MIN_NITRO } from '../../../common/constants/erg';
+import {
+  defaultSlippage,
+  MIN_SLIPPAGE,
+} from '../../../common/constants/settings';
+import { useSubscription } from '../../../common/hooks/useObservable';
+import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
 import { setSettings, useSettings } from '../../../gateway/settings/settings';
 import { NitroInput } from './NitroInput/NitroInput';
 import { SlippageInput } from './SlippageInput/SlippageInput';

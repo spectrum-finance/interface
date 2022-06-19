@@ -1,3 +1,4 @@
+import { Box, Button, Flex, Modal } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import React from 'react';
 import { Observable } from 'rxjs';
@@ -8,7 +9,6 @@ import { Currency } from '../../../../common/models/Currency';
 import { TxId } from '../../../../common/types';
 import { FormPairSection } from '../../../../components/common/FormView/FormPairSection/FormPairSection';
 import { PageSection } from '../../../../components/Page/PageSection/PageSection';
-import { Box, Button, Flex, Modal } from '../../../../ergodex-cdk';
 import { redeem } from '../../../../gateway/api/operations/redeem';
 import { redeemConfirmationInfo$ } from '../../../../gateway/widgets/redeemConfirmationInfo';
 

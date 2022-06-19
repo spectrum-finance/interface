@@ -1,14 +1,5 @@
 import './Pool.less';
 
-import { t, Trans } from '@lingui/macro';
-import React, { useCallback, useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-
-import { useObservable } from '../../common/hooks/useObservable';
-import { AmmPool } from '../../common/models/AmmPool';
-import { ConnectWalletButton } from '../../components/common/ConnectWalletButton/ConnectWalletButton';
-import { IsErgo } from '../../components/IsErgo/IsErgo';
-import { Page } from '../../components/Page/Page';
 import {
   Button,
   DownOutlined,
@@ -18,7 +9,16 @@ import {
   Menu,
   SearchOutlined,
   Tabs,
-} from '../../ergodex-cdk';
+} from '@ergolabs/ui-kit';
+import { t, Trans } from '@lingui/macro';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+
+import { useObservable } from '../../common/hooks/useObservable';
+import { AmmPool } from '../../common/models/AmmPool';
+import { ConnectWalletButton } from '../../components/common/ConnectWalletButton/ConnectWalletButton';
+import { IsErgo } from '../../components/IsErgo/IsErgo';
+import { Page } from '../../components/Page/Page';
 import { ammPools$ } from '../../gateway/api/ammPools';
 import { useAssetsBalance } from '../../gateway/api/assetBalance';
 import { positions$ } from '../../gateway/api/positions';

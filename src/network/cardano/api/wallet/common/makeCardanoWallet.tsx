@@ -15,6 +15,7 @@ import {
 import { TxOut } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/txOut';
 import { encodeHex } from '@ergolabs/cardano-dex-sdk/build/main/utils/hex';
 import { RustModule } from '@ergolabs/cardano-dex-sdk/build/main/utils/rustLoader';
+import { notification } from '@ergolabs/ui-kit';
 import uniq from 'lodash/uniq';
 import React, { ReactNode } from 'react';
 import {
@@ -35,7 +36,6 @@ import {
 
 import { AssetInfo } from '../../../../../common/models/AssetInfo';
 import { Address } from '../../../../../common/types';
-import { notification } from '../../../../../ergodex-cdk';
 import {
   WalletDefinition,
   WalletSupportedFeatures,

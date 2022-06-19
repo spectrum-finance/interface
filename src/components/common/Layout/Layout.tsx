@@ -1,10 +1,10 @@
 import './Layout.less';
 
+import { Modal } from '@ergolabs/ui-kit';
 import React, { FC, PropsWithChildren, useEffect, useRef } from 'react';
 import { isBrowser } from 'react-device-detect';
 
 import { useAppLoadingState, useSettings } from '../../../context';
-import { Modal } from '../../../ergodex-cdk';
 import { useSelectedNetwork } from '../../../gateway/common/network';
 import { useBodyClass } from '../../../hooks/useBodyClass';
 import { Header } from '../../Header/Header';

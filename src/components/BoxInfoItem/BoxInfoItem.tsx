@@ -1,6 +1,5 @@
+import { Flex } from '@ergolabs/ui-kit';
 import React, { FC, ReactNode } from 'react';
-
-import { Flex } from '../../ergodex-cdk';
 
 export interface BoxInfoItemProps {
   title: ReactNode | ReactNode[] | string;

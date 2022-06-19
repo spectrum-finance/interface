@@ -1,3 +1,4 @@
+import { Box, Flex, Typography } from '@ergolabs/ui-kit';
 import React, { FC, useState } from 'react';
 import styled, { css } from 'styled-components';
 
@@ -5,7 +6,6 @@ import { AmmPool } from '../../../../../common/models/AmmPool';
 import { AssetIconPair } from '../../../../../components/AssetIconPair/AssetIconPair';
 import { DataTag } from '../../../../../components/common/DataTag/DataTag';
 import { VerificationMark } from '../../../../../components/VerificationMark/VerificationMark';
-import { Box, Flex, Typography } from '../../../../../ergodex-cdk';
 import { formatToUSD } from '../../../../../services/number';
 
 interface PoolItemViewProps {

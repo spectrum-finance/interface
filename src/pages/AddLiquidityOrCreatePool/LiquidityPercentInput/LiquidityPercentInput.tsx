@@ -1,6 +1,5 @@
+import { Button, Flex } from '@ergolabs/ui-kit';
 import React, { FC } from 'react';
-
-import { Button, Flex } from '../../../ergodex-cdk';
 
 export interface LiquidityPercentInput {
   readonly onClick?: (pct: number) => void;

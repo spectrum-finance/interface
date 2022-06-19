@@ -1,12 +1,12 @@
 import './LiquidityDatePicker.less';
 
 import { millisToBlocks } from '@ergolabs/ergo-dex-sdk';
+import { DatePicker, Flex, Typography } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
 import { DateTime } from 'luxon';
 import React from 'react';
 
 import { useObservable } from '../../../../common/hooks/useObservable';
-import { DatePicker, Flex, Typography } from '../../../../ergodex-cdk';
 import { networkContext$ } from '../../../../network/ergo/api/networkContext/networkContext';
 import { formatToInt } from '../../../../services/number';
 import { getLockingPeriodString } from '../../utils';

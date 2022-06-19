@@ -1,9 +1,8 @@
+import { Tabs } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
 import React, { FC, useEffect, useState } from 'react';
 import { useMatch, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-
-import { Tabs } from '../../../ergodex-cdk';
 
 interface NavigationProps {
   className?: string;

@@ -1,8 +1,8 @@
+import { Typography } from '@ergolabs/ui-kit';
 import { BaseType } from 'antd/lib/typography/Base';
 import React from 'react';
 
 import { Ratio } from '../../../../common/models/Ratio';
-import { Typography } from '../../../../ergodex-cdk';
 
 interface DifferenceProps {
   ratioX: Ratio;

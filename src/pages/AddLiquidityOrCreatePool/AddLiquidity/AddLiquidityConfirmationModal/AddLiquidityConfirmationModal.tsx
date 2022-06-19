@@ -1,3 +1,4 @@
+import { Alert, Button, Checkbox, Flex, Modal } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import React, { FC, useState } from 'react';
 import { Observable } from 'rxjs';
@@ -7,7 +8,6 @@ import { TxId } from '../../../../common/types';
 import { FormPairSection } from '../../../../components/common/FormView/FormPairSection/FormPairSection';
 import { PageSection } from '../../../../components/Page/PageSection/PageSection';
 import { Section } from '../../../../components/Section/Section';
-import { Alert, Button, Checkbox, Flex, Modal } from '../../../../ergodex-cdk';
 import { deposit } from '../../../../gateway/api/operations/deposit';
 import { depositConfirmationInfo$ } from '../../../../gateway/widgets/depositConfirmationInfo';
 import { PoolRatio } from '../../../PoolOverview/PoolRatio/PoolRatio';

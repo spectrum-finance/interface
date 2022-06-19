@@ -1,12 +1,12 @@
 import './CopyButton.less';
 
+import { Button, message, Tooltip } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
 import cn from 'classnames';
 import React, { ReactNode } from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 import { ReactComponent as CopyIcon } from '../../../assets/icons/icon-copy.svg';
-import { Button, message, Tooltip } from '../../../ergodex-cdk';
 
 interface CopyButtonProps {
   text: string;

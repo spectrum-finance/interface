@@ -1,5 +1,6 @@
 import './ActionButton.less';
 
+import { Button, ButtonProps } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
 import { DateTime } from 'luxon';
 import React, { FC, ReactNode, useContext } from 'react';
@@ -7,7 +8,6 @@ import { interval, map } from 'rxjs';
 
 import { useObservable } from '../../../../common/hooks/useObservable';
 import { Currency } from '../../../../common/models/Currency';
-import { Button, ButtonProps } from '../../../../ergodex-cdk';
 import { ConnectWalletButton } from '../../ConnectWalletButton/ConnectWalletButton';
 import { ActionButtonState, ActionFormContext } from '../ActionFormContext';
 

@@ -1,8 +1,8 @@
+import { Box, List } from '@ergolabs/ui-kit';
 import React, { FC } from 'react';
 import styled from 'styled-components';
 
 import { AmmPool } from '../../../../../common/models/AmmPool';
-import { Box, List } from '../../../../../ergodex-cdk';
 import { PoolSelectorOverlayItemView } from './PoolSelectorOverlayItemView/PoolSelectorOverlayItemView';
 
 export interface PoolSelectorOverlayProps {

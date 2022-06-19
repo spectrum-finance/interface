@@ -1,10 +1,10 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import { Address } from '@ergolabs/ergo-sdk';
+import { Button, Flex, Modal, Typography } from '@ergolabs/ui-kit';
 import React, { FC } from 'react';
 import styled from 'styled-components';
 
 import { Currency } from '../../../../common/models/Currency';
-import { Button, Flex, Modal, Typography } from '../../../../ergodex-cdk';
 import { WalletModal } from '../../../WalletModal/WalletModal';
 import { AddressTag } from './AddressTag/AddressTag';
 

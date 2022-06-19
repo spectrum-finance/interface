@@ -1,15 +1,8 @@
 import './GuideLink.less';
 
+import { Box, Button, Col, Row, Typography } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React from 'react';
-
-import {
-  Box,
-  Button,
-  Col,
-  Row,
-  Typography,
-} from '../../ergodex-cdk/components/';
 
 interface GuideLinkProps {
   title: string;

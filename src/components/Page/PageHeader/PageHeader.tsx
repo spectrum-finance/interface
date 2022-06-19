@@ -1,7 +1,7 @@
+import { Flex, Typography } from '@ergolabs/ui-kit';
 import React, { ReactNode } from 'react';
 
 import { Position } from '../../../common/models/Position';
-import { Flex, Typography } from '../../../ergodex-cdk';
 import { AssetIconPair } from '../../AssetIconPair/AssetIconPair';
 import { OptionsButton } from '../../common/OptionsButton/OptionsButton';
 import { Truncate } from '../../Truncate/Truncate';

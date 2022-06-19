@@ -1,10 +1,4 @@
 import { AssetInfo } from '@ergolabs/ergo-sdk';
-import { t, Trans } from '@lingui/macro';
-import React, { FC, ReactNode } from 'react';
-import { Observable, of } from 'rxjs';
-
-import { useObservable } from '../../../common/hooks/useObservable';
-import { Currency } from '../../../common/models/Currency';
 import {
   Animation,
   Box,
@@ -13,7 +7,13 @@ import {
   Form,
   Typography,
   useFormContext,
-} from '../../../ergodex-cdk';
+} from '@ergolabs/ui-kit';
+import { t, Trans } from '@lingui/macro';
+import React, { FC, ReactNode } from 'react';
+import { Observable, of } from 'rxjs';
+
+import { useObservable } from '../../../common/hooks/useObservable';
+import { Currency } from '../../../common/models/Currency';
 import { useAssetsBalance } from '../../../gateway/api/assetBalance';
 import { ConvenientAssetView } from '../../ConvenientAssetView/ConvenientAssetView';
 import {

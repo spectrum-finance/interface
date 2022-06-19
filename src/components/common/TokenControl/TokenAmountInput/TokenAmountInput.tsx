@@ -1,10 +1,10 @@
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
+import { EventConfig, Input } from '@ergolabs/ui-kit';
 import React, { useEffect, useState } from 'react';
 import NumberFormat from 'react-number-format';
 import styled from 'styled-components';
 
 import { Currency } from '../../../../common/models/Currency';
-import { EventConfig, Input } from '../../../../ergodex-cdk';
 
 export interface TokenAmountInputValue {
   viewValue: string | undefined;

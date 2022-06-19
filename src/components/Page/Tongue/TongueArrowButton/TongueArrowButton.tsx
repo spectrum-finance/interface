@@ -1,7 +1,6 @@
+import { Button } from '@ergolabs/ui-kit';
 import React, { ReactElement } from 'react';
 import styled from 'styled-components';
-
-import { Button } from '../../../../ergodex-cdk';
 
 interface TongueArrowButtonProps {
   icon: ReactElement;

@@ -1,8 +1,3 @@
-import { t, Trans } from '@lingui/macro';
-import React from 'react';
-import CopyToClipboard from 'react-copy-to-clipboard';
-
-import { useObservable } from '../../../../common/hooks/useObservable';
 import {
   Box,
   Button,
@@ -13,7 +8,12 @@ import {
   ReloadOutlined,
   Skeleton,
   Typography,
-} from '../../../../ergodex-cdk';
+} from '@ergolabs/ui-kit';
+import { t, Trans } from '@lingui/macro';
+import React from 'react';
+import CopyToClipboard from 'react-copy-to-clipboard';
+
+import { useObservable } from '../../../../common/hooks/useObservable';
 import { addresses$ } from '../../../../gateway/api/addresses';
 import {
   isTransactionsHistorySyncing$,

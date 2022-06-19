@@ -1,7 +1,7 @@
+import { Box, Flex } from '@ergolabs/ui-kit';
 import React, { FC, ReactNode } from 'react';
 import styled, { css } from 'styled-components';
 
-import { Box, Flex } from '../../../ergodex-cdk';
 import { Gutter } from '../../../ergodex-cdk/utils/gutter';
 import { Column } from './Column/Column';
 

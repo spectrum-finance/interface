@@ -1,7 +1,7 @@
+import { SearchOutlined, Typography } from '@ergolabs/ui-kit';
 import React, { FC, ReactNode } from 'react';
 import styled from 'styled-components';
 
-import { SearchOutlined, Typography } from '../../../../ergodex-cdk';
 import { TableViewStateContainer } from '../TableViewStateContainer/TableViewStateContainer';
 
 export interface TableViewEmptySearchStateProps {

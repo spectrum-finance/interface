@@ -1,5 +1,6 @@
 import './NetworkHeight.less';
 
+import { Flex, Tooltip, Typography } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
 import React from 'react';
 // @ts-ignore
@@ -7,7 +8,6 @@ import FlipNumbers from 'react-flip-numbers';
 
 import { ReactComponent as BlockIcon } from '../../assets/icons/block-icon.svg';
 import { useObservable } from '../../common/hooks/useObservable';
-import { Flex, Tooltip, Typography } from '../../ergodex-cdk';
 import { networkContext$ } from '../../gateway/api/networkContext';
 import { useSelectedNetwork } from '../../gateway/common/network';
 import { exploreLastBlock } from '../../gateway/utils/exploreAddress';

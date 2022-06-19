@@ -1,4 +1,14 @@
 import { blocksToMillis, PoolId } from '@ergolabs/ergo-dex-sdk';
+import {
+  Animation,
+  Flex,
+  Form,
+  FormGroup,
+  List,
+  Skeleton,
+  Typography,
+  useForm,
+} from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import { DateTime } from 'luxon';
 import React, { useEffect } from 'react';
@@ -18,16 +28,6 @@ import {
 import { Page } from '../../../components/Page/Page';
 import { PageHeader } from '../../../components/Page/PageHeader/PageHeader';
 import { PageSection } from '../../../components/Page/PageSection/PageSection';
-import {
-  Animation,
-  Flex,
-  Form,
-  FormGroup,
-  List,
-  Skeleton,
-  Typography,
-  useForm,
-} from '../../../ergodex-cdk';
 import { ergoExplorerContext$ } from '../../../gateway/api/explorer';
 import { getPositionByAmmPoolId } from '../../../gateway/api/positions';
 import { LockedPositionItem } from '../components/LockedPositionItem/LockedPositionItem';

@@ -1,7 +1,6 @@
+import { Box, Flex } from '@ergolabs/ui-kit';
 import React, { FC, ReactNode } from 'react';
 import styled from 'styled-components';
-
-import { Box, Flex } from '../../../../ergodex-cdk';
 
 export interface TableViewStateContainerProps {
   readonly className?: string;

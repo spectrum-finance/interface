@@ -1,10 +1,10 @@
+import { Flex, Typography } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React from 'react';
 
 import { AmmPool } from '../../../../../../common/models/AmmPool';
 import { DataTag } from '../../../../../../components/common/DataTag/DataTag';
 import { InfoTooltip } from '../../../../../../components/InfoTooltip/InfoTooltip';
-import { Flex, Typography } from '../../../../../../ergodex-cdk';
 import { formatToUSD } from '../../../../../../services/number';
 import { renderFractions } from '../../../../../../utils/math';
 

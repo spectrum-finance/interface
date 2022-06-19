@@ -1,4 +1,5 @@
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
+import { Flex, Form, Skeleton, useForm } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import React, { FC, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router';
@@ -23,7 +24,6 @@ import { AssetInfo } from '../../common/models/AssetInfo';
 import { TokeSelectFormItem } from '../../components/common/TokenControl/TokenSelect/TokenSelect';
 import { Page } from '../../components/Page/Page';
 import { Section } from '../../components/Section/Section';
-import { Flex, Form, Skeleton, useForm } from '../../ergodex-cdk';
 import {
   getAmmPoolById,
   getAmmPoolsByAssetPair,

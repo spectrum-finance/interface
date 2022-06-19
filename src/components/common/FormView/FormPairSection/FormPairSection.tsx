@@ -1,7 +1,7 @@
+import { Flex, Typography } from '@ergolabs/ui-kit';
 import React, { ReactNode } from 'react';
 
 import { Currency } from '../../../../common/models/Currency';
-import { Flex, Typography } from '../../../../ergodex-cdk';
 import { AssetIcon } from '../../../AssetIcon/AssetIcon';
 import { ConvenientAssetView } from '../../../ConvenientAssetView/ConvenientAssetView';
 import { PageSection } from '../../../Page/PageSection/PageSection';

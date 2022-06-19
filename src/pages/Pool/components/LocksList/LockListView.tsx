@@ -1,7 +1,7 @@
+import { List } from '@ergolabs/ui-kit';
 import React, { FC } from 'react';
 
 import { Position } from '../../../../common/models/Position';
-import { List } from '../../../../ergodex-cdk';
 import { EmptySearchResult } from '../../common/EmptySearchResult/EmptySearchResult';
 import { LockItemView } from './LockItemView/LockItemView';
 

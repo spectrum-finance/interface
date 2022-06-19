@@ -1,4 +1,13 @@
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
+import {
+  Flex,
+  Form,
+  FormGroup,
+  List,
+  Skeleton,
+  Typography,
+  useForm,
+} from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import React, { useEffect } from 'react';
 
@@ -16,15 +25,6 @@ import {
 } from '../../../components/OperationForm/OperationForm';
 import { Page } from '../../../components/Page/Page';
 import { PageHeader } from '../../../components/Page/PageHeader/PageHeader';
-import {
-  Flex,
-  Form,
-  FormGroup,
-  List,
-  Skeleton,
-  Typography,
-  useForm,
-} from '../../../ergodex-cdk';
 import { getPositionByAmmPoolId } from '../../../gateway/api/positions';
 import { LockedPositionItem } from '../components/LockedPositionItem/LockedPositionItem';
 import { WithdrawalLiquidityConfirmationModal } from './WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal';

@@ -1,6 +1,6 @@
+import { ModalRef } from '@ergolabs/ui-kit';
 import React, { FC } from 'react';
 
-import { ModalRef } from '../../../ergodex-cdk';
 import { getTransactionHistory } from '../../../network/cardano/api/transactionHistory/transactionHistory';
 import { OperationHistoryModal } from '../../OperationHistoryModal/OperationHistoryModal';
 
