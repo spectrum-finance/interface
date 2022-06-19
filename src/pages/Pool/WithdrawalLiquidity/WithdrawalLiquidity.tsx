@@ -1,9 +1,9 @@
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
 import { t, Trans } from '@lingui/macro';
 import React, { useEffect } from 'react';
-import { useParams } from 'react-router';
 
 import { useSubject } from '../../../common/hooks/useObservable';
+import { useParamsStrict } from '../../../common/hooks/useParamsStrict';
 import { AssetLock, AssetLockStatus } from '../../../common/models/AssetLock';
 import { FormPairSection } from '../../../components/common/FormView/FormPairSection/FormPairSection';
 import {
@@ -37,7 +37,7 @@ export const WithdrawalLiquidity = (): JSX.Element => {
   const form = useForm<RelockLiquidityModel>({
     lockedPosition: undefined,
   });
-  const { poolId } = useParams<{ poolId: PoolId }>();
+  const { poolId } = useParamsStrict<{ poolId: PoolId }>();
   const [position, updatePosition] = useSubject(getPositionByAmmPoolId);
   useEffect(() => updatePosition(poolId), []);
 

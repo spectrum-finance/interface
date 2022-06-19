@@ -1,39 +1,25 @@
 import { t } from '@lingui/macro';
 import React, { FC, useEffect, useState } from 'react';
-import { useHistory, useRouteMatch } from 'react-router-dom';
+import { useMatch, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Tabs } from '../../../ergodex-cdk';
-
-interface MatchParams {
-  page: string;
-  id: string;
-}
 
 interface NavigationProps {
   className?: string;
 }
 
 const _Navigation: FC<NavigationProps> = ({ className }) => {
-  const history = useHistory();
-  const matchRoot = useRouteMatch<MatchParams>('/:page');
-  const matchPoolPosition = useRouteMatch<MatchParams>('/pool/:id');
-  const matchRemovePosition = useRouteMatch<MatchParams>('/remove/:id');
+  const navigate = useNavigate();
+  const matchLiquidityPage = useMatch({ path: ':network/pool', end: false });
 
   const [defaultActiveKey, setDefaultActiveKey] = useState('');
 
   useEffect(() => {
-    if (matchPoolPosition || matchRemovePosition) {
-      setDefaultActiveKey('pool');
-      return;
-    }
+    setDefaultActiveKey(matchLiquidityPage ? 'pool' : 'swap');
+  }, [matchLiquidityPage]);
 
-    setDefaultActiveKey(
-      matchRoot && matchRoot.isExact ? matchRoot.params.page : 'swap',
-    );
-  }, [matchPoolPosition, matchRemovePosition, matchRoot]);
-
-  const onTabClick = (key: string) => history.push(`/${key}`);
+  const onTabClick = (key: string) => navigate(key);
 
   return (
     <Tabs

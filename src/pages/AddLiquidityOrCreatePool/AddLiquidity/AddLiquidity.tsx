@@ -1,5 +1,5 @@
 import { t } from '@lingui/macro';
-import { maxBy } from 'lodash';
+import maxBy from 'lodash/maxBy';
 import React, { FC, useEffect, useState } from 'react';
 import { Observable, skip, tap } from 'rxjs';
 

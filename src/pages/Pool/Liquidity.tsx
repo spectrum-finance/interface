@@ -2,7 +2,7 @@ import './Pool.less';
 
 import { t, Trans } from '@lingui/macro';
 import React, { useCallback, useEffect, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { useObservable } from '../../common/hooks/useObservable';
 import { AmmPool } from '../../common/models/AmmPool';
@@ -61,7 +61,7 @@ const PoolPageWrapper: React.FC<PoolPageWrapperProps> = ({
                   overlay={
                     <Menu style={{ padding: '8px', width: '200px' }}>
                       <Menu.Item key="1">
-                        <Link to="pool/create">
+                        <Link to="create">
                           <Trans>Create pool</Trans>
                         </Link>
                       </Menu.Item>
@@ -87,7 +87,7 @@ const Liquidity = (): JSX.Element => {
   const [isWalletConnected] = useObservable(isWalletSetuped$, [], false);
   const [, isBalanceLoading] = useAssetsBalance();
   const [selectedNetwork] = useSelectedNetwork();
-  const history = useHistory();
+  const navigate = useNavigate();
   const query = useQuery();
   const [term, setTerm] = useState<string | undefined>();
   const [isCommunityPoolsShown, setIsCommunityPoolsShown] =
@@ -100,7 +100,7 @@ const Liquidity = (): JSX.Element => {
   }, [selectedNetwork]);
 
   useEffect(() => {
-    history.push(`/pool?active=${query.active ?? defaultActiveTabKey}`);
+    navigate(`?active=${query.active ?? defaultActiveTabKey}`);
   }, []);
 
   const [positions, isPositionLoading] = useObservable(positions$, [], []);
@@ -111,7 +111,7 @@ const Liquidity = (): JSX.Element => {
     setTerm(e.target.value);
 
   const handleAddLiquidity = () => {
-    history.push('/pool/add');
+    navigate('add');
   };
 
   const filterCommunityPools = useCallback(
@@ -151,7 +151,7 @@ const Liquidity = (): JSX.Element => {
         defaultActiveKey={String(query.active)}
         className="pool__position-tabs"
         onChange={(key) => {
-          history.push(`/pool?active=${key}`);
+          navigate(`?active=${key}`);
         }}
       >
         <Tabs.TabPane

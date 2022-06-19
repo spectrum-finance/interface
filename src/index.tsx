@@ -1,20 +1,12 @@
 import './assets/styles/styles.less';
 
-import * as Sentry from '@sentry/react';
-import { Integrations } from '@sentry/tracing';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
 import { ApplicationInitializer } from './App';
 import { reportWebVitals } from './reportWebVitals';
 
-Sentry.init({
-  dsn: process.env.REACT_APP_SENTRY_DSN,
-  integrations: [new Integrations.BrowserTracing()],
-  environment: process.env.REACT_APP_SENTRY_ENV_FLAG,
-  tracesSampleRate: 1.0,
-});
-
+// TODO: fix toggle-group behavior after switch to react v18 root api.
 ReactDOM.render(
   <React.StrictMode>
     <ApplicationInitializer />

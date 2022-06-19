@@ -1,7 +1,7 @@
 import './PoolSelect.less';
 
 import { Trans } from '@lingui/macro';
-import { maxBy } from 'lodash';
+import maxBy from 'lodash/maxBy';
 import React, { useEffect } from 'react';
 
 import { AmmPool } from '../../../common/models/AmmPool';

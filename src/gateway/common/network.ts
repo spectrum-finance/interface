@@ -2,11 +2,11 @@ import {
   BehaviorSubject,
   distinctUntilChanged,
   distinctUntilKeyChanged,
-  map,
+  filter,
   Observable,
   publishReplay,
   refCount,
-  zip,
+  switchMap,
 } from 'rxjs';
 
 import { useObservable } from '../../common/hooks/useObservable';
@@ -17,47 +17,65 @@ import { ergoNetwork } from '../../network/ergo/ergo';
 
 const SELECTED_NETWORK_KEY = 'ergodex-selected-network-key';
 
+const updateSelectedNetwork$ = new BehaviorSubject<
+  Network<any, any> | undefined
+>(undefined);
+
+let afterNetworkChange: ((n: Network<any, any>) => void) | undefined =
+  undefined;
+
 export const networks: Network<any, any, any>[] = [ergoNetwork, cardanoNetwork];
 
-const initialNetworkName =
-  localStorageManager.get<string>(SELECTED_NETWORK_KEY);
-export const initialNetwork: Network<any, any, any> = initialNetworkName
-  ? networks.find((n) => n.name === initialNetworkName)!
-  : cardanoNetwork;
+export const isNetworkExists = (networkName?: string): boolean =>
+  networks.some((n) => n.name === networkName);
 
-const link = document.querySelector<HTMLLinkElement>("link[rel~='icon']");
-if (link) {
-  link.href = `/favicon-${initialNetwork.name}.svg`;
-}
-
-const updateSelectedNetwork$ = new BehaviorSubject<Network<any, any>>(
-  initialNetwork,
-);
+export let selectedNetwork: Network<any, any, any>;
 
 export const changeSelectedNetwork = (network: Network<any, any>): void => {
   localStorageManager.set(SELECTED_NETWORK_KEY, network.name);
-  window.location.reload();
-  // updateSelectedNetwork$.next(network);
+
+  if (afterNetworkChange) {
+    afterNetworkChange(network);
+  }
 };
 
 export const selectedNetwork$: Observable<Network<any, any>> =
   updateSelectedNetwork$.pipe(
+    filter(Boolean),
     distinctUntilKeyChanged('name'),
     publishReplay(1),
     refCount(),
   );
 
-export const networksInitialized$ = zip(
-  networks.map((n) => n.initialized$),
-).pipe(
-  map((networksInitialized) => networksInitialized.every(Boolean)),
+interface InitializeNetworkParams {
+  readonly possibleName?: string;
+  readonly afterNetworkChange?: (network: Network<any, any>) => void;
+}
+export const initializeNetwork = (
+  params: InitializeNetworkParams,
+): Network<any, any> => {
+  const selectedNetworkName = isNetworkExists(params.possibleName)
+    ? params.possibleName
+    : localStorageManager.get<string>(SELECTED_NETWORK_KEY);
+  const newSelectedNetwork: Network<any, any> = selectedNetworkName
+    ? networks.find((n) => n.name === selectedNetworkName)!
+    : (cardanoNetwork as any);
+
+  afterNetworkChange = params.afterNetworkChange;
+  selectedNetwork = newSelectedNetwork;
+  localStorageManager.set(SELECTED_NETWORK_KEY, newSelectedNetwork.name);
+  updateSelectedNetwork$.next(newSelectedNetwork);
+  newSelectedNetwork.initialize();
+
+  return newSelectedNetwork;
+};
+
+export const networksInitialized$ = selectedNetwork$.pipe(
+  switchMap((n) => n.initialized$),
   distinctUntilChanged(),
   publishReplay(1),
   refCount(),
 );
 
-export const initializeNetworks = (): void =>
-  networks.forEach((n) => n.initialize());
-
 export const useSelectedNetwork = (): [Network<any, any>, boolean, Error] =>
-  useObservable(selectedNetwork$, [], initialNetwork);
+  useObservable(selectedNetwork$, [], selectedNetwork);

@@ -53,6 +53,7 @@ export const cardanoNetwork: Network<
 > = {
   name: 'cardano',
   label: 'cardano (Testnet)',
+  favicon: '/favicon-cardano.svg',
   convenientAssetDefaultPreview: '0 ADA',
   networkAsset,
   initialized$,

@@ -1,7 +1,7 @@
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
 import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { useObservable } from '../../../../common/hooks/useObservable';
 import { AmmPool } from '../../../../common/models/AmmPool';
@@ -25,16 +25,16 @@ const LiquidityPositionsList: FC<LiquidityPositionsListProps> = ({
 }): JSX.Element => {
   const [isWalletConnected] = useObservable(isWalletSetuped$, [], false);
 
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const onPositionClick = (id: PoolId) => {
     if (isWalletConnected) {
-      history.push(`/pool/${id}/`);
+      navigate(`${id}`);
     }
   };
 
   function handleAddLiquidity() {
-    history.push('/pool/add');
+    navigate('add');
   }
 
   if (loading) {

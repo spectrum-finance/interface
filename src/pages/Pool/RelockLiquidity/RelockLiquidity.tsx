@@ -2,10 +2,10 @@ import { blocksToMillis, PoolId } from '@ergolabs/ergo-dex-sdk';
 import { t, Trans } from '@lingui/macro';
 import { DateTime } from 'luxon';
 import React, { useEffect } from 'react';
-import { useParams } from 'react-router';
 import { map } from 'rxjs';
 
 import { useObservable, useSubject } from '../../../common/hooks/useObservable';
+import { useParamsStrict } from '../../../common/hooks/useParamsStrict';
 import { AssetLock } from '../../../common/models/AssetLock';
 import {
   openConfirmationModal,
@@ -44,7 +44,7 @@ export const RelockLiquidity = (): JSX.Element => {
     lockedPosition: undefined,
     relocktime: undefined,
   });
-  const { poolId } = useParams<{ poolId: PoolId }>();
+  const { poolId } = useParamsStrict<{ poolId: PoolId }>();
   const [position, updatePosition] = useSubject(getPositionByAmmPoolId);
 
   const [explorerContext] = useObservable(ergoExplorerContext$);

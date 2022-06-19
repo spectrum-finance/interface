@@ -1,6 +1,6 @@
 import './Layout.less';
 
-import React, { useEffect, useRef } from 'react';
+import React, { FC, PropsWithChildren, useEffect, useRef } from 'react';
 import { isBrowser } from 'react-device-detect';
 
 import { useAppLoadingState, useSettings } from '../../../context';
@@ -12,11 +12,9 @@ import { NetworkHeight } from '../../NetworkHeight/NetworkHeight';
 import { SocialLinks } from '../../SocialLinks/SocialLinks';
 import { KyaModal } from '../KyaModal/KyaModal';
 
-interface Props {
-  children: React.ReactChild | React.ReactChild[];
-}
-
-const Layout = ({ children }: Props): JSX.Element => {
+const Layout: FC<PropsWithChildren<Record<string, unknown>>> = ({
+  children,
+}) => {
   const [{ theme }] = useSettings();
   const [network] = useSelectedNetwork();
   const ref = useRef<HTMLDivElement>(null);

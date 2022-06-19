@@ -72,12 +72,12 @@ export const LockItemView: FC<LockItemViewProps> = ({ position }) => (
       <Flex stretch align="center" justify="flex-end">
         <OptionsButton size="large" type="text" width={160}>
           <Menu.Item icon={<RelockIcon />}>
-            <Link to={`/pool/${position.pool.id}/relock`}>
+            <Link to={`${position.pool.id}/relock`}>
               <Trans>Relock liquidity</Trans>
             </Link>
           </Menu.Item>
           <Menu.Item icon={<WithdrawalIcon />}>
-            <Link to={`/pool/${position.pool.id}/withdrawal`}>
+            <Link to={`${position.pool.id}/withdrawal`}>
               <Trans>Withdrawal</Trans>
             </Link>
           </Menu.Item>
