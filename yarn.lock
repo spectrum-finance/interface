@@ -1790,10 +1790,10 @@
     ts-node "^9"
     tslib "^2"
 
-"@ergolabs/cardano-dex-sdk@^0.0.46":
-  version "0.0.46"
-  resolved "https://registry.yarnpkg.com/@ergolabs/cardano-dex-sdk/-/cardano-dex-sdk-0.0.46.tgz#2c6c5b623fde2c5669ea1f13fc833918b2593af1"
-  integrity sha512-hx2CoDStj3FAxvhi4ppAEVxAFdyIK1GHE1GsQ8oTaXUiWkq8hSH5BfZqAKsgFkpbbqkzmGTmEwwxu0P8bXPVpA==
+"@ergolabs/cardano-dex-sdk@^0.0.49":
+  version "0.0.49"
+  resolved "https://registry.yarnpkg.com/@ergolabs/cardano-dex-sdk/-/cardano-dex-sdk-0.0.49.tgz#ff94ef004284b814bcca63bc08e4f13eba08f197"
+  integrity sha512-ZqlLMp+syE2JODN1bQO8p+z7yDmvQo7ME5g+A56Q6n3W/NmtK7wYFm5FJkgNCcAcJEmVG2p2JXeEetolV6Zvew==
   dependencies:
     "@emurgo/cardano-serialization-lib-browser" "10.0.4"
     axios "^0.21.1"
@@ -6802,6 +6802,11 @@ csstype@^3.0.2:
   version "3.0.10"
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.0.10.tgz#2ad3a7bed70f35b965707c092e5f30b327c290e5"
   integrity sha512-2u44ZG2OcNUO9HDp/Jl8C07x6pU/eTR3ncV91SiK3dhG9TWvRVsCoJw14Ckx5DgWkzGA3waZWO3d7pgqpUI/XA==
+
+cupertino-pane@^1.2.82:
+  version "1.2.82"
+  resolved "https://registry.yarnpkg.com/cupertino-pane/-/cupertino-pane-1.2.82.tgz#c75a48200f0951c049c1f77bc5148ab6c007fb0b"
+  integrity sha512-b8Virh8wIBtAyCZthLSnuQ2umi8t5w0s8D0CukcHCt1ZOoXdHXFCPFfVWQHav0bFOGhA3P9Ix/iCpWBcSryQsA==
 
 customize-cra-less-loader@^1.0.0:
   version "1.0.0"
@@ -14551,6 +14556,13 @@ react-merge-refs@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/react-merge-refs/-/react-merge-refs-1.1.0.tgz#73d88b892c6c68cbb7a66e0800faa374f4c38b06"
   integrity sha512-alTKsjEL0dKH/ru1Iyn7vliS2QRcBp9zZPGoWxUOvRGWPUYgjo+V01is7p04It6KhgrzhJGnIj9GgX8W4bZoCQ==
+
+react-number-format@^4.9.3:
+  version "4.9.3"
+  resolved "https://registry.yarnpkg.com/react-number-format/-/react-number-format-4.9.3.tgz#338500fe9c61b1ac73c8d6dff4ec97dd13fd2b50"
+  integrity sha512-am1A1xYAbENuKJ+zpM7V+B1oRTSeOHYltqVKExznIVFweBzhLmOBmyb1DfIKjHo90E0bo1p3nzVJ2NgS5xh+sQ==
+  dependencies:
+    prop-types "^15.7.2"
 
 react-popper-tooltip@^3.1.1:
   version "3.1.1"

@@ -1,6 +1,7 @@
-import React, { FC, PropsWithChildren } from 'react';
+import { CSSProperties } from 'react';
+import styled from 'styled-components';
 
-export const ModalContent: FC<PropsWithChildren<{ width?: number | string }>> =
-  ({ children, width }) => (
-    <div style={{ width, padding: '0 16px 16px' }}>{children}</div>
-  );
+export const ModalContent = styled.div<{ width?: CSSProperties['width'] }>`
+  padding: 0 16px 16px;
+  width: ${(props) => props.width};
+`;

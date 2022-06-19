@@ -146,9 +146,9 @@ export class Currency {
     return renderFractions(this.amount, this.asset.decimals);
   }
 
-  toString(maxDecimals?: number): string {
+  toString(maxDecimals?: number, minDecimals?: number): string {
     if (maxDecimals !== null && maxDecimals !== undefined) {
-      return Currency.createFormatter(maxDecimals).format(
+      return Currency.createFormatter(maxDecimals, minDecimals).format(
         +renderFractions(this.amount, this.asset.decimals),
       );
     }
@@ -158,13 +158,13 @@ export class Currency {
     );
   }
 
-  toCurrencyString(maxDecimals?: number): string {
+  toCurrencyString(maxDecimals?: number, minDecimals?: number): string {
     if (this.asset.prefix) {
       return `${
         isUnknownAsset(this.asset) ? '' : this.asset.prefix
-      } ${this.toString(maxDecimals)}`;
+      } ${this.toString(maxDecimals, minDecimals)}`;
     } else {
-      return `${this.toString(maxDecimals)} ${
+      return `${this.toString(maxDecimals, minDecimals)} ${
         isUnknownAsset(this.asset) ? '' : this.asset.name
       }`;
     }
@@ -203,7 +203,10 @@ export class Currency {
     return normalizeAmount(amountString, newAsset);
   }
 
-  private static createFormatter(decimals: number): Intl.NumberFormat {
-    return getFormatter(decimals);
+  private static createFormatter(
+    maxDecimals: number,
+    minDecimals?: number,
+  ): Intl.NumberFormat {
+    return getFormatter(maxDecimals, minDecimals);
   }
 }

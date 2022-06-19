@@ -15,7 +15,7 @@ const calculateOutputPrice = ({
   if (fromAmount?.isPositive()) {
     return pool.calculateOutputPrice(fromAmount);
   } else {
-    return pool.calculateOutputPrice(new Currency('1', fromAsset));
+    return pool.calculateOutputPrice(new Currency('0', fromAsset));
   }
 };
 
@@ -27,7 +27,7 @@ const calculateInputPrice = ({
   if (toAmount?.isPositive()) {
     return pool.calculateInputPrice(toAmount);
   } else {
-    return pool.calculateInputPrice(new Currency('1', toAsset));
+    return pool.calculateInputPrice(new Currency('0', toAsset));
   }
 };
 

@@ -1,6 +1,5 @@
 import { AmmPool as BaseAmmPool } from '@ergolabs/ergo-dex-sdk';
 
-import { AmmPool } from '../common/models/AmmPool';
 import { mockAsset } from './asset';
 
 export const basePoolMock = new BaseAmmPool(

@@ -1,11 +1,11 @@
 import React, { FC, ReactNode } from 'react';
 import styled, { css } from 'styled-components';
 
-import { Box, Flex } from '../../ergodex-cdk';
-import { Gutter } from '../../ergodex-cdk/utils/gutter';
+import { Box, Flex } from '../../../ergodex-cdk';
+import { Gutter } from '../../../ergodex-cdk/utils/gutter';
 import { Column } from './Column/Column';
 
-export interface TableListItemViewProps {
+export interface TableItemViewProps {
   readonly height: number;
   readonly padding?: Gutter;
   readonly className?: string;
@@ -14,7 +14,7 @@ export interface TableListItemViewProps {
   readonly onClick?: () => void;
 }
 
-const _TableListItemView: FC<TableListItemViewProps> = ({
+const _TableItemView: FC<TableItemViewProps> = ({
   height,
   padding,
   className,
@@ -31,11 +31,11 @@ const _TableListItemView: FC<TableListItemViewProps> = ({
   </Box>
 );
 
-export const TableListItemView: typeof _TableListItemView & {
+export const TableItemView: typeof _TableItemView & {
   Column: typeof Column;
-} = styled(_TableListItemView)`
+} = styled(_TableItemView)`
   transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
-  background: var(--ergo-pool-position-bg);
+  background: var(--ergo-table-view-item-bg);
   width: 100%;
 
   ${(props) =>
@@ -45,8 +45,8 @@ export const TableListItemView: typeof _TableListItemView & {
       &:hover,
       &:focus,
       &:active {
-        background: var(--ergo-pool-position-bg-hover);
+        background: var(--ergo-table-view-item-hover);
       }
     `}
 ` as any;
-TableListItemView.Column = Column;
+TableItemView.Column = Column;

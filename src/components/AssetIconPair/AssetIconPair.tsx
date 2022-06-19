@@ -12,7 +12,7 @@ interface TokenIconPairProps {
   size?: 'large' | 'small';
 }
 
-const TokenIconPair: React.FC<TokenIconPairProps> = ({
+const AssetIconPair: React.FC<TokenIconPairProps> = ({
   assetX,
   assetY,
   size,
@@ -29,4 +29,4 @@ const TokenIconPair: React.FC<TokenIconPairProps> = ({
   );
 };
 
-export { TokenIconPair };
+export { AssetIconPair };

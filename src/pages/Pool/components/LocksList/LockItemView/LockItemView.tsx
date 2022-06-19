@@ -7,7 +7,7 @@ import { ReactComponent as WithdrawalIcon } from '../../../../../assets/icons/wi
 import { Position } from '../../../../../common/models/Position';
 import { DataTag } from '../../../../../components/common/DataTag/DataTag';
 import { OptionsButton } from '../../../../../components/common/OptionsButton/OptionsButton';
-import { TableListItemView } from '../../../../../components/TableListItemView/TableListItemView';
+import { TableListItemView } from '../../../../../components/TableList/TableListItemView/TableListItemView';
 import { TokenTitle } from '../../../../../components/TokenTitle';
 import { Flex, Menu } from '../../../../../ergodex-cdk';
 

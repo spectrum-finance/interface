@@ -8,10 +8,10 @@ import {
   Box,
   Button,
   Checkbox,
-  DialogRef,
   Flex,
   LogoutOutlined,
   Modal,
+  ModalRef,
   Tag,
   Typography,
 } from '../../../../ergodex-cdk';
@@ -170,7 +170,7 @@ const WalletView: React.FC<WalletItemProps> = ({ wallet, close }) => {
   }
 };
 
-type ChooseWalletModalProps = DialogRef<boolean>;
+type ChooseWalletModalProps = ModalRef<boolean>;
 
 const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
   close,

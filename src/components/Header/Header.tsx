@@ -84,9 +84,7 @@ export const Header: React.FC<HeaderProps> = ({ layoutRef }) => {
                   isBalanceLoading ? undefined : balance.get(networkAsset)
                 }
               />
-              <IsErgo>
-                {walletState === WalletState.CONNECTED && <TxHistory />}
-              </IsErgo>
+              {walletState === WalletState.CONNECTED && <TxHistory />}
             </>
           )}
           <BurgerMenu />

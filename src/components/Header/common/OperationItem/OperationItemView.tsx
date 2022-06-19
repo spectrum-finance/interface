@@ -2,7 +2,7 @@ import { t } from '@lingui/macro';
 import React, { FC } from 'react';
 
 import { Operation } from '../../../common/TxHistory/types';
-import { TableListItemView } from '../../../TableListItemView/TableListItemView';
+import { TableListItemView } from '../../../TableList/TableListItemView/TableListItemView';
 import { AssetsColumn } from './AssetsColumn/AssetsColumn';
 import { DateTimeColumn } from './DateTimeColumn/DateTimeColumn';
 import { StatusTag } from './StatusTag/StatusTag';

@@ -1,5 +1,6 @@
 import { PublicKey } from '@ergolabs/ergo-sdk';
 import { useLocalStorage } from '@rehooks/local-storage';
+import { Settings as LuxonSettings } from 'luxon';
 import React, { createContext, useContext, useEffect } from 'react';
 
 import { MIN_NITRO } from '../common/constants/erg';
@@ -88,6 +89,10 @@ export const SettingsProvider = ({
       });
     }
   }, []);
+
+  useEffect(() => {
+    LuxonSettings.defaultLocale = userSettings.lang;
+  }, [userSettings.lang]);
 
   // useEffect(() => {
   //   if (!usedAddresses || !unusedAddresses) {

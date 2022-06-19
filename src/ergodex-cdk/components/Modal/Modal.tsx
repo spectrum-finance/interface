@@ -1,10 +1,12 @@
 import './Modal.less';
 
 import { Modal as BaseModal } from 'antd';
-import React, { ReactElement } from 'react';
+import React, { PropsWithChildren, ReactElement } from 'react';
 import { ReactNode } from 'react';
+import { BrowserView, MobileView } from 'react-device-detect';
 import ReactDOM from 'react-dom';
 
+import { BaseMobileModal } from './BaseMobileModal';
 import { ModalContent } from './ModalContent/ModalContent';
 import {
   ModalInnerTitle,
@@ -26,7 +28,7 @@ export interface ModalParams<R = any> {
   readonly closable?: boolean;
 }
 
-export interface DialogRef<T = any> {
+export interface ModalRef<T = any> {
   close: (result?: T) => void;
 }
 
@@ -37,9 +39,9 @@ interface ModalProvider {
     content:
       | ReactNode
       | ReactNode[]
-      | ((dialogRef: DialogRef) => ReactNode | ReactNode[] | string),
+      | ((dialogRef: ModalRef) => ReactNode | ReactNode[] | string),
     params?: ModalParams,
-  ) => DialogRef;
+  ) => ModalRef;
 }
 
 class BaseModalProvider implements ModalProvider {
@@ -56,9 +58,9 @@ class BaseModalProvider implements ModalProvider {
     content:
       | ReactNode
       | ReactNode[]
-      | ((dialogRef: DialogRef) => ReactNode | ReactNode[] | string),
+      | ((dialogRef: ModalRef) => ReactNode | ReactNode[] | string),
     params: ModalParams = this.defaultParams,
-  ): DialogRef {
+  ): ModalRef {
     const dialogId = this.createDialogId();
     const container = this.createContainer(dialogId);
 
@@ -93,21 +95,38 @@ class BaseModalProvider implements ModalProvider {
     const modalFactory = (visible: boolean) => {
       return (
         <ModalTitleContextProvider>
-          <BaseModal
-            key={dialogId}
-            width={params.width}
-            visible={visible}
-            onCancel={onCancel}
-            footer={params.footer}
-            title={<ModalInnerTitle />}
-            afterClose={afterClose}
-            closable={params.closable}
-          >
-            <>
-              {visible && afterOpen()}
-              {content instanceof Function ? content({ close }) : content}
-            </>
-          </BaseModal>
+          <BrowserView>
+            <BaseModal
+              key={dialogId}
+              width={params.width}
+              visible={visible}
+              onCancel={onCancel}
+              footer={params.footer}
+              title={<ModalInnerTitle />}
+              afterClose={afterClose}
+              closable={params.closable}
+            >
+              <>
+                {visible && afterOpen()}
+                {content instanceof Function ? content({ close }) : content}
+              </>
+            </BaseModal>
+          </BrowserView>
+          <MobileView>
+            <BaseMobileModal
+              key={dialogId}
+              visible={visible}
+              onClose={onCancel}
+              title={<ModalInnerTitle />}
+              footer={params.footer}
+              afterClose={afterClose}
+            >
+              <>
+                {visible && afterOpen()}
+                {content instanceof Function ? content({ close }) : content}
+              </>
+            </BaseMobileModal>
+          </MobileView>
         </ModalTitleContextProvider>
       );
     };
@@ -137,24 +156,24 @@ export const Modal = {
     content:
       | ReactNode
       | ReactNode[]
-      | ((dialogRef: DialogRef) => ReactNode | ReactNode[] | string),
+      | ((dialogRef: ModalRef) => ReactNode | ReactNode[] | string),
     params?: ModalParams,
-  ): DialogRef {
+  ): ModalRef {
     return this.provider.openDialog(content, params);
   },
-  progress(content: ReactNode | ReactNode[] | string): DialogRef {
+  progress(content: ReactNode | ReactNode[] | string): ModalRef {
     return this.open(<Progress content={content} />, { width: 343 });
   },
-  error(content: ReactNode | ReactNode[] | string): DialogRef {
+  error(content: ReactNode | ReactNode[] | string): ModalRef {
     return this.open(<Error content={content} />, { width: 343 });
   },
-  warning(content: ReactNode | ReactNode[] | string): DialogRef {
+  warning(content: ReactNode | ReactNode[] | string): ModalRef {
     return this.open(<Warning content={content} />, { width: 343 });
   },
-  success(content: ReactNode | ReactNode[] | string): DialogRef {
+  success(content: ReactNode | ReactNode[] | string): ModalRef {
     return this.open(<Success content={content} />, { width: 343 });
   },
-  request(config: RequestProps): DialogRef {
+  request(config: RequestProps): ModalRef {
     return this.open(<Request {...config} />);
   },
 };
@@ -176,12 +195,11 @@ class Portal extends React.Component<{ root: HTMLElement }> {
 }
 
 interface ModalProviderProps {
-  children?: any;
   rootElement?: string | HTMLElement;
 }
 
 export class ContextModalProvider
-  extends React.Component<ModalProviderProps>
+  extends React.Component<PropsWithChildren<ModalProviderProps>>
   implements ModalProvider
 {
   private defaultParams: ModalParams = {
@@ -205,11 +223,9 @@ export class ContextModalProvider
     content:
       | React.ReactNode
       | React.ReactNode[]
-      | ((
-          dialogRef: DialogRef,
-        ) => React.ReactNode | React.ReactNode[] | string),
+      | ((dialogRef: ModalRef) => React.ReactNode | React.ReactNode[] | string),
     params: ModalParams = this.defaultParams,
-  ): DialogRef {
+  ): ModalRef {
     const dialogId = this.createDialogId();
     params = { ...this.defaultParams, ...params };
     let dialogResult: any = undefined;
@@ -244,20 +260,37 @@ export class ContextModalProvider
     const modalFactory = (visible: boolean) => {
       return (
         <ModalTitleContextProvider key={dialogId}>
-          <BaseModal
-            key={dialogId}
-            width={params.width}
-            visible={visible}
-            onCancel={onCancel}
-            footer={params.footer}
-            title={<ModalInnerTitle />}
-            afterClose={afterClose}
-          >
-            <>
-              {visible && afterOpen()}
-              {content instanceof Function ? content({ close }) : content}
-            </>
-          </BaseModal>
+          <BrowserView>
+            <BaseModal
+              key={dialogId}
+              width={params.width}
+              visible={visible}
+              onCancel={onCancel}
+              footer={params.footer}
+              title={<ModalInnerTitle />}
+              afterClose={afterClose}
+            >
+              <>
+                {visible && afterOpen()}
+                {content instanceof Function ? content({ close }) : content}
+              </>
+            </BaseModal>
+          </BrowserView>
+          <MobileView>
+            <BaseMobileModal
+              key={dialogId}
+              visible={visible}
+              onClose={onCancel}
+              title={<ModalInnerTitle />}
+              footer={params.footer}
+              afterClose={afterClose}
+            >
+              <>
+                {visible && afterOpen()}
+                {content instanceof Function ? content({ close }) : content}
+              </>
+            </BaseMobileModal>
+          </MobileView>
         </ModalTitleContextProvider>
       );
     };

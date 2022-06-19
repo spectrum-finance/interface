@@ -30,7 +30,13 @@ const AddLiquidityConfirmationModal: FC<AddLiquidityConfirmationModalProps> = ({
     const { pool, y, x } = value;
 
     if (pool && x && y) {
-      onClose(deposit(pool, x, y));
+      onClose(
+        deposit(
+          pool,
+          x.asset.id === pool.x.asset.id ? x : y,
+          y.asset.id === pool.y.asset.id ? y : x,
+        ),
+      );
     }
   };
 
