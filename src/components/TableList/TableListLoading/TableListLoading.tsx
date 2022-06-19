@@ -1,9 +1,7 @@
 import { LoadingOutlined } from '@ant-design/icons';
-import { Box, Flex } from '@ergolabs/ui-kit';
+import { Box, Flex, Spin } from '@ergolabs/ui-kit';
 import React, { FC, ReactNode } from 'react';
 import styled from 'styled-components';
-
-import { Spin } from '../../../ergodex-cdk/components/Spin/Spin';
 
 export interface TableListLoadingProps {
   readonly className?: string;

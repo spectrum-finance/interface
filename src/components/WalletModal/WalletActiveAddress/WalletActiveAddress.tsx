@@ -1,8 +1,8 @@
 import { Box, Flex, Typography } from '@ergolabs/ui-kit';
+import { Spin } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import React from 'react';
 
-import { Spin } from '../../../ergodex-cdk/components/Spin/Spin';
 import { useSettings } from '../../../gateway/settings/settings';
 import { splitStr } from '../../../utils/string/splitStr';
 import { CopyButton } from '../../common/CopyButton/CopyButton';

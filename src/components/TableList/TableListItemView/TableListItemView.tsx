@@ -1,8 +1,7 @@
-import { Box, Flex } from '@ergolabs/ui-kit';
+import { Box, Flex, Gutter } from '@ergolabs/ui-kit';
 import React, { FC, ReactNode } from 'react';
 import styled, { css } from 'styled-components';
 
-import { Gutter } from '../../../ergodex-cdk/utils/gutter';
 import { Column } from './Column/Column';
 
 export interface TableListItemViewProps {

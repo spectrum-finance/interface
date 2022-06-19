@@ -1,3 +1,5 @@
+// TODO: IMPORT_TO_LESS_DOESNT_WORK
+import '@ergolabs/ui-kit/dist/styles/fonts/fonts.less';
 import './assets/styles/styles.less';
 
 import React from 'react';
