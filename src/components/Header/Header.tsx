@@ -71,7 +71,7 @@ export const Header: React.FC<HeaderProps> = ({ layoutRef }) => {
       <div className="header__wrapper">
         <div className="header__left">
           <AppLogo isNoWording />
-          {moreThan('m') && <Navigation />}
+          {moreThan('l') && <Navigation />}
           <IsErgo>
             <Analytics />
           </IsErgo>

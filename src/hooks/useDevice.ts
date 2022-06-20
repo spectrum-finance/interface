@@ -1,3 +1,5 @@
+import { useCallback } from 'react';
+
 import { size as SIZE, Sizes } from '../common/constants/size';
 import { useWindowSize } from './useWindowSize';
 
@@ -31,6 +33,9 @@ export const useDevice = (): useDeviseRes => {
   const { width } = useWindowSize();
   const size = getSizeByWidth(width);
 
+  const moreThan = useCallback((s: Sizes) => SIZE[s] < width, [width]);
+  const lessThan = useCallback((s: Sizes) => SIZE[s] >= width, [width]);
+
   return {
     size,
     s: size === 's',
@@ -39,7 +44,7 @@ export const useDevice = (): useDeviseRes => {
     xl: size === 'xl',
     xxl: size === 'xxl',
     valBySize: valBySizeFactory(size),
-    moreThan: (size) => SIZE[size] < width,
-    lessThan: (size) => SIZE[size] >= width,
+    moreThan,
+    lessThan,
   };
 };
