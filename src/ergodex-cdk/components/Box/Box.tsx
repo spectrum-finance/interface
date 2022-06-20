@@ -1,7 +1,7 @@
 import './Box.less';
 
 import cn from 'classnames';
-import React, { MouseEventHandler } from 'react';
+import React, { CSSProperties, MouseEventHandler } from 'react';
 
 import { getGutter, Gutter } from '../../utils/gutter';
 
@@ -19,7 +19,7 @@ interface BoxProps extends React.PropsWithChildren<unknown> {
   onClick?: MouseEventHandler<HTMLElement>;
   onMouseEnter?: MouseEventHandler<HTMLElement> | undefined;
   onMouseLeave?: MouseEventHandler<HTMLElement> | undefined;
-  width?: number;
+  width?: CSSProperties['width'];
   height?: string | number;
 }
 

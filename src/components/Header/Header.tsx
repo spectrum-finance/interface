@@ -2,13 +2,15 @@ import './Header.less';
 
 import cn from 'classnames';
 import React, { RefObject, useEffect, useState } from 'react';
-import { isBrowser } from 'react-device-detect';
+import styled from 'styled-components';
 
 import { useObservable } from '../../common/hooks/useObservable';
+import { Flex } from '../../ergodex-cdk';
 import { useAssetsBalance } from '../../gateway/api/assetBalance';
 import { useNetworkAsset } from '../../gateway/api/networkAsset';
 import { selectedWalletState$ } from '../../gateway/api/wallets';
 import { settings$ } from '../../gateway/settings/settings';
+import { useDevice } from '../../hooks/useDevice';
 import { WalletState } from '../../network/common/Wallet';
 import { AppLogo } from '../common/AppLogo/AppLogo';
 import { CardanoMaintenance } from '../common/Layout/CardanoMaintenance/CardanoMaintenance';
@@ -26,8 +28,16 @@ export interface HeaderProps {
   layoutRef: RefObject<HTMLDivElement>;
 }
 
+export const BottomContainer = styled.div`
+  position: fixed;
+  right: 50%;
+  bottom: 1rem;
+  transform: translate(50%, 0);
+`;
+
 export const Header: React.FC<HeaderProps> = ({ layoutRef }) => {
   const [settings] = useObservable(settings$);
+  const { s, m, moreThan } = useDevice();
   const [balance, isBalanceLoading] = useAssetsBalance();
   const [networkAsset] = useNetworkAsset();
   const [walletState] = useObservable(selectedWalletState$);
@@ -61,35 +71,42 @@ export const Header: React.FC<HeaderProps> = ({ layoutRef }) => {
       <div className="header__wrapper">
         <div className="header__left">
           <AppLogo isNoWording />
-          {isBrowser && (
-            <>
-              <Navigation />
-              <IsErgo>
-                <Analytics />
-              </IsErgo>
-              <IsCardano>
-                <GetTestTokensButton />
-              </IsCardano>
-            </>
-          )}
+          {moreThan('m') && <Navigation />}
+          <IsErgo>
+            <Analytics />
+          </IsErgo>
+          <IsCardano>
+            <GetTestTokensButton />
+          </IsCardano>
         </div>
         <div className="header__options">
-          {isBrowser && (
-            <>
-              <NetworkDropdown />
-              <ConnectWallet
-                numberOfPendingTxs={0}
-                address={settings?.address}
-                balance={
-                  isBalanceLoading ? undefined : balance.get(networkAsset)
-                }
-              />
-              {walletState === WalletState.CONNECTED && <TxHistory />}
-            </>
-          )}
+          <NetworkDropdown />
+          <ConnectWallet
+            numberOfPendingTxs={0}
+            address={settings?.address}
+            balance={isBalanceLoading ? undefined : balance.get(networkAsset)}
+          />
+          {!s && walletState === WalletState.CONNECTED && <TxHistory />}
           <BurgerMenu />
         </div>
       </div>
+      {s && (
+        <Flex position="fixed" style={{ bottom: '1rem' }}>
+          <Flex.Item marginLeft={4} marginRight={2} flex={1}>
+            <Navigation />
+          </Flex.Item>
+          {walletState === WalletState.CONNECTED && (
+            <Flex.Item marginLeft={2} marginRight={4}>
+              <TxHistory />
+            </Flex.Item>
+          )}
+        </Flex>
+      )}
+      {m && (
+        <BottomContainer>
+          <Navigation />
+        </BottomContainer>
+      )}
     </header>
   );
 };

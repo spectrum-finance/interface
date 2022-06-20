@@ -1,4 +1,4 @@
-import { size, Sizes } from '../common/constants/size';
+import { size as SIZE, Sizes } from '../common/constants/size';
 import { useWindowSize } from './useWindowSize';
 
 type ValBySizeT = <T>(s: T, m?: T, l?: T, xl?: T, xxl?: T) => T;
@@ -6,13 +6,15 @@ type ValBySizeT = <T>(s: T, m?: T, l?: T, xl?: T, xxl?: T) => T;
 interface useDeviseRes extends Record<Sizes, boolean> {
   size: Sizes;
   valBySize: ValBySizeT;
+  moreThan: (s: Sizes) => boolean;
+  lessThan: (s: Sizes) => boolean;
 }
 
 const getSizeByWidth = (width: number): Sizes => {
-  if (width <= size.m) return 's';
-  if (width <= size.l) return 'm';
-  if (width <= size.xl) return 'l';
-  if (width <= size.xxl) return 'xl';
+  if (width <= SIZE.m) return 's';
+  if (width <= SIZE.l) return 'm';
+  if (width <= SIZE.xl) return 'l';
+  if (width <= SIZE.xxl) return 'xl';
   return 'xxl';
 };
 
@@ -37,5 +39,7 @@ export const useDevice = (): useDeviseRes => {
     xl: size === 'xl',
     xxl: size === 'xxl',
     valBySize: valBySizeFactory(size),
+    moreThan: (size) => SIZE[size] < width,
+    lessThan: (size) => SIZE[size] >= width,
   };
 };

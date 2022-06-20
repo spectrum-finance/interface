@@ -1,7 +1,6 @@
 import './Layout.less';
 
 import React, { FC, PropsWithChildren, useEffect, useRef } from 'react';
-import { isBrowser } from 'react-device-detect';
 
 import { useAppLoadingState, useSettings } from '../../../context';
 import { Modal } from '../../../ergodex-cdk';
@@ -24,7 +23,7 @@ const Layout: FC<PropsWithChildren<Record<string, unknown>>> = ({
   const [{ isKYAAccepted }] = useAppLoadingState();
 
   useEffect(() => {
-    if (!isKYAAccepted && isBrowser) {
+    if (!isKYAAccepted) {
       Modal.open(({ close }) => <KyaModal onClose={close} />);
     }
   }, [isKYAAccepted]);

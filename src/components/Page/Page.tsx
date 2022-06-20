@@ -1,6 +1,6 @@
 import './Page.less';
 
-import React, { ReactNode } from 'react';
+import React, { CSSProperties, ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -12,9 +12,10 @@ import {
   Typography,
 } from '../../ergodex-cdk';
 import { Gutter } from '../../ergodex-cdk/utils/gutter';
+import { useDevice } from '../../hooks/useDevice';
 
 interface PageProps {
-  width?: number;
+  width?: CSSProperties['width'];
   title?: ReactNode | ReactNode[] | string;
   withBackButton?: boolean;
   leftWidget?: ReactNode;
@@ -48,6 +49,7 @@ const _Page: React.FC<PageProps> = ({
   padding,
 }) => {
   const navigate = useNavigate();
+  const { valBySize } = useDevice();
 
   return (
     <Flex
@@ -90,7 +92,7 @@ const _Page: React.FC<PageProps> = ({
               <Box
                 bordered={false}
                 className={className}
-                padding={padding ? padding : [6, 6]}
+                padding={padding ? padding : valBySize([4, 4], [6, 6])}
                 borderRadius="l"
                 width={width ?? 0}
               >

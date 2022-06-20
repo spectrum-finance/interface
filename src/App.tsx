@@ -1,5 +1,4 @@
 import React, { Suspense, useEffect } from 'react';
-import { BrowserView, MobileView } from 'react-device-detect';
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 import { BrowserRouter } from 'react-router-dom';
 import { BehaviorSubject, first, mapTo, Observable, tap, zip } from 'rxjs';
@@ -10,8 +9,6 @@ import { useObservable } from './common/hooks/useObservable';
 import { networkDomInitializer } from './common/initializers/networkDomInitializer';
 import { sentryInitializer } from './common/initializers/sentryInitializer';
 import { startAppTicks } from './common/streams/appTick';
-import Layout from './components/common/Layout/Layout';
-import { MobilePlug } from './components/MobilePlug/MobilePlug';
 import { AppLoadingProvider, SettingsProvider } from './context';
 import { ContextModalProvider } from './ergodex-cdk';
 import { LanguageProvider } from './i18n/i18n';
@@ -31,14 +28,7 @@ const Application = () => {
           >
             <LanguageProvider>
               <ContextModalProvider>
-                <BrowserView>
-                  <ApplicationRoutes />
-                </BrowserView>
-                <MobileView>
-                  <Layout>
-                    <MobilePlug />
-                  </Layout>
-                </MobileView>
+                <ApplicationRoutes />
               </ContextModalProvider>
             </LanguageProvider>
           </GoogleReCaptchaProvider>
