@@ -1,6 +1,6 @@
+import { Typography } from '@ergolabs/ui-kit';
 import React, { FC, ReactNode } from 'react';
 
-import { Typography } from '../../../../ergodex-cdk';
 import { TableViewStateContainer } from '../TableViewStateContainer/TableViewStateContainer';
 import { ReactComponent as EmptyIcon } from './empty.svg';
 

@@ -1,6 +1,3 @@
-import { t, Trans } from '@lingui/macro';
-import React, { FC } from 'react';
-
 import {
   Button,
   Flex,
@@ -8,7 +5,10 @@ import {
   FormGroup,
   Input,
   useForm,
-} from '../../../../../ergodex-cdk';
+} from '@ergolabs/ui-kit';
+import { t, Trans } from '@lingui/macro';
+import React, { FC } from 'react';
+
 import { Section } from '../../../../Section/Section';
 
 interface TransactionFindFormModel {

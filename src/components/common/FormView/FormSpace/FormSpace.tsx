@@ -1,6 +1,5 @@
+import { Box } from '@ergolabs/ui-kit';
 import React from 'react';
-
-import { Box } from '../../../../ergodex-cdk';
 
 interface FormSpaceProps {
   children: React.ReactChild | React.ReactChild[];

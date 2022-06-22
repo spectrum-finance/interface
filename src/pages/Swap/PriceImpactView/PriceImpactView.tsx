@@ -1,6 +1,6 @@
+import { Typography } from '@ergolabs/ui-kit';
 import React from 'react';
 
-import { Typography } from '../../../ergodex-cdk';
 import { SwapFormModel } from '../SwapFormModel';
 
 interface PriceImpactViewProps {

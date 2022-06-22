@@ -1,7 +1,6 @@
+import { Box, Flex, Typography } from '@ergolabs/ui-kit';
 import capitalize from 'lodash/capitalize';
 import React, { FC } from 'react';
-
-import { Box, Flex, Typography } from '../../../../../ergodex-cdk';
 
 export interface TypeCellProps {
   readonly type: string;

@@ -1,6 +1,6 @@
+import { Tag } from '@ergolabs/ui-kit';
 import React from 'react';
 
-import { Tag } from '../../../../../ergodex-cdk';
 import { OperationStatus } from '../../../../common/TxHistory/types';
 
 interface TxStatusTagProps {

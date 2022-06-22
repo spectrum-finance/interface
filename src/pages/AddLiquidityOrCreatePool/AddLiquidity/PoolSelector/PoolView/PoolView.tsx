@@ -1,3 +1,4 @@
+import { Flex, Typography } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 
@@ -6,7 +7,6 @@ import { AssetIconPair } from '../../../../../components/AssetIconPair/AssetIcon
 import { DataTag } from '../../../../../components/common/DataTag/DataTag';
 import { Truncate } from '../../../../../components/Truncate/Truncate';
 import { VerificationMark } from '../../../../../components/VerificationMark/VerificationMark';
-import { Flex, Typography } from '../../../../../ergodex-cdk';
 import { formatToUSD } from '../../../../../services/number';
 
 interface PoolSelectorItemProps {

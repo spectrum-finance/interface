@@ -1,4 +1,14 @@
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
+import {
+  Alert,
+  Button,
+  Flex,
+  LockOutlined,
+  Menu,
+  PlusOutlined,
+  Skeleton,
+  Typography,
+} from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -12,16 +22,6 @@ import { FormPairSection } from '../../components/common/FormView/FormPairSectio
 import { Page } from '../../components/Page/Page';
 import { PageHeader } from '../../components/Page/PageHeader/PageHeader';
 import { PageSection } from '../../components/Page/PageSection/PageSection';
-import {
-  Alert,
-  Button,
-  Flex,
-  LockOutlined,
-  Menu,
-  PlusOutlined,
-  Skeleton,
-  Typography,
-} from '../../ergodex-cdk';
 import { getPositionByAmmPoolId } from '../../gateway/api/positions';
 import { useSelectedNetwork } from '../../gateway/common/network';
 import { getAmmPoolConfidenceAnalyticByAmmPoolId } from './AmmPoolConfidenceAnalytic';

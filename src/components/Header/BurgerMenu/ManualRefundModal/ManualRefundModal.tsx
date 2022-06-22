@@ -1,9 +1,9 @@
+import { Animation, Flex, Modal } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 import { map, Observable } from 'rxjs';
 
 import { useSubject } from '../../../../common/hooks/useObservable';
-import { Animation, Flex, Modal } from '../../../../ergodex-cdk';
 import { getOperationByTxId } from '../../../../gateway/api/transactionsHistory';
 import { Operation } from '../../../common/TxHistory/types';
 import { normalizeOperations } from '../../../common/TxHistory/utils';

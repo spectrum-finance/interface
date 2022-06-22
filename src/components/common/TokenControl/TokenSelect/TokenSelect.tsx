@@ -1,17 +1,17 @@
 import './TokenSelect.less';
 
 import { AssetInfo } from '@ergolabs/ergo-sdk';
-import { Trans } from '@lingui/macro';
-import React from 'react';
-import { Observable } from 'rxjs';
-
 import {
   Button,
   DownOutlined,
   Form,
   Modal,
   Typography,
-} from '../../../../ergodex-cdk';
+} from '@ergolabs/ui-kit';
+import { Trans } from '@lingui/macro';
+import React from 'react';
+import { Observable } from 'rxjs';
+
 import { AssetIcon } from '../../../AssetIcon/AssetIcon';
 import { Truncate } from '../../../Truncate/Truncate';
 import { TokenListModal } from './TokenListModal/TokenListModal';

@@ -1,8 +1,8 @@
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
+import { Flex } from '@ergolabs/ui-kit';
 import React from 'react';
 
 import { AmmPool } from '../../../../../common/models/AmmPool';
-import { Flex } from '../../../../../ergodex-cdk';
 import { LiquidityPositionsItemAnalytics } from './LiquidityPositionsItemAnalytics/LiquidityPositionsItemAnalytics';
 import { LiquidityPositionsItemWrapper } from './LiquidityPositionsItemWrapper/LiquidityPositionsItemWrapper';
 

@@ -11,6 +11,7 @@ import {
   RustModule,
   TransactionContext,
 } from '@ergolabs/ergo-sdk';
+import { Button, Checkbox, Flex, Modal } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import { DateTime } from 'luxon';
 import React, { useState } from 'react';
@@ -21,7 +22,6 @@ import { AmmPool } from '../../../../common/models/AmmPool';
 import { Currency } from '../../../../common/models/Currency';
 import { FormFeesSection } from '../../../../components/common/FormView/FormFeesSection/FormFeesSection';
 import { FormPairSection } from '../../../../components/common/FormView/FormPairSection/FormPairSection';
-import { Button, Checkbox, Flex, Modal } from '../../../../ergodex-cdk';
 import { useNetworkAsset } from '../../../../gateway/api/networkAsset';
 import { useSettings } from '../../../../gateway/settings/settings';
 import { utxos$ } from '../../../../network/ergo/api/utxos/utxos';

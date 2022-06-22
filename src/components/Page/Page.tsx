@@ -1,17 +1,16 @@
 import './Page.less';
 
-import React, { ReactNode } from 'react';
-import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-
 import {
   ArrowLeftOutlined,
   Box,
   Button,
   Flex,
+  Gutter,
   Typography,
-} from '../../ergodex-cdk';
-import { Gutter } from '../../ergodex-cdk/utils/gutter';
+} from '@ergolabs/ui-kit';
+import React, { ReactNode } from 'react';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 
 interface PageProps {
   width?: number;

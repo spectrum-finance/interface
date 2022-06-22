@@ -1,8 +1,7 @@
+import { Box, Flex } from '@ergolabs/ui-kit';
+import { Empty } from '@ergolabs/ui-kit/dist/components/Empty/Empty';
 import React, { FC, ReactNode } from 'react';
 import styled from 'styled-components';
-
-import { Box, Flex } from '../../../../ergodex-cdk';
-import { Empty } from '../../../../ergodex-cdk/components/Empty/Empty';
 
 export interface EmptyTemplateContainer {
   className?: string;

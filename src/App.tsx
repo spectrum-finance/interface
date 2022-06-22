@@ -1,3 +1,4 @@
+import { ContextModalProvider } from '@ergolabs/ui-kit';
 import React, { Suspense, useEffect } from 'react';
 import { BrowserView, MobileView } from 'react-device-detect';
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
@@ -13,7 +14,6 @@ import { startAppTicks } from './common/streams/appTick';
 import Layout from './components/common/Layout/Layout';
 import { MobilePlug } from './components/MobilePlug/MobilePlug';
 import { AppLoadingProvider, SettingsProvider } from './context';
-import { ContextModalProvider } from './ergodex-cdk';
 import { LanguageProvider } from './i18n/i18n';
 import { openCookiePolicy } from './services/notifications/CookiePolicy/CookiePolicy';
 

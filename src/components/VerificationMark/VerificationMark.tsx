@@ -1,8 +1,8 @@
+import { Tooltip } from '@ergolabs/ui-kit';
 import React from 'react';
 import styled from 'styled-components';
 
 import { ReactComponent as _VerificationIcon } from '../../assets/icons/verification-icon.svg';
-import { Tooltip } from '../../ergodex-cdk';
 import { IsErgo } from '../IsErgo/IsErgo';
 
 const VerificationIcon = styled(_VerificationIcon)`

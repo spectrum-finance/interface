@@ -1,9 +1,9 @@
+import { Button, Flex, Typography } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React from 'react';
 
 import { ReactComponent as SmartphoneImage } from '../../assets/images/smartphone.svg';
 import { LANDING_URL } from '../../common/constants/env';
-import { Button, Flex, Typography } from '../../ergodex-cdk';
 
 const MobilePlug = (): JSX.Element => {
   return (

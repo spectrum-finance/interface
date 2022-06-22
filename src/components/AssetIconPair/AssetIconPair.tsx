@@ -1,7 +1,7 @@
+import { Flex } from '@ergolabs/ui-kit';
 import React from 'react';
 
 import { AssetInfo } from '../../common/models/AssetInfo';
-import { Flex } from '../../ergodex-cdk';
 import { AssetIcon } from '../AssetIcon/AssetIcon';
 
 export type TokenPair = { tokenA?: string; tokenB?: string };

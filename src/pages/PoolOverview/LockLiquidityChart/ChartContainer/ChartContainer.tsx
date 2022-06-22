@@ -1,7 +1,6 @@
+import { Collapse } from '@ergolabs/ui-kit';
 import React, { FC, ReactNode } from 'react';
 import styled from 'styled-components';
-
-import { Collapse } from '../../../../ergodex-cdk';
 
 interface ChartCollapseProps {
   header?: ReactNode | ReactNode[] | string;

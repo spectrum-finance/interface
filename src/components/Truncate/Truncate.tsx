@@ -1,6 +1,5 @@
+import { Tooltip } from '@ergolabs/ui-kit';
 import React from 'react';
-
-import { Tooltip } from '../../ergodex-cdk';
 
 interface TruncateProps {
   children?: string;

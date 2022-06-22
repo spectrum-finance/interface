@@ -1,7 +1,7 @@
+import { Flex, Typography } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React from 'react';
 
-import { Flex, Typography } from '../../../../ergodex-cdk';
 import { PositionListEmptyTemplate } from '../EmptyTemplateContainer/PositionListEmptyTemplate';
 
 interface EmptyPositionsListProps {

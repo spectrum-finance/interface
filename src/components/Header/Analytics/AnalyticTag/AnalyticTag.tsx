@@ -1,7 +1,6 @@
+import { Box } from '@ergolabs/ui-kit';
 import React, { FC, ReactNode } from 'react';
 import styled from 'styled-components';
-
-import { Box } from '../../../../ergodex-cdk';
 
 interface AnalyticTag {
   className?: string;

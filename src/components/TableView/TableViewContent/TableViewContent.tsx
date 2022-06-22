@@ -1,7 +1,6 @@
+import { Flex, Gutter, List, Menu } from '@ergolabs/ui-kit';
 import React, { FC } from 'react';
 
-import { Flex, List, Menu } from '../../../ergodex-cdk';
-import { Gutter } from '../../../ergodex-cdk/utils/gutter';
 import { OptionsButton } from '../../common/OptionsButton/OptionsButton';
 import { Action } from '../common/Action';
 import { Column } from '../common/Column';

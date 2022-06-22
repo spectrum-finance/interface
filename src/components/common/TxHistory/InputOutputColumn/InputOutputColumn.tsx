@@ -1,7 +1,7 @@
+import { ArrowRightOutlined, Flex, Typography } from '@ergolabs/ui-kit';
 import React from 'react';
 
 import { Currency } from '../../../../common/models/Currency';
-import { ArrowRightOutlined, Flex, Typography } from '../../../../ergodex-cdk';
 import { AssetIcon } from '../../../AssetIcon/AssetIcon';
 import { AssetIconPair } from '../../../AssetIconPair/AssetIconPair';
 import { OperationType } from '../types';

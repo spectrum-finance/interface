@@ -1,10 +1,10 @@
 import './CookiePolicy.less';
 
+import { Button, Flex, notification, Typography } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
 import React from 'react';
 
 import { localStorageManager } from '../../../common/utils/localStorageManager';
-import { Button, Flex, notification, Typography } from '../../../ergodex-cdk';
 
 const COOKIE_POLICY_NOTIFICATION_KEY = 'cookie-policy';
 

@@ -1,8 +1,8 @@
+import { ModalRef } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 
 import { isSwapOperation, Operation } from '../../../common/models/Operation';
-import { ModalRef } from '../../../ergodex-cdk';
 import { exploreTx } from '../../../gateway/utils/exploreAddress';
 import { SortDirection } from '../../TableView/common/Sort';
 import { TableView } from '../../TableView/TableView';

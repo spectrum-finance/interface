@@ -1,7 +1,7 @@
+import { Flex, Typography } from '@ergolabs/ui-kit';
 import React, { FC, ReactNode } from 'react';
 
 import { InfoTooltip } from '../../../../components/InfoTooltip/InfoTooltip';
-import { Flex, Typography } from '../../../../ergodex-cdk';
 
 export interface SwapInfoItemProps {
   title: ReactNode;

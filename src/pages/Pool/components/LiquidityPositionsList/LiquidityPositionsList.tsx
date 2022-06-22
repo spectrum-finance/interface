@@ -1,11 +1,11 @@
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
+import { Button, Flex, List, PlusOutlined } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useObservable } from '../../../../common/hooks/useObservable';
 import { AmmPool } from '../../../../common/models/AmmPool';
-import { Button, Flex, List, PlusOutlined } from '../../../../ergodex-cdk';
 import { isWalletSetuped$ } from '../../../../gateway/api/wallets';
 import { EmptyPositionsList } from '../../common/EmptyPositionsList/EmptyPositionsList';
 import { EmptySearchResult } from '../../common/EmptySearchResult/EmptySearchResult';

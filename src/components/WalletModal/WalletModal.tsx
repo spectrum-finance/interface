@@ -1,9 +1,9 @@
+import { Box, Button, Flex, Modal } from '@ergolabs/ui-kit';
+import { Tabs } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React from 'react';
 
 import { useObservable } from '../../common/hooks/useObservable';
-import { Box, Button, Flex, Modal } from '../../ergodex-cdk';
-import { Tabs } from '../../ergodex-cdk/components/Tabs/Tabs';
 import { networkAssetBalance$ } from '../../gateway/api/networkAssetBalance';
 import { useSelectedNetwork } from '../../gateway/common/network';
 import { isLowBalance } from '../../utils/walletMath';

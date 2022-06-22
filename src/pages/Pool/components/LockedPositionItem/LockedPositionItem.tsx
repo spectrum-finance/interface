@@ -1,3 +1,4 @@
+import { Box, Flex, Tag, Typography } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import { DateTime } from 'luxon';
 import React, { FC } from 'react';
@@ -10,7 +11,6 @@ import {
 import { AssetIcon } from '../../../../components/AssetIcon/AssetIcon';
 import { DataTag } from '../../../../components/common/DataTag/DataTag';
 import { ListItemWrapper } from '../../../../components/ListItemWrapper/ListItemWrapper';
-import { Box, Flex, Tag, Typography } from '../../../../ergodex-cdk';
 import { formatToInt } from '../../../../services/number';
 
 interface LockedPositionItemProps {

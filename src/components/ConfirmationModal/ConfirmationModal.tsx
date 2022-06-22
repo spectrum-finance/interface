@@ -1,4 +1,6 @@
 import { TxId } from '@ergolabs/ergo-sdk';
+import { Flex, Modal, ModalRef, Typography } from '@ergolabs/ui-kit';
+import { RequestProps } from '@ergolabs/ui-kit/dist/components/Modal/presets/Request';
 import { t, Trans } from '@lingui/macro';
 import { DateTime } from 'luxon';
 import React, { ReactNode } from 'react';
@@ -8,8 +10,6 @@ import { ReactComponent as DiscordIcon } from '../../assets/icons/social/Discord
 import { ReactComponent as TelegramIcon } from '../../assets/icons/social/Telegram.svg';
 import { AssetLock } from '../../common/models/AssetLock';
 import { Currency } from '../../common/models/Currency';
-import { Flex, Modal, ModalRef, Typography } from '../../ergodex-cdk';
-import { RequestProps } from '../../ergodex-cdk/components/Modal/presets/Request';
 import { exploreTx } from '../../gateway/utils/exploreAddress';
 import { getLockingPeriodString } from '../../pages/Pool/utils';
 

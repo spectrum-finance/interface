@@ -1,6 +1,5 @@
+import { Button, QuestionCircleOutlined, Tooltip } from '@ergolabs/ui-kit';
 import React, { ReactNode } from 'react';
-
-import { Button, QuestionCircleOutlined, Tooltip } from '../../ergodex-cdk';
 
 interface InfoTooltipProps {
   content: ReactNode | ReactNode[] | string;

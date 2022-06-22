@@ -1,18 +1,12 @@
 import './TokenListModal.less';
 
 import { AssetInfo } from '@ergolabs/ergo-sdk';
+import { Flex, Input, List, Modal, SearchOutlined } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import React, { useState } from 'react';
 import { Observable, of } from 'rxjs';
 
 import { useObservable } from '../../../../../common/hooks/useObservable';
-import {
-  Flex,
-  Input,
-  List,
-  Modal,
-  SearchOutlined,
-} from '../../../../../ergodex-cdk';
 import { TokenListItem } from './TokenListItem';
 
 interface TokenListModalProps {

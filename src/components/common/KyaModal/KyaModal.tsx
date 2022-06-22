@@ -1,9 +1,8 @@
+import { Button, Flex, Modal, Typography } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React, { useCallback } from 'react';
 
 import { useAppLoadingState } from '../../../context';
-import { Button, Modal, Typography } from '../../../ergodex-cdk';
-import { Flex } from '../../../ergodex-cdk';
 
 interface KyaModalProps {
   onClose: () => void;

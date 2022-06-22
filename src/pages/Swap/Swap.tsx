@@ -1,3 +1,12 @@
+import {
+  Button,
+  Flex,
+  Form,
+  LineChartOutlined,
+  SwapOutlined,
+  Typography,
+  useForm,
+} from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import maxBy from 'lodash/maxBy';
 import { DateTime } from 'luxon';
@@ -32,15 +41,6 @@ import {
   Operation,
 } from '../../components/ConfirmationModal/ConfirmationModal';
 import { Page } from '../../components/Page/Page';
-import {
-  Button,
-  Flex,
-  Form,
-  LineChartOutlined,
-  SwapOutlined,
-  Typography,
-  useForm,
-} from '../../ergodex-cdk';
 import { getAmmPoolsByAssetPair } from '../../gateway/api/ammPools';
 import { useAssetsBalance } from '../../gateway/api/assetBalance';
 import { getAvailableAssetFor, tokenAssets$ } from '../../gateway/api/assets';

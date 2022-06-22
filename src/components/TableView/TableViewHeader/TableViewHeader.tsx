@@ -1,8 +1,7 @@
+import { Flex, Gutter, Popover, Typography } from '@ergolabs/ui-kit';
 import React, { FC } from 'react';
 
 import { Dictionary } from '../../../common/utils/Dictionary';
-import { Flex, Popover, Typography } from '../../../ergodex-cdk';
-import { Gutter } from '../../../ergodex-cdk/utils/gutter';
 import { Column } from '../common/Column';
 import { FilterState } from '../common/FilterDescription';
 import { Sort, SortDirection } from '../common/Sort';

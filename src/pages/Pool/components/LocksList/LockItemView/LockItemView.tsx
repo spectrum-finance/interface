@@ -1,3 +1,4 @@
+import { Flex, Menu } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
@@ -9,7 +10,6 @@ import { DataTag } from '../../../../../components/common/DataTag/DataTag';
 import { OptionsButton } from '../../../../../components/common/OptionsButton/OptionsButton';
 import { TableListItemView } from '../../../../../components/TableList/TableListItemView/TableListItemView';
 import { TokenTitle } from '../../../../../components/TokenTitle';
-import { Flex, Menu } from '../../../../../ergodex-cdk';
 
 export interface LockItemViewProps {
   readonly position: Position;

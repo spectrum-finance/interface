@@ -1,9 +1,9 @@
 import './TokenListItem.less';
 
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
+import { Box, Flex, Typography } from '@ergolabs/ui-kit';
 import React from 'react';
 
-import { Box, Flex, Typography } from '../../../../../ergodex-cdk';
 import { useAssetsBalance } from '../../../../../gateway/api/assetBalance';
 import { AssetIcon } from '../../../../AssetIcon/AssetIcon';
 import { Truncate } from '../../../../Truncate/Truncate';
@@ -28,7 +28,12 @@ const TokenListItem: React.FC<TokenListItemProps> = ({ asset, onClick }) => {
       <Flex align="center" style={{ width: '100%' }}>
         <AssetIcon size="large" asset={asset} />
         <Box className="token-item__box" padding={0} bordered={false}>
-          <Box className="token-item__box-left" padding={0} bordered={false}>
+          <Box
+            className="token-item__box-left"
+            padding={0}
+            bordered={false}
+            transparent
+          >
             <Typography.Text className="token-item__box-left-symbol">
               <Truncate>{asset.name}</Truncate>
             </Typography.Text>

@@ -1,3 +1,7 @@
+import { Button, Flex, Tabs, Typography } from '@ergolabs/ui-kit';
+import { LoadingOutlined } from '@ergolabs/ui-kit';
+import { Spin } from '@ergolabs/ui-kit';
+import { Empty } from '@ergolabs/ui-kit/dist/components/Empty/Empty';
 import { Trans } from '@lingui/macro';
 import sortedUniqBy from 'lodash/sortedUniqBy';
 import { DateTime } from 'luxon';
@@ -11,10 +15,6 @@ import { PoolChartData } from '../../../common/models/PoolChartData';
 import { AssetIconPair } from '../../../components/AssetIconPair/AssetIconPair';
 import { DateTimeView } from '../../../components/common/DateTimeView/DateTimeView';
 import { Truncate } from '../../../components/Truncate/Truncate';
-import { Button, Flex, Tabs, Typography } from '../../../ergodex-cdk';
-import { LoadingOutlined } from '../../../ergodex-cdk';
-import { Empty } from '../../../ergodex-cdk/components/Empty/Empty';
-import { Spin } from '../../../ergodex-cdk/components/Spin/Spin';
 import { getPoolChartData } from '../../../network/ergo/api/poolChart/poolChart';
 import { Difference } from './Difference/Difference';
 import { useAggregatedByDateData } from './useAggregatedByDateData';

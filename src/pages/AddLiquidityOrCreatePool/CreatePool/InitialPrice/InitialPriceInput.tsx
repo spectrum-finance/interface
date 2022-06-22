@@ -1,10 +1,3 @@
-import React, { FC, useEffect, useState } from 'react';
-import styled from 'styled-components';
-
-import { AssetInfo } from '../../../../common/models/AssetInfo';
-import { Ratio } from '../../../../common/models/Ratio';
-import { normalizeAmount } from '../../../../common/utils/amount';
-import { escapeRegExp } from '../../../../components/common/TokenControl/TokenAmountInput/format';
 import {
   Box,
   Button,
@@ -14,7 +7,14 @@ import {
   Input,
   SwapOutlined,
   Typography,
-} from '../../../../ergodex-cdk';
+} from '@ergolabs/ui-kit';
+import React, { FC, useEffect, useState } from 'react';
+import styled from 'styled-components';
+
+import { AssetInfo } from '../../../../common/models/AssetInfo';
+import { Ratio } from '../../../../common/models/Ratio';
+import { normalizeAmount } from '../../../../common/utils/amount';
+import { escapeRegExp } from '../../../../components/common/TokenControl/TokenAmountInput/format';
 
 const _SwitchButton: FC<ButtonProps> = ({ ...rest }) => (
   <Button {...rest} type="primary">

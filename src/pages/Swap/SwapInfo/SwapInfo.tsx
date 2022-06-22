@@ -1,8 +1,8 @@
+import { Collapse } from '@ergolabs/ui-kit';
 import React, { FC, useState } from 'react';
 import styled from 'styled-components';
 
 import { useObservable } from '../../../common/hooks/useObservable';
-import { Collapse } from '../../../ergodex-cdk';
 import { swapInfoContent$ } from '../../../gateway/widgets/swapInfoContent';
 import { SwapFormModel } from '../SwapFormModel';
 import { SwapInfoHeader } from './SwapInfoHeader/SwapInfoHeader';

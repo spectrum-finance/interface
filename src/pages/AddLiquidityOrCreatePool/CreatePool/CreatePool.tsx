@@ -1,3 +1,4 @@
+import { Flex, Form, FormGroup, useForm } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
 import React, { FC, useEffect, useState } from 'react';
 import { skip } from 'rxjs';
@@ -17,7 +18,6 @@ import {
 } from '../../../components/OperationForm/OperationForm';
 import { RatioBox } from '../../../components/RatioBox/RatioBox';
 import { Section } from '../../../components/Section/Section';
-import { Flex, Form, FormGroup, useForm } from '../../../ergodex-cdk';
 import { useAssetsBalance } from '../../../gateway/api/assetBalance';
 import { useNetworkAsset } from '../../../gateway/api/networkAsset';
 import { useMaxTotalFees } from '../../../services/new/core';

@@ -1,8 +1,7 @@
+import { Flex, Gutter } from '@ergolabs/ui-kit';
 import React, { FC, ReactNode, useEffect, useState } from 'react';
 
 import { Dictionary } from '../../common/utils/Dictionary';
-import { Flex } from '../../ergodex-cdk';
-import { Gutter } from '../../ergodex-cdk/utils/gutter';
 import { Action } from './common/Action';
 import { Column } from './common/Column';
 import { GAP_STEP, HEADER_HEIGHT } from './common/constants';

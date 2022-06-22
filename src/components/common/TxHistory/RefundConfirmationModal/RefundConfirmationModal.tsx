@@ -1,9 +1,4 @@
 import { Address } from '@ergolabs/ergo-sdk';
-import { t, Trans } from '@lingui/macro';
-import React, { useState } from 'react';
-
-import { useObservable } from '../../../../common/hooks/useObservable';
-import { useSettings } from '../../../../context';
 import {
   Box,
   Button,
@@ -15,7 +10,12 @@ import {
   Modal,
   Typography,
   useForm,
-} from '../../../../ergodex-cdk';
+} from '@ergolabs/ui-kit';
+import { t, Trans } from '@lingui/macro';
+import React, { useState } from 'react';
+
+import { useObservable } from '../../../../common/hooks/useObservable';
+import { useSettings } from '../../../../context';
 import { utxos$ } from '../../../../network/ergo/api/utxos/utxos';
 import { submitTx } from '../../../../services/yoroi';
 import { refund } from '../../../../utils/ammOperations';

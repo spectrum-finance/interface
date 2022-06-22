@@ -1,7 +1,7 @@
+import { Box, Flex, Typography } from '@ergolabs/ui-kit';
 import React, { FC } from 'react';
 
 import { Currency } from '../../../../../common/models/Currency';
-import { Box, Flex, Typography } from '../../../../../ergodex-cdk';
 import { AssetIconPair } from '../../../../AssetIconPair/AssetIconPair';
 import { DataTag } from '../../../../common/DataTag/DataTag';
 

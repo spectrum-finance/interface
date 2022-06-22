@@ -1,8 +1,8 @@
+import { Switch } from '@ergolabs/ui-kit';
 import { SwitchProps } from 'antd';
 import React, { useCallback, useState } from 'react';
 
 import { useSettings } from '../../context';
-import { Switch } from '../../ergodex-cdk';
 
 const ThemeSwitch: React.FC<SwitchProps> = (): JSX.Element => {
   const [settings, setSettings] = useSettings();

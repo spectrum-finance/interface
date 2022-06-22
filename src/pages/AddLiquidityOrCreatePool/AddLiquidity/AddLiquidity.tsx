@@ -1,3 +1,11 @@
+import {
+  Button,
+  Flex,
+  Form,
+  FormGroup,
+  PlusOutlined,
+  useForm,
+} from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
 import maxBy from 'lodash/maxBy';
 import React, { FC, useEffect, useState } from 'react';
@@ -19,14 +27,6 @@ import {
   OperationValidator,
 } from '../../../components/OperationForm/OperationForm';
 import { Section } from '../../../components/Section/Section';
-import {
-  Button,
-  Flex,
-  Form,
-  FormGroup,
-  PlusOutlined,
-  useForm,
-} from '../../../ergodex-cdk';
 import { useAssetsBalance } from '../../../gateway/api/assetBalance';
 import { useNetworkAsset } from '../../../gateway/api/networkAsset';
 import { useSwapValidationFee } from '../../../gateway/api/validationFees';

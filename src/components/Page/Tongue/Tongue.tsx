@@ -1,3 +1,4 @@
+import { Flex, LeftOutlined } from '@ergolabs/ui-kit';
 import React, {
   CSSProperties,
   MouseEventHandler,
@@ -8,7 +9,6 @@ import React, {
 } from 'react';
 import styled from 'styled-components';
 
-import { Flex, LeftOutlined } from '../../../ergodex-cdk';
 import { TongueArrowButton } from './TongueArrowButton/TongueArrowButton';
 
 interface TongueProps {

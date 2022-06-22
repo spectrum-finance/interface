@@ -1,4 +1,13 @@
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
+import {
+  Alert,
+  Animation,
+  Flex,
+  Form,
+  FormGroup,
+  LockOutlined,
+  useForm,
+} from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import { Skeleton } from 'antd';
 import React, { useEffect } from 'react';
@@ -21,15 +30,6 @@ import { Page } from '../../../components/Page/Page';
 import { PageHeader } from '../../../components/Page/PageHeader/PageHeader';
 import { PageSection } from '../../../components/Page/PageSection/PageSection';
 import { SubmitButton } from '../../../components/SubmitButton/SubmitButton';
-import {
-  Alert,
-  Animation,
-  Flex,
-  Form,
-  FormGroup,
-  LockOutlined,
-  useForm,
-} from '../../../ergodex-cdk';
 import { getPositionByAmmPoolId } from '../../../gateway/api/positions';
 import { LiquidityDatePicker } from '../components/LockLiquidityDatePicker/LiquidityDatePicker';
 import { LockLiquidityConfirmationModal } from './LockLiquidityConfirmationModal/LockLiquidityConfirmationModal';

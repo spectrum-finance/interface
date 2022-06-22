@@ -1,7 +1,7 @@
+import { Button, Flex } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 
-import { Button, Flex } from '../../../../../ergodex-cdk';
 import { TableViewEmptyState } from '../../../../TableView/states/TableViewEmptyState/TableViewEmptyState';
 
 export interface OperationsEmptyStateProps {
