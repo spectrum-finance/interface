@@ -17,10 +17,10 @@ import { Currency } from '../../../common/models/Currency';
 import { useAssetsBalance } from '../../../gateway/api/assetBalance';
 import { ConvenientAssetView } from '../../ConvenientAssetView/ConvenientAssetView';
 import {
-  TokenAmountInput,
+  AssetAmountInput,
   TokenAmountInputValue,
-} from './TokenAmountInput/TokenAmountInput';
-import { TokenSelect } from './TokenSelect/TokenSelect';
+} from './AssetAmountInput/AssetAmountInput';
+import { AssetSelect } from './AssetSelect/AssetSelect';
 
 export interface TokenControlValue {
   amount?: TokenAmountInputValue;
@@ -52,14 +52,13 @@ export interface TokenControlFormItemProps {
   readonly bordered?: boolean;
 }
 
-export interface NewTokenControlProps {
+export interface AssetControlFormItemProps {
   readonly amountName?: string;
   readonly tokenName?: string;
   readonly label?: ReactNode;
   readonly maxButton?: boolean;
   readonly handleMaxButtonClick?: (balance: Currency) => Currency;
   readonly hasBorder?: boolean;
-  readonly assets?: AssetInfo[];
   readonly assets$?: Observable<AssetInfo[]>;
   readonly disabled?: boolean;
   readonly readonly?: boolean | 'asset' | 'amount';
@@ -67,12 +66,11 @@ export interface NewTokenControlProps {
   readonly bordered?: boolean;
 }
 
-export const TokenControlFormItem: FC<NewTokenControlProps> = ({
+export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
   amountName,
   tokenName,
   label,
   maxButton,
-  assets,
   assets$,
   disabled,
   readonly,
@@ -135,7 +133,7 @@ export const TokenControlFormItem: FC<NewTokenControlProps> = ({
             {amountName && (
               <Form.Item name={amountName}>
                 {({ value, onChange }) => (
-                  <TokenAmountInput
+                  <AssetAmountInput
                     readonly={isAmountReadOnly()}
                     value={value}
                     asset={selectedAsset}
@@ -164,9 +162,8 @@ export const TokenControlFormItem: FC<NewTokenControlProps> = ({
             {tokenName && (
               <Form.Item name={tokenName}>
                 {({ value, onChange }) => (
-                  <TokenSelect
+                  <AssetSelect
                     assets$={assets$}
-                    assets={assets}
                     readonly={isAssetReadOnly()}
                     value={value}
                     onChange={onChange}

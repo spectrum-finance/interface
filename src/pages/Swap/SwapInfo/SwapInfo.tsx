@@ -36,14 +36,23 @@ const _SwapInfo: FC<SwapInfoProps> = ({ className, value }) => {
 };
 
 export const SwapInfo = styled(_SwapInfo)`
-  background: var(--ergo-box-bg-contrast);
-  border: 1px solid var(--ergo-box-border-color);
+  background: var(--ergo-box-bg-contrast) !important;
+  border: 1px solid var(--ergo-box-border-color) !important;
 
   .ant-collapse-item,
   .ant-collapse-content,
   .ant-collapse-content-box {
     will-change: height;
     transform: translateZ(0);
+  }
+
+  .ant-collapse-header {
+    align-items: center !important;
+    min-height: 52px;
+  }
+
+  .ant-collapse-header-text {
+    width: 100%;
   }
 
   .ant-collapse-content-box {

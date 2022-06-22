@@ -1,35 +1,29 @@
-import './TokenListModal.less';
-
 import { AssetInfo } from '@ergolabs/ergo-sdk';
 import { Flex, Input, List, Modal, SearchOutlined } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
-import React, { useState } from 'react';
+import React from 'react';
 import { Observable, of } from 'rxjs';
 
 import { useObservable } from '../../../../../common/hooks/useObservable';
-import { TokenListItem } from './TokenListItem';
+import { useSearch } from '../../../../../hooks/useSearch';
+import { AssetListItem } from './AssetListItem/AssetListItem';
 
 interface TokenListModalProps {
-  close: () => void;
-  onSelectChanged?: (name: AssetInfo) => void | undefined;
+  readonly close: () => void;
+  readonly onSelectChanged?: (name: AssetInfo) => void | undefined;
   readonly assets$?: Observable<AssetInfo[]>;
-  readonly assets?: AssetInfo[];
 }
 
-const TokenListModal: React.FC<TokenListModalProps> = ({
+const AssetListModal: React.FC<TokenListModalProps> = ({
   close,
   onSelectChanged,
   assets$,
 }) => {
-  const [searchWords, setSearchWords] = useState('');
+  const [searchByTerm, setTerm] = useSearch<AssetInfo>(['name']);
   const [assets] = useObservable(assets$ ?? of([]));
 
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchWords(e.target.value.toLowerCase());
-  };
-
-  const byTerm = (asset: AssetInfo) =>
-    !searchWords || asset.name?.toLowerCase().includes(searchWords);
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setTerm(e.target.value);
 
   const handleClick = (asset: AssetInfo) => {
     if (onSelectChanged) {
@@ -57,12 +51,11 @@ const TokenListModal: React.FC<TokenListModalProps> = ({
               onChange={handleSearch}
             />
           </Flex.Item>
-          <List dataSource={assets?.filter(byTerm)} gap={0} maxHeight={350}>
+          <List dataSource={searchByTerm(assets)} gap={0} maxHeight={350}>
             {(asset) => (
-              <TokenListItem
+              <AssetListItem
                 key={asset.id}
                 asset={asset}
-                iconName={asset.name}
                 onClick={() => handleClick(asset)}
               />
             )}
@@ -73,4 +66,4 @@ const TokenListModal: React.FC<TokenListModalProps> = ({
   );
 };
 
-export { TokenListModal };
+export { AssetListModal };

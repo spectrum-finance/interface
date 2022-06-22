@@ -35,7 +35,7 @@ import {
   LOCKED_TOKEN_ID,
 } from '../../components/common/ActionForm/ActionButton/ActionButton';
 import { ActionForm } from '../../components/common/ActionForm/ActionForm';
-import { TokenControlFormItem } from '../../components/common/TokenControl/TokenControl';
+import { AssetControlFormItem } from '../../components/common/TokenControl/AssetControl';
 import {
   openConfirmationModal,
   Operation,
@@ -360,7 +360,7 @@ export const Swap = (): JSX.Element => {
             <OperationSettings />
           </Flex>
           <Flex.Item marginBottom={1} marginTop={2}>
-            <TokenControlFormItem
+            <AssetControlFormItem
               bordered
               maxButton
               handleMaxButtonClick={handleMaxButtonClick}
@@ -376,7 +376,7 @@ export const Swap = (): JSX.Element => {
             size="middle"
           />
           <Flex.Item>
-            <TokenControlFormItem
+            <AssetControlFormItem
               bordered
               assets$={toAssets$}
               label={t`To`}

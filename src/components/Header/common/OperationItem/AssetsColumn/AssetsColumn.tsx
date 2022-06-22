@@ -3,19 +3,19 @@ import React, { FC } from 'react';
 
 import { Currency } from '../../../../../common/models/Currency';
 import { AssetIconPair } from '../../../../AssetIconPair/AssetIconPair';
+import { AssetTitle } from '../../../../AssetTitle/AssetTitle';
 import { Operation } from '../../../../common/TxHistory/types';
-import { TokenTitle } from '../../../../TokenTitle';
 
 const SwapAssetsView: FC<{ from: Currency; to: Currency }> = ({ from, to }) => (
   <Flex stretch align="center">
     <Flex.Item display="flex" marginRight={2}>
-      <TokenTitle asset={from.asset} size="small" />
+      <AssetTitle asset={from.asset} size="small" />
     </Flex.Item>
     <Flex.Item display="flex" marginRight={2}>
       <ArrowRightOutlined />
     </Flex.Item>
     <Flex.Item display="flex">
-      <TokenTitle asset={to.asset} size="small" />
+      <AssetTitle asset={to.asset} size="small" />
     </Flex.Item>
   </Flex>
 );

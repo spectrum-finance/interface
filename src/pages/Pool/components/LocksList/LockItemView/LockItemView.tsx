@@ -6,10 +6,10 @@ import { Link } from 'react-router-dom';
 import { ReactComponent as RelockIcon } from '../../../../../assets/icons/relock-icon.svg';
 import { ReactComponent as WithdrawalIcon } from '../../../../../assets/icons/withdrawal-icon.svg';
 import { Position } from '../../../../../common/models/Position';
+import { AssetTitle } from '../../../../../components/AssetTitle/AssetTitle';
 import { DataTag } from '../../../../../components/common/DataTag/DataTag';
 import { OptionsButton } from '../../../../../components/common/OptionsButton/OptionsButton';
 import { TableListItemView } from '../../../../../components/TableList/TableListItemView/TableListItemView';
-import { TokenTitle } from '../../../../../components/TokenTitle';
 
 export interface LockItemViewProps {
   readonly position: Position;
@@ -20,9 +20,9 @@ export const LockItemView: FC<LockItemViewProps> = ({ position }) => (
     <TableListItemView.Column title={t`Pair`} width={164} marginRight={4}>
       <Flex col stretch>
         <Flex.Item marginBottom={3}>
-          <TokenTitle asset={position.availableX.asset} />
+          <AssetTitle asset={position.availableX.asset} />
         </Flex.Item>
-        <TokenTitle asset={position.availableY.asset} />
+        <AssetTitle asset={position.availableY.asset} />
       </Flex>
     </TableListItemView.Column>
     <TableListItemView.Column

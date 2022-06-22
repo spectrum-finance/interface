@@ -83,7 +83,7 @@ const _TokenAmountInput: React.FC<TokenAmountInputProps> = ({
   );
 };
 
-export const TokenAmountInput = styled(_TokenAmountInput)`
+export const AssetAmountInput = styled(_TokenAmountInput)`
   border-radius: initial !important;
   border-color: transparent !important;
   background-color: transparent !important;
