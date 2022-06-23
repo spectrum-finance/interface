@@ -142,6 +142,7 @@ const BurgerMenu = (): JSX.Element => {
         return (
           <Menu.Item key={locale}>
             <Link
+              replace={true}
               to={{
                 ...location,
                 search: stringify({ ...qs, lng: locale }),

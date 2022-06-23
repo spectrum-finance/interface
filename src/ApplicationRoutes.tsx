@@ -6,11 +6,11 @@ import Layout from './components/common/Layout/Layout';
 import { RouteConfigExtended } from './components/RouterTitle/RouteConfigExtended';
 import { RouterTitle } from './components/RouterTitle/RouterTitle';
 import { AddLiquidityOrCreatePool } from './pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool';
-import { Liquidity } from './pages/Pool/Liquidity';
-import { LockLiquidity } from './pages/Pool/LockLiquidity/LockLiquidity';
-import { RelockLiquidity } from './pages/Pool/RelockLiquidity/RelockLiquidity';
-import { RemoveLiquidity } from './pages/Pool/RemoveLiquidity/RemoveLiquidity';
-import { WithdrawalLiquidity } from './pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity';
+import { Liquidity } from './pages/Liquidity/Liquidity';
+import { LockLiquidity } from './pages/Liquidity/LockLiquidity/LockLiquidity';
+import { RelockLiquidity } from './pages/Liquidity/RelockLiquidity/RelockLiquidity';
+import { RemoveLiquidity } from './pages/Liquidity/RemoveLiquidity/RemoveLiquidity';
+import { WithdrawalLiquidity } from './pages/Liquidity/WithdrawalLiquidity/WithdrawalLiquidity';
 import { PoolOverview } from './pages/PoolOverview/PoolOverview';
 import { Swap } from './pages/Swap/Swap';
 
