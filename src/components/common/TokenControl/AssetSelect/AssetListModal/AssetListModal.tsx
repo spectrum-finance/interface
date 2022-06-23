@@ -1,11 +1,19 @@
 import { AssetInfo } from '@ergolabs/ergo-sdk';
-import { Flex, Input, List, Modal, SearchOutlined } from '@ergolabs/ui-kit';
+import {
+  Animation,
+  Flex,
+  Input,
+  List,
+  LoadingDataState,
+  Modal,
+  SearchOutlined,
+  useSearch,
+} from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import React from 'react';
 import { Observable, of } from 'rxjs';
 
 import { useObservable } from '../../../../../common/hooks/useObservable';
-import { useSearch } from '../../../../../hooks/useSearch';
 import { AssetListItem } from './AssetListItem/AssetListItem';
 
 interface TokenListModalProps {
@@ -20,7 +28,7 @@ const AssetListModal: React.FC<TokenListModalProps> = ({
   assets$,
 }) => {
   const [searchByTerm, setTerm] = useSearch<AssetInfo>(['name']);
-  const [assets] = useObservable(assets$ ?? of([]));
+  const [assets, loading] = useObservable(assets$ ?? of([]));
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) =>
     setTerm(e.target.value);
@@ -51,15 +59,29 @@ const AssetListModal: React.FC<TokenListModalProps> = ({
               onChange={handleSearch}
             />
           </Flex.Item>
-          <List dataSource={searchByTerm(assets)} gap={0} maxHeight={350}>
-            {(asset) => (
-              <AssetListItem
-                key={asset.id}
-                asset={asset}
-                onClick={() => handleClick(asset)}
-              />
-            )}
-          </List>
+          {loading && (
+            <Animation.FadeIn>
+              <LoadingDataState height={150} />
+            </Animation.FadeIn>
+          )}
+          {!loading && (
+            <Animation.FadeIn>
+              <List
+                dataSource={searchByTerm(assets)}
+                gap={1}
+                maxHeight={350}
+                emptyTemplate="test"
+              >
+                {(asset) => (
+                  <AssetListItem
+                    key={asset.id}
+                    asset={asset}
+                    onClick={() => handleClick(asset)}
+                  />
+                )}
+              </List>
+            </Animation.FadeIn>
+          )}
         </Flex>
       </Modal.Content>
     </>

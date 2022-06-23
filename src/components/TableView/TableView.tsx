@@ -1,4 +1,4 @@
-import { Flex, Gutter } from '@ergolabs/ui-kit';
+import { Animation, Flex, Gutter } from '@ergolabs/ui-kit';
 import React, { FC, ReactNode, useEffect, useState } from 'react';
 
 import { Dictionary } from '../../common/utils/Dictionary';
@@ -142,27 +142,31 @@ const _TableView: FC<TableViewProps<any>> = ({
             changeSort={changeSort}
           />
         </Flex.Item>
-        {currentState &&
-          (currentState.children instanceof Function
-            ? currentState.children(items)
-            : currentState.children)}
-        {!currentState &&
-          emptyFilterView &&
-          !completedItems.length &&
-          emptyFilterView}
+        {currentState && (
+          <Animation.FadeIn>
+            {currentState.children instanceof Function
+              ? currentState.children(items)
+              : currentState.children}
+          </Animation.FadeIn>
+        )}
+        {!currentState && emptyFilterView && !completedItems.length && (
+          <Animation.FadeIn>{emptyFilterView}</Animation.FadeIn>
+        )}
         {!currentState && !!completedItems.length && (
-          <TableViewContent
-            columns={columns}
-            padding={tableItemViewPadding || tablePadding}
-            maxHeight={contentMaxHeight}
-            height={contentHeight}
-            items={completedItems}
-            gap={gap}
-            itemHeight={itemHeight}
-            itemKey={itemKey}
-            actions={actions}
-            actionsWidth={actionsWidth}
-          />
+          <Animation.FadeIn>
+            <TableViewContent
+              columns={columns}
+              padding={tableItemViewPadding || tablePadding}
+              maxHeight={contentMaxHeight}
+              height={contentHeight}
+              items={completedItems}
+              gap={gap}
+              itemHeight={itemHeight}
+              itemKey={itemKey}
+              actions={actions}
+              actionsWidth={actionsWidth}
+            />
+          </Animation.FadeIn>
         )}
       </Flex>
     </>
