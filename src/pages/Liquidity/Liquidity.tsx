@@ -9,25 +9,22 @@ import {
   Menu,
   SearchOutlined,
   Tabs,
+  useSearch,
 } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import React, { useCallback, useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 
 import { useObservable } from '../../common/hooks/useObservable';
+import { useSearchParams } from '../../common/hooks/useSearchParams';
 import { AmmPool } from '../../common/models/AmmPool';
-import { ConnectWalletButton } from '../../components/common/ConnectWalletButton/ConnectWalletButton';
-import { IsErgo } from '../../components/IsErgo/IsErgo';
+import { AssetLock } from '../../common/models/AssetLock';
+import { Position } from '../../common/models/Position';
 import { Page } from '../../components/Page/Page';
 import { ammPools$ } from '../../gateway/api/ammPools';
-import { useAssetsBalance } from '../../gateway/api/assetBalance';
 import { positions$ } from '../../gateway/api/positions';
-import { isWalletSetuped$ } from '../../gateway/api/wallets';
 import { useSelectedNetwork } from '../../gateway/common/network';
-import { useQuery } from '../../hooks/useQuery';
-import { EmptyPositionsList } from './common/EmptyPositionsList/EmptyPositionsList';
-import { LiquidityPositionsList } from './components/LiquidityPositionsList/LiquidityPositionsList';
-import { LockListView } from './components/LocksList/LockListView';
 
 interface PoolPageWrapperProps {
   children?: React.ReactNode | React.ReactNode[];
@@ -37,170 +34,231 @@ interface PoolPageWrapperProps {
   isCardano: boolean;
 }
 
-const PoolPageWrapper: React.FC<PoolPageWrapperProps> = ({
-  children,
-  isWalletConnected,
-  onClick,
-  isCurrentTabDefault,
-  isCardano,
-}) => {
-  return (
-    <Flex col>
-      <Flex.Item marginBottom={isWalletConnected ? 2 : 0}>
-        <Page
-          width={832}
-          title={<Trans>Liquidity</Trans>}
-          padding={isCurrentTabDefault && !isCardano ? [6, 6, 2, 6] : [6, 6]}
-          titleChildren={
-            isWalletConnected && (
-              <>
-                <Dropdown.Button
-                  type="primary"
-                  icon={<DownOutlined />}
-                  size="middle"
-                  overlay={
-                    <Menu style={{ padding: '8px', width: '200px' }}>
-                      <Menu.Item key="1">
-                        <Link to="create">
-                          <Trans>Create pool</Trans>
-                        </Link>
-                      </Menu.Item>
-                    </Menu>
-                  }
-                  trigger={['click']}
-                  onClick={onClick}
-                >
-                  <Trans>Add liquidity</Trans>
-                </Dropdown.Button>
-              </>
-            )
-          }
-        >
-          {children}
-        </Page>
-      </Flex.Item>
-    </Flex>
-  );
+// const PoolPageWrapper: React.FC<PoolPageWrapperProps> = ({
+//                                                            children,
+//                                                            isWalletConnected,
+//                                                            onClick,
+//                                                            isCurrentTabDefault,
+//                                                            isCardano,
+//                                                          }) => {
+//   return (
+//     <Flex col>
+//       <Flex.Item marginBottom={isWalletConnected ? 2 : 0}>
+//         <Page
+//           width={832}
+//           title={<Trans>Liquidity</Trans>}
+//           padding={isCurrentTabDefault && !isCardano ? [6, 6, 2, 6] : [6, 6]}
+//           titleChildren={
+//             isWalletConnected && (
+//               <>
+//                 <Dropdown.Button
+//                   type="primary"
+//                   icon={<DownOutlined />}
+//                   size="middle"
+//                   overlay={
+//                     <Menu style={{ padding: '8px', width: '200px' }}>
+//                       <Menu.Item key="1">
+//                         <Link to="create">
+//                           <Trans>Create pool</Trans>
+//                         </Link>
+//                       </Menu.Item>
+//                     </Menu>
+//                   }
+//                   trigger={['click']}
+//                   onClick={onClick}
+//                 >
+//                   <Trans>Add liquidity</Trans>
+//                 </Dropdown.Button>
+//               </>
+//             )
+//           }
+//         >
+//           {children}
+//         </Page>
+//       </Flex.Item>
+//     </Flex>
+//   );
+// };
+
+enum LiquidityTab {
+  POOLS_OVERVIEW = 'positions-overview',
+  YOUR_POSITIONS = 'your-positions',
+  LOCKED_POSITIONS = 'locked-positions',
+}
+
+const matchItem = (
+  item: AmmPool | Position | AssetLock,
+  term?: string,
+): boolean => {
+  if (item instanceof AmmPool) {
+    return item.match(term);
+  }
+  if (item instanceof Position) {
+    return item.match(term);
+  }
+  return item.position.match(term);
 };
 
-const Liquidity = (): JSX.Element => {
-  const [isWalletConnected] = useObservable(isWalletSetuped$, [], false);
-  const [, isBalanceLoading] = useAssetsBalance();
+const LiquidityTabs = styled(Tabs)`
+  .ant-tabs-nav-wrap {
+    flex: initial !important;
+    margin-right: calc(var(--ergo-base-gutter) * 2);
+  }
+
+  .ant-tabs-extra-content {
+    flex: 1;
+  }
+`;
+
+export const Liquidity = (): JSX.Element => {
   const [selectedNetwork] = useSelectedNetwork();
+
   const navigate = useNavigate();
-  const query = useQuery();
-  const [term, setTerm] = useState<string | undefined>();
-  const [isCommunityPoolsShown, setIsCommunityPoolsShown] =
-    useState<boolean>(false);
 
-  const defaultActiveTabKey = 'positions-overview';
-
-  useEffect(() => {
-    setIsCommunityPoolsShown(selectedNetwork.name === 'cardano');
-  }, [selectedNetwork]);
-
-  useEffect(() => {
-    navigate(`?active=${query.active ?? defaultActiveTabKey}`);
-  }, []);
+  const [{ active }, setSearchParams] =
+    useSearchParams<{ active: string | undefined }>();
+  const [searchByTerm, setSearch] = useSearch<AmmPool | Position | AssetLock>(
+    matchItem,
+  );
 
   const [positions, isPositionLoading] = useObservable(positions$, [], []);
 
   const [pools, isPoolsLoading] = useObservable(ammPools$, [], []);
 
+  useEffect(() => {
+    setIsCommunityPoolsShown(selectedNetwork.name === 'cardano');
+  }, [selectedNetwork]);
+
+  // useEffect(() => {
+  //   navigate(`?active=${query.active ?? defaultActiveTabKey}`);
+  // }, []);
+
+  const [isCommunityPoolsShown, setIsCommunityPoolsShown] =
+    useState<boolean>(false);
+
+  const defaultActiveKey = active || LiquidityTab.POOLS_OVERVIEW;
+
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setTerm(e.target.value);
+    setSearch(e.target.value);
 
   const handleAddLiquidity = () => {
     navigate('add');
   };
 
-  const filterCommunityPools = useCallback(
-    (pools: AmmPool[]): AmmPool[] => {
-      return isCommunityPoolsShown
-        ? pools
-        : pools.filter((pool) => pool.verified);
-    },
-    [isCommunityPoolsShown],
-  );
+  // const filterCommunityPools = useCallback(
+  //   (pools: AmmPool[]): AmmPool[] => {
+  //     return isCommunityPoolsShown
+  //       ? pools
+  //       : pools.filter((pool) => pool.verified);
+  //   },
+  //   [isCommunityPoolsShown],
+  // );
 
-  const handleShowCommunityPools = () => {
-    setIsCommunityPoolsShown((prev) => !prev);
-  };
-
-  const isCurrentTabDefault = query.active === defaultActiveTabKey;
+  // const handleShowCommunityPools = () => {
+  //   setIsCommunityPoolsShown((prev) => !prev);
+  // };
+  // const isCurrentTabDefault = query.active === defaultActiveTabKey;
 
   return (
-    <PoolPageWrapper
-      isWalletConnected={isWalletConnected}
-      onClick={handleAddLiquidity}
-      isCurrentTabDefault={isCurrentTabDefault}
-      isCardano={isCommunityPoolsShown}
-    >
-      <Tabs
+    <Page width={832} title={<Trans>Liquidity</Trans>}>
+      <LiquidityTabs
         tabBarExtraContent={{
           right: (
             <Input
+              autoFocus
               onChange={handleSearchChange}
               prefix={<SearchOutlined />}
               placeholder={t`Type token name or pool id`}
               size="large"
-              style={{ width: 300 }}
             />
           ),
         }}
-        defaultActiveKey={String(query.active)}
-        className="pool__position-tabs"
-        onChange={(key) => {
-          navigate(`?active=${key}`);
-        }}
+        defaultActiveKey={defaultActiveKey}
+        onChange={(active) => setSearchParams({ active })}
       >
         <Tabs.TabPane
           tab={<Trans>Pools Overview</Trans>}
-          key={defaultActiveTabKey}
-        >
-          <LiquidityPositionsList
-            totalCount={pools.length}
-            pools={filterCommunityPools(pools.filter((p) => p.match(term)))}
-            loading={isPoolsLoading}
-          />
-        </Tabs.TabPane>
-        <Tabs.TabPane tab={<Trans>Your Positions</Trans>} key="your-positions">
-          {isWalletConnected ? (
-            <LiquidityPositionsList
-              totalCount={positions.length}
-              pools={positions.map((p) => p.pool).filter((p) => p.match(term))}
-              loading={isBalanceLoading || isPositionLoading}
-            />
-          ) : (
-            <EmptyPositionsList>
-              <ConnectWalletButton />
-            </EmptyPositionsList>
-          )}
-        </Tabs.TabPane>
-        {isWalletConnected && positions.some((p) => p.locks.length) && (
-          <Tabs.TabPane
-            tab={<Trans>Locked Positions</Trans>}
-            key="locked-positions"
-          >
-            <LockListView
-              positions={positions.filter(
-                (p) => !!p.locks.length && p.match(term),
-              )}
-            />
-          </Tabs.TabPane>
-        )}
-      </Tabs>
-      <IsErgo>
-        {isCurrentTabDefault && (
-          <Flex justify="center" align="center">
-            <Button size="large" type="link" onClick={handleShowCommunityPools}>
-              {t`${isCommunityPoolsShown ? 'Hide' : 'Show'} Community Pools`}
-            </Button>
-          </Flex>
-        )}
-      </IsErgo>
-    </PoolPageWrapper>
+          key={LiquidityTab.POOLS_OVERVIEW}
+        />
+        <Tabs.TabPane
+          tab={<Trans>Your Positions</Trans>}
+          key={LiquidityTab.YOUR_POSITIONS}
+        />
+        <Tabs.TabPane
+          tab={<Trans>Locked Positions</Trans>}
+          key={LiquidityTab.LOCKED_POSITIONS}
+        />
+      </LiquidityTabs>
+    </Page>
+    //   <PoolPageWrapper
+    //   isWalletConnected={isWalletConnected}
+    //   onClick={handleAddLiquidity}
+    //   isCurrentTabDefault={isCurrentTabDefault}
+    //   isCardano={isCommunityPoolsShown}
+    // >
+    //   <Tabs
+    //     tabBarExtraContent={{
+    //       right: (
+    //         <Input
+    //           onChange={handleSearchChange}
+    //           prefix={<SearchOutlined />}
+    //           placeholder={t`Type token name or pool id`}
+    //           size="large"
+    //           style={{ width: 300 }}
+    //         />
+    //       ),
+    //     }}
+    //     defaultActiveKey={String(query.active)}
+    //     className="pool__position-tabs"
+    //     onChange={(key) => {
+    //       navigate(`?active=${key}`);
+    //     }}
+    //   >
+    //     <Tabs.TabPane
+    //       tab={<Trans>Pools Overview</Trans>}
+    //       key={defaultActiveTabKey}
+    //     >
+    //       <LiquidityPositionsList
+    //         totalCount={pools.length}
+    //         pools={filterCommunityPools(pools.filter((p) => p.match(term)))}
+    //         loading={isPoolsLoading}
+    //       />
+    //     </Tabs.TabPane>
+    //     <Tabs.TabPane tab={<Trans>Your Positions</Trans>} key="your-positions">
+    //       {isWalletConnected ? (
+    //         <LiquidityPositionsList
+    //           totalCount={positions.length}
+    //           pools={positions.map((p) => p.pool).filter((p) => p.match(term))}
+    //           loading={isBalanceLoading || isPositionLoading}
+    //         />
+    //       ) : (
+    //         <EmptyPositionsList>
+    //           <ConnectWalletButton />
+    //         </EmptyPositionsList>
+    //       )}
+    //     </Tabs.TabPane>
+    //     {isWalletConnected && positions.some((p) => p.locks.length) && (
+    //       <Tabs.TabPane
+    //         tab={<Trans>Locked Positions</Trans>}
+    //         key="locked-positions"
+    //       >
+    //         <LockListView
+    //           positions={positions.filter(
+    //             (p) => !!p.locks.length && p.match(term),
+    //           )}
+    //         />
+    //       </Tabs.TabPane>
+    //     )}
+    //   </Tabs>
+    //   <IsErgo>
+    //     {isCurrentTabDefault && (
+    //       <Flex justify="center" align="center">
+    //         <Button size="large" type="link" onClick={handleShowCommunityPools}>
+    //           {t`${isCommunityPoolsShown ? 'Hide' : 'Show'} Community Pools`}
+    //         </Button>
+    //       </Flex>
+    //     )}
+    //   </IsErgo>
+    // </PoolPageWrapper>
   );
 };
-
-export { Liquidity };

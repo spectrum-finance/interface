@@ -41,12 +41,5 @@ export const getLockingPeriodString = (date: DateTime): string => {
   return days;
 };
 
-export const getLockStatus = (deadline: DateTime): string => {
-  if (deadline < DateTime.now()) {
-    return t`Locked`;
-  }
-  return t`Unlocked`;
-};
-
 export const getFeeForLockTarget = (minerFeeNErgs: bigint): bigint =>
   MinBoxValue + minerFeeNErgs * 2n;
