@@ -1,18 +1,8 @@
 import './Pool.less';
 
-import {
-  Button,
-  DownOutlined,
-  Dropdown,
-  Flex,
-  Input,
-  Menu,
-  SearchOutlined,
-  Tabs,
-  useSearch,
-} from '@ergolabs/ui-kit';
+import { Input, SearchOutlined, Tabs, useSearch } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -25,6 +15,7 @@ import { Page } from '../../components/Page/Page';
 import { ammPools$ } from '../../gateway/api/ammPools';
 import { positions$ } from '../../gateway/api/positions';
 import { useSelectedNetwork } from '../../gateway/common/network';
+import { PoolsOverview } from './components/PoolsOverview/PoolsOverview';
 
 interface PoolPageWrapperProps {
   children?: React.ReactNode | React.ReactNode[];
@@ -105,6 +96,10 @@ const LiquidityTabs = styled(Tabs)`
     margin-right: calc(var(--ergo-base-gutter) * 2);
   }
 
+  .ant-tabs-nav {
+    margin-bottom: calc(var(--ergo-base-gutter) * 2) !important;
+  }
+
   .ant-tabs-extra-content {
     flex: 1;
   }
@@ -179,7 +174,9 @@ export const Liquidity = (): JSX.Element => {
         <Tabs.TabPane
           tab={<Trans>Pools Overview</Trans>}
           key={LiquidityTab.POOLS_OVERVIEW}
-        />
+        >
+          <PoolsOverview pools={pools || []} />
+        </Tabs.TabPane>
         <Tabs.TabPane
           tab={<Trans>Your Positions</Trans>}
           key={LiquidityTab.YOUR_POSITIONS}
