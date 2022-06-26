@@ -1,7 +1,8 @@
-import { Flex, Gutter, List, Menu } from '@ergolabs/ui-kit';
+import { Flex, Gutter, Menu } from '@ergolabs/ui-kit';
 import React, { FC } from 'react';
 
 import { OptionsButton } from '../../common/OptionsButton/OptionsButton';
+import { List } from '../../List/List';
 import { Action } from '../common/Action';
 import { Column } from '../common/Column';
 import { TableItemView } from '../TableItemView/TableListItemView';
@@ -32,14 +33,15 @@ export const TableViewContent: FC<TableViewContentProps<any>> = ({
   actionsWidth,
 }) => (
   <List
-    rowKey={itemKey}
-    dataSource={items}
+    items={items}
     maxHeight={maxHeight}
     height={height}
     gap={gap}
+    itemHeight={itemHeight}
+    itemKey={itemKey}
   >
-    {(item) => (
-      <TableItemView height={itemHeight} padding={padding}>
+    {({ item, height }) => (
+      <TableItemView height={height} padding={padding}>
         {columns.map((c, i) => (
           <TableItemView.Column
             key={i}

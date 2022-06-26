@@ -14,8 +14,8 @@ import {
 } from 'react-virtualized/dist/es/List';
 import styled from 'styled-components';
 
-import { uint } from '../../../common/types';
-import { Dictionary } from '../../../common/utils/Dictionary';
+import { uint } from '../../common/types';
+import { Dictionary } from '../../common/utils/Dictionary';
 import { Expand } from './common/Expand';
 import { ListItem, ListItemFn } from './common/ListItem';
 import { ListState } from './common/ListState';
@@ -40,10 +40,12 @@ export interface ListProps<T> {
   readonly itemHeight: number;
   readonly itemKey: keyof T;
   readonly expand?: Expand;
-  readonly children: (
+  readonly children:
     | ((childProps: ListItem<T>) => ReactNode | ReactNode[] | string)
-    | ReactNode
-  )[];
+    | (
+        | ((childProps: ListItem<T>) => ReactNode | ReactNode[] | string)
+        | ReactNode
+      )[];
 }
 
 export const List = <T extends unknown>({
@@ -69,9 +71,14 @@ export const List = <T extends unknown>({
   const [states, setStates] = useState<Dictionary<ListState>>({});
 
   const itemRenderer: (props: ListItem<T>) => ReactNode | ReactNode[] | string =
-    children.find((c) => c instanceof Function) as ListItemFn<T>;
+    children instanceof Array
+      ? (children.find((c) => c instanceof Function) as ListItemFn<T>)
+      : children;
 
-  const statesRenderer = children.filter((c) => !(c instanceof Function));
+  const statesRenderer =
+    children instanceof Array
+      ? children.filter((c) => !(c instanceof Function))
+      : [];
 
   const currentState = Object.values(states).find((sr) => sr.condition);
 

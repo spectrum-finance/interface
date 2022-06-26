@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-import { uint } from '../../../../common/types';
+import { uint } from '../../../common/types';
 
 export interface ListItem<T> {
   readonly item: T;

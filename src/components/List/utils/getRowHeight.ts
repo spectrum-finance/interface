@@ -1,4 +1,4 @@
-import { uint } from '../../../../common/types';
+import { uint } from '../../../common/types';
 import { BASE_GUTTER } from './constants';
 
 export const getRowHeight = (

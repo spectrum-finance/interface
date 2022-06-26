@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react';
 
-import { Dictionary } from '../../../../common/utils/Dictionary';
+import { Dictionary } from '../../../common/utils/Dictionary';
 import { ListState } from '../common/ListState';
 
 interface ListContextType {

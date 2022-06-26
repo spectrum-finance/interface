@@ -1,6 +1,6 @@
 import { CSSProperties } from 'react';
 
-import { uint } from '../../../../common/types';
+import { uint } from '../../../common/types';
 import { BASE_GUTTER } from './constants';
 import { normalizeMeasure } from './normalizeMeasure';
 
