@@ -7,7 +7,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { AutoSizer, ScrollParams } from 'react-virtualized';
+import { AutoSizer } from 'react-virtualized';
 import {
   List as VirtualizedList,
   ListRowRenderer,
@@ -20,7 +20,6 @@ import { Expand } from './common/Expand';
 import { ListItem, ListItemFn } from './common/ListItem';
 import { ListState } from './common/ListState';
 import { ListContext } from './ListContext/ListContext';
-import { Overlay, OverlayPosition } from './Overlay/Overlay';
 import { getHeight } from './utils/getHeight';
 import { getRowHeight } from './utils/getRowHeight';
 
@@ -55,7 +54,6 @@ export const List = <T extends unknown>({
   className,
   gap,
   padding,
-  overlay,
   itemHeight,
   items,
   children,
@@ -64,8 +62,8 @@ export const List = <T extends unknown>({
 }: ListProps<T>): ReactElement => {
   const ref = useRef<VirtualizedList>();
 
-  const [overlayPosition, setOverlayPosition] =
-    useState<OverlayPosition>('bottom');
+  // const [overlayPosition, setOverlayPosition] =
+  //   useState<OverlayPosition>('bottom');
   const [selectedItems, setSelectedItems] = useState<uint[]>([]);
 
   const [states, setStates] = useState<Dictionary<ListState>>({});
@@ -135,15 +133,15 @@ export const List = <T extends unknown>({
     );
   };
 
-  const handleScroll = (params: ScrollParams) => {
-    if (!overlay || !params.clientHeight) {
-      return;
-    }
-    if (params.scrollHeight - params.scrollTop === params.clientHeight) {
-      setOverlayPosition('top');
-    } else {
-      setOverlayPosition('bottom');
-    }
+  const handleScroll = () => {
+    // if (!overlay || !params.clientHeight) {
+    //   return;
+    // }
+    // if (params.scrollHeight - params.scrollTop === params.clientHeight) {
+    //   setOverlayPosition('top');
+    // } else {
+    //   setOverlayPosition('bottom');
+    // }
   };
 
   return (

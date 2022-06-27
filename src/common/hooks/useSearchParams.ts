@@ -17,7 +17,7 @@ const transformObjectToKeyValueParam = <
   p: T,
 ): ParamKeyValuePair[] =>
   Object.entries(p).filter(
-    ([_, value]) => value !== undefined,
+    ([, value]) => value !== undefined,
   ) as ParamKeyValuePair[];
 
 type SetSearchParamsFn<T extends Record<string, string | undefined>> = (

@@ -3,7 +3,6 @@ import {
   Divider,
   DownOutlined,
   Flex,
-  getGutter,
   Gutter,
   Menu,
 } from '@ergolabs/ui-kit';
@@ -15,7 +14,7 @@ import { List } from '../../List/List';
 import { Action } from '../common/Action';
 import { Column } from '../common/Column';
 import { BORDER_HEIGHT } from '../common/constants';
-import { ExpandComponentProps, TableExpand } from '../common/Expand';
+import { TableExpand } from '../common/Expand';
 import { RowRenderer } from '../common/RowRenderer';
 import { TableViewDetails } from '../TableViewDetails';
 import { TableViewRow } from '../TableViewRow/TableViewRow';
