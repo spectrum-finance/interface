@@ -5,6 +5,8 @@ import {
   Flex,
   Gutter,
   Menu,
+  Typography,
+  UpOutlined,
 } from '@ergolabs/ui-kit';
 import React, { CSSProperties, FC } from 'react';
 import styled from 'styled-components';
@@ -33,11 +35,8 @@ export interface TableViewContentProps<T> {
   readonly actionsWidth?: number;
   readonly rowRenderer?: RowRenderer;
   readonly expand?: TableExpand<T>;
+  readonly hoverable?: boolean;
 }
-
-const StyledDownOutlined = styled(DownOutlined)`
-  cursor: pointer;
-`;
 
 export const TableViewContent: FC<TableViewContentProps<any>> = ({
   maxHeight,
@@ -52,6 +51,7 @@ export const TableViewContent: FC<TableViewContentProps<any>> = ({
   actionsWidth,
   rowRenderer = TableViewRowRenderer,
   expand,
+  hoverable,
 }) => {
   const RowRenderer = rowRenderer;
   const expandConfig = expand;
@@ -77,27 +77,52 @@ export const TableViewContent: FC<TableViewContentProps<any>> = ({
         index,
         itemHeight,
       }) => (
-        <RowRenderer height={height} padding={0}>
-          <TableViewRow height={itemHeight - BORDER_HEIGHT} padding={padding}>
-            {columns.map((c, i) => (
-              <TableViewRow.Column
-                key={i}
-                width={c.width}
-                minWidth={c.minWidth}
-                maxWidth={c.maxWidth}
-              >
-                {c.children ? c.children(item) : null}
-              </TableViewRow.Column>
-            ))}
-            {actions?.length && (
-              <TableViewRow.Column>
-                <Flex stretch align="center" justify="flex-end">
-                  <OptionsButton size="middle" width={actionsWidth}>
-                    {actions.map((a, i) => {
-                      const Decorator = a.decorator;
+        <RowRenderer
+          height={height}
+          padding={0}
+          hoverable={hoverable || !!expandConfig}
+        >
+          <div
+            onClick={() => {
+              if (!expandConfig) {
+                return;
+              }
+              if (expanded) {
+                collapse();
+              } else {
+                expand();
+              }
+            }}
+          >
+            <TableViewRow height={itemHeight - BORDER_HEIGHT} padding={padding}>
+              {columns.map((c, i) => (
+                <TableViewRow.Column
+                  key={i}
+                  width={c.width}
+                  minWidth={c.minWidth}
+                  maxWidth={c.maxWidth}
+                >
+                  {c.children ? c.children(item) : null}
+                </TableViewRow.Column>
+              ))}
+              {actions?.length ? (
+                <TableViewRow.Column>
+                  <Flex stretch align="center" justify="flex-end">
+                    <OptionsButton size="middle" width={actionsWidth}>
+                      {actions.map((a, i) => {
+                        const Decorator = a.decorator;
 
-                      return Decorator ? (
-                        <Decorator item={item}>
+                        return Decorator ? (
+                          <Decorator item={item}>
+                            <Menu.Item
+                              key={i}
+                              icon={a.icon}
+                              onClick={() => a.onClick && a.onClick(item)}
+                            >
+                              {a.children}
+                            </Menu.Item>
+                          </Decorator>
+                        ) : (
                           <Menu.Item
                             key={i}
                             icon={a.icon}
@@ -105,33 +130,27 @@ export const TableViewContent: FC<TableViewContentProps<any>> = ({
                           >
                             {a.children}
                           </Menu.Item>
-                        </Decorator>
-                      ) : (
-                        <Menu.Item
-                          key={i}
-                          icon={a.icon}
-                          onClick={() => a.onClick && a.onClick(item)}
-                        >
-                          {a.children}
-                        </Menu.Item>
-                      );
-                    })}
-                  </OptionsButton>
-                </Flex>
-              </TableViewRow.Column>
-            )}
-            {expandConfig && (
-              <TableViewRow.Column>
-                <Flex stretch align="center" justify="flex-end">
-                  <StyledDownOutlined onClick={expand} />
-                </Flex>
-              </TableViewRow.Column>
-            )}
-          </TableViewRow>
+                        );
+                      })}
+                    </OptionsButton>
+                  </Flex>
+                </TableViewRow.Column>
+              ) : null}
+              {expandConfig && (
+                <TableViewRow.Column>
+                  <Flex stretch align="center" justify="flex-end">
+                    <Typography.Body>
+                      {expanded ? <UpOutlined /> : <DownOutlined />}
+                    </Typography.Body>
+                  </Flex>
+                </TableViewRow.Column>
+              )}
+            </TableViewRow>
+          </div>
           {expanded && Details && (
             <>
               <Divider />
-              <Animation.FadeIn>
+              <Animation.FadeIn duration={700}>
                 <TableViewDetails height={expandHeight} padding={padding}>
                   <Details
                     collapse={collapse}

@@ -81,7 +81,7 @@ export const List = <T extends unknown>({
   const currentState = Object.values(states).find((sr) => sr.condition);
 
   useEffect(() => {
-    setSelectedItems([]);
+    ref.current?.recomputeRowHeights();
   }, [items]);
 
   useEffect(() => {

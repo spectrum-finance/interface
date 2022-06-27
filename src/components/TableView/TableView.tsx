@@ -43,6 +43,7 @@ export interface TableViewProps<T> {
   readonly emptyFilterView?: ReactNode | ReactNode[] | string;
   readonly showHeader?: boolean;
   readonly expand?: TableExpand<T>;
+  readonly hoverable?: boolean;
 }
 
 const getDefaultSort = (columns: Column<any>[]): Sort | undefined => {
@@ -84,6 +85,7 @@ const _TableView: FC<TableViewProps<any>> = ({
   rowRenderer,
   showHeader = true,
   expand,
+  hoverable,
 }) => {
   const [states, setStates] = useState<Dictionary<State<any>>>({});
   const [columns, setColumns] = useState<Column<any>[]>([]);
@@ -185,6 +187,7 @@ const _TableView: FC<TableViewProps<any>> = ({
         {!currentState && !!completedItems.length && (
           <Animation.FadeIn>
             <TableViewContent
+              hoverable={hoverable}
               expand={expand}
               rowRenderer={rowRenderer}
               columns={columns}

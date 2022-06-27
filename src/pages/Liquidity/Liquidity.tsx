@@ -16,6 +16,7 @@ import { ammPools$ } from '../../gateway/api/ammPools';
 import { positions$ } from '../../gateway/api/positions';
 import { useSelectedNetwork } from '../../gateway/common/network';
 import { PoolsOverview } from './components/PoolsOverview/PoolsOverview';
+import { YourPositions } from './components/YourPositions/YourPositions';
 
 interface PoolPageWrapperProps {
   children?: React.ReactNode | React.ReactNode[];
@@ -175,12 +176,20 @@ export const Liquidity = (): JSX.Element => {
           tab={<Trans>Pools Overview</Trans>}
           key={LiquidityTab.POOLS_OVERVIEW}
         >
-          <PoolsOverview pools={pools || []} />
+          <PoolsOverview
+            ammPools={(searchByTerm(pools) as AmmPool[]) || []}
+            loading={isPoolsLoading}
+          />
         </Tabs.TabPane>
         <Tabs.TabPane
           tab={<Trans>Your Positions</Trans>}
           key={LiquidityTab.YOUR_POSITIONS}
-        />
+        >
+          <YourPositions
+            positions={(searchByTerm(positions) as Position[]) || []}
+            loading={isPositionLoading}
+          />
+        </Tabs.TabPane>
         <Tabs.TabPane
           tab={<Trans>Locked Positions</Trans>}
           key={LiquidityTab.LOCKED_POSITIONS}
