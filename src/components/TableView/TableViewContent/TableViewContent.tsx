@@ -1,11 +1,23 @@
-import { Flex, Gutter, Menu } from '@ergolabs/ui-kit';
+import {
+  Animation,
+  Divider,
+  DownOutlined,
+  Flex,
+  getGutter,
+  Gutter,
+  Menu,
+} from '@ergolabs/ui-kit';
 import React, { CSSProperties, FC } from 'react';
+import styled from 'styled-components';
 
 import { OptionsButton } from '../../common/OptionsButton/OptionsButton';
 import { List } from '../../List/List';
 import { Action } from '../common/Action';
 import { Column } from '../common/Column';
+import { BORDER_HEIGHT } from '../common/constants';
+import { ExpandComponentProps, TableExpand } from '../common/Expand';
 import { RowRenderer } from '../common/RowRenderer';
+import { TableViewDetails } from '../TableViewDetails';
 import { TableViewRow } from '../TableViewRow/TableViewRow';
 import { TableViewRowRenderer } from '../TableViewRowRenderer/TableViewRowRenderer';
 
@@ -21,7 +33,12 @@ export interface TableViewContentProps<T> {
   readonly actions: Action<any>[];
   readonly actionsWidth?: number;
   readonly rowRenderer?: RowRenderer;
+  readonly expand?: TableExpand<T>;
 }
+
+const StyledDownOutlined = styled(DownOutlined)`
+  cursor: pointer;
+`;
 
 export const TableViewContent: FC<TableViewContentProps<any>> = ({
   maxHeight,
@@ -35,8 +52,11 @@ export const TableViewContent: FC<TableViewContentProps<any>> = ({
   actions,
   actionsWidth,
   rowRenderer = TableViewRowRenderer,
+  expand,
 }) => {
   const RowRenderer = rowRenderer;
+  const expandConfig = expand;
+  const Details = expandConfig?.component;
 
   return (
     <List
@@ -44,12 +64,22 @@ export const TableViewContent: FC<TableViewContentProps<any>> = ({
       maxHeight={maxHeight}
       height={height}
       gap={gap}
+      expand={expandConfig}
       itemHeight={itemHeight}
       itemKey={itemKey}
     >
-      {({ item, height }) => (
-        <RowRenderer height={height} padding={padding}>
-          <TableViewRow>
+      {({
+        item,
+        height,
+        expand,
+        collapse,
+        expanded,
+        expandHeight,
+        index,
+        itemHeight,
+      }) => (
+        <RowRenderer height={height} padding={0}>
+          <TableViewRow height={itemHeight - BORDER_HEIGHT} padding={padding}>
             {columns.map((c, i) => (
               <TableViewRow.Column
                 key={i}
@@ -91,7 +121,29 @@ export const TableViewContent: FC<TableViewContentProps<any>> = ({
                 </Flex>
               </TableViewRow.Column>
             )}
+            {expandConfig && (
+              <TableViewRow.Column>
+                <Flex stretch align="center" justify="flex-end">
+                  <StyledDownOutlined onClick={expand} />
+                </Flex>
+              </TableViewRow.Column>
+            )}
           </TableViewRow>
+          {expanded && Details && (
+            <>
+              <Divider />
+              <Animation.FadeIn>
+                <TableViewDetails height={expandHeight} padding={padding}>
+                  <Details
+                    collapse={collapse}
+                    index={index}
+                    expandContentHeight="100%"
+                    item={item}
+                  />
+                </TableViewDetails>
+              </Animation.FadeIn>
+            </>
+          )}
         </RowRenderer>
       )}
     </List>

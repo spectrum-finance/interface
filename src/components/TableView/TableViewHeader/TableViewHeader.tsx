@@ -3,11 +3,11 @@ import React, { FC } from 'react';
 
 import { Dictionary } from '../../../common/utils/Dictionary';
 import { Column } from '../common/Column';
+import { BORDER_HEIGHT } from '../common/constants';
 import { FilterState } from '../common/FilterDescription';
 import { Sort, SortDirection } from '../common/Sort';
 import { FilterButton } from '../FilterButton/FilterButton';
 import { SortButton } from '../SortButton/SortButton';
-import { TableItemView } from '../TableItemView/TableListItemView';
 import { TableViewRow } from '../TableViewRow/TableViewRow';
 import { TableViewRowRenderer } from '../TableViewRowRenderer/TableViewRowRenderer';
 
@@ -32,8 +32,8 @@ export const TableViewHeader: FC<TableViewHeaderProps> = ({
   sort,
   changeSort,
 }) => (
-  <TableViewRowRenderer height={height} padding={padding}>
-    <TableViewRow>
+  <TableViewRowRenderer height={height} padding={0}>
+    <TableViewRow height={height - BORDER_HEIGHT} padding={padding}>
       {columns.map((c, i) => (
         <TableViewRow.Column
           key={i}

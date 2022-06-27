@@ -1,4 +1,4 @@
-import { Box, Flex, LoadingDataState, Typography } from '@ergolabs/ui-kit';
+import { Flex, Typography } from '@ergolabs/ui-kit';
 import { head } from 'lodash';
 import React, { FC } from 'react';
 

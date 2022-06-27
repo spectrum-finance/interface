@@ -1,4 +1,4 @@
-import { Flex } from '@ergolabs/ui-kit';
+import { Flex, getGutter, Gutter } from '@ergolabs/ui-kit';
 import React, { CSSProperties, FC, PropsWithChildren } from 'react';
 
 interface ColumnProps {
@@ -18,19 +18,32 @@ const Column: FC<PropsWithChildren<ColumnProps>> = ({
       width={width}
       maxWidth={maxWidth}
       minWidth={minWidth}
-      style={{ flexGrow: 1 }}
+      style={{ flexGrow: width ? 'initial' : 1 }}
     >
       {children}
     </Flex.Item>
   );
 };
 
-const _Row: FC<PropsWithChildren<Record<string, unknown>>> = ({ children }) => (
-  <Flex stretch align="center" justify="flex-start" width="100%">
+interface RowProps {
+  readonly height: number;
+  readonly padding?: Gutter;
+}
+
+const Row: FC<PropsWithChildren<RowProps>> = ({
+  children,
+  height,
+  padding,
+}) => (
+  <Flex
+    align="center"
+    justify="flex-start"
+    width="100%"
+    style={{ height, padding: padding ? getGutter(padding) : 'initial' }}
+  >
     {children}
   </Flex>
 );
 
-export const TableViewRow: typeof _Row & { Column: typeof Column } =
-  _Row as any;
+export const TableViewRow: typeof Row & { Column: typeof Column } = Row as any;
 TableViewRow.Column = Column;

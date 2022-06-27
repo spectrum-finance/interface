@@ -35,7 +35,6 @@ export const OperationHistoryTable: FC<TransactionHistoryTableProps> = ({
   <TableView
     actionsWidth={168}
     itemHeight={80}
-    // expand={{ height: 160, component: ..., accordion: true }}
     items={operations}
     maxHeight={376}
     tableHeaderPadding={[0, 6]}

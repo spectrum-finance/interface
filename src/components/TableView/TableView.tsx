@@ -13,6 +13,7 @@ import { normalizeMeasure } from '../List/utils/normalizeMeasure';
 import { Action } from './common/Action';
 import { Column } from './common/Column';
 import { HEADER_HEIGHT } from './common/constants';
+import { TableExpand } from './common/Expand';
 import { FilterState } from './common/FilterDescription';
 import { filterItem } from './common/filterItem';
 import { RowRenderer } from './common/RowRenderer';
@@ -41,6 +42,7 @@ export interface TableViewProps<T> {
   readonly children?: ReactNode | ReactNode[] | string;
   readonly emptyFilterView?: ReactNode | ReactNode[] | string;
   readonly showHeader?: boolean;
+  readonly expand?: TableExpand<T>;
 }
 
 const getDefaultSort = (columns: Column<any>[]): Sort | undefined => {
@@ -81,6 +83,7 @@ const _TableView: FC<TableViewProps<any>> = ({
   emptyFilterView,
   rowRenderer,
   showHeader = true,
+  expand,
 }) => {
   const [states, setStates] = useState<Dictionary<State<any>>>({});
   const [columns, setColumns] = useState<Column<any>[]>([]);
@@ -182,6 +185,7 @@ const _TableView: FC<TableViewProps<any>> = ({
         {!currentState && !!completedItems.length && (
           <Animation.FadeIn>
             <TableViewContent
+              expand={expand}
               rowRenderer={rowRenderer}
               columns={columns}
               padding={tableItemViewPadding || tablePadding}
