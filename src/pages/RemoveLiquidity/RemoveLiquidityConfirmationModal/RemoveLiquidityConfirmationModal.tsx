@@ -3,14 +3,14 @@ import { t, Trans } from '@lingui/macro';
 import React from 'react';
 import { Observable } from 'rxjs';
 
-import { useObservable } from '../../../../common/hooks/useObservable';
-import { AmmPool } from '../../../../common/models/AmmPool';
-import { Currency } from '../../../../common/models/Currency';
-import { TxId } from '../../../../common/types';
-import { FormPairSection } from '../../../../components/common/FormView/FormPairSection/FormPairSection';
-import { PageSection } from '../../../../components/Page/PageSection/PageSection';
-import { redeem } from '../../../../gateway/api/operations/redeem';
-import { redeemConfirmationInfo$ } from '../../../../gateway/widgets/redeemConfirmationInfo';
+import { useObservable } from '../../../common/hooks/useObservable';
+import { AmmPool } from '../../../common/models/AmmPool';
+import { Currency } from '../../../common/models/Currency';
+import { TxId } from '../../../common/types';
+import { FormPairSection } from '../../../components/common/FormView/FormPairSection/FormPairSection';
+import { PageSection } from '../../../components/Page/PageSection/PageSection';
+import { redeem } from '../../../gateway/api/operations/redeem';
+import { redeemConfirmationInfo$ } from '../../../gateway/widgets/redeemConfirmationInfo';
 
 // import { poolActions } from '../../../../services/poolActions';
 interface ConfirmRemoveModalProps {

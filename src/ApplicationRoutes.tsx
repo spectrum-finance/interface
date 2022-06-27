@@ -8,11 +8,11 @@ import { RouterTitle } from './components/RouterTitle/RouterTitle';
 import { AddLiquidityOrCreatePool } from './pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool';
 import { Liquidity } from './pages/Liquidity/Liquidity';
 import { LockLiquidity } from './pages/Liquidity/LockLiquidity/LockLiquidity';
-import { RelockLiquidity } from './pages/Liquidity/RelockLiquidity/RelockLiquidity';
-import { RemoveLiquidity } from './pages/Liquidity/RemoveLiquidity/RemoveLiquidity';
-import { WithdrawalLiquidity } from './pages/Liquidity/WithdrawalLiquidity/WithdrawalLiquidity';
 import { PoolOverview } from './pages/PoolOverview/PoolOverview';
+import { RelockLiquidity } from './pages/RelockLiquidity/RelockLiquidity';
+import { RemoveLiquidity } from './pages/RemoveLiquidity/RemoveLiquidity';
 import { Swap } from './pages/Swap/Swap';
+import { WithdrawalLiquidity } from './pages/WithdrawalLiquidity/WithdrawalLiquidity';
 
 export const routesConfig: RouteConfigExtended[] = [
   {

@@ -7,17 +7,17 @@ import { t, Trans } from '@lingui/macro';
 import { DateTime } from 'luxon';
 import React, { FC } from 'react';
 
-import { ERG_DECIMALS } from '../../../../common/constants/erg';
-import { AssetLock } from '../../../../common/models/AssetLock';
-import { FormPairSection } from '../../../../components/common/FormView/FormPairSection/FormPairSection';
-import { useSettings } from '../../../../gateway/settings/settings';
-import { ErgoSettings } from '../../../../network/ergo/settings/settings';
-import { mainnetTxAssembler } from '../../../../services/defaultTxAssembler';
-import { explorer } from '../../../../services/explorer';
-import { lockParser } from '../../../../services/locker/parser';
-import { submitTx } from '../../../../services/yoroi';
-import yoroiProver from '../../../../services/yoroi/prover';
-import { parseUserInputToFractions } from '../../../../utils/math';
+import { ERG_DECIMALS } from '../../../common/constants/erg';
+import { AssetLock } from '../../../common/models/AssetLock';
+import { FormPairSection } from '../../../components/common/FormView/FormPairSection/FormPairSection';
+import { useSettings } from '../../../gateway/settings/settings';
+import { ErgoSettings } from '../../../network/ergo/settings/settings';
+import { mainnetTxAssembler } from '../../../services/defaultTxAssembler';
+import { explorer } from '../../../services/explorer';
+import { lockParser } from '../../../services/locker/parser';
+import { submitTx } from '../../../services/yoroi';
+import yoroiProver from '../../../services/yoroi/prover';
+import { parseUserInputToFractions } from '../../../utils/math';
 
 interface WithdrawalLiquidityConfirmationModalProps {
   onClose: (p: Promise<any>) => void;

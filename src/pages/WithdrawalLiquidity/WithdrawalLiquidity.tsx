@@ -11,22 +11,22 @@ import {
 import { t, Trans } from '@lingui/macro';
 import React, { useEffect } from 'react';
 
-import { useSubject } from '../../../common/hooks/useObservable';
-import { useParamsStrict } from '../../../common/hooks/useParamsStrict';
-import { AssetLock, AssetLockStatus } from '../../../common/models/AssetLock';
-import { FormPairSection } from '../../../components/common/FormView/FormPairSection/FormPairSection';
+import { useSubject } from '../../common/hooks/useObservable';
+import { useParamsStrict } from '../../common/hooks/useParamsStrict';
+import { AssetLock, AssetLockStatus } from '../../common/models/AssetLock';
+import { FormPairSection } from '../../components/common/FormView/FormPairSection/FormPairSection';
 import {
   openConfirmationModal,
   Operation,
-} from '../../../components/ConfirmationModal/ConfirmationModal';
+} from '../../components/ConfirmationModal/ConfirmationModal';
 import {
   OperationForm,
   OperationValidator,
-} from '../../../components/OperationForm/OperationForm';
-import { Page } from '../../../components/Page/Page';
-import { PageHeader } from '../../../components/Page/PageHeader/PageHeader';
-import { getPositionByAmmPoolId } from '../../../gateway/api/positions';
-import { LockedPositionItem } from '../components/LockedPositionItem/LockedPositionItem';
+} from '../../components/OperationForm/OperationForm';
+import { Page } from '../../components/Page/Page';
+import { PageHeader } from '../../components/Page/PageHeader/PageHeader';
+import { getPositionByAmmPoolId } from '../../gateway/api/positions';
+import { LockedPositionItem } from '../Liquidity/components/LockedPositionItem/LockedPositionItem';
 import { WithdrawalLiquidityConfirmationModal } from './WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal';
 
 interface RelockLiquidityModel {

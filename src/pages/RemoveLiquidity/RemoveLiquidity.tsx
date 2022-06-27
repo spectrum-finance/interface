@@ -8,21 +8,21 @@ import {
   useObservable,
   useSubject,
   useSubscription,
-} from '../../../common/hooks/useObservable';
-import { useParamsStrict } from '../../../common/hooks/useParamsStrict';
-import { Currency } from '../../../common/models/Currency';
-import { Position } from '../../../common/models/Position';
-import { FormPairSection } from '../../../components/common/FormView/FormPairSection/FormPairSection';
-import { FormSlider } from '../../../components/common/FormView/FormSlider/FormSlider';
+} from '../../common/hooks/useObservable';
+import { useParamsStrict } from '../../common/hooks/useParamsStrict';
+import { Currency } from '../../common/models/Currency';
+import { Position } from '../../common/models/Position';
+import { FormPairSection } from '../../components/common/FormView/FormPairSection/FormPairSection';
+import { FormSlider } from '../../components/common/FormView/FormSlider/FormSlider';
 import {
   openConfirmationModal,
   Operation,
-} from '../../../components/ConfirmationModal/ConfirmationModal';
-import { Page } from '../../../components/Page/Page';
-import { PageHeader } from '../../../components/Page/PageHeader/PageHeader';
-import { PageSection } from '../../../components/Page/PageSection/PageSection';
-import { SubmitButton } from '../../../components/SubmitButton/SubmitButton';
-import { getPositionByAmmPoolId } from '../../../gateway/api/positions';
+} from '../../components/ConfirmationModal/ConfirmationModal';
+import { Page } from '../../components/Page/Page';
+import { PageHeader } from '../../components/Page/PageHeader/PageHeader';
+import { PageSection } from '../../components/Page/PageSection/PageSection';
+import { SubmitButton } from '../../components/SubmitButton/SubmitButton';
+import { getPositionByAmmPoolId } from '../../gateway/api/positions';
 import { RemoveLiquidityConfirmationModal } from './RemoveLiquidityConfirmationModal/RemoveLiquidityConfirmationModal';
 
 interface RemoveFormModel {

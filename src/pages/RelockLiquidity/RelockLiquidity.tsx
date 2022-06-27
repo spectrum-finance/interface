@@ -14,24 +14,24 @@ import { DateTime } from 'luxon';
 import React, { useEffect } from 'react';
 import { map } from 'rxjs';
 
-import { useObservable, useSubject } from '../../../common/hooks/useObservable';
-import { useParamsStrict } from '../../../common/hooks/useParamsStrict';
-import { AssetLock } from '../../../common/models/AssetLock';
+import { useObservable, useSubject } from '../../common/hooks/useObservable';
+import { useParamsStrict } from '../../common/hooks/useParamsStrict';
+import { AssetLock } from '../../common/models/AssetLock';
 import {
   openConfirmationModal,
   Operation,
-} from '../../../components/ConfirmationModal/ConfirmationModal';
+} from '../../components/ConfirmationModal/ConfirmationModal';
 import {
   OperationForm,
   OperationValidator,
-} from '../../../components/OperationForm/OperationForm';
-import { Page } from '../../../components/Page/Page';
-import { PageHeader } from '../../../components/Page/PageHeader/PageHeader';
-import { PageSection } from '../../../components/Page/PageSection/PageSection';
-import { ergoExplorerContext$ } from '../../../gateway/api/explorer';
-import { getPositionByAmmPoolId } from '../../../gateway/api/positions';
-import { LockedPositionItem } from '../components/LockedPositionItem/LockedPositionItem';
-import { LiquidityDatePicker } from '../components/LockLiquidityDatePicker/LiquidityDatePicker';
+} from '../../components/OperationForm/OperationForm';
+import { Page } from '../../components/Page/Page';
+import { PageHeader } from '../../components/Page/PageHeader/PageHeader';
+import { PageSection } from '../../components/Page/PageSection/PageSection';
+import { ergoExplorerContext$ } from '../../gateway/api/explorer';
+import { getPositionByAmmPoolId } from '../../gateway/api/positions';
+import { LockedPositionItem } from '../Liquidity/components/LockedPositionItem/LockedPositionItem';
+import { LiquidityDatePicker } from '../Liquidity/components/LockLiquidityDatePicker/LiquidityDatePicker';
 import { RelockLiquidityConfirmationModal } from './RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal';
 
 interface RelockLiquidityModel {
