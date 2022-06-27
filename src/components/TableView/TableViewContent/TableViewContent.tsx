@@ -8,8 +8,8 @@ import {
   Typography,
   UpOutlined,
 } from '@ergolabs/ui-kit';
-import React, { CSSProperties, FC } from 'react';
-import styled from 'styled-components';
+import React, { CSSProperties, FC, PropsWithChildren } from 'react';
+import styled, { css } from 'styled-components';
 
 import { OptionsButton } from '../../common/OptionsButton/OptionsButton';
 import { List } from '../../List/List';
@@ -37,6 +37,32 @@ export interface TableViewContentProps<T> {
   readonly expand?: TableExpand<T>;
   readonly hoverable?: boolean;
 }
+
+const _TableViewRowContainer: FC<
+  PropsWithChildren<{
+    className?: string;
+    hoverable?: boolean;
+    onClick?: () => void;
+  }>
+> = ({ className, children, onClick }) => (
+  <div className={className} onClick={onClick}>
+    {children}
+  </div>
+);
+
+const TableViewRowContainer = styled(_TableViewRowContainer)`
+  ${(props) =>
+    props.hoverable &&
+    css`
+      cursor: pointer;
+
+      &:hover,
+      &:focus,
+      &:active {
+        background: var(--ergo-table-view-item-hover);
+      }
+    `}
+`;
 
 export const TableViewContent: FC<TableViewContentProps<any>> = ({
   maxHeight,
@@ -77,12 +103,9 @@ export const TableViewContent: FC<TableViewContentProps<any>> = ({
         index,
         itemHeight,
       }) => (
-        <RowRenderer
-          height={height}
-          padding={0}
-          hoverable={hoverable || !!expandConfig}
-        >
-          <div
+        <RowRenderer height={height} padding={0}>
+          <TableViewRowContainer
+            hoverable={hoverable || !!expandConfig}
             onClick={() => {
               if (!expandConfig) {
                 return;
@@ -146,11 +169,11 @@ export const TableViewContent: FC<TableViewContentProps<any>> = ({
                 </TableViewRow.Column>
               )}
             </TableViewRow>
-          </div>
+          </TableViewRowContainer>
           {expanded && Details && (
             <>
               <Divider />
-              <Animation.FadeIn duration={700}>
+              <Animation.FadeIn delay={100}>
                 <TableViewDetails height={expandHeight} padding={padding}>
                   <Details
                     collapse={collapse}

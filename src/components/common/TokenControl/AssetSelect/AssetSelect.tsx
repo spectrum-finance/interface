@@ -22,6 +22,7 @@ const StyledDownOutlined = styled(DownOutlined)`
 
 const StyledButton = styled(Button)`
   padding: 0 calc(var(--ergo-base-gutter) * 3);
+  width: 100%;
 `;
 
 const AssetSelect: React.FC<TokenSelectProps> = ({
@@ -58,11 +59,13 @@ const AssetSelect: React.FC<TokenSelectProps> = ({
       disabled={disabled}
     >
       <Flex align="center">
-        {value ? (
-          <AssetTitle gap={2} asset={value} />
-        ) : (
-          <Trans>Select a token</Trans>
-        )}
+        <Flex.Item flex={1} align="flex-start" display="flex">
+          {value ? (
+            <AssetTitle gap={2} asset={value} />
+          ) : (
+            <Trans>Select a token</Trans>
+          )}
+        </Flex.Item>
         <Flex.Item marginLeft={2}>
           <StyledDownOutlined />
         </Flex.Item>

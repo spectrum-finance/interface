@@ -1,4 +1,4 @@
-import { getGutter, Gutter } from '@ergolabs/ui-kit';
+import { Animation, getGutter, Gutter } from '@ergolabs/ui-kit';
 import React, {
   CSSProperties,
   ReactElement,
@@ -116,19 +116,22 @@ export const List = <T extends unknown>({
 
     return (
       <ItemContainer style={style} key={(item[itemKey] as any) || key}>
-        {itemRenderer &&
-          itemRenderer({
-            item,
-            index,
-            height: isItemSelected
-              ? itemHeight + (expand?.height || 0)
-              : itemHeight,
-            itemHeight: itemHeight,
-            expandHeight: expand?.height || 0,
-            expanded: selectedItems.includes(index),
-            expand: handleExpand.bind(null, index),
-            collapse: handleCollapse.bind(null, index),
-          })}
+        {itemRenderer && (
+          <Animation.FadeIn>
+            {itemRenderer({
+              item,
+              index,
+              height: isItemSelected
+                ? itemHeight + (expand?.height || 0)
+                : itemHeight,
+              itemHeight: itemHeight,
+              expandHeight: expand?.height || 0,
+              expanded: selectedItems.includes(index),
+              expand: handleExpand.bind(null, index),
+              collapse: handleCollapse.bind(null, index),
+            })}
+          </Animation.FadeIn>
+        )}
       </ItemContainer>
     );
   };

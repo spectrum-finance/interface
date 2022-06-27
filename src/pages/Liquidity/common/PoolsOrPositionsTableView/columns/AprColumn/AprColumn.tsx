@@ -3,7 +3,6 @@ import React, { FC } from 'react';
 
 import { AmmPool } from '../../../../../../common/models/AmmPool';
 import { DataTag } from '../../../../../../components/common/DataTag/DataTag';
-import { formatToUSD } from '../../../../../../services/number';
 
 export interface AprColumnProps {
   readonly ammPool: AmmPool;
