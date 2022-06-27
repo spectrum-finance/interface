@@ -1,12 +1,21 @@
 import { Animation, Flex, Gutter } from '@ergolabs/ui-kit';
-import React, { FC, ReactNode, useEffect, useState } from 'react';
+import React, {
+  CSSProperties,
+  FC,
+  ReactNode,
+  useEffect,
+  useState,
+} from 'react';
 
+import { uint } from '../../common/types';
 import { Dictionary } from '../../common/utils/Dictionary';
+import { normalizeMeasure } from '../List/utils/normalizeMeasure';
 import { Action } from './common/Action';
 import { Column } from './common/Column';
-import { GAP_STEP, HEADER_HEIGHT } from './common/constants';
+import { HEADER_HEIGHT } from './common/constants';
 import { FilterState } from './common/FilterDescription';
 import { filterItem } from './common/filterItem';
+import { RowRenderer } from './common/RowRenderer';
 import { Sort, SortDirection } from './common/Sort';
 import { sortItems } from './common/sortItems';
 import { State } from './common/State';
@@ -19,8 +28,8 @@ import { TableViewState } from './TableViewState/TableViewState';
 
 export interface TableViewProps<T> {
   readonly actionsWidth?: number;
-  readonly maxHeight?: number;
-  readonly height?: number;
+  readonly maxHeight?: CSSProperties['maxHeight'];
+  readonly height?: CSSProperties['height'];
   readonly items: T[];
   readonly itemKey: keyof T;
   readonly gap?: number;
@@ -28,8 +37,10 @@ export interface TableViewProps<T> {
   readonly tablePadding?: Gutter;
   readonly tableItemViewPadding?: Gutter;
   readonly tableHeaderPadding?: Gutter;
+  readonly rowRenderer?: RowRenderer;
   readonly children?: ReactNode | ReactNode[] | string;
   readonly emptyFilterView?: ReactNode | ReactNode[] | string;
+  readonly showHeader?: boolean;
 }
 
 const getDefaultSort = (columns: Column<any>[]): Sort | undefined => {
@@ -41,6 +52,18 @@ const getDefaultSort = (columns: Column<any>[]): Sort | undefined => {
         direction: columns[defaultSortColumnIndex].defaultDirection,
       }
     : undefined;
+};
+
+const getContentHeight = (
+  height: CSSProperties['height'] | undefined,
+  headerHeight: number,
+  gap: uint = 0,
+): CSSProperties['height'] | undefined => {
+  return height
+    ? `calc(${normalizeMeasure(height)} - ${normalizeMeasure(
+        headerHeight,
+      )} - var(--ergo-base-gutter) * ${gap || 0})`
+    : height;
 };
 
 const _TableView: FC<TableViewProps<any>> = ({
@@ -56,6 +79,8 @@ const _TableView: FC<TableViewProps<any>> = ({
   itemHeight,
   children,
   emptyFilterView,
+  rowRenderer,
+  showHeader = true,
 }) => {
   const [states, setStates] = useState<Dictionary<State<any>>>({});
   const [columns, setColumns] = useState<Column<any>[]>([]);
@@ -108,11 +133,11 @@ const _TableView: FC<TableViewProps<any>> = ({
     (s) => s.condition,
   );
 
-  const contentHeight = height
-    ? height - HEADER_HEIGHT - GAP_STEP * (gap || 0)
+  const contentHeight = showHeader
+    ? getContentHeight(height, HEADER_HEIGHT, gap)
     : height;
-  const contentMaxHeight = maxHeight
-    ? maxHeight - HEADER_HEIGHT - GAP_STEP * (gap || 0)
+  const contentMaxHeight = showHeader
+    ? getContentHeight(maxHeight, HEADER_HEIGHT, gap)
     : maxHeight;
   const completedItems = sortItems(
     sort,
@@ -130,18 +155,20 @@ const _TableView: FC<TableViewProps<any>> = ({
         {children}
       </TableViewContext.Provider>
       <Flex col>
-        <Flex.Item marginBottom={gap}>
-          <TableViewHeader
-            height={HEADER_HEIGHT}
-            columns={columns}
-            padding={tableHeaderPadding || tablePadding}
-            toggleFilterVisibility={toggleFilterVisibility}
-            filtersState={filtersState}
-            changeFilter={changeFilter}
-            sort={sort}
-            changeSort={changeSort}
-          />
-        </Flex.Item>
+        {showHeader && (
+          <Flex.Item marginBottom={gap}>
+            <TableViewHeader
+              height={HEADER_HEIGHT}
+              columns={columns}
+              padding={tableHeaderPadding || tablePadding}
+              toggleFilterVisibility={toggleFilterVisibility}
+              filtersState={filtersState}
+              changeFilter={changeFilter}
+              sort={sort}
+              changeSort={changeSort}
+            />
+          </Flex.Item>
+        )}
         {currentState && (
           <Animation.FadeIn>
             {currentState.children instanceof Function
@@ -155,6 +182,7 @@ const _TableView: FC<TableViewProps<any>> = ({
         {!currentState && !!completedItems.length && (
           <Animation.FadeIn>
             <TableViewContent
+              rowRenderer={rowRenderer}
               columns={columns}
               padding={tableItemViewPadding || tablePadding}
               maxHeight={contentMaxHeight}
