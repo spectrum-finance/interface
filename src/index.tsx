@@ -2,6 +2,7 @@ import './assets/styles/styles.less';
 
 import * as Sentry from '@sentry/react';
 import { Integrations } from '@sentry/tracing';
+import posthog from 'posthog-js';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -13,6 +14,11 @@ Sentry.init({
   integrations: [new Integrations.BrowserTracing()],
   environment: process.env.REACT_APP_SENTRY_ENV_FLAG,
   tracesSampleRate: 1.0,
+});
+
+posthog.init('phc_xj7UhUKne1v6TTlMq4fXEVaVM5VnEzS6pkNnUMkibXH', {
+  api_host: 'https://posthog.spectrum.fi',
+  autocapture: true,
 });
 
 ReactDOM.render(
