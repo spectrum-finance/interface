@@ -22,7 +22,7 @@ export const PoolsOverview: FC<PoolsOverviewProps> = ({
     poolMapper={(ammPool: AmmPool) => ammPool}
   >
     <TableView.State name="loading" condition={loading}>
-      <LoadingDataState height={150}>
+      <LoadingDataState height={160}>
         <Trans>Loading pools history.</Trans>
         <br />
         <Trans>Please wait.</Trans>

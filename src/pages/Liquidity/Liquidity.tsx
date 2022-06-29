@@ -133,6 +133,7 @@ export const Liquidity = (): JSX.Element => {
         >
           <YourPositions
             positions={(searchByTerm(positions) as Position[]) || []}
+            isPositionsEmpty={!positions.length}
             loading={isPositionLoading}
           />
         </Tabs.TabPane>

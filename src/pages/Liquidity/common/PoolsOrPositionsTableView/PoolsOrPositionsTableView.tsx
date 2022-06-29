@@ -73,7 +73,7 @@ export const PoolsOrPositionsTableView: FC<
     </TableView.Column>
     {children}
     <TableView.State name="search" condition={!items.length}>
-      <SearchDataState height={150}>
+      <SearchDataState height={160}>
         <Trans>No results was found</Trans>
       </SearchDataState>
     </TableView.State>
