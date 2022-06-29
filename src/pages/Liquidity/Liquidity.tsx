@@ -153,5 +153,5 @@ export const Liquidity = (): JSX.Element => {
 };
 
 // 1. Filter
-// 3. Connect Wallet
-// 4. Locks Search state
+// 2. Ego history
+// 3. hide cardano date
