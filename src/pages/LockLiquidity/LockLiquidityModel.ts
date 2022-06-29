@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon';
 
-import { AmmPool } from '../../../common/models/AmmPool';
-import { Currency } from '../../../common/models/Currency';
+import { AmmPool } from '../../common/models/AmmPool';
+import { Currency } from '../../common/models/Currency';
 
 export interface LockLiquidityModel {
   xAmount?: Currency;

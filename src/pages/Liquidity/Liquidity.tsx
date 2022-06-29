@@ -93,7 +93,8 @@ export const Liquidity = (): JSX.Element => {
 
   return (
     <Page
-      width={832}
+      width={944}
+      padding={4}
       title={<Trans>Liquidity</Trans>}
       titleChildren={<LiquidityTitleExtra />}
     >

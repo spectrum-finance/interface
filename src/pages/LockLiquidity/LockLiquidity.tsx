@@ -17,21 +17,21 @@ import {
   useObservable,
   useSubject,
   useSubscription,
-} from '../../../common/hooks/useObservable';
-import { useParamsStrict } from '../../../common/hooks/useParamsStrict';
-import { Position } from '../../../common/models/Position';
-import { FormPairSection } from '../../../components/common/FormView/FormPairSection/FormPairSection';
-import { FormSlider } from '../../../components/common/FormView/FormSlider/FormSlider';
+} from '../../common/hooks/useObservable';
+import { useParamsStrict } from '../../common/hooks/useParamsStrict';
+import { Position } from '../../common/models/Position';
+import { FormPairSection } from '../../components/common/FormView/FormPairSection/FormPairSection';
+import { FormSlider } from '../../components/common/FormView/FormSlider/FormSlider';
 import {
   openConfirmationModal,
   Operation,
-} from '../../../components/ConfirmationModal/ConfirmationModal';
-import { Page } from '../../../components/Page/Page';
-import { PageHeader } from '../../../components/Page/PageHeader/PageHeader';
-import { PageSection } from '../../../components/Page/PageSection/PageSection';
-import { SubmitButton } from '../../../components/SubmitButton/SubmitButton';
-import { getPositionByAmmPoolId } from '../../../gateway/api/positions';
-import { LiquidityDatePicker } from '../components/LockLiquidityDatePicker/LiquidityDatePicker';
+} from '../../components/ConfirmationModal/ConfirmationModal';
+import { Page } from '../../components/Page/Page';
+import { PageHeader } from '../../components/Page/PageHeader/PageHeader';
+import { PageSection } from '../../components/Page/PageSection/PageSection';
+import { SubmitButton } from '../../components/SubmitButton/SubmitButton';
+import { getPositionByAmmPoolId } from '../../gateway/api/positions';
+import { LiquidityDatePicker } from '../Liquidity/components/LockLiquidityDatePicker/LiquidityDatePicker';
 import { LockLiquidityConfirmationModal } from './LockLiquidityConfirmationModal/LockLiquidityConfirmationModal';
 import { LockLiquidityModel } from './LockLiquidityModel';
 

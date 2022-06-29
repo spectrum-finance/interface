@@ -9,6 +9,7 @@ import { ExpandComponentProps } from '../../../../components/TableView/common/Ex
 import { TableView } from '../../../../components/TableView/TableView';
 import { AprColumn } from './columns/AprColumn/AprColumn';
 import { PairColumn } from './columns/PairColumn/PairColumn';
+import { RatioColumn } from './columns/RatioColumn/RatioColumn';
 import { TvlOrVolume24Column } from './columns/TvlOrVolume24Column/TvlOrVolume24Column';
 
 export interface PoolsOrPositionsTableViewProps<T extends AmmPool | Position> {
@@ -40,6 +41,7 @@ export const PoolsOrPositionsTableView: FC<
       {(ammPool) => <TvlOrVolume24Column usd={poolMapper(ammPool).volume} />}
     </TableView.Column>
     <TableView.Column
+      width={112}
       title={
         <InfoTooltip
           width={300}
@@ -65,6 +67,9 @@ export const PoolsOrPositionsTableView: FC<
       }
     >
       {(ammPool: AmmPool) => <AprColumn ammPool={poolMapper(ammPool)} />}
+    </TableView.Column>
+    <TableView.Column title={<Trans>Last 24 Hours</Trans>} width={100}>
+      {(ammPool) => <RatioColumn ammPool={poolMapper(ammPool)} />}
     </TableView.Column>
     {children}
     <TableView.State name="search" condition={!items.length}>

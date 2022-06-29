@@ -7,7 +7,7 @@ import { RouteConfigExtended } from './components/RouterTitle/RouteConfigExtende
 import { RouterTitle } from './components/RouterTitle/RouterTitle';
 import { AddLiquidityOrCreatePool } from './pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool';
 import { Liquidity } from './pages/Liquidity/Liquidity';
-import { LockLiquidity } from './pages/Liquidity/LockLiquidity/LockLiquidity';
+import { LockLiquidity } from './pages/LockLiquidity/LockLiquidity';
 import { PoolOverview } from './pages/PoolOverview/PoolOverview';
 import { RelockLiquidity } from './pages/RelockLiquidity/RelockLiquidity';
 import { RemoveLiquidity } from './pages/RemoveLiquidity/RemoveLiquidity';
