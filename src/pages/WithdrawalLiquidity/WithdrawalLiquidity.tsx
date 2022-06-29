@@ -3,7 +3,6 @@ import {
   Flex,
   Form,
   FormGroup,
-  List,
   Skeleton,
   Typography,
   useForm,
@@ -14,6 +13,7 @@ import React, { useEffect } from 'react';
 import { useSubject } from '../../common/hooks/useObservable';
 import { useParamsStrict } from '../../common/hooks/useParamsStrict';
 import { AssetLock, AssetLockStatus } from '../../common/models/AssetLock';
+import { AssetLocksTable } from '../../components/AssetLocksTable/AssetLocksTable';
 import { FormPairSection } from '../../components/common/FormView/FormPairSection/FormPairSection';
 import {
   openConfirmationModal,
@@ -26,7 +26,6 @@ import {
 import { Page } from '../../components/Page/Page';
 import { PageHeader } from '../../components/Page/PageHeader/PageHeader';
 import { getPositionByAmmPoolId } from '../../gateway/api/positions';
-import { LockedPositionItem } from '../Liquidity/components/LockedPositionItem/LockedPositionItem';
 import { WithdrawalLiquidityConfirmationModal } from './WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal';
 
 interface RelockLiquidityModel {
@@ -106,16 +105,11 @@ export const WithdrawalLiquidity = (): JSX.Element => {
             <Flex.Item>
               <Form.Item name="lockedPosition">
                 {({ value, onChange }) => (
-                  <List dataSource={position.locks} gap={2}>
-                    {(item) => (
-                      <LockedPositionItem
-                        pool={position.pool}
-                        assetLock={item}
-                        isActive={value?.boxId === item.boxId}
-                        onClick={() => onChange(item)}
-                      />
-                    )}
-                  </List>
+                  <AssetLocksTable
+                    locks={position?.locks || []}
+                    value={value}
+                    onChange={onChange}
+                  />
                 )}
               </Form.Item>
             </Flex.Item>

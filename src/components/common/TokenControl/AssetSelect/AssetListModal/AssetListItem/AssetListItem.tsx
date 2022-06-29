@@ -9,6 +9,7 @@ import { AssetTitle } from '../../../../../AssetTitle/AssetTitle';
 interface TokenListItemProps {
   asset: AssetInfo;
   className?: string;
+  height?: number;
   onClick?: React.MouseEventHandler<HTMLElement>;
 }
 
@@ -16,11 +17,13 @@ const _TokenListItem: React.FC<TokenListItemProps> = ({
   asset,
   onClick,
   className,
+  height,
 }) => {
   const [balance] = useAssetsBalance();
 
   return (
     <Box
+      height={height}
       className={className}
       onClick={onClick}
       borderRadius="m"

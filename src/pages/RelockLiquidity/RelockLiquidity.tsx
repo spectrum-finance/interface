@@ -4,7 +4,6 @@ import {
   Flex,
   Form,
   FormGroup,
-  List,
   Skeleton,
   Typography,
   useForm,
@@ -17,6 +16,7 @@ import { map } from 'rxjs';
 import { useObservable, useSubject } from '../../common/hooks/useObservable';
 import { useParamsStrict } from '../../common/hooks/useParamsStrict';
 import { AssetLock } from '../../common/models/AssetLock';
+import { AssetLocksTable } from '../../components/AssetLocksTable/AssetLocksTable';
 import {
   openConfirmationModal,
   Operation,
@@ -30,7 +30,6 @@ import { PageHeader } from '../../components/Page/PageHeader/PageHeader';
 import { PageSection } from '../../components/Page/PageSection/PageSection';
 import { ergoExplorerContext$ } from '../../gateway/api/explorer';
 import { getPositionByAmmPoolId } from '../../gateway/api/positions';
-import { LockedPositionItem } from '../Liquidity/components/LockedPositionItem/LockedPositionItem';
 import { LiquidityDatePicker } from '../Liquidity/components/LockLiquidityDatePicker/LiquidityDatePicker';
 import { RelockLiquidityConfirmationModal } from './RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal';
 
@@ -106,16 +105,11 @@ export const RelockLiquidity = (): JSX.Element => {
                 </Flex.Item>
                 <Form.Item name="lockedPosition">
                   {({ value, onChange }) => (
-                    <List dataSource={position.locks} gap={2}>
-                      {(item) => (
-                        <LockedPositionItem
-                          pool={position.pool}
-                          assetLock={item}
-                          isActive={value?.boxId === item.boxId}
-                          onClick={() => onChange(item)}
-                        />
-                      )}
-                    </List>
+                    <AssetLocksTable
+                      locks={position?.locks || []}
+                      value={value}
+                      onChange={onChange}
+                    />
                   )}
                 </Form.Item>
               </Flex>

@@ -16,6 +16,7 @@ const _TableViewRowRenderer: FC<RowRendererProps & { className?: string }> = ({
 );
 
 export const TableViewRowRenderer = styled(_TableViewRowRenderer)`
+  overflow: hidden;
   user-select: none;
   transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
   background: var(--ergo-table-view-item-bg);

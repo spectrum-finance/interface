@@ -16,7 +16,7 @@ import { HEADER_HEIGHT } from './common/constants';
 import { TableExpand } from './common/Expand';
 import { FilterState } from './common/FilterDescription';
 import { filterItem } from './common/filterItem';
-import { RowRenderer } from './common/RowRenderer';
+import { RowRenderer, RowRendererProps } from './common/RowRenderer';
 import { Sort, SortDirection } from './common/Sort';
 import { sortItems } from './common/sortItems';
 import { State } from './common/State';
@@ -38,7 +38,12 @@ export interface TableViewProps<T> {
   readonly tablePadding?: Gutter;
   readonly tableItemViewPadding?: Gutter;
   readonly tableHeaderPadding?: Gutter;
-  readonly rowRenderer?: RowRenderer;
+  readonly headerRowRenderer?:
+    | RowRenderer
+    | ((props: RowRendererProps) => ReactNode | ReactNode[] | string);
+  readonly itemRowRenderer?:
+    | RowRenderer
+    | ((props: RowRendererProps, item: T) => ReactNode | ReactNode[] | string);
   readonly children?: ReactNode | ReactNode[] | string;
   readonly emptyFilterView?: ReactNode | ReactNode[] | string;
   readonly showHeader?: boolean;
@@ -82,7 +87,7 @@ const _TableView: FC<TableViewProps<any>> = ({
   itemHeight,
   children,
   emptyFilterView,
-  rowRenderer,
+  itemRowRenderer,
   showHeader = true,
   expand,
   hoverable,
@@ -185,23 +190,21 @@ const _TableView: FC<TableViewProps<any>> = ({
           <Animation.FadeIn>{emptyFilterView}</Animation.FadeIn>
         )}
         {!currentState && !!completedItems.length && (
-          <Animation.FadeIn>
-            <TableViewContent
-              hoverable={hoverable}
-              expand={expand}
-              rowRenderer={rowRenderer}
-              columns={columns}
-              padding={tableItemViewPadding || tablePadding}
-              maxHeight={contentMaxHeight}
-              height={contentHeight}
-              items={completedItems}
-              gap={gap}
-              itemHeight={itemHeight}
-              itemKey={itemKey}
-              actions={actions}
-              actionsWidth={actionsWidth}
-            />
-          </Animation.FadeIn>
+          <TableViewContent
+            hoverable={hoverable}
+            expand={expand}
+            rowRenderer={itemRowRenderer}
+            columns={columns}
+            padding={tableItemViewPadding || tablePadding}
+            maxHeight={contentMaxHeight}
+            height={contentHeight}
+            items={completedItems}
+            gap={gap}
+            itemHeight={itemHeight}
+            itemKey={itemKey}
+            actions={actions}
+            actionsWidth={actionsWidth}
+          />
         )}
       </Flex>
     </>

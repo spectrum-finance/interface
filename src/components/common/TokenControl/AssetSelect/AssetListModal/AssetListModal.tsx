@@ -3,9 +3,9 @@ import {
   Animation,
   Flex,
   Input,
-  List,
   LoadingDataState,
   Modal,
+  SearchDataState,
   SearchOutlined,
   useSearch,
 } from '@ergolabs/ui-kit';
@@ -14,6 +14,8 @@ import React from 'react';
 import { Observable, of } from 'rxjs';
 
 import { useObservable } from '../../../../../common/hooks/useObservable';
+import { List } from '../../../../List/List';
+import { ListStateView } from '../../../../List/ListStateView/ListStateView';
 import { AssetListItem } from './AssetListItem/AssetListItem';
 
 interface TokenListModalProps {
@@ -43,6 +45,8 @@ const AssetListModal: React.FC<TokenListModalProps> = ({
     }
   };
 
+  const items = searchByTerm(assets);
+
   return (
     <>
       <Modal.Title>
@@ -59,29 +63,29 @@ const AssetListModal: React.FC<TokenListModalProps> = ({
               onChange={handleSearch}
             />
           </Flex.Item>
-          {loading && (
-            <Animation.FadeIn>
+          <List
+            itemKey="id"
+            items={items}
+            gap={1}
+            maxHeight={350}
+            itemHeight={52}
+          >
+            {({ item, height }) => (
+              <AssetListItem
+                height={height}
+                asset={item}
+                onClick={() => handleClick(item)}
+              />
+            )}
+            <ListStateView name="loading" condition={loading}>
               <LoadingDataState height={150} />
-            </Animation.FadeIn>
-          )}
-          {!loading && (
-            <Animation.FadeIn>
-              <List
-                dataSource={searchByTerm(assets)}
-                gap={1}
-                maxHeight={350}
-                emptyTemplate="test"
-              >
-                {(asset) => (
-                  <AssetListItem
-                    key={asset.id}
-                    asset={asset}
-                    onClick={() => handleClick(asset)}
-                  />
-                )}
-              </List>
-            </Animation.FadeIn>
-          )}
+            </ListStateView>
+            <ListStateView name="empty" condition={!items.length}>
+              <SearchDataState height={150}>
+                <Trans>No results was found</Trans>
+              </SearchDataState>
+            </ListStateView>
+          </List>
         </Flex>
       </Modal.Content>
     </>
