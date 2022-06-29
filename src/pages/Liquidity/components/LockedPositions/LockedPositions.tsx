@@ -1,3 +1,4 @@
+import { SearchDataState } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -58,6 +59,11 @@ export const LockedPositionsProps: FC<LockedPositionsProps> = ({
       >
         <Trans>Relock</Trans>
       </TableView.Action>
+      <TableView.State name="search" condition={!positions.length}>
+        <SearchDataState height={160}>
+          <Trans>No results was found</Trans>
+        </SearchDataState>
+      </TableView.State>
     </TableView>
   );
 };
