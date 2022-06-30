@@ -70,7 +70,7 @@ export const applicationConfig: ApplicationConfig = {
     reddit: 'https://www.reddit.com/r/ergodex/',
   },
   support: {
-    discord: 'https://discord.gg/Jya72kjDfq',
+    discord: 'https://discord.gg/zY2gmTYQVD',
     telegram: 'https://t.me/ergodex_community',
   },
   applicationTick: 10 * 1000,
