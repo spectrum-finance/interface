@@ -117,7 +117,7 @@ export const List = <T extends unknown>({
     return (
       <ItemContainer style={style} key={(item[itemKey] as any) || key}>
         {itemRenderer && (
-          <Animation.FadeIn>
+          <Animation.FadeIn delay={0}>
             {itemRenderer({
               item,
               index,

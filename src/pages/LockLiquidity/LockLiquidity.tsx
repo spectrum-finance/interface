@@ -10,12 +10,12 @@ import {
 } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import { Skeleton } from 'antd';
-import React, { useEffect } from 'react';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { skip } from 'rxjs';
 
 import {
   useObservable,
-  useSubject,
   useSubscription,
 } from '../../common/hooks/useObservable';
 import { useParamsStrict } from '../../common/hooks/useParamsStrict';
@@ -31,13 +31,15 @@ import { PageHeader } from '../../components/Page/PageHeader/PageHeader';
 import { PageSection } from '../../components/Page/PageSection/PageSection';
 import { SubmitButton } from '../../components/SubmitButton/SubmitButton';
 import { getPositionByAmmPoolId } from '../../gateway/api/positions';
+import { useGuard } from '../../hooks/useGuard';
 import { LiquidityDatePicker } from '../Liquidity/components/LockLiquidityDatePicker/LiquidityDatePicker';
 import { LockLiquidityConfirmationModal } from './LockLiquidityConfirmationModal/LockLiquidityConfirmationModal';
 import { LockLiquidityModel } from './LockLiquidityModel';
 
 const LockLiquidity = (): JSX.Element => {
   const { poolId } = useParamsStrict<{ poolId: PoolId }>();
-  const [position, updatePosition] = useSubject(getPositionByAmmPoolId);
+  const navigate = useNavigate();
+  const [position, loading] = useObservable(getPositionByAmmPoolId(poolId));
 
   const form = useForm<LockLiquidityModel>({
     xAmount: undefined,
@@ -50,7 +52,7 @@ const LockLiquidity = (): JSX.Element => {
 
   const [formValue] = useObservable(form.valueChangesWithSilent$);
 
-  useEffect(() => updatePosition(poolId), []);
+  useGuard(position, loading, () => navigate('../../../pool'));
 
   useSubscription(
     form.controls.percent.valueChanges$.pipe(skip(1)),

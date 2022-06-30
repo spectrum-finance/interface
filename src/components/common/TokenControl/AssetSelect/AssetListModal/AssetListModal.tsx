@@ -1,6 +1,5 @@
 import { AssetInfo } from '@ergolabs/ergo-sdk';
 import {
-  Animation,
   Flex,
   Input,
   LoadingDataState,
