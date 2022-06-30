@@ -118,6 +118,7 @@ export const AddLiquidityOrCreatePool: FC = () => {
     (pool) => {
       if (!pool) {
         navigate('../../add');
+        return;
       }
 
       form.patchValue(
