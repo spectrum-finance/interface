@@ -56,17 +56,28 @@ const LiquidityTabs = styled(Tabs)`
   }
 `;
 
-const filterDuplicates = <T extends AmmPool | Position>(items: T) => {
-  return items;
+const filterDuplicates = <T extends AmmPool | Position>(items: T[]): T[] => {
+  const mapTokensToAmmPool = new Map<string, T>();
+
+  return items.filter((i) => {
+    const hash =
+      i instanceof AmmPool
+        ? `${i.x.asset.id}-${i.y.asset.id}`
+        : `${i.pool.x.asset.id}-${i.pool.y.asset.id}`;
+
+    if (mapTokensToAmmPool.has(hash)) {
+      return false;
+    }
+    mapTokensToAmmPool.set(hash, i);
+
+    return true;
+  });
 };
 
-const filterCommunityPools = <T extends AmmPool | Position>(items: T) => {
-  return items;
-};
-
-const mapPoolsOrPositionsFilterValueToFn = {
-  [PoolsOrPositionsFilterValue.SHOW_COMMUNITY_POOLS]: filterCommunityPools,
-  [PoolsOrPositionsFilterValue.SHOW_DUPLICATES]: filterDuplicates,
+const filterCommunityPools = <T extends AmmPool | Position>(
+  items: T[],
+): T[] => {
+  return items.filter((i) => i.verified);
 };
 
 export const Liquidity = (): JSX.Element => {
@@ -85,6 +96,30 @@ export const Liquidity = (): JSX.Element => {
   const [pools, isPoolsLoading] = useObservable(ammPools$, [], []);
 
   const defaultActiveKey = active || LiquidityTab.POOLS_OVERVIEW;
+
+  const filterPositions = (positions: Position[]): Position[] => {
+    let filteredPositions = positions;
+
+    if (!filters?.has(PoolsOrPositionsFilterValue.SHOW_DUPLICATES)) {
+      filteredPositions = filterDuplicates(filteredPositions);
+    }
+    if (!filters?.has(PoolsOrPositionsFilterValue.SHOW_COMMUNITY_POOLS)) {
+      filteredPositions = filterCommunityPools(filteredPositions);
+    }
+    return searchByTerm(filteredPositions) as Position[];
+  };
+
+  const filterPools = (pools: AmmPool[]): AmmPool[] => {
+    let filteredPools = pools;
+
+    if (!filters?.has(PoolsOrPositionsFilterValue.SHOW_DUPLICATES)) {
+      filteredPools = filterDuplicates(filteredPools);
+    }
+    if (!filters?.has(PoolsOrPositionsFilterValue.SHOW_COMMUNITY_POOLS)) {
+      filteredPools = filterCommunityPools(filteredPools);
+    }
+    return searchByTerm(filteredPools) as AmmPool[];
+  };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setSearch(e.target.value);
@@ -123,7 +158,7 @@ export const Liquidity = (): JSX.Element => {
           key={LiquidityTab.POOLS_OVERVIEW}
         >
           <PoolsOverview
-            ammPools={(searchByTerm(pools) as AmmPool[]) || []}
+            ammPools={filterPools(pools) || []}
             loading={isPoolsLoading}
           />
         </Tabs.TabPane>
@@ -132,7 +167,7 @@ export const Liquidity = (): JSX.Element => {
           key={LiquidityTab.YOUR_POSITIONS}
         >
           <YourPositions
-            positions={(searchByTerm(positions) as Position[]) || []}
+            positions={filterPositions(positions) || []}
             isPositionsEmpty={!positions.length}
             loading={isPositionLoading}
           />
@@ -142,16 +177,10 @@ export const Liquidity = (): JSX.Element => {
             tab={<Trans>Locked Positions</Trans>}
             key={LiquidityTab.LOCKED_POSITIONS}
           >
-            <LockedPositionsProps
-              positions={searchByTerm(positionsWithLocks) as Position[]}
-            />
+            <LockedPositionsProps positions={filterPositions(positions)} />
           </Tabs.TabPane>
         )}
       </LiquidityTabs>
     </Page>
   );
 };
-
-// 1. Filter
-// 2. Ego history
-// 3. hide cardano date
