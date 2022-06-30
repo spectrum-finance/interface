@@ -2,13 +2,11 @@ import { AssetInfo } from '@ergolabs/ergo-sdk';
 import {
   Animation,
   Box,
-  Button,
   Flex,
   Form,
   Typography,
   useFormContext,
 } from '@ergolabs/ui-kit';
-import { t, Trans } from '@lingui/macro';
 import React, { FC, ReactNode } from 'react';
 import { Observable, of } from 'rxjs';
 
@@ -20,6 +18,7 @@ import {
   AssetAmountInput,
   TokenAmountInputValue,
 } from './AssetAmountInput/AssetAmountInput';
+import { AssetBalance } from './AssetBalance/AssetBalance';
 import { AssetSelect } from './AssetSelect/AssetSelect';
 
 export interface TokenControlValue {
@@ -122,9 +121,14 @@ export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
             {selectedAsset !== undefined &&
               !balanceLoading &&
               readonly !== true && (
-                <Typography.Body secondary>
-                  {t`Balance:`} {balance.get(selectedAsset).toString()}
-                </Typography.Body>
+                <AssetBalance
+                  balance={balance.get(selectedAsset)}
+                  onClick={
+                    maxButton
+                      ? () => _handleMaxButtonClick(balance.get(selectedAsset))
+                      : undefined
+                  }
+                />
               )}
           </Flex.Item>
         )}
@@ -144,20 +148,6 @@ export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
               </Form.Item>
             )}
           </Flex.Item>
-          {selectedAsset !== undefined &&
-            !balanceLoading &&
-            !!balance.get(selectedAsset) &&
-            maxButton && (
-              <Button
-                type="link"
-                size="small"
-                onClick={() =>
-                  _handleMaxButtonClick(balance.get(selectedAsset))
-                }
-              >
-                <Trans>Max</Trans>
-              </Button>
-            )}
           <Flex.Item marginLeft={2}>
             {tokenName && (
               <Form.Item name={tokenName}>
@@ -196,9 +186,15 @@ export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
                   !balanceLoading &&
                   readonly !== true &&
                   !label && (
-                    <Typography.Body secondary>
-                      {t`Balance:`} {balance.get(selectedAsset).toString()}
-                    </Typography.Body>
+                    <AssetBalance
+                      balance={balance.get(selectedAsset)}
+                      onClick={
+                        maxButton
+                          ? () =>
+                              _handleMaxButtonClick(balance.get(selectedAsset))
+                          : undefined
+                      }
+                    />
                   )}
               </Flex.Item>
             </Animation.Expand>
