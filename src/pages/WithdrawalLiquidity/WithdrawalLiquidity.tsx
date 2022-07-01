@@ -8,9 +8,10 @@ import {
   useForm,
 } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
-import React, { useEffect } from 'react';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import { useSubject } from '../../common/hooks/useObservable';
+import { useObservable } from '../../common/hooks/useObservable';
 import { useParamsStrict } from '../../common/hooks/useParamsStrict';
 import { AssetLock, AssetLockStatus } from '../../common/models/AssetLock';
 import { AssetLocksTable } from '../../components/AssetLocksTable/AssetLocksTable';
@@ -26,6 +27,7 @@ import {
 import { Page } from '../../components/Page/Page';
 import { PageHeader } from '../../components/Page/PageHeader/PageHeader';
 import { getPositionByAmmPoolId } from '../../gateway/api/positions';
+import { useGuard } from '../../hooks/useGuard';
 import { WithdrawalLiquidityConfirmationModal } from './WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal';
 
 interface RelockLiquidityModel {
@@ -36,9 +38,11 @@ export const WithdrawalLiquidity = (): JSX.Element => {
   const form = useForm<RelockLiquidityModel>({
     lockedPosition: undefined,
   });
+  const navigate = useNavigate();
   const { poolId } = useParamsStrict<{ poolId: PoolId }>();
-  const [position, updatePosition] = useSubject(getPositionByAmmPoolId);
-  useEffect(() => updatePosition(poolId), []);
+  const [position, loading] = useObservable(getPositionByAmmPoolId(poolId));
+
+  useGuard(position, loading, () => navigate('../../../pool'));
 
   const validators: OperationValidator<RelockLiquidityModel>[] = [
     (form: FormGroup<RelockLiquidityModel>) =>

@@ -33,7 +33,7 @@ export function useObservable<T>(
   }>({
     data: defaultValue,
     error: undefined,
-    loading: false,
+    loading: !defaultValue,
   });
 
   useEffect(() => {

@@ -116,6 +116,11 @@ export const AddLiquidityOrCreatePool: FC = () => {
       distinctUntilChanged((poolA, poolB) => poolA?.id === poolB?.id),
     ),
     (pool) => {
+      if (!pool) {
+        navigate('../../add');
+        return;
+      }
+
       form.patchValue(
         {
           x: pool?.x.asset,

@@ -1,12 +1,12 @@
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
 import { Flex, Form, FormGroup, Skeleton, useForm } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { skip } from 'rxjs';
 
 import {
   useObservable,
-  useSubject,
   useSubscription,
 } from '../../common/hooks/useObservable';
 import { useParamsStrict } from '../../common/hooks/useParamsStrict';
@@ -23,6 +23,7 @@ import { PageHeader } from '../../components/Page/PageHeader/PageHeader';
 import { PageSection } from '../../components/Page/PageSection/PageSection';
 import { SubmitButton } from '../../components/SubmitButton/SubmitButton';
 import { getPositionByAmmPoolId } from '../../gateway/api/positions';
+import { useGuard } from '../../hooks/useGuard';
 import { RemoveLiquidityConfirmationModal } from './RemoveLiquidityConfirmationModal/RemoveLiquidityConfirmationModal';
 
 interface RemoveFormModel {
@@ -34,7 +35,8 @@ interface RemoveFormModel {
 
 export const RemoveLiquidity: FC = () => {
   const { poolId } = useParamsStrict<{ poolId: PoolId }>();
-  const [position, updatePosition] = useSubject(getPositionByAmmPoolId);
+  const navigate = useNavigate();
+  const [position, loading] = useObservable(getPositionByAmmPoolId(poolId));
   const form = useForm<RemoveFormModel>({
     percent: 100,
     xAmount: undefined,
@@ -42,9 +44,9 @@ export const RemoveLiquidity: FC = () => {
     lpAmount: undefined,
   });
 
-  const [formValue] = useObservable(form.valueChangesWithSilent$);
+  useGuard(position, loading, () => navigate('../../../pool'));
 
-  useEffect(() => updatePosition(poolId), []);
+  const [formValue] = useObservable(form.valueChangesWithSilent$);
 
   useSubscription(
     form.controls.percent.valueChanges$.pipe(skip(1)),
