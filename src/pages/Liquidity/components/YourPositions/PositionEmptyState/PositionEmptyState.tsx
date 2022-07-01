@@ -30,7 +30,7 @@ export const PositionEmptyState: FC = () => {
             onClick={handleNewPositionClick}
             type="primary"
           >
-            New position
+            <Trans>New position</Trans>
           </Button>
         </ConnectWalletButton>
       </Flex>
