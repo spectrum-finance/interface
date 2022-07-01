@@ -6,6 +6,7 @@ import { AmmPool } from '../../../../../../common/models/AmmPool';
 import { Ratio } from '../../../../../../common/models/Ratio';
 import { AssetPairTitle } from '../../../../../../components/AssetPairTitle/AssetPairTitle';
 import { DataTag } from '../../../../../../components/common/DataTag/DataTag';
+import { Truncate } from '../../../../../../components/Truncate/Truncate';
 import { VerificationMark } from '../../../../../../components/VerificationMark/VerificationMark';
 
 const _RatioBox: FC<{ ratio: Ratio; className?: string }> = ({
@@ -14,7 +15,8 @@ const _RatioBox: FC<{ ratio: Ratio; className?: string }> = ({
 }) => (
   <Box padding={[0, 1]}>
     <Typography.Body className={className} strong>
-      {ratio.baseAsset.name} {ratio.toString()} {ratio.quoteAsset.name}
+      <Truncate limit={5}>{ratio.baseAsset.name}</Truncate> {ratio.toString()}{' '}
+      <Truncate limit={5}>{ratio.quoteAsset.name}</Truncate>
     </Typography.Body>
   </Box>
 );

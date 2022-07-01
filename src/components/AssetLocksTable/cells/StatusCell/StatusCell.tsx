@@ -1,4 +1,5 @@
 import { Tag } from '@ergolabs/ui-kit';
+import { t } from '@lingui/macro';
 import React, { FC } from 'react';
 
 import {
@@ -11,10 +12,7 @@ export interface StatusCellProps {
 }
 
 export const StatusCell: FC<StatusCellProps> = ({ lock }) => (
-  <Tag
-    color={lock.status === AssetLockStatus.LOCKED ? 'warning' : 'success'}
-    style={{ display: 'block', marginBottom: '2px' }}
-  >
-    {lock.status === 0 ? 'Locked' : 'Withdrawable'}
+  <Tag color={lock.status === AssetLockStatus.LOCKED ? 'warning' : 'success'}>
+    {lock.status === 0 ? t`Locked` : t`Withdrawable`}
   </Tag>
 );
