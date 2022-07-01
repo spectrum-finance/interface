@@ -7,7 +7,7 @@ import { useSubscription } from '../../../common/hooks/useObservable';
 import { AssetInfo } from '../../../common/models/AssetInfo';
 import { Currency } from '../../../common/models/Currency';
 import { Ratio } from '../../../common/models/Ratio';
-import { TokenControlFormItem } from '../../../components/common/TokenControl/TokenControl';
+import { AssetControlFormItem } from '../../../components/common/TokenControl/AssetControl';
 import {
   openConfirmationModal,
   Operation,
@@ -421,13 +421,13 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
           >
             <Flex col>
               <Flex.Item marginBottom={1}>
-                <TokenControlFormItem
+                <AssetControlFormItem
                   tokenName="xAsset"
                   amountName="x"
                   readonly="asset"
                 />
               </Flex.Item>
-              <TokenControlFormItem
+              <AssetControlFormItem
                 tokenName="yAsset"
                 amountName="y"
                 readonly="asset"

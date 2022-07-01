@@ -1,5 +1,4 @@
-import { Box, Button, Dropdown } from '@ergolabs/ui-kit';
-import { Menu } from 'antd';
+import { Box, Button, Dropdown, Menu } from '@ergolabs/ui-kit';
 import React, { FC, ReactNode } from 'react';
 
 import { DotsIcon } from '../Icons/DotsIcon';

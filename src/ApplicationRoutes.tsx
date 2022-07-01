@@ -6,13 +6,13 @@ import Layout from './components/common/Layout/Layout';
 import { RouteConfigExtended } from './components/RouterTitle/RouteConfigExtended';
 import { RouterTitle } from './components/RouterTitle/RouterTitle';
 import { AddLiquidityOrCreatePool } from './pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool';
-import { Liquidity } from './pages/Pool/Liquidity';
-import { LockLiquidity } from './pages/Pool/LockLiquidity/LockLiquidity';
-import { RelockLiquidity } from './pages/Pool/RelockLiquidity/RelockLiquidity';
-import { RemoveLiquidity } from './pages/Pool/RemoveLiquidity/RemoveLiquidity';
-import { WithdrawalLiquidity } from './pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity';
+import { Liquidity } from './pages/Liquidity/Liquidity';
+import { LockLiquidity } from './pages/LockLiquidity/LockLiquidity';
 import { PoolOverview } from './pages/PoolOverview/PoolOverview';
+import { RelockLiquidity } from './pages/RelockLiquidity/RelockLiquidity';
+import { RemoveLiquidity } from './pages/RemoveLiquidity/RemoveLiquidity';
 import { Swap } from './pages/Swap/Swap';
+import { WithdrawalLiquidity } from './pages/WithdrawalLiquidity/WithdrawalLiquidity';
 
 export const routesConfig: RouteConfigExtended[] = [
   {

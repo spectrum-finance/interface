@@ -1,4 +1,9 @@
-import { Button, QuestionCircleOutlined, Tooltip } from '@ergolabs/ui-kit';
+import {
+  Button,
+  Flex,
+  QuestionCircleOutlined,
+  Tooltip,
+} from '@ergolabs/ui-kit';
 import React, { ReactNode } from 'react';
 
 interface InfoTooltipProps {
@@ -30,29 +35,33 @@ const InfoTooltip: React.FC<InfoTooltipProps> = ({
   width,
   size,
   secondary,
+  children,
 }) => {
   return (
-    <Tooltip
-      placement={placement ?? 'right'}
-      title={content}
-      className={className}
-      width={width}
-    >
-      <Button
-        type="ghost"
-        icon={<QuestionCircleOutlined />}
-        size="small"
-        style={{
-          border: 0,
-          background: 0,
-          width: size === 'small' ? '12px' : '',
-          color:
-            size === 'small' || secondary
-              ? 'var(--ergo-disabled-text-contrast)'
-              : '',
-        }}
-      />
-    </Tooltip>
+    <Flex align="center" inline>
+      {children}
+      <Tooltip
+        placement={placement ?? 'right'}
+        title={content}
+        className={className}
+        width={width}
+      >
+        <Button
+          type="ghost"
+          icon={<QuestionCircleOutlined />}
+          size="small"
+          style={{
+            border: 0,
+            background: 0,
+            width: size === 'small' ? '12px' : '',
+            color:
+              size === 'small' || secondary
+                ? 'var(--ergo-disabled-text-contrast)'
+                : '',
+          }}
+        />
+      </Tooltip>
+    </Flex>
   );
 };
 

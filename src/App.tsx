@@ -9,6 +9,7 @@ import { applicationConfig } from './applicationConfig';
 import { ApplicationRoutes, routesConfig } from './ApplicationRoutes';
 import { useObservable } from './common/hooks/useObservable';
 import { networkDomInitializer } from './common/initializers/networkDomInitializer';
+import { posthogInitializer } from './common/initializers/posthogInitializer';
 import { sentryInitializer } from './common/initializers/sentryInitializer';
 import { startAppTicks } from './common/streams/appTick';
 import Layout from './components/common/Layout/Layout';
@@ -50,6 +51,7 @@ const Application = () => {
 
 const initializers: Observable<true>[] = [
   sentryInitializer(),
+  posthogInitializer(),
   networkDomInitializer(routesConfig),
 ];
 

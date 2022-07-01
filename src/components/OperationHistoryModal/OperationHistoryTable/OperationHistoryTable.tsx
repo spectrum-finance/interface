@@ -23,6 +23,7 @@ export interface TransactionHistoryTableProps extends ModalRef {
   readonly loading: boolean;
   readonly emptySearch: boolean;
   readonly emptyOperations: boolean;
+  readonly showDateTime?: boolean;
 }
 
 export const OperationHistoryTable: FC<TransactionHistoryTableProps> = ({
@@ -30,6 +31,7 @@ export const OperationHistoryTable: FC<TransactionHistoryTableProps> = ({
   loading,
   emptySearch,
   emptyOperations,
+  showDateTime,
   close,
 }) => (
   <TableView
@@ -43,7 +45,11 @@ export const OperationHistoryTable: FC<TransactionHistoryTableProps> = ({
     itemKey="id"
     emptyFilterView={<OperationSearchEmptyState />}
   >
-    <TableView.Column title="Assets" width={218} headerWidth={202}>
+    <TableView.Column
+      title="Assets"
+      width={showDateTime ? 218 : 318}
+      headerWidth={showDateTime ? 202 : 302}
+    >
       {(op: Operation) =>
         isSwapOperation(op) ? (
           <SwapAssetCell base={op.base} quote={op.quote} />
@@ -60,14 +66,17 @@ export const OperationHistoryTable: FC<TransactionHistoryTableProps> = ({
     >
       {(op: Operation) => <TypeCell type={op.type} />}
     </TableView.Column>
-    <TableView.Column
-      defaultDirection={SortDirection.DESC}
-      title="Date & Time"
-      width={152}
-      sortBy={(op: Operation) => op.dateTime}
-    >
-      {(op: Operation) => <DateTimeCell dateTime={op.dateTime} />}
-    </TableView.Column>
+    {showDateTime && (
+      <TableView.Column
+        defaultDirection={SortDirection.DESC}
+        title="Date & Time"
+        width={152}
+        sortBy={(op: Operation) => op.dateTime}
+      >
+        {(op: Operation) => <DateTimeCell dateTime={op.dateTime} />}
+      </TableView.Column>
+    )}
+
     <TableView.Column
       title="Status"
       width={152}

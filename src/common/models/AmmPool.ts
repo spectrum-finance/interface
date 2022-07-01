@@ -7,6 +7,7 @@ import { AnalyticsData } from '../../services/new/analytics';
 import { math, renderFractions } from '../../utils/math';
 import { AssetInfo } from './AssetInfo';
 import { Currency } from './Currency';
+import { PoolChartData } from './PoolChartData';
 import { Ratio } from './Ratio';
 
 const calculatePureOutputAmount = (
@@ -46,6 +47,8 @@ export abstract class AmmPool {
   abstract get x(): Currency;
 
   abstract get y(): Currency;
+
+  abstract get dayRatioTrend(): PoolChartData[];
 
   abstract shares(input: Currency): [Currency, Currency];
 

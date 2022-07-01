@@ -11,7 +11,7 @@ import { ReactComponent as TelegramIcon } from '../../assets/icons/social/Telegr
 import { AssetLock } from '../../common/models/AssetLock';
 import { Currency } from '../../common/models/Currency';
 import { exploreTx } from '../../gateway/utils/exploreAddress';
-import { getLockingPeriodString } from '../../pages/Pool/utils';
+import { getLockingPeriodString } from '../../pages/Liquidity/utils';
 
 export enum Operation {
   SWAP,

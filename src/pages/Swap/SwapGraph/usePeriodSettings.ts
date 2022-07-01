@@ -43,6 +43,12 @@ const PeriodSettings: Record<Period, PeriodSetting> = {
       day: 'numeric',
     },
   },
+  TINY_D: {
+    resolution: 1,
+    durationOffset: { day: 1 },
+    tick: { hour: 3 },
+    timeFormat: DateTime.TIME_SIMPLE,
+  },
 };
 export const usePeriodSettings = (period: Period): PeriodSetting => {
   return PeriodSettings[period];

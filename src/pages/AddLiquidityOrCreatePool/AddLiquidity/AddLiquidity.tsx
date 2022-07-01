@@ -16,7 +16,7 @@ import { AmmPool } from '../../../common/models/AmmPool';
 import { AssetInfo } from '../../../common/models/AssetInfo';
 import { Currency } from '../../../common/models/Currency';
 import { TxId } from '../../../common/types';
-import { TokenControlFormItem } from '../../../components/common/TokenControl/TokenControl';
+import { AssetControlFormItem } from '../../../components/common/TokenControl/AssetControl';
 import {
   openConfirmationModal,
   Operation,
@@ -394,14 +394,14 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
           >
             <Flex col>
               <Flex.Item marginBottom={2}>
-                <TokenControlFormItem
+                <AssetControlFormItem
                   amountName="x"
                   tokenName="xAsset"
                   readonly="asset"
                 />
               </Flex.Item>
               <Flex.Item>
-                <TokenControlFormItem
+                <AssetControlFormItem
                   amountName="y"
                   tokenName="yAsset"
                   readonly="asset"

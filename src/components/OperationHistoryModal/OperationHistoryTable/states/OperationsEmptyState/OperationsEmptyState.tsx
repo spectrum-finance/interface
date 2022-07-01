@@ -1,8 +1,6 @@
-import { Button, Flex } from '@ergolabs/ui-kit';
+import { Button, EmptyDataState, Flex } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
-
-import { TableViewEmptyState } from '../../../../TableView/states/TableViewEmptyState/TableViewEmptyState';
 
 export interface OperationsEmptyStateProps {
   readonly onSwapNowButtonClick?: () => void;
@@ -11,7 +9,7 @@ export interface OperationsEmptyStateProps {
 export const OperationsEmptyState: FC<OperationsEmptyStateProps> = ({
   onSwapNowButtonClick,
 }) => (
-  <TableViewEmptyState height={275}>
+  <EmptyDataState height={275}>
     <Flex align="center" col>
       <Flex.Item marginBottom={4}>
         <Trans>Your transactions will appear here</Trans>
@@ -20,5 +18,5 @@ export const OperationsEmptyState: FC<OperationsEmptyStateProps> = ({
         <Trans>Swap now</Trans>
       </Button>
     </Flex>
-  </TableViewEmptyState>
+  </EmptyDataState>
 );
