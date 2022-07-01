@@ -65,7 +65,7 @@ export const applicationConfig: ApplicationConfig = {
   social: {
     twitter: 'https://twitter.com/ErgoDex',
     telegram: 'https://t.me/ergodex_community',
-    discord: 'https://discord.com/invite/6MFFG4Fn4Y',
+    discord: 'https://discord.gg/zY2gmTYQVD',
     medium: 'https://ergodex.medium.com/',
     reddit: 'https://www.reddit.com/r/ergodex/',
   },
