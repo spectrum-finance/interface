@@ -46,27 +46,6 @@ const mapToSwapOperation = (ammDexOperation: AmmOrder): SwapOperation => {
   };
 };
 
-// const mapToDepositOperation = (
-//   ammDexOperation: AmmOrder,
-// ): Observable<OtherOperation> => {
-//   const order: Deposit = ammDexOperation.order as any;
-//
-//   return combineLatest([
-//     mapAssetClassToAssetInfo(order.inX.asset),
-//     mapAssetClassToAssetInfo(order.inY.asset),
-//   ]).pipe(
-//     map(([xAsset, yAsset]) => ({
-//       id: ammDexOperation.txHash,
-//       txId: ammDexOperation.txHash,
-//       dateTime: DateTime.local(),
-//       type: 'deposit',
-//       status: ammDexOperation.status as OperationStatus,
-//       x: new Currency(BigInt(order.inX.amount), xAsset),
-//       y: new Currency(BigInt(order.inY.amount), yAsset),
-//     })),
-//   );
-// };
-
 export const mapToOperationOrEmpty = (
   ammDexOperation: AmmDexOperation,
 ): Operation | undefined => {
@@ -77,8 +56,6 @@ export const mapToOperationOrEmpty = (
   switch (ammDexOperation.order.type) {
     case 'swap':
       return mapToSwapOperation(ammDexOperation);
-    // case 'deposit':
-    //   return mapToDepositOperation(ammDexOperation);
     default:
       return undefined;
   }
