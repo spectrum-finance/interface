@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { Tabs } from '../../../ergodex-cdk';
 
 interface NavigationProps {
+  textCenter?: boolean;
   className?: string;
   style?: CSSProperties;
 }
@@ -39,10 +40,15 @@ export const Navigation = styled(_Navigation)`
   .ant-tabs-nav-list {
     height: 40px;
   }
-  //.ant-tabs-tab,
-  //.ant-tabs-nav-list {
-  //  flex-grow: 1;
-  //}
+
+  .ant-tabs-tab,
+  .ant-tabs-nav-list {
+    flex-grow: 1;
+  }
+
+  .ant-tabs-tab {
+    ${(props) => props.textCenter && 'justify-content: center;'}
+  }
 
   .ant-tabs-tab-btn {
     font-size: 16px;

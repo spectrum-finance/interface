@@ -19,6 +19,7 @@ import {
   Typography,
 } from '../../../ergodex-cdk';
 import { getAmmPoolsByAssetPair } from '../../../gateway/api/ammPools';
+import { useDevice } from '../../../hooks/useDevice';
 import { formatToUSD } from '../../../services/number';
 import { PoolSelectorModal } from './PoolSelectorModal/PoolSelectorModal';
 
@@ -34,6 +35,7 @@ const _PoolSelector: FC<PoolSelectorProps> = ({
   const [availableAmmPools, updateAvailableAmmPools] = useSubject(
     getAmmPoolsByAssetPair,
   );
+  const { s, valBySize } = useDevice();
 
   useEffect(() => {
     if (value) {
@@ -49,25 +51,52 @@ const _PoolSelector: FC<PoolSelectorProps> = ({
   return (
     <>
       <Flex justify="center">
-        <Box className={className} padding={value ? 4 : 0} bordered={!!value}>
+        <Box
+          className={className}
+          padding={value ? valBySize(3, 4) : 0}
+          bordered={!!value}
+        >
           <Animation.Expand expanded={!!value} opacityDelay duration={200}>
             {value && (
               <Flex col>
                 <Flex.Item marginBottom={2} align="center">
-                  <Typography.Body secondary>
-                    <Trans>Liquidity Pool</Trans>
-                  </Typography.Body>
-                  <InfoTooltip
-                    secondary
-                    content={
-                      <>
-                        <Trans>
-                          Your operation will be executed in this pool. <br />{' '}
-                          You can also choose another pool for this pair
-                        </Trans>
-                      </>
-                    }
-                  />
+                  <Flex align="center" width="100%">
+                    <Flex.Item>
+                      <Typography.Body secondary>
+                        <Trans>Liquidity Pool</Trans>
+                      </Typography.Body>
+                    </Flex.Item>
+                    <InfoTooltip
+                      secondary
+                      content={
+                        <>
+                          <Trans>
+                            Your operation will be executed in this pool. <br />
+                            You can also choose another pool for this pair
+                          </Trans>
+                        </>
+                      }
+                    />
+                    {s && (
+                      <Flex.Item
+                        flex={1}
+                        display="flex"
+                        justify="flex-end"
+                        marginLeft="auto"
+                        marginTop={-1}
+                        marginBottom={-1}
+                      >
+                        <Button
+                          disabled={(availableAmmPools?.length || 0) < 2}
+                          type="text"
+                          color="primary"
+                          onClick={() => openPoolSelectorModal(value)}
+                        >
+                          <Trans>Change</Trans>
+                        </Button>
+                      </Flex.Item>
+                    )}
+                  </Flex>
                 </Flex.Item>
                 <Flex.Item>
                   <Flex align="center">
@@ -78,7 +107,7 @@ const _PoolSelector: FC<PoolSelectorProps> = ({
                         assetY={value.y.asset}
                       />
                     </Flex.Item>
-                    <Flex.Item marginRight={2}>
+                    <Flex.Item marginRight={1}>
                       <Typography.Body strong>
                         <Truncate>{value.x.asset.name}</Truncate>/
                         <Truncate>{value.y.asset.name}</Truncate>
@@ -98,7 +127,7 @@ const _PoolSelector: FC<PoolSelectorProps> = ({
                     <Flex.Item marginRight={1}>
                       <Typography.Footnote>TVL:</Typography.Footnote>
                     </Flex.Item>
-                    <Flex.Item marginRight={2}>
+                    <Flex.Item>
                       <DataTag
                         secondary
                         content={
@@ -108,14 +137,21 @@ const _PoolSelector: FC<PoolSelectorProps> = ({
                         }
                       />
                     </Flex.Item>
-                    <Flex.Item flex={1} display="flex" justify="flex-end">
-                      <Button
-                        disabled={(availableAmmPools?.length || 0) < 2}
-                        onClick={() => openPoolSelectorModal(value)}
+                    {!s && (
+                      <Flex.Item
+                        marginLeft={2}
+                        flex={1}
+                        display="flex"
+                        justify="flex-end"
                       >
-                        <Trans>Change</Trans>
-                      </Button>
-                    </Flex.Item>
+                        <Button
+                          disabled={(availableAmmPools?.length || 0) < 2}
+                          onClick={() => openPoolSelectorModal(value)}
+                        >
+                          <Trans>Change</Trans>
+                        </Button>
+                      </Flex.Item>
+                    )}
                   </Flex>
                 </Flex.Item>
               </Flex>

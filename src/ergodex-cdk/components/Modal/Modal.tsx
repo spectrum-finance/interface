@@ -3,9 +3,9 @@ import './Modal.less';
 import { Modal as BaseModal } from 'antd';
 import React, { PropsWithChildren, ReactElement } from 'react';
 import { ReactNode } from 'react';
-import { BrowserView, MobileView } from 'react-device-detect';
 import ReactDOM from 'react-dom';
 
+import { useDevice } from '../../../hooks/useDevice';
 import { BaseMobileModal } from './BaseMobileModal';
 import { ModalContent } from './ModalContent/ModalContent';
 import {
@@ -18,6 +18,63 @@ import { Progress } from './presets/Progress';
 import { Request, RequestProps } from './presets/Request';
 import { Success } from './presets/Success';
 import { Warning } from './presets/Warning';
+
+interface ModalFactoryProps {
+  visible: boolean;
+  params: any;
+  onCancel: () => void;
+  close: (result?: any) => void;
+  afterClose: () => void;
+  afterOpen: () => void;
+  content: ReactNode;
+}
+
+const ModalFactory: React.FC<ModalFactoryProps> = ({
+  visible,
+  params,
+  onCancel,
+  close,
+  afterClose,
+  afterOpen,
+  content,
+}) => {
+  const { s } = useDevice();
+  return (
+    <ModalTitleContextProvider>
+      {!s && (
+        <BaseModal
+          width={params.width}
+          visible={visible}
+          onCancel={onCancel}
+          footer={params.footer}
+          title={<ModalInnerTitle />}
+          afterClose={afterClose}
+          closable={params.closable}
+        >
+          <>
+            {visible && afterOpen()}
+            {content instanceof Function ? content({ close }) : content}
+          </>
+        </BaseModal>
+      )}
+      {s && (
+        <BaseMobileModal
+          visible={visible}
+          onClose={onCancel}
+          title={<ModalInnerTitle />}
+          footer={params.footer}
+          afterClose={afterClose}
+          closable={params.closable}
+        >
+          <>
+            {visible && afterOpen()}
+            {content instanceof Function ? content({ close }) : content}
+          </>
+        </BaseMobileModal>
+      )}
+    </ModalTitleContextProvider>
+  );
+};
 
 export interface ModalParams<R = any> {
   readonly title?: ReactNode | ReactNode[] | string | null;
@@ -92,44 +149,18 @@ class BaseModalProvider implements ModalProvider {
       ReactDOM.render(modalFactory(false), container);
     };
 
-    const modalFactory = (visible: boolean) => {
-      return (
-        <ModalTitleContextProvider>
-          <BrowserView>
-            <BaseModal
-              key={dialogId}
-              width={params.width}
-              visible={visible}
-              onCancel={onCancel}
-              footer={params.footer}
-              title={<ModalInnerTitle />}
-              afterClose={afterClose}
-              closable={params.closable}
-            >
-              <>
-                {visible && afterOpen()}
-                {content instanceof Function ? content({ close }) : content}
-              </>
-            </BaseModal>
-          </BrowserView>
-          <MobileView>
-            <BaseMobileModal
-              key={dialogId}
-              visible={visible}
-              onClose={onCancel}
-              title={<ModalInnerTitle />}
-              footer={params.footer}
-              afterClose={afterClose}
-            >
-              <>
-                {visible && afterOpen()}
-                {content instanceof Function ? content({ close }) : content}
-              </>
-            </BaseMobileModal>
-          </MobileView>
-        </ModalTitleContextProvider>
-      );
-    };
+    const modalFactory = (visible: boolean) => (
+      <ModalFactory
+        key={dialogId}
+        visible={visible}
+        params={params}
+        onCancel={onCancel}
+        afterClose={afterClose}
+        afterOpen={afterOpen}
+        content={content}
+        close={close}
+      />
+    );
 
     ReactDOM.render(modalFactory(true), container);
 
@@ -257,43 +288,18 @@ export class ContextModalProvider
       this.forceUpdate();
     };
 
-    const modalFactory = (visible: boolean) => {
-      return (
-        <ModalTitleContextProvider key={dialogId}>
-          <BrowserView>
-            <BaseModal
-              key={dialogId}
-              width={params.width}
-              visible={visible}
-              onCancel={onCancel}
-              footer={params.footer}
-              title={<ModalInnerTitle />}
-              afterClose={afterClose}
-            >
-              <>
-                {visible && afterOpen()}
-                {content instanceof Function ? content({ close }) : content}
-              </>
-            </BaseModal>
-          </BrowserView>
-          <MobileView>
-            <BaseMobileModal
-              key={dialogId}
-              visible={visible}
-              onClose={onCancel}
-              title={<ModalInnerTitle />}
-              footer={params.footer}
-              afterClose={afterClose}
-            >
-              <>
-                {visible && afterOpen()}
-                {content instanceof Function ? content({ close }) : content}
-              </>
-            </BaseMobileModal>
-          </MobileView>
-        </ModalTitleContextProvider>
-      );
-    };
+    const modalFactory = (visible: boolean) => (
+      <ModalFactory
+        key={dialogId}
+        visible={visible}
+        params={params}
+        close={close}
+        onCancel={onCancel}
+        afterClose={afterClose}
+        afterOpen={afterOpen}
+        content={content}
+      />
+    );
 
     this.modals.set(dialogId, modalFactory(true));
     this.forceUpdate();
@@ -304,8 +310,8 @@ export class ContextModalProvider
   render(): ReactNode | ReactNode[] | string {
     return (
       <>
-        {Array.from(this.modals.values()).map((modal) => (
-          <Portal root={document.body} key={modal.key}>
+        {Array.from(this.modals.entries()).map(([key, modal]) => (
+          <Portal root={document.body} key={`portal-${key}`}>
             {modal}
           </Portal>
         ))}

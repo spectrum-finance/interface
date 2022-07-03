@@ -13,6 +13,7 @@ import {
   Modal,
   SearchOutlined,
 } from '../../../../../ergodex-cdk';
+import { useDevice } from '../../../../../hooks/useDevice';
 import { TokenListItem } from './TokenListItem';
 
 interface TokenListModalProps {
@@ -22,11 +23,12 @@ interface TokenListModalProps {
   readonly assets?: AssetInfo[];
 }
 
-const TokenListModal: React.FC<TokenListModalProps> = ({
+export const TokenListModal: React.FC<TokenListModalProps> = ({
   close,
   onSelectChanged,
   assets$,
 }) => {
+  const { valBySize } = useDevice();
   const [searchWords, setSearchWords] = useState('');
   const [assets] = useObservable(assets$ ?? of([]));
 
@@ -52,7 +54,7 @@ const TokenListModal: React.FC<TokenListModalProps> = ({
       <Modal.Title>
         <Trans>Select a token</Trans>
       </Modal.Title>
-      <Modal.Content width={500}>
+      <Modal.Content width={valBySize('100%', '500px')}>
         <Flex col>
           <Flex.Item marginBottom={2}>
             <Input
@@ -78,5 +80,3 @@ const TokenListModal: React.FC<TokenListModalProps> = ({
     </>
   );
 };
-
-export { TokenListModal };

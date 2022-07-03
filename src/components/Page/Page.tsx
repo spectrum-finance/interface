@@ -11,6 +11,7 @@ import {
   Flex,
   Typography,
 } from '../../ergodex-cdk';
+import { CupertinoPaneContainer } from '../../ergodex-cdk/components/Modal/CupertinoPaneContainer';
 import { Gutter } from '../../ergodex-cdk/utils/gutter';
 import { useDevice } from '../../hooks/useDevice';
 
@@ -20,6 +21,7 @@ interface PageProps {
   withBackButton?: boolean;
   leftWidget?: ReactNode;
   widgetOpened?: boolean;
+  onWidgetClose?: () => void;
   backTo?: string;
   onBackButtonClick?: () => void;
   titleChildren?: ReactNode | ReactNode[] | string;
@@ -41,6 +43,7 @@ const _Page: React.FC<PageProps> = ({
   withBackButton,
   leftWidget,
   widgetOpened,
+  onWidgetClose,
   backTo,
   footer,
   className,
@@ -49,7 +52,7 @@ const _Page: React.FC<PageProps> = ({
   padding,
 }) => {
   const navigate = useNavigate();
-  const { valBySize } = useDevice();
+  const { valBySize, s } = useDevice();
 
   return (
     <Flex
@@ -80,13 +83,23 @@ const _Page: React.FC<PageProps> = ({
                   <Typography.Title level={4}>{title}</Typography.Title>
                 </Flex>
               </Flex.Item>
-
               <Flex justify="space-between">{titleChildren}</Flex>
             </Flex>
           </Flex.Item>
         )}
         <Flex justify="center" align="flex-start">
-          {widgetOpened && <Widget>{leftWidget}</Widget>}
+          <CupertinoPaneContainer
+            visible={s && widgetOpened}
+            fitHeight={false}
+            initialBreak="top"
+            events={{
+              onBackdropTap: () => onWidgetClose?.(),
+              onDidDismiss: () => onWidgetClose?.(),
+            }}
+          >
+            {leftWidget}
+          </CupertinoPaneContainer>
+          {!s && widgetOpened && <Widget>{leftWidget}</Widget>}
           <Flex col>
             <Flex.Item style={{ zIndex: 2 }}>
               <Box

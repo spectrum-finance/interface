@@ -1,7 +1,11 @@
-import { CupertinoPane, CupertinoSettings } from 'cupertino-pane';
-import React, { PropsWithChildren, useRef } from 'react';
-import { useEffect, useState } from 'react';
+import type { CupertinoPane, CupertinoSettings } from 'cupertino-pane';
+// @ts-expect-error
+import { CupertinoPane as CupertinoPaneClass } from 'cupertino-pane/dist/core';
+import React, { ReactNode } from 'react';
 import styled from 'styled-components';
+
+import { CupertinoBackdropModule } from './CupertinoBackdropModule';
+import { CupertinoFitHeightModule } from './CupertinoFitHeightModule';
 
 const PaneContainer = styled.div`
   overflow-y: auto;
@@ -10,12 +14,14 @@ const PaneContainer = styled.div`
 
 // Cupertino Props https://github.com/roman-rr/cupertino-pane#Settings
 const defaultPaneSettings: CupertinoSettings = {
+  modules: [CupertinoFitHeightModule, CupertinoBackdropModule],
   fitHeight: true,
-  initialBreak: 'middle',
-  breaks: {
-    middle: { enabled: true, height: 300, bounce: true },
-    bottom: { enabled: true, height: 80 },
-  },
+  // parentElement: 'body',
+  // initialBreak: 'top',
+  // breaks: {
+  //   middle: { enabled: true, height: 300 },
+  //   bottom: { enabled: true, height: 80 },
+  // },
   backdropOpacity: 0.5,
   backdrop: true,
   dragBy: ['.draggable'],
@@ -28,37 +34,57 @@ interface CupertinoPaneContainerProps
   visible?: boolean;
 }
 
-export const CupertinoPaneContainer: React.FC<
-  PropsWithChildren<CupertinoPaneContainerProps>
-> = ({ visible, children, className, ...paneSettings }) => {
-  const rootRef = useRef<HTMLDivElement | null>(null);
-  const [drawer, setDrawer] = useState<CupertinoPane>();
+export class CupertinoPaneContainer extends React.Component<CupertinoPaneContainerProps> {
+  rootRef = React.createRef<HTMLDivElement>();
+  contentRef = React.createRef<HTMLDivElement>();
+  drawer?: CupertinoPane;
+  settings?: CupertinoSettings;
+  observer?: ResizeObserver;
 
-  const settings: CupertinoSettings = {
-    ...defaultPaneSettings,
-    ...paneSettings,
-    cssClass: className,
-  };
-
-  useEffect(() => {
-    if (!drawer && rootRef.current) {
-      const pane = new CupertinoPane(rootRef.current, settings);
-      setDrawer(pane);
-    }
-    return () => {
-      drawer?.destroyResets();
+  componentDidMount(): void {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { visible, children, className, ...paneSettings } = this.props;
+    this.settings = {
+      ...defaultPaneSettings,
+      ...paneSettings,
+      cssClass: className,
     };
-  }, [rootRef.current]);
 
-  useEffect(() => {
-    if (!drawer) return;
-    if (visible) {
-      drawer.present({ animate: true });
+    this.drawer = new CupertinoPaneClass(this.rootRef.current!, this.settings);
+    if (this.settings.fitHeight) {
+      this.observer = new ResizeObserver((entries) => {
+        const entry = entries.find((e) => e.target === this.contentRef.current);
+        if (entry && this.props.visible && this.drawer?.isPanePresented()) {
+          // @ts-expect-error method added by CupertinoFitHeightModule
+          this.drawer.calcFitHeight();
+        }
+      });
+      this.observer.observe(this.contentRef.current!);
     }
-    if (drawer.isPanePresented()) {
-      drawer.destroy({ animate: true });
+  }
+  componentDidUpdate(): void {
+    if (!this.drawer) return;
+    const isPresented = this.drawer.isPanePresented();
+    if (this.props.visible && !isPresented) {
+      this.drawer.present({ animate: true });
     }
-  }, [visible, drawer]);
+    if (!this.props.visible && isPresented) {
+      this.drawer.destroy({ animate: true });
+    }
+  }
 
-  return <PaneContainer ref={rootRef}>{children}</PaneContainer>;
-};
+  componentWillUnmount(): void {
+    if (this.drawer?.isPanePresented()) {
+      this.drawer?.destroy();
+    }
+    this.observer?.disconnect();
+  }
+
+  render(): ReactNode {
+    return (
+      <PaneContainer ref={this.rootRef}>
+        <div ref={this.contentRef}>{this.props.children}</div>
+      </PaneContainer>
+    );
+  }
+}

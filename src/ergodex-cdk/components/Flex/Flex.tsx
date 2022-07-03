@@ -2,6 +2,7 @@ import './Flex.less';
 
 import cn from 'classnames';
 import React, {
+  CSSProperties,
   forwardRef,
   ForwardRefExoticComponent,
   PropsWithoutRef,
@@ -20,7 +21,7 @@ export type FlexProps = React.DetailedHTMLProps<
   col?: boolean;
   stretch?: boolean;
   inline?: boolean;
-  width?: number;
+  width?: CSSProperties['width'];
   position?: 'relative' | 'absolute' | 'static' | 'fixed';
   justify?:
     | 'flex-start'

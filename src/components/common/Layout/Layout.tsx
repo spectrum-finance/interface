@@ -10,6 +10,7 @@ import { Header } from '../../Header/Header';
 import { NetworkHeight } from '../../NetworkHeight/NetworkHeight';
 import { SocialLinks } from '../../SocialLinks/SocialLinks';
 import { KyaModal } from '../KyaModal/KyaModal';
+import { FooterNavigation } from './FooterNavigation/FooterNavigation';
 
 const Layout: FC<PropsWithChildren<Record<string, unknown>>> = ({
   children,
@@ -37,6 +38,7 @@ const Layout: FC<PropsWithChildren<Record<string, unknown>>> = ({
         <SocialLinks />
         <NetworkHeight />
       </footer>
+      <FooterNavigation />
     </div>
   );
 };

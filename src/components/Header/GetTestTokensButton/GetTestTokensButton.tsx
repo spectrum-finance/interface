@@ -1,5 +1,5 @@
 import { Trans } from '@lingui/macro';
-import React, { FC } from 'react';
+import React, { CSSProperties, FC } from 'react';
 import styled from 'styled-components';
 
 import { Button, DollarOutlined, Modal } from '../../../ergodex-cdk';
@@ -7,10 +7,12 @@ import { FaucetModal } from '../../FaucetModal/FaucetModal';
 
 export interface GetTestTokensButtonProps {
   readonly className?: string;
+  readonly style?: CSSProperties;
 }
 
 export const _GetTestTokensButton: FC<GetTestTokensButtonProps> = ({
   className,
+  style,
 }) => {
   const openFaucetModal = () =>
     Modal.open(({ close }) => <FaucetModal close={close} />);
@@ -22,6 +24,7 @@ export const _GetTestTokensButton: FC<GetTestTokensButtonProps> = ({
       className={className}
       onClick={openFaucetModal}
       icon={<DollarOutlined style={{ marginRight: 4 }} />}
+      style={style}
     >
       <Trans>Get test tokens</Trans>
     </Button>

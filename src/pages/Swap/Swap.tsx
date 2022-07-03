@@ -343,6 +343,7 @@ export const Swap = (): JSX.Element => {
           selectedNetwork.name === 'ergo' && <SwapGraph pool={pool} />
         }
         widgetOpened={leftWidgetOpened}
+        onWidgetClose={() => setLeftWidgetOpened(false)}
       >
         <Flex col>
           <Flex row align="center">

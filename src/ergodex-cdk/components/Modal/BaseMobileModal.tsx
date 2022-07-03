@@ -13,6 +13,7 @@ interface MobileDialogProps {
   title?: ReactNode;
   footer?: ReactNode;
   afterClose?: () => void;
+  closable?: boolean;
 }
 
 export const BaseMobileModal: React.FC<MobileDialogProps> = ({
@@ -25,13 +26,15 @@ export const BaseMobileModal: React.FC<MobileDialogProps> = ({
 }) => {
   return (
     <CupertinoPaneContainer
-      onBackdropTap={() => {
-        onClose?.();
-        afterClose?.();
-      }}
-      onDidDismiss={() => {
-        onClose?.();
-        afterClose?.();
+      events={{
+        onBackdropTap: () => {
+          onClose?.();
+          afterClose?.();
+        },
+        onDidDismiss: () => {
+          onClose?.();
+          afterClose?.();
+        },
       }}
       visible={visible}
     >

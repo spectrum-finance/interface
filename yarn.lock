@@ -6813,10 +6813,10 @@ csstype@^3.0.2:
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.0.10.tgz#2ad3a7bed70f35b965707c092e5f30b327c290e5"
   integrity sha512-2u44ZG2OcNUO9HDp/Jl8C07x6pU/eTR3ncV91SiK3dhG9TWvRVsCoJw14Ckx5DgWkzGA3waZWO3d7pgqpUI/XA==
 
-cupertino-pane@^1.2.82:
-  version "1.2.82"
-  resolved "https://registry.yarnpkg.com/cupertino-pane/-/cupertino-pane-1.2.82.tgz#c75a48200f0951c049c1f77bc5148ab6c007fb0b"
-  integrity sha512-b8Virh8wIBtAyCZthLSnuQ2umi8t5w0s8D0CukcHCt1ZOoXdHXFCPFfVWQHav0bFOGhA3P9Ix/iCpWBcSryQsA==
+cupertino-pane@^1.2.91:
+  version "1.2.91"
+  resolved "https://registry.yarnpkg.com/cupertino-pane/-/cupertino-pane-1.2.91.tgz#9a14244ed4df624a6bc895eef44ea33551cfe491"
+  integrity sha512-S3S8rITY0gJdU5cqBTqdSxzdJCOd637pezlURPwtm3UJEy4EoVK6cNF3S/Uw+ySjoqn03k/6MW8Vd2p7UofRzA==
 
 customize-cra-less-loader@^1.0.0:
   version "1.0.0"

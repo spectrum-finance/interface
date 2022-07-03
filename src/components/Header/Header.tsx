@@ -2,10 +2,8 @@ import './Header.less';
 
 import cn from 'classnames';
 import React, { RefObject, useEffect, useState } from 'react';
-import styled from 'styled-components';
 
 import { useObservable } from '../../common/hooks/useObservable';
-import { Flex } from '../../ergodex-cdk';
 import { useAssetsBalance } from '../../gateway/api/assetBalance';
 import { useNetworkAsset } from '../../gateway/api/networkAsset';
 import { selectedWalletState$ } from '../../gateway/api/wallets';
@@ -28,16 +26,9 @@ export interface HeaderProps {
   layoutRef: RefObject<HTMLDivElement>;
 }
 
-export const BottomContainer = styled.div`
-  position: fixed;
-  right: 50%;
-  bottom: 1rem;
-  transform: translate(50%, 0);
-`;
-
 export const Header: React.FC<HeaderProps> = ({ layoutRef }) => {
   const [settings] = useObservable(settings$);
-  const { s, m, moreThan } = useDevice();
+  const { s, moreThan } = useDevice();
   const [balance, isBalanceLoading] = useAssetsBalance();
   const [networkAsset] = useNetworkAsset();
   const [walletState] = useObservable(selectedWalletState$);
@@ -75,9 +66,11 @@ export const Header: React.FC<HeaderProps> = ({ layoutRef }) => {
           <IsErgo>
             <Analytics />
           </IsErgo>
-          <IsCardano>
-            <GetTestTokensButton />
-          </IsCardano>
+          {!s && (
+            <IsCardano>
+              <GetTestTokensButton />
+            </IsCardano>
+          )}
         </div>
         <div className="header__options">
           <NetworkDropdown />
@@ -90,23 +83,6 @@ export const Header: React.FC<HeaderProps> = ({ layoutRef }) => {
           <BurgerMenu />
         </div>
       </div>
-      {s && (
-        <Flex position="fixed" style={{ bottom: '1rem' }}>
-          <Flex.Item marginLeft={4} marginRight={2} flex={1}>
-            <Navigation />
-          </Flex.Item>
-          {walletState === WalletState.CONNECTED && (
-            <Flex.Item marginLeft={2} marginRight={4}>
-              <TxHistory />
-            </Flex.Item>
-          )}
-        </Flex>
-      )}
-      {m && (
-        <BottomContainer>
-          <Navigation />
-        </BottomContainer>
-      )}
     </header>
   );
 };
