@@ -3,6 +3,7 @@ import './Layout.less';
 import React, { useEffect, useRef } from 'react';
 import { isBrowser } from 'react-device-detect';
 
+import { applicationConfig } from '../../../applicationConfig';
 import { useAppLoadingState, useSettings } from '../../../context';
 import { Modal } from '../../../ergodex-cdk';
 import { useSelectedNetwork } from '../../../gateway/common/network';
@@ -11,6 +12,7 @@ import { Header } from '../../Header/Header';
 import { NetworkHeight } from '../../NetworkHeight/NetworkHeight';
 import { SocialLinks } from '../../SocialLinks/SocialLinks';
 import { KyaModal } from '../KyaModal/KyaModal';
+import { CardanoUpdate } from './CardanoUpdate/CardanoUpdate';
 
 interface Props {
   children: React.ReactChild | React.ReactChild[];
@@ -34,12 +36,18 @@ const Layout = ({ children }: Props): JSX.Element => {
   return (
     <div className="layout" ref={ref}>
       <div className="glow" />
-      <Header layoutRef={ref} />
-      <main>{children}</main>
-      <footer>
-        <SocialLinks />
-        <NetworkHeight />
-      </footer>
+      {applicationConfig.cardanoUpdate && network.name === 'cardano' ? (
+        <CardanoUpdate />
+      ) : (
+        <>
+          <Header layoutRef={ref} />
+          <main>{children}</main>
+          <footer>
+            <SocialLinks />
+            <NetworkHeight />
+          </footer>
+        </>
+      )}
     </div>
   );
 };
