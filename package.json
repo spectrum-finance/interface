@@ -115,7 +115,7 @@
     "eslint-plugin-react": "7.26.0",
     "eslint-plugin-react-app": "^6.2.2",
     "eslint-plugin-simple-import-sort": "7.0.0",
-    "node-sass": "^6.0.1",
+    "node-sass": "^7.0.1",
     "prettier": "^2.3.2",
     "react-app-rewire-typings-for-css-module": "^4.0.3",
     "sass-loader": "^12.1.0",
