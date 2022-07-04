@@ -34,9 +34,30 @@ jobs:
           yarn run i18n:compile
           yarn build
 
-      # - name: Archive Artifacts
-      #   run: 
-
+      - name: Store Artifacts
+        uses: actions/upload-artifact@v3
+        with: 
+          name: ${{GITHUB_SHA}}
+          path: build
+          retentions_days: 1
+  deploy:
+    name: Deploy to Dev
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Extract Artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{GITHUB_SHA}}
+      - name: Deploy to host
+        uses: garygrossgarten/github-action-scp@release
+        with:
+          local: build
+          #remote: /var/www/dev0
+          remote: /var/www/refactored
+          host: ${{secrets.HOST}}
+          username: ${{secrets.USERNAME}}
+          key: ${{secrets.KEY}}
       # - name: Deploy
       #   uses: appleboy/ssh-action@master
       #   with:
