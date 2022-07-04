@@ -1,4 +1,3 @@
-import { OpStatus } from '@ergolabs/ergo-dex-sdk/build/main/amm/models/ammOperation';
 import {
   Address,
   BoxSelection,
@@ -9,6 +8,7 @@ import {
 } from '@ergolabs/ergo-sdk';
 
 import { ERG_DECIMALS } from '../common/constants/erg';
+import { OperationStatus } from '../components/common/TxHistory/types';
 import { ammOrderRefunds } from '../services/amm';
 import { explorer } from '../services/explorer';
 import { parseUserInputToFractions } from './math';
@@ -21,7 +21,7 @@ interface RefundParams {
 
 const validRefundStatuses = ['pending', 'submitted'];
 
-export const isRefundableOperation = (status: OpStatus): boolean =>
+export const isRefundableOperation = (status: OperationStatus): boolean =>
   validRefundStatuses.indexOf(status) !== -1;
 
 export const refund = async (

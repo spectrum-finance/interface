@@ -1,12 +1,15 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import { Address } from '@ergolabs/ergo-sdk';
-import { Button, Flex, Modal, Typography } from '@ergolabs/ui-kit';
+import { Button, Flex, Modal } from '@ergolabs/ui-kit';
 import React, { FC } from 'react';
 import styled from 'styled-components';
 
+import { useObservable } from '../../../../common/hooks/useObservable';
 import { Currency } from '../../../../common/models/Currency';
+import { pendingTransactions$ } from '../../../../network/ergo/api/transactionHistory/pendingTransactions';
 import { WalletModal } from '../../../WalletModal/WalletModal';
-import { AddressTag } from './AddressTag/AddressTag';
+import { AddressOrPendingTag } from './AddressOrPendingTag/AddressOrPendingTag';
+import { BalanceView } from './BalanceView/BalanceView';
 
 export interface WalletInfoButtonProps {
   className?: string;
@@ -20,17 +23,19 @@ const _WalletInfoButton: FC<WalletInfoButtonProps> = ({
   address,
 }) => {
   const openWalletModal = () => Modal.open(<WalletModal />);
+  const [pendingCount] = useObservable(pendingTransactions$);
 
   return (
     <Button className={className} onClick={openWalletModal} size="large">
-      {balance !== undefined ? (
+      {balance !== undefined && pendingCount !== undefined ? (
         <Flex align="center" stretch>
-          <Flex.Item marginRight={2} marginLeft={1}>
-            <Typography.Body style={{ whiteSpace: 'nowrap', fontSize: '16px' }}>
-              {balance?.toCurrencyString()}
-            </Typography.Body>
+          <Flex.Item marginLeft={1} marginRight={2}>
+            <BalanceView balance={balance} />
           </Flex.Item>
-          <AddressTag address={address} />
+          <AddressOrPendingTag
+            address={address}
+            pendingCount={pendingCount.length}
+          />
         </Flex>
       ) : (
         <LoadingOutlined />
