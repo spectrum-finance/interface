@@ -23,7 +23,7 @@ const initialNetworkName =
   localStorageManager.get<string>(SELECTED_NETWORK_KEY);
 export const initialNetwork: Network<any, any, any> = initialNetworkName
   ? networks.find((n) => n.name === initialNetworkName)!
-  : cardanoNetwork;
+  : ergoNetwork;
 
 const link = document.querySelector<HTMLLinkElement>("link[rel~='icon']");
 if (link) {

@@ -2,24 +2,16 @@ name: Release app
 on:
   push:
     tags:
-      - /^\d+\.\d+\.\d+$/
+      - '[0-9]+.[0-9]+.[0-9]+'
 jobs:
   deploy:
     name: Release
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{secrets.HOST}}
-          username: ${{secrets.USERNAME}}
-          key: ${{secrets.KEY}}
-          script: source ~/.nvm/nvm.sh; cd /var/www/builds/front; git pull origin master; yarn; yarn run prei18n:extract; yarn run i18n:extract; yarn run i18n:compile; yarn build;
-          
       - name: Release
         uses: appleboy/ssh-action@master
         with:
           host: ${{secrets.HOST}}
           username: ${{secrets.USERNAME}}
           key: ${{secrets.KEY}}
-          script: cp -r /var/www/builds/front/build/. /var/www/app
+          script: cp -r /var/www/builds/test/build/. /var/www/app
