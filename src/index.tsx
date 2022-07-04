@@ -16,7 +16,7 @@ Sentry.init({
   tracesSampleRate: 1.0,
 });
 
-posthog.init('phc_xj7UhUKne1v6TTlMq4fXEVaVM5VnEzS6pkNnUMkibXH', {
+posthog.init('phc_W0I06T1ivqb8JfKzDJco6wkJDYuO71p71KjcNkkOelb', {
   api_host: 'https://posthog.spectrum.fi',
   autocapture: true,
 });
