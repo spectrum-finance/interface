@@ -1,9 +1,9 @@
+import { Flex, Typography } from '@ergolabs/ui-kit';
 import React from 'react';
 import { FC } from 'react';
 import styled from 'styled-components';
 
 import { useObservable } from '../../../../../common/hooks/useObservable';
-import { Flex, Typography } from '../../../../../ergodex-cdk';
 import { selectedWallet$ } from '../../../../../gateway/api/wallets';
 import { getShortAddress } from '../../../../../utils/string/addres';
 import { DataTag } from '../../../../common/DataTag/DataTag';

@@ -1,6 +1,6 @@
+import { Flex, Slider, Typography } from '@ergolabs/ui-kit';
 import React from 'react';
 
-import { Flex, Slider, Typography } from '../../../../ergodex-cdk';
 import { FormSpace } from '../FormSpace/FormSpace';
 
 const marks = {

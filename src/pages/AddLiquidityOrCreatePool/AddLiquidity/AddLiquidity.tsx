@@ -1,3 +1,11 @@
+import {
+  Button,
+  Flex,
+  Form,
+  FormGroup,
+  PlusOutlined,
+  useForm,
+} from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
 import maxBy from 'lodash/maxBy';
 import React, { FC, useEffect, useState } from 'react';
@@ -8,7 +16,7 @@ import { AmmPool } from '../../../common/models/AmmPool';
 import { AssetInfo } from '../../../common/models/AssetInfo';
 import { Currency } from '../../../common/models/Currency';
 import { TxId } from '../../../common/types';
-import { TokenControlFormItem } from '../../../components/common/TokenControl/TokenControl';
+import { AssetControlFormItem } from '../../../components/common/TokenControl/AssetControl';
 import {
   openConfirmationModal,
   Operation,
@@ -19,14 +27,6 @@ import {
   OperationValidator,
 } from '../../../components/OperationForm/OperationForm';
 import { Section } from '../../../components/Section/Section';
-import {
-  Button,
-  Flex,
-  Form,
-  FormGroup,
-  PlusOutlined,
-  useForm,
-} from '../../../ergodex-cdk';
 import { useAssetsBalance } from '../../../gateway/api/assetBalance';
 import { useNetworkAsset } from '../../../gateway/api/networkAsset';
 import { useSwapValidationFee } from '../../../gateway/api/validationFees';
@@ -394,14 +394,14 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
           >
             <Flex col>
               <Flex.Item marginBottom={2}>
-                <TokenControlFormItem
+                <AssetControlFormItem
                   amountName="x"
                   tokenName="xAsset"
                   readonly="asset"
                 />
               </Flex.Item>
               <Flex.Item>
-                <TokenControlFormItem
+                <AssetControlFormItem
                   amountName="y"
                   tokenName="yAsset"
                   readonly="asset"

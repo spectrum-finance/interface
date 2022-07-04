@@ -1,10 +1,10 @@
 import './LockLiquidityChart.less';
 
+import { Flex } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
 import React, { FC, useState } from 'react';
 import { Bar, BarChart, Label, Tooltip, XAxis, YAxis } from 'recharts';
 
-import { Flex } from '../../../ergodex-cdk';
 import {
   AmmPoolConfidenceAnalytic,
   LocksGroup,

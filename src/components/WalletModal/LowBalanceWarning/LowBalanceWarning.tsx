@@ -1,8 +1,8 @@
+import { Flex, Tag, Typography } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React from 'react';
 
 import { applicationConfig } from '../../../applicationConfig';
-import { Flex, Tag, Typography } from '../../../ergodex-cdk';
 import { Network } from '../../../network/common/Network';
 
 interface LowBalanceWarningProps {

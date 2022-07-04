@@ -1,7 +1,7 @@
+import { Tag } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
 import React from 'react';
 
-import { Tag } from '../../../../../ergodex-cdk';
 import { OperationType } from '../../../../common/TxHistory/types';
 
 interface TxTypeTagProps {

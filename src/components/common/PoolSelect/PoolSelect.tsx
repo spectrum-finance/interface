@@ -1,10 +1,5 @@
 import './PoolSelect.less';
 
-import { Trans } from '@lingui/macro';
-import maxBy from 'lodash/maxBy';
-import React, { useEffect } from 'react';
-
-import { AmmPool } from '../../../common/models/AmmPool';
 import {
   Button,
   DownOutlined,
@@ -12,7 +7,12 @@ import {
   Flex,
   Menu,
   Typography,
-} from '../../../ergodex-cdk';
+} from '@ergolabs/ui-kit';
+import { Trans } from '@lingui/macro';
+import maxBy from 'lodash/maxBy';
+import React, { useEffect } from 'react';
+
+import { AmmPool } from '../../../common/models/AmmPool';
 import { AssetIconPair } from '../../AssetIconPair/AssetIconPair';
 import { VerificationMark } from '../../VerificationMark/VerificationMark';
 import { FeeTag } from '../FeeTag/FeeTag';

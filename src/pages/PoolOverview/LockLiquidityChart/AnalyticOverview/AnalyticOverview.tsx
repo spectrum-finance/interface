@@ -1,10 +1,10 @@
+import { Flex, Typography } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import { DateTime } from 'luxon';
 import React, { FC } from 'react';
 
 import { Currency } from '../../../../common/models/Currency';
 import { AssetIcon } from '../../../../components/AssetIcon/AssetIcon';
-import { Flex, Typography } from '../../../../ergodex-cdk';
 import { formatToPercent } from '../../../../services/number';
 import {
   AmmPoolConfidenceAnalytic,

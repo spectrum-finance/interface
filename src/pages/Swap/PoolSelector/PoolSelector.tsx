@@ -1,3 +1,12 @@
+import {
+  Animation,
+  Box,
+  Button,
+  Control,
+  Flex,
+  Modal,
+  Typography,
+} from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React, { FC, useEffect } from 'react';
 import styled from 'styled-components';
@@ -9,15 +18,6 @@ import { DataTag } from '../../../components/common/DataTag/DataTag';
 import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
 import { Truncate } from '../../../components/Truncate/Truncate';
 import { VerificationMark } from '../../../components/VerificationMark/VerificationMark';
-import {
-  Animation,
-  Box,
-  Button,
-  Control,
-  Flex,
-  Modal,
-  Typography,
-} from '../../../ergodex-cdk';
 import { getAmmPoolsByAssetPair } from '../../../gateway/api/ammPools';
 import { useDevice } from '../../../hooks/useDevice';
 import { formatToUSD } from '../../../services/number';

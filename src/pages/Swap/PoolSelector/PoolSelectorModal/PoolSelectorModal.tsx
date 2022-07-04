@@ -1,9 +1,9 @@
+import { Control, List, Modal, ModalRef } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React, { FC, useEffect } from 'react';
 
 import { useSubject } from '../../../../common/hooks/useObservable';
 import { AmmPool } from '../../../../common/models/AmmPool';
-import { Control, List, Modal, ModalRef } from '../../../../ergodex-cdk';
 import { getAmmPoolsByAssetPair } from '../../../../gateway/api/ammPools';
 import { PoolItemView } from './PoolItemView/PoolItemView';
 

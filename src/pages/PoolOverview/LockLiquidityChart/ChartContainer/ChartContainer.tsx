@@ -1,7 +1,6 @@
+import { Collapse } from '@ergolabs/ui-kit';
 import React, { FC, ReactNode } from 'react';
 import styled from 'styled-components';
-
-import { Collapse } from '../../../../ergodex-cdk';
 
 interface ChartCollapseProps {
   header?: ReactNode | ReactNode[] | string;
@@ -29,9 +28,9 @@ export const ChartContainer = styled(_ChartContainer)`
   border: initial;
   background: var(--ergo-box-bg-contrast);
   border-radius: 12px;
-  border: 1px solid var(--ergo-box-border-color);
+  border: 1px solid var(--ergo-box-border-color) !important;
 
-  .ant-collapse-header {
+  .ant-collapse-item > .ant-collapse-header {
     padding: 0 !important;
   }
 
@@ -52,5 +51,9 @@ export const ChartContainer = styled(_ChartContainer)`
 
   .ant-collapse-item {
     border: initial;
+  }
+
+  .ant-collapse-header-text {
+    width: 100%;
   }
 `;

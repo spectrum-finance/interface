@@ -1,8 +1,3 @@
-import { Trans } from '@lingui/macro';
-import React, { ReactNode, useState } from 'react';
-import styled from 'styled-components';
-
-import { useObservable } from '../../../../common/hooks/useObservable';
 import {
   Alert,
   Box,
@@ -14,7 +9,12 @@ import {
   ModalRef,
   Tag,
   Typography,
-} from '../../../../ergodex-cdk';
+} from '@ergolabs/ui-kit';
+import { Trans } from '@lingui/macro';
+import React, { ReactNode, useState } from 'react';
+import styled from 'styled-components';
+
+import { useObservable } from '../../../../common/hooks/useObservable';
 import {
   connectWallet,
   disconnectWallet,

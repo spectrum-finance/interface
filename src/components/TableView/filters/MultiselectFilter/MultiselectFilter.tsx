@@ -1,6 +1,6 @@
+import { Checkbox, List } from '@ergolabs/ui-kit';
 import React, { FC, ReactNode } from 'react';
 
-import { Checkbox, List } from '../../../../ergodex-cdk';
 import { FilterControlProps } from '../../common/FilterDescription';
 
 export interface MultiselectFilterItem<T> {

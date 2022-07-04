@@ -1,3 +1,4 @@
+import { Flex, Input, Modal, ModalRef, SearchOutlined } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import React, { FC, ReactNode, useState } from 'react';
 import { Observable } from 'rxjs';
@@ -5,13 +6,6 @@ import styled from 'styled-components';
 
 import { useObservable } from '../../common/hooks/useObservable';
 import { filterOperations, Operation } from '../../common/models/Operation';
-import {
-  Flex,
-  Input,
-  Modal,
-  ModalRef,
-  SearchOutlined,
-} from '../../ergodex-cdk';
 import { OperationHistoryTable } from './OperationHistoryTable/OperationHistoryTable';
 
 const SearchInput = styled(Input)`

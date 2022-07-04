@@ -1,11 +1,3 @@
-import React, { ChangeEvent, FC } from 'react';
-import styled from 'styled-components';
-
-import {
-  defaultSlippage,
-  MAX_SLIPPAGE,
-  MIN_SLIPPAGE,
-} from '../../../../common/constants/settings';
 import {
   Alert,
   Animation,
@@ -14,7 +6,15 @@ import {
   Control,
   Flex,
   Input,
-} from '../../../../ergodex-cdk';
+} from '@ergolabs/ui-kit';
+import React, { ChangeEvent, FC } from 'react';
+import styled from 'styled-components';
+
+import {
+  defaultSlippage,
+  MAX_SLIPPAGE,
+  MIN_SLIPPAGE,
+} from '../../../../common/constants/settings';
 
 export type NitroInputProps = Control<number> & { className?: string };
 

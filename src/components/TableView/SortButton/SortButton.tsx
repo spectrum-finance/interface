@@ -1,7 +1,7 @@
+import { CaretDownOutlined, CaretUpOutlined, Flex } from '@ergolabs/ui-kit';
 import React, { FC } from 'react';
 import styled from 'styled-components';
 
-import { CaretDownOutlined, CaretUpOutlined, Flex } from '../../../ergodex-cdk';
 import { SortDirection } from '../common/Sort';
 
 export interface SortButtonProps {

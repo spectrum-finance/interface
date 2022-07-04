@@ -1,12 +1,12 @@
 import './OperationForm.less';
 
+import { Button, Flex, Form, FormGroup } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
 import React, { ReactNode, useEffect, useState } from 'react';
 import { debounceTime, first, Observable } from 'rxjs';
 
 import { useObservable } from '../../common/hooks/useObservable';
 import { isOnline$ } from '../../common/streams/networkConnection';
-import { Button, Flex, Form, FormGroup } from '../../ergodex-cdk';
 import { useAssetsBalance } from '../../gateway/api/assetBalance';
 import { ConnectWalletButton } from '../common/ConnectWalletButton/ConnectWalletButton';
 

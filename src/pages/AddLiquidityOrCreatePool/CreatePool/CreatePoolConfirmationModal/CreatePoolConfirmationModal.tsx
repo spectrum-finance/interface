@@ -9,6 +9,7 @@ import {
   DefaultBoxSelector,
 } from '@ergolabs/ergo-sdk';
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
+import { Button, Divider, Flex, Modal, Typography } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 
@@ -20,13 +21,6 @@ import { InfoTooltip } from '../../../../components/InfoTooltip/InfoTooltip';
 import { PageSection } from '../../../../components/Page/PageSection/PageSection';
 import { RatioBox } from '../../../../components/RatioBox/RatioBox';
 import { Section } from '../../../../components/Section/Section';
-import {
-  Button,
-  Divider,
-  Flex,
-  Modal,
-  Typography,
-} from '../../../../ergodex-cdk';
 import { useSettings } from '../../../../gateway/settings/settings';
 import { utxos$ } from '../../../../network/ergo/api/utxos/utxos';
 import { explorer } from '../../../../services/explorer';

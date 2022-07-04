@@ -1,9 +1,9 @@
+import { Typography } from '@ergolabs/ui-kit';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { ReactComponent as LogoSVG } from '../../../assets/images/Logo.svg';
 import { ReactComponent as NoWordingLogoSVG } from '../../../assets/images/NoWordingLogo.svg';
-import { Typography } from '../../../ergodex-cdk';
 
 interface AppLogoProps {
   isNoWording?: boolean;

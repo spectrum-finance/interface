@@ -1,13 +1,6 @@
+import { Box, Flex, FlexProps, Skeleton, Typography } from '@ergolabs/ui-kit';
 import React, { ReactNode } from 'react';
 import styled from 'styled-components';
-
-import {
-  Box,
-  Flex,
-  FlexProps,
-  Skeleton,
-  Typography,
-} from '../../../ergodex-cdk';
 
 interface DataTagProps {
   className?: string;

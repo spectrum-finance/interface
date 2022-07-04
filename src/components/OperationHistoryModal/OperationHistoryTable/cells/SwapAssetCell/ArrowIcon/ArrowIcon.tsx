@@ -1,7 +1,6 @@
+import { ArrowDownOutlined, Box, Flex } from '@ergolabs/ui-kit';
 import React, { FC } from 'react';
 import styled from 'styled-components';
-
-import { ArrowDownOutlined, Box, Flex } from '../../../../../../ergodex-cdk';
 
 interface ArrowIcon {
   readonly className?: string;

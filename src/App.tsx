@@ -1,3 +1,4 @@
+import { ContextModalProvider } from '@ergolabs/ui-kit';
 import React, { Suspense, useEffect } from 'react';
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 import { BrowserRouter } from 'react-router-dom';
@@ -7,10 +8,10 @@ import { applicationConfig } from './applicationConfig';
 import { ApplicationRoutes, routesConfig } from './ApplicationRoutes';
 import { useObservable } from './common/hooks/useObservable';
 import { networkDomInitializer } from './common/initializers/networkDomInitializer';
+import { posthogInitializer } from './common/initializers/posthogInitializer';
 import { sentryInitializer } from './common/initializers/sentryInitializer';
 import { startAppTicks } from './common/streams/appTick';
 import { AppLoadingProvider, SettingsProvider } from './context';
-import { ContextModalProvider } from './ergodex-cdk';
 import { LanguageProvider } from './i18n/i18n';
 import { openCookiePolicy } from './services/notifications/CookiePolicy/CookiePolicy';
 
@@ -40,6 +41,7 @@ const Application = () => {
 
 const initializers: Observable<true>[] = [
   sentryInitializer(),
+  posthogInitializer(),
   networkDomInitializer(routesConfig),
 ];
 

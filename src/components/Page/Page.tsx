@@ -1,18 +1,18 @@
 import './Page.less';
 
-import React, { CSSProperties, ReactNode } from 'react';
-import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-
 import {
   ArrowLeftOutlined,
   Box,
   Button,
   Flex,
+  Gutter,
+  Pane,
   Typography,
-} from '../../ergodex-cdk';
-import { CupertinoPaneContainer } from '../../ergodex-cdk/components/Modal/CupertinoPaneContainer';
-import { Gutter } from '../../ergodex-cdk/utils/gutter';
+} from '@ergolabs/ui-kit';
+import React, { ReactNode } from 'react';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+
 import { useDevice } from '../../hooks/useDevice';
 
 interface PageProps {
@@ -88,7 +88,7 @@ const _Page: React.FC<PageProps> = ({
           </Flex.Item>
         )}
         <Flex justify="center" align="flex-start">
-          <CupertinoPaneContainer
+          <Pane
             visible={s && widgetOpened}
             fitHeight={false}
             initialBreak="top"
@@ -98,7 +98,7 @@ const _Page: React.FC<PageProps> = ({
             }}
           >
             {leftWidget}
-          </CupertinoPaneContainer>
+          </Pane>
           {!s && widgetOpened && <Widget>{leftWidget}</Widget>}
           <Flex col>
             <Flex.Item style={{ zIndex: 2 }}>

@@ -1,4 +1,5 @@
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
+import { Flex, Form, Skeleton, useForm } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import React, { FC, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router';
@@ -20,10 +21,9 @@ import {
 } from '../../common/hooks/useObservable';
 import { AmmPool } from '../../common/models/AmmPool';
 import { AssetInfo } from '../../common/models/AssetInfo';
-import { TokeSelectFormItem } from '../../components/common/TokenControl/TokenSelect/TokenSelect';
+import { AssetSelectFormItem } from '../../components/common/TokenControl/AssetSelect/AssetSelect';
 import { Page } from '../../components/Page/Page';
 import { Section } from '../../components/Section/Section';
-import { Flex, Form, Skeleton, useForm } from '../../ergodex-cdk';
 import {
   getAmmPoolById,
   getAmmPoolsByAssetPair,
@@ -116,6 +116,11 @@ export const AddLiquidityOrCreatePool: FC = () => {
       distinctUntilChanged((poolA, poolB) => poolA?.id === poolB?.id),
     ),
     (pool) => {
+      if (!pool) {
+        navigate('../../add');
+        return;
+      }
+
       form.patchValue(
         {
           x: pool?.x.asset,
@@ -194,10 +199,10 @@ export const AddLiquidityOrCreatePool: FC = () => {
               <Section title={t`Select Pair`}>
                 <Flex justify="center" align="center">
                   <Flex.Item marginRight={2} flex={1}>
-                    <TokeSelectFormItem name="x" assets$={xAssets$} />
+                    <AssetSelectFormItem name="x" assets$={xAssets$} />
                   </Flex.Item>
                   <Flex.Item flex={1}>
-                    <TokeSelectFormItem name="y" assets$={yAssets$} />
+                    <AssetSelectFormItem name="y" assets$={yAssets$} />
                   </Flex.Item>
                 </Flex>
               </Section>

@@ -1,8 +1,8 @@
+import { Flex, Typography } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React, { FC, ReactNode } from 'react';
 
 import { Currency } from '../../common/models/Currency';
-import { Flex, Typography } from '../../ergodex-cdk';
 import { BoxInfoItem } from '../BoxInfoItem/BoxInfoItem';
 import { InfoTooltip } from '../InfoTooltip/InfoTooltip';
 

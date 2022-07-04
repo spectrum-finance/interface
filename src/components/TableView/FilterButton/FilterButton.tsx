@@ -1,7 +1,6 @@
+import { FilterFilled } from '@ergolabs/ui-kit';
 import React, { FC } from 'react';
 import styled from 'styled-components';
-
-import { FilterFilled } from '../../../ergodex-cdk';
 
 export interface FilterIconProps {
   readonly className?: string;

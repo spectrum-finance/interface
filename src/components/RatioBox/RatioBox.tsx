@@ -1,8 +1,8 @@
+import { Box, Flex, Typography } from '@ergolabs/ui-kit';
 import React, { FC } from 'react';
 
 import { AssetInfo } from '../../common/models/AssetInfo';
 import { Ratio } from '../../common/models/Ratio';
-import { Box, Flex, Typography } from '../../ergodex-cdk';
 
 export interface RatioBoxProps {
   readonly ratio?: Ratio;

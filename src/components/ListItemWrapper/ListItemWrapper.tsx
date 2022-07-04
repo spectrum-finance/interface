@@ -1,8 +1,8 @@
+import { Box } from '@ergolabs/ui-kit';
 import React, { FC } from 'react';
 import styled from 'styled-components';
 
 import { ReactComponent as CheckedIcon } from '../../assets/icons/checked-icon.svg';
-import { Box } from '../../ergodex-cdk';
 
 interface ListItemWrapper {
   className?: string;

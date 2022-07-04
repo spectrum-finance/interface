@@ -1,8 +1,7 @@
+import { Button, MessageOutlined } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 import styled from 'styled-components';
-
-import { Button, MessageOutlined } from '../../../ergodex-cdk';
 
 export interface LeaveFeedbackProps {
   readonly className?: string;

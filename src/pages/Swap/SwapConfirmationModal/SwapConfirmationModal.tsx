@@ -1,10 +1,3 @@
-import { t, Trans } from '@lingui/macro';
-import React, { FC, useState } from 'react';
-import { Observable } from 'rxjs';
-
-import { useObservable } from '../../../common/hooks/useObservable';
-import { TxId } from '../../../common/types';
-import { TokenControlFormItem } from '../../../components/common/TokenControl/TokenControl';
 import {
   Alert,
   Button,
@@ -13,7 +6,14 @@ import {
   Form,
   Modal,
   useForm,
-} from '../../../ergodex-cdk';
+} from '@ergolabs/ui-kit';
+import { t, Trans } from '@lingui/macro';
+import React, { FC, useState } from 'react';
+import { Observable } from 'rxjs';
+
+import { useObservable } from '../../../common/hooks/useObservable';
+import { TxId } from '../../../common/types';
+import { AssetControlFormItem } from '../../../components/common/TokenControl/AssetControl';
 import { swap } from '../../../gateway/api/operations/swap';
 import { swapConfirmationInfo$ } from '../../../gateway/widgets/swapConfirmationInfo';
 import { SwapFormModel } from '../SwapFormModel';
@@ -48,7 +48,7 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
         <Form form={form} onSubmit={swapOperation}>
           <Flex direction="col">
             <Flex.Item marginBottom={1}>
-              <TokenControlFormItem
+              <AssetControlFormItem
                 readonly
                 bordered
                 noBottomInfo
@@ -58,7 +58,7 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
               />
             </Flex.Item>
             <Flex.Item marginBottom={4}>
-              <TokenControlFormItem
+              <AssetControlFormItem
                 readonly
                 bordered
                 noBottomInfo

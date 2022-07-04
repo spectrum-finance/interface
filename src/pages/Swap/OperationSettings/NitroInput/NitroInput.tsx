@@ -1,8 +1,3 @@
-import { Trans } from '@lingui/macro';
-import React, { ChangeEvent, FC } from 'react';
-import styled from 'styled-components';
-
-import { MIN_NITRO } from '../../../../common/constants/erg';
 import {
   Alert,
   Animation,
@@ -12,7 +7,12 @@ import {
   Flex,
   Input,
   Typography,
-} from '../../../../ergodex-cdk';
+} from '@ergolabs/ui-kit';
+import { Trans } from '@lingui/macro';
+import React, { ChangeEvent, FC } from 'react';
+import styled from 'styled-components';
+
+import { MIN_NITRO } from '../../../../common/constants/erg';
 import { useMaxExFee, useMinExFee } from '../../../../services/new/core';
 
 export type NitroInputProps = Control<number> & { className?: string };

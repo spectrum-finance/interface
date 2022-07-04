@@ -1,9 +1,9 @@
+import { Box, Flex, Typography } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
 import React, { FC } from 'react';
 
 import { AmmPool } from '../../../common/models/AmmPool';
 import { Truncate } from '../../../components/Truncate/Truncate';
-import { Box, Flex, Typography } from '../../../ergodex-cdk';
 
 export interface PoolPriceProps {
   readonly ammPool: AmmPool;

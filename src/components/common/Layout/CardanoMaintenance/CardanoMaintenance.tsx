@@ -1,9 +1,9 @@
+import { Flex } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 import styled from 'styled-components';
 
 import { applicationConfig } from '../../../../applicationConfig';
-import { Flex } from '../../../../ergodex-cdk';
 import { useDevice } from '../../../../hooks/useDevice';
 import { IsCardano } from '../../../IsCardano/IsCardano';
 

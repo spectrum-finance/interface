@@ -1,3 +1,4 @@
+import { Flex, Form, FormGroup, useForm } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
 import React, { FC, useEffect, useState } from 'react';
 import { skip } from 'rxjs';
@@ -6,7 +7,7 @@ import { useSubscription } from '../../../common/hooks/useObservable';
 import { AssetInfo } from '../../../common/models/AssetInfo';
 import { Currency } from '../../../common/models/Currency';
 import { Ratio } from '../../../common/models/Ratio';
-import { TokenControlFormItem } from '../../../components/common/TokenControl/TokenControl';
+import { AssetControlFormItem } from '../../../components/common/TokenControl/AssetControl';
 import {
   openConfirmationModal,
   Operation,
@@ -17,7 +18,6 @@ import {
 } from '../../../components/OperationForm/OperationForm';
 import { RatioBox } from '../../../components/RatioBox/RatioBox';
 import { Section } from '../../../components/Section/Section';
-import { Flex, Form, FormGroup, useForm } from '../../../ergodex-cdk';
 import { useAssetsBalance } from '../../../gateway/api/assetBalance';
 import { useNetworkAsset } from '../../../gateway/api/networkAsset';
 import { useMaxTotalFees } from '../../../services/new/core';
@@ -421,13 +421,13 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
           >
             <Flex col>
               <Flex.Item marginBottom={1}>
-                <TokenControlFormItem
+                <AssetControlFormItem
                   tokenName="xAsset"
                   amountName="x"
                   readonly="asset"
                 />
               </Flex.Item>
-              <TokenControlFormItem
+              <AssetControlFormItem
                 tokenName="yAsset"
                 amountName="y"
                 readonly="asset"

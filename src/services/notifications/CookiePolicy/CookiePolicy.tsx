@@ -1,10 +1,10 @@
 import './CookiePolicy.less';
 
+import { Button, Flex, notification, Typography } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
 import React from 'react';
 
 import { localStorageManager } from '../../../common/utils/localStorageManager';
-import { Button, Flex, notification, Typography } from '../../../ergodex-cdk';
 
 const COOKIE_POLICY_NOTIFICATION_KEY = 'cookie-policy';
 
@@ -28,7 +28,7 @@ export const openCookiePolicy = (): void => {
       <Flex.Item flex={1} marginRight={4}>
         <Typography.Title level={5}>
           {t`By clicking “Accept All Cookies”, you  agree to the storing of cookies
-          on your device to enhance site navigation, analyse site usage, and
+          on your device to enhance site navigation, analyse app usage, and
           assist in our marketing efforts.`}
         </Typography.Title>
       </Flex.Item>

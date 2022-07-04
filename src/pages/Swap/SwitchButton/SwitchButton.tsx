@@ -1,7 +1,6 @@
+import { Button, ButtonProps } from '@ergolabs/ui-kit';
 import React from 'react';
 import styled from 'styled-components';
-
-import { Button, ButtonProps } from '../../../ergodex-cdk';
 
 export type SwitchButtonProps = ButtonProps;
 

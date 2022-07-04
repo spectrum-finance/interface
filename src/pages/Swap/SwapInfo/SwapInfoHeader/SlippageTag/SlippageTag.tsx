@@ -1,9 +1,9 @@
+import { Box, Typography } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React from 'react';
 import { FC } from 'react';
 import styled from 'styled-components';
 
-import { Box, Typography } from '../../../../../ergodex-cdk';
 import { useSettings } from '../../../../../gateway/settings/settings';
 
 interface SlippageTagProps {

@@ -1,7 +1,3 @@
-import { Trans } from '@lingui/macro';
-import React, { ChangeEvent, FC } from 'react';
-
-import { defaultMinerFee } from '../../../../../common/constants/settings';
 import {
   Alert,
   Animation,
@@ -9,7 +5,11 @@ import {
   Control,
   Flex,
   Input,
-} from '../../../../../ergodex-cdk';
+} from '@ergolabs/ui-kit';
+import { Trans } from '@lingui/macro';
+import React, { ChangeEvent, FC } from 'react';
+
+import { defaultMinerFee } from '../../../../../common/constants/settings';
 
 export type MinerFeeInputProps = Control<number>;
 

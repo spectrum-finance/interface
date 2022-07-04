@@ -1,8 +1,8 @@
+import { Button, DollarOutlined, Modal } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React, { CSSProperties, FC } from 'react';
 import styled from 'styled-components';
 
-import { Button, DollarOutlined, Modal } from '../../../ergodex-cdk';
 import { FaucetModal } from '../../FaucetModal/FaucetModal';
 
 export interface GetTestTokensButtonProps {

@@ -1,7 +1,7 @@
+import { Flex, Typography } from '@ergolabs/ui-kit';
 import { DateTime } from 'luxon';
 import React, { FC } from 'react';
 
-import { Flex, Typography } from '../../../../../ergodex-cdk';
 import { DateTimeView } from '../../../../common/DateTimeView/DateTimeView';
 
 export interface DateTimeCellProps {
