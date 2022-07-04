@@ -2,7 +2,6 @@ import './assets/styles/styles.less';
 
 import * as Sentry from '@sentry/react';
 import { Integrations } from '@sentry/tracing';
-import posthog from 'posthog-js';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -16,10 +15,10 @@ Sentry.init({
   tracesSampleRate: 1.0,
 });
 
-posthog.init('phc_W0I06T1ivqb8JfKzDJco6wkJDYuO71p71KjcNkkOelb', {
-  api_host: 'https://posthog.spectrum.fi',
-  autocapture: true,
-});
+// posthog.init('phc_W0I06T1ivqb8JfKzDJco6wkJDYuO71p71KjcNkkOelb', {
+//   api_host: 'https://posthog.spectrum.fi',
+//   autocapture: true,
+// });
 
 ReactDOM.render(
   <React.StrictMode>
