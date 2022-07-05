@@ -41,6 +41,7 @@ jobs:
           path: build
           retentions_days: 1
   deploy:
+    needs: build
     name: Deploy to Dev
     runs-on: ubuntu-latest
     timeout-minutes: 5
