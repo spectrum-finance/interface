@@ -57,7 +57,7 @@ jobs:
           remote: /var/www/refactored
           host: ${{secrets.HOST}}
           username: ${{secrets.USERNAME}}
-          key: ${{secrets.KEY}}
+          privateKey: ${{secrets.KEY}}
       # - name: Deploy
       #   uses: appleboy/ssh-action@master
       #   with:
