@@ -10,10 +10,18 @@ import {
   Typography,
 } from '@ergolabs/ui-kit';
 import React, { CSSProperties, ReactNode } from 'react';
+import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { useDevice } from '../../hooks/useDevice';
+
+class Portal extends React.Component<{ root: HTMLElement }> {
+  render() {
+    const { children, root } = this.props;
+    return createPortal(children, root);
+  }
+}
 
 interface PageProps {
   width?: CSSProperties['width'];
@@ -88,15 +96,19 @@ const _Page: React.FC<PageProps> = ({
           </Flex.Item>
         )}
         <Flex justify="center" align="flex-start">
-          <Pane
-            visible={s && widgetOpened}
-            events={{
-              onBackdropTap: () => onWidgetClose?.(),
-              onDidDismiss: () => onWidgetClose?.(),
-            }}
-          >
-            {leftWidget}
-          </Pane>
+          {s && (
+            <Portal root={document.body}>
+              <Pane
+                visible={widgetOpened}
+                events={{
+                  onBackdropTap: () => onWidgetClose?.(),
+                  onDidDismiss: () => onWidgetClose?.(),
+                }}
+              >
+                {leftWidget}
+              </Pane>
+            </Portal>
+          )}
           {!s && widgetOpened && <Widget>{leftWidget}</Widget>}
           <Flex col>
             <Flex.Item style={{ zIndex: 2 }}>
