@@ -1836,13 +1836,14 @@
     mathjs "^9.4.4"
     ramda "0.27.1"
 
-"@ergolabs/ui-kit@^1.0.36":
-  version "1.0.36"
-  resolved "https://registry.yarnpkg.com/@ergolabs/ui-kit/-/ui-kit-1.0.36.tgz#0a431f5d25d06c122b144cc218822867f58de12b"
-  integrity sha512-QDjVRmXeaPd8/ZbLS5yIT5CVhgmRwOHBpziyZpcwUqBJhxf4jWo1+mAJbea/FzW4umDqOV1XiAGVAYnoe5PPrg==
+"@ergolabs/ui-kit@^1.0.37":
+  version "1.0.37"
+  resolved "https://registry.yarnpkg.com/@ergolabs/ui-kit/-/ui-kit-1.0.37.tgz#174a8a6206fcaafd2d3718c7d036b5db995b9f98"
+  integrity sha512-e8FscjkK8XjdaMeU5f7W3b5Pg6I5oqifiMaG5Iaxfku2CJLH2/gve1W6FDxguZZD3T1T4SS73v+SsIBagFRhgA==
   dependencies:
     antd "^4.17.0-alpha.5"
     classnames "^2.3.1"
+    cupertino-pane "1.2.91"
     luxon "^2.3.1"
     styled-components "^5.3.3"
 
@@ -6847,7 +6848,7 @@ csstype@^3.0.2:
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.0.10.tgz#2ad3a7bed70f35b965707c092e5f30b327c290e5"
   integrity sha512-2u44ZG2OcNUO9HDp/Jl8C07x6pU/eTR3ncV91SiK3dhG9TWvRVsCoJw14Ckx5DgWkzGA3waZWO3d7pgqpUI/XA==
 
-cupertino-pane@^1.2.91:
+cupertino-pane@1.2.91:
   version "1.2.91"
   resolved "https://registry.yarnpkg.com/cupertino-pane/-/cupertino-pane-1.2.91.tgz#9a14244ed4df624a6bc895eef44ea33551cfe491"
   integrity sha512-S3S8rITY0gJdU5cqBTqdSxzdJCOd637pezlURPwtm3UJEy4EoVK6cNF3S/Uw+ySjoqn03k/6MW8Vd2p7UofRzA==

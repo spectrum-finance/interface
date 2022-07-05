@@ -18,7 +18,6 @@ import {
 import { t } from '@lingui/macro';
 import { stringify } from 'qs';
 import React, { useState } from 'react';
-import { isMobile } from 'react-device-detect';
 import { Link, useLocation } from 'react-router-dom';
 
 import { ReactComponent as DarkModeOutlined } from '../../../assets/icons/darkmode.svg';

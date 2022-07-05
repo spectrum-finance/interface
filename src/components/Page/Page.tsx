@@ -9,7 +9,7 @@ import {
   Pane,
   Typography,
 } from '@ergolabs/ui-kit';
-import React, { ReactNode } from 'react';
+import React, { CSSProperties, ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -90,8 +90,6 @@ const _Page: React.FC<PageProps> = ({
         <Flex justify="center" align="flex-start">
           <Pane
             visible={s && widgetOpened}
-            fitHeight={false}
-            initialBreak="top"
             events={{
               onBackdropTap: () => onWidgetClose?.(),
               onDidDismiss: () => onWidgetClose?.(),
