@@ -39,7 +39,7 @@ jobs:
         with: 
           name: ${{env.GITHUB_SHA}}
           path: build
-          retentions_days: 1
+          retention-days: 1
   deploy:
     needs: build
     name: Deploy to Dev
