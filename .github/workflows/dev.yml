@@ -37,7 +37,7 @@ jobs:
       - name: Store Artifacts
         uses: actions/upload-artifact@v3
         with: 
-          name: ${{GITHUB_SHA}}
+          name: ${{env.GITHUB_SHA}}
           path: build
           retentions_days: 1
   deploy:
@@ -48,7 +48,7 @@ jobs:
       - name: Extract Artifacts
         uses: actions/download-artifact@v3
         with:
-          name: ${{GITHUB_SHA}}
+          name: ${{env.GITHUB_SHA}}
       - name: Deploy to host
         uses: garygrossgarten/github-action-scp@release
         with:
