@@ -18,7 +18,6 @@ import {
 import { t } from '@lingui/macro';
 import { stringify } from 'qs';
 import React, { useState } from 'react';
-import { isMobile } from 'react-device-detect';
 import { Link, useLocation } from 'react-router-dom';
 
 import { ReactComponent as DarkModeOutlined } from '../../../assets/icons/darkmode.svg';
@@ -29,6 +28,7 @@ import {
 import { useObservable } from '../../../common/hooks/useObservable';
 import { useSettings } from '../../../context';
 import { globalSettingsModal$ } from '../../../gateway/widgets/globalSettingsModal';
+import { useDevice } from '../../../hooks/useDevice';
 import { useQuery } from '../../../hooks/useQuery';
 import { DotsIcon } from '../../common/Icons/DotsIcon';
 import { ThemeSwitch } from '../../ThemeSwitch/ThemeSwitch';
@@ -38,6 +38,7 @@ const MENU_WIDTH = 160;
 
 const BurgerMenu = (): JSX.Element => {
   const [GlobalSettingsModal] = useObservable(globalSettingsModal$);
+  const { s } = useDevice();
   const [isMainMenu, setIsMainMenu] = useState<boolean>(true);
   const [isMenuVisible, setMenuVisible] = useState<boolean>(false);
   const [settings, setSettings] = useSettings();
@@ -110,7 +111,7 @@ const BurgerMenu = (): JSX.Element => {
               key={index + 1}
               icon={item.icon}
               style={{
-                display: isMobile && item.isNotRenderMobile ? 'none' : '',
+                display: s && item.isNotRenderMobile ? 'none' : '',
               }}
             >
               {item.onClick ? (
