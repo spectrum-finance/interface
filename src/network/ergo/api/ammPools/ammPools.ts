@@ -1,4 +1,5 @@
 import { AmmPool as BaseAmmPool } from '@ergolabs/ergo-dex-sdk';
+import { DateTime } from 'luxon';
 import {
   catchError,
   combineLatest,
@@ -20,6 +21,7 @@ import { AmmPool } from '../../../../common/models/AmmPool';
 import { getAggregatedPoolAnalyticsDataById24H } from '../../../../common/streams/poolAnalytic';
 import { verifiedAssets$ } from '../../../../common/streams/verifiedAssets';
 import { networkContext$ } from '../networkContext/networkContext';
+import { getPoolChartDataRaw } from '../poolChart/poolChart';
 import { ErgoAmmPool } from './ErgoAmmPool';
 import { nativeNetworkPools, networkPools } from './utils';
 
@@ -43,11 +45,19 @@ const toAmmPool = (p: BaseAmmPool): Observable<AmmPool> =>
     getAggregatedPoolAnalyticsDataById24H(p.id).pipe(
       catchError(() => of(undefined)),
     ),
+    getPoolChartDataRaw(p.id, {
+      from: DateTime.now().minus({ day: 1 }).valueOf(),
+    }),
     verifiedAssets$,
   ]).pipe(
     map(
-      ([poolAnalytics, verifiedAssets]) =>
-        new ErgoAmmPool(p, poolAnalytics, isPoolVerified(p, verifiedAssets)),
+      ([poolAnalytics, rawChartData, verifiedAssets]) =>
+        new ErgoAmmPool(
+          p,
+          poolAnalytics,
+          rawChartData,
+          isPoolVerified(p, verifiedAssets),
+        ),
     ),
   );
 

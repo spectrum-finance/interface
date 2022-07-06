@@ -1,10 +1,5 @@
 import './NetworkDropdown.less';
 
-import { Trans } from '@lingui/macro';
-import cn from 'classnames';
-import capitalize from 'lodash/capitalize';
-import React from 'react';
-
 import {
   Button,
   DownOutlined,
@@ -12,7 +7,12 @@ import {
   Flex,
   Menu,
   Typography,
-} from '../../../ergodex-cdk';
+} from '@ergolabs/ui-kit';
+import { Trans } from '@lingui/macro';
+import cn from 'classnames';
+import capitalize from 'lodash/capitalize';
+import React from 'react';
+
 import {
   changeSelectedNetwork,
   networks,

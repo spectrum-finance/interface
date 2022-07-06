@@ -1,25 +1,14 @@
+// TODO: IMPORT_TO_LESS_DOESNT_WORK
+import '@ergolabs/ui-kit/dist/styles/fonts/fonts.less';
 import './assets/styles/styles.less';
 
-import * as Sentry from '@sentry/react';
-import { Integrations } from '@sentry/tracing';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
 import { ApplicationInitializer } from './App';
 import { reportWebVitals } from './reportWebVitals';
 
-Sentry.init({
-  dsn: process.env.REACT_APP_SENTRY_DSN,
-  integrations: [new Integrations.BrowserTracing()],
-  environment: process.env.REACT_APP_SENTRY_ENV_FLAG,
-  tracesSampleRate: 1.0,
-});
-
-// posthog.init('phc_W0I06T1ivqb8JfKzDJco6wkJDYuO71p71KjcNkkOelb', {
-//   api_host: 'https://posthog.spectrum.fi',
-//   autocapture: true,
-// });
-
+// TODO: fix toggle-group behavior after switch to react v18 root api.
 ReactDOM.render(
   <React.StrictMode>
     <ApplicationInitializer />

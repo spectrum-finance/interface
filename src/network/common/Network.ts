@@ -19,6 +19,7 @@ export interface Network<
     NetworkUtils,
     NetworkSettings<S> {
   readonly name: 'ergo' | 'cardano';
+  readonly favicon: string;
   readonly label: string;
   readonly convenientAssetDefaultPreview: string;
   readonly networkAsset: AssetInfo;

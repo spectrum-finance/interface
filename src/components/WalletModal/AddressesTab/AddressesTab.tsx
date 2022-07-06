@@ -1,12 +1,12 @@
 import './AddressTab.less';
 
+import { Box, Button, Flex, List, Typography } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
 import React, { useEffect, useState } from 'react';
 
 import { useObservable } from '../../../common/hooks/useObservable';
 import { Currency } from '../../../common/models/Currency';
 import { Address } from '../../../common/types';
-import { Box, Button, Flex, List, Typography } from '../../../ergodex-cdk';
 import { addresses$ } from '../../../gateway/api/addresses';
 import { useSelectedNetwork } from '../../../gateway/common/network';
 import { setSettings, useSettings } from '../../../gateway/settings/settings';
@@ -78,7 +78,7 @@ const AddressListItem: React.FC<AddressListItemProps> = ({
         </Flex.Item>
         <Flex.Item>
           <Typography.Text strong>
-            {addressBalance.toCurrencyString(2)}
+            {addressBalance.toCurrencyString(2, 2)}
           </Typography.Text>
         </Flex.Item>
         <Flex.Item grow>

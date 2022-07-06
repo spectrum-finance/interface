@@ -1,11 +1,10 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+import { Form, FormGroup } from '@ergolabs/ui-kit';
 import React, { FC, ReactNode, useEffect, useState } from 'react';
 import { debounceTime, first, Observable } from 'rxjs';
 
 import { useObservable } from '../../../common/hooks/useObservable';
 import { Currency } from '../../../common/models/Currency';
 import { isOnline$ } from '../../../common/streams/networkConnection';
-import { Form, FormGroup } from '../../../ergodex-cdk';
 import { useAssetsBalance } from '../../../gateway/api/assetBalance';
 import { ActionButton } from './ActionButton/ActionButton';
 import { ActionButtonState, ActionFormContext } from './ActionFormContext';

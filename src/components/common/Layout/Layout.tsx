@@ -1,11 +1,10 @@
 import './Layout.less';
 
-import React, { useEffect, useRef } from 'react';
-import { isBrowser } from 'react-device-detect';
+import { Modal } from '@ergolabs/ui-kit';
+import React, { FC, PropsWithChildren, useEffect, useRef } from 'react';
 
 import { applicationConfig } from '../../../applicationConfig';
 import { useAppLoadingState, useSettings } from '../../../context';
-import { Modal } from '../../../ergodex-cdk';
 import { useSelectedNetwork } from '../../../gateway/common/network';
 import { useBodyClass } from '../../../hooks/useBodyClass';
 import { Header } from '../../Header/Header';
@@ -13,12 +12,11 @@ import { NetworkHeight } from '../../NetworkHeight/NetworkHeight';
 import { SocialLinks } from '../../SocialLinks/SocialLinks';
 import { KyaModal } from '../KyaModal/KyaModal';
 import { CardanoUpdate } from './CardanoUpdate/CardanoUpdate';
+import { FooterNavigation } from './FooterNavigation/FooterNavigation';
 
-interface Props {
-  children: React.ReactChild | React.ReactChild[];
-}
-
-const Layout = ({ children }: Props): JSX.Element => {
+const Layout: FC<PropsWithChildren<Record<string, unknown>>> = ({
+  children,
+}) => {
   const [{ theme }] = useSettings();
   const [network] = useSelectedNetwork();
   const ref = useRef<HTMLDivElement>(null);
@@ -28,7 +26,7 @@ const Layout = ({ children }: Props): JSX.Element => {
   const [{ isKYAAccepted }] = useAppLoadingState();
 
   useEffect(() => {
-    if (!isKYAAccepted && isBrowser) {
+    if (!isKYAAccepted) {
       Modal.open(({ close }) => <KyaModal onClose={close} />);
     }
   }, [isKYAAccepted]);
@@ -46,6 +44,7 @@ const Layout = ({ children }: Props): JSX.Element => {
             <SocialLinks />
             <NetworkHeight />
           </footer>
+          <FooterNavigation />
         </>
       )}
     </div>

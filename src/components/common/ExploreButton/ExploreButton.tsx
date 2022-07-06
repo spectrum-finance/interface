@@ -1,12 +1,12 @@
 import './ExploreButton.less';
 
 import { Address, TxId } from '@ergolabs/ergo-sdk';
+import { Button, Tooltip } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
 import cn from 'classnames';
 import React, { ReactNode } from 'react';
 
 import { ReactComponent as ExploreIcon } from '../../../assets/icons/icon-explore.svg';
-import { Button, Tooltip } from '../../../ergodex-cdk';
 import {
   exploreAddress,
   exploreTx,

@@ -1,7 +1,7 @@
+import { Typography } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
 import React, { FC } from 'react';
 
-import { Typography } from '../../../../ergodex-cdk';
 import { SwapFormModel } from '../../SwapFormModel';
 import { SwapInfoItem } from '../SwapInfoItem/SwapInfoItem';
 

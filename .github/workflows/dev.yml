@@ -1,26 +1,60 @@
 name: Run on dev
-on: 
+on:
   push:
     branches:
       - "dev"
 jobs:
-  deploy:
-    name: Dev deploy
+  build:
+    name: Build Artifacts
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
-      - name: Deploy
-        uses: appleboy/ssh-action@master
+
+      - name: Build Artifacts
+        uses: actions/checkout@v3
+
+      - name: Init Node.js
+        uses: actions/setup-node@v1
         with:
-          host: ${{secrets.HOST}}
-          username: ${{secrets.USERNAME}}
-          key: ${{secrets.KEY}}
-          script: source ~/.nvm/nvm.sh; cd /var/www/builds/front-dev; git pull origin dev; yarn; yarn run prei18n:extract; yarn run i18n:extract; yarn run i18n:compile; yarn build;
-          
-      - name: Release
-        uses: appleboy/ssh-action@master
+          node-version: 16.x
+
+      - name: Up Caches
+        uses: actions/cache@v2
         with:
-          host: ${{secrets.HOST}}
-          username: ${{secrets.USERNAME}}
-          key: ${{secrets.KEY}}
-          script: cp -r /var/www/builds/front-dev/build/. /var/www/dev0
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      
+      - name: Generate deployable artifacts
+        run: |
+          yarn
+          yarn run prei18n:extract
+          yarn run i18n:extract
+          yarn run i18n:compile
+          CI=false yarn build
+      - name: Store Artifacts
+        uses: actions/upload-artifact@v3
+        with: 
+          name: ${{ github.sha }}
+          path: build
+          retention-days: 1
+  deploy:
+    needs: build
+    name: Deploy to Dev
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Extract Artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ github.sha }}
+          path: ~/build
+      - name: Deploy to host
+        uses: garygrossgarten/github-action-scp@release
+        with:
+          local: /home/runner/build
+          remote: /var/www/dev0
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          privateKey: ${{ secrets.KEY }}
+      
 

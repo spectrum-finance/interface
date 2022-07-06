@@ -1,4 +1,4 @@
-import { uniqBy } from 'lodash';
+import uniqBy from 'lodash/uniqBy';
 import { map, Observable, publishReplay, refCount } from 'rxjs';
 
 import { AssetInfo } from '../../common/models/AssetInfo';

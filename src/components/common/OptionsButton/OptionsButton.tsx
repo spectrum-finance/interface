@@ -1,7 +1,6 @@
-import { Menu } from 'antd';
+import { Box, Button, Dropdown, Menu } from '@ergolabs/ui-kit';
 import React, { FC, ReactNode } from 'react';
 
-import { Box, Button, Dropdown } from '../../../ergodex-cdk';
 import { DotsIcon } from '../Icons/DotsIcon';
 
 type Placement =
@@ -40,7 +39,7 @@ const OptionsButton: FC<OptionsButtonProps> = ({
       <Button
         type={type ? type : 'default'}
         size={size ? size : 'middle'}
-        icon={<DotsIcon rotate />}
+        icon={<DotsIcon />}
         onClick={(event) => event.stopPropagation()}
       />
     </Dropdown>

@@ -1,4 +1,13 @@
-import { LoadingOutlined } from '@ant-design/icons';
+import {
+  Button,
+  DownOutlined,
+  Dropdown,
+  Flex,
+  LoadingOutlined,
+  Menu,
+  Modal,
+  Typography,
+} from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React, { useEffect, useState } from 'react';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
@@ -7,15 +16,6 @@ import { defer, switchMap } from 'rxjs';
 import { useObservable } from '../../common/hooks/useObservable';
 import { Currency } from '../../common/models/Currency';
 import { localStorageManager } from '../../common/utils/localStorageManager';
-import {
-  Button,
-  DownOutlined,
-  Dropdown,
-  Flex,
-  Menu,
-  Modal,
-  Typography,
-} from '../../ergodex-cdk';
 import {
   availableAssets$,
   requestTestnetAsset,

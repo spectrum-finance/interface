@@ -1,27 +1,34 @@
+import { Flex } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 import styled from 'styled-components';
 
 import { applicationConfig } from '../../../../applicationConfig';
-import { Flex } from '../../../../ergodex-cdk';
+import { useDevice } from '../../../../hooks/useDevice';
 import { IsCardano } from '../../../IsCardano/IsCardano';
 
 export interface CardanoMaintenanceProps {
   readonly className?: string;
 }
 
-const _CardanoMaintenance: FC<CardanoMaintenanceProps> = ({ className }) => (
-  <IsCardano>
-    {applicationConfig.cardanoMaintenance && (
-      <Flex className={className} align="center" justify="center">
-        <Trans>
-          Cardano testnet is under maintenance. Some operations may not work as
-          expected. We are working on it.
-        </Trans>
-      </Flex>
-    )}
-  </IsCardano>
-);
+const _CardanoMaintenance: FC<CardanoMaintenanceProps> = ({ className }) => {
+  const { s, m } = useDevice();
+  if (s || m) {
+    return null;
+  }
+  return (
+    <IsCardano>
+      {applicationConfig.cardanoMaintenance && (
+        <Flex className={className} align="center" justify="center">
+          <Trans>
+            Cardano testnet is under maintenance. Some operations may not work
+            as expected. We are working on it.
+          </Trans>
+        </Flex>
+      )}
+    </IsCardano>
+  );
+};
 
 export const CardanoMaintenance = styled(_CardanoMaintenance)`
   height: 30px;

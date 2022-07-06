@@ -1,8 +1,8 @@
+import { Flex, Typography } from '@ergolabs/ui-kit';
 import React, { ReactNode } from 'react';
 
 import { Position } from '../../../common/models/Position';
-import { Flex, Typography } from '../../../ergodex-cdk';
-import { TokenIconPair } from '../../AssetIconPair/TokenIconPair';
+import { AssetIconPair } from '../../AssetIconPair/AssetIconPair';
 import { OptionsButton } from '../../common/OptionsButton/OptionsButton';
 import { Truncate } from '../../Truncate/Truncate';
 import { VerificationMark } from '../../VerificationMark/VerificationMark';
@@ -23,7 +23,7 @@ const PageHeader: React.FC<FormHeaderProps> = ({
     <Flex justify="space-between" align="center">
       <Flex align="center">
         <Flex.Item display="flex" marginRight={2}>
-          <TokenIconPair
+          <AssetIconPair
             assetX={position.availableX.asset}
             assetY={position.availableY.asset}
           />

@@ -1,16 +1,4 @@
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
-import { t, Trans } from '@lingui/macro';
-import React, { useEffect } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
-
-import { applicationConfig } from '../../applicationConfig';
-import { ReactComponent as RelockIcon } from '../../assets/icons/relock-icon.svg';
-import { ReactComponent as WithdrawalIcon } from '../../assets/icons/withdrawal-icon.svg';
-import { useSubject } from '../../common/hooks/useObservable';
-import { FormPairSection } from '../../components/common/FormView/FormPairSection/FormPairSection';
-import { Page } from '../../components/Page/Page';
-import { PageHeader } from '../../components/Page/PageHeader/PageHeader';
-import { PageSection } from '../../components/Page/PageSection/PageSection';
 import {
   Alert,
   Button,
@@ -20,48 +8,53 @@ import {
   PlusOutlined,
   Skeleton,
   Typography,
-} from '../../ergodex-cdk';
+} from '@ergolabs/ui-kit';
+import { t, Trans } from '@lingui/macro';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import { applicationConfig } from '../../applicationConfig';
+import { ReactComponent as RelockIcon } from '../../assets/icons/relock-icon.svg';
+import { ReactComponent as WithdrawalIcon } from '../../assets/icons/withdrawal-icon.svg';
+import { useObservable } from '../../common/hooks/useObservable';
+import { useParamsStrict } from '../../common/hooks/useParamsStrict';
+import { FormPairSection } from '../../components/common/FormView/FormPairSection/FormPairSection';
+import { Page } from '../../components/Page/Page';
+import { PageHeader } from '../../components/Page/PageHeader/PageHeader';
+import { PageSection } from '../../components/Page/PageSection/PageSection';
 import { getPositionByAmmPoolId } from '../../gateway/api/positions';
 import { useSelectedNetwork } from '../../gateway/common/network';
+import { useGuard } from '../../hooks/useGuard';
 import { getAmmPoolConfidenceAnalyticByAmmPoolId } from './AmmPoolConfidenceAnalytic';
 import { LockLiquidityChart } from './LockLiquidityChart/LockLiquidityChart';
 import { PoolFeeTag } from './PoolFeeTag/PoolFeeTag';
 import { PoolRatio } from './PoolRatio/PoolRatio';
 
-interface URLParamTypes {
-  poolId: PoolId;
-}
-
 const MIN_RELEVANT_LOCKS_PCT = 1;
 
 export const PoolOverview: React.FC = () => {
-  const history = useHistory();
-  const { poolId } = useParams<URLParamTypes>();
+  const navigate = useNavigate();
+  const { poolId } = useParamsStrict<{ poolId: PoolId }>();
   const [selectedNetwork] = useSelectedNetwork();
-  const [position, updatePosition] = useSubject(getPositionByAmmPoolId, []);
-  const [poolConfidenceAnalytic, updatePoolConfidenceAnalytic] = useSubject(
-    getAmmPoolConfidenceAnalyticByAmmPoolId,
+  const [position, loading] = useObservable(getPositionByAmmPoolId(poolId));
+  const [poolConfidenceAnalytic] = useObservable(
+    getAmmPoolConfidenceAnalyticByAmmPoolId(poolId),
   );
 
-  useEffect(() => {
-    updatePosition(poolId);
-    updatePoolConfidenceAnalytic(poolId);
-  }, []);
+  useGuard(position, loading, () => navigate('../../../pool'));
 
-  const handleLockLiquidity = () => history.push(`/pool/${poolId}/lock`);
+  const handleLockLiquidity = () => navigate(`lock`);
 
-  const handleRemovePositionClick = () =>
-    history.push(`/pool/${poolId}/remove`);
+  const handleRemovePositionClick = () => navigate(`remove`);
 
-  const handleAddLiquidity = () => history.push(`/pool/${poolId}/add`);
+  const handleAddLiquidity = () => navigate(`add`);
 
-  const handleRelockLiquidity = () => history.push(`/pool/${poolId}/relock`);
+  const handleRelockLiquidity = () => navigate(`relock`);
 
-  const handleWithdrawalLiquidity = () =>
-    history.push(`/pool/${poolId}/withdrawal`);
+  const handleWithdrawalLiquidity = () => navigate(`withdrawal`);
 
   return (
-    <Page title={t`Pool overview`} width={600} withBackButton backTo="/pool">
+    <Page title={t`Pool overview`} width={620} withBackButton backTo="/pool">
       {position && poolConfidenceAnalytic ? (
         <Flex col>
           <Flex.Item marginBottom={5}>

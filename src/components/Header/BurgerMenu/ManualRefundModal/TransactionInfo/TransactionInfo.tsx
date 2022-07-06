@@ -1,8 +1,8 @@
+import { Alert, Button, Flex } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 
 import { useObservable } from '../../../../../common/hooks/useObservable';
-import { Alert, Button, Flex } from '../../../../../ergodex-cdk';
 import { addresses$ } from '../../../../../gateway/api/addresses';
 import { RefundConfirmationModal } from '../../../../common/TxHistory/RefundConfirmationModal/RefundConfirmationModal';
 import { Operation } from '../../../../common/TxHistory/types';

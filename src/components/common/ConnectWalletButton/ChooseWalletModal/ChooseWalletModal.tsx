@@ -1,20 +1,20 @@
-import { Trans } from '@lingui/macro';
-import React, { ReactNode, useState } from 'react';
-import styled from 'styled-components';
-
-import { useObservable } from '../../../../common/hooks/useObservable';
 import {
   Alert,
   Box,
   Button,
   Checkbox,
-  DialogRef,
   Flex,
   LogoutOutlined,
   Modal,
+  ModalRef,
   Tag,
   Typography,
-} from '../../../../ergodex-cdk';
+} from '@ergolabs/ui-kit';
+import { Trans } from '@lingui/macro';
+import React, { ReactNode, useState } from 'react';
+import styled from 'styled-components';
+
+import { useObservable } from '../../../../common/hooks/useObservable';
 import {
   connectWallet,
   disconnectWallet,
@@ -170,7 +170,7 @@ const WalletView: React.FC<WalletItemProps> = ({ wallet, close }) => {
   }
 };
 
-type ChooseWalletModalProps = DialogRef<boolean>;
+type ChooseWalletModalProps = ModalRef<boolean>;
 
 const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
   close,

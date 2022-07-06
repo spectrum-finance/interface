@@ -1,13 +1,8 @@
+import { Button, Flex, ToolOutlined, Typography } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 
 import { applicationConfig } from '../../../../applicationConfig';
-import {
-  Button,
-  Flex,
-  ToolOutlined,
-  Typography,
-} from '../../../../ergodex-cdk';
 import { changeSelectedNetwork } from '../../../../gateway/common/network';
 import { ergoNetwork } from '../../../../network/ergo/ergo';
 

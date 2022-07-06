@@ -1,12 +1,7 @@
+import { DownOutlined, Flex, Typography, UpOutlined } from '@ergolabs/ui-kit';
 import React, { FC } from 'react';
 import styled from 'styled-components';
 
-import {
-  DownOutlined,
-  Flex,
-  Typography,
-  UpOutlined,
-} from '../../../../ergodex-cdk';
 import { SwapFormModel } from '../../SwapFormModel';
 import { RatioView } from './RatioView/RatioView';
 import { SlippageTag } from './SlippageTag/SlippageTag';

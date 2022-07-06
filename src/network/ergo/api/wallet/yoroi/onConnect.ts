@@ -1,6 +1,6 @@
+import { notification } from '@ergolabs/ui-kit';
 import Cookies from 'js-cookie';
 
-import { notification } from '../../../../../ergodex-cdk';
 import { MESSAGE_COOKIE } from './common';
 
 export const onConnect = (): void => {

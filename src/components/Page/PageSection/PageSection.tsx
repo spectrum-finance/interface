@@ -1,6 +1,6 @@
+import { Flex, Typography } from '@ergolabs/ui-kit';
 import React from 'react';
 
-import { Flex, Typography } from '../../../ergodex-cdk';
 import { FormSpace } from '../../common/FormView/FormSpace/FormSpace';
 
 interface FormSectionProps {

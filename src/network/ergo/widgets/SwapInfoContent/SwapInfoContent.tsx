@@ -1,9 +1,9 @@
+import { Divider, Flex } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
 import React, { FC } from 'react';
 
 import { calculateOutputs } from '../../../../common/utils/calculateOutputs';
 import { Truncate } from '../../../../components/Truncate/Truncate';
-import { Divider, Flex } from '../../../../ergodex-cdk';
 import { SwapFormModel } from '../../../../pages/Swap/SwapFormModel';
 import { SwapInfoItem } from '../../../../pages/Swap/SwapInfo/SwapInfoItem/SwapInfoItem';
 import { SwapInfoPriceImpact } from '../../../../pages/Swap/SwapInfo/SwapInfoPriceImpact/SwapInfoPriceImpact';

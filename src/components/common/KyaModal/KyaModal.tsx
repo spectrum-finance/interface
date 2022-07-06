@@ -1,21 +1,20 @@
+import { Button, Flex, Modal, Typography } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React, { useCallback } from 'react';
 
 import { useAppLoadingState } from '../../../context';
-import { Button, Modal, Typography } from '../../../ergodex-cdk';
-import { Flex } from '../../../ergodex-cdk';
 
 interface KyaModalProps {
   onClose: () => void;
 }
 
 const KyaModal: React.FC<KyaModalProps> = ({ onClose }): JSX.Element => {
-  const [, setIsKyaAssepted] = useAppLoadingState();
+  const [, setIsKyaAccepted] = useAppLoadingState();
 
   const handleConfirm = useCallback(() => {
-    setIsKyaAssepted({ isKYAAccepted: true });
+    setIsKyaAccepted({ isKYAAccepted: true });
     onClose();
-  }, [setIsKyaAssepted, onClose]);
+  }, [setIsKyaAccepted, onClose]);
   return (
     <>
       <Modal.Title>Know Your Assumptions</Modal.Title>
@@ -25,14 +24,10 @@ const KyaModal: React.FC<KyaModalProps> = ({ onClose }): JSX.Element => {
             <Typography.Body>
               <Trans>
                 ErgoDEX is a decentralized financial (DeFi) application which
-                means it doesn’t have a central government body. ErgoDEX
-                includes AMM (Swap, Add liquidity and Remove liquidity)
-                functionality{' '}
+                means it does not have a central government body. ErgoDEX
+                includes AMM functionality (Swap, Add Liquidity and Remove
+                Liquidity) on top of the Ergo and Cardano Blockchains.
               </Trans>
-
-              <Typography.Body strong>
-                <Trans>only on top of the Ergo Blockchain.</Trans>
-              </Typography.Body>
             </Typography.Body>
           </Flex.Item>
           <Flex.Item>
@@ -43,7 +38,7 @@ const KyaModal: React.FC<KyaModalProps> = ({ onClose }): JSX.Element => {
           <Flex.Item>
             <Typography.Body>
               <Trans>
-                1. You will use the product at your own peril and risk;
+                1. You will use the ErgoDEX product at your own peril and risk;
               </Trans>
             </Typography.Body>
           </Flex.Item>
@@ -54,17 +49,22 @@ const KyaModal: React.FC<KyaModalProps> = ({ onClose }): JSX.Element => {
           </Flex.Item>
           <Flex.Item marginBottom={4}>
             <Typography.Body>
-              3.{' '}
-              <Button
-                type="link"
-                style={{ padding: '0', lineHeight: '16px', height: '100%' }}
+              <Trans>3. ErgoDEX Smart Contracts meet your expectations.</Trans>
+              {' ('}
+              <Typography.Link
                 href="https://github.com/ergolabs/ergo-dex"
                 target="_blank"
-                rel="noreferrer"
               >
-                <Trans>ErgoDEX Smart Contracts</Trans>
-              </Button>{' '}
-              <Trans>meet your expectations.</Trans>
+                Ergo-side contracts
+              </Typography.Link>
+              {', '}
+              <Typography.Link
+                href="https://github.com/ergolabs/cardano-dex-contracts"
+                target="_blank"
+              >
+                Cardano-side contracts
+              </Typography.Link>
+              {')'}
             </Typography.Body>
           </Flex.Item>
           <Flex.Item>
@@ -82,25 +82,29 @@ const KyaModal: React.FC<KyaModalProps> = ({ onClose }): JSX.Element => {
           </Flex.Item>
           <Flex.Item>
             <Typography.Body>
-              <Trans>- Every transaction can be viewed via </Trans>
-              <Button
-                type="link"
-                style={{ padding: '0', lineHeight: '16px', height: '100%' }}
-                href="https://explorer.ergoplatform.com/en/"
+              <Trans>- Every transaction can be viewed via</Trans>{' '}
+              <Typography.Link
+                href="https://explorer.ergoplatform.com/"
                 target="_blank"
-                rel="noreferrer"
               >
-                <Trans>explorer</Trans>
-              </Button>
-              ;
+                <Trans>Ergo</Trans>
+              </Typography.Link>{' '}
+              <Trans>and</Trans>{' '}
+              <Typography.Link
+                href="https://explorer.cardano.org/en"
+                target="_blank"
+              >
+                <Trans>Cardano Explorer</Trans>
+              </Typography.Link>
             </Typography.Body>
           </Flex.Item>
           <Flex.Item marginBottom={4}>
             <Typography.Body>
               <Trans>
                 - By creating an order you send your funds to a specific
-                smart-contract, all such contracts are wired into the UI. Thus,
-                orders are created entirely in your browser (on your machine).
+                smart-contract, all such contracts are wired into the user
+                interface. Thus, orders are created entirely in your browser (on
+                your machine).
               </Trans>
             </Typography.Body>
           </Flex.Item>
@@ -116,17 +120,9 @@ const KyaModal: React.FC<KyaModalProps> = ({ onClose }): JSX.Element => {
               <Trans>
                 ErgoDEX offers a form of added security, as buyers and sellers
                 do not have to give their information to any 3rd party. However,
-                ErgoDEX is without a know your customer (KYC) process and can
+                ErgoDEX is without a Know Your Customer (KYC) process and can
                 offer NO assistance if a user is hacked or cheated out of
                 passwords, currency or private wallet keys.
-              </Trans>
-            </Typography.Body>
-          </Flex.Item>
-          <Flex.Item marginBottom={4}>
-            <Typography.Body strong>
-              <Trans>
-                We recommend that you DO NOT use ErgoDEX to operate large
-                amounts of assets!
               </Trans>
             </Typography.Body>
           </Flex.Item>

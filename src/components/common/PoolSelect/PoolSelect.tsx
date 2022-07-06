@@ -1,10 +1,5 @@
 import './PoolSelect.less';
 
-import { Trans } from '@lingui/macro';
-import { maxBy } from 'lodash';
-import React, { useEffect } from 'react';
-
-import { AmmPool } from '../../../common/models/AmmPool';
 import {
   Button,
   DownOutlined,
@@ -12,8 +7,13 @@ import {
   Flex,
   Menu,
   Typography,
-} from '../../../ergodex-cdk';
-import { TokenIconPair } from '../../AssetIconPair/TokenIconPair';
+} from '@ergolabs/ui-kit';
+import { Trans } from '@lingui/macro';
+import maxBy from 'lodash/maxBy';
+import React, { useEffect } from 'react';
+
+import { AmmPool } from '../../../common/models/AmmPool';
+import { AssetIconPair } from '../../AssetIconPair/AssetIconPair';
 import { VerificationMark } from '../../VerificationMark/VerificationMark';
 import { FeeTag } from '../FeeTag/FeeTag';
 
@@ -28,7 +28,7 @@ const PoolOption: React.FC<PoolOptionProps> = ({ position }) => {
         <Flex>
           <Flex.Item marginRight={2}>
             <Flex>
-              <TokenIconPair
+              <AssetIconPair
                 assetX={position.x.asset}
                 assetY={position.y.asset}
               />

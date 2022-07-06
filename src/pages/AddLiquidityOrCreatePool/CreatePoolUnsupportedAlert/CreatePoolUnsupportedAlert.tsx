@@ -1,9 +1,9 @@
+import { Alert } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
 import React, { FC } from 'react';
 
 import { IsCardano } from '../../../components/IsCardano/IsCardano';
 import { IsErgo } from '../../../components/IsErgo/IsErgo';
-import { Alert } from '../../../ergodex-cdk';
 
 export interface CreatePoolUnsupportedAlertProps {
   readonly walletName: string;

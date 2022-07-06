@@ -1,7 +1,16 @@
+import {
+  Button,
+  Flex,
+  Form,
+  LineChartOutlined,
+  SwapOutlined,
+  Typography,
+  useForm,
+} from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
-import { maxBy } from 'lodash';
+import maxBy from 'lodash/maxBy';
 import { DateTime } from 'luxon';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { CSSProperties, useEffect, useMemo, useState } from 'react';
 import {
   BehaviorSubject,
   combineLatest,
@@ -26,27 +35,19 @@ import {
   LOCKED_TOKEN_ID,
 } from '../../components/common/ActionForm/ActionButton/ActionButton';
 import { ActionForm } from '../../components/common/ActionForm/ActionForm';
-import { TokenControlFormItem } from '../../components/common/TokenControl/TokenControl';
+import { AssetControlFormItem } from '../../components/common/TokenControl/AssetControl';
 import {
   openConfirmationModal,
   Operation,
 } from '../../components/ConfirmationModal/ConfirmationModal';
 import { Page } from '../../components/Page/Page';
-import {
-  Button,
-  Flex,
-  Form,
-  LineChartOutlined,
-  SwapOutlined,
-  Typography,
-  useForm,
-} from '../../ergodex-cdk';
 import { getAmmPoolsByAssetPair } from '../../gateway/api/ammPools';
 import { useAssetsBalance } from '../../gateway/api/assetBalance';
 import { getAvailableAssetFor, tokenAssets$ } from '../../gateway/api/assets';
 import { useNetworkAsset } from '../../gateway/api/networkAsset';
 import { useSwapValidationFee } from '../../gateway/api/validationFees';
 import { useSelectedNetwork } from '../../gateway/common/network';
+import { useDevice } from '../../hooks/useDevice';
 import { OperationSettings } from './OperationSettings/OperationSettings';
 import { PoolSelector } from './PoolSelector/PoolSelector';
 import { SwapConfirmationModal } from './SwapConfirmationModal/SwapConfirmationModal';
@@ -69,6 +70,7 @@ const getAvailablePools = (xId?: string, yId?: string): Observable<AmmPool[]> =>
   xId && yId ? getAmmPoolsByAssetPair(xId, yId) : of([]);
 
 export const Swap = (): JSX.Element => {
+  const { valBySize } = useDevice();
   const form = useForm<SwapFormModel>({
     fromAmount: undefined,
     toAmount: undefined,
@@ -336,12 +338,12 @@ export const Swap = (): JSX.Element => {
       action={submitSwap}
     >
       <Page
-        width={504}
+        width={valBySize<CSSProperties['width']>('100%', 504)}
         leftWidget={
-          selectedNetwork.name === 'ergo' &&
-          pool?.id && <SwapGraph pool={pool} />
+          selectedNetwork.name === 'ergo' && <SwapGraph pool={pool} />
         }
         widgetOpened={leftWidgetOpened}
+        onWidgetClose={() => setLeftWidgetOpened(false)}
       >
         <Flex col>
           <Flex row align="center">
@@ -350,7 +352,7 @@ export const Swap = (): JSX.Element => {
                 <Trans>Swap</Trans>
               </Typography.Title>
             </Flex.Item>
-            {selectedNetwork.name === 'ergo' && pool?.id && (
+            {selectedNetwork.name === 'ergo' && (
               <Button
                 type="text"
                 size="large"
@@ -361,7 +363,7 @@ export const Swap = (): JSX.Element => {
             <OperationSettings />
           </Flex>
           <Flex.Item marginBottom={1} marginTop={2}>
-            <TokenControlFormItem
+            <AssetControlFormItem
               bordered
               maxButton
               handleMaxButtonClick={handleMaxButtonClick}
@@ -377,7 +379,7 @@ export const Swap = (): JSX.Element => {
             size="middle"
           />
           <Flex.Item>
-            <TokenControlFormItem
+            <AssetControlFormItem
               bordered
               assets$={toAssets$}
               label={t`To`}

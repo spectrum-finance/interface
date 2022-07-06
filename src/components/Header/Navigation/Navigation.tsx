@@ -1,45 +1,33 @@
+import { Tabs } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
-import React, { FC, useEffect, useState } from 'react';
-import { useHistory, useRouteMatch } from 'react-router-dom';
+import React, { CSSProperties, FC, useEffect, useState } from 'react';
+import { useMatch, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { Tabs } from '../../../ergodex-cdk';
-
-interface MatchParams {
-  page: string;
-  id: string;
-}
-
 interface NavigationProps {
+  textCenter?: boolean;
   className?: string;
+  style?: CSSProperties;
 }
 
-const _Navigation: FC<NavigationProps> = ({ className }) => {
-  const history = useHistory();
-  const matchRoot = useRouteMatch<MatchParams>('/:page');
-  const matchPoolPosition = useRouteMatch<MatchParams>('/pool/:id');
-  const matchRemovePosition = useRouteMatch<MatchParams>('/remove/:id');
+const _Navigation: FC<NavigationProps> = ({ className, style }) => {
+  const navigate = useNavigate();
+  const matchLiquidityPage = useMatch({ path: ':network/pool', end: false });
 
   const [defaultActiveKey, setDefaultActiveKey] = useState('');
 
   useEffect(() => {
-    if (matchPoolPosition || matchRemovePosition) {
-      setDefaultActiveKey('pool');
-      return;
-    }
+    setDefaultActiveKey(matchLiquidityPage ? 'pool' : 'swap');
+  }, [matchLiquidityPage]);
 
-    setDefaultActiveKey(
-      matchRoot && matchRoot.isExact ? matchRoot.params.page : 'swap',
-    );
-  }, [matchPoolPosition, matchRemovePosition, matchRoot]);
-
-  const onTabClick = (key: string) => history.push(`/${key}`);
+  const onTabClick = (key: string) => navigate(key);
 
   return (
     <Tabs
       activeKey={defaultActiveKey}
       onChange={onTabClick}
       className={className}
+      style={style}
     >
       <Tabs.TabPane tab={t`Swap`} key="swap" />
       <Tabs.TabPane tab={t`Liquidity`} key="pool" />
@@ -52,15 +40,17 @@ export const Navigation = styled(_Navigation)`
     height: 40px;
   }
 
+  .ant-tabs-tab,
+  .ant-tabs-nav-list {
+    flex-grow: 1;
+  }
+
+  .ant-tabs-tab {
+    ${(props) => props.textCenter && 'justify-content: center;'}
+  }
+
   .ant-tabs-tab-btn {
     font-size: 16px;
     line-height: 22px;
-  }
-
-  @media (max-width: 768px) {
-    position: fixed;
-    right: 50%;
-    bottom: 1rem;
-    transform: translate(50%, 0);
   }
 `;

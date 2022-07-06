@@ -1,9 +1,9 @@
+import { Flex, Typography } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import React from 'react';
 
 import { UI_FEE } from '../../../../common/constants/erg';
 import { Currency } from '../../../../common/models/Currency';
-import { Flex, Typography } from '../../../../ergodex-cdk';
 import { InfoTooltip } from '../../../InfoTooltip/InfoTooltip';
 import { PageSection } from '../../../Page/PageSection/PageSection';
 

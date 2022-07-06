@@ -1,8 +1,7 @@
 import './SubmitButton.less';
 
+import { Button, ButtonProps } from '@ergolabs/ui-kit';
 import React from 'react';
-
-import { Button, ButtonProps } from '../../ergodex-cdk';
 
 const SubmitButton: React.FC<ButtonProps> = ({ children, ...rest }) => {
   return (

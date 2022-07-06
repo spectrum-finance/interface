@@ -1,12 +1,12 @@
-import React, { FC } from 'react';
-import styled from 'styled-components';
-
 import {
   DownOutlined,
   Progress,
   Typography,
   UpOutlined,
-} from '../../../../ergodex-cdk';
+} from '@ergolabs/ui-kit';
+import React, { FC } from 'react';
+import styled from 'styled-components';
+
 import { AmmPoolConfidenceAnalytic } from '../../AmmPoolConfidenceAnalytic';
 
 interface ProgressHeaderChevronProps {

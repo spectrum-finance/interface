@@ -1,5 +1,5 @@
 import './styles.less';
-import '../src/ergodex-cdk/index';
+import '@ergolabs/ui-kit';
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },

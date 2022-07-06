@@ -1,9 +1,8 @@
-import { LoadingOutlined } from '@ant-design/icons';
+import { Box, Flex, LoadingOutlined, Typography } from '@ergolabs/ui-kit';
 import React, { FC } from 'react';
 import styled from 'styled-components';
 
 import { useObservable } from '../../../common/hooks/useObservable';
-import { Box, Flex, Typography } from '../../../ergodex-cdk';
 import { aggregatedAnalyticsData24H$ } from '../../../services/new/analytics';
 import { formatToUSD } from '../../../services/number';
 import { renderFractions } from '../../../utils/math';

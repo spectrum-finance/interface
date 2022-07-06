@@ -1,13 +1,13 @@
+import { Control, List, Modal, ModalRef } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React, { FC, useEffect } from 'react';
 
 import { useSubject } from '../../../../common/hooks/useObservable';
 import { AmmPool } from '../../../../common/models/AmmPool';
-import { Control, DialogRef, List, Modal } from '../../../../ergodex-cdk';
 import { getAmmPoolsByAssetPair } from '../../../../gateway/api/ammPools';
 import { PoolItemView } from './PoolItemView/PoolItemView';
 
-interface PoolSelectorModalProps extends DialogRef<boolean> {
+interface PoolSelectorModalProps extends ModalRef<boolean> {
   readonly value: AmmPool;
   readonly onChange?: Control<AmmPool>['onChange'];
 }

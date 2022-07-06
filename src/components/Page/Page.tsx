@@ -1,24 +1,35 @@
 import './Page.less';
 
-import React, { ReactNode } from 'react';
-import { useHistory } from 'react-router-dom';
-import styled from 'styled-components';
-
 import {
   ArrowLeftOutlined,
   Box,
   Button,
   Flex,
+  Gutter,
+  Pane,
   Typography,
-} from '../../ergodex-cdk';
-import { Gutter } from '../../ergodex-cdk/utils/gutter';
+} from '@ergolabs/ui-kit';
+import React, { CSSProperties, ReactNode } from 'react';
+import { createPortal } from 'react-dom';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+
+import { useDevice } from '../../hooks/useDevice';
+
+class Portal extends React.Component<{ root: HTMLElement }> {
+  render() {
+    const { children, root } = this.props;
+    return createPortal(children, root);
+  }
+}
 
 interface PageProps {
-  width?: number;
+  width?: CSSProperties['width'];
   title?: ReactNode | ReactNode[] | string;
   withBackButton?: boolean;
   leftWidget?: ReactNode;
   widgetOpened?: boolean;
+  onWidgetClose?: () => void;
   backTo?: string;
   onBackButtonClick?: () => void;
   titleChildren?: ReactNode | ReactNode[] | string;
@@ -40,6 +51,7 @@ const _Page: React.FC<PageProps> = ({
   withBackButton,
   leftWidget,
   widgetOpened,
+  onWidgetClose,
   backTo,
   footer,
   className,
@@ -47,7 +59,8 @@ const _Page: React.FC<PageProps> = ({
   onBackButtonClick,
   padding,
 }) => {
-  const history = useHistory();
+  const navigate = useNavigate();
+  const { valBySize, s } = useDevice();
 
   return (
     <Flex
@@ -68,8 +81,8 @@ const _Page: React.FC<PageProps> = ({
                         icon={<ArrowLeftOutlined />}
                         onClick={() => {
                           history.length
-                            ? history.goBack()
-                            : backTo && history.push(backTo);
+                            ? navigate(-1)
+                            : backTo && navigate(backTo);
                           onBackButtonClick && onBackButtonClick();
                         }}
                       />
@@ -78,19 +91,31 @@ const _Page: React.FC<PageProps> = ({
                   <Typography.Title level={4}>{title}</Typography.Title>
                 </Flex>
               </Flex.Item>
-
               <Flex justify="space-between">{titleChildren}</Flex>
             </Flex>
           </Flex.Item>
         )}
         <Flex justify="center" align="flex-start">
-          {widgetOpened && <Widget>{leftWidget}</Widget>}
+          {s && (
+            <Portal root={document.body}>
+              <Pane
+                visible={widgetOpened}
+                events={{
+                  onBackdropTap: () => onWidgetClose?.(),
+                  onDidDismiss: () => onWidgetClose?.(),
+                }}
+              >
+                {leftWidget}
+              </Pane>
+            </Portal>
+          )}
+          {!s && widgetOpened && <Widget>{leftWidget}</Widget>}
           <Flex col>
             <Flex.Item style={{ zIndex: 2 }}>
               <Box
                 bordered={false}
                 className={className}
-                padding={padding ? padding : [6, 6]}
+                padding={padding ? padding : valBySize([4, 4], [6, 6])}
                 borderRadius="l"
                 width={width ?? 0}
               >

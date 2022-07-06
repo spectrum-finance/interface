@@ -1,6 +1,6 @@
+import { Flex, List } from '@ergolabs/ui-kit';
 import React from 'react';
 
-import { Flex, List } from '../../../ergodex-cdk';
 import { useAssetsBalance } from '../../../gateway/api/assetBalance';
 import { TokenListItem } from './TokenListItem/TokenListItem';
 

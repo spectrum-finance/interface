@@ -1,19 +1,28 @@
+import { Button, Flex, Tabs, Typography } from '@ergolabs/ui-kit';
+import { LoadingOutlined } from '@ergolabs/ui-kit';
+import { Spin } from '@ergolabs/ui-kit';
+import { Empty } from '@ergolabs/ui-kit/dist/components/Empty/Empty';
 import { Trans } from '@lingui/macro';
+import sortedUniqBy from 'lodash/sortedUniqBy';
 import { DateTime } from 'luxon';
-import React, { ReactNode, useCallback, useState } from 'react';
-import { Area, AreaChart, Tooltip, XAxis, YAxis } from 'recharts';
+import React, { ReactNode, useCallback, useMemo, useState } from 'react';
+import {
+  Area,
+  AreaChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from 'recharts';
 import styled from 'styled-components';
 
 import { useObservable } from '../../../common/hooks/useObservable';
 import { AmmPool } from '../../../common/models/AmmPool';
 import { PoolChartData } from '../../../common/models/PoolChartData';
-import { TokenIconPair } from '../../../components/AssetIconPair/TokenIconPair';
+import { AssetIconPair } from '../../../components/AssetIconPair/AssetIconPair';
 import { DateTimeView } from '../../../components/common/DateTimeView/DateTimeView';
 import { Truncate } from '../../../components/Truncate/Truncate';
-import { Button, Flex, Tabs, Typography } from '../../../ergodex-cdk';
-import { LoadingOutlined } from '../../../ergodex-cdk';
-import { Empty } from '../../../ergodex-cdk/components/Empty/Empty';
-import { Spin } from '../../../ergodex-cdk/components/Spin/Spin';
+import { useDevice } from '../../../hooks/useDevice';
 import { getPoolChartData } from '../../../network/ergo/api/poolChart/poolChart';
 import { Difference } from './Difference/Difference';
 import { useAggregatedByDateData } from './useAggregatedByDateData';
@@ -21,7 +30,7 @@ import { Period, usePeriodSettings } from './usePeriodSettings';
 import { useTicks } from './useTicks';
 
 interface SwapGraphProps {
-  pool: AmmPool;
+  pool?: AmmPool;
 }
 
 interface AbsoluteContainerProps {
@@ -54,23 +63,24 @@ const AbsoluteContainer = styled(_AbsoluteContainer)`
 
 export const SwapGraph: React.FC<SwapGraphProps> = ({ pool }) => {
   const [defaultActivePeriod, setDefaultActivePeriod] = useState<Period>('D');
+  const { s, valBySize } = useDevice();
   const [isInverted, setInverted] = useState(false);
-  const { durationOffset, timeFormat, tick, preLastFromNow, resolution } =
+  const { durationOffset, timeFormat, tick, resolution } =
     usePeriodSettings(defaultActivePeriod);
 
-  const ticks = useTicks(tick, durationOffset, preLastFromNow, [
-    defaultActivePeriod,
-  ]);
+  const ticks = useTicks(tick, durationOffset, [defaultActivePeriod]);
   const [rawData, loading] = useObservable(
     () =>
       getPoolChartData(pool, {
         from: DateTime.now().minus(durationOffset).valueOf(),
         resolution,
       }),
-    [pool.id, defaultActivePeriod],
+    [pool?.id, defaultActivePeriod],
     [],
   );
   const data = useAggregatedByDateData(rawData, ticks);
+  // recharts couldn't animate when dataKey is changed
+  const chartData = useMemo(() => [...data], [data, isInverted]);
 
   const [activeData, setActiveData] = useState<PoolChartData | null>();
 
@@ -93,50 +103,67 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({ pool }) => {
   const differenceY = data[data.length - 1];
   const showDiff = !activeData;
 
+  const displayedTicks = useMemo(
+    () =>
+      sortedUniqBy(
+        ticks.filter((a) => a.valueOf() > data[0]?.ts),
+        (a) => a.toLocaleString(timeFormat),
+      ).map((a) => a.valueOf()),
+    [data, ticks, timeFormat],
+  );
+  const tabs = (
+    <Tabs
+      defaultActiveKey={defaultActivePeriod}
+      onChange={(key) => setDefaultActivePeriod(key)}
+    >
+      <Tabs.TabPane tab="D" key="D" />
+      <Tabs.TabPane tab="W" key="W" />
+      <Tabs.TabPane tab="M" key="M" />
+      <Tabs.TabPane tab="Y" key="Y" />
+    </Tabs>
+  );
+
   return (
     <Flex col position="relative">
-      <Flex.Item marginTop={4} marginLeft={6} marginRight={4}>
+      <Flex.Item marginTop={4} marginLeft={4} marginRight={4}>
         <Flex align="center">
-          <TokenIconPair
-            size="small"
-            assetX={pool?.x.asset}
-            assetY={pool?.y.asset}
-          />
-          <Flex.Item marginRight={1} marginLeft={1}>
-            <Typography.Title level={4}>
-              <Truncate>{pool?.x.asset.name}</Truncate> /{' '}
-              <Truncate>{pool?.y.asset.name}</Truncate>
-            </Typography.Title>
-          </Flex.Item>
-          <Flex.Item marginRight={2}>
-            <Button size="small" onClick={() => setInverted(!isInverted)}>
-              <Trans>Switch ratio</Trans>
-            </Button>
-          </Flex.Item>
-
-          <Flex.Item marginLeft="auto">
-            <Tabs
-              defaultActiveKey={defaultActivePeriod}
-              onChange={(key) => setDefaultActivePeriod(key)}
-            >
-              <Tabs.TabPane tab="D" key="D" />
-              <Tabs.TabPane tab="W" key="W" />
-              <Tabs.TabPane tab="M" key="M" />
-              <Tabs.TabPane tab="Y" key="Y" />
-            </Tabs>
-          </Flex.Item>
+          {pool && (
+            <>
+              <AssetIconPair
+                size="small"
+                assetX={pool.x.asset}
+                assetY={pool.y.asset}
+              />
+              <Flex.Item marginRight={1} marginLeft={1}>
+                <Typography.Title level={4}>
+                  <Truncate>{pool.x.asset.name}</Truncate> /{' '}
+                  <Truncate>{pool.y.asset.name}</Truncate>
+                </Typography.Title>
+              </Flex.Item>
+              <Flex.Item marginRight={2}>
+                <Button size="small" onClick={() => setInverted(!isInverted)}>
+                  <Trans>Switch ratio</Trans>
+                </Button>
+              </Flex.Item>
+            </>
+          )}
+          {!s && <Flex.Item marginLeft="auto">{tabs}</Flex.Item>}
         </Flex>
       </Flex.Item>
       {active && !isEmpty && (
-        <>
+        <Flex.Item
+          marginTop={valBySize(2, 0)}
+          position="absolute"
+          style={{ top: 0, left: 0 }}
+        >
           <Flex align="flex-end">
-            <Flex.Item marginLeft={6} marginRight={2}>
-              <Typography.Title level={2}>
+            <Flex.Item marginLeft={4} marginRight={2}>
+              <Typography.Title level={valBySize(4, 2)}>
                 {active.getRatio(isInverted).toString()}
               </Typography.Title>
             </Flex.Item>
             <Flex.Item marginBottom={0.5} marginRight={2}>
-              <Typography.Title level={4}>
+              <Typography.Title level={valBySize(5, 4)}>
                 <Truncate>
                   {active.getRatio(isInverted).baseAsset.name}
                 </Truncate>
@@ -149,69 +176,109 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({ pool }) => {
             <Flex.Item marginBottom={0.5}>
               {showDiff && (
                 <Difference
+                  level={valBySize(5, 4)}
                   ratioX={differenceX.getRatio(isInverted)}
                   ratioY={differenceY.getRatio(isInverted)}
                 />
               )}
             </Flex.Item>
           </Flex>
-          <Typography.Text style={{ marginLeft: '24px' }} type="secondary">
-            <DateTimeView type="datetimeWithWeekday" value={active.date} />
-          </Typography.Text>
-        </>
+          <Flex.Item
+            marginLeft={valBySize(4, 6)}
+            marginBottom={valBySize(1, 0)}
+            marginTop={valBySize(1, 0)}
+          >
+            <Typography.Text
+              style={{
+                fontSize: valBySize('12px', '14px'),
+              }}
+              type="secondary"
+            >
+              <DateTimeView type="datetimeWithWeekday" value={active.date} />
+            </Typography.Text>
+          </Flex.Item>
+        </Flex.Item>
+      )}
+      {s && (
+        <Flex.Item
+          marginLeft={4}
+          marginRight={4}
+          marginBottom={2}
+          marginTop={2}
+        >
+          {tabs}
+        </Flex.Item>
       )}
       <Flex.Item
         marginTop={!active || isEmpty ? 14 : 0}
-        marginLeft={6}
+        marginLeft={4}
         marginRight={4}
         position="relative"
       >
-        <AreaChart
-          width={624}
-          height={320}
-          data={data}
-          reverseStackOrder
-          onMouseMove={(state: any) => {
-            setActiveData(state?.activePayload?.[0]?.payload);
-          }}
-          syncMethod="index"
-          onMouseLeave={() => setActiveData(null)}
-          style={{
-            visibility: isEmpty || loading ? 'hidden' : 'visible',
-          }}
+        <ResponsiveContainer
+          width={valBySize<string | number>('100%', 624)}
+          height={valBySize(pool ? 320 : 440, pool ? 320 : 230)}
         >
-          <YAxis
-            dataKey={dataKey}
-            type="number"
-            domain={['auto', 'auto']}
-            hide
-          />
-          <XAxis dataKey="ts" tickFormatter={formatXAxis} />
-          <defs>
-            <linearGradient id="gradientColor" x1="0" y1="0" x2="0" y2="1">
-              <stop
-                stopColor="var(--ergo-primary-color-hover)"
-                stopOpacity="0.5"
-              />
-              <stop
-                offset="1"
-                stopColor="var(--ergo-primary-color-hover)"
-                stopOpacity="0"
-              />
-            </linearGradient>
-          </defs>
-          <Tooltip wrapperStyle={{ display: 'none' }} formatter={() => null} />
-          <Area
-            dataKey={dataKey}
-            stroke="var(--ergo-primary-color-hover)"
-            fill="url(#gradientColor)"
-          />
-        </AreaChart>
+          <AreaChart
+            data={chartData}
+            reverseStackOrder
+            onMouseMove={(state: any) => {
+              setActiveData(state?.activePayload?.[0]?.payload);
+            }}
+            syncMethod="index"
+            onMouseLeave={() => setActiveData(null)}
+            style={{
+              visibility: isEmpty || loading ? 'hidden' : 'visible',
+            }}
+          >
+            <YAxis
+              dataKey={dataKey}
+              type="number"
+              domain={['auto', 'auto']}
+              hide
+            />
+            <XAxis
+              dataKey="ts"
+              type="number"
+              scale="time"
+              domain={['dataMin', 'dataMax']}
+              ticks={displayedTicks}
+              tickFormatter={formatXAxis}
+            />
+            <defs>
+              <linearGradient id="gradientColor" x1="0" y1="0" x2="0" y2="1">
+                <stop
+                  stopColor="var(--ergo-primary-color-hover)"
+                  stopOpacity="0.5"
+                />
+                <stop
+                  offset="1"
+                  stopColor="var(--ergo-primary-color-hover)"
+                  stopOpacity="0"
+                />
+              </linearGradient>
+            </defs>
+            <Tooltip
+              wrapperStyle={{ display: 'none' }}
+              formatter={() => null}
+            />
+            <Area
+              dataKey={dataKey}
+              stroke="var(--ergo-primary-color-hover)"
+              fill="url(#gradientColor)"
+            />
+          </AreaChart>
+        </ResponsiveContainer>
+
         {isEmpty && !loading && (
           <AbsoluteContainer>
             <Empty>
               <Typography.Text>
-                <Trans>Not enough data</Trans>
+                {pool ? (
+                  <Trans>Not enough data</Trans>
+                ) : (
+                  <Trans>Select a token</Trans>
+                )}
               </Typography.Text>
             </Empty>
           </AbsoluteContainer>

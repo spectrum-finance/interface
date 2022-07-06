@@ -1,10 +1,10 @@
+import { LoadingOutlined } from '@ergolabs/ui-kit';
 import React, { FC, useMemo } from 'react';
 import { of } from 'rxjs';
 
 import { convertToConvenientNetworkAsset } from '../../api/convertToConvenientNetworkAsset';
 import { useObservable } from '../../common/hooks/useObservable';
 import { Currency } from '../../common/models/Currency';
-import { LoadingOutlined } from '../../ergodex-cdk';
 import { useSelectedNetwork } from '../../gateway/common/network';
 
 export interface ConvenientAssetViewProps {

@@ -1,11 +1,11 @@
+import { Box, Flex, Typography } from '@ergolabs/ui-kit';
 import React, { FC, useState } from 'react';
 import styled, { css } from 'styled-components';
 
 import { AmmPool } from '../../../../../common/models/AmmPool';
-import { TokenIconPair } from '../../../../../components/AssetIconPair/TokenIconPair';
+import { AssetIconPair } from '../../../../../components/AssetIconPair/AssetIconPair';
 import { DataTag } from '../../../../../components/common/DataTag/DataTag';
 import { VerificationMark } from '../../../../../components/VerificationMark/VerificationMark';
-import { Box, Flex, Typography } from '../../../../../ergodex-cdk';
 import { formatToUSD } from '../../../../../services/number';
 
 interface PoolItemViewProps {
@@ -45,7 +45,7 @@ const _PoolItemView: FC<PoolItemViewProps> = ({
     >
       <Flex align="center" stretch>
         <Flex.Item marginRight={1}>
-          <TokenIconPair
+          <AssetIconPair
             size="small"
             assetX={pool.x.asset}
             assetY={pool.y.asset}

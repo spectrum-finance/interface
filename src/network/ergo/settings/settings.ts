@@ -97,4 +97,5 @@ export const settings$: Observable<ErgoSettings> = localStorageManager
   .getStream<ErgoSettings>(SETTINGS_KEY)
   .pipe(map((settings) => settings || defaultErgoSettings));
 
-export const useSettings = () => useObservable(settings$, [], settings);
+export const useSettings = (): [ErgoSettings, boolean, Error | undefined] =>
+  useObservable(settings$, [], settings);

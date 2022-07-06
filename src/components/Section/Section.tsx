@@ -1,6 +1,6 @@
+import { Flex, Typography } from '@ergolabs/ui-kit';
 import React, { FC, ReactNode } from 'react';
 
-import { Flex, Typography } from '../../ergodex-cdk';
 import { InfoTooltip } from '../InfoTooltip/InfoTooltip';
 
 interface SectionProps {

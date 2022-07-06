@@ -1,8 +1,3 @@
-import { t } from '@lingui/macro';
-import React, { FC, useState } from 'react';
-import styled from 'styled-components';
-
-import { AmmPool } from '../../../../common/models/AmmPool';
 import {
   Button,
   Control,
@@ -10,7 +5,12 @@ import {
   Dropdown,
   Flex,
   UpOutlined,
-} from '../../../../ergodex-cdk';
+} from '@ergolabs/ui-kit';
+import { t } from '@lingui/macro';
+import React, { FC, useState } from 'react';
+import styled from 'styled-components';
+
+import { AmmPool } from '../../../../common/models/AmmPool';
 import { PoolSelectorOverlay } from './PoolSelectorOverlay/PoolSelectorOverlay';
 import { PoolView } from './PoolView/PoolView';
 

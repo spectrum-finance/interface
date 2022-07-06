@@ -71,7 +71,7 @@ export const applicationConfig: ApplicationConfig = {
   social: {
     twitter: 'https://twitter.com/ErgoDex',
     telegram: 'https://t.me/ergodex_community',
-    discord: 'https://discord.com/invite/6MFFG4Fn4Y',
+    discord: 'https://discord.gg/zY2gmTYQVD',
     medium: 'https://ergodex.medium.com/',
     reddit: 'https://www.reddit.com/r/ergodex/',
   },
@@ -80,7 +80,10 @@ export const applicationConfig: ApplicationConfig = {
     telegram: 'https://t.me/ergodex_community',
   },
   applicationTick: 10 * 1000,
-  hiddenAssets: [],
+  hiddenAssets: [
+    'ef802b475c06189fdbf844153cdc1d449a5ba87cce13d11bb47b5a539f27f12b',
+    '30974274078845f263b4f21787e33cc99e9ec19a17ad85a5bc6da2cca91c5a2e',
+  ],
   blacklistedPools: [
     'bee300e9c81e48d7ab5fc29294c7bbb536cf9dcd9c91ee3be9898faec91b11b6',
     '4e497db00769f6402580c351c092ec6ae0306f08575c7a9c719267c84049c840',
