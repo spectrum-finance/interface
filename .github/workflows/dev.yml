@@ -2,9 +2,7 @@ name: Run on dev
 on:
   push:
     branches:
-      #- "dev"
-      # for tests
-      - "CU-2nv1kud"
+      - "dev"
 jobs:
   build:
     name: Build Artifacts
@@ -54,24 +52,9 @@ jobs:
         uses: garygrossgarten/github-action-scp@release
         with:
           local: /home/runner/build
-          #remote: /var/www/dev0
-          remote: /var/www/refactored
+          remote: /var/www/dev0
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           privateKey: ${{ secrets.KEY }}
-      # - name: Deploy
-      #   uses: appleboy/ssh-action@master
-      #   with:
-      #     host: ${{secrets.HOST}}
-      #     username: ${{secrets.USERNAME}}
-      #     key: ${{secrets.KEY}}
-      #     script: source ~/.nvm/nvm.sh; cd /var/www/builds/front-dev; git pull origin dev; yarn; yarn run prei18n:extract; yarn run i18n:extract; yarn run i18n:compile; yarn build;
-
-      # - name: Release
-      #   uses: appleboy/ssh-action@master
-      #   with:
-      #     host: ${{secrets.HOST}}
-      #     username: ${{secrets.USERNAME}}
-      #     key: ${{secrets.KEY}}
-      #     script: cp -r /var/www/builds/front-dev/build/. /var/www/dev0
+      
 
