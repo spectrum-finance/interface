@@ -37,7 +37,7 @@ jobs:
       - name: Store Artifacts
         uses: actions/upload-artifact@v3
         with: 
-          name: ${{env.GITHUB_SHA}}
+          name: ${{ env.GITHUB_SHA }}
           path: build
           retention-days: 1
   deploy:
@@ -49,16 +49,16 @@ jobs:
       - name: Extract Artifacts
         uses: actions/download-artifact@v3
         with:
-          name: ${{env.GITHUB_SHA}}
+          name: ${{ env.GITHUB_SHA }}
       - name: Deploy to host
         uses: garygrossgarten/github-action-scp@release
         with:
           local: build
           #remote: /var/www/dev0
           remote: /var/www/refactored
-          host: ${{secrets.HOST}}
-          username: ${{secrets.USERNAME}}
-          privateKey: ${{secrets.KEY}}
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          privateKey: ${{ secrets.KEY }}
       # - name: Deploy
       #   uses: appleboy/ssh-action@master
       #   with:
