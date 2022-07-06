@@ -1836,13 +1836,14 @@
     mathjs "^9.4.4"
     ramda "0.27.1"
 
-"@ergolabs/ui-kit@^1.0.36":
-  version "1.0.36"
-  resolved "https://registry.yarnpkg.com/@ergolabs/ui-kit/-/ui-kit-1.0.36.tgz#0a431f5d25d06c122b144cc218822867f58de12b"
-  integrity sha512-QDjVRmXeaPd8/ZbLS5yIT5CVhgmRwOHBpziyZpcwUqBJhxf4jWo1+mAJbea/FzW4umDqOV1XiAGVAYnoe5PPrg==
+"@ergolabs/ui-kit@^1.0.39":
+  version "1.0.39"
+  resolved "https://registry.yarnpkg.com/@ergolabs/ui-kit/-/ui-kit-1.0.39.tgz#f40ba697523d15c0a34d95b8f9bee35e5c8885af"
+  integrity sha512-J65kFvXf1iWEtXUS0juIhgKDwKJVxp85b4OplDzsBVKhCdshm1AYdjKcVnng6JwhzKh9lW29thq+5uTeH7AmXA==
   dependencies:
     antd "^4.17.0-alpha.5"
     classnames "^2.3.1"
+    cupertino-pane "1.2.91"
     luxon "^2.3.1"
     styled-components "^5.3.3"
 
@@ -6861,10 +6862,10 @@ csstype@^3.0.2:
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.0.10.tgz#2ad3a7bed70f35b965707c092e5f30b327c290e5"
   integrity sha512-2u44ZG2OcNUO9HDp/Jl8C07x6pU/eTR3ncV91SiK3dhG9TWvRVsCoJw14Ckx5DgWkzGA3waZWO3d7pgqpUI/XA==
 
-cupertino-pane@^1.2.82:
-  version "1.2.82"
-  resolved "https://registry.yarnpkg.com/cupertino-pane/-/cupertino-pane-1.2.82.tgz#c75a48200f0951c049c1f77bc5148ab6c007fb0b"
-  integrity sha512-b8Virh8wIBtAyCZthLSnuQ2umi8t5w0s8D0CukcHCt1ZOoXdHXFCPFfVWQHav0bFOGhA3P9Ix/iCpWBcSryQsA==
+cupertino-pane@1.2.91:
+  version "1.2.91"
+  resolved "https://registry.yarnpkg.com/cupertino-pane/-/cupertino-pane-1.2.91.tgz#9a14244ed4df624a6bc895eef44ea33551cfe491"
+  integrity sha512-S3S8rITY0gJdU5cqBTqdSxzdJCOd637pezlURPwtm3UJEy4EoVK6cNF3S/Uw+ySjoqn03k/6MW8Vd2p7UofRzA==
 
 customize-cra-less-loader@^1.0.0:
   version "1.0.0"
@@ -14627,13 +14628,6 @@ react-dev-utils@^11.0.3:
     strip-ansi "6.0.0"
     text-table "0.2.0"
 
-react-device-detect@^2.1.2:
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/react-device-detect/-/react-device-detect-2.1.2.tgz#60abb6fa361ec4cc839469a0c4c3e9b8ea17d6b5"
-  integrity sha512-N42xttwez3ECgu4KpOL2ICesdfoz8NCBfmc1rH9FRYSjH7NmMyANPSrQ3EvAtJyj/6TzJNhrANSO38iXjCB2Ug==
-  dependencies:
-    ua-parser-js "^0.7.30"
-
 react-docgen-typescript-plugin@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/react-docgen-typescript-plugin/-/react-docgen-typescript-plugin-1.0.0.tgz#f3b13df1acf3126957c689c47cd8552d42734feb"
@@ -17231,11 +17225,6 @@ typescript@^4.3.5:
   version "4.5.2"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.5.2.tgz#8ac1fba9f52256fdb06fb89e4122fa6a346c2998"
   integrity sha512-5BlMof9H1yGt0P8/WF+wPNw6GfctgGjXp5hkblpyT+8rkASSmkUKMXrxR0Xg8ThVCi/JnHQiKXeBaEwCeQwMFw==
-
-ua-parser-js@^0.7.30:
-  version "0.7.31"
-  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.31.tgz#649a656b191dffab4f21d5e053e27ca17cbff5c6"
-  integrity sha512-qLK/Xe9E2uzmYI3qLeOmI0tEOt+TBBQyUIAh4aAgU05FVYzeZrKUdkAZfBNVGRaHVgV0TDkdEngJSw/SyQchkQ==
 
 unbox-primitive@^1.0.1:
   version "1.0.1"
