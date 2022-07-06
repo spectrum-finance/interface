@@ -1,6 +1,6 @@
-import { Button, Flex, Modal, Typography } from '@ergolabs/ui-kit';
+import { Button, Flex, Modal, Typography, useDevice } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
-import React, { useCallback } from 'react';
+import React, { CSSProperties, useCallback } from 'react';
 
 import { useAppLoadingState } from '../../../context';
 
@@ -9,6 +9,7 @@ interface KyaModalProps {
 }
 
 const KyaModal: React.FC<KyaModalProps> = ({ onClose }): JSX.Element => {
+  const { valBySize } = useDevice();
   const [, setIsKyaAccepted] = useAppLoadingState();
 
   const handleConfirm = useCallback(() => {
@@ -18,7 +19,10 @@ const KyaModal: React.FC<KyaModalProps> = ({ onClose }): JSX.Element => {
   return (
     <>
       <Modal.Title>Know Your Assumptions</Modal.Title>
-      <Modal.Content width={680}>
+      <Modal.Content
+        width={valBySize<CSSProperties['width']>('100%', 680)}
+        style={valBySize({ overflowY: 'auto', maxHeight: '90vh' }, {})}
+      >
         <Flex direction="col" className="kya-modal">
           <Flex.Item marginBottom={4}>
             <Typography.Body>
@@ -115,7 +119,7 @@ const KyaModal: React.FC<KyaModalProps> = ({ onClose }): JSX.Element => {
               </Trans>
             </Typography.Body>
           </Flex.Item>
-          <Flex.Item marginBottom={4}>
+          <Flex.Item marginBottom={14}>
             <Typography.Body strong>
               <Trans>
                 ErgoDEX offers a form of added security, as buyers and sellers
@@ -126,7 +130,14 @@ const KyaModal: React.FC<KyaModalProps> = ({ onClose }): JSX.Element => {
               </Trans>
             </Typography.Body>
           </Flex.Item>
-          <Flex.Item>
+          <Flex.Item
+            style={{
+              bottom: '1rem',
+              position: 'absolute',
+              right: '1rem',
+              left: '1rem',
+            }}
+          >
             <Button type="primary" size="large" block onClick={handleConfirm}>
               <Trans>I understand the risks and accept the KYA</Trans>
             </Button>
