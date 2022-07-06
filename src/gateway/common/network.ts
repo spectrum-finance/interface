@@ -59,7 +59,7 @@ export const initializeNetwork = (
     : localStorageManager.get<string>(SELECTED_NETWORK_KEY);
   const newSelectedNetwork: Network<any, any> = selectedNetworkName
     ? networks.find((n) => n.name === selectedNetworkName)!
-    : (cardanoNetwork as any);
+    : (ergoNetwork as any);
 
   afterNetworkChange = params.afterNetworkChange;
   selectedNetwork = newSelectedNetwork;
