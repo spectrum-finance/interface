@@ -52,6 +52,10 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: ${{ github.sha }}
+      - name: Debug. Show files and dir. 
+        run: |
+          ls -al 
+          pwd
       - name: Deploy to host
         uses: garygrossgarten/github-action-scp@release
         with:
