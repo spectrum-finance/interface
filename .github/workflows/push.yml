@@ -3,9 +3,7 @@ name: Push Worfklow
 on:
   push:
     branches-ignore:
-      #delete test branch
       - "master"
-      - "CU-2nv1kud"
       - "dev"
       - "test"
       - "demo"
