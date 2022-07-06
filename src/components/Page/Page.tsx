@@ -8,13 +8,12 @@ import {
   Gutter,
   Pane,
   Typography,
+  useDevice,
 } from '@ergolabs/ui-kit';
 import React, { CSSProperties, ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-
-import { useDevice } from '../../hooks/useDevice';
 
 class Portal extends React.Component<{ root: HTMLElement }> {
   render() {

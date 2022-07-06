@@ -1,11 +1,10 @@
-import { Flex } from '@ergolabs/ui-kit';
+import { Flex, useDevice } from '@ergolabs/ui-kit';
 import React from 'react';
 import styled from 'styled-components';
 
 import { device } from '../../../../common/constants/size';
 import { useObservable } from '../../../../common/hooks/useObservable';
 import { selectedWalletState$ } from '../../../../gateway/api/wallets';
-import { useDevice } from '../../../../hooks/useDevice';
 import { WalletState } from '../../../../network/common/Wallet';
 import { GetTestTokensButton } from '../../../Header/GetTestTokensButton/GetTestTokensButton';
 import { Navigation } from '../../../Header/Navigation/Navigation';

@@ -6,6 +6,7 @@ import {
   Flex,
   Modal,
   Typography,
+  useDevice,
 } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React, { FC, useEffect } from 'react';
@@ -19,7 +20,6 @@ import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
 import { Truncate } from '../../../components/Truncate/Truncate';
 import { VerificationMark } from '../../../components/VerificationMark/VerificationMark';
 import { getAmmPoolsByAssetPair } from '../../../gateway/api/ammPools';
-import { useDevice } from '../../../hooks/useDevice';
 import { formatToUSD } from '../../../services/number';
 import { PoolSelectorModal } from './PoolSelectorModal/PoolSelectorModal';
 
