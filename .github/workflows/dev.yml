@@ -25,17 +25,14 @@ jobs:
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-          
-      # @TODO uncomment when artifacts name will be fixed. 
+      
       - name: Generate deployable artifacts
-        run: mkdir build; cd build; echo "123" >> test
-      #   run: |
-      #     yarn
-      #     yarn run prei18n:extract
-      #     yarn run i18n:extract
-      #     yarn run i18n:compile
-      #     CI=false yarn build
-
+        run: |
+          yarn
+          yarn run prei18n:extract
+          yarn run i18n:extract
+          yarn run i18n:compile
+          CI=false yarn build
       - name: Store Artifacts
         uses: actions/upload-artifact@v3
         with: 
@@ -53,11 +50,6 @@ jobs:
         with:
           name: ${{ github.sha }}
           path: ~/build
-      # @todo remove debug. 
-      - name: Debug. Show files and dir. 
-        run: |
-          ls -al 
-          pwd
       - name: Deploy to host
         uses: garygrossgarten/github-action-scp@release
         with:
