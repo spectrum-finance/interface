@@ -53,6 +53,7 @@ jobs:
         with:
           name: ${{ github.sha }}
           path: ~/build
+      # @todo remove debug. 
       - name: Debug. Show files and dir. 
         run: |
           ls -al 
@@ -60,7 +61,7 @@ jobs:
       - name: Deploy to host
         uses: garygrossgarten/github-action-scp@release
         with:
-          local: build
+          local: /home/runner/build
           #remote: /var/www/dev0
           remote: /var/www/refactored
           host: ${{ secrets.HOST }}
