@@ -1,5 +1,6 @@
 import './Header.less';
 
+import { useDevice } from '@ergolabs/ui-kit';
 import cn from 'classnames';
 import React, { RefObject, useEffect, useState } from 'react';
 
@@ -8,7 +9,6 @@ import { useAssetsBalance } from '../../gateway/api/assetBalance';
 import { useNetworkAsset } from '../../gateway/api/networkAsset';
 import { selectedWalletState$ } from '../../gateway/api/wallets';
 import { settings$ } from '../../gateway/settings/settings';
-import { useDevice } from '../../hooks/useDevice';
 import { WalletState } from '../../network/common/Wallet';
 import { AppLogo } from '../common/AppLogo/AppLogo';
 import { CardanoMaintenance } from '../common/Layout/CardanoMaintenance/CardanoMaintenance';

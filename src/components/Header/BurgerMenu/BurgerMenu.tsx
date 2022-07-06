@@ -14,6 +14,7 @@ import {
   ReloadOutlined,
   RightOutlined,
   SettingOutlined,
+  useDevice,
 } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
 import { stringify } from 'qs';
@@ -28,7 +29,6 @@ import {
 import { useObservable } from '../../../common/hooks/useObservable';
 import { useSettings } from '../../../context';
 import { globalSettingsModal$ } from '../../../gateway/widgets/globalSettingsModal';
-import { useDevice } from '../../../hooks/useDevice';
 import { useQuery } from '../../../hooks/useQuery';
 import { DotsIcon } from '../../common/Icons/DotsIcon';
 import { ThemeSwitch } from '../../ThemeSwitch/ThemeSwitch';

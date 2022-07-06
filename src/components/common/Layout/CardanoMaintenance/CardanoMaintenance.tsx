@@ -1,10 +1,9 @@
-import { Flex } from '@ergolabs/ui-kit';
+import { Flex, useDevice } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 import styled from 'styled-components';
 
 import { applicationConfig } from '../../../../applicationConfig';
-import { useDevice } from '../../../../hooks/useDevice';
 import { IsCardano } from '../../../IsCardano/IsCardano';
 
 export interface CardanoMaintenanceProps {
