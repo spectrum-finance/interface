@@ -25,8 +25,10 @@ jobs:
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          
       # @TODO uncomment when artifacts name will be fixed. 
-      # - name: Generate deployable artifacts
+      - name: Generate deployable artifacts
+        run: mkdir build; cd build; echo "123" >> test
       #   run: |
       #     yarn
       #     yarn run prei18n:extract
