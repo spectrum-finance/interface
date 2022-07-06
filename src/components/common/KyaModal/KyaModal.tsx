@@ -21,7 +21,7 @@ const KyaModal: React.FC<KyaModalProps> = ({ onClose }): JSX.Element => {
       <Modal.Title>Know Your Assumptions</Modal.Title>
       <Modal.Content
         width={valBySize<CSSProperties['width']>('100%', 680)}
-        style={valBySize({ overflowY: 'auto', maxHeight: '90vh' }, {})}
+        style={valBySize({ overflowY: 'auto', maxHeight: '80vh' }, {})}
       >
         <Flex direction="col" className="kya-modal">
           <Flex.Item marginBottom={4}>
@@ -119,7 +119,7 @@ const KyaModal: React.FC<KyaModalProps> = ({ onClose }): JSX.Element => {
               </Trans>
             </Typography.Body>
           </Flex.Item>
-          <Flex.Item marginBottom={14}>
+          <Flex.Item>
             <Typography.Body strong>
               <Trans>
                 ErgoDEX offers a form of added security, as buyers and sellers
@@ -130,19 +130,12 @@ const KyaModal: React.FC<KyaModalProps> = ({ onClose }): JSX.Element => {
               </Trans>
             </Typography.Body>
           </Flex.Item>
-          <Flex.Item
-            style={{
-              bottom: '1rem',
-              position: 'absolute',
-              right: '1rem',
-              left: '1rem',
-            }}
-          >
-            <Button type="primary" size="large" block onClick={handleConfirm}>
-              <Trans>I understand the risks and accept the KYA</Trans>
-            </Button>
-          </Flex.Item>
         </Flex>
+      </Modal.Content>
+      <Modal.Content>
+        <Button type="primary" size="large" block onClick={handleConfirm}>
+          <Trans>I understand the risks and accept the KYA</Trans>
+        </Button>
       </Modal.Content>
     </>
   );
