@@ -1,12 +1,10 @@
-import { Box, Button, Flex, Modal } from '@ergolabs/ui-kit';
-import { Tabs } from '@ergolabs/ui-kit';
+import { Box, Button, Flex, Modal, Tabs, useDevice } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React, { CSSProperties } from 'react';
 
 import { useObservable } from '../../common/hooks/useObservable';
 import { networkAssetBalance$ } from '../../gateway/api/networkAssetBalance';
 import { useSelectedNetwork } from '../../gateway/common/network';
-import { useDevice } from '../../hooks/useDevice';
 import { isLowBalance } from '../../utils/walletMath';
 import { ChooseWalletModal } from '../common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal';
 import { IsCardano } from '../IsCardano/IsCardano';

@@ -5,6 +5,7 @@ import {
   LineChartOutlined,
   SwapOutlined,
   Typography,
+  useDevice,
   useForm,
 } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
@@ -47,7 +48,6 @@ import { getAvailableAssetFor, tokenAssets$ } from '../../gateway/api/assets';
 import { useNetworkAsset } from '../../gateway/api/networkAsset';
 import { useSwapValidationFee } from '../../gateway/api/validationFees';
 import { useSelectedNetwork } from '../../gateway/common/network';
-import { useDevice } from '../../hooks/useDevice';
 import { OperationSettings } from './OperationSettings/OperationSettings';
 import { PoolSelector } from './PoolSelector/PoolSelector';
 import { SwapConfirmationModal } from './SwapConfirmationModal/SwapConfirmationModal';
