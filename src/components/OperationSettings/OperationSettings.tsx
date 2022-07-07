@@ -18,7 +18,6 @@ import { MIN_NITRO } from '../../common/constants/erg';
 import { defaultSlippage, MIN_SLIPPAGE } from '../../common/constants/settings';
 import { useSubscription } from '../../common/hooks/useObservable';
 import { Currency } from '../../common/models/Currency';
-import { setSettings, useSettings } from '../../gateway/settings/settings';
 import { InfoTooltip } from '../InfoTooltip/InfoTooltip';
 import { NitroInput } from './NitroInput/NitroInput';
 import { SlippageInput } from './SlippageInput/SlippageInput';
@@ -59,30 +58,37 @@ const nitroCheck: CheckFn<number> = (value) =>
 export interface OperationSettingsProps {
   readonly minExFee: Currency;
   readonly maxExFee: Currency;
+  readonly setSlippage: (slippage: number) => void;
+  readonly setNitro: (nitro: number) => void;
+  readonly nitro: number;
+  readonly slippage: number;
 }
 
 export const OperationSettings: FC<OperationSettingsProps> = ({
   minExFee,
   maxExFee,
+  setSlippage,
+  setNitro,
+  nitro,
+  slippage,
 }) => {
-  const settings = useSettings();
   const [isPopoverShown, setIsPopoverShown] = useState(false);
 
   const form = useForm<SettingsModel>({
     slippage: useForm.ctrl(
-      settings.slippage,
+      slippage,
       [minSlippageCheck],
       [slippageCheck, slippageTxFailCheck],
     ),
-    nitro: useForm.ctrl(settings.nitro, [nitroCheck]),
+    nitro: useForm.ctrl(nitro, [nitroCheck]),
   });
 
   const handlePopoverShown = (visible: boolean) => {
     if (!visible) {
       form.reset(
         {
-          slippage: settings.slippage,
-          nitro: settings.nitro,
+          slippage: slippage,
+          nitro: nitro,
         },
         { emitEvent: 'system' },
       );
@@ -95,10 +101,8 @@ export const OperationSettings: FC<OperationSettingsProps> = ({
       skip(1),
       filter((value) => !!value && value >= MIN_SLIPPAGE),
     ),
-    (slippage) => {
-      setSettings({ ...settings, slippage });
-    },
-    [settings],
+    (slippage) => setSlippage(slippage),
+    [slippage, nitro],
   );
 
   useSubscription(
@@ -106,10 +110,8 @@ export const OperationSettings: FC<OperationSettingsProps> = ({
       skip(1),
       filter((value) => !!value && value >= MIN_NITRO),
     ),
-    (nitro) => {
-      setSettings({ ...settings, nitro });
-    },
-    [settings],
+    (nitro) => setNitro(nitro),
+    [slippage, nitro],
   );
 
   const Setting: JSX.Element = (
