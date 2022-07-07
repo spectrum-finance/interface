@@ -11,17 +11,15 @@ import {
   useForm,
 } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import { filter, skip } from 'rxjs';
 
-import { MIN_NITRO } from '../../../common/constants/erg';
-import {
-  defaultSlippage,
-  MIN_SLIPPAGE,
-} from '../../../common/constants/settings';
-import { useSubscription } from '../../../common/hooks/useObservable';
-import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
-import { setSettings, useSettings } from '../../../gateway/settings/settings';
+import { MIN_NITRO } from '../../common/constants/erg';
+import { defaultSlippage, MIN_SLIPPAGE } from '../../common/constants/settings';
+import { useSubscription } from '../../common/hooks/useObservable';
+import { Currency } from '../../common/models/Currency';
+import { setSettings, useSettings } from '../../gateway/settings/settings';
+import { InfoTooltip } from '../InfoTooltip/InfoTooltip';
 import { NitroInput } from './NitroInput/NitroInput';
 import { SlippageInput } from './SlippageInput/SlippageInput';
 
@@ -58,7 +56,15 @@ const minSlippageCheck: CheckFn<number> = (value) =>
 const nitroCheck: CheckFn<number> = (value) =>
   isNaN(value) || value < MIN_NITRO ? 'minNitro' : undefined;
 
-const OperationSettings = (): JSX.Element => {
+export interface OperationSettingsProps {
+  readonly minExFee: Currency;
+  readonly maxExFee: Currency;
+}
+
+export const OperationSettings: FC<OperationSettingsProps> = ({
+  minExFee,
+  maxExFee,
+}) => {
   const settings = useSettings();
   const [isPopoverShown, setIsPopoverShown] = useState(false);
 
@@ -164,6 +170,8 @@ const OperationSettings = (): JSX.Element => {
             <Form.Item name="nitro">
               {({ onChange, value, state, message }) => (
                 <NitroInput
+                  minExFee={minExFee}
+                  maxExFee={maxExFee}
                   state={state}
                   message={message}
                   onChange={onChange}
@@ -189,5 +197,3 @@ const OperationSettings = (): JSX.Element => {
     </Popover>
   );
 };
-
-export { OperationSettings };

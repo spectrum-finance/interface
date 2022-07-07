@@ -14,7 +14,7 @@ import {
   defaultSlippage,
   MAX_SLIPPAGE,
   MIN_SLIPPAGE,
-} from '../../../../common/constants/settings';
+} from '../../../common/constants/settings';
 
 export type NitroInputProps = Control<number> & { className?: string };
 
