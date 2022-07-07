@@ -1,33 +1,20 @@
-import { PublicKey } from '@ergolabs/ergo-sdk';
 import { useLocalStorage } from '@rehooks/local-storage';
 import { Settings as LuxonSettings } from 'luxon';
 import React, { createContext, useContext, useEffect } from 'react';
 
-import { MIN_NITRO } from '../common/constants/erg';
 import { DEFAULT_LOCALE, SupportedLocale } from '../common/constants/locales';
-import { defaultMinerFee, defaultSlippage } from '../common/constants/settings';
 import { isDarkOsTheme } from '../utils/osTheme';
 
 export type Settings = {
-  minerFee: number;
-  slippage: number;
-  address?: string;
-  nitro: number;
-  pk?: PublicKey;
   explorerUrl: string;
   theme: string;
   lang: SupportedLocale;
 };
 
 export const DefaultSettings: Readonly<Settings> = {
-  minerFee: defaultMinerFee,
-  nitro: MIN_NITRO,
-  slippage: defaultSlippage,
   explorerUrl: '',
-  pk: '',
   theme: isDarkOsTheme() ? 'dark' : 'light',
   lang: DEFAULT_LOCALE,
-  address: undefined,
 };
 
 function noop() {
@@ -48,7 +35,7 @@ const defaultContextValue: LocalStorageReturnValue<Settings> = [
   noop,
 ];
 
-const SettingsContext = createContext(defaultContextValue);
+const AppicationSettingsContext = createContext(defaultContextValue);
 
 export const getSetting = (
   setting: keyof Settings,
@@ -94,42 +81,12 @@ export const SettingsProvider = ({
     LuxonSettings.defaultLocale = userSettings.lang;
   }, [userSettings.lang]);
 
-  // useEffect(() => {
-  //   if (!usedAddresses || !unusedAddresses) {
-  //     return;
-  //   }
-  //
-  //   let newSelectedAddress: Address;
-  //   const addresses = unusedAddresses.concat(usedAddresses);
-  //   const currentSelectedAddress = ctxValue[0].address;
-  //
-  //   if (isCurrentAddressValid(currentSelectedAddress, addresses)) {
-  //     newSelectedAddress = currentSelectedAddress!;
-  //   } else {
-  //     newSelectedAddress = unusedAddresses[0] || usedAddresses[0];
-  //   }
-  //
-  //   let pk: string | undefined;
-  //
-  //   try {
-  //     pk = publicKeyFromAddress(newSelectedAddress);
-  //   } catch (e: any) {
-  //     pk = pubKeyHashFromAddr(newSelectedAddress, RustModule._wasm!);
-  //   }
-  //
-  //   ctxValue[1]({
-  //     ...ctxValue[0],
-  //     address: newSelectedAddress,
-  //     pk,
-  //   });
-  // }, [usedAddresses, unusedAddresses]);
-
   return (
-    <SettingsContext.Provider value={ctxValue}>
+    <AppicationSettingsContext.Provider value={ctxValue}>
       {children}
-    </SettingsContext.Provider>
+    </AppicationSettingsContext.Provider>
   );
 };
 
-export const useSettings = (): LocalStorageReturnValue<Settings> =>
-  useContext(SettingsContext);
+export const useApplicationSettings = (): LocalStorageReturnValue<Settings> =>
+  useContext(AppicationSettingsContext);

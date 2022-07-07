@@ -40,7 +40,7 @@ import {
   DEFAULT_MESSAGES,
   SupportedLocale,
 } from '../common/constants/locales';
-import { useSettings } from '../context';
+import { useApplicationSettings } from '../context';
 import { initialLocale, useLocale } from '../hooks/useLocale';
 
 type LocalePlural = {
@@ -102,7 +102,7 @@ export const LanguageProvider = ({
 }: {
   children: ReactNode;
 }): JSX.Element => {
-  const [settings, setSettings] = useSettings();
+  const [settings, setSettings] = useApplicationSettings();
   const locale = useLocale();
 
   useEffect(() => {

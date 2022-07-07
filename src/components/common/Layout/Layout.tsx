@@ -4,7 +4,7 @@ import { Modal } from '@ergolabs/ui-kit';
 import React, { FC, PropsWithChildren, useEffect, useRef } from 'react';
 
 import { applicationConfig } from '../../../applicationConfig';
-import { useAppLoadingState, useSettings } from '../../../context';
+import { useApplicationSettings, useAppLoadingState } from '../../../context';
 import { useSelectedNetwork } from '../../../gateway/common/network';
 import { useBodyClass } from '../../../hooks/useBodyClass';
 import { Header } from '../../Header/Header';
@@ -17,7 +17,7 @@ import { FooterNavigation } from './FooterNavigation/FooterNavigation';
 const Layout: FC<PropsWithChildren<Record<string, unknown>>> = ({
   children,
 }) => {
-  const [{ theme }] = useSettings();
+  const [{ theme }] = useApplicationSettings();
   const [network] = useSelectedNetwork();
   const ref = useRef<HTMLDivElement>(null);
 

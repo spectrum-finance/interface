@@ -1,2 +1,2 @@
+export * from './AppicationSettingsContext';
 export * from './AppLoadingContext';
-export * from './SettingsContext';

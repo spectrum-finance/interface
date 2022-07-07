@@ -27,7 +27,7 @@ import {
   SUPPORTED_LOCALES,
 } from '../../../common/constants/locales';
 import { useObservable } from '../../../common/hooks/useObservable';
-import { useSettings } from '../../../context';
+import { useApplicationSettings } from '../../../context';
 import { globalSettingsModal$ } from '../../../gateway/widgets/globalSettingsModal';
 import { useQuery } from '../../../hooks/useQuery';
 import { DotsIcon } from '../../common/Icons/DotsIcon';
@@ -41,7 +41,7 @@ const BurgerMenu = (): JSX.Element => {
   const { s } = useDevice();
   const [isMainMenu, setIsMainMenu] = useState<boolean>(true);
   const [isMenuVisible, setMenuVisible] = useState<boolean>(false);
-  const [settings, setSettings] = useSettings();
+  const [settings, setSettings] = useApplicationSettings();
   const location = useLocation();
   const qs = useQuery();
 
