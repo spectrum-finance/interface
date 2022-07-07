@@ -4,6 +4,7 @@ import { Modal } from '@ergolabs/ui-kit';
 import React, { FC, PropsWithChildren, useEffect, useRef } from 'react';
 import { isBrowser } from 'react-device-detect';
 
+import { panalytics } from '../../../common/analytics';
 import { useAppLoadingState, useSettings } from '../../../context';
 import { useSelectedNetwork } from '../../../gateway/common/network';
 import { useBodyClass } from '../../../hooks/useBodyClass';
@@ -25,7 +26,9 @@ const Layout: FC<PropsWithChildren<Record<string, unknown>>> = ({
 
   useEffect(() => {
     if (!isKYAAccepted && isBrowser) {
-      Modal.open(({ close }) => <KyaModal onClose={close} />);
+      Modal.open(({ close }) => <KyaModal onClose={close} />, {
+        afterClose: () => panalytics.closeKya(),
+      });
     }
   }, [isKYAAccepted]);
 

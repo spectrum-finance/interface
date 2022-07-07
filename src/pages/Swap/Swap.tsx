@@ -399,7 +399,7 @@ export const Swap = (): JSX.Element => {
             )}
           </Form.Listener>
           <Flex.Item marginTop={4}>
-            <ActionForm.Button>
+            <ActionForm.Button analytics={{ connectWalletLocation: 'swap' }}>
               <Trans>Swap</Trans>
             </ActionForm.Button>
           </Flex.Item>

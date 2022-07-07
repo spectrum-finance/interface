@@ -4,6 +4,7 @@ import { Button, Flex, notification, Typography } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
 import React from 'react';
 
+import { panalytics } from '../../../common/analytics';
 import { localStorageManager } from '../../../common/utils/localStorageManager';
 
 const COOKIE_POLICY_NOTIFICATION_KEY = 'cookie-policy';
@@ -15,11 +16,13 @@ export const openCookiePolicy = (): void => {
 
   const reject = () => {
     localStorageManager.set(COOKIE_POLICY_NOTIFICATION_KEY, 'reject');
+    panalytics.rejectCookies();
     notification.close(COOKIE_POLICY_NOTIFICATION_KEY);
   };
 
   const accept = () => {
     localStorageManager.set(COOKIE_POLICY_NOTIFICATION_KEY, 'accept');
+    panalytics.acceptCookies();
     notification.close(COOKIE_POLICY_NOTIFICATION_KEY);
   };
 

@@ -40,7 +40,9 @@ export const PoolsOrPositionDetails: FC<
       <Flex.Item flex={1}>{children}</Flex.Item>
       <Flex.Item display="flex">
         <Flex.Item marginRight={2}>
-          <ConnectWalletButton>
+          <ConnectWalletButton
+            analytics={{ connectWalletLocation: 'pool-list' }}
+          >
             <Button onClick={navigateToSwap}>
               <Trans>Swap</Trans>
             </Button>

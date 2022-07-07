@@ -353,6 +353,7 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
 
   return (
     <OperationForm
+      opName="add-liquidity"
       form={form}
       onSubmit={addLiquidityAction}
       validators={validators}

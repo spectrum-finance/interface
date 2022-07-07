@@ -5,6 +5,7 @@ import { t } from '@lingui/macro';
 import React, { ReactNode, useEffect, useState } from 'react';
 import { debounceTime, first, Observable } from 'rxjs';
 
+import { AnalyticsConnectWalletLocation } from '../../common/analytics/@types/wallet';
 import { useObservable } from '../../common/hooks/useObservable';
 import { isOnline$ } from '../../common/streams/networkConnection';
 import { useAssetsBalance } from '../../gateway/api/assetBalance';
@@ -15,6 +16,7 @@ export type OperationValidator<T> = (
 ) => ReactNode | ReactNode[] | string | undefined;
 
 export interface OperationFormProps<T> {
+  readonly opName?: AnalyticsConnectWalletLocation;
   readonly validators?: OperationValidator<T>[];
   readonly form: FormGroup<T>;
   readonly actionCaption: ReactNode | ReactNode[] | string;
@@ -33,6 +35,7 @@ export function OperationForm<T>({
   onSubmit,
   children,
   actionCaption,
+  opName,
 }: OperationFormProps<T>): JSX.Element {
   const [isOnline] = useObservable(isOnline$);
   const [, isBalanceLoading] = useAssetsBalance();
@@ -94,6 +97,7 @@ export function OperationForm<T>({
           <ConnectWalletButton
             className="connect-wallet-button"
             size="extra-large"
+            analytics={{ connectWalletLocation: opName }}
           >
             <Button
               loading={loading}

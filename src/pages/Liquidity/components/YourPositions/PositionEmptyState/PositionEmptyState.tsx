@@ -24,7 +24,9 @@ export const PositionEmptyState: FC = () => {
             <Trans>Your liquidity positions will appear here.</Trans>
           </Typography.Body>
         </Flex.Item>
-        <ConnectWalletButton>
+        <ConnectWalletButton
+          analytics={{ connectWalletLocation: 'your-positions-list' }}
+        >
           <Button
             icon={<PlusOutlined />}
             onClick={handleNewPositionClick}

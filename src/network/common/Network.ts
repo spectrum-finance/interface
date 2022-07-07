@@ -9,6 +9,8 @@ import { NetworkUtils } from './NetworkUtils';
 import { NetworkWidgets } from './NetworkWidgets';
 import { Wallet } from './Wallet';
 
+export type SupportedNetworks = 'ergo' | 'cardano';
+
 export interface Network<
   W extends Wallet,
   S extends BaseNetworkSettings,
@@ -18,7 +20,7 @@ export interface Network<
     NetworkWidgets<P>,
     NetworkUtils,
     NetworkSettings<S> {
-  readonly name: 'ergo' | 'cardano';
+  readonly name: SupportedNetworks;
   readonly favicon: string;
   readonly label: string;
   readonly convenientAssetDefaultPreview: string;

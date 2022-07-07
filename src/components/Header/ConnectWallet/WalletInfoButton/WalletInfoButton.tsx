@@ -4,6 +4,7 @@ import { Button, Flex, Modal, Typography } from '@ergolabs/ui-kit';
 import React, { FC } from 'react';
 import styled from 'styled-components';
 
+import { panalytics } from '../../../../common/analytics';
 import { Currency } from '../../../../common/models/Currency';
 import { WalletModal } from '../../../WalletModal/WalletModal';
 import { AddressTag } from './AddressTag/AddressTag';
@@ -22,7 +23,14 @@ const _WalletInfoButton: FC<WalletInfoButtonProps> = ({
   const openWalletModal = () => Modal.open(<WalletModal />);
 
   return (
-    <Button className={className} onClick={openWalletModal} size="large">
+    <Button
+      className={className}
+      onClick={() => {
+        openWalletModal();
+        panalytics.openWalletModal();
+      }}
+      size="large"
+    >
       {balance !== undefined ? (
         <Flex align="center" stretch>
           <Flex.Item marginRight={2} marginLeft={1}>
