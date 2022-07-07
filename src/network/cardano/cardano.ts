@@ -36,6 +36,7 @@ import {
   settings$,
 } from './settings/settings';
 import {
+  useCreatePoolValidationFee,
   useDepositValidationFee,
   useRedeemValidationFee,
   useSwapValidationFee,
@@ -101,6 +102,7 @@ export const cardanoNetwork: Network<
   useSwapValidationFee,
   useDepositValidationFee,
   useRedeemValidationFee,
+  useCreatePoolValidationFee,
 
   getPoolChartData: () => of([]),
 };

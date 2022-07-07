@@ -39,6 +39,7 @@ export interface NetworkData<W extends Wallet> {
   readonly useSwapValidationFee: () => Currency;
   readonly useDepositValidationFee: () => Currency;
   readonly useRedeemValidationFee: () => Currency;
+  readonly useCreatePoolValidationFee: () => Currency;
 
   readonly getPoolChartData: (
     pool: AmmPool,

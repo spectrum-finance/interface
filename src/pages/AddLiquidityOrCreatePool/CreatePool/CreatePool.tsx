@@ -20,7 +20,7 @@ import { RatioBox } from '../../../components/RatioBox/RatioBox';
 import { Section } from '../../../components/Section/Section';
 import { useAssetsBalance } from '../../../gateway/api/assetBalance';
 import { useNetworkAsset } from '../../../gateway/api/networkAsset';
-import { useDepositValidationFee } from '../../../network/ergo/settings/totalFees';
+import { useCreatePoolValidationFee } from '../../../network/ergo/settings/totalFees';
 import { normalizeAmountWithFee } from '../common/utils';
 import { LiquidityPercentInput } from '../LiquidityPercentInput/LiquidityPercentInput';
 import { CreatePoolConfirmationModal } from './CreatePoolConfirmationModal/CreatePoolConfirmationModal';
@@ -37,7 +37,7 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
   const [lastEditedField, setLastEditedField] = useState<'x' | 'y'>('x');
   const [balance] = useAssetsBalance();
   const [networkAsset] = useNetworkAsset();
-  const totalFees = useDepositValidationFee();
+  const totalFees = useCreatePoolValidationFee();
   const form = useForm<CreatePoolFormModel>({
     initialPrice: undefined,
     x: undefined,

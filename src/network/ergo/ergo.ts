@@ -37,6 +37,7 @@ import {
   settings$,
 } from './settings/settings';
 import {
+  useCreatePoolValidationFee,
   useDepositValidationFee,
   useRedeemValidationFee,
   useSwapValidationFee,
@@ -106,6 +107,7 @@ export const ergoNetwork: Network<
   useSwapValidationFee,
   useDepositValidationFee,
   useRedeemValidationFee,
+  useCreatePoolValidationFee,
 
   getPoolChartData,
 };
