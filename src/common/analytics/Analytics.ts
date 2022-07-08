@@ -103,4 +103,11 @@ export class ProductAnalytics {
     );
     this.event(ANALYTICS_EVENTS.CONNECT_WALLET, walletName);
   }
+
+  // Social
+
+  public clickSocial(name: string) {
+    const eventName = `CLICK_${name.toUpperCase()}`;
+    this.event(eventName);
+  }
 }
