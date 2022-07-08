@@ -109,6 +109,10 @@ export const Liquidity = (): JSX.Element => {
     return searchByTerm(filteredPositions) as Position[];
   };
 
+  const filterLockedPositions = (positions: Position[]): Position[] => {
+    return searchByTerm(positions) as Position[];
+  };
+
   const filterPools = (pools: AmmPool[]): AmmPool[] => {
     let filteredPools = pools;
 
@@ -124,7 +128,7 @@ export const Liquidity = (): JSX.Element => {
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setSearch(e.target.value);
 
-  const positionsWithLocks = positions?.filter((p) => p.locks.length > 0);
+  const positionsWithLocks = positions?.filter((p) => !!p.locks.length);
 
   return (
     <Page
@@ -177,7 +181,9 @@ export const Liquidity = (): JSX.Element => {
             tab={<Trans>Locked Positions</Trans>}
             key={LiquidityTab.LOCKED_POSITIONS}
           >
-            <LockedPositionsProps positions={filterPositions(positions)} />
+            <LockedPositionsProps
+              positions={filterLockedPositions(positionsWithLocks)}
+            />
           </Tabs.TabPane>
         )}
       </LiquidityTabs>
