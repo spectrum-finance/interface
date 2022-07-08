@@ -93,7 +93,7 @@ export const AddLiquidityOrCreatePool: FC = () => {
   );
 
   const handleNewPoolButtonClick = () => {
-    navigate('/pool/create');
+    navigate('../create');
     setComponentState(ComponentState.CREATE_POOL);
   };
 
