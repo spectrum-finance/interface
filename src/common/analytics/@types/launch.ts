@@ -6,13 +6,15 @@ export type AnalyticsLaunchData = {
   network: SupportedNetworks;
   locale: SupportedLocale;
   theme: AnalyticsTheme;
-  minerFee: number;
   ergo?: {
     nitro: number;
     slippage: number;
+    minerFee: number;
+    wallet?: string;
   };
   cardano?: {
     nitro: number;
     slippage: number;
+    wallet?: string;
   };
 };

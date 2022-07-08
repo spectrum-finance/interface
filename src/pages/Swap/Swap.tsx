@@ -5,12 +5,13 @@ import {
   LineChartOutlined,
   SwapOutlined,
   Typography,
+  useDevice,
   useForm,
 } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import maxBy from 'lodash/maxBy';
 import { DateTime } from 'luxon';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { CSSProperties, useEffect, useMemo, useState } from 'react';
 import {
   BehaviorSubject,
   combineLatest,
@@ -69,6 +70,7 @@ const getAvailablePools = (xId?: string, yId?: string): Observable<AmmPool[]> =>
   xId && yId ? getAmmPoolsByAssetPair(xId, yId) : of([]);
 
 export const Swap = (): JSX.Element => {
+  const { valBySize } = useDevice();
   const form = useForm<SwapFormModel>({
     fromAmount: undefined,
     toAmount: undefined,
@@ -336,11 +338,12 @@ export const Swap = (): JSX.Element => {
       action={submitSwap}
     >
       <Page
-        width={504}
+        width={valBySize<CSSProperties['width']>('100%', 504)}
         leftWidget={
           selectedNetwork.name === 'ergo' && <SwapGraph pool={pool} />
         }
         widgetOpened={leftWidgetOpened}
+        onWidgetClose={() => setLeftWidgetOpened(false)}
       >
         <Flex col>
           <Flex row align="center">

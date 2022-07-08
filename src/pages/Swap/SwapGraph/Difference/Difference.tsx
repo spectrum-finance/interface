@@ -7,6 +7,7 @@ import { Ratio } from '../../../../common/models/Ratio';
 interface DifferenceProps {
   ratioX: Ratio;
   ratioY: Ratio;
+  level?: 5 | 4 | 3 | 2 | 1;
 }
 
 const textType = (num: number | bigint): BaseType => {
@@ -19,7 +20,11 @@ const textType = (num: number | bigint): BaseType => {
   return 'secondary';
 };
 
-export const Difference: React.FC<DifferenceProps> = ({ ratioX, ratioY }) => {
+export const Difference: React.FC<DifferenceProps> = ({
+  ratioX,
+  ratioY,
+  level = 4,
+}) => {
   const diff = ratioY.minus(ratioX);
   const isPositive = diff.isPositive();
   const isNotZero = diff.amount !== 0n;
@@ -29,7 +34,7 @@ export const Difference: React.FC<DifferenceProps> = ({ ratioX, ratioY }) => {
   const diffValue = diff.toAbsoluteString();
 
   return (
-    <Typography.Title level={4} type={textType(diff.amount)}>{`${arrow}${
+    <Typography.Title level={level} type={textType(diff.amount)}>{`${arrow}${
       isNotZero ? diffValue : '-'
     } (${arrow}${percent.toFixed(percent !== 0 ? 2 : 0)}%)`}</Typography.Title>
   );

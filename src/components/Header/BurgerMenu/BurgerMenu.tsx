@@ -14,11 +14,11 @@ import {
   ReloadOutlined,
   RightOutlined,
   SettingOutlined,
+  useDevice,
 } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
 import { stringify } from 'qs';
 import React, { useState } from 'react';
-import { isMobile } from 'react-device-detect';
 import { Link, useLocation } from 'react-router-dom';
 
 import { ReactComponent as DarkModeOutlined } from '../../../assets/icons/darkmode.svg';
@@ -39,6 +39,7 @@ const MENU_WIDTH = 160;
 
 const BurgerMenu = (): JSX.Element => {
   const [GlobalSettingsModal] = useObservable(globalSettingsModal$);
+  const { s } = useDevice();
   const [isMainMenu, setIsMainMenu] = useState<boolean>(true);
   const [isMenuVisible, setMenuVisible] = useState<boolean>(false);
   const [settings, setSettings] = useSettings();
@@ -122,7 +123,7 @@ const BurgerMenu = (): JSX.Element => {
               key={index + 1}
               icon={item.icon}
               style={{
-                display: isMobile && item.isNotRenderMobile ? 'none' : '',
+                display: s && item.isNotRenderMobile ? 'none' : '',
               }}
             >
               <a

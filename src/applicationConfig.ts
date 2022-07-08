@@ -18,8 +18,14 @@ interface NetworkConfig {
   readonly lowBalanceGuide?: string;
 }
 
+interface CardanoUpdate {
+  readonly title: string;
+  readonly content: string;
+}
+
 interface ApplicationConfig {
   readonly cardanoMaintenance: boolean;
+  readonly cardanoUpdate?: CardanoUpdate;
   readonly reCaptchaKey: string;
   readonly networksSettings: Dictionary<NetworkConfig>;
   readonly social: {

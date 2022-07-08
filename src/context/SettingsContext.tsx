@@ -2,10 +2,12 @@ import { PublicKey } from '@ergolabs/ergo-sdk';
 import { useLocalStorage } from '@rehooks/local-storage';
 import { Settings as LuxonSettings } from 'luxon';
 import React, { createContext, useContext, useEffect } from 'react';
+import { map, Observable, publishReplay, refCount } from 'rxjs';
 
 import { MIN_NITRO } from '../common/constants/erg';
 import { DEFAULT_LOCALE, SupportedLocale } from '../common/constants/locales';
 import { defaultMinerFee, defaultSlippage } from '../common/constants/settings';
+import { localStorageManager } from '../common/utils/localStorageManager';
 import { isDarkOsTheme } from '../utils/osTheme';
 
 export type Settings = {
@@ -130,6 +132,14 @@ export const SettingsProvider = ({
     </SettingsContext.Provider>
   );
 };
+
+export const applicationSettings$: Observable<Settings> = localStorageManager
+  .getStream<Settings>('settings')
+  .pipe(
+    map((settings) => settings || DefaultSettings),
+    publishReplay(1),
+    refCount(),
+  );
 
 export const useSettings = (): LocalStorageReturnValue<Settings> =>
   useContext(SettingsContext);
