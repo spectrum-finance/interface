@@ -46,7 +46,7 @@ export const LockedPositionsProps: FC<LockedPositionsProps> = ({
       <TableView.Column title={<Trans>Share</Trans>} width={115}>
         {(position: Position) => <ShareCell position={position} />}
       </TableView.Column>
-      <TableView.Column title={<Trans>Last 24 Hours</Trans>} width={100}>
+      <TableView.Column title={<Trans>Last 24H</Trans>} width={100}>
         {(position: Position) => <RatioColumn ammPool={position.pool} />}
       </TableView.Column>
       <TableView.Action
