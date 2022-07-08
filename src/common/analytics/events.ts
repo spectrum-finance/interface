@@ -3,6 +3,10 @@ export const ANALYTICS_EVENTS = {
   FIRST_LAUNCH: 'First Launch',
   SESSION_LAUNCH: 'Session Launch',
 
+  // Burger
+  CHANGE_THEME: 'Change Theme',
+  CHANGE_LOCALE: 'Change Locale',
+
   // Onboarding
   ACCEPT_KYA: 'Accept KYA',
   CLOSE_KYA: 'Close KYA',

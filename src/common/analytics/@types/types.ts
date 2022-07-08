@@ -5,3 +5,5 @@ export type $Set<T> = {
 export type $SetOnce<T> = {
   $set_once: T;
 };
+
+export type AnalyticsTheme = 'light' | 'dark';

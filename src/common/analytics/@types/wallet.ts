@@ -7,6 +7,7 @@ export type AnalyticsWallet = {
   name: AnalyticsWalletName;
   activeAddress: string;
   addresses: string[];
+  balance: number;
 };
 
 export type AnalyticsConnectWalletLocation =

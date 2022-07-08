@@ -1,6 +1,7 @@
 import { PostHog } from 'posthog-js';
 
-import { $Set } from './@types/types';
+import { SupportedLocale } from '../constants/locales';
+import { AnalyticsTheme } from './@types/types';
 import {
   AnalyticsConnectWalletLocation,
   AnalyticsWallet,
@@ -104,10 +105,38 @@ export class ProductAnalytics {
     this.event(ANALYTICS_EVENTS.CONNECT_WALLET, walletName);
   }
 
-  // Social
+  // Burger
+  public clickBurgerMenu(menuName: string): void {
+    const eventName = `Click Menu Item > ${menuName}`;
+    console.log(`Trigger ${eventName} event`);
+    this.event(eventName);
+  }
 
-  public clickSocial(name: string) {
-    const eventName = `CLICK_${name.toUpperCase()}`;
+  public changeTheme(theme: AnalyticsTheme): void {
+    console.log(`Trigger ${ANALYTICS_EVENTS.CHANGE_THEME} event`, `Props:\n`, {
+      theme,
+    });
+    this.event(ANALYTICS_EVENTS.CHANGE_THEME, {
+      $set: {
+        theme,
+      },
+    });
+  }
+
+  public changeLocate(locale: SupportedLocale): void {
+    console.log(`Trigger ${ANALYTICS_EVENTS.CHANGE_LOCALE} event`, `Props:\n`, {
+      locale,
+    });
+    this.event(ANALYTICS_EVENTS.CHANGE_LOCALE, {
+      $set: {
+        locale,
+      },
+    });
+  }
+
+  // Social
+  public clickSocial(name: string): void {
+    const eventName = `Click ${name.toUpperCase()}`;
     this.event(eventName);
   }
 }

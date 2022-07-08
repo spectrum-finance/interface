@@ -22,6 +22,7 @@ import { isMobile } from 'react-device-detect';
 import { Link, useLocation } from 'react-router-dom';
 
 import { ReactComponent as DarkModeOutlined } from '../../../assets/icons/darkmode.svg';
+import { panalytics } from '../../../common/analytics';
 import {
   LOCALE_LABEL,
   SUPPORTED_LOCALES,
@@ -49,34 +50,42 @@ const BurgerMenu = (): JSX.Element => {
       title: t`About`,
       icon: <InfoCircleOutlined />,
       link: 'https://docs.ergodex.io/docs/about-ergodex/intro',
+      onClick: () => panalytics.clickBurgerMenu('About'),
     },
     {
       title: t`How to use`,
       icon: <QuestionCircleOutlined />,
       link: 'https://docs.ergodex.io/docs/user-guides/quick-start',
+      onClick: () => panalytics.clickBurgerMenu('How to use'),
     },
     {
       title: t`Docs`,
       icon: <FileTextOutlined />,
       link: 'https://docs.ergodex.io',
+      onClick: () => panalytics.clickBurgerMenu('Docs'),
     },
     {
       title: 'GitHub',
       icon: <GithubOutlined />,
       link: 'https://github.com/ergolabs',
+      onClick: () => panalytics.clickBurgerMenu('GitHub'),
     },
     {
       title: t`Manual Refund`,
       icon: <ReloadOutlined />,
-      onClick: () =>
-        Modal.open(({ close }) => <ManualRefundModal close={close} />),
+      onClick: () => {
+        panalytics.clickBurgerMenu('Manual Refund');
+        Modal.open(({ close }) => <ManualRefundModal close={close} />);
+      },
     },
     GlobalSettingsModal
       ? {
           title: t`Global Settings`,
           icon: <SettingOutlined />,
-          onClick: () =>
-            Modal.open(({ close }) => <GlobalSettingsModal onClose={close} />),
+          onClick: () => {
+            panalytics.clickBurgerMenu('Global Settings');
+            Modal.open(({ close }) => <GlobalSettingsModal onClose={close} />);
+          },
           isNotRenderMobile: true,
         }
       : undefined,
@@ -84,7 +93,10 @@ const BurgerMenu = (): JSX.Element => {
       title: t`Language`,
       icon: <GlobalOutlined />,
       additional: <RightOutlined style={{ marginLeft: 36 }} />,
-      onClick: () => setIsMainMenu(false),
+      onClick: () => {
+        panalytics.clickBurgerMenu('Language');
+        setIsMainMenu(false);
+      },
     },
     {
       title: t`Dark mode`,
@@ -113,15 +125,14 @@ const BurgerMenu = (): JSX.Element => {
                 display: isMobile && item.isNotRenderMobile ? 'none' : '',
               }}
             >
-              {item.onClick ? (
-                <a rel="noreferrer" onClick={item.onClick}>
-                  {item.title}
-                </a>
-              ) : (
-                <a href={item.link} target="_blank" rel="noreferrer">
-                  {item.title}
-                </a>
-              )}
+              <a
+                href={item.link}
+                rel="noreferrer"
+                target={item.link ? '_blank' : ''}
+                onClick={item.onClick}
+              >
+                {item.title}
+              </a>
               {item.additional && item.additional}
             </Menu.Item>
           ),
@@ -148,7 +159,10 @@ const BurgerMenu = (): JSX.Element => {
                 search: stringify({ ...qs, lng: locale }),
               }}
               rel="noopener noreferrer"
-              onClick={() => changeLanguage(locale)}
+              onClick={() => {
+                changeLanguage(locale);
+                panalytics.changeLocate(locale);
+              }}
             >
               {LOCALE_LABEL[locale]}
             </Link>
