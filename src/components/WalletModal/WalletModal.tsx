@@ -1,7 +1,6 @@
-import { Box, Button, Flex, Modal } from '@ergolabs/ui-kit';
-import { Tabs } from '@ergolabs/ui-kit';
+import { Box, Button, Flex, Modal, Tabs, useDevice } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
-import React from 'react';
+import React, { CSSProperties } from 'react';
 
 import { useObservable } from '../../common/hooks/useObservable';
 import { networkAssetBalance$ } from '../../gateway/api/networkAssetBalance';
@@ -17,6 +16,7 @@ import { WalletActiveAddress } from './WalletActiveAddress/WalletActiveAddress';
 import { WalletTotalBalance } from './WalletTotalBalance/WalletTotalBalance';
 
 export const WalletModal: React.FC = () => {
+  const { valBySize } = useDevice();
   const [networkAssetBalance] = useObservable(networkAssetBalance$);
   const [network] = useSelectedNetwork();
 
@@ -29,7 +29,7 @@ export const WalletModal: React.FC = () => {
       <Modal.Title>
         <Trans>Wallet</Trans>
       </Modal.Title>
-      <Modal.Content width={470}>
+      <Modal.Content width={valBySize<CSSProperties['width']>('100%', 470)}>
         <Flex col>
           <Flex.Item marginBottom={4}>
             <WalletTotalBalance balance={networkAssetBalance} />

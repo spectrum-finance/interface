@@ -1,6 +1,12 @@
-import { LoadingOutlined } from '@ant-design/icons';
 import { Address } from '@ergolabs/ergo-sdk';
-import { Button, Flex, Modal, Typography } from '@ergolabs/ui-kit';
+import {
+  Button,
+  Flex,
+  LoadingOutlined,
+  Modal,
+  Typography,
+  useDevice,
+} from '@ergolabs/ui-kit';
 import React, { FC } from 'react';
 import styled from 'styled-components';
 
@@ -21,6 +27,7 @@ const _WalletInfoButton: FC<WalletInfoButtonProps> = ({
   address,
 }) => {
   const openWalletModal = () => Modal.open(<WalletModal />);
+  const { s } = useDevice();
 
   return (
     <Button
@@ -33,11 +40,15 @@ const _WalletInfoButton: FC<WalletInfoButtonProps> = ({
     >
       {balance !== undefined ? (
         <Flex align="center" stretch>
-          <Flex.Item marginRight={2} marginLeft={1}>
-            <Typography.Body style={{ whiteSpace: 'nowrap', fontSize: '16px' }}>
-              {balance?.toCurrencyString()}
-            </Typography.Body>
-          </Flex.Item>
+          {!s && (
+            <Flex.Item marginRight={2} marginLeft={1}>
+              <Typography.Body
+                style={{ whiteSpace: 'nowrap', fontSize: '16px' }}
+              >
+                {balance?.toCurrencyString()}
+              </Typography.Body>
+            </Flex.Item>
+          )}
           <AddressTag address={address} />
         </Flex>
       ) : (
