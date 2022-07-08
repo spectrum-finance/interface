@@ -4,6 +4,7 @@ import { $Set } from './@types/types';
 import {
   AnalyticsConnectWalletLocation,
   AnalyticsWallet,
+  AnalyticsWalletName,
 } from './@types/wallet';
 import { ANALYTICS_EVENTS } from './events';
 
@@ -19,6 +20,34 @@ export class ProductAnalytics {
       system.capture(name, props);
     });
   }
+
+  // Launch
+  // public firstLaunch({
+  //   network,
+  //   theme,
+  //   appSettings,
+  //   opSettings,
+  // }: AnalyticsLaunchData) {
+  //   this.event(ANALYTICS_EVENTS.FIRST_LAUNCH, {
+  //     $set_once: {
+  //       network,
+  //       theme,
+  //       appSettings,
+  //       opSettings,
+  //     },
+  //   });
+  // }
+  //
+  // public sessionLaunch({ network, theme, appSettings, opSettings }) {
+  //   this.event(ANALYTICS_EVENTS.SESSION_LAUNCH, {
+  //     $set: {
+  //       network,
+  //       theme,
+  //       appSettings,
+  //       opSettings,
+  //     },
+  //   });
+  // }
 
   // Onboarding
   public acceptKya(): void {
@@ -57,12 +86,21 @@ export class ProductAnalytics {
     this.event(ANALYTICS_EVENTS.OPEN_WALLET_MODAL);
   }
 
-  public connectWallet(props: $Set<AnalyticsWallet>): void {
+  public connectWallet(props: AnalyticsWallet): void {
     console.log(
       `Trigger ${ANALYTICS_EVENTS.CONNECT_WALLET} event`,
       `Props:\n`,
       props,
     );
-    this.event(ANALYTICS_EVENTS.CONNECT_WALLET, props);
+    this.event(ANALYTICS_EVENTS.CONNECT_WALLET, { $set: props });
+  }
+
+  public connectWalletError(walletName: AnalyticsWalletName): void {
+    console.log(
+      `Trigger ${ANALYTICS_EVENTS.CONNECT_WALLET} event`,
+      `Props:\n`,
+      { walletName },
+    );
+    this.event(ANALYTICS_EVENTS.CONNECT_WALLET, walletName);
   }
 }

@@ -1,4 +1,8 @@
 export const ANALYTICS_EVENTS = {
+  // Launch
+  FIRST_LAUNCH: 'First Launch',
+  SESSION_LAUNCH: 'Session Launch',
+
   // Onboarding
   ACCEPT_KYA: 'Accept KYA',
   CLOSE_KYA: 'Close KYA',

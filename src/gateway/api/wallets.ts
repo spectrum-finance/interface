@@ -5,6 +5,7 @@ import {
   publishReplay,
   refCount,
   switchMap,
+  tap,
 } from 'rxjs';
 
 import { Wallet, WalletState } from '../../network/common/Wallet';
@@ -18,6 +19,9 @@ export const wallets$ = selectedNetwork$.pipe(
 
 export const selectedWallet$: Observable<Wallet> = selectedNetwork$.pipe(
   switchMap((n) => n.selectedWallet$),
+  tap((wallet) => {
+    console.log('wallet >>', wallet);
+  }),
   publishReplay(1),
   refCount(),
 );

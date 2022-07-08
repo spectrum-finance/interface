@@ -1,8 +1,10 @@
 import { SupportedNetworks } from '../../../network/common/Network';
 
+export type AnalyticsWalletName = string;
+
 export type AnalyticsWallet = {
   network: SupportedNetworks;
-  name: string;
+  name: AnalyticsWalletName;
   activeAddress: string;
   addresses: string[];
 };

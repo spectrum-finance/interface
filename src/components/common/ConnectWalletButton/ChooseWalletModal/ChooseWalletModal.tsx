@@ -60,7 +60,7 @@ const WalletView: React.FC<WalletItemProps> = ({ wallet, close }) => {
   const [checked, setChecked] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [warning, setWarning] = useState<ReactNode | undefined>(undefined);
-
+  // TODO
   const handleClick = () => {
     setLoading(true);
     connectWallet(wallet).subscribe(
