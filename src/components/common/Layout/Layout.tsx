@@ -3,8 +3,8 @@ import './Layout.less';
 import { Modal } from '@ergolabs/ui-kit';
 import React, { FC, PropsWithChildren, useEffect, useRef } from 'react';
 
-import { panalytics } from '../../../common/analytics';
 import { applicationConfig } from '../../../applicationConfig';
+import { panalytics } from '../../../common/analytics';
 import { useAppLoadingState, useSettings } from '../../../context';
 import { useSelectedNetwork } from '../../../gateway/common/network';
 import { useBodyClass } from '../../../hooks/useBodyClass';
