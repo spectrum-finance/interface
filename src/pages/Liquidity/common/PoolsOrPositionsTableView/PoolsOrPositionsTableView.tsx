@@ -68,7 +68,7 @@ export const PoolsOrPositionsTableView: FC<
     >
       {(ammPool: AmmPool) => <AprColumn ammPool={poolMapper(ammPool)} />}
     </TableView.Column>
-    <TableView.Column title={<Trans>Last 24 Hours</Trans>} width={100}>
+    <TableView.Column title={<Trans>Last 24H</Trans>} width={100}>
       {(ammPool) => <RatioColumn ammPool={poolMapper(ammPool)} />}
     </TableView.Column>
     {children}
