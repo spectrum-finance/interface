@@ -1,18 +1,16 @@
 export type AnalyticsLaunchData = {
   network: string;
-  theme: string;
-  appSettings: {
-    theme: 'light' | 'dark';
+  locale: string;
+  theme: 'light' | 'dark';
+  ergo?: {
+    nitro: number;
+    slippage: number;
     minerFee: number;
+    wallet?: string;
   };
-  opSettings: {
-    ergo?: {
-      nitro: number;
-      slippage: number;
-    };
-    cardano?: {
-      nitro: number;
-      slippage: number;
-    };
+  cardano?: {
+    nitro: number;
+    slippage: number;
+    wallet?: string;
   };
 };
