@@ -48,6 +48,10 @@ interface ApplicationConfig {
 
 export const applicationConfig: ApplicationConfig = {
   cardanoMaintenance: true,
+  cardanoUpdate: {
+    title: 'Under Maintenance',
+    content: 'We are migrating the protocol to Vasil Hard Fork testnet.',
+  },
   reCaptchaKey: '6LeUJ8YfAAAAAMYIqGvtOmJGLeJtCSv6FBH_5sA3',
   requestRetryCount: 3,
   networksSettings: {
