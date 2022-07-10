@@ -4,7 +4,9 @@ export interface AssetInfo<T = any> {
   readonly ticker?: string;
   readonly description?: string;
   readonly icon?: string;
+  readonly iconFallback?: string;
   readonly prefix?: string;
   readonly decimals?: number;
+  readonly emissionAmount?: bigint;
   readonly data?: T;
 }

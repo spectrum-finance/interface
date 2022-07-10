@@ -77,7 +77,9 @@ const AssetListModal: React.FC<TokenListModalProps> = ({
               />
             )}
             <ListStateView name="loading" condition={loading}>
-              <LoadingDataState height={150} />
+              <LoadingDataState height={150}>
+                <Trans>Loading assets</Trans>
+              </LoadingDataState>
             </ListStateView>
             <ListStateView name="empty" condition={!items.length}>
               <SearchDataState height={150}>

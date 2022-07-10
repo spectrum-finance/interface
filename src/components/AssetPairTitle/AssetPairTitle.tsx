@@ -1,7 +1,7 @@
-import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import { Flex, Typography } from '@ergolabs/ui-kit';
 import React, { FC } from 'react';
 
+import { AssetInfo } from '../../common/models/AssetInfo';
 import { AssetIconPair } from '../AssetIconPair/AssetIconPair';
 import { Truncate } from '../Truncate/Truncate';
 
@@ -25,7 +25,8 @@ export const AssetPairTitle: FC<TokenTitleProps> = ({
       <AssetIconPair size={size} assetX={assetX} assetY={assetY} />
     </Flex.Item>
     <Typography.Title level={level}>
-      <Truncate>{assetX.name}</Truncate> / <Truncate>{assetY.name}</Truncate>
+      <Truncate>{assetX.ticker || assetX.name}</Truncate> /{' '}
+      <Truncate>{assetY.ticker || assetY.name}</Truncate>
     </Typography.Title>
   </Flex>
 );

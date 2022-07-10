@@ -20,6 +20,7 @@ import { applicationConfig } from '../../../../applicationConfig';
 import { AmmPool } from '../../../../common/models/AmmPool';
 import { getAggregatedPoolAnalyticsDataById24H } from '../../../../common/streams/poolAnalytic';
 import { verifiedAssets$ } from '../../../../common/streams/verifiedAssets';
+import { mapToAssetInfo } from '../common/assetInfoManager';
 import { networkContext$ } from '../networkContext/networkContext';
 import { getPoolChartDataRaw } from '../poolChart/poolChart';
 import { ErgoAmmPool } from './ErgoAmmPool';
@@ -48,17 +49,22 @@ const toAmmPool = (p: BaseAmmPool): Observable<AmmPool> =>
     getPoolChartDataRaw(p.id, {
       from: DateTime.now().minus({ day: 1 }).valueOf(),
     }),
+    combineLatest(
+      [p.lp.asset, p.x.asset, p.y.asset].map((asset) =>
+        mapToAssetInfo(asset.id),
+      ),
+    ),
     verifiedAssets$,
   ]).pipe(
-    map(
-      ([poolAnalytics, rawChartData, verifiedAssets]) =>
-        new ErgoAmmPool(
-          p,
-          poolAnalytics,
-          rawChartData,
-          isPoolVerified(p, verifiedAssets),
-        ),
-    ),
+    map(([poolAnalytics, rawChartData, [lp, x, y], verifiedAssets]) => {
+      return new ErgoAmmPool(
+        p,
+        { lp: lp || p.lp.asset, x: x || p.x.asset, y: y || p.y.asset },
+        poolAnalytics,
+        rawChartData,
+        isPoolVerified(p, verifiedAssets),
+      );
+    }),
   );
 
 export const ammPools$ = networkContext$.pipe(
