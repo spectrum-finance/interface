@@ -20,7 +20,6 @@ export class ErgoAmmPool extends AmmPool {
     },
     private poolAnalytics?: AmmPoolAnalytics,
     private _dayRatioTrend: PoolChartDataRaw[] = [],
-    public verified: boolean = false,
   ) {
     super();
   }
