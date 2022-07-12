@@ -1,8 +1,9 @@
 import { Box, Button, Flex, Modal } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import React from 'react';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 
+import { panalytics } from '../../../common/analytics';
 import { useObservable } from '../../../common/hooks/useObservable';
 import { AmmPool } from '../../../common/models/AmmPool';
 import { Currency } from '../../../common/models/Currency';
@@ -19,16 +20,26 @@ interface ConfirmRemoveModalProps {
   lpAmount: Currency;
   xAmount: Currency;
   yAmount: Currency;
+  percent: number;
 }
 
 export const RemoveLiquidityConfirmationModal: React.FC<ConfirmRemoveModalProps> =
-  ({ pool, lpAmount, xAmount, yAmount, onClose }) => {
+  ({ pool, lpAmount, xAmount, yAmount, percent, onClose }) => {
     const [RedeemFees] = useObservable(redeemConfirmationInfo$);
 
     // TODO: add try catch
     const removeOperation = async (pool: AmmPool, lpAmount: Currency) => {
       if (pool && lpAmount) {
-        onClose(redeem(pool, lpAmount));
+        const form = { xAmount, yAmount, lpAmount, percent };
+        panalytics.confirmRedeem(form, pool);
+        onClose(
+          redeem(pool, lpAmount).pipe(
+            tap(
+              (txId) => panalytics.signedRedeem(form, pool, txId),
+              (err) => panalytics.signedErrorRedeem(form, pool, err),
+            ),
+          ),
+        );
       }
     };
 

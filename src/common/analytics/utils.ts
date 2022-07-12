@@ -1,4 +1,5 @@
 import { AddLiquidityFormModel } from '../../pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityFormModel';
+import { RemoveFormModel } from '../../pages/RemoveLiquidity/RemoveLiquidity';
 import { SwapFormModel } from '../../pages/Swap/SwapFormModel';
 import { AmmPool } from '../models/AmmPool';
 import {
@@ -6,6 +7,7 @@ import {
   AnalyticsDepositData,
   AnalyticsElementLocation,
   AnalyticsPoolData,
+  AnalyticsRedeemData,
   AnalyticsSwapData,
   AnalyticsTokenAssignment,
 } from './@types/types';
@@ -49,10 +51,6 @@ export const constructEventName = (
   return result;
 };
 
-export const debugEvent = (name: string, props?: any): void => {
-  console.log(name, props);
-};
-
 export const getPoolAnalyticsData = (pool: AmmPool): AnalyticsPoolData => {
   return {
     pool_id: pool.id,
@@ -66,17 +64,17 @@ export const convertSwapFormModelToAnalytics = ({
   toAmount,
   fromAmount,
   pool,
-}: SwapFormModel): AnalyticsSwapData => {
+}: SwapFormModel): AnalyticsSwapData & AnalyticsPoolData => {
   return {
-    from_token_name: fromAmount?.asset.name,
+    from_name: fromAmount?.asset.name,
     from_amount: Number(fromAmount?.toAmount()),
     // TODO
     // from_usd: fromAmount?.toUsd(),
-    from_token_id: fromAmount?.asset.id,
+    from_id: fromAmount?.asset.id,
 
-    to_token_name: toAmount?.asset.name,
+    to_name: toAmount?.asset.name,
     to_amount: Number(toAmount?.toAmount()),
-    to_token_id: toAmount?.asset.id,
+    to_id: toAmount?.asset.id,
     // TODO
     // to_usd: toAmount?.toUsd(),
     ...getPoolAnalyticsData(pool!),
@@ -87,16 +85,35 @@ export const convertDepositFormModelToAnalytics = ({
   x,
   y,
   pool,
-}: AddLiquidityFormModel): AnalyticsDepositData => {
+}: AddLiquidityFormModel): AnalyticsDepositData & AnalyticsPoolData => {
   return {
-    x_token_name: x?.asset.name,
+    x_name: x?.asset.name,
     x_amount: Number(x?.toAmount()),
     // x_usd:
-    y_token_name: y?.asset.name,
+    y_name: y?.asset.name,
     y_amount: Number(y?.toAmount()),
     // y_usd:
     // liquidity_usd:
 
     ...getPoolAnalyticsData(pool!),
+  };
+};
+
+export const convertRedeemFormModelToAnalytics = (
+  { xAmount, yAmount, lpAmount, percent }: RemoveFormModel,
+  pool: AmmPool,
+): AnalyticsRedeemData & AnalyticsPoolData => {
+  return {
+    percent_of_liquidity: percent,
+    x_name: xAmount?.asset.name,
+    x_amount: Number(xAmount?.toAmount()),
+    // x_usd: number;
+    y_name: yAmount?.asset.name,
+    y_amount: Number(yAmount?.toAmount()),
+    // y_usd: number;
+    lp_amount: Number(lpAmount?.toAmount()),
+    // liquidity_usd: number;
+
+    ...getPoolAnalyticsData(pool),
   };
 };

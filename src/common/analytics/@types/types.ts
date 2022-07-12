@@ -54,22 +54,34 @@ export type AnalyticsSwapSettingsData = {
 };
 
 export type AnalyticsSwapData = {
-  from_token_name?: string;
+  from_name?: string;
   from_amount?: number;
   from_usd?: number;
-  from_token_id?: string;
-  to_token_name?: string;
+  from_id?: string;
+  to_name?: string;
   to_amount?: number;
   to_usd?: number;
-  to_token_id?: string;
+  to_id?: string;
 };
 
 export type AnalyticsDepositData = {
-  x_token_name?: string;
+  x_name?: string;
   x_amount?: number;
   x_usd?: number;
-  y_token_name?: string;
+  y_name?: string;
   y_amount?: number;
   y_usd?: number;
+  liquidity_usd?: number;
+};
+
+export type AnalyticsRedeemData = {
+  percent_of_liquidity?: number;
+  x_name?: string;
+  x_amount?: number;
+  x_usd?: number;
+  y_name?: string;
+  y_amount?: number;
+  y_usd?: number;
+  lp_amount?: number;
   liquidity_usd?: number;
 };

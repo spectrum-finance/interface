@@ -1,6 +1,7 @@
 import { PostHog } from 'posthog-js';
 
 import { AddLiquidityFormModel } from '../../pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityFormModel';
+import { RemoveFormModel } from '../../pages/RemoveLiquidity/RemoveLiquidity';
 import { SwapFormModel } from '../../pages/Swap/SwapFormModel';
 import { SupportedLocale } from '../constants/locales';
 import { AmmPool } from '../models/AmmPool';
@@ -16,8 +17,8 @@ import { ANALYTICS_EVENTS } from './events';
 import {
   constructEventName,
   convertDepositFormModelToAnalytics,
+  convertRedeemFormModelToAnalytics,
   convertSwapFormModelToAnalytics,
-  debugEvent,
   getPoolAnalyticsData,
 } from './utils';
 
@@ -237,6 +238,45 @@ export class ProductAnalytics {
       ANALYTICS_EVENTS.DEPOSIT_SELECT_POOL,
       getPoolAnalyticsData(pool),
     );
+  }
+
+  // --
+  // Redeem
+  // --
+  public submitRedeem(removeFromModel: RemoveFormModel, pool: AmmPool): void {
+    this.event(
+      ANALYTICS_EVENTS.REDEEM_SUBMIT,
+      convertRedeemFormModelToAnalytics(removeFromModel, pool),
+    );
+  }
+
+  public confirmRedeem(removeFromModel: RemoveFormModel, pool: AmmPool): void {
+    this.event(
+      ANALYTICS_EVENTS.REDEEM_CONFIRM,
+      convertRedeemFormModelToAnalytics(removeFromModel, pool),
+    );
+  }
+
+  public signedRedeem(
+    removeFromModel: RemoveFormModel,
+    pool: AmmPool,
+    txId: string,
+  ): void {
+    this.event(ANALYTICS_EVENTS.REDEEM_SIGNED, {
+      tx_id: txId,
+      ...convertRedeemFormModelToAnalytics(removeFromModel, pool),
+    });
+  }
+
+  public signedErrorRedeem(
+    removeFromModel: RemoveFormModel,
+    pool: AmmPool,
+    err: any,
+  ): void {
+    this.event(ANALYTICS_EVENTS.REDEEM_SIGNED_ERROR, {
+      redeem_signed_error: err,
+      ...convertRedeemFormModelToAnalytics(removeFromModel, pool),
+    });
   }
 
   // --

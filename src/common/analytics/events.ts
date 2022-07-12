@@ -36,7 +36,6 @@ export const ANALYTICS_EVENTS = {
   // Deposit
   DEPOSIT_SUBMIT: 'Deposit Submit',
   DEPOSIT_CONFIRM: 'Deposit Confirm',
-  DEPOSIT_CONFIRM_ERROR: 'Deposit Confirm Error',
   DEPOSIT_SIGNED: 'Deposit Signed',
   DEPOSIT_SIGNED_ERROR: 'Deposit Signed Error',
   DEPOSIT_SELECT_X: 'Deposit Select X',
@@ -51,4 +50,8 @@ export const ANALYTICS_EVENTS = {
   DEPOSIT_CLICK_POOL_SELECT: 'Deposit Click Pool Select',
   DEPOSIT_SELECT_POOL: 'Deposti Select Pool',
   // Redeem
+  REDEEM_SUBMIT: 'Redeem Submit',
+  REDEEM_CONFIRM: 'Redeem Confirm',
+  REDEEM_SIGNED: 'Redeem Signed',
+  REDEEM_SIGNED_ERROR: 'Redeem Signed Error',
 };
