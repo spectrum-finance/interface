@@ -1,6 +1,6 @@
-import { AmmPool } from '@ergolabs/ergo-dex-sdk';
 import { combineLatest, map, Observable, publishReplay, refCount } from 'rxjs';
 
+import { AmmPool } from '../../../../common/models/AmmPool';
 import { AssetInfo } from '../../../../common/models/AssetInfo';
 import { localStorageManager } from '../../../../common/utils/localStorageManager';
 import { networkAsset } from '../networkAsset/networkAsset';
@@ -22,7 +22,7 @@ const importedTokenAssets$ = localStorageManager
     refCount(),
   );
 
-export const importTokenAsset = (ai: AssetInfo): void => {
+export const importTokenAsset = (ai: AssetInfo | AssetInfo[]): void => {
   let oldImportedTokenAssets = localStorageManager.get<string[]>(
     IMPORTED_TOKEN_ASSETS_KEY,
   );
@@ -33,7 +33,9 @@ export const importTokenAsset = (ai: AssetInfo): void => {
 
   localStorageManager.set(
     IMPORTED_TOKEN_ASSETS_KEY,
-    oldImportedTokenAssets.concat(ai.id),
+    oldImportedTokenAssets.concat(
+      ai instanceof Array ? ai.map((i) => i.id) : ai.id,
+    ),
   );
 };
 
@@ -48,6 +50,21 @@ export const filterUnavailablePools = (
             defaultTokenList.tokensMap.has(ap.x.asset.id)) &&
           (importedTokens.includes(ap.y.asset.id) ||
             defaultTokenList.tokensMap.has(ap.y.asset.id)),
+      ),
+    ),
+  );
+
+export const filterAvailablePools = (
+  ammPools: AmmPool[],
+): Observable<AmmPool[]> =>
+  combineLatest([defaultTokenList$, importedTokenAssets$]).pipe(
+    map(([defaultTokenList, importedTokens]) =>
+      ammPools.filter(
+        (ap) =>
+          (!importedTokens.includes(ap.x.asset.id) &&
+            !defaultTokenList.tokensMap.has(ap.x.asset.id)) ||
+          (!importedTokens.includes(ap.y.asset.id) &&
+            !defaultTokenList.tokensMap.has(ap.y.asset.id)),
       ),
     ),
   );

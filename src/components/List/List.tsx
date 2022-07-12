@@ -1,4 +1,5 @@
 import { Animation, getGutter, Gutter } from '@ergolabs/ui-kit';
+import last from 'lodash/last';
 import React, {
   CSSProperties,
   ReactElement,
@@ -27,6 +28,57 @@ const ItemContainer = styled.div`
   transition: all 0.3s;
 `;
 
+export interface EmptyGroupConfig<T> {
+  readonly items: T[];
+}
+
+export interface GroupConfig<T> {
+  readonly title: ReactNode | ReactNode[] | string;
+  readonly height: number;
+  readonly items: T[];
+}
+
+interface ItemsData<T> {
+  readonly items: (T | ReactNode[] | ReactNode | string)[];
+  readonly groups: Dictionary<{ name: string; height: number }>;
+}
+
+function isGroupConfig<T>(
+  group: GroupConfig<T> | EmptyGroupConfig<T>,
+): group is GroupConfig<T> {
+  return !!(group as any)?.title;
+}
+
+function toItemsData<T>(
+  items: T[] | Dictionary<GroupConfig<T> | EmptyGroupConfig<T>>,
+): ItemsData<T> {
+  if (items instanceof Array) {
+    return { items, groups: {} };
+  }
+
+  return Object.entries(items).reduce<ItemsData<T>>(
+    (itemsData, [key, group]) => {
+      if (isGroupConfig(group)) {
+        return {
+          items: itemsData.items.concat(group.title).concat(group.items),
+          groups: {
+            ...itemsData.groups,
+            [itemsData.items.length]: {
+              name: key,
+              height: group.height,
+            },
+          },
+        };
+      }
+      return {
+        items: itemsData.items.concat(group.items),
+        groups: itemsData.groups,
+      };
+    },
+    { items: [], groups: {} },
+  );
+}
+
 export interface ListProps<T> {
   readonly height?: CSSProperties['height'];
   readonly maxHeight?: CSSProperties['height'];
@@ -35,10 +87,11 @@ export interface ListProps<T> {
   readonly className?: string;
   readonly style?: CSSProperties;
   readonly overlay?: boolean;
-  readonly items: T[];
+  readonly items: T[] | Dictionary<GroupConfig<T> | EmptyGroupConfig<T>>;
   readonly itemHeight: number;
   readonly itemKey: keyof T;
   readonly expand?: Expand;
+  readonly fadeInDelay?: number;
   readonly children:
     | ((childProps: ListItem<T>) => ReactNode | ReactNode[] | string)
     | (
@@ -59,14 +112,15 @@ export const List = <T extends unknown>({
   children,
   itemKey,
   expand,
+  fadeInDelay,
 }: ListProps<T>): ReactElement => {
   const ref = useRef<VirtualizedList>();
 
-  // const [overlayPosition, setOverlayPosition] =
-  //   useState<OverlayPosition>('bottom');
   const [selectedItems, setSelectedItems] = useState<uint[]>([]);
 
   const [states, setStates] = useState<Dictionary<ListState>>({});
+
+  const [itemsData, setItemsData] = useState<ItemsData<T>>(toItemsData(items));
 
   const itemRenderer: (props: ListItem<T>) => ReactNode | ReactNode[] | string =
     children instanceof Array
@@ -80,9 +134,20 @@ export const List = <T extends unknown>({
 
   const currentState = Object.values(states).find((sr) => sr.condition);
 
+  const isTitle = (
+    item: T | ReactNode | ReactNode[] | string,
+    index: uint,
+  ): item is ReactNode | ReactNode[] | string => {
+    return !!itemsData.groups[index];
+  };
+
+  useEffect(() => {
+    setItemsData(toItemsData(items));
+  }, [items]);
+
   useEffect(() => {
     ref.current?.recomputeRowHeights();
-  }, [items]);
+  }, [itemsData]);
 
   useEffect(() => {
     ref.current?.recomputeRowHeights();
@@ -110,14 +175,30 @@ export const List = <T extends unknown>({
     setStates((prev) => ({ ...prev, [s.name]: s }));
   };
 
+  const getGroupByIndex = (itemIndex: uint): string | undefined => {
+    const possibleGroups = Object.entries(itemsData.groups)
+      .filter(([index]) => +index < itemIndex)
+      .map(([, value]) => value.name);
+
+    return last(possibleGroups);
+  };
+
   const listItemRenderer: ListRowRenderer = ({ index, key, style }) => {
-    const item = items[index];
+    const item = itemsData.items[index];
     const isItemSelected = selectedItems.includes(index);
+
+    if (isTitle(item, index)) {
+      return (
+        <ItemContainer style={style} key={itemsData.groups[index].name || key}>
+          <Animation.FadeIn delay={fadeInDelay || 0}>{item}</Animation.FadeIn>
+        </ItemContainer>
+      );
+    }
 
     return (
       <ItemContainer style={style} key={(item[itemKey] as any) || key}>
         {itemRenderer && (
-          <Animation.FadeIn delay={0}>
+          <Animation.FadeIn delay={fadeInDelay || 0}>
             {itemRenderer({
               item,
               index,
@@ -129,22 +210,12 @@ export const List = <T extends unknown>({
               expanded: selectedItems.includes(index),
               expand: handleExpand.bind(null, index),
               collapse: handleCollapse.bind(null, index),
+              group: getGroupByIndex(index),
             })}
           </Animation.FadeIn>
         )}
       </ItemContainer>
     );
-  };
-
-  const handleScroll = () => {
-    // if (!overlay || !params.clientHeight) {
-    //   return;
-    // }
-    // if (params.scrollHeight - params.scrollTop === params.clientHeight) {
-    //   setOverlayPosition('top');
-    // } else {
-    //   setOverlayPosition('bottom');
-    // }
   };
 
   return (
@@ -169,9 +240,10 @@ export const List = <T extends unknown>({
                 height,
                 maxHeight,
                 expand?.height || 0,
-                items.length,
+                itemsData.items.length,
                 selectedItems.length,
                 itemHeight,
+                itemsData.groups,
                 gap,
               ),
             }}
@@ -182,19 +254,19 @@ export const List = <T extends unknown>({
                   ref={ref as any}
                   height={height}
                   width={width}
-                  onScroll={handleScroll}
                   rowHeight={({ index }) =>
                     getRowHeight(
                       index,
-                      items.length,
+                      itemsData.items.length,
                       selectedItems,
                       itemHeight,
                       expand?.height || 0,
+                      itemsData.groups,
                       gap,
                     )
                   }
                   rowRenderer={listItemRenderer}
-                  rowCount={items.length}
+                  rowCount={itemsData.items.length}
                 />
               )}
             </AutoSizer>

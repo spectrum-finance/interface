@@ -13,4 +13,4 @@ export const availableTokenAssets$ = ammPools$.pipe(
 
 export const tokenAssetsToImport$ = of([]);
 
-export const importTokenAsset = (ai: AssetInfo) => {};
+export const importTokenAsset = (ai: AssetInfo | AssetInfo[]) => {};

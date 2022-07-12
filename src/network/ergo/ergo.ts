@@ -4,7 +4,7 @@ import {
   getUnusedAddresses,
   getUsedAddresses,
 } from './api/addresses/addresses';
-import { ammPools$ } from './api/ammPools/ammPools';
+import { ammPools$, possibleAmmPools$ } from './api/ammPools/ammPools';
 import { ErgoAmmPool } from './api/ammPools/ErgoAmmPool';
 import { assetBalance$ } from './api/balance/assetBalance';
 import { lpBalance$ } from './api/balance/lpBalance';
@@ -71,6 +71,7 @@ export const ergoNetwork: Network<
   locks$,
   positions$,
   ammPools$,
+  possibleAmmPools$,
   getAddresses,
   getUsedAddresses,
   getUnusedAddresses,

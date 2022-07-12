@@ -3,8 +3,8 @@ import { Box, Flex, Typography } from '@ergolabs/ui-kit';
 import React from 'react';
 import styled from 'styled-components';
 
-import { useAssetsBalance } from '../../../../../../gateway/api/assetBalance';
-import { AssetTitle } from '../../../../../AssetTitle/AssetTitle';
+import { useAssetsBalance } from '../../../../../../../gateway/api/assetBalance';
+import { AssetTitle } from '../../../../../../AssetTitle/AssetTitle';
 
 interface TokenListItemProps {
   asset: AssetInfo;

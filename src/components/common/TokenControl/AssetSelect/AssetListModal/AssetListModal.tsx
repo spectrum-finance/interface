@@ -1,43 +1,45 @@
 import { AssetInfo } from '@ergolabs/ergo-sdk';
-import {
-  Flex,
-  Input,
-  LoadingDataState,
-  Modal,
-  SearchDataState,
-  SearchOutlined,
-  useSearch,
-} from '@ergolabs/ui-kit';
-import { t, Trans } from '@lingui/macro';
-import React from 'react';
-import { Observable, of } from 'rxjs';
+import { ArrowLeftOutlined, Flex, Modal, Typography } from '@ergolabs/ui-kit';
+import { Trans } from '@lingui/macro';
+import React, { useState } from 'react';
+import { Observable } from 'rxjs';
+import styled from 'styled-components';
 
-import { useObservable } from '../../../../../common/hooks/useObservable';
-import { tokenAssetsToImport$ } from '../../../../../gateway/api/assets';
-import { List } from '../../../../List/List';
-import { ListStateView } from '../../../../List/ListStateView/ListStateView';
+import {
+  hasAvailablePoolsWith,
+  importTokenAsset,
+} from '../../../../../gateway/api/assets';
 import { AssetListImportTokenState } from './AssetListImportTokenState/AssetListImportTokenState';
-import { AssetListItem } from './AssetListItem/AssetListItem';
+import { AssetListSelectTokenState } from './AssetListSelectTokenState/AssetListSelectTokenState';
+
+enum AssetListModalState {
+  SELECT_TOKEN,
+  IMPORT_TOKEN,
+}
 
 interface TokenListModalProps {
   readonly close: () => void;
   readonly onSelectChanged?: (name: AssetInfo) => void | undefined;
   readonly assets$?: Observable<AssetInfo[]>;
+  readonly assetsToImport$?: Observable<AssetInfo[]>;
 }
+
+const StyledArrowLeftOutlined = styled(ArrowLeftOutlined)`
+  cursor: pointer;
+`;
 
 const AssetListModal: React.FC<TokenListModalProps> = ({
   close,
   onSelectChanged,
   assets$,
+  assetsToImport$,
 }) => {
-  const [searchByTerm, setTerm] = useSearch<AssetInfo>(['name']);
-  const [assets, loading] = useObservable(assets$ ?? of([]));
-  const [tokenAssetsToImport] = useObservable(tokenAssetsToImport$, [], []);
+  const [assetListModalState, setAssetListModalState] =
+    useState<AssetListModalState>(AssetListModalState.SELECT_TOKEN);
 
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setTerm(e.target.value);
+  const [assetToImport, setAssetToImport] = useState<AssetInfo | undefined>();
 
-  const handleClick = (asset: AssetInfo) => {
+  const handleAssetSelect = (asset: AssetInfo) => {
     if (onSelectChanged) {
       onSelectChanged(asset);
     }
@@ -47,53 +49,59 @@ const AssetListModal: React.FC<TokenListModalProps> = ({
     }
   };
 
-  const items = searchByTerm(assets);
+  const handleAssetImport = (asset: AssetInfo) => {
+    hasAvailablePoolsWith(asset).subscribe((hasAvailablePoolsWith) => {
+      if (hasAvailablePoolsWith) {
+        importTokenAsset(asset);
+        handleAssetSelect(asset);
+      } else {
+        setAssetToImport(asset);
+        setAssetListModalState(AssetListModalState.IMPORT_TOKEN);
+      }
+    });
+  };
 
-  console.log(tokenAssetsToImport);
+  const handleAssetsImport = (mainAsset: AssetInfo, assets: AssetInfo[]) => {
+    importTokenAsset(assets.concat(mainAsset));
+    handleAssetSelect(mainAsset);
+  };
+
+  const resetModalState = () => {
+    setAssetToImport(undefined);
+    setAssetListModalState(AssetListModalState.SELECT_TOKEN);
+  };
 
   return (
     <>
-      {/*<AssetListImportTokenState />*/}
       <Modal.Title>
-        <Trans>Select a token</Trans>
+        {assetListModalState === AssetListModalState.SELECT_TOKEN ? (
+          <Trans>Select a token</Trans>
+        ) : (
+          <Flex align="center">
+            <Flex.Item marginRight={5}>
+              <Typography.Title level={5}>
+                <StyledArrowLeftOutlined onClick={resetModalState} />
+              </Typography.Title>
+            </Flex.Item>
+            <Trans>Select a token</Trans>
+          </Flex>
+        )}
       </Modal.Title>
       <Modal.Content width={500}>
-        <Flex col>
-          <Flex.Item marginBottom={2}>
-            <Input
-              autoFocus
-              placeholder={t`Search`}
-              size="large"
-              prefix={<SearchOutlined />}
-              onChange={handleSearch}
-            />
-          </Flex.Item>
-          <List
-            itemKey="id"
-            items={items}
-            gap={1}
-            maxHeight={350}
-            itemHeight={52}
-          >
-            {({ item, height }) => (
-              <AssetListItem
-                height={height}
-                asset={item}
-                onClick={() => handleClick(item)}
-              />
-            )}
-            <ListStateView name="loading" condition={loading}>
-              <LoadingDataState height={150}>
-                <Trans>Loading assets</Trans>
-              </LoadingDataState>
-            </ListStateView>
-            <ListStateView name="empty" condition={!items.length}>
-              <SearchDataState height={150}>
-                <Trans>No results was found</Trans>
-              </SearchDataState>
-            </ListStateView>
-          </List>
-        </Flex>
+        {assetListModalState === AssetListModalState.SELECT_TOKEN && (
+          <AssetListSelectTokenState
+            assetsToImport$={assetsToImport$}
+            assets$={assets$}
+            onAssetImport={handleAssetImport}
+            onAssetSelect={handleAssetSelect}
+          />
+        )}
+        {assetListModalState === AssetListModalState.IMPORT_TOKEN && (
+          <AssetListImportTokenState
+            onAssetsImport={handleAssetsImport}
+            asset={assetToImport!}
+          />
+        )}
       </Modal.Content>
     </>
   );

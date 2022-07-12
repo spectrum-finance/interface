@@ -32,9 +32,6 @@ export const tokenAssetsToImport$ = allAmmPools$.pipe(
   map((pools) => pools.flatMap((p) => [p.x.asset, p.y.asset])),
   map((assets) => uniqBy(assets, 'id')),
   switchMap(filterAvailableTokenAssets),
-  switchMap((assets) =>
-    combineLatest(assets.map((ai) => mapToAssetInfo(ai.id))),
-  ),
   map((assets) => assets.filter(Boolean) as AssetInfo[]),
   publishReplay(1),
   refCount(),

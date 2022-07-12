@@ -4,27 +4,20 @@ import { Trans } from '@lingui/macro';
 import React from 'react';
 import styled from 'styled-components';
 
-import { importTokenAsset } from '../../../../../../gateway/api/assets';
-import { AssetTitle } from '../../../../../AssetTitle/AssetTitle';
+import { AssetTitle } from '../../../../../../AssetTitle/AssetTitle';
 
-interface TokenListItemProps {
+interface AssetListExtendedSearchItemProps {
   asset: AssetInfo;
   className?: string;
   height?: number;
   onClick?: React.MouseEventHandler<HTMLElement>;
 }
 
-const _AssetListImportableItem: React.FC<TokenListItemProps> = ({
-  asset,
-  onClick,
-  className,
-  height,
-}) => {
-  return (
+const _AssetListExtendedSearchItem: React.FC<AssetListExtendedSearchItemProps> =
+  ({ asset, onClick, className, height }) => (
     <Box
       height={height}
       className={className}
-      onClick={onClick}
       borderRadius="m"
       padding={[3, 4]}
       bordered={false}
@@ -32,16 +25,15 @@ const _AssetListImportableItem: React.FC<TokenListItemProps> = ({
       <Flex align="center" width="100%">
         <AssetTitle asset={asset} size="large" level={4} gap={2} />
         <Flex.Item flex={1} justify="flex-end">
-          <Button type="primary" onClick={() => importTokenAsset(asset)}>
+          <Button type="primary" onClick={onClick}>
             <Trans>Import</Trans>
           </Button>
         </Flex.Item>
       </Flex>
     </Box>
   );
-};
 
-export const AssetListImportableItem = styled(_AssetListImportableItem)`
+export const AssetListExtendedSearchItem = styled(_AssetListExtendedSearchItem)`
   cursor: pointer;
   user-select: none;
 
