@@ -27,7 +27,6 @@ export const RemoveLiquidityConfirmationModal: React.FC<ConfirmRemoveModalProps>
   ({ pool, lpAmount, xAmount, yAmount, percent, onClose }) => {
     const [RedeemFees] = useObservable(redeemConfirmationInfo$);
 
-    // TODO: add try catch
     const removeOperation = async (pool: AmmPool, lpAmount: Currency) => {
       if (pool && lpAmount) {
         const form = { xAmount, yAmount, lpAmount, percent };
