@@ -9,13 +9,3 @@ export type AnalyticsWallet = {
   addresses: string[];
   balance: number;
 };
-
-export type AnalyticsConnectWalletLocation =
-  | 'header'
-  | 'swap'
-  | 'pool-list'
-  | 'your-positions-list'
-  | 'add-liquidity'
-  | 'create-pool'
-  | 'withdrawal-liquidity'
-  | 'relock-liquidity';

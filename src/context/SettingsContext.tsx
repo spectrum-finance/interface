@@ -17,7 +17,7 @@ export type Settings = {
   nitro: number;
   pk?: PublicKey;
   explorerUrl: string;
-  theme: string;
+  theme: 'light' | 'dark';
   lang: SupportedLocale;
 };
 

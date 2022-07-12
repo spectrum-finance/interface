@@ -36,7 +36,7 @@ const mapToLaunchData = ([
 ]): AnalyticsLaunchData => ({
   network: selectedNetwork.name,
   locale: applicationSettings.lang,
-  theme: applicationSettings.theme as any,
+  theme: applicationSettings.theme,
   ergo: {
     minerFee: ergoSettings.minerFee,
     slippage: ergoSettings.slippage,
@@ -65,7 +65,6 @@ export const posthogInitializer: Initializer = () => {
         ])
           .pipe(first(), map(mapToLaunchData))
           .subscribe((launchData) => {
-            console.log(launchData);
             // panalytics.firstLaunch();
             // panalytics.sessionLaunch();
           });

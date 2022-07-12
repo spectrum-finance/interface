@@ -15,10 +15,7 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
   address,
 }) => {
   return (
-    <HeaderConnectWalletButton
-      size="large"
-      analytics={{ connectWalletLocation: 'header' }}
-    >
+    <HeaderConnectWalletButton size="large" analytics={{ location: 'header' }}>
       <WalletInfoButton balance={balance} address={address} />
     </HeaderConnectWalletButton>
   );

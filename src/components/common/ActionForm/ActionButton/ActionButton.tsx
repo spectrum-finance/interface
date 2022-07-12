@@ -6,7 +6,7 @@ import { DateTime } from 'luxon';
 import React, { FC, ReactNode, useContext } from 'react';
 import { interval, map } from 'rxjs';
 
-import { AnalyticsConnectWalletLocation } from '../../../../common/analytics/@types/wallet';
+import { PAnalytics } from '../../../../common/analytics/@types/types';
 import { useObservable } from '../../../../common/hooks/useObservable';
 import { Currency } from '../../../../common/models/Currency';
 import { ConnectWalletButton } from '../../ConnectWalletButton/ConnectWalletButton';
@@ -103,9 +103,7 @@ const getButtonPropsByState = (
 
 export interface ActionButtonProps {
   readonly children: ReactNode;
-  readonly analytics?: {
-    connectWalletLocation: AnalyticsConnectWalletLocation;
-  };
+  readonly analytics?: PAnalytics;
 }
 
 const getDiff = () =>
@@ -157,9 +155,7 @@ export const ActionButton: FC<ActionButtonProps> = (props) => {
     <ConnectWalletButton
       className="action-form__connect-btn"
       size="extra-large"
-      analytics={{
-        connectWalletLocation: props.analytics?.connectWalletLocation,
-      }}
+      analytics={props.analytics}
     >
       <Button
         htmlType="submit"

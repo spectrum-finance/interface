@@ -90,7 +90,7 @@ export const RelockLiquidity = (): JSX.Element => {
     <Page width={760} title={t`Relock liquidity`} withBackButton>
       {position && explorerContext ? (
         <OperationForm
-          opName="relock-liquidity"
+          analytics={{ location: 'relock-liquidity' }}
           actionCaption={t`Relock position`}
           form={form}
           onSubmit={handleRelockLiquidity}

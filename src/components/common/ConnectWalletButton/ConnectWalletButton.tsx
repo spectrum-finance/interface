@@ -6,7 +6,7 @@ import cn from 'classnames';
 import React, { FC, ReactNode } from 'react';
 
 import { panalytics } from '../../../common/analytics';
-import { AnalyticsConnectWalletLocation } from '../../../common/analytics/@types/wallet';
+import { PAnalytics } from '../../../common/analytics/@types/types';
 import { useObservable } from '../../../common/hooks/useObservable';
 import { useAppLoadingState } from '../../../context';
 import { isWalletSetuped$ } from '../../../gateway/api/wallets';
@@ -16,9 +16,7 @@ export interface ConnectWalletButtonProps {
   readonly size?: ButtonProps['size'];
   readonly className?: string;
   readonly children?: ReactNode | ReactNode[] | string;
-  readonly analytics?: {
-    connectWalletLocation?: AnalyticsConnectWalletLocation;
-  };
+  readonly analytics?: PAnalytics;
 }
 
 export const ConnectWalletButton: FC<ConnectWalletButtonProps> = ({
@@ -32,8 +30,8 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = ({
 
   const openChooseWalletModal = (): void => {
     Modal.open(({ close }) => <ChooseWalletModal close={close} />);
-    if (analytics && analytics.connectWalletLocation) {
-      panalytics.openConnectWalletModal(analytics.connectWalletLocation);
+    if (analytics && analytics.location) {
+      panalytics.openConnectWalletModal(analytics.location);
     }
   };
 

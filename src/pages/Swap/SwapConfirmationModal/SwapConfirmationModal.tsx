@@ -9,8 +9,9 @@ import {
 } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import React, { FC, useState } from 'react';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 
+import { panalytics } from '../../../common/analytics';
 import { useObservable } from '../../../common/hooks/useObservable';
 import { TxId } from '../../../common/types';
 import { AssetControlFormItem } from '../../../components/common/TokenControl/AssetControl';
@@ -35,7 +36,19 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
 
   const swapOperation = async () => {
     if (value.pool && value.fromAmount && value.toAmount) {
-      onClose(swap(value.pool, value.fromAmount, value.toAmount));
+      panalytics.confirmSwap(value);
+      onClose(
+        swap(value.pool, value.fromAmount, value.toAmount).pipe(
+          tap(
+            (txId) => {
+              panalytics.signedSwap(value, txId);
+            },
+            (err) => {
+              panalytics.signedErrorSwap(value, err);
+            },
+          ),
+        ),
+      );
     }
   };
 

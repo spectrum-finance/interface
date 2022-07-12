@@ -74,7 +74,7 @@ export const WithdrawalLiquidity = (): JSX.Element => {
     <Page width={760} title={t`Withdrawal`} withBackButton>
       {position ? (
         <OperationForm
-          opName="withdrawal-liquidity"
+          analytics={{ location: 'withdrawal-liquidity' }}
           form={form}
           validators={validators}
           onSubmit={handleRelockLiquidity}

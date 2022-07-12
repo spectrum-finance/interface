@@ -378,7 +378,7 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
 
   return (
     <OperationForm
-      opName="create-pool"
+      analytics={{ location: 'create-pool' }}
       form={form}
       onSubmit={createPoolAction}
       actionCaption={t`Create pool`}
