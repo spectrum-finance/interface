@@ -83,6 +83,11 @@ export const routesConfig: RouteConfigExtended[] = [
                     element: <AddLiquidityOrCreatePool />,
                   },
                   {
+                    title: 'Create Pool',
+                    path: 'create',
+                    element: <AddLiquidityOrCreatePool />,
+                  },
+                  {
                     title: 'Pool Overview',
                     path: '',
                     element: <PoolOverview />,
