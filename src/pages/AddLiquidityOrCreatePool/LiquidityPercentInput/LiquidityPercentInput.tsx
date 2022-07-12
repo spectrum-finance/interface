@@ -1,6 +1,8 @@
 import { Button, Flex } from '@ergolabs/ui-kit';
 import React, { FC } from 'react';
 
+import { panalytics } from '../../../common/analytics';
+
 export interface LiquidityPercentInput {
   readonly onClick?: (pct: number) => void;
 }
@@ -8,7 +10,10 @@ export interface LiquidityPercentInput {
 export const LiquidityPercentInput: FC<LiquidityPercentInput> = ({
   onClick,
 }) => {
-  const handleClick = (pct: number) => onClick && onClick(pct);
+  const handleClick = (pct: number) => {
+    panalytics.clickMaxDeposit(pct);
+    return onClick && onClick(pct);
+  };
 
   return (
     <Flex>

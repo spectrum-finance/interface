@@ -83,6 +83,8 @@ export const AddLiquidityOrCreatePool: FC = () => {
     pools: undefined,
   });
 
+  const [value] = useObservable(form.valueChangesWithSilent$);
+
   const updateYAssets$ = useMemo(
     () => new BehaviorSubject<string | undefined>(undefined),
     [],
@@ -199,10 +201,32 @@ export const AddLiquidityOrCreatePool: FC = () => {
               <Section title={t`Select Pair`}>
                 <Flex justify="center" align="center">
                   <Flex.Item marginRight={2} flex={1}>
-                    <AssetSelectFormItem name="x" assets$={xAssets$} />
+                    <AssetSelectFormItem
+                      name="x"
+                      assets$={xAssets$}
+                      analytics={{
+                        operation:
+                          value &&
+                          isAddLiquidityPageVisible(value, componentState)
+                            ? 'deposit'
+                            : 'create-pool',
+                        tokenAssignment: 'x',
+                      }}
+                    />
                   </Flex.Item>
                   <Flex.Item flex={1}>
-                    <AssetSelectFormItem name="y" assets$={yAssets$} />
+                    <AssetSelectFormItem
+                      name="y"
+                      assets$={yAssets$}
+                      analytics={{
+                        operation:
+                          value &&
+                          isAddLiquidityPageVisible(value, componentState)
+                            ? 'deposit'
+                            : 'create-pool',
+                        tokenAssignment: 'y',
+                      }}
+                    />
                   </Flex.Item>
                 </Flex>
               </Section>

@@ -1,5 +1,6 @@
 import { PostHog } from 'posthog-js';
 
+import { AddLiquidityFormModel } from '../../pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityFormModel';
 import { SwapFormModel } from '../../pages/Swap/SwapFormModel';
 import { SupportedLocale } from '../constants/locales';
 import { AmmPool } from '../models/AmmPool';
@@ -14,6 +15,7 @@ import { AnalyticsWallet, AnalyticsWalletName } from './@types/wallet';
 import { ANALYTICS_EVENTS } from './events';
 import {
   constructEventName,
+  convertDepositFormModelToAnalytics,
   convertSwapFormModelToAnalytics,
   debugEvent,
   getPoolAnalyticsData,
@@ -94,7 +96,10 @@ export class ProductAnalytics {
     this.event(ANALYTICS_EVENTS.CONNECT_WALLET, walletName);
   }
 
+  // --
   // Burger
+  // --
+
   public clickBurgerMenu(menuName: string): void {
     const eventName = `Click Menu Item > ${menuName}`;
     this.event(eventName);
@@ -133,6 +138,10 @@ export class ProductAnalytics {
     });
   }
 
+  // --
+  // Swap
+  // --
+
   public switchSwap(): void {
     this.event(ANALYTICS_EVENTS.SWAP_CLICK_SWITCH);
   }
@@ -157,20 +166,10 @@ export class ProductAnalytics {
       ANALYTICS_EVENTS.SWAP_CONFIRM,
       convertSwapFormModelToAnalytics(swapFormModel),
     );
-
-    debugEvent(
-      ANALYTICS_EVENTS.SWAP_CONFIRM,
-      convertSwapFormModelToAnalytics(swapFormModel),
-    );
   }
 
   public signedSwap(swapFormModel: SwapFormModel, txId: string): void {
     this.event(ANALYTICS_EVENTS.SWAP_SIGNED, {
-      tx_id: txId,
-      ...convertSwapFormModelToAnalytics(swapFormModel),
-    });
-
-    debugEvent(ANALYTICS_EVENTS.SWAP_SIGNED, {
       tx_id: txId,
       ...convertSwapFormModelToAnalytics(swapFormModel),
     });
@@ -181,12 +180,68 @@ export class ProductAnalytics {
       swap_signed_error: err,
       ...convertSwapFormModelToAnalytics(swapFormModel),
     });
+  }
 
-    debugEvent(ANALYTICS_EVENTS.SWAP_SIGNED_ERROR, {
-      swap_signed_error: err,
-      ...convertSwapFormModelToAnalytics(swapFormModel),
+  // --
+  // Deposit
+  // --
+
+  public submitDeposit(depositFromModel: AddLiquidityFormModel): void {
+    this.event(
+      ANALYTICS_EVENTS.DEPOSIT_SUBMIT,
+      convertDepositFormModelToAnalytics(depositFromModel),
+    );
+  }
+
+  public confirmDeposit(depositFromModel: AddLiquidityFormModel): void {
+    this.event(
+      ANALYTICS_EVENTS.DEPOSIT_CONFIRM,
+      convertDepositFormModelToAnalytics(depositFromModel),
+    );
+  }
+
+  public signedDeposit(
+    depositFromModel: AddLiquidityFormModel,
+    txId: string,
+  ): void {
+    this.event(ANALYTICS_EVENTS.DEPOSIT_SIGNED, {
+      tx_id: txId,
+      ...convertDepositFormModelToAnalytics(depositFromModel),
     });
   }
+
+  public signedErrorDeposit(
+    depositFromModel: AddLiquidityFormModel,
+    err: any,
+  ): void {
+    this.event(ANALYTICS_EVENTS.DEPOSIT_SIGNED_ERROR, {
+      deposit_signed_error: err,
+      ...convertDepositFormModelToAnalytics(depositFromModel),
+    });
+  }
+
+  public clickMaxDeposit(pct: number): void {
+    this.event(`Deposit Click ${pct}`);
+  }
+
+  public clickCreatePoolDeposit(): void {
+    this.event(ANALYTICS_EVENTS.DEPOSIT_CLICK_CREATE_POOL);
+  }
+
+  public clickPoolSelectDeposit(): void {
+    this.event(ANALYTICS_EVENTS.DEPOSIT_CLICK_POOL_SELECT);
+  }
+
+  public selectPoolDeposit(pool: AmmPool): void {
+    this.event(
+      ANALYTICS_EVENTS.DEPOSIT_SELECT_POOL,
+      getPoolAnalyticsData(pool),
+    );
+  }
+
+  // --
+  // Social
+  // --
 
   public clickSocial(name: string): void {
     const eventName = `Click ${name.toUpperCase()}`;

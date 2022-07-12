@@ -1,8 +1,9 @@
 import { Alert, Button, Checkbox, Flex, Modal } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import React, { FC, useState } from 'react';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 
+import { panalytics } from '../../../../common/analytics';
 import { useObservable } from '../../../../common/hooks/useObservable';
 import { TxId } from '../../../../common/types';
 import { FormPairSection } from '../../../../components/common/FormView/FormPairSection/FormPairSection';
@@ -30,11 +31,17 @@ const AddLiquidityConfirmationModal: FC<AddLiquidityConfirmationModalProps> = ({
     const { pool, y, x } = value;
 
     if (pool && x && y) {
+      panalytics.confirmDeposit(value);
       onClose(
         deposit(
           pool,
           x.asset.id === pool.x.asset.id ? x : y,
           y.asset.id === pool.y.asset.id ? y : x,
+        ).pipe(
+          tap(
+            (txId) => panalytics.signedDeposit(value, txId),
+            (err) => panalytics.signedErrorDeposit(value, err),
+          ),
         ),
       );
     }

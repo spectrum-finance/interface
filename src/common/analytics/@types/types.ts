@@ -21,13 +21,14 @@ export type AnalyticsAppOperations =
   | 'refund'
   | 'lock'
   | 'relock'
-  | 'lock-withdrawal';
+  | 'lock-withdrawal'
+  | 'create-pool';
 
 export type AnalyticsTokenAssignment = 'from' | 'to' | 'x' | 'y';
 
 export type AnalyticsToken = {
-  tokenName: string;
-  tokenId: string;
+  tokenName?: string;
+  tokenId?: string;
 };
 
 export type AnalyticsElementLocation =
@@ -41,14 +42,10 @@ export type AnalyticsElementLocation =
   | 'relock-liquidity';
 
 export type AnalyticsPoolData = {
-  pool_id: string;
-  pool_name: string;
-  tvl: string;
-  pool_fee: number;
-};
-
-export type AnalyticsGlobalSettingsData = {
-  settings_miner_fee: number;
+  pool_id?: string;
+  pool_name?: string;
+  tvl?: number;
+  pool_fee?: number;
 };
 
 export type AnalyticsSwapSettingsData = {
@@ -65,4 +62,14 @@ export type AnalyticsSwapData = {
   to_amount?: number;
   to_usd?: number;
   to_token_id?: string;
+};
+
+export type AnalyticsDepositData = {
+  x_token_name?: string;
+  x_amount?: number;
+  x_usd?: number;
+  y_token_name?: string;
+  y_amount?: number;
+  y_usd?: number;
+  liquidity_usd?: number;
 };

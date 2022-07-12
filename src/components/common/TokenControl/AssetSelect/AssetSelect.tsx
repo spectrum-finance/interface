@@ -43,7 +43,7 @@ const AssetSelect: React.FC<TokenSelectProps> = ({
     if (analytics && analytics.operation && analytics.tokenAssignment) {
       panalytics.selectToken(analytics.operation, analytics.tokenAssignment, {
         tokenId: newValue.id,
-        tokenName: newValue.name ?? 'NULL',
+        tokenName: newValue.name,
       });
     }
   };

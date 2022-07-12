@@ -34,5 +34,21 @@ export const ANALYTICS_EVENTS = {
   SWAP_SIGNED_ERROR: 'Swap Signed Error',
 
   // Deposit
+  DEPOSIT_SUBMIT: 'Deposit Submit',
+  DEPOSIT_CONFIRM: 'Deposit Confirm',
+  DEPOSIT_CONFIRM_ERROR: 'Deposit Confirm Error',
+  DEPOSIT_SIGNED: 'Deposit Signed',
+  DEPOSIT_SIGNED_ERROR: 'Deposit Signed Error',
+  DEPOSIT_SELECT_X: 'Deposit Select X',
+  DEPOSIT_SELECT_Y: 'Deposit Select Y',
+  DEPOSIT_INPUT_X: 'Deposit Input in X',
+  DEPOSIT_INPUT_Y: 'Deposit Input in Y',
+  DEPOSIT_CLICK_25: 'Deposit Click 25',
+  DEPOSIT_CLICK_50: 'Deposit Click 50',
+  DEPOSIT_CLICK_75: 'Deposit Click 75',
+  DEPOSIT_CLICK_100: 'Deposit Click 100',
+  DEPOSIT_CLICK_CREATE_POOL: 'Deposit Click Create Pool',
+  DEPOSIT_CLICK_POOL_SELECT: 'Deposit Click Pool Select',
+  DEPOSIT_SELECT_POOL: 'Deposti Select Pool',
   // Redeem
 };
