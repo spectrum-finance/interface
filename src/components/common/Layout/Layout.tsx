@@ -1,9 +1,15 @@
-import './Layout.less';
-
 import { Modal } from '@ergolabs/ui-kit';
-import React, { FC, PropsWithChildren, useEffect, useRef } from 'react';
+import React, {
+  FC,
+  PropsWithChildren,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
+import styled from 'styled-components';
 
 import { applicationConfig } from '../../../applicationConfig';
+import { device } from '../../../common/constants/size';
 import { useAppLoadingState, useSettings } from '../../../context';
 import { useSelectedNetwork } from '../../../gateway/common/network';
 import { useBodyClass } from '../../../hooks/useBodyClass';
@@ -13,13 +19,29 @@ import { SocialLinks } from '../../SocialLinks/SocialLinks';
 import { KyaModal } from '../KyaModal/KyaModal';
 import { CardanoUpdate } from './CardanoUpdate/CardanoUpdate';
 import { FooterNavigation } from './FooterNavigation/FooterNavigation';
+import { Glow } from './Glow/Glow';
 
-const Layout: FC<PropsWithChildren<Record<string, unknown>>> = ({
+const MainContainer = styled.main`
+  padding: 80px 2px 80px 8px;
+
+  ${device.l} {
+    padding-top: 100px;
+  }
+
+  ${device.l} {
+    padding-top: 120px;
+  }
+`;
+
+const _Layout: FC<PropsWithChildren<{ className?: string }>> = ({
   children,
+  className,
 }) => {
   const [{ theme }] = useSettings();
   const [network] = useSelectedNetwork();
   const ref = useRef<HTMLDivElement>(null);
+  const [scrolled, setScrolled] = useState(false);
+  const [scrolledTop, setScrolledTop] = useState(true);
 
   useBodyClass([theme, network.name.toLowerCase()]);
 
@@ -31,15 +53,29 @@ const Layout: FC<PropsWithChildren<Record<string, unknown>>> = ({
     }
   }, [isKYAAccepted]);
 
+  useEffect(() => {
+    let currentScrollY = ref.current?.scrollTop || 0;
+
+    const handleScroll = () => {
+      setScrolled(currentScrollY < (ref.current?.scrollTop || 0));
+      setScrolledTop((ref.current?.scrollTop || 0) < 5);
+      currentScrollY = ref.current?.scrollTop || 0;
+    };
+
+    ref.current?.addEventListener('scroll', handleScroll);
+
+    return () => document.removeEventListener('scroll', handleScroll);
+  }, [ref]);
+
   return (
-    <div className="layout" ref={ref}>
-      <div className="glow" />
+    <div ref={ref} className={className}>
+      <Glow />
       {applicationConfig.cardanoUpdate && network.name === 'cardano' ? (
         <CardanoUpdate />
       ) : (
         <>
-          <Header layoutRef={ref} />
-          <main>{children}</main>
+          <Header scrolled={scrolled} scrolledTop={scrolledTop} />
+          <MainContainer>{children}</MainContainer>
           <footer>
             <SocialLinks />
             <NetworkHeight />
@@ -51,4 +87,8 @@ const Layout: FC<PropsWithChildren<Record<string, unknown>>> = ({
   );
 };
 
-export default Layout;
+export const Layout = styled(_Layout)`
+  position: relative;
+  height: 100%;
+  overflow-y: scroll;
+`;
