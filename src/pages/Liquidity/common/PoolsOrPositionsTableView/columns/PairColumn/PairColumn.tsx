@@ -14,8 +14,8 @@ const _RatioBox: FC<{ ratio: Ratio; className?: string }> = ({
 }) => (
   <Box padding={[0, 1]}>
     <Typography.Body className={className} strong>
-      <Truncate limit={5}>{ratio.baseAsset.name}</Truncate> {ratio.toString()}{' '}
-      <Truncate limit={5}>{ratio.quoteAsset.name}</Truncate>
+      <Truncate limit={5}>{ratio.baseAsset.ticker}</Truncate> {ratio.toString()}{' '}
+      <Truncate limit={5}>{ratio.quoteAsset.ticker}</Truncate>
     </Typography.Body>
   </Box>
 );

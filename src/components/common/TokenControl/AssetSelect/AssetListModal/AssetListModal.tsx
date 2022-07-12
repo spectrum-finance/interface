@@ -13,8 +13,10 @@ import React from 'react';
 import { Observable, of } from 'rxjs';
 
 import { useObservable } from '../../../../../common/hooks/useObservable';
+import { tokenAssetsToImport$ } from '../../../../../gateway/api/assets';
 import { List } from '../../../../List/List';
 import { ListStateView } from '../../../../List/ListStateView/ListStateView';
+import { AssetListImportTokenState } from './AssetListImportTokenState/AssetListImportTokenState';
 import { AssetListItem } from './AssetListItem/AssetListItem';
 
 interface TokenListModalProps {
@@ -30,6 +32,7 @@ const AssetListModal: React.FC<TokenListModalProps> = ({
 }) => {
   const [searchByTerm, setTerm] = useSearch<AssetInfo>(['name']);
   const [assets, loading] = useObservable(assets$ ?? of([]));
+  const [tokenAssetsToImport] = useObservable(tokenAssetsToImport$, [], []);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) =>
     setTerm(e.target.value);
@@ -46,8 +49,11 @@ const AssetListModal: React.FC<TokenListModalProps> = ({
 
   const items = searchByTerm(assets);
 
+  console.log(tokenAssetsToImport);
+
   return (
     <>
+      {/*<AssetListImportTokenState />*/}
       <Modal.Title>
         <Trans>Select a token</Trans>
       </Modal.Title>

@@ -1,9 +1,10 @@
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
-import { Box, Flex, Typography } from '@ergolabs/ui-kit';
+import { Box, Button, Flex } from '@ergolabs/ui-kit';
+import { Trans } from '@lingui/macro';
 import React from 'react';
 import styled from 'styled-components';
 
-import { useAssetsBalance } from '../../../../../../gateway/api/assetBalance';
+import { importTokenAsset } from '../../../../../../gateway/api/assets';
 import { AssetTitle } from '../../../../../AssetTitle/AssetTitle';
 
 interface TokenListItemProps {
@@ -13,14 +14,12 @@ interface TokenListItemProps {
   onClick?: React.MouseEventHandler<HTMLElement>;
 }
 
-const _AssetListItem: React.FC<TokenListItemProps> = ({
+const _AssetListImportableItem: React.FC<TokenListItemProps> = ({
   asset,
   onClick,
   className,
   height,
 }) => {
-  const [balance] = useAssetsBalance();
-
   return (
     <Box
       height={height}
@@ -33,16 +32,16 @@ const _AssetListItem: React.FC<TokenListItemProps> = ({
       <Flex align="center" width="100%">
         <AssetTitle asset={asset} size="large" level={4} gap={2} />
         <Flex.Item flex={1} justify="flex-end">
-          <Typography.Title level={5}>
-            {balance.get(asset).toString()}
-          </Typography.Title>
+          <Button type="primary" onClick={() => importTokenAsset(asset)}>
+            <Trans>Import</Trans>
+          </Button>
         </Flex.Item>
       </Flex>
     </Box>
   );
 };
 
-export const AssetListItem = styled(_AssetListItem)`
+export const AssetListImportableItem = styled(_AssetListImportableItem)`
   cursor: pointer;
   user-select: none;
 

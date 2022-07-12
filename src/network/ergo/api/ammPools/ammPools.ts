@@ -20,6 +20,7 @@ import { applicationConfig } from '../../../../applicationConfig';
 import { AmmPool } from '../../../../common/models/AmmPool';
 import { getAggregatedPoolAnalyticsDataById24H } from '../../../../common/streams/poolAnalytic';
 import { mapToAssetInfo } from '../common/assetInfoManager';
+import { filterUnavailablePools } from '../common/availablePoolsOrTokens';
 import { networkContext$ } from '../networkContext/networkContext';
 import { getPoolChartDataRaw } from '../poolChart/poolChart';
 import { ErgoAmmPool } from './ErgoAmmPool';
@@ -61,7 +62,7 @@ const toAmmPool = (p: BaseAmmPool): Observable<AmmPool> =>
     }),
   );
 
-const allAmmPools$ = networkContext$.pipe(
+export const allAmmPools$ = networkContext$.pipe(
   switchMap(() => zip([getNativeNetworkAmmPools(), getNetworkAmmPools()])),
   map(([nativeNetworkPools, networkPools]) =>
     nativeNetworkPools.concat(networkPools),
@@ -73,7 +74,7 @@ const allAmmPools$ = networkContext$.pipe(
 );
 
 export const ammPools$ = allAmmPools$.pipe(
-  // map(pools => pools.fi)
+  switchMap((rawPools) => filterUnavailablePools(rawPools)),
   switchMap((pools) =>
     combineLatest(pools.map(toAmmPool)).pipe(defaultIfEmpty([])),
   ),

@@ -19,6 +19,11 @@ import { deposit } from './api/operations/deposit';
 import { redeem } from './api/operations/redeem';
 import { swap } from './api/operations/swap';
 import { positions$ } from './api/positions/positions';
+import {
+  availableTokenAssets$,
+  importTokenAsset,
+  tokenAssetsToImport$,
+} from './api/tokens/tokens';
 import { CardanoWalletContract } from './api/wallet/common/CardanoWalletContract';
 import {
   availableWallets,
@@ -75,6 +80,9 @@ export const cardanoNetwork: Network<
   selectedWallet$: selectedWallet$,
   supportedFeatures$: supportedWalletFeatures$,
   networkContext$,
+  availableTokenAssets$,
+  tokenAssetsToImport$,
+  importTokenAsset,
 
   settings,
   settings$,

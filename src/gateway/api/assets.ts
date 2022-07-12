@@ -1,22 +1,34 @@
 import uniqBy from 'lodash/uniqBy';
-import { map, Observable, publishReplay, refCount } from 'rxjs';
+import {
+  first,
+  map,
+  Observable,
+  publishReplay,
+  refCount,
+  switchMap,
+} from 'rxjs';
 
 import { AssetInfo } from '../../common/models/AssetInfo';
+import { selectedNetwork$ } from '../common/network';
 import { ammPools$ } from './ammPools';
 
-export const tokenAssets$ = ammPools$.pipe(
-  map((pools) => pools.flatMap((p) => [p.x.asset, p.y.asset])),
-  map((assets) => uniqBy(assets, 'id')),
+// TODO: ADD BLACKLISTED TOKENS FILTER
+export const tokenAssets$ = selectedNetwork$.pipe(
+  switchMap((n) => n.availableTokenAssets$),
   publishReplay(1),
   refCount(),
 );
 
-export const lpAssets$ = ammPools$.pipe(
-  map((pools) => pools.map((p) => p.lp.asset)),
-  map((assets) => uniqBy(assets, 'id')),
+// TODO: ADD BLACKLISTED TOKENS FILTER
+export const tokenAssetsToImport$ = selectedNetwork$.pipe(
+  switchMap((n) => n.tokenAssetsToImport$),
   publishReplay(1),
   refCount(),
 );
+
+export const importTokenAsset = (ai: AssetInfo): void => {
+  selectedNetwork$.pipe(first()).subscribe((n) => n.importTokenAsset(ai));
+};
 
 export const getAvailableAssetFor = (
   assetId: string,
