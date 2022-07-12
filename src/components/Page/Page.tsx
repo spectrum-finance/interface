@@ -59,7 +59,7 @@ const _Page: React.FC<PageProps> = ({
   padding,
 }) => {
   const navigate = useNavigate();
-  const { valBySize, s } = useDevice();
+  const { valBySize, s, m } = useDevice();
 
   return (
     <Flex
@@ -95,9 +95,11 @@ const _Page: React.FC<PageProps> = ({
           </Flex.Item>
         )}
         <Flex justify="center" align="flex-start">
-          {s && (
+          {(s || m) && (
             <Portal root={document.body}>
               <Pane
+                fastSwipeClose
+                bottomClose
                 visible={widgetOpened}
                 events={{
                   onBackdropTap: () => onWidgetClose?.(),
@@ -108,7 +110,7 @@ const _Page: React.FC<PageProps> = ({
               </Pane>
             </Portal>
           )}
-          {!s && widgetOpened && <Widget>{leftWidget}</Widget>}
+          {!(s || m) && widgetOpened && <Widget>{leftWidget}</Widget>}
           <Flex col>
             <Flex.Item style={{ zIndex: 2 }}>
               <Box
