@@ -40,6 +40,7 @@ const _Layout: FC<PropsWithChildren<{ className?: string }>> = ({
   const [{ theme }] = useSettings();
   const [network] = useSelectedNetwork();
   const ref = useRef<HTMLDivElement>(null);
+  const footerRef = useRef<HTMLDivElement>(null);
   const [scrolled, setScrolled] = useState(false);
   const [scrolledTop, setScrolledTop] = useState(true);
 
@@ -67,6 +68,8 @@ const _Layout: FC<PropsWithChildren<{ className?: string }>> = ({
     return () => document.removeEventListener('scroll', handleScroll);
   }, [ref]);
 
+  const footerHeight = footerRef?.current?.clientHeight || 0;
+
   return (
     <div ref={ref} className={className}>
       <Glow />
@@ -75,12 +78,16 @@ const _Layout: FC<PropsWithChildren<{ className?: string }>> = ({
       ) : (
         <>
           <Header scrolled={scrolled} scrolledTop={scrolledTop} />
-          <MainContainer>{children}</MainContainer>
+          <MainContainer
+            style={{ paddingBottom: footerHeight ? footerHeight + 8 : 80 }}
+          >
+            {children}
+          </MainContainer>
           <footer>
             <SocialLinks />
             <NetworkHeight />
           </footer>
-          <FooterNavigation />
+          <FooterNavigation ref={footerRef} />
         </>
       )}
     </div>
