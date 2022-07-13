@@ -2,6 +2,7 @@ import { Box, Button, Flex, Typography } from '@ergolabs/ui-kit';
 import React, { FC } from 'react';
 
 import { AssetInfo } from '../../../../../../../common/models/AssetInfo';
+import { exploreToken } from '../../../../../../../gateway/utils/exploreAddress';
 import { AssetIcon } from '../../../../../../AssetIcon/AssetIcon';
 import { Truncate } from '../../../../../../Truncate/Truncate';
 
@@ -23,7 +24,7 @@ export const ImportTokenInfo: FC<ImportTokenInfoProps> = ({ asset }) => (
       <Flex.Item marginBottom={2}>
         <Typography.Footnote>{asset.name}</Typography.Footnote>
       </Flex.Item>
-      <Button type="link">
+      <Button type="link" onClick={() => exploreToken(asset)}>
         <Truncate limit={46}>{asset.id}</Truncate>
       </Button>
     </Flex>

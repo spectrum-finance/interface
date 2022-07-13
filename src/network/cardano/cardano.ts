@@ -45,7 +45,12 @@ import {
   useRedeemValidationFee,
   useSwapValidationFee,
 } from './settings/totalFee';
-import { exploreAddress, exploreLastBlock, exploreTx } from './utils/utils';
+import {
+  exploreAddress,
+  exploreLastBlock,
+  exploreToken,
+  exploreTx,
+} from './utils/utils';
 import { DepositConfirmationInfo } from './widgets/DepositConfirmationInfo/DepositConfirmationInfo';
 import { RedeemConfirmationInfo } from './widgets/RedeemConfirmationInfo/RedeemConfirmationInfo';
 import { SwapConfirmationInfo } from './widgets/SwapConfirmationInfo/SwapConfirmationInfo';
@@ -97,6 +102,7 @@ export const cardanoNetwork: Network<
   exploreTx,
   exploreAddress,
   exploreLastBlock,
+  exploreToken,
 
   swap,
   deposit,

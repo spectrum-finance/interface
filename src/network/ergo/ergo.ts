@@ -46,7 +46,12 @@ import {
   useRedeemValidationFee,
   useSwapValidationFee,
 } from './settings/totalFees';
-import { exploreAddress, exploreLastBlock, exploreTx } from './utils/utils';
+import {
+  exploreAddress,
+  exploreLastBlock,
+  exploreToken,
+  exploreTx,
+} from './utils/utils';
 import { DepositConfirmationInfo } from './widgets/DepositConfirmationInfo/DepositConfirmationInfo';
 import { GlobalSettingsModal } from './widgets/GlobalSettings/GlobalSettingsModal';
 import { RedeemConfirmationInfo } from './widgets/RedeemConfirmationInfo/RedeemConfirmationInfo';
@@ -99,6 +104,7 @@ export const ergoNetwork: Network<
   exploreAddress,
   exploreTx,
   exploreLastBlock,
+  exploreToken,
 
   GlobalSettingsModal,
   SwapInfoContent,

@@ -5,16 +5,13 @@ import React, { useState } from 'react';
 import { Observable } from 'rxjs';
 import styled from 'styled-components';
 
-import {
-  hasAvailablePoolsWith,
-  importTokenAsset,
-} from '../../../../../gateway/api/assets';
-import { AssetListImportTokenState } from './AssetListImportTokenState/AssetListImportTokenState';
+import { importTokenAsset } from '../../../../../gateway/api/assets';
+import { AssetListImportConfirmationTokenState } from './AssetListImportConfirmationTokenState/AssetListImportConfirmationTokenState';
 import { AssetListSelectTokenState } from './AssetListSelectTokenState/AssetListSelectTokenState';
 
 enum AssetListModalState {
   SELECT_TOKEN,
-  IMPORT_TOKEN,
+  IMPORT_TOKEN_CONFIRM,
 }
 
 interface TokenListModalProps {
@@ -50,20 +47,16 @@ const AssetListModal: React.FC<TokenListModalProps> = ({
   };
 
   const handleAssetImport = (asset: AssetInfo) => {
-    hasAvailablePoolsWith(asset).subscribe((hasAvailablePoolsWith) => {
-      if (hasAvailablePoolsWith) {
-        importTokenAsset(asset);
-        handleAssetSelect(asset);
-      } else {
-        setAssetToImport(asset);
-        setAssetListModalState(AssetListModalState.IMPORT_TOKEN);
-      }
-    });
+    setAssetToImport(asset);
+    setAssetListModalState(AssetListModalState.IMPORT_TOKEN_CONFIRM);
   };
 
-  const handleAssetsImport = (mainAsset: AssetInfo, assets: AssetInfo[]) => {
-    importTokenAsset(assets.concat(mainAsset));
-    handleAssetSelect(mainAsset);
+  const handleAssetImportConfirm = (
+    asset: AssetInfo,
+    pairAssets: AssetInfo[],
+  ) => {
+    importTokenAsset(pairAssets.concat(asset));
+    handleAssetSelect(asset);
   };
 
   const resetModalState = () => {
@@ -96,9 +89,9 @@ const AssetListModal: React.FC<TokenListModalProps> = ({
             onAssetSelect={handleAssetSelect}
           />
         )}
-        {assetListModalState === AssetListModalState.IMPORT_TOKEN && (
-          <AssetListImportTokenState
-            onAssetsImport={handleAssetsImport}
+        {assetListModalState === AssetListModalState.IMPORT_TOKEN_CONFIRM && (
+          <AssetListImportConfirmationTokenState
+            onAssetsImportConfirm={handleAssetImportConfirm}
             asset={assetToImport!}
           />
         )}
