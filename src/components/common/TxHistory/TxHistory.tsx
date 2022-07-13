@@ -31,7 +31,6 @@ const TxHistory = (): JSX.Element => {
       <IsErgo>
         <Tooltip title={t`Recent transactions`} placement="bottom">
           <Button
-            className="header__btn"
             size="large"
             type="ghost"
             icon={
@@ -46,7 +45,6 @@ const TxHistory = (): JSX.Element => {
       <IsCardano>
         <Tooltip title={t`Recent transactions`} placement="bottom">
           <Button
-            className="header__btn"
             size="large"
             type="ghost"
             icon={
