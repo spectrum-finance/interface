@@ -1,6 +1,7 @@
 import posthog from 'posthog-js';
 import { first, map, of, zip } from 'rxjs';
 
+import { version } from '../../../package.json';
 import { applicationSettings$, Settings } from '../../context';
 import { selectedNetwork$ } from '../../gateway/common/network';
 import { selectedWallet$ as cardanoSelectedWallet$ } from '../../network/cardano/api/wallet/wallet';
@@ -15,8 +16,8 @@ import {
   ErgoSettings,
   settings$ as ergoSettings$,
 } from '../../network/ergo/settings/settings';
+import { panalytics } from '../analytics';
 import { AnalyticsLaunchData } from '../analytics/@types/launch';
-import { ANALYTICS_EVENTS } from '../analytics/events';
 import { Initializer } from './core';
 
 const mapToLaunchData = ([
@@ -34,6 +35,7 @@ const mapToLaunchData = ([
   CardanoSettings,
   Settings,
 ]): AnalyticsLaunchData => ({
+  version,
   network: selectedNetwork.name,
   locale: applicationSettings.lang,
   theme: applicationSettings.theme,
@@ -64,7 +66,7 @@ export const posthogInitializer: Initializer = () => {
         ])
           .pipe(first(), map(mapToLaunchData))
           .subscribe((launchData) => {
-            posthog.capture(ANALYTICS_EVENTS.APP_LAUNCH, launchData);
+            panalytics.appLaunch(launchData);
           });
       },
     });

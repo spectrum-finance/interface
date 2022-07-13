@@ -16,10 +16,11 @@ import {
   SettingOutlined,
   useDevice,
 } from '@ergolabs/ui-kit';
-import { t } from '@lingui/macro';
+import { t, Trans } from '@lingui/macro';
 import { stringify } from 'qs';
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import styled from 'styled-components';
 
 import { ReactComponent as DarkModeOutlined } from '../../../assets/icons/darkmode.svg';
 import { panalytics } from '../../../common/analytics';
@@ -36,6 +37,11 @@ import { ThemeSwitch } from '../../ThemeSwitch/ThemeSwitch';
 import { ManualRefundModal } from './ManualRefundModal/ManualRefundModal';
 
 const MENU_WIDTH = 160;
+
+const ContributeLanguageButton = styled(Button)`
+  width: 140px;
+  margin: 0 10px;
+`;
 
 const BurgerMenu = (): JSX.Element => {
   const [GlobalSettingsModal] = useObservable(globalSettingsModal$);
@@ -170,6 +176,14 @@ const BurgerMenu = (): JSX.Element => {
           </Menu.Item>
         );
       })}
+      <ContributeLanguageButton
+        href="https://crowdin.com/project/ergodex-frontend"
+        target="_blank"
+        type="primary"
+        block
+      >
+        <Trans>Contribute</Trans>
+      </ContributeLanguageButton>
     </Menu>
   );
 

@@ -3,7 +3,7 @@ export const ANALYTICS_EVENTS = {
   APP_LAUNCH: 'App Launch',
 
   // Network
-  SET_ACTIVE_NETWORK: 'Set Active Network',
+  CHANGE_NETWORK: 'Change Network',
 
   // Burger
   CHANGE_THEME: 'Change Theme',
@@ -19,9 +19,12 @@ export const ANALYTICS_EVENTS = {
   OPEN_CONNECT_WALLET_MODAL: 'Open Connect Wallet Modal',
   CONNECT_WALLET: 'Connect Wallet',
   CONNECT_WALLET_ERROR: 'Connect Wallet Error',
+  CONNECT_WALLET_INSTALL_EXTENSION: 'Connect Wallet Install Extension',
   OPEN_WALLET_MODAL: 'Open Wallet Modal',
   CLICK_CHANGE_WALLET: 'Click Change Wallet',
   CHANGE_WALLET: 'Change Wallet',
+  CHANGE_WALLET_ERROR: 'Change Wallet Error',
+  CHANGE_WALLET_INSTALL_EXTENSION: 'Change Wallet Install Extension',
   DISCONNECT_WALLET: 'Disconnect Wallet',
   POLLING_DISCONNECT_WALLET: 'Polling Disconnect Wallet',
 
@@ -51,6 +54,7 @@ export const ANALYTICS_EVENTS = {
   DEPOSIT_CLICK_CREATE_POOL: 'Deposit Click Create Pool',
   DEPOSIT_CLICK_POOL_SELECT: 'Deposit Click Pool Select',
   DEPOSIT_SELECT_POOL: 'Deposti Select Pool',
+
   // Redeem
   REDEEM_SUBMIT: 'Redeem Submit',
   REDEEM_CONFIRM: 'Redeem Confirm',

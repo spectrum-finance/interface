@@ -12,8 +12,10 @@ import {
 } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React, { ReactNode, useState } from 'react';
+import { noop } from 'rxjs';
 import styled from 'styled-components';
 
+import { panalytics } from '../../../../common/analytics';
 import { useObservable } from '../../../../common/hooks/useObservable';
 import {
   connectWallet,
@@ -28,6 +30,7 @@ const { Body } = Typography;
 interface WalletItemProps {
   wallet: Wallet;
   close: (result?: boolean) => void;
+  isChangeWallet?: boolean;
 }
 
 const WalletButton = styled(Button)`
@@ -56,24 +59,45 @@ const ExperimentalWalletBox = styled(Box)`
   }
 `;
 
-const WalletView: React.FC<WalletItemProps> = ({ wallet, close }) => {
+const WalletView: React.FC<WalletItemProps> = ({
+  wallet,
+  close,
+  isChangeWallet,
+}) => {
   const [checked, setChecked] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [warning, setWarning] = useState<ReactNode | undefined>(undefined);
-  // TODO
+  const [selectedWallet] = useObservable(selectedWallet$);
+
   const handleClick = () => {
     setLoading(true);
     connectWallet(wallet).subscribe(
       (isConnected) => {
         setLoading(false);
         if (typeof isConnected === 'boolean' && isConnected) {
+          selectedWallet?.name === wallet.name
+            ? noop()
+            : !isChangeWallet
+            ? panalytics.connectWallet(wallet.name)
+            : panalytics.changeWallet(wallet.name);
+
           close(true);
         } else if (isConnected) {
+          selectedWallet?.name === wallet.name
+            ? noop()
+            : !isChangeWallet
+            ? panalytics.connectWalletError(wallet.name)
+            : panalytics.changeWalletError(wallet.name);
           setWarning(isConnected);
         }
       },
       () => {
         setLoading(false);
+        selectedWallet?.name === wallet.name
+          ? noop()
+          : !isChangeWallet
+          ? panalytics.connectWalletInstallExtension(wallet.name)
+          : panalytics.changeWalletInstallExtension(wallet.name);
         window.open(wallet.extensionLink);
       },
     );
@@ -170,15 +194,17 @@ const WalletView: React.FC<WalletItemProps> = ({ wallet, close }) => {
   }
 };
 
-type ChooseWalletModalProps = ModalRef<boolean>;
+type ChooseWalletModalProps = ModalRef<boolean> & { isChangeWallet?: boolean };
 
 const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
   close,
+  isChangeWallet,
 }): JSX.Element => {
   const [wallets] = useObservable(wallets$, [], []);
   const [selectedWallet] = useObservable(selectedWallet$);
 
   const handleDisconnectWalletClick = () => {
+    panalytics.disconnectWallet(selectedWallet?.name);
     disconnectWallet();
   };
 
@@ -196,7 +222,11 @@ const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
               }
               key={index}
             >
-              <WalletView close={close} wallet={wallet} />
+              <WalletView
+                close={close}
+                wallet={wallet}
+                isChangeWallet={isChangeWallet}
+              />
             </Flex.Item>
           ))}
           {selectedWallet && (

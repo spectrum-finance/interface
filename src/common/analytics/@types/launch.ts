@@ -3,6 +3,7 @@ import { SupportedLocale } from '../../constants/locales';
 import { AnalyticsTheme } from './types';
 
 export type AnalyticsLaunchData = {
+  version: string;
   network: SupportedNetworks;
   locale: SupportedLocale;
   theme: AnalyticsTheme;

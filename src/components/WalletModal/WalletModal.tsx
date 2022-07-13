@@ -2,8 +2,10 @@ import { Box, Button, Flex, Modal, Tabs, useDevice } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React, { CSSProperties } from 'react';
 
+import { panalytics } from '../../common/analytics';
 import { useObservable } from '../../common/hooks/useObservable';
 import { networkAssetBalance$ } from '../../gateway/api/networkAssetBalance';
+import { selectedWallet$ } from '../../gateway/api/wallets';
 import { useSelectedNetwork } from '../../gateway/common/network';
 import { isLowBalance } from '../../utils/walletMath';
 import { ChooseWalletModal } from '../common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal';
@@ -18,10 +20,14 @@ import { WalletTotalBalance } from './WalletTotalBalance/WalletTotalBalance';
 export const WalletModal: React.FC = () => {
   const { valBySize } = useDevice();
   const [networkAssetBalance] = useObservable(networkAssetBalance$);
+  const [selectedWallet] = useObservable(selectedWallet$);
   const [network] = useSelectedNetwork();
 
   const openChooseWalletModal = (): void => {
-    Modal.open(({ close }) => <ChooseWalletModal close={close} />);
+    Modal.open(({ close }) => {
+      panalytics.clickChangeWallet(selectedWallet?.name);
+      return <ChooseWalletModal close={close} isChangeWallet />;
+    });
   };
 
   return (

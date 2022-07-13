@@ -1,10 +1,12 @@
 import { PostHog } from 'posthog-js';
 
+import { SupportedNetworks } from '../../network/common/Network';
 import { AddLiquidityFormModel } from '../../pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityFormModel';
 import { RemoveFormModel } from '../../pages/RemoveLiquidity/RemoveLiquidity';
 import { SwapFormModel } from '../../pages/Swap/SwapFormModel';
 import { SupportedLocale } from '../constants/locales';
 import { AmmPool } from '../models/AmmPool';
+import { AnalyticsLaunchData } from './@types/launch';
 import {
   AnalyticsAppOperations,
   AnalyticsElementLocation,
@@ -12,7 +14,7 @@ import {
   AnalyticsToken,
   AnalyticsTokenAssignment,
 } from './@types/types';
-import { AnalyticsWallet, AnalyticsWalletName } from './@types/wallet';
+import { AnalyticsWalletName } from './@types/wallet';
 import { ANALYTICS_EVENTS } from './events';
 import {
   constructEventName,
@@ -30,38 +32,19 @@ export class ProductAnalytics {
   }
 
   private event(name: string, props?: any): void {
+    console.log('EVENT_NAME:', name, '\n', 'EVENT_PROPS:', props);
     this.analyticsSystems.forEach((system) => {
       system.capture(name, props);
     });
   }
 
-  // Launch
-  // public firstLaunch({
-  //   network,
-  //   theme,
-  //   appSettings,
-  //   opSettings,
-  // }: AnalyticsLaunchData) {
-  //   this.event(ANALYTICS_EVENTS.FIRST_LAUNCH, {
-  //     $set_once: {
-  //       network,
-  //       theme,
-  //       appSettings,
-  //       opSettings,
-  //     },
-  //   });
-  // }
-  //
-  // public sessionLaunch({ network, theme, appSettings, opSettings }) {
-  //   this.event(ANALYTICS_EVENTS.SESSION_LAUNCH, {
-  //     $set: {
-  //       network,
-  //       theme,
-  //       appSettings,
-  //       opSettings,
-  //     },
-  //   });
-  // }
+  // --
+  // APP Launch
+  // --
+
+  public appLaunch(launchData: AnalyticsLaunchData): void {
+    this.event(ANALYTICS_EVENTS.APP_LAUNCH, launchData);
+  }
 
   // Onboarding
   public acceptKya(): void {
@@ -79,8 +62,17 @@ export class ProductAnalytics {
   public rejectCookies(): void {
     this.event(ANALYTICS_EVENTS.REJECT_COOKIES);
   }
+  // --
+  // Network
+  // --
 
+  public changeNetwork(network: SupportedNetworks): void {
+    this.event(ANALYTICS_EVENTS.CHANGE_NETWORK, { network });
+  }
+
+  // --
   //Wallet
+  // --
   public openConnectWalletModal(location: AnalyticsElementLocation): void {
     this.event(ANALYTICS_EVENTS.OPEN_CONNECT_WALLET_MODAL, { location });
   }
@@ -89,12 +81,46 @@ export class ProductAnalytics {
     this.event(ANALYTICS_EVENTS.OPEN_WALLET_MODAL);
   }
 
-  public connectWallet(props: AnalyticsWallet): void {
-    this.event(ANALYTICS_EVENTS.CONNECT_WALLET, { $set: props });
+  public connectWallet(walletName?: AnalyticsWalletName): void {
+    this.event(ANALYTICS_EVENTS.CONNECT_WALLET, { wallet_name: walletName });
   }
 
-  public connectWalletError(walletName: AnalyticsWalletName): void {
-    this.event(ANALYTICS_EVENTS.CONNECT_WALLET, walletName);
+  public connectWalletError(walletName?: AnalyticsWalletName): void {
+    this.event(ANALYTICS_EVENTS.CONNECT_WALLET, { wallet_name: walletName });
+  }
+
+  public connectWalletInstallExtension(walletName?: AnalyticsWalletName): void {
+    this.event(ANALYTICS_EVENTS.CONNECT_WALLET_INSTALL_EXTENSION, {
+      wallet_name: walletName,
+    });
+  }
+
+  public disconnectWallet(walletName?: AnalyticsWalletName): void {
+    this.event(ANALYTICS_EVENTS.DISCONNECT_WALLET, { wallet_name: walletName });
+  }
+
+  public clickChangeWallet(walletName?: AnalyticsWalletName): void {
+    this.event(ANALYTICS_EVENTS.CLICK_CHANGE_WALLET, {
+      wallet_name: walletName,
+    });
+  }
+
+  public changeWallet(walletName?: AnalyticsWalletName): void {
+    this.event(ANALYTICS_EVENTS.CHANGE_WALLET, {
+      wallet_name: walletName,
+    });
+  }
+
+  public changeWalletError(walletName?: AnalyticsWalletName): void {
+    this.event(ANALYTICS_EVENTS.CHANGE_WALLET_ERROR, {
+      wallet_name: walletName,
+    });
+  }
+
+  public changeWalletInstallExtension(walletName?: AnalyticsWalletName): void {
+    this.event(ANALYTICS_EVENTS.CHANGE_WALLET_INSTALL_EXTENSION, {
+      wallet_name: walletName,
+    });
   }
 
   // --
@@ -108,17 +134,13 @@ export class ProductAnalytics {
 
   public changeTheme(theme: AnalyticsTheme): void {
     this.event(ANALYTICS_EVENTS.CHANGE_THEME, {
-      $set: {
-        theme,
-      },
+      theme,
     });
   }
 
   public changeLocate(locale: SupportedLocale): void {
     this.event(ANALYTICS_EVENTS.CHANGE_LOCALE, {
-      $set: {
-        locale,
-      },
+      locale,
     });
   }
 
