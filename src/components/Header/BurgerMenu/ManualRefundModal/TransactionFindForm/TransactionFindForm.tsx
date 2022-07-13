@@ -4,6 +4,7 @@ import {
   Form,
   FormGroup,
   Input,
+  useDevice,
   useForm,
 } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
@@ -24,6 +25,7 @@ export const TransactionFindForm: FC<TransactionFindFormProps> = ({
   loading,
   onSubmit,
 }) => {
+  const { valBySize } = useDevice();
   const form = useForm<TransactionFindFormModel>({
     txId: undefined,
   });
@@ -44,8 +46,12 @@ export const TransactionFindForm: FC<TransactionFindFormProps> = ({
           title={t`Transaction id`}
           tooltip={t`Learn how to get transaction id`}
         >
-          <Flex>
-            <Flex.Item flex={1} marginRight={2}>
+          <Flex direction={valBySize('col', 'row')}>
+            <Flex.Item
+              flex={1}
+              marginRight={valBySize(0, 2)}
+              marginBottom={valBySize(4, 0)}
+            >
               <Form.Item name="txId">
                 {({ value, onChange }) => (
                   <Input
