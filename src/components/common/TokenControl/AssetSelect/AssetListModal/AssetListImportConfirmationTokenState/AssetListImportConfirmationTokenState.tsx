@@ -1,4 +1,5 @@
 import { Alert, Flex } from '@ergolabs/ui-kit';
+import { Trans } from '@lingui/macro';
 import first from 'lodash/first';
 import React, { FC, useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -68,7 +69,7 @@ export const AssetListImportConfirmationTokenState: FC<AssetListImportConfirmati
           disabled={!selectedPairTokens?.length && !hasAvailablePools}
           onClick={() => onAssetsImportConfirm(asset, selectedPairTokens || [])}
         >
-          Import
+          <Trans>Import</Trans>
         </SubmitButton>
       </Flex>
     );
