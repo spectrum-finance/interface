@@ -1,5 +1,7 @@
 import uniqBy from 'lodash/uniqBy';
 import {
+  combineLatest,
+  debounceTime,
   first,
   map,
   Observable,
@@ -13,16 +15,30 @@ import { AssetInfo } from '../../common/models/AssetInfo';
 import { selectedNetwork$ } from '../common/network';
 import { ammPools$, possibleAmmPools$ } from './ammPools';
 
-// TODO: ADD BLACKLISTED TOKENS FILTER
-export const tokenAssets$ = selectedNetwork$.pipe(
-  switchMap((n) => n.availableTokenAssets$),
+export const tokenAssets$ = combineLatest([
+  selectedNetwork$.pipe(switchMap((n) => n.availableTokenAssets$)),
+  ammPools$,
+]).pipe(
+  debounceTime(100),
+  map(([tokenAssets, ammPools]) => {
+    return tokenAssets.filter((a) =>
+      ammPools.some((p) => p.x.asset.id === a.id || p.y.asset.id === a.id),
+    );
+  }),
   publishReplay(1),
   refCount(),
 );
 
-// TODO: ADD BLACKLISTED TOKENS FILTER
-export const tokenAssetsToImport$ = selectedNetwork$.pipe(
-  switchMap((n) => n.tokenAssetsToImport$),
+export const tokenAssetsToImport$ = combineLatest([
+  selectedNetwork$.pipe(switchMap((n) => n.tokenAssetsToImport$)),
+  possibleAmmPools$,
+]).pipe(
+  debounceTime(100),
+  map(([tokenAssets, ammPools]) => {
+    return tokenAssets.filter((a) =>
+      ammPools.some((p) => p.x.asset.id === a.id || p.y.asset.id === a.id),
+    );
+  }),
   publishReplay(1),
   refCount(),
 );
