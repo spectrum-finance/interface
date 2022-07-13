@@ -15,8 +15,8 @@ import {
   ErgoSettings,
   settings$ as ergoSettings$,
 } from '../../network/ergo/settings/settings';
-import { isDevEnv } from '../../utils/envUtils';
 import { AnalyticsLaunchData } from '../analytics/@types/launch';
+import { ANALYTICS_EVENTS } from '../analytics/events';
 import { Initializer } from './core';
 
 const mapToLaunchData = ([
@@ -37,23 +37,22 @@ const mapToLaunchData = ([
   network: selectedNetwork.name,
   locale: applicationSettings.lang,
   theme: applicationSettings.theme,
-  ergo: {
-    minerFee: ergoSettings.minerFee,
-    slippage: ergoSettings.slippage,
-    nitro: ergoSettings.nitro,
-    wallet: ergoSelectedWallet?.name,
-  },
-  cardano: {
-    slippage: cardanoSettings.slippage,
-    nitro: cardanoSettings.nitro,
-    wallet: cardanoSelectedWallet?.name,
-  },
+  ergo_minerFee: ergoSettings.minerFee,
+  ergo_slippage: ergoSettings.slippage,
+  ergo_nitro: ergoSettings.nitro,
+  ergo_wallet: ergoSelectedWallet?.name,
+  cardano_slippage: cardanoSettings.slippage,
+  cardano_nitro: cardanoSettings.nitro,
+  cardano_wallet: cardanoSelectedWallet?.name,
 });
 
+const POSTHOG_API = 'https://posthog.spectrum.fi';
+
 export const posthogInitializer: Initializer = () => {
-  if (isDevEnv) {
-    posthog.init('phc_V5DtnvFCrvYCO1ejBwVbyFZdt5VG1NBd5uU3wzwaa0I', {
-      api_host: 'https://posthog.spectrum.fi',
+  if (process.env.REACT_APP_POSTHOG_API_KEY) {
+    posthog.init(process.env.REACT_APP_POSTHOG_API_KEY, {
+      api_host: POSTHOG_API,
+      autocapture: false,
       loaded: () => {
         zip([
           selectedNetwork$,
@@ -65,8 +64,7 @@ export const posthogInitializer: Initializer = () => {
         ])
           .pipe(first(), map(mapToLaunchData))
           .subscribe((launchData) => {
-            // panalytics.firstLaunch();
-            // panalytics.sessionLaunch();
+            posthog.capture(ANALYTICS_EVENTS.APP_LAUNCH, launchData);
           });
       },
     });

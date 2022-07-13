@@ -1,7 +1,9 @@
 export const ANALYTICS_EVENTS = {
   // Launch
-  FIRST_LAUNCH: 'First Launch',
-  SESSION_LAUNCH: 'Session Launch',
+  APP_LAUNCH: 'App Launch',
+
+  // Network
+  SET_ACTIVE_NETWORK: 'Set Active Network',
 
   // Burger
   CHANGE_THEME: 'Change Theme',
