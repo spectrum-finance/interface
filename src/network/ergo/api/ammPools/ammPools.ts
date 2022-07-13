@@ -4,19 +4,15 @@ import {
   catchError,
   combineLatest,
   defaultIfEmpty,
-  filter,
-  from,
   map,
   Observable,
   of,
   publishReplay,
   refCount,
-  retry,
   switchMap,
   zip,
 } from 'rxjs';
 
-import { applicationConfig } from '../../../../applicationConfig';
 import { AmmPool } from '../../../../common/models/AmmPool';
 import { getAggregatedPoolAnalyticsDataById24H } from '../../../../common/streams/poolAnalytic';
 import { mapToAssetInfo } from '../common/assetInfoManager';
@@ -24,22 +20,9 @@ import {
   filterAvailablePools,
   filterUnavailablePools,
 } from '../common/availablePoolsOrTokens';
-import { networkContext$ } from '../networkContext/networkContext';
+import { rawAmmPools$ } from '../common/rawAmmPools';
 import { getPoolChartDataRaw } from '../poolChart/poolChart';
 import { ErgoAmmPool } from './ErgoAmmPool';
-import { nativeNetworkPools, networkPools } from './utils';
-
-const getNativeNetworkAmmPools = () =>
-  from(nativeNetworkPools().getAll({ limit: 100, offset: 0 })).pipe(
-    map(([pools]) => pools),
-    retry(applicationConfig.requestRetryCount),
-  );
-
-const getNetworkAmmPools = () =>
-  from(networkPools().getAll({ limit: 100, offset: 0 })).pipe(
-    map(([pools]) => pools),
-    retry(applicationConfig.requestRetryCount),
-  );
 
 const toAmmPool = (p: BaseAmmPool): Observable<AmmPool> =>
   zip([
@@ -65,13 +48,7 @@ const toAmmPool = (p: BaseAmmPool): Observable<AmmPool> =>
     }),
   );
 
-export const allAmmPools$ = networkContext$.pipe(
-  switchMap(() => zip([getNativeNetworkAmmPools(), getNetworkAmmPools()])),
-  map(([nativeNetworkPools, networkPools]) =>
-    nativeNetworkPools.concat(networkPools),
-  ),
-  catchError(() => of(undefined)),
-  filter(Boolean),
+export const allAmmPools$ = rawAmmPools$.pipe(
   switchMap((pools) =>
     combineLatest(pools.map(toAmmPool)).pipe(defaultIfEmpty([])),
   ),
