@@ -98,8 +98,6 @@ const _Page: React.FC<PageProps> = ({
           {(s || m) && (
             <Portal root={document.body}>
               <Pane
-                fastSwipeClose
-                bottomClose
                 visible={widgetOpened}
                 events={{
                   onBackdropTap: () => onWidgetClose?.(),

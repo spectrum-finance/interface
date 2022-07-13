@@ -6,10 +6,11 @@ import {
   Modal,
   SearchDataState,
   SearchOutlined,
+  useDevice,
   useSearch,
 } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import { Observable, of } from 'rxjs';
 
 import { useObservable } from '../../../../../common/hooks/useObservable';
@@ -30,6 +31,7 @@ const AssetListModal: React.FC<TokenListModalProps> = ({
 }) => {
   const [searchByTerm, setTerm] = useSearch<AssetInfo>(['name']);
   const [assets, loading] = useObservable(assets$ ?? of([]));
+  const { valBySize } = useDevice();
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) =>
     setTerm(e.target.value);
@@ -51,7 +53,7 @@ const AssetListModal: React.FC<TokenListModalProps> = ({
       <Modal.Title>
         <Trans>Select a token</Trans>
       </Modal.Title>
-      <Modal.Content width={500}>
+      <Modal.Content width={valBySize<CSSProperties['width']>('100%', 500)}>
         <Flex col>
           <Flex.Item marginBottom={2}>
             <Input
