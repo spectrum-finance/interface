@@ -23,6 +23,7 @@ import {
   convertDepositFormModelToAnalytics,
   convertRedeemFormModelToAnalytics,
   convertSwapFormModelToAnalytics,
+  debutEvent,
   getPoolAnalyticsData,
 } from './utils';
 
@@ -34,6 +35,7 @@ export class ProductAnalytics {
   }
 
   private event(name: string, props?: any): void {
+    debutEvent(name, props);
     this.analyticsSystems.forEach((system) => {
       system.capture(name, props);
     });

@@ -24,8 +24,8 @@ export const WalletModal: React.FC = () => {
   const [network] = useSelectedNetwork();
 
   const openChooseWalletModal = (): void => {
+    panalytics.clickChangeWallet(selectedWallet?.name);
     Modal.open(({ close }) => {
-      panalytics.clickChangeWallet(selectedWallet?.name);
       return <ChooseWalletModal close={close} isChangeWallet />;
     });
   };

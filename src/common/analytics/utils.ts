@@ -1,3 +1,5 @@
+import qs from 'qs';
+
 import { Network } from '../../network/common/Network';
 import { AddLiquidityFormModel } from '../../pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityFormModel';
 import { RemoveFormModel } from '../../pages/RemoveLiquidity/RemoveLiquidity';
@@ -27,6 +29,23 @@ const getLiquidityUsd = (
 ) =>
   Number(network.convertToConvenientNetworkAsset.snapshot(x).toAmount()) +
   Number(network.convertToConvenientNetworkAsset.snapshot(y).toAmount());
+
+export const debutEvent = (name: string, props: any): void => {
+  const q = qs.parse(window.location.search.slice(1));
+
+  if (q.debugpa == 'true') {
+    // eslint-disable-next-line no-console
+    console.log('--Event Start--');
+    // eslint-disable-next-line no-console
+    console.log(`PA_EVENT_NAME:`, name);
+    // eslint-disable-next-line no-console
+    props && console.log(`PA_EVENT_PROPS:`, props);
+    // eslint-disable-next-line no-console
+    console.log('--Event End--');
+    // eslint-disable-next-line no-console
+    console.log('\n');
+  }
+};
 
 export const getAnalyticsPoolName = (pool: AmmPool): string => {
   return `${pool.pool.x.asset.name}/${pool.pool.y.asset.name}`;
