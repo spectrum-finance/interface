@@ -9,8 +9,8 @@ import React, {
 import styled from 'styled-components';
 
 import { applicationConfig } from '../../../applicationConfig';
-import { device } from '../../../common/constants/size';
 import { panalytics } from '../../../common/analytics';
+import { device } from '../../../common/constants/size';
 import { useAppLoadingState, useSettings } from '../../../context';
 import { useSelectedNetwork } from '../../../gateway/common/network';
 import { useBodyClass } from '../../../hooks/useBodyClass';
