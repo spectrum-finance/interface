@@ -1,7 +1,9 @@
+import { Network } from '../../network/common/Network';
 import { AddLiquidityFormModel } from '../../pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityFormModel';
 import { RemoveFormModel } from '../../pages/RemoveLiquidity/RemoveLiquidity';
 import { SwapFormModel } from '../../pages/Swap/SwapFormModel';
 import { AmmPool } from '../models/AmmPool';
+import { Currency } from '../models/Currency';
 import {
   AnalyticsAppOperations,
   AnalyticsDepositData,
@@ -17,6 +19,14 @@ type EventNameConstructorOptions = {
   operation?: AnalyticsAppOperations;
   tokenAssignment?: AnalyticsTokenAssignment;
 };
+
+const getLiquidityUsd = (
+  x: Currency,
+  y: Currency,
+  network: Network<any, any>,
+) =>
+  Number(network.convertToConvenientNetworkAsset.snapshot(x).toAmount()) +
+  Number(network.convertToConvenientNetworkAsset.snapshot(y).toAmount());
 
 export const getAnalyticsPoolName = (pool: AmmPool): string => {
   return `${pool.pool.x.asset.name}/${pool.pool.y.asset.name}`;
@@ -60,40 +70,44 @@ export const getPoolAnalyticsData = (pool: AmmPool): AnalyticsPoolData => {
   };
 };
 
-export const convertSwapFormModelToAnalytics = ({
-  toAmount,
-  fromAmount,
-  pool,
-}: SwapFormModel): AnalyticsSwapData & AnalyticsPoolData => {
+export const convertSwapFormModelToAnalytics = (
+  { toAmount, fromAmount, pool }: SwapFormModel,
+  network: Network<any, any>,
+): AnalyticsSwapData & AnalyticsPoolData => {
   return {
     from_name: fromAmount?.asset.name,
     from_amount: Number(fromAmount?.toAmount()),
-    // TODO
-    // from_usd: fromAmount?.toUsd(),
+    from_usd: Number(
+      network.convertToConvenientNetworkAsset.snapshot(fromAmount!).toAmount(),
+    ),
     from_id: fromAmount?.asset.id,
 
     to_name: toAmount?.asset.name,
     to_amount: Number(toAmount?.toAmount()),
     to_id: toAmount?.asset.id,
-    // TODO
-    // to_usd: toAmount?.toUsd(),
+    to_usd: Number(
+      network.convertToConvenientNetworkAsset.snapshot(toAmount!).toAmount(),
+    ),
     ...getPoolAnalyticsData(pool!),
   };
 };
 
-export const convertDepositFormModelToAnalytics = ({
-  x,
-  y,
-  pool,
-}: AddLiquidityFormModel): AnalyticsDepositData & AnalyticsPoolData => {
+export const convertDepositFormModelToAnalytics = (
+  { x, y, pool }: AddLiquidityFormModel,
+  network: Network<any, any>,
+): AnalyticsDepositData & AnalyticsPoolData => {
   return {
     x_name: x?.asset.name,
     x_amount: Number(x?.toAmount()),
-    // x_usd:
+    x_usd: Number(
+      network.convertToConvenientNetworkAsset.snapshot(x!).toAmount(),
+    ),
     y_name: y?.asset.name,
     y_amount: Number(y?.toAmount()),
-    // y_usd:
-    // liquidity_usd:
+    y_usd: Number(
+      network.convertToConvenientNetworkAsset.snapshot(y!).toAmount(),
+    ),
+    liquidity_usd: getLiquidityUsd(x!, y!, network),
 
     ...getPoolAnalyticsData(pool!),
   };
@@ -102,17 +116,22 @@ export const convertDepositFormModelToAnalytics = ({
 export const convertRedeemFormModelToAnalytics = (
   { xAmount, yAmount, lpAmount, percent }: RemoveFormModel,
   pool: AmmPool,
+  network: Network<any, any>,
 ): AnalyticsRedeemData & AnalyticsPoolData => {
   return {
     percent_of_liquidity: percent,
     x_name: xAmount?.asset.name,
     x_amount: Number(xAmount?.toAmount()),
-    // x_usd: number;
+    x_usd: Number(
+      network.convertToConvenientNetworkAsset.snapshot(xAmount!).toAmount(),
+    ),
     y_name: yAmount?.asset.name,
     y_amount: Number(yAmount?.toAmount()),
-    // y_usd: number;
+    y_usd: Number(
+      network.convertToConvenientNetworkAsset.snapshot(yAmount!).toAmount(),
+    ),
     lp_amount: Number(lpAmount?.toAmount()),
-    // liquidity_usd: number;
+    liquidity_usd: getLiquidityUsd(xAmount!, yAmount!, network),
 
     ...getPoolAnalyticsData(pool),
   };

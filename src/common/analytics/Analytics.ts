@@ -1,6 +1,8 @@
 import { PostHog } from 'posthog-js';
+import { first } from 'rxjs';
 
-import { SupportedNetworks } from '../../network/common/Network';
+import { selectedNetwork$ } from '../../gateway/common/network';
+import { Network, SupportedNetworks } from '../../network/common/Network';
 import { AddLiquidityFormModel } from '../../pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityFormModel';
 import { RemoveFormModel } from '../../pages/RemoveLiquidity/RemoveLiquidity';
 import { SwapFormModel } from '../../pages/Swap/SwapFormModel';
@@ -32,10 +34,13 @@ export class ProductAnalytics {
   }
 
   private event(name: string, props?: any): void {
-    console.log('EVENT_NAME:', name, '\n', 'EVENT_PROPS:', props);
     this.analyticsSystems.forEach((system) => {
       system.capture(name, props);
     });
+  }
+
+  private withNetwork(cb: (n: Network<any, any>) => void): void {
+    selectedNetwork$.pipe(first()).subscribe(cb);
   }
 
   // --
@@ -178,30 +183,38 @@ export class ProductAnalytics {
   }
 
   public submitSwap(swapFormModel: SwapFormModel): void {
-    this.event(
-      ANALYTICS_EVENTS.SWAP_SUBMIT,
-      convertSwapFormModelToAnalytics(swapFormModel),
-    );
+    this.withNetwork((network) => {
+      this.event(
+        ANALYTICS_EVENTS.SWAP_SUBMIT,
+        convertSwapFormModelToAnalytics(swapFormModel, network),
+      );
+    });
   }
 
   public confirmSwap(swapFormModel: SwapFormModel): void {
-    this.event(
-      ANALYTICS_EVENTS.SWAP_CONFIRM,
-      convertSwapFormModelToAnalytics(swapFormModel),
-    );
+    this.withNetwork((network) => {
+      this.event(
+        ANALYTICS_EVENTS.SWAP_CONFIRM,
+        convertSwapFormModelToAnalytics(swapFormModel, network),
+      );
+    });
   }
 
   public signedSwap(swapFormModel: SwapFormModel, txId: string): void {
-    this.event(ANALYTICS_EVENTS.SWAP_SIGNED, {
-      tx_id: txId,
-      ...convertSwapFormModelToAnalytics(swapFormModel),
+    this.withNetwork((network) => {
+      this.event(ANALYTICS_EVENTS.SWAP_SIGNED, {
+        tx_id: txId,
+        ...convertSwapFormModelToAnalytics(swapFormModel, network),
+      });
     });
   }
 
   public signedErrorSwap(swapFormModel: SwapFormModel, err: any): void {
-    this.event(ANALYTICS_EVENTS.SWAP_SIGNED_ERROR, {
-      swap_signed_error: err,
-      ...convertSwapFormModelToAnalytics(swapFormModel),
+    this.withNetwork((network) => {
+      this.event(ANALYTICS_EVENTS.SWAP_SIGNED_ERROR, {
+        swap_signed_error: err,
+        ...convertSwapFormModelToAnalytics(swapFormModel, network),
+      });
     });
   }
 
@@ -210,26 +223,32 @@ export class ProductAnalytics {
   // --
 
   public submitDeposit(depositFromModel: AddLiquidityFormModel): void {
-    this.event(
-      ANALYTICS_EVENTS.DEPOSIT_SUBMIT,
-      convertDepositFormModelToAnalytics(depositFromModel),
-    );
+    this.withNetwork((network) => {
+      this.event(
+        ANALYTICS_EVENTS.DEPOSIT_SUBMIT,
+        convertDepositFormModelToAnalytics(depositFromModel, network),
+      );
+    });
   }
 
   public confirmDeposit(depositFromModel: AddLiquidityFormModel): void {
-    this.event(
-      ANALYTICS_EVENTS.DEPOSIT_CONFIRM,
-      convertDepositFormModelToAnalytics(depositFromModel),
-    );
+    this.withNetwork((network) => {
+      this.event(
+        ANALYTICS_EVENTS.DEPOSIT_CONFIRM,
+        convertDepositFormModelToAnalytics(depositFromModel, network),
+      );
+    });
   }
 
   public signedDeposit(
     depositFromModel: AddLiquidityFormModel,
     txId: string,
   ): void {
-    this.event(ANALYTICS_EVENTS.DEPOSIT_SIGNED, {
-      tx_id: txId,
-      ...convertDepositFormModelToAnalytics(depositFromModel),
+    this.withNetwork((network) => {
+      this.event(ANALYTICS_EVENTS.DEPOSIT_SIGNED, {
+        tx_id: txId,
+        ...convertDepositFormModelToAnalytics(depositFromModel, network),
+      });
     });
   }
 
@@ -237,9 +256,11 @@ export class ProductAnalytics {
     depositFromModel: AddLiquidityFormModel,
     err: any,
   ): void {
-    this.event(ANALYTICS_EVENTS.DEPOSIT_SIGNED_ERROR, {
-      deposit_signed_error: err,
-      ...convertDepositFormModelToAnalytics(depositFromModel),
+    this.withNetwork((network) => {
+      this.event(ANALYTICS_EVENTS.DEPOSIT_SIGNED_ERROR, {
+        deposit_signed_error: err,
+        ...convertDepositFormModelToAnalytics(depositFromModel, network),
+      });
     });
   }
 
@@ -266,17 +287,21 @@ export class ProductAnalytics {
   // Redeem
   // --
   public submitRedeem(removeFromModel: RemoveFormModel, pool: AmmPool): void {
-    this.event(
-      ANALYTICS_EVENTS.REDEEM_SUBMIT,
-      convertRedeemFormModelToAnalytics(removeFromModel, pool),
-    );
+    this.withNetwork((network) => {
+      this.event(
+        ANALYTICS_EVENTS.REDEEM_SUBMIT,
+        convertRedeemFormModelToAnalytics(removeFromModel, pool, network),
+      );
+    });
   }
 
   public confirmRedeem(removeFromModel: RemoveFormModel, pool: AmmPool): void {
-    this.event(
-      ANALYTICS_EVENTS.REDEEM_CONFIRM,
-      convertRedeemFormModelToAnalytics(removeFromModel, pool),
-    );
+    this.withNetwork((network) => {
+      this.event(
+        ANALYTICS_EVENTS.REDEEM_CONFIRM,
+        convertRedeemFormModelToAnalytics(removeFromModel, pool, network),
+      );
+    });
   }
 
   public signedRedeem(
@@ -284,9 +309,11 @@ export class ProductAnalytics {
     pool: AmmPool,
     txId: string,
   ): void {
-    this.event(ANALYTICS_EVENTS.REDEEM_SIGNED, {
-      tx_id: txId,
-      ...convertRedeemFormModelToAnalytics(removeFromModel, pool),
+    this.withNetwork((network) => {
+      this.event(ANALYTICS_EVENTS.REDEEM_SIGNED, {
+        tx_id: txId,
+        ...convertRedeemFormModelToAnalytics(removeFromModel, pool, network),
+      });
     });
   }
 
@@ -295,9 +322,11 @@ export class ProductAnalytics {
     pool: AmmPool,
     err: any,
   ): void {
-    this.event(ANALYTICS_EVENTS.REDEEM_SIGNED_ERROR, {
-      redeem_signed_error: err,
-      ...convertRedeemFormModelToAnalytics(removeFromModel, pool),
+    this.withNetwork((network) => {
+      this.event(ANALYTICS_EVENTS.REDEEM_SIGNED_ERROR, {
+        redeem_signed_error: err,
+        ...convertRedeemFormModelToAnalytics(removeFromModel, pool, network),
+      });
     });
   }
 
