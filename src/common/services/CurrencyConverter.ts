@@ -35,13 +35,17 @@ interface SnapshotFunction {
   (from: Currency | Currency[]): Currency;
 }
 
+export type CurrencyConverter = ((
+  from: Currency | Currency[],
+) => Observable<Currency>) & {
+  snapshot: SnapshotFunction;
+};
+
 export const makeCurrencyConverter = (
   assetGraph$: Observable<AssetGraph>,
   networkAssetToConvenientAssetRatio$: Observable<Ratio>,
   convenientAsset: AssetInfo,
-): ((from: Currency | Currency[]) => Observable<Currency>) & {
-  snapshot: SnapshotFunction;
-} => {
+): CurrencyConverter => {
   const ratioStreamCache: Map<string, Observable<Ratio>> = new Map();
 
   const ratioSnapshotCache: Map<string, Ratio> = new Map();
@@ -82,7 +86,9 @@ export const makeCurrencyConverter = (
     return ratioStreamCache.get(from.id)!;
   };
 
-  const convert = (from: Currency | Currency[]): Observable<Currency> => {
+  const convert: CurrencyConverter = ((
+    from: Currency | Currency[],
+  ): Observable<Currency> => {
     if (from instanceof Currency) {
       return rate(from.asset).pipe(
         map((convenientAssetRate) => convenientAssetRate.toQuoteCurrency(from)),
@@ -107,9 +113,9 @@ export const makeCurrencyConverter = (
         ),
       ),
     );
-  };
+  }) as any;
 
-  (convert as any).snapshot = (from: Currency | Currency[]): Currency => {
+  convert.snapshot = (from: Currency | Currency[]): Currency => {
     if (from instanceof Currency && ratioSnapshotCache.has(from.asset.id)) {
       return ratioSnapshotCache.get(from.asset.id)!.toQuoteCurrency(from);
     }
@@ -117,5 +123,5 @@ export const makeCurrencyConverter = (
     return emptyConvenientAssetCurrency;
   };
 
-  return convert as any;
+  return convert;
 };
