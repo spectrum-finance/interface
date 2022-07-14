@@ -23,7 +23,10 @@ const KyaModal: React.FC<KyaModalProps> = ({ onClose }): JSX.Element => {
       <Modal.Title>Know Your Assumptions</Modal.Title>
       <Modal.Content
         width={valBySize<CSSProperties['width']>('100%', 680)}
-        style={valBySize({ overflowY: 'auto', maxHeight: '80vh' }, {})}
+        style={valBySize(
+          { overflowY: 'auto', maxHeight: 'calc(80vh - 56px)' },
+          {},
+        )}
       >
         <Flex direction="col" className="kya-modal">
           <Flex.Item marginBottom={4}>

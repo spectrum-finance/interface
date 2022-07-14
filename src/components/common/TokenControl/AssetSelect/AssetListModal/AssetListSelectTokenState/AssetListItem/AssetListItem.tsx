@@ -3,8 +3,8 @@ import { Box, Flex, Typography } from '@ergolabs/ui-kit';
 import React from 'react';
 import styled from 'styled-components';
 
-import { useAssetsBalance } from '../../../../../../gateway/api/assetBalance';
-import { AssetTitle } from '../../../../../AssetTitle/AssetTitle';
+import { useAssetsBalance } from '../../../../../../../gateway/api/assetBalance';
+import { AssetTitle } from '../../../../../../AssetTitle/AssetTitle';
 
 interface TokenListItemProps {
   asset: AssetInfo;
@@ -13,7 +13,7 @@ interface TokenListItemProps {
   onClick?: React.MouseEventHandler<HTMLElement>;
 }
 
-const _TokenListItem: React.FC<TokenListItemProps> = ({
+const _AssetListItem: React.FC<TokenListItemProps> = ({
   asset,
   onClick,
   className,
@@ -42,7 +42,7 @@ const _TokenListItem: React.FC<TokenListItemProps> = ({
   );
 };
 
-export const AssetListItem = styled(_TokenListItem)`
+export const AssetListItem = styled(_AssetListItem)`
   cursor: pointer;
   user-select: none;
 

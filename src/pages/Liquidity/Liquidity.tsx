@@ -74,12 +74,6 @@ const filterDuplicates = <T extends AmmPool | Position>(items: T[]): T[] => {
   });
 };
 
-const filterCommunityPools = <T extends AmmPool | Position>(
-  items: T[],
-): T[] => {
-  return items.filter((i) => i.verified);
-};
-
 export const Liquidity = (): JSX.Element => {
   const [filters, setFilters] = useState<
     Set<PoolsOrPositionsFilterValue> | undefined
@@ -103,9 +97,6 @@ export const Liquidity = (): JSX.Element => {
     if (!filters?.has(PoolsOrPositionsFilterValue.SHOW_DUPLICATES)) {
       filteredPositions = filterDuplicates(filteredPositions);
     }
-    if (!filters?.has(PoolsOrPositionsFilterValue.SHOW_COMMUNITY_POOLS)) {
-      filteredPositions = filterCommunityPools(filteredPositions);
-    }
     return searchByTerm(filteredPositions) as Position[];
   };
 
@@ -118,9 +109,6 @@ export const Liquidity = (): JSX.Element => {
 
     if (!filters?.has(PoolsOrPositionsFilterValue.SHOW_DUPLICATES)) {
       filteredPools = filterDuplicates(filteredPools);
-    }
-    if (!filters?.has(PoolsOrPositionsFilterValue.SHOW_COMMUNITY_POOLS)) {
-      filteredPools = filterCommunityPools(filteredPools);
     }
     return searchByTerm(filteredPools) as AmmPool[];
   };

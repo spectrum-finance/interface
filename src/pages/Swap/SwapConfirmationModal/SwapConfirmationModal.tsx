@@ -1,14 +1,6 @@
-import {
-  Alert,
-  Button,
-  Checkbox,
-  Flex,
-  Form,
-  Modal,
-  useForm,
-} from '@ergolabs/ui-kit';
-import { t, Trans } from '@lingui/macro';
-import React, { FC, useState } from 'react';
+import { Button, Flex, Form, Modal, useForm } from '@ergolabs/ui-kit';
+import { Trans } from '@lingui/macro';
+import React, { FC } from 'react';
 import { Observable, tap } from 'rxjs';
 
 import { panalytics } from '../../../common/analytics';
@@ -28,9 +20,6 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
   value,
   onClose,
 }) => {
-  const [isChecked, setIsChecked] = useState<boolean | undefined>(
-    value.pool.verified,
-  );
   const [SwapConfirmationInfo] = useObservable(swapConfirmationInfo$);
   const form = useForm<SwapFormModel>(value);
 
@@ -83,30 +72,8 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
             <Flex.Item marginBottom={4}>
               {SwapConfirmationInfo && <SwapConfirmationInfo value={value} />}
             </Flex.Item>
-            {!value.pool.verified && (
-              <>
-                <Flex.Item marginBottom={4}>
-                  <Alert
-                    type="error"
-                    message={t`This pair has not been verified by the ErgoDEX team`}
-                    description={t`This operation may include fake or scam assets. Only confirm if you have done your own research.`}
-                  />
-                </Flex.Item>
-                <Flex.Item marginBottom={4}>
-                  <Checkbox onChange={() => setIsChecked((p) => !p)}>
-                    <Trans>I understand the risks</Trans>
-                  </Checkbox>
-                </Flex.Item>
-              </>
-            )}
             <Flex.Item>
-              <Button
-                size="extra-large"
-                type="primary"
-                htmlType="submit"
-                disabled={!isChecked}
-                block
-              >
+              <Button size="extra-large" type="primary" htmlType="submit" block>
                 <Trans>Confirm Swap</Trans>
               </Button>
             </Flex.Item>

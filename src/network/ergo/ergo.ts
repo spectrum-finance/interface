@@ -4,11 +4,12 @@ import {
   getUnusedAddresses,
   getUsedAddresses,
 } from './api/addresses/addresses';
-import { ammPools$ } from './api/ammPools/ammPools';
+import { ammPools$, possibleAmmPools$ } from './api/ammPools/ammPools';
 import { ErgoAmmPool } from './api/ammPools/ErgoAmmPool';
 import { assetBalance$ } from './api/balance/assetBalance';
 import { lpBalance$ } from './api/balance/lpBalance';
 import { networkAssetBalance$ } from './api/balance/networkAssetBalance';
+import { importTokenAsset } from './api/common/availablePoolsOrTokens';
 import { convertToConvenientNetworkAsset } from './api/ergoUsdRatio/ergoUsdRatio';
 import { locks$ } from './api/locks/locks';
 import { networkAsset } from './api/networkAsset/networkAsset';
@@ -19,6 +20,10 @@ import { refund } from './api/operations/refund';
 import { swap } from './api/operations/swap';
 import { getPoolChartData } from './api/poolChart/poolChart';
 import { positions$ } from './api/positions/positions';
+import {
+  availableTokenAssets$,
+  tokenAssetsToImport$,
+} from './api/tokens/tokens';
 import { txHistoryManager } from './api/transactionHistory/transactionHistory';
 import { ErgoWalletContract } from './api/wallet/common/ErgoWalletContract';
 import {
@@ -41,7 +46,12 @@ import {
   useRedeemValidationFee,
   useSwapValidationFee,
 } from './settings/totalFees';
-import { exploreAddress, exploreLastBlock, exploreTx } from './utils/utils';
+import {
+  exploreAddress,
+  exploreLastBlock,
+  exploreToken,
+  exploreTx,
+} from './utils/utils';
 import { DepositConfirmationInfo } from './widgets/DepositConfirmationInfo/DepositConfirmationInfo';
 import { GlobalSettingsModal } from './widgets/GlobalSettings/GlobalSettingsModal';
 import { RedeemConfirmationInfo } from './widgets/RedeemConfirmationInfo/RedeemConfirmationInfo';
@@ -66,6 +76,7 @@ export const ergoNetwork: Network<
   locks$,
   positions$,
   ammPools$,
+  possibleAmmPools$,
   getAddresses,
   getUsedAddresses,
   getUnusedAddresses,
@@ -77,6 +88,9 @@ export const ergoNetwork: Network<
   selectedWallet$,
   supportedFeatures$: supportedWalletFeatures$,
   networkContext$,
+  availableTokenAssets$,
+  tokenAssetsToImport$,
+  importTokenAsset,
 
   settings$,
   settings,
@@ -90,6 +104,7 @@ export const ergoNetwork: Network<
   exploreAddress,
   exploreTx,
   exploreLastBlock,
+  exploreToken,
 
   GlobalSettingsModal,
   SwapInfoContent,

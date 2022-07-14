@@ -1,5 +1,5 @@
 import { Flex, useDevice } from '@ergolabs/ui-kit';
-import React from 'react';
+import React, { forwardRef } from 'react';
 import styled from 'styled-components';
 
 import { device } from '../../../../common/constants/size';
@@ -11,7 +11,7 @@ import { Navigation } from '../../../Header/Navigation/Navigation';
 import { IsCardano } from '../../../IsCardano/IsCardano';
 import { TxHistory } from '../../TxHistory/TxHistory';
 
-export const BottomContainer = styled.div`
+export const BottomContainer = styled.div<{ ref: any }>`
   z-index: 2;
   position: fixed;
   bottom: 0;
@@ -30,41 +30,40 @@ export const BottomContainer = styled.div`
     border-top: 0;
   }
 `;
-export const FooterNavigation: React.FC = () => {
+// eslint-disable-next-line react/display-name
+export const FooterNavigation = forwardRef<HTMLDivElement>((props, ref) => {
   const { s, m } = useDevice();
   const [walletState] = useObservable(selectedWalletState$);
 
+  if (!(s || m)) {
+    return null;
+  }
+
   return (
-    <>
+    <BottomContainer ref={ref}>
       {s && (
-        <BottomContainer>
-          <Flex col>
-            <IsCardano>
-              <GetTestTokensButton
-                style={{
-                  display: 'block',
-                  margin: '0 1rem 1rem',
-                }}
-              />
-            </IsCardano>
-            <Flex>
-              <Flex.Item marginLeft={4} marginRight={4} flex={1}>
-                <Navigation textCenter />
+        <Flex col>
+          <IsCardano>
+            <GetTestTokensButton
+              style={{
+                display: 'block',
+                margin: '0 1rem 1rem',
+              }}
+            />
+          </IsCardano>
+          <Flex>
+            <Flex.Item marginLeft={4} marginRight={4} flex={1}>
+              <Navigation textCenter />
+            </Flex.Item>
+            {walletState === WalletState.CONNECTED && (
+              <Flex.Item marginRight={4}>
+                <TxHistory />
               </Flex.Item>
-              {walletState === WalletState.CONNECTED && (
-                <Flex.Item marginRight={4}>
-                  <TxHistory />
-                </Flex.Item>
-              )}
-            </Flex>
+            )}
           </Flex>
-        </BottomContainer>
+        </Flex>
       )}
-      {m && (
-        <BottomContainer>
-          <Navigation />
-        </BottomContainer>
-      )}
-    </>
+      {m && <Navigation />}
+    </BottomContainer>
   );
-};
+});

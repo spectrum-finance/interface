@@ -2,6 +2,7 @@ import { ReactNode } from 'react';
 import { Observable } from 'rxjs';
 
 import { AmmPool } from '../../common/models/AmmPool';
+import { AssetInfo } from '../../common/models/AssetInfo';
 import { AssetLock } from '../../common/models/AssetLock';
 import { Balance } from '../../common/models/Balance';
 import { Currency } from '../../common/models/Currency';
@@ -22,6 +23,10 @@ export interface NetworkData<W extends Wallet> {
   readonly lpBalance$: Observable<Balance>;
   readonly locks$: Observable<AssetLock[]>;
   readonly ammPools$: Observable<AmmPool[]>;
+  readonly possibleAmmPools$: Observable<AmmPool[]>;
+  readonly availableTokenAssets$: Observable<AssetInfo[]>;
+  readonly tokenAssetsToImport$: Observable<AssetInfo[]>;
+  readonly importTokenAsset: (assetInfo: AssetInfo | AssetInfo[]) => void;
   readonly positions$: Observable<Position[]>;
   readonly txHistoryManager: TxHistoryManager;
   readonly getUsedAddresses: () => Observable<Address[] | undefined>;

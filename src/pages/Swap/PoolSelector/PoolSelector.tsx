@@ -19,7 +19,6 @@ import { AssetIconPair } from '../../../components/AssetIconPair/AssetIconPair';
 import { DataTag } from '../../../components/common/DataTag/DataTag';
 import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
 import { Truncate } from '../../../components/Truncate/Truncate';
-import { VerificationMark } from '../../../components/VerificationMark/VerificationMark';
 import { getAmmPoolsByAssetPair } from '../../../gateway/api/ammPools';
 import { formatToUSD } from '../../../services/number';
 import { PoolSelectorModal } from './PoolSelectorModal/PoolSelectorModal';
@@ -116,11 +115,6 @@ const _PoolSelector: FC<PoolSelectorProps> = ({
                         <Truncate>{value.y.asset.name}</Truncate>
                       </Typography.Body>
                     </Flex.Item>
-                    {value.verified && (
-                      <Flex.Item marginRight={2} align="center">
-                        <VerificationMark />
-                      </Flex.Item>
-                    )}
                     <Flex.Item marginRight={1}>
                       <Typography.Footnote>Fee:</Typography.Footnote>
                     </Flex.Item>
