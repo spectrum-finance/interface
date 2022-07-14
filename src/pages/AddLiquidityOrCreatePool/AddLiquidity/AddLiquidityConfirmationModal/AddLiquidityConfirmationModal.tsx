@@ -1,6 +1,6 @@
-import { Alert, Button, Checkbox, Flex, Modal } from '@ergolabs/ui-kit';
+import { Button, Flex, Modal } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import { Observable } from 'rxjs';
 
 import { useObservable } from '../../../../common/hooks/useObservable';
@@ -22,9 +22,6 @@ const AddLiquidityConfirmationModal: FC<AddLiquidityConfirmationModalProps> = ({
   value,
   onClose,
 }) => {
-  const [isChecked, setIsChecked] = useState<boolean | undefined>(
-    value.pool.verified,
-  );
   const [DepositFees] = useObservable(depositConfirmationInfo$);
   const addLiquidityOperation = async () => {
     const { pool, y, x } = value;
@@ -71,28 +68,11 @@ const AddLiquidityConfirmationModal: FC<AddLiquidityConfirmationModalProps> = ({
               {DepositFees ? <DepositFees /> : ''}
             </PageSection>
           </Flex.Item>
-          {!value.pool.verified && (
-            <>
-              <Flex.Item marginBottom={4}>
-                <Alert
-                  type="error"
-                  message={t`This pair has not been verified by the ErgoDEX team`}
-                  description={t`This operation may include fake or scam assets. Only confirm if you have done your own research.`}
-                />
-              </Flex.Item>
-              <Flex.Item marginBottom={4}>
-                <Checkbox onChange={() => setIsChecked((p) => !p)}>
-                  <Trans>I understand the risks</Trans>
-                </Checkbox>
-              </Flex.Item>
-            </>
-          )}
           <Flex.Item>
             <Button
               block
               type="primary"
               size="extra-large"
-              disabled={!isChecked}
               onClick={() => addLiquidityOperation()}
             >
               <Trans>Add Liquidity</Trans>

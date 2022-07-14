@@ -8,7 +8,6 @@ import {
 } from '../../../../components/TableView/filters/MultiselectFilter/MultiselectFilter';
 
 export enum PoolsOrPositionsFilterValue {
-  SHOW_COMMUNITY_POOLS,
   SHOW_DUPLICATES,
 }
 
@@ -24,10 +23,6 @@ const PoolsOrPositionsFilter: MultiselectFilterItem<PoolsOrPositionsFilterValue>
     {
       value: PoolsOrPositionsFilterValue.SHOW_DUPLICATES,
       caption: <Trans>Show duplicates</Trans>,
-    },
-    {
-      value: PoolsOrPositionsFilterValue.SHOW_COMMUNITY_POOLS,
-      caption: <Trans>Show community pools</Trans>,
     },
   ];
 

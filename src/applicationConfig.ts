@@ -26,6 +26,7 @@ interface CardanoUpdate {
 interface ApplicationConfig {
   readonly cardanoMaintenance: boolean;
   readonly cardanoUpdate?: CardanoUpdate;
+  readonly defaultTokenListUrl: string;
   readonly reCaptchaKey: string;
   readonly networksSettings: Dictionary<NetworkConfig>;
   readonly social: {
@@ -48,6 +49,8 @@ interface ApplicationConfig {
 
 export const applicationConfig: ApplicationConfig = {
   cardanoMaintenance: true,
+  defaultTokenListUrl:
+    'https://raw.githubusercontent.com/ergolabs/default-token-list/master/src/tokens',
   reCaptchaKey: '6LeUJ8YfAAAAAMYIqGvtOmJGLeJtCSv6FBH_5sA3',
   requestRetryCount: 3,
   networksSettings: {
