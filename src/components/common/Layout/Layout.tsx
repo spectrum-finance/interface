@@ -13,6 +13,7 @@ import { device } from '../../../common/constants/size';
 import { useAppLoadingState, useSettings } from '../../../context';
 import { useSelectedNetwork } from '../../../gateway/common/network';
 import { useBodyClass } from '../../../hooks/useBodyClass';
+import { useMetaThemeColor } from '../../../hooks/useMetaThemeColor';
 import { Header } from '../../Header/Header';
 import { NetworkHeight } from '../../NetworkHeight/NetworkHeight';
 import { SocialLinks } from '../../SocialLinks/SocialLinks';
@@ -45,7 +46,7 @@ const _Layout: FC<PropsWithChildren<{ className?: string }>> = ({
   const [scrolledTop, setScrolledTop] = useState(true);
 
   useBodyClass([theme, network.name.toLowerCase()]);
-
+  useMetaThemeColor({ dark: '#1D1D1D', light: `#F0F2F5` }, theme);
   const [{ isKYAAccepted }] = useAppLoadingState();
 
   useEffect(() => {
