@@ -340,4 +340,12 @@ export class ProductAnalytics {
     const eventName = `Click ${name.toUpperCase()}`;
     this.event(eventName);
   }
+
+  public catalystCta(): void {
+    this.event(ANALYTICS_EVENTS.CATALYST_CLOSE);
+  }
+
+  public catalystClose(): void {
+    this.event(ANALYTICS_EVENTS.CATALYST_CTA);
+  }
 }

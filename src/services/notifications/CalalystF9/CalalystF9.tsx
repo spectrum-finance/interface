@@ -10,6 +10,7 @@ import {
 import { t } from '@lingui/macro';
 import React from 'react';
 
+import { panalytics } from '../../../common/analytics';
 import { localStorageManager } from '../../../common/utils/localStorageManager';
 
 export const NOTIFICATION_KEY = 'catalyst-notification';
@@ -17,6 +18,7 @@ export const NOTIFICATION_KEY = 'catalyst-notification';
 const LetsGoButton = () => {
   const openModal = () => {
     window.open('https://cardano.ideascale.com/c/idea/421661', '_blank');
+    panalytics.catalystCta();
     localStorageManager.set(NOTIFICATION_KEY, true);
     notification.close(NOTIFICATION_KEY);
   };
@@ -58,6 +60,9 @@ export const openCatalystF9Notification = (): void => {
     bottom: 48,
     btn: <LetsGoButton />,
     closeIcon: <CloseOutlined size={24} />,
-    onClose: () => localStorageManager.set(NOTIFICATION_KEY, true),
+    onClose: () => {
+      panalytics.catalystClose();
+      localStorageManager.set(NOTIFICATION_KEY, true);
+    },
   });
 };
