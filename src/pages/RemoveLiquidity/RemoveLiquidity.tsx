@@ -5,6 +5,7 @@ import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { skip } from 'rxjs';
 
+import { panalytics } from '../../common/analytics';
 import {
   useObservable,
   useSubscription,
@@ -26,7 +27,7 @@ import { getPositionByAmmPoolId } from '../../gateway/api/positions';
 import { useGuard } from '../../hooks/useGuard';
 import { RemoveLiquidityConfirmationModal } from './RemoveLiquidityConfirmationModal/RemoveLiquidityConfirmationModal';
 
-interface RemoveFormModel {
+export interface RemoveFormModel {
   readonly percent: number;
   readonly xAmount?: Currency;
   readonly yAmount?: Currency;
@@ -76,6 +77,7 @@ export const RemoveLiquidity: FC = () => {
     const xAmount = form.value.xAmount || poolData.availableX;
     const yAmount = form.value.yAmount || poolData.availableY;
     const lpAmount = form.value.lpAmount || poolData.availableLp;
+    const percent = form.value.percent;
 
     openConfirmationModal(
       (next) => {
@@ -85,6 +87,7 @@ export const RemoveLiquidity: FC = () => {
             xAmount={xAmount}
             yAmount={yAmount}
             lpAmount={lpAmount}
+            percent={percent}
             pool={poolData.pool}
           />
         );
@@ -95,6 +98,8 @@ export const RemoveLiquidity: FC = () => {
         yAsset: yAmount,
       },
     );
+
+    panalytics.submitRedeem(form.value, poolData.pool);
   };
 
   return (

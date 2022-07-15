@@ -9,6 +9,7 @@ import React, {
 import styled from 'styled-components';
 
 import { applicationConfig } from '../../../applicationConfig';
+import { panalytics } from '../../../common/analytics';
 import { device } from '../../../common/constants/size';
 import { useAppLoadingState, useSettings } from '../../../context';
 import { useSelectedNetwork } from '../../../gateway/common/network';
@@ -51,7 +52,9 @@ const _Layout: FC<PropsWithChildren<{ className?: string }>> = ({
 
   useEffect(() => {
     if (!isKYAAccepted) {
-      Modal.open(({ close }) => <KyaModal onClose={close} />);
+      Modal.open(({ close }) => <KyaModal onClose={close} />, {
+        afterClose: () => panalytics.closeKya(),
+      });
     }
   }, [isKYAAccepted]);
 
