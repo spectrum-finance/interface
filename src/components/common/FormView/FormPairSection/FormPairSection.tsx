@@ -37,7 +37,7 @@ const FormPairSection: React.FC<PairSpaceProps> = ({
                 <Flex.Item>
                   <Typography.Body strong>
                     <Truncate limit={TOKEN_NAME_SYMBOLS_LIMIT}>
-                      {xAmount.asset.name}
+                      {xAmount.asset.ticker}
                     </Truncate>
                   </Typography.Body>
                 </Flex.Item>
@@ -63,7 +63,7 @@ const FormPairSection: React.FC<PairSpaceProps> = ({
                 <Flex.Item>
                   <Typography.Body strong>
                     <Truncate limit={TOKEN_NAME_SYMBOLS_LIMIT}>
-                      {yAmount.asset.name}
+                      {yAmount.asset.ticker}
                     </Truncate>
                   </Typography.Body>
                 </Flex.Item>

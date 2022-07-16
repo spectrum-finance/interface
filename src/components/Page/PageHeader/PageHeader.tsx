@@ -30,8 +30,8 @@ const PageHeader: React.FC<FormHeaderProps> = ({
         </Flex.Item>
         <Flex.Item marginRight={2}>
           <Typography.Title level={4}>
-            <Truncate>{position.availableX.asset.name}</Truncate> /{' '}
-            <Truncate>{position.availableY.asset.name}</Truncate>
+            <Truncate>{position.availableX.asset.ticker}</Truncate> /{' '}
+            <Truncate>{position.availableY.asset.ticker}</Truncate>
           </Typography.Title>
         </Flex.Item>
         {children}

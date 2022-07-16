@@ -16,10 +16,10 @@ export const PositionDetails: FC<ExpandComponentProps<Position>> = ({
         <Trans>Total liquidity</Trans>
       </Typography.Footnote>
       <Typography.Body strong>
-        {item.totalX.asset.name}: {item.totalX.toString()}
+        {item.totalX.asset.ticker}: {item.totalX.toString()}
       </Typography.Body>
       <Typography.Body strong>
-        {item.totalY.asset.name}: {item.totalY.toString()}
+        {item.totalY.asset.ticker}: {item.totalY.toString()}
       </Typography.Body>
     </Flex>
   </PoolsOrPositionDetails>
