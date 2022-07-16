@@ -3,7 +3,7 @@ import React, { FC, useState } from 'react';
 import styled, { css } from 'styled-components';
 
 import { AmmPool } from '../../../../../common/models/AmmPool';
-import { AssetIconPair } from '../../../../../components/AssetIconPair/AssetIconPair';
+import { AssetPairTitle } from '../../../../../components/AssetPairTitle/AssetPairTitle';
 import { DataTag } from '../../../../../components/common/DataTag/DataTag';
 import { formatToUSD } from '../../../../../services/number';
 
@@ -43,17 +43,13 @@ const _PoolItemView: FC<PoolItemViewProps> = ({
       onClick={handleClick}
     >
       <Flex align="center" stretch>
-        <Flex.Item marginRight={1}>
-          <AssetIconPair
+        <Flex.Item marginRight={2}>
+          <AssetPairTitle
             size="small"
             assetX={pool.x.asset}
             assetY={pool.y.asset}
+            level={5}
           />
-        </Flex.Item>
-        <Flex.Item marginRight={2}>
-          <Typography.Title level={5}>
-            {pool.x.asset.name}/{pool.y.asset.name}
-          </Typography.Title>
         </Flex.Item>
         <Flex.Item marginRight={1}>
           <Typography.Footnote>Fee</Typography.Footnote>

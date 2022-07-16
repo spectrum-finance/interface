@@ -165,7 +165,7 @@ export class Currency {
       } ${this.toString(maxDecimals, minDecimals)}`;
     } else {
       return `${this.toString(maxDecimals, minDecimals)} ${
-        isUnknownAsset(this.asset) ? '' : this.asset.name
+        isUnknownAsset(this.asset) ? '' : this.asset.ticker || this.asset.name
       }`;
     }
   }

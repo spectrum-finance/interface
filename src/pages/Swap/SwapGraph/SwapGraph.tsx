@@ -25,7 +25,7 @@ import styled from 'styled-components';
 import { useObservable } from '../../../common/hooks/useObservable';
 import { AmmPool } from '../../../common/models/AmmPool';
 import { PoolChartData } from '../../../common/models/PoolChartData';
-import { AssetIconPair } from '../../../components/AssetIconPair/AssetIconPair';
+import { AssetPairTitle } from '../../../components/AssetPairTitle/AssetPairTitle';
 import { DateTimeView } from '../../../components/common/DateTimeView/DateTimeView';
 import { Truncate } from '../../../components/Truncate/Truncate';
 import { getPoolChartData } from '../../../network/ergo/api/poolChart/poolChart';
@@ -134,16 +134,13 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({ pool }) => {
         <Flex align="center">
           {pool && (
             <>
-              <AssetIconPair
-                size="small"
-                assetX={pool.x.asset}
-                assetY={pool.y.asset}
-              />
-              <Flex.Item marginRight={1} marginLeft={1}>
-                <Typography.Title level={4}>
-                  <Truncate>{pool.x.asset.name}</Truncate> /{' '}
-                  <Truncate>{pool.y.asset.name}</Truncate>
-                </Typography.Title>
+              <Flex.Item marginRight={1}>
+                <AssetPairTitle
+                  size="small"
+                  assetX={pool.x.asset}
+                  assetY={pool.y.asset}
+                  level={4}
+                />
               </Flex.Item>
               <Flex.Item marginRight={2}>
                 <Button size="small" onClick={() => setInverted(!isInverted)}>
@@ -170,11 +167,11 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({ pool }) => {
             <Flex.Item marginBottom={0.5} marginRight={2}>
               <Typography.Title level={valBySize(5, 4)}>
                 <Truncate>
-                  {active.getRatio(isInverted).baseAsset.name}
+                  {active.getRatio(isInverted).baseAsset.ticker}
                 </Truncate>
                 {' / '}
                 <Truncate>
-                  {active.getRatio(isInverted).quoteAsset.name}
+                  {active.getRatio(isInverted).quoteAsset.ticker}
                 </Truncate>
               </Typography.Title>
             </Flex.Item>

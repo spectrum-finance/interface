@@ -23,10 +23,10 @@ export const PoolView: FC<PoolSelectorItemProps> = ({
     <Flex.Item marginRight={1}>
       <AssetIconPair assetX={ammPool.x.asset} assetY={ammPool.y.asset} />
     </Flex.Item>
-    <Flex.Item marginRight={1} align="center">
+    <Flex.Item marginRight={2} align="center">
       <Typography.Title level={5}>
-        <Truncate>{ammPool.x.asset.name}</Truncate>/
-        <Truncate>{ammPool.y.asset.name}</Truncate>
+        <Truncate>{ammPool.x.asset.ticker}</Truncate>/
+        <Truncate>{ammPool.y.asset.ticker}</Truncate>
       </Typography.Title>
     </Flex.Item>
     <Flex.Item marginRight={1} align="center">

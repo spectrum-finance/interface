@@ -15,10 +15,9 @@ import styled from 'styled-components';
 import { panalytics } from '../../../common/analytics';
 import { useSubject } from '../../../common/hooks/useObservable';
 import { AmmPool } from '../../../common/models/AmmPool';
-import { AssetIconPair } from '../../../components/AssetIconPair/AssetIconPair';
+import { AssetPairTitle } from '../../../components/AssetPairTitle/AssetPairTitle';
 import { DataTag } from '../../../components/common/DataTag/DataTag';
 import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
-import { Truncate } from '../../../components/Truncate/Truncate';
 import { getAmmPoolsByAssetPair } from '../../../gateway/api/ammPools';
 import { formatToUSD } from '../../../services/number';
 import { PoolSelectorModal } from './PoolSelectorModal/PoolSelectorModal';
@@ -102,18 +101,13 @@ const _PoolSelector: FC<PoolSelectorProps> = ({
                 </Flex.Item>
                 <Flex.Item>
                   <Flex align="center">
-                    <Flex.Item marginRight={1}>
-                      <AssetIconPair
+                    <Flex.Item marginRight={2}>
+                      <AssetPairTitle
                         size="small"
                         assetX={value.x.asset}
                         assetY={value.y.asset}
+                        level="body"
                       />
-                    </Flex.Item>
-                    <Flex.Item marginRight={1}>
-                      <Typography.Body strong>
-                        <Truncate>{value.x.asset.name}</Truncate>/
-                        <Truncate>{value.y.asset.name}</Truncate>
-                      </Typography.Body>
                     </Flex.Item>
                     <Flex.Item marginRight={1}>
                       <Typography.Footnote>Fee:</Typography.Footnote>
