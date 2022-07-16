@@ -31,9 +31,9 @@ const getLiquidityUsd = (
   Number(network.convertToConvenientNetworkAsset.snapshot(y).toAmount());
 
 export const debutEvent = (name: string, props: any): void => {
-  const q = qs.parse(window.location.search.slice(1));
+  const debugpa = localStorage.getItem('debugpa');
 
-  if (q.debugpa == 'true') {
+  if (debugpa == 'true') {
     // eslint-disable-next-line no-console
     console.log('--Event Start--');
     // eslint-disable-next-line no-console
