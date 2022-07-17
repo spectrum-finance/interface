@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { Navigate, Outlet, useRoutes } from 'react-router-dom';
 
 import { NetworkDomManager } from './common/services/NetworkDomManager';
-import Layout from './components/common/Layout/Layout';
+import { Layout } from './components/common/Layout/Layout';
 import { RouteConfigExtended } from './components/RouterTitle/RouteConfigExtended';
 import { RouterTitle } from './components/RouterTitle/RouterTitle';
 import { AddLiquidityOrCreatePool } from './pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool';
@@ -80,6 +80,11 @@ export const routesConfig: RouteConfigExtended[] = [
                   {
                     title: 'Add Liquidity',
                     path: 'add',
+                    element: <AddLiquidityOrCreatePool />,
+                  },
+                  {
+                    title: 'Create Pool',
+                    path: 'create',
                     element: <AddLiquidityOrCreatePool />,
                   },
                   {

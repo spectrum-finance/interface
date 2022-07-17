@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ergodex-frontend\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-05-07 17:28\n"
+"PO-Revision-Date: 2022-06-29 10:42\n"
 "Last-Translator: \n"
 "Language: he_IL\n"
 "Language-Team: Hebrew\n"
@@ -225,7 +225,7 @@ msgstr "אשרי ביצוע המרה"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Confirm this transaction in your wallet"
-msgstr "אשרי עיסקה זו בארנק שלך"
+msgstr "אשרי עסקה זו בארנק שלך"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
 msgid "Confirm withdrawal"
@@ -667,7 +667,7 @@ msgstr "אישור החזר"
 
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
 msgid "Refund transaction"
-msgstr "עיסקת זיכוי/החזר עיסקה"
+msgstr "עסקת זיכוי/החזר עסקה"
 
 #: src/components/common/TxHistory/RefundConfirmationModal/RefundConfirmationModal.tsx
 msgid "Refund will be performed to this address"
@@ -975,7 +975,7 @@ msgstr "טרם הוסַפְת נזילות לפּוּל זה."
 
 #: src/components/WalletModal/LowBalanceWarning/LowBalanceWarning.tsx
 msgid "You need ERG to pay transaction fees"
-msgstr "את זקוקה ל-ERG כדי לשלם עמלות עיסקה"
+msgstr "את זקוקה ל-ERG כדי לשלם עמלות עסקה"
 
 #: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
 msgid "You will spend {value} ERG for every operation."

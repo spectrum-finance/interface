@@ -15,13 +15,13 @@ export const PoolRatio: FC<PoolPriceProps> = ({ ammPool, ratioOf }) => {
   const description =
     ratioOf === 'x' ? (
       <>
-        <Truncate>{ammPool.x.asset.name}</Truncate> {t`per`}{' '}
-        <Truncate>{ammPool.y.asset.name}</Truncate>
+        <Truncate>{ammPool.x.asset.ticker}</Truncate> {t`per`}{' '}
+        <Truncate>{ammPool.y.asset.ticker}</Truncate>
       </>
     ) : (
       <>
-        <Truncate>{ammPool.y.asset.name}</Truncate> {t`per`}{' '}
-        <Truncate>{ammPool.x.asset.name}</Truncate>
+        <Truncate>{ammPool.y.asset.ticker}</Truncate> {t`per`}{' '}
+        <Truncate>{ammPool.x.asset.ticker}</Truncate>
       </>
     );
 

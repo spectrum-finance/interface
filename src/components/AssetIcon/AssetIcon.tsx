@@ -9,10 +9,11 @@ type TokenIconProps = React.DetailedHTMLProps<
   HTMLDivElement
 > & {
   asset?: AssetInfo;
-  size?: 'large' | 'small';
+  size?: 'large' | 'small' | 'extraSmall';
 };
 
 const MAP_SIZE_TO_NUMBER = {
+  extraSmall: 16,
   small: 20,
   medium: 24,
   large: 32,

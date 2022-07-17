@@ -54,13 +54,15 @@ const RatioString: React.FC<RatioStringProps> = ({ value, reversedRatio }) => {
     <>
       {reversedRatio ? (
         <>
-          1 <Truncate>{value.toAsset?.name}</Truncate> ={' '}
-          {`${price?.toString()}`} <Truncate>{price?.baseAsset.name}</Truncate>
+          1 <Truncate>{value.toAsset?.ticker}</Truncate> ={' '}
+          {`${price?.toString()}`}{' '}
+          <Truncate>{price?.baseAsset.ticker}</Truncate>
         </>
       ) : (
         <>
-          1 <Truncate>{value.fromAsset?.name}</Truncate> ={' '}
-          {`${price?.toString()}`} <Truncate>{price?.baseAsset.name}</Truncate>
+          1 <Truncate>{value.fromAsset?.ticker}</Truncate> ={' '}
+          {`${price?.toString()}`}{' '}
+          <Truncate>{price?.baseAsset.ticker}</Truncate>
         </>
       )}
     </>

@@ -1,13 +1,15 @@
 import { useLocalStorage } from '@rehooks/local-storage';
 import { Settings as LuxonSettings } from 'luxon';
 import React, { createContext, useContext, useEffect } from 'react';
+import { map, Observable, publishReplay, refCount } from 'rxjs';
 
 import { DEFAULT_LOCALE, SupportedLocale } from '../common/constants/locales';
+import { localStorageManager } from '../common/utils/localStorageManager';
 import { isDarkOsTheme } from '../utils/osTheme';
 
 export type Settings = {
   explorerUrl: string;
-  theme: string;
+  theme: 'light' | 'dark';
   lang: SupportedLocale;
 };
 
@@ -90,3 +92,14 @@ export const SettingsProvider = ({
 
 export const useApplicationSettings = (): LocalStorageReturnValue<Settings> =>
   useContext(AppicationSettingsContext);
+
+export const applicationSettings$: Observable<Settings> = localStorageManager
+  .getStream<Settings>('settings')
+  .pipe(
+    map((settings) => settings || DefaultSettings),
+    publishReplay(1),
+    refCount(),
+  );
+
+export const useSettings = (): LocalStorageReturnValue<Settings> =>
+  useContext(SettingsContext);
