@@ -21,7 +21,7 @@ const AmountOverview: FC<{ currency: Currency }> = ({ currency }) => (
       <AssetIcon asset={currency.asset} />
     </Flex.Item>
     <Flex.Item marginRight={1}>
-      <Typography.Body>{currency.asset.name}</Typography.Body>
+      <Typography.Body>{currency.asset.ticker}</Typography.Body>
     </Flex.Item>
     <Flex.Item>
       <Typography.Body>{currency.toString()}</Typography.Body>

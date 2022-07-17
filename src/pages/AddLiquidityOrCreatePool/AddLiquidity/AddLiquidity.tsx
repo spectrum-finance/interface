@@ -11,6 +11,7 @@ import maxBy from 'lodash/maxBy';
 import React, { FC, useEffect, useState } from 'react';
 import { Observable, skip, tap } from 'rxjs';
 
+import { panalytics } from '../../../common/analytics';
 import { useSubscription } from '../../../common/hooks/useObservable';
 import { AmmPool } from '../../../common/models/AmmPool';
 import { AssetInfo } from '../../../common/models/AssetInfo';
@@ -258,6 +259,7 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
         yAsset: value.y,
       },
     );
+    panalytics.submitDeposit(value);
   };
 
   const handleMaxLiquidityClick = (pct: number) => {
@@ -353,6 +355,7 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
 
   return (
     <OperationForm
+      analytics={{ location: 'add-liquidity' }}
       form={form}
       onSubmit={addLiquidityAction}
       validators={validators}
@@ -376,7 +379,12 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
               <IsErgo>
                 <Button
                   size="large"
-                  onClick={onNewPoolButtonClick}
+                  onClick={() => {
+                    if (onNewPoolButtonClick) {
+                      panalytics.clickCreatePoolDeposit();
+                      onNewPoolButtonClick();
+                    }
+                  }}
                   icon={<PlusOutlined style={{ fontSize: 20 }} />}
                 />
               </IsErgo>

@@ -6,6 +6,7 @@ import { DateTime } from 'luxon';
 import React, { FC, ReactNode, useContext } from 'react';
 import { interval, map } from 'rxjs';
 
+import { PAnalytics } from '../../../../common/analytics/@types/types';
 import { useObservable } from '../../../../common/hooks/useObservable';
 import { Currency } from '../../../../common/models/Currency';
 import { ConnectWalletButton } from '../../ConnectWalletButton/ConnectWalletButton';
@@ -102,6 +103,7 @@ const getButtonPropsByState = (
 
 export interface ActionButtonProps {
   readonly children: ReactNode;
+  readonly analytics?: PAnalytics;
 }
 
 const getDiff = () =>
@@ -111,8 +113,6 @@ const getDiff = () =>
     'second',
     'millisecond',
   ]);
-
-// const renderTimer = () =>
 
 const timer$ = interval(1000).pipe(map(() => getDiff()));
 
@@ -155,6 +155,7 @@ export const ActionButton: FC<ActionButtonProps> = (props) => {
     <ConnectWalletButton
       className="action-form__connect-btn"
       size="extra-large"
+      analytics={props.analytics}
     >
       <Button
         htmlType="submit"

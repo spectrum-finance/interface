@@ -15,7 +15,6 @@ export const positions$ = zip([ammPools$, lpBalance$, networkContext$]).pipe(
             ap,
             lpWalletBalance.get(ap.lp.asset),
             false,
-            true,
             [],
             networkContext.height,
           ),
