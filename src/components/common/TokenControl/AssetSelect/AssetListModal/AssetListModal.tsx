@@ -1,7 +1,13 @@
 import { AssetInfo } from '@ergolabs/ergo-sdk';
-import { ArrowLeftOutlined, Flex, Modal, Typography } from '@ergolabs/ui-kit';
+import {
+  ArrowLeftOutlined,
+  Flex,
+  Modal,
+  Typography,
+  useDevice,
+} from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
-import React, { useState } from 'react';
+import React, { CSSProperties, useState } from 'react';
 import { Observable } from 'rxjs';
 import styled from 'styled-components';
 
@@ -33,7 +39,7 @@ const AssetListModal: React.FC<TokenListModalProps> = ({
 }) => {
   const [assetListModalState, setAssetListModalState] =
     useState<AssetListModalState>(AssetListModalState.SELECT_TOKEN);
-
+  const { valBySize } = useDevice();
   const [assetToImport, setAssetToImport] = useState<AssetInfo | undefined>();
 
   const handleAssetSelect = (asset: AssetInfo) => {
@@ -80,7 +86,7 @@ const AssetListModal: React.FC<TokenListModalProps> = ({
           </Flex>
         )}
       </Modal.Title>
-      <Modal.Content width={500}>
+      <Modal.Content width={valBySize<CSSProperties['width']>('100%', 500)}>
         {assetListModalState === AssetListModalState.SELECT_TOKEN && (
           <AssetListSelectTokenState
             assetsToImport$={assetsToImport$}
