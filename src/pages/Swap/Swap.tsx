@@ -24,6 +24,7 @@ import {
   tap,
 } from 'rxjs';
 
+import { panalytics } from '../../common/analytics';
 import {
   useObservable,
   useSubscription,
@@ -44,7 +45,12 @@ import {
 import { Page } from '../../components/Page/Page';
 import { getAmmPoolsByAssetPair } from '../../gateway/api/ammPools';
 import { useAssetsBalance } from '../../gateway/api/assetBalance';
-import { getAvailableAssetFor, tokenAssets$ } from '../../gateway/api/assets';
+import {
+  getAvailableAssetFor,
+  getAvailableAssetToImportFor,
+  tokenAssets$,
+  tokenAssetsToImport$,
+} from '../../gateway/api/assets';
 import { useNetworkAsset } from '../../gateway/api/networkAsset';
 import { useSwapValidationFee } from '../../gateway/api/validationFees';
 import { useSelectedNetwork } from '../../gateway/common/network';
@@ -58,6 +64,9 @@ import { SwitchButton } from './SwitchButton/SwitchButton';
 
 const getToAssets = (fromAsset?: string) =>
   fromAsset ? getAvailableAssetFor(fromAsset) : tokenAssets$;
+
+const getToAssetsToImport = (fromAsset?: string) =>
+  fromAsset ? getAvailableAssetToImportFor(fromAsset) : tokenAssetsToImport$;
 
 const isAssetsPairEquals = (
   [prevFrom, prevTo]: [AssetInfo | undefined, AssetInfo | undefined],
@@ -90,6 +99,10 @@ export const Swap = (): JSX.Element => {
   );
   const toAssets$ = useMemo(
     () => updateToAssets$.pipe(switchMap(getToAssets)),
+    [],
+  );
+  const toAssetsToImport$ = useMemo(
+    () => updateToAssets$.pipe(switchMap(getToAssetsToImport)),
     [],
   );
 
@@ -190,6 +203,7 @@ export const Swap = (): JSX.Element => {
         yAsset: value.toAmount!,
       },
     );
+    panalytics.submitSwap(value);
   };
 
   const resetForm = () =>
@@ -320,6 +334,7 @@ export const Swap = (): JSX.Element => {
       { emitEvent: 'silent' },
     );
     setLastEditedField((prev) => (prev === 'from' ? 'to' : 'from'));
+    panalytics.switchSwap();
   };
 
   const [pool] = useObservable(form.controls.pool.valueChangesWithSilent$);
@@ -368,9 +383,15 @@ export const Swap = (): JSX.Element => {
               maxButton
               handleMaxButtonClick={handleMaxButtonClick}
               assets$={tokenAssets$}
+              assetsToImport$={tokenAssetsToImport$}
               label={t`From`}
               amountName="fromAmount"
               tokenName="fromAsset"
+              analytics={{
+                operation: 'swap',
+                location: 'swap',
+                tokenAssignment: 'from',
+              }}
             />
           </Flex.Item>
           <SwitchButton
@@ -382,9 +403,15 @@ export const Swap = (): JSX.Element => {
             <AssetControlFormItem
               bordered
               assets$={toAssets$}
+              assetsToImport$={toAssetsToImport$}
               label={t`To`}
               amountName="toAmount"
               tokenName="toAsset"
+              analytics={{
+                operation: 'swap',
+                location: 'swap',
+                tokenAssignment: 'to',
+              }}
             />
           </Flex.Item>
           <Form.Item name="pool">
@@ -402,7 +429,7 @@ export const Swap = (): JSX.Element => {
             )}
           </Form.Listener>
           <Flex.Item marginTop={4}>
-            <ActionForm.Button>
+            <ActionForm.Button analytics={{ location: 'swap' }}>
               <Trans>Swap</Trans>
             </ActionForm.Button>
           </Flex.Item>

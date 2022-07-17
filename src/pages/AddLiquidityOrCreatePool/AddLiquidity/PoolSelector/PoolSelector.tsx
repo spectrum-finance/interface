@@ -10,6 +10,7 @@ import { t } from '@lingui/macro';
 import React, { FC, useState } from 'react';
 import styled from 'styled-components';
 
+import { panalytics } from '../../../../common/analytics';
 import { AmmPool } from '../../../../common/models/AmmPool';
 import { PoolSelectorOverlay } from './PoolSelectorOverlay/PoolSelectorOverlay';
 import { PoolView } from './PoolView/PoolView';
@@ -31,6 +32,7 @@ const _PoolSelector: FC<PoolSelectorProps> = ({
     if (onChange) {
       onChange(ammPool);
       setOpened(false);
+      panalytics.selectPoolDeposit(ammPool);
     }
   };
 
@@ -45,7 +47,10 @@ const _PoolSelector: FC<PoolSelectorProps> = ({
             ammPools={ammPools || []}
           />
         }
-        onVisibleChange={(visible) => setOpened(visible)}
+        onVisibleChange={(visible) => {
+          if (visible && value) panalytics.clickPoolSelectDeposit();
+          return setOpened(visible);
+        }}
         visible={opened}
         trigger={['click']}
       >

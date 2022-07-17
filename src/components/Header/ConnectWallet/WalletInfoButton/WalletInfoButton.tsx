@@ -10,6 +10,7 @@ import {
 import React, { FC } from 'react';
 import styled from 'styled-components';
 
+import { panalytics } from '../../../../common/analytics';
 import { Currency } from '../../../../common/models/Currency';
 import { WalletModal } from '../../../WalletModal/WalletModal';
 import { AddressTag } from './AddressTag/AddressTag';
@@ -29,7 +30,14 @@ const _WalletInfoButton: FC<WalletInfoButtonProps> = ({
   const { s } = useDevice();
 
   return (
-    <Button className={className} onClick={openWalletModal} size="large">
+    <Button
+      className={className}
+      onClick={() => {
+        openWalletModal();
+        panalytics.openWalletModal();
+      }}
+      size="large"
+    >
       {balance !== undefined ? (
         <Flex align="center" stretch>
           {!s && (

@@ -5,7 +5,7 @@ const addBodyClass = (className: string) =>
 const removeBodyClass = (className: string) =>
   document.body.classList.remove(className);
 
-const useBodyClass = (className: string | Array<string>): void => {
+export const useBodyClass = (className: string | Array<string>): void => {
   useEffect(() => {
     className instanceof Array
       ? className.map(addBodyClass)
@@ -18,5 +18,3 @@ const useBodyClass = (className: string | Array<string>): void => {
     };
   }, [className]);
 };
-
-export { useBodyClass };

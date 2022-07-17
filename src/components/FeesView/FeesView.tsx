@@ -31,7 +31,7 @@ export const FeesView: FC<FeesViewProps> = ({ fees, totalFees }) => (
                   <Flex.Item>
                     {f.currency instanceof Array
                       ? `${f.currency[0].toString()} - ${f.currency[1].toString()} ${
-                          f.currency[0].asset.name
+                          f.currency[0].asset.ticker
                         }`
                       : f.currency.toCurrencyString()}
                   </Flex.Item>
@@ -47,7 +47,7 @@ export const FeesView: FC<FeesViewProps> = ({ fees, totalFees }) => (
       <Typography.Text>
         {totalFees instanceof Array
           ? `${totalFees[0].toString()} - ${totalFees[1].toString()} ${
-              totalFees[0].asset.name
+              totalFees[0].asset.ticker
             }`
           : totalFees.toCurrencyString()}
       </Typography.Text>

@@ -39,10 +39,6 @@ export class CardanoAmmPool extends AmmPool {
     return this.pool.feeNum;
   }
 
-  get verified(): boolean {
-    return true;
-  }
-
   get dayRatioTrend(): PoolChartData[] {
     return [];
   }

@@ -11,6 +11,7 @@ export interface ListItem<T> {
   readonly expanded: boolean;
   readonly expand: () => void;
   readonly collapse: () => void;
+  readonly group?: string;
 }
 
 export type ListItemFn<T> = (

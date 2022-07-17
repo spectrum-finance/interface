@@ -24,7 +24,7 @@ export const RatioBox: FC<RatioBoxProps> = ({
       </Flex.Item>
       <Flex.Item>
         <Typography.Text type="secondary" style={{ fontSize: 12 }}>
-          {mainAsset.name} per {oppositeAsset.name}
+          {mainAsset.ticker} per {oppositeAsset.ticker}
         </Typography.Text>
       </Flex.Item>
     </Flex>

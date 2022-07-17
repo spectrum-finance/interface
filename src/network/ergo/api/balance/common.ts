@@ -1,6 +1,4 @@
 import { ErgoBox } from '@ergolabs/ergo-sdk';
-import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
-import { AugAssetInfo } from '@ergolabs/ergo-sdk/build/main/network/models';
 import {
   combineLatest,
   defaultIfEmpty,
@@ -12,27 +10,28 @@ import {
   switchMap,
 } from 'rxjs';
 
+import { AssetInfo } from '../../../../common/models/AssetInfo';
 import {
   Asset,
   getListAvailableTokens,
 } from '../../../../utils/getListAvailableTokens';
+import { mapToAssetInfo } from '../common/assetInfoManager';
 import { utxos$ } from '../utxos/utxos';
-import { getFullTokenInfo } from './assetInfoManager';
 
 const toListAvailableTokens = (utxos: ErgoBox[]): Asset[] =>
   Object.values(getListAvailableTokens(utxos));
 
-const isNotNFT = (assetInfo: AugAssetInfo | undefined): boolean =>
+const isNotNFT = (assetInfo: AssetInfo | undefined): boolean =>
   !!assetInfo && assetInfo.emissionAmount !== 1n;
 
 export const availableTokensData$: Observable<[bigint, AssetInfo][]> =
   utxos$.pipe(
     map(toListAvailableTokens),
     switchMap((boxAssets) =>
-      combineLatest<[bigint, AugAssetInfo][]>(
+      combineLatest<[bigint, AssetInfo][]>(
         boxAssets.map((ba) =>
-          from(getFullTokenInfo(ba.tokenId)).pipe(
-            map((assetInfo) => [ba.amount, assetInfo as AugAssetInfo]),
+          from(mapToAssetInfo(ba.tokenId)).pipe(
+            map((assetInfo) => [ba.amount, assetInfo as AssetInfo]),
           ),
         ),
       ).pipe(defaultIfEmpty([])),

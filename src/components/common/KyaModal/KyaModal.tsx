@@ -2,6 +2,7 @@ import { Button, Flex, Modal, Typography, useDevice } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React, { CSSProperties, useCallback } from 'react';
 
+import { panalytics } from '../../../common/analytics';
 import { useAppLoadingState } from '../../../context';
 
 interface KyaModalProps {
@@ -14,6 +15,7 @@ const KyaModal: React.FC<KyaModalProps> = ({ onClose }): JSX.Element => {
 
   const handleConfirm = useCallback(() => {
     setIsKyaAccepted({ isKYAAccepted: true });
+    panalytics.acceptKya();
     onClose();
   }, [setIsKyaAccepted, onClose]);
   return (
