@@ -14,6 +14,6 @@ jobs:
           host: ${{secrets.HOST}}
           username: ${{secrets.USERNAME}}
           key: ${{secrets.KEY}}
-          script: cp -r /var/www/builds/test/build/. /var/www/app
+          script: cp -r /var/www/test/. /var/www/app
 
 

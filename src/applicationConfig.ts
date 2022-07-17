@@ -51,6 +51,10 @@ export const applicationConfig: ApplicationConfig = {
   cardanoMaintenance: true,
   defaultTokenListUrl:
     'https://raw.githubusercontent.com/ergolabs/default-token-list/master/src/tokens',
+  cardanoUpdate: {
+    title: 'Under Maintenance',
+    content: 'We are migrating the protocol to Vasil Hard Fork testnet.',
+  },
   reCaptchaKey: '6LeUJ8YfAAAAAMYIqGvtOmJGLeJtCSv6FBH_5sA3',
   requestRetryCount: 3,
   networksSettings: {
