@@ -7,7 +7,6 @@ import { Ratio } from '../../../../../../common/models/Ratio';
 import { AssetPairTitle } from '../../../../../../components/AssetPairTitle/AssetPairTitle';
 import { DataTag } from '../../../../../../components/common/DataTag/DataTag';
 import { Truncate } from '../../../../../../components/Truncate/Truncate';
-import { VerificationMark } from '../../../../../../components/VerificationMark/VerificationMark';
 
 const _RatioBox: FC<{ ratio: Ratio; className?: string }> = ({
   ratio,
@@ -15,8 +14,8 @@ const _RatioBox: FC<{ ratio: Ratio; className?: string }> = ({
 }) => (
   <Box padding={[0, 1]}>
     <Typography.Body className={className} strong>
-      <Truncate limit={5}>{ratio.baseAsset.name}</Truncate> {ratio.toString()}{' '}
-      <Truncate limit={5}>{ratio.quoteAsset.name}</Truncate>
+      <Truncate limit={5}>{ratio.baseAsset.ticker}</Truncate> {ratio.toString()}{' '}
+      <Truncate limit={5}>{ratio.quoteAsset.ticker}</Truncate>
     </Typography.Body>
   </Box>
 );
@@ -36,11 +35,6 @@ export const PairColumn: FC<PairColumnProps> = ({ ammPool }) => (
       <Flex.Item>
         <AssetPairTitle assetX={ammPool.x.asset} assetY={ammPool.y.asset} />
       </Flex.Item>
-      {ammPool.verified && (
-        <Flex.Item marginLeft={1} align="center">
-          <VerificationMark />
-        </Flex.Item>
-      )}
       <Flex.Item marginLeft={2}>
         <DataTag content={`${ammPool.poolFee}%`} />
       </Flex.Item>

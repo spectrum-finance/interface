@@ -10,6 +10,8 @@ import {
 import React, { FC, ReactNode } from 'react';
 import { Observable, of } from 'rxjs';
 
+import { panalytics } from '../../../common/analytics';
+import { PAnalytics } from '../../../common/analytics/@types/types';
 import { useObservable } from '../../../common/hooks/useObservable';
 import { Currency } from '../../../common/models/Currency';
 import { useAssetsBalance } from '../../../gateway/api/assetBalance';
@@ -59,10 +61,12 @@ export interface AssetControlFormItemProps {
   readonly handleMaxButtonClick?: (balance: Currency) => Currency;
   readonly hasBorder?: boolean;
   readonly assets$?: Observable<AssetInfo[]>;
+  readonly assetsToImport$?: Observable<AssetInfo[]>;
   readonly disabled?: boolean;
   readonly readonly?: boolean | 'asset' | 'amount';
   readonly noBottomInfo?: boolean;
   readonly bordered?: boolean;
+  readonly analytics?: PAnalytics;
 }
 
 export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
@@ -71,9 +75,11 @@ export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
   label,
   maxButton,
   assets$,
+  assetsToImport$,
   disabled,
   readonly,
   handleMaxButtonClick,
+  analytics,
 }) => {
   const { form } = useFormContext();
   const [balance, balanceLoading] = useAssetsBalance();
@@ -125,7 +131,13 @@ export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
                   balance={balance.get(selectedAsset)}
                   onClick={
                     maxButton
-                      ? () => _handleMaxButtonClick(balance.get(selectedAsset))
+                      ? () => {
+                          _handleMaxButtonClick(balance.get(selectedAsset));
+
+                          if (analytics && analytics.location) {
+                            panalytics.clickMaxButton(analytics.location);
+                          }
+                        }
                       : undefined
                   }
                 />
@@ -154,10 +166,12 @@ export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
                 {({ value, onChange }) => (
                   <AssetSelect
                     assets$={assets$}
+                    assetsToImport$={assetsToImport$}
                     readonly={isAssetReadOnly()}
                     value={value}
                     onChange={onChange}
                     disabled={disabled}
+                    analytics={analytics}
                   />
                 )}
               </Form.Item>

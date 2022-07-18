@@ -1,6 +1,6 @@
-import { Animation, Flex, Modal } from '@ergolabs/ui-kit';
+import { Animation, Flex, Modal, useDevice } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
-import React, { FC } from 'react';
+import React, { CSSProperties, FC } from 'react';
 import { map, Observable } from 'rxjs';
 
 import { useSubject } from '../../../../common/hooks/useObservable';
@@ -19,6 +19,7 @@ const getNormalizedOperationByTxId = (
   );
 
 export const ManualRefundModal: FC<{ close: () => void }> = ({ close }) => {
+  const { valBySize } = useDevice();
   const [operation, requestOperation, operationLoading, operationError] =
     useSubject(getNormalizedOperationByTxId);
 
@@ -42,7 +43,9 @@ export const ManualRefundModal: FC<{ close: () => void }> = ({ close }) => {
       <Modal.Title>
         <Trans>Manual refund</Trans>
       </Modal.Title>
-      <Modal.Content width={750}>
+      <Modal.Content
+        width={valBySize<CSSProperties['width']>('100%', 550, 750)}
+      >
         <Flex col>
           <TransactionFindForm onSubmit={findTx} loading={operationLoading} />
           <Flex.Item marginTop={!!operation || !!errorMessage ? 6 : 0}>

@@ -23,7 +23,7 @@ export const PoolsOverview: FC<PoolsOverviewProps> = ({
   >
     <TableView.State name="loading" condition={loading}>
       <LoadingDataState height={160}>
-        <Trans>Loading pools history.</Trans>
+        <Trans>Loading pools.</Trans>
         <br />
         <Trans>Please wait.</Trans>
       </LoadingDataState>

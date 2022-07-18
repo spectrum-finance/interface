@@ -30,17 +30,17 @@ export const PoolsOrPositionDetails: FC<
             <Trans>Total liquidity</Trans>
           </Typography.Footnote>
           <Typography.Body strong>
-            {poolMapper(item).x.asset.name}: {poolMapper(item).x.toString()}
+            {poolMapper(item).x.asset.ticker}: {poolMapper(item).x.toString()}
           </Typography.Body>
           <Typography.Body strong>
-            {poolMapper(item).y.asset.name}: {poolMapper(item).y.toString()}
+            {poolMapper(item).y.asset.ticker}: {poolMapper(item).y.toString()}
           </Typography.Body>
         </Flex>
       </Flex.Item>
       <Flex.Item flex={1}>{children}</Flex.Item>
       <Flex.Item display="flex">
         <Flex.Item marginRight={2}>
-          <ConnectWalletButton>
+          <ConnectWalletButton analytics={{ location: 'pool-list' }}>
             <Button onClick={navigateToSwap}>
               <Trans>Swap</Trans>
             </Button>

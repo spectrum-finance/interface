@@ -1,9 +1,9 @@
-import './Header.less';
-
+import { Flex, useDevice } from '@ergolabs/ui-kit';
 import cn from 'classnames';
-import React, { RefObject, useEffect, useState } from 'react';
-import { isBrowser } from 'react-device-detect';
+import React from 'react';
+import styled from 'styled-components';
 
+import { device } from '../../common/constants/size';
 import { useObservable } from '../../common/hooks/useObservable';
 import { useAssetsBalance } from '../../gateway/api/assetBalance';
 import { useNetworkAsset } from '../../gateway/api/networkAsset';
@@ -23,73 +23,92 @@ import { Navigation } from './Navigation/Navigation';
 import { NetworkDropdown } from './NetworkDropdown/NetworkDropdown';
 
 export interface HeaderProps {
-  layoutRef: RefObject<HTMLDivElement>;
+  className?: string;
+  scrolled?: boolean;
+  scrolledTop?: boolean;
 }
 
-export const Header: React.FC<HeaderProps> = ({ layoutRef }) => {
+const HeaderWrapper = styled.div`
+  position: relative;
+  display: grid;
+  width: 100%;
+  padding: 1rem;
+  grid-template-columns: 1fr 1fr;
+
+  @media (max-width: 720px) {
+    grid-template-columns: 36px 1fr;
+  }
+`;
+
+export const _Header: React.FC<HeaderProps> = ({
+  className,
+  scrolled,
+  scrolledTop,
+}) => {
   const [settings] = useObservable(settings$);
+  const { s, moreThan } = useDevice();
   const [balance, isBalanceLoading] = useAssetsBalance();
   const [networkAsset] = useNetworkAsset();
   const [walletState] = useObservable(selectedWalletState$);
-  const [hidden, setHidden] = useState(false);
-
-  useEffect(() => {
-    let currentScrollY = layoutRef.current?.scrollTop || 0;
-
-    const handleScroll = () => {
-      if (currentScrollY > (layoutRef.current?.scrollTop || 0)) {
-        setHidden(false);
-      }
-      if (currentScrollY < (layoutRef.current?.scrollTop || 0)) {
-        setHidden(true);
-      }
-      currentScrollY = layoutRef.current?.scrollTop || 0;
-    };
-
-    layoutRef.current?.addEventListener('scroll', handleScroll);
-
-    return () => document.removeEventListener('scroll', handleScroll);
-  }, [layoutRef]);
 
   return (
     <header
-      className={cn('header', {
-        header_hidden: hidden,
-      })}
+      className={cn(
+        {
+          scrolled,
+          scrolledFromTop: !scrolledTop,
+        },
+        className,
+      )}
     >
       <CardanoMaintenance />
-      <div className="header__wrapper">
-        <div className="header__left">
-          <AppLogo isNoWording />
-          {isBrowser && (
-            <>
-              <Navigation />
-              <IsErgo>
-                <Analytics />
-              </IsErgo>
-              <IsCardano>
-                <GetTestTokensButton />
-              </IsCardano>
-            </>
+      <HeaderWrapper>
+        <Flex align="center" style={{ gap: '8px' }}>
+          <Flex.Item marginRight={2} align="center">
+            <AppLogo isNoWording />
+          </Flex.Item>
+          {moreThan('l') && <Navigation />}
+          <IsErgo>
+            <Analytics />
+          </IsErgo>
+          {!s && (
+            <IsCardano>
+              <GetTestTokensButton />
+            </IsCardano>
           )}
-        </div>
-        <div className="header__options">
-          {isBrowser && (
-            <>
-              <NetworkDropdown />
-              <ConnectWallet
-                numberOfPendingTxs={0}
-                address={settings?.address}
-                balance={
-                  isBalanceLoading ? undefined : balance.get(networkAsset)
-                }
-              />
-              {walletState === WalletState.CONNECTED && <TxHistory />}
-            </>
-          )}
+        </Flex>
+        <Flex align="center" style={{ gap: '8px', marginLeft: 'auto' }}>
+          <NetworkDropdown />
+          <ConnectWallet
+            numberOfPendingTxs={0}
+            address={settings?.address}
+            balance={isBalanceLoading ? undefined : balance.get(networkAsset)}
+          />
+          {!s && walletState === WalletState.CONNECTED && <TxHistory />}
           <BurgerMenu />
-        </div>
-      </div>
+        </Flex>
+      </HeaderWrapper>
     </header>
   );
 };
+
+export const Header = styled(_Header)`
+  position: fixed;
+  z-index: 3;
+  top: 0;
+  width: 100%;
+  transition: transform 0.3s;
+
+  &.scrolledFromTop {
+    background: var(--ergo-box-bg-control);
+    border-bottom: 1px solid var(--ergo-box-border-color);
+  }
+
+  ${device.m} {
+    background: none !important;
+    border-bottom: 0 !important;
+    &.scrolled {
+      transform: translateY(-100%);
+    }
+  }
+`;

@@ -5,6 +5,8 @@ import React from 'react';
 import { Observable } from 'rxjs';
 import styled from 'styled-components';
 
+import { panalytics } from '../../../../common/analytics';
+import { PAnalytics } from '../../../../common/analytics/@types/types';
 import { AssetTitle } from '../../../AssetTitle/AssetTitle';
 import { AssetListModal } from './AssetListModal/AssetListModal';
 
@@ -12,8 +14,10 @@ interface TokenSelectProps {
   readonly value?: AssetInfo | undefined;
   readonly onChange?: (value: AssetInfo) => void;
   readonly assets$?: Observable<AssetInfo[]>;
+  readonly assetsToImport$?: Observable<AssetInfo[]>;
   readonly disabled?: boolean;
   readonly readonly?: boolean;
+  readonly analytics?: PAnalytics;
 }
 
 const StyledDownOutlined = styled(DownOutlined)`
@@ -31,10 +35,18 @@ const AssetSelect: React.FC<TokenSelectProps> = ({
   disabled,
   readonly,
   assets$,
+  assetsToImport$,
+  analytics,
 }) => {
   const handleSelectChange = (newValue: AssetInfo): void => {
     if (value?.id !== newValue?.id && onChange) {
       onChange(newValue);
+    }
+    if (analytics && analytics.operation && analytics.tokenAssignment) {
+      panalytics.selectToken(analytics.operation, analytics.tokenAssignment, {
+        tokenId: newValue.id,
+        tokenName: newValue.name,
+      });
     }
   };
 
@@ -44,6 +56,7 @@ const AssetSelect: React.FC<TokenSelectProps> = ({
     }
     Modal.open(({ close }) => (
       <AssetListModal
+        assetsToImport$={assetsToImport$}
         assets$={assets$}
         close={close}
         onSelectChanged={handleSelectChange}

@@ -1,3 +1,4 @@
+import { RefundParams } from '@ergolabs/ergo-dex-sdk';
 import { DefaultBoxSelector, InsufficientInputs } from '@ergolabs/ergo-sdk';
 import { NetworkContext } from '@ergolabs/ergo-sdk/build/main/entities/networkContext';
 import { first, from, Observable, switchMap, zip } from 'rxjs';
@@ -15,7 +16,7 @@ export const refund = (address: string, txId: string): Observable<TxId> =>
   zip([utxos$, minerFee$, networkContext$, settings$]).pipe(
     first(),
     switchMap(([utxos, minerFee, networkContext, settings]) => {
-      const refundParams = {
+      const refundParams: RefundParams = {
         txId,
         recipientAddress: address,
       };
@@ -30,6 +31,7 @@ export const refund = (address: string, txId: string): Observable<TxId> =>
           `Error in getInputs function: InsufficientInputs -> ${inputs}`,
         );
       }
+
       const txContext = getTxContext(
         inputs,
         // @ts-ignore

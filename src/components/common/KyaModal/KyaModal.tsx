@@ -1,7 +1,8 @@
-import { Button, Flex, Modal, Typography } from '@ergolabs/ui-kit';
+import { Button, Flex, Modal, Typography, useDevice } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
-import React, { useCallback } from 'react';
+import React, { CSSProperties, useCallback } from 'react';
 
+import { panalytics } from '../../../common/analytics';
 import { useAppLoadingState } from '../../../context';
 
 interface KyaModalProps {
@@ -9,16 +10,24 @@ interface KyaModalProps {
 }
 
 const KyaModal: React.FC<KyaModalProps> = ({ onClose }): JSX.Element => {
+  const { valBySize } = useDevice();
   const [, setIsKyaAccepted] = useAppLoadingState();
 
   const handleConfirm = useCallback(() => {
     setIsKyaAccepted({ isKYAAccepted: true });
+    panalytics.acceptKya();
     onClose();
   }, [setIsKyaAccepted, onClose]);
   return (
     <>
       <Modal.Title>Know Your Assumptions</Modal.Title>
-      <Modal.Content width={680}>
+      <Modal.Content
+        width={valBySize<CSSProperties['width']>('100%', 680)}
+        style={valBySize(
+          { overflowY: 'auto', maxHeight: 'calc(80vh - 56px)' },
+          {},
+        )}
+      >
         <Flex direction="col" className="kya-modal">
           <Flex.Item marginBottom={4}>
             <Typography.Body>
@@ -115,7 +124,7 @@ const KyaModal: React.FC<KyaModalProps> = ({ onClose }): JSX.Element => {
               </Trans>
             </Typography.Body>
           </Flex.Item>
-          <Flex.Item marginBottom={4}>
+          <Flex.Item>
             <Typography.Body strong>
               <Trans>
                 ErgoDEX offers a form of added security, as buyers and sellers
@@ -126,12 +135,12 @@ const KyaModal: React.FC<KyaModalProps> = ({ onClose }): JSX.Element => {
               </Trans>
             </Typography.Body>
           </Flex.Item>
-          <Flex.Item>
-            <Button type="primary" size="large" block onClick={handleConfirm}>
-              <Trans>I understand the risks and accept the KYA</Trans>
-            </Button>
-          </Flex.Item>
         </Flex>
+      </Modal.Content>
+      <Modal.Content>
+        <Button type="primary" size="large" block onClick={handleConfirm}>
+          <Trans>I understand the risks and accept the KYA</Trans>
+        </Button>
       </Modal.Content>
     </>
   );

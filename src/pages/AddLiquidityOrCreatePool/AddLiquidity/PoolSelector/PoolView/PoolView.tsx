@@ -6,7 +6,6 @@ import { AmmPool } from '../../../../../common/models/AmmPool';
 import { AssetIconPair } from '../../../../../components/AssetIconPair/AssetIconPair';
 import { DataTag } from '../../../../../components/common/DataTag/DataTag';
 import { Truncate } from '../../../../../components/Truncate/Truncate';
-import { VerificationMark } from '../../../../../components/VerificationMark/VerificationMark';
 import { formatToUSD } from '../../../../../services/number';
 
 interface PoolSelectorItemProps {
@@ -24,17 +23,12 @@ export const PoolView: FC<PoolSelectorItemProps> = ({
     <Flex.Item marginRight={1}>
       <AssetIconPair assetX={ammPool.x.asset} assetY={ammPool.y.asset} />
     </Flex.Item>
-    <Flex.Item marginRight={1} align="center">
+    <Flex.Item marginRight={2} align="center">
       <Typography.Title level={5}>
-        <Truncate>{ammPool.x.asset.name}</Truncate>/
-        <Truncate>{ammPool.y.asset.name}</Truncate>
+        <Truncate>{ammPool.x.asset.ticker}</Truncate>/
+        <Truncate>{ammPool.y.asset.ticker}</Truncate>
       </Typography.Title>
     </Flex.Item>
-    {ammPool.verified && (
-      <Flex.Item marginRight={1} align="center">
-        <VerificationMark />
-      </Flex.Item>
-    )}
     <Flex.Item marginRight={1} align="center">
       <Typography.Footnote>
         <Trans>Fee:</Trans>

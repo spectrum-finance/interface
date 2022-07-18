@@ -14,20 +14,22 @@ import {
   ReloadOutlined,
   RightOutlined,
   SettingOutlined,
+  useDevice,
 } from '@ergolabs/ui-kit';
-import { t } from '@lingui/macro';
+import { t, Trans } from '@lingui/macro';
 import { stringify } from 'qs';
 import React, { useState } from 'react';
-import { isMobile } from 'react-device-detect';
 import { Link, useLocation } from 'react-router-dom';
+import styled from 'styled-components';
 
 import { ReactComponent as DarkModeOutlined } from '../../../assets/icons/darkmode.svg';
+import { panalytics } from '../../../common/analytics';
 import {
   LOCALE_LABEL,
   SUPPORTED_LOCALES,
 } from '../../../common/constants/locales';
 import { useObservable } from '../../../common/hooks/useObservable';
-import { useSettings } from '../../../context';
+import { useApplicationSettings } from '../../../context';
 import { globalSettingsModal$ } from '../../../gateway/widgets/globalSettingsModal';
 import { useQuery } from '../../../hooks/useQuery';
 import { DotsIcon } from '../../common/Icons/DotsIcon';
@@ -36,11 +38,17 @@ import { ManualRefundModal } from './ManualRefundModal/ManualRefundModal';
 
 const MENU_WIDTH = 160;
 
+const ContributeLanguageButton = styled(Button)`
+  width: 140px;
+  margin: 0 10px;
+`;
+
 const BurgerMenu = (): JSX.Element => {
   const [GlobalSettingsModal] = useObservable(globalSettingsModal$);
+  const { s } = useDevice();
   const [isMainMenu, setIsMainMenu] = useState<boolean>(true);
   const [isMenuVisible, setMenuVisible] = useState<boolean>(false);
-  const [settings, setSettings] = useSettings();
+  const [settings, setSettings] = useApplicationSettings();
   const location = useLocation();
   const qs = useQuery();
 
@@ -49,34 +57,42 @@ const BurgerMenu = (): JSX.Element => {
       title: t`About`,
       icon: <InfoCircleOutlined />,
       link: 'https://docs.ergodex.io/docs/about-ergodex/intro',
+      onClick: () => panalytics.clickBurgerMenu('About'),
     },
     {
       title: t`How to use`,
       icon: <QuestionCircleOutlined />,
       link: 'https://docs.ergodex.io/docs/user-guides/quick-start',
+      onClick: () => panalytics.clickBurgerMenu('How to use'),
     },
     {
       title: t`Docs`,
       icon: <FileTextOutlined />,
       link: 'https://docs.ergodex.io',
+      onClick: () => panalytics.clickBurgerMenu('Docs'),
     },
     {
       title: 'GitHub',
       icon: <GithubOutlined />,
       link: 'https://github.com/ergolabs',
+      onClick: () => panalytics.clickBurgerMenu('GitHub'),
     },
     {
       title: t`Manual Refund`,
       icon: <ReloadOutlined />,
-      onClick: () =>
-        Modal.open(({ close }) => <ManualRefundModal close={close} />),
+      onClick: () => {
+        panalytics.clickBurgerMenu('Manual Refund');
+        Modal.open(({ close }) => <ManualRefundModal close={close} />);
+      },
     },
     GlobalSettingsModal
       ? {
           title: t`Global Settings`,
           icon: <SettingOutlined />,
-          onClick: () =>
-            Modal.open(({ close }) => <GlobalSettingsModal onClose={close} />),
+          onClick: () => {
+            panalytics.clickBurgerMenu('Global Settings');
+            Modal.open(({ close }) => <GlobalSettingsModal onClose={close} />);
+          },
           isNotRenderMobile: true,
         }
       : undefined,
@@ -84,7 +100,10 @@ const BurgerMenu = (): JSX.Element => {
       title: t`Language`,
       icon: <GlobalOutlined />,
       additional: <RightOutlined style={{ marginLeft: 36 }} />,
-      onClick: () => setIsMainMenu(false),
+      onClick: () => {
+        panalytics.clickBurgerMenu('Language');
+        setIsMainMenu(false);
+      },
     },
     {
       title: t`Dark mode`,
@@ -110,18 +129,17 @@ const BurgerMenu = (): JSX.Element => {
               key={index + 1}
               icon={item.icon}
               style={{
-                display: isMobile && item.isNotRenderMobile ? 'none' : '',
+                display: s && item.isNotRenderMobile ? 'none' : '',
               }}
             >
-              {item.onClick ? (
-                <a rel="noreferrer" onClick={item.onClick}>
-                  {item.title}
-                </a>
-              ) : (
-                <a href={item.link} target="_blank" rel="noreferrer">
-                  {item.title}
-                </a>
-              )}
+              <a
+                href={item.link}
+                rel="noreferrer"
+                target={item.link ? '_blank' : ''}
+                onClick={item.onClick}
+              >
+                {item.title}
+              </a>
               {item.additional && item.additional}
             </Menu.Item>
           ),
@@ -148,13 +166,24 @@ const BurgerMenu = (): JSX.Element => {
                 search: stringify({ ...qs, lng: locale }),
               }}
               rel="noopener noreferrer"
-              onClick={() => changeLanguage(locale)}
+              onClick={() => {
+                changeLanguage(locale);
+                panalytics.changeLocate(locale);
+              }}
             >
               {LOCALE_LABEL[locale]}
             </Link>
           </Menu.Item>
         );
       })}
+      <ContributeLanguageButton
+        href="https://crowdin.com/project/ergodex-frontend"
+        target="_blank"
+        type="primary"
+        block
+      >
+        <Trans>Contribute</Trans>
+      </ContributeLanguageButton>
     </Menu>
   );
 

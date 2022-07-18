@@ -75,7 +75,9 @@ export const SwapConfirmationInfo: FC<SwapConfirmationInfoProps> = ({
               maxOutput && (
                 <Typography.Text>
                   {`${minOutput?.toString()} - ${maxOutput?.toString()} `}
-                  <Truncate>{maxOutput?.asset.name}</Truncate>
+                  <Truncate>
+                    {maxOutput?.asset.ticker || maxOutput?.asset.name}
+                  </Truncate>
                 </Typography.Text>
               )
             }

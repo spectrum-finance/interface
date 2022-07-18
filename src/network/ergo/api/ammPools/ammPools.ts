@@ -4,41 +4,25 @@ import {
   catchError,
   combineLatest,
   defaultIfEmpty,
-  filter,
-  from,
   map,
   Observable,
   of,
   publishReplay,
   refCount,
-  retry,
   switchMap,
   zip,
 } from 'rxjs';
 
-import { applicationConfig } from '../../../../applicationConfig';
 import { AmmPool } from '../../../../common/models/AmmPool';
 import { getAggregatedPoolAnalyticsDataById24H } from '../../../../common/streams/poolAnalytic';
-import { verifiedAssets$ } from '../../../../common/streams/verifiedAssets';
-import { networkContext$ } from '../networkContext/networkContext';
+import { mapToAssetInfo } from '../common/assetInfoManager';
+import {
+  filterAvailablePools,
+  filterUnavailablePools,
+} from '../common/availablePoolsOrTokens';
+import { rawAmmPools$ } from '../common/rawAmmPools';
 import { getPoolChartDataRaw } from '../poolChart/poolChart';
 import { ErgoAmmPool } from './ErgoAmmPool';
-import { nativeNetworkPools, networkPools } from './utils';
-
-const getNativeNetworkAmmPools = () =>
-  from(nativeNetworkPools().getAll({ limit: 100, offset: 0 })).pipe(
-    map(([pools]) => pools),
-    retry(applicationConfig.requestRetryCount),
-  );
-
-const getNetworkAmmPools = () =>
-  from(networkPools().getAll({ limit: 100, offset: 0 })).pipe(
-    map(([pools]) => pools),
-    retry(applicationConfig.requestRetryCount),
-  );
-
-const isPoolVerified = (p: BaseAmmPool, verifiedAssets: string[]): boolean =>
-  verifiedAssets.includes(p.assetX.id) && verifiedAssets.includes(p.assetY.id);
 
 const toAmmPool = (p: BaseAmmPool): Observable<AmmPool> =>
   zip([
@@ -48,29 +32,38 @@ const toAmmPool = (p: BaseAmmPool): Observable<AmmPool> =>
     getPoolChartDataRaw(p.id, {
       from: DateTime.now().minus({ day: 1 }).valueOf(),
     }),
-    verifiedAssets$,
-  ]).pipe(
-    map(
-      ([poolAnalytics, rawChartData, verifiedAssets]) =>
-        new ErgoAmmPool(
-          p,
-          poolAnalytics,
-          rawChartData,
-          isPoolVerified(p, verifiedAssets),
-        ),
+    combineLatest(
+      [p.lp.asset, p.x.asset, p.y.asset].map((asset) =>
+        mapToAssetInfo(asset.id),
+      ),
     ),
+  ]).pipe(
+    map(([poolAnalytics, rawChartData, [lp, x, y]]) => {
+      return new ErgoAmmPool(
+        p,
+        { lp: lp || p.lp.asset, x: x || p.x.asset, y: y || p.y.asset },
+        poolAnalytics,
+        rawChartData,
+      );
+    }),
   );
 
-export const ammPools$ = networkContext$.pipe(
-  switchMap(() => zip([getNativeNetworkAmmPools(), getNetworkAmmPools()])),
-  map(([nativeNetworkPools, networkPools]) =>
-    nativeNetworkPools.concat(networkPools),
-  ),
-  catchError(() => of(undefined)),
-  filter(Boolean),
+export const allAmmPools$ = rawAmmPools$.pipe(
   switchMap((pools) =>
     combineLatest(pools.map(toAmmPool)).pipe(defaultIfEmpty([])),
   ),
+  publishReplay(1),
+  refCount(),
+);
+
+export const possibleAmmPools$ = allAmmPools$.pipe(
+  switchMap((pools) => filterAvailablePools(pools)),
+  publishReplay(1),
+  refCount(),
+);
+
+export const ammPools$ = allAmmPools$.pipe(
+  switchMap((pools) => filterUnavailablePools(pools)),
   publishReplay(1),
   refCount(),
 );

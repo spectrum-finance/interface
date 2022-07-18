@@ -1,10 +1,11 @@
-import { Box, Button, Flex, Modal } from '@ergolabs/ui-kit';
-import { Tabs } from '@ergolabs/ui-kit';
+import { Box, Button, Flex, Modal, Tabs, useDevice } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
-import React from 'react';
+import React, { CSSProperties } from 'react';
 
+import { panalytics } from '../../common/analytics';
 import { useObservable } from '../../common/hooks/useObservable';
 import { networkAssetBalance$ } from '../../gateway/api/networkAssetBalance';
+import { selectedWallet$ } from '../../gateway/api/wallets';
 import { useSelectedNetwork } from '../../gateway/common/network';
 import { isLowBalance } from '../../utils/walletMath';
 import { ChooseWalletModal } from '../common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal';
@@ -17,11 +18,16 @@ import { WalletActiveAddress } from './WalletActiveAddress/WalletActiveAddress';
 import { WalletTotalBalance } from './WalletTotalBalance/WalletTotalBalance';
 
 export const WalletModal: React.FC = () => {
+  const { valBySize } = useDevice();
   const [networkAssetBalance] = useObservable(networkAssetBalance$);
+  const [selectedWallet] = useObservable(selectedWallet$);
   const [network] = useSelectedNetwork();
 
   const openChooseWalletModal = (): void => {
-    Modal.open(({ close }) => <ChooseWalletModal close={close} />);
+    panalytics.clickChangeWallet(selectedWallet?.name);
+    Modal.open(({ close }) => {
+      return <ChooseWalletModal close={close} isChangeWallet />;
+    });
   };
 
   return (
@@ -29,7 +35,7 @@ export const WalletModal: React.FC = () => {
       <Modal.Title>
         <Trans>Wallet</Trans>
       </Modal.Title>
-      <Modal.Content width={470}>
+      <Modal.Content width={valBySize<CSSProperties['width']>('100%', 470)}>
         <Flex col>
           <Flex.Item marginBottom={4}>
             <WalletTotalBalance balance={networkAssetBalance} />
@@ -46,14 +52,14 @@ export const WalletModal: React.FC = () => {
             <Box contrast padding={4} borderRadius="m">
               <IsErgo>
                 <Tabs defaultActiveKey="1" centered>
-                  <Tabs.TabPane tab="Addresses" key="1">
-                    <Box transparent padding={[4, 0, 0, 0]} bordered={false}>
-                      <AddressesTab />
-                    </Box>
-                  </Tabs.TabPane>
-                  <Tabs.TabPane tab="Tokens" key="2">
+                  <Tabs.TabPane tab="Tokens" key="1">
                     <Box transparent padding={[4, 0, 0, 0]} bordered={false}>
                       <TokensTab />
+                    </Box>
+                  </Tabs.TabPane>
+                  <Tabs.TabPane tab="Addresses" key="2">
+                    <Box transparent padding={[4, 0, 0, 0]} bordered={false}>
+                      <AddressesTab />
                     </Box>
                   </Tabs.TabPane>
                 </Tabs>

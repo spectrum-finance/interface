@@ -45,3 +45,9 @@ export const useDepositValidationFee = (): Currency =>
 
 export const useRedeemValidationFee = (): Currency =>
   useMinTotalFee().plus(MinBoxValue);
+
+export const useCreatePoolValidationFee = (): Currency => {
+  const minerFee = useMinerFee();
+
+  return calculateTotalFee([minerFee, minerFee, MinBoxValue], networkAsset);
+};

@@ -5,6 +5,7 @@ import React, { FC } from 'react';
 import styled from 'styled-components';
 
 import { useObservable } from '../../../../common/hooks/useObservable';
+import { panalytics } from '../../../../common/analytics';
 import { Currency } from '../../../../common/models/Currency';
 import { pendingTransactions$ } from '../../../../network/ergo/api/transactionHistory/pendingTransactions';
 import { WalletModal } from '../../../WalletModal/WalletModal';
@@ -24,14 +25,24 @@ const _WalletInfoButton: FC<WalletInfoButtonProps> = ({
 }) => {
   const openWalletModal = () => Modal.open(<WalletModal />);
   const [pendingCount] = useObservable(pendingTransactions$);
+  const { s } = useDevice();
 
   return (
-    <Button className={className} onClick={openWalletModal} size="large">
-      {balance !== undefined && pendingCount !== undefined ? (
+    <Button
+      className={className}
+      onClick={() => {
+        openWalletModal();
+        panalytics.openWalletModal();
+      }}
+      size="large"
+    >
+      {balance !== undefined ? (
         <Flex align="center" stretch>
-          <Flex.Item marginLeft={1} marginRight={2}>
-            <BalanceView balance={balance} />
-          </Flex.Item>
+          {!s && (
+            <Flex.Item marginLeft={1} marginRight={2}>
+              <BalanceView balance={balance} />
+            </Flex.Item>
+          )}
           <AddressOrPendingTag
             address={address}
             pendingCount={pendingCount.length}

@@ -74,12 +74,6 @@ const filterDuplicates = <T extends AmmPool | Position>(items: T[]): T[] => {
   });
 };
 
-const filterCommunityPools = <T extends AmmPool | Position>(
-  items: T[],
-): T[] => {
-  return items.filter((i) => i.verified);
-};
-
 export const Liquidity = (): JSX.Element => {
   const [filters, setFilters] = useState<
     Set<PoolsOrPositionsFilterValue> | undefined
@@ -103,10 +97,11 @@ export const Liquidity = (): JSX.Element => {
     if (!filters?.has(PoolsOrPositionsFilterValue.SHOW_DUPLICATES)) {
       filteredPositions = filterDuplicates(filteredPositions);
     }
-    if (!filters?.has(PoolsOrPositionsFilterValue.SHOW_COMMUNITY_POOLS)) {
-      filteredPositions = filterCommunityPools(filteredPositions);
-    }
     return searchByTerm(filteredPositions) as Position[];
+  };
+
+  const filterLockedPositions = (positions: Position[]): Position[] => {
+    return searchByTerm(positions) as Position[];
   };
 
   const filterPools = (pools: AmmPool[]): AmmPool[] => {
@@ -115,16 +110,13 @@ export const Liquidity = (): JSX.Element => {
     if (!filters?.has(PoolsOrPositionsFilterValue.SHOW_DUPLICATES)) {
       filteredPools = filterDuplicates(filteredPools);
     }
-    if (!filters?.has(PoolsOrPositionsFilterValue.SHOW_COMMUNITY_POOLS)) {
-      filteredPools = filterCommunityPools(filteredPools);
-    }
     return searchByTerm(filteredPools) as AmmPool[];
   };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setSearch(e.target.value);
 
-  const positionsWithLocks = positions?.filter((p) => p.locks.length > 0);
+  const positionsWithLocks = positions?.filter((p) => !!p.locks.length);
 
   return (
     <Page
@@ -177,7 +169,9 @@ export const Liquidity = (): JSX.Element => {
             tab={<Trans>Locked Positions</Trans>}
             key={LiquidityTab.LOCKED_POSITIONS}
           >
-            <LockedPositionsProps positions={filterPositions(positions)} />
+            <LockedPositionsProps
+              positions={filterLockedPositions(positionsWithLocks)}
+            />
           </Tabs.TabPane>
         )}
       </LiquidityTabs>

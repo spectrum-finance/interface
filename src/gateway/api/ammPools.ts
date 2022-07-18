@@ -21,6 +21,21 @@ export const ammPools$ = selectedNetwork$.pipe(
   refCount(),
 );
 
+export const possibleAmmPools$ = selectedNetwork$.pipe(
+  switchMap((network) => network.possibleAmmPools$),
+  map((pools) =>
+    pools.filter(
+      (p) =>
+        !applicationConfig.hiddenAssets.includes(p.x.asset.id) &&
+        !applicationConfig.hiddenAssets.includes(p.y.asset.id) &&
+        !applicationConfig.blacklistedPools.includes(p.id),
+    ),
+  ),
+  map((pools) => pools.slice().sort(comparePoolByTvl)),
+  publishReplay(1),
+  refCount(),
+);
+
 export const getAmmPoolById = (
   ammPoolId: PoolId,
 ): Observable<AmmPool | undefined> =>

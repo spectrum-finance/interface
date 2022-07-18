@@ -5,12 +5,13 @@ import {
   LineChartOutlined,
   SwapOutlined,
   Typography,
+  useDevice,
   useForm,
 } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import maxBy from 'lodash/maxBy';
 import { DateTime } from 'luxon';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { CSSProperties, useEffect, useMemo, useState } from 'react';
 import {
   BehaviorSubject,
   combineLatest,
@@ -23,6 +24,7 @@ import {
   tap,
 } from 'rxjs';
 
+import { panalytics } from '../../common/analytics';
 import {
   useObservable,
   useSubscription,
@@ -43,11 +45,16 @@ import {
 import { Page } from '../../components/Page/Page';
 import { getAmmPoolsByAssetPair } from '../../gateway/api/ammPools';
 import { useAssetsBalance } from '../../gateway/api/assetBalance';
-import { getAvailableAssetFor, tokenAssets$ } from '../../gateway/api/assets';
+import {
+  getAvailableAssetFor,
+  getAvailableAssetToImportFor,
+  tokenAssets$,
+  tokenAssetsToImport$,
+} from '../../gateway/api/assets';
 import { useNetworkAsset } from '../../gateway/api/networkAsset';
 import { useSwapValidationFee } from '../../gateway/api/validationFees';
 import { useSelectedNetwork } from '../../gateway/common/network';
-import { OperationSettings } from './OperationSettings/OperationSettings';
+import { operationsSettings$ } from '../../gateway/widgets/operationsSettings';
 import { PoolSelector } from './PoolSelector/PoolSelector';
 import { SwapConfirmationModal } from './SwapConfirmationModal/SwapConfirmationModal';
 import { SwapFormModel } from './SwapFormModel';
@@ -57,6 +64,9 @@ import { SwitchButton } from './SwitchButton/SwitchButton';
 
 const getToAssets = (fromAsset?: string) =>
   fromAsset ? getAvailableAssetFor(fromAsset) : tokenAssets$;
+
+const getToAssetsToImport = (fromAsset?: string) =>
+  fromAsset ? getAvailableAssetToImportFor(fromAsset) : tokenAssetsToImport$;
 
 const isAssetsPairEquals = (
   [prevFrom, prevTo]: [AssetInfo | undefined, AssetInfo | undefined],
@@ -69,6 +79,7 @@ const getAvailablePools = (xId?: string, yId?: string): Observable<AmmPool[]> =>
   xId && yId ? getAmmPoolsByAssetPair(xId, yId) : of([]);
 
 export const Swap = (): JSX.Element => {
+  const { valBySize } = useDevice();
   const form = useForm<SwapFormModel>({
     fromAmount: undefined,
     toAmount: undefined,
@@ -82,12 +93,17 @@ export const Swap = (): JSX.Element => {
   const [networkAsset] = useNetworkAsset();
   const [balance] = useAssetsBalance();
   const totalFees = useSwapValidationFee();
+  const [OperationSettings] = useObservable(operationsSettings$);
   const updateToAssets$ = useMemo(
     () => new BehaviorSubject<string | undefined>(undefined),
     [],
   );
   const toAssets$ = useMemo(
     () => updateToAssets$.pipe(switchMap(getToAssets)),
+    [],
+  );
+  const toAssetsToImport$ = useMemo(
+    () => updateToAssets$.pipe(switchMap(getToAssetsToImport)),
     [],
   );
 
@@ -188,6 +204,7 @@ export const Swap = (): JSX.Element => {
         yAsset: value.toAmount!,
       },
     );
+    panalytics.submitSwap(value);
   };
 
   const resetForm = () =>
@@ -318,6 +335,7 @@ export const Swap = (): JSX.Element => {
       { emitEvent: 'silent' },
     );
     setLastEditedField((prev) => (prev === 'from' ? 'to' : 'from'));
+    panalytics.switchSwap();
   };
 
   const [pool] = useObservable(form.controls.pool.valueChangesWithSilent$);
@@ -336,11 +354,12 @@ export const Swap = (): JSX.Element => {
       action={submitSwap}
     >
       <Page
-        width={504}
+        width={valBySize<CSSProperties['width']>('100%', 504)}
         leftWidget={
           selectedNetwork.name === 'ergo' && <SwapGraph pool={pool} />
         }
         widgetOpened={leftWidgetOpened}
+        onWidgetClose={() => setLeftWidgetOpened(false)}
       >
         <Flex col>
           <Flex row align="center">
@@ -357,7 +376,7 @@ export const Swap = (): JSX.Element => {
                 onClick={() => setLeftWidgetOpened(!leftWidgetOpened)}
               />
             )}
-            <OperationSettings />
+            {OperationSettings && <OperationSettings />}
           </Flex>
           <Flex.Item marginBottom={1} marginTop={2}>
             <AssetControlFormItem
@@ -365,9 +384,15 @@ export const Swap = (): JSX.Element => {
               maxButton
               handleMaxButtonClick={handleMaxButtonClick}
               assets$={tokenAssets$}
+              assetsToImport$={tokenAssetsToImport$}
               label={t`From`}
               amountName="fromAmount"
               tokenName="fromAsset"
+              analytics={{
+                operation: 'swap',
+                location: 'swap',
+                tokenAssignment: 'from',
+              }}
             />
           </Flex.Item>
           <SwitchButton
@@ -379,9 +404,15 @@ export const Swap = (): JSX.Element => {
             <AssetControlFormItem
               bordered
               assets$={toAssets$}
+              assetsToImport$={toAssetsToImport$}
               label={t`To`}
               amountName="toAmount"
               tokenName="toAsset"
+              analytics={{
+                operation: 'swap',
+                location: 'swap',
+                tokenAssignment: 'to',
+              }}
             />
           </Flex.Item>
           <Form.Item name="pool">
@@ -399,7 +430,7 @@ export const Swap = (): JSX.Element => {
             )}
           </Form.Listener>
           <Flex.Item marginTop={4}>
-            <ActionForm.Button>
+            <ActionForm.Button analytics={{ location: 'swap' }}>
               <Trans>Swap</Trans>
             </ActionForm.Button>
           </Flex.Item>

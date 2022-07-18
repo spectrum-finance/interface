@@ -19,6 +19,11 @@ import { deposit } from './api/operations/deposit';
 import { redeem } from './api/operations/redeem';
 import { swap } from './api/operations/swap';
 import { positions$ } from './api/positions/positions';
+import {
+  availableTokenAssets$,
+  importTokenAsset,
+  tokenAssetsToImport$,
+} from './api/tokens/tokens';
 import { CardanoWalletContract } from './api/wallet/common/CardanoWalletContract';
 import {
   availableWallets,
@@ -36,12 +41,19 @@ import {
   settings$,
 } from './settings/settings';
 import {
+  useCreatePoolValidationFee,
   useDepositValidationFee,
   useRedeemValidationFee,
   useSwapValidationFee,
 } from './settings/totalFee';
-import { exploreAddress, exploreLastBlock, exploreTx } from './utils/utils';
+import {
+  exploreAddress,
+  exploreLastBlock,
+  exploreToken,
+  exploreTx,
+} from './utils/utils';
 import { DepositConfirmationInfo } from './widgets/DepositConfirmationInfo/DepositConfirmationInfo';
+import { OperationsSettings } from './widgets/OperationSettings/OperationsSettings';
 import { RedeemConfirmationInfo } from './widgets/RedeemConfirmationInfo/RedeemConfirmationInfo';
 import { SwapConfirmationInfo } from './widgets/SwapConfirmationInfo/SwapConfirmationInfo';
 import { SwapInfoContent } from './widgets/SwapInfoContent/SwapInfoContent';
@@ -64,6 +76,7 @@ export const cardanoNetwork: Network<
   locks$: of([]),
   positions$,
   ammPools$,
+  possibleAmmPools$: of([]),
   getAddresses: getAddresses,
   getUsedAddresses: getUsedAddresses,
   getUnusedAddresses: getUnusedAddresses,
@@ -75,6 +88,9 @@ export const cardanoNetwork: Network<
   selectedWallet$: selectedWallet$,
   supportedFeatures$: supportedWalletFeatures$,
   networkContext$,
+  availableTokenAssets$,
+  tokenAssetsToImport$,
+  importTokenAsset,
 
   settings,
   settings$,
@@ -84,10 +100,12 @@ export const cardanoNetwork: Network<
   SwapConfirmationInfo,
   DepositConfirmationInfo,
   RedeemConfirmationInfo,
+  OperationsSettings,
 
   exploreTx,
   exploreAddress,
   exploreLastBlock,
+  exploreToken,
 
   swap,
   deposit,
@@ -99,6 +117,7 @@ export const cardanoNetwork: Network<
   useSwapValidationFee,
   useDepositValidationFee,
   useRedeemValidationFee,
+  useCreatePoolValidationFee,
 
   getPoolChartData: () => of([]),
 };
