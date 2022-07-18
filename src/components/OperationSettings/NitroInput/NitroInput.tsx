@@ -12,10 +12,14 @@ import { Trans } from '@lingui/macro';
 import React, { ChangeEvent, FC } from 'react';
 import styled from 'styled-components';
 
-import { MIN_NITRO } from '../../../../common/constants/erg';
-import { useMaxExFee, useMinExFee } from '../../../../services/new/core';
+import { MIN_NITRO } from '../../../common/constants/erg';
+import { Currency } from '../../../common/models/Currency';
 
-export type NitroInputProps = Control<number> & { className?: string };
+export type NitroInputProps = Control<number> & {
+  readonly className?: string;
+  readonly minExFee: Currency;
+  readonly maxExFee: Currency;
+};
 
 const _NitroInput: FC<NitroInputProps> = ({
   onChange,
@@ -23,9 +27,9 @@ const _NitroInput: FC<NitroInputProps> = ({
   message,
   state,
   className,
+  minExFee,
+  maxExFee,
 }) => {
-  const minExFee = useMinExFee();
-  const maxExFee = useMaxExFee();
   const isMinimumNitro = value === MIN_NITRO;
 
   const handleClickNitroAuto = () => {
@@ -73,7 +77,7 @@ const _NitroInput: FC<NitroInputProps> = ({
         <Typography.Body className={className}>
           <Trans>
             Execution Fee Range {minExFee.toString()} - {maxExFee.toString()}{' '}
-            {maxExFee.asset.name}
+            {maxExFee.asset.ticker || maxExFee.asset.name}
           </Trans>
         </Typography.Body>
       </Flex.Item>

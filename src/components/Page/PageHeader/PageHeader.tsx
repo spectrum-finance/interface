@@ -5,7 +5,7 @@ import { Position } from '../../../common/models/Position';
 import { AssetIconPair } from '../../AssetIconPair/AssetIconPair';
 import { OptionsButton } from '../../common/OptionsButton/OptionsButton';
 import { Truncate } from '../../Truncate/Truncate';
-import { VerificationMark } from '../../VerificationMark/VerificationMark';
+
 interface FormHeaderProps {
   position: Position;
   actionsMenu?: ReactNode | ReactNode[] | undefined;
@@ -30,15 +30,10 @@ const PageHeader: React.FC<FormHeaderProps> = ({
         </Flex.Item>
         <Flex.Item marginRight={2}>
           <Typography.Title level={4}>
-            <Truncate>{position.availableX.asset.name}</Truncate> /{' '}
-            <Truncate>{position.availableY.asset.name}</Truncate>
+            <Truncate>{position.availableX.asset.ticker}</Truncate> /{' '}
+            <Truncate>{position.availableY.asset.ticker}</Truncate>
           </Typography.Title>
         </Flex.Item>
-        {position.verified && (
-          <Flex.Item marginRight={children ? 2 : 0} align="center">
-            <VerificationMark />
-          </Flex.Item>
-        )}
         {children}
       </Flex>
       {actionsMenu && (

@@ -28,8 +28,6 @@ const calculatePureOutputAmount = (
 export abstract class AmmPool {
   abstract readonly pool: CardanoBaseAmmPool | ErgoBaseAmmPool;
 
-  abstract get verified(): boolean;
-
   abstract get tvl(): AnalyticsData | undefined;
 
   abstract get volume(): AnalyticsData | undefined;

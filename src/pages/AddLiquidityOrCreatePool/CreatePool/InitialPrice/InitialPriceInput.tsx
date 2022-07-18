@@ -182,7 +182,7 @@ export const InitialPriceInput: FC<InitialPrice> = ({
             suffix={
               baseAsset && quoteAsset ? (
                 <Typography.Body>
-                  {baseAsset.name} per {quoteAsset.name}
+                  {baseAsset.ticker} per {quoteAsset.ticker}
                 </Typography.Body>
               ) : (
                 ' '

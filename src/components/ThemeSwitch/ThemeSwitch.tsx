@@ -2,18 +2,21 @@ import { Switch } from '@ergolabs/ui-kit';
 import { SwitchProps } from 'antd';
 import React, { useCallback } from 'react';
 
-import { useSettings } from '../../context';
+import { panalytics } from '../../common/analytics';
+import { useApplicationSettings } from '../../context';
 
 const ThemeSwitch: React.FC<SwitchProps> = (): JSX.Element => {
-  const [settings, setSettings] = useSettings();
+  const [settings, setSettings] = useApplicationSettings();
   const { theme } = settings;
   const isDark = theme === 'dark';
 
   const handleChangeTheme = useCallback(() => {
+    const newTheme = isDark ? 'light' : 'dark';
     setSettings({
       ...settings,
-      theme: isDark ? 'light' : 'dark',
+      theme: newTheme,
     });
+    panalytics.changeTheme(newTheme);
   }, [isDark, settings, setSettings]);
 
   return (

@@ -33,7 +33,6 @@ export const positions$ = combineLatest([
               ap,
               lpWalletBalance.get(ap.lp.asset),
               false,
-              ap.verified,
               tokenLocksGroupedByLpAsset[ap.lp.asset.id] || [],
               networkContext.height,
             ),
