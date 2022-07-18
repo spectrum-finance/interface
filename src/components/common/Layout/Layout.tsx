@@ -11,7 +11,7 @@ import styled from 'styled-components';
 import { applicationConfig } from '../../../applicationConfig';
 import { panalytics } from '../../../common/analytics';
 import { device } from '../../../common/constants/size';
-import { useAppLoadingState, useSettings } from '../../../context';
+import { useApplicationSettings, useAppLoadingState } from '../../../context';
 import { useSelectedNetwork } from '../../../gateway/common/network';
 import { useBodyClass } from '../../../hooks/useBodyClass';
 import { useMetaThemeColor } from '../../../hooks/useMetaThemeColor';
@@ -39,7 +39,7 @@ const _Layout: FC<PropsWithChildren<{ className?: string }>> = ({
   children,
   className,
 }) => {
-  const [{ theme }] = useSettings();
+  const [{ theme }] = useApplicationSettings();
   const [network] = useSelectedNetwork();
   const ref = useRef<HTMLDivElement>(null);
   const footerRef = useRef<HTMLDivElement>(null);

@@ -54,7 +54,7 @@ import {
 import { useNetworkAsset } from '../../gateway/api/networkAsset';
 import { useSwapValidationFee } from '../../gateway/api/validationFees';
 import { useSelectedNetwork } from '../../gateway/common/network';
-import { OperationSettings } from './OperationSettings/OperationSettings';
+import { operationsSettings$ } from '../../gateway/widgets/operationsSettings';
 import { PoolSelector } from './PoolSelector/PoolSelector';
 import { SwapConfirmationModal } from './SwapConfirmationModal/SwapConfirmationModal';
 import { SwapFormModel } from './SwapFormModel';
@@ -93,6 +93,7 @@ export const Swap = (): JSX.Element => {
   const [networkAsset] = useNetworkAsset();
   const [balance] = useAssetsBalance();
   const totalFees = useSwapValidationFee();
+  const [OperationSettings] = useObservable(operationsSettings$);
   const updateToAssets$ = useMemo(
     () => new BehaviorSubject<string | undefined>(undefined),
     [],
@@ -375,7 +376,7 @@ export const Swap = (): JSX.Element => {
                 onClick={() => setLeftWidgetOpened(!leftWidgetOpened)}
               />
             )}
-            <OperationSettings />
+            {OperationSettings && <OperationSettings />}
           </Flex>
           <Flex.Item marginBottom={1} marginTop={2}>
             <AssetControlFormItem

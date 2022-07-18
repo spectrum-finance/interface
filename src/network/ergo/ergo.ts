@@ -42,6 +42,7 @@ import {
   settings$,
 } from './settings/settings';
 import {
+  useCreatePoolValidationFee,
   useDepositValidationFee,
   useRedeemValidationFee,
   useSwapValidationFee,
@@ -54,7 +55,9 @@ import {
 } from './utils/utils';
 import { DepositConfirmationInfo } from './widgets/DepositConfirmationInfo/DepositConfirmationInfo';
 import { GlobalSettingsModal } from './widgets/GlobalSettings/GlobalSettingsModal';
+import { OperationsSettings } from './widgets/OperationSettings/OperationsSettings';
 import { RedeemConfirmationInfo } from './widgets/RedeemConfirmationInfo/RedeemConfirmationInfo';
+import { RefundConfirmationInfo } from './widgets/RefundConfirmationInfo/RefundConfirmationInfo';
 import { SwapConfirmationInfo } from './widgets/SwapConfirmationInfo/SwapConfirmationInfo';
 import { SwapInfoContent } from './widgets/SwapInfoContent/SwapInfoContent';
 
@@ -111,12 +114,15 @@ export const ergoNetwork: Network<
   SwapConfirmationInfo,
   DepositConfirmationInfo,
   RedeemConfirmationInfo,
+  RefundConfirmationInfo,
+  OperationsSettings,
 
   convertToConvenientNetworkAsset,
 
   useSwapValidationFee,
   useDepositValidationFee,
   useRedeemValidationFee,
+  useCreatePoolValidationFee,
 
   getPoolChartData,
 };

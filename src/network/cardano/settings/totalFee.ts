@@ -40,3 +40,7 @@ export const useRedeemValidationFee = (): Currency => {
 
   return calculateTotalFee([totalFees, depositAda], networkAsset);
 };
+
+export const useCreatePoolValidationFee = (): Currency => {
+  return new Currency(0n, networkAsset);
+};

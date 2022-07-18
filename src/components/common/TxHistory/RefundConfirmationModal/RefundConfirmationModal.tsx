@@ -1,6 +1,5 @@
 import { Address } from '@ergolabs/ergo-sdk';
 import {
-  Box,
   Button,
   DownOutlined,
   Dropdown,
@@ -13,18 +12,19 @@ import {
 } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import React, { useState } from 'react';
+import { Observable } from 'rxjs';
 
 import { useObservable } from '../../../../common/hooks/useObservable';
-import { useSettings } from '../../../../context';
-import { utxos$ } from '../../../../network/ergo/api/utxos/utxos';
-import { submitTx } from '../../../../services/yoroi';
-import { refund } from '../../../../utils/ammOperations';
+import { TxId } from '../../../../common/types';
+import { refund } from '../../../../gateway/api/operations/refund';
+import { useSettings } from '../../../../gateway/settings/settings';
+import { refundConfirmationInfo$ } from '../../../../gateway/widgets/refundConfirmationInfo';
 import { getShortAddress } from '../../../../utils/string/addres';
 import { InfoTooltip } from '../../../InfoTooltip/InfoTooltip';
 import { Operation } from '../types';
 
 interface RefundConfirmationModalProps {
-  onClose: (p: Promise<any>) => void;
+  onClose: (p: Observable<TxId>) => void;
   addresses: Address[];
   operation: Operation;
 }
@@ -40,20 +40,13 @@ const RefundConfirmationModal: React.FC<RefundConfirmationModalProps> = ({
     xAsset: operation.assetX.asset,
     yAsset: operation.assetY.asset,
   });
-  const [utxos] = useObservable(utxos$);
-  const [{ minerFee, address }] = useSettings();
-
+  const { address } = useSettings();
+  const [RefundConfirmationInfo] = useObservable(refundConfirmationInfo$);
   const [activeAddress, setActiveAddress] = useState(address);
 
   const handleRefund = () => {
-    if (utxos?.length && activeAddress) {
-      onClose(
-        refund(utxos, {
-          address: activeAddress,
-          txId: operation.txId,
-          minerFee: minerFee,
-        }).then((tx) => submitTx(tx)),
-      );
+    if (activeAddress) {
+      onClose(refund(activeAddress, operation.txId));
     }
   };
 
@@ -66,33 +59,7 @@ const RefundConfirmationModal: React.FC<RefundConfirmationModalProps> = ({
         <Form onSubmit={() => {}} form={form}>
           <Flex col>
             <Flex.Item marginBottom={6}>
-              <Box contrast padding={4}>
-                <Flex justify="space-between">
-                  <Flex.Item>
-                    <Typography.Text strong>
-                      <Trans>Fees</Trans>
-                    </Typography.Text>
-                    <InfoTooltip
-                      placement="rightBottom"
-                      content={
-                        <Flex direction="col" style={{ width: '200px' }}>
-                          <Flex.Item>
-                            <Flex justify="space-between">
-                              <Flex.Item>
-                                <Trans>Miner Fee:</Trans>
-                              </Flex.Item>
-                              <Flex.Item>{minerFee} ERG</Flex.Item>
-                            </Flex>
-                          </Flex.Item>
-                        </Flex>
-                      }
-                    />
-                  </Flex.Item>
-                  <Flex.Item>
-                    <Typography.Text strong>{minerFee} ERG</Typography.Text>
-                  </Flex.Item>
-                </Flex>
-              </Box>
+              {RefundConfirmationInfo && <RefundConfirmationInfo />}
             </Flex.Item>
             <Flex.Item marginBottom={4}>
               <Flex direction="col">
