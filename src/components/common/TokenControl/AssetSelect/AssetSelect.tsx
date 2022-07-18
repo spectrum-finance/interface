@@ -1,4 +1,3 @@
-import { AssetInfo } from '@ergolabs/ergo-sdk';
 import { Button, DownOutlined, Flex, Form, Modal } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React from 'react';
@@ -7,6 +6,7 @@ import styled from 'styled-components';
 
 import { panalytics } from '../../../../common/analytics';
 import { PAnalytics } from '../../../../common/analytics/@types/types';
+import { AssetInfo } from '../../../../common/models/AssetInfo';
 import { AssetTitle } from '../../../AssetTitle/AssetTitle';
 import { AssetListModal } from './AssetListModal/AssetListModal';
 
@@ -45,7 +45,7 @@ const AssetSelect: React.FC<TokenSelectProps> = ({
     if (analytics && analytics.operation && analytics.tokenAssignment) {
       panalytics.selectToken(analytics.operation, analytics.tokenAssignment, {
         tokenId: newValue.id,
-        tokenName: newValue.name,
+        tokenName: newValue.ticker,
       });
     }
   };

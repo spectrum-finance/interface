@@ -1,5 +1,3 @@
-import qs from 'qs';
-
 import { Network } from '../../network/common/Network';
 import { AddLiquidityFormModel } from '../../pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityFormModel';
 import { RemoveFormModel } from '../../pages/RemoveLiquidity/RemoveLiquidity';
@@ -94,14 +92,14 @@ export const convertSwapFormModelToAnalytics = (
   network: Network<any, any>,
 ): AnalyticsSwapData & AnalyticsPoolData => {
   return {
-    from_name: fromAmount?.asset.name,
+    from_name: fromAmount?.asset.ticker,
     from_amount: Number(fromAmount?.toAmount()),
     from_usd: Number(
       network.convertToConvenientNetworkAsset.snapshot(fromAmount!).toAmount(),
     ),
     from_id: fromAmount?.asset.id,
 
-    to_name: toAmount?.asset.name,
+    to_name: toAmount?.asset.ticker,
     to_amount: Number(toAmount?.toAmount()),
     to_id: toAmount?.asset.id,
     to_usd: Number(
@@ -116,12 +114,12 @@ export const convertDepositFormModelToAnalytics = (
   network: Network<any, any>,
 ): AnalyticsDepositData & AnalyticsPoolData => {
   return {
-    x_name: x?.asset.name,
+    x_name: x?.asset.ticker,
     x_amount: Number(x?.toAmount()),
     x_usd: Number(
       network.convertToConvenientNetworkAsset.snapshot(x!).toAmount(),
     ),
-    y_name: y?.asset.name,
+    y_name: y?.asset.ticker,
     y_amount: Number(y?.toAmount()),
     y_usd: Number(
       network.convertToConvenientNetworkAsset.snapshot(y!).toAmount(),
@@ -139,12 +137,12 @@ export const convertRedeemFormModelToAnalytics = (
 ): AnalyticsRedeemData & AnalyticsPoolData => {
   return {
     percent_of_liquidity: percent,
-    x_name: xAmount?.asset.name,
+    x_name: xAmount?.asset.ticker,
     x_amount: Number(xAmount?.toAmount()),
     x_usd: Number(
       network.convertToConvenientNetworkAsset.snapshot(xAmount!).toAmount(),
     ),
-    y_name: yAmount?.asset.name,
+    y_name: yAmount?.asset.ticker,
     y_amount: Number(yAmount?.toAmount()),
     y_usd: Number(
       network.convertToConvenientNetworkAsset.snapshot(yAmount!).toAmount(),

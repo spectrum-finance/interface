@@ -47,6 +47,7 @@ const _AssetListItem: React.FC<TokenListItemProps> = ({
           </Typography.Title>
           <StyledFootnote>{asset.name}</StyledFootnote>
         </Flex.Item>
+
         <Flex.Item
           flex={1}
           align="flex-end"
@@ -57,9 +58,11 @@ const _AssetListItem: React.FC<TokenListItemProps> = ({
           <Typography.Title level={5}>
             {balance.get(asset).toString()}
           </Typography.Title>
-          <StyledFootnote>
-            <ConvenientAssetView value={balance.get(asset)} prefix="~" />
-          </StyledFootnote>
+          {!!Number(balance.get(asset).toString()) && (
+            <StyledFootnote>
+              <ConvenientAssetView value={balance.get(asset)} prefix="~" />
+            </StyledFootnote>
+          )}
         </Flex.Item>
       </Flex>
     </Box>
