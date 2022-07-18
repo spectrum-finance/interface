@@ -1,11 +1,11 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import { Address } from '@ergolabs/ergo-sdk';
-import { Button, Flex, Modal } from '@ergolabs/ui-kit';
+import { Button, Flex, Modal, useDevice } from '@ergolabs/ui-kit';
 import React, { FC } from 'react';
 import styled from 'styled-components';
 
-import { useObservable } from '../../../../common/hooks/useObservable';
 import { panalytics } from '../../../../common/analytics';
+import { useObservable } from '../../../../common/hooks/useObservable';
 import { Currency } from '../../../../common/models/Currency';
 import { pendingTransactions$ } from '../../../../network/ergo/api/transactionHistory/pendingTransactions';
 import { WalletModal } from '../../../WalletModal/WalletModal';
@@ -45,7 +45,7 @@ const _WalletInfoButton: FC<WalletInfoButtonProps> = ({
           )}
           <AddressOrPendingTag
             address={address}
-            pendingCount={pendingCount.length}
+            pendingCount={pendingCount?.length}
           />
         </Flex>
       ) : (
