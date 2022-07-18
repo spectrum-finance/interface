@@ -100,6 +100,3 @@ export const applicationSettings$: Observable<Settings> = localStorageManager
     publishReplay(1),
     refCount(),
   );
-
-export const useSettings = (): LocalStorageReturnValue<Settings> =>
-  useContext(SettingsContext);
