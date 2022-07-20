@@ -33,13 +33,15 @@ export type AnalyticsToken = {
 
 export type AnalyticsElementLocation =
   | 'header'
+  | 'footer'
   | 'swap'
   | 'pool-list'
   | 'your-positions-list'
   | 'add-liquidity'
   | 'create-pool'
   | 'withdrawal-liquidity'
-  | 'relock-liquidity';
+  | 'relock-liquidity'
+  | 'chaining-modal';
 
 export type AnalyticsPoolData = {
   pool_id?: string;

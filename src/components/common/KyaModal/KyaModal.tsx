@@ -6,7 +6,7 @@ import { panalytics } from '../../../common/analytics';
 import { useAppLoadingState } from '../../../context';
 
 interface KyaModalProps {
-  onClose: () => void;
+  onClose: (isConfirmed: boolean) => void;
 }
 
 const KyaModal: React.FC<KyaModalProps> = ({ onClose }): JSX.Element => {
@@ -16,7 +16,7 @@ const KyaModal: React.FC<KyaModalProps> = ({ onClose }): JSX.Element => {
   const handleConfirm = useCallback(() => {
     setIsKyaAccepted({ isKYAAccepted: true });
     panalytics.acceptKya();
-    onClose();
+    onClose(true);
   }, [setIsKyaAccepted, onClose]);
   return (
     <>
