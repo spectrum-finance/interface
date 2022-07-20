@@ -99,7 +99,10 @@ export const RemoveLiquidity: FC = () => {
       },
     );
 
-    panalytics.submitRedeem(form.value, poolData.pool);
+    panalytics.submitRedeem(
+      { xAmount, yAmount, lpAmount, percent },
+      poolData.pool,
+    );
   };
 
   return (

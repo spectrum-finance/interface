@@ -53,7 +53,9 @@ const _Layout: FC<PropsWithChildren<{ className?: string }>> = ({
   useEffect(() => {
     if (!isKYAAccepted) {
       Modal.open(({ close }) => <KyaModal onClose={close} />, {
-        afterClose: () => panalytics.closeKya(),
+        afterClose: (isConfirmed) => {
+          !isConfirmed && panalytics.closeKya();
+        },
       });
     }
   }, [isKYAAccepted]);
