@@ -37,7 +37,7 @@ const CatalystF9NotificationMessage: React.FC = () => (
     </Flex.Item>
     <Flex.Item>
       <Typography.Footnote>
-        {t`Do you want cross-chain native asset DeFi that will be extremely fast and cheap? Check out our proposal on Project Catalyst F9, register till August 4 and vote! Let’s develop the cross-chain future together.`}
+        {t`Do you want cross chain native asset DeFi that will be extremely fast and cheap? Check out our proposal on Project Catalyst F9, register by the 4th of August and vote! Let’s develop the cross-chain future together.`}
       </Typography.Footnote>
     </Flex.Item>
   </Flex>
