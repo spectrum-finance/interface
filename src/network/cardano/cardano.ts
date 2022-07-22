@@ -90,7 +90,6 @@ export const cardanoNetwork: Network<
   networkContext$,
   availableTokenAssets$,
   tokenAssetsToImport$,
-  importedTokenAssets$: of([]),
   importTokenAsset,
 
   settings,

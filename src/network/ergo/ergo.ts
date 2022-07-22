@@ -22,7 +22,6 @@ import { getPoolChartData } from './api/poolChart/poolChart';
 import { positions$ } from './api/positions/positions';
 import {
   availableTokenAssets$,
-  importedTokenAssets$,
   tokenAssetsToImport$,
 } from './api/tokens/tokens';
 import { txHistoryManager } from './api/transactionHistory/transactionHistory';
@@ -94,7 +93,6 @@ export const ergoNetwork: Network<
   networkContext$,
   availableTokenAssets$,
   tokenAssetsToImport$,
-  importedTokenAssets$,
   importTokenAsset,
 
   settings$,
