@@ -47,7 +47,7 @@ const _AssetListItem: React.FC<TokenListItemProps> = ({
           <Typography.Title level={4}>
             <Truncate limit={20}>{asset.ticker}</Truncate>
           </Typography.Title>
-          <StyledFootnote>{asset.name}</StyledFootnote>
+          {asset.name && <StyledFootnote>{asset.name}</StyledFootnote>}
         </Flex.Item>
 
         <Flex.Item

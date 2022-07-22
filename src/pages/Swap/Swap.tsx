@@ -117,7 +117,7 @@ export const Swap = (): JSX.Element => {
       : totalFees;
 
     return totalFeesWithAmount.gt(balance.get(networkAsset))
-      ? networkAsset.name
+      ? networkAsset.ticker
       : undefined;
   };
 
@@ -126,7 +126,7 @@ export const Swap = (): JSX.Element => {
     fromAmount,
   }: SwapFormModel) => {
     if (fromAsset && fromAmount && fromAmount.gt(balance.get(fromAsset))) {
-      return fromAsset.name;
+      return fromAsset.ticker;
     }
     return undefined;
   };

@@ -14,11 +14,6 @@ interface AssetListExtendedSearchItemProps {
   onClick?: React.MouseEventHandler<HTMLElement>;
 }
 
-const AssetName = styled(Typography.Footnote)`
-  font-size: 10px;
-  line-height: 15px;
-`;
-
 const _AssetListExtendedSearchItem: React.FC<AssetListExtendedSearchItemProps> =
   ({ asset, onClick, className, height }) => (
     <Box
@@ -36,7 +31,6 @@ const _AssetListExtendedSearchItem: React.FC<AssetListExtendedSearchItemProps> =
           <Typography.Title level={4}>
             <Truncate limit={20}>{asset.ticker}</Truncate>
           </Typography.Title>
-          <AssetName>{asset.name}</AssetName>
         </Flex.Item>
         <Flex.Item flex={1} justify="flex-end">
           <Button type="primary" onClick={onClick}>
