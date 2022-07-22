@@ -1,6 +1,6 @@
 import { Box, Flex, Typography } from '@ergolabs/ui-kit';
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { AssetInfo } from '../../../../../../../common/models/AssetInfo';
 import { useAssetsBalance } from '../../../../../../../gateway/api/assetBalance';
@@ -10,6 +10,7 @@ import { Truncate } from '../../../../../../Truncate/Truncate';
 
 interface TokenListItemProps {
   asset: AssetInfo;
+  active?: boolean;
   className?: string;
   height?: number;
   onClick?: React.MouseEventHandler<HTMLElement>;
@@ -25,6 +26,7 @@ const _AssetListItem: React.FC<TokenListItemProps> = ({
   onClick,
   className,
   height,
+  active,
 }) => {
   const [balance] = useAssetsBalance();
 
@@ -32,12 +34,12 @@ const _AssetListItem: React.FC<TokenListItemProps> = ({
     <Box
       height={height}
       className={className}
-      onClick={onClick}
+      onClick={active ? undefined : onClick}
       borderRadius="m"
       padding={[0, 4]}
       bordered={false}
     >
-      <Flex align="center" width="100%">
+      <Flex align="center" width="100%" stretch>
         <Flex.Item marginRight={2} align="center">
           <AssetIcon asset={asset} size="large" />
         </Flex.Item>
@@ -58,7 +60,7 @@ const _AssetListItem: React.FC<TokenListItemProps> = ({
           <Typography.Title level={5}>
             {balance.get(asset).toString()}
           </Typography.Title>
-          {!!Number(balance.get(asset).toString()) && (
+          {!!Number(balance.get(asset).toAmount()) && (
             <StyledFootnote>
               <ConvenientAssetView value={balance.get(asset)} prefix="~" />
             </StyledFootnote>
@@ -70,10 +72,21 @@ const _AssetListItem: React.FC<TokenListItemProps> = ({
 };
 
 export const AssetListItem = styled(_AssetListItem)`
-  cursor: pointer;
   user-select: none;
 
-  &:hover {
-    background-color: var(--ergo-dark-card-background);
-  }
+  ${(props) =>
+    props.active &&
+    css`
+      opacity: 0.4;
+    `}
+
+  ${(props) =>
+    !props.active &&
+    css`
+      cursor: pointer;
+
+      &:hover {
+        background-color: var(--ergo-dark-card-background);
+      }
+    `}
 `;

@@ -59,6 +59,7 @@ const AssetSelect: React.FC<TokenSelectProps> = ({
         assetsToImport$={assetsToImport$}
         assets$={assets$}
         close={close}
+        value={value}
         onSelectChanged={handleSelectChange}
       />
     ));

@@ -16,29 +16,19 @@ export const TokenListItem: React.FC<TokenListItemProps> = ({ currency }) => (
       <Flex.Item marginRight={2}>
         <AssetIcon asset={currency.asset} />
       </Flex.Item>
-      <Flex.Item display="flex" col flex={1}>
-        <Flex.Item display="flex" align="center">
-          <Flex.Item flex={1}>
-            <Typography.Body>
-              <Truncate>{currency.asset.ticker}</Truncate>
-            </Typography.Body>
-          </Flex.Item>
-          <Flex.Item display="flex" justify="flex-end">
-            <Typography.Body>{currency.toString()}</Typography.Body>
-          </Flex.Item>
+      <Flex.Item display="flex" col justify="center">
+        <Typography.Body>
+          <Truncate limit={10}>{currency.asset.ticker}</Truncate>
+        </Typography.Body>
+        <Flex.Item flex={1}>
+          <Typography.Footnote>{currency.asset.name}</Typography.Footnote>
         </Flex.Item>
-        <Flex.Item display="flex" align="center">
-          <Flex.Item flex={1}>
-            <Typography.Footnote>
-              <Truncate>{currency.asset.name}</Truncate>
-            </Typography.Footnote>
-          </Flex.Item>
-          <Flex.Item display="flex" justify="flex-end">
-            <Typography.Footnote>
-              <ConvenientAssetView value={currency} prefix="~" />
-            </Typography.Footnote>
-          </Flex.Item>
-        </Flex.Item>
+      </Flex.Item>
+      <Flex.Item display="flex" col justify="center" flex={1} align="flex-end">
+        <Typography.Body>{currency.toString()}</Typography.Body>
+        <Typography.Footnote>
+          <ConvenientAssetView value={currency} prefix="~" />
+        </Typography.Footnote>
       </Flex.Item>
     </Flex>
   </Box>

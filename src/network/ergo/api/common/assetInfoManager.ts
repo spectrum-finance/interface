@@ -49,7 +49,7 @@ const mapFullTokenInfoToAssetItemById = (
       item
         ? {
             id: item.id,
-            name: item.name,
+            name: undefined,
             decimals: item.decimals,
             ticker: item.name,
             icon: `${applicationConfig.networksSettings.ergo.metadataUrl}/light/${item.id}.svg`,
