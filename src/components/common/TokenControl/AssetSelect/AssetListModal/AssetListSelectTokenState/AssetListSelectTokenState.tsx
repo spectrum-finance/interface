@@ -1,4 +1,3 @@
-import { AssetInfo } from '@ergolabs/ergo-sdk';
 import {
   Flex,
   Input,
@@ -12,6 +11,7 @@ import React, { FC } from 'react';
 import { Observable, of } from 'rxjs';
 
 import { useObservable } from '../../../../../../common/hooks/useObservable';
+import { AssetInfo } from '../../../../../../common/models/AssetInfo';
 import { List } from '../../../../../List/List';
 import { ListStateView } from '../../../../../List/ListStateView/ListStateView';
 import { AssetListExtendedSearchItem } from './AssetListExtendedSearchItem/AssetListExtendedSearchItem';
@@ -33,7 +33,10 @@ export const AssetListSelectTokenState: FC<AssetListSelectTokenStateProps> = ({
   onAssetImport,
   value,
 }) => {
-  const [searchByTerm, setTerm, term] = useSearch<AssetInfo>(['name']);
+  const [searchByTerm, setTerm, term] = useSearch<AssetInfo>([
+    'ticker',
+    'name',
+  ]);
   const [assets, loading] = useObservable(assets$ ?? of([]));
   const [tokenAssetsToImport] = useObservable(assetsToImport$ ?? of([]));
 
