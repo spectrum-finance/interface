@@ -8,6 +8,7 @@ import {
   publishReplay,
   refCount,
   switchMap,
+  tap,
   zip,
 } from 'rxjs';
 
@@ -17,6 +18,20 @@ import { ammPools$, possibleAmmPools$ } from './ammPools';
 
 export const tokenAssets$ = combineLatest([
   selectedNetwork$.pipe(switchMap((n) => n.availableTokenAssets$)),
+  ammPools$,
+]).pipe(
+  debounceTime(100),
+  map(([tokenAssets, ammPools]) => {
+    return tokenAssets.filter((a) =>
+      ammPools.some((p) => p.x.asset.id === a.id || p.y.asset.id === a.id),
+    );
+  }),
+  publishReplay(1),
+  refCount(),
+);
+
+export const importedTokenAssets$ = combineLatest([
+  selectedNetwork$.pipe(switchMap((n) => n.importedTokenAssets$)),
   ammPools$,
 ]).pipe(
   debounceTime(100),

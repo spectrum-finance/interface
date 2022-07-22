@@ -109,6 +109,19 @@ export const filterUnavailableTokenAssets = (
     ),
   );
 
+export const filterUnavailableAndDefaultTokenAssets = (
+  assets: AssetInfo[],
+): Observable<AssetInfo[]> =>
+  combineLatest([importedTokenAssets$, rawAssetsWithLiquidity$]).pipe(
+    map(([importedTokens, rawAssetsWithLiquidity]) =>
+      assets.filter(
+        (ai) =>
+          importedTokens.includes(ai.id) ||
+          rawAssetsWithLiquidity.some((a) => a.id === ai.id),
+      ),
+    ),
+  );
+
 export const filterAvailableTokenAssets = (
   assets: AssetInfo[],
 ): Observable<AssetInfo[]> =>
