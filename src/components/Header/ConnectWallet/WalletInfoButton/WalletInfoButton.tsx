@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import { panalytics } from '../../../../common/analytics';
 import { useObservable } from '../../../../common/hooks/useObservable';
 import { Currency } from '../../../../common/models/Currency';
-import { pendingTransactions$ } from '../../../../network/ergo/api/transactionHistory/pendingTransactions';
+import { pendingTransactions$ } from '../../../../network/ergo/api/pendingTransactions/pendingTransactions';
 import { WalletModal } from '../../../WalletModal/WalletModal';
 import { AddressOrPendingTag } from './AddressOrPendingTag/AddressOrPendingTag';
 import { BalanceView } from './BalanceView/BalanceView';
