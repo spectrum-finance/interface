@@ -20,7 +20,7 @@ import { redeem } from './api/operations/redeem';
 import { swap } from './api/operations/swap';
 import { positions$ } from './api/positions/positions';
 import {
-  availableTokenAssets$,
+  defaultTokenAssets$,
   importTokenAsset,
   tokenAssetsToImport$,
 } from './api/tokens/tokens';
@@ -88,8 +88,9 @@ export const cardanoNetwork: Network<
   selectedWallet$: selectedWallet$,
   supportedFeatures$: supportedWalletFeatures$,
   networkContext$,
-  availableTokenAssets$,
+  defaultTokenAssets$,
   tokenAssetsToImport$,
+  importedTokenAssets$: of([]),
   importTokenAsset,
 
   settings,

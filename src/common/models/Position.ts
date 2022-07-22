@@ -65,9 +65,9 @@ export class Position implements Searchable {
     const normalizedTerm = term.toLowerCase().replaceAll('/', '');
 
     return (
-      this.pool.x.asset.name?.toLowerCase().startsWith(normalizedTerm) ||
-      this.pool.y.asset.name?.toLowerCase().startsWith(normalizedTerm) ||
-      `${this.pool.x.asset.name?.toLowerCase()}${this.pool.x.asset.name?.toLowerCase()}`.startsWith(
+      this.pool.x.asset.ticker?.toLowerCase().startsWith(normalizedTerm) ||
+      this.pool.y.asset.ticker?.toLowerCase().startsWith(normalizedTerm) ||
+      `${this.pool.x.asset.ticker?.toLowerCase()}${this.pool.x.asset.ticker?.toLowerCase()}`.startsWith(
         normalizedTerm,
       )
     );

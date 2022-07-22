@@ -1,7 +1,7 @@
-import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import { map, publishReplay, refCount } from 'rxjs';
 
 import { useObservable } from '../../common/hooks/useObservable';
+import { AssetInfo } from '../../common/models/AssetInfo';
 import { ergoNetwork } from '../../network/ergo/ergo';
 import { selectedNetwork$ } from '../common/network';
 

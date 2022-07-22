@@ -46,7 +46,7 @@ export const debutEvent = (name: string, props: any): void => {
 };
 
 export const getAnalyticsPoolName = (pool: AmmPool): string => {
-  return `${pool.pool.x.asset.name}/${pool.pool.y.asset.name}`;
+  return `${pool.x.asset.ticker}/${pool.y.asset.ticker}`;
 };
 
 export const normalizeEventPart = (str: string): string => {

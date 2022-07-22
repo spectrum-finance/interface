@@ -21,7 +21,8 @@ import { swap } from './api/operations/swap';
 import { getPoolChartData } from './api/poolChart/poolChart';
 import { positions$ } from './api/positions/positions';
 import {
-  availableTokenAssets$,
+  defaultTokenAssets$,
+  importedTokenAssets$,
   tokenAssetsToImport$,
 } from './api/tokens/tokens';
 import { txHistoryManager } from './api/transactionHistory/transactionHistory';
@@ -91,8 +92,9 @@ export const ergoNetwork: Network<
   selectedWallet$,
   supportedFeatures$: supportedWalletFeatures$,
   networkContext$,
-  availableTokenAssets$,
+  defaultTokenAssets$,
   tokenAssetsToImport$,
+  importedTokenAssets$,
   importTokenAsset,
 
   settings$,

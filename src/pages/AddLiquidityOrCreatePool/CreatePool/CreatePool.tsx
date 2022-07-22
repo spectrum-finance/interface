@@ -172,7 +172,7 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
           : initialPrice.toQuoteCurrency(new Currency(1n, yAsset));
     }
     return c
-      ? t`Min value for ${c?.asset.name} is ${c?.toString()}`
+      ? t`Min value for ${c?.asset.ticker} is ${c?.toString()}`
       : undefined;
   };
 
@@ -180,11 +180,11 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
     value: { x, y },
   }) => {
     if (x?.gt(balance.get(x?.asset))) {
-      return t`Insufficient ${x?.asset.name} Balance`;
+      return t`Insufficient ${x?.asset.ticker} Balance`;
     }
 
     if (y?.gt(balance.get(y?.asset))) {
-      return t`Insufficient ${y?.asset.name} Balance`;
+      return t`Insufficient ${y?.asset.ticker} Balance`;
     }
 
     return undefined;
@@ -202,7 +202,7 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
       : totalFees;
 
     return totalFeesWithAmount.gt(balance.get(networkAsset))
-      ? t`Insufficient ${networkAsset.name} Balance for Fees`
+      ? t`Insufficient ${networkAsset.ticker} Balance for Fees`
       : undefined;
   };
 
