@@ -336,16 +336,16 @@ export class ProductAnalytics {
   // Social
   // --
 
-  public clickSocial(name: string): void {
+  public clickSocial(name: string, location: AnalyticsElementLocation): void {
     const eventName = `Click ${name.toUpperCase()}`;
-    this.event(eventName);
+    this.event(eventName, { location });
   }
 
   public catalystCta(): void {
-    this.event(ANALYTICS_EVENTS.CATALYST_CLOSE);
+    this.event(ANALYTICS_EVENTS.CATALYST_CTA);
   }
 
   public catalystClose(): void {
-    this.event(ANALYTICS_EVENTS.CATALYST_CTA);
+    this.event(ANALYTICS_EVENTS.CATALYST_CLOSE);
   }
 }

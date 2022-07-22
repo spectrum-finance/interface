@@ -5,7 +5,7 @@ import {
   SUPPORTED_LOCALES,
   SupportedLocale,
 } from '../common/constants/locales';
-import { getSetting, useSettings } from '../context';
+import { getSetting, useApplicationSettings } from '../context';
 import { parsedQueryString, useQuery } from './useQuery';
 
 /**
@@ -43,7 +43,7 @@ export function navigatorLocale(): SupportedLocale | undefined {
 }
 
 function useUserSettingsLocale(): SupportedLocale {
-  const [{ lang }] = useSettings();
+  const [{ lang }] = useApplicationSettings();
   return lang;
 }
 

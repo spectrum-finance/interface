@@ -52,7 +52,7 @@ const SocialLinks = (): JSX.Element => {
               target="_blank"
               rel="noreferrer"
               onClick={() => {
-                panalytics.clickSocial(name);
+                panalytics.clickSocial(name, 'footer');
               }}
             >
               {icon}

@@ -10,6 +10,7 @@ import { AssetInfo } from './AssetInfo';
 const createUnknownAsset = (decimals = 0): AssetInfo => ({
   id: '-1',
   name: 'unknown',
+  ticker: 'unknown',
   decimals,
 });
 

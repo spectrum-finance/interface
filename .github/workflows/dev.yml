@@ -23,8 +23,10 @@ jobs:
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-      
+
       - name: Generate deployable artifacts
+        env:
+          REACT_APP_POSTHOG_API_KEY: ${{ secrets.POSTHOG_DEV_API_KEY }}
         run: |
           yarn
           yarn run prei18n:extract
@@ -33,7 +35,7 @@ jobs:
           CI=false yarn build
       - name: Store Artifacts
         uses: actions/upload-artifact@v3
-        with: 
+        with:
           name: ${{ github.sha }}
           path: build
           retention-days: 1
@@ -56,5 +58,5 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           privateKey: ${{ secrets.KEY }}
-      
+
 

@@ -17,7 +17,7 @@ export const NOTIFICATION_KEY = 'catalyst-notification';
 
 const LetsGoButton = () => {
   const openModal = () => {
-    window.open('https://cardano.ideascale.com/c/idea/421661', '_blank');
+    window.open('https://linktr.ee/ergodex_f9', '_blank');
     panalytics.catalystCta();
     localStorageManager.set(NOTIFICATION_KEY, true);
     notification.close(NOTIFICATION_KEY);
@@ -37,10 +37,7 @@ const CatalystF9NotificationMessage: React.FC = () => (
     </Flex.Item>
     <Flex.Item>
       <Typography.Footnote>
-        {t`Do you want cross chain native asset DeFi that will be extremely fast
-        and cheap? Check out our proposal on Project Catalyst F9. Leave
-        comments, ask questions or smash claps - all will be considered a
-        contribution. Let's develop the cross-chain future together!`}
+        {t`Do you want cross chain native asset DeFi that will be extremely fast and cheap? Check out our proposal on Project Catalyst F9, register by the 4th of August and vote! Let’s develop the cross-chain future together.`}
       </Typography.Footnote>
     </Flex.Item>
   </Flex>

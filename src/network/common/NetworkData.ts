@@ -24,7 +24,8 @@ export interface NetworkData<W extends Wallet> {
   readonly locks$: Observable<AssetLock[]>;
   readonly ammPools$: Observable<AmmPool[]>;
   readonly possibleAmmPools$: Observable<AmmPool[]>;
-  readonly availableTokenAssets$: Observable<AssetInfo[]>;
+  readonly defaultTokenAssets$: Observable<AssetInfo[]>;
+  readonly importedTokenAssets$: Observable<AssetInfo[]>;
   readonly tokenAssetsToImport$: Observable<AssetInfo[]>;
   readonly importTokenAsset: (assetInfo: AssetInfo | AssetInfo[]) => void;
   readonly positions$: Observable<Position[]>;
@@ -43,6 +44,7 @@ export interface NetworkData<W extends Wallet> {
   readonly useSwapValidationFee: () => Currency;
   readonly useDepositValidationFee: () => Currency;
   readonly useRedeemValidationFee: () => Currency;
+  readonly useCreatePoolValidationFee: () => Currency;
 
   readonly getPoolChartData: (
     pool: AmmPool,

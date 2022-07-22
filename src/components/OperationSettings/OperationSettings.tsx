@@ -11,17 +11,14 @@ import {
   useForm,
 } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import { filter, skip } from 'rxjs';
 
-import { MIN_NITRO } from '../../../common/constants/erg';
-import {
-  defaultSlippage,
-  MIN_SLIPPAGE,
-} from '../../../common/constants/settings';
-import { useSubscription } from '../../../common/hooks/useObservable';
-import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
-import { setSettings, useSettings } from '../../../gateway/settings/settings';
+import { MIN_NITRO } from '../../common/constants/erg';
+import { defaultSlippage, MIN_SLIPPAGE } from '../../common/constants/settings';
+import { useSubscription } from '../../common/hooks/useObservable';
+import { Currency } from '../../common/models/Currency';
+import { InfoTooltip } from '../InfoTooltip/InfoTooltip';
 import { NitroInput } from './NitroInput/NitroInput';
 import { SlippageInput } from './SlippageInput/SlippageInput';
 
@@ -58,25 +55,40 @@ const minSlippageCheck: CheckFn<number> = (value) =>
 const nitroCheck: CheckFn<number> = (value) =>
   isNaN(value) || value < MIN_NITRO ? 'minNitro' : undefined;
 
-const OperationSettings = (): JSX.Element => {
-  const settings = useSettings();
+export interface OperationSettingsProps {
+  readonly minExFee: Currency;
+  readonly maxExFee: Currency;
+  readonly setSlippage: (slippage: number) => void;
+  readonly setNitro: (nitro: number) => void;
+  readonly nitro: number;
+  readonly slippage: number;
+}
+
+export const OperationSettings: FC<OperationSettingsProps> = ({
+  minExFee,
+  maxExFee,
+  setSlippage,
+  setNitro,
+  nitro,
+  slippage,
+}) => {
   const [isPopoverShown, setIsPopoverShown] = useState(false);
 
   const form = useForm<SettingsModel>({
     slippage: useForm.ctrl(
-      settings.slippage,
+      slippage,
       [minSlippageCheck],
       [slippageCheck, slippageTxFailCheck],
     ),
-    nitro: useForm.ctrl(settings.nitro, [nitroCheck]),
+    nitro: useForm.ctrl(nitro, [nitroCheck]),
   });
 
   const handlePopoverShown = (visible: boolean) => {
     if (!visible) {
       form.reset(
         {
-          slippage: settings.slippage,
-          nitro: settings.nitro,
+          slippage: slippage,
+          nitro: nitro,
         },
         { emitEvent: 'system' },
       );
@@ -89,10 +101,8 @@ const OperationSettings = (): JSX.Element => {
       skip(1),
       filter((value) => !!value && value >= MIN_SLIPPAGE),
     ),
-    (slippage) => {
-      setSettings({ ...settings, slippage });
-    },
-    [settings],
+    (slippage) => setSlippage(slippage),
+    [slippage, nitro],
   );
 
   useSubscription(
@@ -100,10 +110,8 @@ const OperationSettings = (): JSX.Element => {
       skip(1),
       filter((value) => !!value && value >= MIN_NITRO),
     ),
-    (nitro) => {
-      setSettings({ ...settings, nitro });
-    },
-    [settings],
+    (nitro) => setNitro(nitro),
+    [slippage, nitro],
   );
 
   const Setting: JSX.Element = (
@@ -164,6 +172,8 @@ const OperationSettings = (): JSX.Element => {
             <Form.Item name="nitro">
               {({ onChange, value, state, message }) => (
                 <NitroInput
+                  minExFee={minExFee}
+                  maxExFee={maxExFee}
                   state={state}
                   message={message}
                   onChange={onChange}
@@ -189,5 +199,3 @@ const OperationSettings = (): JSX.Element => {
     </Popover>
   );
 };
-
-export { OperationSettings };

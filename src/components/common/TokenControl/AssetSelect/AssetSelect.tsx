@@ -1,4 +1,3 @@
-import { AssetInfo } from '@ergolabs/ergo-sdk';
 import { Button, DownOutlined, Flex, Form, Modal } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React from 'react';
@@ -7,6 +6,7 @@ import styled from 'styled-components';
 
 import { panalytics } from '../../../../common/analytics';
 import { PAnalytics } from '../../../../common/analytics/@types/types';
+import { AssetInfo } from '../../../../common/models/AssetInfo';
 import { AssetTitle } from '../../../AssetTitle/AssetTitle';
 import { AssetListModal } from './AssetListModal/AssetListModal';
 
@@ -15,6 +15,7 @@ interface TokenSelectProps {
   readonly onChange?: (value: AssetInfo) => void;
   readonly assets$?: Observable<AssetInfo[]>;
   readonly assetsToImport$?: Observable<AssetInfo[]>;
+  readonly importedAssets$?: Observable<AssetInfo[]>;
   readonly disabled?: boolean;
   readonly readonly?: boolean;
   readonly analytics?: PAnalytics;
@@ -36,6 +37,7 @@ const AssetSelect: React.FC<TokenSelectProps> = ({
   readonly,
   assets$,
   assetsToImport$,
+  importedAssets$,
   analytics,
 }) => {
   const handleSelectChange = (newValue: AssetInfo): void => {
@@ -45,7 +47,7 @@ const AssetSelect: React.FC<TokenSelectProps> = ({
     if (analytics && analytics.operation && analytics.tokenAssignment) {
       panalytics.selectToken(analytics.operation, analytics.tokenAssignment, {
         tokenId: newValue.id,
-        tokenName: newValue.name,
+        tokenName: newValue.ticker,
       });
     }
   };
@@ -58,7 +60,9 @@ const AssetSelect: React.FC<TokenSelectProps> = ({
       <AssetListModal
         assetsToImport$={assetsToImport$}
         assets$={assets$}
+        importedAssets$={importedAssets$}
         close={close}
+        value={value}
         onSelectChanged={handleSelectChange}
       />
     ));

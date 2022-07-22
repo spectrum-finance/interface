@@ -159,9 +159,9 @@ export abstract class AmmPool {
 
     return (
       this.id?.toLowerCase().includes(normalizedTerm) ||
-      this.x.asset.name?.toLowerCase().includes(normalizedTerm) ||
-      this.y.asset.name?.toLowerCase().includes(normalizedTerm) ||
-      `${this.x.asset.name?.toLowerCase()}${this.y.asset.name?.toLowerCase()}`.includes(
+      this.x.asset.ticker?.toLowerCase().includes(normalizedTerm) ||
+      this.y.asset.ticker?.toLowerCase().includes(normalizedTerm) ||
+      `${this.x.asset.ticker?.toLowerCase()}${this.y.asset.ticker?.toLowerCase()}`.includes(
         normalizedTerm,
       )
     );

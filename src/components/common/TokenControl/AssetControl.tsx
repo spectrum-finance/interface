@@ -62,6 +62,7 @@ export interface AssetControlFormItemProps {
   readonly hasBorder?: boolean;
   readonly assets$?: Observable<AssetInfo[]>;
   readonly assetsToImport$?: Observable<AssetInfo[]>;
+  readonly importedAssets$?: Observable<AssetInfo[]>;
   readonly disabled?: boolean;
   readonly readonly?: boolean | 'asset' | 'amount';
   readonly noBottomInfo?: boolean;
@@ -76,6 +77,7 @@ export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
   maxButton,
   assets$,
   assetsToImport$,
+  importedAssets$,
   disabled,
   readonly,
   handleMaxButtonClick,
@@ -167,6 +169,7 @@ export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
                   <AssetSelect
                     assets$={assets$}
                     assetsToImport$={assetsToImport$}
+                    importedAssets$={importedAssets$}
                     readonly={isAssetReadOnly()}
                     value={value}
                     onChange={onChange}
