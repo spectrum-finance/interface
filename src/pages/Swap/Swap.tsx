@@ -46,9 +46,11 @@ import { Page } from '../../components/Page/Page';
 import { getAmmPoolsByAssetPair } from '../../gateway/api/ammPools';
 import { useAssetsBalance } from '../../gateway/api/assetBalance';
 import {
-  getAvailableAssetFor,
+  defaultTokenAssets$,
   getAvailableAssetToImportFor,
-  tokenAssets$,
+  getAvailableDefaultAssetsFor,
+  getAvailableImportedAssetsFor,
+  importedTokenAssets$,
   tokenAssetsToImport$,
 } from '../../gateway/api/assets';
 import { useNetworkAsset } from '../../gateway/api/networkAsset';
@@ -63,10 +65,13 @@ import { SwapInfo } from './SwapInfo/SwapInfo';
 import { SwitchButton } from './SwitchButton/SwitchButton';
 
 const getToAssets = (fromAsset?: string) =>
-  fromAsset ? getAvailableAssetFor(fromAsset) : tokenAssets$;
+  fromAsset ? getAvailableDefaultAssetsFor(fromAsset) : defaultTokenAssets$;
 
 const getToAssetsToImport = (fromAsset?: string) =>
   fromAsset ? getAvailableAssetToImportFor(fromAsset) : tokenAssetsToImport$;
+
+const getToImportedAssets = (fromAsset?: string) =>
+  fromAsset ? getAvailableImportedAssetsFor(fromAsset) : importedTokenAssets$;
 
 const isAssetsPairEquals = (
   [prevFrom, prevTo]: [AssetInfo | undefined, AssetInfo | undefined],
@@ -106,6 +111,10 @@ export const Swap = (): JSX.Element => {
     () => updateToAssets$.pipe(switchMap(getToAssetsToImport)),
     [],
   );
+  const toImportedAssets$ = useMemo(
+    () => updateToAssets$.pipe(switchMap(getToImportedAssets)),
+    [],
+  );
 
   useEffect(() => form.patchValue({ fromAsset: networkAsset }), [networkAsset]);
 
@@ -117,7 +126,7 @@ export const Swap = (): JSX.Element => {
       : totalFees;
 
     return totalFeesWithAmount.gt(balance.get(networkAsset))
-      ? networkAsset.name
+      ? networkAsset.ticker
       : undefined;
   };
 
@@ -126,7 +135,7 @@ export const Swap = (): JSX.Element => {
     fromAmount,
   }: SwapFormModel) => {
     if (fromAsset && fromAmount && fromAmount.gt(balance.get(fromAsset))) {
-      return fromAsset.name;
+      return fromAsset.ticker;
     }
     return undefined;
   };
@@ -383,8 +392,9 @@ export const Swap = (): JSX.Element => {
               bordered
               maxButton
               handleMaxButtonClick={handleMaxButtonClick}
-              assets$={tokenAssets$}
+              assets$={defaultTokenAssets$}
               assetsToImport$={tokenAssetsToImport$}
+              importedAssets$={importedTokenAssets$}
               label={t`From`}
               amountName="fromAmount"
               tokenName="fromAsset"
@@ -405,6 +415,7 @@ export const Swap = (): JSX.Element => {
               bordered
               assets$={toAssets$}
               assetsToImport$={toAssetsToImport$}
+              importedAssets$={toImportedAssets$}
               label={t`To`}
               amountName="toAmount"
               tokenName="toAsset"

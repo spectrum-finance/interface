@@ -24,7 +24,9 @@ interface TokenListModalProps {
   readonly close: () => void;
   readonly onSelectChanged?: (name: AssetInfo) => void | undefined;
   readonly assets$?: Observable<AssetInfo[]>;
+  readonly value?: AssetInfo;
   readonly assetsToImport$?: Observable<AssetInfo[]>;
+  readonly importedAssets$?: Observable<AssetInfo[]>;
 }
 
 const StyledArrowLeftOutlined = styled(ArrowLeftOutlined)`
@@ -36,6 +38,8 @@ const AssetListModal: React.FC<TokenListModalProps> = ({
   onSelectChanged,
   assets$,
   assetsToImport$,
+  importedAssets$,
+  value,
 }) => {
   const [assetListModalState, setAssetListModalState] =
     useState<AssetListModalState>(AssetListModalState.SELECT_TOKEN);
@@ -89,8 +93,10 @@ const AssetListModal: React.FC<TokenListModalProps> = ({
       <Modal.Content width={valBySize<CSSProperties['width']>('100%', 500)}>
         {assetListModalState === AssetListModalState.SELECT_TOKEN && (
           <AssetListSelectTokenState
+            value={value}
             assetsToImport$={assetsToImport$}
             assets$={assets$}
+            importedAssets$={importedAssets$}
             onAssetImport={handleAssetImport}
             onAssetSelect={handleAssetSelect}
           />

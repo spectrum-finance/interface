@@ -52,7 +52,7 @@ export const SwapInfoContent: FC<SwapInfoContentProps> = ({ value }) => {
             swapInfo?.minOutput ? (
               <>
                 {swapInfo.minOutput?.toString()}{' '}
-                <Truncate>{swapInfo.minOutput?.asset.name}</Truncate>
+                <Truncate>{swapInfo.minOutput?.asset.ticker}</Truncate>
               </>
             ) : (
               '–'
@@ -67,7 +67,7 @@ export const SwapInfoContent: FC<SwapInfoContentProps> = ({ value }) => {
             swapInfo?.maxOutput ? (
               <>
                 {swapInfo.maxOutput?.toString()}{' '}
-                <Truncate>{swapInfo.maxOutput?.asset.name}</Truncate>
+                <Truncate>{swapInfo.maxOutput?.asset.ticker}</Truncate>
               </>
             ) : (
               '–'
