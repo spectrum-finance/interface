@@ -19,6 +19,7 @@ import { AssetListExtendedSearchTitle } from './AssetListExtendedSearchTitle/Ass
 import { AssetListItem } from './AssetListItem/AssetListItem';
 
 export interface AssetListSelectTokenStateProps {
+  readonly value?: AssetInfo;
   readonly assets$?: Observable<AssetInfo[]>;
   readonly assetsToImport$?: Observable<AssetInfo[]>;
   readonly onAssetSelect: (ai: AssetInfo) => void;
@@ -30,6 +31,7 @@ export const AssetListSelectTokenState: FC<AssetListSelectTokenStateProps> = ({
   assets$,
   onAssetSelect,
   onAssetImport,
+  value,
 }) => {
   const [searchByTerm, setTerm, term] = useSearch<AssetInfo>(['name']);
   const [assets, loading] = useObservable(assets$ ?? of([]));
@@ -39,7 +41,9 @@ export const AssetListSelectTokenState: FC<AssetListSelectTokenStateProps> = ({
     setTerm(e.target.value);
 
   const items =
-    !term || !tokenAssetsToImport?.length
+    !term ||
+    !tokenAssetsToImport?.length ||
+    (!!term && !searchByTerm(tokenAssetsToImport)?.length)
       ? searchByTerm(assets)
       : {
           default: { items: searchByTerm(assets) },
@@ -79,6 +83,7 @@ export const AssetListSelectTokenState: FC<AssetListSelectTokenStateProps> = ({
           ) : (
             <AssetListItem
               height={height}
+              active={value?.id === item.id}
               asset={item}
               onClick={() => onAssetSelect(item)}
             />
