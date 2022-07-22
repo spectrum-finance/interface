@@ -26,6 +26,7 @@ interface TokenListModalProps {
   readonly assets$?: Observable<AssetInfo[]>;
   readonly value?: AssetInfo;
   readonly assetsToImport$?: Observable<AssetInfo[]>;
+  readonly importedAssets$?: Observable<AssetInfo[]>;
 }
 
 const StyledArrowLeftOutlined = styled(ArrowLeftOutlined)`
@@ -37,6 +38,7 @@ const AssetListModal: React.FC<TokenListModalProps> = ({
   onSelectChanged,
   assets$,
   assetsToImport$,
+  importedAssets$,
   value,
 }) => {
   const [assetListModalState, setAssetListModalState] =
@@ -94,6 +96,7 @@ const AssetListModal: React.FC<TokenListModalProps> = ({
             value={value}
             assetsToImport$={assetsToImport$}
             assets$={assets$}
+            importedAssets$={importedAssets$}
             onAssetImport={handleAssetImport}
             onAssetSelect={handleAssetSelect}
           />

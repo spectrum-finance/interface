@@ -6,6 +6,7 @@ import {
   Observable,
   publishReplay,
   refCount,
+  switchMap,
 } from 'rxjs';
 
 import { AmmPool } from '../../../../common/models/AmmPool';
@@ -18,6 +19,17 @@ import { rawAmmPoolsWithLiquidity$ } from './rawAmmPools';
 const rawAssetsWithLiquidity$ = rawAmmPoolsWithLiquidity$.pipe(
   map((pools) => pools.flatMap((p) => [p.x.asset, p.y.asset])),
   map((assets) => uniqBy(assets, 'id')),
+  switchMap((assets) =>
+    defaultTokenList$.pipe(
+      map((defaultTokenList) =>
+        assets.filter(
+          (asset) =>
+            !defaultTokenList.tokensMap.has(asset.id) &&
+            asset.id !== networkAsset.id,
+        ),
+      ),
+    ),
+  ),
   publishReplay(1),
   refCount(),
 );
@@ -91,20 +103,14 @@ export const filterAvailablePools = (
     ),
   );
 
-export const filterUnavailableTokenAssets = (
+export const filterUnavailableAndImportedTokenAssets = (
   assets: AssetInfo[],
 ): Observable<AssetInfo[]> =>
-  combineLatest([
-    defaultTokenList$,
-    importedTokenAssets$,
-    rawAssetsWithLiquidity$,
-  ]).pipe(
-    map(([defaultTokenList, importedTokens, rawAssetsWithLiquidity]) =>
+  combineLatest([defaultTokenList$]).pipe(
+    map(([defaultTokenList]) =>
       assets.filter(
         (ai) =>
-          importedTokens.includes(ai.id) ||
-          defaultTokenList.tokensMap.has(ai.id) ||
-          rawAssetsWithLiquidity.some((a) => a.id === ai.id),
+          defaultTokenList.tokensMap.has(ai.id) || networkAsset.id === ai.id,
       ),
     ),
   );
@@ -116,8 +122,9 @@ export const filterUnavailableAndDefaultTokenAssets = (
     map(([importedTokens, rawAssetsWithLiquidity]) =>
       assets.filter(
         (ai) =>
-          importedTokens.includes(ai.id) ||
-          rawAssetsWithLiquidity.some((a) => a.id === ai.id),
+          (importedTokens.includes(ai.id) ||
+            rawAssetsWithLiquidity.some((a) => a.id === ai.id)) &&
+          ai.id !== networkAsset.id,
       ),
     ),
   );

@@ -4,7 +4,7 @@ import { map, of, publishReplay, refCount } from 'rxjs';
 
 import { ammPools$ } from '../ammPools/ammPools';
 
-export const availableTokenAssets$ = ammPools$.pipe(
+export const defaultTokenAssets$ = ammPools$.pipe(
   map((pools) => pools.flatMap((p) => [p.x.asset, p.y.asset])),
   map((assets) => uniqBy(assets, 'id')),
   publishReplay(1),

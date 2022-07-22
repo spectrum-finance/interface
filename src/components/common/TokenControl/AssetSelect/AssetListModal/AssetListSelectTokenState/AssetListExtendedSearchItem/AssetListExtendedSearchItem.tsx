@@ -23,7 +23,7 @@ const _AssetListExtendedSearchItem: React.FC<AssetListExtendedSearchItemProps> =
       padding={[0, 4]}
       bordered={false}
     >
-      <Flex align="center" width="100%">
+      <Flex align="center" width="100%" stretch>
         <Flex.Item marginRight={2} align="center">
           <AssetIcon asset={asset} size="large" />
         </Flex.Item>

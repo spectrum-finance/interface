@@ -8,7 +8,6 @@ import {
   publishReplay,
   refCount,
   switchMap,
-  tap,
   zip,
 } from 'rxjs';
 
@@ -16,8 +15,8 @@ import { AssetInfo } from '../../common/models/AssetInfo';
 import { selectedNetwork$ } from '../common/network';
 import { ammPools$, possibleAmmPools$ } from './ammPools';
 
-export const tokenAssets$ = combineLatest([
-  selectedNetwork$.pipe(switchMap((n) => n.availableTokenAssets$)),
+export const defaultTokenAssets$ = combineLatest([
+  selectedNetwork$.pipe(switchMap((n) => n.defaultTokenAssets$)),
   ammPools$,
 ]).pipe(
   debounceTime(100),
@@ -62,7 +61,7 @@ export const importTokenAsset = (assets: AssetInfo | AssetInfo[]): void => {
   selectedNetwork$.pipe(first()).subscribe((n) => n.importTokenAsset(assets));
 };
 
-export const getAvailableAssetFor = (
+export const getAvailableDefaultAssetsFor = (
   assetId: string,
 ): Observable<AssetInfo[]> =>
   ammPools$.pipe(
@@ -78,6 +77,44 @@ export const getAvailableAssetFor = (
         .filter<AssetInfo>(Boolean as any),
     ),
     map((assets) => uniqBy(assets, 'id')),
+    switchMap((assets) =>
+      defaultTokenAssets$.pipe(
+        map((defaultTokenAssets) =>
+          assets.filter((asset) =>
+            defaultTokenAssets.some((dta) => dta.id === asset.id),
+          ),
+        ),
+      ),
+    ),
+    publishReplay(1),
+    refCount(),
+  );
+
+export const getAvailableImportedAssetsFor = (
+  assetId: string,
+): Observable<AssetInfo[]> =>
+  ammPools$.pipe(
+    map((pools) =>
+      pools.filter((p) => p.x.asset.id === assetId || p.y.asset.id === assetId),
+    ),
+    map((pools) =>
+      pools
+        .flatMap((p) => [
+          p.x.asset.id !== assetId ? p.x.asset : undefined,
+          p.y.asset.id !== assetId ? p.y.asset : undefined,
+        ])
+        .filter<AssetInfo>(Boolean as any),
+    ),
+    map((assets) => uniqBy(assets, 'id')),
+    switchMap((assets) =>
+      defaultTokenAssets$.pipe(
+        map((defaultTokenAssets) =>
+          assets.filter(
+            (asset) => !defaultTokenAssets.some((dta) => dta.id === asset.id),
+          ),
+        ),
+      ),
+    ),
     publishReplay(1),
     refCount(),
   );
@@ -103,7 +140,7 @@ export const getAvailableAssetToImportFor = (
   );
 
 export const hasAvailablePoolsWith = (ai: AssetInfo): Observable<boolean> =>
-  zip([tokenAssets$, possibleAmmPools$]).pipe(
+  zip([defaultTokenAssets$, possibleAmmPools$]).pipe(
     first(),
     map(([tokenAssets, ammPools]) =>
       ammPools.some(

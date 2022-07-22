@@ -15,6 +15,7 @@ interface TokenSelectProps {
   readonly onChange?: (value: AssetInfo) => void;
   readonly assets$?: Observable<AssetInfo[]>;
   readonly assetsToImport$?: Observable<AssetInfo[]>;
+  readonly importedAssets$?: Observable<AssetInfo[]>;
   readonly disabled?: boolean;
   readonly readonly?: boolean;
   readonly analytics?: PAnalytics;
@@ -36,6 +37,7 @@ const AssetSelect: React.FC<TokenSelectProps> = ({
   readonly,
   assets$,
   assetsToImport$,
+  importedAssets$,
   analytics,
 }) => {
   const handleSelectChange = (newValue: AssetInfo): void => {
@@ -58,6 +60,7 @@ const AssetSelect: React.FC<TokenSelectProps> = ({
       <AssetListModal
         assetsToImport$={assetsToImport$}
         assets$={assets$}
+        importedAssets$={importedAssets$}
         close={close}
         value={value}
         onSelectChanged={handleSelectChange}
