@@ -36,7 +36,7 @@ export const ConvenientAssetView: FC<ConvenientAssetViewProps> = ({
       ) : value && usdValue?.toString() !== '0' ? (
         `${prefix || '~'}${usdValue?.toCurrencyString()}`
       ) : selectedNetwork.convenientAssetDefaultPreview ? (
-        `${prefix || '~'}${selectedNetwork.convenientAssetDefaultPreview}`
+        `${selectedNetwork.convenientAssetDefaultPreview}`
       ) : (
         '-'
       )}
