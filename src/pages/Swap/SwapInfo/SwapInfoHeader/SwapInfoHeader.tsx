@@ -10,15 +10,23 @@ export interface SwapInfoHeaderProps {
   readonly value: SwapFormModel;
   readonly collapsed?: boolean;
   readonly className?: string;
+  isReversed: boolean;
+  setReversed: (reversed: boolean) => void;
 }
 
 const _SwapInfoHeader: FC<SwapInfoHeaderProps> = ({
   value,
   collapsed,
   className,
+  isReversed,
+  setReversed,
 }) => (
   <Flex justify="space-between" align="center" className={className}>
-    <RatioView value={value} />
+    <RatioView
+      value={value}
+      isReversed={isReversed}
+      setReversed={setReversed}
+    />
     <Flex align="center">
       {!collapsed && (
         <Flex.Item marginRight={4}>

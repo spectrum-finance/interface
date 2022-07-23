@@ -99,6 +99,7 @@ export const Swap = (): JSX.Element => {
   const [balance] = useAssetsBalance();
   const totalFees = useSwapValidationFee();
   const [OperationSettings] = useObservable(operationsSettings$);
+  const [reversedRatio, setReversedRatio] = useState(false);
   const updateToAssets$ = useMemo(
     () => new BehaviorSubject<string | undefined>(undefined),
     [],
@@ -348,7 +349,9 @@ export const Swap = (): JSX.Element => {
   };
 
   const [pool] = useObservable(form.controls.pool.valueChangesWithSilent$);
-
+  const [fromAsset] = useObservable(
+    form.controls.fromAsset.valueChangesWithSilent$,
+  );
   return (
     <ActionForm
       form={form}
@@ -365,7 +368,14 @@ export const Swap = (): JSX.Element => {
       <Page
         width={valBySize<CSSProperties['width']>('100%', 504)}
         leftWidget={
-          selectedNetwork.name === 'ergo' && <SwapGraph pool={pool} />
+          selectedNetwork.name === 'ergo' && (
+            <SwapGraph
+              pool={pool}
+              isReversed={reversedRatio}
+              setReversed={setReversedRatio}
+              fromAsset={fromAsset}
+            />
+          )
         }
         widgetOpened={leftWidgetOpened}
         onWidgetClose={() => setLeftWidgetOpened(false)}
@@ -436,7 +446,11 @@ export const Swap = (): JSX.Element => {
           <Form.Listener>
             {({ value }) => (
               <Flex.Item marginTop={!!value.pool ? 4 : 0}>
-                <SwapInfo value={value} />
+                <SwapInfo
+                  value={value}
+                  isReversed={reversedRatio}
+                  setReversed={setReversedRatio}
+                />
               </Flex.Item>
             )}
           </Form.Listener>
