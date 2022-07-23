@@ -1,10 +1,13 @@
 import { BoxId, ErgoTx } from '@ergolabs/ergo-sdk';
-import { filter, first, Observable, of, switchMap, tap } from 'rxjs';
+import { first, Observable, of } from 'rxjs';
 
-import { TxId, uint } from '../../../../../common/types';
+import {
+  TxSuccess,
+  TxSuccessStatus,
+} from '../../../../../common/services/submitTx';
+import { uint } from '../../../../../common/types';
 import { localStorageManager } from '../../../../../common/utils/localStorageManager';
 import { networkContext$ } from '../../networkContext/networkContext';
-import { selectedWallet$ } from '../../wallet/wallet';
 
 const TX_QUEUE_KEY = 'ergo-tx-queue';
 
@@ -24,13 +27,15 @@ const hasTxInProgress = (tx: ErgoTx): boolean => {
     );
 };
 
-const addTxToQueue = (tx: ErgoTx): void => {
+const addTxToQueue = (tx: ErgoTx): Observable<TxSuccess> => {
   const newTxsQueue = localStorageManager.get<ErgoTx[]>(TX_QUEUE_KEY) || [];
 
   localStorageManager.set<ErgoTx[]>(TX_QUEUE_KEY, newTxsQueue.concat(tx));
+
+  return of({ txId: '', status: TxSuccessStatus.IN_QUEUE });
 };
 
-const addTxToProgress = (tx: ErgoTx): void => {
+const addTxToProgress = (tx: ErgoTx): Observable<TxSuccess> => {
   networkContext$.pipe(first()).subscribe((ctx) => {
     const newTxsInProgress =
       localStorageManager.get<TxInProgress[]>(TX_IN_PROGRESS_KEY) || [];
@@ -44,17 +49,19 @@ const addTxToProgress = (tx: ErgoTx): void => {
       }),
     );
   });
+
+  return of({ txId: '', status: TxSuccessStatus.IN_PROGRESS });
 };
 
-export const submitTx = (tx: ErgoTx): Observable<TxId> => {
+export const submitTx = (tx: ErgoTx): Observable<TxSuccess> => {
   if (hasTxInProgress(tx)) {
-    addTxToQueue(tx);
-    return of('');
+    return addTxToQueue(tx);
   }
+  return addTxToProgress(tx);
 
-  return selectedWallet$.pipe(
-    filter(Boolean),
-    first(),
-    switchMap((w) => w.submitTx(tx)),
-  );
+  // return selectedWallet$.pipe(
+  //   filter(Boolean),
+  //   first(),
+  //   switchMap((w) => w.submitTx(tx)),
+  // );
 };

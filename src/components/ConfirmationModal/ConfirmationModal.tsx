@@ -1,4 +1,3 @@
-import { TxId } from '@ergolabs/ergo-sdk';
 import { Flex, Modal, ModalRef, Typography } from '@ergolabs/ui-kit';
 import { RequestProps } from '@ergolabs/ui-kit/dist/components/Modal/presets/Request';
 import { t, Trans } from '@lingui/macro';
@@ -11,6 +10,7 @@ import { ReactComponent as TelegramIcon } from '../../assets/icons/social/Telegr
 import { panalytics } from '../../common/analytics';
 import { AssetLock } from '../../common/models/AssetLock';
 import { Currency } from '../../common/models/Currency';
+import { TxSuccess, TxSuccessStatus } from '../../common/services/submitTx';
 import { exploreTx } from '../../gateway/utils/exploreAddress';
 import { getLockingPeriodString } from '../../pages/Liquidity/utils';
 
@@ -120,18 +120,22 @@ const ErrorModalContent = (
   </Flex>
 );
 
-const SuccessModalContent = (txId: TxId) => (
+const SuccessModalContent = ({ txId, status }: TxSuccess) => (
   <Flex col align="center">
-    <Flex.Item marginBottom={1}>
-      <Typography.Title level={4}>
+    <Typography.Title level={4}>
+      {status === TxSuccessStatus.IN_PROGRESS ? (
         <Trans>Transaction submitted</Trans>
-      </Typography.Title>
-    </Flex.Item>
-    <Flex.Item marginBottom={1}>
-      <Typography.Link onClick={() => exploreTx(txId)}>
-        <Trans>View on Explorer</Trans>
-      </Typography.Link>
-    </Flex.Item>
+      ) : (
+        <Trans>Transaction added in queue</Trans>
+      )}
+    </Typography.Title>
+    {status === TxSuccessStatus.IN_PROGRESS && (
+      <Flex.Item marginBottom={1} marginTop={1}>
+        <Typography.Link onClick={() => exploreTx(txId)}>
+          <Trans>View on Explorer</Trans>
+        </Typography.Link>
+      </Flex.Item>
+    )}
   </Flex>
 );
 
@@ -196,6 +200,6 @@ export const openConfirmationModal = (
     timeoutContent: YoroiIssueModalContent(),
     errorContent: ErrorModalContent(operation, payload),
     progressContent: ProgressModalContent(operation, payload),
-    successContent: (txId) => SuccessModalContent(txId),
+    successContent: (txSuccess: TxSuccess) => SuccessModalContent(txSuccess),
   });
 };

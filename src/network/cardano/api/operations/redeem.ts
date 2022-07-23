@@ -14,7 +14,7 @@ import { first, map, Observable, switchMap, zip } from 'rxjs';
 
 import { UI_FEE_BIGINT } from '../../../../common/constants/erg';
 import { Currency } from '../../../../common/models/Currency';
-import { TxId } from '../../../../common/types';
+import { TxSuccess } from '../../../../common/services/submitTx';
 import { CardanoSettings, settings$ } from '../../settings/settings';
 import { CardanoAmmPool } from '../ammPools/CardanoAmmPool';
 import { cardanoNetworkParams$ } from '../common/cardanoNetwork';
@@ -94,7 +94,10 @@ const toRedeemTxCandidate = ({
   );
 };
 
-export const redeem = (pool: CardanoAmmPool, lq: Currency): Observable<TxId> =>
+export const redeem = (
+  pool: CardanoAmmPool,
+  lq: Currency,
+): Observable<TxSuccess> =>
   zip([cardanoNetworkParams$, settings$]).pipe(
     first(),
     switchMap(([networkParams, settings]) =>

@@ -5,7 +5,7 @@ import { Observable, tap } from 'rxjs';
 
 import { panalytics } from '../../../common/analytics';
 import { useObservable } from '../../../common/hooks/useObservable';
-import { TxId } from '../../../common/types';
+import { TxSuccess } from '../../../common/services/submitTx';
 import { AssetControlFormItem } from '../../../components/common/TokenControl/AssetControl';
 import { swap } from '../../../gateway/api/operations/swap';
 import { swapConfirmationInfo$ } from '../../../gateway/widgets/swapConfirmationInfo';
@@ -13,7 +13,7 @@ import { SwapFormModel } from '../SwapFormModel';
 
 export interface SwapConfirmationModalProps {
   value: Required<SwapFormModel>;
-  onClose: (p: Observable<TxId>) => void;
+  onClose: (p: Observable<TxSuccess>) => void;
 }
 
 export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
@@ -29,8 +29,8 @@ export const SwapConfirmationModal: FC<SwapConfirmationModalProps> = ({
       onClose(
         swap(value.pool, value.fromAmount, value.toAmount).pipe(
           tap(
-            (txId) => {
-              panalytics.signedSwap(value, txId);
+            (txSuccess) => {
+              panalytics.signedSwap(value, txSuccess.txId);
             },
             (err) => {
               panalytics.signedErrorSwap(value, err);

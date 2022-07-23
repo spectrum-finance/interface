@@ -1,6 +1,6 @@
 import { Observable, of } from 'rxjs';
 
-import { TxId } from '../../common/types';
+import { TxSuccess, TxSuccessStatus } from '../../common/services/submitTx';
 import { Network } from '../common/Network';
 import { convertToConvenientNetworkAsset } from './api/adaRatio/adaRatio';
 import {
@@ -111,8 +111,8 @@ export const cardanoNetwork: Network<
   swap,
   deposit,
   redeem,
-  refund(): Observable<TxId> {
-    return of('');
+  refund(): Observable<TxSuccess> {
+    return of({ txId: '', status: TxSuccessStatus.IN_PROGRESS });
   },
   convertToConvenientNetworkAsset,
   useSwapValidationFee,

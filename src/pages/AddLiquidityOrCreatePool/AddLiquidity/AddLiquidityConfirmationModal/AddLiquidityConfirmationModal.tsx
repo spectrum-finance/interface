@@ -5,7 +5,7 @@ import { Observable, tap } from 'rxjs';
 
 import { panalytics } from '../../../../common/analytics';
 import { useObservable } from '../../../../common/hooks/useObservable';
-import { TxId } from '../../../../common/types';
+import { TxSuccess } from '../../../../common/services/submitTx';
 import { FormPairSection } from '../../../../components/common/FormView/FormPairSection/FormPairSection';
 import { PageSection } from '../../../../components/Page/PageSection/PageSection';
 import { Section } from '../../../../components/Section/Section';
@@ -16,7 +16,7 @@ import { AddLiquidityFormModel } from '../AddLiquidityFormModel';
 
 interface AddLiquidityConfirmationModalProps {
   value: Required<AddLiquidityFormModel>;
-  onClose: (r: Observable<TxId>) => void;
+  onClose: (r: Observable<TxSuccess>) => void;
 }
 
 const AddLiquidityConfirmationModal: FC<AddLiquidityConfirmationModalProps> = ({
@@ -36,7 +36,7 @@ const AddLiquidityConfirmationModal: FC<AddLiquidityConfirmationModalProps> = ({
           y.asset.id === pool.y.asset.id ? y : x,
         ).pipe(
           tap(
-            (txId) => panalytics.signedDeposit(value, txId),
+            (txSuccess) => panalytics.signedDeposit(value, txSuccess.txId),
             (err) => panalytics.signedErrorDeposit(value, err),
           ),
         ),

@@ -7,7 +7,7 @@ import { panalytics } from '../../../common/analytics';
 import { useObservable } from '../../../common/hooks/useObservable';
 import { AmmPool } from '../../../common/models/AmmPool';
 import { Currency } from '../../../common/models/Currency';
-import { TxId } from '../../../common/types';
+import { TxSuccess } from '../../../common/services/submitTx';
 import { FormPairSection } from '../../../components/common/FormView/FormPairSection/FormPairSection';
 import { PageSection } from '../../../components/Page/PageSection/PageSection';
 import { redeem } from '../../../gateway/api/operations/redeem';
@@ -15,7 +15,7 @@ import { redeemConfirmationInfo$ } from '../../../gateway/widgets/redeemConfirma
 
 // import { poolActions } from '../../../../services/poolActions';
 interface ConfirmRemoveModalProps {
-  onClose: (p: Observable<TxId>) => void;
+  onClose: (p: Observable<TxSuccess>) => void;
   pool: AmmPool;
   lpAmount: Currency;
   xAmount: Currency;
@@ -34,7 +34,8 @@ export const RemoveLiquidityConfirmationModal: React.FC<ConfirmRemoveModalProps>
         onClose(
           redeem(pool, lpAmount).pipe(
             tap(
-              (txId) => panalytics.signedRedeem(form, pool, txId),
+              (txSuccess) =>
+                panalytics.signedRedeem(form, pool, txSuccess.txId),
               (err) => panalytics.signedErrorRedeem(form, pool, err),
             ),
           ),

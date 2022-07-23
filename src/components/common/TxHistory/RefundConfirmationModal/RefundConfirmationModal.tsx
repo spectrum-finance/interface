@@ -15,7 +15,7 @@ import React, { useState } from 'react';
 import { Observable } from 'rxjs';
 
 import { useObservable } from '../../../../common/hooks/useObservable';
-import { TxId } from '../../../../common/types';
+import { TxSuccess } from '../../../../common/services/submitTx';
 import { refund } from '../../../../gateway/api/operations/refund';
 import { useSettings } from '../../../../gateway/settings/settings';
 import { refundConfirmationInfo$ } from '../../../../gateway/widgets/refundConfirmationInfo';
@@ -24,7 +24,7 @@ import { InfoTooltip } from '../../../InfoTooltip/InfoTooltip';
 import { Operation } from '../types';
 
 interface RefundConfirmationModalProps {
-  onClose: (p: Observable<TxId>) => void;
+  onClose: (p: Observable<TxSuccess>) => void;
   addresses: Address[];
   operation: Operation;
 }

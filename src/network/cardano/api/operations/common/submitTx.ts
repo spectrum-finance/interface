@@ -4,16 +4,19 @@ import {
   TxCandidate,
 } from '@ergolabs/cardano-dex-sdk';
 import { RustModule } from '@ergolabs/cardano-dex-sdk/build/main/utils/rustLoader';
-import { filter, first, from, Observable, of, switchMap, zip } from 'rxjs';
+import { filter, first, from, map, Observable, of, switchMap, zip } from 'rxjs';
 
-import { TxId } from '../../../../../common/types';
+import {
+  TxSuccess,
+  TxSuccessStatus,
+} from '../../../../../common/services/submitTx';
 import {
   cardanoNetwork,
   cardanoNetworkParams$,
 } from '../../common/cardanoNetwork';
 import { connectedWalletChange$ } from '../../wallet/connectedWalletChange';
 
-export const submitTx = (txCandidate: TxCandidate): Observable<TxId> =>
+export const submitTx = (txCandidate: TxCandidate): Observable<TxSuccess> =>
   zip([
     of(cardanoNetwork),
     cardanoNetworkParams$,
@@ -28,6 +31,12 @@ export const submitTx = (txCandidate: TxCandidate): Observable<TxId> =>
           cardanoNetwork,
           RustModule.CardanoWasm,
         ).complete(txCandidate),
-      ).pipe(switchMap((rawTx) => wallet.submit(rawTx))),
+      ).pipe(
+        switchMap((rawTx) => wallet.submit(rawTx)),
+        map((txId) => ({
+          txId,
+          status: TxSuccessStatus.IN_PROGRESS,
+        })),
+      ),
     ),
   );

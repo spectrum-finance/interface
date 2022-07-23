@@ -5,7 +5,7 @@ import { first, from, Observable, switchMap, zip } from 'rxjs';
 
 import { UI_FEE_BIGINT } from '../../../../common/constants/erg';
 import { Currency } from '../../../../common/models/Currency';
-import { TxId } from '../../../../common/types';
+import { TxSuccess } from '../../../../common/services/submitTx';
 import { minExFee$ } from '../../settings/executionFee';
 import { minerFee$ } from '../../settings/minerFee';
 import { ErgoSettings, settings$ } from '../../settings/settings';
@@ -71,7 +71,10 @@ const toRedeemOperationArgs = ({
   return [redeemParams, txContext];
 };
 
-export const redeem = (pool: ErgoAmmPool, lp: Currency): Observable<TxId> =>
+export const redeem = (
+  pool: ErgoAmmPool,
+  lp: Currency,
+): Observable<TxSuccess> =>
   zip([settings$, utxos$, minerFee$, minExFee$, networkContext$]).pipe(
     first(),
     switchMap(([settings, utxos, minerFee, minExFee, networkContext]) => {

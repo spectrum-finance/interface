@@ -16,7 +16,7 @@ import { useSubscription } from '../../../common/hooks/useObservable';
 import { AmmPool } from '../../../common/models/AmmPool';
 import { AssetInfo } from '../../../common/models/AssetInfo';
 import { Currency } from '../../../common/models/Currency';
-import { TxId } from '../../../common/types';
+import { TxSuccess } from '../../../common/services/submitTx';
 import { AssetControlFormItem } from '../../../components/common/TokenControl/AssetControl';
 import {
   openConfirmationModal,
@@ -240,7 +240,7 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
         return (
           <AddLiquidityConfirmationModal
             value={value as Required<AddLiquidityFormModel>}
-            onClose={(request: Observable<TxId>) =>
+            onClose={(request: Observable<TxSuccess>) =>
               next(
                 request.pipe(
                   tap((tx) => {

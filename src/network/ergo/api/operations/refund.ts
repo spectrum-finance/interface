@@ -3,7 +3,7 @@ import { DefaultBoxSelector, InsufficientInputs } from '@ergolabs/ergo-sdk';
 import { NetworkContext } from '@ergolabs/ergo-sdk/build/main/entities/networkContext';
 import { first, from, Observable, switchMap, zip } from 'rxjs';
 
-import { TxId } from '../../../../common/types';
+import { TxSuccess } from '../../../../common/services/submitTx';
 import { ammOrderRefunds } from '../../../../services/amm';
 import { minerFee$ } from '../../settings/minerFee';
 import { settings$ } from '../../settings/settings';
@@ -12,7 +12,7 @@ import { utxos$ } from '../utxos/utxos';
 import { getTxContext } from './common/getTxContext';
 import { submitTx } from './common/submitTx';
 
-export const refund = (address: string, txId: string): Observable<TxId> =>
+export const refund = (address: string, txId: string): Observable<TxSuccess> =>
   zip([utxos$, minerFee$, networkContext$, settings$]).pipe(
     first(),
     switchMap(([utxos, minerFee, networkContext, settings]) => {

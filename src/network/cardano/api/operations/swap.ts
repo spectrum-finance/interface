@@ -14,7 +14,8 @@ import { first, map, Observable, switchMap, zip } from 'rxjs';
 
 import { UI_FEE_BIGINT } from '../../../../common/constants/erg';
 import { Currency } from '../../../../common/models/Currency';
-import { Nitro, Percent, TxId } from '../../../../common/types';
+import { TxSuccess } from '../../../../common/services/submitTx';
+import { Nitro, Percent } from '../../../../common/types';
 import { nitro$ } from '../../../ergo/settings/nitro';
 import { slippage$ } from '../../../ergo/settings/slippage';
 import { CardanoSettings, settings$ } from '../../settings/settings';
@@ -109,7 +110,7 @@ export const swap = (
   pool: CardanoAmmPool,
   from: Currency,
   to: Currency,
-): Observable<TxId> =>
+): Observable<TxSuccess> =>
   zip([cardanoNetworkParams$, settings$, slippage$, nitro$]).pipe(
     first(),
     switchMap(([networkParams, settings, slippage, nitro]) =>

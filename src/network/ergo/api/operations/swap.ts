@@ -9,7 +9,7 @@ import { first, from as fromPromise, Observable, switchMap, zip } from 'rxjs';
 
 import { UI_FEE_BIGINT } from '../../../../common/constants/erg';
 import { Currency } from '../../../../common/models/Currency';
-import { TxId } from '../../../../common/types';
+import { TxSuccess } from '../../../../common/services/submitTx';
 import { getBaseInputParameters } from '../../../../utils/walletMath';
 import { minExFee$ } from '../../settings/executionFee';
 import { minerFee$ } from '../../settings/minerFee';
@@ -109,7 +109,7 @@ export const swap = (
   pool: ErgoAmmPool,
   from: Currency,
   to: Currency,
-): Observable<TxId> =>
+): Observable<TxSuccess> =>
   zip([settings$, utxos$, minerFee$, minExFee$, networkContext$, nitro$]).pipe(
     first(),
     switchMap(
