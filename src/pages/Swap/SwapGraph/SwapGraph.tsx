@@ -36,6 +36,8 @@ import { useTicks } from './useTicks';
 
 interface SwapGraphProps {
   pool?: AmmPool;
+  isInverted?: boolean;
+  setInverted?: (inv: boolean) => void;
 }
 
 interface AbsoluteContainerProps {
@@ -66,10 +68,13 @@ const AbsoluteContainer = styled(_AbsoluteContainer)`
   bottom: 0;
 `;
 
-export const SwapGraph: React.FC<SwapGraphProps> = ({ pool }) => {
+export const SwapGraph: React.FC<SwapGraphProps> = ({
+  pool,
+  isInverted = false,
+  setInverted,
+}) => {
   const [defaultActivePeriod, setDefaultActivePeriod] = useState<Period>('D');
   const { s, valBySize } = useDevice();
-  const [isInverted, setInverted] = useState(false);
   const { durationOffset, timeFormat, tick, resolution } =
     usePeriodSettings(defaultActivePeriod);
 
@@ -143,7 +148,7 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({ pool }) => {
                 />
               </Flex.Item>
               <Flex.Item marginRight={2}>
-                <Button size="small" onClick={() => setInverted(!isInverted)}>
+                <Button size="small" onClick={() => setInverted?.(!isInverted)}>
                   <Trans>Switch ratio</Trans>
                 </Button>
               </Flex.Item>
