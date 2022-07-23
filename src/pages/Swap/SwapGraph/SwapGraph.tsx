@@ -24,6 +24,7 @@ import styled from 'styled-components';
 
 import { useObservable } from '../../../common/hooks/useObservable';
 import { AmmPool } from '../../../common/models/AmmPool';
+import { AssetInfo } from '../../../common/models/AssetInfo';
 import { PoolChartData } from '../../../common/models/PoolChartData';
 import { AssetPairTitle } from '../../../components/AssetPairTitle/AssetPairTitle';
 import { DateTimeView } from '../../../components/common/DateTimeView/DateTimeView';
@@ -35,9 +36,10 @@ import { Period, usePeriodSettings } from './usePeriodSettings';
 import { useTicks } from './useTicks';
 
 interface SwapGraphProps {
+  fromAsset?: AssetInfo;
   pool?: AmmPool;
-  isInverted?: boolean;
-  setInverted?: (inv: boolean) => void;
+  isReversed?: boolean;
+  setReversed?: (inv: boolean) => void;
 }
 
 interface AbsoluteContainerProps {
@@ -70,8 +72,9 @@ const AbsoluteContainer = styled(_AbsoluteContainer)`
 
 export const SwapGraph: React.FC<SwapGraphProps> = ({
   pool,
-  isInverted = false,
-  setInverted,
+  isReversed = false,
+  setReversed,
+  fromAsset,
 }) => {
   const [defaultActivePeriod, setDefaultActivePeriod] = useState<Period>('D');
   const { s, valBySize } = useDevice();
@@ -88,6 +91,8 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({
     [pool?.id, defaultActivePeriod],
     [],
   );
+  const order = fromAsset !== pool?.x?.asset;
+  const isInverted = (order && !isReversed) || (!order && isReversed);
   const data = useAggregatedByDateData(rawData, ticks);
   // recharts couldn't animate when dataKey is changed
   const chartData = useMemo(() => [...data], [data, isInverted]);
@@ -148,7 +153,7 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({
                 />
               </Flex.Item>
               <Flex.Item marginRight={2}>
-                <Button size="small" onClick={() => setInverted?.(!isInverted)}>
+                <Button size="small" onClick={() => setReversed?.(!isReversed)}>
                   <Trans>Switch ratio</Trans>
                 </Button>
               </Flex.Item>
@@ -172,11 +177,11 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({
             <Flex.Item marginBottom={0.5} marginRight={2}>
               <Typography.Title level={valBySize(5, 4)}>
                 <Truncate>
-                  {active.getRatio(isInverted).baseAsset.ticker}
+                  {active.getRatio(isInverted).quoteAsset.ticker}
                 </Truncate>
                 {' / '}
                 <Truncate>
-                  {active.getRatio(isInverted).quoteAsset.ticker}
+                  {active.getRatio(isInverted).baseAsset.ticker}
                 </Truncate>
               </Typography.Title>
             </Flex.Item>

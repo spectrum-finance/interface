@@ -340,7 +340,9 @@ export const Swap = (): JSX.Element => {
   };
 
   const [pool] = useObservable(form.controls.pool.valueChangesWithSilent$);
-
+  const [fromAsset] = useObservable(
+    form.controls.fromAsset.valueChangesWithSilent$,
+  );
   return (
     <ActionForm
       form={form}
@@ -360,8 +362,9 @@ export const Swap = (): JSX.Element => {
           selectedNetwork.name === 'ergo' && (
             <SwapGraph
               pool={pool}
-              isInverted={reversedRatio}
-              setInverted={setReversedRatio}
+              isReversed={reversedRatio}
+              setReversed={setReversedRatio}
+              fromAsset={fromAsset}
             />
           )
         }
