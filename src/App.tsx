@@ -14,11 +14,9 @@ import { startAppTicks } from './common/streams/appTick';
 import { AppLoadingProvider, SettingsProvider } from './context';
 import { LanguageProvider } from './i18n/i18n';
 import { openCatalystF9Notification } from './services/notifications/CalalystF9/CalalystF9';
-import { openCookiePolicy } from './services/notifications/CookiePolicy/CookiePolicy';
 
 const Application = () => {
   useEffect(() => {
-    openCookiePolicy();
     setTimeout(() => openCatalystF9Notification(), 10_000);
   }, []);
 
