@@ -70,7 +70,7 @@ export const ergoNetwork: Network<
   name: 'ergo',
   label: 'ergo',
   favicon: '/favicon-ergo.svg',
-  convenientAssetDefaultPreview: '$0.00',
+  convenientAssetDefaultPreview: '<$0.01',
   networkAsset,
   initialized$,
   initialize,
