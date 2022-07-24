@@ -1,15 +1,7 @@
-import {
-  Button,
-  Flex,
-  Input,
-  Modal,
-  ModalRef,
-  ReloadOutlined,
-  SearchOutlined,
-} from '@ergolabs/ui-kit';
+import { Flex, Input, Modal, ModalRef, SearchOutlined } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
-import React, { FC, useState } from 'react';
-import { Observable, of } from 'rxjs';
+import React, { FC, ReactNode, useState } from 'react';
+import { Observable } from 'rxjs';
 import styled from 'styled-components';
 
 import { useObservable } from '../../common/hooks/useObservable';
@@ -24,19 +16,16 @@ export interface OperationHistoryModalProps extends ModalRef {
   readonly operationsSource:
     | Observable<Operation[]>
     | (() => Observable<Operation[]>);
-  readonly sync?: () => void;
-  readonly isSyncing$?: Observable<boolean>;
+  readonly content?: ReactNode | ReactNode[] | string;
   readonly showDateTime?: boolean;
 }
 
 export const OperationHistoryModal: FC<OperationHistoryModalProps> = ({
   close,
   operationsSource,
-  sync,
   showDateTime,
-  isSyncing$,
+  content,
 }) => {
-  const [isSyncing] = useObservable(isSyncing$ || of(false));
   const [operations, loading] = useObservable(
     operationsSource instanceof Function
       ? operationsSource()
@@ -63,16 +52,9 @@ export const OperationHistoryModal: FC<OperationHistoryModalProps> = ({
               prefix={<SearchOutlined />}
               placeholder={t`Search`}
             />
-            {sync && (
+            {content && (
               <Flex.Item marginLeft={1} flex={1} justify="flex-end">
-                <Button
-                  size="large"
-                  loading={isSyncing}
-                  onClick={() => sync()}
-                  icon={<ReloadOutlined />}
-                >
-                  {isSyncing ? t`Syncing...` : t`Sync`}
-                </Button>
+                {content}
               </Flex.Item>
             )}
           </Flex.Item>
