@@ -214,7 +214,7 @@ export class ProductAnalytics {
   public signedErrorSwap(swapFormModel: SwapFormModel, err: any): void {
     this.withNetwork((network) => {
       this.event(ANALYTICS_EVENTS.SWAP_SIGNED_ERROR, {
-        swap_signed_error: err,
+        error: err,
         ...convertSwapFormModelToAnalytics(swapFormModel, network),
       });
     });
@@ -260,7 +260,7 @@ export class ProductAnalytics {
   ): void {
     this.withNetwork((network) => {
       this.event(ANALYTICS_EVENTS.DEPOSIT_SIGNED_ERROR, {
-        deposit_signed_error: err,
+        error: err,
         ...convertDepositFormModelToAnalytics(depositFromModel, network),
       });
     });
@@ -326,7 +326,7 @@ export class ProductAnalytics {
   ): void {
     this.withNetwork((network) => {
       this.event(ANALYTICS_EVENTS.REDEEM_SIGNED_ERROR, {
-        redeem_signed_error: err,
+        error: err,
         ...convertRedeemFormModelToAnalytics(removeFromModel, pool, network),
       });
     });
