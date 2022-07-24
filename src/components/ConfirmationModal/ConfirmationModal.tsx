@@ -129,13 +129,17 @@ const SuccessModalContent = ({ txId, status }: TxSuccess) => (
         <Trans>Transaction added in queue</Trans>
       )}
     </Typography.Title>
-    {status === TxSuccessStatus.IN_PROGRESS && (
-      <Flex.Item marginBottom={1} marginTop={1}>
+    <Flex.Item marginBottom={1} marginTop={1}>
+      {status === TxSuccessStatus.IN_PROGRESS ? (
         <Typography.Link onClick={() => exploreTx(txId)}>
           <Trans>View on Explorer</Trans>
         </Typography.Link>
-      </Flex.Item>
-    )}
+      ) : (
+        <Typography.Link onClick={() => exploreTx(txId)}>
+          <Trans>Show transaction history</Trans>
+        </Typography.Link>
+      )}
+    </Flex.Item>
   </Flex>
 );
 
