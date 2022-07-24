@@ -1,15 +1,22 @@
 import { AmmDexOperation, AmmOrder } from '@ergolabs/ergo-dex-sdk';
-import { Swap } from '@ergolabs/ergo-dex-sdk/build/main/amm/models/ammOrderInfo';
+import {
+  Deposit,
+  Redeem,
+  Swap,
+} from '@ergolabs/ergo-dex-sdk/build/main/amm/models/ammOrderInfo';
 import { AmmOrderStatus } from '@ergolabs/ergo-dex-sdk/build/main/amm/models/operations';
 import { DateTime } from 'luxon';
+import { combineLatest, map, Observable, of } from 'rxjs';
 
 import { Currency } from '../../../../common/models/Currency';
 import {
   Operation,
   OperationStatus,
+  OtherOperation,
   SwapOperation,
 } from '../../../../common/models/Operation';
-import { getAssetNameByMappedId } from '../../../../utils/map';
+import { allAmmPools$ } from '../ammPools/ammPools';
+import { mapToAssetInfo } from '../common/assetInfoManager';
 
 const mapRawStatusToStatus = (rs: AmmOrderStatus): OperationStatus => {
   switch (rs) {
@@ -24,39 +31,85 @@ const mapRawStatusToStatus = (rs: AmmOrderStatus): OperationStatus => {
   }
 };
 
-const mapToSwapOperation = (ammDexOperation: AmmOrder): SwapOperation => {
-  const order: Swap = ammDexOperation.order as any;
+const mapToSwapOperation = (
+  ammDexOperation: AmmOrder,
+): Observable<SwapOperation> => {
+  const order: Swap = ammDexOperation.order as Swap;
 
-  return {
-    txId: ammDexOperation.txId,
-    type: 'swap',
-    status: mapRawStatusToStatus(ammDexOperation.status),
-    base: new Currency(0n, order.from.asset),
-    quote: new Currency(
-      0n,
-      order.to.name
-        ? order.to
-        : {
-            id: order.to.id,
-            name: getAssetNameByMappedId(order.to.id),
-          },
+  return combineLatest([
+    mapToAssetInfo(order.from.asset.id),
+    mapToAssetInfo(order.to.id),
+  ]).pipe(
+    map(([fromAsset, toAsset]) => ({
+      txId: ammDexOperation.txId,
+      type: 'swap',
+      status: mapRawStatusToStatus(ammDexOperation.status),
+      base: new Currency(order.from.amount, fromAsset),
+      quote: new Currency(0n, toAsset),
+      id: ammDexOperation.txId,
+      dateTime: DateTime.fromMillis(Number(ammDexOperation.timestamp)),
+    })),
+  );
+};
+
+const mapToRedeemOperation = (
+  ammDexOperation: AmmOrder,
+): Observable<OtherOperation> => {
+  const order: Redeem = ammDexOperation.order as Redeem;
+
+  return allAmmPools$.pipe(
+    map(
+      (ammPools) =>
+        ammPools.find((p) => p.lp.asset.id === order.inLP.asset.id)!,
     ),
-    id: ammDexOperation.txId,
-    dateTime: DateTime.fromMillis(Number(ammDexOperation.timestamp)),
-  };
+    map((pool) => ({
+      txId: ammDexOperation.txId,
+      type: 'redeem',
+      status: mapRawStatusToStatus(ammDexOperation.status),
+      x: new Currency(0n, pool.x.asset),
+      y: new Currency(0n, pool.y.asset),
+      id: ammDexOperation.txId,
+      dateTime: DateTime.fromMillis(Number(ammDexOperation.timestamp)),
+    })),
+  );
+};
+
+const mapToDepositOperation = (
+  ammDexOperation: AmmOrder,
+): Observable<OtherOperation> => {
+  const order: Deposit = ammDexOperation.order as Deposit;
+
+  return combineLatest([
+    mapToAssetInfo(order.inX.asset.id),
+    mapToAssetInfo(order.inY.asset.id),
+  ]).pipe(
+    map(([xAsset, yAsset]) => ({
+      txId: ammDexOperation.txId,
+      type: 'deposit',
+      status: mapRawStatusToStatus(ammDexOperation.status),
+      x: new Currency(order.inX.amount, xAsset),
+      y: new Currency(order.inY.amount, yAsset),
+      id: ammDexOperation.txId,
+      dateTime: DateTime.fromMillis(Number(ammDexOperation.timestamp)),
+    })),
+  );
 };
 
 export const mapToOperationOrEmpty = (
   ammDexOperation: AmmDexOperation,
-): Operation | undefined => {
+): Observable<Operation | undefined> => {
   if (ammDexOperation.type !== 'order') {
-    return undefined;
+    return of(undefined);
   }
 
   switch (ammDexOperation.order.type) {
     case 'swap':
       return mapToSwapOperation(ammDexOperation);
+    case 'deposit':
+      return mapToDepositOperation(ammDexOperation);
+    case 'redeem':
+      return mapToRedeemOperation(ammDexOperation);
     default:
-      return undefined;
+      return of(undefined);
   }
 };

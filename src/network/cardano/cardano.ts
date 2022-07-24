@@ -54,6 +54,7 @@ import {
 } from './utils/utils';
 import { DepositConfirmationInfo } from './widgets/DepositConfirmationInfo/DepositConfirmationInfo';
 import { OperationsSettings } from './widgets/OperationSettings/OperationsSettings';
+import { OperationsHistory } from './widgets/OperationsHistory/OperationsHistory';
 import { RedeemConfirmationInfo } from './widgets/RedeemConfirmationInfo/RedeemConfirmationInfo';
 import { SwapConfirmationInfo } from './widgets/SwapConfirmationInfo/SwapConfirmationInfo';
 import { SwapInfoContent } from './widgets/SwapInfoContent/SwapInfoContent';
@@ -80,7 +81,8 @@ export const cardanoNetwork: Network<
   getAddresses: getAddresses,
   getUsedAddresses: getUsedAddresses,
   getUnusedAddresses: getUnusedAddresses,
-  txHistoryManager: {} as any,
+  getOperationByTxId: null as any,
+  OperationsHistory,
   connectWallet: connectWallet,
   disconnectWallet: disconnectWallet,
   availableWallets: availableWallets,

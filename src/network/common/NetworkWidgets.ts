@@ -11,4 +11,5 @@ export interface NetworkWidgets<P extends AmmPool = AmmPool> {
   DepositConfirmationInfo: FC;
   RedeemConfirmationInfo: FC;
   RefundConfirmationInfo?: FC;
+  OperationsHistory: FC;
 }

@@ -5,11 +5,11 @@ import styled from 'styled-components';
 import { device } from '../../../../common/constants/size';
 import { useObservable } from '../../../../common/hooks/useObservable';
 import { selectedWalletState$ } from '../../../../gateway/api/wallets';
+import { operationsHistory$ } from '../../../../gateway/widgets/operationsHistory';
 import { WalletState } from '../../../../network/common/Wallet';
 import { GetTestTokensButton } from '../../../Header/GetTestTokensButton/GetTestTokensButton';
 import { Navigation } from '../../../Header/Navigation/Navigation';
 import { IsCardano } from '../../../IsCardano/IsCardano';
-import { TxHistory } from '../../TxHistory/TxHistory';
 
 export const BottomContainer = styled.div<{ ref: any }>`
   z-index: 2;
@@ -34,6 +34,7 @@ export const BottomContainer = styled.div<{ ref: any }>`
 export const FooterNavigation = forwardRef<HTMLDivElement>((props, ref) => {
   const { s, m } = useDevice();
   const [walletState] = useObservable(selectedWalletState$);
+  const [OperationsHistory] = useObservable(operationsHistory$);
 
   if (!(s || m)) {
     return null;
@@ -55,9 +56,9 @@ export const FooterNavigation = forwardRef<HTMLDivElement>((props, ref) => {
             <Flex.Item marginLeft={4} marginRight={4} flex={1}>
               <Navigation textCenter />
             </Flex.Item>
-            {walletState === WalletState.CONNECTED && (
+            {walletState === WalletState.CONNECTED && OperationsHistory && (
               <Flex.Item marginRight={4}>
-                <TxHistory />
+                <OperationsHistory />
               </Flex.Item>
             )}
           </Flex>

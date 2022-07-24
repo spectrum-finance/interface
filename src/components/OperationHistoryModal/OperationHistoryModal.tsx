@@ -1,7 +1,15 @@
-import { Flex, Input, Modal, ModalRef, SearchOutlined } from '@ergolabs/ui-kit';
+import {
+  Button,
+  Flex,
+  Input,
+  Modal,
+  ModalRef,
+  ReloadOutlined,
+  SearchOutlined,
+} from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
-import React, { FC, ReactNode, useState } from 'react';
-import { Observable } from 'rxjs';
+import React, { FC, useState } from 'react';
+import { Observable, of } from 'rxjs';
 import styled from 'styled-components';
 
 import { useObservable } from '../../common/hooks/useObservable';
@@ -16,14 +24,19 @@ export interface OperationHistoryModalProps extends ModalRef {
   readonly operationsSource:
     | Observable<Operation[]>
     | (() => Observable<Operation[]>);
-  readonly content?: ReactNode | ReactNode[] | string;
+  readonly sync?: () => void;
+  readonly isSyncing$?: Observable<boolean>;
+  readonly showDateTime?: boolean;
 }
 
 export const OperationHistoryModal: FC<OperationHistoryModalProps> = ({
   close,
   operationsSource,
-  content,
+  sync,
+  showDateTime,
+  isSyncing$,
 }) => {
+  const [isSyncing] = useObservable(isSyncing$ || of(false));
   const [operations, loading] = useObservable(
     operationsSource instanceof Function
       ? operationsSource()
@@ -45,15 +58,26 @@ export const OperationHistoryModal: FC<OperationHistoryModalProps> = ({
         <Flex col>
           <Flex.Item marginBottom={4} display="flex" align="center">
             <SearchInput
+              size="large"
               onChange={(e) => setTerm(e.target.value)}
               prefix={<SearchOutlined />}
               placeholder={t`Search`}
             />
-            <Flex.Item marginLeft={1} flex={1} justify="flex-end">
-              {content}
-            </Flex.Item>
+            {sync && (
+              <Flex.Item marginLeft={1} flex={1} justify="flex-end">
+                <Button
+                  size="large"
+                  loading={isSyncing}
+                  onClick={() => sync()}
+                  icon={<ReloadOutlined />}
+                >
+                  {isSyncing ? t`Syncing...` : t`Sync`}
+                </Button>
+              </Flex.Item>
+            )}
           </Flex.Item>
           <OperationHistoryTable
+            showDateTime={showDateTime}
             close={close}
             loading={loading}
             emptyOperations={!operations?.length}

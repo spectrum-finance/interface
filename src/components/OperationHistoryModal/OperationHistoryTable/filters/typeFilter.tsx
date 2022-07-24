@@ -16,6 +16,7 @@ import {
 const typesFilterItems: MultiselectFilterItem<OperationType>[] = [
   { value: 'swap', caption: t`Swap` },
   { value: 'deposit', caption: t`Deposit` },
+  { value: 'redeem', caption: t`Redeem` },
 ];
 const typeFilterRender: FilterRenderer<Operation['type']> = ({
   value,

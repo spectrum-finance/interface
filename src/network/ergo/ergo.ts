@@ -25,7 +25,7 @@ import {
   importedTokenAssets$,
   tokenAssetsToImport$,
 } from './api/tokens/tokens';
-import { txHistoryManager } from './api/transactionHistory/transactionHistory';
+import { getOperationByTxId } from './api/transactionHistory/transactionHistory';
 import { ErgoWalletContract } from './api/wallet/common/ErgoWalletContract';
 import {
   availableWallets,
@@ -57,6 +57,7 @@ import {
 import { DepositConfirmationInfo } from './widgets/DepositConfirmationInfo/DepositConfirmationInfo';
 import { GlobalSettingsModal } from './widgets/GlobalSettings/GlobalSettingsModal';
 import { OperationsSettings } from './widgets/OperationSettings/OperationsSettings';
+import { OperationsHistory } from './widgets/OperationsHistory/OperationsHistory';
 import { RedeemConfirmationInfo } from './widgets/RedeemConfirmationInfo/RedeemConfirmationInfo';
 import { RefundConfirmationInfo } from './widgets/RefundConfirmationInfo/RefundConfirmationInfo';
 import { SwapConfirmationInfo } from './widgets/SwapConfirmationInfo/SwapConfirmationInfo';
@@ -84,7 +85,6 @@ export const ergoNetwork: Network<
   getAddresses,
   getUsedAddresses,
   getUnusedAddresses,
-  txHistoryManager,
   connectWallet,
   disconnectWallet,
   availableWallets,
@@ -118,6 +118,7 @@ export const ergoNetwork: Network<
   RedeemConfirmationInfo,
   RefundConfirmationInfo,
   OperationsSettings,
+  OperationsHistory,
 
   convertToConvenientNetworkAsset,
 
@@ -127,4 +128,5 @@ export const ergoNetwork: Network<
   useCreatePoolValidationFee,
 
   getPoolChartData,
+  getOperationByTxId,
 };

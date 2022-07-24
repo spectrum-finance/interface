@@ -9,10 +9,10 @@ import { useAssetsBalance } from '../../gateway/api/assetBalance';
 import { useNetworkAsset } from '../../gateway/api/networkAsset';
 import { selectedWalletState$ } from '../../gateway/api/wallets';
 import { settings$ } from '../../gateway/settings/settings';
+import { operationsHistory$ } from '../../gateway/widgets/operationsHistory';
 import { WalletState } from '../../network/common/Wallet';
 import { AppLogo } from '../common/AppLogo/AppLogo';
 import { CardanoMaintenance } from '../common/Layout/CardanoMaintenance/CardanoMaintenance';
-import { TxHistory } from '../common/TxHistory/TxHistory';
 import { IsCardano } from '../IsCardano/IsCardano';
 import { IsErgo } from '../IsErgo/IsErgo';
 import { Analytics } from './Analytics/Analytics';
@@ -50,6 +50,7 @@ export const _Header: React.FC<HeaderProps> = ({
   const [balance, isBalanceLoading] = useAssetsBalance();
   const [networkAsset] = useNetworkAsset();
   const [walletState] = useObservable(selectedWalletState$);
+  const [OperationsHistory] = useObservable(operationsHistory$);
 
   return (
     <header
@@ -84,7 +85,9 @@ export const _Header: React.FC<HeaderProps> = ({
             address={settings?.address}
             balance={isBalanceLoading ? undefined : balance.get(networkAsset)}
           />
-          {!s && walletState === WalletState.CONNECTED && <TxHistory />}
+          {!s && walletState === WalletState.CONNECTED && OperationsHistory && (
+            <OperationsHistory />
+          )}
           <BurgerMenu />
         </Flex>
       </HeaderWrapper>

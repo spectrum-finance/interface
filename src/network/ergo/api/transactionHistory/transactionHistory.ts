@@ -1,6 +1,7 @@
 import { AmmDexOperation } from '@ergolabs/ergo-dex-sdk';
 import { AugErgoTx } from '@ergolabs/ergo-sdk';
 import {
+  combineLatest,
   defer,
   first,
   from,
@@ -14,12 +15,13 @@ import {
 } from 'rxjs';
 import TxHistoryWorker from 'worker-loader!./transactionHistory.worker';
 
+import { Operation } from '../../../../common/models/Operation';
 import { tabClosing$ } from '../../../../common/streams/tabClosing';
 import { Dictionary } from '../../../../common/utils/Dictionary';
 import { localStorageManager } from '../../../../common/utils/localStorageManager';
 import networkHistory from '../../../../services/networkHistory';
-import { TxHistoryManager } from '../../../common/TxHistoryManager';
 import { getAddresses } from '../addresses/addresses';
+import { mapToOperationOrEmpty } from './common';
 import {
   addToTabQueue,
   clearTabQueue,
@@ -184,6 +186,12 @@ export const transactionHistory$ = addresses$.pipe(
       ),
     );
   }),
+  switchMap((operations) =>
+    combineLatest(operations.map(mapToOperationOrEmpty)),
+  ),
+  map((operations) => operations.filter(Boolean) as Operation[]),
+  publishReplay(1),
+  refCount(),
 );
 
 const toOperation = (
@@ -202,10 +210,3 @@ export const getOperationByTxId = (
   txId: string,
 ): Observable<AmmDexOperation | undefined> =>
   from(networkHistory.network.getTx(txId)).pipe(switchMap(toOperation));
-
-export const txHistoryManager: TxHistoryManager = {
-  sync,
-  transactionHistory$,
-  isSyncing$,
-  getOperationByTxId,
-};
