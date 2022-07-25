@@ -1,27 +1,16 @@
 import { Animation, Flex, Modal, useDevice } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import React, { CSSProperties, FC } from 'react';
-import { map, Observable } from 'rxjs';
 
 import { useSubject } from '../../../../common/hooks/useObservable';
 import { getOperationByTxId } from '../../../../gateway/api/transactionsHistory';
-import { Operation } from '../../../common/TxHistory/types';
-import { normalizeOperations } from '../../../common/TxHistory/utils';
 import { TransactionFindForm } from './TransactionFindForm/TransactionFindForm';
 import { TransactionInfo } from './TransactionInfo/TransactionInfo';
-
-const getNormalizedOperationByTxId = (
-  txId: string,
-): Observable<Operation | undefined> =>
-  getOperationByTxId(txId).pipe(
-    map((dexOp) => (dexOp ? normalizeOperations([dexOp])[0] : dexOp)),
-    map((op) => (op ? { ...op, status: 'pending' } : undefined)),
-  );
 
 export const ManualRefundModal: FC<{ close: () => void }> = ({ close }) => {
   const { valBySize } = useDevice();
   const [operation, requestOperation, operationLoading, operationError] =
-    useSubject(getNormalizedOperationByTxId);
+    useSubject(getOperationByTxId);
 
   const findTx = (txId: string) => requestOperation(txId);
 
@@ -29,12 +18,7 @@ export const ManualRefundModal: FC<{ close: () => void }> = ({ close }) => {
 
   if (operationError) {
     errorMessage = t`Transaction not found`;
-  } else if (
-    !operationLoading &&
-    operation &&
-    operation.status !== 'pending' &&
-    operation.status !== 'submitted'
-  ) {
+  } else if (!operationLoading && operation && operation.status !== 'locked') {
     errorMessage = t`Unable to refund a transaction.`;
   }
 
@@ -50,7 +34,7 @@ export const ManualRefundModal: FC<{ close: () => void }> = ({ close }) => {
           <TransactionFindForm onSubmit={findTx} loading={operationLoading} />
           <Flex.Item marginTop={!!operation || !!errorMessage ? 6 : 0}>
             <Animation.Expand
-              expanded={!!operation || !!errorMessage}
+              expanded={(!!operation || !!errorMessage) && !operationLoading}
               opacityDelay={true}
             >
               {() => (

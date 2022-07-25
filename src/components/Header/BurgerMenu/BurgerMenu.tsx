@@ -30,6 +30,7 @@ import {
 } from '../../../common/constants/locales';
 import { useObservable } from '../../../common/hooks/useObservable';
 import { useApplicationSettings } from '../../../context';
+import { useSelectedNetwork } from '../../../gateway/common/network';
 import { globalSettingsModal$ } from '../../../gateway/widgets/globalSettingsModal';
 import { useQuery } from '../../../hooks/useQuery';
 import { DotsIcon } from '../../common/Icons/DotsIcon';
@@ -44,6 +45,7 @@ const ContributeLanguageButton = styled(Button)`
 `;
 
 const BurgerMenu = (): JSX.Element => {
+  const [selectedNetwork] = useSelectedNetwork();
   const [GlobalSettingsModal] = useObservable(globalSettingsModal$);
   const { s } = useDevice();
   const [isMainMenu, setIsMainMenu] = useState<boolean>(true);
@@ -77,14 +79,16 @@ const BurgerMenu = (): JSX.Element => {
       link: 'https://github.com/ergolabs',
       onClick: () => panalytics.clickBurgerMenu('GitHub'),
     },
-    {
-      title: t`Manual Refund`,
-      icon: <ReloadOutlined />,
-      onClick: () => {
-        panalytics.clickBurgerMenu('Manual Refund');
-        Modal.open(({ close }) => <ManualRefundModal close={close} />);
-      },
-    },
+    selectedNetwork.name === 'ergo'
+      ? {
+          title: t`Manual Refund`,
+          icon: <ReloadOutlined />,
+          onClick: () => {
+            panalytics.clickBurgerMenu('Manual Refund');
+            Modal.open(({ close }) => <ManualRefundModal close={close} />);
+          },
+        }
+      : undefined,
     GlobalSettingsModal
       ? {
           title: t`Global Settings`,

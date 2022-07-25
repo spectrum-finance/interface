@@ -24,6 +24,8 @@ export interface TransactionHistoryTableProps extends ModalRef {
   readonly emptySearch: boolean;
   readonly emptyOperations: boolean;
   readonly showDateTime?: boolean;
+  readonly hideHeader?: boolean;
+  readonly hideActions?: boolean;
 }
 
 export const OperationHistoryTable: FC<TransactionHistoryTableProps> = ({
@@ -32,9 +34,12 @@ export const OperationHistoryTable: FC<TransactionHistoryTableProps> = ({
   emptySearch,
   emptyOperations,
   showDateTime,
+  hideHeader,
+  hideActions,
   close,
 }) => (
   <TableView
+    showHeader={!hideHeader}
     actionsWidth={168}
     itemHeight={80}
     items={operations}
@@ -96,11 +101,15 @@ export const OperationHistoryTable: FC<TransactionHistoryTableProps> = ({
       <OperationSearchEmptyState />
     </TableView.State>
 
-    <TableView.Action onClick={(op: Operation) => exploreTx(op.txId)}>
-      <Trans>View on Explorer</Trans>
-    </TableView.Action>
-    <TableView.Action decorator={ClipboardDecorator}>
-      <Trans>Copy Transaction Id</Trans>
-    </TableView.Action>
+    {!hideActions && (
+      <>
+        <TableView.Action onClick={(op: Operation) => exploreTx(op.txId)}>
+          <Trans>View on Explorer</Trans>
+        </TableView.Action>
+        <TableView.Action decorator={ClipboardDecorator}>
+          <Trans>Copy Transaction Id</Trans>
+        </TableView.Action>
+      </>
+    )}
   </TableView>
 );

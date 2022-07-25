@@ -208,5 +208,10 @@ const toOperation = (
 
 export const getOperationByTxId = (
   txId: string,
-): Observable<AmmDexOperation | undefined> =>
-  from(networkHistory.network.getTx(txId)).pipe(switchMap(toOperation));
+): Observable<Operation | undefined> =>
+  from(networkHistory.network.getTx(txId)).pipe(
+    switchMap(toOperation),
+    switchMap((dexOperation) =>
+      dexOperation ? mapToOperationOrEmpty(dexOperation) : of(undefined),
+    ),
+  );

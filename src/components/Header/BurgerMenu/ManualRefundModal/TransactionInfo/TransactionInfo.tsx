@@ -3,15 +3,15 @@ import { t, Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 
 import { useObservable } from '../../../../../common/hooks/useObservable';
+import { Operation } from '../../../../../common/models/Operation';
 import { addresses$ } from '../../../../../gateway/api/addresses';
 import { RefundConfirmationModal } from '../../../../common/TxHistory/RefundConfirmationModal/RefundConfirmationModal';
-import { Operation } from '../../../../common/TxHistory/types';
 import {
   openConfirmationModal,
   Operation as ConfirmationOperation,
 } from '../../../../ConfirmationModal/ConfirmationModal';
+import { OperationHistoryTable } from '../../../../OperationHistoryModal/OperationHistoryTable/OperationHistoryTable';
 import { Section } from '../../../../Section/Section';
-import { OperationItemView } from '../../../common/OperationItem/OperationItemView';
 
 export interface TransactionInfoProps {
   operation?: Operation;
@@ -28,6 +28,11 @@ export const TransactionInfo: FC<TransactionInfoProps> = ({
 
   const handleOpenRefundConfirmationModal = (operation: Operation) => {
     if (addresses) {
+      const payload =
+        operation.type === 'swap'
+          ? { xAsset: operation.base, yAsset: operation.quote }
+          : { xAsset: operation.x, yAsset: operation.y };
+
       close(true);
       openConfirmationModal(
         (next) => {
@@ -40,7 +45,7 @@ export const TransactionInfo: FC<TransactionInfoProps> = ({
           );
         },
         ConfirmationOperation.REFUND,
-        { xAsset: operation.assetX, yAsset: operation.assetY },
+        payload,
       );
     }
   };
@@ -51,7 +56,16 @@ export const TransactionInfo: FC<TransactionInfoProps> = ({
       {!errorMessage && !!operation && (
         <Flex col>
           <Flex.Item marginBottom={6}>
-            <OperationItemView operation={operation} />
+            <OperationHistoryTable
+              emptyOperations={false}
+              emptySearch={false}
+              hideActions
+              hideHeader
+              showDateTime
+              operations={[operation]}
+              loading={false}
+              close={() => {}}
+            />
           </Flex.Item>
           <Button
             type="primary"
