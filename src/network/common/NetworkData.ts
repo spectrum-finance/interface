@@ -6,6 +6,7 @@ import { AssetInfo } from '../../common/models/AssetInfo';
 import { AssetLock } from '../../common/models/AssetLock';
 import { Balance } from '../../common/models/Balance';
 import { Currency } from '../../common/models/Currency';
+import { Operation } from '../../common/models/Operation';
 import { PoolChartData } from '../../common/models/PoolChartData';
 import { Position } from '../../common/models/Position';
 import { CurrencyConverter } from '../../common/services/CurrencyConverter';
@@ -13,7 +14,6 @@ import { Address } from '../../common/types';
 import { NetworkContext } from './NetworkContext';
 import { PoolChartDataParams } from './PoolChartDataParams';
 import { SupportedFeatures } from './SupportedFeatures';
-import { TxHistoryManager } from './TxHistoryManager';
 import { Wallet, WalletState } from './Wallet';
 
 export interface NetworkData<W extends Wallet> {
@@ -29,7 +29,6 @@ export interface NetworkData<W extends Wallet> {
   readonly tokenAssetsToImport$: Observable<AssetInfo[]>;
   readonly importTokenAsset: (assetInfo: AssetInfo | AssetInfo[]) => void;
   readonly positions$: Observable<Position[]>;
-  readonly txHistoryManager: TxHistoryManager;
   readonly getUsedAddresses: () => Observable<Address[] | undefined>;
   readonly getUnusedAddresses: () => Observable<Address[] | undefined>;
   readonly getAddresses: () => Observable<Address[] | undefined>;
@@ -45,6 +44,13 @@ export interface NetworkData<W extends Wallet> {
   readonly useDepositValidationFee: () => Currency;
   readonly useRedeemValidationFee: () => Currency;
   readonly useCreatePoolValidationFee: () => Currency;
+
+  readonly getOperationByTxId: (
+    txId: string,
+  ) => Observable<Operation | undefined>;
+  readonly getOperations: () => Observable<Operation[]>;
+  readonly syncOperations?: () => void;
+  readonly isOperationsSyncing$: Observable<boolean>;
 
   readonly getPoolChartData: (
     pool: AmmPool,

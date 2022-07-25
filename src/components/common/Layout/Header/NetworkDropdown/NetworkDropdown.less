@@ -1,0 +1,53 @@
+@import '../../../../../assets/styles/variables/gradients';
+
+.network-dropdown {
+  &__btn {
+    border: initial !important;
+
+    &--cardano {
+      background: @gradient-cardano-dropdown !important;
+    }
+
+    &--ergo {
+      background: @gradient-ergo-dropdown !important;
+    }
+  }
+
+  &-item {
+    position: relative;
+
+    &__active {
+      &::after {
+        position: absolute;
+        top: 12px;
+        right: 16px;
+        width: 8px;
+        height: 8px;
+        background-color: var(--ergo-success-color);
+        border-radius: 50%;
+        content: '';
+      }
+    }
+  }
+
+  &__menu {
+    padding: calc(var(--ergo-base-gutter) * 2);
+
+    .ant-dropdown-menu-item {
+      padding: var(--ergo-base-gutter) calc(var(--ergo-base-gutter) * 4);
+    }
+  }
+
+  &__menu-title {
+    display: block;
+    padding-left: calc(var(--ergo-base-gutter) * 4);
+    margin-bottom: var(--ergo-base-gutter) !important;
+  }
+
+  &__btn-text {
+    display: none;
+    @media (min-width: 700px) {
+      display: inline;
+    }
+  }
+}
