@@ -4,6 +4,7 @@ import {
   Operation,
   OperationStatus,
 } from '../../../../common/models/Operation';
+import { IsErgo } from '../../../IsErgo/IsErgo';
 
 export interface RefundDecoratorProps {
   readonly item: Operation;
@@ -12,4 +13,4 @@ export interface RefundDecoratorProps {
 export const RefundDecorator: FC<RefundDecoratorProps> = ({
   item,
   children,
-}) => <>{item.status === OperationStatus.Locked && children}</>;
+}) => <IsErgo>{item.status === OperationStatus.Locked && children}</IsErgo>;
