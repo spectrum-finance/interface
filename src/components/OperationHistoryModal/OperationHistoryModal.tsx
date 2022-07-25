@@ -18,6 +18,7 @@ export interface OperationHistoryModalProps extends ModalRef {
     | (() => Observable<Operation[]>);
   readonly content?: ReactNode | ReactNode[] | string;
   readonly showDateTime?: boolean;
+  readonly addresses: string[];
 }
 
 export const OperationHistoryModal: FC<OperationHistoryModalProps> = ({
@@ -25,6 +26,7 @@ export const OperationHistoryModal: FC<OperationHistoryModalProps> = ({
   operationsSource,
   showDateTime,
   content,
+  addresses,
 }) => {
   const [operations, loading] = useObservable(
     operationsSource instanceof Function
@@ -59,6 +61,7 @@ export const OperationHistoryModal: FC<OperationHistoryModalProps> = ({
             )}
           </Flex.Item>
           <OperationHistoryTable
+            addresses={addresses}
             showDateTime={showDateTime}
             close={close}
             loading={loading}

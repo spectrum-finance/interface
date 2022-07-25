@@ -12,17 +12,22 @@ import React, { FC } from 'react';
 
 import { useObservable } from '../../../../common/hooks/useObservable';
 import { OperationHistoryModal } from '../../../../components/OperationHistoryModal/OperationHistoryModal';
+import { getAddresses } from '../../api/addresses/addresses';
 import {
   isSyncing$,
   sync,
   transactionHistory$,
 } from '../../api/transactionHistory/transactionHistory';
 
-const OperationsHistoryModal: FC<ModalRef> = ({ close }) => {
+const OperationsHistoryModal: FC<{ addresses: string[] } & ModalRef> = ({
+  close,
+  addresses,
+}) => {
   const [isSyncing] = useObservable(isSyncing$);
 
   return (
     <OperationHistoryModal
+      addresses={addresses}
       content={
         <Button
           size="large"
@@ -42,21 +47,30 @@ const OperationsHistoryModal: FC<ModalRef> = ({ close }) => {
 
 export const OperationsHistory: FC = () => {
   const [isSyncing] = useObservable(isSyncing$);
+  const [addresses] = useObservable(getAddresses());
 
   const openOperationsHistoryModal = () => {
-    Modal.open(({ close }) => <OperationsHistoryModal close={close} />);
+    if (addresses) {
+      Modal.open(({ close }) => (
+        <OperationsHistoryModal addresses={addresses} close={close} />
+      ));
+    }
   };
 
   return (
-    <Tooltip title={t`Recent transactions`} placement="bottom">
-      <Button
-        size="large"
-        type="ghost"
-        icon={isSyncing ? <LoadingOutlined /> : <HistoryOutlined />}
-        onClick={openOperationsHistoryModal}
-      >
-        {isSyncing && t`Syncing...`}
-      </Button>
-    </Tooltip>
+    <>
+      {addresses && (
+        <Tooltip title={t`Recent transactions`} placement="bottom">
+          <Button
+            size="large"
+            type="ghost"
+            icon={isSyncing ? <LoadingOutlined /> : <HistoryOutlined />}
+            onClick={openOperationsHistoryModal}
+          >
+            {isSyncing && t`Syncing...`}
+          </Button>
+        </Tooltip>
+      )}
+    </>
   );
 };

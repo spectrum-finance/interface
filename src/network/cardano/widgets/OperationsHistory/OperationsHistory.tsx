@@ -9,6 +9,7 @@ export const OperationsHistory: FC = () => {
   const openOperationsHistoryModal = () => {
     Modal.open(({ close }) => (
       <OperationHistoryModal
+        addresses={[]}
         operationsSource={getTransactionHistory()}
         close={close}
       />

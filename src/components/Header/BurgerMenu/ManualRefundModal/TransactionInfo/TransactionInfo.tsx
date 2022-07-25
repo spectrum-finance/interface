@@ -57,6 +57,7 @@ export const TransactionInfo: FC<TransactionInfoProps> = ({
         <Flex col>
           <Flex.Item marginBottom={6}>
             <OperationHistoryTable
+              addresses={[]}
               emptyOperations={false}
               emptySearch={false}
               hideActions
