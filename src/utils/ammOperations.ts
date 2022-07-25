@@ -8,7 +8,7 @@ import {
 } from '@ergolabs/ergo-sdk';
 
 import { ERG_DECIMALS } from '../common/constants/erg';
-import { OperationStatus } from '../components/common/TxHistory/types';
+import { OperationStatus } from '../common/models/Operation';
 import { ammOrderRefunds } from '../services/amm';
 import { explorer } from '../services/explorer';
 import { parseUserInputToFractions } from './math';

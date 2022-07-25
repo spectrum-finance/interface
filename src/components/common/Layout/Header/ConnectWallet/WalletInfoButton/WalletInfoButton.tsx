@@ -5,16 +5,12 @@ import React, { FC } from 'react';
 import styled from 'styled-components';
 
 import { panalytics } from '../../../../../../common/analytics';
+import { useObservable } from '../../../../../../common/hooks/useObservable';
 import { Currency } from '../../../../../../common/models/Currency';
+import { pendingTransactions$ } from '../../../../../../network/ergo/api/pendingTransactions/pendingTransactions';
+import { AddressOrPendingTag } from '../../../../../Header/ConnectWallet/WalletInfoButton/AddressOrPendingTag/AddressOrPendingTag';
+import { BalanceView } from '../../../../../Header/ConnectWallet/WalletInfoButton/BalanceView/BalanceView';
 import { WalletModal } from '../../../../../WalletModal/WalletModal';
-import { AddressTag } from './AddressTag/AddressTag';
-import { panalytics } from '../../../../common/analytics';
-import { useObservable } from '../../../../common/hooks/useObservable';
-import { Currency } from '../../../../common/models/Currency';
-import { pendingTransactions$ } from '../../../../network/ergo/api/pendingTransactions/pendingTransactions';
-import { WalletModal } from '../../../WalletModal/WalletModal';
-import { AddressOrPendingTag } from './AddressOrPendingTag/AddressOrPendingTag';
-import { BalanceView } from './BalanceView/BalanceView';
 
 export interface WalletInfoButtonProps {
   className?: string;
