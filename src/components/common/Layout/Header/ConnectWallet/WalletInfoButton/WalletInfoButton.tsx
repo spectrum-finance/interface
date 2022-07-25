@@ -43,10 +43,7 @@ const _WalletInfoButton: FC<WalletInfoButtonProps> = ({
               <BalanceView balance={balance} />
             </Flex.Item>
           )}
-          <AddressOrPendingTag
-            address={address}
-            pendingCount={pendingCount?.length}
-          />
+          <AddressOrPendingTag address={address} pendingCount={pendingCount} />
         </Flex>
       ) : (
         <LoadingOutlined />

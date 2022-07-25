@@ -1,8 +1,13 @@
 import { ModalRef } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
+import { DateTime } from 'luxon';
 import React, { FC } from 'react';
 
-import { isSwapOperation, Operation } from '../../../common/models/Operation';
+import {
+  isSwapOperation,
+  Operation,
+  OperationStatus,
+} from '../../../common/models/Operation';
 import { exploreTx } from '../../../gateway/utils/exploreAddress';
 import { RefundConfirmationModal } from '../../common/TxHistory/RefundConfirmationModal/RefundConfirmationModal';
 import {
@@ -108,7 +113,16 @@ export const OperationHistoryTable: FC<TransactionHistoryTableProps> = ({
           width={152}
           sortBy={(op: Operation) => op.dateTime}
         >
-          {(op: Operation) => <DateTimeCell dateTime={op.dateTime} />}
+          {(op: Operation) => (
+            <DateTimeCell
+              dateTime={
+                op.status !== OperationStatus.Queued &&
+                op.status !== OperationStatus.Pending
+                  ? op.dateTime
+                  : undefined
+              }
+            />
+          )}
         </TableView.Column>
       )}
 

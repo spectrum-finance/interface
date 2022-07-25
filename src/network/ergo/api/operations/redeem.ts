@@ -89,7 +89,11 @@ export const redeem = (
       });
 
       return from(poolActions(pool.pool).redeem(redeemParams, txContext)).pipe(
-        switchMap((tx) => submitTx(tx)),
+        switchMap((tx) =>
+          submitTx(tx, {
+            type: 'refund',
+          }),
+        ),
       );
     }),
   );

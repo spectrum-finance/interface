@@ -13,6 +13,7 @@ import { Currency } from '../../common/models/Currency';
 import { TxSuccess, TxSuccessStatus } from '../../common/services/submitTx';
 import { exploreTx } from '../../gateway/utils/exploreAddress';
 import { getLockingPeriodString } from '../../pages/Liquidity/utils';
+import { OperationHistoryModal } from '../OperationHistoryModal/OperationHistoryModal';
 
 export enum Operation {
   SWAP,
@@ -120,28 +121,36 @@ const ErrorModalContent = (
   </Flex>
 );
 
-const SuccessModalContent = ({ txId, status }: TxSuccess) => (
-  <Flex col align="center">
-    <Typography.Title level={4}>
-      {status === TxSuccessStatus.IN_PROGRESS ? (
-        <Trans>Transaction submitted</Trans>
-      ) : (
-        <Trans>Transaction added in queue</Trans>
-      )}
-    </Typography.Title>
-    <Flex.Item marginBottom={1} marginTop={1}>
-      {status === TxSuccessStatus.IN_PROGRESS ? (
-        <Typography.Link onClick={() => exploreTx(txId)}>
-          <Trans>View on Explorer</Trans>
-        </Typography.Link>
-      ) : (
-        <Typography.Link onClick={() => exploreTx(txId)}>
-          <Trans>Show transaction history</Trans>
-        </Typography.Link>
-      )}
-    </Flex.Item>
-  </Flex>
-);
+const SuccessModalContent = ({ txId, status }: TxSuccess) => {
+  const openOperationHistory = () => {
+    Modal.open(({ close }) => (
+      <OperationHistoryModal close={close} showDateTime />
+    ));
+  };
+
+  return (
+    <Flex col align="center">
+      <Typography.Title level={4}>
+        {status === TxSuccessStatus.IN_PROGRESS ? (
+          <Trans>Transaction submitted</Trans>
+        ) : (
+          <Trans>Transaction added in queue</Trans>
+        )}
+      </Typography.Title>
+      <Flex.Item marginBottom={1} marginTop={1}>
+        {status === TxSuccessStatus.IN_PROGRESS ? (
+          <Typography.Link onClick={() => exploreTx(txId)}>
+            <Trans>View on Explorer</Trans>
+          </Typography.Link>
+        ) : (
+          <Typography.Link onClick={() => openOperationHistory()}>
+            <Trans>Show transaction history</Trans>
+          </Typography.Link>
+        )}
+      </Flex.Item>
+    </Flex>
+  );
+};
 
 const YoroiIssueModalContent = () => (
   <Flex col align="center">

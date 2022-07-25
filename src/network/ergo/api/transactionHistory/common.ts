@@ -43,7 +43,7 @@ const mapToSwapOperation = (
     map(([fromAsset, toAsset]) => ({
       txId: ammDexOperation.txId,
       type: 'swap',
-      status: mapRawStatusToStatus(ammDexOperation.status),
+      status: OperationStatus.Executed,
       base: new Currency(order.from.amount, fromAsset),
       quote: new Currency(0n, toAsset),
       id: ammDexOperation.txId,

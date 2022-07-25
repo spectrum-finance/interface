@@ -21,6 +21,10 @@ import { Dictionary } from '../../../../common/utils/Dictionary';
 import { localStorageManager } from '../../../../common/utils/localStorageManager';
 import networkHistory from '../../../../services/networkHistory';
 import { getAddresses } from '../addresses/addresses';
+import {
+  operationsInProgress$,
+  operationsInQueue$,
+} from '../operations/common/submitTx';
 import { mapToOperationOrEmpty } from './common';
 import {
   addToTabQueue,
@@ -206,7 +210,21 @@ const toOperation = (
   );
 };
 
-export const getOperations = (): Observable<Operation[]> => transactionHistory$;
+export const getOperations = (): Observable<Operation[]> =>
+  combineLatest([
+    operationsInProgress$,
+    operationsInQueue$,
+    transactionHistory$,
+  ]).pipe(
+    map(
+      ([operationsInProgress, operationsInQueue, operationsHistory]) =>
+        [
+          ...operationsInQueue,
+          ...operationsInProgress,
+          ...operationsHistory,
+        ] as any,
+    ),
+  );
 
 export const getOperationByTxId = (
   txId: string,

@@ -4,6 +4,7 @@ import { TxId } from '../types';
 import { Currency } from './Currency';
 
 export enum OperationStatus {
+  Queued = 'queued',
   Pending = 'pending',
   Executed = 'executed',
   Locked = 'locked',

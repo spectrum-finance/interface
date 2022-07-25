@@ -1,6 +1,7 @@
 import { DepositParams } from '@ergolabs/ergo-dex-sdk';
 import { AssetAmount, ErgoBox, TransactionContext } from '@ergolabs/ergo-sdk';
 import { NetworkContext } from '@ergolabs/ergo-sdk/build/main/entities/networkContext';
+import { DateTime } from 'luxon';
 import { first, from, Observable, switchMap, zip } from 'rxjs';
 
 import { UI_FEE_BIGINT } from '../../../../common/constants/erg';
@@ -96,6 +97,17 @@ export const deposit = (
 
       return from(
         poolActions(pool.pool).deposit(depositParams, txContext),
-      ).pipe(switchMap((tx) => submitTx(tx)));
+      ).pipe(
+        switchMap((tx) =>
+          submitTx(tx, {
+            type: 'deposit',
+            xAmount: x.toAmount(),
+            xId: x.asset.id,
+            yAmount: y.toAmount(),
+            yId: y.asset.id,
+            timestamp: DateTime.now().toMillis(),
+          }),
+        ),
+      );
     }),
   );

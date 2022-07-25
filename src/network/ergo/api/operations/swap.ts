@@ -5,6 +5,7 @@ import {
 } from '@ergolabs/ergo-dex-sdk/build/main/amm/math/swap';
 import { AssetAmount, ErgoBox, TransactionContext } from '@ergolabs/ergo-sdk';
 import { NetworkContext } from '@ergolabs/ergo-sdk/build/main/entities/networkContext';
+import { DateTime } from 'luxon';
 import { first, from as fromPromise, Observable, switchMap, zip } from 'rxjs';
 
 import { UI_FEE_BIGINT } from '../../../../common/constants/erg';
@@ -128,7 +129,18 @@ export const swap = (
 
         return fromPromise(
           poolActions(pool.pool).swap(swapParams, txContext),
-        ).pipe(switchMap((tx) => submitTx(tx)));
+        ).pipe(
+          switchMap((tx) =>
+            submitTx(tx, {
+              type: 'swap',
+              baseAmount: from.toAmount(),
+              baseId: from.asset.id,
+              quoteAmount: to.toAmount(),
+              quoteId: to.asset.id,
+              timestamp: DateTime.now().toMillis(),
+            }),
+          ),
+        );
       },
     ),
   );
