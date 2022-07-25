@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Currency } from '../../../common/models/Currency';
+import { Currency } from '../../../../../common/models/Currency';
 import { HeaderConnectWalletButton } from './HeaderConnectWalletButton/HeaderConnectWalletButton';
 import { WalletInfoButton } from './WalletInfoButton/WalletInfoButton';
 

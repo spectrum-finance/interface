@@ -206,6 +206,8 @@ const toOperation = (
   );
 };
 
+export const getOperations = (): Observable<Operation[]> => transactionHistory$;
+
 export const getOperationByTxId = (
   txId: string,
 ): Observable<Operation | undefined> =>

@@ -2,16 +2,16 @@ import { Alert, Button, Flex } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 
-import { useObservable } from '../../../../../common/hooks/useObservable';
-import { Operation } from '../../../../../common/models/Operation';
-import { addresses$ } from '../../../../../gateway/api/addresses';
-import { RefundConfirmationModal } from '../../../../common/TxHistory/RefundConfirmationModal/RefundConfirmationModal';
+import { useObservable } from '../../../../../../../common/hooks/useObservable';
+import { Operation } from '../../../../../../../common/models/Operation';
+import { addresses$ } from '../../../../../../../gateway/api/addresses';
 import {
   openConfirmationModal,
   Operation as ConfirmationOperation,
-} from '../../../../ConfirmationModal/ConfirmationModal';
-import { OperationHistoryTable } from '../../../../OperationHistoryModal/OperationHistoryTable/OperationHistoryTable';
-import { Section } from '../../../../Section/Section';
+} from '../../../../../../ConfirmationModal/ConfirmationModal';
+import { OperationHistoryTable } from '../../../../../../OperationHistoryModal/OperationHistoryTable/OperationHistoryTable';
+import { Section } from '../../../../../../Section/Section';
+import { RefundConfirmationModal } from '../../../../../TxHistory/RefundConfirmationModal/RefundConfirmationModal';
 
 export interface TransactionInfoProps {
   operation?: Operation;

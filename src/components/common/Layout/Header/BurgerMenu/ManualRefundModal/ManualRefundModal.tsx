@@ -2,8 +2,8 @@ import { Animation, Flex, Modal, useDevice } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import React, { CSSProperties, FC } from 'react';
 
-import { useSubject } from '../../../../common/hooks/useObservable';
-import { getOperationByTxId } from '../../../../gateway/api/transactionsHistory';
+import { useSubject } from '../../../../../../common/hooks/useObservable';
+import { getOperationByTxId } from '../../../../../../gateway/api/transactionsHistory';
 import { TransactionFindForm } from './TransactionFindForm/TransactionFindForm';
 import { TransactionInfo } from './TransactionInfo/TransactionInfo';
 

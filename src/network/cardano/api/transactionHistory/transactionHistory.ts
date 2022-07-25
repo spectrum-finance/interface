@@ -34,7 +34,7 @@ const historyRepository$: Observable<History> = cardanoWasm$.pipe(
   refCount(),
 );
 
-export const getTransactionHistory = (): Observable<Operation[]> =>
+export const getOperations = (): Observable<Operation[]> =>
   getAddresses().pipe(
     switchMap((addresses) =>
       historyRepository$.pipe(

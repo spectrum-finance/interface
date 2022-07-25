@@ -3,10 +3,10 @@ import React from 'react';
 import { FC } from 'react';
 import styled from 'styled-components';
 
-import { useObservable } from '../../../../../common/hooks/useObservable';
-import { selectedWallet$ } from '../../../../../gateway/api/wallets';
-import { getShortAddress } from '../../../../../utils/string/addres';
-import { DataTag } from '../../../../common/DataTag/DataTag';
+import { useObservable } from '../../../../../../../common/hooks/useObservable';
+import { selectedWallet$ } from '../../../../../../../gateway/api/wallets';
+import { getShortAddress } from '../../../../../../../utils/string/addres';
+import { DataTag } from '../../../../../DataTag/DataTag';
 
 export interface AddressTagProps {
   readonly address?: string;

@@ -1,11 +1,24 @@
-import { Flex, Input, Modal, ModalRef, SearchOutlined } from '@ergolabs/ui-kit';
+import {
+  Button,
+  Flex,
+  Input,
+  Modal,
+  ModalRef,
+  ReloadOutlined,
+  SearchOutlined,
+} from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
-import React, { FC, ReactNode, useState } from 'react';
-import { Observable } from 'rxjs';
+import React, { FC, useState } from 'react';
 import styled from 'styled-components';
 
 import { useObservable } from '../../common/hooks/useObservable';
-import { filterOperations, Operation } from '../../common/models/Operation';
+import { filterOperations } from '../../common/models/Operation';
+import { addresses$ } from '../../gateway/api/addresses';
+import {
+  getOperations,
+  getSyncOperationsFunction,
+  isOperationsSyncing$,
+} from '../../gateway/api/transactionsHistory';
 import { OperationHistoryTable } from './OperationHistoryTable/OperationHistoryTable';
 
 const SearchInput = styled(Input)`
@@ -13,27 +26,17 @@ const SearchInput = styled(Input)`
 `;
 
 export interface OperationHistoryModalProps extends ModalRef {
-  readonly operationsSource:
-    | Observable<Operation[]>
-    | (() => Observable<Operation[]>);
-  readonly content?: ReactNode | ReactNode[] | string;
   readonly showDateTime?: boolean;
-  readonly addresses: string[];
 }
 
 export const OperationHistoryModal: FC<OperationHistoryModalProps> = ({
   close,
-  operationsSource,
   showDateTime,
-  content,
-  addresses,
 }) => {
-  const [operations, loading] = useObservable(
-    operationsSource instanceof Function
-      ? operationsSource()
-      : operationsSource,
-    [],
-  );
+  const [operations, operationsLoading] = useObservable(getOperations(), []);
+  const [addresses, addressesLoading] = useObservable(addresses$);
+  const [isOperationsSyncing] = useObservable(isOperationsSyncing$);
+  const [syncOperations] = useObservable(getSyncOperationsFunction());
   const [term, setTerm] = useState<string | undefined>();
 
   const filteredOperations = operations
@@ -54,17 +57,24 @@ export const OperationHistoryModal: FC<OperationHistoryModalProps> = ({
               prefix={<SearchOutlined />}
               placeholder={t`Search`}
             />
-            {content && (
+            {syncOperations && (
               <Flex.Item marginLeft={1} flex={1} justify="flex-end">
-                {content}
+                <Button
+                  size="large"
+                  loading={isOperationsSyncing}
+                  onClick={() => syncOperations()}
+                  icon={<ReloadOutlined />}
+                >
+                  {isOperationsSyncing ? t`Syncing...` : t`Sync`}
+                </Button>
               </Flex.Item>
             )}
           </Flex.Item>
           <OperationHistoryTable
-            addresses={addresses}
+            addresses={addresses || []}
             showDateTime={showDateTime}
             close={close}
-            loading={loading}
+            loading={operationsLoading || addressesLoading}
             emptyOperations={!operations?.length}
             emptySearch={!filteredOperations.length}
             operations={filteredOperations}

@@ -2,10 +2,10 @@ import { Box, Flex, LoadingOutlined, Typography } from '@ergolabs/ui-kit';
 import React, { FC } from 'react';
 import styled from 'styled-components';
 
-import { useObservable } from '../../../common/hooks/useObservable';
-import { aggregatedAnalyticsData24H$ } from '../../../services/new/analytics';
-import { formatToUSD } from '../../../services/number';
-import { renderFractions } from '../../../utils/math';
+import { useObservable } from '../../../../../common/hooks/useObservable';
+import { aggregatedAnalyticsData24H$ } from '../../../../../services/new/analytics';
+import { formatToUSD } from '../../../../../services/number';
+import { renderFractions } from '../../../../../utils/math';
 import { AnalyticTag } from './AnalyticTag/AnalyticTag';
 
 interface AnalyticsProps {

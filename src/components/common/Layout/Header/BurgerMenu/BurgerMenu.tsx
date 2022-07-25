@@ -22,19 +22,19 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { ReactComponent as DarkModeOutlined } from '../../../assets/icons/darkmode.svg';
-import { panalytics } from '../../../common/analytics';
+import { ReactComponent as DarkModeOutlined } from '../../../../../assets/icons/darkmode.svg';
+import { panalytics } from '../../../../../common/analytics';
 import {
   LOCALE_LABEL,
   SUPPORTED_LOCALES,
-} from '../../../common/constants/locales';
-import { useObservable } from '../../../common/hooks/useObservable';
-import { useApplicationSettings } from '../../../context';
-import { useSelectedNetwork } from '../../../gateway/common/network';
-import { globalSettingsModal$ } from '../../../gateway/widgets/globalSettingsModal';
-import { useQuery } from '../../../hooks/useQuery';
-import { DotsIcon } from '../../common/Icons/DotsIcon';
-import { ThemeSwitch } from '../../ThemeSwitch/ThemeSwitch';
+} from '../../../../../common/constants/locales';
+import { useObservable } from '../../../../../common/hooks/useObservable';
+import { useApplicationSettings } from '../../../../../context';
+import { useSelectedNetwork } from '../../../../../gateway/common/network';
+import { globalSettingsModal$ } from '../../../../../gateway/widgets/globalSettingsModal';
+import { useQuery } from '../../../../../hooks/useQuery';
+import { ThemeSwitch } from '../../../../ThemeSwitch/ThemeSwitch';
+import { DotsIcon } from '../../../Icons/DotsIcon';
 import { ManualRefundModal } from './ManualRefundModal/ManualRefundModal';
 
 const MENU_WIDTH = 160;

@@ -10,9 +10,9 @@ import {
 import React, { FC } from 'react';
 import styled from 'styled-components';
 
-import { panalytics } from '../../../../common/analytics';
-import { Currency } from '../../../../common/models/Currency';
-import { WalletModal } from '../../../WalletModal/WalletModal';
+import { panalytics } from '../../../../../../common/analytics';
+import { Currency } from '../../../../../../common/models/Currency';
+import { WalletModal } from '../../../../../WalletModal/WalletModal';
 import { AddressTag } from './AddressTag/AddressTag';
 
 export interface WalletInfoButtonProps {

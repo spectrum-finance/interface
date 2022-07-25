@@ -13,13 +13,13 @@ import cn from 'classnames';
 import capitalize from 'lodash/capitalize';
 import React from 'react';
 
-import { panalytics } from '../../../common/analytics';
+import { panalytics } from '../../../../../common/analytics';
 import {
   changeSelectedNetwork,
   networks,
   useSelectedNetwork,
-} from '../../../gateway/common/network';
-import { AssetIcon } from '../../AssetIcon/AssetIcon';
+} from '../../../../../gateway/common/network';
+import { AssetIcon } from '../../../../AssetIcon/AssetIcon';
 
 interface NetworkDropdownProps {
   onSetNetwork?: (val: string) => void;

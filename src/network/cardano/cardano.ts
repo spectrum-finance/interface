@@ -24,6 +24,7 @@ import {
   importTokenAsset,
   tokenAssetsToImport$,
 } from './api/tokens/tokens';
+import { getOperations } from './api/transactionHistory/transactionHistory';
 import { CardanoWalletContract } from './api/wallet/common/CardanoWalletContract';
 import {
   availableWallets,
@@ -54,7 +55,6 @@ import {
 } from './utils/utils';
 import { DepositConfirmationInfo } from './widgets/DepositConfirmationInfo/DepositConfirmationInfo';
 import { OperationsSettings } from './widgets/OperationSettings/OperationsSettings';
-import { OperationsHistory } from './widgets/OperationsHistory/OperationsHistory';
 import { RedeemConfirmationInfo } from './widgets/RedeemConfirmationInfo/RedeemConfirmationInfo';
 import { SwapConfirmationInfo } from './widgets/SwapConfirmationInfo/SwapConfirmationInfo';
 import { SwapInfoContent } from './widgets/SwapInfoContent/SwapInfoContent';
@@ -82,7 +82,9 @@ export const cardanoNetwork: Network<
   getUsedAddresses: getUsedAddresses,
   getUnusedAddresses: getUnusedAddresses,
   getOperationByTxId: null as any,
-  OperationsHistory,
+  getOperations,
+  isOperationsSyncing$: of(false),
+
   connectWallet: connectWallet,
   disconnectWallet: disconnectWallet,
   availableWallets: availableWallets,

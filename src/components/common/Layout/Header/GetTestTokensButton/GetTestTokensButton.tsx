@@ -3,7 +3,7 @@ import { Trans } from '@lingui/macro';
 import React, { CSSProperties, FC } from 'react';
 import styled from 'styled-components';
 
-import { FaucetModal } from '../../FaucetModal/FaucetModal';
+import { FaucetModal } from '../../../../FaucetModal/FaucetModal';
 
 export interface GetTestTokensButtonProps {
   readonly className?: string;

@@ -48,6 +48,9 @@ export interface NetworkData<W extends Wallet> {
   readonly getOperationByTxId: (
     txId: string,
   ) => Observable<Operation | undefined>;
+  readonly getOperations: () => Observable<Operation[]>;
+  readonly syncOperations?: () => void;
+  readonly isOperationsSyncing$: Observable<boolean>;
 
   readonly getPoolChartData: (
     pool: AmmPool,

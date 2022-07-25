@@ -10,7 +10,7 @@ import {
 import { t, Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 
-import { Section } from '../../../../Section/Section';
+import { Section } from '../../../../../../Section/Section';
 
 interface TransactionFindFormModel {
   readonly txId?: string;

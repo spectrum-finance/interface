@@ -3,18 +3,18 @@ import cn from 'classnames';
 import React from 'react';
 import styled from 'styled-components';
 
-import { device } from '../../common/constants/size';
-import { useObservable } from '../../common/hooks/useObservable';
-import { useAssetsBalance } from '../../gateway/api/assetBalance';
-import { useNetworkAsset } from '../../gateway/api/networkAsset';
-import { selectedWalletState$ } from '../../gateway/api/wallets';
-import { settings$ } from '../../gateway/settings/settings';
-import { operationsHistory$ } from '../../gateway/widgets/operationsHistory';
-import { WalletState } from '../../network/common/Wallet';
-import { AppLogo } from '../common/AppLogo/AppLogo';
-import { CardanoMaintenance } from '../common/Layout/CardanoMaintenance/CardanoMaintenance';
-import { IsCardano } from '../IsCardano/IsCardano';
-import { IsErgo } from '../IsErgo/IsErgo';
+import { device } from '../../../../common/constants/size';
+import { useObservable } from '../../../../common/hooks/useObservable';
+import { useAssetsBalance } from '../../../../gateway/api/assetBalance';
+import { useNetworkAsset } from '../../../../gateway/api/networkAsset';
+import { selectedWalletState$ } from '../../../../gateway/api/wallets';
+import { settings$ } from '../../../../gateway/settings/settings';
+import { WalletState } from '../../../../network/common/Wallet';
+import { IsCardano } from '../../../IsCardano/IsCardano';
+import { IsErgo } from '../../../IsErgo/IsErgo';
+import { AppLogo } from '../../AppLogo/AppLogo';
+import { CardanoMaintenance } from '../CardanoMaintenance/CardanoMaintenance';
+import { OperationsHistory } from '../OperationsHistory/OperationsHistory';
 import { Analytics } from './Analytics/Analytics';
 import { BurgerMenu } from './BurgerMenu/BurgerMenu';
 import { ConnectWallet } from './ConnectWallet/ConnectWallet';
@@ -50,7 +50,6 @@ export const _Header: React.FC<HeaderProps> = ({
   const [balance, isBalanceLoading] = useAssetsBalance();
   const [networkAsset] = useNetworkAsset();
   const [walletState] = useObservable(selectedWalletState$);
-  const [OperationsHistory] = useObservable(operationsHistory$);
 
   return (
     <header
@@ -85,9 +84,7 @@ export const _Header: React.FC<HeaderProps> = ({
             address={settings?.address}
             balance={isBalanceLoading ? undefined : balance.get(networkAsset)}
           />
-          {!s && walletState === WalletState.CONNECTED && OperationsHistory && (
-            <OperationsHistory />
-          )}
+          {!s && walletState === WalletState.CONNECTED && <OperationsHistory />}
           <BurgerMenu />
         </Flex>
       </HeaderWrapper>

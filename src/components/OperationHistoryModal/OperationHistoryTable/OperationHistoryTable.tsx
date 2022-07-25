@@ -47,24 +47,24 @@ export const OperationHistoryTable: FC<TransactionHistoryTableProps> = ({
   close,
 }) => {
   const openRefundModal = (operation: Operation): void => {
-    // const payload =
-    //   operation.type === 'swap'
-    //     ? { xAsset: operation.base, yAsset: operation.quote }
-    //     : { xAsset: operation.x, yAsset: operation.y };
-    // //
-    // openConfirmationModal(
-    //   (next) => {
-    //     return (
-    //       <RefundConfirmationModal
-    //         operation={operation}
-    //         addresses={addresses}
-    //         onClose={next}
-    //       />
-    //     );
-    //   },
-    //   ConfirmationOperation.REFUND,
-    //   payload,
-    // );
+    const payload =
+      operation.type === 'swap'
+        ? { xAsset: operation.base, yAsset: operation.quote }
+        : { xAsset: operation.x, yAsset: operation.y };
+    //
+    openConfirmationModal(
+      (next) => {
+        return (
+          <RefundConfirmationModal
+            operation={operation}
+            addresses={addresses}
+            onClose={next}
+          />
+        );
+      },
+      ConfirmationOperation.REFUND,
+      payload,
+    );
   };
 
   return (
