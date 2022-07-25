@@ -228,7 +228,7 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({
         position="relative"
       >
         <ResponsiveContainer
-          width={valBySize<string | number>('100%', 624)}
+          width={valBySize<string | number>('100%', '100%', 624)}
           height={valBySize(pool ? 320 : 440, pool ? 320 : 230)}
         >
           <AreaChart
@@ -243,12 +243,7 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({
               visibility: isEmpty || loading ? 'hidden' : 'visible',
             }}
           >
-            <YAxis
-              dataKey={dataKey}
-              type="number"
-              domain={['auto', 'auto']}
-              hide
-            />
+            <YAxis dataKey={dataKey} type="number" domain={['auto', 'auto']} />
             <XAxis
               dataKey="ts"
               type="number"
