@@ -17,11 +17,14 @@ export const AssetBox: FC<AssetBoxProps> = ({ currency, className }) => (
         <AssetIcon size="small" asset={currency.asset} />
       </Flex.Item>
       <Flex.Item marginRight={1} flex={1}>
-        <Typography.Title level={5}>{currency.asset.name}</Typography.Title>
+        <Typography.Title level={5}>{currency.asset.ticker}</Typography.Title>
       </Flex.Item>
       <Flex.Item>
         <DataTag
-          content={currency.toString(currency.asset.decimals, 2)}
+          content={currency.toString(
+            Math.max(currency.asset.decimals || 0, 2),
+            2,
+          )}
           size="small"
         />
       </Flex.Item>

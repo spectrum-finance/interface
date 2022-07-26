@@ -6,10 +6,10 @@ import { device } from '../../../../common/constants/size';
 import { useObservable } from '../../../../common/hooks/useObservable';
 import { selectedWalletState$ } from '../../../../gateway/api/wallets';
 import { WalletState } from '../../../../network/common/Wallet';
-import { GetTestTokensButton } from '../../../Header/GetTestTokensButton/GetTestTokensButton';
-import { Navigation } from '../../../Header/Navigation/Navigation';
 import { IsCardano } from '../../../IsCardano/IsCardano';
-import { TxHistory } from '../../TxHistory/TxHistory';
+import { GetTestTokensButton } from '../Header/GetTestTokensButton/GetTestTokensButton';
+import { Navigation } from '../Header/Navigation/Navigation';
+import { OperationsHistory } from '../OperationsHistory/OperationsHistory';
 
 export const BottomContainer = styled.div<{ ref: any }>`
   z-index: 2;
@@ -57,7 +57,7 @@ export const FooterNavigation = forwardRef<HTMLDivElement>((props, ref) => {
             </Flex.Item>
             {walletState === WalletState.CONNECTED && (
               <Flex.Item marginRight={4}>
-                <TxHistory />
+                <OperationsHistory />
               </Flex.Item>
             )}
           </Flex>

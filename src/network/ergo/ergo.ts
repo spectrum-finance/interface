@@ -25,7 +25,12 @@ import {
   importedTokenAssets$,
   tokenAssetsToImport$,
 } from './api/tokens/tokens';
-import { txHistoryManager } from './api/transactionHistory/transactionHistory';
+import {
+  getOperationByTxId,
+  getOperations,
+  isSyncing$,
+  sync,
+} from './api/transactionHistory/transactionHistory';
 import { ErgoWalletContract } from './api/wallet/common/ErgoWalletContract';
 import {
   availableWallets,
@@ -70,7 +75,7 @@ export const ergoNetwork: Network<
   name: 'ergo',
   label: 'ergo',
   favicon: '/favicon-ergo.svg',
-  convenientAssetDefaultPreview: '$0.00',
+  convenientAssetDefaultPreview: '<$0.01',
   networkAsset,
   initialized$,
   initialize,
@@ -84,7 +89,6 @@ export const ergoNetwork: Network<
   getAddresses,
   getUsedAddresses,
   getUnusedAddresses,
-  txHistoryManager,
   connectWallet,
   disconnectWallet,
   availableWallets,
@@ -127,4 +131,8 @@ export const ergoNetwork: Network<
   useCreatePoolValidationFee,
 
   getPoolChartData,
+  getOperationByTxId,
+  getOperations,
+  syncOperations: sync,
+  isOperationsSyncing$: isSyncing$,
 };

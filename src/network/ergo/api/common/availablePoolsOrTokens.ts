@@ -118,12 +118,17 @@ export const filterUnavailableAndImportedTokenAssets = (
 export const filterUnavailableAndDefaultTokenAssets = (
   assets: AssetInfo[],
 ): Observable<AssetInfo[]> =>
-  combineLatest([importedTokenAssets$, rawAssetsWithLiquidity$]).pipe(
-    map(([importedTokens, rawAssetsWithLiquidity]) =>
+  combineLatest([
+    importedTokenAssets$,
+    rawAssetsWithLiquidity$,
+    defaultTokenList$,
+  ]).pipe(
+    map(([importedTokens, rawAssetsWithLiquidity, defaultTokenList]) =>
       assets.filter(
         (ai) =>
           (importedTokens.includes(ai.id) ||
             rawAssetsWithLiquidity.some((a) => a.id === ai.id)) &&
+          !defaultTokenList.tokensMap.has(ai.id) &&
           ai.id !== networkAsset.id,
       ),
     ),
