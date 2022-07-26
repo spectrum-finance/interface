@@ -18,15 +18,21 @@ export const DepositAssetCell: FC<SwapAssetCellProps> = ({ x, y }) => (
           <AssetIconPair assetX={x.asset} assetY={y.asset} size="small" />
         </Flex.Item>
         <Typography.Title level={5}>
-          {x.asset.name}/{y.asset.name}
+          {x.asset.ticker}/{y.asset.ticker}
         </Typography.Title>
       </Flex.Item>
       <Flex.Item display="flex">
         <Flex.Item marginRight={2}>
-          <DataTag content={x.toString(x.asset.decimals, 2)} size="small" />
+          <DataTag
+            content={x.toString(Math.max(x.asset.decimals || 0, 2), 2)}
+            size="small"
+          />
         </Flex.Item>
         <Flex.Item>
-          <DataTag content={y.toString(y.asset.decimals, 2)} size="small" />
+          <DataTag
+            content={y.toString(Math.max(y.asset.decimals || 0, 2), 2)}
+            size="small"
+          />
         </Flex.Item>
       </Flex.Item>
     </Flex>

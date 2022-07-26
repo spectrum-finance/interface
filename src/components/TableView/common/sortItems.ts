@@ -16,10 +16,10 @@ export const sortItems = (
     const itemBValue = sortBy(itemB);
 
     if (itemAValue > itemBValue) {
-      return sort.direction === SortDirection.ASC ? -1 : 1;
+      return sort.direction === SortDirection.ASC ? 1 : -1;
     }
     if (itemBValue > itemAValue) {
-      return sort.direction === SortDirection.ASC ? 1 : -1;
+      return sort.direction === SortDirection.ASC ? -1 : 1;
     }
     return 1;
   });
