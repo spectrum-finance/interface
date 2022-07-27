@@ -77,7 +77,7 @@ export const AssetListSelectTokenState: FC<AssetListSelectTokenStateProps> = ({
         height: 38,
         title: (
           <AssetListGroupTitle>
-            <Trans>Expended results from Explorer</Trans>
+            <Trans>Extended results from Explorer</Trans>
           </AssetListGroupTitle>
         ),
       },
