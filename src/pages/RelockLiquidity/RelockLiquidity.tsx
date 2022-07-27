@@ -32,7 +32,7 @@ import { PageSection } from '../../components/Page/PageSection/PageSection';
 import { ergoExplorerContext$ } from '../../gateway/api/explorer';
 import { getPositionByAmmPoolId } from '../../gateway/api/positions';
 import { useGuard } from '../../hooks/useGuard';
-import { LiquidityDatePicker } from '../Liquidity/components/LockLiquidityDatePicker/LiquidityDatePicker';
+import { LiquidityDatePicker } from '../Liquidity/common/components/LockLiquidityDatePicker/LiquidityDatePicker';
 import { RelockLiquidityConfirmationModal } from './RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal';
 
 interface RelockLiquidityModel {
