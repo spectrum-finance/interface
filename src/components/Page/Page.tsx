@@ -24,6 +24,7 @@ class Portal extends React.Component<{ root: HTMLElement }> {
 
 interface PageProps {
   width?: CSSProperties['width'];
+  maxWidth?: CSSProperties['maxWidth'];
   title?: ReactNode | ReactNode[] | string;
   withBackButton?: boolean;
   leftWidget?: ReactNode;
@@ -46,6 +47,7 @@ const Widget = styled.div`
 const _Page: React.FC<PageProps> = ({
   children,
   width,
+  maxWidth,
   title,
   withBackButton,
   leftWidget,
@@ -66,10 +68,15 @@ const _Page: React.FC<PageProps> = ({
       className="ergodex-form-page-wrapper"
       justify="center"
       align="flex-start"
+      width="100%"
     >
-      <Flex col align="center" position="relative">
+      <Flex col align="center" position="relative" width="100%">
         {title && (
-          <Flex.Item marginBottom={2} flex={1} style={{ width: '100%' }}>
+          <Flex.Item
+            marginBottom={2}
+            flex={1}
+            style={{ width: maxWidth ? '100%' : width ?? 0, maxWidth }}
+          >
             <Flex align="center" justify="space-between">
               <Flex.Item>
                 <Flex align="center">
@@ -94,7 +101,11 @@ const _Page: React.FC<PageProps> = ({
             </Flex>
           </Flex.Item>
         )}
-        <Flex justify="center" align="flex-start">
+        <Flex
+          justify="center"
+          align="flex-start"
+          style={{ width: maxWidth ? '100%' : width ?? 0, maxWidth }}
+        >
           {(s || m) && (
             <Portal root={document.body}>
               <Pane
@@ -109,14 +120,14 @@ const _Page: React.FC<PageProps> = ({
             </Portal>
           )}
           {!(s || m) && widgetOpened && <Widget>{leftWidget}</Widget>}
-          <Flex col>
-            <Flex.Item style={{ zIndex: 2 }}>
+          <Flex col width="100%">
+            <Flex.Item style={{ zIndex: 2 }} width="100%">
               <Box
                 bordered={false}
                 className={className}
                 padding={padding ? padding : valBySize([4, 4], [6, 6])}
                 borderRadius="l"
-                width={width ?? 0}
+                width="100%"
               >
                 {children}
               </Box>

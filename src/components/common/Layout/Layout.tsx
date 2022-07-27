@@ -26,6 +26,10 @@ import { Header } from './Header/Header';
 const MainContainer = styled.main`
   padding: 80px 2px 80px 8px;
 
+  ${device.m} {
+    padding: 80px 18px 80px 24px;
+  }
+
   ${device.l} {
     padding-top: 100px;
   }

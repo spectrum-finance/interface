@@ -21,6 +21,7 @@ import { LiquidityTitleExtra } from './components/LiquidityTitleExtra/LiquidityT
 import { LockedPositionsProps } from './components/LockedPositions/LockedPositions';
 import { PoolsOverview } from './components/PoolsOverview/PoolsOverview';
 import { YourPositions } from './components/YourPositions/YourPositions';
+import { LiquidityMobileLayout } from './mobile/LiquidityMobileLayout';
 
 enum LiquidityTab {
   POOLS_OVERVIEW = 'positions-overview',
@@ -120,61 +121,62 @@ export const Liquidity = (): JSX.Element => {
 
   return (
     <Page
-      width={944}
+      maxWidth={944}
       padding={4}
       title={<Trans>Liquidity</Trans>}
       titleChildren={<LiquidityTitleExtra />}
     >
-      <LiquidityTabs
-        tabBarExtraContent={{
-          right: (
-            <Flex>
-              <Flex.Item flex={1} marginRight={1}>
-                <Input
-                  autoFocus
-                  onChange={handleSearchChange}
-                  prefix={<SearchOutlined />}
-                  placeholder={t`Type token name or pool id`}
-                  size="large"
-                />
-              </Flex.Item>
-              <LiquidityFilter value={filters} onChange={setFilters} />
-            </Flex>
-          ),
-        }}
-        defaultActiveKey={defaultActiveKey}
-        onChange={(active) => setSearchParams({ active })}
-      >
-        <Tabs.TabPane
-          tab={<Trans>Pools Overview</Trans>}
-          key={LiquidityTab.POOLS_OVERVIEW}
-        >
-          <PoolsOverview
-            ammPools={filterPools(pools) || []}
-            loading={isPoolsLoading}
-          />
-        </Tabs.TabPane>
-        <Tabs.TabPane
-          tab={<Trans>Your Positions</Trans>}
-          key={LiquidityTab.YOUR_POSITIONS}
-        >
-          <YourPositions
-            positions={filterPositions(positions) || []}
-            isPositionsEmpty={!positions.length}
-            loading={isPositionLoading}
-          />
-        </Tabs.TabPane>
-        {positionsWithLocks.length && (
-          <Tabs.TabPane
-            tab={<Trans>Locked Positions</Trans>}
-            key={LiquidityTab.LOCKED_POSITIONS}
-          >
-            <LockedPositionsProps
-              positions={filterLockedPositions(positionsWithLocks)}
-            />
-          </Tabs.TabPane>
-        )}
-      </LiquidityTabs>
+      <LiquidityMobileLayout />
+      {/*<LiquidityTabs*/}
+      {/*  tabBarExtraContent={{*/}
+      {/*    right: (*/}
+      {/*      <Flex>*/}
+      {/*        <Flex.Item flex={1} marginRight={1}>*/}
+      {/*          <Input*/}
+      {/*            autoFocus*/}
+      {/*            onChange={handleSearchChange}*/}
+      {/*            prefix={<SearchOutlined />}*/}
+      {/*            placeholder={t`Type token name or pool id`}*/}
+      {/*            size="large"*/}
+      {/*          />*/}
+      {/*        </Flex.Item>*/}
+      {/*        <LiquidityFilter value={filters} onChange={setFilters} />*/}
+      {/*      </Flex>*/}
+      {/*    ),*/}
+      {/*  }}*/}
+      {/*  defaultActiveKey={defaultActiveKey}*/}
+      {/*  onChange={(active) => setSearchParams({ active })}*/}
+      {/*>*/}
+      {/*  <Tabs.TabPane*/}
+      {/*    tab={<Trans>Pools Overview</Trans>}*/}
+      {/*    key={LiquidityTab.POOLS_OVERVIEW}*/}
+      {/*  >*/}
+      {/*    <PoolsOverview*/}
+      {/*      ammPools={filterPools(pools) || []}*/}
+      {/*      loading={isPoolsLoading}*/}
+      {/*    />*/}
+      {/*  </Tabs.TabPane>*/}
+      {/*  <Tabs.TabPane*/}
+      {/*    tab={<Trans>Your Positions</Trans>}*/}
+      {/*    key={LiquidityTab.YOUR_POSITIONS}*/}
+      {/*  >*/}
+      {/*    <YourPositions*/}
+      {/*      positions={filterPositions(positions) || []}*/}
+      {/*      isPositionsEmpty={!positions.length}*/}
+      {/*      loading={isPositionLoading}*/}
+      {/*    />*/}
+      {/*  </Tabs.TabPane>*/}
+      {/*  {positionsWithLocks.length && (*/}
+      {/*    <Tabs.TabPane*/}
+      {/*      tab={<Trans>Locked Positions</Trans>}*/}
+      {/*      key={LiquidityTab.LOCKED_POSITIONS}*/}
+      {/*    >*/}
+      {/*      <LockedPositionsProps*/}
+      {/*        positions={filterLockedPositions(positionsWithLocks)}*/}
+      {/*      />*/}
+      {/*    </Tabs.TabPane>*/}
+      {/*  )}*/}
+      {/*</LiquidityTabs>*/}
     </Page>
   );
 };
