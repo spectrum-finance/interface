@@ -1,3 +1,4 @@
+import { AugErgoBox } from '@ergolabs/ergo-sdk';
 import { DateTime } from 'luxon';
 
 import { TxId } from '../types';
@@ -6,6 +7,7 @@ import { Currency } from './Currency';
 export enum OperationStatus {
   Pending = 'pending',
   Executed = 'executed',
+  Queued = 'queued',
   Locked = 'locked',
 }
 
@@ -15,6 +17,7 @@ export interface OperationContract<T extends string> {
   readonly type: T;
   readonly dateTime?: DateTime;
   readonly status: OperationStatus;
+  readonly orderInput?: AugErgoBox;
 }
 
 export interface SwapOperation extends OperationContract<'swap'> {

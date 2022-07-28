@@ -128,7 +128,18 @@ export const swap = (
 
         return fromPromise(
           poolActions(pool.pool).swap(swapParams, txContext),
-        ).pipe(switchMap((tx) => submitTx(tx)));
+        ).pipe(
+          switchMap((tx) =>
+            submitTx(tx, {
+              type: 'swap',
+              baseAsset: from.asset.id,
+              baseAmount: from.toAmount(),
+              quoteAsset: to.asset.id,
+              quoteAmount: to.toAmount(),
+              txId: tx.id,
+            }),
+          ),
+        );
       },
     ),
   );

@@ -42,7 +42,12 @@ export const refund = (address: string, txId: string): Observable<TxId> =>
       );
 
       return from(ammOrderRefunds.refund(refundParams, txContext)).pipe(
-        switchMap((tx) => submitTx(tx)),
+        switchMap((tx) =>
+          submitTx(tx, {
+            txId: tx.id,
+            type: 'refund',
+          }),
+        ),
       );
     }),
   );

@@ -96,6 +96,17 @@ export const deposit = (
 
       return from(
         poolActions(pool.pool).deposit(depositParams, txContext),
-      ).pipe(switchMap((tx) => submitTx(tx)));
+      ).pipe(
+        switchMap((tx) =>
+          submitTx(tx, {
+            type: 'deposit',
+            xAsset: x.asset.id,
+            xAmount: x.toAmount(),
+            yAsset: y.asset.id,
+            yAmount: y.toAmount(),
+            txId: tx.id,
+          }),
+        ),
+      );
     }),
   );

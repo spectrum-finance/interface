@@ -48,6 +48,7 @@ const mapToSwapOperation = (
       base: new Currency(order.from.amount, fromAsset),
       quote: new Currency(0n, toAsset),
       id: ammDexOperation.txId,
+      orderInput: ammDexOperation.orderInput,
       dateTime: ammDexOperation.timestamp
         ? DateTime.fromMillis(Number(ammDexOperation.timestamp))
         : undefined,
@@ -72,6 +73,7 @@ const mapToRedeemOperation = (
       x: new Currency(0n, pool.x.asset),
       y: new Currency(0n, pool.y.asset),
       id: ammDexOperation.txId,
+      orderInput: ammDexOperation.orderInput,
       dateTime: ammDexOperation.timestamp
         ? DateTime.fromMillis(Number(ammDexOperation.timestamp))
         : undefined,
@@ -95,6 +97,7 @@ const mapToDepositOperation = (
       x: new Currency(order.inX.amount, xAsset),
       y: new Currency(order.inY.amount, yAsset),
       id: ammDexOperation.txId,
+      orderInput: ammDexOperation.orderInput,
       dateTime: ammDexOperation.timestamp
         ? DateTime.fromMillis(Number(ammDexOperation.timestamp))
         : undefined,

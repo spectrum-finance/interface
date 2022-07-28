@@ -86,7 +86,12 @@ export const redeem = (pool: ErgoAmmPool, lp: Currency): Observable<TxId> =>
       });
 
       return from(poolActions(pool.pool).redeem(redeemParams, txContext)).pipe(
-        switchMap((tx) => submitTx(tx)),
+        switchMap((tx) =>
+          submitTx(tx, {
+            type: 'refund',
+            txId: tx.id,
+          }),
+        ),
       );
     }),
   );
