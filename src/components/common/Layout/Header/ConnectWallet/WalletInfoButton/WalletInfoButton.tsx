@@ -4,16 +4,18 @@ import {
   Flex,
   LoadingOutlined,
   Modal,
-  Typography,
   useDevice,
 } from '@ergolabs/ui-kit';
 import React, { FC } from 'react';
 import styled from 'styled-components';
 
 import { panalytics } from '../../../../../../common/analytics';
+import { useObservable } from '../../../../../../common/hooks/useObservable';
 import { Currency } from '../../../../../../common/models/Currency';
+import { pendingOperations$ } from '../../../../../../gateway/api/pendingOperations';
 import { WalletModal } from '../../../../../WalletModal/WalletModal';
-import { AddressTag } from './AddressTag/AddressTag';
+import { AddressOrPendingTag } from './AddressOrPendingTag/AddressOrPendingTag';
+import { BalanceView } from './BalanceView/BalanceView';
 
 export interface WalletInfoButtonProps {
   className?: string;
@@ -27,6 +29,7 @@ const _WalletInfoButton: FC<WalletInfoButtonProps> = ({
   address,
 }) => {
   const openWalletModal = () => Modal.open(<WalletModal />);
+  const [pendingOperations] = useObservable(pendingOperations$);
   const { s } = useDevice();
 
   return (
@@ -41,15 +44,16 @@ const _WalletInfoButton: FC<WalletInfoButtonProps> = ({
       {balance !== undefined ? (
         <Flex align="center" stretch>
           {!s && (
-            <Flex.Item marginRight={2} marginLeft={1}>
-              <Typography.Body
-                style={{ whiteSpace: 'nowrap', fontSize: '16px' }}
-              >
-                {balance?.toCurrencyString()}
-              </Typography.Body>
-            </Flex.Item>
+            <>
+              <Flex.Item marginLeft={1} marginRight={2}>
+                <BalanceView balance={balance} />
+              </Flex.Item>
+            </>
           )}
-          <AddressTag address={address} />
+          <AddressOrPendingTag
+            address={address}
+            pendingCount={pendingOperations?.length}
+          />
         </Flex>
       ) : (
         <LoadingOutlined />
