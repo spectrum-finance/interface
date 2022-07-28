@@ -2,12 +2,14 @@ import {
   CheckOutlined,
   ClockCircleOutlined,
   Flex,
-  Loading3QuartersOutlined,
+  LoadingOutlined,
   LockOutlined,
+  Spin,
   Tag,
 } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
+import styled from 'styled-components';
 
 import { OperationStatus } from '../../../../../common/models/Operation';
 
@@ -26,11 +28,20 @@ const ExecutedStatusCell: FC = () => (
   </Tag>
 );
 
+const StyledSpin = styled(Spin)`
+  color: var(--ergo-blue-color);
+  font-size: 12px;
+
+  .anticon {
+    font-size: 12px;
+  }
+`;
+
 const PendingStatusCell: FC = () => (
   <Tag color="processing">
     <Flex>
       <Flex.Item marginRight={1}>
-        <Loading3QuartersOutlined />
+        <StyledSpin indicator={<LoadingOutlined />} />
       </Flex.Item>
       <Trans>Pending</Trans>
     </Flex>
