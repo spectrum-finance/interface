@@ -16,6 +16,8 @@ import { networkAsset } from './api/networkAsset/networkAsset';
 import { networkContext$ } from './api/networkContext/networkContext';
 import { isSyncing$, sync } from './api/operations/history/transactionHistory';
 import { getOperationByTxId, getOperations } from './api/operations/operations';
+import { pendingOperations$ } from './api/operations/pending/pendingOperations';
+import { queuedOperation$ } from './api/operations/pending/queuedOperation';
 import { getPoolChartData } from './api/poolChart/poolChart';
 import { positions$ } from './api/positions/positions';
 import {
@@ -131,4 +133,6 @@ export const ergoNetwork: Network<
   getOperations,
   syncOperations: sync,
   isOperationsSyncing$: isSyncing$,
+  pendingOperations$,
+  queuedOperation$,
 };
