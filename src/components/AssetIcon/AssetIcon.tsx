@@ -47,6 +47,8 @@ const AssetIcon: React.FC<TokenIconProps> = ({ asset, size, ...rest }) => {
         display: 'inherit',
         width: MAP_SIZE_TO_NUMBER[size || 'medium'],
         height: MAP_SIZE_TO_NUMBER[size || 'medium'],
+        overflow: 'hidden',
+        borderRadius: '50%',
       }}
       {...rest}
     >
