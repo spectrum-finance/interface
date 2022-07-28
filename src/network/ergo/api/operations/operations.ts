@@ -19,7 +19,13 @@ import { pendingOperations$ } from './pending/pendingOperations';
 export const getOperations = (): Observable<Operation[]> =>
   combineLatest([operationsHistory$, pendingOperations$]).pipe(
     map(([operationsHistory, pendingOperations]) => [
-      ...pendingOperations,
+      ...pendingOperations.filter(
+        (po) =>
+          !operationsHistory.some(
+            (o) =>
+              po.id === o.id || po.orderInput?.outputTransactionId === o.id,
+          ),
+      ),
       ...operationsHistory,
     ]),
     publishReplay(1),

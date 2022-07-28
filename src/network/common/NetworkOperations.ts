@@ -7,6 +7,11 @@ import { TxId } from '../../common/types';
 export interface NetworkOperations {
   swap(pool: AmmPool, from: Currency, to: Currency): Observable<TxId>;
   deposit(pool: AmmPool, x: Currency, y: Currency): Observable<TxId>;
-  redeem(pool: AmmPool, lp: Currency): Observable<TxId>;
+  redeem(
+    pool: AmmPool,
+    lp: Currency,
+    x: Currency,
+    y: Currency,
+  ): Observable<TxId>;
   refund(address: string, txId: string): Observable<TxId>;
 }

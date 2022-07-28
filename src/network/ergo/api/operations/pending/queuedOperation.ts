@@ -37,7 +37,7 @@ export interface SwapOperationParams {
 
 export interface OtherOperationParams {
   readonly txId: string;
-  readonly type: 'deposit';
+  readonly type: 'deposit' | 'redeem';
   readonly xAsset: string;
   readonly xAmount: string;
   readonly yAsset: string;

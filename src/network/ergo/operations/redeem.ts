@@ -71,7 +71,12 @@ const toRedeemOperationArgs = ({
   return [redeemParams, txContext];
 };
 
-export const redeem = (pool: ErgoAmmPool, lp: Currency): Observable<TxId> =>
+export const redeem = (
+  pool: ErgoAmmPool,
+  lp: Currency,
+  x: Currency,
+  y: Currency,
+): Observable<TxId> =>
   zip([settings$, utxos$, minerFee$, minExFee$, networkContext$]).pipe(
     first(),
     switchMap(([settings, utxos, minerFee, minExFee, networkContext]) => {
@@ -88,8 +93,12 @@ export const redeem = (pool: ErgoAmmPool, lp: Currency): Observable<TxId> =>
       return from(poolActions(pool.pool).redeem(redeemParams, txContext)).pipe(
         switchMap((tx) =>
           submitTx(tx, {
-            type: 'refund',
+            type: 'redeem',
             txId: tx.id,
+            xAmount: x.toAmount(),
+            xAsset: x.asset.id,
+            yAmount: y.toAmount(),
+            yAsset: y.asset.id,
           }),
         ),
       );
