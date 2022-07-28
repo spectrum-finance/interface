@@ -1,9 +1,6 @@
-import './Pool.less';
-
-import { Flex, Input, SearchOutlined, Tabs, useSearch } from '@ergolabs/ui-kit';
-import { t, Trans } from '@lingui/macro';
+import { useDevice, useSearch } from '@ergolabs/ui-kit';
+import { Trans } from '@lingui/macro';
 import React, { useState } from 'react';
-import styled from 'styled-components';
 
 import { useObservable } from '../../common/hooks/useObservable';
 import { useSearchParams } from '../../common/hooks/useSearchParams';
@@ -55,6 +52,8 @@ export const Liquidity = (): JSX.Element => {
     Set<PoolsOrPositionsFilterValue> | undefined
   >();
 
+  const { moreThan, s } = useDevice();
+
   const [{ active }, setSearchParams] =
     useSearchParams<{ active: LiquidityState | undefined }>();
   const [searchByTerm, setSearch, term] = useSearch<
@@ -104,21 +103,40 @@ export const Liquidity = (): JSX.Element => {
       title={<Trans>Liquidity</Trans>}
       titleChildren={<LiquidityTitleExtra />}
     >
-      <LiquidityDefaultLayout
-        activeState={activeState}
-        setActiveState={setActiveState}
-        filters={filters}
-        term={term}
-        handleSearchTerm={handleSearchChange}
-        setFilters={setFilters}
-        ammPools={filterAmmPools(ammPools) || []}
-        isAmmPoolsLoading={isAmmPoolsLoading}
-        positions={filterPositions(positions) || []}
-        isPositionsEmpty={!positions.length}
-        isPositionsLoading={isPositionLoading}
-        showLockedPositions={positionsWithLocks.length > 0}
-        positionsWithLocks={filterLockedPositions(positionsWithLocks)}
-      />
+      {s && (
+        <LiquidityMobileLayout
+          activeState={activeState}
+          setActiveState={setActiveState}
+          filters={filters}
+          term={term}
+          handleSearchTerm={handleSearchChange}
+          setFilters={setFilters}
+          ammPools={filterAmmPools(ammPools) || []}
+          isAmmPoolsLoading={isAmmPoolsLoading}
+          positions={filterPositions(positions) || []}
+          isPositionsEmpty={!positions.length}
+          isPositionsLoading={isPositionLoading}
+          showLockedPositions={positionsWithLocks.length > 0}
+          positionsWithLocks={filterLockedPositions(positionsWithLocks)}
+        />
+      )}
+      {moreThan('m') && (
+        <LiquidityDefaultLayout
+          activeState={activeState}
+          setActiveState={setActiveState}
+          filters={filters}
+          term={term}
+          handleSearchTerm={handleSearchChange}
+          setFilters={setFilters}
+          ammPools={filterAmmPools(ammPools) || []}
+          isAmmPoolsLoading={isAmmPoolsLoading}
+          positions={filterPositions(positions) || []}
+          isPositionsEmpty={!positions.length}
+          isPositionsLoading={isPositionLoading}
+          showLockedPositions={positionsWithLocks.length > 0}
+          positionsWithLocks={filterLockedPositions(positionsWithLocks)}
+        />
+      )}
     </Page>
   );
 };

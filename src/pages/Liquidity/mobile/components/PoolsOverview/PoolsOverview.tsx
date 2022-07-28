@@ -1,10 +1,10 @@
+import { Button } from '@ergolabs/ui-kit';
 import React, { FC } from 'react';
 
 import { TableView } from '../../../../../components/TableView/TableView';
 import { PoolsOverviewLoadingState } from '../../../common/tableViewStates/PoolsOverviewLoadingState/PoolsOverviewLoadingState';
 import { LiquidityPoolsOverviewProps } from '../../../common/types/LiquidityPoolsOverviewProps';
 import { PoolsOrPositionsTableView } from '../../common/PoolsOrPositionsTableView/PoolsOrPositionsTableView';
-import { LiquidityStateSelect } from '../LiquidityStateSelect/LiquidityStateSelect';
 
 export const PoolsOverview: FC<LiquidityPoolsOverviewProps> = ({
   ammPools,
@@ -13,7 +13,7 @@ export const PoolsOverview: FC<LiquidityPoolsOverviewProps> = ({
   <PoolsOrPositionsTableView
     poolMapper={(pool) => pool}
     items={ammPools}
-    expandComponent={LiquidityStateSelect}
+    expandComponent={Button as any}
   >
     <TableView.State name="loading" condition={isAmmPoolsLoading}>
       <PoolsOverviewLoadingState />

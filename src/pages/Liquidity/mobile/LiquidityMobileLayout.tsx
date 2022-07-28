@@ -9,6 +9,8 @@ import { LiquidityStateSelect } from './components/LiquidityStateSelect/Liquidit
 import { PoolsOverview } from './components/PoolsOverview/PoolsOverview';
 
 export const LiquidityMobileLayout: FC<LiquidityLayoutProps> = ({
+  activeState,
+  setActiveState,
   ammPools,
   isAmmPoolsLoading,
   filters,
@@ -18,7 +20,7 @@ export const LiquidityMobileLayout: FC<LiquidityLayoutProps> = ({
 }) => (
   <Flex col>
     <Flex.Item marginBottom={2} width="100%">
-      <LiquidityStateSelect />
+      <LiquidityStateSelect value={activeState} />
     </Flex.Item>
     <Flex.Item display="flex" marginBottom={4}>
       <Flex.Item flex={1} marginRight={2}>
