@@ -14,10 +14,8 @@ import { convertToConvenientNetworkAsset } from './api/ergoUsdRatio/ergoUsdRatio
 import { locks$ } from './api/locks/locks';
 import { networkAsset } from './api/networkAsset/networkAsset';
 import { networkContext$ } from './api/networkContext/networkContext';
-import { deposit } from './api/operations/deposit';
-import { redeem } from './api/operations/redeem';
-import { refund } from './api/operations/refund';
-import { swap } from './api/operations/swap';
+import { isSyncing$, sync } from './api/operations/history/transactionHistory';
+import { getOperationByTxId, getOperations } from './api/operations/operations';
 import { getPoolChartData } from './api/poolChart/poolChart';
 import { positions$ } from './api/positions/positions';
 import {
@@ -25,12 +23,6 @@ import {
   importedTokenAssets$,
   tokenAssetsToImport$,
 } from './api/tokens/tokens';
-import {
-  getOperationByTxId,
-  getOperations,
-  isSyncing$,
-  sync,
-} from './api/transactionHistory/transactionHistory';
 import { ErgoWalletContract } from './api/wallet/common/ErgoWalletContract';
 import {
   availableWallets,
@@ -41,6 +33,10 @@ import {
   walletState$,
 } from './api/wallet/wallet';
 import { initialize, initialized$ } from './initialized';
+import { deposit } from './operations/deposit';
+import { redeem } from './operations/redeem';
+import { refund } from './operations/refund';
+import { swap } from './operations/swap';
 import {
   ErgoSettings,
   setSettings,

@@ -13,7 +13,7 @@ export interface OperationContract<T extends string> {
   readonly id: TxId;
   readonly txId: TxId;
   readonly type: T;
-  readonly dateTime: DateTime;
+  readonly dateTime?: DateTime;
   readonly status: OperationStatus;
 }
 

@@ -12,8 +12,8 @@ import {
   tap,
 } from 'rxjs';
 
-import { Dictionary } from '../../../../common/utils/Dictionary';
-import networkHistory from '../../../../services/networkHistory';
+import { Dictionary } from '../../../../../common/utils/Dictionary';
+import networkHistory from '../../../../../services/networkHistory';
 import { WorkerBatchMessage } from './workerMessages/workerBatchMessage';
 import { WorkerStartMessage } from './workerMessages/workerStartMessage';
 import { WorkerSyncEndMessage } from './workerMessages/workerSyncEndMessage';

@@ -8,21 +8,22 @@ import { AmmOrderStatus } from '@ergolabs/ergo-dex-sdk/build/main/amm/models/ope
 import { DateTime } from 'luxon';
 import { combineLatest, map, Observable, of } from 'rxjs';
 
-import { Currency } from '../../../../common/models/Currency';
+import { Currency } from '../../../../../common/models/Currency';
 import {
   Operation,
   OperationStatus,
   OtherOperation,
   SwapOperation,
-} from '../../../../common/models/Operation';
-import { allAmmPools$ } from '../ammPools/ammPools';
-import { mapToAssetInfo } from '../common/assetInfoManager';
+} from '../../../../../common/models/Operation';
+import { allAmmPools$ } from '../../ammPools/ammPools';
+import { mapToAssetInfo } from '../../common/assetInfoManager';
 
 const mapRawStatusToStatus = (rs: AmmOrderStatus): OperationStatus => {
   switch (rs) {
     case 'executed':
       return OperationStatus.Executed;
     case 'pending':
+    case 'inProgress':
       return OperationStatus.Pending;
     case 'submitted':
       return OperationStatus.Locked;
@@ -47,7 +48,9 @@ const mapToSwapOperation = (
       base: new Currency(order.from.amount, fromAsset),
       quote: new Currency(0n, toAsset),
       id: ammDexOperation.txId,
-      dateTime: DateTime.fromMillis(Number(ammDexOperation.timestamp)),
+      dateTime: ammDexOperation.timestamp
+        ? DateTime.fromMillis(Number(ammDexOperation.timestamp))
+        : undefined,
     })),
   );
 };
@@ -69,7 +72,9 @@ const mapToRedeemOperation = (
       x: new Currency(0n, pool.x.asset),
       y: new Currency(0n, pool.y.asset),
       id: ammDexOperation.txId,
-      dateTime: DateTime.fromMillis(Number(ammDexOperation.timestamp)),
+      dateTime: ammDexOperation.timestamp
+        ? DateTime.fromMillis(Number(ammDexOperation.timestamp))
+        : undefined,
     })),
   );
 };
@@ -90,7 +95,9 @@ const mapToDepositOperation = (
       x: new Currency(order.inX.amount, xAsset),
       y: new Currency(order.inY.amount, yAsset),
       id: ammDexOperation.txId,
-      dateTime: DateTime.fromMillis(Number(ammDexOperation.timestamp)),
+      dateTime: ammDexOperation.timestamp
+        ? DateTime.fromMillis(Number(ammDexOperation.timestamp))
+        : undefined,
     })),
   );
 };
