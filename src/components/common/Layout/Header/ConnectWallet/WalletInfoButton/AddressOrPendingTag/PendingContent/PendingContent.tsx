@@ -1,4 +1,5 @@
 import { Flex, LoadingOutlined } from '@ergolabs/ui-kit';
+import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 
 import { uint } from '../../../../../../../../common/types';
@@ -14,7 +15,9 @@ export const PendingContent: FC<PendingContentProps> = ({ pendingCount }) => (
       <Flex.Item marginRight={2} marginLeft={2}>
         <LoadingOutlined />
       </Flex.Item>
-      <Flex.Item marginRight={2}>{pendingCount} Pending</Flex.Item>
+      <Flex.Item marginRight={2}>
+        {pendingCount} <Trans>Pending</Trans>
+      </Flex.Item>
     </Flex>
   </TagTypography>
 );
