@@ -3,15 +3,15 @@ import { ErgoBox, TransactionContext } from '@ergolabs/ergo-sdk';
 import { NetworkContext } from '@ergolabs/ergo-sdk/build/main/entities/networkContext';
 import { first, from, Observable, switchMap, zip } from 'rxjs';
 
-import { UI_FEE_BIGINT } from '../../../../common/constants/erg';
-import { Currency } from '../../../../common/models/Currency';
-import { TxId } from '../../../../common/types';
-import { minExFee$ } from '../../settings/executionFee';
-import { minerFee$ } from '../../settings/minerFee';
-import { ErgoSettings, settings$ } from '../../settings/settings';
-import { ErgoAmmPool } from '../ammPools/ErgoAmmPool';
-import { networkContext$ } from '../networkContext/networkContext';
-import { utxos$ } from '../utxos/utxos';
+import { UI_FEE_BIGINT } from '../../../common/constants/erg';
+import { Currency } from '../../../common/models/Currency';
+import { TxId } from '../../../common/types';
+import { ErgoAmmPool } from '../api/ammPools/ErgoAmmPool';
+import { networkContext$ } from '../api/networkContext/networkContext';
+import { utxos$ } from '../api/utxos/utxos';
+import { minExFee$ } from '../settings/executionFee';
+import { minerFee$ } from '../settings/minerFee';
+import { ErgoSettings, settings$ } from '../settings/settings';
 import { getInputs } from './common/getInputs';
 import { getTxContext } from './common/getTxContext';
 import { poolActions } from './common/poolActions';
@@ -71,7 +71,12 @@ const toRedeemOperationArgs = ({
   return [redeemParams, txContext];
 };
 
-export const redeem = (pool: ErgoAmmPool, lp: Currency): Observable<TxId> =>
+export const redeem = (
+  pool: ErgoAmmPool,
+  lp: Currency,
+  x: Currency,
+  y: Currency,
+): Observable<TxId> =>
   zip([settings$, utxos$, minerFee$, minExFee$, networkContext$]).pipe(
     first(),
     switchMap(([settings, utxos, minerFee, minExFee, networkContext]) => {
@@ -86,7 +91,16 @@ export const redeem = (pool: ErgoAmmPool, lp: Currency): Observable<TxId> =>
       });
 
       return from(poolActions(pool.pool).redeem(redeemParams, txContext)).pipe(
-        switchMap((tx) => submitTx(tx)),
+        switchMap((tx) =>
+          submitTx(tx, {
+            type: 'redeem',
+            txId: tx.id,
+            xAmount: x.toAmount(),
+            xAsset: x.asset.id,
+            yAmount: y.toAmount(),
+            yAsset: y.asset.id,
+          }),
+        ),
       );
     }),
   );

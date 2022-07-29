@@ -1,7 +1,7 @@
 import { map, publishReplay, refCount } from 'rxjs';
 
-import { localStorageManager } from '../../../../common/utils/localStorageManager';
-import { makeId } from '../../../../common/utils/makeId';
+import { localStorageManager } from '../../../../../common/utils/localStorageManager';
+import { makeId } from '../../../../../common/utils/makeId';
 
 const SYNC_PROCESS_TAB_KEYS = 'sync-process-tab-keys';
 

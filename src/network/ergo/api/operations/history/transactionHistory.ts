@@ -1,12 +1,9 @@
 import { AmmDexOperation } from '@ergolabs/ergo-dex-sdk';
-import { AugErgoTx } from '@ergolabs/ergo-sdk';
 import {
   combineLatest,
   defer,
   first,
-  from,
   map,
-  Observable,
   of,
   publishReplay,
   refCount,
@@ -15,13 +12,12 @@ import {
 } from 'rxjs';
 import TxHistoryWorker from 'worker-loader!./transactionHistory.worker';
 
-import { Operation } from '../../../../common/models/Operation';
-import { tabClosing$ } from '../../../../common/streams/tabClosing';
-import { Dictionary } from '../../../../common/utils/Dictionary';
-import { localStorageManager } from '../../../../common/utils/localStorageManager';
-import networkHistory from '../../../../services/networkHistory';
-import { getAddresses } from '../addresses/addresses';
-import { mapToOperationOrEmpty } from './common';
+import { Operation } from '../../../../../common/models/Operation';
+import { tabClosing$ } from '../../../../../common/streams/tabClosing';
+import { Dictionary } from '../../../../../common/utils/Dictionary';
+import { localStorageManager } from '../../../../../common/utils/localStorageManager';
+import { getAddresses } from '../../addresses/addresses';
+import { mapToOperationOrEmpty } from '../common/mapToOperationOrEmpty';
 import {
   addToTabQueue,
   clearTabQueue,
@@ -162,7 +158,7 @@ export const isSyncing$ = localStorageManager
   .getStream<boolean>(TX_HISTORY_SYNCING_KEY)
   .pipe(map(Boolean));
 
-export const transactionHistory$ = addresses$.pipe(
+export const operationsHistory$ = addresses$.pipe(
   switchMap((addresses) =>
     localStorageManager
       .getStream<TxHistoryCache>(TX_HISTORY_CACHE_KEY)
@@ -193,27 +189,3 @@ export const transactionHistory$ = addresses$.pipe(
   publishReplay(1),
   refCount(),
 );
-
-const toOperation = (
-  tx: AugErgoTx | undefined,
-): Observable<AmmDexOperation | undefined> => {
-  if (!tx) {
-    return of(undefined);
-  }
-
-  return addresses$.pipe(
-    map((addresses) => networkHistory['parseOp'](tx, true, addresses)),
-  );
-};
-
-export const getOperations = (): Observable<Operation[]> => transactionHistory$;
-
-export const getOperationByTxId = (
-  txId: string,
-): Observable<Operation | undefined> =>
-  from(networkHistory.network.getTx(txId)).pipe(
-    switchMap(toOperation),
-    switchMap((dexOperation) =>
-      dexOperation ? mapToOperationOrEmpty(dexOperation) : of(undefined),
-    ),
-  );

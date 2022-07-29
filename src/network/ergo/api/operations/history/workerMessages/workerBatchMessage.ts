@@ -1,6 +1,6 @@
 import { AmmDexOperation } from '@ergolabs/ergo-dex-sdk';
 
-import { Dictionary } from '../../../../../common/utils/Dictionary';
+import { Dictionary } from '../../../../../../common/utils/Dictionary';
 
 export interface WorkerBatchMessageData {
   readonly address: string;

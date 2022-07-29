@@ -7,17 +7,17 @@ import { AssetAmount, ErgoBox, TransactionContext } from '@ergolabs/ergo-sdk';
 import { NetworkContext } from '@ergolabs/ergo-sdk/build/main/entities/networkContext';
 import { first, from as fromPromise, Observable, switchMap, zip } from 'rxjs';
 
-import { UI_FEE_BIGINT } from '../../../../common/constants/erg';
-import { Currency } from '../../../../common/models/Currency';
-import { TxId } from '../../../../common/types';
-import { getBaseInputParameters } from '../../../../utils/walletMath';
-import { minExFee$ } from '../../settings/executionFee';
-import { minerFee$ } from '../../settings/minerFee';
-import { nitro$ } from '../../settings/nitro';
-import { ErgoSettings, settings$ } from '../../settings/settings';
-import { ErgoAmmPool } from '../ammPools/ErgoAmmPool';
-import { networkContext$ } from '../networkContext/networkContext';
-import { utxos$ } from '../utxos/utxos';
+import { UI_FEE_BIGINT } from '../../../common/constants/erg';
+import { Currency } from '../../../common/models/Currency';
+import { TxId } from '../../../common/types';
+import { getBaseInputParameters } from '../../../utils/walletMath';
+import { ErgoAmmPool } from '../api/ammPools/ErgoAmmPool';
+import { networkContext$ } from '../api/networkContext/networkContext';
+import { utxos$ } from '../api/utxos/utxos';
+import { minExFee$ } from '../settings/executionFee';
+import { minerFee$ } from '../settings/minerFee';
+import { nitro$ } from '../settings/nitro';
+import { ErgoSettings, settings$ } from '../settings/settings';
 import { getInputs } from './common/getInputs';
 import { getTxContext } from './common/getTxContext';
 import { poolActions } from './common/poolActions';
@@ -128,7 +128,18 @@ export const swap = (
 
         return fromPromise(
           poolActions(pool.pool).swap(swapParams, txContext),
-        ).pipe(switchMap((tx) => submitTx(tx)));
+        ).pipe(
+          switchMap((tx) =>
+            submitTx(tx, {
+              type: 'swap',
+              baseAsset: from.asset.id,
+              baseAmount: from.toAmount(),
+              quoteAsset: to.asset.id,
+              quoteAmount: to.toAmount(),
+              txId: tx.id,
+            }),
+          ),
+        );
       },
     ),
   );

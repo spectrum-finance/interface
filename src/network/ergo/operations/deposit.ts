@@ -3,15 +3,15 @@ import { AssetAmount, ErgoBox, TransactionContext } from '@ergolabs/ergo-sdk';
 import { NetworkContext } from '@ergolabs/ergo-sdk/build/main/entities/networkContext';
 import { first, from, Observable, switchMap, zip } from 'rxjs';
 
-import { UI_FEE_BIGINT } from '../../../../common/constants/erg';
-import { Currency } from '../../../../common/models/Currency';
-import { TxId } from '../../../../common/types';
-import { minExFee$ } from '../../settings/executionFee';
-import { minerFee$ } from '../../settings/minerFee';
-import { ErgoSettings, settings$ } from '../../settings/settings';
-import { ErgoAmmPool } from '../ammPools/ErgoAmmPool';
-import { networkContext$ } from '../networkContext/networkContext';
-import { utxos$ } from '../utxos/utxos';
+import { UI_FEE_BIGINT } from '../../../common/constants/erg';
+import { Currency } from '../../../common/models/Currency';
+import { TxId } from '../../../common/types';
+import { ErgoAmmPool } from '../api/ammPools/ErgoAmmPool';
+import { networkContext$ } from '../api/networkContext/networkContext';
+import { utxos$ } from '../api/utxos/utxos';
+import { minExFee$ } from '../settings/executionFee';
+import { minerFee$ } from '../settings/minerFee';
+import { ErgoSettings, settings$ } from '../settings/settings';
 import { getInputs } from './common/getInputs';
 import { getTxContext } from './common/getTxContext';
 import { poolActions } from './common/poolActions';
@@ -96,6 +96,17 @@ export const deposit = (
 
       return from(
         poolActions(pool.pool).deposit(depositParams, txContext),
-      ).pipe(switchMap((tx) => submitTx(tx)));
+      ).pipe(
+        switchMap((tx) =>
+          submitTx(tx, {
+            type: 'deposit',
+            xAsset: x.asset.id,
+            xAmount: x.toAmount(),
+            yAsset: y.asset.id,
+            yAmount: y.toAmount(),
+            txId: tx.id,
+          }),
+        ),
+      );
     }),
   );

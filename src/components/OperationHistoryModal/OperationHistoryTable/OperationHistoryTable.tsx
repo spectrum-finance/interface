@@ -1,5 +1,6 @@
 import { ModalRef } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
+import { DateTime } from 'luxon';
 import React, { FC } from 'react';
 
 import { isSwapOperation, Operation } from '../../../common/models/Operation';
@@ -106,7 +107,7 @@ export const OperationHistoryTable: FC<TransactionHistoryTableProps> = ({
           defaultDirection={SortDirection.DESC}
           title="Date & Time"
           width={152}
-          sortBy={(op: Operation) => op.dateTime}
+          sortBy={(op: Operation) => op.dateTime || DateTime.now()}
         >
           {(op: Operation) => <DateTimeCell dateTime={op.dateTime} />}
         </TableView.Column>

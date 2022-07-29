@@ -1805,41 +1805,43 @@
     mathjs "^9.4.4"
     ramda "0.27.1"
 
-"@ergolabs/ergo-dex-sdk@^1.4.0":
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/@ergolabs/ergo-dex-sdk/-/ergo-dex-sdk-1.4.0.tgz#d20752b634d563283fc671f3e167eeb2b0f118d7"
-  integrity sha512-0IMBP3M8rC3lm7UCpnM1hPijKUyV7gt2jgZAf/dtu8c4KKw1GUf8JSK4vrfZ1celx3BWTXUIeWx06ySpJkSuUw==
+"@ergolabs/ergo-dex-sdk@^1.4.3":
+  version "1.4.3"
+  resolved "https://registry.yarnpkg.com/@ergolabs/ergo-dex-sdk/-/ergo-dex-sdk-1.4.3.tgz#baed3933b96efbbf088c211b0bc72a68ff82c938"
+  integrity sha512-GuVtjNqPB+yGGz+yzF3Vs5AVJkcM4Ol5OEraYD4vse04GX3Z2AlQ/Y+7S8cYSIlWFm3rIUpdyT4mtaKXUiSPIA==
   dependencies:
-    "@ergolabs/ergo-sdk" "0.1.28"
+    "@ergolabs/ergo-sdk" "0.2.1"
     axios "^0.21.1"
     blakejs "^1.1.0"
     bs58 "^4.0.1"
     crypto-js "^4.0.0"
     ergo-lib-wasm-browser "0.14.0"
     ergo-lib-wasm-nodejs "0.14.0"
+    esm-wallaby "^3.2.25"
     json-bigint "^1.0.0"
     mathjs "^9.4.4"
     ramda "0.27.1"
 
-"@ergolabs/ergo-sdk@0.1.28", "@ergolabs/ergo-sdk@^0.1.28":
-  version "0.1.28"
-  resolved "https://registry.yarnpkg.com/@ergolabs/ergo-sdk/-/ergo-sdk-0.1.28.tgz#715d58ba9d65af413ff963f3c36b9965b28fa92c"
-  integrity sha512-EYBuf7WP+RTbIHWJJd+XjpexRSDqntSMnhtex3BCc8knezoZqzY7Wj8a+KJC3xOL1PdfJjXn6SMLxpFQirOzZw==
+"@ergolabs/ergo-sdk@0.2.1", "@ergolabs/ergo-sdk@^0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@ergolabs/ergo-sdk/-/ergo-sdk-0.2.1.tgz#2e908f7e4e72c77f1f13bed4fea478b7910c9e04"
+  integrity sha512-rKplpWvlf24Ds+7/qoZ0605fyuERcawMFzcI2r4YAD58ZH8rGD6se/yDj4r1teDh7pd+FuZtur7+C8tCjrri/w==
   dependencies:
     axios "^0.21.1"
     blakejs "^1.1.0"
     bs58 "^4.0.1"
     crypto-js "^4.0.0"
-    ergo-lib-wasm-browser "0.14.0"
-    ergo-lib-wasm-nodejs "0.14.0"
+    ergo-lib-wasm-browser "0.15.0"
+    ergo-lib-wasm-nodejs "0.15.0"
+    esm-wallaby "^3.2.25"
     json-bigint "^1.0.0"
     mathjs "^9.4.4"
     ramda "0.27.1"
 
-"@ergolabs/ui-kit@^1.0.39":
-  version "1.0.39"
-  resolved "https://registry.yarnpkg.com/@ergolabs/ui-kit/-/ui-kit-1.0.39.tgz#f40ba697523d15c0a34d95b8f9bee35e5c8885af"
-  integrity sha512-J65kFvXf1iWEtXUS0juIhgKDwKJVxp85b4OplDzsBVKhCdshm1AYdjKcVnng6JwhzKh9lW29thq+5uTeH7AmXA==
+"@ergolabs/ui-kit@^1.0.55":
+  version "1.0.55"
+  resolved "https://registry.yarnpkg.com/@ergolabs/ui-kit/-/ui-kit-1.0.55.tgz#ffe025cd79b6003f6c47fcfc37714faccd106223"
+  integrity sha512-k0O0IOJ2kQ92/+afSXpU6aALcgUjzBhySitAd5kInEC+mbUDI8DYm19LkWrlrCZtm950pMeCZJZx4zFU8vWvyg==
   dependencies:
     antd "^4.17.0-alpha.5"
     classnames "^2.3.1"
@@ -7610,10 +7612,20 @@ ergo-lib-wasm-browser@0.14.0:
   resolved "https://registry.yarnpkg.com/ergo-lib-wasm-browser/-/ergo-lib-wasm-browser-0.14.0.tgz#0fe0758ba8591f28a38776bef1f8c3837b188361"
   integrity sha512-hJILi6lhz224nDEj0ajJDteU4D08npo3FoFoheOJBRCI6c/ZifuD4dso9uOfQyEWdvhPfRPGcILrR74W9xMaTw==
 
+ergo-lib-wasm-browser@0.15.0:
+  version "0.15.0"
+  resolved "https://registry.yarnpkg.com/ergo-lib-wasm-browser/-/ergo-lib-wasm-browser-0.15.0.tgz#ddceba3900280de0b21a6478a6105e0473d6b9d7"
+  integrity sha512-b/w3BKsHNY2q28uWGi9mM9q7XhbJkEh30rgEpRBKv8PL6Uye7szGW+A5updptHs1VetGsbBh8pNaa6cOkq0Xhg==
+
 ergo-lib-wasm-nodejs@0.14.0:
   version "0.14.0"
   resolved "https://registry.yarnpkg.com/ergo-lib-wasm-nodejs/-/ergo-lib-wasm-nodejs-0.14.0.tgz#f7cedcab2f9cf586f82abb81c18e52377d5781ae"
   integrity sha512-vspQ5NOxvsbVewZoiiu0D8fs8sJQR5BDTbUAWnZW5At+DGdvq7dYgQTSAR86zJB1BDi0H6/fEckyA5hieuXoBA==
+
+ergo-lib-wasm-nodejs@0.15.0:
+  version "0.15.0"
+  resolved "https://registry.yarnpkg.com/ergo-lib-wasm-nodejs/-/ergo-lib-wasm-nodejs-0.15.0.tgz#f49e3e3f84ca8f9d0106687c65b0775c5b7579bd"
+  integrity sha512-k3XClQ2U4L5rimsJDvFScV0NRy4QtsE/2Mram+3Z54HaJT9iuAzmTYNEUBGjO8o+HKSLnJP7fm3/cT/s2Gy+Bw==
 
 err-code@^2.0.2:
   version "2.0.3"
