@@ -3,12 +3,12 @@ import { DefaultBoxSelector, InsufficientInputs } from '@ergolabs/ergo-sdk';
 import { NetworkContext } from '@ergolabs/ergo-sdk/build/main/entities/networkContext';
 import { first, from, Observable, switchMap, zip } from 'rxjs';
 
-import { TxId } from '../../../../common/types';
-import { ammOrderRefunds } from '../../../../services/amm';
-import { minerFee$ } from '../../settings/minerFee';
-import { settings$ } from '../../settings/settings';
-import { networkContext$ } from '../networkContext/networkContext';
-import { utxos$ } from '../utxos/utxos';
+import { TxId } from '../../../common/types';
+import { ammOrderRefunds } from '../../../services/amm';
+import { networkContext$ } from '../api/networkContext/networkContext';
+import { utxos$ } from '../api/utxos/utxos';
+import { minerFee$ } from '../settings/minerFee';
+import { settings$ } from '../settings/settings';
 import { getTxContext } from './common/getTxContext';
 import { submitTx } from './common/submitTx';
 
@@ -42,7 +42,12 @@ export const refund = (address: string, txId: string): Observable<TxId> =>
       );
 
       return from(ammOrderRefunds.refund(refundParams, txContext)).pipe(
-        switchMap((tx) => submitTx(tx)),
+        switchMap((tx) =>
+          submitTx(tx, {
+            txId: tx.id,
+            type: 'refund',
+          }),
+        ),
       );
     }),
   );

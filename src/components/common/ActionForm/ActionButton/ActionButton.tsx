@@ -59,6 +59,12 @@ const loadingState = (): ButtonProps => ({
   loading: true,
 });
 
+const ProcessingTransactionState = (): ButtonProps => ({
+  children: t`Processing transaction`,
+  type: 'primary',
+  loading: true,
+});
+
 const checkInternetConnectionState = (): ButtonProps => ({
   children: t`Check Internet Connection`,
   type: 'primary',
@@ -94,6 +100,8 @@ const getButtonPropsByState = (
       return minValueState(currency);
     case ActionButtonState.LOADING:
       return loadingState();
+    case ActionButtonState.PROCESSING_TRANSACTION:
+      return ProcessingTransactionState();
     case ActionButtonState.ACTION:
       return actionState(caption);
     default:

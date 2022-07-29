@@ -32,7 +32,7 @@ export const RemoveLiquidityConfirmationModal: React.FC<ConfirmRemoveModalProps>
         const form = { xAmount, yAmount, lpAmount, percent };
         panalytics.confirmRedeem(form, pool);
         onClose(
-          redeem(pool, lpAmount).pipe(
+          redeem(pool, lpAmount, xAmount, yAmount).pipe(
             tap(
               (txId) => panalytics.signedRedeem(form, pool, txId),
               (err) => panalytics.signedErrorRedeem(form, pool, err),

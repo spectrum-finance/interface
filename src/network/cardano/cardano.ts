@@ -125,4 +125,6 @@ export const cardanoNetwork: Network<
   useCreatePoolValidationFee,
 
   getPoolChartData: () => of([]),
+  pendingOperations$: of([]),
+  queuedOperation$: of(undefined),
 };

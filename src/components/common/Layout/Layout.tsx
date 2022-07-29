@@ -15,6 +15,7 @@ import { useApplicationSettings, useAppLoadingState } from '../../../context';
 import { useSelectedNetwork } from '../../../gateway/common/network';
 import { useBodyClass } from '../../../hooks/useBodyClass';
 import { useMetaThemeColor } from '../../../hooks/useMetaThemeColor';
+import { openCookiePolicy } from '../../../services/notifications/CookiePolicy/CookiePolicy';
 import { NetworkHeight } from '../../NetworkHeight/NetworkHeight';
 import { SocialLinks } from '../../SocialLinks/SocialLinks';
 import { KyaModal } from '../KyaModal/KyaModal';
@@ -61,6 +62,8 @@ const _Layout: FC<PropsWithChildren<{ className?: string }>> = ({
           !isConfirmed && panalytics.closeKya();
         },
       });
+    } else {
+      openCookiePolicy();
     }
   }, [isKYAAccepted]);
 

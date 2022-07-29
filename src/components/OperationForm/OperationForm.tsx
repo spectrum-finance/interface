@@ -9,6 +9,7 @@ import { PAnalytics } from '../../common/analytics/@types/types';
 import { useObservable } from '../../common/hooks/useObservable';
 import { isOnline$ } from '../../common/streams/networkConnection';
 import { useAssetsBalance } from '../../gateway/api/assetBalance';
+import { queuedOperation$ } from '../../gateway/api/queuedOperation';
 import { ConnectWalletButton } from '../common/ConnectWalletButton/ConnectWalletButton';
 
 export type OperationValidator<T> = (
@@ -28,6 +29,7 @@ export interface OperationFormProps<T> {
 
 const CHECK_INTERNET_CONNECTION_CAPTION = t`Check Internet Connection`;
 const LOADING_WALLET_CAPTION = t`Loading`;
+const PROCESSING_TRANSACTION_CAPTION = t`Processing transaction`;
 
 export function OperationForm<T>({
   validators,
@@ -38,6 +40,7 @@ export function OperationForm<T>({
   analytics,
 }: OperationFormProps<T>): JSX.Element {
   const [isOnline] = useObservable(isOnline$);
+  const [queuedOperation] = useObservable(queuedOperation$);
   const [, isBalanceLoading] = useAssetsBalance();
   const [value] = useObservable(
     form.valueChangesWithSilent$.pipe(debounceTime(100)),
@@ -67,6 +70,12 @@ export function OperationForm<T>({
         loading: true,
         caption: LOADING_WALLET_CAPTION,
       });
+    } else if (!!queuedOperation) {
+      setButtonProps({
+        disabled: false,
+        loading: true,
+        caption: PROCESSING_TRANSACTION_CAPTION,
+      });
     } else {
       const caption = validators?.map((v) => v(form)).find(Boolean);
 
@@ -76,7 +85,14 @@ export function OperationForm<T>({
         caption: caption || actionCaption,
       });
     }
-  }, [isOnline, isBalanceLoading, value, validators, actionCaption]);
+  }, [
+    isOnline,
+    isBalanceLoading,
+    value,
+    validators,
+    actionCaption,
+    queuedOperation,
+  ]);
 
   const handleSubmit = () => {
     if (loading || disabled) {
