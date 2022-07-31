@@ -20,7 +20,7 @@ export const LiquidityMobileLayout: FC<LiquidityLayoutProps> = ({
 }) => (
   <Flex col>
     <Flex.Item marginBottom={2} width="100%">
-      <LiquidityStateSelect value={activeState} />
+      <LiquidityStateSelect value={activeState} onChange={setActiveState} />
     </Flex.Item>
     <Flex.Item display="flex" marginBottom={4}>
       <Flex.Item flex={1} marginRight={2}>

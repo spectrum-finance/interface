@@ -6,7 +6,10 @@ import styled from 'styled-components';
 import { SearchInput } from '../../../components/SearchInput/SearchInput';
 import { LiquidityFilter } from '../common/components/LiquidityFilter/LiquidityFilter';
 import { LiquidityLayoutProps } from '../common/types/LiquidityLayoutProps';
-import { LiquidityState } from '../common/types/LiquidityState';
+import {
+  LiquidityState,
+  LiquidityStateCaptions,
+} from '../common/types/LiquidityState';
 import { LockedPositions } from './components/LockedPositions/LockedPositions';
 import { PoolsOverview } from './components/PoolsOverview/PoolsOverview';
 import { YourPositions } from './components/YourPositions/YourPositions';
@@ -62,13 +65,13 @@ export const LiquidityDefaultLayout: FC<LiquidityLayoutProps> = ({
     onChange={setActiveState as any}
   >
     <Tabs.TabPane
-      tab={<Trans>Pools Overview</Trans>}
+      tab={LiquidityStateCaptions[LiquidityState.POOLS_OVERVIEW]}
       key={LiquidityState.POOLS_OVERVIEW}
     >
       <PoolsOverview ammPools={ammPools} loading={isAmmPoolsLoading} />
     </Tabs.TabPane>
     <Tabs.TabPane
-      tab={<Trans>Your Positions</Trans>}
+      tab={LiquidityStateCaptions[LiquidityState.YOUR_POSITIONS]}
       key={LiquidityState.YOUR_POSITIONS}
     >
       <YourPositions
@@ -79,7 +82,7 @@ export const LiquidityDefaultLayout: FC<LiquidityLayoutProps> = ({
     </Tabs.TabPane>
     {showLockedPositions && (
       <Tabs.TabPane
-        tab={<Trans>Locked Positions</Trans>}
+        tab={LiquidityStateCaptions[LiquidityState.LOCKED_POSITIONS]}
         key={LiquidityState.LOCKED_POSITIONS}
       >
         <LockedPositions positions={positionsWithLocks} />
