@@ -21,7 +21,7 @@ export interface PoolSelectorProps extends Control<AmmPool | undefined> {
   readonly className?: string;
 }
 
-const _PoolSelector: FC<PoolSelectorProps> = ({
+export const PoolSelector: FC<PoolSelectorProps> = ({
   value,
   onChange,
   className,
@@ -68,7 +68,3 @@ const _PoolSelector: FC<PoolSelectorProps> = ({
     </>
   );
 };
-
-export const PoolSelector = styled(_PoolSelector)`
-  width: 418px;
-`;
