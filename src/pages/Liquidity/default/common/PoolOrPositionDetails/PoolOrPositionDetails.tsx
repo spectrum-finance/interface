@@ -1,20 +1,13 @@
 import { Button, Flex, Typography } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
-import React, { FC, PropsWithChildren } from 'react';
+import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { AmmPool } from '../../../../../common/models/AmmPool';
-import { Position } from '../../../../../common/models/Position';
 import { ConnectWalletButton } from '../../../../../components/common/ConnectWalletButton/ConnectWalletButton';
-import { ExpandComponentProps } from '../../../../../components/TableView/common/Expand';
+import { LiquidityPoolOrPositionDetailsProps } from '../../../common/types/LiquidityPoolOrPositionDetailsProps';
 
-export interface PoolsOrPositionDetailsProps<T extends AmmPool | Position>
-  extends ExpandComponentProps<T> {
-  poolMapper: (item: T) => AmmPool;
-}
-
-export const PoolsOrPositionDetails: FC<
-  PropsWithChildren<PoolsOrPositionDetailsProps<any>>
+export const PoolOrPositionDetails: FC<
+  LiquidityPoolOrPositionDetailsProps<any>
 > = ({ poolMapper, item, children }) => {
   const navigate = useNavigate();
 

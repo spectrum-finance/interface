@@ -4,16 +4,16 @@ import React, { FC } from 'react';
 
 import { Position } from '../../../../../../common/models/Position';
 import { ExpandComponentProps } from '../../../../../../components/TableView/common/Expand';
-import { PoolsOrPositionDetails } from '../../../common/PoolsOrPositionDetails/PoolsOrPositionDetails';
+import { PoolOrPositionDetails } from '../../../common/PoolOrPositionDetails/PoolOrPositionDetails';
 
 export const PositionDetails: FC<ExpandComponentProps<Position>> = ({
   item,
   ...rest
 }) => (
-  <PoolsOrPositionDetails poolMapper={() => item.pool} item={item} {...rest}>
+  <PoolOrPositionDetails poolMapper={() => item.pool} item={item} {...rest}>
     <Flex col>
       <Typography.Footnote>
-        <Trans>Total liquidity</Trans>
+        <Trans>My liquidity</Trans>
       </Typography.Footnote>
       <Typography.Body strong>
         {item.totalX.asset.ticker}: {item.totalX.toString()}
@@ -22,5 +22,5 @@ export const PositionDetails: FC<ExpandComponentProps<Position>> = ({
         {item.totalY.asset.ticker}: {item.totalY.toString()}
       </Typography.Body>
     </Flex>
-  </PoolsOrPositionDetails>
+  </PoolOrPositionDetails>
 );
