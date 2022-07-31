@@ -111,7 +111,7 @@ const LockLiquidity = (): JSX.Element => {
   };
 
   return (
-    <Page width={480} title={t`Lock liquidity`} withBackButton>
+    <Page maxWidth={480} title={t`Lock liquidity`} withBackButton>
       {position ? (
         <Form
           form={form}

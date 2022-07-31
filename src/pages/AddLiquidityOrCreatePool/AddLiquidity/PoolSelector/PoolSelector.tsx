@@ -5,6 +5,7 @@ import {
   Dropdown,
   Flex,
   UpOutlined,
+  useDevice,
 } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
 import React, { FC, useState } from 'react';
@@ -27,6 +28,7 @@ const _PoolSelector: FC<PoolSelectorProps> = ({
   ammPools,
 }) => {
   const [opened, setOpened] = useState<boolean>(false);
+  const { s } = useDevice();
 
   const handleChange = (ammPool: AmmPool) => {
     if (onChange) {
@@ -56,7 +58,7 @@ const _PoolSelector: FC<PoolSelectorProps> = ({
       >
         <Button size="large" block>
           <Flex align="center">
-            {value ? <PoolView ammPool={value} /> : t`Select Pool`}
+            {value ? <PoolView hideInfo={s} ammPool={value} /> : t`Select Pool`}
             <Flex.Item justify="flex-end" flex={1}>
               {opened ? <UpOutlined /> : <DownOutlined />}
             </Flex.Item>

@@ -54,7 +54,7 @@ export const PoolOverview: React.FC = () => {
   const handleWithdrawalLiquidity = () => navigate(`withdrawal`);
 
   return (
-    <Page title={t`Pool overview`} width={620} withBackButton backTo="/pool">
+    <Page title={t`Pool overview`} maxWidth={620} withBackButton backTo="/pool">
       {position && poolConfidenceAnalytic ? (
         <Flex col>
           <Flex.Item marginBottom={5}>
