@@ -55,6 +55,7 @@ export const PoolOrPositionDetails: FC<
             }
           />
         </DetailRow>
+        <DetailRow marginBottom={2}>{children}</DetailRow>
         <DetailRow marginBottom={2}>
           <DetailsBox
             title={<Trans>Fee</Trans>}

@@ -8,8 +8,8 @@ import { LiquiditySearchState } from '../../../common/tableViewStates/LiquidityS
 import { PoolsOrPositionsTableViewProps } from '../../../common/types/PoolsOrPositionsTableViewProps';
 
 export const PoolsOrPositionsTableView: FC<
-  PoolsOrPositionsTableViewProps<any>
-> = ({ children, poolMapper, items, expandComponent }) => (
+  PoolsOrPositionsTableViewProps<any> & { expandHeight: number }
+> = ({ children, poolMapper, items, expandComponent, expandHeight }) => (
   <TableView
     items={items}
     itemKey="id"
@@ -18,7 +18,11 @@ export const PoolsOrPositionsTableView: FC<
     gap={1}
     showHeader={false}
     tableItemViewPadding={2}
-    expand={{ height: 328, accordion: true, component: expandComponent }}
+    expand={{
+      height: expandHeight,
+      accordion: true,
+      component: expandComponent,
+    }}
   >
     <TableView.Column flex={1} title={<Trans>Pair</Trans>}>
       {(ammPool) => <PairColumn ammPool={poolMapper(ammPool)} />}

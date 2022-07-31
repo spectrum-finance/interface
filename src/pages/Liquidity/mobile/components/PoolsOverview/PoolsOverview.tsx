@@ -11,6 +11,7 @@ export const PoolsOverview: FC<LiquidityPoolsOverviewProps> = ({
   isAmmPoolsLoading,
 }) => (
   <PoolsOrPositionsTableView
+    expandHeight={336}
     poolMapper={(pool) => pool}
     items={ammPools}
     expandComponent={PoolDetails}

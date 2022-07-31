@@ -5,8 +5,10 @@ import React, { FC } from 'react';
 import { SearchInput } from '../../../components/SearchInput/SearchInput';
 import { LiquidityFilter } from '../common/components/LiquidityFilter/LiquidityFilter';
 import { LiquidityLayoutProps } from '../common/types/LiquidityLayoutProps';
+import { LiquidityState } from '../common/types/LiquidityState';
 import { LiquidityStateSelect } from './components/LiquidityStateSelect/LiquidityStateSelect';
 import { PoolsOverview } from './components/PoolsOverview/PoolsOverview';
+import { YourPositions } from './components/YourPositions/YourPositions';
 
 export const LiquidityMobileLayout: FC<LiquidityLayoutProps> = ({
   activeState,
@@ -17,6 +19,9 @@ export const LiquidityMobileLayout: FC<LiquidityLayoutProps> = ({
   setFilters,
   term,
   handleSearchTerm,
+  positions,
+  isPositionsLoading,
+  isPositionsEmpty,
 }) => (
   <Flex col>
     <Flex.Item marginBottom={2} width="100%">
@@ -33,6 +38,18 @@ export const LiquidityMobileLayout: FC<LiquidityLayoutProps> = ({
       </Flex.Item>
       <LiquidityFilter value={filters} onChange={setFilters} />
     </Flex.Item>
-    <PoolsOverview ammPools={ammPools} isAmmPoolsLoading={isAmmPoolsLoading} />
+    {activeState === LiquidityState.POOLS_OVERVIEW && (
+      <PoolsOverview
+        ammPools={ammPools}
+        isAmmPoolsLoading={isAmmPoolsLoading}
+      />
+    )}
+    {activeState === LiquidityState.YOUR_POSITIONS && (
+      <YourPositions
+        positions={positions}
+        isPositionsEmpty={isPositionsEmpty}
+        isPositionsLoading={isPositionsLoading}
+      />
+    )}
   </Flex>
 );
