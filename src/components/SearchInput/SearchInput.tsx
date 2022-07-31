@@ -4,5 +4,5 @@ import { FC } from 'react';
 export type SearchInputProps = Omit<InputProps, 'prefix'>;
 
 export const SearchInput: FC<SearchInputProps> = (props) => (
-  <Input autoFocus prefix={<SearchOutlined />} {...props} />
+  <Input prefix={<SearchOutlined />} {...props} />
 );

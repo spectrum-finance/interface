@@ -13,7 +13,7 @@ export const PoolsOrPositionsTableView: FC<
     items={items}
     itemKey="id"
     itemHeight={68}
-    maxHeight={376}
+    maxHeight="calc(100vh - 338px)"
     gap={1}
     showHeader={false}
     tableItemViewPadding={2}
