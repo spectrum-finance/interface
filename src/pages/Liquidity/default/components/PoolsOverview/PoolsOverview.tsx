@@ -1,5 +1,3 @@
-import { LoadingDataState } from '@ergolabs/ui-kit';
-import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 
 import { AmmPool } from '../../../../../common/models/AmmPool';

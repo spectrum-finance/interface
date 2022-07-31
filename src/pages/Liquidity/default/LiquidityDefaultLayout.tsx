@@ -1,5 +1,5 @@
-import { Flex, Input, SearchOutlined, Tabs } from '@ergolabs/ui-kit';
-import { t, Trans } from '@lingui/macro';
+import { Flex, Tabs } from '@ergolabs/ui-kit';
+import { t } from '@lingui/macro';
 import React, { FC } from 'react';
 import styled from 'styled-components';
 

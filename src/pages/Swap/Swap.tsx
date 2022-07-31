@@ -5,7 +5,6 @@ import {
   LineChartOutlined,
   SwapOutlined,
   Typography,
-  useDevice,
   useForm,
 } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
