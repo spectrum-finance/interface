@@ -64,7 +64,10 @@ export const Liquidity = (): JSX.Element => {
 
   const [ammPools, isAmmPoolsLoading] = useObservable(ammPools$, [], []);
 
-  const activeState = active || LiquidityState.POOLS_OVERVIEW;
+  const activeState =
+    isPositionLoading && active === LiquidityState.LOCKED_POSITIONS
+      ? LiquidityState.POOLS_OVERVIEW
+      : active || LiquidityState.POOLS_OVERVIEW;
 
   const setActiveState = (active: LiquidityState) =>
     setSearchParams({ active });
