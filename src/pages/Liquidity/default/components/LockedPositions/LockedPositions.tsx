@@ -10,17 +10,16 @@ import { TotalLockedColumn } from '../../../common/columns/LockedPositionsColumn
 import { WithdrawableLockedColumn } from '../../../common/columns/LockedPositionsColumns/WithdrawableLockedColumn/WithdrawableLockedColumn';
 import { RatioColumn } from '../../../common/columns/PoolsOrPositionsColumns/columns/RatioColumn/RatioColumn';
 import { LiquiditySearchState } from '../../../common/tableViewStates/LiquiditySearchState/LiquiditySearchState';
+import { LiquidityLockedPositionsProps } from '../../../common/types/LiquidityLockedPositionsProps';
 
-export interface LockedPositionsProps {
-  readonly positions: Position[];
-}
-
-export const LockedPositions: FC<LockedPositionsProps> = ({ positions }) => {
+export const LockedPositions: FC<LiquidityLockedPositionsProps> = ({
+  positionsWithLocks,
+}) => {
   const navigate = useNavigate();
 
   return (
     <TableView
-      items={positions}
+      items={positionsWithLocks}
       itemKey="deadline"
       itemHeight={80}
       maxHeight={376}
@@ -59,7 +58,7 @@ export const LockedPositions: FC<LockedPositionsProps> = ({ positions }) => {
       >
         <Trans>Relock</Trans>
       </TableView.Action>
-      <TableView.State name="search" condition={!positions.length}>
+      <TableView.State name="search" condition={!positionsWithLocks.length}>
         <LiquiditySearchState />
       </TableView.State>
     </TableView>

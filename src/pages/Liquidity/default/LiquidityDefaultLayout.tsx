@@ -85,7 +85,10 @@ export const LiquidityDefaultLayout: FC<LiquidityLayoutProps> = ({
         tab={LiquidityStateCaptions[LiquidityState.LOCKED_POSITIONS]}
         key={LiquidityState.LOCKED_POSITIONS}
       >
-        <LockedPositions positions={positionsWithLocks} />
+        <LockedPositions
+          positionsWithLocks={positionsWithLocks}
+          showLockedPositions={showLockedPositions}
+        />
       </Tabs.TabPane>
     )}
   </LiquidityTabs>

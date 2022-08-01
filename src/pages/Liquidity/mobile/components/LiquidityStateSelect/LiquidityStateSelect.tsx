@@ -32,10 +32,9 @@ const LiquidityStateSelectText = styled(Typography.Title)`
   font-weight: 400 !important;
 `;
 
-export const LiquidityStateSelect: FC<Control<LiquidityState>> = ({
-  value,
-  onChange,
-}) => (
+export const LiquidityStateSelect: FC<
+  Control<LiquidityState> & { showLockedPositions: boolean }
+> = ({ value, onChange, showLockedPositions }) => (
   <StyledButton size="large">
     <Flex align="center">
       <Flex.Item flex={1} display="flex" justify="flex-start">
@@ -60,9 +59,11 @@ export const LiquidityStateSelect: FC<Control<LiquidityState>> = ({
       <option value={LiquidityState.YOUR_POSITIONS}>
         {LiquidityStateCaptions[LiquidityState.YOUR_POSITIONS]}
       </option>
-      <option value={LiquidityState.LOCKED_POSITIONS}>
-        {LiquidityStateCaptions[LiquidityState.LOCKED_POSITIONS]}
-      </option>
+      {showLockedPositions && (
+        <option value={LiquidityState.LOCKED_POSITIONS}>
+          {LiquidityStateCaptions[LiquidityState.LOCKED_POSITIONS]}
+        </option>
+      )}
     </select>
   </StyledButton>
 );
