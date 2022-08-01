@@ -8,15 +8,7 @@ import { ConnectWalletButton } from '../../../../../components/common/ConnectWal
 import { formatToUSD } from '../../../../../services/number';
 import { renderFractions } from '../../../../../utils/math';
 import { LiquidityPoolOrPositionDetailsProps } from '../../../common/types/LiquidityPoolOrPositionDetailsProps';
-import { DetailsBox } from '../DetailsBox/DetailsBox';
-
-const DetailRow = styled(Flex.Item)`
-  &:nth-of-type(2n) {
-    div {
-      background: transparent;
-    }
-  }
-`;
+import { DetailRow, DetailsBox } from '../DetailsBox/DetailsBox';
 
 const StyledButton = styled(Button)`
   width: 100%;
