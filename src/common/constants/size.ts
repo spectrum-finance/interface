@@ -1,6 +1,6 @@
 export const size = {
   s: 320,
-  m: 520,
+  m: 768,
   l: 960,
   xl: 1280,
   xxl: 1920,
