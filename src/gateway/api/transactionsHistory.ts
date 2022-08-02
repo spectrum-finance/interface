@@ -1,26 +1,43 @@
-import { AmmDexOperation } from '@ergolabs/ergo-dex-sdk';
-import { first, Observable, switchMap } from 'rxjs';
+import {
+  first,
+  map,
+  Observable,
+  publishReplay,
+  refCount,
+  switchMap,
+} from 'rxjs';
 
+import { Operation } from '../../common/models/Operation';
 import { selectedNetwork$ } from '../common/network';
 
-export const transactionsHistory$ = selectedNetwork$.pipe(
-  switchMap((network) => network.txHistoryManager.transactionHistory$),
-);
-
-export const isTransactionsHistorySyncing$ = selectedNetwork$.pipe(
-  switchMap((network) => network.txHistoryManager.isSyncing$),
-);
-
-export const syncTransactionsHistory = (): void => {
-  selectedNetwork$
-    .pipe(first())
-    .subscribe((network) => network.txHistoryManager.sync());
-};
+export const getOperations = (): Observable<Operation[]> =>
+  selectedNetwork$.pipe(
+    first(),
+    switchMap((n) => n.getOperations()),
+    publishReplay(),
+    refCount(),
+  );
 
 export const getOperationByTxId = (
   txId: string,
-): Observable<AmmDexOperation | undefined> =>
+): Observable<Operation | undefined> =>
   selectedNetwork$.pipe(
     first(),
-    switchMap((network) => network.txHistoryManager.getOperationByTxId(txId)),
+    switchMap((network) => network.getOperationByTxId(txId)),
   );
+
+export const getSyncOperationsFunction = (): Observable<
+  (() => void) | undefined
+> =>
+  selectedNetwork$.pipe(
+    first(),
+    map((n) => n.syncOperations),
+    publishReplay(1),
+    refCount(),
+  );
+
+export const isOperationsSyncing$ = selectedNetwork$.pipe(
+  switchMap((n) => n.isOperationsSyncing$),
+  publishReplay(1),
+  refCount(),
+);

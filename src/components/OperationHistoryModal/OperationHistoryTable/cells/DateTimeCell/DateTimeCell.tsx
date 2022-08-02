@@ -5,7 +5,7 @@ import React, { FC } from 'react';
 import { DateTimeView } from '../../../../common/DateTimeView/DateTimeView';
 
 export interface DateTimeCellProps {
-  readonly dateTime: DateTime;
+  readonly dateTime?: DateTime;
 }
 
 export const DateTimeCell: FC<DateTimeCellProps> = ({ dateTime }) => (

@@ -1,5 +1,5 @@
 import { Typography } from '@ergolabs/ui-kit';
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 
 import { Currency } from '../../../../../common/models/Currency';
@@ -34,6 +34,8 @@ const calculateInputPrice = ({
 export interface RatioViewProps {
   readonly value: SwapFormModel;
   readonly className?: string;
+  isReversed?: boolean;
+  setReversed?: (reversed: boolean) => void;
 }
 
 interface RatioStringProps {
@@ -69,17 +71,20 @@ const RatioString: React.FC<RatioStringProps> = ({ value, reversedRatio }) => {
   );
 };
 
-const _RatioView: FC<RatioViewProps> = ({ value, className }) => {
-  const [reversedRatio, setReversedRatio] = useState(false);
-
+const _RatioView: FC<RatioViewProps> = ({
+  value,
+  className,
+  isReversed = false,
+  setReversed,
+}) => {
   const toggleReversedRatio = (e?: React.MouseEvent<HTMLDivElement>) => {
     e?.stopPropagation();
-    setReversedRatio((reversedRatio) => !reversedRatio);
+    setReversed?.(!isReversed);
   };
 
   return (
     <Typography.Body className={className} onClick={toggleReversedRatio}>
-      <RatioString value={value} reversedRatio={reversedRatio} />
+      <RatioString value={value} reversedRatio={isReversed} />
     </Typography.Body>
   );
 };

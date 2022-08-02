@@ -24,6 +24,7 @@ import {
   importTokenAsset,
   tokenAssetsToImport$,
 } from './api/tokens/tokens';
+import { getOperations } from './api/transactionHistory/transactionHistory';
 import { CardanoWalletContract } from './api/wallet/common/CardanoWalletContract';
 import {
   availableWallets,
@@ -80,7 +81,10 @@ export const cardanoNetwork: Network<
   getAddresses: getAddresses,
   getUsedAddresses: getUsedAddresses,
   getUnusedAddresses: getUnusedAddresses,
-  txHistoryManager: {} as any,
+  getOperationByTxId: null as any,
+  getOperations,
+  isOperationsSyncing$: of(false),
+
   connectWallet: connectWallet,
   disconnectWallet: disconnectWallet,
   availableWallets: availableWallets,
@@ -121,4 +125,6 @@ export const cardanoNetwork: Network<
   useCreatePoolValidationFee,
 
   getPoolChartData: () => of([]),
+  pendingOperations$: of([]),
+  queuedOperation$: of(undefined),
 };

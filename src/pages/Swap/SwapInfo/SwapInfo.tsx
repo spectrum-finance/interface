@@ -10,9 +10,16 @@ import { SwapInfoHeader } from './SwapInfoHeader/SwapInfoHeader';
 export interface SwapInfoProps {
   value: SwapFormModel;
   className?: string;
+  isReversed: boolean;
+  setReversed: (reversed: boolean) => void;
 }
 
-const _SwapInfo: FC<SwapInfoProps> = ({ className, value }) => {
+const _SwapInfo: FC<SwapInfoProps> = ({
+  className,
+  value,
+  isReversed,
+  setReversed,
+}) => {
   const [collapsed, setCollapsed] = useState<boolean>(false);
 
   const handleCollapseChange = () => setCollapsed((prev) => !prev);
@@ -24,7 +31,14 @@ const _SwapInfo: FC<SwapInfoProps> = ({ className, value }) => {
         <Collapse className={className} onChange={handleCollapseChange}>
           <Collapse.Panel
             key="info"
-            header={<SwapInfoHeader collapsed={collapsed} value={value} />}
+            header={
+              <SwapInfoHeader
+                collapsed={collapsed}
+                value={value}
+                isReversed={isReversed}
+                setReversed={setReversed}
+              />
+            }
             showArrow={false}
           >
             {SwapInfoContent && <SwapInfoContent value={value} />}

@@ -6,6 +6,7 @@ import { useObservable } from '../../../common/hooks/useObservable';
 import { Currency } from '../../../common/models/Currency';
 import { isOnline$ } from '../../../common/streams/networkConnection';
 import { useAssetsBalance } from '../../../gateway/api/assetBalance';
+import { queuedOperation$ } from '../../../gateway/api/queuedOperation';
 import { ActionButton } from './ActionButton/ActionButton';
 import { ActionButtonState, ActionFormContext } from './ActionFormContext';
 
@@ -38,6 +39,7 @@ const _ActionForm: FC<ActionFormProps<any>> = ({
   children,
 }) => {
   const [isOnline] = useObservable(isOnline$);
+  const [queuedOperation] = useObservable(queuedOperation$);
   const [, isBalanceLoading] = useAssetsBalance();
   const [value] = useObservable(
     form.valueChangesWithSilent$.pipe(debounceTime(100)),
@@ -54,6 +56,8 @@ const _ActionForm: FC<ActionFormProps<any>> = ({
   useEffect(() => {
     if (!isOnline) {
       setButtonData({ state: ActionButtonState.CHECK_INTERNET_CONNECTION });
+    } else if (!!queuedOperation) {
+      setButtonData({ state: ActionButtonState.PROCESSING_TRANSACTION });
     } else if (isBalanceLoading || (isLoading && isLoading(value))) {
       setButtonData({ state: ActionButtonState.LOADING });
     } else if (isTokensNotSelected && isTokensNotSelected(value)) {
@@ -96,6 +100,7 @@ const _ActionForm: FC<ActionFormProps<any>> = ({
     }
   }, [
     isOnline,
+    queuedOperation,
     isBalanceLoading,
     value,
     isLiquidityInsufficient,

@@ -2,7 +2,6 @@ import { t } from '@lingui/macro';
 import React, { ReactNode } from 'react';
 
 import { Operation } from '../../../../common/models/Operation';
-import { OperationType } from '../../../common/TxHistory/types';
 import {
   Filter,
   FilterMatch,
@@ -13,10 +12,12 @@ import {
   MultiselectFilterItem,
 } from '../../../TableView/filters/MultiselectFilter/MultiselectFilter';
 
-const typesFilterItems: MultiselectFilterItem<OperationType>[] = [
-  { value: 'swap', caption: t`Swap` },
-  { value: 'deposit', caption: t`Deposit` },
-];
+const typesFilterItems: MultiselectFilterItem<'swap' | 'deposit' | 'redeem'>[] =
+  [
+    { value: 'swap', caption: t`Swap` },
+    { value: 'deposit', caption: t`Deposit` },
+    { value: 'redeem', caption: t`Redeem` },
+  ];
 const typeFilterRender: FilterRenderer<Operation['type']> = ({
   value,
   onChange,
