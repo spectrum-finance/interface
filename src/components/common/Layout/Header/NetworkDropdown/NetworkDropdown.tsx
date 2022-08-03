@@ -77,7 +77,6 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
           `network-dropdown__btn--${selectedNetwork.name}`,
         )}
         size="large"
-        type="ghost"
       >
         <Flex justify="center" direction="row" align="center">
           <AssetIcon asset={selectedNetwork.networkAsset} />
@@ -85,7 +84,6 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
             className="network-dropdown__btn-text"
             style={{
               fontSize: '16px',
-              color: 'var(--spectrum-networkdropdown-hover-focus-color)',
               marginLeft: 'calc(var(--spectrum-base-gutter) * 2)',
             }}
           >
@@ -93,7 +91,6 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
           </Typography.Text>
           <DownOutlined
             style={{
-              color: 'var(--spectrum-networkdropdown-hover-focus-color)',
               marginLeft: 'calc(var(--spectrum-base-gutter) * 2)',
             }}
           />

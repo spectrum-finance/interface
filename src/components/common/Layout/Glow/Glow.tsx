@@ -1,23 +1,30 @@
+import React, { FC } from 'react';
 import styled from 'styled-components';
 
-export const Glow = styled.div`
+import { ReactComponent as Prism } from './prism.svg';
+
+const GlowContainer = styled.div`
+  background: var(--spectrum-glow-gradient);
   position: fixed;
   top: 0;
   left: 0;
   overflow: hidden;
   width: 100%;
   height: 100%;
+  z-index: -1;
 
-  &::after {
+  svg {
     position: absolute;
-    z-index: -1;
-    top: -778px;
-    left: calc(50% - 1556px / 2);
-    width: 1556px;
-    height: 1556px;
-    background: var(--spectrum-glow-gradient);
-    border-radius: 50%;
-    content: '';
-    filter: blur(429.241px);
+    top: 30px;
+    max-width: 839px;
+    width: 100%;
+    left: 50%;
+    transform: translateX(-50%);
   }
 `;
+
+export const Glow: FC = () => (
+  <GlowContainer>
+    <Prism />
+  </GlowContainer>
+);

@@ -1,7 +1,11 @@
+@import "~@ergolabs/ui-kit/dist/styles/colors/colors.dark";
 @import "~@ergolabs/ui-kit/dist/styles/variables";
 
 .dark {
   .defaultTheme();
+
+  --spectrum-glow-gradient:                            linear-gradient(180deg, #040211 44.36%, #000000 100%);
+  --spectrum-logo-color:                               var(--spectrum-primary-text);
 
   // -- Color --
 
@@ -26,9 +30,9 @@
   --spectrum-pool-selector-item-hover:                 @dark-color-gray-3;
 
   // Primary
-  --spectrum-primary-color:                            @dark-color-orange-5;
-  --spectrum-primary-color-hover:                      @dark-color-orange-6;
-  --spectrum-primary-color-active:                     @dark-color-orange-4;
+  --spectrum-primary-color:                            #7167c5;
+  --spectrum-primary-color-hover:                      #5c53a8;
+  --spectrum-primary-color-active:                     #877ce2;
   --spectrum-primary-text-contrast:                    @dark-color-gray-10;
 
   --spectrum-default-card-background:                  @dark-color-gray-3;
@@ -153,7 +157,7 @@
 
   // Slider
   --spectrum-slider-rail-bg:                           @dark-color-gray-4;
-  --spectrum-slider-track-bg:                          @dark-color-orange-5;
+  --spectrum-slider-track-bg:                          var(--spectrum-primary-color);
 
   --spectrum-slider-handle-bg:                         var(--spectrum-default-card-background);
   --spectrum-slider-handle-bg-hover:                   var(--spectrum-default-card-background);
@@ -184,7 +188,7 @@
   --spectrum-dropdown-menu-item-disable-text:          @dark-color-gray-6;
   --spectrum-dropdown-menu-item-danger:                @dark-color-dust-red-6;
   --spectrum-dropdown-menu-item-hover-bg:              @dark-color-gray-3;
-  --spectrum-dropdown-menu-item-hover-color:           @dark-color-orange-6;
+  --spectrum-dropdown-menu-item-hover-color:           var(--spectrum-primary-color);
 
   // Input
   --spectrum-input-bg:                                 @dark-color-gray-1;
@@ -194,7 +198,7 @@
 
   // DatePicker
   --spectrum-datepicker-bg:                            @dark-color-gray-1;
-  --spectrum-datepicker-border-hover:                  @dark-color-orange-5;
+  --spectrum-datepicker-border-hover:                  var(--spectrum-primary-color-hover);
   --spectrum-datepicker-border-active:                 var(--spectrum-datepicker-border-hover);
   --spectrum-datepicker-box-shadow:                    0 0 4px rgba(245, 34, 45, 0.5);
 
@@ -245,9 +249,9 @@
   --spectrum-tabs-nav-list-color:                      @dark-color-gray-1;
 
   // Connect Wallet
-  --spectrum-connect-wallet-btn-bg:                    rgba(255, 114, 92, 0.35);
-  --spectrum-connect-wallet-btn-color:                 @dark-color-orange-6;
-  --spectrum-connect-wallet-btn-border:                @dark-color-orange-5;
+  --spectrum-connect-wallet-btn-bg:                    rgba(113, 103, 197, 0.2);
+  --spectrum-connect-wallet-btn-color:                 #7167c5;
+  --spectrum-connect-wallet-btn-border:                #7167c5;
   --spectrum-connect-wallet-address-btn-color:         @dark-color-gray-7;
   --spectrum-connect-wallet-address-btn-bg:            @dark-color-gray-05;
   --spectrum-connect-wallet-address-btn-border-hover:  @dark-color-gray-5;
@@ -317,12 +321,12 @@
   --spectrum-empty-text-color:                         @dark-color-gray-8;
 
   //Empty
-  --empty-icon-primary-color:                      @dark-color-gray-3;
-  --empty-icon-accent-color:                       @dark-color-gray-6;
+  --empty-icon-primary-color:                          @dark-color-gray-3;
+  --empty-icon-accent-color:                           @dark-color-gray-6;
 
   // Cardano testnet notification
-  --cardano-testnet-notification-background:       linear-gradient(104.31deg, #065CAB .75%, #2481D7 100%);
-  --cardano-testnet-notification-boxshadow:        0 9px 28px 8px rgba(0, 0, 0, .05), 0 6px 16px rgba(0, 0, 0, .08), 0 3px 6px -4px rgba(0, 0, 0, .12);
+  --cardano-testnet-notification-background:           linear-gradient(104.31deg, #065CAB .75%, #2481D7 100%);
+  --cardano-testnet-notification-boxshadow:            0 9px 28px 8px rgba(0, 0, 0, .05), 0 6px 16px rgba(0, 0, 0, .08), 0 3px 6px -4px rgba(0, 0, 0, .12);
 
   // Tongue
   --spectrum-tongue-bg-color:                          rgba(20, 20, 20, 0.65);
