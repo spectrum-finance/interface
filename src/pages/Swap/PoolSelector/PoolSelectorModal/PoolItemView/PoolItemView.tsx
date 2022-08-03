@@ -81,14 +81,14 @@ export const PoolItemView = styled(_PoolItemView)`
   ${(props) =>
     props.active &&
     css`
-      background: var(--ergo-pool-selector-item-active);
+      background: var(--spectrum-pool-selector-item-active);
     `}
 
   ${(props) =>
     !props.active &&
     css`
       &:hover {
-        background: var(--ergo-pool-selector-item-hover);
+        background: var(--spectrum-pool-selector-item-hover);
       }
     `}
 `;

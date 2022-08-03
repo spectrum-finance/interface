@@ -1,7 +1,7 @@
 <svg width="33" height="32" viewBox="0 0 33 32" fill="none" xmlns="http://www.w3.org/2000/svg">
   <style>
     .color {
-      fill: var(--ergo-primary-color);
+      fill: var(--spectrum-primary-color);
     }
   </style>
 <path d="M16.0972 32C24.9338 32 32.0972 24.8366 32.0972 16C32.0972 7.16344 24.9338 0 16.0972 0C7.26064 0 0.0971985 7.16344 0.0971985 16C0.0971985 24.8366 7.26064 32 16.0972 32Z" class="color"/>

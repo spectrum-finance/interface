@@ -17,7 +17,7 @@ const _ArrowIcon: FC<ArrowIcon> = ({ className }) => (
 );
 
 export const ArrowIcon = styled(_ArrowIcon)`
-  color: var(--ergo-primary-text);
+  color: var(--spectrum-primary-text);
   height: 0.75rem;
   top: -0.5rem;
   left: 50%;

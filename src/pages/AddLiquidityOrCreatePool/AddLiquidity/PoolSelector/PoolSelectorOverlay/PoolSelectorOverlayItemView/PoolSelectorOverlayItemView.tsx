@@ -47,8 +47,8 @@ export const PoolSelectorOverlayItemView = styled(_PoolSelectorOverlayItemView)`
   &:hover,
   &:focus,
   &:active {
-    background: var(--ergo-pool-position-bg-hover);
+    background: var(--spectrum-pool-position-bg-hover);
   }
 
-  ${(props) => props.active && 'background: var(--ergo-pool-position-bg)'}
+  ${(props) => props.active && 'background: var(--spectrum-pool-position-bg)'}
 `;

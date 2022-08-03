@@ -16,7 +16,7 @@ const LowBalanceWarning: React.FC<LowBalanceWarningProps> = ({
     <Tag
       style={{
         width: '100%',
-        padding: 'calc(var(--ergo-base-gutter) * 4)',
+        padding: 'calc(var(--spectrum-base-gutter) * 4)',
       }}
       color="warning"
     >

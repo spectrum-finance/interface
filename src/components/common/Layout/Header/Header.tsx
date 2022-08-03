@@ -100,8 +100,8 @@ export const Header = styled(_Header)`
   transition: transform 0.3s;
 
   &.scrolledFromTop {
-    background: var(--ergo-box-bg-control);
-    border-bottom: 1px solid var(--ergo-box-border-color);
+    background: var(--spectrum-box-bg-control);
+    border-bottom: 1px solid var(--spectrum-box-border-color);
   }
 
   ${device.m} {

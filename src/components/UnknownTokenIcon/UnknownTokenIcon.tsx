@@ -69,7 +69,7 @@ const _UnknownTokenIcon: FC<UnknownTokenIconProps> = ({
 export const UnknownTokenIcon = styled(_UnknownTokenIcon)`
   overflow: hidden;
   border-radius: 50%;
-  padding: var(--ergo-base-gutter);
+  padding: var(--spectrum-base-gutter);
   z-index: 1;
 
   > div {

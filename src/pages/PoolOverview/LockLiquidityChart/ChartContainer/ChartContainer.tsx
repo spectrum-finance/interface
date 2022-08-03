@@ -26,9 +26,9 @@ const _ChartContainer: FC<ChartCollapseProps> = ({
 export const ChartContainer = styled(_ChartContainer)`
   padding: 0;
   border: initial;
-  background: var(--ergo-box-bg-contrast);
+  background: var(--spectrum-box-bg-contrast);
   border-radius: 12px;
-  border: 1px solid var(--ergo-box-border-color) !important;
+  border: 1px solid var(--spectrum-box-border-color) !important;
 
   .ant-collapse-item > .ant-collapse-header {
     padding: 0 !important;
@@ -39,14 +39,14 @@ export const ChartContainer = styled(_ChartContainer)`
   }
 
   .ant-collapse-content-box {
-    background: var(--ergo-box-bg-contrast);
+    background: var(--spectrum-box-bg-contrast);
     border-bottom-right-radius: 12px;
     border-bottom-left-radius: 12px;
   }
 
   .ant-collapse-content {
     border: initial;
-    background: var(--ergo-box-bg-contrast);
+    background: var(--spectrum-box-bg-contrast);
   }
 
   .ant-collapse-item {

@@ -15,7 +15,7 @@ export const Glow = styled.div`
     left: calc(50% - 1556px / 2);
     width: 1556px;
     height: 1556px;
-    background: var(--ergo-glow-gradient);
+    background: var(--spectrum-glow-gradient);
     border-radius: 50%;
     content: '';
     filter: blur(429.241px);

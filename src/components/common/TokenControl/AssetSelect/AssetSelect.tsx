@@ -26,7 +26,7 @@ const StyledDownOutlined = styled(DownOutlined)`
 `;
 
 const StyledButton = styled(Button)`
-  padding: 0 calc(var(--ergo-base-gutter) * 3);
+  padding: 0 calc(var(--spectrum-base-gutter) * 3);
   width: 100%;
 `;
 

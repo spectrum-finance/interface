@@ -61,7 +61,7 @@ const TableViewRowContainer = styled(_TableViewRowContainer)`
       &:hover,
       &:focus,
       &:active {
-        background: var(--ergo-table-view-item-hover);
+        background: var(--spectrum-table-view-item-hover);
       }
     `}
 `;
