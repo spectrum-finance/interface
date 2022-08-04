@@ -36,10 +36,15 @@ const getInProgressDexOperationsByAddress = (
 
 const getInProgressDexOperationsByAddresses = (
   addresses: Address[],
-): Observable<AmmDexOperation[]> =>
-  combineLatest(addresses.map(getInProgressDexOperationsByAddress)).pipe(
+): Observable<AmmDexOperation[]> => {
+  if (!addresses.length) {
+    return of([]);
+  }
+
+  return combineLatest(addresses.map(getInProgressDexOperationsByAddress)).pipe(
     map((txsByAddress) => txsByAddress.flatMap((txs) => txs)),
   );
+};
 
 export const inProgressOperations$: Observable<Operation[]> = combineLatest([
   getAddresses(),
