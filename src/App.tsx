@@ -13,13 +13,8 @@ import { sentryInitializer } from './common/initializers/sentryInitializer';
 import { startAppTicks } from './common/streams/appTick';
 import { AppLoadingProvider, SettingsProvider } from './context';
 import { LanguageProvider } from './i18n/i18n';
-import { openCatalystF9Notification } from './services/notifications/CalalystF9/CalalystF9';
 
 const Application = () => {
-  useEffect(() => {
-    setTimeout(() => openCatalystF9Notification(), 10_000);
-  }, []);
-
   return (
     <BrowserRouter>
       <AppLoadingProvider>
