@@ -24,7 +24,12 @@ enum ErrorState {
   ICON_NOT_FOUND,
 }
 
-const AssetIcon: React.FC<TokenIconProps> = ({ asset, size, ...rest }) => {
+const AssetIcon: React.FC<TokenIconProps> = ({
+  asset,
+  size,
+  style,
+  ...rest
+}) => {
   const iconName = asset?.id || 'empty';
   const [errorState, setErrorState] = useState<ErrorState | undefined>(
     undefined,
@@ -44,6 +49,7 @@ const AssetIcon: React.FC<TokenIconProps> = ({ asset, size, ...rest }) => {
     <span
       role="img"
       style={{
+        ...style,
         display: 'inherit',
         width: MAP_SIZE_TO_NUMBER[size || 'medium'],
         height: MAP_SIZE_TO_NUMBER[size || 'medium'],
