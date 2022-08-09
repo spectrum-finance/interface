@@ -2,7 +2,7 @@ name: Run on test
 on: 
   push:
     branches:
-      - "master"
+      - "CU-2eh544a_-Product-Redesign"
 
 jobs:
   build:
@@ -25,8 +25,6 @@ jobs:
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
       
       - name: Generate deployable artifacts
-        env: 
-          REACT_APP_POSTHOG_API_KEY: ${{ secrets.POSTHOG_PROD_API_KEY }}
         run: |
           yarn
           yarn run prei18n:extract
@@ -55,7 +53,7 @@ jobs:
         uses: garygrossgarten/github-action-scp@release
         with:
           local: /home/runner/build
-          remote: /var/www/test
+          remote: /var/www/redesigned
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           privateKey: ${{ secrets.KEY }}
