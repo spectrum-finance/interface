@@ -52,6 +52,7 @@ const _SwapInfo: FC<SwapInfoProps> = ({
 export const SwapInfo = styled(_SwapInfo)`
   background: var(--spectrum-box-bg-contrast) !important;
   border: 1px solid var(--spectrum-box-border-color) !important;
+  border-radius: var(--spectrum-border-radius) !important;
 
   .ant-collapse-item,
   .ant-collapse-content,
@@ -71,7 +72,7 @@ export const SwapInfo = styled(_SwapInfo)`
 
   .ant-collapse-content-box {
     background: var(--spectrum-box-bg-contrast);
-    border-radius: var(--spectrum-border-radius-md);
+    border-radius: var(--spectrum-border-radius);
     padding-top: 0;
   }
 `;

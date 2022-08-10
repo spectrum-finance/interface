@@ -1,5 +1,6 @@
 import React from 'react';
 import { FC } from 'react';
+import styled from 'styled-components';
 
 import { uint } from '../../../../../../../common/types';
 import { DataTag } from '../../../../../DataTag/DataTag';
@@ -12,12 +13,14 @@ export interface AddressOrPendingTagProps {
   readonly pendingCount?: uint;
 }
 
-export const AddressOrPendingTag: FC<AddressOrPendingTagProps> = ({
+const _AddressOrPendingTag: FC<AddressOrPendingTagProps> = ({
   address,
   pendingCount,
+  className,
 }) => {
   return (
     <DataTag
+      className={className}
       secondary
       content={
         pendingCount ? (
@@ -29,3 +32,11 @@ export const AddressOrPendingTag: FC<AddressOrPendingTagProps> = ({
     />
   );
 };
+
+export const AddressOrPendingTag = styled(_AddressOrPendingTag)`
+  border: 1px solid transparent;
+
+  &:hover {
+    border: 1px solid var(--spectrum-default-border-color);
+  }
+`;

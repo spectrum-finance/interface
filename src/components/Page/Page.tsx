@@ -39,7 +39,7 @@ interface PageProps {
 
 const Widget = styled.div`
   background: var(--spectrum-page-footer-bg);
-  border-radius: 16px 0 0 16px;
+  border-radius: 4px 0 0 4px;
   margin: 16px 0;
 `;
 
