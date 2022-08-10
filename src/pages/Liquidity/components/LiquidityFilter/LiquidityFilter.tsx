@@ -1,6 +1,12 @@
-import { Button, FilterOutlined, Popover } from '@ergolabs/ui-kit';
+import {
+  Button,
+  FilterOutlined,
+  Popover,
+  SearchOutlined,
+} from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
+import styled, { css } from 'styled-components';
 
 import {
   MultiselectFilter,
@@ -13,6 +19,7 @@ export enum PoolsOrPositionsFilterValue {
 
 export interface LiquidityFilterProps {
   readonly value: Set<PoolsOrPositionsFilterValue> | undefined;
+  readonly className?: string;
   readonly onChange: (
     value: Set<PoolsOrPositionsFilterValue> | undefined,
   ) => void;
@@ -26,9 +33,10 @@ const PoolsOrPositionsFilter: MultiselectFilterItem<PoolsOrPositionsFilterValue>
     },
   ];
 
-export const LiquidityFilter: FC<LiquidityFilterProps> = ({
+const _LiquidityFilter: FC<LiquidityFilterProps> = ({
   value,
   onChange,
+  className,
 }) => (
   <Popover
     content={
@@ -41,6 +49,19 @@ export const LiquidityFilter: FC<LiquidityFilterProps> = ({
     trigger="click"
     placement="bottom"
   >
-    <Button icon={<FilterOutlined />} size="large" />
+    <Button
+      className={className}
+      icon={value?.size ? <SearchOutlined /> : <FilterOutlined />}
+      size="large"
+    />
   </Popover>
 );
+
+export const LiquidityFilter = styled(_LiquidityFilter)`
+  ${(props) =>
+    !!props.value?.size &&
+    css`
+      border-color: var(--spectrum-primary-color) !important;
+      color: var(--spectrum-primary-color);
+    `}
+`;

@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 
 import { Position } from '../../../../common/models/Position';
 import { TableView } from '../../../../components/TableView/TableView';
-import { RatioColumn } from '../../common/PoolsOrPositionsTableView/columns/RatioColumn/RatioColumn';
 import { PairCell } from './cells/PairCell/PairCell';
 import { ShareCell } from './cells/ShareCell/ShareCell';
 import { TotalLockedCell } from './cells/TotalLockedCell/TotalLockedCell';
@@ -40,14 +39,11 @@ export const LockedPositionsProps: FC<LockedPositionsProps> = ({
       <TableView.Column title={<Trans>Total locked</Trans>} width={200}>
         {(position: Position) => <TotalLockedCell position={position} />}
       </TableView.Column>
-      <TableView.Column title={<Trans>Total withdrawable</Trans>} width={200}>
+      <TableView.Column title={<Trans>Total withdrawable</Trans>} width={230}>
         {(position: Position) => <WithdrawableLockedCell position={position} />}
       </TableView.Column>
       <TableView.Column title={<Trans>Share</Trans>} width={115}>
         {(position: Position) => <ShareCell position={position} />}
-      </TableView.Column>
-      <TableView.Column title={<Trans>Last 24H</Trans>} width={100}>
-        {(position: Position) => <RatioColumn ammPool={position.pool} />}
       </TableView.Column>
       <TableView.Action
         onClick={(item: Position) => navigate(`${item.pool.id}/withdrawal`)}
