@@ -58,19 +58,19 @@ const BurgerMenu = (): JSX.Element => {
     {
       title: t`About`,
       icon: <InfoCircleOutlined />,
-      link: 'https://docs.ergodex.io/docs/about-ergodex/intro',
+      link: 'https://docs.spectrum.fi/docs/about-spectrum/intro',
       onClick: () => panalytics.clickBurgerMenu('About'),
     },
     {
       title: t`How to use`,
       icon: <QuestionCircleOutlined />,
-      link: 'https://docs.ergodex.io/docs/user-guides/quick-start',
+      link: 'https://docs.spectrum.io/docs/user-guides/quick-start',
       onClick: () => panalytics.clickBurgerMenu('How to use'),
     },
     {
       title: t`Docs`,
       icon: <FileTextOutlined />,
-      link: 'https://docs.ergodex.io',
+      link: 'https://docs.spectrum.fi',
       onClick: () => panalytics.clickBurgerMenu('Docs'),
     },
     {

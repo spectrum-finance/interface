@@ -72,7 +72,7 @@ export const applicationConfig: ApplicationConfig = {
       explorerUrl: 'https://explorer.ergoplatform.com',
       analyticUrl: 'https://api.ergodex.io/v1/',
       lowBalanceGuide:
-        'https://docs.ergodex.io/docs/user-guides/quick-start#3-get-assets',
+        'https://docs.spectrum.fi/docs/user-guides/quick-start#3-get-assets',
     },
   },
   social: {
