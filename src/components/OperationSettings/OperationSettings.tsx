@@ -160,7 +160,7 @@ export const OperationSettings: FC<OperationSettingsProps> = ({
                   <br />
                   <Typography.Link
                     target="_blank"
-                    href="https://docs.ergodex.io/docs/protocol-overview/fees#execution-fee-formula"
+                    href="https://docs.spectrum.fi/docs/protocol-overview/fees#execution-fee-formula"
                   >
                     <Trans>Read more</Trans>
                   </Typography.Link>

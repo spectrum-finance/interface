@@ -54,7 +54,7 @@ export const PoolsOrPositionsTableView: FC<
               <br />
               <Typography.Link
                 target="_blank"
-                href="https://docs.ergodex.io/docs/protocol-overview/analytics#apr"
+                href="https://docs.spectrum.fi/docs/protocol-overview/analytics#apr"
               >
                 <Trans>Read more</Trans>
               </Typography.Link>
