@@ -11,7 +11,7 @@ export const CardWallet: CardanoWalletContract = makeCardanoWallet({
   walletSupportedFeatures: { createPool: false },
   name: 'CardWallet',
   testnetSwitchGuideUrl:
-    'https://docs.ergodex.io/docs/user-guides/change-wallet-to-testnet#cardwallet',
+    'https://docs.spectrum.fi/docs/user-guides/change-wallet-to-testnet#cardwallet',
   icon: <CardWalletLogo />,
   previewIcon: <CardWalletLogo width={21} height={21} />,
 });

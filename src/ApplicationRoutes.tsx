@@ -114,7 +114,7 @@ export const ApplicationRoutes: FC = () => {
     <>
       <RouterTitle
         divider="·"
-        pageTitle={networkTitle ? `ErgoDex · ${networkTitle}` : 'ErgoDex'}
+        pageTitle={networkTitle ? `Spectrum · ${networkTitle}` : 'Spectrum'}
         routesConfig={routesConfig}
       />
       {routes}

@@ -56,7 +56,7 @@ const InfoTooltip: React.FC<InfoTooltipProps> = ({
             width: size === 'small' ? '12px' : '',
             color:
               size === 'small' || secondary
-                ? 'var(--ergo-disabled-text-contrast)'
+                ? 'var(--spectrum-disabled-text-contrast)'
                 : '',
           }}
         />

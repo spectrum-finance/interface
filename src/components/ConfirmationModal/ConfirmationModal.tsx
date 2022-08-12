@@ -161,7 +161,7 @@ const YoroiIssueModalContent = () => (
       <Flex>
         <Flex.Item marginRight={1}>
           <a
-            style={{ color: 'var(--ergo-primary-color)' }}
+            style={{ color: 'var(--spectrum-primary-color)' }}
             href={applicationConfig.support.discord}
             target="_blank"
             rel="noreferrer"
@@ -172,7 +172,7 @@ const YoroiIssueModalContent = () => (
         </Flex.Item>
         <Flex.Item>
           <a
-            style={{ color: 'var(--ergo-primary-color)' }}
+            style={{ color: 'var(--spectrum-primary-color)' }}
             href={applicationConfig.support.telegram}
             target="_blank"
             rel="noreferrer"

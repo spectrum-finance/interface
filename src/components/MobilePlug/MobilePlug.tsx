@@ -11,7 +11,9 @@ const MobilePlug = (): JSX.Element => {
       <Flex.Item marginTop={8}>
         <Flex direction="col" align="center">
           <Flex.Item marginBottom={4}>
-            <SmartphoneImage style={{ color: 'var(--ergo-primary-color)' }} />
+            <SmartphoneImage
+              style={{ color: 'var(--spectrum-primary-color)' }}
+            />
           </Flex.Item>
           <Flex.Item marginBottom={2}>
             <Typography.Title level={2}>

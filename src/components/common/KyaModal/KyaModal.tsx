@@ -32,10 +32,10 @@ const KyaModal: React.FC<KyaModalProps> = ({ onClose }): JSX.Element => {
           <Flex.Item marginBottom={4}>
             <Typography.Body>
               <Trans>
-                ErgoDEX is a decentralized financial (DeFi) application which
-                means it does not have a central government body. ErgoDEX
-                includes AMM functionality (Swap, Add Liquidity and Remove
-                Liquidity) on top of the Ergo and Cardano Blockchains.
+                Spectrum.DEX is a decentralized financial (DeFi) application
+                which means it does not have a central government body.
+                Spectrum.DEX includes AMM functionality (Swap, Add Liquidity and
+                Remove Liquidity) on top of the Ergo and Cardano Blockchains.
               </Trans>
             </Typography.Body>
           </Flex.Item>
@@ -47,7 +47,8 @@ const KyaModal: React.FC<KyaModalProps> = ({ onClose }): JSX.Element => {
           <Flex.Item>
             <Typography.Body>
               <Trans>
-                1. You will use the ErgoDEX product at your own peril and risk;
+                1. You will use the Spectrum.DEX product at your own peril and
+                risk;
               </Trans>
             </Typography.Body>
           </Flex.Item>
@@ -58,7 +59,9 @@ const KyaModal: React.FC<KyaModalProps> = ({ onClose }): JSX.Element => {
           </Flex.Item>
           <Flex.Item marginBottom={4}>
             <Typography.Body>
-              <Trans>3. ErgoDEX Smart Contracts meet your expectations.</Trans>
+              <Trans>
+                3. Spectrum.DEX Smart Contracts meet your expectations.
+              </Trans>
               {' ('}
               <Typography.Link
                 href="https://github.com/ergolabs/ergo-dex"
@@ -84,8 +87,9 @@ const KyaModal: React.FC<KyaModalProps> = ({ onClose }): JSX.Element => {
           <Flex.Item>
             <Typography.Body>
               <Trans>
-                - ErgoDEX operates on a live blockchain, thus trades are final,
-                and irreversible once they have status &laquo;executed&raquo;;
+                - Spectrum.DEX operates on a live blockchain, thus trades are
+                final, and irreversible once they have status
+                &laquo;executed&raquo;;
               </Trans>
             </Typography.Body>
           </Flex.Item>
@@ -120,18 +124,19 @@ const KyaModal: React.FC<KyaModalProps> = ({ onClose }): JSX.Element => {
           <Flex.Item marginBottom={4}>
             <Typography.Body strong>
               <Trans>
-                ErgoDEX Team doesn’t guarantee the absence of bugs and errors.
+                Spectrum.DEX Team doesn’t guarantee the absence of bugs and
+                errors.
               </Trans>
             </Typography.Body>
           </Flex.Item>
           <Flex.Item>
             <Typography.Body strong>
               <Trans>
-                ErgoDEX offers a form of added security, as buyers and sellers
-                do not have to give their information to any 3rd party. However,
-                ErgoDEX is without a Know Your Customer (KYC) process and can
-                offer NO assistance if a user is hacked or cheated out of
-                passwords, currency or private wallet keys.
+                Spectrum.DEX offers a form of added security, as buyers and
+                sellers do not have to give their information to any 3rd party.
+                However, Spectrum.DEX is without a Know Your Customer (KYC)
+                process and can offer NO assistance if a user is hacked or
+                cheated out of passwords, currency or private wallet keys.
               </Trans>
             </Typography.Body>
           </Flex.Item>

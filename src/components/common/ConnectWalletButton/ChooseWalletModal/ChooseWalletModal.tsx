@@ -41,21 +41,21 @@ const WalletButton = styled(Button)`
 
   &:disabled,
   &:disabled:hover {
-    border-color: var(--ergo-default-border-color) !important;
+    border-color: var(--spectrum-default-border-color) !important;
     filter: grayscale(1);
 
     span {
-      color: var(--ergo-default-border-color) !important;
+      color: var(--spectrum-default-border-color) !important;
     }
   }
 `;
 
 const ExperimentalWalletBox = styled(Box)`
-  background: var(--ergo-box-bg-tag);
-  border: 1px solid var(--ergo-default-border-color);
+  background: var(--spectrum-box-bg-tag);
+  border: 1px solid var(--spectrum-default-border-color);
 
   .dark & {
-    background: var(--ergo-box-bg-contrast);
+    background: var(--spectrum-box-bg-contrast);
   }
 `;
 

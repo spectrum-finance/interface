@@ -15,7 +15,7 @@ export const AppLogo: React.FC<AppLogoProps> = ({
   style,
 }): JSX.Element => {
   return (
-    <Link to="/" style={{ height: '31px', ...style }}>
+    <Link to="/" style={{ height: '40px', ...style }}>
       <Typography.Body>
         {isNoWording ? <NoWordingLogoSVG /> : <LogoSVG />}
       </Typography.Body>

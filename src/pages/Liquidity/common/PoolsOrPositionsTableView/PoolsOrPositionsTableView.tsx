@@ -9,7 +9,6 @@ import { ExpandComponentProps } from '../../../../components/TableView/common/Ex
 import { TableView } from '../../../../components/TableView/TableView';
 import { AprColumn } from './columns/AprColumn/AprColumn';
 import { PairColumn } from './columns/PairColumn/PairColumn';
-import { RatioColumn } from './columns/RatioColumn/RatioColumn';
 import { TvlOrVolume24Column } from './columns/TvlOrVolume24Column/TvlOrVolume24Column';
 
 export interface PoolsOrPositionsTableViewProps<T extends AmmPool | Position> {
@@ -37,11 +36,11 @@ export const PoolsOrPositionsTableView: FC<
     <TableView.Column width={158} title={<Trans>TVL</Trans>}>
       {(ammPool) => <TvlOrVolume24Column usd={poolMapper(ammPool).tvl} />}
     </TableView.Column>
-    <TableView.Column width={158} title={<Trans>Volume 24H</Trans>}>
+    <TableView.Column width={200} title={<Trans>Volume 24H</Trans>}>
       {(ammPool) => <TvlOrVolume24Column usd={poolMapper(ammPool).volume} />}
     </TableView.Column>
     <TableView.Column
-      width={112}
+      width={158}
       title={
         <InfoTooltip
           width={300}
@@ -55,7 +54,7 @@ export const PoolsOrPositionsTableView: FC<
               <br />
               <Typography.Link
                 target="_blank"
-                href="https://docs.ergodex.io/docs/protocol-overview/analytics#apr"
+                href="https://docs.spectrum.fi/docs/protocol-overview/analytics#apr"
               >
                 <Trans>Read more</Trans>
               </Typography.Link>
@@ -67,9 +66,6 @@ export const PoolsOrPositionsTableView: FC<
       }
     >
       {(ammPool: AmmPool) => <AprColumn ammPool={poolMapper(ammPool)} />}
-    </TableView.Column>
-    <TableView.Column title={<Trans>Last 24H</Trans>} width={100}>
-      {(ammPool) => <RatioColumn ammPool={poolMapper(ammPool)} />}
     </TableView.Column>
     {children}
     <TableView.State name="search" condition={!items.length}>

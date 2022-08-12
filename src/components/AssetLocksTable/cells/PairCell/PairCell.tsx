@@ -23,7 +23,7 @@ const _AssetBox: FC<AssetBoxProps> = ({ currency, className }) => (
 );
 
 const AssetBox = styled(_AssetBox)`
-  border-color: var(--ergo-table-border-color);
+  border-color: var(--spectrum-table-border-color);
 `;
 
 export interface PairCellProps {

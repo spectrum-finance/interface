@@ -86,7 +86,7 @@ export const AssetListItem = styled(_AssetListItem)`
       cursor: pointer;
 
       &:hover {
-        background-color: var(--ergo-dark-card-background);
+        background-color: var(--spectrum-dark-card-background);
       }
     `}
 `;
