@@ -1,15 +1,15 @@
 name: Run on test
-on: 
+on:
   push:
     branches:
-      - "CU-2eh544a_-Product-Redesign"
+      - "master"
 
 jobs:
   build:
     name: Build Artifacts for Test
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    steps: 
+    steps:
       - name: Build Artifacts
         uses: actions/checkout@v3
 
@@ -23,18 +23,20 @@ jobs:
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-      
+
       - name: Generate deployable artifacts
+        env:
+          REACT_APP_POSTHOG_API_KEY: ${{ secrets.POSTHOG_PROD_API_KEY }}
         run: |
           yarn
           yarn run prei18n:extract
           yarn run i18n:extract
           yarn run i18n:compile
           CI=false yarn build
-          
+
       - name: Store Artifacts
         uses: actions/upload-artifact@v3
-        with: 
+        with:
           name: ${{ github.sha }}
           path: build
           retention-days: 1
@@ -53,7 +55,7 @@ jobs:
         uses: garygrossgarten/github-action-scp@release
         with:
           local: /home/runner/build
-          remote: /var/www/redesigned
+          remote: /var/www/test
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           privateKey: ${{ secrets.KEY }}
