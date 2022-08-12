@@ -11,9 +11,9 @@ const _ActiveIcon: FC<{ className?: string }> = ({ className }) => (
 
 const ActiveIcon = styled(_ActiveIcon)`
   position: absolute;
-  top: calc(var(--ergo-base-gutter) * 2);
-  right: calc(var(--ergo-base-gutter) * 2);
-  color: var(--ergo-primary-color);
+  top: calc(var(--spectrum-base-gutter) * 2);
+  right: calc(var(--spectrum-base-gutter) * 2);
+  color: var(--spectrum-primary-color);
 `;
 
 export interface SelectableItemRowRendererProps extends RowRendererProps {
@@ -38,5 +38,6 @@ const _SelectableItemRowRenderer: FC<SelectableItemRowRendererProps> = ({
 
 export const SelectableItemRowRenderer = styled(_SelectableItemRowRenderer)`
   position: relative;
-  ${(props) => props.selected && 'border: 1px solid var(--ergo-primary-color);'}
+  ${(props) =>
+    props.selected && 'border: 1px solid var(--spectrum-primary-color);'}
 `;

@@ -12,8 +12,8 @@ const TongueButton = styled(Button)`
   height: 33px !important;
   width: 20px !important;
   border-radius: 0 !important;
-  background-color: var(--ergo-tongue-bg-color) !important;
-  color: var(--ergo-tongue-icon-color) !important;
+  background-color: var(--spectrum-tongue-bg-color) !important;
+  color: var(--spectrum-tongue-icon-color) !important;
 `;
 
 export const TongueArrowButton: React.FC<TongueArrowButtonProps> = ({

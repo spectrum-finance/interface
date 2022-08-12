@@ -19,8 +19,8 @@ export const BottomContainer = styled.div<{ ref: any }>`
   padding-bottom: 1rem;
   right: 0;
   left: 0;
-  background: var(--ergo-box-bg-control);
-  border-top: 1px var(--ergo-box-border-color) solid;
+  background: var(--spectrum-box-bg-control);
+  border-top: 1px var(--spectrum-box-border-color) solid;
 
   ${device.m} {
     left: auto;

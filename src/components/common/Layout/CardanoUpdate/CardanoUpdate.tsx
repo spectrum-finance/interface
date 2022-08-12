@@ -15,7 +15,10 @@ export const CardanoUpdate: FC = () => {
         <Flex direction="col" align="center">
           <Flex.Item marginBottom={4}>
             <ToolOutlined
-              style={{ fontSize: '160px', color: 'var(--ergo-primary-color)' }}
+              style={{
+                fontSize: '160px',
+                color: 'var(--spectrum-primary-color)',
+              }}
             />
           </Flex.Item>
           <Flex.Item marginBottom={2}>

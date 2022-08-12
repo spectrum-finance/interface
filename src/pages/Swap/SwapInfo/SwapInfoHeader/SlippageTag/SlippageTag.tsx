@@ -23,7 +23,7 @@ const _SlippageTag: FC<SlippageTagProps> = ({ className }) => {
 };
 
 export const SlippageTag = styled(_SlippageTag)`
-  background: var(--ergo-swap-slippage-tag);
+  background: var(--spectrum-swap-slippage-tag);
   font-size: 12px;
   line-height: 20px;
 `;

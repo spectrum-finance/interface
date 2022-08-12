@@ -2,7 +2,6 @@
 @import './themes/dark.less';
 @import './themes/light.less';
 @import './variables/gradients.less';
-@import '../../network/styles';
 
 html {
   overflow:   hidden;
@@ -14,7 +13,7 @@ body {
   overflow:   hidden;
   width:      100%;
   height:     100%;
-  background-color: var(--ergo-body-bg);
+  background-color: var(--spectrum-body-bg);
 }
 
 .grecaptcha-badge {
@@ -40,9 +39,9 @@ body {
 }
 
 *::-webkit-scrollbar-thumb {
-  border:           1px solid var(--ergo-scroll-border);
-  background-color: var(--ergo-scroll-bg);
-  border-radius:    var(--ergo-border-radius-sm);
+  border:           1px solid var(--spectrum-scroll-border);
+  background-color: var(--spectrum-scroll-bg);
+  border-radius:    var(--spectrum-border-radius-sm);
   cursor:           pointer;
 }
 
@@ -53,12 +52,12 @@ body {
 
 [ant-click-animating-without-extra-node='true']::after,
 .ant-click-animating-node {
-  --antd-wave-shadow-color: var(--ergo-primary-color) !important;
+  --antd-wave-shadow-color: var(--spectrum-primary-color) !important;
 }
 
 ::selection {
-  background-color: var(--ergo-primary-color) !important;
-  color:            var(--ergo-primary-text) !important;
+  background-color: var(--spectrum-primary-color) !important;
+  color:            var(--spectrum-primary-text) !important;
 }
 
 .ergodex-coming-soon {
@@ -67,8 +66,8 @@ body {
     top:           -2px;
     right:         80px;
     padding:       1px 8px;
-    border:        1px solid var(--ergo-tab-disabled-border-color);
-    background:    var(--ergo-tab-disabled-color);
+    border:        1px solid var(--spectrum-tab-disabled-border-color);
+    background:    var(--spectrum-tab-disabled-color);
     border-radius: 4px;
     content:       'Coming soon';
     font-size:     8px;

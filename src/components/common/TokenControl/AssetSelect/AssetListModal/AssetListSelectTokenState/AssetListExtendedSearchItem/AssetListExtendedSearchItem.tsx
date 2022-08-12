@@ -46,6 +46,6 @@ export const AssetListExtendedSearchItem = styled(_AssetListExtendedSearchItem)`
   user-select: none;
 
   &:hover {
-    background-color: var(--ergo-dark-card-background);
+    background-color: var(--spectrum-dark-card-background);
   }
 `;

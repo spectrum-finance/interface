@@ -38,8 +38,8 @@ interface PageProps {
 }
 
 const Widget = styled.div`
-  background: var(--ergo-page-footer-bg);
-  border-radius: 16px 0 0 16px;
+  background: var(--spectrum-page-footer-bg);
+  border-radius: 4px 0 0 4px;
   margin: 16px 0;
 `;
 
@@ -130,5 +130,5 @@ const _Page: React.FC<PageProps> = ({
 };
 
 export const Page = styled(_Page)`
-  box-shadow: var(--ergo-box-box-shadow-form-wrapper);
+  box-shadow: var(--spectrum-box-box-shadow-form-wrapper);
 `;

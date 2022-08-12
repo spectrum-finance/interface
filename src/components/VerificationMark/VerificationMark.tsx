@@ -7,11 +7,11 @@ import { IsErgo } from '../IsErgo/IsErgo';
 
 const VerificationIcon = styled(_VerificationIcon)`
   cursor: pointer;
-  color: var(--ergo-success-color);
+  color: var(--spectrum-success-color);
   transition: 250ms ease;
 
   &:hover {
-    color: var(--ergo-success-color-hover);
+    color: var(--spectrum-success-color-hover);
   }
 `;
 

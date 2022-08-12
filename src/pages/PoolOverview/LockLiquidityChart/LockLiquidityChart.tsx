@@ -55,8 +55,8 @@ export const LockLiquidityChart: FC<LockLiquidityChartProps> = ({
           >
             <defs>
               <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#FF8C01" stopOpacity={1} />
-                <stop offset="95%" stopColor="#FF5135" stopOpacity={1} />
+                <stop offset="5%" stopColor="#ABA5FC" stopOpacity={1} />
+                <stop offset="95%" stopColor="#6B64CD" stopOpacity={1} />
               </linearGradient>
             </defs>
             <Tooltip wrapperClassName="hidden-tooltip" />

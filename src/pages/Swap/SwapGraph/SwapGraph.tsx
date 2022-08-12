@@ -255,12 +255,12 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({
             <defs>
               <linearGradient id="gradientColor" x1="0" y1="0" x2="0" y2="1">
                 <stop
-                  stopColor="var(--ergo-primary-color-hover)"
+                  stopColor="var(--spectrum-primary-color-hover)"
                   stopOpacity="0.5"
                 />
                 <stop
                   offset="1"
-                  stopColor="var(--ergo-primary-color-hover)"
+                  stopColor="var(--spectrum-primary-color-hover)"
                   stopOpacity="0"
                 />
               </linearGradient>
@@ -271,7 +271,7 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({
             />
             <Area
               dataKey={dataKey}
-              stroke="var(--ergo-primary-color-hover)"
+              stroke="var(--spectrum-primary-color-hover)"
               fill="url(#gradientColor)"
             />
           </AreaChart>

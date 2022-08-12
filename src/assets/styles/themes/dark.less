@@ -1,330 +1,335 @@
+@import "~@ergolabs/ui-kit/dist/styles/colors/colors.dark";
 @import "~@ergolabs/ui-kit/dist/styles/variables";
 
 .dark {
   .defaultTheme();
 
+  --spectrum-glow-gradient:                            linear-gradient(180deg, #040211 44.36%, #000000 100%);
+  --spectrum-logo-color:                               var(--spectrum-primary-text);
+
   // -- Color --
 
-  --ergo-body-bg:                                  @dark-color-background-1;
+  --spectrum-body-bg:                                  @dark-color-background-1;
 
-  --ergo-box-border-color:                         @dark-color-gray-3;
-  --ergo-box-bg:                                   @dark-color-gray-1;
-  --ergo-box-bg-contrast:                          @dark-color-gray-1;
-  --ergo-box-bg-control:                           @dark-color-gray-2;
-  --ergo-box-bg-tag:                               @dark-color-gray-05;
-  --ergo-box-box-shadow-form-wrapper:              none;
+  --spectrum-box-border-color:                         @dark-color-gray-3;
+  --spectrum-box-bg:                                   @dark-color-gray-1;
+  --spectrum-box-bg-contrast:                          @dark-color-gray-1;
+  --spectrum-box-bg-control:                           @dark-color-gray-2;
+  --spectrum-box-bg-tag:                               @dark-color-gray-05;
+  --spectrum-box-box-shadow-form-wrapper:              none;
 
   // Swap slippage tag
-  --ergo-swap-slippage-tag:                        @dark-color-gray-2;
+  --spectrum-swap-slippage-tag:                        @dark-color-gray-2;
 
   // Tag
-  --ergo-tag-primary:                              @dark-color-gray-1;
-  --ergo-tag-secondary:                            @dark-color-gray-3;
+  --spectrum-tag-primary:                              @dark-color-gray-1;
+  --spectrum-tag-secondary:                            @dark-color-gray-3;
 
   // Swap
-  --ergo-pool-selector-item-active:                @dark-color-gray-4;
-  --ergo-pool-selector-item-hover:                 @dark-color-gray-3;
+  --spectrum-pool-selector-item-active:                @dark-color-gray-4;
+  --spectrum-pool-selector-item-hover:                 @dark-color-gray-3;
 
   // Primary
-  --ergo-primary-color:                            @dark-color-orange-5;
-  --ergo-primary-color-hover:                      @dark-color-orange-6;
-  --ergo-primary-color-active:                     @dark-color-orange-4;
-  --ergo-primary-text-contrast:                    @dark-color-gray-10;
+  --spectrum-primary-color:                            #7167c5;
+  --spectrum-icon-second-tone-color:                   rgba(113, 103, 197, 0.1);
+  --spectrum-primary-color-hover:                      #5c53a8;
+  --spectrum-primary-color-active:                     #877ce2;
+  --spectrum-primary-text-contrast:                    @dark-color-gray-10;
 
-  --ergo-default-card-background:                  @dark-color-gray-3;
-  --ergo-dark-card-background:                     @dark-color-gray-2;
-  --ergo-ghost-background:                         transparent;
-  --ergo-default-border-color:                     @dark-color-gray-5;
-  --ergo-primary-text:                             @dark-color-gray-9;
-  --ergo-footnote-text:                            @dark-color-gray-8;
+  --spectrum-default-card-background:                  @dark-color-gray-3;
+  --spectrum-dark-card-background:                     @dark-color-gray-2;
+  --spectrum-ghost-background:                         transparent;
+  --spectrum-default-border-color:                     @dark-color-gray-5;
+  --spectrum-primary-text:                             @dark-color-gray-9;
+  --spectrum-footnote-text:                            @dark-color-gray-8;
 
-  --ergo-disabled-color:                           @dark-color-gray-3;
-  --ergo-disabled-text-contrast:                   @dark-color-gray-7;
+  --spectrum-disabled-color:                           @dark-color-gray-3;
+  --spectrum-disabled-text-contrast:                   @dark-color-gray-7;
 
   // App analytic
-  --ergo-app-analytic-tag:                         @dark-color-gray-2;
+  --spectrum-app-analytic-tag:                         @dark-color-gray-2;
 
   // Pool Selector
-  --ergo-page-footer-bg:                           rgba(20, 20, 20, 0.65);
+  --spectrum-page-footer-bg:                           rgba(20, 20, 20, 0.65);
 
   // Info
-  --ergo-info-color:                               @dark-color-blue-6;
-  --ergo-info-color-hover:                         @dark-color-blue-5;
-  --ergo-info-color-active:                        var(--ergo-info-color);
-  --ergo-info-border-color:                        @dark-color-blue-3;
-  --ergo-info-bg-color:                            @dark-color-blue-1;
-  --ergo-info-icon-color:                          var(--ergo-info-color-active);
+  --spectrum-info-color:                               @dark-color-blue-6;
+  --spectrum-info-color-hover:                         @dark-color-blue-5;
+  --spectrum-info-color-active:                        var(--spectrum-info-color);
+  --spectrum-info-border-color:                        @dark-color-blue-3;
+  --spectrum-info-bg-color:                            @dark-color-blue-1;
+  --spectrum-info-icon-color:                          var(--spectrum-info-color-active);
 
   // Success
-  --ergo-success-color:                            @dark-color-green-6;
-  --ergo-success-color-hover:                      @dark-color-green-5;
-  --ergo-success-color-active:                     var(--ergo-success-color);
-  --ergo-success-border-color:                     @dark-color-green-3;
-  --ergo-success-bg-color:                         @dark-color-green-1;
-  --ergo-success-icon-color:                       var(--ergo-success-color-active);
+  --spectrum-success-color:                            @dark-color-green-6;
+  --spectrum-success-color-hover:                      @dark-color-green-5;
+  --spectrum-success-color-active:                     var(--spectrum-success-color);
+  --spectrum-success-border-color:                     @dark-color-green-3;
+  --spectrum-success-bg-color:                         @dark-color-green-1;
+  --spectrum-success-icon-color:                       var(--spectrum-success-color-active);
 
   // Warning
-  --ergo-warning-color:                            @dark-color-gold-6;
-  --ergo-warning-color-hover:                      @dark-color-gold-5;
-  --ergo-warning-color-active:                     var(--ergo-warning-color);
-  --ergo-warning-border-color:                     @dark-color-gold-3;
-  --ergo-warning-bg-color:                         @dark-color-gold-1;
-  --ergo-warning-icon-color:                       var(--ergo-warning-color);
+  --spectrum-warning-color:                            @dark-color-gold-6;
+  --spectrum-warning-color-hover:                      @dark-color-gold-5;
+  --spectrum-warning-color-active:                     var(--spectrum-warning-color);
+  --spectrum-warning-border-color:                     @dark-color-gold-3;
+  --spectrum-warning-bg-color:                         @dark-color-gold-1;
+  --spectrum-warning-icon-color:                       var(--spectrum-warning-color);
 
   // Error
-  --ergo-error-color:                              @dark-color-dust-red-6;
-  --ergo-error-color-hover:                        @dark-color-dust-red-5;
-  --ergo-error-color-active:                       var(--ergo-error-color);
-  --ergo-error-border-color:                       @dark-color-dust-red-3;
-  --ergo-error-bg-color:                           @dark-color-dust-red-1;
-  --ergo-error-icon-color:                         var(--ergo-error-color-active);
+  --spectrum-error-color:                              @dark-color-dust-red-6;
+  --spectrum-error-color-hover:                        @dark-color-dust-red-5;
+  --spectrum-error-color-active:                       var(--spectrum-error-color);
+  --spectrum-error-border-color:                       @dark-color-dust-red-3;
+  --spectrum-error-bg-color:                           @dark-color-dust-red-1;
+  --spectrum-error-icon-color:                         var(--spectrum-error-color-active);
 
   // Magenta
-  --ergo-magenta-color:                            @dark-color-magenta-6;
-  --ergo-magenta-border-color:                     @dark-color-magenta-3;
-  --ergo-magenta-bg-color:                         @dark-color-magenta-1;
+  --spectrum-magenta-color:                            @dark-color-magenta-6;
+  --spectrum-magenta-border-color:                     @dark-color-magenta-3;
+  --spectrum-magenta-bg-color:                         @dark-color-magenta-1;
 
   // Red
-  --ergo-red-color:                                @dark-color-dust-red-6;
-  --ergo-red-border-color:                         @dark-color-dust-red-3;
-  --ergo-red-bg-color:                             @dark-color-dust-red-1;
+  --spectrum-red-color:                                @dark-color-dust-red-6;
+  --spectrum-red-border-color:                         @dark-color-dust-red-3;
+  --spectrum-red-bg-color:                             @dark-color-dust-red-1;
 
   // Volcano
-  --ergo-volcano-color:                            @dark-color-volcano-6;
-  --ergo-volcano-border-color:                     @dark-color-volcano-3;
-  --ergo-volcano-bg-color:                         @dark-color-volcano-1;
+  --spectrum-volcano-color:                            @dark-color-volcano-6;
+  --spectrum-volcano-border-color:                     @dark-color-volcano-3;
+  --spectrum-volcano-bg-color:                         @dark-color-volcano-1;
 
   // Orange
-  --ergo-orange-color:                             @dark-color-sunset-6;
-  --ergo-orange-border-color:                      @dark-color-sunset-3;
-  --ergo-orange-bg-color:                          @dark-color-sunset-1;
+  --spectrum-orange-color:                             @dark-color-sunset-6;
+  --spectrum-orange-border-color:                      @dark-color-sunset-3;
+  --spectrum-orange-bg-color:                          @dark-color-sunset-1;
 
   // Gold
-  --ergo-gold-color:                               @dark-color-gold-6;
-  --ergo-gold-border-color:                        @dark-color-gold-3;
-  --ergo-gold-bg-color:                            @dark-color-gold-1;
+  --spectrum-gold-color:                               @dark-color-gold-6;
+  --spectrum-gold-border-color:                        @dark-color-gold-3;
+  --spectrum-gold-bg-color:                            @dark-color-gold-1;
 
   // Lime
-  --ergo-lime-color:                               @dark-color-lime-6;
-  --ergo-lime-border-color:                        @dark-color-lime-3;
-  --ergo-lime-bg-color:                            @dark-color-lime-1;
+  --spectrum-lime-color:                               @dark-color-lime-6;
+  --spectrum-lime-border-color:                        @dark-color-lime-3;
+  --spectrum-lime-bg-color:                            @dark-color-lime-1;
 
   // Green
-  --ergo-green-color:                              @dark-color-green-6;
-  --ergo-green-border-color:                       @dark-color-green-3;
-  --ergo-green-bg-color:                           @dark-color-green-1;
+  --spectrum-green-color:                              @dark-color-green-6;
+  --spectrum-green-border-color:                       @dark-color-green-3;
+  --spectrum-green-bg-color:                           @dark-color-green-1;
 
   // Cyan
-  --ergo-cyan-color:                               @dark-color-cyan-6;
-  --ergo-cyan-border-color:                        @dark-color-cyan-3;
-  --ergo-cyan-bg-color:                            @dark-color-cyan-1;
+  --spectrum-cyan-color:                               @dark-color-cyan-6;
+  --spectrum-cyan-border-color:                        @dark-color-cyan-3;
+  --spectrum-cyan-bg-color:                            @dark-color-cyan-1;
 
   // Blue
-  --ergo-blue-color:                               @dark-color-blue-6;
-  --ergo-blue-border-color:                        @dark-color-blue-3;
-  --ergo-blue-bg-color:                            @dark-color-blue-1;
+  --spectrum-blue-color:                               @dark-color-blue-6;
+  --spectrum-blue-border-color:                        @dark-color-blue-3;
+  --spectrum-blue-bg-color:                            @dark-color-blue-1;
 
   // Geek-blue
-  --ergo-geek-blue-color:                          @dark-color-geekblue-6;
-  --ergo-geek-blue-border-color:                   @dark-color-geekblue-3;
-  --ergo-geek-blue-bg-color:                       @dark-color-geekblue-1;
+  --spectrum-geek-blue-color:                          @dark-color-geekblue-6;
+  --spectrum-geek-blue-border-color:                   @dark-color-geekblue-3;
+  --spectrum-geek-blue-bg-color:                       @dark-color-geekblue-1;
 
   // Purple
-  --ergo-purple-color:                             @dark-color-purple-6;
-  --ergo-purple-border-color:                      @dark-color-purple-3;
-  --ergo-purple-bg-color:                          @dark-color-purple-1;
+  --spectrum-purple-color:                             @dark-color-purple-6;
+  --spectrum-purple-border-color:                      @dark-color-purple-3;
+  --spectrum-purple-bg-color:                          @dark-color-purple-1;
 
 
   // -- Components
 
   // Scroll
-  --ergo-scroll-bg:                                @dark-color-gray-1;
-  --ergo-scroll-border:                            @dark-color-gray-5;
+  --spectrum-scroll-bg:                                @dark-color-gray-1;
+  --spectrum-scroll-border:                            @dark-color-gray-5;
 
   // Button
-  --ergo-btn-default-color:                        @dark-color-gray-1;
-  --ergo-button-danger-color:                      @dark-color-dust-red-6;
-  --ergo-button-danger-color-hover:                @dark-color-dust-red-7;
-  --ergo-button-danger-color-active:               @dark-color-dust-red-5;
+  --spectrum-btn-default-color:                        @dark-color-gray-1;
+  --spectrum-button-danger-color:                      @dark-color-dust-red-6;
+  --spectrum-button-danger-color-hover:                @dark-color-dust-red-7;
+  --spectrum-button-danger-color-active:               @dark-color-dust-red-5;
 
   // Alert
-  --ergo-alert-message-color:                      @dark-color-gray-9;
-  --ergo-alert-close-color:                        @dark-color-gray-7;
+  --spectrum-alert-message-color:                      @dark-color-gray-9;
+  --spectrum-alert-close-color:                        @dark-color-gray-7;
 
   // Slider
-  --ergo-slider-rail-bg:                           @dark-color-gray-4;
-  --ergo-slider-track-bg:                          @dark-color-orange-5;
+  --spectrum-slider-rail-bg:                           @dark-color-gray-4;
+  --spectrum-slider-track-bg:                          var(--spectrum-primary-color);
 
-  --ergo-slider-handle-bg:                         var(--ergo-default-card-background);
-  --ergo-slider-handle-bg-hover:                   var(--ergo-default-card-background);
-  --ergo-slider-handle-border:                     var(--ergo-primary-color);
-  --ergo-slider-handle-border-hover:               var(--ergo-primary-color-hover);
+  --spectrum-slider-handle-bg:                         var(--spectrum-default-card-background);
+  --spectrum-slider-handle-bg-hover:                   var(--spectrum-default-card-background);
+  --spectrum-slider-handle-border:                     var(--spectrum-primary-color);
+  --spectrum-slider-handle-border-hover:               var(--spectrum-primary-color-hover);
 
-  --ergo-slider-dot-bg:                            var(--ergo-default-card-background);
-  --ergo-slider-dot-border:                        var(--ergo-slider-rail-bg);
-  --ergo-slider-dot-active-bg:                     var(--ergo-slider-track-bg);
-  --ergo-slider-dot-active-border:                 var(--ergo-slider-track-bg);
+  --spectrum-slider-dot-bg:                            var(--spectrum-default-card-background);
+  --spectrum-slider-dot-border:                        var(--spectrum-slider-rail-bg);
+  --spectrum-slider-dot-active-bg:                     var(--spectrum-slider-track-bg);
+  --spectrum-slider-dot-active-border:                 var(--spectrum-slider-track-bg);
 
-  --ergo-slider-disabled:                          @dark-color-gray-4;
-  --ergo-slider-disabled-contrast:                 var(--ergo-disabled-text-contrast);
+  --spectrum-slider-disabled:                          @dark-color-gray-4;
+  --spectrum-slider-disabled-contrast:                 var(--spectrum-disabled-text-contrast);
 
   // Modal
-  --ergo-modal-color:                              @dark-color-gray-1;
-  --ergo-modal-box-shadow:                         none;
+  --spectrum-modal-color:                              @dark-color-gray-1;
+  --spectrum-modal-box-shadow:                         none;
 
   // Checkbox
-  --ergo-checkbox-disabled-color:                  @dark-color-gray-5;
-  --ergo-checkbox-disabled-bg:                     @dark-color-gray-3;
+  --spectrum-checkbox-disabled-color:                  @dark-color-gray-5;
+  --spectrum-checkbox-disabled-bg:                     @dark-color-gray-3;
 
   // Menu
-  --ergo-menu-item-active-background:              @dark-color-gray-3;
-  --ergo-dropdown-menu-background:                 @dark-color-gray-1;
-  --ergo-dropdown-menu-item-not-disable:           @dark-color-gray-9;
-  --ergo-dropdown-menu-item-disable:               @dark-color-gray-3;
-  --ergo-dropdown-menu-item-disable-text:          @dark-color-gray-6;
-  --ergo-dropdown-menu-item-danger:                @dark-color-dust-red-6;
-  --ergo-dropdown-menu-item-hover-bg:              @dark-color-gray-3;
-  --ergo-dropdown-menu-item-hover-color:           @dark-color-orange-6;
+  --spectrum-menu-item-active-background:              @dark-color-gray-3;
+  --spectrum-dropdown-menu-background:                 @dark-color-gray-1;
+  --spectrum-dropdown-menu-item-not-disable:           @dark-color-gray-9;
+  --spectrum-dropdown-menu-item-disable:               @dark-color-gray-3;
+  --spectrum-dropdown-menu-item-disable-text:          @dark-color-gray-6;
+  --spectrum-dropdown-menu-item-danger:                @dark-color-dust-red-6;
+  --spectrum-dropdown-menu-item-hover-bg:              @dark-color-gray-3;
+  --spectrum-dropdown-menu-item-hover-color:           var(--spectrum-primary-color);
 
   // Input
-  --ergo-input-bg:                                 @dark-color-gray-1;
-  --ergo-input-color-hover:                        @dark-color-gray-8;
-  --ergo-input-color-active:                       @dark-color-gray-8;
-  --ergo-input-placeholder-color:                  @dark-color-gray-7;
+  --spectrum-input-bg:                                 @dark-color-gray-1;
+  --spectrum-input-color-hover:                        @dark-color-gray-8;
+  --spectrum-input-color-active:                       @dark-color-gray-8;
+  --spectrum-input-placeholder-color:                  @dark-color-gray-7;
 
   // DatePicker
-  --ergo-datepicker-bg:                            @dark-color-gray-1;
-  --ergo-datepicker-border-hover:                  @dark-color-orange-5;
-  --ergo-datepicker-border-active:                 var(--ergo-datepicker-border-hover);
-  --ergo-datepicker-box-shadow:                    0 0 4px rgba(245, 34, 45, 0.5);
+  --spectrum-datepicker-bg:                            @dark-color-gray-1;
+  --spectrum-datepicker-border-hover:                  var(--spectrum-primary-color-hover);
+  --spectrum-datepicker-border-active:                 var(--spectrum-datepicker-border-hover);
+  --spectrum-datepicker-box-shadow:                    0 0 4px rgba(245, 34, 45, 0.5);
 
-  --ergo-datepicker-panel-border-color:            @dark-color-gray-4;
-  --ergo-datepicker-panel-cell-color:              @dark-color-gray-6;
-  --ergo-datepicker-panel-hover-color:             var(--ergo-primary-text);
+  --spectrum-datepicker-panel-border-color:            @dark-color-gray-4;
+  --spectrum-datepicker-panel-cell-color:              @dark-color-gray-6;
+  --spectrum-datepicker-panel-hover-color:             var(--spectrum-primary-text);
 
   //Select
-  --ergo-select-label-color:                       @dark-color-gray-10;
+  --spectrum-select-label-color:                       @dark-color-gray-10;
 
   // Message
-  --ergo-message-box-shadow:                       none;
+  --spectrum-message-box-shadow:                       none;
 
   // Token Select
-  --ergo-tokenselect-lbl-color:                    @dark-color-gray-10;
+  --spectrum-tokenselect-lbl-color:                    @dark-color-gray-10;
 
-  --ergo-tokenselect-selected-background:          @dark-color-gray-05;
-  --ergo-tokenselect-selected-color:               @dark-color-gray-9;
-  --ergo-tokenselect-selected-hover-bg:            @dark-color-gray-3;
-  --ergo-tokenselect-selected-active-bg:           @dark-color-gray-2;
+  --spectrum-tokenselect-selected-background:          @dark-color-gray-05;
+  --spectrum-tokenselect-selected-color:               @dark-color-gray-9;
+  --spectrum-tokenselect-selected-hover-bg:            @dark-color-gray-3;
+  --spectrum-tokenselect-selected-active-bg:           @dark-color-gray-2;
 
   // Tooltip
-  --ergo-tooltip-text-color:                       @dark-color-gray-10;
-  --ergo-tooltip-bg-color:                         @dark-color-gray-5;
+  --spectrum-tooltip-text-color:                       @dark-color-gray-10;
+  --spectrum-tooltip-bg-color:                         @dark-color-gray-5;
 
   // Popover
-  --ergo-popover-bg-color:                         @dark-color-gray-1;
-  --ergo-popover-border-color:                     @dark-color-gray-2;
-  --ergo-popover-box-shadow:                       none;
+  --spectrum-popover-bg-color:                         @dark-color-gray-1;
+  --spectrum-popover-border-color:                     @dark-color-gray-2;
+  --spectrum-popover-box-shadow:                       none;
 
   // Swap Input
-  --ergo-swap-input-bg:                            @dark-color-gray-2;
+  --spectrum-swap-input-bg:                            @dark-color-gray-2;
 
   // Token Input
-  --ergo-token-input-bg:                           @dark-color-gray-1;
-  --ergo-token-input-label-color:                  @dark-color-gray-8;
+  --spectrum-token-input-bg:                           @dark-color-gray-1;
+  --spectrum-token-input-label-color:                  @dark-color-gray-8;
 
   // NetworkDropdown
-  --ergo-networkdropdown-hover-focus-color:        @dark-color-gray-9;
+  --spectrum-networkdropdown-hover-focus-color:        @dark-color-gray-9;
 
   // Switch
-  --ergo-switch-box-shadow:                        none;
-  --ergo-switch-handle-bg-color:                   @dark-color-gray-10;
+  --spectrum-switch-box-shadow:                        none;
+  --spectrum-switch-handle-bg-color:                   @dark-color-gray-10;
 
   // Tabs
-  --ergo-tab-disabled-color:                       var(--ergo-default-card-background);
-  --ergo-tab-border-color:                         @dark-color-gray-3;
-  --ergo-tabs-nav-list-color:                      @dark-color-gray-1;
+  --spectrum-tab-disabled-color:                       var(--spectrum-default-card-background);
+  --spectrum-tab-border-color:                         @dark-color-gray-3;
+  --spectrum-tabs-nav-list-color:                      @dark-color-gray-1;
 
   // Connect Wallet
-  --ergo-connect-wallet-btn-bg:                    rgba(255, 114, 92, 0.35);
-  --ergo-connect-wallet-btn-color:                 @dark-color-orange-6;
-  --ergo-connect-wallet-btn-border:                @dark-color-orange-5;
-  --ergo-connect-wallet-address-btn-color:         @dark-color-gray-7;
-  --ergo-connect-wallet-address-btn-bg:            @dark-color-gray-05;
-  --ergo-connect-wallet-address-btn-border-hover:  @dark-color-gray-5;
-  --ergo-connect-wallet-address-btn-border-active: @dark-color-gray-7;
-  --ergo-connect-wallet-address-tag-color:         @dark-color-gray-8;
+  --spectrum-connect-wallet-btn-bg:                    rgba(113, 103, 197, 0.2);
+  --spectrum-connect-wallet-btn-color:                 #7167c5;
+  --spectrum-connect-wallet-btn-border:                #7167c5;
+  --spectrum-connect-wallet-address-btn-color:         @dark-color-gray-7;
+  --spectrum-connect-wallet-address-btn-bg:            @dark-color-gray-05;
+  --spectrum-connect-wallet-address-btn-border-hover:  @dark-color-gray-5;
+  --spectrum-connect-wallet-address-btn-border-active: @dark-color-gray-7;
+  --spectrum-connect-wallet-address-tag-color:         @dark-color-gray-8;
 
   // Header
-  --ergo-header-settings-btn-color:                @dark-color-gray-9;
-  --ergo-header-settings-btn-bg-hover-color:       @dark-color-gray-2;
-  --ergo-header-settings-btn-bg-active-color:      @dark-color-gray-3;
-  --ergo-header-others-btn-bg-color:               @dark-color-gray-1;
-  --ergo-header-others-btn-icon-default-color:     @dark-color-gray-9;
-  --ergo-header-others-btn-icon-hover-color:       @dark-color-orange-6;
-  --ergo-header-others-btn-icon-active-color:      @dark-color-orange-4;
+  --spectrum-header-settings-btn-color:                @dark-color-gray-9;
+  --spectrum-header-settings-btn-bg-hover-color:       @dark-color-gray-2;
+  --spectrum-header-settings-btn-bg-active-color:      @dark-color-gray-3;
+  --spectrum-header-others-btn-bg-color:               @dark-color-gray-1;
+  --spectrum-header-others-btn-icon-default-color:     @dark-color-gray-9;
+  --spectrum-header-others-btn-icon-hover-color:       @dark-color-orange-6;
+  --spectrum-header-others-btn-icon-active-color:      @dark-color-orange-4;
 
   // Token List Modal
-  --ergo-token-list-modal-token-name:              @dark-color-gray-8;
+  --spectrum-token-list-modal-token-name:              @dark-color-gray-8;
 
   // Logo
-  --ergo-logo-lbl-color:                           @dark-color-gray-10;
+  --spectrum-logo-lbl-color:                           @dark-color-gray-10;
 
   // Wallet Modal
-  --ergo-wallet-modal-component-bg:                @dark-color-gray-2;
-  --ergo-wallet-modal-lbl:                         @dark-color-gray-8;
-  --ergo-wallet-modal-icon-color:                  @dark-color-gray-9;
-  --ergo-wallet-modal-address-item-border:         @dark-color-gray-4;
-  --ergo-wallet-modal-token-item-wrapper-bg:       @dark-color-gray-1;
+  --spectrum-wallet-modal-component-bg:                @dark-color-gray-2;
+  --spectrum-wallet-modal-lbl:                         @dark-color-gray-8;
+  --spectrum-wallet-modal-icon-color:                  @dark-color-gray-9;
+  --spectrum-wallet-modal-address-item-border:         @dark-color-gray-4;
+  --spectrum-wallet-modal-token-item-wrapper-bg:       @dark-color-gray-1;
 
   // ChooseWalletModal
-  --ergo-choose-wallet-modal-item-bg:              @dark-color-gray-1;
-  --ergo-choose-wallet-modal-item-border:          @dark-color-gray-5;
-  --ergo-choose-wallet-modal-border-hover:         @dark-color-orange-5;
-  --ergo-choose-wallet-modal-disabled-border:      @dark-color-gray-3;
-  --ergo-choose-wallet-modal-disabled-color:       @dark-color-gray-6;
+  --spectrum-choose-wallet-modal-item-bg:              @dark-color-gray-1;
+  --spectrum-choose-wallet-modal-item-border:          @dark-color-gray-5;
+  --spectrum-choose-wallet-modal-border-hover:         @dark-color-orange-5;
+  --spectrum-choose-wallet-modal-disabled-border:      @dark-color-gray-3;
+  --spectrum-choose-wallet-modal-disabled-color:       @dark-color-gray-6;
 
   // Table
-  --ergo-table-head-color:                         @dark-color-gray-8;
-  --ergo-table-border-color:                       @dark-color-gray-4;
-  --ergo-table-td-hover-color:                     @dark-color-gray-4;
+  --spectrum-table-head-color:                         @dark-color-gray-8;
+  --spectrum-table-border-color:                       @dark-color-gray-4;
+  --spectrum-table-td-hover-color:                     @dark-color-gray-4;
 
   // GuideBanner
-  --ergo-guide-banner-bg:                          linear-gradient(267.4deg, #667EEA 0%, #764BA2 99.63%);
-  --ergo-guide-banner-text-color:                  @dark-color-gray-9;
-  --ergo-guide-banner-btn-bg:                      @dark-color-purple-7;
+  --spectrum-guide-banner-bg:                          linear-gradient(267.4deg, #667EEA 0%, #764BA2 99.63%);
+  --spectrum-guide-banner-text-color:                  @dark-color-gray-9;
+  --spectrum-guide-banner-btn-bg:                      @dark-color-purple-7;
 
   // Pool Position Item
-  --ergo-pool-position-bg:                         @dark-color-gray-2;
-  --ergo-pool-position-bg-hover:                   @dark-color-gray-3;
+  --spectrum-pool-position-bg:                         @dark-color-gray-2;
+  --spectrum-pool-position-bg-hover:                   @dark-color-gray-3;
 
-  --ergo-pool-position-bg-1:                       @dark-color-gray-05;
-  --ergo-profit-color:                             @dark-color-green-5;
+  --spectrum-pool-position-bg-1:                       @dark-color-gray-05;
+  --spectrum-profit-color:                             @dark-color-green-5;
 
   // Table List
-  --ergo-table-view-item-bg:                       @dark-color-gray-2;
-  --ergo-table-view-item-hover:                    @dark-color-gray-3;
-  --ergo-table-view-icon:                          @dark-color-gray-7;
-  --ergo-table-view-column-icon:                   @dark-color-gray-6;
+  --spectrum-table-view-item-bg:                       @dark-color-gray-2;
+  --spectrum-table-view-item-hover:                    @dark-color-gray-3;
+  --spectrum-table-view-icon:                          @dark-color-gray-7;
+  --spectrum-table-view-column-icon:                   @dark-color-gray-6;
 
   // Swap
-  --ergo-swap-form-icon:                           @dark-color-gray-9;
+  --spectrum-swap-form-icon:                           @dark-color-gray-9;
 
   // List
-  --ergo-list-overlay-gradient:                    rgba(29, 29, 29, 0) 73.01%, rgba(29, 29, 29, 0.65) 85.94%, #1D1D1D 100%;
+  --spectrum-list-overlay-gradient:                    rgba(29, 29, 29, 0) 73.01%, rgba(29, 29, 29, 0.65) 85.94%, #1D1D1D 100%;
 
   //Chart
-  --ergo-bar-hover-color:                          @dark-color-gray-9;
-  --ergo-empty-text-color:                         @dark-color-gray-8;
+  --spectrum-bar-hover-color:                          @dark-color-gray-9;
+  --spectrum-empty-text-color:                         @dark-color-gray-8;
 
   //Empty
-  --empty-icon-primary-color:                      @dark-color-gray-3;
-  --empty-icon-accent-color:                       @dark-color-gray-6;
+  --empty-icon-primary-color:                          @dark-color-gray-3;
+  --empty-icon-accent-color:                           @dark-color-gray-6;
 
   // Cardano testnet notification
-  --cardano-testnet-notification-background:       linear-gradient(104.31deg, #065CAB .75%, #2481D7 100%);
-  --cardano-testnet-notification-boxshadow:        0 9px 28px 8px rgba(0, 0, 0, .05), 0 6px 16px rgba(0, 0, 0, .08), 0 3px 6px -4px rgba(0, 0, 0, .12);
+  --cardano-testnet-notification-background:           linear-gradient(104.31deg, #065CAB .75%, #2481D7 100%);
+  --cardano-testnet-notification-boxshadow:            0 9px 28px 8px rgba(0, 0, 0, .05), 0 6px 16px rgba(0, 0, 0, .08), 0 3px 6px -4px rgba(0, 0, 0, .12);
 
   // Tongue
-  --ergo-tongue-bg-color:                          rgba(20, 20, 20, 0.65);
-  --ergo-tongue-icon-color:                        @dark-color-gray-9;
+  --spectrum-tongue-bg-color:                          rgba(20, 20, 20, 0.65);
+  --spectrum-tongue-icon-color:                        @dark-color-gray-9;
 }

@@ -20,11 +20,11 @@ interface TongueProps {
 }
 
 export const TongueIconContainer = styled.div<{ disabled: boolean }>`
-  background-color: var(--ergo-tongue-bg-color);
+  background-color: var(--spectrum-tongue-bg-color);
   padding: 16px;
   border-bottom-left-radius: 16px;
   cursor: pointer;
-  color: var(--ergo-tongue-icon-color);
+  color: var(--spectrum-tongue-icon-color);
   visibility: ${({ disabled }) => (disabled ? 'hidden' : 'visible')};
 `;
 

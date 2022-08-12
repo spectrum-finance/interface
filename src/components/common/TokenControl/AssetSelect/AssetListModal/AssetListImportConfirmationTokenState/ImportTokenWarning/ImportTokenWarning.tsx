@@ -4,7 +4,7 @@ import React, { FC } from 'react';
 import styled from 'styled-components';
 
 const StyledInfoCircleFilled = styled(InfoCircleFilled)`
-  color: var(--ergo-warning-color);
+  color: var(--spectrum-warning-color);
   font-size: 0.825rem;
 `;
 

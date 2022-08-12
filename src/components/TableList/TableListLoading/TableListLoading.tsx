@@ -11,7 +11,7 @@ export interface TableListLoadingProps {
 
 const LoadingIcon = styled(LoadingOutlined)`
   font-size: 40px;
-  color: var(--ergo-table-view-icon);
+  color: var(--spectrum-table-view-icon);
 `;
 
 const _TableListLoading: FC<TableListLoadingProps> = ({
@@ -26,5 +26,5 @@ const _TableListLoading: FC<TableListLoadingProps> = ({
 );
 
 export const TableListLoading = styled(_TableListLoading)`
-  background: var(--ergo-pool-position-bg);
+  background: var(--spectrum-pool-position-bg);
 `;

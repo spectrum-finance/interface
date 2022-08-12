@@ -29,7 +29,7 @@ const ExecutedStatusCell: FC = () => (
 );
 
 const StyledSpin = styled(Spin)`
-  color: var(--ergo-blue-color);
+  color: var(--spectrum-blue-color);
   font-size: 12px;
 
   .anticon {

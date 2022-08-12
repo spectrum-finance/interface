@@ -40,16 +40,17 @@ export const SortButton = styled(_SortButton)`
 
   .anticon:first-child {
     color: ${(props) =>
-      props.direction === SortDirection.ASC && 'var(--ergo-primary-color)'};
+      props.direction === SortDirection.ASC && 'var(--spectrum-primary-color)'};
   }
 
   .anticon:last-child {
     color: ${(props) =>
-      props.direction === SortDirection.DESC && 'var(--ergo-primary-color)'};
+      props.direction === SortDirection.DESC &&
+      'var(--spectrum-primary-color)'};
   }
 
   .anticon {
-    color: var(--ergo-table-view-column-icon);
+    color: var(--spectrum-table-view-column-icon);
     font-size: 10px;
   }
 `;
