@@ -33,4 +33,5 @@ const _PoolSelectorOverlay: FC<PoolSelectorOverlayProps> = ({
 
 export const PoolSelectorOverlay = styled(_PoolSelectorOverlay)`
   overflow: hidden;
+  width: 100%;
 `;

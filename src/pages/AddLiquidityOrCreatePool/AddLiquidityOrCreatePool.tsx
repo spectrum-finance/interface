@@ -190,7 +190,7 @@ export const AddLiquidityOrCreatePool: FC = () => {
             }
           </Form.Listener>
         }
-        width={510}
+        maxWidth={510}
         withBackButton
         onBackButtonClick={handleBackButtonClick}
         backTo="/pool"

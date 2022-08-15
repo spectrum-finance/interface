@@ -8,6 +8,7 @@ import {
   PlusOutlined,
   Skeleton,
   Typography,
+  useDevice,
 } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import React from 'react';
@@ -37,6 +38,7 @@ export const PoolOverview: React.FC = () => {
   const { poolId } = useParamsStrict<{ poolId: PoolId }>();
   const [selectedNetwork] = useSelectedNetwork();
   const [position, loading] = useObservable(getPositionByAmmPoolId(poolId));
+  const { s } = useDevice();
   const [poolConfidenceAnalytic] = useObservable(
     getAmmPoolConfidenceAnalyticByAmmPoolId(poolId),
   );
@@ -54,7 +56,7 @@ export const PoolOverview: React.FC = () => {
   const handleWithdrawalLiquidity = () => navigate(`withdrawal`);
 
   return (
-    <Page title={t`Pool overview`} width={620} withBackButton backTo="/pool">
+    <Page title={t`Pool overview`} maxWidth={620} withBackButton backTo="/pool">
       {position && poolConfidenceAnalytic ? (
         <Flex col>
           <Flex.Item marginBottom={5}>
@@ -159,7 +161,11 @@ export const PoolOverview: React.FC = () => {
                   )}
                   block
                 >
-                  <Trans>Increase Liquidity</Trans>
+                  {s ? (
+                    <Trans>Increase</Trans>
+                  ) : (
+                    <Trans>Increase Liquidity</Trans>
+                  )}
                 </Button>
               </Flex.Item>
               <Flex.Item flex={1}>
@@ -170,7 +176,7 @@ export const PoolOverview: React.FC = () => {
                   block
                   onClick={handleRemovePositionClick}
                 >
-                  <Trans>Remove Liquidity</Trans>
+                  {s ? <Trans>Remove</Trans> : <Trans>Remove Liquidity</Trans>}
                 </Button>
               </Flex.Item>
             </Flex>

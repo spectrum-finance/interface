@@ -106,7 +106,7 @@ export const RemoveLiquidity: FC = () => {
   };
 
   return (
-    <Page width={382} title={t`Remove liquidity`} withBackButton>
+    <Page maxWidth={382} title={t`Remove liquidity`} withBackButton>
       {position ? (
         <Form form={form} onSubmit={(form) => handleRemove(form, position)}>
           <Flex direction="col">
