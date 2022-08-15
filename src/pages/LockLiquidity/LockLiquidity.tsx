@@ -32,7 +32,7 @@ import { PageSection } from '../../components/Page/PageSection/PageSection';
 import { SubmitButton } from '../../components/SubmitButton/SubmitButton';
 import { getPositionByAmmPoolId } from '../../gateway/api/positions';
 import { useGuard } from '../../hooks/useGuard';
-import { LiquidityDatePicker } from '../Liquidity/components/LockLiquidityDatePicker/LiquidityDatePicker';
+import { LiquidityDatePicker } from '../Liquidity/common/components/LockLiquidityDatePicker/LiquidityDatePicker';
 import { LockLiquidityConfirmationModal } from './LockLiquidityConfirmationModal/LockLiquidityConfirmationModal';
 import { LockLiquidityModel } from './LockLiquidityModel';
 
@@ -111,7 +111,7 @@ const LockLiquidity = (): JSX.Element => {
   };
 
   return (
-    <Page width={480} title={t`Lock liquidity`} withBackButton>
+    <Page maxWidth={480} title={t`Lock liquidity`} withBackButton>
       {position ? (
         <Form
           form={form}

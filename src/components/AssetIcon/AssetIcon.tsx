@@ -55,6 +55,7 @@ const AssetIcon: React.FC<TokenIconProps> = ({
         height: MAP_SIZE_TO_NUMBER[size || 'medium'],
         overflow: 'hidden',
         borderRadius: '50%',
+        ...style,
       }}
       {...rest}
     >
