@@ -8,7 +8,7 @@ import { useObservable } from '../../../../../common/hooks/useObservable';
 import { isWalletSetuped$ } from '../../../../../gateway/api/wallets';
 
 const StyledMenu = styled(Menu)`
-  padding: calc(var(--ergo-base-gutter) * 2);
+  padding: calc(var(--spectrum-base-gutter) * 2);
   width: 200px;
 `;
 

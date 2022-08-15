@@ -1,18 +1,6 @@
 @import '../../../../../assets/styles/variables/gradients';
 
 .network-dropdown {
-  &__btn {
-    border: initial !important;
-
-    &--cardano {
-      background: @gradient-cardano-dropdown !important;
-    }
-
-    &--ergo {
-      background: @gradient-ergo-dropdown !important;
-    }
-  }
-
   &-item {
     position: relative;
 
@@ -23,7 +11,7 @@
         right: 16px;
         width: 8px;
         height: 8px;
-        background-color: var(--ergo-success-color);
+        background-color: var(--spectrum-success-color);
         border-radius: 50%;
         content: '';
       }
@@ -31,17 +19,17 @@
   }
 
   &__menu {
-    padding: calc(var(--ergo-base-gutter) * 2);
+    padding: calc(var(--spectrum-base-gutter) * 2);
 
     .ant-dropdown-menu-item {
-      padding: var(--ergo-base-gutter) calc(var(--ergo-base-gutter) * 4);
+      padding: var(--spectrum-base-gutter) calc(var(--spectrum-base-gutter) * 4);
     }
   }
 
   &__menu-title {
     display: block;
-    padding-left: calc(var(--ergo-base-gutter) * 4);
-    margin-bottom: var(--ergo-base-gutter) !important;
+    padding-left: calc(var(--spectrum-base-gutter) * 4);
+    margin-bottom: var(--spectrum-base-gutter) !important;
   }
 
   &__btn-text {

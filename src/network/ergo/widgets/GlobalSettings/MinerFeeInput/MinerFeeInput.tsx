@@ -7,7 +7,7 @@ import {
   Input,
 } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
-import React, { ChangeEvent, FC } from 'react';
+import React, { ChangeEvent, FC, useState } from 'react';
 
 import { defaultMinerFee } from '../../../../../common/constants/settings';
 
@@ -19,10 +19,18 @@ export const MinerFeeInput: FC<MinerFeeInputProps> = ({
   state,
   message,
 }) => {
+  const [viewValue, setViewValue] = useState<string | undefined>(
+    value?.toString(),
+  );
+
   const handleMinimalBtnClick = () => onChange && onChange(defaultMinerFee);
 
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) =>
-    onChange && onChange(event.target.valueAsNumber);
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    if (onChange) {
+      onChange(event.target.valueAsNumber);
+      setViewValue(event.target.value);
+    }
+  };
 
   return (
     <Flex col>
@@ -38,7 +46,7 @@ export const MinerFeeInput: FC<MinerFeeInputProps> = ({
               size="large"
               placeholder="> 0.002"
               type="number"
-              value={value}
+              value={viewValue}
               onChange={handleInputChange}
               state={state}
               autoCorrect="off"

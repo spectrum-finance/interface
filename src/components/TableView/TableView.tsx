@@ -70,7 +70,7 @@ const getContentHeight = (
   return height
     ? `calc(${normalizeMeasure(height)} - ${normalizeMeasure(
         headerHeight,
-      )} - var(--ergo-base-gutter) * ${gap || 0})`
+      )} - var(--spectrum-base-gutter) * ${gap || 0})`
     : height;
 };
 

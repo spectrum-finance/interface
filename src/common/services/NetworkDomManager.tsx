@@ -21,13 +21,6 @@ import {
 import { Network } from '../../network/common/Network';
 import { useObservable } from '../hooks/useObservable';
 
-const setFavicon = (n: Network<any, any>): void => {
-  const link = document.querySelector<HTMLLinkElement>("link[rel~='icon']");
-  if (link) {
-    link.href = n.favicon;
-  }
-};
-
 const handleAfterNetworkChange = (
   routesConfig: RouteConfigExtended[],
   network: Network<any, any>,
@@ -49,11 +42,10 @@ const init = (routesConfig: RouteConfigExtended[]): void => {
     location.pathname,
   )?.params?.network;
 
-  const selectedNetwork: Network<any, any> = initializeNetwork({
+  initializeNetwork({
     possibleName: urlNetworkParameter,
     afterNetworkChange: handleAfterNetworkChange.bind(null, routesConfig),
   });
-  setFavicon(selectedNetwork);
 };
 
 const NetworkDomManagerOutlet: FC = () => {

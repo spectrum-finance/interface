@@ -7,19 +7,15 @@ import { BehaviorSubject, first, mapTo, Observable, tap, zip } from 'rxjs';
 import { applicationConfig } from './applicationConfig';
 import { ApplicationRoutes, routesConfig } from './ApplicationRoutes';
 import { useObservable } from './common/hooks/useObservable';
+import { gaInitializer } from './common/initializers/gaInitializer';
 import { networkDomInitializer } from './common/initializers/networkDomInitializer';
 import { posthogInitializer } from './common/initializers/posthogInitializer';
 import { sentryInitializer } from './common/initializers/sentryInitializer';
 import { startAppTicks } from './common/streams/appTick';
 import { AppLoadingProvider, SettingsProvider } from './context';
 import { LanguageProvider } from './i18n/i18n';
-import { openCatalystF9Notification } from './services/notifications/CalalystF9/CalalystF9';
 
 const Application = () => {
-  useEffect(() => {
-    setTimeout(() => openCatalystF9Notification(), 10_000);
-  }, []);
-
   return (
     <BrowserRouter>
       <AppLoadingProvider>
@@ -43,6 +39,7 @@ const initializers: Observable<true>[] = [
   sentryInitializer(),
   posthogInitializer(),
   networkDomInitializer(routesConfig),
+  gaInitializer(),
 ];
 
 const isAppInitialized$ = new BehaviorSubject(false);

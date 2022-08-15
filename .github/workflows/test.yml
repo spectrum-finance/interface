@@ -1,5 +1,5 @@
 name: Run on test
-on: 
+on:
   push:
     branches:
       - "master"
@@ -8,8 +8,8 @@ jobs:
   build:
     name: Build Artifacts for Test
     runs-on: ubuntu-latest
-    timeout-minutes: 15
-    steps: 
+    timeout-minutes: 30
+    steps:
       - name: Build Artifacts
         uses: actions/checkout@v3
 
@@ -23,9 +23,9 @@ jobs:
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-      
+
       - name: Generate deployable artifacts
-        env: 
+        env:
           REACT_APP_POSTHOG_API_KEY: ${{ secrets.POSTHOG_PROD_API_KEY }}
         run: |
           yarn
@@ -33,10 +33,10 @@ jobs:
           yarn run i18n:extract
           yarn run i18n:compile
           CI=false yarn build
-          
+
       - name: Store Artifacts
         uses: actions/upload-artifact@v3
-        with: 
+        with:
           name: ${{ github.sha }}
           path: build
           retention-days: 1

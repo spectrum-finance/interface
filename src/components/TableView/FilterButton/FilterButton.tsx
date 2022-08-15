@@ -24,8 +24,8 @@ export const FilterButton = styled(_FilterIcon)`
     cursor: pointer;
     color: ${(props) =>
       props.active
-        ? 'var(--ergo-primary-color)'
-        : 'var(--ergo-table-view-column-icon)'};
+        ? 'var(--spectrum-primary-color)'
+        : 'var(--spectrum-table-view-column-icon)'};
     font-size: 12px;
   }
 `;

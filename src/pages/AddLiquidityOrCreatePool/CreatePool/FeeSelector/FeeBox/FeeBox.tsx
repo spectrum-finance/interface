@@ -20,7 +20,7 @@ const ActiveIcon = styled(_ActiveIcon)`
   position: absolute;
   top: 0;
   right: 0;
-  color: var(--ergo-primary-color);
+  color: var(--spectrum-primary-color);
   transform: translate(50%, -50%);
 `;
 
@@ -43,14 +43,14 @@ const _FeeBox: FC<FeeBoxProps> = ({
 );
 
 export const FeeBox = styled(_FeeBox)`
-  background: var(--ergo-pool-position-bg);
+  background: var(--spectrum-pool-position-bg);
   cursor: pointer;
   height: 90px;
   position: relative;
 
   &:hover {
-    border-color: var(--ergo-primary-color);
+    border-color: var(--spectrum-primary-color);
   }
 
-  ${(props) => props.active && 'border-color: var(--ergo-primary-color)'}
+  ${(props) => props.active && 'border-color: var(--spectrum-primary-color)'}
 `;

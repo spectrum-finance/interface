@@ -61,7 +61,7 @@ const LiquidityDatePicker: React.FC<LockLiquidityDatePickerProps> = ({
           </Flex>
         ) : (
           <Typography.Title
-            style={{ color: 'var(--ergo-disabled-text-contrast)' }}
+            style={{ color: 'var(--spectrum-disabled-text-contrast)' }}
             level={5}
           >
             {defaultValue ? defaultValue : t`Choose Date`}

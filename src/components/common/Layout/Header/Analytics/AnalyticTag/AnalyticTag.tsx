@@ -14,5 +14,5 @@ const _AnalyticTag: FC<AnalyticTag> = ({ className, children }) => (
 );
 
 export const AnalyticTag = styled(_AnalyticTag)`
-  background: var(--ergo-app-analytic-tag);
+  background: var(--spectrum-app-analytic-tag);
 `;

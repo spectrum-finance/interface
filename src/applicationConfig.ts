@@ -72,15 +72,15 @@ export const applicationConfig: ApplicationConfig = {
       explorerUrl: 'https://explorer.ergoplatform.com',
       analyticUrl: 'https://api.ergodex.io/v1/',
       lowBalanceGuide:
-        'https://docs.ergodex.io/docs/user-guides/quick-start#3-get-assets',
+        'https://docs.spectrum.fi/docs/user-guides/quick-start#3-get-assets',
     },
   },
   social: {
-    twitter: 'https://twitter.com/ErgoDex',
-    telegram: 'https://t.me/ergodex_community',
-    discord: 'https://discord.gg/zY2gmTYQVD',
-    medium: 'https://ergodex.medium.com/',
-    reddit: 'https://www.reddit.com/r/ergodex/',
+    twitter: 'https://twitter.com/Spectrumlabs',
+    telegram: 'https://t.me/spectrum_labs_community',
+    discord: 'https://discord.com/invite/zY2gmTYQVD',
+    medium: 'https://spectrumlabs.medium.com',
+    reddit: 'https://www.reddit.com/r/SpectrumLabs/',
   },
   support: {
     discord: 'https://discord.gg/Jya72kjDfq',

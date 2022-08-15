@@ -9,7 +9,6 @@ import { ExpandComponentProps } from '../../../../../components/TableView/common
 import { TableView } from '../../../../../components/TableView/TableView';
 import { AprColumn } from '../../../common/columns/PoolsOrPositionsColumns/columns/AprColumn/AprColumn';
 import { PairColumn } from '../../../common/columns/PoolsOrPositionsColumns/columns/PairColumn/PairColumn';
-import { RatioColumn } from '../../../common/columns/PoolsOrPositionsColumns/columns/RatioColumn/RatioColumn';
 import { TvlOrVolume24Column } from '../../../common/columns/PoolsOrPositionsColumns/columns/TvlOrVolume24Column/TvlOrVolume24Column';
 import { LiquiditySearchState } from '../../../common/tableViewStates/LiquiditySearchState/LiquiditySearchState';
 
@@ -38,11 +37,11 @@ export const PoolsOrPositionsTableView: FC<
     <TableView.Column width={158} title={<Trans>TVL</Trans>}>
       {(ammPool) => <TvlOrVolume24Column usd={poolMapper(ammPool).tvl} />}
     </TableView.Column>
-    <TableView.Column width={158} title={<Trans>Volume 24H</Trans>}>
+    <TableView.Column width={200} title={<Trans>Volume 24H</Trans>}>
       {(ammPool) => <TvlOrVolume24Column usd={poolMapper(ammPool).volume} />}
     </TableView.Column>
     <TableView.Column
-      width={112}
+      width={158}
       title={
         <InfoTooltip
           width={300}
@@ -56,7 +55,7 @@ export const PoolsOrPositionsTableView: FC<
               <br />
               <Typography.Link
                 target="_blank"
-                href="https://docs.ergodex.io/docs/protocol-overview/analytics#apr"
+                href="https://docs.spectrum.fi/docs/protocol-overview/analytics#apr"
               >
                 <Trans>Read more</Trans>
               </Typography.Link>
@@ -68,9 +67,6 @@ export const PoolsOrPositionsTableView: FC<
       }
     >
       {(ammPool: AmmPool) => <AprColumn ammPool={poolMapper(ammPool)} />}
-    </TableView.Column>
-    <TableView.Column title={<Trans>Last 24H</Trans>} width={100}>
-      {(ammPool) => <RatioColumn ammPool={poolMapper(ammPool)} />}
     </TableView.Column>
     {children}
     <TableView.State name="search" condition={!items.length}>

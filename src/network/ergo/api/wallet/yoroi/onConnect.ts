@@ -12,6 +12,6 @@ export const onConnect = (): void => {
   notification.info({
     message: 'Yoroi Wallet tip',
     description:
-      'Keep Yoroi Wallet extension window open, when you use ErgoDEX. So that it will sync faster.',
+      'Keep Yoroi Wallet extension window open, when you use Spectrum.DEX. So that it will sync faster.',
   });
 };

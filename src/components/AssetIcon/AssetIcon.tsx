@@ -49,6 +49,7 @@ const AssetIcon: React.FC<TokenIconProps> = ({
     <span
       role="img"
       style={{
+        ...style,
         display: 'inherit',
         width: MAP_SIZE_TO_NUMBER[size || 'medium'],
         height: MAP_SIZE_TO_NUMBER[size || 'medium'],

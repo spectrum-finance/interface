@@ -17,7 +17,7 @@ export const PoolOrPositionDetails: FC<
 
   return (
     <Flex stretch align="center">
-      <Flex.Item width={311}>
+      <Flex.Item marginRight={6}>
         <Flex col>
           <Typography.Footnote>
             <Trans>Total liquidity</Trans>
@@ -30,7 +30,24 @@ export const PoolOrPositionDetails: FC<
           </Typography.Body>
         </Flex>
       </Flex.Item>
-      <Flex.Item flex={1}>{children}</Flex.Item>
+      {children && <Flex.Item marginRight={6}>{children}</Flex.Item>}
+      <Flex.Item flex={1}>
+        <Flex col>
+          <Typography.Footnote>
+            <Trans>Price</Trans>
+          </Typography.Footnote>
+          <Typography.Body strong>
+            {poolMapper(item).xRatio.toString()}{' '}
+            {poolMapper(item).xRatio.baseAsset.ticker}/
+            {poolMapper(item).xRatio.quoteAsset.ticker}
+          </Typography.Body>
+          <Typography.Body strong>
+            {poolMapper(item).yRatio.toString()}{' '}
+            {poolMapper(item).yRatio.baseAsset.ticker}/
+            {poolMapper(item).yRatio.quoteAsset.ticker}
+          </Typography.Body>
+        </Flex>
+      </Flex.Item>
       <Flex.Item display="flex">
         <Flex.Item marginRight={2}>
           <ConnectWalletButton analytics={{ location: 'pool-list' }}>

@@ -1,8 +1,8 @@
 import {
   Button,
   FilterOutlined,
+  FilterTwoTone,
   Popover,
-  SearchOutlined,
 } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
@@ -51,17 +51,26 @@ const _LiquidityFilter: FC<LiquidityFilterProps> = ({
   >
     <Button
       className={className}
-      icon={value?.size ? <SearchOutlined /> : <FilterOutlined />}
+      icon={value?.size ? <FilterTwoTone /> : <FilterOutlined />}
       size="large"
     />
   </Popover>
 );
 
 export const LiquidityFilter = styled(_LiquidityFilter)`
+  &:hover {
+    border-color: var(--spectrum-primary-color) !important;
+  }
+
   ${(props) =>
     !!props.value?.size &&
     css`
-      border-color: var(--ergo-primary-color);
-      color: var(--ergo-primary-color);
+      svg path:first-child {
+        fill: var(--spectrum-icon-second-tone-color);
+      }
+
+      svg path:last-child {
+        fill: var(--spectrum-primary-color);
+      }
     `}
 `;

@@ -12,7 +12,7 @@ export const NoPoolInfoAlert: FC<NoPoolInfoAlertProps> = ({ children }) => (
     type="info"
     style={{
       padding:
-        'calc(2 * var(--ergo-base-gutter)) calc(4 * var(--ergo-base-gutter))',
+        'calc(2 * var(--spectrum-base-gutter)) calc(4 * var(--spectrum-base-gutter))',
       width: '100%',
     }}
   />
