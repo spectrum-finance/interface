@@ -13,7 +13,7 @@ export const PositionDetails: FC<ExpandComponentProps<Position>> = ({
 }) => (
   <PoolOrPositionDetails poolMapper={() => item.pool} item={item} {...rest}>
     <DetailsBox
-      title={<Trans>My liquidity</Trans>}
+      title={<Trans>Your liquidity</Trans>}
       value={
         <Flex col>
           <Flex.Item marginBottom={1} display="flex" justify="flex-end">

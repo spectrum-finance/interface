@@ -1,9 +1,9 @@
 import { Flex } from '@ergolabs/ui-kit';
 import React, { FC } from 'react';
 
-import { AmmPool } from '../../../../../../common/models/AmmPool';
-import { AssetPairTitle } from '../../../../../../components/AssetPairTitle/AssetPairTitle';
-import { DataTag } from '../../../../../../components/common/DataTag/DataTag';
+import { AmmPool } from '../../../../../../../common/models/AmmPool';
+import { AssetPairTitle } from '../../../../../../../components/AssetPairTitle/AssetPairTitle';
+import { DataTag } from '../../../../../../../components/common/DataTag/DataTag';
 
 export interface PairColumnProps {
   readonly ammPool: AmmPool;

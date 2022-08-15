@@ -47,7 +47,26 @@ export const PoolOrPositionDetails: FC<
             }
           />
         </DetailRow>
-        <DetailRow marginBottom={2}>{children}</DetailRow>
+        {children && <DetailRow marginBottom={2}>{children}</DetailRow>}
+        <DetailRow marginBottom={2}>
+          <DetailsBox
+            title={<Trans>Price</Trans>}
+            value={
+              <Flex col>
+                <Flex.Item marginBottom={1} display="flex" justify="flex-end">
+                  {poolMapper(item).xRatio.toString()}{' '}
+                  {poolMapper(item).xRatio.baseAsset.ticker}/
+                  {poolMapper(item).xRatio.quoteAsset.ticker}
+                </Flex.Item>
+                <Flex.Item display="flex" justify="flex-end">
+                  {poolMapper(item).yRatio.toString()}{' '}
+                  {poolMapper(item).yRatio.baseAsset.ticker}/
+                  {poolMapper(item).yRatio.quoteAsset.ticker}
+                </Flex.Item>
+              </Flex>
+            }
+          />
+        </DetailRow>
         <DetailRow marginBottom={2}>
           <DetailsBox
             title={<Trans>Fee</Trans>}

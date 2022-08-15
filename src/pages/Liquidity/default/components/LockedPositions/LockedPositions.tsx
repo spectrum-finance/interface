@@ -8,7 +8,6 @@ import { PairColumn } from '../../../common/columns/LockedPositionsColumns/PairC
 import { ShareColumn } from '../../../common/columns/LockedPositionsColumns/ShareColumn/ShareColumn';
 import { TotalLockedColumn } from '../../../common/columns/LockedPositionsColumns/TotalLockedColumn/TotalLockedColumn';
 import { WithdrawableLockedColumn } from '../../../common/columns/LockedPositionsColumns/WithdrawableLockedColumn/WithdrawableLockedColumn';
-import { RatioColumn } from '../../../common/columns/PoolsOrPositionsColumns/columns/RatioColumn/RatioColumn';
 import { LiquiditySearchState } from '../../../common/tableViewStates/LiquiditySearchState/LiquiditySearchState';
 import { LiquidityLockedPositionsProps } from '../../../common/types/LiquidityLockedPositionsProps';
 
@@ -37,16 +36,13 @@ export const LockedPositions: FC<LiquidityLockedPositionsProps> = ({
       <TableView.Column title={<Trans>Total locked</Trans>} width={200}>
         {(position: Position) => <TotalLockedColumn position={position} />}
       </TableView.Column>
-      <TableView.Column title={<Trans>Total withdrawable</Trans>} width={200}>
+      <TableView.Column title={<Trans>Total withdrawable</Trans>} width={230}>
         {(position: Position) => (
           <WithdrawableLockedColumn position={position} />
         )}
       </TableView.Column>
       <TableView.Column title={<Trans>Share</Trans>} width={115}>
         {(position: Position) => <ShareColumn position={position} />}
-      </TableView.Column>
-      <TableView.Column title={<Trans>Last 24H</Trans>} width={100}>
-        {(position: Position) => <RatioColumn ammPool={position.pool} />}
       </TableView.Column>
       <TableView.Action
         onClick={(item: Position) => navigate(`${item.pool.id}/withdrawal`)}

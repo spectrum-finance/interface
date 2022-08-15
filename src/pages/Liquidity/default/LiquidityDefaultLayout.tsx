@@ -17,11 +17,11 @@ import { YourPositions } from './components/YourPositions/YourPositions';
 const LiquidityTabs = styled(Tabs)`
   .ant-tabs-nav-wrap {
     flex: initial !important;
-    margin-right: calc(var(--ergo-base-gutter) * 2);
+    margin-right: calc(var(--spectrum-base-gutter) * 2);
   }
 
   .ant-tabs-nav {
-    margin-bottom: calc(var(--ergo-base-gutter) * 2) !important;
+    margin-bottom: calc(var(--spectrum-base-gutter) * 2) !important;
   }
 
   .ant-tabs-extra-content {

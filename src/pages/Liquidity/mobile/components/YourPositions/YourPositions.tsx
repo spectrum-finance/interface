@@ -13,7 +13,7 @@ export const YourPositions: FC<LiquidityYourPositionsProps> = ({
   isPositionsEmpty,
 }) => (
   <PoolsOrPositionsTableView
-    expandHeight={400}
+    expandHeight={464}
     poolMapper={(position) => position.pool}
     items={positions}
     expandComponent={PositionDetails}
