@@ -17,6 +17,7 @@ import { useBodyClass } from '../../../hooks/useBodyClass';
 import { useMetaThemeColor } from '../../../hooks/useMetaThemeColor';
 import { openCookiePolicy } from '../../../services/notifications/CookiePolicy/CookiePolicy';
 import { NetworkHeight } from '../../NetworkHeight/NetworkHeight';
+import { RebrandingModal } from '../../RebrandingModal/RebrandingModal';
 import { SocialLinks } from '../../SocialLinks/SocialLinks';
 import { KyaModal } from '../KyaModal/KyaModal';
 import { CardanoUpdate } from './CardanoUpdate/CardanoUpdate';
@@ -56,14 +57,15 @@ const _Layout: FC<PropsWithChildren<{ className?: string }>> = ({
   const [{ isKYAAccepted }] = useAppLoadingState();
 
   useEffect(() => {
-    if (!isKYAAccepted) {
+    if (isKYAAccepted) {
+      openCookiePolicy();
+      Modal.open(({ close }) => <RebrandingModal close={close} />);
+    } else {
       Modal.open(({ close }) => <KyaModal onClose={close} />, {
         afterClose: (isConfirmed) => {
           !isConfirmed && panalytics.closeKya();
         },
       });
-    } else {
-      openCookiePolicy();
     }
   }, [isKYAAccepted]);
 
