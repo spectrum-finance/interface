@@ -1,4 +1,4 @@
-import { Button, Flex, Modal, Typography } from '@ergolabs/ui-kit';
+import { Button, Flex, Modal, ModalRef, Typography } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 import styled from 'styled-components';
@@ -19,11 +19,7 @@ const StyledSpectrumLogo = styled(SpectrumLogo)`
   color: var(--spectrum-primary-text);
 `;
 
-export interface RebrandingModalProps {
-  readonly close: () => void;
-}
-
-export const RebrandingModal: FC<RebrandingModalProps> = ({ close }) => (
+export const RebrandingModal: FC<ModalRef> = ({ close }) => (
   <>
     <Modal.Title>
       <Flex justify="center">
