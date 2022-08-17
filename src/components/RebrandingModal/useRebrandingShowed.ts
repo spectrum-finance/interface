@@ -21,7 +21,7 @@ const rebrandingCookies = new RebrandingCookies();
 
 export const useRebrandingShowed = (): [boolean, () => void] => {
   const [rebrandingShowed, setRebrandingShowed] = useState<boolean>(
-    rebrandingCookies.isRebrandingShowed,
+    rebrandingCookies.isRebrandingShowed(),
   );
 
   const markRebrandingAsShowed = () => {

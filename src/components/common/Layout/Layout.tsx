@@ -18,7 +18,7 @@ import { useMetaThemeColor } from '../../../hooks/useMetaThemeColor';
 import { openCookiePolicy } from '../../../services/notifications/CookiePolicy/CookiePolicy';
 import { NetworkHeight } from '../../NetworkHeight/NetworkHeight';
 import { RebrandingModal } from '../../RebrandingModal/RebrandingModal';
-import { useRebrandingShowed } from '../../RebrandingModal/userRebrandingModalShowed';
+import { useRebrandingShowed } from '../../RebrandingModal/useRebrandingShowed';
 import { SocialLinks } from '../../SocialLinks/SocialLinks';
 import { KyaModal } from '../KyaModal/KyaModal';
 import { CardanoUpdate } from './CardanoUpdate/CardanoUpdate';
