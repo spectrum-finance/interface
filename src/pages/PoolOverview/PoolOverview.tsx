@@ -43,7 +43,7 @@ export const PoolOverview: React.FC = () => {
     getAmmPoolConfidenceAnalyticByAmmPoolId(poolId),
   );
 
-  useGuard(position, loading, () => navigate('../../../pool'));
+  useGuard(position, loading, () => navigate('../../../liquidity'));
 
   const handleLockLiquidity = () => navigate(`lock`);
 

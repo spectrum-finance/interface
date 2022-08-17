@@ -58,7 +58,7 @@ export const RelockLiquidity = (): JSX.Element => {
     (form) => !form.value.relocktime && t`Pick new unlock date`,
   ];
 
-  useGuard(position, loading, () => navigate('../../../pool'));
+  useGuard(position, loading, () => navigate('../../../liquidity'));
 
   const [isLockedPositionSelected] = useObservable(
     form.controls.lockedPosition.valueChanges$.pipe(map(Boolean)),
