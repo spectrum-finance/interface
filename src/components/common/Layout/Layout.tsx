@@ -17,6 +17,8 @@ import { useBodyClass } from '../../../hooks/useBodyClass';
 import { useMetaThemeColor } from '../../../hooks/useMetaThemeColor';
 import { openCookiePolicy } from '../../../services/notifications/CookiePolicy/CookiePolicy';
 import { NetworkHeight } from '../../NetworkHeight/NetworkHeight';
+import { RebrandingModal } from '../../RebrandingModal/RebrandingModal';
+import { useRebrandingShowed } from '../../RebrandingModal/useRebrandingShowed';
 import { SocialLinks } from '../../SocialLinks/SocialLinks';
 import { KyaModal } from '../KyaModal/KyaModal';
 import { CardanoUpdate } from './CardanoUpdate/CardanoUpdate';
@@ -50,22 +52,28 @@ const _Layout: FC<PropsWithChildren<{ className?: string }>> = ({
   const footerRef = useRef<HTMLDivElement>(null);
   const [scrolled, setScrolled] = useState(false);
   const [scrolledTop, setScrolledTop] = useState(true);
+  const [rebrandingShowed, markRebrandingAsShowed] = useRebrandingShowed();
 
   useBodyClass([theme, network.name.toLowerCase()]);
   useMetaThemeColor({ dark: '#1D1D1D', light: `#F0F2F5` }, theme);
   const [{ isKYAAccepted }] = useAppLoadingState();
 
   useEffect(() => {
-    if (!isKYAAccepted) {
+    if (isKYAAccepted) {
+      openCookiePolicy();
+      markRebrandingAsShowed();
+    } else if (!rebrandingShowed) {
+      Modal.open(({ close }) => <RebrandingModal close={close} />, {
+        afterClose: () => markRebrandingAsShowed(),
+      });
+    } else {
       Modal.open(({ close }) => <KyaModal onClose={close} />, {
         afterClose: (isConfirmed) => {
           !isConfirmed && panalytics.closeKya();
         },
       });
-    } else {
-      openCookiePolicy();
     }
-  }, [isKYAAccepted]);
+  }, [isKYAAccepted, rebrandingShowed]);
 
   useEffect(() => {
     let currentScrollY = ref.current?.scrollTop || 0;
