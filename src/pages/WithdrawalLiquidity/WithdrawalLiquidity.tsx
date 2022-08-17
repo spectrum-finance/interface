@@ -42,7 +42,7 @@ export const WithdrawalLiquidity = (): JSX.Element => {
   const { poolId } = useParamsStrict<{ poolId: PoolId }>();
   const [position, loading] = useObservable(getPositionByAmmPoolId(poolId));
 
-  useGuard(position, loading, () => navigate('../../../pool'));
+  useGuard(position, loading, () => navigate('../../../liquidity'));
 
   const validators: OperationValidator<RelockLiquidityModel>[] = [
     (form: FormGroup<RelockLiquidityModel>) =>
