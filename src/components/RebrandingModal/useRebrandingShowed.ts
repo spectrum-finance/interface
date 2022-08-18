@@ -1,6 +1,8 @@
 import Cookies from 'js-cookie';
 import { useState } from 'react';
 
+import { applicationConfig } from '../../applicationConfig';
+
 const REBRANDING_COOKIE = 'rebranding-showed';
 
 class RebrandingCookies {
@@ -9,7 +11,9 @@ class RebrandingCookies {
       return;
     }
 
-    Cookies.set(REBRANDING_COOKIE, 'true');
+    Cookies.set(REBRANDING_COOKIE, 'true', {
+      domain: applicationConfig.cookieDomain,
+    });
   }
 
   isRebrandingShowed(): boolean {
