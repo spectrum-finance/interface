@@ -24,6 +24,7 @@ interface CardanoUpdate {
 }
 
 interface ApplicationConfig {
+  readonly cookieDomain: string | undefined;
   readonly cardanoMaintenance: boolean;
   readonly cardanoUpdate?: CardanoUpdate;
   readonly defaultTokenListUrl: string;
@@ -48,6 +49,8 @@ interface ApplicationConfig {
 }
 
 export const applicationConfig: ApplicationConfig = {
+  cookieDomain:
+    process.env.NODE_ENV === 'production' ? 'spectrum.fi' : undefined,
   cardanoMaintenance: true,
   defaultTokenListUrl:
     'https://raw.githubusercontent.com/ergolabs/default-token-list/master/src/tokens',

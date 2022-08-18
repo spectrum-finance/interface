@@ -1,6 +1,8 @@
 import Cookies from 'js-cookie';
 import { useState } from 'react';
 
+import { applicationConfig } from '../../applicationConfig';
+
 const REBRANDING_COOKIE = 'rebranding-showed';
 
 class RebrandingCookies {
@@ -10,7 +12,7 @@ class RebrandingCookies {
     }
 
     Cookies.set(REBRANDING_COOKIE, 'true', {
-      domain: 'spectrum.fi',
+      domain: applicationConfig.cookieDomain,
     });
   }
 
