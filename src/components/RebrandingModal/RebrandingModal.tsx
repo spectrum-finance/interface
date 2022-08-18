@@ -44,9 +44,12 @@ export const RebrandingModal: FC<ModalRef> = ({ close }) => (
           <Typography.Body align="center">
             <Trans>
               Hey! If you missed it, our DEX has moved on and become even
-              better! Now it’s called Spectrum.DEX. We will not just be a DEX
-              anymore, but a native cross-chain ecosystem with new products.
-              Stay tuned and join our socials!
+              better! Now it’s called Spectrum.DEX.
+            </Trans>
+            <br />
+            <Trans>
+              We will not just be a DEX anymore, but a native cross-chain
+              ecosystem with new products. Stay tuned and join our socials!
             </Trans>
           </Typography.Body>
         </Flex.Item>
