@@ -9,7 +9,9 @@ class RebrandingCookies {
       return;
     }
 
-    Cookies.set(REBRANDING_COOKIE, 'true');
+    Cookies.set(REBRANDING_COOKIE, 'true', {
+      domain: 'spectrum.fi',
+    });
   }
 
   isRebrandingShowed(): boolean {
