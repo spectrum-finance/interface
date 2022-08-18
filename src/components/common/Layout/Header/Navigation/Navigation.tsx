@@ -12,12 +12,15 @@ interface NavigationProps {
 
 const _Navigation: FC<NavigationProps> = ({ className, style }) => {
   const navigate = useNavigate();
-  const matchLiquidityPage = useMatch({ path: ':network/pool', end: false });
+  const matchLiquidityPage = useMatch({
+    path: ':network/liquidity',
+    end: false,
+  });
 
   const [defaultActiveKey, setDefaultActiveKey] = useState('');
 
   useEffect(() => {
-    setDefaultActiveKey(matchLiquidityPage ? 'pool' : 'swap');
+    setDefaultActiveKey(matchLiquidityPage ? 'liquidity' : 'swap');
   }, [matchLiquidityPage]);
 
   const onTabClick = (key: string) => navigate(key);
@@ -30,7 +33,7 @@ const _Navigation: FC<NavigationProps> = ({ className, style }) => {
       style={style}
     >
       <Tabs.TabPane tab={t`Swap`} key="swap" />
-      <Tabs.TabPane tab={t`Liquidity`} key="pool" />
+      <Tabs.TabPane tab={t`Liquidity`} key="liquidity" />
     </Tabs>
   );
 };

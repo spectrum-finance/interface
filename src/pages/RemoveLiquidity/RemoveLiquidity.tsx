@@ -45,7 +45,7 @@ export const RemoveLiquidity: FC = () => {
     lpAmount: undefined,
   });
 
-  useGuard(position, loading, () => navigate('../../../pool'));
+  useGuard(position, loading, () => navigate('../../../liquidity'));
 
   const [formValue] = useObservable(form.valueChangesWithSilent$);
 
