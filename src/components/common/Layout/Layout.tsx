@@ -59,19 +59,22 @@ const _Layout: FC<PropsWithChildren<{ className?: string }>> = ({
   const [{ isKYAAccepted }] = useAppLoadingState();
 
   useEffect(() => {
-    if (isKYAAccepted) {
-      openCookiePolicy();
+    if (!isKYAAccepted) {
       markRebrandingAsShowed();
-    } else if (!rebrandingShowed) {
-      Modal.open(({ close }) => <RebrandingModal close={close} />, {
-        afterClose: () => markRebrandingAsShowed(),
-      });
-    } else {
       Modal.open(({ close }) => <KyaModal onClose={close} />, {
         afterClose: (isConfirmed) => {
           !isConfirmed && panalytics.closeKya();
         },
       });
+      return;
+    }
+    openCookiePolicy();
+    if (!rebrandingShowed) {
+      setTimeout(() => {
+        Modal.open(({ close }) => <RebrandingModal close={close} />, {
+          afterClose: () => markRebrandingAsShowed(),
+        });
+      }, 10_000);
     }
   }, [isKYAAccepted, rebrandingShowed]);
 
