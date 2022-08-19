@@ -70,6 +70,13 @@ const AbsoluteContainer = styled(_AbsoluteContainer)`
   bottom: 0;
 `;
 
+const ChartWrapper = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+`;
+
 export const SwapGraph: React.FC<SwapGraphProps> = ({
   pool,
   isReversed = false,
@@ -226,79 +233,88 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({
         marginLeft={4}
         marginRight={4}
         position="relative"
+        style={{
+          position: 'relative',
+          height: valBySize(pool ? 320 : 440, pool ? 320 : 230),
+        }}
       >
-        <ResponsiveContainer
-          width={valBySize<string | number>('100%', '100%', 624)}
-          height={valBySize(pool ? 320 : 440, pool ? 320 : 230)}
-        >
-          <AreaChart
-            data={chartData}
-            reverseStackOrder
-            onMouseMove={(state: any) => {
-              setActiveData(state?.activePayload?.[0]?.payload);
-            }}
-            syncMethod="index"
-            onMouseLeave={() => setActiveData(null)}
-            style={{
-              visibility: isEmpty || loading ? 'hidden' : 'visible',
-            }}
+        <ChartWrapper>
+          <ResponsiveContainer
+            width="100%"
+            height={valBySize(pool ? 320 : 440, pool ? 320 : 230)}
           >
-            <YAxis dataKey={dataKey} type="number" domain={['auto', 'auto']} />
-            <XAxis
-              dataKey="ts"
-              type="number"
-              scale="time"
-              domain={['dataMin', 'dataMax']}
-              ticks={displayedTicks}
-              tickFormatter={formatXAxis}
-            />
-            <defs>
-              <linearGradient id="gradientColor" x1="0" y1="0" x2="0" y2="1">
-                <stop
-                  stopColor="var(--spectrum-primary-color-hover)"
-                  stopOpacity="0.5"
-                />
-                <stop
-                  offset="1"
-                  stopColor="var(--spectrum-primary-color-hover)"
-                  stopOpacity="0"
-                />
-              </linearGradient>
-            </defs>
-            <Tooltip
-              wrapperStyle={{ display: 'none' }}
-              formatter={() => null}
-            />
-            <Area
-              dataKey={dataKey}
-              stroke="var(--spectrum-primary-color-hover)"
-              fill="url(#gradientColor)"
-            />
-          </AreaChart>
-        </ResponsiveContainer>
-
-        {isEmpty && !loading && (
-          <AbsoluteContainer>
-            <Empty>
-              <Typography.Text>
-                {pool ? (
-                  <Trans>Not enough data</Trans>
-                ) : (
-                  <Trans>Select a token</Trans>
-                )}
-              </Typography.Text>
-            </Empty>
-          </AbsoluteContainer>
-        )}
-        {loading && (
-          <AbsoluteContainer>
-            <Spin indicator={<LoadingOutlined />} size="large" />
-            <Typography.Footnote style={{ fontSize: '16px' }}>
-              <Trans>Loading</Trans>
-            </Typography.Footnote>
-          </AbsoluteContainer>
-        )}
+            <AreaChart
+              data={chartData}
+              reverseStackOrder
+              onMouseMove={(state: any) => {
+                setActiveData(state?.activePayload?.[0]?.payload);
+              }}
+              syncMethod="index"
+              onMouseLeave={() => setActiveData(null)}
+              style={{
+                visibility: isEmpty || loading ? 'hidden' : 'visible',
+              }}
+            >
+              <YAxis
+                dataKey={dataKey}
+                type="number"
+                domain={['auto', 'auto']}
+              />
+              <XAxis
+                dataKey="ts"
+                type="number"
+                scale="time"
+                domain={['dataMin', 'dataMax']}
+                ticks={displayedTicks}
+                tickFormatter={formatXAxis}
+              />
+              <defs>
+                <linearGradient id="gradientColor" x1="0" y1="0" x2="0" y2="1">
+                  <stop
+                    stopColor="var(--spectrum-primary-color-hover)"
+                    stopOpacity="0.5"
+                  />
+                  <stop
+                    offset="1"
+                    stopColor="var(--spectrum-primary-color-hover)"
+                    stopOpacity="0"
+                  />
+                </linearGradient>
+              </defs>
+              <Tooltip
+                wrapperStyle={{ display: 'none' }}
+                formatter={() => null}
+              />
+              <Area
+                dataKey={dataKey}
+                stroke="var(--spectrum-primary-color-hover)"
+                fill="url(#gradientColor)"
+              />
+            </AreaChart>
+          </ResponsiveContainer>
+        </ChartWrapper>
       </Flex.Item>
+      {isEmpty && !loading && (
+        <AbsoluteContainer>
+          <Empty>
+            <Typography.Text>
+              {pool ? (
+                <Trans>Not enough data</Trans>
+              ) : (
+                <Trans>Select a token</Trans>
+              )}
+            </Typography.Text>
+          </Empty>
+        </AbsoluteContainer>
+      )}
+      {loading && (
+        <AbsoluteContainer>
+          <Spin indicator={<LoadingOutlined />} size="large" />
+          <Typography.Footnote style={{ fontSize: '16px' }}>
+            <Trans>Loading</Trans>
+          </Typography.Footnote>
+        </AbsoluteContainer>
+      )}
     </Flex>
   );
 };
