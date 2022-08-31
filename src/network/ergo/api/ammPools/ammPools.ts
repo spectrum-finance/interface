@@ -1,5 +1,4 @@
 import { AmmPool as BaseAmmPool } from '@ergolabs/ergo-dex-sdk';
-import { DateTime } from 'luxon';
 import {
   catchError,
   combineLatest,
@@ -21,7 +20,6 @@ import {
   filterUnavailablePools,
 } from '../common/availablePoolsOrTokens';
 import { rawAmmPools$ } from '../common/rawAmmPools';
-import { getPoolChartDataRaw } from '../poolChart/poolChart';
 import { ErgoAmmPool } from './ErgoAmmPool';
 
 const toAmmPool = (p: BaseAmmPool): Observable<AmmPool> =>
@@ -29,21 +27,17 @@ const toAmmPool = (p: BaseAmmPool): Observable<AmmPool> =>
     getAggregatedPoolAnalyticsDataById24H(p.id).pipe(
       catchError(() => of(undefined)),
     ),
-    getPoolChartDataRaw(p.id, {
-      from: DateTime.now().minus({ day: 1 }).valueOf(),
-    }),
     combineLatest(
       [p.lp.asset, p.x.asset, p.y.asset].map((asset) =>
         mapToAssetInfo(asset.id),
       ),
     ),
   ]).pipe(
-    map(([poolAnalytics, rawChartData, [lp, x, y]]) => {
+    map(([poolAnalytics, [lp, x, y]]) => {
       return new ErgoAmmPool(
         p,
         { lp: lp || p.lp.asset, x: x || p.x.asset, y: y || p.y.asset },
         poolAnalytics,
-        rawChartData,
       );
     }),
   );

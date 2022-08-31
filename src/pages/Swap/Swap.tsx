@@ -8,19 +8,23 @@ import {
   useForm,
 } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
+import { findLast } from 'lodash';
 import maxBy from 'lodash/maxBy';
 import { DateTime } from 'luxon';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
   BehaviorSubject,
   combineLatest,
   debounceTime,
   distinctUntilChanged,
+  first,
+  map,
   Observable,
   of,
   skip,
   switchMap,
   tap,
+  zip,
 } from 'rxjs';
 
 import { panalytics } from '../../common/analytics';
@@ -234,6 +238,26 @@ export const Swap = (): JSX.Element => {
     return toAmount?.gte(pool.getAssetAmount(toAmount?.asset));
   };
 
+  useSubscription(
+    zip([defaultTokenAssets$, tokenAssetsToImport$, importedTokenAssets$]).pipe(
+      first(),
+      map(([defaultTokenAssets, tokenAssetsToImport, importedTokenAssets]) => [
+        ...defaultTokenAssets,
+        ...tokenAssetsToImport,
+        ...importedTokenAssets,
+      ]),
+    ),
+    (assets) => {
+      if (!form.value.fromAsset && !form.value.toAsset) {
+        form.patchValue({
+          fromAsset: findLast(assets, (a) => a.id === base) || networkAsset,
+          toAsset: findLast(assets, (a) => a.id === quote),
+        });
+      }
+    },
+    [],
+  );
+
   useSubscription(form.controls.fromAsset.valueChangesWithSilent$, (token) =>
     updateToAssets$.next(token?.id),
   );
@@ -254,10 +278,12 @@ export const Swap = (): JSX.Element => {
       ),
     ),
     (pools) => {
-      setSearchParams({
-        quote: form.value.toAsset?.id,
-        base: form.value.fromAsset?.id,
-      });
+      if (form.value.toAsset || form.value.fromAsset) {
+        setSearchParams({
+          quote: form.value.toAsset?.id,
+          base: form.value.fromAsset?.id,
+        });
+      }
       if (!pools.length && form.value.toAsset && form.value.fromAsset) {
         form.patchValue(
           {

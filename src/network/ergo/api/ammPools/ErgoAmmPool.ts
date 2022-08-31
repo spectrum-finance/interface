@@ -5,10 +5,8 @@ import { cache } from 'decorator-cache-getter';
 import { AmmPool } from '../../../../common/models/AmmPool';
 import { AssetInfo } from '../../../../common/models/AssetInfo';
 import { Currency } from '../../../../common/models/Currency';
-import { PoolChartData } from '../../../../common/models/PoolChartData';
 import { AmmPoolAnalytics } from '../../../../common/streams/poolAnalytic';
 import { AnalyticsData } from '../../../../services/new/analytics';
-import { PoolChartDataRaw } from '../poolChart/poolChart';
 
 export class ErgoAmmPool extends AmmPool {
   constructor(
@@ -19,15 +17,8 @@ export class ErgoAmmPool extends AmmPool {
       lp: AssetInfo;
     },
     private poolAnalytics?: AmmPoolAnalytics,
-    private _dayRatioTrend: PoolChartDataRaw[] = [],
   ) {
     super();
-  }
-
-  get dayRatioTrend(): PoolChartData[] {
-    return this._dayRatioTrend.map(
-      (d) => new PoolChartData(d, this.x.asset, this.y.asset),
-    );
   }
 
   @cache
