@@ -37,7 +37,7 @@ export const routesConfig: RouteConfigExtended[] = [
             element: <Swap />,
           },
           {
-            path: 'pool',
+            path: 'liquidity',
             children: [
               {
                 title: 'Liquidity',
