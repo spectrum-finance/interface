@@ -44,7 +44,20 @@ interface RatioStringProps {
 }
 
 const RatioString: React.FC<RatioStringProps> = ({ value, reversedRatio }) => {
-  if (!value.pool || !value.fromAsset) {
+  if (!value.pool || !value.fromAsset || !value.toAsset) {
+    return <></>;
+  }
+  if (
+    value.fromAsset.id !== value.pool.x.asset.id &&
+    value.fromAsset.id !== value.pool.y.asset.id
+  ) {
+    return <></>;
+  }
+  if (
+    reversedRatio &&
+    value.toAsset.id !== value.pool.x.asset.id &&
+    value.toAsset.id !== value.pool.y.asset.id
+  ) {
     return <></>;
   }
 
