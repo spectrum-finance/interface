@@ -28,6 +28,7 @@ import {
   useObservable,
   useSubscription,
 } from '../../common/hooks/useObservable';
+import { useSearchParams } from '../../common/hooks/useSearchParams';
 import { AmmPool } from '../../common/models/AmmPool';
 import { AssetInfo } from '../../common/models/AssetInfo';
 import { Currency } from '../../common/models/Currency';
@@ -96,6 +97,8 @@ export const Swap = (): JSX.Element => {
   const [networkAsset] = useNetworkAsset();
   const [balance] = useAssetsBalance();
   const totalFees = useSwapValidationFee();
+  const [{ base, quote }, setSearchParams] =
+    useSearchParams<{ base: string; quote: string }>();
   const [OperationSettings] = useObservable(operationsSettings$);
   const [reversedRatio, setReversedRatio] = useState(false);
   const updateToAssets$ = useMemo(
@@ -115,7 +118,7 @@ export const Swap = (): JSX.Element => {
     [],
   );
 
-  useEffect(() => form.patchValue({ fromAsset: networkAsset }), [networkAsset]);
+  // useEffect(() => form.patchValue({ fromAsset: networkAsset }), [networkAsset]);
 
   const getInsufficientTokenNameForFee = ({
     fromAmount,
@@ -251,6 +254,10 @@ export const Swap = (): JSX.Element => {
       ),
     ),
     (pools) => {
+      setSearchParams({
+        quote: form.value.toAsset?.id,
+        base: form.value.fromAsset?.id,
+      });
       if (!pools.length && form.value.toAsset && form.value.fromAsset) {
         form.patchValue(
           {
