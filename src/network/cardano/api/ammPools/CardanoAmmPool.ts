@@ -39,10 +39,6 @@ export class CardanoAmmPool extends AmmPool {
     return this.pool.feeNum;
   }
 
-  get dayRatioTrend(): PoolChartData[] {
-    return [];
-  }
-
   @cache
   get poolFeeNum(): number {
     return this.pool.poolFeeNum;

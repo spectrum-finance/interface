@@ -46,8 +46,6 @@ export abstract class AmmPool {
 
   abstract get y(): Currency;
 
-  abstract get dayRatioTrend(): PoolChartData[];
-
   abstract shares(input: Currency): [Currency, Currency];
 
   abstract calculateDepositAmount(currency: Currency): Currency;
