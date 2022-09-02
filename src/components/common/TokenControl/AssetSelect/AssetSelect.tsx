@@ -19,6 +19,7 @@ interface TokenSelectProps {
   readonly disabled?: boolean;
   readonly readonly?: boolean;
   readonly analytics?: PAnalytics;
+  readonly loading?: boolean;
 }
 
 const StyledDownOutlined = styled(DownOutlined)`
@@ -39,6 +40,7 @@ const AssetSelect: React.FC<TokenSelectProps> = ({
   assetsToImport$,
   importedAssets$,
   analytics,
+  loading,
 }) => {
   const handleSelectChange = (newValue: AssetInfo): void => {
     if (value?.id !== newValue?.id && onChange) {
@@ -69,25 +71,33 @@ const AssetSelect: React.FC<TokenSelectProps> = ({
   };
 
   return (
-    <StyledButton
-      type={value ? 'ghost' : 'primary'}
-      size="large"
-      onClick={openTokenModal}
-      disabled={disabled}
-    >
-      <Flex align="center">
-        <Flex.Item flex={1} align="flex-start" display="flex">
-          {value ? (
-            <AssetTitle gap={2} asset={value} />
-          ) : (
-            <Trans>Select a token</Trans>
-          )}
-        </Flex.Item>
-        <Flex.Item marginLeft={2}>
-          <StyledDownOutlined />
-        </Flex.Item>
-      </Flex>
-    </StyledButton>
+    <>
+      {loading ? (
+        <Button type="default" loading={true} size="large">
+          Loading...
+        </Button>
+      ) : (
+        <StyledButton
+          type={value ? 'ghost' : 'primary'}
+          size="large"
+          onClick={openTokenModal}
+          disabled={disabled}
+        >
+          <Flex align="center">
+            <Flex.Item flex={1} align="flex-start" display="flex">
+              {value ? (
+                <AssetTitle gap={2} asset={value} />
+              ) : (
+                <Trans>Select a token</Trans>
+              )}
+            </Flex.Item>
+            <Flex.Item marginLeft={2}>
+              <StyledDownOutlined />
+            </Flex.Item>
+          </Flex>
+        </StyledButton>
+      )}
+    </>
   );
 };
 

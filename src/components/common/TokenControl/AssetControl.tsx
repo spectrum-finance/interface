@@ -68,6 +68,7 @@ export interface AssetControlFormItemProps {
   readonly noBottomInfo?: boolean;
   readonly bordered?: boolean;
   readonly analytics?: PAnalytics;
+  readonly loading?: boolean;
 }
 
 export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
@@ -82,6 +83,7 @@ export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
   readonly,
   handleMaxButtonClick,
   analytics,
+  loading,
 }) => {
   const { form } = useFormContext();
   const [balance, balanceLoading] = useAssetsBalance();
@@ -152,7 +154,7 @@ export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
               <Form.Item name={amountName}>
                 {({ value, onChange }) => (
                   <AssetAmountInput
-                    readonly={isAmountReadOnly()}
+                    readonly={isAmountReadOnly() || loading}
                     value={value}
                     asset={selectedAsset}
                     onChange={onChange}
@@ -167,6 +169,7 @@ export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
               <Form.Item name={tokenName}>
                 {({ value, onChange }) => (
                   <AssetSelect
+                    loading={loading}
                     assets$={assets$}
                     assetsToImport$={assetsToImport$}
                     importedAssets$={importedAssets$}

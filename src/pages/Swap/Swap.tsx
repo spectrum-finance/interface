@@ -61,6 +61,7 @@ import { useNetworkAsset } from '../../gateway/api/networkAsset';
 import { useSwapValidationFee } from '../../gateway/api/validationFees';
 import { useSelectedNetwork } from '../../gateway/common/network';
 import { operationsSettings$ } from '../../gateway/widgets/operationsSettings';
+import { allAmmPools$ } from '../../network/ergo/api/ammPools/ammPools';
 import { PoolSelector } from './PoolSelector/PoolSelector';
 import { SwapConfirmationModal } from './SwapConfirmationModal/SwapConfirmationModal';
 import { SwapFormModel } from './SwapFormModel';
@@ -100,6 +101,7 @@ export const Swap = (): JSX.Element => {
   const [selectedNetwork] = useSelectedNetwork();
   const [networkAsset] = useNetworkAsset();
   const [balance] = useAssetsBalance();
+  const [, allAmmPoolsLoading] = useObservable(allAmmPools$);
   const totalFees = useSwapValidationFee();
   const [{ base, quote }, setSearchParams] =
     useSearchParams<{ base: string; quote: string }>();
@@ -121,8 +123,6 @@ export const Swap = (): JSX.Element => {
     () => updateToAssets$.pipe(switchMap(getToImportedAssets)),
     [],
   );
-
-  // useEffect(() => form.patchValue({ fromAsset: networkAsset }), [networkAsset]);
 
   const getInsufficientTokenNameForFee = ({
     fromAmount,
@@ -430,6 +430,7 @@ export const Swap = (): JSX.Element => {
           </Flex>
           <Flex.Item marginBottom={1} marginTop={2}>
             <AssetControlFormItem
+              loading={allAmmPoolsLoading}
               bordered
               maxButton
               handleMaxButtonClick={handleMaxButtonClick}
@@ -453,6 +454,7 @@ export const Swap = (): JSX.Element => {
           />
           <Flex.Item>
             <AssetControlFormItem
+              loading={allAmmPoolsLoading}
               bordered
               assets$={toAssets$}
               assetsToImport$={toAssetsToImport$}
