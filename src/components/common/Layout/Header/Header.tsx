@@ -5,10 +5,7 @@ import styled from 'styled-components';
 
 import { device } from '../../../../common/constants/size';
 import { useObservable } from '../../../../common/hooks/useObservable';
-import { useAssetsBalance } from '../../../../gateway/api/assetBalance';
-import { useNetworkAsset } from '../../../../gateway/api/networkAsset';
 import { selectedWalletState$ } from '../../../../gateway/api/wallets';
-import { settings$ } from '../../../../gateway/settings/settings';
 import { WalletState } from '../../../../network/common/Wallet';
 import { IsCardano } from '../../../IsCardano/IsCardano';
 import { IsErgo } from '../../../IsErgo/IsErgo';
@@ -45,10 +42,7 @@ export const _Header: React.FC<HeaderProps> = ({
   scrolled,
   scrolledTop,
 }) => {
-  const [settings] = useObservable(settings$);
   const { s, moreThan } = useDevice();
-  const [balance, isBalanceLoading] = useAssetsBalance();
-  const [networkAsset] = useNetworkAsset();
   const [walletState] = useObservable(selectedWalletState$);
 
   return (
@@ -79,11 +73,7 @@ export const _Header: React.FC<HeaderProps> = ({
         </Flex>
         <Flex align="center" style={{ gap: '8px', marginLeft: 'auto' }}>
           <NetworkDropdown />
-          <ConnectWallet
-            numberOfPendingTxs={0}
-            address={settings?.address}
-            balance={isBalanceLoading ? undefined : balance.get(networkAsset)}
-          />
+          <ConnectWallet />
           {!s && walletState === WalletState.CONNECTED && <OperationsHistory />}
           <BurgerMenu />
         </Flex>

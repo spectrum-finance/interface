@@ -8,7 +8,7 @@ import {
   useForm,
 } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
-import { findLast } from 'lodash';
+import findLast from 'lodash/findLast';
 import maxBy from 'lodash/maxBy';
 import { DateTime } from 'luxon';
 import React, { useMemo, useState } from 'react';
