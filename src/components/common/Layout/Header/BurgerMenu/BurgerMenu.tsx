@@ -64,7 +64,7 @@ const BurgerMenu = (): JSX.Element => {
     {
       title: t`How to use`,
       icon: <QuestionCircleOutlined />,
-      link: 'https://docs.spectrum.io/docs/user-guides/quick-start',
+      link: 'https://docs.spectrum.fi/docs/user-guides/quick-start',
       onClick: () => panalytics.clickBurgerMenu('How to use'),
     },
     {
