@@ -52,7 +52,7 @@ const LockLiquidity = (): JSX.Element => {
 
   const [formValue] = useObservable(form.valueChangesWithSilent$);
 
-  useGuard(position, loading, () => navigate('../../../pool'));
+  useGuard(position, loading, () => navigate('../../../liquidity'));
 
   useSubscription(
     form.controls.percent.valueChanges$.pipe(skip(1)),
