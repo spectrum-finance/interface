@@ -47,7 +47,10 @@ import {
   Operation,
 } from '../../components/ConfirmationModal/ConfirmationModal';
 import { Page } from '../../components/Page/Page';
-import { getAmmPoolsByAssetPair } from '../../gateway/api/ammPools';
+import {
+  allAmmPools$,
+  getAmmPoolsByAssetPair,
+} from '../../gateway/api/ammPools';
 import { useAssetsBalance } from '../../gateway/api/assetBalance';
 import {
   defaultTokenAssets$,
@@ -61,7 +64,6 @@ import { useNetworkAsset } from '../../gateway/api/networkAsset';
 import { useSwapValidationFee } from '../../gateway/api/validationFees';
 import { useSelectedNetwork } from '../../gateway/common/network';
 import { operationsSettings$ } from '../../gateway/widgets/operationsSettings';
-import { allAmmPools$ } from '../../network/ergo/api/ammPools/ammPools';
 import { PoolSelector } from './PoolSelector/PoolSelector';
 import { SwapConfirmationModal } from './SwapConfirmationModal/SwapConfirmationModal';
 import { SwapFormModel } from './SwapFormModel';

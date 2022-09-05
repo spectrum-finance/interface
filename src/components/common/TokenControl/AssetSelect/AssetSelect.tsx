@@ -73,7 +73,7 @@ const AssetSelect: React.FC<TokenSelectProps> = ({
   return (
     <>
       {loading ? (
-        <Button type="default" loading={true} size="large">
+        <Button type="default" loading size="large">
           Loading...
         </Button>
       ) : (

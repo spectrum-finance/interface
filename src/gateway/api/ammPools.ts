@@ -6,6 +6,21 @@ import { AmmPool } from '../../common/models/AmmPool';
 import { comparePoolByTvl } from '../../common/utils/comparePoolByTvl';
 import { selectedNetwork$ } from '../common/network';
 
+export const allAmmPools$ = selectedNetwork$.pipe(
+  switchMap((network) => network.allAmmPools$),
+  map((pools) =>
+    pools.filter(
+      (p) =>
+        !applicationConfig.hiddenAssets.includes(p.x.asset.id) &&
+        !applicationConfig.hiddenAssets.includes(p.y.asset.id) &&
+        !applicationConfig.blacklistedPools.includes(p.id),
+    ),
+  ),
+  map((pools) => pools.slice().sort(comparePoolByTvl)),
+  publishReplay(1),
+  refCount(),
+);
+
 export const ammPools$ = selectedNetwork$.pipe(
   switchMap((network) => network.ammPools$),
   map((pools) =>
@@ -51,7 +66,7 @@ export const getAmmPoolsByAssetPair = (
   xId: string,
   yId: string,
 ): Observable<AmmPool[]> =>
-  ammPools$.pipe(
+  allAmmPools$.pipe(
     map((pools) => pools.filter(byAssetPair(xId, yId))),
     publishReplay(1),
     refCount(),

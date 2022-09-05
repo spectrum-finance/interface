@@ -77,6 +77,7 @@ export const cardanoNetwork: Network<
   locks$: of([]),
   positions$,
   ammPools$,
+  allAmmPools$: ammPools$,
   possibleAmmPools$: of([]),
   getAddresses: getAddresses,
   getUsedAddresses: getUsedAddresses,

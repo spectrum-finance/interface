@@ -22,6 +22,7 @@ export interface NetworkData<W extends Wallet> {
   readonly assetBalance$: Observable<Balance>;
   readonly lpBalance$: Observable<Balance>;
   readonly locks$: Observable<AssetLock[]>;
+  readonly allAmmPools$: Observable<AmmPool[]>;
   readonly ammPools$: Observable<AmmPool[]>;
   readonly possibleAmmPools$: Observable<AmmPool[]>;
   readonly defaultTokenAssets$: Observable<AssetInfo[]>;
