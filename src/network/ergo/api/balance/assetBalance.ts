@@ -1,13 +1,13 @@
 import { map, publishReplay, refCount, zip } from 'rxjs';
 
 import { Balance } from '../../../../common/models/Balance';
-import { allAmmPools$ } from '../ammPools/ammPools';
+import { ammPools$ } from '../ammPools/ammPools';
 import { availableTokensData$ } from './common';
 import { networkAssetBalance$ } from './networkAssetBalance';
 
 export const assetBalance$ = zip([
   networkAssetBalance$,
-  allAmmPools$,
+  ammPools$,
   availableTokensData$,
 ]).pipe(
   map(([networkAssetBalance, pools, availableTokensData]) =>

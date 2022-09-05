@@ -8,7 +8,7 @@ import { AmmPool } from '../../common/models/AmmPool';
 import { AssetLock } from '../../common/models/AssetLock';
 import { Position } from '../../common/models/Position';
 import { Page } from '../../components/Page/Page';
-import { ammPools$ } from '../../gateway/api/ammPools';
+import { displayedAmmPools$ } from '../../gateway/api/ammPools';
 import { positions$ } from '../../gateway/api/positions';
 import { PoolsOrPositionsFilterValue } from './common/components/LiquidityFilter/LiquidityFilter';
 import { LiquidityTitleExtra } from './common/components/LiquidityTitleExtra/LiquidityTitleExtra';
@@ -62,7 +62,11 @@ export const Liquidity = (): JSX.Element => {
 
   const [positions, isPositionLoading] = useObservable(positions$, [], []);
 
-  const [ammPools, isAmmPoolsLoading] = useObservable(ammPools$, [], []);
+  const [ammPools, isAmmPoolsLoading] = useObservable(
+    displayedAmmPools$,
+    [],
+    [],
+  );
 
   const activeState =
     isPositionLoading && active === LiquidityState.LOCKED_POSITIONS

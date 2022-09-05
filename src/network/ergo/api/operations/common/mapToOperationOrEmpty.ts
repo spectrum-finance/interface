@@ -15,7 +15,7 @@ import {
   OtherOperation,
   SwapOperation,
 } from '../../../../../common/models/Operation';
-import { allAmmPools$ } from '../../ammPools/ammPools';
+import { ammPools$ } from '../../ammPools/ammPools';
 import { mapToAssetInfo } from '../../common/assetInfoManager';
 
 const mapRawStatusToStatus = (rs: AmmOrderStatus): OperationStatus => {
@@ -61,7 +61,7 @@ const mapToRedeemOperation = (
 ): Observable<OtherOperation> => {
   const order: Redeem = ammDexOperation.order as Redeem;
 
-  return allAmmPools$.pipe(
+  return ammPools$.pipe(
     map(
       (ammPools) =>
         ammPools.find((p) => p.lp.asset.id === order.inLP.asset.id)!,

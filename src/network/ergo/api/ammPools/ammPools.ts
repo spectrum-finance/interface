@@ -9,12 +9,10 @@ import {
   switchMap,
 } from 'rxjs';
 
+import { applicationConfig } from '../../../../applicationConfig';
 import { AmmPool } from '../../../../common/models/AmmPool';
 import { mapToAssetInfo } from '../common/assetInfoManager';
-import {
-  filterAvailablePools,
-  filterUnavailablePools,
-} from '../common/availablePoolsOrTokens';
+import { filterUnavailablePools } from '../common/availablePoolsOrTokens';
 import { rawAmmPools$ } from '../common/rawAmmPools';
 import { ErgoAmmPool } from './ErgoAmmPool';
 
@@ -32,20 +30,27 @@ const toAmmPool = (p: BaseAmmPool): Observable<AmmPool> =>
   );
 
 export const allAmmPools$ = rawAmmPools$.pipe(
-  switchMap((pools) =>
-    combineLatest(pools.map(toAmmPool)).pipe(defaultIfEmpty([])),
+  switchMap((ammPools) =>
+    combineLatest(ammPools.map(toAmmPool)).pipe(defaultIfEmpty([])),
   ),
   publishReplay(1),
   refCount(),
 );
 
-export const possibleAmmPools$ = allAmmPools$.pipe(
-  switchMap((pools) => filterAvailablePools(pools)),
+export const ammPools$ = allAmmPools$.pipe(
+  map((ammPools) =>
+    ammPools.filter(
+      (ap) =>
+        !applicationConfig.blacklistedPools.includes(ap.id) &&
+        !applicationConfig.hiddenAssets.includes(ap.x.asset.id) &&
+        !applicationConfig.hiddenAssets.includes(ap.y.asset.id),
+    ),
+  ),
   publishReplay(1),
   refCount(),
 );
 
-export const ammPools$ = allAmmPools$.pipe(
+export const displayedAmmPools$ = ammPools$.pipe(
   switchMap((pools) => filterUnavailablePools(pools)),
   publishReplay(1),
   refCount(),

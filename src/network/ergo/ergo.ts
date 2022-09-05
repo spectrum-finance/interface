@@ -4,12 +4,16 @@ import {
   getUnusedAddresses,
   getUsedAddresses,
 } from './api/addresses/addresses';
-import {
-  allAmmPools$,
-  ammPools$,
-  possibleAmmPools$,
-} from './api/ammPools/ammPools';
+import { ammPools$, displayedAmmPools$ } from './api/ammPools/ammPools';
 import { ErgoAmmPool } from './api/ammPools/ErgoAmmPool';
+import {
+  assetsToImport$,
+  defaultAssets$,
+  getAssetsToImportFor,
+  getDefaultAssetsFor,
+  getImportedAssetsFor,
+  importedAssets$,
+} from './api/assets/assets';
 import { assetBalance$ } from './api/balance/assetBalance';
 import { lpBalance$ } from './api/balance/lpBalance';
 import { networkAssetBalance$ } from './api/balance/networkAssetBalance';
@@ -24,11 +28,6 @@ import { pendingOperations$ } from './api/operations/pending/pendingOperations';
 import { queuedOperation$ } from './api/operations/pending/queuedOperation';
 import { getPoolChartData } from './api/poolChart/poolChart';
 import { positions$ } from './api/positions/positions';
-import {
-  defaultTokenAssets$,
-  importedTokenAssets$,
-  tokenAssetsToImport$,
-} from './api/tokens/tokens';
 import { ErgoWalletContract } from './api/wallet/common/ErgoWalletContract';
 import {
   availableWallets,
@@ -86,9 +85,8 @@ export const ergoNetwork: Network<
   lpBalance$,
   locks$,
   positions$,
-  allAmmPools$,
   ammPools$,
-  possibleAmmPools$,
+  displayedAmmPools$,
   getAddresses,
   getUsedAddresses,
   getUnusedAddresses,
@@ -99,9 +97,12 @@ export const ergoNetwork: Network<
   selectedWallet$,
   supportedFeatures$: supportedWalletFeatures$,
   networkContext$,
-  defaultTokenAssets$,
-  tokenAssetsToImport$,
-  importedTokenAssets$,
+  defaultAssets$,
+  getDefaultAssetsFor,
+  assetsToImport$,
+  getAssetsToImportFor,
+  importedAssets$,
+  getImportedAssetsFor,
   importTokenAsset,
 
   settings$,

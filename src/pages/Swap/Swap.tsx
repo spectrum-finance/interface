@@ -47,16 +47,13 @@ import {
   Operation,
 } from '../../components/ConfirmationModal/ConfirmationModal';
 import { Page } from '../../components/Page/Page';
-import {
-  allAmmPools$,
-  getAmmPoolsByAssetPair,
-} from '../../gateway/api/ammPools';
+import { ammPools$, getAmmPoolsByAssetPair } from '../../gateway/api/ammPools';
 import { useAssetsBalance } from '../../gateway/api/assetBalance';
 import {
   defaultTokenAssets$,
-  getAvailableAssetToImportFor,
-  getAvailableDefaultAssetsFor,
-  getAvailableImportedAssetsFor,
+  getAssetToImportFor,
+  getDefaultAssetsFor,
+  getImportedAssetsFor,
   importedTokenAssets$,
   tokenAssetsToImport$,
 } from '../../gateway/api/assets';
@@ -72,13 +69,13 @@ import { SwapInfo } from './SwapInfo/SwapInfo';
 import { SwitchButton } from './SwitchButton/SwitchButton';
 
 const getToAssets = (fromAsset?: string) =>
-  fromAsset ? getAvailableDefaultAssetsFor(fromAsset) : defaultTokenAssets$;
+  fromAsset ? getDefaultAssetsFor(fromAsset) : defaultTokenAssets$;
 
 const getToAssetsToImport = (fromAsset?: string) =>
-  fromAsset ? getAvailableAssetToImportFor(fromAsset) : tokenAssetsToImport$;
+  fromAsset ? getAssetToImportFor(fromAsset) : tokenAssetsToImport$;
 
 const getToImportedAssets = (fromAsset?: string) =>
-  fromAsset ? getAvailableImportedAssetsFor(fromAsset) : importedTokenAssets$;
+  fromAsset ? getImportedAssetsFor(fromAsset) : importedTokenAssets$;
 
 const isAssetsPairEquals = (
   [prevFrom, prevTo]: [AssetInfo | undefined, AssetInfo | undefined],
@@ -103,7 +100,7 @@ export const Swap = (): JSX.Element => {
   const [selectedNetwork] = useSelectedNetwork();
   const [networkAsset] = useNetworkAsset();
   const [balance] = useAssetsBalance();
-  const [, allAmmPoolsLoading] = useObservable(allAmmPools$);
+  const [, allAmmPoolsLoading] = useObservable(ammPools$);
   const totalFees = useSwapValidationFee();
   const [{ base, quote }, setSearchParams] =
     useSearchParams<{ base: string; quote: string }>();
