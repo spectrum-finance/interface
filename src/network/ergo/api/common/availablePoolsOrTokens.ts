@@ -82,27 +82,6 @@ export const filterUnavailablePools = (
     ),
   );
 
-export const filterAvailablePools = (
-  ammPools: AmmPool[],
-): Observable<AmmPool[]> =>
-  combineLatest([
-    defaultTokenList$,
-    importedTokenAssets$,
-    rawAssetsWithLiquidity$,
-  ]).pipe(
-    map(([defaultTokenList, importedTokens, rawAssetsWithLiquidity]) =>
-      ammPools.filter(
-        (ap) =>
-          (!importedTokens.includes(ap.x.asset.id) &&
-            !defaultTokenList.tokensMap.has(ap.x.asset.id) &&
-            !rawAssetsWithLiquidity.some((a) => a.id === ap.x.asset.id)) ||
-          (!importedTokens.includes(ap.y.asset.id) &&
-            !defaultTokenList.tokensMap.has(ap.y.asset.id) &&
-            !rawAssetsWithLiquidity.some((a) => a.id === ap.y.asset.id)),
-      ),
-    ),
-  );
-
 export const filterUnavailableAndImportedTokenAssets = (
   assets: AssetInfo[],
 ): Observable<AssetInfo[]> =>
