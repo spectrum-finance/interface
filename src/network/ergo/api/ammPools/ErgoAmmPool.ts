@@ -23,17 +23,17 @@ export class ErgoAmmPool extends AmmPool {
 
   @cache
   get tvl(): AnalyticsData | undefined {
-    return undefined;
+    return this.poolAnalytics?.tvl;
   }
 
   @cache
   get volume(): AnalyticsData | undefined {
-    return undefined;
+    return this.poolAnalytics?.volume;
   }
 
   @cache
   get yearlyFeesPercent(): number | undefined {
-    return undefined;
+    return this.poolAnalytics?.yearlyFeesPercent;
   }
 
   @cache

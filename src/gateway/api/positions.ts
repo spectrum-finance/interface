@@ -2,11 +2,13 @@ import { map, Observable, of, publishReplay, refCount, switchMap } from 'rxjs';
 
 import { AmmPool } from '../../common/models/AmmPool';
 import { Position } from '../../common/models/Position';
+import { comparePositionByTvl } from '../../common/utils/comparePositionByTvl';
 import { selectedNetwork$ } from '../common/network';
 import { displayedAmmPools$ } from './ammPools';
 
 export const positions$ = selectedNetwork$.pipe(
   switchMap((network) => network.positions$),
+  map((pools) => pools.slice().sort(comparePositionByTvl)),
   publishReplay(1),
   refCount(),
 );
