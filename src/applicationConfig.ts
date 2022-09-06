@@ -81,7 +81,7 @@ export const applicationConfig: ApplicationConfig = {
     },
   },
   social: {
-    twitter: 'https://twitter.com/Spectrumlabs',
+    twitter: 'https://twitter.com/spectrumlabs_',
     telegram: 'https://t.me/spectrum_labs_community',
     discord: 'https://discord.com/invite/zY2gmTYQVD',
     medium: 'https://spectrumlabs.medium.com',
