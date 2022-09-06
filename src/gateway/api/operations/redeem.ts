@@ -1,5 +1,6 @@
-import { first, Observable, switchMap } from 'rxjs';
+import { first, Observable, switchMap, timeout } from 'rxjs';
 
+import { applicationConfig } from '../../../applicationConfig';
 import { AmmPool } from '../../../common/models/AmmPool';
 import { Currency } from '../../../common/models/Currency';
 import { TxId } from '../../../common/types';
@@ -14,4 +15,5 @@ export const redeem = (
   selectedNetwork$.pipe(
     first(),
     switchMap((n) => n.redeem(pool, liquidity, x, y)),
+    timeout(applicationConfig.operationTimeoutTime),
   );
