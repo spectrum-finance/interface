@@ -1,7 +1,4 @@
-import uniqBy from 'lodash/uniqBy';
 import {
-  combineLatest,
-  debounceTime,
   first,
   map,
   Observable,
@@ -13,46 +10,22 @@ import {
 
 import { AssetInfo } from '../../common/models/AssetInfo';
 import { selectedNetwork$ } from '../common/network';
-import { ammPools$, possibleAmmPools$ } from './ammPools';
+import { ammPools$ } from './ammPools';
 
-export const defaultTokenAssets$ = combineLatest([
-  selectedNetwork$.pipe(switchMap((n) => n.defaultTokenAssets$)),
-  ammPools$,
-]).pipe(
-  debounceTime(100),
-  map(([tokenAssets, ammPools]) => {
-    return tokenAssets.filter((a) =>
-      ammPools.some((p) => p.x.asset.id === a.id || p.y.asset.id === a.id),
-    );
-  }),
+export const defaultTokenAssets$ = selectedNetwork$.pipe(
+  switchMap((n) => n.defaultAssets$),
   publishReplay(1),
   refCount(),
 );
 
-export const importedTokenAssets$ = combineLatest([
-  selectedNetwork$.pipe(switchMap((n) => n.importedTokenAssets$)),
-  ammPools$,
-]).pipe(
-  debounceTime(100),
-  map(([tokenAssets, ammPools]) => {
-    return tokenAssets.filter((a) =>
-      ammPools.some((p) => p.x.asset.id === a.id || p.y.asset.id === a.id),
-    );
-  }),
+export const importedTokenAssets$ = selectedNetwork$.pipe(
+  switchMap((n) => n.importedAssets$),
   publishReplay(1),
   refCount(),
 );
 
-export const tokenAssetsToImport$ = combineLatest([
-  selectedNetwork$.pipe(switchMap((n) => n.tokenAssetsToImport$)),
-  possibleAmmPools$,
-]).pipe(
-  debounceTime(100),
-  map(([tokenAssets, ammPools]) => {
-    return tokenAssets.filter((a) =>
-      ammPools.some((p) => p.x.asset.id === a.id || p.y.asset.id === a.id),
-    );
-  }),
+export const tokenAssetsToImport$ = selectedNetwork$.pipe(
+  switchMap((n) => n.assetsToImport$),
   publishReplay(1),
   refCount(),
 );
@@ -61,94 +34,43 @@ export const importTokenAsset = (assets: AssetInfo | AssetInfo[]): void => {
   selectedNetwork$.pipe(first()).subscribe((n) => n.importTokenAsset(assets));
 };
 
-export const getAvailableDefaultAssetsFor = (
-  assetId: string,
-): Observable<AssetInfo[]> =>
-  ammPools$.pipe(
-    map((pools) =>
-      pools.filter((p) => p.x.asset.id === assetId || p.y.asset.id === assetId),
-    ),
-    map((pools) =>
-      pools
-        .flatMap((p) => [
-          p.x.asset.id !== assetId ? p.x.asset : undefined,
-          p.y.asset.id !== assetId ? p.y.asset : undefined,
-        ])
-        .filter<AssetInfo>(Boolean as any),
-    ),
-    map((assets) => uniqBy(assets, 'id')),
-    switchMap((assets) =>
-      defaultTokenAssets$.pipe(
-        map((defaultTokenAssets) =>
-          assets.filter((asset) =>
-            defaultTokenAssets.some((dta) => dta.id === asset.id),
-          ),
-        ),
-      ),
-    ),
+export const getDefaultAssetsFor = (assetId: string): Observable<AssetInfo[]> =>
+  selectedNetwork$.pipe(
+    switchMap((n) => n.getDefaultAssetsFor(assetId)),
     publishReplay(1),
     refCount(),
   );
 
-export const getAvailableImportedAssetsFor = (
+export const getImportedAssetsFor = (
   assetId: string,
 ): Observable<AssetInfo[]> =>
-  ammPools$.pipe(
-    map((pools) =>
-      pools.filter((p) => p.x.asset.id === assetId || p.y.asset.id === assetId),
-    ),
-    map((pools) =>
-      pools
-        .flatMap((p) => [
-          p.x.asset.id !== assetId ? p.x.asset : undefined,
-          p.y.asset.id !== assetId ? p.y.asset : undefined,
-        ])
-        .filter<AssetInfo>(Boolean as any),
-    ),
-    map((assets) => uniqBy(assets, 'id')),
-    switchMap((assets) =>
-      defaultTokenAssets$.pipe(
-        map((defaultTokenAssets) =>
-          assets.filter(
-            (asset) => !defaultTokenAssets.some((dta) => dta.id === asset.id),
-          ),
-        ),
-      ),
-    ),
+  selectedNetwork$.pipe(
+    switchMap((n) => n.getImportedAssetsFor(assetId)),
     publishReplay(1),
     refCount(),
   );
 
-export const getAvailableAssetToImportFor = (
-  assetId: string,
-): Observable<AssetInfo[]> =>
-  possibleAmmPools$.pipe(
-    map((pools) =>
-      pools.filter((p) => p.x.asset.id === assetId || p.y.asset.id === assetId),
-    ),
-    map((pools) =>
-      pools
-        .flatMap((p) => [
-          p.x.asset.id !== assetId ? p.x.asset : undefined,
-          p.y.asset.id !== assetId ? p.y.asset : undefined,
-        ])
-        .filter<AssetInfo>(Boolean as any),
-    ),
-    map((assets) => uniqBy(assets, 'id')),
+export const getAssetToImportFor = (assetId: string): Observable<AssetInfo[]> =>
+  selectedNetwork$.pipe(
+    switchMap((n) => n.getAssetsToImportFor(assetId)),
     publishReplay(1),
     refCount(),
   );
 
 export const hasAvailablePoolsWith = (ai: AssetInfo): Observable<boolean> =>
-  zip([defaultTokenAssets$, possibleAmmPools$]).pipe(
+  zip([defaultTokenAssets$, importedTokenAssets$, ammPools$]).pipe(
     first(),
-    map(([tokenAssets, ammPools]) =>
+    map(([tokenAssets, importedTokenAssets, ammPools]) =>
       ammPools.some(
         (p) =>
           (p.x.asset.id === ai.id &&
-            tokenAssets.some((t) => t.id === p.y.asset.id)) ||
+            tokenAssets
+              .concat(importedTokenAssets)
+              .some((t) => t.id === p.y.asset.id)) ||
           (p.y.asset.id === ai.id &&
-            tokenAssets.some((t) => t.id === p.x.asset.id)),
+            tokenAssets
+              .concat(importedTokenAssets)
+              .some((t) => t.id === p.x.asset.id)),
       ),
     ),
   );

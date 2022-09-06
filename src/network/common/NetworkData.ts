@@ -23,10 +23,13 @@ export interface NetworkData<W extends Wallet> {
   readonly lpBalance$: Observable<Balance>;
   readonly locks$: Observable<AssetLock[]>;
   readonly ammPools$: Observable<AmmPool[]>;
-  readonly possibleAmmPools$: Observable<AmmPool[]>;
-  readonly defaultTokenAssets$: Observable<AssetInfo[]>;
-  readonly importedTokenAssets$: Observable<AssetInfo[]>;
-  readonly tokenAssetsToImport$: Observable<AssetInfo[]>;
+  readonly displayedAmmPools$: Observable<AmmPool[]>;
+  readonly defaultAssets$: Observable<AssetInfo[]>;
+  readonly getDefaultAssetsFor: (assetId: string) => Observable<AssetInfo[]>;
+  readonly importedAssets$: Observable<AssetInfo[]>;
+  readonly getImportedAssetsFor: (assetId: string) => Observable<AssetInfo[]>;
+  readonly assetsToImport$: Observable<AssetInfo[]>;
+  readonly getAssetsToImportFor: (assetId: string) => Observable<AssetInfo[]>;
   readonly importTokenAsset: (assetInfo: AssetInfo | AssetInfo[]) => void;
   readonly positions$: Observable<Position[]>;
   readonly getUsedAddresses: () => Observable<Address[] | undefined>;

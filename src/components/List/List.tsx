@@ -89,7 +89,7 @@ export interface ListProps<T> {
   readonly overlay?: boolean;
   readonly items: T[] | Dictionary<GroupConfig<T> | EmptyGroupConfig<T>>;
   readonly itemHeight: number;
-  readonly itemKey: keyof T;
+  readonly itemKey: keyof T | ((item: T) => string);
   readonly expand?: Expand;
   readonly fadeInDelay?: number;
   readonly children:
@@ -195,8 +195,15 @@ export const List = <T extends unknown>({
       );
     }
 
+    const getKey = (item: T, itemKey: keyof T | ((item: T) => string)) => {
+      if (itemKey instanceof Function) {
+        return itemKey(item);
+      }
+      return (item[itemKey] as any) || key;
+    };
+
     return (
-      <ItemContainer style={style} key={(item[itemKey] as any) || key}>
+      <ItemContainer style={style} key={getKey(item, itemKey)}>
         {itemRenderer && (
           <Animation.FadeIn delay={fadeInDelay || 0}>
             {itemRenderer({

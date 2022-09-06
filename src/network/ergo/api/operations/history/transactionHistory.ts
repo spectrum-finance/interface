@@ -1,6 +1,7 @@
 import { AmmDexOperation } from '@ergolabs/ergo-dex-sdk';
 import {
   combineLatest,
+  defaultIfEmpty,
   defer,
   first,
   map,
@@ -183,7 +184,9 @@ export const operationsHistory$ = addresses$.pipe(
     );
   }),
   switchMap((operations) =>
-    combineLatest(operations.map(mapToOperationOrEmpty)),
+    combineLatest(operations.map(mapToOperationOrEmpty)).pipe(
+      defaultIfEmpty([]),
+    ),
   ),
   map((operations) => operations.filter(Boolean) as Operation[]),
   publishReplay(1),
