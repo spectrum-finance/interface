@@ -82,32 +82,11 @@ export const filterUnavailablePools = (
     ),
   );
 
-export const filterAvailablePools = (
-  ammPools: AmmPool[],
-): Observable<AmmPool[]> =>
-  combineLatest([
-    defaultTokenList$,
-    importedTokenAssets$,
-    rawAssetsWithLiquidity$,
-  ]).pipe(
-    map(([defaultTokenList, importedTokens, rawAssetsWithLiquidity]) =>
-      ammPools.filter(
-        (ap) =>
-          (!importedTokens.includes(ap.x.asset.id) &&
-            !defaultTokenList.tokensMap.has(ap.x.asset.id) &&
-            !rawAssetsWithLiquidity.some((a) => a.id === ap.x.asset.id)) ||
-          (!importedTokens.includes(ap.y.asset.id) &&
-            !defaultTokenList.tokensMap.has(ap.y.asset.id) &&
-            !rawAssetsWithLiquidity.some((a) => a.id === ap.y.asset.id)),
-      ),
-    ),
-  );
-
 export const filterUnavailableAndImportedTokenAssets = (
   assets: AssetInfo[],
 ): Observable<AssetInfo[]> =>
-  combineLatest([defaultTokenList$]).pipe(
-    map(([defaultTokenList]) =>
+  defaultTokenList$.pipe(
+    map((defaultTokenList) =>
       assets.filter(
         (ai) =>
           defaultTokenList.tokensMap.has(ai.id) || networkAsset.id === ai.id,
@@ -118,18 +97,10 @@ export const filterUnavailableAndImportedTokenAssets = (
 export const filterUnavailableAndDefaultTokenAssets = (
   assets: AssetInfo[],
 ): Observable<AssetInfo[]> =>
-  combineLatest([
-    importedTokenAssets$,
-    rawAssetsWithLiquidity$,
-    defaultTokenList$,
-  ]).pipe(
-    map(([importedTokens, rawAssetsWithLiquidity, defaultTokenList]) =>
+  importedTokenAssets$.pipe(
+    map((importedTokens) =>
       assets.filter(
-        (ai) =>
-          (importedTokens.includes(ai.id) ||
-            rawAssetsWithLiquidity.some((a) => a.id === ai.id)) &&
-          !defaultTokenList.tokensMap.has(ai.id) &&
-          ai.id !== networkAsset.id,
+        (ai) => importedTokens.includes(ai.id) && ai.id !== networkAsset.id,
       ),
     ),
   );
@@ -137,17 +108,12 @@ export const filterUnavailableAndDefaultTokenAssets = (
 export const filterAvailableTokenAssets = (
   assets: AssetInfo[],
 ): Observable<AssetInfo[]> =>
-  combineLatest([
-    defaultTokenList$,
-    importedTokenAssets$,
-    rawAssetsWithLiquidity$,
-  ]).pipe(
-    map(([defaultTokenList, importedTokens, rawAssetsWithLiquidity]) =>
+  combineLatest([defaultTokenList$, importedTokenAssets$]).pipe(
+    map(([defaultTokenList, importedTokens]) =>
       assets.filter(
         (ai) =>
           !importedTokens.includes(ai.id) &&
-          !defaultTokenList.tokensMap.has(ai.id) &&
-          !rawAssetsWithLiquidity.some((a) => a.id === ai.id),
+          !defaultTokenList.tokensMap.has(ai.id),
       ),
     ),
   );

@@ -1,21 +1,30 @@
-import { Flex, List } from '@ergolabs/ui-kit';
+import { Flex, LoadingDataState } from '@ergolabs/ui-kit';
+import { Trans } from '@lingui/macro';
 import React from 'react';
 
 import { useAssetsBalance } from '../../../gateway/api/assetBalance';
+import { List } from '../../List/List';
+import { ListStateView } from '../../List/ListStateView/ListStateView';
 import { TokenListItem } from './TokenListItem/TokenListItem';
 
 export const TokensTab: React.FC = () => {
-  const [balance] = useAssetsBalance();
+  const [balance, loading] = useAssetsBalance();
 
   return (
     <Flex col>
       <List
-        rowKey="id"
-        dataSource={balance.values().filter((b) => b.isPositive())}
+        itemKey={(item) => item.asset.id}
+        items={balance.values().filter((b) => b.isPositive())}
         height={250}
+        itemHeight={64}
         gap={2}
       >
-        {(item) => <TokenListItem currency={item} />}
+        {({ item }) => <TokenListItem currency={item} />}
+        <ListStateView name="loading" condition={loading}>
+          <LoadingDataState height={250} transparent={true}>
+            <Trans>Loading balance</Trans>
+          </LoadingDataState>
+        </ListStateView>
       </List>
     </Flex>
   );

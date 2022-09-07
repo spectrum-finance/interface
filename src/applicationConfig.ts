@@ -28,6 +28,7 @@ interface ApplicationConfig {
   readonly cardanoMaintenance: boolean;
   readonly cardanoUpdate?: CardanoUpdate;
   readonly defaultTokenListUrl: string;
+  readonly operationTimeoutTime: number;
   readonly reCaptchaKey: string;
   readonly networksSettings: Dictionary<NetworkConfig>;
   readonly social: {
@@ -49,6 +50,7 @@ interface ApplicationConfig {
 }
 
 export const applicationConfig: ApplicationConfig = {
+  operationTimeoutTime: 60_000,
   cookieDomain:
     process.env.NODE_ENV === 'production' ? 'spectrum.fi' : undefined,
   cardanoMaintenance: true,

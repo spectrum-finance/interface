@@ -1,4 +1,3 @@
-import { Address } from '@ergolabs/ergo-sdk';
 import {
   Button,
   Flex,
@@ -11,23 +10,20 @@ import styled from 'styled-components';
 
 import { panalytics } from '../../../../../../common/analytics';
 import { useObservable } from '../../../../../../common/hooks/useObservable';
-import { Currency } from '../../../../../../common/models/Currency';
+import { networkAssetBalance$ } from '../../../../../../gateway/api/networkAssetBalance';
 import { pendingOperations$ } from '../../../../../../gateway/api/pendingOperations';
+import { settings$ } from '../../../../../../gateway/settings/settings';
 import { WalletModal } from '../../../../../WalletModal/WalletModal';
 import { AddressOrPendingTag } from './AddressOrPendingTag/AddressOrPendingTag';
 import { BalanceView } from './BalanceView/BalanceView';
 
 export interface WalletInfoButtonProps {
   className?: string;
-  address?: Address;
-  balance?: Currency;
 }
 
-const _WalletInfoButton: FC<WalletInfoButtonProps> = ({
-  className,
-  balance,
-  address,
-}) => {
+const _WalletInfoButton: FC<WalletInfoButtonProps> = ({ className }) => {
+  const [networkAssetBalance] = useObservable(networkAssetBalance$);
+  const [settings] = useObservable(settings$);
   const openWalletModal = () => Modal.open(<WalletModal />);
   const [pendingOperations] = useObservable(pendingOperations$);
   const { s } = useDevice();
@@ -41,17 +37,17 @@ const _WalletInfoButton: FC<WalletInfoButtonProps> = ({
       }}
       size="large"
     >
-      {balance !== undefined ? (
+      {networkAssetBalance !== undefined ? (
         <Flex align="center" stretch>
           {!s && (
             <>
               <Flex.Item marginLeft={1} marginRight={2}>
-                <BalanceView balance={balance} />
+                <BalanceView balance={networkAssetBalance} />
               </Flex.Item>
             </>
           )}
           <AddressOrPendingTag
-            address={address}
+            address={settings?.address}
             pendingCount={pendingOperations?.length}
           />
         </Flex>

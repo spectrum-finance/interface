@@ -7,7 +7,6 @@ import { AnalyticsData } from '../../services/new/analytics';
 import { math, renderFractions } from '../../utils/math';
 import { AssetInfo } from './AssetInfo';
 import { Currency } from './Currency';
-import { PoolChartData } from './PoolChartData';
 import { Ratio } from './Ratio';
 
 const calculatePureOutputAmount = (

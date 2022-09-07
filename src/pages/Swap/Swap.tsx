@@ -8,7 +8,7 @@ import {
   useForm,
 } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
-import { findLast } from 'lodash';
+import findLast from 'lodash/findLast';
 import maxBy from 'lodash/maxBy';
 import { DateTime } from 'luxon';
 import React, { useMemo, useState } from 'react';
@@ -47,13 +47,13 @@ import {
   Operation,
 } from '../../components/ConfirmationModal/ConfirmationModal';
 import { Page } from '../../components/Page/Page';
-import { getAmmPoolsByAssetPair } from '../../gateway/api/ammPools';
+import { ammPools$, getAmmPoolsByAssetPair } from '../../gateway/api/ammPools';
 import { useAssetsBalance } from '../../gateway/api/assetBalance';
 import {
   defaultTokenAssets$,
-  getAvailableAssetToImportFor,
-  getAvailableDefaultAssetsFor,
-  getAvailableImportedAssetsFor,
+  getAssetToImportFor,
+  getDefaultAssetsFor,
+  getImportedAssetsFor,
   importedTokenAssets$,
   tokenAssetsToImport$,
 } from '../../gateway/api/assets';
@@ -69,13 +69,13 @@ import { SwapInfo } from './SwapInfo/SwapInfo';
 import { SwitchButton } from './SwitchButton/SwitchButton';
 
 const getToAssets = (fromAsset?: string) =>
-  fromAsset ? getAvailableDefaultAssetsFor(fromAsset) : defaultTokenAssets$;
+  fromAsset ? getDefaultAssetsFor(fromAsset) : defaultTokenAssets$;
 
 const getToAssetsToImport = (fromAsset?: string) =>
-  fromAsset ? getAvailableAssetToImportFor(fromAsset) : tokenAssetsToImport$;
+  fromAsset ? getAssetToImportFor(fromAsset) : tokenAssetsToImport$;
 
 const getToImportedAssets = (fromAsset?: string) =>
-  fromAsset ? getAvailableImportedAssetsFor(fromAsset) : importedTokenAssets$;
+  fromAsset ? getImportedAssetsFor(fromAsset) : importedTokenAssets$;
 
 const isAssetsPairEquals = (
   [prevFrom, prevTo]: [AssetInfo | undefined, AssetInfo | undefined],
@@ -100,6 +100,7 @@ export const Swap = (): JSX.Element => {
   const [selectedNetwork] = useSelectedNetwork();
   const [networkAsset] = useNetworkAsset();
   const [balance] = useAssetsBalance();
+  const [, allAmmPoolsLoading] = useObservable(ammPools$);
   const totalFees = useSwapValidationFee();
   const [{ base, quote }, setSearchParams] =
     useSearchParams<{ base: string; quote: string }>();
@@ -121,8 +122,6 @@ export const Swap = (): JSX.Element => {
     () => updateToAssets$.pipe(switchMap(getToImportedAssets)),
     [],
   );
-
-  // useEffect(() => form.patchValue({ fromAsset: networkAsset }), [networkAsset]);
 
   const getInsufficientTokenNameForFee = ({
     fromAmount,
@@ -430,6 +429,7 @@ export const Swap = (): JSX.Element => {
           </Flex>
           <Flex.Item marginBottom={1} marginTop={2}>
             <AssetControlFormItem
+              loading={allAmmPoolsLoading}
               bordered
               maxButton
               handleMaxButtonClick={handleMaxButtonClick}
@@ -453,6 +453,7 @@ export const Swap = (): JSX.Element => {
           />
           <Flex.Item>
             <AssetControlFormItem
+              loading={allAmmPoolsLoading}
               bordered
               assets$={toAssets$}
               assetsToImport$={toAssetsToImport$}
