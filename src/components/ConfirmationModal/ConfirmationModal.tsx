@@ -4,6 +4,7 @@ import { RequestProps } from '@ergolabs/ui-kit/dist/components/Modal/presets/Req
 import { t, Trans } from '@lingui/macro';
 import { DateTime } from 'luxon';
 import React, { ReactNode } from 'react';
+import { TimeoutError } from 'rxjs';
 
 import { applicationConfig } from '../../applicationConfig';
 import { ReactComponent as DiscordIcon } from '../../assets/icons/social/Discord.svg';
@@ -58,12 +59,12 @@ const getDescriptionByData = (
     case Operation.LOCK_LIQUIDITY:
       return xAsset && yAsset
         ? t`Locking ${xAsset.toCurrencyString()} and ${yAsset.toCurrencyString()} (${
-            lpAsset && lpAsset.toString() + ' LP-tokens'
+            lpAsset && lpAsset.toString() + ' LP-assets'
           }) for ${time && getLockingPeriodString(time)}`
         : '';
     case Operation.RELOCK_LIQUIDITY:
       return t`Relocking ${assetLock?.x.toCurrencyString()} and ${assetLock?.y.toCurrencyString()} (${
-        assetLock && assetLock.lp.toString() + ' LP-tokens'
+        assetLock && assetLock.lp.toString() + ' LP-assets'
       })`;
     case Operation.CREATE_FARM:
       return t`Creating Farm`;
@@ -196,8 +197,12 @@ export const openConfirmationModal = (
 ): ModalRef => {
   return Modal.request({
     actionContent,
-    // timeoutContent: YoroiIssueModalContent(),
-    errorContent: ErrorModalContent(operation, payload),
+    errorContent: (error: Error) => {
+      if (error instanceof TimeoutError) {
+        return YoroiIssueModalContent();
+      }
+      return ErrorModalContent(operation, payload);
+    },
     progressContent: ProgressModalContent(operation, payload),
     successContent: (txId) => SuccessModalContent(txId),
   });

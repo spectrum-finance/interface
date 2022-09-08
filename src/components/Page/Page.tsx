@@ -43,6 +43,7 @@ const Widget = styled.div`
   background: var(--spectrum-page-footer-bg);
   border-radius: 4px 0 0 4px;
   margin: 16px 0;
+  width: 100%;
 `;
 
 const _Page: React.FC<PageProps> = ({
@@ -103,11 +104,7 @@ const _Page: React.FC<PageProps> = ({
             </Flex>
           </Flex.Item>
         )}
-        <Flex
-          justify="center"
-          align="flex-start"
-          style={{ width: maxWidth ? '100%' : width ?? 0, maxWidth }}
-        >
+        <Flex justify="center" align="flex-start" width="100%">
           {(s || m) && (
             <Portal root={document.body}>
               <Pane
@@ -121,8 +118,16 @@ const _Page: React.FC<PageProps> = ({
               </Pane>
             </Portal>
           )}
-          {!(s || m) && widgetOpened && <Widget>{leftWidget}</Widget>}
-          <Flex col width="100%">
+          {!(s || m) && widgetOpened && (
+            <Widget
+              style={{
+                maxWidth: valBySize(undefined, undefined, 624),
+              }}
+            >
+              {leftWidget}
+            </Widget>
+          )}
+          <Flex col style={{ width: maxWidth ? '100%' : width ?? 0, maxWidth }}>
             <Flex.Item style={{ zIndex: 2 }} width="100%">
               <Box
                 bordered={false}

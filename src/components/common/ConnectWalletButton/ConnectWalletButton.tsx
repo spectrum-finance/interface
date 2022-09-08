@@ -1,6 +1,9 @@
-import './ConnectWalletButton.less';
-
-import { Button, ButtonProps, Modal } from '@ergolabs/ui-kit';
+import {
+  Button,
+  ButtonProps,
+  ConnectWalletButton as SpectrumConnectWalletButton,
+  Modal,
+} from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import cn from 'classnames';
 import React, { FC, ReactNode } from 'react';
@@ -38,17 +41,15 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = ({
   return (
     <>
       {isKYAAccepted ? (
-        !isWalletConnected ? (
-          <Button
-            size={size}
-            onClick={openChooseWalletModal}
-            className={cn(className, 'connect-wallet-btn')}
-          >
-            <Trans>Connect wallet</Trans>
-          </Button>
-        ) : (
-          children
-        )
+        <SpectrumConnectWalletButton
+          size={size}
+          onClick={openChooseWalletModal}
+          className={cn(className, 'connect-wallet-btn')}
+          isWalletConnected={isWalletConnected}
+          caption={<Trans>Connect wallet</Trans>}
+        >
+          {children}
+        </SpectrumConnectWalletButton>
       ) : (
         <Button
           disabled

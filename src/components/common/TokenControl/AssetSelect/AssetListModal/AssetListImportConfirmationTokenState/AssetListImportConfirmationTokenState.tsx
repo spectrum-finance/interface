@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import { useObservable } from '../../../../../../common/hooks/useObservable';
 import { AssetInfo } from '../../../../../../common/models/AssetInfo';
 import {
-  getAvailableAssetToImportFor,
+  getAssetToImportFor,
   hasAvailablePoolsWith,
 } from '../../../../../../gateway/api/assets';
 import { SubmitButton } from '../../../../../SubmitButton/SubmitButton';
@@ -34,7 +34,7 @@ export const AssetListImportConfirmationTokenState: FC<AssetListImportConfirmati
       AssetInfo[] | undefined
     >();
     const [toImportPairTokens] = useObservable(
-      getAvailableAssetToImportFor(asset.id),
+      getAssetToImportFor(asset.id),
       [],
       [],
     );

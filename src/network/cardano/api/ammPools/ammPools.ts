@@ -17,6 +17,7 @@ import {
   switchMap,
 } from 'rxjs';
 
+import { applicationConfig } from '../../../../applicationConfig';
 import { mapAssetClassToAssetInfo } from '../common/cardanoAssetInfo/getCardanoAssetInfo';
 import { cardanoNetwork } from '../common/cardanoNetwork';
 import { cardanoWasm$ } from '../common/cardanoWasm';
@@ -52,6 +53,14 @@ export const ammPools$ = networkContext$.pipe(
           ),
         ).pipe(map(([lp, x, y]) => new CardanoAmmPool(p, { lp, x, y }))),
       ),
+    ),
+  ),
+  map((ammPools) =>
+    ammPools.filter(
+      (ap) =>
+        !applicationConfig.blacklistedPools.includes(ap.id) &&
+        !applicationConfig.hiddenAssets.includes(ap.x.asset.id) &&
+        !applicationConfig.hiddenAssets.includes(ap.y.asset.id),
     ),
   ),
   publishReplay(1),

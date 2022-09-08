@@ -1,36 +1,19 @@
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
 import { map, Observable, publishReplay, refCount, switchMap } from 'rxjs';
 
-import { applicationConfig } from '../../applicationConfig';
 import { AmmPool } from '../../common/models/AmmPool';
 import { comparePoolByTvl } from '../../common/utils/comparePoolByTvl';
 import { selectedNetwork$ } from '../common/network';
 
 export const ammPools$ = selectedNetwork$.pipe(
   switchMap((network) => network.ammPools$),
-  map((pools) =>
-    pools.filter(
-      (p) =>
-        !applicationConfig.hiddenAssets.includes(p.x.asset.id) &&
-        !applicationConfig.hiddenAssets.includes(p.y.asset.id) &&
-        !applicationConfig.blacklistedPools.includes(p.id),
-    ),
-  ),
   map((pools) => pools.slice().sort(comparePoolByTvl)),
   publishReplay(1),
   refCount(),
 );
 
-export const possibleAmmPools$ = selectedNetwork$.pipe(
-  switchMap((network) => network.possibleAmmPools$),
-  map((pools) =>
-    pools.filter(
-      (p) =>
-        !applicationConfig.hiddenAssets.includes(p.x.asset.id) &&
-        !applicationConfig.hiddenAssets.includes(p.y.asset.id) &&
-        !applicationConfig.blacklistedPools.includes(p.id),
-    ),
-  ),
+export const displayedAmmPools$ = selectedNetwork$.pipe(
+  switchMap((network) => network.displayedAmmPools$),
   map((pools) => pools.slice().sort(comparePoolByTvl)),
   publishReplay(1),
   refCount(),
@@ -40,7 +23,7 @@ export const getAmmPoolById = (
   ammPoolId: PoolId,
 ): Observable<AmmPool | undefined> =>
   selectedNetwork$.pipe(
-    switchMap((network) => network.ammPools$),
+    switchMap((network) => network.displayedAmmPools$),
     map((pools) => pools.find((position) => position.id === ammPoolId)),
   );
 
