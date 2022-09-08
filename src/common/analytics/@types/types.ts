@@ -39,6 +39,7 @@ export type AnalyticsElementLocation =
   | 'your-positions-list'
   | 'add-liquidity'
   | 'create-pool'
+  | 'create-farm'
   | 'withdrawal-liquidity'
   | 'relock-liquidity'
   | 'chaining-modal';

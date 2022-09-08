@@ -23,6 +23,7 @@ export enum Operation {
   RELOCK_LIQUIDITY,
   WITHDRAWAL_LIQUIDITY,
   REQUEST_TESTNET_ASSET,
+  CREATE_FARM,
 }
 
 export interface ModalChainingPayload {
@@ -64,6 +65,8 @@ const getDescriptionByData = (
       return t`Relocking ${assetLock?.x.toCurrencyString()} and ${assetLock?.y.toCurrencyString()} (${
         assetLock && assetLock.lp.toString() + ' LP-tokens'
       })`;
+    case Operation.CREATE_FARM:
+      return t`Creating Farm`;
   }
 };
 
@@ -193,7 +196,7 @@ export const openConfirmationModal = (
 ): ModalRef => {
   return Modal.request({
     actionContent,
-    timeoutContent: YoroiIssueModalContent(),
+    // timeoutContent: YoroiIssueModalContent(),
     errorContent: ErrorModalContent(operation, payload),
     progressContent: ProgressModalContent(operation, payload),
     successContent: (txId) => SuccessModalContent(txId),

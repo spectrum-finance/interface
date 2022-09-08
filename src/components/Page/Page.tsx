@@ -29,6 +29,7 @@ interface PageProps {
   withBackButton?: boolean;
   leftWidget?: ReactNode;
   widgetOpened?: boolean;
+  transparent?: boolean;
   onWidgetClose?: () => void;
   backTo?: string;
   onBackButtonClick?: () => void;
@@ -49,6 +50,7 @@ const _Page: React.FC<PageProps> = ({
   width,
   maxWidth,
   title,
+  transparent,
   withBackButton,
   leftWidget,
   widgetOpened,
@@ -125,9 +127,17 @@ const _Page: React.FC<PageProps> = ({
               <Box
                 bordered={false}
                 className={className}
-                padding={padding ? padding : valBySize([4, 4], [6, 6])}
+                padding={padding ?? valBySize([4, 4], [6, 6])}
                 borderRadius="l"
                 width="100%"
+                transparent={transparent}
+                style={
+                  transparent
+                    ? {
+                        boxShadow: 'none',
+                      }
+                    : {}
+                }
               >
                 {children}
               </Box>

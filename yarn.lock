@@ -1618,7 +1618,7 @@
     mathjs "^9.4.4"
     ramda "0.27.1"
 
-"@ergolabs/ui-kit@^2.0.8":
+"@ergolabs/ui-kit@2.0.8":
   version "2.0.8"
   resolved "https://registry.yarnpkg.com/@ergolabs/ui-kit/-/ui-kit-2.0.8.tgz#1e863bb1ae3281d2e38f55f50c1b42dd68a6ff1b"
   integrity sha512-tB9jPb+RbEjsP6O1fpOy/qEYJRLu2O1DXfgPgq7kcBnA0u5EeBD8big2lzFMa92Z8K6SGCCd92CBdIDsXu6VyA==

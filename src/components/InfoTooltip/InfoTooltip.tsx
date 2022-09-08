@@ -28,7 +28,7 @@ interface InfoTooltipProps {
   size?: 'default' | 'small';
 }
 
-const InfoTooltip: React.FC<InfoTooltipProps> = ({
+export const InfoTooltip: React.FC<InfoTooltipProps> = ({
   className,
   content,
   placement,
@@ -64,5 +64,3 @@ const InfoTooltip: React.FC<InfoTooltipProps> = ({
     </Flex>
   );
 };
-
-export { InfoTooltip };
