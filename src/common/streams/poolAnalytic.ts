@@ -1,11 +1,23 @@
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
 import axios from 'axios';
+import keyBy from 'lodash/keyBy';
 import { DateTime } from 'luxon';
-import { from, map, Observable } from 'rxjs';
+import {
+  catchError,
+  from,
+  map,
+  Observable,
+  of,
+  publishReplay,
+  refCount,
+  switchMap,
+} from 'rxjs';
 
 import { applicationConfig } from '../../applicationConfig';
+import { networkContext$ } from '../../network/ergo/api/networkContext/networkContext';
 import { AnalyticsData, LockedAsset } from '../../services/new/analytics';
 import { Currency } from '../models/Currency';
+import { Dictionary } from '../utils/Dictionary';
 
 export interface AmmPoolAnalytics {
   id: PoolId;
@@ -63,3 +75,17 @@ export const getAggregatedPoolAnalyticsDataById24H = (
         : undefined,
     })),
   );
+
+export const aggregatedPoolsAnalyticsDataById24H$: Observable<
+  Dictionary<AmmPoolAnalytics>
+> = networkContext$.pipe(
+  switchMap(() =>
+    from(get24hData(`https://test-api.ergodex.io/v1/amm/pools/stats`)).pipe(
+      catchError(() => of({})),
+    ),
+  ),
+  map((res) => res.data),
+  map((analytics: AmmPoolAnalytics[]) => keyBy(analytics, (a) => a.id)),
+  publishReplay(1),
+  refCount(),
+);
