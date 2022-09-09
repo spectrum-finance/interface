@@ -80,9 +80,11 @@ export const aggregatedPoolsAnalyticsDataById24H$: Observable<
   Dictionary<AmmPoolAnalytics>
 > = networkContext$.pipe(
   switchMap(() =>
-    from(get24hData(`https://test-api.ergodex.io/v1/amm/pools/stats`)).pipe(
-      catchError(() => of({})),
-    ),
+    from(
+      get24hData(
+        `${applicationConfig.networksSettings.ergo.analyticUrl}amm/pools/stats`,
+      ),
+    ).pipe(catchError(() => of({}))),
   ),
   map((res) => res.data),
   map((analytics: AmmPoolAnalytics[]) => keyBy(analytics, (a) => a.id)),
