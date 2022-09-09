@@ -84,9 +84,11 @@ export const aggregatedPoolsAnalyticsDataById24H$: Observable<
       get24hData(
         `${applicationConfig.networksSettings.ergo.analyticUrl}amm/pools/stats`,
       ),
-    ).pipe(catchError(() => of({}))),
+    ).pipe(
+      map((res) => res.data),
+      catchError(() => of([])),
+    ),
   ),
-  map((res) => res.data),
   map((analytics: AmmPoolAnalytics[]) => keyBy(analytics, (a) => a.id)),
   publishReplay(1),
   refCount(),
