@@ -80,12 +80,12 @@ export const CreateFarmModal: React.FC<{ onClose: any; pools: AmmPool[] }> = ({
       { emitEvent: 'silent' },
     );
 
-  const createFarmAction = ({ value }: FormGroup<CreateFarmModel>) => {
+  const createFarmAction = (form: FormGroup<CreateFarmModel>) => {
     openConfirmationModal(
       (next) => {
         return (
           <ConfirmFarmCreateModal
-            value={value as Required<CreateFarmModel>}
+            form={form}
             onClose={(request: Observable<TxId>) =>
               next(
                 request.pipe(
