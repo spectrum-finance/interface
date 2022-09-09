@@ -20,6 +20,7 @@ import { DataTag } from '../../../components/common/DataTag/DataTag';
 import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
 import { getAmmPoolsByAssetPair } from '../../../gateway/api/ammPools';
 import { formatToUSD } from '../../../services/number';
+import { renderFractions } from '../../../utils/math';
 import { PoolSelectorModal } from './PoolSelectorModal/PoolSelectorModal';
 
 interface PoolSelectorProps extends Control<AmmPool> {
@@ -120,7 +121,13 @@ const _PoolSelector: FC<PoolSelectorProps> = ({
                         secondary
                         content={
                           value?.tvl
-                            ? formatToUSD(value.tvl.currency, 'abbr')
+                            ? formatToUSD(
+                                renderFractions(
+                                  value.tvl.value,
+                                  value.tvl.units.currency.decimals,
+                                ),
+                                'abbr',
+                              )
                             : '–––'
                         }
                       />

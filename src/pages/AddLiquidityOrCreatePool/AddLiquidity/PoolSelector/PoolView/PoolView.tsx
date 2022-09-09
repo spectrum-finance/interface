@@ -7,6 +7,7 @@ import { AssetIconPair } from '../../../../../components/AssetIconPair/AssetIcon
 import { DataTag } from '../../../../../components/common/DataTag/DataTag';
 import { Truncate } from '../../../../../components/Truncate/Truncate';
 import { formatToUSD } from '../../../../../services/number';
+import { renderFractions } from '../../../../../utils/math';
 
 interface PoolSelectorItemProps {
   readonly ammPool: AmmPool;
@@ -54,7 +55,15 @@ export const PoolView: FC<PoolSelectorItemProps> = ({
             size="default"
             secondary={!hover && !active}
             content={
-              ammPool?.tvl ? formatToUSD(ammPool.tvl.currency, 'abbr') : '–––'
+              ammPool?.tvl
+                ? formatToUSD(
+                    renderFractions(
+                      ammPool.tvl.value,
+                      ammPool.tvl.units.currency.decimals,
+                    ),
+                    'abbr',
+                  )
+                : '–––'
             }
           />
         </Flex.Item>
