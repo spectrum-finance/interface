@@ -48,7 +48,7 @@ const mapToLaunchData = ([
   cardano_wallet: cardanoSelectedWallet?.name,
 });
 
-const POSTHOG_API = 'https://posthog.spectrum.fi';
+const POSTHOG_API = 'https://anph.spectrum.fi';
 
 export const posthogInitializer: Initializer = () => {
   if (process.env.REACT_APP_POSTHOG_API_KEY) {
