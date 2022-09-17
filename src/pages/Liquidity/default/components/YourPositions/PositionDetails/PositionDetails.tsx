@@ -12,9 +12,9 @@ export const PositionDetails: FC<ExpandComponentProps<Position>> = ({
 }) => (
   <PoolOrPositionDetails poolMapper={() => item.pool} item={item} {...rest}>
     <Flex col>
-      <Typography.Footnote>
+      <Typography.Body size="small" secondary>
         <Trans>Your liquidity</Trans>
-      </Typography.Footnote>
+      </Typography.Body>
       <Typography.Body strong>
         {item.totalX.asset.ticker}: {item.totalX.toString()}
       </Typography.Body>

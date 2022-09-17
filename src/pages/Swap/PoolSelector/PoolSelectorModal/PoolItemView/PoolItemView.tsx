@@ -53,7 +53,9 @@ const _PoolItemView: FC<PoolItemViewProps> = ({
           />
         </Flex.Item>
         <Flex.Item marginRight={1}>
-          <Typography.Footnote>Fee</Typography.Footnote>
+          <Typography.Body size="small" secondary>
+            Fee
+          </Typography.Body>
         </Flex.Item>
         <Flex.Item marginRight={2}>
           <DataTag
@@ -62,7 +64,9 @@ const _PoolItemView: FC<PoolItemViewProps> = ({
           />
         </Flex.Item>
         <Flex.Item marginRight={1}>
-          <Typography.Footnote>TVL</Typography.Footnote>
+          <Typography.Body size="small" secondary>
+            TVL
+          </Typography.Body>
         </Flex.Item>
         <Flex.Item marginRight={2}>
           <DataTag
