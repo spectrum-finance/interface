@@ -16,7 +16,6 @@ import { networkContext$ } from '../api/networkContext/networkContext';
 import { utxos$ } from '../api/utxos/utxos';
 import { minExFee$ } from '../settings/executionFee';
 import { minerFee$ } from '../settings/minerFee';
-import { nitro$ } from '../settings/nitro';
 import { ErgoSettings, settings$ } from '../settings/settings';
 import { getInputs } from './common/getInputs';
 import { getTxContext } from './common/getTxContext';
@@ -110,36 +109,34 @@ export const swap = (
   from: Currency,
   to: Currency,
 ): Observable<TxId> =>
-  zip([settings$, utxos$, minerFee$, minExFee$, networkContext$, nitro$]).pipe(
+  zip([settings$, utxos$, minerFee$, minExFee$, networkContext$]).pipe(
     first(),
-    switchMap(
-      ([settings, utxos, minerFee, minExFee, networkContext, nitro]) => {
-        const [swapParams, txContext] = toSwapOperationArgs({
-          from,
-          to,
-          settings,
-          pool,
-          minerFee,
-          networkContext,
-          utxos,
-          minExFee,
-          nitro,
-        });
+    switchMap(([settings, utxos, minerFee, minExFee, networkContext]) => {
+      const [swapParams, txContext] = toSwapOperationArgs({
+        from,
+        to,
+        settings,
+        pool,
+        minerFee,
+        networkContext,
+        utxos,
+        minExFee,
+        nitro: settings.nitro,
+      });
 
-        return fromPromise(
-          poolActions(pool.pool).swap(swapParams, txContext),
-        ).pipe(
-          switchMap((tx) =>
-            submitTx(tx, {
-              type: 'swap',
-              baseAsset: from.asset.id,
-              baseAmount: from.toAmount(),
-              quoteAsset: to.asset.id,
-              quoteAmount: to.toAmount(),
-              txId: tx.id,
-            }),
-          ),
-        );
-      },
-    ),
+      return fromPromise(
+        poolActions(pool.pool).swap(swapParams, txContext),
+      ).pipe(
+        switchMap((tx) =>
+          submitTx(tx, {
+            type: 'swap',
+            baseAsset: from.asset.id,
+            baseAmount: from.toAmount(),
+            quoteAsset: to.asset.id,
+            quoteAmount: to.toAmount(),
+            txId: tx.id,
+          }),
+        ),
+      );
+    }),
   );

@@ -58,7 +58,7 @@ const BurgerMenu = (): JSX.Element => {
     {
       title: t`About`,
       icon: <InfoCircleOutlined />,
-      link: 'https://docs.spectrum.fi/docs/about-spectrum/intro',
+      link: 'https://docs.spectrum.fi/docs/about-spectrumdex/intro',
       onClick: () => panalytics.clickBurgerMenu('About'),
     },
     {
