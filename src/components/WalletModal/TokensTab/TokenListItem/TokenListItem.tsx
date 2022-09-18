@@ -21,14 +21,16 @@ export const TokenListItem: React.FC<TokenListItemProps> = ({ currency }) => (
           <Truncate limit={10}>{currency.asset.ticker}</Truncate>
         </Typography.Body>
         <Flex.Item flex={1}>
-          <Typography.Footnote>{currency.asset.name}</Typography.Footnote>
+          <Typography.Body size="footnote" secondary>
+            {currency.asset.name}
+          </Typography.Body>
         </Flex.Item>
       </Flex.Item>
       <Flex.Item display="flex" col justify="center" flex={1} align="flex-end">
         <Typography.Body>{currency.toString()}</Typography.Body>
-        <Typography.Footnote>
+        <Typography.Body size="footnote" secondary>
           <ConvenientAssetView value={currency} prefix="~" />
-        </Typography.Footnote>
+        </Typography.Body>
       </Flex.Item>
     </Flex>
   </Box>

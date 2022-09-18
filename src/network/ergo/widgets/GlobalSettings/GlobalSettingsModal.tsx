@@ -91,9 +91,9 @@ const GlobalSettingsModal: React.FC<GlobalSettingsModalProps> = ({
         >
           <Flex col>
             <Flex.Item marginBottom={4}>
-              <Typography.Footnote>
+              <Typography.Body secondary size="small">
                 <Trans>Miner Fee</Trans>
-              </Typography.Footnote>
+              </Typography.Body>
               <InfoTooltip content="Fee charged by miners" />
             </Flex.Item>
             <Flex.Item marginBottom={4}>

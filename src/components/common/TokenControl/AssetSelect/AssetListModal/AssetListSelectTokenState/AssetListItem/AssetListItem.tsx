@@ -16,11 +16,6 @@ interface TokenListItemProps {
   onClick?: React.MouseEventHandler<HTMLElement>;
 }
 
-const StyledFootnote = styled(Typography.Footnote)`
-  font-size: 10px;
-  line-height: 15px;
-`;
-
 const _AssetListItem: React.FC<TokenListItemProps> = ({
   asset,
   onClick,
@@ -47,7 +42,11 @@ const _AssetListItem: React.FC<TokenListItemProps> = ({
           <Typography.Title level={4}>
             <Truncate limit={20}>{asset.ticker}</Truncate>
           </Typography.Title>
-          {asset.name && <StyledFootnote>{asset.name}</StyledFootnote>}
+          {asset.name && (
+            <Typography.Body secondary size="extra-small">
+              {asset.name}
+            </Typography.Body>
+          )}
         </Flex.Item>
 
         <Flex.Item
@@ -61,9 +60,9 @@ const _AssetListItem: React.FC<TokenListItemProps> = ({
             {balance.get(asset).toString()}
           </Typography.Title>
           {!!Number(balance.get(asset).toAmount()) && (
-            <StyledFootnote>
+            <Typography.Body secondary size="extra-small">
               <ConvenientAssetView value={balance.get(asset)} prefix="~" />
-            </StyledFootnote>
+            </Typography.Body>
           )}
         </Flex.Item>
       </Flex>
