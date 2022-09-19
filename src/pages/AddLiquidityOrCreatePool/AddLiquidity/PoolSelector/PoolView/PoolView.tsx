@@ -36,9 +36,9 @@ export const PoolView: FC<PoolSelectorItemProps> = ({
     {!hideInfo && (
       <>
         <Flex.Item marginRight={1} align="center">
-          <Typography.Footnote>
+          <Typography.Body size="small" secondary>
             <Trans>Fee:</Trans>
-          </Typography.Footnote>
+          </Typography.Body>
         </Flex.Item>
         <Flex.Item marginRight={2} align="center">
           <DataTag
@@ -48,7 +48,9 @@ export const PoolView: FC<PoolSelectorItemProps> = ({
           />
         </Flex.Item>
         <Flex.Item marginRight={1} align="center">
-          <Typography.Footnote>TVL:</Typography.Footnote>
+          <Typography.Body size="small" secondary>
+            TVL:
+          </Typography.Body>
         </Flex.Item>
         <Flex.Item>
           <DataTag

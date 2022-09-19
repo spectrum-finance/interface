@@ -44,8 +44,8 @@ import { refund } from './operations/refund';
 import { swap } from './operations/swap';
 import {
   ErgoSettings,
+  getSettings,
   setSettings,
-  settings,
   settings$,
 } from './settings/settings';
 import {
@@ -106,7 +106,9 @@ export const ergoNetwork: Network<
   importTokenAsset,
 
   settings$,
-  settings,
+  get settings() {
+    return getSettings();
+  },
   setSettings,
 
   swap,

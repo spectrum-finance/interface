@@ -114,7 +114,9 @@ const _PoolSelector: FC<PoolSelectorProps> = ({
                       <DataTag secondary content={`${value.poolFee}%`} />
                     </Flex.Item>
                     <Flex.Item marginRight={1}>
-                      <Typography.Footnote>TVL:</Typography.Footnote>
+                      <Typography.Body size="small" secondary>
+                        TVL:
+                      </Typography.Body>
                     </Flex.Item>
                     <Flex.Item>
                       <DataTag
