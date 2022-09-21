@@ -2,8 +2,7 @@ import { map, publishReplay, refCount } from 'rxjs';
 
 import { useObservable } from '../../common/hooks/useObservable';
 import { AssetInfo } from '../../common/models/AssetInfo';
-import { ergoNetwork } from '../../network/ergo/ergo';
-import { selectedNetwork$ } from '../common/network';
+import { selectedNetwork, selectedNetwork$ } from '../common/network';
 
 export const networkAsset$ = selectedNetwork$.pipe(
   map((n) => n.networkAsset),
@@ -12,4 +11,4 @@ export const networkAsset$ = selectedNetwork$.pipe(
 );
 
 export const useNetworkAsset = (): [AssetInfo, boolean, Error] =>
-  useObservable(networkAsset$, [], ergoNetwork.networkAsset);
+  useObservable(networkAsset$, [], selectedNetwork.networkAsset);

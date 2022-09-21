@@ -1,6 +1,7 @@
 import { AdaAssetClass } from '@ergolabs/cardano-dex-sdk';
 import { Observable, of, publishReplay, refCount } from 'rxjs';
 
+import { useObservable } from '../../../../common/hooks/useObservable';
 import { AssetInfo } from '../../../../common/models/AssetInfo';
 
 const ADA_ID = 'token-ada';
@@ -18,3 +19,6 @@ export const networkAsset$: Observable<AssetInfo> = of(networkAsset).pipe(
   publishReplay(1),
   refCount(),
 );
+
+export const useNetworkAsset = (): [AssetInfo, boolean, Error | undefined] =>
+  useObservable(networkAsset$, [], networkAsset);

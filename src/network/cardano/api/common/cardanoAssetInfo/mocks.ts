@@ -19,11 +19,11 @@ export interface CardanoAssetInfo {
 }
 
 export const assets: Dictionary<CardanoAssetInfo> = {
-  '805fe1efcdea11f1e959eff4f422f118aa76dca2d0d797d184e487da6572676f54657374546f6b656e42':
+  '065270479316f1d92e00f7f9f095ebeaac9d009c878dc35ce36d34046e65775f737065637472756d5f746f6b656e5f62':
     {
       subject:
-        '805fe1efcdea11f1e959eff4f422f118aa76dca2d0d797d184e487da6572676f54657374546f6b656e42',
-      policy: '805fe1efcdea11f1e959eff4f422f118aa76dca2d0d797d184e487da',
+        '065270479316f1d92e00f7f9f095ebeaac9d009c878dc35ce36d34046e65775f737065637472756d5f746f6b656e5f62',
+      policy: '065270479316f1d92e00f7f9f095ebeaac9d009c878dc35ce36d3404',
       url: {
         value: '',
       },
@@ -31,23 +31,23 @@ export const assets: Dictionary<CardanoAssetInfo> = {
         value: '',
       },
       name: {
-        value: 'ergoTestTokenB',
+        value: 'new_spectrum_token_b',
       },
       ticker: {
-        value: 'ergoTestTokenB',
+        value: 'new_spectrum_token_b',
       },
       description: {
-        value: 'ergoTestTokenB',
+        value: 'new_spectrum_token_b',
       },
       decimals: {
         value: 6,
       },
     },
-  '805fe1efcdea11f1e959eff4f422f118aa76dca2d0d797d184e487da6572676f54657374546f6b656e41':
+  '065270479316f1d92e00f7f9f095ebeaac9d009c878dc35ce36d34046e65775f737065637472756d5f746f6b656e5f61':
     {
       subject:
-        '805fe1efcdea11f1e959eff4f422f118aa76dca2d0d797d184e487da6572676f54657374546f6b656e41',
-      policy: '805fe1efcdea11f1e959eff4f422f118aa76dca2d0d797d184e487da',
+        '065270479316f1d92e00f7f9f095ebeaac9d009c878dc35ce36d34046e65775f737065637472756d5f746f6b656e5f61',
+      policy: '065270479316f1d92e00f7f9f095ebeaac9d009c878dc35ce36d3404',
       url: {
         value: '',
       },
@@ -55,23 +55,23 @@ export const assets: Dictionary<CardanoAssetInfo> = {
         value: '',
       },
       name: {
-        value: 'ergoTestTokenA',
+        value: 'new_spectrum_token_a',
       },
       ticker: {
-        value: 'ergoTestTokenA',
+        value: 'new_spectrum_token_a',
       },
       description: {
-        value: 'ergoTestTokenA',
+        value: 'new_spectrum_token_a',
       },
       decimals: {
         value: 6,
       },
     },
-  '805fe1efcdea11f1e959eff4f422f118aa76dca2d0d797d184e487da6572676f54657374546f6b656e4c50':
+  '065270479316f1d92e00f7f9f095ebeaac9d009c878dc35ce36d34046e65775f737065637472756d5f746f6b656e5f6c70':
     {
       subject:
-        '805fe1efcdea11f1e959eff4f422f118aa76dca2d0d797d184e487da6572676f54657374546f6b656e4c50',
-      policy: '805fe1efcdea11f1e959eff4f422f118aa76dca2d0d797d184e487da',
+        '065270479316f1d92e00f7f9f095ebeaac9d009c878dc35ce36d34046e65775f737065637472756d5f746f6b656e5f6c70',
+      policy: '065270479316f1d92e00f7f9f095ebeaac9d009c878dc35ce36d3404',
       url: {
         value: '',
       },
@@ -79,10 +79,10 @@ export const assets: Dictionary<CardanoAssetInfo> = {
         value: '',
       },
       name: {
-        value: 'ergoTestTokenLP',
+        value: 'new_spectrum_token_lp',
       },
       ticker: {
-        value: 'ergoTestTokenLP',
+        value: 'new_spectrum_token_lp',
       },
       description: {
         value: 'ergoTestTokenLP',
