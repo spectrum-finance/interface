@@ -1,20 +1,13 @@
-import {
-  Button,
-  Flex,
-  LoadingOutlined,
-  Modal,
-  useDevice,
-} from '@ergolabs/ui-kit';
+import { Button, Flex, Modal, useDevice } from '@ergolabs/ui-kit';
 import React, { FC } from 'react';
 import styled from 'styled-components';
 
 import { panalytics } from '../../../../../../common/analytics';
 import { useObservable } from '../../../../../../common/hooks/useObservable';
 import { networkAssetBalance$ } from '../../../../../../gateway/api/networkAssetBalance';
-import { pendingOperations$ } from '../../../../../../gateway/api/pendingOperations';
 import { settings$ } from '../../../../../../gateway/settings/settings';
 import { WalletModal } from '../../../../../WalletModal/WalletModal';
-import { AddressOrPendingTag } from './AddressOrPendingTag/AddressOrPendingTag';
+import { AddressTag } from './AddressTag/AddressTag';
 import { BalanceView } from './BalanceView/BalanceView';
 
 export interface WalletInfoButtonProps {
@@ -25,7 +18,6 @@ const _WalletInfoButton: FC<WalletInfoButtonProps> = ({ className }) => {
   const [networkAssetBalance] = useObservable(networkAssetBalance$);
   const [settings] = useObservable(settings$);
   const openWalletModal = () => Modal.open(<WalletModal />);
-  const [pendingOperations] = useObservable(pendingOperations$);
   const { s } = useDevice();
 
   return (
@@ -37,30 +29,26 @@ const _WalletInfoButton: FC<WalletInfoButtonProps> = ({ className }) => {
       }}
       size="large"
     >
-      {networkAssetBalance !== undefined ? (
-        <Flex align="center" stretch>
-          {!s && (
-            <>
-              <Flex.Item marginLeft={1} marginRight={2}>
-                <BalanceView balance={networkAssetBalance} />
-              </Flex.Item>
-            </>
-          )}
-          <AddressOrPendingTag
-            address={settings?.address}
-            pendingCount={pendingOperations?.length}
-          />
-        </Flex>
-      ) : (
-        <LoadingOutlined />
-      )}
+      <Flex align="center" stretch>
+        {!s && networkAssetBalance !== undefined && (
+          <>
+            <Flex.Item marginLeft={1} marginRight={2}>
+              <BalanceView balance={networkAssetBalance} />
+            </Flex.Item>
+          </>
+        )}
+        <AddressTag
+          loading={networkAssetBalance === undefined}
+          address={settings?.address}
+        />
+      </Flex>
     </Button>
   );
 };
 
 export const WalletInfoButton = styled(_WalletInfoButton)`
   height: 40px;
-  padding: 4px 8px;
+  padding: 4px;
   border: 1px solid var(--spectrum-box-border-color);
   background: var(--spectrum-connect-wallet-address-btn-bg);
   color: var(--spectrum-connect-wallet-address-btn-color);
