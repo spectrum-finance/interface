@@ -2,39 +2,37 @@ import React from 'react';
 import { FC } from 'react';
 import styled from 'styled-components';
 
-import { uint } from '../../../../../../../common/types';
 import { DataTag } from '../../../../../DataTag/DataTag';
 import { AddressContent } from './AddressContent/AddressContent';
-import { PendingContent } from './PendingContent/PendingContent';
+import { LoadingContent } from './LoadingContent/LoadingContent';
 
 export interface AddressOrPendingTagProps {
   readonly address?: string;
   readonly className?: string;
-  readonly pendingCount?: uint;
+  readonly loading?: boolean;
 }
 
 const _AddressOrPendingTag: FC<AddressOrPendingTagProps> = ({
   address,
-  pendingCount,
   className,
+  loading,
 }) => {
   return (
     <DataTag
       className={className}
       secondary
       content={
-        pendingCount ? (
-          <PendingContent pendingCount={pendingCount} />
-        ) : (
-          <AddressContent address={address} />
-        )
+        loading ? <LoadingContent /> : <AddressContent address={address} />
       }
     />
   );
 };
 
-export const AddressOrPendingTag = styled(_AddressOrPendingTag)`
+export const AddressTag = styled(_AddressOrPendingTag)`
   border: 1px solid transparent;
+  height: 2rem;
+  padding-left: 8px !important;
+  padding-right: 8px !important;
 
   &:hover {
     border: 1px solid var(--spectrum-default-border-color);
