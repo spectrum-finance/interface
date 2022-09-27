@@ -35,6 +35,7 @@ const mapDefaultTokenListItemToAssetInfoById = (
               ? `${applicationConfig.networksSettings.ergo.metadataUrl}/light/${item.address}.svg`
               : undefined,
             description: '',
+            isNft: false,
           }
         : undefined,
     ),
@@ -56,6 +57,7 @@ const mapFullTokenInfoToAssetItemById = (
             iconFallback: undefined,
             description: item.description,
             emissionAmount: item.emissionAmount,
+            isNft: item.emissionAmount === 1n,
           }
         : undefined,
     ),

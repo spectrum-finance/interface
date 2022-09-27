@@ -9,4 +9,5 @@ export interface AssetInfo<T = any> {
   readonly decimals?: number;
   readonly emissionAmount?: bigint;
   readonly data?: T;
+  readonly isNft?: boolean;
 }
