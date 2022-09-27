@@ -8,7 +8,6 @@ import {
   publishReplay,
   refCount,
   switchMap,
-  tap,
 } from 'rxjs';
 
 import { AssetInfo } from '../../../../common/models/AssetInfo';

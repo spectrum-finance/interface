@@ -17,11 +17,7 @@ namespace ErgoBridge {
 
     check_read_access: () => boolean;
 
-    get_utxos: (
-      amount?: NErg,
-      token_id?: TokenId,
-      paginate?: Paging,
-    ) => Promise<ErgoBoxProxy[] | undefined>;
+    get_utxos: () => Promise<ErgoBoxProxy[] | undefined>;
 
     get_balance: (token_id: TokenId) => Promise<string>;
 
