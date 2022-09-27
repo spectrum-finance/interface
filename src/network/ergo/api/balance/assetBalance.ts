@@ -2,16 +2,16 @@ import { map, publishReplay, refCount, zip } from 'rxjs';
 
 import { Balance } from '../../../../common/models/Balance';
 import { ammPools$ } from '../ammPools/ammPools';
-import { availableTokensData$ } from './common';
+import { balanceItems$ } from './common';
 import { networkAssetBalance$ } from './networkAssetBalance';
 
 export const assetBalance$ = zip([
   networkAssetBalance$,
   ammPools$,
-  availableTokensData$,
+  balanceItems$,
 ]).pipe(
-  map(([networkAssetBalance, pools, availableTokensData]) =>
-    availableTokensData
+  map(([networkAssetBalance, pools, balanceItems]) =>
+    balanceItems
       .filter(([, info]) => !pools.some((p) => p.lp.asset.id === info.id))
       .concat([[networkAssetBalance.amount, networkAssetBalance.asset]]),
   ),

@@ -16,7 +16,7 @@ import {
 
 import { applicationConfig } from '../../../../applicationConfig';
 import { nativeNetworkPools, networkPools } from '../ammPools/utils';
-import { availableTokensData$ } from '../balance/common';
+import { balanceItems$ } from '../balance/common';
 import { networkContext$ } from '../networkContext/networkContext';
 import { tokenLocksGroupedByLpAsset$ } from './tokenLocks';
 
@@ -45,14 +45,14 @@ export const rawAmmPools$: Observable<BaseAmmPool[]> = networkContext$.pipe(
 
 export const rawAmmPoolsWithLiquidity$ = combineLatest([
   rawAmmPools$,
-  availableTokensData$,
+  balanceItems$,
   tokenLocksGroupedByLpAsset$,
 ]).pipe(
-  map(([rawAmmPools, availableTokensData, tokenLocksGroupedByLpAsset]) =>
+  map(([rawAmmPools, balanceItems, tokenLocksGroupedByLpAsset]) =>
     rawAmmPools.filter(
       (p) =>
         tokenLocksGroupedByLpAsset[p.lp.asset.id]?.length > 0 ||
-        availableTokensData.some(
+        balanceItems.some(
           ([value, info]) => info.id === p.lp.asset.id && value > 0n,
         ),
     ),

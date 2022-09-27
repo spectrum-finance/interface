@@ -24,21 +24,20 @@ const toListAvailableTokens = (utxos: ErgoBox[]): Asset[] =>
 const isNotNFT = (assetInfo: AssetInfo | undefined): boolean =>
   !!assetInfo && assetInfo.emissionAmount !== 1n;
 
-export const availableTokensData$: Observable<[bigint, AssetInfo][]> =
-  utxos$.pipe(
-    map(toListAvailableTokens),
-    switchMap((boxAssets) =>
-      combineLatest<[bigint, AssetInfo][]>(
-        boxAssets.map((ba) =>
-          from(mapToAssetInfo(ba.tokenId)).pipe(
-            map((assetInfo) => [ba.amount, assetInfo as AssetInfo]),
-          ),
+export const balanceItems$: Observable<[bigint, AssetInfo][]> = utxos$.pipe(
+  map(toListAvailableTokens),
+  switchMap((boxAssets) =>
+    combineLatest<[bigint, AssetInfo][]>(
+      boxAssets.map((ba) =>
+        from(mapToAssetInfo(ba.tokenId)).pipe(
+          map((assetInfo) => [ba.amount, assetInfo as AssetInfo]),
         ),
-      ).pipe(defaultIfEmpty([])),
-    ),
-    map((availableTokensData) =>
-      availableTokensData.filter(([, assetInfo]) => isNotNFT(assetInfo)),
-    ),
-    publishReplay(1),
-    refCount(),
-  );
+      ),
+    ).pipe(defaultIfEmpty([])),
+  ),
+  map((availableTokensData) =>
+    availableTokensData.filter(([, assetInfo]) => isNotNFT(assetInfo)),
+  ),
+  publishReplay(1),
+  refCount(),
+);
