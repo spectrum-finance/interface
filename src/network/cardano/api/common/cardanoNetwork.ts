@@ -19,10 +19,14 @@ const normalizeNetworkParams = (np: NetworkParams): NetworkParams => ({
   ...np,
   pparams: {
     ...np.pparams,
-    minUTxOValue:
-      np.pparams.minUTxOValue || DEFAULT_PROTOCOL_PARAMS.minUTxOValue,
-    utxoCostPerWord:
-      np.pparams.utxoCostPerWord || DEFAULT_PROTOCOL_PARAMS.utxoCostPerWord,
+    minUTxOValue: np.pparams.minUTxOValue
+      ? Math.max(DEFAULT_PROTOCOL_PARAMS.minUTxOValue, np.pparams.minUTxOValue)
+      : DEFAULT_PROTOCOL_PARAMS.minUTxOValue,
+    utxoCostPerWord: np.pparams.utxoCostPerWord
+      ? np.pparams.utxoCostPerWord > DEFAULT_PROTOCOL_PARAMS.utxoCostPerWord
+        ? np.pparams.utxoCostPerWord
+        : DEFAULT_PROTOCOL_PARAMS.utxoCostPerWord
+      : DEFAULT_PROTOCOL_PARAMS.utxoCostPerWord,
   },
 });
 
