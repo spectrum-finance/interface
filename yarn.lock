@@ -1570,10 +1570,10 @@
     ts-node "^9"
     tslib "^2"
 
-"@ergolabs/cardano-dex-sdk@^0.0.56":
-  version "0.0.56"
-  resolved "https://registry.yarnpkg.com/@ergolabs/cardano-dex-sdk/-/cardano-dex-sdk-0.0.56.tgz#618c2ebbba383b9fbe11778adcb2da59924969e2"
-  integrity sha512-C7Vn83oBqa9UiMYrJFIIXi0Hz4XcLnRNa/cR0I6S9UIVw5H+zBzP1XFiKL6vgXenljX9symfonLQp6aAGnkXUw==
+"@ergolabs/cardano-dex-sdk@^0.0.57":
+  version "0.0.57"
+  resolved "https://registry.yarnpkg.com/@ergolabs/cardano-dex-sdk/-/cardano-dex-sdk-0.0.57.tgz#887d76f473c451e420e6bfa833675c31ed5a5ee2"
+  integrity sha512-OlHEWtRqrW9ZPrk4D08H9t+JxN39SdCsO9ytVhho0Zl7YtqbMrmu/MgJ7AXwZa7cMyjdRQtb3jGtyt3oCUPWgQ==
   dependencies:
     "@emurgo/cardano-serialization-lib-browser" "^11.0.5"
     axios "^0.21.1"
