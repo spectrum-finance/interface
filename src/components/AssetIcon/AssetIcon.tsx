@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-import { applicationConfig } from '../../applicationConfig';
 import { AssetInfo } from '../../common/models/AssetInfo';
 import { UnknownTokenIcon } from '../UnknownTokenIcon/UnknownTokenIcon';
 
@@ -24,25 +23,33 @@ enum ErrorState {
   ICON_NOT_FOUND,
 }
 
+const assetErrorCache = new Set<string>();
+
 const AssetIcon: React.FC<TokenIconProps> = ({
   asset,
   size,
   style,
   ...rest
 }) => {
-  const iconName = asset?.id || 'empty';
   const [errorState, setErrorState] = useState<ErrorState | undefined>(
-    undefined,
+    asset && assetErrorCache.has(asset.id)
+      ? ErrorState.ICON_NOT_FOUND
+      : undefined,
   );
 
   useEffect(() => {
     if (asset) {
-      setErrorState(undefined);
+      setErrorState(
+        assetErrorCache.has(asset.id) ? ErrorState.ICON_NOT_FOUND : undefined,
+      );
     }
   }, [asset]);
 
   const handleError = () => {
     setErrorState(ErrorState.ICON_NOT_FOUND);
+    if (asset) {
+      assetErrorCache.add(asset.id);
+    }
   };
 
   return (
@@ -68,10 +75,7 @@ const AssetIcon: React.FC<TokenIconProps> = ({
         <img
           style={{ verticalAlign: 'initial' }}
           alt="Token Icon"
-          src={
-            asset?.icon ||
-            `${applicationConfig.networksSettings.ergo.metadataUrl}/light/${iconName}.svg`
-          }
+          src={asset?.icon}
           onError={handleError}
           width={MAP_SIZE_TO_NUMBER[size || 'medium']}
           height={MAP_SIZE_TO_NUMBER[size || 'medium']}
