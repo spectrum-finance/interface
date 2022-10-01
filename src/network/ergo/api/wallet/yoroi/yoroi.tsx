@@ -36,4 +36,4 @@ export const Yoroi: ErgoWalletContract = {
   sign,
   signInput,
   submitTx,
-};
+} as any;

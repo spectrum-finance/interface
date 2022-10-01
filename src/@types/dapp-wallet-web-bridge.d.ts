@@ -19,7 +19,7 @@ namespace ErgoBridge {
 
     get_utxos: () => Promise<ErgoBoxProxy[] | undefined>;
 
-    get_balance: (token_id: TokenId) => Promise<string>;
+    get_balance: (all: 'all') => Promise<string>;
 
     get_used_addresses: (paginate?: Paging) => Promise<Address[]>;
 

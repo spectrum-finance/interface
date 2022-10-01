@@ -32,4 +32,4 @@ export const Nautilus: ErgoWalletContract = {
   signInput,
   submitTx,
   walletSupportedFeatures,
-};
+} as any;
