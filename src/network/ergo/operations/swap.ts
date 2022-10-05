@@ -5,7 +5,14 @@ import {
 } from '@ergolabs/ergo-dex-sdk/build/main/amm/math/swap';
 import { AssetAmount, ErgoBox, TransactionContext } from '@ergolabs/ergo-sdk';
 import { NetworkContext } from '@ergolabs/ergo-sdk/build/main/entities/networkContext';
-import { first, from as fromPromise, Observable, switchMap, zip } from 'rxjs';
+import {
+  first,
+  from as fromPromise,
+  map,
+  Observable,
+  switchMap,
+  zip,
+} from 'rxjs';
 
 import { UI_FEE_BIGINT } from '../../../common/constants/erg';
 import { Currency } from '../../../common/models/Currency';
@@ -104,15 +111,11 @@ const toSwapOperationArgs = ({
   return [swapParams, txContext];
 };
 
-export const swap = (
-  pool: ErgoAmmPool,
-  from: Currency,
-  to: Currency,
-): Observable<TxId> =>
+const _swap = (pool: ErgoAmmPool, from: Currency, to: Currency) =>
   zip([settings$, utxos$, minerFee$, minExFee$, networkContext$]).pipe(
     first(),
-    switchMap(([settings, utxos, minerFee, minExFee, networkContext]) => {
-      const [swapParams, txContext] = toSwapOperationArgs({
+    map(([settings, utxos, minerFee, minExFee, networkContext]) =>
+      toSwapOperationArgs({
         from,
         to,
         settings,
@@ -122,21 +125,27 @@ export const swap = (
         utxos,
         minExFee,
         nitro: settings.nitro,
-      });
+      }),
+    ),
+  );
 
-      return fromPromise(
-        poolActions(pool.pool).swap(swapParams, txContext),
-      ).pipe(
-        switchMap((tx) =>
-          submitTx(tx, {
-            type: 'swap',
-            baseAsset: from.asset.id,
-            baseAmount: from.toAmount(),
-            quoteAsset: to.asset.id,
-            quoteAmount: to.toAmount(),
-            txId: tx.id,
-          }),
-        ),
-      );
-    }),
+export const swap = (
+  pool: ErgoAmmPool,
+  from: Currency,
+  to: Currency,
+): Observable<TxId> =>
+  _swap(pool, from, to).pipe(
+    switchMap(([swapParams, txContext]) =>
+      fromPromise(poolActions(pool.pool).swap(swapParams, txContext)),
+    ),
+    switchMap((tx) =>
+      submitTx(tx, {
+        type: 'swap',
+        baseAsset: from.asset.id,
+        baseAmount: from.toAmount(),
+        quoteAsset: to.asset.id,
+        quoteAmount: to.toAmount(),
+        txId: tx.id,
+      }),
+    ),
   );
