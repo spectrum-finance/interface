@@ -19,7 +19,7 @@ enum ErgoPayConfirmationModalState {
 }
 
 export const ErgoPaySwapConfirmationModal: FC<ErgoPaySwapConfirmationModalProps> =
-  ({ value, onTxRegister }) => {
+  ({ value, onTxRegister, close }) => {
     const [txId, setTxId] = useState<TxId | undefined>();
     const [modalState, setModalState] = useState(
       ErgoPayConfirmationModalState.OPEN_WALLET,
