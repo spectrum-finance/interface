@@ -1,7 +1,7 @@
 import { Button, Flex, Form, Modal, useForm } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import React, { FC } from 'react';
-import { Observable, of, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { panalytics } from '../../../../../common/analytics';
 import { TxId } from '../../../../../common/types';
@@ -24,10 +24,7 @@ export const ErgoPaySwapConfirmationModal: FC<ErgoPaySwapConfirmationModalProps>
   const swapOperation = async () => {
     if (value.pool && value.fromAmount && value.toAmount) {
       panalytics.confirmSwap(value);
-      onClose(
-        of('test'),
-        // ergoPaySwap(value.pool as any, value.fromAmount, value.toAmount)
-      );
+      onClose(ergoPaySwap(value.pool as any, value.fromAmount, value.toAmount));
     }
   };
 

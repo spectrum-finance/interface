@@ -5,7 +5,6 @@ import {
 } from '@ergolabs/ergo-dex-sdk/build/main/amm/math/swap';
 import { AssetAmount, ErgoBox, TransactionContext } from '@ergolabs/ergo-sdk';
 import { NetworkContext } from '@ergolabs/ergo-sdk/build/main/entities/networkContext';
-import axios from 'axios';
 import {
   first,
   from as fromPromise,
@@ -18,7 +17,6 @@ import {
 import { UI_FEE_BIGINT } from '../../../common/constants/erg';
 import { Currency } from '../../../common/models/Currency';
 import { TxId } from '../../../common/types';
-import { mainnetTxAssembler } from '../../../services/defaultTxAssembler';
 import { getBaseInputParameters } from '../../../utils/walletMath';
 import { ErgoAmmPool } from '../api/ammPools/ErgoAmmPool';
 import { networkContext$ } from '../api/networkContext/networkContext';
@@ -29,6 +27,7 @@ import { ErgoSettings, settings$ } from '../settings/settings';
 import { getInputs } from './common/getInputs';
 import { getTxContext } from './common/getTxContext';
 import { ergoPayPoolActions, poolActions } from './common/poolActions';
+import { submitErgopayTx } from './common/submitErgopayTx';
 import { submitTx } from './common/submitTx';
 
 interface SwapOperationCandidateParams {
@@ -161,13 +160,5 @@ export const ergoPaySwap = (
     switchMap(([swapParams, txContext]) =>
       fromPromise(ergoPayPoolActions(pool.pool).swap(swapParams, txContext)),
     ),
-    switchMap((txRequest) =>
-      networkContext$.pipe(
-        map((ctx) => mainnetTxAssembler.assemble(txRequest, ctx as any)),
-      ),
-    ),
-    switchMap((unsignedTx) =>
-      fromPromise(axios.post(``, { unsignedTx, message: 'test' })),
-    ),
-    map((res) => res.data),
+    switchMap((txRequest) => submitErgopayTx(txRequest)),
   );
