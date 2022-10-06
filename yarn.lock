@@ -1585,12 +1585,12 @@
     mathjs "^9.4.4"
     ramda "0.27.1"
 
-"@ergolabs/ergo-dex-sdk@^1.5.1":
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/@ergolabs/ergo-dex-sdk/-/ergo-dex-sdk-1.5.1.tgz#f4bd62b67bd9d39b7926990f7c4a8fbcb33dafd4"
-  integrity sha512-IQ2Int4zV3tmtr/dqiPR9Qj7Y9pk97mNcoTCxx2Yv4hncJzivSkA2H8wT0AazHXkn+5n/nrqSdMCJF4KHxTz/A==
+"@ergolabs/ergo-dex-sdk@^1.5.4":
+  version "1.5.4"
+  resolved "https://registry.yarnpkg.com/@ergolabs/ergo-dex-sdk/-/ergo-dex-sdk-1.5.4.tgz#000819bca811d4579af5b27b9f28c8a193e8983c"
+  integrity sha512-v276PNGXxCnWf1BAlb8cCn1W2q1cKqwC6ox15elqFw8XMjdPOA2rrFBeL/KX75gDPLpkXR/1nlhnMkgiICg1xQ==
   dependencies:
-    "@ergolabs/ergo-sdk" "^0.4.1"
+    "@ergolabs/ergo-sdk" "^0.4.3"
     axios "^0.21.1"
     blakejs "^1.1.0"
     bs58 "^4.0.1"
@@ -1602,10 +1602,10 @@
     mathjs "^9.4.4"
     ramda "0.27.1"
 
-"@ergolabs/ergo-sdk@^0.4.1":
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/@ergolabs/ergo-sdk/-/ergo-sdk-0.4.1.tgz#a3566390d009d6ab760013ab9cc8f4a54d4ce25c"
-  integrity sha512-QUPUTGfr3DPD4/ZulR31+isfw9t89nTBe59E1LTGjbN45vYz18uM2xsaT6RhXfvDFIbJ+chRWmswXMOhg5e9Bw==
+"@ergolabs/ergo-sdk@^0.4.3":
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/@ergolabs/ergo-sdk/-/ergo-sdk-0.4.3.tgz#bb4403dbcdc38fa3dad9f504283b4a1de3650ae9"
+  integrity sha512-qfcqQrYI8eOkDXHkMj8VV8vIB5Api+Q7WUiaYGWUN8VrMx54l7oAPkEXqXwZJ1h2pBq6YCxxNYtlQIifTs4Frg==
   dependencies:
     axios "^0.21.1"
     blakejs "^1.1.0"
@@ -12225,6 +12225,13 @@ react-dev-utils@^11.0.3:
     strip-ansi "6.0.0"
     text-table "0.2.0"
 
+react-device-detect@^2.2.2:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/react-device-detect/-/react-device-detect-2.2.2.tgz#dbabbce798ec359c83f574c3edb24cf1cca641a5"
+  integrity sha512-zSN1gIAztUekp5qUT/ybHwQ9fmOqVT1psxpSlTn1pe0CO+fnJHKRLOWWac5nKxOxvOpD/w84hk1I+EydrJp7SA==
+  dependencies:
+    ua-parser-js "^1.0.2"
+
 react-dom@^18.2.0:
   version "18.2.0"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-18.2.0.tgz#22aaf38708db2674ed9ada224ca4aa708d821e3d"
@@ -14465,6 +14472,11 @@ typescript@^4.3.5:
   version "4.5.2"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.5.2.tgz#8ac1fba9f52256fdb06fb89e4122fa6a346c2998"
   integrity sha512-5BlMof9H1yGt0P8/WF+wPNw6GfctgGjXp5hkblpyT+8rkASSmkUKMXrxR0Xg8ThVCi/JnHQiKXeBaEwCeQwMFw==
+
+ua-parser-js@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-1.0.2.tgz#e2976c34dbfb30b15d2c300b2a53eac87c57a775"
+  integrity sha512-00y/AXhx0/SsnI51fTc0rLRmafiGOM4/O+ny10Ps7f+j/b8p/ZY11ytMgznXkOVo4GQ+KwQG5UQLkLGirsACRg==
 
 unbox-primitive@^1.0.1:
   version "1.0.1"

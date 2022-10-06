@@ -50,15 +50,16 @@ export const swapWithErgopay = (
 ): Observable<TxId> => {
   const subject = new Subject<TxId>();
 
-  Modal.open(
+  Modal.open(({ close }) => (
     <ErgoPaySwapConfirmationModal
       onTxRegister={(txId) => {
         subject.next(txId);
         subject.complete();
       }}
+      close={close}
       value={data}
-    />,
-  );
+    />
+  ));
   return subject;
 };
 

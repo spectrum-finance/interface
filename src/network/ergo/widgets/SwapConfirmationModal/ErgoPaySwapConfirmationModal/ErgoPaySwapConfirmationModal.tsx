@@ -1,13 +1,16 @@
 import React, { FC, useState } from 'react';
+import { isMobile } from 'react-device-detect';
 
 import { TxId } from '../../../../../common/types';
 import { SwapFormModel } from '../../../../../pages/Swap/SwapFormModel';
+import { createDeepLink } from './common/ergopayLinks';
 import { ErgoPayOpenWalletContent } from './ErgoPayOpenWalletContent/ErgoPayOpenWalletContent';
 import { ErgoPayTxInfoContent } from './ErgoPayTxInfoContent/ErgoPayTxInfoContent';
 
 export interface ErgoPaySwapConfirmationModalProps {
   readonly value: Required<SwapFormModel>;
   readonly onTxRegister: (txId: TxId) => void;
+  readonly close: () => void;
 }
 
 enum ErgoPayConfirmationModalState {
@@ -23,9 +26,14 @@ export const ErgoPaySwapConfirmationModal: FC<ErgoPaySwapConfirmationModalProps>
     );
 
     const handleTxRegister = (txId: TxId) => {
-      setTxId(txId);
-      setModalState(ErgoPayConfirmationModalState.TX_INFO);
       onTxRegister(txId);
+      if (isMobile) {
+        window.location.replace(createDeepLink(txId));
+        close();
+      } else {
+        setTxId(txId);
+        setModalState(ErgoPayConfirmationModalState.TX_INFO);
+      }
     };
 
     if (txId && modalState === ErgoPayConfirmationModalState.TX_INFO) {
