@@ -35,7 +35,7 @@ const _DataTag: React.FC<DataTagProps> = ({
         bordered={false}
       >
         <Flex justify={justify || 'center'}>
-          <Typography.Body small>{content}</Typography.Body>
+          <Typography.Body size="small">{content}</Typography.Body>
         </Flex>
       </Box>
     );

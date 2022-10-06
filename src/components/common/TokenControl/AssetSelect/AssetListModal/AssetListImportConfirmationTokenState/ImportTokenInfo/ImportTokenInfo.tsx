@@ -34,7 +34,9 @@ export const ImportTokenInfo: FC<ImportTokenInfoProps> = ({ asset }) => {
           </Typography.Title>
         </Flex.Item>
         <Flex.Item marginBottom={2}>
-          <Typography.Footnote>{asset.name}</Typography.Footnote>
+          <Typography.Body secondary size="small">
+            {asset.name}
+          </Typography.Body>
         </Flex.Item>
         <StyledButton type="link" onClick={() => exploreToken(asset)}>
           <Typography.Body ellipsis={{ suffix: idSuffix }}>

@@ -310,9 +310,9 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({
       {loading && (
         <AbsoluteContainer>
           <Spin indicator={<LoadingOutlined />} size="large" />
-          <Typography.Footnote style={{ fontSize: '16px' }}>
+          <Typography.Body secondary size="large">
             <Trans>Loading</Trans>
-          </Typography.Footnote>
+          </Typography.Body>
         </AbsoluteContainer>
       )}
     </Flex>

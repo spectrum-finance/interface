@@ -19,9 +19,9 @@ export const PoolOrPositionDetails: FC<
     <Flex stretch align="center">
       <Flex.Item marginRight={6}>
         <Flex col>
-          <Typography.Footnote>
+          <Typography.Body size="small" secondary>
             <Trans>Total liquidity</Trans>
-          </Typography.Footnote>
+          </Typography.Body>
           <Typography.Body strong>
             {poolMapper(item).x.asset.ticker}: {poolMapper(item).x.toString()}
           </Typography.Body>
@@ -33,9 +33,9 @@ export const PoolOrPositionDetails: FC<
       {children && <Flex.Item marginRight={6}>{children}</Flex.Item>}
       <Flex.Item flex={1}>
         <Flex col>
-          <Typography.Footnote>
+          <Typography.Body size="small" secondary>
             <Trans>Price</Trans>
-          </Typography.Footnote>
+          </Typography.Body>
           <Typography.Body strong>
             {poolMapper(item).xRatio.toString()}{' '}
             {poolMapper(item).xRatio.baseAsset.ticker}/

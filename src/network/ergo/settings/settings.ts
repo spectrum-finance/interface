@@ -80,7 +80,7 @@ export const initializeSettings = (): void => {
     });
 };
 
-export const settings =
+export const getSettings = (): ErgoSettings =>
   localStorageManager.get<ErgoSettings>(SETTINGS_KEY) || defaultErgoSettings;
 
 export const setSettings = (newSettings: ErgoSettings): void =>
@@ -98,4 +98,4 @@ export const settings$: Observable<ErgoSettings> = localStorageManager
   .pipe(map((settings) => settings || defaultErgoSettings));
 
 export const useSettings = (): [ErgoSettings, boolean, Error | undefined] =>
-  useObservable(settings$, [], settings);
+  useObservable(settings$, [], getSettings());
