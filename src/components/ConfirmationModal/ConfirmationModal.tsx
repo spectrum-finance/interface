@@ -53,6 +53,7 @@ const getDescriptionByData = (
         ? t`Removing liquidity ${xAsset.toCurrencyString()} and ${yAsset.toCurrencyString()}`
         : '';
     case Operation.SWAP:
+    case Operation.ERGOPAY:
       return xAsset && yAsset
         ? t`Swapping ${xAsset.toCurrencyString()} for ${yAsset.toCurrencyString()}`
         : '';

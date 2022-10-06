@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 
 import { TxId } from '../../../../../common/types';
 import { BaseSwapConfirmationModal } from '../../../../../components/BaseSwapConfirmationModal/BaseSwapConfirmationModal';
+import { Operation } from '../../../../../components/ConfirmationModal/ConfirmationModal';
 import { SwapFormModel } from '../../../../../pages/Swap/SwapFormModel';
 import { swap } from '../../../operations/swap';
 import { SwapConfirmationInfo } from '../common/SwapConfirmationInfo/SwapConfirmationInfo';
@@ -12,10 +13,9 @@ export interface SwapConfirmationModal {
   readonly onClose: (p: Observable<TxId>) => void;
 }
 
-export const WalletSwapConfirmationModal: FC<SwapConfirmationModal> = ({
-  value,
-  onClose,
-}) => (
+export const WalletSwapConfirmationModal: FC<SwapConfirmationModal> & {
+  operation: Operation;
+} = ({ value, onClose }) => (
   <BaseSwapConfirmationModal
     value={value}
     onClose={onClose}
@@ -23,3 +23,4 @@ export const WalletSwapConfirmationModal: FC<SwapConfirmationModal> = ({
     swap={swap}
   />
 );
+WalletSwapConfirmationModal.operation = Operation.SWAP;
