@@ -3,9 +3,10 @@ import { Observable } from 'rxjs';
 import { AmmPool } from '../../common/models/AmmPool';
 import { Currency } from '../../common/models/Currency';
 import { TxId } from '../../common/types';
+import { SwapFormModel } from '../../pages/Swap/SwapFormModel';
 
 export interface NetworkOperations {
-  swap(pool: AmmPool, from: Currency, to: Currency): Observable<TxId>;
+  swap(data: Required<SwapFormModel>): Observable<TxId>;
   deposit(pool: AmmPool, x: Currency, y: Currency): Observable<TxId>;
   redeem(
     pool: AmmPool,

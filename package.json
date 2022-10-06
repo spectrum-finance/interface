@@ -71,6 +71,7 @@
     "react-ga": "^3.3.1",
     "react-google-recaptcha-v3": "^1.9.7",
     "react-number-format": "^4.9.3",
+    "react-qr-code": "^2.0.8",
     "react-router-dom": "^6.3.0",
     "react-scripts": "4.0.3",
     "react-virtualized": "^9.22.3",

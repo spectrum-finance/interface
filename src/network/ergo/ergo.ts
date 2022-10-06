@@ -1,5 +1,3 @@
-import { of } from 'rxjs';
-
 import { Network } from '../common/Network';
 import {
   getAddresses,
@@ -43,7 +41,7 @@ import { initialize, initialized$ } from './initialized';
 import { deposit } from './operations/deposit';
 import { redeem } from './operations/redeem';
 import { refund } from './operations/refund';
-import { swap } from './operations/swap';
+import { swap } from './operations/swap/swap';
 import {
   ErgoSettings,
   getSettings,
@@ -67,8 +65,6 @@ import { GlobalSettingsModal } from './widgets/GlobalSettings/GlobalSettingsModa
 import { OperationsSettings } from './widgets/OperationSettings/OperationsSettings';
 import { RedeemConfirmationInfo } from './widgets/RedeemConfirmationInfo/RedeemConfirmationInfo';
 import { RefundConfirmationInfo } from './widgets/RefundConfirmationInfo/RefundConfirmationInfo';
-import { swapConfirmationModal$ } from './widgets/SwapConfirmationModal/swapConfirmationModal';
-import { WalletSwapConfirmationModal } from './widgets/SwapConfirmationModal/WalletSwapConfirmationModal/WalletSwapConfirmationModal';
 import { SwapInfoContent } from './widgets/SwapInfoContent/SwapInfoContent';
 
 export const ergoNetwork: Network<
@@ -126,7 +122,6 @@ export const ergoNetwork: Network<
 
   GlobalSettingsModal,
   SwapInfoContent,
-  swapConfirmationModal$,
   DepositConfirmationInfo,
   RedeemConfirmationInfo,
   RefundConfirmationInfo,
