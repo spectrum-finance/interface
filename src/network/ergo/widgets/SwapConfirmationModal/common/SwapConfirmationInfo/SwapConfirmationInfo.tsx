@@ -11,7 +11,6 @@ import {
 } from '../../../../../../components/FeesView/FeesView';
 import { Truncate } from '../../../../../../components/Truncate/Truncate';
 import { SwapFormModel } from '../../../../../../pages/Swap/SwapFormModel';
-import { ErgoAmmPool } from '../../../../api/ammPools/ErgoAmmPool';
 import { useMaxExFee, useMinExFee } from '../../../../settings/executionFee';
 import { useMinerFee } from '../../../../settings/minerFee';
 import { useNitro } from '../../../../settings/nitro';
