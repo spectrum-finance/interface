@@ -22,6 +22,7 @@ const SETTINGS_KEY = 'ergo-settings';
 export interface ErgoSettings extends BaseNetworkSettings {
   readonly minerFee: number;
   readonly pk?: PublicKey;
+  readonly ergopay: boolean;
 }
 
 export const defaultErgoSettings: ErgoSettings = {
@@ -30,6 +31,7 @@ export const defaultErgoSettings: ErgoSettings = {
   slippage: defaultSlippage,
   pk: undefined,
   address: undefined,
+  ergopay: false,
 };
 
 const updateAddressSettings = (

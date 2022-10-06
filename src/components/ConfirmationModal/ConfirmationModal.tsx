@@ -224,5 +224,9 @@ export const openConfirmationModal = (
         ? SuccessErgopayContent(txId)
         : SuccessModalContent(txId);
     },
+    success:
+      operation === Operation.ERGOPAY
+        ? (txId) => SuccessErgopayContent(txId)
+        : undefined,
   });
 };
