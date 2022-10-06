@@ -17,6 +17,7 @@ import { getLockingPeriodString } from '../../pages/Liquidity/utils';
 
 export enum Operation {
   SWAP,
+  ERGOPAY,
   ADD_LIQUIDITY,
   REMOVE_LIQUIDITY,
   REFUND,
@@ -136,6 +137,22 @@ const SuccessModalContent = (txId: TxId) => (
   </Flex>
 );
 
+const SuccessErgopayContent = (txId: TxId) => (
+  <Flex col align="center">
+    Test
+    {/*<Flex.Item marginBottom={1}>*/}
+    {/*  <Typography.Title level={4}>*/}
+    {/*    <Trans>Transaction submitted</Trans>*/}
+    {/*  </Typography.Title>*/}
+    {/*</Flex.Item>*/}
+    {/*<Flex.Item marginBottom={1}>*/}
+    {/*  <Typography.Link onClick={() => exploreTx(txId)}>*/}
+    {/*    <Trans>View on Explorer Ergopay</Trans>*/}
+    {/*  </Typography.Link>*/}
+    {/*</Flex.Item>*/}
+  </Flex>
+);
+
 const YoroiIssueModalContent = () => (
   <Flex col align="center">
     <Flex.Item marginBottom={1}>
@@ -201,6 +218,10 @@ export const openConfirmationModal = (
       return ErrorModalContent(operation, payload);
     },
     progressContent: ProgressModalContent(operation, payload),
-    successContent: (txId) => SuccessModalContent(txId),
+    successContent: (txId) => {
+      return operation === Operation.ERGOPAY
+        ? SuccessErgopayContent(txId)
+        : SuccessModalContent(txId);
+    },
   });
 };

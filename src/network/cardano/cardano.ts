@@ -106,7 +106,7 @@ export const cardanoNetwork: Network<
   setSettings,
 
   SwapInfoContent,
-  SwapConfirmationInfo,
+  swapConfirmationModal$: of(SwapConfirmationInfo as any),
   DepositConfirmationInfo,
   RedeemConfirmationInfo,
   OperationsSettings,

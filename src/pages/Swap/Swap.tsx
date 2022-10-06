@@ -61,8 +61,8 @@ import { useNetworkAsset } from '../../gateway/api/networkAsset';
 import { useSwapValidationFee } from '../../gateway/api/validationFees';
 import { useSelectedNetwork } from '../../gateway/common/network';
 import { operationsSettings$ } from '../../gateway/widgets/operationsSettings';
+import { swapConfirmationModal$ } from '../../gateway/widgets/swapConfirmationModal';
 import { PoolSelector } from './PoolSelector/PoolSelector';
-import { SwapConfirmationModal } from './SwapConfirmationModal/SwapConfirmationModal';
 import { SwapFormModel } from './SwapFormModel';
 import { SwapGraph } from './SwapGraph/SwapGraph';
 import { SwapInfo } from './SwapInfo/SwapInfo';
@@ -95,6 +95,7 @@ export const Swap = (): JSX.Element => {
     toAsset: undefined,
     pool: undefined,
   });
+  const [SwapConfirmationModal] = useObservable(swapConfirmationModal$);
   const [leftWidgetOpened, setLeftWidgetOpened] = useState<boolean>(false);
   const [lastEditedField, setLastEditedField] = useState<'from' | 'to'>('from');
   const [selectedNetwork] = useSelectedNetwork();
@@ -194,6 +195,9 @@ export const Swap = (): JSX.Element => {
     !!fromAsset && !!toAsset && !pool;
 
   const submitSwap = (value: Required<SwapFormModel>) => {
+    if (!SwapConfirmationModal) {
+      return;
+    }
     openConfirmationModal(
       (next) => {
         return (
@@ -212,7 +216,7 @@ export const Swap = (): JSX.Element => {
           />
         );
       },
-      Operation.SWAP,
+      SwapConfirmationModal.operation,
       {
         xAsset: value.fromAmount!,
         yAsset: value.toAmount!,
