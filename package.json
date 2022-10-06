@@ -20,7 +20,7 @@
     "@babel/plugin-syntax-typescript": "^7.16.7",
     "@babel/preset-env": "^7.15.6",
     "@emurgo/cardano-serialization-lib-nodejs": "^11.0.5",
-    "@ergolabs/cardano-dex-sdk": "^0.0.57",
+    "@ergolabs/cardano-dex-sdk": "^0.0.59",
     "@ergolabs/ergo-dex-sdk": "^1.4.3",
     "@ergolabs/ergo-sdk": "^0.2.1",
     "@ergolabs/ui-kit": "^2.3.9",
