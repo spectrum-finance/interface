@@ -57,12 +57,13 @@ export const ReadonlyWalletSettingsModal: FC<ReadonlyWalletSettingsModalProps> =
                   style={{ width: '100%' }}
                 />
               </Flex.Item>
-              <Flex.Item marginBottom={2}>
+              <Flex.Item marginBottom={4}>
                 <Form.Item name="address">
                   {({ value, onChange }) => (
                     <Input
                       autoFocus={true}
                       size="large"
+                      placeholder="Paste your address"
                       value={value}
                       onChange={(e) => onChange(e.target.value)}
                     />

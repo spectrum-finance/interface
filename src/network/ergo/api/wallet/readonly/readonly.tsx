@@ -1,6 +1,14 @@
 import { ergoBoxFromProxy } from '@ergolabs/ergo-sdk';
 import React from 'react';
-import { from, map, of } from 'rxjs';
+import {
+  filter,
+  from,
+  map,
+  of,
+  publishReplay,
+  refCount,
+  switchMap,
+} from 'rxjs';
 
 import { localStorageManager } from '../../../../../common/utils/localStorageManager';
 import { explorer } from '../../../../../services/explorer';
@@ -15,6 +23,10 @@ export const setReadonlyAddress = (address: string): void =>
 export const hasReadonlyAddress = (): boolean =>
   !!localStorageManager.get(READ_ONLY_ADDRESS_KEY);
 
+const readOnlyAddress$ = localStorageManager
+  .getStream<string>(READ_ONLY_ADDRESS_KEY)
+  .pipe(filter(Boolean), publishReplay(1), refCount());
+
 export const ReadonlyWallet: ErgoWalletContract = {
   name: 'Read-only Wallet',
   hidden: true,
@@ -22,21 +34,17 @@ export const ReadonlyWallet: ErgoWalletContract = {
   previewIcon: <ReadonlyLogo width={21} height={21} />,
   connectWallet: () => of(true),
   getUtxos: () =>
-    from(
-      explorer.searchUnspentBoxesByAddresses([
-        localStorageManager.get<string>(READ_ONLY_ADDRESS_KEY)!,
-      ]),
-    ).pipe(
+    readOnlyAddress$.pipe(
+      switchMap((address) =>
+        from(explorer.searchUnspentBoxesByAddress(address)),
+      ),
       map((bs: any) => bs?.map((b: any) => ergoBoxFromProxy(b))),
       map((data) => data ?? []),
     ),
-  getUsedAddresses: () =>
-    of([localStorageManager.get<string>(READ_ONLY_ADDRESS_KEY)!]),
+  getUsedAddresses: () => readOnlyAddress$.pipe(map((address) => [address])),
   getUnusedAddresses: () => of([]),
-  getChangeAddress: () =>
-    of(localStorageManager.get<string>(READ_ONLY_ADDRESS_KEY)!),
-  getAddresses: () =>
-    of([localStorageManager.get<string>(READ_ONLY_ADDRESS_KEY)!]),
+  getChangeAddress: () => readOnlyAddress$,
+  getAddresses: () => readOnlyAddress$.pipe(map((address) => [address])),
   sign: () => ({} as any),
   signInput: () => ({} as any),
   submitTx: () => ({} as any),
