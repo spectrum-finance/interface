@@ -1,15 +1,22 @@
-import { map, publishReplay, refCount, zip } from 'rxjs';
+import {
+  combineLatest,
+  debounceTime,
+  map,
+  publishReplay,
+  refCount,
+} from 'rxjs';
 
 import { Balance } from '../../../../common/models/Balance';
 import { ammPools$ } from '../ammPools/ammPools';
 import { availableTokensData$ } from './common';
 import { networkAssetBalance$ } from './networkAssetBalance';
 
-export const assetBalance$ = zip([
+export const assetBalance$ = combineLatest([
   networkAssetBalance$,
   ammPools$,
   availableTokensData$,
 ]).pipe(
+  debounceTime(100),
   map(([networkAssetBalance, pools, availableTokensData]) =>
     availableTokensData
       .filter(([, info]) => !pools.some((p) => p.lp.asset.id === info.id))
