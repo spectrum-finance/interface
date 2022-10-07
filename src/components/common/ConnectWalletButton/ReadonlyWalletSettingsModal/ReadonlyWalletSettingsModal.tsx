@@ -35,9 +35,7 @@ export const ReadonlyWalletSettingsModal: FC<ReadonlyWalletSettingsModalProps> =
     const connectReadOnlyWallet = (data: FormGroup<ReadOnlySettingsModel>) => {
       if (data.value.address) {
         setReadonlyAddress(data.value.address);
-        connectWallet(ReadonlyWallet).subscribe(() => {
-          close();
-        });
+        connectWallet(ReadonlyWallet).subscribe(() => close());
       }
     };
 
