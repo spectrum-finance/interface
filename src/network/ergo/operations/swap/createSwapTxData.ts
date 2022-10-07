@@ -5,22 +5,20 @@ import {
 } from '@ergolabs/ergo-dex-sdk/build/main/amm/math/swap';
 import { AssetAmount, ErgoBox, TransactionContext } from '@ergolabs/ergo-sdk';
 import { NetworkContext } from '@ergolabs/ergo-sdk/build/main/entities/networkContext';
-import { first, from as fromPromise, Observable, switchMap, zip } from 'rxjs';
+import { first, map, zip } from 'rxjs';
 
-import { UI_FEE_BIGINT } from '../../../common/constants/erg';
-import { Currency } from '../../../common/models/Currency';
-import { TxId } from '../../../common/types';
-import { getBaseInputParameters } from '../../../utils/walletMath';
-import { ErgoAmmPool } from '../api/ammPools/ErgoAmmPool';
-import { networkContext$ } from '../api/networkContext/networkContext';
-import { utxos$ } from '../api/utxos/utxos';
-import { minExFee$ } from '../settings/executionFee';
-import { minerFee$ } from '../settings/minerFee';
-import { ErgoSettings, settings$ } from '../settings/settings';
-import { getInputs } from './common/getInputs';
-import { getTxContext } from './common/getTxContext';
-import { poolActions } from './common/poolActions';
-import { submitTx } from './common/submitTx';
+import { UI_FEE_BIGINT } from '../../../../common/constants/erg';
+import { Currency } from '../../../../common/models/Currency';
+import { getBaseInputParameters } from '../../../../utils/walletMath';
+import { ErgoAmmPool } from '../../api/ammPools/ErgoAmmPool';
+import { networkContext$ } from '../../api/networkContext/networkContext';
+import { utxos$ } from '../../api/utxos/utxos';
+import { minExFee$ } from '../../settings/executionFee';
+import { minerFee$ } from '../../settings/minerFee';
+import { ErgoSettings, settings$ } from '../../settings/settings';
+import { maxTotalFee$, minTotalFee$ } from '../../settings/totalFees';
+import { getInputs } from '../common/getInputs';
+import { getTxContext } from '../common/getTxContext';
 
 interface SwapOperationCandidateParams {
   readonly pool: ErgoAmmPool;
@@ -38,6 +36,14 @@ interface SwapOperationCandidateParams {
         readonly lastBlockId: number;
       };
   readonly nitro: number;
+  readonly minTotalFee: Currency;
+  readonly maxTotalFee: Currency;
+}
+
+export interface AdditionalData {
+  readonly pool: ErgoAmmPool;
+  readonly minTotalFee: Currency;
+  readonly maxTotalFee: Currency;
 }
 
 const toSwapOperationArgs = ({
@@ -50,7 +56,13 @@ const toSwapOperationArgs = ({
   utxos,
   minExFee,
   nitro,
-}: SwapOperationCandidateParams): [SwapParams, TransactionContext] => {
+  minTotalFee,
+  maxTotalFee,
+}: SwapOperationCandidateParams): [
+  SwapParams,
+  TransactionContext,
+  AdditionalData,
+] => {
   if (!settings.address || !settings.pk) {
     throw new Error('[swap]: wallet address is not selected');
   }
@@ -100,43 +112,52 @@ const toSwapOperationArgs = ({
     settings.address,
     minerFee.amount,
   );
+  const additionalData: AdditionalData = {
+    pool,
+    minTotalFee,
+    maxTotalFee,
+  };
 
-  return [swapParams, txContext];
+  return [swapParams, txContext, additionalData];
 };
 
-export const swap = (
+export const createSwapTxData = (
   pool: ErgoAmmPool,
   from: Currency,
   to: Currency,
-): Observable<TxId> =>
-  zip([settings$, utxos$, minerFee$, minExFee$, networkContext$]).pipe(
+) =>
+  zip([
+    settings$,
+    utxos$,
+    minerFee$,
+    minExFee$,
+    networkContext$,
+    minTotalFee$,
+    maxTotalFee$,
+  ]).pipe(
     first(),
-    switchMap(([settings, utxos, minerFee, minExFee, networkContext]) => {
-      const [swapParams, txContext] = toSwapOperationArgs({
-        from,
-        to,
+    map(
+      ([
         settings,
-        pool,
-        minerFee,
-        networkContext,
         utxos,
+        minerFee,
         minExFee,
-        nitro: settings.nitro,
-      });
-
-      return fromPromise(
-        poolActions(pool.pool).swap(swapParams, txContext),
-      ).pipe(
-        switchMap((tx) =>
-          submitTx(tx, {
-            type: 'swap',
-            baseAsset: from.asset.id,
-            baseAmount: from.toAmount(),
-            quoteAsset: to.asset.id,
-            quoteAmount: to.toAmount(),
-            txId: tx.id,
-          }),
-        ),
-      );
-    }),
+        networkContext,
+        minTotalFee,
+        maxTotalFee,
+      ]) =>
+        toSwapOperationArgs({
+          from,
+          to,
+          settings,
+          pool,
+          minerFee,
+          networkContext,
+          utxos,
+          minExFee,
+          nitro: settings.nitro,
+          minTotalFee,
+          maxTotalFee,
+        }),
+    ),
   );

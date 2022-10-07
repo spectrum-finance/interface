@@ -33,6 +33,7 @@ import { useApplicationSettings } from '../../../../../context';
 import { useSelectedNetwork } from '../../../../../gateway/common/network';
 import { globalSettingsModal$ } from '../../../../../gateway/widgets/globalSettingsModal';
 import { useQuery } from '../../../../../hooks/useQuery';
+import { ErgopaySwitch } from '../../../../../network/ergo/widgets/ErgopaySwitch/ErgopaySwitch';
 import { ThemeSwitch } from '../../../../ThemeSwitch/ThemeSwitch';
 import { DotsIcon } from '../../../Icons/DotsIcon';
 import { ManualRefundModal } from './ManualRefundModal/ManualRefundModal';
@@ -113,6 +114,11 @@ const BurgerMenu = (): JSX.Element => {
       title: t`Dark mode`,
       icon: <DarkModeOutlined />,
       additional: <ThemeSwitch defaultChecked size="small" />,
+    },
+    {
+      title: t`Ergopay`,
+      icon: <DarkModeOutlined />,
+      additional: <ErgopaySwitch defaultChecked size="small" />,
     },
   ];
 

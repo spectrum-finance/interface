@@ -1,3 +1,4 @@
+import uniqBy from 'lodash/uniqBy';
 import { combineLatest, map, publishReplay, refCount } from 'rxjs';
 
 import { operationsHistory$ } from '../history/transactionHistory';
@@ -21,6 +22,7 @@ export const pendingOperations$ = combineLatest([
       ? [queuedOperation, ...filteredInProgressOperations]
       : filteredInProgressOperations;
   }),
+  map((pendingOperations) => uniqBy(pendingOperations, 'id')),
   publishReplay(1),
   refCount(),
 );

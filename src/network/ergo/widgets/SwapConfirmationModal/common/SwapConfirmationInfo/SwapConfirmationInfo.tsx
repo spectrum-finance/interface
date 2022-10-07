@@ -2,24 +2,23 @@ import { Box, Flex, Typography } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 
-import { Currency } from '../../../../common/models/Currency';
-import { calculateOutputs } from '../../../../common/utils/calculateOutputs';
-import { BoxInfoItem } from '../../../../components/BoxInfoItem/BoxInfoItem';
+import { Currency } from '../../../../../../common/models/Currency';
+import { calculateOutputs } from '../../../../../../common/utils/calculateOutputs';
+import { BoxInfoItem } from '../../../../../../components/BoxInfoItem/BoxInfoItem';
 import {
   FeesView,
   FeesViewItem,
-} from '../../../../components/FeesView/FeesView';
-import { Truncate } from '../../../../components/Truncate/Truncate';
-import { SwapFormModel } from '../../../../pages/Swap/SwapFormModel';
-import { ErgoAmmPool } from '../../api/ammPools/ErgoAmmPool';
-import { useMaxExFee, useMinExFee } from '../../settings/executionFee';
-import { useMinerFee } from '../../settings/minerFee';
-import { useNitro } from '../../settings/nitro';
-import { useSlippage } from '../../settings/slippage';
-import { useMaxTotalFee, useMinTotalFee } from '../../settings/totalFees';
+} from '../../../../../../components/FeesView/FeesView';
+import { Truncate } from '../../../../../../components/Truncate/Truncate';
+import { SwapFormModel } from '../../../../../../pages/Swap/SwapFormModel';
+import { useMaxExFee, useMinExFee } from '../../../../settings/executionFee';
+import { useMinerFee } from '../../../../settings/minerFee';
+import { useNitro } from '../../../../settings/nitro';
+import { useSlippage } from '../../../../settings/slippage';
+import { useMaxTotalFee, useMinTotalFee } from '../../../../settings/totalFees';
 
 export interface SwapConfirmationInfoProps {
-  readonly value: SwapFormModel<ErgoAmmPool>;
+  readonly value: Required<SwapFormModel>;
 }
 
 export const SwapConfirmationInfo: FC<SwapConfirmationInfoProps> = ({

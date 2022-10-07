@@ -7,6 +7,7 @@ import {
   publishReplay,
   refCount,
   switchMap,
+  tap,
 } from 'rxjs';
 
 import { networkContext$ } from '../networkContext/networkContext';
@@ -23,6 +24,7 @@ export const utxos$ = connectedWalletChange$.pipe(
   switchMap((selectedWallet) =>
     selectedWallet ? selectedWallet.getUtxos() : of([]),
   ),
+  tap((res) => console.log(res)),
   publishReplay(1),
   refCount(),
 );
