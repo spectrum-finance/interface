@@ -2,7 +2,6 @@ import React, { FC, ReactNode, useState } from 'react';
 import { isMobile } from 'react-device-detect';
 
 import { TxId } from '../../../../common/types';
-import { SwapFormModel } from '../../../../pages/Swap/SwapFormModel';
 import { createDeepLink } from './common/ergopayLinks';
 import { ErgoPayTxInfoContent } from './ErgoPayTxInfoContent/ErgoPayTxInfoContent';
 

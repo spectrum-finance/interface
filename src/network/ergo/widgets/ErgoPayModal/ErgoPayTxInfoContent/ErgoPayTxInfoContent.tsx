@@ -5,7 +5,7 @@ import CopyToClipboard from 'react-copy-to-clipboard';
 import QRCode from 'react-qr-code';
 
 import { TxId } from '../../../../../common/types';
-import { createDeepLink, createRequestLink } from '../common/ergopayLinks';
+import { createDeepLink } from '../common/ergopayLinks';
 
 export interface ErgoPayTxInfoContentProps {
   readonly txId: TxId;
@@ -52,7 +52,7 @@ export const ErgoPayTxInfoContent: FC<ErgoPayTxInfoContentProps> = ({
             </Typography.Body>
           </Flex.Item>
           <CopyToClipboard
-            text={createRequestLink(txId)}
+            text={createDeepLink(txId)}
             onCopy={() => message.success(t`Copied to clipboard!`)}
           >
             <Button type="default" size="large">
