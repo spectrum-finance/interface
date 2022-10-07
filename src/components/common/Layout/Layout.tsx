@@ -31,18 +31,18 @@ import { Header } from './Header/Header';
 import { TmpErgopayAddressModal } from './TmpErgopayAddressModal/TmpErgopayAddressModal';
 
 const MainContainer = styled.main`
-  padding: 80px 2px 80px 8px;
+  padding: 80px 4px 148px 4px !important;
 
   ${device.m} {
-    padding: 80px 18px 80px 24px;
+    padding: 80px 18px 80px 24px !important;
   }
 
   ${device.l} {
-    padding-top: 100px;
+    padding-top: 100px !important;
   }
 
   ${device.l} {
-    padding-top: 120px;
+    padding-top: 120px !important;
   }
 `;
 
