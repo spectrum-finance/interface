@@ -9,8 +9,9 @@ import {
 } from '../../../../components/ConfirmationModal/ConfirmationModal';
 import { SwapFormModel } from '../../../../pages/Swap/SwapFormModel';
 import { settings$ } from '../../settings/settings';
-import { ErgoPaySwapConfirmationModal } from '../../widgets/SwapConfirmationModal/ErgoPaySwapConfirmationModal/ErgoPaySwapConfirmationModal';
-import { WalletSwapConfirmationModal } from '../../widgets/SwapConfirmationModal/WalletSwapConfirmationModal/WalletSwapConfirmationModal';
+import { ErgoPayModal } from '../../widgets/ErgoPayModal/ErgoPayModal';
+import { SwapConfirmationModal } from '../../widgets/SwapConfirmationModal/SwapConfirmationModal';
+import { SwapOpenWallet } from '../../widgets/SwapOpenWallet/SwapOpenWallet';
 
 export const swapWithWallet = (
   data: Required<SwapFormModel>,
@@ -20,7 +21,7 @@ export const swapWithWallet = (
   openConfirmationModal(
     (next) => {
       return (
-        <WalletSwapConfirmationModal
+        <SwapConfirmationModal
           value={data}
           onClose={(request) =>
             next(
@@ -51,13 +52,15 @@ export const swapWithErgopay = (
   const subject = new Subject<TxId>();
 
   Modal.open(({ close }) => (
-    <ErgoPaySwapConfirmationModal
+    <ErgoPayModal
+      openWalletContent={(onTxRegister) => (
+        <SwapOpenWallet value={data} onTxRegister={onTxRegister} />
+      )}
       onTxRegister={(txId) => {
         subject.next(txId);
         subject.complete();
       }}
       close={close}
-      value={data}
     />
   ));
   return subject;

@@ -1,5 +1,5 @@
-import { applicationConfig } from '../../../../../../applicationConfig';
-import { TxId } from '../../../../../../common/types';
+import { applicationConfig } from '../../../../../applicationConfig';
+import { TxId } from '../../../../../common/types';
 
 export const createRequestLink = (txId: TxId): string =>
   `${applicationConfig.networksSettings.ergo.ergopayUrl}unsignedTx/${txId}`;

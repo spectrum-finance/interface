@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
 import { Observable } from 'rxjs';
 
-import { TxId } from '../../../../../common/types';
-import { BaseSwapConfirmationModal } from '../../../../../components/BaseSwapConfirmationModal/BaseSwapConfirmationModal';
-import { SwapFormModel } from '../../../../../pages/Swap/SwapFormModel';
-import { walletSwap } from '../../../operations/swap/walletSwap';
+import { TxId } from '../../../../common/types';
+import { BaseSwapConfirmationModal } from '../../../../components/BaseSwapConfirmationModal/BaseSwapConfirmationModal';
+import { SwapFormModel } from '../../../../pages/Swap/SwapFormModel';
+import { walletSwap } from '../../operations/swap/walletSwap';
 import { SwapConfirmationInfo } from '../common/SwapConfirmationInfo/SwapConfirmationInfo';
 
 export interface SwapConfirmationModal {
@@ -12,7 +12,7 @@ export interface SwapConfirmationModal {
   readonly onClose: (p: Observable<TxId>) => void;
 }
 
-export const WalletSwapConfirmationModal: FC<SwapConfirmationModal> = ({
+export const SwapConfirmationModal: FC<SwapConfirmationModal> = ({
   value,
   onClose,
 }) => (

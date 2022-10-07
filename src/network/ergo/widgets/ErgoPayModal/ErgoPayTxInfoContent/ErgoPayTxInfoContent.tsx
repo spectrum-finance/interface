@@ -4,7 +4,7 @@ import React, { FC } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import QRCode from 'react-qr-code';
 
-import { TxId } from '../../../../../../common/types';
+import { TxId } from '../../../../../common/types';
 import { createDeepLink, createRequestLink } from '../common/ergopayLinks';
 
 export interface ErgoPayTxInfoContentProps {
