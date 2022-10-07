@@ -11,13 +11,10 @@ import styled from 'styled-components';
 import { applicationConfig } from '../../../applicationConfig';
 import { panalytics } from '../../../common/analytics';
 import { device } from '../../../common/constants/size';
-import { localStorageManager } from '../../../common/utils/localStorageManager';
 import { useApplicationSettings, useAppLoadingState } from '../../../context';
 import { useSelectedNetwork } from '../../../gateway/common/network';
 import { useBodyClass } from '../../../hooks/useBodyClass';
 import { useMetaThemeColor } from '../../../hooks/useMetaThemeColor';
-import { lsKey } from '../../../network/ergo/api/wallet/readonly/readonly';
-import { useSettings } from '../../../network/ergo/settings/settings';
 import { openCookiePolicy } from '../../../services/notifications/CookiePolicy/CookiePolicy';
 import { NetworkHeight } from '../../NetworkHeight/NetworkHeight';
 import { RebrandingModal } from '../../RebrandingModal/RebrandingModal';
@@ -28,7 +25,6 @@ import { CardanoUpdate } from './CardanoUpdate/CardanoUpdate';
 import { FooterNavigation } from './FooterNavigation/FooterNavigation';
 import { Glow } from './Glow/Glow';
 import { Header } from './Header/Header';
-import { TmpErgopayAddressModal } from './TmpErgopayAddressModal/TmpErgopayAddressModal';
 
 const MainContainer = styled.main`
   padding: 80px 2px 80px 8px;
@@ -57,7 +53,6 @@ const _Layout: FC<PropsWithChildren<{ className?: string }>> = ({
   const [scrolled, setScrolled] = useState(false);
   const [scrolledTop, setScrolledTop] = useState(true);
   const [rebrandingShowed, markRebrandingAsShowed] = useRebrandingShowed();
-  const [{ ergopay }] = useSettings();
 
   useBodyClass([theme, network.name.toLowerCase()]);
   useMetaThemeColor({ dark: '#1D1D1D', light: `#F0F2F5` }, theme);
@@ -100,12 +95,6 @@ const _Layout: FC<PropsWithChildren<{ className?: string }>> = ({
 
     return () => document.removeEventListener('scroll', handleScroll);
   }, [ref]);
-
-  useEffect(() => {
-    if (ergopay && !localStorageManager.get(lsKey)) {
-      Modal.open(({ close }) => <TmpErgopayAddressModal close={close} />);
-    }
-  }, [ergopay]);
 
   const footerHeight = footerRef?.current?.clientHeight || 0;
 
