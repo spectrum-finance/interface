@@ -8,7 +8,6 @@ import { AmmPool } from '../../common/models/AmmPool';
 import { Currency } from '../../common/models/Currency';
 import { TxId } from '../../common/types';
 import { SwapFormModel } from '../../pages/Swap/SwapFormModel';
-import { AssetControlFormItem } from '../common/TokenControl/AssetControl';
 import { CurrencyPreview } from '../CurrencyPreview/CurrencyPreview';
 
 export interface BaseSwapConfirmationModalProps<T extends AmmPool> {

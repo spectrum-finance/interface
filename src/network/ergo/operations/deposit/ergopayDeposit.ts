@@ -6,28 +6,28 @@ import { TxId } from '../../../../common/types';
 import { ErgoAmmPool } from '../../api/ammPools/ErgoAmmPool';
 import { ergoPayPoolActions } from '../common/poolActions';
 import { submitErgopayTx } from '../common/submitErgopayTx';
-import { createSwapTxData } from './createSwapTxData';
+import { createDepositTxData } from './createDepositTxData';
 
-export const ergoPaySwap = (
+export const ergopayDeposit = (
   pool: ErgoAmmPool,
-  from: Currency,
-  to: Currency,
+  x: Currency,
+  y: Currency,
 ): Observable<TxId> =>
-  createSwapTxData(pool, from, to).pipe(
-    switchMap(([swapParams, txContext, additionalData]) =>
+  createDepositTxData(pool, x, y).pipe(
+    switchMap(([depositParams, txContext, additionalData]) =>
       fromPromise(
-        ergoPayPoolActions(pool.pool).swap(swapParams, txContext),
+        ergoPayPoolActions(pool.pool).deposit(depositParams, txContext),
       ).pipe(map((txRequest) => ({ txRequest, additionalData }))),
     ),
     switchMap(({ txRequest, additionalData }) =>
       submitErgopayTx(
         txRequest,
-        from,
-        to,
+        x,
+        y,
         additionalData.pool,
         additionalData.minTotalFee,
         additionalData.maxTotalFee,
-        'swap',
+        'deposit',
       ),
     ),
     timeout(applicationConfig.operationTimeoutTime),

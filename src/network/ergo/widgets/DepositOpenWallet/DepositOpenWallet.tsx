@@ -1,46 +1,42 @@
 import { Button, Flex, Modal } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
-import React, { FC } from 'react';
-import { Observable, tap } from 'rxjs';
+import React, { FC, useState } from 'react';
+import { first } from 'rxjs';
 
 import { panalytics } from '../../../../common/analytics';
-import { useObservable } from '../../../../common/hooks/useObservable';
 import { TxId } from '../../../../common/types';
 import { FormPairSection } from '../../../../components/common/FormView/FormPairSection/FormPairSection';
 import { PageSection } from '../../../../components/Page/PageSection/PageSection';
 import { Section } from '../../../../components/Section/Section';
-import { deposit } from '../../../../gateway/api/operations/deposit';
-import { depositConfirmationInfo$ } from '../../../../gateway/widgets/depositConfirmationInfo';
-import { PoolRatio } from '../../../PoolOverview/PoolRatio/PoolRatio';
-import { AddLiquidityFormModel } from '../AddLiquidityFormModel';
+import { AddLiquidityFormModel } from '../../../../pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityFormModel';
+import { PoolRatio } from '../../../../pages/PoolOverview/PoolRatio/PoolRatio';
+import { ergopayDeposit } from '../../operations/deposit/ergopayDeposit';
+import { DepositConfirmationInfo } from '../DepositConfirmationModal/DepositConfirmationInfo/DepositConfirmationInfo';
 
-interface AddLiquidityConfirmationModalProps {
-  value: Required<AddLiquidityFormModel>;
-  onClose: (r: Observable<TxId>) => void;
+export interface DepositOpenWalletProps {
+  readonly value: Required<AddLiquidityFormModel>;
+  readonly onTxRegister: (p: TxId) => void;
 }
 
-const AddLiquidityConfirmationModal: FC<AddLiquidityConfirmationModalProps> = ({
+export const DepositOpenWallet: FC<DepositOpenWalletProps> = ({
   value,
-  onClose,
+  onTxRegister,
 }) => {
-  const [DepositFees] = useObservable(depositConfirmationInfo$);
-  const addLiquidityOperation = async () => {
-    const { pool, y, x } = value;
+  const [loading, setLoading] = useState<boolean>(false);
 
-    if (pool && x && y) {
+  const addLiquidityOperation = async () => {
+    if (value.pool && value.x && value.y) {
       panalytics.confirmDeposit(value);
-      onClose(
-        deposit(
-          pool,
-          x.asset.id === pool.x.asset.id ? x : y,
-          y.asset.id === pool.y.asset.id ? y : x,
-        ).pipe(
-          tap(
-            (txId) => panalytics.signedDeposit(value, txId),
-            (err) => panalytics.signedErrorDeposit(value, err),
-          ),
-        ),
-      );
+      setLoading(true);
+      ergopayDeposit(value.pool as any, value.x, value.y)
+        .pipe(first())
+        .subscribe({
+          next: (txId) => {
+            setLoading(false);
+            onTxRegister(txId);
+          },
+          error: () => setLoading(false),
+        });
     }
   };
 
@@ -72,17 +68,19 @@ const AddLiquidityConfirmationModal: FC<AddLiquidityConfirmationModalProps> = ({
           </Flex.Item>
           <Flex.Item marginBottom={6}>
             <PageSection title={t`Fees`}>
-              {DepositFees ? <DepositFees /> : ''}
+              <DepositConfirmationInfo />
             </PageSection>
           </Flex.Item>
           <Flex.Item>
             <Button
-              block
-              type="primary"
-              size="extra-large"
               onClick={() => addLiquidityOperation()}
+              size="extra-large"
+              type="primary"
+              htmlType="submit"
+              block
+              loading={loading}
             >
-              <Trans>Add Liquidity</Trans>
+              {t`Open Wallet`}
             </Button>
           </Flex.Item>
         </Flex>
@@ -90,5 +88,3 @@ const AddLiquidityConfirmationModal: FC<AddLiquidityConfirmationModalProps> = ({
     </>
   );
 };
-
-export { AddLiquidityConfirmationModal };

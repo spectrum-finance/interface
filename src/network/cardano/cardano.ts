@@ -115,7 +115,7 @@ export const cardanoNetwork: Network<
   exploreToken,
 
   swap: swap as any,
-  deposit,
+  deposit: deposit as any,
   redeem,
   refund(): Observable<TxId> {
     return of('');
