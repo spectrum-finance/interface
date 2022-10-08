@@ -92,7 +92,7 @@ export const toRedeemOperationArgs = ({
     y,
     maxTotalFee,
     minTotalFee,
-    p2pkaddress: settings.pk,
+    p2pkaddress: settings.address,
   };
 
   return [redeemParams, txContext, additionalData];
