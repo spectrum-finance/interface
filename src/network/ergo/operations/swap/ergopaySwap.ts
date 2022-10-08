@@ -27,6 +27,7 @@ export const ergoPaySwap = (
         additionalData.pool,
         additionalData.minTotalFee,
         additionalData.maxTotalFee,
+        'swap',
       ),
     ),
     timeout(applicationConfig.operationTimeoutTime),

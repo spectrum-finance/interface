@@ -215,20 +215,22 @@ const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
       </Modal.Title>
       <Modal.Content width={400}>
         <Flex col>
-          {wallets.map((wallet, index) => (
-            <Flex.Item
-              marginBottom={
-                index === wallets.length - 1 && !selectedWallet ? 0 : 4
-              }
-              key={index}
-            >
-              <WalletView
-                close={close}
-                wallet={wallet}
-                isChangeWallet={isChangeWallet}
-              />
-            </Flex.Item>
-          ))}
+          {wallets
+            .filter((w) => !w.hidden)
+            .map((wallet, index) => (
+              <Flex.Item
+                marginBottom={
+                  index === wallets.length - 1 && !selectedWallet ? 0 : 4
+                }
+                key={index}
+              >
+                <WalletView
+                  close={close}
+                  wallet={wallet}
+                  isChangeWallet={isChangeWallet}
+                />
+              </Flex.Item>
+            ))}
           {selectedWallet && (
             <Button
               type="link"

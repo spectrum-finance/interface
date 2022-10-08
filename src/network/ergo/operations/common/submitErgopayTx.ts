@@ -17,6 +17,7 @@ export const submitErgopayTx = (
   pool: AmmPool,
   feeMin: Currency,
   feeMax: Currency,
+  operation: keyof typeof ergoPayMessageManager,
 ): Observable<TxId> =>
   networkContext$.pipe(
     first(),
@@ -34,7 +35,12 @@ export const submitErgopayTx = (
           `${applicationConfig.networksSettings.ergo.ergopayUrl}unsignedTx`,
           {
             unsignedTx,
-            message: ergoPayMessageManager.swap(from, to, feeMin, feeMax),
+            message:
+              operation === 'swap'
+                ? ergoPayMessageManager.swap(from, to, feeMin, feeMax)
+                : operation === 'deposit'
+                ? ergoPayMessageManager.deposit(from, to, pool, feeMin)
+                : ergoPayMessageManager.redeem(from, to, pool, feeMin),
           },
         ),
       ),

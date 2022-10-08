@@ -24,9 +24,7 @@ export const DetailsBox: FC<DetailsBoxProps> = ({ title, value }) => (
         </Typography.Body>
       </Flex.Item>
       <Flex.Item justify="flex-end" display="flex">
-        <Typography.Body strong secondary>
-          {value}
-        </Typography.Body>
+        <Typography.Body strong>{value}</Typography.Body>
       </Flex.Item>
     </Flex>
   </Box>

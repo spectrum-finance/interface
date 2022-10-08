@@ -29,8 +29,12 @@ const HeaderWrapper = styled.div`
   position: relative;
   display: grid;
   width: 100%;
-  padding: 1rem;
+  padding: 4px;
   grid-template-columns: 1fr 1fr;
+
+  ${device.m} {
+    padding: 1rem;
+  }
 
   @media (max-width: 720px) {
     grid-template-columns: 36px 1fr;
@@ -50,7 +54,7 @@ export const _Header: React.FC<HeaderProps> = ({
       className={cn(
         {
           scrolled,
-          scrolledFromTop: !scrolledTop,
+          scrolledFromTop: moreThan('s') && !scrolledTop,
         },
         className,
       )}
