@@ -27,6 +27,7 @@ export const ergopayDeposit = (
         additionalData.pool,
         additionalData.minTotalFee,
         additionalData.maxTotalFee,
+        additionalData.p2pkaddress,
         'deposit',
       ),
     ),
