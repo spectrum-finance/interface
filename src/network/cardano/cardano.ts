@@ -53,10 +53,7 @@ import {
   exploreToken,
   exploreTx,
 } from './utils/utils';
-import { DepositConfirmationInfo } from './widgets/DepositConfirmationInfo/DepositConfirmationInfo';
 import { OperationsSettings } from './widgets/OperationSettings/OperationsSettings';
-import { RedeemConfirmationInfo } from './widgets/RedeemConfirmationInfo/RedeemConfirmationInfo';
-import { SwapConfirmationInfo } from './widgets/SwapConfirmationInfo/SwapConfirmationInfo';
 import { SwapInfoContent } from './widgets/SwapInfoContent/SwapInfoContent';
 
 export const cardanoNetwork: Network<
@@ -106,9 +103,6 @@ export const cardanoNetwork: Network<
   setSettings,
 
   SwapInfoContent,
-  SwapConfirmationInfo,
-  DepositConfirmationInfo,
-  RedeemConfirmationInfo,
   OperationsSettings,
 
   exploreTx,
@@ -116,9 +110,9 @@ export const cardanoNetwork: Network<
   exploreLastBlock,
   exploreToken,
 
-  swap,
-  deposit,
-  redeem,
+  swap: swap as any,
+  deposit: deposit as any,
+  redeem: redeem as any,
   refund(): Observable<TxId> {
     return of('');
   },

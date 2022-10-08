@@ -1,4 +1,5 @@
 import { PublicKey, publicKeyFromAddress } from '@ergolabs/ergo-sdk';
+import { isMobile } from 'react-device-detect';
 import { filter, map, Observable, startWith, zip } from 'rxjs';
 
 import { MIN_NITRO } from '../../../common/constants/erg';
@@ -22,6 +23,7 @@ const SETTINGS_KEY = 'ergo-settings';
 export interface ErgoSettings extends BaseNetworkSettings {
   readonly minerFee: number;
   readonly pk?: PublicKey;
+  readonly ergopay: boolean;
 }
 
 export const defaultErgoSettings: ErgoSettings = {
@@ -30,6 +32,7 @@ export const defaultErgoSettings: ErgoSettings = {
   slippage: defaultSlippage,
   pk: undefined,
   address: undefined,
+  ergopay: isMobile,
 };
 
 const updateAddressSettings = (
