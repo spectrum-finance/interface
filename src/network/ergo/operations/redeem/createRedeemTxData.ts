@@ -39,6 +39,7 @@ export interface AdditionalData {
   readonly pool: ErgoAmmPool;
   readonly minTotalFee: Currency;
   readonly maxTotalFee: Currency;
+  readonly p2pkaddress: string;
   readonly x: Currency;
   readonly y: Currency;
 }
@@ -91,6 +92,7 @@ export const toRedeemOperationArgs = ({
     y,
     maxTotalFee,
     minTotalFee,
+    p2pkaddress: settings.pk,
   };
 
   return [redeemParams, txContext, additionalData];

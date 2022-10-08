@@ -27,6 +27,7 @@ export const ergoPaySwap = (
         additionalData.pool,
         additionalData.minTotalFee,
         additionalData.maxTotalFee,
+        additionalData.p2pkaddress,
         'swap',
       ),
     ),

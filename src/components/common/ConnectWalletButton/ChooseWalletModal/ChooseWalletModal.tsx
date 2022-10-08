@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   Checkbox,
+  Divider,
   Flex,
   LogoutOutlined,
   Modal,
@@ -24,6 +25,8 @@ import {
   wallets$,
 } from '../../../../gateway/api/wallets';
 import { Wallet } from '../../../../network/common/Wallet';
+import { ErgopayWalletButton } from '../../../../network/ergo/widgets/ErgopaySwitch/ErgopayWalletButton';
+import { IsErgo } from '../../../IsErgo/IsErgo';
 
 const { Body } = Typography;
 
@@ -231,6 +234,12 @@ const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
                 />
               </Flex.Item>
             ))}
+          <IsErgo>
+            <Divider />
+            <Flex.Item marginBottom={!selectedWallet ? 0 : 4} marginTop={4}>
+              <ErgopayWalletButton close={close} />
+            </Flex.Item>
+          </IsErgo>
           {selectedWallet && (
             <Button
               type="link"
