@@ -1,6 +1,7 @@
 import { Button, Flex, Form, Modal, useForm } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import React, { FC, useState } from 'react';
+import { isMobile } from 'react-device-detect';
 import { first } from 'rxjs';
 
 import { panalytics } from '../../../../common/analytics';
@@ -63,7 +64,7 @@ export const SwapOpenWallet: FC<ErgoPayOpenWalletContentProps> = ({
                 block
                 loading={loading}
               >
-                {t`Open Wallet`}
+                {isMobile ? t`Open Wallet` : t`Proceed`}
               </Button>
             </Flex.Item>
           </Flex>
