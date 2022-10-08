@@ -17,13 +17,7 @@ ${from.toCurrencyString()} → ${to.toCurrencyString()}
 Total fees: ${feeMin.toString()} - ${feeMax.toString()} ${feeMin.asset.ticker}
     `;
   },
-  deposit(
-    x: Currency,
-    y: Currency,
-    pool: AmmPool,
-    feeMin: Currency,
-    feeMax: Currency,
-  ): string {
+  deposit(x: Currency, y: Currency, pool: AmmPool, feeMin: Currency): string {
     return `
 Spectrum
 Operation: Add liquidity
@@ -36,7 +30,23 @@ Pool: ${pool.x.asset.ticker}/${pool.y.asset.ticker} (TVL: ${
         : '—'
     })
 Assets: ${x.toCurrencyString()} and ${y.toCurrencyString()}
-Total fees: ${feeMin.toString()} - ${feeMax.toString()} ${feeMin.asset.ticker}
+Total fees: ${feeMin.toCurrencyString()}
+    `;
+  },
+  redeem(x: Currency, y: Currency, pool: AmmPool, feeMin: Currency): string {
+    return `
+Spectrum
+Operation: Remove liquidity
+Pool: ${pool.x.asset.ticker}/${pool.y.asset.ticker} (TVL: ${
+      pool.tvl
+        ? formatToUSD(
+            renderFractions(pool.tvl.value, pool.tvl.units.currency.decimals),
+            'abbr',
+          )
+        : '—'
+    })
+Assets: ${x.toCurrencyString()} and ${y.toCurrencyString()}
+Total fees: ${feeMin.toCurrencyString()}
     `;
   },
 };

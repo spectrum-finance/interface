@@ -38,7 +38,9 @@ export const submitErgopayTx = (
             message:
               operation === 'swap'
                 ? ergoPayMessageManager.swap(from, to, feeMin, feeMax)
-                : ergoPayMessageManager.deposit(from, to, pool, feeMin, feeMax),
+                : operation === 'deposit'
+                ? ergoPayMessageManager.deposit(from, to, pool, feeMin)
+                : ergoPayMessageManager.redeem(from, to, pool, feeMin),
           },
         ),
       ),
