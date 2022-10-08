@@ -1,5 +1,6 @@
 import './BurgerMenu.less';
 
+import Icon from '@ant-design/icons';
 import {
   Button,
   Dropdown,
@@ -36,6 +37,7 @@ import { useQuery } from '../../../../../hooks/useQuery';
 import { ErgopaySwitch } from '../../../../../network/ergo/widgets/ErgopaySwitch/ErgopaySwitch';
 import { ThemeSwitch } from '../../../../ThemeSwitch/ThemeSwitch';
 import { DotsIcon } from '../../../Icons/DotsIcon';
+import { ReactComponent as ErgopayIcon } from './ergopay-icon.svg';
 import { ManualRefundModal } from './ManualRefundModal/ManualRefundModal';
 
 const MENU_WIDTH = 160;
@@ -117,7 +119,7 @@ const BurgerMenu = (): JSX.Element => {
     },
     {
       title: t`Ergopay`,
-      icon: <DarkModeOutlined />,
+      icon: <Icon component={ErgopayIcon} width={24} height={24} />,
       additional: <ErgopaySwitch defaultChecked size="small" />,
     },
   ];
