@@ -62,6 +62,9 @@ const updateAddressSettings = (
 };
 
 export const initializeSettings = (): void => {
+  if (isMobile && getSettings().ergopay === undefined) {
+    patchSettings({ ergopay: true });
+  }
   zip([
     getUsedAddresses().pipe(filter(Boolean)),
     getUnusedAddresses().pipe(filter(Boolean)),
