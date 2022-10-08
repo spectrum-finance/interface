@@ -88,7 +88,7 @@ const toDepositOperationArgs = ({
     pool,
     minTotalFee,
     maxTotalFee,
-    p2pkaddress: settings.pk,
+    p2pkaddress: settings.address,
   };
 
   return [depositParams, txContext, additionalData];
