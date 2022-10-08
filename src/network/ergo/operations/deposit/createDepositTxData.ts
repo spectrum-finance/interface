@@ -38,6 +38,7 @@ export interface AdditionalData {
   readonly pool: ErgoAmmPool;
   readonly minTotalFee: Currency;
   readonly maxTotalFee: Currency;
+  readonly p2pkaddress: string;
 }
 
 const toDepositOperationArgs = ({
@@ -87,6 +88,7 @@ const toDepositOperationArgs = ({
     pool,
     minTotalFee,
     maxTotalFee,
+    p2pkaddress: settings.pk,
   };
 
   return [depositParams, txContext, additionalData];

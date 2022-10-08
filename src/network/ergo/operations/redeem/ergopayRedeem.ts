@@ -28,6 +28,7 @@ export const ergopayRedeem = (
         additionalData.pool,
         additionalData.minTotalFee,
         additionalData.maxTotalFee,
+        additionalData.p2pkaddress,
         'redeem',
       ),
     ),

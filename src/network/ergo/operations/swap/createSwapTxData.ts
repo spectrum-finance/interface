@@ -44,6 +44,7 @@ export interface AdditionalData {
   readonly pool: ErgoAmmPool;
   readonly minTotalFee: Currency;
   readonly maxTotalFee: Currency;
+  readonly p2pkaddress: string;
 }
 
 const toSwapOperationArgs = ({
@@ -116,6 +117,7 @@ const toSwapOperationArgs = ({
     pool,
     minTotalFee,
     maxTotalFee,
+    p2pkaddress: settings.pk,
   };
 
   return [swapParams, txContext, additionalData];
