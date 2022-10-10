@@ -10,12 +10,19 @@ import { OrderKind } from '@ergolabs/cardano-dex-sdk/build/main/amm/models/opReq
 import { OrderAddrsV1Testnet } from '@ergolabs/cardano-dex-sdk/build/main/amm/scripts';
 import { NetworkParams } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/env';
 import { RustModule } from '@ergolabs/cardano-dex-sdk/build/main/utils/rustLoader';
-import { first, map, Observable, switchMap, zip } from 'rxjs';
+import React from 'react';
+import { first, map, Observable, Subject, switchMap, tap, zip } from 'rxjs';
 
 import { UI_FEE_BIGINT } from '../../../../common/constants/erg';
 import { Currency } from '../../../../common/models/Currency';
 import { TxId } from '../../../../common/types';
+import {
+  openConfirmationModal,
+  Operation,
+} from '../../../../components/ConfirmationModal/ConfirmationModal';
+import { AddLiquidityFormModel } from '../../../../pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityFormModel';
 import { CardanoSettings, settings$ } from '../../settings/settings';
+import { DepositConfirmationModal } from '../../widgets/DepositConfirmationModal/DepositConfirmationModal';
 import { CardanoAmmPool } from '../ammPools/CardanoAmmPool';
 import { cardanoNetworkParams$ } from '../common/cardanoNetwork';
 import { getUtxosByAmount } from '../utxos/utxos';
@@ -98,7 +105,7 @@ const toDepositTxCandidate = ({
   );
 };
 
-export const deposit = (
+export const walletDeposit = (
   pool: CardanoAmmPool,
   x: Currency,
   y: Currency,
@@ -116,3 +123,36 @@ export const deposit = (
     ),
     switchMap(submitTx),
   );
+
+export const deposit = (
+  data: Required<AddLiquidityFormModel>,
+): Observable<TxId> => {
+  const subject = new Subject<TxId>();
+
+  openConfirmationModal(
+    (next) => {
+      return (
+        <DepositConfirmationModal
+          value={data}
+          onClose={(request) =>
+            next(
+              request.pipe(
+                tap((txId) => {
+                  subject.next(txId);
+                  subject.complete();
+                }),
+              ),
+            )
+          }
+        />
+      );
+    },
+    Operation.ADD_LIQUIDITY,
+    {
+      xAsset: data.x!,
+      yAsset: data.y!,
+    },
+  );
+
+  return subject.asObservable();
+};

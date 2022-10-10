@@ -17,7 +17,7 @@ import { networkAsset, useNetworkAsset } from './api/networkAsset/networkAsset';
 import { networkContext$ } from './api/networkContext/networkContext';
 import { deposit } from './api/operations/deposit';
 import { redeem } from './api/operations/redeem';
-import { swap, walletSwap } from './api/operations/swap';
+import { swap } from './api/operations/swap';
 import { positions$ } from './api/positions/positions';
 import {
   defaultTokenAssets$,
@@ -112,7 +112,7 @@ export const cardanoNetwork: Network<
   exploreToken,
 
   swap,
-  deposit: deposit as any,
+  deposit,
   redeem: redeem as any,
   refund(): Observable<TxId> {
     return of('');

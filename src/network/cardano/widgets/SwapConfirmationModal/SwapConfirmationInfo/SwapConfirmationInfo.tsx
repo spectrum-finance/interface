@@ -2,21 +2,21 @@ import { Box, Flex, Typography } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import React, { FC, useEffect } from 'react';
 
-import { useSubject } from '../../../../common/hooks/useObservable';
-import { Currency } from '../../../../common/models/Currency';
-import { BoxInfoItem } from '../../../../components/BoxInfoItem/BoxInfoItem';
+import { useSubject } from '../../../../../common/hooks/useObservable';
+import { Currency } from '../../../../../common/models/Currency';
+import { BoxInfoItem } from '../../../../../components/BoxInfoItem/BoxInfoItem';
 import {
   FeesView,
   FeesViewItem,
-} from '../../../../components/FeesView/FeesView';
-import { Truncate } from '../../../../components/Truncate/Truncate';
-import { SwapFormModel } from '../../../../pages/Swap/SwapFormModel';
-import { CardanoAmmPool } from '../../api/ammPools/CardanoAmmPool';
-import { depositAda } from '../../settings/depositAda';
-import { useMaxExFee, useMinExFee } from '../../settings/executionFee';
-import { useMaxTotalFee, useMinTotalFee } from '../../settings/totalFee';
-import { useTransactionFee } from '../../settings/transactionFee';
-import { calculateSwapInfo, useSettings } from '../utils';
+} from '../../../../../components/FeesView/FeesView';
+import { Truncate } from '../../../../../components/Truncate/Truncate';
+import { SwapFormModel } from '../../../../../pages/Swap/SwapFormModel';
+import { CardanoAmmPool } from '../../../api/ammPools/CardanoAmmPool';
+import { depositAda } from '../../../settings/depositAda';
+import { useMaxExFee, useMinExFee } from '../../../settings/executionFee';
+import { useMaxTotalFee, useMinTotalFee } from '../../../settings/totalFee';
+import { useTransactionFee } from '../../../settings/transactionFee';
+import { calculateSwapInfo, useSettings } from '../../utils';
 
 export interface SwapConfirmationInfoProps {
   readonly value: SwapFormModel<CardanoAmmPool>;
