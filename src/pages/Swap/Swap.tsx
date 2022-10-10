@@ -23,7 +23,6 @@ import {
   of,
   skip,
   switchMap,
-  tap,
   zip,
 } from 'rxjs';
 
@@ -42,10 +41,6 @@ import {
 } from '../../components/common/ActionForm/ActionButton/ActionButton';
 import { ActionForm } from '../../components/common/ActionForm/ActionForm';
 import { AssetControlFormItem } from '../../components/common/TokenControl/AssetControl';
-import {
-  openConfirmationModal,
-  Operation,
-} from '../../components/ConfirmationModal/ConfirmationModal';
 import { Page } from '../../components/Page/Page';
 import { ammPools$, getAmmPoolsByAssetPair } from '../../gateway/api/ammPools';
 import { useAssetsBalance } from '../../gateway/api/assetBalance';
@@ -58,11 +53,12 @@ import {
   tokenAssetsToImport$,
 } from '../../gateway/api/assets';
 import { useNetworkAsset } from '../../gateway/api/networkAsset';
+import { swap } from '../../gateway/api/operations/swap';
 import { useSwapValidationFee } from '../../gateway/api/validationFees';
 import { useSelectedNetwork } from '../../gateway/common/network';
 import { operationsSettings$ } from '../../gateway/widgets/operationsSettings';
+import { ErgoPayBadge } from './ErgoPayBadge/ErgoPayBadge';
 import { PoolSelector } from './PoolSelector/PoolSelector';
-import { SwapConfirmationModal } from './SwapConfirmationModal/SwapConfirmationModal';
 import { SwapFormModel } from './SwapFormModel';
 import { SwapGraph } from './SwapGraph/SwapGraph';
 import { SwapInfo } from './SwapInfo/SwapInfo';
@@ -194,30 +190,9 @@ export const Swap = (): JSX.Element => {
     !!fromAsset && !!toAsset && !pool;
 
   const submitSwap = (value: Required<SwapFormModel>) => {
-    openConfirmationModal(
-      (next) => {
-        return (
-          <SwapConfirmationModal
-            value={value}
-            onClose={(request) =>
-              next(
-                request.pipe(
-                  tap((tx) => {
-                    resetForm();
-                    return tx;
-                  }),
-                ),
-              )
-            }
-          />
-        );
-      },
-      Operation.SWAP,
-      {
-        xAsset: value.fromAmount!,
-        yAsset: value.toAmount!,
-      },
-    );
+    swap(value)
+      .pipe(first())
+      .subscribe(() => resetForm());
     panalytics.submitSwap(value);
   };
 
@@ -411,6 +386,9 @@ export const Swap = (): JSX.Element => {
         onWidgetClose={() => setLeftWidgetOpened(false)}
       >
         <Flex col>
+          <Flex.Item>
+            <ErgoPayBadge />
+          </Flex.Item>
           <Flex row align="center">
             <Flex.Item flex={1}>
               <Typography.Title level={4}>

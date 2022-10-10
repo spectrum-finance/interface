@@ -9,19 +9,14 @@ import {
 import { t } from '@lingui/macro';
 import maxBy from 'lodash/maxBy';
 import React, { FC, useEffect, useState } from 'react';
-import { Observable, skip, tap } from 'rxjs';
+import { first, skip } from 'rxjs';
 
 import { panalytics } from '../../../common/analytics';
 import { useSubscription } from '../../../common/hooks/useObservable';
 import { AmmPool } from '../../../common/models/AmmPool';
 import { AssetInfo } from '../../../common/models/AssetInfo';
 import { Currency } from '../../../common/models/Currency';
-import { TxId } from '../../../common/types';
 import { AssetControlFormItem } from '../../../components/common/TokenControl/AssetControl';
-import {
-  openConfirmationModal,
-  Operation,
-} from '../../../components/ConfirmationModal/ConfirmationModal';
 import { IsErgo } from '../../../components/IsErgo/IsErgo';
 import {
   OperationForm,
@@ -30,11 +25,11 @@ import {
 import { Section } from '../../../components/Section/Section';
 import { useAssetsBalance } from '../../../gateway/api/assetBalance';
 import { useNetworkAsset } from '../../../gateway/api/networkAsset';
+import { deposit } from '../../../gateway/api/operations/deposit';
 import { useSwapValidationFee } from '../../../gateway/api/validationFees';
 import { PoolRatio } from '../../PoolOverview/PoolRatio/PoolRatio';
 import { normalizeAmountWithFee } from '../common/utils';
 import { LiquidityPercentInput } from '../LiquidityPercentInput/LiquidityPercentInput';
-import { AddLiquidityConfirmationModal } from './AddLiquidityConfirmationModal/AddLiquidityConfirmationModal';
 import { AddLiquidityFormModel } from './AddLiquidityFormModel';
 import { PoolSelector } from './PoolSelector/PoolSelector';
 
@@ -235,30 +230,9 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
     );
 
   const addLiquidityAction = ({ value }: FormGroup<AddLiquidityFormModel>) => {
-    openConfirmationModal(
-      (next) => {
-        return (
-          <AddLiquidityConfirmationModal
-            value={value as Required<AddLiquidityFormModel>}
-            onClose={(request: Observable<TxId>) =>
-              next(
-                request.pipe(
-                  tap((tx) => {
-                    resetForm();
-                    return tx;
-                  }),
-                ),
-              )
-            }
-          />
-        );
-      },
-      Operation.ADD_LIQUIDITY,
-      {
-        xAsset: value.x,
-        yAsset: value.y,
-      },
-    );
+    deposit(value as Required<AddLiquidityFormModel>)
+      .pipe(first())
+      .subscribe(() => resetForm());
     panalytics.submitDeposit(value);
   };
 

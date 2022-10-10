@@ -14,6 +14,7 @@ interface NetworkConfig {
   readonly networkUrl: string;
   readonly analyticUrl?: string;
   readonly metadataUrl: string;
+  readonly ergopayUrl?: string;
   readonly faucet?: string;
   readonly lowBalanceGuide?: string;
 }
@@ -78,6 +79,7 @@ export const applicationConfig: ApplicationConfig = {
       analyticUrl: 'https://api.ergodex.io/v1/',
       lowBalanceGuide:
         'https://docs.spectrum.fi/docs/user-guides/quick-start#3-get-assets',
+      ergopayUrl: 'https://ergopay-backend.fly.dev/',
     },
   },
   social: {

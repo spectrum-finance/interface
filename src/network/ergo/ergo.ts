@@ -38,10 +38,10 @@ import {
   walletState$,
 } from './api/wallet/wallet';
 import { initialize, initialized$ } from './initialized';
-import { deposit } from './operations/deposit';
-import { redeem } from './operations/redeem';
+import { deposit } from './operations/deposit/deposit';
+import { redeem } from './operations/redeem/redeem';
 import { refund } from './operations/refund';
-import { swap } from './operations/swap';
+import { swap } from './operations/swap/swap';
 import {
   ErgoSettings,
   getSettings,
@@ -60,12 +60,9 @@ import {
   exploreToken,
   exploreTx,
 } from './utils/utils';
-import { DepositConfirmationInfo } from './widgets/DepositConfirmationInfo/DepositConfirmationInfo';
 import { GlobalSettingsModal } from './widgets/GlobalSettings/GlobalSettingsModal';
 import { OperationsSettings } from './widgets/OperationSettings/OperationsSettings';
-import { RedeemConfirmationInfo } from './widgets/RedeemConfirmationInfo/RedeemConfirmationInfo';
 import { RefundConfirmationInfo } from './widgets/RefundConfirmationInfo/RefundConfirmationInfo';
-import { SwapConfirmationInfo } from './widgets/SwapConfirmationInfo/SwapConfirmationInfo';
 import { SwapInfoContent } from './widgets/SwapInfoContent/SwapInfoContent';
 
 export const ergoNetwork: Network<
@@ -123,9 +120,6 @@ export const ergoNetwork: Network<
 
   GlobalSettingsModal,
   SwapInfoContent,
-  SwapConfirmationInfo,
-  DepositConfirmationInfo,
-  RedeemConfirmationInfo,
   RefundConfirmationInfo,
   OperationsSettings,
 
