@@ -4,11 +4,11 @@ import React, { FC } from 'react';
 import {
   FeesView,
   FeesViewItem,
-} from '../../../../components/FeesView/FeesView';
-import { depositAda } from '../../settings/depositAda';
-import { useMinExFee } from '../../settings/executionFee';
-import { useMinTotalFee } from '../../settings/totalFee';
-import { useTransactionFee } from '../../settings/transactionFee';
+} from '../../../../../components/FeesView/FeesView';
+import { depositAda } from '../../../settings/depositAda';
+import { useMinExFee } from '../../../settings/executionFee';
+import { useMinTotalFee } from '../../../settings/totalFee';
+import { useTransactionFee } from '../../../settings/transactionFee';
 
 export const RedeemConfirmationInfo: FC = () => {
   const minExFee = useMinExFee('swap');

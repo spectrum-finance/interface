@@ -1,5 +1,5 @@
 import {
-  minBudgetForDeposit,
+  minBudgetForRedeem,
   mkAmmActions,
   mkAmmOutputs,
   mkTxMath,
@@ -10,12 +10,19 @@ import { OrderKind } from '@ergolabs/cardano-dex-sdk/build/main/amm/models/opReq
 import { OrderAddrsV1Testnet } from '@ergolabs/cardano-dex-sdk/build/main/amm/scripts';
 import { NetworkParams } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/env';
 import { RustModule } from '@ergolabs/cardano-dex-sdk/build/main/utils/rustLoader';
-import { first, map, Observable, switchMap, zip } from 'rxjs';
+import React from 'react';
+import { first, map, Observable, Subject, switchMap, tap, zip } from 'rxjs';
 
 import { UI_FEE_BIGINT } from '../../../../common/constants/erg';
 import { Currency } from '../../../../common/models/Currency';
 import { TxId } from '../../../../common/types';
+import {
+  openConfirmationModal,
+  Operation,
+} from '../../../../components/ConfirmationModal/ConfirmationModal';
+import { RemoveLiquidityFormModel } from '../../../../pages/RemoveLiquidity/RemoveLiquidityFormModel';
 import { CardanoSettings, settings$ } from '../../settings/settings';
+import { RedeemConfirmationModal } from '../../widgets/RedeemConfirmationModal/RedeemConfirmationModal';
 import { CardanoAmmPool } from '../ammPools/CardanoAmmPool';
 import { cardanoNetworkParams$ } from '../common/cardanoNetwork';
 import { getUtxosByAmount } from '../utxos/utxos';
@@ -25,18 +32,16 @@ import { submitTx } from './common/submitTx';
 
 interface DepositTxCandidateConfig {
   readonly pool: CardanoAmmPool;
-  readonly x: Currency;
-  readonly y: Currency;
+  readonly lq: Currency;
   readonly settings: CardanoSettings;
   readonly networkParams: NetworkParams;
 }
 
-const toDepositTxCandidate = ({
+const toRedeemTxCandidate = ({
   pool,
-  x,
-  y,
   settings,
   networkParams,
+  lq,
 }: DepositTxCandidateConfig): Observable<TxCandidate> => {
   if (!settings.address || !settings.ph) {
     throw new Error('[deposit]: wallet address is not selected');
@@ -49,44 +54,42 @@ const toDepositTxCandidate = ({
     RustModule.CardanoWasm,
   );
   const ammActions = mkAmmActions(ammOutputs, settings.address);
-  const xAmount = pool.pool.x.withAmount(x.amount);
-  const yAmount = pool.pool.y.withAmount(y.amount);
-  const lpAmount = pool.pool.rewardLP(xAmount, yAmount);
+  const lqAmount = pool.pool.lp.withAmount(lq.amount);
+  const [estimatedOutputX, estimatedOutputY] = pool.pool.shares(lqAmount);
 
-  const depositVariables = minBudgetForDeposit(
-    xAmount,
-    yAmount,
-    lpAmount,
+  const redeemVariables = minBudgetForRedeem(
+    lqAmount,
+    estimatedOutputX,
+    estimatedOutputY,
     ammTxFeeMapping,
     minExecutorReward,
     UI_FEE_BIGINT,
     txMath,
   );
 
-  if (!depositVariables) {
-    throw new Error('incorrect deposit variables');
+  if (!redeemVariables) {
+    throw new Error('incorrect redeem variables');
   }
 
-  const [depositBudget, depositValue, depositCollateral] = depositVariables;
+  const [redeemBudget, redeemValue] = redeemVariables;
 
-  return getUtxosByAmount(depositValue).pipe(
+  return getUtxosByAmount(redeemValue).pipe(
     map((utxos) =>
       ammActions.createOrder(
         {
-          kind: OrderKind.Deposit,
+          kind: OrderKind.Redeem,
           poolId: pool.pool.id,
-          x: xAmount,
-          y: yAmount,
-          lq: lpAmount.asset,
+          x: pool.pool.x.asset,
+          y: pool.pool.y.asset,
+          lq: lqAmount,
           rewardPkh: settings.ph!,
           stakePkh: stakeKeyHashFromAddr(
             settings.address!,
             RustModule.CardanoWasm,
           ),
+          exFee: minExecutorReward + ammTxFeeMapping.redeemExecution,
           uiFee: UI_FEE_BIGINT,
-          exFee: minExecutorReward + ammTxFeeMapping.depositExecution,
-          orderValue: depositBudget,
-          collateralAda: depositCollateral,
+          orderValue: redeemBudget,
         },
         {
           changeAddr: settings.address!,
@@ -98,21 +101,54 @@ const toDepositTxCandidate = ({
   );
 };
 
-export const deposit = (
+export const walletRedeem = (
   pool: CardanoAmmPool,
-  x: Currency,
-  y: Currency,
+  lq: Currency,
 ): Observable<TxId> =>
   zip([cardanoNetworkParams$, settings$]).pipe(
     first(),
     switchMap(([networkParams, settings]) =>
-      toDepositTxCandidate({
+      toRedeemTxCandidate({
         pool,
-        x,
-        y,
+        lq,
         networkParams,
         settings,
       }),
     ),
     switchMap(submitTx),
   );
+
+export const redeem = (
+  pool: CardanoAmmPool,
+  data: Required<RemoveLiquidityFormModel>,
+): Observable<TxId> => {
+  const subject = new Subject<TxId>();
+
+  openConfirmationModal(
+    (next) => {
+      return (
+        <RedeemConfirmationModal
+          pool={pool}
+          value={data}
+          onClose={(request) =>
+            next(
+              request.pipe(
+                tap((txId) => {
+                  subject.next(txId);
+                  subject.complete();
+                }),
+              ),
+            )
+          }
+        />
+      );
+    },
+    Operation.REMOVE_LIQUIDITY,
+    {
+      xAsset: data.xAmount,
+      yAsset: data.yAmount,
+    },
+  );
+
+  return subject.asObservable();
+};

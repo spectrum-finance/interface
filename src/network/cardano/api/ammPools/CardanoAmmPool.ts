@@ -11,7 +11,6 @@ import { cache } from 'decorator-cache-getter';
 import { AmmPool } from '../../../../common/models/AmmPool';
 import { AssetInfo } from '../../../../common/models/AssetInfo';
 import { Currency } from '../../../../common/models/Currency';
-import { PoolChartData } from '../../../../common/models/PoolChartData';
 import { AnalyticsData } from '../../../../services/new/analytics';
 import { networkAsset } from '../networkAsset/networkAsset';
 
@@ -107,6 +106,7 @@ export class CardanoAmmPool extends AmmPool {
       name: asset.name,
       id: assetInfo?.id || mkSubject(asset),
       decimals: assetInfo?.decimals || 0,
+      ticker: assetInfo?.ticker,
       icon: assetInfo?.icon,
       data: asset,
     };

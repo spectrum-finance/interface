@@ -10,14 +10,19 @@ import { OrderKind } from '@ergolabs/cardano-dex-sdk/build/main/amm/models/opReq
 import { OrderAddrsV1Testnet } from '@ergolabs/cardano-dex-sdk/build/main/amm/scripts';
 import { NetworkParams } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/env';
 import { RustModule } from '@ergolabs/cardano-dex-sdk/build/main/utils/rustLoader';
-import { first, map, Observable, switchMap, zip } from 'rxjs';
+import React from 'react';
+import { first, map, Observable, Subject, switchMap, tap, zip } from 'rxjs';
 
 import { UI_FEE_BIGINT } from '../../../../common/constants/erg';
 import { Currency } from '../../../../common/models/Currency';
 import { Nitro, Percent, TxId } from '../../../../common/types';
-import { nitro$ } from '../../../ergo/settings/nitro';
-import { slippage$ } from '../../../ergo/settings/slippage';
+import {
+  openConfirmationModal,
+  Operation,
+} from '../../../../components/ConfirmationModal/ConfirmationModal';
+import { SwapFormModel } from '../../../../pages/Swap/SwapFormModel';
 import { CardanoSettings, settings$ } from '../../settings/settings';
+import { SwapConfirmationModal } from '../../widgets/SwapConfirmationModal/SwapConfirmationModal';
 import { CardanoAmmPool } from '../ammPools/CardanoAmmPool';
 import { cardanoNetworkParams$ } from '../common/cardanoNetwork';
 import { getUtxosByAmount } from '../utxos/utxos';
@@ -105,23 +110,54 @@ const toSwapTxCandidate = ({
   );
 };
 
-export const swap = (
+export const walletSwap = (
   pool: CardanoAmmPool,
   from: Currency,
   to: Currency,
 ): Observable<TxId> =>
-  zip([cardanoNetworkParams$, settings$, slippage$, nitro$]).pipe(
+  zip([cardanoNetworkParams$, settings$]).pipe(
     first(),
-    switchMap(([networkParams, settings, slippage, nitro]) =>
+    switchMap(([networkParams, settings]) =>
       toSwapTxCandidate({
         pool,
         from,
         to,
         networkParams,
         settings,
-        slippage,
-        nitro,
+        slippage: settings.slippage,
+        nitro: settings.nitro,
       }),
     ),
     switchMap(submitTx),
   );
+
+export const swap = (data: Required<SwapFormModel>): Observable<TxId> => {
+  const subject = new Subject<string>();
+
+  openConfirmationModal(
+    (next) => {
+      return (
+        <SwapConfirmationModal
+          value={data}
+          onClose={(request) =>
+            next(
+              request.pipe(
+                tap((txId) => {
+                  subject.next(txId);
+                  subject.complete();
+                }),
+              ),
+            )
+          }
+        />
+      );
+    },
+    Operation.SWAP,
+    {
+      xAsset: data.fromAmount!,
+      yAsset: data.toAmount!,
+    },
+  );
+
+  return subject;
+};
