@@ -11,7 +11,7 @@ import { catchError, from, map, Observable, of, tap } from 'rxjs';
 import { applicationConfig } from '../../../../../applicationConfig';
 import { AssetInfo } from '../../../../../common/models/AssetInfo';
 import { networkAsset } from '../../networkAsset/networkAsset';
-import { CardanoAssetInfo } from './mocks';
+import { assets, CardanoAssetInfo } from './mocks';
 
 const mapSubjectToAssetInfo = new Map<string, AssetInfo>();
 
@@ -22,6 +22,7 @@ const toAssetInfo = (
   return {
     id: cai?.subject || mkSubject(ac),
     name: cai?.name?.value || ac.name,
+    ticker: cai?.ticker?.value || ac.name,
     decimals: cai?.decimals?.value || 0,
     icon: `data:image/png;base64, ${cai?.logo?.value || ''}`,
     data: ac,
@@ -51,6 +52,9 @@ export const mapAssetClassToAssetInfo = (
 
   if (ac.policyId === AdaPolicyId && ac.name === AdaAssetName) {
     return of(networkAsset);
+  }
+  if (assets[assetSubject]) {
+    return of(toAssetInfo(ac, assets[assetSubject]));
   }
 
   return getCardanoAssetInfo(assetSubject).pipe(

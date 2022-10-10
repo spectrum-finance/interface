@@ -20,7 +20,7 @@ import { networkAssetBalance$ } from './api/balance/networkAssetBalance';
 import { importTokenAsset } from './api/common/availablePoolsOrTokens';
 import { convertToConvenientNetworkAsset } from './api/ergoUsdRatio/ergoUsdRatio';
 import { locks$ } from './api/locks/locks';
-import { networkAsset } from './api/networkAsset/networkAsset';
+import { networkAsset, useNetworkAsset } from './api/networkAsset/networkAsset';
 import { networkContext$ } from './api/networkContext/networkContext';
 import { isSyncing$, sync } from './api/operations/history/transactionHistory';
 import { getOperationByTxId, getOperations } from './api/operations/operations';
@@ -125,6 +125,7 @@ export const ergoNetwork: Network<
 
   convertToConvenientNetworkAsset,
 
+  useNetworkAsset,
   useSwapValidationFee,
   useDepositValidationFee,
   useRedeemValidationFee,
