@@ -54,7 +54,7 @@ export const applicationConfig: ApplicationConfig = {
   operationTimeoutTime: 60_000,
   cookieDomain:
     process.env.NODE_ENV === 'production' ? 'spectrum.fi' : undefined,
-  cardanoMaintenance: true,
+  cardanoMaintenance: false,
   defaultTokenListUrl:
     'https://raw.githubusercontent.com/ergolabs/default-token-list/master/src/tokens',
   // cardanoUpdate: {
