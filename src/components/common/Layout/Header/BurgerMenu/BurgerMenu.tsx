@@ -1,5 +1,3 @@
-import './BurgerMenu.less';
-
 import Icon from '@ant-design/icons';
 import {
   Button,
@@ -23,7 +21,6 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { ReactComponent as DarkModeOutlined } from '../../../../../assets/icons/darkmode.svg';
 import { panalytics } from '../../../../../common/analytics';
 import {
   LOCALE_LABEL,
@@ -40,11 +37,29 @@ import { DotsIcon } from '../../../Icons/DotsIcon';
 import { ReactComponent as ErgopayIcon } from './ergopay-icon.svg';
 import { ManualRefundModal } from './ManualRefundModal/ManualRefundModal';
 
-const MENU_WIDTH = 160;
+const StyledMenu = styled(Menu)`
+  padding: calc(var(--spectrum-base-gutter) * 2);
+  min-width: 233px;
+`;
+
+const ThemeSwitchContainer = styled.div`
+  padding: 0 0 0.5rem;
+`;
+
+const OtherMenuItem = styled(Menu.Item)`
+  .ant-dropdown-menu-title-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  padding: 0 calc(var(--spectrum-base-gutter) * 2);
+  height: 36px;
+`;
 
 const ContributeLanguageButton = styled(Button)`
-  width: 140px;
-  margin: 0 10px;
+  margin-top: 8px;
+  width: 100%;
 `;
 
 const BurgerMenu = (): JSX.Element => {
@@ -104,6 +119,11 @@ const BurgerMenu = (): JSX.Element => {
         }
       : undefined,
     {
+      title: t`Ergopay`,
+      icon: <Icon component={ErgopayIcon} width={24} height={24} />,
+      additional: <ErgopaySwitch defaultChecked size="small" />,
+    },
+    {
       title: t`Language`,
       icon: <GlobalOutlined />,
       additional: <RightOutlined style={{ marginLeft: 36 }} />,
@@ -111,16 +131,6 @@ const BurgerMenu = (): JSX.Element => {
         panalytics.clickBurgerMenu('Language');
         setIsMainMenu(false);
       },
-    },
-    {
-      title: t`Dark mode`,
-      icon: <DarkModeOutlined />,
-      additional: <ThemeSwitch defaultChecked size="small" />,
-    },
-    {
-      title: t`Ergopay`,
-      icon: <Icon component={ErgopayIcon} width={24} height={24} />,
-      additional: <ErgopaySwitch defaultChecked size="small" />,
     },
   ];
 
@@ -132,12 +142,14 @@ const BurgerMenu = (): JSX.Element => {
   };
 
   const menuOthers = (
-    <Menu style={{ minWidth: MENU_WIDTH }}>
+    <StyledMenu>
+      <ThemeSwitchContainer>
+        <ThemeSwitch />
+      </ThemeSwitchContainer>
       {menu.map(
         (item, index) =>
           item && (
-            <Menu.Item
-              className="ergodex-menu-item"
+            <OtherMenuItem
               key={index + 1}
               icon={item.icon}
               style={{
@@ -153,24 +165,20 @@ const BurgerMenu = (): JSX.Element => {
                 {item.title}
               </a>
               {item.additional && item.additional}
-            </Menu.Item>
+            </OtherMenuItem>
           ),
       )}
-    </Menu>
+    </StyledMenu>
   );
 
   const menuLanguages = (
-    <Menu
-      style={{
-        minWidth: MENU_WIDTH,
-      }}
-    >
-      <Menu.Item key="langs-back" icon={<LeftOutlined />}>
+    <StyledMenu>
+      <OtherMenuItem key="langs-back" icon={<LeftOutlined />}>
         <a onClick={() => setIsMainMenu(true)} rel="noopener noreferrer" />
-      </Menu.Item>
+      </OtherMenuItem>
       {SUPPORTED_LOCALES.map((locale) => {
         return (
-          <Menu.Item key={locale}>
+          <OtherMenuItem key={locale}>
             <Link
               replace={true}
               to={{
@@ -185,7 +193,7 @@ const BurgerMenu = (): JSX.Element => {
             >
               {LOCALE_LABEL[locale]}
             </Link>
-          </Menu.Item>
+          </OtherMenuItem>
         );
       })}
       <ContributeLanguageButton
@@ -196,7 +204,7 @@ const BurgerMenu = (): JSX.Element => {
       >
         <Trans>Contribute</Trans>
       </ContributeLanguageButton>
-    </Menu>
+    </StyledMenu>
   );
 
   const onMenuVisibleChange = (flag: boolean) => {
