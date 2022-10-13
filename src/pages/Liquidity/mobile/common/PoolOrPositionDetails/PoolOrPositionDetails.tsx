@@ -17,15 +17,20 @@ const StyledButton = styled(Button)`
 export const PoolOrPositionDetails: FC<
   LiquidityPoolOrPositionDetailsProps<any>
 > = ({ poolMapper, item, children }) => {
-  const tvl = poolMapper(item).tvl;
-  const volume = poolMapper(item).volume;
-  const yearlyFeesPercent = poolMapper(item).yearlyFeesPercent;
+  const pool = poolMapper(item);
+
+  const tvl = pool.tvl;
+  const volume = pool.volume;
+  const yearlyFeesPercent = pool.yearlyFeesPercent;
 
   const navigate = useNavigate();
 
-  const overviewPool = () => navigate(poolMapper(item).id);
+  const overviewPool = () => navigate(pool.id);
 
-  const navigateToSwap = () => navigate('../../swap');
+  const navigateToSwap = () =>
+    navigate(
+      `../../swap?base=${pool.x.asset.id}&quote=${pool.y.asset.id}&pool=${pool.id}`,
+    );
 
   return (
     <Box padding={2} bordered={false} transparent={true}>
@@ -36,12 +41,10 @@ export const PoolOrPositionDetails: FC<
             value={
               <Flex col>
                 <Flex.Item marginBottom={1} display="flex" justify="flex-end">
-                  {poolMapper(item).x.asset.ticker}:{' '}
-                  {poolMapper(item).x.toString()}
+                  {pool.x.asset.ticker}: {pool.x.toString()}
                 </Flex.Item>
                 <Flex.Item display="flex" justify="flex-end">
-                  {poolMapper(item).y.asset.ticker}:{' '}
-                  {poolMapper(item).y.toString()}
+                  {pool.y.asset.ticker}: {pool.y.toString()}
                 </Flex.Item>
               </Flex>
             }
@@ -54,14 +57,12 @@ export const PoolOrPositionDetails: FC<
             value={
               <Flex col>
                 <Flex.Item marginBottom={1} display="flex" justify="flex-end">
-                  {poolMapper(item).xRatio.toString()}{' '}
-                  {poolMapper(item).xRatio.baseAsset.ticker}/
-                  {poolMapper(item).xRatio.quoteAsset.ticker}
+                  {pool.xRatio.toString()} {pool.xRatio.baseAsset.ticker}/
+                  {pool.xRatio.quoteAsset.ticker}
                 </Flex.Item>
                 <Flex.Item display="flex" justify="flex-end">
-                  {poolMapper(item).yRatio.toString()}{' '}
-                  {poolMapper(item).yRatio.baseAsset.ticker}/
-                  {poolMapper(item).yRatio.quoteAsset.ticker}
+                  {pool.yRatio.toString()} {pool.yRatio.baseAsset.ticker}/
+                  {pool.yRatio.quoteAsset.ticker}
                 </Flex.Item>
               </Flex>
             }
@@ -70,7 +71,7 @@ export const PoolOrPositionDetails: FC<
         <DetailRow marginBottom={2}>
           <DetailsBox
             title={<Trans>Fee</Trans>}
-            value={<Trans>{poolMapper(item).poolFee}%</Trans>}
+            value={<Trans>{pool.poolFee}%</Trans>}
           />
         </DetailRow>
         <DetailRow marginBottom={2}>

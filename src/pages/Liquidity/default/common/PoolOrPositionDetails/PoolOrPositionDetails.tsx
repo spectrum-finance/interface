@@ -11,9 +11,14 @@ export const PoolOrPositionDetails: FC<
 > = ({ poolMapper, item, children }) => {
   const navigate = useNavigate();
 
-  const overviewPool = () => navigate(poolMapper(item).id);
+  const pool = poolMapper(item);
 
-  const navigateToSwap = () => navigate('../../swap');
+  const overviewPool = () => navigate(pool.id);
+
+  const navigateToSwap = () =>
+    navigate(
+      `../../swap?base=${pool.x.asset.id}&quote=${pool.y.asset.id}&pool=${pool.id}`,
+    );
 
   return (
     <Flex stretch align="center">
@@ -23,10 +28,10 @@ export const PoolOrPositionDetails: FC<
             <Trans>Total liquidity</Trans>
           </Typography.Body>
           <Typography.Body strong>
-            {poolMapper(item).x.asset.ticker}: {poolMapper(item).x.toString()}
+            {pool.x.asset.ticker}: {poolMapper(item).x.toString()}
           </Typography.Body>
           <Typography.Body strong>
-            {poolMapper(item).y.asset.ticker}: {poolMapper(item).y.toString()}
+            {pool.y.asset.ticker}: {poolMapper(item).y.toString()}
           </Typography.Body>
         </Flex>
       </Flex.Item>
@@ -37,14 +42,12 @@ export const PoolOrPositionDetails: FC<
             <Trans>Price</Trans>
           </Typography.Body>
           <Typography.Body strong>
-            {poolMapper(item).xRatio.toString()}{' '}
-            {poolMapper(item).xRatio.baseAsset.ticker}/
-            {poolMapper(item).xRatio.quoteAsset.ticker}
+            {pool.xRatio.toString()} {pool.xRatio.baseAsset.ticker}/
+            {pool.xRatio.quoteAsset.ticker}
           </Typography.Body>
           <Typography.Body strong>
-            {poolMapper(item).yRatio.toString()}{' '}
-            {poolMapper(item).yRatio.baseAsset.ticker}/
-            {poolMapper(item).yRatio.quoteAsset.ticker}
+            {pool.yRatio.toString()} {pool.yRatio.baseAsset.ticker}/
+            {pool.yRatio.quoteAsset.ticker}
           </Typography.Body>
         </Flex>
       </Flex.Item>
