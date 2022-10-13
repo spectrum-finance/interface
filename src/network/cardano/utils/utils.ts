@@ -5,7 +5,7 @@ import { AssetInfo } from '../../../common/models/AssetInfo';
 
 export const exploreTx = (txId: TxId): unknown =>
   window.open(
-    `${applicationConfig.networksSettings.cardano.explorerUrl}/transaction/${txId}`,
+    `${applicationConfig.networksSettings.cardano.explorerUrl}/tx/${txId}`,
     '_blank',
   );
 
