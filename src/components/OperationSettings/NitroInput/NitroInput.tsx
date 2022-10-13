@@ -60,6 +60,7 @@ const _NitroInput: FC<NitroInputProps> = ({
             </Flex.Item>
             <Flex.Item flex={1}>
               <Input
+                inputMode="decimal"
                 isActive={!isMinimumNitro}
                 type="number"
                 style={{ textAlign: 'right' }}
