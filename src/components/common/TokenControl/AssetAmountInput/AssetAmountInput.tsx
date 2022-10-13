@@ -66,6 +66,7 @@ const _TokenAmountInput: React.FC<TokenAmountInputProps> = ({
       value={userInput || ''}
       className={className}
       type="tel"
+      inputMode="decimal"
       onValueChange={({ value }, { source }) => {
         if (source === 'event') {
           enforcer(value);

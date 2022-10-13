@@ -60,6 +60,7 @@ const _SlippageInput: FC<NitroInputProps> = ({
             ))}
             <Flex.Item>
               <Input
+                inputMode="decimal"
                 className={className}
                 style={{ width: '128px' }}
                 value={value}
