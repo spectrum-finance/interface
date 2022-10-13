@@ -325,12 +325,17 @@ export const Swap = (): JSX.Element => {
   useSubscription(
     form.controls.pool.valueChanges$,
     () => {
-      const { fromAmount, toAmount, pool } = form.value;
-      setSearchParams({ initialPoolId: pool?.id });
+      const { fromAmount, toAmount, fromAsset, toAsset, pool } = form.value;
 
       if (!pool) {
         return;
       }
+
+      setSearchParams({
+        base: fromAsset?.id,
+        quote: toAsset?.id,
+        initialPoolId: pool?.id,
+      });
 
       if (lastEditedField === 'from' && fromAmount && fromAmount.isPositive()) {
         form.controls.toAmount.patchValue(
