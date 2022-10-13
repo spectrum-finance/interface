@@ -29,7 +29,7 @@ export const PoolOrPositionDetails: FC<
 
   const navigateToSwap = () =>
     navigate(
-      `../../swap?base=${pool.x.asset.id}&quote=${pool.y.asset.id}&pool=${pool.id}`,
+      `../../swap?base=${pool.x.asset.id}&quote=${pool.y.asset.id}&initialPoolId=${pool.id}`,
     );
 
   return (

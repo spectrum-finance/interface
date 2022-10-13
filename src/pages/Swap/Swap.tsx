@@ -98,8 +98,8 @@ export const Swap = (): JSX.Element => {
   const [balance] = useAssetsBalance();
   const [, allAmmPoolsLoading] = useObservable(ammPools$);
   const totalFees = useSwapValidationFee();
-  const [{ base, quote }, setSearchParams] =
-    useSearchParams<{ base: string; quote: string }>();
+  const [{ base, quote, initialPoolId }, setSearchParams] =
+    useSearchParams<{ base: string; quote: string; initialPoolId: string }>();
   const [OperationSettings] = useObservable(operationsSettings$);
   const [reversedRatio, setReversedRatio] = useState(false);
   const updateToAssets$ = useMemo(
@@ -273,9 +273,17 @@ export const Swap = (): JSX.Element => {
         return;
       }
 
-      const newPool =
-        pools.find((p) => p.id === form.value.pool?.id) ||
-        maxBy(pools, (p) => p.x.amount * p.y.amount);
+      let newPool: AmmPool | undefined;
+
+      if (!form.value.pool && initialPoolId) {
+        newPool =
+          pools.find((p) => p.id === initialPoolId) ||
+          maxBy(pools, (p) => p.x.amount * p.y.amount);
+      } else {
+        newPool =
+          pools.find((p) => p.id === form.value.pool?.id) ||
+          maxBy(pools, (p) => p.x.amount * p.y.amount);
+      }
 
       form.patchValue({ pool: newPool });
     },
@@ -318,6 +326,7 @@ export const Swap = (): JSX.Element => {
     form.controls.pool.valueChanges$,
     () => {
       const { fromAmount, toAmount, pool } = form.value;
+      setSearchParams({ initialPoolId: pool?.id });
 
       if (!pool) {
         return;
