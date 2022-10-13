@@ -1,5 +1,5 @@
-import { Tabs } from '@ergolabs/ui-kit';
-import { t } from '@lingui/macro';
+import { Flex, Tabs, Typography } from '@ergolabs/ui-kit';
+import { t, Trans } from '@lingui/macro';
 import React, { FC, useCallback } from 'react';
 import styled from 'styled-components';
 
@@ -26,15 +26,22 @@ const _ThemeSwitch: FC<ThemeSwitchProps> = ({ className }) => {
   );
 
   return (
-    <Tabs
-      className={className}
-      onChange={handleChangeTheme as any}
-      activeKey={theme || 'light'}
-    >
-      <Tabs.TabPane tab={t`Light`} key="light" />
-      <Tabs.TabPane tab={t`Dark`} key="dark" />
-      <Tabs.TabPane tab={t`System`} key="system" />
-    </Tabs>
+    <Flex col>
+      <Flex.Item marginBottom={1}>
+        <Typography.Body size="small">
+          <Trans>Theme</Trans>
+        </Typography.Body>
+      </Flex.Item>
+      <Tabs
+        className={className}
+        onChange={handleChangeTheme as any}
+        activeKey={theme || 'light'}
+      >
+        <Tabs.TabPane tab={t`Light`} key="light" />
+        <Tabs.TabPane tab={t`Dark`} key="dark" />
+        <Tabs.TabPane tab={t`System`} key="system" />
+      </Tabs>
+    </Flex>
   );
 };
 

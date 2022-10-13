@@ -43,7 +43,9 @@ const StyledMenu = styled(Menu)`
 `;
 
 const ThemeSwitchContainer = styled.div`
+  border-bottom: 1px solid var(--spectrum-tab-border-color);
   padding: 0 0 0.5rem;
+  margin-bottom: 0.5rem;
 `;
 
 const OtherMenuItem = styled(Menu.Item)`
