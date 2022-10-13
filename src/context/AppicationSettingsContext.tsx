@@ -9,7 +9,7 @@ import { isDarkOsTheme } from '../utils/osTheme';
 
 export type Settings = {
   explorerUrl: string;
-  theme: 'light' | 'dark';
+  theme: 'light' | 'dark' | 'system';
   lang: SupportedLocale;
 };
 
