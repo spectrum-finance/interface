@@ -16,6 +16,7 @@ import { useSelectedNetwork } from '../../../gateway/common/network';
 import { useBodyClass } from '../../../hooks/useBodyClass';
 import { useMetaThemeColor } from '../../../hooks/useMetaThemeColor';
 import { openCookiePolicy } from '../../../services/notifications/CookiePolicy/CookiePolicy';
+import { isDarkOsTheme } from '../../../utils/osTheme';
 import { NetworkHeight } from '../../NetworkHeight/NetworkHeight';
 import { RebrandingModal } from '../../RebrandingModal/RebrandingModal';
 import { useRebrandingShowed } from '../../RebrandingModal/useRebrandingShowed';
@@ -55,7 +56,16 @@ const _Layout: FC<PropsWithChildren<{ className?: string }>> = ({
   const [rebrandingShowed, markRebrandingAsShowed] = useRebrandingShowed();
 
   useBodyClass([theme, network.name.toLowerCase()]);
-  useMetaThemeColor({ dark: '#1D1D1D', light: `#F0F2F5` }, theme);
+  useMetaThemeColor(
+    {
+      dark: '#1D1D1D',
+      light: `#F0F2F5`,
+      get system() {
+        return isDarkOsTheme() ? this.dark : this.light;
+      },
+    },
+    theme,
+  );
   const [{ isKYAAccepted }] = useAppLoadingState();
 
   useEffect(() => {

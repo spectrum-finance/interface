@@ -12,7 +12,7 @@ export type PAnalytics = {
   tokenAssignment?: AnalyticsTokenAssignment;
 };
 
-export type AnalyticsTheme = 'light' | 'dark';
+export type AnalyticsTheme = 'light' | 'dark' | 'system';
 
 export type AnalyticsAppOperations =
   | 'swap'

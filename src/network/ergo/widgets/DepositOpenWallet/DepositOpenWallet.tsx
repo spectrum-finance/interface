@@ -13,6 +13,7 @@ import { AddLiquidityFormModel } from '../../../../pages/AddLiquidityOrCreatePoo
 import { PoolRatio } from '../../../../pages/PoolOverview/PoolRatio/PoolRatio';
 import { ergopayDeposit } from '../../operations/deposit/ergopayDeposit';
 import { DepositConfirmationInfo } from '../DepositConfirmationModal/DepositConfirmationInfo/DepositConfirmationInfo';
+import { ErgoPayCompatibleWalletLink } from '../ErgoPayModal/ErgoPayCompatibleWalletLink/ErgoPayCompatibleWalletLink';
 
 export interface DepositOpenWalletProps {
   readonly value: Required<AddLiquidityFormModel>;
@@ -71,6 +72,9 @@ export const DepositOpenWallet: FC<DepositOpenWalletProps> = ({
             <PageSection title={t`Fees`}>
               <DepositConfirmationInfo />
             </PageSection>
+          </Flex.Item>
+          <Flex.Item marginBottom={2} alignSelf="center">
+            <ErgoPayCompatibleWalletLink />
           </Flex.Item>
           <Flex.Item>
             <Button

@@ -43,6 +43,7 @@ export const MinerFeeInput: FC<MinerFeeInputProps> = ({
           </Flex.Item>
           <Flex.Item flex={1}>
             <Input
+              inputMode="decimal"
               size="large"
               placeholder="> 0.002"
               type="number"

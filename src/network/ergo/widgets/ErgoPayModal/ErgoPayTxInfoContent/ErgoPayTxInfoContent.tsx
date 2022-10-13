@@ -3,6 +3,7 @@ import { t, Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import QRCode from 'react-qr-code';
+import styled from 'styled-components';
 
 import { TxId } from '../../../../../common/types';
 import { createDeepLink } from '../common/ergopayLinks';
@@ -10,6 +11,10 @@ import { createDeepLink } from '../common/ergopayLinks';
 export interface ErgoPayTxInfoContentProps {
   readonly txId: TxId;
 }
+
+const FullWidthButton = styled(Button)`
+  width: 100%;
+`;
 
 export const ErgoPayTxInfoContent: FC<ErgoPayTxInfoContentProps> = ({
   txId,
@@ -51,14 +56,27 @@ export const ErgoPayTxInfoContent: FC<ErgoPayTxInfoContentProps> = ({
               <Trans>or</Trans>
             </Typography.Body>
           </Flex.Item>
-          <CopyToClipboard
-            text={createDeepLink(txId)}
-            onCopy={() => message.success(t`Copied to clipboard!`)}
-          >
-            <Button type="default" size="large">
-              <Trans>Copy request</Trans>
-            </Button>
-          </CopyToClipboard>
+          <Flex.Item display="flex" align="center" width="100%">
+            <Flex.Item marginRight={2} flex={1}>
+              <CopyToClipboard
+                text={createDeepLink(txId)}
+                onCopy={() => message.success(t`Copied to clipboard!`)}
+              >
+                <FullWidthButton type="default" size="large">
+                  <Trans>Copy request</Trans>
+                </FullWidthButton>
+              </CopyToClipboard>
+            </Flex.Item>
+            <Flex.Item flex={1}>
+              <FullWidthButton
+                type="primary"
+                size="large"
+                href={createDeepLink(txId)}
+              >
+                <Trans>Open wallet</Trans>
+              </FullWidthButton>
+            </Flex.Item>
+          </Flex.Item>
         </Flex>
       </Modal.Content>
     </>

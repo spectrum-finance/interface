@@ -11,6 +11,7 @@ import { PageSection } from '../../../../components/Page/PageSection/PageSection
 import { RemoveLiquidityFormModel } from '../../../../pages/RemoveLiquidity/RemoveLiquidityFormModel';
 import { ErgoAmmPool } from '../../api/ammPools/ErgoAmmPool';
 import { ergopayRedeem } from '../../operations/redeem/ergopayRedeem';
+import { ErgoPayCompatibleWalletLink } from '../ErgoPayModal/ErgoPayCompatibleWalletLink/ErgoPayCompatibleWalletLink';
 import { RedeemConfirmationInfo } from '../RedeemConfirmationModal/RedeemConfirmationInfo/RedeemConfirmationInfo';
 
 export interface RedeemOpenWalletProps {
@@ -59,6 +60,9 @@ export const RedeemOpenWallet: FC<RedeemOpenWalletProps> = ({
               <PageSection title={t`Fees`}>
                 <RedeemConfirmationInfo />
               </PageSection>
+            </Flex.Item>
+            <Flex.Item marginBottom={2} alignSelf="center">
+              <ErgoPayCompatibleWalletLink />
             </Flex.Item>
             <Flex.Item>
               <Button

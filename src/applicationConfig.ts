@@ -54,7 +54,7 @@ export const applicationConfig: ApplicationConfig = {
   operationTimeoutTime: 60_000,
   cookieDomain:
     process.env.NODE_ENV === 'production' ? 'spectrum.fi' : undefined,
-  cardanoMaintenance: true,
+  cardanoMaintenance: false,
   defaultTokenListUrl:
     'https://raw.githubusercontent.com/ergolabs/default-token-list/master/src/tokens',
   // cardanoUpdate: {
@@ -67,7 +67,7 @@ export const applicationConfig: ApplicationConfig = {
     cardano: {
       metadataUrl: 'https://testnet-meta.ergodex.io/metadata',
       networkUrl: 'https://testnet-api.quickblue.io/v1',
-      explorerUrl: 'https://testnet.cardanoscan.io',
+      explorerUrl: 'https://preview.cexplorer.io',
       faucet: 'https://faucet.ergodex.io/v1/',
       lowBalanceGuide: '',
     },
