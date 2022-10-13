@@ -67,7 +67,7 @@ export const applicationConfig: ApplicationConfig = {
     cardano: {
       metadataUrl: 'https://testnet-meta.ergodex.io/metadata',
       networkUrl: 'https://testnet-api.quickblue.io/v1',
-      explorerUrl: 'https://testnet.cardanoscan.io',
+      explorerUrl: 'https://preview.cexplorer.io',
       faucet: 'https://faucet.ergodex.io/v1/',
       lowBalanceGuide: '',
     },
