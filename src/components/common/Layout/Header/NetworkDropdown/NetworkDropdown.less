@@ -31,7 +31,46 @@
     padding-left: calc(var(--spectrum-base-gutter) * 4);
     margin-bottom: var(--spectrum-base-gutter) !important;
   }
+  &__btn--ergo {
+    border: 1px solid #cb5d2e;
 
+    background-color: rgba(236, 105, 51, 0.25);
+    border-radius: 4px;
+
+    &:hover,
+    &:focus {
+      border: 1px solid #cb5d2e;
+
+      background-color: rgba(236, 105, 51, 0.35);
+      border-radius: 4px;
+    }
+    &:active {
+      border: 1px solid #cb5d2e;
+
+      background-color: rgba(236, 105, 51, 0.5);
+      border-radius: 4px;
+    }
+  }
+  &__btn--cardano {
+    border: 1px solid #3f6ad6;
+
+    background: rgba(68, 103, 191, 0.25);
+
+    border-radius: 4px;
+    &:hover,
+    &:focus {
+      border: 1px solid #3f6ad6;
+
+      background: rgba(68, 103, 191, 0.35);
+      border-radius: 4px;
+    }
+    &:active {
+      border: 1px solid #3f6ad6;
+
+      background-color: rgba(68, 103, 191, 0.5);
+      border-radius: 4px;
+    }
+  }
   &__btn-text {
     display: none;
     @media (min-width: 700px) {
