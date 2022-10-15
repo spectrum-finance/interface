@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ergodex-frontend\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-10-15 17:31\n"
+"PO-Revision-Date: 2022-10-15 18:32\n"
 "Last-Translator: \n"
 "Language: pt_PT\n"
 "Language-Team: Portuguese\n"
@@ -283,7 +283,7 @@ msgstr "Documentação"
 
 #: src/components/WalletModal/LowBalanceWarning/LowBalanceWarning.tsx
 msgid "ERG balance is low"
-msgstr ""
+msgstr "O saldo ERG é baixo"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 #~ msgid "Enter an A  mount"
@@ -301,7 +301,7 @@ msgstr "Insira um Preço Inicial"
 
 #: src/components/WalletModal/WalletModal.tsx
 msgid "Ergo network"
-msgstr ""
+msgstr "Rede Ergo"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "ErgoDEX Smart Contracts"
@@ -313,11 +313,11 @@ msgstr "A equipe ErgoDEX não garante a ausência de bugs e erros."
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "ErgoDEX is a decentralized financial (DeFi) application which means it doesn’t have a central government body. ErgoDEX includes AMM (Swap, Add liquidity and Remove liquidity) functionality"
-msgstr ""
+msgstr "O ErgoDEX é um aplicativo financeiro descentralizado (DeFi), o que significa que não possui um órgão de gestão centralizada. ErgoDEX inclui a funcionalidade AMM (Troca, Adicionar Liquidez e Remover de Liquidez)"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "ErgoDEX offers a form of added security, as buyers and sellers do not have to give their information to any 3rd party. However, ErgoDEX is without a know your customer (KYC) process and can offer NO assistance if a user is hacked or cheated out of passwords, currency or private wallet keys."
-msgstr ""
+msgstr "O ErgoDEX oferece uma camada extra de segurança, pois compradores e vendedores não precisam fornecer as suas informações a terceiros. No entanto, o ErgoDEX não possui o processo de (Conheça o seu Cliente/KYC) e também NÃO garante assistência caso o usuário seja hackeado às suas palavras-passe, moedas ou chaves privadas da carteira."
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
@@ -326,7 +326,7 @@ msgstr "Erro"
 
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Estimated output:"
-msgstr ""
+msgstr "Valor estimado:"
 
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
 msgid "Execution Fee"
@@ -344,7 +344,7 @@ msgstr "Taxa de execução:"
 
 #: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
 msgid "Experimental"
-msgstr ""
+msgstr "Experimental"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
 msgid "Extension period"
@@ -374,12 +374,12 @@ msgstr "De"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Get help in our channels:"
-msgstr ""
+msgstr "Obtenha ajuda nos nossos canais:"
 
 #: src/components/Header/BurgerMenu/BurgerMenu.tsx
 #: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
 msgid "Global Settings"
-msgstr ""
+msgstr "Definições Gerais"
 
 #: src/components/Header/BurgerMenu/BurgerMenu.tsx
 msgid "How to use"
@@ -387,7 +387,7 @@ msgstr "Como usar"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidityConfirmationModal/LockLiquidityConfirmationModal.tsx
 msgid "I understand that I'm locking <0>{0}</0> LP-tokens, which is <1>{percent}%</1> of my <2>{1}/{2}</2> liquidity position, for a period of <3>{3}</3> (until {4}) without the ability to withdrawal before the end of this period."
-msgstr ""
+msgstr "Estou ciente que vou bloquear <0>{0}</0> tokens LP, que representam <1>{percent}%</1> da minha <2>{1}/{2}</2> posição de liquidez, por um período de <3>{3}</3> (até {4}) sem a possibilidade de remover antes do final desse período."
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
 msgid "I understand that I’m relocking <0>{0}</0> LP-tokens of my <1>{1}/{2}</1> position until <2>{3}</2> (or <3>{4}</3> block) without the ability to withdrawal before the end of this period."
