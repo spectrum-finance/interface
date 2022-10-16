@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ergodex-frontend\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-10-16 17:13\n"
+"PO-Revision-Date: 2022-10-16 18:31\n"
 "Last-Translator: \n"
 "Language: pt_PT\n"
 "Language-Team: Portuguese\n"
@@ -522,7 +522,7 @@ msgstr ""
 
 #: src/components/common/TokenControl/TokenControl.tsx
 msgid "Max"
-msgstr ""
+msgstr "Máximo"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Max execution fee multiplier"
@@ -530,7 +530,7 @@ msgstr ""
 
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
 msgid "Maximum received:"
-msgstr ""
+msgstr "Máximo recebido:"
 
 #: src/components/common/ActionForm/ActionButton/ActionButton.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
@@ -540,7 +540,7 @@ msgstr ""
 
 #: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
 msgid "Miner Fee"
-msgstr ""
+msgstr "Comissão do minerador"
 
 #: src/components/common/FormView/FormFeesSection/FormFeesSection.tsx
 #: src/components/common/TxHistory/RefundConfirmationModal/RefundConfirmationModal.tsx
@@ -548,11 +548,11 @@ msgstr ""
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Miner Fee:"
-msgstr ""
+msgstr "Comissão do minerador:"
 
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
 msgid "Miner fee:"
-msgstr ""
+msgstr "Comissão do minerador:"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Minimal Nitro value is {MIN_NITRO}"
@@ -569,7 +569,7 @@ msgstr ""
 
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
 msgid "Minimum received:"
-msgstr ""
+msgstr "Mínimo recebido:"
 
 #: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
 msgid "Minimum value is {MIN_ERG_FOR_TX} ERG"
@@ -1020,34 +1020,34 @@ msgstr ""
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "only on top of the Ergo Blockchain."
-msgstr ""
+msgstr "Apenas em cima da Blockchain do Ergo."
 
 #: src/pages/Pool/Liquidity.tsx
 msgid "{0} Community Pools"
-msgstr ""
+msgstr "{0} Pools da Comunidade"
 
 #: src/pages/PoolOverview/PoolRatio/PoolRatio.tsx
 #: src/pages/PoolOverview/PoolRatio/PoolRatio.tsx
 msgid "{0} per {1}"
-msgstr ""
+msgstr "{0} por {1}"
 
 #: src/pages/Pool/utils.ts
 msgid "{daysCount} Days"
-msgstr ""
+msgstr "{daysCount} Dias"
 
 #: src/pages/Pool/utils.ts
 msgid "{monthsCount} Months"
-msgstr ""
+msgstr "{monthsCount} Meses"
 
 #: src/components/Header/ConnectWallet/ConnectWallet.tsx
 msgid "{numberOfPendingTxs} Pending"
-msgstr ""
+msgstr "{numberOfPendingTxs} Pendente"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePoolUnsupportedAlert/CreatePoolUnsupportedAlert.tsx
 msgid "{walletName} Wallet doesn’t support “create pool” functionality yet. Choose another wallet to perform the operation."
-msgstr ""
+msgstr "A Carteira {walletName} não suporta a funcionalidade de \"criar pool\". Escolha outra carteira para executar a operação."
 
 #: src/pages/Pool/utils.ts
 msgid "{yearsCount} Years"
-msgstr ""
+msgstr "{yearsCount} Anos"
 
