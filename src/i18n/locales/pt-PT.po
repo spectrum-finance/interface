@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ergodex-frontend\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-10-16 15:11\n"
+"PO-Revision-Date: 2022-10-16 16:12\n"
 "Last-Translator: \n"
 "Language: pt_PT\n"
 "Language-Team: Portuguese\n"
@@ -745,31 +745,31 @@ msgstr "Selecionar comissão"
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Select a token"
-msgstr ""
+msgstr "Selecionar token"
 
 #: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
 msgid "Select a wallet"
-msgstr ""
+msgstr "Selecionar carteira"
 
 #: src/components/common/TxHistory/RefundConfirmationModal/RefundConfirmationModal.tsx
 msgid "Select address"
-msgstr ""
+msgstr "Selecionar Endereço"
 
 #: src/components/common/PoolSelect/PoolSelect.tsx
 msgid "Select pair"
-msgstr ""
+msgstr "Selecionar Par"
 
 #: src/components/PoolMenu/PoolMenu.tsx
 msgid "Select pools"
-msgstr ""
+msgstr "Selecionar Pool"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
 msgid "Select relock date"
-msgstr ""
+msgstr "Selecionar data de bloqueio"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Set initial price"
-msgstr ""
+msgstr "Definir Preço Inicial"
 
 #: src/pages/Pool/components/LocksList/LockItemView/LockItemView.tsx
 #: src/pages/PoolOverview/LockLiquidityChart/AnalyticOverview/AnalyticOverview.tsx
@@ -792,7 +792,7 @@ msgstr ""
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
 #: src/pages/Pool/components/LockedPositionItem/LockedPositionItem.tsx
 msgid "Status"
-msgstr ""
+msgstr "Estado"
 
 #: src/components/Header/Navigation/Navigation.tsx
 #: src/components/common/TxHistory/TxTypeTag/TxTypeTag.tsx
@@ -845,19 +845,19 @@ msgstr ""
 
 #: src/pages/Swap/Swap.tsx
 msgid "To"
-msgstr ""
+msgstr "Para"
 
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Total Fees"
-msgstr ""
+msgstr "Comissão total"
 
 #: src/components/WalletModal/WalletTotalBalance/WalletTotalBalance.tsx
 msgid "Total balance"
-msgstr ""
+msgstr "Saldo Total"
 
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
 msgid "Total fees:"
-msgstr ""
+msgstr "Comissões Totais:"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
 msgid "Total in locker"
@@ -865,7 +865,7 @@ msgstr ""
 
 #: src/pages/Pool/components/LocksList/LockItemView/LockItemView.tsx
 msgid "Total locked"
-msgstr ""
+msgstr "Total Bloqueado"
 
 #: src/pages/Pool/components/LocksList/LockItemView/LockItemView.tsx
 msgid "Total withdrawable"
@@ -873,28 +873,28 @@ msgstr ""
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Transaction Settings"
-msgstr ""
+msgstr "Configurações da Transação"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Transaction rejected"
-msgstr ""
+msgstr "Transação rejeitada"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Transaction submitted"
-msgstr ""
+msgstr "Transação submetida"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Try again later"
-msgstr ""
+msgstr "Tente novamente mais tarde"
 
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
 msgid "Type"
-msgstr ""
+msgstr "Tipo"
 
 #: src/pages/Pool/Liquidity.tsx
 msgid "Type token name or pool id"
-msgstr ""
+msgstr "Digite o nome do token ou ID da pool"
 
 #: src/components/common/FormView/FormFeesSection/FormFeesSection.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
@@ -908,30 +908,30 @@ msgstr ""
 
 #: src/pages/Pool/components/LockedPositionItem/LockedPositionItem.tsx
 msgid "Unlock Date"
-msgstr ""
+msgstr "Data do Desbloqueio"
 
 #: src/pages/PoolOverview/LockLiquidityChart/AnalyticOverview/AnalyticOverview.tsx
 msgid "Unlock block"
-msgstr ""
+msgstr "Desbloquear Bloco"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
 #: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
 #: src/pages/PoolOverview/LockLiquidityChart/AnalyticOverview/AnalyticOverview.tsx
 msgid "Unlock date"
-msgstr ""
+msgstr "Data do Desbloqueio"
 
 #: src/pages/Pool/utils.ts
 msgid "Unlocked"
-msgstr ""
+msgstr "Desbloqueado"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
 msgid "Updated unlock date"
-msgstr ""
+msgstr "Data de desbloqueio atualizada"
 
 #: src/components/MobilePlug/MobilePlug.tsx
 msgid "Use the desktop version and Google Chrome browser"
-msgstr ""
+msgstr "Use a versão do computador e o navegador Google Chrome"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
@@ -967,11 +967,11 @@ msgstr ""
 #: src/pages/Pool/components/LocksList/LockItemView/LockItemView.tsx
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Withdrawal"
-msgstr ""
+msgstr "Levantamento"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "You didn't provide liquidity to this pool yet."
-msgstr ""
+msgstr "Ainda não forneceu liquidez nesta pool."
 
 #: src/components/WalletModal/LowBalanceWarning/LowBalanceWarning.tsx
 msgid "You need ERG to pay transaction fees"
