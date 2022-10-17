@@ -20,7 +20,7 @@ import { networkAssetBalance$ } from './api/balance/networkAssetBalance';
 import { importTokenAsset } from './api/common/availablePoolsOrTokens';
 import { convertToConvenientNetworkAsset } from './api/ergoUsdRatio/ergoUsdRatio';
 import { locks$ } from './api/locks/locks';
-import { networkAsset } from './api/networkAsset/networkAsset';
+import { networkAsset, useNetworkAsset } from './api/networkAsset/networkAsset';
 import { networkContext$ } from './api/networkContext/networkContext';
 import { isSyncing$, sync } from './api/operations/history/transactionHistory';
 import { getOperationByTxId, getOperations } from './api/operations/operations';
@@ -38,14 +38,14 @@ import {
   walletState$,
 } from './api/wallet/wallet';
 import { initialize, initialized$ } from './initialized';
-import { deposit } from './operations/deposit';
-import { redeem } from './operations/redeem';
+import { deposit } from './operations/deposit/deposit';
+import { redeem } from './operations/redeem/redeem';
 import { refund } from './operations/refund';
-import { swap } from './operations/swap';
+import { swap } from './operations/swap/swap';
 import {
   ErgoSettings,
+  getSettings,
   setSettings,
-  settings,
   settings$,
 } from './settings/settings';
 import {
@@ -60,12 +60,9 @@ import {
   exploreToken,
   exploreTx,
 } from './utils/utils';
-import { DepositConfirmationInfo } from './widgets/DepositConfirmationInfo/DepositConfirmationInfo';
 import { GlobalSettingsModal } from './widgets/GlobalSettings/GlobalSettingsModal';
 import { OperationsSettings } from './widgets/OperationSettings/OperationsSettings';
-import { RedeemConfirmationInfo } from './widgets/RedeemConfirmationInfo/RedeemConfirmationInfo';
 import { RefundConfirmationInfo } from './widgets/RefundConfirmationInfo/RefundConfirmationInfo';
-import { SwapConfirmationInfo } from './widgets/SwapConfirmationInfo/SwapConfirmationInfo';
 import { SwapInfoContent } from './widgets/SwapInfoContent/SwapInfoContent';
 
 export const ergoNetwork: Network<
@@ -106,7 +103,9 @@ export const ergoNetwork: Network<
   importTokenAsset,
 
   settings$,
-  settings,
+  get settings() {
+    return getSettings();
+  },
   setSettings,
 
   swap,
@@ -121,14 +120,12 @@ export const ergoNetwork: Network<
 
   GlobalSettingsModal,
   SwapInfoContent,
-  SwapConfirmationInfo,
-  DepositConfirmationInfo,
-  RedeemConfirmationInfo,
   RefundConfirmationInfo,
   OperationsSettings,
 
   convertToConvenientNetworkAsset,
 
+  useNetworkAsset,
   useSwapValidationFee,
   useDepositValidationFee,
   useRedeemValidationFee,

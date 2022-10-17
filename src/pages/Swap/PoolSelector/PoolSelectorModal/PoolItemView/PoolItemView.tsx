@@ -6,6 +6,7 @@ import { AmmPool } from '../../../../../common/models/AmmPool';
 import { AssetPairTitle } from '../../../../../components/AssetPairTitle/AssetPairTitle';
 import { DataTag } from '../../../../../components/common/DataTag/DataTag';
 import { formatToUSD } from '../../../../../services/number';
+import { renderFractions } from '../../../../../utils/math';
 
 interface PoolItemViewProps {
   readonly pool: AmmPool;
@@ -52,7 +53,9 @@ const _PoolItemView: FC<PoolItemViewProps> = ({
           />
         </Flex.Item>
         <Flex.Item marginRight={1}>
-          <Typography.Footnote>Fee</Typography.Footnote>
+          <Typography.Body size="small" secondary>
+            Fee
+          </Typography.Body>
         </Flex.Item>
         <Flex.Item marginRight={2}>
           <DataTag
@@ -61,12 +64,24 @@ const _PoolItemView: FC<PoolItemViewProps> = ({
           />
         </Flex.Item>
         <Flex.Item marginRight={1}>
-          <Typography.Footnote>TVL</Typography.Footnote>
+          <Typography.Body size="small" secondary>
+            TVL
+          </Typography.Body>
         </Flex.Item>
         <Flex.Item marginRight={2}>
           <DataTag
             secondary={!mouseEntered && !active}
-            content={pool?.tvl ? formatToUSD(pool.tvl.currency, 'abbr') : '–––'}
+            content={
+              pool?.tvl
+                ? formatToUSD(
+                    renderFractions(
+                      pool.tvl.value,
+                      pool.tvl.units.currency.decimals,
+                    ),
+                    'abbr',
+                  )
+                : '–––'
+            }
           />
         </Flex.Item>
       </Flex>

@@ -11,40 +11,43 @@ export const PoolOrPositionDetails: FC<
 > = ({ poolMapper, item, children }) => {
   const navigate = useNavigate();
 
-  const overviewPool = () => navigate(poolMapper(item).id);
+  const pool = poolMapper(item);
 
-  const navigateToSwap = () => navigate('../../swap');
+  const overviewPool = () => navigate(pool.id);
+
+  const navigateToSwap = () =>
+    navigate(
+      `../../swap?base=${pool.x.asset.id}&quote=${pool.y.asset.id}&initialPoolId=${pool.id}`,
+    );
 
   return (
     <Flex stretch align="center">
       <Flex.Item marginRight={6}>
         <Flex col>
-          <Typography.Footnote>
+          <Typography.Body size="small" secondary>
             <Trans>Total liquidity</Trans>
-          </Typography.Footnote>
-          <Typography.Body strong>
-            {poolMapper(item).x.asset.ticker}: {poolMapper(item).x.toString()}
           </Typography.Body>
           <Typography.Body strong>
-            {poolMapper(item).y.asset.ticker}: {poolMapper(item).y.toString()}
+            {pool.x.asset.ticker}: {poolMapper(item).x.toString()}
+          </Typography.Body>
+          <Typography.Body strong>
+            {pool.y.asset.ticker}: {poolMapper(item).y.toString()}
           </Typography.Body>
         </Flex>
       </Flex.Item>
       {children && <Flex.Item marginRight={6}>{children}</Flex.Item>}
       <Flex.Item flex={1}>
         <Flex col>
-          <Typography.Footnote>
+          <Typography.Body size="small" secondary>
             <Trans>Price</Trans>
-          </Typography.Footnote>
-          <Typography.Body strong>
-            {poolMapper(item).xRatio.toString()}{' '}
-            {poolMapper(item).xRatio.baseAsset.ticker}/
-            {poolMapper(item).xRatio.quoteAsset.ticker}
           </Typography.Body>
           <Typography.Body strong>
-            {poolMapper(item).yRatio.toString()}{' '}
-            {poolMapper(item).yRatio.baseAsset.ticker}/
-            {poolMapper(item).yRatio.quoteAsset.ticker}
+            {pool.xRatio.toString()} {pool.xRatio.baseAsset.ticker}/
+            {pool.xRatio.quoteAsset.ticker}
+          </Typography.Body>
+          <Typography.Body strong>
+            {pool.yRatio.toString()} {pool.yRatio.baseAsset.ticker}/
+            {pool.yRatio.quoteAsset.ticker}
           </Typography.Body>
         </Flex>
       </Flex.Item>

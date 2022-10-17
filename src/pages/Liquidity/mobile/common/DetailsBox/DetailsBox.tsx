@@ -19,12 +19,12 @@ export const DetailsBox: FC<DetailsBoxProps> = ({ title, value }) => (
   <Box padding={2} bordered={false}>
     <Flex stretch align="center">
       <Flex.Item flex={1}>
-        <Typography.Footnote>{title}</Typography.Footnote>
+        <Typography.Body size="small" secondary>
+          {title}
+        </Typography.Body>
       </Flex.Item>
       <Flex.Item justify="flex-end" display="flex">
-        <Typography.Body strong secondary>
-          {value}
-        </Typography.Body>
+        <Typography.Body strong>{value}</Typography.Body>
       </Flex.Item>
     </Flex>
   </Box>

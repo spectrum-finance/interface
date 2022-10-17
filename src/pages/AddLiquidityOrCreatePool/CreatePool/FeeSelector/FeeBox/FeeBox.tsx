@@ -37,7 +37,9 @@ const _FeeBox: FC<FeeBoxProps> = ({
       <Flex.Item marginBottom={1}>
         <Typography.Body strong>{content}</Typography.Body>
       </Flex.Item>
-      <Typography.Footnote>{description}</Typography.Footnote>
+      <Typography.Body size="small" secondary>
+        {description}
+      </Typography.Body>
     </Flex>
   </Box>
 );

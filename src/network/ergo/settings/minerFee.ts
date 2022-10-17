@@ -10,7 +10,7 @@ import { useObservable } from '../../../common/hooks/useObservable';
 import { Currency } from '../../../common/models/Currency';
 import { normalizeAmount } from '../../../common/utils/amount';
 import { networkAsset } from '../api/networkAsset/networkAsset';
-import { settings, settings$ } from './settings';
+import { getSettings, settings$ } from './settings';
 
 const toMinerFee = (minerFee: number): Currency =>
   new Currency(
@@ -30,7 +30,7 @@ export const useMinerFee = (): Currency => {
   const [minerFee] = useObservable(
     minerFee$,
     [],
-    toMinerFee(settings.minerFee),
+    toMinerFee(getSettings().minerFee),
   );
 
   return minerFee;

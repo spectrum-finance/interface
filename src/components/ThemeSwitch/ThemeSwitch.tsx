@@ -1,27 +1,62 @@
-import { Switch } from '@ergolabs/ui-kit';
-import { SwitchProps } from 'antd';
-import React, { useCallback } from 'react';
+import { Flex, Tabs, Typography } from '@ergolabs/ui-kit';
+import { t, Trans } from '@lingui/macro';
+import React, { FC, useCallback } from 'react';
+import styled from 'styled-components';
 
 import { panalytics } from '../../common/analytics';
 import { useApplicationSettings } from '../../context';
 
-const ThemeSwitch: React.FC<SwitchProps> = (): JSX.Element => {
+export interface ThemeSwitchProps {
+  readonly className?: string;
+}
+
+const _ThemeSwitch: FC<ThemeSwitchProps> = ({ className }) => {
   const [settings, setSettings] = useApplicationSettings();
   const { theme } = settings;
-  const isDark = theme === 'dark';
 
-  const handleChangeTheme = useCallback(() => {
-    const newTheme = isDark ? 'light' : 'dark';
-    setSettings({
-      ...settings,
-      theme: newTheme,
-    });
-    panalytics.changeTheme(newTheme);
-  }, [isDark, settings, setSettings]);
+  const handleChangeTheme = useCallback(
+    (key: 'dark' | 'light' | 'system') => {
+      setSettings({
+        ...settings,
+        theme: key,
+      });
+      panalytics.changeTheme(key);
+    },
+    [settings, setSettings],
+  );
 
   return (
-    <Switch defaultChecked={isDark} size="small" onChange={handleChangeTheme} />
+    <Flex col>
+      <Flex.Item marginBottom={1}>
+        <Typography.Body size="small">
+          <Trans>Theme</Trans>
+        </Typography.Body>
+      </Flex.Item>
+      <Tabs
+        className={className}
+        onChange={handleChangeTheme as any}
+        activeKey={theme || 'light'}
+      >
+        <Tabs.TabPane tab={t`Light`} key="light" />
+        <Tabs.TabPane tab={t`Dark`} key="dark" />
+        <Tabs.TabPane tab={t`System`} key="system" />
+      </Tabs>
+    </Flex>
   );
 };
 
-export { ThemeSwitch };
+export const ThemeSwitch = styled(_ThemeSwitch)`
+  .ant-tabs-nav-list {
+    height: 32px;
+  }
+
+  .ant-tabs-tab,
+  .ant-tabs-nav-list {
+    flex-grow: 1;
+  }
+
+  .ant-tabs-tab-btn {
+    font-size: 14px;
+    line-height: 22px;
+  }
+`;

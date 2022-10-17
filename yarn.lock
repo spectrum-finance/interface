@@ -1550,15 +1550,15 @@
   resolved "https://registry.yarnpkg.com/@emotion/unitless/-/unitless-0.7.5.tgz#77211291c1900a700b8a78cfafda3160d76949ed"
   integrity sha512-OWORNpfjMsSSUBVrRBVGECkhWcULOAJz9ZW8uK9qgxD+87M7jHRcvh/A96XXNhXTLmKcoYSQtBEX7lHMO7YRwg==
 
-"@emurgo/cardano-serialization-lib-browser@10.0.4":
-  version "10.0.4"
-  resolved "https://registry.yarnpkg.com/@emurgo/cardano-serialization-lib-browser/-/cardano-serialization-lib-browser-10.0.4.tgz#b3dcd32cc69e05b1e42d1ee25a60e112dc444d47"
-  integrity sha512-rCLmHtZkkgD9BTPjYw19vVLLaHI2sQ9qwjS2oX9eNCtB5P28K3rAO7QI05p5bbxYvg+35+xGhhYP1HMpBnE2FA==
+"@emurgo/cardano-serialization-lib-browser@^11.0.5":
+  version "11.0.5"
+  resolved "https://registry.yarnpkg.com/@emurgo/cardano-serialization-lib-browser/-/cardano-serialization-lib-browser-11.0.5.tgz#1cb3119b9b934a38782343020d9e22b455e66bd6"
+  integrity sha512-iDXn6pjK3TSrFyUnLMf5lJzBgdf2aV2NTfM+Xc9t9j625W7/f/oQghUIBNpdJlHa0v11oPYFYRY5T1nFgb2mHA==
 
-"@emurgo/cardano-serialization-lib-nodejs@^10.0.4":
-  version "10.0.4"
-  resolved "https://registry.yarnpkg.com/@emurgo/cardano-serialization-lib-nodejs/-/cardano-serialization-lib-nodejs-10.0.4.tgz#e3e3530e1cdfd6540c14c4c4fe8f1be1a0055e19"
-  integrity sha512-s0/bzBvR+wCL8IwB/2IU0yHdSybfGVORrOPxCuEMOFvvIM4KO5aYVoHMFjqzEO2A4aXk+yPx6E2R2zyndxWGVA==
+"@emurgo/cardano-serialization-lib-nodejs@^11.0.5":
+  version "11.0.5"
+  resolved "https://registry.yarnpkg.com/@emurgo/cardano-serialization-lib-nodejs/-/cardano-serialization-lib-nodejs-11.0.5.tgz#3563c9fdc9ec9e0e71f8a75f3d7d9a872bf96661"
+  integrity sha512-6SBlRunFMLj9sC3YmMuJzPW0lY6MYOwMKft+/lkUtZPgUWsyzi7+d24iS3E2ThPDY1seS43dzHwZAeZxBH5KkQ==
 
 "@endemolshinegroup/cosmiconfig-typescript-loader@^3.0.2":
   version "3.0.2"
@@ -1570,12 +1570,12 @@
     ts-node "^9"
     tslib "^2"
 
-"@ergolabs/cardano-dex-sdk@^0.0.49":
-  version "0.0.49"
-  resolved "https://registry.yarnpkg.com/@ergolabs/cardano-dex-sdk/-/cardano-dex-sdk-0.0.49.tgz#ff94ef004284b814bcca63bc08e4f13eba08f197"
-  integrity sha512-ZqlLMp+syE2JODN1bQO8p+z7yDmvQo7ME5g+A56Q6n3W/NmtK7wYFm5FJkgNCcAcJEmVG2p2JXeEetolV6Zvew==
+"@ergolabs/cardano-dex-sdk@^0.0.61":
+  version "0.0.61"
+  resolved "https://registry.yarnpkg.com/@ergolabs/cardano-dex-sdk/-/cardano-dex-sdk-0.0.61.tgz#79b6ac180212892d99a0e0d836c2af577fcf9e8b"
+  integrity sha512-Lvd8FD/5ZOA5nFRxDuH3YskHTBi+IiPu4UQHsGIR1M6Gc7Tk4CtoWo9QXt++xVihDCMybU9KPsmwqGobjkYIXA==
   dependencies:
-    "@emurgo/cardano-serialization-lib-browser" "10.0.4"
+    "@emurgo/cardano-serialization-lib-browser" "^11.0.5"
     axios "^0.21.1"
     blakejs "^1.1.0"
     bs58 "^4.0.1"
@@ -1585,43 +1585,43 @@
     mathjs "^9.4.4"
     ramda "0.27.1"
 
-"@ergolabs/ergo-dex-sdk@^1.4.3":
-  version "1.4.3"
-  resolved "https://registry.yarnpkg.com/@ergolabs/ergo-dex-sdk/-/ergo-dex-sdk-1.4.3.tgz#baed3933b96efbbf088c211b0bc72a68ff82c938"
-  integrity sha512-GuVtjNqPB+yGGz+yzF3Vs5AVJkcM4Ol5OEraYD4vse04GX3Z2AlQ/Y+7S8cYSIlWFm3rIUpdyT4mtaKXUiSPIA==
+"@ergolabs/ergo-dex-sdk@^1.6.2":
+  version "1.6.2"
+  resolved "https://registry.yarnpkg.com/@ergolabs/ergo-dex-sdk/-/ergo-dex-sdk-1.6.2.tgz#d3db4fb4cf34ad65e4f8199d3c381f37be858775"
+  integrity sha512-N1GHppvgWv+YcvtWEKCzUalyo3weq74FM6VsU6oySVjymW82etIB8AKPFdlVuHC83UtkiDXwwcO/bBCnYEKqJQ==
   dependencies:
-    "@ergolabs/ergo-sdk" "0.2.1"
+    "@ergolabs/ergo-sdk" "^0.4.5"
     axios "^0.21.1"
     blakejs "^1.1.0"
     bs58 "^4.0.1"
     crypto-js "^4.0.0"
-    ergo-lib-wasm-browser "0.14.0"
-    ergo-lib-wasm-nodejs "0.14.0"
+    ergo-lib-wasm-browser "^0.20.1"
+    ergo-lib-wasm-nodejs "^0.20.1"
     esm-wallaby "^3.2.25"
     json-bigint "^1.0.0"
     mathjs "^9.4.4"
     ramda "0.27.1"
 
-"@ergolabs/ergo-sdk@0.2.1", "@ergolabs/ergo-sdk@^0.2.1":
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/@ergolabs/ergo-sdk/-/ergo-sdk-0.2.1.tgz#2e908f7e4e72c77f1f13bed4fea478b7910c9e04"
-  integrity sha512-rKplpWvlf24Ds+7/qoZ0605fyuERcawMFzcI2r4YAD58ZH8rGD6se/yDj4r1teDh7pd+FuZtur7+C8tCjrri/w==
+"@ergolabs/ergo-sdk@^0.4.5":
+  version "0.4.5"
+  resolved "https://registry.yarnpkg.com/@ergolabs/ergo-sdk/-/ergo-sdk-0.4.5.tgz#6a36c82a07c1a590db11c70f1ef79661c92fb1d7"
+  integrity sha512-Z8EEMux1yKsvE9F4YERL1isjOCp9FeZnwPAIyyRP5g+HKA5XW4qosFo0Fwcsd8743WIQDzYMkl6x4xWK3Bl+7Q==
   dependencies:
     axios "^0.21.1"
     blakejs "^1.1.0"
     bs58 "^4.0.1"
     crypto-js "^4.0.0"
-    ergo-lib-wasm-browser "0.15.0"
-    ergo-lib-wasm-nodejs "0.15.0"
+    ergo-lib-wasm-browser "^0.20.1"
+    ergo-lib-wasm-nodejs "^0.20.1"
     esm-wallaby "^3.2.25"
     json-bigint "^1.0.0"
     mathjs "^9.4.4"
     ramda "0.27.1"
 
-"@ergolabs/ui-kit@^2.2.2":
-  version "2.2.2"
-  resolved "https://registry.yarnpkg.com/@ergolabs/ui-kit/-/ui-kit-2.2.2.tgz#7e320d05c7a69e06ea8e379f389fc19dbe429ed1"
-  integrity sha512-VX8gI4luLfklSS/eystrDByT+lUAulAxEhFqOaupIee/fbeTcjT9/XWeMpZTMoxyPV187G8T+sOypZfjONw7RA==
+"@ergolabs/ui-kit@^2.3.18":
+  version "2.3.18"
+  resolved "https://registry.yarnpkg.com/@ergolabs/ui-kit/-/ui-kit-2.3.18.tgz#fa0c27de713f550813c6691193a2501ef64379ff"
+  integrity sha512-nMh7L7Dsgn/tJhz3jZU37BsD8bYF5+e/foxE+VNJf16UYdQgVg7CA2V+6aPavKQ8J9qAr8n9xdNo63AM6rmFcg==
   dependencies:
     antd "^4.17.0-alpha.5"
     classnames "^2.3.1"
@@ -2376,6 +2376,13 @@
   integrity sha512-K2waXdXBi2302XUdcHcR1jCeU0LL4TD9HRs/gk0N2Xvrht+G/BfJa4QObBQZfhMdxiCpV3COl5Nfq4uKTeTnJA==
   dependencies:
     "@babel/types" "^7.3.0"
+
+"@types/base64url@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@types/base64url/-/base64url-2.0.0.tgz#3bf4184a53a6bef998fada88d836e37eb0366492"
+  integrity sha512-r+d5HWla1etMB9MdDr/wfzhiWdT6GTlO6Xp96FnSsnsxeOi3ZCz1EJyv7OE7Coc2cw5tGblqahMYNL/KwdP8kQ==
+  dependencies:
+    base64url "*"
 
 "@types/bs58@^4.0.1":
   version "4.0.1"
@@ -3894,6 +3901,11 @@ base64-js@^1.0.2, base64-js@^1.3.1:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/base64-js/-/base64-js-1.5.1.tgz#1b1b440160a5bf7ad40b650f095963481903930a"
   integrity sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==
+
+base64url@*, base64url@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/base64url/-/base64url-3.0.1.tgz#6399d572e2bc3f90a9a8b22d5dbb0a32d33f788d"
+  integrity sha512-ir1UPr3dkwexU7FdV8qBBbNDRUhMmIekYMFZfi+C/sLNnRESKPl23nB9b2pltqfOQNnGzsDdId90AEtG5tCx4A==
 
 base@^0.11.1:
   version "0.11.2"
@@ -5958,25 +5970,15 @@ env-paths@^2.2.0:
   resolved "https://registry.yarnpkg.com/env-paths/-/env-paths-2.2.1.tgz#420399d416ce1fbe9bc0a07c62fa68d67fd0f8f2"
   integrity sha512-+h1lkLKhZMTYjog1VEpJNG7NZJWcuc2DDk/qsqSTRRCOXiLjeQ1d1/udrUGhqMxUgAlwKNZ0cf2uqan5GLuS2A==
 
-ergo-lib-wasm-browser@0.14.0:
-  version "0.14.0"
-  resolved "https://registry.yarnpkg.com/ergo-lib-wasm-browser/-/ergo-lib-wasm-browser-0.14.0.tgz#0fe0758ba8591f28a38776bef1f8c3837b188361"
-  integrity sha512-hJILi6lhz224nDEj0ajJDteU4D08npo3FoFoheOJBRCI6c/ZifuD4dso9uOfQyEWdvhPfRPGcILrR74W9xMaTw==
+ergo-lib-wasm-browser@^0.20.1:
+  version "0.20.1"
+  resolved "https://registry.yarnpkg.com/ergo-lib-wasm-browser/-/ergo-lib-wasm-browser-0.20.1.tgz#68097ba6ddf464447866066c9c3f3d960651af7e"
+  integrity sha512-g324oXm9kdNphqVuiIzb1lWpawASp7zihcqc8wmr+/xwB8RBSEV+IBwAu4RYMRHNwlwffsPOtKvk+lRpxUFVxQ==
 
-ergo-lib-wasm-browser@0.15.0:
-  version "0.15.0"
-  resolved "https://registry.yarnpkg.com/ergo-lib-wasm-browser/-/ergo-lib-wasm-browser-0.15.0.tgz#ddceba3900280de0b21a6478a6105e0473d6b9d7"
-  integrity sha512-b/w3BKsHNY2q28uWGi9mM9q7XhbJkEh30rgEpRBKv8PL6Uye7szGW+A5updptHs1VetGsbBh8pNaa6cOkq0Xhg==
-
-ergo-lib-wasm-nodejs@0.14.0:
-  version "0.14.0"
-  resolved "https://registry.yarnpkg.com/ergo-lib-wasm-nodejs/-/ergo-lib-wasm-nodejs-0.14.0.tgz#f7cedcab2f9cf586f82abb81c18e52377d5781ae"
-  integrity sha512-vspQ5NOxvsbVewZoiiu0D8fs8sJQR5BDTbUAWnZW5At+DGdvq7dYgQTSAR86zJB1BDi0H6/fEckyA5hieuXoBA==
-
-ergo-lib-wasm-nodejs@0.15.0:
-  version "0.15.0"
-  resolved "https://registry.yarnpkg.com/ergo-lib-wasm-nodejs/-/ergo-lib-wasm-nodejs-0.15.0.tgz#f49e3e3f84ca8f9d0106687c65b0775c5b7579bd"
-  integrity sha512-k3XClQ2U4L5rimsJDvFScV0NRy4QtsE/2Mram+3Z54HaJT9iuAzmTYNEUBGjO8o+HKSLnJP7fm3/cT/s2Gy+Bw==
+ergo-lib-wasm-nodejs@^0.20.1:
+  version "0.20.1"
+  resolved "https://registry.yarnpkg.com/ergo-lib-wasm-nodejs/-/ergo-lib-wasm-nodejs-0.20.1.tgz#390802910290c37e83c5316028751ea5e4b41e79"
+  integrity sha512-2jGQ21HWQdsA9hOXr2DJS7iq32uIQHL45hxfNJ1VnYRUbVkQRpBWB7PRFKZvlIlZT6dIifcg8IacF6hqBOfB2g==
 
 err-code@^2.0.2:
   version "2.0.3"
@@ -11602,6 +11604,15 @@ prop-types@^15.5.8, prop-types@^15.6.2, prop-types@^15.7.2:
     object-assign "^4.1.1"
     react-is "^16.8.1"
 
+prop-types@^15.8.1:
+  version "15.8.1"
+  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
+  integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
+  dependencies:
+    loose-envify "^1.4.0"
+    object-assign "^4.1.1"
+    react-is "^16.13.1"
+
 property-expr@^2.0.4:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/property-expr/-/property-expr-2.0.4.tgz#37b925478e58965031bb612ec5b3260f8241e910"
@@ -11688,6 +11699,11 @@ q@^1.1.2:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/q/-/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"
   integrity sha1-fjL3W0E4EpHQRhHxvxQQmsAGUdc=
+
+qr.js@0.0.0:
+  version "0.0.0"
+  resolved "https://registry.yarnpkg.com/qr.js/-/qr.js-0.0.0.tgz#cace86386f59a0db8050fa90d9b6b0e88a1e364f"
+  integrity sha512-c4iYnWb+k2E+vYpRimHqSu575b1/wKl4XFeJGpFmrJQz5I88v9aY2czh7s0w36srfCM1sXgC/xpoJz5dJfq+OQ==
 
 qs@6.7.0:
   version "6.7.0"
@@ -12209,6 +12225,13 @@ react-dev-utils@^11.0.3:
     strip-ansi "6.0.0"
     text-table "0.2.0"
 
+react-device-detect@^2.2.2:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/react-device-detect/-/react-device-detect-2.2.2.tgz#dbabbce798ec359c83f574c3edb24cf1cca641a5"
+  integrity sha512-zSN1gIAztUekp5qUT/ybHwQ9fmOqVT1psxpSlTn1pe0CO+fnJHKRLOWWac5nKxOxvOpD/w84hk1I+EydrJp7SA==
+  dependencies:
+    ua-parser-js "^1.0.2"
+
 react-dom@^18.2.0:
   version "18.2.0"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-18.2.0.tgz#22aaf38708db2674ed9ada224ca4aa708d821e3d"
@@ -12280,6 +12303,14 @@ react-popper@^2.2.5:
   dependencies:
     react-fast-compare "^3.0.1"
     warning "^4.0.2"
+
+react-qr-code@^2.0.8:
+  version "2.0.8"
+  resolved "https://registry.yarnpkg.com/react-qr-code/-/react-qr-code-2.0.8.tgz#d34a766fb5b664a40dbdc7020f7ac801bacb2851"
+  integrity sha512-zYO9EAPQU8IIeD6c6uAle7NlKOiVKs8ji9hpbWPTGxO+FLqBN2on+XCXQvnhm91nrRd306RvNXUkUNcXXSfhWA==
+  dependencies:
+    prop-types "^15.8.1"
+    qr.js "0.0.0"
 
 react-refresh@^0.8.3:
   version "0.8.3"
@@ -14441,6 +14472,11 @@ typescript@^4.3.5:
   version "4.5.2"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.5.2.tgz#8ac1fba9f52256fdb06fb89e4122fa6a346c2998"
   integrity sha512-5BlMof9H1yGt0P8/WF+wPNw6GfctgGjXp5hkblpyT+8rkASSmkUKMXrxR0Xg8ThVCi/JnHQiKXeBaEwCeQwMFw==
+
+ua-parser-js@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-1.0.2.tgz#e2976c34dbfb30b15d2c300b2a53eac87c57a775"
+  integrity sha512-00y/AXhx0/SsnI51fTc0rLRmafiGOM4/O+ny10Ps7f+j/b8p/ZY11ytMgznXkOVo4GQ+KwQG5UQLkLGirsACRg==
 
 unbox-primitive@^1.0.1:
   version "1.0.1"

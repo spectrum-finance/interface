@@ -20,6 +20,7 @@ import { DataTag } from '../../../components/common/DataTag/DataTag';
 import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
 import { getAmmPoolsByAssetPair } from '../../../gateway/api/ammPools';
 import { formatToUSD } from '../../../services/number';
+import { renderFractions } from '../../../utils/math';
 import { PoolSelectorModal } from './PoolSelectorModal/PoolSelectorModal';
 
 interface PoolSelectorProps extends Control<AmmPool> {
@@ -113,14 +114,22 @@ const _PoolSelector: FC<PoolSelectorProps> = ({
                       <DataTag secondary content={`${value.poolFee}%`} />
                     </Flex.Item>
                     <Flex.Item marginRight={1}>
-                      <Typography.Footnote>TVL:</Typography.Footnote>
+                      <Typography.Body size="small" secondary>
+                        TVL:
+                      </Typography.Body>
                     </Flex.Item>
                     <Flex.Item>
                       <DataTag
                         secondary
                         content={
                           value?.tvl
-                            ? formatToUSD(value.tvl.currency, 'abbr')
+                            ? formatToUSD(
+                                renderFractions(
+                                  value.tvl.value,
+                                  value.tvl.units.currency.decimals,
+                                ),
+                                'abbr',
+                              )
                             : '–––'
                         }
                       />

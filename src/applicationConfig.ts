@@ -14,6 +14,7 @@ interface NetworkConfig {
   readonly networkUrl: string;
   readonly analyticUrl?: string;
   readonly metadataUrl: string;
+  readonly ergopayUrl?: string;
   readonly faucet?: string;
   readonly lowBalanceGuide?: string;
 }
@@ -53,20 +54,20 @@ export const applicationConfig: ApplicationConfig = {
   operationTimeoutTime: 60_000,
   cookieDomain:
     process.env.NODE_ENV === 'production' ? 'spectrum.fi' : undefined,
-  cardanoMaintenance: true,
+  cardanoMaintenance: false,
   defaultTokenListUrl:
     'https://raw.githubusercontent.com/ergolabs/default-token-list/master/src/tokens',
-  cardanoUpdate: {
-    title: 'Under Maintenance',
-    content: 'We are migrating the protocol to Vasil Hard Fork testnet.',
-  },
+  // cardanoUpdate: {
+  //   title: 'Under Maintenance',
+  //   content: 'We are migrating the protocol to Vasil Hard Fork testnet.',
+  // },
   reCaptchaKey: '6LeUJ8YfAAAAAMYIqGvtOmJGLeJtCSv6FBH_5sA3',
   requestRetryCount: 3,
   networksSettings: {
     cardano: {
       metadataUrl: 'https://testnet-meta.ergodex.io/metadata',
       networkUrl: 'https://testnet-api.quickblue.io/v1',
-      explorerUrl: 'https://testnet.cardanoscan.io',
+      explorerUrl: 'https://preview.cexplorer.io',
       faucet: 'https://faucet.ergodex.io/v1/',
       lowBalanceGuide: '',
     },
@@ -78,6 +79,7 @@ export const applicationConfig: ApplicationConfig = {
       analyticUrl: 'https://api.ergodex.io/v1/',
       lowBalanceGuide:
         'https://docs.spectrum.fi/docs/user-guides/quick-start#3-get-assets',
+      ergopayUrl: 'https://ergopay-backend.fly.dev/',
     },
   },
   social: {

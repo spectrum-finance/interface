@@ -1,4 +1,5 @@
 import { PublicKey, publicKeyFromAddress } from '@ergolabs/ergo-sdk';
+import { isMobile } from 'react-device-detect';
 import { filter, map, Observable, startWith, zip } from 'rxjs';
 
 import { MIN_NITRO } from '../../../common/constants/erg';
@@ -22,6 +23,7 @@ const SETTINGS_KEY = 'ergo-settings';
 export interface ErgoSettings extends BaseNetworkSettings {
   readonly minerFee: number;
   readonly pk?: PublicKey;
+  readonly ergopay: boolean;
 }
 
 export const defaultErgoSettings: ErgoSettings = {
@@ -30,6 +32,7 @@ export const defaultErgoSettings: ErgoSettings = {
   slippage: defaultSlippage,
   pk: undefined,
   address: undefined,
+  ergopay: isMobile,
 };
 
 const updateAddressSettings = (
@@ -59,6 +62,9 @@ const updateAddressSettings = (
 };
 
 export const initializeSettings = (): void => {
+  if (isMobile && getSettings().ergopay === undefined) {
+    patchSettings({ ergopay: true });
+  }
   zip([
     getUsedAddresses().pipe(filter(Boolean)),
     getUnusedAddresses().pipe(filter(Boolean)),
@@ -80,7 +86,7 @@ export const initializeSettings = (): void => {
     });
 };
 
-export const settings =
+export const getSettings = (): ErgoSettings =>
   localStorageManager.get<ErgoSettings>(SETTINGS_KEY) || defaultErgoSettings;
 
 export const setSettings = (newSettings: ErgoSettings): void =>
@@ -98,4 +104,4 @@ export const settings$: Observable<ErgoSettings> = localStorageManager
   .pipe(map((settings) => settings || defaultErgoSettings));
 
 export const useSettings = (): [ErgoSettings, boolean, Error | undefined] =>
-  useObservable(settings$, [], settings);
+  useObservable(settings$, [], getSettings());

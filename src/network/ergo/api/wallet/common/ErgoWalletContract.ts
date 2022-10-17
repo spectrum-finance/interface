@@ -13,4 +13,5 @@ export interface ErgoWalletContract extends Wallet, Prover {
   readonly connectWallet: () => Observable<boolean | ReactNode>;
   readonly getUtxos: () => Observable<ErgoBox[]>;
   readonly submitTx: (tx: ErgoTx) => Observable<TxId>;
+  readonly hidden?: boolean;
 }

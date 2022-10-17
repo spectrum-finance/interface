@@ -3,7 +3,7 @@ import { Flex, Form, FormGroup, Skeleton, useForm } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { skip } from 'rxjs';
+import { first, skip } from 'rxjs';
 
 import { panalytics } from '../../common/analytics';
 import {
@@ -15,17 +15,13 @@ import { Currency } from '../../common/models/Currency';
 import { Position } from '../../common/models/Position';
 import { FormPairSection } from '../../components/common/FormView/FormPairSection/FormPairSection';
 import { FormSlider } from '../../components/common/FormView/FormSlider/FormSlider';
-import {
-  openConfirmationModal,
-  Operation,
-} from '../../components/ConfirmationModal/ConfirmationModal';
 import { Page } from '../../components/Page/Page';
 import { PageHeader } from '../../components/Page/PageHeader/PageHeader';
 import { PageSection } from '../../components/Page/PageSection/PageSection';
 import { SubmitButton } from '../../components/SubmitButton/SubmitButton';
+import { redeem } from '../../gateway/api/operations/redeem';
 import { getPositionByAmmPoolId } from '../../gateway/api/positions';
 import { useGuard } from '../../hooks/useGuard';
-import { RemoveLiquidityConfirmationModal } from './RemoveLiquidityConfirmationModal/RemoveLiquidityConfirmationModal';
 
 export interface RemoveFormModel {
   readonly percent: number;
@@ -79,26 +75,9 @@ export const RemoveLiquidity: FC = () => {
     const lpAmount = form.value.lpAmount || poolData.availableLp;
     const percent = form.value.percent;
 
-    openConfirmationModal(
-      (next) => {
-        return (
-          <RemoveLiquidityConfirmationModal
-            onClose={next}
-            xAmount={xAmount}
-            yAmount={yAmount}
-            lpAmount={lpAmount}
-            percent={percent}
-            pool={poolData.pool}
-          />
-        );
-      },
-      Operation.REMOVE_LIQUIDITY,
-      {
-        xAsset: xAmount,
-        yAsset: yAmount,
-      },
-    );
-
+    redeem(poolData.pool, { xAmount, yAmount, lpAmount, percent })
+      .pipe(first())
+      .subscribe();
     panalytics.submitRedeem(
       { xAmount, yAmount, lpAmount, percent },
       poolData.pool,

@@ -1,10 +1,24 @@
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
-import { EventConfig, Input } from '@ergolabs/ui-kit';
-import React, { useEffect, useState } from 'react';
+import { EventConfig, Input, InputProps } from '@ergolabs/ui-kit';
+import React, { FC, useEffect, useState } from 'react';
 import NumberFormat from 'react-number-format';
 import styled from 'styled-components';
 
 import { Currency } from '../../../../common/models/Currency';
+
+const _InnerInput: FC<InputProps> = ({ onChange, ...rest }) => {
+  return (
+    <Input
+      {...rest}
+      onChange={(e) => {
+        if (onChange) {
+          e.target.value = e.target.value.replaceAll(',', '.');
+          onChange(e);
+        }
+      }}
+    />
+  );
+};
 
 export interface TokenAmountInputValue {
   viewValue: string | undefined;
@@ -66,6 +80,7 @@ const _TokenAmountInput: React.FC<TokenAmountInputProps> = ({
       value={userInput || ''}
       className={className}
       type="tel"
+      inputMode="decimal"
       onValueChange={({ value }, { source }) => {
         if (source === 'event') {
           enforcer(value);
@@ -77,7 +92,7 @@ const _TokenAmountInput: React.FC<TokenAmountInputProps> = ({
       decimalSeparator="."
       size="large"
       placeholder="0.0"
-      customInput={Input}
+      customInput={_InnerInput}
       disabled={disabled}
     />
   );

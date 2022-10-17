@@ -13,7 +13,7 @@ import { CardanoAmmPool } from './api/ammPools/CardanoAmmPool';
 import { assetBalance$ } from './api/balance/assetBalance';
 import { lpBalance$ } from './api/balance/lpBalance';
 import { networkAssetBalance$ } from './api/balance/networkAssetBalance';
-import { networkAsset } from './api/networkAsset/networkAsset';
+import { networkAsset, useNetworkAsset } from './api/networkAsset/networkAsset';
 import { networkContext$ } from './api/networkContext/networkContext';
 import { deposit } from './api/operations/deposit';
 import { redeem } from './api/operations/redeem';
@@ -21,6 +21,7 @@ import { swap } from './api/operations/swap';
 import { positions$ } from './api/positions/positions';
 import {
   defaultTokenAssets$,
+  getDefaultAssetsFor,
   importTokenAsset,
   tokenAssetsToImport$,
 } from './api/tokens/tokens';
@@ -53,10 +54,7 @@ import {
   exploreToken,
   exploreTx,
 } from './utils/utils';
-import { DepositConfirmationInfo } from './widgets/DepositConfirmationInfo/DepositConfirmationInfo';
 import { OperationsSettings } from './widgets/OperationSettings/OperationsSettings';
-import { RedeemConfirmationInfo } from './widgets/RedeemConfirmationInfo/RedeemConfirmationInfo';
-import { SwapConfirmationInfo } from './widgets/SwapConfirmationInfo/SwapConfirmationInfo';
 import { SwapInfoContent } from './widgets/SwapInfoContent/SwapInfoContent';
 
 export const cardanoNetwork: Network<
@@ -95,7 +93,7 @@ export const cardanoNetwork: Network<
   defaultAssets$: defaultTokenAssets$,
   assetsToImport$: tokenAssetsToImport$,
   // TODO: Implement assets fns
-  getDefaultAssetsFor: (assetId: string) => of([]),
+  getDefaultAssetsFor,
   getImportedAssetsFor: (assetId: string) => of([]),
   getAssetsToImportFor: (assetId: string) => of([]),
   importedAssets$: of([]),
@@ -106,9 +104,6 @@ export const cardanoNetwork: Network<
   setSettings,
 
   SwapInfoContent,
-  SwapConfirmationInfo,
-  DepositConfirmationInfo,
-  RedeemConfirmationInfo,
   OperationsSettings,
 
   exploreTx,
@@ -127,6 +122,7 @@ export const cardanoNetwork: Network<
   useDepositValidationFee,
   useRedeemValidationFee,
   useCreatePoolValidationFee,
+  useNetworkAsset,
 
   getPoolChartData: () => of([]),
   pendingOperations$: of([]),
