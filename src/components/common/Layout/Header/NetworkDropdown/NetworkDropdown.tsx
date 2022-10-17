@@ -1,4 +1,5 @@
 import './NetworkDropdown.less';
+import '../../../../../assets/styles/styles.less';
 
 import {
   Button,
@@ -73,8 +74,9 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
     >
       <Button
         className={cn(
-          `network-dropdown__btn`,
-          `network-dropdown__btn--${selectedNetwork.name}`,
+          selectedNetwork.name === 'ergo'
+            ? 'network-dropdown-selected ergo'
+            : 'network-dropdown-selected cardano',
         )}
         size="large"
       >

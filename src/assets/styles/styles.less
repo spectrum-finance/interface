@@ -1,19 +1,19 @@
-@import "~@ergolabs/ui-kit/dist/styles/styles";
+@import '~@ergolabs/ui-kit/dist/styles/styles';
 @import './themes/dark.less';
 @import './themes/light.less';
 @import './themes/system';
 @import './variables/gradients.less';
 
 html {
-  overflow:   hidden;
-  width:      100vw;
-  height:     100vh;
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
 }
 
 body {
-  overflow:   hidden;
-  width:      100%;
-  height:     100%;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
   background-color: var(--spectrum-body-bg);
 }
 
@@ -26,13 +26,14 @@ body {
   touch-action: pan-y;
 }
 
-*::before, *::after {
+*::before,
+*::after {
   box-sizing: border-box !important;
   transition: none !important;
 }
 
 *::-webkit-scrollbar {
-  width:  6px;
+  width: 6px;
   height: 6px;
 }
 
@@ -41,14 +42,14 @@ body {
 }
 
 *::-webkit-scrollbar-thumb {
-  border:           1px solid var(--spectrum-scroll-border);
+  border: 1px solid var(--spectrum-scroll-border);
   background-color: var(--spectrum-scroll-bg);
-  border-radius:    var(--spectrum-border-radius-sm);
-  cursor:           pointer;
+  border-radius: var(--spectrum-border-radius-sm);
+  cursor: pointer;
 }
 
 .ant-click-animating-node {
-  display:    none !important;
+  display: none !important;
   box-shadow: none !important;
 }
 
@@ -59,21 +60,33 @@ body {
 
 ::selection {
   background-color: var(--spectrum-primary-color) !important;
-  color:            var(--spectrum-primary-text) !important;
+  color: var(--spectrum-primary-text) !important;
 }
 
 .ergodex-coming-soon {
   &::after {
-    position:      relative;
-    top:           -2px;
-    right:         80px;
-    padding:       1px 8px;
-    border:        1px solid var(--spectrum-tab-disabled-border-color);
-    background:    var(--spectrum-tab-disabled-color);
+    position: relative;
+    top: -2px;
+    right: 80px;
+    padding: 1px 8px;
+    border: 1px solid var(--spectrum-tab-disabled-border-color);
+    background: var(--spectrum-tab-disabled-color);
     border-radius: 4px;
-    content:       'Coming soon';
-    font-size:     8px;
-    line-height:   12px;
-    transform:     translate(calc(100% + 6px), -4px);
+    content: 'Coming soon';
+    font-size: 8px;
+    line-height: 12px;
+    transform: translate(calc(100% + 6px), -4px);
   }
+}
+.ergo {
+  --network-dropdown-bg: rgba(236, 105, 51, 0.25);
+  --network-dropdown-focus: rgba(236, 105, 51, 0.35);
+  --network-dropdown-active: rgba(236, 105, 51, 0.5);
+  --network-dropdown-border-color: #cb5d2e;
+}
+.cardano {
+  --network-dropdown-bg: rgba(68, 103, 191, 0.25);
+  --network-dropdown-focus: rgba(68, 103, 191, 0.35);
+  --network-dropdown-active: rgba(68, 103, 191, 0.5);
+  --network-dropdown-border-color: #3f6ad6;
 }
