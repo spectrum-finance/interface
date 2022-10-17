@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ergodex-frontend\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-10-16 18:31\n"
+"PO-Revision-Date: 2022-10-17 21:45\n"
 "Last-Translator: \n"
 "Language: pt_PT\n"
 "Language-Team: Portuguese\n"
@@ -518,7 +518,7 @@ msgstr "Posição Bloqueada"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Locking {0} and {1} ({2}) for {3}"
-msgstr ""
+msgstr "Bloqueando {0} e {1} ({2}) por {3}"
 
 #: src/components/common/TokenControl/TokenControl.tsx
 msgid "Max"
@@ -536,7 +536,7 @@ msgstr "Máximo recebido:"
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "Min value for {0} is {1}"
-msgstr ""
+msgstr "O valor mínimo para {0} é {1}"
 
 #: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
 msgid "Miner Fee"
@@ -577,11 +577,11 @@ msgstr ""
 
 #: src/components/MobilePlug/MobilePlug.tsx
 msgid "Mobile version is not supported yet"
-msgstr ""
+msgstr "Versão móvel ainda não é suportada"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Nitro"
-msgstr ""
+msgstr "Nitro"
 
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Nitro:"
@@ -589,7 +589,7 @@ msgstr ""
 
 #: src/pages/Pool/common/EmptySearchResult/EmptySearchResult.tsx
 msgid "No results found"
-msgstr ""
+msgstr "Sem resultados"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "Notice that:"
@@ -651,7 +651,7 @@ msgstr "Transações recentes"
 
 #: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
 msgid "Recommended"
-msgstr ""
+msgstr "Recomendado"
 
 #: src/components/common/ActionForm/ActionButton/ActionButton.tsx
 msgid "Refresh page"
@@ -671,7 +671,7 @@ msgstr "Reembolsar transação"
 
 #: src/components/common/TxHistory/RefundConfirmationModal/RefundConfirmationModal.tsx
 msgid "Refund will be performed to this address"
-msgstr ""
+msgstr "O reembolso será efetuado para este endereço"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Refunding {0} and {1}"
@@ -698,34 +698,34 @@ msgstr "Remover"
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidityConfirmationModal/RemoveLiquidityConfirmationModal.tsx
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Remove Liquidity"
-msgstr ""
+msgstr "Remover Liquidez"
 
 #: src/components/common/TxHistory/TxTypeTag/TxTypeTag.tsx
 #: src/pages/Pool/RemoveLiquidity/RemoveLiquidity.tsx
 msgid "Remove liquidity"
-msgstr ""
+msgstr "Remover Liquidez"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Removing liquidity {0} and {1}"
-msgstr ""
+msgstr "Removendo liquidez {0} e {1}"
 
 #: src/components/common/TokenControl/TokenSelect/TokenListModal/TokenListModal.tsx
 msgid "Search"
-msgstr ""
+msgstr "Pesquisar"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Seems like Yoroi Wallet has an issue"
-msgstr ""
+msgstr "Parece que a Carteira Yoroi tem um problema"
 
 #: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
 #: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
 msgid "Select Locked Position"
-msgstr ""
+msgstr "Selecione a Posição de Bloqueio"
 
 #: src/components/Header/NetworkDropdown/NetworkDropdown.tsx
 msgid "Select Network"
-msgstr ""
+msgstr "Selecionar Rede"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool.tsx
 msgid "Select Pair"
@@ -774,7 +774,7 @@ msgstr "Definir Preço Inicial"
 #: src/pages/Pool/components/LocksList/LockItemView/LockItemView.tsx
 #: src/pages/PoolOverview/LockLiquidityChart/AnalyticOverview/AnalyticOverview.tsx
 msgid "Share"
-msgstr ""
+msgstr "Partilhar"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Slippage tolerance"
@@ -799,11 +799,11 @@ msgstr "Estado"
 #: src/pages/Swap/Swap.tsx
 #: src/pages/Swap/Swap.tsx
 msgid "Swap"
-msgstr ""
+msgstr "Trocar"
 
 #: src/components/common/ActionForm/ActionButton/ActionButton.tsx
 msgid "Swapping is available in {0}"
-msgstr ""
+msgstr "Troca está disponível em {0}"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Swapping {0} for {1}"
