@@ -4,6 +4,7 @@
   "private": false,
   "scripts": {
     "start": "HTTPS=true react-app-rewired start",
+    "start:windows": "set HTTPS=true&&react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
     "prei18n:extract": "touch src/i18n/locales/en-US.po",
