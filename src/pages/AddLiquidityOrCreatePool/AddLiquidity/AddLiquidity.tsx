@@ -22,6 +22,7 @@ import {
   OperationForm,
   OperationValidator,
 } from '../../../components/OperationForm/OperationForm';
+import { PoolSelector } from '../../../components/PoolSelector/PoolSelector';
 import { Section } from '../../../components/Section/Section';
 import { useAssetsBalance } from '../../../gateway/api/assetBalance';
 import { useNetworkAsset } from '../../../gateway/api/networkAsset';
@@ -31,7 +32,6 @@ import { PoolRatio } from '../../PoolOverview/PoolRatio/PoolRatio';
 import { normalizeAmountWithFee } from '../common/utils';
 import { LiquidityPercentInput } from '../LiquidityPercentInput/LiquidityPercentInput';
 import { AddLiquidityFormModel } from './AddLiquidityFormModel';
-import { PoolSelector } from './PoolSelector/PoolSelector';
 
 export interface AddLiquidityProps {
   readonly xAsset?: AssetInfo;
@@ -346,6 +346,12 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
                       ammPools={pools}
                       value={value}
                       onChange={onChange}
+                      afterSelectOverlayOpen={() =>
+                        panalytics.clickPoolSelectDeposit()
+                      }
+                      afterAmmPoolSelected={(ammPool) =>
+                        panalytics.selectPoolDeposit(ammPool)
+                      }
                     />
                   )}
                 </Form.Item>

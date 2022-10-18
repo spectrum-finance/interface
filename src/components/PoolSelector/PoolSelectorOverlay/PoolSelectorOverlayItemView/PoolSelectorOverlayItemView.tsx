@@ -2,7 +2,7 @@ import { Box } from '@ergolabs/ui-kit';
 import React, { FC, useState } from 'react';
 import styled from 'styled-components';
 
-import { AmmPool } from '../../../../../../common/models/AmmPool';
+import { AmmPool } from '../../../../common/models/AmmPool';
 import { PoolView } from '../../PoolView/PoolView';
 
 interface PoolSelectorOverlayItemViewProps {
@@ -33,7 +33,7 @@ const _PoolSelectorOverlayItemView: FC<PoolSelectorOverlayItemViewProps> = ({
       onMouseLeave={handleMouseLeave}
       bordered={false}
       borderRadius="none"
-      padding={[1, 3]}
+      padding={[0, 3]}
       className={className}
     >
       <PoolView ammPool={ammPool} hover={mouseEntered} active={active} />

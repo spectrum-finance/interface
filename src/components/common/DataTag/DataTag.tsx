@@ -6,7 +6,7 @@ interface DataTagProps {
   className?: string;
   content?: number | string | ReactNode | ReactNode[];
   secondary?: boolean;
-  size?: 'small' | 'default' | 'middle' | 'large';
+  size?: 'extra-small' | 'small' | 'default' | 'middle' | 'large';
   width?: number;
   justify?: FlexProps['justify'];
   loading?: boolean;
@@ -25,7 +25,21 @@ const _DataTag: React.FC<DataTagProps> = ({
     return <Skeleton.Block style={{ borderRadius: br }} active />;
   }
 
-  if (size === 'small') {
+  if (size === 'extra-small') {
+    return (
+      <Box
+        width={width}
+        className={className}
+        borderRadius={'xs'}
+        padding={[0.5, 1]}
+        bordered={false}
+      >
+        <Flex justify={justify || 'center'}>
+          <Typography.Body size="extra-small">{content}</Typography.Body>
+        </Flex>
+      </Box>
+    );
+  } else if (size === 'small') {
     return (
       <Box
         width={width}

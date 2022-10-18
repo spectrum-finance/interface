@@ -1,8 +1,8 @@
 import { t } from '@lingui/macro';
 
-import { Currency } from '../../../../common/models/Currency';
-import { OperationValidator } from '../../../../components/OperationForm/OperationForm';
-import { CreateFarmModel } from '../CreateFarmModel';
+import { Currency } from '../../../../../common/models/Currency';
+import { OperationValidator } from '../../../../../components/OperationForm/OperationForm';
+import { CreateFarmFormModel } from '../CreateFarmFormModel';
 
 // const insufficientFeeValidator: OperationValidator<AddLiquidityFormModel> = ({
 //   value: { x, y },
@@ -60,19 +60,19 @@ import { CreateFarmModel } from '../CreateFarmModel';
 //   return c && t`Min value for ${c?.asset.ticker} is ${c?.toString()}`;
 // };
 
-const selectTokenValidator: OperationValidator<CreateFarmModel> = ({
+const selectTokenValidator: OperationValidator<CreateFarmFormModel> = ({
   value: { distributionInterval },
 }) => !distributionInterval && t`Enter a distribution interval`;
 
-const selectPoolValidator: OperationValidator<CreateFarmModel> = ({
+const selectPoolValidator: OperationValidator<CreateFarmFormModel> = ({
   value: { pool },
 }) => !pool && t`Select pool`;
 
-const selectPeriodValidator: OperationValidator<CreateFarmModel> = ({
+const selectPeriodValidator: OperationValidator<CreateFarmFormModel> = ({
   value: { period },
 }) => !period && t`Select period`;
 
-export const validators: OperationValidator<CreateFarmModel>[] = [
+export const validators: OperationValidator<CreateFarmFormModel>[] = [
   selectPoolValidator,
   selectPeriodValidator,
   // amountValidator,

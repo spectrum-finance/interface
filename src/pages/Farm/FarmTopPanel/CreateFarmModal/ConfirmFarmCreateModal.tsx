@@ -10,9 +10,9 @@ import { t, Trans } from '@lingui/macro';
 import React from 'react';
 import styled from 'styled-components';
 
-import { AssetIcon } from '../../../components/AssetIcon/AssetIcon';
-import { OperationForm } from '../../../components/OperationForm/OperationForm';
-import { Truncate } from '../../../components/Truncate/Truncate';
+import { AssetIcon } from '../../../../components/AssetIcon/AssetIcon';
+import { OperationForm } from '../../../../components/OperationForm/OperationForm';
+import { Truncate } from '../../../../components/Truncate/Truncate';
 interface ConfirmFarmCreateModal {
   form: any;
   onClose: (request?: any) => void;
