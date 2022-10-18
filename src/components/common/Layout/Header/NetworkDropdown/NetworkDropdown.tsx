@@ -10,7 +10,6 @@ import {
   Typography,
 } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
-import cn from 'classnames';
 import capitalize from 'lodash/capitalize';
 import React from 'react';
 
@@ -72,14 +71,7 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
       trigger={['click']}
       disabled={disabled}
     >
-      <Button
-        className={cn(
-          selectedNetwork.name === 'ergo'
-            ? 'network-dropdown-selected ergo'
-            : 'network-dropdown-selected cardano',
-        )}
-        size="large"
-      >
+      <Button className="network-dropdown-selected" size="large">
         <Flex justify="center" direction="row" align="center">
           <AssetIcon asset={selectedNetwork.networkAsset} />
           <Typography.Text
