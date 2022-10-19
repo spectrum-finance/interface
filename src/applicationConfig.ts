@@ -61,7 +61,7 @@ export const applicationConfig: ApplicationConfig = {
   //   title: 'Under Maintenance',
   //   content: 'We are migrating the protocol to Vasil Hard Fork testnet.',
   // },
-  reCaptchaKey: '6LeUJ8YfAAAAAMYIqGvtOmJGLeJtCSv6FBH_5sA3',
+  reCaptchaKey: '6LfCKZIiAAAAACypYW5pGlgZNTcwse1njmQMIUUL',
   requestRetryCount: 3,
   networksSettings: {
     cardano: {
