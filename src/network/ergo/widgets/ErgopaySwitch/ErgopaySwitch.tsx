@@ -1,6 +1,6 @@
 import { Modal, Switch } from '@ergolabs/ui-kit';
 import { SwitchProps } from 'antd';
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { isMobile } from 'react-device-detect';
 
 import {
@@ -12,26 +12,31 @@ import { connectWallet, disconnectWallet } from '../../api/wallet/wallet';
 import { patchSettings, useSettings } from '../../settings/settings';
 import { ErgopaySettingsModal } from './ErgopaySettingsModal/ErgopaySettingsModal';
 
-const ErgopaySwitch: React.FC<SwitchProps> = (): JSX.Element => {
+const ErgopaySwitch: React.FC<SwitchProps> = () => {
   const [{ ergopay }] = useSettings();
+  const [modalOpened, setModalOpened] = useState<boolean>(false);
 
   const prepareWalletAndEnableErgopay = () => {
     if (isMobile) {
       disconnectWallet();
       patchSettings({ ergopay: true });
     } else if (!hasReadonlyAddress()) {
-      Modal.open(({ close }) => (
-        <ErgopaySettingsModal
-          close={(address) => {
-            close();
-            if (address) {
-              setReadonlyAddress(address);
-              patchSettings({ ergopay: true });
-              connectWallet(ReadonlyWallet).subscribe(() => {});
-            }
-          }}
-        />
-      ));
+      if (!modalOpened) {
+        setModalOpened(true);
+        Modal.open(({ close }) => (
+          <ErgopaySettingsModal
+            close={(address) => {
+              close();
+              setModalOpened(false);
+              if (address) {
+                setReadonlyAddress(address);
+                patchSettings({ ergopay: true });
+                connectWallet(ReadonlyWallet).subscribe(() => {});
+              }
+            }}
+          />
+        ));
+      }
     } else {
       patchSettings({ ergopay: true });
       connectWallet(ReadonlyWallet).subscribe(() => {});
@@ -47,7 +52,7 @@ const ErgopaySwitch: React.FC<SwitchProps> = (): JSX.Element => {
         patchSettings({ ergopay: false });
       }
     },
-    [ergopay],
+    [ergopay, modalOpened],
   );
 
   return (

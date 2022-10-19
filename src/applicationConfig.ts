@@ -90,8 +90,8 @@ export const applicationConfig: ApplicationConfig = {
     reddit: 'https://www.reddit.com/r/SpectrumLabs/',
   },
   support: {
-    discord: 'https://discord.gg/Jya72kjDfq',
-    telegram: 'https://t.me/ergodex_community',
+    discord: 'https://discord.com/invite/zY2gmTYQVD',
+    telegram: 'https://t.me/spectrum_labs_community',
   },
   applicationTick: 5 * 1000,
   hiddenAssets: [

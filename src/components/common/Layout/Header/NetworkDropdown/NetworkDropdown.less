@@ -6,14 +6,14 @@
 
     &__active {
       &::after {
-        position: absolute;
-        top: 12px;
-        right: 16px;
-        width: 8px;
-        height: 8px;
+        position:         absolute;
+        top:              12px;
+        right:            16px;
+        width:            8px;
+        height:           8px;
         background-color: var(--spectrum-success-color);
-        border-radius: 50%;
-        content: '';
+        border-radius:    50%;
+        content:          '';
       }
     }
   }
@@ -27,8 +27,8 @@
   }
 
   &__menu-title {
-    display: block;
-    padding-left: calc(var(--spectrum-base-gutter) * 4);
+    display:       block;
+    padding-left:  calc(var(--spectrum-base-gutter) * 4);
     margin-bottom: var(--spectrum-base-gutter) !important;
   }
 
@@ -37,5 +37,24 @@
     @media (min-width: 700px) {
       display: inline;
     }
+  }
+}
+
+.network-dropdown-selected {
+  border:           1px solid var(--network-dropdown-border-color);
+  background-color: var(--network-dropdown-bg);
+  border-radius:    var(--spectrum-border-radius);
+
+  &:hover,
+  &:focus {
+    border:           1px solid var(--network-dropdown-border-color);
+    background-color: var(--network-dropdown-focus);
+    color:            var(--network-dropdown-border-color);
+  }
+
+  &:active {
+    border:           1px solid var(--network-dropdown-border-color);
+    background-color: var(--network-dropdown-active);
+    color:            var(--network-dropdown-border-color);
   }
 }
