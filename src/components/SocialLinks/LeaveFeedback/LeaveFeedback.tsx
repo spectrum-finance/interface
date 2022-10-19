@@ -7,8 +7,7 @@ export interface LeaveFeedbackProps {
   readonly className?: string;
 }
 
-const FEEDBACK_URL =
-  'https://docs.google.com/forms/d/e/1FAIpQLSdtCDEngXzYWLIzYeULCLYoZrfkG3fgu8vfp8kjee1NBUd91Q/viewform';
+const FEEDBACK_URL = 'https://forms.gle/wenR2wKP2ngPf86w8';
 
 const _LeaveFeedback: FC<LeaveFeedbackProps> = ({ className }) => (
   <Button
