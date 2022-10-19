@@ -6,13 +6,12 @@ import { makeWalletManager } from '../../../common/WalletManager';
 import { ErgoWalletContract } from './common/ErgoWalletContract';
 import { Nautilus } from './nautilus/nautilus';
 import { ReadonlyWallet } from './readonly/readonly';
-import { Yoroi } from './yoroi/yoroi';
 
 const ERGO_SELECTED_WALLET_TOKEN = 'ergo-selected-wallet';
 
 export const ergoWalletManager = makeWalletManager<ErgoWalletContract>(
   ERGO_SELECTED_WALLET_TOKEN,
-  [Nautilus, ReadonlyWallet, Yoroi],
+  [Nautilus, ReadonlyWallet],
   (w: ErgoWalletContract) => w.connectWallet(),
 );
 
