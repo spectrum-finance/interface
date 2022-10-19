@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ergodex-frontend\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-10-17 21:45\n"
+"PO-Revision-Date: 2022-10-19 21:28\n"
 "Last-Translator: \n"
 "Language: pt_PT\n"
 "Language-Team: Portuguese\n"
@@ -565,7 +565,7 @@ msgstr ""
 #: src/components/Header/GlobalSettingsModal/MinerFeeInput/MinerFeeInput.tsx
 #: src/pages/Swap/OperationSettings/NitroInput/NitroInput.tsx
 msgid "Minimum"
-msgstr ""
+msgstr "Mínimo"
 
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
 msgid "Minimum received:"
@@ -778,16 +778,16 @@ msgstr "Partilhar"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Slippage tolerance"
-msgstr ""
+msgstr "Tolerância do Desvio"
 
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
 msgid "Slippage tolerance:"
-msgstr ""
+msgstr "Tolerância do Desvio:"
 
 #: src/pages/Swap/SwapInfo/SwapInfoHeader/SlippageTag/SlippageTag.tsx
 msgid "Slippage: {slippage}"
-msgstr ""
+msgstr "Desvio: {slippage}"
 
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
 #: src/pages/Pool/components/LockedPositionItem/LockedPositionItem.tsx
@@ -807,19 +807,19 @@ msgstr "Troca está disponível em {0}"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Swapping {0} for {1}"
-msgstr ""
+msgstr "Troca de {0} por {1}"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 msgid "The % you will earn in fees"
-msgstr ""
+msgstr "A % que irá receber em comissões"
 
 #: src/components/NetworkHeight/NetworkHeight.tsx
 msgid "The most recent block in Ergo network"
-msgstr ""
+msgstr "O bloqueio mais recente da rede Ergo"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool.tsx
 msgid "The pool with such a pair has not yet been initialized. To create a pool enter an initial price. Then add the deposit amount."
-msgstr ""
+msgstr "O pool com esse par ainda não foi criada. Para criar uma pool insira um preço inicial. De seguida, adicione o valor do depósito."
 
 #: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
 msgid "The value can't be more than {MAX_ERG_FOR_TX} ERG"
@@ -833,11 +833,11 @@ msgstr ""
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "This pair has not been verified by the ErgoDEX team"
-msgstr ""
+msgstr "Este par não foi verificado pela equipa da ErgoDEX"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
 msgid "This position is still locked"
-msgstr ""
+msgstr "Esta posição ainda está bloqueada"
 
 #: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
 msgid "This wallet may not always work as expected. I understand what I do andwill use it at my own risk."
