@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ergodex-frontend\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-10-20 20:27\n"
+"PO-Revision-Date: 2022-10-20 21:32\n"
 "Last-Translator: \n"
 "Language: pt_PT\n"
 "Language-Team: Portuguese\n"
@@ -305,7 +305,7 @@ msgstr "Rede Ergo"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "ErgoDEX Smart Contracts"
-msgstr ""
+msgstr "ErgoDEX Smart Contracts"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "ErgoDEX Team doesn’t guarantee the absence of bugs and errors."
@@ -573,7 +573,7 @@ msgstr "Mínimo recebido:"
 
 #: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
 msgid "Minimum value is {MIN_ERG_FOR_TX} ERG"
-msgstr ""
+msgstr "O valor mínimo é {MIN_ERG_FOR_TX} ERG"
 
 #: src/components/MobilePlug/MobilePlug.tsx
 msgid "Mobile version is not supported yet"
@@ -585,7 +585,7 @@ msgstr "Nitro"
 
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "Nitro:"
-msgstr ""
+msgstr "Nitro:"
 
 #: src/pages/Pool/common/EmptySearchResult/EmptySearchResult.tsx
 msgid "No results found"
@@ -593,7 +593,7 @@ msgstr "Sem resultados"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "Notice that:"
-msgstr ""
+msgstr "Note que:"
 
 #: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
 msgid "Once LP-tokens are locked they cannot be withdrawn under any circumstances until the timer has expired. Please ensure the parameters are correct, as they are final."
@@ -609,7 +609,7 @@ msgstr "Escolha uma nova data de desbloqueio"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
 msgid "Pool"
-msgstr ""
+msgstr "Pool"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Pool liquidity"
@@ -823,7 +823,7 @@ msgstr "O pool com esse par ainda não foi criada. Para criar uma pool insira um
 
 #: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
 msgid "The value can't be more than {MAX_ERG_FOR_TX} ERG"
-msgstr ""
+msgstr "O valor não pode ser superior a {MAX_ERG_FOR_TX} ERG"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
@@ -904,7 +904,7 @@ msgstr "Comissão do UI:"
 
 #: src/pages/Pool/components/LockedPositionItem/LockedPositionItem.tsx
 msgid "Unlock Block"
-msgstr ""
+msgstr "Desbloquear Bloco"
 
 #: src/pages/Pool/components/LockedPositionItem/LockedPositionItem.tsx
 msgid "Unlock Date"
@@ -960,7 +960,7 @@ msgstr "NÃO recomendamos que use ErgoDEX com grandes quantidades de ativos!"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
 msgid "Withdrawable"
-msgstr ""
+msgstr "Retirável"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
@@ -996,7 +996,7 @@ msgstr "As suas posições de liquidez aparecerão aqui."
 
 #: src/pages/Swap/PoolSelector/PoolSelector.tsx
 msgid "Your operation will be executed in this pool. <0/> You can also choose another pool for this pair"
-msgstr ""
+msgstr "A sua operação será executada nesta pool. <0/> Contudo poderá escolher outra pool para este par"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
 msgid "Your transaction may be frontrun"
