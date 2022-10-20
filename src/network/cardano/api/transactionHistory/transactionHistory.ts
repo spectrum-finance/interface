@@ -19,11 +19,29 @@ import {
   switchMap,
 } from 'rxjs';
 
+import { applicationConfig } from '../../../../applicationConfig';
 import { Operation } from '../../../../common/models/Operation';
 import { getAddresses } from '../addresses/addresses';
 import { cardanoNetwork } from '../common/cardanoNetwork';
 import { cardanoWasm$ } from '../common/cardanoWasm';
 import { mapToOperationOrEmpty } from './common';
+
+const isOperationNotBlacklisted = (o: Operation): boolean => {
+  switch (o.type) {
+    case 'swap':
+      return (
+        !applicationConfig.blacklistedHistoryAssets.includes(o.base.asset.id) &&
+        !applicationConfig.blacklistedHistoryAssets.includes(o.quote.asset.id)
+      );
+    case 'deposit':
+    case 'redeem':
+      return (
+        !applicationConfig.blacklistedHistoryAssets.includes(o.x.asset.id) &&
+        !applicationConfig.blacklistedHistoryAssets.includes(o.y.asset.id)
+      );
+  }
+  return true;
+};
 
 const historyRepository$: Observable<History> = cardanoWasm$.pipe(
   map((cardanoWasm) =>
@@ -58,6 +76,7 @@ export const getOperations = (): Observable<Operation[]> =>
               ),
             ),
             map((operations) => operations.filter(Boolean) as Operation[]),
+            map((operations) => operations.filter(isOperationNotBlacklisted)),
           ),
         ),
       ),

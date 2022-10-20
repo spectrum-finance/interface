@@ -46,6 +46,7 @@ interface ApplicationConfig {
   readonly applicationTick: number;
   readonly hiddenAssets: string[];
   readonly blacklistedPools: string[];
+  readonly blacklistedHistoryAssets: string[];
   readonly operationsRestrictions: OperationRestriction[];
   readonly requestRetryCount: number;
 }
@@ -97,6 +98,24 @@ export const applicationConfig: ApplicationConfig = {
   hiddenAssets: [
     'ef802b475c06189fdbf844153cdc1d449a5ba87cce13d11bb47b5a539f27f12b',
     '30974274078845f263b4f21787e33cc99e9ec19a17ad85a5bc6da2cca91c5a2e',
+    mkSubject({
+      name: 'new_spectrum_token_b',
+      policyId: '065270479316f1d92e00f7f9f095ebeaac9d009c878dc35ce36d3404',
+    }),
+    mkSubject({
+      name: 'new_spectrum_token_a',
+      policyId: '065270479316f1d92e00f7f9f095ebeaac9d009c878dc35ce36d3404',
+    }),
+  ],
+  blacklistedHistoryAssets: [
+    mkSubject({
+      name: 'new_spectrum_token_b',
+      policyId: '065270479316f1d92e00f7f9f095ebeaac9d009c878dc35ce36d3404',
+    }),
+    mkSubject({
+      name: 'new_spectrum_token_a',
+      policyId: '065270479316f1d92e00f7f9f095ebeaac9d009c878dc35ce36d3404',
+    }),
   ],
   blacklistedPools: [
     'bee300e9c81e48d7ab5fc29294c7bbb536cf9dcd9c91ee3be9898faec91b11b6',

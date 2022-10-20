@@ -21,6 +21,7 @@ import {
   Operation,
 } from '../../../../components/ConfirmationModal/ConfirmationModal';
 import { RemoveLiquidityFormModel } from '../../../../pages/RemoveLiquidity/RemoveLiquidityFormModel';
+import { depositAda } from '../../settings/depositAda';
 import { CardanoSettings, settings$ } from '../../settings/settings';
 import { RedeemConfirmationModal } from '../../widgets/RedeemConfirmationModal/RedeemConfirmationModal';
 import { CardanoAmmPool } from '../ammPools/CardanoAmmPool';
@@ -62,7 +63,7 @@ const toRedeemTxCandidate = ({
     estimatedOutputX,
     estimatedOutputY,
     ammTxFeeMapping,
-    minExecutorReward,
+    minExecutorReward + depositAda.amount,
     UI_FEE_BIGINT,
     txMath,
   );
@@ -115,7 +116,9 @@ export const walletRedeem = (
         settings,
       }),
     ),
+    tap((_) => console.log(_)),
     switchMap(submitTx),
+    tap(null, (_) => console.log(_)),
   );
 
 export const redeem = (
