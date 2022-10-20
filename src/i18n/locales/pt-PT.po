@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ergodex-frontend\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-10-19 21:28\n"
+"PO-Revision-Date: 2022-10-20 01:05\n"
 "Last-Translator: \n"
 "Language: pt_PT\n"
 "Language-Team: Portuguese\n"
@@ -841,7 +841,7 @@ msgstr "Esta posição ainda está bloqueada"
 
 #: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
 msgid "This wallet may not always work as expected. I understand what I do andwill use it at my own risk."
-msgstr ""
+msgstr "Esta carteira poderá não funcionar como o esperado. Estou ciente do que faço e a usarei por minha conta e risco."
 
 #: src/pages/Swap/Swap.tsx
 msgid "To"
@@ -900,7 +900,7 @@ msgstr "Digite o nome do token ou ID da pool"
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
 msgid "UI Fee:"
-msgstr ""
+msgstr "Comissão do UI:"
 
 #: src/pages/Pool/components/LockedPositionItem/LockedPositionItem.tsx
 msgid "Unlock Block"
@@ -956,7 +956,7 @@ msgstr "Carteira"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "We recommend that you DO NOT use ErgoDEX to operate large amounts of assets!"
-msgstr ""
+msgstr "NÃO recomendamos que use ErgoDEX com grandes quantidades de ativos!"
 
 #: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
 msgid "Withdrawable"
