@@ -10,10 +10,10 @@ import {
   Typography,
   useDevice,
 } from '@ergolabs/ui-kit';
-import React, { CSSProperties, ReactNode } from 'react';
+import React, { CSSProperties, FC, ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 class Portal extends React.Component<{ root: HTMLElement }> {
   render() {
@@ -38,11 +38,54 @@ interface PageProps {
   padding?: Gutter;
 }
 
-const Widget = styled.div`
+const _Widget: FC<{
+  className?: string;
+  style?: CSSProperties;
+  opened?: boolean;
+  children?: ReactNode | ReactNode[] | string;
+}> = ({ className, style, children }) => (
+  <div style={style} className={className}>
+    {children}
+  </div>
+);
+
+const Widget = styled(_Widget)`
+  @keyframes content-width {
+    from {
+      overflow: hidden;
+      height: 436px;
+      width: 624px;
+      opacity: 0;
+    }
+    to {
+      overflow: initial;
+      height: auto;
+      width: 100%;
+      opacity: 1;
+    }
+  }
+
   background: var(--spectrum-page-footer-bg);
-  border-radius: 4px 0 0 4px;
+  border-radius: 16px 0 0 16px;
   margin: 16px 0;
+  transition: width 0.6s;
   width: 100%;
+
+  ${(props) =>
+    !props.opened &&
+    css`
+      transition: width 0.35s;
+      height: 436px;
+      overflow: hidden;
+      width: 0;
+
+      > * {
+        width: 624px;
+      }
+    `}
+  > * {
+    animation: ${(props) => props.opened && 'content-width 0.6s'};
+  }
 `;
 
 const _Page: React.FC<PageProps> = ({
@@ -116,8 +159,9 @@ const _Page: React.FC<PageProps> = ({
               </Pane>
             </Portal>
           )}
-          {!(s || m) && widgetOpened && (
+          {!(s || m) && (
             <Widget
+              opened={widgetOpened}
               style={{
                 maxWidth: valBySize(undefined, undefined, 624),
               }}
@@ -128,10 +172,9 @@ const _Page: React.FC<PageProps> = ({
           <Flex col style={{ width: maxWidth ? '100%' : width ?? 0, maxWidth }}>
             <Flex.Item style={{ zIndex: 2 }} width="100%">
               <Box
-                bordered={false}
                 className={className}
-                padding={padding ? padding : valBySize([4, 4], [6, 6])}
-                borderRadius="l"
+                padding={padding ? padding : valBySize([4, 4])}
+                borderRadius="xl"
                 width="100%"
               >
                 {children}

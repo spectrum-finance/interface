@@ -30,7 +30,9 @@ const OptionsButton: FC<OptionsButtonProps> = ({
     <Dropdown
       overlay={
         <Menu style={{ width: width ? width : 160, padding: 0 }}>
-          <Box padding={2}>{children}</Box>
+          <Box secondary padding={2} borderRadius="l">
+            {children}
+          </Box>
         </Menu>
       }
       trigger={['click']}

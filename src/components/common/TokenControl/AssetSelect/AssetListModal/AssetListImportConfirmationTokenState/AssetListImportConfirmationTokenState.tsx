@@ -1,4 +1,4 @@
-import { Alert, Flex } from '@ergolabs/ui-kit';
+import { Alert, Button, Flex } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import first from 'lodash/first';
 import React, { FC, useEffect, useState } from 'react';
@@ -10,7 +10,6 @@ import {
   getAssetToImportFor,
   hasAvailablePoolsWith,
 } from '../../../../../../gateway/api/assets';
-import { SubmitButton } from '../../../../../SubmitButton/SubmitButton';
 import { ImportTokenInfo } from './ImportTokenInfo/ImportTokenInfo';
 import { ImportTokenPairSelectControl } from './ImportTokenPairSelectControl/ImportTokenPairSelectControl';
 import { ImportTokenWarning } from './ImportTokenWarning/ImportTokenWarning';
@@ -49,7 +48,11 @@ export const AssetListImportConfirmationTokenState: FC<AssetListImportConfirmati
       <Flex col>
         {!hasAvailablePools && (
           <Flex.Item marginBottom={6}>
-            <StyledAlert type="warning" description={<ImportTokenWarning />} />
+            <StyledAlert
+              borderRadius="l"
+              type="warning"
+              description={<ImportTokenWarning />}
+            />
           </Flex.Item>
         )}
         <Flex.Item marginBottom={6}>
@@ -65,12 +68,14 @@ export const AssetListImportConfirmationTokenState: FC<AssetListImportConfirmati
             />
           </Flex.Item>
         )}
-        <SubmitButton
+        <Button
+          type="primary"
+          size="extra-large"
           disabled={!selectedPairTokens?.length && !hasAvailablePools}
           onClick={() => onAssetsImportConfirm(asset, selectedPairTokens || [])}
         >
           <Trans>Import</Trans>
-        </SubmitButton>
+        </Button>
       </Flex>
     );
   };

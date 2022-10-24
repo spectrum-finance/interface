@@ -149,31 +149,6 @@ const WalletView: React.FC<WalletItemProps> = ({
           </Flex>
         </ExperimentalWalletBox>
       );
-    case 'recommended':
-      return (
-        <Flex col>
-          <Flex.Item marginBottom={2} alignSelf="flex-end">
-            <Tag color="success">
-              <Trans>Recommended</Trans>
-            </Tag>
-          </Flex.Item>
-          {warning && (
-            <Flex.Item marginBottom={2}>
-              <Alert
-                type="warning"
-                description={warning}
-                style={{ width: '100%' }}
-              />
-            </Flex.Item>
-          )}
-          <WalletButton size="large" onClick={handleClick} loading={loading}>
-            <Flex.Item flex={1} display="flex" align="center">
-              <Body>{wallet.name}</Body>
-            </Flex.Item>
-            {wallet.icon}
-          </WalletButton>
-        </Flex>
-      );
     default:
       return (
         <>

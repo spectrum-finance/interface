@@ -47,7 +47,7 @@ const _NitroInput: FC<NitroInputProps> = ({
   return (
     <Flex col>
       <Flex.Item marginBottom={1}>
-        <Box control borderRadius="m">
+        <Box secondary borderRadius="l">
           <Flex align="center">
             <Flex.Item marginRight={2}>
               <Button

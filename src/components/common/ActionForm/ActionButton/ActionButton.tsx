@@ -165,13 +165,7 @@ export const ActionButton: FC<ActionButtonProps> = (props) => {
       size="extra-large"
       analytics={props.analytics}
     >
-      <Button
-        htmlType="submit"
-        {...other}
-        style={{ fontSize: '20px', lineHeight: '28px' }}
-        size="extra-large"
-        block
-      >
+      <Button htmlType="submit" {...other} size="extra-large" block>
         {children}
       </Button>
     </ConnectWalletButton>

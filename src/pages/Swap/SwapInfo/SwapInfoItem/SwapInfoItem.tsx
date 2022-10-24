@@ -19,7 +19,9 @@ export const SwapInfoItem: FC<SwapInfoItemProps> = ({
   <Flex align="center" justify="space-between">
     <Flex.Item align="center">
       <Flex.Item marginRight={1}>
-        <Typography.Body secondary={secondary}>{title}</Typography.Body>
+        <Typography.Body size="small" secondary={secondary}>
+          {title}
+        </Typography.Body>
       </Flex.Item>
       <Flex.Item>
         {tooltip && (
@@ -32,7 +34,9 @@ export const SwapInfoItem: FC<SwapInfoItemProps> = ({
       </Flex.Item>
     </Flex.Item>
     <Flex.Item>
-      <Typography.Body secondary={secondary}>{value}</Typography.Body>
+      <Typography.Body size="small" secondary={secondary}>
+        {value}
+      </Typography.Body>
     </Flex.Item>
   </Flex>
 );

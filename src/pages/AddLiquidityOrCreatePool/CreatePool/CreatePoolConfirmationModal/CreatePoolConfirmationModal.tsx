@@ -110,10 +110,12 @@ const CreatePoolConfirmationModal: FC<CreatePoolConfirmationModalProps> = ({
                   <Divider />
                 </Flex.Item>
                 <Flex.Item align="center" justify="space-between">
-                  <Typography.Body strong>
+                  <Typography.Body strong size="large">
                     <Trans>Fee tier</Trans>
                   </Typography.Body>
-                  <Typography.Body strong>{value.fee}%</Typography.Body>
+                  <Typography.Body strong size="large">
+                    {value.fee}%
+                  </Typography.Body>
                 </Flex.Item>
               </Flex>
             </FormPairSection>
@@ -150,9 +152,9 @@ const CreatePoolConfirmationModal: FC<CreatePoolConfirmationModalProps> = ({
             <PageSection title={t`Fees`}>
               <Flex justify="space-between">
                 <Flex.Item>
-                  <Typography.Text strong>
+                  <Typography.Body strong size="large">
                     <Trans>Fees</Trans>
-                  </Typography.Text>
+                  </Typography.Body>
                   <InfoTooltip
                     placement="rightBottom"
                     content={
@@ -170,7 +172,9 @@ const CreatePoolConfirmationModal: FC<CreatePoolConfirmationModalProps> = ({
                   />
                 </Flex.Item>
                 <Flex.Item>
-                  <Typography.Text strong>{minerFee} ERG</Typography.Text>
+                  <Typography.Body size="large" strong>
+                    {minerFee} ERG
+                  </Typography.Body>
                 </Flex.Item>
               </Flex>
             </PageSection>
