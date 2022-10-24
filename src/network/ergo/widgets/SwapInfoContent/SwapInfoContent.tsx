@@ -42,13 +42,10 @@ export const SwapInfoContent: FC<SwapInfoContent> = ({ value }) => {
 
   return (
     <Flex col>
-      <Flex.Item marginBottom={2}>
-        <SwapInfoItem title={t`Slippage tolerance:`} value={`${slippage}%`} />
-      </Flex.Item>
-      <Flex.Item marginBottom={2}>
+      <Flex.Item marginBottom={1}>
         <SwapInfoPriceImpact value={value} />
       </Flex.Item>
-      <Flex.Item marginBottom={2}>
+      <Flex.Item marginBottom={1}>
         <SwapInfoItem
           title={t`Minimum receivable:`}
           value={
@@ -63,7 +60,7 @@ export const SwapInfoContent: FC<SwapInfoContent> = ({ value }) => {
           }
         />
       </Flex.Item>
-      <Flex.Item marginBottom={4}>
+      <Flex.Item marginBottom={2}>
         <SwapInfoItem
           title={t`Maximum receivable:`}
           value={
@@ -78,29 +75,27 @@ export const SwapInfoContent: FC<SwapInfoContent> = ({ value }) => {
           }
         />
       </Flex.Item>
-      <Flex.Item marginBottom={4}>
+      <Flex.Item marginBottom={2}>
         <Divider />
       </Flex.Item>
-      <Flex.Item marginBottom={2}>
+      <Flex.Item marginBottom={1}>
         <SwapInfoItem
           title={t`Execution Fee`}
           value={`${minExFee.toCurrencyString()} - ${maxExFee.toCurrencyString()}`}
           secondary
         />
       </Flex.Item>
-      <Flex.Item marginBottom={2}>
+      <Flex.Item marginBottom={1}>
         <SwapInfoItem
           title={t`Miner fee:`}
           value={minerFee.toCurrencyString()}
           secondary
         />
       </Flex.Item>
-      <Flex.Item marginBottom={2}>
-        <SwapInfoItem
-          title={t`Total fees:`}
-          value={`${minTotalFee.toCurrencyString()} - ${maxTotalFee.toCurrencyString()}`}
-        />
-      </Flex.Item>
+      <SwapInfoItem
+        title={t`Total fees:`}
+        value={`${minTotalFee.toCurrencyString()} - ${maxTotalFee.toCurrencyString()}`}
+      />
     </Flex>
   );
 };

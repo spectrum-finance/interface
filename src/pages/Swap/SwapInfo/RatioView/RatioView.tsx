@@ -2,10 +2,10 @@ import { Typography } from '@ergolabs/ui-kit';
 import React, { FC } from 'react';
 import styled from 'styled-components';
 
-import { Currency } from '../../../../../common/models/Currency';
-import { Ratio } from '../../../../../common/models/Ratio';
-import { Truncate } from '../../../../../components/Truncate/Truncate';
-import { SwapFormModel } from '../../../SwapFormModel';
+import { Currency } from '../../../../common/models/Currency';
+import { Ratio } from '../../../../common/models/Ratio';
+import { Truncate } from '../../../../components/Truncate/Truncate';
+import { SwapFormModel } from '../../SwapFormModel';
 
 const calculateOutputPrice = ({
   fromAmount,
@@ -96,7 +96,12 @@ const _RatioView: FC<RatioViewProps> = ({
   };
 
   return (
-    <Typography.Body className={className} onClick={toggleReversedRatio}>
+    <Typography.Body
+      strong
+      size="small"
+      className={className}
+      onClick={toggleReversedRatio}
+    >
       <RatioString value={value} reversedRatio={isReversed} />
     </Typography.Body>
   );

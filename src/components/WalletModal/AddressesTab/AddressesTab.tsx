@@ -1,5 +1,4 @@
-import { Box, Button, Flex, Typography } from '@ergolabs/ui-kit';
-import { t } from '@lingui/macro';
+import { Box, Flex, Radio, Typography } from '@ergolabs/ui-kit';
 import React, { useEffect, useState } from 'react';
 
 import { useObservable } from '../../../common/hooks/useObservable';
@@ -87,6 +86,7 @@ const AddressListItem: React.FC<AddressListItemProps> = ({
             <ConvenientAssetView value={addressBalance} prefix="~" />
           </Typography.Body>
         </Flex.Item>
+        <Radio checked={active} />
       </Flex>
     </Box>
   );
