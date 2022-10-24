@@ -10,7 +10,6 @@ import { CurrencyPreview } from '../../../../components/CurrencyPreview/Currency
 import { SwapFormModel } from '../../../../pages/Swap/SwapFormModel';
 import { ergoPaySwap } from '../../operations/swap/ergopaySwap';
 import { SwapConfirmationInfo } from '../common/SwapConfirmationInfo/SwapConfirmationInfo';
-import { ErgoPayCompatibleWalletLink } from '../ErgoPayModal/ErgoPayCompatibleWalletLink/ErgoPayCompatibleWalletLink';
 
 export interface ErgoPayOpenWalletContentProps {
   readonly value: Required<SwapFormModel>;
@@ -49,16 +48,13 @@ export const SwapOpenWallet: FC<ErgoPayOpenWalletContentProps> = ({
         <Form form={form} onSubmit={swapOperation}>
           <Flex direction="col">
             <Flex.Item marginBottom={1}>
-              <CurrencyPreview value={value.fromAmount} label={t`From`} />
+              <CurrencyPreview value={value.fromAmount} />
             </Flex.Item>
-            <Flex.Item marginBottom={4}>
-              <CurrencyPreview value={value.toAmount} label={t`To`} />
+            <Flex.Item marginBottom={6}>
+              <CurrencyPreview value={value.toAmount} />
             </Flex.Item>
             <Flex.Item marginBottom={6}>
               <SwapConfirmationInfo value={value} />
-            </Flex.Item>
-            <Flex.Item marginBottom={2} alignSelf="center">
-              <ErgoPayCompatibleWalletLink />
             </Flex.Item>
             <Flex.Item>
               <Button

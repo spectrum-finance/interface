@@ -86,7 +86,7 @@ const AssetListModal: React.FC<TokenListModalProps> = ({
                 <StyledArrowLeftOutlined onClick={resetModalState} />
               </Typography.Title>
             </Flex.Item>
-            <Trans>Select a token</Trans>
+            <Trans>Import token</Trans>
           </Flex>
         )}
       </Modal.Title>

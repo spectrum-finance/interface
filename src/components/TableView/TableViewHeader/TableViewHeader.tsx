@@ -42,7 +42,7 @@ export const TableViewHeader: FC<TableViewHeaderProps> = ({
           minWidth={c.headerMinWidth || c.minWidth}
         >
           <Flex align="center" style={{ userSelect: 'none' }}>
-            <Typography.Body>{c.title}</Typography.Body>
+            <Typography.Body strong>{c.title}</Typography.Body>
             {c.sortBy && (
               <Flex.Item marginLeft={1}>
                 <SortButton

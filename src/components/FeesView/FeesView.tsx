@@ -4,7 +4,9 @@ import React, { FC, ReactNode } from 'react';
 
 import { Currency } from '../../common/models/Currency';
 import { BoxInfoItem } from '../BoxInfoItem/BoxInfoItem';
+import { ConvenientAssetView } from '../ConvenientAssetView/ConvenientAssetView';
 import { InfoTooltip } from '../InfoTooltip/InfoTooltip';
+import { IsErgo } from '../IsErgo/IsErgo';
 
 export interface FeesViewItem {
   caption: ReactNode | ReactNode[] | string;
@@ -19,8 +21,7 @@ export interface FeesViewProps {
 export const FeesView: FC<FeesViewProps> = ({ fees, totalFees }) => (
   <BoxInfoItem
     title={
-      <Typography.Text>
-        <Trans>Total Fees</Trans>
+      <>
         <InfoTooltip
           placement="right"
           content={
@@ -39,18 +40,29 @@ export const FeesView: FC<FeesViewProps> = ({ fees, totalFees }) => (
               ))}
             </Flex>
           }
-        />
-        :
-      </Typography.Text>
+        >
+          <Typography.Body size="large">
+            <Trans>Total Fees</Trans>
+          </Typography.Body>
+        </InfoTooltip>
+        <Typography.Body size="large">:</Typography.Body>
+      </>
     }
     value={
-      <Typography.Text>
+      <Typography.Body size="large" strong>
         {totalFees instanceof Array
           ? `${totalFees[0].toString()} - ${totalFees[1].toString()} ${
               totalFees[0].asset.ticker
             }`
-          : totalFees.toCurrencyString()}
-      </Typography.Text>
+          : totalFees.toCurrencyString()}{' '}
+        <IsErgo>
+          (
+          <ConvenientAssetView
+            value={totalFees instanceof Array ? totalFees[1] : totalFees}
+          />
+          )
+        </IsErgo>
+      </Typography.Body>
     }
   />
 );

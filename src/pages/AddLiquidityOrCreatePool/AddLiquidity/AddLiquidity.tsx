@@ -367,6 +367,7 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
         </Flex.Item>
         <Flex.Item marginBottom={4}>
           <Section
+            gap={2}
             title={t`Liquidity`}
             extra={
               <Flex justify="flex-end">

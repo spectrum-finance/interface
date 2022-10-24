@@ -19,7 +19,7 @@ const _AssetListExtendedSearchItem: React.FC<AssetListExtendedSearchItemProps> =
     <Box
       height={height}
       className={className}
-      borderRadius="m"
+      transparent
       padding={[0, 4]}
       bordered={false}
     >
@@ -42,10 +42,5 @@ const _AssetListExtendedSearchItem: React.FC<AssetListExtendedSearchItemProps> =
   );
 
 export const AssetListExtendedSearchItem = styled(_AssetListExtendedSearchItem)`
-  cursor: pointer;
   user-select: none;
-
-  &:hover {
-    background-color: var(--spectrum-dark-card-background);
-  }
 `;
