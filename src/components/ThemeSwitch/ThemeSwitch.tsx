@@ -1,16 +1,11 @@
 import { Flex, Tabs, Typography } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import React, { FC, useCallback } from 'react';
-import styled from 'styled-components';
 
 import { panalytics } from '../../common/analytics';
 import { useApplicationSettings } from '../../context';
 
-export interface ThemeSwitchProps {
-  readonly className?: string;
-}
-
-const _ThemeSwitch: FC<ThemeSwitchProps> = ({ className }) => {
+export const ThemeSwitch: FC = () => {
   const [settings, setSettings] = useApplicationSettings();
   const { theme } = settings;
 
@@ -33,7 +28,8 @@ const _ThemeSwitch: FC<ThemeSwitchProps> = ({ className }) => {
         </Typography.Body>
       </Flex.Item>
       <Tabs
-        className={className}
+        size="small"
+        fullWidth
         onChange={handleChangeTheme as any}
         activeKey={theme || 'light'}
       >
@@ -44,19 +40,3 @@ const _ThemeSwitch: FC<ThemeSwitchProps> = ({ className }) => {
     </Flex>
   );
 };
-
-export const ThemeSwitch = styled(_ThemeSwitch)`
-  .ant-tabs-nav-list {
-    height: 32px;
-  }
-
-  .ant-tabs-tab,
-  .ant-tabs-nav-list {
-    flex-grow: 1;
-  }
-
-  .ant-tabs-tab-btn {
-    font-size: 14px;
-    line-height: 22px;
-  }
-`;

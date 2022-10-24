@@ -23,15 +23,15 @@ const _PoolItemView: FC<PoolItemViewProps> = ({
 }) => {
   const [mouseEntered, setMouseEntered] = useState<boolean>(false);
 
-  const handleClick = () => {
+  const handleMouseEnter = () => setMouseEntered(true);
+
+  const handleMouseLeave = () => setMouseEntered(false);
+
+  const handleCLick = () => {
     if (onClick) {
       onClick(pool);
     }
   };
-
-  const handleMouseEnter = () => setMouseEntered(true);
-
-  const handleMouseLeave = () => setMouseEntered(false);
 
   return (
     <Box
@@ -39,9 +39,12 @@ const _PoolItemView: FC<PoolItemViewProps> = ({
       onMouseLeave={handleMouseLeave}
       bordered={false}
       className={className}
-      borderRadius="s"
-      padding={[0, 4]}
-      onClick={handleClick}
+      borderRadius="l"
+      padding={[0, 3]}
+      height={52}
+      secondary
+      transparent
+      onClick={active ? undefined : handleCLick}
     >
       <Flex align="center" stretch>
         <Flex.Item marginRight={2}>
@@ -90,20 +93,11 @@ const _PoolItemView: FC<PoolItemViewProps> = ({
 };
 
 export const PoolItemView = styled(_PoolItemView)`
-  cursor: pointer;
-  height: 52px;
+  user-select: none;
 
   ${(props) =>
     props.active &&
     css`
-      background: var(--spectrum-pool-selector-item-active);
-    `}
-
-  ${(props) =>
-    !props.active &&
-    css`
-      &:hover {
-        background: var(--spectrum-pool-selector-item-hover);
-      }
+      opacity: 0.4;
     `}
 `;

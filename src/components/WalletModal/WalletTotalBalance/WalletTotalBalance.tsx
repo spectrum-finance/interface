@@ -25,19 +25,21 @@ export const WalletTotalBalance: React.FC<WalletTotalBalanceProps> = ({
           <Trans>Total balance</Trans>
         </Typography.Body>
       </Flex.Item>
-      <Box padding={[2, 4]} borderRadius="m" contrast>
+      <Box padding={[3, 4]} borderRadius="l" secondary>
         {balance?.toCurrencyString() ? (
           <Flex row align="center">
             <Flex.Item marginRight={2}>
               <AssetIcon asset={balance?.asset} />
             </Flex.Item>
-            <Flex.Item flex={1}>
-              <Typography.Title level={4}>
-                {balance.toCurrencyString()}
-              </Typography.Title>
+            <Flex.Item flex={1} display="flex">
+              <Flex.Item marginRight={1}>
+                <Typography.Title level={4}>
+                  {balance.toCurrencyString()}
+                </Typography.Title>
+              </Flex.Item>
             </Flex.Item>
             <Flex.Item>
-              <Typography.Body secondary size="footnote">
+              <Typography.Body secondary size="small" strong>
                 <ConvenientAssetView value={balance} prefix="~" />
               </Typography.Body>
             </Flex.Item>

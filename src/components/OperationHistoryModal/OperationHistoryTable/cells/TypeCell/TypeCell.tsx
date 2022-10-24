@@ -8,7 +8,7 @@ export interface TypeCellProps {
 
 export const TypeCell: FC<TypeCellProps> = ({ type }) => (
   <Flex justify="flex-start">
-    <Box inline padding={[0, 2]}>
+    <Box inline padding={[0, 2]} borderRadius="s">
       <Typography.Body>{capitalize(type)}</Typography.Body>
     </Box>
   </Flex>

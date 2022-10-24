@@ -52,7 +52,7 @@ export const SwapConfirmationInfo: FC<SwapConfirmationInfoProps> = ({
   ];
 
   return (
-    <Box contrast padding={4}>
+    <Box secondary padding={4}>
       <Flex col>
         <Flex.Item marginBottom={2}>
           <BoxInfoItem

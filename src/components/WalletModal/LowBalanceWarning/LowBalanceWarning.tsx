@@ -17,19 +17,16 @@ const LowBalanceWarning: React.FC<LowBalanceWarningProps> = ({
       style={{
         width: '100%',
         padding: 'calc(var(--spectrum-base-gutter) * 4)',
+        borderRadius: 'var(--spectrum-border-radius-l)',
       }}
       color="warning"
     >
-      <Flex direction="col" align="flex-start">
-        <Flex.Item>
-          <Typography.Title level={5}>
-            <Trans>{network.networkAsset.name} balance is low</Trans>
-          </Typography.Title>
-        </Flex.Item>
-        <Flex.Item>
+      <Flex col align="flex-start">
+        <Flex.Item marginBottom={2}>
           <Typography.Body>
             <Trans>
-              You need {network.networkAsset.name} to pay transaction fees
+              {network.networkAsset.name} balance is low You need{' '}
+              {network.networkAsset.name} to pay transaction fees
             </Trans>
           </Typography.Body>
         </Flex.Item>

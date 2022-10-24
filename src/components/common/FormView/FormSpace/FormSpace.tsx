@@ -11,7 +11,7 @@ const FormSpace: React.FC<FormSpaceProps> = ({
   noPadding,
 }): JSX.Element => {
   return (
-    <Box contrast padding={noPadding ? 0 : 4}>
+    <Box secondary padding={noPadding ? 0 : 4}>
       {children}
     </Box>
   );

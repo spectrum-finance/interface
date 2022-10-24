@@ -61,14 +61,13 @@ export const ImportTokenPairSelectControl: FC<ImportTokenPairSelectControlProps>
     const isSelectedAllChecked = value?.length === assets.length;
 
     return (
-      <Box control padding={[2, 3]}>
+      <Box secondary padding={[2, 3]} borderRadius="l">
         <Flex col>
           <Flex.Item marginBottom={4}>
             <Typography.Body>
               <Trans>
                 Import at least one token from the list to perform operations
-                with
-                {mainAsset.name} token
+                with {mainAsset.ticker} token
               </Trans>
             </Typography.Body>
           </Flex.Item>
