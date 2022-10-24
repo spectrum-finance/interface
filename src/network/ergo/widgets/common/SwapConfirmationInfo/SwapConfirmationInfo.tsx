@@ -52,32 +52,52 @@ export const SwapConfirmationInfo: FC<SwapConfirmationInfoProps> = ({
   ];
 
   return (
-    <Box secondary padding={4}>
+    <Box secondary padding={4} borderRadius="l">
       <Flex col>
         <Flex.Item marginBottom={2}>
           <BoxInfoItem
-            title={<Trans>Slippage tolerance:</Trans>}
-            value={<Typography.Text>{slippage}%</Typography.Text>}
+            title={
+              <Typography.Body size="large">
+                <Trans>Slippage tolerance:</Trans>
+              </Typography.Body>
+            }
+            value={
+              <Typography.Body strong size="large">
+                {slippage}%
+              </Typography.Body>
+            }
           />
         </Flex.Item>
         <Flex.Item marginBottom={2}>
           <BoxInfoItem
-            title={<Trans>Nitro:</Trans>}
-            value={<Typography.Text>{nitro}</Typography.Text>}
+            title={
+              <Typography.Body size="large">
+                <Trans>Nitro:</Trans>
+              </Typography.Body>
+            }
+            value={
+              <Typography.Body strong size="large">
+                {nitro}
+              </Typography.Body>
+            }
           />
         </Flex.Item>
         <Flex.Item marginBottom={2}>
           <BoxInfoItem
-            title={<Trans>Estimated output:</Trans>}
+            title={
+              <Typography.Body size="large">
+                <Trans>Estimated output:</Trans>
+              </Typography.Body>
+            }
             value={
               minOutput &&
               maxOutput && (
-                <Typography.Text>
+                <Typography.Body size="large" strong>
                   {`${minOutput?.toString()} - ${maxOutput?.toString()} `}
                   <Truncate>
                     {maxOutput?.asset.ticker || maxOutput?.asset.ticker}
                   </Truncate>
-                </Typography.Text>
+                </Typography.Body>
               )
             }
           />

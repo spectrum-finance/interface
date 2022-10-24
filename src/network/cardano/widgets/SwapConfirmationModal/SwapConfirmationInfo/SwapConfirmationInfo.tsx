@@ -51,32 +51,52 @@ export const SwapConfirmationInfo: FC<SwapConfirmationInfoProps> = ({
   ];
 
   return (
-    <Box secondary padding={4}>
+    <Box secondary padding={4} borderRadius="l">
       <Flex col>
         <Flex.Item marginBottom={2}>
           <BoxInfoItem
-            title={<Trans>Slippage tolerance:</Trans>}
-            value={<Typography.Text>{slippage}%</Typography.Text>}
-          />
-        </Flex.Item>
-        <Flex.Item marginBottom={2}>
-          <BoxInfoItem
-            title={<Trans>Nitro:</Trans>}
-            value={<Typography.Text>{nitro}</Typography.Text>}
-          />
-        </Flex.Item>
-        <Flex.Item marginBottom={2}>
-          <BoxInfoItem
-            title={<Trans>Estimated output:</Trans>}
+            title={
+              <Typography.Body size="large">
+                <Trans>Slippage tolerance:</Trans>
+              </Typography.Body>
+            }
             value={
-              <Typography.Text>
+              <Typography.Body size="large" strong>
+                {slippage}%
+              </Typography.Body>
+            }
+          />
+        </Flex.Item>
+        <Flex.Item marginBottom={2}>
+          <BoxInfoItem
+            title={
+              <Typography.Body size="large">
+                <Trans>Nitro:</Trans>
+              </Typography.Body>
+            }
+            value={
+              <Typography.Body size="large" strong>
+                {nitro}
+              </Typography.Body>
+            }
+          />
+        </Flex.Item>
+        <Flex.Item marginBottom={2}>
+          <BoxInfoItem
+            title={
+              <Typography.Body size="large">
+                <Trans>Estimated output:</Trans>
+              </Typography.Body>
+            }
+            value={
+              <Typography.Body size="large" strong>
                 {swapInfo && (
                   <>
                     {`${swapInfo.minOutput?.toString()} - ${swapInfo.maxOutput?.toString()} `}
                     <Truncate>{swapInfo.maxOutput?.asset.name}</Truncate>
                   </>
                 )}
-              </Typography.Text>
+              </Typography.Body>
             }
           />
         </Flex.Item>
