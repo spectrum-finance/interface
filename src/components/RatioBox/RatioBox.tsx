@@ -18,9 +18,9 @@ export const RatioBox: FC<RatioBoxProps> = ({
   <Box padding={3} borderRadius="s" secondary>
     <Flex col justify="center" align="center">
       <Flex.Item>
-        <Typography.Title level={5}>
+        <Typography.Body size="large" strong>
           {ratio ? ratio.toString() : '–'}
-        </Typography.Title>
+        </Typography.Body>
       </Flex.Item>
       <Flex.Item>
         <Typography.Body secondary size="small">

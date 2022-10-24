@@ -6,6 +6,7 @@ import { convertToConvenientNetworkAsset } from '../../api/convertToConvenientNe
 import { useObservable } from '../../common/hooks/useObservable';
 import { Currency } from '../../common/models/Currency';
 import { useSelectedNetwork } from '../../gateway/common/network';
+import { formatToUSD } from '../../services/number';
 
 export interface ConvenientAssetViewProps {
   readonly value: Currency | Currency[] | undefined;
@@ -34,7 +35,7 @@ export const ConvenientAssetView: FC<ConvenientAssetViewProps> = ({
       {isLoadingUsdValue ? (
         <LoadingOutlined />
       ) : value && usdValue?.toString() !== '0' ? (
-        `${prefix || '~'}${usdValue?.toCurrencyString()}`
+        `${prefix || '~'}${usdValue ? formatToUSD(usdValue, 'abbr') : ''}`
       ) : selectedNetwork.convenientAssetDefaultPreview ? (
         `${selectedNetwork.convenientAssetDefaultPreview}`
       ) : (
