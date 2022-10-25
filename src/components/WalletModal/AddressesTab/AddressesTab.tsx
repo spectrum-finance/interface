@@ -1,7 +1,4 @@
-import './AddressTab.less';
-
-import { Box, Button, Flex, List, Typography } from '@ergolabs/ui-kit';
-import { t } from '@lingui/macro';
+import { Box, Flex, Radio, Typography } from '@ergolabs/ui-kit';
 import React, { useEffect, useState } from 'react';
 
 import { useObservable } from '../../../common/hooks/useObservable';
@@ -14,6 +11,8 @@ import { getBalance } from '../../../services/yoroi';
 import { getShortAddress } from '../../../utils/string/addres';
 import { CopyButton } from '../../common/CopyButton/CopyButton';
 import { ExploreButton } from '../../common/ExploreButton/ExploreButton';
+import { ConvenientAssetView } from '../../ConvenientAssetView/ConvenientAssetView';
+import { List } from '../../List/List';
 
 interface AddressViewProps {
   address: Address;
@@ -21,9 +20,11 @@ interface AddressViewProps {
 
 const AddressView: React.FC<AddressViewProps> = ({ address }) => {
   return (
-    <Flex align="center">
-      <Flex.Item marginRight={1}>
-        <Typography.Text strong>{getShortAddress(address)}</Typography.Text>
+    <Flex align="center" style={{ width: '100%' }}>
+      <Flex.Item marginRight={2}>
+        <Typography.Body size="large" strong>
+          {getShortAddress(address)}
+        </Typography.Body>
       </Flex.Item>
       <Flex.Item marginRight={1} display="flex">
         <CopyButton text={address} />
@@ -67,31 +68,25 @@ const AddressListItem: React.FC<AddressListItemProps> = ({
 
   return (
     <Box
-      padding={[4, 2]}
-      transparent
-      className="wallet-address-item"
-      bordered={false}
+      padding={[0, 6]}
+      secondary
+      height={64}
+      borderRadius="l"
+      onClick={() => onClick(address)}
     >
-      <Flex align="center">
-        <Flex.Item style={{ width: '45%' }}>
+      <Flex align="center" stretch>
+        <Flex.Item flex={1} marginRight={2}>
           <AddressView address={address} />
         </Flex.Item>
-        <Flex.Item>
-          <Typography.Text strong>
+        <Flex.Item display="flex" col align="flex-end" marginRight={4}>
+          <Typography.Body strong size="small">
             {addressBalance.toCurrencyString(2, 2)}
-          </Typography.Text>
+          </Typography.Body>
+          <Typography.Body size="extra-small">
+            <ConvenientAssetView value={addressBalance} prefix="~" />
+          </Typography.Body>
         </Flex.Item>
-        <Flex.Item grow>
-          <Flex justify="flex-end">
-            <Button
-              type="primary"
-              disabled={active}
-              onClick={() => onClick(address)}
-            >
-              {active ? t`Active` : t`Choose`}
-            </Button>
-          </Flex>
-        </Flex.Item>
+        <Radio checked={active} />
       </Flex>
     </Box>
   );
@@ -107,13 +102,19 @@ export const AddressesTab: React.FC = () => {
 
   return (
     <Flex col>
-      <List dataSource={addresses} height={250}>
-        {(a) => (
+      <List
+        items={addresses || []}
+        itemKey={(item) => item}
+        height={268}
+        itemHeight={64}
+        gap={1}
+      >
+        {({ item }) => (
           <AddressListItem
-            key={a}
-            address={a}
+            key={item}
+            address={item}
             onClick={setAddress}
-            active={a === settings.address}
+            active={item === settings.address}
           />
         )}
       </List>

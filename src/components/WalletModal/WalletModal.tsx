@@ -39,7 +39,10 @@ export const WalletModal: React.FC = () => {
   return (
     <>
       <Modal.Title>
-        <Trans>Wallet</Trans>
+        <Flex align="center">
+          {selectedWallet?.icon}
+          <Flex.Item marginLeft={2}>{selectedWallet?.name}</Flex.Item>
+        </Flex>
       </Modal.Title>
       <Modal.Content width={valBySize<CSSProperties['width']>('100%', 470)}>
         <Flex col>
@@ -59,30 +62,28 @@ export const WalletModal: React.FC = () => {
             </>
           )}
           <Flex.Item marginBottom={isWalletChangeUnavailable ? 4 : 6}>
-            <Box contrast padding={4} borderRadius="m">
-              <IsErgo>
-                <Tabs
-                  defaultActiveKey={isWalletChangeUnavailable ? '2' : '1'}
-                  centered
-                >
-                  <Tabs.TabPane tab="Tokens" key="1">
-                    <Box transparent padding={[4, 0, 0, 0]} bordered={false}>
-                      <TokensTab />
-                    </Box>
-                  </Tabs.TabPane>
-                  <Tabs.TabPane tab="Addresses" key="2">
-                    <Box transparent padding={[4, 0, 0, 0]} bordered={false}>
-                      <AddressesTab />
-                    </Box>
-                  </Tabs.TabPane>
-                </Tabs>
-              </IsErgo>
-              <IsCardano>
-                <Box transparent padding={0} bordered={false}>
-                  <TokensTab />
-                </Box>
-              </IsCardano>
-            </Box>
+            <IsErgo>
+              <Tabs
+                defaultActiveKey={isWalletChangeUnavailable ? '2' : '1'}
+                fullWidth
+              >
+                <Tabs.TabPane tab="Tokens" key="1">
+                  <Box transparent padding={[4, 0, 0, 0]} bordered={false}>
+                    <TokensTab />
+                  </Box>
+                </Tabs.TabPane>
+                <Tabs.TabPane tab="Addresses" key="2">
+                  <Box transparent padding={[4, 0, 0, 0]} bordered={false}>
+                    <AddressesTab />
+                  </Box>
+                </Tabs.TabPane>
+              </Tabs>
+            </IsErgo>
+            <IsCardano>
+              <Box transparent padding={0} bordered={false}>
+                <TokensTab />
+              </Box>
+            </IsCardano>
           </Flex.Item>
           {isWalletChangeUnavailable ? (
             <ErgoPayChangeAddress />

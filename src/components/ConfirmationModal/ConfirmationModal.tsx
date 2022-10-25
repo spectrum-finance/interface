@@ -87,7 +87,7 @@ const ProgressModalContent = (
         </Typography.Body>
       </Flex.Item>
       <Flex.Item marginBottom={1}>
-        <Typography.Body type="secondary" align="center">
+        <Typography.Body secondary align="center">
           <Trans>Confirm this transaction in your wallet</Trans>
         </Typography.Body>
       </Flex.Item>
@@ -111,12 +111,12 @@ const ErrorModalContent = (
       </Typography.Body>
     </Flex.Item>
     <Flex.Item marginBottom={1}>
-      <Typography.Body align="center" type="secondary">
+      <Typography.Body align="center" secondary>
         <Trans>Transaction rejected</Trans>
       </Typography.Body>
     </Flex.Item>
     <Flex.Item marginBottom={1}>
-      <Typography.Body align="center" type="secondary">
+      <Typography.Body align="center" secondary>
         <Trans>Try again later</Trans>
       </Typography.Body>
     </Flex.Item>

@@ -11,24 +11,24 @@ interface TokenListItemProps {
 }
 
 export const TokenListItem: React.FC<TokenListItemProps> = ({ currency }) => (
-  <Box padding={[0, 4]} height={64}>
+  <Box padding={[0, 6]} height={64} secondary borderRadius="l">
     <Flex align="center" stretch>
       <Flex.Item marginRight={2}>
         <AssetIcon asset={currency.asset} />
       </Flex.Item>
       <Flex.Item display="flex" col justify="center">
-        <Typography.Body>
+        <Typography.Body size="large" strong>
           <Truncate limit={10}>{currency.asset.ticker}</Truncate>
         </Typography.Body>
-        <Flex.Item flex={1}>
-          <Typography.Body size="footnote" secondary>
-            {currency.asset.name}
-          </Typography.Body>
-        </Flex.Item>
+        <Typography.Body size="small" secondary>
+          {currency.asset.name}
+        </Typography.Body>
       </Flex.Item>
       <Flex.Item display="flex" col justify="center" flex={1} align="flex-end">
-        <Typography.Body>{currency.toString()}</Typography.Body>
-        <Typography.Body size="footnote" secondary>
+        <Typography.Body size="large" strong>
+          {currency.toString()}
+        </Typography.Body>
+        <Typography.Body size="small" secondary>
           <ConvenientAssetView value={currency} prefix="~" />
         </Typography.Body>
       </Flex.Item>

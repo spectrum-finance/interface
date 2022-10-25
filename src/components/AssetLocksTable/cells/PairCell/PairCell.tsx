@@ -12,7 +12,7 @@ export interface AssetBoxProps {
 }
 
 const _AssetBox: FC<AssetBoxProps> = ({ currency, className }) => (
-  <Box padding={[0.5, 2]} transparent className={className}>
+  <Box padding={[0.5, 2]} transparent className={className} borderRadius="l">
     <Flex align="center">
       <AssetTitle size="small" asset={currency.asset} />
       <Flex.Item marginLeft={1} flex={1} display="flex" justify="flex-end">

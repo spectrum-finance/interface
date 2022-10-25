@@ -1,18 +1,19 @@
 import { Box } from '@ergolabs/ui-kit';
 import React, { FC, ReactNode } from 'react';
-import styled from 'styled-components';
 
 interface AnalyticTag {
   className?: string;
   children?: ReactNode | ReactNode[] | string;
 }
 
-const _AnalyticTag: FC<AnalyticTag> = ({ className, children }) => (
-  <Box padding={[1, 2]} borderRadius="s" contrast className={className}>
+export const AnalyticTag: FC<AnalyticTag> = ({ className, children }) => (
+  <Box
+    padding={[1, 2]}
+    borderRadius="m"
+    className={className}
+    secondary
+    bordered={false}
+  >
     {children}
   </Box>
 );
-
-export const AnalyticTag = styled(_AnalyticTag)`
-  background: var(--spectrum-app-analytic-tag);
-`;

@@ -11,7 +11,7 @@ export interface SwapAssetCellProps {
 }
 
 export const DepositAssetCell: FC<SwapAssetCellProps> = ({ x, y }) => (
-  <Box transparent padding={2} width={188}>
+  <Box transparent padding={2} width={188} borderRadius="m" secondary>
     <Flex col>
       <Flex.Item display="flex" marginBottom={1}>
         <Flex.Item marginRight={2}>

@@ -147,7 +147,7 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({
 
   return (
     <Flex col position="relative">
-      <Flex.Item marginTop={4} marginLeft={4} marginRight={4}>
+      <Flex.Item marginTop={4} marginLeft={valBySize(4, 6)} marginRight={4}>
         <Flex align="center">
           {pool && (
             <>
@@ -176,7 +176,7 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({
           style={{ top: 0, left: 0 }}
         >
           <Flex align="flex-end">
-            <Flex.Item marginLeft={4} marginRight={2}>
+            <Flex.Item marginLeft={valBySize(4, 6)} marginRight={2}>
               <Typography.Title level={valBySize(4, 2)}>
                 {active.getRatio(isInverted).toString()}
               </Typography.Title>
@@ -207,14 +207,14 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({
             marginBottom={valBySize(1, 0)}
             marginTop={valBySize(1, 0)}
           >
-            <Typography.Text
+            <Typography.Body
               style={{
                 fontSize: valBySize('12px', '14px'),
               }}
-              type="secondary"
+              secondary
             >
               <DateTimeView type="datetimeWithWeekday" value={active.date} />
-            </Typography.Text>
+            </Typography.Body>
           </Flex.Item>
         </Flex.Item>
       )}

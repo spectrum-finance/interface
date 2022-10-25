@@ -66,10 +66,10 @@ export const applicationConfig: ApplicationConfig = {
   requestRetryCount: 3,
   networksSettings: {
     cardano: {
-      metadataUrl: 'https://testnet-meta.ergodex.io/metadata',
-      networkUrl: 'https://testnet-api.quickblue.io/v1',
+      metadataUrl: 'https://meta.spectrum.fi/cardano/metadata',
+      networkUrl: 'https://explorer.spectrum.fi/cardano/v1/',
       explorerUrl: 'https://preview.cexplorer.io',
-      faucet: 'https://faucet.ergodex.io/v1/',
+      faucet: 'https://faucet.spectrum.fi/cardano/v1/',
       lowBalanceGuide: '',
     },
     ergo: {

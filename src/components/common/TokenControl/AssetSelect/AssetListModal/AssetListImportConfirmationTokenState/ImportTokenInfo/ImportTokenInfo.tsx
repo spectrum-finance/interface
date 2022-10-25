@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import { AssetInfo } from '../../../../../../../common/models/AssetInfo';
 import { exploreToken } from '../../../../../../../gateway/utils/exploreAddress';
+import { assets } from '../../../../../../../network/cardano/api/common/cardanoAssetInfo/mocks';
 import { splitStr } from '../../../../../../../utils/string/splitStr';
 import { AssetIcon } from '../../../../../../AssetIcon/AssetIcon';
 
@@ -23,7 +24,7 @@ export const ImportTokenInfo: FC<ImportTokenInfoProps> = ({ asset }) => {
   const [idBegin, idSuffix] = splitStr(asset.id);
 
   return (
-    <Box control padding={[4, 0]}>
+    <Box secondary padding={[4, 0]} borderRadius="l">
       <Flex col align="center">
         <Flex.Item marginBottom={2}>
           <AssetIcon asset={asset} size="large" />
@@ -33,11 +34,13 @@ export const ImportTokenInfo: FC<ImportTokenInfoProps> = ({ asset }) => {
             {asset.ticker || asset.name}
           </Typography.Title>
         </Flex.Item>
-        <Flex.Item marginBottom={2}>
-          <Typography.Body secondary size="small">
-            {asset.name}
-          </Typography.Body>
-        </Flex.Item>
+        {asset.name && (
+          <Flex.Item marginBottom={2}>
+            <Typography.Body secondary size="small">
+              {asset.name}
+            </Typography.Body>
+          </Flex.Item>
+        )}
         <StyledButton type="link" onClick={() => exploreToken(asset)}>
           <Typography.Body ellipsis={{ suffix: idSuffix }}>
             {idBegin}

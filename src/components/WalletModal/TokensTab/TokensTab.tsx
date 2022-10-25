@@ -15,9 +15,9 @@ export const TokensTab: React.FC = () => {
       <List
         itemKey={(item) => item.asset.id}
         items={balance.values().filter((b) => b.isPositive())}
-        height={250}
+        maxHeight={268}
         itemHeight={64}
-        gap={2}
+        gap={1}
       >
         {({ item }) => <TokenListItem currency={item} />}
         <ListStateView name="loading" condition={loading}>

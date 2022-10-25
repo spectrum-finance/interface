@@ -7,7 +7,7 @@ import {
   Typography,
   useForm,
 } from '@ergolabs/ui-kit';
-import { t, Trans } from '@lingui/macro';
+import { Trans } from '@lingui/macro';
 import findLast from 'lodash/findLast';
 import maxBy from 'lodash/maxBy';
 import { DateTime } from 'luxon';
@@ -403,7 +403,7 @@ export const Swap = (): JSX.Element => {
           <Flex.Item>
             <ErgoPayBadge />
           </Flex.Item>
-          <Flex row align="center">
+          <Flex row align="flex-start">
             <Flex.Item flex={1}>
               <Typography.Title level={4}>
                 <Trans>Swap</Trans>
@@ -428,7 +428,6 @@ export const Swap = (): JSX.Element => {
               assets$={defaultTokenAssets$}
               assetsToImport$={tokenAssetsToImport$}
               importedAssets$={importedTokenAssets$}
-              label={t`From`}
               amountName="fromAmount"
               tokenName="fromAsset"
               analytics={{
@@ -450,7 +449,6 @@ export const Swap = (): JSX.Element => {
               assets$={toAssets$}
               assetsToImport$={toAssetsToImport$}
               importedAssets$={toImportedAssets$}
-              label={t`To`}
               amountName="toAmount"
               tokenName="toAsset"
               analytics={{

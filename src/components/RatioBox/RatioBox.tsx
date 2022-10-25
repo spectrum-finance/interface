@@ -15,17 +15,17 @@ export const RatioBox: FC<RatioBoxProps> = ({
   mainAsset,
   oppositeAsset,
 }) => (
-  <Box padding={3} borderRadius="s" contrast>
+  <Box padding={3} borderRadius="s" secondary>
     <Flex col justify="center" align="center">
       <Flex.Item>
-        <Typography.Title level={5}>
+        <Typography.Body size="large" strong>
           {ratio ? ratio.toString() : '–'}
-        </Typography.Title>
+        </Typography.Body>
       </Flex.Item>
       <Flex.Item>
-        <Typography.Text type="secondary" style={{ fontSize: 12 }}>
+        <Typography.Body secondary size="small">
           {mainAsset.ticker} per {oppositeAsset.ticker}
-        </Typography.Text>
+        </Typography.Body>
       </Flex.Item>
     </Flex>
   </Box>

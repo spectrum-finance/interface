@@ -90,11 +90,12 @@ const GlobalSettingsModal: React.FC<GlobalSettingsModalProps> = ({
           warningMessages={warningMessages}
         >
           <Flex col>
-            <Flex.Item marginBottom={4}>
-              <Typography.Body secondary size="small">
-                <Trans>Miner Fee</Trans>
-              </Typography.Body>
-              <InfoTooltip content="Fee charged by miners" />
+            <Flex.Item marginBottom={2}>
+              <InfoTooltip secondary content="Fee charged by miners">
+                <Typography.Body>
+                  <Trans>Miner Fee</Trans>
+                </Typography.Body>
+              </InfoTooltip>
             </Flex.Item>
             <Flex.Item marginBottom={4}>
               <Form.Item name="minerFee">
