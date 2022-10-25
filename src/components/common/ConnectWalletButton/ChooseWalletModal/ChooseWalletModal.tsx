@@ -23,8 +23,8 @@ import {
 } from '../../../../gateway/api/wallets';
 import { Wallet } from '../../../../network/common/Wallet';
 import { ErgopayWalletButton } from '../../../../network/ergo/widgets/ErgopaySwitch/ErgopayWalletButton';
+import { ProtocolDisclaimeralert } from '../../../common/disclaimer/disclaimer';
 import { IsErgo } from '../../../IsErgo/IsErgo';
-
 const { Body } = Typography;
 
 interface WalletItemProps {
@@ -46,25 +46,6 @@ const WalletButton = styled(Button)`
 
     span {
       color: var(--spectrum-default-border-color) !important;
-    }
-  }
-`;
-
-const ProtocolDisclaimer = styled(Box)`
-  border: 1px solid var(--spectrum-default-border-color);
-  font-size: 12px;
-  flex: none;
-  order: 0;
-  align-self: stretch;
-  flex-grow: 0;
-  margin-bottom: 8px;
-
-  .dark & {
-    background: #15395b;
-
-    color: #dbdbdb;
-    a {
-      color: #7167c5;
     }
   }
 `;
@@ -145,21 +126,7 @@ const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
         <Trans>Select a wallet</Trans>
       </Modal.Title>
       <Modal.Content width={400}>
-        <ProtocolDisclaimer padding={2}>
-          <Flex col>
-            <Flex.Item>
-              <Trans>
-                By connecting a wallet, you agree to the{' '}
-                <a href="https://spectrum.fi/cookie-policy">Cookie policy</a>{' '}
-                and acknowledge that you have read and understand the{' '}
-                <a href="https://spectrum.fi/protocol-disclaimer">
-                  Protocol disclaimer
-                </a>
-                .
-              </Trans>
-            </Flex.Item>
-          </Flex>
-        </ProtocolDisclaimer>
+        <ProtocolDisclaimeralert />
 
         <Flex col>
           <Divider />
