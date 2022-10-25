@@ -63,9 +63,9 @@ const FormFeesSection: React.FC<FormFeesSection> = ({
         </Flex.Item>
 
         <Flex.Item>
-          <Typography.Text strong>
+          <Typography.Body strong>
             {totalFees.toCurrencyString()}
-          </Typography.Text>
+          </Typography.Body>
         </Flex.Item>
       </Flex>
     </PageSection>
