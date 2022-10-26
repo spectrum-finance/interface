@@ -386,6 +386,7 @@ export const Swap = (): JSX.Element => {
     >
       <Page
         maxWidth={500}
+        widgetBaseHeight={pool ? 432 : 272}
         leftWidget={
           selectedNetwork.name === 'ergo' && (
             <SwapGraph
