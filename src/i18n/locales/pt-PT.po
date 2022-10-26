@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ergodex-frontend\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2022-10-20 21:32\n"
+"PO-Revision-Date: 2022-10-26 22:08\n"
 "Last-Translator: \n"
 "Language: pt_PT\n"
 "Language-Team: Portuguese\n"
@@ -1012,7 +1012,7 @@ msgstr "A sua transação será revertida se o preço mudar desfavoravelmente, m
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "explorer"
-msgstr ""
+msgstr "Explorador"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 msgid "meet your expectations."
