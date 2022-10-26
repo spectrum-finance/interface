@@ -90,7 +90,11 @@ export const OperationHistoryTable: FC<TransactionHistoryTableProps> = ({
           isSwapOperation(op) ? (
             <SwapAssetCell base={op.base} quote={op.quote} />
           ) : (
-            <DepositAssetCell x={op.x} y={op.y} />
+            <DepositAssetCell
+              x={op.x}
+              y={op.y}
+              hideAmount={op.type === 'redeem'}
+            />
           )
         }
       </TableView.Column>

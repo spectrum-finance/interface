@@ -21,7 +21,7 @@ import { PageSection } from '../../components/Page/PageSection/PageSection';
 import { SubmitButton } from '../../components/SubmitButton/SubmitButton';
 import { redeem } from '../../gateway/api/operations/redeem';
 import { getPositionByAmmPoolId } from '../../gateway/api/positions';
-import { useGuard, useGuardV2 } from '../../hooks/useGuard';
+import { useGuardV2 } from '../../hooks/useGuard';
 
 export interface RemoveFormModel {
   readonly percent: number;
