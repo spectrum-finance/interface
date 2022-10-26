@@ -120,7 +120,12 @@ export const RemoveLiquidity: FC = () => {
             {/*</Flex.Item>*/}
 
             <Flex.Item>
-              <SubmitButton disabled={!formValue?.percent} htmlType="submit">
+              <SubmitButton
+                disabled={
+                  !formValue?.percent || !position.availableLp.isPositive()
+                }
+                htmlType="submit"
+              >
                 <Trans>Remove</Trans>
               </SubmitButton>
             </Flex.Item>
