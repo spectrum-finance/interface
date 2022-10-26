@@ -21,7 +21,7 @@ import { PageSection } from '../../components/Page/PageSection/PageSection';
 import { SubmitButton } from '../../components/SubmitButton/SubmitButton';
 import { redeem } from '../../gateway/api/operations/redeem';
 import { getPositionByAmmPoolId } from '../../gateway/api/positions';
-import { useGuard } from '../../hooks/useGuard';
+import { useGuard, useGuardV2 } from '../../hooks/useGuard';
 
 export interface RemoveFormModel {
   readonly percent: number;
@@ -41,8 +41,11 @@ export const RemoveLiquidity: FC = () => {
     lpAmount: undefined,
   });
 
-  useGuard(position, loading, () => navigate('../../../liquidity'));
-
+  // useGuard(position, loading, () => navigate('../../../liquidity'));
+  useGuardV2(
+    () => !loading && !position?.availableLp?.isPositive(),
+    () => navigate('../../../liquidity'),
+  );
   const [formValue] = useObservable(form.valueChangesWithSilent$);
 
   useSubscription(

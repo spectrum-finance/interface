@@ -11,3 +11,11 @@ export const useGuard = <T>(
     }
   }, [item, loading]);
 };
+
+export const useGuardV2 = (check: () => boolean, hook: () => void): void => {
+  useEffect(() => {
+    if (check()) {
+      hook();
+    }
+  }, [check]);
+};
