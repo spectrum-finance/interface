@@ -1,8 +1,9 @@
-import { Divider, Flex } from '@ergolabs/ui-kit';
+import { Divider, Flex, Typography } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
 import React, { FC } from 'react';
 
 import { calculateOutputs } from '../../../../common/utils/calculateOutputs';
+import { ConvenientAssetView } from '../../../../components/ConvenientAssetView/ConvenientAssetView';
 import { Truncate } from '../../../../components/Truncate/Truncate';
 import { SwapFormModel } from '../../../../pages/Swap/SwapFormModel';
 import { SwapInfoItem } from '../../../../pages/Swap/SwapInfo/SwapInfoItem/SwapInfoItem';
@@ -52,7 +53,8 @@ export const SwapInfoContent: FC<SwapInfoContent> = ({ value }) => {
             minOutput ? (
               <>
                 {minOutput?.toString()}{' '}
-                <Truncate>{minOutput?.asset.ticker}</Truncate>
+                <Truncate>{minOutput?.asset.name}</Truncate>
+                (<ConvenientAssetView value={minOutput} />)
               </>
             ) : (
               '–'
@@ -67,7 +69,8 @@ export const SwapInfoContent: FC<SwapInfoContent> = ({ value }) => {
             maxOutput ? (
               <>
                 {maxOutput?.toString()}{' '}
-                <Truncate>{maxOutput?.asset.ticker}</Truncate>
+                <Truncate>{maxOutput?.asset.name}</Truncate>
+                (<ConvenientAssetView value={maxOutput} />)
               </>
             ) : (
               '–'
@@ -83,23 +86,29 @@ export const SwapInfoContent: FC<SwapInfoContent> = ({ value }) => {
           tooltip={
             <Flex col>
               <Flex.Item>
-                Min Execution Fee: {minExFee.toCurrencyString()}
+                <Typography.Body>Min Execution Fee: </Typography.Body>
+                <Typography.Body strong>
+                  {minExFee.toCurrencyString()}
+                </Typography.Body>
               </Flex.Item>
               <Flex.Item>
-                Max Execution Fee: {maxExFee.toCurrencyString()}
+                <Typography.Body>Max Execution Fee: </Typography.Body>
+                <Typography.Body strong>
+                  {maxExFee.toCurrencyString()}
+                </Typography.Body>
               </Flex.Item>
             </Flex>
           }
           title={t`Execution Fee`}
           value={`${minExFee.toCurrencyString()} - ${maxExFee.toCurrencyString()}`}
-          hint
+          secondary
         />
       </Flex.Item>
       <Flex.Item marginBottom={1}>
         <SwapInfoItem
           title={t`Miner fee`}
           value={minerFee.toCurrencyString()}
-          hint
+          secondary
         />
       </Flex.Item>
       <SwapInfoItem

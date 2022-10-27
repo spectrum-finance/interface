@@ -80,7 +80,7 @@ export const SwapInfoContent: FC<SwapInfoContentProps> = ({ value }) => {
           tooltip={t`Will be charged by off-chain execution bots and distributed among validators.`}
           title={t`Execution Fee`}
           value={`${minExFee.toCurrencyString()} - ${maxExFee.toCurrencyString()}`}
-          hint
+          secondary
         />
       </Flex.Item>
       <Flex.Item marginBottom={1}>
@@ -88,7 +88,7 @@ export const SwapInfoContent: FC<SwapInfoContentProps> = ({ value }) => {
           tooltip={t`A small amount of ADA charged by Cardano blockchain.`}
           title={t`Transaction fee`}
           value={transactionFee.toCurrencyString()}
-          hint
+          secondary
         />
       </Flex.Item>
       <Flex.Item marginBottom={1}>
@@ -111,7 +111,7 @@ export const SwapInfoContent: FC<SwapInfoContentProps> = ({ value }) => {
           }
           title={t`Deposit ADA`}
           value={depositAda.toCurrencyString()}
-          hint
+          secondary
         />
       </Flex.Item>
       <SwapInfoItem
