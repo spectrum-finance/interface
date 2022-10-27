@@ -50,7 +50,7 @@ const _SwapInfo: FC<SwapInfoProps> = ({
             </Flex.Item>
             <Flex.Item marginBottom={1}>
               <SwapInfoItem
-                title={t`Slippage tolerance:`}
+                title={t`Slippage tolerance`}
                 value={slippage + '%'}
               />
             </Flex.Item>
