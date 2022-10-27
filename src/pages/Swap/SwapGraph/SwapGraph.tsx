@@ -235,13 +235,13 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({
         position="relative"
         style={{
           position: 'relative',
-          height: valBySize(pool ? 320 : 440, pool ? 320 : 230),
+          height: valBySize(pool ? 320 : 440, pool ? 320 : 160),
         }}
       >
         <ChartWrapper>
           <ResponsiveContainer
             width="100%"
-            height={valBySize(pool ? 320 : 440, pool ? 320 : 230)}
+            height={valBySize(pool ? 320 : 440, pool ? 320 : 160)}
           >
             <AreaChart
               data={chartData}

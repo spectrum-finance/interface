@@ -1,5 +1,6 @@
 import { Box, Flex, Typography } from '@ergolabs/ui-kit';
 import React, { FC } from 'react';
+import styled from 'styled-components';
 
 import { Currency } from '../../../../../common/models/Currency';
 import { AssetIconPair } from '../../../../AssetIconPair/AssetIconPair';
@@ -8,12 +9,19 @@ import { DataTag } from '../../../../common/DataTag/DataTag';
 export interface SwapAssetCellProps {
   readonly x: Currency;
   readonly y: Currency;
+  readonly hideAmount?: boolean;
+  readonly className?: string;
 }
 
-export const DepositAssetCell: FC<SwapAssetCellProps> = ({ x, y }) => (
-  <Box transparent padding={2} width={188} borderRadius="m" secondary>
+const _DepositAssetCell: FC<SwapAssetCellProps> = ({
+  x,
+  y,
+  className,
+  hideAmount,
+}) => (
+  <Box padding={2} width={188} borderRadius="m" className={className}>
     <Flex col>
-      <Flex.Item display="flex" marginBottom={1}>
+      <Flex.Item display="flex">
         <Flex.Item marginRight={2}>
           <AssetIconPair assetX={x.asset} assetY={y.asset} size="small" />
         </Flex.Item>
@@ -21,20 +29,26 @@ export const DepositAssetCell: FC<SwapAssetCellProps> = ({ x, y }) => (
           {x.asset.ticker}/{y.asset.ticker}
         </Typography.Title>
       </Flex.Item>
-      <Flex.Item display="flex">
-        <Flex.Item marginRight={2}>
-          <DataTag
-            content={x.toString(Math.max(x.asset.decimals || 0, 2), 2)}
-            size="small"
-          />
+      {!hideAmount && (
+        <Flex.Item display="flex" marginTop={1}>
+          <Flex.Item marginRight={2}>
+            <DataTag
+              content={x.toString(Math.max(x.asset.decimals || 0, 2), 2)}
+              size="small"
+            />
+          </Flex.Item>
+          <Flex.Item>
+            <DataTag
+              content={y.toString(Math.max(y.asset.decimals || 0, 2), 2)}
+              size="small"
+            />
+          </Flex.Item>
         </Flex.Item>
-        <Flex.Item>
-          <DataTag
-            content={y.toString(Math.max(y.asset.decimals || 0, 2), 2)}
-            size="small"
-          />
-        </Flex.Item>
-      </Flex.Item>
+      )}
     </Flex>
   </Box>
 );
+
+export const DepositAssetCell = styled(_DepositAssetCell)`
+  border-color: var(--spectrum-asset-box-border-color);
+`;

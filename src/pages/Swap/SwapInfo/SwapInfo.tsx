@@ -4,6 +4,7 @@ import React, { FC, useState } from 'react';
 import styled from 'styled-components';
 
 import { useObservable } from '../../../common/hooks/useObservable';
+import { useSelectedNetwork } from '../../../gateway/common/network';
 import { useSettings } from '../../../gateway/settings/settings';
 import { swapInfoContent$ } from '../../../gateway/widgets/swapInfoContent';
 import { SwapFormModel } from '../SwapFormModel';
@@ -25,6 +26,9 @@ const _SwapInfo: FC<SwapInfoProps> = ({
   setReversed,
 }) => {
   const [opened, setOpened] = useState<boolean>(false);
+  const [selectedNetwork] = useSelectedNetwork();
+
+  const openedHeight = selectedNetwork.name === 'ergo' ? 166 : 202;
 
   const { slippage } = useSettings();
 
@@ -46,11 +50,14 @@ const _SwapInfo: FC<SwapInfoProps> = ({
             </Flex.Item>
             <Flex.Item marginBottom={1}>
               <SwapInfoItem
-                title={t`Slippage tolerance:`}
+                title={t`Slippage tolerance`}
                 value={slippage + '%'}
               />
             </Flex.Item>
-            <div className={className} style={{ height: opened ? 166 : 22 }}>
+            <div
+              className={className}
+              style={{ height: opened ? openedHeight : 22 }}
+            >
               {SwapInfoContent && (
                 <SwapInfoContent value={value} opened={opened} />
               )}

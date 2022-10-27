@@ -36,12 +36,14 @@ interface PageProps {
   className?: string;
   footer?: ReactNode | ReactNode[] | string;
   padding?: Gutter;
+  widgetBaseHeight?: number;
 }
 
 const _Widget: FC<{
   className?: string;
   style?: CSSProperties;
   opened?: boolean;
+  widgetBaseHeight?: number;
   children?: ReactNode | ReactNode[] | string;
 }> = ({ className, style, children }) => (
   <div style={style} className={className}>
@@ -53,7 +55,8 @@ const Widget = styled(_Widget)`
   @keyframes content-width {
     from {
       overflow: hidden;
-      height: 436px;
+      height: ${(props) =>
+        props.widgetBaseHeight ? `${props.widgetBaseHeight}px` : '436px'};
       width: 624px;
       opacity: 0;
     }
@@ -75,7 +78,9 @@ const Widget = styled(_Widget)`
     !props.opened &&
     css`
       transition: width 0.35s;
-      height: 436px;
+      height: ${props.widgetBaseHeight
+        ? `${props.widgetBaseHeight}px`
+        : '436px'};
       overflow: hidden;
       width: 0;
 
@@ -103,6 +108,7 @@ const _Page: React.FC<PageProps> = ({
   titleChildren,
   onBackButtonClick,
   padding,
+  widgetBaseHeight,
 }) => {
   const navigate = useNavigate();
   const { valBySize, s, m } = useDevice();
@@ -162,6 +168,7 @@ const _Page: React.FC<PageProps> = ({
           {!(s || m) && (
             <Widget
               opened={widgetOpened}
+              widgetBaseHeight={widgetBaseHeight}
               style={{
                 maxWidth: valBySize(undefined, undefined, 624),
               }}

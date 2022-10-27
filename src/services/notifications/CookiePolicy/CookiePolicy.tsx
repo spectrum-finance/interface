@@ -35,11 +35,11 @@ const CookiePolicy: React.FC<{ notification: typeof notification }> = ({
   if (s) {
     return (
       <>
-        <Typography.Text>
+        <Typography.Body>
           {t`By clicking “Accept All Cookies”, you  agree to the storing of cookies
           on your device to enhance site navigation, analyse app usage, and
           assist in our marketing efforts.`}
-        </Typography.Text>
+        </Typography.Body>
         <Flex>
           <Flex.Item marginRight={4} flex={1} marginTop={4}>
             <Button size="large" onClick={reject} block>{t`Reject`}</Button>

@@ -1,5 +1,6 @@
 import { Box, Flex, Typography } from '@ergolabs/ui-kit';
 import React, { FC } from 'react';
+import styled from 'styled-components';
 
 import { Currency } from '../../../../../../common/models/Currency';
 import { AssetIcon } from '../../../../../AssetIcon/AssetIcon';
@@ -10,14 +11,8 @@ interface AssetBoxProps {
   readonly className?: string;
 }
 
-export const AssetBox: FC<AssetBoxProps> = ({ currency, className }) => (
-  <Box
-    padding={[1, 2]}
-    className={className}
-    transparent
-    borderRadius="m"
-    secondary
-  >
+const _AssetBox: FC<AssetBoxProps> = ({ currency, className }) => (
+  <Box padding={[1, 2]} className={className} borderRadius="m">
     <Flex align="center">
       <Flex.Item marginRight={1}>
         <AssetIcon size="small" asset={currency.asset} />
@@ -37,3 +32,7 @@ export const AssetBox: FC<AssetBoxProps> = ({ currency, className }) => (
     </Flex>
   </Box>
 );
+
+export const AssetBox = styled(_AssetBox)`
+  border-color: var(--spectrum-asset-box-border-color);
+`;
