@@ -16,7 +16,7 @@ export const ClipboardDecorator: FC<ClipboardDecoratorProps> = ({
 }) => (
   <CopyToClipboard
     text={item.txId}
-    onCopy={() => message.success(t`Copied to clipboard!`)}
+    onCopy={() => message.success(t`Transaction ID successfully copied`)}
   >
     {children}
   </CopyToClipboard>
