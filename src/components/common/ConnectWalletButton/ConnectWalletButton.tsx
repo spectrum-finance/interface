@@ -34,7 +34,6 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = ({
 }) => {
   const [selectedNetwork] = useSelectedNetwork();
   const [isWalletConnected] = useObservable(isWalletSetuped$);
-  const [{ isKYAAccepted }] = useAppLoadingState();
   const [{ ergopay }] = useSettings();
 
   const openChooseWalletModal = (): void => {
@@ -52,25 +51,15 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = ({
 
   return (
     <>
-      {isKYAAccepted ? (
-        <SpectrumConnectWalletButton
-          size={size}
-          onClick={openChooseWalletModal}
-          className={cn(className, 'connect-wallet-btn')}
-          isWalletConnected={isWalletConnected}
-          caption={<Trans>Connect wallet</Trans>}
-        >
-          {children}
-        </SpectrumConnectWalletButton>
-      ) : (
-        <Button
-          disabled
-          size={size}
-          className={cn(className, 'connect-wallet-btn')}
-        >
-          <Trans>KYA is not accepted</Trans>
-        </Button>
-      )}
+      <SpectrumConnectWalletButton
+        size={size}
+        onClick={openChooseWalletModal}
+        className={cn(className, 'connect-wallet-btn')}
+        isWalletConnected={isWalletConnected}
+        caption={<Trans>Connect wallet</Trans>}
+      >
+        {children}
+      </SpectrumConnectWalletButton>
     </>
   );
 };

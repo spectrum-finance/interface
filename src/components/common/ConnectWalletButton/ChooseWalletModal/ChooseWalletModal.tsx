@@ -1,14 +1,11 @@
 import {
-  Alert,
   Box,
   Button,
-  Checkbox,
   Divider,
   Flex,
   LogoutOutlined,
   Modal,
   ModalRef,
-  Tag,
   Typography,
 } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
@@ -26,8 +23,8 @@ import {
 } from '../../../../gateway/api/wallets';
 import { Wallet } from '../../../../network/common/Wallet';
 import { ErgopayWalletButton } from '../../../../network/ergo/widgets/ErgopaySwitch/ErgopayWalletButton';
+import { ProtocolDisclaimeralert } from '../../../common/disclaimer/disclaimer';
 import { IsErgo } from '../../../IsErgo/IsErgo';
-
 const { Body } = Typography;
 
 interface WalletItemProps {
@@ -50,15 +47,6 @@ const WalletButton = styled(Button)`
     span {
       color: var(--spectrum-default-border-color) !important;
     }
-  }
-`;
-
-const ExperimentalWalletBox = styled(Box)`
-  background: var(--spectrum-box-bg-tag);
-  border: 1px solid var(--spectrum-default-border-color);
-
-  .dark & {
-    background: var(--spectrum-box-bg-contrast);
   }
 `;
 
@@ -106,70 +94,16 @@ const WalletView: React.FC<WalletItemProps> = ({
     );
   };
 
-  const handleCheck = () => setChecked((prev) => !prev);
-
-  switch (wallet.definition) {
-    case 'experimental':
-      return (
-        <ExperimentalWalletBox padding={2}>
-          <Flex col>
-            <Flex.Item marginBottom={2} alignSelf="flex-end">
-              <Tag color="gold">
-                <Trans>Experimental</Trans>
-              </Tag>
-            </Flex.Item>
-            <Flex.Item marginBottom={2}>
-              <Checkbox checked={checked} onChange={handleCheck}>
-                <Trans>
-                  This wallet may not always work as expected. I understand what
-                  I do and will use it at my own risk.
-                </Trans>
-              </Checkbox>
-            </Flex.Item>
-            {warning && (
-              <Flex.Item marginBottom={2}>
-                <Alert
-                  type="warning"
-                  description={warning}
-                  style={{ width: '100%' }}
-                />
-              </Flex.Item>
-            )}
-            <WalletButton
-              size="large"
-              disabled={!checked}
-              onClick={handleClick}
-              loading={loading}
-            >
-              <Flex.Item flex={1} display="flex" align="center">
-                <Body>{wallet.name}</Body>
-              </Flex.Item>
-              {wallet.icon}
-            </WalletButton>
-          </Flex>
-        </ExperimentalWalletBox>
-      );
-    default:
-      return (
-        <>
-          <WalletButton size="large" onClick={handleClick} loading={loading}>
-            <Flex.Item flex={1} display="flex" align="center">
-              {wallet.name}
-            </Flex.Item>
-            {wallet.icon}
-          </WalletButton>
-          {warning && (
-            <Flex.Item marginBottom={2}>
-              <Alert
-                type="warning"
-                description={warning}
-                style={{ width: '100%' }}
-              />
-            </Flex.Item>
-          )}
-        </>
-      );
-  }
+  return (
+    <>
+      <WalletButton size="large" onClick={handleClick} loading={loading}>
+        <Flex.Item flex={1} display="flex" align="center">
+          {wallet.name}
+        </Flex.Item>
+        {wallet.icon}
+      </WalletButton>
+    </>
+  );
 };
 
 type ChooseWalletModalProps = ModalRef<boolean> & { isChangeWallet?: boolean };
@@ -192,7 +126,10 @@ const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
         <Trans>Select a wallet</Trans>
       </Modal.Title>
       <Modal.Content width={400}>
+        <ProtocolDisclaimeralert />
+
         <Flex col>
+          <Divider />
           {wallets
             .filter((w) => !w.hidden)
             .map((wallet, index) => (
