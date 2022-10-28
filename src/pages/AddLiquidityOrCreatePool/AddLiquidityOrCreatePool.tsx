@@ -31,7 +31,6 @@ import {
 import { assetBalance$ } from '../../gateway/api/assetBalance';
 import { useNetworkAsset } from '../../gateway/api/networkAsset';
 import { selectedWallet$ } from '../../gateway/api/wallets';
-import { ErgoPayBadge } from '../Swap/ErgoPayBadge/ErgoPayBadge';
 import { AddLiquidity } from './AddLiquidity/AddLiquidity';
 import { CreatePool } from './CreatePool/CreatePool';
 import { CreatePoolUnsupportedAlert } from './CreatePoolUnsupportedAlert/CreatePoolUnsupportedAlert';
@@ -198,9 +197,6 @@ export const AddLiquidityOrCreatePool: FC = () => {
       >
         {initialized ? (
           <Flex col>
-            <Flex.Item marginBottom={4}>
-              <ErgoPayBadge />
-            </Flex.Item>
             <Flex.Item marginBottom={4} display="flex" col>
               <Section title={t`Select Pair`}>
                 <Flex justify="center" align="center">

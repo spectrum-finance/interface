@@ -1,11 +1,10 @@
 import {
   Button,
-  Divider,
   Flex,
-  LogoutOutlined,
   Modal,
   ModalRef,
-  Typography,
+  Tabs,
+  useDevice,
 } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React, { ReactNode, useState } from 'react';
@@ -16,13 +15,12 @@ import { panalytics } from '../../../../common/analytics';
 import { useObservable } from '../../../../common/hooks/useObservable';
 import {
   connectWallet,
-  disconnectWallet,
   selectedWallet$,
   wallets$,
 } from '../../../../gateway/api/wallets';
+import { useSelectedNetwork } from '../../../../gateway/common/network';
 import { Wallet } from '../../../../network/common/Wallet';
-import { ErgopayWalletButton } from '../../../../network/ergo/widgets/ErgopaySwitch/ErgopayWalletButton';
-import { IsErgo } from '../../../IsErgo/IsErgo';
+import { ErgoPayTabPaneContent } from '../../../../network/ergo/widgets/ErgoPayModal/ErgoPayTabPaneContent/ErgoPayTabPaneContent';
 import { ProtocolDisclaimerAlert } from './ProtocolDisclaimerAlert/ProtocolDisclaimerAlert';
 
 interface WalletItemProps {
@@ -110,56 +108,55 @@ const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
   isChangeWallet,
 }): JSX.Element => {
   const [wallets] = useObservable(wallets$, [], []);
+
   const [selectedWallet] = useObservable(selectedWallet$);
+  const [selectedNetwork] = useSelectedNetwork();
 
-  const handleDisconnectWalletClick = () => {
-    panalytics.disconnectWallet(selectedWallet?.name);
-    disconnectWallet();
-  };
-
+  const { s } = useDevice();
   return (
     <>
       <Modal.Title>
         <Trans>Select a wallet</Trans>
       </Modal.Title>
-      <Modal.Content maxWidth={480}>
-        <Flex col>
-          <Flex.Item marginBottom={4}>
-            <ProtocolDisclaimerAlert />
-          </Flex.Item>
-          {wallets
-            .filter((w) => !w.hidden)
-            .map((wallet, index) => (
-              <Flex.Item
-                marginBottom={
-                  index === wallets.length - 1 && !selectedWallet ? 0 : 4
-                }
-                key={index}
-              >
-                <WalletView
-                  close={close}
-                  wallet={wallet}
-                  isChangeWallet={isChangeWallet}
-                />
+      <Modal.Content maxWidth={480} width="100%">
+        <Tabs fullWidth>
+          {selectedNetwork.name === 'ergo' && s ? (
+            <Tabs.TabPane tab={<Trans>ErgoPay</Trans>} key="ergopayMobile">
+              <ErgoPayTabPaneContent close={close} />
+            </Tabs.TabPane>
+          ) : null}
+          <Tabs.TabPane
+            tab={<Trans>Browser wallet</Trans>}
+            key="browse_wallets"
+          >
+            <Flex.Item marginTop={5} display="flex" col>
+              <Flex.Item marginBottom={4}>
+                <ProtocolDisclaimerAlert />
               </Flex.Item>
-            ))}
-          <IsErgo>
-            <Divider />
-            <Flex.Item marginBottom={!selectedWallet ? 0 : 4} marginTop={4}>
-              <ErgopayWalletButton close={close} />
+              {wallets
+                .filter((w) => !w.hidden)
+                .map((wallet, index) => (
+                  <Flex.Item
+                    marginBottom={
+                      index === wallets.length - 1 && !selectedWallet ? 0 : 4
+                    }
+                    key={index}
+                  >
+                    <WalletView
+                      close={close}
+                      wallet={wallet}
+                      isChangeWallet={isChangeWallet}
+                    />
+                  </Flex.Item>
+                ))}
             </Flex.Item>
-          </IsErgo>
-          {selectedWallet && (
-            <Button
-              type="link"
-              icon={<LogoutOutlined />}
-              onClick={handleDisconnectWalletClick}
-            >
-              {' '}
-              <Trans>Disconnect wallet</Trans>
-            </Button>
-          )}
-        </Flex>
+          </Tabs.TabPane>
+          {selectedNetwork.name === 'ergo' && !s ? (
+            <Tabs.TabPane tab={<Trans>ErgoPay</Trans>} key="ergopayDesktop">
+              <ErgoPayTabPaneContent close={close} />
+            </Tabs.TabPane>
+          ) : null}
+        </Tabs>
       </Modal.Content>
     </>
   );
