@@ -42,12 +42,10 @@ export const ErgoPayTabPaneContent = ({ close }: Props) => {
 
   useEffect(() => {
     if (loadingAddresses === false && addresses?.[0]) {
-      if (addresses[0]) {
-        setErgopayAddress(addresses[0]);
-        patchSettings({ ergopay: true });
-        connectWallet(ErgopayWallet).subscribe(() => {});
-        close();
-      }
+      setErgopayAddress(addresses[0]);
+      patchSettings({ ergopay: true });
+      connectWallet(ErgopayWallet).subscribe(() => {});
+      close();
     }
   }, [loadingAddresses]);
 
