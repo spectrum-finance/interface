@@ -1,13 +1,10 @@
 import {
-  Alert,
-  Box,
   Button,
-  Checkbox,
+  Divider,
   Flex,
+  LogoutOutlined,
   Modal,
   ModalRef,
-  Tabs,
-  Tag,
   Typography,
   useDevice,
 } from '@ergolabs/ui-kit';
@@ -20,14 +17,16 @@ import { panalytics } from '../../../../common/analytics';
 import { useObservable } from '../../../../common/hooks/useObservable';
 import {
   connectWallet,
+  disconnectWallet,
   selectedWallet$,
   wallets$,
 } from '../../../../gateway/api/wallets';
 import { useSelectedNetwork } from '../../../../gateway/common/network';
 import { Wallet } from '../../../../network/common/Wallet';
 import { ErgoPayTabPaneContent } from '../../../../network/ergo/widgets/ErgoPayModal/ErgoPayTabPaneContent/ErgoPayTabPaneContent';
-
-const { Body } = Typography;
+import { ErgopayWalletButton } from '../../../../network/ergo/widgets/ErgopaySwitch/ErgopayWalletButton';
+import { IsErgo } from '../../../IsErgo/IsErgo';
+import { ProtocolDisclaimerAlert } from './ProtocolDisclaimerAlert/ProtocolDisclaimerAlert';
 
 interface WalletItemProps {
   wallet: Wallet;
@@ -49,15 +48,6 @@ const WalletButton = styled(Button)`
     span {
       color: var(--spectrum-default-border-color) !important;
     }
-  }
-`;
-
-const ExperimentalWalletBox = styled(Box)`
-  background: var(--spectrum-box-bg-tag);
-  border: 1px solid var(--spectrum-default-border-color);
-
-  .dark & {
-    background: var(--spectrum-box-bg-contrast);
   }
 `;
 
@@ -85,9 +75,8 @@ const WalletView: React.FC<WalletItemProps> = ({
   close,
   isChangeWallet,
 }) => {
-  const [checked, setChecked] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const [warning, setWarning] = useState<ReactNode | undefined>(undefined);
+  const [, setWarning] = useState<ReactNode | undefined>(undefined);
   const [selectedWallet] = useObservable(selectedWallet$);
 
   const handleClick = () => {
@@ -124,95 +113,16 @@ const WalletView: React.FC<WalletItemProps> = ({
     );
   };
 
-  const handleCheck = () => setChecked((prev) => !prev);
-
-  switch (wallet.definition) {
-    case 'experimental':
-      return (
-        <ExperimentalWalletBox padding={2}>
-          <Flex col>
-            <Flex.Item marginBottom={2} alignSelf="flex-end">
-              <Tag color="gold">
-                <Trans>Experimental</Trans>
-              </Tag>
-            </Flex.Item>
-            <Flex.Item marginBottom={2}>
-              <Checkbox checked={checked} onChange={handleCheck}>
-                <Trans>
-                  This wallet may not always work as expected. I understand what
-                  I do and will use it at my own risk.
-                </Trans>
-              </Checkbox>
-            </Flex.Item>
-            {warning && (
-              <Flex.Item marginBottom={2}>
-                <Alert
-                  type="warning"
-                  description={warning}
-                  style={{ width: '100%' }}
-                />
-              </Flex.Item>
-            )}
-            <WalletButton
-              size="large"
-              disabled={!checked}
-              onClick={handleClick}
-              loading={loading}
-            >
-              <Flex.Item flex={1} display="flex" align="center">
-                <Body>{wallet.name}</Body>
-              </Flex.Item>
-              {wallet.icon}
-            </WalletButton>
-          </Flex>
-        </ExperimentalWalletBox>
-      );
-    case 'recommended':
-      return (
-        <Flex col>
-          <Flex.Item marginBottom={2} alignSelf="flex-end">
-            <Tag color="success">
-              <Trans>Recommended</Trans>
-            </Tag>
-          </Flex.Item>
-          {warning && (
-            <Flex.Item marginBottom={2}>
-              <Alert
-                type="warning"
-                description={warning}
-                style={{ width: '100%' }}
-              />
-            </Flex.Item>
-          )}
-          <WalletButton size="large" onClick={handleClick} loading={loading}>
-            <Flex.Item flex={1} display="flex" align="center">
-              <Body>{wallet.name}</Body>
-            </Flex.Item>
-            {wallet.icon}
-          </WalletButton>
-        </Flex>
-      );
-    default:
-      return (
-        <>
-          <WalletButton size="large" onClick={handleClick} loading={loading}>
-            <Flex.Item flex={1} display="flex" align="center">
-              {wallet.name}
-            </Flex.Item>
-            {wallet.icon}
-          </WalletButton>
-          {warning && (
-            <Flex.Item marginBottom={2}>
-              <Alert
-                type="warning"
-                description={warning}
-                style={{ width: '100%' }}
-              />
-            </Flex.Item>
-          )}
-        </>
-      );
-  }
+  return (
+    <>
+      <WalletButton size="large" onClick={handleClick} loading={loading}>
+        <Flex.Item flex={1} display="flex" align="center">
+          {wallet.name}
+        </Flex.Item>
+        {wallet.icon}
+      </WalletButton>
+    </>
+  );
 };
 
 type ChooseWalletModalProps = ModalRef<boolean> & { isChangeWallet?: boolean };
@@ -232,14 +142,14 @@ const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
       <Modal.Title>
         <Trans>Select a wallet</Trans>
       </Modal.Title>
-      <Modal.Content width={480}>
+      <Modal.Content maxWidth={480}>
         <ChooseWalletTabs size="middle">
           {selectedNetwork.name === 'ergo' && s ? (
-            <Tabs.TabPane tab={<Trans>ErgoPay</Trans>} key="ergopayMobile">
+            <ChooseWalletTabs.TabPane tab={<Trans>ErgoPay</Trans>} key="ergopayMobile">
               <ErgoPayTabPaneContent close={close} />
-            </Tabs.TabPane>
+            </ChooseWalletTabs.TabPane>
           ) : null}
-          <Tabs.TabPane
+          <ChooseWalletTabs.TabPane
             tab={<Trans>Browser wallet</Trans>}
             key="browse_wallets"
           >
@@ -261,11 +171,11 @@ const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
                   </Flex.Item>
                 ))}
             </Flex.Item>
-          </Tabs.TabPane>
+          </ChooseWalletTabs.TabPane>
           {selectedNetwork.name === 'ergo' && !s ? (
-            <Tabs.TabPane tab={<Trans>ErgoPay</Trans>} key="ergopayDesktop">
+            <ChooseWalletTabs.TabPane tab={<Trans>ErgoPay</Trans>} key="ergopayDesktop">
               <ErgoPayTabPaneContent close={close} />
-            </Tabs.TabPane>
+            </ChooseWalletTabs.TabPane>
           ) : null}
         </ChooseWalletTabs>
       </Modal.Content>

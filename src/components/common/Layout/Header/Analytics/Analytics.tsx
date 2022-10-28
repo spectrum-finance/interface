@@ -16,7 +16,7 @@ const _Analytics: FC<AnalyticsProps> = ({ className }) => {
   const [currentStats] = useObservable(aggregatedAnalyticsData24H$, [], {});
 
   return (
-    <Box height={40} borderRadius="m" className={className}>
+    <Box height={40} borderRadius="l" className={className}>
       <Flex align="center" stretch>
         <Flex.Item marginRight={2}>
           <AnalyticTag>
@@ -60,7 +60,7 @@ const _Analytics: FC<AnalyticsProps> = ({ className }) => {
 };
 
 export const Analytics = styled(_Analytics)`
-  @media (max-width: 1024px) {
+  @media (max-width: 1090px) {
     display: none;
   }
 `;

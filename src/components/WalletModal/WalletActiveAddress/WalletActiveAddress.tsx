@@ -16,17 +16,19 @@ export const WalletActiveAddress = (): JSX.Element => {
   return (
     <Flex col>
       <Flex.Item marginBottom={2}>
-        <Typography.Body strong>
-          <Trans>Active address</Trans>
-        </Typography.Body>
         <InfoTooltip
+          secondary
           content={t`All output assets will be received at this address.`}
-        />
+        >
+          <Typography.Body strong>
+            <Trans>Active address</Trans>
+          </Typography.Body>
+        </InfoTooltip>
       </Flex.Item>
-      <Box padding={[2, 4]} borderRadius="m" contrast>
+      <Box padding={[3, 4]} borderRadius="l" secondary>
         {address ? (
-          <Flex col>
-            <Flex.Item marginBottom={1}>
+          <Flex align="center">
+            <Flex.Item marginRight={2} style={{ width: 1 }} flex={1}>
               <Typography.Title
                 level={4}
                 ellipsis={{
@@ -37,19 +39,15 @@ export const WalletActiveAddress = (): JSX.Element => {
                 {addressBegin}
               </Typography.Title>
             </Flex.Item>
-            <Flex.Item marginBottom={1}>
-              <Flex>
-                <Flex.Item marginRight={4} display="flex">
-                  <CopyButton text={address}>
-                    <Trans>Copy Address</Trans>
-                  </CopyButton>
-                </Flex.Item>
-                <Flex.Item display="flex">
-                  <ExploreButton to={address}>
-                    <Trans>View on explorer</Trans>
-                  </ExploreButton>
-                </Flex.Item>
-              </Flex>
+            <Flex.Item marginRight={1} display="flex">
+              <CopyButton text={address}>
+                <Trans>Copy Address</Trans>
+              </CopyButton>
+            </Flex.Item>
+            <Flex.Item display="flex">
+              <ExploreButton to={address}>
+                <Trans>View on explorer</Trans>
+              </ExploreButton>
             </Flex.Item>
           </Flex>
         ) : (

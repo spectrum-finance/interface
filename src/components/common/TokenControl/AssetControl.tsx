@@ -56,7 +56,6 @@ export interface TokenControlFormItemProps {
 export interface AssetControlFormItemProps {
   readonly amountName?: string;
   readonly tokenName?: string;
-  readonly label?: ReactNode;
   readonly maxButton?: boolean;
   readonly handleMaxButtonClick?: (balance: Currency) => Currency;
   readonly hasBorder?: boolean;
@@ -74,7 +73,6 @@ export interface AssetControlFormItemProps {
 export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
   amountName,
   tokenName,
-  label,
   maxButton,
   assets$,
   assetsToImport$,
@@ -121,33 +119,8 @@ export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
   };
 
   return (
-    <Box padding={4} contrast borderRadius="m">
+    <Box padding={4} secondary borderRadius="l">
       <Flex col>
-        {label && (
-          <Flex.Item align="center" marginBottom={2}>
-            <Flex.Item flex={1}>
-              <Typography.Body secondary>{label}</Typography.Body>
-            </Flex.Item>
-            {selectedAsset !== undefined &&
-              !balanceLoading &&
-              readonly !== true && (
-                <AssetBalance
-                  balance={balance.get(selectedAsset)}
-                  onClick={
-                    maxButton
-                      ? () => {
-                          _handleMaxButtonClick(balance.get(selectedAsset));
-
-                          if (analytics && analytics.location) {
-                            panalytics.clickMaxButton(analytics.location);
-                          }
-                        }
-                      : undefined
-                  }
-                />
-              )}
-          </Flex.Item>
-        )}
         <Flex.Item align="center">
           <Flex.Item marginRight={2} flex={1}>
             {amountName && (
@@ -191,8 +164,7 @@ export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
               expanded={
                 (selectedAsset !== undefined &&
                   !balanceLoading &&
-                  readonly !== true &&
-                  !label) ||
+                  readonly !== true) ||
                 value?.isPositive()
               }
             >
@@ -204,8 +176,7 @@ export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
                 </Flex.Item>
                 {selectedAsset !== undefined &&
                   !balanceLoading &&
-                  readonly !== true &&
-                  !label && (
+                  readonly !== true && (
                     <AssetBalance
                       balance={balance.get(selectedAsset)}
                       onClick={

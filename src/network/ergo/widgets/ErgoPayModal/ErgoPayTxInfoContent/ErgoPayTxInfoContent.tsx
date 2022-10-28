@@ -49,12 +49,15 @@ export const ErgoPayTxInfoContent: FC<ErgoPayTxInfoContentProps> = ({
               <Trans>Scan QR code</Trans>
             </Typography.Body>
           </Flex.Item>
-          <Flex.Item marginBottom={2} alignSelf="center">
-            <div style={{ background: 'white', padding: '8px' }}>
-              <QRCode
-                size={128}
-                value={createErgoPayDeepLink(createUnsignedTxRequestLink(txId))}
-              />
+          <Flex.Item marginBottom={6} alignSelf="center">
+            <div
+              style={{
+                background: 'white',
+                padding: '8px',
+                borderRadius: 'var(--spectrum-border-radius-l)',
+              }}
+            >
+              <QRCode size={128} value={createErgoPayDeepLink(createUnsignedTxRequestLink(txId))} />
             </div>
           </Flex.Item>
           <Flex.Item marginBottom={6} alignSelf="center">

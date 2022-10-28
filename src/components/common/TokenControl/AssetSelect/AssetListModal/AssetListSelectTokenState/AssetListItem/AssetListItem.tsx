@@ -30,8 +30,10 @@ const _AssetListItem: React.FC<TokenListItemProps> = ({
       height={height}
       className={className}
       onClick={active ? undefined : onClick}
-      borderRadius="m"
+      borderRadius="l"
       padding={[0, 4]}
+      secondary
+      transparent
       bordered={false}
     >
       <Flex align="center" width="100%" stretch>
@@ -43,7 +45,7 @@ const _AssetListItem: React.FC<TokenListItemProps> = ({
             <Truncate limit={20}>{asset.ticker}</Truncate>
           </Typography.Title>
           {asset.name && (
-            <Typography.Body secondary size="extra-small">
+            <Typography.Body secondary size="small">
               {asset.name}
             </Typography.Body>
           )}
@@ -56,11 +58,11 @@ const _AssetListItem: React.FC<TokenListItemProps> = ({
           display="flex"
           justify="center"
         >
-          <Typography.Title level={5}>
+          <Typography.Body strong size="large">
             {balance.get(asset).toString()}
-          </Typography.Title>
+          </Typography.Body>
           {!!Number(balance.get(asset).toAmount()) && (
-            <Typography.Body secondary size="extra-small">
+            <Typography.Body secondary size="small">
               <ConvenientAssetView value={balance.get(asset)} prefix="~" />
             </Typography.Body>
           )}
@@ -77,15 +79,5 @@ export const AssetListItem = styled(_AssetListItem)`
     props.active &&
     css`
       opacity: 0.4;
-    `}
-
-  ${(props) =>
-    !props.active &&
-    css`
-      cursor: pointer;
-
-      &:hover {
-        background-color: var(--spectrum-dark-card-background);
-      }
     `}
 `;

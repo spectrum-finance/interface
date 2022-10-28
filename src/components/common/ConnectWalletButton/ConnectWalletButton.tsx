@@ -29,7 +29,6 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = ({
   analytics,
 }) => {
   const [isWalletConnected] = useObservable(isWalletSetuped$);
-  const [{ isKYAAccepted }] = useAppLoadingState();
 
   const openChooseWalletModal = (): void => {
     Modal.open(({ close }) => <ChooseWalletModal close={close} />);
@@ -41,25 +40,15 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = ({
 
   return (
     <>
-      {isKYAAccepted ? (
-        <SpectrumConnectWalletButton
-          size={size}
-          onClick={openChooseWalletModal}
-          className={cn(className, 'connect-wallet-btn')}
-          isWalletConnected={isWalletConnected}
-          caption={<Trans>Connect wallet</Trans>}
-        >
-          {children}
-        </SpectrumConnectWalletButton>
-      ) : (
-        <Button
-          disabled
-          size={size}
-          className={cn(className, 'connect-wallet-btn')}
-        >
-          <Trans>KYA is not accepted</Trans>
-        </Button>
-      )}
+      <SpectrumConnectWalletButton
+        size={size}
+        onClick={openChooseWalletModal}
+        className={cn(className, 'connect-wallet-btn')}
+        isWalletConnected={isWalletConnected}
+        caption={<Trans>Connect wallet</Trans>}
+      >
+        {children}
+      </SpectrumConnectWalletButton>
     </>
   );
 };

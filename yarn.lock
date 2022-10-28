@@ -1570,10 +1570,10 @@
     ts-node "^9"
     tslib "^2"
 
-"@ergolabs/cardano-dex-sdk@^0.0.61":
-  version "0.0.61"
-  resolved "https://registry.yarnpkg.com/@ergolabs/cardano-dex-sdk/-/cardano-dex-sdk-0.0.61.tgz#79b6ac180212892d99a0e0d836c2af577fcf9e8b"
-  integrity sha512-Lvd8FD/5ZOA5nFRxDuH3YskHTBi+IiPu4UQHsGIR1M6Gc7Tk4CtoWo9QXt++xVihDCMybU9KPsmwqGobjkYIXA==
+"@ergolabs/cardano-dex-sdk@^0.0.63":
+  version "0.0.63"
+  resolved "https://registry.yarnpkg.com/@ergolabs/cardano-dex-sdk/-/cardano-dex-sdk-0.0.63.tgz#0e45031df065a980f4a19ad0f0cd1605ff0ebfa6"
+  integrity sha512-Au9pGlcpBoR4GL/NkK5fLLeMKjGqXE3UHnjjotUZ2cZZAS0Jxvs5ySGGCGYcSLwkD/yRmDKnm25IpLIqxdB4FA==
   dependencies:
     "@emurgo/cardano-serialization-lib-browser" "^11.0.5"
     axios "^0.21.1"
@@ -1618,10 +1618,10 @@
     mathjs "^9.4.4"
     ramda "0.27.1"
 
-"@ergolabs/ui-kit@^2.3.25":
-  version "2.3.25"
-  resolved "https://registry.yarnpkg.com/@ergolabs/ui-kit/-/ui-kit-2.3.25.tgz#d6742eb3696494189f9164cbe8e7b55c9beb41f7"
-  integrity sha512-G6ja+5z0F9YabZ7tQAPB2jk1GzlFGWPQsQ4Xmc26FWqUFo7cYk7cRoELeHmw5TW5qtgzv1ss9N1xdvY8ahgBkw==
+"@ergolabs/ui-kit@^2.3.62":
+  version "2.3.62"
+  resolved "https://registry.yarnpkg.com/@ergolabs/ui-kit/-/ui-kit-2.3.62.tgz#a6963de82b4538a8ad6f5243fa2582e515b090e0"
+  integrity sha512-b4f1QVOvdAj/JkueMfY/rsdLtHF3JdwxRVHiv0wOvMOqFoeeb3RiyL6NpDB912MRxqwwsgsu7hBLQrCbogwwxQ==
   dependencies:
     antd "^4.17.0-alpha.5"
     classnames "^2.3.1"

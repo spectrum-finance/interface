@@ -1,8 +1,5 @@
-import './CopyButton.less';
-
 import { Button, message, Tooltip } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
-import cn from 'classnames';
 import React, { ReactNode } from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
@@ -13,26 +10,21 @@ interface CopyButtonProps {
   children?: ReactNode | string;
 }
 
-const CopyButton: React.FC<CopyButtonProps> = ({ text, children }) => {
+const CopyButton: React.FC<CopyButtonProps> = ({ text }) => {
   return (
     <CopyToClipboard
       text={text}
-      onCopy={() => message.success(t`Copied to clipboard!`)}
+      onCopy={() => {
+        message.success(t`Address successfully copied`);
+      }}
     >
-      <Tooltip
-        title={t`Copy to clipboard.`}
-        trigger={children ? 'none' : 'hover'}
-      >
+      <Tooltip title={t`Copy Address to clipboard.`} trigger="hover">
         <Button
-          className={cn(
-            'copy-button',
-            children ? 'copy-button--with-children' : '',
-          )}
-          type="text"
+          size="small"
+          onClick={(e) => e.stopPropagation()}
           icon={<CopyIcon />}
-        >
-          {children}
-        </Button>
+          style={{ lineHeight: '24px' }}
+        />
       </Tooltip>
     </CopyToClipboard>
   );

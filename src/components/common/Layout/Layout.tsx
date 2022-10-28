@@ -21,7 +21,6 @@ import { NetworkHeight } from '../../NetworkHeight/NetworkHeight';
 import { RebrandingModal } from '../../RebrandingModal/RebrandingModal';
 import { useRebrandingShowed } from '../../RebrandingModal/useRebrandingShowed';
 import { SocialLinks } from '../../SocialLinks/SocialLinks';
-import { KyaModal } from '../KyaModal/KyaModal';
 import { CardanoUpdate } from './CardanoUpdate/CardanoUpdate';
 import { FooterNavigation } from './FooterNavigation/FooterNavigation';
 import { Glow } from './Glow/Glow';
@@ -66,31 +65,18 @@ const _Layout: FC<PropsWithChildren<{ className?: string }>> = ({
     },
     theme,
   );
-  const [{ isKYAAccepted }] = useAppLoadingState();
 
   useEffect(() => {
-    if (!isKYAAccepted) {
-      Modal.open(({ close }) => <KyaModal onClose={close} />, {
-        afterClose: (isConfirmed) => {
-          !isConfirmed && panalytics.closeKya();
-          markRebrandingAsShowed();
-        },
-      });
-      return;
-    }
     openCookiePolicy();
 
-    let timeOutId: any;
     if (!rebrandingShowed) {
-      timeOutId = setTimeout(() => {
-        Modal.open(({ close }) => <RebrandingModal close={close} />, {
-          afterClose: () => markRebrandingAsShowed(),
-        });
-      }, 10_000);
+      Modal.open(({ close }) => <RebrandingModal close={close} />, {
+        afterClose: () => markRebrandingAsShowed(),
+      });
     }
 
-    return () => (timeOutId ? clearTimeout(timeOutId) : undefined);
-  }, [isKYAAccepted, rebrandingShowed]);
+    return;
+  }, [rebrandingShowed]);
 
   useEffect(() => {
     let currentScrollY = ref.current?.scrollTop || 0;

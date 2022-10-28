@@ -8,9 +8,7 @@ interface PoolFeeTagProps {
 }
 
 export const PoolFeeTag: FC<PoolFeeTagProps> = ({ ammPool }) => (
-  <Box padding={[0.5, 1]} contrast>
-    <Typography.Text style={{ fontSize: '12px' }}>
-      {ammPool.poolFee}%
-    </Typography.Text>
+  <Box padding={[0.5, 1]} secondary borderRadius="m">
+    <Typography.Body size="small">{ammPool.poolFee}%</Typography.Body>
   </Box>
 );

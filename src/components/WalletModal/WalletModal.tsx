@@ -35,45 +35,47 @@ export const WalletModal: React.FC<{ close: (result?: any) => void }> = ({
   return (
     <>
       <Modal.Title>
-        <Trans>Wallet</Trans>
+        <Flex align="center">
+          {selectedWallet?.icon}
+          <Flex.Item marginLeft={2}>{selectedWallet?.name}</Flex.Item>
+        </Flex>
       </Modal.Title>
       <Modal.Content width={valBySize<CSSProperties['width']>('100%', 470)}>
         <Flex col>
-          <>
-            <Flex.Item marginBottom={4}>
-              <WalletTotalBalance balance={networkAssetBalance} />
-            </Flex.Item>
-            {isLowBalance(Number(networkAssetBalance), network.name) && (
               <Flex.Item marginBottom={4}>
-                <LowBalanceWarning network={network} />
+                <WalletTotalBalance balance={networkAssetBalance} />
               </Flex.Item>
-            )}
-            <Flex.Item marginBottom={6}>
-              <WalletActiveAddress />
-            </Flex.Item>
-          </>
+              {isLowBalance(Number(networkAssetBalance), network.name) && (
+                <Flex.Item marginBottom={4}>
+                  <LowBalanceWarning network={network} />
+                </Flex.Item>
+              )}
+              <Flex.Item marginBottom={6}>
+                <WalletActiveAddress />
+              </Flex.Item>
           <Flex.Item marginBottom={6}>
-            <Box contrast padding={4} borderRadius="m">
-              <IsErgo>
-                <Tabs defaultActiveKey={'1'} centered>
-                  <Tabs.TabPane tab="Tokens" key="1">
-                    <Box transparent padding={[4, 0, 0, 0]} bordered={false}>
-                      <TokensTab />
-                    </Box>
-                  </Tabs.TabPane>
-                  <Tabs.TabPane tab="Addresses" key="2">
-                    <Box transparent padding={[4, 0, 0, 0]} bordered={false}>
-                      <AddressesTab />
-                    </Box>
-                  </Tabs.TabPane>
-                </Tabs>
-              </IsErgo>
-              <IsCardano>
-                <Box transparent padding={0} bordered={false}>
-                  <TokensTab />
-                </Box>
-              </IsCardano>
-            </Box>
+            <IsErgo>
+              <Tabs
+                defaultActiveKey={'1'}
+                fullWidth
+              >
+                <Tabs.TabPane tab="Tokens" key="1">
+                  <Box transparent padding={[4, 0, 0, 0]} bordered={false}>
+                    <TokensTab />
+                  </Box>
+                </Tabs.TabPane>
+                <Tabs.TabPane tab="Addresses" key="2">
+                  <Box transparent padding={[4, 0, 0, 0]} bordered={false}>
+                    <AddressesTab />
+                  </Box>
+                </Tabs.TabPane>
+              </Tabs>
+            </IsErgo>
+            <IsCardano>
+              <Box transparent padding={0} bordered={false}>
+                <TokensTab />
+              </Box>
+            </IsCardano>
           </Flex.Item>
           <Button
             type="default"

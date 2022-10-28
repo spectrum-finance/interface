@@ -54,16 +54,9 @@ export class ProductAnalytics {
   }
 
   // Onboarding
-  public acceptKya(): void {
-    this.event(ANALYTICS_EVENTS.ACCEPT_KYA);
-  }
 
   public acceptCookies(): void {
     this.event(ANALYTICS_EVENTS.ACCEPT_COOKIES);
-  }
-
-  public closeKya(): void {
-    this.event(ANALYTICS_EVENTS.CLOSE_KYA);
   }
 
   public rejectCookies(): void {

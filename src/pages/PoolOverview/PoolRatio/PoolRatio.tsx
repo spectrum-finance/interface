@@ -26,15 +26,17 @@ export const PoolRatio: FC<PoolPriceProps> = ({ ammPool, ratioOf }) => {
     );
 
   return (
-    <Box padding={3} borderRadius="s" contrast>
+    <Box padding={3} borderRadius="l" secondary>
       <Flex col justify="center" align="center">
         <Flex.Item>
-          <Typography.Title level={5}>{price.toString()}</Typography.Title>
+          <Typography.Body size="large" strong>
+            {price.toString()}
+          </Typography.Body>
         </Flex.Item>
         <Flex.Item>
-          <Typography.Text type="secondary" style={{ fontSize: 12 }}>
+          <Typography.Body secondary size="small">
             {description}
-          </Typography.Text>
+          </Typography.Body>
         </Flex.Item>
       </Flex>
     </Box>

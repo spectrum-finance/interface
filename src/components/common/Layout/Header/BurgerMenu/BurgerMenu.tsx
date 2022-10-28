@@ -102,6 +102,7 @@ const BurgerMenu = (): JSX.Element => {
           title: t`Manual Refund`,
           icon: <ReloadOutlined />,
           onClick: () => {
+            setMenuVisible(false);
             panalytics.clickBurgerMenu('Manual Refund');
             Modal.open(({ close }) => <ManualRefundModal close={close} />);
           },
@@ -112,10 +113,11 @@ const BurgerMenu = (): JSX.Element => {
           title: t`Global Settings`,
           icon: <SettingOutlined />,
           onClick: () => {
+            setMenuVisible(false);
             panalytics.clickBurgerMenu('Global Settings');
             Modal.open(({ close }) => <GlobalSettingsModal onClose={close} />);
           },
-          isNotRenderMobile: true,
+          isNotRenderMobile: false,
         }
       : undefined,
     {

@@ -54,6 +54,8 @@ const _PoolSelector: FC<PoolSelectorProps> = ({
     <>
       <Flex justify="center">
         <Box
+          secondary
+          borderRadius="l"
           className={className}
           padding={value ? valBySize(3, 4) : 0}
           bordered={!!value}
@@ -63,13 +65,7 @@ const _PoolSelector: FC<PoolSelectorProps> = ({
               <Flex col>
                 <Flex.Item marginBottom={2} align="center">
                   <Flex align="center" width="100%">
-                    <Flex.Item>
-                      <Typography.Body secondary>
-                        <Trans>Liquidity Pool</Trans>
-                      </Typography.Body>
-                    </Flex.Item>
                     <InfoTooltip
-                      secondary
                       content={
                         <>
                           <Trans>
@@ -78,7 +74,11 @@ const _PoolSelector: FC<PoolSelectorProps> = ({
                           </Trans>
                         </>
                       }
-                    />
+                    >
+                      <Typography.Body secondary>
+                        <Trans>Liquidity Pool</Trans>
+                      </Typography.Body>
+                    </InfoTooltip>
                     {s && (
                       <Flex.Item
                         flex={1}
@@ -105,9 +105,10 @@ const _PoolSelector: FC<PoolSelectorProps> = ({
                     <Flex.Item marginRight={2}>
                       <AssetPairTitle
                         size="small"
+                        bodySize="large"
                         assetX={value.x.asset}
                         assetY={value.y.asset}
-                        level="body"
+                        level="body-strong"
                       />
                     </Flex.Item>
                     <Flex.Item marginRight={2}>

@@ -54,17 +54,17 @@ export const filterOperations = (
     }
     if (isSwapOperation(o)) {
       return (
-        o.quote.asset.name?.toLowerCase().includes(normalizedTerm) ||
-        o.base.asset.name?.toLowerCase().includes(normalizedTerm) ||
-        `${o.base.asset.name || ''}${o.quote.asset.name || ''}`
+        o.quote.asset.ticker?.toLowerCase().includes(normalizedTerm) ||
+        o.base.asset.ticker?.toLowerCase().includes(normalizedTerm) ||
+        `${o.base.asset.ticker || ''}${o.quote.asset.ticker || ''}`
           .toLowerCase()
           .includes(normalizedTerm)
       );
     }
     return (
-      o.x.asset.name?.toLowerCase().includes(normalizedTerm) ||
-      o.y.asset.name?.toLowerCase().includes(normalizedTerm) ||
-      `${o.x.asset.name || ''}${o.y.asset.name || ''}`
+      o.x.asset.ticker?.toLowerCase().includes(normalizedTerm) ||
+      o.y.asset.ticker?.toLowerCase().includes(normalizedTerm) ||
+      `${o.x.asset.ticker || ''}${o.y.asset.ticker || ''}`
         .toLowerCase()
         .includes(normalizedTerm)
     );

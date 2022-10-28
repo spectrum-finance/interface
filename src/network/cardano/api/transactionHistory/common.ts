@@ -4,10 +4,20 @@ import {
 } from '@ergolabs/cardano-dex-sdk/build/main/amm/models/operations';
 import {
   Deposit,
+  Redeem,
   Swap,
 } from '@ergolabs/cardano-dex-sdk/build/main/amm/models/orderInfo';
+import { mkSubject } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/assetClass';
 import { DateTime } from 'luxon';
-import { combineLatest, map, Observable, of } from 'rxjs';
+import {
+  catchError,
+  combineLatest,
+  first,
+  map,
+  Observable,
+  of,
+  tap,
+} from 'rxjs';
 
 import { Currency } from '../../../../common/models/Currency';
 import {
@@ -16,6 +26,7 @@ import {
   OtherOperation,
   SwapOperation,
 } from '../../../../common/models/Operation';
+import { ammPools$ } from '../ammPools/ammPools';
 import { mapAssetClassToAssetInfo } from '../common/cardanoAssetInfo/getCardanoAssetInfo';
 
 const mapToSwapOperation = (
@@ -60,6 +71,38 @@ const mapToDepositOperation = (
   );
 };
 
+const mapToRedeemOperation = (
+  ammDexOperation: AmmOrder,
+): Observable<OtherOperation | undefined> => {
+  const order: Redeem = ammDexOperation.order as any;
+
+  return ammPools$.pipe(
+    first(),
+    map(
+      (ammPools) =>
+        ammPools.find(
+          (p) =>
+            p.lp.asset.id ===
+            mkSubject({
+              policyId: order.inLq.asset.policyId,
+              name: order.inLq.asset.name,
+            }),
+        )!,
+    ),
+    map((ammPool) => [ammPool.x.asset, ammPool.y.asset]),
+    map(([xAsset, yAsset]) => ({
+      id: ammDexOperation.txHash,
+      txId: ammDexOperation.txHash,
+      dateTime: DateTime.local(),
+      type: 'redeem',
+      status: ammDexOperation.status as OperationStatus,
+      x: new Currency(0n, xAsset),
+      y: new Currency(0n, yAsset),
+    })),
+    catchError(() => of(undefined)),
+  ) as Observable<OtherOperation | undefined>;
+};
+
 export const mapToOperationOrEmpty = (
   ammDexOperation: AmmDexOperation,
 ): Observable<Operation | undefined> => {
@@ -72,6 +115,8 @@ export const mapToOperationOrEmpty = (
       return mapToSwapOperation(ammDexOperation);
     case 'deposit':
       return mapToDepositOperation(ammDexOperation);
+    case 'redeem':
+      return mapToRedeemOperation(ammDexOperation);
     default:
       return of(undefined);
   }

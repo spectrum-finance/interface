@@ -10,8 +10,6 @@ export const ANALYTICS_EVENTS = {
   CHANGE_LOCALE: 'Change Locale',
 
   // Onboarding
-  ACCEPT_KYA: 'Accept KYA',
-  CLOSE_KYA: 'Close KYA',
   ACCEPT_COOKIES: 'Accept Cookies',
   REJECT_COOKIES: 'Reject Cookies',
 

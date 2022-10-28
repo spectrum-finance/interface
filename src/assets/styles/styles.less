@@ -44,7 +44,7 @@ body {
 *::-webkit-scrollbar-thumb {
   border: 1px solid var(--spectrum-scroll-border);
   background-color: var(--spectrum-scroll-bg);
-  border-radius: var(--spectrum-border-radius-sm);
+  border-radius: var(--spectrum-border-radius-l);
   cursor: pointer;
 }
 
@@ -89,4 +89,13 @@ body {
   --network-dropdown-focus: rgba(68, 103, 191, 0.35);
   --network-dropdown-active: rgba(68, 103, 191, 0.5);
   --network-dropdown-border-color: #3f6ad6;
+}
+
+@keyframes shift {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
 }

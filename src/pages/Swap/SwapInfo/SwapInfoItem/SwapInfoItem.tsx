@@ -8,6 +8,7 @@ export interface SwapInfoItemProps {
   value: ReactNode;
   tooltip?: ReactNode;
   secondary?: boolean;
+  hint?: boolean;
 }
 
 export const SwapInfoItem: FC<SwapInfoItemProps> = ({
@@ -15,24 +16,33 @@ export const SwapInfoItem: FC<SwapInfoItemProps> = ({
   title,
   tooltip,
   secondary,
+  hint,
 }) => (
   <Flex align="center" justify="space-between">
-    <Flex.Item align="center">
-      <Flex.Item marginRight={1}>
-        <Typography.Body secondary={secondary}>{title}</Typography.Body>
-      </Flex.Item>
-      <Flex.Item>
-        {tooltip && (
-          <InfoTooltip
-            width={300}
-            content={tooltip}
-            size={secondary ? 'small' : 'default'}
-          />
-        )}
-      </Flex.Item>
+    <Flex.Item>
+      {tooltip ? (
+        <InfoTooltip
+          width={300}
+          content={tooltip}
+          secondary={secondary || hint}
+        >
+          <Typography.Body size="small" secondary={secondary} hint={hint}>
+            {title}
+          </Typography.Body>
+        </InfoTooltip>
+      ) : (
+        <Typography.Body size="small" secondary={secondary} hint={hint}>
+          {title}
+        </Typography.Body>
+      )}
+      <Typography.Body size="small" secondary={secondary} hint={hint}>
+        :
+      </Typography.Body>
     </Flex.Item>
     <Flex.Item>
-      <Typography.Body secondary={secondary}>{value}</Typography.Body>
+      <Typography.Body size="small" secondary={secondary} hint={hint}>
+        {value}
+      </Typography.Body>
     </Flex.Item>
   </Flex>
 );

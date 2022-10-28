@@ -39,15 +39,12 @@ export const SwapInfoContent: FC<SwapInfoContentProps> = ({ value }) => {
 
   return (
     <Flex col>
-      <Flex.Item marginBottom={2}>
-        <SwapInfoItem title={t`Slippage tolerance:`} value={`${slippage}%`} />
-      </Flex.Item>
-      <Flex.Item marginBottom={2}>
+      <Flex.Item marginBottom={1}>
         <SwapInfoPriceImpact value={value} />
       </Flex.Item>
-      <Flex.Item marginBottom={2}>
+      <Flex.Item marginBottom={1}>
         <SwapInfoItem
-          title={t`Minimum receivable:`}
+          title={t`Minimum receivable`}
           value={
             swapInfo?.minOutput ? (
               <>
@@ -60,9 +57,9 @@ export const SwapInfoContent: FC<SwapInfoContentProps> = ({ value }) => {
           }
         />
       </Flex.Item>
-      <Flex.Item marginBottom={4}>
+      <Flex.Item marginBottom={2}>
         <SwapInfoItem
-          title={t`Maximum receivable:`}
+          title={t`Maximum receivable`}
           value={
             swapInfo?.maxOutput ? (
               <>
@@ -75,10 +72,10 @@ export const SwapInfoContent: FC<SwapInfoContentProps> = ({ value }) => {
           }
         />
       </Flex.Item>
-      <Flex.Item marginBottom={4}>
+      <Flex.Item marginBottom={2}>
         <Divider />
       </Flex.Item>
-      <Flex.Item marginBottom={2}>
+      <Flex.Item marginBottom={1}>
         <SwapInfoItem
           tooltip={t`Will be charged by off-chain execution bots and distributed among validators.`}
           title={t`Execution Fee`}
@@ -86,15 +83,15 @@ export const SwapInfoContent: FC<SwapInfoContentProps> = ({ value }) => {
           secondary
         />
       </Flex.Item>
-      <Flex.Item marginBottom={2}>
+      <Flex.Item marginBottom={1}>
         <SwapInfoItem
           tooltip={t`A small amount of ADA charged by Cardano blockchain.`}
-          title={t`Transaction fee:`}
+          title={t`Transaction fee`}
           value={transactionFee.toCurrencyString()}
           secondary
         />
       </Flex.Item>
-      <Flex.Item marginBottom={2}>
+      <Flex.Item marginBottom={1}>
         <SwapInfoItem
           tooltip={
             <>
@@ -112,17 +109,15 @@ export const SwapInfoContent: FC<SwapInfoContentProps> = ({ value }) => {
               </a>
             </>
           }
-          title={t`Deposit ADA:`}
+          title={t`Deposit ADA`}
           value={depositAda.toCurrencyString()}
           secondary
         />
       </Flex.Item>
-      <Flex.Item marginBottom={2}>
-        <SwapInfoItem
-          title={t`Total fees:`}
-          value={`${minTotalFee.toCurrencyString()} - ${maxTotalFee.toCurrencyString()}`}
-        />
-      </Flex.Item>
+      <SwapInfoItem
+        title={t`Total fees`}
+        value={`${minTotalFee.toCurrencyString()} - ${maxTotalFee.toCurrencyString()}`}
+      />
     </Flex>
   );
 };
