@@ -1,5 +1,4 @@
 import {
-  Box,
   Button,
   Divider,
   Flex,
@@ -23,9 +22,8 @@ import {
 } from '../../../../gateway/api/wallets';
 import { Wallet } from '../../../../network/common/Wallet';
 import { ErgopayWalletButton } from '../../../../network/ergo/widgets/ErgopaySwitch/ErgopayWalletButton';
-import { ProtocolDisclaimeralert } from '../../../common/disclaimer/disclaimer';
 import { IsErgo } from '../../../IsErgo/IsErgo';
-const { Body } = Typography;
+import { ProtocolDisclaimerAlert } from './ProtocolDisclaimerAlert/ProtocolDisclaimerAlert';
 
 interface WalletItemProps {
   wallet: Wallet;
@@ -55,9 +53,8 @@ const WalletView: React.FC<WalletItemProps> = ({
   close,
   isChangeWallet,
 }) => {
-  const [checked, setChecked] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const [warning, setWarning] = useState<ReactNode | undefined>(undefined);
+  const [, setWarning] = useState<ReactNode | undefined>(undefined);
   const [selectedWallet] = useObservable(selectedWallet$);
 
   const handleClick = () => {
@@ -125,11 +122,11 @@ const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
       <Modal.Title>
         <Trans>Select a wallet</Trans>
       </Modal.Title>
-      <Modal.Content width={400}>
-        <ProtocolDisclaimeralert />
-
+      <Modal.Content maxWidth={480}>
         <Flex col>
-          <Divider />
+          <Flex.Item marginBottom={4}>
+            <ProtocolDisclaimerAlert />
+          </Flex.Item>
           {wallets
             .filter((w) => !w.hidden)
             .map((wallet, index) => (
