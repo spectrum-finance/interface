@@ -71,7 +71,7 @@ export const OperationHistoryModal: FC<OperationHistoryModalProps> = ({
                   title={
                     <Typography.Body>
                       <Trans>
-                        Synchronisation will continue even if you close <br />{' '}
+                        Synchronisation will continue even if you <br /> close
                         this modal window
                       </Trans>
                     </Typography.Body>
