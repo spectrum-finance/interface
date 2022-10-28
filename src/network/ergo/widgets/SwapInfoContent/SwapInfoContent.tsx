@@ -53,8 +53,8 @@ export const SwapInfoContent: FC<SwapInfoContent> = ({ value }) => {
             minOutput ? (
               <>
                 {minOutput?.toString()}{' '}
-                <Truncate>{minOutput?.asset.name}</Truncate>
-                (<ConvenientAssetView value={minOutput} />)
+                <Truncate>{minOutput?.asset.name}</Truncate> (
+                <ConvenientAssetView value={minOutput} />)
               </>
             ) : (
               '–'
@@ -69,8 +69,8 @@ export const SwapInfoContent: FC<SwapInfoContent> = ({ value }) => {
             maxOutput ? (
               <>
                 {maxOutput?.toString()}{' '}
-                <Truncate>{maxOutput?.asset.name}</Truncate>
-                (<ConvenientAssetView value={maxOutput} />)
+                <Truncate>{maxOutput?.asset.name}</Truncate> (
+                <ConvenientAssetView value={maxOutput} />)
               </>
             ) : (
               '–'

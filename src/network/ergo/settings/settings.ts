@@ -32,7 +32,7 @@ export const defaultErgoSettings: ErgoSettings = {
   slippage: defaultSlippage,
   pk: undefined,
   address: undefined,
-  ergopay: isMobile,
+  ergopay: false,
 };
 
 const updateAddressSettings = (
@@ -62,9 +62,6 @@ const updateAddressSettings = (
 };
 
 export const initializeSettings = (): void => {
-  if (isMobile && getSettings().ergopay === undefined) {
-    patchSettings({ ergopay: true });
-  }
   zip([
     getUsedAddresses().pipe(filter(Boolean)),
     getUnusedAddresses().pipe(filter(Boolean)),
