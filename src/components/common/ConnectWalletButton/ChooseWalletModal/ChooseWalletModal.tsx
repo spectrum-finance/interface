@@ -1,11 +1,9 @@
 import {
   Button,
-  Divider,
   Flex,
-  LogoutOutlined,
   Modal,
   ModalRef,
-  Typography,
+  Tabs,
   useDevice,
 } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
@@ -17,15 +15,12 @@ import { panalytics } from '../../../../common/analytics';
 import { useObservable } from '../../../../common/hooks/useObservable';
 import {
   connectWallet,
-  disconnectWallet,
   selectedWallet$,
   wallets$,
 } from '../../../../gateway/api/wallets';
 import { useSelectedNetwork } from '../../../../gateway/common/network';
 import { Wallet } from '../../../../network/common/Wallet';
 import { ErgoPayTabPaneContent } from '../../../../network/ergo/widgets/ErgoPayModal/ErgoPayTabPaneContent/ErgoPayTabPaneContent';
-import { ErgopayWalletButton } from '../../../../network/ergo/widgets/ErgopaySwitch/ErgopayWalletButton';
-import { IsErgo } from '../../../IsErgo/IsErgo';
 import { ProtocolDisclaimerAlert } from './ProtocolDisclaimerAlert/ProtocolDisclaimerAlert';
 
 interface WalletItemProps {
@@ -48,25 +43,6 @@ const WalletButton = styled(Button)`
     span {
       color: var(--spectrum-default-border-color) !important;
     }
-  }
-`;
-
-const ChooseWalletTabs = styled(Tabs)`
-  .ant-tabs-ink-bar {
-    border-radius: 12px !important;
-  }
-
-  .ant-tabs-tab,
-  .ant-tabs-nav-list {
-    flex-grow: 1;
-    width: 100%;
-    border-radius: 12px !important;
-  }
-
-  .ant-tabs-tab {
-    justify-content: center;
-    height: 24px;
-    border-radius: 12px !important;
   }
 `;
 
@@ -142,18 +118,21 @@ const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
       <Modal.Title>
         <Trans>Select a wallet</Trans>
       </Modal.Title>
-      <Modal.Content maxWidth={480}>
-        <ChooseWalletTabs size="middle">
+      <Modal.Content maxWidth={480} width="100%">
+        <Tabs fullWidth>
           {selectedNetwork.name === 'ergo' && s ? (
-            <ChooseWalletTabs.TabPane tab={<Trans>ErgoPay</Trans>} key="ergopayMobile">
+            <Tabs.TabPane tab={<Trans>ErgoPay</Trans>} key="ergopayMobile">
               <ErgoPayTabPaneContent close={close} />
-            </ChooseWalletTabs.TabPane>
+            </Tabs.TabPane>
           ) : null}
-          <ChooseWalletTabs.TabPane
+          <Tabs.TabPane
             tab={<Trans>Browser wallet</Trans>}
             key="browse_wallets"
           >
-            <Flex.Item marginTop={5} display="block">
+            <Flex.Item marginTop={5} display="flex" col>
+              <Flex.Item marginBottom={4}>
+                <ProtocolDisclaimerAlert />
+              </Flex.Item>
               {wallets
                 .filter((w) => !w.hidden)
                 .map((wallet, index) => (
@@ -171,13 +150,13 @@ const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
                   </Flex.Item>
                 ))}
             </Flex.Item>
-          </ChooseWalletTabs.TabPane>
+          </Tabs.TabPane>
           {selectedNetwork.name === 'ergo' && !s ? (
-            <ChooseWalletTabs.TabPane tab={<Trans>ErgoPay</Trans>} key="ergopayDesktop">
+            <Tabs.TabPane tab={<Trans>ErgoPay</Trans>} key="ergopayDesktop">
               <ErgoPayTabPaneContent close={close} />
-            </ChooseWalletTabs.TabPane>
+            </Tabs.TabPane>
           ) : null}
-        </ChooseWalletTabs>
+        </Tabs>
       </Modal.Content>
     </>
   );

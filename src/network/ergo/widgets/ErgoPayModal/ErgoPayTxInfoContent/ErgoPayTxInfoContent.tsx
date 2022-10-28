@@ -57,7 +57,10 @@ export const ErgoPayTxInfoContent: FC<ErgoPayTxInfoContentProps> = ({
                 borderRadius: 'var(--spectrum-border-radius-l)',
               }}
             >
-              <QRCode size={128} value={createErgoPayDeepLink(createUnsignedTxRequestLink(txId))} />
+              <QRCode
+                size={128}
+                value={createErgoPayDeepLink(createUnsignedTxRequestLink(txId))}
+              />
             </div>
           </Flex.Item>
           <Flex.Item marginBottom={6} alignSelf="center">
