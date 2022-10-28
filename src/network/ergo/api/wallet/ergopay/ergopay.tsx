@@ -10,41 +10,37 @@ import {
   switchMap,
 } from 'rxjs';
 
+import { ReactComponent as ErgoLogo } from '../../../../../assets/icons/ergo-logo-icon.svg';
 import { localStorageManager } from '../../../../../common/utils/localStorageManager';
 import { explorer } from '../../../../../services/explorer';
 import { ErgoWalletContract } from '../common/ErgoWalletContract';
-import { ReactComponent as ReadonlyLogo } from './readonly-logo-icon.svg';
+export const ERGOPAY_ADDRESS_KEY = 'ergopay-wallet';
 
-export const READ_ONLY_ADDRESS_KEY = 'readonly-ergopay-wallet';
+export const setErgopayAddress = (address: string): void =>
+  localStorageManager.set<string>(ERGOPAY_ADDRESS_KEY, address);
 
-export const setReadonlyAddress = (address: string): void =>
-  localStorageManager.set<string>(READ_ONLY_ADDRESS_KEY, address);
-
-export const hasReadonlyAddress = (): boolean =>
-  !!localStorageManager.get(READ_ONLY_ADDRESS_KEY);
-
-const readOnlyAddress$ = localStorageManager
-  .getStream<string>(READ_ONLY_ADDRESS_KEY)
+const ergopayAddress$ = localStorageManager
+  .getStream<string>(ERGOPAY_ADDRESS_KEY)
   .pipe(filter(Boolean), publishReplay(1), refCount());
 
-export const ReadonlyWallet: ErgoWalletContract = {
-  name: 'Read-only Wallet',
+export const ErgopayWallet: ErgoWalletContract = {
+  name: 'ErgoPay',
+  icon: <ErgoLogo />,
   hidden: true,
-  icon: <ReadonlyLogo />,
-  previewIcon: <ReadonlyLogo width={21} height={21} />,
+  previewIcon: <ErgoLogo width={21} height={21} />,
   connectWallet: () => of(true),
   getUtxos: () =>
-    readOnlyAddress$.pipe(
+    ergopayAddress$.pipe(
       switchMap((address) =>
         from(explorer.searchUnspentBoxesByAddress(address)),
       ),
       map((bs: any) => bs?.map((b: any) => ergoBoxFromProxy(b))),
       map((data) => data ?? []),
     ),
-  getUsedAddresses: () => readOnlyAddress$.pipe(map((address) => [address])),
+  getUsedAddresses: () => ergopayAddress$.pipe(map((address) => [address])),
   getUnusedAddresses: () => of([]),
-  getChangeAddress: () => readOnlyAddress$,
-  getAddresses: () => readOnlyAddress$.pipe(map((address) => [address])),
+  getChangeAddress: () => ergopayAddress$,
+  getAddresses: () => ergopayAddress$.pipe(map((address) => [address])),
   sign: () => ({} as any),
   signInput: () => ({} as any),
   submitTx: () => ({} as any),

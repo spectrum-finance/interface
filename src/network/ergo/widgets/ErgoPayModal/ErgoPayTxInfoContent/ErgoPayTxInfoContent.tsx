@@ -6,7 +6,10 @@ import QRCode from 'react-qr-code';
 import styled from 'styled-components';
 
 import { TxId } from '../../../../../common/types';
-import { createDeepLink } from '../common/ergopayLinks';
+import {
+  createErgoPayDeepLink,
+  createUnsignedTxRequestLink,
+} from '../common/ergopayLinks';
 
 export interface ErgoPayTxInfoContentProps {
   readonly txId: TxId;
@@ -48,7 +51,10 @@ export const ErgoPayTxInfoContent: FC<ErgoPayTxInfoContentProps> = ({
           </Flex.Item>
           <Flex.Item marginBottom={2} alignSelf="center">
             <div style={{ background: 'white', padding: '8px' }}>
-              <QRCode size={128} value={createDeepLink(txId)} />
+              <QRCode
+                size={128}
+                value={createErgoPayDeepLink(createUnsignedTxRequestLink(txId))}
+              />
             </div>
           </Flex.Item>
           <Flex.Item marginBottom={6} alignSelf="center">
@@ -59,7 +65,7 @@ export const ErgoPayTxInfoContent: FC<ErgoPayTxInfoContentProps> = ({
           <Flex.Item display="flex" align="center" width="100%">
             <Flex.Item marginRight={2} flex={1}>
               <CopyToClipboard
-                text={createDeepLink(txId)}
+                text={createErgoPayDeepLink(createUnsignedTxRequestLink(txId))}
                 onCopy={() => message.success(t`Copied to clipboard!`)}
               >
                 <FullWidthButton type="default" size="large">
@@ -71,7 +77,7 @@ export const ErgoPayTxInfoContent: FC<ErgoPayTxInfoContentProps> = ({
               <FullWidthButton
                 type="primary"
                 size="large"
-                href={createDeepLink(txId)}
+                href={createErgoPayDeepLink(createUnsignedTxRequestLink(txId))}
               >
                 <Trans>Open wallet</Trans>
               </FullWidthButton>
