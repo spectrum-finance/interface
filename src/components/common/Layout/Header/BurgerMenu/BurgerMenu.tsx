@@ -1,4 +1,3 @@
-import Icon from '@ant-design/icons';
 import {
   Button,
   Dropdown,
@@ -41,7 +40,7 @@ const StyledMenu = styled(Menu)`
 `;
 
 const ThemeSwitchContainer = styled.div`
-  border-bottom: 1px solid var(--spectrum-tab-border-color);
+  border-bottom: 1px solid var(--spectrum-box-border-color);
   padding: 0 0 0.5rem;
   margin-bottom: 0.5rem;
 `;
