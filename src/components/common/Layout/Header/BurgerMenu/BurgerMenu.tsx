@@ -31,10 +31,8 @@ import { useApplicationSettings } from '../../../../../context';
 import { useSelectedNetwork } from '../../../../../gateway/common/network';
 import { globalSettingsModal$ } from '../../../../../gateway/widgets/globalSettingsModal';
 import { useQuery } from '../../../../../hooks/useQuery';
-import { ErgopaySwitch } from '../../../../../network/ergo/widgets/ErgopaySwitch/ErgopaySwitch';
 import { ThemeSwitch } from '../../../../ThemeSwitch/ThemeSwitch';
 import { DotsIcon } from '../../../Icons/DotsIcon';
-import { ReactComponent as ErgopayIcon } from './ergopay-icon.svg';
 import { ManualRefundModal } from './ManualRefundModal/ManualRefundModal';
 
 const StyledMenu = styled(Menu)`
@@ -104,6 +102,7 @@ const BurgerMenu = (): JSX.Element => {
           title: t`Manual Refund`,
           icon: <ReloadOutlined />,
           onClick: () => {
+            setMenuVisible(false);
             panalytics.clickBurgerMenu('Manual Refund');
             Modal.open(({ close }) => <ManualRefundModal close={close} />);
           },
@@ -114,17 +113,13 @@ const BurgerMenu = (): JSX.Element => {
           title: t`Global Settings`,
           icon: <SettingOutlined />,
           onClick: () => {
+            setMenuVisible(false);
             panalytics.clickBurgerMenu('Global Settings');
             Modal.open(({ close }) => <GlobalSettingsModal onClose={close} />);
           },
-          isNotRenderMobile: true,
+          isNotRenderMobile: false,
         }
       : undefined,
-    {
-      title: t`Ergopay`,
-      icon: <Icon component={ErgopayIcon} width={24} height={24} />,
-      additional: <ErgopaySwitch defaultChecked size="small" />,
-    },
     {
       title: t`Language`,
       icon: <GlobalOutlined />,

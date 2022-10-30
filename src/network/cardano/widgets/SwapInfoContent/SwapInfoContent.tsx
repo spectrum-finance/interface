@@ -44,7 +44,7 @@ export const SwapInfoContent: FC<SwapInfoContentProps> = ({ value }) => {
       </Flex.Item>
       <Flex.Item marginBottom={1}>
         <SwapInfoItem
-          title={t`Minimum receivable:`}
+          title={t`Minimum receivable`}
           value={
             swapInfo?.minOutput ? (
               <>
@@ -59,7 +59,7 @@ export const SwapInfoContent: FC<SwapInfoContentProps> = ({ value }) => {
       </Flex.Item>
       <Flex.Item marginBottom={2}>
         <SwapInfoItem
-          title={t`Maximum receivable:`}
+          title={t`Maximum receivable`}
           value={
             swapInfo?.maxOutput ? (
               <>
@@ -86,7 +86,7 @@ export const SwapInfoContent: FC<SwapInfoContentProps> = ({ value }) => {
       <Flex.Item marginBottom={1}>
         <SwapInfoItem
           tooltip={t`A small amount of ADA charged by Cardano blockchain.`}
-          title={t`Transaction fee:`}
+          title={t`Transaction fee`}
           value={transactionFee.toCurrencyString()}
           secondary
         />
@@ -109,13 +109,13 @@ export const SwapInfoContent: FC<SwapInfoContentProps> = ({ value }) => {
               </a>
             </>
           }
-          title={t`Deposit ADA:`}
+          title={t`Deposit ADA`}
           value={depositAda.toCurrencyString()}
           secondary
         />
       </Flex.Item>
       <SwapInfoItem
-        title={t`Total fees:`}
+        title={t`Total fees`}
         value={`${minTotalFee.toCurrencyString()} - ${maxTotalFee.toCurrencyString()}`}
       />
     </Flex>

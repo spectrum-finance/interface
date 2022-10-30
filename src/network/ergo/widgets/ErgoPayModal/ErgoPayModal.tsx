@@ -2,7 +2,10 @@ import React, { FC, ReactNode, useState } from 'react';
 import { isMobile } from 'react-device-detect';
 
 import { TxId } from '../../../../common/types';
-import { createDeepLink } from './common/ergopayLinks';
+import {
+  createErgoPayDeepLink,
+  createUnsignedTxRequestLink,
+} from './common/ergopayLinks';
 import { ErgoPayTxInfoContent } from './ErgoPayTxInfoContent/ErgoPayTxInfoContent';
 
 export interface ErgoPaySwapConfirmationModalProps {
@@ -31,7 +34,9 @@ export const ErgoPayModal: FC<ErgoPaySwapConfirmationModalProps> = ({
   const handleTxRegister = (txId: TxId) => {
     onTxRegister(txId);
     if (isMobile) {
-      window.location.replace(createDeepLink(txId));
+      window.location.replace(
+        createErgoPayDeepLink(createUnsignedTxRequestLink(txId)),
+      );
       close();
     } else {
       setTxId(txId);

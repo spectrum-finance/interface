@@ -74,7 +74,7 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
       <Button className="network-dropdown-selected" size="large">
         <Flex justify="center" direction="row" align="center">
           <AssetIcon asset={selectedNetwork.networkAsset} />
-          <Typography.Text
+          <Typography.Body
             className="network-dropdown__btn-text"
             style={{
               fontSize: '16px',
@@ -82,7 +82,7 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
             }}
           >
             {capitalize(selectedNetwork.label)}
-          </Typography.Text>
+          </Typography.Body>
           <DownOutlined
             style={{
               marginLeft: 'calc(var(--spectrum-base-gutter) * 2)',

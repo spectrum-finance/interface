@@ -60,7 +60,7 @@ const _Analytics: FC<AnalyticsProps> = ({ className }) => {
 };
 
 export const Analytics = styled(_Analytics)`
-  @media (max-width: 1024px) {
+  @media (max-width: 1090px) {
     display: none;
   }
 `;

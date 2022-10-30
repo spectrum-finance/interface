@@ -57,7 +57,6 @@ import { swap } from '../../gateway/api/operations/swap';
 import { useSwapValidationFee } from '../../gateway/api/validationFees';
 import { useSelectedNetwork } from '../../gateway/common/network';
 import { operationsSettings$ } from '../../gateway/widgets/operationsSettings';
-import { ErgoPayBadge } from './ErgoPayBadge/ErgoPayBadge';
 import { PoolSelector } from './PoolSelector/PoolSelector';
 import { SwapFormModel } from './SwapFormModel';
 import { SwapGraph } from './SwapGraph/SwapGraph';
@@ -386,6 +385,7 @@ export const Swap = (): JSX.Element => {
     >
       <Page
         maxWidth={500}
+        widgetBaseHeight={pool ? 432 : 272}
         leftWidget={
           selectedNetwork.name === 'ergo' && (
             <SwapGraph
@@ -400,10 +400,7 @@ export const Swap = (): JSX.Element => {
         onWidgetClose={() => setLeftWidgetOpened(false)}
       >
         <Flex col>
-          <Flex.Item>
-            <ErgoPayBadge />
-          </Flex.Item>
-          <Flex row align="flex-start">
+          <Flex row align="center">
             <Flex.Item flex={1}>
               <Typography.Title level={4}>
                 <Trans>Swap</Trans>

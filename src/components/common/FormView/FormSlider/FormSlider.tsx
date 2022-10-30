@@ -4,7 +4,7 @@ import React from 'react';
 import { FormSpace } from '../FormSpace/FormSpace';
 
 const marks = {
-  0: 'Min',
+  1: 'Min',
   25: '25%',
   50: '50%',
   75: '75%',
