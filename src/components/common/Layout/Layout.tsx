@@ -18,8 +18,6 @@ import { useMetaThemeColor } from '../../../hooks/useMetaThemeColor';
 import { openCookiePolicy } from '../../../services/notifications/CookiePolicy/CookiePolicy';
 import { isDarkOsTheme } from '../../../utils/osTheme';
 import { NetworkHeight } from '../../NetworkHeight/NetworkHeight';
-import { RebrandingModal } from '../../RebrandingModal/RebrandingModal';
-import { useRebrandingShowed } from '../../RebrandingModal/useRebrandingShowed';
 import { SocialLinks } from '../../SocialLinks/SocialLinks';
 import { CardanoUpdate } from './CardanoUpdate/CardanoUpdate';
 import { FooterNavigation } from './FooterNavigation/FooterNavigation';
@@ -52,7 +50,6 @@ const _Layout: FC<PropsWithChildren<{ className?: string }>> = ({
   const footerRef = useRef<HTMLDivElement>(null);
   const [scrolled, setScrolled] = useState(false);
   const [scrolledTop, setScrolledTop] = useState(true);
-  const [rebrandingShowed, markRebrandingAsShowed] = useRebrandingShowed();
 
   useBodyClass([theme, network.name.toLowerCase()]);
   useMetaThemeColor(
@@ -65,18 +62,6 @@ const _Layout: FC<PropsWithChildren<{ className?: string }>> = ({
     },
     theme,
   );
-
-  useEffect(() => {
-    openCookiePolicy();
-
-    if (!rebrandingShowed) {
-      Modal.open(({ close }) => <RebrandingModal close={close} />, {
-        afterClose: () => markRebrandingAsShowed(),
-      });
-    }
-
-    return;
-  }, [rebrandingShowed]);
 
   useEffect(() => {
     let currentScrollY = ref.current?.scrollTop || 0;
