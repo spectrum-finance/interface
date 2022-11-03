@@ -60,7 +60,6 @@ import {
   exploreToken,
   exploreTx,
 } from './utils/utils';
-import { GlobalSettingsModal } from './widgets/GlobalSettings/GlobalSettingsModal';
 import { OperationsSettings } from './widgets/OperationSettings/OperationsSettings';
 import { RefundConfirmationInfo } from './widgets/RefundConfirmationInfo/RefundConfirmationInfo';
 import { SwapInfoContent } from './widgets/SwapInfoContent/SwapInfoContent';
@@ -118,7 +117,6 @@ export const ergoNetwork: Network<
   exploreLastBlock,
   exploreToken,
 
-  GlobalSettingsModal,
   SwapInfoContent,
   RefundConfirmationInfo,
   OperationsSettings,
