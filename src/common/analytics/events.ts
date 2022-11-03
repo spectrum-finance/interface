@@ -1,6 +1,7 @@
 export const ANALYTICS_EVENTS = {
   // Launch
-  APP_LAUNCH: 'App Launch',
+  FIRST_LAUNCH: 'First launch',
+  SESSION_START: 'Session start',
 
   // Network
   CHANGE_NETWORK: 'Change Network',

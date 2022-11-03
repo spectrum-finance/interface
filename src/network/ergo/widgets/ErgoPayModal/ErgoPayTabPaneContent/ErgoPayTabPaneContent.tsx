@@ -1,14 +1,5 @@
-import {
-  Button,
-  Flex,
-  Loading3QuartersOutlined,
-  Space,
-  Typography,
-  useDevice,
-} from '@ergolabs/ui-kit';
-import { Trans } from '@lingui/macro';
+import { useDevice } from '@ergolabs/ui-kit';
 import React, { useEffect } from 'react';
-import { isIOS } from 'react-device-detect';
 import { of } from 'rxjs';
 
 import { useObservable } from '../../../../../common/hooks/useObservable';

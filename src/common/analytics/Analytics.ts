@@ -1,4 +1,5 @@
-import { PostHog } from 'posthog-js';
+import * as Amplitude from '@amplitude/analytics-browser';
+import posthog, { PostHog } from 'posthog-js';
 import { first } from 'rxjs';
 
 import { selectedNetwork$ } from '../../gateway/common/network';
@@ -16,28 +17,30 @@ import {
   AnalyticsToken,
   AnalyticsTokenAssignment,
 } from './@types/types';
+import { userProperties } from './@types/userProperties';
 import { AnalyticsWalletName } from './@types/wallet';
 import { ANALYTICS_EVENTS } from './events';
+import { AnalyticSystem } from './system/AnalyticSystem';
 import {
   constructEventName,
   convertDepositFormModelToAnalytics,
   convertRedeemFormModelToAnalytics,
   convertSwapFormModelToAnalytics,
-  debutEvent,
+  debugEvent,
   getPoolAnalyticsData,
 } from './utils';
 
 export class ProductAnalytics {
-  analyticsSystems: Array<PostHog>;
+  analyticsSystems: AnalyticSystem[];
 
-  constructor(...analyticsSystems: PostHog[]) {
+  constructor(...analyticsSystems: AnalyticSystem[]) {
     this.analyticsSystems = analyticsSystems;
   }
 
-  private event(name: string, props?: any): void {
-    debutEvent(name, props);
+  private event(name: string, props?: any, userProps?: userProperties): void {
+    debugEvent(name, props);
     this.analyticsSystems.forEach((system) => {
-      system.capture(name, props);
+      system.captureEvent(name, props, userProps);
     });
   }
 
@@ -45,12 +48,12 @@ export class ProductAnalytics {
     selectedNetwork$.pipe(first()).subscribe(cb);
   }
 
-  // --
-  // APP Launch
-  // --
+  public firstLaunch(userProps?: userProperties): void {
+    this.event(ANALYTICS_EVENTS.FIRST_LAUNCH, {}, userProps);
+  }
 
-  public appLaunch(launchData: AnalyticsLaunchData): void {
-    this.event(ANALYTICS_EVENTS.APP_LAUNCH, launchData);
+  public sessionStart(userProps?: userProperties): void {
+    this.event(ANALYTICS_EVENTS.SESSION_START, {}, userProps);
   }
 
   // Onboarding

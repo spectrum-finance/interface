@@ -18,6 +18,7 @@
   "dependencies": {
     "@alfalab/core-components-amount-input": "^5.2.3",
     "@alfalab/core-components-select": "^9.3.2",
+    "@amplitude/analytics-browser": "^1.6.0",
     "@babel/plugin-syntax-typescript": "^7.16.7",
     "@babel/preset-env": "^7.15.6",
     "@emurgo/cardano-serialization-lib-nodejs": "^11.0.5",

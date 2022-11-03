@@ -9,7 +9,7 @@ import { ApplicationRoutes, routesConfig } from './ApplicationRoutes';
 import { useObservable } from './common/hooks/useObservable';
 import { gaInitializer } from './common/initializers/gaInitializer';
 import { networkDomInitializer } from './common/initializers/networkDomInitializer';
-import { posthogInitializer } from './common/initializers/posthogInitializer';
+import { panalyticsInitializer } from './common/initializers/panalyticsInitializer';
 import { sentryInitializer } from './common/initializers/sentryInitializer';
 import { startAppTicks } from './common/streams/appTick';
 import { AppLoadingProvider, SettingsProvider } from './context';
@@ -37,7 +37,7 @@ const Application = () => {
 
 const initializers: Observable<true>[] = [
   sentryInitializer(),
-  posthogInitializer(),
+  panalyticsInitializer(),
   networkDomInitializer(routesConfig),
   gaInitializer(),
 ];

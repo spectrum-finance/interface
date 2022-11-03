@@ -28,7 +28,7 @@ const getLiquidityUsd = (
   Number(network.convertToConvenientNetworkAsset.snapshot(x).toAmount()) +
   Number(network.convertToConvenientNetworkAsset.snapshot(y).toAmount());
 
-export const debutEvent = (name: string, props: any): void => {
+export const debugEvent = (name: string, props: any): void => {
   const debugpa = localStorage.getItem('debugpa');
 
   if (debugpa == 'true') {
