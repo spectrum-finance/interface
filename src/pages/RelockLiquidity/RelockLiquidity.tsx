@@ -31,7 +31,7 @@ import { PageHeader } from '../../components/Page/PageHeader/PageHeader';
 import { PageSection } from '../../components/Page/PageSection/PageSection';
 import { ergoExplorerContext$ } from '../../gateway/api/explorer';
 import { getPositionByAmmPoolId } from '../../gateway/api/positions';
-import { useGuard } from '../../hooks/useGuard';
+import { useGuardV2 } from '../../hooks/useGuard';
 import { LiquidityDatePicker } from '../Liquidity/common/components/LockLiquidityDatePicker/LiquidityDatePicker';
 import { RelockLiquidityConfirmationModal } from './RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal';
 
@@ -58,7 +58,13 @@ export const RelockLiquidity = (): JSX.Element => {
     (form) => !form.value.relocktime && t`Pick new unlock date`,
   ];
 
-  useGuard(position, loading, () => navigate('../../../liquidity'));
+  useGuardV2(
+    () => !loading && !position?.lockedLp?.isPositive(),
+    () =>
+      navigate(
+        `../../../liquidity${position?.pool.id ? `/${position.pool.id}` : ''}`,
+      ),
+  );
 
   const [isLockedPositionSelected] = useObservable(
     form.controls.lockedPosition.valueChanges$.pipe(map(Boolean)),
