@@ -67,7 +67,9 @@ export const PoolOverview: React.FC = () => {
                 selectedNetwork.name !== 'cardano' && (
                   <Menu.ItemGroup title={t`Liquidity Locker`}>
                     <Menu.Item
-                      disabled={position.empty}
+                      disabled={
+                        position.empty || !position.availableLp.isPositive()
+                      }
                       icon={<LockOutlined />}
                       onClick={handleLockLiquidity}
                     >
@@ -171,7 +173,9 @@ export const PoolOverview: React.FC = () => {
               <Flex.Item flex={1}>
                 <Button
                   type="default"
-                  disabled={position.empty}
+                  disabled={
+                    position.empty || !position.availableLp.isPositive()
+                  }
                   size="large"
                   block
                   onClick={handleRemovePositionClick}

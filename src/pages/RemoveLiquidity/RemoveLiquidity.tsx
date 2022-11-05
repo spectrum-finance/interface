@@ -41,10 +41,12 @@ export const RemoveLiquidity: FC = () => {
     lpAmount: undefined,
   });
 
-  // useGuard(position, loading, () => navigate('../../../liquidity'));
   useGuardV2(
     () => !loading && !position?.availableLp?.isPositive(),
-    () => navigate('../../../liquidity'),
+    () =>
+      navigate(
+        `../../../liquidity${position?.pool.id ? `/${position.pool.id}` : ''}`,
+      ),
   );
   const [formValue] = useObservable(form.valueChangesWithSilent$);
 
