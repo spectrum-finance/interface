@@ -65,10 +65,13 @@ const _Layout: FC<PropsWithChildren<{ className?: string }>> = ({
 
   useEffect(() => {
 <<<<<<< HEAD
+<<<<<<< HEAD
     openCookiePolicy();
   }, []);
 
   useEffect(() => {
+=======
+>>>>>>> 9e69aa207eddd1fb6b8e77dc870ffc19556c47cb
 =======
 >>>>>>> 9e69aa207eddd1fb6b8e77dc870ffc19556c47cb
     let currentScrollY = ref.current?.scrollTop || 0;
