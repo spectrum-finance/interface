@@ -1,4 +1,3 @@
-import { Modal } from '@ergolabs/ui-kit';
 import React, {
   FC,
   PropsWithChildren,
@@ -9,9 +8,8 @@ import React, {
 import styled from 'styled-components';
 
 import { applicationConfig } from '../../../applicationConfig';
-import { panalytics } from '../../../common/analytics';
 import { device } from '../../../common/constants/size';
-import { useApplicationSettings, useAppLoadingState } from '../../../context';
+import { useApplicationSettings } from '../../../context';
 import { useSelectedNetwork } from '../../../gateway/common/network';
 import { useBodyClass } from '../../../hooks/useBodyClass';
 import { useMetaThemeColor } from '../../../hooks/useMetaThemeColor';
@@ -64,16 +62,10 @@ const _Layout: FC<PropsWithChildren<{ className?: string }>> = ({
   );
 
   useEffect(() => {
-<<<<<<< HEAD
-<<<<<<< HEAD
     openCookiePolicy();
   }, []);
 
   useEffect(() => {
-=======
->>>>>>> 9e69aa207eddd1fb6b8e77dc870ffc19556c47cb
-=======
->>>>>>> 9e69aa207eddd1fb6b8e77dc870ffc19556c47cb
     let currentScrollY = ref.current?.scrollTop || 0;
 
     const handleScroll = () => {
