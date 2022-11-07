@@ -134,9 +134,9 @@ export const convertRedeemFormModelToAnalytics = (
   { xAmount, yAmount, lpAmount, percent }: RemoveFormModel,
   pool: AmmPool,
   network: Network<any, any>,
-): AnalyticsRedeemData & AnalyticsPoolData => {
+): AnalyticsRedeemData & AnalyticsPoolData & { percent: number } => {
   return {
-    percent_of_liquidity: percent,
+    percent: percent,
     x_name: xAmount?.asset.ticker,
     x_amount: Number(xAmount?.toAmount()),
     x_usd: Number(
