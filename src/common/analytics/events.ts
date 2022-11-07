@@ -8,7 +8,7 @@ export const ANALYTICS_EVENTS = {
 
   // Burger
   CHANGE_THEME: 'Change Theme',
-  CHANGE_LOCALE: 'Change Locale',
+  CHANGE_LOCALE: 'Change Language',
 
   // Onboarding
   ACCEPT_COOKIES: 'Accept Cookies',
@@ -21,9 +21,6 @@ export const ANALYTICS_EVENTS = {
   CONNECT_WALLET_INSTALL_EXTENSION: 'Connect Wallet Install Extension',
   OPEN_WALLET_MODAL: 'Open Wallet Modal',
   CLICK_CHANGE_WALLET: 'Click Change Wallet',
-  CHANGE_WALLET: 'Change Wallet',
-  CHANGE_WALLET_ERROR: 'Change Wallet Error',
-  CHANGE_WALLET_INSTALL_EXTENSION: 'Change Wallet Install Extension',
   DISCONNECT_WALLET: 'Disconnect Wallet',
   POLLING_DISCONNECT_WALLET: 'Polling Disconnect Wallet',
 

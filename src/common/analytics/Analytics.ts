@@ -70,22 +70,31 @@ export class ProductAnalytics {
   // --
 
   public changeNetwork(network: SupportedNetworks): void {
-    this.event(ANALYTICS_EVENTS.CHANGE_NETWORK, { network });
+    this.event(ANALYTICS_EVENTS.CHANGE_NETWORK, { active_network: network });
   }
 
   // --
   //Wallet
   // --
   public openConnectWalletModal(location: AnalyticsElementLocation): void {
-    this.event(ANALYTICS_EVENTS.OPEN_CONNECT_WALLET_MODAL, { location });
+    this.event(ANALYTICS_EVENTS.OPEN_CONNECT_WALLET_MODAL, {
+      elem_location: location,
+    });
   }
 
   public openWalletModal(): void {
     this.event(ANALYTICS_EVENTS.OPEN_WALLET_MODAL);
   }
 
-  public connectWallet(walletName?: AnalyticsWalletName): void {
-    this.event(ANALYTICS_EVENTS.CONNECT_WALLET, { wallet_name: walletName });
+  public connectWallet(
+    walletName?: AnalyticsWalletName,
+    userProps?: userProperties,
+  ): void {
+    this.event(
+      ANALYTICS_EVENTS.CONNECT_WALLET,
+      { wallet_name: walletName },
+      userProps,
+    );
   }
 
   public connectWalletError(walletName?: AnalyticsWalletName): void {
@@ -108,24 +117,6 @@ export class ProductAnalytics {
     });
   }
 
-  public changeWallet(walletName?: AnalyticsWalletName): void {
-    this.event(ANALYTICS_EVENTS.CHANGE_WALLET, {
-      wallet_name: walletName,
-    });
-  }
-
-  public changeWalletError(walletName?: AnalyticsWalletName): void {
-    this.event(ANALYTICS_EVENTS.CHANGE_WALLET_ERROR, {
-      wallet_name: walletName,
-    });
-  }
-
-  public changeWalletInstallExtension(walletName?: AnalyticsWalletName): void {
-    this.event(ANALYTICS_EVENTS.CHANGE_WALLET_INSTALL_EXTENSION, {
-      wallet_name: walletName,
-    });
-  }
-
   // --
   // Burger
   // --
@@ -137,13 +128,13 @@ export class ProductAnalytics {
 
   public changeTheme(theme: AnalyticsTheme): void {
     this.event(ANALYTICS_EVENTS.CHANGE_THEME, {
-      theme,
+      active_theme: theme,
     });
   }
 
-  public changeLocate(locale: SupportedLocale): void {
+  public changeLocale(locale: SupportedLocale): void {
     this.event(ANALYTICS_EVENTS.CHANGE_LOCALE, {
-      locale,
+      active_locale: locale,
     });
   }
 
