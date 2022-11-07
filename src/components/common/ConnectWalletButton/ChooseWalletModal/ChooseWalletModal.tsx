@@ -8,7 +8,6 @@ import {
 } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React, { ReactNode, useState } from 'react';
-import { noop } from 'rxjs';
 import styled from 'styled-components';
 
 import { panalytics } from '../../../../common/analytics';

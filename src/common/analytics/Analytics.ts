@@ -111,12 +111,6 @@ export class ProductAnalytics {
     this.event(ANALYTICS_EVENTS.DISCONNECT_WALLET, { wallet_name: walletName });
   }
 
-  public clickChangeWallet(walletName?: AnalyticsWalletName): void {
-    this.event(ANALYTICS_EVENTS.CLICK_CHANGE_WALLET, {
-      wallet_name: walletName,
-    });
-  }
-
   // --
   // Burger
   // --
@@ -180,6 +174,15 @@ export class ProductAnalytics {
     });
   }
 
+  public closeConfirmSwap(swapFormModel: SwapFormModel): void {
+    this.withNetwork((network) => {
+      this.event(
+        ANALYTICS_EVENTS.SWAP_CLOSE_CONFIRM,
+        convertSwapFormModelToAnalytics(swapFormModel, network),
+      );
+    });
+  }
+
   public confirmSwap(swapFormModel: SwapFormModel): void {
     this.withNetwork((network) => {
       this.event(
@@ -201,7 +204,7 @@ export class ProductAnalytics {
   public signedErrorSwap(swapFormModel: SwapFormModel, err: any): void {
     this.withNetwork((network) => {
       this.event(ANALYTICS_EVENTS.SWAP_SIGNED_ERROR, {
-        error: err,
+        err_msg: err,
         ...convertSwapFormModelToAnalytics(swapFormModel, network),
       });
     });
@@ -247,7 +250,7 @@ export class ProductAnalytics {
   ): void {
     this.withNetwork((network) => {
       this.event(ANALYTICS_EVENTS.DEPOSIT_SIGNED_ERROR, {
-        error: err,
+        err_msg: err,
         ...convertDepositFormModelToAnalytics(depositFromModel, network),
       });
     });
@@ -334,5 +337,13 @@ export class ProductAnalytics {
 
   public catalystClose(): void {
     this.event(ANALYTICS_EVENTS.CATALYST_CLOSE);
+  }
+
+  public liquidityAdd(): void {
+    this.event(ANALYTICS_EVENTS.LIQUIDITY_ADD);
+  }
+
+  public liquidityCreatePool(): void {
+    this.event(ANALYTICS_EVENTS.LIQUIDITY_CREATE_POOL);
   }
 }
