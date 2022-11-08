@@ -34,7 +34,16 @@ export const OperationsHistory: FC = () => {
     isOperationsSyncing || !!pendingOperations?.length || pendingLoading;
 
   return (
-    <Tooltip title={t`Recent transactions`} placement="bottom">
+    <Tooltip
+      title={
+        showSyncingLabel
+          ? t`Synchronizing transaction history. The first time it may take a little longer.`
+          : t`Recent transactions`
+      }
+      width="100%"
+      maxWidth={200}
+      placement="bottom"
+    >
       <Button
         size="large"
         type="ghost"

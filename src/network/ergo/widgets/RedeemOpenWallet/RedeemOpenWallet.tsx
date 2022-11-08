@@ -30,7 +30,13 @@ export const RedeemOpenWallet: FC<RedeemOpenWalletProps> = ({
   const redeemOperation = async () => {
     panalytics.confirmRedeem(value, pool);
     setLoading(true);
-    ergopayRedeem(pool, value.lpAmount, value.xAmount, value.yAmount)
+    ergopayRedeem(
+      pool,
+      value.lpAmount,
+      value.xAmount,
+      value.yAmount,
+      value.percent,
+    )
       .pipe(first())
       .subscribe({
         next: (txId) => {

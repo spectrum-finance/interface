@@ -6,6 +6,7 @@ import {
   LockOutlined,
   Spin,
   Tag,
+  Tooltip,
 } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
@@ -49,25 +50,45 @@ const PendingStatusCell: FC = () => (
 );
 
 const LockedStatusCell: FC = () => (
-  <Tag color="error">
-    <Flex>
-      <Flex.Item marginRight={1}>
-        <LockOutlined />
-      </Flex.Item>
-      <Trans>Locked</Trans>
-    </Flex>
-  </Tag>
+  <Tooltip
+    width={255}
+    title={
+      <Trans>
+        Your transaction was locked in the smart contract. Don’t worry you just
+        need to refund it.
+      </Trans>
+    }
+  >
+    <Tag color="error">
+      <Flex>
+        <Flex.Item marginRight={1}>
+          <LockOutlined />
+        </Flex.Item>
+        <Trans>Locked</Trans>
+      </Flex>
+    </Tag>
+  </Tooltip>
 );
 
 const QueuedStatusCell: FC = () => (
-  <Tag color="warning">
-    <Flex>
-      <Flex.Item marginRight={1}>
-        <ClockCircleOutlined />
-      </Flex.Item>
-      <Trans>Queued</Trans>
-    </Flex>
-  </Tag>
+  <Tooltip
+    width={255}
+    title={
+      <Trans>
+        The price has changed while your order was being processed. So we didn’t
+        execute it to prevent losses.
+      </Trans>
+    }
+  >
+    <Tag color="warning">
+      <Flex>
+        <Flex.Item marginRight={1}>
+          <ClockCircleOutlined />
+        </Flex.Item>
+        <Trans>Queued</Trans>
+      </Flex>
+    </Tag>
+  </Tooltip>
 );
 
 export const StatusCell: FC<StatusCellProps> = ({ status }) => (

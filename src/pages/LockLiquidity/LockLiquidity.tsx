@@ -31,7 +31,7 @@ import { PageHeader } from '../../components/Page/PageHeader/PageHeader';
 import { PageSection } from '../../components/Page/PageSection/PageSection';
 import { SubmitButton } from '../../components/SubmitButton/SubmitButton';
 import { getPositionByAmmPoolId } from '../../gateway/api/positions';
-import { useGuard } from '../../hooks/useGuard';
+import { useGuardV2 } from '../../hooks/useGuard';
 import { LiquidityDatePicker } from '../Liquidity/common/components/LockLiquidityDatePicker/LiquidityDatePicker';
 import { LockLiquidityConfirmationModal } from './LockLiquidityConfirmationModal/LockLiquidityConfirmationModal';
 import { LockLiquidityModel } from './LockLiquidityModel';
@@ -52,7 +52,13 @@ const LockLiquidity = (): JSX.Element => {
 
   const [formValue] = useObservable(form.valueChangesWithSilent$);
 
-  useGuard(position, loading, () => navigate('../../../liquidity'));
+  useGuardV2(
+    () => !loading && !position?.availableLp?.isPositive(),
+    () =>
+      navigate(
+        `../../../liquidity${position?.pool.id ? `/${position.pool.id}` : ''}`,
+      ),
+  );
 
   useSubscription(
     form.controls.percent.valueChanges$.pipe(skip(1)),

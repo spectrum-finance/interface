@@ -41,8 +41,7 @@ export const ProtocolDisclaimerAlert: React.FC = () => {
           >
             Cookie policy
           </a>{' '}
-          and acknowledge <br />
-          that you have read and understand the{' '}
+          and acknowledge that you have read and understand the{' '}
           <a
             href="https://spectrum.fi/protocol-disclaimer"
             target="_blank"

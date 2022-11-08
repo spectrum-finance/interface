@@ -42,7 +42,7 @@ export const WalletModal: React.FC<{ close: (result?: any) => void }> = ({
       </Modal.Title>
       <Modal.Content width={valBySize<CSSProperties['width']>('100%', 470)}>
         <Flex col>
-          <Flex.Item marginBottom={4}>
+          <Flex.Item marginBottom={4} marginTop={2}>
             <WalletTotalBalance balance={networkAssetBalance} />
           </Flex.Item>
           {isLowBalance(Number(networkAssetBalance), network.name) && (
@@ -57,12 +57,12 @@ export const WalletModal: React.FC<{ close: (result?: any) => void }> = ({
             <IsErgo>
               <Tabs defaultActiveKey={'1'} fullWidth>
                 <Tabs.TabPane tab="Tokens" key="1">
-                  <Box transparent padding={[4, 0, 0, 0]} bordered={false}>
+                  <Box transparent padding={[2, 0, 0, 0]} bordered={false}>
                     <TokensTab />
                   </Box>
                 </Tabs.TabPane>
                 <Tabs.TabPane tab="Addresses" key="2">
-                  <Box transparent padding={[4, 0, 0, 0]} bordered={false}>
+                  <Box transparent padding={[2, 0, 0, 0]} bordered={false}>
                     <AddressesTab />
                   </Box>
                 </Tabs.TabPane>
