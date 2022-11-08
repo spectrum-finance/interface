@@ -27,7 +27,7 @@ import {
 import { Page } from '../../components/Page/Page';
 import { PageHeader } from '../../components/Page/PageHeader/PageHeader';
 import { getPositionByAmmPoolId } from '../../gateway/api/positions';
-import { useGuard } from '../../hooks/useGuard';
+import { useGuardV2 } from '../../hooks/useGuard';
 import { WithdrawalLiquidityConfirmationModal } from './WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal';
 
 interface RelockLiquidityModel {
@@ -42,7 +42,13 @@ export const WithdrawalLiquidity = (): JSX.Element => {
   const { poolId } = useParamsStrict<{ poolId: PoolId }>();
   const [position, loading] = useObservable(getPositionByAmmPoolId(poolId));
 
-  useGuard(position, loading, () => navigate('../../../liquidity'));
+  useGuardV2(
+    () => !loading && !position?.lockedLp?.isPositive(),
+    () =>
+      navigate(
+        `../../../liquidity${position?.pool.id ? `/${position.pool.id}` : ''}`,
+      ),
+  );
 
   const validators: OperationValidator<RelockLiquidityModel>[] = [
     (form: FormGroup<RelockLiquidityModel>) =>
