@@ -13,13 +13,14 @@ import {
 import { t, Trans } from '@lingui/macro';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 
 import { applicationConfig } from '../../applicationConfig';
 import { ReactComponent as RelockIcon } from '../../assets/icons/relock-icon.svg';
 import { ReactComponent as WithdrawalIcon } from '../../assets/icons/withdrawal-icon.svg';
 import { useObservable } from '../../common/hooks/useObservable';
 import { useParamsStrict } from '../../common/hooks/useParamsStrict';
-import { ConnectWalletButton } from '../../components/common/ConnectWalletButton/ConnectWalletButton';
+import { ConnectWalletButton as _ConnectWalletButton } from '../../components/common/ConnectWalletButton/ConnectWalletButton';
 import { FormPairSection } from '../../components/common/FormView/FormPairSection/FormPairSection';
 import { Page } from '../../components/Page/Page';
 import { PageHeader } from '../../components/Page/PageHeader/PageHeader';
@@ -33,6 +34,10 @@ import { PoolFeeTag } from './PoolFeeTag/PoolFeeTag';
 import { PoolRatio } from './PoolRatio/PoolRatio';
 
 const MIN_RELEVANT_LOCKS_PCT = 1;
+
+const ConnectWalletButton = styled(_ConnectWalletButton)`
+  width: 100%;
+`;
 
 export const PoolOverview: React.FC = () => {
   const navigate = useNavigate();
@@ -153,7 +158,10 @@ export const PoolOverview: React.FC = () => {
           </Flex.Item>
           <Flex.Item>
             <Flex>
-              <ConnectWalletButton analytics={{ location: 'pool-overview' }}>
+              <ConnectWalletButton
+                size="large"
+                analytics={{ location: 'pool-overview' }}
+              >
                 <Flex.Item flex={1} marginRight={2}>
                   <Button
                     type="primary"
