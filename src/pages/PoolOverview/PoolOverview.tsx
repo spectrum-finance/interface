@@ -19,6 +19,7 @@ import { ReactComponent as RelockIcon } from '../../assets/icons/relock-icon.svg
 import { ReactComponent as WithdrawalIcon } from '../../assets/icons/withdrawal-icon.svg';
 import { useObservable } from '../../common/hooks/useObservable';
 import { useParamsStrict } from '../../common/hooks/useParamsStrict';
+import { ConnectWalletButton } from '../../components/common/ConnectWalletButton/ConnectWalletButton';
 import { FormPairSection } from '../../components/common/FormView/FormPairSection/FormPairSection';
 import { Page } from '../../components/Page/Page';
 import { PageHeader } from '../../components/Page/PageHeader/PageHeader';
@@ -150,35 +151,41 @@ export const PoolOverview: React.FC = () => {
           </Flex.Item>
           <Flex.Item>
             <Flex>
-              <Flex.Item flex={1} marginRight={2}>
-                <Button
-                  type="primary"
-                  size="large"
-                  icon={<PlusOutlined />}
-                  onClick={handleAddLiquidity}
-                  disabled={applicationConfig.blacklistedPools.includes(
-                    position.pool.id,
-                  )}
-                  block
-                >
-                  {s ? (
-                    <Trans>Increase</Trans>
-                  ) : (
-                    <Trans>Increase Liquidity</Trans>
-                  )}
-                </Button>
-              </Flex.Item>
-              <Flex.Item flex={1}>
-                <Button
-                  type="default"
-                  disabled={position.empty}
-                  size="large"
-                  block
-                  onClick={handleRemovePositionClick}
-                >
-                  {s ? <Trans>Remove</Trans> : <Trans>Remove Liquidity</Trans>}
-                </Button>
-              </Flex.Item>
+              <ConnectWalletButton analytics={{ location: 'pool-overview' }}>
+                <Flex.Item flex={1} marginRight={2}>
+                  <Button
+                    type="primary"
+                    size="large"
+                    icon={<PlusOutlined />}
+                    onClick={handleAddLiquidity}
+                    disabled={applicationConfig.blacklistedPools.includes(
+                      position.pool.id,
+                    )}
+                    block
+                  >
+                    {s ? (
+                      <Trans>Increase</Trans>
+                    ) : (
+                      <Trans>Increase Liquidity</Trans>
+                    )}
+                  </Button>
+                </Flex.Item>
+                <Flex.Item flex={1}>
+                  <Button
+                    type="default"
+                    disabled={position.empty}
+                    size="large"
+                    block
+                    onClick={handleRemovePositionClick}
+                  >
+                    {s ? (
+                      <Trans>Remove</Trans>
+                    ) : (
+                      <Trans>Remove Liquidity</Trans>
+                    )}
+                  </Button>
+                </Flex.Item>
+              </ConnectWalletButton>
             </Flex>
           </Flex.Item>
         </Flex>

@@ -41,7 +41,8 @@ export type AnalyticsElementLocation =
   | 'create-pool'
   | 'withdrawal-liquidity'
   | 'relock-liquidity'
-  | 'chaining-modal';
+  | 'chaining-modal'
+  | 'pool-overview';
 
 export type AnalyticsPoolData = {
   pool_id?: string;
