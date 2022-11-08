@@ -25,17 +25,23 @@ export const ConvenientAssetView: FC<ConvenientAssetViewProps> = ({
     value instanceof Array ? [value] : [value?.amount, value?.asset?.id],
   );
 
-  const [usdValue, isLoadingUsdValue] = useObservable(
+  const [convenientValue, isConvenientValueLoading] = useObservable(
     convenientAssetValue$,
     value instanceof Array ? [value] : [value?.amount, value?.asset?.id],
   );
 
   return (
     <>
-      {isLoadingUsdValue ? (
+      {isConvenientValueLoading ? (
         <LoadingOutlined />
-      ) : value && usdValue?.toString() !== '0' ? (
-        `${prefix || '~'}${usdValue ? formatToUSD(usdValue, 'abbr') : ''}`
+      ) : value && convenientValue?.toString() !== '0' ? (
+        `${prefix || '~'}${
+          convenientValue
+            ? convenientValue.asset.ticker === 'ADA'
+              ? convenientValue.toCurrencyString()
+              : formatToUSD(convenientValue, 'abbr')
+            : ''
+        }`
       ) : selectedNetwork.convenientAssetDefaultPreview ? (
         `${selectedNetwork.convenientAssetDefaultPreview}`
       ) : (
