@@ -21,6 +21,8 @@ import {
 import { useSelectedNetwork } from '../../../../gateway/common/network';
 import { Wallet } from '../../../../network/common/Wallet';
 import { ErgoPayTabPaneContent } from '../../../../network/ergo/widgets/ErgoPayModal/ErgoPayTabPaneContent/ErgoPayTabPaneContent';
+import { IsCardano } from '../../../IsCardano/IsCardano';
+import { IsErgo } from '../../../IsErgo/IsErgo';
 import { ProtocolDisclaimerAlert } from './ProtocolDisclaimerAlert/ProtocolDisclaimerAlert';
 
 interface WalletItemProps {
@@ -112,6 +114,30 @@ const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
   const [selectedWallet] = useObservable(selectedWallet$);
   const [selectedNetwork] = useSelectedNetwork();
 
+  const walletTab = (
+    <Flex.Item marginTop={5} display="flex" col>
+      <Flex.Item marginBottom={4}>
+        <ProtocolDisclaimerAlert />
+      </Flex.Item>
+      {wallets
+        .filter((w) => !w.hidden)
+        .map((wallet, index) => (
+          <Flex.Item
+            marginBottom={
+              index === wallets.length - 1 && !selectedWallet ? 0 : 4
+            }
+            key={index}
+          >
+            <WalletView
+              close={close}
+              wallet={wallet}
+              isChangeWallet={isChangeWallet}
+            />
+          </Flex.Item>
+        ))}
+    </Flex.Item>
+  );
+
   const { s } = useDevice();
   return (
     <>
@@ -119,44 +145,27 @@ const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
         <Trans>Select a wallet</Trans>
       </Modal.Title>
       <Modal.Content maxWidth={480} width="100%">
-        <Tabs fullWidth>
-          {selectedNetwork.name === 'ergo' && s ? (
-            <Tabs.TabPane tab={<Trans>ErgoPay</Trans>} key="ergopayMobile">
-              <ErgoPayTabPaneContent close={close} />
+        <IsErgo>
+          <Tabs fullWidth>
+            {s ? (
+              <Tabs.TabPane tab={<Trans>ErgoPay</Trans>} key="ergopayMobile">
+                <ErgoPayTabPaneContent close={close} />
+              </Tabs.TabPane>
+            ) : null}
+            <Tabs.TabPane
+              tab={<Trans>Browser wallet</Trans>}
+              key="browse_wallets"
+            >
+              {walletTab}
             </Tabs.TabPane>
-          ) : null}
-          <Tabs.TabPane
-            tab={<Trans>Browser wallet</Trans>}
-            key="browse_wallets"
-          >
-            <Flex.Item marginTop={5} display="flex" col>
-              <Flex.Item marginBottom={4}>
-                <ProtocolDisclaimerAlert />
-              </Flex.Item>
-              {wallets
-                .filter((w) => !w.hidden)
-                .map((wallet, index) => (
-                  <Flex.Item
-                    marginBottom={
-                      index === wallets.length - 1 && !selectedWallet ? 0 : 4
-                    }
-                    key={index}
-                  >
-                    <WalletView
-                      close={close}
-                      wallet={wallet}
-                      isChangeWallet={isChangeWallet}
-                    />
-                  </Flex.Item>
-                ))}
-            </Flex.Item>
-          </Tabs.TabPane>
-          {selectedNetwork.name === 'ergo' && !s ? (
-            <Tabs.TabPane tab={<Trans>ErgoPay</Trans>} key="ergopayDesktop">
-              <ErgoPayTabPaneContent close={close} />
-            </Tabs.TabPane>
-          ) : null}
-        </Tabs>
+            {!s ? (
+              <Tabs.TabPane tab={<Trans>ErgoPay</Trans>} key="ergopayDesktop">
+                <ErgoPayTabPaneContent close={close} />
+              </Tabs.TabPane>
+            ) : null}
+          </Tabs>
+        </IsErgo>
+        <IsCardano>{walletTab}</IsCardano>
       </Modal.Content>
     </>
   );
