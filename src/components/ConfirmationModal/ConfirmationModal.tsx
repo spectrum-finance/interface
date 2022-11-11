@@ -209,6 +209,7 @@ export const openConfirmationModal = (
   actionContent: RequestProps['actionContent'],
   operation: Operation,
   payload: ModalChainingPayload,
+  onCancel?: () => void,
 ): ModalRef => {
   return Modal.request({
     actionContent,
@@ -228,5 +229,6 @@ export const openConfirmationModal = (
       operation === Operation.ERGOPAY
         ? (txId) => SuccessErgopayContent(txId)
         : undefined,
+    onCancel,
   });
 };
