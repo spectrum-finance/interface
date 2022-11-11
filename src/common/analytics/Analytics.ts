@@ -203,11 +203,17 @@ export class ProductAnalytics {
   }
 
   public buildErgopaySignedSwapEvent(swapFormModel: SwapFormModel): any {
-    return {
-      $operation: 'swap',
-      $userId: this.analyticsSystems[0].get_distinct_id(),
-      ...convertSwapFormModelToAnalytics(swapFormModel, ergoNetwork as any),
-    };
+    const posthogSystem = this.analyticsSystems.find(
+      ({ system }) => system === posthog,
+    )?.system as PostHog;
+
+    if (posthogSystem) {
+      return {
+        $operation: 'swap',
+        $userId: posthogSystem.get_distinct_id(),
+        ...convertSwapFormModelToAnalytics(swapFormModel, ergoNetwork as any),
+      };
+    }
   }
 
   public signedErrorSwap(swapFormModel: SwapFormModel, err: any): void {
@@ -256,14 +262,20 @@ export class ProductAnalytics {
   public buildErgopaySignedDepositEvent(
     depositFromModel: AddLiquidityFormModel,
   ): any {
-    return {
-      $operation: 'deposit',
-      $userId: this.analyticsSystems[0].get_distinct_id(),
-      ...convertDepositFormModelToAnalytics(
-        depositFromModel,
-        ergoNetwork as any,
-      ),
-    };
+    const posthogSystem = this.analyticsSystems.find(
+      ({ system }) => system === posthog,
+    )?.system as PostHog;
+
+    if (posthogSystem) {
+      return {
+        $operation: 'deposit',
+        $userId: posthogSystem.get_distinct_id(),
+        ...convertDepositFormModelToAnalytics(
+          depositFromModel,
+          ergoNetwork as any,
+        ),
+      };
+    }
   }
 
   public signedErrorDeposit(
@@ -335,15 +347,21 @@ export class ProductAnalytics {
     removeFromModel: RemoveFormModel,
     pool: AmmPool,
   ): any {
-    return {
-      $operation: 'redeem',
-      $userId: this.analyticsSystems[0].get_distinct_id(),
-      ...convertRedeemFormModelToAnalytics(
-        removeFromModel,
-        pool,
-        ergoNetwork as any,
-      ),
-    };
+    const posthogSystem = this.analyticsSystems.find(
+      ({ system }) => system === posthog,
+    )?.system as PostHog;
+
+    if (posthogSystem) {
+      return {
+        $operation: 'redeem',
+        $userId: posthogSystem.get_distinct_id(),
+        ...convertRedeemFormModelToAnalytics(
+          removeFromModel,
+          pool,
+          ergoNetwork as any,
+        ),
+      };
+    }
   }
 
   public signedErrorRedeem(
