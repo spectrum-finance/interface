@@ -44,7 +44,8 @@ const InfoTooltip: React.FC<InfoTooltipProps> = ({
         placement={placement ?? 'right'}
         title={content}
         className={className}
-        width={width}
+        width="100%"
+        maxWidth={width}
       >
         <Button
           type="ghost"

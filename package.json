@@ -1,6 +1,6 @@
 {
   "name": "ergo-dex-frontend",
-  "version": "3.1.3",
+  "version": "3.2.1",
   "private": false,
   "scripts": {
     "start": "HTTPS=true react-app-rewired start",
@@ -22,10 +22,10 @@
     "@babel/plugin-syntax-typescript": "^7.16.7",
     "@babel/preset-env": "^7.15.6",
     "@emurgo/cardano-serialization-lib-nodejs": "^11.0.5",
-    "@ergolabs/cardano-dex-sdk": "^0.0.63",
+    "@ergolabs/cardano-dex-sdk": "^0.0.69",
     "@ergolabs/ergo-dex-sdk": "^1.6.2",
     "@ergolabs/ergo-sdk": "^0.4.5",
-    "@ergolabs/ui-kit": "^2.3.62",
+    "@ergolabs/ui-kit": "^2.4.1",
     "@rehooks/local-storage": "2.4.0",
     "@sentry/react": "^6.16.1",
     "@sentry/tracing": "^6.16.1",

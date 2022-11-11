@@ -17,6 +17,7 @@ import {
 import { applicationConfig } from '../../../../applicationConfig';
 import { AssetInfo } from '../../../../common/models/AssetInfo';
 import { Currency } from '../../../../common/models/Currency';
+import { settings$ } from '../../settings/settings';
 import { getAddresses } from '../addresses/addresses';
 import { mapAssetClassToAssetInfo } from '../common/cardanoAssetInfo/getCardanoAssetInfo';
 
@@ -55,16 +56,16 @@ export const requestTestnetAsset = (
   assetInfo: AssetInfo<AssetClass>,
   recaptchaToken: string,
 ) =>
-  getAddresses().pipe(
+  settings$.pipe(
     filter(Boolean),
     first(),
-    switchMap((addresses) => {
-      return addresses
+    switchMap((settings) => {
+      return settings.address
         ? from(
             axios.post(
               `${applicationConfig.networksSettings.cardano.faucet}askdrip`,
               {
-                requestAddress: addresses[0],
+                requestAddress: settings.address,
                 requestAsset: `${assetInfo.data?.policyId}.${assetInfo.data?.name}`,
                 reCaptchaToken: recaptchaToken,
               },

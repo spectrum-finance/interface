@@ -4,6 +4,7 @@ import { first } from 'rxjs';
 
 import { selectedNetwork$ } from '../../gateway/common/network';
 import { Network, SupportedNetworks } from '../../network/common/Network';
+import { ergoNetwork } from '../../network/ergo/ergo';
 import { AddLiquidityFormModel } from '../../pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityFormModel';
 import { RemoveFormModel } from '../../pages/RemoveLiquidity/RemoveLiquidity';
 import { SwapFormModel } from '../../pages/Swap/SwapFormModel';
@@ -201,6 +202,14 @@ export class ProductAnalytics {
     });
   }
 
+  public buildErgopaySignedSwapEvent(swapFormModel: SwapFormModel): any {
+    return {
+      $operation: 'swap',
+      $userId: this.analyticsSystems[0].get_distinct_id(),
+      ...convertSwapFormModelToAnalytics(swapFormModel, ergoNetwork as any),
+    };
+  }
+
   public signedErrorSwap(swapFormModel: SwapFormModel, err: any): void {
     this.withNetwork((network) => {
       this.event(ANALYTICS_EVENTS.SWAP_SIGNED_ERROR, {
@@ -242,6 +251,19 @@ export class ProductAnalytics {
         ...convertDepositFormModelToAnalytics(depositFromModel, network),
       });
     });
+  }
+
+  public buildErgopaySignedDepositEvent(
+    depositFromModel: AddLiquidityFormModel,
+  ): any {
+    return {
+      $operation: 'deposit',
+      $userId: this.analyticsSystems[0].get_distinct_id(),
+      ...convertDepositFormModelToAnalytics(
+        depositFromModel,
+        ergoNetwork as any,
+      ),
+    };
   }
 
   public signedErrorDeposit(
@@ -307,6 +329,21 @@ export class ProductAnalytics {
         ...convertRedeemFormModelToAnalytics(removeFromModel, pool, network),
       });
     });
+  }
+
+  public buildErgopaySignedRedeemEvent(
+    removeFromModel: RemoveFormModel,
+    pool: AmmPool,
+  ): any {
+    return {
+      $operation: 'redeem',
+      $userId: this.analyticsSystems[0].get_distinct_id(),
+      ...convertRedeemFormModelToAnalytics(
+        removeFromModel,
+        pool,
+        ergoNetwork as any,
+      ),
+    };
   }
 
   public signedErrorRedeem(
