@@ -18,7 +18,6 @@ export const swapWithWallet = (
   data: Required<SwapFormModel>,
 ): Observable<TxId> => {
   const subject = new Subject<TxId>();
-
   openConfirmationModal(
     (next) => {
       return (

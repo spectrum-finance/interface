@@ -56,6 +56,7 @@ export const ANALYTICS_EVENTS = {
   REDEEM_CONFIRM: 'Redeem Confirm',
   REDEEM_SIGNED: 'Redeem Signed',
   REDEEM_SIGNED_ERROR: 'Redeem Signed Error',
+  REDEEM_CLOSE_CONFIRM: 'Redeem close confirm',
 
   // Catalyst 9 events
   CATALYST_CLOSE: 'Catalyst 9 close',

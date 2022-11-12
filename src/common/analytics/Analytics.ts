@@ -330,6 +330,18 @@ export class ProductAnalytics {
     });
   }
 
+  public closeConfirmRedeem(
+    removeFromModel: RemoveFormModel,
+    pool: AmmPool,
+  ): void {
+    this.withNetwork((network) => {
+      this.event(
+        ANALYTICS_EVENTS.REDEEM_CLOSE_CONFIRM,
+        convertRedeemFormModelToAnalytics(removeFromModel, pool, network),
+      );
+    });
+  }
+
   public signedRedeem(
     removeFromModel: RemoveFormModel,
     pool: AmmPool,

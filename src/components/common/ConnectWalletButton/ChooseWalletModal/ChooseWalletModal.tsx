@@ -27,7 +27,6 @@ import { ProtocolDisclaimerAlert } from './ProtocolDisclaimerAlert/ProtocolDiscl
 interface WalletItemProps {
   wallet: Wallet;
   close: (result?: boolean) => void;
-  isChangeWallet?: boolean;
 }
 
 const WalletButton = styled(Button)`
@@ -96,7 +95,6 @@ const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
   const [wallets] = useObservable(wallets$, [], []);
 
   const [selectedWallet] = useObservable(selectedWallet$);
-  const [selectedNetwork] = useSelectedNetwork();
 
   const walletTab = (
     <Flex.Item marginTop={5} display="flex" col>
@@ -112,11 +110,7 @@ const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
             }
             key={index}
           >
-            <WalletView
-              close={close}
-              wallet={wallet}
-              isChangeWallet={isChangeWallet}
-            />
+            <WalletView close={close} wallet={wallet} />
           </Flex.Item>
         ))}
     </Flex.Item>
