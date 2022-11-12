@@ -77,7 +77,7 @@ export const applicationConfig: ApplicationConfig = {
         'https://raw.githubusercontent.com/ergolabs/ergo-dex-asset-icons/master',
       networkUrl: 'https://api.ergoplatform.com',
       explorerUrl: 'https://explorer.ergoplatform.com',
-      analyticUrl: 'https://api.ergodex.io/v1/',
+      analyticUrl: 'https://api.spectrum.fi/v1/',
       lowBalanceGuide:
         'https://docs.spectrum.fi/docs/user-guides/quick-start#3-get-assets',
       ergopayUrl: 'https://ergopay-backend.fly.dev',
