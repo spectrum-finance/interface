@@ -1,3 +1,4 @@
+import { Currency } from '../../common/models/Currency';
 import { Network } from '../common/Network';
 import {
   getAddresses,
@@ -136,4 +137,5 @@ export const ergoNetwork: Network<
   isOperationsSyncing$: isSyncing$,
   pendingOperations$,
   queuedOperation$,
+  refundableDeposit: new Currency(0n, networkAsset),
 };
