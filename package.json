@@ -24,7 +24,7 @@
     "@ergolabs/cardano-dex-sdk": "^0.0.69",
     "@ergolabs/ergo-dex-sdk": "^1.6.2",
     "@ergolabs/ergo-sdk": "^0.4.5",
-    "@ergolabs/ui-kit": "^2.4.1",
+    "@ergolabs/ui-kit": "^2.4.3",
     "@rehooks/local-storage": "2.4.0",
     "@sentry/react": "^6.16.1",
     "@sentry/tracing": "^6.16.1",
