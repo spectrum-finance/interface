@@ -90,7 +90,7 @@ const ProgressModalContent = (
         </Typography.Body>
       </Flex.Item>
       <Flex.Item marginBottom={1}>
-        <Typography.Body type="secondary" align="center">
+        <Typography.Body secondary align="center">
           <Trans>Confirm this transaction in your wallet</Trans>
         </Typography.Body>
       </Flex.Item>
@@ -114,12 +114,12 @@ const ErrorModalContent = (
       </Typography.Body>
     </Flex.Item>
     <Flex.Item marginBottom={1}>
-      <Typography.Body align="center" type="secondary">
+      <Typography.Body align="center" secondary>
         <Trans>Transaction rejected</Trans>
       </Typography.Body>
     </Flex.Item>
     <Flex.Item marginBottom={1}>
-      <Typography.Body align="center" type="secondary">
+      <Typography.Body align="center" secondary>
         <Trans>Try again later</Trans>
       </Typography.Body>
     </Flex.Item>
@@ -212,6 +212,7 @@ export const openConfirmationModal = (
   actionContent: RequestProps['actionContent'],
   operation: Operation,
   payload: ModalChainingPayload,
+  onCancel?: () => void,
 ): ModalRef => {
   return Modal.request({
     actionContent,
@@ -231,5 +232,6 @@ export const openConfirmationModal = (
       operation === Operation.ERGOPAY
         ? (txId) => SuccessErgopayContent(txId)
         : undefined,
+    onCancel,
   });
 };

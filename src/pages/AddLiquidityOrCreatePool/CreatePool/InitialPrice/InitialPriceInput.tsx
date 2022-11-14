@@ -170,7 +170,7 @@ export const InitialPriceInput: FC<InitialPrice> = ({
   };
 
   return (
-    <Box control padding={1}>
+    <Box secondary padding={1} borderRadius="l">
       <Flex align="center">
         <Flex.Item marginRight={2} flex={1}>
           <Input

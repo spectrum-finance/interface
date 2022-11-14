@@ -1,4 +1,3 @@
-import Icon from '@ant-design/icons';
 import {
   Button,
   Dropdown,
@@ -12,8 +11,6 @@ import {
   QuestionCircleOutlined,
   ReloadOutlined,
   RightOutlined,
-  SettingOutlined,
-  useDevice,
 } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import { stringify } from 'qs';
@@ -26,15 +23,11 @@ import {
   LOCALE_LABEL,
   SUPPORTED_LOCALES,
 } from '../../../../../common/constants/locales';
-import { useObservable } from '../../../../../common/hooks/useObservable';
 import { useApplicationSettings } from '../../../../../context';
 import { useSelectedNetwork } from '../../../../../gateway/common/network';
-import { globalSettingsModal$ } from '../../../../../gateway/widgets/globalSettingsModal';
 import { useQuery } from '../../../../../hooks/useQuery';
-import { ErgopaySwitch } from '../../../../../network/ergo/widgets/ErgopaySwitch/ErgopaySwitch';
 import { ThemeSwitch } from '../../../../ThemeSwitch/ThemeSwitch';
 import { DotsIcon } from '../../../Icons/DotsIcon';
-import { ReactComponent as ErgopayIcon } from './ergopay-icon.svg';
 import { ManualRefundModal } from './ManualRefundModal/ManualRefundModal';
 
 const StyledMenu = styled(Menu)`
@@ -43,7 +36,7 @@ const StyledMenu = styled(Menu)`
 `;
 
 const ThemeSwitchContainer = styled.div`
-  border-bottom: 1px solid var(--spectrum-tab-border-color);
+  border-bottom: 1px solid var(--spectrum-box-border-color);
   padding: 0 0 0.5rem;
   margin-bottom: 0.5rem;
 `;
@@ -66,8 +59,6 @@ const ContributeLanguageButton = styled(Button)`
 
 const BurgerMenu = (): JSX.Element => {
   const [selectedNetwork] = useSelectedNetwork();
-  const [GlobalSettingsModal] = useObservable(globalSettingsModal$);
-  const { s } = useDevice();
   const [isMainMenu, setIsMainMenu] = useState<boolean>(true);
   const [isMenuVisible, setMenuVisible] = useState<boolean>(false);
   const [settings, setSettings] = useApplicationSettings();
@@ -104,27 +95,12 @@ const BurgerMenu = (): JSX.Element => {
           title: t`Manual Refund`,
           icon: <ReloadOutlined />,
           onClick: () => {
+            setMenuVisible(false);
             panalytics.clickBurgerMenu('Manual Refund');
             Modal.open(({ close }) => <ManualRefundModal close={close} />);
           },
         }
       : undefined,
-    GlobalSettingsModal
-      ? {
-          title: t`Global Settings`,
-          icon: <SettingOutlined />,
-          onClick: () => {
-            panalytics.clickBurgerMenu('Global Settings');
-            Modal.open(({ close }) => <GlobalSettingsModal onClose={close} />);
-          },
-          isNotRenderMobile: true,
-        }
-      : undefined,
-    {
-      title: t`Ergopay`,
-      icon: <Icon component={ErgopayIcon} width={24} height={24} />,
-      additional: <ErgopaySwitch defaultChecked size="small" />,
-    },
     {
       title: t`Language`,
       icon: <GlobalOutlined />,
@@ -151,13 +127,7 @@ const BurgerMenu = (): JSX.Element => {
       {menu.map(
         (item, index) =>
           item && (
-            <OtherMenuItem
-              key={index + 1}
-              icon={item.icon}
-              style={{
-                display: s && item.isNotRenderMobile ? 'none' : '',
-              }}
-            >
+            <OtherMenuItem key={index + 1} icon={item.icon}>
               <a
                 href={item.link}
                 rel="noreferrer"

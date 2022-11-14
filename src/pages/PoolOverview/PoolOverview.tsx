@@ -13,12 +13,14 @@ import {
 import { t, Trans } from '@lingui/macro';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 
 import { applicationConfig } from '../../applicationConfig';
 import { ReactComponent as RelockIcon } from '../../assets/icons/relock-icon.svg';
 import { ReactComponent as WithdrawalIcon } from '../../assets/icons/withdrawal-icon.svg';
 import { useObservable } from '../../common/hooks/useObservable';
 import { useParamsStrict } from '../../common/hooks/useParamsStrict';
+import { ConnectWalletButton as _ConnectWalletButton } from '../../components/common/ConnectWalletButton/ConnectWalletButton';
 import { FormPairSection } from '../../components/common/FormView/FormPairSection/FormPairSection';
 import { Page } from '../../components/Page/Page';
 import { PageHeader } from '../../components/Page/PageHeader/PageHeader';
@@ -32,6 +34,10 @@ import { PoolFeeTag } from './PoolFeeTag/PoolFeeTag';
 import { PoolRatio } from './PoolRatio/PoolRatio';
 
 const MIN_RELEVANT_LOCKS_PCT = 1;
+
+const ConnectWalletButton = styled(_ConnectWalletButton)`
+  width: 100%;
+`;
 
 export const PoolOverview: React.FC = () => {
   const navigate = useNavigate();
@@ -67,7 +73,9 @@ export const PoolOverview: React.FC = () => {
                 selectedNetwork.name !== 'cardano' && (
                   <Menu.ItemGroup title={t`Liquidity Locker`}>
                     <Menu.Item
-                      disabled={position.empty}
+                      disabled={
+                        position.empty || !position.availableLp.isPositive()
+                      }
                       icon={<LockOutlined />}
                       onClick={handleLockLiquidity}
                     >
@@ -150,35 +158,46 @@ export const PoolOverview: React.FC = () => {
           </Flex.Item>
           <Flex.Item>
             <Flex>
-              <Flex.Item flex={1} marginRight={2}>
-                <Button
-                  type="primary"
-                  size="large"
-                  icon={<PlusOutlined />}
-                  onClick={handleAddLiquidity}
-                  disabled={applicationConfig.blacklistedPools.includes(
-                    position.pool.id,
-                  )}
-                  block
-                >
-                  {s ? (
-                    <Trans>Increase</Trans>
-                  ) : (
-                    <Trans>Increase Liquidity</Trans>
-                  )}
-                </Button>
-              </Flex.Item>
-              <Flex.Item flex={1}>
-                <Button
-                  type="default"
-                  disabled={position.empty}
-                  size="large"
-                  block
-                  onClick={handleRemovePositionClick}
-                >
-                  {s ? <Trans>Remove</Trans> : <Trans>Remove Liquidity</Trans>}
-                </Button>
-              </Flex.Item>
+              <ConnectWalletButton
+                size="large"
+                analytics={{ location: 'pool-overview' }}
+              >
+                <Flex.Item flex={1} marginRight={2}>
+                  <Button
+                    type="primary"
+                    size="large"
+                    icon={<PlusOutlined />}
+                    onClick={handleAddLiquidity}
+                    disabled={applicationConfig.blacklistedPools.includes(
+                      position.pool.id,
+                    )}
+                    block
+                  >
+                    {s ? (
+                      <Trans>Increase</Trans>
+                    ) : (
+                      <Trans>Increase Liquidity</Trans>
+                    )}
+                  </Button>
+                </Flex.Item>
+                <Flex.Item flex={1}>
+                  <Button
+                    type="default"
+                    disabled={
+                      position.empty || !position.availableLp.isPositive()
+                    }
+                    size="large"
+                    block
+                    onClick={handleRemovePositionClick}
+                  >
+                    {s ? (
+                      <Trans>Remove</Trans>
+                    ) : (
+                      <Trans>Remove Liquidity</Trans>
+                    )}
+                  </Button>
+                </Flex.Item>
+              </ConnectWalletButton>
             </Flex>
           </Flex.Item>
         </Flex>

@@ -16,19 +16,20 @@ const _AssetBalance: FC<AssetBalanceProps> = ({
   onClick,
   className,
 }) => (
-  <Typography.Body secondary>
-    {t`Balance:`}{' '}
-    <span onClick={onClick} className={className}>
+  <div>
+    <Typography.Body secondary>{t`Balance: `} </Typography.Body>
+    <Typography.Body onClick={onClick} className={className}>
       {balance.toString()}
-    </span>
-  </Typography.Body>
+    </Typography.Body>
+  </div>
 );
 
 export const AssetBalance = styled(_AssetBalance)`
+  margin-left: var(--spectrum-base-gutter);
   ${(props) =>
     props.onClick &&
     css`
-      color: var(--spectrum-primary-color);
+      color: var(--spectrum-primary-color) !important;
       cursor: pointer;
     `}
 `;

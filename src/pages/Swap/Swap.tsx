@@ -7,7 +7,7 @@ import {
   Typography,
   useForm,
 } from '@ergolabs/ui-kit';
-import { t, Trans } from '@lingui/macro';
+import { Trans } from '@lingui/macro';
 import findLast from 'lodash/findLast';
 import maxBy from 'lodash/maxBy';
 import { DateTime } from 'luxon';
@@ -54,10 +54,10 @@ import {
 } from '../../gateway/api/assets';
 import { useNetworkAsset } from '../../gateway/api/networkAsset';
 import { swap } from '../../gateway/api/operations/swap';
+import { useRefundableDeposit } from '../../gateway/api/refundableDeposit';
 import { useSwapValidationFee } from '../../gateway/api/validationFees';
 import { useSelectedNetwork } from '../../gateway/common/network';
 import { operationsSettings$ } from '../../gateway/widgets/operationsSettings';
-import { ErgoPayBadge } from './ErgoPayBadge/ErgoPayBadge';
 import { PoolSelector } from './PoolSelector/PoolSelector';
 import { SwapFormModel } from './SwapFormModel';
 import { SwapGraph } from './SwapGraph/SwapGraph';
@@ -97,7 +97,8 @@ export const Swap = (): JSX.Element => {
   const [networkAsset] = useNetworkAsset();
   const [balance] = useAssetsBalance();
   const [, allAmmPoolsLoading] = useObservable(ammPools$);
-  const totalFees = useSwapValidationFee();
+  const refundableDeposit = useRefundableDeposit();
+  const totalFeesWithDeposit = useSwapValidationFee();
   const [{ base, quote, initialPoolId }, setSearchParams] =
     useSearchParams<{ base: string; quote: string; initialPoolId: string }>();
   const [OperationSettings] = useObservable(operationsSettings$);
@@ -123,8 +124,20 @@ export const Swap = (): JSX.Element => {
     fromAmount,
   }: Required<SwapFormModel>) => {
     const totalFeesWithAmount = fromAmount.isAssetEquals(networkAsset)
-      ? fromAmount.plus(totalFees)
-      : totalFees;
+      ? fromAmount.plus(totalFeesWithDeposit).minus(refundableDeposit)
+      : totalFeesWithDeposit.minus(refundableDeposit);
+
+    return totalFeesWithAmount.gt(balance.get(networkAsset))
+      ? networkAsset.ticker
+      : undefined;
+  };
+
+  const getInsufficientTokenNameForRefundableDeposit = ({
+    fromAmount,
+  }: Required<SwapFormModel>) => {
+    const totalFeesWithAmount = fromAmount.isAssetEquals(networkAsset)
+      ? fromAmount.plus(totalFeesWithDeposit)
+      : totalFeesWithDeposit;
 
     return totalFeesWithAmount.gt(balance.get(networkAsset))
       ? networkAsset.ticker
@@ -203,7 +216,9 @@ export const Swap = (): JSX.Element => {
     );
 
   const handleMaxButtonClick = (balance: Currency) =>
-    balance.asset.id === networkAsset.id ? balance.minus(totalFees) : balance;
+    balance.asset.id === networkAsset.id
+      ? balance.minus(totalFeesWithDeposit)
+      : balance;
 
   const isLiquidityInsufficient = ({ toAmount, pool }: SwapFormModel) => {
     if (!toAmount?.isPositive() || !pool) {
@@ -375,6 +390,9 @@ export const Swap = (): JSX.Element => {
     <ActionForm
       form={form}
       getInsufficientTokenNameForFee={getInsufficientTokenNameForFee}
+      getInsufficientTokenNameForRefundableDeposit={
+        getInsufficientTokenNameForRefundableDeposit
+      }
       getInsufficientTokenNameForTx={getInsufficientTokenNameForTx}
       isLoading={isPoolLoading}
       getMinValueForToken={getMinValueForToken}
@@ -386,6 +404,7 @@ export const Swap = (): JSX.Element => {
     >
       <Page
         maxWidth={500}
+        widgetBaseHeight={pool ? 432 : 272}
         leftWidget={
           selectedNetwork.name === 'ergo' && (
             <SwapGraph
@@ -400,9 +419,6 @@ export const Swap = (): JSX.Element => {
         onWidgetClose={() => setLeftWidgetOpened(false)}
       >
         <Flex col>
-          <Flex.Item>
-            <ErgoPayBadge />
-          </Flex.Item>
           <Flex row align="center">
             <Flex.Item flex={1}>
               <Typography.Title level={4}>
@@ -428,7 +444,6 @@ export const Swap = (): JSX.Element => {
               assets$={defaultTokenAssets$}
               assetsToImport$={tokenAssetsToImport$}
               importedAssets$={importedTokenAssets$}
-              label={t`From`}
               amountName="fromAmount"
               tokenName="fromAsset"
               analytics={{
@@ -450,7 +465,6 @@ export const Swap = (): JSX.Element => {
               assets$={toAssets$}
               assetsToImport$={toAssetsToImport$}
               importedAssets$={toImportedAssets$}
-              label={t`To`}
               amountName="toAmount"
               tokenName="toAsset"
               analytics={{

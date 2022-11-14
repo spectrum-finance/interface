@@ -21,7 +21,7 @@ import { PageSection } from '../../components/Page/PageSection/PageSection';
 import { SubmitButton } from '../../components/SubmitButton/SubmitButton';
 import { redeem } from '../../gateway/api/operations/redeem';
 import { getPositionByAmmPoolId } from '../../gateway/api/positions';
-import { useGuard } from '../../hooks/useGuard';
+import { useGuardV2 } from '../../hooks/useGuard';
 
 export interface RemoveFormModel {
   readonly percent: number;
@@ -41,8 +41,13 @@ export const RemoveLiquidity: FC = () => {
     lpAmount: undefined,
   });
 
-  useGuard(position, loading, () => navigate('../../../liquidity'));
-
+  useGuardV2(
+    () => !loading && !position?.availableLp?.isPositive(),
+    () =>
+      navigate(
+        `../../../liquidity${position?.pool.id ? `/${position.pool.id}` : ''}`,
+      ),
+  );
   const [formValue] = useObservable(form.valueChangesWithSilent$);
 
   useSubscription(
@@ -117,7 +122,12 @@ export const RemoveLiquidity: FC = () => {
             {/*</Flex.Item>*/}
 
             <Flex.Item>
-              <SubmitButton disabled={!formValue?.percent} htmlType="submit">
+              <SubmitButton
+                disabled={
+                  !formValue?.percent || !position.availableLp.isPositive()
+                }
+                htmlType="submit"
+              >
                 <Trans>Remove</Trans>
               </SubmitButton>
             </Flex.Item>

@@ -31,7 +31,12 @@ const _FeeBox: FC<FeeBoxProps> = ({
   active,
   onClick,
 }) => (
-  <Box className={className} padding={[0, 3]} onClick={onClick}>
+  <Box
+    className={className}
+    padding={[0, 3]}
+    onClick={onClick}
+    borderRadius="l"
+  >
     {active && <ActiveIcon />}
     <Flex col justify="center" stretch>
       <Flex.Item marginBottom={1}>

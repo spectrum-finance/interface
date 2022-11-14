@@ -1,4 +1,3 @@
-import { Modal } from '@ergolabs/ui-kit';
 import React, {
   FC,
   PropsWithChildren,
@@ -9,19 +8,15 @@ import React, {
 import styled from 'styled-components';
 
 import { applicationConfig } from '../../../applicationConfig';
-import { panalytics } from '../../../common/analytics';
 import { device } from '../../../common/constants/size';
-import { useApplicationSettings, useAppLoadingState } from '../../../context';
+import { useApplicationSettings } from '../../../context';
 import { useSelectedNetwork } from '../../../gateway/common/network';
 import { useBodyClass } from '../../../hooks/useBodyClass';
 import { useMetaThemeColor } from '../../../hooks/useMetaThemeColor';
 import { openCookiePolicy } from '../../../services/notifications/CookiePolicy/CookiePolicy';
 import { isDarkOsTheme } from '../../../utils/osTheme';
 import { NetworkHeight } from '../../NetworkHeight/NetworkHeight';
-import { RebrandingModal } from '../../RebrandingModal/RebrandingModal';
-import { useRebrandingShowed } from '../../RebrandingModal/useRebrandingShowed';
 import { SocialLinks } from '../../SocialLinks/SocialLinks';
-import { KyaModal } from '../KyaModal/KyaModal';
 import { CardanoUpdate } from './CardanoUpdate/CardanoUpdate';
 import { FooterNavigation } from './FooterNavigation/FooterNavigation';
 import { Glow } from './Glow/Glow';
@@ -53,7 +48,6 @@ const _Layout: FC<PropsWithChildren<{ className?: string }>> = ({
   const footerRef = useRef<HTMLDivElement>(null);
   const [scrolled, setScrolled] = useState(false);
   const [scrolledTop, setScrolledTop] = useState(true);
-  const [rebrandingShowed, markRebrandingAsShowed] = useRebrandingShowed();
 
   useBodyClass([theme, network.name.toLowerCase()]);
   useMetaThemeColor(
@@ -66,31 +60,10 @@ const _Layout: FC<PropsWithChildren<{ className?: string }>> = ({
     },
     theme,
   );
-  const [{ isKYAAccepted }] = useAppLoadingState();
 
   useEffect(() => {
-    if (!isKYAAccepted) {
-      Modal.open(({ close }) => <KyaModal onClose={close} />, {
-        afterClose: (isConfirmed) => {
-          !isConfirmed && panalytics.closeKya();
-          markRebrandingAsShowed();
-        },
-      });
-      return;
-    }
     openCookiePolicy();
-
-    let timeOutId: any;
-    if (!rebrandingShowed) {
-      timeOutId = setTimeout(() => {
-        Modal.open(({ close }) => <RebrandingModal close={close} />, {
-          afterClose: () => markRebrandingAsShowed(),
-        });
-      }, 10_000);
-    }
-
-    return () => (timeOutId ? clearTimeout(timeOutId) : undefined);
-  }, [isKYAAccepted, rebrandingShowed]);
+  }, []);
 
   useEffect(() => {
     let currentScrollY = ref.current?.scrollTop || 0;

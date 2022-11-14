@@ -54,4 +54,8 @@ const _ProgressHeader: FC<ProgressHeaderProps> = ({
 export const ProgressHeader = styled(_ProgressHeader)`
   position: relative;
   width: 100%;
+
+  .ant-progress-inner {
+    background: var(--spectrum-box-bg-secondary);
+  }
 `;

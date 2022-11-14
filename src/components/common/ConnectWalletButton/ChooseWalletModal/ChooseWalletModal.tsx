@@ -1,15 +1,10 @@
 import {
-  Alert,
-  Box,
   Button,
-  Checkbox,
-  Divider,
   Flex,
-  LogoutOutlined,
   Modal,
   ModalRef,
-  Tag,
-  Typography,
+  Tabs,
+  useDevice,
 } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React, { ReactNode, useState } from 'react';
@@ -20,15 +15,15 @@ import { panalytics } from '../../../../common/analytics';
 import { useObservable } from '../../../../common/hooks/useObservable';
 import {
   connectWallet,
-  disconnectWallet,
   selectedWallet$,
   wallets$,
 } from '../../../../gateway/api/wallets';
+import { useSelectedNetwork } from '../../../../gateway/common/network';
 import { Wallet } from '../../../../network/common/Wallet';
-import { ErgopayWalletButton } from '../../../../network/ergo/widgets/ErgopaySwitch/ErgopayWalletButton';
+import { ErgoPayTabPaneContent } from '../../../../network/ergo/widgets/ErgoPayModal/ErgoPayTabPaneContent/ErgoPayTabPaneContent';
+import { IsCardano } from '../../../IsCardano/IsCardano';
 import { IsErgo } from '../../../IsErgo/IsErgo';
-
-const { Body } = Typography;
+import { ProtocolDisclaimerAlert } from './ProtocolDisclaimerAlert/ProtocolDisclaimerAlert';
 
 interface WalletItemProps {
   wallet: Wallet;
@@ -53,23 +48,13 @@ const WalletButton = styled(Button)`
   }
 `;
 
-const ExperimentalWalletBox = styled(Box)`
-  background: var(--spectrum-box-bg-tag);
-  border: 1px solid var(--spectrum-default-border-color);
-
-  .dark & {
-    background: var(--spectrum-box-bg-contrast);
-  }
-`;
-
 const WalletView: React.FC<WalletItemProps> = ({
   wallet,
   close,
   isChangeWallet,
 }) => {
-  const [checked, setChecked] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const [warning, setWarning] = useState<ReactNode | undefined>(undefined);
+  const [, setWarning] = useState<ReactNode | undefined>(undefined);
   const [selectedWallet] = useObservable(selectedWallet$);
 
   const handleClick = () => {
@@ -106,95 +91,16 @@ const WalletView: React.FC<WalletItemProps> = ({
     );
   };
 
-  const handleCheck = () => setChecked((prev) => !prev);
-
-  switch (wallet.definition) {
-    case 'experimental':
-      return (
-        <ExperimentalWalletBox padding={2}>
-          <Flex col>
-            <Flex.Item marginBottom={2} alignSelf="flex-end">
-              <Tag color="gold">
-                <Trans>Experimental</Trans>
-              </Tag>
-            </Flex.Item>
-            <Flex.Item marginBottom={2}>
-              <Checkbox checked={checked} onChange={handleCheck}>
-                <Trans>
-                  This wallet may not always work as expected. I understand what
-                  I do and will use it at my own risk.
-                </Trans>
-              </Checkbox>
-            </Flex.Item>
-            {warning && (
-              <Flex.Item marginBottom={2}>
-                <Alert
-                  type="warning"
-                  description={warning}
-                  style={{ width: '100%' }}
-                />
-              </Flex.Item>
-            )}
-            <WalletButton
-              size="large"
-              disabled={!checked}
-              onClick={handleClick}
-              loading={loading}
-            >
-              <Flex.Item flex={1} display="flex" align="center">
-                <Body>{wallet.name}</Body>
-              </Flex.Item>
-              {wallet.icon}
-            </WalletButton>
-          </Flex>
-        </ExperimentalWalletBox>
-      );
-    case 'recommended':
-      return (
-        <Flex col>
-          <Flex.Item marginBottom={2} alignSelf="flex-end">
-            <Tag color="success">
-              <Trans>Recommended</Trans>
-            </Tag>
-          </Flex.Item>
-          {warning && (
-            <Flex.Item marginBottom={2}>
-              <Alert
-                type="warning"
-                description={warning}
-                style={{ width: '100%' }}
-              />
-            </Flex.Item>
-          )}
-          <WalletButton size="large" onClick={handleClick} loading={loading}>
-            <Flex.Item flex={1} display="flex" align="center">
-              <Body>{wallet.name}</Body>
-            </Flex.Item>
-            {wallet.icon}
-          </WalletButton>
-        </Flex>
-      );
-    default:
-      return (
-        <>
-          <WalletButton size="large" onClick={handleClick} loading={loading}>
-            <Flex.Item flex={1} display="flex" align="center">
-              {wallet.name}
-            </Flex.Item>
-            {wallet.icon}
-          </WalletButton>
-          {warning && (
-            <Flex.Item marginBottom={2}>
-              <Alert
-                type="warning"
-                description={warning}
-                style={{ width: '100%' }}
-              />
-            </Flex.Item>
-          )}
-        </>
-      );
-  }
+  return (
+    <>
+      <WalletButton size="large" onClick={handleClick} loading={loading}>
+        <Flex.Item flex={1} display="flex" align="center">
+          {wallet.name}
+        </Flex.Item>
+        {wallet.icon}
+      </WalletButton>
+    </>
+  );
 };
 
 type ChooseWalletModalProps = ModalRef<boolean> & { isChangeWallet?: boolean };
@@ -204,53 +110,62 @@ const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
   isChangeWallet,
 }): JSX.Element => {
   const [wallets] = useObservable(wallets$, [], []);
+
   const [selectedWallet] = useObservable(selectedWallet$);
+  const [selectedNetwork] = useSelectedNetwork();
 
-  const handleDisconnectWalletClick = () => {
-    panalytics.disconnectWallet(selectedWallet?.name);
-    disconnectWallet();
-  };
+  const walletTab = (
+    <Flex.Item marginTop={5} display="flex" col>
+      <Flex.Item marginBottom={4}>
+        <ProtocolDisclaimerAlert />
+      </Flex.Item>
+      {wallets
+        .filter((w) => !w.hidden)
+        .map((wallet, index) => (
+          <Flex.Item
+            marginBottom={
+              index === wallets.length - 1 && !selectedWallet ? 0 : 4
+            }
+            key={index}
+          >
+            <WalletView
+              close={close}
+              wallet={wallet}
+              isChangeWallet={isChangeWallet}
+            />
+          </Flex.Item>
+        ))}
+    </Flex.Item>
+  );
 
+  const { s } = useDevice();
   return (
     <>
       <Modal.Title>
         <Trans>Select a wallet</Trans>
       </Modal.Title>
-      <Modal.Content width={400}>
-        <Flex col>
-          {wallets
-            .filter((w) => !w.hidden)
-            .map((wallet, index) => (
-              <Flex.Item
-                marginBottom={
-                  index === wallets.length - 1 && !selectedWallet ? 0 : 4
-                }
-                key={index}
-              >
-                <WalletView
-                  close={close}
-                  wallet={wallet}
-                  isChangeWallet={isChangeWallet}
-                />
-              </Flex.Item>
-            ))}
-          <IsErgo>
-            <Divider />
-            <Flex.Item marginBottom={!selectedWallet ? 0 : 4} marginTop={4}>
-              <ErgopayWalletButton close={close} />
-            </Flex.Item>
-          </IsErgo>
-          {selectedWallet && (
-            <Button
-              type="link"
-              icon={<LogoutOutlined />}
-              onClick={handleDisconnectWalletClick}
+      <Modal.Content maxWidth={480} width="100%">
+        <IsErgo>
+          <Tabs fullWidth>
+            {s ? (
+              <Tabs.TabPane tab={<Trans>ErgoPay</Trans>} key="ergopayMobile">
+                <ErgoPayTabPaneContent close={close} />
+              </Tabs.TabPane>
+            ) : null}
+            <Tabs.TabPane
+              tab={<Trans>Browser wallet</Trans>}
+              key="browse_wallets"
             >
-              {' '}
-              <Trans>Disconnect wallet</Trans>
-            </Button>
-          )}
-        </Flex>
+              {walletTab}
+            </Tabs.TabPane>
+            {!s ? (
+              <Tabs.TabPane tab={<Trans>ErgoPay</Trans>} key="ergopayDesktop">
+                <ErgoPayTabPaneContent close={close} />
+              </Tabs.TabPane>
+            ) : null}
+          </Tabs>
+        </IsErgo>
+        <IsCardano>{walletTab}</IsCardano>
       </Modal.Content>
     </>
   );

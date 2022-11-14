@@ -16,12 +16,10 @@ export const DetailRow = styled(Flex.Item)`
 `;
 
 export const DetailsBox: FC<DetailsBoxProps> = ({ title, value }) => (
-  <Box padding={2} bordered={false}>
+  <Box padding={2} bordered={false} borderRadius="l">
     <Flex stretch align="center">
       <Flex.Item flex={1}>
-        <Typography.Body size="small" secondary>
-          {title}
-        </Typography.Body>
+        <Typography.Body size="small">{title}</Typography.Body>
       </Flex.Item>
       <Flex.Item justify="flex-end" display="flex">
         <Typography.Body strong>{value}</Typography.Body>

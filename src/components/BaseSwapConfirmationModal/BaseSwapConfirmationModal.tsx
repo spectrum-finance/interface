@@ -1,5 +1,5 @@
 import { Button, Flex, Form, Modal, useForm } from '@ergolabs/ui-kit';
-import { t, Trans } from '@lingui/macro';
+import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 import { Observable, tap } from 'rxjs';
 
@@ -49,12 +49,12 @@ export const BaseSwapConfirmationModal: FC<
         <Form form={form} onSubmit={swapOperation}>
           <Flex direction="col">
             <Flex.Item marginBottom={1}>
-              <CurrencyPreview value={value.fromAmount} label={t`From`} />
+              <CurrencyPreview value={value.fromAmount} />
             </Flex.Item>
-            <Flex.Item marginBottom={4}>
-              <CurrencyPreview value={value.toAmount} label={t`To`} />
+            <Flex.Item marginBottom={6}>
+              <CurrencyPreview value={value.toAmount} />
             </Flex.Item>
-            <Flex.Item marginBottom={4}>
+            <Flex.Item marginBottom={6}>
               <Info value={value} />
             </Flex.Item>
             <Flex.Item>

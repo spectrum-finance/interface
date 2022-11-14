@@ -21,6 +21,9 @@ export interface ActionFormProps<T> {
   readonly isSwapLocked?: (form: T) => boolean;
   readonly getInsufficientTokenNameForTx?: (form: T) => undefined | string;
   readonly getInsufficientTokenNameForFee?: (form: T) => undefined | string;
+  readonly getInsufficientTokenNameForRefundableDeposit?: (
+    form: T,
+  ) => undefined | string;
   readonly action?: (form: T) => Promise<any> | Observable<any> | void;
   readonly actionButton?: ReactNode | string;
 }
@@ -32,6 +35,7 @@ const _ActionForm: FC<ActionFormProps<any>> = ({
   isAmountNotEntered,
   isTokensNotSelected,
   getInsufficientTokenNameForFee,
+  getInsufficientTokenNameForRefundableDeposit,
   isSwapLocked,
   getInsufficientTokenNameForTx,
   getMinValueForToken,
@@ -91,6 +95,16 @@ const _ActionForm: FC<ActionFormProps<any>> = ({
         state: ActionButtonState.INSUFFICIENT_FEE_BALANCE,
         data: {
           nativeToken: getInsufficientTokenNameForFee(value),
+        },
+      });
+    } else if (
+      getInsufficientTokenNameForRefundableDeposit &&
+      getInsufficientTokenNameForRefundableDeposit(value)
+    ) {
+      setButtonData({
+        state: ActionButtonState.INSUFFICIENT_REFUNDABLE_DEPOSIT_BALANCE,
+        data: {
+          nativeToken: getInsufficientTokenNameForRefundableDeposit(value),
         },
       });
     } else if (isLiquidityInsufficient && isLiquidityInsufficient(value)) {

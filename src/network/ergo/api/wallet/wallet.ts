@@ -4,15 +4,14 @@ import { filter, map, Observable, publishReplay, refCount } from 'rxjs';
 import { WalletState, WalletSupportedFeatures } from '../../../common/Wallet';
 import { makeWalletManager } from '../../../common/WalletManager';
 import { ErgoWalletContract } from './common/ErgoWalletContract';
+import { ErgopayWallet } from './ergopay/ergopay';
 import { Nautilus } from './nautilus/nautilus';
-import { ReadonlyWallet } from './readonly/readonly';
-import { Yoroi } from './yoroi/yoroi';
 
 const ERGO_SELECTED_WALLET_TOKEN = 'ergo-selected-wallet';
 
 export const ergoWalletManager = makeWalletManager<ErgoWalletContract>(
   ERGO_SELECTED_WALLET_TOKEN,
-  [Nautilus, ReadonlyWallet, Yoroi],
+  [Nautilus, ErgopayWallet],
   (w: ErgoWalletContract) => w.connectWallet(),
 );
 

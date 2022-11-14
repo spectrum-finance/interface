@@ -35,7 +35,7 @@ const FormPairSection: React.FC<PairSpaceProps> = ({
                   <AssetIcon asset={xAmount.asset} />
                 </Flex.Item>
                 <Flex.Item>
-                  <Typography.Body strong>
+                  <Typography.Body strong size="large">
                     <Truncate limit={TOKEN_NAME_SYMBOLS_LIMIT}>
                       {xAmount.asset.ticker}
                     </Truncate>
@@ -45,7 +45,7 @@ const FormPairSection: React.FC<PairSpaceProps> = ({
             </Flex.Item>
             <Flex.Item>
               <Flex>
-                <Typography.Body strong align="right">
+                <Typography.Body strong align="right" size="large">
                   {fees ? undefined : xAmount.toString()} (
                   <ConvenientAssetView value={xAmount} prefix="~" />)
                 </Typography.Body>
@@ -61,7 +61,7 @@ const FormPairSection: React.FC<PairSpaceProps> = ({
                   <AssetIcon asset={yAmount.asset} />
                 </Flex.Item>
                 <Flex.Item>
-                  <Typography.Body strong>
+                  <Typography.Body strong size="large">
                     <Truncate limit={TOKEN_NAME_SYMBOLS_LIMIT}>
                       {yAmount.asset.ticker}
                     </Truncate>
@@ -71,7 +71,7 @@ const FormPairSection: React.FC<PairSpaceProps> = ({
             </Flex.Item>
             <Flex.Item>
               <Flex>
-                <Typography.Body strong align="right">
+                <Typography.Body strong align="right" size="large">
                   {fees ? undefined : yAmount.toString()} (
                   <ConvenientAssetView value={yAmount} prefix="~" />)
                 </Typography.Body>

@@ -46,6 +46,7 @@ interface ApplicationConfig {
   readonly applicationTick: number;
   readonly hiddenAssets: string[];
   readonly blacklistedPools: string[];
+  readonly blacklistedHistoryAssets: string[];
   readonly operationsRestrictions: OperationRestriction[];
   readonly requestRetryCount: number;
 }
@@ -61,14 +62,14 @@ export const applicationConfig: ApplicationConfig = {
   //   title: 'Under Maintenance',
   //   content: 'We are migrating the protocol to Vasil Hard Fork testnet.',
   // },
-  reCaptchaKey: '6LeUJ8YfAAAAAMYIqGvtOmJGLeJtCSv6FBH_5sA3',
+  reCaptchaKey: '6LfCKZIiAAAAACypYW5pGlgZNTcwse1njmQMIUUL',
   requestRetryCount: 3,
   networksSettings: {
     cardano: {
-      metadataUrl: 'https://testnet-meta.ergodex.io/metadata',
-      networkUrl: 'https://testnet-api.quickblue.io/v1',
+      metadataUrl: 'https://meta.spectrum.fi/cardano/metadata',
+      networkUrl: 'https://explorer.spectrum.fi/cardano/v1/',
       explorerUrl: 'https://preview.cexplorer.io',
-      faucet: 'https://faucet.ergodex.io/v1/',
+      faucet: 'https://faucet.spectrum.fi/cardano/v1/',
       lowBalanceGuide: '',
     },
     ergo: {
@@ -76,10 +77,10 @@ export const applicationConfig: ApplicationConfig = {
         'https://raw.githubusercontent.com/ergolabs/ergo-dex-asset-icons/master',
       networkUrl: 'https://api.ergoplatform.com',
       explorerUrl: 'https://explorer.ergoplatform.com',
-      analyticUrl: 'https://api.ergodex.io/v1/',
+      analyticUrl: 'https://api.spectrum.fi/v1/',
       lowBalanceGuide:
         'https://docs.spectrum.fi/docs/user-guides/quick-start#3-get-assets',
-      ergopayUrl: 'https://ergopay-backend.fly.dev/',
+      ergopayUrl: 'https://ergopay-backend.fly.dev',
     },
   },
   social: {
@@ -90,13 +91,31 @@ export const applicationConfig: ApplicationConfig = {
     reddit: 'https://www.reddit.com/r/SpectrumLabs/',
   },
   support: {
-    discord: 'https://discord.gg/Jya72kjDfq',
-    telegram: 'https://t.me/ergodex_community',
+    discord: 'https://discord.com/invite/zY2gmTYQVD',
+    telegram: 'https://t.me/spectrum_labs_community',
   },
   applicationTick: 5 * 1000,
   hiddenAssets: [
     'ef802b475c06189fdbf844153cdc1d449a5ba87cce13d11bb47b5a539f27f12b',
     '30974274078845f263b4f21787e33cc99e9ec19a17ad85a5bc6da2cca91c5a2e',
+    mkSubject({
+      name: 'new_spectrum_token_b',
+      policyId: '065270479316f1d92e00f7f9f095ebeaac9d009c878dc35ce36d3404',
+    }),
+    mkSubject({
+      name: 'new_spectrum_token_a',
+      policyId: '065270479316f1d92e00f7f9f095ebeaac9d009c878dc35ce36d3404',
+    }),
+  ],
+  blacklistedHistoryAssets: [
+    mkSubject({
+      name: 'new_spectrum_token_b',
+      policyId: '065270479316f1d92e00f7f9f095ebeaac9d009c878dc35ce36d3404',
+    }),
+    mkSubject({
+      name: 'new_spectrum_token_a',
+      policyId: '065270479316f1d92e00f7f9f095ebeaac9d009c878dc35ce36d3404',
+    }),
   ],
   blacklistedPools: [
     'bee300e9c81e48d7ab5fc29294c7bbb536cf9dcd9c91ee3be9898faec91b11b6',

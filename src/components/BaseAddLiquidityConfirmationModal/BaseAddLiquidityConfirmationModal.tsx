@@ -61,7 +61,7 @@ export const BaseAddLiquidityConfirmationModal: FC<BaseAddLiquidityConfirmationM
               />
             </Flex.Item>
             <Flex.Item marginBottom={6}>
-              <Section title={t`Initial price`}>
+              <Section title={t`Initial price`} gap={2}>
                 <Flex>
                   <Flex.Item flex={1} marginRight={2}>
                     <PoolRatio ammPool={value.pool} ratioOf="x" />

@@ -19,6 +19,7 @@ const _DataTag: React.FC<DataTagProps> = ({
   justify,
   className,
   width,
+  secondary,
 }) => {
   if (loading) {
     const br = size === 'small' ? '4px' : '8px';
@@ -44,7 +45,8 @@ const _DataTag: React.FC<DataTagProps> = ({
       <Box
         width={width}
         className={className}
-        borderRadius={'xs'}
+        borderRadius="s"
+        secondary={secondary}
         padding={[0, 1]}
         bordered={false}
       >
@@ -58,7 +60,8 @@ const _DataTag: React.FC<DataTagProps> = ({
       <Box
         width={width}
         className={className}
-        borderRadius={'s'}
+        borderRadius="s"
+        secondary={secondary}
         padding={[0.5, 1]}
         bordered={false}
       >
@@ -77,6 +80,7 @@ const _DataTag: React.FC<DataTagProps> = ({
       <Box
         className={className}
         borderRadius="s"
+        secondary={secondary}
         padding={1}
         bordered={false}
         width={width}
@@ -92,6 +96,7 @@ const _DataTag: React.FC<DataTagProps> = ({
     <Box
       className={className}
       borderRadius="s"
+      secondary={secondary}
       padding={1}
       bordered={false}
       width={width}
@@ -103,9 +108,8 @@ const _DataTag: React.FC<DataTagProps> = ({
   );
 };
 
-export const DataTag = styled(_DataTag)`
-  background: var(--spectrum-tag-primary) !important;
-
-  ${(props) =>
-    props.secondary && 'background: var(--spectrum-tag-secondary) !important'}
-`;
+export const DataTag = styled(_DataTag)``;
+// background: var(--spectrum-tag-primary) !important;
+//
+// ${(props) =>
+//   props.secondary && 'background: var(--spectrum-tag-secondary) !important'}

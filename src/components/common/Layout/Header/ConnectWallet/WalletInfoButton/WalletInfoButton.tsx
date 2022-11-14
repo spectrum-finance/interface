@@ -17,7 +17,8 @@ export interface WalletInfoButtonProps {
 const _WalletInfoButton: FC<WalletInfoButtonProps> = ({ className }) => {
   const [networkAssetBalance] = useObservable(networkAssetBalance$);
   const [settings] = useObservable(settings$);
-  const openWalletModal = () => Modal.open(<WalletModal />);
+  const openWalletModal = () =>
+    Modal.open(({ close }) => <WalletModal close={close} />);
   const { s } = useDevice();
 
   return (

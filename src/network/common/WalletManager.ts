@@ -44,7 +44,13 @@ export const makeWalletManager = <W extends Wallet>(
   getWalletConnectionCheck: (w: W) => Observable<boolean | ReactNode>,
 ): WalletManager<W> => {
   const toWalletContract = (name: string): W => {
-    const wallet = availableWallets.find((w) => w.name === name);
+    let wallet: W | undefined;
+
+    if (name === 'Read-only Wallet') {
+      wallet = availableWallets.find((w) => w.name === 'ErgoPay');
+    } else {
+      wallet = availableWallets.find((w) => w.name === name);
+    }
 
     if (!wallet) {
       throw new Error(`unsupported wallet with name ${name}`);

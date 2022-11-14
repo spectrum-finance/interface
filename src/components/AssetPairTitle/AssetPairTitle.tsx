@@ -19,6 +19,7 @@ export interface TokenTitleProps {
     | 'body-secondary'
     | 'body-strong'
     | undefined;
+  readonly bodySize?: 'large';
   readonly gap?: number;
 }
 
@@ -28,6 +29,7 @@ export const AssetPairTitle: FC<TokenTitleProps> = ({
   size,
   level = 5,
   gap = 1,
+  bodySize,
 }) => (
   <Flex align="center">
     <Flex.Item marginRight={gap}>
@@ -38,6 +40,7 @@ export const AssetPairTitle: FC<TokenTitleProps> = ({
     level === 'body-strong' ? (
       <Typography.Body
         secondary={level === 'body-secondary'}
+        size={bodySize}
         strong={level === 'body-strong'}
       >
         <Truncate>{assetX.ticker || assetX.name}</Truncate> /{' '}

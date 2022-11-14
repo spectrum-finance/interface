@@ -100,7 +100,7 @@ export const AssetListSelectTokenState: FC<AssetListSelectTokenStateProps> = ({
         items={items}
         fadeInDelay={50}
         gap={1}
-        maxHeight={350}
+        maxHeight={332}
         itemHeight={52}
       >
         {({ item, height, group }) =>

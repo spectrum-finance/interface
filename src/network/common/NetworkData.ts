@@ -49,6 +49,8 @@ export interface NetworkData<W extends Wallet> {
   readonly useCreatePoolValidationFee: () => Currency;
   readonly useNetworkAsset: () => [AssetInfo, boolean, Error | undefined];
 
+  readonly refundableDeposit: Currency;
+
   readonly getOperationByTxId: (
     txId: string,
   ) => Observable<Operation | undefined>;

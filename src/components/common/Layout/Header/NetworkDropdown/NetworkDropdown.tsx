@@ -1,4 +1,5 @@
 import './NetworkDropdown.less';
+import '../../../../../assets/styles/styles.less';
 
 import {
   Button,
@@ -9,7 +10,6 @@ import {
   Typography,
 } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
-import cn from 'classnames';
 import capitalize from 'lodash/capitalize';
 import React from 'react';
 
@@ -71,16 +71,10 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
       trigger={['click']}
       disabled={disabled}
     >
-      <Button
-        className={cn(
-          `network-dropdown__btn`,
-          `network-dropdown__btn--${selectedNetwork.name}`,
-        )}
-        size="large"
-      >
+      <Button className="network-dropdown-selected" size="large">
         <Flex justify="center" direction="row" align="center">
           <AssetIcon asset={selectedNetwork.networkAsset} />
-          <Typography.Text
+          <Typography.Body
             className="network-dropdown__btn-text"
             style={{
               fontSize: '16px',
@@ -88,7 +82,7 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
             }}
           >
             {capitalize(selectedNetwork.label)}
-          </Typography.Text>
+          </Typography.Body>
           <DownOutlined
             style={{
               marginLeft: 'calc(var(--spectrum-base-gutter) * 2)',

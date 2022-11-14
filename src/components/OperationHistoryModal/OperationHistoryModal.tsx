@@ -6,6 +6,7 @@ import {
   ModalRef,
   ReloadOutlined,
   SearchOutlined,
+  Tooltip,
 } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import React, { FC, useState } from 'react';
@@ -50,7 +51,12 @@ export const OperationHistoryModal: FC<OperationHistoryModalProps> = ({
       </Modal.Title>
       <Modal.Content width={772}>
         <Flex col>
-          <Flex.Item marginBottom={4} display="flex" align="center">
+          <Flex.Item
+            marginTop={2}
+            marginBottom={4}
+            display="flex"
+            align="center"
+          >
             <SearchInput
               size="large"
               onChange={(e) => setTerm(e.target.value)}
@@ -59,14 +65,24 @@ export const OperationHistoryModal: FC<OperationHistoryModalProps> = ({
             />
             {syncOperations && (
               <Flex.Item marginLeft={1} flex={1} justify="flex-end">
-                <Button
-                  size="large"
-                  loading={isOperationsSyncing}
-                  onClick={() => syncOperations()}
-                  icon={<ReloadOutlined />}
+                <Tooltip
+                  visible={isOperationsSyncing ? undefined : false}
+                  title={
+                    <Trans>
+                      Synchronisation will continue even if you <br /> close
+                      this modal window
+                    </Trans>
+                  }
                 >
-                  {isOperationsSyncing ? t`Syncing...` : t`Sync`}
-                </Button>
+                  <Button
+                    size="large"
+                    loading={isOperationsSyncing}
+                    onClick={() => syncOperations()}
+                    icon={<ReloadOutlined />}
+                  >
+                    {isOperationsSyncing ? t`Syncing...` : t`Sync`}
+                  </Button>
+                </Tooltip>
               </Flex.Item>
             )}
           </Flex.Item>

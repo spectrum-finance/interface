@@ -36,6 +36,7 @@ import {
   walletState$,
 } from './api/wallet/wallet';
 import { initialize, initialized$ } from './initialized';
+import { depositAda } from './settings/depositAda';
 import {
   CardanoSettings,
   setSettings,
@@ -63,7 +64,7 @@ export const cardanoNetwork: Network<
   CardanoAmmPool
 > = {
   name: 'cardano',
-  label: 'cardano (Testnet)',
+  label: 'cardano (Preview)',
   favicon: '/favicon-cardano.svg',
   convenientAssetDefaultPreview: '0 ADA',
   networkAsset,
@@ -127,4 +128,5 @@ export const cardanoNetwork: Network<
   getPoolChartData: () => of([]),
   pendingOperations$: of([]),
   queuedOperation$: of(undefined),
+  refundableDeposit: depositAda,
 };

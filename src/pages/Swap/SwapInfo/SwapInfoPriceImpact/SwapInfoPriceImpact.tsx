@@ -37,9 +37,9 @@ export const SwapInfoPriceImpact: FC<SwapInfoPriceImpactProps> = ({
 
   return (
     <SwapInfoItem
-      title={t`Price impact:`}
+      title={t`Price impact`}
       value={
-        <Typography.Body type={priceImpactStatus}>
+        <Typography.Body type={priceImpactStatus} size="small">
           {priceImpact !== undefined ? `${priceImpact}%` : '–'}
         </Typography.Body>
       }

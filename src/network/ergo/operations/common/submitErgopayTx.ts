@@ -19,6 +19,7 @@ export const submitErgopayTx = (
   feeMax: Currency,
   p2pkaddress: string,
   operation: keyof typeof ergoPayMessageManager,
+  analyticData: any,
 ): Observable<TxId> =>
   networkContext$.pipe(
     first(),
@@ -33,9 +34,10 @@ export const submitErgopayTx = (
     switchMap((unsignedTx) =>
       fromPromise(
         axios.post<{ txId: TxId }>(
-          `${applicationConfig.networksSettings.ergo.ergopayUrl}unsignedTx`,
+          `${applicationConfig.networksSettings.ergo.ergopayUrl}/unsignedTx`,
           {
             unsignedTx,
+            analyticData,
             p2pkaddress,
             message:
               operation === 'swap'
