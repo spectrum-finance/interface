@@ -13,6 +13,12 @@ export const useDepositValidationFee = (): Currency => {
   return selectedNetwork.useDepositValidationFee();
 };
 
+export const useCreatePoolValidationFee = (): Currency => {
+  const [selectedNetwork] = useSelectedNetwork();
+
+  return selectedNetwork.useCreatePoolValidationFee();
+};
+
 export const useRedeemValidationFee = (): Currency => {
   const [selectedNetwork] = useSelectedNetwork();
 
