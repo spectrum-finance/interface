@@ -7,7 +7,6 @@ import {
   ReloadOutlined,
   SearchOutlined,
   Tooltip,
-  Typography,
 } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import React, { FC, useState } from 'react';
@@ -69,12 +68,10 @@ export const OperationHistoryModal: FC<OperationHistoryModalProps> = ({
                 <Tooltip
                   visible={isOperationsSyncing ? undefined : false}
                   title={
-                    <Typography.Body>
-                      <Trans>
-                        Synchronisation will continue even if you <br /> close
-                        this modal window
-                      </Trans>
-                    </Typography.Body>
+                    <Trans>
+                      Synchronisation will continue even if you <br /> close
+                      this modal window
+                    </Trans>
                   }
                 >
                   <Button

@@ -11,8 +11,6 @@ import {
   QuestionCircleOutlined,
   ReloadOutlined,
   RightOutlined,
-  SettingOutlined,
-  useDevice,
 } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import { stringify } from 'qs';
@@ -25,10 +23,8 @@ import {
   LOCALE_LABEL,
   SUPPORTED_LOCALES,
 } from '../../../../../common/constants/locales';
-import { useObservable } from '../../../../../common/hooks/useObservable';
 import { useApplicationSettings } from '../../../../../context';
 import { useSelectedNetwork } from '../../../../../gateway/common/network';
-import { globalSettingsModal$ } from '../../../../../gateway/widgets/globalSettingsModal';
 import { useQuery } from '../../../../../hooks/useQuery';
 import { ThemeSwitch } from '../../../../ThemeSwitch/ThemeSwitch';
 import { DotsIcon } from '../../../Icons/DotsIcon';
@@ -63,8 +59,6 @@ const ContributeLanguageButton = styled(Button)`
 
 const BurgerMenu = (): JSX.Element => {
   const [selectedNetwork] = useSelectedNetwork();
-  const [GlobalSettingsModal] = useObservable(globalSettingsModal$);
-  const { s } = useDevice();
   const [isMainMenu, setIsMainMenu] = useState<boolean>(true);
   const [isMenuVisible, setMenuVisible] = useState<boolean>(false);
   const [settings, setSettings] = useApplicationSettings();
@@ -107,18 +101,6 @@ const BurgerMenu = (): JSX.Element => {
           },
         }
       : undefined,
-    GlobalSettingsModal
-      ? {
-          title: t`Global Settings`,
-          icon: <SettingOutlined />,
-          onClick: () => {
-            setMenuVisible(false);
-            panalytics.clickBurgerMenu('Global Settings');
-            Modal.open(({ close }) => <GlobalSettingsModal onClose={close} />);
-          },
-          isNotRenderMobile: false,
-        }
-      : undefined,
     {
       title: t`Language`,
       icon: <GlobalOutlined />,
@@ -145,13 +127,7 @@ const BurgerMenu = (): JSX.Element => {
       {menu.map(
         (item, index) =>
           item && (
-            <OtherMenuItem
-              key={index + 1}
-              icon={item.icon}
-              style={{
-                display: s && item.isNotRenderMobile ? 'none' : '',
-              }}
-            >
+            <OtherMenuItem key={index + 1} icon={item.icon}>
               <a
                 href={item.link}
                 rel="noreferrer"

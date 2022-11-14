@@ -94,8 +94,8 @@ export const makeCardanoWallet = ({
       message: 'Wallet Network Error',
       description: (
         <>
-          To use ErgoDEX in Cardano testnet, adjust your wallet's connection to
-          be for the testnet <br />
+          Set network to "testnet" in you {name} wallet to use Spectrum Finance
+          interface
           <a href={testnetSwitchGuideUrl} target="_blank" rel="noreferrer">
             Read guide for {name}
           </a>
