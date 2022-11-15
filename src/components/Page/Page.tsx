@@ -189,8 +189,8 @@ const _Page: React.FC<PageProps> = ({
                 style={
                   transparent
                     ? {
-                      boxShadow: 'none',
-                    }
+                        boxShadow: 'none',
+                      }
                     : {}
                 }
               >

@@ -29,7 +29,7 @@ export const FarmDistributionIntervalInput: FC<Control<number | undefined>> = ({
 
   return (
     <LabeledContent label={t`Distribute tokens each`}>
-      <Box padding={2} control>
+      <Box padding={2} secondary borderRadius="l">
         <StyledInput
           size="large"
           type="number"

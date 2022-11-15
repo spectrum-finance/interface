@@ -31,7 +31,7 @@ const _DataTag: React.FC<DataTagProps> = ({
       <Box
         width={width}
         className={className}
-        borderRadius={'xs'}
+        borderRadius={'s'}
         padding={[0.5, 1]}
         bordered={false}
       >

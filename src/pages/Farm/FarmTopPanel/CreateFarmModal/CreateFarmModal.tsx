@@ -127,7 +127,7 @@ export const CreateFarmModal: FC = () => {
                     </LabeledContent>
                   </OverlayBox>
                 </Flex.Item>
-                <Box padding={4} control>
+                <Box padding={4} secondary borderRadius="l">
                   <Flex gap={4} col>
                     <Flex justify="space-between">
                       <Typography.Body>

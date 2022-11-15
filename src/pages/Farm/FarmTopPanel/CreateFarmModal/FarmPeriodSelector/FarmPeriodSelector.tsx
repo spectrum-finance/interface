@@ -86,7 +86,7 @@ export const FarmPeriodSelector: FC<FarmPeriodSelectorProps> = ({
         </PeriodTypeTab>
       }
     >
-      <Box padding={2} control>
+      <Box padding={2} secondary borderRadius="l">
         {periodType === PeriodType.Block && (
           <Flex align="center">
             <Input
