@@ -4,6 +4,7 @@ import { DateTime } from 'luxon';
 import {
   catchError,
   combineLatest,
+  first,
   map,
   Observable,
   of,
@@ -14,6 +15,7 @@ import { AmmPool } from '../../common/models/AmmPool';
 import { Currency } from '../../common/models/Currency';
 import { Dictionary } from '../../common/utils/Dictionary';
 import { getAmmPoolById } from '../../gateway/api/ammPools';
+import { selectedNetwork$ } from '../../gateway/common/network';
 import { networkContext$ } from '../../network/ergo/api/networkContext/networkContext';
 import {
   AmmPoolLocksAnalytic,
@@ -138,7 +140,16 @@ export const getAmmPoolConfidenceAnalyticByAmmPoolId = (
 
       return combineLatest([
         networkContext$,
-        getPoolLocksAnalyticsById(ammPoolId).pipe(catchError(() => of([]))),
+        selectedNetwork$.pipe(
+          first(),
+          switchMap((network) =>
+            network.name === 'cardano'
+              ? of([])
+              : getPoolLocksAnalyticsById(ammPoolId).pipe(
+                  catchError(() => of([])),
+                ),
+          ),
+        ),
       ]).pipe(
         map(
           ([networkContext, poolLocksAnalytics]) =>

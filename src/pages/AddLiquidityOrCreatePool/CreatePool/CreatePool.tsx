@@ -20,7 +20,7 @@ import { RatioBox } from '../../../components/RatioBox/RatioBox';
 import { Section } from '../../../components/Section/Section';
 import { useAssetsBalance } from '../../../gateway/api/assetBalance';
 import { useNetworkAsset } from '../../../gateway/api/networkAsset';
-import { useCreatePoolValidationFee } from '../../../network/ergo/settings/totalFees';
+import { useCreatePoolValidationFee } from '../../../gateway/api/validationFees';
 import { normalizeAmountWithFee } from '../common/utils';
 import { LiquidityPercentInput } from '../LiquidityPercentInput/LiquidityPercentInput';
 import { CreatePoolConfirmationModal } from './CreatePoolConfirmationModal/CreatePoolConfirmationModal';
@@ -193,13 +193,15 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
   const insufficientFeeValidator: OperationValidator<CreatePoolFormModel> = ({
     value: { x, y },
   }) => {
-    let totalFeesWithAmount = x?.isAssetEquals(networkAsset)
-      ? x?.plus(totalFees)
-      : totalFees;
+    let totalFeesWithAmount = totalFees;
+
+    totalFeesWithAmount = x?.isAssetEquals(networkAsset)
+      ? totalFeesWithAmount.plus(x)
+      : totalFeesWithAmount;
 
     totalFeesWithAmount = y?.isAssetEquals(networkAsset)
       ? totalFeesWithAmount.plus(y)
-      : totalFees;
+      : totalFeesWithAmount;
 
     return totalFeesWithAmount.gt(balance.get(networkAsset))
       ? t`Insufficient ${networkAsset.ticker} Balance for Fees`

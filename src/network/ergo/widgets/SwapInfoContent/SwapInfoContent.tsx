@@ -86,14 +86,14 @@ export const SwapInfoContent: FC<SwapInfoContent> = ({ value }) => {
           tooltip={
             <Flex col>
               <Flex.Item>
-                <Typography.Body>Min Execution Fee: </Typography.Body>
-                <Typography.Body strong>
+                <Typography.Body tooltip>Min Execution Fee: </Typography.Body>
+                <Typography.Body strong tooltip>
                   {minExFee.toCurrencyString()}
                 </Typography.Body>
               </Flex.Item>
               <Flex.Item>
-                <Typography.Body>Max Execution Fee: </Typography.Body>
-                <Typography.Body strong>
+                <Typography.Body tooltip>Max Execution Fee: </Typography.Body>
+                <Typography.Body strong tooltip>
                   {maxExFee.toCurrencyString()}
                 </Typography.Body>
               </Flex.Item>

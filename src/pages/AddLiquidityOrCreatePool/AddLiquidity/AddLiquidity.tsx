@@ -26,6 +26,7 @@ import { Section } from '../../../components/Section/Section';
 import { useAssetsBalance } from '../../../gateway/api/assetBalance';
 import { useNetworkAsset } from '../../../gateway/api/networkAsset';
 import { deposit } from '../../../gateway/api/operations/deposit';
+import { useRefundableDeposit } from '../../../gateway/api/refundableDeposit';
 import { useSwapValidationFee } from '../../../gateway/api/validationFees';
 import { PoolRatio } from '../../PoolOverview/PoolRatio/PoolRatio';
 import { normalizeAmountWithFee } from '../common/utils';
@@ -49,6 +50,7 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
   const [lastEditedField, setLastEditedField] = useState<'x' | 'y'>('x');
   const [balance] = useAssetsBalance();
   const totalFees = useSwapValidationFee();
+  const refundableDeposit = useRefundableDeposit();
   const [networkAsset] = useNetworkAsset();
   const form = useForm<AddLiquidityFormModel>({
     xAsset,
@@ -163,18 +165,37 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
   const insufficientFeeValidator: OperationValidator<AddLiquidityFormModel> = ({
     value: { x, y },
   }) => {
-    let totalFeesWithAmount = x?.isAssetEquals(networkAsset)
-      ? x?.plus(totalFees)
-      : totalFees;
+    let totalFeesWithAmount = totalFees.minus(refundableDeposit);
+
+    totalFeesWithAmount = x?.isAssetEquals(networkAsset)
+      ? totalFeesWithAmount.plus(x)
+      : totalFeesWithAmount;
 
     totalFeesWithAmount = y?.isAssetEquals(networkAsset)
       ? totalFeesWithAmount.plus(y)
-      : totalFees;
+      : totalFeesWithAmount;
 
     return totalFeesWithAmount.gt(balance.get(networkAsset))
-      ? t`Insufficient ${networkAsset.ticker} Balance for Fees`
+      ? t`Insufficient ${networkAsset.ticker} balance for fees`
       : undefined;
   };
+
+  const insufficientRefundableBalanceValidator: OperationValidator<AddLiquidityFormModel> =
+    ({ value: { x, y } }) => {
+      let totalFeesWithAmount = totalFees;
+
+      totalFeesWithAmount = x?.isAssetEquals(networkAsset)
+        ? totalFeesWithAmount.plus(x)
+        : totalFeesWithAmount;
+
+      totalFeesWithAmount = y?.isAssetEquals(networkAsset)
+        ? totalFeesWithAmount.plus(y)
+        : totalFeesWithAmount;
+
+      return totalFeesWithAmount.gt(balance.get(networkAsset))
+        ? t`Insufficient ${networkAsset.ticker} for refundable deposit`
+        : undefined;
+    };
 
   const balanceValidator: OperationValidator<AddLiquidityFormModel> = ({
     value: { x, y },
@@ -325,6 +346,7 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
     minValueValidator,
     balanceValidator,
     insufficientFeeValidator,
+    insufficientRefundableBalanceValidator,
   ];
 
   return (

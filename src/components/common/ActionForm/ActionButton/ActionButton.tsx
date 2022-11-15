@@ -36,7 +36,15 @@ const insufficientTokenBalanceState = (token = ''): ButtonProps => ({
 });
 
 const insufficientFeeBalanceState = (token = ''): ButtonProps => ({
-  children: t`Insufficient ${token} Balance for Fees`,
+  children: t`Insufficient ${token} balance for fees`,
+  type: 'primary',
+  disabled: true,
+});
+
+const insufficientRefundableDepositBalanceState = (
+  token = '',
+): ButtonProps => ({
+  children: t`Insufficient ${token} for refundable deposit`,
   type: 'primary',
   disabled: true,
 });
@@ -90,6 +98,8 @@ const getButtonPropsByState = (
       return enterAmountState();
     case ActionButtonState.INSUFFICIENT_FEE_BALANCE:
       return insufficientFeeBalanceState(nativeToken);
+    case ActionButtonState.INSUFFICIENT_REFUNDABLE_DEPOSIT_BALANCE:
+      return insufficientRefundableDepositBalanceState(nativeToken);
     case ActionButtonState.INSUFFICIENT_LIQUIDITY:
       return insufficientLiquidityState();
     case ActionButtonState.INSUFFICIENT_TOKEN_BALANCE:

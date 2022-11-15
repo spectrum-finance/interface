@@ -58,7 +58,7 @@ export const WalletModal: React.FC<{ close: (result?: any) => void }> = ({
               <Tabs defaultActiveKey={'1'} fullWidth>
                 <Tabs.TabPane tab="Tokens" key="1">
                   <Box transparent padding={[2, 0, 0, 0]} bordered={false}>
-                    <TokensTab />
+                    <TokensTab close={close} />
                   </Box>
                 </Tabs.TabPane>
                 <Tabs.TabPane tab="Addresses" key="2">
@@ -70,7 +70,7 @@ export const WalletModal: React.FC<{ close: (result?: any) => void }> = ({
             </IsErgo>
             <IsCardano>
               <Box transparent padding={0} bordered={false}>
-                <TokensTab />
+                <TokensTab close={close} />
               </Box>
             </IsCardano>
           </Flex.Item>

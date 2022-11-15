@@ -109,7 +109,7 @@ export const SwapInfoContent: FC<SwapInfoContentProps> = ({ value }) => {
               </a>
             </>
           }
-          title={t`Deposit ADA`}
+          title={t`Refundable deposit`}
           value={depositAda.toCurrencyString()}
           secondary
         />
