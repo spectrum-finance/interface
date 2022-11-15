@@ -37,10 +37,7 @@ export const ErgoPayTabPaneContent = ({ close }: Props) => {
       setErgopayAddress(addresses[0]);
       patchSettings({ ergopay: true });
       connectWallet(ErgopayWallet).subscribe(() => {
-        panalytics.connectWallet(ErgopayWallet.name, {
-          set: { active_wallet: ErgopayWallet.name },
-          setOnce: { first_wallet: ErgopayWallet.name },
-        });
+        panalytics.connectWallet(ErgopayWallet.name);
       });
       close();
     }

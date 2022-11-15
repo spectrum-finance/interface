@@ -56,10 +56,7 @@ const WalletView: React.FC<WalletItemProps> = ({ wallet, close }) => {
       (isConnected) => {
         setLoading(false);
         if (typeof isConnected === 'boolean' && isConnected) {
-          panalytics.connectWallet(wallet.name, {
-            set: { active_wallet: wallet.name },
-            setOnce: { first_wallet: wallet.name },
-          });
+          panalytics.connectWallet(wallet.name);
 
           close(true);
         } else if (isConnected) {

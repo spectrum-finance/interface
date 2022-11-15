@@ -16,29 +16,23 @@ const mapToFirstLaunchData = ([selectedNetwork, applicationSettings]: [
   Network<any, any>,
   Settings,
 ]) => ({
-  set: {
-    active_network: selectedNetwork.name,
-    active_locale: applicationSettings.lang,
-    active_theme: applicationSettings.theme,
-  },
-  setOnce: {
-    cohort_date: DateTime.now().toFormat('yyyymmdd'),
-    cohort_day: DateTime.now().ordinal,
-    cohort_month: DateTime.now().month,
-    cohort_year: DateTime.now().year,
-    cohort_version: version,
-  },
+  active_network: selectedNetwork.name,
+  active_locale: applicationSettings.lang,
+  active_theme: applicationSettings.theme,
+  cohort_date: DateTime.now().toFormat('yyyymmdd'),
+  cohort_day: DateTime.now().ordinal,
+  cohort_month: DateTime.now().month,
+  cohort_year: DateTime.now().year,
+  cohort_version: version,
 });
 
 const mapToSessionStartData = ([selectedNetwork, applicationSettings]: [
   Network<any, any>,
   Settings,
 ]) => ({
-  set: {
-    active_network: selectedNetwork.name,
-    active_locale: applicationSettings.lang,
-    active_theme: applicationSettings.theme,
-  },
+  active_network: selectedNetwork.name,
+  active_locale: applicationSettings.lang,
+  active_theme: applicationSettings.theme,
 });
 
 const POSTHOG_API = 'https://anph.spectrum.fi';

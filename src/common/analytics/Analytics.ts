@@ -49,12 +49,57 @@ export class ProductAnalytics {
     selectedNetwork$.pipe(first()).subscribe(cb);
   }
 
-  public firstLaunch(userProps?: userProperties): void {
-    this.event(ANALYTICS_EVENTS.FIRST_LAUNCH, {}, userProps);
+  public firstLaunch({
+    active_network,
+    active_locale,
+    active_theme,
+    cohort_date,
+    cohort_month,
+    cohort_day,
+    cohort_version,
+    cohort_year,
+  }: {
+    active_network: SupportedNetworks;
+    active_locale: string;
+    active_theme: 'light' | 'dark' | 'system';
+    cohort_date: string;
+    cohort_day: number;
+    cohort_month: number;
+    cohort_year: number;
+    cohort_version: string;
+  }): void {
+    this.event(
+      ANALYTICS_EVENTS.FIRST_LAUNCH,
+      {},
+      {
+        set: {
+          active_network,
+          active_locale,
+          active_theme,
+        },
+        setOnce: {
+          cohort_date,
+          cohort_day,
+          cohort_month,
+          cohort_year,
+          cohort_version,
+        },
+      },
+    );
   }
 
-  public sessionStart(userProps?: userProperties): void {
-    this.event(ANALYTICS_EVENTS.SESSION_START, {}, userProps);
+  public sessionStart(userProps: {
+    active_network: SupportedNetworks;
+    active_locale: string;
+    active_theme: 'light' | 'dark' | 'system';
+  }): void {
+    this.event(
+      ANALYTICS_EVENTS.SESSION_START,
+      {},
+      {
+        set: userProps,
+      },
+    );
   }
 
   // Onboarding
@@ -87,14 +132,14 @@ export class ProductAnalytics {
     this.event(ANALYTICS_EVENTS.OPEN_WALLET_MODAL);
   }
 
-  public connectWallet(
-    walletName?: AnalyticsWalletName,
-    userProps?: userProperties,
-  ): void {
+  public connectWallet(walletName?: AnalyticsWalletName): void {
     this.event(
       ANALYTICS_EVENTS.CONNECT_WALLET,
       { wallet_name: walletName },
-      userProps,
+      {
+        set: { active_wallet: walletName },
+        setOnce: { first_wallet: walletName },
+      },
     );
   }
 
