@@ -3,10 +3,11 @@ import '@ergolabs/ui-kit/dist/styles/fonts/fonts.less';
 import './assets/styles/styles.less';
 
 import React from 'react';
-import { isIOS, isMobile, mobileModel, osVersion } from 'react-device-detect';
+import { isIOS, isMobile, osVersion } from 'react-device-detect';
 import ReactDOM from 'react-dom';
 
 import { ApplicationInitializer } from './App';
+import { IOSNotSupportedScreen } from './components/IOSNotSupportedScreen/IOSNotSupportedScreen';
 import { reportWebVitals } from './reportWebVitals';
 
 const init = () => {
@@ -16,16 +17,11 @@ const init = () => {
     isMobile &&
     navigator.platform.indexOf('Mac') === -1
   ) {
-    ReactDOM.render(
-      <h1>
-        {osVersion}, {isMobile.toString()}
-      </h1>,
-      document.getElementById('root'),
-    );
+    ReactDOM.render(<IOSNotSupportedScreen />, document.getElementById('root'));
+
     return;
   }
 
-  // ReactDOM.render(<h1>text</h1>, document.getElementById('root'));
   // TODO: fix toggle-group behavior after switch to react v18 root api.
   ReactDOM.render(
     <React.StrictMode>
