@@ -30,6 +30,7 @@ export interface TableViewContentProps<T> {
   readonly height?: CSSProperties['height'];
   readonly gap?: number;
   readonly padding?: Gutter;
+  readonly expandPadding?: Gutter;
   readonly columns: Column<any>[];
   readonly actions: Action<any>[];
   readonly actionsWidth?: number;
@@ -74,6 +75,7 @@ export const TableViewContent: FC<TableViewContentProps<any>> = ({
   gap,
   itemHeight,
   padding,
+  expandPadding,
   columns,
   actions,
   actionsWidth,
@@ -180,7 +182,10 @@ export const TableViewContent: FC<TableViewContentProps<any>> = ({
               <>
                 <Divider />
                 <Animation.FadeIn delay={100}>
-                  <TableViewDetails height={expandHeight} padding={padding}>
+                  <TableViewDetails
+                    height={expandHeight}
+                    padding={expandPadding || padding}
+                  >
                     <Details
                       collapse={collapse}
                       index={index}

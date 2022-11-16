@@ -52,7 +52,8 @@ export const FarmTableView: FC<FarmTableViewProps<any>> = ({
       gap={2}
       tableHeaderPadding={[0, 6]}
       tableItemViewPadding={[0, 4]}
-      expand={{ height: 96, accordion: true, component: expandComponent }}
+      expand={{ height: 160, accordion: true, component: expandComponent }}
+      expandPadding={[0, 0]}
     >
       <TableView.Column
         width={311}
