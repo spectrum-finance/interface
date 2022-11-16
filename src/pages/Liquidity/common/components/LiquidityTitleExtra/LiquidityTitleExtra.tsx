@@ -4,6 +4,7 @@ import React, { FC } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { panalytics } from '../../../../../common/analytics';
 import { useObservable } from '../../../../../common/hooks/useObservable';
 import { isWalletSetuped$ } from '../../../../../gateway/api/wallets';
 
@@ -16,7 +17,10 @@ export const LiquidityTitleExtra: FC = () => {
   const navigate = useNavigate();
   const [isWalletConnected] = useObservable(isWalletSetuped$);
 
-  const navigateToAddLiquidity = () => navigate('add');
+  const navigateToAddLiquidity = () => {
+    navigate('add');
+    panalytics.liquidityAdd();
+  };
 
   return (
     <>
@@ -28,7 +32,12 @@ export const LiquidityTitleExtra: FC = () => {
           overlay={
             <StyledMenu>
               <Menu.Item key="1">
-                <Link to="create">
+                <Link
+                  to="create"
+                  onClick={() => {
+                    panalytics.liquidityCreatePool();
+                  }}
+                >
                   <Trans>Create pool</Trans>
                 </Link>
               </Menu.Item>

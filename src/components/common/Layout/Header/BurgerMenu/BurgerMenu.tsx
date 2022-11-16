@@ -106,7 +106,6 @@ const BurgerMenu = (): JSX.Element => {
       icon: <GlobalOutlined />,
       additional: <RightOutlined style={{ marginLeft: 36 }} />,
       onClick: () => {
-        panalytics.clickBurgerMenu('Language');
         setIsMainMenu(false);
       },
     },
@@ -160,7 +159,7 @@ const BurgerMenu = (): JSX.Element => {
               rel="noopener noreferrer"
               onClick={() => {
                 changeLanguage(locale);
-                panalytics.changeLocate(locale);
+                panalytics.changeLocale(locale);
               }}
             >
               {LOCALE_LABEL[locale]}

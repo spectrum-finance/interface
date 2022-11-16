@@ -1,13 +1,14 @@
 export const ANALYTICS_EVENTS = {
   // Launch
-  APP_LAUNCH: 'App Launch',
+  FIRST_LAUNCH: 'First launch',
+  SESSION_START: 'Session start',
 
   // Network
   CHANGE_NETWORK: 'Change Network',
 
   // Burger
   CHANGE_THEME: 'Change Theme',
-  CHANGE_LOCALE: 'Change Locale',
+  CHANGE_LOCALE: 'Change Language',
 
   // Onboarding
   ACCEPT_COOKIES: 'Accept Cookies',
@@ -19,10 +20,6 @@ export const ANALYTICS_EVENTS = {
   CONNECT_WALLET_ERROR: 'Connect Wallet Error',
   CONNECT_WALLET_INSTALL_EXTENSION: 'Connect Wallet Install Extension',
   OPEN_WALLET_MODAL: 'Open Wallet Modal',
-  CLICK_CHANGE_WALLET: 'Click Change Wallet',
-  CHANGE_WALLET: 'Change Wallet',
-  CHANGE_WALLET_ERROR: 'Change Wallet Error',
-  CHANGE_WALLET_INSTALL_EXTENSION: 'Change Wallet Install Extension',
   DISCONNECT_WALLET: 'Disconnect Wallet',
   POLLING_DISCONNECT_WALLET: 'Polling Disconnect Wallet',
 
@@ -32,6 +29,7 @@ export const ANALYTICS_EVENTS = {
   SWAP_CHANGE_POOL: 'Swap Change Pool',
   SWAP_SUBMIT: 'Swap Submit',
   SWAP_CONFIRM: 'Swap Confirm',
+  SWAP_CLOSE_CONFIRM: 'Swap Close Confirm',
   SWAP_SIGNED: 'Swap Signed',
   SWAP_CONFIRM_ERROR: 'Swap Confirm Error',
   SWAP_SIGNED_ERROR: 'Swap Signed Error',
@@ -51,15 +49,20 @@ export const ANALYTICS_EVENTS = {
   DEPOSIT_CLICK_100: 'Deposit Click 100',
   DEPOSIT_CLICK_CREATE_POOL: 'Deposit Click Create Pool',
   DEPOSIT_CLICK_POOL_SELECT: 'Deposit Click Pool Select',
-  DEPOSIT_SELECT_POOL: 'Deposti Select Pool',
+  DEPOSIT_SELECT_POOL: 'Deposit Select Pool',
 
   // Redeem
   REDEEM_SUBMIT: 'Redeem Submit',
   REDEEM_CONFIRM: 'Redeem Confirm',
   REDEEM_SIGNED: 'Redeem Signed',
   REDEEM_SIGNED_ERROR: 'Redeem Signed Error',
+  REDEEM_CLOSE_CONFIRM: 'Redeem close confirm',
 
   // Catalyst 9 events
   CATALYST_CLOSE: 'Catalyst 9 close',
   CATALYST_CTA: 'Catalyst 9 click CTA',
+
+  //Liquidity
+  LIQUIDITY_ADD: 'Liquidity Select > Add Liquidtity',
+  LIQUIDITY_CREATE_POOL: 'Liquidity Select > Create Pool',
 };
