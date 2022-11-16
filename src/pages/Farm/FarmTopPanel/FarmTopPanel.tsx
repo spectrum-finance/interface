@@ -33,9 +33,6 @@ export const FarmTopPanel: FC = () => {
         align="center"
         width="100%"
       >
-        <Flex.Item marginRight={4}>
-          <FarmViewModeSwitch value={FarmViewMode.Table} onChange={() => {}} />
-        </Flex.Item>
         {xl && (
           <Flex.Item marginRight={6}>
             <MyFramsFilter value={true} onChange={() => {}} />

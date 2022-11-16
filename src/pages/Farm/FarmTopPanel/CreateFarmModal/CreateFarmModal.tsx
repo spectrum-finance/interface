@@ -110,9 +110,8 @@ export const CreateFarmModal: FC = () => {
                     )}
                   </Form.Item>
                 </Flex.Item>
-                {/*TODO: REWRITE*/}
                 <Flex.Item marginBottom={4}>
-                  <OverlayBox overlayed>
+                  <OverlayBox>
                     <LabeledContent
                       label={t`Budget`}
                       tooltipContent={t`The total amount of tokens that you would like to distribute among users.`}

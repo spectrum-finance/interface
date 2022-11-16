@@ -94,6 +94,7 @@ export const Farm = (): JSX.Element => {
   const [viewMode, setViewMode] = useState<FarmViewMode>(FarmViewMode.Table);
   const [{ active }, setSearchParams] =
     useSearchParams<{ active: LiquidityState | undefined }>();
+  const [ammPools, isAmmPoolsLoading] = useObservable(ammPools$, [], []);
   const [searchByTerm, setSearch, term] = useSearch<
     AmmPool | Position | AssetLock
   >(matchItem);
@@ -106,81 +107,15 @@ export const Farm = (): JSX.Element => {
         <Flex.Item marginBottom={6}>
           <FarmGuides />
         </Flex.Item>
-        <Flex.Item>
+        <Flex.Item marginBottom={6}>
           <FarmTopPanel />
         </Flex.Item>
+        <FarmTableView
+          loading={isAmmPoolsLoading}
+          items={ammPools}
+          expandComponent={React.Fragment}
+        />
       </Flex>
-      {/*<IconTabs*/}
-      {/*  activeKey={viewMode}*/}
-      {/*  onChange={setViewMode as any}*/}
-      {/*  tabBarExtraContent={{*/}
-      {/*    right: (*/}
-      {/*      <Flex>*/}
-      {/*        <Flex.Item marginRight={6} marginLeft={6} alignSelf="center">*/}
-      {/*          <FarmSwitch*/}
-      {/*            defaultChecked*/}
-      {/*            checkedChildren="All farms"*/}
-      {/*            unCheckedChildren="My farms"*/}
-      {/*          />*/}
-      {/*        </Flex.Item>*/}
-      {/*        <Flex.Item marginRight="auto">*/}
-      {/*          <FarmStateTabs*/}
-      {/*            activeKey={activeState}*/}
-      {/*            onChange={setActiveState as any}*/}
-      {/*          >*/}
-      {/*            <Tabs.TabPane*/}
-      {/*              tab={FarmStateCaptions[FarmState.All]}*/}
-      {/*              key={FarmState.All}*/}
-      {/*            />*/}
-      {/*            <Tabs.TabPane*/}
-      {/*              tab={FarmStateCaptions[FarmState.Live]}*/}
-      {/*              key={FarmState.Live}*/}
-      {/*            />*/}
-      {/*            <Tabs.TabPane*/}
-      {/*              tab={FarmStateCaptions[FarmState.Scheduled]}*/}
-      {/*              key={FarmState.Scheduled}*/}
-      {/*            />*/}
-      {/*            <Tabs.TabPane*/}
-      {/*              tab={FarmStateCaptions[FarmState.Finished]}*/}
-      {/*              key={FarmState.Finished}*/}
-      {/*            />*/}
-      {/*          </FarmStateTabs>*/}
-      {/*        </Flex.Item>*/}
-      {/*        <Flex.Item flex={1} marginLeft={2} marginRight={2} maxWidth={320}>*/}
-      {/*          <SearchInput*/}
-      {/*            autoFocus*/}
-      {/*            onChange={handleSearchChange}*/}
-      {/*            value={term}*/}
-      {/*            placeholder={t`Search`}*/}
-      {/*            size="large"*/}
-      {/*            style={{ height: '40px' }}*/}
-      {/*          />*/}
-      {/*        </Flex.Item>*/}
-      {/*        <Button*/}
-      {/*          type="primary"*/}
-      {/*          style={{ height: '40px' }}*/}
-      {/*          onClick={() => openCreteFarmModal()}*/}
-      {/*        >*/}
-      {/*          <Trans>Create Farm</Trans>*/}
-      {/*        </Button>*/}
-      {/*      </Flex>*/}
-      {/*    ),*/}
-      {/*  }}*/}
-      {/*>*/}
-      {/*  <Tabs.TabPane*/}
-      {/*    tab={<AppstoreOutlined size={16} />}*/}
-      {/*    key={FarmViewMode.Grid}*/}
-      {/*  >*/}
-      {/*    <FarmGridView loading={isAmmPoolsLoading} items={ammPools} />*/}
-      {/*  </Tabs.TabPane>*/}
-      {/*  <Tabs.TabPane tab={<BarsOutlined size={16} />} key={FarmViewMode.Table}>*/}
-      {/*    <FarmTableView*/}
-      {/*      loading={isAmmPoolsLoading}*/}
-      {/*      items={ammPools}*/}
-      {/*      expandComponent={React.Fragment}*/}
-      {/*    />*/}
-      {/*  </Tabs.TabPane>*/}
-      {/*</IconTabs>*/}
     </Page>
   );
 };

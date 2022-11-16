@@ -20,10 +20,8 @@ import { LabeledContent } from '../../../../../components/LabeledContent/Labeled
 import { PeriodType } from './PeriodType';
 
 const PeriodTypeTab = styled(Tabs)`
-  height: 32px;
-
   .ant-tabs-tab {
-    padding: 0 1.5rem;
+    padding: 0 1.5rem !important;
   }
 `;
 
@@ -80,6 +78,7 @@ export const FarmPeriodSelector: FC<FarmPeriodSelectorProps> = ({
         <PeriodTypeTab
           activeKey={periodType}
           onChange={changePeriodType as any}
+          size="small"
         >
           <PeriodTypeTab.TabPane tab={t`Date`} key={PeriodType.Date} />
           <PeriodTypeTab.TabPane tab={t`Block`} key={PeriodType.Block} />

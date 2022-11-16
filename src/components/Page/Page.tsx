@@ -182,10 +182,15 @@ const _Page: React.FC<PageProps> = ({
             <Flex.Item style={{ zIndex: 2 }} width="100%">
               <Box
                 className={className}
-                padding={padding ? padding : valBySize([4, 4])}
+                padding={
+                  padding !== undefined && padding !== null
+                    ? padding
+                    : valBySize([4, 4])
+                }
                 borderRadius="xl"
                 width="100%"
                 transparent={transparent}
+                bordered={!transparent}
                 style={
                   transparent
                     ? {
