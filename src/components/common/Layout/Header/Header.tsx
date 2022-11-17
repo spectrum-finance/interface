@@ -14,6 +14,7 @@ import { CardanoMaintenance } from '../CardanoMaintenance/CardanoMaintenance';
 import { OperationsHistory } from '../OperationsHistory/OperationsHistory';
 import { Analytics } from './Analytics/Analytics';
 import { BurgerMenu } from './BurgerMenu/BurgerMenu';
+import { ClaimSpfButton } from './ClaimSpfButton/ClaimSpfButton';
 import { ConnectWallet } from './ConnectWallet/ConnectWallet';
 import { GetTestTokensButton } from './GetTestTokensButton/GetTestTokensButton';
 import { Navigation } from './Navigation/Navigation';
@@ -76,6 +77,11 @@ export const _Header: React.FC<HeaderProps> = ({
           )}
         </Flex>
         <Flex align="center" style={{ gap: '8px', marginLeft: 'auto' }}>
+          {!s && (
+            <IsErgo>
+              <ClaimSpfButton />
+            </IsErgo>
+          )}
           <NetworkDropdown />
           <ConnectWallet />
           {!s && walletState === WalletState.CONNECTED && <OperationsHistory />}
