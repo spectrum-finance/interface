@@ -17,6 +17,10 @@ import { FarmPairColumn } from '../FarmPairColumn/FarmPairColumn';
 import { FarmStakeModal } from '../FarmStakeModal/FarmStakeModal';
 import { LineProgress } from '../LineProgress/LineProgress';
 import { FarmTableLoadingState } from './FarmTableLoadingState';
+import { FarmTableViewDesktop } from './FarmTableViewDesktop';
+import { FarmTableViewLaptop } from './FarmTableViewLaptop';
+import { FarmTableViewMobile } from './FarmTableViewMobile';
+import { FarmTableViewTablet } from './FarmTableViewTablet';
 
 export interface FarmTableViewProps<T extends AmmPool | Position> {
   readonly items: T[];
@@ -33,7 +37,7 @@ export const FarmTableView: FC<FarmTableViewProps<any>> = ({
   loading,
   className,
 }) => {
-  const { valBySize } = useDevice();
+  const { valBySize, moreThan, l, m, s } = useDevice();
   const openStakeModal = (pool: AmmPool) => {
     openConfirmationModal(
       (next) => {
@@ -44,112 +48,46 @@ export const FarmTableView: FC<FarmTableViewProps<any>> = ({
     );
     // panalytics.submitDeposit(value);
   };
+
+  if (moreThan('xl')) {
+    return (
+      <FarmTableViewDesktop
+        items={items}
+        openStakeModal={openStakeModal}
+        loading={loading}
+        expandComponent={expandComponent}
+      />
+    );
+  }
+
+  if (l) {
+    return (
+      <FarmTableViewLaptop
+        items={items}
+        openStakeModal={openStakeModal}
+        loading={loading}
+        expandComponent={expandComponent}
+      />
+    );
+  }
+
+  if (m) {
+    return (
+      <FarmTableViewTablet
+        items={items}
+        openStakeModal={openStakeModal}
+        loading={loading}
+        expandComponent={expandComponent}
+      />
+    );
+  }
+
   return (
-    <TableView
+    <FarmTableViewMobile
       items={items}
-      itemKey="id"
-      itemHeight={80}
-      maxHeight={600}
-      gap={2}
-      tableHeaderPadding={[0, 6]}
-      tableItemViewPadding={[0, 4]}
-      expand={{
-        height: valBySize(560, 300, 278, 168),
-        accordion: true,
-        component: expandComponent,
-      }}
-      expandPadding={[0, 0]}
-    >
-      <TableView.Column
-        width={311}
-        headerWidth={303}
-        title={<Trans>Pair</Trans>}
-      >
-        {(ammPool) => <FarmPairColumn ammPool={ammPool} status="Scheduled" />}
-      </TableView.Column>
-      <TableView.Column width={177} title={<Trans>Total Staked</Trans>}>
-        {/*{(ammPool) => <TvlOrVolume24Column usd={poolMapper(ammPool).tvl} />}*/}
-        {(ammPool) => (
-          <Flex>
-            <DataTag
-              content={
-                <Flex gap={1} align="center">
-                  $340k{' '}
-                  <InfoTooltip
-                    width={194}
-                    size="small"
-                    placement="top"
-                    icon="exclamation"
-                    content={
-                      <div>
-                        <div>ERG: 314,756.66</div>
-                        <div>SFP: 314,756.66</div>
-                      </div>
-                    }
-                  />
-                </Flex>
-              }
-            />
-          </Flex>
-        )}
-      </TableView.Column>
-      <TableView.Column width={200} title={<Trans>Your Stake</Trans>}>
-        {/*{(ammPool) => <TvlOrVolume24Column usd={poolMapper(ammPool).volume} />}*/}
-        {(ammPool) => (
-          <Flex>
-            <DataTag content={<div>$---</div>} />
-          </Flex>
-        )}
-      </TableView.Column>
-      <TableView.Column
-        width={158}
-        title={
-          <InfoTooltip
-            width={194}
-            placement="top"
-            content={
-              <Trans>
-                345 Neta out of 1000 Neta have already been distributed
-              </Trans>
-            }
-          >
-            <Trans>Distributed</Trans>
-          </InfoTooltip>
-        }
-      >
-        {/*{(ammPool: AmmPool) => <AprColumn ammPool={poolMapper(ammPool)} />}*/}
-        {/*{(ammPool) => <Progress percent={90} />}*/}
-        {(ammPool) => <LineProgress percent={60} height={24} width="130px" />}
-      </TableView.Column>
-      <TableView.Column width={200} title={<Trans>APY</Trans>}>
-        {/*{(ammPool) => <TvlOrVolume24Column usd={poolMapper(ammPool).volume} />}*/}
-        {(ammPool) => (
-          <Flex>
-            <DataTag content={<div>30%</div>} />
-          </Flex>
-        )}
-      </TableView.Column>
-      <TableView.Column width={200} title={<Trans>Actions</Trans>}>
-        {/*{(ammPool) => <TvlOrVolume24Column usd={poolMapper(ammPool).volume} />}*/}
-        {(ammPool) => (
-          <Button
-            type="primary"
-            onClick={(event) => {
-              console.log(ammPool);
-              openStakeModal(ammPool);
-              event.stopPropagation();
-            }}
-          >
-            Stake
-          </Button>
-        )}
-      </TableView.Column>
-      <TableView.State name="loading" condition={loading}>
-        <FarmTableLoadingState />
-      </TableView.State>
-      <TableView.State name="search" condition={!items.length}>
-        <LiquiditySearchState />
-      </TableView.State>
-    </TableView>
+      openStakeModal={openStakeModal}
+      loading={loading}
+      expandComponent={expandComponent}
+    />
   );
 };
