@@ -1,4 +1,4 @@
-import { Button, Flex } from '@ergolabs/ui-kit';
+import { Button, Flex, useDevice } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 
@@ -33,6 +33,7 @@ export const FarmTableView: FC<FarmTableViewProps<any>> = ({
   loading,
   className,
 }) => {
+  const { valBySize } = useDevice();
   const openStakeModal = (pool: AmmPool) => {
     openConfirmationModal(
       (next) => {
@@ -48,11 +49,15 @@ export const FarmTableView: FC<FarmTableViewProps<any>> = ({
       items={items}
       itemKey="id"
       itemHeight={80}
-      maxHeight={500}
+      maxHeight={600}
       gap={2}
       tableHeaderPadding={[0, 6]}
       tableItemViewPadding={[0, 4]}
-      expand={{ height: 160, accordion: true, component: expandComponent }}
+      expand={{
+        height: valBySize(560, 300, 278, 168),
+        accordion: true,
+        component: expandComponent,
+      }}
       expandPadding={[0, 0]}
     >
       <TableView.Column
@@ -69,11 +74,12 @@ export const FarmTableView: FC<FarmTableViewProps<any>> = ({
             <DataTag
               content={
                 <Flex gap={1} align="center">
-                  $340k
+                  $340k{' '}
                   <InfoTooltip
                     width={194}
                     size="small"
                     placement="top"
+                    icon="exclamation"
                     content={
                       <div>
                         <div>ERG: 314,756.66</div>
