@@ -1,15 +1,13 @@
-import { Button, Flex } from '@ergolabs/ui-kit';
+import { Flex } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React from 'react';
 
 import { AmmPool } from '../../../common/models/AmmPool';
 import { DataTag } from '../../../components/common/DataTag/DataTag';
-import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
 import { ExpandComponentProps } from '../../../components/TableView/common/Expand';
 import { TableView } from '../../../components/TableView/TableView';
 import { LiquiditySearchState } from '../../Liquidity/common/tableViewStates/LiquiditySearchState/LiquiditySearchState';
 import { FarmPairColumn } from '../FarmPairColumn/FarmPairColumn';
-import { LineProgress } from '../LineProgress/LineProgress';
 import { FarmTableLoadingState } from './FarmTableLoadingState';
 
 type Props = {
