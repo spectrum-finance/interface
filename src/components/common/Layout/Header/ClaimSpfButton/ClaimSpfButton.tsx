@@ -1,10 +1,17 @@
 import { Button, Modal } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import Confetti from 'react-confetti';
 import { useWindowSize } from 'react-use';
 import styled from 'styled-components';
 
+import { useObservable } from '../../../../../common/hooks/useObservable';
+import { localStorageManager } from '../../../../../common/utils/localStorageManager';
+import { claimSpfReward$ } from '../../../../../network/ergo/api/claimSpf/claimSpfReward';
+import {
+  ClaimSpfStatus,
+  claimSpfStatus$,
+} from '../../../../../network/ergo/api/claimSpf/claimSpfStatus';
 import { ReactComponent as BottomBackground } from './bottom-background.svg';
 import { ClaimSpfModal } from './ClaimSpfModal/ClaimSpfModal';
 import { ReactComponent as TopBackground } from './top-background.svg';
@@ -26,24 +33,63 @@ const BottomBackgroundContainer = styled.div`
   top: -2px;
 `;
 
-export const ClaimSpfButton: FC = () => {
-  const { width, height } = useWindowSize();
-  const openClaimSpfModal = () => {
-    Modal.open(() => <ClaimSpfModal />);
-  };
+const FIRST_CLAIMED_EVENT_PASSED = 'FIRST_CLAIMED_EVENT';
 
+export const ClaimSpfButton: FC = () => {
+  const [claimSpfStatus] = useObservable(claimSpfStatus$);
+  const [claimSpfReward] = useObservable(claimSpfReward$);
+  const [confetti, setConfetti] = useState<boolean>(false);
+  const { width, height } = useWindowSize();
+
+  useEffect(() => {
+    if (
+      claimSpfStatus?.status === ClaimSpfStatus.Claimed &&
+      !localStorageManager.get(FIRST_CLAIMED_EVENT_PASSED)
+    ) {
+      setConfetti(true);
+    }
+  }, [claimSpfStatus]);
+
+  useEffect(() => {
+    if (confetti) {
+      openClaimSpfModal();
+    }
+  }, [confetti]);
+
+  const openClaimSpfModal = () => {
+    Modal.open(
+      ({ close }) => (
+        <ClaimSpfModal
+          reward={claimSpfReward!}
+          status={claimSpfStatus!}
+          firstClaim={confetti}
+          close={close}
+        />
+      ),
+      {
+        afterClose: () => {
+          if (confetti) {
+            setConfetti(false);
+            localStorageManager.set(FIRST_CLAIMED_EVENT_PASSED, true);
+          }
+        },
+      },
+    );
+  };
   return (
     <>
-      <Confetti width={width} height={height} />
-      <StyledButton type="primary" size="large" onClick={openClaimSpfModal}>
-        <TopBackgroundContainer>
-          <TopBackground />
-        </TopBackgroundContainer>
-        <BottomBackgroundContainer>
-          <BottomBackground />
-        </BottomBackgroundContainer>
-        <Trans>Claim SPF</Trans>
-      </StyledButton>
+      {confetti && <Confetti width={width} height={height} />}
+      {claimSpfStatus && claimSpfReward && (
+        <StyledButton type="primary" size="large" onClick={openClaimSpfModal}>
+          <TopBackgroundContainer>
+            <TopBackground />
+          </TopBackgroundContainer>
+          <BottomBackgroundContainer>
+            <BottomBackground />
+          </BottomBackgroundContainer>
+          <Trans>Claim SPF</Trans>
+        </StyledButton>
+      )}
     </>
   );
 };

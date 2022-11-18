@@ -9,16 +9,21 @@ import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 import styled from 'styled-components';
 
+import { ClaimSpfReward } from '../../../../../../../network/ergo/api/claimSpf/claimSpfReward';
 import { RewardInfo } from '../RewartInfo/RewardInfo';
 
 const Link = styled(Button)`
   padding: 0;
 `;
 
-export const ClaimRewardState: FC = () => (
+export interface ClaimRewardStateProps {
+  readonly reward: ClaimSpfReward;
+}
+
+export const ClaimRewardState: FC<ClaimRewardStateProps> = ({ reward }) => (
   <Flex col>
     <Flex.Item marginBottom={4}>
-      <RewardInfo />
+      <RewardInfo reward={reward} />
     </Flex.Item>
     <Flex.Item marginBottom={2}>
       <Typography.Body>

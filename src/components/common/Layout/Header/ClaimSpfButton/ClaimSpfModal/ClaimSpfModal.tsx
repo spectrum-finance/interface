@@ -1,9 +1,17 @@
 import { Modal } from '@ergolabs/ui-kit';
-import React, { useState } from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 
+import { ClaimSpfReward } from '../../../../../../network/ergo/api/claimSpf/claimSpfReward';
+import {
+  ClaimSpfStatus,
+  ClaimSpfStatusResponse,
+} from '../../../../../../network/ergo/api/claimSpf/claimSpfStatus';
+import { AlreadyRewardState } from './AlreadyRewardState/AlreadyRewardState';
 import { ReactComponent as BottomBackground } from './bottom-backgroud.svg';
 import { ClaimRewardState } from './ClainRewardState/ClaimRewardState';
+import { GotRewardState } from './GotRewardState/GotRewardState';
+import { NothingToClaimState } from './NothingToClaimState/NothingToClaimState';
 import { PendingState } from './PendingState/PendingState';
 import { ReactComponent as TopBackground } from './top-background.svg';
 
@@ -20,14 +28,19 @@ const BottomBackgroundContainer = styled.div`
   bottom: -6px;
 `;
 
-enum ClaimSpfState {
-  REWARD,
-  PENDING,
+export interface ClaimSpfModalProps {
+  readonly reward: ClaimSpfReward;
+  readonly status: ClaimSpfStatusResponse;
+  readonly firstClaim: boolean;
+  readonly close: () => void;
 }
 
-export const ClaimSpfModal = () => {
-  const [state] = useState(ClaimSpfState.PENDING);
-
+export const ClaimSpfModal: FC<ClaimSpfModalProps> = ({
+  reward,
+  status,
+  firstClaim,
+  close,
+}) => {
   return (
     <>
       <TopBackgroundContainer>
@@ -37,8 +50,21 @@ export const ClaimSpfModal = () => {
         <BottomBackground />
       </BottomBackgroundContainer>
       <Modal.Content width={480}>
-        {state === ClaimSpfState.REWARD && <ClaimRewardState />}
-        {state === ClaimSpfState.PENDING && <PendingState />}
+        {status.status === ClaimSpfStatus.Init && (
+          <ClaimRewardState reward={reward} />
+        )}
+        {status.status === ClaimSpfStatus.NothingToClaim && (
+          <NothingToClaimState />
+        )}
+        {status.status === ClaimSpfStatus.Claimed && firstClaim && (
+          <GotRewardState reward={reward} close={close} />
+        )}
+        {status.status === ClaimSpfStatus.Claimed && !firstClaim && (
+          <AlreadyRewardState reward={reward} close={close} />
+        )}
+        {[ClaimSpfStatus.Pending, ClaimSpfStatus.WaitingConfirmation].includes(
+          status.status,
+        ) && <PendingState reward={reward} dateTime={status.dateTime} />}
       </Modal.Content>
     </>
   );
