@@ -46,15 +46,15 @@ const _FarmStakeHeader: React.FC<FarmStakeHeaderProps> = ({
       Stake {assetX.ticker}/{assetY.ticker} liquidity
       <Flex justify="space-between">
         <Flex col align="flex-start">
-          <Typography.Text>
+          <WhiteText>
             <Trans>Total Staked</Trans>
-          </Typography.Text>
+          </WhiteText>
           <DataTag content="$---" />
         </Flex>
         <Flex col align="flex-end">
-          <Typography.Text>
+          <WhiteText>
             <Trans>APR</Trans>
-          </Typography.Text>
+          </WhiteText>
           <DataTag content="30%" />
         </Flex>
         <FarmHeaderAssets>
@@ -67,12 +67,17 @@ const _FarmStakeHeader: React.FC<FarmStakeHeaderProps> = ({
 
 export const FarmStakeHeader = styled(_FarmStakeHeader)`
   position: relative;
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
   background: linear-gradient(180deg, #764ca3 0%, #677de7 100%) !important;
-  padding: 16px;
+  padding: 24px;
   margin: -16px -16px 32px;
   height: 164px;
+  color: var(--spectrum-text-white);
+`;
+
+const WhiteText = styled(Typography.Text)`
+  color: var(--spectrum-text-white) !important;
 `;
 
 export const Caption = styled(Typography.Body)`
@@ -104,7 +109,6 @@ export const FarmStakeModal: React.FC<FarmStakeModalProps> = ({ pool }) => {
           onSubmit={() => console.log('confirm')}
           actionCaption={t`Withdraw`}
         >
-          use Box
           <PageSection title={t`Amount`} noPadding>
             <Flex gap={4} col>
               <Form.Item name="percent">
