@@ -36,13 +36,12 @@ export const claimSpfStatus$: Observable<ClaimSpfStatusResponse> =
       from(
         axios.post<RawClaimSpfStatusResponse>(
           `${applicationConfig.networksSettings.ergo.spfFaucet}status`,
-          addresses,
+          { addresses },
         ),
       ),
     ),
     map((res) => ({
-      // status: res.data.status,
-      status: ClaimSpfStatus.Claimed,
+      status: res.data.status,
       dateTime: DateTime.fromMillis(res.data.timestamp),
     })),
     publishReplay(1),

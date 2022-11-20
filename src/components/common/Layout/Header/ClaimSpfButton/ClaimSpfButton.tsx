@@ -14,6 +14,7 @@ import {
 } from '../../../../../network/ergo/api/claimSpf/claimSpfStatus';
 import { ReactComponent as BottomBackground } from './bottom-background.svg';
 import { ClaimSpfModal } from './ClaimSpfModal/ClaimSpfModal';
+import { ClaimSpfNotification } from './ClaimSpfNotification/ClaimSpfNotification';
 import { ReactComponent as TopBackground } from './top-background.svg';
 
 const StyledButton = styled(Button)`
@@ -80,15 +81,22 @@ export const ClaimSpfButton: FC = () => {
     <>
       {confetti && <Confetti width={width} height={height} />}
       {claimSpfStatus && claimSpfReward && (
-        <StyledButton type="primary" size="large" onClick={openClaimSpfModal}>
-          <TopBackgroundContainer>
-            <TopBackground />
-          </TopBackgroundContainer>
-          <BottomBackgroundContainer>
-            <BottomBackground />
-          </BottomBackgroundContainer>
-          <Trans>Claim SPF</Trans>
-        </StyledButton>
+        <>
+          <StyledButton type="primary" size="large" onClick={openClaimSpfModal}>
+            <TopBackgroundContainer>
+              <TopBackground />
+            </TopBackgroundContainer>
+            <BottomBackgroundContainer>
+              <BottomBackground />
+            </BottomBackgroundContainer>
+            <Trans>Claim SPF</Trans>
+          </StyledButton>
+          <ClaimSpfNotification
+            reward={claimSpfReward}
+            visible={claimSpfStatus.status === ClaimSpfStatus.Init}
+            onClick={openClaimSpfModal}
+          />
+        </>
       )}
     </>
   );

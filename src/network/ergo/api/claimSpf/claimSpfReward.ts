@@ -39,7 +39,7 @@ export const claimSpfReward$: Observable<ClaimSpfReward> = getAddresses().pipe(
     from(
       axios.post<RawClaimSpfReward>(
         `${applicationConfig.networksSettings.ergo.spfFaucet}reward`,
-        addresses,
+        { addresses },
       ),
     ),
   ),
