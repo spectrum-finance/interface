@@ -1,10 +1,13 @@
-import { t } from '@lingui/macro';
+import { Flex, Typography } from '@ergolabs/ui-kit';
+import { t, Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 
+import { BoxInfoItem } from '../../../../../components/BoxInfoItem/BoxInfoItem';
 import {
   FeesView,
   FeesViewItem,
 } from '../../../../../components/FeesView/FeesView';
+import { Truncate } from '../../../../../components/Truncate/Truncate';
 import { depositAda } from '../../../settings/depositAda';
 import { useMinExFee } from '../../../settings/executionFee';
 import { useMinTotalFee } from '../../../settings/totalFee';
@@ -18,8 +21,26 @@ export const DepositConfirmationInfo: FC = () => {
   const fees: FeesViewItem[] = [
     { caption: t`Transaction Fee`, currency: transactionFee },
     { caption: t`Execution Fee`, currency: minExFee },
-    { caption: t`Deposit ADA`, currency: depositAda },
   ];
 
-  return <FeesView totalFees={minTotalFee} fees={fees} />;
+  return (
+    <Flex col>
+      <Flex.Item marginBottom={2}>
+        <BoxInfoItem
+          title={
+            <Typography.Body size="large">
+              <Trans>Refundable deposit:</Trans>
+            </Typography.Body>
+          }
+          value={
+            <Typography.Body size="large" strong>
+              {depositAda.toString()}{' '}
+              <Truncate>{depositAda.asset.name}</Truncate>
+            </Typography.Body>
+          }
+        />
+      </Flex.Item>
+      <FeesView totalFees={minTotalFee} fees={fees} />
+    </Flex>
+  );
 };
