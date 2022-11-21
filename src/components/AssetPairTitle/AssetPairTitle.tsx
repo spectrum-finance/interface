@@ -21,6 +21,8 @@ export interface TokenTitleProps {
     | undefined;
   readonly bodySize?: 'large';
   readonly gap?: number;
+  readonly direction?: 'col' | 'row';
+  readonly align?: 'stretch' | 'center' | 'flex-start' | 'flex-end';
 }
 
 export const AssetPairTitle: FC<TokenTitleProps> = ({
@@ -30,8 +32,10 @@ export const AssetPairTitle: FC<TokenTitleProps> = ({
   level = 5,
   gap = 1,
   bodySize,
+  direction = 'row',
+  align = 'center',
 }) => (
-  <Flex align="center">
+  <Flex align={align} direction={direction}>
     <Flex.Item marginRight={gap}>
       <AssetIconPair size={size} assetX={assetX} assetY={assetY} />
     </Flex.Item>

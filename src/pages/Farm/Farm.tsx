@@ -26,6 +26,7 @@ import { ammPools$ } from '../../gateway/api/ammPools';
 import { LiquidityState } from '../Liquidity/common/types/LiquidityState';
 import { FarmGridView } from './FarmGridView/FarmGridView';
 import { FarmGuides } from './FarmGuides/FarmGuides';
+import { FarmTableExpandComponent } from './FarmTableExpandComponent/FarmTableExpandComponent';
 import { FarmTableView } from './FarmTableView/FarmTableView';
 import { CreateFarmModal } from './FarmTopPanel/CreateFarmModal/CreateFarmModal';
 import { FarmTopPanel } from './FarmTopPanel/FarmTopPanel';
@@ -113,7 +114,7 @@ export const Farm = (): JSX.Element => {
         <FarmTableView
           loading={isAmmPoolsLoading}
           items={ammPools}
-          expandComponent={React.Fragment}
+          expandComponent={FarmTableExpandComponent}
         />
       </Flex>
     </Page>

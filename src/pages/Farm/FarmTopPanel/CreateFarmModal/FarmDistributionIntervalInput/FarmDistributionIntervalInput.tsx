@@ -7,7 +7,7 @@ import { LabeledContent } from '../../../../../components/LabeledContent/Labeled
 
 const StyledInput = styled(Input)`
   .ant-input-group-addon {
-    background: transparent;
+    background: var(--spectrum-select-group-background);
   }
 
   &:not(.ant-select-disabled) .ant-select-selector:hover {
@@ -37,6 +37,7 @@ export const FarmDistributionIntervalInput: FC<Control<number | undefined>> = ({
           placeholder="Distribution interval"
           value={value}
           onChange={handleChange}
+          name="distributionInterval"
           addonAfter={
             <Select defaultValue="block">
               <Select.Option value="block">

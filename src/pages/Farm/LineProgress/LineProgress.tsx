@@ -35,7 +35,7 @@ const _Progress: FC<ProgressProps> = ({
 export const LineProgress = styled(_Progress)`
   position: relative;
   width: ${(props) => props.width};
-  background: #141414;
+  background: var(--spectrum-progress-standart-background-bg);
   border-radius: var(--spectrum-border-radius);
 
   .ant-progress-bg {
@@ -47,5 +47,6 @@ export const LineProgress = styled(_Progress)`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    color: var(--spectrum-text-teriary) !important;
   }
 `;

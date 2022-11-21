@@ -38,6 +38,7 @@ export interface TableViewProps<T> {
   readonly tablePadding?: Gutter;
   readonly tableItemViewPadding?: Gutter;
   readonly tableHeaderPadding?: Gutter;
+  readonly expandPadding?: Gutter;
   readonly headerRowRenderer?:
     | RowRenderer
     | ((props: RowRendererProps) => ReactNode | ReactNode[] | string);
@@ -84,6 +85,7 @@ const _TableView: FC<TableViewProps<any>> = ({
   gap,
   tableHeaderPadding,
   tablePadding,
+  expandPadding,
   itemHeight,
   children,
   emptyFilterView,
@@ -196,6 +198,9 @@ const _TableView: FC<TableViewProps<any>> = ({
             rowRenderer={itemRowRenderer}
             columns={columns}
             padding={tableItemViewPadding || tablePadding}
+            expandPadding={
+              expandPadding || tableItemViewPadding || tablePadding
+            }
             maxHeight={contentMaxHeight}
             height={contentHeight}
             items={completedItems}
