@@ -2,10 +2,11 @@ import { Modal } from '@ergolabs/ui-kit';
 import React, { FC } from 'react';
 import styled from 'styled-components';
 
-import { SpfReward } from '../../../../../../network/ergo/api/spfFaucet/spfReward';
+import { useObservable } from '../../../../../../common/hooks/useObservable';
+import { spfReward$ } from '../../../../../../network/ergo/api/spfFaucet/spfReward';
 import {
-  ClaimSpfStatusResponse,
   SpfStatus,
+  spfStatus$,
 } from '../../../../../../network/ergo/api/spfFaucet/spfStatus';
 import { AlreadyRewardState } from './AlreadyRewardState/AlreadyRewardState';
 import { ReactComponent as BottomBackground } from './bottom-backgroud.svg';
@@ -29,41 +30,46 @@ const BottomBackgroundContainer = styled.div`
 `;
 
 export interface ClaimSpfModalProps {
-  readonly reward: SpfReward;
-  readonly status: ClaimSpfStatusResponse;
   readonly firstClaim: boolean;
   readonly close: () => void;
 }
 
 export const ClaimSpfModal: FC<ClaimSpfModalProps> = ({
-  reward,
-  status,
   firstClaim,
   close,
 }) => {
+  const [status] = useObservable(spfStatus$);
+  const [reward] = useObservable(spfReward$);
+
   return (
     <>
-      <TopBackgroundContainer>
-        <TopBackground />
-      </TopBackgroundContainer>
-      <BottomBackgroundContainer>
-        <BottomBackground />
-      </BottomBackgroundContainer>
-      <Modal.Content width={480}>
-        {status.status === SpfStatus.Init && (
-          <ClaimRewardState reward={reward} close={close} />
-        )}
-        {status.status === SpfStatus.NothingToClaim && <NothingToClaimState />}
-        {status.status === SpfStatus.Claimed && firstClaim && (
-          <GotRewardState reward={reward} close={close} />
-        )}
-        {status.status === SpfStatus.Claimed && !firstClaim && (
-          <AlreadyRewardState reward={reward} close={close} />
-        )}
-        {[SpfStatus.Pending, SpfStatus.WaitingConfirmation].includes(
-          status.status,
-        ) && <PendingState reward={reward} dateTime={status.dateTime} />}
-      </Modal.Content>
+      {status && reward && (
+        <>
+          <TopBackgroundContainer>
+            <TopBackground />
+          </TopBackgroundContainer>
+          <BottomBackgroundContainer>
+            <BottomBackground />
+          </BottomBackgroundContainer>
+          <Modal.Content width={480}>
+            {status.status === SpfStatus.Init && (
+              <ClaimRewardState reward={reward} />
+            )}
+            {status.status === SpfStatus.NothingToClaim && (
+              <NothingToClaimState />
+            )}
+            {status.status === SpfStatus.Claimed && firstClaim && (
+              <GotRewardState reward={reward} close={close} />
+            )}
+            {status.status === SpfStatus.Claimed && !firstClaim && (
+              <AlreadyRewardState reward={reward} close={close} />
+            )}
+            {[SpfStatus.Pending, SpfStatus.WaitingConfirmation].includes(
+              status.status,
+            ) && <PendingState reward={reward} dateTime={status.dateTime} />}
+          </Modal.Content>
+        </>
+      )}
     </>
   );
 };

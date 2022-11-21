@@ -53,25 +53,15 @@ export const ClaimSpfButton: FC = () => {
   }, [claimSpfStatus]);
 
   useEffect(() => {
-    if (!confetti) {
+    if (!confetti || modalRef) {
       return;
-    }
-    if (modalRef) {
-      modalRef.close();
     }
     openClaimSpfModal();
   }, [confetti]);
 
   const openClaimSpfModal = () => {
     const modalRef = Modal.open(
-      ({ close }) => (
-        <ClaimSpfModal
-          reward={claimSpfReward!}
-          status={claimSpfStatus!}
-          firstClaim={confetti}
-          close={close}
-        />
-      ),
+      ({ close }) => <ClaimSpfModal firstClaim={confetti} close={close} />,
       {
         afterClose: () => {
           setModalRef(undefined);

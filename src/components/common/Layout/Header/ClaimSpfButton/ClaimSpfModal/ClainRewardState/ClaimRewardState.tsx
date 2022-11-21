@@ -19,20 +19,15 @@ const Link = styled(Button)`
 
 export interface ClaimRewardStateProps {
   readonly reward: SpfReward;
-  readonly close: () => void;
 }
 
-export const ClaimRewardState: FC<ClaimRewardStateProps> = ({
-  reward,
-  close,
-}) => {
+export const ClaimRewardState: FC<ClaimRewardStateProps> = ({ reward }) => {
   const [loading, setLoading] = useState(false);
 
   const action = () => {
     setLoading(true);
     claimSpf().subscribe(() => {
       setLoading(false);
-      close();
     });
   };
 
