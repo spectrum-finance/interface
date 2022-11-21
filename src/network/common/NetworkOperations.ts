@@ -1,6 +1,9 @@
+import { Address } from '@ergolabs/ergo-sdk';
 import { Observable } from 'rxjs';
 
 import { AmmPool } from '../../common/models/AmmPool';
+import { Currency } from '../../common/models/Currency';
+import { Operation } from '../../common/models/Operation';
 import { TxId } from '../../common/types';
 import { AddLiquidityFormModel } from '../../pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityFormModel';
 import { RemoveLiquidityFormModel } from '../../pages/RemoveLiquidity/RemoveLiquidityFormModel';
@@ -13,5 +16,10 @@ export interface NetworkOperations {
     pool: AmmPool,
     data: Required<RemoveLiquidityFormModel>,
   ): Observable<TxId>;
-  refund(address: string, txId: string): Observable<TxId>;
+  refund(
+    addresses: Address[],
+    operation: Operation,
+    xAmount: Currency,
+    yAmount: Currency,
+  ): Observable<TxId>;
 }

@@ -1,17 +1,15 @@
-import {
-  makeNativePools,
-  makePools,
-  NetworkPools,
-} from '@ergolabs/ergo-dex-sdk';
+import { makeNativePools, makeTokenPools } from '@ergolabs/ergo-dex-sdk';
+import { AmmPool } from '@ergolabs/ergo-dex-sdk/build/main/amm/entities/ammPool';
+import { Pools } from '@ergolabs/ergo-dex-sdk/build/main/services/pools';
 
 import { explorer } from '../../../../services/explorer';
 
 export const networkPools = (() => {
-  let networkPools: NetworkPools;
+  let networkPools: Pools<AmmPool>;
 
-  return (): NetworkPools => {
+  return (): Pools<AmmPool> => {
     if (!networkPools) {
-      networkPools = makePools(explorer);
+      networkPools = makeTokenPools(explorer);
     }
 
     return networkPools;
@@ -19,9 +17,9 @@ export const networkPools = (() => {
 })();
 
 export const nativeNetworkPools = (() => {
-  let networkPools: NetworkPools;
+  let networkPools: Pools<AmmPool>;
 
-  return (): NetworkPools => {
+  return (): Pools<AmmPool> => {
     if (!networkPools) {
       networkPools = makeNativePools(explorer);
     }

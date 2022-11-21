@@ -2,14 +2,11 @@ import { ModalRef } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import { DateTime } from 'luxon';
 import React, { FC } from 'react';
+import { first } from 'rxjs';
 
 import { isSwapOperation, Operation } from '../../../common/models/Operation';
+import { refund } from '../../../gateway/api/operations/refund';
 import { exploreTx } from '../../../gateway/utils/exploreAddress';
-import { RefundConfirmationModal } from '../../common/TxHistory/RefundConfirmationModal/RefundConfirmationModal';
-import {
-  openConfirmationModal,
-  Operation as ConfirmationOperation,
-} from '../../ConfirmationModal/ConfirmationModal';
 import { SortDirection } from '../../TableView/common/Sort';
 import { TableView } from '../../TableView/TableView';
 import { DateTimeCell } from './cells/DateTimeCell/DateTimeCell';
@@ -52,20 +49,10 @@ export const OperationHistoryTable: FC<TransactionHistoryTableProps> = ({
       operation.type === 'swap'
         ? { xAsset: operation.base, yAsset: operation.quote }
         : { xAsset: operation.x, yAsset: operation.y };
-    //
-    openConfirmationModal(
-      (next) => {
-        return (
-          <RefundConfirmationModal
-            operation={operation}
-            addresses={addresses}
-            onClose={next}
-          />
-        );
-      },
-      ConfirmationOperation.REFUND,
-      payload,
-    );
+
+    refund(addresses, operation, payload.xAsset, payload.yAsset)
+      .pipe(first())
+      .subscribe();
   };
 
   return (
