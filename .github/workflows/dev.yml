@@ -2,14 +2,13 @@ name: Run on dev
 on:
   push:
     branches:
-      - "dev"
+      - 'dev'
 jobs:
   build:
     name: Build Artifacts
     runs-on: ubuntu-latest
     timeout-minutes: 40
     steps:
-
       - name: Build Artifacts
         uses: actions/checkout@v3
 
@@ -27,6 +26,7 @@ jobs:
       - name: Generate deployable artifacts
         env:
           REACT_APP_POSTHOG_API_KEY: ${{ secrets.POSTHOG_DEV_API_KEY }}
+          REACT_APP_AMPLITUDE_API_KEY: ${{ secrets.AMPLITUDE_DEV_API_KEY }}
         run: |
           yarn
           yarn run prei18n:extract
@@ -58,5 +58,3 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           privateKey: ${{ secrets.KEY }}
-
-

@@ -1,4 +1,5 @@
-import { PostHog } from 'posthog-js';
+import * as Amplitude from '@amplitude/analytics-browser';
+import posthog, { PostHog } from 'posthog-js';
 import { first } from 'rxjs';
 
 import { selectedNetwork$ } from '../../gateway/common/network';
@@ -17,28 +18,30 @@ import {
   AnalyticsToken,
   AnalyticsTokenAssignment,
 } from './@types/types';
+import { userProperties } from './@types/userProperties';
 import { AnalyticsWalletName } from './@types/wallet';
 import { ANALYTICS_EVENTS } from './events';
+import { AnalyticSystem } from './system/AnalyticSystem';
 import {
   constructEventName,
   convertDepositFormModelToAnalytics,
   convertRedeemFormModelToAnalytics,
   convertSwapFormModelToAnalytics,
-  debutEvent,
+  debugEvent,
   getPoolAnalyticsData,
 } from './utils';
 
 export class ProductAnalytics {
-  analyticsSystems: Array<PostHog>;
+  analyticsSystems: AnalyticSystem[];
 
-  constructor(...analyticsSystems: PostHog[]) {
+  constructor(...analyticsSystems: AnalyticSystem[]) {
     this.analyticsSystems = analyticsSystems;
   }
 
-  private event(name: string, props?: any): void {
-    debutEvent(name, props);
+  private event(name: string, props?: any, userProps?: userProperties): void {
+    debugEvent(name, props);
     this.analyticsSystems.forEach((system) => {
-      system.capture(name, props);
+      system.captureEvent(name, props, userProps);
     });
   }
 
@@ -46,12 +49,57 @@ export class ProductAnalytics {
     selectedNetwork$.pipe(first()).subscribe(cb);
   }
 
-  // --
-  // APP Launch
-  // --
+  public firstLaunch({
+    active_network,
+    active_locale,
+    active_theme,
+    cohort_date,
+    cohort_month,
+    cohort_day,
+    cohort_version,
+    cohort_year,
+  }: {
+    active_network: SupportedNetworks;
+    active_locale: string;
+    active_theme: 'light' | 'dark' | 'system';
+    cohort_date: string;
+    cohort_day: number;
+    cohort_month: number;
+    cohort_year: number;
+    cohort_version: string;
+  }): void {
+    this.event(
+      ANALYTICS_EVENTS.FIRST_LAUNCH,
+      {},
+      {
+        set: {
+          active_network,
+          active_locale,
+          active_theme,
+        },
+        setOnce: {
+          cohort_date,
+          cohort_day,
+          cohort_month,
+          cohort_year,
+          cohort_version,
+        },
+      },
+    );
+  }
 
-  public appLaunch(launchData: AnalyticsLaunchData): void {
-    this.event(ANALYTICS_EVENTS.APP_LAUNCH, launchData);
+  public sessionStart(userProps: {
+    active_network: SupportedNetworks;
+    active_locale: string;
+    active_theme: 'light' | 'dark' | 'system';
+  }): void {
+    this.event(
+      ANALYTICS_EVENTS.SESSION_START,
+      {},
+      {
+        set: userProps,
+      },
+    );
   }
 
   // Onboarding
@@ -68,14 +116,16 @@ export class ProductAnalytics {
   // --
 
   public changeNetwork(network: SupportedNetworks): void {
-    this.event(ANALYTICS_EVENTS.CHANGE_NETWORK, { network });
+    this.event(ANALYTICS_EVENTS.CHANGE_NETWORK, { active_network: network });
   }
 
   // --
   //Wallet
   // --
   public openConnectWalletModal(location: AnalyticsElementLocation): void {
-    this.event(ANALYTICS_EVENTS.OPEN_CONNECT_WALLET_MODAL, { location });
+    this.event(ANALYTICS_EVENTS.OPEN_CONNECT_WALLET_MODAL, {
+      elem_location: location,
+    });
   }
 
   public openWalletModal(): void {
@@ -83,7 +133,14 @@ export class ProductAnalytics {
   }
 
   public connectWallet(walletName?: AnalyticsWalletName): void {
-    this.event(ANALYTICS_EVENTS.CONNECT_WALLET, { wallet_name: walletName });
+    this.event(
+      ANALYTICS_EVENTS.CONNECT_WALLET,
+      { wallet_name: walletName },
+      {
+        set: { active_wallet: walletName },
+        setOnce: { first_wallet: walletName },
+      },
+    );
   }
 
   public connectWalletError(walletName?: AnalyticsWalletName): void {
@@ -100,30 +157,6 @@ export class ProductAnalytics {
     this.event(ANALYTICS_EVENTS.DISCONNECT_WALLET, { wallet_name: walletName });
   }
 
-  public clickChangeWallet(walletName?: AnalyticsWalletName): void {
-    this.event(ANALYTICS_EVENTS.CLICK_CHANGE_WALLET, {
-      wallet_name: walletName,
-    });
-  }
-
-  public changeWallet(walletName?: AnalyticsWalletName): void {
-    this.event(ANALYTICS_EVENTS.CHANGE_WALLET, {
-      wallet_name: walletName,
-    });
-  }
-
-  public changeWalletError(walletName?: AnalyticsWalletName): void {
-    this.event(ANALYTICS_EVENTS.CHANGE_WALLET_ERROR, {
-      wallet_name: walletName,
-    });
-  }
-
-  public changeWalletInstallExtension(walletName?: AnalyticsWalletName): void {
-    this.event(ANALYTICS_EVENTS.CHANGE_WALLET_INSTALL_EXTENSION, {
-      wallet_name: walletName,
-    });
-  }
-
   // --
   // Burger
   // --
@@ -135,13 +168,13 @@ export class ProductAnalytics {
 
   public changeTheme(theme: AnalyticsTheme): void {
     this.event(ANALYTICS_EVENTS.CHANGE_THEME, {
-      theme,
+      active_theme: theme,
     });
   }
 
-  public changeLocate(locale: SupportedLocale): void {
+  public changeLocale(locale: SupportedLocale): void {
     this.event(ANALYTICS_EVENTS.CHANGE_LOCALE, {
-      locale,
+      active_locale: locale,
     });
   }
 
@@ -187,6 +220,15 @@ export class ProductAnalytics {
     });
   }
 
+  public closeConfirmSwap(swapFormModel: SwapFormModel): void {
+    this.withNetwork((network) => {
+      this.event(
+        ANALYTICS_EVENTS.SWAP_CLOSE_CONFIRM,
+        convertSwapFormModelToAnalytics(swapFormModel, network),
+      );
+    });
+  }
+
   public confirmSwap(swapFormModel: SwapFormModel): void {
     this.withNetwork((network) => {
       this.event(
@@ -206,17 +248,23 @@ export class ProductAnalytics {
   }
 
   public buildErgopaySignedSwapEvent(swapFormModel: SwapFormModel): any {
-    return {
-      $operation: 'swap',
-      $userId: this.analyticsSystems[0].get_distinct_id(),
-      ...convertSwapFormModelToAnalytics(swapFormModel, ergoNetwork as any),
-    };
+    const posthogSystem = this.analyticsSystems.find(
+      ({ system }) => system === posthog,
+    )?.system as PostHog;
+
+    if (posthogSystem) {
+      return {
+        $operation: 'swap',
+        $userId: posthogSystem.get_distinct_id(),
+        ...convertSwapFormModelToAnalytics(swapFormModel, ergoNetwork as any),
+      };
+    }
   }
 
   public signedErrorSwap(swapFormModel: SwapFormModel, err: any): void {
     this.withNetwork((network) => {
       this.event(ANALYTICS_EVENTS.SWAP_SIGNED_ERROR, {
-        error: err,
+        err_msg: err,
         ...convertSwapFormModelToAnalytics(swapFormModel, network),
       });
     });
@@ -259,14 +307,20 @@ export class ProductAnalytics {
   public buildErgopaySignedDepositEvent(
     depositFromModel: AddLiquidityFormModel,
   ): any {
-    return {
-      $operation: 'deposit',
-      $userId: this.analyticsSystems[0].get_distinct_id(),
-      ...convertDepositFormModelToAnalytics(
-        depositFromModel,
-        ergoNetwork as any,
-      ),
-    };
+    const posthogSystem = this.analyticsSystems.find(
+      ({ system }) => system === posthog,
+    )?.system as PostHog;
+
+    if (posthogSystem) {
+      return {
+        $operation: 'deposit',
+        $userId: posthogSystem.get_distinct_id(),
+        ...convertDepositFormModelToAnalytics(
+          depositFromModel,
+          ergoNetwork as any,
+        ),
+      };
+    }
   }
 
   public signedErrorDeposit(
@@ -275,7 +329,7 @@ export class ProductAnalytics {
   ): void {
     this.withNetwork((network) => {
       this.event(ANALYTICS_EVENTS.DEPOSIT_SIGNED_ERROR, {
-        error: err,
+        err_msg: err,
         ...convertDepositFormModelToAnalytics(depositFromModel, network),
       });
     });
@@ -321,6 +375,18 @@ export class ProductAnalytics {
     });
   }
 
+  public closeConfirmRedeem(
+    removeFromModel: RemoveFormModel,
+    pool: AmmPool,
+  ): void {
+    this.withNetwork((network) => {
+      this.event(
+        ANALYTICS_EVENTS.REDEEM_CLOSE_CONFIRM,
+        convertRedeemFormModelToAnalytics(removeFromModel, pool, network),
+      );
+    });
+  }
+
   public signedRedeem(
     removeFromModel: RemoveFormModel,
     pool: AmmPool,
@@ -338,15 +404,21 @@ export class ProductAnalytics {
     removeFromModel: RemoveFormModel,
     pool: AmmPool,
   ): any {
-    return {
-      $operation: 'redeem',
-      $userId: this.analyticsSystems[0].get_distinct_id(),
-      ...convertRedeemFormModelToAnalytics(
-        removeFromModel,
-        pool,
-        ergoNetwork as any,
-      ),
-    };
+    const posthogSystem = this.analyticsSystems.find(
+      ({ system }) => system === posthog,
+    )?.system as PostHog;
+
+    if (posthogSystem) {
+      return {
+        $operation: 'redeem',
+        $userId: posthogSystem.get_distinct_id(),
+        ...convertRedeemFormModelToAnalytics(
+          removeFromModel,
+          pool,
+          ergoNetwork as any,
+        ),
+      };
+    }
   }
 
   public signedErrorRedeem(
@@ -377,5 +449,13 @@ export class ProductAnalytics {
 
   public catalystClose(): void {
     this.event(ANALYTICS_EVENTS.CATALYST_CLOSE);
+  }
+
+  public liquidityAdd(): void {
+    this.event(ANALYTICS_EVENTS.LIQUIDITY_ADD);
+  }
+
+  public liquidityCreatePool(): void {
+    this.event(ANALYTICS_EVENTS.LIQUIDITY_CREATE_POOL);
   }
 }
