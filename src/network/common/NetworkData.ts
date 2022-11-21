@@ -1,3 +1,4 @@
+import { LmPool } from '@ergolabs/ergo-dex-sdk';
 import { ReactNode } from 'react';
 import { Observable } from 'rxjs';
 
@@ -23,6 +24,7 @@ export interface NetworkData<W extends Wallet> {
   readonly lpBalance$: Observable<Balance>;
   readonly locks$: Observable<AssetLock[]>;
   readonly ammPools$: Observable<AmmPool[]>;
+  readonly farmPools$?: Observable<LmPool[]>;
   readonly displayedAmmPools$: Observable<AmmPool[]>;
   readonly defaultAssets$: Observable<AssetInfo[]>;
   readonly getDefaultAssetsFor: (assetId: string) => Observable<AssetInfo[]>;
