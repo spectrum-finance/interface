@@ -2,11 +2,11 @@ import { Button, Flex, Typography } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 
-import { ClaimSpfReward } from '../../../../../../../network/ergo/api/claimSpf/claimSpfReward';
+import { SpfReward } from '../../../../../../../network/ergo/api/spfFaucet/spfReward';
 import { ReactComponent as SpfTokenIcon } from '../../spf-token.svg';
 
 export interface GotRewardStateProps {
-  readonly reward: ClaimSpfReward;
+  readonly reward: SpfReward;
   readonly close: () => void;
 }
 

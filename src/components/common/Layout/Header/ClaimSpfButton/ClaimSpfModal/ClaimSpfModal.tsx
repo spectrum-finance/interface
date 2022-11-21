@@ -2,11 +2,11 @@ import { Modal } from '@ergolabs/ui-kit';
 import React, { FC } from 'react';
 import styled from 'styled-components';
 
-import { ClaimSpfReward } from '../../../../../../network/ergo/api/claimSpf/claimSpfReward';
+import { SpfReward } from '../../../../../../network/ergo/api/spfFaucet/spfReward';
 import {
-  ClaimSpfStatus,
   ClaimSpfStatusResponse,
-} from '../../../../../../network/ergo/api/claimSpf/claimSpfStatus';
+  SpfStatus,
+} from '../../../../../../network/ergo/api/spfFaucet/spfStatus';
 import { AlreadyRewardState } from './AlreadyRewardState/AlreadyRewardState';
 import { ReactComponent as BottomBackground } from './bottom-backgroud.svg';
 import { ClaimRewardState } from './ClainRewardState/ClaimRewardState';
@@ -29,7 +29,7 @@ const BottomBackgroundContainer = styled.div`
 `;
 
 export interface ClaimSpfModalProps {
-  readonly reward: ClaimSpfReward;
+  readonly reward: SpfReward;
   readonly status: ClaimSpfStatusResponse;
   readonly firstClaim: boolean;
   readonly close: () => void;
@@ -50,19 +50,17 @@ export const ClaimSpfModal: FC<ClaimSpfModalProps> = ({
         <BottomBackground />
       </BottomBackgroundContainer>
       <Modal.Content width={480}>
-        {status.status === ClaimSpfStatus.Init && (
+        {status.status === SpfStatus.Init && (
           <ClaimRewardState reward={reward} />
         )}
-        {status.status === ClaimSpfStatus.NothingToClaim && (
-          <NothingToClaimState />
-        )}
-        {status.status === ClaimSpfStatus.Claimed && firstClaim && (
+        {status.status === SpfStatus.NothingToClaim && <NothingToClaimState />}
+        {status.status === SpfStatus.Claimed && firstClaim && (
           <GotRewardState reward={reward} close={close} />
         )}
-        {status.status === ClaimSpfStatus.Claimed && !firstClaim && (
+        {status.status === SpfStatus.Claimed && !firstClaim && (
           <AlreadyRewardState reward={reward} close={close} />
         )}
-        {[ClaimSpfStatus.Pending, ClaimSpfStatus.WaitingConfirmation].includes(
+        {[SpfStatus.Pending, SpfStatus.WaitingConfirmation].includes(
           status.status,
         ) && <PendingState reward={reward} dateTime={status.dateTime} />}
       </Modal.Content>

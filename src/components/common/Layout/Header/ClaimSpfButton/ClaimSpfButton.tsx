@@ -7,11 +7,11 @@ import styled from 'styled-components';
 
 import { useObservable } from '../../../../../common/hooks/useObservable';
 import { localStorageManager } from '../../../../../common/utils/localStorageManager';
-import { claimSpfReward$ } from '../../../../../network/ergo/api/claimSpf/claimSpfReward';
+import { spfReward$ } from '../../../../../network/ergo/api/spfFaucet/spfReward';
 import {
-  ClaimSpfStatus,
-  claimSpfStatus$,
-} from '../../../../../network/ergo/api/claimSpf/claimSpfStatus';
+  SpfStatus,
+  spfStatus$,
+} from '../../../../../network/ergo/api/spfFaucet/spfStatus';
 import { ReactComponent as BottomBackground } from './bottom-background.svg';
 import { ClaimSpfModal } from './ClaimSpfModal/ClaimSpfModal';
 import { ClaimSpfNotification } from './ClaimSpfNotification/ClaimSpfNotification';
@@ -37,14 +37,14 @@ const BottomBackgroundContainer = styled.div`
 const FIRST_CLAIMED_EVENT_PASSED = 'FIRST_CLAIMED_EVENT';
 
 export const ClaimSpfButton: FC = () => {
-  const [claimSpfStatus] = useObservable(claimSpfStatus$);
-  const [claimSpfReward] = useObservable(claimSpfReward$);
+  const [claimSpfStatus] = useObservable(spfStatus$);
+  const [claimSpfReward] = useObservable(spfReward$);
   const [confetti, setConfetti] = useState<boolean>(false);
   const { width, height } = useWindowSize();
 
   useEffect(() => {
     if (
-      claimSpfStatus?.status === ClaimSpfStatus.Claimed &&
+      claimSpfStatus?.status === SpfStatus.Claimed &&
       !localStorageManager.get(FIRST_CLAIMED_EVENT_PASSED)
     ) {
       setConfetti(true);
@@ -93,7 +93,7 @@ export const ClaimSpfButton: FC = () => {
           </StyledButton>
           <ClaimSpfNotification
             reward={claimSpfReward}
-            visible={claimSpfStatus.status === ClaimSpfStatus.Init}
+            visible={claimSpfStatus.status === SpfStatus.Init}
             onClick={openClaimSpfModal}
           />
         </>

@@ -4,7 +4,7 @@ import { DateTime } from 'luxon';
 import React, { FC } from 'react';
 import styled from 'styled-components';
 
-import { ClaimSpfReward } from '../../../../../../../network/ergo/api/claimSpf/claimSpfReward';
+import { SpfReward } from '../../../../../../../network/ergo/api/spfFaucet/spfReward';
 import { RewardInfo } from '../RewartInfo/RewardInfo';
 
 const LoadingIcon = styled(LoadingOutlined)`
@@ -13,7 +13,7 @@ const LoadingIcon = styled(LoadingOutlined)`
 `;
 
 export interface PendingStateProps {
-  readonly reward: ClaimSpfReward;
+  readonly reward: SpfReward;
   readonly dateTime: DateTime;
 }
 

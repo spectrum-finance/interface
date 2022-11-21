@@ -3,13 +3,13 @@ import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 import styled, { css } from 'styled-components';
 
-import { ClaimSpfReward } from '../../../../../../network/ergo/api/claimSpf/claimSpfReward';
+import { SpfReward } from '../../../../../../network/ergo/api/spfFaucet/spfReward';
 import { ReactComponent as SpfTokenIcon } from '../spf-token.svg';
 import { ReactComponent as BottomBackground } from './bottom-background.svg';
 
 export interface ClaimSpfNotificationProps {
   readonly className?: string;
-  readonly reward: ClaimSpfReward;
+  readonly reward: SpfReward;
   readonly visible?: boolean;
   readonly onClick?: () => void;
 }
@@ -23,7 +23,6 @@ const BottomBackgroundContainer = styled.div`
 const _ClaimSpfNotification: FC<ClaimSpfNotificationProps> = ({
   className,
   reward,
-  visible,
   onClick,
 }) => (
   <div className={className}>

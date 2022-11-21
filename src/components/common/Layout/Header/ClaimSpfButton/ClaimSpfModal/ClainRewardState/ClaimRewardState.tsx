@@ -9,7 +9,8 @@ import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 import styled from 'styled-components';
 
-import { ClaimSpfReward } from '../../../../../../../network/ergo/api/claimSpf/claimSpfReward';
+import { claimSpf } from '../../../../../../../network/ergo/api/spfFaucet/claimSpf';
+import { SpfReward } from '../../../../../../../network/ergo/api/spfFaucet/spfReward';
 import { RewardInfo } from '../RewartInfo/RewardInfo';
 
 const Link = styled(Button)`
@@ -17,7 +18,7 @@ const Link = styled(Button)`
 `;
 
 export interface ClaimRewardStateProps {
-  readonly reward: ClaimSpfReward;
+  readonly reward: SpfReward;
 }
 
 export const ClaimRewardState: FC<ClaimRewardStateProps> = ({ reward }) => (
@@ -54,7 +55,7 @@ export const ClaimRewardState: FC<ClaimRewardStateProps> = ({ reward }) => (
         }
       />
     </Flex.Item>
-    <Button type="primary" size="extra-large">
+    <Button type="primary" size="extra-large" onClick={claimSpf}>
       <Trans>Request SPF rewards</Trans>
     </Button>
   </Flex>

@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { DateTime } from 'luxon';
 import {
   from,
   map,
@@ -7,7 +6,6 @@ import {
   publishReplay,
   refCount,
   switchMap,
-  tap,
 } from 'rxjs';
 
 import { applicationConfig } from '../../../../applicationConfig';
@@ -25,19 +23,19 @@ export interface Cohort {
   readonly spfReward: Currency;
 }
 
-export interface RawClaimSpfReward {
+export interface RawSpfReward {
   readonly cohorts: RawCohort[];
 }
 
-export interface ClaimSpfReward {
+export interface SpfReward {
   readonly cohorts: Cohort[];
   readonly total: Currency;
 }
 
-export const claimSpfReward$: Observable<ClaimSpfReward> = getAddresses().pipe(
+export const spfReward$: Observable<SpfReward> = getAddresses().pipe(
   switchMap((addresses) =>
     from(
-      axios.post<RawClaimSpfReward>(
+      axios.post<RawSpfReward>(
         `${applicationConfig.networksSettings.ergo.spfFaucet}reward`,
         { addresses },
       ),

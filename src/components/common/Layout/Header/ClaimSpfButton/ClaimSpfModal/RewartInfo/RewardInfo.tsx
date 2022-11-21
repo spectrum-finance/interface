@@ -1,9 +1,9 @@
 import { Divider, Flex, Typography } from '@ergolabs/ui-kit';
-import { t, Trans } from '@lingui/macro';
+import { t } from '@lingui/macro';
 import React, { FC } from 'react';
 import styled from 'styled-components';
 
-import { ClaimSpfReward } from '../../../../../../../network/ergo/api/claimSpf/claimSpfReward';
+import { SpfReward } from '../../../../../../../network/ergo/api/spfFaucet/spfReward';
 
 const ModalAccentBg = styled.div`
   background: var(--spectrum-claim-spf-background);
@@ -23,7 +23,7 @@ const StyledFlex = styled(Flex)`
 `;
 
 export interface RewardInfoProps {
-  readonly reward: ClaimSpfReward;
+  readonly reward: SpfReward;
 }
 
 const mapCohortNameToCaption = {
