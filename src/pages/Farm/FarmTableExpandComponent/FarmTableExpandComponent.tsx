@@ -21,8 +21,8 @@ const FullWidthRow = styled(Row)`
 `;
 
 const FullWidthButton = styled(Button)`
-  width: ${({ fullWidth }: { fullWidth?: boolean }) =>
-    fullWidth ? '100%' : 'normal'};
+  width: ${({ $fullWidth }: { $fullWidth?: boolean }) =>
+    $fullWidth ? '100%' : 'normal'};
 `;
 
 export const FarmTableExpandComponent: FC<ExpandComponentProps<any>> = ({
@@ -199,7 +199,7 @@ export const FarmTableExpandComponent: FC<ExpandComponentProps<any>> = ({
                 <FullWidthButton
                   type="primary"
                   disabled
-                  fullWidth={valBySize(true, true, true, false)}
+                  $fullWidth={valBySize(true, true, true, false)}
                 >
                   Harvest
                 </FullWidthButton>
@@ -218,7 +218,7 @@ export const FarmTableExpandComponent: FC<ExpandComponentProps<any>> = ({
               transparent
             >
               <Flex.Item marginTop={1} width="100%">
-                <FullWidthButton type="primary" disabled fullWidth={true}>
+                <FullWidthButton type="primary" disabled $fullWidth={true}>
                   <Trans>Stake</Trans>
                 </FullWidthButton>
               </Flex.Item>

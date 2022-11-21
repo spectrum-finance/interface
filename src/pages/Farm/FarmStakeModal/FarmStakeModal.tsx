@@ -116,11 +116,7 @@ export const FarmStakeModal: React.FC<FarmStakeModalProps> = ({ pool }) => {
                   <FormSlider value={value} onChange={onChange} />
                 )}
               </Form.Item>
-              {/*<FormPairSection*/}
-              {/*  title={t`Assets to remove`}*/}
-              {/*  xAmount={pool.x}*/}
-              {/*  yAmount={pool.y}*/}
-              {/*/>*/}
+              <FormPairSection title={''} xAmount={pool.x} yAmount={pool.y} />
             </Flex>
           </PageSection>
         </OperationForm>

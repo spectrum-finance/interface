@@ -1,22 +1,14 @@
-import { Button, Flex, useDevice } from '@ergolabs/ui-kit';
-import { Trans } from '@lingui/macro';
+import { useDevice } from '@ergolabs/ui-kit';
 import React, { FC } from 'react';
 
 import { AmmPool } from '../../../common/models/AmmPool';
 import { Position } from '../../../common/models/Position';
-import { DataTag } from '../../../components/common/DataTag/DataTag';
 import {
   openConfirmationModal,
   Operation,
 } from '../../../components/ConfirmationModal/ConfirmationModal';
-import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
 import { ExpandComponentProps } from '../../../components/TableView/common/Expand';
-import { TableView } from '../../../components/TableView/TableView';
-import { LiquiditySearchState } from '../../Liquidity/common/tableViewStates/LiquiditySearchState/LiquiditySearchState';
-import { FarmPairColumn } from '../FarmPairColumn/FarmPairColumn';
 import { FarmStakeModal } from '../FarmStakeModal/FarmStakeModal';
-import { LineProgress } from '../LineProgress/LineProgress';
-import { FarmTableLoadingState } from './FarmTableLoadingState';
 import { FarmTableViewDesktop } from './FarmTableViewDesktop';
 import { FarmTableViewLaptop } from './FarmTableViewLaptop';
 import { FarmTableViewMobile } from './FarmTableViewMobile';
