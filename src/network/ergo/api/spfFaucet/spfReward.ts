@@ -43,10 +43,11 @@ export const spfReward$: Observable<SpfReward> = getAddresses().pipe(
   ),
   map((res) => res.data),
   map((data) => {
-    const cohorts = data.cohorts.map((c) => ({
-      cohort: c.cohort,
-      spfReward: new Currency(c.spfReward.toString(), spfAsset),
-    }));
+    const cohorts =
+      data.cohorts?.map((c) => ({
+        cohort: c.cohort,
+        spfReward: new Currency(c.spfReward.toString(), spfAsset),
+      })) || [];
 
     return {
       cohorts,

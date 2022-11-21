@@ -1,4 +1,4 @@
-import { Button, Modal } from '@ergolabs/ui-kit';
+import { Button, Modal, ModalRef } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React, { FC, useEffect, useState } from 'react';
 import Confetti from 'react-confetti';
@@ -40,6 +40,7 @@ export const ClaimSpfButton: FC = () => {
   const [claimSpfStatus] = useObservable(spfStatus$);
   const [claimSpfReward] = useObservable(spfReward$);
   const [confetti, setConfetti] = useState<boolean>(false);
+  const [modalRef, setModalRef] = useState<ModalRef | undefined>();
   const { width, height } = useWindowSize();
 
   useEffect(() => {
@@ -52,13 +53,17 @@ export const ClaimSpfButton: FC = () => {
   }, [claimSpfStatus]);
 
   useEffect(() => {
-    if (confetti) {
-      openClaimSpfModal();
+    if (!confetti) {
+      return;
     }
+    if (modalRef) {
+      modalRef.close();
+    }
+    openClaimSpfModal();
   }, [confetti]);
 
   const openClaimSpfModal = () => {
-    Modal.open(
+    const modalRef = Modal.open(
       ({ close }) => (
         <ClaimSpfModal
           reward={claimSpfReward!}
@@ -69,6 +74,7 @@ export const ClaimSpfButton: FC = () => {
       ),
       {
         afterClose: () => {
+          setModalRef(undefined);
           if (confetti) {
             setConfetti(false);
             localStorageManager.set(FIRST_CLAIMED_EVENT_PASSED, true);
@@ -76,6 +82,7 @@ export const ClaimSpfButton: FC = () => {
         },
       },
     );
+    setModalRef(modalRef);
   };
   return (
     <>

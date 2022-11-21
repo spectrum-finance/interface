@@ -51,7 +51,7 @@ export const ClaimSpfModal: FC<ClaimSpfModalProps> = ({
       </BottomBackgroundContainer>
       <Modal.Content width={480}>
         {status.status === SpfStatus.Init && (
-          <ClaimRewardState reward={reward} />
+          <ClaimRewardState reward={reward} close={close} />
         )}
         {status.status === SpfStatus.NothingToClaim && <NothingToClaimState />}
         {status.status === SpfStatus.Claimed && firstClaim && (
