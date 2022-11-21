@@ -34,8 +34,10 @@ import {
 export class ProductAnalytics {
   analyticsSystems: AnalyticSystem[];
 
-  constructor(...analyticsSystems: AnalyticSystem[]) {
-    this.analyticsSystems = analyticsSystems;
+  constructor(...analyticsSystems: Array<AnalyticSystem | undefined>) {
+    this.analyticsSystems = analyticsSystems.filter(
+      (system) => !!system,
+    ) as AnalyticSystem[];
   }
 
   private event(name: string, props?: any, userProps?: userProperties): void {
