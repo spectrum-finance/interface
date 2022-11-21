@@ -47,7 +47,6 @@ export const SwapConfirmationInfo: FC<SwapConfirmationInfoProps> = ({
   const fees: FeesViewItem[] = [
     { caption: t`Transaction Fee`, currency: transactionFee },
     { caption: t`Execution Fee`, currency: [minExFee, maxExFee] },
-    { caption: t`Deposit ADA`, currency: depositAda },
   ];
 
   return (
@@ -94,6 +93,25 @@ export const SwapConfirmationInfo: FC<SwapConfirmationInfoProps> = ({
                   <>
                     {`${swapInfo.minOutput?.toString()} - ${swapInfo.maxOutput?.toString()} `}
                     <Truncate>{swapInfo.maxOutput?.asset.name}</Truncate>
+                  </>
+                )}
+              </Typography.Body>
+            }
+          />
+        </Flex.Item>
+        <Flex.Item marginBottom={2}>
+          <BoxInfoItem
+            title={
+              <Typography.Body size="large">
+                <Trans>Refundable deposit:</Trans>
+              </Typography.Body>
+            }
+            value={
+              <Typography.Body size="large" strong>
+                {swapInfo && (
+                  <>
+                    {depositAda.toString()}{' '}
+                    <Truncate>{depositAda.asset.name}</Truncate>
                   </>
                 )}
               </Typography.Body>
