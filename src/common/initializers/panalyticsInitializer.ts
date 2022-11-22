@@ -39,7 +39,7 @@ const POSTHOG_API = 'https://anph.spectrum.fi';
 
 const ANALYTICS_SYSTEMS_INITIALIZED = 'analytic-systems-initialized';
 
-const ANALYTICS_SYSTEMS_QUANTITY = 2;
+let ANALYTICS_SYSTEMS_QUANTITY = 0;
 
 export const panalyticsInitializer: Initializer = () => {
   let systemsInitializedCount = 0;
@@ -64,7 +64,8 @@ export const panalyticsInitializer: Initializer = () => {
     }
   };
 
-  if (process.env.REACT_APP_POSTHOG_API_KEY) {
+  if (process.env.REACT_APP_POSTHOG_API_KEY && process.env.production) {
+    ANALYTICS_SYSTEMS_QUANTITY += 1;
     posthog.init(process.env.REACT_APP_POSTHOG_API_KEY, {
       api_host: POSTHOG_API,
       autocapture: false,
@@ -78,7 +79,8 @@ export const panalyticsInitializer: Initializer = () => {
     });
   }
 
-  if (process.env.REACT_APP_AMPLITUDE_API_KEY) {
+  if (process.env.REACT_APP_AMPLITUDE_API_KEY && process.env.production) {
+    ANALYTICS_SYSTEMS_QUANTITY += 1;
     amplitude
       .init(process.env.REACT_APP_AMPLITUDE_API_KEY, undefined, {})
       .promise.then(() => {
