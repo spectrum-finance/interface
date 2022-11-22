@@ -78,8 +78,16 @@ export const ClaimSpfButton: FC = () => {
     <>
       {confetti && <Confetti width={width} height={height} />}
       {claimSpfStatus && claimSpfReward && (
-        <>
-          <StyledButton type="primary" size="large" onClick={openClaimSpfModal}>
+        <div onClick={openClaimSpfModal}>
+          <StyledButton
+            type="primary"
+            size="large"
+            loading={
+              claimSpfStatus.status === SpfStatus.Pending ||
+              claimSpfStatus.status === SpfStatus.WaitingConfirmation
+            }
+            style={{ cursor: 'pointer' }}
+          >
             <TopBackgroundContainer>
               <TopBackground />
             </TopBackgroundContainer>
@@ -93,7 +101,7 @@ export const ClaimSpfButton: FC = () => {
             visible={claimSpfStatus.status === SpfStatus.Init}
             onClick={openClaimSpfModal}
           />
-        </>
+        </div>
       )}
     </>
   );
