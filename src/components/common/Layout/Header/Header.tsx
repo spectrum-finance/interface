@@ -38,6 +38,9 @@ const HeaderWrapper = styled.div`
 
   @media (max-width: 720px) {
     grid-template-columns: 36px 1fr;
+    padding-top: 20px;
+    padding-left: 16px;
+    padding-right: 16px;
   }
 `;
 
