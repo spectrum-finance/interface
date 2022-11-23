@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { DateTime } from 'luxon';
 import {
+  filter,
   from,
   interval,
   map,
@@ -47,6 +48,7 @@ export const spfStatus$: Observable<ClaimSpfStatusResponse> = merge(
   updateStatus,
 ).pipe(
   switchMap(() => getAddresses()),
+  filter((addresses) => !!addresses?.length),
   switchMap((addresses) =>
     from(
       axios.post<RawClaimSpfStatusResponse>(

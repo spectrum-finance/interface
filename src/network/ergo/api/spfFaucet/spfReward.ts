@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {
+  filter,
   from,
   map,
   Observable,
@@ -33,6 +34,7 @@ export interface SpfReward {
 }
 
 export const spfReward$: Observable<SpfReward> = getAddresses().pipe(
+  filter((addresses) => !!addresses?.length),
   switchMap((addresses) =>
     from(
       axios.post<RawSpfReward>(
