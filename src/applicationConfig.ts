@@ -52,7 +52,7 @@ interface ApplicationConfig {
 }
 
 export const applicationConfig: ApplicationConfig = {
-  operationTimeoutTime: 60_000,
+  operationTimeoutTime: 10_000,
   cookieDomain:
     process.env.NODE_ENV === 'production' ? 'spectrum.fi' : undefined,
   cardanoMaintenance: false,

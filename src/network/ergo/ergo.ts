@@ -41,7 +41,7 @@ import {
 import { initialize, initialized$ } from './initialized';
 import { deposit } from './operations/deposit/deposit';
 import { redeem } from './operations/redeem/redeem';
-import { refund } from './operations/refund';
+import { refund } from './operations/refund/refund';
 import { swap } from './operations/swap/swap';
 import {
   ErgoSettings,
@@ -62,7 +62,7 @@ import {
   exploreTx,
 } from './utils/utils';
 import { OperationsSettings } from './widgets/OperationSettings/OperationsSettings';
-import { RefundConfirmationInfo } from './widgets/RefundConfirmationInfo/RefundConfirmationInfo';
+import { RefundConfirmationInfo } from './widgets/RefundConfirmationModal/RefundConfirmationInfo/RefundConfirmationInfo';
 import { SwapInfoContent } from './widgets/SwapInfoContent/SwapInfoContent';
 
 export const ergoNetwork: Network<

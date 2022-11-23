@@ -14,16 +14,15 @@ import { t, Trans } from '@lingui/macro';
 import React, { useState } from 'react';
 import { Observable } from 'rxjs';
 
-import { useObservable } from '../../../../common/hooks/useObservable';
 import { AssetInfo } from '../../../../common/models/AssetInfo';
 import { Currency } from '../../../../common/models/Currency';
 import { Operation } from '../../../../common/models/Operation';
 import { TxId } from '../../../../common/types';
-import { refund } from '../../../../gateway/api/operations/refund';
-import { useSettings } from '../../../../gateway/settings/settings';
-import { refundConfirmationInfo$ } from '../../../../gateway/widgets/refundConfirmationInfo';
+import { InfoTooltip } from '../../../../components/InfoTooltip/InfoTooltip';
 import { getShortAddress } from '../../../../utils/string/addres';
-import { InfoTooltip } from '../../../InfoTooltip/InfoTooltip';
+import { walletRefund } from '../../operations/refund/walletRefund';
+import { useSettings } from '../../settings/settings';
+import { RefundConfirmationInfo } from './RefundConfirmationInfo/RefundConfirmationInfo';
 
 interface RefundConfirmationModalProps {
   onClose: (p: Observable<TxId>) => void;
@@ -59,13 +58,12 @@ const RefundConfirmationModal: React.FC<RefundConfirmationModalProps> = ({
   operation,
 }): JSX.Element => {
   const form = useForm<RefundFormModal>(getForValueFromOperation(operation));
-  const { address } = useSettings();
-  const [RefundConfirmationInfo] = useObservable(refundConfirmationInfo$);
+  const [{ address }] = useSettings();
   const [activeAddress, setActiveAddress] = useState(address);
 
   const handleRefund = () => {
     if (activeAddress) {
-      onClose(refund(activeAddress, operation.txId));
+      onClose(walletRefund(activeAddress, operation.txId));
     }
   };
 
@@ -78,7 +76,7 @@ const RefundConfirmationModal: React.FC<RefundConfirmationModalProps> = ({
         <Form onSubmit={() => {}} form={form}>
           <Flex col>
             <Flex.Item marginBottom={6}>
-              {RefundConfirmationInfo && <RefundConfirmationInfo />}
+              <RefundConfirmationInfo />
             </Flex.Item>
             <Flex.Item marginBottom={4}>
               <Flex direction="col">
