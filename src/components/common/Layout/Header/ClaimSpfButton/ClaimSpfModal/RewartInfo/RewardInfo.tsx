@@ -39,6 +39,11 @@ const BASE_HEIGHT = 138;
 const ITEM_HEIGHT = 24;
 const ITEM_PADDING = 8;
 
+const StyledDivider = styled(Divider)`
+  border-color: var(--spectrum-secondary-text);
+  opacity: 0.2;
+`;
+
 export const RewardInfo: FC<RewardInfoProps> = ({ reward }) => {
   const bgHeight =
     BASE_HEIGHT +
@@ -60,7 +65,7 @@ export const RewardInfo: FC<RewardInfoProps> = ({ reward }) => {
           <Typography.Title>SPF</Typography.Title>
         </Flex.Item>
         <Flex.Item marginBottom={2}>
-          <Divider />
+          <StyledDivider />
         </Flex.Item>
         {reward.cohorts.map((c, i) => (
           <Flex.Item

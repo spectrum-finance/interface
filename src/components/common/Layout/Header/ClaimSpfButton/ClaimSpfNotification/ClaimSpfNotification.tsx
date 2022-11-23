@@ -64,7 +64,7 @@ const _ClaimSpfNotification: FC<ClaimSpfNotificationProps> = ({
 );
 
 export const ClaimSpfNotification = styled(_ClaimSpfNotification)`
-  background: var(--spectrum-claim-spf-background);
+  background: var(--spectrum-claim-spf-notifcation-background);
   border-radius: var(--spectrum-border-radius-xl);
   height: 300px;
   overflow: hidden;

@@ -1,6 +1,6 @@
 import { Button, Modal, ModalRef } from '@ergolabs/ui-kit';
-import { Trans } from '@lingui/macro';
-import React, { FC, useEffect, useState } from 'react';
+import { t } from '@lingui/macro';
+import React, { FC, MouseEvent, useEffect, useState } from 'react';
 import Confetti from 'react-confetti';
 import { useWindowSize } from 'react-use';
 import styled from 'styled-components';
@@ -18,6 +18,7 @@ import { ClaimSpfNotification } from './ClaimSpfNotification/ClaimSpfNotificatio
 import { ReactComponent as TopBackground } from './top-background.svg';
 
 const StyledButton = styled(Button)`
+  cursor: pointer !important;
   overflow: hidden;
   position: relative;
 `;
@@ -59,7 +60,10 @@ export const ClaimSpfButton: FC = () => {
     openClaimSpfModal();
   }, [confetti]);
 
-  const openClaimSpfModal = () => {
+  const openClaimSpfModal = (e?: MouseEvent<any>) => {
+    if (e) {
+      e.stopPropagation();
+    }
     const modalRef = Modal.open(
       ({ close }) => <ClaimSpfModal firstClaim={confetti} close={close} />,
       {
@@ -86,7 +90,6 @@ export const ClaimSpfButton: FC = () => {
               claimSpfStatus.status === SpfStatus.Pending ||
               claimSpfStatus.status === SpfStatus.WaitingConfirmation
             }
-            style={{ cursor: 'pointer' }}
           >
             <TopBackgroundContainer>
               <TopBackground />
@@ -94,7 +97,10 @@ export const ClaimSpfButton: FC = () => {
             <BottomBackgroundContainer>
               <BottomBackground />
             </BottomBackgroundContainer>
-            <Trans>Claim SPF</Trans>
+            {claimSpfStatus.status === SpfStatus.Pending ||
+            claimSpfStatus.status === SpfStatus.WaitingConfirmation
+              ? t`Claiming...`
+              : t`Claim SPF`}
           </StyledButton>
           <ClaimSpfNotification
             reward={claimSpfReward}

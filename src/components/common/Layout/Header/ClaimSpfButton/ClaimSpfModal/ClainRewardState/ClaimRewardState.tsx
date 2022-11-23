@@ -21,6 +21,16 @@ export interface ClaimRewardStateProps {
   readonly reward: SpfReward;
 }
 
+const StyledAlert = styled(Alert)`
+  padding: 0.5rem 1rem;
+
+  .ant-alert-icon {
+    margin-right: 8px !important;
+    position: relative;
+    top: 4px;
+  }
+`;
+
 export const ClaimRewardState: FC<ClaimRewardStateProps> = ({ reward }) => {
   const [loading, setLoading] = useState(false);
 
@@ -53,7 +63,7 @@ export const ClaimRewardState: FC<ClaimRewardStateProps> = ({ reward }) => {
         <Link type="link">Read more about SPF</Link>
       </Flex.Item>
       <Flex.Item marginBottom={6}>
-        <Alert
+        <StyledAlert
           type="warning"
           showIcon
           icon={<InfoCircleFilled style={{ fontSize: 14 }} />}
