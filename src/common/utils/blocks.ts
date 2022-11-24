@@ -1,18 +1,13 @@
-import { blocksToMillis, millisToBlocks } from '@ergolabs/ergo-dex-sdk';
+import { blocksToTimestamp, timestampToBlocks } from '@ergolabs/ergo-dex-sdk';
 import { DateTime } from 'luxon';
 
 export const dateTimeToBlock = (
   currentHeight: number,
   dateTime: DateTime,
-): number =>
-  currentHeight +
-  millisToBlocks(BigInt(dateTime.toMillis() - DateTime.now().toMillis())) +
-  1;
+): number => timestampToBlocks(currentHeight, dateTime.toMillis());
 
 export const blockToDateTime = (
   currentHeight: number,
   block: number,
 ): DateTime =>
-  DateTime.now().plus({
-    millisecond: Number(blocksToMillis(block - currentHeight - 1)),
-  });
+  DateTime.fromMillis(Number(blocksToTimestamp(currentHeight, block)));

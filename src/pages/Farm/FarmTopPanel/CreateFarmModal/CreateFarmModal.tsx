@@ -39,6 +39,7 @@ export const CreateFarmModal: FC = () => {
   });
   const [networkContext] = useObservable(networkContext$);
   const [ammPools, ammPoolsLoading] = useObservable(displayedAmmPools$, [], []);
+  const [formValue] = useObservable(form.valueChangesWithSilent$, [], {});
 
   const resetForm = () =>
     form.patchValue(
@@ -52,7 +53,9 @@ export const CreateFarmModal: FC = () => {
       { emitEvent: 'silent' },
     );
 
-  const createFarmAction = (form: FormGroup<CreateFarmFormModel>) => {};
+  const createFarmAction = (form: FormGroup<CreateFarmFormModel>) => {
+    console.log(form.value);
+  };
 
   return (
     <>
@@ -84,8 +87,8 @@ export const CreateFarmModal: FC = () => {
                 </Flex.Item>
                 <Flex.Item marginBottom={4}>
                   <Form.Item name="period">
-                    {({ parent, value, onChange }) => (
-                      <OverlayBox overlayed={!parent.value.pool}>
+                    {({ value, onChange }) => (
+                      <OverlayBox overlayed={!formValue.pool}>
                         <FarmPeriodSelector
                           networkHeight={networkContext.height}
                           value={value}
@@ -97,21 +100,31 @@ export const CreateFarmModal: FC = () => {
                 </Flex.Item>
                 <Flex.Item marginBottom={4}>
                   <Form.Item name="distributionInterval">
-                    {({ parent }) => (
+                    {({ value, onChange }) => (
                       <OverlayBox
                         overlayed={
-                          !parent.value.period ||
-                          !parent.value.period[0] ||
-                          !parent.value.period[1]
+                          !formValue.period ||
+                          !formValue.period[0] ||
+                          !formValue.period[1]
                         }
                       >
-                        <FarmDistributionIntervalInput />
+                        <FarmDistributionIntervalInput
+                          onChange={onChange}
+                          value={value}
+                        />
                       </OverlayBox>
                     )}
                   </Form.Item>
                 </Flex.Item>
                 <Flex.Item marginBottom={4}>
-                  <OverlayBox>
+                  <OverlayBox
+                    overlayed={
+                      !formValue.period ||
+                      !formValue.period[0] ||
+                      !formValue.period[1] ||
+                      !formValue.distributionInterval
+                    }
+                  >
                     <LabeledContent
                       label={t`Budget`}
                       tooltipContent={t`The total amount of tokens that you would like to distribute among users.`}

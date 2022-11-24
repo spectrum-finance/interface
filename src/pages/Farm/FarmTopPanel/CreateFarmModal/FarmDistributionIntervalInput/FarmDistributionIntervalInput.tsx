@@ -1,6 +1,6 @@
 import { Box, Control, Input, Select } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
-import React, { ChangeEvent, FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { LabeledContent } from '../../../../../components/LabeledContent/LabeledContent';
@@ -17,13 +17,31 @@ const StyledInput = styled(Input)`
   }
 `;
 
-export const FarmDistributionIntervalInput: FC<Control<number | undefined>> = ({
-  value,
-  onChange,
-}) => {
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (onChange) {
-      onChange(e.target.valueAsNumber);
+export enum IntervalType {
+  BLOCK,
+  HOUR,
+  DAY,
+  WEEK,
+  MONTH,
+}
+
+export const FarmDistributionIntervalInput: FC<
+  Control<{ type: IntervalType; value: number } | undefined>
+> = ({ value, onChange }) => {
+  const [type, setType] = useState<IntervalType>(IntervalType.BLOCK);
+
+  useEffect(() => {
+    handleChange(value?.value);
+  }, [type]);
+
+  const handleChange = (value: number | undefined) => {
+    if (!onChange) {
+      return;
+    }
+    if (value) {
+      onChange({ type, value });
+    } else {
+      onChange(undefined);
     }
   };
 
@@ -35,24 +53,24 @@ export const FarmDistributionIntervalInput: FC<Control<number | undefined>> = ({
           type="number"
           inputMode="decimal"
           placeholder="Distribution interval"
-          value={value}
-          onChange={handleChange}
+          value={value?.value}
+          onChange={(e) => handleChange(e.target.valueAsNumber)}
           name="distributionInterval"
           addonAfter={
-            <Select defaultValue="block">
-              <Select.Option value="block">
+            <Select value={type} onChange={setType}>
+              <Select.Option value={IntervalType.BLOCK}>
                 <Trans>Block</Trans>
               </Select.Option>
-              <Select.Option value="hour">
+              <Select.Option value={IntervalType.HOUR}>
                 <Trans>Hour</Trans>
               </Select.Option>
-              <Select.Option value="day">
+              <Select.Option value={IntervalType.DAY}>
                 <Trans>Day</Trans>
               </Select.Option>
-              <Select.Option value="week">
+              <Select.Option value={IntervalType.WEEK}>
                 <Trans>Week</Trans>
               </Select.Option>
-              <Select.Option value="month">
+              <Select.Option value={IntervalType.MONTH}>
                 <Trans>Month</Trans>
               </Select.Option>
             </Select>
