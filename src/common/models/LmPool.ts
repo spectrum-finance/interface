@@ -12,6 +12,8 @@ export abstract class LmPool {
 
   abstract get lq(): Currency;
 
+  abstract get reward(): Currency;
+
   abstract get vlq(): Currency;
 
   abstract get tt(): Currency;
