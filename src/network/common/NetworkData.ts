@@ -1,4 +1,3 @@
-import { LmPool } from '@ergolabs/ergo-dex-sdk';
 import { ReactNode } from 'react';
 import { Observable } from 'rxjs';
 
@@ -7,6 +6,7 @@ import { AssetInfo } from '../../common/models/AssetInfo';
 import { AssetLock } from '../../common/models/AssetLock';
 import { Balance } from '../../common/models/Balance';
 import { Currency } from '../../common/models/Currency';
+import { LmPool } from '../../common/models/LmPool';
 import { Operation } from '../../common/models/Operation';
 import { PoolChartData } from '../../common/models/PoolChartData';
 import { Position } from '../../common/models/Position';

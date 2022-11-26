@@ -20,6 +20,7 @@ import { lpBalance$ } from './api/balance/lpBalance';
 import { networkAssetBalance$ } from './api/balance/networkAssetBalance';
 import { importTokenAsset } from './api/common/availablePoolsOrTokens';
 import { convertToConvenientNetworkAsset } from './api/ergoUsdRatio/ergoUsdRatio';
+import { farmPools$ } from './api/lmPools/lmPools';
 import { locks$ } from './api/locks/locks';
 import { networkAsset, useNetworkAsset } from './api/networkAsset/networkAsset';
 import { networkContext$ } from './api/networkContext/networkContext';
@@ -138,4 +139,5 @@ export const ergoNetwork: Network<
   pendingOperations$,
   queuedOperation$,
   refundableDeposit: new Currency(0n, networkAsset),
+  farmPools$,
 };

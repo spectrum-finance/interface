@@ -33,14 +33,12 @@ const toLmPool = (p: BaseLmPool): Observable<LmPool> =>
     }),
   );
 
-export const allLmPools$ = combineLatest([
+export const farmPools$ = combineLatest([
   rawLmPools$,
   aggregatedPoolsAnalyticsDataById24H$,
 ]).pipe(
-  switchMap(([rawAmmPools]) =>
-    combineLatest(rawAmmPools.map((rap) => toLmPool(rap))).pipe(
-      defaultIfEmpty([]),
-    ),
+  switchMap(([rawLmPools]) =>
+    combineLatest(rawLmPools.map((rlp) => toLmPool(rlp))),
   ),
   publishReplay(1),
   refCount(),

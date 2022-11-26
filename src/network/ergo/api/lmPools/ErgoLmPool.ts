@@ -35,10 +35,12 @@ export class ErgoLmPool extends LmPool {
     return this.assetsInfoDictionary.tt;
   }
 
+  // cache?
   get epochAlloc(): bigint {
     return this.pool.epochAlloc;
   }
 
+  // cache?
   epochsLeft(currentHeight: number): number {
     return this.pool.epochsLeft(currentHeight);
   }
