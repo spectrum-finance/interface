@@ -48,7 +48,7 @@ export const NothingToClaimState: FC<NothingToClaimStateProps> = ({
         </Typography.Body>
       </Flex.Item>
       <Flex.Item marginBottom={6}>
-        <Button type="link">
+        <Button type="link" href="https://spectrum.fi/spf" target="_blank">
           <Trans>Read more about SPF</Trans>
         </Button>
       </Flex.Item>

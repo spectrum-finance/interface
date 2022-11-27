@@ -60,7 +60,9 @@ export const ClaimRewardState: FC<ClaimRewardStateProps> = ({ reward }) => {
         </Typography.Body>
       </Flex.Item>
       <Flex.Item marginBottom={2}>
-        <Link type="link">Read more about SPF</Link>
+        <Link type="link" href="https://spectrum.fi/spf" target="_blank">
+          Read more about SPF
+        </Link>
       </Flex.Item>
       <Flex.Item marginBottom={6}>
         <StyledAlert
