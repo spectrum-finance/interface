@@ -7,6 +7,7 @@ import {
   map,
   merge,
   Observable,
+  of,
   publishReplay,
   refCount,
   startWith,
@@ -31,6 +32,7 @@ export enum SpfStatus {
   WaitingConfirmation = 'WaitingConfirmation',
   Claimed = 'Claimed',
   NothingToClaim = 'NothingToClaim',
+  NoAddresses = 'NoAddresses',
 }
 
 export interface RawClaimSpfStatusResponse {
@@ -50,12 +52,14 @@ export const spfStatus$: Observable<ClaimSpfStatusResponse> = merge(
   switchMap(() => getAddresses()),
   filter((addresses) => !!addresses?.length),
   switchMap((addresses) =>
-    from(
-      axios.post<RawClaimSpfStatusResponse>(
-        `${applicationConfig.networksSettings.ergo.spfFaucet}status`,
-        { addresses },
-      ),
-    ),
+    !!addresses?.length
+      ? from(
+          axios.post<RawClaimSpfStatusResponse>(
+            `${applicationConfig.networksSettings.ergo.spfFaucet}status`,
+            { addresses },
+          ),
+        )
+      : of({ data: { status: SpfStatus.NoAddresses, timestamp: 0 } }),
   ),
   map((res) => ({
     status: res.data.status,

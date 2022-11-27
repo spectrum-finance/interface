@@ -28,10 +28,10 @@ export const PendingState: FC<PendingStateProps> = ({ reward, dateTime }) => (
     <Flex.Item marginBottom={4}>
       <Typography.Body>
         <Trans>You requested SPF reward on</Trans>{' '}
-        {dateTime.toFormat('MMMM dd, yyyy hh:mm a')}{' '}
+        {dateTime.toFormat('MMMM dd, yyyy hh:mm a')}.{' '}
         <Trans>
           Your reward will come to your wallet within 24 hours from the moment
-          the request was created. Thank you for being with us!”
+          the request was created. Thank you for being with us!
         </Trans>
       </Typography.Body>
     </Flex.Item>

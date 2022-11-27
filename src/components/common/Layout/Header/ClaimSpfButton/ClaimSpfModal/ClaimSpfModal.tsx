@@ -56,7 +56,7 @@ export const ClaimSpfModal: FC<ClaimSpfModalProps> = ({
               <ClaimRewardState reward={reward} />
             )}
             {status.status === SpfStatus.NothingToClaim && (
-              <NothingToClaimState />
+              <NothingToClaimState close={close} />
             )}
             {status.status === SpfStatus.Claimed && firstClaim && (
               <GotRewardState reward={reward} close={close} />

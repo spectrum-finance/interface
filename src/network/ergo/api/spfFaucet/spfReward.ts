@@ -4,6 +4,7 @@ import {
   from,
   map,
   Observable,
+  of,
   publishReplay,
   refCount,
   switchMap,
@@ -36,12 +37,14 @@ export interface SpfReward {
 export const spfReward$: Observable<SpfReward> = getAddresses().pipe(
   filter((addresses) => !!addresses?.length),
   switchMap((addresses) =>
-    from(
-      axios.post<RawSpfReward>(
-        `${applicationConfig.networksSettings.ergo.spfFaucet}reward`,
-        { addresses },
-      ),
-    ),
+    !!addresses.length
+      ? from(
+          axios.post<RawSpfReward>(
+            `${applicationConfig.networksSettings.ergo.spfFaucet}reward`,
+            { addresses },
+          ),
+        )
+      : of({ data: { cohorts: [] } }),
   ),
   map((res) => res.data),
   map((data) => {

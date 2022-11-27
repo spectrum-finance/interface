@@ -7,6 +7,7 @@ import styled from 'styled-components';
 
 import { useObservable } from '../../../../../common/hooks/useObservable';
 import { localStorageManager } from '../../../../../common/utils/localStorageManager';
+import { isWalletSetuped$ } from '../../../../../gateway/api/wallets';
 import { spfReward$ } from '../../../../../network/ergo/api/spfFaucet/spfReward';
 import {
   SpfStatus,
@@ -40,6 +41,7 @@ const FIRST_CLAIMED_EVENT_PASSED = 'FIRST_CLAIMED_EVENT';
 export const ClaimSpfButton: FC = () => {
   const [claimSpfStatus] = useObservable(spfStatus$);
   const [claimSpfReward] = useObservable(spfReward$);
+  const [isWalletConnected] = useObservable(isWalletSetuped$);
   const [confetti, setConfetti] = useState<boolean>(false);
   const [modalRef, setModalRef] = useState<ModalRef | undefined>();
   const { width, height } = useWindowSize();
@@ -80,8 +82,10 @@ export const ClaimSpfButton: FC = () => {
   };
   return (
     <>
-      {confetti && <Confetti width={width} height={height} />}
-      {claimSpfStatus && claimSpfReward && (
+      {confetti && isWalletConnected && (
+        <Confetti width={width} height={height} />
+      )}
+      {claimSpfStatus && claimSpfReward && isWalletConnected && (
         <div onClick={openClaimSpfModal}>
           <StyledButton
             type="primary"
