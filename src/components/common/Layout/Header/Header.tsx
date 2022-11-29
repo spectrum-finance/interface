@@ -1,6 +1,7 @@
 import { Flex, useDevice } from '@ergolabs/ui-kit';
 import cn from 'classnames';
 import React from 'react';
+import { isDesktop } from 'react-device-detect';
 import styled from 'styled-components';
 
 import { device } from '../../../../common/constants/size';
@@ -77,7 +78,7 @@ export const _Header: React.FC<HeaderProps> = ({
           )}
         </Flex>
         <Flex align="center" style={{ gap: '8px', marginLeft: 'auto' }}>
-          {!s && (
+          {!s && isDesktop && (
             <IsErgo>
               <ClaimSpfButton />
             </IsErgo>
