@@ -2,8 +2,11 @@ import { Box, Flex, Typography } from '@ergolabs/ui-kit';
 import React from 'react';
 import styled, { css } from 'styled-components';
 
+import { useObservable } from '../../../../../../../common/hooks/useObservable';
 import { AssetInfo } from '../../../../../../../common/models/AssetInfo';
 import { useAssetsBalance } from '../../../../../../../gateway/api/assetBalance';
+import { selectedWalletState$ } from '../../../../../../../gateway/api/wallets';
+import { WalletState } from '../../../../../../../network/common/Wallet';
 import { AssetIcon } from '../../../../../../AssetIcon/AssetIcon';
 import { ConvenientAssetView } from '../../../../../../ConvenientAssetView/ConvenientAssetView';
 import { Truncate } from '../../../../../../Truncate/Truncate';
@@ -24,6 +27,7 @@ const _AssetListItem: React.FC<TokenListItemProps> = ({
   active,
 }) => {
   const [balance] = useAssetsBalance();
+  const [walletState] = useObservable(selectedWalletState$);
 
   return (
     <Box
@@ -58,9 +62,13 @@ const _AssetListItem: React.FC<TokenListItemProps> = ({
           display="flex"
           justify="center"
         >
-          <Typography.Body strong size="large">
-            {balance.get(asset).toString()}
-          </Typography.Body>
+          {walletState === WalletState.CONNECTED ? (
+            <Typography.Body strong size="large">
+              {balance.get(asset).toString()}
+            </Typography.Body>
+          ) : (
+            ''
+          )}
           {!!Number(balance.get(asset).toAmount()) && (
             <Typography.Body secondary size="small">
               <ConvenientAssetView value={balance.get(asset)} prefix="~" />
