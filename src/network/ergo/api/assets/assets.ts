@@ -5,7 +5,6 @@ import {
   first,
   map,
   Observable,
-  of,
   publishReplay,
   refCount,
   switchMap,
