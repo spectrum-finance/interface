@@ -2,15 +2,17 @@ import uniqBy from 'lodash/uniqBy';
 import {
   combineLatest,
   defaultIfEmpty,
+  first,
   map,
   Observable,
+  of,
   publishReplay,
   refCount,
   switchMap,
 } from 'rxjs';
 
 import { AssetInfo } from '../../../../common/models/AssetInfo';
-import { ammPools$ } from '../ammPools/ammPools';
+import { allAmmPools$, ammPools$ } from '../ammPools/ammPools';
 import { mapToAssetInfo } from '../common/assetInfoManager';
 import {
   filterAvailableTokenAssets,
@@ -106,4 +108,17 @@ export const getAssetsToImportFor = (
     switchMap((assetsToImport) => getAssetFor(assetId, assetsToImport)),
     publishReplay(1),
     refCount(),
+  );
+
+export const getAssetsByLpAssetId = (
+  lpAssetId: string,
+): Observable<{ x: AssetInfo; y: AssetInfo } | undefined> =>
+  allAmmPools$.pipe(
+    first(),
+    map((ammPools) =>
+      ammPools.find((ammPool) => ammPool.lp.asset.id === lpAssetId),
+    ),
+    map((ammPool) =>
+      ammPool ? { x: ammPool.x.asset, y: ammPool.y.asset } : undefined,
+    ),
   );
