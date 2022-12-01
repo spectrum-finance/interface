@@ -1,7 +1,7 @@
 import { useDevice } from '@ergolabs/ui-kit';
 import React, { FC } from 'react';
 
-import { AmmPool } from '../../../common/models/AmmPool';
+import { LmPool } from '../../../common/models/LmPool';
 import { Position } from '../../../common/models/Position';
 import {
   openConfirmationModal,
@@ -14,7 +14,7 @@ import { FarmTableViewLaptop } from './FarmTableViewLaptop';
 import { FarmTableViewMobile } from './FarmTableViewMobile';
 import { FarmTableViewTablet } from './FarmTableViewTablet';
 
-export interface FarmTableViewProps<T extends AmmPool | Position> {
+export interface FarmTableViewProps<T extends LmPool | Position> {
   readonly items: T[];
   // readonly poolMapper: (item: T) => AmmPool;
   readonly loading?: boolean;
@@ -30,7 +30,7 @@ export const FarmTableView: FC<FarmTableViewProps<any>> = ({
   className,
 }) => {
   const { valBySize, moreThan, l, m, s } = useDevice();
-  const openStakeModal = (pool: AmmPool) => {
+  const openStakeModal = (pool: LmPool) => {
     openConfirmationModal(
       (next) => {
         return <FarmStakeModal pool={pool} onClose={() => {}} />;

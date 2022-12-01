@@ -3,6 +3,7 @@ import {
   LmPoolConfig as ErgoBaseLmPoolConfig,
 } from '@ergolabs/ergo-dex-sdk';
 
+import { AssetInfo } from './AssetInfo';
 import { Currency } from './Currency';
 
 export abstract class LmPool {
@@ -19,6 +20,8 @@ export abstract class LmPool {
   abstract get tt(): Currency;
   abstract get config(): ErgoBaseLmPoolConfig;
   abstract get epochAlloc(): bigint;
+  abstract get assetX(): AssetInfo;
+  abstract get assetY(): AssetInfo;
 
   abstract epochsLeft(currentHeight: number): number;
 }

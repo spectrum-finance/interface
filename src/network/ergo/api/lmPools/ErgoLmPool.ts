@@ -14,6 +14,8 @@ export class ErgoLmPool extends LmPool {
       vlq: AssetInfo;
       reward: AssetInfo;
       tt: AssetInfo;
+      assetX: AssetInfo;
+      assetY: AssetInfo;
     },
   ) {
     super();
@@ -33,6 +35,16 @@ export class ErgoLmPool extends LmPool {
 
   private get ttAsset(): AssetInfo {
     return this.assetsInfoDictionary.tt;
+  }
+
+  @cache
+  get assetX(): AssetInfo {
+    return this.assetsInfoDictionary.assetY;
+  }
+
+  @cache
+  get assetY(): AssetInfo {
+    return this.assetsInfoDictionary.assetX;
   }
 
   // cache?

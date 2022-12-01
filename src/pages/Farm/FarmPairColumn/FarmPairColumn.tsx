@@ -1,18 +1,18 @@
 import { Flex, Tag } from '@ergolabs/ui-kit';
 import React, { FC } from 'react';
 
-import { AmmPool } from '../../../common/models/AmmPool';
+import { LmPool } from '../../../common/models/LmPool';
 import { AssetPairTitle } from '../../../components/AssetPairTitle/AssetPairTitle';
 
 export interface PairColumnProps {
-  readonly ammPool: AmmPool;
+  readonly lmPool: LmPool;
   readonly status: string;
   readonly direction?: 'col' | 'row';
   readonly align?: 'stretch' | 'center' | 'flex-start' | 'flex-end';
 }
 
 export const FarmPairColumn: FC<PairColumnProps> = ({
-  ammPool,
+  lmPool,
   status,
   direction = 'row',
   align = 'center',
@@ -20,8 +20,8 @@ export const FarmPairColumn: FC<PairColumnProps> = ({
   <Flex align="center">
     <Flex.Item>
       <AssetPairTitle
-        assetX={ammPool.x.asset}
-        assetY={ammPool.y.asset}
+        assetX={lmPool.assetX}
+        assetY={lmPool.assetY}
         direction={direction}
         align={align}
       />

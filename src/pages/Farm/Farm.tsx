@@ -23,6 +23,7 @@ import {
 import { Page } from '../../components/Page/Page';
 import { SearchInput } from '../../components/SearchInput/SearchInput';
 import { ammPools$ } from '../../gateway/api/ammPools';
+import { farmPools$ } from '../../network/ergo/api/lmPools/lmPools';
 import { LiquidityState } from '../Liquidity/common/types/LiquidityState';
 import { FarmGridView } from './FarmGridView/FarmGridView';
 import { FarmGuides } from './FarmGuides/FarmGuides';
@@ -95,7 +96,7 @@ export const Farm = (): JSX.Element => {
   const [viewMode, setViewMode] = useState<FarmViewMode>(FarmViewMode.Table);
   const [{ active }, setSearchParams] =
     useSearchParams<{ active: LiquidityState | undefined }>();
-  const [ammPools, isAmmPoolsLoading] = useObservable(ammPools$, [], []);
+  const [farmPools, isFarmPoolsLoading] = useObservable(farmPools$, [], []);
   const [searchByTerm, setSearch, term] = useSearch<
     AmmPool | Position | AssetLock
   >(matchItem);
@@ -112,8 +113,8 @@ export const Farm = (): JSX.Element => {
           <FarmTopPanel />
         </Flex.Item>
         <FarmTableView
-          loading={isAmmPoolsLoading}
-          items={ammPools}
+          loading={isFarmPoolsLoading}
+          items={farmPools}
           expandComponent={FarmTableExpandComponent}
         />
       </Flex>

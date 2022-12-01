@@ -13,20 +13,18 @@ import { t, Trans } from '@lingui/macro';
 import React from 'react';
 import styled from 'styled-components';
 
-import { AmmPool } from '../../../common/models/AmmPool';
 import { AssetInfo } from '../../../common/models/AssetInfo';
-import { AssetIcon } from '../../../components/AssetIcon/AssetIcon';
+import { LmPool } from '../../../common/models/LmPool';
 import { AssetIconPair } from '../../../components/AssetIconPair/AssetIconPair';
 import { DataTag } from '../../../components/common/DataTag/DataTag';
 import { FormPairSection } from '../../../components/common/FormView/FormPairSection/FormPairSection';
 import { FormSlider } from '../../../components/common/FormView/FormSlider/FormSlider';
 import { OperationForm } from '../../../components/OperationForm/OperationForm';
 import { PageSection } from '../../../components/Page/PageSection/PageSection';
-import { Truncate } from '../../../components/Truncate/Truncate';
 import { FarmHeaderAssets } from '../FarmGridView/FarmCardView/FarmCardView';
 
 interface FarmStakeModalProps {
-  pool: AmmPool;
+  pool: LmPool;
   onClose: (request?: any) => void;
 }
 
@@ -100,7 +98,7 @@ export const FarmStakeModal: React.FC<FarmStakeModalProps> = ({ pool }) => {
   return (
     <>
       <Modal.Title>
-        <FarmStakeHeader assetX={pool.x.asset} assetY={pool.y.asset} />
+        <FarmStakeHeader assetX={pool.assetX} assetY={pool.assetY} />
       </Modal.Title>
       <Modal.Content maxWidth={480} width="100%">
         <OperationForm
@@ -116,7 +114,11 @@ export const FarmStakeModal: React.FC<FarmStakeModalProps> = ({ pool }) => {
                   <FormSlider value={value} onChange={onChange} />
                 )}
               </Form.Item>
-              <FormPairSection title={''} xAmount={pool.x} yAmount={pool.y} />
+              <FormPairSection
+                title={''}
+                xAmount={pool.lq}
+                yAmount={pool.vlq}
+              />
             </Flex>
           </PageSection>
         </OperationForm>

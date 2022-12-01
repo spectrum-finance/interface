@@ -16,7 +16,10 @@ function initPool(
   programStart: number,
 ): LmPool {
   const reward = new AssetAmount({ id: 'rew' }, 1000000000n);
-  const lq = new AssetAmount({ id: 'lq' }, 1000000000n);
+  const lq = new AssetAmount(
+    { id: '303f39026572bcb4060b51fafc93787a236bb243744babaa99fceb833d61e198' },
+    1000000000n,
+  );
   const vlq = new AssetAmount({ id: 'vlq' }, 1000000000n);
   const tt = new AssetAmount({ id: 'tt' }, 1000000000n);
   const conf = {

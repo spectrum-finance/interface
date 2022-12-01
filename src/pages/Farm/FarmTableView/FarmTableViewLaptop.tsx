@@ -2,7 +2,7 @@ import { Button, Flex } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React from 'react';
 
-import { AmmPool } from '../../../common/models/AmmPool';
+import { LmPool } from '../../../common/models/LmPool';
 import { DataTag } from '../../../components/common/DataTag/DataTag';
 import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
 import { ExpandComponentProps } from '../../../components/TableView/common/Expand';
@@ -15,7 +15,7 @@ import { FarmTableLoadingState } from './FarmTableLoadingState';
 type Props = {
   expandComponent: React.FC<ExpandComponentProps<any>>;
   items: any;
-  openStakeModal: (pool: AmmPool) => void;
+  openStakeModal: (pool: LmPool) => void;
   loading: boolean | undefined;
 };
 
@@ -48,7 +48,7 @@ export const FarmTableViewLaptop = ({
         headerMaxWidth={282}
         title={<Trans>Pair</Trans>}
       >
-        {(ammPool) => <FarmPairColumn ammPool={ammPool} status="Scheduled" />}
+        {(lmPool) => <FarmPairColumn lmPool={lmPool} status="Scheduled" />}
       </TableView.Column>
 
       <TableView.Column
@@ -68,21 +68,20 @@ export const FarmTableViewLaptop = ({
           </InfoTooltip>
         }
       >
-        {/*{(ammPool: AmmPool) => <AprColumn ammPool={poolMapper(ammPool)} />}*/}
-        {/*{(ammPool) => <Progress percent={90} />}*/}
-        {(ammPool) => <LineProgress percent={60} height={24} width="200px" />}
+        {/*{(lmPool: LmPool) => <AprColumn lmPool={poolMapper(lmPool)} />}*/}
+        {/*{(lmPool) => <Progress percent={90} />}*/}
+        {(lmPool) => <LineProgress percent={60} height={24} width="200px" />}
       </TableView.Column>
       <TableView.Column width="100%" title={<Trans>APY</Trans>}>
-        {/*{(ammPool) => <TvlOrVolume24Column usd={poolMapper(ammPool).volume} />}*/}
-        {(ammPool) => (
+        {/*{(lmPool) => <TvlOrVolume24Column usd={poolMapper(lmPool).volume} />}*/}
+        {(lmPool) => (
           <Flex justify="space-between">
             <DataTag content={<div>30%</div>} />
             <Flex.Item marginRight={8}>
               <Button
                 type="primary"
                 onClick={(event) => {
-                  console.log(ammPool);
-                  openStakeModal(ammPool);
+                  openStakeModal(lmPool);
                   event.stopPropagation();
                 }}
               >

@@ -2,7 +2,7 @@ import { Flex } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React from 'react';
 
-import { AmmPool } from '../../../common/models/AmmPool';
+import { LmPool } from '../../../common/models/LmPool';
 import { DataTag } from '../../../components/common/DataTag/DataTag';
 import { ExpandComponentProps } from '../../../components/TableView/common/Expand';
 import { TableView } from '../../../components/TableView/TableView';
@@ -13,7 +13,7 @@ import { FarmTableLoadingState } from './FarmTableLoadingState';
 type Props = {
   expandComponent: React.FC<ExpandComponentProps<any>>;
   items: any;
-  openStakeModal: (pool: AmmPool) => void;
+  openStakeModal: (pool: LmPool) => void;
   loading: boolean | undefined;
 };
 
@@ -44,9 +44,9 @@ export const FarmTableViewMobile = ({
         headerMinWidth="calc(100% - 54px)"
         title={<Trans>Pair</Trans>}
       >
-        {(ammPool) => (
+        {(lmPool) => (
           <FarmPairColumn
-            ammPool={ammPool}
+            lmPool={lmPool}
             status="Scheduled"
             direction="col"
             align="flex-start"
@@ -55,8 +55,8 @@ export const FarmTableViewMobile = ({
       </TableView.Column>
 
       <TableView.Column maxWidth={60} title={<Trans>APY</Trans>}>
-        {/*{(ammPool) => <TvlOrVolume24Column usd={poolMapper(ammPool).volume} />}*/}
-        {(ammPool) => (
+        {/*{(lmPool) => <TvlOrVolume24Column usd={poolMapper(lmPool).volume} />}*/}
+        {(lmPool) => (
           <Flex>
             <DataTag content={<div>30%</div>} />
           </Flex>
