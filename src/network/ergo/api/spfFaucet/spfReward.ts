@@ -26,12 +26,18 @@ export interface Cohort {
 }
 
 export interface RawSpfReward {
+  readonly available: number;
+  readonly claimed: number;
+  readonly pending: number;
   readonly cohorts: RawCohort[];
 }
 
 export interface SpfReward {
   readonly cohorts: Cohort[];
   readonly total: Currency;
+  readonly available: Currency;
+  readonly claimed: Currency;
+  readonly pending: Currency;
 }
 
 export const spfReward$: Observable<SpfReward> = getAddresses().pipe(
@@ -44,7 +50,7 @@ export const spfReward$: Observable<SpfReward> = getAddresses().pipe(
             { addresses },
           ),
         )
-      : of({ data: { cohorts: [] } }),
+      : of({ data: { cohorts: [], available: 0, claimed: 0, pending: 0 } }),
   ),
   map((res) => res.data),
   map((data) => {
@@ -56,6 +62,9 @@ export const spfReward$: Observable<SpfReward> = getAddresses().pipe(
 
     return {
       cohorts,
+      pending: new Currency(data.pending.toString(), spfAsset),
+      available: new Currency(data.available.toString(), spfAsset),
+      claimed: new Currency(data.claimed.toString(), spfAsset),
       total: cohorts.reduce(
         (sum, item) => sum.plus(item.spfReward),
         new Currency(0n, spfAsset),

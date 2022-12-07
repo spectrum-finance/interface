@@ -36,7 +36,7 @@ const BottomBackgroundContainer = styled.div`
   top: -2px;
 `;
 
-const FIRST_CLAIMED_EVENT_PASSED = 'FIRST_CLAIMED_EVENT';
+const CLAIM_STAGE = 'CLAIM_STAGE';
 
 export const ClaimSpfButton: FC = () => {
   const [claimSpfStatus] = useObservable(spfStatus$);
@@ -48,8 +48,9 @@ export const ClaimSpfButton: FC = () => {
 
   useEffect(() => {
     if (
-      claimSpfStatus?.status === SpfStatus.Claimed &&
-      !localStorageManager.get(FIRST_CLAIMED_EVENT_PASSED)
+      claimSpfStatus &&
+      localStorageManager.get(CLAIM_STAGE) !== claimSpfStatus?.stage &&
+      claimSpfStatus?.stage !== 1
     ) {
       setConfetti(true);
     }
@@ -67,13 +68,13 @@ export const ClaimSpfButton: FC = () => {
       e.stopPropagation();
     }
     const modalRef = Modal.open(
-      ({ close }) => <ClaimSpfModal firstClaim={confetti} close={close} />,
+      ({ close }) => <ClaimSpfModal gotIt={confetti} close={close} />,
       {
         afterClose: () => {
           setModalRef(undefined);
           if (confetti) {
             setConfetti(false);
-            localStorageManager.set(FIRST_CLAIMED_EVENT_PASSED, true);
+            localStorageManager.set(CLAIM_STAGE, claimSpfStatus?.stage);
           }
         },
       },

@@ -11,7 +11,8 @@ import styled from 'styled-components';
 
 import { claimSpf } from '../../../../../../../network/ergo/api/spfFaucet/claimSpf';
 import { SpfReward } from '../../../../../../../network/ergo/api/spfFaucet/spfReward';
-import { RewardInfo } from '../RewartInfo/RewardInfo';
+import { ClaimSpfStatusResponse } from '../../../../../../../network/ergo/api/spfFaucet/spfStatus';
+import { RewardInfo } from '../RewardInfo/RewardInfo';
 
 const Link = styled(Button)`
   padding: 0;
@@ -19,6 +20,7 @@ const Link = styled(Button)`
 
 export interface ClaimRewardStateProps {
   readonly reward: SpfReward;
+  readonly status: ClaimSpfStatusResponse;
 }
 
 const StyledAlert = styled(Alert)`
@@ -31,7 +33,10 @@ const StyledAlert = styled(Alert)`
   }
 `;
 
-export const ClaimRewardState: FC<ClaimRewardStateProps> = ({ reward }) => {
+export const ClaimRewardState: FC<ClaimRewardStateProps> = ({
+  reward,
+  status,
+}) => {
   const [loading, setLoading] = useState(false);
 
   const action = () => {
@@ -44,7 +49,7 @@ export const ClaimRewardState: FC<ClaimRewardStateProps> = ({ reward }) => {
   return (
     <Flex col>
       <Flex.Item marginBottom={4}>
-        <RewardInfo reward={reward} />
+        <RewardInfo reward={reward} status={status} />
       </Flex.Item>
       <Flex.Item marginBottom={2}>
         <Typography.Body>
@@ -81,9 +86,12 @@ export const ClaimRewardState: FC<ClaimRewardStateProps> = ({ reward }) => {
         type="primary"
         size="extra-large"
         onClick={action}
+        disabled={!reward.available.isPositive()}
         loading={loading}
       >
-        {t`Request SPF rewards`}
+        {reward.available.isPositive()
+          ? t`Request SPF rewards`
+          : t`The next reward is not yet available`}
       </Button>
     </Flex>
   );

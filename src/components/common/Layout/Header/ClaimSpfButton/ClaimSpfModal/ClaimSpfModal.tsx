@@ -30,14 +30,11 @@ const BottomBackgroundContainer = styled.div`
 `;
 
 export interface ClaimSpfModalProps {
-  readonly firstClaim: boolean;
+  readonly gotIt: boolean;
   readonly close: () => void;
 }
 
-export const ClaimSpfModal: FC<ClaimSpfModalProps> = ({
-  firstClaim,
-  close,
-}) => {
+export const ClaimSpfModal: FC<ClaimSpfModalProps> = ({ gotIt, close }) => {
   const [status] = useObservable(spfStatus$);
   const [reward] = useObservable(spfReward$);
 
@@ -52,21 +49,20 @@ export const ClaimSpfModal: FC<ClaimSpfModalProps> = ({
             <BottomBackground />
           </BottomBackgroundContainer>
           <Modal.Content width={480}>
-            {status.status === SpfStatus.Init && (
-              <ClaimRewardState reward={reward} />
+            {gotIt && <GotRewardState reward={reward} close={close} />}
+            {status.status === SpfStatus.Init && !gotIt && (
+              <ClaimRewardState reward={reward} status={status} />
             )}
-            {status.status === SpfStatus.NothingToClaim && (
+            {status.status === SpfStatus.NothingToClaim && !gotIt && (
               <NothingToClaimState close={close} />
             )}
-            {status.status === SpfStatus.Claimed && firstClaim && (
-              <GotRewardState reward={reward} close={close} />
-            )}
-            {status.status === SpfStatus.Claimed && !firstClaim && (
+            {status.status === SpfStatus.Claimed && !gotIt && (
               <AlreadyRewardState reward={reward} close={close} />
             )}
             {[SpfStatus.Pending, SpfStatus.WaitingConfirmation].includes(
               status.status,
-            ) && <PendingState reward={reward} dateTime={status.dateTime} />}
+            ) &&
+              !gotIt && <PendingState reward={reward} status={status} />}
           </Modal.Content>
         </>
       )}
