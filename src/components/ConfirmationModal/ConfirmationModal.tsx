@@ -26,6 +26,8 @@ export enum Operation {
   WITHDRAWAL_LIQUIDITY,
   REQUEST_TESTNET_ASSET,
   CREATE_FARM,
+  STAKE_LIQUIDITY_FARM,
+  WITHDRAWAL_LIQUIDITY_FARM,
 }
 
 export interface ModalChainingPayload {
@@ -70,6 +72,14 @@ const getDescriptionByData = (
       })`;
     case Operation.CREATE_FARM:
       return t`Creating Farm`;
+    case Operation.STAKE_LIQUIDITY_FARM:
+      return xAsset && yAsset
+        ? t`Stake ${xAsset.toCurrencyString()} and ${yAsset.toCurrencyString()} liquidity`
+        : '';
+    case Operation.WITHDRAWAL_LIQUIDITY_FARM:
+      return xAsset && yAsset
+        ? t`Withdraw ${xAsset.toCurrencyString()} and ${yAsset.toCurrencyString()}  liquidity`
+        : '';
   }
 };
 

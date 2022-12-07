@@ -6,18 +6,32 @@ import {
   Observable,
   publishReplay,
   refCount,
+  startWith,
   switchMap,
 } from 'rxjs';
 
 import { applicationConfig } from '../../../../applicationConfig';
 import { AmmPool } from '../../../../common/models/AmmPool';
+import { Balance } from '../../../../common/models/Balance';
+import { Currency } from '../../../../common/models/Currency';
 import { LmPool } from '../../../../common/models/LmPool';
-import { displayedAmmPools$ } from '../ammPools/ammPools';
+import { ammPools$ } from '../ammPools/ammPools';
+import { assetBalance$ } from '../balance/assetBalance';
+import { lpBalance$ } from '../balance/lpBalance';
 import { mapToAssetInfo } from '../common/assetInfoManager';
 import { rawLmPools$ } from '../common/rawLmPools';
+import { networkContext$ } from '../networkContext/networkContext';
 import { ErgoLmPool } from './ErgoLmPool';
 
-const toLmPool = (p: BaseLmPool, ammPool: AmmPool): Observable<LmPool> =>
+const toLmPool = (
+  p: BaseLmPool,
+  ammPool: AmmPool,
+  {
+    balanceLq,
+    balanceVlq,
+    currentHeight,
+  }: { balanceLq: Currency; balanceVlq: Currency; currentHeight: number },
+): Observable<LmPool> =>
   combineLatest(
     [
       p.lq.asset,
@@ -30,31 +44,41 @@ const toLmPool = (p: BaseLmPool, ammPool: AmmPool): Observable<LmPool> =>
       return mapToAssetInfo(asset.id);
     }),
   ).pipe(
-    map(([lq, tt, vlq, reward, assetX, assetY]) => {
+    map(([lq, tt, vlq, reward]) => {
       return new ErgoLmPool(p, {
         lq: lq || p.lq.asset,
         vlq: vlq || p.vlq.asset,
         tt: tt || p.tt.asset,
         reward: reward || p.reward.asset,
-        assetX: assetX || ammPool.x.asset,
-        assetY: assetY || ammPool.y.asset,
+        ammPool,
+        balanceLq,
+        balanceVlq,
+        currentHeight,
       });
     }),
   );
 
 export const allLmPools$ = combineLatest([
   rawLmPools$,
-  displayedAmmPools$,
+  ammPools$,
+  assetBalance$.pipe(startWith(new Balance([]))),
+  lpBalance$.pipe(startWith(new Balance([]))),
+  networkContext$,
 ]).pipe(
-  switchMap(([rawLmPools, displayedAmmPools]) =>
+  switchMap(([rawLmPools, ammPools, assetBalance, lpBalance, networkContext]) =>
     combineLatest(
       rawLmPools.reduce((acc, rlp) => {
-        const ammPoolByLp = displayedAmmPools.find(
+        const ammPoolByLp = ammPools.find(
           (amm) => amm.lp.asset.id === rlp.lq.asset.id,
         );
-
         if (ammPoolByLp) {
-          acc.push(toLmPool(rlp, ammPoolByLp));
+          acc.push(
+            toLmPool(rlp, ammPoolByLp, {
+              balanceVlq: assetBalance.get(rlp.vlq.asset),
+              balanceLq: lpBalance.get(rlp.lq.asset),
+              currentHeight: networkContext.height,
+            }),
+          );
         }
 
         return acc;

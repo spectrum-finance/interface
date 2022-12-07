@@ -8,11 +8,10 @@ import {
   Operation,
 } from '../../../components/ConfirmationModal/ConfirmationModal';
 import { ExpandComponentProps } from '../../../components/TableView/common/Expand';
-import { FarmStakeModal } from '../FarmStakeModal/FarmStakeModal';
 import { FarmTableViewDesktop } from './FarmTableViewDesktop';
-import { FarmTableViewLaptop } from './FarmTableViewLaptop';
-import { FarmTableViewMobile } from './FarmTableViewMobile';
-import { FarmTableViewTablet } from './FarmTableViewTablet';
+// import { FarmTableViewLaptop } from './FarmTableViewLaptop';
+// import { FarmTableViewMobile } from './FarmTableViewMobile';
+// import { FarmTableViewTablet } from './FarmTableViewTablet';
 
 export interface FarmTableViewProps<T extends LmPool | Position> {
   readonly items: T[];
@@ -30,56 +29,45 @@ export const FarmTableView: FC<FarmTableViewProps<any>> = ({
   className,
 }) => {
   const { valBySize, moreThan, l, m, s } = useDevice();
-  const openStakeModal = (pool: LmPool) => {
-    openConfirmationModal(
-      (next) => {
-        return <FarmStakeModal pool={pool} onClose={() => {}} />;
-      },
-      Operation.CREATE_FARM,
-      {},
-    );
-    // panalytics.submitDeposit(value);
-  };
 
-  if (moreThan('xl')) {
-    return (
-      <FarmTableViewDesktop
-        items={items}
-        openStakeModal={openStakeModal}
-        loading={loading}
-        expandComponent={expandComponent}
-      />
-    );
-  }
-
-  if (l) {
-    return (
-      <FarmTableViewLaptop
-        items={items}
-        openStakeModal={openStakeModal}
-        loading={loading}
-        expandComponent={expandComponent}
-      />
-    );
-  }
-
-  if (m) {
-    return (
-      <FarmTableViewTablet
-        items={items}
-        openStakeModal={openStakeModal}
-        loading={loading}
-        expandComponent={expandComponent}
-      />
-    );
-  }
-
+  // if (moreThan('xl')) {
   return (
-    <FarmTableViewMobile
+    <FarmTableViewDesktop
       items={items}
-      openStakeModal={openStakeModal}
       loading={loading}
       expandComponent={expandComponent}
     />
   );
+  // }
+
+  // if (l) {
+  //   return (
+  //     <FarmTableViewLaptop
+  //       items={items}
+  //       openStakeModal={openStakeModal}
+  //       loading={loading}
+  //       expandComponent={expandComponent}
+  //     />
+  //   );
+  // }
+
+  // if (m) {
+  //   return (
+  //     <FarmTableViewTablet
+  //       items={items}
+  //       openStakeModal={openStakeModal}
+  //       loading={loading}
+  //       expandComponent={expandComponent}
+  //     />
+  //   );
+  // }
+
+  // return (
+  //   <FarmTableViewMobile
+  //     items={items}
+  //     openStakeModal={openStakeModal}
+  //     loading={loading}
+  //     expandComponent={expandComponent}
+  //   />
+  // );
 };

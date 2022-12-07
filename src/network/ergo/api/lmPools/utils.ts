@@ -15,9 +15,12 @@ function initPool(
   epochNum: number,
   programStart: number,
 ): LmPool {
-  const reward = new AssetAmount({ id: 'rew' }, 1000000000n);
+  const reward = new AssetAmount(
+    { id: '0000000000000000000000000000000000000000000000000000000000000000' },
+    100000000000n,
+  );
   const lq = new AssetAmount(
-    { id: '303f39026572bcb4060b51fafc93787a236bb243744babaa99fceb833d61e198' },
+    { id: '98da76cecb772029cfec3d53727d5ff37d5875691825fbba743464af0c89ce45' },
     1000000000n,
   );
   const vlq = new AssetAmount({ id: 'vlq' }, 1000000000n);
@@ -27,7 +30,7 @@ function initPool(
     epochNum,
     programStart,
     programBudget: reward.amount,
-    execBudget: 100000000n,
+    execBudget: 1000n,
   };
   return new LmPool('0x', conf, reward, lq, vlq, tt);
 }
@@ -39,26 +42,26 @@ class NetworkPools {
     // this.contracts = contracts;
   }
   async get(poolId?: any) {
-    const startedAt = 1000;
-    const pool = initPool(4, 10, startedAt);
+    const startedAt = 889586;
+    const pool = initPool(4, 740, startedAt);
     return pool;
   }
 
   async getAll(paging?: any) {
-    const startedAt = 1000;
-    const pool = initPool(4, 10, startedAt);
+    const startedAt = 889586;
+    const pool = initPool(4, 740, startedAt);
     const total = 1;
     return [[pool], total];
   }
   async getByTokens(tokens: string[], paging?: any) {
-    const startedAt = 1000;
-    const pool = initPool(4, 10, startedAt);
+    const startedAt = 889586;
+    const pool = initPool(4, 740, startedAt);
     const total = 1;
     return [[pool], total];
   }
   async getByTokensUnion(tokens?: string[], paging?: any) {
-    const startedAt = 1000;
-    const pool = initPool(4, 10, startedAt);
+    const startedAt = 889586;
+    const pool = initPool(4, 740, startedAt);
     const total = 1;
     return [[pool], total];
   }

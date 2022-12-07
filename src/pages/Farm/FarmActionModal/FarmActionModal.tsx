@@ -1,19 +1,15 @@
-import {
-  ArrowLeftOutlined,
-  Box,
-  Divider,
-  Flex,
-  Form,
-  Modal,
-  Slider,
-  Typography,
-  useForm,
-} from '@ergolabs/ui-kit';
+import { Flex, Form, Modal, Typography, useForm } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import React from 'react';
+import { skip } from 'rxjs';
 import styled from 'styled-components';
 
+import {
+  useObservable,
+  useSubscription,
+} from '../../../common/hooks/useObservable';
 import { AssetInfo } from '../../../common/models/AssetInfo';
+import { Currency } from '../../../common/models/Currency';
 import { LmPool } from '../../../common/models/LmPool';
 import { AssetIconPair } from '../../../components/AssetIconPair/AssetIconPair';
 import { DataTag } from '../../../components/common/DataTag/DataTag';
@@ -23,18 +19,19 @@ import { OperationForm } from '../../../components/OperationForm/OperationForm';
 import { PageSection } from '../../../components/Page/PageSection/PageSection';
 import { FarmHeaderAssets } from '../FarmGridView/FarmCardView/FarmCardView';
 
-interface FarmStakeModalProps {
+interface FarmActionModalProps {
   pool: LmPool;
   onClose: (request?: any) => void;
+  operation: 'withdrawal' | 'stake';
 }
 
-interface FarmStakeHeaderProps {
+interface FarmActionModalHeaderProps {
   className?: string;
   assetX: AssetInfo;
   assetY: AssetInfo;
 }
 
-const _FarmStakeHeader: React.FC<FarmStakeHeaderProps> = ({
+const _FarmActionModalHeader: React.FC<FarmActionModalHeaderProps> = ({
   className,
   assetX,
   assetY,
@@ -63,7 +60,7 @@ const _FarmStakeHeader: React.FC<FarmStakeHeaderProps> = ({
   );
 };
 
-export const FarmStakeHeader = styled(_FarmStakeHeader)`
+export const FarmActionModalHeader = styled(_FarmActionModalHeader)`
   position: relative;
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
@@ -91,14 +88,58 @@ const marks = {
   100: 'Max',
 };
 
-export const FarmStakeModal: React.FC<FarmStakeModalProps> = ({ pool }) => {
-  const form = useForm<any>({
+export interface FormModel {
+  readonly percent: number;
+  readonly xAmount?: Currency;
+  readonly yAmount?: Currency;
+  readonly lpAmount?: Currency;
+}
+
+export const FarmActionModal: React.FC<FarmActionModalProps> = ({
+  pool,
+  operation = 'withdrawal',
+}) => {
+  const form = useForm<FormModel>({
     percent: 50,
+    xAmount: undefined,
+    yAmount: undefined,
+    lpAmount: undefined,
   });
+
+  const availableAssetX =
+    operation === 'withdrawal' ? pool.yourStake[0] : pool.availableLqShares[0];
+
+  const availableAssetY =
+    operation === 'withdrawal' ? pool.yourStake[1] : pool.availableLqShares[1];
+
+  const availableFarmTokens =
+    operation === 'withdrawal' ? pool.balanceVlq : pool.balanceLq;
+
+  const [formValue] = useObservable(form.valueChangesWithSilent$);
+
+  useSubscription(
+    form.controls.percent.valueChanges$.pipe(skip(1)),
+    (percent) => {
+      form.patchValue({
+        xAmount:
+          percent === 100 ? availableAssetX : availableAssetX.percent(percent),
+        yAmount:
+          percent === 100 ? availableAssetY : availableAssetY.percent(percent),
+        lpAmount:
+          percent === 100
+            ? availableFarmTokens
+            : availableFarmTokens.percent(percent),
+      });
+    },
+    [],
+  );
   return (
     <>
       <Modal.Title>
-        <FarmStakeHeader assetX={pool.assetX} assetY={pool.assetY} />
+        <FarmActionModalHeader
+          assetX={pool.ammPool.x.asset}
+          assetY={pool.ammPool.y.asset}
+        />
       </Modal.Title>
       <Modal.Content maxWidth={480} width="100%">
         <OperationForm
@@ -116,8 +157,8 @@ export const FarmStakeModal: React.FC<FarmStakeModalProps> = ({ pool }) => {
               </Form.Item>
               <FormPairSection
                 title={''}
-                xAmount={pool.lq}
-                yAmount={pool.vlq}
+                xAmount={formValue?.xAmount || availableAssetX}
+                yAmount={formValue?.yAmount || availableAssetY}
               />
             </Flex>
           </PageSection>

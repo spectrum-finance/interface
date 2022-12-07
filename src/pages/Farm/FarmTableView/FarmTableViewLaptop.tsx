@@ -48,7 +48,7 @@ export const FarmTableViewLaptop = ({
         headerMaxWidth={282}
         title={<Trans>Pair</Trans>}
       >
-        {(lmPool) => <FarmPairColumn lmPool={lmPool} status="Scheduled" />}
+        {(lmPool) => <FarmPairColumn lmPool={lmPool} />}
       </TableView.Column>
 
       <TableView.Column

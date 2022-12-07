@@ -45,12 +45,7 @@ export const FarmTableViewMobile = ({
         title={<Trans>Pair</Trans>}
       >
         {(lmPool) => (
-          <FarmPairColumn
-            lmPool={lmPool}
-            status="Scheduled"
-            direction="col"
-            align="flex-start"
-          />
+          <FarmPairColumn lmPool={lmPool} direction="col" align="flex-start" />
         )}
       </TableView.Column>
 

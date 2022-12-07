@@ -1,4 +1,3 @@
-import { LmPool } from '@ergolabs/ergo-dex-sdk';
 import { Observable } from 'rxjs';
 
 import { AmmPool } from '../../common/models/AmmPool';

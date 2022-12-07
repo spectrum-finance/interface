@@ -2,6 +2,7 @@ import { LmPool as ErgoBaseLmPool, LmPoolConfig } from '@ergolabs/ergo-dex-sdk';
 import { AssetAmount } from '@ergolabs/ergo-sdk';
 import { cache } from 'decorator-cache-getter';
 
+import { AmmPool } from '../../../../common/models/AmmPool';
 import { AssetInfo } from '../../../../common/models/AssetInfo';
 import { Currency } from '../../../../common/models/Currency';
 import { LmPool } from '../../../../common/models/LmPool';
@@ -14,8 +15,10 @@ export class ErgoLmPool extends LmPool {
       vlq: AssetInfo;
       reward: AssetInfo;
       tt: AssetInfo;
-      assetX: AssetInfo;
-      assetY: AssetInfo;
+      ammPool: AmmPool;
+      balanceLq: Currency;
+      balanceVlq: Currency;
+      currentHeight: number;
     },
   ) {
     super();
@@ -37,22 +40,36 @@ export class ErgoLmPool extends LmPool {
     return this.assetsInfoDictionary.tt;
   }
 
-  @cache
-  get assetX(): AssetInfo {
-    return this.assetsInfoDictionary.assetY;
+  get yourStake(): [Currency, Currency] {
+    return this.ammPool.shares(
+      new Currency(this.assetsInfoDictionary.balanceVlq.amount, this.lqAsset),
+    );
   }
 
-  @cache
-  get assetY(): AssetInfo {
-    return this.assetsInfoDictionary.assetX;
+  get availableLqShares(): [Currency, Currency] {
+    return this.ammPool.shares(this.balanceLq);
   }
 
-  // cache?
+  get ammPool(): AmmPool {
+    return this.assetsInfoDictionary.ammPool;
+  }
+
   get epochAlloc(): bigint {
     return this.pool.epochAlloc;
   }
 
-  // cache?
+  get balanceLq(): Currency {
+    return this.assetsInfoDictionary.balanceLq;
+  }
+
+  get balanceVlq(): Currency {
+    return this.assetsInfoDictionary.balanceVlq;
+  }
+
+  get currentHeight(): number {
+    return this.assetsInfoDictionary.currentHeight;
+  }
+
   epochsLeft(currentHeight: number): number {
     return this.pool.epochsLeft(currentHeight);
   }
