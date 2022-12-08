@@ -1,5 +1,6 @@
 import { Flex } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
+import numeral from 'numeral';
 import React from 'react';
 
 import { useObservable } from '../../../common/hooks/useObservable';
@@ -14,6 +15,7 @@ import { networkContext$ } from '../../../gateway/api/networkContext';
 import { LiquiditySearchState } from '../../Liquidity/common/tableViewStates/LiquiditySearchState/LiquiditySearchState';
 import { FarmAction } from '../FarmAction/FarmAction';
 import { APRComponent } from '../FarmApr/FarmApr';
+import { FarmLineProgress } from '../FarmLineProgress/FarmLineProgress';
 import { FarmPairColumn } from '../FarmPairColumn/FarmPairColumn';
 import { LineProgress } from '../LineProgress/LineProgress';
 import { FarmTableLoadingState } from './FarmTableLoadingState';
@@ -104,25 +106,12 @@ export const FarmTableViewDesktop = ({
           </Flex>
         )}
       </TableView.Column>
-      <TableView.Column
-        width={150}
-        title={
-          <InfoTooltip
-            width={194}
-            placement="top"
-            content={
-              <Trans>
-                345 Neta out of 1000 Neta have already been distributed
-              </Trans>
-            }
-          >
-            <Trans>Distributed</Trans>
-          </InfoTooltip>
-        }
-      >
+      <TableView.Column width={150} title={<Trans>Distributed</Trans>}>
         {/*{(lmPool: LmPool) => <AprColumn lmPool={poolMapper(lmPool)} />}*/}
         {/*{(lmPool) => <Progress percent={90} />}*/}
-        {(lmPool) => <LineProgress percent={60} height={24} width="130px" />}
+        {(lmPool: LmPool) => (
+          <FarmLineProgress lmPool={lmPool} height={24} width="130px" />
+        )}
       </TableView.Column>
       <TableView.Column width={140} title={<Trans>APR</Trans>}>
         {/*{(lmPool) => <TvlOrVolume24Column usd={poolMapper(lmPool).volume} />}*/}

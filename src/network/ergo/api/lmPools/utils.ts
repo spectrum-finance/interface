@@ -17,7 +17,7 @@ function initPool(
 ): LmPool {
   const reward = new AssetAmount(
     { id: '0000000000000000000000000000000000000000000000000000000000000000' },
-    100000000000n,
+    10000000000n,
   );
   const lq = new AssetAmount(
     { id: '98da76cecb772029cfec3d53727d5ff37d5875691825fbba743464af0c89ce45' },
@@ -29,7 +29,7 @@ function initPool(
     epochLen,
     epochNum,
     programStart,
-    programBudget: reward.amount,
+    programBudget: 100000000000n,
     execBudget: 1000n,
   };
   return new LmPool('0x', conf, reward, lq, vlq, tt);
