@@ -174,37 +174,10 @@ export const FarmTableExpandComponent: FC<ExpandComponentProps<any>> = ({
             bordered={false}
             transparent
           >
-            <Flex
-              align={valBySize(
-                'flex-start',
-                'flex-start',
-                'flex-start',
-                'center',
-              )}
-              justify="space-between"
-              width="100%"
-              direction={valBySize('col', 'col', 'col', 'row')}
-              gap={valBySize(4, 4, 4, 0)}
-            >
-              <Flex direction="col">
-                <Typography.Body secondary>Rewards</Typography.Body>
-                <Typography.Body size="base">
-                  You will be able to stake starting from 2022-07-20
-                </Typography.Body>
-              </Flex>
-              <Flex
-                align="center"
-                width={valBySize('100%', '100%', '100%', 'initial')}
-              >
-                <FullWidthButton
-                  type="primary"
-                  disabled
-                  $fullWidth={valBySize(true, true, true, false)}
-                >
-                  Harvest
-                </FullWidthButton>
-              </Flex>
-            </Flex>
+            <Typography.Body secondary>Rewards</Typography.Body>
+            <Typography.Body size="base">
+              You will be able to stake starting from 2022-07-20
+            </Typography.Body>
           </Box>
         </Col>
 
