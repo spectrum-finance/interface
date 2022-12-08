@@ -11,12 +11,13 @@ import {
   refCount,
   Subject,
   switchMap,
+  tap,
 } from 'rxjs';
 
 import { applicationConfig } from '../../../../applicationConfig';
 import { uint } from '../../../../common/types';
 import { getAddresses } from '../addresses/addresses';
-import { pollingInterval } from './common';
+import { pollingInterval$, stopPolling } from './common';
 
 export const updateStatus = new Subject<void>();
 
@@ -48,7 +49,7 @@ export interface ClaimSpfStatusResponse {
 export const LAST_STAGE = 7;
 
 export const spfStatus$: Observable<ClaimSpfStatusResponse> = merge(
-  pollingInterval,
+  pollingInterval$,
   updateStatus,
 ).pipe(
   switchMap(() => getAddresses()),
@@ -78,6 +79,11 @@ export const spfStatus$: Observable<ClaimSpfStatusResponse> = merge(
     nextStageDateTime: DateTime.fromMillis(res.data.nextStageTs || 0),
     startDate: DateTime.fromMillis(res.data.startDate || 0),
   })),
+  tap((status) => {
+    if (status.stage === LAST_STAGE && status.status === SpfStatus.Claimed) {
+      stopPolling();
+    }
+  }),
   publishReplay(1),
   refCount(),
 );

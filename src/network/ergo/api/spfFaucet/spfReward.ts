@@ -16,7 +16,7 @@ import { applicationConfig } from '../../../../applicationConfig';
 import { Currency } from '../../../../common/models/Currency';
 import { getAddresses } from '../addresses/addresses';
 import { spfAsset } from '../networkAsset/networkAsset';
-import { pollingInterval } from './common';
+import { pollingInterval$ } from './common';
 import { updateStatus } from './spfStatus';
 
 export interface RawCohort {
@@ -47,7 +47,7 @@ export interface SpfReward {
 export const updateReward = new Subject<void>();
 
 export const spfReward$: Observable<SpfReward> = merge(
-  pollingInterval,
+  pollingInterval$,
   updateStatus,
 ).pipe(
   switchMap(() => getAddresses()),
