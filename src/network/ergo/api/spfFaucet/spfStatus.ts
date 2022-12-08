@@ -52,6 +52,8 @@ export interface ClaimSpfStatusResponse {
   readonly stage: uint;
 }
 
+export const LAST_STAGE = 7;
+
 export const spfStatus$: Observable<ClaimSpfStatusResponse> = merge(
   pollingInterval,
   updateStatus,

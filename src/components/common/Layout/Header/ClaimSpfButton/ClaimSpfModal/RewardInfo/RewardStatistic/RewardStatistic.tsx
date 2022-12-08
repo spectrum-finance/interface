@@ -43,8 +43,7 @@ export const RewardStatistic: FC<RewardStatisticProps> = ({
         <Trans>Next reward</Trans>
       </Typography.Body>
       <Typography.Title level={4}>
-        {status.nextStageDateTime.toFormat('DD')} (
-        {reward.available.toCurrencyString()})
+        {status.nextStageDateTime.toFormat('DD')}
       </Typography.Title>
     </Flex>
   </StyledBox>

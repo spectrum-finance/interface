@@ -10,12 +10,16 @@ import { localStorageManager } from '../../../../../common/utils/localStorageMan
 import { isWalletSetuped$ } from '../../../../../gateway/api/wallets';
 import { spfReward$ } from '../../../../../network/ergo/api/spfFaucet/spfReward';
 import {
+  LAST_STAGE,
   SpfStatus,
   spfStatus$,
 } from '../../../../../network/ergo/api/spfFaucet/spfStatus';
 import { ReactComponent as BottomBackground } from './bottom-background.svg';
 import { ClaimSpfModal } from './ClaimSpfModal/ClaimSpfModal';
-import { ClaimSpfNotification } from './ClaimSpfNotification/ClaimSpfNotification';
+import {
+  hideClaimSpfNotification,
+  openClaimSpfNotification,
+} from './ClaimSpfNotification/ClaimSpfNotification';
 import { ReactComponent as TopBackground } from './top-background.svg';
 
 const StyledButton = styled(Button)`
@@ -36,7 +40,7 @@ const BottomBackgroundContainer = styled.div`
   top: -2px;
 `;
 
-const CLAIM_STAGE = 'CLAIM_STAGE';
+const CLAIM_FINISHED = 'CLAIM_FINISHED';
 
 export const ClaimSpfButton: FC = () => {
   const [claimSpfStatus] = useObservable(spfStatus$);
@@ -49,8 +53,9 @@ export const ClaimSpfButton: FC = () => {
   useEffect(() => {
     if (
       claimSpfStatus &&
-      localStorageManager.get(CLAIM_STAGE) !== claimSpfStatus?.stage &&
-      claimSpfStatus?.stage !== 1
+      claimSpfStatus.stage === LAST_STAGE &&
+      claimSpfStatus.status === SpfStatus.Claimed &&
+      !localStorageManager.get(CLAIM_FINISHED)
     ) {
       setConfetti(true);
     }
@@ -63,6 +68,23 @@ export const ClaimSpfButton: FC = () => {
     openClaimSpfModal();
   }, [confetti]);
 
+  useEffect(() => {
+    if (
+      claimSpfStatus &&
+      claimSpfReward &&
+      claimSpfStatus.status === SpfStatus.Init &&
+      claimSpfReward.available.isPositive()
+    ) {
+      openClaimSpfNotification(
+        claimSpfStatus,
+        claimSpfReward,
+        openClaimSpfModal,
+      );
+    } else {
+      hideClaimSpfNotification();
+    }
+  }, [claimSpfStatus, claimSpfReward]);
+
   const openClaimSpfModal = (e?: MouseEvent<any>) => {
     if (e) {
       e.stopPropagation();
@@ -74,7 +96,7 @@ export const ClaimSpfButton: FC = () => {
           setModalRef(undefined);
           if (confetti) {
             setConfetti(false);
-            localStorageManager.set(CLAIM_STAGE, claimSpfStatus?.stage);
+            localStorageManager.set(CLAIM_FINISHED, true);
           }
         },
       },
@@ -107,11 +129,6 @@ export const ClaimSpfButton: FC = () => {
               ? t`Claiming...`
               : t`Claim SPF`}
           </StyledButton>
-          <ClaimSpfNotification
-            reward={claimSpfReward}
-            visible={claimSpfStatus.status === SpfStatus.Init}
-            onClick={openClaimSpfModal}
-          />
         </div>
       )}
     </>

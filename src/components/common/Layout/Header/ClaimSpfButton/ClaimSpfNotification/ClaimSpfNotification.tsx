@@ -1,16 +1,19 @@
-import { Button, Flex, Typography } from '@ergolabs/ui-kit';
-import { Trans } from '@lingui/macro';
-import React, { FC } from 'react';
-import styled, { css } from 'styled-components';
+import './ClaimSpfNotification.less';
 
+import { Button, Flex, notification, Typography } from '@ergolabs/ui-kit';
+import { t } from '@lingui/macro';
+import React, { FC } from 'react';
+import styled from 'styled-components';
+
+import { localStorageManager } from '../../../../../../common/utils/localStorageManager';
 import { SpfReward } from '../../../../../../network/ergo/api/spfFaucet/spfReward';
+import { ClaimSpfStatusResponse } from '../../../../../../network/ergo/api/spfFaucet/spfStatus';
 import { ReactComponent as SpfTokenIcon } from '../spf-token.svg';
 import { ReactComponent as BottomBackground } from './bottom-background.svg';
 
 export interface ClaimSpfNotificationProps {
   readonly className?: string;
   readonly reward: SpfReward;
-  readonly visible?: boolean;
   readonly onClick?: () => void;
 }
 
@@ -35,20 +38,19 @@ const _ClaimSpfNotification: FC<ClaimSpfNotificationProps> = ({
       </Flex.Item>
       <Flex.Item marginBottom={2}>
         <Typography.Title level={4}>
-          {reward.total.toCurrencyString()}
+          {reward.available.toCurrencyString()}
         </Typography.Title>
       </Flex.Item>
       <Flex.Item>
         <Typography.Body size="large" strong>
-          <Trans>Claim has arrived</Trans>
+          {t`Claim has arrived`}
         </Typography.Body>
       </Flex.Item>
       <Flex.Item marginBottom={4}>
         <Typography.Body size="small" align="center">
-          <Trans>
-            Thanks for being a long time <br /> supporter of the Spectrum
-            Finance
-          </Trans>
+          {t`Thanks for being a long time`}
+          <br />
+          {t`supporter of the Spectrum Finance`}
         </Typography.Body>
       </Flex.Item>
       <Button
@@ -57,7 +59,7 @@ const _ClaimSpfNotification: FC<ClaimSpfNotificationProps> = ({
         style={{ width: '100%' }}
         onClick={onClick}
       >
-        <Trans>Claim SPF</Trans>
+        {t`Claim SPF`}
       </Button>
     </Flex>
   </div>
@@ -70,20 +72,31 @@ export const ClaimSpfNotification = styled(_ClaimSpfNotification)`
   overflow: hidden;
   padding: calc(var(--spectrum-base-gutter) * 6)
     calc(var(--spectrum-base-gutter) * 2) calc(var(--spectrum-base-gutter) * 2);
-  position: fixed;
-  right: 24px;
-  top: 80px;
-  transition: opacity 0.3s;
   width: 280px;
-
-  ${(props) =>
-    props.visible
-      ? css`
-          visibility: visible;
-          opacity: 1;
-        `
-      : css`
-          visibility: hidden;
-          opacity: 0;
-        `}
 `;
+
+const CLAIM_SPF_STAGE = 'CLAIM_SPF_STAGE';
+const CLAIM_SPF_NOTIFICATION_KEY = 'CLAIM_SPF_NOTIFICATION_KEY';
+
+export const openClaimSpfNotification = (
+  status: ClaimSpfStatusResponse,
+  reward: SpfReward,
+  onClick?: () => void,
+): void => {
+  if (localStorageManager.get(CLAIM_SPF_STAGE) === status.stage) {
+    return;
+  }
+
+  notification.open({
+    key: CLAIM_SPF_NOTIFICATION_KEY,
+    message: <ClaimSpfNotification reward={reward} onClick={onClick} />,
+    placement: 'topRight',
+    duration: 0,
+    btn: <></>,
+    onClose: () => localStorageManager.set(CLAIM_SPF_STAGE, status.stage),
+    className: 'claim-spf',
+  });
+};
+
+export const hideClaimSpfNotification = (): void =>
+  notification.close(CLAIM_SPF_NOTIFICATION_KEY);

@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { useObservable } from '../../../../../../common/hooks/useObservable';
 import { spfReward$ } from '../../../../../../network/ergo/api/spfFaucet/spfReward';
 import {
+  LAST_STAGE,
   SpfStatus,
   spfStatus$,
 } from '../../../../../../network/ergo/api/spfFaucet/spfStatus';
@@ -50,15 +51,15 @@ export const ClaimSpfModal: FC<ClaimSpfModalProps> = ({ gotIt, close }) => {
           </BottomBackgroundContainer>
           <Modal.Content width={480}>
             {gotIt && <GotRewardState reward={reward} close={close} />}
-            {status.status === SpfStatus.Init && !gotIt && (
-              <ClaimRewardState reward={reward} status={status} />
-            )}
+            {[SpfStatus.Init, SpfStatus.Claimed].includes(status.status) &&
+              status.stage !== LAST_STAGE &&
+              !gotIt && <ClaimRewardState reward={reward} status={status} />}
             {status.status === SpfStatus.NothingToClaim && !gotIt && (
               <NothingToClaimState close={close} />
             )}
-            {status.status === SpfStatus.Claimed && !gotIt && (
-              <AlreadyRewardState reward={reward} close={close} />
-            )}
+            {status.status === SpfStatus.Claimed &&
+              status.stage === LAST_STAGE &&
+              !gotIt && <AlreadyRewardState reward={reward} close={close} />}
             {[SpfStatus.Pending, SpfStatus.WaitingConfirmation].includes(
               status.status,
             ) &&
