@@ -62,8 +62,11 @@ export const ClaimSpfButton: FC = () => {
   }, [claimSpfStatus]);
 
   useEffect(() => {
-    if (!confetti || modalRef) {
+    if (!confetti) {
       return;
+    }
+    if (modalRef) {
+      modalRef.close();
     }
     openClaimSpfModal();
   }, [confetti]);
