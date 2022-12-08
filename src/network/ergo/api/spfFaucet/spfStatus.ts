@@ -3,14 +3,12 @@ import { DateTime } from 'luxon';
 import {
   filter,
   from,
-  interval,
   map,
   merge,
   Observable,
   of,
   publishReplay,
   refCount,
-  startWith,
   Subject,
   switchMap,
 } from 'rxjs';
@@ -18,12 +16,7 @@ import {
 import { applicationConfig } from '../../../../applicationConfig';
 import { uint } from '../../../../common/types';
 import { getAddresses } from '../addresses/addresses';
-
-const pollingInterval = interval(60_000).pipe(
-  startWith(0),
-  publishReplay(1),
-  refCount(),
-);
+import { pollingInterval } from './common';
 
 export const updateStatus = new Subject<void>();
 

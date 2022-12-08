@@ -3,6 +3,7 @@ import { first, from, Observable, switchMap, tap } from 'rxjs';
 
 import { applicationConfig } from '../../../../applicationConfig';
 import { getAddresses } from '../addresses/addresses';
+import { updateReward } from './spfReward';
 import { updateStatus } from './spfStatus';
 
 export const claimSpf = (): Observable<any> =>
@@ -16,5 +17,8 @@ export const claimSpf = (): Observable<any> =>
         ),
       ),
     ),
-    tap(() => updateStatus.next()),
+    tap(() => {
+      updateStatus.next();
+      updateReward.next();
+    }),
   );

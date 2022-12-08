@@ -51,8 +51,9 @@ export const ClaimSpfModal: FC<ClaimSpfModalProps> = ({ gotIt, close }) => {
           </BottomBackgroundContainer>
           <Modal.Content width={480}>
             {gotIt && <GotRewardState reward={reward} close={close} />}
-            {[SpfStatus.Init, SpfStatus.Claimed].includes(status.status) &&
-              status.stage !== LAST_STAGE &&
+            {(status.status === SpfStatus.Init ||
+              (status.status === SpfStatus.Claimed &&
+                status.stage !== LAST_STAGE)) &&
               !gotIt && <ClaimRewardState reward={reward} status={status} />}
             {status.status === SpfStatus.NothingToClaim && !gotIt && (
               <NothingToClaimState close={close} />

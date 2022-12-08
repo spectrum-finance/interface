@@ -28,7 +28,7 @@ export const AlreadyRewardState: FC<GotRewardStateProps> = ({
         level={1}
         style={{ color: 'var(--spectrum-primary-color)' }}
       >
-        {reward.total.toCurrencyString()}
+        {reward.claimed.toCurrencyString()}
       </Typography.Title>
     </Flex.Item>
     <Button

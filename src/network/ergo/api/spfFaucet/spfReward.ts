@@ -3,10 +3,12 @@ import {
   filter,
   from,
   map,
+  merge,
   Observable,
   of,
   publishReplay,
   refCount,
+  Subject,
   switchMap,
 } from 'rxjs';
 
@@ -14,6 +16,8 @@ import { applicationConfig } from '../../../../applicationConfig';
 import { Currency } from '../../../../common/models/Currency';
 import { getAddresses } from '../addresses/addresses';
 import { spfAsset } from '../networkAsset/networkAsset';
+import { pollingInterval } from './common';
+import { updateStatus } from './spfStatus';
 
 export interface RawCohort {
   readonly cohort: string;
@@ -40,7 +44,13 @@ export interface SpfReward {
   readonly pending: Currency;
 }
 
-export const spfReward$: Observable<SpfReward> = getAddresses().pipe(
+export const updateReward = new Subject<void>();
+
+export const spfReward$: Observable<SpfReward> = merge(
+  pollingInterval,
+  updateStatus,
+).pipe(
+  switchMap(() => getAddresses()),
   filter((addresses) => !!addresses?.length),
   switchMap((addresses) =>
     !!addresses.length
