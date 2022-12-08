@@ -40,6 +40,8 @@ export abstract class LmPool {
 
   abstract get currentHeight(): number;
 
+  abstract get programBudget(): string;
+
   @cache
   get shares(): [Currency, Currency] {
     return this.ammPool.shares(this.lq);

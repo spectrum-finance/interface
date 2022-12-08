@@ -6,6 +6,7 @@ import { AmmPool } from '../../../../common/models/AmmPool';
 import { AssetInfo } from '../../../../common/models/AssetInfo';
 import { Currency } from '../../../../common/models/Currency';
 import { LmPool } from '../../../../common/models/LmPool';
+import { renderFractions } from '../../../../utils/math';
 
 export class ErgoLmPool extends LmPool {
   constructor(
@@ -68,6 +69,13 @@ export class ErgoLmPool extends LmPool {
 
   get currentHeight(): number {
     return this.assetsInfoDictionary.currentHeight;
+  }
+
+  get programBudget(): string {
+    return renderFractions(
+      this.config.programBudget,
+      this.reward.asset.decimals,
+    );
   }
 
   epochsLeft(currentHeight: number): number {

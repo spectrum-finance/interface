@@ -14,6 +14,7 @@ import styled from 'styled-components';
 
 import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
 import { ExpandComponentProps } from '../../../components/TableView/common/Expand';
+import { ErgoLmPool } from '../../../network/ergo/api/lmPools/ErgoLmPool';
 import { LineProgress } from '../LineProgress/LineProgress';
 
 const FullWidthRow = styled(Row)`
@@ -25,7 +26,7 @@ const FullWidthButton = styled(Button)`
     $fullWidth ? '100%' : 'normal'};
 `;
 
-export const FarmTableExpandComponent: FC<ExpandComponentProps<any>> = ({
+export const FarmTableExpandComponent: FC<ExpandComponentProps<ErgoLmPool>> = ({
   item,
 }) => {
   const { valBySize, lessThan } = useDevice();
