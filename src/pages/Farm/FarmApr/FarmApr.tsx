@@ -11,7 +11,6 @@ import { networkContext$ } from '../../../gateway/api/networkContext';
 
 export const APRComponent = ({ lmPool }: { lmPool: LmPool }) => {
   // interests_relation = program_budget_left_in_usd / amount_lq_locked_in_usd
-
   // apr = interests_relation / lm_program_left_in_days * 365 * 100
 
   const [networkContext] = useObservable(networkContext$);

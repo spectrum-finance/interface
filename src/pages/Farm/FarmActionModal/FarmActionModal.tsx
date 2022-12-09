@@ -10,13 +10,16 @@ import {
 } from '../../../common/hooks/useObservable';
 import { AssetInfo } from '../../../common/models/AssetInfo';
 import { Currency } from '../../../common/models/Currency';
-import { LmPool } from '../../../common/models/LmPool';
+import { LmPool, LmStatuses } from '../../../common/models/LmPool';
 import { AssetIconPair } from '../../../components/AssetIconPair/AssetIconPair';
 import { DataTag } from '../../../components/common/DataTag/DataTag';
 import { FormPairSection } from '../../../components/common/FormView/FormPairSection/FormPairSection';
 import { FormSlider } from '../../../components/common/FormView/FormSlider/FormSlider';
+import { ConvenientAssetView } from '../../../components/ConvenientAssetView/ConvenientAssetView';
+import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
 import { OperationForm } from '../../../components/OperationForm/OperationForm';
 import { PageSection } from '../../../components/Page/PageSection/PageSection';
+import { APRComponent } from '../FarmApr/FarmApr';
 import { FarmHeaderAssets } from '../FarmGridView/FarmCardView/FarmCardView';
 
 interface FarmActionModalProps {
@@ -29,12 +32,14 @@ interface FarmActionModalHeaderProps {
   className?: string;
   assetX: AssetInfo;
   assetY: AssetInfo;
+  lmPool: LmPool;
 }
 
 const _FarmActionModalHeader: React.FC<FarmActionModalHeaderProps> = ({
   className,
   assetX,
   assetY,
+  lmPool,
 }) => {
   return (
     <Flex className={className} col gap={8}>
@@ -44,14 +49,42 @@ const _FarmActionModalHeader: React.FC<FarmActionModalHeaderProps> = ({
           <WhiteText>
             <Trans>Total Staked</Trans>
           </WhiteText>
-          <DataTag content="$---" />
+          <DataTag
+            content={
+              <Flex gap={1} align="center">
+                {/* ${lmPool.shares}{' '} */}
+                <ConvenientAssetView value={lmPool.shares} />
+                <InfoTooltip
+                  width={194}
+                  size="small"
+                  placement="top"
+                  icon="exclamation"
+                  content={
+                    <div>
+                      <div>
+                        {lmPool.shares[0].asset.ticker}:{' '}
+                        {lmPool.shares[0].toString()}
+                      </div>
+                      <div>
+                        {lmPool.shares[1].asset.ticker}:{' '}
+                        {lmPool.shares[1].toString()}
+                      </div>
+                    </div>
+                  }
+                />
+              </Flex>
+            }
+          />
         </Flex>
-        <Flex col align="flex-end">
-          <WhiteText>
-            <Trans>APR</Trans>
-          </WhiteText>
-          <DataTag content="30%" />
-        </Flex>
+        {lmPool.currentStatus === LmStatuses.LIVE && (
+          <Flex col align="flex-end">
+            <WhiteText>
+              <Trans>APR</Trans>
+            </WhiteText>
+            <APRComponent lmPool={lmPool} />
+          </Flex>
+        )}
+
         <FarmHeaderAssets>
           <AssetIconPair assetX={assetX} assetY={assetY} size="extraLarge" />
         </FarmHeaderAssets>
@@ -139,6 +172,7 @@ export const FarmActionModal: React.FC<FarmActionModalProps> = ({
         <FarmActionModalHeader
           assetX={pool.ammPool.x.asset}
           assetY={pool.ammPool.y.asset}
+          lmPool={pool}
         />
       </Modal.Title>
       <Modal.Content maxWidth={480} width="100%">
@@ -146,7 +180,7 @@ export const FarmActionModal: React.FC<FarmActionModalProps> = ({
           analytics={{ location: 'create-farm' }}
           form={form}
           onSubmit={() => console.log('confirm')}
-          actionCaption={t`Withdraw`}
+          actionCaption={operation === 'withdrawal' ? t`Withdraw` : t`Stake`}
         >
           <PageSection title={t`Amount`} noPadding>
             <Flex gap={4} col>

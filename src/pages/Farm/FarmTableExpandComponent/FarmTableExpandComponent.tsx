@@ -1,3 +1,4 @@
+import { blocksToDaysCount } from '@ergolabs/ergo-dex-sdk';
 import {
   Box,
   Button,
@@ -12,6 +13,8 @@ import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 import styled from 'styled-components';
 
+import { blockToDateTime } from '../../../common/utils/blocks';
+import { ConvenientAssetView } from '../../../components/ConvenientAssetView/ConvenientAssetView';
 import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
 import { ExpandComponentProps } from '../../../components/TableView/common/Expand';
 import { ErgoLmPool } from '../../../network/ergo/api/lmPools/ErgoLmPool';
@@ -27,7 +30,7 @@ const FullWidthButton = styled(Button)`
 `;
 
 export const FarmTableExpandComponent: FC<ExpandComponentProps<ErgoLmPool>> = ({
-  item,
+  item: lmPool,
 }) => {
   const { valBySize, lessThan } = useDevice();
   return (
@@ -77,7 +80,7 @@ export const FarmTableExpandComponent: FC<ExpandComponentProps<ErgoLmPool>> = ({
                   <Typography.Body secondary>Total staked</Typography.Body>
                   <Typography.Body>
                     <Flex gap={1} align="center">
-                      $340k{' '}
+                      <ConvenientAssetView value={lmPool.shares} />
                       <InfoTooltip
                         width={194}
                         size="small"
@@ -85,8 +88,14 @@ export const FarmTableExpandComponent: FC<ExpandComponentProps<ErgoLmPool>> = ({
                         icon="exclamation"
                         content={
                           <div>
-                            <div>ERG: 314,756.66</div>
-                            <div>SFP: 314,756.66</div>
+                            <div>
+                              {lmPool.shares[0].asset.ticker}:{' '}
+                              {lmPool.shares[0].toString()}
+                            </div>
+                            <div>
+                              {lmPool.shares[1].asset.ticker}:{' '}
+                              {lmPool.shares[1].toString()}
+                            </div>
                           </div>
                         }
                       />
@@ -107,7 +116,13 @@ export const FarmTableExpandComponent: FC<ExpandComponentProps<ErgoLmPool>> = ({
                   <Typography.Body secondary>
                     <Trans>Your Stake</Trans>
                   </Typography.Body>
-                  <Typography.Body>$340k </Typography.Body>
+                  <Typography.Body>
+                    {lmPool.yourStake.every((value) => value.isPositive()) ? (
+                      <ConvenientAssetView value={lmPool.yourStake} />
+                    ) : (
+                      <>$---</>
+                    )}
+                  </Typography.Body>
                 </Flex>
               </Box>
             </Col>
@@ -124,11 +139,18 @@ export const FarmTableExpandComponent: FC<ExpandComponentProps<ErgoLmPool>> = ({
             <Flex direction="col">
               <Typography.Body secondary>Live period</Typography.Body>
               <Typography.Body>
-                2022-07-20{' '}
+                {blockToDateTime(
+                  lmPool.currentHeight,
+                  lmPool.config.programStart,
+                ).toFormat('yyyy-MM-dd HH:MM')}{' '}
                 <Typography.Body secondary>
                   <SwapRightOutlined disabled={true} />
                 </Typography.Body>{' '}
-                2022-07-21
+                {blockToDateTime(
+                  lmPool.currentHeight,
+                  lmPool.config.programStart +
+                    lmPool.config.epochLen * lmPool.config.epochNum,
+                ).toFormat('yyyy-MM-dd HH:MM')}
               </Typography.Body>
             </Flex>
           </Box>
@@ -163,7 +185,10 @@ export const FarmTableExpandComponent: FC<ExpandComponentProps<ErgoLmPool>> = ({
               <Typography.Body secondary>
                 Distribution frequency
               </Typography.Body>
-              <Typography.Body>30 days (134,567 blocks)</Typography.Body>
+              <Typography.Body>
+                {blocksToDaysCount(lmPool.config.epochLen)} days (
+                {lmPool.config.epochLen} blocks)
+              </Typography.Body>
             </Flex>
           </Box>
         </Col>

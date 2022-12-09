@@ -11,7 +11,7 @@ import { FarmState } from './FarmStateFilter/FarmState';
 import { FarmStateFilter } from './FarmStateFilter/FarmStateFilter';
 import { FarmViewMode } from './FarmViewModeSwitch/FarmViewMode';
 import { FarmViewModeSwitch } from './FarmViewModeSwitch/FarmViewModeSwitch';
-import { MyFramsFilter } from './MyFramsFilter/MyFramsFilter';
+import { MyFarmsFilter } from './MyFarmsFilter/MyFarmsFilter';
 
 const StyledSearchInput = styled(SearchInput)`
   width: 100%;
@@ -35,7 +35,7 @@ export const FarmTopPanel: FC = () => {
       >
         {xl && (
           <Flex.Item marginRight={6}>
-            <MyFramsFilter value={true} onChange={() => {}} />
+            <MyFarmsFilter value={true} onChange={() => {}} />
           </Flex.Item>
         )}
         <Flex.Item flex={1} marginRight={4}>
@@ -46,18 +46,18 @@ export const FarmTopPanel: FC = () => {
             <StyledSearchInput size="large" placeholder={t`Search`} />
           </SearchInputContainer>
         )}
-        <Flex.Item>
+        {/* <Flex.Item>
           <Button size="large" type="primary" onClick={openFarmModal}>
             <Trans>Create farm</Trans>
           </Button>
-        </Flex.Item>
+        </Flex.Item> */}
       </Flex.Item>
       {lessThan('xl') && (
         <Flex.Item display="flex" align="center">
           <SearchInputContainer marginRight={4} flex={1}>
             <StyledSearchInput size="large" placeholder={t`Search`} />
           </SearchInputContainer>
-          <MyFramsFilter value={true} onChange={() => {}} />
+          <MyFarmsFilter value={true} onChange={() => {}} />
         </Flex.Item>
       )}
     </Flex>
