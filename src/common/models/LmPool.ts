@@ -1,5 +1,4 @@
 import {
-  blocksToTimestamp,
   LmPool as ErgoBaseLmPool,
   LmPoolConfig as ErgoBaseLmPoolConfig,
 } from '@ergolabs/ergo-dex-sdk';
@@ -41,6 +40,8 @@ export abstract class LmPool {
   abstract get currentHeight(): number;
 
   abstract get programBudget(): string;
+
+  abstract get fullEpochsRemain(): number;
 
   @cache
   get shares(): [Currency, Currency] {

@@ -37,7 +37,7 @@ const toLmPool = (
       p.lq.asset,
       p.tt.asset,
       p.vlq.asset,
-      p.reward.asset,
+      p.budget.asset,
       ammPool.x.asset,
       ammPool.y.asset,
     ].map((asset) => {
@@ -49,7 +49,7 @@ const toLmPool = (
         lq: lq || p.lq.asset,
         vlq: vlq || p.vlq.asset,
         tt: tt || p.tt.asset,
-        reward: reward || p.reward.asset,
+        reward: reward || p.budget.asset,
         ammPool,
         balanceLq,
         balanceVlq,

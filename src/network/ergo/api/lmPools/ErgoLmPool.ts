@@ -1,5 +1,4 @@
 import { LmPool as ErgoBaseLmPool, LmPoolConfig } from '@ergolabs/ergo-dex-sdk';
-import { AssetAmount } from '@ergolabs/ergo-sdk';
 import { cache } from 'decorator-cache-getter';
 
 import { AmmPool } from '../../../../common/models/AmmPool';
@@ -79,7 +78,7 @@ export class ErgoLmPool extends LmPool {
   }
 
   epochsLeft(currentHeight: number): number {
-    return this.pool.epochsLeft(currentHeight);
+    return this.pool.numEpochsRemain(currentHeight);
   }
 
   @cache
@@ -109,6 +108,11 @@ export class ErgoLmPool extends LmPool {
 
   @cache
   get reward(): Currency {
-    return new Currency(this.pool.reward.amount, this.rewardAsset);
+    return new Currency(this.pool.budget.amount, this.rewardAsset);
+  }
+
+  @cache
+  get fullEpochsRemain(): number {
+    return this.pool.numEpochsRemain(this.currentHeight);
   }
 }

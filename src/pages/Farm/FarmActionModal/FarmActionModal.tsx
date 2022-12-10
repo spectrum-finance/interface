@@ -1,4 +1,11 @@
-import { Flex, Form, Modal, Typography, useForm } from '@ergolabs/ui-kit';
+import {
+  Flex,
+  Form,
+  FormGroup,
+  Modal,
+  Typography,
+  useForm,
+} from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import React from 'react';
 import { skip } from 'rxjs';
@@ -17,6 +24,7 @@ import { FormPairSection } from '../../../components/common/FormView/FormPairSec
 import { FormSlider } from '../../../components/common/FormView/FormSlider/FormSlider';
 import { OperationForm } from '../../../components/OperationForm/OperationForm';
 import { PageSection } from '../../../components/Page/PageSection/PageSection';
+import { walletLmDeposit } from '../../../network/ergo/operations/lm/lmDeposit/walletLmDeposit';
 import { FarmHeaderAssets } from '../FarmGridView/FarmCardView/FarmCardView';
 
 interface FarmActionModalProps {
@@ -133,6 +141,11 @@ export const FarmActionModal: React.FC<FarmActionModalProps> = ({
     },
     [],
   );
+
+  const action = (form: FormGroup<FormModel>) => {
+    walletLmDeposit(pool, form.value.lpAmount!);
+  };
+
   return (
     <>
       <Modal.Title>
@@ -145,7 +158,7 @@ export const FarmActionModal: React.FC<FarmActionModalProps> = ({
         <OperationForm
           analytics={{ location: 'create-farm' }}
           form={form}
-          onSubmit={() => console.log('confirm')}
+          onSubmit={action}
           actionCaption={t`Withdraw`}
         >
           <PageSection title={t`Amount`} noPadding>
