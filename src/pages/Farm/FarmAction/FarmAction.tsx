@@ -121,6 +121,7 @@ export const FarmAction = ({ lmPool }: Props) => {
         openStakeModal();
         event.stopPropagation();
       }}
+      disabled={lmPool.currentStatus === LmStatuses.FINISHED}
     >
       <Trans>Stake</Trans>
     </Button>
