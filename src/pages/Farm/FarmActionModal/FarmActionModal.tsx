@@ -26,8 +26,8 @@ import { ConvenientAssetView } from '../../../components/ConvenientAssetView/Con
 import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
 import { OperationForm } from '../../../components/OperationForm/OperationForm';
 import { PageSection } from '../../../components/Page/PageSection/PageSection';
-import { APRComponent } from '../FarmApr/FarmApr';
 import { walletLmDeposit } from '../../../network/ergo/operations/lm/lmDeposit/walletLmDeposit';
+import { APRComponent } from '../FarmApr/FarmApr';
 import { FarmHeaderAssets } from '../FarmGridView/FarmCardView/FarmCardView';
 
 interface FarmActionModalProps {
