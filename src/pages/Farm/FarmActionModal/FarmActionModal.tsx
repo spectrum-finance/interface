@@ -103,8 +103,8 @@ const _FarmActionModalHeader: React.FC<FarmActionModalHeaderProps> = ({
 
 export const FarmActionModalHeader = styled(_FarmActionModalHeader)`
   position: relative;
-  border-top-left-radius: 16px;
-  border-top-right-radius: 16px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
   background: linear-gradient(180deg, #764ca3 0%, #677de7 100%) !important;
   padding: 24px;
   margin: -16px -16px 32px;
@@ -196,13 +196,14 @@ export const FarmActionModal: React.FC<FarmActionModalProps> = ({
           actionCaption={operation === 'withdrawal' ? t`Withdraw` : t`Stake`}
         >
           <PageSection title={t`Amount`} noPadding>
-            <Flex gap={4} col>
+            <Flex col>
               <Form.Item name="percent">
                 {({ value, onChange }) => (
                   <FormSlider value={value} onChange={onChange} />
                 )}
               </Form.Item>
               <FormPairSection
+                noBorder
                 title={''}
                 xAmount={formValue?.xAmount || availableAssetX}
                 yAmount={formValue?.yAmount || availableAssetY}

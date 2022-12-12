@@ -3,13 +3,13 @@ import { Trans } from '@lingui/macro';
 import React from 'react';
 import { matchPath, useNavigate } from 'react-router-dom';
 
-import { LmPool, LmStatuses } from '../../../common/models/LmPool';
+import { LmPool, LmStatuses } from '../../../../common/models/LmPool';
 import {
   openConfirmationModal,
   Operation,
-} from '../../../components/ConfirmationModal/ConfirmationModal';
-import { selectedNetwork$ } from '../../../gateway/common/network';
-import { FarmActionModal } from '../FarmActionModal/FarmActionModal';
+} from '../../../../components/ConfirmationModal/ConfirmationModal';
+import { selectedNetwork$ } from '../../../../gateway/common/network';
+import { FarmActionModal } from '../../FarmActionModal/FarmActionModal';
 
 type Props = {
   lmPool: LmPool;
@@ -51,7 +51,7 @@ export const FarmAction = ({ lmPool }: Props) => {
   };
 
   const navigateToAddLiquidity = () => {
-    navigate(`/${urlNetworkParameter}/liquidity/add`);
+    navigate(`/${urlNetworkParameter}/liquidity/add/${lmPool.ammPool.id}`);
   };
 
   if (lmPool.currentStatus === LmStatuses.SCHEDULED) {
@@ -121,7 +121,6 @@ export const FarmAction = ({ lmPool }: Props) => {
         openStakeModal();
         event.stopPropagation();
       }}
-      disabled={lmPool.currentStatus === LmStatuses.FINISHED}
     >
       <Trans>Stake</Trans>
     </Button>

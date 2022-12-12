@@ -50,15 +50,17 @@ export const APRComponent = ({ lmPool }: { lmPool: LmPool }) => {
       .multiply(100)
       .value();
 
-    <DataTag
-      size="large"
-      content={
-        <>
-          <AssetIcon asset={lmPool.reward.asset} />
-          {apr}%
-        </>
-      }
-    />;
+    return (
+      <DataTag
+        size="large"
+        content={
+          <>
+            <AssetIcon asset={lmPool.reward.asset} />
+            {apr}%
+          </>
+        }
+      />
+    );
   }
 
   return null;

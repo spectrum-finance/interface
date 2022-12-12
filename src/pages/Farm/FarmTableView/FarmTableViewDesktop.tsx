@@ -13,11 +13,11 @@ import { ExpandComponentProps } from '../../../components/TableView/common/Expan
 import { TableView } from '../../../components/TableView/TableView';
 import { networkContext$ } from '../../../gateway/api/networkContext';
 import { LiquiditySearchState } from '../../Liquidity/common/tableViewStates/LiquiditySearchState/LiquiditySearchState';
-import { FarmAction } from '../FarmAction/FarmAction';
 import { APRComponent } from '../FarmApr/FarmApr';
 import { FarmLineProgress } from '../FarmLineProgress/FarmLineProgress';
 import { FarmPairColumn } from '../FarmPairColumn/FarmPairColumn';
 import { LineProgress } from '../LineProgress/LineProgress';
+import { FarmAction } from './FarmAction/FarmAction';
 import { FarmTableLoadingState } from './FarmTableLoadingState';
 
 type Props = {

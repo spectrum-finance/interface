@@ -27,7 +27,7 @@ import { farmPools$ } from '../../network/ergo/api/lmPools/lmPools';
 import { LiquidityState } from '../Liquidity/common/types/LiquidityState';
 import { FarmGridView } from './FarmGridView/FarmGridView';
 import { FarmGuides } from './FarmGuides/FarmGuides';
-import { FarmTableExpandComponent } from './FarmTableExpandComponent/FarmTableExpandComponent';
+import { FarmTableExpandComponent } from './FarmTableView/FarmTableExpandComponent/FarmTableExpandComponent';
 import { FarmTableView } from './FarmTableView/FarmTableView';
 import { CreateFarmModal } from './FarmTopPanel/CreateFarmModal/CreateFarmModal';
 import { FarmTopPanel } from './FarmTopPanel/FarmTopPanel';

@@ -13,12 +13,12 @@ import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 import styled from 'styled-components';
 
-import { blockToDateTime } from '../../../common/utils/blocks';
-import { ConvenientAssetView } from '../../../components/ConvenientAssetView/ConvenientAssetView';
-import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
-import { ExpandComponentProps } from '../../../components/TableView/common/Expand';
-import { ErgoLmPool } from '../../../network/ergo/api/lmPools/ErgoLmPool';
-import { LineProgress } from '../LineProgress/LineProgress';
+import { blockToDateTime } from '../../../../common/utils/blocks';
+import { ConvenientAssetView } from '../../../../components/ConvenientAssetView/ConvenientAssetView';
+import { InfoTooltip } from '../../../../components/InfoTooltip/InfoTooltip';
+import { ExpandComponentProps } from '../../../../components/TableView/common/Expand';
+import { ErgoLmPool } from '../../../../network/ergo/api/lmPools/ErgoLmPool';
+import { LineProgress } from '../../LineProgress/LineProgress';
 
 const FullWidthRow = styled(Row)`
   width: 100%;
