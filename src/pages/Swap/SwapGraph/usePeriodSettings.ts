@@ -37,7 +37,7 @@ const PeriodSettings: Record<Period, PeriodSetting> = {
   Y: {
     resolution: 1,
     durationOffset: { year: 1 },
-    tick: { day: 7 },
+    tick: { day: 15, hour: 6.662 },
     timeFormat: {
       month: 'long',
       day: 'numeric',
