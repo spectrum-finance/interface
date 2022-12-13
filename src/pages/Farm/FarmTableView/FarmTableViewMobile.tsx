@@ -7,20 +7,19 @@ import { DataTag } from '../../../components/common/DataTag/DataTag';
 import { ExpandComponentProps } from '../../../components/TableView/common/Expand';
 import { TableView } from '../../../components/TableView/TableView';
 import { LiquiditySearchState } from '../../Liquidity/common/tableViewStates/LiquiditySearchState/LiquiditySearchState';
+import { APRComponent } from '../FarmApr/FarmApr';
 import { FarmPairColumn } from '../FarmPairColumn/FarmPairColumn';
 import { FarmTableLoadingState } from './FarmTableLoadingState';
 
 type Props = {
   expandComponent: React.FC<ExpandComponentProps<any>>;
-  items: any;
-  openStakeModal: (pool: LmPool) => void;
+  items: LmPool[];
   loading: boolean | undefined;
 };
 
 export const FarmTableViewMobile = ({
   items,
   expandComponent,
-  openStakeModal,
   loading,
 }: Props) => {
   return (
@@ -49,11 +48,11 @@ export const FarmTableViewMobile = ({
         )}
       </TableView.Column>
 
-      <TableView.Column maxWidth={60} title={<Trans>APY</Trans>}>
+      <TableView.Column maxWidth={60} title={<Trans>APR</Trans>}>
         {/*{(lmPool) => <TvlOrVolume24Column usd={poolMapper(lmPool).volume} />}*/}
         {(lmPool) => (
           <Flex>
-            <DataTag content={<div>30%</div>} />
+            <APRComponent lmPool={lmPool} />
           </Flex>
         )}
       </TableView.Column>

@@ -9,9 +9,9 @@ import {
 } from '../../../components/ConfirmationModal/ConfirmationModal';
 import { ExpandComponentProps } from '../../../components/TableView/common/Expand';
 import { FarmTableViewDesktop } from './FarmTableViewDesktop';
-// import { FarmTableViewLaptop } from './FarmTableViewLaptop';
-// import { FarmTableViewMobile } from './FarmTableViewMobile';
-// import { FarmTableViewTablet } from './FarmTableViewTablet';
+import { FarmTableViewLaptop } from './FarmTableViewLaptop';
+import { FarmTableViewMobile } from './FarmTableViewMobile';
+import { FarmTableViewTablet } from './FarmTableViewTablet';
 
 export interface FarmTableViewProps<T extends LmPool | Position> {
   readonly items: T[];
@@ -30,44 +30,41 @@ export const FarmTableView: FC<FarmTableViewProps<any>> = ({
 }) => {
   const { valBySize, moreThan, l, m, s } = useDevice();
 
-  // if (moreThan('xl')) {
+  if (moreThan('xl')) {
+    return (
+      <FarmTableViewDesktop
+        items={items}
+        loading={loading}
+        expandComponent={expandComponent}
+      />
+    );
+  }
+
+  if (l) {
+    return (
+      <FarmTableViewLaptop
+        items={items}
+        loading={loading}
+        expandComponent={expandComponent}
+      />
+    );
+  }
+
+  if (m) {
+    return (
+      <FarmTableViewTablet
+        items={items}
+        loading={loading}
+        expandComponent={expandComponent}
+      />
+    );
+  }
+
   return (
-    <FarmTableViewDesktop
+    <FarmTableViewMobile
       items={items}
       loading={loading}
       expandComponent={expandComponent}
     />
   );
-  // }
-
-  // if (l) {
-  //   return (
-  //     <FarmTableViewLaptop
-  //       items={items}
-  //       openStakeModal={openStakeModal}
-  //       loading={loading}
-  //       expandComponent={expandComponent}
-  //     />
-  //   );
-  // }
-
-  // if (m) {
-  //   return (
-  //     <FarmTableViewTablet
-  //       items={items}
-  //       openStakeModal={openStakeModal}
-  //       loading={loading}
-  //       expandComponent={expandComponent}
-  //     />
-  //   );
-  // }
-
-  // return (
-  //   <FarmTableViewMobile
-  //     items={items}
-  //     openStakeModal={openStakeModal}
-  //     loading={loading}
-  //     expandComponent={expandComponent}
-  //   />
-  // );
 };

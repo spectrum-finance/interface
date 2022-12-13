@@ -14,19 +14,17 @@ import React, { FC } from 'react';
 import styled from 'styled-components';
 
 import { blockToDateTime } from '../../../common/utils/blocks';
+import { DataTag } from '../../../components/common/DataTag/DataTag';
 import { ConvenientAssetView } from '../../../components/ConvenientAssetView/ConvenientAssetView';
 import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
 import { ExpandComponentProps } from '../../../components/TableView/common/Expand';
 import { ErgoLmPool } from '../../../network/ergo/api/lmPools/ErgoLmPool';
-import { LineProgress } from '../LineProgress/LineProgress';
+import { FarmAction } from '../FarmAction/FarmAction';
+import { FarmLineProgress } from '../FarmLineProgress/FarmLineProgress';
+import { FarmNextRewards } from '../FarmNextRewards/FarmNextRewards';
 
 const FullWidthRow = styled(Row)`
   width: 100%;
-`;
-
-const FullWidthButton = styled(Button)`
-  width: ${({ $fullWidth }: { $fullWidth?: boolean }) =>
-    $fullWidth ? '100%' : 'normal'};
 `;
 
 export const FarmTableExpandComponent: FC<ExpandComponentProps<ErgoLmPool>> = ({
@@ -47,20 +45,10 @@ export const FarmTableExpandComponent: FC<ExpandComponentProps<ErgoLmPool>> = ({
             >
               <Flex direction="col">
                 <Typography.Body secondary>
-                  <InfoTooltip
-                    width={194}
-                    placement="top"
-                    content={
-                      <Trans>
-                        345 Neta out of 1000 Neta have already been distributed
-                      </Trans>
-                    }
-                  >
-                    Distributed{' '}
-                  </InfoTooltip>
+                  <Trans>Distributed</Trans>
                 </Typography.Body>
                 <Flex.Item marginTop={1} width="100%">
-                  <LineProgress percent={60} height={24} width="100%" />
+                  <FarmLineProgress lmPool={lmPool} height={24} width="100%" />
                 </Flex.Item>
               </Flex>
             </Box>
@@ -80,25 +68,27 @@ export const FarmTableExpandComponent: FC<ExpandComponentProps<ErgoLmPool>> = ({
                   <Typography.Body secondary>Total staked</Typography.Body>
                   <Typography.Body>
                     <Flex gap={1} align="center">
-                      <ConvenientAssetView value={lmPool.shares} />
-                      <InfoTooltip
-                        width={194}
-                        size="small"
-                        placement="top"
-                        icon="exclamation"
-                        content={
-                          <div>
+                      <Flex gap={1} align="center">
+                        <ConvenientAssetView value={lmPool.shares} />
+                        <InfoTooltip
+                          width={194}
+                          size="small"
+                          placement="top"
+                          icon="exclamation"
+                          content={
                             <div>
-                              {lmPool.shares[0].asset.ticker}:{' '}
-                              {lmPool.shares[0].toString()}
+                              <div>
+                                {lmPool.shares[0].asset.ticker}:{' '}
+                                {lmPool.shares[0].toString()}
+                              </div>
+                              <div>
+                                {lmPool.shares[1].asset.ticker}:{' '}
+                                {lmPool.shares[1].toString()}
+                              </div>
                             </div>
-                            <div>
-                              {lmPool.shares[1].asset.ticker}:{' '}
-                              {lmPool.shares[1].toString()}
-                            </div>
-                          </div>
-                        }
-                      />
+                          }
+                        />
+                      </Flex>
                     </Flex>
                   </Typography.Body>
                 </Flex>
@@ -117,11 +107,13 @@ export const FarmTableExpandComponent: FC<ExpandComponentProps<ErgoLmPool>> = ({
                     <Trans>Your Stake</Trans>
                   </Typography.Body>
                   <Typography.Body>
-                    {lmPool.yourStake.every((value) => value.isPositive()) ? (
-                      <ConvenientAssetView value={lmPool.yourStake} />
-                    ) : (
-                      <>$---</>
-                    )}
+                    <div>
+                      {lmPool.yourStake.every((value) => value.isPositive()) ? (
+                        <ConvenientAssetView value={lmPool.yourStake} />
+                      ) : (
+                        <>$---</>
+                      )}
+                    </div>
                   </Typography.Body>
                 </Flex>
               </Box>
@@ -163,14 +155,7 @@ export const FarmTableExpandComponent: FC<ExpandComponentProps<ErgoLmPool>> = ({
             bordered={false}
             transparent
           >
-            <Flex direction="col">
-              <Typography.Body secondary>
-                Next distribution rewards
-              </Typography.Body>
-              <Typography.Body>
-                You will be able to see next rewards starting from 2022-07-20
-              </Typography.Body>
-            </Flex>
+            <FarmNextRewards lmPool={lmPool} />
           </Box>
         </Col>
         <Col span={12}>
@@ -193,18 +178,20 @@ export const FarmTableExpandComponent: FC<ExpandComponentProps<ErgoLmPool>> = ({
           </Box>
         </Col>
         <Col span={12}>
-          <Box
+          {/* <Box
             width="100%"
             borderRadius="none"
             padding={valBySize([4, 4], [4, 4], [4, 4], [5, 4])}
             bordered={false}
             transparent
           >
-            <Typography.Body secondary>Rewards</Typography.Body>
-            <Typography.Body size="base">
-              You will be able to stake starting from 2022-07-20
-            </Typography.Body>
-          </Box>
+            <Flex direction="col">
+              <Typography.Body secondary>Rewards</Typography.Body>
+              <Typography.Body size="base">
+                You will be able to stake starting from 2022-07-20
+              </Typography.Body>
+            </Flex>
+          </Box> */}
         </Col>
 
         {lessThan('m') && (
@@ -217,9 +204,7 @@ export const FarmTableExpandComponent: FC<ExpandComponentProps<ErgoLmPool>> = ({
               transparent
             >
               <Flex.Item marginTop={1} width="100%">
-                <FullWidthButton type="primary" disabled $fullWidth={true}>
-                  <Trans>Stake</Trans>
-                </FullWidthButton>
+                <FarmAction lmPool={lmPool} $fullWidth />
               </Flex.Item>
             </Box>
           </Col>

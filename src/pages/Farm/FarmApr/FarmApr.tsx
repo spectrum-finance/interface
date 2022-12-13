@@ -1,4 +1,5 @@
 import { blocksToDaysCount } from '@ergolabs/ergo-dex-sdk';
+import { Typography } from '@ergolabs/ui-kit';
 import numeral from 'numeral';
 import React, { useMemo } from 'react';
 
@@ -20,11 +21,11 @@ export const APRComponent = ({ lmPool }: { lmPool: LmPool }) => {
   );
   const programBudgetLeftInUsd$ = useMemo(
     () => convertToConvenientNetworkAsset(lmPool.reward),
-    [lmPool.shares],
+    [lmPool.reward],
   );
 
   const [amountLqLockedInUsd] = useObservable(amountLqLockedInUsd$, [
-    lmPool.shares,
+    amountLqLockedInUsd$,
   ]);
   const [programBudgetLeftInUsd] = useObservable(programBudgetLeftInUsd$, [
     lmPool.reward,
@@ -53,13 +54,13 @@ export const APRComponent = ({ lmPool }: { lmPool: LmPool }) => {
     <DataTag
       size="large"
       content={
-        <>
+        <Typography.Body>
           <AssetIcon asset={lmPool.reward.asset} />
           {apr}%
-        </>
+        </Typography.Body>
       }
     />;
   }
 
-  return null;
+  return <Typography.Body>$---</Typography.Body>;
 };
