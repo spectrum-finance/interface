@@ -1,7 +1,5 @@
 import { t } from '@lingui/macro';
 
-export enum FarmTab {}
-
 export enum FarmState {
   All = 'All',
   Live = 'Live',

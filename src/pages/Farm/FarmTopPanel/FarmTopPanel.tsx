@@ -4,8 +4,10 @@ import React, { FC } from 'react';
 import styled from 'styled-components';
 
 import { useObservable } from '../../../common/hooks/useObservable';
+import { SetSearchParamsFn } from '../../../common/hooks/useSearchParams';
 import { SearchInput } from '../../../components/SearchInput/SearchInput';
 import { ammPools$ } from '../../../gateway/api/ammPools';
+import { FarmTabs } from '../types/FarmTabs';
 import { CreateFarmModal } from './CreateFarmModal/CreateFarmModal';
 import { FarmState } from './FarmStateFilter/FarmState';
 import { FarmStateFilter } from './FarmStateFilter/FarmStateFilter';
@@ -20,10 +22,15 @@ const SearchInputContainer = styled(Flex.Item)`
   max-width: 320px;
 `;
 
-export const FarmTopPanel: FC = () => {
+export const FarmTopPanel: FC<{
+  setSearchParams: SetSearchParamsFn<{
+    activeStatus?: FarmState;
+    activeTab?: FarmTabs;
+  }>;
+  activeStatus?: FarmState;
+  activeTab?: FarmTabs;
+}> = ({ activeStatus, activeTab, setSearchParams }) => {
   const { valBySize, xl, lessThan } = useDevice();
-
-  const openFarmModal = () => Modal.open(<CreateFarmModal />);
 
   return (
     <Flex col={valBySize(true, true, true, false)}>
@@ -35,11 +42,16 @@ export const FarmTopPanel: FC = () => {
       >
         {xl && (
           <Flex.Item marginRight={6}>
-            <MyFarmsFilter value={true} onChange={() => {}} />
+            <MyFarmsFilter value={activeTab} onChange={setSearchParams} />
           </Flex.Item>
         )}
         <Flex.Item flex={1} marginRight={4}>
-          <FarmStateFilter value={FarmState.All} onChange={() => {}} />
+          <FarmStateFilter
+            value={activeStatus || FarmState.All}
+            onChange={(newStatus) =>
+              setSearchParams({ activeStatus: newStatus })
+            }
+          />
         </Flex.Item>
         {xl && (
           <SearchInputContainer marginRight={2} flex={1}>
@@ -57,7 +69,7 @@ export const FarmTopPanel: FC = () => {
           <SearchInputContainer marginRight={4} flex={1}>
             <StyledSearchInput size="large" placeholder={t`Search`} />
           </SearchInputContainer>
-          <MyFarmsFilter value={true} onChange={() => {}} />
+          <MyFarmsFilter value={activeTab} onChange={setSearchParams} />
         </Flex.Item>
       )}
     </Flex>

@@ -7,8 +7,7 @@ import {
   Tabs,
   useSearch,
 } from '@ergolabs/ui-kit';
-import { t, Trans } from '@lingui/macro';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 import { useObservable } from '../../common/hooks/useObservable';
@@ -21,62 +20,14 @@ import {
   Operation,
 } from '../../components/ConfirmationModal/ConfirmationModal';
 import { Page } from '../../components/Page/Page';
-import { SearchInput } from '../../components/SearchInput/SearchInput';
-import { ammPools$ } from '../../gateway/api/ammPools';
 import { farmPools$ } from '../../network/ergo/api/lmPools/lmPools';
-import { LiquidityState } from '../Liquidity/common/types/LiquidityState';
-import { FarmGridView } from './FarmGridView/FarmGridView';
 import { FarmGuides } from './FarmGuides/FarmGuides';
 import { FarmTableExpandComponent } from './FarmTableExpandComponent/FarmTableExpandComponent';
 import { FarmTableView } from './FarmTableView/FarmTableView';
-import { CreateFarmModal } from './FarmTopPanel/CreateFarmModal/CreateFarmModal';
 import { FarmTopPanel } from './FarmTopPanel/FarmTopPanel';
-import { FarmState, FarmStateCaptions } from './types/FarmState';
+import { FarmState } from './types/FarmState';
+import { FarmTabs } from './types/FarmTabs';
 import { FarmViewMode } from './types/FarmViewMode';
-
-const FarmStateTabs = styled(Tabs)`
-  .ant-tabs-nav-wrap {
-    flex: initial !important;
-  }
-
-  .ant-tabs-tab {
-    padding: 4px 16px !important;
-  }
-
-  .ant-tabs-extra-content {
-    flex: 1;
-  }
-`;
-
-const IconTabs = styled(Tabs)`
-  .ant-tabs-nav-wrap {
-    flex: initial !important;
-  }
-
-  .ant-tabs-tab .anticon {
-    margin-right: 0;
-  }
-
-  & > .ant-tabs-nav {
-    padding: 24px 0;
-  }
-
-  .ant-tabs-tab {
-    padding: 4px 8px;
-  }
-
-  .ant-tabs-extra-content {
-    flex: 1;
-  }
-`;
-
-const FarmSwitch = styled(Switch)`
-  border-radius: 4px !important;
-
-  .ant-switch-handle::before {
-    border-radius: 4px !important;
-  }
-`;
 
 const matchItem = (
   item: AmmPool | Position | AssetLock,
@@ -92,11 +43,23 @@ const matchItem = (
 };
 
 export const Farm = (): JSX.Element => {
-  const [activeState, setActiveState] = useState<FarmState>(FarmState.All);
+  const [{ activeStatus, activeTab }, setSearchParams] =
+    useSearchParams<{ activeStatus: FarmState; activeTab: FarmTabs }>();
   const [viewMode, setViewMode] = useState<FarmViewMode>(FarmViewMode.Table);
-  const [{ active }, setSearchParams] =
-    useSearchParams<{ active: LiquidityState | undefined }>();
   const [farmPools, isFarmPoolsLoading] = useObservable(farmPools$, [], []);
+
+  const filteredPools = useMemo(() => {
+    let pools = farmPools;
+
+    if (activeStatus && activeStatus !== FarmState.All) {
+      pools = farmPools.filter(
+        ({ currentStatus }) => currentStatus === activeStatus,
+      );
+    }
+
+    return pools;
+  }, [activeStatus, farmPools]);
+
   const [searchByTerm, setSearch, term] = useSearch<
     AmmPool | Position | AssetLock
   >(matchItem);
@@ -110,11 +73,15 @@ export const Farm = (): JSX.Element => {
           <FarmGuides />
         </Flex.Item>
         <Flex.Item marginBottom={6}>
-          <FarmTopPanel />
+          <FarmTopPanel
+            setSearchParams={setSearchParams}
+            activeStatus={activeStatus}
+            activeTab={activeTab}
+          />
         </Flex.Item>
         <FarmTableView
           loading={isFarmPoolsLoading}
-          items={farmPools}
+          items={filteredPools}
           expandComponent={FarmTableExpandComponent}
         />
       </Flex>

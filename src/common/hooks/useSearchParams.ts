@@ -20,7 +20,7 @@ const transformObjectToKeyValueParam = <
     ([, value]) => value !== undefined,
   ) as ParamKeyValuePair[];
 
-type SetSearchParamsFn<T extends Record<string, string | undefined>> = (
+export type SetSearchParamsFn<T extends Record<string, string | undefined>> = (
   pt: Partial<T>,
   config?: { replace?: boolean; merge?: boolean },
 ) => void;

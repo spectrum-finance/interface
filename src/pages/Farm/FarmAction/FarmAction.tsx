@@ -4,13 +4,14 @@ import React from 'react';
 import { matchPath, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { LmPool, LmStatuses } from '../../../common/models/LmPool';
+import { LmPool } from '../../../common/models/LmPool';
 import {
   openConfirmationModal,
   Operation,
 } from '../../../components/ConfirmationModal/ConfirmationModal';
 import { selectedNetwork$ } from '../../../gateway/common/network';
 import { FarmActionModal } from '../FarmActionModal/FarmActionModal';
+import { FarmState } from '../types/FarmState';
 
 type Props = {
   lmPool: LmPool;
@@ -61,7 +62,7 @@ export const FarmAction = ({ lmPool, $fullWidth = false }: Props) => {
     navigate(`/${urlNetworkParameter}/liquidity/add`);
   };
 
-  if (lmPool.currentStatus === LmStatuses.SCHEDULED) {
+  if (lmPool.currentStatus === FarmState.Scheduled) {
     if (!lmPool.balanceLq.isPositive()) {
       return (
         <FullWidthButton
@@ -75,7 +76,14 @@ export const FarmAction = ({ lmPool, $fullWidth = false }: Props) => {
     }
 
     return (
-      <FullWidthButton $fullWidth={$fullWidth} type="primary" disabled>
+      <FullWidthButton
+        $fullWidth={$fullWidth}
+        type="primary"
+        onClick={(event) => {
+          event.stopPropagation();
+          openStakeModal();
+        }}
+      >
         <Trans>Stake</Trans>
       </FullWidthButton>
     );
@@ -91,7 +99,7 @@ export const FarmAction = ({ lmPool, $fullWidth = false }: Props) => {
                 <Menu.Item
                   key={'item1'}
                   onClick={openStakeModal}
-                  disabled={lmPool.currentStatus === LmStatuses.FINISHED}
+                  disabled={lmPool.currentStatus === FarmState.Finished}
                 >
                   <Trans>Stake</Trans>
                 </Menu.Item>
@@ -138,7 +146,7 @@ export const FarmAction = ({ lmPool, $fullWidth = false }: Props) => {
         openStakeModal();
         event.stopPropagation();
       }}
-      disabled={lmPool.currentStatus === LmStatuses.FINISHED}
+      disabled={lmPool.currentStatus === FarmState.Finished}
     >
       <Trans>Stake</Trans>
     </FullWidthButton>

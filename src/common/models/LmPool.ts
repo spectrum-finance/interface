@@ -4,14 +4,10 @@ import {
 } from '@ergolabs/ergo-dex-sdk';
 import { cache } from 'decorator-cache-getter';
 
+import { FarmState } from '../../pages/Farm/types/FarmState';
 import { AmmPool } from './AmmPool';
 import { Currency } from './Currency';
 
-export enum LmStatuses {
-  'LIVE' = 'LIVE',
-  'FINISHED' = 'FINISHED',
-  'SCHEDULED' = 'SCHEDULED',
-}
 export abstract class LmPool {
   abstract readonly pool: ErgoBaseLmPool;
 
@@ -49,18 +45,18 @@ export abstract class LmPool {
   }
 
   @cache
-  get currentStatus(): LmStatuses {
+  get currentStatus(): FarmState {
     if (this.currentHeight < this.config.programStart) {
-      return LmStatuses.SCHEDULED;
+      return FarmState.Scheduled;
     }
 
     if (
       this.currentHeight >
       this.config.programStart + this.config.epochLen * this.config.epochNum
     ) {
-      return LmStatuses.FINISHED;
+      return FarmState.Finished;
     }
 
-    return LmStatuses.LIVE;
+    return FarmState.Live;
   }
 }

@@ -17,7 +17,7 @@ import {
 } from '../../../common/hooks/useObservable';
 import { AssetInfo } from '../../../common/models/AssetInfo';
 import { Currency } from '../../../common/models/Currency';
-import { LmPool, LmStatuses } from '../../../common/models/LmPool';
+import { LmPool } from '../../../common/models/LmPool';
 import { AssetIconPair } from '../../../components/AssetIconPair/AssetIconPair';
 import { DataTag } from '../../../components/common/DataTag/DataTag';
 import { FormPairSection } from '../../../components/common/FormView/FormPairSection/FormPairSection';
@@ -29,6 +29,7 @@ import { PageSection } from '../../../components/Page/PageSection/PageSection';
 import { walletLmDeposit } from '../../../network/ergo/operations/lm/lmDeposit/walletLmDeposit';
 import { APRComponent } from '../FarmApr/FarmApr';
 import { FarmHeaderAssets } from '../FarmGridView/FarmCardView/FarmCardView';
+import { FarmState } from '../types/FarmState';
 
 interface FarmActionModalProps {
   pool: LmPool;
@@ -84,7 +85,7 @@ const _FarmActionModalHeader: React.FC<FarmActionModalHeaderProps> = ({
             }
           />
         </Flex>
-        {lmPool.currentStatus === LmStatuses.LIVE && (
+        {lmPool.currentStatus === FarmState.Live && (
           <Flex col align="flex-end">
             <WhiteText>
               <Trans>APR</Trans>
