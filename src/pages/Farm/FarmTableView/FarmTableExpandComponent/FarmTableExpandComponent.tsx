@@ -19,9 +19,9 @@ import { ConvenientAssetView } from '../../../../components/ConvenientAssetView/
 import { InfoTooltip } from '../../../../components/InfoTooltip/InfoTooltip';
 import { ExpandComponentProps } from '../../../../components/TableView/common/Expand';
 import { ErgoLmPool } from '../../../../network/ergo/api/lmPools/ErgoLmPool';
-import { FarmAction } from '../FarmAction/FarmAction';
 import { FarmLineProgress } from '../../FarmLineProgress/FarmLineProgress';
 import { FarmNextRewards } from '../../FarmNextRewards/FarmNextRewards';
+import { FarmAction } from '../FarmAction/FarmAction';
 
 const FullWidthRow = styled(Row)`
   width: 100%;

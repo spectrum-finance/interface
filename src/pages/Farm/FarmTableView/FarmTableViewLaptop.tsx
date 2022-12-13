@@ -7,10 +7,10 @@ import { ConnectWalletButton } from '../../../components/common/ConnectWalletBut
 import { ExpandComponentProps } from '../../../components/TableView/common/Expand';
 import { TableView } from '../../../components/TableView/TableView';
 import { LiquiditySearchState } from '../../Liquidity/common/tableViewStates/LiquiditySearchState/LiquiditySearchState';
-import { FarmAction } from '../FarmAction/FarmAction';
 import { APRComponent } from '../FarmApr/FarmApr';
 import { FarmLineProgress } from '../FarmLineProgress/FarmLineProgress';
 import { FarmPairColumn } from '../FarmPairColumn/FarmPairColumn';
+import { FarmAction } from './FarmAction/FarmAction';
 import { FarmTableLoadingState } from './FarmTableLoadingState';
 
 type Props = {
