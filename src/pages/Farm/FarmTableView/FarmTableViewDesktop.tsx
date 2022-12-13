@@ -62,7 +62,6 @@ export const FarmTableViewDesktop = ({
             <DataTag
               content={
                 <Flex gap={1} align="center">
-                  {/* ${lmPool.shares}{' '} */}
                   <ConvenientAssetView value={lmPool.shares} />
                   <InfoTooltip
                     width={194}
@@ -89,7 +88,6 @@ export const FarmTableViewDesktop = ({
         )}
       </TableView.Column>
       <TableView.Column width={140} title={<Trans>Your Stake</Trans>}>
-        {/*{(lmPool) => <TvlOrVolume24Column usd={poolMapper(lmPool).volume} />}*/}
         {(lmPool: LmPool) => (
           <Flex>
             <DataTag
@@ -107,8 +105,6 @@ export const FarmTableViewDesktop = ({
         )}
       </TableView.Column>
       <TableView.Column width={150} title={<Trans>Distributed</Trans>}>
-        {/*{(lmPool: LmPool) => <AprColumn lmPool={poolMapper(lmPool)} />}*/}
-        {/*{(lmPool) => <Progress percent={90} />}*/}
         {(lmPool: LmPool) => (
           <FarmLineProgress lmPool={lmPool} height={24} width="130px" />
         )}

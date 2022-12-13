@@ -3,26 +3,25 @@ import { Trans } from '@lingui/macro';
 import React from 'react';
 
 import { LmPool } from '../../../common/models/LmPool';
-import { DataTag } from '../../../components/common/DataTag/DataTag';
-import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
+import { ConnectWalletButton } from '../../../components/common/ConnectWalletButton/ConnectWalletButton';
 import { ExpandComponentProps } from '../../../components/TableView/common/Expand';
 import { TableView } from '../../../components/TableView/TableView';
 import { LiquiditySearchState } from '../../Liquidity/common/tableViewStates/LiquiditySearchState/LiquiditySearchState';
+import { FarmAction } from '../FarmAction/FarmAction';
+import { APRComponent } from '../FarmApr/FarmApr';
+import { FarmLineProgress } from '../FarmLineProgress/FarmLineProgress';
 import { FarmPairColumn } from '../FarmPairColumn/FarmPairColumn';
-import { LineProgress } from '../LineProgress/LineProgress';
 import { FarmTableLoadingState } from './FarmTableLoadingState';
 
 type Props = {
   expandComponent: React.FC<ExpandComponentProps<any>>;
-  items: any;
-  openStakeModal: (pool: LmPool) => void;
+  items: LmPool[];
   loading: boolean | undefined;
 };
 
 export const FarmTableViewLaptop = ({
   items,
   expandComponent,
-  openStakeModal,
   loading,
 }: Props) => {
   return (
@@ -54,39 +53,23 @@ export const FarmTableViewLaptop = ({
       <TableView.Column
         minWidth={232}
         maxWidth={232}
-        title={
-          <InfoTooltip
-            width={194}
-            placement="top"
-            content={
-              <Trans>
-                345 Neta out of 1000 Neta have already been distributed
-              </Trans>
-            }
-          >
-            <Trans>Distributed</Trans>
-          </InfoTooltip>
-        }
+        title={<Trans>Distributed</Trans>}
       >
-        {/*{(lmPool: LmPool) => <AprColumn lmPool={poolMapper(lmPool)} />}*/}
-        {/*{(lmPool) => <Progress percent={90} />}*/}
-        {(lmPool) => <LineProgress percent={60} height={24} width="200px" />}
+        {(lmPool) => (
+          <FarmLineProgress lmPool={lmPool} height={24} width="200px" />
+        )}
       </TableView.Column>
-      <TableView.Column width="100%" title={<Trans>APY</Trans>}>
-        {/*{(lmPool) => <TvlOrVolume24Column usd={poolMapper(lmPool).volume} />}*/}
+      <TableView.Column width="100%" title={<Trans>APR</Trans>}>
         {(lmPool) => (
           <Flex justify="space-between">
-            <DataTag content={<div>30%</div>} />
+            <APRComponent lmPool={lmPool} />
             <Flex.Item marginRight={8}>
-              <Button
-                type="primary"
-                onClick={(event) => {
-                  openStakeModal(lmPool);
-                  event.stopPropagation();
-                }}
+              <ConnectWalletButton
+                size="middle"
+                analytics={{ location: 'farm-table' }}
               >
-                Stake
-              </Button>
+                <FarmAction lmPool={lmPool} />
+              </ConnectWalletButton>
             </Flex.Item>
           </Flex>
         )}

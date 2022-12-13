@@ -2,6 +2,7 @@ import { Box, Button, Dropdown, Menu } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React from 'react';
 import { matchPath, useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 
 import { LmPool, LmStatuses } from '../../../../common/models/LmPool';
 import {
@@ -13,9 +14,15 @@ import { FarmActionModal } from '../../FarmActionModal/FarmActionModal';
 
 type Props = {
   lmPool: LmPool;
+  $fullWidth?: boolean;
 };
 
-export const FarmAction = ({ lmPool }: Props) => {
+const FullWidthButton = styled(Button)`
+  width: ${({ $fullWidth }: { $fullWidth?: boolean }) =>
+    $fullWidth ? '100%' : 'normal'};
+`;
+
+export const FarmAction = ({ lmPool, $fullWidth = false }: Props) => {
   const navigate = useNavigate();
   const urlNetworkParameter = matchPath(
     { path: ':network', end: false },
@@ -57,16 +64,20 @@ export const FarmAction = ({ lmPool }: Props) => {
   if (lmPool.currentStatus === LmStatuses.SCHEDULED) {
     if (!lmPool.balanceLq.isPositive()) {
       return (
-        <Button type="primary" onClick={navigateToAddLiquidity}>
+        <FullWidthButton
+          $fullWidth={$fullWidth}
+          type="primary"
+          onClick={navigateToAddLiquidity}
+        >
           <Trans>Add liquidity</Trans>
-        </Button>
+        </FullWidthButton>
       );
     }
 
     return (
-      <Button type="primary" disabled>
+      <FullWidthButton $fullWidth={$fullWidth} type="primary" disabled>
         <Trans>Stake</Trans>
-      </Button>
+      </FullWidthButton>
     );
   }
 
@@ -94,13 +105,14 @@ export const FarmAction = ({ lmPool }: Props) => {
           trigger={['click']}
           placement="bottomCenter"
         >
-          <Button
+          <FullWidthButton
+            $fullWidth={$fullWidth}
             type="primary"
             size={'middle'}
             onClick={(event) => event.stopPropagation()}
           >
             <Trans>Manage</Trans>
-          </Button>
+          </FullWidthButton>
         </Dropdown>
       </div>
     );
@@ -108,14 +120,19 @@ export const FarmAction = ({ lmPool }: Props) => {
 
   if (!lmPool.balanceLq.isPositive()) {
     return (
-      <Button type="primary" onClick={navigateToAddLiquidity}>
+      <FullWidthButton
+        $fullWidth={$fullWidth}
+        type="primary"
+        onClick={navigateToAddLiquidity}
+      >
         <Trans>Add liquidity</Trans>
-      </Button>
+      </FullWidthButton>
     );
   }
 
   return (
-    <Button
+    <FullWidthButton
+      $fullWidth={$fullWidth}
       type="primary"
       onClick={(event) => {
         openStakeModal();
@@ -123,6 +140,6 @@ export const FarmAction = ({ lmPool }: Props) => {
       }}
     >
       <Trans>Stake</Trans>
-    </Button>
+    </FullWidthButton>
   );
 };
