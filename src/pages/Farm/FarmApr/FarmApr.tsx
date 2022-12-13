@@ -5,10 +5,11 @@ import React, { useMemo } from 'react';
 
 import { convertToConvenientNetworkAsset } from '../../../api/convertToConvenientNetworkAsset';
 import { useObservable } from '../../../common/hooks/useObservable';
-import { LmPool, LmStatuses } from '../../../common/models/LmPool';
+import { LmPool } from '../../../common/models/LmPool';
 import { AssetIcon } from '../../../components/AssetIcon/AssetIcon';
 import { DataTag } from '../../../components/common/DataTag/DataTag';
 import { networkContext$ } from '../../../gateway/api/networkContext';
+import { FarmState } from '../types/FarmState';
 
 export const APRComponent = ({ lmPool }: { lmPool: LmPool }) => {
   // interests_relation = program_budget_left_in_usd / amount_lq_locked_in_usd
@@ -35,7 +36,7 @@ export const APRComponent = ({ lmPool }: { lmPool: LmPool }) => {
     amountLqLockedInUsd &&
     programBudgetLeftInUsd &&
     networkContext?.height &&
-    lmPool.currentStatus === LmStatuses.LIVE
+    lmPool.currentStatus === FarmState.Live
   ) {
     const interestsRelation = numeral(programBudgetLeftInUsd.toAmount()).divide(
       amountLqLockedInUsd.toAmount(),

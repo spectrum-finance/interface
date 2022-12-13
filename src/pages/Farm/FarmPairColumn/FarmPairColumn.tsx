@@ -3,9 +3,10 @@ import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 
 import { useObservable } from '../../../common/hooks/useObservable';
-import { LmPool, LmStatuses } from '../../../common/models/LmPool';
+import { LmPool } from '../../../common/models/LmPool';
 import { AssetPairTitle } from '../../../components/AssetPairTitle/AssetPairTitle';
 import { networkContext$ } from '../../../gateway/api/networkContext';
+import { FarmState } from '../types/FarmState';
 
 export interface PairColumnProps {
   readonly lmPool: LmPool;
@@ -13,8 +14,8 @@ export interface PairColumnProps {
   readonly align?: 'stretch' | 'center' | 'flex-start' | 'flex-end';
 }
 
-const getTag = (status: LmStatuses) => {
-  if (status === LmStatuses.SCHEDULED) {
+const getTag = (status: FarmState) => {
+  if (status === FarmState.Scheduled) {
     return (
       <Tag color="orange">
         <Trans>Scheduled</Trans>
@@ -22,7 +23,7 @@ const getTag = (status: LmStatuses) => {
     );
   }
 
-  if (status === LmStatuses.FINISHED) {
+  if (status === FarmState.Finished) {
     return (
       <Tag color="magenta">
         <Trans>Finished</Trans>
@@ -30,7 +31,7 @@ const getTag = (status: LmStatuses) => {
     );
   }
 
-  if (status === LmStatuses.LIVE) {
+  if (status === FarmState.Live) {
     return (
       <Tag color="green">
         <Trans>Live</Trans>

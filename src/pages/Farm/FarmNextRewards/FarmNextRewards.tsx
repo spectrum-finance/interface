@@ -5,9 +5,10 @@ import React, { useMemo } from 'react';
 
 import { convertToConvenientNetworkAsset } from '../../../api/convertToConvenientNetworkAsset';
 import { useObservable } from '../../../common/hooks/useObservable';
-import { LmPool, LmStatuses } from '../../../common/models/LmPool';
+import { LmPool } from '../../../common/models/LmPool';
 import { blockToDateTime } from '../../../common/utils/blocks';
 import { networkContext$ } from '../../../gateway/api/networkContext';
+import { FarmState } from '../types/FarmState';
 
 type Props = {
   lmPool: LmPool;
@@ -28,7 +29,7 @@ export const FarmNextRewards = ({ lmPool }: Props) => {
   const [amountLqLockedInUsd] = useObservable(amountLqLockedInUsd$, []);
   const [userAmountLqLockedInUsd] = useObservable(userAmountLqLockedInUsd$, []);
 
-  if (lmPool.currentStatus === LmStatuses.SCHEDULED) {
+  if (lmPool.currentStatus === FarmState.Scheduled) {
     <Flex direction="col">
       <Typography.Body secondary>
         <Trans>Next distribution rewards</Trans>
@@ -43,7 +44,7 @@ export const FarmNextRewards = ({ lmPool }: Props) => {
     </Flex>;
   }
 
-  if (lmPool.currentStatus === LmStatuses.FINISHED) {
+  if (lmPool.currentStatus === FarmState.Finished) {
     return (
       <Flex direction="col">
         <Typography.Body secondary>
@@ -85,7 +86,7 @@ export const FarmNextRewards = ({ lmPool }: Props) => {
     amountLqLockedInUsd &&
     userAmountLqLockedInUsd &&
     networkContext?.height &&
-    lmPool.currentStatus === LmStatuses.LIVE
+    lmPool.currentStatus === FarmState.Live
   ) {
     const interestsRelation = numeral(5000).divide(10000);
     const rewardAmountEachEpoch = numeral(500000).divide(8);
