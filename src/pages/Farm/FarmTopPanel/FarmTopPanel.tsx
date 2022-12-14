@@ -26,10 +26,12 @@ export const FarmTopPanel: FC<{
   setSearchParams: SetSearchParamsFn<{
     activeStatus?: FarmState;
     activeTab?: FarmTabs;
+    searchString?: string;
   }>;
   activeStatus?: FarmState;
   activeTab?: FarmTabs;
-}> = ({ activeStatus, activeTab, setSearchParams }) => {
+  searchString?: string;
+}> = ({ activeStatus, activeTab, setSearchParams, searchString }) => {
   const { valBySize, xl, lessThan } = useDevice();
 
   return (
@@ -55,7 +57,14 @@ export const FarmTopPanel: FC<{
         </Flex.Item>
         {xl && (
           <SearchInputContainer marginRight={2} flex={1}>
-            <StyledSearchInput size="large" placeholder={t`Search`} />
+            <StyledSearchInput
+              size="large"
+              value={searchString}
+              onChange={(e) =>
+                setSearchParams({ searchString: e.target.value })
+              }
+              placeholder={t`Type token name or farm id`}
+            />
           </SearchInputContainer>
         )}
         {/* <Flex.Item>
@@ -67,7 +76,14 @@ export const FarmTopPanel: FC<{
       {lessThan('xl') && (
         <Flex.Item display="flex" align="center">
           <SearchInputContainer marginRight={4} flex={1}>
-            <StyledSearchInput size="large" placeholder={t`Search`} />
+            <StyledSearchInput
+              size="large"
+              placeholder={t`Type token name or farm id`}
+              value={searchString}
+              onChange={(e) =>
+                setSearchParams({ searchString: e.target.value })
+              }
+            />
           </SearchInputContainer>
           <MyFarmsFilter value={activeTab} onChange={setSearchParams} />
         </Flex.Item>

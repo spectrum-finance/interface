@@ -14,6 +14,7 @@ import { useObservable } from '../../common/hooks/useObservable';
 import { useSearchParams } from '../../common/hooks/useSearchParams';
 import { AmmPool } from '../../common/models/AmmPool';
 import { AssetLock } from '../../common/models/AssetLock';
+import { LmPool } from '../../common/models/LmPool';
 import { Position } from '../../common/models/Position';
 import {
   openConfirmationModal,
@@ -29,12 +30,9 @@ import { FarmState } from './types/FarmState';
 import { FarmTabs } from './types/FarmTabs';
 import { FarmViewMode } from './types/FarmViewMode';
 
-const matchItem = (
-  item: AmmPool | Position | AssetLock,
-  term?: string,
-): boolean => {
-  if (item instanceof AmmPool) {
-    return item.match(term);
+const matchItem = (item: LmPool | AssetLock, term?: string): boolean => {
+  if (item instanceof LmPool) {
+    return item.ammPool.match(term);
   }
   if (item instanceof Position) {
     return item.match(term);
@@ -43,8 +41,12 @@ const matchItem = (
 };
 
 export const Farm = (): JSX.Element => {
-  const [{ activeStatus, activeTab }, setSearchParams] =
-    useSearchParams<{ activeStatus: FarmState; activeTab: FarmTabs }>();
+  const [{ activeStatus, activeTab, searchString }, setSearchParams] =
+    useSearchParams<{
+      activeStatus: FarmState;
+      activeTab: FarmTabs;
+      searchString: string;
+    }>();
   const [viewMode, setViewMode] = useState<FarmViewMode>(FarmViewMode.Table);
   const [farmPools, isFarmPoolsLoading] = useObservable(farmPools$, [], []);
 
@@ -52,20 +54,28 @@ export const Farm = (): JSX.Element => {
     let pools = farmPools;
 
     if (activeStatus && activeStatus !== FarmState.All) {
-      pools = farmPools.filter(
+      pools = pools.filter(
         ({ currentStatus }) => currentStatus === activeStatus,
       );
     }
 
+    if (searchString && searchString.trim() !== '') {
+      pools = pools.filter((lmPool) => {
+        if (lmPool.ammPool.match(searchString)) {
+          return true;
+        }
+
+        if (lmPool.id.match(searchString)) {
+          return true;
+        }
+
+        return false;
+      });
+    }
+
     return pools;
-  }, [activeStatus, farmPools]);
-
-  const [searchByTerm, setSearch, term] = useSearch<
-    AmmPool | Position | AssetLock
-  >(matchItem);
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>): void =>
-    setSearch(e.target.value);
-
+  }, [activeStatus, farmPools, searchString]);
+  console.log(filteredPools);
   return (
     <Page maxWidth={1110} padding={0} transparent>
       <Flex col>
@@ -77,6 +87,7 @@ export const Farm = (): JSX.Element => {
             setSearchParams={setSearchParams}
             activeStatus={activeStatus}
             activeTab={activeTab}
+            searchString={searchString}
           />
         </Flex.Item>
         <FarmTableView
