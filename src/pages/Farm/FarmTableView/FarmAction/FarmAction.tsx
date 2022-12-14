@@ -4,14 +4,13 @@ import React from 'react';
 import { matchPath, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { LmPool } from '../../../common/models/LmPool';
+import { LmPool } from '../../../../common/models/LmPool';
 import {
   openConfirmationModal,
   Operation,
-} from '../../../components/ConfirmationModal/ConfirmationModal';
-import { selectedNetwork$ } from '../../../gateway/common/network';
-import { FarmActionModal } from '../FarmActionModal/FarmActionModal';
-import { FarmState } from '../types/FarmState';
+} from '../../../../components/ConfirmationModal/ConfirmationModal';
+import { FarmActionModal } from '../../FarmActionModal/FarmActionModal';
+import { FarmState } from '../../types/FarmState';
 
 type Props = {
   lmPool: LmPool;

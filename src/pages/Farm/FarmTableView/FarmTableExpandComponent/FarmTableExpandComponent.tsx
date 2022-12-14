@@ -188,7 +188,7 @@ export const FarmTableExpandComponent: FC<ExpandComponentProps<ErgoLmPool>> = ({
             <Flex direction="col">
               <Typography.Body secondary>Rewards</Typography.Body>
               <Typography.Body size="base">
-                You will be able to stake starting from 2022-07-20
+                You will be able to lmStake starting from 2022-07-20
               </Typography.Body>
             </Flex>
           </Box> */}
