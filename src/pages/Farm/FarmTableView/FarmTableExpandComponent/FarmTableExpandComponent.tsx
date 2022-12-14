@@ -13,15 +13,15 @@ import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 import styled from 'styled-components';
 
-import { blockToDateTime } from '../../../common/utils/blocks';
-import { DataTag } from '../../../components/common/DataTag/DataTag';
-import { ConvenientAssetView } from '../../../components/ConvenientAssetView/ConvenientAssetView';
-import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
-import { ExpandComponentProps } from '../../../components/TableView/common/Expand';
-import { ErgoLmPool } from '../../../network/ergo/api/lmPools/ErgoLmPool';
+import { blockToDateTime } from '../../../../common/utils/blocks';
+import { DataTag } from '../../../../components/common/DataTag/DataTag';
+import { ConvenientAssetView } from '../../../../components/ConvenientAssetView/ConvenientAssetView';
+import { InfoTooltip } from '../../../../components/InfoTooltip/InfoTooltip';
+import { ExpandComponentProps } from '../../../../components/TableView/common/Expand';
+import { ErgoLmPool } from '../../../../network/ergo/api/lmPools/ErgoLmPool';
+import { FarmLineProgress } from '../../FarmLineProgress/FarmLineProgress';
+import { FarmNextRewards } from '../../FarmNextRewards/FarmNextRewards';
 import { FarmAction } from '../FarmAction/FarmAction';
-import { FarmLineProgress } from '../FarmLineProgress/FarmLineProgress';
-import { FarmNextRewards } from '../FarmNextRewards/FarmNextRewards';
 
 const FullWidthRow = styled(Row)`
   width: 100%;
@@ -188,7 +188,7 @@ export const FarmTableExpandComponent: FC<ExpandComponentProps<ErgoLmPool>> = ({
             <Flex direction="col">
               <Typography.Body secondary>Rewards</Typography.Body>
               <Typography.Body size="base">
-                You will be able to stake starting from 2022-07-20
+                You will be able to lmStake starting from 2022-07-20
               </Typography.Body>
             </Flex>
           </Box> */}

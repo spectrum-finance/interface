@@ -13,6 +13,7 @@ interface PairSpaceProps {
   readonly yAmount: Currency;
   readonly fees?: boolean;
   readonly children?: ReactNode | ReactNode[];
+  readonly noBorder?: boolean;
 }
 
 const TOKEN_NAME_SYMBOLS_LIMIT = 15;
@@ -23,9 +24,10 @@ const FormPairSection: React.FC<PairSpaceProps> = ({
   yAmount,
   fees,
   children,
+  noBorder,
 }): JSX.Element => {
   return (
-    <PageSection title={title}>
+    <PageSection title={title} noBorder={noBorder}>
       <Flex direction="col">
         <Flex.Item marginBottom={2}>
           <Flex justify="space-between" align="center">
