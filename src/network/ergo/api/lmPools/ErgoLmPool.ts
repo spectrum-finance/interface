@@ -1,4 +1,5 @@
 import { LmPool as ErgoBaseLmPool, LmPoolConfig } from '@ergolabs/ergo-dex-sdk';
+import { Stake } from '@ergolabs/ergo-dex-sdk/build/main/lqmining/models/stake';
 import { cache } from 'decorator-cache-getter';
 
 import { AmmPool } from '../../../../common/models/AmmPool';
@@ -17,7 +18,7 @@ export class ErgoLmPool extends LmPool {
       tt: AssetInfo;
       ammPool: AmmPool;
       balanceLq: Currency;
-      balanceVlq: Currency;
+      stakes: Stake[];
       currentHeight: number;
     },
   ) {
@@ -42,7 +43,14 @@ export class ErgoLmPool extends LmPool {
 
   get yourStake(): [Currency, Currency] {
     return this.ammPool.shares(
-      new Currency(this.assetsInfoDictionary.balanceVlq.amount, this.lqAsset),
+      new Currency(this.balanceVlq.amount, this.lqAsset),
+    );
+  }
+
+  get balanceVlq(): Currency {
+    return this.assetsInfoDictionary.stakes.reduce(
+      (acc, item) => acc.plus(item.lockedLq.amount),
+      new Currency(0n, this.lqAsset),
     );
   }
 
@@ -60,10 +68,6 @@ export class ErgoLmPool extends LmPool {
 
   get balanceLq(): Currency {
     return this.assetsInfoDictionary.balanceLq;
-  }
-
-  get balanceVlq(): Currency {
-    return this.assetsInfoDictionary.balanceVlq;
   }
 
   get currentHeight(): number {
