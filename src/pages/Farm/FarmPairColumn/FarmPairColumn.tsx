@@ -1,10 +1,17 @@
-import { Flex, Tag } from '@ergolabs/ui-kit';
+import {
+  Button,
+  ExclamationCircleFilled,
+  Flex,
+  Tag,
+  Tooltip,
+} from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 
 import { useObservable } from '../../../common/hooks/useObservable';
 import { LmPool } from '../../../common/models/LmPool';
 import { AssetPairTitle } from '../../../components/AssetPairTitle/AssetPairTitle';
+import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
 import { networkContext$ } from '../../../gateway/api/networkContext';
 import { FarmState } from '../types/FarmState';
 
@@ -47,6 +54,35 @@ export const FarmPairColumn: FC<PairColumnProps> = ({
 }) => {
   return (
     <Flex align="center">
+      {lmPool.balanceLq.isPositive() && lmPool.balanceVlq.isPositive() ? (
+        <Flex.Item marginRight={2}>
+          <Tooltip
+            placement="top"
+            title={
+              <div>
+                <div>
+                  {lmPool.shares[0].asset.ticker}: {lmPool.shares[0].toString()}
+                </div>
+                <div>
+                  {lmPool.shares[1].asset.ticker}: {lmPool.shares[1].toString()}
+                </div>
+              </div>
+            }
+          >
+            <Button
+              type="ghost"
+              icon={<ExclamationCircleFilled style={{ color: '#D89614' }} />}
+              size="small"
+              style={{
+                border: 0,
+                background: 0,
+                width: 16,
+              }}
+            />
+          </Tooltip>
+        </Flex.Item>
+      ) : null}
+
       <Flex.Item>
         <AssetPairTitle
           assetX={lmPool.ammPool.x.asset}
@@ -55,7 +91,9 @@ export const FarmPairColumn: FC<PairColumnProps> = ({
           align={align}
         />
       </Flex.Item>
-      <Flex.Item marginLeft={2}>{getTag(lmPool.currentStatus)}</Flex.Item>
+      <Flex.Item marginLeft={2} marginRight={2}>
+        {getTag(lmPool.currentStatus)}
+      </Flex.Item>
     </Flex>
   );
 };

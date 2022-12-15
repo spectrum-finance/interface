@@ -48,8 +48,8 @@ export const FarmTableViewDesktop = ({
       expandPadding={[0, 0]}
     >
       <TableView.Column
-        width={270}
-        headerWidth={262}
+        width={286}
+        headerWidth={278}
         title={<Trans>Pair</Trans>}
       >
         {(lmPool: LmPool) => <FarmPairColumn lmPool={lmPool} />}
