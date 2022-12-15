@@ -8,6 +8,7 @@ import {
   publishReplay,
   refCount,
   switchMap,
+  tap,
 } from 'rxjs';
 
 import { AssetInfo } from '../../../../common/models/AssetInfo';
@@ -24,7 +25,7 @@ const toListAvailableTokens = (utxos: ErgoBox[]): Asset[] =>
 const isNotNFT = (assetInfo: AssetInfo | undefined): boolean =>
   !!assetInfo && assetInfo.emissionAmount !== 1n;
 
-export const availableTokensData$: Observable<[bigint, AssetInfo][]> =
+export const availableTokensDataWithNft$: Observable<[bigint, AssetInfo][]> =
   utxos$.pipe(
     map(toListAvailableTokens),
     switchMap((boxAssets) =>
@@ -36,6 +37,12 @@ export const availableTokensData$: Observable<[bigint, AssetInfo][]> =
         ),
       ).pipe(defaultIfEmpty([])),
     ),
+    publishReplay(1),
+    refCount(),
+  );
+
+export const availableTokensData$: Observable<[bigint, AssetInfo][]> =
+  availableTokensDataWithNft$.pipe(
     map((availableTokensData) =>
       availableTokensData.filter(([, assetInfo]) => isNotNFT(assetInfo)),
     ),

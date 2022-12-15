@@ -1,4 +1,5 @@
 import { LmPool as BaseLmPool } from '@ergolabs/ergo-dex-sdk';
+import { Stake } from '@ergolabs/ergo-dex-sdk/build/main/lqmining/models/stake';
 import {
   combineLatest,
   defaultIfEmpty,
@@ -20,6 +21,7 @@ import { assetBalance$ } from '../balance/assetBalance';
 import { lpBalance$ } from '../balance/lpBalance';
 import { mapToAssetInfo } from '../common/assetInfoManager';
 import { rawLmPools$ } from '../common/rawLmPools';
+import { stakes$ } from '../lmStake/lmStake';
 import { networkContext$ } from '../networkContext/networkContext';
 import { ErgoLmPool } from './ErgoLmPool';
 
@@ -28,9 +30,9 @@ const toLmPool = (
   ammPool: AmmPool,
   {
     balanceLq,
-    balanceVlq,
+    stakes,
     currentHeight,
-  }: { balanceLq: Currency; balanceVlq: Currency; currentHeight: number },
+  }: { balanceLq: Currency; stakes: Stake[]; currentHeight: number },
 ): Observable<LmPool> =>
   combineLatest(
     [
@@ -52,7 +54,7 @@ const toLmPool = (
         reward: reward || p.budget.asset,
         ammPool,
         balanceLq,
-        balanceVlq,
+        stakes,
         currentHeight,
       });
     }),
@@ -61,11 +63,11 @@ const toLmPool = (
 export const allLmPools$ = combineLatest([
   rawLmPools$,
   ammPools$,
-  assetBalance$.pipe(startWith(new Balance([]))),
+  stakes$,
   lpBalance$.pipe(startWith(new Balance([]))),
   networkContext$,
 ]).pipe(
-  switchMap(([rawLmPools, ammPools, assetBalance, lpBalance, networkContext]) =>
+  switchMap(([rawLmPools, ammPools, stakes, lpBalance, networkContext]) =>
     combineLatest(
       rawLmPools.reduce((acc, rlp) => {
         const ammPoolByLp = ammPools.find(
@@ -74,7 +76,7 @@ export const allLmPools$ = combineLatest([
         if (ammPoolByLp) {
           acc.push(
             toLmPool(rlp, ammPoolByLp, {
-              balanceVlq: assetBalance.get(rlp.vlq.asset),
+              stakes: stakes.filter((s) => s.poolId === rlp.id),
               balanceLq: lpBalance.get(rlp.lq.asset),
               currentHeight: networkContext.height,
             }),
