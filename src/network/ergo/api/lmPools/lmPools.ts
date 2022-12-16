@@ -1,5 +1,4 @@
 import { LmPool as BaseLmPool } from '@ergolabs/ergo-dex-sdk';
-import { Stake } from '@ergolabs/ergo-dex-sdk/build/main/lqmining/models/stake';
 import {
   combineLatest,
   defaultIfEmpty,
@@ -21,7 +20,7 @@ import { assetBalance$ } from '../balance/assetBalance';
 import { lpBalance$ } from '../balance/lpBalance';
 import { mapToAssetInfo } from '../common/assetInfoManager';
 import { rawLmPools$ } from '../common/rawLmPools';
-import { stakes$ } from '../lmStake/lmStake';
+import { ExtendedStake, stakes$ } from '../lmStake/lmStake';
 import { networkContext$ } from '../networkContext/networkContext';
 import { ErgoLmPool } from './ErgoLmPool';
 
@@ -32,7 +31,7 @@ const toLmPool = (
     balanceLq,
     stakes,
     currentHeight,
-  }: { balanceLq: Currency; stakes: Stake[]; currentHeight: number },
+  }: { balanceLq: Currency; stakes: ExtendedStake[]; currentHeight: number },
 ): Observable<LmPool> =>
   combineLatest(
     [

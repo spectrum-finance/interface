@@ -2,6 +2,7 @@ import { Box, Button, Dropdown, Menu } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React from 'react';
 import { matchPath, useNavigate } from 'react-router-dom';
+import { first } from 'rxjs';
 import styled from 'styled-components';
 
 import { LmPool } from '../../../../common/models/LmPool';
@@ -9,6 +10,7 @@ import {
   openConfirmationModal,
   Operation,
 } from '../../../../components/ConfirmationModal/ConfirmationModal';
+import { lmRedeem } from '../../../../gateway/api/operations/lmRedeem';
 import { FarmActionModal } from '../../FarmActionModal/FarmActionModal';
 import { FarmState } from '../../types/FarmState';
 
@@ -41,20 +43,22 @@ export const FarmAction = ({ lmPool, $fullWidth = false }: Props) => {
     );
   };
 
-  const openWithdrawalModal = () => {
-    openConfirmationModal(
-      (next) => {
-        return (
-          <FarmActionModal
-            operation="withdrawal"
-            pool={lmPool}
-            onClose={() => {}}
-          />
-        );
-      },
-      Operation.STAKE_LIQUIDITY_FARM,
-      { xAsset: lmPool.ammPool.x, yAsset: lmPool.ammPool.y },
-    );
+  const withdraw = () => {
+    lmRedeem(lmPool).pipe(first()).subscribe(console.log);
+
+    // openConfirmationModal(
+    //   (next) => {
+    //     return (
+    //       <FarmActionModal
+    //         operation="withdrawal"
+    //         pool={lmPool}
+    //         onClose={() => {}}
+    //       />
+    //     );
+    //   },
+    //   Operation.STAKE_LIQUIDITY_FARM,
+    //   { xAsset: lmPool.ammPool.x, yAsset: lmPool.ammPool.y },
+    // );
   };
 
   const navigateToAddLiquidity = () => {
@@ -103,7 +107,7 @@ export const FarmAction = ({ lmPool, $fullWidth = false }: Props) => {
                   <Trans>Stake</Trans>
                 </Menu.Item>
 
-                <Menu.Item key={'item1'} onClick={openWithdrawalModal}>
+                <Menu.Item key={'item1'} onClick={withdraw}>
                   <Trans>Withdraw</Trans>
                 </Menu.Item>
               </Box>

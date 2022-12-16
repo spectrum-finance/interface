@@ -1,5 +1,4 @@
 import { LmPool as ErgoBaseLmPool, LmPoolConfig } from '@ergolabs/ergo-dex-sdk';
-import { Stake } from '@ergolabs/ergo-dex-sdk/build/main/lqmining/models/stake';
 import { cache } from 'decorator-cache-getter';
 
 import { AmmPool } from '../../../../common/models/AmmPool';
@@ -7,6 +6,7 @@ import { AssetInfo } from '../../../../common/models/AssetInfo';
 import { Currency } from '../../../../common/models/Currency';
 import { LmPool } from '../../../../common/models/LmPool';
 import { renderFractions } from '../../../../utils/math';
+import { ExtendedStake } from '../lmStake/lmStake';
 
 export class ErgoLmPool extends LmPool {
   constructor(
@@ -18,11 +18,12 @@ export class ErgoLmPool extends LmPool {
       tt: AssetInfo;
       ammPool: AmmPool;
       balanceLq: Currency;
-      stakes: Stake[];
+      stakes: ExtendedStake[];
       currentHeight: number;
     },
   ) {
     super();
+    console.log(this.assetsInfoDictionary.stakes);
   }
 
   private get lqAsset(): AssetInfo {
@@ -41,9 +42,23 @@ export class ErgoLmPool extends LmPool {
     return this.assetsInfoDictionary.tt;
   }
 
+  get redeemerKey(): Currency {
+    return this.assetsInfoDictionary.stakes[0]?.redeemerKey;
+  }
+
+  get stakes(): ExtendedStake[] {
+    return this.assetsInfoDictionary.stakes;
+  }
+
   get yourStake(): [Currency, Currency] {
     return this.ammPool.shares(
       new Currency(this.balanceVlq.amount, this.lqAsset),
+    );
+  }
+
+  stakeShares(stake: ExtendedStake): [Currency, Currency] {
+    return this.ammPool.shares(
+      new Currency(stake.lockedLq.amount, this.lqAsset),
     );
   }
 

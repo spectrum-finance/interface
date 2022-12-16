@@ -4,6 +4,7 @@ import { StakeFromBox } from '@ergolabs/ergo-dex-sdk/build/main/lqmining/parsers
 import { Stakes } from '@ergolabs/ergo-dex-sdk/build/main/lqmining/services/stakes';
 import { from, map, Observable, of, switchMap } from 'rxjs';
 
+import { Currency } from '../../../../common/models/Currency';
 import { explorer } from '../../../../services/explorer';
 import { availableTokensDataWithNft$ } from '../balance/common';
 
@@ -18,19 +19,38 @@ const getStakes = () => {
   return stakes;
 };
 
-export const stakes$: Observable<Stake[]> = availableTokensDataWithNft$.pipe(
-  switchMap((availableTokensData) => {
-    const stakeAssets = availableTokensData
-      .filter(([amount, asset]) => MAX_VLQ_TOKEN_EMISSION === amount && !!asset)
-      .map(([, asset]) => asset.id);
+export interface ExtendedStake extends Stake {
+  readonly redeemerKey: Currency;
+}
 
-    if (!stakeAssets.length) {
-      return of([]);
-    }
+export const stakes$: Observable<ExtendedStake[]> =
+  availableTokensDataWithNft$.pipe(
+    switchMap((availableTokensData) => {
+      const stakeAssets = availableTokensData.filter(
+        ([amount, asset]) => MAX_VLQ_TOKEN_EMISSION === amount && !!asset,
+      );
 
-    return from(
-      getStakes().searchByKeys(stakeAssets, { limit: 500, offset: 0 }),
-    );
-  }),
-  map((res) => res[0]),
-);
+      if (!stakeAssets.length) {
+        return of([]);
+      }
+
+      return from(
+        getStakes().searchByKeys(
+          stakeAssets.map(([, asset]) => asset.id),
+          { limit: 500, offset: 0 },
+        ),
+      ).pipe(
+        map((res) =>
+          res[0].map((item) => {
+            const stakeAsset = stakeAssets.find(
+              (sa) => sa[1].id === item.bundleKeyAsset.asset.id,
+            );
+            return {
+              ...item,
+              redeemerKey: new Currency(stakeAsset![0], stakeAsset![1]),
+            };
+          }),
+        ),
+      );
+    }),
+  );

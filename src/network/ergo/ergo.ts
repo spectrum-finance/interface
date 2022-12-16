@@ -42,6 +42,8 @@ import {
 } from './api/wallet/wallet';
 import { initialize, initialized$ } from './initialized';
 import { deposit } from './operations/deposit/deposit';
+import { lmDeposit } from './operations/lm/lmDeposit/lmDeposit';
+import { lmRedeem } from './operations/lm/lmRedeem/lmRedeem';
 import { redeem } from './operations/redeem/redeem';
 import { refund } from './operations/refund/refund';
 import { swap } from './operations/swap/swap';
@@ -114,6 +116,8 @@ export const ergoNetwork: Network<
   deposit,
   redeem,
   refund,
+  lmDeposit,
+  lmRedeem,
 
   exploreAddress,
   exploreTx,
