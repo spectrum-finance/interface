@@ -60,14 +60,13 @@ export const FarmPairColumn: FC<PairColumnProps> = ({
             placement="top"
             title={
               <div>
-                <div>
-                  {lmPool.shares[0].asset.ticker}: {lmPool.shares[0].toString()}
-                </div>
-                <div>
-                  {lmPool.shares[1].asset.ticker}: {lmPool.shares[1].toString()}
-                </div>
+                <Trans>
+                  It seems like you stake only some of your LP tokens...
+                  <br /> Stake all of them to gain more rewards!
+                </Trans>
               </div>
             }
+            width={200}
           >
             <Button
               type="ghost"
