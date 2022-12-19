@@ -59,6 +59,10 @@ export const Farm = (): JSX.Element => {
       );
     }
 
+    if (activeTab && activeTab === FarmTabs.MyFarms) {
+      pools = pools.filter(({ balanceVlq }) => balanceVlq.isPositive());
+    }
+
     if (searchString && searchString.trim() !== '') {
       pools = pools.filter((lmPool) => {
         if (lmPool.ammPool.match(searchString)) {
@@ -74,8 +78,8 @@ export const Farm = (): JSX.Element => {
     }
 
     return pools;
-  }, [activeStatus, farmPools, searchString]);
-  console.log(filteredPools);
+  }, [activeStatus, farmPools, searchString, activeTab]);
+
   return (
     <Page maxWidth={1110} padding={0} transparent>
       <Flex col>

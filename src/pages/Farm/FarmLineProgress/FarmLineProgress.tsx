@@ -24,6 +24,7 @@ export const FarmLineProgress = ({
     if (Number(lmPool.programBudget) === Number(lmPool.reward.toAmount())) {
       return 0;
     }
+
     return Number(
       numeral(lmPool.programBudget)
         .subtract(lmPool.reward.toAmount())
