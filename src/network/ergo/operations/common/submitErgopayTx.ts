@@ -20,6 +20,8 @@ export const submitErgopayTx = (
   p2pkaddress: string,
   operation: keyof typeof ergoPayMessageManager,
   analyticData: any,
+  address?: string,
+  txId?: string,
 ): Observable<TxId> =>
   networkContext$.pipe(
     first(),
@@ -44,7 +46,9 @@ export const submitErgopayTx = (
                 ? ergoPayMessageManager.swap(from, to, feeMin, feeMax)
                 : operation === 'deposit'
                 ? ergoPayMessageManager.deposit(from, to, pool, feeMin)
-                : ergoPayMessageManager.redeem(from, to, pool, feeMin),
+                : operation === 'redeem'
+                ? ergoPayMessageManager.redeem(from, to, pool, feeMin)
+                : ergoPayMessageManager.refund(txId!, address!, feeMin),
           },
         ),
       ),

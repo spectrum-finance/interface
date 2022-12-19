@@ -49,4 +49,13 @@ Assets: ${x.toCurrencyString()} and ${y.toCurrencyString()}
 Total fees: ${feeMin.toCurrencyString()}
     `;
   },
+  refund(txId: string, address: string, feeMin: Currency): string {
+    return `
+Spectrum
+Operation: Refund
+Address: ${address}
+TxId: ${txId}
+Total fees: ${feeMin.toCurrencyString()}
+    `;
+  },
 };

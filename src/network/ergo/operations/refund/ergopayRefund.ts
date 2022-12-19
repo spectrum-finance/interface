@@ -1,8 +1,10 @@
-import { from, Observable, of, switchMap, timeout } from 'rxjs';
+import { from, Observable, of, switchMap, tap, timeout } from 'rxjs';
 
 import { applicationConfig } from '../../../../applicationConfig';
+import { panalytics } from '../../../../common/analytics';
 import { TxId } from '../../../../common/types';
 import { ergopayAmmOrderRefunds } from '../../../../services/amm';
+import { submitErgopayTx } from '../common/submitErgopayTx';
 import { createRefundTxData } from './createRefundTxData';
 
 export const ergopayRefund = (
@@ -10,14 +12,22 @@ export const ergopayRefund = (
   txId: string,
 ): Observable<TxId> =>
   createRefundTxData(address, txId).pipe(
-    switchMap(([refundParams, txContext]) =>
+    switchMap(([refundParams, txContext, additionalData]) =>
       from(ergopayAmmOrderRefunds.refund(refundParams, txContext)).pipe(
         switchMap((txRequest) =>
-          // submitErgopayTx(txRequest, {
-          //   txId: tx.id,
-          //   type: 'refund',
-          // }),
-          of(''),
+          submitErgopayTx(
+            txRequest,
+            undefined as any,
+            undefined as any,
+            undefined as any,
+            additionalData.minTotalFee,
+            additionalData.maxTotalFee,
+            additionalData.p2pkaddress,
+            'refund',
+            undefined,
+            additionalData.address,
+            additionalData.txId,
+          ),
         ),
       ),
     ),
