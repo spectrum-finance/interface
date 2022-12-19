@@ -1,7 +1,6 @@
-import { from, Observable, of, switchMap, tap, timeout } from 'rxjs';
+import { from, Observable, switchMap, timeout } from 'rxjs';
 
 import { applicationConfig } from '../../../../applicationConfig';
-import { panalytics } from '../../../../common/analytics';
 import { TxId } from '../../../../common/types';
 import { ergopayAmmOrderRefunds } from '../../../../services/amm';
 import { submitErgopayTx } from '../common/submitErgopayTx';

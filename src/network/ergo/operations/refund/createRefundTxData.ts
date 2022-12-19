@@ -9,7 +9,6 @@ import { first, map, Observable, zip } from 'rxjs';
 
 import { Currency } from '../../../../common/models/Currency';
 import { TxId } from '../../../../common/types';
-import { ErgoAmmPool } from '../../api/ammPools/ErgoAmmPool';
 import { networkContext$ } from '../../api/networkContext/networkContext';
 import { utxos$ } from '../../api/utxos/utxos';
 import { minerFee$ } from '../../settings/minerFee';
