@@ -1,6 +1,5 @@
-import { first, Observable, switchMap, timeout } from 'rxjs';
+import { first, Observable, switchMap } from 'rxjs';
 
-import { applicationConfig } from '../../../applicationConfig';
 import { Currency } from '../../../common/models/Currency';
 import { Operation } from '../../../common/models/Operation';
 import { Address, TxId } from '../../../common/types';
@@ -15,5 +14,4 @@ export const refund = (
   selectedNetwork$.pipe(
     first(),
     switchMap((n) => n.refund(addresses, operation, xAmount, yAmount)),
-    timeout(applicationConfig.operationTimeoutTime),
   );
