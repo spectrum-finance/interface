@@ -1,6 +1,5 @@
 import { Address } from '@ergolabs/ergo-sdk';
 import {
-  Box,
   Button,
   DownOutlined,
   Dropdown,
@@ -13,24 +12,16 @@ import {
 } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import React, { FC, useState } from 'react';
-import { isMobile } from 'react-device-detect';
 import { first } from 'rxjs';
 
-import { panalytics } from '../../../../common/analytics';
 import { AssetInfo } from '../../../../common/models/AssetInfo';
 import { Currency } from '../../../../common/models/Currency';
 import { Operation } from '../../../../common/models/Operation';
 import { TxId } from '../../../../common/types';
-import { FormPairSection } from '../../../../components/common/FormView/FormPairSection/FormPairSection';
 import { InfoTooltip } from '../../../../components/InfoTooltip/InfoTooltip';
-import { PageSection } from '../../../../components/Page/PageSection/PageSection';
 import { getShortAddress } from '../../../../utils/string/addres';
-import { ergopayRedeem } from '../../operations/redeem/ergopayRedeem';
 import { ergopayRefund } from '../../operations/refund/ergopayRefund';
-import { walletRefund } from '../../operations/refund/walletRefund';
 import { useSettings } from '../../settings/settings';
-import { ErgoPayCompatibleWalletLink } from '../ErgoPayModal/ErgoPayCompatibleWalletLink/ErgoPayCompatibleWalletLink';
-import { RedeemConfirmationInfo } from '../RedeemConfirmationModal/RedeemConfirmationInfo/RedeemConfirmationInfo';
 import { RefundConfirmationInfo } from '../RefundConfirmationModal/RefundConfirmationInfo/RefundConfirmationInfo';
 
 interface RefundFormModal {
