@@ -3,7 +3,10 @@ import React, { FC, useState } from 'react';
 import styled from 'styled-components';
 
 import { SpfReward } from '../../../../../../../network/ergo/api/spfFaucet/spfReward';
-import { ClaimSpfStatusResponse } from '../../../../../../../network/ergo/api/spfFaucet/spfStatus';
+import {
+  ClaimSpfStatusResponse,
+  LAST_STAGE,
+} from '../../../../../../../network/ergo/api/spfFaucet/spfStatus';
 import { RewardDetails } from './RewardDetails/RewardDetails';
 import { RewardStatistic } from './RewardStatistic/RewardStatistic';
 
@@ -31,18 +34,21 @@ export interface RewardInfoProps {
 }
 
 const BASE_HEIGHT = 350;
+const FINAL_STAGE_BASE_HEIGHT = 238;
 const ITEM_HEIGHT = 24;
 const ITEM_PADDING = 8;
 
 export const RewardInfo: FC<RewardInfoProps> = ({ reward, status }) => {
   const [collapsed, setCollapsed] = useState<boolean>(false);
 
+  const baseHeight =
+    status.stage === LAST_STAGE ? FINAL_STAGE_BASE_HEIGHT : BASE_HEIGHT;
   const bgHeight = collapsed
-    ? BASE_HEIGHT +
+    ? baseHeight +
       reward.cohorts.length * ITEM_HEIGHT +
       reward.cohorts.length * ITEM_PADDING +
       2 * ITEM_PADDING
-    : BASE_HEIGHT;
+    : baseHeight;
 
   return (
     <>
