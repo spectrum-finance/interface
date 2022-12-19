@@ -30,7 +30,7 @@ export interface RewardInfoProps {
   readonly status: ClaimSpfStatusResponse;
 }
 
-const BASE_HEIGHT = 346;
+const BASE_HEIGHT = 350;
 const ITEM_HEIGHT = 24;
 const ITEM_PADDING = 8;
 

@@ -48,7 +48,7 @@ export const ClaimRewardState: FC<ClaimRewardStateProps> = ({
 
   return (
     <Flex col>
-      <Flex.Item marginBottom={4}>
+      <Flex.Item marginBottom={8}>
         <RewardInfo reward={reward} status={status} />
       </Flex.Item>
       <Flex.Item marginBottom={2}>
@@ -69,7 +69,7 @@ export const ClaimRewardState: FC<ClaimRewardStateProps> = ({
           Read more about SPF
         </Link>
       </Flex.Item>
-      <Flex.Item marginBottom={6}>
+      <Flex.Item marginBottom={8}>
         <StyledAlert
           type="warning"
           showIcon
