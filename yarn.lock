@@ -1631,27 +1631,27 @@
     mathjs "^9.4.4"
     ramda "0.27.1"
 
-"@ergolabs/ergo-dex-sdk@^1.6.2":
-  version "1.6.2"
-  resolved "https://registry.yarnpkg.com/@ergolabs/ergo-dex-sdk/-/ergo-dex-sdk-1.6.2.tgz#d3db4fb4cf34ad65e4f8199d3c381f37be858775"
-  integrity sha512-N1GHppvgWv+YcvtWEKCzUalyo3weq74FM6VsU6oySVjymW82etIB8AKPFdlVuHC83UtkiDXwwcO/bBCnYEKqJQ==
+"@ergolabs/ergo-dex-sdk@^1.7.4":
+  version "1.7.4"
+  resolved "https://registry.yarnpkg.com/@ergolabs/ergo-dex-sdk/-/ergo-dex-sdk-1.7.4.tgz#bff7d21e27e2982b7b23a71c1379d64d277ae0f9"
+  integrity sha512-i+Gb8ZS10LGAAjQNfSlSIo7elslDr4at/IRfqkEaq1yKVQ18nPrUQ/JOjQ3WJL8iSCd5YUfLV8/3TP+1n+mNeQ==
   dependencies:
-    "@ergolabs/ergo-sdk" "^0.4.5"
+    "@ergolabs/ergo-sdk" "^0.5.0"
     axios "^0.21.1"
     blakejs "^1.1.0"
     bs58 "^4.0.1"
     crypto-js "^4.0.0"
-    ergo-lib-wasm-browser "^0.20.1"
-    ergo-lib-wasm-nodejs "^0.20.1"
+    ergo-lib-wasm-browser "0.20.1"
+    ergo-lib-wasm-nodejs "0.20.1"
     esm-wallaby "^3.2.25"
     json-bigint "^1.0.0"
     mathjs "^9.4.4"
     ramda "0.27.1"
 
-"@ergolabs/ergo-sdk@^0.4.5":
-  version "0.4.5"
-  resolved "https://registry.yarnpkg.com/@ergolabs/ergo-sdk/-/ergo-sdk-0.4.5.tgz#6a36c82a07c1a590db11c70f1ef79661c92fb1d7"
-  integrity sha512-Z8EEMux1yKsvE9F4YERL1isjOCp9FeZnwPAIyyRP5g+HKA5XW4qosFo0Fwcsd8743WIQDzYMkl6x4xWK3Bl+7Q==
+"@ergolabs/ergo-sdk@^0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@ergolabs/ergo-sdk/-/ergo-sdk-0.5.0.tgz#7e12f89b8cfc2a7954d42517c36a64e102779a8e"
+  integrity sha512-JyEaNR3OCnPiQ2IZ9NSUH5LGcj3M2eRh6ZzpQOEPfy9+g5kWpRn0vEZtnh+yK5UN1Aab92uRuJkwph75Ot3SaA==
   dependencies:
     axios "^0.21.1"
     blakejs "^1.1.0"
@@ -6016,12 +6016,12 @@ env-paths@^2.2.0:
   resolved "https://registry.yarnpkg.com/env-paths/-/env-paths-2.2.1.tgz#420399d416ce1fbe9bc0a07c62fa68d67fd0f8f2"
   integrity sha512-+h1lkLKhZMTYjog1VEpJNG7NZJWcuc2DDk/qsqSTRRCOXiLjeQ1d1/udrUGhqMxUgAlwKNZ0cf2uqan5GLuS2A==
 
-ergo-lib-wasm-browser@^0.20.1:
+ergo-lib-wasm-browser@0.20.1, ergo-lib-wasm-browser@^0.20.1:
   version "0.20.1"
   resolved "https://registry.yarnpkg.com/ergo-lib-wasm-browser/-/ergo-lib-wasm-browser-0.20.1.tgz#68097ba6ddf464447866066c9c3f3d960651af7e"
   integrity sha512-g324oXm9kdNphqVuiIzb1lWpawASp7zihcqc8wmr+/xwB8RBSEV+IBwAu4RYMRHNwlwffsPOtKvk+lRpxUFVxQ==
 
-ergo-lib-wasm-nodejs@^0.20.1:
+ergo-lib-wasm-nodejs@0.20.1, ergo-lib-wasm-nodejs@^0.20.1:
   version "0.20.1"
   resolved "https://registry.yarnpkg.com/ergo-lib-wasm-nodejs/-/ergo-lib-wasm-nodejs-0.20.1.tgz#390802910290c37e83c5316028751ea5e4b41e79"
   integrity sha512-2jGQ21HWQdsA9hOXr2DJS7iq32uIQHL45hxfNJ1VnYRUbVkQRpBWB7PRFKZvlIlZT6dIifcg8IacF6hqBOfB2g==

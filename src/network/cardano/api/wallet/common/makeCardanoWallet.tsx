@@ -94,8 +94,8 @@ export const makeCardanoWallet = ({
       message: 'Wallet Network Error',
       description: (
         <>
-          Set network to "testnet" in you {name} wallet to use Spectrum Finance
-          interface
+          Set network to "testnet" in your {name} wallet to use Spectrum Finance
+          interface{' '}
           <a href={testnetSwitchGuideUrl} target="_blank" rel="noreferrer">
             Read guide for {name}
           </a>
