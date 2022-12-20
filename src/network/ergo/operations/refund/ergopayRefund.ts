@@ -3,6 +3,7 @@ import { from, Observable, switchMap, timeout } from 'rxjs';
 import { applicationConfig } from '../../../../applicationConfig';
 import { TxId } from '../../../../common/types';
 import { ergopayAmmOrderRefunds } from '../../../../services/amm';
+import { ergoPayMessageManager } from '../common/ergopayMessageManager';
 import { submitErgopayTx } from '../common/submitErgopayTx';
 import { createRefundTxData } from './createRefundTxData';
 
@@ -14,19 +15,15 @@ export const ergopayRefund = (
     switchMap(([refundParams, txContext, additionalData]) =>
       from(ergopayAmmOrderRefunds.refund(refundParams, txContext)).pipe(
         switchMap((txRequest) =>
-          submitErgopayTx(
-            txRequest,
-            undefined as any,
-            undefined as any,
-            undefined as any,
-            additionalData.minTotalFee,
-            additionalData.maxTotalFee,
-            additionalData.p2pkaddress,
-            'refund',
-            undefined,
-            additionalData.address,
-            additionalData.txId,
-          ),
+          submitErgopayTx(txRequest, {
+            p2pkaddress: additionalData.p2pkaddress,
+            analyticData: undefined,
+            message: ergoPayMessageManager.refund({
+              address: additionalData.address,
+              txId: additionalData.txId,
+              fee: additionalData.minTotalFee,
+            }),
+          }),
         ),
       ),
     ),
