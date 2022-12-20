@@ -22,8 +22,18 @@ export const PendingState: FC<PendingStateProps> = ({ reward, status }) => (
     <Flex.Item marginBottom={12}>
       <RewardInfo reward={reward} status={status} />
     </Flex.Item>
-    <Flex.Item display="flex" justify="center" marginBottom={12}>
+    <Flex.Item display="flex" justify="center" marginBottom={4}>
       <LoadingIcon />
+    </Flex.Item>
+    <Flex.Item display="flex" justify="center">
+      <Typography.Body size="small" secondary align="center">
+        <Trans>Pending amount</Trans>
+      </Typography.Body>
+    </Flex.Item>
+    <Flex.Item display="flex" justify="center" marginBottom={8}>
+      <Typography.Title level={4}>
+        {reward.pending.toCurrencyString()}
+      </Typography.Title>
     </Flex.Item>
     <Flex.Item marginBottom={4}>
       <Typography.Body>

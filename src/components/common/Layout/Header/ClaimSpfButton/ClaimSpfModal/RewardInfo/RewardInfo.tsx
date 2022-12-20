@@ -6,6 +6,7 @@ import { SpfReward } from '../../../../../../../network/ergo/api/spfFaucet/spfRe
 import {
   ClaimSpfStatusResponse,
   LAST_STAGE,
+  SpfStatus,
 } from '../../../../../../../network/ergo/api/spfFaucet/spfStatus';
 import { RewardDetails } from './RewardDetails/RewardDetails';
 import { RewardStatistic } from './RewardStatistic/RewardStatistic';
@@ -34,15 +35,23 @@ export interface RewardInfoProps {
 }
 
 const BASE_HEIGHT = 350;
-const FINAL_STAGE_BASE_HEIGHT = 238;
+const FINAL_STAGE_BASE_HEIGHT = 294;
+const FINAL_STAGE_PENDING_BASE_HEIGHT = 238;
 const ITEM_HEIGHT = 24;
 const ITEM_PADDING = 8;
 
 export const RewardInfo: FC<RewardInfoProps> = ({ reward, status }) => {
   const [collapsed, setCollapsed] = useState<boolean>(false);
 
-  const baseHeight =
-    status.stage === LAST_STAGE ? FINAL_STAGE_BASE_HEIGHT : BASE_HEIGHT;
+  let baseHeight = BASE_HEIGHT;
+
+  if (status.stage === LAST_STAGE) {
+    baseHeight =
+      status.status === SpfStatus.Pending
+        ? FINAL_STAGE_PENDING_BASE_HEIGHT
+        : FINAL_STAGE_BASE_HEIGHT;
+  }
+
   const bgHeight = collapsed
     ? baseHeight +
       reward.cohorts.length * ITEM_HEIGHT +
