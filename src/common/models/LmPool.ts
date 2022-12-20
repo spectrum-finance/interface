@@ -25,6 +25,10 @@ export abstract class LmPool {
   abstract get ammPool(): AmmPool;
 
   abstract epochsLeft(currentHeight: number): number;
+  abstract getApr(
+    programBudgetLeftInUsd: Currency,
+    amountLqLockedInUsd: Currency,
+  ): number | null;
 
   abstract get yourStake(): [Currency, Currency];
   abstract get availableLqShares(): [Currency, Currency];
