@@ -133,6 +133,9 @@ export const addToQueue = (
   return networkContext$.pipe(
     first(),
     tap((ctx) => {
+      if (params.type === 'refund') {
+        return;
+      }
       localStorageManager.set<QueuedOperation>(QUEUED_OPERATION_KEY, {
         height: ctx.height,
         tx,

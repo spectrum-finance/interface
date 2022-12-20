@@ -4,8 +4,8 @@ import React, { FC } from 'react';
 import {
   FeesView,
   FeesViewItem,
-} from '../../../../components/FeesView/FeesView';
-import { useMinerFee } from '../../settings/minerFee';
+} from '../../../../../components/FeesView/FeesView';
+import { useMinerFee } from '../../../settings/minerFee';
 
 export const RefundConfirmationInfo: FC = () => {
   const minerFee = useMinerFee();
