@@ -131,18 +131,11 @@ export const FarmTableExpandComponent: FC<ExpandComponentProps<ErgoLmPool>> = ({
             <Flex direction="col">
               <Typography.Body secondary>Live period</Typography.Body>
               <Typography.Body>
-                {blockToDateTime(
-                  lmPool.currentHeight,
-                  lmPool.config.programStart,
-                ).toFormat('yyyy-MM-dd HH:MM')}{' '}
+                {lmPool.startDateTime}{' '}
                 <Typography.Body secondary>
                   <SwapRightOutlined disabled={true} />
                 </Typography.Body>{' '}
-                {blockToDateTime(
-                  lmPool.currentHeight,
-                  lmPool.config.programStart +
-                    lmPool.config.epochLen * lmPool.config.epochNum,
-                ).toFormat('yyyy-MM-dd HH:MM')}
+                {lmPool.endDateTime}
               </Typography.Body>
             </Flex>
           </Box>
@@ -171,7 +164,7 @@ export const FarmTableExpandComponent: FC<ExpandComponentProps<ErgoLmPool>> = ({
                 Distribution frequency
               </Typography.Body>
               <Typography.Body>
-                {blocksToDaysCount(lmPool.config.epochLen)} days (
+                {lmPool.distributionFrequencyInDays} days (
                 {lmPool.config.epochLen} blocks)
               </Typography.Body>
             </Flex>

@@ -1,10 +1,13 @@
 import {
+  blocksToDaysCount,
   LmPool as ErgoBaseLmPool,
   LmPoolConfig as ErgoBaseLmPoolConfig,
 } from '@ergolabs/ergo-dex-sdk';
 import { cache } from 'decorator-cache-getter';
+import numeral from 'numeral';
 
 import { FarmState } from '../../pages/Farm/types/FarmState';
+import { blockToDateTime } from '../utils/blocks';
 import { AmmPool } from './AmmPool';
 import { Currency } from './Currency';
 
@@ -62,5 +65,41 @@ export abstract class LmPool {
     }
 
     return FarmState.Live;
+  }
+
+  get startDateTime(): string {
+    return blockToDateTime(
+      this.currentHeight,
+      this.config.programStart,
+    ).toFormat('yyyy-MM-dd HH:MM');
+  }
+
+  get endDateTime(): string {
+    return blockToDateTime(
+      this.currentHeight,
+      this.config.programStart + this.config.epochLen * this.config.epochNum,
+    ).toFormat('yyyy-MM-dd HH:MM');
+  }
+
+  get progressInPercents(): number {
+    if (Number(this.reward.toAmount()) === 0) {
+      return 100;
+    }
+
+    if (Number(this.programBudget) === Number(this.reward.toAmount())) {
+      return 0;
+    }
+
+    return Number(
+      numeral(this.programBudget)
+        .subtract(this.reward.toAmount())
+        .divide(this.programBudget)
+        .multiply(100)
+        .format('00.00'),
+    );
+  }
+
+  get distributionFrequencyInDays(): number {
+    return blocksToDaysCount(this.config.epochLen);
   }
 }

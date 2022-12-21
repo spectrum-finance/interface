@@ -54,7 +54,9 @@ export const FarmPairColumn: FC<PairColumnProps> = ({
 }) => {
   return (
     <Flex align="center">
-      {lmPool.balanceLq.isPositive() && lmPool.balanceVlq.isPositive() ? (
+      {lmPool.balanceLq.isPositive() &&
+      lmPool.balanceVlq.isPositive() &&
+      lmPool.currentStatus === FarmState.Live ? (
         <Flex.Item marginRight={2}>
           <Tooltip
             placement="top"

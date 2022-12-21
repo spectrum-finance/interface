@@ -16,27 +16,9 @@ export const FarmLineProgress = ({
   width,
   className,
 }: ProgressProps) => {
-  const getPercent = () => {
-    if (Number(lmPool.reward.toAmount()) === 0) {
-      return 100;
-    }
-
-    if (Number(lmPool.programBudget) === Number(lmPool.reward.toAmount())) {
-      return 0;
-    }
-
-    return Number(
-      numeral(lmPool.programBudget)
-        .subtract(lmPool.reward.toAmount())
-        .divide(lmPool.programBudget)
-        .multiply(100)
-        .format('00.00'),
-    );
-  };
-
   return (
     <LineProgress
-      percent={getPercent()}
+      percent={lmPool.progressInPercents}
       height={height}
       width={width}
       className={className}
