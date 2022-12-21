@@ -1,5 +1,10 @@
-import { LmPool as ErgoBaseLmPool, LmPoolConfig } from '@ergolabs/ergo-dex-sdk';
+import {
+  blocksToDaysCount,
+  LmPool as ErgoBaseLmPool,
+  LmPoolConfig,
+} from '@ergolabs/ergo-dex-sdk';
 import { cache } from 'decorator-cache-getter';
+import numeral from 'numeral';
 
 import { AmmPool } from '../../../../common/models/AmmPool';
 import { AssetInfo } from '../../../../common/models/AssetInfo';
@@ -23,7 +28,6 @@ export class ErgoLmPool extends LmPool {
     },
   ) {
     super();
-    console.log(this.assetsInfoDictionary.stakes);
   }
 
   private get lqAsset(): AssetInfo {
@@ -54,6 +58,25 @@ export class ErgoLmPool extends LmPool {
     return this.ammPool.shares(
       new Currency(this.balanceVlq.amount, this.lqAsset),
     );
+  }
+
+  getApr(
+    programBudgetLeftInUsd: Currency,
+    amountLqLockedInUsd: Currency,
+  ): number | null {
+    const interestsRelation = numeral(programBudgetLeftInUsd.toAmount()).divide(
+      amountLqLockedInUsd.toAmount(),
+    );
+    const { programStart, epochLen, epochNum } = this.config;
+    const lmProgramLeftInBlocks =
+      programStart + epochLen * epochNum - this.currentHeight;
+    const lmProgramLeftInDays = blocksToDaysCount(lmProgramLeftInBlocks);
+
+    return interestsRelation
+      .divide(lmProgramLeftInDays)
+      .multiply(365)
+      .multiply(100)
+      .value();
   }
 
   stakeShares(stake: ExtendedStake): [Currency, Currency] {

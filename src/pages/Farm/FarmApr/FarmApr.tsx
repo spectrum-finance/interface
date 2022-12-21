@@ -12,9 +12,6 @@ import { networkContext$ } from '../../../gateway/api/networkContext';
 import { FarmState } from '../types/FarmState';
 
 export const APRComponent = ({ lmPool }: { lmPool: LmPool }) => {
-  // interests_relation = program_budget_left_in_usd / amount_lq_locked_in_usd
-  // apr = interests_relation / lm_program_left_in_days * 365 * 100
-
   const [networkContext] = useObservable(networkContext$);
   const amountLqLockedInUsd$ = useMemo(
     () => convertToConvenientNetworkAsset(lmPool.shares),
@@ -38,29 +35,19 @@ export const APRComponent = ({ lmPool }: { lmPool: LmPool }) => {
     networkContext?.height &&
     lmPool.currentStatus === FarmState.Live
   ) {
-    const interestsRelation = numeral(programBudgetLeftInUsd.toAmount()).divide(
-      amountLqLockedInUsd.toAmount(),
+    const apr = lmPool.getApr(programBudgetLeftInUsd, amountLqLockedInUsd);
+
+    return (
+      <DataTag
+        size="large"
+        content={
+          <Typography.Body>
+            <AssetIcon asset={lmPool.reward.asset} />
+            {apr}%
+          </Typography.Body>
+        }
+      />
     );
-    const { programStart, epochLen, epochNum } = lmPool.config;
-    const lmProgramLeftInBlocks =
-      programStart + epochLen * epochNum - networkContext.height;
-    const lmProgramLeftInDays = blocksToDaysCount(lmProgramLeftInBlocks);
-
-    const apr = interestsRelation
-      .divide(lmProgramLeftInDays)
-      .multiply(365)
-      .multiply(100)
-      .value();
-
-    <DataTag
-      size="large"
-      content={
-        <Typography.Body>
-          <AssetIcon asset={lmPool.reward.asset} />
-          {apr}%
-        </Typography.Body>
-      }
-    />;
   }
 
   return <Typography.Body>$---</Typography.Body>;
