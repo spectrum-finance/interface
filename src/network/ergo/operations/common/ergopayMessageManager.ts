@@ -1,15 +1,38 @@
-import { AmmPool } from '../../../../common/models/AmmPool';
 import { Currency } from '../../../../common/models/Currency';
+import { Address, TxId } from '../../../../common/types';
 import { formatToUSD } from '../../../../services/number';
 import { renderFractions } from '../../../../utils/math';
+import { ErgoAmmPool } from '../../api/ammPools/ErgoAmmPool';
+
+export interface SwapErgoPayParams {
+  readonly from: Currency;
+  readonly to: Currency;
+  readonly feeMin: Currency;
+  readonly feeMax: Currency;
+}
+
+export interface DepositErgoPayParams {
+  readonly x: Currency;
+  readonly y: Currency;
+  readonly pool: ErgoAmmPool;
+  readonly fee: Currency;
+}
+
+export interface RedeemErgoPayParams {
+  readonly x: Currency;
+  readonly y: Currency;
+  readonly pool: ErgoAmmPool;
+  readonly fee: Currency;
+}
+
+export interface RefundErgoPayParams {
+  readonly txId: TxId;
+  readonly address: Address;
+  readonly fee: Currency;
+}
 
 export const ergoPayMessageManager = {
-  swap(
-    from: Currency,
-    to: Currency,
-    feeMin: Currency,
-    feeMax: Currency,
-  ): string {
+  swap({ from, feeMin, feeMax, to }: SwapErgoPayParams): string {
     return `
 Spectrum
 Operation: Swap
@@ -17,7 +40,7 @@ ${from.toCurrencyString()} → ${to.toCurrencyString()}
 Total fees: ${feeMin.toString()} - ${feeMax.toString()} ${feeMin.asset.ticker}
     `;
   },
-  deposit(x: Currency, y: Currency, pool: AmmPool, feeMin: Currency): string {
+  deposit({ pool, fee, x, y }: DepositErgoPayParams): string {
     return `
 Spectrum
 Operation: Add liquidity
@@ -30,10 +53,10 @@ Pool: ${pool.x.asset.ticker}/${pool.y.asset.ticker} (TVL: ${
         : '—'
     })
 Assets: ${x.toCurrencyString()} and ${y.toCurrencyString()}
-Total fees: ${feeMin.toCurrencyString()}
+Total fees: ${fee.toCurrencyString()}
     `;
   },
-  redeem(x: Currency, y: Currency, pool: AmmPool, feeMin: Currency): string {
+  redeem({ pool, fee, x, y }: RedeemErgoPayParams): string {
     return `
 Spectrum
 Operation: Remove liquidity
@@ -46,7 +69,16 @@ Pool: ${pool.x.asset.ticker}/${pool.y.asset.ticker} (TVL: ${
         : '—'
     })
 Assets: ${x.toCurrencyString()} and ${y.toCurrencyString()}
-Total fees: ${feeMin.toCurrencyString()}
+Total fees: ${fee.toCurrencyString()}
+    `;
+  },
+  refund({ address, txId, fee }: RefundErgoPayParams): string {
+    return `
+Spectrum
+Operation: Refund
+Address: ${address}
+TxId: ${txId}
+Total fees: ${fee.toCurrencyString()}
     `;
   },
 };

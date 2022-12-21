@@ -11,8 +11,8 @@ import {
   useForm,
 } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
-import React, { useState } from 'react';
-import { Observable } from 'rxjs';
+import React, { FC, useState } from 'react';
+import { first } from 'rxjs';
 
 import { AssetInfo } from '../../../../common/models/AssetInfo';
 import { Currency } from '../../../../common/models/Currency';
@@ -20,15 +20,9 @@ import { Operation } from '../../../../common/models/Operation';
 import { TxId } from '../../../../common/types';
 import { InfoTooltip } from '../../../../components/InfoTooltip/InfoTooltip';
 import { getShortAddress } from '../../../../utils/string/addres';
-import { walletRefund } from '../../operations/refund/walletRefund';
+import { ergopayRefund } from '../../operations/refund/ergopayRefund';
 import { useSettings } from '../../settings/settings';
-import { RefundConfirmationInfo } from './RefundConfirmationInfo/RefundConfirmationInfo';
-
-interface RefundConfirmationModalProps {
-  onClose: (p: Observable<TxId>) => void;
-  addresses: Address[];
-  operation: Operation;
-}
+import { RefundConfirmationInfo } from '../RefundConfirmationModal/RefundConfirmationInfo/RefundConfirmationInfo';
 
 interface RefundFormModal {
   readonly xAmount: Currency;
@@ -52,18 +46,33 @@ const getForValueFromOperation = (operation: Operation): RefundFormModal =>
         yAsset: operation.y.asset,
       };
 
-const RefundConfirmationModal: React.FC<RefundConfirmationModalProps> = ({
-  onClose,
+export interface RefundOpenWalletProps {
+  readonly addresses: Address[];
+  readonly operation: Operation;
+  readonly onTxRegister: (p: TxId) => void;
+}
+
+export const RefundOpenWallet: FC<RefundOpenWalletProps> = ({
   addresses,
   operation,
-}): JSX.Element => {
+  onTxRegister,
+}) => {
   const form = useForm<RefundFormModal>(getForValueFromOperation(operation));
   const [{ address }] = useSettings();
+  const [loading, setLoading] = useState<boolean>(false);
   const [activeAddress, setActiveAddress] = useState(address);
 
   const handleRefund = () => {
     if (activeAddress) {
-      onClose(walletRefund(activeAddress, operation.txId));
+      ergopayRefund(activeAddress, operation.txId)
+        .pipe(first())
+        .subscribe({
+          next: (txId) => {
+            setLoading(false);
+            onTxRegister(txId);
+          },
+          error: () => setLoading(false),
+        });
     }
   };
 
@@ -114,8 +123,14 @@ const RefundConfirmationModal: React.FC<RefundConfirmationModalProps> = ({
               </Flex>
             </Flex.Item>
             <Flex.Item>
-              <Button htmlType="submit" size="large" type="primary" block>
-                <Trans>Confirm</Trans>
+              <Button
+                htmlType="submit"
+                size="large"
+                loading={loading}
+                type="primary"
+                block
+              >
+                {t`Proceed`}
               </Button>
             </Flex.Item>
           </Flex>
@@ -124,5 +139,3 @@ const RefundConfirmationModal: React.FC<RefundConfirmationModalProps> = ({
     </>
   );
 };
-
-export { RefundConfirmationModal };
