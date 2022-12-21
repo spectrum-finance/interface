@@ -1,4 +1,5 @@
 import { Address } from '@ergolabs/ergo-sdk';
+import { Modal } from '@ergolabs/ui-kit';
 import React from 'react';
 import { first, Observable, Subject, switchMap, tap } from 'rxjs';
 
@@ -10,7 +11,9 @@ import {
   Operation as ModalOperation,
 } from '../../../../components/ConfirmationModal/ConfirmationModal';
 import { settings$ } from '../../settings/settings';
+import { ErgoPayModal } from '../../widgets/ErgoPayModal/ErgoPayModal';
 import { RefundConfirmationModal } from '../../widgets/RefundConfirmationModal/RefundConfirmationModal';
+import { RefundOpenWallet } from '../../widgets/RefundOpenWallet/RefundOpenWallet';
 
 const refundWithErgopay = (
   addresses: Address[],
@@ -18,22 +21,22 @@ const refundWithErgopay = (
 ): Observable<TxId> => {
   const subject = new Subject<TxId>();
 
-  // Modal.open(({ close }) => (
-  //   <ErgoPayModal
-  //     openWalletContent={(onTxRegister) => (
-  //       <RedeemOpenWallet
-  //         pool={pool}
-  //         value={data}
-  //         onTxRegister={onTxRegister}
-  //       />
-  //     )}
-  //     onTxRegister={(txId) => {
-  //       subject.next(txId);
-  //       subject.complete();
-  //     }}
-  //     close={close}
-  //   />
-  // ));
+  Modal.open(({ close }) => (
+    <ErgoPayModal
+      openWalletContent={(onTxRegister) => (
+        <RefundOpenWallet
+          addresses={addresses}
+          operation={operation}
+          onTxRegister={onTxRegister}
+        />
+      )}
+      onTxRegister={(txId) => {
+        subject.next(txId);
+        subject.complete();
+      }}
+      close={close}
+    />
+  ));
   return subject;
 };
 
