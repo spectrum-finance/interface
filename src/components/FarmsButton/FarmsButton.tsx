@@ -1,27 +1,17 @@
 import { Button } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React, { FC, MouseEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-
-import { AmmPool } from '../../../../common/models/AmmPool';
 
 export interface FarmsButtonProps {
   readonly className?: string;
-  readonly ammPool: AmmPool;
+  readonly onClick?: (e: MouseEvent) => void;
 }
 
-const _FarmsButton: FC<FarmsButtonProps> = ({ className, ammPool }) => {
-  const navigate = useNavigate();
-
-  const handleClick = (e: MouseEvent) => {
-    e.stopPropagation();
-    navigate(`../../farm?searchString=${ammPool.id}`);
-  };
-
+const _FarmsButton: FC<FarmsButtonProps> = ({ className, onClick }) => {
   return (
     <Button
-      onClick={handleClick}
+      onClick={onClick}
       size="small"
       type="primary"
       htmlType="button"
