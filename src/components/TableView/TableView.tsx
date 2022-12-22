@@ -112,7 +112,15 @@ const _TableView: FC<TableViewProps<any>> = ({
       [s.name]: s,
     }));
 
-  const addColumn = (c: Column<any>) => setColumns((prev) => prev.concat(c));
+  const addColumn = (currentC: Column<any>) => {
+    setColumns((prev) => {
+      if (prev.some((c) => c.name === currentC.name)) {
+        return prev.map((c) => (c.name === currentC.name ? currentC : c));
+      } else {
+        return prev.concat(currentC);
+      }
+    });
+  };
 
   const addAction = (a: Action<any>) => setActions((prev) => prev.concat(a));
 
