@@ -90,7 +90,7 @@ export const openClaimSpfNotification = (
   notification.open({
     key: CLAIM_SPF_NOTIFICATION_KEY,
     message: <ClaimSpfNotification reward={reward} onClick={onClick} />,
-    placement: 'topRight',
+    placement: 'topRightBackward' as any,
     duration: 0,
     btn: <></>,
     onClose: () => localStorageManager.set(CLAIM_SPF_STAGE, status.stage),
