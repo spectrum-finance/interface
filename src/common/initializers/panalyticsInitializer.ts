@@ -64,7 +64,10 @@ export const panalyticsInitializer: Initializer = () => {
     }
   };
 
-  if (process.env.REACT_APP_POSTHOG_API_KEY && process.env.production) {
+  if (
+    process.env.REACT_APP_POSTHOG_API_KEY &&
+    process.env.NODE_ENV === 'production'
+  ) {
     ANALYTICS_SYSTEMS_QUANTITY += 1;
     posthog.init(process.env.REACT_APP_POSTHOG_API_KEY, {
       api_host: POSTHOG_API,
@@ -79,7 +82,10 @@ export const panalyticsInitializer: Initializer = () => {
     });
   }
 
-  if (process.env.REACT_APP_AMPLITUDE_API_KEY && process.env.production) {
+  if (
+    process.env.REACT_APP_AMPLITUDE_API_KEY &&
+    process.env.NODE_ENV === 'production'
+  ) {
     ANALYTICS_SYSTEMS_QUANTITY += 1;
     amplitude
       .init(process.env.REACT_APP_AMPLITUDE_API_KEY, undefined, {})
