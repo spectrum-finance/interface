@@ -116,9 +116,8 @@ const _TableView: FC<TableViewProps<any>> = ({
     setColumns((prev) => {
       if (prev.some((c) => c.name === currentC.name)) {
         return prev.map((c) => (c.name === currentC.name ? currentC : c));
-      } else {
-        return prev.concat(currentC);
       }
+      return prev.concat(currentC);
     });
   };
 

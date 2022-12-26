@@ -1,4 +1,4 @@
-import { Flex } from '@ergolabs/ui-kit';
+import { Flex, useDevice } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import numeral from 'numeral';
 import React from 'react';
@@ -31,6 +31,8 @@ export const FarmTableViewDesktop = ({
   expandComponent,
   loading,
 }: Props) => {
+  const { moreThan } = useDevice();
+
   return (
     <TableView
       items={items}
@@ -55,7 +57,11 @@ export const FarmTableViewDesktop = ({
         {(lmPool: Farm) => <FarmPairColumn lmPool={lmPool} />}
       </TableView.Column>
 
-      <TableView.Column width={140} title={<Trans>Total Staked</Trans>}>
+      <TableView.Column
+        width={140}
+        title={<Trans>Total Staked</Trans>}
+        show={moreThan('xl')}
+      >
         {/*{(lmPool) => <TvlOrVolume24Column usd={poolMapper(lmPool).tvl} />}*/}
         {(lmPool: Farm) => (
           <Flex>

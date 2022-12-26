@@ -1,6 +1,6 @@
 import { Flex } from '@ergolabs/ui-kit';
 import flow from 'lodash/flow';
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import { useObservable } from '../../common/hooks/useObservable';
 import { useSearchParams } from '../../common/hooks/useSearchParams';

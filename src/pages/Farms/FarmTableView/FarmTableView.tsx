@@ -30,15 +30,23 @@ export const FarmTableView: FC<FarmTableViewProps<any>> = ({
 }) => {
   const { valBySize, moreThan, l, m, s } = useDevice();
 
-  if (moreThan('xl')) {
-    return (
-      <FarmTableViewDesktop
-        items={items}
-        loading={loading}
-        expandComponent={expandComponent}
-      />
-    );
-  }
+  // if (moreThan('xl')) {
+  //   return (
+  //     <FarmTableViewDesktop
+  //       items={items}
+  //       loading={loading}
+  //       expandComponent={expandComponent}
+  //     />
+  //   );
+  // }
+
+  return (
+    <FarmTableViewDesktop
+      items={items}
+      loading={loading}
+      expandComponent={expandComponent}
+    />
+  );
 
   if (l) {
     return (
