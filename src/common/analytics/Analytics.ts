@@ -1,6 +1,5 @@
-import * as Amplitude from '@amplitude/analytics-browser';
 import posthog, { PostHog } from 'posthog-js';
-import { first } from 'rxjs';
+import { first, of } from 'rxjs';
 
 import { selectedNetwork$ } from '../../gateway/common/network';
 import { Network, SupportedNetworks } from '../../network/common/Network';
@@ -10,18 +9,17 @@ import { RemoveFormModel } from '../../pages/RemoveLiquidity/RemoveLiquidity';
 import { SwapFormModel } from '../../pages/Swap/SwapFormModel';
 import { SupportedLocale } from '../constants/locales';
 import { AmmPool } from '../models/AmmPool';
-import { AnalyticsLaunchData } from './@types/launch';
 import {
   AnalyticsAppOperations,
   AnalyticsElementLocation,
   AnalyticsTheme,
   AnalyticsToken,
   AnalyticsTokenAssignment,
+  AnalyticsWalletName,
+  ProductAnalyticsSystem,
+  userProperties,
 } from './@types/types';
-import { userProperties } from './@types/userProperties';
-import { AnalyticsWalletName } from './@types/wallet';
-import { ANALYTICS_EVENTS } from './events';
-import { AnalyticSystem } from './system/AnalyticSystem';
+import { ANALYTICS_EVENTS } from './constants/events';
 import {
   constructEventName,
   convertDepositFormModelToAnalytics,
@@ -32,12 +30,12 @@ import {
 } from './utils';
 
 export class ProductAnalytics {
-  analyticsSystems: AnalyticSystem[];
+  analyticsSystems: ProductAnalyticsSystem[];
 
-  constructor(...analyticsSystems: Array<AnalyticSystem | undefined>) {
+  constructor(...analyticsSystems: Array<ProductAnalyticsSystem | undefined>) {
     this.analyticsSystems = analyticsSystems.filter(
       (system) => !!system,
-    ) as AnalyticSystem[];
+    ) as ProductAnalyticsSystem[];
   }
 
   private event(name: string, props?: any, userProps?: userProperties): void {
@@ -49,6 +47,13 @@ export class ProductAnalytics {
 
   private withNetwork(cb: (n: Network<any, any>) => void): void {
     selectedNetwork$.pipe(first()).subscribe(cb);
+  }
+
+  public init() {
+    this.analyticsSystems.forEach((system) => {
+      system.init(() => {});
+    });
+    return of(true);
   }
 
   public firstLaunch({

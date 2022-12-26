@@ -153,3 +153,12 @@ export const convertRedeemFormModelToAnalytics = (
     ...getPoolAnalyticsData(pool),
   };
 };
+
+export const throwProductAnalyticsError = (
+  system: string,
+  message: string,
+): Error => {
+  throw Error(
+    `Product Analytics Error: ${message}. Analytics system: ${system}`,
+  );
+};
