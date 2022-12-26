@@ -3,7 +3,7 @@ import React from 'react';
 import { Observable, of } from 'rxjs';
 
 import { TxId } from '../../../../../common/types';
-import { FarmWithdrawalModal } from '../../../../../pages/Farm/FarmActionModals/FarmWithdrawalModal/FarmWithdrawalModal';
+import { FarmWithdrawalModal } from '../../../../../pages/Farms/FarmActionModals/FarmWithdrawalModal/FarmWithdrawalModal';
 import { ErgoFarm } from '../../models/ErgoFarm';
 import { walletLmRedeem } from './walletLmRedeem';
 
