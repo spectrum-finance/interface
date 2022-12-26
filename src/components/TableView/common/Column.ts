@@ -17,4 +17,5 @@ export interface Column<T> {
   readonly headerMaxWidth?: CSSProperties['maxWidth'];
   readonly headerMinWidth?: CSSProperties['minWidth'];
   readonly show?: boolean;
+  readonly name?: string;
 }

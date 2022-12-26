@@ -22,6 +22,7 @@ import { useObservable } from '../../common/hooks/useObservable';
 import { useParamsStrict } from '../../common/hooks/useParamsStrict';
 import { ConnectWalletButton as _ConnectWalletButton } from '../../components/common/ConnectWalletButton/ConnectWalletButton';
 import { FormPairSection } from '../../components/common/FormView/FormPairSection/FormPairSection';
+import { FarmsButton } from '../../components/FarmsButton/FarmsButton';
 import { Page } from '../../components/Page/Page';
 import { PageHeader } from '../../components/Page/PageHeader/PageHeader';
 import { PageSection } from '../../components/Page/PageSection/PageSection';
@@ -60,6 +61,9 @@ export const PoolOverview: React.FC = () => {
   const handleRelockLiquidity = () => navigate(`relock`);
 
   const handleWithdrawalLiquidity = () => navigate(`withdrawal`);
+
+  const handleFarmsButtonClick = () =>
+    navigate(`../../../farm?searchString=${position?.pool.id}`);
 
   return (
     <Page title={t`Pool overview`} maxWidth={620} withBackButton backTo="/pool">
@@ -105,7 +109,12 @@ export const PoolOverview: React.FC = () => {
                 )
               }
             >
-              <PoolFeeTag ammPool={position.pool} />
+              <Flex align="center">
+                <Flex.Item marginRight={2}>
+                  <PoolFeeTag ammPool={position.pool} />
+                </Flex.Item>
+                <FarmsButton onClick={handleFarmsButtonClick} />
+              </Flex>
             </PageHeader>
           </Flex.Item>
           <Flex.Item marginBottom={4}>
