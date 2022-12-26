@@ -11,7 +11,7 @@ import { AssetInfo } from '../../../../common/models/AssetInfo';
 import { Currency } from '../../../../common/models/Currency';
 import { Farm, LmPoolStatus } from '../../../../common/models/Farm';
 import { blockToDateTime } from '../../../../common/utils/blocks';
-import { ErgoAmmPool } from '../../api/ammPools/ErgoAmmPool';
+import { convertToConvenientNetworkAsset } from '../../api/ergoUsdRatio/ergoUsdRatio';
 import { RawStakeWithRedeemerKey } from '../api/stakes/stakes';
 import { Stake } from './Stake';
 
@@ -195,6 +195,13 @@ export class ErgoFarm implements Farm<ErgoBaseLmPool> {
 
   @cache
   get apr(): number {
+    const rewardUsd = convertToConvenientNetworkAsset.snapshot(this.reward);
+    const totalStakedUsd = convertToConvenientNetworkAsset.snapshot(
+      this.totalStakedShares,
+    );
+
+    console.log(rewardUsd.toAmount(), totalStakedUsd.toAmount());
+
     return 1;
   }
 

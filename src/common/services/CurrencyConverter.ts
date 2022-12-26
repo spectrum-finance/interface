@@ -63,9 +63,7 @@ export const makeCurrencyConverter = (
       assetGraph$,
       networkAssetToConvenientAssetRatio$,
     ]).pipe(
-      tap(() => console.log('event1')),
       debounceTime(100),
-      tap(() => console.log('event2')),
       map(([graph, networkAssetRatio]) => {
         if (fromAsset.id === networkAssetRatio.baseAsset.id) {
           return networkAssetRatio;
