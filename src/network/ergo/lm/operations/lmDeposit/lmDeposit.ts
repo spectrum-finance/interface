@@ -1,7 +1,7 @@
 import { Observable, of } from 'rxjs';
 
 import { TxId } from '../../../../../common/types';
-import { ErgoLmPool } from '../../../api/lmPools/ErgoLmPool';
+import { ErgoLmPool } from '../../models/ErgoLmPool';
 
 export const lmDepositWithWallet = (lmPool: ErgoLmPool): Observable<TxId> => {
   return of('');

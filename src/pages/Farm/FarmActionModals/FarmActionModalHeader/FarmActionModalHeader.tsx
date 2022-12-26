@@ -4,14 +4,11 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { AssetInfo } from '../../../../common/models/AssetInfo';
-import { LmPool } from '../../../../common/models/LmPool';
+import { LmPool, LmPoolStatus } from '../../../../common/models/LmPool';
 import { AssetIconPair } from '../../../../components/AssetIconPair/AssetIconPair';
 import { DataTag } from '../../../../components/common/DataTag/DataTag';
-import { ConvenientAssetView } from '../../../../components/ConvenientAssetView/ConvenientAssetView';
 import { InfoTooltip } from '../../../../components/InfoTooltip/InfoTooltip';
-import { APRComponent } from '../../FarmApr/FarmApr';
 import { FarmHeaderAssets } from '../../FarmGridView/FarmCardView/FarmCardView';
-import { FarmState } from '../../types/FarmState';
 
 interface FarmActionModalHeaderProps {
   className?: string;
@@ -50,12 +47,12 @@ const _FarmActionModalHeader: React.FC<FarmActionModalHeaderProps> = ({
                   content={
                     <div>
                       <div>
-                        {lmPool.shares[0].asset.ticker}:{' '}
-                        {lmPool.shares[0].toString()}
+                        {lmPool.totalStakedX.asset.ticker}:{' '}
+                        {lmPool.totalStakedX.toString()}
                       </div>
                       <div>
-                        {lmPool.shares[1].asset.ticker}:{' '}
-                        {lmPool.shares[1].toString()}
+                        {lmPool.totalStakedY.asset.ticker}:{' '}
+                        {lmPool.totalStakedY.toString()}
                       </div>
                     </div>
                   }
@@ -64,7 +61,7 @@ const _FarmActionModalHeader: React.FC<FarmActionModalHeaderProps> = ({
             }
           />
         </Flex>
-        {lmPool.currentStatus === FarmState.Live && (
+        {lmPool.status === LmPoolStatus.Live && (
           <Flex col align="flex-end">
             <WhiteText>
               <Trans>APR</Trans>

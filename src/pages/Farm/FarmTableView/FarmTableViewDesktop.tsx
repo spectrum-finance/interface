@@ -62,7 +62,7 @@ export const FarmTableViewDesktop = ({
             <DataTag
               content={
                 <Flex gap={1} align="center">
-                  <ConvenientAssetView value={lmPool.shares} />
+                  <ConvenientAssetView value={lmPool.totalStakedShares} />
                   <InfoTooltip
                     width={194}
                     size="small"
@@ -71,12 +71,12 @@ export const FarmTableViewDesktop = ({
                     content={
                       <div>
                         <div>
-                          {lmPool.shares[0].asset.ticker}:{' '}
-                          {lmPool.shares[0].toString()}
+                          {lmPool.totalStakedX.asset.ticker}:{' '}
+                          {lmPool.totalStakedX.toString()}
                         </div>
                         <div>
-                          {lmPool.shares[1].asset.ticker}:{' '}
-                          {lmPool.shares[1].toString()}
+                          {lmPool.totalStakedY.asset.ticker}:{' '}
+                          {lmPool.totalStakedY.toString()}
                         </div>
                       </div>
                     }
@@ -93,8 +93,10 @@ export const FarmTableViewDesktop = ({
             <DataTag
               content={
                 <div>
-                  {lmPool.yourStake.every((value) => value.isPositive()) ? (
-                    <ConvenientAssetView value={lmPool.yourStake} />
+                  {lmPool.yourStakeShares.every((value) =>
+                    value.isPositive(),
+                  ) ? (
+                    <ConvenientAssetView value={lmPool.yourStakeShares} />
                   ) : (
                     <>$---</>
                   )}

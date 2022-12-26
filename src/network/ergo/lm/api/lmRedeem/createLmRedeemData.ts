@@ -4,31 +4,34 @@ import { AssetAmount, MinBoxValue } from '@ergolabs/ergo-sdk';
 import { NetworkContext } from '@ergolabs/ergo-sdk/build/main/entities/networkContext';
 
 import { Currency } from '../../../../../common/models/Currency';
-import { ErgoLmPool } from '../../../api/lmPools/ErgoLmPool';
-import { ExtendedStake } from '../../../api/lmStake/lmStake';
 import { ErgoSettings } from '../../../settings/settings';
+import { ErgoLmPool } from '../../models/ErgoLmPool';
+import { Stake } from '../../models/Stake';
 
 interface CreateLmRedeemDataParams {
-  readonly pool: ErgoLmPool;
-  readonly stake: ExtendedStake;
+  readonly lmPool: ErgoLmPool;
+  readonly stake: Stake;
   readonly settings: ErgoSettings;
   readonly minerFee: Currency;
   readonly networkContext: NetworkContext;
 }
 
 export const createLmRedeemData = ({
-  pool,
+  lmPool,
   stake,
   settings,
   minerFee,
   networkContext,
 }: CreateLmRedeemDataParams): [LqRedeemConf, ActionContext] => {
   const lqRedeemConf: LqRedeemConf = {
-    expectedLqAmount: new AssetAmount(pool.lq.asset, stake.lockedLq.amount),
+    expectedLqAmount: new AssetAmount(
+      lmPool.assets.lq,
+      stake.rawStake.lockedLq.amount,
+    ),
     redeemerPk: settings.pk!,
     redeemerKey: new AssetAmount(
-      stake.redeemerKey.asset,
-      stake.redeemerKey.amount,
+      stake.rawStake.redeemerKey.asset,
+      stake.rawStake.redeemerKey.amount,
     ),
   };
   const actionContext: ActionContext = {

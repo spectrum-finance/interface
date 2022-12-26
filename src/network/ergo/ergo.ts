@@ -20,8 +20,6 @@ import { lpBalance$ } from './api/balance/lpBalance';
 import { networkAssetBalance$ } from './api/balance/networkAssetBalance';
 import { importTokenAsset } from './api/common/availablePoolsOrTokens';
 import { convertToConvenientNetworkAsset } from './api/ergoUsdRatio/ergoUsdRatio';
-import { farmPools$ } from './api/lmPools/lmPools';
-import { stakes$ } from './api/lmStake/lmStake';
 import { locks$ } from './api/locks/locks';
 import { networkAsset, useNetworkAsset } from './api/networkAsset/networkAsset';
 import { networkContext$ } from './api/networkContext/networkContext';
@@ -41,9 +39,10 @@ import {
   walletState$,
 } from './api/wallet/wallet';
 import { initialize, initialized$ } from './initialized';
+import { farmPools$ } from './lm/api/lmPools/lmPools';
+import { lmRedeem } from './lm/api/lmRedeem/lmRedeem';
+import { lmDeposit } from './lm/operations/lmDeposit/lmDeposit';
 import { deposit } from './operations/deposit/deposit';
-import { lmDeposit } from './operations/lm/lmDeposit/lmDeposit';
-import { lmRedeem } from './operations/lm/lmRedeem/lmRedeem';
 import { redeem } from './operations/redeem/redeem';
 import { refund } from './operations/refund/refund';
 import { swap } from './operations/swap/swap';
@@ -146,5 +145,3 @@ export const ergoNetwork: Network<
   refundableDeposit: new Currency(0n, networkAsset),
   farmPools$,
 };
-
-console.log(stakes$);

@@ -1,6 +1,5 @@
 import {
   combineLatest,
-  filter,
   first,
   from,
   map,
@@ -9,26 +8,24 @@ import {
   tap,
 } from 'rxjs';
 
-import { TxId } from '../../../../../common/types';
-import { ErgoLmPool } from '../../../api/lmPools/ErgoLmPool';
-import { ExtendedStake } from '../../../api/lmStake/lmStake';
 import { networkContext$ } from '../../../api/networkContext/networkContext';
-import { selectedWallet$ } from '../../../api/wallet/wallet';
 import { minerFee$ } from '../../../settings/minerFee';
 import { settings$ } from '../../../settings/settings';
-import { lmPoolActions } from '../common/lmPoolActions';
+import { ErgoLmPool } from '../../models/ErgoLmPool';
+import { Stake } from '../../models/Stake';
+import { lmPoolActions } from '../../operations/common/lmPoolActions';
 import { createLmRedeemData } from './createLmRedeemData';
 
 export const walletLmRedeem = (
   ergoLmPool: ErgoLmPool,
-  stakes: ExtendedStake[],
+  stakes: Stake[],
 ): Observable<any> =>
   combineLatest([networkContext$, minerFee$, settings$]).pipe(
     first(),
     map(([networkContext, minerFee, settings]) =>
       stakes.map((stake) =>
         createLmRedeemData({
-          pool: ergoLmPool,
+          lmPool: ergoLmPool,
           networkContext: networkContext as any,
           minerFee,
           settings,

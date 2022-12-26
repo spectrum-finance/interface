@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 
 import { TxId } from '../../../../../common/types';
 import { FarmWithdrawalModal } from '../../../../../pages/Farm/FarmActionModals/FarmWithdrawalModal/FarmWithdrawalModal';
-import { ErgoLmPool } from '../../../api/lmPools/ErgoLmPool';
+import { ErgoLmPool } from '../../models/ErgoLmPool';
 import { walletLmRedeem } from './walletLmRedeem';
 
 const lmRedeemWithWallet = (lmPool: ErgoLmPool): Observable<TxId> => {

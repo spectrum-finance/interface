@@ -8,12 +8,8 @@ import {
 import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 
-import { useObservable } from '../../../common/hooks/useObservable';
-import { LmPool } from '../../../common/models/LmPool';
+import { LmPool, LmPoolStatus } from '../../../common/models/LmPool';
 import { AssetPairTitle } from '../../../components/AssetPairTitle/AssetPairTitle';
-import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
-import { networkContext$ } from '../../../gateway/api/networkContext';
-import { FarmState } from '../types/FarmState';
 
 export interface PairColumnProps {
   readonly lmPool: LmPool;
@@ -21,8 +17,8 @@ export interface PairColumnProps {
   readonly align?: 'stretch' | 'center' | 'flex-start' | 'flex-end';
 }
 
-const getTag = (status: FarmState) => {
-  if (status === FarmState.Scheduled) {
+const getTag = (status: LmPoolStatus) => {
+  if (status === LmPoolStatus.Scheduled) {
     return (
       <Tag color="orange">
         <Trans>Scheduled</Trans>
@@ -30,7 +26,7 @@ const getTag = (status: FarmState) => {
     );
   }
 
-  if (status === FarmState.Finished) {
+  if (status === LmPoolStatus.Finished) {
     return (
       <Tag color="magenta">
         <Trans>Finished</Trans>
@@ -38,7 +34,7 @@ const getTag = (status: FarmState) => {
     );
   }
 
-  if (status === FarmState.Live) {
+  if (status === LmPoolStatus.Live) {
     return (
       <Tag color="green">
         <Trans>Live</Trans>
@@ -54,9 +50,9 @@ export const FarmPairColumn: FC<PairColumnProps> = ({
 }) => {
   return (
     <Flex align="center">
-      {lmPool.balanceLq.isPositive() &&
-      lmPool.balanceVlq.isPositive() &&
-      lmPool.currentStatus === FarmState.Live ? (
+      {lmPool.yourStakeLq.isPositive() &&
+      lmPool.availableToStakeLq.isPositive() &&
+      lmPool.status === LmPoolStatus.Live ? (
         <Flex.Item marginRight={2}>
           <Tooltip
             placement="top"
@@ -93,7 +89,7 @@ export const FarmPairColumn: FC<PairColumnProps> = ({
         />
       </Flex.Item>
       <Flex.Item marginLeft={2} marginRight={2}>
-        {getTag(lmPool.currentStatus)}
+        {getTag(lmPool.status)}
       </Flex.Item>
     </Flex>
   );

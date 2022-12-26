@@ -4,38 +4,37 @@ import React, { FC, useState } from 'react';
 import { Observable } from 'rxjs';
 
 import { TxId } from '../../../../common/types';
-import { ErgoLmPool } from '../../../../network/ergo/api/lmPools/ErgoLmPool';
-import { ExtendedStake } from '../../../../network/ergo/api/lmStake/lmStake';
+import { ErgoLmPool } from '../../../../network/ergo/lm/models/ErgoLmPool';
+import { Stake } from '../../../../network/ergo/lm/models/Stake';
 import { FarmActionModalHeader } from '../FarmActionModalHeader/FarmActionModalHeader';
 import { FarmWithdrawalStakeItem } from './StakeItem/FarmWithdrawalStakeItem';
 
 export interface FarmWithdrawalModalProps {
   readonly ergoLmPool: ErgoLmPool;
   readonly onClose: (p: Observable<TxId>) => void;
-  readonly redeem: (
-    lmPool: ErgoLmPool,
-    stakes: ExtendedStake[],
-  ) => Observable<TxId>;
+  readonly redeem: (lmPool: ErgoLmPool, stakes: Stake[]) => Observable<TxId>;
 }
 
 const isStakeExists =
-  (stake: ExtendedStake) =>
-  (stakeToCheck: ExtendedStake): boolean =>
-    stakeToCheck.bundleKeyAsset.asset.id === stake.bundleKeyAsset.asset.id;
+  (stake: Stake) =>
+  (stakeToCheck: Stake): boolean =>
+    stakeToCheck.rawStake.bundleKeyAsset.asset.id ===
+    stake.rawStake.bundleKeyAsset.asset.id;
 
 const isStakeDifferent =
-  (stake: ExtendedStake) =>
-  (stakeToCheck: ExtendedStake): boolean =>
-    stakeToCheck.bundleKeyAsset.asset.id !== stake.bundleKeyAsset.asset.id;
+  (stake: Stake) =>
+  (stakeToCheck: Stake): boolean =>
+    stakeToCheck.rawStake.bundleKeyAsset.asset.id !==
+    stake.rawStake.bundleKeyAsset.asset.id;
 
 export const FarmWithdrawalModal: FC<FarmWithdrawalModalProps> = ({
   ergoLmPool,
   redeem,
   onClose,
 }) => {
-  const [selectedStakes, setSelectedStakes] = useState<ExtendedStake[]>([]);
+  const [selectedStakes, setSelectedStakes] = useState<Stake[]>([]);
 
-  const handleStakeSelect = (stake: ExtendedStake) => {
+  const handleStakeSelect = (stake: Stake) => {
     setSelectedStakes((prev) => {
       if (prev.some(isStakeExists(stake))) {
         return prev.filter(isStakeDifferent(stake));
@@ -82,7 +81,7 @@ export const FarmWithdrawalModal: FC<FarmWithdrawalModalProps> = ({
           {ergoLmPool.stakes.map((stake, index) => (
             <Flex.Item
               marginBottom={index === ergoLmPool.stakes.length - 1 ? 6 : 2}
-              key={stake.bundleKeyAsset.asset.id}
+              key={stake.rawStake.bundleKeyAsset.asset.id}
             >
               <FarmWithdrawalStakeItem
                 active={selectedStakes.some(isStakeExists(stake))}

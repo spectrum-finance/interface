@@ -14,36 +14,35 @@ import { useObservable } from '../../common/hooks/useObservable';
 import { useSearchParams } from '../../common/hooks/useSearchParams';
 import { AmmPool } from '../../common/models/AmmPool';
 import { AssetLock } from '../../common/models/AssetLock';
-import { LmPool } from '../../common/models/LmPool';
+import { LmPool, LmPoolStatus } from '../../common/models/LmPool';
 import { Position } from '../../common/models/Position';
 import {
   openConfirmationModal,
   Operation,
 } from '../../components/ConfirmationModal/ConfirmationModal';
 import { Page } from '../../components/Page/Page';
-import { farmPools$ } from '../../network/ergo/api/lmPools/lmPools';
+import { farmPools$ } from '../../network/ergo/lm/api/lmPools/lmPools';
 import { FarmGuides } from './FarmGuides/FarmGuides';
 import { FarmTableExpandComponent } from './FarmTableView/FarmTableExpandComponent/FarmTableExpandComponent';
 import { FarmTableView } from './FarmTableView/FarmTableView';
 import { FarmTopPanel } from './FarmTopPanel/FarmTopPanel';
-import { FarmState } from './types/FarmState';
 import { FarmTabs } from './types/FarmTabs';
 import { FarmViewMode } from './types/FarmViewMode';
 
-const matchItem = (item: LmPool | AssetLock, term?: string): boolean => {
-  if (item instanceof LmPool) {
-    return item.ammPool.match(term);
-  }
-  if (item instanceof Position) {
-    return item.match(term);
-  }
-  return item.position.match(term);
-};
+// const matchItem = (item: LmPool | AssetLock, term?: string): boolean => {
+//   if (item instanceof LmPool) {
+//     return item.ammPool.match(term);
+//   }
+//   if (item instanceof Position) {
+//     return item.match(term);
+//   }
+//   return item.position.match(term);
+// };
 
 export const Farm = (): JSX.Element => {
   const [{ activeStatus, activeTab, searchString }, setSearchParams] =
     useSearchParams<{
-      activeStatus: FarmState;
+      activeStatus: LmPoolStatus;
       activeTab: FarmTabs;
       searchString: string;
     }>();
@@ -53,14 +52,12 @@ export const Farm = (): JSX.Element => {
   const filteredPools = useMemo(() => {
     let pools = farmPools;
 
-    if (activeStatus && activeStatus !== FarmState.All) {
-      pools = pools.filter(
-        ({ currentStatus }) => currentStatus === activeStatus,
-      );
+    if (activeStatus && activeStatus !== LmPoolStatus.All) {
+      pools = pools.filter(({ status }) => status === activeStatus);
     }
 
     if (activeTab && activeTab === FarmTabs.MyFarms) {
-      pools = pools.filter(({ balanceVlq }) => balanceVlq.isPositive());
+      pools = pools.filter(({ yourStakeLq }) => yourStakeLq.isPositive());
     }
 
     if (searchString && searchString.trim() !== '') {

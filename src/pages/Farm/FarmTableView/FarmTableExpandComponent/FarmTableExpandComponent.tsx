@@ -18,7 +18,7 @@ import { DataTag } from '../../../../components/common/DataTag/DataTag';
 import { ConvenientAssetView } from '../../../../components/ConvenientAssetView/ConvenientAssetView';
 import { InfoTooltip } from '../../../../components/InfoTooltip/InfoTooltip';
 import { ExpandComponentProps } from '../../../../components/TableView/common/Expand';
-import { ErgoLmPool } from '../../../../network/ergo/api/lmPools/ErgoLmPool';
+import { ErgoLmPool } from '../../../../network/ergo/lm/models/ErgoLmPool';
 import { FarmLineProgress } from '../../FarmLineProgress/FarmLineProgress';
 import { FarmNextRewards } from '../../FarmNextRewards/FarmNextRewards';
 import { FarmAction } from '../FarmAction/FarmAction';
@@ -69,7 +69,7 @@ export const FarmTableExpandComponent: FC<ExpandComponentProps<ErgoLmPool>> = ({
                   <Typography.Body>
                     <Flex gap={1} align="center">
                       <Flex gap={1} align="center">
-                        <ConvenientAssetView value={lmPool.shares} />
+                        <ConvenientAssetView value={lmPool.totalStakedShares} />
                         <InfoTooltip
                           width={194}
                           size="small"
@@ -78,12 +78,12 @@ export const FarmTableExpandComponent: FC<ExpandComponentProps<ErgoLmPool>> = ({
                           content={
                             <div>
                               <div>
-                                {lmPool.shares[0].asset.ticker}:{' '}
-                                {lmPool.shares[0].toString()}
+                                {lmPool.totalStakedX.asset.ticker}:{' '}
+                                {lmPool.totalStakedX.toString()}
                               </div>
                               <div>
-                                {lmPool.shares[1].asset.ticker}:{' '}
-                                {lmPool.shares[1].toString()}
+                                {lmPool.totalStakedY.asset.ticker}:{' '}
+                                {lmPool.totalStakedY.toString()}
                               </div>
                             </div>
                           }
@@ -108,8 +108,10 @@ export const FarmTableExpandComponent: FC<ExpandComponentProps<ErgoLmPool>> = ({
                   </Typography.Body>
                   <Typography.Body>
                     <div>
-                      {lmPool.yourStake.every((value) => value.isPositive()) ? (
-                        <ConvenientAssetView value={lmPool.yourStake} />
+                      {lmPool.yourStakeShares.every((value) =>
+                        value.isPositive(),
+                      ) ? (
+                        <ConvenientAssetView value={lmPool.yourStakeShares} />
                       ) : (
                         <>$---</>
                       )}
@@ -165,7 +167,7 @@ export const FarmTableExpandComponent: FC<ExpandComponentProps<ErgoLmPool>> = ({
               </Typography.Body>
               <Typography.Body>
                 {lmPool.distributionFrequencyInDays} days (
-                {lmPool.config.epochLen} blocks)
+                {lmPool.distributionFrequencyInBlocks} blocks)
               </Typography.Body>
             </Flex>
           </Box>

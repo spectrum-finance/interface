@@ -3,11 +3,11 @@ import { FC } from 'react';
 import styled, { css } from 'styled-components';
 
 import { AssetTitle } from '../../../../../components/AssetTitle/AssetTitle';
-import { ErgoLmPool } from '../../../../../network/ergo/api/lmPools/ErgoLmPool';
-import { ExtendedStake } from '../../../../../network/ergo/api/lmStake/lmStake';
+import { ErgoLmPool } from '../../../../../network/ergo/lm/models/ErgoLmPool';
+import { Stake } from '../../../../../network/ergo/lm/models/Stake';
 
 export interface StakeItemProps {
-  readonly stake: ExtendedStake;
+  readonly stake: Stake;
   readonly lmPool: ErgoLmPool;
   readonly className?: string;
   readonly active?: boolean;
@@ -21,8 +21,6 @@ const _FarmWithdrawalStakeItem: FC<StakeItemProps> = ({
   active,
   onClick,
 }) => {
-  const [x, y] = lmPool.stakeShares(stake);
-
   return (
     <Box
       secondary
@@ -46,12 +44,12 @@ const _FarmWithdrawalStakeItem: FC<StakeItemProps> = ({
         <Flex.Item display="flex" col justify="flex-end">
           <Flex.Item marginBottom={2} display="flex" justify="flex-end">
             <Typography.Body size="large" strong>
-              {x.toCurrencyString()}
+              {stake.x.toCurrencyString()}
             </Typography.Body>
           </Flex.Item>
           <Flex.Item display="flex" justify="flex-end">
             <Typography.Body size="large" strong>
-              {y.toCurrencyString()}
+              {stake.y.toCurrencyString()}
             </Typography.Body>
           </Flex.Item>
         </Flex.Item>

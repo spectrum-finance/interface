@@ -5,14 +5,13 @@ import { matchPath, useNavigate } from 'react-router-dom';
 import { first } from 'rxjs';
 import styled from 'styled-components';
 
-import { LmPool } from '../../../../common/models/LmPool';
+import { LmPool, LmPoolStatus } from '../../../../common/models/LmPool';
 import {
   openConfirmationModal,
   Operation,
 } from '../../../../components/ConfirmationModal/ConfirmationModal';
 import { lmRedeem } from '../../../../gateway/api/operations/lmRedeem';
 import { FarmActionModal } from '../../FarmActionModal/FarmActionModal';
-import { FarmState } from '../../types/FarmState';
 
 type Props = {
   lmPool: LmPool;
@@ -65,8 +64,8 @@ export const FarmAction = ({ lmPool, $fullWidth = false }: Props) => {
     navigate(`/${urlNetworkParameter}/liquidity/add/${lmPool.ammPool.id}`);
   };
 
-  if (lmPool.currentStatus === FarmState.Scheduled) {
-    if (!lmPool.balanceLq.isPositive()) {
+  if (lmPool.status === LmPoolStatus.Scheduled) {
+    if (!lmPool.availableToStakeLq.isPositive()) {
       return (
         <FullWidthButton
           $fullWidth={$fullWidth}
@@ -92,7 +91,7 @@ export const FarmAction = ({ lmPool, $fullWidth = false }: Props) => {
     );
   }
 
-  if (lmPool.balanceVlq.isPositive()) {
+  if (lmPool.yourStakeLq.isPositive()) {
     return (
       <div onClick={(event) => event.stopPropagation()}>
         <Dropdown
@@ -102,7 +101,7 @@ export const FarmAction = ({ lmPool, $fullWidth = false }: Props) => {
                 <Menu.Item
                   key={'item1'}
                   onClick={openStakeModal}
-                  disabled={lmPool.currentStatus === FarmState.Finished}
+                  disabled={lmPool.status === LmPoolStatus.Finished}
                 >
                   <Trans>Stake</Trans>
                 </Menu.Item>
@@ -129,7 +128,7 @@ export const FarmAction = ({ lmPool, $fullWidth = false }: Props) => {
     );
   }
 
-  if (!lmPool.balanceLq.isPositive()) {
+  if (!lmPool.availableToStakeLq.isPositive()) {
     return (
       <FullWidthButton
         $fullWidth={$fullWidth}
@@ -149,7 +148,7 @@ export const FarmAction = ({ lmPool, $fullWidth = false }: Props) => {
         openStakeModal();
         event.stopPropagation();
       }}
-      disabled={lmPool.currentStatus === FarmState.Finished}
+      disabled={lmPool.status === LmPoolStatus.Finished}
     >
       <Trans>Stake</Trans>
     </FullWidthButton>

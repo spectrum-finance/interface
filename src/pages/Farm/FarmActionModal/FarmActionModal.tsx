@@ -17,7 +17,7 @@ import {
 } from '../../../common/hooks/useObservable';
 import { AssetInfo } from '../../../common/models/AssetInfo';
 import { Currency } from '../../../common/models/Currency';
-import { LmPool } from '../../../common/models/LmPool';
+import { LmPool, LmPoolStatus } from '../../../common/models/LmPool';
 import { AssetIconPair } from '../../../components/AssetIconPair/AssetIconPair';
 import { DataTag } from '../../../components/common/DataTag/DataTag';
 import { FormPairSection } from '../../../components/common/FormView/FormPairSection/FormPairSection';
@@ -26,10 +26,9 @@ import { ConvenientAssetView } from '../../../components/ConvenientAssetView/Con
 import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
 import { OperationForm } from '../../../components/OperationForm/OperationForm';
 import { PageSection } from '../../../components/Page/PageSection/PageSection';
-import { walletLmDeposit } from '../../../network/ergo/operations/lm/lmDeposit/walletLmDeposit';
+import { walletLmDeposit } from '../../../network/ergo/lm/operations/lmDeposit/walletLmDeposit';
 import { APRComponent } from '../FarmApr/FarmApr';
 import { FarmHeaderAssets } from '../FarmGridView/FarmCardView/FarmCardView';
-import { FarmState } from '../types/FarmState';
 
 interface FarmActionModalProps {
   pool: LmPool;
@@ -62,7 +61,7 @@ const _FarmActionModalHeader: React.FC<FarmActionModalHeaderProps> = ({
             content={
               <Flex gap={1} align="center">
                 {/* ${lmPool.shares}{' '} */}
-                <ConvenientAssetView value={lmPool.shares} />
+                <ConvenientAssetView value={lmPool.totalStakedShares} />
                 <InfoTooltip
                   width={194}
                   size="small"
@@ -71,12 +70,12 @@ const _FarmActionModalHeader: React.FC<FarmActionModalHeaderProps> = ({
                   content={
                     <div>
                       <div>
-                        {lmPool.shares[0].asset.ticker}:{' '}
-                        {lmPool.shares[0].toString()}
+                        {lmPool.totalStakedX.asset.ticker}:{' '}
+                        {lmPool.totalStakedX.toString()}
                       </div>
                       <div>
-                        {lmPool.shares[1].asset.ticker}:{' '}
-                        {lmPool.shares[1].toString()}
+                        {lmPool.totalStakedY.asset.ticker}:{' '}
+                        {lmPool.totalStakedY.toString()}
                       </div>
                     </div>
                   }
@@ -85,7 +84,7 @@ const _FarmActionModalHeader: React.FC<FarmActionModalHeaderProps> = ({
             }
           />
         </Flex>
-        {lmPool.currentStatus === FarmState.Live && (
+        {lmPool.status === LmPoolStatus.Live && (
           <Flex col align="flex-end">
             <WhiteText>
               <Trans>APR</Trans>
@@ -149,13 +148,13 @@ export const FarmActionModal: React.FC<FarmActionModalProps> = ({
   });
 
   const availableAssetX =
-    operation === 'withdrawal' ? pool.yourStake[0] : pool.availableLqShares[0];
+    operation === 'withdrawal' ? pool.yourStakeX : pool.availableToStakeX;
 
   const availableAssetY =
-    operation === 'withdrawal' ? pool.yourStake[1] : pool.availableLqShares[1];
+    operation === 'withdrawal' ? pool.yourStakeY : pool.availableToStakeY;
 
   const availableFarmTokens =
-    operation === 'withdrawal' ? pool.balanceVlq : pool.balanceLq;
+    operation === 'withdrawal' ? pool.yourStakeLq : pool.availableToStakeLq;
 
   const [formValue] = useObservable(form.valueChangesWithSilent$);
 

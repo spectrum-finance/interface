@@ -18,7 +18,7 @@ export const FarmLineProgress = ({
 }: ProgressProps) => {
   return (
     <LineProgress
-      percent={lmPool.progressInPercents}
+      percent={lmPool.distributed}
       height={height}
       width={width}
       className={className}

@@ -1,18 +1,13 @@
-import { Button, Flex, Modal, useDevice } from '@ergolabs/ui-kit';
-import { t, Trans } from '@lingui/macro';
+import { Flex, useDevice } from '@ergolabs/ui-kit';
+import { t } from '@lingui/macro';
 import React, { FC } from 'react';
 import styled from 'styled-components';
 
-import { useObservable } from '../../../common/hooks/useObservable';
 import { SetSearchParamsFn } from '../../../common/hooks/useSearchParams';
+import { LmPoolStatus } from '../../../common/models/LmPool';
 import { SearchInput } from '../../../components/SearchInput/SearchInput';
-import { ammPools$ } from '../../../gateway/api/ammPools';
 import { FarmTabs } from '../types/FarmTabs';
-import { CreateFarmModal } from './CreateFarmModal/CreateFarmModal';
-import { FarmState } from './FarmStateFilter/FarmState';
 import { FarmStateFilter } from './FarmStateFilter/FarmStateFilter';
-import { FarmViewMode } from './FarmViewModeSwitch/FarmViewMode';
-import { FarmViewModeSwitch } from './FarmViewModeSwitch/FarmViewModeSwitch';
 import { MyFarmsFilter } from './MyFarmsFilter/MyFarmsFilter';
 
 const StyledSearchInput = styled(SearchInput)`
@@ -24,11 +19,11 @@ const SearchInputContainer = styled(Flex.Item)`
 
 export const FarmTopPanel: FC<{
   setSearchParams: SetSearchParamsFn<{
-    activeStatus?: FarmState;
+    activeStatus?: LmPoolStatus;
     activeTab?: FarmTabs;
     searchString?: string;
   }>;
-  activeStatus?: FarmState;
+  activeStatus?: LmPoolStatus;
   activeTab?: FarmTabs;
   searchString?: string;
 }> = ({ activeStatus, activeTab, setSearchParams, searchString }) => {
@@ -49,7 +44,7 @@ export const FarmTopPanel: FC<{
         )}
         <Flex.Item flex={1} marginRight={4}>
           <FarmStateFilter
-            value={activeStatus || FarmState.All}
+            value={activeStatus || LmPoolStatus.All}
             onChange={(newStatus) =>
               setSearchParams({ activeStatus: newStatus })
             }
