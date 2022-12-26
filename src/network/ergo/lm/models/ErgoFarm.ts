@@ -194,15 +194,29 @@ export class ErgoFarm implements Farm<ErgoBaseLmPool> {
   }
 
   @cache
-  get apr(): number {
+  get apr(): number | null {
+    if (this.status !== LmPoolStatus.Live) {
+      return null;
+    }
+
     const rewardUsd = convertToConvenientNetworkAsset.snapshot(this.reward);
     const totalStakedUsd = convertToConvenientNetworkAsset.snapshot(
       this.totalStakedShares,
     );
 
-    console.log(rewardUsd.toAmount(), totalStakedUsd.toAmount());
+    const interestsRelation = numeral(rewardUsd.toAmount()).divide(
+      totalStakedUsd.toAmount(),
+    );
+    const { programStart, epochLen, epochNum } = this.lmPool.conf;
+    const lmProgramLeftInBlocks =
+      programStart + epochLen * epochNum - this.params.currentHeight;
+    const lmProgramLeftInDays = blocksToDaysCount(lmProgramLeftInBlocks);
 
-    return 1;
+    return interestsRelation
+      .divide(lmProgramLeftInDays)
+      .multiply(365)
+      .multiply(100)
+      .value();
   }
 
   get fullEpochsRemain(): number {
@@ -215,24 +229,4 @@ export class ErgoFarm implements Farm<ErgoBaseLmPool> {
   ) {
     this.stakes = this.params.stakes.map((stake) => new Stake(stake, this));
   }
-
-  // getApr(
-  //   programBudgetLeftInUsd: Currency,
-  //   amountLqLockedInUsd: Currency,
-  // ): number | null {
-  //   const interestsRelation = numeral(programBudgetLeftInUsd.toAmount()).divide(
-  //     amountLqLockedInUsd.toAmount(),
-  //   );
-  //   const { programStart, epochLen, epochNum } = this.config;
-  //   const lmProgramLeftInBlocks =
-  //     programStart + epochLen * epochNum - this.currentHeight;
-  //   const lmProgramLeftInDays = blocksToDaysCount(lmProgramLeftInBlocks);
-  //
-  //   return interestsRelation
-  //     .divide(lmProgramLeftInDays)
-  //     .multiply(365)
-  //     .multiply(100)
-  //     .value();
-  // }
-  //
 }
