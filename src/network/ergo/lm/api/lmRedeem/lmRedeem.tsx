@@ -4,10 +4,10 @@ import { Observable, of } from 'rxjs';
 
 import { TxId } from '../../../../../common/types';
 import { FarmWithdrawalModal } from '../../../../../pages/Farm/FarmActionModals/FarmWithdrawalModal/FarmWithdrawalModal';
-import { ErgoLmPool } from '../../models/ErgoLmPool';
+import { ErgoFarm } from '../../models/ErgoFarm';
 import { walletLmRedeem } from './walletLmRedeem';
 
-const lmRedeemWithWallet = (lmPool: ErgoLmPool): Observable<TxId> => {
+const lmRedeemWithWallet = (lmPool: ErgoFarm): Observable<TxId> => {
   Modal.open(
     <FarmWithdrawalModal
       ergoLmPool={lmPool}
@@ -19,6 +19,6 @@ const lmRedeemWithWallet = (lmPool: ErgoLmPool): Observable<TxId> => {
   return of('');
 };
 
-export const lmRedeem = (lmPool: ErgoLmPool): Observable<TxId> => {
+export const lmRedeem = (lmPool: ErgoFarm): Observable<TxId> => {
   return lmRedeemWithWallet(lmPool);
 };

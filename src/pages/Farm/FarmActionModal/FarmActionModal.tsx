@@ -17,7 +17,7 @@ import {
 } from '../../../common/hooks/useObservable';
 import { AssetInfo } from '../../../common/models/AssetInfo';
 import { Currency } from '../../../common/models/Currency';
-import { LmPool, LmPoolStatus } from '../../../common/models/LmPool';
+import { Farm, LmPoolStatus } from '../../../common/models/Farm';
 import { AssetIconPair } from '../../../components/AssetIconPair/AssetIconPair';
 import { DataTag } from '../../../components/common/DataTag/DataTag';
 import { FormPairSection } from '../../../components/common/FormView/FormPairSection/FormPairSection';
@@ -31,7 +31,7 @@ import { APRComponent } from '../FarmApr/FarmApr';
 import { FarmHeaderAssets } from '../FarmGridView/FarmCardView/FarmCardView';
 
 interface FarmActionModalProps {
-  pool: LmPool;
+  pool: Farm;
   onClose: (request?: any) => void;
   operation: 'withdrawal' | 'stake';
 }
@@ -40,7 +40,7 @@ interface FarmActionModalHeaderProps {
   className?: string;
   assetX: AssetInfo;
   assetY: AssetInfo;
-  lmPool: LmPool;
+  lmPool: Farm;
 }
 
 const _FarmActionModalHeader: React.FC<FarmActionModalHeaderProps> = ({

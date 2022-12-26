@@ -18,7 +18,7 @@ import { DataTag } from '../../../../components/common/DataTag/DataTag';
 import { ConvenientAssetView } from '../../../../components/ConvenientAssetView/ConvenientAssetView';
 import { InfoTooltip } from '../../../../components/InfoTooltip/InfoTooltip';
 import { ExpandComponentProps } from '../../../../components/TableView/common/Expand';
-import { ErgoLmPool } from '../../../../network/ergo/lm/models/ErgoLmPool';
+import { ErgoFarm } from '../../../../network/ergo/lm/models/ErgoFarm';
 import { FarmLineProgress } from '../../FarmLineProgress/FarmLineProgress';
 import { FarmNextRewards } from '../../FarmNextRewards/FarmNextRewards';
 import { FarmAction } from '../FarmAction/FarmAction';
@@ -27,7 +27,7 @@ const FullWidthRow = styled(Row)`
   width: 100%;
 `;
 
-export const FarmTableExpandComponent: FC<ExpandComponentProps<ErgoLmPool>> = ({
+export const FarmTableExpandComponent: FC<ExpandComponentProps<ErgoFarm>> = ({
   item: lmPool,
 }) => {
   const { valBySize, lessThan } = useDevice();

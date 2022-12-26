@@ -1,11 +1,11 @@
 import numeral from 'numeral';
 import React from 'react';
 
-import { LmPool } from '../../../common/models/LmPool';
+import { Farm } from '../../../common/models/Farm';
 import { LineProgress } from '../LineProgress/LineProgress';
 
 interface ProgressProps {
-  readonly lmPool: LmPool;
+  readonly lmPool: Farm;
   readonly height?: number;
   readonly width?: number | string;
   readonly className?: string;

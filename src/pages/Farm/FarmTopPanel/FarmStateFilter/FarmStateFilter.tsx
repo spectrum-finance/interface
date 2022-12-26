@@ -9,7 +9,7 @@ import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 import styled from 'styled-components';
 
-import { LmPoolStatus } from '../../../../common/models/LmPool';
+import { LmPoolStatus } from '../../../../common/models/Farm';
 import { FarmStateCaptions } from './FarmState';
 
 const StyledButton = styled(Button)`

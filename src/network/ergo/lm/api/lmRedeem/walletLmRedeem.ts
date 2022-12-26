@@ -11,13 +11,13 @@ import {
 import { networkContext$ } from '../../../api/networkContext/networkContext';
 import { minerFee$ } from '../../../settings/minerFee';
 import { settings$ } from '../../../settings/settings';
-import { ErgoLmPool } from '../../models/ErgoLmPool';
+import { ErgoFarm } from '../../models/ErgoFarm';
 import { Stake } from '../../models/Stake';
 import { lmPoolActions } from '../../operations/common/lmPoolActions';
 import { createLmRedeemData } from './createLmRedeemData';
 
 export const walletLmRedeem = (
-  ergoLmPool: ErgoLmPool,
+  ergoLmPool: ErgoFarm,
   stakes: Stake[],
 ): Observable<any> =>
   combineLatest([networkContext$, minerFee$, settings$]).pipe(

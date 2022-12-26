@@ -30,10 +30,10 @@ export const ergoUsdRatio$: Observable<any> = appTick$.pipe(
     ),
   ),
   map((res) => res.data.latest_price),
+  distinctUntilChanged(),
   map((latestPrice) =>
     new Ratio(latestPrice.toString(), usdAsset, networkAsset).invertRatio(),
   ),
-  distinctUntilChanged(),
   publishReplay(1),
   refCount(),
 );

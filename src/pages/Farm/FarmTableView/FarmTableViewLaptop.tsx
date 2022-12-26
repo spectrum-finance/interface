@@ -2,7 +2,7 @@ import { Button, Flex } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React from 'react';
 
-import { LmPool } from '../../../common/models/LmPool';
+import { Farm } from '../../../common/models/Farm';
 import { ConnectWalletButton } from '../../../components/common/ConnectWalletButton/ConnectWalletButton';
 import { ExpandComponentProps } from '../../../components/TableView/common/Expand';
 import { TableView } from '../../../components/TableView/TableView';
@@ -15,7 +15,7 @@ import { FarmTableLoadingState } from './FarmTableLoadingState';
 
 type Props = {
   expandComponent: React.FC<ExpandComponentProps<any>>;
-  items: LmPool[];
+  items: Farm[];
   loading: boolean | undefined;
 };
 

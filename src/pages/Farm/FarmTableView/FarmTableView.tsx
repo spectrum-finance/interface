@@ -1,7 +1,7 @@
 import { useDevice } from '@ergolabs/ui-kit';
 import React, { FC } from 'react';
 
-import { LmPool } from '../../../common/models/LmPool';
+import { Farm } from '../../../common/models/Farm';
 import { Position } from '../../../common/models/Position';
 import {
   openConfirmationModal,
@@ -13,7 +13,7 @@ import { FarmTableViewLaptop } from './FarmTableViewLaptop';
 import { FarmTableViewMobile } from './FarmTableViewMobile';
 import { FarmTableViewTablet } from './FarmTableViewTablet';
 
-export interface FarmTableViewProps<T extends LmPool | Position> {
+export interface FarmTableViewProps<T extends Farm | Position> {
   readonly items: T[];
   // readonly poolMapper: (item: T) => AmmPool;
   readonly loading?: boolean;

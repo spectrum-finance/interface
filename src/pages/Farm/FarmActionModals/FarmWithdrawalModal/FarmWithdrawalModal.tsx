@@ -4,15 +4,15 @@ import React, { FC, useState } from 'react';
 import { Observable } from 'rxjs';
 
 import { TxId } from '../../../../common/types';
-import { ErgoLmPool } from '../../../../network/ergo/lm/models/ErgoLmPool';
+import { ErgoFarm } from '../../../../network/ergo/lm/models/ErgoFarm';
 import { Stake } from '../../../../network/ergo/lm/models/Stake';
 import { FarmActionModalHeader } from '../FarmActionModalHeader/FarmActionModalHeader';
 import { FarmWithdrawalStakeItem } from './StakeItem/FarmWithdrawalStakeItem';
 
 export interface FarmWithdrawalModalProps {
-  readonly ergoLmPool: ErgoLmPool;
+  readonly ergoLmPool: ErgoFarm;
   readonly onClose: (p: Observable<TxId>) => void;
-  readonly redeem: (lmPool: ErgoLmPool, stakes: Stake[]) => Observable<TxId>;
+  readonly redeem: (lmPool: ErgoFarm, stakes: Stake[]) => Observable<TxId>;
 }
 
 const isStakeExists =

@@ -3,7 +3,7 @@ import { cache } from 'decorator-cache-getter';
 import { AmmPool } from '../../../../common/models/AmmPool';
 import { Currency } from '../../../../common/models/Currency';
 import { RawStakeWithRedeemerKey } from '../api/stakes/stakes';
-import { ErgoLmPool } from './ErgoLmPool';
+import { ErgoFarm } from './ErgoFarm';
 
 export class Stake {
   @cache
@@ -31,6 +31,6 @@ export class Stake {
 
   constructor(
     public readonly rawStake: RawStakeWithRedeemerKey,
-    public readonly lmPool: ErgoLmPool,
+    public readonly lmPool: ErgoFarm,
   ) {}
 }

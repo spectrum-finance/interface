@@ -5,11 +5,11 @@ import { NetworkContext } from '@ergolabs/ergo-sdk/build/main/entities/networkCo
 
 import { Currency } from '../../../../../common/models/Currency';
 import { ErgoSettings } from '../../../settings/settings';
-import { ErgoLmPool } from '../../models/ErgoLmPool';
+import { ErgoFarm } from '../../models/ErgoFarm';
 import { Stake } from '../../models/Stake';
 
 interface CreateLmRedeemDataParams {
-  readonly lmPool: ErgoLmPool;
+  readonly lmPool: ErgoFarm;
   readonly stake: Stake;
   readonly settings: ErgoSettings;
   readonly minerFee: Currency;

@@ -1,9 +1,9 @@
 import { Typography } from '@ergolabs/ui-kit';
 import React from 'react';
 
-import { LmPool } from '../../../common/models/LmPool';
+import { Farm } from '../../../common/models/Farm';
 
-export const APRComponent = ({ lmPool }: { lmPool: LmPool }) => {
+export const APRComponent = ({ lmPool }: { lmPool: Farm }) => {
   // const [networkContext] = useObservable(networkContext$);
   // const amountLqLockedInUsd$ = useMemo(
   //   () => convertToConvenientNetworkAsset(lmPool.shares),

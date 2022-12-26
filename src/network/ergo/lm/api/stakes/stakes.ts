@@ -37,6 +37,19 @@ export interface RawStakeWithRedeemerKey extends Stake {
   readonly redeemerKey: Currency;
 }
 
+const toRawStakeWithRedeemerKey = (
+  rawStake: Stake,
+  stakeAssets: [bigint, AssetInfo][],
+): RawStakeWithRedeemerKey => {
+  const stakeAsset = stakeAssets.find(
+    (sa) => sa[1].id === rawStake.bundleKeyAsset.asset.id,
+  );
+  return {
+    ...rawStake,
+    redeemerKey: new Currency(stakeAsset![0], stakeAsset![1]),
+  };
+};
+
 export const rawStakesWithRedeemerKey$: Observable<RawStakeWithRedeemerKey[]> =
   availableTokensDataWithNft$.pipe(
     switchMap((availableTokensData) => {
@@ -54,15 +67,7 @@ export const rawStakesWithRedeemerKey$: Observable<RawStakeWithRedeemerKey[]> =
       ).pipe(
         map((res) => res[0]),
         map((stakes) =>
-          stakes.map((stake) => {
-            const stakeAsset = stakeAssets.find(
-              (sa) => sa[1].id === stake.bundleKeyAsset.asset.id,
-            );
-            return {
-              ...stake,
-              redeemerKey: new Currency(stakeAsset![0], stakeAsset![1]),
-            };
-          }),
+          stakes.map((stake) => toRawStakeWithRedeemerKey(stake, stakeAssets)),
         ),
       );
     }),

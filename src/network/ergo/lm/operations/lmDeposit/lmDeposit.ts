@@ -1,12 +1,12 @@
 import { Observable, of } from 'rxjs';
 
 import { TxId } from '../../../../../common/types';
-import { ErgoLmPool } from '../../models/ErgoLmPool';
+import { ErgoFarm } from '../../models/ErgoFarm';
 
-export const lmDepositWithWallet = (lmPool: ErgoLmPool): Observable<TxId> => {
+export const lmDepositWithWallet = (lmPool: ErgoFarm): Observable<TxId> => {
   return of('');
 };
 
-export const lmDeposit = (lmPool: ErgoLmPool): Observable<TxId> => {
+export const lmDeposit = (lmPool: ErgoFarm): Observable<TxId> => {
   return lmDepositWithWallet(lmPool);
 };

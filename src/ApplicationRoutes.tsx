@@ -6,7 +6,7 @@ import { Layout } from './components/common/Layout/Layout';
 import { RouteConfigExtended } from './components/RouterTitle/RouteConfigExtended';
 import { RouterTitle } from './components/RouterTitle/RouterTitle';
 import { AddLiquidityOrCreatePool } from './pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool';
-import { Farm } from './pages/Farm/Farm';
+import { Farms } from './pages/Farm/Farms';
 import { Liquidity } from './pages/Liquidity/Liquidity';
 import { LockLiquidity } from './pages/LockLiquidity/LockLiquidity';
 import { PoolOverview } from './pages/PoolOverview/PoolOverview';
@@ -40,7 +40,7 @@ export const routesConfig: RouteConfigExtended[] = [
           {
             title: 'Farm',
             path: 'farm',
-            element: <Farm />,
+            element: <Farms />,
           },
           {
             path: 'liquidity',

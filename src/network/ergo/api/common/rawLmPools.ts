@@ -14,7 +14,7 @@ import {
 } from 'rxjs';
 
 import { applicationConfig } from '../../../../applicationConfig';
-import { networkLmPools } from '../../lm/api/lmPools/utils';
+import { networkLmPools } from '../../lm/api/farms/utils';
 import { networkContext$ } from '../networkContext/networkContext';
 
 const getNetworkLmPools = () =>

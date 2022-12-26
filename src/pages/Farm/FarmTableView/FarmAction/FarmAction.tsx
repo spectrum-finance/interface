@@ -5,7 +5,7 @@ import { matchPath, useNavigate } from 'react-router-dom';
 import { first } from 'rxjs';
 import styled from 'styled-components';
 
-import { LmPool, LmPoolStatus } from '../../../../common/models/LmPool';
+import { Farm, LmPoolStatus } from '../../../../common/models/Farm';
 import {
   openConfirmationModal,
   Operation,
@@ -14,7 +14,7 @@ import { lmRedeem } from '../../../../gateway/api/operations/lmRedeem';
 import { FarmActionModal } from '../../FarmActionModal/FarmActionModal';
 
 type Props = {
-  lmPool: LmPool;
+  lmPool: Farm;
   $fullWidth?: boolean;
 };
 

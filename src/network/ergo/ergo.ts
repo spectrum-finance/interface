@@ -39,7 +39,7 @@ import {
   walletState$,
 } from './api/wallet/wallet';
 import { initialize, initialized$ } from './initialized';
-import { farmPools$ } from './lm/api/lmPools/lmPools';
+import { farms$ } from './lm/api/farms/farms';
 import { lmRedeem } from './lm/api/lmRedeem/lmRedeem';
 import { lmDeposit } from './lm/operations/lmDeposit/lmDeposit';
 import { deposit } from './operations/deposit/deposit';
@@ -143,5 +143,5 @@ export const ergoNetwork: Network<
   pendingOperations$,
   queuedOperation$,
   refundableDeposit: new Currency(0n, networkAsset),
-  farmPools$,
+  farmPools$: farms$,
 };

@@ -4,7 +4,7 @@ import React, { FC } from 'react';
 import styled from 'styled-components';
 
 import { SetSearchParamsFn } from '../../../common/hooks/useSearchParams';
-import { LmPoolStatus } from '../../../common/models/LmPool';
+import { LmPoolStatus } from '../../../common/models/Farm';
 import { SearchInput } from '../../../components/SearchInput/SearchInput';
 import { FarmTabs } from '../types/FarmTabs';
 import { FarmStateFilter } from './FarmStateFilter/FarmStateFilter';

@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { LmPool } from '../../../common/models/LmPool';
+import { Farm } from '../../../common/models/Farm';
 
 type Props = {
-  lmPool: LmPool;
+  lmPool: Farm;
 };
 
 export const FarmNextRewards = ({ lmPool }: Props) => {

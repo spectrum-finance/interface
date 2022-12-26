@@ -4,7 +4,7 @@ import numeral from 'numeral';
 import React from 'react';
 
 import { useObservable } from '../../../common/hooks/useObservable';
-import { LmPool } from '../../../common/models/LmPool';
+import { Farm } from '../../../common/models/Farm';
 import { ConnectWalletButton } from '../../../components/common/ConnectWalletButton/ConnectWalletButton';
 import { DataTag } from '../../../components/common/DataTag/DataTag';
 import { ConvenientAssetView } from '../../../components/ConvenientAssetView/ConvenientAssetView';
@@ -22,7 +22,7 @@ import { FarmTableLoadingState } from './FarmTableLoadingState';
 
 type Props = {
   expandComponent: React.FC<ExpandComponentProps<any>>;
-  items: LmPool[];
+  items: Farm[];
   loading: boolean | undefined;
 };
 
@@ -52,12 +52,12 @@ export const FarmTableViewDesktop = ({
         headerWidth={278}
         title={<Trans>Pair</Trans>}
       >
-        {(lmPool: LmPool) => <FarmPairColumn lmPool={lmPool} />}
+        {(lmPool: Farm) => <FarmPairColumn lmPool={lmPool} />}
       </TableView.Column>
 
       <TableView.Column width={140} title={<Trans>Total Staked</Trans>}>
         {/*{(lmPool) => <TvlOrVolume24Column usd={poolMapper(lmPool).tvl} />}*/}
-        {(lmPool: LmPool) => (
+        {(lmPool: Farm) => (
           <Flex>
             <DataTag
               content={
@@ -88,7 +88,7 @@ export const FarmTableViewDesktop = ({
         )}
       </TableView.Column>
       <TableView.Column width={140} title={<Trans>Your Stake</Trans>}>
-        {(lmPool: LmPool) => (
+        {(lmPool: Farm) => (
           <Flex>
             <DataTag
               content={
@@ -107,13 +107,13 @@ export const FarmTableViewDesktop = ({
         )}
       </TableView.Column>
       <TableView.Column width={150} title={<Trans>Distributed</Trans>}>
-        {(lmPool: LmPool) => (
+        {(lmPool: Farm) => (
           <FarmLineProgress lmPool={lmPool} height={24} width="130px" />
         )}
       </TableView.Column>
       <TableView.Column width={140} title={<Trans>APR</Trans>}>
         {/*{(lmPool) => <TvlOrVolume24Column usd={poolMapper(lmPool).volume} />}*/}
-        {(lmPool: LmPool) => (
+        {(lmPool: Farm) => (
           <Flex>
             <APRComponent lmPool={lmPool} />
           </Flex>

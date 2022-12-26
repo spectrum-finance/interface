@@ -3,12 +3,12 @@ import { FC } from 'react';
 import styled, { css } from 'styled-components';
 
 import { AssetTitle } from '../../../../../components/AssetTitle/AssetTitle';
-import { ErgoLmPool } from '../../../../../network/ergo/lm/models/ErgoLmPool';
+import { ErgoFarm } from '../../../../../network/ergo/lm/models/ErgoFarm';
 import { Stake } from '../../../../../network/ergo/lm/models/Stake';
 
 export interface StakeItemProps {
   readonly stake: Stake;
-  readonly lmPool: ErgoLmPool;
+  readonly lmPool: ErgoFarm;
   readonly className?: string;
   readonly active?: boolean;
   readonly onClick?: () => void;

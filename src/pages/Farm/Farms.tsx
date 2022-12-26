@@ -14,14 +14,14 @@ import { useObservable } from '../../common/hooks/useObservable';
 import { useSearchParams } from '../../common/hooks/useSearchParams';
 import { AmmPool } from '../../common/models/AmmPool';
 import { AssetLock } from '../../common/models/AssetLock';
-import { LmPool, LmPoolStatus } from '../../common/models/LmPool';
+import { Farm, LmPoolStatus } from '../../common/models/Farm';
 import { Position } from '../../common/models/Position';
 import {
   openConfirmationModal,
   Operation,
 } from '../../components/ConfirmationModal/ConfirmationModal';
 import { Page } from '../../components/Page/Page';
-import { farmPools$ } from '../../network/ergo/lm/api/lmPools/lmPools';
+import { farms$ } from '../../network/ergo/lm/api/farms/farms';
 import { FarmGuides } from './FarmGuides/FarmGuides';
 import { FarmTableExpandComponent } from './FarmTableView/FarmTableExpandComponent/FarmTableExpandComponent';
 import { FarmTableView } from './FarmTableView/FarmTableView';
@@ -39,7 +39,7 @@ import { FarmViewMode } from './types/FarmViewMode';
 //   return item.position.match(term);
 // };
 
-export const Farm = (): JSX.Element => {
+export const Farms = (): JSX.Element => {
   const [{ activeStatus, activeTab, searchString }, setSearchParams] =
     useSearchParams<{
       activeStatus: LmPoolStatus;
@@ -47,7 +47,7 @@ export const Farm = (): JSX.Element => {
       searchString: string;
     }>();
   const [viewMode, setViewMode] = useState<FarmViewMode>(FarmViewMode.Table);
-  const [farmPools, isFarmPoolsLoading] = useObservable(farmPools$, [], []);
+  const [farmPools, isFarmPoolsLoading] = useObservable(farms$, [], []);
 
   const filteredPools = useMemo(() => {
     let pools = farmPools;

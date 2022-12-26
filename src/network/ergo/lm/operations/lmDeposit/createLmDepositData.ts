@@ -4,11 +4,11 @@ import { AssetAmount, MinBoxValue } from '@ergolabs/ergo-sdk';
 import { NetworkContext } from '@ergolabs/ergo-sdk/build/main/entities/networkContext';
 
 import { Currency } from '../../../../../common/models/Currency';
-import { LmPool } from '../../../../../common/models/LmPool';
+import { Farm } from '../../../../../common/models/Farm';
 import { ErgoSettings } from '../../../settings/settings';
 
 interface CreateLmDepositDataParams {
-  readonly pool: LmPool;
+  readonly pool: Farm;
   readonly lpAmount: Currency;
   readonly settings: ErgoSettings;
   readonly minerFee: Currency;

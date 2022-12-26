@@ -1,6 +1,6 @@
 import { t } from '@lingui/macro';
 
-import { LmPoolStatus } from '../../../../common/models/LmPool';
+import { LmPoolStatus } from '../../../../common/models/Farm';
 
 export const FarmStateCaptions = {
   [LmPoolStatus.All]: t`All`,

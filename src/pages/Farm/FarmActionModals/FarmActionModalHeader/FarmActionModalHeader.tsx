@@ -4,7 +4,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { AssetInfo } from '../../../../common/models/AssetInfo';
-import { LmPool, LmPoolStatus } from '../../../../common/models/LmPool';
+import { Farm, LmPoolStatus } from '../../../../common/models/Farm';
 import { AssetIconPair } from '../../../../components/AssetIconPair/AssetIconPair';
 import { DataTag } from '../../../../components/common/DataTag/DataTag';
 import { InfoTooltip } from '../../../../components/InfoTooltip/InfoTooltip';
@@ -14,7 +14,7 @@ interface FarmActionModalHeaderProps {
   className?: string;
   assetX: AssetInfo;
   assetY: AssetInfo;
-  lmPool: LmPool;
+  lmPool: Farm;
 }
 
 const WhiteText = styled(Typography.Text)`

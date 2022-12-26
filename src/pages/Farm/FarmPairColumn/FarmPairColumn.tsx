@@ -8,11 +8,11 @@ import {
 import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 
-import { LmPool, LmPoolStatus } from '../../../common/models/LmPool';
+import { Farm, LmPoolStatus } from '../../../common/models/Farm';
 import { AssetPairTitle } from '../../../components/AssetPairTitle/AssetPairTitle';
 
 export interface PairColumnProps {
-  readonly lmPool: LmPool;
+  readonly lmPool: Farm;
   readonly direction?: 'col' | 'row';
   readonly align?: 'stretch' | 'center' | 'flex-start' | 'flex-end';
 }

@@ -9,7 +9,7 @@ import numeral from 'numeral';
 import { AmmPool } from '../../../../common/models/AmmPool';
 import { AssetInfo } from '../../../../common/models/AssetInfo';
 import { Currency } from '../../../../common/models/Currency';
-import { LmPool, LmPoolStatus } from '../../../../common/models/LmPool';
+import { Farm, LmPoolStatus } from '../../../../common/models/Farm';
 import { blockToDateTime } from '../../../../common/utils/blocks';
 import { ErgoAmmPool } from '../../api/ammPools/ErgoAmmPool';
 import { RawStakeWithRedeemerKey } from '../api/stakes/stakes';
@@ -30,7 +30,7 @@ export interface ErgoLmPoolAssets {
   readonly tt: AssetInfo;
 }
 
-export class ErgoLmPool implements LmPool<ErgoBaseLmPool> {
+export class ErgoFarm implements Farm<ErgoBaseLmPool> {
   readonly stakes: Stake[];
 
   @cache
