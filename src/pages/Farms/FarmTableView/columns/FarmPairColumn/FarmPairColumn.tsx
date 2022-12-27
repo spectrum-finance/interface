@@ -8,11 +8,11 @@ import {
 import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 
-import { Farm, LmPoolStatus } from '../../../common/models/Farm';
-import { AssetPairTitle } from '../../../components/AssetPairTitle/AssetPairTitle';
+import { Farm, LmPoolStatus } from '../../../../../common/models/Farm';
+import { AssetPairTitle } from '../../../../../components/AssetPairTitle/AssetPairTitle';
 
 export interface PairColumnProps {
-  readonly lmPool: Farm;
+  readonly farm: Farm;
   readonly direction?: 'col' | 'row';
   readonly align?: 'stretch' | 'center' | 'flex-start' | 'flex-end';
 }
@@ -44,15 +44,15 @@ const getTag = (status: LmPoolStatus) => {
 };
 
 export const FarmPairColumn: FC<PairColumnProps> = ({
-  lmPool,
+  farm,
   direction = 'row',
   align = 'center',
 }) => {
   return (
     <Flex align="center">
-      {lmPool.yourStakeLq.isPositive() &&
-      lmPool.availableToStakeLq.isPositive() &&
-      lmPool.status === LmPoolStatus.Live ? (
+      {farm.yourStakeLq.isPositive() &&
+      farm.availableToStakeLq.isPositive() &&
+      farm.status === LmPoolStatus.Live ? (
         <Flex.Item marginRight={2}>
           <Tooltip
             placement="top"
@@ -82,14 +82,14 @@ export const FarmPairColumn: FC<PairColumnProps> = ({
 
       <Flex.Item>
         <AssetPairTitle
-          assetX={lmPool.ammPool.x.asset}
-          assetY={lmPool.ammPool.y.asset}
+          assetX={farm.ammPool.x.asset}
+          assetY={farm.ammPool.y.asset}
           direction={direction}
           align={align}
         />
       </Flex.Item>
       <Flex.Item marginLeft={2} marginRight={2}>
-        {getTag(lmPool.status)}
+        {getTag(farm.status)}
       </Flex.Item>
     </Flex>
   );

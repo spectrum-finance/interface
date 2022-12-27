@@ -2,7 +2,7 @@ import numeral from 'numeral';
 import React from 'react';
 
 import { Farm } from '../../../common/models/Farm';
-import { LineProgress } from '../LineProgress/LineProgress';
+import { LineProgress } from '../FarmTableView/columns/FarmDistributedColumn/LineProgress/LineProgress';
 
 interface ProgressProps {
   readonly lmPool: Farm;

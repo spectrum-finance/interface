@@ -126,16 +126,18 @@ export const TableViewContent: FC<TableViewContentProps<any>> = ({
                 height={itemHeight - BORDER_HEIGHT}
                 padding={padding}
               >
-                {columns.map((c, i) => (
-                  <TableViewRow.Column
-                    key={i}
-                    width={c.width}
-                    minWidth={c.minWidth}
-                    maxWidth={c.maxWidth}
-                  >
-                    {c.children ? c.children(item) : null}
-                  </TableViewRow.Column>
-                ))}
+                {columns
+                  .filter((c) => c.show)
+                  .map((c, i) => (
+                    <TableViewRow.Column
+                      key={i}
+                      width={c.width}
+                      minWidth={c.minWidth}
+                      maxWidth={c.maxWidth}
+                    >
+                      {c.children ? c.children(item) : null}
+                    </TableViewRow.Column>
+                  ))}
                 {actions?.length ? (
                   <TableViewRow.Column>
                     <Flex stretch align="center" justify="flex-end">

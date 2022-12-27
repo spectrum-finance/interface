@@ -8,7 +8,6 @@ import { Farm, LmPoolStatus } from '../../common/models/Farm';
 import { Page } from '../../components/Page/Page';
 import { farms$ } from '../../network/ergo/lm/api/farms/farms';
 import { FarmGuides } from './FarmGuides/FarmGuides';
-import { FarmTableExpandComponent } from './FarmTableView/FarmTableExpandComponent/FarmTableExpandComponent';
 import { FarmTableView } from './FarmTableView/FarmTableView';
 import { FarmTopPanel } from './FarmTopPanel/FarmTopPanel';
 import { FarmTabs } from './types/FarmTabs';
@@ -73,11 +72,7 @@ export const Farms = (): JSX.Element => {
             searchString={searchString}
           />
         </Flex.Item>
-        <FarmTableView
-          loading={isFarmsLoading}
-          items={filteredFarms}
-          expandComponent={FarmTableExpandComponent}
-        />
+        <FarmTableView loading={isFarmsLoading} items={filteredFarms} />
       </Flex>
     </Page>
   );

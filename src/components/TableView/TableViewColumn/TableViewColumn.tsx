@@ -9,7 +9,7 @@ export const TableViewColumn: FC<Column<any>> = (column) => {
   const { addColumn } = useTableViewContext();
 
   useEffect(() => {
-    addColumn({ ...column, name });
+    addColumn({ ...column, name, show: column.show !== false });
   }, [column]);
 
   return null;

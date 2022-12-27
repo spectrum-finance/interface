@@ -5,7 +5,7 @@ import React from 'react';
 export const FarmTableLoadingState = () => {
   return (
     <LoadingDataState height={160}>
-      <Trans>Loading pools.</Trans>
+      <Trans>Loading farms.</Trans>
       <br />
       <Trans>Please wait.</Trans>
     </LoadingDataState>

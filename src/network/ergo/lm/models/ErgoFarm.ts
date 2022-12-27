@@ -196,7 +196,7 @@ export class ErgoFarm implements Farm<ErgoBaseLmPool> {
   @cache
   get apr(): number | null {
     if (this.status !== LmPoolStatus.Live) {
-      return null;
+      return 30;
     }
 
     const rewardUsd = convertToConvenientNetworkAsset.snapshot(this.reward);

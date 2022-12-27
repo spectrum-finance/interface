@@ -42,5 +42,5 @@ export const APRComponent = ({ lmPool }: { lmPool: Farm }) => {
   //   );
   // }
 
-  return <Typography.Body>{lmPool.apr}</Typography.Body>;
+  return <Typography.Body>$---</Typography.Body>;
 };
