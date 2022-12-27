@@ -9,7 +9,7 @@ import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 import styled from 'styled-components';
 
-import { LmPoolStatus } from '../../../../common/models/Farm';
+import { FarmStatus } from '../../../../common/models/Farm';
 import { FarmStateCaptions } from './FarmState';
 
 const StyledButton = styled(Button)`
@@ -17,8 +17,8 @@ const StyledButton = styled(Button)`
 `;
 
 export interface FarmStateFilterProps {
-  readonly value: LmPoolStatus;
-  readonly onChange: (value: LmPoolStatus) => void;
+  readonly value: FarmStatus;
+  readonly onChange: (value: FarmStatus) => void;
 }
 
 export const FarmStateFilter: FC<FarmStateFilterProps> = ({
@@ -33,17 +33,17 @@ export const FarmStateFilter: FC<FarmStateFilterProps> = ({
       <Dropdown
         overlay={
           <Menu>
-            <Menu.Item onClick={() => onChange(LmPoolStatus.All)}>
-              {FarmStateCaptions[LmPoolStatus.All]}
+            <Menu.Item onClick={() => onChange(FarmStatus.All)}>
+              {FarmStateCaptions[FarmStatus.All]}
             </Menu.Item>
-            <Menu.Item onClick={() => onChange(LmPoolStatus.Live)}>
-              {FarmStateCaptions[LmPoolStatus.Live]}
+            <Menu.Item onClick={() => onChange(FarmStatus.Live)}>
+              {FarmStateCaptions[FarmStatus.Live]}
             </Menu.Item>
-            <Menu.Item onClick={() => onChange(LmPoolStatus.Scheduled)}>
-              {FarmStateCaptions[LmPoolStatus.Scheduled]}
+            <Menu.Item onClick={() => onChange(FarmStatus.Scheduled)}>
+              {FarmStateCaptions[FarmStatus.Scheduled]}
             </Menu.Item>
-            <Menu.Item onClick={() => onChange(LmPoolStatus.Finished)}>
-              {FarmStateCaptions[LmPoolStatus.Finished]}
+            <Menu.Item onClick={() => onChange(FarmStatus.Finished)}>
+              {FarmStateCaptions[FarmStatus.Finished]}
             </Menu.Item>
           </Menu>
         }

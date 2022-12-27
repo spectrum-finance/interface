@@ -1,10 +1,10 @@
 import { t } from '@lingui/macro';
 
-import { LmPoolStatus } from '../../../../common/models/Farm';
+import { FarmStatus } from '../../../../common/models/Farm';
 
 export const FarmStateCaptions = {
-  [LmPoolStatus.All]: t`All`,
-  [LmPoolStatus.Live]: t`Live`,
-  [LmPoolStatus.Scheduled]: t`Scheduled`,
-  [LmPoolStatus.Finished]: t`Finished`,
+  [FarmStatus.All]: t`All`,
+  [FarmStatus.Live]: t`Live`,
+  [FarmStatus.Scheduled]: t`Scheduled`,
+  [FarmStatus.Finished]: t`Finished`,
 };

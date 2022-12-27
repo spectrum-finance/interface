@@ -4,7 +4,7 @@ import React from 'react';
 
 import { useObservable } from '../../common/hooks/useObservable';
 import { useSearchParams } from '../../common/hooks/useSearchParams';
-import { Farm, LmPoolStatus } from '../../common/models/Farm';
+import { Farm, FarmStatus } from '../../common/models/Farm';
 import { Page } from '../../components/Page/Page';
 import { farms$ } from '../../network/ergo/lm/api/farms/farms';
 import { FarmGuides } from './FarmGuides/FarmGuides';
@@ -13,10 +13,10 @@ import { FarmTopPanel } from './FarmTopPanel/FarmTopPanel';
 import { FarmTabs } from './types/FarmTabs';
 
 const filterFarmsByStatus = (
-  activeStatus: LmPoolStatus,
+  activeStatus: FarmStatus,
 ): ((farms: Farm[]) => Farm[]) => {
   return (farms) => {
-    if (activeStatus && activeStatus !== LmPoolStatus.All) {
+    if (activeStatus && activeStatus !== FarmStatus.All) {
       return farms.filter((farm) => farm.status === activeStatus);
     }
     return farms;
@@ -46,7 +46,7 @@ const filterFarmsByTerm = (term?: string): ((farms: Farm[]) => Farm[]) => {
 export const Farms = (): JSX.Element => {
   const [{ activeStatus, activeTab, searchString }, setSearchParams] =
     useSearchParams<{
-      activeStatus: LmPoolStatus;
+      activeStatus: FarmStatus;
       activeTab: FarmTabs;
       searchString: string;
     }>();

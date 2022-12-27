@@ -3,7 +3,7 @@ import { DateTime } from 'luxon';
 import { AmmPool } from './AmmPool';
 import { Currency } from './Currency';
 
-export enum LmPoolStatus {
+export enum FarmStatus {
   All = 'All',
   Live = 'Live',
   Scheduled = 'Scheduled',
@@ -53,7 +53,7 @@ export interface Farm<T = any> {
 
   readonly endDateTime: DateTime;
 
-  readonly status: LmPoolStatus;
+  readonly status: FarmStatus;
 
   readonly programStartBlock: number;
 

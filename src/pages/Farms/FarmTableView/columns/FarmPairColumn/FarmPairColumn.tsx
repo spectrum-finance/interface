@@ -4,21 +4,21 @@ import {
   Flex,
   Tag,
   Tooltip,
+  useDevice,
 } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 
-import { Farm, LmPoolStatus } from '../../../../../common/models/Farm';
+import { Farm, FarmStatus } from '../../../../../common/models/Farm';
 import { AssetPairTitle } from '../../../../../components/AssetPairTitle/AssetPairTitle';
 
 export interface PairColumnProps {
   readonly farm: Farm;
-  readonly direction?: 'col' | 'row';
   readonly align?: 'stretch' | 'center' | 'flex-start' | 'flex-end';
 }
 
-const getTag = (status: LmPoolStatus) => {
-  if (status === LmPoolStatus.Scheduled) {
+const getTag = (status: FarmStatus) => {
+  if (status === FarmStatus.Scheduled) {
     return (
       <Tag color="orange">
         <Trans>Scheduled</Trans>
@@ -26,7 +26,7 @@ const getTag = (status: LmPoolStatus) => {
     );
   }
 
-  if (status === LmPoolStatus.Finished) {
+  if (status === FarmStatus.Finished) {
     return (
       <Tag color="magenta">
         <Trans>Finished</Trans>
@@ -34,7 +34,7 @@ const getTag = (status: LmPoolStatus) => {
     );
   }
 
-  if (status === LmPoolStatus.Live) {
+  if (status === FarmStatus.Live) {
     return (
       <Tag color="green">
         <Trans>Live</Trans>
@@ -43,16 +43,14 @@ const getTag = (status: LmPoolStatus) => {
   }
 };
 
-export const FarmPairColumn: FC<PairColumnProps> = ({
-  farm,
-  direction = 'row',
-  align = 'center',
-}) => {
+export const FarmPairColumn: FC<PairColumnProps> = ({ farm }) => {
+  const { valBySize } = useDevice();
+
   return (
     <Flex align="center">
       {farm.yourStakeLq.isPositive() &&
       farm.availableToStakeLq.isPositive() &&
-      farm.status === LmPoolStatus.Live ? (
+      farm.status === FarmStatus.Live ? (
         <Flex.Item marginRight={2}>
           <Tooltip
             placement="top"
@@ -84,8 +82,8 @@ export const FarmPairColumn: FC<PairColumnProps> = ({
         <AssetPairTitle
           assetX={farm.ammPool.x.asset}
           assetY={farm.ammPool.y.asset}
-          direction={direction}
-          align={align}
+          direction={valBySize('col', 'row')}
+          align={valBySize('flex-start', 'center')}
         />
       </Flex.Item>
       <Flex.Item marginLeft={2} marginRight={2}>

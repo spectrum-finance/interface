@@ -4,7 +4,7 @@ import React, { FC } from 'react';
 import styled from 'styled-components';
 
 import { SetSearchParamsFn } from '../../../common/hooks/useSearchParams';
-import { LmPoolStatus } from '../../../common/models/Farm';
+import { FarmStatus } from '../../../common/models/Farm';
 import { SearchInput } from '../../../components/SearchInput/SearchInput';
 import { FarmTabs } from '../types/FarmTabs';
 import { FarmStateFilter } from './FarmStateFilter/FarmStateFilter';
@@ -19,11 +19,11 @@ const SearchInputContainer = styled(Flex.Item)`
 
 export const FarmTopPanel: FC<{
   setSearchParams: SetSearchParamsFn<{
-    activeStatus?: LmPoolStatus;
+    activeStatus?: FarmStatus;
     activeTab?: FarmTabs;
     searchString?: string;
   }>;
-  activeStatus?: LmPoolStatus;
+  activeStatus?: FarmStatus;
   activeTab?: FarmTabs;
   searchString?: string;
 }> = ({ activeStatus, activeTab, setSearchParams, searchString }) => {
@@ -44,7 +44,7 @@ export const FarmTopPanel: FC<{
         )}
         <Flex.Item flex={1} marginRight={4}>
           <FarmStateFilter
-            value={activeStatus || LmPoolStatus.All}
+            value={activeStatus || FarmStatus.All}
             onChange={(newStatus) =>
               setSearchParams({ activeStatus: newStatus })
             }

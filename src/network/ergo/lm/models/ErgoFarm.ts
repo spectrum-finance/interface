@@ -9,7 +9,7 @@ import numeral from 'numeral';
 import { AmmPool } from '../../../../common/models/AmmPool';
 import { AssetInfo } from '../../../../common/models/AssetInfo';
 import { Currency } from '../../../../common/models/Currency';
-import { Farm, LmPoolStatus } from '../../../../common/models/Farm';
+import { Farm, FarmStatus } from '../../../../common/models/Farm';
 import { blockToDateTime } from '../../../../common/utils/blocks';
 import { convertToConvenientNetworkAsset } from '../../api/ergoUsdRatio/ergoUsdRatio';
 import { RawStakeWithRedeemerKey } from '../api/stakes/stakes';
@@ -171,16 +171,16 @@ export class ErgoFarm implements Farm<ErgoBaseLmPool> {
   }
 
   @cache
-  get status(): LmPoolStatus {
+  get status(): FarmStatus {
     if (this.params.currentHeight < this.programStartBlock) {
-      return LmPoolStatus.Scheduled;
+      return FarmStatus.Scheduled;
     }
 
     if (this.params.currentHeight > this.programEndBlock) {
-      return LmPoolStatus.Finished;
+      return FarmStatus.Finished;
     }
 
-    return LmPoolStatus.Live;
+    return FarmStatus.Live;
   }
 
   @cache
@@ -195,8 +195,8 @@ export class ErgoFarm implements Farm<ErgoBaseLmPool> {
 
   @cache
   get apr(): number | null {
-    if (this.status !== LmPoolStatus.Live) {
-      return 30;
+    if (this.status !== FarmStatus.Live) {
+      return null;
     }
 
     const rewardUsd = convertToConvenientNetworkAsset.snapshot(this.reward);

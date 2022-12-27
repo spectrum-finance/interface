@@ -4,7 +4,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { AssetInfo } from '../../../../common/models/AssetInfo';
-import { Farm, LmPoolStatus } from '../../../../common/models/Farm';
+import { Farm, FarmStatus } from '../../../../common/models/Farm';
 import { AssetIconPair } from '../../../../components/AssetIconPair/AssetIconPair';
 import { DataTag } from '../../../../components/common/DataTag/DataTag';
 import { InfoTooltip } from '../../../../components/InfoTooltip/InfoTooltip';
@@ -61,7 +61,7 @@ const _FarmActionModalHeader: React.FC<FarmActionModalHeaderProps> = ({
             }
           />
         </Flex>
-        {lmPool.status === LmPoolStatus.Live && (
+        {lmPool.status === FarmStatus.Live && (
           <Flex col align="flex-end">
             <WhiteText>
               <Trans>APR</Trans>

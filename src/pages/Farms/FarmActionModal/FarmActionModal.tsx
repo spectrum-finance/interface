@@ -17,7 +17,7 @@ import {
 } from '../../../common/hooks/useObservable';
 import { AssetInfo } from '../../../common/models/AssetInfo';
 import { Currency } from '../../../common/models/Currency';
-import { Farm, LmPoolStatus } from '../../../common/models/Farm';
+import { Farm, FarmStatus } from '../../../common/models/Farm';
 import { AssetIconPair } from '../../../components/AssetIconPair/AssetIconPair';
 import { DataTag } from '../../../components/common/DataTag/DataTag';
 import { FormPairSection } from '../../../components/common/FormView/FormPairSection/FormPairSection';
@@ -84,7 +84,7 @@ const _FarmActionModalHeader: React.FC<FarmActionModalHeaderProps> = ({
             }
           />
         </Flex>
-        {lmPool.status === LmPoolStatus.Live && (
+        {lmPool.status === FarmStatus.Live && (
           <Flex col align="flex-end">
             <WhiteText>
               <Trans>APR</Trans>

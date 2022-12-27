@@ -28,183 +28,186 @@ const FullWidthRow = styled(Row)`
 `;
 
 export const FarmTableExpandComponent: FC<ExpandComponentProps<ErgoFarm>> = ({
-  item: lmPool,
+  item,
 }) => {
   const { valBySize, lessThan } = useDevice();
-  return (
-    <Flex>
-      <FullWidthRow>
-        {lessThan('m') && (
-          <Col span={24}>
-            <Box
-              width="100%"
-              borderRadius="none"
-              padding={valBySize([4, 4], [4, 4], [4, 4], [5, 4])}
-              bordered={false}
-              transparent
-            >
-              <Flex direction="col">
-                <Typography.Body secondary>
-                  <Trans>Distributed</Trans>
-                </Typography.Body>
-                <Flex.Item marginTop={1} width="100%">
-                  <FarmLineProgress lmPool={lmPool} height={24} width="100%" />
-                </Flex.Item>
-              </Flex>
-            </Box>
-          </Col>
-        )}
-        {lessThan('xl') && (
-          <>
-            <Col span={12}>
-              <Box
-                width="100%"
-                borderRadius="none"
-                padding={valBySize([4, 4], [4, 4], [4, 4], [5, 4])}
-                bordered={false}
-                transparent
-              >
-                <Flex direction="col">
-                  <Typography.Body secondary>Total staked</Typography.Body>
-                  <Typography.Body>
-                    <Flex gap={1} align="center">
-                      <Flex gap={1} align="center">
-                        <ConvenientAssetView value={lmPool.totalStakedShares} />
-                        <InfoTooltip
-                          width={194}
-                          size="small"
-                          placement="top"
-                          icon="exclamation"
-                          content={
-                            <div>
-                              <div>
-                                {lmPool.totalStakedX.asset.ticker}:{' '}
-                                {lmPool.totalStakedX.toString()}
-                              </div>
-                              <div>
-                                {lmPool.totalStakedY.asset.ticker}:{' '}
-                                {lmPool.totalStakedY.toString()}
-                              </div>
-                            </div>
-                          }
-                        />
-                      </Flex>
-                    </Flex>
-                  </Typography.Body>
-                </Flex>
-              </Box>
-            </Col>
-            <Col span={12}>
-              <Box
-                width="100%"
-                borderRadius="none"
-                padding={valBySize([4, 4], [4, 4], [4, 4], [5, 4])}
-                bordered={false}
-                transparent
-              >
-                <Flex direction="col">
-                  <Typography.Body secondary>
-                    <Trans>Your Stake</Trans>
-                  </Typography.Body>
-                  <Typography.Body>
-                    <div>
-                      {lmPool.yourStakeShares.every((value) =>
-                        value.isPositive(),
-                      ) ? (
-                        <ConvenientAssetView value={lmPool.yourStakeShares} />
-                      ) : (
-                        <>$---</>
-                      )}
-                    </div>
-                  </Typography.Body>
-                </Flex>
-              </Box>
-            </Col>
-          </>
-        )}
-        <Col span={12}>
-          <Box
-            width="100%"
-            borderRadius="none"
-            padding={valBySize([4, 4], [4, 4], [4, 4], [5, 4])}
-            bordered={false}
-            transparent
-          >
-            <Flex direction="col">
-              <Typography.Body secondary>Live period</Typography.Body>
-              <Typography.Body>
-                {lmPool.startDateTime}{' '}
-                <Typography.Body secondary>
-                  <SwapRightOutlined disabled={true} />
-                </Typography.Body>{' '}
-                {lmPool.endDateTime}
-              </Typography.Body>
-            </Flex>
-          </Box>
-        </Col>
-        <Col span={12}>
-          <Box
-            width="100%"
-            borderRadius="none"
-            padding={valBySize([4, 4], [4, 4], [4, 4], [5, 4])}
-            bordered={false}
-            transparent
-          >
-            <FarmNextRewards lmPool={lmPool} />
-          </Box>
-        </Col>
-        <Col span={12}>
-          <Box
-            width="100%"
-            borderRadius="none"
-            padding={valBySize([4, 4], [4, 4], [4, 4], [5, 4])}
-            bordered={false}
-            transparent
-          >
-            <Flex direction="col">
-              <Typography.Body secondary>
-                Distribution frequency
-              </Typography.Body>
-              <Typography.Body>
-                {lmPool.distributionFrequencyInDays} days (
-                {lmPool.distributionFrequencyInBlocks} blocks)
-              </Typography.Body>
-            </Flex>
-          </Box>
-        </Col>
-        <Col span={12}>
-          {/* <Box
-            width="100%"
-            borderRadius="none"
-            padding={valBySize([4, 4], [4, 4], [4, 4], [5, 4])}
-            bordered={false}
-            transparent
-          >
-            <Flex direction="col">
-              <Typography.Body secondary>Rewards</Typography.Body>
-              <Typography.Body size="base">
-                You will be able to lmStake starting from 2022-07-20
-              </Typography.Body>
-            </Flex>
-          </Box> */}
-        </Col>
 
-        {lessThan('m') && (
-          <Col span={24}>
-            <Box
-              width="100%"
-              borderRadius="none"
-              padding={[4, 4]}
-              bordered={false}
-              transparent
-            >
-              <Flex.Item marginTop={1} width="100%">
-                <FarmAction farm={lmPool} $fullWidth />
-              </Flex.Item>
-            </Box>
-          </Col>
-        )}
-      </FullWidthRow>
-    </Flex>
-  );
+  return null;
+
+  // return (
+  // <Flex>
+  //   <FullWidthRow>
+  //     {lessThan('m') && (
+  //       <Col span={24}>
+  //         <Box
+  //           width="100%"
+  //           borderRadius="none"
+  //           padding={valBySize([4, 4], [4, 4], [4, 4], [5, 4])}
+  //           bordered={false}
+  //           transparent
+  //         >
+  //           <Flex direction="col">
+  //             <Typography.Body secondary>
+  //               <Trans>Distributed</Trans>
+  //             </Typography.Body>
+  //             <Flex.Item marginTop={1} width="100%">
+  //               <FarmLineProgress lmPool={lmPool} height={24} width="100%" />
+  //             </Flex.Item>
+  //           </Flex>
+  //         </Box>
+  //       </Col>
+  //     )}
+  //     {lessThan('xl') && (
+  //       <>
+  //         <Col span={12}>
+  //           <Box
+  //             width="100%"
+  //             borderRadius="none"
+  //             padding={valBySize([4, 4], [4, 4], [4, 4], [5, 4])}
+  //             bordered={false}
+  //             transparent
+  //           >
+  //             <Flex direction="col">
+  //               <Typography.Body secondary>Total staked</Typography.Body>
+  //               <Typography.Body>
+  //                 <Flex gap={1} align="center">
+  //                   <Flex gap={1} align="center">
+  //                     <ConvenientAssetView value={lmPool.totalStakedShares} />
+  //                     <InfoTooltip
+  //                       width={194}
+  //                       size="small"
+  //                       placement="top"
+  //                       icon="exclamation"
+  //                       content={
+  //                         <div>
+  //                           <div>
+  //                             {lmPool.totalStakedX.asset.ticker}:{' '}
+  //                             {lmPool.totalStakedX.toString()}
+  //                           </div>
+  //                           <div>
+  //                             {lmPool.totalStakedY.asset.ticker}:{' '}
+  //                             {lmPool.totalStakedY.toString()}
+  //                           </div>
+  //                         </div>
+  //                       }
+  //                     />
+  //                   </Flex>
+  //                 </Flex>
+  //               </Typography.Body>
+  //             </Flex>
+  //           </Box>
+  //         </Col>
+  //         <Col span={12}>
+  //           <Box
+  //             width="100%"
+  //             borderRadius="none"
+  //             padding={valBySize([4, 4], [4, 4], [4, 4], [5, 4])}
+  //             bordered={false}
+  //             transparent
+  //           >
+  //             <Flex direction="col">
+  //               <Typography.Body secondary>
+  //                 <Trans>Your Stake</Trans>
+  //               </Typography.Body>
+  //               <Typography.Body>
+  //                 <div>
+  //                   {lmPool.yourStakeShares.every((value) =>
+  //                     value.isPositive(),
+  //                   ) ? (
+  //                     <ConvenientAssetView value={lmPool.yourStakeShares} />
+  //                   ) : (
+  //                     <>$---</>
+  //                   )}
+  //                 </div>
+  //               </Typography.Body>
+  //             </Flex>
+  //           </Box>
+  //         </Col>
+  //       </>
+  //     )}
+  //     <Col span={12}>
+  //       <Box
+  //         width="100%"
+  //         borderRadius="none"
+  //         padding={valBySize([4, 4], [4, 4], [4, 4], [5, 4])}
+  //         bordered={false}
+  //         transparent
+  //       >
+  //         <Flex direction="col">
+  //           <Typography.Body secondary>Live period</Typography.Body>
+  //           <Typography.Body>
+  //             {lmPool.startDateTime.toLocaleString()}{' '}
+  //             <Typography.Body secondary>
+  //               <SwapRightOutlined disabled={true} />
+  //             </Typography.Body>{' '}
+  //             {lmPool.endDateTime.toLocaleString()}
+  //           </Typography.Body>
+  //         </Flex>
+  //       </Box>
+  //     </Col>
+  //     <Col span={12}>
+  //       <Box
+  //         width="100%"
+  //         borderRadius="none"
+  //         padding={valBySize([4, 4], [4, 4], [4, 4], [5, 4])}
+  //         bordered={false}
+  //         transparent
+  //       >
+  //         <FarmNextRewards lmPool={lmPool} />
+  //       </Box>
+  //     </Col>
+  //     <Col span={12}>
+  //       <Box
+  //         width="100%"
+  //         borderRadius="none"
+  //         padding={valBySize([4, 4], [4, 4], [4, 4], [5, 4])}
+  //         bordered={false}
+  //         transparent
+  //       >
+  //         <Flex direction="col">
+  //           <Typography.Body secondary>
+  //             Distribution frequency
+  //           </Typography.Body>
+  //           <Typography.Body>
+  //             {lmPool.distributionFrequencyInDays} days (
+  //             {lmPool.distributionFrequencyInBlocks} blocks)
+  //           </Typography.Body>
+  //         </Flex>
+  //       </Box>
+  //     </Col>
+  //     <Col span={12}>
+  //       {/* <Box
+  //         width="100%"
+  //         borderRadius="none"
+  //         padding={valBySize([4, 4], [4, 4], [4, 4], [5, 4])}
+  //         bordered={false}
+  //         transparent
+  //       >
+  //         <Flex direction="col">
+  //           <Typography.Body secondary>Rewards</Typography.Body>
+  //           <Typography.Body size="base">
+  //             You will be able to lmStake starting from 2022-07-20
+  //           </Typography.Body>
+  //         </Flex>
+  //       </Box> */}
+  //     </Col>
+  //
+  //     {lessThan('m') && (
+  //       <Col span={24}>
+  //         <Box
+  //           width="100%"
+  //           borderRadius="none"
+  //           padding={[4, 4]}
+  //           bordered={false}
+  //           transparent
+  //         >
+  //           <Flex.Item marginTop={1} width="100%">
+  //             <FarmAction farm={lmPool} fullWidth />
+  //           </Flex.Item>
+  //         </Box>
+  //       </Col>
+  //     )}
+  //   </FullWidthRow>
+  // </Flex>
+  // );
 };

@@ -38,29 +38,29 @@ export const FarmTableView: FC<FarmTableViewProps<any>> = ({
       tableItemViewPadding={[0, 4]}
       expand={{
         columnWidth: 32,
-        height: 168,
+        height: valBySize(360, 222, 222, 160),
         accordion: true,
         component: FarmTableExpandComponent,
       }}
       expandPadding={[0, 0]}
     >
       <TableView.Column
-        width={253}
-        headerWidth={245}
+        width={valBySize(238, 293)}
+        headerWidth={valBySize(230, 285)}
         title={<Trans>Pair</Trans>}
       >
         {(farm) => <FarmPairColumn farm={farm} />}
       </TableView.Column>
 
       <TableView.Column
-        width={160}
+        width={140}
         title={<Trans>Total Staked</Trans>}
         show={moreThan('xl')}
       >
         {(farm) => <FarmTotalStakedColumn farm={farm} />}
       </TableView.Column>
       <TableView.Column
-        width={160}
+        width={140}
         title={<Trans>Your Stake</Trans>}
         show={moreThan('xl')}
       >
