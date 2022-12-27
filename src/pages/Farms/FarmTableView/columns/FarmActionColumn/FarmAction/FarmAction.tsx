@@ -5,16 +5,16 @@ import { matchPath, useNavigate } from 'react-router-dom';
 import { first } from 'rxjs';
 import styled from 'styled-components';
 
-import { Farm, LmPoolStatus } from '../../../../common/models/Farm';
+import { Farm, LmPoolStatus } from '../../../../../../common/models/Farm';
 import {
   openConfirmationModal,
   Operation,
-} from '../../../../components/ConfirmationModal/ConfirmationModal';
-import { lmRedeem } from '../../../../gateway/api/operations/lmRedeem';
-import { FarmActionModal } from '../../FarmActionModal/FarmActionModal';
+} from '../../../../../../components/ConfirmationModal/ConfirmationModal';
+import { lmRedeem } from '../../../../../../gateway/api/operations/lmRedeem';
+import { FarmActionModal } from '../../../../FarmActionModal/FarmActionModal';
 
 type Props = {
-  lmPool: Farm;
+  farm: Farm;
   $fullWidth?: boolean;
 };
 
@@ -23,7 +23,7 @@ const FullWidthButton = styled(Button)`
     $fullWidth ? '100%' : 'normal'};
 `;
 
-export const FarmAction = ({ lmPool, $fullWidth = false }: Props) => {
+export const FarmAction = ({ farm, $fullWidth = false }: Props) => {
   const navigate = useNavigate();
   const urlNetworkParameter = matchPath(
     { path: ':network', end: false },
@@ -34,16 +34,16 @@ export const FarmAction = ({ lmPool, $fullWidth = false }: Props) => {
     openConfirmationModal(
       (next) => {
         return (
-          <FarmActionModal operation="stake" pool={lmPool} onClose={() => {}} />
+          <FarmActionModal operation="stake" pool={farm} onClose={() => {}} />
         );
       },
       Operation.STAKE_LIQUIDITY_FARM,
-      { xAsset: lmPool.ammPool.x, yAsset: lmPool.ammPool.y },
+      { xAsset: farm.ammPool.x, yAsset: farm.ammPool.y },
     );
   };
 
   const withdraw = () => {
-    lmRedeem(lmPool).pipe(first()).subscribe(console.log);
+    lmRedeem(farm).pipe(first()).subscribe(console.log);
 
     // openConfirmationModal(
     //   (next) => {
@@ -61,11 +61,11 @@ export const FarmAction = ({ lmPool, $fullWidth = false }: Props) => {
   };
 
   const navigateToAddLiquidity = () => {
-    navigate(`/${urlNetworkParameter}/liquidity/add/${lmPool.ammPool.id}`);
+    navigate(`/${urlNetworkParameter}/liquidity/add/${farm.ammPool.id}`);
   };
 
-  if (lmPool.status === LmPoolStatus.Scheduled) {
-    if (!lmPool.availableToStakeLq.isPositive()) {
+  if (farm.status === LmPoolStatus.Scheduled) {
+    if (!farm.availableToStakeLq.isPositive()) {
       return (
         <FullWidthButton
           $fullWidth={$fullWidth}
@@ -91,7 +91,7 @@ export const FarmAction = ({ lmPool, $fullWidth = false }: Props) => {
     );
   }
 
-  if (lmPool.yourStakeLq.isPositive()) {
+  if (farm.yourStakeLq.isPositive()) {
     return (
       <div onClick={(event) => event.stopPropagation()}>
         <Dropdown
@@ -101,7 +101,7 @@ export const FarmAction = ({ lmPool, $fullWidth = false }: Props) => {
                 <Menu.Item
                   key={'item1'}
                   onClick={openStakeModal}
-                  disabled={lmPool.status === LmPoolStatus.Finished}
+                  disabled={farm.status === LmPoolStatus.Finished}
                 >
                   <Trans>Stake</Trans>
                 </Menu.Item>
@@ -128,7 +128,7 @@ export const FarmAction = ({ lmPool, $fullWidth = false }: Props) => {
     );
   }
 
-  if (!lmPool.availableToStakeLq.isPositive()) {
+  if (!farm.availableToStakeLq.isPositive()) {
     return (
       <FullWidthButton
         $fullWidth={$fullWidth}
@@ -148,7 +148,7 @@ export const FarmAction = ({ lmPool, $fullWidth = false }: Props) => {
         openStakeModal();
         event.stopPropagation();
       }}
-      disabled={lmPool.status === LmPoolStatus.Finished}
+      disabled={farm.status === LmPoolStatus.Finished}
     >
       <Trans>Stake</Trans>
     </FullWidthButton>

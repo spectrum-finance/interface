@@ -1,8 +1,6 @@
-import numeral from 'numeral';
 import React from 'react';
 
 import { Farm } from '../../../common/models/Farm';
-import { LineProgress } from '../FarmTableView/columns/FarmDistributedColumn/LineProgress/LineProgress';
 
 interface ProgressProps {
   readonly lmPool: Farm;
@@ -16,12 +14,13 @@ export const FarmLineProgress = ({
   width,
   className,
 }: ProgressProps) => {
-  return (
-    <LineProgress
-      percent={lmPool.distributed}
-      height={height}
-      width={width}
-      className={className}
-    />
-  );
+  return null;
+  // return (
+  //   <LineProgress
+  //     percent={lmPool.distributed}
+  //     height={height}
+  //     width={width}
+  //     className={className}
+  //   />
+  // );
 };

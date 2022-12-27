@@ -170,7 +170,7 @@ export const TableViewContent: FC<TableViewContentProps<any>> = ({
                   </TableViewRow.Column>
                 ) : null}
                 {expandConfig && (
-                  <TableViewRow.Column>
+                  <TableViewRow.Column width={expandConfig.columnWidth}>
                     <Flex stretch align="center" justify="flex-end">
                       <Typography.Body>
                         {expanded ? <UpOutlined /> : <DownOutlined />}

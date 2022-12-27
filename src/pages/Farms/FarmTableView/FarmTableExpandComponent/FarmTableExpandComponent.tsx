@@ -21,7 +21,7 @@ import { ExpandComponentProps } from '../../../../components/TableView/common/Ex
 import { ErgoFarm } from '../../../../network/ergo/lm/models/ErgoFarm';
 import { FarmLineProgress } from '../../FarmLineProgress/FarmLineProgress';
 import { FarmNextRewards } from '../../FarmNextRewards/FarmNextRewards';
-import { FarmAction } from '../FarmAction/FarmAction';
+import { FarmAction } from '../columns/FarmActionColumn/FarmAction/FarmAction';
 
 const FullWidthRow = styled(Row)`
   width: 100%;
@@ -199,7 +199,7 @@ export const FarmTableExpandComponent: FC<ExpandComponentProps<ErgoFarm>> = ({
               transparent
             >
               <Flex.Item marginTop={1} width="100%">
-                <FarmAction lmPool={lmPool} $fullWidth />
+                <FarmAction farm={lmPool} $fullWidth />
               </Flex.Item>
             </Box>
           </Col>

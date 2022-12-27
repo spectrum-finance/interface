@@ -15,7 +15,6 @@ import { AssetIcon } from '../../../../components/AssetIcon/AssetIcon';
 import { AssetIconPair } from '../../../../components/AssetIconPair/AssetIconPair';
 import { DataTag } from '../../../../components/common/DataTag/DataTag';
 import { InfoTooltip } from '../../../../components/InfoTooltip/InfoTooltip';
-import { LineProgress } from '../../FarmTableView/columns/FarmDistributedColumn/LineProgress/LineProgress';
 
 export const FarmHeaderAssets = styled.div`
   position: absolute;
@@ -108,7 +107,7 @@ export const FarmCardView: React.FC<FarmCardViewProps> = ({ item }) => {
             :
           </Typography.Body>
 
-          <LineProgress percent={60} height={24} width="130px" />
+          {/*<LineProgress percent={60} height={24} width="130px" />*/}
         </Flex.Item>
 
         <Flex.Item
