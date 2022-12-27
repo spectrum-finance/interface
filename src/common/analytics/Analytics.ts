@@ -1,6 +1,9 @@
+import Cookies from 'js-cookie';
 import posthog, { PostHog } from 'posthog-js';
-import { first, of } from 'rxjs';
+import { first, map, of, zip } from 'rxjs';
 
+import { applicationConfig } from '../../applicationConfig';
+import { applicationSettings$ } from '../../context';
 import { selectedNetwork$ } from '../../gateway/common/network';
 import { Network, SupportedNetworks } from '../../network/common/Network';
 import { ergoNetwork } from '../../network/ergo/ergo';
@@ -8,6 +11,7 @@ import { AddLiquidityFormModel } from '../../pages/AddLiquidityOrCreatePool/AddL
 import { RemoveFormModel } from '../../pages/RemoveLiquidity/RemoveLiquidity';
 import { SwapFormModel } from '../../pages/Swap/SwapFormModel';
 import { SupportedLocale } from '../constants/locales';
+import { Initializer } from '../initializers/core';
 import { AmmPool } from '../models/AmmPool';
 import {
   AnalyticsAppOperations,
@@ -27,7 +31,12 @@ import {
   convertSwapFormModelToAnalytics,
   debugEvent,
   getPoolAnalyticsData,
+  isProductAnalyticsDebugMode,
+  mapToFirstLaunchData,
+  mapToSessionStartData,
 } from './utils';
+
+const ANALYTICS_SYSTEMS_INITIALIZED = 'analytics-systems-initialized';
 
 export class ProductAnalytics {
   analyticsSystems: ProductAnalyticsSystem[];
@@ -39,7 +48,7 @@ export class ProductAnalytics {
   }
 
   private event(name: string, props?: any, userProps?: userProperties): void {
-    debugEvent(name, props);
+    debugEvent(name, props, userProps);
     this.analyticsSystems.forEach((system) => {
       system.captureEvent(name, props, userProps);
     });
@@ -49,64 +58,74 @@ export class ProductAnalytics {
     selectedNetwork$.pipe(first()).subscribe(cb);
   }
 
-  public init() {
-    this.analyticsSystems.forEach((system) => {
-      system.init(() => {});
-    });
-    return of(true);
-  }
+  public init: Initializer = () => {
+    const isProduction = process.env.NODE_ENV === 'production';
 
-  public firstLaunch({
-    active_network,
-    active_locale,
-    active_theme,
-    cohort_date,
-    cohort_month,
-    cohort_day,
-    cohort_version,
-    cohort_year,
-  }: {
-    active_network: SupportedNetworks;
-    active_locale: string;
-    active_theme: 'light' | 'dark' | 'system';
-    cohort_date: string;
-    cohort_day: number;
-    cohort_month: number;
-    cohort_year: number;
-    cohort_version: string;
-  }): void {
-    this.event(
-      ANALYTICS_EVENTS.FIRST_LAUNCH,
-      {},
-      {
-        set: {
+    if (isProduction || (!isProduction && isProductAnalyticsDebugMode())) {
+      Promise.all(this.analyticsSystems.map((system) => system.init())).then(
+        () => {
+          if (Cookies.get(ANALYTICS_SYSTEMS_INITIALIZED) !== 'true') {
+            Cookies.set(ANALYTICS_SYSTEMS_INITIALIZED, 'true', {
+              domain: applicationConfig.cookieDomain,
+            });
+            this.firstLaunch();
+          } else {
+            this.sessionStart();
+          }
+        },
+      );
+    } else {
+      console.warn('--PRODUCT ANALYTICS DOES NOT WORK LOCALLY--');
+      return of(true);
+    }
+
+    return of(true);
+  };
+
+  public firstLaunch(): void {
+    zip([selectedNetwork$, applicationSettings$])
+      .pipe(first(), map(mapToFirstLaunchData))
+      .subscribe(
+        ({
           active_network,
           active_locale,
           active_theme,
-        },
-        setOnce: {
           cohort_date,
           cohort_day,
           cohort_month,
           cohort_year,
           cohort_version,
+        }) => {
+          this.event(ANALYTICS_EVENTS.FIRST_LAUNCH, undefined, {
+            set: {
+              active_network,
+              active_locale,
+              active_theme,
+            },
+            setOnce: {
+              cohort_date,
+              cohort_day,
+              cohort_month,
+              cohort_year,
+              cohort_version,
+            },
+          });
         },
-      },
-    );
+      );
   }
 
-  public sessionStart(userProps: {
-    active_network: SupportedNetworks;
-    active_locale: string;
-    active_theme: 'light' | 'dark' | 'system';
-  }): void {
-    this.event(
-      ANALYTICS_EVENTS.SESSION_START,
-      {},
-      {
-        set: userProps,
-      },
-    );
+  public sessionStart(): void {
+    zip([selectedNetwork$, applicationSettings$])
+      .pipe(first(), map(mapToSessionStartData))
+      .subscribe(({ active_network, active_locale, active_theme }) => {
+        this.event(ANALYTICS_EVENTS.SESSION_START, undefined, {
+          set: {
+            active_network,
+            active_locale,
+            active_theme,
+          },
+        });
+      });
   }
 
   // Onboarding
