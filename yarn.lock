@@ -1664,10 +1664,10 @@
     mathjs "^9.4.4"
     ramda "0.27.1"
 
-"@ergolabs/ui-kit@^2.4.10":
-  version "2.4.10"
-  resolved "https://registry.yarnpkg.com/@ergolabs/ui-kit/-/ui-kit-2.4.10.tgz#f28047f77299510602fd511328a40d8706d83fc1"
-  integrity sha512-nr343TOgSjZUOsDHv02zADZ5sieUG7zVaK90TfyfrmEVOcapEEHaWfY452sdmEbhl1SwewLTY96NemwihiYhHg==
+"@ergolabs/ui-kit@^2.4.11":
+  version "2.4.11"
+  resolved "https://registry.yarnpkg.com/@ergolabs/ui-kit/-/ui-kit-2.4.11.tgz#210a71dcaea0f5c37dbfe81eb17d018dfdd192ed"
+  integrity sha512-+N1qyG3bv4amhMZrSiLF0W7vdU/lcX0JiGPvw2nqicHkvMkK6fRJmCnNVqZaiQQ4VO8ssKDNv+q6+kXV27C1Fw==
   dependencies:
     antd "^4.17.0-alpha.5"
     classnames "^2.3.1"

@@ -1,4 +1,5 @@
 import { LmPool as BaseLmPool } from '@ergolabs/ergo-dex-sdk';
+import uniqBy from 'lodash/uniqBy';
 import {
   combineLatest,
   debounceTime,
@@ -116,6 +117,7 @@ export const farms$ = allFarms$.pipe(
       (lmPool) => !applicationConfig.blacklistedPools.includes(lmPool.id),
     ),
   ),
+  map((farms) => uniqBy(farms, 'id')),
   publishReplay(1),
   refCount(),
 );

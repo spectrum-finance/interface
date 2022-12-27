@@ -5,6 +5,7 @@ import {
   Col,
   Flex,
   Row,
+  SIZE,
   SwapRightOutlined,
   Typography,
   useDevice,
@@ -22,17 +23,48 @@ import { ErgoFarm } from '../../../../network/ergo/lm/models/ErgoFarm';
 import { FarmLineProgress } from '../../FarmLineProgress/FarmLineProgress';
 import { FarmNextRewards } from '../../FarmNextRewards/FarmNextRewards';
 import { FarmAction } from '../columns/FarmActionColumn/FarmAction/FarmAction';
+import { DistributionCell } from './DistributionCell/DistributionCell';
+import { TotalStakedCell } from './TotalStakedCell/TotalStakedCell';
+import { YourStakeCell } from './YourStakeCell/YourStakeCell';
 
 const FullWidthRow = styled(Row)`
   width: 100%;
 `;
 
-export const FarmTableExpandComponent: FC<ExpandComponentProps<ErgoFarm>> = ({
-  item,
-}) => {
-  const { valBySize, lessThan } = useDevice();
+export interface FarmTableExpandComponentProps
+  extends ExpandComponentProps<ErgoFarm> {
+  readonly className?: string;
+}
 
-  return null;
+const _FarmTableExpandComponent: FC<FarmTableExpandComponentProps> = ({
+  item,
+  className,
+}) => {
+  const { lessThan } = useDevice();
+
+  return (
+    <div className={className}>
+      {lessThan('m') && (
+        <div style={{ gridColumnStart: 1, gridColumnEnd: 3 }}>
+          <DistributionCell farm={item} />
+        </div>
+      )}
+      {lessThan('l') && (
+        <div>
+          <TotalStakedCell farm={item} />
+        </div>
+      )}
+      {lessThan('l') && (
+        <div>
+          <YourStakeCell farm={item} />
+        </div>
+      )}
+      <div>1</div>
+      <div>1</div>
+      <div>1</div>
+      <div>1</div>
+    </div>
+  );
 
   // return (
   // <Flex>
@@ -211,3 +243,32 @@ export const FarmTableExpandComponent: FC<ExpandComponentProps<ErgoFarm>> = ({
   // </Flex>
   // );
 };
+
+export const FarmTableExpandComponent = styled(_FarmTableExpandComponent)`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 80px 80px 1fr 1fr;
+
+  > * {
+    border-bottom: 1px solid var(--spectrum-box-border-color-secondary);
+    &:not(:nth-child(2n + 1)) {
+      border-right: 1px solid var(--spectrum-box-border-color-secondary);
+    }
+  }
+
+  @media (min-width: ${SIZE.m}px) {
+    grid-template-rows: 1fr 1fr 1fr;
+
+    > * {
+      &:not(:nth-child(2n)) {
+        border-right: 1px solid var(--spectrum-box-border-color-secondary);
+      }
+    }
+  }
+
+  @media (min-width: ${SIZE.xl}px) {
+    grid-template-rows: 1fr 1fr;
+  }
+
+  height: 100%;
+`;

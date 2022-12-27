@@ -1,5 +1,5 @@
 import { Flex, useDevice } from '@ergolabs/ui-kit';
-import { Progress as BaseProgress } from '@ergolabs/ui-kit/dist/components/Progress/Progress';
+import { Progress } from '@ergolabs/ui-kit/dist/components/Progress/Progress';
 import React, { FC } from 'react';
 
 import { Farm } from '../../../../../common/models/Farm';
@@ -13,7 +13,7 @@ export const FarmDistributedColumn: FC<DistributedColumnProps> = ({ farm }) => {
 
   return (
     <Flex width={valBySize(110, 110, 206, 160)}>
-      <BaseProgress percent={farm.distributed} strokeWidth={24} />
+      <Progress percent={farm.distributed} strokeWidth={24} />
     </Flex>
   );
 };

@@ -126,6 +126,16 @@ export const makeCurrencyConverter = (
     if (from instanceof Currency && ratioSnapshotCache.has(from.asset.id)) {
       return ratioSnapshotCache.get(from.asset.id)!.toQuoteCurrency(from);
     }
+    if (from instanceof Array) {
+      return from.reduce((acc, item) => {
+        if (ratioSnapshotCache.has(item.asset.id)) {
+          return acc.plus(
+            ratioSnapshotCache.get(item.asset.id)!.toQuoteCurrency(item),
+          );
+        }
+        return acc;
+      }, emptyConvenientAssetCurrency);
+    }
 
     return emptyConvenientAssetCurrency;
   };
