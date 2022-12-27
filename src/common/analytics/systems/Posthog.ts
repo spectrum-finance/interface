@@ -1,7 +1,6 @@
 import posthog from 'posthog-js';
 
 import { ProductAnalyticsSystem, userProperties } from '../@types/types';
-import { throwProductAnalyticsError } from '../utils';
 
 export class Posthog implements ProductAnalyticsSystem {
   name = 'Posthog';
@@ -9,15 +8,19 @@ export class Posthog implements ProductAnalyticsSystem {
   apiKey = process.env.REACT_APP_POSTHOG_API_KEY;
   apiUrl = 'https://anph.spectrum.fi';
 
-  public init(loaded: () => void): void {
+  public init(): Promise<any> {
     if (this.apiKey) {
-      this.system.init(this.apiKey, {
-        api_host: this.apiUrl,
-        autocapture: false,
-        loaded,
+      return new Promise((resolve) => {
+        this.system.init(this.apiKey!, {
+          api_host: this.apiUrl,
+          autocapture: false,
+          loaded: () => resolve(undefined),
+        });
       });
     } else {
-      throwProductAnalyticsError(this.name, 'API key is not provided');
+      throw new Error(
+        `Product Analytics Error: API key is not provided. Analytics system: ${this.name}`,
+      );
     }
   }
 
