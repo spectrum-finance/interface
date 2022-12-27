@@ -11,7 +11,7 @@ export interface ProductAnalyticsSystem {
   system: PostHog | typeof Amplitude;
   apiKey?: string;
   apiUrl?: string;
-  init(loaded: () => void): void;
+  init(): Promise<void>;
   captureEvent(
     name: string,
     props?: Record<string, unknown>,
