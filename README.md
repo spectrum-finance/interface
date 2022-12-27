@@ -2,33 +2,6 @@
 ![test](https://github.com/ergolabs/ergo-dex-frontend/actions/workflows/test.yml/badge.svg?branch=test)
 ![dev](https://github.com/ergolabs/ergo-dex-frontend/actions/workflows/dev.yml/badge.svg?branch=dev)
 
-## Learn More
-
-
-<!-- PROJECT LOGO -->
-<br />
-<p align="center">
-  <a href="https://github.com/ergolabs/ergo-dex-frontend/">
-    <img src="src/assets/images/Logo.svg" alt="Logo" width="150">
-  </a>
-<!--   <h3 align="center">Calamity</h3>O -->
-
-
-
-  <p align="center">
-   Front-End
-    <br />
-    <a href="https://github.com/ergolabs/ergo-dex-frontend"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://github.com/ergolabs/ergo-dex-frontend/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/ergolabs/ergo-dex-frontend/issues">Request Feature</a>
-  </p>
-</p>
-
-
-
 <!-- TABLE OF CONTENTS -->
 <details open="open">
   <summary><h2 style="display: inline-block">Table of Contents</h2></summary>
