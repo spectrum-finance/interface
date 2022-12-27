@@ -88,11 +88,10 @@ export const FarmNextRewards = ({ lmPool }: Props) => {
     networkContext?.height &&
     lmPool.currentStatus === FarmState.Live
   ) {
-    const interestsRelation = numeral(5000).divide(10000);
-    const rewardAmountEachEpoch = numeral(500000).divide(8);
-    const nextRewardsDistribution = rewardAmountEachEpoch
-      .multiply(interestsRelation.value())
-      .value();
+    const nextRewardsDistribution = lmPool.getUserNextRewards(
+      userAmountLqLockedInUsd,
+      amountLqLockedInUsd,
+    );
 
     return (
       <Flex direction="col">

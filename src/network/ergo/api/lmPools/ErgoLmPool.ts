@@ -80,6 +80,21 @@ export class ErgoLmPool extends LmPool {
       .value();
   }
 
+  getUserNextRewards(
+    userAmountLqLockedInUsd: Currency,
+    amountLqLockedInUsd: Currency,
+  ): number | null {
+    const interestsRelation = numeral(userAmountLqLockedInUsd).divide(
+      amountLqLockedInUsd,
+    );
+
+    const rewardAmountEachEpoch = numeral(this.config.programBudget).divide(
+      this.config.epochNum,
+    );
+
+    return rewardAmountEachEpoch.multiply(interestsRelation.value()).value();
+  }
+
   stakeShares(stake: ExtendedStake): [Currency, Currency] {
     return this.ammPool.shares(
       new Currency(stake.lockedLq.amount, this.lqAsset),

@@ -33,6 +33,11 @@ export abstract class LmPool {
     amountLqLockedInUsd: Currency,
   ): number | null;
 
+  abstract getUserNextRewards(
+    userAmountLqLockedInUsd: Currency,
+    amountLqLockedInUsd: Currency,
+  ): number | null;
+
   abstract get yourStake(): [Currency, Currency];
   abstract get availableLqShares(): [Currency, Currency];
 
