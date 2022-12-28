@@ -38,7 +38,7 @@ export const FarmTableView: FC<FarmTableViewProps<any>> = ({
       tableItemViewPadding={[0, 4]}
       expand={{
         columnWidth: 32,
-        height: valBySize(360, 222, 222, 160),
+        height: valBySize(462, 222, 222, 160),
         accordion: true,
         component: FarmTableExpandComponent,
       }}

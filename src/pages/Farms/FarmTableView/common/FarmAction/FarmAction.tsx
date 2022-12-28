@@ -1,10 +1,11 @@
-import { Button } from '@ergolabs/ui-kit';
+import { Button, Modal } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { Farm, FarmStatus } from '../../../../../../common/models/Farm';
+import { Farm, FarmStatus } from '../../../../../common/models/Farm';
+import { FarmActionModal } from '../../../FarmActionModal/FarmActionModal';
 
 const FullWidthButton = styled(Button)`
   width: ${({ $fullWidth }: { $fullWidth?: boolean }) =>
@@ -54,7 +55,15 @@ export const FarmAction: FC<FarmActionProps> = ({
 
   if (isStakeAvailable) {
     return (
-      <Button type="primary" style={{ width: fullWidth ? '100%' : undefined }}>
+      <Button
+        type="primary"
+        style={{ width: fullWidth ? '100%' : undefined }}
+        onClick={() =>
+          Modal.open(({ close }) => (
+            <FarmActionModal operation="stake" pool={farm} onClose={close} />
+          ))
+        }
+      >
         <Trans>Stake</Trans>
       </Button>
     );

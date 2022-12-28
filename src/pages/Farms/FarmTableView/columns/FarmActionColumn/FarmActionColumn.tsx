@@ -3,7 +3,7 @@ import React, { FC } from 'react';
 
 import { Farm } from '../../../../../common/models/Farm';
 import { ConnectWalletButton } from '../../../../../components/common/ConnectWalletButton/ConnectWalletButton';
-import { FarmAction } from './FarmAction/FarmAction';
+import { FarmAction } from '../../common/FarmAction/FarmAction';
 
 export interface FarmActionColumnProps {
   readonly farm: Farm;
