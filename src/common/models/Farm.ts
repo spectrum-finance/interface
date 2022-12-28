@@ -60,4 +60,8 @@ export interface Farm<T = any> {
   readonly programEndBlock: number;
 
   readonly fullEpochsRemain: number;
+
+  readonly distributionFrequencyInDays: number;
+
+  readonly distributionFrequencyInBlocks: number;
 }

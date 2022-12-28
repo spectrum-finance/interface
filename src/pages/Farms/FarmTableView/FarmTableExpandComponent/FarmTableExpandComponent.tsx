@@ -24,6 +24,8 @@ import { FarmLineProgress } from '../../FarmLineProgress/FarmLineProgress';
 import { FarmNextRewards } from '../../FarmNextRewards/FarmNextRewards';
 import { FarmAction } from '../columns/FarmActionColumn/FarmAction/FarmAction';
 import { DistributionCell } from './DistributionCell/DistributionCell';
+import { DistributionFrequencyCell } from './DistributionFrequencyCell/DistributionFrequencyCell';
+import { LivePeriodCell } from './LivePeriodCell/LivePeriodCell';
 import { TotalStakedCell } from './TotalStakedCell/TotalStakedCell';
 import { YourStakeCell } from './YourStakeCell/YourStakeCell';
 
@@ -59,9 +61,13 @@ const _FarmTableExpandComponent: FC<FarmTableExpandComponentProps> = ({
           <YourStakeCell farm={item} />
         </div>
       )}
+      <div>
+        <LivePeriodCell farm={item} />
+      </div>
       <div>1</div>
-      <div>1</div>
-      <div>1</div>
+      <div>
+        <DistributionFrequencyCell farm={item} />
+      </div>
       <div>1</div>
     </div>
   );
