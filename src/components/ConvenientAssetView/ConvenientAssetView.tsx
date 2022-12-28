@@ -41,10 +41,7 @@ export const ConvenientAssetView: FC<ConvenientAssetViewProps> = ({
           convenientValue
             ? convenientValue.asset.ticker === 'ADA'
               ? convenientValue.toCurrencyString()
-              : formatToUSD(
-                  convenientValue,
-                  type === 'default' ? 'default' : 'abbr',
-                )
+              : formatToUSD(convenientValue, type || 'abbr')
             : ''
         }`
       ) : selectedNetwork.convenientAssetDefaultPreview ? (

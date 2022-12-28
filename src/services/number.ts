@@ -14,7 +14,7 @@ export const formatToCurrency = (amount: number | string): string => {
 
 export const formatToUSD = (
   amount: number | string | Currency,
-  type?: 'abbr' | 'default',
+  type?: 'abbr' | 'default' | undefined,
 ): string => {
   switch (type) {
     case 'abbr':
