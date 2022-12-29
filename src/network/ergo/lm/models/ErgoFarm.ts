@@ -204,6 +204,10 @@ export class ErgoFarm implements Farm<ErgoBaseLmPool> {
       this.totalStakedShares,
     );
 
+    if (!rewardUsd.isPositive() || !totalStakedUsd.isPositive()) {
+      return null;
+    }
+
     const interestsRelation = numeral(rewardUsd.toAmount()).divide(
       totalStakedUsd.toAmount(),
     );

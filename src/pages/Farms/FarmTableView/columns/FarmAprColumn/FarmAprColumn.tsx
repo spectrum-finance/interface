@@ -1,7 +1,7 @@
 import { Flex, Typography } from '@ergolabs/ui-kit';
 import React, { FC } from 'react';
 
-import { Farm } from '../../../../../common/models/Farm';
+import { Farm, FarmStatus } from '../../../../../common/models/Farm';
 import { AssetIcon } from '../../../../../components/AssetIcon/AssetIcon';
 import { DataTag } from '../../../../../components/common/DataTag/DataTag';
 
@@ -10,8 +10,8 @@ export interface FarmAprColumnProps {
 }
 
 export const FarmAprColumn: FC<FarmAprColumnProps> = ({ farm }) => {
-  if (!farm.apr) {
-    return <Typography.Body size="large">$---</Typography.Body>;
+  if (farm.status !== FarmStatus.Live) {
+    return <Typography.Body size="large">--</Typography.Body>;
   }
 
   return (
@@ -23,7 +23,7 @@ export const FarmAprColumn: FC<FarmAprColumnProps> = ({ farm }) => {
             <Flex.Item marginRight={1}>
               <AssetIcon asset={farm.reward.asset} size="extraSmall" />
             </Flex.Item>
-            {farm.apr}%
+            {farm.apr ? `${farm.apr}%` : `< 0.01%`}
           </Flex>
         }
       />
