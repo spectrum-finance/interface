@@ -24,6 +24,7 @@ import {
   userProperties,
 } from './@types/types';
 import { ANALYTICS_EVENTS } from './constants/events';
+import { Posthog } from './systems/Posthog';
 import {
   constructEventName,
   convertDepositFormModelToAnalytics,
@@ -36,10 +37,11 @@ import {
   mapToSessionStartData,
 } from './utils';
 
-const ANALYTICS_SYSTEMS_INITIALIZED = 'analytics-systems-initialized';
-
 export class ProductAnalytics {
   analyticsSystems: ProductAnalyticsSystem[];
+
+  // We use Posthog as a root system beocuse of its Distinct ID generation algorithm
+  rootSys = new Posthog();
 
   constructor(...analyticsSystems: Array<ProductAnalyticsSystem | undefined>) {
     this.analyticsSystems = analyticsSystems.filter(
@@ -49,6 +51,8 @@ export class ProductAnalytics {
 
   private event(name: string, props?: any, userProps?: userProperties): void {
     debugEvent(name, props, userProps);
+
+    this.rootSys.captureEvent(name, props, userProps);
     this.analyticsSystems.forEach((system) => {
       system.captureEvent(name, props, userProps);
     });
@@ -62,21 +66,38 @@ export class ProductAnalytics {
     const isProduction = process.env.NODE_ENV === 'production';
 
     if (isProduction || (!isProduction && isProductAnalyticsDebugMode())) {
-      Promise.all(this.analyticsSystems.map((system) => system.init())).then(
-        () => {
-          if (Cookies.get(ANALYTICS_SYSTEMS_INITIALIZED) !== 'true') {
-            Cookies.set(ANALYTICS_SYSTEMS_INITIALIZED, 'true', {
+      new Promise((resolve) => {
+        // **** Init root analytics system
+        resolve(this.rootSys.init());
+      })
+        .then(() => {
+          // **** Init all others analytics systems with root generated distinct ID
+          return Promise.all(
+            this.analyticsSystems.map((sys) =>
+              sys.init(this.rootSys.system.get_distinct_id()),
+            ),
+          );
+        })
+        .then(() => {
+          // **** Launch starting events
+          /* TODO: Add the is_new_user() check instead of custom cookies.
+              So that even if a user cleans cookies we don't trigger the "First launch" event
+              https://linear.app/spectrum-labs/issue/DEV-659/add-the-is-new-user-check-instead-of-custom-cookies
+          */
+          if (Cookies.get('pa-inited') !== 'true') {
+            Cookies.set('pa-inited', 'true', {
               domain: applicationConfig.cookieDomain,
             });
             this.firstLaunch();
           } else {
             this.sessionStart();
           }
-        },
-      );
+        });
     } else {
-      console.warn('--PRODUCT ANALYTICS DOES NOT WORK LOCALLY--');
-      return of(true);
+      // eslint-disable-next-line no-console
+      console.log(
+        '--PRODUCT ANALYTICS DOES NOT WORK LOCALLY-- \n paste localStorage.setItem("debugpa","true") to enable it.',
+      );
     }
 
     return of(true);
@@ -128,8 +149,13 @@ export class ProductAnalytics {
       });
   }
 
-  // Onboarding
+  /*******
+   ******* Events *******
+   *********/
 
+  // --
+  // Onboarding
+  // --
   public acceptCookies(): void {
     this.event(ANALYTICS_EVENTS.ACCEPT_COOKIES);
   }
@@ -137,10 +163,10 @@ export class ProductAnalytics {
   public rejectCookies(): void {
     this.event(ANALYTICS_EVENTS.REJECT_COOKIES);
   }
+
   // --
   // Network
   // --
-
   public changeNetwork(network: SupportedNetworks): void {
     this.event(ANALYTICS_EVENTS.CHANGE_NETWORK, { active_network: network });
   }
@@ -426,6 +452,7 @@ export class ProductAnalytics {
     });
   }
 
+  // TODO: https://linear.app/spectrum-labs/issue/DEV-660/add-amplitude-support-for-ergopay-events
   public buildErgopaySignedRedeemEvent(
     removeFromModel: RemoveFormModel,
     pool: AmmPool,
@@ -463,18 +490,9 @@ export class ProductAnalytics {
   // --
   // Social
   // --
-
   public clickSocial(name: string, location: AnalyticsElementLocation): void {
     const eventName = `Click ${name.toUpperCase()}`;
     this.event(eventName, { location });
-  }
-
-  public catalystCta(): void {
-    this.event(ANALYTICS_EVENTS.CATALYST_CTA);
-  }
-
-  public catalystClose(): void {
-    this.event(ANALYTICS_EVENTS.CATALYST_CLOSE);
   }
 
   public liquidityAdd(): void {

@@ -181,10 +181,10 @@ export const mapToFirstLaunchData = ([selectedNetwork, applicationSettings]: [
   active_network: selectedNetwork.name,
   active_locale: applicationSettings.lang,
   active_theme: applicationSettings.theme,
-  cohort_date: DateTime.now().toFormat('yyyymmdd'),
-  cohort_day: DateTime.now().ordinal,
-  cohort_month: DateTime.now().month,
-  cohort_year: DateTime.now().year,
+  cohort_date: Number(DateTime.now().toFormat('yyyyMMdd')),
+  cohort_day: Number(DateTime.now().ordinal),
+  cohort_month: Number(DateTime.now().month),
+  cohort_year: Number(DateTime.now().year),
   cohort_version: version,
 });
 

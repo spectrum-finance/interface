@@ -7,10 +7,10 @@ export class Amplitude implements ProductAnalyticsSystem {
   system = amplitude;
   apiKey = process.env.REACT_APP_AMPLITUDE_API_KEY;
 
-  public init(): Promise<void> {
+  public init(userId?: string): Promise<void> {
     // We pass {} as options in this version
     if (this.apiKey) {
-      return this.system.init(this.apiKey, undefined, {}).promise;
+      return this.system.init(this.apiKey, userId, {}).promise;
     } else {
       throw new Error(
         `Product Analytics Error: API key is not provided. Analytics system: ${this.name}`,
