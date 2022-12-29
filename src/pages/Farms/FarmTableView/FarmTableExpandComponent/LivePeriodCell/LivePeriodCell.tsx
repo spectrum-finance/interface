@@ -1,7 +1,6 @@
 import {
   Box,
   Flex,
-  Progress,
   SwapRightOutlined,
   Typography,
   useDevice,

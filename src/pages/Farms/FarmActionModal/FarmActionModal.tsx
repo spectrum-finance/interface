@@ -27,7 +27,6 @@ import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
 import { OperationForm } from '../../../components/OperationForm/OperationForm';
 import { PageSection } from '../../../components/Page/PageSection/PageSection';
 import { walletLmDeposit } from '../../../network/ergo/lm/operations/lmDeposit/walletLmDeposit';
-import { APRComponent } from '../FarmApr/FarmApr';
 import { FarmHeaderAssets } from '../FarmGridView/FarmCardView/FarmCardView';
 
 interface FarmActionModalProps {
@@ -89,7 +88,7 @@ const _FarmActionModalHeader: React.FC<FarmActionModalHeaderProps> = ({
             <WhiteText>
               <Trans>APR</Trans>
             </WhiteText>
-            <APRComponent lmPool={lmPool} />
+            {/*<APRComponent lmPool={lmPool} />*/}
           </Flex>
         )}
 

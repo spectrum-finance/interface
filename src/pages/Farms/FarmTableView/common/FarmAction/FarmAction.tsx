@@ -2,15 +2,9 @@ import { Button, Modal } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
 
 import { Farm, FarmStatus } from '../../../../../common/models/Farm';
 import { FarmActionModal } from '../../../FarmActionModal/FarmActionModal';
-
-const FullWidthButton = styled(Button)`
-  width: ${({ $fullWidth }: { $fullWidth?: boolean }) =>
-    $fullWidth ? '100%' : 'normal'};
-`;
 
 interface FarmActionProps {
   farm: Farm;

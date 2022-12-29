@@ -1,4 +1,3 @@
-import * as Amplitude from '@amplitude/analytics-browser';
 import posthog, { PostHog } from 'posthog-js';
 import { first } from 'rxjs';
 
@@ -10,7 +9,6 @@ import { RemoveFormModel } from '../../pages/RemoveLiquidity/RemoveLiquidity';
 import { SwapFormModel } from '../../pages/Swap/SwapFormModel';
 import { SupportedLocale } from '../constants/locales';
 import { AmmPool } from '../models/AmmPool';
-import { AnalyticsLaunchData } from './@types/launch';
 import {
   AnalyticsAppOperations,
   AnalyticsElementLocation,

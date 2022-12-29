@@ -1,4 +1,4 @@
-import { Box, Flex, SwapRightOutlined, Typography } from '@ergolabs/ui-kit';
+import { Box, Flex, Typography } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 

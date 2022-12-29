@@ -1,5 +1,4 @@
 import { Box, Flex, Typography } from '@ergolabs/ui-kit';
-import { Trans } from '@lingui/macro';
 import React, { FC, ReactNode } from 'react';
 
 import { Currency } from '../../../../../../common/models/Currency';

@@ -7,5 +7,5 @@ export const createUnsignedTxRequestLink = (txId: TxId): string =>
 export const createSelectAddressesRequestLink = (requestId: string): string =>
   `${applicationConfig.networksSettings.ergo.ergopayUrl}/addresses/${requestId}/#P2PK_ADDRESS#`;
 
-export const createErgoPayDeepLink = (requestLink: string) =>
+export const createErgoPayDeepLink = (requestLink: string): string =>
   requestLink.replace('https', 'ergopay');

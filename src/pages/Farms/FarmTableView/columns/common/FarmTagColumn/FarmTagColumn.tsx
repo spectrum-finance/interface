@@ -1,5 +1,5 @@
 import { Flex } from '@ergolabs/ui-kit';
-import React, { FC, ReactNode } from 'react';
+import React, { FC } from 'react';
 
 import { Currency } from '../../../../../../common/models/Currency';
 import { DataTag } from '../../../../../../components/common/DataTag/DataTag';
