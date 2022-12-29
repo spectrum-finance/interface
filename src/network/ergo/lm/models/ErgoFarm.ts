@@ -219,8 +219,37 @@ export class ErgoFarm implements Farm<ErgoBaseLmPool> {
       .value();
   }
 
+  @cache
   get fullEpochsRemain(): number {
     return this.lmPool.numEpochsRemain(this.params.currentHeight);
+  }
+
+  @cache
+  get nextReward(): Currency | null {
+    if (this.status === FarmStatus.Finished) {
+      return null;
+    }
+
+    if (!this.yourStakeLq.isPositive()) {
+      return null;
+    }
+
+    const totalStackedAmount = Number(this.totalStakedLq.toAmount());
+    const userStackedAmount = Number(this.yourStakeLq.toAmount());
+    const relation = numeral(userStackedAmount)
+      .divide(totalStackedAmount)
+      .value();
+
+    const totalRewardAmount = Number(this.programBudget.toAmount());
+    const rewardForEpoch = numeral(totalRewardAmount).divide(
+      this.lmPool.conf.epochNum,
+    );
+
+    const userRewardForNextEpoch = BigInt(
+      Math.floor(rewardForEpoch.multiply(relation).value()!),
+    );
+
+    return new Currency(userRewardForNextEpoch, this.assets.reward);
   }
 
   constructor(
