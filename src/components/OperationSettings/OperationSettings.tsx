@@ -21,7 +21,6 @@ import { defaultSlippage, MIN_SLIPPAGE } from '../../common/constants/settings';
 import { useSubscription } from '../../common/hooks/useObservable';
 import { AssetInfo } from '../../common/models/AssetInfo';
 import { Currency } from '../../common/models/Currency';
-import { useNetworkAsset } from '../../gateway/api/networkAsset';
 import { useSelectedNetwork } from '../../gateway/common/network';
 import { InfoTooltip } from '../InfoTooltip/InfoTooltip';
 import { NitroInput } from './NitroInput/NitroInput';
