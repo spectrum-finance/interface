@@ -7,6 +7,7 @@ import { ErgoFarm } from '../../../../network/ergo/lm/models/ErgoFarm';
 import { ClaimedRewardsCell } from './ClaimedRewardsCell/ClaimedRewardsCell';
 import { DistributionCell } from './DistributionCell/DistributionCell';
 import { DistributionFrequencyCell } from './DistributionFrequencyCell/DistributionFrequencyCell';
+import { FarmActionCell } from './FarmActionCell/FarmActionCell';
 import { LivePeriodCell } from './LivePeriodCell/LivePeriodCell';
 import { NextRewardCell } from './NextRewardCell/NextRewardCell';
 import { TotalStakedCell } from './TotalStakedCell/TotalStakedCell';
@@ -51,6 +52,9 @@ const _FarmTableExpandComponent: FC<FarmTableExpandComponentProps> = ({
       </div>
       <div>
         <ClaimedRewardsCell farm={item} />
+      </div>
+      <div style={{ gridColumnStart: 1, gridColumnEnd: 3 }}>
+        {lessThan('m') && <FarmActionCell farm={item} />}
       </div>
     </div>
   );

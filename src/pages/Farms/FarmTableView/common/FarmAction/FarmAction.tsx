@@ -1,4 +1,4 @@
-import { Box, Button, Dropdown, Menu } from '@ergolabs/ui-kit';
+import { Box, Button, ButtonProps, Dropdown, Menu } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React, { FC, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -12,11 +12,13 @@ import { createFarmOperationModal } from '../../../FarmOperationModal/FarmOperat
 interface FarmActionProps {
   farm: Farm;
   fullWidth?: boolean;
+  size?: ButtonProps['size'];
 }
 
 export const FarmAction: FC<FarmActionProps> = ({
   farm,
   fullWidth = false,
+  size,
 }) => {
   const navigate = useNavigate();
 
@@ -78,7 +80,11 @@ export const FarmAction: FC<FarmActionProps> = ({
           trigger={['click']}
           placement="bottomCenter"
         >
-          <Button type="primary" width={fullWidth ? '100%' : undefined}>
+          <Button
+            size={size}
+            type="primary"
+            width={fullWidth ? '100%' : undefined}
+          >
             <Trans>Manage</Trans>
           </Button>
         </Dropdown>
@@ -89,6 +95,7 @@ export const FarmAction: FC<FarmActionProps> = ({
   if (isStakeAvailable) {
     return (
       <Button
+        size={size}
         type="primary"
         width={fullWidth ? '100%' : undefined}
         onClick={(e) => {
@@ -104,6 +111,7 @@ export const FarmAction: FC<FarmActionProps> = ({
   if (isWithdrawAvailable) {
     return (
       <Button
+        size={size}
         type="primary"
         width={fullWidth ? '100%' : undefined}
         onClick={(e) => {
@@ -117,101 +125,4 @@ export const FarmAction: FC<FarmActionProps> = ({
   }
 
   return null;
-
-  // if (farm.status === LmPoolStatus.Finished) {
-  //   return farm.yourStakeLq.isPositive() ? (
-  //     <Button type="primary">
-  //       <Trans>Withdraw</Trans>
-  //     </Button>
-  //   ) : null;
-  // }
-  //
-  // if (!farm.availableToStakeLq.isPositive()) return null;
-
-  // if (farm.status === LmPoolStatus.Scheduled) {
-  //   if (!farm.availableToStakeLq.isPositive()) {
-  //     return (
-  //       <FullWidthButton
-  //         $fullWidth={fullWidth}
-  //         type="primary"
-  //         onClick={navigateToAddLiquidity}
-  //       >
-  //         <Trans>Add liquidity</Trans>
-  //       </FullWidthButton>
-  //     );
-  //   }
-  //
-  //   return (
-  //     <FullWidthButton
-  //       $fullWidth={fullWidth}
-  //       type="primary"
-  //       onClick={(event) => {
-  //         event.stopPropagation();
-  //       }}
-  //     >
-  //       <Trans>Stake</Trans>
-  //     </FullWidthButton>
-  //   );
-  // }
-  //
-  // if (farm.yourStakeLq.isPositive()) {
-  //   return (
-  //     <div onClick={(event) => event.stopPropagation()}>
-  //       <Dropdown
-  //         overlay={
-  //           <Menu style={{ width: 160 }}>
-  //             <Box secondary padding={2} borderRadius="l">
-  //               <Menu.Item
-  //                 key={'item1'}
-  //                 disabled={farm.status === LmPoolStatus.Finished}
-  //               >
-  //                 <Trans>Stake</Trans>
-  //               </Menu.Item>
-  //
-  //               <Menu.Item key={'item1'}>
-  //                 <Trans>Withdraw</Trans>
-  //               </Menu.Item>
-  //             </Box>
-  //           </Menu>
-  //         }
-  //         trigger={['click']}
-  //         placement="bottomCenter"
-  //       >
-  //         <FullWidthButton
-  //           $fullWidth={fullWidth}
-  //           type="primary"
-  //           size={'middle'}
-  //           onClick={(event) => event.stopPropagation()}
-  //         >
-  //           <Trans>Manage</Trans>
-  //         </FullWidthButton>
-  //       </Dropdown>
-  //     </div>
-  //   );
-  // }
-  //
-  // if (!farm.availableToStakeLq.isPositive()) {
-  //   return (
-  //     <FullWidthButton
-  //       $fullWidth={fullWidth}
-  //       type="primary"
-  //       onClick={navigateToAddLiquidity}
-  //     >
-  //       <Trans>Add liquidity</Trans>
-  //     </FullWidthButton>
-  //   );
-  // }
-  //
-  // return (
-  //   <FullWidthButton
-  //     $fullWidth={fullWidth}
-  //     type="primary"
-  //     onClick={(event) => {
-  //       event.stopPropagation();
-  //     }}
-  //     disabled={farm.status === LmPoolStatus.Finished}
-  //   >
-  //     <Trans>Stake</Trans>
-  //   </FullWidthButton>
-  // );
 };
