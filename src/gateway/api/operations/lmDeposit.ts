@@ -1,11 +1,17 @@
+import { ReactNode } from 'react';
 import { first, Observable, switchMap } from 'rxjs';
 
 import { Farm } from '../../../common/models/Farm';
 import { TxId } from '../../../common/types';
 import { selectedNetwork$ } from '../../common/network';
 
-export const lmDeposit = (lmPool: Farm): Observable<TxId> =>
+export const lmDeposit = (
+  farm: Farm,
+  createFarmModal: (
+    children?: ReactNode | ReactNode[] | string,
+  ) => ReactNode | ReactNode[] | string,
+): Observable<TxId> =>
   selectedNetwork$.pipe(
     first(),
-    switchMap((n) => n.lmDeposit(lmPool)),
+    switchMap((n) => n.lmDeposit(farm, createFarmModal)),
   );

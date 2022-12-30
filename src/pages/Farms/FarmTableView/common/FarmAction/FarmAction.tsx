@@ -1,10 +1,12 @@
-import { Button, Modal } from '@ergolabs/ui-kit';
+import { Button } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
-import React, { FC } from 'react';
+import React, { FC, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { first } from 'rxjs';
 
 import { Farm, FarmStatus } from '../../../../../common/models/Farm';
-import { FarmActionModal } from '../../../FarmActionModal/FarmActionModal';
+import { lmDeposit } from '../../../../../gateway/api/operations/lmDeposit';
+import { createFarmOperationModal } from '../../../FarmOperationModal/FarmOperationModal';
 
 interface FarmActionProps {
   farm: Farm;
@@ -18,7 +20,14 @@ export const FarmAction: FC<FarmActionProps> = ({
   const navigate = useNavigate();
 
   const navigateToAddLiquidity = () => {
-    navigate(`../liquidity/${farm.ammPool.id}`);
+    navigate(`../liquidity/${farm.ammPool.id}/add`);
+  };
+
+  const stake = (e: MouseEvent) => {
+    e.stopPropagation();
+    lmDeposit(farm, createFarmOperationModal(farm, 'stake'))
+      .pipe(first())
+      .subscribe();
   };
 
   const isWithdrawAvailable = farm.yourStakeLq.isPositive();
@@ -33,7 +42,11 @@ export const FarmAction: FC<FarmActionProps> = ({
 
   if (isAddLiquidityAvailable) {
     return (
-      <Button type="primary" style={{ width: fullWidth ? '100%' : undefined }}>
+      <Button
+        type="primary"
+        width={fullWidth ? '100%' : undefined}
+        onClick={navigateToAddLiquidity}
+      >
         <Trans>Add liquidity</Trans>
       </Button>
     );
@@ -41,7 +54,7 @@ export const FarmAction: FC<FarmActionProps> = ({
 
   if (isWithdrawAvailable && isStakeAvailable) {
     return (
-      <Button type="primary" style={{ width: fullWidth ? '100%' : undefined }}>
+      <Button type="primary" width={fullWidth ? '100%' : undefined}>
         <Trans>Manage</Trans>
       </Button>
     );
@@ -51,12 +64,8 @@ export const FarmAction: FC<FarmActionProps> = ({
     return (
       <Button
         type="primary"
-        style={{ width: fullWidth ? '100%' : undefined }}
-        onClick={() =>
-          Modal.open(({ close }) => (
-            <FarmActionModal operation="stake" pool={farm} onClose={close} />
-          ))
-        }
+        width={fullWidth ? '100%' : undefined}
+        onClick={stake}
       >
         <Trans>Stake</Trans>
       </Button>

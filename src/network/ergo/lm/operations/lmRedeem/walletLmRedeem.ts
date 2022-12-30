@@ -13,7 +13,7 @@ import { minerFee$ } from '../../../settings/minerFee';
 import { settings$ } from '../../../settings/settings';
 import { ErgoFarm } from '../../models/ErgoFarm';
 import { Stake } from '../../models/Stake';
-import { lmPoolActions } from '../../operations/common/lmPoolActions';
+import { lmPoolActions } from '../common/lmPoolActions';
 import { createLmRedeemData } from './createLmRedeemData';
 
 export const walletLmRedeem = (

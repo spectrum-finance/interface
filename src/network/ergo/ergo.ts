@@ -40,8 +40,8 @@ import {
 } from './api/wallet/wallet';
 import { initialize, initialized$ } from './initialized';
 import { farms$ } from './lm/api/farms/farms';
-import { lmRedeem } from './lm/api/lmRedeem/lmRedeem';
 import { lmDeposit } from './lm/operations/lmDeposit/lmDeposit';
+import { lmRedeem } from './lm/operations/lmRedeem/lmRedeem';
 import { deposit } from './operations/deposit/deposit';
 import { redeem } from './operations/redeem/redeem';
 import { refund } from './operations/refund/refund';
