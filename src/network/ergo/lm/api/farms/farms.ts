@@ -6,7 +6,6 @@ import {
   defaultIfEmpty,
   map,
   Observable,
-  of,
   publishReplay,
   refCount,
   startWith,

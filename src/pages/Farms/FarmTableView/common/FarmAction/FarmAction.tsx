@@ -1,6 +1,6 @@
 import { Box, Button, ButtonProps, Dropdown, Menu } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
-import React, { FC, MouseEvent } from 'react';
+import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { first } from 'rxjs';
 
