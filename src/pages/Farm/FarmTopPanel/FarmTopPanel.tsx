@@ -1,18 +1,13 @@
-import { Button, Flex, Modal, useDevice } from '@ergolabs/ui-kit';
-import { t, Trans } from '@lingui/macro';
+import { Flex, useDevice } from '@ergolabs/ui-kit';
+import { t } from '@lingui/macro';
 import React, { FC } from 'react';
 import styled from 'styled-components';
 
-import { useObservable } from '../../../common/hooks/useObservable';
 import { SetSearchParamsFn } from '../../../common/hooks/useSearchParams';
 import { SearchInput } from '../../../components/SearchInput/SearchInput';
-import { ammPools$ } from '../../../gateway/api/ammPools';
 import { FarmTabs } from '../types/FarmTabs';
-import { CreateFarmModal } from './CreateFarmModal/CreateFarmModal';
 import { FarmState } from './FarmStateFilter/FarmState';
 import { FarmStateFilter } from './FarmStateFilter/FarmStateFilter';
-import { FarmViewMode } from './FarmViewModeSwitch/FarmViewMode';
-import { FarmViewModeSwitch } from './FarmViewModeSwitch/FarmViewModeSwitch';
 import { MyFarmsFilter } from './MyFarmsFilter/MyFarmsFilter';
 
 const StyledSearchInput = styled(SearchInput)`
