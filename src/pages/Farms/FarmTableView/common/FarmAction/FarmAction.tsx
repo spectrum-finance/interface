@@ -1,4 +1,4 @@
-import { Button } from '@ergolabs/ui-kit';
+import { Box, Button, Dropdown, Menu } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React, { FC, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -6,6 +6,7 @@ import { first } from 'rxjs';
 
 import { Farm, FarmStatus } from '../../../../../common/models/Farm';
 import { lmDeposit } from '../../../../../gateway/api/operations/lmDeposit';
+import { lmRedeem } from '../../../../../gateway/api/operations/lmRedeem';
 import { createFarmOperationModal } from '../../../FarmOperationModal/FarmOperationModal';
 
 interface FarmActionProps {
@@ -23,9 +24,14 @@ export const FarmAction: FC<FarmActionProps> = ({
     navigate(`../liquidity/${farm.ammPool.id}/add`);
   };
 
-  const stake = (e: MouseEvent) => {
-    e.stopPropagation();
+  const stake = () => {
     lmDeposit(farm, createFarmOperationModal(farm, 'stake'))
+      .pipe(first())
+      .subscribe();
+  };
+
+  const withdraw = () => {
+    lmRedeem(farm, createFarmOperationModal(farm, 'withdrawal'))
       .pipe(first())
       .subscribe();
   };
@@ -54,9 +60,29 @@ export const FarmAction: FC<FarmActionProps> = ({
 
   if (isWithdrawAvailable && isStakeAvailable) {
     return (
-      <Button type="primary" width={fullWidth ? '100%' : undefined}>
-        <Trans>Manage</Trans>
-      </Button>
+      <div onClick={(event) => event.stopPropagation()}>
+        <Dropdown
+          overlay={
+            <Menu style={{ width: 160 }}>
+              <Box transparent bordered={false} padding={2} borderRadius="l">
+                <Menu.Item key={'item1'} onClick={stake}>
+                  <Trans>Stake</Trans>
+                </Menu.Item>
+
+                <Menu.Item key={'item1'} onClick={withdraw}>
+                  <Trans>Withdraw</Trans>
+                </Menu.Item>
+              </Box>
+            </Menu>
+          }
+          trigger={['click']}
+          placement="bottomCenter"
+        >
+          <Button type="primary" width={fullWidth ? '100%' : undefined}>
+            <Trans>Manage</Trans>
+          </Button>
+        </Dropdown>
+      </div>
     );
   }
 
@@ -65,7 +91,10 @@ export const FarmAction: FC<FarmActionProps> = ({
       <Button
         type="primary"
         width={fullWidth ? '100%' : undefined}
-        onClick={stake}
+        onClick={(e) => {
+          e.stopPropagation();
+          stake();
+        }}
       >
         <Trans>Stake</Trans>
       </Button>
@@ -74,7 +103,14 @@ export const FarmAction: FC<FarmActionProps> = ({
 
   if (isWithdrawAvailable) {
     return (
-      <Button type="primary" style={{ width: fullWidth ? '100%' : undefined }}>
+      <Button
+        type="primary"
+        width={fullWidth ? '100%' : undefined}
+        onClick={(e) => {
+          e.stopPropagation();
+          withdraw();
+        }}
+      >
         <Trans>Withdraw</Trans>
       </Button>
     );

@@ -1,24 +1,46 @@
-import { Modal } from '@ergolabs/ui-kit';
-import React from 'react';
-import { Observable, of } from 'rxjs';
+import React, { ReactNode } from 'react';
+import { Observable, Subject, tap } from 'rxjs';
 
+import { Currency } from '../../../../../common/models/Currency';
 import { TxId } from '../../../../../common/types';
-import { FarmWithdrawalModal } from '../../../../../pages/Farms/FarmActionModals/FarmWithdrawalModal/FarmWithdrawalModal';
+import {
+  openConfirmationModal,
+  Operation,
+} from '../../../../../components/ConfirmationModal/ConfirmationModal';
 import { ErgoFarm } from '../../models/ErgoFarm';
-import { walletLmRedeem } from './walletLmRedeem';
+import { LmRedeemModalContent } from './LmRedeemModalContent/LmRedeemModalContent';
 
-const lmRedeemWithWallet = (lmPool: ErgoFarm): Observable<TxId> => {
-  Modal.open(
-    <FarmWithdrawalModal
-      ergoLmPool={lmPool}
-      redeem={walletLmRedeem}
-      onClose={(res) => res.subscribe(console.log)}
-    />,
+export const lmRedeem = (
+  farm: ErgoFarm,
+  createFarmModal: (
+    children?: ReactNode | ReactNode[] | string,
+  ) => ReactNode | ReactNode[] | string,
+): Observable<TxId[]> => {
+  const subject = new Subject<TxId[]>();
+  openConfirmationModal(
+    (next) => {
+      return createFarmModal(
+        <LmRedeemModalContent
+          onClose={(request) =>
+            next(
+              request.pipe(
+                tap((txIds) => {
+                  subject.next(txIds);
+                  subject.complete();
+                }),
+              ),
+            )
+          }
+          farm={farm}
+        />,
+      );
+    },
+    Operation.SWAP,
+    {
+      xAsset: new Currency(0n, farm.ammPool.x.asset),
+      yAsset: new Currency(0n, farm.ammPool.y.asset),
+    },
   );
 
-  return of('');
-};
-
-export const lmRedeem = (lmPool: ErgoFarm): Observable<TxId> => {
-  return lmRedeemWithWallet(lmPool);
+  return subject.asObservable();
 };

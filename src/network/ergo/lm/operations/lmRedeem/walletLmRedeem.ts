@@ -1,14 +1,16 @@
 import {
   combineLatest,
+  filter,
   first,
   from,
   map,
   Observable,
   switchMap,
-  tap,
 } from 'rxjs';
 
+import { TxId } from '../../../../../common/types';
 import { networkContext$ } from '../../../api/networkContext/networkContext';
+import { selectedWallet$ } from '../../../api/wallet/wallet';
 import { minerFee$ } from '../../../settings/minerFee';
 import { settings$ } from '../../../settings/settings';
 import { ErgoFarm } from '../../models/ErgoFarm';
@@ -19,7 +21,7 @@ import { createLmRedeemData } from './createLmRedeemData';
 export const walletLmRedeem = (
   ergoLmPool: ErgoFarm,
   stakes: Stake[],
-): Observable<any> =>
+): Observable<TxId[]> =>
   combineLatest([networkContext$, minerFee$, settings$]).pipe(
     first(),
     map(([networkContext, minerFee, settings]) =>
@@ -40,12 +42,15 @@ export const walletLmRedeem = (
         ),
       ),
     ),
-    tap((res) => console.log(res)),
-    // switchMap((ergoTx) =>
-    //   selectedWallet$.pipe(
-    //     filter(Boolean),
-    //     first(),
-    //     switchMap((w) => w.submitTx(ergoTx)),
-    //   ),
-    // ),
+    switchMap((ergoTxs) =>
+      combineLatest(
+        ergoTxs.map((ergoTx) =>
+          selectedWallet$.pipe(
+            filter(Boolean),
+            first(),
+            switchMap((w) => w.submitTx(ergoTx)),
+          ),
+        ),
+      ),
+    ),
   );

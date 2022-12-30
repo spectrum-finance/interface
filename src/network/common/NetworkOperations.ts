@@ -14,7 +14,12 @@ import { lmRedeem } from '../ergo/lm/operations/lmRedeem/lmRedeem';
 
 export interface NetworkOperations {
   swap(data: Required<SwapFormModel>): Observable<TxId>;
-  lmRedeem(lmPool: Farm): Observable<TxId>;
+  lmRedeem(
+    farm: Farm,
+    createFarmModal: (
+      children?: ReactNode | ReactNode[] | string,
+    ) => ReactNode | ReactNode[] | string,
+  ): Observable<TxId[]>;
   lmDeposit(
     farm: Farm,
     createFarmModal: (
