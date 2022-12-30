@@ -5,6 +5,6 @@ import { SwapFormModel } from '../../pages/Swap/SwapFormModel';
 
 export interface NetworkWidgets<P extends AmmPool = AmmPool> {
   SwapInfoContent: FC<{ value: SwapFormModel<P> }>;
-  OperationsSettings: FC;
+  OperationsSettings: FC<{ hideNitro?: boolean; hideSlippage?: boolean }>;
   RefundConfirmationInfo?: FC;
 }

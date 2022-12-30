@@ -14,6 +14,7 @@ import {
   of,
   switchMap,
 } from 'rxjs';
+import styled from 'styled-components';
 
 import {
   useObservable,
@@ -31,6 +32,7 @@ import {
 import { assetBalance$ } from '../../gateway/api/assetBalance';
 import { useNetworkAsset } from '../../gateway/api/networkAsset';
 import { selectedWallet$ } from '../../gateway/api/wallets';
+import { operationsSettings$ } from '../../gateway/widgets/operationsSettings';
 import { AddLiquidity } from './AddLiquidity/AddLiquidity';
 import { CreatePool } from './CreatePool/CreatePool';
 import { CreatePoolUnsupportedAlert } from './CreatePoolUnsupportedAlert/CreatePoolUnsupportedAlert';
@@ -64,7 +66,14 @@ enum ComponentState {
   CREATE_POOL,
 }
 
+const SettingsContainer = styled.div`
+  position: absolute;
+  right: 16px;
+  top: 8px;
+`;
+
 export const AddLiquidityOrCreatePool: FC = () => {
+  const [OperationSettings] = useObservable(operationsSettings$);
   const { poolId } = useParams<{ poolId?: PoolId }>();
   const [initialized, setInitialized] = useState<boolean>(!poolId);
   const [networkAsset] = useNetworkAsset();
@@ -194,7 +203,11 @@ export const AddLiquidityOrCreatePool: FC = () => {
         withBackButton
         onBackButtonClick={handleBackButtonClick}
         backTo="/pool"
+        padding={[6, 4, 4, 4]}
       >
+        <SettingsContainer>
+          {OperationSettings && <OperationSettings hideNitro hideSlippage />}
+        </SettingsContainer>
         {initialized ? (
           <Flex col>
             <Flex.Item marginBottom={4} display="flex" col>

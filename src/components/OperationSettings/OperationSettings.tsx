@@ -7,6 +7,7 @@ import {
   Messages,
   Popover,
   SettingOutlined,
+  Tabs,
   Typography,
   useForm,
 } from '@ergolabs/ui-kit';
@@ -14,17 +15,32 @@ import { t, Trans } from '@lingui/macro';
 import React, { FC, useState } from 'react';
 import { filter, skip } from 'rxjs';
 
+import { applicationConfig } from '../../applicationConfig';
 import { MIN_NITRO } from '../../common/constants/erg';
 import { defaultSlippage, MIN_SLIPPAGE } from '../../common/constants/settings';
 import { useSubscription } from '../../common/hooks/useObservable';
+import { AssetInfo } from '../../common/models/AssetInfo';
 import { Currency } from '../../common/models/Currency';
+import { useNetworkAsset } from '../../gateway/api/networkAsset';
+import { useSelectedNetwork } from '../../gateway/common/network';
 import { InfoTooltip } from '../InfoTooltip/InfoTooltip';
 import { NitroInput } from './NitroInput/NitroInput';
 import { SlippageInput } from './SlippageInput/SlippageInput';
 
+// TODO: CHANGE FEE ASSET FOR SPF
+export const FEE_ASSET_ID =
+  '0000000000000000000000000000000000000000000000000000000000000001';
+export const feeAsset: AssetInfo = {
+  name: 'Ergo1',
+  ticker: 'ERG2',
+  icon: `${applicationConfig.networksSettings.ergo.metadataUrl}/light/${FEE_ASSET_ID}.svg`,
+  id: FEE_ASSET_ID,
+  decimals: 9,
+};
 interface SettingsModel {
   readonly slippage: number;
   readonly nitro: number;
+  readonly executionFeeAssetId: string;
 }
 
 const warningMessages: Messages<SettingsModel> = {
@@ -60,8 +76,12 @@ export interface OperationSettingsProps {
   readonly maxExFee: Currency;
   readonly setSlippage: (slippage: number) => void;
   readonly setNitro: (nitro: number) => void;
+  readonly setExecutionFeeAsset: (executionFee: AssetInfo) => void;
+  readonly executionFeeAsset: AssetInfo;
   readonly nitro: number;
   readonly slippage: number;
+  readonly hideNitro?: boolean;
+  readonly hideSlippage?: boolean;
 }
 
 export const OperationSettings: FC<OperationSettingsProps> = ({
@@ -69,9 +89,14 @@ export const OperationSettings: FC<OperationSettingsProps> = ({
   maxExFee,
   setSlippage,
   setNitro,
+  setExecutionFeeAsset,
+  executionFeeAsset,
   nitro,
   slippage,
+  hideNitro,
+  hideSlippage,
 }) => {
+  const [selectedNetwork] = useSelectedNetwork();
   const [isPopoverShown, setIsPopoverShown] = useState(false);
 
   const form = useForm<SettingsModel>({
@@ -81,6 +106,7 @@ export const OperationSettings: FC<OperationSettingsProps> = ({
       [slippageCheck, slippageTxFailCheck],
     ),
     nitro: useForm.ctrl(nitro, [nitroCheck]),
+    executionFeeAssetId: executionFeeAsset.id,
   });
 
   const handlePopoverShown = (visible: boolean) => {
@@ -114,6 +140,22 @@ export const OperationSettings: FC<OperationSettingsProps> = ({
     [slippage, nitro],
   );
 
+  useSubscription(
+    form.controls.executionFeeAssetId.valueChanges$.pipe(
+      skip(1),
+      filter((value) => !!value),
+    ),
+    (executionFeeAssetId) => {
+      const asset = [selectedNetwork.networkAsset, feeAsset].find(
+        ({ id }) => executionFeeAssetId === id,
+      );
+      if (asset) {
+        setExecutionFeeAsset(asset);
+      }
+    },
+    [executionFeeAsset],
+  );
+
   const Setting: JSX.Element = (
     <Box bordered={false} borderRadius="m" padding={4} width={360}>
       <Form
@@ -128,60 +170,95 @@ export const OperationSettings: FC<OperationSettingsProps> = ({
               <Trans>Transaction Settings</Trans>
             </Typography.Title>
           </Flex.Item>
+
+          {hideSlippage ? null : (
+            <>
+              <Flex.Item marginBottom={1}>
+                <Typography.Body strong>
+                  <Trans>Slippage tolerance</Trans>
+                </Typography.Body>
+                <InfoTooltip
+                  width={200}
+                  content={t`Your transaction will revert if the price changes unfavorably by more than this percentage`}
+                />
+              </Flex.Item>
+              <Flex.Item marginBottom={2}>
+                <Form.Item name="slippage">
+                  {({ onChange, value, state, message }) => (
+                    <SlippageInput
+                      state={state}
+                      message={message}
+                      onChange={onChange}
+                      value={value}
+                    />
+                  )}
+                </Form.Item>
+              </Flex.Item>
+            </>
+          )}
           <Flex.Item marginBottom={1}>
             <Typography.Body strong>
-              <Trans>Slippage tolerance</Trans>
+              <Trans>Payment of the execution fee in</Trans>
             </Typography.Body>
             <InfoTooltip
               width={200}
-              content={t`Your transaction will revert if the price changes unfavorably by more than this percentage`}
+              content={t`The execution fee is paid to off-chain validators who execute DEX orders`}
             />
           </Flex.Item>
           <Flex.Item marginBottom={2}>
-            <Form.Item name="slippage">
-              {({ onChange, value, state, message }) => (
-                <SlippageInput
-                  state={state}
-                  message={message}
-                  onChange={onChange}
-                  value={value}
-                />
+            <Form.Item name="executionFeeAssetId">
+              {({ onChange }) => (
+                <Tabs
+                  onChange={onChange as any}
+                  activeKey={executionFeeAsset.id}
+                >
+                  <Tabs.TabPane
+                    tab={selectedNetwork.networkAsset.ticker}
+                    key={selectedNetwork.networkAsset.id}
+                  />
+                  <Tabs.TabPane tab={feeAsset.ticker} key={feeAsset.id} />
+                </Tabs>
               )}
             </Form.Item>
           </Flex.Item>
-          <Flex.Item marginBottom={1}>
-            <Typography.Body strong>
-              <Trans>Nitro</Trans>
-            </Typography.Body>
-            <InfoTooltip
-              content={
-                <>
-                  <Trans>Max execution fee multiplier</Trans>
-                  <br />
-                  <Typography.Link
-                    target="_blank"
-                    href="https://docs.spectrum.fi/docs/protocol-overview/fees#execution-fee-formula"
-                  >
-                    <Trans>Read more</Trans>
-                  </Typography.Link>
-                </>
-              }
-            />
-          </Flex.Item>
-          <Flex.Item>
-            <Form.Item name="nitro">
-              {({ onChange, value, state, message }) => (
-                <NitroInput
-                  minExFee={minExFee}
-                  maxExFee={maxExFee}
-                  state={state}
-                  message={message}
-                  onChange={onChange}
-                  value={value}
+          {hideNitro ? null : (
+            <>
+              <Flex.Item marginBottom={1}>
+                <Typography.Body strong>
+                  <Trans>Nitro</Trans>
+                </Typography.Body>
+                <InfoTooltip
+                  content={
+                    <>
+                      <Trans>Max execution fee multiplier</Trans>
+                      <br />
+                      <Typography.Link
+                        target="_blank"
+                        href="https://docs.spectrum.fi/docs/protocol-overview/fees#execution-fee-formula"
+                      >
+                        <Trans>Read more</Trans>
+                      </Typography.Link>
+                    </>
+                  }
                 />
-              )}
-            </Form.Item>
-          </Flex.Item>
+              </Flex.Item>
+
+              <Flex.Item>
+                <Form.Item name="nitro">
+                  {({ onChange, value, state, message }) => (
+                    <NitroInput
+                      minExFee={minExFee}
+                      maxExFee={maxExFee}
+                      state={state}
+                      message={message}
+                      onChange={onChange}
+                      value={value}
+                    />
+                  )}
+                </Form.Item>
+              </Flex.Item>
+            </>
+          )}
         </Flex>
       </Form>
     </Box>

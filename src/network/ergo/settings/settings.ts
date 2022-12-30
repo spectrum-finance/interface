@@ -7,6 +7,7 @@ import {
   defaultSlippage,
 } from '../../../common/constants/settings';
 import { useObservable } from '../../../common/hooks/useObservable';
+import { AssetInfo } from '../../../common/models/AssetInfo';
 import { Address } from '../../../common/types';
 import { isCurrentAddressValid } from '../../../common/utils/isCurrenctAddressValid';
 import { localStorageManager } from '../../../common/utils/localStorageManager';
@@ -16,6 +17,7 @@ import {
   getUnusedAddresses,
   getUsedAddresses,
 } from '../api/addresses/addresses';
+import { networkAsset } from '../api/networkAsset/networkAsset';
 
 const SETTINGS_KEY = 'ergo-settings';
 
@@ -29,17 +31,18 @@ export const defaultErgoSettings: ErgoSettings = {
   minerFee: defaultMinerFee,
   nitro: MIN_NITRO,
   slippage: defaultSlippage,
+  executionFeeAsset: networkAsset,
   pk: undefined,
   address: undefined,
   ergopay: false,
 };
 
-const updateAddressSettings = (
+const getNewSelectedAddress = (
   settings: ErgoSettings,
   usedAddresses: Address[],
   unusedAddresses: Address[],
   walletAddress: Address,
-): void => {
+): string => {
   let newSelectedAddress: Address;
 
   if (
@@ -52,12 +55,7 @@ const updateAddressSettings = (
   } else {
     newSelectedAddress = walletAddress;
   }
-
-  setSettings({
-    ...settings,
-    address: newSelectedAddress,
-    pk: publicKeyFromAddress(newSelectedAddress),
-  });
+  return newSelectedAddress;
 };
 
 export const initializeSettings = (): void => {
@@ -73,12 +71,24 @@ export const initializeSettings = (): void => {
       }
       const [usedAddresses, unusedAddresses, walletAddress] = addresses;
 
-      updateAddressSettings(
-        localStorageManager.get(SETTINGS_KEY) || defaultErgoSettings,
+      const currentSettings: ErgoSettings =
+        localStorageManager.get(SETTINGS_KEY) || defaultErgoSettings;
+
+      const newSelectedAddress = getNewSelectedAddress(
+        currentSettings,
         usedAddresses,
         unusedAddresses,
         walletAddress,
       );
+
+      setSettings({
+        ...currentSettings,
+        address: newSelectedAddress,
+        pk: publicKeyFromAddress(newSelectedAddress),
+        executionFeeAsset:
+          currentSettings.executionFeeAsset ||
+          defaultErgoSettings.executionFeeAsset,
+      });
     });
 };
 
