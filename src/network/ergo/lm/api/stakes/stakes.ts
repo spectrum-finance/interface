@@ -19,6 +19,8 @@ import { availableTokensDataWithNft$ } from '../../../api/balance/common';
 
 const MAX_VLQ_TOKEN_EMISSION = BigInt(0x7fffffffffffffff) - 2n;
 
+const MAX_STAKES_PER_PAGE = 500;
+
 let stakesHistory: Stakes;
 
 const getStakesHistory = () => {
@@ -50,6 +52,22 @@ const toRawStakeWithRedeemerKey = (
   };
 };
 
+const loadStakes = (assets: string[], offset = 0): Observable<Stake[]> =>
+  from(
+    getStakesHistory().searchByKeys(assets, {
+      limit: MAX_STAKES_PER_PAGE,
+      offset,
+    }),
+  ).pipe(
+    switchMap(([stakes, count]) =>
+      count === MAX_STAKES_PER_PAGE
+        ? loadStakes(assets, offset + MAX_STAKES_PER_PAGE).pipe(
+            map((childStakes) => stakes.concat(childStakes)),
+          )
+        : of(stakes),
+    ),
+  );
+
 export const rawStakesWithRedeemerKey$: Observable<RawStakeWithRedeemerKey[]> =
   availableTokensDataWithNft$.pipe(
     switchMap((availableTokensData) => {
@@ -59,13 +77,7 @@ export const rawStakesWithRedeemerKey$: Observable<RawStakeWithRedeemerKey[]> =
         return of([]);
       }
 
-      return from(
-        getStakesHistory().searchByKeys(stakeAssets.map(stakeAssetToId), {
-          limit: 500,
-          offset: 0,
-        }),
-      ).pipe(
-        map((res) => res[0]),
+      return loadStakes(stakeAssets.map(stakeAssetToId)).pipe(
         map((stakes) =>
           stakes.map((stake) => toRawStakeWithRedeemerKey(stake, stakeAssets)),
         ),

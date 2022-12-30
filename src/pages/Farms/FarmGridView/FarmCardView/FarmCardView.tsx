@@ -106,8 +106,6 @@ export const FarmCardView: React.FC<FarmCardViewProps> = ({ item }) => {
             </InfoTooltip>
             :
           </Typography.Body>
-
-          {/*<LineProgress percent={60} height={24} width="130px" />*/}
         </Flex.Item>
 
         <Flex.Item
