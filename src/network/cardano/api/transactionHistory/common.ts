@@ -9,15 +9,7 @@ import {
 } from '@ergolabs/cardano-dex-sdk/build/main/amm/models/orderInfo';
 import { mkSubject } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/assetClass';
 import { DateTime } from 'luxon';
-import {
-  catchError,
-  combineLatest,
-  first,
-  map,
-  Observable,
-  of,
-  tap,
-} from 'rxjs';
+import { catchError, combineLatest, first, map, Observable, of } from 'rxjs';
 
 import { Currency } from '../../../../common/models/Currency';
 import {

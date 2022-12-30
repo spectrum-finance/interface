@@ -1,7 +1,16 @@
-import { combineLatest, filter, first, from, map, switchMap, tap } from 'rxjs';
+import {
+  combineLatest,
+  filter,
+  first,
+  from,
+  map,
+  Observable,
+  switchMap,
+} from 'rxjs';
 
 import { Currency } from '../../../../../common/models/Currency';
 import { Farm } from '../../../../../common/models/Farm';
+import { TxId } from '../../../../../common/types';
 import { networkContext$ } from '../../../api/networkContext/networkContext';
 import { selectedWallet$ } from '../../../api/wallet/wallet';
 import { minerFee$ } from '../../../settings/minerFee';
@@ -9,7 +18,10 @@ import { settings$ } from '../../../settings/settings';
 import { lmPoolActions } from '../common/lmPoolActions';
 import { createLmDepositData } from './createLmDepositData';
 
-export const walletLmDeposit = (lmPool: Farm, depositAmount: Currency): any => {
+export const walletLmDeposit = (
+  lmPool: Farm,
+  depositAmount: Currency,
+): Observable<TxId> =>
   combineLatest([networkContext$, minerFee$, settings$]).pipe(
     first(),
     map(([networkContext, minerFee, settings]) =>
@@ -32,4 +44,3 @@ export const walletLmDeposit = (lmPool: Farm, depositAmount: Currency): any => {
       ),
     ),
   );
-};
