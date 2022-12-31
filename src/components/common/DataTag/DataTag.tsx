@@ -86,7 +86,9 @@ const _DataTag: React.FC<DataTagProps> = ({
         width={width}
       >
         <Flex justify={justify || 'center'}>
-          <Typography.Title level={5}>{content}</Typography.Title>
+          <Typography.Body size="large" strong>
+            {content}
+          </Typography.Body>
         </Flex>
       </Box>
     );

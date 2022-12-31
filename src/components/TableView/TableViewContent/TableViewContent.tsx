@@ -62,7 +62,8 @@ const TableViewRowContainer = styled(_TableViewRowContainer)`
       &:hover,
       &:focus,
       &:active {
-        background: var(--spectrum-table-view-item-hover);
+        backdrop-filter: var(--spectrum-box-bg-filter);
+        background: var(--spectrum-box-bg-hover);
       }
     `}
 `;
@@ -126,16 +127,18 @@ export const TableViewContent: FC<TableViewContentProps<any>> = ({
                 height={itemHeight - BORDER_HEIGHT}
                 padding={padding}
               >
-                {columns.map((c, i) => (
-                  <TableViewRow.Column
-                    key={i}
-                    width={c.width}
-                    minWidth={c.minWidth}
-                    maxWidth={c.maxWidth}
-                  >
-                    {c.children ? c.children(item) : null}
-                  </TableViewRow.Column>
-                ))}
+                {columns
+                  .filter((c) => c.show)
+                  .map((c, i) => (
+                    <TableViewRow.Column
+                      key={i}
+                      width={c.width}
+                      minWidth={c.minWidth}
+                      maxWidth={c.maxWidth}
+                    >
+                      {c.children ? c.children(item) : null}
+                    </TableViewRow.Column>
+                  ))}
                 {actions?.length ? (
                   <TableViewRow.Column>
                     <Flex stretch align="center" justify="flex-end">
@@ -168,7 +171,7 @@ export const TableViewContent: FC<TableViewContentProps<any>> = ({
                   </TableViewRow.Column>
                 ) : null}
                 {expandConfig && (
-                  <TableViewRow.Column>
+                  <TableViewRow.Column width={expandConfig.columnWidth}>
                     <Flex stretch align="center" justify="flex-end">
                       <Typography.Body>
                         {expanded ? <UpOutlined /> : <DownOutlined />}

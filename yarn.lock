@@ -1631,10 +1631,10 @@
     mathjs "^9.4.4"
     ramda "0.27.1"
 
-"@ergolabs/ergo-dex-sdk@^1.9.5":
-  version "1.9.5"
-  resolved "https://registry.yarnpkg.com/@ergolabs/ergo-dex-sdk/-/ergo-dex-sdk-1.9.5.tgz#b664fc2c1ddfa3e84177437eb8679eceb1d356d6"
-  integrity sha512-4OZZvQCC6S6Mzy6ODdqJgvGh5emqqSJe2nNuNAIoyCVcQGvzNuAr1G8moOiryCPC+YRvoQKNxMOMWH516JZ8kw==
+"@ergolabs/ergo-dex-sdk@^1.9.10":
+  version "1.9.10"
+  resolved "https://registry.yarnpkg.com/@ergolabs/ergo-dex-sdk/-/ergo-dex-sdk-1.9.10.tgz#faf90e01843875c7556d193f1bab57c00ee71994"
+  integrity sha512-ZO8wgNh7wwiNLX09510KXPkH1AakYk3h9luBHRmjeDSnAdDxWY9d6Yod0JPNKue32+rUNdOrjyChNrX3ilCwvw==
   dependencies:
     "@ergolabs/ergo-sdk" "^0.5.4"
     axios "^0.21.1"
@@ -1664,10 +1664,10 @@
     mathjs "^9.4.4"
     ramda "0.27.1"
 
-"@ergolabs/ui-kit@^2.4.6":
-  version "2.4.6"
-  resolved "https://registry.yarnpkg.com/@ergolabs/ui-kit/-/ui-kit-2.4.6.tgz#2beb813cbd829d603bda336aed28be66a1173983"
-  integrity sha512-VVa2BVsUgTbYCzNvQp747oINU6g6x6aVaiEtzNsFry9FnQB+0ewwsmHUr7N+ysOOMFXpAfcPFMN8ERSpjBp50Q==
+"@ergolabs/ui-kit@^2.4.12":
+  version "2.4.12"
+  resolved "https://registry.yarnpkg.com/@ergolabs/ui-kit/-/ui-kit-2.4.12.tgz#474758aac1ae2586dca6c2b57280a995dce78e1d"
+  integrity sha512-JtLzGAhKCu1W2wYu/JpyMxEeSD2YF2Hh4BC8yERPu9TWJvYnq4PUXeJlNU69PhliXjflcmbu1sbRe4pxtF60Tg==
   dependencies:
     antd "^4.17.0-alpha.5"
     classnames "^2.3.1"

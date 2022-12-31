@@ -12,4 +12,5 @@ export interface ExpandComponentProps<T> {
 
 export interface TableExpand<T> extends Expand {
   readonly component: FC<ExpandComponentProps<T>>;
+  readonly columnWidth?: CSSProperties['width'];
 }
