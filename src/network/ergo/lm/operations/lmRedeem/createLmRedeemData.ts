@@ -28,6 +28,7 @@ export const createLmRedeemData = ({
       lmPool.assets.lq,
       stake.rawStake.lockedLq.amount,
     ),
+    executionFee: 6n * MinBoxValue,
     redeemerPk: settings.pk!,
     redeemerKey: new AssetAmount(
       stake.rawStake.redeemerKey.asset,

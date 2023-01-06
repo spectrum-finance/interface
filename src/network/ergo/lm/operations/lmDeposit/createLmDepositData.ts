@@ -27,11 +27,12 @@ export const createLmDepositData = ({
     fullEpochsRemain: pool.fullEpochsRemain,
     depositAmount: new AssetAmount(lpAmount.asset, lpAmount.amount),
     redeemerPk: settings.pk!,
+    executionFee: 6n * MinBoxValue,
   };
   const actionContext: ActionContext = {
     changeAddress: settings.address!,
     minerFee: minerFee.amount,
-    minBoxValue: 3n * MinBoxValue,
+    minBoxValue: 250000n,
     uiFee: 0n,
     network: networkContext,
   };
