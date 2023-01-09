@@ -1,6 +1,6 @@
 import { ActionContext } from '@ergolabs/ergo-dex-sdk/build/main/lqmining/models/actionContext';
 import { LqDepositConf } from '@ergolabs/ergo-dex-sdk/build/main/lqmining/models/poolOpParams';
-import { AssetAmount, MinBoxValue } from '@ergolabs/ergo-sdk';
+import { AssetAmount } from '@ergolabs/ergo-sdk';
 import { NetworkContext } from '@ergolabs/ergo-sdk/build/main/entities/networkContext';
 
 import { Currency } from '../../../../../common/models/Currency';
@@ -27,7 +27,7 @@ export const createLmDepositData = ({
     fullEpochsRemain: pool.fullEpochsRemain,
     depositAmount: new AssetAmount(lpAmount.asset, lpAmount.amount),
     redeemerPk: settings.pk!,
-    executionFee: 6n * MinBoxValue,
+    executionFee: minerFee.amount + 250000n,
   };
   const actionContext: ActionContext = {
     changeAddress: settings.address!,
