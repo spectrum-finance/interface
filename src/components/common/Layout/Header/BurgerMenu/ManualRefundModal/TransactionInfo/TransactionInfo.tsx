@@ -1,17 +1,14 @@
 import { Alert, Button, Flex } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import React, { FC } from 'react';
+import { first } from 'rxjs';
 
 import { useObservable } from '../../../../../../../common/hooks/useObservable';
 import { Operation } from '../../../../../../../common/models/Operation';
 import { addresses$ } from '../../../../../../../gateway/api/addresses';
-import {
-  openConfirmationModal,
-  Operation as ConfirmationOperation,
-} from '../../../../../../ConfirmationModal/ConfirmationModal';
+import { refund } from '../../../../../../../gateway/api/operations/refund';
 import { OperationHistoryTable } from '../../../../../../OperationHistoryModal/OperationHistoryTable/OperationHistoryTable';
 import { Section } from '../../../../../../Section/Section';
-import { RefundConfirmationModal } from '../../../../../TxHistory/RefundConfirmationModal/RefundConfirmationModal';
 
 export interface TransactionInfoProps {
   operation?: Operation;
@@ -34,19 +31,9 @@ export const TransactionInfo: FC<TransactionInfoProps> = ({
           : { xAsset: operation.x, yAsset: operation.y };
 
       close(true);
-      openConfirmationModal(
-        (next) => {
-          return (
-            <RefundConfirmationModal
-              operation={operation}
-              addresses={addresses}
-              onClose={next}
-            />
-          );
-        },
-        ConfirmationOperation.REFUND,
-        payload,
-      );
+      refund(addresses, operation, payload.xAsset, payload.yAsset)
+        .pipe(first())
+        .subscribe();
     }
   };
 
