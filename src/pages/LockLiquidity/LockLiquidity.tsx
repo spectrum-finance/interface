@@ -129,7 +129,7 @@ const LockLiquidity = (): JSX.Element => {
             </Flex.Item>
 
             <Flex.Item marginBottom={4}>
-              <PageSection title={t`Amount`} noPadding>
+              <PageSection glass title={t`Amount`} noPadding boxed={false}>
                 <Form.Item name="percent">
                   {({ value, onChange }) => (
                     <FormSlider value={value} onChange={onChange} />
@@ -140,6 +140,7 @@ const LockLiquidity = (): JSX.Element => {
 
             <Flex.Item marginBottom={4}>
               <FormPairSection
+                glass
                 title={t`Assets to lock`}
                 xAmount={formValue?.xAmount || position.availableX}
                 yAmount={formValue?.yAmount || position.availableY}
@@ -147,7 +148,7 @@ const LockLiquidity = (): JSX.Element => {
             </Flex.Item>
 
             <Flex.Item marginBottom={4}>
-              <PageSection title={t`Unlock date`}>
+              <PageSection title={t`Unlock date`} glass>
                 <Form.Item name="locktime">
                   {({ value, onChange }) => (
                     <LiquidityDatePicker

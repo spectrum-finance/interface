@@ -18,7 +18,7 @@ interface FormSliderProps {
 
 const FormSlider: React.FC<FormSliderProps> = ({ value, onChange }) => {
   return (
-    <FormSpace>
+    <FormSpace glass>
       <Flex direction="col">
         <Flex.Item>
           <Flex direction="col">
