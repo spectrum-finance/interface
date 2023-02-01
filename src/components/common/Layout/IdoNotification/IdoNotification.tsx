@@ -36,6 +36,7 @@ const _IdoNotification: FC<IdoNotificationProps> = ({ className, onClick }) => (
       </Flex.Item>
       <Flex.Item marginBottom={1}>
         <Typography.Title
+          style={{ textAlign: 'center' }}
           level={4}
         >{t`The SPF IDO Public round has begun`}</Typography.Title>
       </Flex.Item>
@@ -65,7 +66,7 @@ export const IdoNotification = styled(_IdoNotification)`
   overflow: hidden;
   padding: calc(var(--spectrum-base-gutter) * 6)
     calc(var(--spectrum-base-gutter) * 2) calc(var(--spectrum-base-gutter) * 2);
-  width: 280px;
+  width: 320px;
 `;
 
 const IDO_CLOSED = 'IDO_PUBLIC_WHITELIST_CLOSED';
