@@ -11,6 +11,7 @@ const _TableViewRowRenderer: FC<RowRendererProps & { className?: string }> = ({
   className,
 }) => (
   <Box
+    glass
     padding={padding}
     height={height}
     className={className}
