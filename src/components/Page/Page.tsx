@@ -68,6 +68,7 @@ const Widget = styled(_Widget)`
     }
   }
 
+  backdrop-filter: var(--spectrum-box-bg-filter);
   background: var(--spectrum-page-footer-bg);
   border-radius: 16px 0 0 16px;
   margin: 16px 0;

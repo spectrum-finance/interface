@@ -34,8 +34,12 @@ export const Difference: React.FC<DifferenceProps> = ({
   const diffValue = diff.toAbsoluteString();
 
   return (
-    <Typography.Title level={level} type={textType(diff.amount)}>{`${arrow}${
-      isNotZero ? diffValue : '-'
-    } (${arrow}${percent.toFixed(percent !== 0 ? 2 : 0)}%)`}</Typography.Title>
+    <Typography.Title
+      style={{ fontFamily: 'var(--spectrum-body-font-family)' }}
+      level={level}
+      type={textType(diff.amount)}
+    >{`${arrow}${isNotZero ? diffValue : '-'} (${arrow}${percent.toFixed(
+      percent !== 0 ? 2 : 0,
+    )}%)`}</Typography.Title>
   );
 };
