@@ -45,6 +45,7 @@ export const LiquidityDefaultLayout: FC<LiquidityLayoutProps> = ({
   showLockedPositions,
 }) => (
   <LiquidityTabs
+    glass
     tabBarExtraContent={{
       right: (
         <Flex>

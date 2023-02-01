@@ -179,6 +179,7 @@ const _Page: React.FC<PageProps> = ({
           <Flex col style={{ width: maxWidth ? '100%' : width ?? 0, maxWidth }}>
             <Flex.Item style={{ zIndex: 2 }} width="100%">
               <Box
+                glass
                 className={className}
                 padding={padding ? padding : valBySize([4, 4])}
                 borderRadius="xl"
