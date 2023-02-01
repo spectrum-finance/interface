@@ -37,7 +37,7 @@ const _IdoNotification: FC<IdoNotificationProps> = ({ className, onClick }) => (
       <Flex.Item marginBottom={1}>
         <Typography.Title
           level={4}
-        >{t`The SPF IDO Public round has started`}</Typography.Title>
+        >{t`The SPF IDO Public round has begun`}</Typography.Title>
       </Flex.Item>
       <Flex.Item marginBottom={4}>
         <Typography.Body align="center">
@@ -52,7 +52,7 @@ const _IdoNotification: FC<IdoNotificationProps> = ({ className, onClick }) => (
         style={{ width: '100%' }}
         onClick={onClick}
       >
-        {t`Know more`}
+        {t`Find out more`}
       </Button>
     </Flex>
   </div>
