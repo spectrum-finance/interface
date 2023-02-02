@@ -5,6 +5,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import { isDesktop } from 'react-device-detect';
 import styled from 'styled-components';
 
 import { applicationConfig } from '../../../applicationConfig';
@@ -21,6 +22,7 @@ import { CardanoUpdate } from './CardanoUpdate/CardanoUpdate';
 import { FooterNavigation } from './FooterNavigation/FooterNavigation';
 import { Glow } from './Glow/Glow';
 import { Header } from './Header/Header';
+import { openIdoNotification } from './IdoNotification/IdoNotification';
 
 const MainContainer = styled.main`
   padding: 80px 4px 148px 8px !important;
@@ -63,6 +65,10 @@ const _Layout: FC<PropsWithChildren<{ className?: string }>> = ({
 
   useEffect(() => {
     openCookiePolicy();
+
+    if (isDesktop) {
+      openIdoNotification();
+    }
   }, []);
 
   useEffect(() => {

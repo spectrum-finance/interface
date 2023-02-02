@@ -9,6 +9,7 @@ interface FormSectionProps {
   noPadding?: boolean;
   noBorder?: boolean;
   boxed?: boolean;
+  glass?: boolean;
 }
 
 const PageSection: React.FC<FormSectionProps> = ({
@@ -17,6 +18,7 @@ const PageSection: React.FC<FormSectionProps> = ({
   noPadding,
   noBorder,
   boxed,
+  glass,
 }) => {
   return (
     <Flex direction="col">
@@ -24,7 +26,7 @@ const PageSection: React.FC<FormSectionProps> = ({
         <Typography.Body strong>{title}</Typography.Body>
       </Flex.Item>
       {boxed || boxed === undefined ? (
-        <FormSpace noBorder={noBorder} noPadding={noPadding}>
+        <FormSpace noBorder={noBorder} glass={glass} noPadding={noPadding}>
           {children}
         </FormSpace>
       ) : (

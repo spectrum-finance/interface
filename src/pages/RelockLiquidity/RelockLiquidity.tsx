@@ -127,7 +127,7 @@ export const RelockLiquidity = (): JSX.Element => {
             {isLockedPositionSelected && (
               <Flex.Item marginTop={4}>
                 <Animation.Expand expanded={isLockedPositionSelected}>
-                  <PageSection title={t`Unlock date`}>
+                  <PageSection glass title={t`Unlock date`}>
                     <Form.Item name="relocktime">
                       {({ value, onChange }) => (
                         <LiquidityDatePicker
