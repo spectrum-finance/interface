@@ -11,7 +11,6 @@ import {
 import { t, Trans } from '@lingui/macro';
 import findLast from 'lodash/findLast';
 import maxBy from 'lodash/maxBy';
-import { DateTime } from 'luxon';
 import React, { useMemo, useState } from 'react';
 import {
   BehaviorSubject,
@@ -36,11 +35,6 @@ import { useSearchParams } from '../../common/hooks/useSearchParams';
 import { AmmPool } from '../../common/models/AmmPool';
 import { AssetInfo } from '../../common/models/AssetInfo';
 import { Currency } from '../../common/models/Currency';
-import {
-  END_TIMER_DATE,
-  LOCKED_TOKEN_ID,
-} from '../../components/common/ActionForm/ActionButton/ActionButton';
-import { ActionForm } from '../../components/common/ActionForm/ActionForm';
 import { AssetControlFormItem } from '../../components/common/TokenControl/AssetControl';
 import {
   OperationForm,
