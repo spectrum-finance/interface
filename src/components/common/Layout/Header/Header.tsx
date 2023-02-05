@@ -95,8 +95,9 @@ export const Header = styled(_Header)`
   transition: transform 0.3s;
 
   &.scrolledFromTop {
-    background: var(--spectrum-box-bg-control);
     border-bottom: 1px solid var(--spectrum-box-border-color);
+    background: var(--spectrum-box-bg-secondary-glass);
+    backdrop-filter: var(--spectrum-box-bg-filter);
   }
 
   ${device.m} {

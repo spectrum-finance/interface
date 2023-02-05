@@ -44,7 +44,7 @@ const _SlippageInput: FC<NitroInputProps> = ({
   return (
     <Flex col>
       <Flex.Item marginBottom={message ? 2 : 0}>
-        <Box secondary borderRadius="l">
+        <Box secondary borderRadius="l" glass>
           <Flex justify="space-between">
             {SLIPPAGE_OPTIONS.sort().map((val, index) => (
               <Flex.Item key={index} marginRight={1} style={{ width: '100%' }}>

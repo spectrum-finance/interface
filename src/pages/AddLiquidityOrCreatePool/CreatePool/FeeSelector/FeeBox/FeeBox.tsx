@@ -36,6 +36,8 @@ const _FeeBox: FC<FeeBoxProps> = ({
     padding={[0, 3]}
     onClick={onClick}
     borderRadius="l"
+    glass
+    secondary
   >
     {active && <ActiveIcon />}
     <Flex col justify="center" stretch>

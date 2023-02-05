@@ -4,14 +4,16 @@ import React from 'react';
 interface FormSpaceProps {
   children: React.ReactChild | React.ReactChild[];
   noPadding?: boolean;
+  glass?: boolean;
 }
 
 const FormSpace: React.FC<FormSpaceProps> = ({
   children,
   noPadding,
+  glass,
 }): JSX.Element => {
   return (
-    <Box secondary padding={noPadding ? 0 : 4} borderRadius="l">
+    <Box glass={glass} secondary padding={noPadding ? 0 : 4} borderRadius="l">
       {children}
     </Box>
   );

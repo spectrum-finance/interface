@@ -15,7 +15,7 @@ export const RatioBox: FC<RatioBoxProps> = ({
   mainAsset,
   oppositeAsset,
 }) => (
-  <Box padding={3} borderRadius="s" secondary>
+  <Box padding={3} borderRadius="s" secondary glass>
     <Flex col justify="center" align="center">
       <Flex.Item>
         <Typography.Body size="large" strong>

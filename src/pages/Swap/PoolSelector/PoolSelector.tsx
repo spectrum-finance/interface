@@ -54,6 +54,7 @@ const _PoolSelector: FC<PoolSelectorProps> = ({
     <>
       <Flex justify="center">
         <Box
+          glass
           secondary
           borderRadius="l"
           className={className}
