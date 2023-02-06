@@ -28,7 +28,7 @@ const _SwapInfo: FC<SwapInfoProps> = ({
   const [opened, setOpened] = useState<boolean>(false);
   const [selectedNetwork] = useSelectedNetwork();
 
-  const openedHeight = selectedNetwork.name === 'ergo' ? 166 : 202;
+  const openedHeight = selectedNetwork.name === 'ergo' ? 156 : 172;
 
   const { slippage } = useSettings();
 
@@ -56,7 +56,7 @@ const _SwapInfo: FC<SwapInfoProps> = ({
             </Flex.Item>
             <div
               className={className}
-              style={{ height: opened ? openedHeight : 22 }}
+              style={{ height: opened ? openedHeight : 74 }}
             >
               {SwapInfoContent && (
                 <SwapInfoContent value={value} opened={opened} />

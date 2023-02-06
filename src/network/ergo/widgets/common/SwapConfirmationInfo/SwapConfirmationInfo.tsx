@@ -4,6 +4,7 @@ import React, { FC } from 'react';
 
 import { Currency } from '../../../../../common/models/Currency';
 import { calculateOutputs } from '../../../../../common/utils/calculateOutputs';
+import { AssetIcon } from '../../../../../components/AssetIcon/AssetIcon';
 import { BoxInfoItem } from '../../../../../components/BoxInfoItem/BoxInfoItem';
 import {
   FeesView,
@@ -86,18 +87,22 @@ export const SwapConfirmationInfo: FC<SwapConfirmationInfoProps> = ({
           <BoxInfoItem
             title={
               <Typography.Body size="large">
-                <Trans>Estimated output:</Trans>
+                <Trans>Min output:</Trans>
               </Typography.Body>
             }
             value={
-              minOutput &&
-              maxOutput && (
-                <Typography.Body size="large" strong>
-                  {`${minOutput?.toString()} - ${maxOutput?.toString()}`}{' '}
-                  <Truncate>
-                    {maxOutput?.asset.ticker || maxOutput?.asset.name}
-                  </Truncate>
-                </Typography.Body>
+              minOutput && (
+                <Flex align="center">
+                  <Flex.Item marginRight={2}>
+                    <AssetIcon asset={minOutput.asset} size="small" />
+                  </Flex.Item>
+                  <Typography.Body size="large" strong>
+                    {minOutput?.toString()}{' '}
+                    <Truncate>
+                      {maxOutput?.asset.ticker || maxOutput?.asset.name}
+                    </Truncate>
+                  </Typography.Body>
+                </Flex>
               )
             }
           />

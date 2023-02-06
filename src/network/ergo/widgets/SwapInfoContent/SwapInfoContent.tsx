@@ -1,8 +1,9 @@
-import { Divider, Flex, Typography } from '@ergolabs/ui-kit';
+import { Box, Divider, Flex, Typography } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
 import React, { FC } from 'react';
 
 import { calculateOutputs } from '../../../../common/utils/calculateOutputs';
+import { AssetIcon } from '../../../../components/AssetIcon/AssetIcon';
 import { ConvenientAssetView } from '../../../../components/ConvenientAssetView/ConvenientAssetView';
 import { Truncate } from '../../../../components/Truncate/Truncate';
 import { SwapFormModel } from '../../../../pages/Swap/SwapFormModel';
@@ -28,7 +29,7 @@ export const SwapInfoContent: FC<SwapInfoContent> = ({ value }) => {
   const minerFee = useMinerFee();
   const nitro = useNitro();
 
-  const [minOutput, maxOutput] =
+  const [minOutput] =
     value.fromAmount?.isPositive() &&
     value.toAmount?.isPositive() &&
     !!value.pool
@@ -48,14 +49,17 @@ export const SwapInfoContent: FC<SwapInfoContent> = ({ value }) => {
       </Flex.Item>
       <Flex.Item marginBottom={1}>
         <SwapInfoItem
-          title={t`Minimum receivable`}
+          title={t`Min output`}
           value={
             minOutput ? (
-              <>
-                {minOutput?.toString()}{' '}
-                <Truncate>{minOutput?.asset.name}</Truncate> (
+              <Flex align="center">
+                <Flex.Item marginRight={1}>
+                  <AssetIcon size="extraSmall" asset={minOutput.asset} />
+                </Flex.Item>
+                {minOutput.toString()}{' '}
+                <Truncate>{minOutput.asset.name}</Truncate> (
                 <ConvenientAssetView value={minOutput} />)
-              </>
+              </Flex>
             ) : (
               '–'
             )
@@ -64,57 +68,71 @@ export const SwapInfoContent: FC<SwapInfoContent> = ({ value }) => {
       </Flex.Item>
       <Flex.Item marginBottom={2}>
         <SwapInfoItem
-          title={t`Maximum receivable`}
+          title={t`Total fees`}
           value={
-            maxOutput ? (
-              <>
-                {maxOutput?.toString()}{' '}
-                <Truncate>{maxOutput?.asset.name}</Truncate> (
-                <ConvenientAssetView value={maxOutput} />)
-              </>
-            ) : (
-              '–'
-            )
+            <>
+              <ConvenientAssetView value={minTotalFee} /> -{' '}
+              <ConvenientAssetView hidePrefix value={maxTotalFee} />
+            </>
           }
         />
       </Flex.Item>
-      <Flex.Item marginBottom={2}>
-        <Divider />
-      </Flex.Item>
-      <Flex.Item marginBottom={1}>
-        <SwapInfoItem
-          tooltip={
-            <Flex col>
-              <Flex.Item>
-                <Typography.Body tooltip>Min Execution Fee: </Typography.Body>
-                <Typography.Body strong tooltip>
-                  {minExFee.toCurrencyString()}
-                </Typography.Body>
-              </Flex.Item>
-              <Flex.Item>
-                <Typography.Body tooltip>Max Execution Fee: </Typography.Body>
-                <Typography.Body strong tooltip>
-                  {maxExFee.toCurrencyString()}
-                </Typography.Body>
-              </Flex.Item>
-            </Flex>
-          }
-          title={t`Execution Fee`}
-          value={`${minExFee.toCurrencyString()} - ${maxExFee.toCurrencyString()}`}
-          secondary
-        />
-      </Flex.Item>
-      <Flex.Item marginBottom={1}>
-        <SwapInfoItem
-          title={t`Miner fee`}
-          value={minerFee.toCurrencyString()}
-          secondary
-        />
-      </Flex.Item>
-      <SwapInfoItem
-        title={t`Total fees`}
-        value={`${minTotalFee.toCurrencyString()} - ${maxTotalFee.toCurrencyString()}`}
-      />
+
+      <Box transparent borderRadius="m" bordered padding={[1, 2]}>
+        <Flex col>
+          <Flex.Item marginBottom={2}>
+            <SwapInfoItem
+              tooltip={
+                <Flex col>
+                  <Flex.Item>
+                    <Typography.Body tooltip>
+                      Min Execution Fee:{' '}
+                    </Typography.Body>
+                    <Typography.Body strong tooltip>
+                      {minExFee.toCurrencyString()}
+                    </Typography.Body>
+                  </Flex.Item>
+                  <Flex.Item>
+                    <Typography.Body tooltip>
+                      Max Execution Fee:{' '}
+                    </Typography.Body>
+                    <Typography.Body strong tooltip>
+                      {maxExFee.toCurrencyString()}
+                    </Typography.Body>
+                  </Flex.Item>
+                </Flex>
+              }
+              title={t`Execution Fee`}
+              value={
+                <Flex align="center">
+                  <Flex.Item marginRight={1}>
+                    <AssetIcon asset={minExFee.asset} size="extraSmall" />
+                  </Flex.Item>
+                  {minExFee.toCurrencyString()} - {maxExFee.toCurrencyString()}{' '}
+                  (
+                  <>
+                    <ConvenientAssetView value={minExFee} /> -{' '}
+                    <ConvenientAssetView hidePrefix value={maxExFee} />
+                  </>
+                  )
+                </Flex>
+              }
+            />
+          </Flex.Item>
+          <SwapInfoItem
+            title={t`Miner fee`}
+            value={
+              <Flex align="center">
+                <Flex.Item marginRight={1}>
+                  <AssetIcon asset={minerFee.asset} size="extraSmall" />
+                </Flex.Item>
+                {minerFee.toCurrencyString()} (
+                <ConvenientAssetView value={minerFee} />)
+              </Flex>
+            }
+          />
+        </Flex>
+      </Box>
     </Flex>
   );
 };

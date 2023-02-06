@@ -124,6 +124,8 @@ export const ergoNetwork: Network<
 
   convertToConvenientNetworkAsset,
 
+  useSwapFees: () => [],
+
   useNetworkAsset,
   useSwapValidationFee,
   useDepositValidationFee,

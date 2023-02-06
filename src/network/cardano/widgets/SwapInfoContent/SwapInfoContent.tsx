@@ -3,6 +3,7 @@ import { t, Trans } from '@lingui/macro';
 import React, { FC, useEffect } from 'react';
 
 import { useSubject } from '../../../../common/hooks/useObservable';
+import { AssetIcon } from '../../../../components/AssetIcon/AssetIcon';
 import { Truncate } from '../../../../components/Truncate/Truncate';
 import { SwapFormModel } from '../../../../pages/Swap/SwapFormModel';
 import { SwapInfoItem } from '../../../../pages/Swap/SwapInfo/SwapInfoItem/SwapInfoItem';
@@ -44,28 +45,19 @@ export const SwapInfoContent: FC<SwapInfoContentProps> = ({ value }) => {
       </Flex.Item>
       <Flex.Item marginBottom={1}>
         <SwapInfoItem
-          title={t`Minimum receivable`}
+          title={t`Min output`}
           value={
             swapInfo?.minOutput ? (
-              <>
+              <Flex align="center">
+                <Flex.Item marginRight={1}>
+                  <AssetIcon
+                    size="extraSmall"
+                    asset={swapInfo.minOutput.asset}
+                  />
+                </Flex.Item>
                 {swapInfo.minOutput?.toString()}{' '}
                 <Truncate>{swapInfo.minOutput?.asset.ticker}</Truncate>
-              </>
-            ) : (
-              '–'
-            )
-          }
-        />
-      </Flex.Item>
-      <Flex.Item marginBottom={2}>
-        <SwapInfoItem
-          title={t`Maximum receivable`}
-          value={
-            swapInfo?.maxOutput ? (
-              <>
-                {swapInfo.maxOutput?.toString()}{' '}
-                <Truncate>{swapInfo.maxOutput?.asset.ticker}</Truncate>
-              </>
+              </Flex>
             ) : (
               '–'
             )

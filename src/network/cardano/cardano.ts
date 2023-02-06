@@ -112,6 +112,8 @@ export const cardanoNetwork: Network<
   exploreLastBlock,
   exploreToken,
 
+  useSwapFees: () => [],
+
   swap,
   deposit,
   redeem,

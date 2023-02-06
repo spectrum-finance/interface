@@ -43,6 +43,8 @@ export interface NetworkData<W extends Wallet> {
   readonly supportedFeatures$: Observable<SupportedFeatures>;
   readonly networkContext$: Observable<NetworkContext>;
 
+  readonly useSwapFees: () => Currency[];
+
   readonly useSwapValidationFee: () => Currency;
   readonly useDepositValidationFee: () => Currency;
   readonly useRedeemValidationFee: () => Currency;
