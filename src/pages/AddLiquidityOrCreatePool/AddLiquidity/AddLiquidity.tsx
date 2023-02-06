@@ -12,10 +12,7 @@ import React, { FC, useEffect, useState } from 'react';
 import { first, skip } from 'rxjs';
 
 import { panalytics } from '../../../common/analytics';
-import {
-  useObservable,
-  useSubscription,
-} from '../../../common/hooks/useObservable';
+import { useSubscription } from '../../../common/hooks/useObservable';
 import { AmmPool } from '../../../common/models/AmmPool';
 import { AssetInfo } from '../../../common/models/AssetInfo';
 import { Currency } from '../../../common/models/Currency';
@@ -31,7 +28,6 @@ import { useNetworkAsset } from '../../../gateway/api/networkAsset';
 import { deposit } from '../../../gateway/api/operations/deposit';
 import { useRefundableDeposit } from '../../../gateway/api/refundableDeposit';
 import { useSwapValidationFee } from '../../../gateway/api/validationFees';
-import { operationsSettings$ } from '../../../gateway/widgets/operationsSettings';
 import { PoolRatio } from '../../PoolOverview/PoolRatio/PoolRatio';
 import { normalizeAmountWithFee } from '../common/utils';
 import { LiquidityPercentInput } from '../LiquidityPercentInput/LiquidityPercentInput';
