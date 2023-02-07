@@ -110,6 +110,7 @@ export const PoolOverview: React.FC = () => {
           </Flex.Item>
           <Flex.Item marginBottom={4}>
             <FormPairSection
+              glass
               title={t`Total liquidity`}
               yAmount={position.pool.y}
               xAmount={position.pool.x}
@@ -125,6 +126,7 @@ export const PoolOverview: React.FC = () => {
               </PageSection>
             ) : (
               <FormPairSection
+                glass
                 title={t`Your liquidity`}
                 yAmount={position.totalY}
                 xAmount={position.totalX}
@@ -133,7 +135,7 @@ export const PoolOverview: React.FC = () => {
           </Flex.Item>
           {poolConfidenceAnalytic.lockedPercent >= MIN_RELEVANT_LOCKS_PCT && (
             <Flex.Item marginBottom={4}>
-              <PageSection title={t`Locked liquidity`} boxed={false}>
+              <PageSection glass title={t`Locked liquidity`} boxed={false}>
                 <LockLiquidityChart
                   poolConfidenceAnalytic={poolConfidenceAnalytic}
                 />
@@ -141,7 +143,7 @@ export const PoolOverview: React.FC = () => {
             </Flex.Item>
           )}
           <Flex.Item marginBottom={4}>
-            <PageSection title={t`Current price`} boxed={false}>
+            <PageSection glass title={t`Current price`} boxed={false}>
               <Flex>
                 <Flex.Item flex={1} marginRight={2}>
                   <Typography.Body>
