@@ -38,11 +38,11 @@ const _IdoNotification: FC<IdoNotificationProps> = ({ className, onClick }) => (
         <Typography.Title
           style={{ textAlign: 'center' }}
           level={4}
-        >{t`The SPF IDO Public round has begun`}</Typography.Title>
+        >{t`The contribution phase has already started!`}</Typography.Title>
       </Flex.Item>
       <Flex.Item marginBottom={4}>
         <Typography.Body align="center">
-          {t`Anyone who has Ergo address can participate`}
+          {t`SPF tokens are waiting for you.`}
         </Typography.Body>
       </Flex.Item>
       <Button
@@ -53,7 +53,7 @@ const _IdoNotification: FC<IdoNotificationProps> = ({ className, onClick }) => (
         style={{ width: '100%' }}
         onClick={onClick}
       >
-        {t`Find out more`}
+        {t`To participate`}
       </Button>
     </Flex>
   </div>
@@ -69,7 +69,7 @@ export const IdoNotification = styled(_IdoNotification)`
   width: 320px;
 `;
 
-const IDO_CLOSED = 'IDO_PUBLIC_WHITELIST_CLOSED';
+const IDO_CLOSED = 'IDO_PUBLIC_CONTRIBUTION';
 const IDO_NOTIFICATION_KEY = 'IDO_NOTIFICATION_KEY';
 
 export const openIdoNotification = (): void => {
