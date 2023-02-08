@@ -23,6 +23,7 @@ import { AssetInfo } from '../../common/models/AssetInfo';
 import { Currency } from '../../common/models/Currency';
 import { useSelectedNetwork } from '../../gateway/common/network';
 import { InfoTooltip } from '../InfoTooltip/InfoTooltip';
+import { IsErgo } from '../IsErgo/IsErgo';
 import { NitroInput } from './NitroInput/NitroInput';
 import { SlippageInput } from './SlippageInput/SlippageInput';
 
@@ -30,11 +31,11 @@ import { SlippageInput } from './SlippageInput/SlippageInput';
 export const FEE_ASSET_ID =
   '0000000000000000000000000000000000000000000000000000000000000001';
 export const feeAsset: AssetInfo = {
-  name: 'Ergo1',
-  ticker: 'ERG2',
+  name: 'spf',
+  ticker: 'SPF',
   icon: `${applicationConfig.networksSettings.ergo.metadataUrl}/light/${FEE_ASSET_ID}.svg`,
   id: FEE_ASSET_ID,
-  decimals: 9,
+  decimals: 6,
 };
 interface SettingsModel {
   readonly slippage: number;
@@ -195,31 +196,33 @@ export const OperationSettings: FC<OperationSettingsProps> = ({
               </Flex.Item>
             </>
           )}
-          <Flex.Item marginBottom={1}>
-            <Typography.Body strong>
-              <Trans>Payment of the execution fee in</Trans>
-            </Typography.Body>
-            <InfoTooltip
-              width={200}
-              content={t`The execution fee is paid to off-chain validators who execute DEX orders`}
-            />
-          </Flex.Item>
-          <Flex.Item marginBottom={2}>
-            <Form.Item name="executionFeeAssetId">
-              {({ onChange }) => (
-                <Tabs
-                  onChange={onChange as any}
-                  activeKey={executionFeeAsset.id}
-                >
-                  <Tabs.TabPane
-                    tab={selectedNetwork.networkAsset.ticker}
-                    key={selectedNetwork.networkAsset.id}
-                  />
-                  <Tabs.TabPane tab={feeAsset.ticker} key={feeAsset.id} />
-                </Tabs>
-              )}
-            </Form.Item>
-          </Flex.Item>
+          <IsErgo>
+            <Flex.Item marginBottom={1}>
+              <Typography.Body strong>
+                <Trans>Payment of the execution fee in</Trans>
+              </Typography.Body>
+              <InfoTooltip
+                width={200}
+                content={t`The execution fee is paid to off-chain validators who execute DEX orders`}
+              />
+            </Flex.Item>
+            <Flex.Item marginBottom={hideNitro ? 0 : 2}>
+              <Form.Item name="executionFeeAssetId">
+                {({ onChange }) => (
+                  <Tabs
+                    onChange={onChange as any}
+                    activeKey={executionFeeAsset.id}
+                  >
+                    <Tabs.TabPane
+                      tab={selectedNetwork.networkAsset.ticker}
+                      key={selectedNetwork.networkAsset.id}
+                    />
+                    <Tabs.TabPane tab={feeAsset.ticker} key={feeAsset.id} />
+                  </Tabs>
+                )}
+              </Form.Item>
+            </Flex.Item>
+          </IsErgo>
           {hideNitro ? null : (
             <>
               <Flex.Item marginBottom={1}>
