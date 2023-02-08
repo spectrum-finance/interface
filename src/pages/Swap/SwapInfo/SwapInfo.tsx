@@ -1,4 +1,4 @@
-import { Box, Flex } from '@ergolabs/ui-kit';
+import { Box, Flex, useDevice } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
 import React, { FC, useState } from 'react';
 import styled from 'styled-components';
@@ -25,6 +25,7 @@ const _SwapInfo: FC<SwapInfoProps> = ({
   isReversed,
   setReversed,
 }) => {
+  const { moreThan } = useDevice();
   const [opened, setOpened] = useState<boolean>(false);
   const [selectedNetwork] = useSelectedNetwork();
 
@@ -42,19 +43,37 @@ const _SwapInfo: FC<SwapInfoProps> = ({
       {!!value.pool && (
         <Box secondary padding={[2, 3]} borderRadius="l" glass>
           <Flex col>
-            <Flex.Item marginBottom={1}>
-              <RatioView
-                value={value}
-                isReversed={isReversed}
-                setReversed={setReversed}
-              />
-            </Flex.Item>
-            <Flex.Item marginBottom={1}>
-              <SwapInfoItem
-                title={t`Slippage tolerance`}
-                value={slippage + '%'}
-              />
-            </Flex.Item>
+            {moreThan('m') ? (
+              <>
+                <Flex.Item marginBottom={1}>
+                  <RatioView
+                    value={value}
+                    isReversed={isReversed}
+                    setReversed={setReversed}
+                  />
+                </Flex.Item>
+
+                <Flex.Item marginBottom={1}>
+                  <SwapInfoItem
+                    title={t`Slippage tolerance`}
+                    value={slippage + '%'}
+                  />
+                </Flex.Item>
+              </>
+            ) : (
+              <Flex justify="space-between">
+                <Flex.Item marginBottom={1}>
+                  <RatioView
+                    value={value}
+                    isReversed={isReversed}
+                    setReversed={setReversed}
+                  />
+                </Flex.Item>
+                <Flex.Item marginBottom={1}>
+                  <SwapInfoItem title={t`Slippage`} value={slippage + '%'} />
+                </Flex.Item>
+              </Flex>
+            )}
             <div
               className={className}
               style={{ height: opened ? openedHeight : height }}

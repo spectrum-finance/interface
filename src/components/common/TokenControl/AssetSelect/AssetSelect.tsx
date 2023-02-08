@@ -1,4 +1,11 @@
-import { Button, DownOutlined, Flex, Form, Modal } from '@ergolabs/ui-kit';
+import {
+  Button,
+  DownOutlined,
+  Flex,
+  Form,
+  Modal,
+  useDevice,
+} from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React from 'react';
 import { Observable } from 'rxjs';
@@ -27,7 +34,10 @@ const StyledDownOutlined = styled(DownOutlined)`
 `;
 
 const StyledButton = styled(Button)`
-  padding: 0 calc(var(--spectrum-base-gutter) * 3);
+  padding: ${({ size }) =>
+    size === 'large'
+      ? '0 calc(var(--spectrum-base-gutter) * 3)'
+      : '0 calc(var(--spectrum-base-gutter) * 2)'};
   width: 100%;
 `;
 
@@ -42,6 +52,7 @@ const AssetSelect: React.FC<TokenSelectProps> = ({
   analytics,
   loading,
 }) => {
+  const { valBySize } = useDevice();
   const handleSelectChange = (newValue: AssetInfo): void => {
     if (value?.id !== newValue?.id && onChange) {
       onChange(newValue);
@@ -73,13 +84,23 @@ const AssetSelect: React.FC<TokenSelectProps> = ({
   return (
     <>
       {loading ? (
-        <Button type="default" loading size="large">
+        <Button
+          type="default"
+          loading
+          size={valBySize('middle', 'large')}
+          style={{
+            padding:
+              valBySize('middle', 'large') === 'large'
+                ? '0 calc(var(--spectrum-base-gutter) * 3)'
+                : '0 calc(var(--spectrum-base-gutter) * 2)',
+          }}
+        >
           Loading...
         </Button>
       ) : (
         <StyledButton
           type={value ? 'ghost' : 'primary'}
-          size="large"
+          size={valBySize('middle', 'large')}
           onClick={openTokenModal}
           disabled={disabled}
         >

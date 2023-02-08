@@ -5,6 +5,7 @@ import {
   Flex,
   Form,
   Typography,
+  useDevice,
   useFormContext,
 } from '@ergolabs/ui-kit';
 import React, { FC, ReactNode } from 'react';
@@ -83,6 +84,7 @@ export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
   analytics,
   loading,
 }) => {
+  const { valBySize } = useDevice();
   const { form } = useFormContext();
   const [balance, balanceLoading] = useAssetsBalance();
   const [selectedAsset] = useObservable(
@@ -119,7 +121,7 @@ export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
   };
 
   return (
-    <Box padding={4} secondary borderRadius="l" glass>
+    <Box padding={valBySize(3, 4)} secondary borderRadius="l" glass>
       <Flex col>
         <Flex.Item align="center">
           <Flex.Item marginRight={2} flex={1}>
@@ -170,8 +172,12 @@ export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
             >
               <Flex.Item align="center" marginTop={2}>
                 <Flex.Item flex={1}>
-                  <Typography.Body secondary>
-                    <ConvenientAssetView value={value} defaultValue="~$0.00" />
+                  <Typography.Body secondary size={valBySize('small', 'base')}>
+                    <ConvenientAssetView
+                      value={value}
+                      defaultValue="~$0.00"
+                      type={'default'}
+                    />
                   </Typography.Body>
                 </Flex.Item>
                 {selectedAsset !== undefined &&
