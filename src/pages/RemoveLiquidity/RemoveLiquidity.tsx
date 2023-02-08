@@ -99,7 +99,7 @@ export const RemoveLiquidity: FC = () => {
             </Flex.Item>
 
             <Flex.Item marginBottom={4}>
-              <PageSection title={t`Amount`} noPadding>
+              <PageSection boxed={false} title={t`Amount`} noPadding>
                 <Form.Item name="percent">
                   {({ value, onChange }) => (
                     <FormSlider value={value} onChange={onChange} />
@@ -110,6 +110,7 @@ export const RemoveLiquidity: FC = () => {
 
             <Flex.Item marginBottom={4}>
               <FormPairSection
+                glass
                 title={t`Assets to remove`}
                 xAmount={formValue?.xAmount || position.availableX}
                 yAmount={formValue?.yAmount || position.availableY}

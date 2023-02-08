@@ -94,6 +94,7 @@ export const WithdrawalLiquidity = (): JSX.Element => {
               <Flex>
                 <Flex.Item flex={1} marginRight={2}>
                   <FormPairSection
+                    glass
                     title={t`Total in locker`}
                     xAmount={position.lockedX}
                     yAmount={position.lockedY}
@@ -101,6 +102,7 @@ export const WithdrawalLiquidity = (): JSX.Element => {
                 </Flex.Item>
                 <Flex.Item flex={1}>
                   <FormPairSection
+                    glass
                     title={t`Withdrawable`}
                     xAmount={position.withdrawableLockedX}
                     yAmount={position.withdrawableLockedY}

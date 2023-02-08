@@ -40,7 +40,7 @@ const _SwapInfo: FC<SwapInfoProps> = ({
   return (
     <>
       {!!value.pool && (
-        <Box secondary padding={[2, 3]} borderRadius="l">
+        <Box secondary padding={[2, 3]} borderRadius="l" glass>
           <Flex col>
             {moreThan('m') ? (
               <>
