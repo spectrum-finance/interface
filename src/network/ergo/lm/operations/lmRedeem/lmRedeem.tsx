@@ -15,8 +15,8 @@ export const lmRedeem = (
   createFarmModal: (
     children?: ReactNode | ReactNode[] | string,
   ) => ReactNode | ReactNode[] | string,
-): Observable<TxId[]> => {
-  const subject = new Subject<TxId[]>();
+): Observable<TxId> => {
+  const subject = new Subject<TxId>();
   openConfirmationModal(
     (next) => {
       return createFarmModal(
@@ -24,8 +24,8 @@ export const lmRedeem = (
           onClose={(request) =>
             next(
               request.pipe(
-                tap((txIds) => {
-                  subject.next(txIds);
+                tap((txId) => {
+                  subject.next(txId);
                   subject.complete();
                 }),
               ),

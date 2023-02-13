@@ -119,8 +119,8 @@ export const cardanoNetwork: Network<
   refund(): Observable<TxId> {
     return of('');
   },
-  lmRedeem(lmPool: Farm): Observable<TxId[]> {
-    return of([]);
+  lmRedeem(lmPool: Farm): Observable<TxId> {
+    return of('');
   },
   lmDeposit(lmPool: Farm): Observable<TxId> {
     return of('');

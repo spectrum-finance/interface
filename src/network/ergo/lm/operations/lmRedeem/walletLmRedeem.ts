@@ -1,3 +1,5 @@
+import { ActionContext } from '@ergolabs/ergo-dex-sdk/build/main/lqmining/models/actionContext';
+import { LqRedeemConf } from '@ergolabs/ergo-dex-sdk/build/main/lqmining/models/poolOpParams';
 import {
   combineLatest,
   filter,
@@ -6,6 +8,7 @@ import {
   map,
   Observable,
   switchMap,
+  tap,
 } from 'rxjs';
 
 import { TxId } from '../../../../../common/types';
@@ -20,37 +23,29 @@ import { createLmRedeemData } from './createLmRedeemData';
 
 export const walletLmRedeem = (
   ergoLmPool: ErgoFarm,
-  stakes: Stake[],
-): Observable<TxId[]> =>
+  stake: Stake,
+): Observable<TxId> =>
   combineLatest([networkContext$, minerFee$, settings$]).pipe(
     first(),
     map(([networkContext, minerFee, settings]) =>
-      stakes.map((stake) =>
-        createLmRedeemData({
-          lmPool: ergoLmPool,
-          networkContext: networkContext as any,
-          minerFee,
-          settings,
-          stake,
-        }),
+      createLmRedeemData({
+        lmPool: ergoLmPool,
+        networkContext: networkContext as any,
+        minerFee,
+        settings,
+        stake,
+      }),
+    ),
+    switchMap(([lqRedeemConf, actionContext]) =>
+      from(lmPoolActions.redeem(lqRedeemConf, actionContext)),
+    ),
+    tap(console.log, console.log),
+    switchMap((ergoTx) =>
+      selectedWallet$.pipe(
+        filter(Boolean),
+        first(),
+        switchMap((w) => w.submitTx(ergoTx)),
       ),
     ),
-    switchMap((txsData) =>
-      combineLatest(
-        txsData.map(([lqRedeemConf, actionContext]) =>
-          from(lmPoolActions.redeem(lqRedeemConf, actionContext)),
-        ),
-      ),
-    ),
-    switchMap((ergoTxs) =>
-      combineLatest(
-        ergoTxs.map((ergoTx) =>
-          selectedWallet$.pipe(
-            filter(Boolean),
-            first(),
-            switchMap((w) => w.submitTx(ergoTx)),
-          ),
-        ),
-      ),
-    ),
+    tap(console.log, console.log),
   );

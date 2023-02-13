@@ -19,7 +19,7 @@ export interface NetworkOperations {
     createFarmModal: (
       children?: ReactNode | ReactNode[] | string,
     ) => ReactNode | ReactNode[] | string,
-  ): Observable<TxId[]>;
+  ): Observable<TxId>;
   lmDeposit(
     farm: Farm,
     createFarmModal: (

@@ -10,7 +10,7 @@ export const lmRedeem = (
   createFarmModal: (
     children?: ReactNode | ReactNode[] | string,
   ) => ReactNode | ReactNode[] | string,
-): Observable<TxId[]> =>
+): Observable<TxId> =>
   selectedNetwork$.pipe(
     first(),
     switchMap((n) => n.lmRedeem(farm, createFarmModal)),
