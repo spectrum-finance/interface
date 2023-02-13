@@ -3,6 +3,7 @@ import {
   SwapExtremums,
   swapVars,
 } from '@ergolabs/ergo-dex-sdk/build/main/amm/math/swap';
+import { NativeExFeeType } from '@ergolabs/ergo-dex-sdk/build/main/types';
 import { AssetAmount, ErgoBox, TransactionContext } from '@ergolabs/ergo-sdk';
 import { NetworkContext } from '@ergolabs/ergo-sdk/build/main/entities/networkContext';
 import { first, map, zip } from 'rxjs';
@@ -60,7 +61,7 @@ const toSwapOperationArgs = ({
   minTotalFee,
   maxTotalFee,
 }: SwapOperationCandidateParams): [
-  SwapParams,
+  SwapParams<NativeExFeeType>,
   TransactionContext,
   AdditionalData,
 ] => {
@@ -97,7 +98,7 @@ const toSwapOperationArgs = ({
     },
   );
 
-  const swapParams: SwapParams = {
+  const swapParams: SwapParams<NativeExFeeType> = {
     poolId: pool.pool.id,
     pk: settings.pk,
     baseInput,
@@ -106,6 +107,7 @@ const toSwapOperationArgs = ({
     uiFee: UI_FEE_BIGINT,
     quoteAsset: to.asset.id,
     poolFeeNum: pool.pool.poolFeeNum,
+    maxExFee: extremum.maxExFee,
   };
   const txContext: TransactionContext = getTxContext(
     inputs,
