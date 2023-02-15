@@ -1,4 +1,3 @@
-import * as amplitude from '@amplitude/analytics-browser';
 import Cookies from 'js-cookie';
 import { DateTime } from 'luxon';
 import posthog from 'posthog-js';
@@ -78,16 +77,16 @@ export const panalyticsInitializer: Initializer = () => {
     });
   }
 
-  if (process.env.REACT_APP_AMPLITUDE_API_KEY) {
-    amplitude
-      .init(process.env.REACT_APP_AMPLITUDE_API_KEY, undefined, {})
-      .promise.then(() => {
-        systemsInitializedCount += 1;
-
-        if (systemsInitializedCount === ANALYTICS_SYSTEMS_QUANTITY) {
-          sendInitialEvent();
-        }
-      });
-  }
+  // if (process.env.REACT_APP_AMPLITUDE_API_KEY) {
+  //   amplitude
+  //     .init(process.env.REACT_APP_AMPLITUDE_API_KEY, undefined, {})
+  //     .promise.then(() => {
+  //       systemsInitializedCount += 1;
+  //
+  //       if (systemsInitializedCount === ANALYTICS_SYSTEMS_QUANTITY) {
+  //         sendInitialEvent();
+  //       }
+  //     });
+  // }
   return of(true);
 };
