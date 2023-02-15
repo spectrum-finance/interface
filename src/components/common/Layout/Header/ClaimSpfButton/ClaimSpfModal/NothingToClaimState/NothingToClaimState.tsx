@@ -23,7 +23,9 @@ export const NothingToClaimState: FC<NothingToClaimStateProps> = ({
 
   const handleAddLiquidityButton = () => {
     if (!matchLiquidityPage) {
-      navigate(`${network.name}/liquidity`);
+      navigate(
+        `${network.name}/liquidity/f40afb6f877c40a30c8637dd5362227285738174151ce66d6684bc1b727ab6cf`,
+      );
     }
     close();
   };
@@ -48,7 +50,7 @@ export const NothingToClaimState: FC<NothingToClaimStateProps> = ({
         </Typography.Body>
       </Flex.Item>
       <Flex.Item marginBottom={6}>
-        <Button type="link" href="https://spectrum.fi/spf" target="_blank">
+        <Button type="link" href="https://spectrum.fi/token" target="_blank">
           <Trans>Read more about SPF</Trans>
         </Button>
       </Flex.Item>
