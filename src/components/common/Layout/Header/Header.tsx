@@ -1,6 +1,7 @@
 import { Flex, useDevice } from '@ergolabs/ui-kit';
 import cn from 'classnames';
 import React from 'react';
+import { isDesktop } from 'react-device-detect';
 import styled from 'styled-components';
 
 import { device } from '../../../../common/constants/size';
@@ -14,6 +15,7 @@ import { CardanoMaintenance } from '../CardanoMaintenance/CardanoMaintenance';
 import { OperationsHistory } from '../OperationsHistory/OperationsHistory';
 import { Analytics } from './Analytics/Analytics';
 import { BurgerMenu } from './BurgerMenu/BurgerMenu';
+import { ClaimSpfButton } from './ClaimSpfButton/ClaimSpfButton';
 import { ConnectWallet } from './ConnectWallet/ConnectWallet';
 import { GetTestTokensButton } from './GetTestTokensButton/GetTestTokensButton';
 import { Navigation } from './Navigation/Navigation';
@@ -76,6 +78,11 @@ export const _Header: React.FC<HeaderProps> = ({
           )}
         </Flex>
         <Flex align="center" style={{ gap: '8px', marginLeft: 'auto' }}>
+          {!s && isDesktop && (
+            <IsErgo>
+              <ClaimSpfButton />
+            </IsErgo>
+          )}
           <NetworkDropdown />
           <ConnectWallet />
           {!s && walletState === WalletState.CONNECTED && <OperationsHistory />}

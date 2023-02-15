@@ -22,7 +22,6 @@ import { CardanoUpdate } from './CardanoUpdate/CardanoUpdate';
 import { FooterNavigation } from './FooterNavigation/FooterNavigation';
 import { Glow } from './Glow/Glow';
 import { Header } from './Header/Header';
-import { openIdoNotification } from './IdoNotification/IdoNotification';
 
 const MainContainer = styled.main`
   padding: 80px 4px 148px 4px !important;
@@ -66,9 +65,9 @@ const _Layout: FC<PropsWithChildren<{ className?: string }>> = ({
   useEffect(() => {
     openCookiePolicy();
 
-    if (isDesktop) {
-      openIdoNotification();
-    }
+    // if (isDesktop) {
+    //   openIdoNotification();
+    // }
   }, []);
 
   useEffect(() => {

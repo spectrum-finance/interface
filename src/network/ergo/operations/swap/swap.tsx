@@ -2,6 +2,7 @@ import { Modal } from '@ergolabs/ui-kit';
 import React from 'react';
 import { first, Observable, Subject, switchMap, tap } from 'rxjs';
 
+import { panalytics } from '../../../../common/analytics';
 import { TxId } from '../../../../common/types';
 import {
   openConfirmationModal,
@@ -17,7 +18,6 @@ export const swapWithWallet = (
   data: Required<SwapFormModel>,
 ): Observable<TxId> => {
   const subject = new Subject<TxId>();
-
   openConfirmationModal(
     (next) => {
       return (
@@ -40,6 +40,9 @@ export const swapWithWallet = (
     {
       xAsset: data.fromAmount!,
       yAsset: data.toAmount!,
+    },
+    () => {
+      panalytics.closeConfirmSwap(data);
     },
   );
 

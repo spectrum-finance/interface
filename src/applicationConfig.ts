@@ -15,6 +15,7 @@ interface NetworkConfig {
   readonly analyticUrl?: string;
   readonly metadataUrl: string;
   readonly ergopayUrl?: string;
+  readonly spfFaucet?: string;
   readonly faucet?: string;
   readonly lowBalanceGuide?: string;
 }
@@ -75,6 +76,7 @@ export const applicationConfig: ApplicationConfig = {
     ergo: {
       metadataUrl:
         'https://raw.githubusercontent.com/ergolabs/ergo-dex-asset-icons/master',
+      spfFaucet: 'https://airdrop.spectrum.fi/v1/faucet/',
       networkUrl: 'https://api.ergoplatform.com',
       explorerUrl: 'https://explorer.ergoplatform.com',
       analyticUrl: 'https://api.spectrum.fi/v1/',

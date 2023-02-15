@@ -1,5 +1,7 @@
-import posthog from 'posthog-js';
-
 import { ProductAnalytics } from './Analytics';
+import { PostHogAnalyticSystem } from './system/PostHogAnalyticSystem';
 
-export const panalytics = new ProductAnalytics(posthog);
+export const panalytics = new ProductAnalytics(
+  new PostHogAnalyticSystem(),
+  // new AmplitudeAnalyticSystem(),
+);

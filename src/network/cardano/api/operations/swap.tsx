@@ -13,6 +13,7 @@ import { RustModule } from '@ergolabs/cardano-dex-sdk/build/main/utils/rustLoade
 import React from 'react';
 import { first, map, Observable, Subject, switchMap, tap, zip } from 'rxjs';
 
+import { panalytics } from '../../../../common/analytics';
 import { UI_FEE_BIGINT } from '../../../../common/constants/erg';
 import { Currency } from '../../../../common/models/Currency';
 import { Nitro, Percent, TxId } from '../../../../common/types';
@@ -156,6 +157,9 @@ export const swap = (data: Required<SwapFormModel>): Observable<TxId> => {
     {
       xAsset: data.fromAmount!,
       yAsset: data.toAmount!,
+    },
+    () => {
+      panalytics.closeConfirmSwap(data);
     },
   );
 

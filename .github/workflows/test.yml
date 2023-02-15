@@ -2,7 +2,7 @@ name: Run on test
 on:
   push:
     branches:
-      - "master"
+      - 'master'
 
 jobs:
   build:
@@ -27,6 +27,7 @@ jobs:
       - name: Generate deployable artifacts
         env:
           REACT_APP_POSTHOG_API_KEY: ${{ secrets.POSTHOG_PROD_API_KEY }}
+          REACT_APP_AMPLITUDE_API_KEY: ${{ secrets.AMPLITUDE_PROD_API_KEY }}
         run: |
           yarn
           yarn run prei18n:extract
@@ -59,4 +60,3 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           privateKey: ${{ secrets.KEY }}
-
