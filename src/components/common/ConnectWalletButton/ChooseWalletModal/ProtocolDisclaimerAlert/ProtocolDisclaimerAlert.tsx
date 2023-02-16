@@ -3,7 +3,7 @@ import { Trans } from '@lingui/macro';
 import React from 'react';
 import styled from 'styled-components';
 
-const ProtocolDisclaimer = styled(Box)`
+const TermsTag = styled(Box)`
   .dark & {
     background: #111d2c;
     border-color: #15395b;
@@ -30,28 +30,24 @@ const ProtocolDisclaimer = styled(Box)`
 
 export const ProtocolDisclaimerAlert: React.FC = () => {
   return (
-    <ProtocolDisclaimer padding={[2, 4]} borderRadius="l">
+    <TermsTag padding={[2, 4]} borderRadius="l">
       <Typography.Body size="small">
         <Trans>
           By connecting a wallet, you agree to the{' '}
-          <a
-            href="https://spectrum.fi/cookie-policy"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Cookie policy
+          <a href="https://spectrum.fi/terms" target="_blank" rel="noreferrer">
+            Terms of Service
           </a>{' '}
-          and acknowledge that you have read and understand the{' '}
+          and{' '}
           <a
-            href="https://spectrum.fi/protocol-disclaimer"
+            href="https://spectrum.fi/privacy"
             target="_blank"
             rel="noreferrer"
           >
-            Protocol disclaimer
+            Privacy Policy
           </a>
           .
         </Trans>
       </Typography.Body>
-    </ProtocolDisclaimer>
+    </TermsTag>
   );
 };
