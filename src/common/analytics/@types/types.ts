@@ -1,16 +1,30 @@
-export type $Set<T> = {
-  $set: T;
+import * as Amplitude from '@amplitude/analytics-browser';
+import { PostHog } from 'posthog-js';
+
+export type ProductAnalyticsConfig = {
+  apiKey: string;
+  analyticsSystem: ProductAnalyticsSystem;
 };
 
-export type $SetOnce<T> = {
-  $set_once: T;
+export interface ProductAnalyticsSystem {
+  name: string;
+  system: PostHog | typeof Amplitude;
+  apiKey?: string;
+  apiUrl?: string;
+  init(userId?: string): Promise<void>;
+  captureEvent(
+    name: string,
+    props?: Record<string, unknown>,
+    userProps?: userProperties,
+  ): void;
+}
+
+export type userProperties = {
+  set?: Record<string, any>;
+  setOnce?: Record<string, any>;
 };
 
-export type PAnalytics = {
-  location?: AnalyticsElementLocation;
-  operation?: AnalyticsAppOperations;
-  tokenAssignment?: AnalyticsTokenAssignment;
-};
+export type AnalyticsWalletName = string;
 
 export type AnalyticsTheme = 'light' | 'dark' | 'system';
 
@@ -89,4 +103,10 @@ export type AnalyticsRedeemData = {
   y_usd?: number;
   lp_amount?: number;
   liquidity_usd?: number;
+};
+
+export type PAnalytics = {
+  location?: AnalyticsElementLocation;
+  operation?: AnalyticsAppOperations;
+  tokenAssignment?: AnalyticsTokenAssignment;
 };

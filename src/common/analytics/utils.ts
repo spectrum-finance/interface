@@ -1,3 +1,7 @@
+import { DateTime } from 'luxon';
+
+import { version } from '../../../package.json';
+import { Settings } from '../../context';
 import { Network } from '../../network/common/Network';
 import { AddLiquidityFormModel } from '../../pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityFormModel';
 import { RemoveFormModel } from '../../pages/RemoveLiquidity/RemoveLiquidity';
@@ -28,16 +32,23 @@ const getLiquidityUsd = (
   Number(network.convertToConvenientNetworkAsset.snapshot(x).toAmount()) +
   Number(network.convertToConvenientNetworkAsset.snapshot(y).toAmount());
 
-export const debugEvent = (name: string, props: any): void => {
-  const debugpa = localStorage.getItem('debugpa');
+export const isProductAnalyticsDebugMode = () =>
+  localStorage.getItem('debugpa') === 'true';
 
-  if (debugpa == 'true') {
+export const debugEvent = (
+  name: string,
+  props?: any,
+  userProps?: any,
+): void => {
+  if (isProductAnalyticsDebugMode()) {
     // eslint-disable-next-line no-console
     console.log('--Event Start--');
     // eslint-disable-next-line no-console
     console.log(`PA_EVENT_NAME:`, name);
     // eslint-disable-next-line no-console
     props && console.log(`PA_EVENT_PROPS:`, props);
+    // eslint-disable-next-line no-console
+    userProps && console.log(`PA_USER_PROPS:`, userProps);
     // eslint-disable-next-line no-console
     console.log('--Event End--');
     // eslint-disable-next-line no-console
@@ -153,3 +164,35 @@ export const convertRedeemFormModelToAnalytics = (
     ...getPoolAnalyticsData(pool),
   };
 };
+
+export const throwProductAnalyticsError = (
+  system: string,
+  message: string,
+): void => {
+  throw new Error(
+    `Product Analytics Error: ${message}. Analytics system: ${system}`,
+  );
+};
+
+export const mapToFirstLaunchData = ([selectedNetwork, applicationSettings]: [
+  Network<any, any>,
+  Settings,
+]) => ({
+  active_network: selectedNetwork.name,
+  active_locale: applicationSettings.lang,
+  active_theme: applicationSettings.theme,
+  cohort_date: Number(DateTime.now().toFormat('yyyyMMdd')),
+  cohort_day: Number(DateTime.now().ordinal),
+  cohort_month: Number(DateTime.now().month),
+  cohort_year: Number(DateTime.now().year),
+  cohort_version: version,
+});
+
+export const mapToSessionStartData = ([selectedNetwork, applicationSettings]: [
+  Network<any, any>,
+  Settings,
+]) => ({
+  active_network: selectedNetwork.name,
+  active_locale: applicationSettings.lang,
+  active_theme: applicationSettings.theme,
+});

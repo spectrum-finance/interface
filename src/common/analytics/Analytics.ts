@@ -1,6 +1,9 @@
+import Cookies from 'js-cookie';
 import posthog, { PostHog } from 'posthog-js';
-import { first } from 'rxjs';
+import { first, map, of, zip } from 'rxjs';
 
+import { applicationConfig } from '../../applicationConfig';
+import { applicationSettings$ } from '../../context';
 import { selectedNetwork$ } from '../../gateway/common/network';
 import { Network, SupportedNetworks } from '../../network/common/Network';
 import { ergoNetwork } from '../../network/ergo/ergo';
@@ -8,6 +11,7 @@ import { AddLiquidityFormModel } from '../../pages/AddLiquidityOrCreatePool/AddL
 import { RemoveFormModel } from '../../pages/RemoveLiquidity/RemoveLiquidity';
 import { SwapFormModel } from '../../pages/Swap/SwapFormModel';
 import { SupportedLocale } from '../constants/locales';
+import { Initializer } from '../initializers/core';
 import { AmmPool } from '../models/AmmPool';
 import {
   AnalyticsAppOperations,
@@ -15,11 +19,12 @@ import {
   AnalyticsTheme,
   AnalyticsToken,
   AnalyticsTokenAssignment,
+  AnalyticsWalletName,
+  ProductAnalyticsSystem,
+  userProperties,
 } from './@types/types';
-import { userProperties } from './@types/userProperties';
-import { AnalyticsWalletName } from './@types/wallet';
-import { ANALYTICS_EVENTS } from './events';
-import { AnalyticSystem } from './system/AnalyticSystem';
+import { ANALYTICS_EVENTS } from './constants/events';
+import { Posthog } from './systems/Posthog';
 import {
   constructEventName,
   convertDepositFormModelToAnalytics,
@@ -27,19 +32,27 @@ import {
   convertSwapFormModelToAnalytics,
   debugEvent,
   getPoolAnalyticsData,
+  isProductAnalyticsDebugMode,
+  mapToFirstLaunchData,
+  mapToSessionStartData,
 } from './utils';
 
 export class ProductAnalytics {
-  analyticsSystems: AnalyticSystem[];
+  analyticsSystems: ProductAnalyticsSystem[];
 
-  constructor(...analyticsSystems: Array<AnalyticSystem | undefined>) {
+  // We use Posthog as a root system beocuse of its Distinct ID generation algorithm
+  rootSys = new Posthog();
+
+  constructor(...analyticsSystems: Array<ProductAnalyticsSystem | undefined>) {
     this.analyticsSystems = analyticsSystems.filter(
       (system) => !!system,
-    ) as AnalyticSystem[];
+    ) as ProductAnalyticsSystem[];
   }
 
   private event(name: string, props?: any, userProps?: userProperties): void {
-    debugEvent(name, props);
+    debugEvent(name, props, userProps);
+
+    this.rootSys.captureEvent(name, props, userProps);
     this.analyticsSystems.forEach((system) => {
       system.captureEvent(name, props, userProps);
     });
@@ -49,61 +62,100 @@ export class ProductAnalytics {
     selectedNetwork$.pipe(first()).subscribe(cb);
   }
 
-  public firstLaunch({
-    active_network,
-    active_locale,
-    active_theme,
-    cohort_date,
-    cohort_month,
-    cohort_day,
-    cohort_version,
-    cohort_year,
-  }: {
-    active_network: SupportedNetworks;
-    active_locale: string;
-    active_theme: 'light' | 'dark' | 'system';
-    cohort_date: string;
-    cohort_day: number;
-    cohort_month: number;
-    cohort_year: number;
-    cohort_version: string;
-  }): void {
-    this.event(
-      ANALYTICS_EVENTS.FIRST_LAUNCH,
-      {},
-      {
-        set: {
+  public init: Initializer = () => {
+    const isProduction = process.env.NODE_ENV === 'production';
+
+    if (isProduction || (!isProduction && isProductAnalyticsDebugMode())) {
+      new Promise((resolve) => {
+        // **** Init root analytics system
+        resolve(this.rootSys.init());
+      })
+        .then(() => {
+          // **** Init all others analytics systems with root generated distinct ID
+          return Promise.all(
+            this.analyticsSystems.map((sys) =>
+              sys.init(this.rootSys.system.get_distinct_id()),
+            ),
+          );
+        })
+        .then(() => {
+          // **** Launch starting events
+          /* TODO: Add the is_new_user() check instead of custom cookies.
+              So that even if a user cleans cookies we don't trigger the "First launch" event
+              https://linear.app/spectrum-labs/issue/DEV-659/add-the-is-new-user-check-instead-of-custom-cookies
+          */
+          if (Cookies.get('pa-inited') !== 'true') {
+            Cookies.set('pa-inited', 'true', {
+              domain: applicationConfig.cookieDomain,
+            });
+            this.firstLaunch();
+          } else {
+            this.sessionStart();
+          }
+        });
+    } else {
+      // eslint-disable-next-line no-console
+      console.log(
+        '--PRODUCT ANALYTICS DOES NOT WORK LOCALLY-- \n paste localStorage.setItem("debugpa","true") to enable it.',
+      );
+    }
+
+    return of(true);
+  };
+
+  public firstLaunch(): void {
+    zip([selectedNetwork$, applicationSettings$])
+      .pipe(first(), map(mapToFirstLaunchData))
+      .subscribe(
+        ({
           active_network,
           active_locale,
           active_theme,
-        },
-        setOnce: {
           cohort_date,
           cohort_day,
           cohort_month,
           cohort_year,
           cohort_version,
+        }) => {
+          this.event(ANALYTICS_EVENTS.FIRST_LAUNCH, undefined, {
+            set: {
+              active_network,
+              active_locale,
+              active_theme,
+            },
+            setOnce: {
+              cohort_date,
+              cohort_day,
+              cohort_month,
+              cohort_year,
+              cohort_version,
+            },
+          });
         },
-      },
-    );
+      );
   }
 
-  public sessionStart(userProps: {
-    active_network: SupportedNetworks;
-    active_locale: string;
-    active_theme: 'light' | 'dark' | 'system';
-  }): void {
-    this.event(
-      ANALYTICS_EVENTS.SESSION_START,
-      {},
-      {
-        set: userProps,
-      },
-    );
+  public sessionStart(): void {
+    zip([selectedNetwork$, applicationSettings$])
+      .pipe(first(), map(mapToSessionStartData))
+      .subscribe(({ active_network, active_locale, active_theme }) => {
+        this.event(ANALYTICS_EVENTS.SESSION_START, undefined, {
+          set: {
+            active_network,
+            active_locale,
+            active_theme,
+          },
+        });
+      });
   }
 
+  /*******
+   ******* Events *******
+   *********/
+
+  // --
   // Onboarding
-
+  // --
   public acceptCookies(): void {
     this.event(ANALYTICS_EVENTS.ACCEPT_COOKIES);
   }
@@ -111,10 +163,10 @@ export class ProductAnalytics {
   public rejectCookies(): void {
     this.event(ANALYTICS_EVENTS.REJECT_COOKIES);
   }
+
   // --
   // Network
   // --
-
   public changeNetwork(network: SupportedNetworks): void {
     this.event(ANALYTICS_EVENTS.CHANGE_NETWORK, { active_network: network });
   }
@@ -449,18 +501,9 @@ export class ProductAnalytics {
   // --
   // Social
   // --
-
   public clickSocial(name: string, location: AnalyticsElementLocation): void {
     const eventName = `Click ${name.toUpperCase()}`;
     this.event(eventName, { location });
-  }
-
-  public catalystCta(): void {
-    this.event(ANALYTICS_EVENTS.CATALYST_CTA);
-  }
-
-  public catalystClose(): void {
-    this.event(ANALYTICS_EVENTS.CATALYST_CLOSE);
   }
 
   public liquidityAdd(): void {

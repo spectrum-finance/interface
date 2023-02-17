@@ -40,6 +40,7 @@ const HeaderWrapper = styled.div`
 
   @media (max-width: 720px) {
     grid-template-columns: 36px 1fr;
+    padding: 1.25rem 1rem 0.25rem;
   }
 `;
 

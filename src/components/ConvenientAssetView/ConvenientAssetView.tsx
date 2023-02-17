@@ -12,11 +12,13 @@ export interface ConvenientAssetViewProps {
   readonly value: Currency | Currency[] | undefined;
   readonly prefix?: string;
   readonly defaultValue?: string;
+  readonly type?: 'abbr' | 'default';
 }
 
 export const ConvenientAssetView: FC<ConvenientAssetViewProps> = ({
   value,
   prefix,
+  type,
 }) => {
   const [selectedNetwork] = useSelectedNetwork();
 
@@ -39,7 +41,7 @@ export const ConvenientAssetView: FC<ConvenientAssetViewProps> = ({
           convenientValue
             ? convenientValue.asset.ticker === 'ADA'
               ? convenientValue.toCurrencyString()
-              : formatToUSD(convenientValue, 'abbr')
+              : formatToUSD(convenientValue, type || 'abbr')
             : ''
         }`
       ) : selectedNetwork.convenientAssetDefaultPreview ? (

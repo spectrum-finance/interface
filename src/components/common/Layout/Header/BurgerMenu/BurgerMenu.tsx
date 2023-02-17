@@ -87,7 +87,7 @@ const BurgerMenu = (): JSX.Element => {
     {
       title: 'GitHub',
       icon: <GithubOutlined />,
-      link: 'https://github.com/ergolabs',
+      link: 'https://github.com/spectrum-finance',
       onClick: () => panalytics.clickBurgerMenu('GitHub'),
     },
     selectedNetwork.name === 'ergo'
