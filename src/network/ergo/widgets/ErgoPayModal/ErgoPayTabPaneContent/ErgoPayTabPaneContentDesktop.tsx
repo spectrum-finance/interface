@@ -13,6 +13,7 @@ import CopyToClipboard from 'react-copy-to-clipboard';
 import QRCode from 'react-qr-code';
 import styled from 'styled-components';
 
+import { ProtocolDisclaimerAlert } from '../../../../../components/common/ConnectWalletButton/ChooseWalletModal/ProtocolDisclaimerAlert/ProtocolDisclaimerAlert';
 import {
   createErgoPayDeepLink,
   createSelectAddressesRequestLink,
@@ -44,6 +45,9 @@ export const ErgoPayTabPaneContentDesktop: FC<Props> = ({
   return (
     <Animation.Expand expanded={!!requestId}>
       <Flex col justify="center">
+        <Flex.Item marginBottom={4} marginTop={4}>
+          <ProtocolDisclaimerAlert />
+        </Flex.Item>
         <Space size={40} direction="vertical">
           <Flex.Item col display="flex" justify="center" marginTop={12}>
             <Flex.Item marginBottom={2} display="flex" justify="center">
