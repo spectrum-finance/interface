@@ -79,7 +79,7 @@ export const applicationConfig: ApplicationConfig = {
       spfFaucet: 'https://airdrop.spectrum.fi/v1/faucet/',
       networkUrl: 'https://api.ergoplatform.com',
       explorerUrl: 'https://explorer.ergoplatform.com',
-      analyticUrl: 'https://api.spectrum.fi/v1/',
+      analyticUrl: 'https://test-api.spectrum.fi/v2/',
       lowBalanceGuide:
         'https://docs.spectrum.fi/docs/user-guides/quick-start#3-get-assets',
       ergopayUrl: 'https://ergopay-backend.fly.dev',
