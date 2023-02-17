@@ -11,7 +11,6 @@ import {
 import React, { FC, ReactNode } from 'react';
 import { Observable, of } from 'rxjs';
 
-import { panalytics } from '../../../common/analytics';
 import { PAnalytics } from '../../../common/analytics/@types/types';
 import { useObservable } from '../../../common/hooks/useObservable';
 import { Currency } from '../../../common/models/Currency';

@@ -100,7 +100,6 @@ export const Liquidity = (): JSX.Element => {
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>): void =>
     setSearch(e.target.value);
-
   const positionsWithLocks = positions?.filter((p) => !!p.locks.length);
 
   return (

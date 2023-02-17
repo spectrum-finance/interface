@@ -53,10 +53,12 @@ export type AnalyticsElementLocation =
   | 'your-positions-list'
   | 'add-liquidity'
   | 'create-pool'
+  | 'create-farm'
   | 'withdrawal-liquidity'
   | 'relock-liquidity'
   | 'chaining-modal'
-  | 'pool-overview';
+  | 'pool-overview'
+  | 'farm-table';
 
 export type AnalyticsPoolData = {
   pool_id?: string;

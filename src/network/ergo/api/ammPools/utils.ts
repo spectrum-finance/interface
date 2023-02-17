@@ -1,6 +1,9 @@
-import { makeNativePools, makeTokenPools } from '@ergolabs/ergo-dex-sdk';
-import { AmmPool } from '@ergolabs/ergo-dex-sdk/build/main/amm/entities/ammPool';
-import { Pools } from '@ergolabs/ergo-dex-sdk/build/main/services/pools';
+import {
+  AmmPool,
+  makeNativePools,
+  makeTokenPools,
+  Pools,
+} from '@ergolabs/ergo-dex-sdk';
 
 import { explorer } from '../../../../services/explorer';
 

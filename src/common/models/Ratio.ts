@@ -57,7 +57,7 @@ export class Ratio {
     const quoteCurrencyAmount = normalizeAmount(
       math.evaluate!(
         `${baseCurrency.toAmount()} * ${this.invertRatio().rawAmount}`,
-      ).toString(),
+      ).toFixed(),
       this.quoteAsset,
     );
 
@@ -72,7 +72,7 @@ export class Ratio {
     const baseCurrencyAmount = normalizeAmount(
       math.evaluate!(
         `${quoteCurrency.toAmount()} * ${this.rawAmount}`,
-      ).toString(),
+      ).toFixed(),
       this.baseAsset,
     );
 

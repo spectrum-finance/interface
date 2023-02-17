@@ -7,6 +7,7 @@ interface FormSectionProps {
   title: string;
   children: React.ReactChild | React.ReactChild[];
   noPadding?: boolean;
+  noBorder?: boolean;
   boxed?: boolean;
   glass?: boolean;
 }
@@ -15,6 +16,7 @@ const PageSection: React.FC<FormSectionProps> = ({
   children,
   title,
   noPadding,
+  noBorder,
   boxed,
   glass,
 }) => {
@@ -24,7 +26,7 @@ const PageSection: React.FC<FormSectionProps> = ({
         <Typography.Body strong>{title}</Typography.Body>
       </Flex.Item>
       {boxed || boxed === undefined ? (
-        <FormSpace glass={glass} noPadding={noPadding}>
+        <FormSpace noBorder={noBorder} glass={glass} noPadding={noPadding}>
           {children}
         </FormSpace>
       ) : (

@@ -9,6 +9,8 @@ import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 import { isIOS } from 'react-device-detect';
 
+import { ProtocolDisclaimerAlert } from '../../../../../components/common/ConnectWalletButton/ChooseWalletModal/ProtocolDisclaimerAlert/ProtocolDisclaimerAlert';
+
 type Props = {
   handleClick: () => void;
   loadingRequestId: boolean;
@@ -20,6 +22,9 @@ export const ErgoPayTabPaneContentMobile: FC<Props> = ({
 }) => {
   return (
     <Flex col justify="center">
+      <Flex.Item marginBottom={4} marginTop={4}>
+        <ProtocolDisclaimerAlert />
+      </Flex.Item>
       <Space size={40} direction="vertical">
         <Flex.Item col display="flex" justify="center" marginTop={10}>
           <Flex.Item marginBottom={2} display="flex" justify="center">

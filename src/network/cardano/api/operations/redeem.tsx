@@ -117,9 +117,7 @@ export const walletRedeem = (
         settings,
       }),
     ),
-    tap((_) => console.log(_)),
     switchMap(submitTx),
-    tap(null, (_) => console.log(_)),
   );
 
 export const redeem = (

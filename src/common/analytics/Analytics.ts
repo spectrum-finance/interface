@@ -300,16 +300,20 @@ export class ProductAnalytics {
   }
 
   public buildErgopaySignedSwapEvent(swapFormModel: SwapFormModel): any {
-    const posthogSystem = this.analyticsSystems.find(
-      ({ system }) => system === posthog,
-    )?.system as PostHog;
+    try {
+      const posthogSystem = this.analyticsSystems.find(
+        ({ system }) => system === posthog,
+      )?.system as PostHog;
 
-    if (posthogSystem) {
-      return {
-        $operation: 'swap',
-        $userId: posthogSystem.get_distinct_id(),
-        ...convertSwapFormModelToAnalytics(swapFormModel, ergoNetwork as any),
-      };
+      if (posthogSystem) {
+        return {
+          $operation: 'swap',
+          $userId: posthogSystem.get_distinct_id(),
+          ...convertSwapFormModelToAnalytics(swapFormModel, ergoNetwork as any),
+        };
+      }
+    } catch {
+      return undefined;
     }
   }
 
@@ -359,19 +363,23 @@ export class ProductAnalytics {
   public buildErgopaySignedDepositEvent(
     depositFromModel: AddLiquidityFormModel,
   ): any {
-    const posthogSystem = this.analyticsSystems.find(
-      ({ system }) => system === posthog,
-    )?.system as PostHog;
+    try {
+      const posthogSystem = this.analyticsSystems.find(
+        ({ system }) => system === posthog,
+      )?.system as PostHog;
 
-    if (posthogSystem) {
-      return {
-        $operation: 'deposit',
-        $userId: posthogSystem.get_distinct_id(),
-        ...convertDepositFormModelToAnalytics(
-          depositFromModel,
-          ergoNetwork as any,
-        ),
-      };
+      if (posthogSystem) {
+        return {
+          $operation: 'deposit',
+          $userId: posthogSystem.get_distinct_id(),
+          ...convertDepositFormModelToAnalytics(
+            depositFromModel,
+            ergoNetwork as any,
+          ),
+        };
+      }
+    } catch {
+      return undefined;
     }
   }
 
@@ -452,25 +460,28 @@ export class ProductAnalytics {
     });
   }
 
-  // TODO: https://linear.app/spectrum-labs/issue/DEV-660/add-amplitude-support-for-ergopay-events
   public buildErgopaySignedRedeemEvent(
     removeFromModel: RemoveFormModel,
     pool: AmmPool,
   ): any {
-    const posthogSystem = this.analyticsSystems.find(
-      ({ system }) => system === posthog,
-    )?.system as PostHog;
+    try {
+      const posthogSystem = this.analyticsSystems.find(
+        ({ system }) => system === posthog,
+      )?.system as PostHog;
 
-    if (posthogSystem) {
-      return {
-        $operation: 'redeem',
-        $userId: posthogSystem.get_distinct_id(),
-        ...convertRedeemFormModelToAnalytics(
-          removeFromModel,
-          pool,
-          ergoNetwork as any,
-        ),
-      };
+      if (posthogSystem) {
+        return {
+          $operation: 'redeem',
+          $userId: posthogSystem.get_distinct_id(),
+          ...convertRedeemFormModelToAnalytics(
+            removeFromModel,
+            pool,
+            ergoNetwork as any,
+          ),
+        };
+      }
+    } catch {
+      return undefined;
     }
   }
 

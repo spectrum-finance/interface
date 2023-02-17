@@ -10,6 +10,7 @@ export interface TokenTitleProps {
   readonly size?: 'large' | 'small' | 'extraSmall';
   readonly level?: 1 | 2 | 3 | 4 | 5 | 'body' | 'body-secondary' | undefined;
   readonly gap?: number;
+  readonly limit?: number;
 }
 
 export const AssetTitle: FC<TokenTitleProps> = ({
@@ -17,6 +18,7 @@ export const AssetTitle: FC<TokenTitleProps> = ({
   size,
   level = 5,
   gap = 1,
+  limit,
 }) => (
   <Flex align="center">
     <Flex.Item marginRight={gap}>
@@ -24,11 +26,11 @@ export const AssetTitle: FC<TokenTitleProps> = ({
     </Flex.Item>
     {level === 'body' || level === 'body-secondary' ? (
       <Typography.Body secondary={level === 'body-secondary'}>
-        <Truncate>{asset.ticker || asset.name}</Truncate>
+        <Truncate limit={limit}>{asset.ticker || asset.name}</Truncate>
       </Typography.Body>
     ) : (
       <Typography.Title level={level}>
-        <Truncate>{asset.ticker || asset.name}</Truncate>
+        <Truncate limit={limit}>{asset.ticker || asset.name}</Truncate>
       </Typography.Title>
     )}
   </Flex>

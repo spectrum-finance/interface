@@ -11,7 +11,6 @@ import React, { FC, ReactNode } from 'react';
 import { panalytics } from '../../../common/analytics';
 import { PAnalytics } from '../../../common/analytics/@types/types';
 import { useObservable } from '../../../common/hooks/useObservable';
-import { useAppLoadingState } from '../../../context';
 import { isWalletSetuped$ } from '../../../gateway/api/wallets';
 import { ChooseWalletModal } from './ChooseWalletModal/ChooseWalletModal';
 

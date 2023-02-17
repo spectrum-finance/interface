@@ -16,6 +16,14 @@ export const networkAsset: AssetInfo = {
   decimals: ERG_DECIMALS,
 };
 
+export const spfAsset: AssetInfo = {
+  name: 'Spf',
+  ticker: 'SPF',
+  icon: undefined,
+  id: '9a06d9e545a41fd51eeffc5e20d818073bf820c635e2a9d922269913e0de369d',
+  decimals: 6,
+};
+
 export const networkAsset$: Observable<AssetInfo> = of(networkAsset).pipe(
   publishReplay(1),
   refCount(),
