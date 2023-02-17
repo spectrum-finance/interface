@@ -63,7 +63,7 @@ const TableViewRowContainer = styled(_TableViewRowContainer)`
       &:focus,
       &:active {
         backdrop-filter: var(--spectrum-box-bg-filter);
-        background: var(--spectrum-box-bg-hover);
+        background: var(--spectrum-box-bg-hover-glass);
       }
     `}
 `;

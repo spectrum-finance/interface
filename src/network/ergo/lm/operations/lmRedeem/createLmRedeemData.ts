@@ -28,6 +28,7 @@ export const createLmRedeemData = ({
       lmPool.assets.lq,
       stake.rawStake.lockedLq.amount,
     ),
+    executionFee: minerFee.amount + 250000n,
     redeemerPk: settings.pk!,
     redeemerKey: new AssetAmount(
       stake.rawStake.redeemerKey.asset,
@@ -37,7 +38,7 @@ export const createLmRedeemData = ({
   const actionContext: ActionContext = {
     changeAddress: settings.address!,
     minerFee: minerFee.amount,
-    minBoxValue: 3n * MinBoxValue,
+    minBoxValue: 250000n,
     uiFee: 0n,
     network: networkContext,
   };

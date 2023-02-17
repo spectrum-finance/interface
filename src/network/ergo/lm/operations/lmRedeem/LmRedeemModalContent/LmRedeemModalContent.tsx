@@ -9,46 +9,28 @@ import { ErgoFarm } from '../../../models/ErgoFarm';
 import { Stake } from '../../../models/Stake';
 import { walletLmRedeem } from '../walletLmRedeem';
 
-const isStakeExists =
-  (stake: Stake) =>
-  (stakeToCheck: Stake): boolean =>
-    stakeToCheck.rawStake.bundleKeyAsset.asset.id ===
-    stake.rawStake.bundleKeyAsset.asset.id;
-
-const isStakeDifferent =
-  (stake: Stake) =>
-  (stakeToCheck: Stake): boolean =>
-    stakeToCheck.rawStake.bundleKeyAsset.asset.id !==
-    stake.rawStake.bundleKeyAsset.asset.id;
+const isStakeEquals = (stakeA: Stake, stakeB: Stake) =>
+  stakeA.rawStake.bundleKeyAsset.asset.id ===
+  stakeB.rawStake.bundleKeyAsset.asset.id;
 
 export interface LmRedeemModalContentProps {
   readonly farm: ErgoFarm;
-  readonly onClose: (p: Observable<TxId[]>) => void;
+  readonly onClose: (p: Observable<TxId>) => void;
 }
 
 export const LmRedeemModalContent: FC<LmRedeemModalContentProps> = ({
   farm,
   onClose,
 }) => {
-  const [selectedStakes, setSelectedStakes] = useState<Stake[]>([]);
+  const [selectedStake, setSelectedStake] = useState<Stake | undefined>();
 
   const handleStakeSelect = (stake: Stake) => {
-    setSelectedStakes((prev) => {
-      if (prev.some(isStakeExists(stake))) {
-        return prev.filter(isStakeDifferent(stake));
-      } else {
-        return prev.concat(stake);
-      }
-    });
-  };
-
-  const selectAllStakes = () => {
-    setSelectedStakes(farm.stakes);
+    setSelectedStake(stake);
   };
 
   const redeemOperation = async () => {
-    if (selectedStakes.length) {
-      onClose(walletLmRedeem(farm, selectedStakes));
+    if (selectedStake) {
+      onClose(walletLmRedeem(farm, selectedStake));
     }
   };
 
@@ -58,14 +40,6 @@ export const LmRedeemModalContent: FC<LmRedeemModalContentProps> = ({
         <Typography.Body strong>
           <Trans>My deposits</Trans>
         </Typography.Body>
-        <Button
-          htmlType="button"
-          type="link"
-          size="small"
-          onClick={selectAllStakes}
-        >
-          <Trans>Select All</Trans>
-        </Button>
       </Flex.Item>
       {farm.stakes.map((stake, index) => (
         <Flex.Item
@@ -73,7 +47,7 @@ export const LmRedeemModalContent: FC<LmRedeemModalContentProps> = ({
           key={stake.rawStake.bundleKeyAsset.asset.id}
         >
           <FarmWithdrawalStakeItem
-            active={selectedStakes.some(isStakeExists(stake))}
+            active={selectedStake && isStakeEquals(selectedStake, stake)}
             onClick={() => handleStakeSelect(stake)}
             lmPool={farm}
             stake={stake}
@@ -83,10 +57,10 @@ export const LmRedeemModalContent: FC<LmRedeemModalContentProps> = ({
       <Button
         type="primary"
         size="extra-large"
-        disabled={!selectedStakes.length}
+        disabled={!selectedStake}
         onClick={redeemOperation}
       >
-        {!!selectedStakes.length ? t`Withdraw` : t`Select deposits`}
+        {!!selectedStake ? t`Withdraw` : t`Select deposits`}
       </Button>
     </Flex>
   );

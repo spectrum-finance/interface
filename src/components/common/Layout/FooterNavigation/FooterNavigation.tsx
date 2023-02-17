@@ -19,7 +19,8 @@ export const BottomContainer = styled.div<{ ref: any }>`
   padding-bottom: 1rem;
   right: 0;
   left: 0;
-  background: var(--spectrum-box-bg-control);
+  background: var(--spectrum-box-bg-secondary-glass);
+  backdrop-filter: var(--spectrum-box-bg-filter);
   border-top: 1px var(--spectrum-box-border-color) solid;
 
   ${device.m} {

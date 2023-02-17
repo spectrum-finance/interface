@@ -5,6 +5,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import { isDesktop } from 'react-device-detect';
 import styled from 'styled-components';
 
 import { applicationConfig } from '../../../applicationConfig';
@@ -63,6 +64,10 @@ const _Layout: FC<PropsWithChildren<{ className?: string }>> = ({
 
   useEffect(() => {
     openCookiePolicy();
+
+    // if (isDesktop) {
+    //   openIdoNotification();
+    // }
   }, []);
 
   useEffect(() => {

@@ -26,7 +26,7 @@ export const PoolRatio: FC<PoolPriceProps> = ({ ammPool, ratioOf }) => {
     );
 
   return (
-    <Box padding={3} borderRadius="l" secondary>
+    <Box padding={3} borderRadius="l" secondary glass>
       <Flex col justify="center" align="center">
         <Flex.Item>
           <Typography.Body size="large" strong>

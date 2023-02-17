@@ -18,7 +18,7 @@ interface FormSliderProps {
 
 const FormSlider: React.FC<FormSliderProps> = ({ value, onChange }) => {
   return (
-    <FormSpace noBorder>
+    <FormSpace noBorder glass>
       <Flex col>
         <Flex.Item
           marginBottom={4}

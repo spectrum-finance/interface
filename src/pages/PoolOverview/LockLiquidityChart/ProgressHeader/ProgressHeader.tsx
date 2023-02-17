@@ -56,6 +56,6 @@ export const ProgressHeader = styled(_ProgressHeader)`
   width: 100%;
 
   .ant-progress-inner {
-    background: var(--spectrum-box-bg-secondary);
+    background: var(--spectrum-box-bg-secondary-glass);
   }
 `;

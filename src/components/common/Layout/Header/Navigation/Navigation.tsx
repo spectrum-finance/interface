@@ -27,6 +27,7 @@ const _Navigation: FC<NavigationProps> = ({ className, style }) => {
 
   return (
     <Tabs
+      glass
       activeKey={defaultActiveKey}
       onChange={onTabClick}
       className={className}

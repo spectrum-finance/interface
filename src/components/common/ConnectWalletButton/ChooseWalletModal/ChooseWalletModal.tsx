@@ -17,7 +17,6 @@ import {
   selectedWallet$,
   wallets$,
 } from '../../../../gateway/api/wallets';
-import { useSelectedNetwork } from '../../../../gateway/common/network';
 import { Wallet } from '../../../../network/common/Wallet';
 import { ErgoPayTabPaneContent } from '../../../../network/ergo/widgets/ErgoPayModal/ErgoPayTabPaneContent/ErgoPayTabPaneContent';
 import { IsCardano } from '../../../IsCardano/IsCardano';
@@ -94,7 +93,7 @@ const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
   const [selectedWallet] = useObservable(selectedWallet$);
 
   const walletTab = (
-    <Flex.Item marginTop={5} display="flex" col>
+    <Flex.Item marginTop={4} display="flex" col>
       <Flex.Item marginBottom={4}>
         <ProtocolDisclaimerAlert />
       </Flex.Item>

@@ -15,6 +15,7 @@ interface NetworkConfig {
   readonly analyticUrl?: string;
   readonly metadataUrl: string;
   readonly ergopayUrl?: string;
+  readonly spfFaucet?: string;
   readonly faucet?: string;
   readonly lowBalanceGuide?: string;
 }
@@ -58,10 +59,10 @@ export const applicationConfig: ApplicationConfig = {
   cardanoMaintenance: false,
   defaultTokenListUrl:
     'https://raw.githubusercontent.com/ergolabs/default-token-list/master/src/tokens',
-  // cardanoUpdate: {
-  //   title: 'Under Maintenance',
-  //   content: 'We are migrating the protocol to Vasil Hard Fork testnet.',
-  // },
+  cardanoUpdate: {
+    title: 'Under Maintenance',
+    content: 'We are migrating the protocol to Vasil Hard Fork testnet.',
+  },
   reCaptchaKey: '6LfCKZIiAAAAACypYW5pGlgZNTcwse1njmQMIUUL',
   requestRetryCount: 3,
   networksSettings: {
@@ -75,9 +76,10 @@ export const applicationConfig: ApplicationConfig = {
     ergo: {
       metadataUrl:
         'https://raw.githubusercontent.com/ergolabs/ergo-dex-asset-icons/master',
+      spfFaucet: 'https://airdrop.spectrum.fi/v1/faucet/',
       networkUrl: 'https://api.ergoplatform.com',
       explorerUrl: 'https://explorer.ergoplatform.com',
-      analyticUrl: 'https://api.spectrum.fi/v1/',
+      analyticUrl: 'https://test-api.spectrum.fi/v2/',
       lowBalanceGuide:
         'https://docs.spectrum.fi/docs/user-guides/quick-start#3-get-assets',
       ergopayUrl: 'https://ergopay-backend.fly.dev',
