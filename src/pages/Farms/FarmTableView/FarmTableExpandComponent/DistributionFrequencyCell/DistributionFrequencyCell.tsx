@@ -16,7 +16,7 @@ export const DistributionFrequencyCell: FC<DistributionFrequencyCellProps> = ({
       <Typography.Body secondary size="small">
         <Trans>Distribution frequency</Trans>
       </Typography.Body>
-      <Typography.Body>
+      <Typography.Body strong>
         {farm.distributionFrequencyInDays} <Trans>days</Trans> (
         {farm.distributionFrequencyInBlocks} <Trans>blocks</Trans>)
       </Typography.Body>

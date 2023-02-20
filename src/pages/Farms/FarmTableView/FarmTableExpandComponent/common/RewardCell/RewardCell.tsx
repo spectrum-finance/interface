@@ -53,9 +53,9 @@ export const RewardCell: FC<RewardCellProps> = ({ farm }) => {
     >
       <Flex col justify="center" stretch>
         <Typography.Body secondary size="small">
-          <Trans>Next distribution rewards</Trans>
+          <Trans>Next reward</Trans>
         </Typography.Body>
-        <Typography.Body>
+        <Typography.Body strong>
           {rewardState === RewardCellState.CONNECT_WALLET && (
             <Trans>Connect wallet to see your next rewards</Trans>
           )}
