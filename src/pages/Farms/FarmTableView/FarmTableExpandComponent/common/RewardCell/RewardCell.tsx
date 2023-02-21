@@ -71,7 +71,7 @@ export const RewardCell: FC<RewardCellProps> = ({ farm }) => {
                 size="extraSmall"
                 inline
               />{' '}
-              {farm.reward.asset.ticker} <Trans>rewards</Trans>
+              {farm.reward.asset.ticker} <Trans>reward</Trans>
             </>
           )}
           {rewardState === RewardCellState.CREATE_STAKE && (
@@ -84,7 +84,7 @@ export const RewardCell: FC<RewardCellProps> = ({ farm }) => {
                 size="extraSmall"
                 inline
               />{' '}
-              {farm.reward.asset.ticker} <Trans>rewards</Trans>
+              {farm.reward.asset.ticker} <Trans>reward</Trans>
             </>
           )}
           {rewardState === RewardCellState.FINISHED && <Trans>Finished</Trans>}
