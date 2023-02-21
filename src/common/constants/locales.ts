@@ -35,13 +35,13 @@ export const SUPPORTED_LOCALES = [
   // 'vi-VN',
 ];
 
-export type SupportedLocale = typeof SUPPORTED_LOCALES[number];
+export type SupportedLocales = typeof SUPPORTED_LOCALES[number];
 
-export const DEFAULT_LOCALE: SupportedLocale = 'en-US';
+export const DEFAULT_LOCALE: SupportedLocales = 'en-US';
 
 export { messages as DEFAULT_MESSAGES } from '../../i18n/locales/en-US';
 
-export const LOCALE_LABEL: { [locale in SupportedLocale]: string } = {
+export const LOCALE_LABEL: { [locale in SupportedLocales]: string } = {
   'en-US': 'English',
   'ar-SA': 'العربية',
   'de-DE': 'Deutsch',
