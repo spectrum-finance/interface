@@ -65,7 +65,12 @@ export const RewardCell: FC<RewardCellProps> = ({ farm }) => {
                 Provide liquidity to the {farm.ammPool.x.asset.ticker}/
                 {farm.ammPool.y.asset.ticker} and earn
               </Trans>{' '}
-              <AssetIcon asset={farm.reward.asset} size="extraSmall" inline />{' '}
+              <AssetIcon
+                style={{ position: 'relative', top: 2 }}
+                asset={farm.reward.asset}
+                size="extraSmall"
+                inline
+              />{' '}
               {farm.reward.asset.ticker} <Trans>rewards</Trans>
             </>
           )}
@@ -73,7 +78,12 @@ export const RewardCell: FC<RewardCellProps> = ({ farm }) => {
             <>
               <Trans>Stake</Trans> {farm.totalStakedX.asset.ticker}/
               {farm.totalStakedY.asset.ticker} and earn{' '}
-              <AssetIcon asset={farm.reward.asset} size="extraSmall" inline />{' '}
+              <AssetIcon
+                style={{ position: 'relative', top: 2 }}
+                asset={farm.reward.asset}
+                size="extraSmall"
+                inline
+              />{' '}
               {farm.reward.asset.ticker} <Trans>rewards</Trans>
             </>
           )}
