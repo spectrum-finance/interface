@@ -1,6 +1,6 @@
 {
-  "name": "ergo-dex-frontend",
-  "version": "3.3.2",
+  "name": "spectrum-finance-interface",
+  "version": "3.4.1",
   "private": false,
   "scripts": {
     "start": "HTTPS=true react-app-rewired start",
@@ -62,7 +62,6 @@
     "mathjs": "^9.4.4",
     "memoizee": "^0.4.15",
     "numeral": "^2.0.6",
-    "posthog-js": "^1.23.0",
     "qs": "^6.10.3",
     "rc-virtual-list": "^3.4.4",
     "react": "^18.2.0",
@@ -84,7 +83,7 @@
     "recharts": "^2.1.8",
     "rxjs": "^7.5.5",
     "styled-components": "^5.3.3",
-    "typescript": "^4.3.5",
+    "typescript": "4.9.5",
     "web-vitals": "^1.0.1",
     "worker-loader": "^3.0.8",
     "yup": "^0.32.9"
