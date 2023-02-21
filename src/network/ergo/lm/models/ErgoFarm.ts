@@ -216,11 +216,13 @@ export class ErgoFarm implements Farm<ErgoBaseLmPool> {
       programStart + epochLen * epochNum - this.params.currentHeight;
     const lmProgramLeftInDays = blocksToDaysCount(lmProgramLeftInBlocks);
 
-    return interestsRelation
+    const apr = interestsRelation
       .divide(lmProgramLeftInDays)
       .multiply(365)
       .multiply(100)
       .value();
+
+    return apr ? Number(apr.toFixed(2)) : apr;
   }
 
   @cache

@@ -72,7 +72,7 @@ export const FarmAction: FC<FarmActionProps> = ({
                 </Menu.Item>
 
                 <Menu.Item key={'item1'} onClick={withdraw}>
-                  <Trans>Withdraw</Trans>
+                  <Trans>Unstake</Trans>
                 </Menu.Item>
               </Box>
             </Menu>
@@ -119,7 +119,7 @@ export const FarmAction: FC<FarmActionProps> = ({
           withdraw();
         }}
       >
-        <Trans>Withdraw</Trans>
+        <Trans>Unstake</Trans>
       </Button>
     );
   }

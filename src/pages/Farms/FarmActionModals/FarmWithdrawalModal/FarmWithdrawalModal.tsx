@@ -97,7 +97,7 @@ export const FarmWithdrawalModal: FC<FarmWithdrawalModalProps> = ({
             disabled={!selectedStakes.length}
             onClick={redeemOperation}
           >
-            {!!selectedStakes.length ? t`Withdraw` : t`Select deposits`}
+            {!!selectedStakes.length ? t`Unstake` : t`Select deposits`}
           </Button>
         </Flex>
       </Modal.Content>
