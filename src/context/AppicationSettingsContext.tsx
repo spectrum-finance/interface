@@ -3,14 +3,16 @@ import { Settings as LuxonSettings } from 'luxon';
 import React, { createContext, useContext, useEffect } from 'react';
 import { map, Observable, publishReplay, refCount } from 'rxjs';
 
-import { DEFAULT_LOCALE, SupportedLocale } from '../common/constants/locales';
+import { DEFAULT_LOCALE, SupportedLocales } from '../common/constants/locales';
 import { localStorageManager } from '../common/utils/localStorageManager';
 import { isDarkOsTheme } from '../utils/osTheme';
 
+export type AppTheme = 'light' | 'dark' | 'system';
+
 export type Settings = {
   explorerUrl: string;
-  theme: 'light' | 'dark' | 'system';
-  lang: SupportedLocale;
+  theme: AppTheme;
+  lang: SupportedLocales;
 };
 
 export const DefaultSettings: Readonly<Settings> = {

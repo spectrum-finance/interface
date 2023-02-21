@@ -38,13 +38,13 @@ import React, { ReactNode, useEffect } from 'react';
 import {
   DEFAULT_LOCALE,
   DEFAULT_MESSAGES,
-  SupportedLocale,
+  SupportedLocales,
 } from '../common/constants/locales';
 import { useApplicationSettings } from '../context';
 import { initialLocale, useLocale } from '../hooks/useLocale';
 
 type LocalePlural = {
-  [key in SupportedLocale]: (
+  [key in SupportedLocales]: (
     n: number | string,
     ord?: boolean,
   ) => PluralCategory;
@@ -85,7 +85,7 @@ const plurals: LocalePlural = {
   'zh-TW': zh,
 };
 
-const dynamicActivate = async (locale: SupportedLocale) => {
+const dynamicActivate = async (locale: SupportedLocales) => {
   i18n.loadLocaleData(locale, { plurals: () => plurals[locale] });
   const { messages } =
     locale === DEFAULT_LOCALE
