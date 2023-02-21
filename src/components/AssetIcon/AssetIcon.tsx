@@ -10,6 +10,7 @@ type TokenIconProps = React.DetailedHTMLProps<
 > & {
   asset?: AssetInfo;
   size?: 'medium' | 'large' | 'small' | 'extraSmall' | 'extraLarge';
+  inline?: boolean;
 };
 
 const MAP_SIZE_TO_NUMBER = {
@@ -29,6 +30,7 @@ const AssetIcon: React.FC<TokenIconProps> = ({
   asset,
   size = 'medium',
   style,
+  inline,
   ...rest
 }) => {
   const iconName = asset?.id || 'empty';
@@ -50,7 +52,7 @@ const AssetIcon: React.FC<TokenIconProps> = ({
     <span
       role="img"
       style={{
-        display: 'flex',
+        display: inline ? 'inline-flex' : 'flex',
         width: MAP_SIZE_TO_NUMBER[size],
         height: MAP_SIZE_TO_NUMBER[size],
         overflow: 'hidden',

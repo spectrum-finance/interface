@@ -61,8 +61,12 @@ export const RewardCell: FC<RewardCellProps> = ({ farm }) => {
           )}
           {rewardState === RewardCellState.ADD_LIQUIDITY && (
             <>
-              <Trans>Provide liquidity and earn rewards in</Trans>{' '}
-              {farm.reward.asset.ticker}
+              <Trans>
+                Provide liquidity to the {farm.ammPool.x.asset.name}/
+                {farm.ammPool.y.asset.name} and earn
+              </Trans>{' '}
+              <AssetIcon asset={farm.reward.asset} size="extraSmall" inline />{' '}
+              {farm.reward.asset.ticker} <Trans>rewards</Trans>
             </>
           )}
           {rewardState === RewardCellState.CREATE_STAKE && (
