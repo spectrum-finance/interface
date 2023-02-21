@@ -52,7 +52,7 @@ const AssetIcon: React.FC<TokenIconProps> = ({
     <span
       role="img"
       style={{
-        display: inline ? 'inline-flex' : 'flex',
+        display: inline ? 'inline-block' : 'flex',
         width: MAP_SIZE_TO_NUMBER[size],
         height: MAP_SIZE_TO_NUMBER[size],
         overflow: 'hidden',
