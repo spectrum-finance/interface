@@ -16,7 +16,7 @@ import {
 import { applicationConfig } from '../../../../../applicationConfig';
 import { AmmPool } from '../../../../../common/models/AmmPool';
 import { Balance } from '../../../../../common/models/Balance';
-import { Farm } from '../../../../../common/models/Farm';
+import { Farm, FarmStatus } from '../../../../../common/models/Farm';
 import { ammPools$ } from '../../../api/ammPools/ammPools';
 import { lpBalance$ } from '../../../api/balance/lpBalance';
 import { mapToAssetInfo } from '../../../api/common/assetInfoManager';
@@ -120,3 +120,13 @@ export const farms$ = allFarms$.pipe(
   publishReplay(1),
   refCount(),
 );
+
+export const hasFarmsForPool = (poolId: string): Observable<boolean> =>
+  farms$.pipe(
+    map(
+      (farms) =>
+        !!farms.find(
+          (f) => f.ammPool.id === poolId && f.status !== FarmStatus.Finished,
+        ),
+    ),
+  );
