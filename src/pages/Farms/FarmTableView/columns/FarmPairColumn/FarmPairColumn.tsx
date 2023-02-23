@@ -7,10 +7,13 @@ import {
   useDevice,
 } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
-import React, { FC } from 'react';
+import React, { FC, MouseEvent } from 'react';
+import { first } from 'rxjs';
 
 import { Farm, FarmStatus } from '../../../../../common/models/Farm';
 import { AssetPairTitle } from '../../../../../components/AssetPairTitle/AssetPairTitle';
+import { lmDeposit } from '../../../../../gateway/api/operations/lmDeposit';
+import { createFarmOperationModal } from '../../../FarmOperationModal/FarmOperationModal';
 
 export interface PairColumnProps {
   readonly farm: Farm;
@@ -46,6 +49,13 @@ const getTag = (status: FarmStatus) => {
 export const FarmPairColumn: FC<PairColumnProps> = ({ farm }) => {
   const { valBySize } = useDevice();
 
+  const stake = (e: MouseEvent<HTMLElement>) => {
+    e.stopPropagation();
+    lmDeposit(farm, createFarmOperationModal(farm, 'stake'))
+      .pipe(first())
+      .subscribe();
+  };
+
   return (
     <Flex align="center">
       {farm.yourStakeLq.isPositive() &&
@@ -55,14 +65,26 @@ export const FarmPairColumn: FC<PairColumnProps> = ({ farm }) => {
           <Tooltip
             placement="top"
             title={
-              <div>
-                <Trans>
-                  It seems like you stake only some of your LP tokens...
-                  <br /> Stake all of them to gain more rewards!
-                </Trans>
-              </div>
+              <Flex col align="flex-start">
+                <Flex.Item marginBottom={1}>
+                  <Trans>
+                    It seems like you are currently only staking part of your LP
+                    tokens
+                  </Trans>
+                  <br />
+                  <Trans>Stake all of them to gain more rewards!</Trans>
+                </Flex.Item>
+                <Button
+                  onClick={stake}
+                  type="link"
+                  size="small"
+                  style={{ paddingLeft: 0, paddingRight: 0 }}
+                >
+                  <Trans>Stake now</Trans>
+                </Button>
+              </Flex>
             }
-            width={200}
+            width={250}
           >
             <Button
               type="ghost"
