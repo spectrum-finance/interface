@@ -3,7 +3,7 @@ import { DateTime } from 'luxon';
 
 import { Dictionary } from './common/utils/Dictionary';
 
-const isProductionHost = 'app.spectrum.fi' === window.location.host;
+const isProductionHost = 'app.spectrum.fi' === location.host;
 
 interface OperationRestriction {
   readonly asset: string;
