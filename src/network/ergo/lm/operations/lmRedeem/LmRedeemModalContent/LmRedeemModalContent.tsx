@@ -60,7 +60,7 @@ export const LmRedeemModalContent: FC<LmRedeemModalContentProps> = ({
         disabled={!selectedStake}
         onClick={redeemOperation}
       >
-        {!!selectedStake ? t`Withdraw` : t`Select deposits`}
+        {!!selectedStake ? t`Unstake` : t`Select deposits`}
       </Button>
     </Flex>
   );

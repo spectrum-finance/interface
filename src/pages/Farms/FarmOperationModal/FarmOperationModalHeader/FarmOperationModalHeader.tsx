@@ -1,5 +1,5 @@
 import { Box, Flex, Typography } from '@ergolabs/ui-kit';
-import { Trans } from '@lingui/macro';
+import { t, Trans } from '@lingui/macro';
 import React from 'react';
 import styled from 'styled-components';
 
@@ -22,10 +22,12 @@ const WhiteText = styled(Typography.Body)`
 const _FarmActionModalHeader: React.FC<FarmActionModalHeaderProps> = ({
   className,
   farm,
+  operation,
 }) => {
   return (
     <Flex className={className} col gap={8}>
-      Stake {farm.totalStakedX.asset.ticker}/{farm.totalStakedY.asset.ticker}{' '}
+      {operation === 'stake' ? t`Stake` : t`Unstake`}{' '}
+      {farm.totalStakedX.asset.ticker}/{farm.totalStakedY.asset.ticker}{' '}
       liquidity
       <Flex justify="space-between">
         <Flex col align="flex-start">
