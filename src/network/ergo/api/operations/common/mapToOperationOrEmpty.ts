@@ -3,8 +3,8 @@ import {
   Deposit,
   Redeem,
   Swap,
-} from '@ergolabs/ergo-dex-sdk/build/main/amm/models/ammOrderInfo';
-import { AmmOrderStatus } from '@ergolabs/ergo-dex-sdk/build/main/amm/models/operations';
+} from '@ergolabs/ergo-dex-sdk/build/main/amm/common/models/ammOrderInfo';
+import { AmmOrderStatus } from '@ergolabs/ergo-dex-sdk/build/main/amm/common/models/operations';
 import { DateTime } from 'luxon';
 import { combineLatest, map, Observable, of } from 'rxjs';
 

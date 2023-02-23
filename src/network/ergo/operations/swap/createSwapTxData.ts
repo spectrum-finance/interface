@@ -2,11 +2,11 @@ import { SwapParams } from '@ergolabs/ergo-dex-sdk';
 import {
   SwapExtremums,
   swapVars,
-} from '@ergolabs/ergo-dex-sdk/build/main/amm/math/swap';
+} from '@ergolabs/ergo-dex-sdk/build/main/amm/common/math/swap';
 import { NativeExFeeType } from '@ergolabs/ergo-dex-sdk/build/main/types';
 import { AssetAmount, ErgoBox, TransactionContext } from '@ergolabs/ergo-sdk';
 import { NetworkContext } from '@ergolabs/ergo-sdk/build/main/entities/networkContext';
-import { first, map, zip } from 'rxjs';
+import { first, map, Observable, zip } from 'rxjs';
 
 import { UI_FEE_BIGINT } from '../../../../common/constants/erg';
 import { Currency } from '../../../../common/models/Currency';
@@ -129,7 +129,9 @@ export const createSwapTxData = (
   pool: ErgoAmmPool,
   from: Currency,
   to: Currency,
-) =>
+): Observable<
+  [SwapParams<NativeExFeeType>, TransactionContext, AdditionalData]
+> =>
   zip([
     settings$,
     utxos$,

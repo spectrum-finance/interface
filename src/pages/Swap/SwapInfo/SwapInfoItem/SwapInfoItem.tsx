@@ -36,7 +36,7 @@ export const SwapInfoItem: FC<SwapInfoItemProps> = ({
         </Typography.Body>
       )}
       <Typography.Body size="small" secondary={secondary} hint={hint}>
-        :
+        :&nbsp;
       </Typography.Body>
     </Flex.Item>
     <Flex.Item>

@@ -9,7 +9,8 @@ type TokenIconProps = React.DetailedHTMLProps<
   HTMLDivElement
 > & {
   asset?: AssetInfo;
-  size?: 'large' | 'small' | 'extraSmall';
+  size?: 'medium' | 'large' | 'small' | 'extraSmall' | 'extraLarge';
+  inline?: boolean;
 };
 
 const MAP_SIZE_TO_NUMBER = {
@@ -17,6 +18,7 @@ const MAP_SIZE_TO_NUMBER = {
   small: 20,
   medium: 24,
   large: 32,
+  extraLarge: 48,
 };
 
 enum ErrorState {
@@ -26,8 +28,9 @@ enum ErrorState {
 
 const AssetIcon: React.FC<TokenIconProps> = ({
   asset,
-  size,
+  size = 'medium',
   style,
+  inline,
   ...rest
 }) => {
   const iconName = asset?.id || 'empty';
@@ -49,10 +52,9 @@ const AssetIcon: React.FC<TokenIconProps> = ({
     <span
       role="img"
       style={{
-        ...style,
-        display: 'inherit',
-        width: MAP_SIZE_TO_NUMBER[size || 'medium'],
-        height: MAP_SIZE_TO_NUMBER[size || 'medium'],
+        display: inline ? 'inline-block' : 'flex',
+        width: MAP_SIZE_TO_NUMBER[size],
+        height: MAP_SIZE_TO_NUMBER[size],
         overflow: 'hidden',
         borderRadius: '50%',
         ...style,
@@ -60,10 +62,7 @@ const AssetIcon: React.FC<TokenIconProps> = ({
       {...rest}
     >
       {errorState === ErrorState.ICON_NOT_FOUND ? (
-        <UnknownTokenIcon
-          asset={asset}
-          size={MAP_SIZE_TO_NUMBER[size || 'medium']}
-        />
+        <UnknownTokenIcon asset={asset} size={MAP_SIZE_TO_NUMBER[size]} />
       ) : (
         <img
           style={{ verticalAlign: 'initial' }}
@@ -73,8 +72,8 @@ const AssetIcon: React.FC<TokenIconProps> = ({
             `${applicationConfig.networksSettings.ergo.metadataUrl}/light/${iconName}.svg`
           }
           onError={handleError}
-          width={MAP_SIZE_TO_NUMBER[size || 'medium']}
-          height={MAP_SIZE_TO_NUMBER[size || 'medium']}
+          width={MAP_SIZE_TO_NUMBER[size]}
+          height={MAP_SIZE_TO_NUMBER[size]}
         />
       )}
     </span>

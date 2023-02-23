@@ -13,6 +13,7 @@ interface PairSpaceProps {
   readonly yAmount: Currency;
   readonly fees?: boolean;
   readonly children?: ReactNode | ReactNode[];
+  readonly noBorder?: boolean;
   readonly glass?: boolean;
 }
 
@@ -24,10 +25,11 @@ const FormPairSection: React.FC<PairSpaceProps> = ({
   yAmount,
   fees,
   children,
+  noBorder,
   glass,
 }): JSX.Element => {
   return (
-    <PageSection title={title} glass={glass}>
+    <PageSection title={title} noBorder={noBorder} glass={glass}>
       <Flex direction="col">
         <Flex.Item marginBottom={2}>
           <Flex justify="space-between" align="center">

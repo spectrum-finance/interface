@@ -1,6 +1,7 @@
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import {
   combineLatest,
+  debounceTime,
   map,
   Observable,
   of,
@@ -35,11 +36,16 @@ interface SnapshotFunction {
   (from: Currency | Currency[], to?: AssetInfo): Currency;
 }
 
+interface RateFunction {
+  (from: AssetInfo): Observable<Ratio>;
+}
+
 export type CurrencyConverter = ((
   from: Currency | Currency[],
   to?: AssetInfo,
 ) => Observable<Currency>) & {
   snapshot: SnapshotFunction;
+  rate: RateFunction;
 };
 
 export const makeCurrencyConverter = (
@@ -64,6 +70,7 @@ export const makeCurrencyConverter = (
       assetGraph$,
       networkAssetToConvenientAssetRatio$,
     ]).pipe(
+      debounceTime(100),
       map(([graph, networkAssetRatio]) => {
         if (
           fromAsset.id === networkAssetRatio.baseAsset.id &&
@@ -169,6 +176,8 @@ export const makeCurrencyConverter = (
       return convertSnapshotWithSingleCurrency(from, to);
     }
   };
+
+  convert.rate = rate;
 
   return convert;
 };

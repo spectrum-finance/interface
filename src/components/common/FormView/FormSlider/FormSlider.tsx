@@ -1,4 +1,4 @@
-import { Flex, Slider, Typography } from '@ergolabs/ui-kit';
+import { Box, Flex, Slider, Typography } from '@ergolabs/ui-kit';
 import React from 'react';
 
 import { FormSpace } from '../FormSpace/FormSpace';
@@ -18,25 +18,24 @@ interface FormSliderProps {
 
 const FormSlider: React.FC<FormSliderProps> = ({ value, onChange }) => {
   return (
-    <FormSpace glass>
-      <Flex direction="col">
-        <Flex.Item>
-          <Flex direction="col">
-            <Flex.Item marginBottom={4}>
-              <Flex align="center" justify="center">
-                <Typography.Title level={1}>{value}%</Typography.Title>
-              </Flex>
-            </Flex.Item>
-            <Flex.Item>
-              <Slider
-                tooltipVisible={false}
-                marks={marks}
-                defaultValue={value}
-                onChange={onChange}
-              />
-            </Flex.Item>
-          </Flex>
+    <FormSpace noBorder glass>
+      <Flex col>
+        <Flex.Item
+          marginBottom={4}
+          display="flex"
+          align="center"
+          justify="center"
+        >
+          <Box padding={[2, 3]} borderRadius="l">
+            <Typography.Title level={1}>{value}%</Typography.Title>
+          </Box>
         </Flex.Item>
+        <Slider
+          tooltipVisible={false}
+          marks={marks}
+          defaultValue={value}
+          onChange={onChange}
+        />
       </Flex>
     </FormSpace>
   );

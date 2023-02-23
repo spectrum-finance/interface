@@ -23,7 +23,7 @@ export const getAmmPoolById = (
   ammPoolId: PoolId,
 ): Observable<AmmPool | undefined> =>
   selectedNetwork$.pipe(
-    switchMap((network) => network.displayedAmmPools$),
+    switchMap((network) => network.ammPools$),
     map((pools) => pools.find((position) => position.id === ammPoolId)),
   );
 

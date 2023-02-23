@@ -1,4 +1,4 @@
-import { AmmPool as BaseAmmPool } from '@ergolabs/ergo-dex-sdk/build/main/amm/entities/ammPool';
+import { AmmPool as BaseAmmPool } from '@ergolabs/ergo-dex-sdk/build/main/amm/common/entities/ammPool';
 import {
   catchError,
   combineLatest,

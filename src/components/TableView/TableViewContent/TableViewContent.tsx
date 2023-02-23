@@ -30,6 +30,7 @@ export interface TableViewContentProps<T> {
   readonly height?: CSSProperties['height'];
   readonly gap?: number;
   readonly padding?: Gutter;
+  readonly expandPadding?: Gutter;
   readonly columns: Column<any>[];
   readonly actions: Action<any>[];
   readonly actionsWidth?: number;
@@ -61,6 +62,7 @@ const TableViewRowContainer = styled(_TableViewRowContainer)`
       &:hover,
       &:focus,
       &:active {
+        backdrop-filter: var(--spectrum-box-bg-filter);
         background: var(--spectrum-box-bg-hover-glass);
       }
     `}
@@ -74,6 +76,7 @@ export const TableViewContent: FC<TableViewContentProps<any>> = ({
   gap,
   itemHeight,
   padding,
+  expandPadding,
   columns,
   actions,
   actionsWidth,
@@ -124,16 +127,18 @@ export const TableViewContent: FC<TableViewContentProps<any>> = ({
                 height={itemHeight - BORDER_HEIGHT}
                 padding={padding}
               >
-                {columns.map((c, i) => (
-                  <TableViewRow.Column
-                    key={i}
-                    width={c.width}
-                    minWidth={c.minWidth}
-                    maxWidth={c.maxWidth}
-                  >
-                    {c.children ? c.children(item) : null}
-                  </TableViewRow.Column>
-                ))}
+                {columns
+                  .filter((c) => c.show)
+                  .map((c, i) => (
+                    <TableViewRow.Column
+                      key={i}
+                      width={c.width}
+                      minWidth={c.minWidth}
+                      maxWidth={c.maxWidth}
+                    >
+                      {c.children ? c.children(item) : null}
+                    </TableViewRow.Column>
+                  ))}
                 {actions?.length ? (
                   <TableViewRow.Column>
                     <Flex stretch align="center" justify="flex-end">
@@ -166,7 +171,7 @@ export const TableViewContent: FC<TableViewContentProps<any>> = ({
                   </TableViewRow.Column>
                 ) : null}
                 {expandConfig && (
-                  <TableViewRow.Column>
+                  <TableViewRow.Column width={expandConfig.columnWidth}>
                     <Flex stretch align="center" justify="flex-end">
                       <Typography.Body>
                         {expanded ? <UpOutlined /> : <DownOutlined />}
@@ -180,7 +185,10 @@ export const TableViewContent: FC<TableViewContentProps<any>> = ({
               <>
                 <Divider />
                 <Animation.FadeIn delay={100}>
-                  <TableViewDetails height={expandHeight} padding={padding}>
+                  <TableViewDetails
+                    height={expandHeight}
+                    padding={expandPadding || padding}
+                  >
                     <Details
                       collapse={collapse}
                       index={index}
