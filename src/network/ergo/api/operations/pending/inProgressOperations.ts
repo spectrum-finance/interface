@@ -1,4 +1,4 @@
-import { AmmDexOperation } from '@ergolabs/ergo-dex-sdk/build/main/amm/models/operations';
+import { AmmDexOperation } from '@ergolabs/ergo-dex-sdk/build/main/amm/common/models/operations';
 import { Address } from '@ergolabs/ergo-sdk';
 import {
   catchError,

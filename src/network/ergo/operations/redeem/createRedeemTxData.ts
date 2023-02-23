@@ -1,7 +1,8 @@
 import { RedeemParams } from '@ergolabs/ergo-dex-sdk';
+import { NativeExFeeType } from '@ergolabs/ergo-dex-sdk/build/main/types';
 import { ErgoBox, TransactionContext } from '@ergolabs/ergo-sdk';
 import { NetworkContext } from '@ergolabs/ergo-sdk/build/main/entities/networkContext';
-import { first, map, zip } from 'rxjs';
+import { first, map, Observable, zip } from 'rxjs';
 
 import { UI_FEE_BIGINT } from '../../../../common/constants/erg';
 import { Currency } from '../../../../common/models/Currency';
@@ -57,7 +58,7 @@ export const toRedeemOperationArgs = ({
   maxTotalFee,
   minTotalFee,
 }: RedeemOperationCandidateParams): [
-  RedeemParams,
+  RedeemParams<NativeExFeeType>,
   TransactionContext,
   AdditionalData,
 ] => {
@@ -66,7 +67,7 @@ export const toRedeemOperationArgs = ({
   }
   const lpToRemove = pool['pool'].lp.withAmount(lp.amount);
 
-  const redeemParams: RedeemParams = {
+  const redeemParams: RedeemParams<NativeExFeeType> = {
     poolId: pool.id,
     pk: settings.pk,
     lp: lpToRemove,
@@ -103,7 +104,9 @@ export const createRedeemTxData = (
   lp: Currency,
   x: Currency,
   y: Currency,
-) =>
+): Observable<
+  [RedeemParams<NativeExFeeType>, TransactionContext, AdditionalData]
+> =>
   zip([
     settings$,
     utxos$,
