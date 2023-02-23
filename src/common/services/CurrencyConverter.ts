@@ -37,7 +37,7 @@ interface SnapshotFunction {
 }
 
 interface RateFunction {
-  (from: AssetInfo): Observable<Ratio>;
+  (from: AssetInfo, to?: AssetInfo): Observable<Ratio>;
 }
 
 export type CurrencyConverter = ((
