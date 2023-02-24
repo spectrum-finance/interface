@@ -14,7 +14,6 @@ import {
   of,
   switchMap,
 } from 'rxjs';
-import styled from 'styled-components';
 
 import {
   useObservable,
