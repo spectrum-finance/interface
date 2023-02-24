@@ -1,11 +1,4 @@
-import {
-  combineLatest,
-  distinctUntilChanged,
-  map,
-  publishReplay,
-  refCount,
-  switchMap,
-} from 'rxjs';
+import { publishReplay, refCount, switchMap } from 'rxjs';
 
 import { Currency } from '../../../../common/models/Currency';
 import { feeAsset } from '../../api/networkAsset/networkAsset';

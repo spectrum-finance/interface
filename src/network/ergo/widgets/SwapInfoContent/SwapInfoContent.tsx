@@ -10,11 +10,13 @@ import { SwapFormModel } from '../../../../pages/Swap/SwapFormModel';
 import { SwapInfoItem } from '../../../../pages/Swap/SwapInfo/SwapInfoItem/SwapInfoItem';
 import { SwapInfoPriceImpact } from '../../../../pages/Swap/SwapInfo/SwapInfoPriceImpact/SwapInfoPriceImpact';
 import { ErgoAmmPool } from '../../api/ammPools/ErgoAmmPool';
-import { useMaxExFee, useMinExFee } from '../../settings/executionFee';
+import {
+  useMaxExFee,
+  useMinExFee,
+} from '../../settings/executionFee/executionFee';
 import { useMinerFee } from '../../settings/minerFee';
 import { useNitro } from '../../settings/nitro';
 import { useSlippage } from '../../settings/slippage';
-import { useMaxTotalFee, useMinTotalFee } from '../../settings/totalFees';
 
 export interface SwapInfoContent {
   readonly value: SwapFormModel<ErgoAmmPool>;
@@ -23,8 +25,6 @@ export interface SwapInfoContent {
 export const SwapInfoContent: FC<SwapInfoContent> = ({ value }) => {
   const minExFee = useMinExFee();
   const maxExFee = useMaxExFee();
-  const minTotalFee = useMinTotalFee();
-  const maxTotalFee = useMaxTotalFee();
   const slippage = useSlippage();
   const minerFee = useMinerFee();
   const nitro = useNitro();
@@ -71,8 +71,8 @@ export const SwapInfoContent: FC<SwapInfoContent> = ({ value }) => {
           title={t`Total fees`}
           value={
             <>
-              <ConvenientAssetView value={minTotalFee} /> -{' '}
-              <ConvenientAssetView hidePrefix value={maxTotalFee} />
+              <ConvenientAssetView value={[minerFee, minExFee]} /> -{' '}
+              <ConvenientAssetView hidePrefix value={[minerFee, maxExFee]} />
             </>
           }
         />

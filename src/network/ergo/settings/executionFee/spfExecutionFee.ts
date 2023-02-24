@@ -4,56 +4,56 @@ import {
   map,
   publishReplay,
   refCount,
+  switchMap,
 } from 'rxjs';
 
+import { useObservable } from '../../../../common/hooks/useObservable';
 import { Currency } from '../../../../common/models/Currency';
 import { normalizeAmount } from '../../../../common/utils/amount';
 import { math } from '../../../../utils/math';
-import { networkAsset } from '../../api/networkAsset/networkAsset';
-import { minerFee$, useMinerFee } from '../minerFee';
+import { convertToConvenientNetworkAsset } from '../../api/ergoUsdRatio/ergoUsdRatio';
+import { feeAsset } from '../../api/networkAsset/networkAsset';
+import { minerFee$ } from '../minerFee';
 import { nitro$, useNitro } from '../nitro';
 
-const toMinExFee = (minerFee: Currency): Currency =>
-  new Currency(
-    normalizeAmount(
-      math.evaluate!(`${minerFee.toAmount()} * 3`).toFixed(),
-      networkAsset,
-    ),
-    networkAsset,
-  );
+const MIN_EX_FEE_WITHOUT_OFF_CHAIN_FEE = 100000n;
 
-const toMaxExFee = (minerFee: Currency, nitro: number): Currency =>
+const toMaxExFee = (minExFee: Currency, nitro: number): Currency =>
   new Currency(
     normalizeAmount(
-      math.evaluate!(`${minerFee.toAmount()} * 3 * ${nitro}`).toFixed(),
-      networkAsset,
+      math.evaluate!(`${minExFee.toAmount()} * ${nitro}`).toFixed(),
+      feeAsset,
     ),
-    networkAsset,
+    feeAsset,
   );
 
 export const minExFee$ = minerFee$.pipe(
-  map(toMinExFee),
+  switchMap((minerFee) => convertToConvenientNetworkAsset(minerFee, feeAsset)),
+  map((minerFeeInSpf) => minerFeeInSpf.plus(MIN_EX_FEE_WITHOUT_OFF_CHAIN_FEE)),
   distinctUntilChanged(),
   publishReplay(),
   refCount(),
 );
 
-export const maxExFee$ = combineLatest([minerFee$, nitro$]).pipe(
-  map(([minerFee, nitro]) => toMaxExFee(minerFee, nitro)),
+export const maxExFee$ = combineLatest([minExFee$, nitro$]).pipe(
+  map(([minExFee, nitro]) => toMaxExFee(minExFee, nitro)),
   distinctUntilChanged(),
   publishReplay(),
   refCount(),
 );
 
 export const useMinExFee = (): Currency => {
-  const minerFee = useMinerFee();
+  const [minExFee] = useObservable(minExFee$);
 
-  return toMinExFee(minerFee);
+  return minExFee || new Currency(MIN_EX_FEE_WITHOUT_OFF_CHAIN_FEE, feeAsset);
 };
 
 export const useMaxExFee = (): Currency => {
-  const minerFee = useMinerFee();
+  const [maxExFee] = useObservable(maxExFee$);
   const nitro = useNitro();
 
-  return toMaxExFee(minerFee, nitro);
+  return (
+    maxExFee ||
+    toMaxExFee(new Currency(MIN_EX_FEE_WITHOUT_OFF_CHAIN_FEE, feeAsset), nitro)
+  );
 };
