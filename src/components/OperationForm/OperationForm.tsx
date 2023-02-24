@@ -91,7 +91,6 @@ export function OperationForm<T>({
         undefined,
       );
 
-      console.log(caption, validators);
       setButtonProps({
         disabled: !!caption,
         loading: false,

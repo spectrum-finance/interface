@@ -7,7 +7,6 @@ import {
   Messages,
   Popover,
   SettingOutlined,
-  Tabs,
   Typography,
   useForm,
 } from '@ergolabs/ui-kit';
@@ -21,9 +20,9 @@ import { defaultSlippage, MIN_SLIPPAGE } from '../../common/constants/settings';
 import { useSubscription } from '../../common/hooks/useObservable';
 import { AssetInfo } from '../../common/models/AssetInfo';
 import { Currency } from '../../common/models/Currency';
-import { useSelectedNetwork } from '../../gateway/common/network';
 import { InfoTooltip } from '../InfoTooltip/InfoTooltip';
 import { IsErgo } from '../IsErgo/IsErgo';
+import { FeeCurrencySelector } from './FeeCurrencySelector/FeeCurrencySelector';
 import { NitroInput } from './NitroInput/NitroInput';
 import { SlippageInput } from './SlippageInput/SlippageInput';
 
@@ -40,7 +39,7 @@ export const feeAsset: AssetInfo = {
 interface SettingsModel {
   readonly slippage: number;
   readonly nitro: number;
-  readonly executionFeeAssetId: string;
+  readonly executionFeeAsset: AssetInfo;
 }
 
 const warningMessages: Messages<SettingsModel> = {
@@ -82,6 +81,7 @@ export interface OperationSettingsProps {
   readonly slippage: number;
   readonly hideNitro?: boolean;
   readonly hideSlippage?: boolean;
+  readonly feeAssets?: AssetInfo[];
 }
 
 export const OperationSettings: FC<OperationSettingsProps> = ({
@@ -95,8 +95,8 @@ export const OperationSettings: FC<OperationSettingsProps> = ({
   slippage,
   hideNitro,
   hideSlippage,
+  feeAssets,
 }) => {
-  const [selectedNetwork] = useSelectedNetwork();
   const [isPopoverShown, setIsPopoverShown] = useState(false);
 
   const form = useForm<SettingsModel>({
@@ -106,7 +106,7 @@ export const OperationSettings: FC<OperationSettingsProps> = ({
       [slippageCheck, slippageTxFailCheck],
     ),
     nitro: useForm.ctrl(nitro, [nitroCheck]),
-    executionFeeAssetId: executionFeeAsset.id,
+    executionFeeAsset: executionFeeAsset,
   });
 
   const handlePopoverShown = (visible: boolean) => {
@@ -141,16 +141,10 @@ export const OperationSettings: FC<OperationSettingsProps> = ({
   );
 
   useSubscription(
-    form.controls.executionFeeAssetId.valueChanges$.pipe(
-      skip(1),
-      filter((value) => !!value),
-    ),
-    (executionFeeAssetId) => {
-      const asset = [selectedNetwork.networkAsset, feeAsset].find(
-        ({ id }) => executionFeeAssetId === id,
-      );
-      if (asset) {
-        setExecutionFeeAsset(asset);
+    form.controls.executionFeeAsset.valueChanges$.pipe(skip(1)),
+    (executionFeeAsset) => {
+      if (executionFeeAsset) {
+        setExecutionFeeAsset(executionFeeAsset);
       }
     },
     [executionFeeAsset],
@@ -196,33 +190,30 @@ export const OperationSettings: FC<OperationSettingsProps> = ({
               </Flex.Item>
             </>
           )}
-          <IsErgo>
-            <Flex.Item marginBottom={1}>
-              <Typography.Body strong>
-                <Trans>Payment of the execution fee in</Trans>
-              </Typography.Body>
-              <InfoTooltip
-                width={200}
-                content={t`The execution fee is paid to off-chain validators who execute DEX orders`}
-              />
-            </Flex.Item>
-            <Flex.Item marginBottom={hideNitro ? 0 : 2}>
-              <Form.Item name="executionFeeAssetId">
-                {({ onChange }) => (
-                  <Tabs
-                    onChange={onChange as any}
-                    activeKey={executionFeeAsset.id}
-                  >
-                    <Tabs.TabPane
-                      tab={selectedNetwork.networkAsset.ticker}
-                      key={selectedNetwork.networkAsset.id}
+          {feeAssets?.length && (
+            <IsErgo>
+              <Flex.Item marginBottom={1}>
+                <Typography.Body strong>
+                  <Trans>Payment of the execution fee in</Trans>
+                </Typography.Body>
+                <InfoTooltip
+                  width={200}
+                  content={t`The execution fee is paid to off-chain validators who execute DEX orders`}
+                />
+              </Flex.Item>
+              <Flex.Item marginBottom={hideNitro ? 0 : 2}>
+                <Form.Item name="executionFeeAsset">
+                  {({ onChange, value }) => (
+                    <FeeCurrencySelector
+                      assets={feeAssets}
+                      value={value}
+                      onChange={onChange}
                     />
-                    <Tabs.TabPane tab={feeAsset.ticker} key={feeAsset.id} />
-                  </Tabs>
-                )}
-              </Form.Item>
-            </Flex.Item>
-          </IsErgo>
+                  )}
+                </Form.Item>
+              </Flex.Item>
+            </IsErgo>
+          )}
           {hideNitro ? null : (
             <>
               <Flex.Item marginBottom={1}>

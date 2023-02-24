@@ -24,6 +24,8 @@ export const spfAsset: AssetInfo = {
   decimals: 6,
 };
 
+export const feeAsset: AssetInfo = spfAsset;
+
 export const networkAsset$: Observable<AssetInfo> = of(networkAsset).pipe(
   publishReplay(1),
   refCount(),

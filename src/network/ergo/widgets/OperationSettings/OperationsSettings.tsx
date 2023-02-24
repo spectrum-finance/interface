@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 
 import { OperationSettings as BaseOperationSettings } from '../../../../components/OperationSettings/OperationSettings';
+import { feeAsset, networkAsset } from '../../api/networkAsset/networkAsset';
 import { useMaxExFee, useMinExFee } from '../../settings/executionFee';
 import { patchSettings, useSettings } from '../../settings/settings';
 
@@ -23,6 +24,7 @@ export const OperationsSettings: FC<Props> = ({ hideNitro, hideSlippage }) => {
       nitro={settings.nitro}
       slippage={settings.slippage}
       executionFeeAsset={settings.executionFeeAsset}
+      feeAssets={[networkAsset, feeAsset]}
       setExecutionFeeAsset={(executionFeeAsset) =>
         patchSettings({ executionFeeAsset })
       }
