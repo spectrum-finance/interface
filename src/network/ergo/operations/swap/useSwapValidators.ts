@@ -38,10 +38,10 @@ const useSpfFeeSwapValidators = (): OperationValidator<SwapFormModel>[] => {
   const insufficientAssetForFeeValidator: OperationValidator<
     Required<SwapFormModel>
   > = ({ value: { fromAmount } }, balance) => {
-    const minerFeeWithMinBoxValue = minerFee.plus(NEW_MIN_BOX_VALUE);
+    const minerFeeWithMinBoxValue = minerFee;
     const totalNErgAmountWithFromAmount = fromAmount.isAssetEquals(networkAsset)
       ? fromAmount.plus(minerFeeWithMinBoxValue)
-      : minerFeeWithMinBoxValue;
+      : minerFeeWithMinBoxValue.plus(NEW_MIN_BOX_VALUE);
 
     if (totalNErgAmountWithFromAmount.gt(balance.get(networkAsset))) {
       return t`Insufficient ${networkAsset.ticker} balance for fees`;
