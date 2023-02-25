@@ -10,6 +10,7 @@ import { OrderKind } from '@ergolabs/cardano-dex-sdk/build/main/amm/models/opReq
 import { OrderAddrsV1Testnet } from '@ergolabs/cardano-dex-sdk/build/main/amm/scripts';
 import { NetworkParams } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/env';
 import { RustModule } from '@ergolabs/cardano-dex-sdk/build/main/utils/rustLoader';
+import { t } from '@lingui/macro';
 import React from 'react';
 import { first, map, Observable, Subject, switchMap, tap, zip } from 'rxjs';
 
@@ -20,11 +21,15 @@ import {
   openConfirmationModal,
   Operation,
 } from '../../../../components/ConfirmationModal/ConfirmationModal';
+import { OperationValidator } from '../../../../components/OperationForm/OperationForm';
 import { AddLiquidityFormModel } from '../../../../pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityFormModel';
+import { depositAda } from '../../settings/depositAda';
 import { CardanoSettings, settings$ } from '../../settings/settings';
+import { useDepositValidationFee } from '../../settings/totalFee';
 import { DepositConfirmationModal } from '../../widgets/DepositConfirmationModal/DepositConfirmationModal';
 import { CardanoAmmPool } from '../ammPools/CardanoAmmPool';
 import { cardanoNetworkParams$ } from '../common/cardanoNetwork';
+import { networkAsset } from '../networkAsset/networkAsset';
 import { getUtxosByAmount } from '../utxos/utxos';
 import { ammTxFeeMapping } from './common/ammTxFeeMapping';
 import { minExecutorReward } from './common/minExecutorReward';
@@ -156,3 +161,44 @@ export const deposit = (
 
   return subject.asObservable();
 };
+
+export const useDepositValidators =
+  (): OperationValidator<AddLiquidityFormModel>[] => {
+    const depositValidationFee = useDepositValidationFee();
+
+    const insufficientFeeValidator: OperationValidator<AddLiquidityFormModel> =
+      ({ value: { x, y } }, balance) => {
+        let totalFeesWithAmount = depositValidationFee.minus(depositAda);
+
+        totalFeesWithAmount = x?.isAssetEquals(networkAsset)
+          ? totalFeesWithAmount.plus(x)
+          : totalFeesWithAmount;
+
+        totalFeesWithAmount = y?.isAssetEquals(networkAsset)
+          ? totalFeesWithAmount.plus(y)
+          : totalFeesWithAmount;
+
+        return totalFeesWithAmount.gt(balance.get(networkAsset))
+          ? t`Insufficient ${networkAsset.ticker} balance for fees`
+          : undefined;
+      };
+
+    const insufficientRefundableBalanceValidator: OperationValidator<AddLiquidityFormModel> =
+      ({ value: { x, y } }, balance) => {
+        let totalFeesWithAmount = depositValidationFee;
+
+        totalFeesWithAmount = x?.isAssetEquals(networkAsset)
+          ? totalFeesWithAmount.plus(x)
+          : totalFeesWithAmount;
+
+        totalFeesWithAmount = y?.isAssetEquals(networkAsset)
+          ? totalFeesWithAmount.plus(y)
+          : totalFeesWithAmount;
+
+        return totalFeesWithAmount.gt(balance.get(networkAsset))
+          ? t`Insufficient ${networkAsset.ticker} for refundable deposit`
+          : undefined;
+      };
+
+    return [insufficientFeeValidator, insufficientRefundableBalanceValidator];
+  };

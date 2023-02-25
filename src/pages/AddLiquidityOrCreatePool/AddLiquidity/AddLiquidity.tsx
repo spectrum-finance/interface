@@ -345,8 +345,8 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
     amountValidator,
     minValueValidator,
     balanceValidator,
-    insufficientFeeValidator,
-    insufficientRefundableBalanceValidator,
+    // insufficientFeeValidator,
+    // insufficientRefundableBalanceValidator,
   ];
 
   return (

@@ -13,6 +13,7 @@ import { Position } from '../../common/models/Position';
 import { CurrencyConverter } from '../../common/services/CurrencyConverter';
 import { Address } from '../../common/types';
 import { OperationValidator } from '../../components/OperationForm/OperationForm';
+import { AddLiquidityFormModel } from '../../pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityFormModel';
 import { SwapFormModel } from '../../pages/Swap/SwapFormModel';
 import { NetworkContext } from './NetworkContext';
 import { PoolChartDataParams } from './PoolChartDataParams';
@@ -49,6 +50,8 @@ export interface NetworkData<W extends Wallet> {
 
   readonly useHandleSwapMaxButtonClick: () => (balance: Currency) => Currency;
   readonly useSwapValidators: () => OperationValidator<SwapFormModel>[];
+
+  readonly useDepositValidators: () => OperationValidator<AddLiquidityFormModel>[];
 
   readonly useDepositValidationFee: () => Currency;
   readonly useCreatePoolValidationFee: () => Currency;

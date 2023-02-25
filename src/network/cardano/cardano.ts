@@ -16,7 +16,7 @@ import { lpBalance$ } from './api/balance/lpBalance';
 import { networkAssetBalance$ } from './api/balance/networkAssetBalance';
 import { networkAsset, useNetworkAsset } from './api/networkAsset/networkAsset';
 import { networkContext$ } from './api/networkContext/networkContext';
-import { deposit } from './api/operations/deposit';
+import { deposit, useDepositValidators } from './api/operations/deposit';
 import { redeem } from './api/operations/redeem';
 import {
   swap,
@@ -132,6 +132,7 @@ export const cardanoNetwork: Network<
 
   useSwapValidators,
   useHandleSwapMaxButtonClick,
+  useDepositValidators,
 
   useDepositValidationFee,
   useCreatePoolValidationFee,
