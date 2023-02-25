@@ -107,7 +107,7 @@ const toSwapOperationArgs = ({
       exFee:
         baseInput.asset.id !== networkAsset.id
           ? NEW_MIN_BOX_VALUE
-          : baseInput.amount > NEW_MIN_BOX_VALUE
+          : baseInput.amount >= NEW_MIN_BOX_VALUE
           ? 0n
           : NEW_MIN_BOX_VALUE - baseInput.amount,
     },

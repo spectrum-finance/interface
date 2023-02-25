@@ -4,10 +4,13 @@ import { AssetAmount, ErgoBox, TransactionContext } from '@ergolabs/ergo-sdk';
 import { NetworkContext } from '@ergolabs/ergo-sdk/build/main/entities/networkContext';
 import { first, map, Observable, zip } from 'rxjs';
 
-import { UI_FEE_BIGINT } from '../../../../../common/constants/erg';
+import {
+  NEW_MIN_BOX_VALUE,
+  UI_FEE_BIGINT,
+} from '../../../../../common/constants/erg';
 import { Currency } from '../../../../../common/models/Currency';
 import { ErgoAmmPool } from '../../../api/ammPools/ErgoAmmPool';
-import { feeAsset } from '../../../api/networkAsset/networkAsset';
+import { feeAsset, networkAsset } from '../../../api/networkAsset/networkAsset';
 import { networkContext$ } from '../../../api/networkContext/networkContext';
 import { utxos$ } from '../../../api/utxos/utxos';
 import { minExFee$ } from '../../../settings/executionFee/spfExecutionFee';
@@ -78,11 +81,37 @@ const toDepositOperationArgs = ({
     uiFee: UI_FEE_BIGINT,
   };
 
-  const inputs = getInputs(utxos, [inputX, inputY], {
-    minerFee: minerFee.amount,
-    uiFee: UI_FEE_BIGINT,
-    exFee: minExFee.amount,
-  });
+  const isXSpec = inputX.asset.id === feeAsset.id;
+  const isYSpec = inputY.asset.id === feeAsset.id;
+
+  let exErgFee = 0n;
+
+  if (!isXSpec && !isYSpec) {
+    exErgFee = NEW_MIN_BOX_VALUE;
+  }
+  if (isXSpec && inputX.amount < NEW_MIN_BOX_VALUE) {
+    exErgFee = NEW_MIN_BOX_VALUE - inputX.amount;
+  }
+  if (isYSpec && inputY.amount < NEW_MIN_BOX_VALUE) {
+    exErgFee = NEW_MIN_BOX_VALUE - inputY.amount;
+  }
+
+  const inputs = getInputs(
+    utxos,
+    [
+      isXSpec ? inputX.withAmount(inputX.amount + minExFee.amount) : inputX,
+      isYSpec ? inputY.withAmount(inputY.amount + minExFee.amount) : inputY,
+      !isYSpec && !isXSpec
+        ? new AssetAmount(feeAsset, minExFee.amount)
+        : (undefined as any),
+    ].filter(Boolean),
+    {
+      minerFee: minerFee.amount,
+      uiFee: UI_FEE_BIGINT,
+      exFee: exErgFee,
+    },
+    true,
+  );
 
   const txContext = getTxContext(
     inputs,
