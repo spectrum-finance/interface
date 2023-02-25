@@ -12,5 +12,5 @@ export const RefundConfirmationInfo: FC = () => {
 
   const fees: FeesViewItem[] = [{ caption: t`Miner Fee`, currency: minerFee }];
 
-  return <FeesView totalFees={minerFee} fees={fees} />;
+  return <FeesView totalFees={[minerFee]} fees={fees} />;
 };

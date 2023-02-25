@@ -12,11 +12,13 @@ import {
 } from '../../../../../components/FeesView/FeesView';
 import { Truncate } from '../../../../../components/Truncate/Truncate';
 import { SwapFormModel } from '../../../../../pages/Swap/SwapFormModel';
-import { useMaxExFee, useMinExFee } from '../../../settings/executionFee';
+import {
+  useMaxExFee,
+  useMinExFee,
+} from '../../../settings/executionFee/executionFee';
 import { useMinerFee } from '../../../settings/minerFee';
 import { useNitro } from '../../../settings/nitro';
 import { useSlippage } from '../../../settings/slippage';
-import { useMaxTotalFee, useMinTotalFee } from '../../../settings/totalFees';
 
 export interface SwapConfirmationInfoProps {
   readonly value: Required<SwapFormModel>;
@@ -27,8 +29,6 @@ export const SwapConfirmationInfo: FC<SwapConfirmationInfoProps> = ({
 }) => {
   const minExFee = useMinExFee();
   const maxExFee = useMaxExFee();
-  const minTotalFee = useMinTotalFee();
-  const maxTotalFee = useMaxTotalFee();
   const slippage = useSlippage();
   const minerFee = useMinerFee();
   const nitro = useNitro();
@@ -46,10 +46,9 @@ export const SwapConfirmationInfo: FC<SwapConfirmationInfoProps> = ({
         )
       : [undefined, undefined];
 
-  const totalFees: [Currency, Currency] = [minTotalFee, maxTotalFee];
   const fees: FeesViewItem[] = [
-    { caption: t`Miner Fee`, currency: minerFee },
     { caption: t`Execution Fee`, currency: [minExFee, maxExFee] },
+    { caption: t`Miner Fee`, currency: minerFee },
   ];
 
   return (
@@ -107,7 +106,13 @@ export const SwapConfirmationInfo: FC<SwapConfirmationInfoProps> = ({
             }
           />
         </Flex.Item>
-        <FeesView totalFees={totalFees} fees={fees} />
+        <FeesView
+          fees={fees}
+          totalFees={{
+            minFeesForTotal: [minerFee, minExFee],
+            maxFeesForTotal: [minerFee, maxExFee],
+          }}
+        />
       </Flex>
     </Box>
   );

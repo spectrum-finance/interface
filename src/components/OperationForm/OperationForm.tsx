@@ -7,6 +7,7 @@ import { debounceTime, first, Observable } from 'rxjs';
 
 import { PAnalytics } from '../../common/analytics/@types/types';
 import { useObservable } from '../../common/hooks/useObservable';
+import { Balance } from '../../common/models/Balance';
 import { isOnline$ } from '../../common/streams/networkConnection';
 import { useAssetsBalance } from '../../gateway/api/assetBalance';
 import { queuedOperation$ } from '../../gateway/api/queuedOperation';
@@ -16,6 +17,7 @@ export type OperationLoader<T> = (form: FormGroup<T>) => boolean;
 
 export type OperationValidator<T> = (
   form: FormGroup<T>,
+  balance: Balance,
 ) => ReactNode | ReactNode[] | string | undefined;
 
 export interface OperationFormProps<T> {
@@ -45,7 +47,7 @@ export function OperationForm<T>({
 }: OperationFormProps<T>): JSX.Element {
   const [isOnline] = useObservable(isOnline$);
   const [queuedOperation] = useObservable(queuedOperation$);
-  const [, isBalanceLoading] = useAssetsBalance();
+  const [balance, isBalanceLoading] = useAssetsBalance();
   const [value] = useObservable(
     form.valueChangesWithSilent$.pipe(debounceTime(100)),
     [form],
@@ -86,7 +88,7 @@ export function OperationForm<T>({
           if (caption) {
             return caption;
           }
-          return v(form);
+          return v(form, balance);
         },
         undefined,
       );
