@@ -28,13 +28,6 @@ export const useMinTotalFee = (): Currency => {
   return calculateTotalFee([minerFee], networkAsset);
 };
 
-// TODO: REMOVE TOTAL FEES
-export const useMaxTotalFee = (): Currency => {
-  const minerFee = useMinerFee();
-
-  return calculateTotalFee([minerFee], networkAsset);
-};
-
 export const useDepositValidationFee = (): Currency =>
   useMinTotalFee().plus(MinBoxValue);
 

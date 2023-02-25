@@ -5,22 +5,20 @@ import { TxId } from '../../../../common/types';
 import { ErgoAmmPool } from '../../api/ammPools/ErgoAmmPool';
 import { feeAsset } from '../../api/networkAsset/networkAsset';
 import { settings$ } from '../../settings/settings';
-import { ergopayRedeem as nativeErgoPayRedeem } from './nativeFee/ergopayRedeem';
-import { ergopayRedeem as spfErgoPayRedeem } from './spfFee/ergopayRedeem';
+import { ergoPaySwap as nativeErgoPaySwap } from './nativeFee/ergopaySwap';
+import { ergoPaySwap as spfErgoPaySwap } from './spfFee/ergopaySwap';
 
-export const ergoPayRedeem = (
+export const ergoPaySwap = (
   pool: ErgoAmmPool,
-  lp: Currency,
-  x: Currency,
-  y: Currency,
-  percent: number,
+  from: Currency,
+  to: Currency,
 ): Observable<TxId> =>
   settings$
     .pipe(first())
     .pipe(
       switchMap(({ executionFeeAsset }) =>
         executionFeeAsset.id === feeAsset.id
-          ? spfErgoPayRedeem(pool, lp, x, y, percent)
-          : nativeErgoPayRedeem(pool, lp, x, y, percent),
+          ? spfErgoPaySwap(pool, from, to)
+          : nativeErgoPaySwap(pool, from, to),
       ),
     );
