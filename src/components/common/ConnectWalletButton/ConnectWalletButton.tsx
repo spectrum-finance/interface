@@ -1,5 +1,4 @@
 import {
-  Button,
   ButtonProps,
   ConnectWalletButton as SpectrumConnectWalletButton,
   Modal,

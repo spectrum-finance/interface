@@ -1,6 +1,6 @@
 import { Box } from '@ergolabs/ui-kit';
 import React, { FC } from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 import { RowRendererProps } from '../common/RowRenderer';
 

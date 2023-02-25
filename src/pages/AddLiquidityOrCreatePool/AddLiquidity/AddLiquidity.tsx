@@ -25,7 +25,6 @@ import {
 import { PoolSelector } from '../../../components/PoolSelector/PoolSelector';
 import { Section } from '../../../components/Section/Section';
 import { useAssetsBalance } from '../../../gateway/api/assetBalance';
-import { useNetworkAsset } from '../../../gateway/api/networkAsset';
 import { deposit } from '../../../gateway/api/operations/deposit';
 import { useHandleDepositMaxButtonClick } from '../../../gateway/api/useHandleDepositMaxButtonClick';
 import { useDepositValidators } from '../../../gateway/api/validationFees';
@@ -50,7 +49,6 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
   const [balance] = useAssetsBalance();
   const _handleDepositMaxButtonClick = useHandleDepositMaxButtonClick();
   const depositValidators = useDepositValidators();
-  const [networkAsset] = useNetworkAsset();
   const form = useForm<AddLiquidityFormModel>({
     xAsset,
     yAsset,

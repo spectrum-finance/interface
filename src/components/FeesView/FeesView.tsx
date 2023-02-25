@@ -8,7 +8,6 @@ import { AssetIcon } from '../AssetIcon/AssetIcon';
 import { BoxInfoItem } from '../BoxInfoItem/BoxInfoItem';
 import { ConvenientAssetView } from '../ConvenientAssetView/ConvenientAssetView';
 import { InfoTooltip } from '../InfoTooltip/InfoTooltip';
-import { IsCardano } from '../IsCardano/IsCardano';
 import { IsErgo } from '../IsErgo/IsErgo';
 
 export interface FeesViewItem {

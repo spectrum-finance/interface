@@ -56,10 +56,7 @@ import {
   setSettings,
   settings$,
 } from './settings/settings';
-import {
-  useCreatePoolValidationFee,
-  useDepositValidationFee,
-} from './settings/totalFees';
+import { useCreatePoolValidationFee } from './settings/totalFees';
 import {
   exploreAddress,
   exploreLastBlock,

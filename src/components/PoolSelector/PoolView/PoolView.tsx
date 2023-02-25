@@ -3,13 +3,10 @@ import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 
 import { AmmPool } from '../../../common/models/AmmPool';
-import { assets } from '../../../network/cardano/api/common/cardanoAssetInfo/mocks';
 import { formatToUSD } from '../../../services/number';
 import { renderFractions } from '../../../utils/math';
-import { AssetIconPair } from '../../AssetIconPair/AssetIconPair';
 import { AssetPairTitle } from '../../AssetPairTitle/AssetPairTitle';
 import { DataTag } from '../../common/DataTag/DataTag';
-import { Truncate } from '../../Truncate/Truncate';
 
 interface PoolSelectorItemProps {
   readonly ammPool: AmmPool;
