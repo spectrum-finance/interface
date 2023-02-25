@@ -5,7 +5,6 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { isDesktop } from 'react-device-detect';
 import styled from 'styled-components';
 
 import { applicationConfig } from '../../../applicationConfig';

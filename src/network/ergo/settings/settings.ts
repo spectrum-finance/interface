@@ -7,7 +7,6 @@ import {
   defaultSlippage,
 } from '../../../common/constants/settings';
 import { useObservable } from '../../../common/hooks/useObservable';
-import { AssetInfo } from '../../../common/models/AssetInfo';
 import { Address } from '../../../common/types';
 import { isCurrentAddressValid } from '../../../common/utils/isCurrenctAddressValid';
 import { localStorageManager } from '../../../common/utils/localStorageManager';

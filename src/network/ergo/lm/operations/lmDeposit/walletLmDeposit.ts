@@ -6,7 +6,6 @@ import {
   map,
   Observable,
   switchMap,
-  tap,
 } from 'rxjs';
 
 import { Currency } from '../../../../../common/models/Currency';
@@ -25,7 +24,6 @@ export const walletLmDeposit = (
 ): Observable<TxId> =>
   combineLatest([networkContext$, minerFee$, settings$]).pipe(
     first(),
-    tap(() => console.log(lmPool)),
     map(([networkContext, minerFee, settings]) =>
       createLmDepositData({
         pool: lmPool,
@@ -38,7 +36,6 @@ export const walletLmDeposit = (
     switchMap(([lqDepositConf, actionContext]) =>
       from(lmPoolActions.deposit(lqDepositConf, actionContext)),
     ),
-    tap(console.log, console.log),
     switchMap((ergoTx) =>
       selectedWallet$.pipe(
         filter(Boolean),
@@ -46,5 +43,4 @@ export const walletLmDeposit = (
         switchMap((w) => w.submitTx(ergoTx)),
       ),
     ),
-    tap(console.log, console.log),
   );

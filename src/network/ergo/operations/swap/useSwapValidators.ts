@@ -17,7 +17,7 @@ const useNativeFeeSwapValidators = (): OperationValidator<SwapFormModel>[] => {
     Required<SwapFormModel>
   > = ({ value: { fromAmount } }, balance) => {
     const totalFees = minerFee.plus(maxExFee).plus(MinBoxValue);
-    console.log(totalFees);
+
     const totalFeesWithAmount = fromAmount.isAssetEquals(networkAsset)
       ? fromAmount.plus(totalFees)
       : totalFees;

@@ -18,7 +18,6 @@ import { applicationConfig } from '../../../../applicationConfig';
 import { AssetInfo } from '../../../../common/models/AssetInfo';
 import { Currency } from '../../../../common/models/Currency';
 import { settings$ } from '../../settings/settings';
-import { getAddresses } from '../addresses/addresses';
 import { mapAssetClassToAssetInfo } from '../common/cardanoAssetInfo/getCardanoAssetInfo';
 
 interface AvailableAssetItem {

@@ -6,7 +6,6 @@ import {
   map,
   Observable,
   switchMap,
-  tap,
 } from 'rxjs';
 
 import { TxId } from '../../../../../common/types';
@@ -37,7 +36,6 @@ export const walletLmRedeem = (
     switchMap(([lqRedeemConf, actionContext]) =>
       from(lmPoolActions.redeem(lqRedeemConf, actionContext)),
     ),
-    tap(console.log, console.log),
     switchMap((ergoTx) =>
       selectedWallet$.pipe(
         filter(Boolean),
@@ -45,5 +43,4 @@ export const walletLmRedeem = (
         switchMap((w) => w.submitTx(ergoTx)),
       ),
     ),
-    tap(console.log, console.log),
   );

@@ -2,7 +2,6 @@ import { Box, Flex, Typography } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 
-import { Currency } from '../../../../../common/models/Currency';
 import { calculateOutputs } from '../../../../../common/utils/calculateOutputs';
 import { AssetIcon } from '../../../../../components/AssetIcon/AssetIcon';
 import { BoxInfoItem } from '../../../../../components/BoxInfoItem/BoxInfoItem';

@@ -3,33 +3,26 @@ import { combineLatest, map, publishReplay, refCount } from 'rxjs';
 
 import { Currency } from '../../../common/models/Currency';
 import { calculateTotalFee } from '../../../common/utils/calculateTotalFee';
-import { OperationValidator } from '../../../components/OperationForm/OperationForm';
-import { SwapFormModel } from '../../../pages/Swap/SwapFormModel';
 import { networkAsset } from '../api/networkAsset/networkAsset';
-import { maxExFee$, minExFee$, useMaxExFee, useMinExFee } from './executionFee';
+import { maxExFee$, minExFee$ } from './executionFee';
 import { minerFee$, useMinerFee } from './minerFee';
 
 // TODO: REMOVE TOTAL FEES
 export const minTotalFee$ = combineLatest([minerFee$, minExFee$]).pipe(
-  map(([minerFee, minExecutionFee]) =>
-    calculateTotalFee([minerFee], networkAsset),
-  ),
+  map(([minerFee]) => calculateTotalFee([minerFee], networkAsset)),
   publishReplay(1),
   refCount(),
 );
 
 // TODO: REMOVE TOTAL FEES
 export const maxTotalFee$ = combineLatest([minerFee$, maxExFee$]).pipe(
-  map(([minerFee, maxExecutionFee]) =>
-    calculateTotalFee([minerFee], networkAsset),
-  ),
+  map(([minerFee]) => calculateTotalFee([minerFee], networkAsset)),
   publishReplay(1),
   refCount(),
 );
 
 // TODO: REMOVE TOTAL FEES
 export const useMinTotalFee = (): Currency => {
-  const minExFee = useMinExFee();
   const minerFee = useMinerFee();
 
   return calculateTotalFee([minerFee], networkAsset);
@@ -37,7 +30,6 @@ export const useMinTotalFee = (): Currency => {
 
 // TODO: REMOVE TOTAL FEES
 export const useMaxTotalFee = (): Currency => {
-  const maxExFee = useMaxExFee();
   const minerFee = useMinerFee();
 
   return calculateTotalFee([minerFee], networkAsset);

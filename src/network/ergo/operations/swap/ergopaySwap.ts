@@ -1,11 +1,4 @@
-import {
-  from as fromPromise,
-  map,
-  Observable,
-  switchMap,
-  tap,
-  timeout,
-} from 'rxjs';
+import { from as fromPromise, map, Observable, switchMap, timeout } from 'rxjs';
 
 import { applicationConfig } from '../../../../applicationConfig';
 import { panalytics } from '../../../../common/analytics';
