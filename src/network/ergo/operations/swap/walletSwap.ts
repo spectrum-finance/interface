@@ -4,7 +4,7 @@ import { applicationConfig } from '../../../../applicationConfig';
 import { Currency } from '../../../../common/models/Currency';
 import { TxId } from '../../../../common/types';
 import { ErgoAmmPool } from '../../api/ammPools/ErgoAmmPool';
-import { poolActions } from '../common/poolActions';
+import { nativeFeePoolActions } from '../common/nativeFeePoolActions';
 import { submitTx } from '../common/submitTx';
 import { createSwapTxData } from './createSwapTxData';
 
@@ -15,9 +15,8 @@ export const walletSwap = (
 ): Observable<TxId> =>
   createSwapTxData(pool, from, to).pipe(
     switchMap(([swapParams, txContext]) =>
-      fromPromise(poolActions(pool.pool).swap(swapParams, txContext)),
+      fromPromise(nativeFeePoolActions(pool.pool).swap(swapParams, txContext)),
     ),
-    tap(console.log, console.log),
     switchMap((tx) =>
       submitTx(tx, {
         type: 'swap',

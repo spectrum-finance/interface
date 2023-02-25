@@ -6,7 +6,7 @@ import { Currency } from '../../../../common/models/Currency';
 import { TxId } from '../../../../common/types';
 import { ErgoAmmPool } from '../../api/ammPools/ErgoAmmPool';
 import { ergoPayMessageManager } from '../common/ergopayMessageManager';
-import { ergoPayPoolActions } from '../common/poolActions';
+import { ergoPayNativeFeePoolActions } from '../common/nativeFeePoolActions';
 import { submitErgopayTx } from '../common/submitErgopayTx';
 import { createDepositTxData } from './createDepositTxData';
 
@@ -18,7 +18,10 @@ export const ergopayDeposit = (
   createDepositTxData(pool, x, y).pipe(
     switchMap(([depositParams, txContext, additionalData]) =>
       fromPromise(
-        ergoPayPoolActions(pool.pool).deposit(depositParams, txContext),
+        ergoPayNativeFeePoolActions(pool.pool).deposit(
+          depositParams,
+          txContext,
+        ),
       ).pipe(map((txRequest) => ({ txRequest, additionalData }))),
     ),
     switchMap(({ txRequest, additionalData }) =>
