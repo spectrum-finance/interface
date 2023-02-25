@@ -3,7 +3,6 @@ import { t, Trans } from '@lingui/macro';
 import React, { FC, useEffect } from 'react';
 
 import { useSubject } from '../../../../../common/hooks/useObservable';
-import { Currency } from '../../../../../common/models/Currency';
 import { AssetIcon } from '../../../../../components/AssetIcon/AssetIcon';
 import { BoxInfoItem } from '../../../../../components/BoxInfoItem/BoxInfoItem';
 import {

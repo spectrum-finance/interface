@@ -66,7 +66,6 @@ export const toRedeemOperationArgs = ({
   TransactionContext,
   AdditionalData,
 ] => {
-  console.log('SPF FEE');
   if (!settings.address || !settings.pk) {
     throw new Error('[redeem]: wallet address is not selected');
   }
