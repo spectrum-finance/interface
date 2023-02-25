@@ -1,34 +1,24 @@
-import { from, Observable, switchMap, timeout } from 'rxjs';
+import { first, Observable, switchMap } from 'rxjs';
 
-import { applicationConfig } from '../../../../applicationConfig';
 import { Currency } from '../../../../common/models/Currency';
 import { TxId } from '../../../../common/types';
 import { ErgoAmmPool } from '../../api/ammPools/ErgoAmmPool';
-import { nativeFeePoolActions } from '../common/nativeFeePoolActions';
-import { submitTx } from '../common/submitTx';
-import { createDepositTxData } from './createDepositTxData';
+import { feeAsset } from '../../api/networkAsset/networkAsset';
+import { settings$ } from '../../settings/settings';
+import { walletDeposit as nativeWalletDeposit } from './nativeFee/walletDeposit';
+import { walletDeposit as spfWalletDeposit } from './spfFee/walletDeposit';
 
 export const walletDeposit = (
   pool: ErgoAmmPool,
   x: Currency,
   y: Currency,
 ): Observable<TxId> =>
-  createDepositTxData(pool, x, y).pipe(
-    switchMap(([depositParams, txContext]) =>
-      from(
-        nativeFeePoolActions(pool.pool).deposit(depositParams, txContext),
-      ).pipe(
-        switchMap((tx) =>
-          submitTx(tx, {
-            type: 'deposit',
-            xAsset: x.asset.id,
-            xAmount: x.toAmount(),
-            yAsset: y.asset.id,
-            yAmount: y.toAmount(),
-            txId: tx.id,
-          }),
-        ),
+  settings$
+    .pipe(first())
+    .pipe(
+      switchMap(({ executionFeeAsset }) =>
+        executionFeeAsset.id === feeAsset.id
+          ? spfWalletDeposit(pool, x, y)
+          : nativeWalletDeposit(pool, x, y),
       ),
-    ),
-    timeout(applicationConfig.operationTimeoutTime),
-  );
+    );
