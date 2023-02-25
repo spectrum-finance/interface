@@ -8,7 +8,7 @@ import { panalytics } from '../../../../common/analytics';
 import { TxId } from '../../../../common/types';
 import { CurrencyPreview } from '../../../../components/CurrencyPreview/CurrencyPreview';
 import { SwapFormModel } from '../../../../pages/Swap/SwapFormModel';
-import { ergoPaySwap } from '../../operations/swap/ergopaySwap';
+import { ergoPaySwap } from '../../operations/swap/nativeFee/ergopaySwap';
 import { SwapConfirmationInfo } from '../common/SwapConfirmationInfo/SwapConfirmationInfo';
 
 export interface ErgoPayOpenWalletContentProps {
