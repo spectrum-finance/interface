@@ -65,7 +65,6 @@ const toSwapOperationArgs = ({
   TransactionContext,
   AdditionalData,
 ] => {
-  console.log('Native fee swap!');
   if (!settings.address || !settings.pk) {
     throw new Error('[swap]: wallet address is not selected');
   }
