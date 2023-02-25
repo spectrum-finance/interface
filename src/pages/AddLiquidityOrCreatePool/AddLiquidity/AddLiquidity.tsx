@@ -28,7 +28,7 @@ import { useAssetsBalance } from '../../../gateway/api/assetBalance';
 import { useNetworkAsset } from '../../../gateway/api/networkAsset';
 import { deposit } from '../../../gateway/api/operations/deposit';
 import { useRefundableDeposit } from '../../../gateway/api/refundableDeposit';
-import { useSwapValidationFee } from '../../../gateway/api/validationFees';
+import { useDepositValidationFee } from '../../../gateway/api/validationFees';
 import { PoolRatio } from '../../PoolOverview/PoolRatio/PoolRatio';
 import { normalizeAmountWithFee } from '../common/utils';
 import { LiquidityPercentInput } from '../LiquidityPercentInput/LiquidityPercentInput';
@@ -49,7 +49,7 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
 }) => {
   const [lastEditedField, setLastEditedField] = useState<'x' | 'y'>('x');
   const [balance] = useAssetsBalance();
-  const totalFees = useSwapValidationFee();
+  const totalFees = useDepositValidationFee();
   const refundableDeposit = useRefundableDeposit();
   const [networkAsset] = useNetworkAsset();
   const form = useForm<AddLiquidityFormModel>({

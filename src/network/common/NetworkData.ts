@@ -12,6 +12,8 @@ import { PoolChartData } from '../../common/models/PoolChartData';
 import { Position } from '../../common/models/Position';
 import { CurrencyConverter } from '../../common/services/CurrencyConverter';
 import { Address } from '../../common/types';
+import { OperationValidator } from '../../components/OperationForm/OperationForm';
+import { SwapFormModel } from '../../pages/Swap/SwapFormModel';
 import { NetworkContext } from './NetworkContext';
 import { PoolChartDataParams } from './PoolChartDataParams';
 import { SupportedFeatures } from './SupportedFeatures';
@@ -45,9 +47,9 @@ export interface NetworkData<W extends Wallet> {
   readonly supportedFeatures$: Observable<SupportedFeatures>;
   readonly networkContext$: Observable<NetworkContext>;
 
-  readonly useSwapFees: () => Currency[];
+  readonly useHandleSwapMaxButtonClick: () => (balance: Currency) => Currency;
+  readonly useSwapValidators: () => OperationValidator<SwapFormModel>[];
 
-  readonly useSwapValidationFee: () => Currency;
   readonly useDepositValidationFee: () => Currency;
   readonly useRedeemValidationFee: () => Currency;
   readonly useCreatePoolValidationFee: () => Currency;

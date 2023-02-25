@@ -1,10 +1,12 @@
 import { Currency } from '../../common/models/Currency';
+import { OperationValidator } from '../../components/OperationForm/OperationForm';
+import { SwapFormModel } from '../../pages/Swap/SwapFormModel';
 import { useSelectedNetwork } from '../common/network';
 
-export const useSwapValidationFee = (): Currency => {
+export const useSwapValidators = (): OperationValidator<SwapFormModel>[] => {
   const [selectedNetwork] = useSelectedNetwork();
 
-  return selectedNetwork.useSwapValidationFee();
+  return selectedNetwork.useSwapValidators();
 };
 
 export const useDepositValidationFee = (): Currency => {

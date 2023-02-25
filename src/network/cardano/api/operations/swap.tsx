@@ -21,11 +21,14 @@ import {
   openConfirmationModal,
   Operation,
 } from '../../../../components/ConfirmationModal/ConfirmationModal';
+import { OperationValidator } from '../../../../components/OperationForm/OperationForm';
 import { SwapFormModel } from '../../../../pages/Swap/SwapFormModel';
 import { CardanoSettings, settings$ } from '../../settings/settings';
+import { useSwapValidationFee } from '../../settings/totalFee';
 import { SwapConfirmationModal } from '../../widgets/SwapConfirmationModal/SwapConfirmationModal';
 import { CardanoAmmPool } from '../ammPools/CardanoAmmPool';
 import { cardanoNetworkParams$ } from '../common/cardanoNetwork';
+import { networkAsset } from '../networkAsset/networkAsset';
 import { getUtxosByAmount } from '../utxos/utxos';
 import { ammTxFeeMapping } from './common/ammTxFeeMapping';
 import { minExecutorReward } from './common/minExecutorReward';
@@ -164,4 +167,19 @@ export const swap = (data: Required<SwapFormModel>): Observable<TxId> => {
   );
 
   return subject;
+};
+
+export const useSwapValidators = (): OperationValidator<SwapFormModel>[] => {
+  return [];
+};
+
+export const useHandleSwapMaxButtonClick = (): ((
+  balance: Currency,
+) => Currency) => {
+  const swapValidationFee = useSwapValidationFee();
+
+  return (balance) =>
+    balance.asset.id === networkAsset.id
+      ? balance.minus(swapValidationFee)
+      : balance;
 };

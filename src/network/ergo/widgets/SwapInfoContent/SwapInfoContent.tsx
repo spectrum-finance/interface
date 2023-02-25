@@ -54,10 +54,10 @@ export const SwapInfoContent: FC<SwapInfoContent> = ({ value }) => {
             minOutput ? (
               <Flex align="center">
                 <Flex.Item marginRight={1}>
-                  <AssetIcon size="extraSmall" asset={minOutput.asset} />
+                  <AssetIcon size="extraSmall" asset={value.toAsset!} />
                 </Flex.Item>
                 {minOutput.toString()}{' '}
-                <Truncate>{minOutput.asset.name}</Truncate> (
+                <Truncate>{value.toAsset!.ticker}</Truncate> (
                 <ConvenientAssetView value={minOutput} />)
               </Flex>
             ) : (

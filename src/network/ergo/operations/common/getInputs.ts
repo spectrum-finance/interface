@@ -5,6 +5,7 @@ import {
   DefaultBoxSelector,
   ErgoBox,
   InsufficientInputs,
+  MinBoxValue,
 } from '@ergolabs/ergo-sdk';
 
 import { makeTarget } from './makeTarget';
@@ -22,7 +23,7 @@ export const getInputs = (
 
   const target = makeTarget(assets, minFeeForOrder);
 
-  const inputs = DefaultBoxSelector.select(utxos, target);
+  const inputs = DefaultBoxSelector.select(utxos, target, MinBoxValue * 4n);
 
   if (inputs instanceof InsufficientInputs) {
     throw new Error(

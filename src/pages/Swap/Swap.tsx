@@ -54,8 +54,8 @@ import {
 } from '../../gateway/api/assets';
 import { useNetworkAsset } from '../../gateway/api/networkAsset';
 import { swap } from '../../gateway/api/operations/swap';
-import { useRefundableDeposit } from '../../gateway/api/refundableDeposit';
-import { useSwapValidationFee } from '../../gateway/api/validationFees';
+import { useHandleSwapMaxButtonClick } from '../../gateway/api/useHandleSwapMaxButtonClick';
+import { useSwapValidators } from '../../gateway/api/validationFees';
 import { useSelectedNetwork } from '../../gateway/common/network';
 import { operationsSettings$ } from '../../gateway/widgets/operationsSettings';
 import { PoolSelector } from './PoolSelector/PoolSelector';
@@ -97,8 +97,8 @@ export const Swap = (): JSX.Element => {
   const [networkAsset] = useNetworkAsset();
   const [balance] = useAssetsBalance();
   const [, allAmmPoolsLoading] = useObservable(ammPools$);
-  const refundableDeposit = useRefundableDeposit();
-  const totalFeesWithDeposit = useSwapValidationFee();
+  const swapNetworkValidators = useSwapValidators();
+  const handleSwapMaxButtonClick = useHandleSwapMaxButtonClick();
   const [{ base, quote, initialPoolId }, setSearchParams] =
     useSearchParams<{ base: string; quote: string; initialPoolId: string }>();
   const [OperationSettings] = useObservable(operationsSettings$);
@@ -120,29 +120,29 @@ export const Swap = (): JSX.Element => {
     [],
   );
 
-  const insufficientAssetForFeeValidator: OperationValidator<
-    Required<SwapFormModel>
-  > = ({ value: { fromAmount } }) => {
-    const totalFeesWithAmount = fromAmount.isAssetEquals(networkAsset)
-      ? fromAmount.plus(totalFeesWithDeposit).minus(refundableDeposit)
-      : totalFeesWithDeposit.minus(refundableDeposit);
-
-    return totalFeesWithAmount.gt(balance.get(networkAsset))
-      ? t`Insufficient ${networkAsset.ticker} balance for fees`
-      : undefined;
-  };
-
-  const insufficientAssetForRefundableDepositValidator: OperationValidator<
-    Required<SwapFormModel>
-  > = ({ value: { fromAmount } }) => {
-    const totalFeesWithAmount = fromAmount.isAssetEquals(networkAsset)
-      ? fromAmount.plus(totalFeesWithDeposit)
-      : totalFeesWithDeposit;
-
-    return totalFeesWithAmount.gt(balance.get(networkAsset))
-      ? t`Insufficient ${networkAsset.ticker} for refundable deposit`
-      : undefined;
-  };
+  // const insufficientAssetForFeeValidator: OperationValidator<
+  //   Required<SwapFormModel>
+  // > = ({ value: { fromAmount } }) => {
+  //   const totalFeesWithAmount = fromAmount.isAssetEquals(networkAsset)
+  //     ? fromAmount.plus(totalFeesWithDeposit).minus(refundableDeposit)
+  //     : totalFeesWithDeposit.minus(refundableDeposit);
+  //
+  //   return totalFeesWithAmount.gt(balance.get(networkAsset))
+  //     ? t`Insufficient ${networkAsset.ticker} balance for fees`
+  //     : undefined;
+  // };
+  //
+  // const insufficientAssetForRefundableDepositValidator: OperationValidator<
+  //   Required<SwapFormModel>
+  // > = ({ value: { fromAmount } }) => {
+  //   const totalFeesWithAmount = fromAmount.isAssetEquals(networkAsset)
+  //     ? fromAmount.plus(totalFeesWithDeposit)
+  //     : totalFeesWithDeposit;
+  //
+  //   return totalFeesWithAmount.gt(balance.get(networkAsset))
+  //     ? t`Insufficient ${networkAsset.ticker} for refundable deposit`
+  //     : undefined;
+  // };
 
   const insufficientFromForTxValidator: OperationValidator<SwapFormModel> = ({
     value: { fromAsset, fromAmount },
@@ -217,11 +217,6 @@ export const Swap = (): JSX.Element => {
       { fromAmount: undefined, toAmount: undefined },
       { emitEvent: 'silent' },
     );
-
-  const handleMaxButtonClick = (balance: Currency) =>
-    balance.asset.id === networkAsset.id
-      ? balance.minus(totalFeesWithDeposit)
-      : balance;
 
   const insufficientLiquidityValidator: OperationValidator<SwapFormModel> = ({
     value: { toAmount, pool },
@@ -398,8 +393,9 @@ export const Swap = (): JSX.Element => {
     amountEnteredValidator,
     minValueForTokenValidator,
     insufficientFromForTxValidator,
-    insufficientAssetForFeeValidator as OperationValidator<SwapFormModel>,
-    insufficientAssetForRefundableDepositValidator as OperationValidator<SwapFormModel>,
+    ...swapNetworkValidators,
+    // insufficientAssetForFeeValidator as OperationValidator<SwapFormModel>,
+    // insufficientAssetForRefundableDepositValidator as OperationValidator<SwapFormModel>,
     insufficientLiquidityValidator,
   ];
 
@@ -450,7 +446,7 @@ export const Swap = (): JSX.Element => {
               loading={allAmmPoolsLoading}
               bordered
               maxButton
-              handleMaxButtonClick={handleMaxButtonClick}
+              handleMaxButtonClick={handleSwapMaxButtonClick}
               assets$={defaultTokenAssets$}
               assetsToImport$={tokenAssetsToImport$}
               importedAssets$={importedTokenAssets$}

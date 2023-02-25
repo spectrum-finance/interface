@@ -46,6 +46,8 @@ import { deposit } from './operations/deposit/deposit';
 import { redeem } from './operations/redeem/redeem';
 import { refund } from './operations/refund/refund';
 import { swap } from './operations/swap/swap';
+import { useHandleSwapMaxButtonClick } from './operations/swap/useHandleSwapMaxButtonClick';
+import { useSwapValidators } from './operations/swap/useSwapValidators';
 import {
   ErgoSettings,
   getSettings,
@@ -56,7 +58,6 @@ import {
   useCreatePoolValidationFee,
   useDepositValidationFee,
   useRedeemValidationFee,
-  useSwapValidationFee,
 } from './settings/totalFees';
 import {
   exploreAddress,
@@ -128,11 +129,11 @@ export const ergoNetwork: Network<
   OperationsSettings,
 
   convertToConvenientNetworkAsset,
-
-  useSwapFees: () => [],
-
   useNetworkAsset,
-  useSwapValidationFee,
+
+  useSwapValidators,
+  useHandleSwapMaxButtonClick,
+
   useDepositValidationFee,
   useRedeemValidationFee,
   useCreatePoolValidationFee,

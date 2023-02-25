@@ -14,7 +14,7 @@ import { getBaseInputParameters } from '../../../../utils/walletMath';
 import { ErgoAmmPool } from '../../api/ammPools/ErgoAmmPool';
 import { networkContext$ } from '../../api/networkContext/networkContext';
 import { utxos$ } from '../../api/utxos/utxos';
-import { minExFee$ } from '../../settings/executionFee';
+import { minExFee$ } from '../../settings/executionFee/nativeExecutionFee';
 import { minerFee$ } from '../../settings/minerFee';
 import { ErgoSettings, settings$ } from '../../settings/settings';
 import { maxTotalFee$, minTotalFee$ } from '../../settings/totalFees';

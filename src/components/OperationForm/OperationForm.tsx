@@ -119,7 +119,7 @@ export function OperationForm<T>({
       result.pipe(first()).subscribe();
     }
   };
-
+  console.log(validators);
   return (
     <Form form={form} onSubmit={handleSubmit}>
       <Flex col>

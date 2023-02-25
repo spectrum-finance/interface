@@ -1,4 +1,4 @@
-import { from as fromPromise, Observable, switchMap, timeout } from 'rxjs';
+import { from as fromPromise, Observable, switchMap, tap, timeout } from 'rxjs';
 
 import { applicationConfig } from '../../../../applicationConfig';
 import { Currency } from '../../../../common/models/Currency';
@@ -17,6 +17,7 @@ export const walletSwap = (
     switchMap(([swapParams, txContext]) =>
       fromPromise(poolActions(pool.pool).swap(swapParams, txContext)),
     ),
+    tap(console.log, console.log),
     switchMap((tx) =>
       submitTx(tx, {
         type: 'swap',

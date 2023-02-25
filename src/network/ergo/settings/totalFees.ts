@@ -3,6 +3,8 @@ import { combineLatest, map, publishReplay, refCount } from 'rxjs';
 
 import { Currency } from '../../../common/models/Currency';
 import { calculateTotalFee } from '../../../common/utils/calculateTotalFee';
+import { OperationValidator } from '../../../components/OperationForm/OperationForm';
+import { SwapFormModel } from '../../../pages/Swap/SwapFormModel';
 import { networkAsset } from '../api/networkAsset/networkAsset';
 import { maxExFee$, minExFee$, useMaxExFee, useMinExFee } from './executionFee';
 import { minerFee$, useMinerFee } from './minerFee';
@@ -40,9 +42,6 @@ export const useMaxTotalFee = (): Currency => {
 
   return calculateTotalFee([minerFee], networkAsset);
 };
-
-export const useSwapValidationFee = (): Currency =>
-  useMaxTotalFee().plus(MinBoxValue);
 
 export const useDepositValidationFee = (): Currency =>
   useMinTotalFee().plus(MinBoxValue);
