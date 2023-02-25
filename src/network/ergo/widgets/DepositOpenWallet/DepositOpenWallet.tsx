@@ -4,7 +4,7 @@ import React, { FC, useState } from 'react';
 import { isMobile } from 'react-device-detect';
 import { first } from 'rxjs';
 
-import { panalytics } from '../../../../common/analytics';
+// import { panalytics } from '../../../../common/analytics';
 import { TxId } from '../../../../common/types';
 import { FormPairSection } from '../../../../components/common/FormView/FormPairSection/FormPairSection';
 import { PageSection } from '../../../../components/Page/PageSection/PageSection';
@@ -27,7 +27,7 @@ export const DepositOpenWallet: FC<DepositOpenWalletProps> = ({
 
   const addLiquidityOperation = async () => {
     if (value.pool && value.x && value.y) {
-      panalytics.confirmDeposit(value);
+      // panalytics.confirmDeposit(value);
       setLoading(true);
       ergopayDeposit(value.pool as any, value.x, value.y)
         .pipe(first())

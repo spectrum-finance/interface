@@ -4,8 +4,7 @@ import React from 'react';
 import { Observable } from 'rxjs';
 import styled from 'styled-components';
 
-import { panalytics } from '../../../../common/analytics';
-import { PAnalytics } from '../../../../common/analytics/@types/types';
+// import { pa } from '../../../../common/analytics';
 import { AssetInfo } from '../../../../common/models/AssetInfo';
 import { AssetTitle } from '../../../AssetTitle/AssetTitle';
 import { AssetListModal } from './AssetListModal/AssetListModal';
@@ -18,7 +17,6 @@ interface TokenSelectProps {
   readonly importedAssets$?: Observable<AssetInfo[]>;
   readonly disabled?: boolean;
   readonly readonly?: boolean;
-  readonly analytics?: PAnalytics;
   readonly loading?: boolean;
 }
 
@@ -39,19 +37,13 @@ const AssetSelect: React.FC<TokenSelectProps> = ({
   assets$,
   assetsToImport$,
   importedAssets$,
-  analytics,
   loading,
 }) => {
   const handleSelectChange = (newValue: AssetInfo): void => {
     if (value?.id !== newValue?.id && onChange) {
       onChange(newValue);
     }
-    if (analytics && analytics.operation && analytics.tokenAssignment) {
-      panalytics.selectToken(analytics.operation, analytics.tokenAssignment, {
-        tokenId: newValue.id,
-        tokenName: newValue.ticker,
-      });
-    }
+    // pa.selectToken(newValue);
   };
 
   const openTokenModal = () => {

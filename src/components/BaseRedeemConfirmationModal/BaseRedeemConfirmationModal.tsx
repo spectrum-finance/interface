@@ -3,7 +3,7 @@ import { t, Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 import { Observable, tap } from 'rxjs';
 
-import { panalytics } from '../../common/analytics';
+// import { panalytics } from '../../common/analytics';
 import { AmmPool } from '../../common/models/AmmPool';
 import { Currency } from '../../common/models/Currency';
 import { TxId } from '../../common/types';
@@ -27,14 +27,15 @@ export interface BaseRedeemConfirmationModalProps {
 export const BaseRedeemConfirmationModal: FC<BaseRedeemConfirmationModalProps> =
   ({ value, onClose, Info, redeem, pool }) => {
     const removeOperation = async () => {
-      panalytics.confirmRedeem(value, pool);
+      // panalytics.confirmRedeem(value, pool);
       onClose(
-        redeem(pool, value.lpAmount, value.xAmount, value.yAmount).pipe(
-          tap(
-            (txId) => panalytics.signedRedeem(value, pool, txId),
-            (err) => panalytics.signedErrorRedeem(value, pool, err),
-          ),
-        ),
+        redeem(pool, value.lpAmount, value.xAmount, value.yAmount),
+        // .pipe(
+        //   tap(
+        //     (txId) => panalytics.signedRedeem(value, pool, txId),
+        //     (err) => panalytics.signedErrorRedeem(value, pool, err),
+        //   ),
+        // ),
       );
     };
 

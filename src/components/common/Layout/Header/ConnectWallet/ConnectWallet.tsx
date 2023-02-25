@@ -5,7 +5,7 @@ import { WalletInfoButton } from './WalletInfoButton/WalletInfoButton';
 
 export const ConnectWallet: FC = () => {
   return (
-    <HeaderConnectWalletButton size="large" analytics={{ location: 'header' }}>
+    <HeaderConnectWalletButton size="large">
       <WalletInfoButton />
     </HeaderConnectWalletButton>
   );

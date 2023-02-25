@@ -4,7 +4,7 @@ import React, { FC, useState } from 'react';
 import { isMobile } from 'react-device-detect';
 import { first } from 'rxjs';
 
-import { panalytics } from '../../../../common/analytics';
+// import { panalytics } from '../../../../common/analytics';
 import { TxId } from '../../../../common/types';
 import { CurrencyPreview } from '../../../../components/CurrencyPreview/CurrencyPreview';
 import { SwapFormModel } from '../../../../pages/Swap/SwapFormModel';
@@ -25,7 +25,7 @@ export const SwapOpenWallet: FC<ErgoPayOpenWalletContentProps> = ({
 
   const swapOperation = async () => {
     if (value.pool && value.fromAmount && value.toAmount) {
-      panalytics.confirmSwap(value);
+      // panalytics.confirmSwap(value);
       setLoading(true);
       ergoPaySwap(value.pool as any, value.fromAmount, value.toAmount)
         .pipe(first())

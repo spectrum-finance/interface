@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import {
   DEFAULT_LOCALE,
   SUPPORTED_LOCALES,
-  SupportedLocale,
+  SupportedLocales,
 } from '../common/constants/locales';
 import { getSetting, useApplicationSettings } from '../context';
 import { parsedQueryString, useQuery } from './useQuery';
@@ -14,7 +14,7 @@ import { parsedQueryString, useQuery } from './useQuery';
  */
 function parseLocale(
   maybeSupportedLocale: unknown,
-): SupportedLocale | undefined {
+): SupportedLocales | undefined {
   if (typeof maybeSupportedLocale !== 'string') return undefined;
   const lowerMaybeSupportedLocale = maybeSupportedLocale.toLowerCase();
   return SUPPORTED_LOCALES.find(
@@ -27,7 +27,7 @@ function parseLocale(
 /**
  * Returns the supported locale read from the user agent (navigator)
  */
-export function navigatorLocale(): SupportedLocale | undefined {
+export function navigatorLocale(): SupportedLocales | undefined {
   if (!navigator.language) return undefined;
 
   const [language, region] = navigator.language.split('-');
@@ -42,7 +42,7 @@ export function navigatorLocale(): SupportedLocale | undefined {
   return parseLocale(language);
 }
 
-function useUserSettingsLocale(): SupportedLocale {
+function useUserSettingsLocale(): SupportedLocales {
   const [{ lang }] = useApplicationSettings();
   return lang;
 }
@@ -58,7 +58,7 @@ const useUrlLocale = () => parseLocale(useQuery().lng);
  * Returns the currently active locale, from a combination of user agent, query string, and user settings stored in redux
  * Stores the query string locale in redux (if set) to persist across sessions
  */
-export function useLocale(): SupportedLocale {
+export function useLocale(): SupportedLocales {
   const urlLocale = useUrlLocale();
   const userLocale = useUserSettingsLocale();
 

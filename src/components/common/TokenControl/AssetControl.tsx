@@ -10,8 +10,8 @@ import {
 import React, { FC, ReactNode } from 'react';
 import { Observable, of } from 'rxjs';
 
-import { panalytics } from '../../../common/analytics';
-import { PAnalytics } from '../../../common/analytics/@types/types';
+// import { panalytics } from '../../../common/analytics';
+// import { PAnalytics } from '../../../common/analytics/src/types';
 import { useObservable } from '../../../common/hooks/useObservable';
 import { Currency } from '../../../common/models/Currency';
 import { useAssetsBalance } from '../../../gateway/api/assetBalance';
@@ -66,7 +66,6 @@ export interface AssetControlFormItemProps {
   readonly readonly?: boolean | 'asset' | 'amount';
   readonly noBottomInfo?: boolean;
   readonly bordered?: boolean;
-  readonly analytics?: PAnalytics;
   readonly loading?: boolean;
 }
 
@@ -80,7 +79,6 @@ export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
   disabled,
   readonly,
   handleMaxButtonClick,
-  analytics,
   loading,
 }) => {
   const { form } = useFormContext();
@@ -150,7 +148,6 @@ export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
                     value={value}
                     onChange={onChange}
                     disabled={disabled}
-                    analytics={analytics}
                   />
                 )}
               </Form.Item>

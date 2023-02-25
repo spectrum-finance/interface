@@ -160,10 +160,7 @@ export const PoolOverview: React.FC = () => {
           </Flex.Item>
           <Flex.Item>
             <Flex>
-              <ConnectWalletButton
-                size="large"
-                analytics={{ location: 'pool-overview' }}
-              >
+              <ConnectWalletButton size="large">
                 <Flex.Item flex={1} marginRight={2}>
                   <Button
                     type="primary"

@@ -9,7 +9,7 @@ import { TimeoutError } from 'rxjs';
 import { applicationConfig } from '../../applicationConfig';
 import { ReactComponent as DiscordIcon } from '../../assets/icons/social/Discord.svg';
 import { ReactComponent as TelegramIcon } from '../../assets/icons/social/Telegram.svg';
-import { panalytics } from '../../common/analytics';
+// import { panalytics } from '../../common/analytics';
 import { AssetLock } from '../../common/models/AssetLock';
 import { Currency } from '../../common/models/Currency';
 import { exploreTx } from '../../gateway/utils/exploreAddress';
@@ -184,7 +184,7 @@ const YoroiIssueModalContent = () => (
             href={applicationConfig.support.discord}
             target="_blank"
             rel="noreferrer"
-            onClick={() => panalytics.clickSocial('Discord', 'chaining-modal')}
+            // onClick={() => panalytics.clickSocial('Discord', 'chaining-modal')}
           >
             <DiscordIcon style={{ cursor: 'pointer' }} />
           </a>
@@ -195,7 +195,7 @@ const YoroiIssueModalContent = () => (
             href={applicationConfig.support.telegram}
             target="_blank"
             rel="noreferrer"
-            onClick={() => panalytics.clickSocial('Telegram', 'chaining-modal')}
+            // onClick={() => panalytics.clickSocial('Telegram', 'chaining-modal')}
           >
             <TelegramIcon style={{ cursor: 'pointer' }} />
           </a>

@@ -13,7 +13,7 @@ import { Trans } from '@lingui/macro';
 import capitalize from 'lodash/capitalize';
 import React from 'react';
 
-import { panalytics } from '../../../../../common/analytics';
+// import { panalytics } from '../../../../../common/analytics';
 import {
   changeSelectedNetwork,
   networks,
@@ -43,7 +43,7 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
         <Menu.Item
           key={network.name}
           onClick={() => {
-            panalytics.changeNetwork(network.name);
+            // panalytics.changeNetwork(network.name);
             changeSelectedNetwork(network);
           }}
         >

@@ -26,7 +26,6 @@ import {
   zip,
 } from 'rxjs';
 
-import { panalytics } from '../../common/analytics';
 import {
   useObservable,
   useSubscription,
@@ -206,7 +205,7 @@ export const Swap = (): JSX.Element => {
     swap(value)
       .pipe(first())
       .subscribe(() => resetForm());
-    panalytics.submitSwap(value);
+    // pa.submitSwap(value);
   };
 
   const resetForm = () =>
@@ -379,7 +378,7 @@ export const Swap = (): JSX.Element => {
       { emitEvent: 'silent' },
     );
     setLastEditedField((prev) => (prev === 'from' ? 'to' : 'from'));
-    panalytics.switchSwap();
+    // pa.switchSwap();
   };
 
   const [pool] = useObservable(form.controls.pool.valueChangesWithSilent$);
@@ -446,11 +445,6 @@ export const Swap = (): JSX.Element => {
               importedAssets$={importedTokenAssets$}
               amountName="fromAmount"
               tokenName="fromAsset"
-              analytics={{
-                operation: 'swap',
-                location: 'swap',
-                tokenAssignment: 'from',
-              }}
             />
           </Flex.Item>
           <SwitchButton
@@ -467,11 +461,6 @@ export const Swap = (): JSX.Element => {
               importedAssets$={toImportedAssets$}
               amountName="toAmount"
               tokenName="toAsset"
-              analytics={{
-                operation: 'swap',
-                location: 'swap',
-                tokenAssignment: 'to',
-              }}
             />
           </Flex.Item>
           <Form.Item name="pool">
@@ -493,7 +482,7 @@ export const Swap = (): JSX.Element => {
             )}
           </Form.Listener>
           <Flex.Item marginTop={4}>
-            <ActionForm.Button analytics={{ location: 'swap' }}>
+            <ActionForm.Button>
               <Trans>Swap</Trans>
             </ActionForm.Button>
           </Flex.Item>

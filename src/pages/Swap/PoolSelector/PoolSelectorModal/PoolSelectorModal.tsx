@@ -2,7 +2,7 @@ import { Control, List, Modal, ModalRef } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React, { FC, useEffect } from 'react';
 
-import { panalytics } from '../../../../common/analytics';
+// import { pa } from '../../../../common/analytics';
 import { useSubject } from '../../../../common/hooks/useObservable';
 import { AmmPool } from '../../../../common/models/AmmPool';
 import { getAmmPoolsByAssetPair } from '../../../../gateway/api/ammPools';
@@ -30,7 +30,7 @@ export const PoolSelectorModal: FC<PoolSelectorModalProps> = ({
     if (onChange) {
       onChange(pool);
       close();
-      panalytics.changePoolSwap(pool);
+      // pa.changePoolSwap(pool);
     }
   };
 

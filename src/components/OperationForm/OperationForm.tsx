@@ -5,7 +5,7 @@ import { t } from '@lingui/macro';
 import React, { ReactNode, useEffect, useState } from 'react';
 import { debounceTime, first, Observable } from 'rxjs';
 
-import { PAnalytics } from '../../common/analytics/@types/types';
+// import { PAnalytics } from '../../common/analytics/src/types';
 import { useObservable } from '../../common/hooks/useObservable';
 import { isOnline$ } from '../../common/streams/networkConnection';
 import { useAssetsBalance } from '../../gateway/api/assetBalance';
@@ -17,7 +17,6 @@ export type OperationValidator<T> = (
 ) => ReactNode | ReactNode[] | string | undefined;
 
 export interface OperationFormProps<T> {
-  readonly analytics?: PAnalytics;
   readonly validators?: OperationValidator<T>[];
   readonly form: FormGroup<T>;
   readonly actionCaption: ReactNode | ReactNode[] | string;
@@ -37,7 +36,6 @@ export function OperationForm<T>({
   onSubmit,
   children,
   actionCaption,
-  analytics,
 }: OperationFormProps<T>): JSX.Element {
   const [isOnline] = useObservable(isOnline$);
   const [queuedOperation] = useObservable(queuedOperation$);
@@ -45,6 +43,8 @@ export function OperationForm<T>({
   const [value] = useObservable(
     form.valueChangesWithSilent$.pipe(debounceTime(100)),
     [form],
+    // TODO: Teach debt
+    // @ts-ignore
     {},
   );
   const [{ loading, disabled, caption }, setButtonProps] = useState<{
@@ -113,7 +113,6 @@ export function OperationForm<T>({
           <ConnectWalletButton
             className="connect-wallet-button"
             size="extra-large"
-            analytics={analytics}
           >
             <Button
               loading={loading}

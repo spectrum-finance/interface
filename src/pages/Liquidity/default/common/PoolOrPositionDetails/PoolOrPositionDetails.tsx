@@ -53,7 +53,7 @@ export const PoolOrPositionDetails: FC<
       </Flex.Item>
       <Flex.Item display="flex">
         <Flex.Item marginRight={2}>
-          <ConnectWalletButton analytics={{ location: 'pool-list' }}>
+          <ConnectWalletButton>
             <Button onClick={navigateToSwap}>
               <Trans>Swap</Trans>
             </Button>
