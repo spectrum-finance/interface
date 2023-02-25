@@ -13,8 +13,8 @@ export const RedeemConfirmationInfo: FC = () => {
   const minerFee = useMinerFee();
 
   const fees: FeesViewItem[] = [
-    { caption: t`Miner Fee`, currency: minerFee },
     { caption: t`Execution Fee`, currency: minExFee },
+    { caption: t`Miner Fee`, currency: minerFee },
   ];
 
   return <FeesView totalFees={[minerFee, minExFee]} fees={fees} />;
