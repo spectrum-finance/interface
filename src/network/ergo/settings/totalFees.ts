@@ -31,9 +31,6 @@ export const useMinTotalFee = (): Currency => {
 export const useDepositValidationFee = (): Currency =>
   useMinTotalFee().plus(MinBoxValue);
 
-export const useRedeemValidationFee = (): Currency =>
-  useMinTotalFee().plus(MinBoxValue);
-
 export const useCreatePoolValidationFee = (): Currency => {
   const minerFee = useMinerFee();
 

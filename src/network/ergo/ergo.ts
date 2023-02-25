@@ -57,7 +57,6 @@ import {
 import {
   useCreatePoolValidationFee,
   useDepositValidationFee,
-  useRedeemValidationFee,
 } from './settings/totalFees';
 import {
   exploreAddress,
@@ -135,7 +134,6 @@ export const ergoNetwork: Network<
   useHandleSwapMaxButtonClick,
 
   useDepositValidationFee,
-  useRedeemValidationFee,
   useCreatePoolValidationFee,
 
   getPoolChartData,

@@ -20,9 +20,3 @@ export const useCreatePoolValidationFee = (): Currency => {
 
   return selectedNetwork.useCreatePoolValidationFee();
 };
-
-export const useRedeemValidationFee = (): Currency => {
-  const [selectedNetwork] = useSelectedNetwork();
-
-  return selectedNetwork.useRedeemValidationFee();
-};

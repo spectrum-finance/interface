@@ -134,7 +134,6 @@ export const cardanoNetwork: Network<
   useHandleSwapMaxButtonClick,
 
   useDepositValidationFee,
-  useRedeemValidationFee,
   useCreatePoolValidationFee,
   useNetworkAsset,
 
