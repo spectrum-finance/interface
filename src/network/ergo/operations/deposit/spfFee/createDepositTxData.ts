@@ -1,5 +1,5 @@
 import { DepositParams } from '@ergolabs/ergo-dex-sdk';
-import { NativeExFeeType } from '@ergolabs/ergo-dex-sdk/build/main/types';
+import { SpecExFeeType } from '@ergolabs/ergo-dex-sdk/build/main/types';
 import { AssetAmount, ErgoBox, TransactionContext } from '@ergolabs/ergo-sdk';
 import { NetworkContext } from '@ergolabs/ergo-sdk/build/main/entities/networkContext';
 import { first, map, Observable, zip } from 'rxjs';
@@ -7,9 +7,10 @@ import { first, map, Observable, zip } from 'rxjs';
 import { UI_FEE_BIGINT } from '../../../../../common/constants/erg';
 import { Currency } from '../../../../../common/models/Currency';
 import { ErgoAmmPool } from '../../../api/ammPools/ErgoAmmPool';
+import { feeAsset } from '../../../api/networkAsset/networkAsset';
 import { networkContext$ } from '../../../api/networkContext/networkContext';
 import { utxos$ } from '../../../api/utxos/utxos';
-import { minExFee$ } from '../../../settings/executionFee';
+import { minExFee$ } from '../../../settings/executionFee/spfExecutionFee';
 import { minerFee$ } from '../../../settings/minerFee';
 import { ErgoSettings, settings$ } from '../../../settings/settings';
 import { maxTotalFee$, minTotalFee$ } from '../../../settings/totalFees';
@@ -54,7 +55,7 @@ const toDepositOperationArgs = ({
   minTotalFee,
   maxTotalFee,
 }: DepositOperationCandidateParams): [
-  DepositParams<NativeExFeeType>,
+  DepositParams<SpecExFeeType>,
   TransactionContext,
   AdditionalData,
 ] => {
@@ -65,12 +66,15 @@ const toDepositOperationArgs = ({
   const inputX = new AssetAmount(x.asset, x.amount);
   const inputY = new AssetAmount(y.asset, y.amount);
 
-  const depositParams: DepositParams<NativeExFeeType> = {
+  const depositParams: DepositParams<SpecExFeeType> = {
     poolId: pool.id,
     x: inputX,
     y: inputY,
     pk: settings.pk,
-    exFee: minExFee.amount,
+    exFee: {
+      amount: minExFee.amount,
+      tokenId: feeAsset.id,
+    },
     uiFee: UI_FEE_BIGINT,
   };
 
@@ -101,7 +105,7 @@ export const createDepositTxData = (
   x: Currency,
   y: Currency,
 ): Observable<
-  [DepositParams<NativeExFeeType>, TransactionContext, AdditionalData]
+  [DepositParams<SpecExFeeType>, TransactionContext, AdditionalData]
 > =>
   zip([
     settings$,
