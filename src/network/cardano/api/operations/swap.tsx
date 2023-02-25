@@ -10,6 +10,7 @@ import { OrderKind } from '@ergolabs/cardano-dex-sdk/build/main/amm/models/opReq
 import { OrderAddrsV1Testnet } from '@ergolabs/cardano-dex-sdk/build/main/amm/scripts';
 import { NetworkParams } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/env';
 import { RustModule } from '@ergolabs/cardano-dex-sdk/build/main/utils/rustLoader';
+import { t } from '@lingui/macro';
 import React from 'react';
 import { first, map, Observable, Subject, switchMap, tap, zip } from 'rxjs';
 
@@ -23,6 +24,7 @@ import {
 } from '../../../../components/ConfirmationModal/ConfirmationModal';
 import { OperationValidator } from '../../../../components/OperationForm/OperationForm';
 import { SwapFormModel } from '../../../../pages/Swap/SwapFormModel';
+import { depositAda } from '../../settings/depositAda';
 import { CardanoSettings, settings$ } from '../../settings/settings';
 import { useSwapValidationFee } from '../../settings/totalFee';
 import { SwapConfirmationModal } from '../../widgets/SwapConfirmationModal/SwapConfirmationModal';
@@ -170,7 +172,36 @@ export const swap = (data: Required<SwapFormModel>): Observable<TxId> => {
 };
 
 export const useSwapValidators = (): OperationValidator<SwapFormModel>[] => {
-  return [];
+  const swapValidationFee = useSwapValidationFee();
+
+  const insufficientAssetForFeeValidator: OperationValidator<
+    Required<SwapFormModel>
+  > = ({ value: { fromAmount } }, balance) => {
+    const totalFeesWithAmount = fromAmount.isAssetEquals(networkAsset)
+      ? fromAmount.plus(swapValidationFee).minus(depositAda)
+      : swapValidationFee.minus(depositAda);
+
+    return totalFeesWithAmount.gt(balance.get(networkAsset))
+      ? t`Insufficient ${networkAsset.ticker} balance for fees`
+      : undefined;
+  };
+
+  const insufficientAssetForRefundableDepositValidator: OperationValidator<
+    Required<SwapFormModel>
+  > = ({ value: { fromAmount } }, balance) => {
+    const totalFeesWithAmount = fromAmount.isAssetEquals(networkAsset)
+      ? fromAmount.plus(swapValidationFee)
+      : swapValidationFee;
+
+    return totalFeesWithAmount.gt(balance.get(networkAsset))
+      ? t`Insufficient ${networkAsset.ticker} for refundable deposit`
+      : undefined;
+  };
+
+  return [
+    insufficientAssetForFeeValidator as any,
+    insufficientAssetForRefundableDepositValidator as any,
+  ];
 };
 
 export const useHandleSwapMaxButtonClick = (): ((

@@ -120,30 +120,6 @@ export const Swap = (): JSX.Element => {
     [],
   );
 
-  // const insufficientAssetForFeeValidator: OperationValidator<
-  //   Required<SwapFormModel>
-  // > = ({ value: { fromAmount } }) => {
-  //   const totalFeesWithAmount = fromAmount.isAssetEquals(networkAsset)
-  //     ? fromAmount.plus(totalFeesWithDeposit).minus(refundableDeposit)
-  //     : totalFeesWithDeposit.minus(refundableDeposit);
-  //
-  //   return totalFeesWithAmount.gt(balance.get(networkAsset))
-  //     ? t`Insufficient ${networkAsset.ticker} balance for fees`
-  //     : undefined;
-  // };
-  //
-  // const insufficientAssetForRefundableDepositValidator: OperationValidator<
-  //   Required<SwapFormModel>
-  // > = ({ value: { fromAmount } }) => {
-  //   const totalFeesWithAmount = fromAmount.isAssetEquals(networkAsset)
-  //     ? fromAmount.plus(totalFeesWithDeposit)
-  //     : totalFeesWithDeposit;
-  //
-  //   return totalFeesWithAmount.gt(balance.get(networkAsset))
-  //     ? t`Insufficient ${networkAsset.ticker} for refundable deposit`
-  //     : undefined;
-  // };
-
   const insufficientFromForTxValidator: OperationValidator<SwapFormModel> = ({
     value: { fromAsset, fromAmount },
   }) => {
