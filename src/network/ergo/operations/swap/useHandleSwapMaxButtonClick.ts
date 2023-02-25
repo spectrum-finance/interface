@@ -1,5 +1,6 @@
 import { MinBoxValue } from '@ergolabs/ergo-sdk';
 
+import { NEW_MIN_BOX_VALUE } from '../../../../common/constants/erg';
 import { Currency } from '../../../../common/models/Currency';
 import { feeAsset, networkAsset } from '../../api/networkAsset/networkAsset';
 import { useMaxExFee as useNativeMaxExFee } from '../../settings/executionFee/nativeExecutionFee';
@@ -27,10 +28,10 @@ const useSpfHandleSwapMaxButtonClick = (): ((
 
   return (balance) => {
     if (balance.asset.id === networkAsset.id) {
-      return balance.minus(minerFee).minus(MinBoxValue * 4n);
+      return balance.minus(minerFee).minus(NEW_MIN_BOX_VALUE);
     }
     if (balance.asset.id === feeAsset.id) {
-      return balance.minus(maxExFee);
+      return balance.minus(maxExFee).minus(10n);
     }
     return balance;
   };

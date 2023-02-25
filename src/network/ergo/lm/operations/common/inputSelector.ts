@@ -3,11 +3,11 @@ import {
   DefaultBoxSelector,
   InputSelector,
   InsufficientInputs,
-  MinBoxValue,
   OverallAmount,
 } from '@ergolabs/ergo-sdk';
 import { first, map } from 'rxjs';
 
+import { NEW_MIN_BOX_VALUE } from '../../../../../common/constants/erg';
 import { utxos$ } from '../../../api/utxos/utxos';
 
 export class DefaultInputSelector implements InputSelector {
@@ -16,7 +16,7 @@ export class DefaultInputSelector implements InputSelector {
       .pipe(
         first(),
         map((utxos) =>
-          DefaultBoxSelector.select(utxos, target, MinBoxValue * 3n),
+          DefaultBoxSelector.select(utxos, target, NEW_MIN_BOX_VALUE),
         ),
       )
       .toPromise() as Promise<BoxSelection | InsufficientInputs>;

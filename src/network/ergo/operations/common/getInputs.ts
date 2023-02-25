@@ -8,22 +8,24 @@ import {
   MinBoxValue,
 } from '@ergolabs/ergo-sdk';
 
+import { NEW_MIN_BOX_VALUE } from '../../../../common/constants/erg';
 import { makeTarget } from './makeTarget';
 
 export const getInputs = (
   utxos: ErgoBox[],
   assets: AssetAmount[],
   fees: { minerFee: bigint; uiFee: bigint; exFee: bigint },
+  ignoreMinBoxValue?: boolean,
 ): BoxSelection => {
-  const minFeeForOrder = minValueForOrder(
-    fees.minerFee,
-    fees.uiFee,
-    fees.exFee,
-  );
+  let minFeeForOrder = minValueForOrder(fees.minerFee, fees.uiFee, fees.exFee);
+
+  if (ignoreMinBoxValue) {
+    minFeeForOrder -= MinBoxValue;
+  }
 
   const target = makeTarget(assets, minFeeForOrder);
 
-  const inputs = DefaultBoxSelector.select(utxos, target, MinBoxValue * 4n);
+  const inputs = DefaultBoxSelector.select(utxos, target, NEW_MIN_BOX_VALUE);
 
   if (inputs instanceof InsufficientInputs) {
     throw new Error(

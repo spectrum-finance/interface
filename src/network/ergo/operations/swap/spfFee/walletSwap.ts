@@ -1,10 +1,13 @@
-import { from as fromPromise, Observable, switchMap, timeout } from 'rxjs';
+import { from as fromPromise, Observable, switchMap, tap, timeout } from 'rxjs';
 
 import { applicationConfig } from '../../../../../applicationConfig';
 import { Currency } from '../../../../../common/models/Currency';
 import { TxId } from '../../../../../common/types';
 import { ErgoAmmPool } from '../../../api/ammPools/ErgoAmmPool';
-import { nativeFeePoolActions } from '../../common/nativeFeePoolActions';
+import {
+  nativeFeePoolActions,
+  spfFeePoolActions,
+} from '../../common/nativeFeePoolActions';
 import { submitTx } from '../../common/submitTx';
 import { createSwapTxData } from './createSwapTxData';
 
@@ -15,8 +18,9 @@ export const walletSwap = (
 ): Observable<TxId> =>
   createSwapTxData(pool, from, to).pipe(
     switchMap(([swapParams, txContext]) =>
-      fromPromise(nativeFeePoolActions(pool.pool).swap(swapParams, txContext)),
+      fromPromise(spfFeePoolActions(pool.pool).swap(swapParams, txContext)),
     ),
+    tap(console.log, console.log),
     switchMap((tx) =>
       submitTx(tx, {
         type: 'swap',

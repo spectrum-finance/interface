@@ -1,6 +1,7 @@
 import { MinBoxValue } from '@ergolabs/ergo-sdk';
 import { t } from '@lingui/macro';
 
+import { NEW_MIN_BOX_VALUE } from '../../../../common/constants/erg';
 import { OperationValidator } from '../../../../components/OperationForm/OperationForm';
 import { SwapFormModel } from '../../../../pages/Swap/SwapFormModel';
 import { feeAsset, networkAsset } from '../../api/networkAsset/networkAsset';
@@ -37,7 +38,7 @@ const useSpfFeeSwapValidators = (): OperationValidator<SwapFormModel>[] => {
   const insufficientAssetForFeeValidator: OperationValidator<
     Required<SwapFormModel>
   > = ({ value: { fromAmount } }, balance) => {
-    const minerFeeWithMinBoxValue = minerFee.plus(MinBoxValue * 4n);
+    const minerFeeWithMinBoxValue = minerFee.plus(NEW_MIN_BOX_VALUE);
     const totalNErgAmountWithFromAmount = fromAmount.isAssetEquals(networkAsset)
       ? fromAmount.plus(minerFeeWithMinBoxValue)
       : minerFeeWithMinBoxValue;

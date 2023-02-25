@@ -6,3 +6,5 @@ export const MIN_NITRO = 1.2;
 
 export const UI_FEE = 0;
 export const UI_FEE_BIGINT = 0n;
+
+export const NEW_MIN_BOX_VALUE = 250000n;
