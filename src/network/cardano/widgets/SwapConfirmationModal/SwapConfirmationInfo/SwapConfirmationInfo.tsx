@@ -44,10 +44,9 @@ export const SwapConfirmationInfo: FC<SwapConfirmationInfoProps> = ({
     });
   }, [value.fromAmount, value.toAmount, value.pool, nitro, slippage]);
 
-  const totalFees: [Currency, Currency] = [minTotalFee, maxTotalFee];
   const fees: FeesViewItem[] = [
-    { caption: t`Transaction Fee`, currency: transactionFee },
     { caption: t`Execution Fee`, currency: [minExFee, maxExFee] },
+    { caption: t`Transaction Fee`, currency: transactionFee },
   ];
 
   return (
@@ -125,7 +124,13 @@ export const SwapConfirmationInfo: FC<SwapConfirmationInfoProps> = ({
             }
           />
         </Flex.Item>
-        <FeesView totalFees={totalFees} fees={fees} />
+        <FeesView
+          totalFees={{
+            minFeesForTotal: [minTotalFee],
+            maxFeesForTotal: [maxTotalFee],
+          }}
+          fees={fees}
+        />
       </Flex>
     </Box>
   );

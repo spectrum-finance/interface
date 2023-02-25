@@ -26,6 +26,13 @@ export interface FeesViewProps {
 }
 
 export const FeesView: FC<FeesViewProps> = ({ fees, totalFees }) => {
+  const sumTotalFees = (fees: Currency[]): Currency => {
+    return fees.reduce(
+      (sum, f) => sum.plus(f),
+      new Currency(0n, fees[0].asset),
+    );
+  };
+
   return (
     <BoxInfoItem
       title={
@@ -88,15 +95,17 @@ export const FeesView: FC<FeesViewProps> = ({ fees, totalFees }) => {
       }
       value={
         <Typography.Body size="large" strong>
-          {/*{totalFees && (*/}
-          {/*  <IsCardano>*/}
-          {/*    {totalFees instanceof Array*/}
-          {/*      ? `${totalFees[0].toString()} - ${totalFees[1].toString()} ${*/}
-          {/*          totalFees[0].asset.ticker*/}
-          {/*        }`*/}
-          {/*      : totalFees.toCurrencyString()}{' '}*/}
-          {/*  </IsCardano>*/}
-          {/*)}*/}
+          {totalFees && (
+            <IsCardano>
+              {totalFees instanceof Array
+                ? sumTotalFees(totalFees).toCurrencyString()
+                : `${sumTotalFees(
+                    totalFees.minFeesForTotal,
+                  ).toString()} - ${sumTotalFees(
+                    totalFees.maxFeesForTotal,
+                  ).toString()} ${totalFees.minFeesForTotal[0].asset.ticker}`}
+            </IsCardano>
+          )}
           <IsErgo>
             {totalFees instanceof Array ? (
               <ConvenientAssetView value={totalFees} />
