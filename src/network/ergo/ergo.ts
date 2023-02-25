@@ -44,6 +44,7 @@ import { lmDeposit } from './lm/operations/lmDeposit/lmDeposit';
 import { lmRedeem } from './lm/operations/lmRedeem/lmRedeem';
 import { deposit } from './operations/deposit/deposit';
 import { useDepositValidators } from './operations/deposit/useDepositValidators';
+import { useHandleDepositMaxButtonClick } from './operations/deposit/useHandleDepositMaxButtonClick';
 import { redeem } from './operations/redeem/redeem';
 import { refund } from './operations/refund/refund';
 import { swap } from './operations/swap/swap';
@@ -134,8 +135,7 @@ export const ergoNetwork: Network<
   useSwapValidators,
   useHandleSwapMaxButtonClick,
   useDepositValidators,
-
-  useDepositValidationFee,
+  useHandleDepositMaxButtonClick,
   useCreatePoolValidationFee,
 
   getPoolChartData,

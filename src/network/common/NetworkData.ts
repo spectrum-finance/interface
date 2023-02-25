@@ -51,9 +51,12 @@ export interface NetworkData<W extends Wallet> {
   readonly useHandleSwapMaxButtonClick: () => (balance: Currency) => Currency;
   readonly useSwapValidators: () => OperationValidator<SwapFormModel>[];
 
+  readonly useHandleDepositMaxButtonClick: () => (
+    pct: number,
+    form: AddLiquidityFormModel,
+    balance: Balance,
+  ) => [Currency, Currency];
   readonly useDepositValidators: () => OperationValidator<AddLiquidityFormModel>[];
-
-  readonly useDepositValidationFee: () => Currency;
   readonly useCreatePoolValidationFee: () => Currency;
   readonly useNetworkAsset: () => [AssetInfo, boolean, Error | undefined];
 

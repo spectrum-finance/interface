@@ -15,6 +15,7 @@ import React from 'react';
 import { first, map, Observable, Subject, switchMap, tap, zip } from 'rxjs';
 
 import { UI_FEE_BIGINT } from '../../../../common/constants/erg';
+import { Balance } from '../../../../common/models/Balance';
 import { Currency } from '../../../../common/models/Currency';
 import { TxId } from '../../../../common/types';
 import {
@@ -23,6 +24,7 @@ import {
 } from '../../../../components/ConfirmationModal/ConfirmationModal';
 import { OperationValidator } from '../../../../components/OperationForm/OperationForm';
 import { AddLiquidityFormModel } from '../../../../pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityFormModel';
+import { depositMaxButtonClickForNative } from '../../../common/depositMaxButtonClickForNative';
 import { depositAda } from '../../settings/depositAda';
 import { CardanoSettings, settings$ } from '../../settings/settings';
 import { useDepositValidationFee } from '../../settings/totalFee';
@@ -202,3 +204,19 @@ export const useDepositValidators =
 
     return [insufficientFeeValidator, insufficientRefundableBalanceValidator];
   };
+
+export const useHandleDepositMaxButtonClick = (): ((
+  pct: number,
+  value: AddLiquidityFormModel,
+  balance: Balance,
+) => [Currency, Currency]) => {
+  const depositValidationFee = useDepositValidationFee();
+
+  return (pct, value, balance) => {
+    return depositMaxButtonClickForNative(depositValidationFee)(
+      pct,
+      value,
+      balance,
+    );
+  };
+};

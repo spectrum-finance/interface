@@ -17,12 +17,6 @@ export const useDepositValidators =
     return selectedNetwork.useDepositValidators();
   };
 
-export const useDepositValidationFee = (): Currency => {
-  const [selectedNetwork] = useSelectedNetwork();
-
-  return selectedNetwork.useDepositValidationFee();
-};
-
 export const useCreatePoolValidationFee = (): Currency => {
   const [selectedNetwork] = useSelectedNetwork();
 
