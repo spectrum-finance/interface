@@ -3,6 +3,7 @@ import { Trans } from '@lingui/macro';
 import React, { FC, ReactNode } from 'react';
 
 import { Currency } from '../../common/models/Currency';
+import { useSelectedNetwork } from '../../gateway/common/network';
 import { AssetIcon } from '../AssetIcon/AssetIcon';
 import { BoxInfoItem } from '../BoxInfoItem/BoxInfoItem';
 import { ConvenientAssetView } from '../ConvenientAssetView/ConvenientAssetView';
@@ -26,6 +27,7 @@ export interface FeesViewProps {
 }
 
 export const FeesView: FC<FeesViewProps> = ({ fees, totalFees }) => {
+  const [selectedNetwork] = useSelectedNetwork();
   const sumTotalFees = (fees: Currency[]): Currency => {
     return fees.reduce(
       (sum, f) => sum.plus(f),
@@ -95,8 +97,8 @@ export const FeesView: FC<FeesViewProps> = ({ fees, totalFees }) => {
       }
       value={
         <Typography.Body size="large" strong>
-          {totalFees && (
-            <IsCardano>
+          {selectedNetwork.name === 'cardano' && (
+            <>
               {totalFees instanceof Array
                 ? sumTotalFees(totalFees).toCurrencyString()
                 : `${sumTotalFees(
@@ -104,21 +106,23 @@ export const FeesView: FC<FeesViewProps> = ({ fees, totalFees }) => {
                   ).toString()} - ${sumTotalFees(
                     totalFees.maxFeesForTotal,
                   ).toString()} ${totalFees.minFeesForTotal[0].asset.ticker}`}
-            </IsCardano>
+            </>
           )}
-          <IsErgo>
-            {totalFees instanceof Array ? (
-              <ConvenientAssetView value={totalFees} />
-            ) : (
-              <>
-                <ConvenientAssetView value={totalFees.minFeesForTotal} /> -{' '}
-                <ConvenientAssetView
-                  hidePrefix
-                  value={totalFees.maxFeesForTotal}
-                />
-              </>
-            )}
-          </IsErgo>
+          {selectedNetwork.name === 'ergo' && (
+            <>
+              {totalFees instanceof Array ? (
+                <ConvenientAssetView value={totalFees} />
+              ) : (
+                <>
+                  <ConvenientAssetView value={totalFees.minFeesForTotal} /> -{' '}
+                  <ConvenientAssetView
+                    hidePrefix
+                    value={totalFees.maxFeesForTotal}
+                  />
+                </>
+              )}
+            </>
+          )}
         </Typography.Body>
       }
     />

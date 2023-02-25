@@ -4,7 +4,7 @@ import { applicationConfig } from '../../../../../applicationConfig';
 import { Currency } from '../../../../../common/models/Currency';
 import { TxId } from '../../../../../common/types';
 import { ErgoAmmPool } from '../../../api/ammPools/ErgoAmmPool';
-import { nativeFeePoolActions } from '../../common/nativeFeePoolActions';
+import { spfFeePoolActions } from '../../common/nativeFeePoolActions';
 import { submitTx } from '../../common/submitTx';
 import { createRedeemTxData } from './createRedeemTxData';
 
@@ -16,9 +16,7 @@ export const walletRedeem = (
 ): Observable<TxId> =>
   createRedeemTxData(pool, lp, x, y).pipe(
     switchMap(([redeemParams, txContext]) =>
-      from(
-        nativeFeePoolActions(pool.pool).redeem(redeemParams, txContext),
-      ).pipe(
+      from(spfFeePoolActions(pool.pool).redeem(redeemParams, txContext)).pipe(
         switchMap((tx) =>
           submitTx(tx, {
             type: 'redeem',

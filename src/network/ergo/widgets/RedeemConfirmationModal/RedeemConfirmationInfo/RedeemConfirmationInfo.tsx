@@ -5,7 +5,7 @@ import {
   FeesView,
   FeesViewItem,
 } from '../../../../../components/FeesView/FeesView';
-import { useMinExFee } from '../../../settings/executionFee';
+import { useMinExFee } from '../../../settings/executionFee/executionFee';
 import { useMinerFee } from '../../../settings/minerFee';
 
 export const RedeemConfirmationInfo: FC = () => {
