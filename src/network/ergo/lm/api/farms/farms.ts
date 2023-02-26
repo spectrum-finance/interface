@@ -126,7 +126,9 @@ export const hasFarmsForPool = (poolId: string): Observable<boolean> =>
     map(
       (farms) =>
         !!farms.find(
-          (f) => f.ammPool.id === poolId && f.status !== FarmStatus.Finished,
+          (f) =>
+            f.ammPool.id === poolId &&
+            (f.status !== FarmStatus.Finished || f.yourStakeLq.isPositive()),
         ),
     ),
   );

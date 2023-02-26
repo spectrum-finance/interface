@@ -6,6 +6,7 @@ interface FormSpaceProps {
   noPadding?: boolean;
   noBorder?: boolean;
   glass?: boolean;
+  height?: number;
 }
 
 const FormSpace: React.FC<FormSpaceProps> = ({
@@ -13,6 +14,7 @@ const FormSpace: React.FC<FormSpaceProps> = ({
   noPadding,
   noBorder,
   glass,
+  height,
 }): JSX.Element => {
   return (
     <Box
@@ -20,6 +22,7 @@ const FormSpace: React.FC<FormSpaceProps> = ({
       glass={glass}
       padding={noPadding ? 0 : 4}
       borderRadius="l"
+      height={height}
       bordered={!noBorder}
     >
       {children}

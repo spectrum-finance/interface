@@ -9,12 +9,14 @@ import { Truncate } from '../../../Truncate/Truncate';
 
 interface PairSpaceProps {
   readonly title: string;
+  readonly subtitle?: ReactNode | ReactNode[] | string;
   readonly xAmount: Currency;
   readonly yAmount: Currency;
   readonly fees?: boolean;
   readonly children?: ReactNode | ReactNode[];
   readonly noBorder?: boolean;
   readonly glass?: boolean;
+  readonly boxed?: boolean;
 }
 
 const TOKEN_NAME_SYMBOLS_LIMIT = 15;
@@ -27,9 +29,17 @@ const FormPairSection: React.FC<PairSpaceProps> = ({
   children,
   noBorder,
   glass,
+  subtitle,
+  boxed,
 }): JSX.Element => {
   return (
-    <PageSection title={title} noBorder={noBorder} glass={glass}>
+    <PageSection
+      boxed={boxed}
+      title={title}
+      noBorder={noBorder}
+      glass={glass}
+      subtitle={subtitle}
+    >
       <Flex direction="col">
         <Flex.Item marginBottom={2}>
           <Flex justify="space-between" align="center">

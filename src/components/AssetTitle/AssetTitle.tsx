@@ -8,7 +8,16 @@ import { Truncate } from '../Truncate/Truncate';
 export interface TokenTitleProps {
   readonly asset: AssetInfo;
   readonly size?: 'large' | 'small' | 'extraSmall';
-  readonly level?: 1 | 2 | 3 | 4 | 5 | 'body' | 'body-secondary' | undefined;
+  readonly level?:
+    | 1
+    | 2
+    | 3
+    | 4
+    | 5
+    | 'body'
+    | 'body-secondary'
+    | 'small-strong'
+    | undefined;
   readonly gap?: number;
   readonly limit?: number;
 }
@@ -24,8 +33,14 @@ export const AssetTitle: FC<TokenTitleProps> = ({
     <Flex.Item marginRight={gap}>
       <AssetIcon size={size} asset={asset} />
     </Flex.Item>
-    {level === 'body' || level === 'body-secondary' ? (
-      <Typography.Body secondary={level === 'body-secondary'}>
+    {level === 'body' ||
+    level === 'body-secondary' ||
+    level === 'small-strong' ? (
+      <Typography.Body
+        secondary={level === 'body-secondary'}
+        size={level === 'small-strong' ? 'small' : undefined}
+        strong={level === 'small-strong'}
+      >
         <Truncate limit={limit}>{asset.ticker || asset.name}</Truncate>
       </Typography.Body>
     ) : (
