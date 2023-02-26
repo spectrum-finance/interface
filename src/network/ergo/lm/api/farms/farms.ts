@@ -132,3 +132,14 @@ export const hasFarmsForPool = (poolId: string): Observable<boolean> =>
         ),
     ),
   );
+
+export const getFarmsByPoolId = (poolId: string): Observable<Farm[]> =>
+  farms$.pipe(
+    map((farms) =>
+      farms.filter(
+        (f) =>
+          f.ammPool.id === poolId &&
+          (f.status !== FarmStatus.Finished || f.yourStakeLq.isPositive()),
+      ),
+    ),
+  );

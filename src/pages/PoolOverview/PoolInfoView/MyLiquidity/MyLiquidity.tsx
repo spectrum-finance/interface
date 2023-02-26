@@ -1,5 +1,5 @@
 import { Box, Flex, Typography, useDevice } from '@ergolabs/ui-kit';
-import { t, Trans } from '@lingui/macro';
+import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 
 import { Position } from '../../../../common/models/Position';
@@ -55,7 +55,7 @@ export const MyLiquidity: FC<MyLiquidityProps> = ({ position }) => {
               }
               value={
                 <Typography.Body size="large" strong>
-                  {position.availableX.toString()}
+                  {position.totalX.toString()}
                 </Typography.Body>
               }
             />
@@ -65,13 +65,13 @@ export const MyLiquidity: FC<MyLiquidityProps> = ({ position }) => {
               }
               value={
                 <Typography.Body size="large" strong>
-                  {position.availableY.toString()}
+                  {position.totalY.toString()}
                 </Typography.Body>
               }
             />
           </InlineGrid>
           <Flex align="center" col={s} gap={2}>
-            {!position.lockedLp.isPositive() && (
+            {position.lockedLp.isPositive() && (
               <Flex.Item flex={1} width={s ? '100%' : undefined}>
                 <Box
                   glass
@@ -120,7 +120,7 @@ export const MyLiquidity: FC<MyLiquidityProps> = ({ position }) => {
                 </Box>
               </Flex.Item>
             )}
-            {!position.lockedLp.isPositive() && (
+            {position.stakedLp.isPositive() && (
               <Flex.Item flex={1} width={s ? '100%' : undefined}>
                 <Box
                   glass
@@ -147,7 +147,7 @@ export const MyLiquidity: FC<MyLiquidityProps> = ({ position }) => {
                       }
                       value={
                         <Typography.Body strong size="small">
-                          {position.lockedX.toString()}
+                          {position.stakedX.toString()}
                         </Typography.Body>
                       }
                     />
@@ -161,7 +161,7 @@ export const MyLiquidity: FC<MyLiquidityProps> = ({ position }) => {
                       }
                       value={
                         <Typography.Body strong size="small">
-                          {position.lockedY.toString()}
+                          {position.stakedY.toString()}
                         </Typography.Body>
                       }
                     />
