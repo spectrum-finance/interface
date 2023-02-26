@@ -52,78 +52,86 @@ export const LockLiquidity: FC<LockLiquidityProps> = ({
       padding={4}
       height={valBySize(undefined, 277, 291)}
     >
-      {notEnoughData ? (
-        <Flex stretch align="center" justify="center">
-          <Empty>
-            <Typography.Body size="large" secondary>
-              <Trans>Not enough data</Trans>
+      <Flex col stretch>
+        <Flex.Item marginBottom={2}>
+          <InfoTooltip content={<>1</>} secondary>
+            <Typography.Body strong>
+              <Trans>Locked liquidity</Trans>
             </Typography.Body>
-          </Empty>
-        </Flex>
-      ) : (
-        <Flex col>
-          <Flex.Item marginBottom={2}>
-            <InfoTooltip content={<>1</>} secondary>
-              <Typography.Body strong>
-                <Trans>Locked liquidity</Trans>
-              </Typography.Body>
-            </InfoTooltip>
+          </InfoTooltip>
+        </Flex.Item>
+        {notEnoughData ? (
+          <Flex.Item flex={1}>
+            <Flex stretch align="center" justify="center">
+              <Empty>
+                <Typography.Body size="large" secondary>
+                  <Trans>Not enough data</Trans>
+                </Typography.Body>
+              </Empty>
+            </Flex>
           </Flex.Item>
-          <Flex.Item marginBottom={1}>
-            <Progress
-              strokeWidth={24}
-              percent={poolConfidenceAnalytic.lockedPercent}
-            />
-          </Flex.Item>
-          <Flex.Item marginBottom={2} display="flex">
-            <AnalyticOverview
-              data={selectedLocksGroup || poolConfidenceAnalytic}
-            />
-          </Flex.Item>
-          <div style={{ width: '100%', position: 'relative', height: 160 }}>
-            <div
-              style={{ width: '100%', position: 'absolute', height: '100%' }}
-            >
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart
-                  data={poolConfidenceAnalytic.locksGroups}
-                  barCategoryGap={0}
-                >
-                  <defs>
-                    <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#ABA5FC" stopOpacity={1} />
-                      <stop offset="95%" stopColor="#6B64CD" stopOpacity={1} />
-                    </linearGradient>
-                  </defs>
-                  <Tooltip wrapperClassName="hidden-tooltip" />
-                  <Bar
-                    onMouseEnter={(e) => setSelectedLocksGroup(e.payload)}
-                    onMouseLeave={() => setSelectedLocksGroup(undefined)}
-                    dataKey="lockedPercent"
-                    fill="url(#colorUv)"
-                  />
-                  <YAxis
-                    tickFormatter={tickFormatter}
-                    axisLine={false}
-                    tickLine={false}
-                    dx={-10}
-                    dy={-5}
-                    width={50}
-                    unit="%"
-                  />
-                  <XAxis axisLine={false} tick={false}>
-                    <Label
-                      offset={0}
-                      position="insideBottomRight"
-                      value={t`Lock time`}
+        ) : (
+          <>
+            <Flex.Item marginBottom={1}>
+              <Progress
+                strokeWidth={24}
+                percent={poolConfidenceAnalytic.lockedPercent}
+              />
+            </Flex.Item>
+            <Flex.Item marginBottom={2} display="flex">
+              <AnalyticOverview
+                data={selectedLocksGroup || poolConfidenceAnalytic}
+              />
+            </Flex.Item>
+            <div style={{ width: '100%', position: 'relative', height: 160 }}>
+              <div
+                style={{ width: '100%', position: 'absolute', height: '100%' }}
+              >
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart
+                    data={poolConfidenceAnalytic.locksGroups}
+                    barCategoryGap={0}
+                  >
+                    <defs>
+                      <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#ABA5FC" stopOpacity={1} />
+                        <stop
+                          offset="95%"
+                          stopColor="#6B64CD"
+                          stopOpacity={1}
+                        />
+                      </linearGradient>
+                    </defs>
+                    <Tooltip wrapperClassName="hidden-tooltip" />
+                    <Bar
+                      onMouseEnter={(e) => setSelectedLocksGroup(e.payload)}
+                      onMouseLeave={() => setSelectedLocksGroup(undefined)}
+                      dataKey="lockedPercent"
+                      fill="url(#colorUv)"
                     />
-                  </XAxis>
-                </BarChart>
-              </ResponsiveContainer>
+                    <YAxis
+                      tickFormatter={tickFormatter}
+                      axisLine={false}
+                      tickLine={false}
+                      dx={-10}
+                      dy={-5}
+                      width={50}
+                      unit="%"
+                    />
+                    <XAxis axisLine={false} tick={false}>
+                      <Label
+                        offset={0}
+                        position="insideBottomRight"
+                        value={t`Lock time`}
+                      />
+                    </XAxis>
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
             </div>
-          </div>
-        </Flex>
-      )}
+          </>
+        )}
+      </Flex>
     </Box>
   );
 };
