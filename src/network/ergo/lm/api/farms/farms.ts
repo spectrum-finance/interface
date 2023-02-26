@@ -94,7 +94,7 @@ export const allFarms$ = combineLatest([
   lpBalance$.pipe(startWith(new Balance([]))),
   networkContext$,
 ]).pipe(
-  debounceTime(100),
+  debounceTime(200),
   switchMap(([rawLmPools, ammPools, stakes, lpBalance, networkContext]) =>
     combineLatest(
       toFarmStreams(
