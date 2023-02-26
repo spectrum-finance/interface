@@ -33,7 +33,7 @@ export const PoolInfoView: FC<PoolInfoProps> = ({ position }) => {
   const { valBySize, s } = useDevice();
   const navigate = useNavigate();
   const [selectedNetwork] = useSelectedNetwork();
-  const [hasFarmForPool] = useObservable(hasFarmsForPool(position.pool.id));
+  const [hasFarmForPool] = useObservable(hasFarmsForPool(position.pool.id), []);
 
   const handleFarmsButtonClick = () =>
     navigate(`../../../farm?searchString=${position?.pool.id}`);

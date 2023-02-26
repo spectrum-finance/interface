@@ -16,7 +16,7 @@ export interface PairColumnProps {
 
 export const PairColumn: FC<PairColumnProps> = ({ ammPool }) => {
   const navigate = useNavigate();
-  const [hasFarmForPool] = useObservable(hasFarmsForPool(ammPool.id));
+  const [hasFarmForPool] = useObservable(hasFarmsForPool(ammPool.id), []);
 
   const handleFarmsButtonClick = (e: MouseEvent) => {
     e.stopPropagation();

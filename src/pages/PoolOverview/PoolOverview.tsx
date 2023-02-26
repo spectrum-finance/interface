@@ -12,14 +12,16 @@ import { useGuard } from '../../hooks/useGuard';
 import { getAmmPoolConfidenceAnalyticByAmmPoolId } from './AmmPoolConfidenceAnalytic';
 import { LockLiquidity } from './LockLiquidity/LockLiquidity';
 import { PoolInfoView } from './PoolInfoView/PoolInfoView';
+import { PriceHistory } from './PriceHistory/PriceHistory';
 
 export const PoolOverview: React.FC = () => {
   const navigate = useNavigate();
   const { poolId } = useParamsStrict<{ poolId: PoolId }>();
-  const [position, loading] = useObservable(getPositionByAmmPoolId(poolId));
+  const [position, loading] = useObservable(getPositionByAmmPoolId(poolId), []);
   const { valBySize } = useDevice();
   const [poolConfidenceAnalytic] = useObservable(
     getAmmPoolConfidenceAnalyticByAmmPoolId(poolId),
+    [],
   );
 
   useGuard(position, loading, () => navigate('../../../liquidity'));
@@ -51,12 +53,7 @@ export const PoolOverview: React.FC = () => {
               marginRight={valBySize(0, 2, 0)}
               marginBottom={valBySize(2, 0, 2)}
             >
-              <Box
-                glass
-                borderRadius="l"
-                padding={2}
-                height={valBySize(undefined, 277, 291)}
-              />
+              <PriceHistory position={position} />
             </Flex.Item>
             <Flex.Item flex={valBySize(undefined, 1, undefined)}>
               <LockLiquidity poolConfidenceAnalytic={poolConfidenceAnalytic} />
