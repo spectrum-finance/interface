@@ -4,7 +4,6 @@ import {
   map,
   publishReplay,
   refCount,
-  tap,
 } from 'rxjs';
 
 import { FarmStatus } from '../../../../common/models/Farm';
@@ -59,7 +58,6 @@ export const positions$ = combineLatest([
         );
     },
   ),
-  tap((res) => console.log(res)),
   publishReplay(1),
   refCount(),
 );

@@ -83,18 +83,6 @@ const toDepositOperationArgs = ({
   const isXSpec = inputX.asset.id === feeAsset.id;
   const isYSpec = inputY.asset.id === feeAsset.id;
 
-  let exErgFee = 0n;
-
-  if (!isXSpec && !isYSpec) {
-    exErgFee = NEW_MIN_BOX_VALUE;
-  }
-  if (isXSpec && inputX.amount < NEW_MIN_BOX_VALUE) {
-    exErgFee = NEW_MIN_BOX_VALUE - inputX.amount;
-  }
-  if (isYSpec && inputY.amount < NEW_MIN_BOX_VALUE) {
-    exErgFee = NEW_MIN_BOX_VALUE - inputY.amount;
-  }
-
   const inputs = getInputs(
     utxos,
     [
@@ -107,7 +95,7 @@ const toDepositOperationArgs = ({
     {
       minerFee: minerFee.amount,
       uiFee: UI_FEE_BIGINT,
-      exFee: exErgFee,
+      exFee: NEW_MIN_BOX_VALUE,
     },
     true,
   );

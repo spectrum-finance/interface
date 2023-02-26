@@ -104,12 +104,7 @@ const toSwapOperationArgs = ({
     {
       minerFee: minerFee.amount,
       uiFee: UI_FEE_BIGINT,
-      exFee:
-        baseInput.asset.id !== networkAsset.id
-          ? NEW_MIN_BOX_VALUE
-          : baseInput.amount >= NEW_MIN_BOX_VALUE
-          ? 0n
-          : NEW_MIN_BOX_VALUE - baseInput.amount,
+      exFee: NEW_MIN_BOX_VALUE,
     },
     true,
   );
