@@ -123,47 +123,6 @@ export const PoolInfoView: FC<PoolInfoProps> = ({ position }) => {
         </Flex.Item>
         <Flex.Item marginBottom={4} flex={1}>
           <MyLiquidity position={position} />
-
-          {/*{position.empty ? (*/}
-          {/*  <PageSection glass title={t`My liquidity`} height={80}>*/}
-          {/*    <Flex align="center" justify="center" stretch>*/}
-          {/*      <Typography.Body align="center">*/}
-          {/*        <Trans>Your liquidity positions will appear here.</Trans>*/}
-          {/*      </Typography.Body>*/}
-          {/*    </Flex>*/}
-          {/*  </PageSection>*/}
-          {/*) : (*/}
-          {/*  <FormPairSection*/}
-          {/*    glass*/}
-          {/*    title={t`My liquidity`}*/}
-          {/*    subtitle={*/}
-          {/*      <Typography.Title level={3}>*/}
-          {/*        <ConvenientAssetView*/}
-          {/*          hidePrefix*/}
-          {/*          value={[position.totalX, position.totalY]}*/}
-          {/*        />*/}
-          {/*      </Typography.Title>*/}
-          {/*    }*/}
-          {/*    xAmount={position.totalX}*/}
-          {/*    yAmount={position.totalY}*/}
-          {/*  >*/}
-          {/*    <Flex width="100%">*/}
-          {/*      <Flex.Item flex={1} marginRight={2}>*/}
-          {/*        <Box borderRadius="s" secondary padding={2}>*/}
-          {/*          <FormPairSection*/}
-          {/*            boxed={false}*/}
-          {/*            title={t`Locked`}*/}
-          {/*            xAmount={position.lockedX}*/}
-          {/*            yAmount={position.lockedY}*/}
-          {/*          />*/}
-          {/*        </Box>*/}
-          {/*      </Flex.Item>*/}
-          {/*      <Flex.Item flex={1}>*/}
-          {/*        <Box borderRadius="s" secondary padding={2} />*/}
-          {/*      </Flex.Item>*/}
-          {/*    </Flex>*/}
-          {/*  </FormPairSection>*/}
-          {/*)}*/}
         </Flex.Item>
         <Flex.Item>
           <ConnectWalletButton width="100%" size="large">
