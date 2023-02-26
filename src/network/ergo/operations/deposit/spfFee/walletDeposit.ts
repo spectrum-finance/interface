@@ -1,4 +1,4 @@
-import { from, Observable, switchMap, tap, timeout } from 'rxjs';
+import { from, Observable, switchMap, timeout } from 'rxjs';
 
 import { applicationConfig } from '../../../../../applicationConfig';
 import { Currency } from '../../../../../common/models/Currency';

@@ -10,7 +10,7 @@ import {
 } from '../../../../../common/constants/erg';
 import { Currency } from '../../../../../common/models/Currency';
 import { ErgoAmmPool } from '../../../api/ammPools/ErgoAmmPool';
-import { feeAsset, networkAsset } from '../../../api/networkAsset/networkAsset';
+import { feeAsset } from '../../../api/networkAsset/networkAsset';
 import { networkContext$ } from '../../../api/networkContext/networkContext';
 import { utxos$ } from '../../../api/utxos/utxos';
 import { minExFee$ } from '../../../settings/executionFee/spfExecutionFee';
@@ -62,7 +62,6 @@ const toDepositOperationArgs = ({
   TransactionContext,
   AdditionalData,
 ] => {
-  console.log('spf!');
   if (!settings.address || !settings.pk) {
     throw new Error('[deposit]: wallet address is not selected');
   }

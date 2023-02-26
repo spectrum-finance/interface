@@ -5,7 +5,6 @@ import {
   LockOutlined,
   Menu,
   PlusOutlined,
-  Typography,
   useDevice,
 } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
@@ -18,12 +17,8 @@ import { ReactComponent as WithdrawalIcon } from '../../../assets/icons/withdraw
 import { useObservable } from '../../../common/hooks/useObservable';
 import { Position } from '../../../common/models/Position';
 import { ConnectWalletButton } from '../../../components/common/ConnectWalletButton/ConnectWalletButton';
-import { FormPairSection } from '../../../components/common/FormView/FormPairSection/FormPairSection';
-import { ConvenientAssetView } from '../../../components/ConvenientAssetView/ConvenientAssetView';
 import { FarmsButton } from '../../../components/FarmsButton/FarmsButton';
 import { PageHeader } from '../../../components/Page/PageHeader/PageHeader';
-import { PageSection } from '../../../components/Page/PageSection/PageSection';
-import { TitledBox } from '../../../components/TitledBox/TitledBox';
 import { useSelectedNetwork } from '../../../gateway/common/network';
 import { hasFarmsForPool } from '../../../network/ergo/lm/api/farms/farms';
 import { MyLiquidity } from './MyLiquidity/MyLiquidity';
