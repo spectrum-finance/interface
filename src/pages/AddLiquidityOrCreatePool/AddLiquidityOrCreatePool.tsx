@@ -1,7 +1,7 @@
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
 import { Flex, Form, Skeleton, useForm } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
-import React, { FC, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router';
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
@@ -64,7 +64,7 @@ enum ComponentState {
   CREATE_POOL,
 }
 
-export const AddLiquidityOrCreatePool: FC = () => {
+export default function AddLiquidityOrCreatePool(): JSX.Element {
   const { poolId } = useParams<{ poolId?: PoolId }>();
   const [initialized, setInitialized] = useState<boolean>(!poolId);
   const [networkAsset] = useNetworkAsset();
@@ -266,4 +266,4 @@ export const AddLiquidityOrCreatePool: FC = () => {
       </Page>
     </Form>
   );
-};
+}

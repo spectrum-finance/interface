@@ -84,7 +84,9 @@ export const _Header: React.FC<HeaderProps> = ({
             </IsErgo>
           )}
           <NetworkDropdown />
+
           <ConnectWallet />
+
           {!s && walletState === WalletState.CONNECTED && <OperationsHistory />}
           <BurgerMenu />
         </Flex>

@@ -10,7 +10,6 @@ import React, { FC, ReactNode } from 'react';
 // import { panalytics } from '../../../common/analytics';
 // import { PAnalytics } from '../../../common/analytics/src/types';
 import { useObservable } from '../../../common/hooks/useObservable';
-import { useAppLoadingState } from '../../../context';
 import { isWalletSetuped$ } from '../../../gateway/api/wallets';
 import { ChooseWalletModal } from './ChooseWalletModal/ChooseWalletModal';
 
@@ -36,16 +35,14 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = ({
   };
 
   return (
-    <>
-      <SpectrumConnectWalletButton
-        size={size}
-        onClick={openChooseWalletModal}
-        className={cn(className, 'connect-wallet-btn')}
-        isWalletConnected={isWalletConnected}
-        caption={<Trans>Connect wallet</Trans>}
-      >
-        {children}
-      </SpectrumConnectWalletButton>
-    </>
+    <SpectrumConnectWalletButton
+      size={size}
+      onClick={openChooseWalletModal}
+      className={cn(className, 'connect-wallet-btn')}
+      isWalletConnected={isWalletConnected}
+      caption={<Trans>Connect wallet</Trans>}
+    >
+      {children}
+    </SpectrumConnectWalletButton>
   );
 };

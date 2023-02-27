@@ -26,6 +26,7 @@ import {
   zip,
 } from 'rxjs';
 
+import { fireAnalyticsEvent } from '../../common/analytics';
 import {
   useObservable,
   useSubscription,
@@ -82,7 +83,7 @@ const isAssetsPairEquals = (
 const getAvailablePools = (xId?: string, yId?: string): Observable<AmmPool[]> =>
   xId && yId ? getAmmPoolsByAssetPair(xId, yId) : of([]);
 
-export const Swap = (): JSX.Element => {
+export default function Swap(): JSX.Element {
   const form = useForm<SwapFormModel>({
     fromAmount: undefined,
     toAmount: undefined,
@@ -205,6 +206,8 @@ export const Swap = (): JSX.Element => {
     swap(value)
       .pipe(first())
       .subscribe(() => resetForm());
+
+    fireAnalyticsEvent('Page Viewed');
     // pa.submitSwap(value);
   };
 
@@ -490,4 +493,4 @@ export const Swap = (): JSX.Element => {
       </Page>
     </ActionForm>
   );
-};
+}

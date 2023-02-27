@@ -39,7 +39,7 @@ const ConnectWalletButton = styled(_ConnectWalletButton)`
   width: 100%;
 `;
 
-export const PoolOverview: React.FC = () => {
+export default function PoolOverview(): JSX.Element {
   const navigate = useNavigate();
   const { poolId } = useParamsStrict<{ poolId: PoolId }>();
   const [selectedNetwork] = useSelectedNetwork();
@@ -205,4 +205,4 @@ export const PoolOverview: React.FC = () => {
       )}
     </Page>
   );
-};
+}

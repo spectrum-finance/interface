@@ -34,7 +34,7 @@ interface RelockLiquidityModel {
   lockedPosition?: AssetLock;
 }
 
-export const WithdrawalLiquidity = (): JSX.Element => {
+export default function WithdrawalLiquidity(): JSX.Element {
   const form = useForm<RelockLiquidityModel>({
     lockedPosition: undefined,
   });
@@ -80,7 +80,6 @@ export const WithdrawalLiquidity = (): JSX.Element => {
     <Page width={760} title={t`Withdrawal`} withBackButton>
       {position ? (
         <OperationForm
-          analytics={{ location: 'withdrawal-liquidity' }}
           form={form}
           validators={validators}
           onSubmit={handleRelockLiquidity}
@@ -133,4 +132,4 @@ export const WithdrawalLiquidity = (): JSX.Element => {
       )}
     </Page>
   );
-};
+}

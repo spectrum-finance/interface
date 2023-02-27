@@ -40,7 +40,7 @@ interface RelockLiquidityModel {
   relocktime?: DateTime;
 }
 
-export const RelockLiquidity = (): JSX.Element => {
+export default function RelockLiquidity(): JSX.Element {
   const form = useForm<RelockLiquidityModel>({
     lockedPosition: undefined,
     relocktime: undefined,
@@ -166,4 +166,4 @@ export const RelockLiquidity = (): JSX.Element => {
       )}
     </Page>
   );
-};
+}

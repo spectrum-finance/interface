@@ -47,7 +47,7 @@ const filterDuplicates = <T extends AmmPool | Position>(items: T[]): T[] => {
   });
 };
 
-export const Liquidity = (): JSX.Element => {
+export default function Liquidity(): JSX.Element {
   const [filters, setFilters] = useState<
     Set<PoolsOrPositionsFilterValue> | undefined
   >();
@@ -146,4 +146,4 @@ export const Liquidity = (): JSX.Element => {
       )}
     </Page>
   );
-};
+}

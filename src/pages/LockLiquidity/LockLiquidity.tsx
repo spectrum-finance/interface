@@ -36,7 +36,7 @@ import { LiquidityDatePicker } from '../Liquidity/common/components/LockLiquidit
 import { LockLiquidityConfirmationModal } from './LockLiquidityConfirmationModal/LockLiquidityConfirmationModal';
 import { LockLiquidityModel } from './LockLiquidityModel';
 
-const LockLiquidity = (): JSX.Element => {
+export default function LockLiquidity(): JSX.Element {
   const { poolId } = useParamsStrict<{ poolId: PoolId }>();
   const navigate = useNavigate();
   const [position, loading] = useObservable(getPositionByAmmPoolId(poolId));
@@ -188,6 +188,4 @@ const LockLiquidity = (): JSX.Element => {
       )}
     </Page>
   );
-};
-
-export { LockLiquidity };
+}

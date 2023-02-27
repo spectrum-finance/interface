@@ -30,7 +30,7 @@ export interface RemoveFormModel {
   readonly lpAmount?: Currency;
 }
 
-export const RemoveLiquidity: FC = () => {
+export default function RemoveLiquidity(): JSX.Element {
   const { poolId } = useParamsStrict<{ poolId: PoolId }>();
   const navigate = useNavigate();
   const [position, loading] = useObservable(getPositionByAmmPoolId(poolId));
@@ -139,4 +139,4 @@ export const RemoveLiquidity: FC = () => {
       )}
     </Page>
   );
-};
+}
