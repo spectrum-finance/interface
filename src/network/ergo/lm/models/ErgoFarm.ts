@@ -11,7 +11,7 @@ import { AssetInfo } from '../../../../common/models/AssetInfo';
 import { Currency } from '../../../../common/models/Currency';
 import { Farm, FarmStatus } from '../../../../common/models/Farm';
 import { blockToDateTime } from '../../../../common/utils/blocks';
-import { convertToConvenientNetworkAsset } from '../../api/ergoUsdRatio/ergoUsdRatio';
+import { CommonFarmAnalyticsItem } from '../api/farms/analytics';
 import { RawStakeWithRedeemerKey } from '../api/stakes/stakes';
 import { Stake } from './Stake';
 
@@ -21,6 +21,7 @@ export interface ErgoLmPoolParams {
   readonly balanceLq: Currency;
   readonly stakes: RawStakeWithRedeemerKey[];
   readonly currentHeight: number;
+  readonly commonFarmAnalytics?: CommonFarmAnalyticsItem;
 }
 
 export interface ErgoLmPoolAssets {
@@ -121,25 +122,12 @@ export class ErgoFarm implements Farm<ErgoBaseLmPool> {
 
   @cache
   get distributed(): number {
-    const rewardAmount = Number(this.reward.toAmount());
-    const programBudget = Number(this.programBudget.toAmount());
+    const pct = this.params.commonFarmAnalytics?.compoundedReward || 0;
     const minimalPct = 0.01;
 
-    if (rewardAmount === 0) {
-      return 100;
-    }
-
-    if (programBudget === rewardAmount) {
+    if (pct === 0) {
       return 0;
     }
-
-    const pct = Number(
-      numeral(programBudget)
-        .subtract(rewardAmount)
-        .divide(programBudget)
-        .multiply(100)
-        .format('00.00'),
-    );
 
     if (pct < minimalPct) {
       return minimalPct;
@@ -198,31 +186,9 @@ export class ErgoFarm implements Farm<ErgoBaseLmPool> {
     if (this.status !== FarmStatus.Live) {
       return null;
     }
-
-    const rewardUsd = convertToConvenientNetworkAsset.snapshot(this.reward);
-    const totalStakedUsd = convertToConvenientNetworkAsset.snapshot(
-      this.totalStakedShares,
-    );
-
-    if (!rewardUsd.isPositive() || !totalStakedUsd.isPositive()) {
-      return null;
-    }
-
-    const interestsRelation = numeral(rewardUsd.toAmount()).divide(
-      totalStakedUsd.toAmount(),
-    );
-    const { programStart, epochLen, epochNum } = this.lmPool.conf;
-    const lmProgramLeftInBlocks =
-      programStart + epochLen * epochNum - this.params.currentHeight;
-    const lmProgramLeftInDays = blocksToDaysCount(lmProgramLeftInBlocks);
-
-    const apr = interestsRelation
-      .divide(lmProgramLeftInDays)
-      .multiply(365)
-      .multiply(100)
-      .value();
-
-    return apr ? Number(apr.toFixed(2)) : apr;
+    return this.params.commonFarmAnalytics?.yearProfit
+      ? Number(this.params.commonFarmAnalytics?.yearProfit.toFixed(2))
+      : null;
   }
 
   @cache

@@ -2,10 +2,13 @@ import {
   distinctUntilKeyChanged,
   from,
   map,
+  mapTo,
   Observable,
+  of,
   publishReplay,
   refCount,
   switchMap,
+  timer,
 } from 'rxjs';
 
 import { appTick$ } from '../../../../common/streams/appTick';
@@ -19,6 +22,7 @@ export const networkContext$: Observable<{
   switchMap(() => from(explorer.getNetworkContext())),
   map((ctx) => ctx),
   distinctUntilKeyChanged('height'),
+  switchMap((ctx, i) => (i === 0 ? of(ctx) : timer(2000).pipe(mapTo(ctx)))),
   publishReplay(1),
   refCount(),
 );
