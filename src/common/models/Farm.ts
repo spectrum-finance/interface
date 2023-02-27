@@ -66,4 +66,6 @@ export interface Farm<T = any> {
   readonly distributionFrequencyInBlocks: number;
 
   readonly nextReward: Currency | null;
+
+  readonly collectedRewards: Currency | null;
 }

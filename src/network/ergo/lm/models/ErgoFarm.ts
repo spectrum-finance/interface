@@ -4,14 +4,17 @@ import {
 } from '@ergolabs/ergo-dex-sdk';
 import { cache } from 'decorator-cache-getter';
 import { DateTime } from 'luxon';
-import numeral from 'numeral';
 
 import { AmmPool } from '../../../../common/models/AmmPool';
 import { AssetInfo } from '../../../../common/models/AssetInfo';
 import { Currency } from '../../../../common/models/Currency';
 import { Farm, FarmStatus } from '../../../../common/models/Farm';
 import { blockToDateTime } from '../../../../common/utils/blocks';
-import { convertToConvenientNetworkAsset } from '../../api/ergoUsdRatio/ergoUsdRatio';
+import {
+  CommonFarmAnalyticsItem,
+  UserFarmAnalyticsCompoundResult,
+  UserFarmAnalyticsNextStakeReward,
+} from '../api/farms/analytics';
 import { RawStakeWithRedeemerKey } from '../api/stakes/stakes';
 import { Stake } from './Stake';
 
@@ -21,6 +24,11 @@ export interface ErgoLmPoolParams {
   readonly balanceLq: Currency;
   readonly stakes: RawStakeWithRedeemerKey[];
   readonly currentHeight: number;
+  readonly commonFarmAnalytics?: CommonFarmAnalyticsItem;
+  readonly userFarmAnalytics: {
+    userInterests?: UserFarmAnalyticsCompoundResult;
+    userNextStakesReward?: UserFarmAnalyticsNextStakeReward;
+  };
 }
 
 export interface ErgoLmPoolAssets {
@@ -121,25 +129,12 @@ export class ErgoFarm implements Farm<ErgoBaseLmPool> {
 
   @cache
   get distributed(): number {
-    const rewardAmount = Number(this.reward.toAmount());
-    const programBudget = Number(this.programBudget.toAmount());
+    const pct = this.params.commonFarmAnalytics?.compoundedReward || 0;
     const minimalPct = 0.01;
 
-    if (rewardAmount === 0) {
-      return 100;
-    }
-
-    if (programBudget === rewardAmount) {
+    if (pct === 0) {
       return 0;
     }
-
-    const pct = Number(
-      numeral(programBudget)
-        .subtract(rewardAmount)
-        .divide(programBudget)
-        .multiply(100)
-        .format('00.00'),
-    );
 
     if (pct < minimalPct) {
       return minimalPct;
@@ -198,36 +193,29 @@ export class ErgoFarm implements Farm<ErgoBaseLmPool> {
     if (this.status !== FarmStatus.Live) {
       return null;
     }
-
-    const rewardUsd = convertToConvenientNetworkAsset.snapshot(this.reward);
-    const totalStakedUsd = convertToConvenientNetworkAsset.snapshot(
-      this.totalStakedShares,
-    );
-
-    if (!rewardUsd.isPositive() || !totalStakedUsd.isPositive()) {
-      return null;
-    }
-
-    const interestsRelation = numeral(rewardUsd.toAmount()).divide(
-      totalStakedUsd.toAmount(),
-    );
-    const { programStart, epochLen, epochNum } = this.lmPool.conf;
-    const lmProgramLeftInBlocks =
-      programStart + epochLen * epochNum - this.params.currentHeight;
-    const lmProgramLeftInDays = blocksToDaysCount(lmProgramLeftInBlocks);
-
-    const apr = interestsRelation
-      .divide(lmProgramLeftInDays)
-      .multiply(365)
-      .multiply(100)
-      .value();
-
-    return apr ? Number(apr.toFixed(2)) : apr;
+    return this.params.commonFarmAnalytics?.yearProfit
+      ? Number(this.params.commonFarmAnalytics?.yearProfit.toFixed(2))
+      : null;
   }
 
   @cache
   get fullEpochsRemain(): number {
     return this.lmPool.numEpochsRemain(this.params.currentHeight);
+  }
+
+  @cache
+  get collectedRewards(): Currency | null {
+    if (!this.yourStakeLq.isPositive()) {
+      return null;
+    }
+
+    if (!this.params.userFarmAnalytics.userInterests?.reward?.amount) {
+      return new Currency(0n, this.assets.reward);
+    }
+    return new Currency(
+      BigInt(this.params.userFarmAnalytics.userInterests?.reward?.amount),
+      this.assets.reward,
+    );
   }
 
   @cache
@@ -240,22 +228,14 @@ export class ErgoFarm implements Farm<ErgoBaseLmPool> {
       return null;
     }
 
-    const totalStackedAmount = Number(this.totalStakedLq.toAmount());
-    const userStackedAmount = Number(this.yourStakeLq.toAmount());
-    const relation = numeral(userStackedAmount)
-      .divide(totalStackedAmount)
-      .value();
+    if (!this.params.userFarmAnalytics.userNextStakesReward?.nextReward) {
+      return null;
+    }
 
-    const totalRewardAmount = Number(this.programBudget.toAmount());
-    const rewardForEpoch = numeral(totalRewardAmount).divide(
-      this.lmPool.conf.epochNum,
+    return new Currency(
+      BigInt(this.params.userFarmAnalytics.userNextStakesReward.nextReward),
+      this.assets.reward,
     );
-
-    const userRewardForNextEpoch = BigInt(
-      Math.floor(rewardForEpoch.multiply(relation).value()!),
-    );
-
-    return new Currency(userRewardForNextEpoch, this.assets.reward);
   }
 
   constructor(
