@@ -94,6 +94,7 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({
       getPoolChartData(pool, {
         from: DateTime.now().minus(durationOffset).valueOf(),
         resolution,
+        to: DateTime.now().valueOf(),
       }),
     [pool?.id, defaultActivePeriod],
     [],
