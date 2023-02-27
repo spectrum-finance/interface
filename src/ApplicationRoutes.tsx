@@ -1,18 +1,27 @@
-import React, { FC } from 'react';
+import React, { FC, lazy } from 'react';
 import { Navigate, Outlet, useRoutes } from 'react-router-dom';
 
 import { NetworkDomManager } from './common/services/NetworkDomManager';
 import { Layout } from './components/common/Layout/Layout';
 import { RouteConfigExtended } from './components/RouterTitle/RouteConfigExtended';
 import { RouterTitle } from './components/RouterTitle/RouterTitle';
-import { AddLiquidityOrCreatePool } from './pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool';
-import { Liquidity } from './pages/Liquidity/Liquidity';
-import { LockLiquidity } from './pages/LockLiquidity/LockLiquidity';
-import { PoolOverview } from './pages/PoolOverview/PoolOverview';
-import { RelockLiquidity } from './pages/RelockLiquidity/RelockLiquidity';
-import { RemoveLiquidity } from './pages/RemoveLiquidity/RemoveLiquidity';
-import { Swap } from './pages/Swap/Swap';
-import { WithdrawalLiquidity } from './pages/WithdrawalLiquidity/WithdrawalLiquidity';
+
+const Swap = lazy(() => import('./pages/Swap/Swap'));
+const AddLiquidityOrCreatePool = lazy(
+  () => import('./pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool'),
+);
+const Liquidity = lazy(() => import('./pages/Liquidity/Liquidity'));
+const LockLiquidity = lazy(() => import('./pages/LockLiquidity/LockLiquidity'));
+const PoolOverview = lazy(() => import('./pages/PoolOverview/PoolOverview'));
+const WithdrawalLiquidity = lazy(
+  () => import('./pages/WithdrawalLiquidity/WithdrawalLiquidity'),
+);
+const RemoveLiquidity = lazy(
+  () => import('./pages/RemoveLiquidity/RemoveLiquidity'),
+);
+const RelockLiquidity = lazy(
+  () => import('./pages/RelockLiquidity/RelockLiquidity'),
+);
 
 export const routesConfig: RouteConfigExtended[] = [
   {
