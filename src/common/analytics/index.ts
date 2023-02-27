@@ -1,7 +1,9 @@
-import { ProductAnalytics } from './Analytics';
-import { PostHogAnalyticSystem } from './system/PostHogAnalyticSystem';
-
-export const panalytics = new ProductAnalytics(
-  new PostHogAnalyticSystem(),
-  // new AmplitudeAnalyticSystem(),
-);
+export {
+  fireAnalyticsEvent,
+  getDeviceId,
+  getSessionId,
+  getUserId,
+  initAnalytics,
+} from './src';
+export { user } from './src/user';
+export * from './src/utils';

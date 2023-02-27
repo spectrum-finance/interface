@@ -2,6 +2,7 @@ import { mkSubject } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities
 import { DateTime } from 'luxon';
 
 import { Dictionary } from './common/utils/Dictionary';
+import { isProdEnv } from './utils/env';
 
 interface OperationRestriction {
   readonly asset: string;
@@ -54,8 +55,7 @@ interface ApplicationConfig {
 
 export const applicationConfig: ApplicationConfig = {
   operationTimeoutTime: 60_000,
-  cookieDomain:
-    process.env.NODE_ENV === 'production' ? 'spectrum.fi' : undefined,
+  cookieDomain: isProdEnv() ? 'spectrum.fi' : undefined,
   cardanoMaintenance: false,
   defaultTokenListUrl:
     'https://raw.githubusercontent.com/ergolabs/default-token-list/master/src/tokens',

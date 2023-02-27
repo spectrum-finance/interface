@@ -1,7 +1,9 @@
 {
-  "name": "spectrum-finance-interface",
   "version": "3.4.1",
-  "private": false,
+  "name": "@spectrumlabs/interface",
+  "description": "Spectrum Finance Interface",
+  "license": "GPL-3.0-or-later",
+  "homepage": ".",
   "scripts": {
     "start": "HTTPS=true react-app-rewired start",
     "start:windows": "set HTTPS=true&&react-app-rewired start",
@@ -135,7 +137,9 @@
     ]
   },
   "engines": {
-    "node": "^16"
+    "npm": "please-use-yarn",
+    "node": "^16",
+    "yarn": ">=1.22"
   },
   "eslintConfig": {
     "overrides": [
