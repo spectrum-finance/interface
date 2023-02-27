@@ -4,7 +4,6 @@ import {
 } from '@ergolabs/ergo-dex-sdk';
 import { cache } from 'decorator-cache-getter';
 import { DateTime } from 'luxon';
-import numeral from 'numeral';
 
 import { AmmPool } from '../../../../common/models/AmmPool';
 import { AssetInfo } from '../../../../common/models/AssetInfo';

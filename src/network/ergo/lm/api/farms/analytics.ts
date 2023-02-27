@@ -1,4 +1,3 @@
-import { AssetAmount } from '@ergolabs/ergo-sdk';
 import { TokenAmount } from '@ergolabs/ergo-sdk/build/main/entities/tokenAmount';
 import axios from 'axios';
 import { catchError, map, of, publishReplay, refCount, switchMap } from 'rxjs';
