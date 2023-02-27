@@ -33,6 +33,7 @@ export const createRefundTxData = (
       const refundParams: RefundParams = {
         txId,
         recipientAddress: address,
+        utxos,
       };
 
       const inputs = DefaultBoxSelector.select(utxos, {
