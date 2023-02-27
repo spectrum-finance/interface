@@ -121,7 +121,14 @@ const _TableView: FC<TableViewProps<any>> = ({
     });
   };
 
-  const addAction = (a: Action<any>) => setActions((prev) => prev.concat(a));
+  const addAction = (a: Action<any>) =>
+    setActions((prev) => {
+      if (prev.some((i) => i.id === a.id)) {
+        return prev.map((i) => (i.id === a.id ? a : i));
+      } else {
+        return prev.concat(a);
+      }
+    });
 
   const changeSort = (column: number, direction: SortDirection | undefined) => {
     setSort(

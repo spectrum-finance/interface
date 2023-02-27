@@ -105,7 +105,7 @@ const RefundConfirmationModal: React.FC<RefundConfirmationModalProps> = ({
                       </Menu>
                     }
                   >
-                    <Button size="large" style={{ width: '100%' }}>
+                    <Button size="large" width="100%">
                       {getShortAddress(activeAddress ?? '')}
                       <DownOutlined />
                     </Button>
