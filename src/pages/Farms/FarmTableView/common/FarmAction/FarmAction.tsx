@@ -40,38 +40,31 @@ export const FarmAction: FC<FarmActionProps> = ({
 
   const isWithdrawAvailable = farm.yourStakeLq.isPositive();
 
-  const isAddLiquidityAvailable =
-    !farm.availableToStakeLq.isPositive() &&
-    !farm.yourStakeLq.isPositive() &&
-    farm.status !== FarmStatus.Finished;
-
   const isStakeAvailable =
     farm.availableToStakeLq.isPositive() && farm.status !== FarmStatus.Finished;
 
-  if (isAddLiquidityAvailable) {
-    return (
-      <Button
-        type="primary"
-        width={fullWidth ? '100%' : undefined}
-        onClick={navigateToAddLiquidity}
-      >
-        <Trans>Add liquidity</Trans>
-      </Button>
-    );
-  }
+  const isAddLiquidityAvailable =
+    !isStakeAvailable && farm.status !== FarmStatus.Finished;
 
-  if (isWithdrawAvailable && isStakeAvailable) {
+  if (isWithdrawAvailable && (isStakeAvailable || isAddLiquidityAvailable)) {
     return (
       <div onClick={(event) => event.stopPropagation()}>
         <Dropdown
           overlay={
             <Menu style={{ width: 160 }}>
               <Box transparent bordered={false} padding={2} borderRadius="l">
-                <Menu.Item key={'item1'} onClick={stake}>
-                  <Trans>Stake</Trans>
-                </Menu.Item>
+                {isStakeAvailable && (
+                  <Menu.Item key={'item1'} onClick={stake}>
+                    <Trans>Stake</Trans>
+                  </Menu.Item>
+                )}
+                {isAddLiquidityAvailable && (
+                  <Menu.Item key={'item3'} onClick={navigateToAddLiquidity}>
+                    <Trans>Add liquidity</Trans>
+                  </Menu.Item>
+                )}
 
-                <Menu.Item key={'item1'} onClick={withdraw}>
+                <Menu.Item key={'item2'} onClick={withdraw}>
                   <Trans>Unstake</Trans>
                 </Menu.Item>
               </Box>
@@ -89,6 +82,18 @@ export const FarmAction: FC<FarmActionProps> = ({
           </Button>
         </Dropdown>
       </div>
+    );
+  }
+
+  if (isAddLiquidityAvailable) {
+    return (
+      <Button
+        type="primary"
+        width={fullWidth ? '100%' : undefined}
+        onClick={navigateToAddLiquidity}
+      >
+        <Trans>Add liquidity</Trans>
+      </Button>
     );
   }
 
