@@ -7,18 +7,23 @@ import { debounceTime, first, Observable } from 'rxjs';
 
 import { PAnalytics } from '../../common/analytics/@types/types';
 import { useObservable } from '../../common/hooks/useObservable';
+import { Balance } from '../../common/models/Balance';
 import { isOnline$ } from '../../common/streams/networkConnection';
 import { useAssetsBalance } from '../../gateway/api/assetBalance';
 import { queuedOperation$ } from '../../gateway/api/queuedOperation';
 import { ConnectWalletButton } from '../common/ConnectWalletButton/ConnectWalletButton';
 
+export type OperationLoader<T> = (form: FormGroup<T>) => boolean;
+
 export type OperationValidator<T> = (
   form: FormGroup<T>,
+  balance: Balance,
 ) => ReactNode | ReactNode[] | string | undefined;
 
 export interface OperationFormProps<T> {
   readonly analytics?: PAnalytics;
   readonly validators?: OperationValidator<T>[];
+  readonly loaders?: OperationLoader<T>[];
   readonly form: FormGroup<T>;
   readonly actionCaption: ReactNode | ReactNode[] | string;
   readonly onSubmit: (
@@ -33,6 +38,7 @@ const PROCESSING_TRANSACTION_CAPTION = t`Processing transaction`;
 
 export function OperationForm<T>({
   validators,
+  loaders,
   form,
   onSubmit,
   children,
@@ -41,7 +47,7 @@ export function OperationForm<T>({
 }: OperationFormProps<T>): JSX.Element {
   const [isOnline] = useObservable(isOnline$);
   const [queuedOperation] = useObservable(queuedOperation$);
-  const [, isBalanceLoading] = useAssetsBalance();
+  const [balance, isBalanceLoading] = useAssetsBalance();
   const [value] = useObservable(
     form.valueChangesWithSilent$.pipe(debounceTime(100)),
     [form],
@@ -64,7 +70,7 @@ export function OperationForm<T>({
         loading: false,
         caption: CHECK_INTERNET_CONNECTION_CAPTION,
       });
-    } else if (isBalanceLoading) {
+    } else if (isBalanceLoading || loaders?.some((l) => l(form))) {
       setButtonProps({
         disabled: false,
         loading: true,
@@ -77,7 +83,15 @@ export function OperationForm<T>({
         caption: PROCESSING_TRANSACTION_CAPTION,
       });
     } else {
-      const caption = validators?.map((v) => v(form)).find(Boolean);
+      const caption = validators?.reduce<ReactNode | undefined>(
+        (caption, v) => {
+          if (caption) {
+            return caption;
+          }
+          return v(form, balance);
+        },
+        undefined,
+      );
 
       setButtonProps({
         disabled: !!caption,
@@ -90,6 +104,7 @@ export function OperationForm<T>({
     isBalanceLoading,
     value,
     validators,
+    loaders,
     actionCaption,
     queuedOperation,
   ]);
@@ -104,7 +119,7 @@ export function OperationForm<T>({
       result.pipe(first()).subscribe();
     }
   };
-
+  // console.log(validators);
   return (
     <Form form={form} onSubmit={handleSubmit}>
       <Flex col>

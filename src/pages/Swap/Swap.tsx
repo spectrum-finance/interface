@@ -2,15 +2,15 @@ import {
   Button,
   Flex,
   Form,
+  FormGroup,
   LineChartOutlined,
   SwapOutlined,
   Typography,
   useForm,
 } from '@ergolabs/ui-kit';
-import { Trans } from '@lingui/macro';
+import { t, Trans } from '@lingui/macro';
 import findLast from 'lodash/findLast';
 import maxBy from 'lodash/maxBy';
-import { DateTime } from 'luxon';
 import React, { useMemo, useState } from 'react';
 import {
   BehaviorSubject,
@@ -35,12 +35,12 @@ import { useSearchParams } from '../../common/hooks/useSearchParams';
 import { AmmPool } from '../../common/models/AmmPool';
 import { AssetInfo } from '../../common/models/AssetInfo';
 import { Currency } from '../../common/models/Currency';
-import {
-  END_TIMER_DATE,
-  LOCKED_TOKEN_ID,
-} from '../../components/common/ActionForm/ActionButton/ActionButton';
-import { ActionForm } from '../../components/common/ActionForm/ActionForm';
 import { AssetControlFormItem } from '../../components/common/TokenControl/AssetControl';
+import {
+  OperationForm,
+  OperationLoader,
+  OperationValidator,
+} from '../../components/OperationForm/OperationForm';
 import { Page } from '../../components/Page/Page';
 import { ammPools$, getAmmPoolsByAssetPair } from '../../gateway/api/ammPools';
 import { useAssetsBalance } from '../../gateway/api/assetBalance';
@@ -54,8 +54,8 @@ import {
 } from '../../gateway/api/assets';
 import { useNetworkAsset } from '../../gateway/api/networkAsset';
 import { swap } from '../../gateway/api/operations/swap';
-import { useRefundableDeposit } from '../../gateway/api/refundableDeposit';
-import { useSwapValidationFee } from '../../gateway/api/validationFees';
+import { useHandleSwapMaxButtonClick } from '../../gateway/api/useHandleSwapMaxButtonClick';
+import { useSwapValidators } from '../../gateway/api/validationFees';
 import { useSelectedNetwork } from '../../gateway/common/network';
 import { operationsSettings$ } from '../../gateway/widgets/operationsSettings';
 import { PoolSelector } from './PoolSelector/PoolSelector';
@@ -97,8 +97,8 @@ export const Swap = (): JSX.Element => {
   const [networkAsset] = useNetworkAsset();
   const [balance] = useAssetsBalance();
   const [, allAmmPoolsLoading] = useObservable(ammPools$);
-  const refundableDeposit = useRefundableDeposit();
-  const totalFeesWithDeposit = useSwapValidationFee();
+  const swapNetworkValidators = useSwapValidators();
+  const handleSwapMaxButtonClick = useHandleSwapMaxButtonClick();
   const [{ base, quote, initialPoolId }, setSearchParams] =
     useSearchParams<{ base: string; quote: string; initialPoolId: string }>();
   const [OperationSettings] = useObservable(operationsSettings$);
@@ -120,58 +120,33 @@ export const Swap = (): JSX.Element => {
     [],
   );
 
-  const getInsufficientTokenNameForFee = ({
-    fromAmount,
-  }: Required<SwapFormModel>) => {
-    const totalFeesWithAmount = fromAmount.isAssetEquals(networkAsset)
-      ? fromAmount.plus(totalFeesWithDeposit).minus(refundableDeposit)
-      : totalFeesWithDeposit.minus(refundableDeposit);
-
-    return totalFeesWithAmount.gt(balance.get(networkAsset))
-      ? networkAsset.ticker
-      : undefined;
-  };
-
-  const getInsufficientTokenNameForRefundableDeposit = ({
-    fromAmount,
-  }: Required<SwapFormModel>) => {
-    const totalFeesWithAmount = fromAmount.isAssetEquals(networkAsset)
-      ? fromAmount.plus(totalFeesWithDeposit)
-      : totalFeesWithDeposit;
-
-    return totalFeesWithAmount.gt(balance.get(networkAsset))
-      ? networkAsset.ticker
-      : undefined;
-  };
-
-  const getInsufficientTokenNameForTx = ({
-    fromAsset,
-    fromAmount,
-  }: SwapFormModel) => {
+  const insufficientFromForTxValidator: OperationValidator<SwapFormModel> = ({
+    value: { fromAsset, fromAmount },
+  }) => {
     if (fromAsset && fromAmount && fromAmount.gt(balance.get(fromAsset))) {
-      return fromAsset.ticker;
+      return t`Insufficient ${fromAsset.ticker} Balance`;
     }
     return undefined;
   };
 
-  const isAmountNotEntered = ({ toAmount, fromAmount }: SwapFormModel) => {
+  const amountEnteredValidator: OperationValidator<SwapFormModel> = ({
+    value: { toAmount, fromAmount },
+  }: FormGroup<SwapFormModel>) => {
     if (
       (!fromAmount?.isPositive() && toAmount?.isPositive()) ||
       (!toAmount?.isPositive() && fromAmount?.isPositive())
     ) {
-      return false;
+      return undefined;
     }
 
-    return !fromAmount?.isPositive() || !toAmount?.isPositive();
+    return !fromAmount?.isPositive() || !toAmount?.isPositive()
+      ? t`Enter an Amount`
+      : undefined;
   };
 
-  const getMinValueForToken = ({
-    toAmount,
-    fromAmount,
-    fromAsset,
-    toAsset,
-    pool,
-  }: SwapFormModel): Currency | undefined => {
+  const minValueForTokenValidator: OperationValidator<SwapFormModel> = ({
+    value: { toAmount, fromAmount, fromAsset, toAsset, pool },
+  }) => {
     if (
       !fromAmount?.isPositive() &&
       toAmount &&
@@ -182,28 +157,32 @@ export const Swap = (): JSX.Element => {
       return undefined;
     }
 
+    let minValue: Currency | undefined;
+
     if (!fromAmount?.isPositive() && toAmount?.isPositive() && pool) {
-      // TODO: FIX_ERGOLABS_SDK_COMPUTING
-      return pool.calculateOutputAmount(new Currency(1n, fromAsset)).plus(1n);
+      minValue = pool
+        .calculateOutputAmount(new Currency(1n, fromAsset))
+        .plus(1n);
     }
     if (!toAmount?.isPositive() && fromAmount?.isPositive() && pool) {
-      return pool.calculateInputAmount(new Currency(1n, toAsset));
+      minValue = pool.calculateInputAmount(new Currency(1n, toAsset));
     }
-    return undefined;
+    return minValue
+      ? t`Min value for ${minValue.asset.ticker} is ${minValue?.toString()}`
+      : undefined;
   };
 
-  const isTokensNotSelected = ({ toAsset, fromAsset }: SwapFormModel) =>
-    !toAsset || !fromAsset;
+  const tokensNotSelectedValidator: OperationValidator<SwapFormModel> = ({
+    value: { toAsset, fromAsset },
+  }: FormGroup<SwapFormModel>) =>
+    !toAsset || !fromAsset ? t`Select a token` : undefined;
 
-  const isSwapLocked = ({ toAsset, fromAsset }: SwapFormModel) =>
-    (toAsset?.id === LOCKED_TOKEN_ID || fromAsset?.id === LOCKED_TOKEN_ID) &&
-    DateTime.now().toUTC().toMillis() < END_TIMER_DATE.toMillis();
+  const isPoolLoading: OperationLoader<SwapFormModel> = ({
+    value: { fromAsset, toAsset, pool },
+  }) => !!fromAsset && !!toAsset && !pool;
 
-  const isPoolLoading = ({ fromAsset, toAsset, pool }: SwapFormModel) =>
-    !!fromAsset && !!toAsset && !pool;
-
-  const submitSwap = (value: Required<SwapFormModel>) => {
-    swap(value)
+  const submitSwap = ({ value }: FormGroup<SwapFormModel>) => {
+    swap(value as Required<SwapFormModel>)
       .pipe(first())
       .subscribe(() => resetForm());
     panalytics.submitSwap(value);
@@ -215,16 +194,15 @@ export const Swap = (): JSX.Element => {
       { emitEvent: 'silent' },
     );
 
-  const handleMaxButtonClick = (balance: Currency) =>
-    balance.asset.id === networkAsset.id
-      ? balance.minus(totalFeesWithDeposit)
-      : balance;
-
-  const isLiquidityInsufficient = ({ toAmount, pool }: SwapFormModel) => {
+  const insufficientLiquidityValidator: OperationValidator<SwapFormModel> = ({
+    value: { toAmount, pool },
+  }) => {
     if (!toAmount?.isPositive() || !pool) {
       return false;
     }
-    return toAmount?.gte(pool.getAssetAmount(toAmount?.asset));
+    return toAmount?.gte(pool.getAssetAmount(toAmount?.asset))
+      ? t`Insufficient liquidity for this trade`
+      : undefined;
   };
 
   useSubscription(
@@ -386,37 +364,41 @@ export const Swap = (): JSX.Element => {
   const [fromAsset] = useObservable(
     form.controls.fromAsset.valueChangesWithSilent$,
   );
+  const validators: OperationValidator<SwapFormModel>[] = [
+    tokensNotSelectedValidator,
+    amountEnteredValidator,
+    minValueForTokenValidator,
+    insufficientFromForTxValidator,
+    ...swapNetworkValidators,
+    // insufficientAssetForFeeValidator as OperationValidator<SwapFormModel>,
+    // insufficientAssetForRefundableDepositValidator as OperationValidator<SwapFormModel>,
+    insufficientLiquidityValidator,
+  ];
+
   return (
-    <ActionForm
-      form={form}
-      getInsufficientTokenNameForFee={getInsufficientTokenNameForFee}
-      getInsufficientTokenNameForRefundableDeposit={
-        getInsufficientTokenNameForRefundableDeposit
+    <Page
+      maxWidth={500}
+      widgetBaseHeight={pool ? 432 : 272}
+      leftWidget={
+        selectedNetwork.name === 'ergo' && (
+          <SwapGraph
+            pool={pool}
+            isReversed={reversedRatio}
+            setReversed={setReversedRatio}
+            fromAsset={fromAsset}
+          />
+        )
       }
-      getInsufficientTokenNameForTx={getInsufficientTokenNameForTx}
-      isLoading={isPoolLoading}
-      getMinValueForToken={getMinValueForToken}
-      isAmountNotEntered={isAmountNotEntered}
-      isTokensNotSelected={isTokensNotSelected}
-      isLiquidityInsufficient={isLiquidityInsufficient}
-      isSwapLocked={isSwapLocked}
-      action={submitSwap}
+      widgetOpened={leftWidgetOpened}
+      onWidgetClose={() => setLeftWidgetOpened(false)}
     >
-      <Page
-        maxWidth={500}
-        widgetBaseHeight={pool ? 432 : 272}
-        leftWidget={
-          selectedNetwork.name === 'ergo' && (
-            <SwapGraph
-              pool={pool}
-              isReversed={reversedRatio}
-              setReversed={setReversedRatio}
-              fromAsset={fromAsset}
-            />
-          )
-        }
-        widgetOpened={leftWidgetOpened}
-        onWidgetClose={() => setLeftWidgetOpened(false)}
+      <OperationForm
+        analytics={{ location: 'swap' }}
+        actionCaption={t`Swap`}
+        form={form}
+        onSubmit={submitSwap}
+        validators={validators}
+        loaders={[isPoolLoading]}
       >
         <Flex col>
           <Flex row align="center">
@@ -440,7 +422,7 @@ export const Swap = (): JSX.Element => {
               loading={allAmmPoolsLoading}
               bordered
               maxButton
-              handleMaxButtonClick={handleMaxButtonClick}
+              handleMaxButtonClick={handleSwapMaxButtonClick}
               assets$={defaultTokenAssets$}
               assetsToImport$={tokenAssetsToImport$}
               importedAssets$={importedTokenAssets$}
@@ -492,13 +474,8 @@ export const Swap = (): JSX.Element => {
               </Flex.Item>
             )}
           </Form.Listener>
-          <Flex.Item marginTop={4}>
-            <ActionForm.Button analytics={{ location: 'swap' }}>
-              <Trans>Swap</Trans>
-            </ActionForm.Button>
-          </Flex.Item>
         </Flex>
-      </Page>
-    </ActionForm>
+      </OperationForm>
+    </Page>
   );
 };

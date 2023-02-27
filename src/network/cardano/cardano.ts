@@ -16,9 +16,17 @@ import { lpBalance$ } from './api/balance/lpBalance';
 import { networkAssetBalance$ } from './api/balance/networkAssetBalance';
 import { networkAsset, useNetworkAsset } from './api/networkAsset/networkAsset';
 import { networkContext$ } from './api/networkContext/networkContext';
-import { deposit } from './api/operations/deposit';
+import {
+  deposit,
+  useDepositValidators,
+  useHandleDepositMaxButtonClick,
+} from './api/operations/deposit';
 import { redeem } from './api/operations/redeem';
-import { swap } from './api/operations/swap';
+import {
+  swap,
+  useHandleSwapMaxButtonClick,
+  useSwapValidators,
+} from './api/operations/swap';
 import { positions$ } from './api/positions/positions';
 import {
   defaultTokenAssets$,
@@ -48,7 +56,6 @@ import {
   useCreatePoolValidationFee,
   useDepositValidationFee,
   useRedeemValidationFee,
-  useSwapValidationFee,
 } from './settings/totalFee';
 import {
   exploreAddress,
@@ -112,7 +119,6 @@ export const cardanoNetwork: Network<
   exploreAddress,
   exploreLastBlock,
   exploreToken,
-
   swap,
   deposit,
   redeem,
@@ -127,9 +133,11 @@ export const cardanoNetwork: Network<
   },
 
   convertToConvenientNetworkAsset,
-  useSwapValidationFee,
-  useDepositValidationFee,
-  useRedeemValidationFee,
+
+  useSwapValidators,
+  useHandleSwapMaxButtonClick,
+  useDepositValidators,
+  useHandleDepositMaxButtonClick,
   useCreatePoolValidationFee,
   useNetworkAsset,
 

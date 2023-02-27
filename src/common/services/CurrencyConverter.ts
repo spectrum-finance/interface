@@ -33,15 +33,16 @@ const getRatioFromGraph = (
 };
 
 interface SnapshotFunction {
-  (from: Currency | Currency[]): Currency;
+  (from: Currency | Currency[], to?: AssetInfo): Currency;
 }
 
 interface RateFunction {
-  (from: AssetInfo): Observable<Ratio>;
+  (from: AssetInfo, to?: AssetInfo): Observable<Ratio>;
 }
 
 export type CurrencyConverter = ((
   from: Currency | Currency[],
+  to?: AssetInfo,
 ) => Observable<Currency>) & {
   snapshot: SnapshotFunction;
   rate: RateFunction;
@@ -58,46 +59,60 @@ export const makeCurrencyConverter = (
 
   const emptyConvenientAssetCurrency = new Currency(0n, convenientAsset);
 
-  const createRateStream = (fromAsset: AssetInfo): Observable<Ratio> => {
+  const toHash = (from: AssetInfo, to?: AssetInfo): string =>
+    to ? `${from.id}-${to.id}` : from.id;
+
+  const createRateStream = (
+    fromAsset: AssetInfo,
+    to?: AssetInfo,
+  ): Observable<Ratio> => {
     return combineLatest([
       assetGraph$,
       networkAssetToConvenientAssetRatio$,
     ]).pipe(
       debounceTime(100),
       map(([graph, networkAssetRatio]) => {
-        if (fromAsset.id === networkAssetRatio.baseAsset.id) {
+        if (
+          fromAsset.id === networkAssetRatio.baseAsset.id &&
+          (!to || to.id === networkAssetRatio.quoteAsset.id)
+        ) {
           return networkAssetRatio;
         }
 
         const toNetworkAssetRatio: Ratio | undefined = getRatioFromGraph(
           graph,
           fromAsset,
-          networkAssetRatio.baseAsset,
+          to || networkAssetRatio.baseAsset,
         );
-
         if (!toNetworkAssetRatio) {
           return new Ratio('0', fromAsset, networkAssetRatio.quoteAsset);
         }
+        if (to) {
+          return toNetworkAssetRatio;
+        }
         return toNetworkAssetRatio.cross(networkAssetRatio);
       }),
-      tap((ratio) => ratioSnapshotCache.set(fromAsset.id, ratio)),
+      tap((ratio) => ratioSnapshotCache.set(toHash(fromAsset, to), ratio)),
       publishReplay(1),
       refCount(),
     );
   };
 
-  const rate = (from: AssetInfo): Observable<Ratio> => {
-    if (!ratioStreamCache.has(from.id)) {
-      ratioStreamCache.set(from.id, createRateStream(from));
+  const rate = (from: AssetInfo, to?: AssetInfo): Observable<Ratio> => {
+    const hash = toHash(from, to);
+
+    if (!ratioStreamCache.has(hash)) {
+      ratioStreamCache.set(hash, createRateStream(from, to));
     }
-    return ratioStreamCache.get(from.id)!;
+    return ratioStreamCache.get(hash)!;
   };
 
   const convert: CurrencyConverter = ((
     from: Currency | Currency[],
+    to?: AssetInfo,
   ): Observable<Currency> => {
     if (from instanceof Currency) {
-      return rate(from.asset).pipe(
+      return rate(from.asset, to).pipe(
         map((convenientAssetRate) => convenientAssetRate.toQuoteCurrency(from)),
       );
     }
@@ -108,7 +123,7 @@ export const makeCurrencyConverter = (
 
     return combineLatest(
       from.map((i) =>
-        rate(i.asset).pipe(
+        rate(i.asset, to).pipe(
           map((convenientAssetRate) => convenientAssetRate.toQuoteCurrency(i)),
         ),
       ),
@@ -122,22 +137,44 @@ export const makeCurrencyConverter = (
     );
   }) as any;
 
-  convert.snapshot = (from: Currency | Currency[]): Currency => {
-    if (from instanceof Currency && ratioSnapshotCache.has(from.asset.id)) {
-      return ratioSnapshotCache.get(from.asset.id)!.toQuoteCurrency(from);
-    }
-    if (from instanceof Array) {
-      return from.reduce((acc, item) => {
-        if (ratioSnapshotCache.has(item.asset.id)) {
-          return acc.plus(
-            ratioSnapshotCache.get(item.asset.id)!.toQuoteCurrency(item),
-          );
-        }
-        return acc;
-      }, emptyConvenientAssetCurrency);
-    }
+  const convertSnapshotWithSingleCurrency = (
+    from: Currency,
+    to?: AssetInfo,
+  ): Currency => {
+    const hash = toHash(from.asset, to);
 
-    return emptyConvenientAssetCurrency;
+    if (ratioSnapshotCache.has(hash)) {
+      return ratioSnapshotCache.get(hash)!.toQuoteCurrency(from);
+    }
+    return to ? new Currency(0n, to) : emptyConvenientAssetCurrency;
+  };
+
+  const convertSnapshotWithMultipleCurrencies = (
+    from: Currency[],
+    to?: AssetInfo,
+  ): Currency => {
+    if (from.some((i) => !ratioSnapshotCache.has(toHash(i.asset, to)))) {
+      return to ? new Currency(0n, to) : emptyConvenientAssetCurrency;
+    }
+    return from.reduce<Currency>(
+      (sum, i) => {
+        return sum.plus(
+          ratioSnapshotCache.get(toHash(i.asset, to))!.toQuoteCurrency(i),
+        );
+      },
+      to ? new Currency(0n, to) : emptyConvenientAssetCurrency,
+    );
+  };
+
+  convert.snapshot = (
+    from: Currency | Currency[],
+    to?: AssetInfo,
+  ): Currency => {
+    if (from instanceof Array) {
+      return convertSnapshotWithMultipleCurrencies(from, to);
+    } else {
+      return convertSnapshotWithSingleCurrency(from, to);
+    }
   };
 
   convert.rate = rate;

@@ -1,7 +1,7 @@
 import { Address, TxId } from '@ergolabs/ergo-sdk';
 import { Button, Tooltip } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
-import React, { ReactNode } from 'react';
+import React from 'react';
 
 import { ReactComponent as ExploreIcon } from '../../../assets/icons/icon-explore.svg';
 import {

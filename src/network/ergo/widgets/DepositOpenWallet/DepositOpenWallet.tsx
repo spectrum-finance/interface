@@ -11,7 +11,7 @@ import { PageSection } from '../../../../components/Page/PageSection/PageSection
 import { Section } from '../../../../components/Section/Section';
 import { AddLiquidityFormModel } from '../../../../pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityFormModel';
 import { PoolRatio } from '../../../../pages/PoolOverview/PoolRatio/PoolRatio';
-import { ergopayDeposit } from '../../operations/deposit/ergopayDeposit';
+import { ergoPaySwap } from '../../operations/deposit/ergopayDeposit';
 import { DepositConfirmationInfo } from '../DepositConfirmationModal/DepositConfirmationInfo/DepositConfirmationInfo';
 
 export interface DepositOpenWalletProps {
@@ -29,7 +29,7 @@ export const DepositOpenWallet: FC<DepositOpenWalletProps> = ({
     if (value.pool && value.x && value.y) {
       panalytics.confirmDeposit(value);
       setLoading(true);
-      ergopayDeposit(value.pool as any, value.x, value.y)
+      ergoPaySwap(value.pool as any, value.x, value.y)
         .pipe(first())
         .subscribe({
           next: (txId) => {

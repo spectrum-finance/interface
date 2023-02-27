@@ -1,12 +1,12 @@
-import { from, Observable, switchMap, timeout } from 'rxjs';
+import { first, Observable, switchMap } from 'rxjs';
 
-import { applicationConfig } from '../../../../applicationConfig';
 import { Currency } from '../../../../common/models/Currency';
 import { TxId } from '../../../../common/types';
 import { ErgoAmmPool } from '../../api/ammPools/ErgoAmmPool';
-import { poolActions } from '../common/poolActions';
-import { submitTx } from '../common/submitTx';
-import { createRedeemTxData } from './createRedeemTxData';
+import { feeAsset } from '../../api/networkAsset/networkAsset';
+import { settings$ } from '../../settings/settings';
+import { walletRedeem as nativeWalletRedeem } from './nativeFee/walletRedeem';
+import { walletRedeem as spfWalletRedeem } from './spfFee/walletRedeem';
 
 export const walletRedeem = (
   pool: ErgoAmmPool,
@@ -14,20 +14,12 @@ export const walletRedeem = (
   x: Currency,
   y: Currency,
 ): Observable<TxId> =>
-  createRedeemTxData(pool, lp, x, y).pipe(
-    switchMap(([redeemParams, txContext]) =>
-      from(poolActions(pool.pool).redeem(redeemParams, txContext)).pipe(
-        switchMap((tx) =>
-          submitTx(tx, {
-            type: 'redeem',
-            txId: tx.id,
-            xAmount: x.toAmount(),
-            xAsset: x.asset.id,
-            yAmount: y.toAmount(),
-            yAsset: y.asset.id,
-          }),
-        ),
+  settings$
+    .pipe(first())
+    .pipe(
+      switchMap(({ executionFeeAsset }) =>
+        executionFeeAsset.id === feeAsset.id
+          ? spfWalletRedeem(pool, lp, x, y)
+          : nativeWalletRedeem(pool, lp, x, y),
       ),
-    ),
-    timeout(applicationConfig.operationTimeoutTime),
-  );
+    );

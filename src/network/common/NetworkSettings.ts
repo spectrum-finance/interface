@@ -1,5 +1,6 @@
 import { Observable } from 'rxjs';
 
+import { AssetInfo } from '../../common/models/AssetInfo';
 import { Currency } from '../../common/models/Currency';
 import { Address, Nitro, Percent } from '../../common/types';
 
@@ -7,6 +8,7 @@ export interface BaseNetworkSettings {
   readonly address?: Address;
   readonly slippage: Percent;
   readonly nitro: Nitro;
+  readonly executionFeeAsset: AssetInfo;
 }
 
 export interface NetworkSettings<T extends BaseNetworkSettings> {

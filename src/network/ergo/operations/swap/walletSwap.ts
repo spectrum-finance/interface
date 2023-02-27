@@ -1,31 +1,24 @@
-import { from as fromPromise, Observable, switchMap, timeout } from 'rxjs';
+import { first, Observable, switchMap } from 'rxjs';
 
-import { applicationConfig } from '../../../../applicationConfig';
 import { Currency } from '../../../../common/models/Currency';
 import { TxId } from '../../../../common/types';
 import { ErgoAmmPool } from '../../api/ammPools/ErgoAmmPool';
-import { poolActions } from '../common/poolActions';
-import { submitTx } from '../common/submitTx';
-import { createSwapTxData } from './createSwapTxData';
+import { feeAsset } from '../../api/networkAsset/networkAsset';
+import { settings$ } from '../../settings/settings';
+import { walletSwap as nativeWalletSwap } from './nativeFee/walletSwap';
+import { walletSwap as spfWalletSwap } from './spfFee/walletSwap';
 
 export const walletSwap = (
   pool: ErgoAmmPool,
   from: Currency,
   to: Currency,
 ): Observable<TxId> =>
-  createSwapTxData(pool, from, to).pipe(
-    switchMap(([swapParams, txContext]) =>
-      fromPromise(poolActions(pool.pool).swap(swapParams, txContext)),
-    ),
-    switchMap((tx) =>
-      submitTx(tx, {
-        type: 'swap',
-        baseAsset: from.asset.id,
-        baseAmount: from.toAmount(),
-        quoteAsset: to.asset.id,
-        quoteAmount: to.toAmount(),
-        txId: tx.id,
-      }),
-    ),
-    timeout(applicationConfig.operationTimeoutTime),
-  );
+  settings$
+    .pipe(first())
+    .pipe(
+      switchMap(({ executionFeeAsset }) =>
+        executionFeeAsset.id === feeAsset.id
+          ? spfWalletSwap(pool, from, to)
+          : nativeWalletSwap(pool, from, to),
+      ),
+    );

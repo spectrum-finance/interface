@@ -5,19 +5,17 @@ import {
   FeesView,
   FeesViewItem,
 } from '../../../../../components/FeesView/FeesView';
-import { useMinExFee } from '../../../settings/executionFee';
+import { useMinExFee } from '../../../settings/executionFee/executionFee';
 import { useMinerFee } from '../../../settings/minerFee';
-import { useMinTotalFee } from '../../../settings/totalFees';
 
 export const RedeemConfirmationInfo: FC = () => {
   const minExFee = useMinExFee();
-  const minTotalFee = useMinTotalFee();
   const minerFee = useMinerFee();
 
   const fees: FeesViewItem[] = [
-    { caption: t`Miner Fee`, currency: minerFee },
     { caption: t`Execution Fee`, currency: minExFee },
+    { caption: t`Miner Fee`, currency: minerFee },
   ];
 
-  return <FeesView totalFees={minTotalFee} fees={fees} />;
+  return <FeesView totalFees={[minerFee, minExFee]} fees={fees} />;
 };

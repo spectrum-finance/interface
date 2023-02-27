@@ -22,6 +22,7 @@ import {
 import { AmmPool } from '../../common/models/AmmPool';
 import { AssetInfo } from '../../common/models/AssetInfo';
 import { AssetSelectFormItem } from '../../components/common/TokenControl/AssetSelect/AssetSelect';
+import { IsErgo } from '../../components/IsErgo/IsErgo';
 import { Page } from '../../components/Page/Page';
 import { Section } from '../../components/Section/Section';
 import {
@@ -31,6 +32,7 @@ import {
 import { assetBalance$ } from '../../gateway/api/assetBalance';
 import { useNetworkAsset } from '../../gateway/api/networkAsset';
 import { selectedWallet$ } from '../../gateway/api/wallets';
+import { operationsSettings$ } from '../../gateway/widgets/operationsSettings';
 import { AddLiquidity } from './AddLiquidity/AddLiquidity';
 import { CreatePool } from './CreatePool/CreatePool';
 import { CreatePoolUnsupportedAlert } from './CreatePoolUnsupportedAlert/CreatePoolUnsupportedAlert';
@@ -65,6 +67,7 @@ enum ComponentState {
 }
 
 export const AddLiquidityOrCreatePool: FC = () => {
+  const [OperationSettings] = useObservable(operationsSettings$);
   const { poolId } = useParams<{ poolId?: PoolId }>();
   const [initialized, setInitialized] = useState<boolean>(!poolId);
   const [networkAsset] = useNetworkAsset();
@@ -194,11 +197,22 @@ export const AddLiquidityOrCreatePool: FC = () => {
         withBackButton
         onBackButtonClick={handleBackButtonClick}
         backTo="/pool"
+        padding={4}
       >
         {initialized ? (
           <Flex col>
             <Flex.Item marginBottom={4} display="flex" col>
-              <Section title={t`Select Pair`}>
+              <Section
+                title={t`Select Pair`}
+                gap={2}
+                extra={
+                  <IsErgo>
+                    {OperationSettings && (
+                      <OperationSettings hideNitro hideSlippage />
+                    )}
+                  </IsErgo>
+                }
+              >
                 <Flex justify="center" align="center">
                   <Flex.Item marginRight={2} flex={1}>
                     <AssetSelectFormItem

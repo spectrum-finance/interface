@@ -10,7 +10,7 @@ import { FormPairSection } from '../../../../components/common/FormView/FormPair
 import { PageSection } from '../../../../components/Page/PageSection/PageSection';
 import { RemoveLiquidityFormModel } from '../../../../pages/RemoveLiquidity/RemoveLiquidityFormModel';
 import { ErgoAmmPool } from '../../api/ammPools/ErgoAmmPool';
-import { ergopayRedeem } from '../../operations/redeem/ergopayRedeem';
+import { ergoPayRedeem } from '../../operations/redeem/ergopayRedeem';
 import { ErgoPayCompatibleWalletLink } from '../ErgoPayModal/ErgoPayCompatibleWalletLink/ErgoPayCompatibleWalletLink';
 import { RedeemConfirmationInfo } from '../RedeemConfirmationModal/RedeemConfirmationInfo/RedeemConfirmationInfo';
 
@@ -30,7 +30,7 @@ export const RedeemOpenWallet: FC<RedeemOpenWalletProps> = ({
   const redeemOperation = async () => {
     panalytics.confirmRedeem(value, pool);
     setLoading(true);
-    ergopayRedeem(
+    ergoPayRedeem(
       pool,
       value.lpAmount,
       value.xAmount,

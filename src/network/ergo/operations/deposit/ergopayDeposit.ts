@@ -1,43 +1,24 @@
-import { from as fromPromise, map, Observable, switchMap, timeout } from 'rxjs';
+import { first, Observable, switchMap } from 'rxjs';
 
-import { applicationConfig } from '../../../../applicationConfig';
-import { panalytics } from '../../../../common/analytics';
 import { Currency } from '../../../../common/models/Currency';
 import { TxId } from '../../../../common/types';
 import { ErgoAmmPool } from '../../api/ammPools/ErgoAmmPool';
-import { ergoPayMessageManager } from '../common/ergopayMessageManager';
-import { ergoPayPoolActions } from '../common/poolActions';
-import { submitErgopayTx } from '../common/submitErgopayTx';
-import { createDepositTxData } from './createDepositTxData';
+import { feeAsset } from '../../api/networkAsset/networkAsset';
+import { settings$ } from '../../settings/settings';
+import { ergopayDeposit as nativeErgoPayDeposit } from './nativeFee/ergopayDeposit';
+import { ergopayDeposit as spfErgoPayDeposit } from './spfFee/ergopayDeposit';
 
-export const ergopayDeposit = (
+export const ergoPaySwap = (
   pool: ErgoAmmPool,
   x: Currency,
   y: Currency,
 ): Observable<TxId> =>
-  createDepositTxData(pool, x, y).pipe(
-    switchMap(([depositParams, txContext, additionalData]) =>
-      fromPromise(
-        ergoPayPoolActions(pool.pool).deposit(depositParams, txContext),
-      ).pipe(map((txRequest) => ({ txRequest, additionalData }))),
-    ),
-    switchMap(({ txRequest, additionalData }) =>
-      submitErgopayTx(txRequest, {
-        analyticData: panalytics.buildErgopaySignedDepositEvent({
-          x,
-          xAsset: x.asset,
-          y,
-          yAsset: y.asset,
-          pool,
-        }),
-        p2pkaddress: additionalData.p2pkaddress,
-        message: ergoPayMessageManager.deposit({
-          pool: additionalData.pool,
-          x,
-          y,
-          fee: additionalData.minTotalFee,
-        }),
-      }),
-    ),
-    timeout(applicationConfig.operationTimeoutTime),
-  );
+  settings$
+    .pipe(first())
+    .pipe(
+      switchMap(({ executionFeeAsset }) =>
+        executionFeeAsset.id === feeAsset.id
+          ? spfErgoPayDeposit(pool, x, y)
+          : nativeErgoPayDeposit(pool, x, y),
+      ),
+    );

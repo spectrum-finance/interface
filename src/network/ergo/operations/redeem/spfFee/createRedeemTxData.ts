@@ -1,20 +1,24 @@
 import { RedeemParams } from '@ergolabs/ergo-dex-sdk';
-import { NativeExFeeType } from '@ergolabs/ergo-dex-sdk/build/main/types';
-import { ErgoBox, TransactionContext } from '@ergolabs/ergo-sdk';
+import { SpecExFeeType } from '@ergolabs/ergo-dex-sdk/build/main/types';
+import { AssetAmount, ErgoBox, TransactionContext } from '@ergolabs/ergo-sdk';
 import { NetworkContext } from '@ergolabs/ergo-sdk/build/main/entities/networkContext';
 import { first, map, Observable, zip } from 'rxjs';
 
-import { UI_FEE_BIGINT } from '../../../../common/constants/erg';
-import { Currency } from '../../../../common/models/Currency';
-import { ErgoAmmPool } from '../../api/ammPools/ErgoAmmPool';
-import { networkContext$ } from '../../api/networkContext/networkContext';
-import { utxos$ } from '../../api/utxos/utxos';
-import { minExFee$ } from '../../settings/executionFee';
-import { minerFee$ } from '../../settings/minerFee';
-import { ErgoSettings, settings$ } from '../../settings/settings';
-import { maxTotalFee$, minTotalFee$ } from '../../settings/totalFees';
-import { getInputs } from '../common/getInputs';
-import { getTxContext } from '../common/getTxContext';
+import {
+  NEW_MIN_BOX_VALUE,
+  UI_FEE_BIGINT,
+} from '../../../../../common/constants/erg';
+import { Currency } from '../../../../../common/models/Currency';
+import { ErgoAmmPool } from '../../../api/ammPools/ErgoAmmPool';
+import { feeAsset } from '../../../api/networkAsset/networkAsset';
+import { networkContext$ } from '../../../api/networkContext/networkContext';
+import { utxos$ } from '../../../api/utxos/utxos';
+import { minExFee$ } from '../../../settings/executionFee/spfExecutionFee';
+import { minerFee$ } from '../../../settings/minerFee';
+import { ErgoSettings, settings$ } from '../../../settings/settings';
+import { maxTotalFee$, minTotalFee$ } from '../../../settings/totalFees';
+import { getInputs } from '../../common/getInputs';
+import { getTxContext } from '../../common/getTxContext';
 
 interface RedeemOperationCandidateParams {
   readonly pool: ErgoAmmPool;
@@ -58,7 +62,7 @@ export const toRedeemOperationArgs = ({
   maxTotalFee,
   minTotalFee,
 }: RedeemOperationCandidateParams): [
-  RedeemParams<NativeExFeeType>,
+  RedeemParams<SpecExFeeType>,
   TransactionContext,
   AdditionalData,
 ] => {
@@ -67,19 +71,27 @@ export const toRedeemOperationArgs = ({
   }
   const lpToRemove = pool['pool'].lp.withAmount(lp.amount);
 
-  const redeemParams: RedeemParams<NativeExFeeType> = {
+  const redeemParams: RedeemParams<SpecExFeeType> = {
     poolId: pool.id,
     pk: settings.pk,
     lp: lpToRemove,
-    exFee: minExFee.amount,
+    exFee: {
+      amount: minExFee.amount,
+      tokenId: feeAsset.id,
+    },
     uiFee: UI_FEE_BIGINT,
   };
 
-  const inputs = getInputs(utxos, [lpToRemove], {
-    minerFee: minerFee.amount,
-    uiFee: UI_FEE_BIGINT,
-    exFee: minExFee.amount,
-  });
+  const inputs = getInputs(
+    utxos,
+    [lpToRemove, new AssetAmount(feeAsset, minExFee.amount)],
+    {
+      minerFee: minerFee.amount,
+      uiFee: UI_FEE_BIGINT,
+      exFee: NEW_MIN_BOX_VALUE,
+    },
+    true,
+  );
 
   const txContext = getTxContext(
     inputs,
@@ -105,7 +117,7 @@ export const createRedeemTxData = (
   x: Currency,
   y: Currency,
 ): Observable<
-  [RedeemParams<NativeExFeeType>, TransactionContext, AdditionalData]
+  [RedeemParams<SpecExFeeType>, TransactionContext, AdditionalData]
 > =>
   zip([
     settings$,

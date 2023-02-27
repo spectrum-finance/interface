@@ -1,26 +1,24 @@
 import { Currency } from '../../common/models/Currency';
+import { OperationValidator } from '../../components/OperationForm/OperationForm';
+import { AddLiquidityFormModel } from '../../pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityFormModel';
+import { SwapFormModel } from '../../pages/Swap/SwapFormModel';
 import { useSelectedNetwork } from '../common/network';
 
-export const useSwapValidationFee = (): Currency => {
+export const useSwapValidators = (): OperationValidator<SwapFormModel>[] => {
   const [selectedNetwork] = useSelectedNetwork();
 
-  return selectedNetwork.useSwapValidationFee();
+  return selectedNetwork.useSwapValidators();
 };
 
-export const useDepositValidationFee = (): Currency => {
-  const [selectedNetwork] = useSelectedNetwork();
+export const useDepositValidators =
+  (): OperationValidator<AddLiquidityFormModel>[] => {
+    const [selectedNetwork] = useSelectedNetwork();
 
-  return selectedNetwork.useDepositValidationFee();
-};
+    return selectedNetwork.useDepositValidators();
+  };
 
 export const useCreatePoolValidationFee = (): Currency => {
   const [selectedNetwork] = useSelectedNetwork();
 
   return selectedNetwork.useCreatePoolValidationFee();
-};
-
-export const useRedeemValidationFee = (): Currency => {
-  const [selectedNetwork] = useSelectedNetwork();
-
-  return selectedNetwork.useRedeemValidationFee();
 };

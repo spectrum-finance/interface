@@ -1,5 +1,5 @@
 import { useDevice } from '@ergolabs/ui-kit';
-import React, { useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 import { of } from 'rxjs';
 
 import { panalytics } from '../../../../../common/analytics';
@@ -23,7 +23,7 @@ interface Props {
   close: (result?: boolean | undefined) => void;
 }
 
-export const ErgoPayTabPaneContent = ({ close }: Props) => {
+export const ErgoPayTabPaneContent: FC<Props> = ({ close }) => {
   const { s } = useDevice();
 
   const [requestId, loadingRequestId] = useObservable(getErgopayRequestId, []);

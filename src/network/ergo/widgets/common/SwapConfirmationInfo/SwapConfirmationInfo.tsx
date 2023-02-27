@@ -2,8 +2,8 @@ import { Box, Flex, Typography } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 
-import { Currency } from '../../../../../common/models/Currency';
 import { calculateOutputs } from '../../../../../common/utils/calculateOutputs';
+import { AssetIcon } from '../../../../../components/AssetIcon/AssetIcon';
 import { BoxInfoItem } from '../../../../../components/BoxInfoItem/BoxInfoItem';
 import {
   FeesView,
@@ -11,11 +11,13 @@ import {
 } from '../../../../../components/FeesView/FeesView';
 import { Truncate } from '../../../../../components/Truncate/Truncate';
 import { SwapFormModel } from '../../../../../pages/Swap/SwapFormModel';
-import { useMaxExFee, useMinExFee } from '../../../settings/executionFee';
+import {
+  useMaxExFee,
+  useMinExFee,
+} from '../../../settings/executionFee/executionFee';
 import { useMinerFee } from '../../../settings/minerFee';
 import { useNitro } from '../../../settings/nitro';
 import { useSlippage } from '../../../settings/slippage';
-import { useMaxTotalFee, useMinTotalFee } from '../../../settings/totalFees';
 
 export interface SwapConfirmationInfoProps {
   readonly value: Required<SwapFormModel>;
@@ -26,8 +28,6 @@ export const SwapConfirmationInfo: FC<SwapConfirmationInfoProps> = ({
 }) => {
   const minExFee = useMinExFee();
   const maxExFee = useMaxExFee();
-  const minTotalFee = useMinTotalFee();
-  const maxTotalFee = useMaxTotalFee();
   const slippage = useSlippage();
   const minerFee = useMinerFee();
   const nitro = useNitro();
@@ -45,10 +45,9 @@ export const SwapConfirmationInfo: FC<SwapConfirmationInfoProps> = ({
         )
       : [undefined, undefined];
 
-  const totalFees: [Currency, Currency] = [minTotalFee, maxTotalFee];
   const fees: FeesViewItem[] = [
-    { caption: t`Miner Fee`, currency: minerFee },
     { caption: t`Execution Fee`, currency: [minExFee, maxExFee] },
+    { caption: t`Miner Fee`, currency: minerFee },
   ];
 
   return (
@@ -86,23 +85,33 @@ export const SwapConfirmationInfo: FC<SwapConfirmationInfoProps> = ({
           <BoxInfoItem
             title={
               <Typography.Body size="large">
-                <Trans>Estimated output:</Trans>
+                <Trans>Min output:</Trans>
               </Typography.Body>
             }
             value={
-              minOutput &&
-              maxOutput && (
-                <Typography.Body size="large" strong>
-                  {`${minOutput?.toString()} - ${maxOutput?.toString()}`}{' '}
-                  <Truncate>
-                    {maxOutput?.asset.ticker || maxOutput?.asset.name}
-                  </Truncate>
-                </Typography.Body>
+              minOutput && (
+                <Flex align="center">
+                  <Flex.Item marginRight={2}>
+                    <AssetIcon asset={minOutput.asset} size="small" />
+                  </Flex.Item>
+                  <Typography.Body size="large" strong>
+                    {minOutput?.toString()}{' '}
+                    <Truncate>
+                      {maxOutput?.asset.ticker || maxOutput?.asset.name}
+                    </Truncate>
+                  </Typography.Body>
+                </Flex>
               )
             }
           />
         </Flex.Item>
-        <FeesView totalFees={totalFees} fees={fees} />
+        <FeesView
+          fees={fees}
+          totalFees={{
+            minFeesForTotal: [minerFee, minExFee],
+            maxFeesForTotal: [minerFee, maxExFee],
+          }}
+        />
       </Flex>
     </Box>
   );

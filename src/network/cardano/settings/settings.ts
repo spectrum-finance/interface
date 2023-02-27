@@ -14,6 +14,7 @@ import {
   getUnusedAddresses,
   getUsedAddresses,
 } from '../api/addresses/addresses';
+import { networkAsset } from '../api/networkAsset/networkAsset';
 
 const SETTINGS_KEY = 'cardano-settings';
 
@@ -26,14 +27,15 @@ export const defaultCardanoSettings: CardanoSettings = {
   slippage: defaultSlippage,
   ph: undefined,
   address: undefined,
+  executionFeeAsset: networkAsset,
 };
 
-const updateAddressSettings = (
+const getNewSelectedAddress = (
   settings: CardanoSettings,
   usedAddresses: Address[],
   unusedAddresses: Address[],
   address: Address,
-): void => {
+): string => {
   let newSelectedAddress: Address;
 
   if (
@@ -46,12 +48,7 @@ const updateAddressSettings = (
   } else {
     newSelectedAddress = address;
   }
-
-  setSettings({
-    ...settings,
-    address: newSelectedAddress,
-    ph: pubKeyHashFromAddr(newSelectedAddress, RustModule.CardanoWasm),
-  });
+  return newSelectedAddress;
 };
 
 export const initializeSettings = (): void => {
@@ -66,12 +63,24 @@ export const initializeSettings = (): void => {
         return;
       }
       const [usedAddresses, unusedAddresses, walletAddress] = addresses;
-      updateAddressSettings(
-        localStorageManager.get(SETTINGS_KEY) || defaultCardanoSettings,
+
+      const currentSettings: CardanoSettings =
+        localStorageManager.get(SETTINGS_KEY) || defaultCardanoSettings;
+      const newSelectedAddress = getNewSelectedAddress(
+        currentSettings,
         usedAddresses,
         unusedAddresses,
         walletAddress,
       );
+
+      setSettings({
+        ...settings,
+        address: newSelectedAddress,
+        ph: pubKeyHashFromAddr(newSelectedAddress, RustModule.CardanoWasm),
+        executionFeeAsset:
+          currentSettings.executionFeeAsset ||
+          defaultCardanoSettings.executionFeeAsset,
+      });
     });
 };
 

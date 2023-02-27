@@ -1,47 +1,26 @@
-import { from as fromPromise, map, Observable, switchMap, timeout } from 'rxjs';
+import { first, Observable, switchMap } from 'rxjs';
 
-import { applicationConfig } from '../../../../applicationConfig';
-import { panalytics } from '../../../../common/analytics';
 import { Currency } from '../../../../common/models/Currency';
 import { TxId } from '../../../../common/types';
 import { ErgoAmmPool } from '../../api/ammPools/ErgoAmmPool';
-import { ergoPayMessageManager } from '../common/ergopayMessageManager';
-import { ergoPayPoolActions } from '../common/poolActions';
-import { submitErgopayTx } from '../common/submitErgopayTx';
-import { createRedeemTxData } from './createRedeemTxData';
+import { feeAsset } from '../../api/networkAsset/networkAsset';
+import { settings$ } from '../../settings/settings';
+import { ergopayRedeem as nativeErgoPayRedeem } from './nativeFee/ergopayRedeem';
+import { ergopayRedeem as spfErgoPayRedeem } from './spfFee/ergopayRedeem';
 
-export const ergopayRedeem = (
+export const ergoPayRedeem = (
   pool: ErgoAmmPool,
   lp: Currency,
   x: Currency,
   y: Currency,
   percent: number,
 ): Observable<TxId> =>
-  createRedeemTxData(pool, lp, x, y).pipe(
-    switchMap(([redeemParams, txContext, additionalData]) =>
-      fromPromise(
-        ergoPayPoolActions(pool.pool).redeem(redeemParams, txContext),
-      ).pipe(map((txRequest) => ({ txRequest, additionalData }))),
-    ),
-    switchMap(({ txRequest, additionalData }) =>
-      submitErgopayTx(txRequest, {
-        analyticData: panalytics.buildErgopaySignedRedeemEvent(
-          {
-            xAmount: x,
-            yAmount: y,
-            lpAmount: lp,
-            percent,
-          },
-          pool,
-        ),
-        p2pkaddress: additionalData.p2pkaddress,
-        message: ergoPayMessageManager.redeem({
-          pool: additionalData.pool,
-          fee: additionalData.minTotalFee,
-          x,
-          y,
-        }),
-      }),
-    ),
-    timeout(applicationConfig.operationTimeoutTime),
-  );
+  settings$
+    .pipe(first())
+    .pipe(
+      switchMap(({ executionFeeAsset }) =>
+        executionFeeAsset.id === feeAsset.id
+          ? spfErgoPayRedeem(pool, lp, x, y, percent)
+          : nativeErgoPayRedeem(pool, lp, x, y, percent),
+      ),
+    );

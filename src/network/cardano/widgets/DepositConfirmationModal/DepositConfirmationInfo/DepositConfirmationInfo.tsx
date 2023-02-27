@@ -10,17 +10,15 @@ import {
 import { Truncate } from '../../../../../components/Truncate/Truncate';
 import { depositAda } from '../../../settings/depositAda';
 import { useMinExFee } from '../../../settings/executionFee';
-import { useMinTotalFee } from '../../../settings/totalFee';
 import { useTransactionFee } from '../../../settings/transactionFee';
 
 export const DepositConfirmationInfo: FC = () => {
   const minExFee = useMinExFee('swap');
-  const minTotalFee = useMinTotalFee('swap');
   const transactionFee = useTransactionFee('swap');
 
   const fees: FeesViewItem[] = [
-    { caption: t`Transaction Fee`, currency: transactionFee },
     { caption: t`Execution Fee`, currency: minExFee },
+    { caption: t`Transaction Fee`, currency: transactionFee },
   ];
 
   return (
@@ -40,7 +38,7 @@ export const DepositConfirmationInfo: FC = () => {
           }
         />
       </Flex.Item>
-      <FeesView totalFees={minTotalFee} fees={fees} />
+      <FeesView totalFees={[minExFee, transactionFee]} fees={fees} />
     </Flex>
   );
 };

@@ -4,7 +4,6 @@ import styled from 'styled-components';
 
 import { AssetInfo } from '../../../../../../../common/models/AssetInfo';
 import { exploreToken } from '../../../../../../../gateway/utils/exploreAddress';
-import { assets } from '../../../../../../../network/cardano/api/common/cardanoAssetInfo/mocks';
 import { splitStr } from '../../../../../../../utils/string/splitStr';
 import { AssetIcon } from '../../../../../../AssetIcon/AssetIcon';
 

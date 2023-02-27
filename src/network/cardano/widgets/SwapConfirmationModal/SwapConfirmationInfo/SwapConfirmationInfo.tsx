@@ -3,7 +3,7 @@ import { t, Trans } from '@lingui/macro';
 import React, { FC, useEffect } from 'react';
 
 import { useSubject } from '../../../../../common/hooks/useObservable';
-import { Currency } from '../../../../../common/models/Currency';
+import { AssetIcon } from '../../../../../components/AssetIcon/AssetIcon';
 import { BoxInfoItem } from '../../../../../components/BoxInfoItem/BoxInfoItem';
 import {
   FeesView,
@@ -43,10 +43,9 @@ export const SwapConfirmationInfo: FC<SwapConfirmationInfoProps> = ({
     });
   }, [value.fromAmount, value.toAmount, value.pool, nitro, slippage]);
 
-  const totalFees: [Currency, Currency] = [minTotalFee, maxTotalFee];
   const fees: FeesViewItem[] = [
-    { caption: t`Transaction Fee`, currency: transactionFee },
     { caption: t`Execution Fee`, currency: [minExFee, maxExFee] },
+    { caption: t`Transaction Fee`, currency: transactionFee },
   ];
 
   return (
@@ -84,16 +83,22 @@ export const SwapConfirmationInfo: FC<SwapConfirmationInfoProps> = ({
           <BoxInfoItem
             title={
               <Typography.Body size="large">
-                <Trans>Estimated output:</Trans>
+                <Trans>Min output:</Trans>
               </Typography.Body>
             }
             value={
               <Typography.Body size="large" strong>
                 {swapInfo && (
-                  <>
-                    {`${swapInfo.minOutput?.toString()} - ${swapInfo.maxOutput?.toString()} `}
+                  <Flex align="center">
+                    <Flex.Item marginRight={2}>
+                      <AssetIcon
+                        asset={swapInfo.minOutput?.asset}
+                        size="small"
+                      />
+                    </Flex.Item>
+                    {swapInfo.minOutput?.toString()}{' '}
                     <Truncate>{swapInfo.maxOutput?.asset.name}</Truncate>
-                  </>
+                  </Flex>
                 )}
               </Typography.Body>
             }
@@ -118,7 +123,13 @@ export const SwapConfirmationInfo: FC<SwapConfirmationInfoProps> = ({
             }
           />
         </Flex.Item>
-        <FeesView totalFees={totalFees} fees={fees} />
+        <FeesView
+          totalFees={{
+            minFeesForTotal: [minTotalFee],
+            maxFeesForTotal: [maxTotalFee],
+          }}
+          fees={fees}
+        />
       </Flex>
     </Box>
   );

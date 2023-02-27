@@ -8,18 +8,18 @@ import { AssetAmount, ErgoBox, TransactionContext } from '@ergolabs/ergo-sdk';
 import { NetworkContext } from '@ergolabs/ergo-sdk/build/main/entities/networkContext';
 import { first, map, Observable, zip } from 'rxjs';
 
-import { UI_FEE_BIGINT } from '../../../../common/constants/erg';
-import { Currency } from '../../../../common/models/Currency';
-import { getBaseInputParameters } from '../../../../utils/walletMath';
-import { ErgoAmmPool } from '../../api/ammPools/ErgoAmmPool';
-import { networkContext$ } from '../../api/networkContext/networkContext';
-import { utxos$ } from '../../api/utxos/utxos';
-import { minExFee$ } from '../../settings/executionFee';
-import { minerFee$ } from '../../settings/minerFee';
-import { ErgoSettings, settings$ } from '../../settings/settings';
-import { maxTotalFee$, minTotalFee$ } from '../../settings/totalFees';
-import { getInputs } from '../common/getInputs';
-import { getTxContext } from '../common/getTxContext';
+import { UI_FEE_BIGINT } from '../../../../../common/constants/erg';
+import { Currency } from '../../../../../common/models/Currency';
+import { getBaseInputParameters } from '../../../../../utils/walletMath';
+import { ErgoAmmPool } from '../../../api/ammPools/ErgoAmmPool';
+import { networkContext$ } from '../../../api/networkContext/networkContext';
+import { utxos$ } from '../../../api/utxos/utxos';
+import { minExFee$ } from '../../../settings/executionFee/nativeExecutionFee';
+import { minerFee$ } from '../../../settings/minerFee';
+import { ErgoSettings, settings$ } from '../../../settings/settings';
+import { maxTotalFee$, minTotalFee$ } from '../../../settings/totalFees';
+import { getInputs } from '../../common/getInputs';
+import { getTxContext } from '../../common/getTxContext';
 
 interface SwapOperationCandidateParams {
   readonly pool: ErgoAmmPool;

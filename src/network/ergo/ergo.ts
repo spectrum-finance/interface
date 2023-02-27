@@ -43,21 +43,20 @@ import { farms$ } from './lm/api/farms/farms';
 import { lmDeposit } from './lm/operations/lmDeposit/lmDeposit';
 import { lmRedeem } from './lm/operations/lmRedeem/lmRedeem';
 import { deposit } from './operations/deposit/deposit';
+import { useDepositValidators } from './operations/deposit/useDepositValidators';
+import { useHandleDepositMaxButtonClick } from './operations/deposit/useHandleDepositMaxButtonClick';
 import { redeem } from './operations/redeem/redeem';
 import { refund } from './operations/refund/refund';
 import { swap } from './operations/swap/swap';
+import { useHandleSwapMaxButtonClick } from './operations/swap/useHandleSwapMaxButtonClick';
+import { useSwapValidators } from './operations/swap/useSwapValidators';
 import {
   ErgoSettings,
   getSettings,
   setSettings,
   settings$,
 } from './settings/settings';
-import {
-  useCreatePoolValidationFee,
-  useDepositValidationFee,
-  useRedeemValidationFee,
-  useSwapValidationFee,
-} from './settings/totalFees';
+import { useCreatePoolValidationFee } from './settings/totalFees';
 import {
   exploreAddress,
   exploreLastBlock,
@@ -128,11 +127,12 @@ export const ergoNetwork: Network<
   OperationsSettings,
 
   convertToConvenientNetworkAsset,
-
   useNetworkAsset,
-  useSwapValidationFee,
-  useDepositValidationFee,
-  useRedeemValidationFee,
+
+  useSwapValidators,
+  useHandleSwapMaxButtonClick,
+  useDepositValidators,
+  useHandleDepositMaxButtonClick,
   useCreatePoolValidationFee,
 
   getPoolChartData,

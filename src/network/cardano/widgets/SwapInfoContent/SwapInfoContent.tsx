@@ -1,8 +1,9 @@
-import { Divider, Flex } from '@ergolabs/ui-kit';
+import { Box, Flex } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import React, { FC, useEffect } from 'react';
 
 import { useSubject } from '../../../../common/hooks/useObservable';
+import { AssetIcon } from '../../../../components/AssetIcon/AssetIcon';
 import { Truncate } from '../../../../components/Truncate/Truncate';
 import { SwapFormModel } from '../../../../pages/Swap/SwapFormModel';
 import { SwapInfoItem } from '../../../../pages/Swap/SwapInfo/SwapInfoItem/SwapInfoItem';
@@ -44,51 +45,23 @@ export const SwapInfoContent: FC<SwapInfoContentProps> = ({ value }) => {
       </Flex.Item>
       <Flex.Item marginBottom={1}>
         <SwapInfoItem
-          title={t`Minimum receivable`}
+          title={t`Min output`}
           value={
             swapInfo?.minOutput ? (
-              <>
+              <Flex align="center">
+                <Flex.Item marginRight={1}>
+                  <AssetIcon
+                    size="extraSmall"
+                    asset={swapInfo.minOutput.asset}
+                  />
+                </Flex.Item>
                 {swapInfo.minOutput?.toString()}{' '}
                 <Truncate>{swapInfo.minOutput?.asset.ticker}</Truncate>
-              </>
+              </Flex>
             ) : (
               '–'
             )
           }
-        />
-      </Flex.Item>
-      <Flex.Item marginBottom={2}>
-        <SwapInfoItem
-          title={t`Maximum receivable`}
-          value={
-            swapInfo?.maxOutput ? (
-              <>
-                {swapInfo.maxOutput?.toString()}{' '}
-                <Truncate>{swapInfo.maxOutput?.asset.ticker}</Truncate>
-              </>
-            ) : (
-              '–'
-            )
-          }
-        />
-      </Flex.Item>
-      <Flex.Item marginBottom={2}>
-        <Divider />
-      </Flex.Item>
-      <Flex.Item marginBottom={1}>
-        <SwapInfoItem
-          tooltip={t`Will be charged by off-chain execution bots and distributed among validators.`}
-          title={t`Execution Fee`}
-          value={`${minExFee.toCurrencyString()} - ${maxExFee.toCurrencyString()}`}
-          secondary
-        />
-      </Flex.Item>
-      <Flex.Item marginBottom={1}>
-        <SwapInfoItem
-          tooltip={t`A small amount of ADA charged by Cardano blockchain.`}
-          title={t`Transaction fee`}
-          value={transactionFee.toCurrencyString()}
-          secondary
         />
       </Flex.Item>
       <Flex.Item marginBottom={1}>
@@ -111,13 +84,45 @@ export const SwapInfoContent: FC<SwapInfoContentProps> = ({ value }) => {
           }
           title={t`Refundable deposit`}
           value={depositAda.toCurrencyString()}
-          secondary
         />
       </Flex.Item>
-      <SwapInfoItem
-        title={t`Total fees`}
-        value={`${minTotalFee.toCurrencyString()} - ${maxTotalFee.toCurrencyString()}`}
-      />
+      <Flex.Item marginBottom={2}>
+        <SwapInfoItem
+          title={t`Total fees`}
+          value={`${minTotalFee.toCurrencyString()} - ${maxTotalFee.toCurrencyString()}`}
+        />
+      </Flex.Item>
+
+      <Box padding={[1, 2]} bordered transparent borderRadius="m">
+        <Flex col>
+          <Flex.Item marginBottom={1}>
+            <SwapInfoItem
+              tooltip={t`Will be charged by off-chain execution bots and distributed among validators.`}
+              title={t`Execution Fee`}
+              value={
+                <Flex align="center">
+                  <Flex.Item marginRight={1}>
+                    <AssetIcon size="extraSmall" asset={minExFee.asset} />
+                  </Flex.Item>
+                  {minExFee.toCurrencyString()} - {maxExFee.toCurrencyString()}
+                </Flex>
+              }
+            />
+          </Flex.Item>
+          <SwapInfoItem
+            tooltip={t`A small amount of ADA charged by Cardano blockchain.`}
+            title={t`Transaction fee`}
+            value={
+              <Flex align="center">
+                <Flex.Item marginRight={1}>
+                  <AssetIcon asset={transactionFee.asset} size="extraSmall" />
+                </Flex.Item>
+                {transactionFee.toCurrencyString()}
+              </Flex>
+            }
+          />
+        </Flex>
+      </Box>
     </Flex>
   );
 };

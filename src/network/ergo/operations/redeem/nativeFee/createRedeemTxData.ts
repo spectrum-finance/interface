@@ -1,29 +1,26 @@
-import { DepositParams } from '@ergolabs/ergo-dex-sdk';
+import { RedeemParams } from '@ergolabs/ergo-dex-sdk';
 import { NativeExFeeType } from '@ergolabs/ergo-dex-sdk/build/main/types';
-import { AssetAmount, ErgoBox, TransactionContext } from '@ergolabs/ergo-sdk';
+import { ErgoBox, TransactionContext } from '@ergolabs/ergo-sdk';
 import { NetworkContext } from '@ergolabs/ergo-sdk/build/main/entities/networkContext';
 import { first, map, Observable, zip } from 'rxjs';
 
-import { UI_FEE_BIGINT } from '../../../../common/constants/erg';
-import { Currency } from '../../../../common/models/Currency';
-import { ErgoAmmPool } from '../../api/ammPools/ErgoAmmPool';
-import { networkContext$ } from '../../api/networkContext/networkContext';
-import { utxos$ } from '../../api/utxos/utxos';
-import { minExFee$ } from '../../settings/executionFee';
-import { minerFee$ } from '../../settings/minerFee';
-import { ErgoSettings, settings$ } from '../../settings/settings';
-import { maxTotalFee$, minTotalFee$ } from '../../settings/totalFees';
-import { getInputs } from '../common/getInputs';
-import { getTxContext } from '../common/getTxContext';
+import { UI_FEE_BIGINT } from '../../../../../common/constants/erg';
+import { Currency } from '../../../../../common/models/Currency';
+import { ErgoAmmPool } from '../../../api/ammPools/ErgoAmmPool';
+import { networkContext$ } from '../../../api/networkContext/networkContext';
+import { utxos$ } from '../../../api/utxos/utxos';
+import { minExFee$ } from '../../../settings/executionFee/nativeExecutionFee';
+import { minerFee$ } from '../../../settings/minerFee';
+import { ErgoSettings, settings$ } from '../../../settings/settings';
+import { maxTotalFee$, minTotalFee$ } from '../../../settings/totalFees';
+import { getInputs } from '../../common/getInputs';
+import { getTxContext } from '../../common/getTxContext';
 
-interface DepositOperationCandidateParams {
+interface RedeemOperationCandidateParams {
   readonly pool: ErgoAmmPool;
-  readonly x: Currency;
-  readonly y: Currency;
+  readonly lp: Currency;
   readonly settings: ErgoSettings;
   readonly utxos: ErgoBox[];
-  readonly minerFee: Currency;
-  readonly minExFee: Currency;
   // TODO: refactor in SDK || or here in frontend repo (operations: swap, redeem, deposit)
   readonly networkContext:
     | NetworkContext
@@ -31,8 +28,12 @@ interface DepositOperationCandidateParams {
         readonly height: number;
         readonly lastBlockId: number;
       };
+  readonly minerFee: Currency;
+  readonly minExFee: Currency;
   readonly minTotalFee: Currency;
   readonly maxTotalFee: Currency;
+  readonly x: Currency;
+  readonly y: Currency;
 }
 
 export interface AdditionalData {
@@ -40,40 +41,41 @@ export interface AdditionalData {
   readonly minTotalFee: Currency;
   readonly maxTotalFee: Currency;
   readonly p2pkaddress: string;
+  readonly x: Currency;
+  readonly y: Currency;
 }
 
-const toDepositOperationArgs = ({
+export const toRedeemOperationArgs = ({
   pool,
+  lp,
+  settings,
+  utxos,
+  networkContext,
+  minerFee,
+  minExFee,
   x,
   y,
-  settings,
-  minerFee,
-  networkContext,
-  utxos,
-  minExFee,
-  minTotalFee,
   maxTotalFee,
-}: DepositOperationCandidateParams): [
-  DepositParams<NativeExFeeType>,
+  minTotalFee,
+}: RedeemOperationCandidateParams): [
+  RedeemParams<NativeExFeeType>,
   TransactionContext,
   AdditionalData,
 ] => {
   if (!settings.address || !settings.pk) {
-    throw new Error('[deposit]: wallet address is not selected');
+    throw new Error('[redeem]: wallet address is not selected');
   }
-  const inputX = new AssetAmount(x.asset, x.amount);
-  const inputY = new AssetAmount(y.asset, y.amount);
+  const lpToRemove = pool['pool'].lp.withAmount(lp.amount);
 
-  const depositParams: DepositParams<NativeExFeeType> = {
+  const redeemParams: RedeemParams<NativeExFeeType> = {
     poolId: pool.id,
-    x: inputX,
-    y: inputY,
     pk: settings.pk,
+    lp: lpToRemove,
     exFee: minExFee.amount,
     uiFee: UI_FEE_BIGINT,
   };
 
-  const inputs = getInputs(utxos, [inputX, inputY], {
+  const inputs = getInputs(utxos, [lpToRemove], {
     minerFee: minerFee.amount,
     uiFee: UI_FEE_BIGINT,
     exFee: minExFee.amount,
@@ -87,20 +89,23 @@ const toDepositOperationArgs = ({
   );
   const additionalData: AdditionalData = {
     pool,
-    minTotalFee,
+    x,
+    y,
     maxTotalFee,
+    minTotalFee,
     p2pkaddress: settings.address,
   };
 
-  return [depositParams, txContext, additionalData];
+  return [redeemParams, txContext, additionalData];
 };
 
-export const createDepositTxData = (
+export const createRedeemTxData = (
   pool: ErgoAmmPool,
+  lp: Currency,
   x: Currency,
   y: Currency,
 ): Observable<
-  [DepositParams<NativeExFeeType>, TransactionContext, AdditionalData]
+  [RedeemParams<NativeExFeeType>, TransactionContext, AdditionalData]
 > =>
   zip([
     settings$,
@@ -122,15 +127,16 @@ export const createDepositTxData = (
         minTotalFee,
         maxTotalFee,
       ]) =>
-        toDepositOperationArgs({
+        toRedeemOperationArgs({
           pool,
+          lp,
+          settings,
+          utxos,
+          minerFee,
+          minExFee,
+          networkContext,
           x,
           y,
-          settings,
-          minerFee,
-          networkContext,
-          utxos,
-          minExFee,
           minTotalFee,
           maxTotalFee,
         }),
