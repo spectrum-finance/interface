@@ -28,7 +28,12 @@ import {
   rawStakesWithRedeemerKey$,
   RawStakeWithRedeemerKey,
 } from '../stakes/stakes';
-import { CommonFarmAnalyticsItem, commonFarmsAnalytics$ } from './analytics';
+import {
+  CommonFarmAnalyticsItem,
+  commonFarmsAnalytics$,
+  UserFarmAnalytics,
+  userFarmsAnalytics$,
+} from './analytics';
 
 const toFarm = (params: ErgoLmPoolParams): Observable<Farm> =>
   zip(
@@ -69,6 +74,7 @@ const toFarmStreams = (
   lpBalance: Balance,
   currentHeight: number,
   commonFarmsAnalytics: CommonFarmAnalyticsItem[],
+  userFarmsAnalytics: UserFarmAnalytics,
 ): Observable<Farm>[] =>
   rawLmPools.reduce<Observable<Farm>[]>((acc, rawLmPool) => {
     const ammPoolByLq = ammPools.find(
@@ -86,6 +92,14 @@ const toFarmStreams = (
           commonFarmAnalytics: commonFarmsAnalytics.find(
             (cfa) => cfa.poolId === rawLmPool.id,
           ),
+          userFarmAnalytics: {
+            userInterests: userFarmsAnalytics.userInterests.find(
+              (ui) => ui.poolId === rawLmPool.id,
+            ),
+            userNextStakesReward: userFarmsAnalytics.userNextStakesReward.find(
+              (unsr) => unsr.poolId === rawLmPool.id,
+            ),
+          },
         }),
       );
     }
@@ -99,6 +113,7 @@ export const allFarms$ = combineLatest([
   lpBalance$.pipe(startWith(new Balance([]))),
   networkContext$,
   commonFarmsAnalytics$,
+  userFarmsAnalytics$,
 ]).pipe(
   debounceTime(200),
   switchMap(
@@ -109,6 +124,7 @@ export const allFarms$ = combineLatest([
       lpBalance,
       networkContext,
       commonFarmsAnalytics,
+      userFarmsAnalytics,
     ]) =>
       combineLatest(
         toFarmStreams(
@@ -118,6 +134,7 @@ export const allFarms$ = combineLatest([
           lpBalance,
           networkContext.height,
           commonFarmsAnalytics,
+          userFarmsAnalytics,
         ),
       ).pipe(defaultIfEmpty([])),
   ),

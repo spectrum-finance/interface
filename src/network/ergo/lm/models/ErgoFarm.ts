@@ -11,7 +11,11 @@ import { AssetInfo } from '../../../../common/models/AssetInfo';
 import { Currency } from '../../../../common/models/Currency';
 import { Farm, FarmStatus } from '../../../../common/models/Farm';
 import { blockToDateTime } from '../../../../common/utils/blocks';
-import { CommonFarmAnalyticsItem } from '../api/farms/analytics';
+import {
+  CommonFarmAnalyticsItem,
+  UserFarmAnalyticsCompoundResult,
+  UserFarmAnalyticsNextStakeReward,
+} from '../api/farms/analytics';
 import { RawStakeWithRedeemerKey } from '../api/stakes/stakes';
 import { Stake } from './Stake';
 
@@ -22,6 +26,10 @@ export interface ErgoLmPoolParams {
   readonly stakes: RawStakeWithRedeemerKey[];
   readonly currentHeight: number;
   readonly commonFarmAnalytics?: CommonFarmAnalyticsItem;
+  readonly userFarmAnalytics: {
+    userInterests?: UserFarmAnalyticsCompoundResult;
+    userNextStakesReward?: UserFarmAnalyticsNextStakeReward;
+  };
 }
 
 export interface ErgoLmPoolAssets {
@@ -197,6 +205,21 @@ export class ErgoFarm implements Farm<ErgoBaseLmPool> {
   }
 
   @cache
+  get collectedRewards(): Currency | null {
+    if (!this.yourStakeLq.isPositive()) {
+      return null;
+    }
+
+    if (!this.params.userFarmAnalytics.userInterests?.reward?.amount) {
+      return new Currency(0n, this.assets.reward);
+    }
+    return new Currency(
+      BigInt(this.params.userFarmAnalytics.userInterests?.reward?.amount),
+      this.assets.reward,
+    );
+  }
+
+  @cache
   get nextReward(): Currency | null {
     if (this.status === FarmStatus.Finished) {
       return null;
@@ -206,22 +229,14 @@ export class ErgoFarm implements Farm<ErgoBaseLmPool> {
       return null;
     }
 
-    const totalStackedAmount = Number(this.totalStakedLq.toAmount());
-    const userStackedAmount = Number(this.yourStakeLq.toAmount());
-    const relation = numeral(userStackedAmount)
-      .divide(totalStackedAmount)
-      .value();
+    if (!this.params.userFarmAnalytics.userNextStakesReward?.nextReward) {
+      return null;
+    }
 
-    const totalRewardAmount = Number(this.programBudget.toAmount());
-    const rewardForEpoch = numeral(totalRewardAmount).divide(
-      this.lmPool.conf.epochNum,
+    return new Currency(
+      BigInt(this.params.userFarmAnalytics.userNextStakesReward.nextReward),
+      this.assets.reward,
     );
-
-    const userRewardForNextEpoch = BigInt(
-      Math.floor(rewardForEpoch.multiply(relation).value()!),
-    );
-
-    return new Currency(userRewardForNextEpoch, this.assets.reward);
   }
 
   constructor(
