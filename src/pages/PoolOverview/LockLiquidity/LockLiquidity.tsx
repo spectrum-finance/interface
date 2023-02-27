@@ -54,7 +54,17 @@ export const LockLiquidity: FC<LockLiquidityProps> = ({
     >
       <Flex col stretch>
         <Flex.Item marginBottom={2}>
-          <InfoTooltip content={<>1</>} secondary>
+          <InfoTooltip
+            width={300}
+            content={
+              <Trans>
+                Liquidity providers locked their tokens in the pool for a
+                specific time. This guarantees they will not withdraw liquidity
+                until the due date is reached.
+              </Trans>
+            }
+            secondary
+          >
             <Typography.Body strong>
               <Trans>Locked liquidity</Trans>
             </Typography.Body>
