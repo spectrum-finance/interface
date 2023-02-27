@@ -370,8 +370,6 @@ export const Swap = (): JSX.Element => {
     minValueForTokenValidator,
     insufficientFromForTxValidator,
     ...swapNetworkValidators,
-    // insufficientAssetForFeeValidator as OperationValidator<SwapFormModel>,
-    // insufficientAssetForRefundableDepositValidator as OperationValidator<SwapFormModel>,
     insufficientLiquidityValidator,
   ];
 

@@ -15,6 +15,7 @@ import { ChooseWalletModal } from './ChooseWalletModal/ChooseWalletModal';
 
 export interface ConnectWalletButtonProps {
   readonly size?: ButtonProps['size'];
+  readonly width?: ButtonProps['width'];
   readonly className?: string;
   readonly children?: ReactNode | ReactNode[] | string;
   readonly analytics?: PAnalytics;
@@ -25,6 +26,7 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = ({
   className,
   children,
   analytics,
+  width,
 }) => {
   const [isWalletConnected] = useObservable(isWalletSetuped$);
 
@@ -44,6 +46,7 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = ({
         className={cn(className, 'connect-wallet-btn')}
         isWalletConnected={isWalletConnected}
         caption={<Trans>Connect wallet</Trans>}
+        width={width}
       >
         {children}
       </SpectrumConnectWalletButton>

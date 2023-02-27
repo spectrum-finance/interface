@@ -6,7 +6,9 @@ import {
   refCount,
 } from 'rxjs';
 
+import { FarmStatus } from '../../../../common/models/Farm';
 import { Position } from '../../../../common/models/Position';
+import { farms$ } from '../../lm/api/farms/farms';
 import { allAmmPools$ } from '../ammPools/ammPools';
 import { lpBalance$ } from '../balance/lpBalance';
 import { tokenLocksGroupedByLpAsset$ } from '../common/tokenLocks';
@@ -17,26 +19,44 @@ export const positions$ = combineLatest([
   lpBalance$,
   tokenLocksGroupedByLpAsset$,
   networkContext$,
+  farms$,
 ]).pipe(
-  debounceTime(200),
+  debounceTime(300),
   map(
-    ([ammPools, lpWalletBalance, tokenLocksGroupedByLpAsset, networkContext]) =>
-      ammPools
+    ([
+      ammPools,
+      lpWalletBalance,
+      tokenLocksGroupedByLpAsset,
+      networkContext,
+      farms,
+    ]) => {
+      return ammPools
+        .map((ammPool) => ({
+          ammPool,
+          farms: farms.filter(
+            (f) =>
+              f.ammPool.id === ammPool.id &&
+              (f.status !== FarmStatus.Finished || f.yourStakeLq.isPositive()),
+          ),
+        }))
         .filter(
-          (ap) =>
-            lpWalletBalance.get(ap.lp.asset).isPositive() ||
-            tokenLocksGroupedByLpAsset[ap.lp.asset.id]?.length > 0,
+          ({ ammPool, farms }) =>
+            lpWalletBalance.get(ammPool.lp.asset).isPositive() ||
+            tokenLocksGroupedByLpAsset[ammPool.lp.asset.id]?.length > 0 ||
+            farms.some((f) => f.yourStakeLq.isPositive()),
         )
         .map(
-          (ap) =>
+          ({ ammPool, farms }) =>
             new Position(
-              ap,
-              lpWalletBalance.get(ap.lp.asset),
+              ammPool,
+              lpWalletBalance.get(ammPool.lp.asset),
               false,
-              tokenLocksGroupedByLpAsset[ap.lp.asset.id] || [],
+              tokenLocksGroupedByLpAsset[ammPool.lp.asset.id] || [],
               networkContext.height,
+              farms,
             ),
-        ),
+        );
+    },
   ),
   publishReplay(1),
   refCount(),

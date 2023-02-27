@@ -15,7 +15,7 @@ import {
 import { Currency } from '../../../../../common/models/Currency';
 import { getBaseInputParameters } from '../../../../../utils/walletMath';
 import { ErgoAmmPool } from '../../../api/ammPools/ErgoAmmPool';
-import { feeAsset, networkAsset } from '../../../api/networkAsset/networkAsset';
+import { feeAsset } from '../../../api/networkAsset/networkAsset';
 import { networkContext$ } from '../../../api/networkContext/networkContext';
 import { utxos$ } from '../../../api/utxos/utxos';
 import { minExFee$ } from '../../../settings/executionFee/spfExecutionFee';
@@ -104,12 +104,7 @@ const toSwapOperationArgs = ({
     {
       minerFee: minerFee.amount,
       uiFee: UI_FEE_BIGINT,
-      exFee:
-        baseInput.asset.id !== networkAsset.id
-          ? NEW_MIN_BOX_VALUE
-          : baseInput.amount >= NEW_MIN_BOX_VALUE
-          ? 0n
-          : NEW_MIN_BOX_VALUE - baseInput.amount,
+      exFee: NEW_MIN_BOX_VALUE,
     },
     true,
   );

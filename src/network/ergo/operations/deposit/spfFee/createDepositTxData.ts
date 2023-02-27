@@ -10,7 +10,7 @@ import {
 } from '../../../../../common/constants/erg';
 import { Currency } from '../../../../../common/models/Currency';
 import { ErgoAmmPool } from '../../../api/ammPools/ErgoAmmPool';
-import { feeAsset, networkAsset } from '../../../api/networkAsset/networkAsset';
+import { feeAsset } from '../../../api/networkAsset/networkAsset';
 import { networkContext$ } from '../../../api/networkContext/networkContext';
 import { utxos$ } from '../../../api/utxos/utxos';
 import { minExFee$ } from '../../../settings/executionFee/spfExecutionFee';
@@ -62,7 +62,6 @@ const toDepositOperationArgs = ({
   TransactionContext,
   AdditionalData,
 ] => {
-  console.log('spf!');
   if (!settings.address || !settings.pk) {
     throw new Error('[deposit]: wallet address is not selected');
   }
@@ -84,18 +83,6 @@ const toDepositOperationArgs = ({
   const isXSpec = inputX.asset.id === feeAsset.id;
   const isYSpec = inputY.asset.id === feeAsset.id;
 
-  let exErgFee = 0n;
-
-  if (!isXSpec && !isYSpec) {
-    exErgFee = NEW_MIN_BOX_VALUE;
-  }
-  if (isXSpec && inputX.amount < NEW_MIN_BOX_VALUE) {
-    exErgFee = NEW_MIN_BOX_VALUE - inputX.amount;
-  }
-  if (isYSpec && inputY.amount < NEW_MIN_BOX_VALUE) {
-    exErgFee = NEW_MIN_BOX_VALUE - inputY.amount;
-  }
-
   const inputs = getInputs(
     utxos,
     [
@@ -108,7 +95,7 @@ const toDepositOperationArgs = ({
     {
       minerFee: minerFee.amount,
       uiFee: UI_FEE_BIGINT,
-      exFee: exErgFee,
+      exFee: NEW_MIN_BOX_VALUE,
     },
     true,
   );

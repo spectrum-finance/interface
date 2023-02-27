@@ -6,6 +6,7 @@ import { Searchable } from '../utils/Searchable';
 import { AmmPool } from './AmmPool';
 import { AssetLock, AssetLockStatus } from './AssetLock';
 import { Currency } from './Currency';
+import { Farm } from './Farm';
 
 export class Position implements Searchable {
   static noop(ammPool: AmmPool): Position {
@@ -15,6 +16,7 @@ export class Position implements Searchable {
       true,
       [],
       0,
+      [],
     );
   }
 
@@ -45,17 +47,17 @@ export class Position implements Searchable {
 
   @cache
   get totalX(): Currency {
-    return this.availableX.plus(this.lockedX);
+    return this.availableX.plus(this.lockedX).plus(this.stakedX);
   }
 
   @cache
   get totalY(): Currency {
-    return this.availableY.plus(this.lockedY);
+    return this.availableY.plus(this.lockedY).plus(this.stakedY);
   }
 
   @cache
   get totalLp(): Currency {
-    return this.availableLp.plus(this.lockedLp);
+    return this.availableLp.plus(this.lockedLp).plus(this.stakedLp);
   }
 
   match(term?: string): boolean {
@@ -85,12 +87,19 @@ export class Position implements Searchable {
 
   readonly withdrawableLockedLp: Currency;
 
+  readonly stakedX: Currency;
+
+  readonly stakedY: Currency;
+
+  readonly stakedLp: Currency;
+
   constructor(
     public pool: AmmPool,
     public availableLp: Currency,
     public empty = false,
     tokenLocks: TokenLock[],
     networkHeight: number,
+    farms: Farm[],
   ) {
     this.locks = tokenLocks.map((tl) => new AssetLock(this, tl, networkHeight));
     const {
@@ -137,5 +146,12 @@ export class Position implements Searchable {
     this.withdrawableLockedLp = withdrawableLockedLp;
     this.withdrawableLockedY = withdrawableLockedY;
     this.withdrawableLockedX = withdrawableLockedX;
+
+    this.stakedLp = farms.reduce<Currency>(
+      (sum, f) => sum.plus(f.yourStakeLq),
+      new Currency(0n, this.pool.lp.asset),
+    );
+    this.stakedX = this.pool.shares(this.stakedLp)[0];
+    this.stakedY = this.pool.shares(this.stakedLp)[1];
   }
 }

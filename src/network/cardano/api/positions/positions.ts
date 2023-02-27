@@ -17,6 +17,7 @@ export const positions$ = zip([ammPools$, lpBalance$, networkContext$]).pipe(
             false,
             [],
             networkContext.height,
+            [],
           ),
       ),
   ),
