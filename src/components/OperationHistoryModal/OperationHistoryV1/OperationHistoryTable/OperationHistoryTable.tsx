@@ -12,18 +12,18 @@ import { refund } from '../../../../gateway/api/operations/refund';
 import { exploreTx } from '../../../../gateway/utils/exploreAddress';
 import { SortDirection } from '../../../TableView/common/Sort';
 import { TableView } from '../../../TableView/TableView';
-import { DateTimeCell } from './cells/DateTimeCell/DateTimeCell';
-import { DepositAssetCell } from './cells/DepositAssetCell/DepositAssetCell';
-import { StatusCell } from './cells/StatusCell/StatusCell';
-import { SwapAssetCell } from './cells/SwapAssetCell/SwapAssetCell';
-import { TypeCell } from './cells/TypeCell/TypeCell';
+import { DateTimeCell } from '../../common/cells/DateTimeCell/DateTimeCell';
+import { DepositAssetCell } from '../../common/cells/DepositAssetCell/DepositAssetCell';
+import { StatusCell } from '../../common/cells/StatusCell/StatusCell';
+import { SwapAssetCell } from '../../common/cells/SwapAssetCell/SwapAssetCell';
+import { TypeCell } from '../../common/cells/TypeCell/TypeCell';
+import { statusFilter } from '../../common/filters/statusFilter';
+import { typeFilter } from '../../common/filters/typeFilter';
+import { LoadingState } from '../../common/states/LoadingState/LoadingState';
+import { OperationSearchEmptyState } from '../../common/states/OperationSearchEmptyState/OperationSearchEmptyState';
+import { OperationsEmptyState } from '../../common/states/OperationsEmptyState/OperationsEmptyState';
 import { ClipboardDecorator } from './decorators/ClipboardDecorator';
 import { RefundDecorator } from './decorators/RefundDecorator';
-import { statusFilter } from './filters/statusFilter';
-import { typeFilter } from './filters/typeFilter';
-import { LoadingState } from './states/LoadingState/LoadingState';
-import { OperationSearchEmptyState } from './states/OperationSearchEmptyState/OperationSearchEmptyState';
-import { OperationsEmptyState } from './states/OperationsEmptyState/OperationsEmptyState';
 
 export interface TransactionHistoryTableProps extends ModalRef {
   readonly operations: Operation[];

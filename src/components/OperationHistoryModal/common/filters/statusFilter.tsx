@@ -4,16 +4,16 @@ import React from 'react';
 import {
   Operation,
   OperationStatus,
-} from '../../../../../common/models/Operation';
+} from '../../../../common/models/Operation';
 import {
   Filter,
   FilterMatch,
   FilterRenderer,
-} from '../../../../TableView/common/FilterDescription';
+} from '../../../TableView/common/FilterDescription';
 import {
   MultiselectFilter,
   MultiselectFilterItem,
-} from '../../../../TableView/filters/MultiselectFilter/MultiselectFilter';
+} from '../../../TableView/filters/MultiselectFilter/MultiselectFilter';
 
 const statusesFilterItems: MultiselectFilterItem<OperationStatus>[] = [
   { value: OperationStatus.Executed, caption: t`Executed` },

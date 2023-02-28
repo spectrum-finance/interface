@@ -1,7 +1,7 @@
 import { Flex } from '@ergolabs/ui-kit';
 import React, { FC } from 'react';
 
-import { Currency } from '../../../../../../common/models/Currency';
+import { Currency } from '../../../../../common/models/Currency';
 import { ArrowIcon } from './ArrowIcon/ArrowIcon';
 import { AssetBox } from './AssetBox/AssetBox';
 

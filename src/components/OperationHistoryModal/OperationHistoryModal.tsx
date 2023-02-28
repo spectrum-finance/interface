@@ -1,8 +1,9 @@
-import { Flex, Modal, ModalRef, Switch, Typography } from '@ergolabs/ui-kit';
-import { Trans } from '@lingui/macro';
+import { Modal, ModalRef } from '@ergolabs/ui-kit';
 import React, { FC } from 'react';
 
+import { useSettings } from '../../gateway/settings/settings';
 import { OperationHistoryV1 } from './OperationHistoryV1/OperationHistoryV1';
+import { OperationHistoryV2 } from './OperationHistoryV2/OperationHistoryV2';
 import { OperationHistoryModalHeader } from './OperationHistroryModalHeader/OperationHistoryModalHeader';
 
 export interface OperationHistoryModalProps extends ModalRef {
@@ -13,13 +14,19 @@ export const OperationHistoryModal: FC<OperationHistoryModalProps> = ({
   close,
   showDateTime,
 }) => {
+  const { newHistory } = useSettings();
+
   return (
     <>
       <Modal.Title>
         <OperationHistoryModalHeader />
       </Modal.Title>
-      <Modal.Content width={772}>
-        <OperationHistoryV1 close={close} showDateTime={showDateTime} />
+      <Modal.Content width={newHistory ? 736 : 772}>
+        {newHistory ? (
+          <OperationHistoryV2 />
+        ) : (
+          <OperationHistoryV1 close={close} showDateTime={showDateTime} />
+        )}
       </Modal.Content>
     </>
   );

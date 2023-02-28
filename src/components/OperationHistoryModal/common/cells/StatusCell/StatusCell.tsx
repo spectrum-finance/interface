@@ -12,7 +12,7 @@ import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 import styled from 'styled-components';
 
-import { OperationStatus } from '../../../../../../common/models/Operation';
+import { OperationStatus } from '../../../../../common/models/Operation';
 
 interface StatusCellProps {
   readonly status: OperationStatus;
