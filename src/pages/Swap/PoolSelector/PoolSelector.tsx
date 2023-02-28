@@ -12,7 +12,7 @@ import { Trans } from '@lingui/macro';
 import React, { FC, useEffect } from 'react';
 import styled from 'styled-components';
 
-import { panalytics } from '../../../common/analytics';
+// import { panalytics } from '../../../common/analytics';
 import { useSubject } from '../../../common/hooks/useObservable';
 import { AmmPool } from '../../../common/models/AmmPool';
 import { AssetPairTitle } from '../../../components/AssetPairTitle/AssetPairTitle';
@@ -47,7 +47,7 @@ const _PoolSelector: FC<PoolSelectorProps> = ({
     Modal.open(({ close }) => (
       <PoolSelectorModal value={pool} onChange={onChange} close={close} />
     ));
-    panalytics.clickChangePoolSwap();
+    // panalytics.clickChangePoolSwap();
   };
 
   return (

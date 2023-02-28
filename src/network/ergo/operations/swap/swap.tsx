@@ -2,7 +2,7 @@ import { Modal } from '@ergolabs/ui-kit';
 import React from 'react';
 import { first, Observable, Subject, switchMap, tap } from 'rxjs';
 
-import { panalytics } from '../../../../common/analytics';
+// import { panalytics } from '../../../../common/analytics';
 import { TxId } from '../../../../common/types';
 import {
   openConfirmationModal,
@@ -42,7 +42,7 @@ export const swapWithWallet = (
       yAsset: data.toAmount!,
     },
     () => {
-      panalytics.closeConfirmSwap(data);
+      // panalytics.closeConfirmSwap(data);
     },
   );
 

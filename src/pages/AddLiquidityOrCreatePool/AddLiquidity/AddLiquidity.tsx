@@ -11,7 +11,7 @@ import maxBy from 'lodash/maxBy';
 import React, { FC, useEffect, useState } from 'react';
 import { first, skip } from 'rxjs';
 
-import { panalytics } from '../../../common/analytics';
+// import { panalytics } from '../../../common/analytics';
 import { useSubscription } from '../../../common/hooks/useObservable';
 import { AmmPool } from '../../../common/models/AmmPool';
 import { AssetInfo } from '../../../common/models/AssetInfo';
@@ -216,7 +216,7 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
     deposit(value as Required<AddLiquidityFormModel>)
       .pipe(first())
       .subscribe(() => resetForm());
-    panalytics.submitDeposit(value);
+    // panalytics.submitDeposit(value);
   };
 
   const handleMaxLiquidityClick = (pct: number) => {
@@ -262,12 +262,12 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
                       ammPools={pools}
                       value={value}
                       onChange={onChange}
-                      afterSelectOverlayOpen={() =>
-                        panalytics.clickPoolSelectDeposit()
-                      }
-                      afterAmmPoolSelected={(ammPool) =>
-                        panalytics.selectPoolDeposit(ammPool)
-                      }
+                      // afterSelectOverlayOpen={() =>
+                      // panalytics.clickPoolSelectDeposit()
+                      // }
+                      // afterAmmPoolSelected={(ammPool) =>
+                      // panalytics.selectPoolDeposit(ammPool)
+                      // }
                     />
                   )}
                 </Form.Item>
@@ -277,7 +277,7 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
                   size="large"
                   onClick={() => {
                     if (onNewPoolButtonClick) {
-                      panalytics.clickCreatePoolDeposit();
+                      // panalytics.clickCreatePoolDeposit();
                       onNewPoolButtonClick();
                     }
                   }}

@@ -5,7 +5,7 @@ import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { first, skip } from 'rxjs';
 
-import { panalytics } from '../../common/analytics';
+// import { panalytics } from '../../common/analytics';
 import {
   useObservable,
   useSubscription,
@@ -86,10 +86,10 @@ export const RemoveLiquidity: FC = () => {
     redeem(poolData.pool, { xAmount, yAmount, lpAmount, percent })
       .pipe(first())
       .subscribe();
-    panalytics.submitRedeem(
-      { xAmount, yAmount, lpAmount, percent },
-      poolData.pool,
-    );
+    // panalytics.submitRedeem(
+    //   { xAmount, yAmount, lpAmount, percent },
+    //   poolData.pool,
+    // );
   };
 
   return (

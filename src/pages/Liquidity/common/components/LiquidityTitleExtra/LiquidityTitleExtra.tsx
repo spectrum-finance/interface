@@ -4,7 +4,7 @@ import React, { FC } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { panalytics } from '../../../../../common/analytics';
+// import { panalytics } from '../../../../../common/analytics';
 import { useObservable } from '../../../../../common/hooks/useObservable';
 import { isWalletSetuped$ } from '../../../../../gateway/api/wallets';
 
@@ -35,7 +35,7 @@ export const LiquidityTitleExtra: FC = () => {
                 <Link
                   to="create"
                   onClick={() => {
-                    panalytics.liquidityCreatePool();
+                    // panalytics.liquidityCreatePool();
                   }}
                 >
                   <Trans>Create pool</Trans>
