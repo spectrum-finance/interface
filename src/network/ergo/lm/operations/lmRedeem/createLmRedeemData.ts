@@ -3,6 +3,7 @@ import { LqRedeemConf } from '@ergolabs/ergo-dex-sdk/build/main/lqmining/models/
 import { AssetAmount } from '@ergolabs/ergo-sdk';
 import { NetworkContext } from '@ergolabs/ergo-sdk/build/main/entities/networkContext';
 
+import { NEW_MIN_BOX_VALUE } from '../../../../../common/constants/erg';
 import { Currency } from '../../../../../common/models/Currency';
 import { ErgoSettings } from '../../../settings/settings';
 import { ErgoFarm } from '../../models/ErgoFarm';
@@ -28,7 +29,7 @@ export const createLmRedeemData = ({
       lmPool.assets.lq,
       stake.rawStake.lockedLq.amount,
     ),
-    executionFee: minerFee.amount + 250000n,
+    executionFee: minerFee.amount + NEW_MIN_BOX_VALUE,
     redeemerPk: settings.pk!,
     redeemerKey: new AssetAmount(
       stake.rawStake.redeemerKey.asset,
@@ -38,7 +39,7 @@ export const createLmRedeemData = ({
   const actionContext: ActionContext = {
     changeAddress: settings.address!,
     minerFee: minerFee.amount,
-    minBoxValue: 250000n,
+    minBoxValue: NEW_MIN_BOX_VALUE,
     uiFee: 0n,
     network: networkContext,
   };
