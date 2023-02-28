@@ -19,7 +19,7 @@ export const LiquidityTitleExtra: FC = () => {
 
   const navigateToAddLiquidity = () => {
     navigate('add');
-    panalytics.liquidityAdd();
+    // panalytics.liquidityAdd();
   };
 
   return (
