@@ -6,7 +6,6 @@ import { BehaviorSubject, first, mapTo, Observable, tap, zip } from 'rxjs';
 
 import { applicationConfig } from './applicationConfig';
 import { ApplicationRoutes, routesConfig } from './ApplicationRoutes';
-import { fireAnalyticsEvent } from './common/analytics';
 import { useObservable } from './common/hooks/useObservable';
 import { analyticsInitializer } from './common/initializers/analyticsInitializer';
 import { gaInitializer } from './common/initializers/gaInitializer';

@@ -26,7 +26,7 @@ import {
   zip,
 } from 'rxjs';
 
-import { fireAnalyticsEvent } from '../../common/analytics';
+// import { fireAnalyticsEvent } from '../../common/analytics';
 import {
   useObservable,
   useSubscription,
@@ -207,7 +207,7 @@ export default function Swap(): JSX.Element {
       .pipe(first())
       .subscribe(() => resetForm());
 
-    fireAnalyticsEvent('Page Viewed');
+    // fireAnalyticsEvent('Page Viewed');
     // pa.submitSwap(value);
   };
 
