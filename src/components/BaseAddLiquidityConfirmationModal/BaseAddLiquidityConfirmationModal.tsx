@@ -3,7 +3,7 @@ import { t, Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 import { Observable, tap } from 'rxjs';
 
-import { panalytics } from '../../common/analytics';
+// import { panalytics } from '../../common/analytics';
 import { AmmPool } from '../../common/models/AmmPool';
 import { Currency } from '../../common/models/Currency';
 import { TxId } from '../../common/types';
@@ -30,18 +30,19 @@ export const BaseAddLiquidityConfirmationModal: FC<BaseAddLiquidityConfirmationM
       const { pool, y, x } = value;
 
       if (pool && x && y) {
-        panalytics.confirmDeposit(value);
+        // panalytics.confirmDeposit(value);
         onClose(
           deposit(
             pool,
             x.asset.id === pool.x.asset.id ? x : y,
             y.asset.id === pool.y.asset.id ? y : x,
-          ).pipe(
-            tap(
-              (txId) => panalytics.signedDeposit(value, txId),
-              (err) => panalytics.signedErrorDeposit(value, err),
-            ),
           ),
+          // .pipe(
+          //   tap(
+          //     (txId) => panalytics.signedDeposit(value, txId),
+          //     (err) => panalytics.signedErrorDeposit(value, err),
+          //   ),
+          // ),
         );
       }
     };

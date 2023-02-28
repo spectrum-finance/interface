@@ -1,7 +1,7 @@
 import { from as fromPromise, map, Observable, switchMap, timeout } from 'rxjs';
 
 import { applicationConfig } from '../../../../../applicationConfig';
-import { panalytics } from '../../../../../common/analytics';
+// import { panalytics } from '../../../../../common/analytics';
 import { Currency } from '../../../../../common/models/Currency';
 import { TxId } from '../../../../../common/types';
 import { ErgoAmmPool } from '../../../api/ammPools/ErgoAmmPool';
@@ -24,13 +24,13 @@ export const ergoPaySwap = (
     switchMap(({ txRequest, additionalData }) =>
       submitErgopayTx(txRequest, {
         p2pkaddress: additionalData.p2pkaddress,
-        analyticData: panalytics.buildErgopaySignedSwapEvent({
-          fromAsset: from.asset,
-          fromAmount: from,
-          toAmount: to,
-          toAsset: to.asset,
-          pool: pool,
-        }),
+        // analyticData: panalytics.buildErgopaySignedSwapEvent({
+        //   fromAsset: from.asset,
+        //   fromAmount: from,
+        //   toAmount: to,
+        //   toAsset: to.asset,
+        //   pool: pool,
+        // }),
         message: ergoPayMessageManager.swap({
           from,
           to,

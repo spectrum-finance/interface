@@ -26,7 +26,7 @@ import {
   zip,
 } from 'rxjs';
 
-import { panalytics } from '../../common/analytics';
+// import { panalytics } from '../../common/analytics';
 import {
   useObservable,
   useSubscription,
@@ -185,7 +185,7 @@ export const Swap = (): JSX.Element => {
     swap(value as Required<SwapFormModel>)
       .pipe(first())
       .subscribe(() => resetForm());
-    panalytics.submitSwap(value);
+    // panalytics.submitSwap(value);
   };
 
   const resetForm = () =>
@@ -357,7 +357,7 @@ export const Swap = (): JSX.Element => {
       { emitEvent: 'silent' },
     );
     setLastEditedField((prev) => (prev === 'from' ? 'to' : 'from'));
-    panalytics.switchSwap();
+    // panalytics.switchSwap();
   };
 
   const [pool] = useObservable(form.controls.pool.valueChangesWithSilent$);

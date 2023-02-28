@@ -18,7 +18,7 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { panalytics } from '../../../../../common/analytics';
+// import { panalytics } from '../../../../../common/analytics';
 import {
   LOCALE_LABEL,
   SUPPORTED_LOCALES,
@@ -70,25 +70,25 @@ const BurgerMenu = (): JSX.Element => {
       title: t`About`,
       icon: <InfoCircleOutlined />,
       link: 'https://docs.spectrum.fi/docs/about-spectrumdex/intro',
-      onClick: () => panalytics.clickBurgerMenu('About'),
+      // onClick: () => panalytics.clickBurgerMenu('About'),
     },
     {
       title: t`How to use`,
       icon: <QuestionCircleOutlined />,
       link: 'https://docs.spectrum.fi/docs/user-guides/quick-start',
-      onClick: () => panalytics.clickBurgerMenu('How to use'),
+      // onClick: () => panalytics.clickBurgerMenu('How to use'),
     },
     {
       title: t`Docs`,
       icon: <FileTextOutlined />,
       link: 'https://docs.spectrum.fi',
-      onClick: () => panalytics.clickBurgerMenu('Docs'),
+      // onClick: () => panalytics.clickBurgerMenu('Docs'),
     },
     {
       title: 'GitHub',
       icon: <GithubOutlined />,
       link: 'https://github.com/spectrum-finance',
-      onClick: () => panalytics.clickBurgerMenu('GitHub'),
+      // onClick: () => panalytics.clickBurgerMenu('GitHub'),
     },
     selectedNetwork.name === 'ergo'
       ? {
@@ -96,7 +96,7 @@ const BurgerMenu = (): JSX.Element => {
           icon: <ReloadOutlined />,
           onClick: () => {
             setMenuVisible(false);
-            panalytics.clickBurgerMenu('Manual Refund');
+            // panalytics.clickBurgerMenu('Manual Refund');
             Modal.open(({ close }) => <ManualRefundModal close={close} />);
           },
         }
@@ -159,7 +159,7 @@ const BurgerMenu = (): JSX.Element => {
               rel="noopener noreferrer"
               onClick={() => {
                 changeLanguage(locale);
-                panalytics.changeLocale(locale);
+                // panalytics.changeLocale(locale);
               }}
             >
               {LOCALE_LABEL[locale]}

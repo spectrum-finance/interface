@@ -6,7 +6,7 @@ import { DateTime } from 'luxon';
 import React, { FC, ReactNode, useContext } from 'react';
 import { interval, map } from 'rxjs';
 
-import { PAnalytics } from '../../../../common/analytics/@types/types';
+// import { PAnalytics } from '../../../../common/analytics/@types/types';
 import { useObservable } from '../../../../common/hooks/useObservable';
 import { Currency } from '../../../../common/models/Currency';
 import { ConnectWalletButton } from '../../ConnectWalletButton/ConnectWalletButton';
@@ -121,7 +121,7 @@ const getButtonPropsByState = (
 
 export interface ActionButtonProps {
   readonly children: ReactNode;
-  readonly analytics?: PAnalytics;
+  readonly analytics?: any;
 }
 
 const getDiff = () =>

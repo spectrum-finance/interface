@@ -2,7 +2,7 @@ import { useDevice } from '@ergolabs/ui-kit';
 import React, { FC, useEffect } from 'react';
 import { of } from 'rxjs';
 
-import { panalytics } from '../../../../../common/analytics';
+// import { panalytics } from '../../../../../common/analytics';
 import { useObservable } from '../../../../../common/hooks/useObservable';
 import { getErgopayAddresses } from '../../../api/ergopay/getErgopayAddresses';
 import { getErgopayRequestId } from '../../../api/ergopay/getErgopayRequestId';
@@ -37,7 +37,7 @@ export const ErgoPayTabPaneContent: FC<Props> = ({ close }) => {
       setErgopayAddress(addresses[0]);
       patchSettings({ ergopay: true });
       connectWallet(ErgopayWallet).subscribe(() => {
-        panalytics.connectWallet(ErgopayWallet.name);
+        // panalytics.connectWallet(ErgopayWallet.name);
       });
       close();
     }
