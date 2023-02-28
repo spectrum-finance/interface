@@ -11,7 +11,7 @@ import {
 import React, { FC, ReactNode } from 'react';
 import { Observable, of } from 'rxjs';
 
-import { PAnalytics } from '../../../common/analytics/@types/types';
+// import { PAnalytics } from '../../../common/analytics/@types/types';
 import { useObservable } from '../../../common/hooks/useObservable';
 import { Currency } from '../../../common/models/Currency';
 import { useAssetsBalance } from '../../../gateway/api/assetBalance';
@@ -66,7 +66,7 @@ export interface AssetControlFormItemProps {
   readonly readonly?: boolean | 'asset' | 'amount';
   readonly noBottomInfo?: boolean;
   readonly bordered?: boolean;
-  readonly analytics?: PAnalytics;
+  readonly analytics?: any;
   readonly loading?: boolean;
 }
 
