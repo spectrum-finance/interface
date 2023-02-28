@@ -4,11 +4,14 @@ import { DateTime } from 'luxon';
 import React, { FC } from 'react';
 import { first } from 'rxjs';
 
-import { isSwapOperation, Operation } from '../../../common/models/Operation';
-import { refund } from '../../../gateway/api/operations/refund';
-import { exploreTx } from '../../../gateway/utils/exploreAddress';
-import { SortDirection } from '../../TableView/common/Sort';
-import { TableView } from '../../TableView/TableView';
+import {
+  isSwapOperation,
+  Operation,
+} from '../../../../common/models/Operation';
+import { refund } from '../../../../gateway/api/operations/refund';
+import { exploreTx } from '../../../../gateway/utils/exploreAddress';
+import { SortDirection } from '../../../TableView/common/Sort';
+import { TableView } from '../../../TableView/TableView';
 import { DateTimeCell } from './cells/DateTimeCell/DateTimeCell';
 import { DepositAssetCell } from './cells/DepositAssetCell/DepositAssetCell';
 import { StatusCell } from './cells/StatusCell/StatusCell';

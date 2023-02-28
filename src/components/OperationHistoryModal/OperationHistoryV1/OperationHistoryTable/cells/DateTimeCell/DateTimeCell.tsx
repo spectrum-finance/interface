@@ -2,7 +2,7 @@ import { Flex, Typography } from '@ergolabs/ui-kit';
 import { DateTime } from 'luxon';
 import React, { FC } from 'react';
 
-import { DateTimeView } from '../../../../common/DateTimeView/DateTimeView';
+import { DateTimeView } from '../../../../../common/DateTimeView/DateTimeView';
 
 export interface DateTimeCellProps {
   readonly dateTime?: DateTime;

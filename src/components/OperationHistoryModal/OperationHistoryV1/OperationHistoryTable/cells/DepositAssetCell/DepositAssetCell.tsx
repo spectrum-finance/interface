@@ -2,9 +2,9 @@ import { Box, Flex, Typography } from '@ergolabs/ui-kit';
 import React, { FC } from 'react';
 import styled from 'styled-components';
 
-import { Currency } from '../../../../../common/models/Currency';
-import { AssetIconPair } from '../../../../AssetIconPair/AssetIconPair';
-import { DataTag } from '../../../../common/DataTag/DataTag';
+import { Currency } from '../../../../../../common/models/Currency';
+import { AssetIconPair } from '../../../../../AssetIconPair/AssetIconPair';
+import { DataTag } from '../../../../../common/DataTag/DataTag';
 
 export interface SwapAssetCellProps {
   readonly x: Currency;

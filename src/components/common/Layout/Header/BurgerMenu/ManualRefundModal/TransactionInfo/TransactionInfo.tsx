@@ -7,7 +7,7 @@ import { useObservable } from '../../../../../../../common/hooks/useObservable';
 import { Operation } from '../../../../../../../common/models/Operation';
 import { addresses$ } from '../../../../../../../gateway/api/addresses';
 import { refund } from '../../../../../../../gateway/api/operations/refund';
-import { OperationHistoryTable } from '../../../../../../OperationHistoryModal/OperationHistoryTable/OperationHistoryTable';
+import { OperationHistoryTable } from '../../../../../../OperationHistoryModal/OperationHistoryV1/OperationHistoryTable/OperationHistoryTable';
 import { Section } from '../../../../../../Section/Section';
 
 export interface TransactionInfoProps {

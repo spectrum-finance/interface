@@ -3,7 +3,7 @@ import { t } from '@lingui/macro';
 import React, { FC, ReactNode } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
-import { Operation } from '../../../../common/models/Operation';
+import { Operation } from '../../../../../common/models/Operation';
 
 export interface ClipboardDecoratorProps {
   readonly item: Operation;

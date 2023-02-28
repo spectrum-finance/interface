@@ -3,8 +3,8 @@ import React, { FC, ReactNode } from 'react';
 import {
   Operation,
   OperationStatus,
-} from '../../../../common/models/Operation';
-import { IsErgo } from '../../../IsErgo/IsErgo';
+} from '../../../../../common/models/Operation';
+import { IsErgo } from '../../../../IsErgo/IsErgo';
 
 export interface RefundDecoratorProps {
   readonly item: Operation;
