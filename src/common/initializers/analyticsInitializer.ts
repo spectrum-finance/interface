@@ -17,6 +17,7 @@ export const analyticsInitializer: Initializer = () => {
     commitHash: COMMIT_HASH,
     version: version,
     isProdEnv: isProductionEnv(),
+    isDebug: true,
   });
 
   return of(true);

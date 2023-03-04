@@ -1,5 +1,6 @@
 import { Flex, Tabs, Typography } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
+import { user } from '@spectrumlabs/analytics';
 import React, { FC, useCallback } from 'react';
 
 // import { panalytics } from '../../common/analytics';
@@ -11,6 +12,7 @@ export const ThemeSwitch: FC = () => {
 
   const handleChangeTheme = useCallback(
     (key: 'dark' | 'light' | 'system') => {
+      user.set('theme_active', key);
       setSettings({
         ...settings,
         theme: key,
