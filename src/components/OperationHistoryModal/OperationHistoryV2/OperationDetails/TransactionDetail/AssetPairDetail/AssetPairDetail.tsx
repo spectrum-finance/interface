@@ -2,7 +2,7 @@ import { Flex } from '@ergolabs/ui-kit';
 import React, { FC } from 'react';
 
 import { Currency } from '../../../../../../common/models/Currency';
-import { AssetBox } from '../../../../common/cells/SwapAssetCell/AssetBox/AssetBox';
+import { AssetBox } from '../../../../OperationHistoryV1/OperationHistoryTable/cells/SwapAssetCell/AssetBox/AssetBox';
 
 export interface AssetPairDetailProps {
   readonly pair: [Currency, Currency];

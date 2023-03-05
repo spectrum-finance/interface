@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 
 import { Currency } from '../../../../../../common/models/Currency';
-import { AssetBox } from '../../../../common/cells/SwapAssetCell/AssetBox/AssetBox';
+import { AssetBox } from '../../../../OperationHistoryV1/OperationHistoryTable/cells/SwapAssetCell/AssetBox/AssetBox';
 
 export interface SingleAssetDetailProps {
   readonly currency: Currency;

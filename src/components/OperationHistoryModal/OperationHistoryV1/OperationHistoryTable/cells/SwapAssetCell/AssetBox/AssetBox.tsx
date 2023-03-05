@@ -2,11 +2,11 @@ import { Box, Flex } from '@ergolabs/ui-kit';
 import React, { FC } from 'react';
 import styled from 'styled-components';
 
-import { AssetInfo } from '../../../../../../common/models/AssetInfo';
-import { Currency } from '../../../../../../common/models/Currency';
-import { AssetPairTitle } from '../../../../../AssetPairTitle/AssetPairTitle';
-import { AssetTitle } from '../../../../../AssetTitle/AssetTitle';
-import { DataTag } from '../../../../../common/DataTag/DataTag';
+import { AssetInfo } from '../../../../../../../common/models/AssetInfo';
+import { Currency } from '../../../../../../../common/models/Currency';
+import { AssetPairTitle } from '../../../../../../AssetPairTitle/AssetPairTitle';
+import { AssetTitle } from '../../../../../../AssetTitle/AssetTitle';
+import { DataTag } from '../../../../../../common/DataTag/DataTag';
 
 interface AssetBoxProps {
   readonly currency: [AssetInfo, AssetInfo, Currency] | Currency;

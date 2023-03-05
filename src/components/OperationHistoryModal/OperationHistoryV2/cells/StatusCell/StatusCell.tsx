@@ -7,18 +7,20 @@ import {
   Spin,
   Tag,
   Tooltip,
+  UndoOutlined,
 } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 import styled from 'styled-components';
 
-import { OperationStatus } from '../../../../../common/models/Operation';
+import { OperationStatus } from '../../../../../network/ergo/api/operations/history/v2/types/BaseOperation';
+import { OperationItem } from '../../../../../network/ergo/api/operations/history/v2/types/OperationItem';
 
 interface StatusCellProps {
-  readonly status: OperationStatus;
+  readonly operationItem: OperationItem;
 }
 
-const ExecutedStatusCell: FC = () => (
+const EvaluatedStatusCell: FC = () => (
   <Tag color="success">
     <Flex>
       <Flex.Item marginRight={1}>
@@ -49,7 +51,7 @@ const PendingStatusCell: FC = () => (
   </Tag>
 );
 
-const LockedStatusCell: FC = () => (
+const NeedRefundStatusCell: FC = () => (
   <Tooltip
     width={255}
     title={
@@ -64,7 +66,7 @@ const LockedStatusCell: FC = () => (
         <Flex.Item marginRight={1}>
           <LockOutlined />
         </Flex.Item>
-        <Trans>Locked</Trans>
+        <Trans>Need refund</Trans>
       </Flex>
     </Tag>
   </Tooltip>
@@ -80,7 +82,7 @@ const QueuedStatusCell: FC = () => (
       </Trans>
     }
   >
-    <Tag color="warning">
+    <Tag color="processing">
       <Flex>
         <Flex.Item marginRight={1}>
           <ClockCircleOutlined />
@@ -91,11 +93,29 @@ const QueuedStatusCell: FC = () => (
   </Tooltip>
 );
 
-export const StatusCell: FC<StatusCellProps> = ({ status }) => (
+const RefundedStatusCell: FC = () => (
+  <Tag color="warning">
+    <Flex>
+      <Flex.Item marginRight={1}>
+        <UndoOutlined />
+      </Flex.Item>
+      <Trans>Refunded</Trans>
+    </Flex>
+  </Tag>
+);
+
+export const StatusCell: FC<StatusCellProps> = ({ operationItem }) => (
   <Flex justify="flex-start">
-    {status === OperationStatus.Executed && <ExecutedStatusCell />}
-    {status === OperationStatus.Pending && <PendingStatusCell />}
-    {status === OperationStatus.Locked && <LockedStatusCell />}
-    {status === OperationStatus.Queued && <QueuedStatusCell />}
+    {operationItem.status === OperationStatus.Evaluated && (
+      <EvaluatedStatusCell />
+    )}
+    {operationItem.status === OperationStatus.Pending && <PendingStatusCell />}
+    {operationItem.status === OperationStatus.NeedRefund && (
+      <NeedRefundStatusCell />
+    )}
+    {operationItem.status === OperationStatus.Refunded && (
+      <RefundedStatusCell />
+    )}
+    {operationItem.status === OperationStatus.Queued && <QueuedStatusCell />}
   </Flex>
 );

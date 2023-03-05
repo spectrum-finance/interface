@@ -1,16 +1,16 @@
 import { t } from '@lingui/macro';
 import React, { ReactNode } from 'react';
 
-import { Operation } from '../../../../common/models/Operation';
+import { Operation } from '../../../../../common/models/Operation';
 import {
   Filter,
   FilterMatch,
   FilterRenderer,
-} from '../../../TableView/common/FilterDescription';
+} from '../../../../TableView/common/FilterDescription';
 import {
   MultiselectFilter,
   MultiselectFilterItem,
-} from '../../../TableView/filters/MultiselectFilter/MultiselectFilter';
+} from '../../../../TableView/filters/MultiselectFilter/MultiselectFilter';
 
 const typesFilterItems: MultiselectFilterItem<'swap' | 'deposit' | 'redeem'>[] =
   [
