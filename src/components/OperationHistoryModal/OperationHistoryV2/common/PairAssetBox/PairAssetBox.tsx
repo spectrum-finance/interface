@@ -1,9 +1,7 @@
 import React, { FC } from 'react';
 
-import { AssetInfo } from '../../../../../common/models/AssetInfo';
 import { Currency } from '../../../../../common/models/Currency';
 import { AssetPairTitle } from '../../../../AssetPairTitle/AssetPairTitle';
-import { AssetTitle } from '../../../../AssetTitle/AssetTitle';
 import { ConvenientAssetView } from '../../../../ConvenientAssetView/ConvenientAssetView';
 import { AssetBox } from '../AssetBox/AssetBox';
 

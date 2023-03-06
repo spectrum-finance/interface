@@ -1,5 +1,4 @@
-import { Flex, Typography } from '@ergolabs/ui-kit';
-import { DateTime } from 'luxon';
+import { Typography } from '@ergolabs/ui-kit';
 import React, { FC } from 'react';
 
 import { OperationItem } from '../../../../../network/ergo/api/operations/history/v2/types/OperationItem';

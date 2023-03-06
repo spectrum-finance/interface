@@ -1,9 +1,7 @@
 import { TokenAmount } from '@ergolabs/ergo-sdk/build/main/entities/tokenAmount';
-import { combineLatest, map, Observable } from 'rxjs';
 
 import { AmmPool } from '../../../../../../../common/models/AmmPool';
 import { Currency } from '../../../../../../../common/models/Currency';
-import { mapToAssetInfo } from '../../../../common/assetInfoManager';
 import {
   BaseExecutedOperation,
   BaseOtherOperation,
