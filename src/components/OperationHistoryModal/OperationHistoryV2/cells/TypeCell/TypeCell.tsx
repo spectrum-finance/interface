@@ -11,6 +11,9 @@ const mapOperationItemTypeToCaption = {
   [OperationType.RemoveLiquidity]: t`Remove liquidity`,
   [OperationType.LmDeposit]: t`Stake`,
   [OperationType.LmRedeem]: t`Unstake`,
+  [OperationType.ReLockLiquidity]: t`Relock Liquidity`,
+  [OperationType.WithdrawLock]: t`Withdraw Liquidity`,
+  [OperationType.LockLiquidity]: t`Lock Liquidity`,
 };
 
 export interface TypeCellProps {

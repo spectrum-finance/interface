@@ -1,6 +1,7 @@
 import { AddLiquidityItem, RawAddLiquidityItem } from './AddLiquidityOperation';
 import { LmDepositItem, RawLmDepositItem } from './LmDepositOperation';
 import { LmRedeemItem, RawLmRedeemItem } from './LmRedeemOperation';
+import { LockItem, RawLockItem } from './LockOperation';
 import {
   RawRemoveLiquidityItem,
   RemoveLiquidityItem,
@@ -12,11 +13,13 @@ export type RawOperationItem =
   | RawAddLiquidityItem
   | RawRemoveLiquidityItem
   | RawLmDepositItem
-  | RawLmRedeemItem;
+  | RawLmRedeemItem
+  | RawLockItem;
 
 export type OperationItem =
   | SwapItem
   | AddLiquidityItem
   | RemoveLiquidityItem
   | LmDepositItem
-  | LmRedeemItem;
+  | LmRedeemItem
+  | LockItem;

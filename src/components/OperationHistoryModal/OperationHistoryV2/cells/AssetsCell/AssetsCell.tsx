@@ -5,6 +5,7 @@ import { OperationItem } from '../../../../../network/ergo/api/operations/histor
 import { AddLiquidityAssetsCell } from './AddLiquidityAssetsCell/AddLiquidityAssetsCell';
 import { LmDepositAssetsCell } from './LmDepositAssetsCell/LmDepositAssetsCell';
 import { LmRedeemAssetsCell } from './LmRedeemAssetsCell/LmRedeemAssetsCell';
+import { LockAssetsCell } from './LockAssetsCell/LockAssetsCell';
 import { RemoveLiquidityAssetsCell } from './RemoveLiquidityAssetsCell/RemoveLiquidityAssetsCell';
 import { SwapAssetsCell } from './SwapAssetsCell/SwapAssetsCell';
 
@@ -28,6 +29,15 @@ export const AssetsCell: FC<AssetsCellProps> = ({ operationItem }) => (
     )}
     {operationItem.type === OperationType.LmRedeem && (
       <LmRedeemAssetsCell lmRedeemItem={operationItem} />
+    )}
+    {operationItem.type === OperationType.LockLiquidity && (
+      <LockAssetsCell lockItem={operationItem} />
+    )}
+    {operationItem.type === OperationType.ReLockLiquidity && (
+      <LockAssetsCell lockItem={operationItem} />
+    )}
+    {operationItem.type === OperationType.WithdrawLock && (
+      <LockAssetsCell lockItem={operationItem} />
     )}
   </>
 );

@@ -29,6 +29,7 @@ import {
   mapRawLmRedeemItemToLmRedeem,
   RawLmRedeemItem,
 } from './types/LmRedeemOperation';
+import { mapRawLockItemToLockItem } from './types/LockOperation';
 import { OperationItem, RawOperationItem } from './types/OperationItem';
 import {
   mapRawRemoveLiquidityItemToRemoveLiquidityItem,
@@ -55,16 +56,6 @@ const isLmRedeemItem = (
   rawItem: RawOperationItem,
 ): rawItem is RawLmRedeemItem => !!(rawItem as any).LmRedeemApi;
 
-const isAvailableOperationItem = (rawItem: RawOperationItem) => {
-  return (
-    isSwapItem(rawItem) ||
-    isAddLiquidityItem(rawItem) ||
-    isRemoveLiquidityItem(rawItem) ||
-    isLmDepositItem(rawItem) ||
-    isLmRedeemItem(rawItem)
-  );
-};
-
 const mapRawOperationItemToOperationItem = (
   rawOp: RawOperationItem,
   ammPools: AmmPool[],
@@ -77,8 +68,10 @@ const mapRawOperationItemToOperationItem = (
     return mapRawRemoveLiquidityItemToRemoveLiquidityItem(rawOp, ammPools);
   } else if (isLmDepositItem(rawOp)) {
     return mapRawLmDepositItemToLmDeposit(rawOp, ammPools);
-  } else {
+  } else if (isLmRedeemItem(rawOp)) {
     return mapRawLmRedeemItemToLmRedeem(rawOp, ammPools);
+  } else {
+    return mapRawLockItemToLockItem(rawOp, ammPools);
   }
 };
 
@@ -103,10 +96,8 @@ const getRawOperationsHistory = (
       { addresses },
     ),
   ).pipe(
-    map((res) => [
-      res.data.orders.filter(isAvailableOperationItem),
-      res.data.total,
-    ]),
+    tap(console.log, console.log),
+    map((res) => [res.data.orders, res.data.total]),
   );
 
 const getRawOperations = (
@@ -116,7 +107,9 @@ const getRawOperations = (
   return getAddresses().pipe(
     first(),
     switchMap((addresses) =>
-      getMempoolRawOperations(addresses).pipe(
+      getMempoolRawOperations([
+        '9h5xhZSEh61ZcDzCzvHqm8R7x9Avi1Gimc8NYL7sMmQE4VB7FoW',
+      ]).pipe(
         switchMap((mempoolRawOperations) => {
           const mempoolRawOperationsToDisplay = mempoolRawOperations.slice(
             offset,
@@ -129,7 +122,7 @@ const getRawOperations = (
             ] as [RawOperationItem[], number]);
           } else {
             return getRawOperationsHistory(
-              addresses,
+              ['9h5xhZSEh61ZcDzCzvHqm8R7x9Avi1Gimc8NYL7sMmQE4VB7FoW'],
               limit - mempoolRawOperationsToDisplay.length,
               offset === 0 ? offset : offset - mempoolRawOperations.length,
             ).pipe(

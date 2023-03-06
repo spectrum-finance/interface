@@ -26,6 +26,9 @@ export enum OperationType {
   RemoveLiquidity = 'RemoveLiquidity',
   LmDeposit = 'LmDeposit',
   LmRedeem = 'LmRedeem',
+  LockLiquidity = 'LockLiquidity',
+  ReLockLiquidity = 'ReLockLiquidity',
+  WithdrawLock = 'WithdrawLock',
 }
 
 type FeeType = 'spf' | 'erg';
@@ -37,6 +40,12 @@ export interface RawBaseOperation {
 
 export interface RawBaseExecutedOperation extends RawBaseOperation {
   readonly evaluateTx: RawTransaction;
+  readonly status: OperationStatus.Evaluated;
+  readonly feeAmount: string;
+  readonly feeType: FeeType;
+}
+
+export interface RawSingleBaseExecutedOperation extends RawBaseOperation {
   readonly status: OperationStatus.Evaluated;
   readonly feeAmount: string;
   readonly feeType: FeeType;
@@ -75,6 +84,11 @@ export interface BaseExecutedOperation extends BaseOperation {
   readonly fee: Fee[];
 }
 
+export interface SingleBaseExecutedOperation extends BaseOperation {
+  readonly status: OperationStatus.Evaluated;
+  readonly fee: Fee[];
+}
+
 export interface BaseRefundedOperation extends BaseOperation {
   readonly refundTx: Transaction;
   readonly status: OperationStatus.Refunded;
@@ -100,6 +114,31 @@ export const mapRawBaseExecutedOperationToBaseExecutedOperation = (
     registerTx: mapRawTxToTx(rawBO.registerTx),
     status: rawBO.status,
     evaluateTx: mapRawTxToTx(rawBO.evaluateTx),
+    fee: (rawBO.feeType
+      ? [
+          {
+            caption: 'Execution Fee',
+            value:
+              rawBO.feeType === 'spf'
+                ? new Currency(BigInt(rawBO.feeAmount), feeAsset)
+                : new Currency(BigInt(rawBO.feeAmount), networkAsset),
+          },
+        ]
+      : []
+    ).concat({
+      caption: t`Miner fee`,
+      value: new Currency(DEFAULT_MINER_FEE, networkAsset),
+    }),
+  };
+};
+
+export const mapRawSingleBaseExecutedOperationToSingleBaseExecutedOperation = (
+  rawBO: RawSingleBaseExecutedOperation,
+): SingleBaseExecutedOperation => {
+  return {
+    id: rawBO.id,
+    registerTx: mapRawTxToTx(rawBO.registerTx),
+    status: rawBO.status,
     fee: (rawBO.feeType
       ? [
           {
