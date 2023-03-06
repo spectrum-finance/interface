@@ -1,8 +1,10 @@
 import axios from 'axios';
 import {
   combineLatest,
+  debounceTime,
   defaultIfEmpty,
   first,
+  from,
   map,
   mapTo,
   Observable,
@@ -13,7 +15,9 @@ import {
 } from 'rxjs';
 
 import { applicationConfig } from '../../../../../../applicationConfig';
+import { AmmPool } from '../../../../../../common/models/AmmPool';
 import { getAddresses } from '../../../addresses/addresses';
+import { allAmmPools$ } from '../../../ammPools/ammPools';
 import {
   mapRawAddLiquidityItemToAddLiquidityItem,
   RawAddLiquidityItem,
@@ -36,24 +40,32 @@ export const getOperations = (): Observable<OperationItem[]> =>
   getAddresses().pipe(
     first(),
     switchMap((addresses) =>
-      axios.post(
-        `${applicationConfig.networksSettings.ergo.analyticUrl}history/order?limit=50&offset=0`,
-        { addresses },
-      ),
+      combineLatest([
+        from(
+          axios.post(
+            `${applicationConfig.networksSettings.ergo.analyticUrl}history/order?limit=25&offset=0`,
+            { addresses },
+          ),
+        ).pipe(
+          tap(console.log),
+          map((res) =>
+            res.data.orders.filter((order: RawOperationItem) => {
+              return isSwapItem(order) || isAddLiquidityItem(order);
+            }),
+          ),
+        ),
+        allAmmPools$,
+      ]),
     ),
+    debounceTime(200),
     tap(console.log),
-    map((res) =>
-      res.data.orders.filter((order: RawOperationItem) => {
-        return isSwapItem(order) || isAddLiquidityItem(order);
-      }),
-    ),
-    switchMap((rawSwaps: RawOperationItem[]) =>
+    switchMap(([rawSwaps, ammPools]: [RawOperationItem[], AmmPool[]]) =>
       combineLatest(
         rawSwaps.map((rawOp) => {
           if (isSwapItem(rawOp)) {
-            return mapRawSwapItemToSwapItem(rawOp);
+            return mapRawSwapItemToSwapItem(rawOp, ammPools);
           } else {
-            return mapRawAddLiquidityItemToAddLiquidityItem(rawOp);
+            return mapRawAddLiquidityItemToAddLiquidityItem(rawOp, ammPools);
           }
         }),
       ),

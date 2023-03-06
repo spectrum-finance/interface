@@ -1,6 +1,7 @@
 import { TokenAmount } from '@ergolabs/ergo-sdk/build/main/entities/tokenAmount';
 import { combineLatest, map, Observable } from 'rxjs';
 
+import { AmmPool } from '../../../../../../../common/models/AmmPool';
 import { Currency } from '../../../../../../../common/models/Currency';
 import { mapToAssetInfo } from '../../../../common/assetInfoManager';
 import {
@@ -47,7 +48,7 @@ export interface RawAddLiquidityItem {
 
 export interface AddLiquidityOperation {
   readonly address: string;
-  readonly poolId: string;
+  readonly pool: AmmPool;
   readonly x: Currency;
   readonly y: Currency;
   readonly type: OperationType.AddLiquidity;
@@ -72,6 +73,7 @@ export type AddLiquidityItem =
 
 export const mapRawAddLiquidityItemToAddLiquidityItem = (
   item: RawAddLiquidityItem,
+  ammPools: AmmPool[],
 ): Observable<AddLiquidityItem> => {
   const { status, address, inputX, inputY, poolId } = item.AmmDepositApi;
 
@@ -91,7 +93,7 @@ export const mapRawAddLiquidityItemToAddLiquidityItem = (
           lp: new Currency(BigInt(item.AmmDepositApi.outputLp.amount), {
             id: item.AmmDepositApi.outputLp.tokenId,
           }),
-          poolId,
+          pool: ammPools.find((ap) => ap.id === poolId)!,
           type: OperationType.AddLiquidity,
         };
       }
@@ -103,7 +105,7 @@ export const mapRawAddLiquidityItemToAddLiquidityItem = (
           address,
           x: new Currency(BigInt(item.AmmDepositApi.inputX.amount), xAsset),
           y: new Currency(BigInt(item.AmmDepositApi.inputY.amount), yAsset),
-          poolId,
+          pool: ammPools.find((ap) => ap.id === poolId)!,
           type: OperationType.AddLiquidity,
         };
       }
@@ -112,7 +114,7 @@ export const mapRawAddLiquidityItemToAddLiquidityItem = (
         address,
         x: new Currency(BigInt(item.AmmDepositApi.inputX.amount), xAsset),
         y: new Currency(BigInt(item.AmmDepositApi.inputY.amount), yAsset),
-        poolId,
+        pool: ammPools.find((ap) => ap.id === poolId)!,
         type: OperationType.AddLiquidity,
       };
     }),
