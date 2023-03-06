@@ -9,6 +9,7 @@ import {
   mapRawBaseExecutedOperationToBaseExecutedOperation,
   mapRawBaseOtherOperationToBaseOtherOperation,
   mapRawBaseRefundedOperationToBaseRefundedOperation,
+  OperationMapper,
   OperationStatus,
   OperationType,
   RawBaseExecutedOperation,
@@ -69,10 +70,10 @@ export type AddLiquidityItem =
   | AddLiquidityRefundedOperation
   | AddLiquidityOtherOperation;
 
-export const mapRawAddLiquidityItemToAddLiquidityItem = (
-  item: RawAddLiquidityItem,
-  ammPools: AmmPool[],
-): AddLiquidityItem => {
+export const mapRawAddLiquidityItemToAddLiquidityItem: OperationMapper<
+  RawAddLiquidityItem,
+  AddLiquidityItem
+> = (item: RawAddLiquidityItem, ammPools: AmmPool[]): AddLiquidityItem => {
   const { status, address, inputX, inputY, poolId } = item.AmmDepositApi;
   const pool = ammPools.find((ap) => ap.id === poolId)!;
 

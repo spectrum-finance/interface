@@ -8,6 +8,7 @@ import {
   mapRawBaseOtherOperationToBaseOtherOperation,
   mapRawBaseRefundedOperationToBaseRefundedOperation,
   mapRawSingleBaseExecutedOperationToSingleBaseExecutedOperation,
+  OperationMapper,
   OperationStatus,
   OperationType,
   RawBaseOtherOperation,
@@ -75,38 +76,36 @@ const getLockType = (
   return OperationType.LockLiquidity;
 };
 
-export const mapRawLockItemToLockItem = (
-  item: RawLockItem,
-  ammPools: AmmPool[],
-): LockItem => {
-  const { status, asset, deadline, evalType } = item.Lock;
-  const pool = ammPools.find((ap) => ap.lp.asset.id === asset.tokenId)!;
+export const mapRawLockItemToLockItem: OperationMapper<RawLockItem, LockItem> =
+  (item: RawLockItem, ammPools: AmmPool[]): LockItem => {
+    const { status, asset, deadline, evalType } = item.Lock;
+    const pool = ammPools.find((ap) => ap.lp.asset.id === asset.tokenId)!;
 
-  if (status === OperationStatus.Evaluated) {
+    if (status === OperationStatus.Evaluated) {
+      return {
+        ...mapRawSingleBaseExecutedOperationToSingleBaseExecutedOperation(
+          item.Lock,
+        ),
+        lp: new Currency(asset.amount, pool.lp.asset),
+        deadline,
+        pool,
+        type: getLockType(evalType),
+      };
+    }
+    if (status === OperationStatus.Refunded) {
+      return {
+        ...mapRawBaseRefundedOperationToBaseRefundedOperation(item.Lock),
+        lp: new Currency(asset.amount, pool.lp.asset),
+        deadline,
+        pool,
+        type: getLockType(evalType),
+      };
+    }
     return {
-      ...mapRawSingleBaseExecutedOperationToSingleBaseExecutedOperation(
-        item.Lock,
-      ),
+      ...mapRawBaseOtherOperationToBaseOtherOperation(item.Lock),
       lp: new Currency(asset.amount, pool.lp.asset),
       deadline,
       pool,
       type: getLockType(evalType),
     };
-  }
-  if (status === OperationStatus.Refunded) {
-    return {
-      ...mapRawBaseRefundedOperationToBaseRefundedOperation(item.Lock),
-      lp: new Currency(asset.amount, pool.lp.asset),
-      deadline,
-      pool,
-      type: getLockType(evalType),
-    };
-  }
-  return {
-    ...mapRawBaseOtherOperationToBaseOtherOperation(item.Lock),
-    lp: new Currency(asset.amount, pool.lp.asset),
-    deadline,
-    pool,
-    type: getLockType(evalType),
   };
-};

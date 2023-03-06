@@ -9,6 +9,7 @@ import {
   mapRawBaseExecutedOperationToBaseExecutedOperation,
   mapRawBaseOtherOperationToBaseOtherOperation,
   mapRawBaseRefundedOperationToBaseRefundedOperation,
+  OperationMapper,
   OperationStatus,
   OperationType,
   RawBaseExecutedOperation,
@@ -56,10 +57,10 @@ export type LmDepositItem =
   | LmDepositRefundedOperation
   | LmDepositOtherOperation;
 
-export const mapRawLmDepositItemToLmDeposit = (
-  item: RawLmDepositItem,
-  ammPools: AmmPool[],
-): LmDepositItem => {
+export const mapRawLmDepositItemToLmDeposit: OperationMapper<
+  RawLmDepositItem,
+  LmDepositItem
+> = (item: RawLmDepositItem, ammPools: AmmPool[]): LmDepositItem => {
   const { status, input } = item.LmDepositApi;
   const pool = ammPools.find((ap) => ap.lp.asset.id === input.tokenId)!;
 

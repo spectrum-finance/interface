@@ -9,6 +9,7 @@ import {
   mapRawBaseExecutedOperationToBaseExecutedOperation,
   mapRawBaseOtherOperationToBaseOtherOperation,
   mapRawBaseRefundedOperationToBaseRefundedOperation,
+  OperationMapper,
   OperationStatus,
   OperationType,
   RawBaseExecutedOperation,
@@ -60,43 +61,41 @@ export type SwapItem =
   | SwapExecutedOperation
   | SwapOtherOperation;
 
-export const mapRawSwapItemToSwapItem = (
-  item: RawSwapItem,
-  ammPools: AmmPool[],
-): SwapItem => {
-  const { status, address, base, poolId, minQuote } = item.Swap;
-  const pool = ammPools.find((ap) => ap.id === poolId)!;
-  const baseAsset =
-    pool.x.asset.id === base.tokenId ? pool.x.asset : pool.y.asset;
-  const quoteAsset =
-    pool.x.asset.id === minQuote.tokenId ? pool.x.asset : pool.y.asset;
+export const mapRawSwapItemToSwapItem: OperationMapper<RawSwapItem, SwapItem> =
+  (item: RawSwapItem, ammPools: AmmPool[]): SwapItem => {
+    const { status, address, base, poolId, minQuote } = item.Swap;
+    const pool = ammPools.find((ap) => ap.id === poolId)!;
+    const baseAsset =
+      pool.x.asset.id === base.tokenId ? pool.x.asset : pool.y.asset;
+    const quoteAsset =
+      pool.x.asset.id === minQuote.tokenId ? pool.x.asset : pool.y.asset;
 
-  if (status === OperationStatus.Evaluated) {
+    if (status === OperationStatus.Evaluated) {
+      return {
+        ...mapRawBaseExecutedOperationToBaseExecutedOperation(item.Swap),
+        address,
+        base: new Currency(BigInt(base.amount), baseAsset),
+        quote: new Currency(BigInt(item.Swap.quote), quoteAsset),
+        pool,
+        type: OperationType.Swap,
+      };
+    }
+    if (status === OperationStatus.Refunded) {
+      return {
+        ...mapRawBaseRefundedOperationToBaseRefundedOperation(item.Swap),
+        address,
+        base: new Currency(BigInt(base.amount), baseAsset),
+        quote: new Currency(BigInt(minQuote.amount), quoteAsset),
+        pool,
+        type: OperationType.Swap,
+      };
+    }
     return {
-      ...mapRawBaseExecutedOperationToBaseExecutedOperation(item.Swap),
-      address,
-      base: new Currency(BigInt(base.amount), baseAsset),
-      quote: new Currency(BigInt(item.Swap.quote), quoteAsset),
-      pool,
-      type: OperationType.Swap,
-    };
-  }
-  if (status === OperationStatus.Refunded) {
-    return {
-      ...mapRawBaseRefundedOperationToBaseRefundedOperation(item.Swap),
+      ...mapRawBaseOtherOperationToBaseOtherOperation(item.Swap),
       address,
       base: new Currency(BigInt(base.amount), baseAsset),
       quote: new Currency(BigInt(minQuote.amount), quoteAsset),
       pool,
       type: OperationType.Swap,
     };
-  }
-  return {
-    ...mapRawBaseOtherOperationToBaseOtherOperation(item.Swap),
-    address,
-    base: new Currency(BigInt(base.amount), baseAsset),
-    quote: new Currency(BigInt(minQuote.amount), quoteAsset),
-    pool,
-    type: OperationType.Swap,
   };
-};

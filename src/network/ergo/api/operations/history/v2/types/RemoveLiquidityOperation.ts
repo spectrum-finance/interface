@@ -9,6 +9,7 @@ import {
   mapRawBaseExecutedOperationToBaseExecutedOperation,
   mapRawBaseOtherOperationToBaseOtherOperation,
   mapRawBaseRefundedOperationToBaseRefundedOperation,
+  OperationMapper,
   OperationStatus,
   OperationType,
   RawBaseExecutedOperation,
@@ -67,7 +68,10 @@ export type RemoveLiquidityItem =
   | RemoveLiquidityRefundedOperation
   | RemoveLiquidityOtherOperation;
 
-export const mapRawRemoveLiquidityItemToRemoveLiquidityItem = (
+export const mapRawRemoveLiquidityItemToRemoveLiquidityItem: OperationMapper<
+  RawRemoveLiquidityItem,
+  RemoveLiquidityItem
+> = (
   item: RawRemoveLiquidityItem,
   ammPools: AmmPool[],
 ): RemoveLiquidityItem => {

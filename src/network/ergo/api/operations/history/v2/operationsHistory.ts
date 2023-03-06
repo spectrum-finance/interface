@@ -17,62 +17,31 @@ import { applicationConfig } from '../../../../../../applicationConfig';
 import { AmmPool } from '../../../../../../common/models/AmmPool';
 import { getAddresses } from '../../../addresses/addresses';
 import { allAmmPools$ } from '../../../ammPools/ammPools';
-import {
-  mapRawAddLiquidityItemToAddLiquidityItem,
-  RawAddLiquidityItem,
-} from './types/AddLiquidityOperation';
-import {
-  mapRawLmDepositItemToLmDeposit,
-  RawLmDepositItem,
-} from './types/LmDepositOperation';
-import {
-  mapRawLmRedeemItemToLmRedeem,
-  RawLmRedeemItem,
-} from './types/LmRedeemOperation';
+import { mapRawAddLiquidityItemToAddLiquidityItem } from './types/AddLiquidityOperation';
+import { OperationMapper } from './types/BaseOperation';
+import { mapRawLmDepositItemToLmDeposit } from './types/LmDepositOperation';
+import { mapRawLmRedeemItemToLmRedeem } from './types/LmRedeemOperation';
 import { mapRawLockItemToLockItem } from './types/LockOperation';
 import { OperationItem, RawOperationItem } from './types/OperationItem';
-import {
-  mapRawRemoveLiquidityItemToRemoveLiquidityItem,
-  RawRemoveLiquidityItem,
-} from './types/RemoveLiquidityOperation';
-import { mapRawSwapItemToSwapItem, RawSwapItem } from './types/SwapOperation';
+import { mapRawRemoveLiquidityItemToRemoveLiquidityItem } from './types/RemoveLiquidityOperation';
+import { mapRawSwapItemToSwapItem } from './types/SwapOperation';
 
-const isSwapItem = (rawItem: RawOperationItem): rawItem is RawSwapItem =>
-  !!(rawItem as any).Swap;
-
-const isAddLiquidityItem = (
-  rawItem: RawOperationItem,
-): rawItem is RawAddLiquidityItem => !!(rawItem as any).AmmDepositApi;
-
-const isRemoveLiquidityItem = (
-  rawItem: RawOperationItem,
-): rawItem is RawRemoveLiquidityItem => !!(rawItem as any).AmmRedeemApi;
-
-const isLmDepositItem = (
-  rawItem: RawOperationItem,
-): rawItem is RawLmDepositItem => !!(rawItem as any).LmDepositApi;
-
-const isLmRedeemItem = (
-  rawItem: RawOperationItem,
-): rawItem is RawLmRedeemItem => !!(rawItem as any).LmRedeemApi;
+const mapKeyToParser = new Map<string, OperationMapper<any, any>>([
+  ['Swap', mapRawSwapItemToSwapItem],
+  ['AmmDepositApi', mapRawAddLiquidityItemToAddLiquidityItem],
+  ['AmmRedeemApi', mapRawRemoveLiquidityItemToRemoveLiquidityItem],
+  ['LmDepositApi', mapRawLmDepositItemToLmDeposit],
+  ['LmRedeemApi', mapRawLmRedeemItemToLmRedeem],
+  ['Lock', mapRawLockItemToLockItem],
+]);
 
 const mapRawOperationItemToOperationItem = (
   rawOp: RawOperationItem,
   ammPools: AmmPool[],
 ): OperationItem => {
-  if (isSwapItem(rawOp)) {
-    return mapRawSwapItemToSwapItem(rawOp, ammPools);
-  } else if (isAddLiquidityItem(rawOp)) {
-    return mapRawAddLiquidityItemToAddLiquidityItem(rawOp, ammPools);
-  } else if (isRemoveLiquidityItem(rawOp)) {
-    return mapRawRemoveLiquidityItemToRemoveLiquidityItem(rawOp, ammPools);
-  } else if (isLmDepositItem(rawOp)) {
-    return mapRawLmDepositItemToLmDeposit(rawOp, ammPools);
-  } else if (isLmRedeemItem(rawOp)) {
-    return mapRawLmRedeemItemToLmRedeem(rawOp, ammPools);
-  } else {
-    return mapRawLockItemToLockItem(rawOp, ammPools);
-  }
+  const key = Object.keys(rawOp)[0];
+
+  return mapKeyToParser.get(key)!(rawOp, ammPools);
 };
 
 const getMempoolRawOperations = (
@@ -107,9 +76,7 @@ const getRawOperations = (
   return getAddresses().pipe(
     first(),
     switchMap((addresses) =>
-      getMempoolRawOperations([
-        '9h5xhZSEh61ZcDzCzvHqm8R7x9Avi1Gimc8NYL7sMmQE4VB7FoW',
-      ]).pipe(
+      getMempoolRawOperations(addresses).pipe(
         switchMap((mempoolRawOperations) => {
           const mempoolRawOperationsToDisplay = mempoolRawOperations.slice(
             offset,
@@ -122,7 +89,7 @@ const getRawOperations = (
             ] as [RawOperationItem[], number]);
           } else {
             return getRawOperationsHistory(
-              ['9h5xhZSEh61ZcDzCzvHqm8R7x9Avi1Gimc8NYL7sMmQE4VB7FoW'],
+              addresses,
               limit - mempoolRawOperationsToDisplay.length,
               offset === 0 ? offset : offset - mempoolRawOperations.length,
             ).pipe(

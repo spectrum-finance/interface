@@ -3,6 +3,7 @@ import { DateTime } from 'luxon';
 import { ReactNode } from 'react';
 
 import { DEFAULT_MINER_FEE } from '../../../../../../../common/constants/erg';
+import { AmmPool } from '../../../../../../../common/models/AmmPool';
 import { Currency } from '../../../../../../../common/models/Currency';
 import { TxId } from '../../../../../../../common/types';
 import { feeAsset, networkAsset } from '../../../../networkAsset/networkAsset';
@@ -11,6 +12,15 @@ export interface RawTransaction {
   readonly id: string;
   readonly ts: number;
 }
+
+export type OperationMapper<
+  T,
+  R extends
+    | BaseExecutedOperation
+    | BaseRefundedOperation
+    | BaseOtherOperation
+    | SingleBaseExecutedOperation,
+> = (raw: T, ammPools: AmmPool[]) => R;
 
 export enum OperationStatus {
   Queued = 'Queued',
