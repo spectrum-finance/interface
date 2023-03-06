@@ -6,6 +6,7 @@ import {
   from,
   map,
   Observable,
+  of,
   publishReplay,
   refCount,
   switchMap,
@@ -54,54 +55,115 @@ const isLmRedeemItem = (
   rawItem: RawOperationItem,
 ): rawItem is RawLmRedeemItem => !!(rawItem as any).LmRedeemApi;
 
-export const getOperations = (): Observable<OperationItem[]> =>
-  getAddresses().pipe(
+const isAvailableOperationItem = (rawItem: RawOperationItem) => {
+  return (
+    isSwapItem(rawItem) ||
+    isAddLiquidityItem(rawItem) ||
+    isRemoveLiquidityItem(rawItem) ||
+    isLmDepositItem(rawItem) ||
+    isLmRedeemItem(rawItem)
+  );
+};
+
+const mapRawOperationItemToOperationItem = (
+  rawOp: RawOperationItem,
+  ammPools: AmmPool[],
+): OperationItem => {
+  if (isSwapItem(rawOp)) {
+    return mapRawSwapItemToSwapItem(rawOp, ammPools);
+  } else if (isAddLiquidityItem(rawOp)) {
+    return mapRawAddLiquidityItemToAddLiquidityItem(rawOp, ammPools);
+  } else if (isRemoveLiquidityItem(rawOp)) {
+    return mapRawRemoveLiquidityItemToRemoveLiquidityItem(rawOp, ammPools);
+  } else if (isLmDepositItem(rawOp)) {
+    return mapRawLmDepositItemToLmDeposit(rawOp, ammPools);
+  } else {
+    return mapRawLmRedeemItemToLmRedeem(rawOp, ammPools);
+  }
+};
+
+const getMempoolRawOperations = (
+  addresses: string[],
+): Observable<RawOperationItem[]> =>
+  from(
+    axios.post(
+      `${applicationConfig.networksSettings.ergo.analyticUrl}history/mempool`,
+      addresses,
+    ),
+  ).pipe(map((res) => res.data));
+
+const getRawOperationsHistory = (
+  addresses: string[],
+  limit: number,
+  offset: number,
+): Observable<[RawOperationItem[], number]> =>
+  from(
+    axios.post(
+      `${applicationConfig.networksSettings.ergo.analyticUrl}history/order?limit=${limit}&offset=${offset}`,
+      { addresses },
+    ),
+  ).pipe(
+    map((res) => [
+      res.data.orders.filter(isAvailableOperationItem),
+      res.data.total,
+    ]),
+  );
+
+const getRawOperations = (
+  limit: number,
+  offset: number,
+): Observable<[RawOperationItem[], number]> => {
+  return getAddresses().pipe(
     first(),
     switchMap((addresses) =>
-      combineLatest([
-        from(
-          axios.post(
-            `${applicationConfig.networksSettings.ergo.analyticUrl}history/order?limit=25&offset=25`,
-            { addresses },
-          ),
-        ).pipe(
-          tap(console.log),
-          map((res) =>
-            res.data.orders.filter((order: RawOperationItem) => {
-              return (
-                isSwapItem(order) ||
-                isAddLiquidityItem(order) ||
-                isRemoveLiquidityItem(order) ||
-                isLmDepositItem(order) ||
-                isLmRedeemItem(order)
-              );
-            }),
-          ),
-        ),
-        allAmmPools$,
-      ]),
-    ),
-    debounceTime(200),
-    tap(console.log),
-    map(([rawSwaps, ammPools]: [RawOperationItem[], AmmPool[]]) => {
-      return rawSwaps.map((rawOp) => {
-        console.log(rawOp);
-        if (isSwapItem(rawOp)) {
-          return mapRawSwapItemToSwapItem(rawOp, ammPools);
-        } else if (isAddLiquidityItem(rawOp)) {
-          return mapRawAddLiquidityItemToAddLiquidityItem(rawOp, ammPools);
-        } else if (isRemoveLiquidityItem(rawOp)) {
-          return mapRawRemoveLiquidityItemToRemoveLiquidityItem(
-            rawOp,
-            ammPools,
+      getMempoolRawOperations(addresses).pipe(
+        switchMap((mempoolRawOperations) => {
+          const mempoolRawOperationsToDisplay = mempoolRawOperations.slice(
+            offset,
+            limit,
           );
-        } else if (isLmDepositItem(rawOp)) {
-          return mapRawLmDepositItemToLmDeposit(rawOp, ammPools);
-        } else {
-          return mapRawLmRedeemItemToLmRedeem(rawOp, ammPools);
-        }
-      });
-    }),
+          if (mempoolRawOperationsToDisplay.length >= limit) {
+            return of([
+              mempoolRawOperationsToDisplay,
+              mempoolRawOperationsToDisplay.length,
+            ] as [RawOperationItem[], number]);
+          } else {
+            return getRawOperationsHistory(
+              addresses,
+              limit - mempoolRawOperationsToDisplay.length,
+              offset === 0 ? offset : offset - mempoolRawOperations.length,
+            ).pipe(
+              map(([rawOperationsHistory, total]) => {
+                return [
+                  [...mempoolRawOperationsToDisplay, ...rawOperationsHistory],
+                  total + mempoolRawOperationsToDisplay.length,
+                ] as [RawOperationItem[], number];
+              }),
+            );
+          }
+        }),
+      ),
+    ),
+    publishReplay(1),
+    refCount(),
+  );
+};
+
+export const getOperations = (
+  limit: number,
+  offset: number,
+): Observable<[OperationItem[], number]> =>
+  combineLatest([getRawOperations(limit, offset), allAmmPools$]).pipe(
+    debounceTime(200),
+    map(
+      ([[rawOperations, total], ammPools]) =>
+        [
+          rawOperations.map((rawOp) =>
+            mapRawOperationItemToOperationItem(rawOp, ammPools),
+          ),
+          total,
+        ] as [OperationItem[], number],
+    ),
     tap(console.log, console.log),
     publishReplay(1),
     refCount(),
