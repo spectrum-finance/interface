@@ -23,6 +23,9 @@ export enum OperationStatus {
 export enum OperationType {
   Swap = 'Swap',
   AddLiquidity = 'AddLiquidity',
+  RemoveLiquidity = 'RemoveLiquidity',
+  LmDeposit = 'LmDeposit',
+  LmRedeem = 'LmRedeem',
 }
 
 type FeeType = 'spf' | 'erg';
@@ -97,19 +100,21 @@ export const mapRawBaseExecutedOperationToBaseExecutedOperation = (
     registerTx: mapRawTxToTx(rawBO.registerTx),
     status: rawBO.status,
     evaluateTx: mapRawTxToTx(rawBO.evaluateTx),
-    fee: [
-      {
-        caption: 'Execution Fee',
-        value:
-          rawBO.feeType === 'spf'
-            ? new Currency(BigInt(rawBO.feeAmount), feeAsset)
-            : new Currency(BigInt(rawBO.feeAmount), networkAsset),
-      },
-      {
-        caption: t`Miner fee`,
-        value: new Currency(DEFAULT_MINER_FEE, networkAsset),
-      },
-    ],
+    fee: (rawBO.feeType
+      ? [
+          {
+            caption: 'Execution Fee',
+            value:
+              rawBO.feeType === 'spf'
+                ? new Currency(BigInt(rawBO.feeAmount), feeAsset)
+                : new Currency(BigInt(rawBO.feeAmount), networkAsset),
+          },
+        ]
+      : []
+    ).concat({
+      caption: t`Miner fee`,
+      value: new Currency(DEFAULT_MINER_FEE, networkAsset),
+    }),
   };
 };
 

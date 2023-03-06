@@ -1,9 +1,7 @@
 import { TokenAmount } from '@ergolabs/ergo-sdk/build/main/entities/tokenAmount';
-import { combineLatest, map, Observable } from 'rxjs';
 
 import { AmmPool } from '../../../../../../../common/models/AmmPool';
 import { Currency } from '../../../../../../../common/models/Currency';
-import { mapToAssetInfo } from '../../../../common/assetInfoManager';
 import {
   BaseExecutedOperation,
   BaseOtherOperation,
@@ -74,49 +72,45 @@ export type AddLiquidityItem =
 export const mapRawAddLiquidityItemToAddLiquidityItem = (
   item: RawAddLiquidityItem,
   ammPools: AmmPool[],
-): Observable<AddLiquidityItem> => {
+): AddLiquidityItem => {
   const { status, address, inputX, inputY, poolId } = item.AmmDepositApi;
+  const pool = ammPools.find((ap) => ap.id === poolId)!;
 
-  return combineLatest([
-    mapToAssetInfo(inputX.tokenId),
-    mapToAssetInfo(inputY.tokenId),
-  ]).pipe(
-    map(([xAsset, yAsset]) => {
-      if (status === OperationStatus.Evaluated) {
-        return {
-          ...mapRawBaseExecutedOperationToBaseExecutedOperation(
-            item.AmmDepositApi,
-          ),
-          address,
-          x: new Currency(BigInt(item.AmmDepositApi.actualX), xAsset),
-          y: new Currency(BigInt(item.AmmDepositApi.actualY), yAsset),
-          lp: new Currency(BigInt(item.AmmDepositApi.outputLp.amount), {
-            id: item.AmmDepositApi.outputLp.tokenId,
-          }),
-          pool: ammPools.find((ap) => ap.id === poolId)!,
-          type: OperationType.AddLiquidity,
-        };
-      }
-      if (status === OperationStatus.Refunded) {
-        return {
-          ...mapRawBaseRefundedOperationToBaseRefundedOperation(
-            item.AmmDepositApi,
-          ),
-          address,
-          x: new Currency(BigInt(item.AmmDepositApi.inputX.amount), xAsset),
-          y: new Currency(BigInt(item.AmmDepositApi.inputY.amount), yAsset),
-          pool: ammPools.find((ap) => ap.id === poolId)!,
-          type: OperationType.AddLiquidity,
-        };
-      }
-      return {
-        ...mapRawBaseOtherOperationToBaseOtherOperation(item.AmmDepositApi),
-        address,
-        x: new Currency(BigInt(item.AmmDepositApi.inputX.amount), xAsset),
-        y: new Currency(BigInt(item.AmmDepositApi.inputY.amount), yAsset),
-        pool: ammPools.find((ap) => ap.id === poolId)!,
-        type: OperationType.AddLiquidity,
-      };
-    }),
-  );
+  if (status === OperationStatus.Evaluated) {
+    return {
+      ...mapRawBaseExecutedOperationToBaseExecutedOperation(item.AmmDepositApi),
+      address,
+      x: new Currency(
+        BigInt(item.AmmDepositApi?.actualX || inputX.amount),
+        pool.x.asset,
+      ),
+      y: new Currency(
+        BigInt(item.AmmDepositApi?.actualY || inputY.amount),
+        pool.y.asset,
+      ),
+      lp: new Currency(BigInt(item.AmmDepositApi.outputLp.amount), {
+        id: item.AmmDepositApi.outputLp.tokenId,
+      }),
+      pool,
+      type: OperationType.AddLiquidity,
+    };
+  }
+  if (status === OperationStatus.Refunded) {
+    return {
+      ...mapRawBaseRefundedOperationToBaseRefundedOperation(item.AmmDepositApi),
+      address,
+      x: new Currency(BigInt(inputX.amount), pool.x.asset),
+      y: new Currency(BigInt(inputY.amount), pool.y.asset),
+      pool,
+      type: OperationType.AddLiquidity,
+    };
+  }
+  return {
+    ...mapRawBaseOtherOperationToBaseOtherOperation(item.AmmDepositApi),
+    address,
+    x: new Currency(BigInt(inputX.amount), pool.x.asset),
+    y: new Currency(BigInt(inputY.amount), pool.y.asset),
+    pool,
+    type: OperationType.AddLiquidity,
+  };
 };

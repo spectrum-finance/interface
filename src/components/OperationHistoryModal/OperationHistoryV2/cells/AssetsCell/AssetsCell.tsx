@@ -2,7 +2,10 @@ import React, { FC } from 'react';
 
 import { OperationType } from '../../../../../network/ergo/api/operations/history/v2/types/BaseOperation';
 import { OperationItem } from '../../../../../network/ergo/api/operations/history/v2/types/OperationItem';
-import { OtherOperationAssetsCell } from './OtherOperationAssetsCell/OtherOperationAssetsCell';
+import { AddLiquidityAssetsCell } from './AddLiquidityAssetsCell/AddLiquidityAssetsCell';
+import { LmDepositAssetsCell } from './LmDepositAssetsCell/LmDepositAssetsCell';
+import { LmRedeemAssetsCell } from './LmRedeemAssetsCell/LmRedeemAssetsCell';
+import { RemoveLiquidityAssetsCell } from './RemoveLiquidityAssetsCell/RemoveLiquidityAssetsCell';
 import { SwapAssetsCell } from './SwapAssetsCell/SwapAssetsCell';
 
 export interface AssetsCellProps {
@@ -15,7 +18,16 @@ export const AssetsCell: FC<AssetsCellProps> = ({ operationItem }) => (
       <SwapAssetsCell swapItem={operationItem} />
     )}
     {operationItem.type === OperationType.AddLiquidity && (
-      <OtherOperationAssetsCell operationItem={operationItem} />
+      <AddLiquidityAssetsCell addLiquidityItem={operationItem} />
+    )}
+    {operationItem.type === OperationType.RemoveLiquidity && (
+      <RemoveLiquidityAssetsCell removeLiquidityItem={operationItem} />
+    )}
+    {operationItem.type === OperationType.LmDeposit && (
+      <LmDepositAssetsCell lmDepositItem={operationItem} />
+    )}
+    {operationItem.type === OperationType.LmRedeem && (
+      <LmRedeemAssetsCell lmRedeemItem={operationItem} />
     )}
   </>
 );

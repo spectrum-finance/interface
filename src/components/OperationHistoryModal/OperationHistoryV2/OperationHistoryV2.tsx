@@ -53,7 +53,7 @@ export const OperationHistoryV2: FC = () => {
           <AssetsCell operationItem={operationItem} />
         )}
       </TableView.Column>
-      <TableView.Column title="Type" width={110}>
+      <TableView.Column title="Type" width={120}>
         {(operationItem: OperationItem) => (
           <TypeCell operationItem={operationItem} />
         )}
@@ -63,7 +63,7 @@ export const OperationHistoryV2: FC = () => {
           <FeeCell operationItem={operationItem} />
         )}
       </TableView.Column>
-      <TableView.Column title={t`Date & Time`} width={120}>
+      <TableView.Column title={t`Date & Time`} width={110}>
         {(operationItem: OperationItem) => (
           <DateTimeCell operationItem={operationItem} />
         )}

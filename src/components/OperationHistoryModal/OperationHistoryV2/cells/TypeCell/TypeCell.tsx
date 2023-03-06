@@ -8,6 +8,9 @@ import { OperationItem } from '../../../../../network/ergo/api/operations/histor
 const mapOperationItemTypeToCaption = {
   [OperationType.Swap]: t`Swap`,
   [OperationType.AddLiquidity]: t`Add liquidity`,
+  [OperationType.RemoveLiquidity]: t`Remove liquidity`,
+  [OperationType.LmDeposit]: t`Stake`,
+  [OperationType.LmRedeem]: t`Unstake`,
 };
 
 export interface TypeCellProps {

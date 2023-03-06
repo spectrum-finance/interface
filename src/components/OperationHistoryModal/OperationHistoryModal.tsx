@@ -21,7 +21,7 @@ export const OperationHistoryModal: FC<OperationHistoryModalProps> = ({
       <Modal.Title>
         <OperationHistoryModalHeader />
       </Modal.Title>
-      <Modal.Content width={newHistory ? 736 : 772}>
+      <Modal.Content width={newHistory ? 740 : 772}>
         {newHistory ? (
           <OperationHistoryV2 />
         ) : (
