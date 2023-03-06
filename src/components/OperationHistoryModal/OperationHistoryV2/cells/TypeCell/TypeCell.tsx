@@ -7,6 +7,7 @@ import { OperationItem } from '../../../../../network/ergo/api/operations/histor
 
 const mapOperationItemTypeToCaption = {
   [OperationType.Swap]: t`Swap`,
+  [OperationType.AddLiquidity]: t`Add liquidity`,
 };
 
 export interface TypeCellProps {

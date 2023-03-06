@@ -22,6 +22,7 @@ export enum OperationStatus {
 
 export enum OperationType {
   Swap = 'Swap',
+  AddLiquidity = 'AddLiquidity',
 }
 
 type FeeType = 'spf' | 'erg';

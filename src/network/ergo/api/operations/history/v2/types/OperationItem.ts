@@ -1,3 +1,6 @@
-import { SwapItem } from './SwapOperation';
+import { AddLiquidityItem, RawAddLiquidityItem } from './AddLiquidityOperation';
+import { RawSwapItem, SwapItem } from './SwapOperation';
 
-export type OperationItem = SwapItem;
+export type RawOperationItem = RawSwapItem | RawAddLiquidityItem;
+
+export type OperationItem = SwapItem | AddLiquidityItem;
