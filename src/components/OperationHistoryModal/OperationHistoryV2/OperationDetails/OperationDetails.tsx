@@ -1,42 +1,32 @@
-import { Box, Divider } from '@ergolabs/ui-kit';
-import { Flex } from '@ergolabs/ui-kit/dist/components/Flex/Flex';
-import { t } from '@lingui/macro';
-import { DateTime } from 'luxon';
 import React, { FC } from 'react';
 
-import { Currency } from '../../../../common/models/Currency';
-import { networkAsset } from '../../../../network/ergo/api/networkAsset/networkAsset';
-import { TransactionDetail } from './TransactionDetail/TransactionDetail';
-import { TransactionRefund } from './TransactionRefund/TransactionRefund';
+import { OperationType } from '../../../../network/ergo/api/operations/history/v2/types/BaseOperation';
+import { OperationItem } from '../../../../network/ergo/api/operations/history/v2/types/OperationItem';
+import { ExpandComponentProps } from '../../../TableView/common/Expand';
+import { AddLiquidityOperationDetails } from './AddLiquidityOperationDetails/AddLiquidityOperationDetails';
+import { LmDepositOperationDetails } from './LmDepositOperationDetails/LmDepositOperationDetails';
+import { LmRedeemOperationDetails } from './LmRedeemOperationDetails/LmRedeemOperationDetails';
+import { RemoveLiquidityOperationDetails } from './RemoveLiquidityOperationDetails/RemoveLiquidityOperationDetails';
+import { SwapOperationDetails } from './SwapOperationDetails/SwapOperationDetails';
 
-export const OperationDetails: FC = () => (
-  <Box bordered={false} height="100%" padding={4} accent glass>
-    <Flex stretch width="100%">
-      <Flex.Item flex={1}>
-        <TransactionDetail
-          title={t`Sent`}
-          dateTime={DateTime.now()}
-          data={[
-            new Currency(20000000n, networkAsset),
-            new Currency(20000000n, networkAsset),
-          ]}
-        />
-      </Flex.Item>
-      <Flex.Item marginRight={4} marginLeft={4}>
-        <Divider type="vertical" />
-      </Flex.Item>
-      <Flex.Item flex={1}>
-        {/*<TransactionDetail*/}
-        {/*  title={t`Recieved`}*/}
-        {/*  dateTime={DateTime.now()}*/}
-        {/*  data={[*/}
-        {/*    networkAsset,*/}
-        {/*    networkAsset,*/}
-        {/*    new Currency(20000000n, networkAsset),*/}
-        {/*  ]}*/}
-        {/*/>*/}
-        <TransactionRefund title={t`Recieved`} />
-      </Flex.Item>
-    </Flex>
-  </Box>
+export const OperationDetails: FC<ExpandComponentProps<OperationItem>> = ({
+  item,
+}) => (
+  <>
+    {item.type === OperationType.Swap && (
+      <SwapOperationDetails swapItem={item} />
+    )}
+    {item.type === OperationType.AddLiquidity && (
+      <AddLiquidityOperationDetails addLiquidityItem={item} />
+    )}
+    {item.type === OperationType.RemoveLiquidity && (
+      <RemoveLiquidityOperationDetails removeLiquidityItem={item} />
+    )}
+    {item.type === OperationType.LmDeposit && (
+      <LmDepositOperationDetails lmDepositItem={item} />
+    )}
+    {item.type === OperationType.LmRedeem && (
+      <LmRedeemOperationDetails lmRedeemItem={item} />
+    )}
+  </>
 );

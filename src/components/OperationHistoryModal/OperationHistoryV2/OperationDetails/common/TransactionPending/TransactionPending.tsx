@@ -1,11 +1,12 @@
 import { Flex, Spin, Typography } from '@ergolabs/ui-kit';
+import { Trans } from '@lingui/macro';
 import React, { FC, ReactNode } from 'react';
 
 export interface TransactionRefundProps {
   readonly title: ReactNode | ReactNode[] | string;
 }
 
-export const TransactionRefund: FC<TransactionRefundProps> = ({ title }) => (
+export const TransactionPending: FC<TransactionRefundProps> = ({ title }) => (
   <Flex col width="100%" stretch>
     <Flex.Item marginBottom={2}>
       <Typography.Body strong secondary>
@@ -17,7 +18,7 @@ export const TransactionRefund: FC<TransactionRefundProps> = ({ title }) => (
         <Spin style={{ color: 'var(--spectrum-secondary-text)' }} />
       </Flex.Item>
       <Typography.Body size="small" secondary>
-        Please wait, your operation is currently pending.
+        <Trans>Please wait, your operation is currently pending.</Trans>
       </Typography.Body>
     </Flex.Item>
   </Flex>
