@@ -76,7 +76,6 @@ const getRawOperations = (
 ): Observable<[RawOperationItem[], number]> => {
   return getAddresses().pipe(
     first(),
-    mapTo(['9h5xhZSEh61ZcDzCzvHqm8R7x9Avi1Gimc8NYL7sMmQE4VB7FoW']),
     switchMap((addresses) =>
       getMempoolRawOperations(addresses).pipe(
         switchMap((mempoolRawOperations) => {
