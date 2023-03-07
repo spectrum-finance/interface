@@ -84,7 +84,7 @@ export const OperationHistoryV2: FC = () => {
         </TableView.Column>
 
         <TableView.State condition={loading} name="loading">
-          <LoadingState />
+          <LoadingState height={420} />
         </TableView.State>
       </TableView>
       <Flex.Item marginTop={4}>
