@@ -2,14 +2,16 @@ import axios from 'axios';
 import {
   combineLatest,
   debounceTime,
+  distinctUntilKeyChanged,
   first,
   from,
+  interval,
   map,
-  mapTo,
   Observable,
   of,
   publishReplay,
   refCount,
+  startWith,
   switchMap,
   tap,
 } from 'rxjs';
@@ -48,12 +50,21 @@ const mapRawOperationItemToOperationItem = (
 const getMempoolRawOperations = (
   addresses: string[],
 ): Observable<RawOperationItem[]> =>
-  from(
-    axios.post(
-      `${applicationConfig.networksSettings.ergo.analyticUrl}history/mempool`,
-      addresses,
+  interval(applicationConfig.applicationTick).pipe(
+    startWith(0),
+    switchMap(() =>
+      from(
+        axios.post(
+          `${applicationConfig.networksSettings.ergo.analyticUrl}history/mempool`,
+          addresses,
+        ),
+      ),
     ),
-  ).pipe(map((res) => res.data));
+    map((res) => res.data),
+    distinctUntilKeyChanged('length'),
+    publishReplay(1),
+    refCount(),
+  );
 
 const getRawOperationsHistory = (
   addresses: string[],

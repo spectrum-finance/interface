@@ -38,7 +38,7 @@ export const TransactionDetails: FC<TransactionDetailProps> = ({
             {dateTime.toFormat('dd MMM, yy')}{' '}
           </Typography.Body>
           <Typography.Body strong secondary>
-            {dateTime.toFormat('HH:MM')}
+            {dateTime.toFormat('HH:mm')}
           </Typography.Body>
         </Flex.Item>
       </Flex.Item>
