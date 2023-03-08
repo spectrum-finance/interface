@@ -3,7 +3,7 @@ import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 import { Observable, tap } from 'rxjs';
 
-import { panalytics } from '../../common/analytics';
+// import { panalytics } from '../../common/analytics';
 import { AmmPool } from '../../common/models/AmmPool';
 import { Currency } from '../../common/models/Currency';
 import { TxId } from '../../common/types';
@@ -24,18 +24,19 @@ export const BaseSwapConfirmationModal: FC<
 
   const swapOperation = async () => {
     if (value.pool && value.fromAmount && value.toAmount) {
-      panalytics.confirmSwap(value);
+      // panalytics.confirmSwap(value);
       onClose(
-        swap(value.pool, value.fromAmount, value.toAmount).pipe(
-          tap(
-            (txId) => {
-              panalytics.signedSwap(value, txId);
-            },
-            (err) => {
-              panalytics.signedErrorSwap(value, err);
-            },
-          ),
-        ),
+        swap(value.pool, value.fromAmount, value.toAmount),
+        // .pipe(
+        //   tap(
+        //     (txId) => {
+        //       panalytics.signedSwap(value, txId);
+        //     },
+        //     (err) => {
+        //       panalytics.signedErrorSwap(value, err);
+        //     },
+        //   ),
+        // ),
       );
     }
   };

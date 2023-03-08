@@ -2,7 +2,7 @@ import { Button, Flex, Modal, useDevice } from '@ergolabs/ui-kit';
 import React, { FC } from 'react';
 import styled from 'styled-components';
 
-import { panalytics } from '../../../../../../common/analytics';
+// import { panalytics } from '../../../../../../common/analytics';
 import { useObservable } from '../../../../../../common/hooks/useObservable';
 import { networkAssetBalance$ } from '../../../../../../gateway/api/networkAssetBalance';
 import { settings$ } from '../../../../../../gateway/settings/settings';
@@ -26,7 +26,7 @@ const _WalletInfoButton: FC<WalletInfoButtonProps> = ({ className }) => {
       className={className}
       onClick={() => {
         openWalletModal();
-        panalytics.openWalletModal();
+        // panalytics.openWalletModal();
       }}
       size="large"
     >
