@@ -6,6 +6,7 @@ interface DataTagProps {
   className?: string;
   content?: number | string | ReactNode | ReactNode[];
   secondary?: boolean;
+  accent?: boolean;
   size?: 'extra-small' | 'small' | 'default' | 'middle' | 'large';
   width?: number;
   justify?: FlexProps['justify'];
@@ -20,6 +21,7 @@ const _DataTag: React.FC<DataTagProps> = ({
   className,
   width,
   secondary,
+  accent,
 }) => {
   if (loading) {
     const br = size === 'small' ? '4px' : '8px';
@@ -29,6 +31,8 @@ const _DataTag: React.FC<DataTagProps> = ({
   if (size === 'extra-small') {
     return (
       <Box
+        accent={accent}
+        secondary={secondary}
         width={width}
         className={className}
         borderRadius={'s'}
@@ -43,6 +47,7 @@ const _DataTag: React.FC<DataTagProps> = ({
   } else if (size === 'small') {
     return (
       <Box
+        accent={accent}
         width={width}
         className={className}
         borderRadius="s"
@@ -58,6 +63,7 @@ const _DataTag: React.FC<DataTagProps> = ({
   } else if (size === 'default') {
     return (
       <Box
+        accent={accent}
         width={width}
         className={className}
         borderRadius="s"
@@ -78,6 +84,7 @@ const _DataTag: React.FC<DataTagProps> = ({
   } else if (size === 'large') {
     return (
       <Box
+        accent={accent}
         className={className}
         borderRadius="s"
         secondary={secondary}

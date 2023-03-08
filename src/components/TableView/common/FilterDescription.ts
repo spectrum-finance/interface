@@ -22,5 +22,6 @@ export type FilterMatch<T, K> = (filters: Set<K>, item: T) => boolean;
 
 export interface Filter<T, K> {
   render: FilterRenderer<K>;
-  match: FilterMatch<T, K>;
+  match?: FilterMatch<T, K>;
+  onFilterChange?: (filters: Set<K>) => void;
 }
