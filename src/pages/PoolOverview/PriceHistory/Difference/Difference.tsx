@@ -36,7 +36,7 @@ export const Difference: React.FC<DifferenceProps> = ({ ratioX, ratioY }) => {
   const isNotZero = diff.amount !== 0n;
 
   const arrow = isNotZero ? (isPositive ? '↑' : '↓') : '';
-  const diffValue = diff.toAbsoluteString();
+  const percent = Number(Math.abs(diff.valueOf() / ratioX.valueOf()) * 100);
   const _alertType = alertType(diff.amount);
   const _textType = textType(diff.amount);
 
@@ -45,7 +45,9 @@ export const Difference: React.FC<DifferenceProps> = ({ ratioX, ratioY }) => {
       size="small"
       type={_textType === 'secondary' ? undefined : _textType}
       secondary={_textType === 'secondary'}
-    >{`${arrow}${isNotZero ? diffValue : '-'}`}</Typography.Body>
+    >{`${arrow}${
+      isNotZero ? `${percent.toFixed(percent !== 0 ? 2 : 0)}%` : '-'
+    }`}</Typography.Body>
   );
 
   if (!_alertType) {
