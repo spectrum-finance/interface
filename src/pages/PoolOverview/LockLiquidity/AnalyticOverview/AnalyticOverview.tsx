@@ -1,4 +1,6 @@
 import { Box, Flex, Typography } from '@ergolabs/ui-kit';
+import { Trans } from '@lingui/macro';
+import { DateTime } from 'luxon';
 import React, { FC } from 'react';
 
 import { Currency } from '../../../../common/models/Currency';
@@ -22,12 +24,24 @@ const AmountOverview: FC<{ currency: Currency }> = ({ currency }) => (
   </Flex>
 );
 
+const isLocksGroup = (
+  data: LocksGroup | AmmPoolConfidenceAnalytic,
+): data is LocksGroup => data instanceof LocksGroup;
+
 export const AnalyticOverview: FC<AnalyticOverviewProps> = ({ data }) => {
   return (
     <Box padding={0.5} bordered={false} borderRadius="s">
       <Flex col>
         <AmountOverview currency={data.lockedX} />
         <AmountOverview currency={data.lockedY} />
+        {isLocksGroup(data) && (
+          <Flex.Item marginLeft={3.5} display="flex">
+            <Typography.Body size="extra-small">
+              {data.unlockDate.toLocaleString(DateTime.DATE_FULL)} (
+              {data.deadline})
+            </Typography.Body>
+          </Flex.Item>
+        )}
       </Flex>
     </Box>
   );
