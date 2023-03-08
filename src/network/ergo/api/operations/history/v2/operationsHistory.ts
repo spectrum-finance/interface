@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {
+  catchError,
   combineLatest,
   debounceTime,
   distinctUntilKeyChanged,
@@ -7,13 +8,13 @@ import {
   from,
   interval,
   map,
+  mapTo,
   Observable,
   of,
   publishReplay,
   refCount,
   startWith,
   switchMap,
-  tap,
 } from 'rxjs';
 
 import { applicationConfig } from '../../../../../../applicationConfig';
@@ -47,18 +48,21 @@ const mapRawOperationItemToOperationItem = (
   return mapKeyToParser.get(key)!(rawOp, ammPools);
 };
 
-const getMempoolRawOperations = (
-  addresses: string[],
-): Observable<RawOperationItem[]> =>
-  interval(applicationConfig.applicationTick).pipe(
-    startWith(0),
-    switchMap(() =>
+export const mempoolRawOperations$: Observable<RawOperationItem[]> =
+  getAddresses().pipe(
+    switchMap((addresses) =>
+      interval(applicationConfig.applicationTick).pipe(
+        startWith(0),
+        mapTo(addresses),
+      ),
+    ),
+    switchMap((addresses) =>
       from(
         axios.post(
           `${applicationConfig.networksSettings.ergo.analyticUrl}history/mempool`,
           addresses,
         ),
-      ),
+      ).pipe(catchError(() => of({ data: [] }))),
     ),
     map((res) => res.data),
     distinctUntilKeyChanged('length'),
@@ -72,13 +76,17 @@ const getRawOperationsHistory = (
   offset: number,
 ): Observable<[RawOperationItem[], number]> =>
   from(
-    axios.post(
+    axios.post<{ orders: RawOperationItem[]; total: number }>(
       `${applicationConfig.networksSettings.ergo.analyticUrl}history/order?limit=${limit}&offset=${offset}`,
       { addresses },
     ),
   ).pipe(
-    tap(console.log, console.log),
-    map((res) => [res.data.orders, res.data.total]),
+    map(
+      (res) =>
+        [res.data.orders, res.data.total] as [RawOperationItem[], number],
+    ),
+    publishReplay(1),
+    refCount(),
   );
 
 const getRawOperations = (
@@ -88,7 +96,7 @@ const getRawOperations = (
   return getAddresses().pipe(
     first(),
     switchMap((addresses) =>
-      getMempoolRawOperations(addresses).pipe(
+      mempoolRawOperations$.pipe(
         switchMap((mempoolRawOperations) => {
           const mempoolRawOperationsToDisplay = mempoolRawOperations.slice(
             offset,
@@ -136,7 +144,6 @@ export const getOperations = (
           total,
         ] as [OperationItem[], number],
     ),
-    tap(console.log, console.log),
     publishReplay(1),
     refCount(),
   );

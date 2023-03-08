@@ -2,6 +2,7 @@ import { TokenAmount } from '@ergolabs/ergo-sdk/build/main/entities/tokenAmount'
 
 import { AmmPool } from '../../../../../../../common/models/AmmPool';
 import { Currency } from '../../../../../../../common/models/Currency';
+import { TxId } from '../../../../../../../common/types';
 import {
   BaseExecutedOperation,
   BaseOtherOperation,
@@ -86,3 +87,7 @@ export const mapRawLmRedeemItemToLmRedeem: OperationMapper<
     type: OperationType.LmRedeem,
   };
 };
+
+export const getRegisterTxIdFromRawLmRedeemItem = (
+  rawSwapItem: RawLmRedeemItem,
+): TxId => rawSwapItem.LmRedeemApi.registerTx.id;

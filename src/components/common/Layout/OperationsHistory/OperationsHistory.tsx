@@ -12,12 +12,17 @@ import { useObservable } from '../../../../common/hooks/useObservable';
 import { pendingOperations$ } from '../../../../gateway/api/pendingOperations';
 import { isOperationsSyncing$ } from '../../../../gateway/api/transactionsHistory';
 import { useSelectedNetwork } from '../../../../gateway/common/network';
+import { mempoolRawOperations$ } from '../../../../network/ergo/api/operations/history/v2/operationsHistory';
 import { OperationHistoryModal } from '../../../OperationHistoryModal/OperationHistoryModal';
 
 export const OperationsHistory: FC = () => {
   const [isOperationsSyncing] = useObservable(isOperationsSyncing$);
-  const [pendingOperations, pendingLoading] = useObservable(pendingOperations$);
   const [selectedNetwork] = useSelectedNetwork();
+  const [pendingOperations, pendingLoading] = useObservable<any[]>(
+    selectedNetwork.name === 'ergo'
+      ? mempoolRawOperations$
+      : (pendingOperations$ as any),
+  );
 
   const openOperationsHistoryModal = () => {
     Modal.open(({ close }) => (

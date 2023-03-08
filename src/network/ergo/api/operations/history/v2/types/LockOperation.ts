@@ -2,6 +2,7 @@ import { TokenAmount } from '@ergolabs/ergo-sdk/build/main/entities/tokenAmount'
 
 import { AmmPool } from '../../../../../../../common/models/AmmPool';
 import { Currency } from '../../../../../../../common/models/Currency';
+import { TxId } from '../../../../../../../common/types';
 import {
   BaseOtherOperation,
   BaseRefundedOperation,
@@ -109,3 +110,7 @@ export const mapRawLockItemToLockItem: OperationMapper<RawLockItem, LockItem> =
       type: getLockType(evalType),
     };
   };
+
+export const getRegisterTxIdFromRawLockItem = (
+  rawSwapItem: RawLockItem,
+): TxId => rawSwapItem.Lock.registerTx.id;
