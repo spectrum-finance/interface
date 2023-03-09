@@ -25,7 +25,7 @@ export const createLmDepositData = ({
 }: CreateLmDepositDataParams): [LqDepositConf, ActionContext] => {
   const lqDepositConf: LqDepositConf = {
     poolId: pool.id,
-    fullEpochsRemain: pool.fullEpochsRemain,
+    fullEpochsRemain: pool.expectedEpochsRemainForStake,
     depositAmount: new AssetAmount(lpAmount.asset, lpAmount.amount),
     redeemerPk: settings.pk!,
     executionFee: minerFee.amount + NEW_MIN_BOX_VALUE,
