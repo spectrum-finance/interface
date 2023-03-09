@@ -204,6 +204,18 @@ export class ErgoFarm implements Farm<ErgoBaseLmPool> {
   }
 
   @cache
+  get expectedEpochsRemainForStake(): number {
+    const currentHeightEpochsRemain = this.lmPool.numEpochsRemain(
+      this.params.currentHeight,
+    );
+    const nextHeightEpochsRemain = this.lmPool.numEpochsRemain(
+      this.params.currentHeight + 1,
+    );
+
+    return Math.min(currentHeightEpochsRemain, nextHeightEpochsRemain);
+  }
+
+  @cache
   get collectedRewards(): Currency | null {
     if (!this.yourStakeLq.isPositive()) {
       return null;
