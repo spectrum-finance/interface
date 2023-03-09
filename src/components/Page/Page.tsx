@@ -139,7 +139,7 @@ const _Page: React.FC<PageProps> = ({
                         type="text"
                         icon={<ArrowLeftOutlined />}
                         onClick={() => {
-                          history.length
+                          history.state?.idx
                             ? navigate(-1)
                             : backTo && navigate(backTo);
                           onBackButtonClick && onBackButtonClick();
