@@ -87,14 +87,16 @@ export const OperationHistoryV2: FC = () => {
           <LoadingState height={420} />
         </TableView.State>
       </TableView>
-      <Flex.Item marginTop={4}>
-        <OperationPagination
-          onOffsetChange={setOffset}
-          limit={LIMIT}
-          offset={offset}
-          total={operationsData?.[1] || 0}
-        />
-      </Flex.Item>
+      {operationsData?.[1] && (
+        <Flex.Item marginTop={4}>
+          <OperationPagination
+            onOffsetChange={setOffset}
+            limit={LIMIT}
+            offset={offset}
+            total={operationsData?.[1] || 0}
+          />
+        </Flex.Item>
+      )}
     </Flex>
   );
 };
