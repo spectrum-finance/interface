@@ -21,7 +21,7 @@ export const lmRedeem = (
     (next) => {
       return createFarmModal(
         <LmRedeemModalContent
-          onClose={(request) =>
+          onClose={(request, stake) =>
             next(
               request.pipe(
                 tap((txId) => {
@@ -29,13 +29,14 @@ export const lmRedeem = (
                   subject.complete();
                 }),
               ),
+              { xAsset: stake.x, yAsset: stake.y },
             )
           }
           farm={farm}
         />,
       );
     },
-    Operation.SWAP,
+    Operation.UNSTAKE,
     {
       xAsset: new Currency(0n, farm.ammPool.x.asset),
       yAsset: new Currency(0n, farm.ammPool.y.asset),
