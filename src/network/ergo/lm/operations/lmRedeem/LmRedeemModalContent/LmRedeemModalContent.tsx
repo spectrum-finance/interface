@@ -15,7 +15,7 @@ const isStakeEquals = (stakeA: Stake, stakeB: Stake) =>
 
 export interface LmRedeemModalContentProps {
   readonly farm: ErgoFarm;
-  readonly onClose: (p: Observable<TxId>) => void;
+  readonly onClose: (p: Observable<TxId>, stake: Stake) => void;
 }
 
 export const LmRedeemModalContent: FC<LmRedeemModalContentProps> = ({
@@ -30,7 +30,7 @@ export const LmRedeemModalContent: FC<LmRedeemModalContentProps> = ({
 
   const redeemOperation = async () => {
     if (selectedStake) {
-      onClose(walletLmRedeem(farm, selectedStake));
+      onClose(walletLmRedeem(farm, selectedStake), selectedStake);
     }
   };
 

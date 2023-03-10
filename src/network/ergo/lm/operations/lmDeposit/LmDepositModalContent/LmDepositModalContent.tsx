@@ -14,7 +14,7 @@ import { walletLmDeposit } from '../walletLmDeposit';
 
 export interface LmDepositModalContentProps {
   readonly farm: Farm;
-  readonly onClose: (p: Observable<TxId>) => void;
+  readonly onClose: (p: Observable<TxId>, value: StakeFormModel) => void;
 }
 
 export interface StakeFormModel {
@@ -57,7 +57,7 @@ export const LmDepositModalContent: FC<LmDepositModalContentProps> = ({
 
   const action = (form: FormGroup<StakeFormModel>) => {
     if (form.value.lpAmount) {
-      onClose(walletLmDeposit(farm, form.value.lpAmount));
+      onClose(walletLmDeposit(farm, form.value.lpAmount), form.value);
     }
   };
 

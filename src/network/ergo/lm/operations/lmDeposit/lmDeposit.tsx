@@ -21,7 +21,7 @@ export const lmDeposit = (
     (next) => {
       return createFarmModal(
         <LmDepositModalContent
-          onClose={(request) =>
+          onClose={(request, { xAmount, yAmount }) =>
             next(
               request.pipe(
                 tap((txId) => {
@@ -29,13 +29,14 @@ export const lmDeposit = (
                   subject.complete();
                 }),
               ),
+              { xAsset: xAmount, yAsset: yAmount },
             )
           }
           farm={farm}
         />,
       );
     },
-    Operation.SWAP,
+    Operation.STAKE,
     {
       xAsset: new Currency(0n, farm.ammPool.x.asset),
       yAsset: new Currency(0n, farm.ammPool.y.asset),
