@@ -1,8 +1,16 @@
-import { Box, Button, ButtonProps, Dropdown, Menu } from '@ergolabs/ui-kit';
-import { Trans } from '@lingui/macro';
+import {
+  Box,
+  Button,
+  ButtonProps,
+  Dropdown,
+  Menu,
+  Tooltip,
+} from '@ergolabs/ui-kit';
+import { t, Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { first } from 'rxjs';
+import styled from 'styled-components';
 
 import { Farm, FarmStatus } from '../../../../../common/models/Farm';
 import { lmDeposit } from '../../../../../gateway/api/operations/lmDeposit';
@@ -14,6 +22,12 @@ interface FarmActionProps {
   fullWidth?: boolean;
   size?: ButtonProps['size'];
 }
+
+const StakeButton = styled(Button)``;
+(StakeButton as any).__ANT_BUTTON = true;
+
+const StakeMenuItem = styled(Menu.Item)``;
+(StakeMenuItem as any).__ANT_BUTTON = true;
 
 export const FarmAction: FC<FarmActionProps> = ({
   farm,
@@ -46,6 +60,8 @@ export const FarmAction: FC<FarmActionProps> = ({
   const isAddLiquidityAvailable =
     !isStakeAvailable && farm.status !== FarmStatus.Finished;
 
+  const isStakeButtonDisabled = farm.expectedEpochsRemainForStake <= 1;
+
   if (isWithdrawAvailable && (isStakeAvailable || isAddLiquidityAvailable)) {
     return (
       <div onClick={(event) => event.stopPropagation()}>
@@ -54,9 +70,19 @@ export const FarmAction: FC<FarmActionProps> = ({
             <Menu style={{ width: 160 }}>
               <Box transparent bordered={false} padding={2} borderRadius="l">
                 {isStakeAvailable && (
-                  <Menu.Item key={'item1'} onClick={stake}>
-                    <Trans>Stake</Trans>
-                  </Menu.Item>
+                  <Tooltip
+                    visible={isStakeButtonDisabled ? undefined : false}
+                    title={t`The program is almost finished so deposits are closed.`}
+                    width={200}
+                  >
+                    <StakeMenuItem
+                      key={'item1'}
+                      onClick={stake}
+                      disabled={isStakeButtonDisabled}
+                    >
+                      <Trans>Stake</Trans>
+                    </StakeMenuItem>
+                  </Tooltip>
                 )}
                 {isAddLiquidityAvailable && (
                   <Menu.Item key={'item3'} onClick={navigateToAddLiquidity}>
@@ -99,17 +125,24 @@ export const FarmAction: FC<FarmActionProps> = ({
 
   if (isStakeAvailable) {
     return (
-      <Button
-        size={size}
-        type="primary"
-        width={fullWidth ? '100%' : undefined}
-        onClick={(e) => {
-          e.stopPropagation();
-          stake();
-        }}
+      <Tooltip
+        visible={isStakeButtonDisabled ? undefined : false}
+        title={t`The program is almost finished so deposits are closed.`}
+        width={200}
       >
-        <Trans>Stake</Trans>
-      </Button>
+        <StakeButton
+          onClick={(e) => {
+            e.stopPropagation();
+            stake();
+          }}
+          size={size}
+          type="primary"
+          width={fullWidth ? '100%' : undefined}
+          disabled={isStakeButtonDisabled}
+        >
+          <Trans>Stake</Trans>
+        </StakeButton>
+      </Tooltip>
     );
   }
 
