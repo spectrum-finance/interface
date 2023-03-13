@@ -120,6 +120,7 @@ export const routesConfig: RouteConfigExtended[] = [
 export const ApplicationRoutes: FC = () => {
   const routes = useRoutes(routesConfig);
   const networkTitle = NetworkDomManager.useNetworkTitle();
+
   const [settings] = useApplicationSettings();
 
   useEffect(() => {
@@ -173,8 +174,8 @@ function setUserDefaultProps(): void {
 }
 
 function setUserCohort(): void {
-  user.setOnce('cohort_date', DateTime.now().toUTC().toFormat('yyyy/MM/dd'));
-  user.setOnce('cohort_day', DateTime.now().toUTC().day);
+  user.setOnce('cohort_date', DateTime.now().toUTC().toFormat('yyyy.MM.dd'));
+  user.setOnce('cohort_day', DateTime.now().toUTC().ordinal);
   user.setOnce('cohort_month', DateTime.now().toUTC().month);
   user.setOnce('cohort_year', DateTime.now().toUTC().year);
   user.setOnce('cohort_version', version);

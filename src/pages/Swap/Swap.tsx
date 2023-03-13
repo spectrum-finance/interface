@@ -9,7 +9,6 @@ import {
   useForm,
 } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
-import { fireAnalyticsEvent } from '@spectrumlabs/analytics';
 import findLast from 'lodash/findLast';
 import maxBy from 'lodash/maxBy';
 import React, { useMemo, useState } from 'react';

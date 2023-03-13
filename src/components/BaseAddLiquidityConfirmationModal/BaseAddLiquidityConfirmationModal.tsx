@@ -1,5 +1,6 @@
 import { Button, Flex, Modal } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
+import { fireAnalyticsEvent } from '@spectrumlabs/analytics';
 import React, { FC } from 'react';
 import { Observable, tap } from 'rxjs';
 
