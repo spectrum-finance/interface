@@ -2,7 +2,10 @@ import React, { FC } from 'react';
 
 import { OperationSettings as BaseOperationSettings } from '../../../../components/OperationSettings/OperationSettings';
 import { feeAsset, networkAsset } from '../../api/networkAsset/networkAsset';
-import { useMaxExFee, useMinExFee } from '../../settings/executionFee';
+import {
+  useMaxExFee,
+  useMinExFee,
+} from '../../settings/executionFee/executionFee';
 import { patchSettings, useSettings } from '../../settings/settings';
 
 interface Props {

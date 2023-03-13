@@ -17,6 +17,8 @@ import { getLockingPeriodString } from '../../pages/Liquidity/utils';
 
 export enum Operation {
   SWAP,
+  UNSTAKE,
+  STAKE,
   ERGOPAY,
   ADD_LIQUIDITY,
   REMOVE_LIQUIDITY,
@@ -54,6 +56,14 @@ const getDescriptionByData = (
     case Operation.REMOVE_LIQUIDITY:
       return xAsset && yAsset
         ? t`Removing liquidity ${xAsset.toCurrencyString()} and ${yAsset.toCurrencyString()}`
+        : '';
+    case Operation.STAKE:
+      return xAsset && yAsset
+        ? t`Staking ${xAsset.toCurrencyString()} and ${yAsset.toCurrencyString()} in the farm`
+        : '';
+    case Operation.UNSTAKE:
+      return xAsset && yAsset
+        ? t`Unstaking ${xAsset.toCurrencyString()} and ${yAsset.toCurrencyString()} from the farm`
         : '';
     case Operation.SWAP:
     case Operation.ERGOPAY:
@@ -232,7 +242,10 @@ export const openConfirmationModal = (
       }
       return ErrorModalContent(operation, payload);
     },
-    progressContent: ProgressModalContent(operation, payload),
+    progressContent:
+      operation === Operation.UNSTAKE || operation === Operation.STAKE
+        ? ProgressModalContent.bind(null, operation)
+        : ProgressModalContent(operation, payload),
     successContent: (txId) => {
       return operation === Operation.ERGOPAY
         ? SuccessErgopayContent(txId)

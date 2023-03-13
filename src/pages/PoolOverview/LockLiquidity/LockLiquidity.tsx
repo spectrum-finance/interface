@@ -89,9 +89,11 @@ export const LockLiquidity: FC<LockLiquidityProps> = ({
               />
             </Flex.Item>
             <Flex.Item marginBottom={2} display="flex">
-              <AnalyticOverview
-                data={selectedLocksGroup || poolConfidenceAnalytic}
-              />
+              <div style={{ height: 50 }}>
+                <AnalyticOverview
+                  data={selectedLocksGroup || poolConfidenceAnalytic}
+                />
+              </div>
             </Flex.Item>
             <div style={{ width: '100%', position: 'relative', height: 160 }}>
               <div
@@ -128,7 +130,7 @@ export const LockLiquidity: FC<LockLiquidityProps> = ({
                       width={50}
                       unit="%"
                     />
-                    <XAxis axisLine={false} tick={false}>
+                    <XAxis axisLine={false} tick={false} height={10}>
                       <Label
                         offset={0}
                         position="insideBottomRight"

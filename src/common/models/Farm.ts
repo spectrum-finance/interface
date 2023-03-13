@@ -61,6 +61,8 @@ export interface Farm<T = any> {
 
   readonly fullEpochsRemain: number;
 
+  readonly expectedEpochsRemainForStake: number;
+
   readonly distributionFrequencyInDays: number;
 
   readonly distributionFrequencyInBlocks: number;
