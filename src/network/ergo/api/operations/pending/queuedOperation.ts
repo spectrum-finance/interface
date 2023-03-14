@@ -20,11 +20,27 @@ import {
   OtherOperation,
   SwapOperation,
 } from '../../../../../common/models/Operation';
+import { TxId } from '../../../../../common/types';
 import { localStorageManager } from '../../../../../common/utils/localStorageManager';
 import { parseUserInputToFractions } from '../../../../../utils/math';
 import { mapToAssetInfo } from '../../common/assetInfoManager';
 import { networkContext$ } from '../../networkContext/networkContext';
-import { inProgressOperations$ } from './inProgressOperations';
+import { mempoolRawOperations$ } from '../history/v2/operationsHistory';
+import { getRegisterTxIdFromRawAddLiquidityItem } from '../history/v2/types/AddLiquidityOperation';
+import { getRegisterTxIdFromRawLmDepositItem } from '../history/v2/types/LmDepositOperation';
+import { getRegisterTxIdFromRawLmRedeemItem } from '../history/v2/types/LmRedeemOperation';
+import { getRegisterTxIdFromRawLockItem } from '../history/v2/types/LockOperation';
+import { getRegisterTxIdFromRawRemoveLiquidityItem } from '../history/v2/types/RemoveLiquidityOperation';
+import { getRegisterTxIdFromRawSwapItem } from '../history/v2/types/SwapOperation';
+
+const mapKeyToIdSelector = new Map<string, (rawOp: any) => TxId>([
+  ['Swap', getRegisterTxIdFromRawSwapItem],
+  ['AmmDepositApi', getRegisterTxIdFromRawAddLiquidityItem],
+  ['AmmRedeemApi', getRegisterTxIdFromRawRemoveLiquidityItem],
+  ['LmDepositApi', getRegisterTxIdFromRawLmDepositItem],
+  ['LmRedeemApi', getRegisterTxIdFromRawLmRedeemItem],
+  ['Lock', getRegisterTxIdFromRawLockItem],
+]);
 
 export interface SwapOperationParams {
   readonly txId: string;
@@ -157,7 +173,7 @@ export const queuedOperation$: Observable<Operation | undefined> =
     refCount(),
   );
 
-combineLatest([inProgressOperations$, networkContext$])
+combineLatest([mempoolRawOperations$, networkContext$])
   .pipe(debounceTime(200))
   .subscribe(([inProgressOperations, ctx]) => {
     const queuedOperation =
@@ -168,11 +184,11 @@ combineLatest([inProgressOperations$, networkContext$])
     }
 
     if (
-      inProgressOperations.some(
-        (o) =>
-          o.id === queuedOperation.tx.id ||
-          o?.orderInput?.outputTransactionId === queuedOperation.tx.id,
-      ) ||
+      inProgressOperations.some((o) => {
+        const id = mapKeyToIdSelector.get(Object.keys(o)[0])!(o);
+
+        return id === queuedOperation.tx.id;
+      }) ||
       ctx.height > queuedOperation.height + 1
     ) {
       localStorageManager.remove(QUEUED_OPERATION_KEY);

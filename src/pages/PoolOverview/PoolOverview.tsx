@@ -32,7 +32,7 @@ export const PoolOverview: React.FC = () => {
       title={t`Pool overview`}
       maxWidth={984}
       withBackButton
-      backTo="/pool"
+      backTo="../../../liquidity"
     >
       {position && poolConfidenceAnalytic ? (
         <Flex col={valBySize(true, true, false)}>

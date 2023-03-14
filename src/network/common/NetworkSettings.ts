@@ -9,6 +9,7 @@ export interface BaseNetworkSettings {
   readonly slippage: Percent;
   readonly nitro: Nitro;
   readonly executionFeeAsset: AssetInfo;
+  readonly newHistory?: boolean;
 }
 
 export interface NetworkSettings<T extends BaseNetworkSettings> {

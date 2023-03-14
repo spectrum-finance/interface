@@ -146,6 +146,10 @@ const _TableView: FC<TableViewProps<any>> = ({
       ...prev,
       [index]: { ...prev[index], value },
     }));
+    const onFilterChange = columns[index]?.filter?.onFilterChange;
+    if (onFilterChange) {
+      onFilterChange(value);
+    }
   };
 
   const toggleFilterVisibility = (index: number) => {

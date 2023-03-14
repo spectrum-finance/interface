@@ -196,7 +196,7 @@ export const AddLiquidityOrCreatePool: FC = () => {
         maxWidth={510}
         withBackButton
         onBackButtonClick={handleBackButtonClick}
-        backTo="/pool"
+        backTo="../../../liquidity"
         padding={4}
       >
         {initialized ? (

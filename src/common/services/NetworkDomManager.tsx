@@ -55,7 +55,7 @@ const NetworkDomManagerOutlet: FC = () => {
   return networkExists ? (
     <Outlet />
   ) : (
-    <Navigate to={`/${selectedNetwork.name}`} />
+    <Navigate replace={true} to={`/${selectedNetwork.name}`} />
   );
 };
 

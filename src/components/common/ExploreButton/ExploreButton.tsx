@@ -1,5 +1,5 @@
 import { Address, TxId } from '@ergolabs/ergo-sdk';
-import { Button, Tooltip } from '@ergolabs/ui-kit';
+import { Button, ButtonProps, Tooltip } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
 import React from 'react';
 
@@ -12,9 +12,13 @@ import { isTxId } from '../../../utils/string/txId';
 
 interface ExploreButtonProps {
   to: Address | TxId;
+  size?: ButtonProps['size'];
 }
 
-const ExploreButton: React.FC<ExploreButtonProps> = ({ to }) => {
+const ExploreButton: React.FC<ExploreButtonProps> = ({
+  to,
+  size = 'small',
+}) => {
   const handleExplore = (t: string): void => {
     if (isTxId(t)) {
       exploreTx(t);
@@ -26,7 +30,7 @@ const ExploreButton: React.FC<ExploreButtonProps> = ({ to }) => {
   return (
     <Tooltip title={t`View on explorer.`} trigger="hover">
       <Button
-        size="small"
+        size={size}
         onClick={(e) => {
           e.stopPropagation();
           handleExplore(to);
