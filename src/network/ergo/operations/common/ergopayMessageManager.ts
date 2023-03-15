@@ -83,6 +83,25 @@ Assets: ${x.toCurrencyString()} and ${y.toCurrencyString()}
 Total fees: ${fee.toCurrencyString()}
     `;
   },
+  unstake({ farm, fee, x, y }: StakeErgoPayParams): string {
+    return `
+Spectrum
+Operation: Unstake
+Farm: ${farm.ammPool.x.asset.ticker}/${farm.ammPool.y.asset.ticker} (TVL: ${
+      farm.ammPool.tvl
+        ? formatToUSD(
+            renderFractions(
+              farm.ammPool.tvl.value,
+              farm.ammPool.tvl.units.currency.decimals,
+            ),
+            'abbr',
+          )
+        : '—'
+    })
+Assets: ${x.toCurrencyString()} and ${y.toCurrencyString()}
+Total fees: ${fee.toCurrencyString()}
+    `;
+  },
   redeem({ pool, fee, x, y }: RedeemErgoPayParams): string {
     return `
 Spectrum

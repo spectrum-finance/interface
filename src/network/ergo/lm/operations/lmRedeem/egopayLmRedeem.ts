@@ -1,6 +1,5 @@
 import {
   combineLatest,
-  filter,
   first,
   from,
   map,
@@ -12,15 +11,16 @@ import {
 import { applicationConfig } from '../../../../../applicationConfig';
 import { TxId } from '../../../../../common/types';
 import { networkContext$ } from '../../../api/networkContext/networkContext';
-import { selectedWallet$ } from '../../../api/wallet/wallet';
+import { ergoPayMessageManager } from '../../../operations/common/ergopayMessageManager';
+import { submitErgopayTx } from '../../../operations/common/submitErgopayTx';
 import { minerFee$ } from '../../../settings/minerFee';
 import { settings$ } from '../../../settings/settings';
 import { ErgoFarm } from '../../models/ErgoFarm';
 import { Stake } from '../../models/Stake';
-import { lmPoolActions } from '../common/lmPoolActions';
+import { lmPoolErgopayActions } from '../common/lmPoolActions';
 import { createLmRedeemData } from './createLmRedeemData';
 
-export const walletLmRedeem = (
+export const ergoPayLmRedeem = (
   ergoLmPool: ErgoFarm,
   stake: Stake,
 ): Observable<TxId> =>
@@ -35,15 +35,21 @@ export const walletLmRedeem = (
         stake,
       }),
     ),
-    switchMap(([lqRedeemConf, actionContext]) =>
-      from(lmPoolActions.redeem(lqRedeemConf, actionContext)),
-    ),
-    switchMap((ergoTx) =>
-      selectedWallet$.pipe(
-        filter(Boolean),
-        first(),
-        switchMap((w) => w.submitTx(ergoTx)),
+    switchMap(([lqRedeemConf, actionContext, additionalData]) =>
+      from(lmPoolErgopayActions.redeem(lqRedeemConf, actionContext)).pipe(
+        map((txRequest) => ({ txRequest, additionalData })),
       ),
+    ),
+    switchMap(({ txRequest, additionalData }) =>
+      submitErgopayTx(txRequest, {
+        p2pkaddress: additionalData.p2pkaddress,
+        message: ergoPayMessageManager.unstake({
+          farm: additionalData.farm as any,
+          x: additionalData.x,
+          y: additionalData.y,
+          fee: additionalData.fee,
+        }),
+      }),
     ),
     timeout(applicationConfig.operationTimeoutTime),
   );
