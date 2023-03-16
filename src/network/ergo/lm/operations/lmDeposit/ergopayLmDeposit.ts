@@ -1,6 +1,5 @@
 import {
   combineLatest,
-  filter,
   first,
   from,
   map,
@@ -14,13 +13,14 @@ import { Currency } from '../../../../../common/models/Currency';
 import { Farm } from '../../../../../common/models/Farm';
 import { TxId } from '../../../../../common/types';
 import { networkContext$ } from '../../../api/networkContext/networkContext';
-import { selectedWallet$ } from '../../../api/wallet/wallet';
+import { ergoPayMessageManager } from '../../../operations/common/ergopayMessageManager';
+import { submitErgopayTx } from '../../../operations/common/submitErgopayTx';
 import { minerFee$ } from '../../../settings/minerFee';
 import { settings$ } from '../../../settings/settings';
-import { lmPoolActions } from '../common/lmPoolActions';
+import { lmPoolErgopayActions } from '../common/lmPoolActions';
 import { createLmDepositData } from './createLmDepositData';
 
-export const walletLmDeposit = (
+export const ergopayLmDeposit = (
   lmPool: Farm,
   depositAmount: Currency,
 ): Observable<TxId> =>
@@ -35,15 +35,21 @@ export const walletLmDeposit = (
         lpAmount: depositAmount,
       }),
     ),
-    switchMap(([lqDepositConf, actionContext]) =>
-      from(lmPoolActions.deposit(lqDepositConf, actionContext)),
-    ),
-    switchMap((ergoTx) =>
-      selectedWallet$.pipe(
-        filter(Boolean),
-        first(),
-        switchMap((w) => w.submitTx(ergoTx)),
+    switchMap(([lqDepositConf, actionContext, additionalData]) =>
+      from(lmPoolErgopayActions.deposit(lqDepositConf, actionContext)).pipe(
+        map((txRequest) => ({ txRequest, additionalData })),
       ),
+    ),
+    switchMap(({ txRequest, additionalData }) =>
+      submitErgopayTx(txRequest, {
+        p2pkaddress: additionalData.p2pkaddress,
+        message: ergoPayMessageManager.stake({
+          farm: additionalData.farm as any,
+          x: additionalData.x,
+          y: additionalData.y,
+          fee: additionalData.fee,
+        }),
+      }),
     ),
     timeout(applicationConfig.operationTimeoutTime),
   );
