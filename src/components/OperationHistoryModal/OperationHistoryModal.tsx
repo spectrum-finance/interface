@@ -23,7 +23,7 @@ export const OperationHistoryModal: FC<OperationHistoryModalProps> = ({
       </Modal.Title>
       <Modal.Content width={newHistory ? 740 : 772}>
         {newHistory ? (
-          <OperationHistoryV2 />
+          <OperationHistoryV2 close={close} />
         ) : (
           <OperationHistoryV1 close={close} showDateTime={showDateTime} />
         )}
