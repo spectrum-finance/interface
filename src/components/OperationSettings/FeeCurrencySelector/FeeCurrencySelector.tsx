@@ -27,7 +27,7 @@ export const FeeCurrencySelector: FC<FeeCurrencySelector> = ({
 
   return (
     <RelativeWrapper>
-      <NewFeatureTag left={115} />
+      <NewFeatureTag left={115} top={-5} animate />
       <Tabs onChange={handleTabChange} activeKey={value?.id}>
         {assets.map((ai) => {
           return <Tabs.TabPane tab={ai.ticker} key={ai.id} />;

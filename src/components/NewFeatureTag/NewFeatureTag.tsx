@@ -7,6 +7,7 @@ interface NewFeatureTagProps {
   right?: number;
   left?: number;
   bottom?: number;
+  animate?: boolean;
 }
 
 interface SNewFeatureTagProps {
@@ -14,6 +15,7 @@ interface SNewFeatureTagProps {
   right?: number;
   left?: number;
   bottom?: number;
+  animate?: boolean;
 }
 
 const SNewFeatureTag = styled.div<SNewFeatureTagProps>`
@@ -41,6 +43,25 @@ const SNewFeatureTag = styled.div<SNewFeatureTagProps>`
     border-radius: 6px;
 
     z-index: 9999;
+
+    animation: ${(p) => (p.animate ? 'pulse-orange 3s infinite' : '')};
+
+    @keyframes pulse-orange {
+      0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(169, 129, 187, 0.7);
+      }
+
+      70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 10px rgba(169, 129, 187, 0);
+      }
+
+      100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(255, 121, 63, 0);
+      }
+    }
   }
 `;
 
@@ -50,9 +71,16 @@ export const NewFeatureTag = ({
   right,
   left,
   bottom,
+  animate = false,
 }: NewFeatureTagProps): ReactElement => {
   return (
-    <SNewFeatureTag top={top} right={right} left={left} bottom={bottom}>
+    <SNewFeatureTag
+      top={top}
+      right={right}
+      left={left}
+      bottom={bottom}
+      animate={animate}
+    >
       {children}
     </SNewFeatureTag>
   );

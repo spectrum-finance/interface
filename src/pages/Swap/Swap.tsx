@@ -415,7 +415,7 @@ export const Swap = (): JSX.Element => {
               />
             )}
             {OperationSettings && (
-              <NewFeatureTag top={17} right={7}>
+              <NewFeatureTag top={17} right={7} animate>
                 <OperationSettings />
               </NewFeatureTag>
             )}
