@@ -63,7 +63,7 @@ const _AssetListItem: React.FC<TokenListItemProps> = ({
           </Typography.Body>
           {!!Number(balance.get(asset).toAmount()) && (
             <Typography.Body secondary size="small">
-              <ConvenientAssetView value={balance.get(asset)} prefix="~" />
+              <ConvenientAssetView value={balance.get(asset)} />
             </Typography.Body>
           )}
         </Flex.Item>

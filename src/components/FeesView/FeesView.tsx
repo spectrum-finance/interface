@@ -71,10 +71,7 @@ export const FeesView: FC<FeesViewProps> = ({ fees, totalFees }) => {
                         {f.currency instanceof Array ? (
                           <>
                             <ConvenientAssetView value={f.currency[0]} /> -{' '}
-                            <ConvenientAssetView
-                              hidePrefix
-                              value={f.currency[1]}
-                            />
+                            <ConvenientAssetView value={f.currency[1]} />
                           </>
                         ) : (
                           <ConvenientAssetView value={f.currency} />
@@ -114,10 +111,7 @@ export const FeesView: FC<FeesViewProps> = ({ fees, totalFees }) => {
               ) : (
                 <>
                   <ConvenientAssetView value={totalFees.minFeesForTotal} /> -{' '}
-                  <ConvenientAssetView
-                    hidePrefix
-                    value={totalFees.maxFeesForTotal}
-                  />
+                  <ConvenientAssetView value={totalFees.maxFeesForTotal} />
                 </>
               )}
             </>

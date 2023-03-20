@@ -83,7 +83,7 @@ const AddressListItem: React.FC<AddressListItemProps> = ({
             {addressBalance.toCurrencyString(2, 2)}
           </Typography.Body>
           <Typography.Body size="extra-small">
-            <ConvenientAssetView value={addressBalance} prefix="~" />
+            <ConvenientAssetView value={addressBalance} />
           </Typography.Body>
         </Flex.Item>
         <Radio checked={active} />

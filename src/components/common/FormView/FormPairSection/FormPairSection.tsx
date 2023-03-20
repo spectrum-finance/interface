@@ -61,7 +61,7 @@ const FormPairSection: React.FC<PairSpaceProps> = ({
               <Flex>
                 <Typography.Body strong align="right" size="large">
                   {fees ? undefined : xAmount.toString()} (
-                  <ConvenientAssetView value={xAmount} prefix="~" />)
+                  <ConvenientAssetView value={xAmount} />)
                 </Typography.Body>
               </Flex>
             </Flex.Item>
@@ -87,7 +87,7 @@ const FormPairSection: React.FC<PairSpaceProps> = ({
               <Flex>
                 <Typography.Body strong align="right" size="large">
                   {fees ? undefined : yAmount.toString()} (
-                  <ConvenientAssetView value={yAmount} prefix="~" />)
+                  <ConvenientAssetView value={yAmount} />)
                 </Typography.Body>
               </Flex>
             </Flex.Item>
