@@ -3,6 +3,7 @@ import {
   EmptyDataState,
   Flex,
   LoadingDataState,
+  Typography,
 } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React from 'react';
@@ -14,7 +15,7 @@ import { List } from '../../List/List';
 import { ListStateView } from '../../List/ListStateView/ListStateView';
 import { TokenListItem } from './TokenListItem/TokenListItem';
 
-export const TokensTab: React.FC<{ close: () => void }> = ({ close }) => {
+export const WalletTokens: React.FC<{ close: () => void }> = ({ close }) => {
   const [balance, loading] = useAssetsBalance();
   const [selectedNetwork] = useSelectedNetwork();
   const location = useLocation();
@@ -29,6 +30,12 @@ export const TokensTab: React.FC<{ close: () => void }> = ({ close }) => {
 
   return (
     <Flex col>
+      <Flex.Item marginBottom={2}>
+        <Typography.Body strong>
+          <Trans>Tokens</Trans>
+        </Typography.Body>
+      </Flex.Item>
+
       <List
         itemKey={(item) => item.asset.id}
         items={balance.values().filter((b) => b.isPositive())}
