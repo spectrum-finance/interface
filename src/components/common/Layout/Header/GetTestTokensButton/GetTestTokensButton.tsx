@@ -1,4 +1,4 @@
-import { Button, DollarOutlined, Modal } from '@ergolabs/ui-kit';
+import { Button, Modal } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import React, { CSSProperties, FC } from 'react';
 import styled from 'styled-components';
@@ -14,8 +14,7 @@ export const _GetTestTokensButton: FC<GetTestTokensButtonProps> = ({
   className,
   style,
 }) => {
-  const openFaucetModal = () =>
-    Modal.open(({ close }) => <FaucetModal close={close} />);
+  const openFaucetModal = () => Modal.open(() => <FaucetModal />);
 
   return (
     <Button
@@ -23,10 +22,9 @@ export const _GetTestTokensButton: FC<GetTestTokensButtonProps> = ({
       type="primary"
       className={className}
       onClick={openFaucetModal}
-      icon={<DollarOutlined style={{ marginRight: 4 }} />}
       style={style}
     >
-      <Trans>Get test tokens</Trans>
+      <Trans>Get tADA</Trans>
     </Button>
   );
 };
