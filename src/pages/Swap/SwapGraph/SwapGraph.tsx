@@ -4,6 +4,7 @@ import {
   Flex,
   LoadingOutlined,
   Spin,
+  SwapOutlined,
   Tabs,
   Typography,
   useDevice,
@@ -28,7 +29,6 @@ import { AssetInfo } from '../../../common/models/AssetInfo';
 import { PoolChartData } from '../../../common/models/PoolChartData';
 import { AssetPairTitle } from '../../../components/AssetPairTitle/AssetPairTitle';
 import { DateTimeView } from '../../../components/common/DateTimeView/DateTimeView';
-import { Truncate } from '../../../components/Truncate/Truncate';
 import { getPoolChartData } from '../../../network/ergo/api/poolChart/poolChart';
 import { Difference } from './Difference/Difference';
 import { useAggregatedByDateData } from './useAggregatedByDateData';
@@ -99,6 +99,7 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({
     [pool?.id, defaultActivePeriod],
     [],
   );
+
   const order = fromAsset !== pool?.x?.asset;
   const isInverted = (order && !isReversed) || (!order && isReversed);
   const data = useAggregatedByDateData(rawData, ticks);
@@ -150,20 +151,22 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({
     <Flex col position="relative">
       <Flex.Item marginTop={4} marginLeft={valBySize(4, 6)} marginRight={4}>
         <Flex align="center">
-          {pool && (
+          {pool && active && (
             <>
               <Flex.Item marginRight={1}>
                 <AssetPairTitle
-                  size="small"
-                  assetX={pool.x.asset}
-                  assetY={pool.y.asset}
                   level={4}
+                  assetX={active.getRatio(isInverted).quoteAsset}
+                  assetY={active.getRatio(isInverted).baseAsset}
                 />
               </Flex.Item>
               <Flex.Item marginRight={2}>
-                <Button size="small" onClick={() => setReversed?.(!isReversed)}>
-                  <Trans>Switch ratio</Trans>
-                </Button>
+                <Button
+                  type="text"
+                  icon={<SwapOutlined />}
+                  size="small"
+                  onClick={() => setReversed?.(!isReversed)}
+                />
               </Flex.Item>
             </>
           )}
@@ -180,17 +183,6 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({
             <Flex.Item marginLeft={valBySize(4, 6)} marginRight={2}>
               <Typography.Title level={valBySize(4, 2)}>
                 {active.getRatio(isInverted).toString()}
-              </Typography.Title>
-            </Flex.Item>
-            <Flex.Item marginBottom={0.5} marginRight={2}>
-              <Typography.Title level={valBySize(5, 4)}>
-                <Truncate>
-                  {active.getRatio(isInverted).quoteAsset.ticker}
-                </Truncate>
-                {' / '}
-                <Truncate>
-                  {active.getRatio(isInverted).baseAsset.ticker}
-                </Truncate>
               </Typography.Title>
             </Flex.Item>
             <Flex.Item marginBottom={0.5}>
