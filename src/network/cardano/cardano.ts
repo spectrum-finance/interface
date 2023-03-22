@@ -52,11 +52,7 @@ import {
   settings,
   settings$,
 } from './settings/settings';
-import {
-  useCreatePoolValidationFee,
-  useDepositValidationFee,
-  useRedeemValidationFee,
-} from './settings/totalFee';
+import { useCreatePoolValidationFee } from './settings/totalFee';
 import {
   exploreAddress,
   exploreLastBlock,
@@ -103,8 +99,8 @@ export const cardanoNetwork: Network<
   assetsToImport$: tokenAssetsToImport$,
   // TODO: Implement assets fns
   getDefaultAssetsFor,
-  getImportedAssetsFor: (assetId: string) => of([]),
-  getAssetsToImportFor: (assetId: string) => of([]),
+  getImportedAssetsFor: () => of([]),
+  getAssetsToImportFor: () => of([]),
   importedAssets$: of([]),
   importTokenAsset,
 
@@ -125,10 +121,10 @@ export const cardanoNetwork: Network<
   refund(): Observable<TxId> {
     return of('');
   },
-  lmRedeem(lmPool: Farm): Observable<TxId> {
+  lmRedeem(): Observable<TxId> {
     return of('');
   },
-  lmDeposit(lmPool: Farm): Observable<TxId> {
+  lmDeposit(): Observable<TxId> {
     return of('');
   },
 
