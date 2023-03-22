@@ -130,26 +130,26 @@ export const ApplicationRoutes: FC = () => {
     user.set('theme_active', settings.theme);
     user.set('locale_active', settings.lang);
 
-    onCLS(({ delta }: Metric) =>
+    onCLS(({ delta }: Metric) => {
       fireAnalyticsEvent('Web Vitals', {
         cumulative_layout_shift: delta,
-      }),
-    );
-    onFCP(({ delta }: Metric) =>
+      });
+    });
+    onFCP(({ delta }: Metric) => {
       fireAnalyticsEvent('Web Vitals', {
         first_contentful_paint_ms: delta,
-      }),
-    );
-    onFID(({ delta }: Metric) =>
+      });
+    });
+    onFID(({ delta }: Metric) => {
       fireAnalyticsEvent('Web Vitals', {
         first_input_delay_ms: delta,
-      }),
-    );
-    onLCP(({ delta }: Metric) =>
+      });
+    });
+    onLCP(({ delta }: Metric) => {
       fireAnalyticsEvent('Web Vitals', {
         largest_contentful_paint_ms: delta,
-      }),
-    );
+      });
+    });
   }, []);
 
   return (
@@ -169,8 +169,6 @@ function setUserDefaultProps(): void {
   user.set('user_agent', navigator.userAgent);
   user.set('screen_resolution_height', window.screen.height);
   user.set('screen_resolution_width', window.screen.width);
-  // user.set('address_active_ergo');
-  // user.set('address_active_cardano');
 }
 
 function setUserCohort(): void {
