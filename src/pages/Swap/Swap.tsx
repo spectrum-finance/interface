@@ -36,6 +36,7 @@ import { AmmPool } from '../../common/models/AmmPool';
 import { AssetInfo } from '../../common/models/AssetInfo';
 import { Currency } from '../../common/models/Currency';
 import { AssetControlFormItem } from '../../components/common/TokenControl/AssetControl';
+import { NewFeatureTag } from '../../components/NewFeatureTag/NewFeatureTag';
 import {
   OperationForm,
   OperationLoader,
@@ -413,7 +414,11 @@ export const Swap = (): JSX.Element => {
                 onClick={() => setLeftWidgetOpened(!leftWidgetOpened)}
               />
             )}
-            {OperationSettings && <OperationSettings />}
+            {OperationSettings && (
+              <NewFeatureTag top={14} right={4} animate>
+                <OperationSettings />
+              </NewFeatureTag>
+            )}
           </Flex>
           <Flex.Item marginBottom={1} marginTop={2}>
             <AssetControlFormItem

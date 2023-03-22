@@ -14,7 +14,6 @@ import { DateTimeCell } from './cells/DateTimeCell/DateTimeCell';
 import { FeeCell } from './cells/FeeCell/FeeCell';
 import { StatusCell } from './cells/StatusCell/StatusCell';
 import { TypeCell } from './cells/TypeCell/TypeCell';
-import { statusFilterRender } from './filters/statusFilter';
 import { OperationDetails } from './OperationDetails/OperationDetails';
 import { OperationPagination } from './OperationPagination/OperationPagination';
 import { ErrorState } from './states/ErrorState/ErrorState';
@@ -76,13 +75,7 @@ export const OperationHistoryV2: FC<ModalRef> = ({ close }) => {
             <DateTimeCell operationItem={operationItem} />
           )}
         </TableView.Column>
-        <TableView.Column
-          title={t`Status`}
-          filter={{
-            render: statusFilterRender,
-            onFilterChange: (filters) => console.log(filters),
-          }}
-        >
+        <TableView.Column title={t`Status`}>
           {(operationItem: OperationItem) => (
             <StatusCell operationItem={operationItem} />
           )}
