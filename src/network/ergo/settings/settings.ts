@@ -1,4 +1,5 @@
 import { PublicKey, publicKeyFromAddress } from '@ergolabs/ergo-sdk';
+import { user } from '@spectrumlabs/analytics';
 import { filter, map, Observable, startWith, zip } from 'rxjs';
 
 import { MIN_NITRO } from '../../../common/constants/erg';
@@ -79,6 +80,12 @@ export const initializeSettings = (): void => {
         unusedAddresses,
         walletAddress,
       );
+
+      user.set('address_active_ergo', newSelectedAddress);
+      user.postInsert('all_addresses_ergo', [
+        ...usedAddresses,
+        ...unusedAddresses,
+      ]);
 
       setSettings({
         ...currentSettings,
