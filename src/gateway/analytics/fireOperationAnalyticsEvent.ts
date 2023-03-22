@@ -21,7 +21,7 @@ export type EventProducer<R extends keyof AnalyticsEvents, P = any> = (
   params: P,
 ) => (ctx: EventProducerContext) => AnalyticsEvents[R];
 
-export const fireAnalyticEvent = <K extends keyof AnalyticsEvents>(
+export const fireOperationAnalyticsEvent = <K extends keyof AnalyticsEvents>(
   eventName: K,
   eventPropsFactory: ReturnType<EventProducer<K>>,
 ): void => {
