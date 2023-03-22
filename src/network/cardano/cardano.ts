@@ -1,6 +1,5 @@
 import { Observable, of } from 'rxjs';
 
-import { Farm } from '../../common/models/Farm';
 import { TxId } from '../../common/types';
 import { Network } from '../common/Network';
 import { convertToConvenientNetworkAsset } from './api/adaRatio/adaRatio';
