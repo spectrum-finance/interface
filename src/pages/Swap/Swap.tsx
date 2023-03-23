@@ -64,6 +64,7 @@ import { SwapFormModel } from './SwapFormModel';
 import { SwapGraph } from './SwapGraph/SwapGraph';
 import { SwapInfo } from './SwapInfo/SwapInfo';
 import { SwitchButton } from './SwitchButton/SwitchButton';
+import { YieldFarmingBadge } from './YieldFarmingBadge/YieldFarmingBadge';
 
 const getToAssets = (fromAsset?: string) =>
   fromAsset ? getDefaultAssetsFor(fromAsset) : defaultTokenAssets$;
@@ -378,6 +379,7 @@ export const Swap = (): JSX.Element => {
     <Page
       maxWidth={500}
       widgetBaseHeight={pool ? 432 : 272}
+      footer={<YieldFarmingBadge />}
       leftWidget={
         selectedNetwork.name === 'ergo' && (
           <SwapGraph
