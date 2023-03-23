@@ -1,5 +1,4 @@
 import { Box, Flex, Typography } from '@ergolabs/ui-kit';
-import { Trans } from '@lingui/macro';
 import { DateTime } from 'luxon';
 import React, { FC } from 'react';
 

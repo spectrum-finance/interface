@@ -14,9 +14,6 @@ import { t, Trans } from '@lingui/macro';
 import React, { useState } from 'react';
 import { Observable } from 'rxjs';
 
-import { AssetInfo } from '../../../../common/models/AssetInfo';
-import { Currency } from '../../../../common/models/Currency';
-import { Operation } from '../../../../common/models/Operation';
 import { TxId } from '../../../../common/types';
 import { InfoTooltip } from '../../../../components/InfoTooltip/InfoTooltip';
 import { getShortAddress } from '../../../../utils/string/addres';
@@ -25,45 +22,23 @@ import { useSettings } from '../../settings/settings';
 import { RefundConfirmationInfo } from './RefundConfirmationInfo/RefundConfirmationInfo';
 
 interface RefundConfirmationModalProps {
-  onClose: (p: Observable<TxId>) => void;
-  addresses: Address[];
-  operation: Operation;
+  readonly onClose: (p: Observable<TxId>) => void;
+  readonly addresses: Address[];
+  readonly txId: TxId;
 }
-
-interface RefundFormModal {
-  readonly xAmount: Currency;
-  readonly yAmount: Currency;
-  readonly xAsset: AssetInfo;
-  readonly yAsset: AssetInfo;
-}
-
-const getForValueFromOperation = (operation: Operation): RefundFormModal =>
-  operation.type === 'swap'
-    ? {
-        xAmount: operation.base,
-        xAsset: operation.base.asset,
-        yAmount: operation.quote,
-        yAsset: operation.quote.asset,
-      }
-    : {
-        xAmount: operation.x,
-        xAsset: operation.x.asset,
-        yAmount: operation.y,
-        yAsset: operation.y.asset,
-      };
 
 const RefundConfirmationModal: React.FC<RefundConfirmationModalProps> = ({
   onClose,
   addresses,
-  operation,
+  txId,
 }): JSX.Element => {
-  const form = useForm<RefundFormModal>(getForValueFromOperation(operation));
+  const form = useForm({});
   const [{ address }] = useSettings();
   const [activeAddress, setActiveAddress] = useState(address);
 
   const handleRefund = () => {
     if (activeAddress) {
-      onClose(walletRefund(activeAddress, operation.txId));
+      onClose(walletRefund(activeAddress, txId));
     }
   };
 

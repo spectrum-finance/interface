@@ -4,28 +4,28 @@ import React, { FC } from 'react';
 import { first } from 'rxjs';
 
 import { useObservable } from '../../../../../../common/hooks/useObservable';
+import { Currency } from '../../../../../../common/models/Currency';
 import { TxId } from '../../../../../../common/types';
 import { addresses$ } from '../../../../../../gateway/api/addresses';
 import { refund } from '../../../../../../gateway/api/operations/refund';
 
 export interface TransactionRefundProps {
   readonly transactionId: TxId;
+  readonly pair: [Currency, Currency];
 }
 
 export const TransactionRefund: FC<TransactionRefundProps> = ({
   transactionId,
+  pair,
 }) => {
   const [addresses] = useObservable(addresses$);
 
   const handleRefundButtonClick = () => {
-    // const payload =
-    //   operation.type === 'swap'
-    //     ? { xAsset: operation.base, yAsset: operation.quote }
-    //     : { xAsset: operation.x, yAsset: operation.y };
-    //
-    // refund(addresses, operation, payload.xAsset, payload.yAsset)
-    //   .pipe(first())
-    //   .subscribe();
+    if (addresses?.length) {
+      refund(addresses, transactionId, pair[0], pair[1])
+        .pipe(first())
+        .subscribe();
+    }
   };
 
   return (
