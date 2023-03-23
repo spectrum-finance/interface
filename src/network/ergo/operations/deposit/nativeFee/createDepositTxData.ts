@@ -58,7 +58,6 @@ const toDepositOperationArgs = ({
   TransactionContext,
   AdditionalData,
 ] => {
-  console.log('native!');
   if (!settings.address || !settings.pk) {
     throw new Error('[deposit]: wallet address is not selected');
   }

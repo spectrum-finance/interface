@@ -4,7 +4,6 @@ import React from 'react';
 import { first, Observable, Subject, switchMap, tap } from 'rxjs';
 
 import { Currency } from '../../../../common/models/Currency';
-import { Operation } from '../../../../common/models/Operation';
 import { TxId } from '../../../../common/types';
 import {
   openConfirmationModal,
@@ -17,7 +16,7 @@ import { RefundOpenWallet } from '../../widgets/RefundOpenWallet/RefundOpenWalle
 
 const refundWithErgopay = (
   addresses: Address[],
-  operation: Operation,
+  txId: TxId,
 ): Observable<TxId> => {
   const subject = new Subject<TxId>();
 
@@ -26,7 +25,7 @@ const refundWithErgopay = (
       openWalletContent={(onTxRegister) => (
         <RefundOpenWallet
           addresses={addresses}
-          operation={operation}
+          txId={txId}
           onTxRegister={onTxRegister}
         />
       )}
@@ -42,7 +41,7 @@ const refundWithErgopay = (
 
 const refundWithWallet = (
   addresses: Address[],
-  operation: Operation,
+  txId: TxId,
   xAmount: Currency,
   yAmount: Currency,
 ): Observable<TxId> => {
@@ -52,7 +51,7 @@ const refundWithWallet = (
       return (
         <RefundConfirmationModal
           addresses={addresses}
-          operation={operation}
+          txId={txId}
           onClose={(request) =>
             next(
               request.pipe(
@@ -78,7 +77,7 @@ const refundWithWallet = (
 
 export const refund = (
   addresses: Address[],
-  operation: Operation,
+  txId: TxId,
   xAmount: Currency,
   yAmount: Currency,
 ): Observable<TxId> =>
@@ -86,7 +85,7 @@ export const refund = (
     first(),
     switchMap((settings) =>
       settings.ergopay
-        ? refundWithErgopay(addresses, operation)
-        : refundWithWallet(addresses, operation, xAmount, yAmount),
+        ? refundWithErgopay(addresses, txId)
+        : refundWithWallet(addresses, txId, xAmount, yAmount),
     ),
   );

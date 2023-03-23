@@ -66,6 +66,7 @@ export const RemoveLiquidityOperationDetails: FC<RemoveLiquidityOperationDetails
           )}
           {removeLiquidityItem.status === OperationStatus.NeedRefund && (
             <TransactionRefund
+              pair={removeLiquidityItem.pool.shares(removeLiquidityItem.lp)}
               transactionId={removeLiquidityItem.registerTx.id}
             />
           )}

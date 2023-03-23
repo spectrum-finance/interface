@@ -29,11 +29,10 @@ export const LivePeriodCell: FC<LivePeriodCellProps> = ({ farm }) => {
         {farm.status === FarmStatus.Scheduled && (
           <>
             <Typography.Body secondary size="small">
-              <Trans>Starts on</Trans>
+              <Trans>Starts in</Trans>
             </Typography.Body>
             <Typography.Body strong>
-              {farm.startDateTime.toFormat('yyyy-MM-dd')} (
-              {farm.programStartBlock} blocks)
+              {farm.programStartBlock} blocks
             </Typography.Body>
           </>
         )}
