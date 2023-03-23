@@ -127,22 +127,22 @@ export const PriceHistory: FC<PriceHistoryProps> = ({ position: { pool } }) => {
       height={valBySize(undefined, 277, 291)}
     >
       <Flex col stretch>
-        <Flex.Item marginBottom={2} display="flex">
+        <Flex.Item marginBottom={2} display="flex" justify="space-between">
           <Flex.Item marginRight={1}>
             <Typography.Body strong>
               <Trans>Price chart</Trans>
             </Typography.Body>
           </Flex.Item>
-          <>
-            <Flex.Item marginRight={1}>
+          <Flex.Item display="flex">
+            <Flex.Item>
               <Button
+                type="text"
                 onClick={() => setIsInverted((prev) => !prev)}
                 size="small"
                 icon={<SwapOutlined />}
               />
             </Flex.Item>
-
-            <Flex.Item display="flex" flex={1} justify="flex-end">
+            <Flex.Item>
               <SmallTabs
                 defaultActiveKey={defaultActivePeriod}
                 onChange={(key) => setDefaultActivePeriod(key)}
@@ -155,7 +155,7 @@ export const PriceHistory: FC<PriceHistoryProps> = ({ position: { pool } }) => {
                 <Tabs.TabPane tab="Y" key="Y" />
               </SmallTabs>
             </Flex.Item>
-          </>
+          </Flex.Item>
         </Flex.Item>
         {isEmpty && !loading && (
           <Flex.Item flex={1} align="center" justify="center">
@@ -170,11 +170,6 @@ export const PriceHistory: FC<PriceHistoryProps> = ({ position: { pool } }) => {
               <>
                 <Flex.Item display="flex" align="center">
                   <Flex.Item marginRight={1}>
-                    <Typography.Title level={5}>
-                      {active.getRatio(isInverted).toString()}
-                    </Typography.Title>
-                  </Flex.Item>
-                  <Flex.Item marginRight={1}>
                     <Typography.Body size="small" strong>
                       <Truncate>
                         {active.getRatio(isInverted).quoteAsset.ticker}
@@ -185,6 +180,12 @@ export const PriceHistory: FC<PriceHistoryProps> = ({ position: { pool } }) => {
                       </Truncate>
                     </Typography.Body>
                   </Flex.Item>
+                  <Flex.Item marginRight={1}>
+                    <Typography.Title level={5}>
+                      {active.getRatio(isInverted).toString()}
+                    </Typography.Title>
+                  </Flex.Item>
+
                   <Flex.Item marginRight={1}>
                     {showDiff && (
                       <Difference
