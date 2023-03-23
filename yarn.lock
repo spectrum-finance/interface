@@ -1631,10 +1631,10 @@
     mathjs "^9.4.4"
     ramda "0.27.1"
 
-"@ergolabs/ergo-dex-sdk@^1.9.58":
-  version "1.9.58"
-  resolved "https://registry.yarnpkg.com/@ergolabs/ergo-dex-sdk/-/ergo-dex-sdk-1.9.58.tgz#bfbb5ea4cf1be2b7d2343cb11cf508e14b3b8010"
-  integrity sha512-b4QTlmSjPbKVCb+uYKkA9dZvXvQ8Y8chlYeTebeDemZJFI6rDz4DGZ9rWrNlPDFUvmjbP/xThvDX2eaFtQq5aw==
+"@ergolabs/ergo-dex-sdk@^1.9.60":
+  version "1.9.60"
+  resolved "https://registry.yarnpkg.com/@ergolabs/ergo-dex-sdk/-/ergo-dex-sdk-1.9.60.tgz#089714e25188d40bee10963ddbf1f74d85498bbd"
+  integrity sha512-b1ZW/IMcyHXrRzixn9DGj3d13nYu41Niq6Pddte3GF+g9TvSqg5bsmA1vZlGyZR58lquIQLrXKgEi3cYw35eog==
   dependencies:
     "@ergolabs/ergo-sdk" "^0.5.6"
     axios "^0.21.1"
