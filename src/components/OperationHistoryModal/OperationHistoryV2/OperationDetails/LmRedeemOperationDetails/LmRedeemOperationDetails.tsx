@@ -53,7 +53,10 @@ export const LmRedeemOperationDetails: FC<LmRedeemOperationDetailsProps> = ({
           />
         )}
         {lmRedeemItem.status === OperationStatus.NeedRefund && (
-          <TransactionRefund transactionId={lmRedeemItem.registerTx.id} />
+          <TransactionRefund
+            pair={lmRedeemItem.pool.shares(lmRedeemItem.lq)}
+            transactionId={lmRedeemItem.registerTx.id}
+          />
         )}
       </>
     }

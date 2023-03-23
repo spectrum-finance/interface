@@ -53,7 +53,7 @@ export const OperationHistoryTable: FC<TransactionHistoryTableProps> = ({
         ? { xAsset: operation.base, yAsset: operation.quote }
         : { xAsset: operation.x, yAsset: operation.y };
 
-    refund(addresses, operation, payload.xAsset, payload.yAsset)
+    refund(addresses, operation.txId, payload.xAsset, payload.yAsset)
       .pipe(first())
       .subscribe();
   };

@@ -31,7 +31,7 @@ export const TransactionInfo: FC<TransactionInfoProps> = ({
           : { xAsset: operation.x, yAsset: operation.y };
 
       close(true);
-      refund(addresses, operation, payload.xAsset, payload.yAsset)
+      refund(addresses, operation.txId, payload.xAsset, payload.yAsset)
         .pipe(first())
         .subscribe();
     }
