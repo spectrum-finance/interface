@@ -26,24 +26,22 @@ export const BaseSwapConfirmationModal: FC<
 
   const swapOperation = async () => {
     if (value.pool && value.fromAmount && value.toAmount) {
-      fireOperationAnalyticsEvent('Swap Modal Confirm', (ctx) => [
+      fireOperationAnalyticsEvent('Swap Modal Confirm', (ctx) =>
         mapToSwapAnalyticsProps(value, ctx),
-      ]);
+      );
       onClose(
         swap(value.pool, value.fromAmount, value.toAmount).pipe(
           tap(
             () => {
-              fireOperationAnalyticsEvent('Swap Signed Success', (ctx) => [
+              fireOperationAnalyticsEvent('Swap Signed Success', (ctx) =>
                 mapToSwapAnalyticsProps(value, ctx),
-              ]);
+              );
             },
             (err) => {
-              fireOperationAnalyticsEvent('Swap Signed Error', (ctx) => [
-                {
-                  ...mapToSwapAnalyticsProps(value, ctx),
-                  error_string: JSON.stringify(err),
-                },
-              ]);
+              fireOperationAnalyticsEvent('Swap Signed Error', (ctx) => ({
+                ...mapToSwapAnalyticsProps(value, ctx),
+                error_string: JSON.stringify(err),
+              }));
             },
           ),
         ),

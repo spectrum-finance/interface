@@ -1,12 +1,9 @@
 import { FeeCurrency, fireAnalyticsEvent } from '@spectrumlabs/analytics';
 import { AnalyticsEvents } from '@spectrumlabs/analytics/lib/cjs/types/events';
-import { combineLatest, first } from 'rxjs';
+import { combineLatest, first, from, switchMap } from 'rxjs';
 
 import { SPF_TOKEN_ERGO_ID } from '../../common/constants/spf';
 import { Network } from '../../network/common/Network';
-import { selectedNetwork$ } from '../common/network';
-import { settings$ } from '../settings/settings';
-
 export interface EventProducerContext {
   readonly network: Network<any, any>;
   readonly slippage: number;
@@ -16,16 +13,29 @@ export interface EventProducerContext {
 
 export type EventProducer<T extends keyof AnalyticsEvents, P = any> = (
   params: P,
-) => (
-  ctx: EventProducerContext,
-) => AnalyticsEvents[T] extends undefined ? [undefined?] : [AnalyticsEvents[T]];
+) => (ctx: EventProducerContext) => AnalyticsEvents[T];
 
 export const fireOperationAnalyticsEvent = <T extends keyof AnalyticsEvents>(
   eventName: T,
-  eventPropsFactory: ReturnType<EventProducer<T>>,
+  ...rest: AnalyticsEvents[T] extends undefined
+    ? [undefined?]
+    : [ReturnType<EventProducer<T>>]
 ): void => {
-  combineLatest([settings$, selectedNetwork$])
-    .pipe(first())
+  from(
+    Promise.all([
+      import('../settings/settings').then(
+        (settingsModule) => settingsModule.settings$,
+      ),
+      import('../common/network').then(
+        (networkModule) => networkModule.selectedNetwork$,
+      ),
+    ]),
+  )
+    .pipe(
+      switchMap(([settings$, selectedNetwork$]) =>
+        combineLatest([settings$, selectedNetwork$]).pipe(first()),
+      ),
+    )
     .subscribe(([settings, selectedNetwork]) => {
       const ergTicker =
         settings?.executionFeeAsset?.id === SPF_TOKEN_ERGO_ID
@@ -34,15 +44,22 @@ export const fireOperationAnalyticsEvent = <T extends keyof AnalyticsEvents>(
 
       const feeCurrency: EventProducerContext['feeCurrency'] =
         selectedNetwork.name === 'cardano' ? 'cardano-ada' : ergTicker;
+      const eventPropsFactory = rest[0];
+      const props = (
+        eventPropsFactory
+          ? [
+              eventPropsFactory({
+                slippage: settings.slippage,
+                nitro: settings.nitro,
+                network: selectedNetwork,
+                feeCurrency,
+              }),
+            ]
+          : []
+      ) as AnalyticsEvents[T] extends undefined
+        ? [undefined?]
+        : [AnalyticsEvents[T]];
 
-      fireAnalyticsEvent(
-        eventName,
-        ...eventPropsFactory({
-          slippage: settings.slippage,
-          nitro: settings.nitro,
-          network: selectedNetwork,
-          feeCurrency,
-        }),
-      );
+      fireAnalyticsEvent(eventName, ...props);
     });
 };

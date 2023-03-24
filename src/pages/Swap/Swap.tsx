@@ -193,7 +193,7 @@ export const Swap = (): JSX.Element => {
 
     fireOperationAnalyticsEvent(
       'Swap Form Submit',
-      (ctx: EventProducerContext) => [mapToSwapAnalyticsProps(value, ctx)],
+      (ctx: EventProducerContext) => mapToSwapAnalyticsProps(value, ctx),
     );
   };
 
