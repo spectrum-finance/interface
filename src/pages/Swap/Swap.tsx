@@ -9,7 +9,11 @@ import {
   useForm,
 } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
-import { fireAnalyticsEvent } from '@spectrumlabs/analytics';
+import {
+  ElementLocation,
+  ElementName,
+  fireAnalyticsEvent,
+} from '@spectrumlabs/analytics';
 import findLast from 'lodash/findLast';
 import maxBy from 'lodash/maxBy';
 import React, { useMemo, useState } from 'react';
@@ -435,7 +439,10 @@ export const Swap = (): JSX.Element => {
               importedAssets$={importedTokenAssets$}
               amountName="fromAmount"
               tokenName="fromAsset"
-              trace={{ elementLocation: 'swap-form' }}
+              trace={{
+                element_name: ElementName.tokenFrom,
+                element_location: ElementLocation.swapForm,
+              }}
             />
           </Flex.Item>
           <SwitchButton
@@ -452,7 +459,10 @@ export const Swap = (): JSX.Element => {
               importedAssets$={toImportedAssets$}
               amountName="toAmount"
               tokenName="toAsset"
-              trace={{ elementLocation: 'swap-form' }}
+              trace={{
+                element_name: ElementName.tokenTo,
+                element_location: ElementLocation.swapForm,
+              }}
             />
           </Flex.Item>
           <Form.Item name="pool">

@@ -7,7 +7,7 @@ import {
   useDevice,
 } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
-import { AnalyticsTrace, fireAnalyticsEvent } from '@spectrumlabs/analytics';
+import { fireAnalyticsEvent, TraceProps } from '@spectrumlabs/analytics';
 import React from 'react';
 import { Observable } from 'rxjs';
 import styled from 'styled-components';
@@ -26,7 +26,7 @@ interface TokenSelectProps {
   readonly disabled?: boolean;
   readonly readonly?: boolean;
   readonly loading?: boolean;
-  readonly trace: AnalyticsTrace;
+  readonly trace: TraceProps;
 }
 
 const StyledDownOutlined = styled(DownOutlined)`
@@ -50,7 +50,7 @@ const AssetSelect: React.FC<TokenSelectProps> = ({
   assetsToImport$,
   importedAssets$,
   loading,
-  trace,
+  trace: { element_name, element_location },
 }) => {
   const { valBySize } = useDevice();
   const handleSelectChange = (newValue: AssetInfo): void => {
@@ -59,7 +59,8 @@ const AssetSelect: React.FC<TokenSelectProps> = ({
     }
     fireAnalyticsEvent('Select Token', {
       ...mapToTokenProps(newValue),
-      element_location: trace.elementLocation,
+      element_location,
+      element_name,
     });
   };
 

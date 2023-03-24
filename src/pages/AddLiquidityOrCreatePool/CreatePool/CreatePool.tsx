@@ -1,5 +1,6 @@
 import { Flex, Form, FormGroup, useForm } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
+import { ElementLocation, ElementName } from '@spectrumlabs/analytics';
 import React, { FC, useEffect, useState } from 'react';
 import { skip } from 'rxjs';
 
@@ -428,14 +429,20 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
                   tokenName="xAsset"
                   amountName="x"
                   readonly="asset"
-                  trace={{ elementLocation: 'create-pool-form' }}
+                  trace={{
+                    element_name: ElementName.tokenX,
+                    element_location: ElementLocation.createPoolForm,
+                  }}
                 />
               </Flex.Item>
               <AssetControlFormItem
                 tokenName="yAsset"
                 amountName="y"
                 readonly="asset"
-                trace={{ elementLocation: 'create-pool-form' }}
+                trace={{
+                  element_name: ElementName.tokenY,
+                  element_location: ElementLocation.createPoolForm,
+                }}
               />
             </Flex>
           </Section>

@@ -8,7 +8,7 @@ import {
   useDevice,
   useFormContext,
 } from '@ergolabs/ui-kit';
-import { AnalyticsTrace } from '@spectrumlabs/analytics';
+import { TraceProps } from '@spectrumlabs/analytics';
 import React, { FC, ReactNode } from 'react';
 import { Observable, of } from 'rxjs';
 
@@ -66,7 +66,7 @@ export interface AssetControlFormItemProps {
   readonly readonly?: boolean | 'asset' | 'amount';
   readonly noBottomInfo?: boolean;
   readonly bordered?: boolean;
-  readonly trace: AnalyticsTrace;
+  readonly trace: TraceProps;
   readonly loading?: boolean;
 }
 

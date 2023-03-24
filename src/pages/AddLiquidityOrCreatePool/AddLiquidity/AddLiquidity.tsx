@@ -7,6 +7,7 @@ import {
   useForm,
 } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
+import { ElementLocation, ElementName } from '@spectrumlabs/analytics';
 import maxBy from 'lodash/maxBy';
 import React, { FC, useEffect, useState } from 'react';
 import { first, skip } from 'rxjs';
@@ -296,7 +297,10 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
             <Flex col>
               <Flex.Item marginBottom={2}>
                 <AssetControlFormItem
-                  trace={{ elementLocation: 'deposit-form' }}
+                  trace={{
+                    element_location: ElementLocation.depositForm,
+                    element_name: ElementName.tokenX,
+                  }}
                   amountName="x"
                   tokenName="xAsset"
                   readonly="asset"
@@ -304,7 +308,10 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
               </Flex.Item>
               <Flex.Item>
                 <AssetControlFormItem
-                  trace={{ elementLocation: 'deposit-form' }}
+                  trace={{
+                    element_location: ElementLocation.depositForm,
+                    element_name: ElementName.tokenY,
+                  }}
                   amountName="y"
                   tokenName="yAsset"
                   readonly="asset"

@@ -1,6 +1,7 @@
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
 import { Flex, Form, Skeleton, useForm } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
+import { ElementLocation, ElementName } from '@spectrumlabs/analytics';
 import React, { FC, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -219,11 +220,12 @@ export const AddLiquidityOrCreatePool: FC = () => {
                       name="x"
                       assets$={xAssets$}
                       trace={{
-                        elementLocation:
+                        element_name: ElementName.tokenX,
+                        element_location:
                           value &&
                           isAddLiquidityPageVisible(value, componentState)
-                            ? 'deposit-form'
-                            : 'create-pool-form',
+                            ? ElementLocation.depositForm
+                            : ElementLocation.createPoolForm,
                       }}
                     />
                   </Flex.Item>
@@ -232,11 +234,12 @@ export const AddLiquidityOrCreatePool: FC = () => {
                       name="y"
                       assets$={yAssets$}
                       trace={{
-                        elementLocation:
+                        element_name: ElementName.tokenY,
+                        element_location:
                           value &&
                           isAddLiquidityPageVisible(value, componentState)
-                            ? 'deposit-form'
-                            : 'create-pool-form',
+                            ? ElementLocation.depositForm
+                            : ElementLocation.createPoolForm,
                       }}
                     />
                   </Flex.Item>
