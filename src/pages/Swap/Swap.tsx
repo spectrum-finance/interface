@@ -190,6 +190,7 @@ export const Swap = (): JSX.Element => {
     swap(value as Required<SwapFormModel>)
       .pipe(first())
       .subscribe(() => resetForm());
+
     fireOperationAnalyticsEvent(
       'Swap Form Submit',
       (ctx: EventProducerContext) => [mapToSwapAnalyticsProps(value, ctx)],
@@ -365,7 +366,6 @@ export const Swap = (): JSX.Element => {
       { emitEvent: 'silent' },
     );
     setLastEditedField((prev) => (prev === 'from' ? 'to' : 'from'));
-    // panalytics.switchSwap();
     fireAnalyticsEvent('Swap Click Switch');
   };
 
