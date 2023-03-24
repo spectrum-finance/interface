@@ -428,12 +428,14 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
                   tokenName="xAsset"
                   amountName="x"
                   readonly="asset"
+                  trace={{ elementLocation: 'create-pool-form' }}
                 />
               </Flex.Item>
               <AssetControlFormItem
                 tokenName="yAsset"
                 amountName="y"
                 readonly="asset"
+                trace={{ elementLocation: 'create-pool-form' }}
               />
             </Flex>
           </Section>

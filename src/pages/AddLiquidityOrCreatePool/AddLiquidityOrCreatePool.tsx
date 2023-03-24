@@ -218,13 +218,12 @@ export const AddLiquidityOrCreatePool: FC = () => {
                     <AssetSelectFormItem
                       name="x"
                       assets$={xAssets$}
-                      analytics={{
-                        operation:
+                      trace={{
+                        elementLocation:
                           value &&
                           isAddLiquidityPageVisible(value, componentState)
-                            ? 'deposit'
-                            : 'create-pool',
-                        tokenAssignment: 'x',
+                            ? 'deposit-form'
+                            : 'create-pool-form',
                       }}
                     />
                   </Flex.Item>
@@ -232,13 +231,12 @@ export const AddLiquidityOrCreatePool: FC = () => {
                     <AssetSelectFormItem
                       name="y"
                       assets$={yAssets$}
-                      analytics={{
-                        operation:
+                      trace={{
+                        elementLocation:
                           value &&
                           isAddLiquidityPageVisible(value, componentState)
-                            ? 'deposit'
-                            : 'create-pool',
-                        tokenAssignment: 'y',
+                            ? 'deposit-form'
+                            : 'create-pool-form',
                       }}
                     />
                   </Flex.Item>

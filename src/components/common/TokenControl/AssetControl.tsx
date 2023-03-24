@@ -8,10 +8,10 @@ import {
   useDevice,
   useFormContext,
 } from '@ergolabs/ui-kit';
+import { AnalyticsTrace } from '@spectrumlabs/analytics';
 import React, { FC, ReactNode } from 'react';
 import { Observable, of } from 'rxjs';
 
-// import { PAnalytics } from '../../../common/analytics/@types/types';
 import { useObservable } from '../../../common/hooks/useObservable';
 import { Currency } from '../../../common/models/Currency';
 import { useAssetsBalance } from '../../../gateway/api/assetBalance';
@@ -66,7 +66,7 @@ export interface AssetControlFormItemProps {
   readonly readonly?: boolean | 'asset' | 'amount';
   readonly noBottomInfo?: boolean;
   readonly bordered?: boolean;
-  readonly analytics?: any;
+  readonly trace: AnalyticsTrace;
   readonly loading?: boolean;
 }
 
@@ -80,7 +80,7 @@ export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
   disabled,
   readonly,
   handleMaxButtonClick,
-  analytics,
+  trace,
   loading,
 }) => {
   const { valBySize } = useDevice();
@@ -151,7 +151,7 @@ export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
                     value={value}
                     onChange={onChange}
                     disabled={disabled}
-                    analytics={analytics}
+                    trace={trace}
                   />
                 )}
               </Form.Item>

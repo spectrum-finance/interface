@@ -4,9 +4,11 @@ import {
   OperationSettingsProps,
   RedeemProps,
   SwapProps,
+  TokenProps,
 } from '@spectrumlabs/analytics';
 
 import { AmmPool } from '../../common/models/AmmPool';
+import { AssetInfo } from '../../common/models/AssetInfo';
 import { Currency } from '../../common/models/Currency';
 import { EventProducerContext } from '../../gateway/analytics/fireOperationAnalyticsEvent';
 import { Network } from '../../network/common/Network';
@@ -33,6 +35,11 @@ const getOperationSettingsProps = ({
   settings_fee_currency: feeCurrency!,
   settings_nitro: nitro!,
   settings_slippage: slippage!,
+});
+
+export const mapToTokenProps = (token: AssetInfo): TokenProps => ({
+  toke_id: token.id,
+  token_name: setString(token.ticker),
 });
 
 export const mapToAmmPoolAnalyticsProps = (pool?: AmmPool): AmmPoolProps => ({

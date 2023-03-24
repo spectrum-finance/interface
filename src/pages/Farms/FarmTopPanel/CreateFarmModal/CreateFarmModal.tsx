@@ -129,13 +129,13 @@ export const CreateFarmModal: FC = () => {
                       label={t`Budget`}
                       tooltipContent={t`The total amount of tokens that you would like to distribute among users.`}
                     >
-                      <AssetControlFormItem
-                        bordered
-                        assets$={balanceAssets$}
-                        amountName="budgetAmount"
-                        tokenName="budgetAsset"
-                        maxButton
-                      />
+                      {/*<AssetControlFormItem*/}
+                      {/*  bordered*/}
+                      {/*  assets$={balanceAssets$}*/}
+                      {/*  amountName="budgetAmount"*/}
+                      {/*  tokenName="budgetAsset"*/}
+                      {/*  maxButton*/}
+                      {/*/>*/}
                     </LabeledContent>
                   </OverlayBox>
                 </Flex.Item>

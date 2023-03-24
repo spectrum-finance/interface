@@ -435,11 +435,7 @@ export const Swap = (): JSX.Element => {
               importedAssets$={importedTokenAssets$}
               amountName="fromAmount"
               tokenName="fromAsset"
-              analytics={{
-                operation: 'swap',
-                location: 'swap',
-                tokenAssignment: 'from',
-              }}
+              trace={{ elementLocation: 'swap-form' }}
             />
           </Flex.Item>
           <SwitchButton
@@ -456,11 +452,7 @@ export const Swap = (): JSX.Element => {
               importedAssets$={toImportedAssets$}
               amountName="toAmount"
               tokenName="toAsset"
-              analytics={{
-                operation: 'swap',
-                location: 'swap',
-                tokenAssignment: 'to',
-              }}
+              trace={{ elementLocation: 'swap-form' }}
             />
           </Flex.Item>
           <Form.Item name="pool">

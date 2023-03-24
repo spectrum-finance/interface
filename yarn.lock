@@ -2264,10 +2264,10 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@spectrumlabs/analytics@^1.0.17":
-  version "1.0.17"
-  resolved "https://registry.yarnpkg.com/@spectrumlabs/analytics/-/analytics-1.0.17.tgz#0bbaacbd6dbefaf898c2f85ee33befc13800907b"
-  integrity sha512-yJ155fUm8Mak4Zn0T6hTPOBPHKwdnGHGjARPGlNYOEGfqvKq+LxSLZHoBlcLZOcK90qcw16W3wYYUWY6GE6WEg==
+"@spectrumlabs/analytics@^1.0.18":
+  version "1.0.18"
+  resolved "https://registry.yarnpkg.com/@spectrumlabs/analytics/-/analytics-1.0.18.tgz#35db9458599b67b81f0d50c87b7147cb8420ee7d"
+  integrity sha512-QoDlZDuvVw0dd7+PWJX4fVkrBRfwNw58uCe188sgNJkUdo5mbXZmkXql6DnqqmUHkPXjFEC+2TadrZczZ7iWtw==
   dependencies:
     "@amplitude/analytics-browser" "^1.9.0"
 
