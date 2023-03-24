@@ -1,49 +1,47 @@
-import { fireAnalyticsEvent as baseFireAnalyticsEvent } from '@spectrumlabs/analytics';
+import { FeeCurrency, fireAnalyticsEvent } from '@spectrumlabs/analytics';
 import { AnalyticsEvents } from '@spectrumlabs/analytics/lib/cjs/types/events';
-import { ThemeProps } from '@spectrumlabs/analytics/lib/cjs/types/events/generalProps';
 import { combineLatest, first } from 'rxjs';
 
-import { localStorageManager } from '../../common/utils/localStorageManager';
-import { Settings } from '../../context';
-import { SupportedNetworks } from '../../network/common/Network';
+import { SPF_TOKEN_ERGO_ID } from '../../common/constants/spf';
+import { Network } from '../../network/common/Network';
 import { selectedNetwork$ } from '../common/network';
 import { settings$ } from '../settings/settings';
 
 export interface EventProducerContext {
-  readonly network: SupportedNetworks;
+  readonly network: Network<any, any>;
   readonly slippage: number;
   readonly nitro: number;
-  readonly feeCurrency: 'erg' | 'spf' | 'ada';
-  readonly theme: ThemeProps['theme'];
+  readonly feeCurrency: FeeCurrency;
 }
 
-export type EventProducer<R extends keyof AnalyticsEvents, P = any> = (
+export type EventProducer<T extends keyof AnalyticsEvents, P = any> = (
   params: P,
-) => (ctx: EventProducerContext) => AnalyticsEvents[R];
+) => (
+  ctx: EventProducerContext,
+) => AnalyticsEvents[T] extends undefined ? [undefined?] : [AnalyticsEvents[T]];
 
-export const fireOperationAnalyticsEvent = <K extends keyof AnalyticsEvents>(
-  eventName: K,
-  eventPropsFactory: ReturnType<EventProducer<K>>,
+export const fireOperationAnalyticsEvent = <T extends keyof AnalyticsEvents>(
+  eventName: T,
+  eventPropsFactory: ReturnType<EventProducer<T>>,
 ): void => {
   combineLatest([settings$, selectedNetwork$])
     .pipe(first())
     .subscribe(([settings, selectedNetwork]) => {
-      const theme: ThemeProps['theme'] =
-        localStorageManager.get<Settings>('settings')?.theme || 'light';
+      const ergTicker =
+        settings?.executionFeeAsset?.id === SPF_TOKEN_ERGO_ID
+          ? 'ergo-spf'
+          : 'ergo-erg';
 
-      const ergTicker: 'erg' | 'spf' =
-        (settings?.executionFeeAsset?.ticker?.toLowerCase() as any) || 'erg';
       const feeCurrency: EventProducerContext['feeCurrency'] =
-        selectedNetwork.name === 'cardano' ? 'ada' : ergTicker;
+        selectedNetwork.name === 'cardano' ? 'cardano-ada' : ergTicker;
 
-      baseFireAnalyticsEvent(
+      fireAnalyticsEvent(
         eventName,
-        eventPropsFactory({
+        ...eventPropsFactory({
           slippage: settings.slippage,
           nitro: settings.nitro,
-          network: selectedNetwork.name,
+          network: selectedNetwork,
           feeCurrency,
-          theme,
         }),
       );
     });

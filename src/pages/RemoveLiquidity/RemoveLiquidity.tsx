@@ -125,11 +125,6 @@ export const RemoveLiquidity: FC = () => {
               />
             </Flex.Item>
 
-            {/*TODO: ADD_FEES_DISPLAY_AFTER_SDK_UPDATE[EDEX-468]*/}
-            {/*<Flex.Item marginBottom={4}>*/}
-            {/*  <TokenSpace title="Earned Fees" pair={pair} fees />*/}
-            {/*</Flex.Item>*/}
-
             <Flex.Item>
               <SubmitButton
                 disabled={

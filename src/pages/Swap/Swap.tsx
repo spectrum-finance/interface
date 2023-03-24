@@ -9,6 +9,7 @@ import {
   useForm,
 } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
+import { fireAnalyticsEvent } from '@spectrumlabs/analytics';
 import findLast from 'lodash/findLast';
 import maxBy from 'lodash/maxBy';
 import React, { useMemo, useState } from 'react';
@@ -26,7 +27,6 @@ import {
   zip,
 } from 'rxjs';
 
-// import { panalytics } from '../../common/analytics';
 import {
   useObservable,
   useSubscription,
@@ -42,6 +42,10 @@ import {
   OperationValidator,
 } from '../../components/OperationForm/OperationForm';
 import { Page } from '../../components/Page/Page';
+import {
+  EventProducerContext,
+  fireOperationAnalyticsEvent,
+} from '../../gateway/analytics/fireOperationAnalyticsEvent';
 import { ammPools$, getAmmPoolsByAssetPair } from '../../gateway/api/ammPools';
 import { useAssetsBalance } from '../../gateway/api/assetBalance';
 import {
@@ -58,6 +62,7 @@ import { useHandleSwapMaxButtonClick } from '../../gateway/api/useHandleSwapMaxB
 import { useSwapValidators } from '../../gateway/api/validationFees';
 import { useSelectedNetwork } from '../../gateway/common/network';
 import { operationsSettings$ } from '../../gateway/widgets/operationsSettings';
+import { mapToSwapAnalyticsProps } from '../../utils/analytics/mapper';
 import { PoolSelector } from './PoolSelector/PoolSelector';
 import { SwapFormModel } from './SwapFormModel';
 import { SwapGraph } from './SwapGraph/SwapGraph';
@@ -185,7 +190,10 @@ export const Swap = (): JSX.Element => {
     swap(value as Required<SwapFormModel>)
       .pipe(first())
       .subscribe(() => resetForm());
-    // panalytics.submitSwap(value);
+    fireOperationAnalyticsEvent(
+      'Swap Form Submit',
+      (ctx: EventProducerContext) => [mapToSwapAnalyticsProps(value, ctx)],
+    );
   };
 
   const resetForm = () =>
@@ -358,6 +366,7 @@ export const Swap = (): JSX.Element => {
     );
     setLastEditedField((prev) => (prev === 'from' ? 'to' : 'from'));
     // panalytics.switchSwap();
+    fireAnalyticsEvent('Swap Click Switch');
   };
 
   const [pool] = useObservable(form.controls.pool.valueChangesWithSilent$);
