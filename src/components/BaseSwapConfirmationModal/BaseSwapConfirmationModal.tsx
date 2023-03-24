@@ -3,7 +3,6 @@ import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 import { Observable, tap } from 'rxjs';
 
-// import { panalytics } from '../../common/analytics';
 import { AmmPool } from '../../common/models/AmmPool';
 import { Currency } from '../../common/models/Currency';
 import { TxId } from '../../common/types';
@@ -38,10 +37,19 @@ export const BaseSwapConfirmationModal: FC<
               );
             },
             (err) => {
-              fireOperationAnalyticsEvent('Swap Signed Error', (ctx) => ({
-                ...mapToSwapAnalyticsProps(value, ctx),
-                error_string: JSON.stringify(err),
-              }));
+              if (err.code === 2) {
+                fireOperationAnalyticsEvent('Swap Cancel Sign', (ctx) =>
+                  mapToSwapAnalyticsProps(value, ctx),
+                );
+                return;
+              }
+              fireOperationAnalyticsEvent(
+                'Swap Modal Confirm Error',
+                (ctx) => ({
+                  ...mapToSwapAnalyticsProps(value, ctx),
+                  error_string: JSON.stringify(err),
+                }),
+              );
             },
           ),
         ),
