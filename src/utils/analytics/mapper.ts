@@ -1,4 +1,5 @@
 import {
+  AmmPoolProps,
   DepositProps,
   OperationSettingsProps,
   RedeemProps,
@@ -34,11 +35,13 @@ const getOperationSettingsProps = ({
   settings_slippage: slippage!,
 });
 
-const getAmmPoolProps = (pool?: AmmPool) => ({
+export const mapToAmmPoolAnalyticsProps = (pool?: AmmPool): AmmPoolProps => ({
   amm_pool_fee: pool?.poolFee || 0,
   amm_pool_id: setString(pool?.id),
   amm_pool_name: getPoolName(pool),
-  amm_pool_tvl: Number(pool?.tvl?.value),
+
+  // Dividing by 100 to get real USD value
+  amm_pool_tvl: Number(pool?.tvl?.value) / 100,
 });
 
 const setString = (s?: string) => s || 'null';
@@ -61,7 +64,7 @@ export const mapToSwapAnalyticsProps = (
 
     ...getOperationSettingsProps(rest),
 
-    ...getAmmPoolProps(value.pool),
+    ...mapToAmmPoolAnalyticsProps(value.pool),
   };
 };
 
@@ -82,7 +85,7 @@ export const mapToDepositAnalyticsProps = (
 
     ...getOperationSettingsProps(rest),
 
-    ...getAmmPoolProps(value.pool),
+    ...mapToAmmPoolAnalyticsProps(value.pool),
   };
 };
 
@@ -105,6 +108,6 @@ export const mapToRedeemAnalyticsProps = (
 
     ...getOperationSettingsProps(rest),
 
-    ...getAmmPoolProps(pool),
+    ...mapToAmmPoolAnalyticsProps(pool),
   };
 };
