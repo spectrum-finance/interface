@@ -8,13 +8,14 @@ import {
   useDevice,
   useFormContext,
 } from '@ergolabs/ui-kit';
-import { TraceProps } from '@spectrumlabs/analytics';
+import { fireAnalyticsEvent, TraceProps } from '@spectrumlabs/analytics';
 import React, { FC, ReactNode } from 'react';
 import { Observable, of } from 'rxjs';
 
 import { useObservable } from '../../../common/hooks/useObservable';
 import { Currency } from '../../../common/models/Currency';
 import { useAssetsBalance } from '../../../gateway/api/assetBalance';
+import { mapToTokenProps } from '../../../utils/analytics/mapper';
 import { ConvenientAssetView } from '../../ConvenientAssetView/ConvenientAssetView';
 import {
   AssetAmountInput,
@@ -96,7 +97,11 @@ export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
       const newAmount = handleMaxButtonClick
         ? handleMaxButtonClick(maxBalance)
         : maxBalance;
-
+      fireAnalyticsEvent('Click MAX Button', {
+        ...mapToTokenProps(newAmount.asset),
+        element_location: trace.element_location,
+        element_name: trace.element_name,
+      });
       form.controls[amountName].patchValue(
         newAmount.isPositive() ? newAmount : maxBalance,
       );

@@ -13,6 +13,7 @@ import {
   RightOutlined,
 } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
+import { fireAnalyticsEvent, user } from '@spectrumlabs/analytics';
 import { stringify } from 'qs';
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
@@ -112,6 +113,8 @@ const BurgerMenu = (): JSX.Element => {
   ];
 
   const changeLanguage = (locale: string) => {
+    fireAnalyticsEvent('Select Locale', { locale });
+    user.set('locale_active', locale);
     setSettings({
       ...settings,
       lang: locale,

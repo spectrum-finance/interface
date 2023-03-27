@@ -124,6 +124,8 @@ export const ApplicationRoutes: FC = () => {
   const [settings] = useApplicationSettings();
 
   useEffect(() => {
+    fireAnalyticsEvent('App Loaded');
+
     setUserDefaultProps();
     setUserCohort();
 
