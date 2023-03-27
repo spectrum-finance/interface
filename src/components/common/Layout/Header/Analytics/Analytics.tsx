@@ -3,9 +3,8 @@ import React, { FC } from 'react';
 import styled from 'styled-components';
 
 import { useObservable } from '../../../../../common/hooks/useObservable';
-import { aggregatedAnalyticsData24H$ } from '../../../../../services/new/analytics';
+import { platformStats$ } from '../../../../../gateway/api/platformStats';
 import { formatToUSD } from '../../../../../services/number';
-import { renderFractions } from '../../../../../utils/math';
 import { AnalyticTag } from './AnalyticTag/AnalyticTag';
 
 interface AnalyticsProps {
@@ -13,8 +12,8 @@ interface AnalyticsProps {
 }
 
 const _Analytics: FC<AnalyticsProps> = ({ className }) => {
-  const [currentStats] = useObservable(aggregatedAnalyticsData24H$, [], {});
-
+  const [currentStats] = useObservable(platformStats$, []);
+  console.log(currentStats);
   return (
     <Box height={40} borderRadius="l" className={className} glass>
       <Flex align="center" stretch>
@@ -22,16 +21,8 @@ const _Analytics: FC<AnalyticsProps> = ({ className }) => {
           <AnalyticTag>
             <Typography.Body style={{ whiteSpace: 'nowrap' }}>
               TVL:{' '}
-              {currentStats?.tvl ? (
-                <>
-                  {formatToUSD(
-                    renderFractions(
-                      currentStats?.tvl.value,
-                      currentStats?.tvl.units.currency.decimals,
-                    ),
-                    'abbr',
-                  )}
-                </>
+              {currentStats?.tvl !== undefined ? (
+                <>{formatToUSD(currentStats.tvl.toAmount(), 'abbr')}</>
               ) : (
                 <LoadingOutlined />
               )}
@@ -41,14 +32,8 @@ const _Analytics: FC<AnalyticsProps> = ({ className }) => {
         <AnalyticTag>
           <Typography.Body style={{ whiteSpace: 'nowrap' }}>
             Volume 24H:{' '}
-            {currentStats?.volume ? (
-              formatToUSD(
-                renderFractions(
-                  currentStats?.volume.value,
-                  currentStats.volume.units.currency.decimals,
-                ),
-                'abbr',
-              )
+            {currentStats?.volume !== undefined ? (
+              formatToUSD(currentStats.volume.toAmount(), 'abbr')
             ) : (
               <LoadingOutlined />
             )}

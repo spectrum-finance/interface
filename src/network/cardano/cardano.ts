@@ -27,6 +27,7 @@ import {
   useHandleSwapMaxButtonClick,
   useSwapValidators,
 } from './api/operations/swap';
+import { platformStats$ } from './api/platformStats/platformStats';
 import { positions$ } from './api/positions/positions';
 import {
   defaultTokenAssets$,
@@ -92,6 +93,7 @@ export const cardanoNetwork: Network<
   getOperations,
   isOperationsSyncing$: of(false),
 
+  platformStats$,
   connectWallet: connectWallet,
   disconnectWallet: disconnectWallet,
   availableWallets: availableWallets,
