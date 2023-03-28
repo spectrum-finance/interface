@@ -249,11 +249,11 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
 
   return (
     <OperationForm
-      analytics={{ location: 'add-liquidity' }}
       form={form}
       onSubmit={addLiquidityAction}
       validators={validators}
       actionCaption={t`Add Liquidity`}
+      traceFormLocation={ElementLocation.depositForm}
     >
       <Flex col>
         <Flex.Item marginBottom={4}>

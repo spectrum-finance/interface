@@ -2,11 +2,11 @@ import './ActionButton.less';
 
 import { Button, ButtonProps } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
+import { TraceProps } from '@spectrumlabs/analytics';
 import { DateTime } from 'luxon';
 import React, { FC, ReactNode, useContext } from 'react';
 import { interval, map } from 'rxjs';
 
-// import { PAnalytics } from '../../../../common/analytics/@types/types';
 import { useObservable } from '../../../../common/hooks/useObservable';
 import { Currency } from '../../../../common/models/Currency';
 import { ConnectWalletButton } from '../../ConnectWalletButton/ConnectWalletButton';
@@ -121,7 +121,7 @@ const getButtonPropsByState = (
 
 export interface ActionButtonProps {
   readonly children: ReactNode;
-  readonly analytics?: any;
+  readonly trace: TraceProps;
 }
 
 const getDiff = () =>
@@ -173,7 +173,7 @@ export const ActionButton: FC<ActionButtonProps> = (props) => {
     <ConnectWalletButton
       className="action-form__connect-btn"
       size="extra-large"
-      analytics={props.analytics}
+      trace={props.trace}
     >
       <Button htmlType="submit" {...other} size="extra-large" block>
         {children}

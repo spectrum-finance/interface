@@ -5,6 +5,7 @@ import {
   RedeemProps,
   SwapProps,
   TokenProps,
+  TraceProps,
 } from '@spectrumlabs/analytics';
 
 import { AmmPool } from '../../common/models/AmmPool';

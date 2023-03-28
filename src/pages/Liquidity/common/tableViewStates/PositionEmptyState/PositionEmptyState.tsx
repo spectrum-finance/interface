@@ -6,6 +6,7 @@ import {
   Typography,
 } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
+import { ElementLocation, ElementName } from '@spectrumlabs/analytics';
 import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -24,7 +25,12 @@ export const PositionEmptyState: FC = () => {
             <Trans>Your liquidity positions will appear here.</Trans>
           </Typography.Body>
         </Flex.Item>
-        <ConnectWalletButton analytics={{ location: 'your-positions-list' }}>
+        <ConnectWalletButton
+          trace={{
+            element_name: ElementName.connectWalletButton,
+            element_location: ElementLocation.yourPositionsList,
+          }}
+        >
           <Button
             icon={<PlusOutlined />}
             onClick={handleNewPositionClick}

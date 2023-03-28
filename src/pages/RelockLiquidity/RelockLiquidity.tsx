@@ -9,6 +9,7 @@ import {
   useForm,
 } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
+import { ElementLocation } from '@spectrumlabs/analytics';
 import { DateTime } from 'luxon';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -96,7 +97,7 @@ export const RelockLiquidity = (): JSX.Element => {
     <Page width={760} title={t`Relock liquidity`} withBackButton>
       {position && explorerContext ? (
         <OperationForm
-          analytics={{ location: 'relock-liquidity' }}
+          traceFormLocation={ElementLocation.relockLiquidityForm}
           actionCaption={t`Relock position`}
           form={form}
           onSubmit={handleRelockLiquidity}

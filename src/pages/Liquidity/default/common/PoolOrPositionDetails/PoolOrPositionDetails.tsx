@@ -1,5 +1,6 @@
 import { Button, Flex, Typography } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
+import { ElementLocation, ElementName } from '@spectrumlabs/analytics';
 import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -53,7 +54,12 @@ export const PoolOrPositionDetails: FC<
       </Flex.Item>
       <Flex.Item display="flex">
         <Flex.Item marginRight={2}>
-          <ConnectWalletButton analytics={{ location: 'pool-list' }}>
+          <ConnectWalletButton
+            trace={{
+              element_name: ElementName.connectWalletButton,
+              element_location: ElementLocation.poolOverviewList,
+            }}
+          >
             <Button onClick={navigateToSwap}>
               <Trans>Swap</Trans>
             </Button>

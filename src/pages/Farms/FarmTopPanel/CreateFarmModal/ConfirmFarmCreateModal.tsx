@@ -7,12 +7,14 @@ import {
   Typography,
 } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
+import { ElementLocation } from '@spectrumlabs/analytics';
 import React from 'react';
 import styled from 'styled-components';
 
 import { AssetIcon } from '../../../../components/AssetIcon/AssetIcon';
 import { OperationForm } from '../../../../components/OperationForm/OperationForm';
 import { Truncate } from '../../../../components/Truncate/Truncate';
+
 interface ConfirmFarmCreateModal {
   form: any;
   onClose: (request?: any) => void;
@@ -45,7 +47,7 @@ export const ConfirmFarmCreateModal: React.FC<ConfirmFarmCreateModal> = ({
       </Modal.Title>
       <Modal.Content maxWidth={480} width="100%">
         <OperationForm
-          analytics={{ location: 'create-farm' }}
+          traceFormLocation={ElementLocation.farmsList}
           form={form}
           onSubmit={() => console.log('confirm')}
           actionCaption={t`Confirm farm creation`}

@@ -404,7 +404,7 @@ export const Swap = (): JSX.Element => {
       onWidgetClose={() => setLeftWidgetOpened(false)}
     >
       <OperationForm
-        analytics={{ location: 'swap' }}
+        traceFormLocation={ElementLocation.swapForm}
         actionCaption={t`Swap`}
         form={form}
         onSubmit={submitSwap}
