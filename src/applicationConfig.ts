@@ -74,6 +74,7 @@ export const applicationConfig: ApplicationConfig = {
       explorerUrl: 'https://preview.cexplorer.io',
       faucet: 'https://faucet.spectrum.fi/cardano/v1/',
       lowBalanceGuide: '',
+      analyticUrl: 'http://88.99.59.114:8081/v1/',
     },
     ergo: {
       metadataUrl:

@@ -16,11 +16,13 @@ import { OperationValidator } from '../../components/OperationForm/OperationForm
 import { AddLiquidityFormModel } from '../../pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityFormModel';
 import { SwapFormModel } from '../../pages/Swap/SwapFormModel';
 import { NetworkContext } from './NetworkContext';
+import { PlatformStats } from './PlatformStats';
 import { PoolChartDataParams } from './PoolChartDataParams';
 import { SupportedFeatures } from './SupportedFeatures';
 import { Wallet, WalletState } from './Wallet';
 
 export interface NetworkData<W extends Wallet> {
+  readonly platformStats$: Observable<PlatformStats>;
   readonly convertToConvenientNetworkAsset: CurrencyConverter;
   readonly networkAssetBalance$: Observable<Currency>;
   readonly assetBalance$: Observable<Balance>;

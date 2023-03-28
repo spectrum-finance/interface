@@ -1,7 +1,6 @@
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
 import axios from 'axios';
-import { DateTime } from 'luxon';
-import { defer, from, map, Observable, switchMap } from 'rxjs';
+import { from, map, Observable, switchMap } from 'rxjs';
 
 import { applicationConfig } from '../../applicationConfig';
 import { Currency } from '../../common/models/Currency';
@@ -30,11 +29,6 @@ export interface AnalyticsData {
   window?: Window;
 }
 
-export interface Window {
-  from: number;
-  to: number;
-}
-
 export interface AmmPoolLocksAnalytic {
   readonly poolId: string;
   readonly deadline: number;
@@ -42,43 +36,6 @@ export interface AmmPoolLocksAnalytic {
   readonly percent: number;
   readonly redeemer: string;
 }
-
-export interface AmmAggregatedAnalytics {
-  tvl: AnalyticsData;
-  volume: AnalyticsData;
-}
-
-const get24hData = (url: string): Promise<any> => {
-  return axios.get(url, {
-    params: {
-      from: DateTime.now().minus({ day: 1 }).toMillis(),
-    },
-  });
-};
-
-export const aggregatedAnalyticsData24H$ = defer(() =>
-  from(
-    get24hData(
-      `${applicationConfig.networksSettings.ergo.analyticUrl}amm/platform/stats`,
-    ),
-  ).pipe(map((res) => res.data)),
-);
-
-export const getAggregateAnalyticsDataByFrame = (
-  frm?: number,
-  to?: number,
-): Observable<AmmAggregatedAnalytics> =>
-  from(
-    axios.get(
-      `${applicationConfig.networksSettings.ergo.analyticUrl}amm/platform/stats`,
-      {
-        params: {
-          from: frm,
-          to,
-        },
-      },
-    ),
-  ).pipe(map((res) => res.data));
 
 export const getPoolLocksAnalyticsById = (
   poolId: PoolId,
