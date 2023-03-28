@@ -11,7 +11,6 @@ import { fireAnalyticsEvent } from '@spectrumlabs/analytics';
 import React, { ReactNode, useState } from 'react';
 import styled from 'styled-components';
 
-// import { panalytics } from '../../../../common/analytics';
 import { useObservable } from '../../../../common/hooks/useObservable';
 import {
   connectWallet,
@@ -19,7 +18,6 @@ import {
   wallets$,
 } from '../../../../gateway/api/wallets';
 import { useSelectedNetwork } from '../../../../gateway/common/network';
-import { useSettings } from '../../../../gateway/settings/settings';
 import { Wallet } from '../../../../network/common/Wallet';
 import { ErgoPayTabPaneContent } from '../../../../network/ergo/widgets/ErgoPayModal/ErgoPayTabPaneContent/ErgoPayTabPaneContent';
 import { IsCardano } from '../../../IsCardano/IsCardano';
