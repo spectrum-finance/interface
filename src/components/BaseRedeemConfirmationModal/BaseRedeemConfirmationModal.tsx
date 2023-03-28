@@ -3,11 +3,12 @@ import { t, Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 import { Observable, tap } from 'rxjs';
 
-// import { panalytics } from '../../common/analytics';
 import { AmmPool } from '../../common/models/AmmPool';
 import { Currency } from '../../common/models/Currency';
 import { TxId } from '../../common/types';
+import { fireOperationAnalyticsEvent } from '../../gateway/analytics/fireOperationAnalyticsEvent';
 import { RemoveLiquidityFormModel } from '../../pages/RemoveLiquidity/RemoveLiquidityFormModel';
+import { mapToRedeemAnalyticsProps } from '../../utils/analytics/mapper';
 import { FormPairSection } from '../common/FormView/FormPairSection/FormPairSection';
 import { PageSection } from '../Page/PageSection/PageSection';
 
@@ -27,15 +28,35 @@ export interface BaseRedeemConfirmationModalProps {
 export const BaseRedeemConfirmationModal: FC<BaseRedeemConfirmationModalProps> =
   ({ value, onClose, Info, redeem, pool }) => {
     const removeOperation = async () => {
-      // panalytics.confirmRedeem(value, pool);
+      fireOperationAnalyticsEvent('Redeem Modal Confirm', (ctx) =>
+        mapToRedeemAnalyticsProps(value, pool, ctx),
+      );
       onClose(
-        redeem(pool, value.lpAmount, value.xAmount, value.yAmount),
-        // .pipe(
-        //   tap(
-        //     (txId) => panalytics.signedRedeem(value, pool, txId),
-        //     (err) => panalytics.signedErrorRedeem(value, pool, err),
-        //   ),
-        // ),
+        redeem(pool, value.lpAmount, value.xAmount, value.yAmount).pipe(
+          tap(
+            () => {
+              fireOperationAnalyticsEvent('Redeem Sign Success', (ctx) =>
+                mapToRedeemAnalyticsProps(value, pool, ctx),
+              );
+            },
+            (err) => {
+              if (err.code === 2) {
+                fireOperationAnalyticsEvent('Redeem Cancel Sign', (ctx) =>
+                  mapToRedeemAnalyticsProps(value, pool, ctx),
+                );
+                return;
+              }
+
+              fireOperationAnalyticsEvent(
+                'Redeem Modal Confirm Error',
+                (ctx) => ({
+                  ...mapToRedeemAnalyticsProps(value, pool, ctx),
+                  error_string: JSON.stringify(err),
+                }),
+              );
+            },
+          ),
+        ),
       );
     };
 
