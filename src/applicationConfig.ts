@@ -50,6 +50,7 @@ interface ApplicationConfig {
   readonly hiddenAssets: string[];
   readonly blacklistedPools: string[];
   readonly blacklistedHistoryAssets: string[];
+  readonly blacklistedFarms: string[];
   readonly operationsRestrictions: OperationRestriction[];
   readonly requestRetryCount: number;
 }
@@ -171,6 +172,14 @@ export const applicationConfig: ApplicationConfig = {
       name: 'C3t_ADAt_nft',
       policyId: 'be2fc42476b6c8e60d5a3cf2b1c53158f88945929ebe3d3d88ad33e6',
     }),
+  ],
+  blacklistedFarms: [
+    '7b560dc2cd34db2e7046a2be387b5ce73c70f35b52c4cfa8c2b0e6f5ccdb4b05',
+    '1885c47dd7c4170e63e91becce159e443d66312db6deb7d6db3a47b2081b2a63',
+    'f40470768230b15a853069eda46ba5bba8db95d151b0ed4a94384e75c7600be6',
+    '178af772712af5bbc44b330af7b3c06d4efea61ae7e16cf2ab71a6a300688cdf',
+    '58c02b3bdaba7c9e854f047d848450b290857c6496481477ecda3a14d04f0e9d',
+    '33ef5d65c55066a35d4f816e4fe8df1aaa78e169bf1198571e070ac185a2b065',
   ],
   operationsRestrictions: [
     {
