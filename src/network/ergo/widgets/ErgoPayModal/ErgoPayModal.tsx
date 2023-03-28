@@ -1,16 +1,19 @@
-import React, { FC, ReactNode, useState } from 'react';
+import React, { FC, ReactNode, useEffect, useState } from 'react';
 import { isMobile } from 'react-device-detect';
+import { first, Observable } from 'rxjs';
 
 import { TxId } from '../../../../common/types';
 import {
   createErgoPayDeepLink,
   createUnsignedTxRequestLink,
 } from './common/ergopayLinks';
+import { ErgoPayRequestLoadingContent } from './ErgoPayRequestLoadingContent/ErgoPayRequestLoadingContent';
 import { ErgoPayTxInfoContent } from './ErgoPayTxInfoContent/ErgoPayTxInfoContent';
 
 export interface ErgoPaySwapConfirmationModalProps {
   readonly onTxRegister: (txId: TxId) => void;
-  readonly openWalletContent: (
+  readonly request?: Observable<TxId>;
+  readonly openWalletContent?: (
     onTxRegister: (p: TxId) => void,
   ) => ReactNode | ReactNode[] | string;
   readonly close: () => void;
@@ -25,6 +28,7 @@ export const ErgoPayModal: FC<ErgoPaySwapConfirmationModalProps> = ({
   onTxRegister,
   openWalletContent,
   close,
+  request,
 }) => {
   const [txId, setTxId] = useState<TxId | undefined>();
   const [modalState, setModalState] = useState(
@@ -44,8 +48,17 @@ export const ErgoPayModal: FC<ErgoPaySwapConfirmationModalProps> = ({
     }
   };
 
+  useEffect(() => {
+    if (request) {
+      request.pipe(first()).subscribe(handleTxRegister);
+    }
+  }, []);
+
+  if (request && modalState === ErgoPayConfirmationModalState.OPEN_WALLET) {
+    return <ErgoPayRequestLoadingContent />;
+  }
   if (txId && modalState === ErgoPayConfirmationModalState.TX_INFO) {
     return <ErgoPayTxInfoContent txId={txId} />;
   }
-  return <>{openWalletContent(handleTxRegister)}</>;
+  return <>{openWalletContent ? openWalletContent(handleTxRegister) : ''}</>;
 };

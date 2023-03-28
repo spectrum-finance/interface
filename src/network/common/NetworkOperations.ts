@@ -29,10 +29,5 @@ export interface NetworkOperations {
     pool: AmmPool,
     data: Required<RemoveLiquidityFormModel>,
   ): Observable<TxId>;
-  refund(
-    addresses: Address[],
-    txId: TxId,
-    xAmount: Currency,
-    yAmount: Currency,
-  ): Observable<TxId>;
+  refund(txId: TxId, xAmount: Currency, yAmount: Currency): Observable<TxId>;
 }
