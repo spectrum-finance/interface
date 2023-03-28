@@ -2,7 +2,6 @@ import { Modal } from '@ergolabs/ui-kit';
 import React from 'react';
 import { first, Observable, Subject, switchMap, tap } from 'rxjs';
 
-// import { panalytics } from '../../../../common/analytics';
 import { TxId } from '../../../../common/types';
 import {
   openConfirmationModal,
@@ -69,9 +68,6 @@ const redeemWithWallet = (
     {
       xAsset: data.xAmount,
       yAsset: data.yAmount,
-    },
-    () => {
-      // panalytics.closeConfirmRedeem(data, pool);
     },
   );
 

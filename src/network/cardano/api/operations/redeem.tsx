@@ -13,7 +13,6 @@ import { RustModule } from '@ergolabs/cardano-dex-sdk/build/main/utils/rustLoade
 import React from 'react';
 import { first, map, Observable, Subject, switchMap, tap, zip } from 'rxjs';
 
-// import { panalytics } from '../../../../common/analytics';
 import { UI_FEE_BIGINT } from '../../../../common/constants/erg';
 import { Currency } from '../../../../common/models/Currency';
 import { TxId } from '../../../../common/types';
@@ -149,9 +148,6 @@ export const redeem = (
     {
       xAsset: data.xAmount,
       yAsset: data.yAmount,
-    },
-    () => {
-      // panalytics.closeConfirmRedeem(data, pool);
     },
   );
 

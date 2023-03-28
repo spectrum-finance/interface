@@ -10,7 +10,6 @@ import { TxId } from '../../common/types';
 import { AddLiquidityFormModel } from '../../pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityFormModel';
 import { RemoveLiquidityFormModel } from '../../pages/RemoveLiquidity/RemoveLiquidityFormModel';
 import { SwapFormModel } from '../../pages/Swap/SwapFormModel';
-import { lmRedeem } from '../ergo/lm/operations/lmRedeem/lmRedeem';
 
 export interface NetworkOperations {
   swap(data: Required<SwapFormModel>): Observable<TxId>;
