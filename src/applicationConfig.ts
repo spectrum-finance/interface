@@ -174,6 +174,7 @@ export const applicationConfig: ApplicationConfig = {
     }),
   ],
   blacklistedFarms: [
+    '899c9b6232062cac6e0b6fe3f6279e29e6b9f29be49c44df29c7e5937bd6817e',
     '7b560dc2cd34db2e7046a2be387b5ce73c70f35b52c4cfa8c2b0e6f5ccdb4b05',
     '1885c47dd7c4170e63e91becce159e443d66312db6deb7d6db3a47b2081b2a63',
     'f40470768230b15a853069eda46ba5bba8db95d151b0ed4a94384e75c7600be6',
