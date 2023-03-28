@@ -43,11 +43,11 @@ export class CardanoAmmPool extends AmmPool {
     return this.pool.poolFeeNum;
   }
 
-  get tvl(): AnalyticsData | undefined {
+  get tvl(): Currency | undefined {
     return undefined;
   }
 
-  get volume(): AnalyticsData | undefined {
+  get volume(): Currency | undefined {
     return undefined;
   }
 

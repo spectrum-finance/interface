@@ -10,5 +10,8 @@ export const comparePositionByTvl = (
   if (!positionB.pool.tvl) {
     return -1;
   }
-  return Number(positionB.pool.tvl.value) - Number(positionA.pool.tvl.value);
+  return (
+    Number(positionB.pool.tvl.toAmount()) -
+    Number(positionA.pool.tvl.toAmount())
+  );
 };
