@@ -11,7 +11,6 @@ import {
 } from '../../../../components/ConfirmationModal/ConfirmationModal';
 import { settings$ } from '../../settings/settings';
 import { ErgoPayModal } from '../../widgets/ErgoPayModal/ErgoPayModal';
-import { RefundOpenWallet } from '../../widgets/RefundOpenWallet/RefundOpenWallet';
 import { ergopayRefund } from './ergopayRefund';
 import { walletRefund } from './walletRefund';
 
