@@ -8,10 +8,12 @@ import {
 import { mkSubject } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/assetClass';
 import { cache } from 'decorator-cache-getter';
 
+import { usdAsset } from '../../../../common/constants/usdAsset';
 import { AmmPool } from '../../../../common/models/AmmPool';
 import { AssetInfo } from '../../../../common/models/AssetInfo';
 import { Currency } from '../../../../common/models/Currency';
 import { AnalyticsData } from '../../../../services/new/analytics';
+import { AmmPoolAnalytics } from '../ammPoolsStats/ammPoolsStats';
 import { networkAsset } from '../networkAsset/networkAsset';
 
 export interface AssetInfoDictionary {
@@ -24,6 +26,7 @@ export class CardanoAmmPool extends AmmPool {
   constructor(
     public pool: CardanoBaseAmmPool,
     private assetInfoDictionary: AssetInfoDictionary,
+    private poolAnalytics: AmmPoolAnalytics,
   ) {
     super();
   }
@@ -43,16 +46,20 @@ export class CardanoAmmPool extends AmmPool {
     return this.pool.poolFeeNum;
   }
 
-  get tvl(): AnalyticsData | undefined {
-    return undefined;
+  get tvl(): Currency | undefined {
+    return this.poolAnalytics.tvl
+      ? new Currency(BigInt(this.poolAnalytics.tvl.toFixed(0)), usdAsset)
+      : undefined;
   }
 
-  get volume(): AnalyticsData | undefined {
-    return undefined;
+  get volume(): Currency | undefined {
+    return this.poolAnalytics.volume
+      ? new Currency(BigInt(this.poolAnalytics.volume.toFixed(0)), usdAsset)
+      : undefined;
   }
 
   get yearlyFeesPercent(): number | undefined {
-    return undefined;
+    return this.poolAnalytics.yearlyFeesPercent;
   }
 
   @cache

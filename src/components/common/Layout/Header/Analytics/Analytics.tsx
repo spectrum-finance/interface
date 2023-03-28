@@ -13,7 +13,7 @@ interface AnalyticsProps {
 
 const _Analytics: FC<AnalyticsProps> = ({ className }) => {
   const [currentStats] = useObservable(platformStats$, []);
-  console.log(currentStats);
+
   return (
     <Box height={40} borderRadius="l" className={className} glass>
       <Flex align="center" stretch>
