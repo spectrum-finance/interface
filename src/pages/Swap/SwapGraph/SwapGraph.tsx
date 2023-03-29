@@ -29,7 +29,7 @@ import { AssetInfo } from '../../../common/models/AssetInfo';
 import { PoolChartData } from '../../../common/models/PoolChartData';
 import { AssetPairTitle } from '../../../components/AssetPairTitle/AssetPairTitle';
 import { DateTimeView } from '../../../components/common/DateTimeView/DateTimeView';
-import { getPoolChartData } from '../../../network/ergo/api/poolChart/poolChart';
+import { getPoolChartData } from '../../../gateway/api/getPoolChartData';
 import { Difference } from './Difference/Difference';
 import { useAggregatedByDateData } from './useAggregatedByDateData';
 import { Period, usePeriodSettings } from './usePeriodSettings';

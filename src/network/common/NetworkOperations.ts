@@ -1,4 +1,3 @@
-import { Address } from '@ergolabs/ergo-sdk';
 import { ReactNode } from 'react';
 import { Observable } from 'rxjs';
 
