@@ -75,7 +75,7 @@ export interface NetworkData<W extends Wallet> {
   readonly queuedOperation$: Observable<Operation | undefined>;
 
   readonly getPoolChartData: (
-    pool: AmmPool,
+    pool?: AmmPool,
     params?: PoolChartDataParams,
   ) => Observable<PoolChartData[]>;
 }

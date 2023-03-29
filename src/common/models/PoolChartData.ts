@@ -3,7 +3,7 @@ import { DateTime } from 'luxon';
 import { AssetInfo } from './AssetInfo';
 import { Ratio } from './Ratio';
 
-interface PoolChartDataRaw {
+export interface PoolChartDataRaw {
   price: number;
   timestamp: number;
 }
