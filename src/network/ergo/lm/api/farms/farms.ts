@@ -145,7 +145,9 @@ export const allFarms$ = combineLatest([
 export const farms$ = allFarms$.pipe(
   map((lmPools) =>
     lmPools.filter(
-      (lmPool) => !applicationConfig.blacklistedPools.includes(lmPool.id),
+      (lmPool) =>
+        !applicationConfig.blacklistedPools.includes(lmPool.id) &&
+        !applicationConfig.blacklistedFarms.includes(lmPool.id),
     ),
   ),
   map((farms) => uniqBy(farms, 'id')),

@@ -2,11 +2,11 @@ import { AmmPool as ErgoBaseAmmPool } from '@ergolabs/ergo-dex-sdk';
 import { AssetAmount } from '@ergolabs/ergo-sdk';
 import { cache } from 'decorator-cache-getter';
 
+import { usdAsset } from '../../../../common/constants/usdAsset';
 import { AmmPool } from '../../../../common/models/AmmPool';
 import { AssetInfo } from '../../../../common/models/AssetInfo';
 import { Currency } from '../../../../common/models/Currency';
-import { AmmPoolAnalytics } from '../../../../common/streams/poolAnalytic';
-import { AnalyticsData } from '../../../../services/new/analytics';
+import { AmmPoolAnalytics } from '../ammPoolsStats/ammPoolsStats';
 
 export class ErgoAmmPool extends AmmPool {
   constructor(
@@ -22,13 +22,20 @@ export class ErgoAmmPool extends AmmPool {
   }
 
   @cache
-  get tvl(): AnalyticsData | undefined {
-    return this.poolAnalytics?.tvl;
+  get tvl(): Currency | undefined {
+    return this.poolAnalytics?.tvl
+      ? new Currency(BigInt(this.poolAnalytics.tvl.value.toFixed(0)), usdAsset)
+      : undefined;
   }
 
   @cache
-  get volume(): AnalyticsData | undefined {
-    return this.poolAnalytics?.volume;
+  get volume(): Currency | undefined {
+    return this.poolAnalytics?.volume
+      ? new Currency(
+          BigInt(this.poolAnalytics.volume.value.toFixed(0)),
+          usdAsset,
+        )
+      : undefined;
   }
 
   @cache

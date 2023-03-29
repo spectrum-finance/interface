@@ -27,6 +27,8 @@ import {
   useHandleSwapMaxButtonClick,
   useSwapValidators,
 } from './api/operations/swap';
+import { platformStats$ } from './api/platformStats/platformStats';
+import { getPoolChartData } from './api/poolChart/poolChart';
 import { positions$ } from './api/positions/positions';
 import {
   defaultTokenAssets$,
@@ -92,6 +94,7 @@ export const cardanoNetwork: Network<
   getOperations,
   isOperationsSyncing$: of(false),
 
+  platformStats$,
   connectWallet: connectWallet,
   disconnectWallet: disconnectWallet,
   availableWallets: availableWallets,
@@ -141,7 +144,7 @@ export const cardanoNetwork: Network<
   useCreatePoolValidationFee,
   useNetworkAsset,
 
-  getPoolChartData: () => of([]),
+  getPoolChartData: getPoolChartData as any,
   pendingOperations$: of([]),
   queuedOperation$: of(undefined),
   refundableDeposit: depositAda,

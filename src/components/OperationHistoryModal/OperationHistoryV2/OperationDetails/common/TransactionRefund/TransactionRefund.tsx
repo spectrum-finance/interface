@@ -3,10 +3,8 @@ import { Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 import { first } from 'rxjs';
 
-import { useObservable } from '../../../../../../common/hooks/useObservable';
 import { Currency } from '../../../../../../common/models/Currency';
 import { TxId } from '../../../../../../common/types';
-import { addresses$ } from '../../../../../../gateway/api/addresses';
 import { refund } from '../../../../../../gateway/api/operations/refund';
 
 export interface TransactionRefundProps {
@@ -18,14 +16,8 @@ export const TransactionRefund: FC<TransactionRefundProps> = ({
   transactionId,
   pair,
 }) => {
-  const [addresses] = useObservable(addresses$);
-
   const handleRefundButtonClick = () => {
-    if (addresses?.length) {
-      refund(addresses, transactionId, pair[0], pair[1])
-        .pipe(first())
-        .subscribe();
-    }
+    refund(transactionId, pair[0], pair[1]).pipe(first()).subscribe();
   };
 
   return (

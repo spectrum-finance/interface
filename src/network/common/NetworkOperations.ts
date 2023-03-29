@@ -1,4 +1,3 @@
-import { Address } from '@ergolabs/ergo-sdk';
 import { ReactNode } from 'react';
 import { Observable } from 'rxjs';
 
@@ -29,10 +28,5 @@ export interface NetworkOperations {
     pool: AmmPool,
     data: Required<RemoveLiquidityFormModel>,
   ): Observable<TxId>;
-  refund(
-    addresses: Address[],
-    txId: TxId,
-    xAmount: Currency,
-    yAmount: Currency,
-  ): Observable<TxId>;
+  refund(txId: TxId, xAmount: Currency, yAmount: Currency): Observable<TxId>;
 }

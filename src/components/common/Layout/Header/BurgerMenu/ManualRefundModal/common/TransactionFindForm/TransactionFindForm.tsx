@@ -7,10 +7,10 @@ import {
   useDevice,
   useForm,
 } from '@ergolabs/ui-kit';
-import { t, Trans } from '@lingui/macro';
+import { t } from '@lingui/macro';
 import React, { FC } from 'react';
 
-import { Section } from '../../../../../../Section/Section';
+import { Section } from '../../../../../../../Section/Section';
 
 interface TransactionFindFormModel {
   readonly txId?: string;
@@ -72,7 +72,7 @@ export const TransactionFindForm: FC<TransactionFindFormProps> = ({
                   disabled={!value}
                   loading={loading}
                 >
-                  <Trans>Find transaction</Trans>
+                  {t`Refund transaction`}
                 </Button>
               )}
             </Form.Listener>

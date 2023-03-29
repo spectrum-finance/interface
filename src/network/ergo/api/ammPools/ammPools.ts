@@ -12,9 +12,9 @@ import {
 import { applicationConfig } from '../../../../applicationConfig';
 import { AmmPool } from '../../../../common/models/AmmPool';
 import {
-  aggregatedPoolsAnalyticsDataById24H$,
   AmmPoolAnalytics,
-} from '../../../../common/streams/poolAnalytic';
+  ammPoolsStats$,
+} from '../ammPoolsStats/ammPoolsStats';
 import { mapToAssetInfo } from '../common/assetInfoManager';
 import { filterUnavailablePools } from '../common/availablePoolsOrTokens';
 import { rawAmmPools$ } from '../common/rawAmmPools';
@@ -36,10 +36,7 @@ const toAmmPool = (
     }),
   );
 
-export const allAmmPools$ = combineLatest([
-  rawAmmPools$,
-  aggregatedPoolsAnalyticsDataById24H$,
-]).pipe(
+export const allAmmPools$ = combineLatest([rawAmmPools$, ammPoolsStats$]).pipe(
   switchMap(([rawAmmPools, analytics]) =>
     combineLatest(
       rawAmmPools.map((rap) => toAmmPool(rap, analytics[rap.id])),
