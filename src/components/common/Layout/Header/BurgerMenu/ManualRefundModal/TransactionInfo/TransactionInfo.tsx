@@ -3,9 +3,7 @@ import { t, Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 import { first } from 'rxjs';
 
-import { useObservable } from '../../../../../../../common/hooks/useObservable';
 import { Operation } from '../../../../../../../common/models/Operation';
-import { addresses$ } from '../../../../../../../gateway/api/addresses';
 import { refund } from '../../../../../../../gateway/api/operations/refund';
 import { OperationHistoryTable } from '../../../../../../OperationHistoryModal/OperationHistoryV1/OperationHistoryTable/OperationHistoryTable';
 import { Section } from '../../../../../../Section/Section';
@@ -21,20 +19,16 @@ export const TransactionInfo: FC<TransactionInfoProps> = ({
   errorMessage,
   close,
 }) => {
-  const [addresses, addressesLoading] = useObservable(addresses$);
-
   const handleOpenRefundConfirmationModal = (operation: Operation) => {
-    if (addresses) {
-      const payload =
-        operation.type === 'swap'
-          ? { xAsset: operation.base, yAsset: operation.quote }
-          : { xAsset: operation.x, yAsset: operation.y };
+    const payload =
+      operation.type === 'swap'
+        ? { xAsset: operation.base, yAsset: operation.quote }
+        : { xAsset: operation.x, yAsset: operation.y };
 
-      close(true);
-      refund(addresses, operation.txId, payload.xAsset, payload.yAsset)
-        .pipe(first())
-        .subscribe();
-    }
+    close(true);
+    refund(operation.txId, payload.xAsset, payload.yAsset)
+      .pipe(first())
+      .subscribe();
   };
 
   return (
@@ -44,7 +38,6 @@ export const TransactionInfo: FC<TransactionInfoProps> = ({
         <Flex col>
           <Flex.Item marginBottom={6}>
             <OperationHistoryTable
-              addresses={[]}
               emptyOperations={false}
               emptySearch={false}
               hideActions
@@ -58,7 +51,6 @@ export const TransactionInfo: FC<TransactionInfoProps> = ({
           <Button
             type="primary"
             size="large"
-            loading={addressesLoading}
             onClick={() => handleOpenRefundConfirmationModal(operation)}
           >
             <Trans>Refund Transaction</Trans>

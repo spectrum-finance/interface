@@ -1,4 +1,11 @@
-import { from, Observable, switchMap, timeout } from 'rxjs';
+import {
+  from,
+  Observable,
+  publishReplay,
+  refCount,
+  switchMap,
+  timeout,
+} from 'rxjs';
 
 import { applicationConfig } from '../../../../applicationConfig';
 import { TxId } from '../../../../common/types';
@@ -19,4 +26,6 @@ export const walletRefund = (address: string, txId: string): Observable<TxId> =>
       ),
     ),
     timeout(applicationConfig.operationTimeoutTime),
+    publishReplay(1),
+    refCount(),
   );

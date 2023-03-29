@@ -34,7 +34,6 @@ export const OperationHistoryV1: FC<OperationHistoryV1Props> = ({
   close,
 }) => {
   const [operations, operationsLoading] = useObservable(getOperations(), []);
-  const [addresses, addressesLoading] = useObservable(addresses$);
   const [isOperationsSyncing] = useObservable(isOperationsSyncing$);
   const [syncOperations] = useObservable(getSyncOperationsFunction());
   const [term, setTerm] = useState<string | undefined>();
@@ -76,10 +75,9 @@ export const OperationHistoryV1: FC<OperationHistoryV1Props> = ({
         )}
       </Flex.Item>
       <OperationHistoryTable
-        addresses={addresses || []}
         showDateTime={showDateTime}
         close={close}
-        loading={operationsLoading || addressesLoading}
+        loading={operationsLoading}
         emptyOperations={!operations?.length}
         emptySearch={!filteredOperations.length}
         operations={filteredOperations}
