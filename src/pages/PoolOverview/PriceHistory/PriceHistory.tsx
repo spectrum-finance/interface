@@ -31,7 +31,7 @@ import { PoolChartData } from '../../../common/models/PoolChartData';
 import { Position } from '../../../common/models/Position';
 import { DateTimeView } from '../../../components/common/DateTimeView/DateTimeView';
 import { Truncate } from '../../../components/Truncate/Truncate';
-import { getPoolChartData } from '../../../network/ergo/api/poolChart/poolChart';
+import { getPoolChartData } from '../../../gateway/api/getPoolChartData';
 import { useAggregatedByDateData } from '../../Swap/SwapGraph/useAggregatedByDateData';
 import {
   Period,
