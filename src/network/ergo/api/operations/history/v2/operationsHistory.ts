@@ -19,6 +19,7 @@ import {
 
 import { applicationConfig } from '../../../../../../applicationConfig';
 import { AmmPool } from '../../../../../../common/models/AmmPool';
+import { TxId } from '../../../../../../common/types';
 import { getAddresses } from '../../../addresses/addresses';
 import { allAmmPools$ } from '../../../ammPools/ammPools';
 import { mapRawAddLiquidityItemToAddLiquidityItem } from './types/AddLiquidityOperation';
@@ -29,6 +30,10 @@ import { mapRawLockItemToLockItem } from './types/LockOperation';
 import { OperationItem, RawOperationItem } from './types/OperationItem';
 import { mapRawRemoveLiquidityItemToRemoveLiquidityItem } from './types/RemoveLiquidityOperation';
 import { mapRawSwapItemToSwapItem } from './types/SwapOperation';
+
+export interface OperationsHistoryRequestParams {
+  readonly txId?: TxId;
+}
 
 const mapKeyToParser = new Map<string, OperationMapper<any, any>>([
   ['Swap', mapRawSwapItemToSwapItem],
@@ -74,11 +79,12 @@ const getRawOperationsHistory = (
   addresses: string[],
   limit: number,
   offset: number,
+  params: OperationsHistoryRequestParams = {},
 ): Observable<[RawOperationItem[], number]> =>
   from(
     axios.post<{ orders: RawOperationItem[]; total: number }>(
       `${applicationConfig.networksSettings.ergo.analyticUrl}history/order?limit=${limit}&offset=${offset}`,
-      { addresses },
+      { addresses, ...params },
     ),
   ).pipe(
     map(
@@ -92,6 +98,7 @@ const getRawOperationsHistory = (
 const getRawOperations = (
   limit: number,
   offset: number,
+  params: OperationsHistoryRequestParams = {},
 ): Observable<[RawOperationItem[], number]> => {
   return getAddresses().pipe(
     first(),
@@ -112,6 +119,7 @@ const getRawOperations = (
               addresses,
               limit - mempoolRawOperationsToDisplay.length,
               offset === 0 ? offset : offset - mempoolRawOperations.length,
+              params,
             ).pipe(
               map(([rawOperationsHistory, total]) => {
                 return [
@@ -146,4 +154,17 @@ export const getOperations = (
     ),
     publishReplay(1),
     refCount(),
+  );
+
+export const getOperationByTxId = (
+  txId: TxId,
+): Observable<OperationItem | undefined> =>
+  combineLatest([getRawOperations(1, 0, { txId }), allAmmPools$]).pipe(
+    debounceTime(200),
+    map(([[[rawOperation]], ammPools]) => {
+      if (!rawOperation) {
+        throw new Error('transaction not found error');
+      }
+      return mapRawOperationItemToOperationItem(rawOperation, ammPools);
+    }),
   );
