@@ -47,7 +47,7 @@ export const getPoolChartData = (
       data.map(
         (d) =>
           new PoolChartData(
-            { timestamp: d.timestamp, price: d.price.value },
+            { timestamp: d.timestamp * 60_000, price: d.price.value },
             pool.x.asset,
             pool.y.asset,
           ),
