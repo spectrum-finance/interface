@@ -22,6 +22,7 @@ import {
   useHandleDepositMaxButtonClick,
 } from './api/operations/deposit';
 import { redeem } from './api/operations/redeem';
+import { refund } from './api/operations/refund';
 import {
   swap,
   useHandleSwapMaxButtonClick,
@@ -54,11 +55,7 @@ import {
   settings,
   settings$,
 } from './settings/settings';
-import {
-  useCreatePoolValidationFee,
-  useDepositValidationFee,
-  useRedeemValidationFee,
-} from './settings/totalFee';
+import { useCreatePoolValidationFee } from './settings/totalFee';
 import {
   exploreAddress,
   exploreLastBlock,
@@ -125,9 +122,7 @@ export const cardanoNetwork: Network<
   swap,
   deposit,
   redeem,
-  refund(): Observable<TxId> {
-    return of('');
-  },
+  refund,
   lmRedeem(lmPool: Farm): Observable<TxId> {
     return of('');
   },

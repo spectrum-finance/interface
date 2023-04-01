@@ -1,7 +1,7 @@
 import { Address } from '@ergolabs/ergo-sdk';
 import { Modal } from '@ergolabs/ui-kit';
 import React from 'react';
-import { first, Observable, Subject, switchMap } from 'rxjs';
+import { first, Observable, Subject, switchMap, tap } from 'rxjs';
 
 import { Currency } from '../../../../common/models/Currency';
 import { TxId } from '../../../../common/types';
@@ -36,10 +36,19 @@ const refundWithWallet = (
   yAmount: Currency,
 ): Observable<TxId> => {
   const subject = new Subject<TxId>();
-  openConfirmationModal(walletRefund(address, txId), ModalOperation.REFUND, {
-    xAsset: xAmount,
-    yAsset: yAmount,
-  });
+  openConfirmationModal(
+    walletRefund(address, txId).pipe(
+      tap((txId) => {
+        subject.next(txId);
+        subject.complete();
+      }),
+    ),
+    ModalOperation.REFUND,
+    {
+      xAsset: xAmount,
+      yAsset: yAmount,
+    },
+  );
 
   return subject.asObservable();
 };

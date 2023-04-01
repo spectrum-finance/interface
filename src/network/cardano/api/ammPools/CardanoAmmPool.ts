@@ -12,7 +12,6 @@ import { usdAsset } from '../../../../common/constants/usdAsset';
 import { AmmPool } from '../../../../common/models/AmmPool';
 import { AssetInfo } from '../../../../common/models/AssetInfo';
 import { Currency } from '../../../../common/models/Currency';
-import { AnalyticsData } from '../../../../services/new/analytics';
 import { AmmPoolAnalytics } from '../ammPoolsStats/ammPoolsStats';
 import { networkAsset } from '../networkAsset/networkAsset';
 
@@ -47,13 +46,13 @@ export class CardanoAmmPool extends AmmPool {
   }
 
   get tvl(): Currency | undefined {
-    return this.poolAnalytics.tvl
+    return this.poolAnalytics?.tvl
       ? new Currency(BigInt(this.poolAnalytics.tvl.toFixed(0)), usdAsset)
       : undefined;
   }
 
   get volume(): Currency | undefined {
-    return this.poolAnalytics.volume
+    return this.poolAnalytics?.volume
       ? new Currency(BigInt(this.poolAnalytics.volume.toFixed(0)), usdAsset)
       : undefined;
   }

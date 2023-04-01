@@ -1,27 +1,54 @@
 import { AmmOrderRefunds } from '@ergolabs/cardano-dex-sdk';
-import { first, Observable, switchMap, tap, zip } from 'rxjs';
+import { TxOut } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/txOut';
+import { first, Observable, Subject, switchMap, tap, zip } from 'rxjs';
 
+import { Currency } from '../../../../common/models/Currency';
 import { TxId } from '../../../../common/types';
-import { settings$ } from '../../settings/settings';
 import {
-  cardanoNetwork,
-  cardanoNetworkParams$,
-} from '../common/cardanoNetwork';
+  openConfirmationModal,
+  Operation as ModalOperation,
+} from '../../../../components/ConfirmationModal/ConfirmationModal';
+import { depositAda } from '../../settings/depositAda';
+import { settings$ } from '../../settings/settings';
+import { cardanoNetwork } from '../common/cardanoNetwork';
+import { getCollateralByAmount } from '../utxos/utxos';
 import { submitTx } from './common/submitTx';
 
 const ammRefunds = new AmmOrderRefunds(cardanoNetwork);
 
-export const refund = (): Observable<TxId> =>
-  zip([cardanoNetworkParams$, settings$]).pipe(
+const walletRefund = (txId: TxId): Observable<TxId> =>
+  zip([settings$, getCollateralByAmount(depositAda.amount)]).pipe(
     first(),
-    tap(console.log, console.log),
-    switchMap(([networkParams, settings]) =>
+    switchMap(([settings, collateral]) =>
       ammRefunds.refund({
         recipientAddress: settings.address!,
-        txId: '81afad9972abd16daa45d56592b95d72952f68cb657768d8bb8785e12adda5ab',
+        txId,
+        collateral: collateral.map((txOut: TxOut) => ({ txOut })),
+        fee: depositAda.amount,
       }),
     ),
-    tap(console.log, console.log),
     switchMap(submitTx),
-    tap(console.log, console.log),
   );
+
+export const refund = (
+  txId: TxId,
+  xAmount: Currency,
+  yAmount: Currency,
+): Observable<TxId> => {
+  const subject = new Subject<TxId>();
+  openConfirmationModal(
+    walletRefund(txId).pipe(
+      tap((txId) => {
+        subject.next(txId);
+        subject.complete();
+      }),
+    ),
+    ModalOperation.REFUND,
+    {
+      xAsset: xAmount,
+      yAsset: yAmount,
+    },
+  );
+
+  return subject.asObservable();
+};

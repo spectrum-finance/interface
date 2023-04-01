@@ -17,6 +17,14 @@ namespace CardanoBridge {
       amount?: EncodedAmount,
       paginate?: Paging,
     ): Promise<EncodedTxOut[] | undefined>;
+    getCollateral(params: {
+      amount: EncodedAmount;
+    }): Promise<EncodedTxOut[] | undefined>;
+    experimental: {
+      getCollateral(params: {
+        amount: EncodedAmount;
+      }): Promise<EncodedTxOut[] | undefined>;
+    };
     getChangeAddress(): Promise<EncodedAddress>;
     getBalance(): Promise<EncodedBalance>;
     getUsedAddresses(paginate?: Paging): Promise<EncodedAddress[]>;
