@@ -47,13 +47,13 @@ export class CardanoAmmPool extends AmmPool {
   }
 
   get tvl(): Currency | undefined {
-    return this.poolAnalytics.tvl
+    return this.poolAnalytics?.tvl
       ? new Currency(BigInt(this.poolAnalytics.tvl.toFixed(0)), usdAsset)
       : undefined;
   }
 
   get volume(): Currency | undefined {
-    return this.poolAnalytics.volume
+    return this.poolAnalytics?.volume
       ? new Currency(BigInt(this.poolAnalytics.volume.toFixed(0)), usdAsset)
       : undefined;
   }
