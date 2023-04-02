@@ -211,7 +211,7 @@ export const makeCardanoWallet = ({
           // TODO: Collateral count must depend on Network
           hexes
             ?.map((hex) => decodeWasmUtxo(hex, RustModule.CardanoWasm))
-            .slice(3) || [],
+            .slice(0, 3) || [],
       ),
     );
   };

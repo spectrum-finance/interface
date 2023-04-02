@@ -21,6 +21,7 @@ import {
 
 import { applicationConfig } from '../../../../applicationConfig';
 import { Operation } from '../../../../common/models/Operation';
+import { TxId } from '../../../../common/types';
 import { getAddresses } from '../addresses/addresses';
 import { cardanoNetwork } from '../common/cardanoNetwork';
 import { cardanoWasm$ } from '../common/cardanoWasm';
@@ -77,6 +78,36 @@ export const getOperations = (): Observable<Operation[]> =>
             ),
             map((operations) => operations.filter(Boolean) as Operation[]),
             map((operations) => operations.filter(isOperationNotBlacklisted)),
+          ),
+        ),
+      ),
+    ),
+    publishReplay(1),
+    refCount(),
+  );
+
+export const getOperationByTxId = (
+  txId: TxId,
+): Observable<Operation | undefined> =>
+  getAddresses().pipe(
+    first(),
+    switchMap((addresses) =>
+      historyRepository$.pipe(
+        switchMap((hr) =>
+          from(
+            hr.getOneByByPCredsTxHash(
+              addresses.map((a) =>
+                extractPaymentCred(a, RustModule.CardanoWasm),
+              ),
+              txId,
+            ),
+          ).pipe(
+            switchMap((ammDexOperation) => {
+              if (!ammDexOperation) {
+                throw new Error('tx not found');
+              }
+              return mapToOperationOrEmpty(ammDexOperation);
+            }),
           ),
         ),
       ),

@@ -37,7 +37,10 @@ import {
   importTokenAsset,
   tokenAssetsToImport$,
 } from './api/tokens/tokens';
-import { getOperations } from './api/transactionHistory/transactionHistory';
+import {
+  getOperationByTxId,
+  getOperations,
+} from './api/transactionHistory/transactionHistory';
 import { CardanoWalletContract } from './api/wallet/common/CardanoWalletContract';
 import {
   availableWallets,
@@ -87,7 +90,7 @@ export const cardanoNetwork: Network<
   getAddresses: getAddresses,
   getUsedAddresses: getUsedAddresses,
   getUnusedAddresses: getUnusedAddresses,
-  getOperationByTxId: null as any,
+  getOperationByTxId: getOperationByTxId,
   getOperations,
   isOperationsSyncing$: of(false),
 

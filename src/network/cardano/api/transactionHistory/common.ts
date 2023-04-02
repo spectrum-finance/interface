@@ -33,7 +33,7 @@ const mapToSwapOperation = (
     map(([fromAsset, toAsset]) => ({
       id: ammDexOperation.txHash,
       txId: ammDexOperation.txHash,
-      dateTime: DateTime.local(),
+      dateTime: DateTime.fromMillis(ammDexOperation.timestamp),
       type: 'swap',
       status: ammDexOperation.status as OperationStatus,
       base: new Currency(order.from.amount, fromAsset),
@@ -54,7 +54,7 @@ const mapToDepositOperation = (
     map(([xAsset, yAsset]) => ({
       id: ammDexOperation.txHash,
       txId: ammDexOperation.txHash,
-      dateTime: DateTime.local(),
+      dateTime: DateTime.fromMillis(ammDexOperation.timestamp),
       type: 'deposit',
       status: ammDexOperation.status as OperationStatus,
       x: new Currency(BigInt(order.inX.amount), xAsset),
@@ -85,7 +85,7 @@ const mapToRedeemOperation = (
     map(([xAsset, yAsset]) => ({
       id: ammDexOperation.txHash,
       txId: ammDexOperation.txHash,
-      dateTime: DateTime.local(),
+      dateTime: DateTime.fromMillis(ammDexOperation.timestamp),
       type: 'redeem',
       status: ammDexOperation.status as OperationStatus,
       x: new Currency(0n, xAsset),
