@@ -29,3 +29,11 @@ export const getUtxosByAmount = (amount: Value): Observable<TxOut[]> =>
       selectedWallet ? selectedWallet.getUtxos(amount) : of([]),
     ),
   );
+
+export const getCollateralByAmount = (amount: bigint): Observable<TxOut[]> =>
+  connectedWalletChange$.pipe(
+    first(),
+    switchMap((selectedWallet) =>
+      selectedWallet ? selectedWallet.getCollateral(amount) : of([]),
+    ),
+  );

@@ -13,7 +13,6 @@ import styled from 'styled-components';
 
 import { useObservable } from '../../../common/hooks/useObservable';
 import { filterOperations } from '../../../common/models/Operation';
-import { addresses$ } from '../../../gateway/api/addresses';
 import {
   getOperations,
   getSyncOperationsFunction,
@@ -29,10 +28,7 @@ export interface OperationHistoryV1Props extends ModalRef {
   readonly showDateTime?: boolean;
 }
 
-export const OperationHistoryV1: FC<OperationHistoryV1Props> = ({
-  showDateTime,
-  close,
-}) => {
+export const OperationHistoryV1: FC<OperationHistoryV1Props> = ({ close }) => {
   const [operations, operationsLoading] = useObservable(getOperations(), []);
   const [isOperationsSyncing] = useObservable(isOperationsSyncing$);
   const [syncOperations] = useObservable(getSyncOperationsFunction());
@@ -75,7 +71,7 @@ export const OperationHistoryV1: FC<OperationHistoryV1Props> = ({
         )}
       </Flex.Item>
       <OperationHistoryTable
-        showDateTime={showDateTime}
+        showDateTime={true}
         close={close}
         loading={operationsLoading}
         emptyOperations={!operations?.length}

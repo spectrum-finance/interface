@@ -9,6 +9,7 @@ import { RustModule } from '@ergolabs/cardano-dex-sdk/build/main/utils/rustLoade
 import {
   catchError,
   combineLatest,
+  exhaustMap,
   filter,
   from,
   map,
@@ -44,7 +45,7 @@ const getPools = () =>
   );
 
 const rawAmmPools$: Observable<AmmPool[]> = networkContext$.pipe(
-  switchMap(() => getPools()),
+  exhaustMap(() => getPools()),
   catchError(() => of(undefined)),
   filter(Boolean),
   map(([pools]: [AmmPool[], number]) => pools),

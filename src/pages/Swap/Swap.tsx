@@ -36,6 +36,7 @@ import { AmmPool } from '../../common/models/AmmPool';
 import { AssetInfo } from '../../common/models/AssetInfo';
 import { Currency } from '../../common/models/Currency';
 import { AssetControlFormItem } from '../../components/common/TokenControl/AssetControl';
+import { IsErgo } from '../../components/IsErgo/IsErgo';
 import { NewFeatureTag } from '../../components/NewFeatureTag/NewFeatureTag';
 import {
   OperationForm,
@@ -378,7 +379,11 @@ export const Swap = (): JSX.Element => {
     <Page
       maxWidth={500}
       widgetBaseHeight={pool ? 432 : 272}
-      footer={<YieldFarmingBadge />}
+      footer={
+        <IsErgo>
+          <YieldFarmingBadge />
+        </IsErgo>
+      }
       leftWidget={
         <SwapGraph
           pool={pool}

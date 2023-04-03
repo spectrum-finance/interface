@@ -12,7 +12,6 @@ import { usdAsset } from '../../../../common/constants/usdAsset';
 import { AmmPool } from '../../../../common/models/AmmPool';
 import { AssetInfo } from '../../../../common/models/AssetInfo';
 import { Currency } from '../../../../common/models/Currency';
-import { AnalyticsData } from '../../../../services/new/analytics';
 import { AmmPoolAnalytics } from '../ammPoolsStats/ammPoolsStats';
 import { networkAsset } from '../networkAsset/networkAsset';
 
