@@ -69,9 +69,7 @@ export const _Header: React.FC<HeaderProps> = ({
             <AppLogo isNoWording />
           </Flex.Item>
           {moreThan('l') && <Navigation />}
-          <IsErgo>
-            <Analytics />
-          </IsErgo>
+          <Analytics />
           {!s && (
             <IsCardano>
               <GetTestTokensButton />

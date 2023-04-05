@@ -70,7 +70,10 @@ export const AddLiquidityOperationDetails: FC<AddLiquidityOperationDetailsProps>
             />
           )}
           {addLiquidityItem.status === OperationStatus.NeedRefund && (
-            <TransactionRefund transactionId={addLiquidityItem.registerTx.id} />
+            <TransactionRefund
+              pair={[addLiquidityItem.x, addLiquidityItem.y]}
+              transactionId={addLiquidityItem.registerTx.id}
+            />
           )}
         </>
       }

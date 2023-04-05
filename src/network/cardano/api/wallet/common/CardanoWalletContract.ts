@@ -22,5 +22,6 @@ export interface CardanoWalletContract extends Wallet, Prover {
   readonly getUnusedAddresses: () => Observable<Address[]>;
   readonly getBalance: () => Observable<[bigint, AssetInfo][]>;
   readonly getUtxos: (amount?: Value) => Observable<TxOut[]>;
+  readonly getCollateral: (amount: bigint) => Observable<TxOut[]>;
   readonly submit: (tx: RawTx) => Observable<HexString>;
 }

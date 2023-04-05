@@ -6,7 +6,6 @@ import styled from 'styled-components';
 
 import { ConnectWalletButton } from '../../../../../components/common/ConnectWalletButton/ConnectWalletButton';
 import { formatToUSD } from '../../../../../services/number';
-import { renderFractions } from '../../../../../utils/math';
 import { LiquidityPoolOrPositionDetailsProps } from '../../../common/types/LiquidityPoolOrPositionDetailsProps';
 import { DetailRow, DetailsBox } from '../DetailsBox/DetailsBox';
 
@@ -78,14 +77,7 @@ export const PoolOrPositionDetails: FC<
           <DetailsBox
             title={<Trans>TVL</Trans>}
             value={
-              <Trans>
-                {tvl
-                  ? formatToUSD(
-                      renderFractions(tvl.value, tvl.units.currency.decimals),
-                      'abbr',
-                    )
-                  : '—'}
-              </Trans>
+              <Trans>{tvl ? formatToUSD(tvl.toAmount(), 'abbr') : '—'}</Trans>
             }
           />
         </DetailRow>
@@ -94,15 +86,7 @@ export const PoolOrPositionDetails: FC<
             title={<Trans>Volume 24H</Trans>}
             value={
               <Trans>
-                {volume
-                  ? formatToUSD(
-                      renderFractions(
-                        volume.value,
-                        volume.units.currency.decimals,
-                      ),
-                      'abbr',
-                    )
-                  : '—'}
+                {volume ? formatToUSD(volume.toAmount(), 'abbr') : '—'}
               </Trans>
             }
           />

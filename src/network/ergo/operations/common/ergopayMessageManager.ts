@@ -1,7 +1,6 @@
 import { Currency } from '../../../../common/models/Currency';
 import { Address, TxId } from '../../../../common/types';
 import { formatToUSD } from '../../../../services/number';
-import { renderFractions } from '../../../../utils/math';
 import { ErgoAmmPool } from '../../api/ammPools/ErgoAmmPool';
 import { ErgoFarm } from '../../lm/models/ErgoFarm';
 
@@ -53,12 +52,7 @@ Total fees: ${feeMin.toString()} - ${feeMax.toString()} ${feeMin.asset.ticker}
 Spectrum
 Operation: Add liquidity
 Pool: ${pool.x.asset.ticker}/${pool.y.asset.ticker} (TVL: ${
-      pool.tvl
-        ? formatToUSD(
-            renderFractions(pool.tvl.value, pool.tvl.units.currency.decimals),
-            'abbr',
-          )
-        : '—'
+      pool.tvl ? formatToUSD(pool.tvl.toAmount(), 'abbr') : '—'
     })
 Assets: ${x.toCurrencyString()} and ${y.toCurrencyString()}
 Total fees: ${fee.toCurrencyString()}
@@ -69,15 +63,7 @@ Total fees: ${fee.toCurrencyString()}
 Spectrum
 Operation: Stake
 Farm: ${farm.ammPool.x.asset.ticker}/${farm.ammPool.y.asset.ticker} (TVL: ${
-      farm.ammPool.tvl
-        ? formatToUSD(
-            renderFractions(
-              farm.ammPool.tvl.value,
-              farm.ammPool.tvl.units.currency.decimals,
-            ),
-            'abbr',
-          )
-        : '—'
+      farm.ammPool.tvl ? formatToUSD(farm.ammPool.tvl.toAmount(), 'abbr') : '—'
     })
 Assets: ${x.toCurrencyString()} and ${y.toCurrencyString()}
 Total fees: ${fee.toCurrencyString()}
@@ -88,15 +74,7 @@ Total fees: ${fee.toCurrencyString()}
 Spectrum
 Operation: Unstake
 Farm: ${farm.ammPool.x.asset.ticker}/${farm.ammPool.y.asset.ticker} (TVL: ${
-      farm.ammPool.tvl
-        ? formatToUSD(
-            renderFractions(
-              farm.ammPool.tvl.value,
-              farm.ammPool.tvl.units.currency.decimals,
-            ),
-            'abbr',
-          )
-        : '—'
+      farm.ammPool.tvl ? formatToUSD(farm.ammPool.tvl.toAmount(), 'abbr') : '—'
     })
 Assets: ${x.toCurrencyString()} and ${y.toCurrencyString()}
 Total fees: ${fee.toCurrencyString()}
@@ -107,12 +85,7 @@ Total fees: ${fee.toCurrencyString()}
 Spectrum
 Operation: Remove liquidity
 Pool: ${pool.x.asset.ticker}/${pool.y.asset.ticker} (TVL: ${
-      pool.tvl
-        ? formatToUSD(
-            renderFractions(pool.tvl.value, pool.tvl.units.currency.decimals),
-            'abbr',
-          )
-        : '—'
+      pool.tvl ? formatToUSD(pool.tvl.toAmount(), 'abbr') : '—'
     })
 Assets: ${x.toCurrencyString()} and ${y.toCurrencyString()}
 Total fees: ${fee.toCurrencyString()}

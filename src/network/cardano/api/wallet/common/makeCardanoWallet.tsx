@@ -187,8 +187,42 @@ export const makeCardanoWallet = ({
     );
   };
 
-  const sign = (tx: RawUnsignedTx): Promise<RawTxWitnessSet> =>
-    ctx$.pipe(switchMap((ctx) => from(ctx.signTx(tx)))).toPromise();
+  const getCollateral = (amount: bigint): Observable<TxOut[]> => {
+    return ctx$.pipe(
+      switchMap((ctx) => {
+        if (ctx.getCollateral) {
+          return from(
+            ctx.getCollateral({
+              amount: RustModule._wasm?.BigNum.from_str(amount.toString()),
+            }),
+          );
+        }
+        if (ctx.experimental.getCollateral) {
+          return from(
+            ctx.experimental.getCollateral({
+              amount: RustModule._wasm?.BigNum.from_str(amount.toString()),
+            }),
+          );
+        }
+        return [];
+      }),
+      map(
+        (hexes) =>
+          // TODO: Collateral count must depend on Network
+          hexes
+            ?.map((hex) => decodeWasmUtxo(hex, RustModule.CardanoWasm))
+            .slice(0, 3) || [],
+      ),
+    );
+  };
+
+  const sign = (
+    tx: RawUnsignedTx,
+    partialSign = false,
+  ): Promise<RawTxWitnessSet> =>
+    ctx$
+      .pipe(switchMap((ctx) => from(ctx.signTx(tx, partialSign))))
+      .toPromise();
 
   const submit = (tx: RawTx): Observable<HexString> =>
     ctx$.pipe(switchMap((ctx) => from(ctx.submitTx(tx))));
@@ -208,6 +242,7 @@ export const makeCardanoWallet = ({
     getAddresses,
     getBalance,
     getUtxos,
+    getCollateral,
     sign,
     submit,
   };

@@ -21,13 +21,13 @@ import { networkContext$ } from '../networkContext/networkContext';
 import { tokenLocksGroupedByLpAsset$ } from './tokenLocks';
 
 const getNativeNetworkAmmPools = () =>
-  from(nativeNetworkPools().getAll({ limit: 100, offset: 0 })).pipe(
+  from(nativeNetworkPools().getAll({ limit: 500, offset: 0 })).pipe(
     map(([pools]) => pools),
     retry(applicationConfig.requestRetryCount),
   );
 
 const getNetworkAmmPools = () =>
-  from(networkPools().getAll({ limit: 100, offset: 0 })).pipe(
+  from(networkPools().getAll({ limit: 500, offset: 0 })).pipe(
     map(([pools]) => pools),
     retry(applicationConfig.requestRetryCount),
   );

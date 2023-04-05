@@ -57,7 +57,10 @@ export const LmDepositOperationDetails: FC<LmDepositOperationDetailsProps> = ({
           />
         )}
         {lmDepositItem.status === OperationStatus.NeedRefund && (
-          <TransactionRefund transactionId={lmDepositItem.registerTx.id} />
+          <TransactionRefund
+            pair={lmDepositItem.pool.shares(lmDepositItem.input)}
+            transactionId={lmDepositItem.registerTx.id}
+          />
         )}
       </>
     }

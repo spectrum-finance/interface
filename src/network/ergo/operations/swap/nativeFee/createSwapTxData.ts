@@ -81,7 +81,7 @@ const toSwapOperationArgs = ({
     nitro,
     minOutput,
   );
-  console.log(minExFee, nitro, minOutput, swapVariables);
+
   if (!swapVariables) {
     throw new Error('[swap]: an error occurred in swapVariables');
   }

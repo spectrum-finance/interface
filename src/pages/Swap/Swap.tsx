@@ -36,6 +36,7 @@ import { AmmPool } from '../../common/models/AmmPool';
 import { AssetInfo } from '../../common/models/AssetInfo';
 import { Currency } from '../../common/models/Currency';
 import { AssetControlFormItem } from '../../components/common/TokenControl/AssetControl';
+import { IsErgo } from '../../components/IsErgo/IsErgo';
 import { NewFeatureTag } from '../../components/NewFeatureTag/NewFeatureTag';
 import {
   OperationForm,
@@ -64,6 +65,7 @@ import { SwapFormModel } from './SwapFormModel';
 import { SwapGraph } from './SwapGraph/SwapGraph';
 import { SwapInfo } from './SwapInfo/SwapInfo';
 import { SwitchButton } from './SwitchButton/SwitchButton';
+import { YieldFarmingBadge } from './YieldFarmingBadge/YieldFarmingBadge';
 
 const getToAssets = (fromAsset?: string) =>
   fromAsset ? getDefaultAssetsFor(fromAsset) : defaultTokenAssets$;
@@ -94,7 +96,6 @@ export const Swap = (): JSX.Element => {
   });
   const [leftWidgetOpened, setLeftWidgetOpened] = useState<boolean>(false);
   const [lastEditedField, setLastEditedField] = useState<'from' | 'to'>('from');
-  const [selectedNetwork] = useSelectedNetwork();
   const [networkAsset] = useNetworkAsset();
   const [balance] = useAssetsBalance();
   const [, allAmmPoolsLoading] = useObservable(ammPools$);
@@ -378,15 +379,18 @@ export const Swap = (): JSX.Element => {
     <Page
       maxWidth={500}
       widgetBaseHeight={pool ? 432 : 272}
+      footer={
+        <IsErgo>
+          <YieldFarmingBadge />
+        </IsErgo>
+      }
       leftWidget={
-        selectedNetwork.name === 'ergo' && (
-          <SwapGraph
-            pool={pool}
-            isReversed={reversedRatio}
-            setReversed={setReversedRatio}
-            fromAsset={fromAsset}
-          />
-        )
+        <SwapGraph
+          pool={pool}
+          isReversed={reversedRatio}
+          setReversed={setReversedRatio}
+          fromAsset={fromAsset}
+        />
       }
       widgetOpened={leftWidgetOpened}
       onWidgetClose={() => setLeftWidgetOpened(false)}
@@ -406,14 +410,12 @@ export const Swap = (): JSX.Element => {
                 <Trans>Swap</Trans>
               </Typography.Title>
             </Flex.Item>
-            {selectedNetwork.name === 'ergo' && (
-              <Button
-                type="text"
-                size="large"
-                icon={<LineChartOutlined />}
-                onClick={() => setLeftWidgetOpened(!leftWidgetOpened)}
-              />
-            )}
+            <Button
+              type="text"
+              size="large"
+              icon={<LineChartOutlined />}
+              onClick={() => setLeftWidgetOpened(!leftWidgetOpened)}
+            />
             {OperationSettings && (
               <NewFeatureTag top={14} right={4} animate>
                 <OperationSettings />

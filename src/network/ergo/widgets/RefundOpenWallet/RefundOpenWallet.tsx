@@ -14,9 +14,6 @@ import { t, Trans } from '@lingui/macro';
 import React, { FC, useState } from 'react';
 import { first } from 'rxjs';
 
-import { AssetInfo } from '../../../../common/models/AssetInfo';
-import { Currency } from '../../../../common/models/Currency';
-import { Operation } from '../../../../common/models/Operation';
 import { TxId } from '../../../../common/types';
 import { InfoTooltip } from '../../../../components/InfoTooltip/InfoTooltip';
 import { getShortAddress } from '../../../../utils/string/addres';
@@ -24,47 +21,25 @@ import { ergopayRefund } from '../../operations/refund/ergopayRefund';
 import { useSettings } from '../../settings/settings';
 import { RefundConfirmationInfo } from '../RefundConfirmationModal/RefundConfirmationInfo/RefundConfirmationInfo';
 
-interface RefundFormModal {
-  readonly xAmount: Currency;
-  readonly yAmount: Currency;
-  readonly xAsset: AssetInfo;
-  readonly yAsset: AssetInfo;
-}
-
-const getForValueFromOperation = (operation: Operation): RefundFormModal =>
-  operation.type === 'swap'
-    ? {
-        xAmount: operation.base,
-        xAsset: operation.base.asset,
-        yAmount: operation.quote,
-        yAsset: operation.quote.asset,
-      }
-    : {
-        xAmount: operation.x,
-        xAsset: operation.x.asset,
-        yAmount: operation.y,
-        yAsset: operation.y.asset,
-      };
-
 export interface RefundOpenWalletProps {
   readonly addresses: Address[];
-  readonly operation: Operation;
+  readonly txId: TxId;
   readonly onTxRegister: (p: TxId) => void;
 }
 
 export const RefundOpenWallet: FC<RefundOpenWalletProps> = ({
   addresses,
-  operation,
+  txId,
   onTxRegister,
 }) => {
-  const form = useForm<RefundFormModal>(getForValueFromOperation(operation));
+  const form = useForm({});
   const [{ address }] = useSettings();
   const [loading, setLoading] = useState<boolean>(false);
   const [activeAddress, setActiveAddress] = useState(address);
 
   const handleRefund = () => {
     if (activeAddress) {
-      ergopayRefund(activeAddress, operation.txId)
+      ergopayRefund(activeAddress, txId)
         .pipe(first())
         .subscribe({
           next: (txId) => {

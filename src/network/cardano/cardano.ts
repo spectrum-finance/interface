@@ -22,11 +22,14 @@ import {
   useHandleDepositMaxButtonClick,
 } from './api/operations/deposit';
 import { redeem } from './api/operations/redeem';
+import { refund } from './api/operations/refund';
 import {
   swap,
   useHandleSwapMaxButtonClick,
   useSwapValidators,
 } from './api/operations/swap';
+import { platformStats$ } from './api/platformStats/platformStats';
+import { getPoolChartData } from './api/poolChart/poolChart';
 import { positions$ } from './api/positions/positions';
 import {
   defaultTokenAssets$,
@@ -34,7 +37,10 @@ import {
   importTokenAsset,
   tokenAssetsToImport$,
 } from './api/tokens/tokens';
-import { getOperations } from './api/transactionHistory/transactionHistory';
+import {
+  getOperationByTxId,
+  getOperations,
+} from './api/transactionHistory/transactionHistory';
 import { CardanoWalletContract } from './api/wallet/common/CardanoWalletContract';
 import {
   availableWallets,
@@ -52,11 +58,7 @@ import {
   settings,
   settings$,
 } from './settings/settings';
-import {
-  useCreatePoolValidationFee,
-  useDepositValidationFee,
-  useRedeemValidationFee,
-} from './settings/totalFee';
+import { useCreatePoolValidationFee } from './settings/totalFee';
 import {
   exploreAddress,
   exploreLastBlock,
@@ -88,10 +90,11 @@ export const cardanoNetwork: Network<
   getAddresses: getAddresses,
   getUsedAddresses: getUsedAddresses,
   getUnusedAddresses: getUnusedAddresses,
-  getOperationByTxId: null as any,
+  getOperationByTxId: getOperationByTxId,
   getOperations,
   isOperationsSyncing$: of(false),
 
+  platformStats$,
   connectWallet: connectWallet,
   disconnectWallet: disconnectWallet,
   availableWallets: availableWallets,
@@ -122,9 +125,7 @@ export const cardanoNetwork: Network<
   swap,
   deposit,
   redeem,
-  refund(): Observable<TxId> {
-    return of('');
-  },
+  refund,
   lmRedeem(lmPool: Farm): Observable<TxId> {
     return of('');
   },
@@ -141,7 +142,7 @@ export const cardanoNetwork: Network<
   useCreatePoolValidationFee,
   useNetworkAsset,
 
-  getPoolChartData: () => of([]),
+  getPoolChartData: getPoolChartData as any,
   pendingOperations$: of([]),
   queuedOperation$: of(undefined),
   refundableDeposit: depositAda,
