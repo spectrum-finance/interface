@@ -26,10 +26,7 @@ export const TotalLiquidity: FC<TotalLiquidityProps> = ({ position }) => {
       titleGap={1}
       subtitle={
         <Typography.Title level={3}>
-          <ConvenientAssetView
-            hidePrefix
-            value={[position.pool.x, position.pool.y]}
-          />
+          <ConvenientAssetView value={[position.pool.x, position.pool.y]} />
         </Typography.Title>
       }
       subtitleGap={2}

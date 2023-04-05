@@ -29,10 +29,7 @@ export const MyLiquidity: FC<MyLiquidityProps> = ({ position }) => {
       subtitle={
         !position.empty && (
           <Typography.Title level={3}>
-            <ConvenientAssetView
-              hidePrefix
-              value={[position.totalX, position.totalY]}
-            />
+            <ConvenientAssetView value={[position.totalX, position.totalY]} />
           </Typography.Title>
         )
       }
