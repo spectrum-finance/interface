@@ -8,7 +8,6 @@ import { device } from '../../../../common/constants/size';
 import { useObservable } from '../../../../common/hooks/useObservable';
 import { selectedWalletState$ } from '../../../../gateway/api/wallets';
 import { WalletState } from '../../../../network/common/Wallet';
-import { IsCardano } from '../../../IsCardano/IsCardano';
 import { IsErgo } from '../../../IsErgo/IsErgo';
 import { AppLogo } from '../../AppLogo/AppLogo';
 import { CardanoMaintenance } from '../CardanoMaintenance/CardanoMaintenance';
@@ -17,7 +16,6 @@ import { Analytics } from './Analytics/Analytics';
 import { BurgerMenu } from './BurgerMenu/BurgerMenu';
 import { ClaimSpfButton } from './ClaimSpfButton/ClaimSpfButton';
 import { ConnectWallet } from './ConnectWallet/ConnectWallet';
-import { GetTestTokensButton } from './GetTestTokensButton/GetTestTokensButton';
 import { Navigation } from './Navigation/Navigation';
 import { NetworkDropdown } from './NetworkDropdown/NetworkDropdown';
 

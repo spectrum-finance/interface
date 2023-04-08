@@ -4,7 +4,6 @@ import {
   ScriptCredsV1,
 } from '@ergolabs/cardano-dex-sdk';
 import { mkPoolsParser } from '@ergolabs/cardano-dex-sdk/build/main/amm/parsers/poolsParser';
-import { mkSubject } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/assetClass';
 import { RustModule } from '@ergolabs/cardano-dex-sdk/build/main/utils/rustLoader';
 import {
   catchError,
