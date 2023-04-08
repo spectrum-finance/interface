@@ -70,11 +70,6 @@ export const _Header: React.FC<HeaderProps> = ({
           </Flex.Item>
           {moreThan('l') && <Navigation />}
           <Analytics />
-          {!s && (
-            <IsCardano>
-              <GetTestTokensButton />
-            </IsCardano>
-          )}
         </Flex>
         <Flex align="center" style={{ gap: '8px', marginLeft: 'auto' }}>
           {!s && isDesktop && (
