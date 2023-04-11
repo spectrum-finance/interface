@@ -1,9 +1,11 @@
 import axios from 'axios';
 import {
+  catchError,
   distinctUntilChanged,
   from,
   map,
   Observable,
+  of,
   publishReplay,
   refCount,
   switchMap,
@@ -24,12 +26,21 @@ export interface OracleData {
 export const ergoUsdRatio$: Observable<any> = appTick$.pipe(
   switchMap(() =>
     from(
-      axios.get<OracleData>('https://oracle-core.ergopool.io/frontendData', {
-        transformResponse: (data) => JSON.parse(JSON.parse(data)),
-      }),
+      Promise.race([
+        axios.get<OracleData>('https://oracle-core.ergopool.io/frontendData', {
+          transformResponse: (data) => JSON.parse(JSON.parse(data)),
+        }),
+        axios.get<OracleData>(
+          'https://erg-oracle-ergusd.spirepools.com/frontendData',
+          {
+            transformResponse: (data) => JSON.parse(JSON.parse(data)),
+          },
+        ),
+      ]),
     ),
   ),
-  map((res) => res.data.latest_price),
+  map((res) => res.data?.latest_price || 0),
+  catchError(() => of(0)),
   distinctUntilChanged(),
   map((latestPrice) =>
     new Ratio(latestPrice.toString(), usdAsset, networkAsset).invertRatio(),
