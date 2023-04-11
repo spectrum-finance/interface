@@ -39,7 +39,7 @@ export const ergoUsdRatio$: Observable<any> = appTick$.pipe(
       ]),
     ),
   ),
-  map((res) => res.data?.latest_price || 0),
+  map((res) => res?.data?.latest_price || 0),
   catchError(() => of(0)),
   distinctUntilChanged(),
   map((latestPrice) =>
