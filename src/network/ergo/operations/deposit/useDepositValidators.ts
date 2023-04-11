@@ -86,7 +86,7 @@ export const useDepositValidators =
     const nativeValidators = useNativeFeeSwapValidators();
     const spfValidators = useSpfFeeSwapValidators();
 
-    return executionFeeAsset.id === feeAsset.id
+    return executionFeeAsset?.id === feeAsset.id
       ? spfValidators
       : nativeValidators;
   };
