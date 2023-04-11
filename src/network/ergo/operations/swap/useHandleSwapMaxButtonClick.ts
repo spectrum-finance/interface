@@ -44,7 +44,7 @@ export const useHandleSwapMaxButtonClick = (): ((
   const nativeHandleSwapMaxButtonClick = useNativeHandleSwapMaxButtonClick();
   const spfHandleSwapMaxButtonClick = useSpfHandleSwapMaxButtonClick();
 
-  return executionFeeAsset.id === feeAsset.id
+  return executionFeeAsset?.id === feeAsset.id
     ? spfHandleSwapMaxButtonClick
     : nativeHandleSwapMaxButtonClick;
 };
