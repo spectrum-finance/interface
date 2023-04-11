@@ -17,7 +17,7 @@ export const ergoPaySwap = (
     .pipe(first())
     .pipe(
       switchMap(({ executionFeeAsset }) =>
-        executionFeeAsset.id === feeAsset.id
+        executionFeeAsset?.id === feeAsset.id
           ? spfErgoPaySwap(pool, from, to)
           : nativeErgoPaySwap(pool, from, to),
       ),

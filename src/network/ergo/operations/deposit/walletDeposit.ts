@@ -17,7 +17,7 @@ export const walletDeposit = (
     .pipe(first())
     .pipe(
       switchMap(({ executionFeeAsset }) =>
-        executionFeeAsset.id === feeAsset.id
+        executionFeeAsset?.id === feeAsset.id
           ? spfWalletDeposit(pool, x, y)
           : nativeWalletDeposit(pool, x, y),
       ),
