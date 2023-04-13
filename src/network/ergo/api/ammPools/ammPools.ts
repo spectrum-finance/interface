@@ -16,7 +16,10 @@ import {
   ammPoolsStats$,
 } from '../ammPoolsStats/ammPoolsStats';
 import { mapToAssetInfo } from '../common/assetInfoManager';
-import { filterUnavailablePools } from '../common/availablePoolsOrTokens';
+import {
+  filterUnavailablePools,
+  toVerifiedPools,
+} from '../common/availablePoolsOrTokens';
 import { rawAmmPools$ } from '../common/rawAmmPools';
 import { ErgoAmmPool } from './ErgoAmmPool';
 
@@ -55,6 +58,12 @@ export const ammPools$ = allAmmPools$.pipe(
         !applicationConfig.hiddenAssets.includes(ap.y.asset.id),
     ),
   ),
+  publishReplay(1),
+  refCount(),
+);
+
+export const verifiedAmmPools$ = ammPools$.pipe(
+  switchMap((pools) => toVerifiedPools(pools)),
   publishReplay(1),
   refCount(),
 );

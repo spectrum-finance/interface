@@ -82,6 +82,19 @@ export const filterUnavailablePools = (
     ),
   );
 
+export const toVerifiedPools = (ammPools: AmmPool[]): Observable<AmmPool[]> =>
+  defaultTokenList$.pipe(
+    map((defaultTokenList) =>
+      ammPools.filter(
+        (ap) =>
+          defaultTokenList.tokensMap.has(ap.x.asset.id) ||
+          (ap.x.asset.id === networkAsset.id &&
+            defaultTokenList.tokensMap.has(ap.y.asset.id)) ||
+          ap.y.asset.id === networkAsset.id,
+      ),
+    ),
+  );
+
 export const filterUnavailableAndImportedTokenAssets = (
   assets: AssetInfo[],
 ): Observable<AssetInfo[]> =>
