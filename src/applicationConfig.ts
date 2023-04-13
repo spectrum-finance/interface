@@ -83,7 +83,7 @@ export const applicationConfig: ApplicationConfig = {
       spfFaucet: 'https://airdrop.spectrum.fi/v1/faucet/',
       networkUrl: 'https://api.ergoplatform.com',
       explorerUrl: 'https://explorer.ergoplatform.com',
-      analyticUrl: 'https://test-api.spectrum.fi/v2/',
+      analyticUrl: 'https://api.spectrum.fi/v1/',
       lowBalanceGuide:
         'https://docs.spectrum.fi/docs/user-guides/quick-start#3-get-assets',
       ergopayUrl: 'https://ergopay-backend.fly.dev',
@@ -181,7 +181,6 @@ export const applicationConfig: ApplicationConfig = {
     '178af772712af5bbc44b330af7b3c06d4efea61ae7e16cf2ab71a6a300688cdf',
     '58c02b3bdaba7c9e854f047d848450b290857c6496481477ecda3a14d04f0e9d',
     '33ef5d65c55066a35d4f816e4fe8df1aaa78e169bf1198571e070ac185a2b065',
-    '48239c9bf134d4a851dc7bc532e47d8c8a9b1d3c44acd4185399a6f382f653d0',
   ],
   operationsRestrictions: [
     {
