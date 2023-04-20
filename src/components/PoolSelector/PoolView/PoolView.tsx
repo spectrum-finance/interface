@@ -57,13 +57,7 @@ export const PoolView: FC<PoolSelectorItemProps> = ({
               secondary={!hover && !active}
               content={
                 ammPool?.tvl
-                  ? formatToUSD(
-                      renderFractions(
-                        ammPool.tvl.value,
-                        ammPool.tvl.units.currency.decimals,
-                      ),
-                      'abbr',
-                    )
+                  ? formatToUSD(ammPool.tvl.toAmount(), 'abbr')
                   : '–––'
               }
             />

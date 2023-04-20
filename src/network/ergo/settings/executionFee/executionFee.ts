@@ -18,7 +18,7 @@ import {
 
 export const minExFee$ = settings$.pipe(
   switchMap((settings) =>
-    settings.executionFeeAsset.id === feeAsset.id
+    settings.executionFeeAsset?.id === feeAsset.id
       ? spfMinExFee$
       : nativeMinExFee$,
   ),
@@ -28,7 +28,7 @@ export const minExFee$ = settings$.pipe(
 
 export const maxExFee$ = settings$.pipe(
   switchMap((settings) =>
-    settings.executionFeeAsset.id === feeAsset.id
+    settings.executionFeeAsset?.id === feeAsset.id
       ? spfMaxExFee$
       : nativeMaxExFee$,
   ),
@@ -41,7 +41,7 @@ export const useMinExFee = (): Currency => {
   const spfMinExFee = useSpfMinExFee();
   const nativeMinExFee = useNativeMinExFee();
 
-  return executionFeeAsset.id === feeAsset.id ? spfMinExFee : nativeMinExFee;
+  return executionFeeAsset?.id === feeAsset.id ? spfMinExFee : nativeMinExFee;
 };
 
 export const useMaxExFee = (): Currency => {
@@ -49,5 +49,5 @@ export const useMaxExFee = (): Currency => {
   const spfMaxExFee = useSpfMaxExFee();
   const nativeMaxExFee = useNativeMaxExFee();
 
-  return executionFeeAsset.id === feeAsset.id ? spfMaxExFee : nativeMaxExFee;
+  return executionFeeAsset?.id === feeAsset.id ? spfMaxExFee : nativeMaxExFee;
 };

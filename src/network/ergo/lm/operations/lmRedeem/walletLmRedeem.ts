@@ -6,8 +6,10 @@ import {
   map,
   Observable,
   switchMap,
+  timeout,
 } from 'rxjs';
 
+import { applicationConfig } from '../../../../../applicationConfig';
 import { TxId } from '../../../../../common/types';
 import { networkContext$ } from '../../../api/networkContext/networkContext';
 import { selectedWallet$ } from '../../../api/wallet/wallet';
@@ -43,4 +45,5 @@ export const walletLmRedeem = (
         switchMap((w) => w.submitTx(ergoTx)),
       ),
     ),
+    timeout(applicationConfig.operationTimeoutTime),
   );

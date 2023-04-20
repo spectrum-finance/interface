@@ -12,11 +12,14 @@ import {
 import { applicationConfig } from '../../../../applicationConfig';
 import { AmmPool } from '../../../../common/models/AmmPool';
 import {
-  aggregatedPoolsAnalyticsDataById24H$,
   AmmPoolAnalytics,
-} from '../../../../common/streams/poolAnalytic';
+  ammPoolsStats$,
+} from '../ammPoolsStats/ammPoolsStats';
 import { mapToAssetInfo } from '../common/assetInfoManager';
-import { filterUnavailablePools } from '../common/availablePoolsOrTokens';
+import {
+  filterUnavailablePools,
+  toVerifiedPools,
+} from '../common/availablePoolsOrTokens';
 import { rawAmmPools$ } from '../common/rawAmmPools';
 import { ErgoAmmPool } from './ErgoAmmPool';
 
@@ -36,10 +39,7 @@ const toAmmPool = (
     }),
   );
 
-export const allAmmPools$ = combineLatest([
-  rawAmmPools$,
-  aggregatedPoolsAnalyticsDataById24H$,
-]).pipe(
+export const allAmmPools$ = combineLatest([rawAmmPools$, ammPoolsStats$]).pipe(
   switchMap(([rawAmmPools, analytics]) =>
     combineLatest(
       rawAmmPools.map((rap) => toAmmPool(rap, analytics[rap.id])),
@@ -58,6 +58,12 @@ export const ammPools$ = allAmmPools$.pipe(
         !applicationConfig.hiddenAssets.includes(ap.y.asset.id),
     ),
   ),
+  publishReplay(1),
+  refCount(),
+);
+
+export const verifiedAmmPools$ = ammPools$.pipe(
+  switchMap((pools) => toVerifiedPools(pools)),
   publishReplay(1),
   refCount(),
 );

@@ -1,11 +1,14 @@
 import { Flex } from '@ergolabs/ui-kit';
 import flow from 'lodash/flow';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { useObservable } from '../../common/hooks/useObservable';
 import { useSearchParams } from '../../common/hooks/useSearchParams';
 import { Farm, FarmStatus } from '../../common/models/Farm';
 import { Page } from '../../components/Page/Page';
+import { useSelectedNetwork } from '../../gateway/common/network';
+import { useGuardV2 } from '../../hooks/useGuard';
 import { farms$ } from '../../network/ergo/lm/api/farms/farms';
 import { FarmGuides } from './FarmGuides/FarmGuides';
 import { FarmTableView } from './FarmTableView/FarmTableView';
@@ -44,6 +47,8 @@ const filterFarmsByTerm = (term?: string): ((farms: Farm[]) => Farm[]) => {
 };
 
 export const Farms = (): JSX.Element => {
+  const [selectedNetwork] = useSelectedNetwork();
+  const navigate = useNavigate();
   const [{ activeStatus, activeTab, searchString }, setSearchParams] =
     useSearchParams<{
       activeStatus: FarmStatus;
@@ -57,6 +62,11 @@ export const Farms = (): JSX.Element => {
     filterMyFarms(activeTab),
     filterFarmsByTerm(searchString),
   ])(farms);
+
+  useGuardV2(
+    () => selectedNetwork.name === 'cardano',
+    () => navigate(`../../../swap`),
+  );
 
   return (
     <Page maxWidth={1110} padding={0} transparent>

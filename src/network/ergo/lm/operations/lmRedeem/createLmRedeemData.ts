@@ -5,6 +5,8 @@ import { NetworkContext } from '@ergolabs/ergo-sdk/build/main/entities/networkCo
 
 import { NEW_MIN_BOX_VALUE } from '../../../../../common/constants/erg';
 import { Currency } from '../../../../../common/models/Currency';
+import { Farm } from '../../../../../common/models/Farm';
+import { networkAsset } from '../../../api/networkAsset/networkAsset';
 import { ErgoSettings } from '../../../settings/settings';
 import { ErgoFarm } from '../../models/ErgoFarm';
 import { Stake } from '../../models/Stake';
@@ -17,13 +19,21 @@ interface CreateLmRedeemDataParams {
   readonly networkContext: NetworkContext;
 }
 
+export interface AdditionalData {
+  readonly farm: Farm;
+  readonly p2pkaddress: string;
+  readonly x: Currency;
+  readonly y: Currency;
+  readonly fee: Currency;
+}
+
 export const createLmRedeemData = ({
   lmPool,
   stake,
   settings,
   minerFee,
   networkContext,
-}: CreateLmRedeemDataParams): [LqRedeemConf, ActionContext] => {
+}: CreateLmRedeemDataParams): [LqRedeemConf, ActionContext, AdditionalData] => {
   const lqRedeemConf: LqRedeemConf = {
     expectedLqAmount: new AssetAmount(
       lmPool.assets.lq,
@@ -43,6 +53,13 @@ export const createLmRedeemData = ({
     uiFee: 0n,
     network: networkContext,
   };
+  const additionalData: AdditionalData = {
+    x: stake.x,
+    y: stake.y,
+    farm: stake.lmPool,
+    p2pkaddress: settings.address!,
+    fee: new Currency(minerFee.amount + NEW_MIN_BOX_VALUE, networkAsset),
+  };
 
-  return [lqRedeemConf, actionContext];
+  return [lqRedeemConf, actionContext, additionalData];
 };

@@ -24,7 +24,6 @@ import {
   SUPPORTED_LOCALES,
 } from '../../../../../common/constants/locales';
 import { useApplicationSettings } from '../../../../../context';
-import { useSelectedNetwork } from '../../../../../gateway/common/network';
 import { useQuery } from '../../../../../hooks/useQuery';
 import { ThemeSwitch } from '../../../../ThemeSwitch/ThemeSwitch';
 import { DotsIcon } from '../../../Icons/DotsIcon';
@@ -58,7 +57,6 @@ const ContributeLanguageButton = styled(Button)`
 `;
 
 const BurgerMenu = (): JSX.Element => {
-  const [selectedNetwork] = useSelectedNetwork();
   const [isMainMenu, setIsMainMenu] = useState<boolean>(true);
   const [isMenuVisible, setMenuVisible] = useState<boolean>(false);
   const [settings, setSettings] = useApplicationSettings();
@@ -86,16 +84,15 @@ const BurgerMenu = (): JSX.Element => {
       icon: <GithubOutlined />,
       link: 'https://github.com/spectrum-finance',
     },
-    selectedNetwork.name === 'ergo'
-      ? {
-          title: t`Manual Refund`,
-          icon: <ReloadOutlined />,
-          onClick: () => {
-            setMenuVisible(false);
-            Modal.open(({ close }) => <ManualRefundModal close={close} />);
-          },
-        }
-      : undefined,
+    {
+      title: t`Manual Refund`,
+      icon: <ReloadOutlined />,
+      onClick: () => {
+        setMenuVisible(false);
+        // panalytics.clickBurgerMenu('Manual Refund');
+        Modal.open(({ close }) => <ManualRefundModal close={close} />);
+      },
+    },
     {
       title: t`Language`,
       icon: <GlobalOutlined />,

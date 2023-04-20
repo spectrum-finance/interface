@@ -66,7 +66,7 @@ export const useSwapValidators = (): OperationValidator<SwapFormModel>[] => {
   const nativeValidators = useNativeFeeSwapValidators();
   const spfValidators = useSpfFeeSwapValidators();
 
-  return executionFeeAsset.id === feeAsset.id
+  return executionFeeAsset?.id === feeAsset.id
     ? spfValidators
     : nativeValidators;
 };

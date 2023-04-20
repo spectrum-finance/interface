@@ -1,5 +1,6 @@
+import { Modal } from '@ergolabs/ui-kit';
 import React, { ReactNode } from 'react';
-import { Observable, Subject, tap } from 'rxjs';
+import { first, Observable, Subject, switchMap, tap } from 'rxjs';
 
 import { Currency } from '../../../../../common/models/Currency';
 import { TxId } from '../../../../../common/types';
@@ -7,10 +8,13 @@ import {
   openConfirmationModal,
   Operation,
 } from '../../../../../components/ConfirmationModal/ConfirmationModal';
+import { settings$ } from '../../../settings/settings';
+import { ErgoPayModal } from '../../../widgets/ErgoPayModal/ErgoPayModal';
+import { LmRedeemOpenWallet } from '../../../widgets/LmRedeemOpenWallet/LmRedeemOpenWallet';
 import { ErgoFarm } from '../../models/ErgoFarm';
 import { LmRedeemModalContent } from './LmRedeemModalContent/LmRedeemModalContent';
 
-export const lmRedeem = (
+export const lmRedeemWithWallet = (
   farm: ErgoFarm,
   createFarmModal: (
     children?: ReactNode | ReactNode[] | string,
@@ -45,3 +49,43 @@ export const lmRedeem = (
 
   return subject.asObservable();
 };
+
+const lmRedeemWithErgopay = (
+  farm: ErgoFarm,
+  createFarmModal: (
+    children?: ReactNode | ReactNode[] | string,
+  ) => ReactNode | ReactNode[] | string,
+): Observable<TxId> => {
+  const subject = new Subject<TxId>();
+
+  Modal.open(({ close }) => (
+    <ErgoPayModal
+      openWalletContent={(onTxRegister) =>
+        createFarmModal(
+          <LmRedeemOpenWallet onTxRegister={onTxRegister} farm={farm} />,
+        )
+      }
+      onTxRegister={(txId) => {
+        subject.next(txId);
+        subject.complete();
+      }}
+      close={close}
+    />
+  ));
+  return subject;
+};
+
+export const lmRedeem = (
+  farm: ErgoFarm,
+  createFarmModal: (
+    children?: ReactNode | ReactNode[] | string,
+  ) => ReactNode | ReactNode[] | string,
+): Observable<TxId> =>
+  settings$.pipe(
+    first(),
+    switchMap((settings) =>
+      settings.ergopay
+        ? lmRedeemWithErgopay(farm, createFarmModal)
+        : lmRedeemWithWallet(farm, createFarmModal),
+    ),
+  );

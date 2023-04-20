@@ -27,7 +27,7 @@ export const TokenListItem: React.FC<TokenListItemProps> = ({ currency }) => (
       <Flex.Item display="flex" col justify="center" flex={1} align="flex-end">
         <Typography.Body strong>{currency.toString()}</Typography.Body>
         <Typography.Body size="small" secondary>
-          <ConvenientAssetView value={currency} prefix="~" />
+          <ConvenientAssetView value={currency} />
         </Typography.Body>
       </Flex.Item>
     </Flex>

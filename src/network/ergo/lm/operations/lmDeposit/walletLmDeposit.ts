@@ -6,8 +6,10 @@ import {
   map,
   Observable,
   switchMap,
+  timeout,
 } from 'rxjs';
 
+import { applicationConfig } from '../../../../../applicationConfig';
 import { Currency } from '../../../../../common/models/Currency';
 import { Farm } from '../../../../../common/models/Farm';
 import { TxId } from '../../../../../common/types';
@@ -43,4 +45,5 @@ export const walletLmDeposit = (
         switchMap((w) => w.submitTx(ergoTx)),
       ),
     ),
+    timeout(applicationConfig.operationTimeoutTime),
   );

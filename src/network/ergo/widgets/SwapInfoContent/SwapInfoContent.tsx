@@ -72,7 +72,7 @@ export const SwapInfoContent: FC<SwapInfoContent> = ({ value }) => {
           value={
             <>
               <ConvenientAssetView value={[minerFee, minExFee]} /> -{' '}
-              <ConvenientAssetView hidePrefix value={[minerFee, maxExFee]} />
+              <ConvenientAssetView value={[minerFee, maxExFee]} />
             </>
           }
         />
@@ -112,7 +112,7 @@ export const SwapInfoContent: FC<SwapInfoContent> = ({ value }) => {
                   (
                   <>
                     <ConvenientAssetView value={minExFee} /> -{' '}
-                    <ConvenientAssetView hidePrefix value={maxExFee} />
+                    <ConvenientAssetView value={maxExFee} />
                   </>
                   )
                 </Flex>

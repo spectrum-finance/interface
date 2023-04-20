@@ -1,26 +1,16 @@
 import { Flex } from '@ergolabs/ui-kit';
 import React, { FC } from 'react';
 
+import { Currency } from '../../../../../../../common/models/Currency';
 import { DataTag } from '../../../../../../../components/common/DataTag/DataTag';
-import { AnalyticsData } from '../../../../../../../services/new/analytics';
 import { formatToUSD } from '../../../../../../../services/number';
-import { renderFractions } from '../../../../../../../utils/math';
 
 export interface TvlOrVolume24Column {
-  readonly usd?: AnalyticsData;
+  readonly usd?: Currency;
 }
 
 export const TvlOrVolume24Column: FC<TvlOrVolume24Column> = ({ usd }) => (
   <Flex>
-    <DataTag
-      content={
-        usd
-          ? formatToUSD(
-              renderFractions(usd.value, usd.units.currency.decimals),
-              'abbr',
-            )
-          : '—'
-      }
-    />
+    <DataTag content={usd ? formatToUSD(usd.toAmount(), 'abbr') : '—'} />
   </Flex>
 );

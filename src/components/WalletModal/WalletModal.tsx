@@ -13,8 +13,8 @@ import { IsCardano } from '../IsCardano/IsCardano';
 import { IsErgo } from '../IsErgo/IsErgo';
 import { AddressesTab } from './AddressesTab/AddressesTab';
 import { LowBalanceWarning } from './LowBalanceWarning/LowBalanceWarning';
-import { TokensTab } from './TokensTab/TokensTab';
 import { WalletActiveAddress } from './WalletActiveAddress/WalletActiveAddress';
+import { WalletTokens } from './WalletTokens/WalletTokens';
 import { WalletTotalBalance } from './WalletTotalBalance/WalletTotalBalance';
 
 export const WalletModal: React.FC<{ close: (result?: any) => void }> = ({
@@ -57,25 +57,9 @@ export const WalletModal: React.FC<{ close: (result?: any) => void }> = ({
             <WalletActiveAddress />
           </Flex.Item>
           <Flex.Item marginBottom={6}>
-            <IsErgo>
-              <Tabs defaultActiveKey={'1'} fullWidth>
-                <Tabs.TabPane tab="Tokens" key="1">
-                  <Box transparent padding={[2, 0, 0, 0]} bordered={false}>
-                    <TokensTab close={close} />
-                  </Box>
-                </Tabs.TabPane>
-                <Tabs.TabPane tab="Addresses" key="2">
-                  <Box transparent padding={[2, 0, 0, 0]} bordered={false}>
-                    <AddressesTab />
-                  </Box>
-                </Tabs.TabPane>
-              </Tabs>
-            </IsErgo>
-            <IsCardano>
-              <Box transparent padding={0} bordered={false}>
-                <TokensTab close={close} />
-              </Box>
-            </IsCardano>
+            <Box transparent padding={0} bordered={false}>
+              <WalletTokens close={close} />
+            </Box>
           </Flex.Item>
           <Button
             type="default"

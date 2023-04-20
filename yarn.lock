@@ -1650,15 +1650,15 @@
   resolved "https://registry.yarnpkg.com/@emotion/unitless/-/unitless-0.7.5.tgz#77211291c1900a700b8a78cfafda3160d76949ed"
   integrity sha512-OWORNpfjMsSSUBVrRBVGECkhWcULOAJz9ZW8uK9qgxD+87M7jHRcvh/A96XXNhXTLmKcoYSQtBEX7lHMO7YRwg==
 
-"@emurgo/cardano-serialization-lib-browser@^11.0.5":
-  version "11.0.5"
-  resolved "https://registry.yarnpkg.com/@emurgo/cardano-serialization-lib-browser/-/cardano-serialization-lib-browser-11.0.5.tgz#1cb3119b9b934a38782343020d9e22b455e66bd6"
-  integrity sha512-iDXn6pjK3TSrFyUnLMf5lJzBgdf2aV2NTfM+Xc9t9j625W7/f/oQghUIBNpdJlHa0v11oPYFYRY5T1nFgb2mHA==
+"@emurgo/cardano-serialization-lib-browser@^11.3.1":
+  version "11.3.1"
+  resolved "https://registry.yarnpkg.com/@emurgo/cardano-serialization-lib-browser/-/cardano-serialization-lib-browser-11.3.1.tgz#e1fa19a3e3c0601e3aa602c7886516762ad7ec6c"
+  integrity sha512-v/zMoC/23q+KJC4hUsdE0V2URuRVnnK7Ti3MlljV0Zb0EgmNtlWtVUZ9lLY+msc2UKf/jyQBQAMH15CyZQmzpw==
 
-"@emurgo/cardano-serialization-lib-nodejs@^11.0.5":
-  version "11.0.5"
-  resolved "https://registry.yarnpkg.com/@emurgo/cardano-serialization-lib-nodejs/-/cardano-serialization-lib-nodejs-11.0.5.tgz#3563c9fdc9ec9e0e71f8a75f3d7d9a872bf96661"
-  integrity sha512-6SBlRunFMLj9sC3YmMuJzPW0lY6MYOwMKft+/lkUtZPgUWsyzi7+d24iS3E2ThPDY1seS43dzHwZAeZxBH5KkQ==
+"@emurgo/cardano-serialization-lib-nodejs@^11.3.1":
+  version "11.3.1"
+  resolved "https://registry.yarnpkg.com/@emurgo/cardano-serialization-lib-nodejs/-/cardano-serialization-lib-nodejs-11.3.1.tgz#d70ad6a5df248c2cf093b0fa90494e1c29c81747"
+  integrity sha512-y6XrMID2nhmySIVxRFzOmQhGvPqa70w2Tc+sENLjhlTpKA4UWAZY212eMzda+NVwv2QmmQtYdKySs4GmU2KfFQ==
 
 "@endemolshinegroup/cosmiconfig-typescript-loader@^3.0.2":
   version "3.0.2"
@@ -1670,12 +1670,12 @@
     ts-node "^9"
     tslib "^2"
 
-"@ergolabs/cardano-dex-sdk@^0.0.70":
-  version "0.0.70"
-  resolved "https://registry.yarnpkg.com/@ergolabs/cardano-dex-sdk/-/cardano-dex-sdk-0.0.70.tgz#acbbb080dd0525e57d066a1c2a3730b6c439d117"
-  integrity sha512-wRiYJ2NTBzHhZPOxW89nhQUBhfQfdUxWK61NOhGv4mH/uyiFo3RkiaZbGygDwb0hGYxLKVFpgKQvqIwfcWAnqQ==
+"@ergolabs/cardano-dex-sdk@^0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@ergolabs/cardano-dex-sdk/-/cardano-dex-sdk-0.1.2.tgz#26a2e79515ca09bde744275aa6292e7dc218e9c2"
+  integrity sha512-TZJNm0N/+DqF9vGnZw14ygZe5BYhZR8ARsdCwyvt6F6xtXsE4+OqWHk/RYQb+XlCdT6+uiv0fMxjHaLJUT+leg==
   dependencies:
-    "@emurgo/cardano-serialization-lib-browser" "^11.0.5"
+    "@emurgo/cardano-serialization-lib-browser" "^11.3.1"
     axios "^0.21.1"
     blakejs "^1.1.0"
     bs58 "^4.0.1"
@@ -1685,10 +1685,10 @@
     mathjs "^9.4.4"
     ramda "0.27.1"
 
-"@ergolabs/ergo-dex-sdk@^1.9.58":
-  version "1.9.58"
-  resolved "https://registry.yarnpkg.com/@ergolabs/ergo-dex-sdk/-/ergo-dex-sdk-1.9.58.tgz#bfbb5ea4cf1be2b7d2343cb11cf508e14b3b8010"
-  integrity sha512-b4QTlmSjPbKVCb+uYKkA9dZvXvQ8Y8chlYeTebeDemZJFI6rDz4DGZ9rWrNlPDFUvmjbP/xThvDX2eaFtQq5aw==
+"@ergolabs/ergo-dex-sdk@^1.9.64":
+  version "1.9.64"
+  resolved "https://registry.yarnpkg.com/@ergolabs/ergo-dex-sdk/-/ergo-dex-sdk-1.9.64.tgz#0e5608e955e78011d79311f8e8171db8cab77640"
+  integrity sha512-s17L02fiN5kyCsJsaEbYnpp3K3nqVgOeUV05t/LEozQqcqj4B9vRZ8hiU80scxLSB+GLatsjqZKVNdVTSU6xNQ==
   dependencies:
     "@ergolabs/ergo-sdk" "^0.5.6"
     axios "^0.21.1"
@@ -1718,10 +1718,10 @@
     mathjs "^9.4.4"
     ramda "0.27.1"
 
-"@ergolabs/ui-kit@^2.4.24":
-  version "2.4.24"
-  resolved "https://registry.yarnpkg.com/@ergolabs/ui-kit/-/ui-kit-2.4.24.tgz#7a2c09ece8c17c58d38e7b3e00d26e720aa174c4"
-  integrity sha512-4a8k9b84vghb9AZE1J6C05E22gAUxSGglINUS0SbtCU5j8uz4y067kdNDOltRQe6fIjW0tXAOmtTGPbJodTbeQ==
+"@ergolabs/ui-kit@^2.4.28":
+  version "2.4.28"
+  resolved "https://registry.yarnpkg.com/@ergolabs/ui-kit/-/ui-kit-2.4.28.tgz#364485da00700bcfb501a674902aee572188a8dc"
+  integrity sha512-jNrlAvg4MSMVHpRKoE0MhPuzD9CjMLdDeKBcnQC71n0yEOU6B6dNcWBgcOnWn7eXUV0c1rhvF2KIV6m5SAsAoA==
   dependencies:
     antd "^4.17.0-alpha.5"
     classnames "^2.3.1"

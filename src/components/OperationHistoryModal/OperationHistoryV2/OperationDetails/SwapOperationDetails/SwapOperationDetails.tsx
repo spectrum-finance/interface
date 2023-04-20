@@ -47,7 +47,10 @@ export const SwapOperationDetails: FC<SwapOperationDetailsProps> = ({
           />
         )}
         {swapItem.status === OperationStatus.NeedRefund && (
-          <TransactionRefund transactionId={swapItem.registerTx.id} />
+          <TransactionRefund
+            pair={[swapItem.base, swapItem.quote]}
+            transactionId={swapItem.registerTx.id}
+          />
         )}
       </>
     }

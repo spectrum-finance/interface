@@ -4,12 +4,14 @@ import React, { FC } from 'react';
 
 export interface OperationsEmptyStateProps {
   readonly onSwapNowButtonClick?: () => void;
+  readonly height?: number;
 }
 
 export const OperationsEmptyState: FC<OperationsEmptyStateProps> = ({
   onSwapNowButtonClick,
+  height,
 }) => (
-  <EmptyDataState height={275}>
+  <EmptyDataState height={height || 275}>
     <Flex align="center" col>
       <Flex.Item marginBottom={4}>
         <Trans>Your transactions will appear here</Trans>

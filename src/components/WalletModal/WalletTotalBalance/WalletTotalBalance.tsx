@@ -40,7 +40,7 @@ export const WalletTotalBalance: React.FC<WalletTotalBalanceProps> = ({
             </Flex.Item>
             <Flex.Item>
               <Typography.Body secondary size="small" strong>
-                <ConvenientAssetView value={balance} prefix="~" />
+                <ConvenientAssetView value={balance} />
               </Typography.Body>
             </Flex.Item>
           </Flex>

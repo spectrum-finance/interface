@@ -204,7 +204,11 @@ const _Page: React.FC<PageProps> = ({
                 {children}
               </Box>
             </Flex.Item>
-            <Flex.Item style={{ zIndex: 0 }}>{footer}</Flex.Item>
+            {footer && (
+              <Flex.Item marginTop={4} style={{ zIndex: 0 }}>
+                {footer}
+              </Flex.Item>
+            )}
           </Flex>
         </Flex>
       </Flex>

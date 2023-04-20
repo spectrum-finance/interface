@@ -13,6 +13,4 @@ export const SlippageDecimals = 2;
 
 export const PoolFeeMax = 0.25;
 
-// TODO: Remove from everywhere
-export const UI_REWARD_ADDRESS =
-  '9gCigPc9cZNRhKgbgdmTkVxo1ZKgw79G8DvLjCcYWAvEF3XRUKy';
+export const UI_REWARD_ADDRESS = '';

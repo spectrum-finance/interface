@@ -17,7 +17,7 @@ export const walletSwap = (
     .pipe(first())
     .pipe(
       switchMap(({ executionFeeAsset }) =>
-        executionFeeAsset.id === feeAsset.id
+        executionFeeAsset?.id === feeAsset.id
           ? spfWalletSwap(pool, from, to)
           : nativeWalletSwap(pool, from, to),
       ),

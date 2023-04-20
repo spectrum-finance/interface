@@ -4,13 +4,11 @@ import { catchError, from, map, Observable, of } from 'rxjs';
 
 import { applicationConfig } from '../../../../applicationConfig';
 import { AmmPool } from '../../../../common/models/AmmPool';
-import { PoolChartData } from '../../../../common/models/PoolChartData';
+import {
+  PoolChartData,
+  PoolChartDataRaw,
+} from '../../../../common/models/PoolChartData';
 import { PoolChartDataParams } from '../../../common/PoolChartDataParams';
-
-export interface PoolChartDataRaw {
-  price: number;
-  timestamp: number;
-}
 
 export const getPoolChartDataRaw = (
   poolId: PoolId,

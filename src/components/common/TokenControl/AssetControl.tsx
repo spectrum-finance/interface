@@ -177,11 +177,7 @@ export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
               <Flex.Item align="center" marginTop={2}>
                 <Flex.Item flex={1}>
                   <Typography.Body secondary size={valBySize('small', 'base')}>
-                    <ConvenientAssetView
-                      value={value}
-                      defaultValue="~$0.00"
-                      type={'default'}
-                    />
+                    <ConvenientAssetView value={value} />
                   </Typography.Body>
                 </Flex.Item>
                 {selectedAsset !== undefined &&

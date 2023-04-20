@@ -35,6 +35,7 @@ export const defaultErgoSettings: ErgoSettings = {
   pk: undefined,
   address: undefined,
   ergopay: false,
+  newHistory: true,
 };
 
 const getNewSelectedAddress = (
@@ -90,6 +91,7 @@ export const initializeSettings = (): void => {
       setSettings({
         ...currentSettings,
         address: newSelectedAddress,
+        newHistory: true,
         pk: publicKeyFromAddress(newSelectedAddress),
         executionFeeAsset:
           currentSettings.executionFeeAsset ||
@@ -102,7 +104,7 @@ export const getSettings = (): ErgoSettings => {
   const localStorageData = localStorageManager.get<ErgoSettings>(SETTINGS_KEY);
 
   return localStorageData
-    ? { ...localStorageData, minerFee: defaultMinerFee }
+    ? { ...localStorageData, minerFee: defaultMinerFee, newHistory: true }
     : defaultErgoSettings;
 };
 

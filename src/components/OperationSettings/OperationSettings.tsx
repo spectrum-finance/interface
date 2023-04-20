@@ -194,7 +194,7 @@ export const OperationSettings: FC<OperationSettingsProps> = ({
             <IsErgo>
               <Flex.Item marginBottom={1}>
                 <Typography.Body strong>
-                  <Trans>Execution fee in</Trans>
+                  <Trans>Execution fee</Trans>
                 </Typography.Body>
                 <InfoTooltip
                   width={200}

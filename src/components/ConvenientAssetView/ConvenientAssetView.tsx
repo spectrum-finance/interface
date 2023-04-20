@@ -6,21 +6,35 @@ import { convertToConvenientNetworkAsset } from '../../api/convertToConvenientNe
 import { useObservable } from '../../common/hooks/useObservable';
 import { Currency } from '../../common/models/Currency';
 import { useSelectedNetwork } from '../../gateway/common/network';
+import { Network } from '../../network/common/Network';
 import { formatToUSD } from '../../services/number';
 
 export interface ConvenientAssetViewProps {
   readonly value: Currency | Currency[] | undefined;
-  readonly prefix?: string;
-  readonly hidePrefix?: boolean;
-  readonly defaultValue?: string;
-  readonly type?: 'abbr' | 'default';
 }
+
+const SMALLEST_VALUE = 0.01;
+const ZERO_VALUE = '0.00';
+
+const getConvenientValue = (
+  network: Network<any, any>,
+  convenientValue?: Currency,
+  value?: Currency | Currency[],
+): string => {
+  if (!convenientValue || !value || value.toString() === '0') {
+    return network.name === 'cardano' ? `${ZERO_VALUE} ADA` : `$${ZERO_VALUE}`;
+  } else if (Number(convenientValue.toString()) < SMALLEST_VALUE) {
+    return network.name === 'cardano'
+      ? `<${SMALLEST_VALUE} ADA`
+      : `<$${SMALLEST_VALUE}`;
+  }
+  return network.name === 'cardano'
+    ? convenientValue.toCurrencyString()
+    : formatToUSD(convenientValue);
+};
 
 export const ConvenientAssetView: FC<ConvenientAssetViewProps> = ({
   value,
-  prefix,
-  hidePrefix,
-  type,
 }) => {
   const [selectedNetwork] = useSelectedNetwork();
 
@@ -38,18 +52,8 @@ export const ConvenientAssetView: FC<ConvenientAssetViewProps> = ({
     <>
       {isConvenientValueLoading ? (
         <LoadingOutlined />
-      ) : value && convenientValue?.toString() !== '0' ? (
-        `${hidePrefix ? '' : prefix || '~'}${
-          convenientValue
-            ? convenientValue.asset.ticker === 'ADA'
-              ? convenientValue.toCurrencyString()
-              : formatToUSD(convenientValue, type || 'abbr')
-            : ''
-        }`
-      ) : selectedNetwork.convenientAssetDefaultPreview ? (
-        `${selectedNetwork.convenientAssetDefaultPreview}`
       ) : (
-        '-'
+        getConvenientValue(selectedNetwork, convenientValue, value)
       )}
     </>
   );

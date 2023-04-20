@@ -7,5 +7,5 @@ export const comparePoolByTvl = (poolA: AmmPool, poolB: AmmPool): number => {
   if (!poolB.tvl) {
     return -1;
   }
-  return Number(poolB.tvl.value) - Number(poolA.tvl.value);
+  return Number(poolB.tvl.toAmount()) - Number(poolA.tvl.toAmount());
 };

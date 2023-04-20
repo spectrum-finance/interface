@@ -33,7 +33,6 @@ export interface TransactionHistoryTableProps extends ModalRef {
   readonly showDateTime?: boolean;
   readonly hideHeader?: boolean;
   readonly hideActions?: boolean;
-  readonly addresses: string[];
 }
 
 export const OperationHistoryTable: FC<TransactionHistoryTableProps> = ({
@@ -44,7 +43,6 @@ export const OperationHistoryTable: FC<TransactionHistoryTableProps> = ({
   showDateTime,
   hideHeader,
   hideActions,
-  addresses,
   close,
 }) => {
   const openRefundModal = (operation: Operation): void => {
@@ -53,7 +51,7 @@ export const OperationHistoryTable: FC<TransactionHistoryTableProps> = ({
         ? { xAsset: operation.base, yAsset: operation.quote }
         : { xAsset: operation.x, yAsset: operation.y };
 
-    refund(addresses, operation, payload.xAsset, payload.yAsset)
+    refund(operation.txId, payload.xAsset, payload.yAsset)
       .pipe(first())
       .subscribe();
   };

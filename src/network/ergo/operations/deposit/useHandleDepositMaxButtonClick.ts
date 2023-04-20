@@ -135,7 +135,7 @@ export const useHandleDepositMaxButtonClick = (): ((
     useNativeHandleDepositMaxButtonClick();
   const spfHandleDepositMaxButtonClick = useSpfHandleDepositMaxButtonClick();
 
-  return executionFeeAsset.id === feeAsset.id
+  return executionFeeAsset?.id === feeAsset.id
     ? spfHandleDepositMaxButtonClick
     : nativeHandleDepositMaxButtonClick;
 };

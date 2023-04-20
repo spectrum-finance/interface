@@ -18,7 +18,7 @@ export const walletRedeem = (
     .pipe(first())
     .pipe(
       switchMap(({ executionFeeAsset }) =>
-        executionFeeAsset.id === feeAsset.id
+        executionFeeAsset?.id === feeAsset.id
           ? spfWalletRedeem(pool, lp, x, y)
           : nativeWalletRedeem(pool, lp, x, y),
       ),

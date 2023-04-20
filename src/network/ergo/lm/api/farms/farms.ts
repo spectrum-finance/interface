@@ -21,7 +21,6 @@ import { ammPools$ } from '../../../api/ammPools/ammPools';
 import { lpBalance$ } from '../../../api/balance/lpBalance';
 import { mapToAssetInfo } from '../../../api/common/assetInfoManager';
 import { rawLmPools$ } from '../../../api/common/rawLmPools';
-import { convertToConvenientNetworkAsset } from '../../../api/ergoUsdRatio/ergoUsdRatio';
 import { networkContext$ } from '../../../api/networkContext/networkContext';
 import { ErgoFarm, ErgoLmPoolParams } from '../../models/ErgoFarm';
 import {
@@ -44,18 +43,7 @@ const toFarm = (params: ErgoLmPoolParams): Observable<Farm> =>
       params.lmPool.budget.asset,
     ].map((asset) => mapToAssetInfo(asset.id)),
   ).pipe(
-    switchMap(([lq, tt, vlq, reward]) =>
-      combineLatest([
-        convertToConvenientNetworkAsset.rate(
-          reward || params.lmPool.budget.asset,
-        ),
-        convertToConvenientNetworkAsset.rate(params.ammPool.x.asset),
-        convertToConvenientNetworkAsset.rate(params.ammPool.y.asset),
-      ]).pipe(
-        debounceTime(100),
-        map(() => [lq, tt, vlq, reward]),
-      ),
-    ),
+    debounceTime(100),
     map(
       ([lq, tt, vlq, reward]) =>
         new ErgoFarm(params, {
@@ -145,7 +133,9 @@ export const allFarms$ = combineLatest([
 export const farms$ = allFarms$.pipe(
   map((lmPools) =>
     lmPools.filter(
-      (lmPool) => !applicationConfig.blacklistedPools.includes(lmPool.id),
+      (lmPool) =>
+        !applicationConfig.blacklistedPools.includes(lmPool.id) &&
+        !applicationConfig.blacklistedFarms.includes(lmPool.id),
     ),
   ),
   map((farms) => uniqBy(farms, 'id')),
