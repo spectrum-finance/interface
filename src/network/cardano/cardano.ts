@@ -1,6 +1,5 @@
 import { Observable, of } from 'rxjs';
 
-import { Farm } from '../../common/models/Farm';
 import { TxId } from '../../common/types';
 import { Network } from '../common/Network';
 import { convertToConvenientNetworkAsset } from './api/adaRatio/adaRatio';
@@ -125,9 +124,7 @@ export const cardanoNetwork: Network<
   swap,
   deposit,
   redeem,
-  refund(lmPool: Farm): Observable<TxId> {
-    return of('');
-  },
+  refund,
   lmRedeem(): Observable<TxId> {
     return of('');
   },
