@@ -5,7 +5,6 @@ import {
   RedeemProps,
   SwapProps,
   TokenProps,
-  TraceProps,
 } from '@spectrumlabs/analytics';
 
 import { AmmPool } from '../../common/models/AmmPool';
@@ -49,7 +48,7 @@ export const mapToAmmPoolAnalyticsProps = (pool?: AmmPool): AmmPoolProps => ({
   amm_pool_name: getPoolName(pool),
 
   // Dividing by 100 to get real USD value
-  amm_pool_tvl: Number(pool?.tvl?.value) / 100,
+  amm_pool_tvl: Number(pool?.tvl?.amount) / 100,
 });
 
 const setString = (s?: string) => s || 'null';

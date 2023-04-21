@@ -11,11 +11,9 @@ const ANALYTICS_PROXY_URL = process.env.REACT_APP_AMPLITUDE_PROXY_URL;
 export const analyticsInitializer: Initializer = () => {
   initAnalytics(ANALYTICS_DUMMY_KEY, AppName.WEB_APP, {
     proxyUrl: ANALYTICS_PROXY_URL,
-    defaultEventName: 'Page Viewed',
-    commitHash: COMMIT_HASH,
     version: version,
     isProdEnv: isProductionEnv(),
-    isDebug: true,
+    isDebug: !isProductionEnv(),
   });
 
   return of(true);
