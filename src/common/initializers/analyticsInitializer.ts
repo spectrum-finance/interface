@@ -7,8 +7,6 @@ import { Initializer } from './core';
 
 const ANALYTICS_DUMMY_KEY = '00000000000000000000000000000000';
 const ANALYTICS_PROXY_URL = process.env.REACT_APP_AMPLITUDE_PROXY_URL;
-// TODO: add commit hash to CI
-const COMMIT_HASH = process.env.REACT_APP_GIT_COMMIT_HASH;
 
 export const analyticsInitializer: Initializer = () => {
   initAnalytics(ANALYTICS_DUMMY_KEY, AppName.WEB_APP, {
