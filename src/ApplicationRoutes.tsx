@@ -2,7 +2,6 @@ import { fireAnalyticsEvent, getBrowser, user } from '@spectrumlabs/analytics';
 import { DateTime } from 'luxon';
 import React, { FC, useEffect } from 'react';
 import { Navigate, Outlet, useRoutes } from 'react-router-dom';
-import { Metric, onCLS, onFCP, onFID, onLCP } from 'web-vitals';
 
 import { version } from '../package.json';
 import { NetworkDomManager } from './common/services/NetworkDomManager';
