@@ -132,26 +132,26 @@ export const ApplicationRoutes: FC = () => {
     user.set('theme_active', settings.theme);
     user.set('locale_active', settings.lang);
 
-    onCLS(({ delta }: Metric) => {
-      fireAnalyticsEvent('Web Vitals', {
-        cumulative_layout_shift: delta,
-      });
-    });
-    onFCP(({ delta }: Metric) => {
-      fireAnalyticsEvent('Web Vitals', {
-        first_contentful_paint_ms: delta,
-      });
-    });
-    onFID(({ delta }: Metric) => {
-      fireAnalyticsEvent('Web Vitals', {
-        first_input_delay_ms: delta,
-      });
-    });
-    onLCP(({ delta }: Metric) => {
-      fireAnalyticsEvent('Web Vitals', {
-        largest_contentful_paint_ms: delta,
-      });
-    });
+    // onCLS(({ delta }: Metric) => {
+    //   fireAnalyticsEvent('Web Vitals', {
+    //     cumulative_layout_shift: delta,
+    //   });
+    // });
+    // onFCP(({ delta }: Metric) => {
+    //   fireAnalyticsEvent('Web Vitals', {
+    //     first_contentful_paint_ms: delta,
+    //   });
+    // });
+    // onFID(({ delta }: Metric) => {
+    //   fireAnalyticsEvent('Web Vitals', {
+    //     first_input_delay_ms: delta,
+    //   });
+    // });
+    // onLCP(({ delta }: Metric) => {
+    //   fireAnalyticsEvent('Web Vitals', {
+    //     largest_contentful_paint_ms: delta,
+    //   });
+    // });
   }, []);
 
   return (
