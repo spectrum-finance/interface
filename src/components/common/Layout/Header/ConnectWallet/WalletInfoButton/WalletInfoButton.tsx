@@ -1,10 +1,12 @@
 import { Button, Flex, Modal, useDevice } from '@ergolabs/ui-kit';
+import { fireAnalyticsEvent } from '@spectrumlabs/analytics';
 import React, { FC } from 'react';
 import styled from 'styled-components';
 
-// import { panalytics } from '../../../../../../common/analytics';
 import { useObservable } from '../../../../../../common/hooks/useObservable';
 import { networkAssetBalance$ } from '../../../../../../gateway/api/networkAssetBalance';
+import { selectedWallet$ } from '../../../../../../gateway/api/wallets';
+import { useSelectedNetwork } from '../../../../../../gateway/common/network';
 import { settings$ } from '../../../../../../gateway/settings/settings';
 import { WalletModal } from '../../../../../WalletModal/WalletModal';
 import { AddressTag } from './AddressTag/AddressTag';
@@ -21,12 +23,18 @@ const _WalletInfoButton: FC<WalletInfoButtonProps> = ({ className }) => {
     Modal.open(({ close }) => <WalletModal close={close} />);
   const { s } = useDevice();
 
+  const [selectedWallet] = useObservable(selectedWallet$);
+  const [selectedNetwork] = useSelectedNetwork();
+
   return (
     <Button
       className={className}
       onClick={() => {
         openWalletModal();
-        // panalytics.openWalletModal();
+        fireAnalyticsEvent('Open Connected Wallet Modal', {
+          wallet_name: selectedWallet?.name || 'null',
+          wallet_network: selectedNetwork.name,
+        });
       }}
       size="large"
     >

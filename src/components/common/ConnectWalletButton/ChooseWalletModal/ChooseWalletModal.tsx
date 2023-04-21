@@ -7,16 +7,17 @@ import {
   useDevice,
 } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
+import { fireAnalyticsEvent } from '@spectrumlabs/analytics';
 import React, { ReactNode, useState } from 'react';
 import styled from 'styled-components';
 
-// import { panalytics } from '../../../../common/analytics';
 import { useObservable } from '../../../../common/hooks/useObservable';
 import {
   connectWallet,
   selectedWallet$,
   wallets$,
 } from '../../../../gateway/api/wallets';
+import { useSelectedNetwork } from '../../../../gateway/common/network';
 import { Wallet } from '../../../../network/common/Wallet';
 import { ErgoPayTabPaneContent } from '../../../../network/ergo/widgets/ErgoPayModal/ErgoPayTabPaneContent/ErgoPayTabPaneContent';
 import { IsCardano } from '../../../IsCardano/IsCardano';
@@ -48,6 +49,7 @@ const WalletButton = styled(Button)`
 const WalletView: React.FC<WalletItemProps> = ({ wallet, close }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [, setWarning] = useState<ReactNode | undefined>(undefined);
+  const [selectedNetwork] = useSelectedNetwork();
 
   const handleClick = () => {
     setLoading(true);
@@ -55,17 +57,27 @@ const WalletView: React.FC<WalletItemProps> = ({ wallet, close }) => {
       (isConnected) => {
         setLoading(false);
         if (typeof isConnected === 'boolean' && isConnected) {
-          // panalytics.connectWallet(wallet.name);
+          fireAnalyticsEvent('Connect Wallet Success', {
+            wallet_name: wallet.name,
+            wallet_network: selectedNetwork.name,
+          });
 
           close(true);
         } else if (isConnected) {
-          // panalytics.connectWalletError(wallet.name);
+          fireAnalyticsEvent('Connect Wallet Error', {
+            wallet_name: wallet.name,
+            wallet_network: selectedNetwork.name,
+            error_string: 'connect wallet error',
+          });
           setWarning(isConnected);
         }
       },
       () => {
         setLoading(false);
-        // panalytics.connectWalletInstallExtension(wallet.name);
+        fireAnalyticsEvent('Install Wallet Extension Redirect', {
+          wallet_name: wallet.name,
+          wallet_network: selectedNetwork.name,
+        });
         window.open(wallet.extensionLink);
       },
     );

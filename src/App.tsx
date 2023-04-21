@@ -6,8 +6,8 @@ import { BehaviorSubject, first, mapTo, Observable, tap, zip } from 'rxjs';
 
 import { applicationConfig } from './applicationConfig';
 import { ApplicationRoutes, routesConfig } from './ApplicationRoutes';
-// import { panalytics } from './common/analytics';
 import { useObservable } from './common/hooks/useObservable';
+import { analyticsInitializer } from './common/initializers/analyticsInitializer';
 import { gaInitializer } from './common/initializers/gaInitializer';
 import { networkDomInitializer } from './common/initializers/networkDomInitializer';
 import { sentryInitializer } from './common/initializers/sentryInitializer';
@@ -37,7 +37,7 @@ const Application = () => {
 
 const initializers: Observable<boolean>[] = [
   sentryInitializer(),
-  // panalytics.init(),
+  analyticsInitializer(),
   networkDomInitializer(routesConfig),
   gaInitializer(),
 ];

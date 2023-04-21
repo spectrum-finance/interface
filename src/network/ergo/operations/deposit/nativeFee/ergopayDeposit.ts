@@ -1,7 +1,6 @@
 import { from as fromPromise, map, Observable, switchMap, timeout } from 'rxjs';
 
 import { applicationConfig } from '../../../../../applicationConfig';
-// import { panalytics } from '../../../../../common/analytics';
 import { Currency } from '../../../../../common/models/Currency';
 import { TxId } from '../../../../../common/types';
 import { ErgoAmmPool } from '../../../api/ammPools/ErgoAmmPool';

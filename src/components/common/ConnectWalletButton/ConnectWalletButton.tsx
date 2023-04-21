@@ -4,11 +4,10 @@ import {
   Modal,
 } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
+import { fireAnalyticsEvent, TraceProps } from '@spectrumlabs/analytics';
 import cn from 'classnames';
 import React, { FC, ReactNode } from 'react';
 
-// import { panalytics } from '../../../common/analytics';
-// import { PAnalytics } from '../../../common/analytics/@types/types';
 import { useObservable } from '../../../common/hooks/useObservable';
 import { isWalletSetuped$ } from '../../../gateway/api/wallets';
 import { ChooseWalletModal } from './ChooseWalletModal/ChooseWalletModal';
@@ -18,24 +17,21 @@ export interface ConnectWalletButtonProps {
   readonly width?: ButtonProps['width'];
   readonly className?: string;
   readonly children?: ReactNode | ReactNode[] | string;
-  readonly analytics?: any;
+  readonly trace: TraceProps;
 }
 
 export const ConnectWalletButton: FC<ConnectWalletButtonProps> = ({
   size,
   className,
   children,
-  analytics,
+  trace,
   width,
 }) => {
   const [isWalletConnected] = useObservable(isWalletSetuped$);
 
   const openChooseWalletModal = (): void => {
     Modal.open(({ close }) => <ChooseWalletModal close={close} />);
-
-    if (analytics && analytics.location) {
-      // panalytics.openConnectWalletModal(analytics.location);
-    }
+    fireAnalyticsEvent('Click Connect Wallet Button', trace);
   };
 
   return (

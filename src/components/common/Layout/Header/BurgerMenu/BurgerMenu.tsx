@@ -13,12 +13,12 @@ import {
   RightOutlined,
 } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
+import { fireAnalyticsEvent, user } from '@spectrumlabs/analytics';
 import { stringify } from 'qs';
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
-// import { panalytics } from '../../../../../common/analytics';
 import {
   LOCALE_LABEL,
   SUPPORTED_LOCALES,
@@ -68,25 +68,21 @@ const BurgerMenu = (): JSX.Element => {
       title: t`About`,
       icon: <InfoCircleOutlined />,
       link: 'https://docs.spectrum.fi/docs/about-spectrumdex/intro',
-      // onClick: () => panalytics.clickBurgerMenu('About'),
     },
     {
       title: t`How to use`,
       icon: <QuestionCircleOutlined />,
       link: 'https://docs.spectrum.fi/docs/user-guides/quick-start',
-      // onClick: () => panalytics.clickBurgerMenu('How to use'),
     },
     {
       title: t`Docs`,
       icon: <FileTextOutlined />,
       link: 'https://docs.spectrum.fi',
-      // onClick: () => panalytics.clickBurgerMenu('Docs'),
     },
     {
       title: 'GitHub',
       icon: <GithubOutlined />,
       link: 'https://github.com/spectrum-finance',
-      // onClick: () => panalytics.clickBurgerMenu('GitHub'),
     },
     {
       title: t`Manual Refund`,
@@ -108,6 +104,8 @@ const BurgerMenu = (): JSX.Element => {
   ];
 
   const changeLanguage = (locale: string) => {
+    fireAnalyticsEvent('Select Locale', { locale });
+    user.set('locale_active', locale);
     setSettings({
       ...settings,
       lang: locale,
@@ -155,7 +153,6 @@ const BurgerMenu = (): JSX.Element => {
               rel="noopener noreferrer"
               onClick={() => {
                 changeLanguage(locale);
-                // panalytics.changeLocale(locale);
               }}
             >
               {LOCALE_LABEL[locale]}

@@ -8,6 +8,7 @@ import {
   useDevice,
 } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
+import { ElementLocation, ElementName } from '@spectrumlabs/analytics';
 import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -125,7 +126,14 @@ export const PoolInfoView: FC<PoolInfoProps> = ({ position }) => {
           <MyLiquidity position={position} />
         </Flex.Item>
         <Flex.Item>
-          <ConnectWalletButton width="100%" size="large">
+          <ConnectWalletButton
+            width="100%"
+            size="large"
+            trace={{
+              element_name: ElementName.connectWalletButton,
+              element_location: ElementLocation.poolPosition,
+            }}
+          >
             <Flex>
               <Flex.Item flex={1} marginRight={2}>
                 <Button

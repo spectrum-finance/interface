@@ -1,3 +1,4 @@
+import { user } from '@spectrumlabs/analytics';
 import {
   BehaviorSubject,
   distinctUntilChanged,
@@ -71,7 +72,10 @@ export const initializeNetwork = (
 };
 
 export const networksInitialized$ = selectedNetwork$.pipe(
-  switchMap((n) => n.initialized$),
+  switchMap((n) => {
+    user.set('network_active', n.name);
+    return n.initialized$;
+  }),
   distinctUntilChanged(),
   publishReplay(1),
   refCount(),

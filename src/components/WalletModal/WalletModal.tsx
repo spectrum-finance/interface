@@ -1,8 +1,8 @@
 import { Box, Button, Flex, Modal, Tabs, useDevice } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
+import { fireAnalyticsEvent } from '@spectrumlabs/analytics';
 import React, { CSSProperties } from 'react';
 
-// import { panalytics } from '../../common/analytics';
 import { useObservable } from '../../common/hooks/useObservable';
 import { networkAssetBalance$ } from '../../gateway/api/networkAssetBalance';
 import { disconnectWallet, selectedWallet$ } from '../../gateway/api/wallets';
@@ -26,7 +26,10 @@ export const WalletModal: React.FC<{ close: (result?: any) => void }> = ({
   const [network] = useSelectedNetwork();
 
   const handleDisconnectWalletClick = () => {
-    // panalytics.disconnectWallet(selectedWallet?.name);
+    fireAnalyticsEvent('Disconnect Wallet', {
+      wallet_name: selectedWallet?.name || 'null',
+      wallet_network: network.name,
+    });
     disconnectWallet();
     patchSettings({ ergopay: false });
     close();

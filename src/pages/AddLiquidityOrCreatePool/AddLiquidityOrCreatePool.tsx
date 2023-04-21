@@ -1,6 +1,7 @@
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
 import { Flex, Form, Skeleton, useForm } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
+import { ElementLocation, ElementName } from '@spectrumlabs/analytics';
 import React, { FC, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -218,13 +219,13 @@ export const AddLiquidityOrCreatePool: FC = () => {
                     <AssetSelectFormItem
                       name="x"
                       assets$={xAssets$}
-                      analytics={{
-                        operation:
+                      trace={{
+                        element_name: ElementName.tokenX,
+                        element_location:
                           value &&
                           isAddLiquidityPageVisible(value, componentState)
-                            ? 'deposit'
-                            : 'create-pool',
-                        tokenAssignment: 'x',
+                            ? ElementLocation.depositForm
+                            : ElementLocation.createPoolForm,
                       }}
                     />
                   </Flex.Item>
@@ -232,13 +233,13 @@ export const AddLiquidityOrCreatePool: FC = () => {
                     <AssetSelectFormItem
                       name="y"
                       assets$={yAssets$}
-                      analytics={{
-                        operation:
+                      trace={{
+                        element_name: ElementName.tokenY,
+                        element_location:
                           value &&
                           isAddLiquidityPageVisible(value, componentState)
-                            ? 'deposit'
-                            : 'create-pool',
-                        tokenAssignment: 'y',
+                            ? ElementLocation.depositForm
+                            : ElementLocation.createPoolForm,
                       }}
                     />
                   </Flex.Item>

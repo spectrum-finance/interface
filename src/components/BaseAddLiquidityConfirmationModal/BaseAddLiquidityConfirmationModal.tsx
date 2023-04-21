@@ -3,12 +3,13 @@ import { t, Trans } from '@lingui/macro';
 import React, { FC } from 'react';
 import { Observable, tap } from 'rxjs';
 
-// import { panalytics } from '../../common/analytics';
 import { AmmPool } from '../../common/models/AmmPool';
 import { Currency } from '../../common/models/Currency';
 import { TxId } from '../../common/types';
+import { fireOperationAnalyticsEvent } from '../../gateway/analytics/fireOperationAnalyticsEvent';
 import { AddLiquidityFormModel } from '../../pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityFormModel';
 import { PoolRatio } from '../../pages/PoolOverview/PoolRatio/PoolRatio';
+import { mapToDepositAnalyticsProps } from '../../utils/analytics/mapper';
 import { FormPairSection } from '../common/FormView/FormPairSection/FormPairSection';
 import { PageSection } from '../Page/PageSection/PageSection';
 import { Section } from '../Section/Section';
@@ -30,19 +31,39 @@ export const BaseAddLiquidityConfirmationModal: FC<BaseAddLiquidityConfirmationM
       const { pool, y, x } = value;
 
       if (pool && x && y) {
-        // panalytics.confirmDeposit(value);
+        fireOperationAnalyticsEvent('Deposit Modal Confirm', (ctx) =>
+          mapToDepositAnalyticsProps(value, ctx),
+        );
         onClose(
           deposit(
             pool,
             x.asset.id === pool.x.asset.id ? x : y,
             y.asset.id === pool.y.asset.id ? y : x,
+          ).pipe(
+            tap(
+              () => {
+                fireOperationAnalyticsEvent('Deposit Signed Success', (ctx) =>
+                  mapToDepositAnalyticsProps(value, ctx),
+                );
+              },
+              (err) => {
+                if (err.code === 2) {
+                  fireOperationAnalyticsEvent('Deposit Cancel Sign', (ctx) =>
+                    mapToDepositAnalyticsProps(value, ctx),
+                  );
+                  return;
+                }
+
+                fireOperationAnalyticsEvent(
+                  'Deposit Modal Confirm Error',
+                  (ctx) => ({
+                    ...mapToDepositAnalyticsProps(value, ctx),
+                    error_string: JSON.stringify(err),
+                  }),
+                );
+              },
+            ),
           ),
-          // .pipe(
-          //   tap(
-          //     (txId) => panalytics.signedDeposit(value, txId),
-          //     (err) => panalytics.signedErrorDeposit(value, err),
-          //   ),
-          // ),
         );
       }
     };

@@ -7,13 +7,13 @@ import {
   useDevice,
 } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
+import { fireAnalyticsEvent, TraceProps } from '@spectrumlabs/analytics';
 import React from 'react';
 import { Observable } from 'rxjs';
 import styled from 'styled-components';
 
-// import { panalytics } from '../../../../common/analytics';
-// import { PAnalytics } from '../../../../common/analytics/@types/types';
 import { AssetInfo } from '../../../../common/models/AssetInfo';
+import { mapToTokenProps } from '../../../../utils/analytics/mapper';
 import { AssetTitle } from '../../../AssetTitle/AssetTitle';
 import { AssetListModal } from './AssetListModal/AssetListModal';
 
@@ -25,8 +25,8 @@ interface TokenSelectProps {
   readonly importedAssets$?: Observable<AssetInfo[]>;
   readonly disabled?: boolean;
   readonly readonly?: boolean;
-  readonly analytics?: any;
   readonly loading?: boolean;
+  readonly trace: TraceProps;
 }
 
 const StyledDownOutlined = styled(DownOutlined)`
@@ -49,20 +49,19 @@ const AssetSelect: React.FC<TokenSelectProps> = ({
   assets$,
   assetsToImport$,
   importedAssets$,
-  analytics,
   loading,
+  trace: { element_name, element_location },
 }) => {
   const { valBySize } = useDevice();
   const handleSelectChange = (newValue: AssetInfo): void => {
     if (value?.id !== newValue?.id && onChange) {
       onChange(newValue);
     }
-    if (analytics && analytics.operation && analytics.tokenAssignment) {
-      // panalytics.selectToken(analytics.operation, analytics.tokenAssignment, {
-      //   tokenId: newValue.id,
-      //   tokenName: newValue.ticker,
-      // });
-    }
+    fireAnalyticsEvent('Select Token', {
+      ...mapToTokenProps(newValue),
+      element_location,
+      element_name,
+    });
   };
 
   const openTokenModal = () => {
