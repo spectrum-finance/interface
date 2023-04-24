@@ -5,6 +5,7 @@
   "scripts": {
     "start": "vite",
     "build": "tsc && vite build",
+    "build:prod": "node --max-old-space-size=4096 && tsc && vite build",
     "serve": "vite preview",
     "prei18n:extract": "touch src/i18n/locales/en-US.po",
     "i18n:extract": "lingui extract --locale en-US",

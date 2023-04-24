@@ -42,4 +42,4 @@ jobs:
         run: yarn lint:stylelint
 
       - name: Build ts
-        run: CI=false yarn build
+        run: CI=false yarn build:prod
