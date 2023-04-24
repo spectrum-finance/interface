@@ -38,6 +38,7 @@ export const ConfirmFarmCreateModal: React.FC<ConfirmFarmCreateModal> = ({
         <Flex align="center">
           <Flex.Item marginRight={5}>
             <Typography.Title level={5}>
+              {/* eslint-disable-next-line no-console */}
               <StyledArrowLeftOutlined onClick={() => console.log('close')} />
             </Typography.Title>
           </Flex.Item>
@@ -48,7 +49,7 @@ export const ConfirmFarmCreateModal: React.FC<ConfirmFarmCreateModal> = ({
         <OperationForm
           traceFormLocation={ElementLocation.farmsList}
           form={form}
-          onSubmit={() => console.log('confirm')}
+          onSubmit={() => {}}
           actionCaption={t`Confirm farm creation`}
         >
           <Flex col gap={6}>

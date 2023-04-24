@@ -100,7 +100,7 @@ export interface ListProps<T> {
       )[];
 }
 
-export const List = <T extends unknown>({
+export const List = <T,>({
   maxHeight,
   height,
   style,
