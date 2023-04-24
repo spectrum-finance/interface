@@ -1,5 +1,4 @@
 import { Flex, LeftOutlined } from '@ergolabs/ui-kit';
-
 import {
   CSSProperties,
   MouseEventHandler,
@@ -8,7 +7,6 @@ import {
   useEffect,
   useState,
 } from 'react';
-
 import * as React from 'react';
 import styled from 'styled-components';
 

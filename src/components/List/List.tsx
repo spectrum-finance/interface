@@ -1,6 +1,13 @@
 import { Animation, getGutter, Gutter } from '@ergolabs/ui-kit';
 import last from 'lodash/last';
-import { CSSProperties, ReactElement, ReactNode, useEffect, useRef, useState } from 'react';
+import {
+  CSSProperties,
+  ReactElement,
+  ReactNode,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { AutoSizer } from 'react-virtualized';
 import {
   List as VirtualizedList,
