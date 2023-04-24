@@ -1,4 +1,4 @@
-import React, { Input, InputProps, SearchOutlined } from '@ergolabs/ui-kit';
+import { Input, InputProps, SearchOutlined } from '@ergolabs/ui-kit';
 import { FC } from 'react';
 
 export type SearchInputProps = Omit<InputProps, 'prefix'>;

@@ -1,10 +1,4 @@
-import React, {
-  Box,
-  Checkbox,
-  Control,
-  Flex,
-  Typography,
-} from '@ergolabs/ui-kit';
+import { Box, Checkbox, Control, Flex, Typography } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import { FC } from 'react';
 import styled from 'styled-components';
