@@ -120,6 +120,7 @@ export const LanguageProvider = ({
   }, [setSettings, locale]);
 
   return (
+    // @ts-ignore
     <I18nProvider i18n={i18n} forceRenderOnLocaleChange={false}>
       {children}
     </I18nProvider>
