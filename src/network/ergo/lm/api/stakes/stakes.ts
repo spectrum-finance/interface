@@ -17,8 +17,11 @@ import { Currency } from '../../../../../common/models/Currency';
 import { explorer } from '../../../../../services/explorer';
 import { availableTokensDataWithNft$ } from '../../../api/balance/common';
 
-// @typescript-eslint/no-loss-of-precision
-const MAX_VLQ_TOKEN_EMISSION = BigInt(0x7fffffffffffffff) - 2n;
+/*
+ * Max token emission in the Ergo blockchain is Long.MaxValue = 9223372036854775807L (Scala)
+ * In JavaScript this value is represented as 9223372036854775806n
+ */
+const MAX_VLQ_TOKEN_EMISSION = 9223372036854775806n;
 
 const MAX_STAKES_PER_PAGE = 500;
 
