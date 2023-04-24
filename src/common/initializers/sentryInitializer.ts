@@ -6,9 +6,9 @@ import { Initializer } from './core';
 
 export const sentryInitializer: Initializer = () => {
   Sentry.init({
-    dsn: process.env.REACT_APP_SENTRY_DSN,
+    dsn: import.meta.env.VITE_SENTRY_DSN,
     integrations: [new Integrations.BrowserTracing()],
-    environment: process.env.REACT_APP_SENTRY_ENV_FLAG,
+    environment: import.meta.env.VITE_SENTRY_ENV_FLAG,
     tracesSampleRate: 1.0,
   });
 

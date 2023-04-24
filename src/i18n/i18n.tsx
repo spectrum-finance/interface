@@ -90,7 +90,7 @@ const dynamicActivate = async (locale: SupportedLocale) => {
   const { messages } =
     locale === DEFAULT_LOCALE
       ? { messages: DEFAULT_MESSAGES }
-      : await import(`./locales/${locale}`);
+      : await import(`./locales/${locale}.mjs`);
   i18n.load(locale, messages);
   i18n.activate(locale);
 };

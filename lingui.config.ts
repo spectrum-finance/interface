@@ -6,7 +6,7 @@ export default {
       exclude: ['**/*.d.ts'],
     },
   ],
-  compileNamespace: 'cjs',
+  compileNamespace: 'es',
   fallbackLocales: {
     default: 'en-US',
   },

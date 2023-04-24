@@ -6,7 +6,7 @@ import { isProductionEnv } from '../utils/env';
 import { Initializer } from './core';
 
 const ANALYTICS_DUMMY_KEY = '00000000000000000000000000000000';
-const ANALYTICS_PROXY_URL = process.env.REACT_APP_AMPLITUDE_PROXY_URL;
+const ANALYTICS_PROXY_URL = import.meta.env.VITE_AMPLITUDE_PROXY_URL;
 
 export const analyticsInitializer: Initializer = () => {
   initAnalytics(ANALYTICS_DUMMY_KEY, AppName.WEB_APP, {
