@@ -15,7 +15,6 @@ export interface FarmGridViewProps<T extends AmmPool | Position> {
 
 const _FarmGridView: React.FC<FarmGridViewProps<AmmPool>> = ({
   items,
-  loading,
   className,
 }) => {
   return (
