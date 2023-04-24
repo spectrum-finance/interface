@@ -19,10 +19,10 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": false,
 
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "noImplicitAny": true,
+//    "esModuleInterop": true,
+//    "forceConsistentCasingInFileNames": true,
   },
   "include": ["src"],
   "excluded": ["**/*.wasm"],

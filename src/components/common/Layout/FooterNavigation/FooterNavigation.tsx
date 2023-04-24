@@ -32,7 +32,7 @@ export const BottomContainer = styled.div<{ ref: any }>`
   }
 `;
 // eslint-disable-next-line react/display-name
-export const FooterNavigation = forwardRef<HTMLDivElement>((props, ref) => {
+export const FooterNavigation = forwardRef<HTMLDivElement>((_, ref) => {
   const { s, m } = useDevice();
   const [walletState] = useObservable(selectedWalletState$);
 
