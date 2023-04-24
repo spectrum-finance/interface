@@ -31,7 +31,6 @@ const StyledArrowLeftOutlined = styled(ArrowLeftOutlined)`
 
 export const ConfirmFarmCreateModal: React.FC<ConfirmFarmCreateModal> = ({
   form,
-  onClose,
 }) => {
   return (
     <>

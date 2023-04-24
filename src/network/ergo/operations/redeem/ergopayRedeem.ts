@@ -13,14 +13,15 @@ export const ergoPayRedeem = (
   lp: Currency,
   x: Currency,
   y: Currency,
-  percent: number,
+  // percent: number,
 ): Observable<TxId> =>
-  settings$
-    .pipe(first())
-    .pipe(
-      switchMap(({ executionFeeAsset }) =>
+  settings$.pipe(first()).pipe(
+    switchMap(
+      ({ executionFeeAsset }) =>
         executionFeeAsset?.id === feeAsset.id
-          ? spfErgoPayRedeem(pool, lp, x, y, percent)
-          : nativeErgoPayRedeem(pool, lp, x, y, percent),
-      ),
-    );
+          ? spfErgoPayRedeem(pool, lp, x, y)
+          : nativeErgoPayRedeem(pool, lp, x, y),
+      // ? spfErgoPayRedeem(pool, lp, x, y, percent)
+      // : nativeErgoPayRedeem(pool, lp, x, y, percent),
+    ),
+  );

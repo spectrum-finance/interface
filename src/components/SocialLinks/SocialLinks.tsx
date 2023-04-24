@@ -40,7 +40,7 @@ const channels = [
 const SocialLinks = (): JSX.Element => {
   return (
     <ul className="social-links">
-      {channels.map(({ name, url, icon }, index) => {
+      {channels.map(({ url, icon }, index) => {
         return (
           <li key={index} className="social-links__item">
             <a

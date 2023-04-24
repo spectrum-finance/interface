@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Modal, Tabs, useDevice } from '@ergolabs/ui-kit';
+import { Box, Button, Flex, Modal, useDevice } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import { fireAnalyticsEvent } from '@spectrumlabs/analytics';
 import { CSSProperties } from 'react';
@@ -10,9 +10,6 @@ import { disconnectWallet, selectedWallet$ } from '../../gateway/api/wallets';
 import { useSelectedNetwork } from '../../gateway/common/network';
 import { patchSettings } from '../../network/ergo/settings/settings';
 import { isLowBalance } from '../../utils/walletMath';
-import { IsCardano } from '../IsCardano/IsCardano';
-import { IsErgo } from '../IsErgo/IsErgo';
-import { AddressesTab } from './AddressesTab/AddressesTab';
 import { LowBalanceWarning } from './LowBalanceWarning/LowBalanceWarning';
 import { WalletActiveAddress } from './WalletActiveAddress/WalletActiveAddress';
 import { WalletTokens } from './WalletTokens/WalletTokens';

@@ -160,7 +160,7 @@ const SuccessModalContent = (txId: TxId) => (
   </Flex>
 );
 
-const SuccessErgopayContent = (txId: TxId) => (
+const SuccessErgopayContent = () => (
   <Flex col align="center">
     Test
     {/*<Flex.Item marginBottom={1}>*/}
@@ -245,12 +245,12 @@ export const openConfirmationModal = (
         : ProgressModalContent(operation, payload),
     successContent: (txId) => {
       return operation === Operation.ERGOPAY
-        ? SuccessErgopayContent(txId)
+        ? SuccessErgopayContent()
         : SuccessModalContent(txId);
     },
     success:
       operation === Operation.ERGOPAY
-        ? (txId) => SuccessErgopayContent(txId)
+        ? () => SuccessErgopayContent()
         : undefined,
     onCancel,
   });

@@ -4,7 +4,6 @@ import { FC } from 'react';
 
 import { AmmPool } from '../../../common/models/AmmPool';
 import { formatToUSD } from '../../../services/number';
-import { renderFractions } from '../../../utils/math';
 import { AssetPairTitle } from '../../AssetPairTitle/AssetPairTitle';
 import { DataTag } from '../../common/DataTag/DataTag';
 

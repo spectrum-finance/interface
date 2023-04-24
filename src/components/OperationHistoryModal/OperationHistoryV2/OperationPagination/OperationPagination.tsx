@@ -116,7 +116,7 @@ export const OperationPagination: FC<OperationPaginationProps> = ({
           icon={<LeftOutlined />}
         />
       </Flex.Item>
-      {displayedPages.map((page, i) => (
+      {displayedPages.map((page) => (
         <Flex.Item key={page} marginRight={1}>
           <PaginationButton
             width={34}

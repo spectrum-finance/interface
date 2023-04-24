@@ -29,7 +29,7 @@ function useResolvedElement<T extends HTMLElement>(
   const cleanupRef = useRef<SubscriberResponse | null>();
 
   const callSubscriber = useCallback(() => {
-    let element = null;
+    let element: T | null = null;
     if (callbackRefElement.current) {
       element = callbackRefElement.current;
     } else if (refOrElement) {

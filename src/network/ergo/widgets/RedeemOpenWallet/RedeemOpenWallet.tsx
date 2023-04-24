@@ -35,7 +35,7 @@ export const RedeemOpenWallet: FC<RedeemOpenWalletProps> = ({
       value.lpAmount,
       value.xAmount,
       value.yAmount,
-      value.percent,
+      // value.percent,
     )
       .pipe(first())
       .subscribe({

@@ -1,5 +1,5 @@
 import { FeeCurrency, fireAnalyticsEvent } from '@spectrumlabs/analytics';
-import { AnalyticsEvents } from '@spectrumlabs/analytics/lib/cjs/types/events';
+import { AnalyticsEvents } from '@spectrumlabs/analytics';
 import { combineLatest, first, from, switchMap } from 'rxjs';
 
 import { SPF_TOKEN_ERGO_ID } from '../../common/constants/spf';
