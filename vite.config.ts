@@ -27,6 +27,9 @@ export default defineConfig({
     }),
     checker({
       typescript: true,
+      eslint: {
+        lintCommand: 'eslint --ext .js,.ts,.tsx src',
+      },
     }),
     lingui(),
     wasm(),
