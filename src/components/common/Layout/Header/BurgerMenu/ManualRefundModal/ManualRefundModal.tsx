@@ -1,5 +1,5 @@
 import { ModalRef } from '@ergolabs/ui-kit';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { useSettings } from '../../../../../../gateway/settings/settings';
 import { ManualRefundModalV1 } from './ManualRefundModalV1/ManualRefundModalV1';

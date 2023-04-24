@@ -6,7 +6,7 @@ import {
   Typography,
 } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { isIOS } from 'react-device-detect';
 
 import { ProtocolDisclaimerAlert } from '../../../../../components/common/ConnectWalletButton/ChooseWalletModal/ProtocolDisclaimerAlert/ProtocolDisclaimerAlert';

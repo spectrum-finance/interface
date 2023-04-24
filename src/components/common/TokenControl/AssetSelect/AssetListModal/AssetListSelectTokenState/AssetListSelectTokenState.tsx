@@ -7,7 +7,8 @@ import {
   useSearch,
 } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
-import React, { FC } from 'react';
+import { FC } from 'react';
+import * as React from 'react';
 import { Observable, of } from 'rxjs';
 
 import { useObservable } from '../../../../../../common/hooks/useObservable';

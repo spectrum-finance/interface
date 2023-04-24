@@ -7,7 +7,7 @@ import {
   LeftOutlined,
   RightOutlined,
 } from '@ergolabs/ui-kit';
-import React, { FC } from 'react';
+import { FC } from 'react';
 import styled, { css } from 'styled-components';
 
 const _PaginationButton: FC<ButtonProps & { active?: boolean }> = ({

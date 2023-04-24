@@ -8,7 +8,7 @@ import {
   Typography,
 } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
-import React, { FC } from 'react';
+import { FC } from 'react';
 import styled from 'styled-components';
 
 import { ReactComponent as BottomBackground } from './bottom-background.svg';

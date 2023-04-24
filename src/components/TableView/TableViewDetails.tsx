@@ -1,5 +1,5 @@
 import { getGutter, Gutter } from '@ergolabs/ui-kit';
-import React, { FC, PropsWithChildren } from 'react';
+import { FC, PropsWithChildren } from 'react';
 
 export interface TableViewDetailsProps {
   readonly height: number;

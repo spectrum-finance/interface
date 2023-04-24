@@ -1,7 +1,7 @@
 import { Box, Button, Flex } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import { ElementLocation, ElementName } from '@spectrumlabs/analytics';
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 

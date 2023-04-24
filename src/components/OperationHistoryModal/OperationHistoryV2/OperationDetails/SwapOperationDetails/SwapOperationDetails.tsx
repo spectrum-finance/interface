@@ -1,5 +1,5 @@
 import { t } from '@lingui/macro';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { OperationStatus } from '../../../../../network/ergo/api/operations/history/v2/types/BaseOperation';
 import { SwapItem } from '../../../../../network/ergo/api/operations/history/v2/types/SwapOperation';

@@ -1,5 +1,5 @@
 import { Tooltip } from '@ergolabs/ui-kit';
-import React from 'react';
+import * as React from 'react';
 
 interface TruncateProps {
   children?: string;

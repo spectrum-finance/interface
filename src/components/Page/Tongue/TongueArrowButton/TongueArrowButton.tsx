@@ -1,5 +1,6 @@
 import { Button } from '@ergolabs/ui-kit';
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
 
 interface TongueArrowButtonProps {

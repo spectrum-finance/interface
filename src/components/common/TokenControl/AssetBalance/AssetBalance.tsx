@@ -1,6 +1,6 @@
 import { Flex, Typography, useDevice } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
-import React, { FC } from 'react';
+import { FC } from 'react';
 import styled, { css } from 'styled-components';
 
 import { ReactComponent as WalletIcon } from '../../../../assets/icons/wallet-icon.svg';

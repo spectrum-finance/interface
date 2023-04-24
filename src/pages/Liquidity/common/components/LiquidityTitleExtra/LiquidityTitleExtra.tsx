@@ -1,6 +1,6 @@
 import { DownOutlined, Dropdown, Menu } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 

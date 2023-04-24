@@ -9,7 +9,7 @@ import {
   Typography,
 } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
-import React, { ChangeEvent, FC } from 'react';
+import { ChangeEvent, FC } from 'react';
 import styled from 'styled-components';
 
 import { MIN_NITRO } from '../../../common/constants/erg';

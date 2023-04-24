@@ -11,7 +11,7 @@ import {
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import { Button, Divider, Flex, Modal, Typography } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { ERG_DECIMALS } from '../../../../common/constants/erg';
 import { useObservable } from '../../../../common/hooks/useObservable';

@@ -1,5 +1,4 @@
 import { t } from '@lingui/macro';
-import React from 'react';
 
 import { OperationStatus } from '../../../../network/ergo/api/operations/history/v2/types/BaseOperation';
 import { FilterRenderer } from '../../../TableView/common/FilterDescription';

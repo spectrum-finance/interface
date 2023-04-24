@@ -8,7 +8,7 @@ import {
 } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import { ElementLocation } from '@spectrumlabs/analytics';
-import React from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
 
 import { AssetIcon } from '../../../../components/AssetIcon/AssetIcon';

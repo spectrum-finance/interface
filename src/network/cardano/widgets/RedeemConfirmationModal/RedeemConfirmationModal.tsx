@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { Observable } from 'rxjs';
 
 import { AmmPool } from '../../../../common/models/AmmPool';

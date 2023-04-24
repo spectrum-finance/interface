@@ -8,7 +8,7 @@ import {
   Typography,
   UpOutlined,
 } from '@ergolabs/ui-kit';
-import React, { CSSProperties, FC, PropsWithChildren, ReactNode } from 'react';
+import { CSSProperties, FC, PropsWithChildren, ReactNode } from 'react';
 import styled, { css } from 'styled-components';
 
 import { OptionsButton } from '../../common/OptionsButton/OptionsButton';

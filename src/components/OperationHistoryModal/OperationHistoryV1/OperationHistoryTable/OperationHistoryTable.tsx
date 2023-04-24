@@ -1,7 +1,7 @@
 import { ModalRef } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import { DateTime } from 'luxon';
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { first } from 'rxjs';
 
 import {

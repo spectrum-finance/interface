@@ -1,6 +1,6 @@
 import { Button, Flex, Form, FormGroup, useForm } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
-import React, { FC, useState } from 'react';
+import { FC, useState } from 'react';
 import { isMobile } from 'react-device-detect';
 import { first, skip } from 'rxjs';
 

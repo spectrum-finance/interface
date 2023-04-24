@@ -1,6 +1,6 @@
 import { Button, Modal, ModalRef } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
-import React, { FC, MouseEvent, useEffect, useState } from 'react';
+import { FC, MouseEvent, useEffect, useState } from 'react';
 import Confetti from 'react-confetti';
 import { useWindowSize } from 'react-use';
 import styled from 'styled-components';

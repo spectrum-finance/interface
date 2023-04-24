@@ -2,7 +2,7 @@ import './ClaimSpfNotification.less';
 
 import { Button, Flex, notification, Typography } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
-import React, { FC } from 'react';
+import { FC } from 'react';
 import styled from 'styled-components';
 
 import { localStorageManager } from '../../../../../../common/utils/localStorageManager';

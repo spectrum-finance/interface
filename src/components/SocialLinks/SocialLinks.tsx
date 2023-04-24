@@ -1,7 +1,5 @@
 import './SocialLinks.less';
 
-import React from 'react';
-
 import { applicationConfig } from '../../applicationConfig';
 import { ReactComponent as DiscordIcon } from '../../assets/icons/social/Discord.svg';
 import { ReactComponent as MediumIcon } from '../../assets/icons/social/Medium.svg';

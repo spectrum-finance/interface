@@ -1,6 +1,6 @@
 import { Flex, useDevice } from '@ergolabs/ui-kit';
 import { Progress } from '@ergolabs/ui-kit/dist/components/Progress/Progress';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { Farm } from '../../../../../common/models/Farm';
 

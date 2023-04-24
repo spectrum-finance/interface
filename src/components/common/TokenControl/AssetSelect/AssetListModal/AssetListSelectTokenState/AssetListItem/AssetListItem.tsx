@@ -1,5 +1,5 @@
 import { Box, Flex, Typography } from '@ergolabs/ui-kit';
-import React from 'react';
+import * as React from 'react';
 import styled, { css } from 'styled-components';
 
 import { AssetInfo } from '../../../../../../../common/models/AssetInfo';

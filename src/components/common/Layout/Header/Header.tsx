@@ -1,6 +1,6 @@
 import { Flex, useDevice } from '@ergolabs/ui-kit';
 import cn from 'classnames';
-import React from 'react';
+import * as React from 'react';
 import { isDesktop } from 'react-device-detect';
 import styled from 'styled-components';
 

@@ -1,5 +1,5 @@
 import { t } from '@lingui/macro';
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 import { Operation } from '../../../../../common/models/Operation';
 import {

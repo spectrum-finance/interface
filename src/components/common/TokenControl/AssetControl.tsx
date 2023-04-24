@@ -9,7 +9,7 @@ import {
   useFormContext,
 } from '@ergolabs/ui-kit';
 import { fireAnalyticsEvent, TraceProps } from '@spectrumlabs/analytics';
-import React, { FC, ReactNode } from 'react';
+import { FC, ReactNode } from 'react';
 import { Observable, of } from 'rxjs';
 
 import { useObservable } from '../../../common/hooks/useObservable';

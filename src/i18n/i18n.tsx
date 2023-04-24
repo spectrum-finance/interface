@@ -33,7 +33,7 @@ import {
   // vi,
   zh,
 } from 'make-plural/plurals';
-import React, { ReactNode, useEffect } from 'react';
+import { ReactNode, useEffect } from 'react';
 
 import {
   DEFAULT_LOCALE,

@@ -1,5 +1,5 @@
 import { Typography } from '@ergolabs/ui-kit';
-import React, { FC } from 'react';
+import { FC } from 'react';
 import styled from 'styled-components';
 
 import { Currency } from '../../../../../../../common/models/Currency';

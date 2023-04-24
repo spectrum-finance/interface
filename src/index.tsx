@@ -1,7 +1,7 @@
 import '@ergolabs/ui-kit/dist/styles/fonts/fonts.less';
 import './assets/styles/styles.less';
 
-import React from 'react';
+import { StrictMode } from 'react';
 import { isIOS, isMobile, osVersion } from 'react-device-detect';
 import ReactDOM from 'react-dom';
 
@@ -22,9 +22,9 @@ const init = () => {
 
   // TODO: fix toggle-group behavior after switch to react v18 root api.
   ReactDOM.render(
-    <React.StrictMode>
+    <StrictMode>
       <ApplicationInitializer />
-    </React.StrictMode>,
+    </StrictMode>,
     document.getElementById('root'),
   );
 };

@@ -3,7 +3,7 @@ import { Flex, Modal, ModalRef, Typography } from '@ergolabs/ui-kit';
 import { RequestProps } from '@ergolabs/ui-kit/dist/components/Modal/presets/Request';
 import { t, Trans } from '@lingui/macro';
 import { DateTime } from 'luxon';
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { TimeoutError } from 'rxjs';
 
 import { applicationConfig } from '../../applicationConfig';

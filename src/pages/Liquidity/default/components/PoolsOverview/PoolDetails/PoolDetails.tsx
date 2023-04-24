@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { AmmPool } from '../../../../../../common/models/AmmPool';
 import { ExpandComponentProps } from '../../../../../../components/TableView/common/Expand';

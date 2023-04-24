@@ -1,6 +1,7 @@
 import { useLocalStorage } from '@rehooks/local-storage';
 import { Settings as LuxonSettings } from 'luxon';
-import React, { createContext, useContext, useEffect } from 'react';
+import { createContext, useContext, useEffect } from 'react';
+import * as React from 'react';
 import { map, Observable, publishReplay, refCount } from 'rxjs';
 
 import { DEFAULT_LOCALE, SupportedLocale } from '../common/constants/locales';

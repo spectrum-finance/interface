@@ -1,5 +1,5 @@
 import { Trans } from '@lingui/macro';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { AssetLock } from '../../common/models/AssetLock';
 import { RowRendererProps } from '../TableView/common/RowRenderer';

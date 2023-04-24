@@ -1,5 +1,5 @@
 import { Box, Flex, Slider, Typography } from '@ergolabs/ui-kit';
-import React from 'react';
+import * as React from 'react';
 
 import { FormSpace } from '../FormSpace/FormSpace';
 

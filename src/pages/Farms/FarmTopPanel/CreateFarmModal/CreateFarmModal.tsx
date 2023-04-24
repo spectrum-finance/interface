@@ -9,7 +9,7 @@ import {
 } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import { ElementLocation } from '@spectrumlabs/analytics';
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { map } from 'rxjs';
 
 import { useObservable } from '../../../../common/hooks/useObservable';

@@ -1,5 +1,4 @@
 import { Button, ButtonProps } from '@ergolabs/ui-kit';
-import React from 'react';
 import styled from 'styled-components';
 
 export type SwitchButtonProps = ButtonProps;

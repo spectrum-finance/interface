@@ -1,5 +1,5 @@
 import { Flex } from '@ergolabs/ui-kit';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { useObservable } from '../../../../../../../../common/hooks/useObservable';
 import { Address } from '../../../../../../../../common/types';

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { CardanoWalletContract } from '../common/CardanoWalletContract';
 import { makeCardanoWallet } from '../common/makeCardanoWallet';
 import { ReactComponent as GeroWalletLogo } from './gerowallet-icon.svg';

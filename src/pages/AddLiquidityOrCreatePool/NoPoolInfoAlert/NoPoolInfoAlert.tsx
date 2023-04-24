@@ -1,5 +1,5 @@
 import { Alert } from '@ergolabs/ui-kit';
-import React, { FC, ReactNode } from 'react';
+import { FC, ReactNode } from 'react';
 
 interface NoPoolInfoAlertProps {
   readonly className?: string;

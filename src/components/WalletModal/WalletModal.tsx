@@ -1,7 +1,8 @@
 import { Box, Button, Flex, Modal, Tabs, useDevice } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import { fireAnalyticsEvent } from '@spectrumlabs/analytics';
-import React, { CSSProperties } from 'react';
+import { CSSProperties } from 'react';
+import * as React from 'react';
 
 import { useObservable } from '../../common/hooks/useObservable';
 import { networkAssetBalance$ } from '../../gateway/api/networkAssetBalance';

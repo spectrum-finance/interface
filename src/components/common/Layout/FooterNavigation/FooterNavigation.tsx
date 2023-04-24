@@ -1,5 +1,5 @@
 import { Flex, useDevice } from '@ergolabs/ui-kit';
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import styled from 'styled-components';
 
 import { device } from '../../../../common/constants/size';

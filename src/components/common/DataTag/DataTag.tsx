@@ -1,5 +1,6 @@
 import { Box, Flex, FlexProps, Skeleton, Typography } from '@ergolabs/ui-kit';
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
 
 interface DataTagProps {

@@ -16,7 +16,7 @@ import {
 } from '@spectrumlabs/analytics';
 import findLast from 'lodash/findLast';
 import maxBy from 'lodash/maxBy';
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import {
   BehaviorSubject,
   combineLatest,

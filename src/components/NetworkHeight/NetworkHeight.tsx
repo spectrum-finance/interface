@@ -2,7 +2,6 @@ import './NetworkHeight.less';
 
 import { Flex, Tooltip, Typography } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
-import React from 'react';
 // @ts-ignore
 import FlipNumbers from 'react-flip-numbers';
 

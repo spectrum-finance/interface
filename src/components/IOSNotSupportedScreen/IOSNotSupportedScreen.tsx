@@ -1,5 +1,4 @@
 import { Flex, Typography } from '@ergolabs/ui-kit';
-import React from 'react';
 
 export const IOSNotSupportedScreen = () => {
   return (

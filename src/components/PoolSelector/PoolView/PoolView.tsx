@@ -1,6 +1,6 @@
 import { Box, Flex, Typography } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { AmmPool } from '../../../common/models/AmmPool';
 import { formatToUSD } from '../../../services/number';

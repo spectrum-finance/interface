@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { Currency } from '../../../../../common/models/Currency';
 import { AssetPairTitle } from '../../../../AssetPairTitle/AssetPairTitle';

@@ -1,6 +1,6 @@
 import { fireAnalyticsEvent, getBrowser, user } from '@spectrumlabs/analytics';
 import { DateTime } from 'luxon';
-import React, { FC, useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import { Navigate, Outlet, useRoutes } from 'react-router-dom';
 
 import { version } from '../package.json';

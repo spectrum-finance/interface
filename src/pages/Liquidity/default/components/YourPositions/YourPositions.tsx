@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { Position } from '../../../../../common/models/Position';
 import { TableView } from '../../../../../components/TableView/TableView';

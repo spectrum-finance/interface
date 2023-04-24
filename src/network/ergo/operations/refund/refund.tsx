@@ -1,6 +1,5 @@
 import { Address } from '@ergolabs/ergo-sdk';
 import { Modal } from '@ergolabs/ui-kit';
-import React from 'react';
 import { first, Observable, Subject, switchMap, tap } from 'rxjs';
 
 import { Currency } from '../../../../common/models/Currency';

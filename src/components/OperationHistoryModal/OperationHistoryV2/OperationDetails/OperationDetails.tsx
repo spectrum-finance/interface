@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { OperationType } from '../../../../network/ergo/api/operations/history/v2/types/BaseOperation';
 import { OperationItem } from '../../../../network/ergo/api/operations/history/v2/types/OperationItem';
