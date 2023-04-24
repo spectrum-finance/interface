@@ -11,8 +11,8 @@ import {
   switchMap,
   takeUntil,
 } from 'rxjs';
-import TxHistoryWorker from 'worker-loader!./transactionHistory.worker';
 
+// import TxHistoryWorker from 'worker-loader!./transactionHistory.worker';
 import { Operation } from '../../../../../common/models/Operation';
 import { tabClosing$ } from '../../../../../common/streams/tabClosing';
 import { Dictionary } from '../../../../../common/utils/Dictionary';
@@ -45,7 +45,7 @@ const TX_HISTORY_SYNC_CACHE_KEY = 'tx-transactionHistory-sync-cache';
 
 const TX_HISTORY_SYNCING_KEY = 'tx-transactionHistory-syncing';
 
-const txHistoryWorker = new TxHistoryWorker();
+// const txHistoryWorker = new TxHistoryWorker();
 
 const addresses$ = getAddresses().pipe(first(), publishReplay(1), refCount());
 
@@ -100,19 +100,19 @@ const handleBatchMessage = ({
   });
 };
 
-txHistoryWorker.addEventListener(
-  'message',
-  ({ data }: MessageEvent<WorkerSyncEndMessage | WorkerBatchMessage>) => {
-    switch (data.message) {
-      case 'syncEnd':
-        handleSyncEndMessage();
-        break;
-      case 'batch':
-        handleBatchMessage(data.payload);
-        break;
-    }
-  },
-);
+// txHistoryWorker.addEventListener(
+//   'message',
+//   ({ data }: MessageEvent<WorkerSyncEndMessage | WorkerBatchMessage>) => {
+//     switch (data.message) {
+//       case 'syncEnd':
+//         handleSyncEndMessage();
+//         break;
+//       case 'batch':
+//         handleBatchMessage(data.payload);
+//         break;
+//     }
+//   },
+// );
 
 export const sync = (historyCacheKey: string = TX_HISTORY_CACHE_KEY): void => {
   localStorageManager.set(TX_HISTORY_SYNCING_KEY, true);
@@ -131,7 +131,7 @@ export const sync = (historyCacheKey: string = TX_HISTORY_CACHE_KEY): void => {
       },
     };
 
-    txHistoryWorker.postMessage(startMsg);
+    // txHistoryWorker.postMessage(startMsg);
   });
 };
 
