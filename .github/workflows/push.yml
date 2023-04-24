@@ -22,7 +22,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: 16.x
+          node-version: 19.x
 
       - uses: actions/cache@v2
         with:
@@ -42,4 +42,4 @@ jobs:
         run: yarn lint:stylelint
 
       - name: Build ts
-        run: CI=false yarn build:prod
+        run: CI=false yarn build
