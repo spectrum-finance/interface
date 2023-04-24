@@ -1,6 +1,5 @@
 import { AmmPool as ErgoBaseAmmPool } from '@ergolabs/ergo-dex-sdk';
 import { AssetAmount } from '@ergolabs/ergo-sdk';
-import { cache } from 'decorator-cache-getter';
 
 import { usdAsset } from '../../../../common/constants/usdAsset';
 import { AmmPool } from '../../../../common/models/AmmPool';
@@ -21,14 +20,12 @@ export class ErgoAmmPool extends AmmPool {
     super();
   }
 
-  @cache
   get tvl(): Currency | undefined {
     return this.poolAnalytics?.tvl
       ? new Currency(BigInt(this.poolAnalytics.tvl.value.toFixed(0)), usdAsset)
       : undefined;
   }
 
-  @cache
   get volume(): Currency | undefined {
     return this.poolAnalytics?.volume
       ? new Currency(
@@ -38,22 +35,18 @@ export class ErgoAmmPool extends AmmPool {
       : undefined;
   }
 
-  @cache
   get yearlyFeesPercent(): number | undefined {
     return this.poolAnalytics?.yearlyFeesPercent;
   }
 
-  @cache
   get id(): string {
     return this.pool.id;
   }
 
-  @cache
   get poolFeeNum(): number {
     return this.pool.poolFeeNum;
   }
 
-  @cache
   get feeNum(): bigint {
     return this.pool.feeNum;
   }
@@ -70,17 +63,14 @@ export class ErgoAmmPool extends AmmPool {
     return this.assetsInfoDictionary.y;
   }
 
-  @cache
   get lp(): Currency {
     return new Currency(this.pool.lp.amount, this.lpAsset);
   }
 
-  @cache
   get y(): Currency {
     return new Currency(this.pool.y.amount, this.yAsset);
   }
 
-  @cache
   get x(): Currency {
     return new Currency(this.pool.x.amount, this.xAsset);
   }

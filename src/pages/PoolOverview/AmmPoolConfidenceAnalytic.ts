@@ -1,5 +1,4 @@
 import { blocksToMillis, PoolId } from '@ergolabs/ergo-dex-sdk';
-import { cache } from 'decorator-cache-getter';
 import { DateTime } from 'luxon';
 import {
   catchError,
@@ -25,17 +24,14 @@ import {
 const MIN_RELEVANT_PCT_VALUE = 0.01;
 
 export class LocksGroup {
-  @cache
   get deadline(): number {
     return this.locksAnalytic[0].deadline;
   }
 
-  @cache
   get lockedPercent(): number {
     return this.locksAnalytic.reduce((pct, la) => pct + la.percent, 0);
   }
 
-  @cache
   get lockedLp(): Currency {
     return this.locksAnalytic.reduce(
       (lp, la) => lp.plus(new Currency(BigInt(la.amount), this.pool.lp.asset)),
@@ -43,21 +39,18 @@ export class LocksGroup {
     );
   }
 
-  @cache
   get lockedX(): Currency {
     const [lockedX] = this.pool.shares(this.lockedLp);
 
     return lockedX;
   }
 
-  @cache
   get lockedY(): Currency {
     const [, lockedY] = this.pool.shares(this.lockedLp);
 
     return lockedY;
   }
 
-  @cache
   get unlockDate(): DateTime {
     return DateTime.now().plus({
       millisecond: Number(
@@ -76,12 +69,10 @@ export class LocksGroup {
 export class AmmPoolConfidenceAnalytic {
   readonly locksGroups: LocksGroup[];
 
-  @cache
   get lockedPercent(): number {
     return this.locksGroups.reduce((pct, lg) => pct + lg.lockedPercent, 0);
   }
 
-  @cache
   get lockedLp(): Currency {
     return this.locksGroups.reduce(
       (lp, lg) => lp.plus(lg.lockedLp),
@@ -89,14 +80,12 @@ export class AmmPoolConfidenceAnalytic {
     );
   }
 
-  @cache
   get lockedX(): Currency {
     const [lockedX] = this.pool.shares(this.lockedLp);
 
     return lockedX;
   }
 
-  @cache
   get lockedY(): Currency {
     const [, lockedY] = this.pool.shares(this.lockedLp);
 
