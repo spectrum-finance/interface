@@ -205,6 +205,7 @@ export const TableViewContent: FC<TableViewContentProps<any>> = ({
         return RowRenderer instanceof Function ? (
           RowRenderer({ height, padding: 0, children }, item)
         ) : (
+          //@ts-ignore
           <RowRenderer height={height} padding={0}>
             {children}
           </RowRenderer>

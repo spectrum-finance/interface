@@ -135,9 +135,9 @@ export const List = <T extends unknown>({
   const currentState = Object.values(states).find((sr) => sr.condition);
 
   const isTitle = (
-    item: T | ReactNode | ReactNode[] | string,
+    _: T | ReactNode | ReactNode[] | string,
     index: uint,
-  ): item is ReactNode | ReactNode[] | string => {
+  ): _ is ReactNode | ReactNode[] | string => {
     return !!itemsData.groups[index];
   };
 

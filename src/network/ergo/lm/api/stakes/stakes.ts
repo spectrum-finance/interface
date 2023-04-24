@@ -17,6 +17,7 @@ import { Currency } from '../../../../../common/models/Currency';
 import { explorer } from '../../../../../services/explorer';
 import { availableTokensDataWithNft$ } from '../../../api/balance/common';
 
+// @typescript-eslint/no-loss-of-precision
 const MAX_VLQ_TOKEN_EMISSION = BigInt(0x7fffffffffffffff) - 2n;
 
 const MAX_STAKES_PER_PAGE = 500;
