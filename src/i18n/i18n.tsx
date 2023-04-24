@@ -86,7 +86,7 @@ const plurals: LocalePlural = {
 };
 
 const dynamicActivate = async (locale: SupportedLocale) => {
-  i18n.loadLocaleData(locale, { plurals: () => plurals[locale] });
+  i18n.loadLocaleData(locale, { plurals: plurals[locale] });
   const { messages } =
     locale === DEFAULT_LOCALE
       ? { messages: DEFAULT_MESSAGES }
@@ -120,7 +120,7 @@ export const LanguageProvider = ({
   }, [setSettings, locale]);
 
   return (
-    <I18nProvider forceRenderOnLocaleChange={false} i18n={i18n as any}>
+    <I18nProvider i18n={i18n} forceRenderOnLocaleChange={false}>
       {children}
     </I18nProvider>
   );
