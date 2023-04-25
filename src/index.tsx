@@ -3,7 +3,7 @@ import './assets/styles/styles.less';
 
 import { StrictMode } from 'react';
 import { isIOS, isMobile, osVersion } from 'react-device-detect';
-import ReactDOM from 'react-dom';
+import * as ReactDOM from 'react-dom';
 
 import { ApplicationInitializer } from './App';
 import { IOSNotSupportedScreen } from './components/IOSNotSupportedScreen/IOSNotSupportedScreen';

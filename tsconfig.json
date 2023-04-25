@@ -5,6 +5,7 @@
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "typeRoots": ["src/@types"],
     "skipLibCheck": true,
+    "types": ["vite/client"],
 
     /* Bundler mode */
     "moduleResolution": "Node",
@@ -20,11 +21,17 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": false,
-
-//    "esModuleInterop": true,
-//    "forceConsistentCasingInFileNames": true,
+    "allowSyntheticDefaultImports": true,
+    "allowJs": true
   },
-  "include": ["src /**/*"],
-  "excluded": ["**/*.wasm"],
+
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "types/**/*.d.ts",
+    "vite-env.d.ts",
+  ],
+
+  "excluded": ["**/*.wasm", "node_modules"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

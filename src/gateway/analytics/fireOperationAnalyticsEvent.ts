@@ -23,10 +23,10 @@ export const fireOperationAnalyticsEvent = <T extends keyof AnalyticsEvents>(
 ): void => {
   from(
     Promise.all([
-      import('../settings/settings').then(
+      import('../settings/settings.ts').then(
         (settingsModule) => settingsModule.settings$,
       ),
-      import('../common/network').then(
+      import('../common/network.ts').then(
         (networkModule) => networkModule.selectedNetwork$,
       ),
     ]),
