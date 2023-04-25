@@ -1,5 +1,5 @@
 import { Trans } from '@lingui/macro';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { Farm } from '../../../../../common/models/Farm';
 import { UsdCell } from '../common/UsdCell/UsdCell';

@@ -1,5 +1,6 @@
 import { Box, Flex, Radio, Typography } from '@ergolabs/ui-kit';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import * as React from 'react';
 
 import { useObservable } from '../../../common/hooks/useObservable';
 import { Currency } from '../../../common/models/Currency';

@@ -1,7 +1,7 @@
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
 import { Flex, Skeleton, useDevice } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
-import React from 'react';
+import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useObservable } from '../../common/hooks/useObservable';

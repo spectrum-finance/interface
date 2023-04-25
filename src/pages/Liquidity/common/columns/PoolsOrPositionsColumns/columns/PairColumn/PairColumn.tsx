@@ -1,5 +1,5 @@
 import { Flex } from '@ergolabs/ui-kit';
-import React, { FC, MouseEvent } from 'react';
+import { FC, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useObservable } from '../../../../../../../common/hooks/useObservable';

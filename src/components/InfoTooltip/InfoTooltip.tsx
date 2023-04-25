@@ -5,7 +5,8 @@ import {
   QuestionCircleOutlined,
   Tooltip,
 } from '@ergolabs/ui-kit';
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
+import * as React from 'react';
 
 interface InfoTooltipProps {
   content: ReactNode | ReactNode[] | string;

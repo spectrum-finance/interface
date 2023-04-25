@@ -1,6 +1,6 @@
 import capitalize from 'lodash/capitalize';
 import last from 'lodash/last';
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { useParams } from 'react-router';
 import {
   generatePath,

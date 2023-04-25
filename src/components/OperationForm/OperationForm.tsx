@@ -3,7 +3,7 @@ import './OperationForm.less';
 import { Button, Flex, Form, FormGroup } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
 import { ElementName, TraceProps } from '@spectrumlabs/analytics';
-import React, { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { debounceTime, first, Observable } from 'rxjs';
 
 // import { PAnalytics } from '../../common/analytics/@types/types';

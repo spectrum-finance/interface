@@ -1,11 +1,11 @@
 import { BehaviorSubject, Observable } from 'rxjs';
 
-const stringifyBigIntReviewer = (key: string, value: any) =>
+const stringifyBigIntReviewer = (_, value: any) =>
   typeof value === 'bigint'
     ? { value: value.toString(), _bigint: true }
     : value;
 
-const stringifyBigIntReplacer = (key: string, value: any) =>
+const stringifyBigIntReplacer = (_, value: any) =>
   !!value?._bigint ? BigInt(value.value) : value;
 
 const mapKeyToBehaviorSubject = new Map<

@@ -9,7 +9,6 @@ import {
 } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import { ElementLocation } from '@spectrumlabs/analytics';
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useObservable } from '../../common/hooks/useObservable';

@@ -1,5 +1,5 @@
 import { ElementLocation, ElementName } from '@spectrumlabs/analytics';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { HeaderConnectWalletButton } from './HeaderConnectWalletButton/HeaderConnectWalletButton';
 import { WalletInfoButton } from './WalletInfoButton/WalletInfoButton';

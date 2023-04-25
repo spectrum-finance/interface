@@ -1,6 +1,6 @@
 import { Button, Flex, Modal } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
-import React, { FC, useState } from 'react';
+import { FC, useState } from 'react';
 import { isMobile } from 'react-device-detect';
 import { first } from 'rxjs';
 

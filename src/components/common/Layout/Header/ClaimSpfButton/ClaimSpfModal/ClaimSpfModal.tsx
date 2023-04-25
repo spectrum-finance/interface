@@ -1,5 +1,5 @@
 import { Modal } from '@ergolabs/ui-kit';
-import React, { FC } from 'react';
+import { FC } from 'react';
 import styled from 'styled-components';
 
 import { useObservable } from '../../../../../../common/hooks/useObservable';

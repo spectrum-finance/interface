@@ -1,4 +1,3 @@
-import React from 'react';
 import { catchError, from, Observable, of, throwError } from 'rxjs';
 
 export const connectWallet = (): Observable<any> => {

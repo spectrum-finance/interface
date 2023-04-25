@@ -10,7 +10,6 @@ import {
 } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import { Skeleton } from 'antd';
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { skip } from 'rxjs';
 

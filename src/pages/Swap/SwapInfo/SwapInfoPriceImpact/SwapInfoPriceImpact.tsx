@@ -1,6 +1,6 @@
 import { Typography } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { SwapFormModel } from '../../SwapFormModel';
 import { SwapInfoItem } from '../SwapInfoItem/SwapInfoItem';

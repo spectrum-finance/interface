@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { ReactComponent as NautilusLogo } from '../../../../../assets/icons/nautilus-logo-icon.svg';
 import { ErgoWalletContract } from '../common/ErgoWalletContract';
 import { connectWallet } from './connectWallet';

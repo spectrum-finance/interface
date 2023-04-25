@@ -1,5 +1,5 @@
 import { Flex } from '@ergolabs/ui-kit';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { LmDepositItem } from '../../../../../../network/ergo/api/operations/history/v2/types/LmDepositOperation';
 import { PairAssetBox } from '../../../common/PairAssetBox/PairAssetBox';

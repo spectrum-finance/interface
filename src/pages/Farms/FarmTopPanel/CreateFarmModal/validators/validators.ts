@@ -1,6 +1,5 @@
 import { t } from '@lingui/macro';
 
-import { Currency } from '../../../../../common/models/Currency';
 import { OperationValidator } from '../../../../../components/OperationForm/OperationForm';
 import { CreateFarmFormModel } from '../CreateFarmFormModel';
 
@@ -59,10 +58,6 @@ import { CreateFarmFormModel } from '../CreateFarmFormModel';
 //   }
 //   return c && t`Min value for ${c?.asset.ticker} is ${c?.toString()}`;
 // };
-
-const selectTokenValidator: OperationValidator<CreateFarmFormModel> = ({
-  value: { distributionInterval },
-}) => !distributionInterval && t`Enter a distribution interval`;
 
 const selectPoolValidator: OperationValidator<CreateFarmFormModel> = ({
   value: { pool },

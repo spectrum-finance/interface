@@ -8,7 +8,7 @@ import {
   Typography,
   UpOutlined,
 } from '@ergolabs/ui-kit';
-import React, { CSSProperties, FC, PropsWithChildren, ReactNode } from 'react';
+import { CSSProperties, FC, PropsWithChildren, ReactNode } from 'react';
 import styled, { css } from 'styled-components';
 
 import { OptionsButton } from '../../common/OptionsButton/OptionsButton';
@@ -202,7 +202,7 @@ export const TableViewContent: FC<TableViewContentProps<any>> = ({
           </>
         );
 
-        return RowRenderer instanceof Function ? (
+        return typeof RowRenderer === 'function' ? (
           RowRenderer({ height, padding: 0, children }, item)
         ) : (
           <RowRenderer height={height} padding={0}>

@@ -11,7 +11,8 @@ import {
   useForm,
 } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
-import React, { useState } from 'react';
+import { useState } from 'react';
+import * as React from 'react';
 import { Observable } from 'rxjs';
 
 import { TxId } from '../../../../common/types';

@@ -1,5 +1,4 @@
 import { TokenLock } from '@ergolabs/ergo-dex-sdk/build/main/security/entities';
-import { cache } from 'decorator-cache-getter';
 
 import { math } from '../../utils/math';
 import { Searchable } from '../utils/Searchable';
@@ -22,7 +21,6 @@ export class Position implements Searchable {
 
   readonly locks: AssetLock[];
 
-  @cache
   get totalLockedPercent(): number {
     const lpAmount = this.lockedLp.toAmount();
     const poolLiquidityAmount = this.totalLp.toAmount();
@@ -31,31 +29,26 @@ export class Position implements Searchable {
     ).toFixed(2);
   }
 
-  @cache
   get availableX(): Currency {
     const [x] = this.pool.shares(this.availableLp);
 
     return x;
   }
 
-  @cache
   get availableY(): Currency {
     const [, y] = this.pool.shares(this.availableLp);
 
     return y;
   }
 
-  @cache
   get totalX(): Currency {
     return this.availableX.plus(this.lockedX).plus(this.stakedX);
   }
 
-  @cache
   get totalY(): Currency {
     return this.availableY.plus(this.lockedY).plus(this.stakedY);
   }
 
-  @cache
   get totalLp(): Currency {
     return this.availableLp.plus(this.lockedLp).plus(this.stakedLp);
   }

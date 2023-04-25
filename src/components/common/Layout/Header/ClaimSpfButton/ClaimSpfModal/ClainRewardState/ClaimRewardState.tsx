@@ -6,7 +6,7 @@ import {
   Typography,
 } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
-import React, { FC, useState } from 'react';
+import { FC, useState } from 'react';
 import styled from 'styled-components';
 
 import { claimSpf } from '../../../../../../../network/ergo/api/spfFaucet/claimSpf';

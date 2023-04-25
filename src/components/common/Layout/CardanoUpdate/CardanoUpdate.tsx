@@ -1,6 +1,6 @@
 import { Button, Flex, ToolOutlined, Typography } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { applicationConfig } from '../../../../applicationConfig';
 import { changeSelectedNetwork } from '../../../../gateway/common/network';

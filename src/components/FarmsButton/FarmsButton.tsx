@@ -1,6 +1,6 @@
 import { Button } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
-import React, { FC, MouseEvent } from 'react';
+import { FC, MouseEvent } from 'react';
 import styled from 'styled-components';
 
 export interface FarmsButtonProps {

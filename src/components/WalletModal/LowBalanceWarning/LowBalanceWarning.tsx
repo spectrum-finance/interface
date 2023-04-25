@@ -1,6 +1,6 @@
 import { Flex, Tag, Typography } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
-import React from 'react';
+import * as React from 'react';
 
 import { applicationConfig } from '../../../applicationConfig';
 import { Network } from '../../../network/common/Network';

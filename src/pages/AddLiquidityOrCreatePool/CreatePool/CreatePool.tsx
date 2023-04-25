@@ -1,7 +1,7 @@
 import { Flex, Form, FormGroup, useForm } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
 import { ElementLocation, ElementName } from '@spectrumlabs/analytics';
-import React, { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { skip } from 'rxjs';
 
 import { useSubscription } from '../../../common/hooks/useObservable';

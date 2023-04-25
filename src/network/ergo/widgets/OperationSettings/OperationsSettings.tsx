@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { OperationSettings as BaseOperationSettings } from '../../../../components/OperationSettings/OperationSettings';
 import { feeAsset, networkAsset } from '../../api/networkAsset/networkAsset';

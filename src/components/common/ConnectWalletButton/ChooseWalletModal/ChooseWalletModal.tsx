@@ -8,7 +8,8 @@ import {
 } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import { fireAnalyticsEvent } from '@spectrumlabs/analytics';
-import React, { ReactNode, useState } from 'react';
+import { ReactNode, useState } from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
 
 import { useObservable } from '../../../../common/hooks/useObservable';

@@ -1,7 +1,7 @@
 import { Flex, Typography } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
 import { DateTime } from 'luxon';
-import React, { FC, ReactNode } from 'react';
+import { FC, ReactNode } from 'react';
 
 import { CopyButton } from '../../../../../common/CopyButton/CopyButton';
 import { ExploreButton } from '../../../../../common/ExploreButton/ExploreButton';

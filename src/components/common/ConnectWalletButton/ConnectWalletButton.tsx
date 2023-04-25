@@ -6,7 +6,7 @@ import {
 import { Trans } from '@lingui/macro';
 import { fireAnalyticsEvent, TraceProps } from '@spectrumlabs/analytics';
 import cn from 'classnames';
-import React, { FC, ReactNode } from 'react';
+import { FC, ReactNode } from 'react';
 
 import { useObservable } from '../../../common/hooks/useObservable';
 import { isWalletSetuped$ } from '../../../gateway/api/wallets';

@@ -1,6 +1,6 @@
 import { Alert, Animation, Flex, Modal, useDevice } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
-import React, { CSSProperties, FC, useEffect } from 'react';
+import { CSSProperties, FC, useEffect } from 'react';
 import { first } from 'rxjs';
 
 import { useSubject } from '../../../../../../../common/hooks/useObservable';

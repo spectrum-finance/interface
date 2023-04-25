@@ -1,5 +1,5 @@
 import { Typography } from '@ergolabs/ui-kit';
-import React from 'react';
+import * as React from 'react';
 
 import { SwapFormModel } from '../SwapFormModel';
 

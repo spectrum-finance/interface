@@ -1,6 +1,6 @@
 import { Box, Flex, Typography } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
-import React, { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 import { useObservable } from '../../../../../../common/hooks/useObservable';
 import { Farm, FarmStatus } from '../../../../../../common/models/Farm';

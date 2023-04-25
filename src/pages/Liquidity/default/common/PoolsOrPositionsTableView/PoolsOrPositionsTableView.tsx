@@ -1,6 +1,6 @@
 import { Typography, useDevice } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
-import React, { FC, PropsWithChildren } from 'react';
+import { FC, PropsWithChildren } from 'react';
 
 import { AmmPool } from '../../../../../common/models/AmmPool';
 import { Position } from '../../../../../common/models/Position';

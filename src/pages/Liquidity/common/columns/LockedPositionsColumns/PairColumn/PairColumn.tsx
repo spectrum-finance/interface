@@ -1,5 +1,5 @@
 import { Flex } from '@ergolabs/ui-kit';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { Position } from '../../../../../../common/models/Position';
 import { AssetTitle } from '../../../../../../components/AssetTitle/AssetTitle';

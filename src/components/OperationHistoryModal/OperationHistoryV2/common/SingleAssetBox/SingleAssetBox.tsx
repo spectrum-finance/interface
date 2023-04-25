@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from 'react';
+import { FC, ReactNode } from 'react';
 
 import { Currency } from '../../../../../common/models/Currency';
 import { AssetTitle } from '../../../../AssetTitle/AssetTitle';

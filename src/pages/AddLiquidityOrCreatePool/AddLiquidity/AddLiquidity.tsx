@@ -9,7 +9,7 @@ import {
 import { t } from '@lingui/macro';
 import { ElementLocation, ElementName } from '@spectrumlabs/analytics';
 import maxBy from 'lodash/maxBy';
-import React, { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { first, skip } from 'rxjs';
 
 import { useSubscription } from '../../../common/hooks/useObservable';

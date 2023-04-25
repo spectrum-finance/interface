@@ -1,6 +1,7 @@
 import { Button, ButtonProps, message, Tooltip } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
+import * as React from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 import { ReactComponent as CopyIcon } from '../../../assets/icons/icon-copy.svg';

@@ -33,4 +33,4 @@ export const getDefaultAssetsFor = (assetId: string) =>
 
 export const tokenAssetsToImport$ = of([]);
 
-export const importTokenAsset = (ai: AssetInfo | AssetInfo[]) => {};
+export const importTokenAsset = () => {};

@@ -9,7 +9,7 @@ import {
 } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
 import { fireAnalyticsEvent } from '@spectrumlabs/analytics';
-import React from 'react';
+import * as React from 'react';
 
 import { localStorageManager } from '../../../common/utils/localStorageManager';
 

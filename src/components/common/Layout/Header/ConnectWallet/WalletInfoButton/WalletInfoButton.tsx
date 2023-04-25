@@ -1,6 +1,6 @@
 import { Button, Flex, Modal, useDevice } from '@ergolabs/ui-kit';
 import { fireAnalyticsEvent } from '@spectrumlabs/analytics';
-import React, { FC } from 'react';
+import { FC } from 'react';
 import styled from 'styled-components';
 
 import { useObservable } from '../../../../../../common/hooks/useObservable';

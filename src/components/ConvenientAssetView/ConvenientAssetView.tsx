@@ -1,5 +1,5 @@
 import { LoadingOutlined } from '@ergolabs/ui-kit';
-import React, { FC, useMemo } from 'react';
+import { FC, useMemo } from 'react';
 import { of } from 'rxjs';
 
 import { convertToConvenientNetworkAsset } from '../../api/convertToConvenientNetworkAsset';
