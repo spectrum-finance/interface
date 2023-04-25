@@ -1,7 +1,7 @@
 import { Flex, Tabs, Typography } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import { fireAnalyticsEvent, user } from '@spectrumlabs/analytics';
-import React, { FC, useCallback } from 'react';
+import { FC, useCallback } from 'react';
 
 import { useApplicationSettings } from '../../context';
 

@@ -1,6 +1,6 @@
 import { LoadingDataState } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 export const LoadingState: FC<{ height?: number }> = ({ height = 275 }) => (
   <LoadingDataState height={height}>

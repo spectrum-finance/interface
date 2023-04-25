@@ -1,6 +1,6 @@
 import { Box, Flex, LoadingOutlined, Typography } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
-import React from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
 
 import { Currency } from '../../../common/models/Currency';

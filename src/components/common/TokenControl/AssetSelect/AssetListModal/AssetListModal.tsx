@@ -7,7 +7,8 @@ import {
   useDevice,
 } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
-import React, { CSSProperties, useState } from 'react';
+import { CSSProperties, useState } from 'react';
+import * as React from 'react';
 import { Observable } from 'rxjs';
 import styled from 'styled-components';
 

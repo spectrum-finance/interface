@@ -1,5 +1,5 @@
 import { Flex } from '@ergolabs/ui-kit';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { SwapItem } from '../../../../../../network/ergo/api/operations/history/v2/types/SwapOperation';
 import { SingleAssetBox } from '../../../common/SingleAssetBox/SingleAssetBox';

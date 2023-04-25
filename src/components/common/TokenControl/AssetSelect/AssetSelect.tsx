@@ -8,7 +8,7 @@ import {
 } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import { fireAnalyticsEvent, TraceProps } from '@spectrumlabs/analytics';
-import React from 'react';
+import * as React from 'react';
 import { Observable } from 'rxjs';
 import styled from 'styled-components';
 

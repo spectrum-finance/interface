@@ -1,6 +1,6 @@
 import { Box, Flex, Typography } from '@ergolabs/ui-kit';
 import { DateTime } from 'luxon';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { Currency } from '../../../../common/models/Currency';
 import { AssetIcon } from '../../../../components/AssetIcon/AssetIcon';

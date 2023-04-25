@@ -1,11 +1,5 @@
 import { Animation, Flex, Gutter } from '@ergolabs/ui-kit';
-import React, {
-  CSSProperties,
-  FC,
-  ReactNode,
-  useEffect,
-  useState,
-} from 'react';
+import { CSSProperties, FC, ReactNode, useEffect, useState } from 'react';
 
 import { uint } from '../../common/types';
 import { Dictionary } from '../../common/utils/Dictionary';

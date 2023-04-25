@@ -1,6 +1,6 @@
 import { useDevice } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { Farm } from '../../../common/models/Farm';
 import { Position } from '../../../common/models/Position';

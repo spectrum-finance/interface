@@ -1,5 +1,6 @@
 import { ContextModalProvider } from '@ergolabs/ui-kit';
-import React, { Suspense, useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
+import * as React from 'react';
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 import { BrowserRouter } from 'react-router-dom';
 import { BehaviorSubject, first, mapTo, Observable, tap, zip } from 'rxjs';

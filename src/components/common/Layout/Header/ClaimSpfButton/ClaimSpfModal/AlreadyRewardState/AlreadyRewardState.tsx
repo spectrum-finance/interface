@@ -1,6 +1,6 @@
 import { Button, Flex, Typography } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { SpfReward } from '../../../../../../../network/ergo/api/spfFaucet/spfReward';
 import { ReactComponent as SpfTokenIcon } from '../../spf-token.svg';

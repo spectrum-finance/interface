@@ -1,7 +1,7 @@
 import { Alert, Button, Flex } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import first from 'lodash/first';
-import React, { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { useObservable } from '../../../../../../common/hooks/useObservable';

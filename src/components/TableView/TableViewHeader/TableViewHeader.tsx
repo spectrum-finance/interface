@@ -1,5 +1,5 @@
 import { Flex, Gutter, Popover, Typography } from '@ergolabs/ui-kit';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { Dictionary } from '../../../common/utils/Dictionary';
 import { Column } from '../common/Column';

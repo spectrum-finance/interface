@@ -1,6 +1,6 @@
 import { Modal, ModalRef } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { useSettings } from '../../gateway/settings/settings';
 import { OperationHistoryV1 } from './OperationHistoryV1/OperationHistoryV1';

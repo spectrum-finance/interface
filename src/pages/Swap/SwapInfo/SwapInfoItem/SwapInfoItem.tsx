@@ -1,5 +1,5 @@
 import { Flex, Typography } from '@ergolabs/ui-kit';
-import React, { FC, ReactNode } from 'react';
+import { FC, ReactNode } from 'react';
 
 import { InfoTooltip } from '../../../../components/InfoTooltip/InfoTooltip';
 

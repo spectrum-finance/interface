@@ -6,7 +6,7 @@ import {
   UpOutlined,
 } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
-import React, { FC } from 'react';
+import { FC } from 'react';
 import styled from 'styled-components';
 
 import { SpfReward } from '../../../../../../../../network/ergo/api/spfFaucet/spfReward';

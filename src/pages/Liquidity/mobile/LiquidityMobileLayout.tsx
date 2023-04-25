@@ -1,6 +1,6 @@
 import { Flex } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { SearchInput } from '../../../components/SearchInput/SearchInput';
 import { LiquidityFilter } from '../common/components/LiquidityFilter/LiquidityFilter';

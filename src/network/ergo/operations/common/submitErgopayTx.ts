@@ -22,7 +22,7 @@ export const submitErgopayTx = (
     map((ctx) => mainnetTxAssembler.assemble(txRequest, ctx as any)),
     map((unsignedTx) =>
       JSON.parse(
-        JSON.stringify(unsignedTx, (key, value) =>
+        JSON.stringify(unsignedTx, (_, value) =>
           typeof value === 'bigint' ? value.toString() : value,
         ),
       ),

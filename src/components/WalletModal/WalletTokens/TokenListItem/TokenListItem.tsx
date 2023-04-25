@@ -1,5 +1,5 @@
 import { Box, Flex, Typography } from '@ergolabs/ui-kit';
-import React from 'react';
+import * as React from 'react';
 
 import { Currency } from '../../../../common/models/Currency';
 import { AssetIcon } from '../../../AssetIcon/AssetIcon';

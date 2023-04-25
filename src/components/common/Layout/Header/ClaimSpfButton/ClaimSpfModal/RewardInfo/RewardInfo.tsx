@@ -1,5 +1,5 @@
 import { Flex, Typography } from '@ergolabs/ui-kit';
-import React, { FC, useState } from 'react';
+import { FC, useState } from 'react';
 import styled from 'styled-components';
 
 import { SpfReward } from '../../../../../../../network/ergo/api/spfFaucet/spfReward';

@@ -1,6 +1,6 @@
 import { Button, Flex, Modal } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { Observable, tap } from 'rxjs';
 
 import { AmmPool } from '../../common/models/AmmPool';

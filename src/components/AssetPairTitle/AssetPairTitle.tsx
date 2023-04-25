@@ -1,5 +1,5 @@
 import { Flex, Typography } from '@ergolabs/ui-kit';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { AssetInfo } from '../../common/models/AssetInfo';
 import { AssetIconPair } from '../AssetIconPair/AssetIconPair';

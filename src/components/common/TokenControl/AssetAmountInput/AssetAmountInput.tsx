@@ -1,6 +1,7 @@
 import { AssetInfo } from '@ergolabs/ergo-sdk/build/main/entities/assetInfo';
 import { EventConfig, Input, InputProps } from '@ergolabs/ui-kit';
-import React, { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
+import * as React from 'react';
 import NumberFormat from 'react-number-format';
 import styled from 'styled-components';
 

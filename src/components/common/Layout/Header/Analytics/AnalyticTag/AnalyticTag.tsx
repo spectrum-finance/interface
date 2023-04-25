@@ -1,5 +1,5 @@
 import { Box } from '@ergolabs/ui-kit';
-import React, { FC, ReactNode } from 'react';
+import { FC, ReactNode } from 'react';
 
 interface AnalyticTag {
   className?: string;

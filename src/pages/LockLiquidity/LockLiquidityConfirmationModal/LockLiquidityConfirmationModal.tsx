@@ -14,7 +14,8 @@ import {
 import { Button, Checkbox, Flex, Modal } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import { DateTime } from 'luxon';
-import React, { useState } from 'react';
+import { useState } from 'react';
+import * as React from 'react';
 
 import { ERG_DECIMALS } from '../../../common/constants/erg';
 import { useObservable } from '../../../common/hooks/useObservable';

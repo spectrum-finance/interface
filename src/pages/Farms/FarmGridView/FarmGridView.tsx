@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
 
 import { device } from '../../../common/constants/size';
@@ -15,7 +15,6 @@ export interface FarmGridViewProps<T extends AmmPool | Position> {
 
 const _FarmGridView: React.FC<FarmGridViewProps<AmmPool>> = ({
   items,
-  loading,
   className,
 }) => {
   return (

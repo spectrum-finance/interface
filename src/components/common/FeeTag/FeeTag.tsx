@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import { getPoolFee } from '../../../utils/pool';
 import { DataTag } from '../DataTag/DataTag';

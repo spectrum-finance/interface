@@ -1,6 +1,6 @@
 import { Button, EmptyDataState, Flex } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 export interface OperationsEmptyStateProps {
   readonly onSwapNowButtonClick?: () => void;

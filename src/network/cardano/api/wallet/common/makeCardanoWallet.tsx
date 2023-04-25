@@ -17,7 +17,8 @@ import { encodeHex } from '@ergolabs/cardano-dex-sdk/build/main/utils/hex';
 import { RustModule } from '@ergolabs/cardano-dex-sdk/build/main/utils/rustLoader';
 import { notification } from '@ergolabs/ui-kit';
 import uniq from 'lodash/uniq';
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
+import * as React from 'react';
 import {
   catchError,
   combineLatest,

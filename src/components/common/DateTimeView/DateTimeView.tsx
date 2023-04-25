@@ -1,5 +1,5 @@
 import { DateTime, Settings } from 'luxon';
-import React from 'react';
+import * as React from 'react';
 
 type DateTimeViewType = 'date' | 'time' | 'datetime' | 'datetimeWithWeekday';
 

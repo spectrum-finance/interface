@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useEffect, useState } from 'react';
+import { FC, ReactNode, useEffect, useState } from 'react';
 import { isMobile } from 'react-device-detect';
 import { first, Observable } from 'rxjs';
 

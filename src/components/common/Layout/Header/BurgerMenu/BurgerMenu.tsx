@@ -15,7 +15,7 @@ import {
 import { t, Trans } from '@lingui/macro';
 import { fireAnalyticsEvent, user } from '@spectrumlabs/analytics';
 import { stringify } from 'qs';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 

@@ -1,6 +1,6 @@
 import { Box, Divider } from '@ergolabs/ui-kit';
 import { Flex } from '@ergolabs/ui-kit/dist/components/Flex/Flex';
-import React, { FC, ReactNode } from 'react';
+import { FC, ReactNode } from 'react';
 
 export interface OperationDetailContainerProps {
   readonly leftSide: ReactNode | ReactNode[] | string;

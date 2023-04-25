@@ -1,5 +1,5 @@
 import { Box, Flex } from '@ergolabs/ui-kit';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { Farm } from '../../../../../common/models/Farm';
 import { FarmAction } from '../../common/FarmAction/FarmAction';

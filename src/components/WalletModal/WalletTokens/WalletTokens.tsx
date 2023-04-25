@@ -6,7 +6,7 @@ import {
   Typography,
 } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
-import React from 'react';
+import * as React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useAssetsBalance } from '../../../gateway/api/assetBalance';

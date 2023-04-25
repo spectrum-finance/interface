@@ -1,5 +1,5 @@
 import { Box, Flex, Typography } from '@ergolabs/ui-kit';
-import React, { FC, useState } from 'react';
+import { FC, useState } from 'react';
 import styled, { css } from 'styled-components';
 
 import { AmmPool } from '../../../../../common/models/AmmPool';

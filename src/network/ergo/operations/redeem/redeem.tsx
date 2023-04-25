@@ -1,5 +1,4 @@
 import { Modal } from '@ergolabs/ui-kit';
-import React from 'react';
 import { first, Observable, Subject, switchMap, tap } from 'rxjs';
 
 import { TxId } from '../../../../common/types';

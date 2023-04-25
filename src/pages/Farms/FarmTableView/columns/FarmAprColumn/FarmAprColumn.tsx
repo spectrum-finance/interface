@@ -1,5 +1,5 @@
 import { Flex } from '@ergolabs/ui-kit';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { Farm, FarmStatus } from '../../../../../common/models/Farm';
 import { AssetIcon } from '../../../../../components/AssetIcon/AssetIcon';

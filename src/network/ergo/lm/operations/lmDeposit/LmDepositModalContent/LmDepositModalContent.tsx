@@ -1,6 +1,6 @@
 import { Button, Flex, Form, FormGroup, useForm } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { Observable, skip } from 'rxjs';
 
 import { useSubscription } from '../../../../../../common/hooks/useObservable';

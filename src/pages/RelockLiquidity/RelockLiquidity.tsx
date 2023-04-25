@@ -11,7 +11,6 @@ import {
 import { t, Trans } from '@lingui/macro';
 import { ElementLocation } from '@spectrumlabs/analytics';
 import { DateTime } from 'luxon';
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { map } from 'rxjs';
 

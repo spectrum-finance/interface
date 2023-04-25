@@ -1,5 +1,6 @@
 import { Flex } from '@ergolabs/ui-kit';
-import React, { CSSProperties } from 'react';
+import { CSSProperties } from 'react';
+import * as React from 'react';
 
 import { AssetInfo } from '../../common/models/AssetInfo';
 import { AssetIcon } from '../AssetIcon/AssetIcon';

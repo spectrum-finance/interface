@@ -12,7 +12,7 @@ import {
 import { Trans } from '@lingui/macro';
 import { fireAnalyticsEvent, user } from '@spectrumlabs/analytics';
 import capitalize from 'lodash/capitalize';
-import React from 'react';
+import * as React from 'react';
 
 import {
   changeSelectedNetwork,

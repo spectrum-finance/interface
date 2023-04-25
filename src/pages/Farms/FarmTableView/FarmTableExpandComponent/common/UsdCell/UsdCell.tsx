@@ -1,5 +1,5 @@
 import { Box, Flex, Typography } from '@ergolabs/ui-kit';
-import React, { FC, ReactNode } from 'react';
+import { FC, ReactNode } from 'react';
 
 import { Currency } from '../../../../../../common/models/Currency';
 import { ConvenientAssetView } from '../../../../../../components/ConvenientAssetView/ConvenientAssetView';

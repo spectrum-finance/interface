@@ -1,6 +1,6 @@
 import { Flex, Spin, Typography } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
-import React, { FC, ReactNode } from 'react';
+import { FC, ReactNode } from 'react';
 
 export interface TransactionRefundProps {
   readonly title: ReactNode | ReactNode[] | string;

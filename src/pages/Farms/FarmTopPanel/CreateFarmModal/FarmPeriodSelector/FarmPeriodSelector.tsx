@@ -9,7 +9,7 @@ import {
 } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
 import { DateTime } from 'luxon';
-import React, { ChangeEvent, FC, useState } from 'react';
+import { ChangeEvent, FC, useState } from 'react';
 import styled from 'styled-components';
 
 import {

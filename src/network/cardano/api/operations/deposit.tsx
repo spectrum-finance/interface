@@ -11,7 +11,6 @@ import { OrderAddrsV1Testnet } from '@ergolabs/cardano-dex-sdk/build/main/amm/sc
 import { NetworkParams } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/env';
 import { RustModule } from '@ergolabs/cardano-dex-sdk/build/main/utils/rustLoader';
 import { t } from '@lingui/macro';
-import React from 'react';
 import { first, map, Observable, Subject, switchMap, tap, zip } from 'rxjs';
 
 import { UI_FEE_BIGINT } from '../../../../common/constants/erg';

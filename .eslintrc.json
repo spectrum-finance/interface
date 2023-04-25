@@ -17,7 +17,6 @@
     }
   },
   "plugins": [
-    "react-app",
     "@typescript-eslint",
     "react-hooks",
     "prettier",
@@ -27,6 +26,7 @@
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
+    "plugin:react/jsx-runtime",
     "plugin:react-hooks/recommended",
     "plugin:prettier/recommended"
   ],

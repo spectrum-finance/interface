@@ -10,7 +10,7 @@ import {
 } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import { fireAnalyticsEvent } from '@spectrumlabs/analytics';
-import React, { FC, useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import styled from 'styled-components';
 
 import { useSubject } from '../../../common/hooks/useObservable';

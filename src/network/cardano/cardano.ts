@@ -105,8 +105,8 @@ export const cardanoNetwork: Network<
   assetsToImport$: tokenAssetsToImport$,
   // TODO: Implement assets fns
   getDefaultAssetsFor,
-  getImportedAssetsFor: (assetId: string) => of([]),
-  getAssetsToImportFor: (assetId: string) => of([]),
+  getImportedAssetsFor: () => of([]),
+  getAssetsToImportFor: () => of([]),
   importedAssets$: of([]),
   importTokenAsset,
 

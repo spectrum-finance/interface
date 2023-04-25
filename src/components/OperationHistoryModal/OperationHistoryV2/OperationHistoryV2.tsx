@@ -1,6 +1,6 @@
 import { Flex, ModalRef, useDevice } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
-import React, { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 import { useSubject } from '../../../common/hooks/useObservable';
 import { getOperations } from '../../../network/ergo/api/operations/history/v2/operationsHistory';

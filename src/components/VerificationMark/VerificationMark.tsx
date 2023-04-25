@@ -1,5 +1,4 @@
 import { Tooltip } from '@ergolabs/ui-kit';
-import React from 'react';
 import styled from 'styled-components';
 
 import { ReactComponent as _VerificationIcon } from '../../assets/icons/verification-icon.svg';

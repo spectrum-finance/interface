@@ -1,6 +1,6 @@
 import { Box, Flex, Typography, useDevice } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { Position } from '../../../../common/models/Position';
 import { AssetTitle } from '../../../../components/AssetTitle/AssetTitle';

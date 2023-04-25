@@ -6,7 +6,6 @@ import {
   AssetClass,
 } from '@ergolabs/cardano-dex-sdk';
 import { mkSubject } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/assetClass';
-import { cache } from 'decorator-cache-getter';
 
 import { usdAsset } from '../../../../common/constants/usdAsset';
 import { AmmPool } from '../../../../common/models/AmmPool';
@@ -30,17 +29,14 @@ export class CardanoAmmPool extends AmmPool {
     super();
   }
 
-  @cache
   get id(): string {
     return mkSubject(this.pool.id);
   }
 
-  @cache
   get feeNum(): bigint {
     return this.pool.feeNum;
   }
 
-  @cache
   get poolFeeNum(): number {
     return this.pool.poolFeeNum;
   }
@@ -61,7 +57,6 @@ export class CardanoAmmPool extends AmmPool {
     return this.poolAnalytics.yearlyFeesPercent;
   }
 
-  @cache
   get lp(): Currency {
     return new Currency(
       this.pool.lp.amount,
@@ -69,7 +64,6 @@ export class CardanoAmmPool extends AmmPool {
     );
   }
 
-  @cache
   get x(): Currency {
     return new Currency(
       this.pool.x.amount,
@@ -77,7 +71,6 @@ export class CardanoAmmPool extends AmmPool {
     );
   }
 
-  @cache
   get y(): Currency {
     return new Currency(
       this.pool.y.amount,

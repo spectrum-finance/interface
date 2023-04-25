@@ -9,7 +9,8 @@ import {
   Typography,
 } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import * as React from 'react';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { defer, switchMap } from 'rxjs';
 

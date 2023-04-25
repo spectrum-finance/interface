@@ -13,7 +13,7 @@ import {
 import { Button, Checkbox, Flex, Modal, Typography } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import { DateTime } from 'luxon';
-import React, { FC, useState } from 'react';
+import { FC, useState } from 'react';
 
 import { ERG_DECIMALS } from '../../../common/constants/erg';
 import { useObservable } from '../../../common/hooks/useObservable';

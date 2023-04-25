@@ -1,6 +1,6 @@
 import { Box, Flex, Typography } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { calculateOutputs } from '../../../../../common/utils/calculateOutputs';
 import { AssetIcon } from '../../../../../components/AssetIcon/AssetIcon';

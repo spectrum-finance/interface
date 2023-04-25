@@ -1,6 +1,6 @@
 import { Button, DollarOutlined, Modal } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
-import React, { CSSProperties, FC } from 'react';
+import { CSSProperties, FC } from 'react';
 import styled from 'styled-components';
 
 import { FaucetModal } from '../../../../FaucetModal/FaucetModal';

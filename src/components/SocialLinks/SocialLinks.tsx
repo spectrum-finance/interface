@@ -1,7 +1,5 @@
 import './SocialLinks.less';
 
-import React from 'react';
-
 import { applicationConfig } from '../../applicationConfig';
 import { ReactComponent as DiscordIcon } from '../../assets/icons/social/Discord.svg';
 import { ReactComponent as MediumIcon } from '../../assets/icons/social/Medium.svg';
@@ -42,7 +40,7 @@ const channels = [
 const SocialLinks = (): JSX.Element => {
   return (
     <ul className="social-links">
-      {channels.map(({ name, url, icon }, index) => {
+      {channels.map(({ url, icon }, index) => {
         return (
           <li key={index} className="social-links__item">
             <a

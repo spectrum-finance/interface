@@ -1,7 +1,7 @@
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
 import { Flex, Form, FormGroup, Skeleton, useForm } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { first, skip } from 'rxjs';
 

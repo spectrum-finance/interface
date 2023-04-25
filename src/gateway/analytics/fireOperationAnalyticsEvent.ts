@@ -1,5 +1,5 @@
 import { FeeCurrency, fireAnalyticsEvent } from '@spectrumlabs/analytics';
-import { AnalyticsEvents } from '@spectrumlabs/analytics/lib/cjs/types/events';
+import { AnalyticsEvents } from '@spectrumlabs/analytics';
 import { combineLatest, first, from, switchMap } from 'rxjs';
 
 import { SPF_TOKEN_ERGO_ID } from '../../common/constants/spf';
@@ -23,10 +23,10 @@ export const fireOperationAnalyticsEvent = <T extends keyof AnalyticsEvents>(
 ): void => {
   from(
     Promise.all([
-      import('../settings/settings').then(
+      import('../settings/settings.ts').then(
         (settingsModule) => settingsModule.settings$,
       ),
-      import('../common/network').then(
+      import('../common/network.ts').then(
         (networkModule) => networkModule.selectedNetwork$,
       ),
     ]),
