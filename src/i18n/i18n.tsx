@@ -35,11 +35,7 @@ import {
 } from 'make-plural/plurals';
 import { ReactNode, useEffect } from 'react';
 
-import {
-  DEFAULT_LOCALE,
-  DEFAULT_MESSAGES,
-  SupportedLocale,
-} from '../common/constants/locales';
+import { SupportedLocale } from '../common/constants/locales';
 import { useApplicationSettings } from '../context';
 import { initialLocale, useLocale } from '../hooks/useLocale';
 
@@ -87,10 +83,7 @@ const plurals: LocalePlural = {
 
 const dynamicActivate = async (locale: SupportedLocale) => {
   i18n.loadLocaleData(locale, { plurals: plurals[locale] });
-  const { messages } =
-    locale === DEFAULT_LOCALE
-      ? { messages: DEFAULT_MESSAGES }
-      : await import(`./locales/${locale}.mjs`);
+  const { messages } = await import(`./locales/${locale}.po`);
   i18n.load(locale, messages);
   i18n.activate(locale);
 };
