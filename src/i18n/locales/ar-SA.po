@@ -16,1038 +16,2162 @@ msgstr ""
 "X-Crowdin-File: /dev/src/i18n/locales/en-US.po\n"
 "X-Crowdin-File-ID: 78\n"
 
-#: src/pages/Pool/components/LockLiquidityDatePicker/LiquidityDatePicker.tsx
-msgid "(Block: {0})"
-msgstr "(مجموعة: {0})"
+#: src/components/common/Layout/Header/BurgerMenu/ManualRefundModal/ManualRefundModalV1/ManualRefundModalV1.tsx
+#: src/components/common/Layout/Header/BurgerMenu/ManualRefundModal/ManualRefundModalV2/ManualRefundModalV2.tsx
+msgid "Transaction not found"
+msgstr ""
 
-#: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
-msgid "(Unlock block: {0})"
-msgstr "(تحرير المجموعة: {0})"
-
-#: src/components/common/KyaModal/KyaModal.tsx
-msgid "- By creating an order you send your funds to a specific smart-contract, all such contracts are wired into the UI. Thus, orders are created entirely in your browser (on your machine)."
-msgstr "- عن طريق إنشاء طلب انت ترسل أموالك إلى عقد-ذكي محدد، يتم ربط جميع هذه العقود عبر واجهة المستخدم. وهكذا، يتم إنشاء الطلبات بالكامل في المتصفح الخاص بك (على جهازك)."
+#: src/pages/PoolOverview/PoolInfoView/MyLiquidity/MyLiquidity.tsx
+msgid "Staked in farms"
+msgstr ""
 
 #: src/components/common/KyaModal/KyaModal.tsx
-msgid "- ErgoDEX operates on a live blockchain, thus trades are final, and irreversible once they have status «executed»;"
-msgstr "-إيرجو دكس يعمل على سلسلة مجموعات نشطة، لذلك تكون الصفقات نهائية، ولا رجعة عنها بمجرد أن يكون لها حالة «تم التنفيذ»;"
+#~ msgid "only on top of the Ergo Blockchain."
+#~ msgstr "فقط على بلوكشين إيرجو."
 
-#: src/components/common/KyaModal/KyaModal.tsx
-msgid "- Every transaction can be viewed via"
-msgstr "- يمكن عرض كل معاملة من خلال"
+#: src/components/FaucetModal/FaucetModal.tsx
+msgid "Get testnet token"
+msgstr ""
 
-#: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
-msgid "0.3% fee"
-msgstr "رسوم 0.3%"
-
-#: src/pages/Pool/utils.ts
-msgid "1 Day"
-msgstr "يوم واحد"
-
-#: src/pages/Pool/utils.ts
-msgid "1 Month"
-msgstr "شهر واحد"
-
-#: src/pages/Pool/utils.ts
-msgid "1 Year"
-msgstr "سنة واحدة"
-
-#: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
-msgid "1% fee"
-msgstr "رسوم 1%"
-
-#: src/components/common/KyaModal/KyaModal.tsx
-msgid "1. You will use the product at your own peril and risk;"
-msgstr "1. سوف تستخدم هذا المنتج وأنت على عرضة للخطر وعلى مسؤوليتك الخاصة;"
-
-#: src/components/common/KyaModal/KyaModal.tsx
-msgid "2. Only YOU are responsible for your assets;"
-msgstr "2. أنت فقط المسؤول عن الأصول الخاصة بك;"
-
-#: src/components/Header/BurgerMenu/BurgerMenu.tsx
-msgid "About"
-msgstr "حول"
-
-#: src/components/WalletModal/AddressesTab/AddressesTab.tsx
-msgid "Active"
-msgstr "نشط"
-
-#: src/components/WalletModal/WalletActiveAddress/WalletActiveAddress.tsx
-msgid "Active address"
-msgstr "العناوين النشطة"
-
-#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
-#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
-#: src/pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool.tsx
-#: src/pages/Pool/components/LiquidityPositionsList/LiquidityPositionsList.tsx
-msgid "Add Liquidity"
-msgstr "إضافة سيولة"
-
-#: src/components/common/TxHistory/TxTypeTag/TxTypeTag.tsx
-#: src/pages/Pool/Liquidity.tsx
-msgid "Add liquidity"
-msgstr "إضافة سيولة"
-
-#: src/components/ConfirmationModal/ConfirmationModal.tsx
-msgid "Adding liquidity {0} and {1}"
-msgstr "إضافة السيولة {0} و {1}"
-
-#: src/components/WalletModal/WalletActiveAddress/WalletActiveAddress.tsx
-msgid "All output assets will be received at this address."
-msgstr "سيتم إستلام جميع مخرجات الأصول على هذا العنوان."
-
-#: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
-#: src/pages/Pool/RemoveLiquidity/RemoveLiquidity.tsx
-msgid "Amount"
-msgstr "الكمية"
-
-#: src/pages/Pool/components/LiquidityPositionsList/LiquidityPositionsItem/LiquidityPositionsItemAnalytics/LiquidityPositionsItemAnalytics.tsx
-msgid "Annual Percentage Rate. Average estimation of how much you may potentially earn providing liquidity to this pool."
-msgstr "النسبة المئوية السنوية. متوسط تقدير الكمية التي يمكن أن تكتسبها عن طريق توفير السيولة لهذا الحوض."
+#: src/pages/PoolOverview/PoolInfoView/PoolInfoView.tsx
+msgid "Increase Liquidity"
+msgstr "زيادة السيولة"
 
 #: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
-#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
-msgid "Assets"
-msgstr "الأصول"
+#~ msgid "Type"
+#~ msgstr "النوع"
 
-#: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
-#: src/pages/Pool/LockLiquidity/LockLiquidityConfirmationModal/LockLiquidityConfirmationModal.tsx
-#: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
-msgid "Assets to lock"
-msgstr "الأصول المراد الإقفال عليها"
+#: src/components/OperationHistoryModal/OperationHistoryV2/cells/StatusCell/StatusCell.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV2/filters/statusFilter.tsx
+msgid "Refunded"
+msgstr ""
 
-#: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
-msgid "Assets to relock"
-msgstr "الأصول المراد إعادة الإقفال عليها"
+#: src/pages/Swap/Swap.tsx
+#~ msgid "To"
+#~ msgstr "إلى"
 
-#: src/pages/Pool/RemoveLiquidity/RemoveLiquidity.tsx
-msgid "Assets to remove"
-msgstr "الأصول المراد إستعادتها"
-
-#: src/components/MobilePlug/MobilePlug.tsx
-msgid "Back to Home"
-msgstr "العودة إلى الصفحة الرئيسية"
-
-#: src/components/common/TokenControl/TokenControl.tsx
-msgid "Balance: {0}"
-msgstr "الرصيد: {0}"
-
-#: src/pages/Pool/components/LPGuide/LPGuide.tsx
-msgid "Become a liquidity provider"
-msgstr "كن موفر سيولة"
-
-#: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
-msgid "Best for exotic pairs"
-msgstr "أفضل للأزواج الغريبة"
-
-#: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
-msgid "Best for most pairs"
-msgstr "أفضل لمعظم الأزواج"
-
-#: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
-#: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
-msgid "Block:"
-msgstr "مجموعة:"
-
-#: src/components/common/KyaModal/KyaModal.tsx
-msgid "By accepting these KYA, you agree that:"
-msgstr "بقبول الأحكام هذه، فإنك توافق على:"
-
-#: src/pages/Swap/PoolSelector/PoolSelector.tsx
-msgid "Change"
-msgstr "تغيير"
-
-#: src/components/WalletModal/WalletModal.tsx
-msgid "Change wallet"
-msgstr "تغيير المحفظة"
-
-#: src/components/OperationForm/OperationForm.tsx
-#: src/components/common/ActionForm/ActionButton/ActionButton.tsx
-msgid "Check Internet Connection"
-msgstr "تحقق من الاتصال بالإنترنت"
-
-#: src/pages/Pool/components/LPGuide/LPGuide.tsx
-msgid "Check out our guides how to become a liquidity provider"
-msgstr "تحقق من أدلتنا الإرشادية كيف تصبح موفر السيولة"
-
-#: src/components/WalletModal/AddressesTab/AddressesTab.tsx
-msgid "Choose"
-msgstr "إختر"
-
-#: src/pages/Pool/components/LockLiquidityDatePicker/LiquidityDatePicker.tsx
-msgid "Choose Date"
-msgstr "إختر التاريخ"
-
-#: src/pages/Swap/PoolSelector/PoolSelectorModal/PoolSelectorModal.tsx
-msgid "Choose Pool"
-msgstr "إختر الحوض"
-
-#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
-msgid "Choose a fee"
-msgstr "إختر رسوماً"
-
-#: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
-#: src/components/common/TxHistory/RefundConfirmationModal/RefundConfirmationModal.tsx
-msgid "Confirm"
-msgstr "تأكيد"
-
-#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
-msgid "Confirm Add Liquidity"
-msgstr "تأكيد إضافة السيولة"
-
-#: src/pages/Pool/LockLiquidity/LockLiquidityConfirmationModal/LockLiquidityConfirmationModal.tsx
-msgid "Confirm Lock"
-msgstr "تأكيد القفل"
-
-#: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
-msgid "Confirm Relock"
-msgstr "تأكيد إعادة القفل"
-
-#: src/pages/Pool/RemoveLiquidity/RemoveLiquidityConfirmationModal/RemoveLiquidityConfirmationModal.tsx
-msgid "Confirm Remove Liquidity"
-msgstr "تأكيد إستعادة السيولة"
-
-#: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
-msgid "Confirm Swap"
-msgstr "تأكيد المبادلة"
-
-#: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
-msgid "Confirm Withdrawal"
-msgstr "تأكيد السحب"
-
-#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
-msgid "Confirm pool creation"
-msgstr "تأكيد إنشاء الحوض"
-
-#: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
-msgid "Confirm swap"
-msgstr "تأكيد المبادلة"
-
-#: src/components/ConfirmationModal/ConfirmationModal.tsx
-msgid "Confirm this transaction in your wallet"
-msgstr "تحقق من هذه المعاملة داخل محفظتك"
-
-#: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
-msgid "Confirm withdrawal"
-msgstr "تأكيد السحب"
-
-#: src/components/common/ConnectWalletButton/ConnectWalletButton.tsx
-msgid "Connect wallet"
-msgstr "الإتصال بالمحفظة"
-
-#: src/components/common/CopyButton/CopyButton.tsx
-msgid "Copied to clipboard!"
-msgstr "تم النسخ إلى الحافظة!"
-
-#: src/components/WalletModal/WalletActiveAddress/WalletActiveAddress.tsx
-msgid "Copy Address"
-msgstr "نسخ العنوان"
-
-#: src/components/common/CopyButton/CopyButton.tsx
-msgid "Copy to clipboard."
-msgstr "نسخ إلى الحافظة."
-
-#: src/pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool.tsx
-msgid "Create Pool"
-msgstr "إنشاء حوض"
-
-#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
-#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
-#: src/pages/Pool/Liquidity.tsx
-msgid "Create pool"
-msgstr "إنشاء حوض"
-
-#: src/pages/PoolOverview/PoolOverview.tsx
-msgid "Current price"
-msgstr "السعر الحالي"
-
-#: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
-msgid "Custom fee tier"
-msgstr "مستوى رسوم مخصص"
-
-#: src/components/Header/BurgerMenu/BurgerMenu.tsx
-msgid "Dark mode"
-msgstr "وضع الظلام"
-
-#: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
-msgid "Date"
-msgstr "التاريخ"
-
-#: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
-msgid "Disconnect wallet"
-msgstr "قطع الاتصال بالمحفظة"
-
-#: src/components/Header/BurgerMenu/BurgerMenu.tsx
-msgid "Docs"
-msgstr "الوثائق"
-
-#: src/components/WalletModal/LowBalanceWarning/LowBalanceWarning.tsx
-msgid "ERG balance is low"
-msgstr "رصيد ERG منخفض"
-
-#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
-#~ msgid "Enter an A  mount"
-#~ msgstr "Enter an A  mount"
-
-#: src/components/common/ActionForm/ActionButton/ActionButton.tsx
-#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
-#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
-msgid "Enter an Amount"
-msgstr "أدخل كمية"
-
-#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
-msgid "Enter an Initial Price"
-msgstr "أدخل سعر أولي"
-
-#: src/components/WalletModal/WalletModal.tsx
-msgid "Ergo network"
-msgstr "شبكة إيرجو"
-
-#: src/components/common/KyaModal/KyaModal.tsx
-msgid "ErgoDEX Smart Contracts"
-msgstr "العقود الذكية الخاصة بإيرجودكس"
-
-#: src/components/common/KyaModal/KyaModal.tsx
-msgid "ErgoDEX Team doesn’t guarantee the absence of bugs and errors."
-msgstr "فريق إيرجوديكس لا يضمن عدم وجود اي خلل أو أخطاء."
-
-#: src/components/common/KyaModal/KyaModal.tsx
-msgid "ErgoDEX is a decentralized financial (DeFi) application which means it doesn’t have a central government body. ErgoDEX includes AMM (Swap, Add liquidity and Remove liquidity) functionality"
-msgstr "إيرجودكس هو تطبيق مالي لامركزي (DeFi) مما يعني أنه ليس لديه تركيبة حكومية مركزية. إيرجودكس يتضمن وظائف مبادلة-إضافة-إزالة (مبادلة أصول، إضافة السيولة وإزالة السيولة)"
-
-#: src/components/common/KyaModal/KyaModal.tsx
-msgid "ErgoDEX offers a form of added security, as buyers and sellers do not have to give their information to any 3rd party. However, ErgoDEX is without a know your customer (KYC) process and can offer NO assistance if a user is hacked or cheated out of passwords, currency or private wallet keys."
-msgstr "ويوفر إيرجودكس شكلا من أشكال الحماية المضافة، لأن المشترين والبائعين لا يضطرون إلى تقديم معلوماتهم الشخصية إلى أي طرف ثالث. بالمقابل، إيرجودكس ليس لديه عملية التعرف على العميل (KYC) ولا يمكن أن يقدم أية مساعدة إذا تم اختراق مستخدم أو خداعه عن طريق كلمات المرور، العمل أو مفاتيح المحفظة الخاصة."
-
-#: src/components/ConfirmationModal/ConfirmationModal.tsx
-#: src/components/ConfirmationModal/ConfirmationModal.tsx
-msgid "Error"
-msgstr "حدث خطأ"
-
-#: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
-msgid "Estimated output:"
-msgstr "الناتج المقدر:"
-
-#: src/pages/Swap/SwapInfo/SwapInfo.tsx
-msgid "Execution Fee"
-msgstr "رسوم التنفيذ"
-
-#: src/pages/Swap/OperationSettings/NitroInput/NitroInput.tsx
-msgid "Execution Fee Range {0} - {1} {2}"
-msgstr "نطاق رسوم التنفيذ {0} - {1} {2}"
-
+#: src/components/BaseAddLiquidityConfirmationModal/BaseAddLiquidityConfirmationModal.tsx
+#: src/components/BaseRedeemConfirmationModal/BaseRedeemConfirmationModal.tsx
 #: src/components/common/FormView/FormFeesSection/FormFeesSection.tsx
-#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
-#: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
-msgid "Execution Fee:"
-msgstr "رسوم التنفيذ:"
-
-#: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
-msgid "Experimental"
-msgstr "تجريبي"
-
-#: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
-msgid "Extension period"
-msgstr "فترة التمديد"
-
-#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
-#: src/pages/Pool/components/LiquidityPositionsList/LiquidityPositionsItem/LiquidityPositionsItemWrapper/LiquidityPositionsItemWrapper.tsx
-msgid "Fee tier"
-msgstr "مستوى الرسوم"
-
-#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/PoolSelector/PoolView/PoolView.tsx
-msgid "Fee:"
-msgstr "الرسوم:"
-
-#: src/components/common/FormView/FormFeesSection/FormFeesSection.tsx
-#: src/components/common/TxHistory/RefundConfirmationModal/RefundConfirmationModal.tsx
-#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
-#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
+#: src/network/ergo/widgets/DepositOpenWallet/DepositOpenWallet.tsx
+#: src/network/ergo/widgets/RedeemOpenWallet/RedeemOpenWallet.tsx
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
 msgid "Fees"
 msgstr "رسوم"
 
-#: src/pages/Swap/Swap.tsx
-msgid "From"
-msgstr "من"
-
-#: src/components/ConfirmationModal/ConfirmationModal.tsx
-msgid "Get help in our channels:"
-msgstr "احصل على المساعدة في قنواتنا:"
-
-#: src/components/Header/BurgerMenu/BurgerMenu.tsx
-#: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
-msgid "Global Settings"
-msgstr "الإعدادات العامة"
-
-#: src/components/Header/BurgerMenu/BurgerMenu.tsx
-msgid "How to use"
-msgstr "كيفية الإستخدام"
-
-#: src/pages/Pool/LockLiquidity/LockLiquidityConfirmationModal/LockLiquidityConfirmationModal.tsx
-msgid "I understand that I'm locking <0>{0}</0> LP-tokens, which is <1>{percent}%</1> of my <2>{1}/{2}</2> liquidity position, for a period of <3>{3}</3> (until {4}) without the ability to withdrawal before the end of this period."
-msgstr "أعي أنني سوف أقفل على <0>{0}</0> LP-tokens، وهو <1>{percent}%</1> من <2>{1}/{2}</2> وضع السيولة الخاص بي لفترة <3>{3}</3> (حتى {4}) دون القدرة على الإستعادة قبل نهاية هذه الفترة."
-
-#: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
-msgid "I understand that I’m relocking <0>{0}</0> LP-tokens of my <1>{1}/{2}</1> position until <2>{3}</2> (or <3>{4}</3> block) without the ability to withdrawal before the end of this period."
-msgstr "أفهم أنني سوف أعيد الفل على <0>{0}</0> LP-tokens من <1>{1}/{2}</1> الخص بي حتى <2>{3}</2> (أو المجموعة <3>{4}</3>) دون القدرة على الإستعادة قبل نهاية هذه الفترة."
-
-#: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
-#~ msgid "I understand that this wallet has not been audited. I will use it at my own risk."
-#~ msgstr "I understand that this wallet has not been audited. I will use it at my own risk."
-
-#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
-#: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
-msgid "I understand the risks"
-msgstr ""
-
-#: src/components/common/KyaModal/KyaModal.tsx
-msgid "I understand the risks and accept the KYA"
-msgstr "أنا أفهم المخاطر وأقبل بالأحكام"
-
-#: src/pages/PoolOverview/PoolOverview.tsx
-msgid "Increase Liquidity"
-msgstr "زيادة السيولة"
-
-#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
-msgid "Initial liquidity"
-msgstr "السيولة الأولية"
-
-#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
-#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
-msgid "Initial price"
-msgstr "السعر الأولي"
-
-#: src/components/common/ActionForm/ActionButton/ActionButton.tsx
-msgid "Insufficient liquidity for this trade"
-msgstr "السيولة غير كافية لهذه المعاملة"
-
-#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
-#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
-#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
-#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
-msgid "Insufficient {0} Balance"
-msgstr "رصيد {0} غير كافي"
-
-#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
-#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
-msgid "Insufficient {0} Balance for Fees"
-msgstr "رصيد {0} غير كافي للرسوم"
-
-#: src/components/common/ActionForm/ActionButton/ActionButton.tsx
-msgid "Insufficient {token} Balance"
-msgstr "رصيد {token} غير كافي"
-
-#: src/components/common/ActionForm/ActionButton/ActionButton.tsx
-msgid "Insufficient {token} Balance for Fees"
-msgstr "رصيد {token} غير كافي للرسوم"
-
-#: src/pages/Pool/components/LiquidityPositionsList/LiquidityPositionsItem/LiquidityPositionsItemWrapper/LiquidityPositionsItemWrapper.tsx
-#~ msgid "It is impossible to display statistics for this pool"
-#~ msgstr "It is impossible to display statistics for this pool"
-
-#: src/components/common/ConnectWalletButton/ConnectWalletButton.tsx
-msgid "KYA is not accepted"
-msgstr "الأحكام غير مقبولة"
-
-#: src/components/Header/BurgerMenu/BurgerMenu.tsx
-msgid "Language"
-msgstr "اللغة"
-
-#: src/components/WalletModal/LowBalanceWarning/LowBalanceWarning.tsx
-msgid "Learn how to get ERG"
-msgstr "تعرف على كيفية الحصول على ERG"
-
-#: src/components/Header/Navigation/Navigation.tsx
-#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
-#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
-#: src/pages/Pool/Liquidity.tsx
-msgid "Liquidity"
-msgstr "السيولة"
-
-#: src/pages/PoolOverview/PoolOverview.tsx
-msgid "Liquidity Locker"
-msgstr "قفل السيولة"
-
-#: src/pages/Swap/PoolSelector/PoolSelector.tsx
-msgid "Liquidity Pool"
-msgstr "حوض السيولة"
-
-#: src/components/OperationForm/OperationForm.tsx
-#: src/components/common/ActionForm/ActionButton/ActionButton.tsx
-msgid "Loading"
-msgstr "جاري التحميل"
-
-#: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
-msgid "Lock"
-msgstr "قفل"
-
-#: src/pages/Pool/LockLiquidity/LockLiquidityConfirmationModal/LockLiquidityConfirmationModal.tsx
-msgid "Lock Liquidity"
-msgstr "قفل على السيولة"
-
-#: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
-#: src/pages/PoolOverview/PoolOverview.tsx
-msgid "Lock liquidity"
-msgstr "قفل على السيولة"
-
-#: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
-msgid "Lock period"
-msgstr "فترة الإقفال"
-
-#: src/pages/PoolOverview/LockLiquidityChart/LockLiquidityChart.tsx
-msgid "Lock time"
-msgstr "وقت الإقفال"
-
-#: src/pages/Pool/utils.ts
-msgid "Locked"
-msgstr "مقفل"
-
-#: src/pages/Pool/Liquidity.tsx
-msgid "Locked Positions"
-msgstr "الأصول المقفلة"
-
-#: src/pages/PoolOverview/PoolOverview.tsx
-msgid "Locked liquidity"
-msgstr "السيولة المقفلة"
-
-#: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
-msgid "Locked positions"
-msgstr "الأصول المقفلة"
-
-#: src/components/ConfirmationModal/ConfirmationModal.tsx
-msgid "Locking {0} and {1} ({2}) for {3}"
-msgstr "قفل على {0} و {1} ({2}) مقابل {3}"
-
-#: src/components/common/TokenControl/TokenControl.tsx
-msgid "Max"
-msgstr "الحد الأقصى"
-
-#: src/pages/Swap/OperationSettings/OperationSettings.tsx
-msgid "Max execution fee multiplier"
-msgstr "الحد الأقصى لمضاعف رسوم التنفيذ"
-
-#: src/pages/Swap/SwapInfo/SwapInfo.tsx
-msgid "Maximum received:"
-msgstr "الحد الأقصى للاستلام:"
-
-#: src/components/common/ActionForm/ActionButton/ActionButton.tsx
-#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
-#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
-msgid "Min value for {0} is {1}"
-msgstr "قيمة الحد الأدنى لـ {0} هو {1}"
-
-#: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
-msgid "Miner Fee"
-msgstr "رسوم المعدّن"
-
-#: src/components/common/FormView/FormFeesSection/FormFeesSection.tsx
-#: src/components/common/TxHistory/RefundConfirmationModal/RefundConfirmationModal.tsx
-#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
-#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
-#: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
-msgid "Miner Fee:"
-msgstr "رسوم المعدّن:"
-
-#: src/pages/Swap/SwapInfo/SwapInfo.tsx
-msgid "Miner fee:"
-msgstr "رسوم المعدّن:"
-
-#: src/pages/Swap/OperationSettings/OperationSettings.tsx
-msgid "Minimal Nitro value is {MIN_NITRO}"
-msgstr "الحد الأدنى لقيمة نيترو {MIN_NITRO}"
-
-#: src/pages/Swap/OperationSettings/OperationSettings.tsx
-msgid "Minimal Slippage is {MIN_SLIPPAGE}"
-msgstr "الحد الأدنى لاختلاف السعر {MIN_SLIPPAGE}"
-
-#: src/components/Header/GlobalSettingsModal/MinerFeeInput/MinerFeeInput.tsx
-#: src/pages/Swap/OperationSettings/NitroInput/NitroInput.tsx
-msgid "Minimum"
-msgstr "الحد الأدنى"
-
-#: src/pages/Swap/SwapInfo/SwapInfo.tsx
-msgid "Minimum received:"
-msgstr "الحد الأدنى للاستلام:"
-
-#: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
-msgid "Minimum value is {MIN_ERG_FOR_TX} ERG"
-msgstr "الحد الأدنى للقيمة هو {MIN_ERG_FOR_TX} ERG"
-
-#: src/components/MobilePlug/MobilePlug.tsx
-msgid "Mobile version is not supported yet"
-msgstr "نسخة الجوال غير مدعومة بعد"
-
-#: src/pages/Swap/OperationSettings/OperationSettings.tsx
-msgid "Nitro"
-msgstr "نيترو"
-
-#: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
-msgid "Nitro:"
-msgstr "نيترو:"
-
-#: src/pages/Pool/common/EmptySearchResult/EmptySearchResult.tsx
-msgid "No results found"
-msgstr "لم يتم العثور على نتائج"
-
-#: src/components/common/KyaModal/KyaModal.tsx
-msgid "Notice that:"
-msgstr "لاحظة أن:"
-
-#: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
-msgid "Once LP-tokens are locked they cannot be withdrawn under any circumstances until the timer has expired. Please ensure the parameters are correct, as they are final."
-msgstr "بمجرد أن يتم قفل على LP-tokens، لا يمكن سحبها تحت أي ظرف حتى ينتهي وقت القفل. يرجى التأكد من صحة التوقيت، لأنها نهائية."
-
-#: src/pages/Pool/components/LocksList/LockItemView/LockItemView.tsx
-msgid "Pair"
-msgstr "زوج"
-
-#: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
-msgid "Pick new unlock date"
-msgstr "اختيار تاريخ فتح إقفال جديد"
-
-#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
-msgid "Pool"
-msgstr "حوض"
-
-#: src/pages/PoolOverview/PoolOverview.tsx
-msgid "Pool liquidity"
-msgstr "سيولة الحوض"
-
-#: src/pages/PoolOverview/PoolOverview.tsx
-msgid "Pool overview"
-msgstr "نظرة عامة للحوض"
-
-#: src/pages/Pool/RemoveLiquidity/RemoveLiquidityConfirmationModal/RemoveLiquidityConfirmationModal.tsx
-msgid "Pooled assets"
-msgstr "أصول موجودات الحوض"
-
-#: src/pages/Pool/Liquidity.tsx
-msgid "Pools Overview"
-msgstr "نظرة عامة للأحواض"
-
-#: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
-msgid "Previous unlock date"
-msgstr "تاريخ فتح القفل السابق"
-
-#: src/pages/Swap/SwapInfo/SwapInfo.tsx
-msgid "Price impact:"
-msgstr "التأثير على السعر:"
-
-#: src/components/GuideBanner/GuideBanner.tsx
-msgid "Read Guide"
-msgstr "إقرأ الدليل"
-
-#: src/pages/Pool/components/LiquidityPositionsList/LiquidityPositionsItem/LiquidityPositionsItemAnalytics/LiquidityPositionsItemAnalytics.tsx
-#: src/pages/Swap/OperationSettings/OperationSettings.tsx
-msgid "Read more"
-msgstr "إقرأ المزيد"
-
-#: src/components/common/TxHistory/TxHistory.tsx
-#: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
-msgid "Recent transactions"
-msgstr "المعاملات الأخيرة"
-
-#: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
-msgid "Recommended"
-msgstr "موصى بها"
-
-#: src/components/common/ActionForm/ActionButton/ActionButton.tsx
-msgid "Refresh page"
-msgstr "تحديث الصفحة"
-
-#: src/components/common/TxHistory/TxTypeTag/TxTypeTag.tsx
-msgid "Refund"
-msgstr "إسترداد"
-
-#: src/components/common/TxHistory/RefundConfirmationModal/RefundConfirmationModal.tsx
-msgid "Refund confirmation"
-msgstr "تأكيد الإسترداد"
-
-#: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
-msgid "Refund transaction"
-msgstr "إسترداد المعاملة"
-
-#: src/components/common/TxHistory/RefundConfirmationModal/RefundConfirmationModal.tsx
-msgid "Refund will be performed to this address"
-msgstr "سيتم استعادة المبلغ إلى هذا العنوان"
-
-#: src/components/ConfirmationModal/ConfirmationModal.tsx
-msgid "Refunding {0} and {1}"
-msgstr "استعادة {0} و {1}"
-
-#: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
-#: src/pages/Pool/components/LocksList/LockItemView/LockItemView.tsx
-#: src/pages/PoolOverview/PoolOverview.tsx
-msgid "Relock liquidity"
-msgstr "إعادة القفل على السيولة"
-
-#: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
-msgid "Relock position"
-msgstr "موضع إعادة القفل"
-
-#: src/components/ConfirmationModal/ConfirmationModal.tsx
-msgid "Relocking {0} and {1} ({2})"
-msgstr "إعادة قفل {0} و {1} ({2})"
-
-#: src/pages/Pool/RemoveLiquidity/RemoveLiquidity.tsx
-msgid "Remove"
-msgstr "إزالة"
-
-#: src/pages/Pool/RemoveLiquidity/RemoveLiquidityConfirmationModal/RemoveLiquidityConfirmationModal.tsx
-#: src/pages/PoolOverview/PoolOverview.tsx
-msgid "Remove Liquidity"
-msgstr "إستعادة السيولة"
-
-#: src/components/common/TxHistory/TxTypeTag/TxTypeTag.tsx
-#: src/pages/Pool/RemoveLiquidity/RemoveLiquidity.tsx
-msgid "Remove liquidity"
-msgstr "إستعادة السيولة"
-
-#: src/components/ConfirmationModal/ConfirmationModal.tsx
-msgid "Removing liquidity {0} and {1}"
-msgstr "إزالة السيولة {0} و {1}"
-
-#: src/components/common/TokenControl/TokenSelect/TokenListModal/TokenListModal.tsx
-msgid "Search"
-msgstr "بحث"
-
-#: src/components/ConfirmationModal/ConfirmationModal.tsx
-msgid "Seems like Yoroi Wallet has an issue"
-msgstr "يبدو أن هناك مشكلة في محفظة Yoroi"
-
-#: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
-#: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
-#: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
-msgid "Select Locked Position"
-msgstr "حدد سيولة مقفلة"
-
-#: src/components/Header/NetworkDropdown/NetworkDropdown.tsx
-msgid "Select Network"
-msgstr "حدد الشبكة"
-
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool.tsx
 msgid "Select Pair"
 msgstr "اختر الزوج"
 
-#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/PoolSelector/PoolSelector.tsx
+#: src/pages/Liquidity/common/tableViewStates/PoolsOverviewLoadingState/PoolsOverviewLoadingState.tsx
+msgid "Loading pools."
+msgstr ""
+
+#: src/components/OperationHistoryModal/OperationHistoryV2/states/ErrorState/ErrorState.tsx
+msgid "contact support"
+msgstr ""
+
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
+#~ msgid "Enter an A  mount"
+#~ msgstr "Enter an A  mount"
+
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
+msgid "Insufficient {0} Balance for Fees"
+msgstr "رصيد {0} غير كافي للرسوم"
+
+#: src/pages/Farms/FarmTableView/FarmTableExpandComponent/DistributionFrequencyCell/DistributionFrequencyCell.tsx
+msgid "blocks"
+msgstr ""
+
+#: src/components/common/CopyButton/CopyButton.tsx
+msgid "Address successfully copied"
+msgstr ""
+
+#: src/components/common/TokenControl/AssetBalance/AssetBalance.tsx
+msgid "Balance:"
+msgstr ""
+
+#: src/pages/PoolOverview/LockLiquidity/LockLiquidity.tsx
+msgid "Lock time"
+msgstr "وقت الإقفال"
+
+#: src/pages/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
+msgid "(Unlock block: {0})"
+msgstr "(تحرير المجموعة: {0})"
+
+#: src/components/common/Layout/Header/ClaimSpfButton/ClaimSpfModal/NothingToClaimState/NothingToClaimState.tsx
+msgid "Don’t worry. You still can earn it by providing liquidity and staking LP tokens in farms!"
+msgstr ""
+
+#: src/components/OperationHistoryModal/OperationHistoryV1/OperationHistoryTable/states/OperationSearchEmptyState/OperationSearchEmptyState.tsx
+msgid "We didn't find anything."
+msgstr ""
+
+#: src/pages/Liquidity/common/tableViewStates/PositionEmptyState/PositionEmptyState.tsx
+msgid "New position"
+msgstr ""
+
+#: src/pages/Liquidity/common/tableViewStates/PositionEmptyState/PositionEmptyState.tsx
+#: src/pages/PoolOverview/PoolInfoView/MyLiquidity/MyLiquidity.tsx
+msgid "Your liquidity positions will appear here."
+msgstr "ستظهر حالة السيولة الخاصة بك هنا."
+
+#: src/components/ThemeSwitch/ThemeSwitch.tsx
+msgid "Light"
+msgstr ""
+
+#: src/services/notifications/CookiePolicy/CookiePolicy.tsx
+#: src/services/notifications/CookiePolicy/CookiePolicy.tsx
+msgid "Reject"
+msgstr ""
+
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
+msgid "Choose a fee"
+msgstr "إختر رسوماً"
+
+#: src/pages/Farms/FarmTableView/FarmTableExpandComponent/LivePeriodCell/LivePeriodCell.tsx
+msgid "Live Period"
+msgstr ""
+
+#: src/pages/Farms/FarmTopPanel/CreateFarmModal/FarmPoolSelector/FarmPoolSelector.tsx
+msgid "The liquidity tokens of this pool will participate in the farming program."
+msgstr ""
+
+#: src/pages/Swap/SwapInfo/MoreInfoButton/MoreInfoButton.tsx
+msgid "More"
+msgstr ""
+
+#: src/components/OperationSettings/OperationSettings.tsx
+msgid "Minimal Nitro value is"
+msgstr ""
+
+#: src/components/common/FormView/FormFeesSection/FormFeesSection.tsx
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
+msgid "Miner Fee:"
+msgstr "رسوم المعدّن:"
+
+#: src/components/Header/ConnectWallet/ConnectWallet.tsx
+#~ msgid "{numberOfPendingTxs} Pending"
+#~ msgstr "{numberOfPendingTxs} قيد الانتظار"
+
+#: src/pages/Liquidity/utils.ts
+msgid "1 Month"
+msgstr "شهر واحد"
+
+#: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
+#~ msgid "Estimated output:"
+#~ msgstr "الناتج المقدر:"
+
+#: src/components/PoolSelector/PoolSelector.tsx
 msgid "Select Pool"
 msgstr "اختر الحوض"
 
-#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
-msgid "Select a fee tier"
-msgstr "حدد مستوى الرسوم"
+#: src/components/common/Layout/Header/ClaimSpfButton/ClaimSpfModal/NothingToClaimState/NothingToClaimState.tsx
+msgid "Didn't get SPF?"
+msgstr ""
 
-#: src/components/common/ActionForm/ActionButton/ActionButton.tsx
-#: src/components/common/TokenControl/TokenSelect/TokenListModal/TokenListModal.tsx
-#: src/components/common/TokenControl/TokenSelect/TokenSelect.tsx
-#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
-#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
-msgid "Select a token"
-msgstr "اختر عملة"
+#: src/pages/Farms/FarmTopPanel/CreateFarmModal/ConfirmFarmCreateModal.tsx
+msgid "Budget"
+msgstr ""
 
-#: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
-msgid "Select a wallet"
-msgstr "اختر محفظة"
+#: src/pages/AddLiquidityOrCreatePool/CreatePoolUnsupportedAlert/CreatePoolUnsupportedAlert.tsx
+msgid "{walletName} Wallet doesn’t support “create pool” functionality yet. Choose another wallet to perform the operation."
+msgstr "{walletName} المحفظة لا تدعم وظيفة \"إنشاء حوض\" حتى الآن. اختر محفظة أخرى لتنفيذ العملية."
 
-#: src/components/common/TxHistory/RefundConfirmationModal/RefundConfirmationModal.tsx
+#: src/components/BaseRedeemConfirmationModal/BaseRedeemConfirmationModal.tsx
+#: src/pages/PoolOverview/PoolInfoView/PoolInfoView.tsx
+msgid "Remove Liquidity"
+msgstr "إستعادة السيولة"
+
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
+msgid "0.3% fee"
+msgstr "رسوم 0.3%"
+
+#: src/components/PoolSelector/PoolSelectorOverlay/PoolSelectorOverlay.tsx
+msgid "Search pool"
+msgstr ""
+
+#: src/components/common/Layout/CardanoMaintenance/CardanoMaintenance.tsx
+msgid "Cardano testnet is under maintenance. Some operations may not work as expected. We are working on it."
+msgstr ""
+
+#: src/network/ergo/widgets/RefundConfirmationModal/RefundConfirmationModal.tsx
+#: src/network/ergo/widgets/RefundOpenWallet/RefundOpenWallet.tsx
+msgid "Refund will be performed to this address"
+msgstr "سيتم استعادة المبلغ إلى هذا العنوان"
+
+#: src/components/OperationHistoryModal/OperationHistoryV1/OperationHistoryTable/states/OperationsEmptyState/OperationsEmptyState.tsx
+msgid "Your transactions will appear here"
+msgstr ""
+
+#: src/components/FaucetModal/FaucetModal.tsx
+msgid "To get ErgoDEX testnet tokens select a token that you want to receive and press \"Get testnet token\" button"
+msgstr ""
+
+#: src/pages/Farms/FarmTableView/FarmTableExpandComponent/ClaimedRewardsCell/ClaimedRewardsCell.tsx
+#: src/pages/Farms/FarmTableView/FarmTableExpandComponent/common/RewardCell/RewardCell.tsx
+msgid "Connect wallet to see your next rewards"
+msgstr ""
+
+#: src/pages/Farms/FarmTableView/columns/FarmPairColumn/FarmPairColumn.tsx
+#: src/pages/Farms/FarmTopPanel/FarmStateFilter/FarmState.ts
+msgid "Scheduled"
+msgstr ""
+
+#: src/pages/Farms/FarmTableView/columns/FarmPairColumn/FarmPairColumn.tsx
+#: src/pages/Farms/FarmTableView/FarmTableExpandComponent/common/RewardCell/RewardCell.tsx
+#: src/pages/Farms/FarmTopPanel/FarmStateFilter/FarmState.ts
+msgid "Finished"
+msgstr ""
+
+#: src/network/cardano/widgets/DepositConfirmationModal/DepositConfirmationInfo/DepositConfirmationInfo.tsx
+#: src/network/cardano/widgets/RedeemConfirmationModal/RedeemConfirmationInfo/RedeemConfirmationInfo.tsx
+#: src/network/cardano/widgets/SwapConfirmationModal/SwapConfirmationInfo/SwapConfirmationInfo.tsx
+msgid "Refundable deposit:"
+msgstr ""
+
+#: src/components/Header/BurgerMenu/BurgerMenu.tsx
+#: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
+#~ msgid "Global Settings"
+#~ msgstr "الإعدادات العامة"
+
+#: src/components/WalletModal/LowBalanceWarning/LowBalanceWarning.tsx
+#~ msgid "ERG balance is low"
+#~ msgstr "رصيد ERG منخفض"
+
+#: src/pages/Liquidity/default/LiquidityDefaultLayout.tsx
+#: src/pages/Liquidity/mobile/LiquidityMobileLayout.tsx
+msgid "Type token name or pool id"
+msgstr ""
+
+#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/common/TransactionDetails/TransactionDetails.tsx
+msgid "TxId successfully copied"
+msgstr ""
+
+#: src/pages/Liquidity/default/components/YourPositions/PositionDetails/PositionDetails.tsx
+#: src/pages/Liquidity/mobile/components/YourPositions/PositionDetails/PositionDetails.tsx
+msgid "Your liquidity"
+msgstr "سيولتك الخاصىة"
+
+#: src/network/ergo/widgets/RefundConfirmationModal/RefundConfirmationModal.tsx
+#: src/network/ergo/widgets/RefundOpenWallet/RefundOpenWallet.tsx
 msgid "Select address"
 msgstr "إختر العنوان"
 
-#: src/components/common/PoolSelect/PoolSelect.tsx
-msgid "Select pair"
-msgstr "إختر الزوج"
+#: src/network/cardano/widgets/DepositConfirmationModal/DepositConfirmationInfo/DepositConfirmationInfo.tsx
+#: src/network/cardano/widgets/RedeemConfirmationModal/RedeemConfirmationInfo/RedeemConfirmationInfo.tsx
+#: src/network/cardano/widgets/SwapConfirmationModal/SwapConfirmationInfo/SwapConfirmationInfo.tsx
+msgid "Transaction Fee"
+msgstr ""
 
-#: src/components/PoolMenu/PoolMenu.tsx
-msgid "Select pools"
-msgstr "إختر الأحواض"
+#: src/pages/AddLiquidityOrCreatePool/CreatePoolUnsupportedAlert/CreatePoolUnsupportedAlert.tsx
+msgid "Testnet user interface doesn’t support “create pool” functionality."
+msgstr ""
 
-#: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
-msgid "Select relock date"
-msgstr "حدد تاريخ إعادة الإقفال"
+#: src/components/WalletModal/WalletTokens/WalletTokens.tsx
+msgid "Tokens"
+msgstr ""
 
+#: src/components/WalletModal/WalletModal.tsx
+#~ msgid "Ergo network"
+#~ msgstr "شبكة إيرجو"
+
+#: src/pages/Farms/FarmTopPanel/CreateFarmModal/FarmDistributionIntervalInput/FarmDistributionIntervalInput.tsx
+msgid "Hour"
+msgstr ""
+
+#: src/components/OperationHistoryModal/OperationHistoryV2/states/ErrorState/ErrorState.tsx
+msgid "Retry"
+msgstr ""
+
+#: src/pages/Liquidity/utils.ts
+msgid "1 Day"
+msgstr "يوم واحد"
+
+#: src/pages/Farms/FarmTopPanel/CreateFarmModal/validators/validators.ts
+msgid "Select pool"
+msgstr ""
+
+#: src/components/common/Layout/Header/Navigation/Navigation.tsx
+#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
-msgid "Set initial price"
-msgstr "تعيين السعر الأولي"
+#: src/pages/Liquidity/Liquidity.tsx
+msgid "Liquidity"
+msgstr "السيولة"
 
-#: src/pages/Pool/components/LocksList/LockItemView/LockItemView.tsx
-#: src/pages/PoolOverview/LockLiquidityChart/AnalyticOverview/AnalyticOverview.tsx
-msgid "Share"
-msgstr "حصة"
-
-#: src/pages/Swap/OperationSettings/OperationSettings.tsx
-msgid "Slippage tolerance"
-msgstr "تسامح إختلاف السعر"
-
-#: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
-#: src/pages/Swap/SwapInfo/SwapInfo.tsx
-msgid "Slippage tolerance:"
-msgstr "تسامح إختلاف السعر:"
-
-#: src/pages/Swap/SwapInfo/SwapInfoHeader/SlippageTag/SlippageTag.tsx
-msgid "Slippage: {slippage}"
-msgstr "إختلاف السعر: {slippage}"
-
-#: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
-#: src/pages/Pool/components/LockedPositionItem/LockedPositionItem.tsx
-msgid "Status"
-msgstr "الحالة"
-
-#: src/components/Header/Navigation/Navigation.tsx
-#: src/components/common/TxHistory/TxTypeTag/TxTypeTag.tsx
-#: src/pages/Swap/Swap.tsx
-#: src/pages/Swap/Swap.tsx
-msgid "Swap"
-msgstr "مبادلة"
-
-#: src/components/common/ActionForm/ActionButton/ActionButton.tsx
-msgid "Swapping is available in {0}"
-msgstr "التبادل متاح في {0}"
-
-#: src/components/ConfirmationModal/ConfirmationModal.tsx
-msgid "Swapping {0} for {1}"
-msgstr "مبادلة {0} لـ {1}"
-
-#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
-msgid "The % you will earn in fees"
-msgstr "النسبة المئوية التي ستكسبها من الرسوم"
+#: src/pages/Farms/FarmActionModals/FarmActionModalHeader/FarmActionModalHeader.tsx
+#: src/pages/Farms/FarmOperationModal/FarmOperationModalHeader/FarmOperationModalHeader.tsx
+#: src/pages/Farms/FarmTableView/FarmTableView.tsx
+#: src/pages/Liquidity/default/common/PoolsOrPositionsTableView/PoolsOrPositionsTableView.tsx
+#: src/pages/Liquidity/mobile/common/PoolOrPositionDetails/PoolOrPositionDetails.tsx
+msgid "APR"
+msgstr ""
 
 #: src/components/NetworkHeight/NetworkHeight.tsx
 msgid "The most recent block in Ergo network"
 msgstr "المجموعة الأخيرة في شبكة إيرجو"
 
+#: src/network/ergo/widgets/RefundConfirmationModal/RefundConfirmationModal.tsx
+msgid "Confirm"
+msgstr "تأكيد"
+
+#: src/pages/PoolOverview/PoolRatio/PoolRatio.tsx
+#: src/pages/PoolOverview/PoolRatio/PoolRatio.tsx
+#~ msgid "{0} per {1}"
+#~ msgstr "{0} لكل {1}"
+
+#: src/components/OperationHistoryModal/OperationHistoryModal.tsx
+msgid "Orders history"
+msgstr ""
+
+#: src/pages/PoolOverview/PoolOverview.tsx
+#~ msgid "Pool liquidity"
+#~ msgstr "سيولة الحوض"
+
+#: src/pages/PoolOverview/LockLiquidity/LockLiquidity.tsx
+msgid "Locked liquidity"
+msgstr "السيولة المقفلة"
+
+#: src/network/ergo/widgets/ErgoPayModal/ErgoPayTabPaneContent/ErgoPayTabPaneContentDesktop.tsx
+#: src/network/ergo/widgets/ErgoPayModal/ErgoPayTabPaneContent/ErgoPayTabPaneContentMobile.tsx
+msgid "Waiting for connection with ErgoPay"
+msgstr ""
+
+#: src/components/WalletModal/LowBalanceWarning/LowBalanceWarning.tsx
+msgid "{0} balance is low You need {1} to pay transaction fees"
+msgstr ""
+
+#: src/components/AssetLocksTable/AssetLocksTable.tsx
+msgid "Unlock block"
+msgstr "مجموعة فتح القفل"
+
+#: src/components/OperationHistoryModal/OperationHistoryV1/OperationHistoryTable/cells/StatusCell/StatusCell.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV2/cells/StatusCell/StatusCell.tsx
+msgid "Queued"
+msgstr ""
+
+#: src/components/BaseRedeemConfirmationModal/BaseRedeemConfirmationModal.tsx
+#: src/network/ergo/widgets/RedeemOpenWallet/RedeemOpenWallet.tsx
+msgid "Pooled assets"
+msgstr "أصول موجودات الحوض"
+
+#: src/components/WalletModal/WalletModal.tsx
+#~ msgid "Change wallet"
+#~ msgstr "تغيير المحفظة"
+
+#: src/pages/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
+#: src/pages/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
+msgid "Block:"
+msgstr "مجموعة:"
+
+#: src/components/common/TokenControl/AssetSelect/AssetListModal/AssetListSelectTokenState/AssetListSelectTokenState.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV1/OperationHistoryV1.tsx
+msgid "Search"
+msgstr "بحث"
+
+#: src/pages/Farms/FarmTopPanel/CreateFarmModal/FarmPeriodSelector/FarmPeriodSelector.tsx
+msgid "End block"
+msgstr ""
+
+#: src/components/common/Layout/Header/BurgerMenu/ManualRefundModal/common/TransactionFindForm/TransactionFindForm.tsx
+msgid "Learn how to get transaction id"
+msgstr ""
+
+#: src/components/common/FormView/FormFeesSection/FormFeesSection.tsx
+msgid "Execution Fee:"
+msgstr "رسوم التنفيذ:"
+
+#: src/pages/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
+msgid "Updated unlock date"
+msgstr "تحديث تاريخ الفتح"
+
+#: src/pages/PoolOverview/PoolInfoView/PoolInfoView.tsx
+msgid "Liquidity Locker"
+msgstr "قفل السيولة"
+
+#: src/components/WalletModal/WalletActiveAddress/WalletActiveAddress.tsx
+msgid "All output assets will be received at this address."
+msgstr "سيتم إستلام جميع مخرجات الأصول على هذا العنوان."
+
+#: src/network/ergo/lm/operations/lmRedeem/LmRedeemModalContent/LmRedeemModalContent.tsx
+#: src/network/ergo/widgets/LmRedeemOpenWallet/LmRedeemOpenWallet.tsx
+#: src/pages/Farms/FarmActionModals/FarmWithdrawalModal/FarmWithdrawalModal.tsx
+msgid "Select deposits"
+msgstr ""
+
+#: src/components/common/Layout/Header/ClaimSpfButton/ClaimSpfModal/RewardInfo/RewardDetails/RewardDetails.tsx
+msgid "Nft"
+msgstr ""
+
+#: src/components/ConfirmationModal/ConfirmationModal.tsx
+msgid "Withdraw {0} and {1}  liquidity"
+msgstr ""
+
+#: src/pages/Farms/FarmTableView/FarmTableExpandComponent/TotalStakedCell/TotalStakedCell.tsx
+msgid "Total staked"
+msgstr ""
+
+#: src/pages/Pool/common/EmptySearchResult/EmptySearchResult.tsx
+#~ msgid "No results found"
+#~ msgstr "لم يتم العثور على نتائج"
+
+#: src/components/AssetLocksTable/AssetLocksTable.tsx
+#: src/pages/Farms/FarmTableView/FarmTableView.tsx
+#: src/pages/Liquidity/default/common/PoolsOrPositionsTableView/PoolsOrPositionsTableView.tsx
+#: src/pages/Liquidity/default/components/LockedPositions/LockedPositions.tsx
+#: src/pages/Liquidity/mobile/common/PoolsOrPositionsTableView/PoolsOrPositionsTableView.tsx
+msgid "Pair"
+msgstr "زوج"
+
+#: src/components/common/KyaModal/KyaModal.tsx
+#~ msgid "explorer"
+#~ msgstr "المستكشف"
+
+#: src/components/common/CopyButton/CopyButton.tsx
+msgid "Copy Address to clipboard."
+msgstr ""
+
+#: src/components/NetworkHeight/NetworkHeight.tsx
+msgid "The most recent block in Cardano (Testnet) network"
+msgstr ""
+
+#: src/components/common/TokenControl/AssetSelect/AssetListModal/AssetListSelectTokenState/AssetListSelectTokenState.tsx
+msgid "Loading assets"
+msgstr ""
+
+#: src/network/ergo/widgets/ErgoPayModal/ErgoPayTabPaneContent/ErgoPayTabPaneContentDesktop.tsx
+#: src/network/ergo/widgets/ErgoPayModal/ErgoPayTxInfoContent/ErgoPayTxInfoContent.tsx
+msgid "Find an ErgoPay compatible wallet"
+msgstr ""
+
+#: src/components/common/Layout/Header/ClaimSpfButton/ClaimSpfNotification/ClaimSpfNotification.tsx
+msgid "supporter of the Spectrum Finance"
+msgstr ""
+
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool.tsx
 msgid "The pool with such a pair has not yet been initialized. To create a pool enter an initial price. Then add the deposit amount."
 msgstr "لم يتم بعد انشاء حوض سيولة مع هذا الزوج. لإنشاء حوض أدخل السعر الأولي. ثم أضف مبلغ الإيداع."
 
-#: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
-msgid "The value can't be more than {MAX_ERG_FOR_TX} ERG"
-msgstr "لا يمكن أن تكون القيمة أكثر من {MAX_ERG_FOR_TX} ERG"
-
-#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
-#: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
-msgid "This operation may include fake or scam assets. Only confirm if you have done your own research."
+#: src/pages/Farms/FarmGuides/FarmGuides.tsx
+msgid "Read guides"
 msgstr ""
 
-#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
-#: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
-msgid "This pair has not been verified by the ErgoDEX team"
-msgstr ""
-
-#: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
-msgid "This position is still locked"
-msgstr "هذه السيولة لا يزال مقفلاً عليها"
-
-#: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
-msgid "This wallet may not always work as expected. I understand what I do andwill use it at my own risk."
-msgstr "قد لا تعمل هذه المحفظة دائمًا كما هو متوقع. أنا أفهم ما أفعله وسوف أستخدمها على مسؤوليتي الخاصة."
-
-#: src/pages/Swap/Swap.tsx
-msgid "To"
-msgstr "إلى"
-
-#: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
+#: src/components/FeesView/FeesView.tsx
 msgid "Total Fees"
 msgstr "إجمالي الرسوم"
 
-#: src/components/WalletModal/WalletTotalBalance/WalletTotalBalance.tsx
-msgid "Total balance"
-msgstr "الرصيد الكلي"
+#: src/network/ergo/widgets/ErgoPayModal/ErgoPayTxInfoContent/ErgoPayTxInfoContent.tsx
+msgid "or"
+msgstr ""
 
-#: src/pages/Swap/SwapInfo/SwapInfo.tsx
-msgid "Total fees:"
-msgstr "إجمالي الرسوم:"
-
-#: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
-msgid "Total in locker"
-msgstr "إجمالي المقفل عليه"
-
-#: src/pages/Pool/components/LocksList/LockItemView/LockItemView.tsx
-msgid "Total locked"
-msgstr "إجمالي المقفل عليه"
-
-#: src/pages/Pool/components/LocksList/LockItemView/LockItemView.tsx
-msgid "Total withdrawable"
-msgstr "إجمالي القابل للسحب"
-
-#: src/pages/Swap/OperationSettings/OperationSettings.tsx
-msgid "Transaction Settings"
-msgstr "إعدادات المعاملات"
+#: src/components/common/ActionForm/ActionButton/ActionButton.tsx
+#~ msgid "Refresh page"
+#~ msgstr "تحديث الصفحة"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
-msgid "Transaction rejected"
-msgstr "تم رفض المعاملة"
+msgid "Refunding {0} and {1}"
+msgstr "استعادة {0} و {1}"
+
+#: src/pages/Farms/FarmTopPanel/CreateFarmModal/FarmDistributionIntervalInput/FarmDistributionIntervalInput.tsx
+#: src/pages/Farms/FarmTopPanel/CreateFarmModal/FarmPeriodSelector/FarmPeriodSelector.tsx
+msgid "Block"
+msgstr ""
+
+#: src/components/common/TokenControl/TokenControl.tsx
+#~ msgid "Max"
+#~ msgstr "الحد الأقصى"
+
+#: src/pages/Swap/SwapInfo/SwapInfo.tsx
+msgid "Slippage"
+msgstr ""
+
+#: src/components/OperationSettings/NitroInput/NitroInput.tsx
+msgid "Minimum"
+msgstr "الحد الأدنى"
+
+#: src/services/notifications/CookiePolicy/CookiePolicy.tsx
+#: src/services/notifications/CookiePolicy/CookiePolicy.tsx
+msgid ""
+"By clicking “Accept All Cookies”, you  agree to the storing of cookies\n"
+"on your device to enhance site navigation, analyse app usage, and\n"
+"assist in our marketing efforts."
+msgstr ""
+
+#: src/components/common/KyaModal/KyaModal.tsx
+#~ msgid "ErgoDEX Team doesn’t guarantee the absence of bugs and errors."
+#~ msgstr "فريق إيرجوديكس لا يضمن عدم وجود اي خلل أو أخطاء."
+
+#: src/pages/Farms/FarmTopPanel/CreateFarmModal/FarmPeriodSelector/FarmPeriodSelector.tsx
+msgid "Start block"
+msgstr ""
+
+#: src/components/ThemeSwitch/ThemeSwitch.tsx
+msgid "System"
+msgstr ""
+
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
+msgid "Set initial price"
+msgstr "تعيين السعر الأولي"
+
+#: src/pages/Farms/FarmTableView/columns/FarmPairColumn/FarmPairColumn.tsx
+msgid "It seems like you are currently only staking part of your LP tokens"
+msgstr ""
+
+#: src/pages/Farms/types/FarmTabs.ts
+msgid "All Farms"
+msgstr ""
+
+#: src/components/common/ActionForm/ActionButton/ActionButton.tsx
+#~ msgid "Insufficient {token} Balance for Fees"
+#~ msgstr "رصيد {token} غير كافي للرسوم"
+
+#: src/network/cardano/widgets/SwapConfirmationModal/SwapConfirmationInfo/SwapConfirmationInfo.tsx
+#: src/network/ergo/widgets/common/SwapConfirmationInfo/SwapConfirmationInfo.tsx
+msgid "Min output:"
+msgstr ""
+
+#: src/components/OperationHistoryModal/OperationHistoryV2/cells/StatusCell/StatusCell.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV2/filters/statusFilter.tsx
+msgid "Need refund"
+msgstr ""
+
+#: src/pages/PoolOverview/PoolOverview.tsx
+#~ msgid "Current price"
+#~ msgstr "السعر الحالي"
+
+#: src/components/common/TokenControl/AssetSelect/AssetListModal/AssetListSelectTokenState/AssetListSelectTokenState.tsx
+#: src/components/PoolSelector/PoolSelectorOverlay/PoolSelectorOverlay.tsx
+#: src/pages/Liquidity/common/tableViewStates/LiquiditySearchState/LiquiditySearchState.tsx
+msgid "No results was found"
+msgstr ""
+
+#: src/components/ConfirmationModal/ConfirmationModal.tsx
+msgid "Staking {0} and {1} in the farm"
+msgstr ""
+
+#: src/components/OperationHistoryModal/OperationHistoryV2/cells/TypeCell/TypeCell.tsx
+#: src/pages/Farms/FarmTableView/common/FarmAction/FarmAction.tsx
+#: src/pages/Farms/FarmTableView/common/FarmAction/FarmAction.tsx
+#: src/pages/Liquidity/common/components/LiquidityTitleExtra/LiquidityTitleExtra.tsx
+msgid "Add liquidity"
+msgstr "إضافة سيولة"
+
+#: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
+#~ msgid "You will spend {value} ERG for every operation."
+#~ msgstr "سوف تنفق {value} ERG لكل عملية."
+
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
+msgid "Fee tier"
+msgstr "مستوى الرسوم"
+
+#: src/components/ConfirmationModal/ConfirmationModal.tsx
+msgid "Adding liquidity {0} and {1}"
+msgstr "إضافة السيولة {0} و {1}"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Transaction submitted"
 msgstr "تم إرسال المعاملة"
+
+#: src/components/WalletModal/AddressesTab/AddressesTab.tsx
+#~ msgid "Active"
+#~ msgstr "نشط"
+
+#: src/components/ThemeSwitch/ThemeSwitch.tsx
+msgid "Theme"
+msgstr ""
+
+#: src/pages/Liquidity/default/common/PoolsOrPositionsTableView/PoolsOrPositionsTableView.tsx
+#: src/pages/Liquidity/mobile/common/PoolOrPositionDetails/PoolOrPositionDetails.tsx
+msgid "TVL"
+msgstr ""
+
+#: src/pages/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
+msgid "I understand that I’m relocking <0>{0}</0> LP-tokens of my <1>{1}/{2}</1> position until <2>{3}</2> (or <3>{4}</3> block) without the ability to withdrawal before the end of this period."
+msgstr "أفهم أنني سوف أعيد الفل على <0>{0}</0> LP-tokens من <1>{1}/{2}</1> الخص بي حتى <2>{3}</2> (أو المجموعة <3>{4}</3>) دون القدرة على الإستعادة قبل نهاية هذه الفترة."
+
+#: src/components/OperationSettings/OperationSettings.tsx
+msgid "Minimal Slippage is"
+msgstr ""
+
+#: src/components/common/Layout/Header/BurgerMenu/ManualRefundModal/common/TransactionFindForm/TransactionFindForm.tsx
+msgid "Transaction id"
+msgstr ""
+
+#: src/components/WalletModal/WalletTokens/WalletTokens.tsx
+msgid "Loading balance"
+msgstr ""
+
+#: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
+#~ msgid "The value can't be more than {MAX_ERG_FOR_TX} ERG"
+#~ msgstr "لا يمكن أن تكون القيمة أكثر من {MAX_ERG_FOR_TX} ERG"
+
+#: src/pages/RelockLiquidity/RelockLiquidity.tsx
+msgid "Select relock date"
+msgstr "حدد تاريخ إعادة الإقفال"
+
+#: src/components/ConfirmationModal/ConfirmationModal.tsx
+msgid "Get help in our channels:"
+msgstr "احصل على المساعدة في قنواتنا:"
+
+#: src/components/AssetLocksTable/cells/StatusCell/StatusCell.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV1/OperationHistoryTable/cells/StatusCell/StatusCell.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV1/OperationHistoryTable/filters/statusFilter.tsx
+#: src/pages/PoolOverview/PoolInfoView/MyLiquidity/MyLiquidity.tsx
+msgid "Locked"
+msgstr "مقفل"
+
+#: src/components/common/TokenControl/AssetSelect/AssetListModal/AssetListSelectTokenState/AssetListSelectTokenState.tsx
+msgid "Extended results from Explorer"
+msgstr ""
+
+#: src/pages/Farms/FarmTopPanel/CreateFarmModal/FarmDistributionIntervalInput/FarmDistributionIntervalInput.tsx
+msgid "Distribute tokens each"
+msgstr ""
+
+#: src/components/BaseAddLiquidityConfirmationModal/BaseAddLiquidityConfirmationModal.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV2/OperationHistoryV2.tsx
+#: src/network/ergo/widgets/DepositOpenWallet/DepositOpenWallet.tsx
+msgid "Assets"
+msgstr "الأصول"
+
+#: src/components/OperationSettings/OperationSettings.tsx
+#: src/pages/Swap/SwapInfo/SwapInfo.tsx
+msgid "Slippage tolerance"
+msgstr "تسامح إختلاف السعر"
+
+#: src/components/common/KyaModal/KyaModal.tsx
+#~ msgid "Notice that:"
+#~ msgstr "لاحظة أن:"
+
+#: src/pages/Farms/FarmTopPanel/CreateFarmModal/ConfirmFarmCreateModal.tsx
+msgid "Start:"
+msgstr ""
+
+#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
+#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
+#: src/pages/Swap/Swap.tsx
+msgid "Insufficient {0} Balance"
+msgstr "رصيد {0} غير كافي"
+
+#: src/pages/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
+msgid "Previous unlock date"
+msgstr "تاريخ فتح القفل السابق"
+
+#: src/pages/Farms/FarmTopPanel/CreateFarmModal/FarmDistributionIntervalInput/FarmDistributionIntervalInput.tsx
+msgid "Day"
+msgstr ""
+
+#: src/pages/LockLiquidity/LockLiquidity.tsx
+msgid "Lock"
+msgstr "قفل"
+
+#: src/components/common/KyaModal/KyaModal.tsx
+#~ msgid "1. You will use the product at your own peril and risk;"
+#~ msgstr "1. سوف تستخدم هذا المنتج وأنت على عرضة للخطر وعلى مسؤوليتك الخاصة;"
+
+#: src/pages/PoolOverview/PoolInfoView/MyLiquidity/MyLiquidity.tsx
+msgid "My liquidity"
+msgstr ""
+
+#: src/pages/Farms/FarmTopPanel/CreateFarmModal/FarmDistributionIntervalInput/FarmDistributionIntervalInput.tsx
+msgid "Month"
+msgstr ""
+
+#: src/pages/Swap/PoolSelector/PoolSelector.tsx
+#~ msgid "Your operation will be executed in this pool. <0/> You can also choose another pool for this pair"
+#~ msgstr "سيتم تنفيذ عمليتك في هذا الحوض. <0/> يمكنك أيضًا اختيار حوض آخر لهذا الزوج"
+
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
+msgid "Select a fee tier"
+msgstr "حدد مستوى الرسوم"
+
+#: src/components/common/Layout/Header/ClaimSpfButton/ClaimSpfModal/ClainRewardState/ClaimRewardState.tsx
+msgid "Request SPF rewards"
+msgstr ""
+
+#: src/pages/Farms/FarmTopPanel/CreateFarmModal/ConfirmFarmCreateModal.tsx
+msgid "End:"
+msgstr ""
+
+#: src/pages/Liquidity/common/types/LiquidityState.ts
+msgid "Locked Positions"
+msgstr "الأصول المقفلة"
+
+#: src/components/common/Layout/Header/BurgerMenu/ManualRefundModal/common/TransactionFindForm/TransactionFindForm.tsx
+msgid "Paste transaction id"
+msgstr ""
+
+#: src/components/common/ConnectWalletButton/ChooseWalletModal/ProtocolDisclaimerAlert/ProtocolDisclaimerAlert.tsx
+msgid "By connecting a wallet, you agree to the <0>Terms of Service</0> and <1>Privacy Policy</1>."
+msgstr ""
+
+#: src/network/cardano/widgets/SwapInfoContent/SwapInfoContent.tsx
+msgid "Read More"
+msgstr ""
+
+#: src/components/common/Layout/Header/BurgerMenu/BurgerMenu.tsx
+msgid "How to use"
+msgstr "كيفية الإستخدام"
+
+#: src/pages/Farms/FarmTableView/FarmTableExpandComponent/DistributionFrequencyCell/DistributionFrequencyCell.tsx
+msgid "days"
+msgstr ""
+
+#: src/components/common/Layout/CardanoUpdate/CardanoUpdate.tsx
+#: src/components/common/Layout/CardanoUpdate/CardanoUpdate.tsx
+#: src/pages/Liquidity/mobile/common/PoolOrPositionDetails/PoolOrPositionDetails.tsx
+#: src/pages/Liquidity/mobile/common/PoolOrPositionDetails/PoolOrPositionDetails.tsx
+#: src/pages/Liquidity/mobile/common/PoolOrPositionDetails/PoolOrPositionDetails.tsx
+msgid "{0}"
+msgstr ""
+
+#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/common/TransactionRefund/TransactionRefund.tsx
+msgid "Refund"
+msgstr "إسترداد"
+
+#: src/components/common/TokenControl/AssetSelect/AssetListModal/AssetListSelectTokenState/AssetListSelectTokenState.tsx
+msgid "Imported tokens"
+msgstr ""
+
+#: src/components/common/Layout/IdoNotification/IdoNotification.tsx
+msgid "SPF tokens are waiting for you."
+msgstr ""
+
+#: src/pages/Liquidity/common/tableViewStates/YourPositionsLoadingState/YourPositionsLoadingState.tsx
+msgid "Loading positions history."
+msgstr ""
+
+#: src/components/PoolSelector/PoolView/PoolView.tsx
+msgid "Fee:"
+msgstr "الرسوم:"
+
+#: src/components/OperationHistoryModal/OperationHistoryV2/cells/TypeCell/TypeCell.tsx
+#: src/network/ergo/lm/operations/lmDeposit/LmDepositModalContent/LmDepositModalContent.tsx
+#: src/pages/Farms/FarmOperationModal/FarmOperationModalHeader/FarmOperationModalHeader.tsx
+#: src/pages/Farms/FarmTableView/common/FarmAction/FarmAction.tsx
+#: src/pages/Farms/FarmTableView/common/FarmAction/FarmAction.tsx
+#: src/pages/Farms/FarmTableView/FarmTableExpandComponent/ClaimedRewardsCell/ClaimedRewardsCell.tsx
+#: src/pages/Farms/FarmTableView/FarmTableExpandComponent/common/RewardCell/RewardCell.tsx
+msgid "Stake"
+msgstr ""
+
+#: src/network/cardano/widgets/SwapConfirmationModal/SwapConfirmationInfo/SwapConfirmationInfo.tsx
+#: src/network/ergo/widgets/common/SwapConfirmationInfo/SwapConfirmationInfo.tsx
+msgid "Nitro:"
+msgstr "نيترو:"
+
+#: src/components/OperationHistoryModal/OperationHistoryV2/OperationHistoryV2.tsx
+msgid "Date & Time"
+msgstr ""
+
+#: src/components/common/Layout/Header/ClaimSpfButton/ClaimSpfNotification/ClaimSpfNotification.tsx
+msgid "Claim has arrived"
+msgstr ""
+
+#: src/components/common/KyaModal/KyaModal.tsx
+#~ msgid "ErgoDEX is a decentralized financial (DeFi) application which means it doesn’t have a central government body. ErgoDEX includes AMM (Swap, Add liquidity and Remove liquidity) functionality"
+#~ msgstr "إيرجودكس هو تطبيق مالي لامركزي (DeFi) مما يعني أنه ليس لديه تركيبة حكومية مركزية. إيرجودكس يتضمن وظائف مبادلة-إضافة-إزالة (مبادلة أصول، إضافة السيولة وإزالة السيولة)"
+
+#: src/pages/Farms/FarmActionModals/FarmActionModalHeader/FarmActionModalHeader.tsx
+#: src/pages/Farms/FarmGridView/FarmCardView/FarmCardView.tsx
+#: src/pages/Farms/FarmOperationModal/FarmOperationModalHeader/FarmOperationModalHeader.tsx
+#: src/pages/Farms/FarmTableView/FarmTableView.tsx
+msgid "Total Staked"
+msgstr ""
+
+#: src/components/OperationSettings/OperationSettings.tsx
+msgid "Transaction Settings"
+msgstr "إعدادات المعاملات"
+
+#: src/components/GuideBanner/GuideBanner.tsx
+#~ msgid "Read Guide"
+#~ msgstr "إقرأ الدليل"
+
+#: src/pages/Liquidity/default/common/PoolsOrPositionsTableView/PoolsOrPositionsTableView.tsx
+#: src/pages/Liquidity/mobile/common/PoolOrPositionDetails/PoolOrPositionDetails.tsx
+msgid "Volume 24H"
+msgstr ""
+
+#: src/components/common/TokenControl/AssetSelect/AssetListModal/AssetListImportConfirmationTokenState/ImportTokenPairSelectControl/ImportTokenPairSelectControl.tsx
+msgid "Import at least one token from the list to perform operations with {0} token"
+msgstr ""
+
+#: src/components/OperationHistoryModal/OperationHistoryV1/OperationHistoryTable/cells/StatusCell/StatusCell.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV1/OperationHistoryTable/filters/statusFilter.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV2/cells/StatusCell/StatusCell.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV2/filters/statusFilter.tsx
+msgid "Executed"
+msgstr ""
+
+#: src/pages/LockLiquidity/LockLiquidity.tsx
+#: src/pages/PoolOverview/PoolInfoView/PoolInfoView.tsx
+msgid "Lock liquidity"
+msgstr "قفل على السيولة"
+
+#: src/components/common/Layout/Header/BurgerMenu/ManualRefundModal/common/TransactionFindForm/TransactionFindForm.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV1/OperationHistoryTable/OperationHistoryTable.tsx
+msgid "Refund transaction"
+msgstr "إسترداد المعاملة"
+
+#: src/pages/Liquidity/common/components/LockLiquidityDatePicker/LiquidityDatePicker.tsx
+msgid "(Block: {0})"
+msgstr "(مجموعة: {0})"
+
+#: src/pages/Liquidity/default/components/LockedPositions/LockedPositions.tsx
+#: src/pages/Liquidity/mobile/common/LockedPositions/LockedPositionDetails/LockedPositionDetails.tsx
+#: src/pages/PoolOverview/PoolInfoView/PoolInfoView.tsx
+#: src/pages/WithdrawalLiquidity/WithdrawalLiquidity.tsx
+#: src/pages/WithdrawalLiquidity/WithdrawalLiquidity.tsx
+msgid "Withdrawal"
+msgstr "سحب"
+
+#: src/components/BaseAddLiquidityConfirmationModal/BaseAddLiquidityConfirmationModal.tsx
+#: src/network/ergo/widgets/DepositOpenWallet/DepositOpenWallet.tsx
+msgid "Confirm Add Liquidity"
+msgstr "تأكيد إضافة السيولة"
+
+#: src/components/OperationSettings/OperationSettings.tsx
+msgid "Max execution fee multiplier"
+msgstr "الحد الأقصى لمضاعف رسوم التنفيذ"
+
+#: src/components/MobilePlug/MobilePlug.tsx
+#~ msgid "Mobile version is not supported yet"
+#~ msgstr "نسخة الجوال غير مدعومة بعد"
+
+#: src/pages/Swap/YieldFarmingBadge/YieldFarmingBadge.tsx
+msgid "Stake your liquidity and get more Ergo assets!"
+msgstr ""
+
+#: src/components/WalletModal/LowBalanceWarning/LowBalanceWarning.tsx
+msgid "Learn how to get {0}"
+msgstr ""
+
+#: src/components/common/Layout/Header/GetTestTokensButton/GetTestTokensButton.tsx
+msgid "Get test tokens"
+msgstr ""
+
+#: src/pages/Farms/FarmTableView/common/FarmAction/FarmAction.tsx
+#: src/pages/Farms/FarmTableView/common/FarmAction/FarmAction.tsx
+msgid "The program is almost finished so deposits are closed."
+msgstr ""
+
+#: src/network/cardano/widgets/SwapInfoContent/SwapInfoContent.tsx
+msgid "Transaction fee"
+msgstr ""
+
+#: src/components/WalletModal/LowBalanceWarning/LowBalanceWarning.tsx
+#~ msgid "Learn how to get ERG"
+#~ msgstr "تعرف على كيفية الحصول على ERG"
+
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
+msgid "Best for most pairs"
+msgstr "أفضل لمعظم الأزواج"
+
+#: src/pages/Farms/FarmGuides/FarmGuides.tsx
+msgid "Earn more tokens from your liquidity positions"
+msgstr ""
+
+#: src/components/common/KyaModal/KyaModal.tsx
+#~ msgid "- Every transaction can be viewed via"
+#~ msgstr "- يمكن عرض كل معاملة من خلال"
+
+#: src/components/ConfirmationModal/ConfirmationModal.tsx
+msgid "Removing liquidity {0} and {1}"
+msgstr "إزالة السيولة {0} و {1}"
+
+#: src/components/common/Layout/Header/ClaimSpfButton/ClaimSpfButton.tsx
+msgid "Claiming..."
+msgstr ""
+
+#: src/pages/Farms/FarmTopPanel/FarmStateFilter/FarmState.ts
+msgid "All"
+msgstr ""
+
+#: src/components/MobilePlug/MobilePlug.tsx
+#~ msgid "Use the desktop version and Google Chrome browser"
+#~ msgstr "استخدام إصدار سطح المكتب و متصفح Google Chrome"
+
+#: src/components/common/FormView/FormFeesSection/FormFeesSection.tsx
+msgid "UI Fee:"
+msgstr "رسوم واجهة المستخدم:"
+
+#: src/pages/Swap/Swap.tsx
+msgid "Insufficient liquidity for this trade"
+msgstr "السيولة غير كافية لهذه المعاملة"
+
+#: src/components/common/Layout/Header/ClaimSpfButton/ClaimSpfModal/RewardInfo/RewardDetails/RewardDetails.tsx
+msgid "Reward details"
+msgstr ""
+
+#: src/components/common/Layout/Header/BurgerMenu/ManualRefundModal/ManualRefundModalV1/ManualRefundModalV1.tsx
+#: src/components/common/Layout/Header/BurgerMenu/ManualRefundModal/ManualRefundModalV2/ManualRefundModalV2.tsx
+msgid "Manual refund"
+msgstr ""
+
+#: src/pages/Farms/FarmGridView/FarmCardView/FarmCardView.tsx
+msgid "Deposit {0}/{1} and earn {2}"
+msgstr ""
+
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
+msgid "Custom fee tier"
+msgstr "مستوى رسوم مخصص"
+
+#: src/components/OperationHistoryModal/OperationHistoryV1/OperationHistoryTable/cells/StatusCell/StatusCell.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV2/cells/StatusCell/StatusCell.tsx
+msgid "The price has changed while your order was being processed. So we didn’t execute it to prevent losses."
+msgstr ""
+
+#: src/pages/Farms/FarmTopPanel/CreateFarmModal/ConfirmFarmCreateModal.tsx
+#: src/pages/Farms/FarmTopPanel/CreateFarmModal/FarmPeriodSelector/FarmPeriodSelector.tsx
+msgid "Period"
+msgstr ""
+
+#: src/components/OperationHistoryModal/OperationHistoryV1/OperationHistoryV1.tsx
+msgid "Sync"
+msgstr ""
+
+#: src/pages/Pool/components/LockedPositionItem/LockedPositionItem.tsx
+#~ msgid "Unlock Date"
+#~ msgstr "تاريخ فتح القفل"
+
+#: src/components/common/KyaModal/KyaModal.tsx
+#~ msgid "ErgoDEX offers a form of added security, as buyers and sellers do not have to give their information to any 3rd party. However, ErgoDEX is without a know your customer (KYC) process and can offer NO assistance if a user is hacked or cheated out of passwords, currency or private wallet keys."
+#~ msgstr "ويوفر إيرجودكس شكلا من أشكال الحماية المضافة، لأن المشترين والبائعين لا يضطرون إلى تقديم معلوماتهم الشخصية إلى أي طرف ثالث. بالمقابل، إيرجودكس ليس لديه عملية التعرف على العميل (KYC) ولا يمكن أن يقدم أية مساعدة إذا تم اختراق مستخدم أو خداعه عن طريق كلمات المرور، العمل أو مفاتيح المحفظة الخاصة."
+
+#: src/components/OperationSettings/OperationSettings.tsx
+msgid "Your transaction may fail"
+msgstr "قد تفشل معاملتك"
+
+#: src/components/common/Layout/IdoNotification/IdoNotification.tsx
+msgid "The contribution phase has already started!"
+msgstr ""
+
+#: src/components/BaseAddLiquidityConfirmationModal/BaseAddLiquidityConfirmationModal.tsx
+#: src/components/common/Layout/Header/ClaimSpfButton/ClaimSpfModal/NothingToClaimState/NothingToClaimState.tsx
+#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
+#: src/pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool.tsx
+msgid "Add Liquidity"
+msgstr "إضافة سيولة"
+
+#: src/components/OperationForm/OperationForm.tsx
+msgid "Processing transaction"
+msgstr ""
+
+#: src/components/OperationHistoryModal/OperationHistoryV2/cells/TypeCell/TypeCell.tsx
+#: src/network/ergo/lm/operations/lmRedeem/LmRedeemModalContent/LmRedeemModalContent.tsx
+#: src/pages/Farms/FarmActionModals/FarmWithdrawalModal/FarmWithdrawalModal.tsx
+#: src/pages/Farms/FarmOperationModal/FarmOperationModalHeader/FarmOperationModalHeader.tsx
+#: src/pages/Farms/FarmTableView/common/FarmAction/FarmAction.tsx
+#: src/pages/Farms/FarmTableView/common/FarmAction/FarmAction.tsx
+msgid "Unstake"
+msgstr ""
+
+#: src/pages/LockLiquidity/LockLiquidity.tsx
+msgid "Lock period"
+msgstr "فترة الإقفال"
+
+#: src/network/ergo/widgets/common/SwapConfirmationInfo/SwapConfirmationInfo.tsx
+#: src/network/ergo/widgets/DepositConfirmationModal/DepositConfirmationInfo/DepositConfirmationInfo.tsx
+#: src/network/ergo/widgets/RedeemConfirmationModal/RedeemConfirmationInfo/RedeemConfirmationInfo.tsx
+#: src/network/ergo/widgets/RefundConfirmationModal/RefundConfirmationInfo/RefundConfirmationInfo.tsx
+msgid "Miner Fee"
+msgstr "رسوم المعدّن"
+
+#: src/components/WalletModal/LowBalanceWarning/LowBalanceWarning.tsx
+#~ msgid "You need ERG to pay transaction fees"
+#~ msgstr "تحتاج إلى ERG لدفع رسوم المعاملات"
+
+#: src/pages/Farms/FarmTableView/FarmTableExpandComponent/YourStakeCell/YourStakeCell.tsx
+msgid "Your stake"
+msgstr ""
+
+#: src/components/common/Layout/Header/BurgerMenu/ManualRefundModal/ManualRefundModalV1/ManualRefundModalV1.tsx
+#: src/components/common/Layout/Header/BurgerMenu/ManualRefundModal/ManualRefundModalV2/ManualRefundModalV2.tsx
+msgid "Unable to refund a transaction."
+msgstr ""
+
+#: src/pages/RemoveLiquidity/RemoveLiquidity.tsx
+msgid "Assets to remove"
+msgstr "الأصول المراد إستعادتها"
+
+#: src/pages/Farms/FarmTableView/FarmTableExpandComponent/DistributionCell/DistributionCell.tsx
+#: src/pages/Farms/FarmTableView/FarmTableView.tsx
+msgid "Distributed"
+msgstr ""
+
+#: src/pages/Liquidity/mobile/common/PoolOrPositionDetails/PoolOrPositionDetails.tsx
+msgid "Fee"
+msgstr ""
+
+#: src/pages/Farms/FarmTopPanel/CreateFarmModal/ConfirmFarmCreateModal.tsx
+msgid "Fee tier:"
+msgstr ""
+
+#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/common/TransactionRefund/TransactionRefund.tsx
+msgid "The price has changed while your order was being processed. So we didn’t execute it to prevent losses. Click the button to get your funds back."
+msgstr ""
+
+#: src/components/common/KyaModal/KyaModal.tsx
+#~ msgid "2. Only YOU are responsible for your assets;"
+#~ msgstr "2. أنت فقط المسؤول عن الأصول الخاصة بك;"
+
+#: src/components/common/Layout/Header/ClaimSpfButton/ClaimSpfModal/RewardInfo/RewardStatistic/RewardStatistic.tsx
+#: src/pages/Farms/FarmTableView/FarmTableExpandComponent/common/RewardCell/RewardCell.tsx
+msgid "Next reward"
+msgstr ""
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Try again later"
 msgstr "حاول مرة أخرى لاحقاً"
 
-#: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
-msgid "Type"
-msgstr "النوع"
-
-#: src/pages/Pool/Liquidity.tsx
-msgid "Type token name or pool id"
+#: src/components/OperationSettings/OperationSettings.tsx
+msgid "Execution fee"
 msgstr ""
 
-#: src/components/common/FormView/FormFeesSection/FormFeesSection.tsx
-#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
-#: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
-msgid "UI Fee:"
-msgstr "رسوم واجهة المستخدم:"
+#: src/components/common/Layout/Header/BurgerMenu/BurgerMenu.tsx
+msgid "Manual Refund"
+msgstr ""
 
-#: src/pages/Pool/components/LockedPositionItem/LockedPositionItem.tsx
-msgid "Unlock Block"
-msgstr "مجموعة فتح القفل"
+#: src/components/common/Layout/Header/ClaimSpfButton/ClaimSpfModal/GotRewardState/GotRewardState.tsx
+msgid "You got it!"
+msgstr ""
 
-#: src/pages/Pool/components/LockedPositionItem/LockedPositionItem.tsx
-msgid "Unlock Date"
-msgstr "تاريخ فتح القفل"
+#: src/components/OperationSettings/OperationSettings.tsx
+#: src/pages/Liquidity/default/common/PoolsOrPositionsTableView/PoolsOrPositionsTableView.tsx
+msgid "Read more"
+msgstr "إقرأ المزيد"
 
-#: src/pages/PoolOverview/LockLiquidityChart/AnalyticOverview/AnalyticOverview.tsx
-msgid "Unlock block"
-msgstr "مجموعة فتح القفل"
+#: src/components/common/Layout/OperationsHistory/OperationsHistory.tsx
+msgid "Recent transactions"
+msgstr "المعاملات الأخيرة"
 
-#: src/pages/Pool/LockLiquidity/LockLiquidity.tsx
-#: src/pages/Pool/RelockLiquidity/RelockLiquidity.tsx
-#: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
-#: src/pages/PoolOverview/LockLiquidityChart/AnalyticOverview/AnalyticOverview.tsx
+#: src/pages/Swap/SwapInfo/SwapInfo.tsx
+#~ msgid "Total fees:"
+#~ msgstr "إجمالي الرسوم:"
+
+#: src/components/common/Layout/Header/ClaimSpfButton/ClaimSpfButton.tsx
+#: src/components/common/Layout/Header/ClaimSpfButton/ClaimSpfNotification/ClaimSpfNotification.tsx
+msgid "Claim SPF"
+msgstr ""
+
+#: src/pages/Liquidity/default/common/PoolOrPositionDetails/PoolOrPositionDetails.tsx
+#: src/pages/Liquidity/mobile/common/PoolOrPositionDetails/PoolOrPositionDetails.tsx
+msgid "Pool Overview"
+msgstr ""
+
+#: src/components/MobilePlug/MobilePlug.tsx
+#~ msgid "Back to Home"
+#~ msgstr "العودة إلى الصفحة الرئيسية"
+
+#: src/pages/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
+msgid "Confirm Relock"
+msgstr "تأكيد إعادة القفل"
+
+#: src/components/common/TokenControl/AssetSelect/AssetListModal/AssetListModal.tsx
+msgid "Import token"
+msgstr ""
+
+#: src/components/AssetLocksTable/AssetLocksTable.tsx
+#: src/pages/LockLiquidity/LockLiquidity.tsx
+#: src/pages/RelockLiquidity/RelockLiquidity.tsx
+#: src/pages/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
 msgid "Unlock date"
 msgstr "تاريخ فتح القفل"
 
-#: src/pages/Pool/utils.ts
-msgid "Unlocked"
-msgstr "مفتوح"
+#: src/components/ConfirmationModal/ConfirmationModal.tsx
+msgid "Relocking {0} and {1} ({2})"
+msgstr "إعادة قفل {0} و {1} ({2})"
 
-#: src/pages/Pool/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
-msgid "Updated unlock date"
-msgstr "تحديث تاريخ الفتح"
+#: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
+#: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
+msgid "ErgoPay"
+msgstr ""
 
-#: src/components/MobilePlug/MobilePlug.tsx
-msgid "Use the desktop version and Google Chrome browser"
-msgstr "استخدام إصدار سطح المكتب و متصفح Google Chrome"
+#: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
+#~ msgid "Experimental"
+#~ msgstr "تجريبي"
+
+#: src/network/cardano/api/operations/deposit.tsx
+#: src/network/cardano/api/operations/swap.tsx
+msgid "Insufficient {0} for refundable deposit"
+msgstr ""
+
+#: src/pages/Farms/FarmGridView/FarmCardView/FarmCardView.tsx
+#: src/pages/Farms/FarmTableView/FarmTableView.tsx
+msgid "Your Stake"
+msgstr ""
+
+#: src/pages/Liquidity/common/components/LiquidityFilter/LiquidityFilter.tsx
+msgid "Show duplicates"
+msgstr ""
+
+#: src/pages/LockLiquidity/LockLiquidity.tsx
+msgid "Once LP-tokens are locked they cannot be withdrawn under any circumstances until the timer has expired. Please ensure the parameters are correct, as they are final."
+msgstr "بمجرد أن يتم قفل على LP-tokens، لا يمكن سحبها تحت أي ظرف حتى ينتهي وقت القفل. يرجى التأكد من صحة التوقيت، لأنها نهائية."
+
+#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
+#: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
+#~ msgid "I understand the risks"
+#~ msgstr ""
+
+#: src/pages/Pool/components/LockedPositionItem/LockedPositionItem.tsx
+#~ msgid "Unlock Block"
+#~ msgstr "مجموعة فتح القفل"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
-#: src/components/common/TxHistory/TxHistoryModal/TxHistoryModal.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV1/OperationHistoryTable/OperationHistoryTable.tsx
 msgid "View on Explorer"
 msgstr "عرض على المستكشف"
+
+#: src/components/ConfirmationModal/ConfirmationModal.tsx
+#: src/components/ConfirmationModal/ConfirmationModal.tsx
+msgid "Error"
+msgstr "حدث خطأ"
+
+#: src/components/common/TokenControl/AssetSelect/AssetListModal/AssetListModal.tsx
+#: src/components/common/TokenControl/AssetSelect/AssetSelect.tsx
+#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
+#: src/pages/Swap/Swap.tsx
+#: src/pages/Swap/SwapGraph/SwapGraph.tsx
+msgid "Select a token"
+msgstr "اختر عملة"
+
+#: src/components/PoolSelector/PoolSelectorOverlay/PoolSelectorOverlay.tsx
+msgid "Loading Pools"
+msgstr ""
+
+#: src/pages/PoolOverview/PoolOverview.tsx
+#~ msgid "You didn't provide liquidity to this pool yet."
+#~ msgstr "لم تقم بتوفير السيولة لهذا الحوض بعد."
+
+#: src/components/common/KyaModal/KyaModal.tsx
+#~ msgid "We recommend that you DO NOT use ErgoDEX to operate large amounts of assets!"
+#~ msgstr "نوصي بعدم استخدام إيرجودكس لتشغيل كميات كبيرة من الأصول!"
+
+#: src/pages/Liquidity/utils.ts
+msgid "{monthsCount} Months"
+msgstr "{monthsCount} أشهر"
+
+#: src/components/common/KyaModal/KyaModal.tsx
+#~ msgid "By accepting these KYA, you agree that:"
+#~ msgstr "بقبول الأحكام هذه، فإنك توافق على:"
+
+#: src/pages/Liquidity/utils.ts
+msgid "1 Year"
+msgstr "سنة واحدة"
+
+#: src/components/WalletModal/WalletModal.tsx
+msgid "Disconnect wallet"
+msgstr "قطع الاتصال بالمحفظة"
+
+#: src/components/common/Layout/IdoNotification/IdoNotification.tsx
+msgid "To participate"
+msgstr ""
+
+#: src/components/common/Layout/Header/BurgerMenu/BurgerMenu.tsx
+msgid "Docs"
+msgstr "الوثائق"
+
+#: src/pages/Farms/FarmTableView/columns/FarmPairColumn/FarmPairColumn.tsx
+msgid "Stake now"
+msgstr ""
+
+#: src/pages/Liquidity/utils.ts
+msgid "{daysCount} Days"
+msgstr "{daysCount} أيام"
+
+#: src/components/OperationHistoryModal/OperationHistoryV2/cells/TypeCell/TypeCell.tsx
+#: src/pages/LockLiquidity/LockLiquidityConfirmationModal/LockLiquidityConfirmationModal.tsx
+msgid "Lock Liquidity"
+msgstr "قفل على السيولة"
+
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
+msgid "Best for exotic pairs"
+msgstr "أفضل للأزواج الغريبة"
+
+#: src/components/ConfirmationModal/ConfirmationModal.tsx
+msgid "Unstaking {0} and {1} from the farm"
+msgstr ""
+
+#: src/components/OperationSettings/OperationSettings.tsx
+msgid "Your transaction will revert if the price changes unfavorably by more than this percentage"
+msgstr "المعاملة الخاصة بك سوف تعود إذا تغير السعر بشكل غير مناسب بأكثر من هذه النسبة المئوية"
+
+#: src/components/common/Layout/OperationsHistory/OperationsHistory.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV1/OperationHistoryTable/cells/StatusCell/StatusCell.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV1/OperationHistoryTable/filters/statusFilter.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV2/cells/StatusCell/StatusCell.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV2/filters/statusFilter.tsx
+msgid "Pending"
+msgstr ""
+
+#: src/pages/Farms/FarmTableView/FarmTableExpandComponent/ClaimedRewardsCell/ClaimedRewardsCell.tsx
+#: src/pages/Farms/FarmTableView/FarmTableExpandComponent/common/RewardCell/RewardCell.tsx
+msgid "Provide liquidity to the {0}/{1} and earn"
+msgstr ""
+
+#: src/pages/Farms/FarmTopPanel/CreateFarmModal/ConfirmFarmCreateModal.tsx
+msgid "Confirm farm"
+msgstr ""
+
+#: src/pages/Liquidity/default/components/LockedPositions/LockedPositions.tsx
+msgid "Total locked"
+msgstr "إجمالي المقفل عليه"
+
+#: src/components/OperationHistoryModal/OperationHistoryV1/OperationHistoryTable/filters/typeFilter.tsx
+msgid "Redeem"
+msgstr ""
+
+#: src/components/common/ConnectWalletButton/ConnectWalletButton.tsx
+msgid "Connect wallet"
+msgstr "الإتصال بالمحفظة"
+
+#: src/components/common/Layout/Header/BurgerMenu/BurgerMenu.tsx
+msgid "Contribute"
+msgstr ""
+
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
+msgid "Enter an Initial Price"
+msgstr "أدخل سعر أولي"
+
+#: src/components/common/TokenControl/TokenControl.tsx
+#~ msgid "Balance: {0}"
+#~ msgstr "الرصيد: {0}"
+
+#: src/pages/Liquidity/common/components/LockLiquidityDatePicker/LiquidityDatePicker.tsx
+msgid "Choose Date"
+msgstr "إختر التاريخ"
+
+#: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
+#~ msgid "Recommended"
+#~ msgstr "موصى بها"
+
+#: src/components/common/Layout/Header/ClaimSpfButton/ClaimSpfModal/RewardInfo/RewardDetails/RewardDetails.tsx
+msgid "Trader:"
+msgstr ""
+
+#: src/network/ergo/widgets/ErgoPayModal/ErgoPayTxInfoContent/ErgoPayTxInfoContent.tsx
+msgid "Open wallet"
+msgstr ""
+
+#: src/network/cardano/widgets/SwapInfoContent/SwapInfoContent.tsx
+msgid "This amount of ADA will be held to construct the transaction and will be returned when your order is executed or cancelled."
+msgstr ""
+
+#: src/pages/Liquidity/default/components/LockedPositions/LockedPositions.tsx
+#: src/pages/Liquidity/mobile/common/LockedPositions/LockedPositionDetails/LockedPositionDetails.tsx
+msgid "Relock"
+msgstr ""
+
+#: src/network/ergo/widgets/ErgoPayModal/ErgoPayTabPaneContent/ErgoPayTabPaneContentDesktop.tsx
+#: src/network/ergo/widgets/ErgoPayModal/ErgoPayTxInfoContent/ErgoPayTxInfoContent.tsx
+msgid "Scan QR code"
+msgstr ""
+
+#: src/pages/Liquidity/default/components/LockedPositions/LockedPositions.tsx
+#: src/pages/Liquidity/mobile/common/LockedPositions/LockedPositionDetails/LockedPositionDetails.tsx
+msgid "Total withdrawable"
+msgstr "إجمالي القابل للسحب"
+
+#: src/components/common/Layout/Header/ClaimSpfButton/ClaimSpfModal/RewardInfo/RewardDetails/RewardDetails.tsx
+msgid "Off-chain operator:"
+msgstr ""
+
+#: src/pages/Farms/FarmTopPanel/FarmStateFilter/FarmStateFilter.tsx
+msgid "Farms status"
+msgstr ""
+
+#: src/pages/RelockLiquidity/RelockLiquidity.tsx
+#: src/pages/RelockLiquidity/RelockLiquidity.tsx
+#: src/pages/WithdrawalLiquidity/WithdrawalLiquidity.tsx
+msgid "Select Locked Position"
+msgstr "حدد سيولة مقفلة"
+
+#: src/pages/Swap/YieldFarmingBadge/YieldFarmingBadge.tsx
+msgid "Yield Farming"
+msgstr ""
+
+#: src/components/ConfirmationModal/ConfirmationModal.tsx
+msgid "Swapping {0} for {1}"
+msgstr "مبادلة {0} لـ {1}"
+
+#: src/pages/Swap/OperationSettings/OperationSettings.tsx
+#~ msgid "Minimal Slippage is {MIN_SLIPPAGE}"
+#~ msgstr "الحد الأدنى لاختلاف السعر {MIN_SLIPPAGE}"
+
+#: src/pages/Liquidity/default/components/LockedPositions/LockedPositions.tsx
+msgid "Share"
+msgstr "حصة"
+
+#: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
+msgid "Browser wallet"
+msgstr ""
+
+#: src/pages/PoolOverview/PoolInfoView/PoolInfoView.tsx
+#: src/pages/RelockLiquidity/RelockLiquidity.tsx
+msgid "Relock liquidity"
+msgstr "إعادة القفل على السيولة"
+
+#: src/network/cardano/widgets/SwapInfoContent/SwapInfoContent.tsx
+msgid "Will be charged by off-chain execution bots and distributed among validators."
+msgstr ""
+
+#: src/components/common/Layout/Header/ClaimSpfButton/ClaimSpfModal/ClainRewardState/ClaimRewardState.tsx
+msgid "The next reward is not yet available"
+msgstr ""
+
+#: src/pages/Liquidity/mobile/common/LockedPositions/LockedPositionDetails/LockedPositionDetails.tsx
+msgid "Total Locked"
+msgstr ""
+
+#: src/network/ergo/widgets/ErgoPayModal/ErgoPayCompatibleWalletLink/ErgoPayCompatibleWalletLink.tsx
+msgid "Find compatible wallet"
+msgstr ""
+
+#: src/pages/Liquidity/default/common/PoolOrPositionDetails/PoolOrPositionDetails.tsx
+#: src/pages/Liquidity/mobile/common/PoolOrPositionDetails/PoolOrPositionDetails.tsx
+msgid "Price"
+msgstr ""
+
+#: src/components/OperationHistoryModal/OperationHistoryV2/states/ErrorState/ErrorState.tsx
+msgid "Try again or"
+msgstr ""
+
+#: src/components/common/TokenControl/AssetSelect/AssetListModal/AssetListImportConfirmationTokenState/ImportTokenWarning/ImportTokenWarning.tsx
+msgid "This token doesn't appear on the active token list(s). Make sure this is the token that you want to trade."
+msgstr ""
+
+#: src/components/OperationForm/OperationForm.tsx
+msgid "Check Internet Connection"
+msgstr "تحقق من الاتصال بالإنترنت"
+
+#: src/pages/Farms/FarmTopPanel/CreateFarmModal/FarmPoolSelector/FarmPoolSelector.tsx
+msgid "Liquidity pool"
+msgstr ""
+
+#: src/pages/PoolOverview/PoolRatio/PoolRatio.tsx
+#: src/pages/PoolOverview/PoolRatio/PoolRatio.tsx
+msgid "per"
+msgstr ""
+
+#: src/components/FaucetModal/FaucetModal.tsx
+msgid "To get testnet ADA coins (tADA) go to the official <0>Cardano Faucet</0>"
+msgstr ""
+
+#: src/components/OperationHistoryModal/OperationHistoryV1/OperationHistoryTable/OperationHistoryTable.tsx
+msgid "Copy Transaction Id"
+msgstr ""
+
+#: src/pages/Farms/FarmTableView/FarmTableExpandComponent/ClaimedRewardsCell/ClaimedRewardsCell.tsx
+#: src/pages/Farms/FarmTableView/FarmTableExpandComponent/ClaimedRewardsCell/ClaimedRewardsCell.tsx
+#: src/pages/Farms/FarmTableView/FarmTableExpandComponent/common/RewardCell/RewardCell.tsx
+#: src/pages/Farms/FarmTableView/FarmTableExpandComponent/common/RewardCell/RewardCell.tsx
+msgid "reward"
+msgstr ""
+
+#: src/pages/Liquidity/default/common/PoolOrPositionDetails/PoolOrPositionDetails.tsx
+#: src/pages/Liquidity/mobile/common/PoolOrPositionDetails/PoolOrPositionDetails.tsx
+#: src/pages/PoolOverview/PoolInfoView/TotalLiquidity/TotalLiquidity.tsx
+msgid "Total liquidity"
+msgstr ""
+
+#: src/components/OperationHistoryModal/OperationHistoryV2/cells/TypeCell/TypeCell.tsx
+#: src/pages/RemoveLiquidity/RemoveLiquidity.tsx
+msgid "Remove liquidity"
+msgstr "إستعادة السيولة"
+
+#: src/components/common/Layout/Header/ClaimSpfButton/ClaimSpfModal/RewardInfo/RewardDetails/RewardDetails.tsx
+msgid "Beta tester:"
+msgstr ""
+
+#: src/pages/Liquidity/common/types/LiquidityState.ts
+msgid "Pools Overview"
+msgstr "نظرة عامة للأحواض"
+
+#: src/pages/Farms/FarmTopPanel/CreateFarmModal/ConfirmFarmCreateModal.tsx
+msgid "Distribute tokens each:"
+msgstr ""
+
+#: src/components/common/KyaModal/KyaModal.tsx
+#~ msgid "meet your expectations."
+#~ msgstr "حقق توقعاتك."
+
+#: src/pages/Swap/SwapInfo/SwapInfo.tsx
+#~ msgid "Price impact:"
+#~ msgstr "التأثير على السعر:"
+
+#: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
+#~ msgid "Minimum value is {MIN_ERG_FOR_TX} ERG"
+#~ msgstr "الحد الأدنى للقيمة هو {MIN_ERG_FOR_TX} ERG"
+
+#: src/pages/Farms/FarmTableView/columns/FarmPairColumn/FarmPairColumn.tsx
+#: src/pages/Farms/FarmTopPanel/FarmStateFilter/FarmState.ts
+msgid "Live"
+msgstr ""
+
+#: src/components/OperationHistoryModal/OperationHistoryV1/OperationHistoryTable/states/OperationSearchEmptyState/OperationSearchEmptyState.tsx
+msgid "Try something else."
+msgstr ""
+
+#: src/pages/RelockLiquidity/RelockLiquidity.tsx
+msgid "Extension period"
+msgstr "فترة التمديد"
+
+#: src/components/common/Layout/Header/Navigation/Navigation.tsx
+#: src/components/FarmsButton/FarmsButton.tsx
+msgid "Farms"
+msgstr ""
+
+#: src/components/WalletModal/WalletActiveAddress/WalletActiveAddress.tsx
+msgid "Active address"
+msgstr "العناوين النشطة"
+
+#: src/components/common/Layout/Header/ClaimSpfButton/ClaimSpfModal/RewardInfo/RewardDetails/RewardDetails.tsx
+msgid "Early off-chain operator:"
+msgstr ""
+
+#: src/components/common/KyaModal/KyaModal.tsx
+#~ msgid "ErgoDEX Smart Contracts"
+#~ msgstr "العقود الذكية الخاصة بإيرجودكس"
+
+#: src/pages/Swap/PoolSelector/PoolSelector.tsx
+msgid "Your operation will be executed in this pool. <0/>You can also choose another pool for this pair"
+msgstr ""
+
+#: src/components/OperationSettings/NitroInput/NitroInput.tsx
+msgid "Execution Fee Range {0} - {1} {2}"
+msgstr "نطاق رسوم التنفيذ {0} - {1} {2}"
+
+#: src/pages/Swap/Swap.tsx
+#~ msgid "From"
+#~ msgstr "من"
+
+#: src/pages/Swap/PoolSelector/PoolSelectorModal/PoolSelectorModal.tsx
+msgid "Choose Pool"
+msgstr "إختر الحوض"
+
+#: src/pages/Swap/SwapInfo/SwapInfo.tsx
+#~ msgid "Minimum received:"
+#~ msgstr "الحد الأدنى للاستلام:"
+
+#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/AddLiquidityOperationDetails/AddLiquidityOperationDetails.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/AddLiquidityOperationDetails/AddLiquidityOperationDetails.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/AddLiquidityOperationDetails/AddLiquidityOperationDetails.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/LmDepositOperationDetails/LmDepositOperationDetails.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/LmDepositOperationDetails/LmDepositOperationDetails.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/LmDepositOperationDetails/LmDepositOperationDetails.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/LmRedeemOperationDetails/LmRedeemOperationDetails.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/LmRedeemOperationDetails/LmRedeemOperationDetails.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/LmRedeemOperationDetails/LmRedeemOperationDetails.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/LockOperationDetails/LockOperationDetails.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/LockOperationDetails/LockOperationDetails.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/RemoveLiquidityOperationDetails/RemoveLiquidityOperationDetails.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/RemoveLiquidityOperationDetails/RemoveLiquidityOperationDetails.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/RemoveLiquidityOperationDetails/RemoveLiquidityOperationDetails.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/SwapOperationDetails/SwapOperationDetails.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/SwapOperationDetails/SwapOperationDetails.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/SwapOperationDetails/SwapOperationDetails.tsx
+msgid "Received"
+msgstr ""
+
+#: src/network/cardano/widgets/SwapInfoContent/SwapInfoContent.tsx
+msgid "Refundable deposit"
+msgstr ""
+
+#: src/pages/WithdrawalLiquidity/WithdrawalLiquidity.tsx
+msgid "Locked positions"
+msgstr "الأصول المقفلة"
+
+#: src/components/ConfirmationModal/ConfirmationModal.tsx
+msgid "Transaction rejected"
+msgstr "تم رفض المعاملة"
+
+#: src/network/ergo/lm/operations/lmRedeem/LmRedeemModalContent/LmRedeemModalContent.tsx
+#: src/network/ergo/widgets/LmRedeemOpenWallet/LmRedeemOpenWallet.tsx
+#: src/pages/Farms/FarmActionModals/FarmWithdrawalModal/FarmWithdrawalModal.tsx
+msgid "My deposits"
+msgstr ""
+
+#: src/components/FaucetModal/FaucetModal.tsx
+msgid "Get testnet tokens"
+msgstr ""
+
+#: src/network/cardano/widgets/SwapConfirmationModal/SwapConfirmationInfo/SwapConfirmationInfo.tsx
+#: src/network/ergo/widgets/common/SwapConfirmationInfo/SwapConfirmationInfo.tsx
+msgid "Slippage tolerance:"
+msgstr "تسامح إختلاف السعر:"
+
+#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/AddLiquidityOperationDetails/AddLiquidityOperationDetails.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/LmDepositOperationDetails/LmDepositOperationDetails.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/LmRedeemOperationDetails/LmRedeemOperationDetails.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/LockOperationDetails/LockOperationDetails.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/RemoveLiquidityOperationDetails/RemoveLiquidityOperationDetails.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/SwapOperationDetails/SwapOperationDetails.tsx
+msgid "Sent"
+msgstr ""
+
+#: src/components/common/Layout/Header/ClaimSpfButton/ClaimSpfModal/RewardInfo/RewardStatistic/RewardStatistic.tsx
+msgid "Claimed"
+msgstr ""
+
+#: src/pages/Pool/utils.ts
+#~ msgid "Unlocked"
+#~ msgstr "مفتوح"
+
+#: src/pages/Liquidity/mobile/common/PoolOrPositionDetails/PoolOrPositionDetails.tsx
+msgid "{0}%"
+msgstr ""
+
+#: src/network/ergo/lm/operations/lmDeposit/LmDepositModalContent/LmDepositModalContent.tsx
+#: src/network/ergo/widgets/LmDepositOpenWallet/LmDepositOpenWallet.tsx
+#: src/pages/LockLiquidity/LockLiquidity.tsx
+#: src/pages/RemoveLiquidity/RemoveLiquidity.tsx
+msgid "Amount"
+msgstr "الكمية"
+
+#: src/components/common/Layout/Header/ClaimSpfButton/ClaimSpfModal/AlreadyRewardState/AlreadyRewardState.tsx
+#: src/components/common/Layout/Header/ClaimSpfButton/ClaimSpfModal/GotRewardState/GotRewardState.tsx
+msgid "Awesome"
+msgstr ""
+
+#: src/pages/Farms/FarmTableView/FarmTableExpandComponent/DistributionFrequencyCell/DistributionFrequencyCell.tsx
+msgid "Distribution frequency"
+msgstr ""
+
+#: src/network/ergo/widgets/RefundConfirmationModal/RefundConfirmationModal.tsx
+#: src/network/ergo/widgets/RefundOpenWallet/RefundOpenWallet.tsx
+msgid "Refund confirmation"
+msgstr "تأكيد الإسترداد"
+
+#: src/components/OperationHistoryModal/OperationHistoryV1/OperationHistoryTable/states/LoadingState/LoadingState.tsx
+#: src/network/ergo/widgets/ErgoPayModal/ErgoPayRequestLoadingContent/ErgoPayRequestLoadingContent.tsx
+#: src/pages/Farms/FarmTableView/FarmTableLoadingState.tsx
+#: src/pages/Liquidity/common/tableViewStates/PoolsOverviewLoadingState/PoolsOverviewLoadingState.tsx
+#: src/pages/Liquidity/common/tableViewStates/YourPositionsLoadingState/YourPositionsLoadingState.tsx
+msgid "Please wait."
+msgstr ""
+
+#: src/components/PoolMenu/PoolMenu.tsx
+#~ msgid "Select pools"
+#~ msgstr "إختر الأحواض"
+
+#: src/pages/Liquidity/utils.ts
+msgid "{yearsCount} Years"
+msgstr "{yearsCount} سنوات"
+
+#: src/pages/Farms/FarmTableView/FarmTableExpandComponent/LivePeriodCell/LivePeriodCell.tsx
+msgid "Starts in"
+msgstr ""
+
+#: src/network/ergo/widgets/DepositOpenWallet/DepositOpenWallet.tsx
+#: src/network/ergo/widgets/LmDepositOpenWallet/LmDepositOpenWallet.tsx
+#: src/network/ergo/widgets/LmRedeemOpenWallet/LmRedeemOpenWallet.tsx
+#: src/network/ergo/widgets/RedeemOpenWallet/RedeemOpenWallet.tsx
+#: src/network/ergo/widgets/SwapOpenWallet/SwapOpenWallet.tsx
+msgid "Open Wallet"
+msgstr ""
+
+#: src/pages/LockLiquidity/LockLiquidity.tsx
+#: src/pages/LockLiquidity/LockLiquidityConfirmationModal/LockLiquidityConfirmationModal.tsx
+#: src/pages/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
+msgid "Assets to lock"
+msgstr "الأصول المراد الإقفال عليها"
+
+#: src/components/OperationHistoryModal/OperationHistoryV1/OperationHistoryTable/decorators/ClipboardDecorator.tsx
+msgid "Transaction ID successfully copied"
+msgstr ""
+
+#: src/components/ConfirmationModal/ConfirmationModal.tsx
+msgid "Timeout error"
+msgstr ""
+
+#: src/pages/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
+msgid "Confirm withdrawal"
+msgstr "تأكيد السحب"
+
+#: src/pages/Pool/Liquidity.tsx
+#~ msgid "{0} Community Pools"
+#~ msgstr ""
+
+#: src/pages/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
+msgid "Confirm Withdrawal"
+msgstr "تأكيد السحب"
+
+#: src/pages/Farms/FarmTableView/FarmTableLoadingState.tsx
+msgid "Loading farms."
+msgstr ""
+
+#: src/pages/Swap/SwapInfo/SwapInfoPriceImpact/SwapInfoPriceImpact.tsx
+msgid "Price impact"
+msgstr ""
+
+#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
+#: src/pages/Swap/Swap.tsx
+msgid "Enter an Amount"
+msgstr "أدخل كمية"
+
+#: src/components/OperationHistoryModal/OperationHistoryV1/OperationHistoryTable/filters/typeFilter.tsx
+msgid "Deposit"
+msgstr ""
+
+#: src/pages/PoolOverview/PoolOverview.tsx
+msgid "Pool overview"
+msgstr "نظرة عامة للحوض"
+
+#: src/components/common/TokenControl/AssetSelect/AssetListModal/AssetListImportConfirmationTokenState/AssetListImportConfirmationTokenState.tsx
+#: src/components/common/TokenControl/AssetSelect/AssetListModal/AssetListSelectTokenState/AssetListExtendedSearchItem/AssetListExtendedSearchItem.tsx
+msgid "Import"
+msgstr ""
+
+#: src/network/cardano/widgets/DepositConfirmationModal/DepositConfirmationInfo/DepositConfirmationInfo.tsx
+#: src/network/cardano/widgets/RedeemConfirmationModal/RedeemConfirmationInfo/RedeemConfirmationInfo.tsx
+#: src/network/cardano/widgets/SwapConfirmationModal/SwapConfirmationInfo/SwapConfirmationInfo.tsx
+#: src/network/cardano/widgets/SwapInfoContent/SwapInfoContent.tsx
+#: src/network/ergo/widgets/common/SwapConfirmationInfo/SwapConfirmationInfo.tsx
+#: src/network/ergo/widgets/DepositConfirmationModal/DepositConfirmationInfo/DepositConfirmationInfo.tsx
+#: src/network/ergo/widgets/RedeemConfirmationModal/RedeemConfirmationInfo/RedeemConfirmationInfo.tsx
+#: src/network/ergo/widgets/SwapInfoContent/SwapInfoContent.tsx
+msgid "Execution Fee"
+msgstr "رسوم التنفيذ"
+
+#: src/pages/Farms/FarmTopPanel/CreateFarmModal/ConfirmFarmCreateModal.tsx
+msgid "Distribution per block:"
+msgstr ""
+
+#: src/components/common/Layout/Header/NetworkDropdown/NetworkDropdown.tsx
+msgid "Select Network"
+msgstr "حدد الشبكة"
+
+#: src/components/BaseSwapConfirmationModal/BaseSwapConfirmationModal.tsx
+#: src/network/ergo/widgets/SwapOpenWallet/SwapOpenWallet.tsx
+msgid "Confirm swap"
+msgstr "تأكيد المبادلة"
+
+#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/common/TransactionPending/TransactionPending.tsx
+msgid "Please wait, your operation is currently pending."
+msgstr ""
+
+#: src/components/OperationHistoryModal/OperationHistoryV1/OperationHistoryTable/states/OperationsEmptyState/OperationsEmptyState.tsx
+#: src/components/WalletModal/WalletTokens/WalletTokens.tsx
+msgid "Swap now"
+msgstr ""
+
+#: src/pages/LockLiquidity/LockLiquidityConfirmationModal/LockLiquidityConfirmationModal.tsx
+msgid "Confirm Lock"
+msgstr "تأكيد القفل"
+
+#: src/components/WalletModal/WalletTokens/WalletTokens.tsx
+msgid "You don't have any tokens on your wallet yet.<0/>But you can swap {0} for them!"
+msgstr ""
+
+#: src/pages/WithdrawalLiquidity/WithdrawalLiquidity.tsx
+msgid "This position is still locked"
+msgstr "هذه السيولة لا يزال مقفلاً عليها"
+
+#: src/pages/Farms/FarmActionModals/FarmWithdrawalModal/FarmWithdrawalModal.tsx
+msgid "Select All"
+msgstr ""
+
+#: src/components/WalletModal/AddressesTab/AddressesTab.tsx
+#~ msgid "Choose"
+#~ msgstr "إختر"
+
+#: src/pages/Farms/FarmTopPanel/CreateFarmModal/FarmPeriodSelector/FarmPeriodSelector.tsx
+msgid "Date"
+msgstr "التاريخ"
+
+#: src/pages/Swap/PoolSelector/PoolSelector.tsx
+msgid "Liquidity Pool"
+msgstr "حوض السيولة"
+
+#: src/components/ConfirmationModal/ConfirmationModal.tsx
+msgid "Locking {0} and {1} ({2}) for {3}"
+msgstr "قفل على {0} و {1} ({2}) مقابل {3}"
+
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
+msgid "Confirm pool creation"
+msgstr "تأكيد إنشاء الحوض"
+
+#: src/pages/Farms/FarmGridView/FarmCardView/FarmCardView.tsx
+msgid "345 {0} out of 1000 {1} have already been distributed"
+msgstr ""
+
+#: src/network/cardano/widgets/SwapInfoContent/SwapInfoContent.tsx
+msgid "A small amount of ADA charged by Cardano blockchain."
+msgstr ""
+
+#: src/components/OperationHistoryModal/OperationHistoryV2/cells/TypeCell/TypeCell.tsx
+msgid "Relock Liquidity"
+msgstr ""
+
+#: src/components/AssetLocksTable/cells/StatusCell/StatusCell.tsx
+#: src/pages/WithdrawalLiquidity/WithdrawalLiquidity.tsx
+msgid "Withdrawable"
+msgstr "قابل للسحب"
+
+#: src/pages/Farms/FarmTableView/columns/FarmPairColumn/FarmPairColumn.tsx
+msgid "Stake all of them to gain more rewards!"
+msgstr ""
+
+#: src/pages/Farms/FarmTableView/FarmTableExpandComponent/ClaimedRewardsCell/ClaimedRewardsCell.tsx
+msgid "Collected rewards"
+msgstr ""
+
+#: src/components/common/PoolSelect/PoolSelect.tsx
+#~ msgid "Select pair"
+#~ msgstr "إختر الزوج"
+
+#: src/pages/Swap/PoolSelector/PoolSelector.tsx
+#: src/pages/Swap/PoolSelector/PoolSelector.tsx
+msgid "Change"
+msgstr "تغيير"
+
+#: src/components/common/ActionForm/ActionButton/ActionButton.tsx
+#~ msgid "Swapping is available in {0}"
+#~ msgstr "التبادل متاح في {0}"
+
+#: src/components/ConfirmationModal/ConfirmationModal.tsx
+msgid "Confirm this transaction in your wallet"
+msgstr "تحقق من هذه المعاملة داخل محفظتك"
+
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
+msgid "Initial liquidity"
+msgstr "السيولة الأولية"
+
+#: src/components/ConfirmationModal/ConfirmationModal.tsx
+msgid "Stake {0} and {1} liquidity"
+msgstr ""
+
+#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
+msgid "Pool"
+msgstr "حوض"
+
+#: src/pages/Farms/FarmTopPanel/CreateFarmModal/ConfirmFarmCreateModal.tsx
+msgid "Confirm farm creation"
+msgstr ""
+
+#: src/pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool.tsx
+msgid "Create Pool"
+msgstr "إنشاء حوض"
+
+#: src/services/notifications/CookiePolicy/CookiePolicy.tsx
+#: src/services/notifications/CookiePolicy/CookiePolicy.tsx
+msgid "Accept all cookies"
+msgstr ""
+
+#: src/pages/LockLiquidity/LockLiquidityConfirmationModal/LockLiquidityConfirmationModal.tsx
+msgid "I understand that I'm locking <0>{0}</0> LP-tokens, which is <1>{percent}%</1> of my <2>{1}/{2}</2> liquidity position, for a period of <3>{3}</3> (until {4}) without the ability to withdrawal before the end of this period."
+msgstr "أعي أنني سوف أقفل على <0>{0}</0> LP-tokens، وهو <1>{percent}%</1> من <2>{1}/{2}</2> وضع السيولة الخاص بي لفترة <3>{3}</3> (حتى {4}) دون القدرة على الإستعادة قبل نهاية هذه الفترة."
+
+#: src/pages/Swap/SwapInfo/SwapInfoHeader/SlippageTag/SlippageTag.tsx
+#~ msgid "Slippage: {slippage}"
+#~ msgstr "إختلاف السعر: {slippage}"
+
+#: src/components/ThemeSwitch/ThemeSwitch.tsx
+msgid "Dark"
+msgstr ""
+
+#: src/components/common/Layout/Header/ClaimSpfButton/ClaimSpfModal/NothingToClaimState/NothingToClaimState.tsx
+msgid "Read more about SPF"
+msgstr ""
+
+#: src/pages/PoolOverview/PoolInfoView/PoolInfoView.tsx
+msgid "Increase"
+msgstr ""
+
+#: src/pages/Swap/OperationSettings/OperationSettings.tsx
+#~ msgid "Minimal Nitro value is {MIN_NITRO}"
+#~ msgstr "الحد الأدنى لقيمة نيترو {MIN_NITRO}"
+
+#: src/components/OperationSettings/OperationSettings.tsx
+msgid "Your transaction may be frontrun"
+msgstr "معاملتك قد تكون على واجهة"
+
+#: src/network/ergo/widgets/ErgoPayModal/ErgoPayTxInfoContent/ErgoPayTxInfoContent.tsx
+msgid "Complete the action with an ErgoPay compatible wallet."
+msgstr ""
+
+#: src/network/ergo/widgets/DepositOpenWallet/DepositOpenWallet.tsx
+#: src/network/ergo/widgets/LmDepositOpenWallet/LmDepositOpenWallet.tsx
+#: src/network/ergo/widgets/LmRedeemOpenWallet/LmRedeemOpenWallet.tsx
+#: src/network/ergo/widgets/RedeemOpenWallet/RedeemOpenWallet.tsx
+#: src/network/ergo/widgets/RefundOpenWallet/RefundOpenWallet.tsx
+#: src/network/ergo/widgets/SwapOpenWallet/SwapOpenWallet.tsx
+msgid "Proceed"
+msgstr ""
+
+#: src/components/SocialLinks/LeaveFeedback/LeaveFeedback.tsx
+msgid "Leave feedback"
+msgstr ""
+
+#: src/components/common/Layout/Header/ClaimSpfButton/ClaimSpfNotification/ClaimSpfNotification.tsx
+msgid "Thanks for being a long time"
+msgstr ""
+
+#: src/components/OperationHistoryModal/OperationHistoryV2/cells/TypeCell/TypeCell.tsx
+msgid "Withdraw Liquidity"
+msgstr ""
+
+#: src/network/ergo/widgets/ErgoPayModal/ErgoPayTabPaneContent/ErgoPayTabPaneContentDesktop.tsx
+msgid "Open external wallet"
+msgstr ""
+
+#: src/network/cardano/api/operations/deposit.tsx
+#: src/network/cardano/api/operations/swap.tsx
+#: src/network/ergo/operations/deposit/useDepositValidators.ts
+#: src/network/ergo/operations/deposit/useDepositValidators.ts
+#: src/network/ergo/operations/deposit/useDepositValidators.ts
+#: src/network/ergo/operations/swap/useSwapValidators.ts
+#: src/network/ergo/operations/swap/useSwapValidators.ts
+#: src/network/ergo/operations/swap/useSwapValidators.ts
+msgid "Insufficient {0} balance for fees"
+msgstr ""
+
+#: src/components/OperationHistoryModal/OperationHistoryV1/OperationHistoryV1.tsx
+msgid "Synchronisation will continue even if you <0/> close this modal window"
+msgstr ""
+
+#: src/pages/RelockLiquidity/RelockLiquidity.tsx
+msgid "Pick new unlock date"
+msgstr "اختيار تاريخ فتح إقفال جديد"
+
+#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
+#: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
+#~ msgid "This operation may include fake or scam assets. Only confirm if you have done your own research."
+#~ msgstr ""
+
+#: src/components/OperationHistoryModal/OperationHistoryV1/OperationHistoryTable/cells/StatusCell/StatusCell.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV2/cells/StatusCell/StatusCell.tsx
+msgid "Your transaction was locked in the smart contract. Don’t worry you just need to refund it."
+msgstr ""
+
+#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
+#: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
+#~ msgid "This pair has not been verified by the ErgoDEX team"
+#~ msgstr ""
+
+#: src/components/BaseRedeemConfirmationModal/BaseRedeemConfirmationModal.tsx
+#: src/network/ergo/widgets/RedeemOpenWallet/RedeemOpenWallet.tsx
+msgid "Confirm Remove Liquidity"
+msgstr "تأكيد إستعادة السيولة"
+
+#: src/pages/PoolOverview/PriceHistory/PriceHistory.tsx
+msgid "Price chart"
+msgstr ""
+
+#: src/pages/Liquidity/default/common/PoolsOrPositionsTableView/PoolsOrPositionsTableView.tsx
+msgid "Annual Percentage Rate. Average estimation of how much you may potentially earn providing liquidity to this pool."
+msgstr "النسبة المئوية السنوية. متوسط تقدير الكمية التي يمكن أن تكتسبها عن طريق توفير السيولة لهذا الحوض."
+
+#: src/components/ConfirmationModal/ConfirmationModal.tsx
+msgid "Creating Farm"
+msgstr ""
+
+#: src/components/common/Layout/Header/ClaimSpfButton/ClaimSpfModal/PendingState/PendingState.tsx
+msgid "Pending amount"
+msgstr ""
+
+#: src/network/cardano/widgets/SwapInfoContent/SwapInfoContent.tsx
+#: src/network/ergo/widgets/SwapInfoContent/SwapInfoContent.tsx
+msgid "Total fees"
+msgstr ""
 
 #: src/components/WalletModal/WalletActiveAddress/WalletActiveAddress.tsx
 msgid "View on explorer"
 msgstr "عرض على المستكشف"
 
+#: src/components/OperationHistoryModal/OperationHistoryV1/OperationHistoryTable/states/LoadingState/LoadingState.tsx
+msgid "Loading your transaction history."
+msgstr ""
+
+#: src/pages/Swap/SwapInfo/SwapInfo.tsx
+#~ msgid "Maximum received:"
+#~ msgstr "الحد الأقصى للاستلام:"
+
+#: src/components/WalletModal/WalletModal.tsx
+#~ msgid "Wallet"
+#~ msgstr "محفظة"
+
+#: src/components/OperationHistoryModal/OperationHistoryV2/states/ErrorState/ErrorState.tsx
+msgid "Failed to load orders"
+msgstr ""
+
+#: src/components/WalletModal/WalletTotalBalance/WalletTotalBalance.tsx
+msgid "Total balance"
+msgstr "الرصيد الكلي"
+
+#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
+#: src/pages/Swap/Swap.tsx
+msgid "Min value for {0} is {1}"
+msgstr "قيمة الحد الأدنى لـ {0} هو {1}"
+
+#: src/components/BaseAddLiquidityConfirmationModal/BaseAddLiquidityConfirmationModal.tsx
+#: src/network/ergo/widgets/DepositOpenWallet/DepositOpenWallet.tsx
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
+msgid "Initial price"
+msgstr "السعر الأولي"
+
+#: src/pages/PoolOverview/PoolInfoView/PoolInfoView.tsx
+#: src/pages/RemoveLiquidity/RemoveLiquidity.tsx
+msgid "Remove"
+msgstr "إزالة"
+
+#: src/network/ergo/api/operations/history/v2/types/BaseOperation.ts
+#: src/network/ergo/api/operations/history/v2/types/BaseOperation.ts
+#: src/network/ergo/widgets/SwapInfoContent/SwapInfoContent.tsx
+msgid "Miner fee"
+msgstr ""
+
+#: src/pages/Farms/FarmGuides/FarmGuides.tsx
+msgid "Check out our guides how to work with farms"
+msgstr ""
+
+#: src/components/common/CopyButton/CopyButton.tsx
+#~ msgid "Copy to clipboard."
+#~ msgstr "نسخ إلى الحافظة."
+
+#: src/components/BaseSwapConfirmationModal/BaseSwapConfirmationModal.tsx
+msgid "Confirm Swap"
+msgstr "تأكيد المبادلة"
+
+#: src/pages/PoolOverview/LockLiquidity/LockLiquidity.tsx
+#: src/pages/PoolOverview/PriceHistory/PriceHistory.tsx
+#: src/pages/Swap/SwapGraph/SwapGraph.tsx
+msgid "Not enough data"
+msgstr ""
+
+#: src/pages/Farms/FarmTopPanel/FarmTopPanel.tsx
+#: src/pages/Farms/FarmTopPanel/FarmTopPanel.tsx
+msgid "Type token name or farm id"
+msgstr ""
+
 #: src/components/common/ExploreButton/ExploreButton.tsx
 msgid "View on explorer."
 msgstr "عرض على المستكشف."
+
+#: src/pages/Swap/SwapInfo/SwapInfo.tsx
+#~ msgid "Miner fee:"
+#~ msgstr "رسوم المعدّن:"
+
+#: src/network/ergo/widgets/ErgoPayModal/ErgoPayTabPaneContent/ErgoPayTabPaneContentDesktop.tsx
+#: src/network/ergo/widgets/ErgoPayModal/ErgoPayTxInfoContent/ErgoPayTxInfoContent.tsx
+msgid "Copied to clipboard!"
+msgstr "تم النسخ إلى الحافظة!"
+
+#: src/components/common/ActionForm/ActionButton/ActionButton.tsx
+#~ msgid "Insufficient {token} Balance"
+#~ msgstr "رصيد {token} غير كافي"
+
+#: src/components/AssetLocksTable/AssetLocksTable.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV2/OperationHistoryV2.tsx
+msgid "Status"
+msgstr "الحالة"
+
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
+msgid "The % you will earn in fees"
+msgstr "النسبة المئوية التي ستكسبها من الرسوم"
+
+#: src/components/OperationSettings/OperationSettings.tsx
+msgid "Nitro"
+msgstr "نيترو"
+
+#: src/components/OperationHistoryModal/OperationHistoryV1/OperationHistoryV1.tsx
+msgid "Syncing..."
+msgstr ""
+
+#: src/components/common/Layout/CardanoUpdate/CardanoUpdate.tsx
+msgid "Go to Ergo Network"
+msgstr ""
+
+#: src/pages/WithdrawalLiquidity/WithdrawalLiquidity.tsx
+msgid "Total in locker"
+msgstr "إجمالي المقفل عليه"
+
+#: src/components/common/Layout/Header/ClaimSpfButton/ClaimSpfModal/RewardInfo/RewardDetails/RewardDetails.tsx
+msgid "Liquidity provider:"
+msgstr ""
+
+#: src/components/common/Layout/Header/BurgerMenu/BurgerMenu.tsx
+msgid "About"
+msgstr "حول"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Waiting for confirmation"
 msgstr "قيد انتظار التأكيد"
 
-#: src/components/WalletModal/WalletModal.tsx
-msgid "Wallet"
-msgstr "محفظة"
+#: src/pages/Farms/FarmTopPanel/CreateFarmModal/ConfirmFarmCreateModal.tsx
+msgid "Estimated APR:"
+msgstr ""
 
-#: src/components/common/KyaModal/KyaModal.tsx
-msgid "We recommend that you DO NOT use ErgoDEX to operate large amounts of assets!"
-msgstr "نوصي بعدم استخدام إيرجودكس لتشغيل كميات كبيرة من الأصول!"
+#: src/components/common/Layout/Header/Navigation/Navigation.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV1/OperationHistoryTable/filters/typeFilter.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV2/cells/TypeCell/TypeCell.tsx
+#: src/pages/Liquidity/default/common/PoolOrPositionDetails/PoolOrPositionDetails.tsx
+#: src/pages/Liquidity/mobile/common/PoolOrPositionDetails/PoolOrPositionDetails.tsx
+#: src/pages/PoolOverview/PoolInfoView/PoolInfoView.tsx
+#: src/pages/Swap/Swap.tsx
+#: src/pages/Swap/Swap.tsx
+msgid "Swap"
+msgstr "مبادلة"
 
-#: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
-msgid "Withdrawable"
-msgstr "قابل للسحب"
+#: src/components/common/ConnectWalletButton/ConnectWalletButton.tsx
+#~ msgid "KYA is not accepted"
+#~ msgstr "الأحكام غير مقبولة"
 
-#: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
-#: src/pages/Pool/WithdrawalLiquidity/WithdrawalLiquidity.tsx
-#: src/pages/Pool/components/LocksList/LockItemView/LockItemView.tsx
-#: src/pages/PoolOverview/PoolOverview.tsx
-msgid "Withdrawal"
-msgstr "سحب"
-
-#: src/pages/PoolOverview/PoolOverview.tsx
-msgid "You didn't provide liquidity to this pool yet."
-msgstr "لم تقم بتوفير السيولة لهذا الحوض بعد."
-
-#: src/components/WalletModal/LowBalanceWarning/LowBalanceWarning.tsx
-msgid "You need ERG to pay transaction fees"
-msgstr "تحتاج إلى ERG لدفع رسوم المعاملات"
-
-#: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
-msgid "You will spend {value} ERG for every operation."
-msgstr "سوف تنفق {value} ERG لكل عملية."
-
-#: src/pages/Pool/Liquidity.tsx
+#: src/pages/Liquidity/common/types/LiquidityState.ts
 msgid "Your Positions"
 msgstr "السيولة الخاصة بك"
 
-#: src/pages/PoolOverview/PoolOverview.tsx
-#: src/pages/PoolOverview/PoolOverview.tsx
-msgid "Your liquidity"
-msgstr "سيولتك الخاصىة"
+#: src/components/ConfirmationModal/ConfirmationModal.tsx
+#~ msgid "Seems like Yoroi Wallet has an issue"
+#~ msgstr "يبدو أن هناك مشكلة في محفظة Yoroi"
 
-#: src/pages/Pool/common/EmptyPositionsList/EmptyPositionsList.tsx
-msgid "Your liquidity positions will appear here."
-msgstr "ستظهر حالة السيولة الخاصة بك هنا."
+#: src/components/common/Layout/Header/BurgerMenu/BurgerMenu.tsx
+msgid "Language"
+msgstr "اللغة"
 
-#: src/pages/Swap/PoolSelector/PoolSelector.tsx
-msgid "Your operation will be executed in this pool. <0/> You can also choose another pool for this pair"
-msgstr "سيتم تنفيذ عمليتك في هذا الحوض. <0/> يمكنك أيضًا اختيار حوض آخر لهذا الزوج"
-
-#: src/pages/Swap/OperationSettings/OperationSettings.tsx
-msgid "Your transaction may be frontrun"
-msgstr "معاملتك قد تكون على واجهة"
-
-#: src/pages/Swap/OperationSettings/OperationSettings.tsx
-msgid "Your transaction may fail"
-msgstr "قد تفشل معاملتك"
-
-#: src/pages/Swap/OperationSettings/OperationSettings.tsx
-msgid "Your transaction will revert if the price changes unfavorably by more than this percentage"
-msgstr "المعاملة الخاصة بك سوف تعود إذا تغير السعر بشكل غير مناسب بأكثر من هذه النسبة المئوية"
-
-#: src/components/common/KyaModal/KyaModal.tsx
-msgid "explorer"
-msgstr "المستكشف"
-
-#: src/components/common/KyaModal/KyaModal.tsx
-msgid "meet your expectations."
-msgstr "حقق توقعاتك."
-
-#: src/components/common/KyaModal/KyaModal.tsx
-msgid "only on top of the Ergo Blockchain."
-msgstr "فقط على بلوكشين إيرجو."
-
-#: src/pages/Pool/Liquidity.tsx
-msgid "{0} Community Pools"
+#: src/components/common/Layout/Header/ClaimSpfButton/ClaimSpfModal/AlreadyRewardState/AlreadyRewardState.tsx
+msgid "You claimed"
 msgstr ""
 
-#: src/pages/PoolOverview/PoolRatio/PoolRatio.tsx
-#: src/pages/PoolOverview/PoolRatio/PoolRatio.tsx
-msgid "{0} per {1}"
-msgstr "{0} لكل {1}"
+#: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
+#~ msgid "I understand that this wallet has not been audited. I will use it at my own risk."
+#~ msgstr "I understand that this wallet has not been audited. I will use it at my own risk."
 
-#: src/pages/Pool/utils.ts
-msgid "{daysCount} Days"
-msgstr "{daysCount} أيام"
+#: src/network/ergo/widgets/ErgoPayModal/ErgoPayRequestLoadingContent/ErgoPayRequestLoadingContent.tsx
+msgid "Preparing ergoPay request."
+msgstr ""
 
-#: src/pages/Pool/utils.ts
-msgid "{monthsCount} Months"
-msgstr "{monthsCount} أشهر"
+#: src/components/OperationSettings/OperationSettings.tsx
+msgid "The execution fee is paid to off-chain validators who execute DEX orders"
+msgstr ""
 
-#: src/components/Header/ConnectWallet/ConnectWallet.tsx
-msgid "{numberOfPendingTxs} Pending"
-msgstr "{numberOfPendingTxs} قيد الانتظار"
+#: src/pages/Farms/FarmTopPanel/CreateFarmModal/ConfirmFarmCreateModal.tsx
+msgid "TVL:"
+msgstr ""
 
-#: src/pages/AddLiquidityOrCreatePool/CreatePoolUnsupportedAlert/CreatePoolUnsupportedAlert.tsx
-msgid "{walletName} Wallet doesn’t support “create pool” functionality yet. Choose another wallet to perform the operation."
-msgstr "{walletName} المحفظة لا تدعم وظيفة \"إنشاء حوض\" حتى الآن. اختر محفظة أخرى لتنفيذ العملية."
+#: src/components/common/KyaModal/KyaModal.tsx
+#~ msgid "I understand the risks and accept the KYA"
+#~ msgstr "أنا أفهم المخاطر وأقبل بالأحكام"
 
-#: src/pages/Pool/utils.ts
-msgid "{yearsCount} Years"
-msgstr "{yearsCount} سنوات"
+#: src/pages/Pool/components/LPGuide/LPGuide.tsx
+#~ msgid "Check out our guides how to become a liquidity provider"
+#~ msgstr "تحقق من أدلتنا الإرشادية كيف تصبح موفر السيولة"
 
+#: src/pages/Farms/FarmTableView/common/FarmAction/FarmAction.tsx
+msgid "Manage"
+msgstr ""
+
+#: src/pages/Pool/components/LiquidityPositionsList/LiquidityPositionsItem/LiquidityPositionsItemWrapper/LiquidityPositionsItemWrapper.tsx
+#~ msgid "It is impossible to display statistics for this pool"
+#~ msgstr "It is impossible to display statistics for this pool"
+
+#: src/components/common/TokenControl/AssetSelect/AssetListModal/AssetListImportConfirmationTokenState/ImportTokenPairSelectControl/ImportTokenPairSelectControl.tsx
+msgid "Select all"
+msgstr ""
+
+#: src/components/common/Layout/Header/ClaimSpfButton/ClaimSpfModal/RewardInfo/RewardStatistic/RewardStatistic.tsx
+msgid "Final reward"
+msgstr ""
+
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
+msgid "1% fee"
+msgstr "رسوم 1%"
+
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
+#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
+#: src/pages/Liquidity/common/components/LiquidityTitleExtra/LiquidityTitleExtra.tsx
+msgid "Create pool"
+msgstr "إنشاء حوض"
+
+#: src/components/common/Layout/Header/ClaimSpfButton/ClaimSpfModal/PendingState/PendingState.tsx
+msgid "Your reward will come to your wallet within 24 hours from the moment the request was created. Thank you for being with us!"
+msgstr ""
+
+#: src/components/common/Layout/Header/ClaimSpfButton/ClaimSpfModal/PendingState/PendingState.tsx
+msgid "You requested SPF reward on"
+msgstr ""
+
+#: src/network/ergo/widgets/ErgoPayModal/ErgoPayTabPaneContent/ErgoPayTabPaneContentDesktop.tsx
+#: src/network/ergo/widgets/ErgoPayModal/ErgoPayTxInfoContent/ErgoPayTxInfoContent.tsx
+msgid "Copy request"
+msgstr ""
+
+#: src/components/common/KyaModal/KyaModal.tsx
+#~ msgid "- ErgoDEX operates on a live blockchain, thus trades are final, and irreversible once they have status «executed»;"
+#~ msgstr "-إيرجو دكس يعمل على سلسلة مجموعات نشطة، لذلك تكون الصفقات نهائية، ولا رجعة عنها بمجرد أن يكون لها حالة «تم التنفيذ»;"
+
+#: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
+#~ msgid "This wallet may not always work as expected. I understand what I do andwill use it at my own risk."
+#~ msgstr "قد لا تعمل هذه المحفظة دائمًا كما هو متوقع. أنا أفهم ما أفعله وسوف أستخدمها على مسؤوليتي الخاصة."
+
+#: src/components/common/KyaModal/KyaModal.tsx
+#~ msgid "- By creating an order you send your funds to a specific smart-contract, all such contracts are wired into the UI. Thus, orders are created entirely in your browser (on your machine)."
+#~ msgstr "- عن طريق إنشاء طلب انت ترسل أموالك إلى عقد-ذكي محدد، يتم ربط جميع هذه العقود عبر واجهة المستخدم. وهكذا، يتم إنشاء الطلبات بالكامل في المتصفح الخاص بك (على جهازك)."
+
+#: src/pages/Swap/SwapInfo/MoreInfoButton/MoreInfoButton.tsx
+msgid "Less"
+msgstr ""
+
+#: src/components/Header/BurgerMenu/BurgerMenu.tsx
+#~ msgid "Dark mode"
+#~ msgstr "وضع الظلام"
+
+#: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
+msgid "Select a wallet"
+msgstr "اختر محفظة"
+
+#: src/components/common/Layout/Header/ConnectWallet/WalletInfoButton/AddressTag/LoadingContent/LoadingContent.tsx
+#: src/components/OperationForm/OperationForm.tsx
+#: src/pages/PoolOverview/PriceHistory/PriceHistory.tsx
+#: src/pages/Swap/SwapGraph/SwapGraph.tsx
+msgid "Loading"
+msgstr "جاري التحميل"
+
+#: src/components/common/Layout/Header/ClaimSpfButton/ClaimSpfModal/RewardInfo/RewardStatistic/RewardStatistic.tsx
+msgid "Available for claiming"
+msgstr ""
+
+#: src/pages/RelockLiquidity/RelockLiquidity.tsx
+msgid "Relock position"
+msgstr "موضع إعادة القفل"
+
+#: src/pages/Farms/types/FarmTabs.ts
+msgid "My Farms"
+msgstr ""
+
+#: src/pages/Pool/components/LPGuide/LPGuide.tsx
+#~ msgid "Become a liquidity provider"
+#~ msgstr "كن موفر سيولة"
+
+#: src/components/WalletModal/WalletActiveAddress/WalletActiveAddress.tsx
+msgid "Copy Address"
+msgstr "نسخ العنوان"
+
+#: src/pages/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
+msgid "Assets to relock"
+msgstr "الأصول المراد إعادة الإقفال عليها"
+
+#: src/pages/PoolOverview/LockLiquidity/LockLiquidity.tsx
+msgid "Liquidity providers locked their tokens in the pool for a specific time. This guarantees they will not withdraw liquidity until the due date is reached."
+msgstr ""
+
+#: src/network/cardano/widgets/SwapInfoContent/SwapInfoContent.tsx
+#: src/network/ergo/widgets/SwapInfoContent/SwapInfoContent.tsx
+msgid "Min output"
+msgstr ""
+
+#: src/pages/Farms/FarmTopPanel/CreateFarmModal/validators/validators.ts
+msgid "Select period"
+msgstr ""
+
+#: src/pages/Farms/FarmTopPanel/CreateFarmModal/FarmDistributionIntervalInput/FarmDistributionIntervalInput.tsx
+msgid "Week"
+msgstr ""
