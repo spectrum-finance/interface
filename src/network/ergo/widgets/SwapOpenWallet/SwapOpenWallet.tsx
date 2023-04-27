@@ -25,7 +25,6 @@ export const SwapOpenWallet: FC<ErgoPayOpenWalletContentProps> = ({
 
   const swapOperation = async () => {
     if (value.pool && value.fromAmount && value.toAmount) {
-      // panalytics.confirmSwap(value);
       setLoading(true);
       ergoPaySwap(value.pool as any, value.fromAmount, value.toAmount)
         .pipe(first())
