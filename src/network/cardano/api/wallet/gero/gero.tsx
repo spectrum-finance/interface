@@ -1,6 +1,6 @@
 import { CardanoWalletContract } from '../common/CardanoWalletContract';
 import { makeCardanoWallet } from '../common/makeCardanoWallet';
-import { ReactComponent as GeroWalletLogo } from './gerowallet-icon.svg';
+import GeroWalletLogo from './gerowallet-icon.svg';
 
 export const Gero: CardanoWalletContract = makeCardanoWallet({
   variableName: 'gerowallet',
@@ -9,6 +9,6 @@ export const Gero: CardanoWalletContract = makeCardanoWallet({
   walletSupportedFeatures: { createPool: false },
   name: 'GeroWallet Preview',
   testnetSwitchGuideUrl: '',
-  icon: <GeroWalletLogo />,
-  previewIcon: <GeroWalletLogo width={21} height={21} />,
+  icon: <img src={GeroWalletLogo} height={32} width={32} />,
+  previewIcon: <img src={GeroWalletLogo} width={21} height={21} />,
 });

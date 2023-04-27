@@ -1,6 +1,6 @@
 import { CardanoWalletContract } from '../common/CardanoWalletContract';
 import { makeCardanoWallet } from '../common/makeCardanoWallet';
-import { ReactComponent as EternlLogo } from './eternl-icon.svg';
+import EternlLogo from './eternl-icon.svg';
 
 export const Eternl: CardanoWalletContract = makeCardanoWallet({
   variableName: 'eternl',
@@ -8,8 +8,8 @@ export const Eternl: CardanoWalletContract = makeCardanoWallet({
     'https://chrome.google.com/webstore/detail/eternlcc/kmhcihpebfmpgmihbkipmjlmmioameka',
   walletSupportedFeatures: { createPool: false },
   name: 'Eternl',
-  icon: <EternlLogo />,
+  icon: <img src={EternlLogo} height={32} width={32} />,
   testnetSwitchGuideUrl:
     'https://docs.spectrum.fi/docs/user-guides/change-wallet-to-testnet#eternl-wallet',
-  previewIcon: <EternlLogo width={21} height={21} />,
+  previewIcon: <img src={EternlLogo} width={21} height={21} />,
 });

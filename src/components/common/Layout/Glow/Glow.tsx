@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import styled from 'styled-components';
 
-import { ReactComponent as Prism } from './prism.svg';
+import PrismSrc from './prism.png';
 
 const GlowContainer = styled.div`
   background: var(--spectrum-glow-gradient);
@@ -13,7 +13,7 @@ const GlowContainer = styled.div`
   height: 100%;
   z-index: -1;
 
-  svg {
+  img {
     position: absolute;
     top: 30px;
     max-width: 839px;
@@ -25,6 +25,6 @@ const GlowContainer = styled.div`
 
 export const Glow: FC = () => (
   <GlowContainer>
-    <Prism />
+    <img src={PrismSrc} />
   </GlowContainer>
 );
