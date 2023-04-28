@@ -33,10 +33,6 @@ export interface OperationFormProps<T> {
   readonly traceFormLocation: TraceProps['element_location'];
 }
 
-const CHECK_INTERNET_CONNECTION_CAPTION = t`Check Internet Connection`;
-const LOADING_WALLET_CAPTION = t`Loading`;
-const PROCESSING_TRANSACTION_CAPTION = t`Processing transaction`;
-
 export function OperationForm<T>({
   validators,
   loaders,
@@ -46,6 +42,10 @@ export function OperationForm<T>({
   actionCaption,
   traceFormLocation,
 }: OperationFormProps<T>): JSX.Element {
+  const CHECK_INTERNET_CONNECTION_CAPTION = t`Check Internet Connection`;
+  const LOADING_WALLET_CAPTION = t`Loading`;
+  const PROCESSING_TRANSACTION_CAPTION = t`Processing transaction`;
+
   const [isOnline] = useObservable(isOnline$);
   const [queuedOperation] = useObservable(queuedOperation$);
   const [balance, isBalanceLoading] = useAssetsBalance();

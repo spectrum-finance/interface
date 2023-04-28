@@ -1,9 +1,10 @@
 import { Button, DownOutlined, Flex, Tabs, useDevice } from '@ergolabs/ui-kit';
+import { t } from '@lingui/macro';
 import { FC } from 'react';
 import styled from 'styled-components';
 
 import { SetSearchParamsFn } from '../../../../common/hooks/useSearchParams';
-import { FarmTabs, FarmTabsCaptions } from '../../types/FarmTabs';
+import { FarmTabs } from '../../types/FarmTabs';
 
 export interface MyFarmsFilterProps {
   value: FarmTabs | undefined;
@@ -51,6 +52,11 @@ export const MyFarmsFilter: FC<MyFarmsFilterProps> = ({
   value = FarmTabs.AllFarms,
   onChange,
 }) => {
+  const FarmTabsCaptions = {
+    [FarmTabs.AllFarms]: t`All Farms`,
+    [FarmTabs.MyFarms]: t`My Farms`,
+  };
+
   const { moreThan, s } = useDevice();
 
   return (

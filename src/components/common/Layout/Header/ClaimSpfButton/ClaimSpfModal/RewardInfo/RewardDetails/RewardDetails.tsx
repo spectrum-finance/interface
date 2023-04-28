@@ -30,56 +30,58 @@ export interface RewardDetails {
   readonly onCollapsedChange: (collapsed: boolean) => void;
 }
 
-const mapCohortNameToCaption = {
-  traders: t`Trader:`,
-  betaTesters: t`Beta tester:`,
-  liquidityProviders: t`Liquidity provider:`,
-  nft: t`Nft`,
-  earlyOffChainOperators: t`Early off-chain operator:`,
-  offChainOperators: t`Off-chain operator:`,
-};
-
 const _RewardDetails: FC<RewardDetails> = ({
   reward,
   className,
   onCollapsedChange,
   collapsed,
-}) => (
-  <Collapse
-    className={className}
-    onChange={(keys) => onCollapsedChange(keys.length > 0)}
-  >
-    <Collapse.Panel
-      key="details"
-      header={
-        <Flex justify="space-between" align="center" width="100%">
-          <Typography.Body size="large" strong>
-            <Trans>Reward details</Trans>
-          </Typography.Body>
-          <ProgressHeaderChevron collapsed={collapsed} />
-        </Flex>
-      }
-      showArrow={false}
+}) => {
+  const mapCohortNameToCaption = {
+    traders: t`Trader:`,
+    betaTesters: t`Beta tester:`,
+    liquidityProviders: t`Liquidity provider:`,
+    nft: t`Nft`,
+    earlyOffChainOperators: t`Early off-chain operator:`,
+    offChainOperators: t`Off-chain operator:`,
+  };
+
+  return (
+    <Collapse
+      className={className}
+      onChange={(keys) => onCollapsedChange(keys.length > 0)}
     >
-      {reward.cohorts.map((c, i) => (
-        <Flex.Item
-          display="flex"
-          justify="space-between"
-          marginBottom={2}
-          key={i}
-        >
-          <Typography.Body size="large">
-            {/*@ts-ignore*/}
-            {mapCohortNameToCaption[c.cohort]}
-          </Typography.Body>
-          <Typography.Body strong size="large">
-            {c.spfReward.toCurrencyString()}
-          </Typography.Body>
-        </Flex.Item>
-      ))}
-    </Collapse.Panel>
-  </Collapse>
-);
+      <Collapse.Panel
+        key="details"
+        header={
+          <Flex justify="space-between" align="center" width="100%">
+            <Typography.Body size="large" strong>
+              <Trans>Reward details</Trans>
+            </Typography.Body>
+            <ProgressHeaderChevron collapsed={collapsed} />
+          </Flex>
+        }
+        showArrow={false}
+      >
+        {reward.cohorts.map((c, i) => (
+          <Flex.Item
+            display="flex"
+            justify="space-between"
+            marginBottom={2}
+            key={i}
+          >
+            <Typography.Body size="large">
+              {/*@ts-ignore*/}
+              {mapCohortNameToCaption[c.cohort]}
+            </Typography.Body>
+            <Typography.Body strong size="large">
+              {c.spfReward.toCurrencyString()}
+            </Typography.Body>
+          </Flex.Item>
+        ))}
+      </Collapse.Panel>
+    </Collapse>
+  );
+};
 
 export const RewardDetails = styled(_RewardDetails)`
   background: var(--spectrum-claim-spf-box-background) !important;
