@@ -51,6 +51,7 @@ interface ApplicationConfig {
   readonly blacklistedPools: string[];
   readonly blacklistedHistoryAssets: string[];
   readonly blacklistedFarms: string[];
+  readonly testFarms: string[];
   readonly operationsRestrictions: OperationRestriction[];
   readonly requestRetryCount: number;
 }
@@ -181,6 +182,13 @@ export const applicationConfig: ApplicationConfig = {
     '178af772712af5bbc44b330af7b3c06d4efea61ae7e16cf2ab71a6a300688cdf',
     '58c02b3bdaba7c9e854f047d848450b290857c6496481477ecda3a14d04f0e9d',
     '33ef5d65c55066a35d4f816e4fe8df1aaa78e169bf1198571e070ac185a2b065',
+    '8d49ef70ab015d79cb9ab523adf3ccb0b7d05534c598e4ddf8acb8b2b420b463',
+    'f61da4f7d651fc7a1c1bb586c91ec1fcea1ef9611461fd437176c49d9db37bb2',
+    '8a82a413c451fec826c8d39e87b95b6104d7de30e5d883a3c5ba4236d44b5837',
+    '48239c9bf134d4a851dc7bc532e47d8c8a9b1d3c44acd4185399a6f382f653d0',
+  ],
+  testFarms: [
+    '69eff57ea62b13c58e5668e3fbc9927fdb2dffb1c692261f98728a665b2f8abb',
   ],
   operationsRestrictions: [
     {
