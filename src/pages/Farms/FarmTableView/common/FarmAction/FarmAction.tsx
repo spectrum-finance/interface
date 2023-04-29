@@ -62,6 +62,27 @@ export const FarmAction: FC<FarmActionProps> = ({
 
   const isStakeButtonDisabled = farm.expectedEpochsRemainForStake <= 1;
 
+  if (farm.isTest && !isWithdrawAvailable) {
+    return null;
+  }
+
+  if (farm.isTest && isWithdrawAvailable) {
+    return (
+      <Button
+        size={size}
+        type="primary"
+        danger
+        width={fullWidth ? '100%' : undefined}
+        onClick={(e) => {
+          e.stopPropagation();
+          withdraw();
+        }}
+      >
+        <Trans>Unstake</Trans>
+      </Button>
+    );
+  }
+
   if (isWithdrawAvailable && (isStakeAvailable || isAddLiquidityAvailable)) {
     return (
       <div onClick={(event) => event.stopPropagation()}>

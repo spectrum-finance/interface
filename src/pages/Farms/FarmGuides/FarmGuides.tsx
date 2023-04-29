@@ -77,7 +77,11 @@ export const FarmGuides: FC = () => {
                   align={valBySize('flex-start', 'flex-end')}
                   justify={valBySize('flex-end', 'flex-start')}
                 >
-                  <Button type="primary">
+                  <Button
+                    type="primary"
+                    href="https://docs.spectrum.fi/docs/user-guides/yield-farming"
+                    target="_blank"
+                  >
                     <Trans>Read guides</Trans>
                   </Button>
                 </Flex.Item>

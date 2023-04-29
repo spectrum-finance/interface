@@ -19,7 +19,7 @@ export const ergoPayRedeem = (
     .pipe(first())
     .pipe(
       switchMap(({ executionFeeAsset }) =>
-        executionFeeAsset.id === feeAsset.id
+        executionFeeAsset?.id === feeAsset.id
           ? spfErgoPayRedeem(pool, lp, x, y, percent)
           : nativeErgoPayRedeem(pool, lp, x, y, percent),
       ),

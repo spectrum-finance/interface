@@ -70,4 +70,6 @@ export interface Farm<T = any> {
   readonly nextReward: Currency | null;
 
   readonly collectedRewards: Currency | null;
+
+  readonly isTest: boolean;
 }
