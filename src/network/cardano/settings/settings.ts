@@ -1,6 +1,7 @@
 import { pubKeyHashFromAddr } from '@ergolabs/cardano-dex-sdk';
 import { RustModule } from '@ergolabs/cardano-dex-sdk/build/main/utils/rustLoader';
 import { PublicKey } from '@ergolabs/ergo-sdk';
+import { user } from '@spectrumlabs/analytics';
 import { filter, map, Observable, startWith, zip } from 'rxjs';
 
 import { MIN_NITRO } from '../../../common/constants/erg';
@@ -72,6 +73,12 @@ export const initializeSettings = (): void => {
         unusedAddresses,
         walletAddress,
       );
+
+      user.set('address_active_cardano', newSelectedAddress);
+      user.postInsert('all_addresses_cardano', [
+        ...usedAddresses,
+        ...unusedAddresses,
+      ]);
 
       setSettings({
         ...settings,

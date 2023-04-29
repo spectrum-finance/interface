@@ -2,6 +2,7 @@ import { mkSubject } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities
 import { DateTime } from 'luxon';
 
 import { Dictionary } from './common/utils/Dictionary';
+import { isProductionEnv } from './common/utils/env';
 
 const isProductionHost = 'app.spectrum.fi' === location.host;
 
@@ -58,8 +59,7 @@ interface ApplicationConfig {
 
 export const applicationConfig: ApplicationConfig = {
   operationTimeoutTime: 60_000,
-  cookieDomain:
-    process.env.NODE_ENV === 'production' ? 'spectrum.fi' : undefined,
+  cookieDomain: isProductionEnv() ? 'spectrum.fi' : undefined,
   cardanoMaintenance: false,
   defaultTokenListUrl:
     'https://raw.githubusercontent.com/ergolabs/default-token-list/master/src/tokens',

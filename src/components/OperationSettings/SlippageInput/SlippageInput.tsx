@@ -7,7 +7,7 @@ import {
   Flex,
   Input,
 } from '@ergolabs/ui-kit';
-import React, { ChangeEvent, FC } from 'react';
+import { ChangeEvent, FC } from 'react';
 import styled from 'styled-components';
 
 import {

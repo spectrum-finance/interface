@@ -7,7 +7,7 @@ import {
   useDevice,
 } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
-import React, { FC, MouseEvent } from 'react';
+import { FC, MouseEvent } from 'react';
 import { first } from 'rxjs';
 import styled from 'styled-components';
 

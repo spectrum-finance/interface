@@ -1,5 +1,5 @@
 import Icon from '@ant-design/icons';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { ReactComponent as Dots } from '../../../assets/icons/icon-dots.svg';
 

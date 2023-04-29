@@ -1,5 +1,5 @@
 import { Flex, LeftOutlined } from '@ergolabs/ui-kit';
-import React, {
+import {
   CSSProperties,
   MouseEventHandler,
   ReactElement,
@@ -7,6 +7,7 @@ import React, {
   useEffect,
   useState,
 } from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
 
 import { TongueArrowButton } from './TongueArrowButton/TongueArrowButton';

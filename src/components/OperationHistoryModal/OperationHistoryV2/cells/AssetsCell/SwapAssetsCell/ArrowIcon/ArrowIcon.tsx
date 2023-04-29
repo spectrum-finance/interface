@@ -1,5 +1,5 @@
 import { ArrowDownOutlined, Box, Flex } from '@ergolabs/ui-kit';
-import React, { FC } from 'react';
+import { FC } from 'react';
 import styled from 'styled-components';
 
 interface ArrowIcon {

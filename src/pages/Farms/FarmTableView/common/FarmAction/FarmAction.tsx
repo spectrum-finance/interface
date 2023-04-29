@@ -7,7 +7,7 @@ import {
   Tooltip,
 } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { first } from 'rxjs';
 import styled from 'styled-components';

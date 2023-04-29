@@ -1,6 +1,6 @@
 import { Box, Flex, useDevice } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
-import React, { FC, useState } from 'react';
+import { FC, useState } from 'react';
 import styled from 'styled-components';
 
 import { useObservable } from '../../../common/hooks/useObservable';

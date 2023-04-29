@@ -5,7 +5,7 @@ import { MinTransactionContext } from '@ergolabs/ergo-sdk/build/main/wallet/enti
 import { Button, Flex, Modal, Typography } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import { DateTime } from 'luxon';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { ERG_DECIMALS } from '../../../common/constants/erg';
 import { AssetLock } from '../../../common/models/AssetLock';

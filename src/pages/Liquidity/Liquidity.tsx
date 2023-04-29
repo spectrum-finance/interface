@@ -1,6 +1,7 @@
 import { useDevice, useSearch } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
-import React, { useState } from 'react';
+import { useState } from 'react';
+import * as React from 'react';
 
 import { useObservable } from '../../common/hooks/useObservable';
 import { useSearchParams } from '../../common/hooks/useSearchParams';

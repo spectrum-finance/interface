@@ -2,7 +2,8 @@ import './OperationForm.less';
 
 import { Button, Flex, Form, FormGroup } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
-import React, { ReactNode, useEffect, useState } from 'react';
+import { ElementName, TraceProps } from '@spectrumlabs/analytics';
+import { ReactNode, useEffect, useState } from 'react';
 import { debounceTime, first, Observable } from 'rxjs';
 
 // import { PAnalytics } from '../../common/analytics/@types/types';
@@ -21,7 +22,6 @@ export type OperationValidator<T> = (
 ) => ReactNode | ReactNode[] | string | undefined;
 
 export interface OperationFormProps<T> {
-  readonly analytics?: any;
   readonly validators?: OperationValidator<T>[];
   readonly loaders?: OperationLoader<T>[];
   readonly form: FormGroup<T>;
@@ -30,11 +30,8 @@ export interface OperationFormProps<T> {
     form: FormGroup<T>,
   ) => Observable<any> | void | Promise<any>;
   readonly children?: ReactNode | ReactNode[] | string;
+  readonly traceFormLocation: TraceProps['element_location'];
 }
-
-const CHECK_INTERNET_CONNECTION_CAPTION = t`Check Internet Connection`;
-const LOADING_WALLET_CAPTION = t`Loading`;
-const PROCESSING_TRANSACTION_CAPTION = t`Processing transaction`;
 
 export function OperationForm<T>({
   validators,
@@ -43,8 +40,12 @@ export function OperationForm<T>({
   onSubmit,
   children,
   actionCaption,
-  analytics,
+  traceFormLocation,
 }: OperationFormProps<T>): JSX.Element {
+  const CHECK_INTERNET_CONNECTION_CAPTION = t`Check Internet Connection`;
+  const LOADING_WALLET_CAPTION = t`Loading`;
+  const PROCESSING_TRANSACTION_CAPTION = t`Processing transaction`;
+
   const [isOnline] = useObservable(isOnline$);
   const [queuedOperation] = useObservable(queuedOperation$);
   const [balance, isBalanceLoading] = useAssetsBalance();
@@ -129,7 +130,10 @@ export function OperationForm<T>({
           <ConnectWalletButton
             className="connect-wallet-button"
             size="extra-large"
-            analytics={analytics}
+            trace={{
+              element_name: ElementName.connectWalletButton,
+              element_location: traceFormLocation,
+            }}
           >
             <Button
               loading={loading}

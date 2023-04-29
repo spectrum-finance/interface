@@ -6,7 +6,7 @@ import {
   Tooltip,
 } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { useObservable } from '../../../../common/hooks/useObservable';
 import { pendingOperations$ } from '../../../../gateway/api/pendingOperations';

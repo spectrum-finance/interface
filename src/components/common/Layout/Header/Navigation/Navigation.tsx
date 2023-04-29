@@ -1,6 +1,6 @@
 import { Tabs } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
-import React, { CSSProperties, FC, useEffect, useState } from 'react';
+import { CSSProperties, FC, useEffect, useState } from 'react';
 import { useMatch, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 

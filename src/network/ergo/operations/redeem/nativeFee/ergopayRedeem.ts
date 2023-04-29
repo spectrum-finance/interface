@@ -15,7 +15,7 @@ export const ergopayRedeem = (
   lp: Currency,
   x: Currency,
   y: Currency,
-  percent: number,
+  // percent: number,
 ): Observable<TxId> =>
   createRedeemTxData(pool, lp, x, y).pipe(
     switchMap(([redeemParams, txContext, additionalData]) =>

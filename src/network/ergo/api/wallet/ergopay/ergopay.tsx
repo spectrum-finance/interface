@@ -1,5 +1,4 @@
 import { ergoBoxFromProxy } from '@ergolabs/ergo-sdk';
-import React from 'react';
 import {
   filter,
   from,

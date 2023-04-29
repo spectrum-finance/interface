@@ -1,8 +1,6 @@
-import React from 'react';
-
 import { CardanoWalletContract } from '../common/CardanoWalletContract';
 import { makeCardanoWallet } from '../common/makeCardanoWallet';
-import { ReactComponent as NamiLogo } from './nami-icon.svg';
+import NamiLogo from './nami-icon.svg';
 
 export const Nami: CardanoWalletContract = makeCardanoWallet({
   variableName: 'nami',
@@ -10,8 +8,8 @@ export const Nami: CardanoWalletContract = makeCardanoWallet({
     'https://chrome.google.com/webstore/detail/nami/lpfcbjknijpeeillifnkikgncikgfhdo?hl=en',
   walletSupportedFeatures: { createPool: false },
   name: 'Nami',
-  icon: <NamiLogo />,
+  icon: <img src={NamiLogo} width={32} height={32} />,
   testnetSwitchGuideUrl:
     'https://docs.spectrum.fi/docs/user-guides/change-wallet-to-testnet/#nami-wallet',
-  previewIcon: <NamiLogo width={21} height={21} />,
+  previewIcon: <img src={NamiLogo} width={21} height={21} />,
 });

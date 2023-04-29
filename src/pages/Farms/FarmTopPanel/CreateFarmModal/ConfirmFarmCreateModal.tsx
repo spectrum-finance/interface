@@ -7,12 +7,14 @@ import {
   Typography,
 } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
-import React from 'react';
+import { ElementLocation } from '@spectrumlabs/analytics';
+import * as React from 'react';
 import styled from 'styled-components';
 
 import { AssetIcon } from '../../../../components/AssetIcon/AssetIcon';
 import { OperationForm } from '../../../../components/OperationForm/OperationForm';
 import { Truncate } from '../../../../components/Truncate/Truncate';
+
 interface ConfirmFarmCreateModal {
   form: any;
   onClose: (request?: any) => void;
@@ -29,7 +31,6 @@ const StyledArrowLeftOutlined = styled(ArrowLeftOutlined)`
 
 export const ConfirmFarmCreateModal: React.FC<ConfirmFarmCreateModal> = ({
   form,
-  onClose,
 }) => {
   return (
     <>
@@ -37,6 +38,7 @@ export const ConfirmFarmCreateModal: React.FC<ConfirmFarmCreateModal> = ({
         <Flex align="center">
           <Flex.Item marginRight={5}>
             <Typography.Title level={5}>
+              {/* eslint-disable-next-line no-console */}
               <StyledArrowLeftOutlined onClick={() => console.log('close')} />
             </Typography.Title>
           </Flex.Item>
@@ -45,9 +47,9 @@ export const ConfirmFarmCreateModal: React.FC<ConfirmFarmCreateModal> = ({
       </Modal.Title>
       <Modal.Content maxWidth={480} width="100%">
         <OperationForm
-          analytics={{ location: 'create-farm' }}
+          traceFormLocation={ElementLocation.farmsList}
           form={form}
-          onSubmit={() => console.log('confirm')}
+          onSubmit={() => {}}
           actionCaption={t`Confirm farm creation`}
         >
           <Flex col gap={6}>

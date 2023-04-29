@@ -1,5 +1,5 @@
 import { Trans } from '@lingui/macro';
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { Position } from '../../../../../common/models/Position';

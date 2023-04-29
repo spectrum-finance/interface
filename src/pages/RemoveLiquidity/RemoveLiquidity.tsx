@@ -1,17 +1,15 @@
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
 import { Flex, Form, FormGroup, Skeleton, useForm } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { first, skip } from 'rxjs';
 
-// import { panalytics } from '../../common/analytics';
 import {
   useObservable,
   useSubscription,
 } from '../../common/hooks/useObservable';
 import { useParamsStrict } from '../../common/hooks/useParamsStrict';
-import { Currency } from '../../common/models/Currency';
 import { Position } from '../../common/models/Position';
 import { FormPairSection } from '../../components/common/FormView/FormPairSection/FormPairSection';
 import { FormSlider } from '../../components/common/FormView/FormSlider/FormSlider';
@@ -20,24 +18,20 @@ import { Page } from '../../components/Page/Page';
 import { PageHeader } from '../../components/Page/PageHeader/PageHeader';
 import { PageSection } from '../../components/Page/PageSection/PageSection';
 import { SubmitButton } from '../../components/SubmitButton/SubmitButton';
+import { fireOperationAnalyticsEvent } from '../../gateway/analytics/fireOperationAnalyticsEvent';
 import { redeem } from '../../gateway/api/operations/redeem';
 import { getPositionByAmmPoolId } from '../../gateway/api/positions';
 import { operationsSettings$ } from '../../gateway/widgets/operationsSettings';
 import { useGuardV2 } from '../../hooks/useGuard';
-
-export interface RemoveFormModel {
-  readonly percent: number;
-  readonly xAmount?: Currency;
-  readonly yAmount?: Currency;
-  readonly lpAmount?: Currency;
-}
+import { mapToRedeemAnalyticsProps } from '../../utils/analytics/mapper';
+import { RemoveLiquidityFormModel } from './RemoveLiquidityFormModel';
 
 export const RemoveLiquidity: FC = () => {
   const { poolId } = useParamsStrict<{ poolId: PoolId }>();
   const navigate = useNavigate();
   const [position, loading] = useObservable(getPositionByAmmPoolId(poolId));
   const [OperationSettings] = useObservable(operationsSettings$);
-  const form = useForm<RemoveFormModel>({
+  const form = useForm<RemoveLiquidityFormModel>({
     percent: 100,
     xAmount: undefined,
     yAmount: undefined,
@@ -75,21 +69,20 @@ export const RemoveLiquidity: FC = () => {
   );
 
   const handleRemove = (
-    form: FormGroup<RemoveFormModel>,
+    { value }: FormGroup<RemoveLiquidityFormModel>,
     poolData: Position,
   ) => {
-    const xAmount = form.value.xAmount || poolData.availableX;
-    const yAmount = form.value.yAmount || poolData.availableY;
-    const lpAmount = form.value.lpAmount || poolData.availableLp;
-    const percent = form.value.percent;
+    const xAmount = value.xAmount || poolData.availableX;
+    const yAmount = value.yAmount || poolData.availableY;
+    const lpAmount = value.lpAmount || poolData.availableLp;
+    const percent = value.percent;
 
     redeem(poolData.pool, { xAmount, yAmount, lpAmount, percent })
       .pipe(first())
       .subscribe();
-    // panalytics.submitRedeem(
-    //   { xAmount, yAmount, lpAmount, percent },
-    //   poolData.pool,
-    // );
+    fireOperationAnalyticsEvent('Redeem Form Submit', (ctx) =>
+      mapToRedeemAnalyticsProps(value, poolData.pool, ctx),
+    );
   };
 
   return (
@@ -124,11 +117,6 @@ export const RemoveLiquidity: FC = () => {
                 yAmount={formValue?.yAmount || position.availableY}
               />
             </Flex.Item>
-
-            {/*TODO: ADD_FEES_DISPLAY_AFTER_SDK_UPDATE[EDEX-468]*/}
-            {/*<Flex.Item marginBottom={4}>*/}
-            {/*  <TokenSpace title="Earned Fees" pair={pair} fees />*/}
-            {/*</Flex.Item>*/}
 
             <Flex.Item>
               <SubmitButton

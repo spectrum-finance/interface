@@ -1,10 +1,9 @@
 import { Box, Flex, Typography } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { AmmPool } from '../../../common/models/AmmPool';
 import { formatToUSD } from '../../../services/number';
-import { renderFractions } from '../../../utils/math';
 import { AssetPairTitle } from '../../AssetPairTitle/AssetPairTitle';
 import { DataTag } from '../../common/DataTag/DataTag';
 

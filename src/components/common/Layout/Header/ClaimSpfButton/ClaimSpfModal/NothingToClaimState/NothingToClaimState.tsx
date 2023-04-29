@@ -1,6 +1,6 @@
 import { Button, Flex, Typography } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { useMatch, useNavigate } from 'react-router-dom';
 
 import { useSelectedNetwork } from '../../../../../../../gateway/common/network';

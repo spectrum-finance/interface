@@ -1,5 +1,5 @@
 import { Modal } from '@ergolabs/ui-kit';
-import React, { FC, ReactNode } from 'react';
+import { FC, ReactNode } from 'react';
 
 import { Farm } from '../../../common/models/Farm';
 import { FarmOperationModalHeader } from './FarmOperationModalHeader/FarmOperationModalHeader';

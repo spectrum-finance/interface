@@ -7,7 +7,7 @@ import {
   Typography,
 } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 export interface ErrorStateProps {
   readonly onReloadClick: () => void;

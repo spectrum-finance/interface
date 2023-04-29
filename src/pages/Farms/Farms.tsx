@@ -1,6 +1,5 @@
 import { Flex } from '@ergolabs/ui-kit';
 import flow from 'lodash/flow';
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useObservable } from '../../common/hooks/useObservable';

@@ -7,11 +7,11 @@ import {
   useForm,
 } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
+import { ElementLocation, ElementName } from '@spectrumlabs/analytics';
 import maxBy from 'lodash/maxBy';
-import React, { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { first, skip } from 'rxjs';
 
-// import { panalytics } from '../../../common/analytics';
 import { useSubscription } from '../../../common/hooks/useObservable';
 import { AmmPool } from '../../../common/models/AmmPool';
 import { AssetInfo } from '../../../common/models/AssetInfo';
@@ -24,10 +24,12 @@ import {
 } from '../../../components/OperationForm/OperationForm';
 import { PoolSelector } from '../../../components/PoolSelector/PoolSelector';
 import { Section } from '../../../components/Section/Section';
+import { fireOperationAnalyticsEvent } from '../../../gateway/analytics/fireOperationAnalyticsEvent';
 import { useAssetsBalance } from '../../../gateway/api/assetBalance';
 import { deposit } from '../../../gateway/api/operations/deposit';
 import { useHandleDepositMaxButtonClick } from '../../../gateway/api/useHandleDepositMaxButtonClick';
 import { useDepositValidators } from '../../../gateway/api/validationFees';
+import { mapToDepositAnalyticsProps } from '../../../utils/analytics/mapper';
 import { PoolRatio } from '../../PoolOverview/PoolRatio/PoolRatio';
 import { LiquidityPercentInput } from '../LiquidityPercentInput/LiquidityPercentInput';
 import { AddLiquidityFormModel } from './AddLiquidityFormModel';
@@ -216,7 +218,9 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
     deposit(value as Required<AddLiquidityFormModel>)
       .pipe(first())
       .subscribe(() => resetForm());
-    // panalytics.submitDeposit(value);
+    fireOperationAnalyticsEvent('Deposit Form Submit', (ctx) =>
+      mapToDepositAnalyticsProps(value, ctx),
+    );
   };
 
   const handleMaxLiquidityClick = (pct: number) => {
@@ -245,11 +249,11 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
 
   return (
     <OperationForm
-      analytics={{ location: 'add-liquidity' }}
       form={form}
       onSubmit={addLiquidityAction}
       validators={validators}
       actionCaption={t`Add Liquidity`}
+      traceFormLocation={ElementLocation.depositForm}
     >
       <Flex col>
         <Flex.Item marginBottom={4}>
@@ -262,12 +266,6 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
                       ammPools={pools}
                       value={value}
                       onChange={onChange}
-                      // afterSelectOverlayOpen={() =>
-                      // panalytics.clickPoolSelectDeposit()
-                      // }
-                      // afterAmmPoolSelected={(ammPool) =>
-                      // panalytics.selectPoolDeposit(ammPool)
-                      // }
                     />
                   )}
                 </Form.Item>
@@ -277,7 +275,6 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
                   size="large"
                   onClick={() => {
                     if (onNewPoolButtonClick) {
-                      // panalytics.clickCreatePoolDeposit();
                       onNewPoolButtonClick();
                     }
                   }}
@@ -300,6 +297,10 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
             <Flex col>
               <Flex.Item marginBottom={2}>
                 <AssetControlFormItem
+                  trace={{
+                    element_location: ElementLocation.depositForm,
+                    element_name: ElementName.tokenX,
+                  }}
                   amountName="x"
                   tokenName="xAsset"
                   readonly="asset"
@@ -307,6 +308,10 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
               </Flex.Item>
               <Flex.Item>
                 <AssetControlFormItem
+                  trace={{
+                    element_location: ElementLocation.depositForm,
+                    element_name: ElementName.tokenY,
+                  }}
                   amountName="y"
                   tokenName="yAsset"
                   readonly="asset"

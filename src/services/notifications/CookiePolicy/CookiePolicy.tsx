@@ -8,9 +8,9 @@ import {
   useDevice,
 } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
-import React from 'react';
+import { fireAnalyticsEvent } from '@spectrumlabs/analytics';
+import * as React from 'react';
 
-// import { panalytics } from '../../../common/analytics';
 import { localStorageManager } from '../../../common/utils/localStorageManager';
 
 const COOKIE_POLICY_NOTIFICATION_KEY = 'cookie-policy';
@@ -22,13 +22,13 @@ const CookiePolicy: React.FC<{ notification: typeof notification }> = ({
 
   const reject = () => {
     localStorageManager.set(COOKIE_POLICY_NOTIFICATION_KEY, 'reject');
-    // panalytics.rejectCookies();
+    fireAnalyticsEvent('Cookies Rejected');
     notification.close(COOKIE_POLICY_NOTIFICATION_KEY);
   };
 
   const accept = () => {
     localStorageManager.set(COOKIE_POLICY_NOTIFICATION_KEY, 'accept');
-    // panalytics.acceptCookies();
+    fireAnalyticsEvent('Cookies Accepted');
     notification.close(COOKIE_POLICY_NOTIFICATION_KEY);
   };
 

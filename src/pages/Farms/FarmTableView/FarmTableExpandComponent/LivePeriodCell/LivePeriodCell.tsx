@@ -6,7 +6,7 @@ import {
   useDevice,
 } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { Farm, FarmStatus } from '../../../../../common/models/Farm';
 

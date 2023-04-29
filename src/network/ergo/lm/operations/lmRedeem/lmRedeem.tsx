@@ -1,5 +1,5 @@
 import { Modal } from '@ergolabs/ui-kit';
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { first, Observable, Subject, switchMap, tap } from 'rxjs';
 
 import { Currency } from '../../../../../common/models/Currency';

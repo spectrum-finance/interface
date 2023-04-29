@@ -10,10 +10,10 @@ import {
   Typography,
 } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
+import { fireAnalyticsEvent, user } from '@spectrumlabs/analytics';
 import capitalize from 'lodash/capitalize';
-import React from 'react';
+import * as React from 'react';
 
-// import { panalytics } from '../../../../../common/analytics';
 import {
   changeSelectedNetwork,
   networks,
@@ -43,7 +43,10 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
         <Menu.Item
           key={network.name}
           onClick={() => {
-            // panalytics.changeNetwork(network.name);
+            fireAnalyticsEvent('Select Network', {
+              network: network.name,
+            });
+            user.set('network_active', network.name);
             changeSelectedNetwork(network);
           }}
         >

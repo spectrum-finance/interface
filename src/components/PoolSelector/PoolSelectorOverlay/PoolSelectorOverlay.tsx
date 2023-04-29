@@ -1,6 +1,6 @@
 import { Box, Flex, LoadingDataState, SearchDataState } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
-import React, { FC } from 'react';
+import { FC } from 'react';
 import styled from 'styled-components';
 
 import { AmmPool } from '../../../common/models/AmmPool';

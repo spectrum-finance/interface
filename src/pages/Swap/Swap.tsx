@@ -9,9 +9,14 @@ import {
   useForm,
 } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
+import {
+  ElementLocation,
+  ElementName,
+  fireAnalyticsEvent,
+} from '@spectrumlabs/analytics';
 import findLast from 'lodash/findLast';
 import maxBy from 'lodash/maxBy';
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import {
   BehaviorSubject,
   combineLatest,
@@ -26,7 +31,6 @@ import {
   zip,
 } from 'rxjs';
 
-// import { panalytics } from '../../common/analytics';
 import {
   useObservable,
   useSubscription,
@@ -44,6 +48,10 @@ import {
   OperationValidator,
 } from '../../components/OperationForm/OperationForm';
 import { Page } from '../../components/Page/Page';
+import {
+  EventProducerContext,
+  fireOperationAnalyticsEvent,
+} from '../../gateway/analytics/fireOperationAnalyticsEvent';
 import { ammPools$, getAmmPoolsByAssetPair } from '../../gateway/api/ammPools';
 import { useAssetsBalance } from '../../gateway/api/assetBalance';
 import {
@@ -59,6 +67,7 @@ import { swap } from '../../gateway/api/operations/swap';
 import { useHandleSwapMaxButtonClick } from '../../gateway/api/useHandleSwapMaxButtonClick';
 import { useSwapValidators } from '../../gateway/api/validationFees';
 import { operationsSettings$ } from '../../gateway/widgets/operationsSettings';
+import { mapToSwapAnalyticsProps } from '../../utils/analytics/mapper';
 import { PoolSelector } from './PoolSelector/PoolSelector';
 import { SwapFormModel } from './SwapFormModel';
 import { SwapGraph } from './SwapGraph/SwapGraph';
@@ -186,7 +195,11 @@ export const Swap = (): JSX.Element => {
     swap(value as Required<SwapFormModel>)
       .pipe(first())
       .subscribe(() => resetForm());
-    // panalytics.submitSwap(value);
+
+    fireOperationAnalyticsEvent(
+      'Swap Form Submit',
+      (ctx: EventProducerContext) => mapToSwapAnalyticsProps(value, ctx),
+    );
   };
 
   const resetForm = () =>
@@ -358,7 +371,7 @@ export const Swap = (): JSX.Element => {
       { emitEvent: 'silent' },
     );
     setLastEditedField((prev) => (prev === 'from' ? 'to' : 'from'));
-    // panalytics.switchSwap();
+    fireAnalyticsEvent('Swap Click Switch');
   };
 
   const [pool] = useObservable(form.controls.pool.valueChangesWithSilent$);
@@ -395,7 +408,7 @@ export const Swap = (): JSX.Element => {
       onWidgetClose={() => setLeftWidgetOpened(false)}
     >
       <OperationForm
-        analytics={{ location: 'swap' }}
+        traceFormLocation={ElementLocation.swapForm}
         actionCaption={t`Swap`}
         form={form}
         onSubmit={submitSwap}
@@ -432,10 +445,9 @@ export const Swap = (): JSX.Element => {
               importedAssets$={importedTokenAssets$}
               amountName="fromAmount"
               tokenName="fromAsset"
-              analytics={{
-                operation: 'swap',
-                location: 'swap',
-                tokenAssignment: 'from',
+              trace={{
+                element_name: ElementName.tokenFrom,
+                element_location: ElementLocation.swapForm,
               }}
             />
           </Flex.Item>
@@ -453,10 +465,9 @@ export const Swap = (): JSX.Element => {
               importedAssets$={toImportedAssets$}
               amountName="toAmount"
               tokenName="toAsset"
-              analytics={{
-                operation: 'swap',
-                location: 'swap',
-                tokenAssignment: 'to',
+              trace={{
+                element_name: ElementName.tokenTo,
+                element_location: ElementLocation.swapForm,
               }}
             />
           </Flex.Item>

@@ -1,11 +1,13 @@
 import { Control, List, Modal, ModalRef } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
-import React, { FC, useEffect } from 'react';
+import { fireAnalyticsEvent } from '@spectrumlabs/analytics';
+import { FC, useEffect } from 'react';
 
 // import { panalytics } from '../../../../common/analytics';
 import { useSubject } from '../../../../common/hooks/useObservable';
 import { AmmPool } from '../../../../common/models/AmmPool';
 import { getAmmPoolsByAssetPair } from '../../../../gateway/api/ammPools';
+import { mapToAmmPoolAnalyticsProps } from '../../../../utils/analytics/mapper';
 import { PoolItemView } from './PoolItemView/PoolItemView';
 
 interface PoolSelectorModalProps extends ModalRef<boolean> {
@@ -30,7 +32,7 @@ export const PoolSelectorModal: FC<PoolSelectorModalProps> = ({
     if (onChange) {
       onChange(pool);
       close();
-      // panalytics.changePoolSwap(pool);
+      fireAnalyticsEvent('Swap Change Pool', mapToAmmPoolAnalyticsProps(pool));
     }
   };
 

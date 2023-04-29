@@ -1,5 +1,5 @@
 import { Flex } from '@ergolabs/ui-kit';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { Operation } from '../../../../../../common/models/Operation';
 import { ArrowIcon } from '../SwapAssetCell/ArrowIcon/ArrowIcon';

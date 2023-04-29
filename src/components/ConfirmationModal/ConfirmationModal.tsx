@@ -3,13 +3,12 @@ import { Flex, Modal, ModalRef, Typography } from '@ergolabs/ui-kit';
 import { RequestProps } from '@ergolabs/ui-kit/dist/components/Modal/presets/Request';
 import { t, Trans } from '@lingui/macro';
 import { DateTime } from 'luxon';
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { TimeoutError } from 'rxjs';
 
 import { applicationConfig } from '../../applicationConfig';
 import { ReactComponent as DiscordIcon } from '../../assets/icons/social/Discord.svg';
 import { ReactComponent as TelegramIcon } from '../../assets/icons/social/Telegram.svg';
-// import { panalytics } from '../../common/analytics';
 import { AssetLock } from '../../common/models/AssetLock';
 import { Currency } from '../../common/models/Currency';
 import { exploreTx } from '../../gateway/utils/exploreAddress';
@@ -161,7 +160,7 @@ const SuccessModalContent = (txId: TxId) => (
   </Flex>
 );
 
-const SuccessErgopayContent = (txId: TxId) => (
+const SuccessErgopayContent = () => (
   <Flex col align="center">
     Test
     {/*<Flex.Item marginBottom={1}>*/}
@@ -207,7 +206,6 @@ const YoroiIssueModalContent = () => (
             href={applicationConfig.support.discord}
             target="_blank"
             rel="noreferrer"
-            // onClick={() => panalytics.clickSocial('Discord', 'chaining-modal')}
           >
             <DiscordIcon style={{ cursor: 'pointer' }} />
           </a>
@@ -218,7 +216,6 @@ const YoroiIssueModalContent = () => (
             href={applicationConfig.support.telegram}
             target="_blank"
             rel="noreferrer"
-            // onClick={() => panalytics.clickSocial('Telegram', 'chaining-modal')}
           >
             <TelegramIcon style={{ cursor: 'pointer' }} />
           </a>
@@ -248,12 +245,12 @@ export const openConfirmationModal = (
         : ProgressModalContent(operation, payload),
     successContent: (txId) => {
       return operation === Operation.ERGOPAY
-        ? SuccessErgopayContent(txId)
+        ? SuccessErgopayContent()
         : SuccessModalContent(txId);
     },
     success:
       operation === Operation.ERGOPAY
-        ? (txId) => SuccessErgopayContent(txId)
+        ? () => SuccessErgopayContent()
         : undefined,
     onCancel,
   });

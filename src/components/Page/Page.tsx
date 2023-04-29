@@ -10,7 +10,8 @@ import {
   Typography,
   useDevice,
 } from '@ergolabs/ui-kit';
-import React, { CSSProperties, FC, ReactNode } from 'react';
+import { CSSProperties, FC, ReactNode } from 'react';
+import * as React from 'react';
 import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import styled, { css } from 'styled-components';

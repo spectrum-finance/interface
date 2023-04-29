@@ -12,7 +12,8 @@ import {
 import { Trans } from '@lingui/macro';
 import sortedUniqBy from 'lodash/sortedUniqBy';
 import { DateTime } from 'luxon';
-import React, { ReactNode, useCallback, useMemo, useState } from 'react';
+import { ReactNode, useCallback, useMemo, useState } from 'react';
+import * as React from 'react';
 import {
   Area,
   AreaChart,

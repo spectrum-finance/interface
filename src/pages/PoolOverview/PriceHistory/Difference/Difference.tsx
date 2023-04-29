@@ -1,7 +1,7 @@
 import { Alert, Box, Typography } from '@ergolabs/ui-kit';
 import { AlertProps } from 'antd/lib/alert';
 import { BaseType } from 'antd/lib/typography/Base';
-import React from 'react';
+import * as React from 'react';
 
 import { Ratio } from '../../../../common/models/Ratio';
 

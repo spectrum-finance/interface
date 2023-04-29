@@ -1,6 +1,6 @@
 import { LoadingDataState, Modal } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 export const ErgoPayRequestLoadingContent: FC = () => (
   <>

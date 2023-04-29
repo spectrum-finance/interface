@@ -1,6 +1,6 @@
 import { Box, Control, Input, Select } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
-import React, { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { LabeledContent } from '../../../../../components/LabeledContent/LabeledContent';

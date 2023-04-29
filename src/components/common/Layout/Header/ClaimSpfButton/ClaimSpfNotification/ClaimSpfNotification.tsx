@@ -2,14 +2,14 @@ import './ClaimSpfNotification.less';
 
 import { Button, Flex, notification, Typography } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
-import React, { FC } from 'react';
+import { FC } from 'react';
 import styled from 'styled-components';
 
 import { localStorageManager } from '../../../../../../common/utils/localStorageManager';
 import { SpfReward } from '../../../../../../network/ergo/api/spfFaucet/spfReward';
 import { ClaimSpfStatusResponse } from '../../../../../../network/ergo/api/spfFaucet/spfStatus';
-import { ReactComponent as SpfTokenIcon } from '../spf-token.svg';
-import { ReactComponent as BottomBackground } from './bottom-background.svg';
+import SpfTokenIcon from '../spf-token.svg';
+import BottomBackground from './bottom-background.svg';
 
 export interface ClaimSpfNotificationProps {
   readonly className?: string;
@@ -30,11 +30,11 @@ const _ClaimSpfNotification: FC<ClaimSpfNotificationProps> = ({
 }) => (
   <div className={className}>
     <BottomBackgroundContainer>
-      <BottomBackground />
+      <img src={BottomBackground} />
     </BottomBackgroundContainer>
     <Flex col align="center">
       <Flex.Item marginBottom={6}>
-        <SpfTokenIcon />
+        <img src={SpfTokenIcon} />
       </Flex.Item>
       <Flex.Item marginBottom={2}>
         <Typography.Title level={4}>

@@ -1,8 +1,8 @@
 import { Flex, Tabs, Typography } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
-import React, { FC, useCallback } from 'react';
+import { fireAnalyticsEvent, user } from '@spectrumlabs/analytics';
+import { FC, useCallback } from 'react';
 
-// import { panalytics } from '../../common/analytics';
 import { useApplicationSettings } from '../../context';
 
 export const ThemeSwitch: FC = () => {
@@ -11,11 +11,13 @@ export const ThemeSwitch: FC = () => {
 
   const handleChangeTheme = useCallback(
     (key: 'dark' | 'light' | 'system') => {
+      user.set('theme_active', key);
       setSettings({
         ...settings,
         theme: key,
       });
-      // panalytics.changeTheme(key);
+      fireAnalyticsEvent('Select Theme', { theme: key });
+      user.set('theme_active', key);
     },
     [settings, setSettings],
   );

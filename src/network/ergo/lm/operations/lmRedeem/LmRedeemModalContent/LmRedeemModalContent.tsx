@@ -1,6 +1,6 @@
 import { Button, Flex, Typography } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
-import React, { FC, useState } from 'react';
+import { FC, useState } from 'react';
 import { Observable } from 'rxjs';
 
 import { TxId } from '../../../../../../common/types';

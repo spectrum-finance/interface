@@ -1,13 +1,14 @@
 import { Button, Flex, Form, Modal, useForm } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { Observable, tap } from 'rxjs';
 
-// import { panalytics } from '../../common/analytics';
 import { AmmPool } from '../../common/models/AmmPool';
 import { Currency } from '../../common/models/Currency';
 import { TxId } from '../../common/types';
+import { fireOperationAnalyticsEvent } from '../../gateway/analytics/fireOperationAnalyticsEvent';
 import { SwapFormModel } from '../../pages/Swap/SwapFormModel';
+import { mapToSwapAnalyticsProps } from '../../utils/analytics/mapper';
 import { CurrencyPreview } from '../CurrencyPreview/CurrencyPreview';
 
 export interface BaseSwapConfirmationModalProps<T extends AmmPool> {
@@ -24,19 +25,34 @@ export const BaseSwapConfirmationModal: FC<
 
   const swapOperation = async () => {
     if (value.pool && value.fromAmount && value.toAmount) {
-      // panalytics.confirmSwap(value);
+      fireOperationAnalyticsEvent('Swap Modal Confirm', (ctx) =>
+        mapToSwapAnalyticsProps(value, ctx),
+      );
       onClose(
-        swap(value.pool, value.fromAmount, value.toAmount),
-        // .pipe(
-        //   tap(
-        //     (txId) => {
-        //       panalytics.signedSwap(value, txId);
-        //     },
-        //     (err) => {
-        //       panalytics.signedErrorSwap(value, err);
-        //     },
-        //   ),
-        // ),
+        swap(value.pool, value.fromAmount, value.toAmount).pipe(
+          tap(
+            () => {
+              fireOperationAnalyticsEvent('Swap Signed Success', (ctx) =>
+                mapToSwapAnalyticsProps(value, ctx),
+              );
+            },
+            (err) => {
+              if (err.code === 2) {
+                fireOperationAnalyticsEvent('Swap Cancel Sign', (ctx) =>
+                  mapToSwapAnalyticsProps(value, ctx),
+                );
+                return;
+              }
+              fireOperationAnalyticsEvent(
+                'Swap Modal Confirm Error',
+                (ctx) => ({
+                  ...mapToSwapAnalyticsProps(value, ctx),
+                  error_string: JSON.stringify(err),
+                }),
+              );
+            },
+          ),
+        ),
       );
     }
   };

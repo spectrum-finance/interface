@@ -9,7 +9,7 @@ import {
   Tooltip,
 } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
-import React, { FC } from 'react';
+import { FC } from 'react';
 import styled from 'styled-components';
 
 import { OperationStatus } from '../../../../../../common/models/Operation';

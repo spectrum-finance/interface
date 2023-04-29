@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
-  <link rel="icon" href="%PUBLIC_URL%/favicon.svg"/>
+  <link rel="icon" href="/favicon.svg"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="theme-color" content="#000000"/>
   <meta
@@ -11,9 +11,9 @@
   />
   <meta http-equiv="Cache-control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
-  <meta property="og:image" content="%PUBLIC_URL%/og-image.png">
-  <link rel="apple-touch-icon" href="%PUBLIC_URL%/apple-touch-icon.png"/>
-  <link rel="manifest" href="%PUBLIC_URL%/manifest.json"/>
+  <meta property="og:image" content="/og-image.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+  <link rel="manifest" href="/manifest.json"/>
   <title>Spectrum</title>
   <style>
     #root { height: 100% }
@@ -23,5 +23,7 @@
 <body>
 <noscript>You should enable JavaScript to run this app.</noscript>
 <div id="root"></div>
+<script type="module" src="/src/nodespecific.ts"></script>
+<script type="module" src="/src/index.tsx"></script>
 </body>
 </html>

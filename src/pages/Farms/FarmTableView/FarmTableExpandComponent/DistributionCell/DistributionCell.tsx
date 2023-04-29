@@ -1,6 +1,6 @@
 import { Box, Flex, Progress, Typography } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { Farm } from '../../../../../common/models/Farm';
 

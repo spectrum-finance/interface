@@ -1,7 +1,7 @@
 import { Address, TxId } from '@ergolabs/ergo-sdk';
-import { Button, ButtonProps, Tooltip } from '@ergolabs/ui-kit';
+import { Button, ButtonProps, Icon, Tooltip } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
-import React from 'react';
+import * as React from 'react';
 
 import { ReactComponent as ExploreIcon } from '../../../assets/icons/icon-explore.svg';
 import {
@@ -36,7 +36,7 @@ const ExploreButton: React.FC<ExploreButtonProps> = ({
           handleExplore(to);
         }}
         style={{ lineHeight: '24px' }}
-        icon={<ExploreIcon />}
+        icon={<Icon component={ExploreIcon} />}
       />
     </Tooltip>
   );

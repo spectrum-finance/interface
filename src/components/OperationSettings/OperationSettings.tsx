@@ -11,7 +11,7 @@ import {
   useForm,
 } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
-import React, { FC, useState } from 'react';
+import { FC, useState } from 'react';
 import { filter, skip } from 'rxjs';
 
 import { applicationConfig } from '../../applicationConfig';

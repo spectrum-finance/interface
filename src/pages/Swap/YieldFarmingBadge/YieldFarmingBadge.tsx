@@ -1,11 +1,11 @@
-import { Box, Flex, Typography } from '@ergolabs/ui-kit';
+import { Box, Flex, Icon, Typography } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { ReactComponent as DarkBannerBgLeft } from './banner-bg-left.svg';
-import { ReactComponent as DarkBannerBgRight } from './banner-bg-right.svg';
+import BannerBgLeft from './banner-bg-left.png';
+import BannerBgRight from './banner-bg-right.png';
 import { ReactComponent as LinkIcon } from './link.svg';
 
 const BannerBackground = styled.div`
@@ -13,6 +13,7 @@ const BannerBackground = styled.div`
   left: 0;
   right: 0;
   position: absolute;
+  height: 100%;
   z-index: -1;
 `;
 
@@ -35,8 +36,8 @@ const _YieldFarmingBadge: FC<{ className?: string }> = ({ className }) => {
     >
       <BannerBackground>
         <Flex justify="space-between" stretch width="100%">
-          <DarkBannerBgLeft />
-          <DarkBannerBgRight />
+          <img src={BannerBgLeft} />
+          <img src={BannerBgRight} />
         </Flex>
       </BannerBackground>
       <Flex stretch justify="space-between" align="center">
@@ -49,7 +50,7 @@ const _YieldFarmingBadge: FC<{ className?: string }> = ({ className }) => {
           </Typography.Body>
         </Flex>
         <Typography.Body style={{ lineHeight: 0 }}>
-          <LinkIcon />
+          <Icon component={LinkIcon} style={{ fontSize: 22 }} />
         </Typography.Body>
       </Flex>
     </Box>
@@ -61,7 +62,6 @@ export const YieldFarmingBadge = styled(_YieldFarmingBadge)`
   overflow: hidden;
   position: relative;
   z-index: 1;
-
   h4,
   span {
     color: var(--spectrum-primary-color) !important;

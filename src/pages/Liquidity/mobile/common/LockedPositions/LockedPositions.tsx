@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { TableView } from '../../../../../components/TableView/TableView';
 import { PairColumn } from '../../../common/columns/LockedPositionsColumns/PairColumn/PairColumn';

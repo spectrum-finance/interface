@@ -1,9 +1,7 @@
 import { AmmPool as CardanoBaseAmmPool } from '@ergolabs/cardano-dex-sdk';
 import { AmmPool as ErgoBaseAmmPool } from '@ergolabs/ergo-dex-sdk';
-import { cache } from 'decorator-cache-getter';
 import { evaluate } from 'mathjs';
 
-import { AnalyticsData } from '../../services/new/analytics';
 import { math, renderFractions } from '../../utils/math';
 import { AssetInfo } from './AssetInfo';
 import { Currency } from './Currency';
@@ -53,17 +51,14 @@ export abstract class AmmPool {
 
   abstract calculateOutputAmount(currency: Currency): Currency;
 
-  @cache
   get poolFee(): number {
     return evaluate(`(1 - ${this.feeNum} / 1000) * 100`).toFixed(1);
   }
 
-  @cache
   get xRatio(): Ratio {
     return this.getRatio(this.x, this.y);
   }
 
-  @cache
   get yRatio(): Ratio {
     return this.getRatio(this.y, this.x);
   }

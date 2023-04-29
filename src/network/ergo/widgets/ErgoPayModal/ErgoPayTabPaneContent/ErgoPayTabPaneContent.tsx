@@ -1,5 +1,5 @@
 import { useDevice } from '@ergolabs/ui-kit';
-import React, { FC, useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import { of } from 'rxjs';
 
 // import { panalytics } from '../../../../../common/analytics';

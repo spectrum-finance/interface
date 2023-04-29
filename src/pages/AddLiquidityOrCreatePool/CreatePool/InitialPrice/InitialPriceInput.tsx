@@ -8,7 +8,7 @@ import {
   SwapOutlined,
   Typography,
 } from '@ergolabs/ui-kit';
-import React, { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { AssetInfo } from '../../../../common/models/AssetInfo';

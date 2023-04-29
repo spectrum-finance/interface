@@ -8,13 +8,14 @@ import {
   useDevice,
   useFormContext,
 } from '@ergolabs/ui-kit';
-import React, { FC, ReactNode } from 'react';
+import { fireAnalyticsEvent, TraceProps } from '@spectrumlabs/analytics';
+import { FC, ReactNode } from 'react';
 import { Observable, of } from 'rxjs';
 
-// import { PAnalytics } from '../../../common/analytics/@types/types';
 import { useObservable } from '../../../common/hooks/useObservable';
 import { Currency } from '../../../common/models/Currency';
 import { useAssetsBalance } from '../../../gateway/api/assetBalance';
+import { mapToTokenProps } from '../../../utils/analytics/mapper';
 import { ConvenientAssetView } from '../../ConvenientAssetView/ConvenientAssetView';
 import {
   AssetAmountInput,
@@ -66,7 +67,7 @@ export interface AssetControlFormItemProps {
   readonly readonly?: boolean | 'asset' | 'amount';
   readonly noBottomInfo?: boolean;
   readonly bordered?: boolean;
-  readonly analytics?: any;
+  readonly trace: TraceProps;
   readonly loading?: boolean;
 }
 
@@ -80,7 +81,7 @@ export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
   disabled,
   readonly,
   handleMaxButtonClick,
-  analytics,
+  trace,
   loading,
 }) => {
   const { valBySize } = useDevice();
@@ -96,7 +97,11 @@ export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
       const newAmount = handleMaxButtonClick
         ? handleMaxButtonClick(maxBalance)
         : maxBalance;
-
+      fireAnalyticsEvent('Click MAX Button', {
+        ...mapToTokenProps(newAmount.asset),
+        element_location: trace.element_location,
+        element_name: trace.element_name,
+      });
       form.controls[amountName].patchValue(
         newAmount.isPositive() ? newAmount : maxBalance,
       );
@@ -151,7 +156,7 @@ export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
                     value={value}
                     onChange={onChange}
                     disabled={disabled}
-                    analytics={analytics}
+                    trace={trace}
                   />
                 )}
               </Form.Item>

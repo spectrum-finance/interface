@@ -1,6 +1,6 @@
 import { Alert } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { IsCardano } from '../../../components/IsCardano/IsCardano';
 import { IsErgo } from '../../../components/IsErgo/IsErgo';

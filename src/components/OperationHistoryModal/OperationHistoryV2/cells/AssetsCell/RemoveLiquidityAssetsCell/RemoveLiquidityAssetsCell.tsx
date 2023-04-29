@@ -1,5 +1,5 @@
 import { Flex } from '@ergolabs/ui-kit';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { RemoveLiquidityItem } from '../../../../../../network/ergo/api/operations/history/v2/types/RemoveLiquidityOperation';
 import { PairAssetBox } from '../../../common/PairAssetBox/PairAssetBox';

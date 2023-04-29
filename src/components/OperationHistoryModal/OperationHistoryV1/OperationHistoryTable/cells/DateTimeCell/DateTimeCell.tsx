@@ -1,6 +1,6 @@
 import { Flex, Typography } from '@ergolabs/ui-kit';
 import { DateTime } from 'luxon';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { DateTimeView } from '../../../../../common/DateTimeView/DateTimeView';
 

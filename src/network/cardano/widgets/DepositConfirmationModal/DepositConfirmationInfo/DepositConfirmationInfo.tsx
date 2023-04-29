@@ -1,6 +1,6 @@
 import { Flex, Typography } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { BoxInfoItem } from '../../../../../components/BoxInfoItem/BoxInfoItem';
 import {

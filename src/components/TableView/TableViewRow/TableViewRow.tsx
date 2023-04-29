@@ -1,5 +1,5 @@
 import { Flex, getGutter, Gutter } from '@ergolabs/ui-kit';
-import React, { CSSProperties, FC, PropsWithChildren } from 'react';
+import { CSSProperties, FC, PropsWithChildren } from 'react';
 import styled, { css } from 'styled-components';
 
 import { normalizeMeasure } from '../../List/utils/normalizeMeasure';

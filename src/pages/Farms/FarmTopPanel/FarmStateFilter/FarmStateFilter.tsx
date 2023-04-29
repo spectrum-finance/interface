@@ -6,11 +6,10 @@ import {
   Typography,
 } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
-import React, { FC } from 'react';
+import { FC } from 'react';
 import styled from 'styled-components';
 
 import { FarmStatus } from '../../../../common/models/Farm';
-import { FarmStateCaptions } from './FarmState';
 
 const StyledButton = styled(Button)`
   padding: 0 8px;
@@ -34,16 +33,16 @@ export const FarmStateFilter: FC<FarmStateFilterProps> = ({
         overlay={
           <Menu>
             <Menu.Item onClick={() => onChange(FarmStatus.All)}>
-              {FarmStateCaptions[FarmStatus.All]}
+              <Trans>All</Trans>
             </Menu.Item>
             <Menu.Item onClick={() => onChange(FarmStatus.Live)}>
-              {FarmStateCaptions[FarmStatus.Live]}
+              <Trans>Live</Trans>
             </Menu.Item>
             <Menu.Item onClick={() => onChange(FarmStatus.Scheduled)}>
-              {FarmStateCaptions[FarmStatus.Scheduled]}
+              <Trans>Scheduled</Trans>
             </Menu.Item>
             <Menu.Item onClick={() => onChange(FarmStatus.Finished)}>
-              {FarmStateCaptions[FarmStatus.Finished]}
+              <Trans>Finished</Trans>
             </Menu.Item>
           </Menu>
         }

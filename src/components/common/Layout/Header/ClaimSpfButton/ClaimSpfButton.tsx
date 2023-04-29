@@ -1,6 +1,6 @@
 import { Button, Modal, ModalRef } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
-import React, { FC, MouseEvent, useEffect, useState } from 'react';
+import { FC, MouseEvent, useEffect, useState } from 'react';
 import Confetti from 'react-confetti';
 import { useWindowSize } from 'react-use';
 import styled from 'styled-components';
@@ -14,13 +14,13 @@ import {
   SpfStatus,
   spfStatus$,
 } from '../../../../../network/ergo/api/spfFaucet/spfStatus';
-import { ReactComponent as BottomBackground } from './bottom-background.svg';
+import BottomBackground from './bottom-background.svg';
 import { ClaimSpfModal } from './ClaimSpfModal/ClaimSpfModal';
 import {
   hideClaimSpfNotification,
   openClaimSpfNotification,
 } from './ClaimSpfNotification/ClaimSpfNotification';
-import { ReactComponent as TopBackground } from './top-background.svg';
+import TopBackground from './top-background.svg';
 
 const StyledButton = styled(Button)`
   cursor: pointer !important;
@@ -122,10 +122,10 @@ export const ClaimSpfButton: FC = () => {
             }
           >
             <TopBackgroundContainer>
-              <TopBackground />
+              <img src={TopBackground} />
             </TopBackgroundContainer>
             <BottomBackgroundContainer>
-              <BottomBackground />
+              <img src={BottomBackground} />
             </BottomBackgroundContainer>
             {claimSpfStatus.status === SpfStatus.Pending ||
             claimSpfStatus.status === SpfStatus.WaitingConfirmation

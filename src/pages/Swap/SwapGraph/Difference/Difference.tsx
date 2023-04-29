@@ -1,6 +1,6 @@
 import { Typography } from '@ergolabs/ui-kit';
 import { BaseType } from 'antd/lib/typography/Base';
-import React from 'react';
+import * as React from 'react';
 
 import { Ratio } from '../../../../common/models/Ratio';
 
