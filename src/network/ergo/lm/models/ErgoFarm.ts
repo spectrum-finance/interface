@@ -222,7 +222,6 @@ export class ErgoFarm implements Farm<ErgoBaseLmPool> {
     );
   }
 
-  @cache
   get isTest(): boolean {
     return applicationConfig.testFarms.includes(this.id);
   }

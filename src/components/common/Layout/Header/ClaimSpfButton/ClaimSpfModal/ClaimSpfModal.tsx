@@ -10,12 +10,12 @@ import {
   spfStatus$,
 } from '../../../../../../network/ergo/api/spfFaucet/spfStatus';
 import { AlreadyRewardState } from './AlreadyRewardState/AlreadyRewardState';
-import { ReactComponent as BottomBackground } from './bottom-backgroud.svg';
+import BottomBackground from './bottom-backgroud.svg';
 import { ClaimRewardState } from './ClainRewardState/ClaimRewardState';
 import { GotRewardState } from './GotRewardState/GotRewardState';
 import { NothingToClaimState } from './NothingToClaimState/NothingToClaimState';
 import { PendingState } from './PendingState/PendingState';
-import { ReactComponent as TopBackground } from './top-background.svg';
+import TopBackground from './top-background.svg';
 
 const TopBackgroundContainer = styled.div`
   position: absolute;
@@ -44,10 +44,10 @@ export const ClaimSpfModal: FC<ClaimSpfModalProps> = ({ gotIt, close }) => {
       {status && reward && (
         <>
           <TopBackgroundContainer>
-            <TopBackground />
+            <img src={TopBackground} />
           </TopBackgroundContainer>
           <BottomBackgroundContainer>
-            <BottomBackground />
+            <img src={BottomBackground} />
           </BottomBackgroundContainer>
           <Modal.Content width={480}>
             {gotIt && <GotRewardState reward={reward} close={close} />}
