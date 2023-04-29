@@ -9,6 +9,7 @@ import {
 import { Trans } from '@lingui/macro';
 import { FC, MouseEvent } from 'react';
 import { first } from 'rxjs';
+import styled from 'styled-components';
 
 import { Farm, FarmStatus } from '../../../../../common/models/Farm';
 import { AssetPairTitle } from '../../../../../components/AssetPairTitle/AssetPairTitle';
@@ -19,6 +20,12 @@ export interface PairColumnProps {
   readonly farm: Farm;
   readonly align?: 'stretch' | 'center' | 'flex-start' | 'flex-end';
 }
+
+const TestTag = styled(Tag)`
+  border-color: var(--spectrum-primary-color);
+  background-color: var(--spectrum-icon-second-tone-color);
+  color: var(--spectrum-primary-color);
+`;
 
 const getTag = (status: FarmStatus) => {
   if (status === FarmStatus.Scheduled) {
@@ -58,6 +65,13 @@ export const FarmPairColumn: FC<PairColumnProps> = ({ farm }) => {
 
   return (
     <Flex align="center">
+      {farm.isTest && (
+        <Flex.Item marginRight={2}>
+          <TestTag>
+            <Trans>Test</Trans>
+          </TestTag>
+        </Flex.Item>
+      )}
       {farm.yourStakeLq.isPositive() &&
       farm.availableToStakeLq.isPositive() &&
       farm.status === FarmStatus.Live ? (
@@ -99,7 +113,6 @@ export const FarmPairColumn: FC<PairColumnProps> = ({ farm }) => {
           </Tooltip>
         </Flex.Item>
       ) : null}
-
       <Flex.Item>
         <AssetPairTitle
           assetX={farm.ammPool.x.asset}

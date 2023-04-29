@@ -4,6 +4,7 @@ import {
 } from '@ergolabs/ergo-dex-sdk';
 import { DateTime } from 'luxon';
 
+import { applicationConfig } from '../../../../applicationConfig';
 import { AmmPool } from '../../../../common/models/AmmPool';
 import { AssetInfo } from '../../../../common/models/AssetInfo';
 import { Currency } from '../../../../common/models/Currency';
@@ -219,6 +220,11 @@ export class ErgoFarm implements Farm<ErgoBaseLmPool> {
       BigInt(this.params.userFarmAnalytics.userNextStakesReward.nextReward),
       this.assets.reward,
     );
+  }
+
+  @cache
+  get isTest(): boolean {
+    return applicationConfig.testFarms.includes(this.id);
   }
 
   constructor(
