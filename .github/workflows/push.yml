@@ -35,11 +35,11 @@ jobs:
       - name: Check packages integrity
         run: yarn check --integrity
 
-      - name: Build ts
-        run: CI=false yarn build
-
       - name: Eslint
         run: yarn lint:eslint
 
       - name: Stylelint for CSS Modules
         run: yarn lint:stylelint
+
+      - name: Build ts
+        run: CI=false yarn build
