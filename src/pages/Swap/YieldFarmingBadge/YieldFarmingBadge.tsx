@@ -1,4 +1,4 @@
-import { Box, Flex, Typography } from '@ergolabs/ui-kit';
+import { Box, Flex, Icon, Typography } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 import BannerBgLeft from './banner-bg-left.png';
 import BannerBgRight from './banner-bg-right.png';
-import LinkIcon from './link.svg';
+import { ReactComponent as LinkIcon } from './link.svg';
 
 const BannerBackground = styled.div`
   top: 0;
@@ -50,7 +50,7 @@ const _YieldFarmingBadge: FC<{ className?: string }> = ({ className }) => {
           </Typography.Body>
         </Flex>
         <Typography.Body style={{ lineHeight: 0 }}>
-          <img src={LinkIcon} />
+          <Icon component={LinkIcon} style={{ fontSize: 22 }} />
         </Typography.Body>
       </Flex>
     </Box>

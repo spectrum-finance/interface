@@ -1,4 +1,4 @@
-import { Button, ButtonProps, message, Tooltip } from '@ergolabs/ui-kit';
+import { Button, ButtonProps, Icon, message, Tooltip } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
 import { ReactNode } from 'react';
 import * as React from 'react';
@@ -29,7 +29,7 @@ const CopyButton: React.FC<CopyButtonProps> = ({
         <Button
           size={size}
           onClick={(e) => e.stopPropagation()}
-          icon={<CopyIcon />}
+          icon={<Icon component={CopyIcon} />}
           style={{ lineHeight: '24px' }}
         />
       </Tooltip>
