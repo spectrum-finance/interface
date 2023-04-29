@@ -31,9 +31,7 @@ export const LivePeriodCell: FC<LivePeriodCellProps> = ({ farm }) => {
             <Typography.Body secondary size="small">
               <Trans>Starts with a block</Trans>
             </Typography.Body>
-            <Typography.Body strong>
-              {farm.programStartBlock}
-            </Typography.Body>
+            <Typography.Body strong>{farm.programStartBlock}</Typography.Body>
           </>
         )}
         {farm.status !== FarmStatus.Scheduled && (
