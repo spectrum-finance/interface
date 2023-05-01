@@ -31,6 +31,8 @@ export const RewardCell: FC<RewardCellProps> = ({ farm }) => {
       setRewardState(RewardCellState.CONNECT_WALLET);
     } else if (farm.status === FarmStatus.Finished) {
       setRewardState(RewardCellState.FINISHED);
+    } else if (farm.collectedRewards?.isPositive()) {
+      setRewardState(RewardCellState.REWARD);
     } else if (
       !farm.availableToStakeLq.isPositive() &&
       !farm.yourStakeLq.isPositive()
