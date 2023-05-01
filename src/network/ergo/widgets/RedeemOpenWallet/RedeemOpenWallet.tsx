@@ -28,7 +28,6 @@ export const RedeemOpenWallet: FC<RedeemOpenWalletProps> = ({
   const [loading, setLoading] = useState<boolean>(false);
 
   const redeemOperation = async () => {
-    // panalytics.confirmRedeem(value, pool);
     setLoading(true);
     ergoPayRedeem(
       pool,

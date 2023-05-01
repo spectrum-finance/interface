@@ -89,7 +89,6 @@ const BurgerMenu = (): JSX.Element => {
       icon: <ReloadOutlined />,
       onClick: () => {
         setMenuVisible(false);
-        // panalytics.clickBurgerMenu('Manual Refund');
         Modal.open(({ close }) => <ManualRefundModal close={close} />);
       },
     },

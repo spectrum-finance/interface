@@ -3,7 +3,6 @@ import { Trans } from '@lingui/macro';
 import { fireAnalyticsEvent } from '@spectrumlabs/analytics';
 import { FC, useEffect } from 'react';
 
-// import { panalytics } from '../../../../common/analytics';
 import { useSubject } from '../../../../common/hooks/useObservable';
 import { AmmPool } from '../../../../common/models/AmmPool';
 import { getAmmPoolsByAssetPair } from '../../../../gateway/api/ammPools';

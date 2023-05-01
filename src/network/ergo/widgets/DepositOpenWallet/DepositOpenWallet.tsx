@@ -27,7 +27,6 @@ export const DepositOpenWallet: FC<DepositOpenWalletProps> = ({
 
   const addLiquidityOperation = async () => {
     if (value.pool && value.x && value.y) {
-      // panalytics.confirmDeposit(value);
       setLoading(true);
       ergoPaySwap(value.pool as any, value.x, value.y)
         .pipe(first())
