@@ -1,7 +1,7 @@
 import { Button, Flex, Form, FormGroup, useForm } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
 import { FC } from 'react';
-import { Observable, skip } from 'rxjs';
+import { Observable, skip, tap } from 'rxjs';
 
 import { useSubscription } from '../../../../../../common/hooks/useObservable';
 import { Currency } from '../../../../../../common/models/Currency';
@@ -10,6 +10,8 @@ import { TxId } from '../../../../../../common/types';
 import { FormPairSection } from '../../../../../../components/common/FormView/FormPairSection/FormPairSection';
 import { FormSlider } from '../../../../../../components/common/FormView/FormSlider/FormSlider';
 import { PageSection } from '../../../../../../components/Page/PageSection/PageSection';
+import { fireOperationAnalyticsEvent } from '../../../../../../gateway/analytics/fireOperationAnalyticsEvent.ts';
+import { mapToStakeAnalyticsProps } from '../../../../../../utils/analytics/mapper.ts';
 import { walletLmDeposit } from '../walletLmDeposit';
 
 export interface LmDepositModalContentProps {
@@ -57,7 +59,36 @@ export const LmDepositModalContent: FC<LmDepositModalContentProps> = ({
 
   const action = (form: FormGroup<StakeFormModel>) => {
     if (form.value.lpAmount) {
-      onClose(walletLmDeposit(farm, form.value.lpAmount), form.value);
+      fireOperationAnalyticsEvent('Farm Stake Confirm Modal', (ctx) =>
+        mapToStakeAnalyticsProps(form.value, farm, ctx),
+      );
+      onClose(
+        walletLmDeposit(farm, form.value.lpAmount).pipe(
+          tap(
+            () => {
+              fireOperationAnalyticsEvent('Farm Stake Sign Success', (ctx) =>
+                mapToStakeAnalyticsProps(form.value, farm, ctx),
+              );
+            },
+            (err) => {
+              if (err.code === 2) {
+                fireOperationAnalyticsEvent('Farm Stake Cancel Sign', (ctx) =>
+                  mapToStakeAnalyticsProps(form.value, farm, ctx),
+                );
+              } else {
+                fireOperationAnalyticsEvent(
+                  'Farm Stake Confirm Modal Error',
+                  (ctx) => ({
+                    error_string: JSON.stringify(err),
+                    ...mapToStakeAnalyticsProps(form.value, farm, ctx),
+                  }),
+                );
+              }
+            },
+          ),
+        ),
+        form.value,
+      );
     }
   };
 

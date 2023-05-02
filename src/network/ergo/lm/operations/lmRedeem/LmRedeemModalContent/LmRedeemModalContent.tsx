@@ -1,10 +1,12 @@
 import { Button, Flex, Typography } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import { FC, useState } from 'react';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 
 import { TxId } from '../../../../../../common/types';
+import { fireOperationAnalyticsEvent } from '../../../../../../gateway/analytics/fireOperationAnalyticsEvent.ts';
 import { FarmWithdrawalStakeItem } from '../../../../../../pages/Farms/FarmActionModals/FarmWithdrawalModal/StakeItem/FarmWithdrawalStakeItem';
+import { mapToUnstakeAnalyticsProps } from '../../../../../../utils/analytics/mapper.ts';
 import { ErgoFarm } from '../../../models/ErgoFarm';
 import { Stake } from '../../../models/Stake';
 import { walletLmRedeem } from '../walletLmRedeem';
@@ -30,7 +32,36 @@ export const LmRedeemModalContent: FC<LmRedeemModalContentProps> = ({
 
   const redeemOperation = async () => {
     if (selectedStake) {
-      onClose(walletLmRedeem(farm, selectedStake), selectedStake);
+      fireOperationAnalyticsEvent('Farm Unstake Confirm Modal', (ctx) =>
+        mapToUnstakeAnalyticsProps(selectedStake, farm, ctx),
+      );
+      onClose(
+        walletLmRedeem(farm, selectedStake).pipe(
+          tap(
+            () => {
+              fireOperationAnalyticsEvent('Farm Unstake Sign Success', (ctx) =>
+                mapToUnstakeAnalyticsProps(selectedStake, farm, ctx),
+              );
+            },
+            (err) => {
+              if (err.code === 2) {
+                fireOperationAnalyticsEvent('Farm Unstake Cancel Sign', (ctx) =>
+                  mapToUnstakeAnalyticsProps(selectedStake, farm, ctx),
+                );
+              } else {
+                fireOperationAnalyticsEvent(
+                  'Farm Unstake Confirm Modal Error',
+                  (ctx) => ({
+                    error_string: JSON.stringify(err),
+                    ...mapToUnstakeAnalyticsProps(selectedStake, farm, ctx),
+                  }),
+                );
+              }
+            },
+          ),
+        ),
+        selectedStake,
+      );
     }
   };
 
