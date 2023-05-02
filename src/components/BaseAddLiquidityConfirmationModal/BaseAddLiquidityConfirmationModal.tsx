@@ -1,4 +1,5 @@
 import { Button, Flex, Modal } from '@ergolabs/ui-kit';
+import { CANCEL_REQUEST } from '@ergolabs/ui-kit/dist/components/Modal/presets/Request';
 import { t, Trans } from '@lingui/macro';
 import { FC } from 'react';
 import { Observable, tap } from 'rxjs';
@@ -47,7 +48,7 @@ export const BaseAddLiquidityConfirmationModal: FC<BaseAddLiquidityConfirmationM
                 );
               },
               (err) => {
-                if (err.code === 2) {
+                if (err === CANCEL_REQUEST) {
                   fireOperationAnalyticsEvent('Deposit Cancel Sign', (ctx) =>
                     mapToDepositAnalyticsProps(value, ctx),
                   );
