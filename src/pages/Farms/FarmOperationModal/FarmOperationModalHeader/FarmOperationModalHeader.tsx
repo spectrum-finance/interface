@@ -12,7 +12,7 @@ import { FarmHeaderAssets } from '../../FarmGridView/FarmCardView/FarmCardView';
 interface FarmActionModalHeaderProps {
   readonly className?: string;
   readonly farm: Farm;
-  readonly operation: 'withdrawal' | 'stake';
+  readonly operation: 'unstake' | 'stake';
 }
 
 const WhiteText = styled(Typography.Body)`
