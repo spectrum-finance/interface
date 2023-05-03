@@ -22,14 +22,17 @@ export class ErgoAmmPool extends AmmPool {
 
   get tvl(): Currency | undefined {
     return this.poolAnalytics?.tvl
-      ? new Currency(BigInt(this.poolAnalytics.tvl.value.toFixed(0)), usdAsset)
+      ? new Currency(
+          BigInt(Math.floor(this.poolAnalytics.tvl.value * 100)),
+          usdAsset,
+        )
       : undefined;
   }
 
   get volume(): Currency | undefined {
     return this.poolAnalytics?.volume
       ? new Currency(
-          BigInt(this.poolAnalytics.volume.value.toFixed(0)),
+          BigInt(Math.floor(this.poolAnalytics.volume.value * 100)),
           usdAsset,
         )
       : undefined;
