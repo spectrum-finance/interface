@@ -10,6 +10,7 @@ import {
   refCount,
   startWith,
   switchMap,
+  tap,
   zip,
 } from 'rxjs';
 
@@ -135,10 +136,11 @@ export const farms$ = allFarms$.pipe(
     lmPools.filter(
       (lmPool) =>
         !applicationConfig.blacklistedPools.includes(lmPool.id) &&
-        !applicationConfig.blacklistedFarms.includes(lmPool.id),
+        applicationConfig.farmsWhiteList.includes(lmPool.id),
     ),
   ),
   map((farms) => uniqBy(farms, 'id')),
+  tap(console.log),
   publishReplay(1),
   refCount(),
 );
