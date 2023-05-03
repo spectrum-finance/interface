@@ -1,9 +1,10 @@
 import { TxId } from '@ergolabs/ergo-sdk';
-import { Flex, Modal, ModalRef, Typography } from '@ergolabs/ui-kit';
+import { Flex, message, Modal, ModalRef, Typography } from '@ergolabs/ui-kit';
 import { RequestProps } from '@ergolabs/ui-kit/dist/components/Modal/presets/Request';
 import { t, Trans } from '@lingui/macro';
 import { DateTime } from 'luxon';
 import { ReactNode } from 'react';
+import CopyToClipboard from 'react-copy-to-clipboard';
 import { TimeoutError } from 'rxjs';
 
 import { applicationConfig } from '../../applicationConfig';
@@ -13,6 +14,7 @@ import { AssetLock } from '../../common/models/AssetLock';
 import { Currency } from '../../common/models/Currency';
 import { exploreTx } from '../../gateway/utils/exploreAddress';
 import { getLockingPeriodString } from '../../pages/Liquidity/utils';
+import { useErrorEvent } from '../ErrorBoundary/ErrorEventProvider';
 
 export enum Operation {
   SWAP,
@@ -120,30 +122,46 @@ const ProgressModalContent = (
 const ErrorModalContent = (
   operation: Operation,
   payload: ModalChainingPayload,
-) => (
-  <Flex col align="center">
-    <Flex.Item marginBottom={1}>
-      <Typography.Title level={4}>
-        <Trans>Error</Trans>
-      </Typography.Title>
-    </Flex.Item>
-    <Flex.Item marginBottom={1}>
-      <Typography.Body align="center">
-        {getDescriptionByData(operation, payload)}
-      </Typography.Body>
-    </Flex.Item>
-    <Flex.Item marginBottom={1}>
-      <Typography.Body align="center" secondary>
-        <Trans>Transaction rejected</Trans>
-      </Typography.Body>
-    </Flex.Item>
-    <Flex.Item marginBottom={1}>
-      <Typography.Body align="center" secondary>
-        <Trans>Try again later</Trans>
-      </Typography.Body>
-    </Flex.Item>
-  </Flex>
-);
+) => {
+  const { errorEvent } = useErrorEvent();
+
+  return (
+    <Flex col align="center">
+      <Flex.Item marginBottom={1}>
+        <Typography.Title level={4}>
+          <Trans>Error</Trans>
+        </Typography.Title>
+      </Flex.Item>
+      <Flex.Item marginBottom={1}>
+        <Typography.Body align="center">
+          {getDescriptionByData(operation, payload)}
+        </Typography.Body>
+      </Flex.Item>
+      <Flex.Item marginBottom={1}>
+        <Typography.Body align="center" secondary>
+          <Trans>Transaction rejected</Trans>
+        </Typography.Body>
+      </Flex.Item>
+      <Flex.Item marginBottom={errorEvent?.id ? 3 : 0}>
+        <Typography.Body align="center" secondary>
+          <Trans>Try again later</Trans>
+        </Typography.Body>
+      </Flex.Item>
+      {errorEvent?.id && (
+        <Flex.Item marginBottom={1}>
+          <CopyToClipboard
+            text={errorEvent.id}
+            onCopy={() => message.success(t`Copied to clipboard!`)}
+          >
+            <Typography.Body align="center" secondary style={{ cursor: 'pointer' }}>
+              <Trans>Error id:</Trans> <br /> {errorEvent.id}
+            </Typography.Body>
+          </CopyToClipboard>
+        </Flex.Item>
+      )}
+    </Flex>
+  );
+};
 
 const SuccessModalContent = (txId: TxId) => (
   <Flex col align="center">
