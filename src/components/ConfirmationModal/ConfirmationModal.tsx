@@ -153,7 +153,11 @@ const ErrorModalContent = (
             text={errorEvent.id}
             onCopy={() => message.success(t`Copied to clipboard!`)}
           >
-            <Typography.Body align="center" secondary style={{ cursor: 'pointer' }}>
+            <Typography.Body
+              align="center"
+              secondary
+              style={{ cursor: 'pointer' }}
+            >
               <Trans>Error id:</Trans> <br /> {errorEvent.id}
             </Typography.Body>
           </CopyToClipboard>
