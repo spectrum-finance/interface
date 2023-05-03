@@ -1,4 +1,5 @@
 import { Button, Flex, Typography } from '@ergolabs/ui-kit';
+import { CANCEL_REQUEST } from '@ergolabs/ui-kit/dist/components/Modal/presets/Request';
 import { t, Trans } from '@lingui/macro';
 import { FC, useState } from 'react';
 import { Observable, tap } from 'rxjs';
@@ -44,7 +45,7 @@ export const LmRedeemModalContent: FC<LmRedeemModalContentProps> = ({
               );
             },
             (err) => {
-              if (err.code === 2) {
+              if (err === CANCEL_REQUEST) {
                 fireOperationAnalyticsEvent('Farm Unstake Cancel Sign', (ctx) =>
                   mapToUnstakeAnalyticsProps(selectedStake, farm, ctx),
                 );

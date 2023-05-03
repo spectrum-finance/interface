@@ -1,4 +1,5 @@
 import { Button, Flex, Form, FormGroup, useForm } from '@ergolabs/ui-kit';
+import { CANCEL_REQUEST } from '@ergolabs/ui-kit/dist/components/Modal/presets/Request';
 import { t } from '@lingui/macro';
 import { FC } from 'react';
 import { Observable, skip, tap } from 'rxjs';
@@ -71,7 +72,7 @@ export const LmDepositModalContent: FC<LmDepositModalContentProps> = ({
               );
             },
             (err) => {
-              if (err.code === 2) {
+              if (err === CANCEL_REQUEST) {
                 fireOperationAnalyticsEvent('Farm Stake Cancel Sign', (ctx) =>
                   mapToStakeAnalyticsProps(form.value, farm, ctx),
                 );
