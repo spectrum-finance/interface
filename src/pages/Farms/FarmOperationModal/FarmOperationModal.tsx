@@ -7,7 +7,7 @@ import { FarmOperationModalHeader } from './FarmOperationModalHeader/FarmOperati
 export interface FarmOperationModalProps {
   readonly children?: ReactNode | ReactNode[] | string;
   readonly farm: Farm;
-  readonly operation: 'withdrawal' | 'stake';
+  readonly operation: 'unstake' | 'stake';
 }
 
 export const FarmOperationModal: FC<FarmOperationModalProps> = ({
@@ -29,7 +29,7 @@ export const FarmOperationModal: FC<FarmOperationModalProps> = ({
 
 export const createFarmOperationModal = (
   farm: Farm,
-  operation: 'withdrawal' | 'stake',
+  operation: 'unstake' | 'stake',
 ): ((
   children?: ReactNode | ReactNode[] | string,
 ) => ReactNode | ReactNode[] | string) => {

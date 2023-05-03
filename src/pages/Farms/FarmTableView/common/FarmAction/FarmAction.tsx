@@ -13,14 +13,24 @@ import { first } from 'rxjs';
 import styled from 'styled-components';
 
 import { Farm, FarmStatus } from '../../../../../common/models/Farm';
+import {
+  EventProducerContext,
+  fireOperationAnalyticsEvent,
+} from '../../../../../gateway/analytics/fireOperationAnalyticsEvent.ts';
 import { lmDeposit } from '../../../../../gateway/api/operations/lmDeposit';
 import { lmRedeem } from '../../../../../gateway/api/operations/lmRedeem';
+import { mapToFarmAnalyticsProps } from '../../../../../utils/analytics/mapper.ts';
 import { createFarmOperationModal } from '../../../FarmOperationModal/FarmOperationModal';
 
 interface FarmActionProps {
   farm: Farm;
   fullWidth?: boolean;
   size?: ButtonProps['size'];
+}
+
+enum AnalyticsFarmButtonRenderingTypes {
+  DEFAULT,
+  MANAGE,
 }
 
 const StakeButton = styled(Button)``;
@@ -36,20 +46,53 @@ export const FarmAction: FC<FarmActionProps> = ({
 }) => {
   const navigate = useNavigate();
 
-  const navigateToAddLiquidity = () => {
+  const navigateToAddLiquidity = (type: AnalyticsFarmButtonRenderingTypes) => {
     navigate(`../liquidity/${farm.ammPool.id}/add`);
+    if (type === AnalyticsFarmButtonRenderingTypes.DEFAULT) {
+      fireOperationAnalyticsEvent(
+        'Farm Click Add Liquidity',
+        (ctx: EventProducerContext) => mapToFarmAnalyticsProps(farm, ctx),
+      );
+    } else if (type === AnalyticsFarmButtonRenderingTypes.MANAGE) {
+      fireOperationAnalyticsEvent(
+        'Farm Click Manage Add Liquidity',
+        (ctx: EventProducerContext) => mapToFarmAnalyticsProps(farm, ctx),
+      );
+    }
   };
 
-  const stake = () => {
+  const stake = (type: AnalyticsFarmButtonRenderingTypes) => {
     lmDeposit(farm, createFarmOperationModal(farm, 'stake'))
       .pipe(first())
       .subscribe();
+    if (type === AnalyticsFarmButtonRenderingTypes.DEFAULT) {
+      fireOperationAnalyticsEvent(
+        'Farm Click Stake',
+        (ctx: EventProducerContext) => mapToFarmAnalyticsProps(farm, ctx),
+      );
+    } else if (type === AnalyticsFarmButtonRenderingTypes.MANAGE) {
+      fireOperationAnalyticsEvent(
+        'Farm Click Manage Stake',
+        (ctx: EventProducerContext) => mapToFarmAnalyticsProps(farm, ctx),
+      );
+    }
   };
 
-  const withdraw = () => {
-    lmRedeem(farm, createFarmOperationModal(farm, 'withdrawal'))
+  const withdraw = (type: AnalyticsFarmButtonRenderingTypes) => {
+    lmRedeem(farm, createFarmOperationModal(farm, 'unstake'))
       .pipe(first())
       .subscribe();
+    if (type === AnalyticsFarmButtonRenderingTypes.DEFAULT) {
+      fireOperationAnalyticsEvent(
+        'Farm Click Unstake',
+        (ctx: EventProducerContext) => mapToFarmAnalyticsProps(farm, ctx),
+      );
+    } else if (type === AnalyticsFarmButtonRenderingTypes.MANAGE) {
+      fireOperationAnalyticsEvent(
+        'Farm Click Manage Unstake',
+        (ctx: EventProducerContext) => mapToFarmAnalyticsProps(farm, ctx),
+      );
+    }
   };
 
   const isWithdrawAvailable = farm.yourStakeLq.isPositive();
@@ -75,7 +118,7 @@ export const FarmAction: FC<FarmActionProps> = ({
         width={fullWidth ? '100%' : undefined}
         onClick={(e) => {
           e.stopPropagation();
-          withdraw();
+          withdraw(AnalyticsFarmButtonRenderingTypes.DEFAULT);
         }}
       >
         <Trans>Unstake</Trans>
@@ -98,7 +141,9 @@ export const FarmAction: FC<FarmActionProps> = ({
                   >
                     <StakeMenuItem
                       key={'item1'}
-                      onClick={stake}
+                      onClick={() =>
+                        stake(AnalyticsFarmButtonRenderingTypes.MANAGE)
+                      }
                       disabled={isStakeButtonDisabled}
                     >
                       <Trans>Stake</Trans>
@@ -106,12 +151,24 @@ export const FarmAction: FC<FarmActionProps> = ({
                   </Tooltip>
                 )}
                 {isAddLiquidityAvailable && (
-                  <Menu.Item key={'item3'} onClick={navigateToAddLiquidity}>
+                  <Menu.Item
+                    key={'item3'}
+                    onClick={() =>
+                      navigateToAddLiquidity(
+                        AnalyticsFarmButtonRenderingTypes.MANAGE,
+                      )
+                    }
+                  >
                     <Trans>Add liquidity</Trans>
                   </Menu.Item>
                 )}
 
-                <Menu.Item key={'item2'} onClick={withdraw}>
+                <Menu.Item
+                  key={'item2'}
+                  onClick={() =>
+                    withdraw(AnalyticsFarmButtonRenderingTypes.MANAGE)
+                  }
+                >
                   <Trans>Unstake</Trans>
                 </Menu.Item>
               </Box>
@@ -137,7 +194,9 @@ export const FarmAction: FC<FarmActionProps> = ({
       <Button
         type="primary"
         width={fullWidth ? '100%' : undefined}
-        onClick={navigateToAddLiquidity}
+        onClick={() =>
+          navigateToAddLiquidity(AnalyticsFarmButtonRenderingTypes.DEFAULT)
+        }
       >
         <Trans>Add liquidity</Trans>
       </Button>
@@ -154,7 +213,7 @@ export const FarmAction: FC<FarmActionProps> = ({
         <StakeButton
           onClick={(e) => {
             e.stopPropagation();
-            stake();
+            stake(AnalyticsFarmButtonRenderingTypes.DEFAULT);
           }}
           size={size}
           type="primary"
@@ -175,7 +234,7 @@ export const FarmAction: FC<FarmActionProps> = ({
         width={fullWidth ? '100%' : undefined}
         onClick={(e) => {
           e.stopPropagation();
-          withdraw();
+          withdraw(AnalyticsFarmButtonRenderingTypes.DEFAULT);
         }}
       >
         <Trans>Unstake</Trans>
