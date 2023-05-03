@@ -1,4 +1,5 @@
 import { Button, Flex, Form, Modal, useForm } from '@ergolabs/ui-kit';
+import { CANCEL_REQUEST } from '@ergolabs/ui-kit/dist/components/Modal/presets/Request';
 import { Trans } from '@lingui/macro';
 import { FC } from 'react';
 import { Observable, tap } from 'rxjs';
@@ -37,7 +38,7 @@ export const BaseSwapConfirmationModal: FC<
               );
             },
             (err) => {
-              if (err.code === 2) {
+              if (err === CANCEL_REQUEST) {
                 fireOperationAnalyticsEvent('Swap Cancel Sign', (ctx) =>
                   mapToSwapAnalyticsProps(value, ctx),
                 );

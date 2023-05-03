@@ -552,10 +552,10 @@
     mathjs "^9.4.4"
     ramda "0.27.1"
 
-"@ergolabs/ui-kit@^2.4.29":
-  version "2.4.29"
-  resolved "https://registry.yarnpkg.com/@ergolabs/ui-kit/-/ui-kit-2.4.29.tgz#7ad2793ebc1ee849fae7f3bd96be572a29c1821d"
-  integrity sha512-h4Il5lyZNenRoL+GXaGOG5Q5DUaSjW3AY+tizgatK2O5HEWIOP8ECbFzNk72JprLQ4BDW3Ba0p71+pNRdoJeAQ==
+"@ergolabs/ui-kit@^2.4.31":
+  version "2.4.31"
+  resolved "https://registry.yarnpkg.com/@ergolabs/ui-kit/-/ui-kit-2.4.31.tgz#9fe86397ba2ba28af67f254e807ecc25252b10d8"
+  integrity sha512-1In6X1OxQ0cJZ2CS0Twt/M7cG6QIvRBlKqAuecua5YWuOH6Y4GdwjCX2VXsA4r5U34K1PKPEBMrMk33mMlPMyQ==
   dependencies:
     antd "^4.17.0-alpha.5"
     classnames "^2.3.1"
@@ -1178,10 +1178,10 @@
   resolved "https://registry.yarnpkg.com/@sinclair/typebox/-/typebox-0.25.24.tgz#8c7688559979f7079aacaf31aa881c3aa410b718"
   integrity sha512-XJfwUVUKDHF5ugKwIcxEgc9k8b7HbznCp6eUfWgu710hMPNIO4aw4/zB5RogDQz8nd6gyCDpU9O/m6qYEWY6yQ==
 
-"@spectrumlabs/analytics@^1.0.27":
-  version "1.0.27"
-  resolved "https://registry.yarnpkg.com/@spectrumlabs/analytics/-/analytics-1.0.27.tgz#45d570896f4d08c8e0f46faf4a1b3870bc60bd15"
-  integrity sha512-YfIOdght4BI7qTdulJqEcPw4VURnkqV4NJVGpToaP2rPoh33waMGTa/AUkV1knRkQ0tL1sLaIQZGLqaUtImxjg==
+"@spectrumlabs/analytics@^1.1.6":
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/@spectrumlabs/analytics/-/analytics-1.1.6.tgz#f5229f05b92ea9f6277ded6e18a4763441fa51b3"
+  integrity sha512-7cBKdxRCXO0anVtZri44KCdMkEwIJhHATgr01meGQNY846dVFchmDlbomCQ5O9sd8ccvbylY0Y14iVLDxbWXCg==
   dependencies:
     "@amplitude/analytics-browser" "^1.9.0"
 

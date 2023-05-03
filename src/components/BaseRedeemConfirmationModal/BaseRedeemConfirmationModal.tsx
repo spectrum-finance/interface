@@ -1,4 +1,5 @@
 import { Box, Button, Flex, Modal } from '@ergolabs/ui-kit';
+import { CANCEL_REQUEST } from '@ergolabs/ui-kit/dist/components/Modal/presets/Request';
 import { t, Trans } from '@lingui/macro';
 import { FC } from 'react';
 import { Observable, tap } from 'rxjs';
@@ -40,7 +41,7 @@ export const BaseRedeemConfirmationModal: FC<BaseRedeemConfirmationModalProps> =
               );
             },
             (err) => {
-              if (err.code === 2) {
+              if (err === CANCEL_REQUEST) {
                 fireOperationAnalyticsEvent('Redeem Cancel Sign', (ctx) =>
                   mapToRedeemAnalyticsProps(value, pool, ctx),
                 );
