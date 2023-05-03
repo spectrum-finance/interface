@@ -13,26 +13,29 @@ import { gaInitializer } from './common/initializers/gaInitializer';
 import { networkDomInitializer } from './common/initializers/networkDomInitializer';
 import { sentryInitializer } from './common/initializers/sentryInitializer';
 import { startAppTicks } from './common/streams/appTick';
+import { ErrorEventProvider } from './components/ErrorBoundary/ErrorEventProvider';
 import { AppLoadingProvider, SettingsProvider } from './context';
 import { LanguageProvider } from './i18n/i18n';
 
 const Application = () => {
   return (
-    <BrowserRouter>
-      <AppLoadingProvider>
-        <SettingsProvider>
-          <GoogleReCaptchaProvider
-            reCaptchaKey={applicationConfig.reCaptchaKey}
-          >
-            <LanguageProvider>
-              <ContextModalProvider>
-                <ApplicationRoutes />
-              </ContextModalProvider>
-            </LanguageProvider>
-          </GoogleReCaptchaProvider>
-        </SettingsProvider>
-      </AppLoadingProvider>
-    </BrowserRouter>
+    <ErrorEventProvider>
+      <BrowserRouter>
+        <AppLoadingProvider>
+          <SettingsProvider>
+            <GoogleReCaptchaProvider
+              reCaptchaKey={applicationConfig.reCaptchaKey}
+            >
+              <LanguageProvider>
+                <ContextModalProvider>
+                  <ApplicationRoutes />
+                </ContextModalProvider>
+              </LanguageProvider>
+            </GoogleReCaptchaProvider>
+          </SettingsProvider>
+        </AppLoadingProvider>
+      </BrowserRouter>
+    </ErrorEventProvider>
   );
 };
 
