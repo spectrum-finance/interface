@@ -24,10 +24,16 @@ export const swapWithWallet = (
           onClose={(request) =>
             next(
               request.pipe(
-                tap((txId) => {
-                  subject.next(txId);
-                  subject.complete();
-                }),
+                tap(
+                  (txId) => {
+                    subject.next(txId);
+                    subject.complete();
+                  },
+                  (err) => {
+                    subject.error(err);
+                    subject.complete();
+                  },
+                ),
               ),
             )
           }
