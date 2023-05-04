@@ -35,10 +35,10 @@ const ergoPayAnalytics$: Observable<TxForMark[]> = settings$.pipe(
   refCount(),
 );
 
-const markTxs = (txs: TxForMark[], address: string): void => {
+export const markTxs = (txs: TxForMark[]): void => {
   settings$
     .pipe(first())
-    .subscribe((settings) =>
+    .subscribe(({ address }) =>
       axios.post(
         `${applicationConfig.networksSettings.ergo.ergopayUrl}/unsignedTx/${address}/mark`,
         { transactions: txs.map((tx) => tx.ergopayId) },
@@ -47,5 +47,9 @@ const markTxs = (txs: TxForMark[], address: string): void => {
 };
 
 export const initializeErgoPayAnalytics = () => {
-  ergoPayAnalytics$.subscribe((txsForMark) => {});
+  ergoPayAnalytics$.subscribe((txsForMark) => {
+    if (txsForMark.length > 0) {
+      markTxs(txsForMark);
+    }
+  });
 };
