@@ -10,7 +10,6 @@ import {
   refCount,
   startWith,
   switchMap,
-  tap,
   zip,
 } from 'rxjs';
 
@@ -140,7 +139,6 @@ export const farms$ = allFarms$.pipe(
     ),
   ),
   map((farms) => uniqBy(farms, 'id')),
-  tap(console.log),
   publishReplay(1),
   refCount(),
 );

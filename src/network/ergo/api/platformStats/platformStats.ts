@@ -30,9 +30,12 @@ export const platformStats$: Observable<PlatformStats> = networkContext$.pipe(
     ),
   ),
   map((res) => ({
-    tvl: new Currency(BigInt(res.data.tvl.value.toFixed(0)) || 0n, usdAsset),
+    tvl: new Currency(
+      BigInt(Math.floor(res.data.tvl.value * 100)) || 0n,
+      usdAsset,
+    ),
     volume: new Currency(
-      BigInt(res.data.volume.value.toFixed(0)) || 0n,
+      BigInt(Math.floor(res.data.volume.value * 100)) || 0n,
       usdAsset,
     ),
   })),
