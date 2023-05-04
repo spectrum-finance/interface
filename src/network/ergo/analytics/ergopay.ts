@@ -47,7 +47,5 @@ const markTxs = (txs: TxForMark[], address: string): void => {
 };
 
 export const initializeErgoPayAnalytics = () => {
-  ergoPayAnalytics$.subscribe((txsForMark) => {
-
-  });
+  ergoPayAnalytics$.subscribe((txsForMark) => {});
 };
