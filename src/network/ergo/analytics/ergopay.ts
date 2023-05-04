@@ -30,7 +30,7 @@ const ergoPayAnalytics$: Observable<TxForMark[]> = settings$.pipe(
     ),
   ),
   map((res) => res.data),
-  distinctUntilKeyChanged('lenght'),
+  distinctUntilKeyChanged('length'),
   publishReplay(1),
   refCount(),
 );
