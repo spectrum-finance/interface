@@ -55,7 +55,6 @@ const toSwapTxCandidate = ({
   if (!settings.address || !settings.ph) {
     throw new Error('[swap]: address is not selected');
   }
-
   const txMath = mkTxMath(networkParams.pparams, RustModule.CardanoWasm);
   const ammOutputs = mkAmmOutputs(
     OrderAddrsV1Testnet,
@@ -68,6 +67,24 @@ const toSwapTxCandidate = ({
       ? pool.pool.x.withAmount(from.amount)
       : pool.pool.y.withAmount(from.amount);
   const quoteOutput = pool.pool.outputAmount(baseInput, slippage);
+
+  // transactionBuilder$
+  //   .pipe(
+  //     switchMap((txBuilder) =>
+  //       txBuilder.swap({
+  //         slippage,
+  //         nitro,
+  //         minExecutorReward: minExecutorReward,
+  //         base: baseInput,
+  //         quote: quoteOutput,
+  //         changeAddress: settings.address!,
+  //         pk: settings.ph!,
+  //         txFees: ammTxFeeMapping,
+  //         pool: pool.pool,
+  //       }),
+  //     ),
+  //   )
+  //   .subscribe(console.log, console.log);
 
   const swapVariables = minBudgetForSwap(
     baseInput,

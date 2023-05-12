@@ -291,8 +291,12 @@ export const Swap = (): JSX.Element => {
           pools.find((p) => p.id === form.value.pool?.id) ||
           maxBy(pools, (p) => p.x.amount * p.y.amount);
       }
-
-      form.patchValue({ pool: newPool });
+      if (
+        !form.value.pool?.x.isEquals(newPool?.x) ||
+        !form.value.pool?.y.isEquals(newPool?.y)
+      ) {
+        form.patchValue({ pool: newPool });
+      }
     },
     [lastEditedField],
   );

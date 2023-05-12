@@ -66,6 +66,7 @@ export function OperationForm<T>({
   });
 
   useEffect(() => {
+    console.log('validation start');
     if (!isOnline) {
       setButtonProps({
         disabled: true,
@@ -110,6 +111,10 @@ export function OperationForm<T>({
     actionCaption,
     queuedOperation,
   ]);
+
+  useEffect(() => {
+    console.log('value change');
+  }, [validators]);
 
   const handleSubmit = () => {
     if (loading || disabled) {
