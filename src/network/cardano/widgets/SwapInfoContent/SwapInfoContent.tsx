@@ -3,7 +3,7 @@ import { Value } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/val
 import { Box, Flex, Skeleton } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import { FC, useEffect } from 'react';
-import { map, Observable, publishReplay, refCount, switchMap, tap } from 'rxjs';
+import { map, Observable, of, publishReplay, refCount, switchMap } from 'rxjs';
 
 import { useSubject } from '../../../../common/hooks/useObservable';
 import { Currency } from '../../../../common/models/Currency';
@@ -34,10 +34,14 @@ export interface ExtendedTxInfo {
 }
 
 const getTxInfo = (
-  swapParams: SwapParams,
+  swapParams: SwapParams | undefined,
   value: SwapFormModel<CardanoAmmPool>,
-): Observable<ExtendedTxInfo> =>
-  transactionBuilder$.pipe(
+): Observable<ExtendedTxInfo | undefined> => {
+  if (!swapParams) {
+    return of(undefined);
+  }
+
+  return transactionBuilder$.pipe(
     switchMap((txBuilder) => txBuilder.swap(swapParams)),
     map(([, , txInfo]) => ({
       ...txInfo,
@@ -58,10 +62,10 @@ const getTxInfo = (
       minOutput: new Currency(txInfo.minOutput.amount, value.toAsset),
       maxOutput: new Currency(txInfo.maxOutput.amount, value.toAsset),
     })),
-    tap(null, (err) => console.log(err)),
     publishReplay(1),
     refCount(),
   );
+};
 
 export interface SwapInfoContentProps {
   readonly value: SwapFormModel<CardanoAmmPool>;
@@ -75,6 +79,7 @@ export const SwapInfoContent: FC<SwapInfoContentProps> = ({ value }) => {
     const { pool, fromAmount, toAmount } = value;
 
     if (!pool || !fromAmount || !toAmount) {
+      updateTxInfo(undefined, value);
       return;
     }
     const baseInput =
