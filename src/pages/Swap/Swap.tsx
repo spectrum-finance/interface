@@ -382,14 +382,19 @@ export const Swap = (): JSX.Element => {
   const [fromAsset] = useObservable(
     form.controls.fromAsset.valueChangesWithSilent$,
   );
-  const validators: OperationValidator<SwapFormModel>[] = [
-    tokensNotSelectedValidator,
-    amountEnteredValidator,
-    minValueForTokenValidator,
-    insufficientFromForTxValidator,
-    ...swapNetworkValidators,
-    insufficientLiquidityValidator,
-  ];
+  const validators: OperationValidator<SwapFormModel>[] = useMemo(
+    () => [
+      tokensNotSelectedValidator,
+      amountEnteredValidator,
+      minValueForTokenValidator,
+      insufficientFromForTxValidator,
+      ...swapNetworkValidators,
+      insufficientLiquidityValidator,
+    ],
+    [balance],
+  );
+
+  const loaders = useMemo(() => [isPoolLoading], []);
 
   return (
     <Page
@@ -417,7 +422,7 @@ export const Swap = (): JSX.Element => {
         form={form}
         onSubmit={submitSwap}
         validators={validators}
-        loaders={[isPoolLoading]}
+        loaders={loaders}
       >
         <Flex col>
           <Flex row align="center">

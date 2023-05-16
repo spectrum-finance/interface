@@ -4,7 +4,14 @@ import { Button, Flex, Form, FormGroup } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
 import { ElementName, TraceProps } from '@spectrumlabs/analytics';
 import { ReactNode, useEffect, useState } from 'react';
-import { debounceTime, first, Observable } from 'rxjs';
+import {
+  debounceTime,
+  first,
+  Observable,
+  of,
+  Subscription,
+  switchMap,
+} from 'rxjs';
 
 // import { PAnalytics } from '../../common/analytics/@types/types';
 import { useObservable } from '../../common/hooks/useObservable';
@@ -19,7 +26,12 @@ export type OperationLoader<T> = (form: FormGroup<T>) => boolean;
 export type OperationValidator<T> = (
   form: FormGroup<T>,
   balance: Balance,
-) => ReactNode | ReactNode[] | string | undefined;
+) =>
+  | ReactNode
+  | ReactNode[]
+  | string
+  | undefined
+  | Observable<ReactNode | ReactNode[] | string | undefined>;
 
 export interface OperationFormProps<T> {
   readonly validators?: OperationValidator<T>[];
@@ -31,6 +43,19 @@ export interface OperationFormProps<T> {
   ) => Observable<any> | void | Promise<any>;
   readonly children?: ReactNode | ReactNode[] | string;
   readonly traceFormLocation: TraceProps['element_location'];
+}
+
+function callValidatorSafely<V, D = undefined>(
+  validator: OperationValidator<V>,
+  defaultValue: D,
+  ...args: Parameters<OperationValidator<V>>
+): ReturnType<OperationValidator<V>> | D {
+  try {
+    return validator(...args);
+  } catch (err) {
+    console.warn(err);
+    return defaultValue;
+  }
 }
 
 export function OperationForm<T>({
@@ -46,6 +71,9 @@ export function OperationForm<T>({
   const LOADING_WALLET_CAPTION = t`Loading`;
   const PROCESSING_TRANSACTION_CAPTION = t`Processing transaction`;
 
+  const [validatorSubscription, setValidatorSubscription] = useState(
+    Subscription.EMPTY,
+  );
   const [isOnline] = useObservable(isOnline$);
   const [queuedOperation] = useObservable(queuedOperation$);
   const [balance, isBalanceLoading] = useAssetsBalance();
@@ -66,7 +94,7 @@ export function OperationForm<T>({
   });
 
   useEffect(() => {
-    console.log('validation start');
+    validatorSubscription.unsubscribe();
     if (!isOnline) {
       setButtonProps({
         disabled: true,
@@ -86,21 +114,53 @@ export function OperationForm<T>({
         caption: PROCESSING_TRANSACTION_CAPTION,
       });
     } else {
-      const caption = validators?.reduce<ReactNode | undefined>(
-        (caption, v) => {
-          if (caption) {
-            return caption;
-          }
-          return v(form, balance);
-        },
-        undefined,
-      );
+      const results =
+        validators?.map((v) =>
+          callValidatorSafely<T, undefined>(v, undefined, form, balance),
+        ) || [];
+      const firstResultIndex = results.findIndex(Boolean);
+      const firstResult =
+        firstResultIndex !== -1 ? results[firstResultIndex] : undefined;
 
-      setButtonProps({
-        disabled: !!caption,
-        loading: false,
-        caption: caption || actionCaption,
-      });
+      if (firstResult instanceof Observable) {
+        setButtonProps({
+          disabled: false,
+          loading: true,
+          caption: LOADING_WALLET_CAPTION,
+        });
+        const subscription = of(undefined)
+          .pipe(
+            //@ts-ignore
+            ...results.slice(firstResultIndex).map((result) =>
+              switchMap((prev) => {
+                if (prev) {
+                  return of(prev);
+                }
+                return result instanceof Observable ? result : of(result);
+              }),
+            ),
+          )
+          .subscribe((result) => {
+            setButtonProps({
+              disabled: !!result,
+              loading: false,
+              caption: result || actionCaption,
+            });
+          });
+        setValidatorSubscription(subscription);
+      } else if (!!firstResult) {
+        setButtonProps({
+          disabled: true,
+          loading: false,
+          caption: firstResult,
+        });
+      } else {
+        setButtonProps({
+          disabled: false,
+          loading: false,
+          caption: actionCaption,
+        });
+      }
     }
   }, [
     isOnline,
@@ -111,10 +171,6 @@ export function OperationForm<T>({
     actionCaption,
     queuedOperation,
   ]);
-
-  useEffect(() => {
-    console.log('value change');
-  }, [validators]);
 
   const handleSubmit = () => {
     if (loading || disabled) {

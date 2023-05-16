@@ -1,19 +1,9 @@
-import {
-  minBudgetForSwap,
-  mkAmmActions,
-  mkAmmOutputs,
-  mkTxMath,
-  stakeKeyHashFromAddr,
-  TxCandidate,
-} from '@ergolabs/cardano-dex-sdk';
-import { OrderKind } from '@ergolabs/cardano-dex-sdk/build/main/amm/models/opRequests';
-import { OrderAddrsV1Testnet } from '@ergolabs/cardano-dex-sdk/build/main/amm/scripts';
+import { Transaction } from '@emurgo/cardano-serialization-lib-nodejs';
+import { TxCandidate, TxInfo } from '@ergolabs/cardano-dex-sdk';
 import { NetworkParams } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/env';
-import { RustModule } from '@ergolabs/cardano-dex-sdk/build/main/utils/rustLoader';
 import { t } from '@lingui/macro';
 import { first, map, Observable, Subject, switchMap, tap, zip } from 'rxjs';
 
-import { UI_FEE_BIGINT } from '../../../../common/constants/erg';
 import { Currency } from '../../../../common/models/Currency';
 import { Nitro, Percent, TxId } from '../../../../common/types';
 import {
@@ -22,17 +12,17 @@ import {
 } from '../../../../components/ConfirmationModal/ConfirmationModal';
 import { OperationValidator } from '../../../../components/OperationForm/OperationForm';
 import { SwapFormModel } from '../../../../pages/Swap/SwapFormModel';
-import { depositAda } from '../../settings/depositAda';
 import { CardanoSettings, settings$ } from '../../settings/settings';
 import { useSwapValidationFee } from '../../settings/totalFee';
 import { SwapConfirmationModal } from '../../widgets/SwapConfirmationModal/SwapConfirmationModal';
+import { useSettings } from '../../widgets/utils';
 import { CardanoAmmPool } from '../ammPools/CardanoAmmPool';
 import { cardanoNetworkParams$ } from '../common/cardanoNetwork';
 import { networkAsset } from '../networkAsset/networkAsset';
-import { getUtxosByAmount } from '../utxos/utxos';
 import { ammTxFeeMapping } from './common/ammTxFeeMapping';
 import { minExecutorReward } from './common/minExecutorReward';
 import { submitTx } from './common/submitTx';
+import { transactionBuilder$ } from './common/transactionBuilder';
 
 interface SwapTxCandidateConfig {
   readonly networkParams: NetworkParams;
@@ -45,7 +35,6 @@ interface SwapTxCandidateConfig {
 }
 
 const toSwapTxCandidate = ({
-  networkParams,
   settings,
   pool,
   from,
@@ -55,79 +44,31 @@ const toSwapTxCandidate = ({
   if (!settings.address || !settings.ph) {
     throw new Error('[swap]: address is not selected');
   }
-  const txMath = mkTxMath(networkParams.pparams, RustModule.CardanoWasm);
-  const ammOutputs = mkAmmOutputs(
-    OrderAddrsV1Testnet,
-    txMath,
-    RustModule.CardanoWasm,
-  );
-  const ammActions = mkAmmActions(ammOutputs, settings.address);
   const baseInput =
     from.asset.id === pool.x.asset.id
       ? pool.pool.x.withAmount(from.amount)
       : pool.pool.y.withAmount(from.amount);
   const quoteOutput = pool.pool.outputAmount(baseInput, slippage);
 
-  // transactionBuilder$
-  //   .pipe(
-  //     switchMap((txBuilder) =>
-  //       txBuilder.swap({
-  //         slippage,
-  //         nitro,
-  //         minExecutorReward: minExecutorReward,
-  //         base: baseInput,
-  //         quote: quoteOutput,
-  //         changeAddress: settings.address!,
-  //         pk: settings.ph!,
-  //         txFees: ammTxFeeMapping,
-  //         pool: pool.pool,
-  //       }),
-  //     ),
-  //   )
-  //   .subscribe(console.log, console.log);
-
-  const swapVariables = minBudgetForSwap(
-    baseInput,
-    quoteOutput,
-    nitro,
-    ammTxFeeMapping,
-    minExecutorReward,
-    UI_FEE_BIGINT,
-    txMath,
-  );
-
-  if (!swapVariables) {
-    throw new Error('incorrect swap variables');
-  }
-
-  const [swapBudget, swapValue, feePerToken, swapExtremums] = swapVariables;
-
-  return getUtxosByAmount(swapBudget).pipe(
-    map((utxos) => {
-      return ammActions.createOrder(
-        {
-          kind: OrderKind.Swap,
-          poolId: pool.pool.id,
-          rewardPkh: settings.ph!,
-          stakePkh: stakeKeyHashFromAddr(
-            settings.address!,
-            RustModule.CardanoWasm,
-          ),
-          poolFeeNum: pool.poolFeeNum,
-          baseInput: baseInput,
-          quoteAsset: quoteOutput.asset,
-          minQuoteOutput: swapExtremums.minOutput.amount,
-          uiFee: UI_FEE_BIGINT,
-          exFeePerToken: feePerToken,
-          orderValue: swapValue,
-        },
-        {
-          changeAddr: settings.address!,
-          collateralInputs: [],
-          inputs: utxos.map((txOut) => ({ txOut })),
-        },
-      );
-    }),
+  return transactionBuilder$.pipe(
+    switchMap((txBuilder) =>
+      txBuilder.swap({
+        slippage,
+        nitro,
+        minExecutorReward: minExecutorReward,
+        base: baseInput,
+        quote: quoteOutput,
+        changeAddress: settings.address!,
+        pk: settings.ph!,
+        txFees: ammTxFeeMapping,
+        pool: pool.pool,
+      }),
+    ),
+    map(
+      ([, txCandidate]: [Transaction | null, TxCandidate, TxInfo]) =>
+        txCandidate,
+    ),
+    first(),
   );
 };
 
@@ -184,36 +125,44 @@ export const swap = (data: Required<SwapFormModel>): Observable<TxId> => {
 };
 
 export const useSwapValidators = (): OperationValidator<SwapFormModel>[] => {
-  const swapValidationFee = useSwapValidationFee();
+  const settings = useSettings();
 
   const insufficientAssetForFeeValidator: OperationValidator<
     Required<SwapFormModel>
-  > = ({ value: { fromAmount } }, balance) => {
-    const totalFeesWithAmount = fromAmount.isAssetEquals(networkAsset)
-      ? fromAmount.plus(swapValidationFee).minus(depositAda)
-      : swapValidationFee.minus(depositAda);
+  > = ({ value: { fromAmount, pool } }) => {
+    const baseInput =
+      fromAmount.asset.id === pool.x.asset.id
+        ? pool.pool.x.withAmount(fromAmount.amount)
+        : pool.pool.y.withAmount(fromAmount.amount);
+    const quoteOutput = pool.pool.outputAmount(
+      baseInput as any,
+      settings.slippage,
+    );
 
-    return totalFeesWithAmount.gt(balance.get(networkAsset))
-      ? t`Insufficient ${networkAsset.ticker} balance for fees`
-      : undefined;
+    return transactionBuilder$.pipe(
+      switchMap((txBuilder) =>
+        txBuilder.swap({
+          slippage: settings.slippage,
+          nitro: settings.nitro,
+          minExecutorReward: minExecutorReward,
+          base: baseInput as any,
+          quote: quoteOutput as any,
+          changeAddress: settings.address!,
+          pk: settings.ph!,
+          txFees: ammTxFeeMapping,
+          pool: pool.pool as any,
+        }),
+      ),
+      map((data: [Transaction | null, TxCandidate, TxInfo]) =>
+        data[0]
+          ? undefined
+          : t`Insufficient ${networkAsset.ticker} balance for fees`,
+      ),
+      first(),
+    );
   };
 
-  const insufficientAssetForRefundableDepositValidator: OperationValidator<
-    Required<SwapFormModel>
-  > = ({ value: { fromAmount } }, balance) => {
-    const totalFeesWithAmount = fromAmount.isAssetEquals(networkAsset)
-      ? fromAmount.plus(swapValidationFee)
-      : swapValidationFee;
-
-    return totalFeesWithAmount.gt(balance.get(networkAsset))
-      ? t`Insufficient ${networkAsset.ticker} for refundable deposit`
-      : undefined;
-  };
-
-  return [
-    insufficientAssetForFeeValidator as any,
-    insufficientAssetForRefundableDepositValidator as any,
-  ];
+  return [insufficientAssetForFeeValidator as any];
 };
 
 export const useHandleSwapMaxButtonClick = (): ((
