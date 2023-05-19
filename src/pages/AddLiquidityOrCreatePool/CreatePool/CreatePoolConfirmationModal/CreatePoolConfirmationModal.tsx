@@ -162,7 +162,7 @@ const CreatePoolConfirmationModal: FC<CreatePoolConfirmationModalProps> = ({
                         <Flex.Item>
                           <Flex>
                             <Flex.Item marginRight={1}>
-                              <Trans>Miner Fee:</Trans>
+                              <Trans>Network Fee:</Trans>
                             </Flex.Item>
                             <Flex.Item>{minerFee} ERG</Flex.Item>
                           </Flex>

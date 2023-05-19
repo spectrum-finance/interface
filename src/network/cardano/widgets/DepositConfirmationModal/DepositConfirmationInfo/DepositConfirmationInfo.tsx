@@ -18,7 +18,7 @@ export const DepositConfirmationInfo: FC = () => {
 
   const fees: FeesViewItem[] = [
     { caption: t`Execution Fee`, currency: minExFee },
-    { caption: t`Transaction Fee`, currency: transactionFee },
+    { caption: t`Network Fee`, currency: transactionFee },
   ];
 
   return (
