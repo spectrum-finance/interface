@@ -14,6 +14,7 @@ import styled from 'styled-components';
 import { AssetInfo } from '../../../../common/models/AssetInfo';
 import { Ratio } from '../../../../common/models/Ratio';
 import { normalizeAmount } from '../../../../common/utils/amount';
+import { AssetIcon } from '../../../../components/AssetIcon/AssetIcon.tsx';
 import { escapeRegExp } from '../../../../components/common/TokenControl/AssetAmountInput/format';
 
 const _SwitchButton: FC<ButtonProps> = ({ ...rest }) => (
@@ -170,28 +171,47 @@ export const InitialPriceInput: FC<InitialPrice> = ({
   };
 
   return (
-    <Box secondary padding={1} borderRadius="l" glass>
-      <Flex align="center">
-        <Flex.Item marginRight={2} flex={1}>
-          <Input
-            value={userInput}
-            onChange={(event) => {
-              enforcer(event.target.value.replace(/,/g, '.'));
-            }}
-            textAlign="right"
-            suffix={
-              baseAsset && quoteAsset ? (
-                <Typography.Body>
-                  {baseAsset.ticker} per {quoteAsset.ticker}
-                </Typography.Body>
-              ) : (
-                ' '
-              )
-            }
-          />
-        </Flex.Item>
+    <Flex align="center">
+      <Flex.Item marginRight={2} flex={1}>
+        <Box secondary padding={[1, 2]} borderRadius="l" glass>
+          <Flex align="center">
+            <Flex.Item marginRight={2}>
+              <AssetIcon asset={baseAsset} />
+            </Flex.Item>
+            <Flex.Item>
+              <Input
+                size="large"
+                value={userInput}
+                onChange={(event) => {
+                  enforcer(event.target.value.replace(/,/g, '.'));
+                }}
+                suffix={
+                  baseAsset ? (
+                    <Typography.Body>{baseAsset.ticker}</Typography.Body>
+                  ) : (
+                    ' '
+                  )
+                }
+              />
+            </Flex.Item>
+          </Flex>
+        </Box>
+      </Flex.Item>
+      <Flex.Item marginRight={2}>
         <SwitchButton onClick={handleBaseAssetChange} />
-      </Flex>
-    </Box>
+      </Flex.Item>
+      <Flex.Item flex={1}>
+        <Box secondary padding={[3, 2]} borderRadius="l" glass>
+          <Flex align="center">
+            <Flex.Item marginRight={2}>
+              <AssetIcon asset={quoteAsset} />
+            </Flex.Item>
+            <Flex.Item marginRight={2}>
+              <Typography.Body>1 {quoteAsset?.ticker}</Typography.Body>
+            </Flex.Item>
+          </Flex>
+        </Box>
+      </Flex.Item>
+    </Flex>
   );
 };

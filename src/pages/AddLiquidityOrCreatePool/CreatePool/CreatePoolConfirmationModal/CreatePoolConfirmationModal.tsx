@@ -153,7 +153,7 @@ const CreatePoolConfirmationModal: FC<CreatePoolConfirmationModalProps> = ({
               <Flex justify="space-between">
                 <Flex.Item>
                   <Typography.Body strong size="large">
-                    <Trans>Fees</Trans>
+                    <Trans>Total fees</Trans>
                   </Typography.Body>
                   <InfoTooltip
                     placement="rightBottom"
