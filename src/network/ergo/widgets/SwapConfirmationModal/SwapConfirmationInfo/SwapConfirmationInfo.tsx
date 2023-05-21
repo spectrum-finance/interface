@@ -2,22 +2,22 @@ import { Box, Flex, Typography } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import { FC } from 'react';
 
-import { calculateOutputs } from '../../../../../common/utils/calculateOutputs';
-import { AssetIcon } from '../../../../../components/AssetIcon/AssetIcon';
-import { BoxInfoItem } from '../../../../../components/BoxInfoItem/BoxInfoItem';
+import { calculateOutputs } from '../../../../../common/utils/calculateOutputs.ts';
+import { AssetIcon } from '../../../../../components/AssetIcon/AssetIcon.tsx';
+import { BoxInfoItem } from '../../../../../components/BoxInfoItem/BoxInfoItem.tsx';
 import {
   FeesView,
   FeesViewItem,
-} from '../../../../../components/FeesView/FeesView';
-import { Truncate } from '../../../../../components/Truncate/Truncate';
-import { SwapFormModel } from '../../../../../pages/Swap/SwapFormModel';
+} from '../../../../../components/FeesView/FeesView.tsx';
+import { Truncate } from '../../../../../components/Truncate/Truncate.tsx';
+import { SwapFormModel } from '../../../../../pages/Swap/SwapFormModel.ts';
 import {
   useMaxExFee,
   useMinExFee,
-} from '../../../settings/executionFee/executionFee';
-import { useMinerFee } from '../../../settings/minerFee';
-import { useNitro } from '../../../settings/nitro';
-import { useSlippage } from '../../../settings/slippage';
+} from '../../../settings/executionFee/executionFee.ts';
+import { useMinerFee } from '../../../settings/minerFee.ts';
+import { useNitro } from '../../../settings/nitro.ts';
+import { useSlippage } from '../../../settings/slippage.ts';
 
 export interface SwapConfirmationInfoProps {
   readonly value: Required<SwapFormModel>;
@@ -45,10 +45,7 @@ export const SwapConfirmationInfo: FC<SwapConfirmationInfoProps> = ({
         )
       : [undefined, undefined];
 
-  const fees: FeesViewItem[] = [
-    { caption: t`Execution Fee`, currency: [minExFee, maxExFee] },
-    { caption: t`Miner Fee`, currency: minerFee },
-  ];
+  const fees: FeesViewItem[] = [{ caption: t`Miner Fee`, currency: minerFee }];
 
   return (
     <Box secondary padding={4} borderRadius="l">
@@ -105,13 +102,7 @@ export const SwapConfirmationInfo: FC<SwapConfirmationInfoProps> = ({
             }
           />
         </Flex.Item>
-        <FeesView
-          fees={fees}
-          totalFees={{
-            minFeesForTotal: [minerFee, minExFee],
-            maxFeesForTotal: [minerFee, maxExFee],
-          }}
-        />
+        <FeesView fees={fees} executionFee={[minExFee, maxExFee]} />
       </Flex>
     </Box>
   );

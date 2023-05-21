@@ -1,108 +1,22 @@
-import { SwapParams } from '@ergolabs/cardano-dex-sdk';
-import { Value } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/value';
 import { Box, Flex, Skeleton } from '@ergolabs/ui-kit';
-import { t, Trans } from '@lingui/macro';
-import { FC, useEffect } from 'react';
-import { map, Observable, of, publishReplay, refCount, switchMap } from 'rxjs';
+import { t } from '@lingui/macro';
+import { FC } from 'react';
 
-import { useSubject } from '../../../../common/hooks/useObservable';
-import { Currency } from '../../../../common/models/Currency';
 import { AssetIcon } from '../../../../components/AssetIcon/AssetIcon';
 import { Truncate } from '../../../../components/Truncate/Truncate';
 import { SwapFormModel } from '../../../../pages/Swap/SwapFormModel';
 import { SwapInfoItem } from '../../../../pages/Swap/SwapInfo/SwapInfoItem/SwapInfoItem';
 import { SwapInfoPriceImpact } from '../../../../pages/Swap/SwapInfo/SwapInfoPriceImpact/SwapInfoPriceImpact';
 import { CardanoAmmPool } from '../../api/ammPools/CardanoAmmPool';
-import { networkAsset } from '../../api/networkAsset/networkAsset';
-import { ammTxFeeMapping } from '../../api/operations/common/ammTxFeeMapping';
-import { minExecutorReward } from '../../api/operations/common/minExecutorReward';
-import { transactionBuilder$ } from '../../api/operations/common/transactionBuilder';
-import { settings } from '../../settings/settings';
-import { useSettings } from '../utils';
-
-export interface ExtendedTxInfo {
-  readonly txFee: Currency | undefined;
-  readonly minExFee: Currency;
-  readonly maxExFee: Currency;
-  readonly refundableDeposit: Currency;
-  readonly minOutput: Currency;
-  readonly maxOutput: Currency;
-  readonly minTotalFee: Currency;
-  readonly maxTotalFee: Currency;
-  readonly orderBudget: Value;
-  readonly orderValue: Value;
-}
-
-const getTxInfo = (
-  swapParams: SwapParams | undefined,
-  value: SwapFormModel<CardanoAmmPool>,
-): Observable<ExtendedTxInfo | undefined> => {
-  if (!swapParams) {
-    return of(undefined);
-  }
-
-  return transactionBuilder$.pipe(
-    switchMap((txBuilder) => txBuilder.swap(swapParams)),
-    map(([, , txInfo]) => ({
-      ...txInfo,
-      txFee: txInfo.txFee
-        ? new Currency(txInfo.txFee, networkAsset)
-        : undefined,
-      minExFee: new Currency(txInfo.minExFee, networkAsset),
-      maxExFee: new Currency(txInfo.maxExFee, networkAsset),
-      refundableDeposit: new Currency(txInfo.refundableDeposit, networkAsset),
-      minTotalFee: new Currency(
-        txInfo.minExFee + (txInfo.txFee || 0n),
-        networkAsset,
-      ),
-      maxTotalFee: new Currency(
-        txInfo.maxExFee + (txInfo.txFee || 0n),
-        networkAsset,
-      ),
-      minOutput: new Currency(txInfo.minOutput.amount, value.toAsset),
-      maxOutput: new Currency(txInfo.maxOutput.amount, value.toAsset),
-    })),
-    publishReplay(1),
-    refCount(),
-  );
-};
+import RefundableDepositTooltipContent from '../../components/RefundableDepositTooltipContent/RefundableDepositTooltipContent.tsx';
+import { useSwapTxInfo } from '../utils';
 
 export interface SwapInfoContentProps {
   readonly value: SwapFormModel<CardanoAmmPool>;
 }
 
 export const SwapInfoContent: FC<SwapInfoContentProps> = ({ value }) => {
-  const { nitro, slippage } = useSettings();
-  const [txInfo, updateTxInfo, txInfoLoading] = useSubject(getTxInfo);
-
-  useEffect(() => {
-    const { pool, fromAmount, toAmount } = value;
-
-    if (!pool || !fromAmount || !toAmount) {
-      updateTxInfo(undefined, value);
-      return;
-    }
-    const baseInput =
-      fromAmount.asset.id === pool.x.asset.id
-        ? pool.pool.x.withAmount(fromAmount.amount)
-        : pool.pool.y.withAmount(fromAmount.amount);
-    const quoteOutput = pool.pool.outputAmount(baseInput, slippage);
-
-    updateTxInfo(
-      {
-        slippage,
-        nitro,
-        minExecutorReward: minExecutorReward,
-        base: baseInput,
-        quote: quoteOutput,
-        changeAddress: settings.address!,
-        pk: settings.ph!,
-        txFees: ammTxFeeMapping,
-        pool: pool.pool,
-      },
-      value,
-    );
-  }, [value.fromAmount, value.toAmount, value.pool, nitro, slippage, settings]);
+  const [swapTxInfo, isSwapTxInfoLoading] = useSwapTxInfo(value);
 
   return (
     <Flex col>
@@ -114,18 +28,18 @@ export const SwapInfoContent: FC<SwapInfoContentProps> = ({ value }) => {
           title={t`Min output`}
           value={
             <>
-              {txInfoLoading ? (
+              {isSwapTxInfoLoading ? (
                 <Skeleton.Block active style={{ height: 12 }} />
-              ) : txInfo?.minOutput ? (
+              ) : swapTxInfo?.minOutput ? (
                 <Flex align="center">
                   <Flex.Item marginRight={1}>
                     <AssetIcon
                       size="extraSmall"
-                      asset={txInfo.minOutput.asset}
+                      asset={swapTxInfo.minOutput.asset}
                     />
                   </Flex.Item>
-                  {txInfo.minOutput?.toString()}{' '}
-                  <Truncate>{txInfo.minOutput?.asset.ticker}</Truncate>
+                  {swapTxInfo.minOutput?.toString()}{' '}
+                  <Truncate>{swapTxInfo.minOutput?.asset.ticker}</Truncate>
                 </Flex>
               ) : (
                 '–'
@@ -136,37 +50,24 @@ export const SwapInfoContent: FC<SwapInfoContentProps> = ({ value }) => {
       </Flex.Item>
       <Flex.Item marginBottom={1}>
         <SwapInfoItem
-          tooltip={
-            <>
-              <Trans>
-                This amount of ADA will be held to construct the transaction and
-                will be returned when your order is executed or cancelled.
-              </Trans>
-              <br />
-              <a
-                href="https://docs.cardano.org/plutus/collateral-mechanism"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <Trans>Read More</Trans>
-              </a>
-            </>
-          }
+          tooltip={<RefundableDepositTooltipContent />}
           title={t`Refundable deposit`}
           value={
             <>
-              {txInfoLoading ? (
+              {isSwapTxInfoLoading ? (
                 <Skeleton.Block active style={{ height: 12 }} />
-              ) : txInfo?.refundableDeposit ? (
+              ) : swapTxInfo?.refundableDeposit ? (
                 <Flex align="center">
                   <Flex.Item marginRight={1}>
                     <AssetIcon
                       size="extraSmall"
-                      asset={txInfo.refundableDeposit.asset}
+                      asset={swapTxInfo.refundableDeposit.asset}
                     />
                   </Flex.Item>
-                  {txInfo.refundableDeposit.toString()}{' '}
-                  <Truncate>{txInfo.refundableDeposit.asset.ticker}</Truncate>
+                  {swapTxInfo.refundableDeposit.toString()}{' '}
+                  <Truncate>
+                    {swapTxInfo.refundableDeposit.asset.ticker}
+                  </Truncate>
                 </Flex>
               ) : (
                 '–'
@@ -180,10 +81,10 @@ export const SwapInfoContent: FC<SwapInfoContentProps> = ({ value }) => {
           title={t`Total fees`}
           value={
             <>
-              {txInfoLoading ? (
+              {isSwapTxInfoLoading ? (
                 <Skeleton.Block active style={{ height: 12 }} />
-              ) : txInfo?.minTotalFee && txInfo?.maxTotalFee ? (
-                `${txInfo.minTotalFee.toCurrencyString()} - ${txInfo.maxTotalFee.toCurrencyString()}`
+              ) : swapTxInfo?.minTotalFee && swapTxInfo?.maxTotalFee ? (
+                `${swapTxInfo.minTotalFee.toCurrencyString()} - ${swapTxInfo.maxTotalFee.toCurrencyString()}`
               ) : (
                 '–'
               )}
@@ -200,18 +101,18 @@ export const SwapInfoContent: FC<SwapInfoContentProps> = ({ value }) => {
               title={t`Execution Fee`}
               value={
                 <>
-                  {txInfoLoading ? (
+                  {isSwapTxInfoLoading ? (
                     <Skeleton.Block style={{ height: 12 }} active />
-                  ) : txInfo?.minExFee && txInfo?.maxExFee ? (
+                  ) : swapTxInfo?.minExFee && swapTxInfo?.maxExFee ? (
                     <Flex align="center">
                       <Flex.Item marginRight={1}>
                         <AssetIcon
                           size="extraSmall"
-                          asset={txInfo.minExFee.asset}
+                          asset={swapTxInfo.minExFee.asset}
                         />
                       </Flex.Item>
-                      {txInfo.minExFee.toCurrencyString()} -{' '}
-                      {txInfo.maxExFee.toCurrencyString()}
+                      {swapTxInfo.minExFee.toCurrencyString()} -{' '}
+                      {swapTxInfo.maxExFee.toCurrencyString()}
                     </Flex>
                   ) : (
                     '–'
@@ -225,14 +126,17 @@ export const SwapInfoContent: FC<SwapInfoContentProps> = ({ value }) => {
             title={t`Transaction fee`}
             value={
               <>
-                {txInfoLoading ? (
+                {isSwapTxInfoLoading ? (
                   <Skeleton.Block style={{ height: 12 }} active />
-                ) : txInfo?.txFee && txInfo?.txFee ? (
+                ) : swapTxInfo?.txFee && swapTxInfo?.txFee ? (
                   <Flex align="center">
                     <Flex.Item marginRight={1}>
-                      <AssetIcon asset={txInfo.txFee.asset} size="extraSmall" />
+                      <AssetIcon
+                        asset={swapTxInfo.txFee.asset}
+                        size="extraSmall"
+                      />
                     </Flex.Item>
-                    {txInfo.txFee.toCurrencyString()}
+                    {swapTxInfo.txFee.toCurrencyString()}
                   </Flex>
                 ) : (
                   '–'
