@@ -1,19 +1,10 @@
-import {
-  minBudgetForDeposit,
-  mkAmmActions,
-  mkAmmOutputs,
-  mkTxMath,
-  stakeKeyHashFromAddr,
-  TxCandidate,
-} from '@ergolabs/cardano-dex-sdk';
-import { OrderKind } from '@ergolabs/cardano-dex-sdk/build/main/amm/models/opRequests';
-import { OrderAddrsV1Testnet } from '@ergolabs/cardano-dex-sdk/build/main/amm/scripts';
+import { Transaction } from '@emurgo/cardano-serialization-lib-nodejs';
+import { TxCandidate } from '@ergolabs/cardano-dex-sdk';
+import { DepositTxInfo } from '@ergolabs/cardano-dex-sdk/build/main/amm/interpreters/ammTxBuilder/depositAmmTxBuilder';
 import { NetworkParams } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/env';
-import { RustModule } from '@ergolabs/cardano-dex-sdk/build/main/utils/rustLoader';
 import { t } from '@lingui/macro';
 import { first, map, Observable, Subject, switchMap, tap, zip } from 'rxjs';
 
-import { UI_FEE_BIGINT } from '../../../../common/constants/erg';
 import { Balance } from '../../../../common/models/Balance';
 import { Currency } from '../../../../common/models/Currency';
 import { TxId } from '../../../../common/types';
@@ -24,17 +15,17 @@ import {
 import { OperationValidator } from '../../../../components/OperationForm/OperationForm';
 import { AddLiquidityFormModel } from '../../../../pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityFormModel';
 import { depositMaxButtonClickForNative } from '../../../common/depositMaxButtonClickForNative';
-import { depositAda } from '../../settings/depositAda';
 import { CardanoSettings, settings$ } from '../../settings/settings';
 import { useDepositValidationFee } from '../../settings/totalFee';
 import { DepositConfirmationModal } from '../../widgets/DepositConfirmationModal/DepositConfirmationModal';
+import { useSettings } from '../../widgets/utils';
 import { CardanoAmmPool } from '../ammPools/CardanoAmmPool';
 import { cardanoNetworkParams$ } from '../common/cardanoNetwork';
 import { networkAsset } from '../networkAsset/networkAsset';
-import { getUtxosByAmount } from '../utxos/utxos';
 import { ammTxFeeMapping } from './common/ammTxFeeMapping';
 import { minExecutorReward } from './common/minExecutorReward';
 import { submitTx } from './common/submitTx';
+import { transactionBuilder$ } from './common/transactionBuilder';
 
 interface DepositTxCandidateConfig {
   readonly pool: CardanoAmmPool;
@@ -49,65 +40,29 @@ const toDepositTxCandidate = ({
   x,
   y,
   settings,
-  networkParams,
 }: DepositTxCandidateConfig): Observable<TxCandidate> => {
   if (!settings.address || !settings.ph) {
     throw new Error('[deposit]: wallet address is not selected');
   }
 
-  const txMath = mkTxMath(networkParams.pparams, RustModule.CardanoWasm);
-  const ammOutputs = mkAmmOutputs(
-    OrderAddrsV1Testnet,
-    txMath,
-    RustModule.CardanoWasm,
-  );
-  const ammActions = mkAmmActions(ammOutputs, settings.address);
   const xAmount = pool.pool.x.withAmount(x.amount);
   const yAmount = pool.pool.y.withAmount(y.amount);
-  const lpAmount = pool.pool.rewardLP(xAmount, yAmount);
 
-  const depositVariables = minBudgetForDeposit(
-    xAmount,
-    yAmount,
-    lpAmount,
-    ammTxFeeMapping,
-    minExecutorReward,
-    UI_FEE_BIGINT,
-    txMath,
-  );
-
-  if (!depositVariables) {
-    throw new Error('incorrect deposit variables');
-  }
-
-  const [depositBudget, depositValue, depositCollateral] = depositVariables;
-
-  return getUtxosByAmount(depositValue).pipe(
-    map((utxos) =>
-      ammActions.createOrder(
-        {
-          kind: OrderKind.Deposit,
-          poolId: pool.pool.id,
-          x: xAmount,
-          y: yAmount,
-          lq: lpAmount.asset,
-          rewardPkh: settings.ph!,
-          stakePkh: stakeKeyHashFromAddr(
-            settings.address!,
-            RustModule.CardanoWasm,
-          ),
-          uiFee: UI_FEE_BIGINT,
-          exFee: minExecutorReward + ammTxFeeMapping.depositExecution,
-          orderValue: depositBudget,
-          collateralAda: depositCollateral,
-        },
-        {
-          changeAddr: settings.address!,
-          collateralInputs: [],
-          inputs: utxos.map((u) => ({ txOut: u })),
-        },
-      ),
+  return transactionBuilder$.pipe(
+    switchMap((txBuilder) =>
+      txBuilder.deposit({
+        x: xAmount,
+        y: yAmount,
+        pool: pool.pool as any,
+        slippage: settings.slippage,
+        txFees: ammTxFeeMapping,
+        minExecutorReward: minExecutorReward,
+        changeAddress: settings.address!,
+        pk: settings.ph!,
+      }),
     ),
+    map((data: [Transaction | null, TxCandidate, DepositTxInfo]) => data[1]),
+    first(),
   );
 };
 
@@ -165,43 +120,34 @@ export const deposit = (
 
 export const useDepositValidators =
   (): OperationValidator<AddLiquidityFormModel>[] => {
-    const depositValidationFee = useDepositValidationFee();
+    const settings = useSettings();
 
-    const insufficientFeeValidator: OperationValidator<AddLiquidityFormModel> =
-      ({ value: { x, y } }, balance) => {
-        let totalFeesWithAmount = depositValidationFee.minus(depositAda);
+    const insufficientFeeValidator: OperationValidator<
+      Required<AddLiquidityFormModel>
+    > = ({ value: { x, y, pool } }) => {
+      return transactionBuilder$.pipe(
+        switchMap((txBuilder) =>
+          txBuilder.deposit({
+            x: pool.pool.x.withAmount(x.amount) as any,
+            y: pool.pool.y.withAmount(y.amount) as any,
+            pool: pool.pool as any,
+            slippage: settings.slippage,
+            txFees: ammTxFeeMapping,
+            minExecutorReward: minExecutorReward,
+            changeAddress: settings.address!,
+            pk: settings.ph!,
+          }),
+        ),
+        map((data: [Transaction | null, TxCandidate, DepositTxInfo]) =>
+          data[0]
+            ? undefined
+            : t`Insufficient ${networkAsset.ticker} balance for fees`,
+        ),
+        first(),
+      );
+    };
 
-        totalFeesWithAmount = x?.isAssetEquals(networkAsset)
-          ? totalFeesWithAmount.plus(x)
-          : totalFeesWithAmount;
-
-        totalFeesWithAmount = y?.isAssetEquals(networkAsset)
-          ? totalFeesWithAmount.plus(y)
-          : totalFeesWithAmount;
-
-        return totalFeesWithAmount.gt(balance.get(networkAsset))
-          ? t`Insufficient ${networkAsset.ticker} balance for fees`
-          : undefined;
-      };
-
-    const insufficientRefundableBalanceValidator: OperationValidator<AddLiquidityFormModel> =
-      ({ value: { x, y } }, balance) => {
-        let totalFeesWithAmount = depositValidationFee;
-
-        totalFeesWithAmount = x?.isAssetEquals(networkAsset)
-          ? totalFeesWithAmount.plus(x)
-          : totalFeesWithAmount;
-
-        totalFeesWithAmount = y?.isAssetEquals(networkAsset)
-          ? totalFeesWithAmount.plus(y)
-          : totalFeesWithAmount;
-
-        return totalFeesWithAmount.gt(balance.get(networkAsset))
-          ? t`Insufficient ${networkAsset.ticker} for refundable deposit`
-          : undefined;
-      };
-
-    return [insufficientFeeValidator, insufficientRefundableBalanceValidator];
+    return [insufficientFeeValidator as any];
   };
 
 export const useHandleDepositMaxButtonClick = (): ((
