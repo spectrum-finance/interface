@@ -28,7 +28,7 @@ export interface FeesViewProps {
 }
 
 interface TotalFeeValueProps {
-  readonly feeSum: Currency;
+  readonly feeItems: FeesViewItem[];
   readonly executionFee?: ExecutionFee;
   readonly isLoading?: boolean;
 }
@@ -38,18 +38,8 @@ interface ExecutionFeeTooltipValueProps {
   readonly isLoading?: boolean;
 }
 
-const clacFeeSum = (fees: FeesViewItem[]): Currency => {
-  if (fees.length > 0 && !!fees[0].fee) {
-    return fees.reduce((acc, fee) => {
-      return acc.plus(fee.fee!);
-      return acc;
-    }, new Currency(0n, fees[0].fee.asset));
-  }
-  return new Currency(0n);
-};
-
 const TotalFeeValue: FC<TotalFeeValueProps> = ({
-  feeSum,
+  feeItems,
   executionFee,
   isLoading = false,
 }) => {
@@ -57,13 +47,22 @@ const TotalFeeValue: FC<TotalFeeValueProps> = ({
     return <FeesSkeletonLoading />;
   }
 
+  const feeItemsCurrencies = feeItems.map((item) =>
+    item.fee ? item.fee : new Currency(0n),
+  );
+
   if (executionFee instanceof Array) {
     return (
       <>
-        {executionFee[0] && executionFee[1] && (
+        {executionFee[0] && executionFee[1] && feeItems && (
           <Typography.Body size="large" strong>
-            <ConvenientAssetView value={[executionFee[0], feeSum]} /> -{' '}
-            <ConvenientAssetView value={[executionFee[1], feeSum]} />
+            <ConvenientAssetView
+              value={[executionFee[0], ...feeItemsCurrencies]}
+            />{' '}
+            -{' '}
+            <ConvenientAssetView
+              value={[executionFee[1], ...feeItemsCurrencies]}
+            />
           </Typography.Body>
         )}
       </>
@@ -73,7 +72,7 @@ const TotalFeeValue: FC<TotalFeeValueProps> = ({
   if (executionFee) {
     return (
       <Typography.Body size="large" strong>
-        <ConvenientAssetView value={[executionFee, feeSum]} />
+        <ConvenientAssetView value={[executionFee, ...feeItemsCurrencies]} />
       </Typography.Body>
     );
   }
@@ -134,7 +133,6 @@ export const FeesView: FC<FeesViewProps> = ({
   isLoading,
 }) => {
   const [network] = useSelectedNetwork();
-  const feeSum = clacFeeSum(feeItems);
 
   return (
     <>
@@ -218,7 +216,7 @@ export const FeesView: FC<FeesViewProps> = ({
         }
         value={
           <TotalFeeValue
-            feeSum={feeSum}
+            feeItems={feeItems}
             executionFee={executionFee}
             isLoading={isLoading}
           />
