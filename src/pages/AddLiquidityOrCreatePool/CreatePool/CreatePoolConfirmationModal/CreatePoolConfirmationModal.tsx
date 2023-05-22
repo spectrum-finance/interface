@@ -153,7 +153,7 @@ const CreatePoolConfirmationModal: FC<CreatePoolConfirmationModalProps> = ({
               <Flex justify="space-between">
                 <Flex.Item>
                   <Typography.Body strong size="large">
-                    <Trans>Fees</Trans>
+                    <Trans>Total fees</Trans>
                   </Typography.Body>
                   <InfoTooltip
                     placement="rightBottom"
@@ -162,7 +162,7 @@ const CreatePoolConfirmationModal: FC<CreatePoolConfirmationModalProps> = ({
                         <Flex.Item>
                           <Flex>
                             <Flex.Item marginRight={1}>
-                              <Trans>Miner Fee:</Trans>
+                              <Trans>Network Fee:</Trans>
                             </Flex.Item>
                             <Flex.Item>{minerFee} ERG</Flex.Item>
                           </Flex>

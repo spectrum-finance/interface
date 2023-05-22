@@ -1,4 +1,4 @@
-import { Flex, Form, FormGroup, useForm } from '@ergolabs/ui-kit';
+import { Animation, Flex, Form, FormGroup, useForm } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
 import { ElementLocation, ElementName } from '@spectrumlabs/analytics';
 import { FC, useEffect, useState } from 'react';
@@ -390,8 +390,9 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
       <Flex col>
         <Flex.Item marginBottom={4}>
           <Section
-            title={t`Choose a fee`}
-            tooltip={t`The % you will earn in fees`}
+            title={t`Set a fee tier`}
+            tooltip={t`This percentage will represent the earnings all liquidity providers receive from swap fees.`}
+            tooltipWidth={250}
           >
             <Form.Item name="fee">
               {({ value, onChange }) => (
@@ -401,22 +402,26 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
           </Section>
         </Flex.Item>
         <Flex.Item marginBottom={4}>
-          <Section title={t`Set initial price`}>
-            <Form.Item name="initialPrice" watchForm>
-              {({ value, onChange, parent }) => (
-                <InitialPriceInput
-                  xAsset={parent.value.xAsset}
-                  yAsset={parent.value.yAsset}
-                  onChange={onChange}
-                  value={value}
-                />
-              )}
-            </Form.Item>
-          </Section>
+          <Form.Item name="initialPrice" watchForm>
+            {({ value, onChange, parent }) => (
+              <Animation.Expand
+                expanded={!!form.value.xAsset && !!form.value.yAsset}
+              >
+                <Section title={t`Set initial price`}>
+                  <InitialPriceInput
+                    xAsset={parent.value.xAsset}
+                    yAsset={parent.value.yAsset}
+                    onChange={onChange}
+                    value={value}
+                  />
+                </Section>
+              </Animation.Expand>
+            )}
+          </Form.Item>
         </Flex.Item>
         <Flex.Item marginBottom={4}>
           <Section
-            title={t`Liquidity`}
+            title={t`Provide initial liquidity`}
             extra={
               <Flex justify="flex-end">
                 <LiquidityPercentInput onClick={handleMaxLiquidityClick} />

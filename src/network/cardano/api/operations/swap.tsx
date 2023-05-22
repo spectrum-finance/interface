@@ -1,5 +1,5 @@
 import { Transaction } from '@emurgo/cardano-serialization-lib-nodejs';
-import { TxCandidate, TxInfo } from '@ergolabs/cardano-dex-sdk';
+import { SwapTxInfo, TxCandidate } from '@ergolabs/cardano-dex-sdk';
 import { NetworkParams } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/env';
 import { t } from '@lingui/macro';
 import { first, map, Observable, Subject, switchMap, tap, zip } from 'rxjs';
@@ -65,7 +65,7 @@ const toSwapTxCandidate = ({
       }),
     ),
     map(
-      ([, txCandidate]: [Transaction | null, TxCandidate, TxInfo]) =>
+      ([, txCandidate]: [Transaction | null, TxCandidate, SwapTxInfo]) =>
         txCandidate,
     ),
     first(),
@@ -153,7 +153,7 @@ export const useSwapValidators = (): OperationValidator<SwapFormModel>[] => {
           pool: pool.pool as any,
         }),
       ),
-      map((data: [Transaction | null, TxCandidate, TxInfo]) =>
+      map((data: [Transaction | null, TxCandidate, SwapTxInfo]) =>
         data[0]
           ? undefined
           : t`Insufficient ${networkAsset.ticker} balance for fees`,

@@ -9,7 +9,7 @@ import {
 import { t } from '@lingui/macro';
 import { ElementLocation, ElementName } from '@spectrumlabs/analytics';
 import maxBy from 'lodash/maxBy';
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useMemo, useState } from 'react';
 import { first, skip } from 'rxjs';
 
 import { useSubscription } from '../../../common/hooks/useObservable';
@@ -100,14 +100,22 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
       (p) => p.x.amount * p.y.amount,
     );
 
-    if (!!form.value.pool?.id) {
-      form.patchValue({
-        pool:
-          pools.find((p) => p.id === form.value.pool?.id) ||
-          poolWithHighestLiquidity,
-      });
-    } else {
-      form.patchValue({ pool: poolWithHighestLiquidity });
+    const poolToSelect =
+      pools.find((p) => p.id === form.value.pool?.id) ||
+      poolWithHighestLiquidity;
+
+    if (!poolToSelect) {
+      return;
+    }
+
+    const isDifferentPools = form.value.pool?.id !== poolToSelect.id;
+    const isPoolStateDifferent =
+      form.value.pool?.id === poolToSelect.id &&
+      (!form.value.pool?.x.isEquals(poolToSelect.x) ||
+        !form.value.pool?.y.isEquals(poolToSelect.y));
+
+    if (isDifferentPools || isPoolStateDifferent) {
+      form.patchValue({ pool: poolToSelect });
     }
   }, [pools]);
 
@@ -239,13 +247,16 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
     );
   };
 
-  const validators: OperationValidator<AddLiquidityFormModel>[] = [
-    selectTokenValidator,
-    amountValidator,
-    minValueValidator,
-    balanceValidator,
-    ...depositValidators,
-  ];
+  const validators: OperationValidator<AddLiquidityFormModel>[] = useMemo(
+    () => [
+      selectTokenValidator,
+      amountValidator,
+      minValueValidator,
+      balanceValidator,
+      ...depositValidators,
+    ],
+    [balance],
+  );
 
   return (
     <OperationForm

@@ -120,7 +120,7 @@ export const SwapInfoContent: FC<SwapInfoContent> = ({ value }) => {
             />
           </Flex.Item>
           <SwapInfoItem
-            title={t`Miner fee`}
+            title={t`Network Fee`}
             value={
               <Flex align="center">
                 <Flex.Item marginRight={1}>
