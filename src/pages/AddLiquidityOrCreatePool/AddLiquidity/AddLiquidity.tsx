@@ -95,14 +95,18 @@ export const AddLiquidity: FC<AddLiquidityProps> = ({
     if (!pools) {
       return;
     }
-    const poolWithHighestLiquidity: AmmPool = maxBy(
+    const poolWithHighestLiquidity = maxBy(
       pools,
       (p) => p.x.amount * p.y.amount,
-    )!;
+    );
 
-    const poolToSelect: AmmPool =
+    const poolToSelect =
       pools.find((p) => p.id === form.value.pool?.id) ||
       poolWithHighestLiquidity;
+
+    if (!poolToSelect) {
+      return;
+    }
 
     const isDifferentPools = form.value.pool?.id !== poolToSelect.id;
     const isPoolStateDifferent =
