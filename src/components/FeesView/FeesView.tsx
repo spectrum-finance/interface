@@ -24,15 +24,18 @@ export interface FeesViewProps {
   readonly feeItems: FeesViewItem[];
   readonly executionFee?: ExecutionFee;
   readonly refundableDeposit?: Currency;
+  readonly isLoading?: boolean;
 }
 
 interface TotalFeeValueProps {
   readonly feeSum: Currency;
   readonly executionFee?: ExecutionFee;
+  readonly isLoading?: boolean;
 }
 
 interface ExecutionFeeTooltipValueProps {
   readonly executionFee?: ExecutionFee;
+  readonly isLoading?: boolean;
 }
 
 const clacFeeSum = (fees: FeesViewItem[]): Currency => {
@@ -45,8 +48,12 @@ const clacFeeSum = (fees: FeesViewItem[]): Currency => {
   return new Currency(0n);
 };
 
-const TotalFeeValue: FC<TotalFeeValueProps> = ({ feeSum, executionFee }) => {
-  if (!executionFee || !feeSum) {
+const TotalFeeValue: FC<TotalFeeValueProps> = ({
+  feeSum,
+  executionFee,
+  isLoading = false,
+}) => {
+  if (isLoading) {
     return <FeesSkeletonLoading />;
   }
 
@@ -63,55 +70,68 @@ const TotalFeeValue: FC<TotalFeeValueProps> = ({ feeSum, executionFee }) => {
     );
   }
 
+  if (executionFee) {
+    return (
+      <Typography.Body size="large" strong>
+        <ConvenientAssetView value={[executionFee, feeSum]} />
+      </Typography.Body>
+    );
+  }
+
+  return <></>;
+};
+
+const ExecutionFeeTooltipTextWrapper = ({ children }) => {
   return (
-    <Typography.Body size="large" strong>
-      <ConvenientAssetView value={[executionFee, feeSum]} />
-    </Typography.Body>
+    <Flex.Item display="flex" align="center" marginBottom={1}>
+      <Flex.Item marginRight={1}>Execution Fee:</Flex.Item>
+      <Flex.Item align="center" display="flex">
+        {children}
+      </Flex.Item>
+    </Flex.Item>
   );
 };
 
 const ExecutionFeeTooltipValue: FC<ExecutionFeeTooltipValueProps> = ({
   executionFee,
+  isLoading = false,
 }) => {
-  console.log('executionFee', executionFee);
-  if (
-    !executionFee ||
-    (executionFee instanceof Array && !executionFee[0]) ||
-    !executionFee[1]
-  ) {
+  if (isLoading) {
     return <FeesSkeletonLoading />;
   }
 
-  return (
-    <Flex.Item display="flex" align="center" marginBottom={1}>
-      <Flex.Item marginRight={1}>Execution Fee:</Flex.Item>
-      <Flex.Item align="center" display="flex">
-        {executionFee instanceof Array ? (
-          <>
-            <Flex.Item marginRight={1}>
-              <AssetIcon size="extraSmall" asset={executionFee[0].asset} />
-            </Flex.Item>
-            {`${executionFee[0].toString()} - ${executionFee[1].toString()} ${
-              executionFee[0].asset.ticker
-            }`}
-          </>
-        ) : (
-          <>
-            <Flex.Item marginRight={1}>
-              <AssetIcon size="extraSmall" asset={executionFee.asset} />
-            </Flex.Item>
-            {`${executionFee.toString()} ${executionFee.asset.ticker}`}
-          </>
-        )}
-      </Flex.Item>
-    </Flex.Item>
-  );
+  if (executionFee && 'asset' in executionFee) {
+    return (
+      <ExecutionFeeTooltipTextWrapper>
+        <Flex.Item marginRight={1}>
+          <AssetIcon size="extraSmall" asset={executionFee.asset} />
+        </Flex.Item>
+        {`${executionFee.toString()} ${executionFee.asset.ticker}`}
+      </ExecutionFeeTooltipTextWrapper>
+    );
+  }
+
+  if (executionFee instanceof Array && executionFee[0] && executionFee[1]) {
+    return (
+      <ExecutionFeeTooltipTextWrapper>
+        <Flex.Item marginRight={1}>
+          <AssetIcon size="extraSmall" asset={executionFee[0].asset} />
+        </Flex.Item>
+        {`${executionFee[0].toString()} - ${executionFee[1].toString()} ${
+          executionFee[0].asset.ticker
+        }`}
+      </ExecutionFeeTooltipTextWrapper>
+    );
+  }
+
+  return <></>;
 };
 
 export const FeesView: FC<FeesViewProps> = ({
   feeItems,
   executionFee,
   refundableDeposit,
+  isLoading,
 }) => {
   const [network] = useSelectedNetwork();
   const feeSum = clacFeeSum(feeItems);
@@ -159,7 +179,7 @@ export const FeesView: FC<FeesViewProps> = ({
               placement="right"
               content={
                 <Flex col>
-                  <ExecutionFeeTooltipValue />
+                  <ExecutionFeeTooltipValue executionFee={executionFee} />
                   {feeItems.map((item, index) => (
                     <Flex.Item
                       display="flex"
@@ -169,7 +189,7 @@ export const FeesView: FC<FeesViewProps> = ({
                     >
                       <Flex.Item marginRight={1}>{item.caption}:</Flex.Item>
                       <Flex.Item align="center" display="flex">
-                        {item.fee ? (
+                        {item.fee && !isLoading ? (
                           <>
                             <Flex.Item marginRight={1}>
                               <AssetIcon
@@ -196,7 +216,13 @@ export const FeesView: FC<FeesViewProps> = ({
             <Typography.Body size="large">:</Typography.Body>
           </>
         }
-        value={<TotalFeeValue feeSum={feeSum} executionFee={executionFee} />}
+        value={
+          <TotalFeeValue
+            feeSum={feeSum}
+            executionFee={executionFee}
+            isLoading={isLoading}
+          />
+        }
       />
     </>
   );
