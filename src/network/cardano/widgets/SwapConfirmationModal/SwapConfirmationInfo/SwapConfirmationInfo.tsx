@@ -79,7 +79,7 @@ export const SwapConfirmationInfo: FC<SwapConfirmationInfoProps> = ({
           />
         </Flex.Item>
         <FeesView
-          fees={[{ caption: t`Network Fee`, currency: swapTxInfo?.txFee }]}
+          feeItems={[{ caption: t`Network Fee`, fee: swapTxInfo?.txFee }]}
           executionFee={[swapTxInfo?.minExFee, swapTxInfo?.maxExFee]}
           refundableDeposit={swapTxInfo?.refundableDeposit}
         />

@@ -64,16 +64,21 @@ const TotalFeeValue: FC<TotalFeeValueProps> = ({ feeSum, executionFee }) => {
   }
 
   return (
-    <>
+    <Typography.Body size="large" strong>
       <ConvenientAssetView value={[executionFee, feeSum]} />
-    </>
+    </Typography.Body>
   );
 };
 
 const ExecutionFeeTooltipValue: FC<ExecutionFeeTooltipValueProps> = ({
   executionFee,
 }) => {
-  if (!executionFee || !executionFee[0] || !executionFee[1]) {
+  console.log('executionFee', executionFee);
+  if (
+    !executionFee ||
+    (executionFee instanceof Array && !executionFee[0]) ||
+    !executionFee[1]
+  ) {
     return <FeesSkeletonLoading />;
   }
 
