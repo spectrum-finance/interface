@@ -12,18 +12,19 @@ import { ConvenientAssetView } from '../ConvenientAssetView/ConvenientAssetView'
 import { InfoTooltip } from '../InfoTooltip/InfoTooltip';
 import { Truncate } from '../Truncate/Truncate.tsx';
 
+export type FeeRange = [Currency, Currency];
+export type Fee = Currency | FeeRange;
 export interface FeesViewItem {
   caption: string;
-  currency?: Currency;
+  fee?: Fee;
 }
 
 export interface FeesViewProps {
-  readonly fees: FeesViewItem[];
-  readonly executionFee: [Currency | undefined, Currency | undefined];
+  readonly feeItems: FeesViewItem[];
   readonly refundableDeposit?: Currency;
 }
 
-const clacFeeSum = (fees: FeesViewItem[]): Currency => {
+const clacFeeSum = (fees: FeesViewItem[]): Fee => {
   if (fees.length > 0 && !!fees[0].currency) {
     return fees.reduce((acc, fee) => {
       return acc.plus(fee.currency!);
@@ -34,12 +35,11 @@ const clacFeeSum = (fees: FeesViewItem[]): Currency => {
 };
 
 export const FeesView: FC<FeesViewProps> = ({
-  fees,
-  executionFee,
+  feeItems,
   refundableDeposit,
 }) => {
-  const feeSum = clacFeeSum(fees);
   const [network] = useSelectedNetwork();
+  const feeSum: Fee = clacFeeSum(feeItems);
 
   return (
     <>
@@ -84,47 +84,42 @@ export const FeesView: FC<FeesViewProps> = ({
               placement="right"
               content={
                 <Flex col>
-                  <Flex.Item display="flex" align="center" marginBottom={1}>
-                    <Flex.Item marginRight={1}>Execution Fee:</Flex.Item>
-                    {executionFee[0] && executionFee[1] ? (
+                  {fees.map((item, index) => (
+                    <Flex.Item
+                      display="flex"
+                      align="center"
+                      key={index}
+                      marginBottom={index === fees.length - 1 ? 0 : 1}
+                    >
+                      <Flex.Item marginRight={1}>{f.caption}:</Flex.Item>
                       <Flex.Item align="center" display="flex">
                         <Flex.Item marginRight={1}>
                           <AssetIcon
                             size="extraSmall"
-                            asset={executionFee[0].asset}
+                            asset={
+                              item.fee instanceof Array
+                                ? item.currency[0].asset
+                                : item.currency.asset
+                            }
                           />
                         </Flex.Item>
-                        {`${executionFee[0].toString()} - ${executionFee[1].toString()} ${
-                          executionFee[0].asset.ticker
-                        }`}
-                      </Flex.Item>
-                    ) : (
-                      <FeesSkeletonLoading />
-                    )}
-                  </Flex.Item>
-                  {fees.map((f, i) => (
-                    <Flex.Item
-                      display="flex"
-                      align="center"
-                      key={i}
-                      marginBottom={i === fees.length - 1 ? 0 : 1}
-                    >
-                      <Flex.Item marginRight={1}>{f.caption}:</Flex.Item>
-                      <Flex.Item align="center" display="flex">
-                        {f.currency ? (
-                          <>
-                            <Flex.Item marginRight={1}>
-                              <AssetIcon
-                                size="extraSmall"
-                                asset={f.currency.asset}
-                              />
-                            </Flex.Item>
-                            {`${f.currency.toString()} `}{' '}
-                            <Truncate>{f.currency.asset.ticker}</Truncate>
-                          </>
-                        ) : (
-                          <FeesSkeletonLoading />
-                        )}
+                        {item.fee instanceof Array
+                          ? `${item.currency[0].toString()} - ${f.currency[1].toString()} ${
+                              item.currency[0].asset.ticker
+                            }`
+                          : f.currency.toCurrencyString()}{' '}
+                        <IsErgo>
+                          (
+                          {f.currency instanceof Array ? (
+                            <>
+                              <ConvenientAssetView value={f.currency[0]} /> -{' '}
+                              <ConvenientAssetView value={f.currency[1]} />
+                            </>
+                          ) : (
+                            <ConvenientAssetView value={f.currency} />
+                          )}
+                          )
+                        </IsErgo>
                       </Flex.Item>
                     </Flex.Item>
                   ))}
@@ -139,18 +134,108 @@ export const FeesView: FC<FeesViewProps> = ({
           </>
         }
         value={
-          <>
-            {executionFee[0] && executionFee[1] ? (
-              <Typography.Body size="large" strong>
-                <ConvenientAssetView value={[executionFee[0], feeSum]} /> -{' '}
-                <ConvenientAssetView value={[executionFee[1], feeSum]} />
-              </Typography.Body>
-            ) : (
-              <FeesSkeletonLoading />
+          <Typography.Body size="large" strong>
+            {selectedNetwork.name === 'cardano' && (
+              <>
+                {totalFees instanceof Array
+                  ? sumTotalFees(totalFees).toCurrencyString()
+                  : `${sumTotalFees(
+                      totalFees.minFeesForTotal,
+                    ).toString()} - ${sumTotalFees(
+                      totalFees.maxFeesForTotal,
+                    ).toString()} ${totalFees.minFeesForTotal[0].asset.ticker}`}
+              </>
             )}
-          </>
+            {selectedNetwork.name === 'ergo' && (
+              <>
+                {totalFees instanceof Array ? (
+                  <ConvenientAssetView value={totalFees} />
+                ) : (
+                  <>
+                    <ConvenientAssetView value={totalFees.minFeesForTotal} /> -{' '}
+                    <ConvenientAssetView value={totalFees.maxFeesForTotal} />
+                  </>
+                )}
+              </>
+            )}
+          </Typography.Body>
         }
       />
+
+      {/*<BoxInfoItem*/}
+      {/*  title={*/}
+      {/*    <>*/}
+      {/*      <InfoTooltip*/}
+      {/*        placement="right"*/}
+      {/*        content={*/}
+      {/*          <Flex col>*/}
+      {/*            <Flex.Item display="flex" align="center" marginBottom={1}>*/}
+      {/*              <Flex.Item marginRight={1}>Execution Fee:</Flex.Item>*/}
+      {/*              {executionFee[0] && executionFee[1] ? (*/}
+      {/*                <Flex.Item align="center" display="flex">*/}
+      {/*                  <Flex.Item marginRight={1}>*/}
+      {/*                    <AssetIcon*/}
+      {/*                      size="extraSmall"*/}
+      {/*                      asset={executionFee[0].asset}*/}
+      {/*                    />*/}
+      {/*                  </Flex.Item>*/}
+      {/*                  {`${executionFee[0].toString()} - ${executionFee[1].toString()} ${*/}
+      {/*                    executionFee[0].asset.ticker*/}
+      {/*                  }`}*/}
+      {/*                </Flex.Item>*/}
+      {/*              ) : (*/}
+      {/*                <FeesSkeletonLoading />*/}
+      {/*              )}*/}
+      {/*            </Flex.Item>*/}
+      {/*            {fees.map((f, i) => (*/}
+      {/*              <Flex.Item*/}
+      {/*                display="flex"*/}
+      {/*                align="center"*/}
+      {/*                key={i}*/}
+      {/*                marginBottom={i === fees.length - 1 ? 0 : 1}*/}
+      {/*              >*/}
+      {/*                <Flex.Item marginRight={1}>{f.caption}:</Flex.Item>*/}
+      {/*                <Flex.Item align="center" display="flex">*/}
+      {/*                  {f.currency ? (*/}
+      {/*                    <>*/}
+      {/*                      <Flex.Item marginRight={1}>*/}
+      {/*                        <AssetIcon*/}
+      {/*                          size="extraSmall"*/}
+      {/*                          asset={f.currency.asset}*/}
+      {/*                        />*/}
+      {/*                      </Flex.Item>*/}
+      {/*                      {`${f.currency.toString()} `}{' '}*/}
+      {/*                      <Truncate>{f.currency.asset.ticker}</Truncate>*/}
+      {/*                    </>*/}
+      {/*                  ) : (*/}
+      {/*                    <FeesSkeletonLoading />*/}
+      {/*                  )}*/}
+      {/*                </Flex.Item>*/}
+      {/*              </Flex.Item>*/}
+      {/*            ))}*/}
+      {/*          </Flex>*/}
+      {/*        }*/}
+      {/*      >*/}
+      {/*        <Typography.Body size="large">*/}
+      {/*          <Trans>Total Fees</Trans>*/}
+      {/*        </Typography.Body>*/}
+      {/*      </InfoTooltip>*/}
+      {/*      <Typography.Body size="large">:</Typography.Body>*/}
+      {/*    </>*/}
+      {/*  }*/}
+      {/*  value={*/}
+      {/*    <>*/}
+      {/*      {executionFee[0] && executionFee[1] ? (*/}
+      {/*        <Typography.Body size="large" strong>*/}
+      {/*          <ConvenientAssetView value={[executionFee[0], feeSum]} /> -{' '}*/}
+      {/*          <ConvenientAssetView value={[executionFee[1], feeSum]} />*/}
+      {/*        </Typography.Body>*/}
+      {/*      ) : (*/}
+      {/*        <FeesSkeletonLoading />*/}
+      {/*      )}*/}
+      {/*    </>*/}
+      {/*  }*/}
+      {/*/>*/}
     </>
   );
 };
