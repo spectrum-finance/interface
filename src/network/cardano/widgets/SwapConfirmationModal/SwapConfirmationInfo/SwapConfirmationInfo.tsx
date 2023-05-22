@@ -18,7 +18,7 @@ export interface SwapConfirmationInfoProps {
 export const SwapConfirmationInfo: FC<SwapConfirmationInfoProps> = ({
   value,
 }) => {
-  const [swapTxInfo, _, settings] = useSwapTxInfo(value);
+  const [swapTxInfo, isSwapTxInfoLoading, settings] = useSwapTxInfo(value);
 
   return (
     <Box secondary padding={4} borderRadius="l">
@@ -82,6 +82,7 @@ export const SwapConfirmationInfo: FC<SwapConfirmationInfoProps> = ({
           feeItems={[{ caption: t`Network Fee`, fee: swapTxInfo?.txFee }]}
           executionFee={[swapTxInfo?.minExFee, swapTxInfo?.maxExFee]}
           refundableDeposit={swapTxInfo?.refundableDeposit}
+          isLoading={isSwapTxInfoLoading}
         />
       </Flex>
     </Box>

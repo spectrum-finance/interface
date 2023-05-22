@@ -5,10 +5,7 @@ import { FC } from 'react';
 import { calculateOutputs } from '../../../../../common/utils/calculateOutputs.ts';
 import { AssetIcon } from '../../../../../components/AssetIcon/AssetIcon.tsx';
 import { BoxInfoItem } from '../../../../../components/BoxInfoItem/BoxInfoItem.tsx';
-import {
-  FeesView,
-  FeesViewItem,
-} from '../../../../../components/FeesView/FeesView.tsx';
+import { FeesView } from '../../../../../components/FeesView/FeesView.tsx';
 import { Truncate } from '../../../../../components/Truncate/Truncate.tsx';
 import { SwapFormModel } from '../../../../../pages/Swap/SwapFormModel.ts';
 import {
@@ -44,8 +41,6 @@ export const SwapConfirmationInfo: FC<SwapConfirmationInfoProps> = ({
           slippage,
         )
       : [undefined, undefined];
-
-  const fees: FeesViewItem[] = [{ caption: t`Miner Fee`, currency: minerFee }];
 
   return (
     <Box secondary padding={4} borderRadius="l">
@@ -102,7 +97,10 @@ export const SwapConfirmationInfo: FC<SwapConfirmationInfoProps> = ({
             }
           />
         </Flex.Item>
-        <FeesView fees={fees} executionFee={[minExFee, maxExFee]} />
+        <FeesView
+          feeItems={[{ caption: t`Network Fee`, fee: minerFee }]}
+          executionFee={[minExFee, maxExFee]}
+        />
       </Flex>
     </Box>
   );
