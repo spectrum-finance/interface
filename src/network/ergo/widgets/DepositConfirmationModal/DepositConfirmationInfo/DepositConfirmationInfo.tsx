@@ -14,7 +14,7 @@ export const DepositConfirmationInfo: FC = () => {
 
   const fees: FeesViewItem[] = [
     { caption: t`Execution Fee`, currency: minExFee },
-    { caption: t`Miner Fee`, currency: minerFee },
+    { caption: t`Network Fee`, currency: minerFee },
   ];
 
   return <FeesView totalFees={[minerFee, minExFee]} fees={fees} />;

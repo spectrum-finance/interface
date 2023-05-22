@@ -111,9 +111,11 @@ const AssetSelect: React.FC<TokenSelectProps> = ({
                 <Trans>Select a token</Trans>
               )}
             </Flex.Item>
-            <Flex.Item marginLeft={2}>
-              <StyledDownOutlined />
-            </Flex.Item>
+            {!readonly && (
+              <Flex.Item marginLeft={2}>
+                <StyledDownOutlined />
+              </Flex.Item>
+            )}
           </Flex>
         </StyledButton>
       )}

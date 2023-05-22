@@ -10,7 +10,9 @@ import { useMinerFee } from '../../../settings/minerFee';
 export const RefundConfirmationInfo: FC = () => {
   const minerFee = useMinerFee();
 
-  const fees: FeesViewItem[] = [{ caption: t`Miner Fee`, currency: minerFee }];
+  const fees: FeesViewItem[] = [
+    { caption: t`Network Fee`, currency: minerFee },
+  ];
 
   return <FeesView totalFees={[minerFee]} fees={fees} />;
 };
