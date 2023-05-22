@@ -1,18 +1,11 @@
 import { t } from '@lingui/macro';
 import { FC } from 'react';
 
-import {
-  FeesView,
-  FeesViewItem,
-} from '../../../../../components/FeesView/FeesView';
+import { FeesView } from '../../../../../components/FeesView/FeesView';
 import { useMinerFee } from '../../../settings/minerFee';
 
 export const RefundConfirmationInfo: FC = () => {
   const minerFee = useMinerFee();
 
-  const fees: FeesViewItem[] = [
-    { caption: t`Network Fee`, currency: minerFee },
-  ];
-
-  return <FeesView totalFees={[minerFee]} fees={fees} />;
+  return <FeesView feeItems={[{ caption: t`Network Fee`, fee: minerFee }]} />;
 };

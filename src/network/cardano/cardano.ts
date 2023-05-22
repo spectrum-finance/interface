@@ -50,7 +50,6 @@ import {
   walletState$,
 } from './api/wallet/wallet';
 import { initialize, initialized$ } from './initialized';
-import { depositAda } from './settings/depositAda';
 import {
   CardanoSettings,
   setSettings,
@@ -144,5 +143,4 @@ export const cardanoNetwork: Network<
   getPoolChartData: getPoolChartData as any,
   pendingOperations$: of([]),
   queuedOperation$: of(undefined),
-  refundableDeposit: depositAda,
 };
