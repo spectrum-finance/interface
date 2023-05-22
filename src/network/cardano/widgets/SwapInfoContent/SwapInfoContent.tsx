@@ -139,8 +139,8 @@ export const SwapInfoContent: FC<SwapInfoContentProps> = ({ value }) => {
           tooltip={
             <>
               <Trans>
-                This amount of ADA will be held to construct the transaction and
-                will be returned when your order is executed or cancelled.
+                This amount of ADA will be held to build a transaction and will
+                be returned when your order is executed or canceled.
               </Trans>
               <br />
               <a
