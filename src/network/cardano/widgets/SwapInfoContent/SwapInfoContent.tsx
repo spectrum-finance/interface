@@ -222,7 +222,7 @@ export const SwapInfoContent: FC<SwapInfoContentProps> = ({ value }) => {
           </Flex.Item>
           <SwapInfoItem
             tooltip={t`A small amount of ADA charged by Cardano blockchain.`}
-            title={t`Transaction fee`}
+            title={t`Network Fee`}
             value={
               <>
                 {txInfoLoading ? (

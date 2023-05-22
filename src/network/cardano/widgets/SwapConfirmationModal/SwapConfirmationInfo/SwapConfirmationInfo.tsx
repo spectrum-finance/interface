@@ -45,7 +45,7 @@ export const SwapConfirmationInfo: FC<SwapConfirmationInfoProps> = ({
 
   const fees: FeesViewItem[] = [
     { caption: t`Execution Fee`, currency: [minExFee, maxExFee] },
-    { caption: t`Transaction Fee`, currency: transactionFee },
+    { caption: t`Network Fee`, currency: transactionFee },
   ];
 
   return (
