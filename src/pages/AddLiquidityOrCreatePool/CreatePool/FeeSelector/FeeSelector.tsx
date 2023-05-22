@@ -17,12 +17,12 @@ const FEES: FeeDescriptor[] = [
   {
     percent: 0.3,
     description: t`Best for most pairs`,
-    content: t`0.3% fee`,
+    content: `0.3%`,
   },
   {
     percent: 1,
     description: t`Best for exotic pairs`,
-    content: t`1% fee`,
+    content: `1%`,
   },
 ];
 
@@ -76,7 +76,7 @@ export const FeeSelector: FC<FeeSelectorProps> = ({ value, onChange }) => {
           description={t`Custom fee tier`}
           content={
             <Input
-              size="small"
+              size="large"
               textAlign="right"
               value={userInput}
               onChange={(e) => handleInputChange(e.target.value)}
