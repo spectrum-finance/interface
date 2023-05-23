@@ -9,7 +9,7 @@ import { SwapInfoItem } from '../../../../pages/Swap/SwapInfo/SwapInfoItem/SwapI
 import { SwapInfoPriceImpact } from '../../../../pages/Swap/SwapInfo/SwapInfoPriceImpact/SwapInfoPriceImpact';
 import { CardanoAmmPool } from '../../api/ammPools/CardanoAmmPool';
 import RefundableDepositTooltipContent from '../../components/RefundableDepositTooltipContent/RefundableDepositTooltipContent.tsx';
-import { useSwapTxInfo } from '../utils';
+import { useSwapTxInfo } from '../common/useSwapTxInfo';
 
 export interface SwapInfoContentProps {
   readonly value: SwapFormModel<CardanoAmmPool>;

@@ -6,6 +6,7 @@ import { filter, map, Observable, startWith, zip } from 'rxjs';
 
 import { MIN_NITRO } from '../../../common/constants/erg';
 import { defaultSlippage } from '../../../common/constants/settings';
+import { useObservable } from '../../../common/hooks/useObservable';
 import { Address } from '../../../common/types';
 import { isCurrentAddressValid } from '../../../common/utils/isCurrenctAddressValid';
 import { localStorageManager } from '../../../common/utils/localStorageManager';
@@ -101,3 +102,9 @@ export const setSettings = (newSettings: CardanoSettings): void =>
 export const settings$: Observable<CardanoSettings> = localStorageManager
   .getStream<CardanoSettings>(SETTINGS_KEY)
   .pipe(map((settings) => settings || defaultCardanoSettings));
+
+export const useSettings = (): CardanoSettings => {
+  const [_settings] = useObservable(settings$, [], settings);
+
+  return _settings;
+};

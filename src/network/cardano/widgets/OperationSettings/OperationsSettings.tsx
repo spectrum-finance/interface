@@ -2,8 +2,7 @@ import { FC } from 'react';
 
 import { OperationSettings as BaseOperationSettings } from '../../../../components/OperationSettings/OperationSettings';
 import { useMaxExFee, useMinExFee } from '../../settings/executionFee';
-import { setSettings } from '../../settings/settings';
-import { useSettings } from '../utils';
+import { setSettings, useSettings } from '../../settings/settings';
 
 interface Props {
   hideNitro?: boolean;
