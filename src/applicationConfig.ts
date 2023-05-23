@@ -63,10 +63,10 @@ export const applicationConfig: ApplicationConfig = {
   cardanoMaintenance: false,
   defaultTokenListUrl:
     'https://raw.githubusercontent.com/ergolabs/default-token-list/master/src/tokens',
-  // cardanoUpdate: {
-  //   title: 'Under Maintenance',
-  //   content: 'We are migrating the protocol to Vasil Hard Fork testnet.',
-  // },
+  cardanoUpdate: {
+    title: 'On the way to the mainnet',
+    content: 'The Cardano AMM protocol will be available in mainnet soon',
+  },
   reCaptchaKey: '6LfCKZIiAAAAACypYW5pGlgZNTcwse1njmQMIUUL',
   requestRetryCount: 3,
   networksSettings: {
@@ -178,7 +178,6 @@ export const applicationConfig: ApplicationConfig = {
     '1b3d37d78650dd8527fa02f8783d9b98490df3b464dd44af0e0593ceb4717702',
     'af629d8e63d08a9770bc543f807bdb82dcda942d4e21d506771f975dc2b3fd3a',
     '24e9f9a3e0aa89092d8690941900323dea2ee3603ca7368c0c35175259df6930',
-    '69eff57ea62b13c58e5668e3fbc9927fdb2dffb1c692261f98728a665b2f8abb',
   ],
   testFarms: [
     '69eff57ea62b13c58e5668e3fbc9927fdb2dffb1c692261f98728a665b2f8abb',

@@ -42,22 +42,6 @@ interface SettingsModel {
   readonly executionFeeAsset: AssetInfo;
 }
 
-const warningMessages: Messages<SettingsModel> = {
-  slippage: {
-    transactionFrontrun: t`Your transaction may be frontrun`,
-    transactionMayFail: t`Your transaction may fail`,
-  },
-};
-
-const errorMessages: Messages<SettingsModel> = {
-  nitro: {
-    minNitro: t`Minimal Nitro value is` + ` ${MIN_NITRO}`,
-  },
-  slippage: {
-    minSlippage: t`Minimal Slippage is` + ` ${MIN_SLIPPAGE}`,
-  },
-};
-
 const slippageCheck: CheckFn<number> = (value) =>
   value > 10 ? 'transactionFrontrun' : undefined;
 
@@ -97,6 +81,22 @@ export const OperationSettings: FC<OperationSettingsProps> = ({
   hideSlippage,
   feeAssets,
 }) => {
+  const warningMessages: Messages<SettingsModel> = {
+    slippage: {
+      transactionFrontrun: t`Your transaction may be frontrun`,
+      transactionMayFail: t`Your transaction may fail`,
+    },
+  };
+
+  const errorMessages: Messages<SettingsModel> = {
+    nitro: {
+      minNitro: t`Minimal Nitro value is` + ` ${MIN_NITRO}`,
+    },
+    slippage: {
+      minSlippage: t`Minimal Slippage is` + ` ${MIN_SLIPPAGE}`,
+    },
+  };
+
   const [isPopoverShown, setIsPopoverShown] = useState(false);
 
   const form = useForm<SettingsModel>({

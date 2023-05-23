@@ -31,7 +31,12 @@ export const ErgopayWallet: ErgoWalletContract = {
   getUtxos: () =>
     ergopayAddress$.pipe(
       switchMap((address) =>
-        from(explorer.searchUnspentBoxesByAddress(address)),
+        from(
+          explorer.searchUnspentBoxesByAddress(address, {
+            limit: 500,
+            offset: 0,
+          }),
+        ),
       ),
       map((bs: any) => bs?.map((b: any) => ergoBoxFromProxy(b))),
       map((data) => data ?? []),

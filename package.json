@@ -1,6 +1,6 @@
 {
   "name": "@spectrumlabs/interface",
-  "version": "4.0.13",
+  "version": "4.0.17",
   "private": false,
   "scripts": {
     "start": "vite",
@@ -17,8 +17,8 @@
   "dependencies": {
     "@emurgo/cardano-serialization-lib-nodejs": "^11.4.0",
     "@ergolabs/cardano-dex-sdk": "^0.1.19",
-    "@ergolabs/ergo-dex-sdk": "^1.9.65",
-    "@ergolabs/ergo-sdk": "^0.5.6",
+    "@ergolabs/ergo-dex-sdk": "^1.9.66",
+    "@ergolabs/ergo-sdk": "^0.5.7",
     "@ergolabs/ui-kit": "^2.4.31",
     "@rehooks/local-storage": "2.4.0",
     "@rollup/plugin-inject": "^5.0.3",
