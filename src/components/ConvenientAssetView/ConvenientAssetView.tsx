@@ -11,6 +11,7 @@ import { formatToUSD } from '../../services/number';
 
 export interface ConvenientAssetViewProps {
   readonly value: Currency | Currency[] | undefined;
+  readonly isShort?: boolean;
 }
 
 const SMALLEST_VALUE = 0.01;
@@ -20,6 +21,7 @@ const getConvenientValue = (
   network: Network<any, any>,
   convenientValue?: Currency,
   value?: Currency | Currency[],
+  isShort = false,
 ): string => {
   if (!convenientValue || !value || value.toString() === '0') {
     return network.name === 'cardano' ? `${ZERO_VALUE} ADA` : `$${ZERO_VALUE}`;
@@ -30,11 +32,12 @@ const getConvenientValue = (
   }
   return network.name === 'cardano'
     ? convenientValue.toCurrencyString()
-    : formatToUSD(convenientValue);
+    : formatToUSD(convenientValue, isShort ? 'abbr' : 'default');
 };
 
 export const ConvenientAssetView: FC<ConvenientAssetViewProps> = ({
   value,
+  isShort = false,
 }) => {
   const [selectedNetwork] = useSelectedNetwork();
 
@@ -53,7 +56,7 @@ export const ConvenientAssetView: FC<ConvenientAssetViewProps> = ({
       {isConvenientValueLoading ? (
         <LoadingOutlined />
       ) : (
-        getConvenientValue(selectedNetwork, convenientValue, value)
+        getConvenientValue(selectedNetwork, convenientValue, value, isShort)
       )}
     </>
   );
