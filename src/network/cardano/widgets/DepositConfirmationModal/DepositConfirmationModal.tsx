@@ -20,6 +20,6 @@ export const DepositConfirmationModal: FC<DepositConfirmationModalProps> = ({
     value={value}
     onClose={onClose}
     deposit={walletDeposit as any}
-    Info={DepositConfirmationInfo}
+    Info={DepositConfirmationInfo as any}
   />
 );
