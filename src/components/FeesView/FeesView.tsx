@@ -14,7 +14,8 @@ import { Truncate } from '../Truncate/Truncate.tsx';
 
 export type ExecutionFee =
   | Currency
-  | [Currency | undefined, Currency | undefined];
+  | [Currency | undefined, Currency | undefined]
+  | undefined;
 export interface FeesViewItem {
   caption: string;
   fee?: Currency;
@@ -54,7 +55,7 @@ const TotalFeeValue: FC<TotalFeeValueProps> = ({
   if (executionFee instanceof Array) {
     return (
       <>
-        {executionFee[0] && executionFee[1] && feeItems && (
+        {executionFee?.[0] && executionFee?.[1] && feeItems && (
           <Typography.Body size="large" strong>
             <ConvenientAssetView
               value={[executionFee[0], ...feeItemsCurrencies]}

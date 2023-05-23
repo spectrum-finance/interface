@@ -63,10 +63,10 @@ export const applicationConfig: ApplicationConfig = {
   cardanoMaintenance: false,
   defaultTokenListUrl:
     'https://raw.githubusercontent.com/ergolabs/default-token-list/master/src/tokens',
-  cardanoUpdate: {
-    title: 'On the way to the mainnet',
-    content: 'The Cardano AMM protocol will be available in mainnet soon',
-  },
+  // cardanoUpdate: {
+  //   title: 'On the way to the mainnet',
+  //   content: 'The Cardano AMM protocol will be available in mainnet soon',
+  // },
   reCaptchaKey: '6LfCKZIiAAAAACypYW5pGlgZNTcwse1njmQMIUUL',
   requestRetryCount: 3,
   networksSettings: {

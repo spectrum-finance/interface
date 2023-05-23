@@ -15,10 +15,13 @@ import {
 import { OperationValidator } from '../../../../components/OperationForm/OperationForm';
 import { AddLiquidityFormModel } from '../../../../pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityFormModel';
 import { depositMaxButtonClickForNative } from '../../../common/depositMaxButtonClickForNative';
-import { CardanoSettings, settings$ } from '../../settings/settings';
+import {
+  CardanoSettings,
+  settings$,
+  useSettings,
+} from '../../settings/settings';
 import { useDepositValidationFee } from '../../settings/totalFee';
 import { DepositConfirmationModal } from '../../widgets/DepositConfirmationModal/DepositConfirmationModal';
-import { useSettings } from '../../widgets/utils';
 import { CardanoAmmPool } from '../ammPools/CardanoAmmPool';
 import { cardanoNetworkParams$ } from '../common/cardanoNetwork';
 import { networkAsset } from '../networkAsset/networkAsset';

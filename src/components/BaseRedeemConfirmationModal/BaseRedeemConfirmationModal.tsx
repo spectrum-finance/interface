@@ -17,7 +17,10 @@ export interface BaseRedeemConfirmationModalProps {
   readonly pool: AmmPool;
   readonly value: Required<RemoveLiquidityFormModel>;
   readonly onClose: (r: Observable<TxId>) => void;
-  readonly Info: FC<{ value: Required<RemoveLiquidityFormModel> }>;
+  readonly Info: FC<{
+    value: Required<RemoveLiquidityFormModel>;
+    pool: AmmPool;
+  }>;
   readonly redeem: (
     pool: AmmPool,
     lp: Currency,
@@ -78,7 +81,7 @@ export const BaseRedeemConfirmationModal: FC<BaseRedeemConfirmationModalProps> =
               </Flex.Item>
               <Flex.Item marginBottom={6}>
                 <PageSection title={t`Fees`}>
-                  <Info value={value} />
+                  <Info value={value} pool={pool} />
                 </PageSection>
               </Flex.Item>
               <Flex.Item>

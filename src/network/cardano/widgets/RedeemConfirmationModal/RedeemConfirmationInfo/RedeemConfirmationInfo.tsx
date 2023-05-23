@@ -3,20 +3,28 @@ import { t } from '@lingui/macro';
 import { FC } from 'react';
 
 import { FeesView } from '../../../../../components/FeesView/FeesView';
-import { depositAda } from '../../../settings/depositAda';
-import { useMinExFee } from '../../../settings/executionFee';
-import { useTransactionFee } from '../../../settings/transactionFee';
+import { RemoveLiquidityFormModel } from '../../../../../pages/RemoveLiquidity/RemoveLiquidityFormModel';
+import { CardanoAmmPool } from '../../../api/ammPools/CardanoAmmPool';
+import { useRedeemTxInfo } from '../../common/useRedeemTxInfo';
 
-export const RedeemConfirmationInfo: FC = () => {
-  const minExFee = useMinExFee('swap');
-  const networkFee = useTransactionFee('swap');
+export interface RedeemConfirmationInfoProps {
+  readonly value: RemoveLiquidityFormModel;
+  readonly pool: CardanoAmmPool;
+}
+
+export const RedeemConfirmationInfo: FC<RedeemConfirmationInfoProps> = ({
+  value,
+  pool,
+}) => {
+  const [redeemTxInfo, isRedeemTxInfoLoading] = useRedeemTxInfo(value, pool);
 
   return (
     <Flex col>
       <FeesView
-        feeItems={[{ caption: t`Network Fee`, fee: networkFee }]}
-        executionFee={minExFee}
-        refundableDeposit={depositAda}
+        feeItems={[{ caption: t`Network Fee`, fee: redeemTxInfo?.txFee }]}
+        executionFee={redeemTxInfo?.exFee}
+        refundableDeposit={redeemTxInfo?.refundableDeposit}
+        isLoading={isRedeemTxInfoLoading}
       />
     </Flex>
   );

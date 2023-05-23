@@ -23,7 +23,7 @@ export const RedeemConfirmationModal: FC<RedeemConfirmationModalProps> = ({
     value={value}
     pool={pool}
     onClose={onClose}
-    Info={RedeemConfirmationInfo}
+    Info={RedeemConfirmationInfo as any}
     redeem={walletRedeem as any}
   />
 );

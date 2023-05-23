@@ -9,7 +9,7 @@ import { Truncate } from '../../../../../components/Truncate/Truncate';
 import { SwapFormModel } from '../../../../../pages/Swap/SwapFormModel';
 import { CardanoAmmPool } from '../../../api/ammPools/CardanoAmmPool';
 import { FeesSkeletonLoading } from '../../../components/FeesSkeletonLoading/FeesSkeletonLoading.tsx';
-import { useSwapTxInfo } from '../../utils';
+import { useSwapTxInfo } from '../../common/useSwapTxInfo';
 
 export interface SwapConfirmationInfoProps {
   readonly value: SwapFormModel<CardanoAmmPool>;
