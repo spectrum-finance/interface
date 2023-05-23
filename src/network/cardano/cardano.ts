@@ -72,7 +72,7 @@ export const cardanoNetwork: Network<
   CardanoAmmPool
 > = {
   name: 'cardano',
-  label: 'cardano (Preview)',
+  label: 'cardano',
   favicon: '/favicon-cardano.svg',
   convenientAssetDefaultPreview: '0 ADA',
   networkAsset,
