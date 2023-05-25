@@ -12,6 +12,7 @@ import { analyticsInitializer } from './common/initializers/analyticsInitializer
 import { gaInitializer } from './common/initializers/gaInitializer';
 import { networkDomInitializer } from './common/initializers/networkDomInitializer';
 import { sentryInitializer } from './common/initializers/sentryInitializer';
+import { walletConnectInitializer } from './common/initializers/walletConnectInitializer.ts';
 import { startAppTicks } from './common/streams/appTick';
 import { ErrorEventProvider } from './components/ErrorBoundary/ErrorEventProvider';
 import { AppLoadingProvider, SettingsProvider } from './context';
@@ -44,6 +45,7 @@ const initializers: Observable<boolean>[] = [
   analyticsInitializer(),
   networkDomInitializer(routesConfig),
   gaInitializer(),
+  walletConnectInitializer(),
 ];
 
 const isAppInitialized$ = new BehaviorSubject(false);
