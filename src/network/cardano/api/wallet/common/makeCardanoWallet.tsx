@@ -94,7 +94,6 @@ export const makeCardanoWallet = ({
   ).pipe(publishReplay(1), refCount());
 
   const assetNetworkId = (networkId: CardanoNetwork): boolean => {
-    console.log('nid', networkId);
     if (networkId === CardanoNetwork.TESTNET) {
       return true;
     }
@@ -127,7 +126,6 @@ export const makeCardanoWallet = ({
         }
 
         if (isWalletConnectConnector(variableName) && connectorApi) {
-          console.log('here');
           return from(connectorApi.enable()).pipe(
             switchMap((ctx) => from(ctx.getNetworkId())),
             map(assetNetworkId),
