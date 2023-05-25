@@ -35,7 +35,9 @@ export const WalletConnect: CardanoWalletContract = makeCardanoWallet({
   variableName: CONNECTOR_NAME_WALLET_CONNECT,
   walletSupportedFeatures: { createPool: false },
   name: 'WalletConnect',
-  icon: <img src={WcLogo} height={32} width={32} />,
-  previewIcon: <img src={WcLogo} width={21} height={21} />,
+  icon: <img src={WcLogo} height={32} width={32} alt="WalletConnect logo" />,
+  previewIcon: (
+    <img src={WcLogo} width={21} height={21} alt="WalletConnect logo" />
+  ),
   connectorApi: getActiveConnector(),
 });
