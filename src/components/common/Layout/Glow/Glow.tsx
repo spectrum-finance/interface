@@ -13,11 +13,13 @@ const GlowContainer = styled.div`
   height: 100%;
   z-index: -1;
 
-  img {
-    position: absolute;
-    top: 30px;
-    max-width: 839px;
-    width: 100%;
+  .background-image {
+    background-image: var(--spectrum-glow-image);
+    position: fixed;
+    background-size: cover;
+    top: 50%;
+    width: var(--spectrum-glow-image-width);
+    height: 100%;
     left: 50%;
     transform: translateX(-50%);
   }
