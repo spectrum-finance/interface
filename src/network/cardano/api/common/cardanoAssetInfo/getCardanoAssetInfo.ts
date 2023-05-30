@@ -2,9 +2,9 @@ import {
   AdaAssetName,
   AdaPolicyId,
   AssetClass,
-} from '@ergolabs/cardano-dex-sdk';
-import { mkSubject } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/assetClass';
-import { Subject } from '@ergolabs/cardano-dex-sdk/build/main/cardano/types';
+} from '@spectrumlabs/cardano-dex-sdk';
+import { mkSubject } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/assetClass';
+import { Subject } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/types';
 import axios from 'axios';
 import { catchError, from, map, Observable, of, tap } from 'rxjs';
 

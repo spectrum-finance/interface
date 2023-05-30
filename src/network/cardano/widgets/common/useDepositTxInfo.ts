@@ -1,5 +1,5 @@
-import { DepositParams } from '@ergolabs/cardano-dex-sdk/build/main/amm/interpreters/ammTxBuilder/depositAmmTxBuilder';
-import { Value } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/value';
+import { DepositParams } from '@spectrumlabs/cardano-dex-sdk/build/main/amm/interpreters/ammTxBuilder/depositAmmTxBuilder';
+import { Value } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/value';
 import { useEffect } from 'react';
 import { map, Observable, of, publishReplay, refCount, switchMap } from 'rxjs';
 

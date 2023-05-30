@@ -2,8 +2,8 @@ import {
   mkTxAsm,
   mkTxCompletionPipeline,
   TxCandidate,
-} from '@ergolabs/cardano-dex-sdk';
-import { RustModule } from '@ergolabs/cardano-dex-sdk/build/main/utils/rustLoader';
+} from '@spectrumlabs/cardano-dex-sdk';
+import { RustModule } from '@spectrumlabs/cardano-dex-sdk/build/main/utils/rustLoader';
 import { filter, first, from, Observable, of, switchMap, zip } from 'rxjs';
 
 import { TxId } from '../../../../../common/types';

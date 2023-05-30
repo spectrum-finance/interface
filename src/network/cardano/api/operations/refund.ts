@@ -1,5 +1,5 @@
-import { AmmOrderRefunds } from '@ergolabs/cardano-dex-sdk';
-import { TxOut } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/txOut';
+import { AmmOrderRefunds } from '@spectrumlabs/cardano-dex-sdk';
+import { TxOut } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/txOut';
 import { first, Observable, Subject, switchMap, tap, zip } from 'rxjs';
 
 import { Currency } from '../../../../common/models/Currency';

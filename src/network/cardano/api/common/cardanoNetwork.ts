@@ -1,8 +1,8 @@
-import { Quickblue } from '@ergolabs/cardano-dex-sdk';
+import { Quickblue } from '@spectrumlabs/cardano-dex-sdk';
 import {
   NetworkParams,
   ProtocolParams,
-} from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/env';
+} from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/env';
 import { from, map, Observable, publishReplay, refCount } from 'rxjs';
 
 import { applicationConfig } from '../../../../applicationConfig';

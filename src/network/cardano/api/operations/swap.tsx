@@ -1,8 +1,7 @@
 import { Transaction } from '@emurgo/cardano-serialization-lib-nodejs';
-import { SwapTxInfo, TxCandidate } from '@ergolabs/cardano-dex-sdk';
-import { NetworkParams } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/env';
 import { t } from '@lingui/macro';
-import { first, map, Observable, Subject, switchMap, tap, zip } from 'rxjs';
+import { SwapTxInfo, TxCandidate } from '@spectrumlabs/cardano-dex-sdk';
+import { first, map, Observable, Subject, switchMap, tap } from 'rxjs';
 
 import { Currency } from '../../../../common/models/Currency';
 import { Nitro, Percent, TxId } from '../../../../common/types';
@@ -20,7 +19,6 @@ import {
 import { useSwapValidationFee } from '../../settings/totalFee';
 import { SwapConfirmationModal } from '../../widgets/SwapConfirmationModal/SwapConfirmationModal';
 import { CardanoAmmPool } from '../ammPools/CardanoAmmPool';
-import { cardanoNetworkParams$ } from '../common/cardanoNetwork';
 import { networkAsset } from '../networkAsset/networkAsset';
 import { ammTxFeeMapping } from './common/ammTxFeeMapping';
 import { minExecutorReward } from './common/minExecutorReward';
@@ -28,7 +26,6 @@ import { submitTx } from './common/submitTx';
 import { transactionBuilder$ } from './common/transactionBuilder';
 
 interface SwapTxCandidateConfig {
-  readonly networkParams: NetworkParams;
   readonly settings: CardanoSettings;
   readonly pool: CardanoAmmPool;
   readonly from: Currency;
@@ -80,14 +77,13 @@ export const walletSwap = (
   from: Currency,
   to: Currency,
 ): Observable<TxId> =>
-  zip([cardanoNetworkParams$, settings$]).pipe(
+  settings$.pipe(
     first(),
-    switchMap(([networkParams, settings]) =>
+    switchMap((settings) =>
       toSwapTxCandidate({
         pool,
         from,
         to,
-        networkParams,
         settings,
         slippage: settings.slippage,
         nitro: settings.nitro,

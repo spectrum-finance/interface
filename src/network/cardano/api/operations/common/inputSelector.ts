@@ -1,5 +1,5 @@
-import { FullTxIn, InputSelector } from '@ergolabs/cardano-dex-sdk';
-import { Value } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/value';
+import { FullTxIn, InputSelector } from '@spectrumlabs/cardano-dex-sdk';
+import { Value } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/value';
 import { filter, first, map, switchMap } from 'rxjs';
 
 import { selectedWallet$ } from '../../wallet/wallet';

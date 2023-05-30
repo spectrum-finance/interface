@@ -1,6 +1,6 @@
-import { HexString, Prover, Value } from '@ergolabs/cardano-dex-sdk';
-import { RawTx } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/tx';
-import { TxOut } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/txOut';
+import { HexString, Prover, Value } from '@spectrumlabs/cardano-dex-sdk';
+import { RawTx } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/tx';
+import { TxOut } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/txOut';
 import { ReactNode } from 'react';
 import { Observable } from 'rxjs';
 

@@ -1,6 +1,6 @@
 import { Transaction } from '@emurgo/cardano-serialization-lib-nodejs';
-import { RedeemTxInfo, TxCandidate } from '@ergolabs/cardano-dex-sdk';
-import { NetworkParams } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/env';
+import { RedeemTxInfo, TxCandidate } from '@spectrumlabs/cardano-dex-sdk';
+import { NetworkParams } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/env';
 import { first, map, Observable, Subject, switchMap, tap, zip } from 'rxjs';
 
 import { Currency } from '../../../../common/models/Currency';

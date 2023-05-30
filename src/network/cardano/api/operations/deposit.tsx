@@ -1,8 +1,8 @@
 import { Transaction } from '@emurgo/cardano-serialization-lib-nodejs';
-import { TxCandidate } from '@ergolabs/cardano-dex-sdk';
-import { DepositTxInfo } from '@ergolabs/cardano-dex-sdk/build/main/amm/interpreters/ammTxBuilder/depositAmmTxBuilder';
-import { NetworkParams } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/env';
 import { t } from '@lingui/macro';
+import { TxCandidate } from '@spectrumlabs/cardano-dex-sdk';
+import { DepositTxInfo } from '@spectrumlabs/cardano-dex-sdk/build/main/amm/interpreters/ammTxBuilder/depositAmmTxBuilder';
+import { NetworkParams } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/env';
 import { first, map, Observable, Subject, switchMap, tap, zip } from 'rxjs';
 
 import { Balance } from '../../../../common/models/Balance';

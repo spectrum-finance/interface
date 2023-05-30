@@ -1,4 +1,4 @@
-import { AssetClass } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/assetClass';
+import { AssetClass } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/assetClass';
 import axios from 'axios';
 import {
   combineLatest,
