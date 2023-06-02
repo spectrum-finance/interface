@@ -6,7 +6,6 @@ import {
   decodeWasmValue,
   HexString,
   RawTxWitnessSet,
-  toWasmValue,
   Value,
 } from '@spectrumlabs/cardano-dex-sdk';
 import {
@@ -14,11 +13,10 @@ import {
   RawUnsignedTx,
 } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/tx';
 import { TxOut } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/txOut';
-import { encodeHex } from '@spectrumlabs/cardano-dex-sdk/build/main/utils/hex';
 import { RustModule } from '@spectrumlabs/cardano-dex-sdk/build/main/utils/rustLoader';
 import uniq from 'lodash/uniq';
-import { ReactNode } from 'react';
 import * as React from 'react';
+import { ReactNode } from 'react';
 import {
   catchError,
   combineLatest,
@@ -167,19 +165,9 @@ export const makeCardanoWallet = ({
     );
   };
 
-  const getUtxos = (amount?: Value): Observable<TxOut[]> => {
+  const getUtxos = (): Observable<TxOut[]> => {
     return ctx$.pipe(
-      switchMap((ctx) =>
-        from(
-          ctx.getUtxos(
-            amount
-              ? encodeHex(
-                  toWasmValue(amount, RustModule.CardanoWasm).to_bytes(),
-                )
-              : amount,
-          ),
-        ),
-      ),
+      switchMap((ctx) => from(ctx.getUtxos())),
       map(
         (hexes) =>
           hexes?.map((hex) => decodeWasmUtxo(hex, RustModule.CardanoWasm)) ||
