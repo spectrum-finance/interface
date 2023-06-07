@@ -12,7 +12,7 @@ import { depositAda } from '../../settings/depositAda';
 import { settings$ } from '../../settings/settings';
 import { cardanoNetwork } from '../common/cardanoNetwork';
 import { getCollateralByAmount } from '../utxos/utxos';
-import { submitTx } from './common/submitTx';
+import { submitTxCandidate } from './common/submitTxCandidate';
 
 const ammRefunds = new AmmOrderRefunds(cardanoNetwork);
 
@@ -27,7 +27,7 @@ const walletRefund = (txId: TxId): Observable<TxId> =>
         fee: depositAda.amount,
       }),
     ),
-    switchMap(submitTx),
+    switchMap(submitTxCandidate),
   );
 
 export const refund = (

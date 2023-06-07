@@ -16,7 +16,7 @@ import { CardanoAmmPool } from '../ammPools/CardanoAmmPool';
 import { cardanoNetworkParams$ } from '../common/cardanoNetwork';
 import { ammTxFeeMapping } from './common/ammTxFeeMapping';
 import { minExecutorReward } from './common/minExecutorReward';
-import { submitTx } from './common/submitTx';
+import { submitTx } from './common/submitTxCandidate';
 import { transactionBuilder$ } from './common/transactionBuilder';
 
 interface DepositTxCandidateConfig {
@@ -30,7 +30,7 @@ const toRedeemTxCandidate = ({
   pool,
   settings,
   lq,
-}: DepositTxCandidateConfig): Observable<TxCandidate> => {
+}: DepositTxCandidateConfig): Observable<Transaction> => {
   if (!settings.address || !settings.ph) {
     throw new Error('[deposit]: wallet address is not selected');
   }
@@ -49,8 +49,8 @@ const toRedeemTxCandidate = ({
       }),
     ),
     map(
-      ([, txCandidate]: [Transaction | null, TxCandidate, RedeemTxInfo]) =>
-        txCandidate,
+      ([transaction]: [Transaction | null, TxCandidate, RedeemTxInfo]) =>
+        transaction!,
     ),
     first(),
   );

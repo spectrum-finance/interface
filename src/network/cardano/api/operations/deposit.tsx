@@ -27,7 +27,7 @@ import { cardanoNetworkParams$ } from '../common/cardanoNetwork';
 import { networkAsset } from '../networkAsset/networkAsset';
 import { ammTxFeeMapping } from './common/ammTxFeeMapping';
 import { minExecutorReward } from './common/minExecutorReward';
-import { submitTx } from './common/submitTx';
+import { submitTx } from './common/submitTxCandidate';
 import { transactionBuilder$ } from './common/transactionBuilder';
 
 interface DepositTxCandidateConfig {
@@ -43,7 +43,7 @@ const toDepositTxCandidate = ({
   x,
   y,
   settings,
-}: DepositTxCandidateConfig): Observable<TxCandidate> => {
+}: DepositTxCandidateConfig): Observable<Transaction> => {
   if (!settings.address || !settings.ph) {
     throw new Error('[deposit]: wallet address is not selected');
   }
@@ -64,7 +64,7 @@ const toDepositTxCandidate = ({
         pk: settings.ph!,
       }),
     ),
-    map((data: [Transaction | null, TxCandidate, DepositTxInfo]) => data[1]),
+    map((data: [Transaction | null, TxCandidate, DepositTxInfo]) => data[0]!),
     first(),
   );
 };
