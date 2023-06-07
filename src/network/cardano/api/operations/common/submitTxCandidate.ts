@@ -1,3 +1,4 @@
+import { Transaction } from '@emurgo/cardano-serialization-lib-nodejs';
 import {
   mkTxAsm,
   mkTxCompletionPipeline,
@@ -13,7 +14,7 @@ import {
 } from '../../common/cardanoNetwork';
 import { connectedWalletChange$ } from '../../wallet/connectedWalletChange';
 
-export const submitTx = (txCandidate: TxCandidate): Observable<TxId> =>
+export const submitTxCandidate = (txCandidate: TxCandidate): Observable<TxId> =>
   zip([
     of(cardanoNetwork),
     cardanoNetworkParams$,
@@ -28,6 +29,25 @@ export const submitTx = (txCandidate: TxCandidate): Observable<TxId> =>
           cardanoNetwork,
           RustModule.CardanoWasm,
         ).complete(txCandidate),
+      ).pipe(switchMap((rawTx) => wallet.submit(rawTx))),
+    ),
+  );
+
+export const submitTx = (transaction: Transaction): Observable<TxId> =>
+  zip([
+    of(cardanoNetwork),
+    cardanoNetworkParams$,
+    connectedWalletChange$.pipe(filter(Boolean), first()),
+  ]).pipe(
+    first(),
+    switchMap(([cardanoNetwork, networkParams, wallet]) =>
+      from(
+        mkTxCompletionPipeline(
+          mkTxAsm(networkParams, RustModule.CardanoWasm),
+          wallet,
+          cardanoNetwork,
+          RustModule.CardanoWasm,
+        ).completeTransaction(transaction),
       ).pipe(switchMap((rawTx) => wallet.submit(rawTx))),
     ),
   );

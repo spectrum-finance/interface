@@ -22,7 +22,7 @@ import { CardanoAmmPool } from '../ammPools/CardanoAmmPool';
 import { networkAsset } from '../networkAsset/networkAsset';
 import { ammTxFeeMapping } from './common/ammTxFeeMapping';
 import { minExecutorReward } from './common/minExecutorReward';
-import { submitTx } from './common/submitTx';
+import { submitTx } from './common/submitTxCandidate';
 import { transactionBuilder$ } from './common/transactionBuilder';
 
 interface SwapTxCandidateConfig {
@@ -40,7 +40,7 @@ const toSwapTxCandidate = ({
   from,
   slippage,
   nitro,
-}: SwapTxCandidateConfig): Observable<TxCandidate> => {
+}: SwapTxCandidateConfig): Observable<Transaction> => {
   if (!settings.address || !settings.ph) {
     throw new Error('[swap]: address is not selected');
   }
@@ -65,8 +65,8 @@ const toSwapTxCandidate = ({
       }),
     ),
     map(
-      ([, txCandidate]: [Transaction | null, TxCandidate, SwapTxInfo]) =>
-        txCandidate,
+      ([transaction]: [Transaction | null, TxCandidate, SwapTxInfo]) =>
+        transaction!,
     ),
     first(),
   );
