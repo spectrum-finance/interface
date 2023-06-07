@@ -56,7 +56,6 @@ import {
   settings,
   settings$,
 } from './settings/settings';
-import { useCreatePoolValidationFee } from './settings/totalFee';
 import {
   exploreAddress,
   exploreLastBlock,
@@ -137,7 +136,7 @@ export const cardanoNetwork: Network<
   useHandleSwapMaxButtonClick,
   useDepositValidators,
   useHandleDepositMaxButtonClick,
-  useCreatePoolValidationFee,
+  useCreatePoolValidationFee: (() => {}) as any,
   useNetworkAsset,
 
   getPoolChartData: getPoolChartData as any,
