@@ -16,7 +16,6 @@ import {
   settings$,
   useSettings,
 } from '../../settings/settings';
-import { useSwapValidationFee } from '../../settings/totalFee';
 import { SwapConfirmationModal } from '../../widgets/SwapConfirmationModal/SwapConfirmationModal';
 import { CardanoAmmPool } from '../ammPools/CardanoAmmPool';
 import { networkAsset } from '../networkAsset/networkAsset';
@@ -167,10 +166,5 @@ export const useSwapValidators = (): OperationValidator<SwapFormModel>[] => {
 export const useHandleSwapMaxButtonClick = (): ((
   balance: Currency,
 ) => Currency) => {
-  const swapValidationFee = useSwapValidationFee();
-
-  return (balance) =>
-    balance.asset.id === networkAsset.id
-      ? balance.minus(swapValidationFee)
-      : balance;
+  return (balance) => balance;
 };

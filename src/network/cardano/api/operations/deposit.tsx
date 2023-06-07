@@ -20,7 +20,6 @@ import {
   settings$,
   useSettings,
 } from '../../settings/settings';
-import { useDepositValidationFee } from '../../settings/totalFee';
 import { DepositConfirmationModal } from '../../widgets/DepositConfirmationModal/DepositConfirmationModal';
 import { CardanoAmmPool } from '../ammPools/CardanoAmmPool';
 import { cardanoNetworkParams$ } from '../common/cardanoNetwork';
@@ -158,10 +157,8 @@ export const useHandleDepositMaxButtonClick = (): ((
   value: AddLiquidityFormModel,
   balance: Balance,
 ) => [Currency, Currency]) => {
-  const depositValidationFee = useDepositValidationFee();
-
   return (pct, value, balance) => {
-    return depositMaxButtonClickForNative(depositValidationFee)(
+    return depositMaxButtonClickForNative(new Currency(0n, networkAsset))(
       pct,
       value,
       balance,
