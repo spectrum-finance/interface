@@ -3,12 +3,13 @@ import { filter, map, Observable, publishReplay, refCount } from 'rxjs';
 
 import { WalletState, WalletSupportedFeatures } from '../../../common/Wallet';
 import { makeWalletManager } from '../../../common/WalletManager';
+import { cardanoNetworkData } from '../../utils/cardanoNetworkData';
 import { CardanoWalletContract } from './common/CardanoWalletContract';
 import { Eternl } from './eternl/eternl';
 import { Gero } from './gero/gero';
 import { Nami } from './nami/nami';
 
-const CARDANO_SELECTED_WALLET_TOKEN = 'cardano-selected-wallet';
+const CARDANO_SELECTED_WALLET_TOKEN = cardanoNetworkData.walletKey;
 
 export const cardanoWalletManager = makeWalletManager<CardanoWalletContract>(
   CARDANO_SELECTED_WALLET_TOKEN,

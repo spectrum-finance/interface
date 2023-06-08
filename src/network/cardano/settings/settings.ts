@@ -17,8 +17,9 @@ import {
   getUsedAddresses,
 } from '../api/addresses/addresses';
 import { networkAsset } from '../api/networkAsset/networkAsset';
+import { cardanoNetworkData } from '../utils/cardanoNetworkData';
 
-const SETTINGS_KEY = 'cardano-settings';
+const SETTINGS_KEY = cardanoNetworkData.settingsKey;
 
 export interface CardanoSettings extends BaseNetworkSettings {
   readonly ph?: PublicKey;

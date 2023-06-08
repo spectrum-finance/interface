@@ -6,8 +6,6 @@ import { device } from '../../../../common/constants/size';
 import { useObservable } from '../../../../common/hooks/useObservable';
 import { selectedWalletState$ } from '../../../../gateway/api/wallets';
 import { WalletState } from '../../../../network/common/Wallet';
-import { IsCardano } from '../../../IsCardano/IsCardano';
-import { GetTestTokensButton } from '../Header/GetTestTokensButton/GetTestTokensButton';
 import { Navigation } from '../Header/Navigation/Navigation';
 import { OperationsHistory } from '../OperationsHistory/OperationsHistory';
 
@@ -43,25 +41,15 @@ export const FooterNavigation = forwardRef<HTMLDivElement>((_, ref) => {
   return (
     <BottomContainer ref={ref}>
       {s && (
-        <Flex col>
-          <IsCardano>
-            <GetTestTokensButton
-              style={{
-                display: 'block',
-                margin: '0 1rem 1rem',
-              }}
-            />
-          </IsCardano>
-          <Flex>
-            <Flex.Item marginLeft={4} marginRight={4} flex={1}>
-              <Navigation textCenter />
+        <Flex>
+          <Flex.Item marginLeft={4} marginRight={4} flex={1}>
+            <Navigation textCenter />
+          </Flex.Item>
+          {walletState === WalletState.CONNECTED && (
+            <Flex.Item marginRight={4}>
+              <OperationsHistory />
             </Flex.Item>
-            {walletState === WalletState.CONNECTED && (
-              <Flex.Item marginRight={4}>
-                <OperationsHistory />
-              </Flex.Item>
-            )}
-          </Flex>
+          )}
         </Flex>
       )}
       {m && <Navigation />}

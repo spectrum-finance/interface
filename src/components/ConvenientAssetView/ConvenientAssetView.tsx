@@ -24,13 +24,13 @@ const getConvenientValue = (
   isShort = false,
 ): string => {
   if (!convenientValue || !value || value.toString() === '0') {
-    return network.name === 'cardano' ? `${ZERO_VALUE} ADA` : `$${ZERO_VALUE}`;
+    return network.name !== 'ergo' ? `${ZERO_VALUE} ADA` : `$${ZERO_VALUE}`;
   } else if (Number(convenientValue.toString()) < SMALLEST_VALUE) {
-    return network.name === 'cardano'
+    return network.name !== 'ergo'
       ? `<${SMALLEST_VALUE} ADA`
       : `<$${SMALLEST_VALUE}`;
   }
-  return network.name === 'cardano'
+  return network.name !== 'ergo'
     ? convenientValue.toCurrencyString()
     : formatToUSD(convenientValue, isShort ? 'abbr' : 'default');
 };

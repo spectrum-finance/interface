@@ -1,7 +1,7 @@
 import { Observable, of } from 'rxjs';
 
 import { TxId } from '../../common/types';
-import { Network } from '../common/Network';
+import { Network, SupportedNetworks } from '../common/Network';
 import { convertToConvenientNetworkAsset } from './api/adaRatio/adaRatio';
 import {
   getAddresses,
@@ -65,81 +65,89 @@ import {
 import { OperationsSettings } from './widgets/OperationSettings/OperationsSettings';
 import { SwapInfoContent } from './widgets/SwapInfoContent/SwapInfoContent';
 
-export const cardanoNetwork: Network<
-  CardanoWalletContract,
-  CardanoSettings,
-  CardanoAmmPool
-> = {
-  name: 'cardano',
-  label: 'cardano',
-  favicon: '/favicon-cardano.svg',
-  convenientAssetDefaultPreview: '0 ADA',
-  networkAsset,
-  initialized$,
-  initialize,
-  networkAssetBalance$,
-  assetBalance$,
-  lpBalance$,
-  locks$: of([]),
-  positions$,
-  displayedAmmPools$: ammPools$,
-  ammPools$,
-  getAddresses: getAddresses,
-  getUsedAddresses: getUsedAddresses,
-  getUnusedAddresses: getUnusedAddresses,
-  getOperationByTxId: getOperationByTxId,
-  getOperations,
-  isOperationsSyncing$: of(false),
+const makeCardanoNetwork = (
+  name: SupportedNetworks,
+  label: string,
+): Network<CardanoWalletContract, CardanoSettings, CardanoAmmPool> => {
+  return {
+    name,
+    label,
+    favicon: '/favicon-cardano.svg',
+    convenientAssetDefaultPreview: '0 ADA',
+    networkAsset,
+    initialized$,
+    initialize,
+    networkAssetBalance$,
+    assetBalance$,
+    lpBalance$,
+    locks$: of([]),
+    positions$,
+    displayedAmmPools$: ammPools$,
+    ammPools$,
+    getAddresses: getAddresses,
+    getUsedAddresses: getUsedAddresses,
+    getUnusedAddresses: getUnusedAddresses,
+    getOperationByTxId: getOperationByTxId,
+    getOperations,
+    isOperationsSyncing$: of(false),
 
-  platformStats$,
-  connectWallet: connectWallet,
-  disconnectWallet: disconnectWallet,
-  availableWallets: availableWallets,
-  walletState$: walletState$,
-  selectedWallet$: selectedWallet$,
-  supportedFeatures$: supportedWalletFeatures$,
-  networkContext$,
-  defaultAssets$: defaultTokenAssets$,
-  assetsToImport$: tokenAssetsToImport$,
-  // TODO: Implement assets fns
-  getDefaultAssetsFor,
-  getImportedAssetsFor: () => of([]),
-  getAssetsToImportFor: () => of([]),
-  importedAssets$: of([]),
-  importTokenAsset,
+    platformStats$,
+    connectWallet: connectWallet,
+    disconnectWallet: disconnectWallet,
+    availableWallets: availableWallets,
+    walletState$: walletState$,
+    selectedWallet$: selectedWallet$,
+    supportedFeatures$: supportedWalletFeatures$,
+    networkContext$,
+    defaultAssets$: defaultTokenAssets$,
+    assetsToImport$: tokenAssetsToImport$,
+    // TODO: Implement assets fns
+    getDefaultAssetsFor,
+    getImportedAssetsFor: () => of([]),
+    getAssetsToImportFor: () => of([]),
+    importedAssets$: of([]),
+    importTokenAsset,
 
-  settings,
-  settings$,
-  setSettings,
+    settings,
+    settings$,
+    setSettings,
 
-  SwapInfoContent,
-  OperationsSettings,
+    SwapInfoContent,
+    OperationsSettings,
 
-  exploreTx,
-  exploreAddress,
-  exploreLastBlock,
-  exploreToken,
-  swap,
-  deposit,
-  redeem,
-  refund,
-  lmRedeem(): Observable<TxId> {
-    return of('');
-  },
-  lmDeposit(): Observable<TxId> {
-    return of('');
-  },
+    exploreTx,
+    exploreAddress,
+    exploreLastBlock,
+    exploreToken,
+    swap,
+    deposit,
+    redeem,
+    refund,
+    lmRedeem(): Observable<TxId> {
+      return of('');
+    },
+    lmDeposit(): Observable<TxId> {
+      return of('');
+    },
 
-  convertToConvenientNetworkAsset,
+    convertToConvenientNetworkAsset,
 
-  useSwapValidators,
-  useHandleSwapMaxButtonClick,
-  useDepositValidators,
-  useHandleDepositMaxButtonClick,
-  useCreatePoolValidationFee: (() => {}) as any,
-  useNetworkAsset,
+    useSwapValidators,
+    useHandleSwapMaxButtonClick,
+    useDepositValidators,
+    useHandleDepositMaxButtonClick,
+    useCreatePoolValidationFee: (() => {}) as any,
+    useNetworkAsset,
 
-  getPoolChartData: getPoolChartData as any,
-  pendingOperations$: of([]),
-  queuedOperation$: of(undefined),
+    getPoolChartData: getPoolChartData as any,
+    pendingOperations$: of([]),
+    queuedOperation$: of(undefined),
+  };
 };
+
+export const cardanoPreview = makeCardanoNetwork(
+  'cardano_preview',
+  'Cardano (Preview)',
+);
+
+export const cardanoMainnet = makeCardanoNetwork('cardano_mainnet', 'Cardano');

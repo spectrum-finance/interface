@@ -137,7 +137,7 @@ export const FeesView: FC<FeesViewProps> = ({
 
   return (
     <>
-      {network.name === 'cardano' && (
+      {network.name !== 'ergo' && (
         <Flex.Item marginBottom={2}>
           <BoxInfoItem
             title={

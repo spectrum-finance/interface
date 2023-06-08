@@ -46,9 +46,9 @@ export const getBaseInputParameters = (
 
 export const isLowBalance = (balance: number, network?: string): boolean => {
   switch (network) {
-    case 'cardano':
-      return balance <= MIN_ADA_BALANCE_TO_PAY_FEES;
-    default:
+    case 'ergo':
       return balance <= MIN_ERG_BALANCE_TO_PAY_FEES;
+    default:
+      return balance <= MIN_ADA_BALANCE_TO_PAY_FEES;
   }
 };
