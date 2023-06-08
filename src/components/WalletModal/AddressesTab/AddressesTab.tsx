@@ -54,7 +54,7 @@ const AddressListItem: React.FC<AddressListItemProps> = ({
   );
 
   useEffect(() => {
-    if (selectedNetwork.name !== 'cardano') {
+    if (selectedNetwork.name === 'ergo') {
       getBalance(address).then((balance) =>
         setAddressBalance(
           new Currency(balance?.nErgs || 0n, selectedNetwork.networkAsset),

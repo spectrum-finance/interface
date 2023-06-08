@@ -1566,10 +1566,10 @@
   resolved "https://registry.yarnpkg.com/@sinclair/typebox/-/typebox-0.25.24.tgz#8c7688559979f7079aacaf31aa881c3aa410b718"
   integrity sha512-XJfwUVUKDHF5ugKwIcxEgc9k8b7HbznCp6eUfWgu710hMPNIO4aw4/zB5RogDQz8nd6gyCDpU9O/m6qYEWY6yQ==
 
-"@spectrumlabs/analytics@^1.1.6":
-  version "1.1.6"
-  resolved "https://registry.yarnpkg.com/@spectrumlabs/analytics/-/analytics-1.1.6.tgz#f5229f05b92ea9f6277ded6e18a4763441fa51b3"
-  integrity sha512-7cBKdxRCXO0anVtZri44KCdMkEwIJhHATgr01meGQNY846dVFchmDlbomCQ5O9sd8ccvbylY0Y14iVLDxbWXCg==
+"@spectrumlabs/analytics@^1.1.7":
+  version "1.1.7"
+  resolved "https://registry.yarnpkg.com/@spectrumlabs/analytics/-/analytics-1.1.7.tgz#0441a89967315f0c7a5d802db45e39ea3c68fae7"
+  integrity sha512-rf51TrZLt1vMZPPVwVbRECU6hHNy3x7WTGNGblJkRw+LEGqc/6ITmDKKqNjDk22lgg5PGnf7gW1qGNjWmc9JWw==
   dependencies:
     "@amplitude/analytics-browser" "^1.9.0"
 

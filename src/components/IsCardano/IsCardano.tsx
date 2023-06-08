@@ -9,5 +9,5 @@ export interface IsCardanoProps {
 export const IsCardano: FC<IsCardanoProps> = ({ children }) => {
   const [selectedNetwork] = useSelectedNetwork();
 
-  return <>{selectedNetwork.name === 'cardano' && children}</>;
+  return <>{selectedNetwork.name !== 'ergo' && children}</>;
 };

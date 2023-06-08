@@ -2,11 +2,16 @@ import { RustModule } from '@spectrumlabs/cardano-dex-sdk/build/main/utils/rustL
 import { BehaviorSubject } from 'rxjs';
 
 import { initializeSettings } from './settings/settings';
+import {
+  CardanoNetworkData,
+  setCardanoNetworkData,
+} from './utils/cardanoNetworkData';
 
 export const initialized$ = new BehaviorSubject(false);
 
-export const initialize = (): void => {
+export const initialize = (data: CardanoNetworkData) => (): void => {
   RustModule.load().then(() => {
+    setCardanoNetworkData(data);
     initializeSettings();
     initialized$.next(true);
   });
