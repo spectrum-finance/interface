@@ -72,9 +72,15 @@ export const applicationConfig: ApplicationConfig = {
   networksSettings: {
     cardanoPreview: {
       metadataUrl: 'https://meta.spectrum.fi/cardano/metadata',
-      networkUrl: 'https://explorer.spectrum.fi/cardano/v1/',
+      networkUrl: 'https://explorer.spectrum.fi/cardano/preview/v1/',
       explorerUrl: 'https://preview.cexplorer.io',
-      faucet: 'https://faucet.spectrum.fi/cardano/v1/',
+      lowBalanceGuide: '',
+      analyticUrl: 'https://test-api.spectrum.fi/cardano/v1/',
+    },
+    cardanoMainnet: {
+      metadataUrl: 'https://meta.spectrum.fi/cardano/metadata',
+      networkUrl: 'https://explorer.spectrum.fi/cardano/mainnet/v1/',
+      explorerUrl: 'https://cexplorer.io',
       lowBalanceGuide: '',
       analyticUrl: 'https://test-api.spectrum.fi/cardano/v1/',
     },
