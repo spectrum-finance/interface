@@ -1,6 +1,5 @@
 import { Observable, of } from 'rxjs';
 
-import { applicationConfig } from '../../applicationConfig';
 import { TxId } from '../../common/types';
 import { Network, SupportedNetworks } from '../common/Network';
 import { convertToConvenientNetworkAsset } from './api/adaRatio/adaRatio';
@@ -57,7 +56,6 @@ import {
   settings,
   settings$,
 } from './settings/settings';
-import { CardanoNetworkData } from './utils/cardanoNetworkData';
 import {
   exploreAddress,
   exploreLastBlock,
@@ -70,7 +68,6 @@ import { SwapInfoContent } from './widgets/SwapInfoContent/SwapInfoContent';
 const makeCardanoNetwork = (
   name: SupportedNetworks,
   label: string,
-  data: CardanoNetworkData,
 ): Network<CardanoWalletContract, CardanoSettings, CardanoAmmPool> => {
   return {
     name,
@@ -79,7 +76,7 @@ const makeCardanoNetwork = (
     convenientAssetDefaultPreview: '0 ADA',
     networkAsset,
     initialized$,
-    initialize: initialize(data),
+    initialize,
     networkAssetBalance$,
     assetBalance$,
     lpBalance$,
@@ -151,15 +148,6 @@ const makeCardanoNetwork = (
 export const cardanoPreview = makeCardanoNetwork(
   'cardano_preview',
   'Cardano (Preview)',
-  {
-    ...applicationConfig.networksSettings.cardanoPreview,
-    settingsKey: 'cardano-preview-settings',
-    walletKey: 'cardano-preview-selected-wallet',
-  },
 );
 
-export const cardanoMainnet = makeCardanoNetwork('cardano_mainnet', 'Cardano', {
-  ...applicationConfig.networksSettings.cardanoMainnet,
-  settingsKey: 'cardano-mainnet-settings',
-  walletKey: 'cardano-mainnet-selected-wallet',
-});
+export const cardanoMainnet = makeCardanoNetwork('cardano_mainnet', 'Cardano');

@@ -8,8 +8,8 @@ import { Subject } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/types'
 import axios from 'axios';
 import { catchError, from, map, Observable, of, tap } from 'rxjs';
 
-import { applicationConfig } from '../../../../../applicationConfig';
 import { AssetInfo } from '../../../../../common/models/AssetInfo';
+import { cardanoNetworkData } from '../../../utils/cardanoNetworkData';
 import { networkAsset } from '../../networkAsset/networkAsset';
 import { assets, CardanoAssetInfo } from './mocks';
 
@@ -32,11 +32,7 @@ const toAssetInfo = (
 export const getCardanoAssetInfo = (
   subject: Subject,
 ): Observable<CardanoAssetInfo | undefined> =>
-  from(
-    axios.get(
-      `${applicationConfig.networksSettings.cardanoPreview.metadataUrl}/${subject}`,
-    ),
-  ).pipe(
+  from(axios.get(`${cardanoNetworkData.metadataUrl}/${subject}`)).pipe(
     map((res) => res.data),
     catchError(() => of(undefined)),
   );

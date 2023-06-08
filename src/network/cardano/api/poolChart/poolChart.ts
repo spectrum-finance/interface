@@ -2,9 +2,9 @@ import type { PoolId } from '@ergolabs/ergo-dex-sdk';
 import axios from 'axios';
 import { catchError, from, map, Observable, of } from 'rxjs';
 
-import { applicationConfig } from '../../../../applicationConfig';
 import { PoolChartData } from '../../../../common/models/PoolChartData';
 import { PoolChartDataParams } from '../../../common/PoolChartDataParams';
+import { cardanoNetworkData } from '../../utils/cardanoNetworkData';
 import { CardanoAmmPool } from '../ammPools/CardanoAmmPool';
 
 interface PoolChartDataRaw {
@@ -18,7 +18,7 @@ export const getPoolChartDataRaw = (
 ): Observable<PoolChartDataRaw[]> =>
   from(
     axios.get<PoolChartDataRaw[]>(
-      `${applicationConfig.networksSettings.cardanoPreview.analyticUrl}pool/${poolId}/chart`,
+      `${cardanoNetworkData.analyticUrl}pool/${poolId}/chart`,
       {
         params: {
           resolution: params?.resolution,
