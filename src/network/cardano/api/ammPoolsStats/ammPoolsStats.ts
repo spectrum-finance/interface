@@ -28,7 +28,7 @@ export const ammPoolsStats$: Observable<Dictionary<AmmPoolAnalytics>> =
     exhaustMap(() =>
       from(
         axios.get<AmmPoolAnalytics[]>(
-          `${applicationConfig.networksSettings.cardano.analyticUrl}pools/overview`,
+          `${applicationConfig.networksSettings.cardanoPreview.analyticUrl}pools/overview`,
           {
             params: {
               after: 0,

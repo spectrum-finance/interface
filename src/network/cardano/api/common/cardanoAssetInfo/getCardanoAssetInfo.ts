@@ -34,7 +34,7 @@ export const getCardanoAssetInfo = (
 ): Observable<CardanoAssetInfo | undefined> =>
   from(
     axios.get(
-      `${applicationConfig.networksSettings.cardano.metadataUrl}/${subject}`,
+      `${applicationConfig.networksSettings.cardanoPreview.metadataUrl}/${subject}`,
     ),
   ).pipe(
     map((res) => res.data),

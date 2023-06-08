@@ -7,26 +7,26 @@ import { networkContext$ } from '../api/networkContext/networkContext';
 
 export const exploreTx = (txId: TxId): unknown =>
   window.open(
-    `${applicationConfig.networksSettings.cardano.explorerUrl}/tx/${txId}`,
+    `${applicationConfig.networksSettings.cardanoPreview.explorerUrl}/tx/${txId}`,
     '_blank',
   );
 
 export const exploreAddress = (address: Address): unknown =>
   window.open(
-    `${applicationConfig.networksSettings.cardano.explorerUrl}/address/${address}`,
+    `${applicationConfig.networksSettings.cardanoPreview.explorerUrl}/address/${address}`,
     '_blank',
   );
 
 export const exploreLastBlock = (): unknown =>
   networkContext$.pipe(first()).subscribe((ctx) => {
     window.open(
-      `${applicationConfig.networksSettings.cardano.explorerUrl}/block/${ctx.blockHash}`,
+      `${applicationConfig.networksSettings.cardanoPreview.explorerUrl}/block/${ctx.blockHash}`,
       '_blank',
     );
   });
 
 export const exploreToken = (asset: AssetInfo): unknown =>
   window.open(
-    `${applicationConfig.networksSettings.cardano.explorerUrl}/token/${asset.id}`,
+    `${applicationConfig.networksSettings.cardanoPreview.explorerUrl}/token/${asset.id}`,
     '_blank',
   );

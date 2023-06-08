@@ -70,7 +70,7 @@ export const applicationConfig: ApplicationConfig = {
   reCaptchaKey: '6LfCKZIiAAAAACypYW5pGlgZNTcwse1njmQMIUUL',
   requestRetryCount: 3,
   networksSettings: {
-    cardano: {
+    cardanoPreview: {
       metadataUrl: 'https://meta.spectrum.fi/cardano/metadata',
       networkUrl: 'https://explorer.spectrum.fi/cardano/v1/',
       explorerUrl: 'https://preview.cexplorer.io',

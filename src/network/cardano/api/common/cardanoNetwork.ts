@@ -31,7 +31,7 @@ const normalizeNetworkParams = (np: NetworkParams): NetworkParams => ({
 });
 
 export const cardanoNetwork = new Quickblue(
-  applicationConfig.networksSettings.cardano.networkUrl,
+  applicationConfig.networksSettings.cardanoPreview.networkUrl,
 );
 
 export const cardanoNetworkParams$: Observable<NetworkParams> = from(

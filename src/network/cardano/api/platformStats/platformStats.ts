@@ -19,7 +19,7 @@ export const platformStats$: Observable<PlatformStats> = networkContext$.pipe(
     from(
       from(
         axios.get<{ totalValueLocked: number; volume: number }>(
-          `${applicationConfig.networksSettings.cardano.analyticUrl}platform/stats`,
+          `${applicationConfig.networksSettings.cardanoPreview.analyticUrl}platform/stats`,
         ),
       ),
     ),

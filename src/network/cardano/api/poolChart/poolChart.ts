@@ -18,7 +18,7 @@ export const getPoolChartDataRaw = (
 ): Observable<PoolChartDataRaw[]> =>
   from(
     axios.get<PoolChartDataRaw[]>(
-      `${applicationConfig.networksSettings.cardano.analyticUrl}pool/${poolId}/chart`,
+      `${applicationConfig.networksSettings.cardanoPreview.analyticUrl}pool/${poolId}/chart`,
       {
         params: {
           resolution: params?.resolution,

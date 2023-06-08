@@ -41,7 +41,7 @@ const mapAssetItemToCurrency = (
 export const availableAssets$: Observable<Currency[]> = defer(() =>
   from(
     axios.get<AvailableAssetItem[]>(
-      `${applicationConfig.networksSettings.cardano.faucet}assets`,
+      `${applicationConfig.networksSettings.cardanoPreview.faucet}assets`,
     ),
   ),
 ).pipe(
@@ -62,7 +62,7 @@ export const requestTestnetAsset = (
       return settings.address
         ? from(
             axios.post(
-              `${applicationConfig.networksSettings.cardano.faucet}askdrip`,
+              `${applicationConfig.networksSettings.cardanoPreview.faucet}askdrip`,
               {
                 requestAddress: settings.address,
                 requestAsset: `${assetInfo.data?.policyId}.${assetInfo.data?.name}`,
