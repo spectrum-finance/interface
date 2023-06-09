@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
-import { notification } from '@ergolabs/ui-kit';
 import { Connector } from '@dcspark/adalib/dist/connectors/base';
+import { notification } from '@ergolabs/ui-kit';
 import {
   decodeAddr,
   decodeWasmUtxo,
