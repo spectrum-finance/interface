@@ -40,6 +40,7 @@ import {
   WalletDefinition,
   WalletSupportedFeatures,
 } from '../../../../common/Wallet';
+import { currentNetwork } from '../../../utils/cardanoNetworkData';
 import { mapAssetClassToAssetInfo } from '../../common/cardanoAssetInfo/getCardanoAssetInfo';
 import { cardanoWasm$ } from '../../common/cardanoWasm';
 import { CONNECTOR_NAME_WALLET_CONNECT } from '../consts.ts';
@@ -92,17 +93,28 @@ export const makeCardanoWallet = ({
   ).pipe(publishReplay(1), refCount());
 
   const assetNetworkId = (networkId: CardanoNetwork): boolean => {
-    if (networkId === CardanoNetwork.TESTNET) {
+    if (
+      networkId === CardanoNetwork.TESTNET &&
+      currentNetwork === 'cardano_preview'
+    ) {
       return true;
     }
+    if (
+      networkId === CardanoNetwork.MAINNET &&
+      currentNetwork === 'cardano_mainnet'
+    ) {
+      return true;
+    }
+    const networkName =
+      currentNetwork === 'cardano_mainnet' ? 'Mainnet' : 'Preview';
 
     notification.error({
       key: 'wallet_network_error',
       message: 'Wallet Network Error',
       description: (
         <>
-          Set network to "testnet" in your {name} wallet to use Spectrum Finance
-          interface{' '}
+          Set network to "{networkName}" in your {name} wallet to use Spectrum
+          Finance interface{' '}
           <a href={testnetSwitchGuideUrl} target="_blank" rel="noreferrer">
             Read guide for {name}
           </a>

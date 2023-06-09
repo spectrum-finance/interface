@@ -12,13 +12,14 @@ export type CardanoNetworkData =
 // TODO: REWRITE AFTER RELEASE
 const networkUrl: SupportedNetworks = location.pathname.split('/')[1] as any;
 const possibleUrl =
-  localStorageManager.get<SupportedNetworks>('ergodex-selected-network-key') ||
-  networkUrl;
+  networkUrl === 'cardano_mainnet' || networkUrl === 'cardano_preview'
+    ? networkUrl
+    : localStorageManager.get<SupportedNetworks>(
+        'spectrum-selected-network-key',
+      );
 
 export const currentNetwork: SupportedNetworks =
-  possibleUrl === 'cardano_mainnet' || possibleUrl === 'cardano_preview'
-    ? possibleUrl
-    : 'cardano_mainnet';
+  possibleUrl === 'ergo' ? 'cardano_mainnet' : possibleUrl || 'cardano_mainnet';
 
 export const cardanoNetworkData: CardanoNetworkData =
   currentNetwork === 'cardano_mainnet'
