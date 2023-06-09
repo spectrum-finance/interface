@@ -69,7 +69,7 @@ export const PoolInfoView: FC<PoolInfoProps> = ({ position }) => {
             actionsMenuWidth={180}
             actionButtonSize="large"
             actionsMenu={
-              selectedNetwork.name !== 'cardano' && (
+              selectedNetwork.name === 'ergo' && (
                 <Menu.ItemGroup title={t`Liquidity Locker`}>
                   <Menu.Item
                     disabled={

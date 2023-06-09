@@ -1,4 +1,4 @@
-import { AdaAssetClass } from '@ergolabs/cardano-dex-sdk';
+import { AdaAssetClass } from '@spectrumlabs/cardano-dex-sdk';
 import { Observable, of, publishReplay, refCount } from 'rxjs';
 
 import { useObservable } from '../../../../common/hooks/useObservable';

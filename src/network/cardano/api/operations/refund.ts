@@ -1,5 +1,5 @@
-import { AmmOrderRefunds } from '@ergolabs/cardano-dex-sdk';
-import { TxOut } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/txOut';
+import { AmmOrderRefunds } from '@spectrumlabs/cardano-dex-sdk';
+import { TxOut } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/txOut';
 import { first, Observable, Subject, switchMap, tap, zip } from 'rxjs';
 
 import { Currency } from '../../../../common/models/Currency';
@@ -8,26 +8,28 @@ import {
   openConfirmationModal,
   Operation as ModalOperation,
 } from '../../../../components/ConfirmationModal/ConfirmationModal';
-import { depositAda } from '../../settings/depositAda';
 import { settings$ } from '../../settings/settings';
 import { cardanoNetwork } from '../common/cardanoNetwork';
+import { networkAsset } from '../networkAsset/networkAsset';
 import { getCollateralByAmount } from '../utxos/utxos';
-import { submitTx } from './common/submitTx';
+import { submitTxCandidate } from './common/submitTxCandidate';
 
 const ammRefunds = new AmmOrderRefunds(cardanoNetwork);
 
+const COLLATERAL_AMOUNT = new Currency('2', networkAsset);
+
 const walletRefund = (txId: TxId): Observable<TxId> =>
-  zip([settings$, getCollateralByAmount(depositAda.amount)]).pipe(
+  zip([settings$, getCollateralByAmount(COLLATERAL_AMOUNT.amount)]).pipe(
     first(),
     switchMap(([settings, collateral]) =>
       ammRefunds.refund({
         recipientAddress: settings.address!,
         txId,
         collateral: collateral.map((txOut: TxOut) => ({ txOut })),
-        fee: depositAda.amount,
+        fee: COLLATERAL_AMOUNT.amount,
       }),
     ),
-    switchMap(submitTx),
+    switchMap(submitTxCandidate),
   );
 
 export const refund = (

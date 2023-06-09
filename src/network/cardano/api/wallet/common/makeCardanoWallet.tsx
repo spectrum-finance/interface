@@ -1,4 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
+import { notification } from '@ergolabs/ui-kit';
 import { Connector } from '@dcspark/adalib/dist/connectors/base';
 import {
   decodeAddr,
@@ -6,20 +7,17 @@ import {
   decodeWasmValue,
   HexString,
   RawTxWitnessSet,
-  toWasmValue,
   Value,
-} from '@ergolabs/cardano-dex-sdk';
+} from '@spectrumlabs/cardano-dex-sdk';
 import {
   RawTx,
   RawUnsignedTx,
-} from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/tx';
-import { TxOut } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/txOut';
-import { encodeHex } from '@ergolabs/cardano-dex-sdk/build/main/utils/hex';
-import { RustModule } from '@ergolabs/cardano-dex-sdk/build/main/utils/rustLoader';
-import { notification } from '@ergolabs/ui-kit';
+} from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/tx';
+import { TxOut } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/txOut';
+import { RustModule } from '@spectrumlabs/cardano-dex-sdk/build/main/utils/rustLoader';
 import uniq from 'lodash/uniq';
-import { ReactNode } from 'react';
 import * as React from 'react';
+import { ReactNode } from 'react';
 import {
   catchError,
   combineLatest,
@@ -182,19 +180,9 @@ export const makeCardanoWallet = ({
     );
   };
 
-  const getUtxos = (amount?: Value): Observable<TxOut[]> => {
+  const getUtxos = (): Observable<TxOut[]> => {
     return ctx$.pipe(
-      switchMap((ctx) =>
-        from(
-          ctx.getUtxos(
-            amount
-              ? encodeHex(
-                  toWasmValue(amount, RustModule.CardanoWasm).to_bytes(),
-                )
-              : amount,
-          ),
-        ),
-      ),
+      switchMap((ctx) => from(ctx.getUtxos())),
       map(
         (hexes) =>
           hexes?.map((hex) => decodeWasmUtxo(hex, RustModule.CardanoWasm)) ||

@@ -63,7 +63,7 @@ export const Farms = (): JSX.Element => {
   ])(farms);
 
   useGuardV2(
-    () => selectedNetwork.name === 'cardano',
+    () => selectedNetwork.name !== 'ergo',
     () => navigate(`../../../swap`),
   );
 

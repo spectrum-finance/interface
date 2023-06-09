@@ -19,7 +19,7 @@ export const FarmTagColumn: FC<FarmTagColumnProps> = ({ x, y }) => (
         <Flex gap={1} align="center">
           {[x, y].every((value) => value.isPositive()) ? (
             <>
-              <ConvenientAssetView value={[x, y]} />
+              <ConvenientAssetView value={[x, y]} isShort />
               <InfoTooltip
                 width={194}
                 size="small"

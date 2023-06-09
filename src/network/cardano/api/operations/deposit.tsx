@@ -1,8 +1,8 @@
 import { Transaction } from '@emurgo/cardano-serialization-lib-nodejs';
-import { TxCandidate } from '@ergolabs/cardano-dex-sdk';
-import { DepositTxInfo } from '@ergolabs/cardano-dex-sdk/build/main/amm/interpreters/ammTxBuilder/depositAmmTxBuilder';
-import { NetworkParams } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/env';
 import { t } from '@lingui/macro';
+import { TxCandidate } from '@spectrumlabs/cardano-dex-sdk';
+import { DepositTxInfo } from '@spectrumlabs/cardano-dex-sdk/build/main/amm/interpreters/ammTxBuilder/depositAmmTxBuilder';
+import { NetworkParams } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/env';
 import { first, map, Observable, Subject, switchMap, tap, zip } from 'rxjs';
 
 import { Balance } from '../../../../common/models/Balance';
@@ -20,14 +20,13 @@ import {
   settings$,
   useSettings,
 } from '../../settings/settings';
-import { useDepositValidationFee } from '../../settings/totalFee';
 import { DepositConfirmationModal } from '../../widgets/DepositConfirmationModal/DepositConfirmationModal';
 import { CardanoAmmPool } from '../ammPools/CardanoAmmPool';
 import { cardanoNetworkParams$ } from '../common/cardanoNetwork';
 import { networkAsset } from '../networkAsset/networkAsset';
 import { ammTxFeeMapping } from './common/ammTxFeeMapping';
 import { minExecutorReward } from './common/minExecutorReward';
-import { submitTx } from './common/submitTx';
+import { submitTx } from './common/submitTxCandidate';
 import { transactionBuilder$ } from './common/transactionBuilder';
 
 interface DepositTxCandidateConfig {
@@ -43,7 +42,7 @@ const toDepositTxCandidate = ({
   x,
   y,
   settings,
-}: DepositTxCandidateConfig): Observable<TxCandidate> => {
+}: DepositTxCandidateConfig): Observable<Transaction> => {
   if (!settings.address || !settings.ph) {
     throw new Error('[deposit]: wallet address is not selected');
   }
@@ -64,7 +63,7 @@ const toDepositTxCandidate = ({
         pk: settings.ph!,
       }),
     ),
-    map((data: [Transaction | null, TxCandidate, DepositTxInfo]) => data[1]),
+    map((data: [Transaction | null, TxCandidate, DepositTxInfo]) => data[0]!),
     first(),
   );
 };
@@ -158,10 +157,8 @@ export const useHandleDepositMaxButtonClick = (): ((
   value: AddLiquidityFormModel,
   balance: Balance,
 ) => [Currency, Currency]) => {
-  const depositValidationFee = useDepositValidationFee();
-
   return (pct, value, balance) => {
-    return depositMaxButtonClickForNative(depositValidationFee)(
+    return depositMaxButtonClickForNative(new Currency(0n, networkAsset))(
       pct,
       value,
       balance,

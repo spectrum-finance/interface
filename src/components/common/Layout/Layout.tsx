@@ -82,7 +82,7 @@ const _Layout: FC<PropsWithChildren<{ className?: string }>> = ({
   return (
     <div ref={ref} className={className}>
       <Glow />
-      {applicationConfig.cardanoUpdate && network.name === 'cardano' ? (
+      {applicationConfig.cardanoUpdate && network.name !== 'ergo' ? (
         <CardanoUpdate />
       ) : (
         <>
