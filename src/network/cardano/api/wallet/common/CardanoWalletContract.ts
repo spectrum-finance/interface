@@ -14,7 +14,7 @@ export enum CardanoNetwork {
 }
 
 export interface CardanoWalletContract extends Wallet, Prover {
-  readonly testnetSwitchGuideUrl: string;
+  readonly testnetSwitchGuideUrl?: string;
   readonly connectWallet: () => Observable<boolean | ReactNode>;
   readonly getUsedAddresses: () => Observable<Address[]>;
   readonly getChangeAddress: () => Observable<Address>;

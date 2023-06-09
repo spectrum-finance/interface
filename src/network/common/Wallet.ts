@@ -11,7 +11,7 @@ export interface Wallet {
   readonly icon: ReactNode;
   readonly previewIcon: ReactNode;
   readonly definition: WalletDefinition;
-  readonly extensionLink: string;
+  readonly extensionLink?: string;
   readonly onConnect?: () => void;
   readonly onDisconnect?: () => void;
   readonly walletSupportedFeatures: WalletSupportedFeatures;

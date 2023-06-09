@@ -16,7 +16,7 @@ import { cardanoMainnet, cardanoPreview } from '../../network/cardano/cardano';
 import { Network } from '../../network/common/Network';
 import { ergoNetwork } from '../../network/ergo/ergo';
 
-const SELECTED_NETWORK_KEY = 'ergodex-selected-network-key';
+const SELECTED_NETWORK_KEY = 'spectrum-selected-network-key';
 
 const updateSelectedNetwork$ = new BehaviorSubject<
   Network<any, any> | undefined

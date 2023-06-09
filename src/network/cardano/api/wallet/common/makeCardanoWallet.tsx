@@ -1,4 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
+import { Connector } from '@dcspark/adalib/dist/connectors/base';
 import { notification } from '@ergolabs/ui-kit';
 import {
   decodeAddr,
@@ -41,18 +42,23 @@ import {
 } from '../../../../common/Wallet';
 import { mapAssetClassToAssetInfo } from '../../common/cardanoAssetInfo/getCardanoAssetInfo';
 import { cardanoWasm$ } from '../../common/cardanoWasm';
+import { CONNECTOR_NAME_WALLET_CONNECT } from '../consts.ts';
 import { CardanoNetwork, CardanoWalletContract } from './CardanoWalletContract';
 
 export interface CardanoWalletConfig {
   readonly name: string;
   readonly icon: ReactNode;
   readonly previewIcon: ReactNode;
-  readonly extensionLink: string;
+  readonly extensionLink?: string;
   readonly definition?: WalletDefinition;
   readonly variableName: string;
   readonly walletSupportedFeatures: WalletSupportedFeatures;
-  readonly testnetSwitchGuideUrl: string;
+  readonly testnetSwitchGuideUrl?: string;
+  readonly connectorApi?: Connector;
 }
+
+const isWalletConnectConnector = (variableName) =>
+  variableName === CONNECTOR_NAME_WALLET_CONNECT;
 
 const toBalance = (wasmValue: Value): Observable<[bigint, AssetInfo][]> => {
   if (!wasmValue?.length) {
@@ -69,6 +75,7 @@ const toBalance = (wasmValue: Value): Observable<[bigint, AssetInfo][]> => {
 };
 
 export const makeCardanoWallet = ({
+  connectorApi,
   name,
   icon,
   extensionLink,
@@ -78,10 +85,11 @@ export const makeCardanoWallet = ({
   previewIcon,
   testnetSwitchGuideUrl,
 }: CardanoWalletConfig): CardanoWalletContract => {
-  const ctx$ = defer(() => from(cardano[variableName].enable())).pipe(
-    publishReplay(1),
-    refCount(),
-  );
+  const context = connectorApi ? connectorApi : cardano;
+
+  const ctx$ = defer(() =>
+    from(connectorApi ? connectorApi.enable() : cardano[variableName].enable()),
+  ).pipe(publishReplay(1), refCount());
 
   const assetNetworkId = (networkId: CardanoNetwork): boolean => {
     if (networkId === CardanoNetwork.TESTNET) {
@@ -108,12 +116,19 @@ export const makeCardanoWallet = ({
   const connectWallet = (): Observable<boolean | React.ReactNode> => {
     return timer(2000).pipe(
       switchMap(() => {
-        try {
-          if (!cardano || !cardano[variableName]) {
-            return throwError(() => new Error('EXTENSION_NOT_FOUND'));
-          }
-        } catch (err) {
+        if (
+          (!context || !context[variableName]) &&
+          !isWalletConnectConnector(variableName)
+        ) {
           return throwError(() => new Error('EXTENSION_NOT_FOUND'));
+        }
+
+        if (isWalletConnectConnector(variableName) && connectorApi) {
+          return from(connectorApi.enable()).pipe(
+            switchMap((ctx) => from(ctx.getNetworkId())),
+            map(assetNetworkId),
+            catchError(() => of(false)),
+          );
         }
 
         return ctx$.pipe(
@@ -186,7 +201,7 @@ export const makeCardanoWallet = ({
             }),
           );
         }
-        if (ctx.experimental.getCollateral) {
+        if (ctx.experimental && ctx.experimental.getCollateral) {
           return from(
             ctx.experimental.getCollateral({
               amount: RustModule._wasm?.BigNum.from_str(amount.toString()),
