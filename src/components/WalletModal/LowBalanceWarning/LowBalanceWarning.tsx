@@ -12,7 +12,6 @@ interface LowBalanceWarningProps {
 const LowBalanceWarning: React.FC<LowBalanceWarningProps> = ({
   network,
 }): JSX.Element => {
-  console.log(network);
   return (
     <Tag
       style={{
