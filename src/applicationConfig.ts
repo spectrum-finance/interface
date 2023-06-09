@@ -70,14 +70,14 @@ export const applicationConfig: ApplicationConfig = {
   reCaptchaKey: '6LfCKZIiAAAAACypYW5pGlgZNTcwse1njmQMIUUL',
   requestRetryCount: 3,
   networksSettings: {
-    cardanoPreview: {
+    cardano_preview: {
       metadataUrl: 'https://meta.spectrum.fi/cardano/metadata',
       networkUrl: 'https://explorer.spectrum.fi/cardano/preview/v1/',
       explorerUrl: 'https://preview.cexplorer.io',
       lowBalanceGuide: '',
       analyticUrl: 'https://test-api.spectrum.fi/cardano/v1/',
     },
-    cardanoMainnet: {
+    cardano_mainnet: {
       metadataUrl: 'https://meta.spectrum.fi/cardano/metadata',
       networkUrl: 'https://explorer.spectrum.fi/cardano/mainnet/v1/',
       explorerUrl: 'https://cexplorer.io',
