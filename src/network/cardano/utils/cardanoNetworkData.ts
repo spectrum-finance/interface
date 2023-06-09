@@ -24,12 +24,12 @@ export const currentNetwork: SupportedNetworks =
 export const cardanoNetworkData: CardanoNetworkData =
   currentNetwork === 'cardano_mainnet'
     ? {
-        ...applicationConfig.networksSettings.cardanoMainnet,
+        ...applicationConfig.networksSettings.cardano_mainnet,
         settingsKey: 'cardano-mainnet-settings',
         walletKey: 'cardano-mainnet-selected-wallet',
       }
     : {
-        ...applicationConfig.networksSettings.cardanoPreview,
+        ...applicationConfig.networksSettings.cardano_preview,
         settingsKey: 'cardano-preview-settings',
         walletKey: 'cardano-preview-selected-wallet',
       };
