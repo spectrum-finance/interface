@@ -1,3 +1,9 @@
+import {
+  OrderAddrs,
+  OrderAddrsV1Mainnet,
+  OrderAddrsV1Testnet,
+} from '@spectrumlabs/cardano-dex-sdk/build/main/amm/scripts';
+
 import { applicationConfig } from '../../../applicationConfig';
 import { localStorageManager } from '../../../common/utils/localStorageManager';
 import { SupportedNetworks } from '../../common/Network';
@@ -7,6 +13,7 @@ export type CardanoNetworkData =
   typeof applicationConfig.networksSettings['ergo'] & {
     readonly settingsKey: string;
     readonly walletKey: string;
+    readonly addrs: OrderAddrs;
   };
 
 // TODO: REWRITE AFTER RELEASE
@@ -27,9 +34,11 @@ export const cardanoNetworkData: CardanoNetworkData =
         ...applicationConfig.networksSettings.cardano_mainnet,
         settingsKey: 'cardano-mainnet-settings',
         walletKey: 'cardano-mainnet-selected-wallet',
+        addrs: OrderAddrsV1Mainnet,
       }
     : {
         ...applicationConfig.networksSettings.cardano_preview,
         settingsKey: 'cardano-preview-settings',
         walletKey: 'cardano-preview-selected-wallet',
+        addrs: OrderAddrsV1Testnet,
       };
