@@ -24,7 +24,7 @@ export const assetBalance$: Observable<Balance> = combineLatest([
   distinctUntilChanged(
     (prev: [bigint, AssetInfo][], next: [bigint, AssetInfo][]) => {
       if (prev?.length !== next?.length) {
-        return true;
+        return false;
       }
       return prev?.every(
         ([amount, asset]) =>
