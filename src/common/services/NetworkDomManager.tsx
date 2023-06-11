@@ -62,7 +62,7 @@ const NetworkDomManagerOutlet: FC = () => {
 const useNetworkTitle = (): string | undefined => {
   const [selectedNetwork] = useObservable(selectedNetwork$, [], undefined);
 
-  return selectedNetwork ? capitalize(selectedNetwork.name) : undefined;
+  return selectedNetwork ? capitalize(selectedNetwork.label) : undefined;
 };
 
 const initialized$ = networksInitialized$;
