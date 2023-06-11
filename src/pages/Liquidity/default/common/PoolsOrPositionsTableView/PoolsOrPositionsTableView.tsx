@@ -75,7 +75,7 @@ export const PoolsOrPositionsTableView: FC<
               </>
             }
           >
-            <Trans>APR</Trans>
+            <Trans>APR 24h</Trans>
           </InfoTooltip>
         }
       >
