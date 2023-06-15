@@ -13,18 +13,6 @@ interface FeeDescriptor {
 
 const inputRegex = RegExp(`^\\d*(?:\\\\[.])?\\d*$`);
 
-const FEES: FeeDescriptor[] = [
-  {
-    percent: 0.3,
-    description: t`Best for most pairs`,
-    content: t`0.3% fee`,
-  },
-  {
-    percent: 1,
-    description: t`Best for exotic pairs`,
-    content: t`1% fee`,
-  },
-];
 
 const isValidAmount = (value: string): boolean => {
   return (value.split('.')[1]?.length || 0) <= 1;
@@ -35,6 +23,18 @@ export type FeeSelectorProps = Control<number | undefined>;
 export const FeeSelector: FC<FeeSelectorProps> = ({ value, onChange }) => {
   const [userInput, setUserInput] = useState<string | undefined>(undefined);
   const handleItemClick = (percent: number) => onChange && onChange(percent);
+  const FEES: FeeDescriptor[] = [
+    {
+      percent: 0.3,
+      description: t`Best for most pairs`,
+      content: t`0.3% fee`,
+    },
+    {
+      percent: 1,
+      description: t`Best for exotic pairs`,
+      content: t`1% fee`,
+    },
+  ];
 
   const handleInputChange = (nextUserInput: string) => {
     if (nextUserInput.startsWith('.')) {
