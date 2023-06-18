@@ -54,8 +54,7 @@ export interface CardanoWalletConfig {
   readonly definition?: WalletDefinition;
   readonly variableName: string;
   readonly walletSupportedFeatures: WalletSupportedFeatures;
-  readonly testnetSwitchGuideUrl?: string;
-  readonly connectorApi?: Connector;
+  readonly getActiveConnector?: () => Connector;
 }
 
 const isWalletConnectConnector = (variableName) =>
@@ -76,7 +75,7 @@ const toBalance = (wasmValue: Value): Observable<[bigint, AssetInfo][]> => {
 };
 
 export const makeCardanoWallet = ({
-  connectorApi,
+  getActiveConnector,
   name,
   icon,
   extensionLink,
@@ -84,12 +83,13 @@ export const makeCardanoWallet = ({
   walletSupportedFeatures,
   variableName,
   previewIcon,
-  testnetSwitchGuideUrl,
 }: CardanoWalletConfig): CardanoWalletContract => {
-  const context = connectorApi ? connectorApi : cardano;
-
   const ctx$ = defer(() =>
-    from(connectorApi ? connectorApi.enable() : cardano[variableName].enable()),
+    from(
+      getActiveConnector
+        ? getActiveConnector().enable()
+        : cardano[variableName].enable(),
+    ),
   ).pipe(publishReplay(1), refCount());
 
   const assetNetworkId = (networkId: CardanoNetwork): boolean => {
@@ -114,10 +114,7 @@ export const makeCardanoWallet = ({
       description: (
         <>
           Set network to "{networkName}" in your {name} wallet to use Spectrum
-          Finance interface{' '}
-          <a href={testnetSwitchGuideUrl} target="_blank" rel="noreferrer">
-            Read guide for {name}
-          </a>
+          Finance interface
         </>
       ),
     });
@@ -129,18 +126,10 @@ export const makeCardanoWallet = ({
     return timer(2000).pipe(
       switchMap(() => {
         if (
-          (!context || !context[variableName]) &&
+          (!cardano || !cardano[variableName]) &&
           !isWalletConnectConnector(variableName)
         ) {
           return throwError(() => new Error('EXTENSION_NOT_FOUND'));
-        }
-
-        if (isWalletConnectConnector(variableName) && connectorApi) {
-          return from(connectorApi.enable()).pipe(
-            switchMap((ctx) => from(ctx.getNetworkId())),
-            map(assetNetworkId),
-            catchError(() => of(false)),
-          );
         }
 
         return ctx$.pipe(
@@ -246,7 +235,6 @@ export const makeCardanoWallet = ({
   return {
     name,
     icon,
-    testnetSwitchGuideUrl,
     extensionLink,
     previewIcon,
     definition: definition || 'default',
