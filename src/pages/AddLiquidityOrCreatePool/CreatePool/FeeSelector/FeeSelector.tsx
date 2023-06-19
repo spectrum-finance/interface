@@ -13,7 +13,6 @@ interface FeeDescriptor {
 
 const inputRegex = RegExp(`^\\d*(?:\\\\[.])?\\d*$`);
 
-
 const isValidAmount = (value: string): boolean => {
   return (value.split('.')[1]?.length || 0) <= 1;
 };
