@@ -6,6 +6,7 @@ import { makeWalletManager } from '../../../common/WalletManager';
 import { cardanoNetworkData } from '../../utils/cardanoNetworkData';
 import { CardanoWalletContract } from './common/CardanoWalletContract';
 import { Eternl } from './eternl/eternl';
+import { Exodus } from './exodus/exodus.tsx';
 import { Flint } from './flint/flint.tsx';
 import { Gero } from './gero/gero';
 import { Lace } from './lace/lace.tsx';
@@ -19,7 +20,7 @@ const CARDANO_SELECTED_WALLET_TOKEN = cardanoNetworkData.walletKey;
 
 export const cardanoWalletManager = makeWalletManager<CardanoWalletContract>(
   CARDANO_SELECTED_WALLET_TOKEN,
-  [WalletConnect, Nami, Eternl, Lace, Flint, Nufi, Gero, Typhon, Yoroi],
+  [Nami, Eternl, Lace, Flint, WalletConnect, Nufi, Gero, Typhon, Yoroi, Exodus],
   (w: CardanoWalletContract) => w.connectWallet(),
 );
 

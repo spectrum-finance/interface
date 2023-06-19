@@ -24,8 +24,8 @@ initWalletConnect(
           icons: ['https://avatars.githubusercontent.com/u/37784886'],
           url: 'http://localhost:3030',
         },
-        autoconnect: true,
         qrcode: true,
+        autoconnect: true,
       }),
     ],
     chosenChain: cardanoMainnetWalletConnect(),
@@ -40,5 +40,5 @@ export const WalletConnect: CardanoWalletContract = makeCardanoWallet({
   previewIcon: (
     <img src={WcLogo} width={21} height={21} alt="WalletConnect Logo" />
   ),
-  connectorApi: getActiveConnector(),
+  getActiveConnector,
 });
