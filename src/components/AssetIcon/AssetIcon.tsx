@@ -69,10 +69,7 @@ const AssetIcon: React.FC<TokenIconProps> = ({
         <img
           style={{ verticalAlign: 'initial' }}
           alt="Token Icon"
-          src={
-            asset?.icon ||
-            `${applicationConfig.networksSettings.ergo.metadataUrl}/light/${iconName}.svg`
-          }
+          src={asset?.icon}
           onError={handleError}
           width={MAP_SIZE_TO_NUMBER[size]}
           height={MAP_SIZE_TO_NUMBER[size]}

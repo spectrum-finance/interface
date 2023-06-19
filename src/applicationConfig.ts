@@ -70,7 +70,8 @@ export const applicationConfig: ApplicationConfig = {
   networksSettings: {
     cardano_preview: {
       defaultTokenListUrl: 'https://spectrum.fi/cardano-token-list.json',
-      metadataUrl: 'https://meta.spectrum.fi/cardano/metadata',
+      metadataUrl:
+        'https://raw.githubusercontent.com/ergolabs/ergo-dex-asset-icons/master/logos/cardano',
       networkUrl: 'https://explorer.spectrum.fi/cardano/preview/v1/',
       explorerUrl: 'https://preview.cexplorer.io',
       lowBalanceGuide: '',
@@ -78,7 +79,8 @@ export const applicationConfig: ApplicationConfig = {
     },
     cardano_mainnet: {
       defaultTokenListUrl: 'https://spectrum.fi/cardano-token-list.json',
-      metadataUrl: 'https://meta.spectrum.fi/cardano/metadata',
+      metadataUrl:
+        'https://raw.githubusercontent.com/ergolabs/ergo-dex-asset-icons/master/logos/cardano',
       networkUrl: 'https://explorer.spectrum.fi/cardano/mainnet/v1/',
       explorerUrl: 'https://cexplorer.io',
       lowBalanceGuide: '',
@@ -87,7 +89,7 @@ export const applicationConfig: ApplicationConfig = {
     ergo: {
       defaultTokenListUrl: 'https://spectrum.fi/ergo-token-list.json',
       metadataUrl:
-        'https://raw.githubusercontent.com/ergolabs/ergo-dex-asset-icons/master',
+        'https://raw.githubusercontent.com/ergolabs/ergo-dex-asset-icons/master/logos/ergo',
       spfFaucet: 'https://airdrop.spectrum.fi/v1/faucet/',
       networkUrl: 'https://api.ergoplatform.com',
       explorerUrl: 'https://explorer.ergoplatform.com',

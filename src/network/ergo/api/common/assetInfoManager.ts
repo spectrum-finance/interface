@@ -30,9 +30,9 @@ const mapDefaultTokenListItemToAssetInfoById = (
             ticker: item.ticker,
             icon:
               item.logoURI ||
-              `${applicationConfig.networksSettings.ergo.metadataUrl}/light/${item.address}.svg`,
+              `${applicationConfig.networksSettings.ergo.metadataUrl}/${item.address}.svg`,
             iconFallback: item.logoURI
-              ? `${applicationConfig.networksSettings.ergo.metadataUrl}/light/${item.address}.svg`
+              ? `${applicationConfig.networksSettings.ergo.metadataUrl}/${item.address}.svg`
               : undefined,
             description: '',
           }
@@ -52,7 +52,7 @@ const mapFullTokenInfoToAssetItemById = (
             name: undefined,
             decimals: item.decimals,
             ticker: item.name,
-            icon: `${applicationConfig.networksSettings.ergo.metadataUrl}/light/${item.id}.svg`,
+            icon: `${applicationConfig.networksSettings.ergo.metadataUrl}/${item.id}.svg`,
             iconFallback: undefined,
             description: item.description,
             emissionAmount: item.emissionAmount,
