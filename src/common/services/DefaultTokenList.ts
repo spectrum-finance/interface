@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { from, map, Observable, publishReplay, refCount } from 'rxjs';
 
-import { applicationConfig } from '../../applicationConfig';
 import { uint } from '../types';
 
 export interface DefaultTokenListItem {
@@ -19,17 +18,16 @@ export interface DefaultTokenList {
 }
 
 export const getDefaultTokenList = (
-  network: string,
+  url: string,
+  fieldToCache: string,
 ): Observable<DefaultTokenList> =>
-  from(
-    axios.get(`${applicationConfig.defaultTokenListUrl}/${network}.json`),
-  ).pipe(
+  from(axios.get(url)).pipe(
     map((res) => res.data),
     map((data: DefaultTokenList) => ({
       ...data,
       tokensMap: data.tokens.reduce<Map<string, DefaultTokenListItem>>(
         (map, item) => {
-          map.set(item.address, item);
+          map.set(item[fieldToCache], item);
 
           return map;
         },
