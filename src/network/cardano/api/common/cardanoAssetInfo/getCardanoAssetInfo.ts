@@ -64,12 +64,16 @@ export const mapAssetClassToAssetInfo = (
     return of(mapSubjectToAssetInfo.get(assetSubject)!);
   }
 
-  if (assets[assetSubject]) {
-    return of(cardanoAssetInfoToAssetInfo(ac, assets[assetSubject]));
-  }
-  console.log(ac);
   return getCardanoAssetInfo(assetSubject).pipe(
-    map((cai) => defaultTokenListItemToAssetInfo(ac, cai)),
+    map((cai) => {
+      if (cai) {
+        return defaultTokenListItemToAssetInfo(ac, cai);
+      } else if (assets[assetSubject]) {
+        return cardanoAssetInfoToAssetInfo(ac, assets[assetSubject]);
+      } else {
+        return defaultTokenListItemToAssetInfo(ac, cai);
+      }
+    }),
     tap((ai) => mapSubjectToAssetInfo.set(assetSubject, ai)),
   );
 };

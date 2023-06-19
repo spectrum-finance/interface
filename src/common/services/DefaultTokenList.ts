@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { from, map, Observable, publishReplay, refCount, tap } from 'rxjs';
+import { from, map, Observable, publishReplay, refCount } from 'rxjs';
 
 export interface DefaultTokenList<T> {
   readonly network: string;
@@ -13,7 +13,6 @@ export const getDefaultTokenList = <T>(
 ): Observable<DefaultTokenList<T>> =>
   from(axios.get(url)).pipe(
     map((res) => res.data),
-    tap(console.log),
     map((data: DefaultTokenList<T>) => ({
       ...data,
       tokensMap: data.tokens.reduce<Map<string, T>>((map, item) => {

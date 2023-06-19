@@ -1,5 +1,3 @@
-import { mkSubject } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/assetClass';
-
 import { applicationConfig } from '../../../../applicationConfig';
 import { getDefaultTokenList } from '../../../../common/services/DefaultTokenList';
 

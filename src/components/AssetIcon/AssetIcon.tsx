@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import * as React from 'react';
 
-import { applicationConfig } from '../../applicationConfig';
 import { AssetInfo } from '../../common/models/AssetInfo';
 import { UnknownTokenIcon } from '../UnknownTokenIcon/UnknownTokenIcon';
 
@@ -35,7 +34,6 @@ const AssetIcon: React.FC<TokenIconProps> = ({
   inline,
   ...rest
 }) => {
-  const iconName = asset?.id || 'empty';
   const [errorState, setErrorState] = useState<ErrorState | undefined>(
     undefined,
   );

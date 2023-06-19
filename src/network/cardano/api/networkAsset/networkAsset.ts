@@ -13,7 +13,7 @@ export const networkAsset = {
   id: ADA_ID,
   decimals: ADA_DECIMALS,
   data: AdaAssetClass,
-  icon: '/token-ada.svg'
+  icon: '/token-ada.svg',
 };
 
 export const networkAsset$: Observable<AssetInfo> = of(networkAsset).pipe(
