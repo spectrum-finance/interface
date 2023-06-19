@@ -1,16 +1,18 @@
 import { applicationConfig } from '../../../../applicationConfig';
 import { getDefaultTokenList } from '../../../../common/services/DefaultTokenList';
-import { uint } from '../../../../common/types';
 
 export interface DefaultTokenListItem {
-  readonly address: string;
-  readonly decimals: uint;
+  readonly policyId: string;
+  readonly subject: string;
+  readonly description: string;
   readonly name: string;
   readonly ticker: string;
-  readonly logoURI?: string;
+  readonly decimals: number;
 }
 
 export const defaultTokenList$ = getDefaultTokenList<DefaultTokenListItem>(
-  applicationConfig.networksSettings.ergo.defaultTokenListUrl,
-  (item) => item.address,
+  applicationConfig.networksSettings.cardano_mainnet.defaultTokenListUrl,
+  (item) => {
+    return item.subject;
+  },
 );

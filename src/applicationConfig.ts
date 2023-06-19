@@ -21,6 +21,7 @@ interface NetworkConfig {
   readonly spfFaucet?: string;
   readonly faucet?: string;
   readonly lowBalanceGuide?: string;
+  readonly defaultTokenListUrl: string;
 }
 
 interface CardanoUpdate {
@@ -32,7 +33,6 @@ interface ApplicationConfig {
   readonly cookieDomain: string | undefined;
   readonly cardanoMaintenance: boolean;
   readonly cardanoUpdate?: CardanoUpdate;
-  readonly defaultTokenListUrl: string;
   readonly operationTimeoutTime: number;
   readonly reCaptchaKey: string;
   readonly networksSettings: Dictionary<NetworkConfig>;
@@ -61,8 +61,6 @@ export const applicationConfig: ApplicationConfig = {
   operationTimeoutTime: 60_000,
   cookieDomain: isProductionEnv() ? 'spectrum.fi' : undefined,
   cardanoMaintenance: false,
-  defaultTokenListUrl:
-    'https://raw.githubusercontent.com/ergolabs/default-token-list/master/src/tokens',
   // cardanoUpdate: {
   //   title: 'On the way to the mainnet',
   //   content: 'The Cardano AMM protocol will be available in mainnet soon',
@@ -71,22 +69,27 @@ export const applicationConfig: ApplicationConfig = {
   requestRetryCount: 3,
   networksSettings: {
     cardano_preview: {
-      metadataUrl: 'https://meta.spectrum.fi/cardano/metadata',
+      defaultTokenListUrl: 'https://spectrum.fi/cardano-token-list.json',
+      metadataUrl:
+        'https://raw.githubusercontent.com/ergolabs/ergo-dex-asset-icons/master/logos/cardano',
       networkUrl: 'https://explorer.spectrum.fi/cardano/preview/v1/',
       explorerUrl: 'https://preview.cexplorer.io',
       lowBalanceGuide: '',
       analyticUrl: 'https://test-api.spectrum.fi/cardano/v1/',
     },
     cardano_mainnet: {
-      metadataUrl: 'https://meta.spectrum.fi/cardano/metadata',
+      defaultTokenListUrl: 'https://spectrum.fi/cardano-token-list.json',
+      metadataUrl:
+        'https://raw.githubusercontent.com/ergolabs/ergo-dex-asset-icons/master/logos/cardano',
       networkUrl: 'https://explorer.spectrum.fi/cardano/mainnet/v1/',
       explorerUrl: 'https://cexplorer.io',
       lowBalanceGuide: '',
       analyticUrl: 'https://test-api.spectrum.fi/cardano/v1/',
     },
     ergo: {
+      defaultTokenListUrl: 'https://spectrum.fi/ergo-token-list.json',
       metadataUrl:
-        'https://raw.githubusercontent.com/ergolabs/ergo-dex-asset-icons/master',
+        'https://raw.githubusercontent.com/ergolabs/ergo-dex-asset-icons/master/logos/ergo',
       spfFaucet: 'https://airdrop.spectrum.fi/v1/faucet/',
       networkUrl: 'https://api.ergoplatform.com',
       explorerUrl: 'https://explorer.ergoplatform.com',
