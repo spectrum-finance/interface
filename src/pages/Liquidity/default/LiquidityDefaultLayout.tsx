@@ -1,6 +1,7 @@
-import { Flex, Tabs } from '@ergolabs/ui-kit';
-import { t } from '@lingui/macro';
+import { Button, Flex, Tabs } from '@ergolabs/ui-kit';
+import { t, Trans } from '@lingui/macro';
 import { FC } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { SearchInput } from '../../../components/SearchInput/SearchInput';
@@ -38,6 +39,7 @@ export const LiquidityDefaultLayout: FC<LiquidityLayoutProps> = ({
   positionsWithLocks,
   showLockedPositions,
 }) => {
+  const navigate = useNavigate();
   const LiquidityStateCaptions = {
     [LiquidityState.POOLS_OVERVIEW]: t`All Pools`,
     [LiquidityState.YOUR_POSITIONS]: t`Your Positions`,
@@ -60,7 +62,17 @@ export const LiquidityDefaultLayout: FC<LiquidityLayoutProps> = ({
                 size="large"
               />
             </Flex.Item>
-            <LiquidityFilter value={filters} onChange={setFilters} />
+            <Flex.Item marginRight={1}>
+              <LiquidityFilter value={filters} onChange={setFilters} />
+            </Flex.Item>
+            <Button
+              size="large"
+              onClick={() => {
+                navigate('create');
+              }}
+            >
+              <Trans>Create Pool</Trans>
+            </Button>
           </Flex>
         ),
       }}

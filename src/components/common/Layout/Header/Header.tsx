@@ -9,6 +9,7 @@ import { useObservable } from '../../../../common/hooks/useObservable';
 import { selectedWalletState$ } from '../../../../gateway/api/wallets';
 import { WalletState } from '../../../../network/common/Wallet';
 import { isPreLbspTimeGap } from '../../../../utils/lbsp';
+import { IsCardano } from '../../../IsCardano/IsCardano.tsx';
 import { IsErgo } from '../../../IsErgo/IsErgo';
 import { AppLogo } from '../../AppLogo/AppLogo';
 import { CardanoMaintenance } from '../CardanoMaintenance/CardanoMaintenance';
@@ -67,11 +68,15 @@ export const _Header: React.FC<HeaderProps> = ({
           <Flex.Item marginRight={2} align="center">
             <AppLogo isNoWording />
           </Flex.Item>
+          <IsErgo>
+            {moreThan('l') && <Navigation />}
+            <Analytics />
+          </IsErgo>
           {!isPreLbspTimeGap() && (
-            <>
+            <IsCardano>
               {moreThan('l') && <Navigation />}
               <Analytics />
-            </>
+            </IsCardano>
           )}
         </Flex>
         <Flex align="center" style={{ gap: '8px', marginLeft: 'auto' }}>

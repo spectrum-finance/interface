@@ -1,4 +1,4 @@
-import { Button, PlusOutlined, Typography, useDevice } from '@ergolabs/ui-kit';
+import { Button, Typography, useDevice } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import { FC, PropsWithChildren } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -29,7 +29,12 @@ export const PoolsOrPositionsTableView: FC<
     <TableView
       items={items}
       onItemClick={(item) => {
-        navigate(item.id);
+        console.log('hello', item);
+        if (item.id) {
+          navigate(item.id);
+        } else {
+          navigate(item.pool.pool.id);
+        }
       }}
       itemKey="id"
       itemHeight={80}
@@ -89,13 +94,16 @@ export const PoolsOrPositionsTableView: FC<
         {(ammPool) => (
           <Button
             type="primary"
-            icon={<PlusOutlined />}
             onClick={(event) => {
-              navigate(`${ammPool.id}/add`);
+              if (ammPool.id) {
+                navigate(`${ammPool.id}/add`);
+              } else {
+                navigate(`${ammPool.pool.pool.id}/add`);
+              }
               event.stopPropagation();
             }}
           >
-            {m ? '' : 'Add Liquidity'}
+            {m ? '' : <Trans>Add Liquidity</Trans>}
           </Button>
         )}
       </TableView.Column>

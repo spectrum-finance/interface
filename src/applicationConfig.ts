@@ -72,7 +72,7 @@ export const applicationConfig: ApplicationConfig = {
     cardano_preview: {
       defaultTokenListUrl: 'https://spectrum.fi/cardano-token-list.json',
       metadataUrl:
-        'https://raw.githubusercontent.com/ergolabs/ergo-dex-asset-icons/master/logos/cardano',
+        'https://raw.githubusercontent.com/spectrum-finance/token-logos/master/logos/cardano',
       networkUrl: 'https://explorer.spectrum.fi/cardano/preview/v1/',
       explorerUrl: 'https://preview.cexplorer.io',
       lowBalanceGuide: '',
@@ -81,7 +81,7 @@ export const applicationConfig: ApplicationConfig = {
     cardano_mainnet: {
       defaultTokenListUrl: 'https://spectrum.fi/cardano-token-list.json',
       metadataUrl:
-        'https://raw.githubusercontent.com/ergolabs/ergo-dex-asset-icons/master/logos/cardano',
+        'https://raw.githubusercontent.com/spectrum-finance/token-logos/master/logos/cardano',
       networkUrl: 'https://explorer.spectrum.fi/cardano/mainnet/v1/',
       explorerUrl: 'https://cexplorer.io',
       lowBalanceGuide: '',
@@ -90,7 +90,7 @@ export const applicationConfig: ApplicationConfig = {
     ergo: {
       defaultTokenListUrl: 'https://spectrum.fi/ergo-token-list.json',
       metadataUrl:
-        'https://raw.githubusercontent.com/ergolabs/ergo-dex-asset-icons/master/logos/ergo',
+        'https://raw.githubusercontent.com/spectrum-finance/token-logos/master/logos/ergo',
       spfFaucet: 'https://airdrop.spectrum.fi/v1/faucet/',
       networkUrl: 'https://api.ergoplatform.com',
       explorerUrl: 'https://explorer.ergoplatform.com',
@@ -199,5 +199,5 @@ export const applicationConfig: ApplicationConfig = {
       operation: 'swap',
     },
   ],
-  cardanoAmmSwapsOpenTime: DateTime.utc(2023, 6, 21, 15, 59, 0),
+  cardanoAmmSwapsOpenTime: DateTime.utc(2023, 6, 21, 17, 59, 0),
 };
