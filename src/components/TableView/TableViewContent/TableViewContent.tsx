@@ -38,6 +38,7 @@ export interface TableViewContentProps<T> {
     | RowRenderer
     | ((props: RowRendererProps, item: T) => ReactNode | ReactNode[] | string);
   readonly expand?: TableExpand<T>;
+  readonly onItemClick?: (item: T) => void;
   readonly hoverable?: boolean;
 }
 
@@ -83,6 +84,7 @@ export const TableViewContent: FC<TableViewContentProps<any>> = ({
   rowRenderer = TableViewRowRenderer,
   expand,
   hoverable,
+  onItemClick,
 }) => {
   const RowRenderer = rowRenderer;
   const expandConfig = expand;
@@ -111,9 +113,13 @@ export const TableViewContent: FC<TableViewContentProps<any>> = ({
         const children = (
           <>
             <TableViewRowContainer
-              hoverable={hoverable || !!expandConfig}
+              hoverable={hoverable || !!expandConfig || !!onItemClick}
               onClick={() => {
-                if (!expandConfig) {
+                if (!expandConfig && !onItemClick) {
+                  return;
+                }
+                if (onItemClick) {
+                  onItemClick(item);
                   return;
                 }
                 if (expanded) {
