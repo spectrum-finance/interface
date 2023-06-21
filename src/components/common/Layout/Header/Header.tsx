@@ -8,6 +8,7 @@ import { device } from '../../../../common/constants/size';
 import { useObservable } from '../../../../common/hooks/useObservable';
 import { selectedWalletState$ } from '../../../../gateway/api/wallets';
 import { WalletState } from '../../../../network/common/Wallet';
+import { isPreLbspTimeGap } from '../../../../utils/lbsp';
 import { IsErgo } from '../../../IsErgo/IsErgo';
 import { AppLogo } from '../../AppLogo/AppLogo';
 import { CardanoMaintenance } from '../CardanoMaintenance/CardanoMaintenance';
@@ -66,8 +67,12 @@ export const _Header: React.FC<HeaderProps> = ({
           <Flex.Item marginRight={2} align="center">
             <AppLogo isNoWording />
           </Flex.Item>
-          {moreThan('l') && <Navigation />}
-          <Analytics />
+          {!isPreLbspTimeGap() && (
+            <>
+              {moreThan('l') && <Navigation />}
+              <Analytics />
+            </>
+          )}
         </Flex>
         <Flex align="center" style={{ gap: '8px', marginLeft: 'auto' }}>
           {!s && isDesktop && (

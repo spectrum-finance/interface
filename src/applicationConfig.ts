@@ -55,6 +55,7 @@ interface ApplicationConfig {
   readonly testFarms: string[];
   readonly operationsRestrictions: OperationRestriction[];
   readonly requestRetryCount: number;
+  readonly cardanoAmmSwapsOpenTime: DateTime;
 }
 
 export const applicationConfig: ApplicationConfig = {
@@ -198,4 +199,5 @@ export const applicationConfig: ApplicationConfig = {
       operation: 'swap',
     },
   ],
+  cardanoAmmSwapsOpenTime: DateTime.utc(2023, 6, 21, 15, 59, 0),
 };
