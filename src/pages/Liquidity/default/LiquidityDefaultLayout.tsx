@@ -42,7 +42,7 @@ export const LiquidityDefaultLayout: FC<LiquidityLayoutProps> = ({
   showLockedPositions,
 }) => {
   const LiquidityStateCaptions = {
-    [LiquidityState.POOLS_OVERVIEW]: t`Pools Overview`,
+    [LiquidityState.POOLS_OVERVIEW]: t`All Pools`,
     [LiquidityState.YOUR_POSITIONS]: t`Your Positions`,
     [LiquidityState.LOCKED_POSITIONS]: t`Locked Positions`,
   };

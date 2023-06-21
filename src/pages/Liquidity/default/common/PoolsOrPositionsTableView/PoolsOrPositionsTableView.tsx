@@ -1,6 +1,7 @@
-import { Typography, useDevice } from '@ergolabs/ui-kit';
+import { Button, PlusOutlined, Typography, useDevice } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import { FC, PropsWithChildren } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { AmmPool } from '../../../../../common/models/AmmPool';
 import { Position } from '../../../../../common/models/Position';
@@ -20,19 +21,22 @@ export interface PoolsOrPositionsTableViewProps<T extends AmmPool | Position> {
 
 export const PoolsOrPositionsTableView: FC<
   PropsWithChildren<PoolsOrPositionsTableViewProps<any>>
-> = ({ children, poolMapper, items, expandComponent }) => {
-  const { valBySize } = useDevice();
+> = ({ children, poolMapper, items }) => {
+  const { valBySize, m } = useDevice();
+  const navigate = useNavigate();
 
   return (
     <TableView
       items={items}
+      onItemClick={(item) => {
+        navigate(item.id);
+      }}
       itemKey="id"
       itemHeight={80}
       maxHeight={376}
       gap={1}
       tableHeaderPadding={[0, 6]}
       tableItemViewPadding={[0, 4]}
-      expand={{ height: 96, accordion: true, component: expandComponent }}
     >
       <TableView.Column
         width={311}
@@ -49,7 +53,7 @@ export const PoolsOrPositionsTableView: FC<
       </TableView.Column>
       <TableView.Column
         width={valBySize(128, 128, 200)}
-        title={<Trans>Volume 24H</Trans>}
+        title={<Trans>Volume 24h</Trans>}
       >
         {(ammPool) => <TvlOrVolume24Column usd={poolMapper(ammPool).volume} />}
       </TableView.Column>
@@ -80,6 +84,20 @@ export const PoolsOrPositionsTableView: FC<
         }
       >
         {(ammPool: AmmPool) => <AprColumn ammPool={poolMapper(ammPool)} />}
+      </TableView.Column>
+      <TableView.Column width={valBySize(20, 20, 140)}>
+        {(ammPool) => (
+          <Button
+            type="primary"
+            icon={<PlusOutlined />}
+            onClick={(event) => {
+              navigate(`${ammPool.id}/add`);
+              event.stopPropagation();
+            }}
+          >
+            {m ? '' : 'Add Liquidity'}
+          </Button>
+        )}
       </TableView.Column>
       {children}
       <TableView.State name="search" condition={!items.length}>

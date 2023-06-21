@@ -1,5 +1,4 @@
 import { useDevice, useSearch } from '@ergolabs/ui-kit';
-import { Trans } from '@lingui/macro';
 import { useState } from 'react';
 import * as React from 'react';
 
@@ -12,7 +11,6 @@ import { Page } from '../../components/Page/Page';
 import { displayedAmmPools$ } from '../../gateway/api/ammPools';
 import { positions$ } from '../../gateway/api/positions';
 import { PoolsOrPositionsFilterValue } from './common/components/LiquidityFilter/LiquidityFilter';
-import { LiquidityTitleExtra } from './common/components/LiquidityTitleExtra/LiquidityTitleExtra';
 import { LiquidityState } from './common/types/LiquidityState';
 import { LiquidityDefaultLayout } from './default/LiquidityDefaultLayout';
 import { LiquidityMobileLayout } from './mobile/LiquidityMobileLayout';
@@ -104,12 +102,7 @@ export const Liquidity = (): JSX.Element => {
   const positionsWithLocks = positions?.filter((p) => !!p.locks.length);
 
   return (
-    <Page
-      maxWidth={944}
-      padding={4}
-      title={<Trans>Liquidity</Trans>}
-      titleChildren={<LiquidityTitleExtra />}
-    >
+    <Page maxWidth={1008} padding={0} transparent>
       {s && (
         <LiquidityMobileLayout
           activeState={activeState}
