@@ -1,4 +1,4 @@
-import { Flex, Typography } from '@ergolabs/ui-kit';
+import { Flex, Typography, useDevice } from '@ergolabs/ui-kit';
 import { DateTime, Duration, Interval } from 'luxon';
 import { useEffect, useState } from 'react';
 import FlipNumbers from 'react-flip-numbers';
@@ -24,10 +24,23 @@ const LbspTimerWrapper = styled.div`
   & + main {
     padding-top: 0 !important;
   }
+
+  @media (max-width: 960px) {
+    h4 {
+      font-size: 14px !important;
+    }
+  }
+
+  @media (max-width: 768px) {
+    h4 {
+      font-size: 10px !important;
+    }
+  }
 `;
 
 export const LbspTimer = () => {
   const [timer, setTimer] = useState<Duration | undefined>();
+  const { valBySize } = useDevice();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -56,7 +69,7 @@ export const LbspTimer = () => {
     <LbspTimerWrapper>
       {timer && (
         <Typography.Title level={4}>
-          <Flex align="flex-start">
+          <Flex align="center">
             Swaps will be available in
             <FlipNumbers
               numbers={String(
@@ -67,8 +80,8 @@ export const LbspTimer = () => {
               play
               color="black"
               perspective={100}
-              height={20}
-              width={20}
+              height={valBySize(10, 15, 20)}
+              width={valBySize(10, 15, 20)}
             />
             Hours
             <FlipNumbers
@@ -80,8 +93,8 @@ export const LbspTimer = () => {
               play
               color="black"
               perspective={100}
-              height={20}
-              width={20}
+              height={valBySize(10, 15, 20)}
+              width={valBySize(10, 15, 20)}
             />{' '}
             Minutes
             <FlipNumbers
@@ -93,8 +106,8 @@ export const LbspTimer = () => {
               play
               color="black"
               perspective={100}
-              height={20}
-              width={20}
+              height={valBySize(10, 15, 20)}
+              width={valBySize(10, 15, 20)}
             />{' '}
             Seconds
           </Flex>

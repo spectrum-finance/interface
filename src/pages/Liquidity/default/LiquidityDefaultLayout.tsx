@@ -22,6 +22,10 @@ const LiquidityTabs = styled(Tabs)`
     margin-bottom: calc(var(--spectrum-base-gutter) * 2) !important;
     justify-content: space-between;
   }
+
+  .ant-tabs-extra-content {
+    flex: 1;
+  }
 `;
 
 export const LiquidityDefaultLayout: FC<LiquidityLayoutProps> = ({
@@ -54,7 +58,6 @@ export const LiquidityDefaultLayout: FC<LiquidityLayoutProps> = ({
           <Flex>
             <Flex.Item flex={1} marginRight={1}>
               <SearchInput
-                style={{ width: '400px' }}
                 autoFocus
                 onChange={handleSearchTerm}
                 value={term}

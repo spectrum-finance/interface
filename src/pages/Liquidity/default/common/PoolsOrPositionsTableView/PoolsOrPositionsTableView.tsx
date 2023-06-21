@@ -31,7 +31,9 @@ export const PoolsOrPositionsTableView: FC<
       onItemClick={(item) => {
         if (item.id) {
           navigate(item.id);
-        } else {
+        } else if (item.pool.id) {
+          navigate(item.pool.id);
+        } else if (item.pool.pool.id) {
           navigate(item.pool.pool.id);
         }
       }}
@@ -94,12 +96,14 @@ export const PoolsOrPositionsTableView: FC<
           <Button
             type="primary"
             onClick={(event) => {
+              event.stopPropagation();
               if (ammPool.id) {
                 navigate(`${ammPool.id}/add`);
-              } else {
+              } else if (ammPool.pool.id) {
+                navigate(`${ammPool.pool.id}/add`);
+              } else if (ammPool.pool.pool.id) {
                 navigate(`${ammPool.pool.pool.id}/add`);
               }
-              event.stopPropagation();
             }}
           >
             {m ? '' : <Trans>Add Liquidity</Trans>}

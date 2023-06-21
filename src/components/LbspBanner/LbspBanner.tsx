@@ -19,6 +19,11 @@ const LbspBannerWrapper = styled.div`
     position: absolute;
     right: 0;
     top: 0;
+    z-index: 0;
+
+    @media (max-width: 720px) {
+      opacity: 0.3;
+    }
   }
 
   & + main {
@@ -28,8 +33,12 @@ const LbspBannerWrapper = styled.div`
 
 const LbspBannerContent = styled.div`
   width: 100%;
-  max-width: 1016px;
-  padding: 24px 8px;
+  max-width: 1048px;
+  padding: 24px;
+  z-index: 30;
+  @media (max-width: 767px) {
+    padding: 24px 8px;
+  }
 `;
 
 export const LbspBanner = () => {
@@ -39,17 +48,23 @@ export const LbspBanner = () => {
         <LbspBannerContent>
           <Flex col>
             <Flex.Item marginBottom={2}>
-              <Typography.Title level={4}>
-                <Trans>Get Rewarded by providing liquidity</Trans>
+              <Typography.Title level={3}>
+                <Trans>
+                  Get Rewarded by providing and staking ADA liquidity
+                </Trans>
               </Typography.Title>
-              <Typography.Title level={5}>
-                Join the Liquidity Bootstrap Stake Pool Event (LBSP) and Become
-                the First Liquidity Provider!
-              </Typography.Title>
+              <Typography.Body>
+                <Trans>
+                  Upon providing ADA to labeled &quot;LBSP&quot; liquidity
+                  pools, ADA will be instantly staked in the Liquidity Bootstrap
+                  Stake Pool, resulting in Liquidity Providers receiving twice
+                  the SPF rewards compared to the standard ISP.
+                </Trans>
+              </Typography.Body>
             </Flex.Item>
             <Flex.Item>
               <Button type="primary" href="google.com" target="_blank">
-                Learn more about LBSP
+                <Trans>Learn more about LBSP</Trans>
               </Button>
             </Flex.Item>
           </Flex>
