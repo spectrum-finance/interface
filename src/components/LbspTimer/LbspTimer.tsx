@@ -101,7 +101,7 @@ export const LbspTimer = () => {
               height={valBySize(10, 15, 20)}
               width={valBySize(10, 15, 20)}
             />{' '}
-            <Trans>MinutesTrans</Trans>
+            <Trans>Minutes</Trans>
             <FlipNumbers
               numbers={String(
                 timer.seconds.toString().length === 2
