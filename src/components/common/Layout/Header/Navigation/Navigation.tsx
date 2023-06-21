@@ -5,6 +5,7 @@ import { useMatch, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { useSelectedNetwork } from '../../../../../gateway/common/network';
+import { isPreLbspTimeGap } from '../../../../../utils/lbsp.ts';
 
 interface NavigationProps {
   textCenter?: boolean;
@@ -36,7 +37,11 @@ const _Navigation: FC<NavigationProps> = ({ className, style }) => {
       className={className}
       style={style}
     >
-      <Tabs.TabPane tab={t`Swap`} key="swap" />
+      <Tabs.TabPane
+        disabled={isPreLbspTimeGap() && network.name === 'cardano_mainnet'}
+        tab={t`Swap`}
+        key="swap"
+      />
       <Tabs.TabPane tab={t`Liquidity`} key="liquidity" />
       {network.name === 'ergo' && <Tabs.TabPane tab={t`Farms`} key="farm" />}
     </Tabs>

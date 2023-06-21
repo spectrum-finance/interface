@@ -6,6 +6,7 @@
     "typeRoots": ["src/@types"],
     "skipLibCheck": true,
     "types": ["vite/client"],
+    "esModuleInterop": true,
 
     /* Bundler mode */
     "moduleResolution": "Node",
