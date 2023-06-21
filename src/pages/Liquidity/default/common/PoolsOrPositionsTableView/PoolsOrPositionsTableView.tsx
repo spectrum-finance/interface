@@ -29,7 +29,6 @@ export const PoolsOrPositionsTableView: FC<
     <TableView
       items={items}
       onItemClick={(item) => {
-        console.log('hello', item);
         if (item.id) {
           navigate(item.id);
         } else {
