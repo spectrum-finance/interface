@@ -19,7 +19,7 @@ export const SwapOperationDetails: FC<SwapOperationDetailsProps> = ({
   <OperationDetailsContainer
     leftSide={
       <TransactionDetails
-        title={t`Sent`}
+        title={t`Placed Order`}
         dateTime={swapItem.registerTx.dateTime}
         transactionId={swapItem.registerTx.id}
         content={<SingleAssetBox currency={swapItem.base} />}
@@ -29,18 +29,18 @@ export const SwapOperationDetails: FC<SwapOperationDetailsProps> = ({
       <>
         {swapItem.status === OperationStatus.Evaluated && (
           <TransactionDetails
-            title={t`Received`}
+            title={t`Executed Order`}
             dateTime={swapItem.evaluateTx.dateTime}
             transactionId={swapItem.evaluateTx.id}
             content={<SingleAssetBox currency={swapItem.quote} />}
           />
         )}
         {swapItem.status === OperationStatus.Pending && (
-          <TransactionPending title={t`Received`} />
+          <TransactionPending title={t`Executed Order`} />
         )}
         {swapItem.status === OperationStatus.Refunded && (
           <TransactionDetails
-            title={t`Received`}
+            title={t`Executed Order`}
             dateTime={swapItem.refundTx.dateTime}
             transactionId={swapItem.refundTx.id}
             content={<SingleAssetBox currency={swapItem.base} />}

@@ -20,7 +20,7 @@ export const AddLiquidityOperationDetails: FC<AddLiquidityOperationDetailsProps>
     <OperationDetailsContainer
       leftSide={
         <TransactionDetails
-          title={t`Sent`}
+          title={t`Placed Order`}
           dateTime={addLiquidityItem.registerTx.dateTime}
           transactionId={addLiquidityItem.registerTx.id}
           content={
@@ -39,7 +39,7 @@ export const AddLiquidityOperationDetails: FC<AddLiquidityOperationDetailsProps>
         <>
           {addLiquidityItem.status === OperationStatus.Evaluated && (
             <TransactionDetails
-              title={t`Received`}
+              title={t`Executed Order`}
               dateTime={addLiquidityItem.evaluateTx.dateTime}
               transactionId={addLiquidityItem.evaluateTx.id}
               content={
@@ -50,11 +50,11 @@ export const AddLiquidityOperationDetails: FC<AddLiquidityOperationDetailsProps>
             />
           )}
           {addLiquidityItem.status === OperationStatus.Pending && (
-            <TransactionPending title={t`Received`} />
+            <TransactionPending title={t`Executed Order`} />
           )}
           {addLiquidityItem.status === OperationStatus.Refunded && (
             <TransactionDetails
-              title={t`Received`}
+              title={t`Executed Order`}
               dateTime={addLiquidityItem.refundTx.dateTime}
               transactionId={addLiquidityItem.refundTx.id}
               content={
