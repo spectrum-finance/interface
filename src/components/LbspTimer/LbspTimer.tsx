@@ -1,4 +1,5 @@
 import { Flex, Typography, useDevice } from '@ergolabs/ui-kit';
+import { Trans } from '@lingui/macro';
 import { DateTime, Duration, Interval } from 'luxon';
 import { useEffect, useState } from 'react';
 import FlipNumbers from 'react-flip-numbers';
@@ -6,6 +7,7 @@ import styled from 'styled-components';
 
 import { applicationConfig } from '../../applicationConfig.ts';
 import { isPreLbspTimeGap } from '../../utils/lbsp.ts';
+import { InfoTooltip } from '../InfoTooltip/InfoTooltip.tsx';
 
 const LbspTimerWrapper = styled.div`
   display: flex;
@@ -26,6 +28,9 @@ const LbspTimerWrapper = styled.div`
   }
 
   @media (max-width: 960px) {
+    & section {
+      margin: 0 4px;
+    }
     h4 {
       font-size: 14px !important;
     }
@@ -70,7 +75,7 @@ export const LbspTimer = () => {
       {timer && (
         <Typography.Title level={4}>
           <Flex align="center">
-            Swaps will be available in
+            <Trans>Swaps will be available in</Trans>
             <FlipNumbers
               numbers={String(
                 timer.hours.toString().length === 2
@@ -83,7 +88,7 @@ export const LbspTimer = () => {
               height={valBySize(10, 15, 20)}
               width={valBySize(10, 15, 20)}
             />
-            Hours
+            <Trans>Hours</Trans>
             <FlipNumbers
               numbers={String(
                 timer.minutes.toString().length === 2
@@ -96,7 +101,7 @@ export const LbspTimer = () => {
               height={valBySize(10, 15, 20)}
               width={valBySize(10, 15, 20)}
             />{' '}
-            Minutes
+            <Trans>MinutesTrans</Trans>
             <FlipNumbers
               numbers={String(
                 timer.seconds.toString().length === 2
@@ -109,7 +114,18 @@ export const LbspTimer = () => {
               height={valBySize(10, 15, 20)}
               width={valBySize(10, 15, 20)}
             />{' '}
-            Seconds
+            <Trans>Seconds</Trans>
+            <InfoTooltip
+              width={300}
+              content={
+                <Trans>
+                  Swaps on smart contract level has been temporarily suspended
+                  for 3 days to allow for deeper liquidity in the protocol and
+                  prevent any unwanted changes in LBSP liquidity pool ratios.
+                </Trans>
+              }
+              placement="top"
+            />
           </Flex>
         </Typography.Title>
       )}

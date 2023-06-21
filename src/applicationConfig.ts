@@ -203,5 +203,5 @@ export const applicationConfig: ApplicationConfig = {
       operation: 'swap',
     },
   ],
-  cardanoAmmSwapsOpenTime: DateTime.utc(2023, 6, 21, 18, 59, 0),
+  cardanoAmmSwapsOpenTime: DateTime.utc(2023, 6, 21, 19, 59, 0),
 };

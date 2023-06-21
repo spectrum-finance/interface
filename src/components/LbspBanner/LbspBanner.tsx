@@ -47,7 +47,7 @@ export const LbspBanner = () => {
       <LbspBannerWrapper>
         <LbspBannerContent>
           <Flex col>
-            <Flex.Item marginBottom={2}>
+            <Flex.Item marginBottom={4}>
               <Typography.Title level={3}>
                 <Trans>
                   Get Rewarded by providing and staking ADA liquidity
