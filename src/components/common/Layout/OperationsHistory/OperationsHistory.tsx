@@ -9,25 +9,31 @@ import { t } from '@lingui/macro';
 import { FC, useEffect, useState } from 'react';
 
 import { useObservable } from '../../../../common/hooks/useObservable';
-import { pendingOperations$ } from '../../../../gateway/api/pendingOperations';
 import { getOperations } from '../../../../gateway/api/transactionsHistory.ts';
 import { selectedWalletState$ } from '../../../../gateway/api/wallets.ts';
 import { useSelectedNetwork } from '../../../../gateway/common/network';
+import { pendingCardanoOperations$ } from '../../../../network/cardano/api/transactionHistory/transactionHistory.ts';
 import { WalletState } from '../../../../network/common/Wallet.ts';
 import { mempoolRawOperations$ } from '../../../../network/ergo/api/operations/history/v2/operationsHistory';
 import { showRefundOperationNotification } from '../../../../services/notifications/RefundOperation/RefundOperation.tsx';
 import { BadgeCustom } from '../../../BadgeCustom/BadgeCustom.tsx';
 import { OperationHistoryModal } from '../../../OperationHistoryModal/OperationHistoryModal';
 
+const renderHistoryButtonState = (pendingOps: any): string => {
+  return !!pendingOps?.length ? `${pendingOps?.length} ` + t`Pending` : '';
+};
+
 export const OperationsHistory: FC = () => {
   const [selectedNetwork] = useSelectedNetwork();
-  const [pendingOperations, pendingLoading] = useObservable<any[]>(
+  const [pendingOperations] = useObservable<any[]>(
     selectedNetwork.name === 'ergo'
       ? mempoolRawOperations$
-      : (pendingOperations$ as any),
+      : pendingCardanoOperations$, // TODO: replace this with api mempoolRawOperations$ once backend for Cardano mempool is ready
   );
   const [walletState] = useObservable(selectedWalletState$);
+  // TODO: move to new history once backend is ready
   const [operations] = useObservable(getOperations(), [walletState]);
+
   const isWalletConnected = walletState === WalletState.CONNECTED;
 
   const [hasOperationsToRefund, setHasOperationsToRefund] =
@@ -60,7 +66,7 @@ export const OperationsHistory: FC = () => {
     ));
   };
 
-  const showLoader = !!pendingOperations?.length || pendingLoading;
+  const showLoader = !!pendingOperations?.length;
 
   return (
     <Tooltip
@@ -83,9 +89,7 @@ export const OperationsHistory: FC = () => {
           onClick={openOperationsHistoryModal}
           disabled={!isWalletConnected}
         >
-          {!!pendingOperations?.length
-            ? `${pendingOperations?.length} ` + t`Pending`
-            : ''}
+          {renderHistoryButtonState(pendingOperations)}
         </Button>
       </BadgeCustom>
     </Tooltip>
