@@ -10,6 +10,7 @@ import {
   switchMap,
 } from 'rxjs';
 
+import { COLLATERAL_AMOUNT } from '../const.ts';
 import { networkContext$ } from '../networkContext/networkContext';
 import { connectedWalletChange$ } from '../wallet/connectedWalletChange';
 
@@ -35,5 +36,17 @@ export const getCollateralByAmount = (amount: bigint): Observable<TxOut[]> =>
     first(),
     switchMap((selectedWallet) =>
       selectedWallet ? selectedWallet.getCollateral(amount) : of([]),
+    ),
+  );
+
+export const getIsCollateralProvided = (): Observable<boolean> =>
+  connectedWalletChange$.pipe(
+    first(),
+    switchMap((selectedWallet) =>
+      selectedWallet
+        ? selectedWallet
+            .getCollateral(COLLATERAL_AMOUNT.amount)
+            .pipe(switchMap((txOuts) => of(txOuts.length > 0)))
+        : of(false),
     ),
   );
