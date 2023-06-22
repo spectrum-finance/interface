@@ -97,7 +97,7 @@ export const SwapInfoContent: FC<SwapInfoContentProps> = ({ value }) => {
         <Flex col>
           <Flex.Item marginBottom={1}>
             <SwapInfoItem
-              tooltip={t`Will be charged by off-chain execution bots and distributed among validators.`}
+              tooltip={t`Charged by off-chain execution bots.`}
               title={t`Execution Fee`}
               value={
                 <>
@@ -122,7 +122,7 @@ export const SwapInfoContent: FC<SwapInfoContentProps> = ({ value }) => {
             />
           </Flex.Item>
           <SwapInfoItem
-            tooltip={t`A small amount of ADA charged by Cardano blockchain.`}
+            tooltip={t`Charged by Cardano blockchain.`}
             title={t`Network Fee`}
             value={
               <>
