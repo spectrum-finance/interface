@@ -20,7 +20,6 @@ const walletRefund = (txId: TxId): Observable<TxId> =>
   zip([settings$, getCollateralByAmount(COLLATERAL_AMOUNT.amount)]).pipe(
     first(),
     switchMap(([settings, collateral]) => {
-      console.log('>>collateral', collateral);
       return ammRefunds.refund({
         recipientAddress: settings.address!,
         txId,
