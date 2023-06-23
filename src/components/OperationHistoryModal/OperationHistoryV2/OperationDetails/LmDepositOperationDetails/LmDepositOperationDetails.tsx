@@ -19,7 +19,7 @@ export const LmDepositOperationDetails: FC<LmDepositOperationDetailsProps> = ({
   <OperationDetailsContainer
     leftSide={
       <TransactionDetails
-        title={t`Sent`}
+        title={t`Placed Order`}
         dateTime={lmDepositItem.registerTx.dateTime}
         transactionId={lmDepositItem.registerTx.id}
         content={
@@ -31,7 +31,7 @@ export const LmDepositOperationDetails: FC<LmDepositOperationDetailsProps> = ({
       <>
         {lmDepositItem.status === OperationStatus.Evaluated && (
           <TransactionDetails
-            title={t`Received`}
+            title={t`Executed Order`}
             dateTime={lmDepositItem.evaluateTx.dateTime}
             transactionId={lmDepositItem.evaluateTx.id}
             content={
@@ -42,11 +42,11 @@ export const LmDepositOperationDetails: FC<LmDepositOperationDetailsProps> = ({
           />
         )}
         {lmDepositItem.status === OperationStatus.Pending && (
-          <TransactionPending title={t`Received`} />
+          <TransactionPending title={t`EExecuted Order`} />
         )}
         {lmDepositItem.status === OperationStatus.Refunded && (
           <TransactionDetails
-            title={t`Received`}
+            title={t`Executed Order`}
             dateTime={lmDepositItem.refundTx.dateTime}
             transactionId={lmDepositItem.refundTx.id}
             content={
