@@ -12,8 +12,7 @@ import { fireAnalyticsEvent } from '@spectrumlabs/analytics';
 import * as React from 'react';
 
 import { localStorageManager } from '../../../common/utils/localStorageManager';
-
-const COOKIE_POLICY_NOTIFICATION_KEY = 'cookie-policy';
+import { notificationKeys } from '../notificationKeys';
 
 const CookiePolicy: React.FC<{ notification: typeof notification }> = ({
   notification,
@@ -21,15 +20,15 @@ const CookiePolicy: React.FC<{ notification: typeof notification }> = ({
   const { s } = useDevice();
 
   const reject = () => {
-    localStorageManager.set(COOKIE_POLICY_NOTIFICATION_KEY, 'reject');
+    localStorageManager.set(notificationKeys.COOKIE_POLICY, 'reject');
     fireAnalyticsEvent('Cookies Rejected');
-    notification.close(COOKIE_POLICY_NOTIFICATION_KEY);
+    notification.close(notificationKeys.COOKIE_POLICY);
   };
 
   const accept = () => {
-    localStorageManager.set(COOKIE_POLICY_NOTIFICATION_KEY, 'accept');
+    localStorageManager.set(notificationKeys.COOKIE_POLICY, 'accept');
     fireAnalyticsEvent('Cookies Accepted');
-    notification.close(COOKIE_POLICY_NOTIFICATION_KEY);
+    notification.close(notificationKeys.COOKIE_POLICY);
   };
 
   if (s) {
@@ -81,12 +80,12 @@ const CookiePolicy: React.FC<{ notification: typeof notification }> = ({
 };
 
 export const openCookiePolicy = (): void => {
-  if (localStorageManager.get(COOKIE_POLICY_NOTIFICATION_KEY)) {
+  if (localStorageManager.get(notificationKeys.COOKIE_POLICY)) {
     return;
   }
 
   notification.open({
-    key: COOKIE_POLICY_NOTIFICATION_KEY,
+    key: notificationKeys.COOKIE_POLICY,
     message: <CookiePolicy notification={notification} />,
     className: 'cookie-policy',
     duration: 0,

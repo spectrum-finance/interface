@@ -12,6 +12,7 @@ import {
   defaultIfEmpty,
   first,
   from,
+  interval,
   map,
   Observable,
   publishReplay,
@@ -115,3 +116,13 @@ export const getOperationByTxId = (
     publishReplay(1),
     refCount(),
   );
+
+export const pendingCardanoOperations$: Observable<Operation[]> = interval(
+  applicationConfig.applicationTick,
+).pipe(
+  switchMap(() =>
+    getOperations().pipe(
+      map((op) => op.filter((op) => op.status === 'pending')),
+    ),
+  ),
+);
