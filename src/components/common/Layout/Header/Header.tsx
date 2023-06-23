@@ -5,9 +5,8 @@ import { isDesktop } from 'react-device-detect';
 import styled from 'styled-components';
 
 import { device } from '../../../../common/constants/size';
-import { useObservable } from '../../../../common/hooks/useObservable';
-import { selectedWalletState$ } from '../../../../gateway/api/wallets';
-import { WalletState } from '../../../../network/common/Wallet';
+import { isPreLbspTimeGap } from '../../../../utils/lbsp';
+import { IsCardano } from '../../../IsCardano/IsCardano';
 import { IsErgo } from '../../../IsErgo/IsErgo';
 import { AppLogo } from '../../AppLogo/AppLogo';
 import { CardanoMaintenance } from '../CardanoMaintenance/CardanoMaintenance';
@@ -48,7 +47,6 @@ export const _Header: React.FC<HeaderProps> = ({
   scrolledTop,
 }) => {
   const { s, moreThan } = useDevice();
-  const [walletState] = useObservable(selectedWalletState$);
 
   return (
     <header
@@ -66,8 +64,16 @@ export const _Header: React.FC<HeaderProps> = ({
           <Flex.Item marginRight={2} align="center">
             <AppLogo isNoWording />
           </Flex.Item>
-          {moreThan('l') && <Navigation />}
-          <Analytics />
+          <IsErgo>
+            {moreThan('l') && <Navigation />}
+            <Analytics />
+          </IsErgo>
+          {!isPreLbspTimeGap() && (
+            <IsCardano>
+              {moreThan('l') && <Navigation />}
+              <Analytics />
+            </IsCardano>
+          )}
         </Flex>
         <Flex align="center" style={{ gap: '8px', marginLeft: 'auto' }}>
           {!s && isDesktop && (
@@ -77,7 +83,7 @@ export const _Header: React.FC<HeaderProps> = ({
           )}
           <NetworkDropdown />
           <ConnectWallet />
-          {!s && walletState === WalletState.CONNECTED && <OperationsHistory />}
+          {!s && <OperationsHistory />}
           <BurgerMenu />
         </Flex>
       </HeaderWrapper>

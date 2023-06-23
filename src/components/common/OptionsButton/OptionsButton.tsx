@@ -1,6 +1,7 @@
 import { Box, Button, Dropdown, Menu } from '@ergolabs/ui-kit';
 import { FC, ReactNode } from 'react';
 
+import { BadgeCustom } from '../../BadgeCustom/BadgeCustom.tsx';
 import { DotsIcon } from '../Icons/DotsIcon';
 
 type Placement =
@@ -17,6 +18,7 @@ interface OptionsButtonProps {
   size?: 'small' | 'middle' | 'large' | 'extra-large';
   placement?: Placement;
   width?: number;
+  isBadgeShown?: boolean;
 }
 
 const OptionsButton: FC<OptionsButtonProps> = ({
@@ -25,26 +27,29 @@ const OptionsButton: FC<OptionsButtonProps> = ({
   size,
   width,
   placement,
+  isBadgeShown,
 }) => {
   return (
-    <Dropdown
-      overlay={
-        <Menu style={{ width: width ? width : 160, padding: 0 }}>
-          <Box secondary padding={2} borderRadius="l">
-            {children}
-          </Box>
-        </Menu>
-      }
-      trigger={['click']}
-      placement={placement}
-    >
-      <Button
-        type={type ? type : 'default'}
-        size={size ? size : 'middle'}
-        icon={<DotsIcon />}
-        onClick={(event) => event.stopPropagation()}
-      />
-    </Dropdown>
+    <BadgeCustom isShow={isBadgeShown}>
+      <Dropdown
+        overlay={
+          <Menu style={{ width: width ? width : 160, padding: 0 }}>
+            <Box secondary padding={2} borderRadius="l">
+              {children}
+            </Box>
+          </Menu>
+        }
+        trigger={['click']}
+        placement={placement}
+      >
+        <Button
+          type={type ? type : 'default'}
+          size={size ? size : 'middle'}
+          icon={<DotsIcon />}
+          onClick={(event) => event.stopPropagation()}
+        />
+      </Dropdown>
+    </BadgeCustom>
   );
 };
 

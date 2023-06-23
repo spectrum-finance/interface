@@ -47,7 +47,7 @@ const _LiquidityFilter: FC<LiquidityFilterProps> = ({
       />
     }
     trigger="click"
-    placement="bottom"
+    placement="bottomLeft"
   >
     <Button
       className={className}
