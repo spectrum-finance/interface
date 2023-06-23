@@ -18,7 +18,7 @@ export const LockOperationDetails: FC<LockOperationDetailsProps> = ({
   <OperationDetailsContainer
     leftSide={
       <TransactionDetails
-        title={t`Sent`}
+        title={t`Placed Order`}
         dateTime={lockItem.registerTx.dateTime}
         transactionId={lockItem.registerTx.id}
         content={<PairAssetBox pair={lockItem.pool.shares(lockItem.lp)} />}
@@ -28,14 +28,14 @@ export const LockOperationDetails: FC<LockOperationDetailsProps> = ({
       <>
         {lockItem.status === OperationStatus.Evaluated && (
           <TransactionDetails
-            title={t`Received`}
+            title={t`Executed Order`}
             dateTime={lockItem.registerTx.dateTime}
             transactionId={lockItem.registerTx.id}
             content={<PairAssetBox pair={lockItem.pool.shares(lockItem.lp)} />}
           />
         )}
         {lockItem.status === OperationStatus.Pending && (
-          <TransactionPending title={t`Received`} />
+          <TransactionPending title={t`Executed Order`} />
         )}
       </>
     }

@@ -19,7 +19,7 @@ export const LmRedeemOperationDetails: FC<LmRedeemOperationDetailsProps> = ({
   <OperationDetailsContainer
     leftSide={
       <TransactionDetails
-        title={t`Sent`}
+        title={t`Placed Order`}
         dateTime={lmRedeemItem.registerTx.dateTime}
         transactionId={lmRedeemItem.registerTx.id}
         content={
@@ -31,7 +31,7 @@ export const LmRedeemOperationDetails: FC<LmRedeemOperationDetailsProps> = ({
       <>
         {lmRedeemItem.status === OperationStatus.Evaluated && (
           <TransactionDetails
-            title={t`Received`}
+            title={t`Executed Order`}
             dateTime={lmRedeemItem.evaluateTx.dateTime}
             transactionId={lmRedeemItem.evaluateTx.id}
             content={
@@ -40,11 +40,11 @@ export const LmRedeemOperationDetails: FC<LmRedeemOperationDetailsProps> = ({
           />
         )}
         {lmRedeemItem.status === OperationStatus.Pending && (
-          <TransactionPending title={t`Received`} />
+          <TransactionPending title={t`Executed Order`} />
         )}
         {lmRedeemItem.status === OperationStatus.Refunded && (
           <TransactionDetails
-            title={t`Received`}
+            title={t`Executed Order`}
             dateTime={lmRedeemItem.refundTx.dateTime}
             transactionId={lmRedeemItem.refundTx.id}
             content={
