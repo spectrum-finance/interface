@@ -10,25 +10,23 @@ import {
 } from '../../../../components/ConfirmationModal/ConfirmationModal';
 import { settings$ } from '../../settings/settings';
 import { cardanoNetwork } from '../common/cardanoNetwork';
-import { networkAsset } from '../networkAsset/networkAsset';
+import { COLLATERAL_AMOUNT } from '../const.ts';
 import { getCollateralByAmount } from '../utxos/utxos';
 import { submitTxCandidate } from './common/submitTxCandidate';
 
 const ammRefunds = new AmmOrderRefunds(cardanoNetwork);
 
-const COLLATERAL_AMOUNT = new Currency('2', networkAsset);
-
 const walletRefund = (txId: TxId): Observable<TxId> =>
   zip([settings$, getCollateralByAmount(COLLATERAL_AMOUNT.amount)]).pipe(
     first(),
-    switchMap(([settings, collateral]) =>
-      ammRefunds.refund({
+    switchMap(([settings, collateral]) => {
+      return ammRefunds.refund({
         recipientAddress: settings.address!,
         txId,
         collateral: collateral.map((txOut: TxOut) => ({ txOut })),
         fee: COLLATERAL_AMOUNT.amount,
-      }),
-    ),
+      });
+    }),
     switchMap(submitTxCandidate),
   );
 
