@@ -70,7 +70,7 @@ export const walletRedeem = (
         settings,
       }),
     ),
-    switchMap(tx => submitTx(tx)),
+    switchMap((tx) => submitTx(tx)),
   );
 
 export const redeem = (

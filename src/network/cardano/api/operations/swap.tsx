@@ -88,7 +88,7 @@ export const walletSwap = (
         nitro: settings.nitro,
       }),
     ),
-    switchMap(tx => submitTx(tx)),
+    switchMap((tx) => submitTx(tx)),
   );
 
 export const swap = (data: Required<SwapFormModel>): Observable<TxId> => {
