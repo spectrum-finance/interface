@@ -32,6 +32,7 @@ export const OperationHistoryV2: FC<ModalRef> = ({ close }) => {
   }, [offset]);
 
   const reloadOperations = () => loadOperations(LIMIT, offset);
+  const { valBySize } = useDevice();
 
   return (
     <Flex col>
@@ -48,7 +49,7 @@ export const OperationHistoryV2: FC<ModalRef> = ({ close }) => {
         expand={{
           accordion: true,
           component: OperationDetails,
-          height: 132,
+          height: valBySize(228, 132, 132, 132),
         }}
       >
         <TableView.Column title={t`Assets`} width={218} headerWidth={202}>
