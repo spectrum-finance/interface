@@ -84,7 +84,7 @@ export const walletDeposit = (
         settings,
       }),
     ),
-    switchMap(submitTx),
+    switchMap(tx => submitTx(tx)),
   );
 
 export const deposit = (

@@ -33,7 +33,10 @@ export const submitTxCandidate = (txCandidate: TxCandidate): Observable<TxId> =>
     ),
   );
 
-export const submitTx = (transaction: Transaction): Observable<TxId> =>
+export const submitTx = (
+  transaction: Transaction,
+  partial?: boolean,
+): Observable<TxId> =>
   zip([
     of(cardanoNetwork),
     cardanoNetworkParams$,
@@ -47,7 +50,7 @@ export const submitTx = (transaction: Transaction): Observable<TxId> =>
           wallet,
           cardanoNetwork,
           RustModule.CardanoWasm,
-        ).completeTransaction(transaction),
+        ).completeTransaction(transaction, partial),
       ).pipe(switchMap((rawTx) => wallet.submit(rawTx))),
     ),
   );
