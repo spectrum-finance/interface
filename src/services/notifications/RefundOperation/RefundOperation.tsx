@@ -17,3 +17,7 @@ export const showRefundOperationNotification = () => {
     type: 'warning',
   });
 };
+
+export const closeRefundOperationNotification = () => {
+  notification.close(notificationKeys.REFUND);
+};
