@@ -9,14 +9,17 @@ import { t } from '@lingui/macro';
 import { FC, useEffect, useState } from 'react';
 
 import { useObservable } from '../../../../common/hooks/useObservable';
-import { getOperations } from '../../../../gateway/api/transactionsHistory.ts';
-import { selectedWalletState$ } from '../../../../gateway/api/wallets.ts';
+import { getOperations } from '../../../../gateway/api/transactionsHistory';
+import { selectedWalletState$ } from '../../../../gateway/api/wallets';
 import { useSelectedNetwork } from '../../../../gateway/common/network';
-import { pendingCardanoOperations$ } from '../../../../network/cardano/api/transactionHistory/transactionHistory.ts';
-import { WalletState } from '../../../../network/common/Wallet.ts';
+import { pendingCardanoOperations$ } from '../../../../network/cardano/api/transactionHistory/transactionHistory';
+import { WalletState } from '../../../../network/common/Wallet';
 import { mempoolRawOperations$ } from '../../../../network/ergo/api/operations/history/v2/operationsHistory';
-import { showRefundOperationNotification } from '../../../../services/notifications/RefundOperation/RefundOperation.tsx';
-import { BadgeCustom } from '../../../BadgeCustom/BadgeCustom.tsx';
+import {
+  closeRefundOperationNotification,
+  showRefundOperationNotification,
+} from '../../../../services/notifications/RefundOperation/RefundOperation';
+import { BadgeCustom } from '../../../BadgeCustom/BadgeCustom';
 import { OperationHistoryModal } from '../../../OperationHistoryModal/OperationHistoryModal';
 
 const renderHistoryButtonState = (pendingOps: any): string => {
@@ -42,6 +45,7 @@ export const OperationsHistory: FC = () => {
   useEffect(() => {
     if (operations) {
       setHasOperationsToRefund(
+        // @ts-ignore
         operations.some((op) => {
           if (op.status) {
             return op.status === 'locked';
@@ -54,6 +58,8 @@ export const OperationsHistory: FC = () => {
   useEffect(() => {
     if (hasOperationsToRefund && isWalletConnected) {
       showRefundOperationNotification();
+    } else {
+      closeRefundOperationNotification();
     }
   }, [hasOperationsToRefund, isWalletConnected]);
 
