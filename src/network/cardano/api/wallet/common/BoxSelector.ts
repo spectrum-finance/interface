@@ -106,9 +106,16 @@ const selectUtxosByAsset = (
   return selectedUtxos;
 };
 
-export const selectUtxos = (utxos: TxOut[], amount: Value): TxOut[] => {
+export const selectUtxos = (
+  rawUtxos: TxOut[],
+  amount: Value,
+  excludedInputs: TxOut[] = [],
+): TxOut[] => {
   const nonAdaCoins = amount.filter(isNonAdaAsset);
   const adaCoin = amount.find(isAdaAsset)!;
+  const utxos = rawUtxos.filter(
+    (ru) => !excludedInputs.some((ei) => getUtxoId(ru) === getUtxoId(ei)),
+  );
 
   const sortedUtxosByNonAdaCoins = nonAdaCoins.map((coin) =>
     getSortedUtxosByAsset(utxos, coin),

@@ -7,13 +7,24 @@ import { selectUtxos } from '../../wallet/common/BoxSelector';
 import { selectedWallet$ } from '../../wallet/wallet';
 
 export class DefaultInputSelector implements InputSelector {
-  select(target: Value): Promise<FullTxIn[] | Error> {
+  select(
+    target: Value,
+    excludedInputs: FullTxIn[] = [],
+  ): Promise<FullTxIn[] | Error> {
     return selectedWallet$
       .pipe(
         filter(Boolean),
         first(),
         switchMap((wallet) => wallet.getUtxos()),
-        map((utxos) => (target ? selectUtxos(utxos, target) : utxos)),
+        map((utxos) =>
+          target
+            ? selectUtxos(
+                utxos,
+                target,
+                excludedInputs.map((ei) => ei.txOut),
+              )
+            : utxos,
+        ),
         map((utxos) => utxos.map((txOut) => ({ txOut }))),
         catchError(() => {
           return of([]);
