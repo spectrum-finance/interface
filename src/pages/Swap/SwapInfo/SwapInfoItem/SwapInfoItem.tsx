@@ -24,7 +24,8 @@ export const SwapInfoItem: FC<SwapInfoItemProps> = ({
         <InfoTooltip
           width={300}
           content={tooltip}
-          secondary={secondary || hint}
+          color={secondary || hint ? 'secondary' : undefined}
+          size="small"
         >
           <Typography.Body size="small" secondary={secondary} hint={hint}>
             {title}

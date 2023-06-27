@@ -16,7 +16,7 @@ export const WalletActiveAddress = (): JSX.Element => {
     <Flex col>
       <Flex.Item marginBottom={2}>
         <InfoTooltip
-          secondary
+          color="secondary"
           content={t`All output assets will be received at this address.`}
         >
           <Typography.Body strong>

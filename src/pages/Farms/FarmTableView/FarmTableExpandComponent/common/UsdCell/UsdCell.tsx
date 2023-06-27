@@ -29,7 +29,6 @@ export const UsdCell: FC<UsdCellProps> = ({ label, x, y }) => (
               width={194}
               size="small"
               placement="top"
-              icon="exclamation"
               content={
                 <>
                   {x.asset.ticker}: {x.toString()}

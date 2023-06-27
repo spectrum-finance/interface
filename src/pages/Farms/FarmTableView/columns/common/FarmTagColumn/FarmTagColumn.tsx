@@ -24,7 +24,6 @@ export const FarmTagColumn: FC<FarmTagColumnProps> = ({ x, y }) => (
                 width={194}
                 size="small"
                 placement="top"
-                icon="exclamation"
                 content={
                   <>
                     {x.asset.ticker}: {x.toString()}
