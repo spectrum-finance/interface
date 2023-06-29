@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { Position } from '../../../../../common/models/Position';
 import { TableView } from '../../../../../components/TableView/TableView';
 import { PositionEmptyState } from '../../../common/tableViewStates/PositionEmptyState/PositionEmptyState';
-import { YourPositionsLoadingState } from '../../../common/tableViewStates/YourPositionsLoadingState/YourPositionsLoadingState';
+import { PositionsLoadingState } from '../../../common/tableViewStates/PositionsLoadingState/PositionsLoadingState.tsx';
 import { LiquidityYourPositionsProps } from '../../../common/types/LiquidityYourPositionsProps';
 import { PoolsOrPositionsTableView } from '../../common/PoolsOrPositionsTableView/PoolsOrPositionsTableView';
 import { PositionDetails } from './PositionDetails/PositionDetails';
@@ -19,7 +19,7 @@ export const YourPositions: FC<LiquidityYourPositionsProps> = ({
     poolMapper={(position: Position) => position.pool}
   >
     <TableView.State name="loading" condition={isPositionsLoading}>
-      <YourPositionsLoadingState />
+      <PositionsLoadingState />
     </TableView.State>
     <TableView.State name="empty" condition={isPositionsEmpty}>
       <PositionEmptyState />

@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import { AmmPool } from '../../../../../common/models/AmmPool';
 import { TableView } from '../../../../../components/TableView/TableView';
-import { PoolsOverviewLoadingState } from '../../../common/tableViewStates/PoolsOverviewLoadingState/PoolsOverviewLoadingState';
+import { PositionsLoadingState } from '../../../common/tableViewStates/PositionsLoadingState/PositionsLoadingState.tsx';
 import { PoolsOrPositionsTableView } from '../../common/PoolsOrPositionsTableView/PoolsOrPositionsTableView';
 import { PoolDetails } from './PoolDetails/PoolDetails';
 
@@ -21,7 +21,7 @@ export const PoolsOverview: FC<PoolsOverviewProps> = ({
     poolMapper={(ammPool: AmmPool) => ammPool}
   >
     <TableView.State name="loading" condition={loading}>
-      <PoolsOverviewLoadingState />
+      <PositionsLoadingState />
     </TableView.State>
   </PoolsOrPositionsTableView>
 );
