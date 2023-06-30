@@ -1,19 +1,15 @@
-import { Box, Flex, LoadingOutlined, Typography } from '@ergolabs/ui-kit';
+import { Box, Flex, Typography } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import * as React from 'react';
-import styled from 'styled-components';
 
 import { Currency } from '../../../common/models/Currency';
 import { AssetIcon } from '../../AssetIcon/AssetIcon';
 import { ConvenientAssetView } from '../../ConvenientAssetView/ConvenientAssetView';
+import { WalletModalSkeletonLoader } from '../WalletModalSkeletonLoader/WalletModalSkeletonLoader.tsx';
 
 interface WalletTotalBalanceProps {
   balance?: Currency;
 }
-
-const BalanceLoading = styled(LoadingOutlined)`
-  font-size: 24px;
-`;
 
 export const WalletTotalBalance: React.FC<WalletTotalBalanceProps> = ({
   balance,
@@ -25,8 +21,8 @@ export const WalletTotalBalance: React.FC<WalletTotalBalanceProps> = ({
           <Trans>Total balance</Trans>
         </Typography.Body>
       </Flex.Item>
-      <Box padding={[3, 4]} borderRadius="l" secondary>
-        {balance?.toCurrencyString() ? (
+      {balance?.toCurrencyString() ? (
+        <Box padding={[3, 4]} borderRadius="l" secondary>
           <Flex row align="center">
             <Flex.Item marginRight={2}>
               <AssetIcon asset={balance?.asset} />
@@ -44,10 +40,10 @@ export const WalletTotalBalance: React.FC<WalletTotalBalanceProps> = ({
               </Typography.Body>
             </Flex.Item>
           </Flex>
-        ) : (
-          <BalanceLoading />
-        )}
-      </Box>
+        </Box>
+      ) : (
+        <WalletModalSkeletonLoader />
+      )}
     </Flex>
   );
 };
