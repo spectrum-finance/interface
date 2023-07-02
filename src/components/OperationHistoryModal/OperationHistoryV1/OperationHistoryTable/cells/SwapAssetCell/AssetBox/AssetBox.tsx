@@ -7,6 +7,7 @@ import { Currency } from '../../../../../../../common/models/Currency';
 import { AssetPairTitle } from '../../../../../../AssetPairTitle/AssetPairTitle';
 import { AssetTitle } from '../../../../../../AssetTitle/AssetTitle';
 import { DataTag } from '../../../../../../common/DataTag/DataTag';
+import { SensitiveContent } from '../../../../../../SensitiveContent/SensitiveContent.tsx';
 
 interface AssetBoxProps {
   readonly currency: [AssetInfo, AssetInfo, Currency] | Currency;
@@ -35,7 +36,11 @@ const _AssetBox: FC<AssetBoxProps> = ({ currency, className }) => {
         </Flex.Item>
         <DataTag
           accent
-          content={amount.toString(Math.max(amount.asset.decimals || 0, 2), 2)}
+          content={
+            <SensitiveContent>
+              {amount.toString(Math.max(amount.asset.decimals || 0, 2), 2)}
+            </SensitiveContent>
+          }
           size="extra-small"
         />
       </Flex>
