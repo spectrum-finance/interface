@@ -5,6 +5,7 @@ import { useObservable } from '../../../../../../../../common/hooks/useObservabl
 import { Address } from '../../../../../../../../common/types';
 import { selectedWallet$ } from '../../../../../../../../gateway/api/wallets';
 import { getShortAddress } from '../../../../../../../../utils/string/addres';
+import { SensitiveContent } from '../../../../../../../SensitiveContent/SensitiveContent.tsx';
 import { TagTypography } from '../TagTypography/TagTypography';
 
 export interface AddressContentProps {
@@ -21,7 +22,9 @@ export const AddressContent: FC<AddressContentProps> = ({ address }) => {
       <Flex.Item align="center" marginRight={1}>
         {selectedWallet?.previewIcon}
       </Flex.Item>
-      <TagTypography>{addressToRender}</TagTypography>
+      <SensitiveContent>
+        <TagTypography>{addressToRender}</TagTypography>
+      </SensitiveContent>
     </Flex>
   );
 };
