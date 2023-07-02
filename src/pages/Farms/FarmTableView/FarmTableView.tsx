@@ -64,7 +64,7 @@ export const FarmTableView: FC<FarmTableViewProps<any>> = ({
         title={<Trans>Your Stake</Trans>}
         show={moreThan('xl')}
       >
-        {(farm) => <FarmYourStakeColumn farm={farm} />}
+        {(farm) => <FarmYourStakeColumn farm={farm} sensitive />}
       </TableView.Column>
       <TableView.Column
         show={moreThan('m')}

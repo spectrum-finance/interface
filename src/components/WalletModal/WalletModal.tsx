@@ -10,6 +10,7 @@ import { disconnectWallet, selectedWallet$ } from '../../gateway/api/wallets';
 import { useSelectedNetwork } from '../../gateway/common/network';
 import { patchSettings } from '../../network/ergo/settings/settings';
 import { isLowBalance } from '../../utils/walletMath';
+import { SensitiveContentToggle } from '../SensitiveContentToggle/SensitiveContentToggle.tsx';
 import { LowBalanceWarning } from './LowBalanceWarning/LowBalanceWarning';
 import { WalletActiveAddress } from './WalletActiveAddress/WalletActiveAddress';
 import { WalletTokens } from './WalletTokens/WalletTokens';
@@ -38,7 +39,10 @@ export const WalletModal: React.FC<{ close: (result?: any) => void }> = ({
       <Modal.Title>
         <Flex align="center">
           {selectedWallet?.icon}
-          <Flex.Item marginLeft={2}>{selectedWallet?.name}</Flex.Item>
+          <Flex.Item marginLeft={2} marginRight={2}>
+            {selectedWallet?.name}
+          </Flex.Item>
+          <SensitiveContentToggle />
         </Flex>
       </Modal.Title>
       <Modal.Content width={valBySize<CSSProperties['width']>('100%', 470)}>

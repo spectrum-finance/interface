@@ -7,6 +7,7 @@ import { splitStr } from '../../../utils/string/splitStr';
 import { CopyButton } from '../../common/CopyButton/CopyButton';
 import { ExploreButton } from '../../common/ExploreButton/ExploreButton';
 import { InfoTooltip } from '../../InfoTooltip/InfoTooltip';
+import { SensitiveContent } from '../../SensitiveContent/SensitiveContent.tsx';
 
 export const WalletActiveAddress = (): JSX.Element => {
   const { address } = useSettings();
@@ -28,15 +29,17 @@ export const WalletActiveAddress = (): JSX.Element => {
         {address ? (
           <Flex align="center">
             <Flex.Item marginRight={2} style={{ width: 1 }} flex={1}>
-              <Typography.Title
-                level={4}
-                ellipsis={{
-                  rows: 1,
-                  suffix: addressSuffix,
-                }}
-              >
-                {addressBegin}
-              </Typography.Title>
+              <SensitiveContent>
+                <Typography.Title
+                  level={4}
+                  ellipsis={{
+                    rows: 1,
+                    suffix: addressSuffix,
+                  }}
+                >
+                  {addressBegin}
+                </Typography.Title>
+              </SensitiveContent>
             </Flex.Item>
             <Flex.Item marginRight={1} display="flex">
               <CopyButton text={address}>

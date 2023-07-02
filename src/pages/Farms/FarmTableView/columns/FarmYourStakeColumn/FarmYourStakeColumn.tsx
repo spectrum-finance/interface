@@ -5,8 +5,16 @@ import { FarmTagColumn } from '../common/FarmTagColumn/FarmTagColumn';
 
 export interface FarmYourStakeColumnPops {
   readonly farm: Farm;
+  readonly sensitive?: boolean;
 }
 
-export const FarmYourStakeColumn: FC<FarmYourStakeColumnPops> = ({ farm }) => (
-  <FarmTagColumn x={farm.yourStakeX} y={farm.yourStakeY} />
+export const FarmYourStakeColumn: FC<FarmYourStakeColumnPops> = ({
+  farm,
+  sensitive,
+}) => (
+  <FarmTagColumn
+    x={farm.yourStakeX}
+    y={farm.yourStakeY}
+    sensitive={sensitive}
+  />
 );

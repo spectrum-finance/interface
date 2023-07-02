@@ -8,7 +8,7 @@ interface SensitiveContent {
 export const SensitiveContent: FC<SensitiveContent> = ({ children }) => {
   const [{ isSensitiveHidden }] = useApplicationSettings();
   return (
-    <span style={{ filter: isSensitiveHidden ? 'blur(5px)' : 'none' }}>
+    <span style={{ filter: isSensitiveHidden ? 'blur(7px)' : 'none' }}>
       {children}
     </span>
   );

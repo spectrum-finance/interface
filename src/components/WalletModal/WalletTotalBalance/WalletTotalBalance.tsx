@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { Currency } from '../../../common/models/Currency';
 import { AssetIcon } from '../../AssetIcon/AssetIcon';
 import { ConvenientAssetView } from '../../ConvenientAssetView/ConvenientAssetView';
+import { SensitiveContent } from '../../SensitiveContent/SensitiveContent.tsx';
 
 interface WalletTotalBalanceProps {
   balance?: Currency;
@@ -33,14 +34,16 @@ export const WalletTotalBalance: React.FC<WalletTotalBalanceProps> = ({
             </Flex.Item>
             <Flex.Item flex={1} display="flex">
               <Flex.Item marginRight={1}>
-                <Typography.Title level={4}>
-                  {balance.toCurrencyString()}
-                </Typography.Title>
+                <SensitiveContent>
+                  <Typography.Title level={4}>
+                    {balance.toCurrencyString()}
+                  </Typography.Title>
+                </SensitiveContent>
               </Flex.Item>
             </Flex.Item>
             <Flex.Item>
               <Typography.Body secondary size="small" strong>
-                <ConvenientAssetView value={balance} />
+                <ConvenientAssetView sensitive value={balance} />
               </Typography.Body>
             </Flex.Item>
           </Flex>
