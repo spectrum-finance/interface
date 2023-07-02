@@ -13,7 +13,6 @@ import {
   switchMap,
 } from 'rxjs';
 
-// import { PAnalytics } from '../../common/analytics/@types/types';
 import { useObservable } from '../../common/hooks/useObservable';
 import { Balance } from '../../common/models/Balance';
 import { isOnline$ } from '../../common/streams/networkConnection';
