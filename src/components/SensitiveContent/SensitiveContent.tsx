@@ -9,10 +9,14 @@ export const SensitiveContent: FC<SensitiveContent> = ({ children }) => {
   const [{ isSensitiveHidden }] = useApplicationSettings();
   return (
     <span
-      style={{
-        filter: isSensitiveHidden ? 'blur(7px)' : 'none',
-        userSelect: 'none',
-      }}
+      style={
+        isSensitiveHidden
+          ? {
+              filter: 'blur(7px)',
+              userSelect: 'none',
+            }
+          : {}
+      }
     >
       {children}
     </span>
