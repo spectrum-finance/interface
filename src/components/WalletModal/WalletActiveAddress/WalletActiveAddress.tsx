@@ -6,8 +6,8 @@ import { splitStr } from '../../../utils/string/splitStr';
 import { CopyButton } from '../../common/CopyButton/CopyButton';
 import { ExploreButton } from '../../common/ExploreButton/ExploreButton';
 import { InfoTooltip } from '../../InfoTooltip/InfoTooltip';
-import { WalletModalSkeletonLoader } from '../WalletModalSkeletonLoader/WalletModalSkeletonLoader.tsx';
 import { SensitiveContent } from '../../SensitiveContent/SensitiveContent.tsx';
+import { WalletModalSkeletonLoader } from '../WalletModalSkeletonLoader/WalletModalSkeletonLoader.tsx';
 
 export const WalletActiveAddress = (): JSX.Element => {
   const { address } = useSettings();

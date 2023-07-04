@@ -5,8 +5,8 @@ import * as React from 'react';
 import { Currency } from '../../../common/models/Currency';
 import { AssetIcon } from '../../AssetIcon/AssetIcon';
 import { ConvenientAssetView } from '../../ConvenientAssetView/ConvenientAssetView';
-import { WalletModalSkeletonLoader } from '../WalletModalSkeletonLoader/WalletModalSkeletonLoader.tsx';
 import { SensitiveContent } from '../../SensitiveContent/SensitiveContent.tsx';
+import { WalletModalSkeletonLoader } from '../WalletModalSkeletonLoader/WalletModalSkeletonLoader.tsx';
 
 interface WalletTotalBalanceProps {
   balance?: Currency;
