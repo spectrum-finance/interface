@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
+import { ListSkeletonLoadingState } from '../../../../../components/SkeletonLoader/ListSkeletonLoadingState.tsx';
 import { TableView } from '../../../../../components/TableView/TableView';
-import { PoolsOverviewLoadingState } from '../../../common/tableViewStates/PoolsOverviewLoadingState/PoolsOverviewLoadingState';
 import { LiquidityPoolsOverviewProps } from '../../../common/types/LiquidityPoolsOverviewProps';
 import { PoolsOrPositionsTableView } from '../../common/PoolsOrPositionsTableView/PoolsOrPositionsTableView';
 import { PoolDetails } from './PoolDetails/PoolDetails';
@@ -17,7 +17,7 @@ export const PoolsOverview: FC<LiquidityPoolsOverviewProps> = ({
     expandComponent={PoolDetails}
   >
     <TableView.State name="loading" condition={isAmmPoolsLoading}>
-      <PoolsOverviewLoadingState />
+      <ListSkeletonLoadingState />
     </TableView.State>
   </PoolsOrPositionsTableView>
 );

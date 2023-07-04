@@ -16,7 +16,7 @@ export const FeeCell: FC<FeeCellProps> = ({ operationItem }) => (
     <Box padding={[0, 1]} bordered={false} borderRadius="s">
       {operationItem.status === OperationStatus.Evaluated ? (
         <InfoTooltip
-          secondary
+          color="secondary"
           content={
             <Flex col>
               {operationItem.fee.map((feeItem, i) => (

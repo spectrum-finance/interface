@@ -92,7 +92,7 @@ export const FarmCardView: React.FC<FarmCardViewProps> = ({ item }) => {
         >
           <Typography.Body secondary style={{ fontSize: 12 }}>
             <InfoTooltip
-              secondary
+              color="secondary"
               width={194}
               placement="top"
               content={
