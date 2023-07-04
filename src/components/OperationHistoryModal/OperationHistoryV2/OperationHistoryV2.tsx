@@ -5,8 +5,8 @@ import { FC, useEffect, useState } from 'react';
 import { useSubject } from '../../../common/hooks/useObservable';
 import { getOperations } from '../../../network/ergo/api/operations/history/v2/operationsHistory';
 import { OperationItem } from '../../../network/ergo/api/operations/history/v2/types/OperationItem';
+import { ListSkeletonLoadingState } from '../../SkeletonLoader/ListSkeletonLoadingState.tsx';
 import { TableView } from '../../TableView/TableView';
-import { LoadingState } from '../OperationHistoryV1/OperationHistoryTable/states/LoadingState/LoadingState';
 import { OperationSearchEmptyState } from '../OperationHistoryV1/OperationHistoryTable/states/OperationSearchEmptyState/OperationSearchEmptyState';
 import { OperationsEmptyState } from '../OperationHistoryV1/OperationHistoryTable/states/OperationsEmptyState/OperationsEmptyState';
 import { AssetsCell } from './cells/AssetsCell/AssetsCell';
@@ -82,7 +82,7 @@ export const OperationHistoryV2: FC<ModalRef> = ({ close }) => {
         </TableView.Column>
 
         <TableView.State condition={loading} name="loading">
-          <LoadingState height={420} />
+          <ListSkeletonLoadingState numOfElements={5} />
         </TableView.State>
         <TableView.State
           condition={!loading && !error && !operationsData?.[1]}

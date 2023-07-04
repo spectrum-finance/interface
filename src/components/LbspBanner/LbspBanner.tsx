@@ -35,7 +35,7 @@ const LbspBannerContent = styled.div`
   width: 100%;
   max-width: 1048px;
   padding: 24px;
-  z-index: 30;
+  z-index: 2;
   @media (max-width: 767px) {
     padding: 24px 8px;
   }
