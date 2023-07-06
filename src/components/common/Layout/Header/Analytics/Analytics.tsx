@@ -1,10 +1,11 @@
-import { Box, Flex, LoadingOutlined, Typography } from '@ergolabs/ui-kit';
+import { Box, Flex, Typography } from '@ergolabs/ui-kit';
 import { FC } from 'react';
 import styled from 'styled-components';
 
 import { useObservable } from '../../../../../common/hooks/useObservable';
 import { platformStats$ } from '../../../../../gateway/api/platformStats';
 import { formatToUSD } from '../../../../../services/number';
+import { AnalyticsSkeletonLoader } from './AnalyticsSkeletonLoader/AnalyticsSkeletonLoader.tsx';
 import { AnalyticTag } from './AnalyticTag/AnalyticTag';
 
 interface AnalyticsProps {
@@ -24,7 +25,7 @@ const _Analytics: FC<AnalyticsProps> = ({ className }) => {
               {currentStats?.tvl !== undefined ? (
                 <>{formatToUSD(currentStats.tvl.toAmount(), 'abbr')}</>
               ) : (
-                <LoadingOutlined />
+                <AnalyticsSkeletonLoader />
               )}
             </Typography.Body>
           </AnalyticTag>
@@ -35,7 +36,7 @@ const _Analytics: FC<AnalyticsProps> = ({ className }) => {
             {currentStats?.volume !== undefined ? (
               formatToUSD(currentStats.volume.toAmount(), 'abbr')
             ) : (
-              <LoadingOutlined />
+              <AnalyticsSkeletonLoader />
             )}
           </Typography.Body>
         </AnalyticTag>

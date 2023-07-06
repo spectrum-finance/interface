@@ -1,5 +1,4 @@
 import { Box, Flex, Typography } from '@ergolabs/ui-kit';
-import { Spin } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 
 import { useSettings } from '../../../gateway/settings/settings';
@@ -8,6 +7,7 @@ import { CopyButton } from '../../common/CopyButton/CopyButton';
 import { ExploreButton } from '../../common/ExploreButton/ExploreButton';
 import { InfoTooltip } from '../../InfoTooltip/InfoTooltip';
 import { SensitiveContent } from '../../SensitiveContent/SensitiveContent.tsx';
+import { WalletModalSkeletonLoader } from '../WalletModalSkeletonLoader/WalletModalSkeletonLoader.tsx';
 
 export const WalletActiveAddress = (): JSX.Element => {
   const { address } = useSettings();
@@ -17,7 +17,7 @@ export const WalletActiveAddress = (): JSX.Element => {
     <Flex col>
       <Flex.Item marginBottom={2}>
         <InfoTooltip
-          secondary
+          color="secondary"
           content={t`All output assets will be received at this address.`}
         >
           <Typography.Body strong>
@@ -53,7 +53,7 @@ export const WalletActiveAddress = (): JSX.Element => {
             </Flex.Item>
           </Flex>
         ) : (
-          <Spin size="small" />
+          <WalletModalSkeletonLoader />
         )}
       </Box>
     </Flex>

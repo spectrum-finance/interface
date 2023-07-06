@@ -1,7 +1,8 @@
 import { Typography } from '@ergolabs/ui-kit';
-import { t } from '@lingui/macro';
+import { t, Trans } from '@lingui/macro';
 import { FC } from 'react';
 
+import { InfoTooltip } from '../../../../components/InfoTooltip/InfoTooltip.tsx';
 import { SwapFormModel } from '../../SwapFormModel';
 import { SwapInfoItem } from '../SwapInfoItem/SwapInfoItem';
 
@@ -9,9 +10,11 @@ export interface SwapInfoPriceImpactProps {
   value: SwapFormModel;
 }
 
+type IpriceImpactStatus = 'success' | 'warning' | 'danger' | undefined;
+
 const getPriceImpactStatus = (
   priceImpact: number | undefined,
-): 'success' | 'warning' | 'danger' | undefined => {
+): IpriceImpactStatus => {
   if (priceImpact === undefined) {
     return undefined;
   }
@@ -22,6 +25,10 @@ const getPriceImpactStatus = (
     return 'warning';
   }
   return 'danger';
+};
+
+const isDangerPriceImpactStatus = (priceImpactStatus: IpriceImpactStatus) => {
+  return priceImpactStatus === 'danger';
 };
 
 export const SwapInfoPriceImpact: FC<SwapInfoPriceImpactProps> = ({
@@ -39,9 +46,29 @@ export const SwapInfoPriceImpact: FC<SwapInfoPriceImpactProps> = ({
     <SwapInfoItem
       title={t`Price impact`}
       value={
-        <Typography.Body type={priceImpactStatus} size="small">
-          {priceImpact !== undefined ? `${priceImpact}%` : '–'}
-        </Typography.Body>
+        isDangerPriceImpactStatus(priceImpactStatus) ? (
+          <InfoTooltip
+            width={300}
+            content={
+              <Trans>
+                This swap could lead to potential losses! The price impact is
+                currently significant due to the existing liquidity in the pool.
+                Ensure you fully understand the implications before moving
+                forward.
+              </Trans>
+            }
+            color="danger"
+            defaultVisible
+          >
+            <Typography.Body type={priceImpactStatus} size="small">
+              {priceImpact !== undefined ? `${priceImpact}%` : '–'}
+            </Typography.Body>
+          </InfoTooltip>
+        ) : (
+          <Typography.Body type={priceImpactStatus} size="small">
+            {priceImpact !== undefined ? `${priceImpact}%` : '–'}
+          </Typography.Body>
+        )
       }
     />
   );
