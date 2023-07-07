@@ -40,7 +40,8 @@ import {
   getOperationByTxId,
   getOperations,
 } from './api/transactionHistory/transactionHistory';
-import { CardanoWalletContract } from './api/wallet/common/CardanoWalletContract';
+import { AdditionalData } from './api/wallet/common/AdditionalData';
+import { Wallet } from './api/wallet/common/Wallet';
 import {
   availableWallets,
   connectWallet,
@@ -68,7 +69,7 @@ import { SwapInfoContent } from './widgets/SwapInfoContent/SwapInfoContent';
 const makeCardanoNetwork = (
   name: SupportedNetworks,
   label: string,
-): Network<CardanoWalletContract, CardanoSettings, CardanoAmmPool> => {
+): Network<Wallet<AdditionalData>, CardanoSettings, CardanoAmmPool> => {
   return {
     name,
     label,

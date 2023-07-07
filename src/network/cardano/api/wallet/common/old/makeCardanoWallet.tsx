@@ -34,16 +34,16 @@ import {
   zip,
 } from 'rxjs';
 
-import { AssetInfo } from '../../../../../common/models/AssetInfo';
-import { Address } from '../../../../../common/types';
+import { AssetInfo } from '../../../../../../common/models/AssetInfo';
+import { Address } from '../../../../../../common/types';
 import {
   WalletDefinition,
   WalletSupportedFeatures,
-} from '../../../../common/Wallet';
-import { currentNetwork } from '../../../utils/cardanoNetworkData';
-import { mapAssetClassToAssetInfo } from '../../common/cardanoAssetInfo/getCardanoAssetInfo';
-import { cardanoWasm$ } from '../../common/cardanoWasm';
-import { CONNECTOR_NAME_WALLET_CONNECT } from '../consts.ts';
+} from '../../../../../common/Wallet';
+import { currentNetwork } from '../../../../utils/cardanoNetworkData';
+import { mapAssetClassToAssetInfo } from '../../../common/cardanoAssetInfo/getCardanoAssetInfo';
+import { cardanoWasm$ } from '../../../common/cardanoWasm';
+import { CONNECTOR_NAME_WALLET_CONNECT } from '../../consts.ts';
 import { CardanoNetwork, CardanoWalletContract } from './CardanoWalletContract';
 
 export interface CardanoWalletConfig {
