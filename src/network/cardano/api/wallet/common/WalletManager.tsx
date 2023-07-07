@@ -1,3 +1,5 @@
+import { notification } from '@ergolabs/ui-kit';
+
 import { localStorageManager } from '../../../../../common/utils/localStorageManager';
 import { CardanoNetwork } from './old/CardanoWalletContract';
 import { Wallet } from './Wallet';
@@ -15,6 +17,7 @@ export interface WalletManager {
 
 export interface CacheStrategy {
   set(walletId?: string): void;
+
   get(): string | undefined | null;
 }
 
@@ -75,12 +78,30 @@ export const createWalletManager = (
     };
   };
 
-  const assetNetworkId = (networkId: CardanoNetwork): Promise<void> => {
-    return networkId === activeNetworkId
-      ? Promise.resolve()
-      : Promise.reject(
-          new Error(`Wallet network mismatch. Expected ${networkId}`),
-        );
+  const assetNetworkId = (
+    networkId: CardanoNetwork,
+    wallet: Wallet,
+  ): Promise<void> => {
+    if (networkId === activeNetworkId) {
+      return Promise.resolve();
+    }
+
+    const networkName =
+      networkId === CardanoNetwork.TESTNET ? 'Preview' : 'Mainnet';
+    notification.error({
+      key: 'wallet_network_error',
+      message: 'Wallet Network Error',
+      description: (
+        <>
+          Set network to &quot;{networkName}&quot; in your {wallet.id} wallet to
+          use Spectrum Finance interface
+        </>
+      ),
+    });
+
+    return Promise.reject(
+      new Error(`Wallet network mismatch. Expected ${networkId}`),
+    );
   };
 
   const registerWallets = (w: Wallet | Wallet[]): void => {
@@ -114,7 +135,7 @@ export const createWalletManager = (
       return isEnabled
         ? walletObject
             .assertContext((context) => context.getNetworkId())
-            .then(assetNetworkId)
+            .then((networkId) => assetNetworkId(networkId, walletObject))
             .then(() => {
               cacheStrategy.set(walletObject.id);
               activeWallet = walletObject;
@@ -124,6 +145,7 @@ export const createWalletManager = (
 
               return true;
             })
+            .catch(() => false)
         : Promise.resolve(false);
     });
   };

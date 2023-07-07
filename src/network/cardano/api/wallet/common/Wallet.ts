@@ -14,6 +14,13 @@ import uniq from 'lodash/uniq';
 import { Address } from '../../../../../common/types';
 import { Unpacked } from '../../../../../common/utils/unpacked';
 import { selectUtxos } from './BoxSelector';
+import ConnectorContextApi = CardanoBridge.ConnectorContextApi;
+
+const isConnectorContext = (
+  contextOrError: ConnectorContextApi | Error,
+): contextOrError is ConnectorContextApi => {
+  return !!(contextOrError as ConnectorContextApi).signTx;
+};
 
 // Todo: Extract to sdk
 export interface Submitter {
@@ -88,7 +95,7 @@ export const createWallet = <
     : WalletExtendParams,
 ): AdditionalData extends object ? Wallet<AdditionalData> : Wallet => {
   const connector = params.getConnector();
-  let contextPromise: Promise<CardanoBridge.ConnectorContextApi>;
+  let contextPromise: Promise<CardanoBridge.ConnectorContextApi> | undefined;
 
   //@ts-ignore
   const assertContext = <
@@ -104,7 +111,16 @@ export const createWallet = <
     if (!contextPromise) {
       contextPromise = connector.enable();
     }
-    return contextPromise.then((context) => callback(context));
+    return contextPromise
+      .catch((error) => error)
+      .then((contextOrError: ConnectorContextApi | Error) => {
+        if (isConnectorContext(contextOrError)) {
+          return callback(contextOrError);
+        } else {
+          contextPromise = undefined;
+          throw contextOrError;
+        }
+      });
   };
 
   const getUsedAddresses = (): Promise<Address[]> => {
