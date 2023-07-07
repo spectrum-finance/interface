@@ -54,8 +54,15 @@ export const createWalletManager = (
   let activeWallet: Wallet | undefined;
   let handleWalletChange: WalletChangeCallback | undefined;
   let availableWallets: Wallet[] = params?.availableWallets || [];
+  let intervalId: any;
 
   const clearWallet = (): void => {
+    if (activeWallet) {
+      activeWallet.resetContext();
+    }
+    if (intervalId) {
+      clearInterval(intervalId);
+    }
     cacheStrategy.set(undefined);
     activeWallet = undefined;
     if (handleWalletChange) {
@@ -112,6 +119,14 @@ export const createWalletManager = (
     }
   };
 
+  const assetIsEnabled = (wallet: Wallet) => {
+    wallet.connector.isEnabled().then((isEnabled) => {
+      if (!isEnabled) {
+        clearWallet();
+      }
+    });
+  };
+
   const setActiveWallet = (
     wallet: Wallet | string,
     checkEnabling = false,
@@ -142,6 +157,13 @@ export const createWalletManager = (
               if (handleWalletChange) {
                 handleWalletChange(walletObject);
               }
+              if (intervalId) {
+                clearInterval(intervalId);
+              }
+              intervalId = setInterval(
+                () => assetIsEnabled(walletObject),
+                5000,
+              );
 
               return true;
             })

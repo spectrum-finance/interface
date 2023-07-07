@@ -36,6 +36,8 @@ export interface WalletData {
   >(
     callback: T,
   ) => Promise<Unpacked<ReturnType<T>>>;
+  readonly resetContext: () => void;
+
   readonly getUsedAddresses: () => Promise<Address[]>;
   readonly getUnusedAddresses: () => Promise<Address[]>;
   readonly getAddresses: () => Promise<Address[]>;
@@ -96,6 +98,10 @@ export const createWallet = <
 ): AdditionalData extends object ? Wallet<AdditionalData> : Wallet => {
   const connector = params.getConnector();
   let contextPromise: Promise<CardanoBridge.ConnectorContextApi> | undefined;
+
+  const resetContext = () => {
+    contextPromise = undefined;
+  };
 
   //@ts-ignore
   const assertContext = <
@@ -255,6 +261,7 @@ export const createWallet = <
     id: params.id,
     connector,
     assertContext,
+    resetContext,
 
     getAddresses,
     getUnusedAddresses,
