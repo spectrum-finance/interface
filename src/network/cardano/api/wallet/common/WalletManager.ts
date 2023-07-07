@@ -106,24 +106,35 @@ export const createWalletManager = (
         new Error(`connector for wallet ${walletId} not found`),
       );
     }
-    return walletObject
-      .assertContext((context) => context.getNetworkId())
-      .then(assetNetworkId)
-      .then(() => {
-        cacheStrategy.set(walletObject.id);
-        activeWallet = walletObject;
-        if (handleWalletChange) {
-          handleWalletChange(walletObject);
-        }
+    const isEnabledPromise = checkEnabling
+      ? walletObject.connector.isEnabled()
+      : Promise.resolve(true);
 
-        return true;
-      });
+    return isEnabledPromise.then((isEnabled) => {
+      return isEnabled
+        ? walletObject
+            .assertContext((context) => context.getNetworkId())
+            .then(assetNetworkId)
+            .then(() => {
+              cacheStrategy.set(walletObject.id);
+              activeWallet = walletObject;
+              if (handleWalletChange) {
+                handleWalletChange(walletObject);
+              }
+
+              return true;
+            })
+        : Promise.resolve(false);
+    });
   };
 
   if (cacheStrategy.get()) {
     const walletObject = availableWallets.find(
       (w) => w.id === cacheStrategy.get(),
     );
+    if (walletObject) {
+      setActiveWallet(walletObject, true);
+    }
   }
 
   return {

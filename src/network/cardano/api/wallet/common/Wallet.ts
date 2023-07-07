@@ -1,4 +1,5 @@
 import {
+  decodeAddr,
   decodeWasmUtxo,
   decodeWasmValue,
   HexString,
@@ -8,6 +9,7 @@ import {
 import { RawTx } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/tx';
 import { TxOut } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/txOut';
 import { RustModule } from '@spectrumlabs/cardano-dex-sdk/build/main/utils/rustLoader';
+import uniq from 'lodash/uniq';
 
 import { Address } from '../../../../../common/types';
 import { Unpacked } from '../../../../../common/utils/unpacked';
@@ -111,7 +113,9 @@ export const createWallet = <
         return params.getUsedAddresses(context);
       }
       return context.getUsedAddresses();
-    });
+    }).then((encodedAddrs) =>
+      encodedAddrs.map((item) => decodeAddr(item, RustModule.CardanoWasm)),
+    );
   };
 
   const getUnusedAddresses = (): Promise<Address[]> => {
@@ -119,7 +123,11 @@ export const createWallet = <
       if (params?.getUnusedAddresses) {
         return params.getUnusedAddresses(context);
       }
-      return context.getUnusedAddresses();
+      return context
+        .getUnusedAddresses()
+        .then((encodedAddrs) =>
+          encodedAddrs.map((item) => decodeAddr(item, RustModule.CardanoWasm)),
+        );
     });
   };
 
@@ -128,17 +136,19 @@ export const createWallet = <
       if (params?.getChangeAddress) {
         return params.getChangeAddress(context);
       }
-      return context.getChangeAddress();
+      return context
+        .getChangeAddress()
+        .then((encodedAddr) => decodeAddr(encodedAddr, RustModule.CardanoWasm));
     });
   };
 
   const getAddresses = (): Promise<Address[]> => {
-    return Promise.all([getUnusedAddresses(), getUsedAddresses()]).then(
-      ([unusedAddresses, usedAddresses]) => [
+    return Promise.all([getUnusedAddresses(), getUsedAddresses()])
+      .then(([unusedAddresses, usedAddresses]) => [
         ...unusedAddresses,
         ...usedAddresses,
-      ],
-    );
+      ])
+      .then(uniq);
   };
 
   const getBalance = (): Promise<Value> => {
