@@ -11,7 +11,7 @@ export const ERGO_ID =
 export const networkAsset: AssetInfo = {
   name: 'Ergo',
   ticker: 'ERG',
-  icon: `${applicationConfig.networksSettings.ergo.metadataUrl}/light/${ERGO_ID}.svg`,
+  icon: `${applicationConfig.networksSettings.ergo.metadataUrl}/${ERGO_ID}.svg`,
   id: ERGO_ID,
   decimals: ERG_DECIMALS,
 };
