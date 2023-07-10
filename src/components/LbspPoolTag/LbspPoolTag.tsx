@@ -23,8 +23,13 @@ export const LbspPoolTag = () => (
       title={
         <Flex col>
           <Flex.Item>
-            This Liquidity Pool delegates ADA to the LBSP. Provide Liquidity to
-            be rewarded in SPF token
+            <Trans>
+              This Liquidity Pool delegates ADA to the LBSP. Provide Liquidity
+              to be rewarded in SPF token
+            </Trans>
+          </Flex.Item>
+          <Flex.Item>
+            <Trans>0.012 SPF per 1 delegated ADA per epoch</Trans>
           </Flex.Item>
           <Flex.Item>
             <Typography.Link target="_blank" href="https://google.com">

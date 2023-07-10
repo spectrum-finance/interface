@@ -4,9 +4,9 @@ import { TxOut } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities
 import { ReactNode } from 'react';
 import { Observable } from 'rxjs';
 
-import { AssetInfo } from '../../../../../common/models/AssetInfo';
-import { Address } from '../../../../../common/types';
-import { Wallet } from '../../../../common/Wallet';
+import { AssetInfo } from '../../../../../../common/models/AssetInfo';
+import { Address } from '../../../../../../common/types';
+import { Wallet } from '../../../../../common/Wallet';
 
 export enum CardanoNetwork {
   TESTNET,
