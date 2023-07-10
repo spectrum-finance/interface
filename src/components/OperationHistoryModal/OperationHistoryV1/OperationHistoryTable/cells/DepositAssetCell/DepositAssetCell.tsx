@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { Currency } from '../../../../../../common/models/Currency';
 import { AssetIconPair } from '../../../../../AssetIconPair/AssetIconPair';
 import { DataTag } from '../../../../../common/DataTag/DataTag';
+import { SensitiveContent } from '../../../../../SensitiveContent/SensitiveContent.tsx';
 
 export interface SwapAssetCellProps {
   readonly x: Currency;
@@ -33,13 +34,21 @@ const _DepositAssetCell: FC<SwapAssetCellProps> = ({
         <Flex.Item display="flex" marginTop={1}>
           <Flex.Item marginRight={2}>
             <DataTag
-              content={x.toString(Math.max(x.asset.decimals || 0, 2), 2)}
+              content={
+                <SensitiveContent>
+                  {x.toString(Math.max(x.asset.decimals || 0, 2), 2)}
+                </SensitiveContent>
+              }
               size="small"
             />
           </Flex.Item>
           <Flex.Item>
             <DataTag
-              content={y.toString(Math.max(y.asset.decimals || 0, 2), 2)}
+              content={
+                <SensitiveContent>
+                  {y.toString(Math.max(y.asset.decimals || 0, 2), 2)}
+                </SensitiveContent>
+              }
               size="small"
             />
           </Flex.Item>
