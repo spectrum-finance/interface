@@ -3,7 +3,6 @@ import { FC } from 'react';
 import styled from 'styled-components';
 
 import { AssetInfo } from '../../../common/models/AssetInfo';
-import { NewFeatureTag } from '../../NewFeatureTag/NewFeatureTag';
 
 export type FeeCurrencySelector = Control<AssetInfo> & {
   readonly assets: AssetInfo[];
@@ -27,7 +26,6 @@ export const FeeCurrencySelector: FC<FeeCurrencySelector> = ({
 
   return (
     <RelativeWrapper>
-      <NewFeatureTag left={115} top={-5} animate />
       <Tabs onChange={handleTabChange} activeKey={value?.id}>
         {assets.map((ai) => {
           return <Tabs.TabPane tab={ai.ticker} key={ai.id} />;

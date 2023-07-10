@@ -49,13 +49,11 @@ export const LbspBanner = () => {
           <Flex col>
             <Flex.Item marginBottom={4}>
               <Typography.Title level={3}>
-                <Trans>
-                  Get Rewarded by providing and staking ADA liquidity
-                </Trans>
+                <Trans>Get Rewarded By Providing Liquidity</Trans>
               </Typography.Title>
               <Typography.Body>
                 <Trans>
-                  Upon providing ADA to labeled &quot;LBSP&quot; liquidity
+                  Upon providing liquidity to labeled &quot;LBSP&quot; liquidity
                   pools, ADA will be instantly staked in the Liquidity Bootstrap
                   Stake Pool, resulting in Liquidity Providers receiving twice
                   the SPF rewards compared to the standard ISP.

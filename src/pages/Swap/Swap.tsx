@@ -42,7 +42,6 @@ import { AssetInfo } from '../../common/models/AssetInfo';
 import { Currency } from '../../common/models/Currency';
 import { AssetControlFormItem } from '../../components/common/TokenControl/AssetControl';
 import { IsErgo } from '../../components/IsErgo/IsErgo';
-import { NewFeatureTag } from '../../components/NewFeatureTag/NewFeatureTag';
 import {
   OperationForm,
   OperationLoader,
@@ -448,11 +447,7 @@ export const Swap = (): JSX.Element => {
               icon={<LineChartOutlined />}
               onClick={() => setLeftWidgetOpened(!leftWidgetOpened)}
             />
-            {OperationSettings && (
-              <NewFeatureTag top={14} right={4} animate>
-                <OperationSettings />
-              </NewFeatureTag>
-            )}
+            {OperationSettings && <OperationSettings />}
           </Flex>
           <Flex.Item marginBottom={1} marginTop={2}>
             <AssetControlFormItem
