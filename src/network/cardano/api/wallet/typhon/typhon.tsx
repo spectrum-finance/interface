@@ -1,10 +1,11 @@
-import { CardanoWalletContract } from '../common/CardanoWalletContract';
-import { makeCardanoWallet } from '../common/makeCardanoWallet';
+import { AdditionalData } from '../common/AdditionalData';
+import { createWallet } from '../common/Wallet';
 import TyphonLogo from './typhon-icon.svg';
 
-export const Typhon: CardanoWalletContract = makeCardanoWallet({
+export const Typhon = createWallet<AdditionalData>({
+  id: 'Typhon',
+  getConnector: () => cardano.typhon,
   name: 'Typhon',
-  variableName: 'typhon',
   extensionLink:
     'https://chrome.google.com/webstore/detail/typhon-wallet/kfdniefadaanbjodldohaedphafoffoh',
   walletSupportedFeatures: { createPool: false },
@@ -12,4 +13,5 @@ export const Typhon: CardanoWalletContract = makeCardanoWallet({
   previewIcon: (
     <img alt="Typhon Logo" src={TyphonLogo} height={21} width={21} />
   ),
+  definition: 'default',
 });
