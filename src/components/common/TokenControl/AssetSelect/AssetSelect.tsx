@@ -15,6 +15,7 @@ import styled from 'styled-components';
 import { AssetInfo } from '../../../../common/models/AssetInfo';
 import { mapToTokenProps } from '../../../../utils/analytics/mapper';
 import { AssetTitle } from '../../../AssetTitle/AssetTitle';
+import { SkeletonLoader } from '../../../SkeletonLoader/SkeletonLoader.tsx';
 import { AssetListModal } from './AssetListModal/AssetListModal';
 
 interface TokenSelectProps {
@@ -83,19 +84,7 @@ const AssetSelect: React.FC<TokenSelectProps> = ({
   return (
     <>
       {loading ? (
-        <Button
-          type="default"
-          loading
-          size={valBySize('middle', 'large')}
-          style={{
-            padding:
-              valBySize('middle', 'large') === 'large'
-                ? '0 calc(var(--spectrum-base-gutter) * 3)'
-                : '0 calc(var(--spectrum-base-gutter) * 2)',
-          }}
-        >
-          Loading...
-        </Button>
+        <SkeletonLoader height={40} width={100} />
       ) : (
         <StyledButton
           type={value ? 'ghost' : 'primary'}
