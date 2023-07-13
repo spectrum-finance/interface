@@ -14,6 +14,7 @@ export interface Wallet {
   readonly extensionLink?: string;
   readonly onConnect?: () => void;
   readonly onDisconnect?: () => void;
+  readonly hidden?: boolean;
   readonly walletSupportedFeatures: WalletSupportedFeatures;
 }
 

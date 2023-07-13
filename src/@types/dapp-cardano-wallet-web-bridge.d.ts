@@ -37,6 +37,7 @@ namespace CardanoBridge {
   export interface ConnectorAPI {
     enable(): Promise<ConnectorContextApi>;
     isEnabled(): Promise<boolean>;
+    experimental?: any;
   }
 }
 

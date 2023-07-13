@@ -69,6 +69,7 @@ import { useSwapValidators } from '../../gateway/api/validationFees';
 import { useSelectedNetwork } from '../../gateway/common/network.ts';
 import { operationsSettings$ } from '../../gateway/widgets/operationsSettings';
 import { useGuardV2 } from '../../hooks/useGuard.ts';
+import { err$ } from '../../network/cardano/api/operations/common/submitTxCandidate';
 import { mapToSwapAnalyticsProps } from '../../utils/analytics/mapper';
 import { isPreLbspTimeGap } from '../../utils/lbsp.ts';
 import { PoolSelector } from './PoolSelector/PoolSelector';
@@ -406,6 +407,8 @@ export const Swap = (): JSX.Element => {
 
   const loaders = useMemo(() => [isPoolLoading], []);
 
+  const [err] = useObservable(err$);
+
   return (
     <Page
       maxWidth={500}
@@ -426,6 +429,7 @@ export const Swap = (): JSX.Element => {
       widgetOpened={leftWidgetOpened}
       onWidgetClose={() => setLeftWidgetOpened(false)}
     >
+      <Typography.Body>{err}</Typography.Body>
       <OperationForm
         traceFormLocation={ElementLocation.swapForm}
         actionCaption={t`Swap`}
