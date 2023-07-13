@@ -29,6 +29,7 @@ import { Lace } from './lace/lace.tsx';
 import { Nami } from './nami/nami';
 import { Nufi } from './nufi/nufi.tsx';
 import { Typhon } from './typhon/typhon.tsx';
+import { Vespr } from './vespr/vespr';
 import { WalletConnect } from './walletConnect/walletConnect.tsx';
 import { Yoroi } from './yoroi/yoroi.tsx';
 
@@ -46,6 +47,7 @@ const walletManager = createWalletManager({
     Typhon,
     Yoroi,
     Exodus,
+    Vespr,
   ],
   cacheStrategy: new LocalStorageCacheStrategy(cardanoNetworkData.walletKey),
   network:
