@@ -5,7 +5,17 @@ import {
   TxCandidate,
 } from '@spectrumlabs/cardano-dex-sdk';
 import { RustModule } from '@spectrumlabs/cardano-dex-sdk/build/main/utils/rustLoader';
-import { filter, first, from, Observable, of, switchMap, zip } from 'rxjs';
+import {
+  BehaviorSubject,
+  filter,
+  first,
+  from,
+  Observable,
+  of,
+  switchMap,
+  tap,
+  zip,
+} from 'rxjs';
 
 import { TxId } from '../../../../../common/types';
 import {
@@ -53,4 +63,7 @@ export const submitTx = (
         ).completeTransaction(transaction, partial),
       ).pipe(switchMap((rawTx) => wallet.submit(rawTx))),
     ),
+    tap(null, (err) => err$.next(JSON.stringify(err))),
   );
+
+export const err$ = new BehaviorSubject<any>(undefined);
