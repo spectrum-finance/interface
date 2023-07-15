@@ -4,7 +4,7 @@ import { FC, useEffect } from 'react';
 import { Navigate, Outlet, useRoutes } from 'react-router-dom';
 
 import { version } from '../package.json';
-import { NetworkDomManager } from './common/services/NetworkDomManager';
+import { NetworkDomManager } from './common/services/NetworkDomManager/NetworkDomManager';
 import { Layout } from './components/common/Layout/Layout';
 import { RouteConfigExtended } from './components/RouterTitle/RouteConfigExtended';
 import { RouterTitle } from './components/RouterTitle/RouterTitle';
