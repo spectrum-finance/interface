@@ -22,6 +22,7 @@ interface NetworkConfig {
   readonly faucet?: string;
   readonly lowBalanceGuide?: string;
   readonly defaultTokenListUrl: string;
+  readonly isCreatePoolAvailable: boolean;
 }
 
 interface CardanoUpdate {
@@ -78,6 +79,7 @@ export const applicationConfig: ApplicationConfig = {
       explorerUrl: 'https://preview.cexplorer.io',
       lowBalanceGuide: '',
       analyticUrl: 'https://test-api.spectrum.fi/cardano/v1/',
+      isCreatePoolAvailable: false,
     },
     cardano_mainnet: {
       defaultTokenListUrl: 'https://spectrum.fi/cardano-token-list.json',
@@ -87,6 +89,7 @@ export const applicationConfig: ApplicationConfig = {
       explorerUrl: 'https://cexplorer.io',
       lowBalanceGuide: '',
       analyticUrl: 'https://test-api.spectrum.fi/cardano/v1/',
+      isCreatePoolAvailable: false,
     },
     ergo: {
       defaultTokenListUrl: 'https://spectrum.fi/ergo-token-list.json',
@@ -99,6 +102,7 @@ export const applicationConfig: ApplicationConfig = {
       lowBalanceGuide:
         'https://docs.spectrum.fi/docs/user-guides/quick-start#3-get-assets',
       ergopayUrl: 'https://ergopay-backend.fly.dev',
+      isCreatePoolAvailable: true,
     },
   },
   social: {

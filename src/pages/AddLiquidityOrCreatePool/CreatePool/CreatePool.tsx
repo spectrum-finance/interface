@@ -2,6 +2,7 @@ import { Animation, Flex, Form, FormGroup, useForm } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
 import { ElementLocation, ElementName } from '@spectrumlabs/analytics';
 import { FC, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { skip } from 'rxjs';
 
 import { useSubscription } from '../../../common/hooks/useObservable';
@@ -20,8 +21,10 @@ import {
 import { RatioBox } from '../../../components/RatioBox/RatioBox';
 import { Section } from '../../../components/Section/Section';
 import { useAssetsBalance } from '../../../gateway/api/assetBalance';
+import { useCreatePoolAvailable } from '../../../gateway/api/createPool';
 import { useNetworkAsset } from '../../../gateway/api/networkAsset';
 import { useCreatePoolValidationFee } from '../../../gateway/api/validationFees';
+import { useGuardV2 } from '../../../hooks/useGuard';
 import { normalizeAmountWithFee } from '../common/utils';
 import { LiquidityPercentInput } from '../LiquidityPercentInput/LiquidityPercentInput';
 import { CreatePoolConfirmationModal } from './CreatePoolConfirmationModal/CreatePoolConfirmationModal';
@@ -38,6 +41,8 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
   const [lastEditedField, setLastEditedField] = useState<'x' | 'y'>('x');
   const [balance] = useAssetsBalance();
   const [networkAsset] = useNetworkAsset();
+  const createPoolAvailable = useCreatePoolAvailable();
+  const navigate = useNavigate();
   const totalFees = useCreatePoolValidationFee();
   const form = useForm<CreatePoolFormModel>({
     initialPrice: undefined,
@@ -47,6 +52,11 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
     y: undefined,
     fee: undefined,
   });
+
+  useGuardV2(
+    () => !createPoolAvailable,
+    () => navigate('../../swap'),
+  );
 
   useEffect(() => {
     if (xAsset?.id !== form.value.xAsset?.id) {
