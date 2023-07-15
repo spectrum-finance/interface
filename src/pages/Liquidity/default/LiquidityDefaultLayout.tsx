@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { SearchInput } from '../../../components/SearchInput/SearchInput';
+import { useCreatePoolAvailable } from '../../../gateway/api/createPool';
 import { LiquidityFilter } from '../common/components/LiquidityFilter/LiquidityFilter';
 import { LiquidityLayoutProps } from '../common/types/LiquidityLayoutProps';
 import { LiquidityState } from '../common/types/LiquidityState';
@@ -43,6 +44,7 @@ export const LiquidityDefaultLayout: FC<LiquidityLayoutProps> = ({
   positionsWithLocks,
   showLockedPositions,
 }) => {
+  const createPoolAvailable = useCreatePoolAvailable();
   const navigate = useNavigate();
   const LiquidityStateCaptions = {
     [LiquidityState.POOLS_OVERVIEW]: t`All Pools`,
@@ -68,14 +70,16 @@ export const LiquidityDefaultLayout: FC<LiquidityLayoutProps> = ({
             <Flex.Item marginRight={1}>
               <LiquidityFilter value={filters} onChange={setFilters} />
             </Flex.Item>
-            <Button
-              size="large"
-              onClick={() => {
-                navigate('create');
-              }}
-            >
-              <Trans>Create Pool</Trans>
-            </Button>
+            {createPoolAvailable && (
+              <Button
+                size="large"
+                onClick={() => {
+                  navigate('create');
+                }}
+              >
+                <Trans>Create Pool</Trans>
+              </Button>
+            )}
           </Flex>
         ),
       }}
