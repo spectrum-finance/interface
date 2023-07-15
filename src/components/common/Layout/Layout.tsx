@@ -38,7 +38,6 @@ const _Layout: FC<PropsWithChildren<{ className?: string }>> = ({
   const [network] = useSelectedNetwork();
   const ref = useRef<HTMLDivElement>(null);
   const footerRef = useRef<HTMLDivElement>(null);
-  const [scrolled, setScrolled] = useState(false);
   const [scrolledTop, setScrolledTop] = useState(true);
   const location = useLocation();
 
@@ -50,12 +49,8 @@ const _Layout: FC<PropsWithChildren<{ className?: string }>> = ({
   }, []);
 
   useEffect(() => {
-    let currentScrollY = ref.current?.scrollTop || 0;
-
     const handleScroll = () => {
-      setScrolled(currentScrollY < (ref.current?.scrollTop || 0));
       setScrolledTop((ref.current?.scrollTop || 0) < 5);
-      currentScrollY = ref.current?.scrollTop || 0;
     };
 
     ref.current?.addEventListener('scroll', handleScroll);
@@ -71,7 +66,7 @@ const _Layout: FC<PropsWithChildren<{ className?: string }>> = ({
         <CardanoUpdate />
       ) : (
         <>
-          <Header scrolled={scrolled} scrolledTop={scrolledTop} />
+          <Header scrolledTop={scrolledTop} />
 
           <IsCardano>
             {location.pathname === '/cardano_mainnet/liquidity' && (
