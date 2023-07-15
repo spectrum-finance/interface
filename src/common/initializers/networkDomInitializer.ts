@@ -1,7 +1,7 @@
 import { filter, first } from 'rxjs';
 
 import { RouteConfigExtended } from '../../components/RouterTitle/RouteConfigExtended';
-import { NetworkDomManager } from '../services/NetworkDomManager';
+import { NetworkDomManager } from '../services/NetworkDomManager/NetworkDomManager';
 import { Initializer } from './core';
 
 export const networkDomInitializer: Initializer = (
