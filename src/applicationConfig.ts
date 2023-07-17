@@ -31,6 +31,7 @@ interface CardanoUpdate {
 }
 
 interface ApplicationConfig {
+  readonly spfUsdRateUrl: string;
   readonly cookieDomain: string | undefined;
   readonly cardanoMaintenance: boolean;
   readonly cardanoUpdate?: CardanoUpdate;
@@ -61,6 +62,7 @@ interface ApplicationConfig {
 }
 
 export const applicationConfig: ApplicationConfig = {
+  spfUsdRateUrl: 'https://test-api.spectrum.fi/v2/price-tracking/spf/price',
   operationTimeoutTime: 60_000,
   cookieDomain: isProductionEnv() ? 'spectrum.fi' : undefined,
   cardanoMaintenance: false,
