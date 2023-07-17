@@ -10,16 +10,20 @@ import {
   Outlet,
 } from 'react-router-dom';
 
-import { RouteConfigExtended } from '../../components/RouterTitle/RouteConfigExtended';
+import { RouteConfigExtended } from '../../../components/RouterTitle/RouteConfigExtended';
 import {
   initializeNetwork,
   isNetworkExists,
   networksInitialized$,
   selectedNetwork,
   selectedNetwork$,
-} from '../../gateway/common/network';
-import { Network } from '../../network/common/Network';
-import { useObservable } from '../hooks/useObservable';
+} from '../../../gateway/common/network';
+import { Network } from '../../../network/common/Network';
+import { useObservable } from '../../hooks/useObservable';
+import {
+  isSelectDefaultNetworkVisible$,
+  manuallySelectedNetwork$,
+} from './SelectDefaultNetwork/SelectDefaultNetwork';
 
 const handleAfterNetworkChange = (
   routesConfig: RouteConfigExtended[],
@@ -45,7 +49,12 @@ const init = (routesConfig: RouteConfigExtended[]): void => {
   initializeNetwork({
     possibleName: urlNetworkParameter,
     afterNetworkChange: handleAfterNetworkChange.bind(null, routesConfig),
-  });
+    getSelectedNetwork: () => {
+      isSelectDefaultNetworkVisible$.next(true);
+
+      return manuallySelectedNetwork$;
+    },
+  }).subscribe();
 };
 
 const NetworkDomManagerOutlet: FC = () => {

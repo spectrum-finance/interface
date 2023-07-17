@@ -9,7 +9,14 @@ type TokenIconProps = React.DetailedHTMLProps<
   HTMLDivElement
 > & {
   asset?: AssetInfo;
-  size?: 'medium' | 'large' | 'small' | 'extraSmall' | 'extraLarge' | 'tiny';
+  size?:
+    | 'medium'
+    | 'large'
+    | 'small'
+    | 'extraSmall'
+    | 'extraLarge'
+    | 'tiny'
+    | 'selectNetwork';
   inline?: boolean;
 };
 
@@ -20,6 +27,8 @@ const MAP_SIZE_TO_NUMBER = {
   medium: 24,
   large: 32,
   extraLarge: 48,
+  // TODO: Add custom size possibility
+  selectNetwork: 88,
 };
 
 enum ErrorState {
