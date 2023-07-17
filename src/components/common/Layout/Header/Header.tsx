@@ -41,18 +41,13 @@ const HeaderWrapper = styled.div`
   }
 `;
 
-export const _Header: React.FC<HeaderProps> = ({
-  className,
-  scrolled,
-  scrolledTop,
-}) => {
+export const _Header: React.FC<HeaderProps> = ({ className, scrolledTop }) => {
   const { s, moreThan } = useDevice();
 
   return (
     <header
       className={cn(
         {
-          scrolled,
           scrolledFromTop: moreThan('s') && !scrolledTop,
         },
         className,
