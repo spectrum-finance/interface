@@ -3,6 +3,11 @@ import { Trans } from '@lingui/macro';
 import * as React from 'react';
 import styled from 'styled-components';
 
+import {
+  SPECTRUM_PRIVACY_POLICY_LINK,
+  SPECTRUM_TERMS_OF_SERVICE_LINK,
+} from '../../../../../common/constants/url.ts';
+
 const TermsTag = styled(Box)`
   .dark & {
     background: #111d2c;
@@ -34,12 +39,16 @@ export const ProtocolDisclaimerAlert: React.FC = () => {
       <Typography.Body size="small">
         <Trans>
           By connecting a wallet, you agree to the{' '}
-          <a href="https://spectrum.fi/terms" target="_blank" rel="noreferrer">
+          <a
+            href={SPECTRUM_TERMS_OF_SERVICE_LINK}
+            target="_blank"
+            rel="noreferrer"
+          >
             Terms of Service
           </a>{' '}
           and{' '}
           <a
-            href="https://spectrum.fi/privacy"
+            href={SPECTRUM_PRIVACY_POLICY_LINK}
             target="_blank"
             rel="noreferrer"
           >
