@@ -6,6 +6,7 @@ import { createRoot } from 'react-dom/client';
 
 import { ApplicationInitializer } from './App';
 import { IOSNotSupportedScreen } from './components/IOSNotSupportedScreen/IOSNotSupportedScreen';
+import { SettingsProvider } from './context';
 
 const init = () => {
   const container = document.getElementById('app');
@@ -21,7 +22,11 @@ const init = () => {
     return;
   }
 
-  root.render(<ApplicationInitializer />);
+  root.render(
+    <SettingsProvider>
+      <ApplicationInitializer />
+    </SettingsProvider>,
+  );
 };
 
 init();

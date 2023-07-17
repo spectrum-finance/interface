@@ -16,11 +16,7 @@ import { SelectDefaultNetwork } from './common/services/NetworkDomManager/Select
 import { startAppTicks } from './common/streams/appTick';
 import { Glow } from './components/common/Layout/Glow/Glow';
 import { ErrorEventProvider } from './components/ErrorBoundary/ErrorEventProvider';
-import {
-  AppLoadingProvider,
-  SettingsProvider,
-  useApplicationSettings,
-} from './context';
+import { AppLoadingProvider, useApplicationSettings } from './context';
 import { useBodyClass } from './hooks/useBodyClass';
 import { useMetaThemeColor } from './hooks/useMetaThemeColor';
 import { LanguageProvider } from './i18n/i18n';
@@ -29,13 +25,11 @@ import { isDarkOsTheme } from './utils/osTheme';
 const Application = () => {
   return (
     <AppLoadingProvider>
-      <SettingsProvider>
-        <GoogleReCaptchaProvider reCaptchaKey={applicationConfig.reCaptchaKey}>
-          <ContextModalProvider>
-            <ApplicationRoutes />
-          </ContextModalProvider>
-        </GoogleReCaptchaProvider>
-      </SettingsProvider>
+      <GoogleReCaptchaProvider reCaptchaKey={applicationConfig.reCaptchaKey}>
+        <ContextModalProvider>
+          <ApplicationRoutes />
+        </ContextModalProvider>
+      </GoogleReCaptchaProvider>
     </AppLoadingProvider>
   );
 };
