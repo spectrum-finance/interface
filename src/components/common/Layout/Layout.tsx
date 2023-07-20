@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { applicationConfig } from '../../../applicationConfig';
 import { device } from '../../../common/constants/size';
 import { useSelectedNetwork } from '../../../gateway/common/network';
+import { openCookiePolicy } from '../../../services/notifications/CookiePolicy/CookiePolicy';
 import { isPreLbspTimeGap } from '../../../utils/lbsp';
 import { IsCardano } from '../../IsCardano/IsCardano';
 import { LbspBanner } from '../../LbspBanner/LbspBanner';
@@ -42,10 +43,7 @@ const _Layout: FC<PropsWithChildren<{ className?: string }>> = ({
   const location = useLocation();
 
   useEffect(() => {
-    // openCookiePolicy();
-    // if (isDesktop) {
-    //   openIdoNotification();
-    // }
+    openCookiePolicy();
   }, []);
 
   useEffect(() => {

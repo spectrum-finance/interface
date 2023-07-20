@@ -1,0 +1,106 @@
+@import '~@ergolabs/ui-kit/dist/styles/colors/colors.dark';
+@import '~@ergolabs/ui-kit/dist/styles/variables.dark';
+@import '~@ergolabs/ui-kit/dist/styles/variables.light';
+
+.snek {
+  @snek-primary-color: #00e1ff;
+  @snek-primary-color-hover: #10e1ff;
+  @snek-secondary-color: #a81fb8;
+
+  @snek-box-shadow: 6px 6px 0 @snek-secondary-color;
+  @snek-box-shadow-small: 4px 4px 0 @snek-secondary-color;
+
+  .lightTheme();
+  --spectrum-glow-image: url("../../images/snek-glow.png");
+  --spectrum-glow-image-width: 100%;
+
+  --spectrum-primary-color: @snek-primary-color;
+  --spectrum-primary-color-hover: @snek-primary-color-hover;
+  --spectrum-primary-color-active: @snek-primary-color;
+
+  --spectrum-connect-wallet-btn-color: @snek-secondary-color !important;
+  --spectrum-connect-wallet-btn-bg: rgba(0, 255, 255, 0.5);
+  --spectrum-connect-wallet-btn-border: transparent;
+
+  --spectrum-box-bg-contrast: #d2d2d2;
+  --spectrum-header-gradient-background: @snek-secondary-color;
+
+  --spectrum-claim-spf-background: @snek-primary-color;
+  --spectrum-claim-spf-box-background: var(--spectrum-box-bg);
+
+  .ant-progress-bg {
+    background: linear-gradient(264.34deg, @snek-primary-color 2.83%, @snek-secondary-color 98.67%);
+  }
+
+  .ant-btn.ant-btn-primary,
+  .ant-btn.ant-btn-ghost,
+  .ant-btn.ant-btn-default,
+  .ant-btn.ant-btn-primary.ant-btn-icon-only.ant-dropdown-trigger {
+    box-shadow: @snek-box-shadow !important;
+    outline: 2px solid black !important;
+  }
+
+  .ant-tabs-tab.ant-tabs-tab-active {
+    outline: 2px solid black !important;
+  }
+
+  .ant-btn.ant-btn-primary.ant-btn-loading,
+  .ant-btn.ant-btn-ghost.ant-btn-loading,
+  .ant-btn.ant-btn-default.ant-btn-loading {
+    box-shadow: @snek-box-shadow !important;
+  }
+  .ant-btn.ant-btn-icon-only {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+  .ant-tabs.ant-tabs_glass .ant-tabs-nav-list {
+    border: 2px solid black !important;
+  }
+
+  .spectrum-box--bordered.spectrum-box--glass {
+    border: 2px solid black !important;
+  }
+
+  header  {
+    .ant-btn.ant-btn-icon-only {
+      box-shadow: @snek-box-shadow !important;
+      outline: 2px solid black !important;
+    }
+
+    .spectrum-box.spectrum-box--glass {
+      box-shadow: @snek-box-shadow !important;
+    }
+
+    .ant-tabs {
+      border-radius: var(--spectrum-border-radius-l);
+      box-shadow: @snek-box-shadow;
+    }
+  }
+
+
+  .snek-theme-images {
+    display: block !important;
+  }
+
+  .social-links {
+    svg {
+      color: @snek-secondary-color;
+    }
+  }
+
+  .connect-wallet-btn {
+    color: @snek-secondary-color !important;
+  }
+
+  --spectrum-yield-farming-badge-background: @snek-secondary-color;
+
+  --spectrum-logo-color: var(--spectrum-primary-text);
+  --spectrum-asset-box-border-color: #303030;
+  --spectrum-progress-standart-background-bg: #141414;
+  --spectrum-text-white: #dbdbdb;
+  --spectrum-text-teriary: #dbdbdb;
+  --spectrum-ido-notifcation-background: #37306d;
+  --spectrum-claim-spf-notifcation-background: var(--spectrum-claim-spf-background);
+  --spectrum-claim-spf-box-border-color: #635ca4;
+}
