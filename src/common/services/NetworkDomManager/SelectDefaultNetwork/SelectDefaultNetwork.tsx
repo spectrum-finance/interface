@@ -53,7 +53,7 @@ export const SelectDefaultNetwork: FC<SelectDefaultNetworkProps> = ({
           col
         >
           <Typography.Title level={2}>
-            <Trans>Select default network</Trans>
+            <Trans>Select Network</Trans>
           </Typography.Title>
           <Flex.Item marginTop={valBySize(5, 10)} display="flex" width="100%">
             {visibleNetworks.map((network, index) => (
@@ -62,7 +62,7 @@ export const SelectDefaultNetwork: FC<SelectDefaultNetworkProps> = ({
                   index !== visibleNetworks.length - 1 ? valBySize(5, 10) : 0
                 }
                 onClick={() => onNetworkClick(network)}
-                key={network.name}
+                key={network.label}
                 flex={1}
               >
                 <SelectDefaultNetworkItem network={network} />
