@@ -1,9 +1,9 @@
 import {
-  Button,
   Flex,
   InfoCircleOutlined,
   QuestionCircleOutlined,
   Tooltip,
+  Typography,
 } from '@ergolabs/ui-kit';
 import { ReactNode } from 'react';
 import * as React from 'react';
@@ -11,7 +11,7 @@ import * as React from 'react';
 interface InfoTooltipProps {
   content: ReactNode | ReactNode[] | string;
   children?: ReactNode | ReactNode[] | string;
-  secondary?: boolean;
+  color?: 'secondary' | 'warning' | 'danger';
   className?: string;
   width?: number;
   placement?:
@@ -27,19 +27,34 @@ interface InfoTooltipProps {
     | 'leftBottom'
     | 'rightTop'
     | 'rightBottom';
-  size?: 'default' | 'small';
-  icon?: 'question' | 'exclamation';
+  size?: 'large' | 'base' | 'small' | 'extra-small' | 'footnote';
+  defaultVisible?: boolean;
+  isQuestionIcon?: boolean;
 }
+
+const getColor = (color: InfoTooltipProps['color']) => {
+  switch (color) {
+    case 'secondary':
+      return 'var(--spectrum-disabled-text-contrast)';
+    case 'warning':
+      return 'var(--spectrum-warning-color)';
+    case 'danger':
+      return 'var(--spectrum-error-color)';
+    default:
+      return '';
+  }
+};
 
 export const InfoTooltip: React.FC<InfoTooltipProps> = ({
   className,
   content,
   placement,
   width,
-  size,
-  secondary,
+  color,
   children,
-  icon = 'question',
+  size,
+  defaultVisible = false,
+  isQuestionIcon,
 }) => {
   return (
     <Flex align="center" inline>
@@ -50,27 +65,18 @@ export const InfoTooltip: React.FC<InfoTooltipProps> = ({
         className={className}
         width="100%"
         maxWidth={width}
+        defaultVisible={defaultVisible}
       >
-        <Button
-          type="ghost"
-          icon={
-            icon === 'question' ? (
-              <QuestionCircleOutlined />
-            ) : (
-              <InfoCircleOutlined />
-            )
-          }
-          size="small"
+        <Typography.Body
+          size={size}
           style={{
-            border: 0,
-            background: 0,
-            width: size === 'small' ? '12px' : '',
-            color:
-              size === 'small' || secondary
-                ? 'var(--spectrum-disabled-text-contrast)'
-                : '',
+            color: getColor(color),
+            marginLeft: children ? '4px' : '0px',
+            cursor: 'pointer',
           }}
-        />
+        >
+          {isQuestionIcon ? <QuestionCircleOutlined /> : <InfoCircleOutlined />}
+        </Typography.Body>
       </Tooltip>
     </Flex>
   );

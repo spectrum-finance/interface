@@ -5,6 +5,7 @@ import styled, { css } from 'styled-components';
 
 import { ReactComponent as WalletIcon } from '../../../../assets/icons/wallet-icon.svg';
 import { Currency } from '../../../../common/models/Currency';
+import { SensitiveContent } from '../../../SensitiveContent/SensitiveContent.tsx';
 
 export interface AssetBalanceProps {
   readonly balance: Currency;
@@ -27,9 +28,11 @@ const _AssetBalance: FC<AssetBalanceProps> = ({
           <WalletIcon style={{ fontSize: '12px', display: 'flex' }} />
         )}
       </Typography.Body>
-      <Typography.Body size="small" onClick={onClick} className={className}>
-        {balance.toString()}
-      </Typography.Body>
+      <SensitiveContent>
+        <Typography.Body size="small" onClick={onClick} className={className}>
+          {balance.toString()}
+        </Typography.Body>
+      </SensitiveContent>
     </Flex>
   );
 };

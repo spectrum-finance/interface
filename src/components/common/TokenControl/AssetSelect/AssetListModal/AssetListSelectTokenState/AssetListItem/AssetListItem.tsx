@@ -6,6 +6,7 @@ import { AssetInfo } from '../../../../../../../common/models/AssetInfo';
 import { useAssetsBalance } from '../../../../../../../gateway/api/assetBalance';
 import { AssetIcon } from '../../../../../../AssetIcon/AssetIcon';
 import { ConvenientAssetView } from '../../../../../../ConvenientAssetView/ConvenientAssetView';
+import { SensitiveContent } from '../../../../../../SensitiveContent/SensitiveContent.tsx';
 import { Truncate } from '../../../../../../Truncate/Truncate';
 
 interface TokenListItemProps {
@@ -58,13 +59,17 @@ const _AssetListItem: React.FC<TokenListItemProps> = ({
           display="flex"
           justify="center"
         >
-          <Typography.Body strong size="large">
-            {balance.get(asset).toString()}
-          </Typography.Body>
-          {!!Number(balance.get(asset).toAmount()) && (
-            <Typography.Body secondary size="small">
-              <ConvenientAssetView value={balance.get(asset)} />
+          <SensitiveContent>
+            <Typography.Body strong size="large">
+              {balance.get(asset).toString()}
             </Typography.Body>
+          </SensitiveContent>
+          {!!Number(balance.get(asset).toAmount()) && (
+            <SensitiveContent>
+              <Typography.Body secondary size="small">
+                <ConvenientAssetView value={balance.get(asset)} />
+              </Typography.Body>
+            </SensitiveContent>
           )}
         </Flex.Item>
       </Flex>

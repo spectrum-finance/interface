@@ -1,19 +1,19 @@
 import { FC, PropsWithChildren, useEffect, useRef, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { applicationConfig } from '../../../applicationConfig';
 import { device } from '../../../common/constants/size';
-import { useApplicationSettings } from '../../../context';
 import { useSelectedNetwork } from '../../../gateway/common/network';
-import { useBodyClass } from '../../../hooks/useBodyClass';
-import { useMetaThemeColor } from '../../../hooks/useMetaThemeColor';
+import { isPreLbspTimeGap } from '../../../utils/lbsp';
+import { IsCardano } from '../../IsCardano/IsCardano';
+import { LbspBanner } from '../../LbspBanner/LbspBanner';
+import { LbspTimer } from '../../LbspTimer/LbspTimer';
 import { openCookiePolicy } from '../../../services/notifications/CookiePolicy/CookiePolicy';
-import { isDarkOsTheme } from '../../../utils/osTheme';
 import { NetworkHeight } from '../../NetworkHeight/NetworkHeight';
 import { SocialLinks } from '../../SocialLinks/SocialLinks';
 import { CardanoUpdate } from './CardanoUpdate/CardanoUpdate';
 import { FooterNavigation } from './FooterNavigation/FooterNavigation';
-import { Glow } from './Glow/Glow';
 import { Header } from './Header/Header';
 
 const MainContainer = styled.main`
@@ -36,38 +36,19 @@ const _Layout: FC<PropsWithChildren<{ className?: string }>> = ({
   children,
   className,
 }) => {
-  const [{ theme }] = useApplicationSettings();
   const [network] = useSelectedNetwork();
   const ref = useRef<HTMLDivElement>(null);
   const footerRef = useRef<HTMLDivElement>(null);
-  const [scrolled, setScrolled] = useState(false);
   const [scrolledTop, setScrolledTop] = useState(true);
-
-  useBodyClass([theme, network.name.toLowerCase()]);
-  useMetaThemeColor(
-    {
-      dark: '#1D1D1D',
-      light: `#F0F2F5`,
-      hosky: '#1D1D1D',
-      snek: '#1D1D1D',
-      get system() {
-        return isDarkOsTheme() ? this.dark : this.light;
-      },
-    },
-    theme,
-  );
+  const location = useLocation();
 
   useEffect(() => {
     openCookiePolicy();
   }, []);
 
   useEffect(() => {
-    let currentScrollY = ref.current?.scrollTop || 0;
-
     const handleScroll = () => {
-      setScrolled(currentScrollY < (ref.current?.scrollTop || 0));
       setScrolledTop((ref.current?.scrollTop || 0) < 5);
-      currentScrollY = ref.current?.scrollTop || 0;
     };
 
     ref.current?.addEventListener('scroll', handleScroll);
@@ -79,12 +60,22 @@ const _Layout: FC<PropsWithChildren<{ className?: string }>> = ({
 
   return (
     <div ref={ref} className={className}>
-      <Glow />
-      {applicationConfig.cardanoUpdate && network.name === 'cardano' ? (
+      {applicationConfig.cardanoUpdate && network.name !== 'ergo' ? (
         <CardanoUpdate />
       ) : (
         <>
-          <Header scrolled={scrolled} scrolledTop={scrolledTop} />
+          <Header scrolledTop={scrolledTop} />
+
+          <IsCardano>
+            {location.pathname === '/cardano_mainnet/liquidity' && (
+              <LbspBanner />
+            )}
+            {isPreLbspTimeGap() &&
+              location.pathname === '/cardano_mainnet/liquidity' && (
+                <LbspTimer />
+              )}
+          </IsCardano>
+
           <MainContainer
             style={{ paddingBottom: footerHeight ? footerHeight + 8 : 80 }}
           >

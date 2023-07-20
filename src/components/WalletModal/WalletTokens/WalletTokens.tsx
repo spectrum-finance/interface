@@ -1,10 +1,4 @@
-import {
-  Button,
-  EmptyDataState,
-  Flex,
-  LoadingDataState,
-  Typography,
-} from '@ergolabs/ui-kit';
+import { Button, EmptyDataState, Flex, Typography } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import * as React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -13,6 +7,8 @@ import { useAssetsBalance } from '../../../gateway/api/assetBalance';
 import { useSelectedNetwork } from '../../../gateway/common/network';
 import { List } from '../../List/List';
 import { ListStateView } from '../../List/ListStateView/ListStateView';
+import { makeSkeletonLoader } from '../../SkeletonLoader/makeSkeletonLoader.tsx';
+import { SkeletonLoader } from '../../SkeletonLoader/SkeletonLoader.tsx';
 import { TokenListItem } from './TokenListItem/TokenListItem';
 
 export const WalletTokens: React.FC<{ close: () => void }> = ({ close }) => {
@@ -45,9 +41,7 @@ export const WalletTokens: React.FC<{ close: () => void }> = ({ close }) => {
       >
         {({ item }) => <TokenListItem currency={item} />}
         <ListStateView name="loading" condition={loading}>
-          <LoadingDataState height={250} transparent={true}>
-            <Trans>Loading balance</Trans>
-          </LoadingDataState>
+          {makeSkeletonLoader(<SkeletonLoader height={62} />, 4)}
         </ListStateView>
         <ListStateView name="empty" condition={balance.entries().length === 1}>
           <EmptyDataState height={250}>

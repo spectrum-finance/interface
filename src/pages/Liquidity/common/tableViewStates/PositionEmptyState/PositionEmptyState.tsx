@@ -1,10 +1,4 @@
-import {
-  Button,
-  EmptyDataState,
-  Flex,
-  PlusOutlined,
-  Typography,
-} from '@ergolabs/ui-kit';
+import { Button, EmptyDataState, Flex, Typography } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import { ElementLocation, ElementName } from '@spectrumlabs/analytics';
 import { FC } from 'react';
@@ -31,11 +25,7 @@ export const PositionEmptyState: FC = () => {
             element_location: ElementLocation.yourPositionsList,
           }}
         >
-          <Button
-            icon={<PlusOutlined />}
-            onClick={handleNewPositionClick}
-            type="primary"
-          >
+          <Button size="large" onClick={handleNewPositionClick} type="primary">
             <Trans>New position</Trans>
           </Button>
         </ConnectWalletButton>

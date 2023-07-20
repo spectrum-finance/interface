@@ -2,7 +2,6 @@ import { Alert } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
 import { FC } from 'react';
 
-import { IsCardano } from '../../../components/IsCardano/IsCardano';
 import { IsErgo } from '../../../components/IsErgo/IsErgo';
 
 export interface CreatePoolUnsupportedAlertProps {
@@ -18,11 +17,5 @@ export const CreatePoolUnsupportedAlert: FC<CreatePoolUnsupportedAlertProps> =
           description={t`${walletName} Wallet doesn’t support “create pool” functionality yet. Choose another wallet to perform the operation.`}
         />
       </IsErgo>
-      <IsCardano>
-        <Alert
-          type="warning"
-          description={t`Testnet user interface doesn’t support “create pool” functionality.`}
-        />
-      </IsCardano>
     </>
   );

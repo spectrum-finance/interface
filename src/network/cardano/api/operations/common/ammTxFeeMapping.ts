@@ -1,4 +1,4 @@
-import { AmmTxFeeMapping } from '@ergolabs/cardano-dex-sdk';
+import { AmmTxFeeMapping } from '@spectrumlabs/cardano-dex-sdk';
 
 export const ammTxFeeMapping: AmmTxFeeMapping = {
   swapOrder: 500000n,

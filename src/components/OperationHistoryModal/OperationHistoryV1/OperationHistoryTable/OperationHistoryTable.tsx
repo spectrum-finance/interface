@@ -4,12 +4,17 @@ import { DateTime } from 'luxon';
 import { FC } from 'react';
 import { first } from 'rxjs';
 
+import { useObservable } from '../../../../common/hooks/useObservable.ts';
 import {
   isSwapOperation,
   Operation,
 } from '../../../../common/models/Operation';
 import { refund } from '../../../../gateway/api/operations/refund';
+import { useSelectedNetwork } from '../../../../gateway/common/network.ts';
 import { exploreTx } from '../../../../gateway/utils/exploreAddress';
+import { getIsCollateralProvided } from '../../../../network/cardano/api/utxos/utxos.ts';
+import { sendCollateralGuideNotification } from '../../../../services/notifications/CollateralGuideNotification/CollateralGuideNotification.tsx';
+import { ListSkeletonLoadingState } from '../../../SkeletonLoader/ListSkeletonLoadingState.tsx';
 import { SortDirection } from '../../../TableView/common/Sort';
 import { TableView } from '../../../TableView/TableView';
 import { DateTimeCell } from './cells/DateTimeCell/DateTimeCell';
@@ -21,7 +26,6 @@ import { ClipboardDecorator } from './decorators/ClipboardDecorator';
 import { RefundDecorator } from './decorators/RefundDecorator';
 import { statusFilter } from './filters/statusFilter';
 import { typeFilter } from './filters/typeFilter';
-import { LoadingState } from './states/LoadingState/LoadingState';
 import { OperationSearchEmptyState } from './states/OperationSearchEmptyState/OperationSearchEmptyState';
 import { OperationsEmptyState } from './states/OperationsEmptyState/OperationsEmptyState';
 
@@ -45,7 +49,18 @@ export const OperationHistoryTable: FC<TransactionHistoryTableProps> = ({
   hideActions,
   close,
 }) => {
-  const openRefundModal = (operation: Operation): void => {
+  const [isCollateralProvided] = useObservable(getIsCollateralProvided(), []);
+  const [selectedNetwork] = useSelectedNetwork();
+  const handleRefund = (operation: Operation): void => {
+    if (
+      !isCollateralProvided &&
+      (selectedNetwork.name === 'cardano_mainnet' ||
+        selectedNetwork.name === 'cardano_preview')
+    ) {
+      sendCollateralGuideNotification();
+      return;
+    }
+
     const payload =
       operation.type === 'swap'
         ? { xAsset: operation.base, yAsset: operation.quote }
@@ -115,7 +130,7 @@ export const OperationHistoryTable: FC<TransactionHistoryTableProps> = ({
       </TableView.Column>
 
       <TableView.State condition={loading} name="loading">
-        <LoadingState />
+        <ListSkeletonLoadingState numOfElements={5} />
       </TableView.State>
       <TableView.State condition={emptyOperations} name="empty">
         <OperationsEmptyState onSwapNowButtonClick={close} />
@@ -126,10 +141,7 @@ export const OperationHistoryTable: FC<TransactionHistoryTableProps> = ({
 
       {!hideActions && (
         <>
-          <TableView.Action
-            decorator={RefundDecorator}
-            onClick={openRefundModal}
-          >
+          <TableView.Action decorator={RefundDecorator} onClick={handleRefund}>
             <Trans>Refund transaction</Trans>
           </TableView.Action>
           <TableView.Action onClick={(op: Operation) => exploreTx(op.txId)}>

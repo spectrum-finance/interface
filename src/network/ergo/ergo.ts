@@ -73,7 +73,7 @@ export const ergoNetwork: Network<
   ErgoAmmPool
 > = {
   name: 'ergo',
-  label: 'ergo',
+  label: 'Ergo',
   favicon: '/favicon-ergo.svg',
   convenientAssetDefaultPreview: '<$0.01',
   networkAsset,

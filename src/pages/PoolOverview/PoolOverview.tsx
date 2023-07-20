@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { useObservable } from '../../common/hooks/useObservable';
 import { useParamsStrict } from '../../common/hooks/useParamsStrict';
+import { IsErgo } from '../../components/IsErgo/IsErgo.tsx';
 import { Page } from '../../components/Page/Page';
 import { getPositionByAmmPoolId } from '../../gateway/api/positions';
 import { useGuard } from '../../hooks/useGuard';
@@ -55,9 +56,13 @@ export const PoolOverview: React.FC = () => {
             >
               <PriceHistory position={position} />
             </Flex.Item>
-            <Flex.Item flex={valBySize(undefined, 1, undefined)}>
-              <LockLiquidity poolConfidenceAnalytic={poolConfidenceAnalytic} />
-            </Flex.Item>
+            <IsErgo>
+              <Flex.Item flex={valBySize(undefined, 1, undefined)}>
+                <LockLiquidity
+                  poolConfidenceAnalytic={poolConfidenceAnalytic}
+                />
+              </Flex.Item>
+            </IsErgo>
           </Flex.Item>
         </Flex>
       ) : (

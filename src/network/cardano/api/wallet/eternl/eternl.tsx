@@ -1,15 +1,17 @@
-import { CardanoWalletContract } from '../common/CardanoWalletContract';
-import { makeCardanoWallet } from '../common/makeCardanoWallet';
+import { AdditionalData } from '../common/AdditionalData';
+import { createWallet } from '../common/Wallet';
 import EternlLogo from './eternl-icon.svg';
 
-export const Eternl: CardanoWalletContract = makeCardanoWallet({
-  variableName: 'eternl',
+export const Eternl = createWallet<AdditionalData>({
+  id: 'Eternl',
+  getConnector: () => cardano.eternl,
+  name: 'Eternl',
   extensionLink:
     'https://chrome.google.com/webstore/detail/eternlcc/kmhcihpebfmpgmihbkipmjlmmioameka',
+  icon: <img alt="Eternl Logo" src={EternlLogo} height={32} width={32} />,
+  previewIcon: (
+    <img alt="Eternl Logo" src={EternlLogo} width={21} height={21} />
+  ),
   walletSupportedFeatures: { createPool: false },
-  name: 'Eternl',
-  icon: <img src={EternlLogo} height={32} width={32} />,
-  testnetSwitchGuideUrl:
-    'https://docs.spectrum.fi/docs/user-guides/change-wallet-to-testnet#eternl-wallet',
-  previewIcon: <img src={EternlLogo} width={21} height={21} />,
+  definition: 'default',
 });

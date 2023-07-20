@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import * as React from 'react';
 
-import { applicationConfig } from '../../applicationConfig';
 import { AssetInfo } from '../../common/models/AssetInfo';
 import { UnknownTokenIcon } from '../UnknownTokenIcon/UnknownTokenIcon';
 
@@ -10,7 +9,14 @@ type TokenIconProps = React.DetailedHTMLProps<
   HTMLDivElement
 > & {
   asset?: AssetInfo;
-  size?: 'medium' | 'large' | 'small' | 'extraSmall' | 'extraLarge' | 'tiny';
+  size?:
+    | 'medium'
+    | 'large'
+    | 'small'
+    | 'extraSmall'
+    | 'extraLarge'
+    | 'tiny'
+    | 'selectNetwork';
   inline?: boolean;
 };
 
@@ -21,6 +27,8 @@ const MAP_SIZE_TO_NUMBER = {
   medium: 24,
   large: 32,
   extraLarge: 48,
+  // TODO: Add custom size possibility
+  selectNetwork: 88,
 };
 
 enum ErrorState {
@@ -35,7 +43,6 @@ const AssetIcon: React.FC<TokenIconProps> = ({
   inline,
   ...rest
 }) => {
-  const iconName = asset?.id || 'empty';
   const [errorState, setErrorState] = useState<ErrorState | undefined>(
     undefined,
   );
@@ -69,10 +76,7 @@ const AssetIcon: React.FC<TokenIconProps> = ({
         <img
           style={{ verticalAlign: 'initial' }}
           alt="Token Icon"
-          src={
-            asset?.icon ||
-            `${applicationConfig.networksSettings.ergo.metadataUrl}/light/${iconName}.svg`
-          }
+          src={asset?.icon}
           onError={handleError}
           width={MAP_SIZE_TO_NUMBER[size]}
           height={MAP_SIZE_TO_NUMBER[size]}

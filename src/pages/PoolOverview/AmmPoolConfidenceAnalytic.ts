@@ -132,7 +132,7 @@ export const getAmmPoolConfidenceAnalyticByAmmPoolId = (
         selectedNetwork$.pipe(
           first(),
           switchMap((network) =>
-            network.name === 'cardano'
+            network.name !== 'ergo'
               ? of([])
               : getPoolLocksAnalyticsById(ammPoolId).pipe(
                   catchError(() => of([])),

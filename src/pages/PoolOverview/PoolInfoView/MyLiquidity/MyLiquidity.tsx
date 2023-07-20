@@ -6,6 +6,7 @@ import { Position } from '../../../../common/models/Position';
 import { AssetTitle } from '../../../../components/AssetTitle/AssetTitle';
 import { ConvenientAssetView } from '../../../../components/ConvenientAssetView/ConvenientAssetView';
 import { InlineGrid } from '../../../../components/InlineGrid/InlineGrid';
+import { SensitiveContent } from '../../../../components/SensitiveContent/SensitiveContent.tsx';
 import { TitledBox } from '../../../../components/TitledBox/TitledBox';
 
 export interface MyLiquidityProps {
@@ -29,7 +30,10 @@ export const MyLiquidity: FC<MyLiquidityProps> = ({ position }) => {
       subtitle={
         !position.empty && (
           <Typography.Title level={3}>
-            <ConvenientAssetView value={[position.totalX, position.totalY]} />
+            <ConvenientAssetView
+              sensitive
+              value={[position.totalX, position.totalY]}
+            />
           </Typography.Title>
         )
       }
@@ -51,9 +55,11 @@ export const MyLiquidity: FC<MyLiquidityProps> = ({ position }) => {
                 <AssetTitle asset={position.pool.x.asset} gap={1} level={5} />
               }
               value={
-                <Typography.Body size="large" strong>
-                  {position.totalX.toString()}
-                </Typography.Body>
+                <SensitiveContent>
+                  <Typography.Body size="large" strong>
+                    {position.totalX.toString()}
+                  </Typography.Body>
+                </SensitiveContent>
               }
             />
             <InlineGrid.Item
@@ -61,9 +67,11 @@ export const MyLiquidity: FC<MyLiquidityProps> = ({ position }) => {
                 <AssetTitle asset={position.pool.y.asset} gap={1} level={5} />
               }
               value={
-                <Typography.Body size="large" strong>
-                  {position.totalY.toString()}
-                </Typography.Body>
+                <SensitiveContent>
+                  <Typography.Body size="large" strong>
+                    {position.totalY.toString()}
+                  </Typography.Body>
+                </SensitiveContent>
               }
             />
           </InlineGrid>
@@ -94,9 +102,11 @@ export const MyLiquidity: FC<MyLiquidityProps> = ({ position }) => {
                         />
                       }
                       value={
-                        <Typography.Body strong size="small">
-                          {position.lockedX.toString()}
-                        </Typography.Body>
+                        <SensitiveContent>
+                          <Typography.Body strong size="small">
+                            {position.lockedX.toString()}
+                          </Typography.Body>
+                        </SensitiveContent>
                       }
                     />
                     <InlineGrid.Item
@@ -108,9 +118,11 @@ export const MyLiquidity: FC<MyLiquidityProps> = ({ position }) => {
                         />
                       }
                       value={
-                        <Typography.Body strong size="small">
-                          {position.lockedY.toString()}
-                        </Typography.Body>
+                        <SensitiveContent>
+                          <Typography.Body strong size="small">
+                            {position.lockedY.toString()}
+                          </Typography.Body>
+                        </SensitiveContent>
                       }
                     />
                   </InlineGrid>
@@ -143,9 +155,11 @@ export const MyLiquidity: FC<MyLiquidityProps> = ({ position }) => {
                         />
                       }
                       value={
-                        <Typography.Body strong size="small">
-                          {position.stakedX.toString()}
-                        </Typography.Body>
+                        <SensitiveContent>
+                          <Typography.Body strong size="small">
+                            {position.stakedX.toString()}
+                          </Typography.Body>
+                        </SensitiveContent>
                       }
                     />
                     <InlineGrid.Item
@@ -157,9 +171,11 @@ export const MyLiquidity: FC<MyLiquidityProps> = ({ position }) => {
                         />
                       }
                       value={
-                        <Typography.Body strong size="small">
-                          {position.stakedY.toString()}
-                        </Typography.Body>
+                        <SensitiveContent>
+                          <Typography.Body strong size="small">
+                            {position.stakedY.toString()}
+                          </Typography.Body>
+                        </SensitiveContent>
                       }
                     />
                   </InlineGrid>

@@ -1,4 +1,4 @@
-import { mkSubject } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/assetClass';
+import { mkSubject } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/assetClass';
 import { DateTime } from 'luxon';
 
 import { Dictionary } from './common/utils/Dictionary';
@@ -21,6 +21,8 @@ interface NetworkConfig {
   readonly spfFaucet?: string;
   readonly faucet?: string;
   readonly lowBalanceGuide?: string;
+  readonly defaultTokenListUrl: string;
+  readonly isCreatePoolAvailable: boolean;
 }
 
 interface CardanoUpdate {
@@ -29,10 +31,10 @@ interface CardanoUpdate {
 }
 
 interface ApplicationConfig {
+  readonly spfUsdRateUrl: string;
   readonly cookieDomain: string | undefined;
   readonly cardanoMaintenance: boolean;
   readonly cardanoUpdate?: CardanoUpdate;
-  readonly defaultTokenListUrl: string;
   readonly operationTimeoutTime: number;
   readonly reCaptchaKey: string;
   readonly networksSettings: Dictionary<NetworkConfig>;
@@ -55,14 +57,15 @@ interface ApplicationConfig {
   readonly testFarms: string[];
   readonly operationsRestrictions: OperationRestriction[];
   readonly requestRetryCount: number;
+  readonly cardanoAmmSwapsOpenTime: DateTime;
+  readonly lbspLiquidityPools: string[];
 }
 
 export const applicationConfig: ApplicationConfig = {
+  spfUsdRateUrl: 'https://test-api.spectrum.fi/v2/price-tracking/spf/price',
   operationTimeoutTime: 60_000,
   cookieDomain: isProductionEnv() ? 'spectrum.fi' : undefined,
   cardanoMaintenance: false,
-  defaultTokenListUrl:
-    'https://raw.githubusercontent.com/ergolabs/default-token-list/master/src/tokens',
   // cardanoUpdate: {
   //   title: 'On the way to the mainnet',
   //   content: 'The Cardano AMM protocol will be available in mainnet soon',
@@ -70,17 +73,30 @@ export const applicationConfig: ApplicationConfig = {
   reCaptchaKey: '6LfCKZIiAAAAACypYW5pGlgZNTcwse1njmQMIUUL',
   requestRetryCount: 3,
   networksSettings: {
-    cardano: {
-      metadataUrl: 'https://meta.spectrum.fi/cardano/metadata',
-      networkUrl: 'https://explorer.spectrum.fi/cardano/v1/',
+    cardano_preview: {
+      defaultTokenListUrl: 'https://spectrum.fi/cardano-token-list.json',
+      metadataUrl:
+        'https://raw.githubusercontent.com/spectrum-finance/token-logos/master/logos/cardano',
+      networkUrl: 'https://explorer.spectrum.fi/cardano/preview/v1/',
       explorerUrl: 'https://preview.cexplorer.io',
-      faucet: 'https://faucet.spectrum.fi/cardano/v1/',
       lowBalanceGuide: '',
       analyticUrl: 'https://test-api.spectrum.fi/cardano/v1/',
+      isCreatePoolAvailable: false,
+    },
+    cardano_mainnet: {
+      defaultTokenListUrl: 'https://spectrum.fi/cardano-token-list.json',
+      metadataUrl:
+        'https://raw.githubusercontent.com/spectrum-finance/token-logos/master/logos/cardano',
+      networkUrl: 'https://explorer.spectrum.fi/cardano/mainnet/v1/',
+      explorerUrl: 'https://cexplorer.io',
+      lowBalanceGuide: '',
+      analyticUrl: 'https://test-api.spectrum.fi/cardano/v1/',
+      isCreatePoolAvailable: false,
     },
     ergo: {
+      defaultTokenListUrl: 'https://spectrum.fi/ergo-token-list.json',
       metadataUrl:
-        'https://raw.githubusercontent.com/ergolabs/ergo-dex-asset-icons/master',
+        'https://raw.githubusercontent.com/spectrum-finance/token-logos/master/logos/ergo',
       spfFaucet: 'https://airdrop.spectrum.fi/v1/faucet/',
       networkUrl: 'https://api.ergoplatform.com',
       explorerUrl: 'https://explorer.ergoplatform.com',
@@ -88,6 +104,7 @@ export const applicationConfig: ApplicationConfig = {
       lowBalanceGuide:
         'https://docs.spectrum.fi/docs/user-guides/quick-start#3-get-assets',
       ergopayUrl: 'https://ergopay-backend.fly.dev',
+      isCreatePoolAvailable: true,
     },
   },
   social: {
@@ -182,6 +199,9 @@ export const applicationConfig: ApplicationConfig = {
   testFarms: [
     '69eff57ea62b13c58e5668e3fbc9927fdb2dffb1c692261f98728a665b2f8abb',
   ],
+  lbspLiquidityPools: [
+    '5ac3d4bdca238105a040a565e5d7e734b7c9e1630aec7650e809e34a70757070795f6164615f6e6674', // TODO: remove test pool
+  ],
   operationsRestrictions: [
     {
       asset: 'd71693c49a84fbbecd4908c94813b46514b18b67a99952dc1e6e4791556de413',
@@ -189,4 +209,5 @@ export const applicationConfig: ApplicationConfig = {
       operation: 'swap',
     },
   ],
+  cardanoAmmSwapsOpenTime: DateTime.utc(2023, 6, 21, 19, 59, 0),
 };

@@ -1,8 +1,22 @@
 import { AssetInfo } from '@ergolabs/ergo-sdk';
 import uniqBy from 'lodash/uniqBy';
-import { map, of, publishReplay, refCount } from 'rxjs';
+import { map, Observable, of, publishReplay, refCount } from 'rxjs';
 
 import { ammPools$ } from '../ammPools/ammPools';
+import { defaultTokenList$ } from '../common/defaultTokenList';
+import { networkAsset } from '../networkAsset/networkAsset';
+
+export const filterUnavailableAndImportedTokenAssets = (
+  assets: AssetInfo[],
+): Observable<AssetInfo[]> =>
+  defaultTokenList$.pipe(
+    map((defaultTokenList) =>
+      assets.filter(
+        (ai) =>
+          defaultTokenList.tokensMap.has(ai.id) || networkAsset.id === ai.id,
+      ),
+    ),
+  );
 
 export const defaultTokenAssets$ = ammPools$.pipe(
   map((pools) => pools.flatMap((p) => [p.x.asset, p.y.asset])),

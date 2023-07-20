@@ -1,7 +1,7 @@
-import { pubKeyHashFromAddr } from '@ergolabs/cardano-dex-sdk';
-import { RustModule } from '@ergolabs/cardano-dex-sdk/build/main/utils/rustLoader';
 import { PublicKey } from '@ergolabs/ergo-sdk';
 import { user } from '@spectrumlabs/analytics';
+import { pubKeyHashFromAddr } from '@spectrumlabs/cardano-dex-sdk';
+import { RustModule } from '@spectrumlabs/cardano-dex-sdk/build/main/utils/rustLoader';
 import { filter, map, Observable, startWith, zip } from 'rxjs';
 
 import { MIN_NITRO } from '../../../common/constants/erg';
@@ -17,8 +17,9 @@ import {
   getUsedAddresses,
 } from '../api/addresses/addresses';
 import { networkAsset } from '../api/networkAsset/networkAsset';
+import { cardanoNetworkData } from '../utils/cardanoNetworkData';
 
-const SETTINGS_KEY = 'cardano-settings';
+const SETTINGS_KEY = cardanoNetworkData.settingsKey;
 
 export interface CardanoSettings extends BaseNetworkSettings {
   readonly ph?: PublicKey;

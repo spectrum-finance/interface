@@ -17,6 +17,7 @@ import {
 import findLast from 'lodash/findLast';
 import maxBy from 'lodash/maxBy';
 import { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   BehaviorSubject,
   combineLatest,
@@ -41,7 +42,6 @@ import { AssetInfo } from '../../common/models/AssetInfo';
 import { Currency } from '../../common/models/Currency';
 import { AssetControlFormItem } from '../../components/common/TokenControl/AssetControl';
 import { IsErgo } from '../../components/IsErgo/IsErgo';
-import { NewFeatureTag } from '../../components/NewFeatureTag/NewFeatureTag';
 import {
   OperationForm,
   OperationLoader,
@@ -66,8 +66,12 @@ import { useNetworkAsset } from '../../gateway/api/networkAsset';
 import { swap } from '../../gateway/api/operations/swap';
 import { useHandleSwapMaxButtonClick } from '../../gateway/api/useHandleSwapMaxButtonClick';
 import { useSwapValidators } from '../../gateway/api/validationFees';
+import { useSelectedNetwork } from '../../gateway/common/network.ts';
 import { operationsSettings$ } from '../../gateway/widgets/operationsSettings';
+import { useGuardV2 } from '../../hooks/useGuard.ts';
+import { err$ } from '../../network/cardano/api/operations/common/submitTxCandidate';
 import { mapToSwapAnalyticsProps } from '../../utils/analytics/mapper';
+import { isPreLbspTimeGap } from '../../utils/lbsp.ts';
 import { PoolSelector } from './PoolSelector/PoolSelector';
 import { SwapFormModel } from './SwapFormModel';
 import { SwapGraph } from './SwapGraph/SwapGraph';
@@ -95,6 +99,13 @@ const getAvailablePools = (xId?: string, yId?: string): Observable<AmmPool[]> =>
   xId && yId ? getAmmPoolsByAssetPair(xId, yId) : of([]);
 
 export const Swap = (): JSX.Element => {
+  const [selectedNetwork] = useSelectedNetwork();
+  const navigate = useNavigate();
+  useGuardV2(
+    () => selectedNetwork.name !== 'ergo' && isPreLbspTimeGap(),
+    () => navigate(`/../../../../liquidity`),
+  );
+
   const form = useForm<SwapFormModel>({
     fromAmount: undefined,
     toAmount: undefined,
@@ -396,6 +407,8 @@ export const Swap = (): JSX.Element => {
 
   const loaders = useMemo(() => [isPoolLoading], []);
 
+  const [err] = useObservable(err$);
+
   return (
     <Page
       maxWidth={500}
@@ -416,6 +429,7 @@ export const Swap = (): JSX.Element => {
       widgetOpened={leftWidgetOpened}
       onWidgetClose={() => setLeftWidgetOpened(false)}
     >
+      <Typography.Body>{err}</Typography.Body>
       <OperationForm
         traceFormLocation={ElementLocation.swapForm}
         actionCaption={t`Swap`}
@@ -437,11 +451,7 @@ export const Swap = (): JSX.Element => {
               icon={<LineChartOutlined />}
               onClick={() => setLeftWidgetOpened(!leftWidgetOpened)}
             />
-            {OperationSettings && (
-              <NewFeatureTag top={14} right={4} animate>
-                <OperationSettings />
-              </NewFeatureTag>
-            )}
+            {OperationSettings && <OperationSettings />}
           </Flex>
           <Flex.Item marginBottom={1} marginTop={2}>
             <AssetControlFormItem

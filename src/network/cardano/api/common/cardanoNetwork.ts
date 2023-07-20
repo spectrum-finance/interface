@@ -1,11 +1,11 @@
-import { Quickblue } from '@ergolabs/cardano-dex-sdk';
+import { Quickblue } from '@spectrumlabs/cardano-dex-sdk';
 import {
   NetworkParams,
   ProtocolParams,
-} from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/env';
+} from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/env';
 import { from, map, Observable, publishReplay, refCount } from 'rxjs';
 
-import { applicationConfig } from '../../../../applicationConfig';
+import { cardanoNetworkData } from '../../utils/cardanoNetworkData';
 
 const DEFAULT_PROTOCOL_PARAMS: Pick<
   ProtocolParams,
@@ -30,9 +30,7 @@ const normalizeNetworkParams = (np: NetworkParams): NetworkParams => ({
   },
 });
 
-export const cardanoNetwork = new Quickblue(
-  applicationConfig.networksSettings.cardano.networkUrl,
-);
+export const cardanoNetwork = new Quickblue(cardanoNetworkData.networkUrl);
 
 export const cardanoNetworkParams$: Observable<NetworkParams> = from(
   cardanoNetwork.getNetworkParams(),

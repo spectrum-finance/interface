@@ -12,30 +12,25 @@ import { analyticsInitializer } from './common/initializers/analyticsInitializer
 import { gaInitializer } from './common/initializers/gaInitializer';
 import { networkDomInitializer } from './common/initializers/networkDomInitializer';
 import { sentryInitializer } from './common/initializers/sentryInitializer';
+import { SelectDefaultNetwork } from './common/services/NetworkDomManager/SelectDefaultNetwork/SelectDefaultNetwork';
 import { startAppTicks } from './common/streams/appTick';
+import { Glow } from './components/common/Layout/Glow/Glow';
 import { ErrorEventProvider } from './components/ErrorBoundary/ErrorEventProvider';
-import { AppLoadingProvider, SettingsProvider } from './context';
+import { AppLoadingProvider, useApplicationSettings } from './context';
+import { useBodyClass } from './hooks/useBodyClass';
+import { useMetaThemeColor } from './hooks/useMetaThemeColor';
 import { LanguageProvider } from './i18n/i18n';
+import { isDarkOsTheme } from './utils/osTheme';
 
 const Application = () => {
   return (
-    <ErrorEventProvider>
-      <BrowserRouter>
-        <AppLoadingProvider>
-          <SettingsProvider>
-            <GoogleReCaptchaProvider
-              reCaptchaKey={applicationConfig.reCaptchaKey}
-            >
-              <LanguageProvider>
-                <ContextModalProvider>
-                  <ApplicationRoutes />
-                </ContextModalProvider>
-              </LanguageProvider>
-            </GoogleReCaptchaProvider>
-          </SettingsProvider>
-        </AppLoadingProvider>
-      </BrowserRouter>
-    </ErrorEventProvider>
+    <AppLoadingProvider>
+      <GoogleReCaptchaProvider reCaptchaKey={applicationConfig.reCaptchaKey}>
+        <ContextModalProvider>
+          <ApplicationRoutes />
+        </ContextModalProvider>
+      </GoogleReCaptchaProvider>
+    </AppLoadingProvider>
   );
 };
 
@@ -58,17 +53,34 @@ const initializeApp = () => {
 };
 
 export const ApplicationInitializer: React.FC = () => {
+  const [{ theme }] = useApplicationSettings();
   const [isAppInitialized] = useObservable(isAppInitialized$, [], false);
 
+  useBodyClass([theme]);
+  useMetaThemeColor(
+    {
+      dark: '#1D1D1D',
+      light: `#F0F2F5`,
+      get system() {
+        return isDarkOsTheme() ? this.dark : this.light;
+      },
+    },
+    theme,
+  );
   useEffect(() => initializeApp(), []);
-
-  if (!isAppInitialized) {
-    return null;
-  }
 
   return (
     <Suspense fallback={''}>
-      <Application />
+      <ErrorEventProvider>
+        <BrowserRouter>
+          <LanguageProvider>
+            <Glow />
+            <SelectDefaultNetwork>
+              {isAppInitialized && <Application />}
+            </SelectDefaultNetwork>
+          </LanguageProvider>
+        </BrowserRouter>
+      </ErrorEventProvider>
     </Suspense>
   );
 };

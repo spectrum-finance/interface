@@ -2,9 +2,9 @@ import {
   AmmPool,
   mkNetworkPoolsV1,
   ScriptCredsV1,
-} from '@ergolabs/cardano-dex-sdk';
-import { mkPoolsParser } from '@ergolabs/cardano-dex-sdk/build/main/amm/parsers/poolsParser';
-import { RustModule } from '@ergolabs/cardano-dex-sdk/build/main/utils/rustLoader';
+} from '@spectrumlabs/cardano-dex-sdk';
+import { mkPoolsParser } from '@spectrumlabs/cardano-dex-sdk/build/main/amm/parsers/poolsParser';
+import { RustModule } from '@spectrumlabs/cardano-dex-sdk/build/main/utils/rustLoader';
 import {
   catchError,
   combineLatest,

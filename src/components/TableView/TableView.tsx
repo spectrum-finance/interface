@@ -33,6 +33,7 @@ export interface TableViewProps<T> {
   readonly tableItemViewPadding?: Gutter;
   readonly tableHeaderPadding?: Gutter;
   readonly expandPadding?: Gutter;
+  readonly onItemClick?: (item: T) => void;
   readonly headerRowRenderer?:
     | RowRenderer
     | ((props: RowRendererProps) => ReactNode | ReactNode[] | string);
@@ -87,6 +88,7 @@ const _TableView: FC<TableViewProps<any>> = ({
   showHeader = true,
   expand,
   hoverable,
+  onItemClick,
 }) => {
   const [states, setStates] = useState<Dictionary<State<any>>>({});
   const [columns, setColumns] = useState<Column<any>[]>([]);
@@ -205,6 +207,7 @@ const _TableView: FC<TableViewProps<any>> = ({
         )}
         {!currentState && !!completedItems.length && (
           <TableViewContent
+            onItemClick={onItemClick}
             hoverable={hoverable}
             expand={expand}
             rowRenderer={itemRowRenderer}

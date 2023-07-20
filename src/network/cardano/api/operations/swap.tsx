@@ -1,8 +1,7 @@
 import { Transaction } from '@emurgo/cardano-serialization-lib-nodejs';
-import { SwapTxInfo, TxCandidate } from '@ergolabs/cardano-dex-sdk';
-import { NetworkParams } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/env';
 import { t } from '@lingui/macro';
-import { first, map, Observable, Subject, switchMap, tap, zip } from 'rxjs';
+import { SwapTxInfo, TxCandidate } from '@spectrumlabs/cardano-dex-sdk';
+import { first, map, Observable, Subject, switchMap, tap } from 'rxjs';
 
 import { Currency } from '../../../../common/models/Currency';
 import { Nitro, Percent, TxId } from '../../../../common/types';
@@ -17,18 +16,15 @@ import {
   settings$,
   useSettings,
 } from '../../settings/settings';
-import { useSwapValidationFee } from '../../settings/totalFee';
 import { SwapConfirmationModal } from '../../widgets/SwapConfirmationModal/SwapConfirmationModal';
 import { CardanoAmmPool } from '../ammPools/CardanoAmmPool';
-import { cardanoNetworkParams$ } from '../common/cardanoNetwork';
 import { networkAsset } from '../networkAsset/networkAsset';
 import { ammTxFeeMapping } from './common/ammTxFeeMapping';
 import { minExecutorReward } from './common/minExecutorReward';
-import { submitTx } from './common/submitTx';
+import { submitTx } from './common/submitTxCandidate';
 import { transactionBuilder$ } from './common/transactionBuilder';
 
 interface SwapTxCandidateConfig {
-  readonly networkParams: NetworkParams;
   readonly settings: CardanoSettings;
   readonly pool: CardanoAmmPool;
   readonly from: Currency;
@@ -43,7 +39,7 @@ const toSwapTxCandidate = ({
   from,
   slippage,
   nitro,
-}: SwapTxCandidateConfig): Observable<TxCandidate> => {
+}: SwapTxCandidateConfig): Observable<Transaction> => {
   if (!settings.address || !settings.ph) {
     throw new Error('[swap]: address is not selected');
   }
@@ -68,8 +64,8 @@ const toSwapTxCandidate = ({
       }),
     ),
     map(
-      ([, txCandidate]: [Transaction | null, TxCandidate, SwapTxInfo]) =>
-        txCandidate,
+      ([transaction]: [Transaction | null, TxCandidate, SwapTxInfo]) =>
+        transaction!,
     ),
     first(),
   );
@@ -80,20 +76,19 @@ export const walletSwap = (
   from: Currency,
   to: Currency,
 ): Observable<TxId> =>
-  zip([cardanoNetworkParams$, settings$]).pipe(
+  settings$.pipe(
     first(),
-    switchMap(([networkParams, settings]) =>
+    switchMap((settings) =>
       toSwapTxCandidate({
         pool,
         from,
         to,
-        networkParams,
         settings,
         slippage: settings.slippage,
         nitro: settings.nitro,
       }),
     ),
-    switchMap(submitTx),
+    switchMap((tx) => submitTx(tx)),
   );
 
 export const swap = (data: Required<SwapFormModel>): Observable<TxId> => {
@@ -171,10 +166,5 @@ export const useSwapValidators = (): OperationValidator<SwapFormModel>[] => {
 export const useHandleSwapMaxButtonClick = (): ((
   balance: Currency,
 ) => Currency) => {
-  const swapValidationFee = useSwapValidationFee();
-
-  return (balance) =>
-    balance.asset.id === networkAsset.id
-      ? balance.minus(swapValidationFee)
-      : balance;
+  return (balance) => balance;
 };

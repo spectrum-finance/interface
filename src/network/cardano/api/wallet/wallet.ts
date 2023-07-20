@@ -1,41 +1,92 @@
 import { ReactNode } from 'react';
-import { filter, map, Observable, publishReplay, refCount } from 'rxjs';
+import {
+  BehaviorSubject,
+  filter,
+  from,
+  map,
+  Observable,
+  publishReplay,
+  refCount,
+} from 'rxjs';
 
 import { WalletState, WalletSupportedFeatures } from '../../../common/Wallet';
-import { makeWalletManager } from '../../../common/WalletManager';
-import { CardanoWalletContract } from './common/CardanoWalletContract';
+import {
+  cardanoNetworkData,
+  currentNetwork,
+} from '../../utils/cardanoNetworkData';
+import { AdditionalData } from './common/AdditionalData';
+import { CardanoNetwork } from './common/old/CardanoWalletContract';
+import { Wallet } from './common/Wallet';
+import {
+  createWalletManager,
+  LocalStorageCacheStrategy,
+} from './common/WalletManager';
 import { Eternl } from './eternl/eternl';
+import { Exodus } from './exodus/exodus.tsx';
+import { Flint } from './flint/flint.tsx';
 import { Gero } from './gero/gero';
+import { Lace } from './lace/lace.tsx';
 import { Nami } from './nami/nami';
+import { Nufi } from './nufi/nufi.tsx';
+import { Typhon } from './typhon/typhon.tsx';
+import { Vespr } from './vespr/vespr';
+import { WalletConnect } from './walletConnect/walletConnect.tsx';
+import { Yoroi } from './yoroi/yoroi.tsx';
 
-const CARDANO_SELECTED_WALLET_TOKEN = 'cardano-selected-wallet';
+const walletStateUpdate$ = new BehaviorSubject(WalletState.NOT_CONNECTED);
 
-export const cardanoWalletManager = makeWalletManager<CardanoWalletContract>(
-  CARDANO_SELECTED_WALLET_TOKEN,
-  [Nami, Eternl, Gero],
-  (w: CardanoWalletContract) => w.connectWallet(),
-);
+const walletManager = createWalletManager({
+  availableWallets: [
+    Nami,
+    Eternl,
+    Lace,
+    Flint,
+    WalletConnect,
+    Nufi,
+    Gero,
+    Typhon,
+    Yoroi,
+    Exodus,
+    Vespr,
+  ],
+  cacheStrategy: new LocalStorageCacheStrategy(cardanoNetworkData.walletKey),
+  network:
+    currentNetwork === 'cardano_preview'
+      ? CardanoNetwork.TESTNET
+      : CardanoNetwork.MAINNET,
+});
 
-export const availableWallets: CardanoWalletContract[] =
-  cardanoWalletManager.availableWallets;
+export const availableWallets: Wallet<AdditionalData>[] =
+  walletManager.availableWallets as Wallet<AdditionalData>[];
 
-export const selectedWallet$: Observable<CardanoWalletContract | undefined> =
-  cardanoWalletManager.selectedWallet$;
+export const selectedWallet$: Observable<Wallet<AdditionalData> | undefined> =
+  new Observable<Wallet<AdditionalData> | undefined>((s) => {
+    const unsubscribe = walletManager.onWalletChange((wallet) => {
+      s.next(wallet as any);
+      if (wallet) {
+        walletStateUpdate$.next(WalletState.CONNECTED);
+      } else {
+        walletStateUpdate$.next(WalletState.NOT_CONNECTED);
+      }
+    });
+    s.next(walletManager.getActiveWallet());
+
+    return () => unsubscribe();
+  }).pipe(publishReplay(1), refCount());
 
 export const supportedWalletFeatures$: Observable<WalletSupportedFeatures> =
   selectedWallet$.pipe(
     filter(Boolean),
-    map((w) => w.walletSupportedFeatures),
+    map((w: Wallet<AdditionalData>) => w.walletSupportedFeatures),
     publishReplay(1),
     refCount(),
   );
 
 export const walletState$: Observable<WalletState> =
-  cardanoWalletManager.selectedWalletState$;
+  walletStateUpdate$.asObservable();
 
-export const disconnectWallet = (): void =>
-  cardanoWalletManager.removeSelectedWallet();
+export const disconnectWallet = (): void => walletManager.clearWallet();
 
 export const connectWallet = (
-  w: CardanoWalletContract,
-): Observable<boolean | ReactNode> => cardanoWalletManager.setSelectedWallet(w);
+  w: Wallet<any>,
+): Observable<boolean | ReactNode> => from(walletManager.setActiveWallet(w));

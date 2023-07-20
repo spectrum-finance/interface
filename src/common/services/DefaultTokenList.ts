@@ -1,40 +1,25 @@
 import axios from 'axios';
 import { from, map, Observable, publishReplay, refCount } from 'rxjs';
 
-import { applicationConfig } from '../../applicationConfig';
-import { uint } from '../types';
-
-export interface DefaultTokenListItem {
-  readonly address: string;
-  readonly decimals: uint;
-  readonly name: string;
-  readonly ticker: string;
-  readonly logoURI?: string;
-}
-
-export interface DefaultTokenList {
+export interface DefaultTokenList<T> {
   readonly network: string;
-  readonly tokens: DefaultTokenListItem[];
-  readonly tokensMap: Map<string, DefaultTokenListItem>;
+  readonly tokens: T[];
+  readonly tokensMap: Map<string, T>;
 }
 
-export const getDefaultTokenList = (
-  network: string,
-): Observable<DefaultTokenList> =>
-  from(
-    axios.get(`${applicationConfig.defaultTokenListUrl}/${network}.json`),
-  ).pipe(
+export const getDefaultTokenList = <T>(
+  url: string,
+  getHash: (item: T) => string,
+): Observable<DefaultTokenList<T>> =>
+  from(axios.get(url)).pipe(
     map((res) => res.data),
-    map((data: DefaultTokenList) => ({
+    map((data: DefaultTokenList<T>) => ({
       ...data,
-      tokensMap: data.tokens.reduce<Map<string, DefaultTokenListItem>>(
-        (map, item) => {
-          map.set(item.address, item);
+      tokensMap: data.tokens.reduce<Map<string, T>>((map, item) => {
+        map.set(getHash(item), item);
 
-          return map;
-        },
-        new Map(),
-      ),
+        return map;
+      }, new Map()),
     })),
     publishReplay(1),
     refCount(),

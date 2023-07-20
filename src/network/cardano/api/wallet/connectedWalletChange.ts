@@ -1,31 +1,9 @@
-import {
-  filter,
-  mapTo,
-  Observable,
-  of,
-  publishReplay,
-  refCount,
-  switchMap,
-} from 'rxjs';
+import { Observable } from 'rxjs';
 
-import { WalletState } from '../../../common/Wallet';
-import { CardanoWalletContract } from './common/CardanoWalletContract';
-import { selectedWallet$, walletState$ } from './wallet';
+import { AdditionalData } from './common/AdditionalData';
+import { Wallet } from './common/Wallet';
+import { selectedWallet$ } from './wallet';
 
-// TODO: RENAME
 export const connectedWalletChange$: Observable<
-  CardanoWalletContract | undefined
-> = selectedWallet$.pipe(
-  switchMap((selectedWallet) => {
-    if (!selectedWallet) {
-      return of(undefined);
-    }
-
-    return walletState$.pipe(
-      filter((state) => state === WalletState.CONNECTED),
-      mapTo(selectedWallet),
-    );
-  }),
-  publishReplay(1),
-  refCount(),
-);
+  Wallet<AdditionalData> | undefined
+> = selectedWallet$;

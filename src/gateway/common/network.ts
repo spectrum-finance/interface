@@ -4,7 +4,9 @@ import {
   distinctUntilChanged,
   distinctUntilKeyChanged,
   filter,
+  map,
   Observable,
+  of,
   publishReplay,
   refCount,
   switchMap,
@@ -12,11 +14,11 @@ import {
 
 import { useObservable } from '../../common/hooks/useObservable';
 import { localStorageManager } from '../../common/utils/localStorageManager';
-import { cardanoNetwork } from '../../network/cardano/cardano';
+import { cardanoMainnet, cardanoPreview } from '../../network/cardano/cardano';
 import { Network } from '../../network/common/Network';
 import { ergoNetwork } from '../../network/ergo/ergo';
 
-const SELECTED_NETWORK_KEY = 'ergodex-selected-network-key';
+const SELECTED_NETWORK_KEY = 'spectrum-selected-network-key';
 
 const updateSelectedNetwork$ = new BehaviorSubject<
   Network<any, any> | undefined
@@ -25,7 +27,16 @@ const updateSelectedNetwork$ = new BehaviorSubject<
 let afterNetworkChange: ((n: Network<any, any>) => void) | undefined =
   undefined;
 
-export const networks: Network<any, any, any>[] = [ergoNetwork, cardanoNetwork];
+export const networks: Network<any, any, any>[] = [
+  ergoNetwork,
+  cardanoPreview,
+  cardanoMainnet,
+];
+
+export const visibleNetworks: Network<any, any, any>[] = [
+  ergoNetwork,
+  cardanoMainnet,
+];
 
 export const isNetworkExists = (networkName?: string): boolean =>
   networks.some((n) => n.name === networkName);
@@ -51,24 +62,39 @@ export const selectedNetwork$: Observable<Network<any, any>> =
 interface InitializeNetworkParams {
   readonly possibleName?: string;
   readonly afterNetworkChange?: (network: Network<any, any>) => void;
+  readonly getSelectedNetwork: () => Observable<Network<any, any>>;
 }
 export const initializeNetwork = (
   params: InitializeNetworkParams,
-): Network<any, any> => {
-  const selectedNetworkName = isNetworkExists(params.possibleName)
-    ? params.possibleName
-    : localStorageManager.get<string>(SELECTED_NETWORK_KEY);
-  const newSelectedNetwork: Network<any, any> = selectedNetworkName
-    ? networks.find((n) => n.name === selectedNetworkName)!
-    : (ergoNetwork as any);
+): Observable<Network<any, any>> => {
+  const cachedNetwork = localStorageManager.get<string>(SELECTED_NETWORK_KEY);
+  let selectedNetworkName: string | undefined = undefined;
 
-  afterNetworkChange = params.afterNetworkChange;
-  selectedNetwork = newSelectedNetwork;
-  localStorageManager.set(SELECTED_NETWORK_KEY, newSelectedNetwork.name);
-  updateSelectedNetwork$.next(newSelectedNetwork);
-  newSelectedNetwork.initialize();
+  if (isNetworkExists(params.possibleName)) {
+    selectedNetworkName = params.possibleName;
+  } else if (cachedNetwork && isNetworkExists(cachedNetwork)) {
+    selectedNetworkName = cachedNetwork;
+  }
 
-  return newSelectedNetwork;
+  let stream: Observable<Network<any, any>>;
+
+  if (selectedNetworkName) {
+    stream = of(networks.find((n) => n.name === selectedNetworkName)!);
+  } else {
+    stream = params.getSelectedNetwork();
+  }
+
+  return stream.pipe(
+    map((network) => {
+      afterNetworkChange = params.afterNetworkChange;
+      selectedNetwork = network;
+      localStorageManager.set(SELECTED_NETWORK_KEY, network.name);
+      updateSelectedNetwork$.next(network);
+      network.initialize();
+
+      return network;
+    }),
+  );
 };
 
 export const networksInitialized$ = selectedNetwork$.pipe(

@@ -24,7 +24,7 @@ export const LabeledContent: FC<LabeledContentProps> = ({
       align="center"
     >
       {tooltipContent && (
-        <InfoTooltip secondary width={200} content={tooltipContent}>
+        <InfoTooltip color="secondary" width={200} content={tooltipContent}>
           <Typography.Body>{label}</Typography.Body>
         </InfoTooltip>
       )}
