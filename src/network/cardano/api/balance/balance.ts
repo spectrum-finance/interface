@@ -31,7 +31,7 @@ export const balanceItems$: Observable<[bigint, AssetInfo][]> =
             map<AssetInfo, [bigint, AssetInfo]>((ai) => [item.quantity, ai]),
           ),
         ),
-      ).pipe(defaultIfEmpty([])),
+      ),
     ),
     publishReplay(1),
     refCount(),
