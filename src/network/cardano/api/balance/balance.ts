@@ -1,6 +1,7 @@
 import { AssetEntry } from '@spectrumlabs/cardano-dex-sdk';
 import {
   combineLatest,
+  defaultIfEmpty,
   map,
   mapTo,
   Observable,
@@ -30,7 +31,7 @@ export const balanceItems$: Observable<[bigint, AssetInfo][]> =
             map<AssetInfo, [bigint, AssetInfo]>((ai) => [item.quantity, ai]),
           ),
         ),
-      ),
+      ).pipe(defaultIfEmpty([])),
     ),
     publishReplay(1),
     refCount(),
