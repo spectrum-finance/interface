@@ -99,7 +99,7 @@ export const useSwapTxInfo = (
       txFees: ammTxFeeMapping,
       pool: pool.pool,
     });
-  }, [value.fromAmount, value.toAmount, value.pool, nitro, slippage, settings]);
+  }, [value.fromAmount, value.pool, nitro, slippage, settings]);
 
   return [swapTxInfo, isSwapTxInfoLoading, settings];
 };
