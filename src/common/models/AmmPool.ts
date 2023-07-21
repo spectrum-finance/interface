@@ -47,9 +47,15 @@ export abstract class AmmPool {
 
   abstract calculateDepositAmount(currency: Currency): Currency;
 
-  abstract calculateInputAmount(currency: Currency): Currency;
+  abstract calculateInputAmount(
+    currency: Currency,
+    slippage?: number,
+  ): Currency;
 
-  abstract calculateOutputAmount(currency: Currency): Currency;
+  abstract calculateOutputAmount(
+    currency: Currency,
+    slippage?: number,
+  ): Currency;
 
   get poolFee(): number {
     return evaluate(`(1 - ${this.feeNum} / 1000) * 100`).toFixed(1);

@@ -67,6 +67,7 @@ import { swap } from '../../gateway/api/operations/swap';
 import { useHandleSwapMaxButtonClick } from '../../gateway/api/useHandleSwapMaxButtonClick';
 import { useSwapValidators } from '../../gateway/api/validationFees';
 import { useSelectedNetwork } from '../../gateway/common/network.ts';
+import { useSettings } from '../../gateway/settings/settings';
 import { operationsSettings$ } from '../../gateway/widgets/operationsSettings';
 import { useGuardV2 } from '../../hooks/useGuard.ts';
 import { mapToSwapAnalyticsProps } from '../../utils/analytics/mapper';
@@ -99,6 +100,7 @@ const getAvailablePools = (xId?: string, yId?: string): Observable<AmmPool[]> =>
 
 export const Swap = (): JSX.Element => {
   const [selectedNetwork] = useSelectedNetwork();
+  const { slippage } = useSettings();
   const navigate = useNavigate();
   useGuardV2(
     () => selectedNetwork.name !== 'ergo' && isPreLbspTimeGap(),
@@ -181,11 +183,11 @@ export const Swap = (): JSX.Element => {
 
     if (!fromAmount?.isPositive() && toAmount?.isPositive() && pool) {
       minValue = pool
-        .calculateOutputAmount(new Currency(1n, fromAsset))
+        .calculateOutputAmount(new Currency(1n, fromAsset), slippage)
         .plus(1n);
     }
     if (!toAmount?.isPositive() && fromAmount?.isPositive() && pool) {
-      minValue = pool.calculateInputAmount(new Currency(1n, toAsset));
+      minValue = pool.calculateInputAmount(new Currency(1n, toAsset), slippage);
     }
     return minValue
       ? t`Min value for ${minValue.asset.ticker} is ${minValue?.toString()}`
@@ -396,10 +398,10 @@ export const Swap = (): JSX.Element => {
     () => [
       tokensNotSelectedValidator,
       amountEnteredValidator,
+      insufficientLiquidityValidator,
       minValueForTokenValidator,
       insufficientFromForTxValidator,
       ...swapNetworkValidators,
-      insufficientLiquidityValidator,
     ],
     [balance],
   );

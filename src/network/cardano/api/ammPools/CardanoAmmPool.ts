@@ -126,9 +126,10 @@ export class CardanoAmmPool extends AmmPool {
     );
   }
 
-  calculateInputAmount(currency: Currency): Currency {
+  calculateInputAmount(currency: Currency, slippage?: number): Currency {
     const inputAmount = this.pool.inputAmount(
       new AssetAmount(this.toAssetClass(currency.asset), currency.amount),
+      slippage,
     );
 
     if (!inputAmount) {
@@ -144,9 +145,10 @@ export class CardanoAmmPool extends AmmPool {
     );
   }
 
-  calculateOutputAmount(currency: Currency): Currency {
+  calculateOutputAmount(currency: Currency, slippage?: number): Currency {
     const outputAmount = this.pool.outputAmount(
       new AssetAmount(this.toAssetClass(currency.asset), currency.amount),
+      slippage,
     );
 
     return new Currency(
