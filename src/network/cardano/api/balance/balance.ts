@@ -1,7 +1,6 @@
 import { AssetEntry } from '@spectrumlabs/cardano-dex-sdk';
 import {
   combineLatest,
-  defaultIfEmpty,
   map,
   mapTo,
   Observable,
