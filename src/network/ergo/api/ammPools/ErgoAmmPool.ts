@@ -100,7 +100,7 @@ export class ErgoAmmPool extends AmmPool {
     );
   }
 
-  calculateInputAmount(currency: Currency): Currency {
+  calculateInputAmount(currency: Currency, slippage?: number): Currency {
     if (currency.eq(this.getAssetAmount(currency.asset))) {
       return new Currency(
         0n,
@@ -110,6 +110,7 @@ export class ErgoAmmPool extends AmmPool {
 
     const inputAmount = this.pool.inputAmount(
       new AssetAmount(currency.asset, currency.amount),
+      slippage,
     );
 
     if (!inputAmount) {
@@ -125,9 +126,10 @@ export class ErgoAmmPool extends AmmPool {
     );
   }
 
-  calculateOutputAmount(currency: Currency): Currency {
+  calculateOutputAmount(currency: Currency, slippage?: number): Currency {
     const outputAmount = this.pool.outputAmount(
       new AssetAmount(currency.asset, currency.amount),
+      slippage,
     );
 
     return new Currency(
