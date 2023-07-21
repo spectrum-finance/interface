@@ -166,32 +166,36 @@ export const Swap = (): JSX.Element => {
       : undefined;
   };
 
-  const minValueForTokenValidator: OperationValidator<SwapFormModel> = ({
-    value: { toAmount, fromAmount, fromAsset, toAsset, pool },
-  }) => {
-    if (
-      !fromAmount?.isPositive() &&
-      toAmount &&
-      toAmount.isPositive() &&
-      pool &&
-      toAmount.gte(pool.getAssetAmount(toAmount.asset))
-    ) {
+  const minValueForTokenValidator: OperationValidator<SwapFormModel> = (
+    form,
+  ) => {
+    const {
+      value: { pool, toAmount, fromAsset, toAsset, fromAmount },
+    } = form;
+
+    if (!pool || !toAsset || !fromAsset) {
       return undefined;
     }
+    if (lastEditedField === 'from') {
+      const minValue = pool.calculateInputAmount(
+        new Currency(1n, toAsset),
+        slippage,
+      );
 
-    let minValue: Currency | undefined;
+      return !fromAmount?.isPositive() ||
+        (fromAmount && minValue.gt(fromAmount))
+        ? t`Min value for ${minValue.asset.ticker} is ${minValue.toString()}`
+        : undefined;
+    } else {
+      const minValue = pool.calculateOutputAmount(
+        new Currency(1n, fromAsset),
+        slippage,
+      );
 
-    if (!fromAmount?.isPositive() && toAmount?.isPositive() && pool) {
-      minValue = pool
-        .calculateOutputAmount(new Currency(1n, fromAsset), slippage)
-        .plus(1n);
+      return !toAmount?.isPositive() || (toAmount && minValue.gt(toAmount))
+        ? t`Min value for ${minValue.asset.ticker} is ${minValue.toString()}`
+        : undefined;
     }
-    if (!toAmount?.isPositive() && fromAmount?.isPositive() && pool) {
-      minValue = pool.calculateInputAmount(new Currency(1n, toAsset), slippage);
-    }
-    return minValue
-      ? t`Min value for ${minValue.asset.ticker} is ${minValue?.toString()}`
-      : undefined;
   };
 
   const tokensNotSelectedValidator: OperationValidator<SwapFormModel> = ({
@@ -403,7 +407,7 @@ export const Swap = (): JSX.Element => {
       insufficientFromForTxValidator,
       ...swapNetworkValidators,
     ],
-    [balance],
+    [balance, lastEditedField],
   );
 
   const loaders = useMemo(() => [isPoolLoading], []);

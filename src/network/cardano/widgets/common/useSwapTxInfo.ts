@@ -88,17 +88,21 @@ export const useSwapTxInfo = (
 
     const quoteOutput = pool.pool.outputAmount(baseInput, slippage);
 
-    updateSwapTxInfo(value, {
-      slippage,
-      nitro,
-      minExecutorReward: minExecutorReward,
-      base: baseInput,
-      quote: quoteOutput,
-      changeAddress: settings.address!,
-      pk: settings.ph!,
-      txFees: ammTxFeeMapping,
-      pool: pool.pool,
-    });
+    const timerId = setTimeout(() => {
+      updateSwapTxInfo(value, {
+        slippage,
+        nitro,
+        minExecutorReward: minExecutorReward,
+        base: baseInput,
+        quote: quoteOutput,
+        changeAddress: settings.address!,
+        pk: settings.ph!,
+        txFees: ammTxFeeMapping,
+        pool: pool.pool,
+      });
+    }, 200);
+
+    return () => clearTimeout(timerId);
   }, [value.fromAmount, value.pool, nitro, slippage, settings]);
 
   return [swapTxInfo, isSwapTxInfoLoading, settings];
