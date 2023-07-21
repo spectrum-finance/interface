@@ -5,17 +5,7 @@ import {
   TxCandidate,
 } from '@spectrumlabs/cardano-dex-sdk';
 import { RustModule } from '@spectrumlabs/cardano-dex-sdk/build/main/utils/rustLoader';
-import {
-  BehaviorSubject,
-  filter,
-  first,
-  from,
-  Observable,
-  of,
-  switchMap,
-  tap,
-  zip,
-} from 'rxjs';
+import { filter, first, from, Observable, of, switchMap, zip } from 'rxjs';
 
 import { TxId } from '../../../../../common/types';
 import {
