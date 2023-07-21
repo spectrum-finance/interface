@@ -63,7 +63,4 @@ export const submitTx = (
         ).completeTransaction(transaction, partial),
       ).pipe(switchMap((rawTx) => wallet.submit(rawTx))),
     ),
-    tap(null, (err) => err$.next(JSON.stringify(err))),
   );
-
-export const err$ = new BehaviorSubject<any>(undefined);
