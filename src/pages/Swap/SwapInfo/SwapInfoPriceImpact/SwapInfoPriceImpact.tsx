@@ -58,7 +58,6 @@ export const SwapInfoPriceImpact: FC<SwapInfoPriceImpactProps> = ({
               </Trans>
             }
             color="danger"
-            defaultVisible
           >
             <Typography.Body type={priceImpactStatus} size="small">
               {priceImpact !== undefined ? `${priceImpact}%` : '–'}

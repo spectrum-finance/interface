@@ -30,49 +30,47 @@ export interface ExtendedSwapTxInfo {
   readonly orderValue: Value;
 }
 
+const getSwapTxInfo = (
+  value: SwapFormModel<CardanoAmmPool>,
+  swapParams?: SwapParams,
+): Observable<ExtendedSwapTxInfo | undefined> => {
+  if (!swapParams) {
+    return of(undefined);
+  }
+
+  return transactionBuilder$.pipe(
+    switchMap((txBuilder) => txBuilder.swap(swapParams)),
+    map(([, , txInfo]) => ({
+      ...txInfo,
+      txFee: txInfo.txFee
+        ? new Currency(txInfo.txFee, networkAsset)
+        : undefined,
+      minExFee: new Currency(txInfo.minExFee, networkAsset),
+      maxExFee: new Currency(txInfo.maxExFee, networkAsset),
+      refundableDeposit: new Currency(txInfo.refundableDeposit, networkAsset),
+      minTotalFee: new Currency(
+        txInfo.minExFee + (txInfo.txFee || 0n),
+        networkAsset,
+      ),
+      maxTotalFee: new Currency(
+        txInfo.maxExFee + (txInfo.txFee || 0n),
+        networkAsset,
+      ),
+      minOutput: new Currency(txInfo.minOutput.amount, value.toAsset),
+      maxOutput: new Currency(txInfo.maxOutput.amount, value.toAsset),
+    })),
+    publishReplay(1),
+    refCount(),
+  );
+};
+
 export const useSwapTxInfo = (
   value,
 ): [ExtendedSwapTxInfo | undefined, boolean, CardanoSettings] => {
   const { nitro, slippage } = useSettings();
 
-  const [swapTxInfo, updateSwapTxInfo, isSwapTxInfoLoading] = useSubject(
-    (
-      value: SwapFormModel<CardanoAmmPool>,
-      swapParams?: SwapParams,
-    ): Observable<ExtendedSwapTxInfo | undefined> => {
-      if (!swapParams) {
-        return of(undefined);
-      }
-
-      return transactionBuilder$.pipe(
-        switchMap((txBuilder) => txBuilder.swap(swapParams)),
-        map(([, , txInfo]) => ({
-          ...txInfo,
-          txFee: txInfo.txFee
-            ? new Currency(txInfo.txFee, networkAsset)
-            : undefined,
-          minExFee: new Currency(txInfo.minExFee, networkAsset),
-          maxExFee: new Currency(txInfo.maxExFee, networkAsset),
-          refundableDeposit: new Currency(
-            txInfo.refundableDeposit,
-            networkAsset,
-          ),
-          minTotalFee: new Currency(
-            txInfo.minExFee + (txInfo.txFee || 0n),
-            networkAsset,
-          ),
-          maxTotalFee: new Currency(
-            txInfo.maxExFee + (txInfo.txFee || 0n),
-            networkAsset,
-          ),
-          minOutput: new Currency(txInfo.minOutput.amount, value.toAsset),
-          maxOutput: new Currency(txInfo.maxOutput.amount, value.toAsset),
-        })),
-        publishReplay(1),
-        refCount(),
-      );
-    },
-  );
+  const [swapTxInfo, updateSwapTxInfo, isSwapTxInfoLoading] =
+    useSubject(getSwapTxInfo);
 
   useEffect(() => {
     const { pool, fromAmount, toAmount } = value;
