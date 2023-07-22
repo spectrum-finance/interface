@@ -33,7 +33,14 @@ import { Vespr } from './vespr/vespr';
 import { WalletConnect } from './walletConnect/walletConnect.tsx';
 import { Yoroi } from './yoroi/yoroi.tsx';
 
-const walletStateUpdate$ = new BehaviorSubject(WalletState.NOT_CONNECTED);
+const localStorageCacheStrategy = new LocalStorageCacheStrategy(
+  cardanoNetworkData.walletKey,
+);
+const walletStateUpdate$ = new BehaviorSubject(
+  localStorageCacheStrategy.get()
+    ? WalletState.CONNECTING
+    : WalletState.NOT_CONNECTED,
+);
 
 const walletManager = createWalletManager({
   availableWallets: [
@@ -49,7 +56,7 @@ const walletManager = createWalletManager({
     Exodus,
     Vespr,
   ],
-  cacheStrategy: new LocalStorageCacheStrategy(cardanoNetworkData.walletKey),
+  cacheStrategy: localStorageCacheStrategy,
   network:
     currentNetwork === 'cardano_preview'
       ? CardanoNetwork.TESTNET
