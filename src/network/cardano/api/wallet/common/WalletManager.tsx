@@ -177,7 +177,11 @@ export const createWalletManager = (
       (w) => w.id === cacheStrategy.get(),
     );
     if (walletObject) {
-      setActiveWallet(walletObject, true);
+      setActiveWallet(walletObject, true).catch((isConnected) => {
+        if (!isConnected) {
+          clearWallet();
+        }
+      });
     }
   }
 
