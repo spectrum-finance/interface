@@ -70,9 +70,9 @@ export function OperationForm<T>({
   const LOADING_WALLET_CAPTION = t`Loading`;
   const PROCESSING_TRANSACTION_CAPTION = t`Processing transaction`;
 
-  const [validatorSubscription, setValidatorSubscription] = useState(
-    Subscription.EMPTY,
-  );
+  const [validatorSubscription, setValidatorSubscription] = useState<
+    Subscription | undefined
+  >(undefined);
   const [isOnline] = useObservable(isOnline$);
   const [queuedOperation] = useObservable(queuedOperation$);
   const [balance, isBalanceLoading] = useAssetsBalance();
@@ -87,80 +87,92 @@ export function OperationForm<T>({
     disabled: boolean;
     caption: ReactNode | ReactNode[] | string;
   }>({
-    loading: false,
-    disabled: true,
-    caption: CHECK_INTERNET_CONNECTION_CAPTION,
+    loading: true,
+    disabled: false,
+    caption: LOADING_WALLET_CAPTION,
   });
 
   useEffect(() => {
-    validatorSubscription.unsubscribe();
-    if (!isOnline) {
-      setButtonProps({
-        disabled: true,
-        loading: false,
-        caption: CHECK_INTERNET_CONNECTION_CAPTION,
-      });
-    } else if (isBalanceLoading || loaders?.some((l) => l(form))) {
+    if (validatorSubscription) {
+      validatorSubscription.unsubscribe();
       setButtonProps({
         disabled: false,
         loading: true,
         caption: LOADING_WALLET_CAPTION,
       });
-    } else if (!!queuedOperation) {
-      setButtonProps({
-        disabled: false,
-        loading: true,
-        caption: PROCESSING_TRANSACTION_CAPTION,
-      });
-    } else {
-      const results =
-        validators?.map((v) =>
-          callValidatorSafely<T, undefined>(v, undefined, form, balance),
-        ) || [];
-      const firstResultIndex = results.findIndex(Boolean);
-      const firstResult =
-        firstResultIndex !== -1 ? results[firstResultIndex] : undefined;
+    }
 
-      if (firstResult instanceof Observable) {
+    const timerId = setTimeout(() => {
+      if (!isOnline) {
+        setButtonProps({
+          disabled: true,
+          loading: false,
+          caption: CHECK_INTERNET_CONNECTION_CAPTION,
+        });
+      } else if (isBalanceLoading || loaders?.some((l) => l(form))) {
         setButtonProps({
           disabled: false,
           loading: true,
           caption: LOADING_WALLET_CAPTION,
         });
-        const subscription = of(undefined)
-          .pipe(
-            //@ts-ignore
-            ...results.slice(firstResultIndex).map((result) =>
-              switchMap((prev) => {
-                if (prev) {
-                  return of(prev);
-                }
-                return result instanceof Observable ? result : of(result);
-              }),
-            ),
-          )
-          .subscribe((result) => {
-            setButtonProps({
-              disabled: !!result,
-              loading: false,
-              caption: result || actionCaption,
-            });
-          });
-        setValidatorSubscription(subscription);
-      } else if (!!firstResult) {
-        setButtonProps({
-          disabled: true,
-          loading: false,
-          caption: firstResult,
-        });
-      } else {
+      } else if (!!queuedOperation) {
         setButtonProps({
           disabled: false,
-          loading: false,
-          caption: actionCaption,
+          loading: true,
+          caption: PROCESSING_TRANSACTION_CAPTION,
         });
+      } else {
+        const results =
+          validators?.map((v) =>
+            callValidatorSafely<T, undefined>(v, undefined, form, balance),
+          ) || [];
+        const firstResultIndex = results.findIndex(Boolean);
+        const firstResult =
+          firstResultIndex !== -1 ? results[firstResultIndex] : undefined;
+
+        if (firstResult instanceof Observable) {
+          setButtonProps({
+            disabled: false,
+            loading: true,
+            caption: LOADING_WALLET_CAPTION,
+          });
+          const subscription = of(undefined)
+            .pipe(
+              //@ts-ignore
+              ...results.slice(firstResultIndex).map((result) =>
+                switchMap((prev) => {
+                  if (prev) {
+                    return of(prev);
+                  }
+                  return result instanceof Observable ? result : of(result);
+                }),
+              ),
+            )
+            .subscribe((result) => {
+              setButtonProps({
+                disabled: !!result,
+                loading: false,
+                caption: result || actionCaption,
+              });
+            });
+          setValidatorSubscription(subscription);
+        } else if (!!firstResult) {
+          setButtonProps({
+            disabled: true,
+            loading: false,
+            caption: firstResult,
+          });
+        } else {
+          setButtonProps({
+            disabled: false,
+            loading: false,
+            caption: actionCaption,
+          });
+        }
       }
-    }
+    }, 200);
+
+    return () => clearTimeout(timerId);
   }, [
     isOnline,
     isBalanceLoading,

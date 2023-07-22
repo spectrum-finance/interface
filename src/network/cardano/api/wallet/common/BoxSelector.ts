@@ -1,5 +1,6 @@
 import {
   AdaAssetName,
+  AdaAssetNameHex,
   AdaPolicyId,
   AssetEntry,
   Value,
@@ -44,6 +45,7 @@ const isAdaAsset = (asset: AssetEntry): boolean =>
   isAssetEquals(asset)({
     name: AdaAssetName,
     policyId: AdaPolicyId,
+    nameHex: AdaAssetNameHex,
     quantity: 0n,
   });
 

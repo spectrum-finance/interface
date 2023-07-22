@@ -78,6 +78,7 @@ const mapToRedeemOperation = (
             mkSubject({
               policyId: order.inLq.asset.policyId,
               name: order.inLq.asset.name,
+              nameHex: order.inLq.asset.nameHex,
             }),
         )!,
     ),
