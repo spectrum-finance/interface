@@ -87,9 +87,9 @@ export function OperationForm<T>({
     disabled: boolean;
     caption: ReactNode | ReactNode[] | string;
   }>({
-    loading: false,
-    disabled: true,
-    caption: CHECK_INTERNET_CONNECTION_CAPTION,
+    loading: true,
+    disabled: false,
+    caption: LOADING_WALLET_CAPTION,
   });
 
   useEffect(() => {
