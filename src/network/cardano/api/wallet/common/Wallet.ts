@@ -96,8 +96,15 @@ export const createWallet = <
     ? WalletExtendParams & AdditionalData
     : WalletExtendParams,
 ): AdditionalData extends object ? Wallet<AdditionalData> : Wallet => {
-  const connector = params.getConnector();
+  let connector: CardanoBridge.ConnectorAPI;
   let contextPromise: Promise<CardanoBridge.ConnectorContextApi> | undefined;
+
+  const getConnector = () => {
+    if (!connector) {
+      connector = params.getConnector();
+    }
+    return connector;
+  };
 
   const resetContext = () => {
     contextPromise = undefined;
@@ -109,6 +116,8 @@ export const createWallet = <
   >(
     callback: T,
   ): Promise<Unpacked<ReturnType<T>>> => {
+    const connector = getConnector();
+
     if (!connector) {
       return Promise.reject(
         new Error(`connector with id ${params.id} not found`),
@@ -259,7 +268,9 @@ export const createWallet = <
     ...(params as any),
 
     id: params.id,
-    connector,
+    get connector() {
+      return getConnector();
+    },
     assertContext,
     resetContext,
 
