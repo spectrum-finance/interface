@@ -1,7 +1,8 @@
-import { Button, Flex, Typography } from '@ergolabs/ui-kit';
+import { Button, Flex, Modal, Typography } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import styled from 'styled-components';
 
+import { LbspFaqModal } from '../LbspFaqModal/LbspFaqModal.tsx';
 import TokensImg from './tokens-img.png';
 
 const LbspBannerWrapper = styled.div`
@@ -61,7 +62,12 @@ export const LbspBanner = () => {
               </Typography.Body>
             </Flex.Item>
             <Flex.Item>
-              <Button type="primary" href="google.com" target="_blank">
+              <Button
+                type="primary"
+                onClick={() => {
+                  Modal.open(() => <LbspFaqModal />);
+                }}
+              >
                 <Trans>Learn more about LBSP</Trans>
               </Button>
             </Flex.Item>
