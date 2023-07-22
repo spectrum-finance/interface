@@ -184,7 +184,12 @@ export const Swap = (): JSX.Element => {
 
       return !fromAmount?.isPositive() ||
         (fromAmount && minValue.gt(fromAmount))
-        ? t`Min value for ${minValue.asset.ticker} is ${minValue.toString()}`
+        ? {
+            content: t`Min value for ${
+              minValue.asset.ticker
+            } is ${minValue.toString()}`,
+            action: () => form.controls.fromAmount.patchValue(minValue),
+          }
         : undefined;
     } else {
       const minValue = pool.calculateOutputAmount(
@@ -193,7 +198,12 @@ export const Swap = (): JSX.Element => {
       );
 
       return !toAmount?.isPositive() || (toAmount && minValue.gt(toAmount))
-        ? t`Min value for ${minValue.asset.ticker} is ${minValue.toString()}`
+        ? {
+            content: t`Min value for ${
+              minValue.asset.ticker
+            } is ${minValue.toString()}`,
+            action: () => form.controls.toAmount.patchValue(minValue),
+          }
         : undefined;
     }
   };

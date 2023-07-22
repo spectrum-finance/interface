@@ -22,15 +22,26 @@ import { ConnectWalletButton } from '../common/ConnectWalletButton/ConnectWallet
 
 export type OperationLoader<T> = (form: FormGroup<T>) => boolean;
 
+export type OperationValidatorContent =
+  | ReactNode
+  | ReactNode[]
+  | string
+  | Observable<
+      | ReactNode
+      | ReactNode[]
+      | string
+      | undefined
+      | { content: OperationValidatorContent; action: () => void }
+    >;
+
 export type OperationValidator<T> = (
   form: FormGroup<T>,
   balance: Balance,
 ) =>
-  | ReactNode
-  | ReactNode[]
+  | OperationValidatorContent
   | string
   | undefined
-  | Observable<ReactNode | ReactNode[] | string | undefined>;
+  | { content: OperationValidatorContent; action: () => void };
 
 export interface OperationFormProps<T> {
   readonly validators?: OperationValidator<T>[];
@@ -82,10 +93,11 @@ export function OperationForm<T>({
     // @ts-ignore
     {},
   );
-  const [{ loading, disabled, caption }, setButtonProps] = useState<{
+  const [{ loading, disabled, caption, action }, setButtonProps] = useState<{
     loading: boolean;
     disabled: boolean;
     caption: ReactNode | ReactNode[] | string;
+    action?: () => void;
   }>({
     loading: true,
     disabled: false,
@@ -149,19 +161,43 @@ export function OperationForm<T>({
               ),
             )
             .subscribe((result) => {
-              setButtonProps({
-                disabled: !!result,
-                loading: false,
-                caption: result || actionCaption,
-              });
+              if (!result) {
+                setButtonProps({
+                  disabled: false,
+                  loading: false,
+                  caption: actionCaption,
+                });
+              } else if ((result as any).content) {
+                setButtonProps({
+                  disabled: false,
+                  loading: false,
+                  caption: (result as any).content,
+                  action: (result as any).action,
+                });
+              } else {
+                setButtonProps({
+                  disabled: true,
+                  loading: false,
+                  caption: result,
+                });
+              }
             });
           setValidatorSubscription(subscription);
         } else if (!!firstResult) {
-          setButtonProps({
-            disabled: true,
-            loading: false,
-            caption: firstResult,
-          });
+          if ((firstResult as any).content) {
+            setButtonProps({
+              disabled: false,
+              loading: false,
+              caption: (firstResult as any).content,
+              action: (firstResult as any).action,
+            });
+          } else {
+            setButtonProps({
+              disabled: true,
+              loading: false,
+              caption: firstResult,
+            });
+          }
         } else {
           setButtonProps({
             disabled: false,
@@ -187,6 +223,11 @@ export function OperationForm<T>({
     if (loading || disabled) {
       return;
     }
+    if (action) {
+      action();
+      return;
+    }
+
     const result = onSubmit(form);
 
     if (result instanceof Observable) {
