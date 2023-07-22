@@ -40,7 +40,7 @@ export const LbspPoolTag = () => (
       }
     >
       <Flex>
-        <Flex.Item marginRight={1}>LBSP</Flex.Item>
+        <Flex.Item marginRight={1}>✨LBSP</Flex.Item>
         <Flex.Item>
           <InfoCircleOutlined />
         </Flex.Item>

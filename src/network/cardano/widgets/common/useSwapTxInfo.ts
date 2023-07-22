@@ -3,7 +3,10 @@ import { Value } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities
 import { useEffect } from 'react';
 import { map, Observable, of, publishReplay, refCount, switchMap } from 'rxjs';
 
-import { useSubject } from '../../../../common/hooks/useObservable';
+import {
+  useObservable,
+  useSubject,
+} from '../../../../common/hooks/useObservable';
 import { Currency } from '../../../../common/models/Currency';
 import { SwapFormModel } from '../../../../pages/Swap/SwapFormModel.ts';
 import { CardanoAmmPool } from '../../api/ammPools/CardanoAmmPool';
@@ -11,6 +14,7 @@ import { networkAsset } from '../../api/networkAsset/networkAsset';
 import { ammTxFeeMapping } from '../../api/operations/common/ammTxFeeMapping';
 import { minExecutorReward } from '../../api/operations/common/minExecutorReward';
 import { transactionBuilder$ } from '../../api/operations/common/transactionBuilder.ts';
+import { selectedWallet$ } from '../../api/wallet/wallet';
 import {
   CardanoSettings,
   settings,
@@ -68,6 +72,7 @@ export const useSwapTxInfo = (
   value,
 ): [ExtendedSwapTxInfo | undefined, boolean, CardanoSettings] => {
   const { nitro, slippage } = useSettings();
+  const [selectedWallet] = useObservable(selectedWallet$);
 
   const [swapTxInfo, updateSwapTxInfo, isSwapTxInfoLoading] =
     useSubject(getSwapTxInfo);
@@ -101,7 +106,7 @@ export const useSwapTxInfo = (
     }, 200);
 
     return () => clearTimeout(timerId);
-  }, [value.fromAmount, value.pool, nitro, slippage, settings]);
+  }, [value.fromAmount, value.pool, nitro, slippage, settings, selectedWallet]);
 
   return [swapTxInfo, isSwapTxInfoLoading, settings];
 };
