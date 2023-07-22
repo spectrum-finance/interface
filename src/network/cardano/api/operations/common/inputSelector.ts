@@ -13,9 +13,8 @@ export class DefaultInputSelector implements InputSelector {
   ): Promise<FullTxIn[] | Error> {
     return selectedWallet$
       .pipe(
-        filter(Boolean),
         first(),
-        switchMap((wallet) => wallet.getUtxos()),
+        switchMap((wallet) => (wallet ? wallet.getUtxos() : of([]))),
         map((utxos) =>
           target
             ? selectUtxos(
