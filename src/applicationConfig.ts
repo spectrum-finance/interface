@@ -1,4 +1,3 @@
-import { mkSubject } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/assetClass';
 import { DateTime } from 'luxon';
 
 import { Dictionary } from './common/utils/Dictionary';
@@ -126,25 +125,8 @@ export const applicationConfig: ApplicationConfig = {
     isProductionHost
       ? '30974274078845f263b4f21787e33cc99e9ec19a17ad85a5bc6da2cca91c5a2e'
       : '',
-    mkSubject({
-      name: 'new_spectrum_token_b',
-      policyId: '065270479316f1d92e00f7f9f095ebeaac9d009c878dc35ce36d3404',
-    }),
-    mkSubject({
-      name: 'new_spectrum_token_a',
-      policyId: '065270479316f1d92e00f7f9f095ebeaac9d009c878dc35ce36d3404',
-    }),
   ],
-  blacklistedHistoryAssets: [
-    mkSubject({
-      name: 'new_spectrum_token_b',
-      policyId: '065270479316f1d92e00f7f9f095ebeaac9d009c878dc35ce36d3404',
-    }),
-    mkSubject({
-      name: 'new_spectrum_token_a',
-      policyId: '065270479316f1d92e00f7f9f095ebeaac9d009c878dc35ce36d3404',
-    }),
-  ],
+  blacklistedHistoryAssets: [],
   blacklistedPools: [
     'd5fa50968efd6c80621e206cecbdfd9249f94e68a4e00ad219899b7faad49a93',
     '014c77c54b39748551bbc2487d10df9f905c4116af2cb3fd994a77bff2b85129',
@@ -178,18 +160,6 @@ export const applicationConfig: ApplicationConfig = {
     '61a579c46d92f2718576fc9839a2a1983f172e889ec234af8504b5bbf10edd89',
     'e24d17f85ac406827b0436a648f3960d8965e677700949ff28ab0ca9a37dd50e',
     '805fe1efcdea11f1e959eff4f422f118aa76dca2d0d797d184e487da',
-    mkSubject({
-      policyId: '805fe1efcdea11f1e959eff4f422f118aa76dca2d0d797d184e487da',
-      name: '321ergoTestNFT321',
-    }),
-    mkSubject({
-      name: 'C3t_MELDt_nft',
-      policyId: '1d27e0100eb24fb797501b2692f160e7ba372f93b3527080774150b3',
-    }),
-    mkSubject({
-      name: 'C3t_ADAt_nft',
-      policyId: 'be2fc42476b6c8e60d5a3cf2b1c53158f88945929ebe3d3d88ad33e6',
-    }),
   ],
   farmsWhiteList: [
     '1b3d37d78650dd8527fa02f8783d9b98490df3b464dd44af0e0593ceb4717702',
