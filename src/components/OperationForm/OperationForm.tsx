@@ -48,6 +48,7 @@ export interface OperationFormProps<T> {
   readonly loaders?: OperationLoader<T>[];
   readonly form: FormGroup<T>;
   readonly actionCaption: ReactNode | ReactNode[] | string;
+  readonly isWarningButton?: boolean;
   readonly onSubmit: (
     form: FormGroup<T>,
   ) => Observable<any> | void | Promise<any>;
@@ -75,6 +76,7 @@ export function OperationForm<T>({
   onSubmit,
   children,
   actionCaption,
+  isWarningButton,
   traceFormLocation,
 }: OperationFormProps<T>): JSX.Element {
   const CHECK_INTERNET_CONNECTION_CAPTION = t`Check Internet Connection`;
@@ -93,11 +95,15 @@ export function OperationForm<T>({
     // @ts-ignore
     {},
   );
-  const [{ loading, disabled, caption, action }, setButtonProps] = useState<{
+  const [
+    { loading, disabled, caption, action, isDangerButton },
+    setButtonProps,
+  ] = useState<{
     loading: boolean;
     disabled: boolean;
     caption: ReactNode | ReactNode[] | string;
     action?: () => void;
+    isDangerButton?: boolean;
   }>({
     loading: true,
     disabled: false,
@@ -166,6 +172,7 @@ export function OperationForm<T>({
                   disabled: false,
                   loading: false,
                   caption: actionCaption,
+                  isDangerButton: isWarningButton,
                 });
               } else if ((result as any).content) {
                 setButtonProps({
@@ -202,6 +209,7 @@ export function OperationForm<T>({
           setButtonProps({
             disabled: false,
             loading: false,
+            isDangerButton: isWarningButton,
             caption: actionCaption,
           });
         }
@@ -252,6 +260,7 @@ export function OperationForm<T>({
               loading={loading}
               disabled={disabled}
               type="primary"
+              danger={!!isDangerButton}
               size="extra-large"
               className="operation-form-submit-button"
               htmlType="submit"
