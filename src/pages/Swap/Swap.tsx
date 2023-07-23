@@ -27,6 +27,8 @@ import {
   map,
   Observable,
   of,
+  publishReplay,
+  refCount,
   skip,
   switchMap,
   zip,
@@ -73,6 +75,7 @@ import { useGuardV2 } from '../../hooks/useGuard.ts';
 import { mapToSwapAnalyticsProps } from '../../utils/analytics/mapper';
 import { isPreLbspTimeGap } from '../../utils/lbsp.ts';
 import { PoolSelector } from './PoolSelector/PoolSelector';
+import { PriceImpactWarning } from './PriceImpactWarning/PriceImpactWarning';
 import { SwapFormModel } from './SwapFormModel';
 import { SwapGraph } from './SwapGraph/SwapGraph';
 import { SwapInfo } from './SwapInfo/SwapInfo';
@@ -125,6 +128,22 @@ export const Swap = (): JSX.Element => {
     useSearchParams<{ base: string; quote: string; initialPoolId: string }>();
   const [OperationSettings] = useObservable(operationsSettings$);
   const [reversedRatio, setReversedRatio] = useState(false);
+  const [isPriceImpactHeight] = useObservable(
+    form.valueChanges$.pipe(
+      map((value) => {
+        if (!!value.pool && !!value.fromAmount) {
+          return value.pool.calculatePriceImpact(value.fromAmount);
+        } else {
+          return 0;
+        }
+      }),
+      map((priceImpact) => priceImpact > 5),
+      distinctUntilChanged(),
+      publishReplay(1),
+      refCount(),
+    ),
+  );
+
   const updateToAssets$ = useMemo(
     () => new BehaviorSubject<string | undefined>(undefined),
     [],
@@ -444,6 +463,7 @@ export const Swap = (): JSX.Element => {
     >
       <OperationForm
         traceFormLocation={ElementLocation.swapForm}
+        isWarningButton={isPriceImpactHeight}
         actionCaption={t`Swap`}
         form={form}
         onSubmit={submitSwap}
@@ -520,6 +540,11 @@ export const Swap = (): JSX.Element => {
               </Flex.Item>
             )}
           </Form.Listener>
+          {isPriceImpactHeight && (
+            <Flex.Item marginTop={4}>
+              <PriceImpactWarning />
+            </Flex.Item>
+          )}
         </Flex>
       </OperationForm>
     </Page>
