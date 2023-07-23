@@ -14,7 +14,12 @@ export class DefaultInputSelector implements InputSelector {
     return selectedWallet$
       .pipe(
         first(),
-        switchMap((wallet) => (wallet ? wallet.getUtxos() : of([]))),
+        switchMap((wallet) => {
+          if (wallet) {
+            return wallet.getUtxos();
+          }
+          throw new Error('insufficient funds');
+        }),
         map((utxos) =>
           target
             ? selectUtxos(
@@ -25,9 +30,6 @@ export class DefaultInputSelector implements InputSelector {
             : utxos,
         ),
         map((utxos) => utxos.map((txOut) => ({ txOut }))),
-        catchError(() => {
-          return of([]);
-        }),
       )
       .toPromise() as Promise<FullTxIn[] | Error>;
   }
