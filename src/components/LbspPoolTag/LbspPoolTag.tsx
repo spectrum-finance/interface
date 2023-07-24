@@ -29,7 +29,7 @@ export const LbspPoolTag = () => (
             </Trans>
           </Flex.Item>
           <Flex.Item>
-            <Trans>0.012 SPF per 1 delegated ADA per epoch</Trans>
+            <Trans>0.0135 SPF per 1 delegated ADA per epoch</Trans>
           </Flex.Item>
           <Flex.Item>
             <Typography.Link target="_blank" href="https://google.com">
