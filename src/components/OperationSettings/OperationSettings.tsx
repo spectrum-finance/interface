@@ -168,13 +168,14 @@ export const OperationSettings: FC<OperationSettingsProps> = ({
           {hideSlippage ? null : (
             <>
               <Flex.Item marginBottom={1}>
-                <Typography.Body strong>
-                  <Trans>Slippage tolerance</Trans>
-                </Typography.Body>
                 <InfoTooltip
                   width={200}
                   content={t`Your transaction will revert if the price changes unfavorably by more than this percentage`}
-                />
+                >
+                  <Typography.Body strong>
+                    <Trans>Slippage tolerance</Trans>
+                  </Typography.Body>
+                </InfoTooltip>
               </Flex.Item>
               <Flex.Item marginBottom={2}>
                 <Form.Item name="slippage">
@@ -193,13 +194,14 @@ export const OperationSettings: FC<OperationSettingsProps> = ({
           {feeAssets?.length && (
             <IsErgo>
               <Flex.Item marginBottom={1}>
-                <Typography.Body strong>
-                  <Trans>Execution fee</Trans>
-                </Typography.Body>
                 <InfoTooltip
                   width={200}
                   content={t`The execution fee is paid to off-chain validators who execute DEX orders`}
-                />
+                >
+                  <Typography.Body strong>
+                    <Trans>Execution fee</Trans>
+                  </Typography.Body>
+                </InfoTooltip>
               </Flex.Item>
               <Flex.Item marginBottom={hideNitro ? 0 : 2}>
                 <Form.Item name="executionFeeAsset">
@@ -217,9 +219,6 @@ export const OperationSettings: FC<OperationSettingsProps> = ({
           {hideNitro ? null : (
             <>
               <Flex.Item marginBottom={1}>
-                <Typography.Body strong>
-                  <Trans>Nitro</Trans>
-                </Typography.Body>
                 <InfoTooltip
                   content={
                     <>
@@ -233,7 +232,11 @@ export const OperationSettings: FC<OperationSettingsProps> = ({
                       </Typography.Link>
                     </>
                   }
-                />
+                >
+                  <Typography.Body strong>
+                    <Trans>Nitro</Trans>
+                  </Typography.Body>
+                </InfoTooltip>
               </Flex.Item>
 
               <Flex.Item>

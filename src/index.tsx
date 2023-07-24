@@ -1,8 +1,9 @@
 import '@ergolabs/ui-kit/dist/styles/fonts/fonts.less';
 import './assets/styles/styles.less';
 
+import { StrictMode } from 'react';
 import { isIOS, isMobile, osVersion } from 'react-device-detect';
-import { createRoot } from 'react-dom/client';
+import * as ReactDOM from 'react-dom';
 
 import { ApplicationInitializer } from './App';
 import { IOSNotSupportedScreen } from './components/IOSNotSupportedScreen/IOSNotSupportedScreen';
@@ -10,7 +11,6 @@ import { SettingsProvider } from './context';
 
 const init = () => {
   const container = document.getElementById('app');
-  const root = createRoot(container!);
 
   if (
     isIOS &&
@@ -18,14 +18,17 @@ const init = () => {
     isMobile &&
     navigator.platform.indexOf('Mac') === -1
   ) {
-    root.render(<IOSNotSupportedScreen />);
+    ReactDOM.render(<IOSNotSupportedScreen />, container);
     return;
   }
 
-  root.render(
-    <SettingsProvider>
-      <ApplicationInitializer />
-    </SettingsProvider>,
+  ReactDOM.render(
+    <StrictMode>
+      <SettingsProvider>
+        <ApplicationInitializer />
+      </SettingsProvider>
+    </StrictMode>,
+    container,
   );
 };
 
