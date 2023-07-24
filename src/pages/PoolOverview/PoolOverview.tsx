@@ -10,6 +10,7 @@ import { IsErgo } from '../../components/IsErgo/IsErgo.tsx';
 import { Page } from '../../components/Page/Page';
 import { getPositionByAmmPoolId } from '../../gateway/api/positions';
 import { useGuard } from '../../hooks/useGuard';
+import { isCardano } from '../../utils/network.ts';
 import { getAmmPoolConfidenceAnalyticByAmmPoolId } from './AmmPoolConfidenceAnalytic';
 import { LockLiquidity } from './LockLiquidity/LockLiquidity';
 import { PoolInfoView } from './PoolInfoView/PoolInfoView';
@@ -31,7 +32,7 @@ export const PoolOverview: React.FC = () => {
     <Page
       transparent
       title={t`Pool overview`}
-      maxWidth={984}
+      maxWidth={isCardano() ? 590 : 984}
       withBackButton
       backTo="../../../liquidity"
     >
@@ -44,26 +45,26 @@ export const PoolOverview: React.FC = () => {
           >
             <PoolInfoView position={position} />
           </Flex.Item>
-          <Flex.Item
-            width={valBySize<string | number>('100%', '100%', 376)}
-            display="flex"
-            col={valBySize(true, false, true)}
-          >
+          <IsErgo>
             <Flex.Item
-              flex={valBySize(undefined, 1, undefined)}
-              marginRight={valBySize(0, 2, 0)}
-              marginBottom={valBySize(2, 0, 2)}
+              width={valBySize<string | number>('100%', '100%', 376)}
+              display="flex"
+              col={valBySize(true, false, true)}
             >
-              <PriceHistory position={position} />
-            </Flex.Item>
-            <IsErgo>
+              <Flex.Item
+                flex={valBySize(undefined, 1, undefined)}
+                marginRight={valBySize(0, 2, 0)}
+                marginBottom={valBySize(2, 0, 2)}
+              >
+                <PriceHistory position={position} />
+              </Flex.Item>
               <Flex.Item flex={valBySize(undefined, 1, undefined)}>
                 <LockLiquidity
                   poolConfidenceAnalytic={poolConfidenceAnalytic}
                 />
               </Flex.Item>
-            </IsErgo>
-          </Flex.Item>
+            </Flex.Item>
+          </IsErgo>
         </Flex>
       ) : (
         <Skeleton active />
