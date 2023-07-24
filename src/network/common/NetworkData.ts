@@ -71,6 +71,7 @@ export interface NetworkData<W extends Wallet> {
     offset: number,
   ) => Observable<[OperationItem[], number]>;
   readonly pendingOperationsCount$: Observable<number>;
+  readonly hasNeedRefundOperations$: Observable<boolean>;
   readonly getPoolChartData: (
     pool?: AmmPool,
     params?: PoolChartDataParams,

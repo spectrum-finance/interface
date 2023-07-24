@@ -1,3 +1,5 @@
+import { of } from 'rxjs';
+
 import { Network } from '../common/Network';
 import {
   getAddresses,
@@ -143,6 +145,7 @@ export const ergoNetwork: Network<
   getOperationByTxId,
   pendingOperationsCount$,
   queuedOperation$,
+  hasNeedRefundOperations$: of(false),
 
   farmPools$: farms$,
 };

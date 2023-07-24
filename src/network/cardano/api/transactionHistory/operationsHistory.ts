@@ -17,8 +17,8 @@ import {
   publishReplay,
   refCount,
   startWith,
-  switchMap, tap
-} from "rxjs";
+  switchMap,
+} from 'rxjs';
 
 import { applicationConfig } from '../../../../applicationConfig';
 import { AmmPool } from '../../../../common/models/AmmPool';
@@ -33,6 +33,8 @@ import { mapRawSwapItemToSwapItem } from './types/SwapOperation';
 
 export interface OperationsHistoryRequestParams {
   readonly txId?: TxId;
+  readonly refundOnly?: boolean;
+  readonly pendingOnly?: boolean;
 }
 
 const mapKeyToParser = new Map<string, OperationMapper<any, any>>([
@@ -168,6 +170,7 @@ export const getOperationByTxId = (
 ): Observable<OperationItem | undefined> =>
   combineLatest([getRawOperations(1, 0, { txId }), allAmmPools$]).pipe(
     debounceTime(200),
+    first(),
     map(([[[rawOperation]], ammPools]) => {
       if (!rawOperation) {
         throw new Error('transaction not found error');
@@ -177,7 +180,26 @@ export const getOperationByTxId = (
   );
 
 export const pendingOperationsCount$ = mempoolRawOperations$.pipe(
-  map((mro) => mro.length),
+  distinctUntilKeyChanged('length'),
+  switchMap((mro) =>
+    interval(10_000).pipe(
+      startWith(0),
+      switchMap(() => getRawOperations(20, 0, { pendingOnly: true })),
+      map((ops) => ops[0].length + mro.length),
+    ),
+  ),
+  publishReplay(1),
+  refCount(),
+);
+
+export const hasNeedRefundOperations$ = interval(10_000).pipe(
+  startWith(0),
+  switchMap(() =>
+    getRawOperations(1, 0, { refundOnly: true }).pipe(
+      map((ops) => !!ops[0].length),
+    ),
+  ),
+  catchError(() => of(false)),
   publishReplay(1),
   refCount(),
 );

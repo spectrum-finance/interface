@@ -39,6 +39,7 @@ import {
 import {
   getOperationByTxId,
   getOperations,
+  hasNeedRefundOperations$,
   pendingOperationsCount$,
 } from './api/transactionHistory/operationsHistory';
 import { AdditionalData } from './api/wallet/common/AdditionalData';
@@ -144,6 +145,7 @@ const makeCardanoNetwork = (
     getOperationByTxId,
     pendingOperationsCount$,
     queuedOperation$: of(undefined),
+    hasNeedRefundOperations$,
   };
 };
 

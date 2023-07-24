@@ -6,9 +6,10 @@ import {
   Tooltip,
 } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect } from 'react';
 
 import { useObservable } from '../../../../common/hooks/useObservable';
+import { hasNeedRefundOperations$ } from '../../../../gateway/api/hasNeedRefundOperations';
 import { pendingOperationsCount$ } from '../../../../gateway/api/pendingOperations';
 import { selectedWalletState$ } from '../../../../gateway/api/wallets';
 import { WalletState } from '../../../../network/common/Wallet';
@@ -30,21 +31,9 @@ export const OperationsHistory: FC = () => {
   // const [operations] = useObservable(getOperations(), [walletState]);
 
   const isWalletConnected = walletState === WalletState.CONNECTED;
-
-  const [hasOperationsToRefund] = useState<boolean>(false);
-
-  // useEffect(() => {
-  //   if (operations) {
-  //     setHasOperationsToRefund(
-  //       // @ts-ignore
-  //       operations.some((op) => {
-  //         if (op.status) {
-  //           return op.status === 'locked';
-  //         }
-  //       }) && isWalletConnected,
-  //     );
-  //   }
-  // }, [operations]);
+  const [hasOperationsToRefund] = useObservable<boolean>(
+    hasNeedRefundOperations$,
+  );
 
   useEffect(() => {
     if (hasOperationsToRefund && isWalletConnected) {
