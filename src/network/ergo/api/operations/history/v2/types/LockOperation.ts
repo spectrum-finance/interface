@@ -2,20 +2,20 @@ import { TokenAmount } from '@ergolabs/ergo-sdk/build/main/entities/tokenAmount'
 
 import { AmmPool } from '../../../../../../../common/models/AmmPool';
 import { Currency } from '../../../../../../../common/models/Currency';
+import {
+  LockItem,
+  OperationStatus,
+  OperationType,
+} from '../../../../../../../common/models/OperationV2';
 import { TxId } from '../../../../../../../common/types';
 import {
-  BaseOtherOperation,
-  BaseRefundedOperation,
   mapRawBaseOtherOperationToBaseOtherOperation,
   mapRawBaseRefundedOperationToBaseRefundedOperation,
   mapRawSingleBaseExecutedOperationToSingleBaseExecutedOperation,
   OperationMapper,
-  OperationStatus,
-  OperationType,
   RawBaseOtherOperation,
   RawBaseRefundedOperation,
   RawSingleBaseExecutedOperation,
-  SingleBaseExecutedOperation,
 } from './BaseOperation';
 
 type EvalType = 'ReLock' | 'Withdraw';
@@ -40,27 +40,6 @@ export interface RawLockItem {
     | RawLockRefundedOperation
     | RawLockOtherOperation;
 }
-
-export interface LockOperation {
-  readonly pool: AmmPool;
-  readonly lp: Currency;
-  readonly deadline: number;
-  readonly type:
-    | OperationType.LockLiquidity
-    | OperationType.ReLockLiquidity
-    | OperationType.WithdrawLock;
-}
-
-export type LockExecutedOperation = SingleBaseExecutedOperation & LockOperation;
-
-export type LockRefundedOperation = BaseRefundedOperation & LockOperation;
-
-export type LockOtherOperation = BaseOtherOperation & LockOperation;
-
-export type LockItem =
-  | LockExecutedOperation
-  | LockRefundedOperation
-  | LockOtherOperation;
 
 const getLockType = (
   evalType: EvalType | undefined,

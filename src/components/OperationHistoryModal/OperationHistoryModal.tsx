@@ -2,31 +2,16 @@ import { Modal, ModalRef } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import { FC } from 'react';
 
-import { useSettings } from '../../gateway/settings/settings';
-import { OperationHistoryV1 } from './OperationHistoryV1/OperationHistoryV1';
-import { OperationHistoryV2 } from './OperationHistoryV2/OperationHistoryV2';
+import { OperationHistoryV2 } from './OperationHistory/OperationHistoryV2';
 
-export interface OperationHistoryModalProps extends ModalRef {
-  readonly showDateTime?: boolean;
-}
-
-export const OperationHistoryModal: FC<OperationHistoryModalProps> = ({
-  close,
-  showDateTime,
-}) => {
-  const { newHistory } = useSettings();
-
+export const OperationHistoryModal: FC<ModalRef> = ({ close }) => {
   return (
     <>
       <Modal.Title>
         <Trans>Orders history</Trans>
       </Modal.Title>
-      <Modal.Content width={newHistory ? 740 : 772}>
-        {newHistory ? (
-          <OperationHistoryV2 close={close} />
-        ) : (
-          <OperationHistoryV1 close={close} showDateTime={showDateTime} />
-        )}
+      <Modal.Content width={740}>
+        {<OperationHistoryV2 close={close} />}
       </Modal.Content>
     </>
   );

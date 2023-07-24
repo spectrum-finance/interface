@@ -2,17 +2,17 @@ import { TokenAmount } from '@ergolabs/ergo-sdk/build/main/entities/tokenAmount'
 
 import { AmmPool } from '../../../../../../../common/models/AmmPool';
 import { Currency } from '../../../../../../../common/models/Currency';
+import {
+  OperationStatus,
+  OperationType,
+  SwapItem,
+} from '../../../../../../../common/models/OperationV2';
 import { TxId } from '../../../../../../../common/types';
 import {
-  BaseExecutedOperation,
-  BaseOtherOperation,
-  BaseRefundedOperation,
   mapRawBaseExecutedOperationToBaseExecutedOperation,
   mapRawBaseOtherOperationToBaseOtherOperation,
   mapRawBaseRefundedOperationToBaseRefundedOperation,
   OperationMapper,
-  OperationStatus,
-  OperationType,
   RawBaseExecutedOperation,
   RawBaseOtherOperation,
   RawBaseRefundedOperation,
@@ -42,25 +42,6 @@ export interface RawSwapItem {
     | RawSwapExecutedOperation
     | RawSwapOtherOperation;
 }
-
-export interface SwapOperation {
-  readonly address: string;
-  readonly pool: AmmPool;
-  readonly base: Currency;
-  readonly quote: Currency;
-  readonly type: OperationType.Swap;
-}
-
-export type SwapExecutedOperation = BaseExecutedOperation & SwapOperation;
-
-export type SwapRefundedOperation = BaseRefundedOperation & SwapOperation;
-
-export type SwapOtherOperation = BaseOtherOperation & SwapOperation;
-
-export type SwapItem =
-  | SwapRefundedOperation
-  | SwapExecutedOperation
-  | SwapOtherOperation;
 
 export const mapRawSwapItemToSwapItem: OperationMapper<RawSwapItem, SwapItem> =
   (item: RawSwapItem, ammPools: AmmPool[]): SwapItem => {

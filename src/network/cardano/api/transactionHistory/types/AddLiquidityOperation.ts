@@ -1,14 +1,14 @@
-import { TokenAmount } from '@ergolabs/ergo-sdk/build/main/entities/tokenAmount';
-
-import { AmmPool } from '../../../../../../../common/models/AmmPool';
-import { Currency } from '../../../../../../../common/models/Currency';
+import { AmmPool } from '../../../../../common/models/AmmPool';
+import { Currency } from '../../../../../common/models/Currency';
 import {
   AddLiquidityItem,
   OperationStatus,
   OperationType,
-} from '../../../../../../../common/models/OperationV2';
-import { TxId } from '../../../../../../../common/types';
+} from '../../../../../common/models/OperationV2';
+import { TxId } from '../../../../../common/types';
+import { CardanoAmmPool } from '../../ammPools/CardanoAmmPool';
 import {
+  AssetAmountDescriptor,
   mapRawBaseExecutedOperationToBaseExecutedOperation,
   mapRawBaseOtherOperationToBaseOtherOperation,
   mapRawBaseRefundedOperationToBaseRefundedOperation,
@@ -21,8 +21,8 @@ import {
 export interface RawAddLiquidityOperation {
   readonly address: string;
   readonly poolId: string;
-  readonly inputX: TokenAmount;
-  readonly inputY: TokenAmount;
+  readonly inputX: AssetAmountDescriptor;
+  readonly inputY: AssetAmountDescriptor;
 }
 
 export interface RawAddLiquidityExecutedOperation
@@ -30,7 +30,7 @@ export interface RawAddLiquidityExecutedOperation
     RawAddLiquidityOperation {
   readonly actualX: string;
   readonly actualY: string;
-  readonly outputLp: TokenAmount;
+  readonly outputLp: AssetAmountDescriptor;
 }
 
 export type RawAddLiquidityRefundedOperation = RawBaseRefundedOperation &
@@ -40,7 +40,7 @@ export type RawAddLiquidityOtherOperation = RawBaseOtherOperation &
   RawAddLiquidityOperation;
 
 export interface RawAddLiquidityItem {
-  AmmDepositApi:
+  DepositOrderInfo:
     | RawAddLiquidityExecutedOperation
     | RawAddLiquidityRefundedOperation
     | RawAddLiquidityOtherOperation;
@@ -50,31 +50,42 @@ export const mapRawAddLiquidityItemToAddLiquidityItem: OperationMapper<
   RawAddLiquidityItem,
   AddLiquidityItem
 > = (item: RawAddLiquidityItem, ammPools: AmmPool[]): AddLiquidityItem => {
-  const { status, address, inputX, inputY, poolId } = item.AmmDepositApi;
-  const pool = ammPools.find((ap) => ap.id === poolId)!;
+  const { address, inputX, inputY, poolId } = item.DepositOrderInfo;
+  const pool = ammPools.find((ap) => {
+    const castedPool: CardanoAmmPool = ap as any;
 
-  if (status === OperationStatus.Evaluated) {
+    return (
+      `${castedPool.pool.id.policyId}.${castedPool.pool.id.name}` === poolId
+    );
+  })!;
+
+  if (item.DepositOrderInfo.status === OperationStatus.Evaluated) {
     return {
-      ...mapRawBaseExecutedOperationToBaseExecutedOperation(item.AmmDepositApi),
+      ...mapRawBaseExecutedOperationToBaseExecutedOperation(
+        item.DepositOrderInfo,
+      ),
       address,
       x: new Currency(
-        BigInt(item.AmmDepositApi?.actualX || inputX.amount),
+        BigInt(item.DepositOrderInfo?.actualX || inputX.amount),
         pool.x.asset,
       ),
       y: new Currency(
-        BigInt(item.AmmDepositApi?.actualY || inputY.amount),
+        BigInt(item.DepositOrderInfo?.actualY || inputY.amount),
         pool.y.asset,
       ),
-      lp: new Currency(BigInt(item.AmmDepositApi.outputLp.amount), {
-        id: item.AmmDepositApi.outputLp.tokenId,
-      }),
+      lp: new Currency(
+        BigInt(item.DepositOrderInfo.outputLp.amount),
+        pool.lp.asset,
+      ),
       pool,
       type: OperationType.AddLiquidity,
     };
   }
-  if (status === OperationStatus.Refunded) {
+  if (item.DepositOrderInfo.status === OperationStatus.Refunded) {
     return {
-      ...mapRawBaseRefundedOperationToBaseRefundedOperation(item.AmmDepositApi),
+      ...mapRawBaseRefundedOperationToBaseRefundedOperation(
+        item.DepositOrderInfo,
+      ),
       address,
       x: new Currency(BigInt(inputX.amount), pool.x.asset),
       y: new Currency(BigInt(inputY.amount), pool.y.asset),
@@ -83,7 +94,7 @@ export const mapRawAddLiquidityItemToAddLiquidityItem: OperationMapper<
     };
   }
   return {
-    ...mapRawBaseOtherOperationToBaseOtherOperation(item.AmmDepositApi),
+    ...mapRawBaseOtherOperationToBaseOtherOperation(item.DepositOrderInfo),
     address,
     x: new Currency(BigInt(inputX.amount), pool.x.asset),
     y: new Currency(BigInt(inputY.amount), pool.y.asset),
@@ -94,4 +105,4 @@ export const mapRawAddLiquidityItemToAddLiquidityItem: OperationMapper<
 
 export const getRegisterTxIdFromRawAddLiquidityItem = (
   rawSwapItem: RawAddLiquidityItem,
-): TxId => rawSwapItem.AmmDepositApi.registerTx.id;
+): TxId => rawSwapItem.DepositOrderInfo.registerTx.id;

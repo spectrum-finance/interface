@@ -1,9 +1,12 @@
+import { extractPaymentCred } from '@spectrumlabs/cardano-dex-sdk';
+import { RustModule } from '@spectrumlabs/cardano-dex-sdk/build/main/utils/rustLoader';
 import axios from 'axios';
 import {
   catchError,
   combineLatest,
   debounceTime,
   distinctUntilKeyChanged,
+  filter,
   first,
   from,
   interval,
@@ -14,21 +17,17 @@ import {
   publishReplay,
   refCount,
   startWith,
-  switchMap,
-} from 'rxjs';
+  switchMap, tap
+} from "rxjs";
 
-import { applicationConfig } from '../../../../../../applicationConfig';
-import { AmmPool } from '../../../../../../common/models/AmmPool';
-import { OperationItem } from '../../../../../../common/models/OperationV2';
-import { TxId } from '../../../../../../common/types';
-import { getAddresses } from '../../../addresses/addresses';
-import { allAmmPools$ } from '../../../ammPools/ammPools';
+import { applicationConfig } from '../../../../applicationConfig';
+import { AmmPool } from '../../../../common/models/AmmPool';
+import { TxId } from '../../../../common/types';
+import { getAddresses } from '../addresses/addresses';
+import { allAmmPools$ } from '../ammPools/ammPools';
 import { mapRawAddLiquidityItemToAddLiquidityItem } from './types/AddLiquidityOperation';
 import { OperationMapper } from './types/BaseOperation';
-import { mapRawLmDepositItemToLmDeposit } from './types/LmDepositOperation';
-import { mapRawLmRedeemItemToLmRedeem } from './types/LmRedeemOperation';
-import { mapRawLockItemToLockItem } from './types/LockOperation';
-import { RawOperationItem } from './types/OperationItem';
+import { OperationItem, RawOperationItem } from './types/OperationItem';
 import { mapRawRemoveLiquidityItemToRemoveLiquidityItem } from './types/RemoveLiquidityOperation';
 import { mapRawSwapItemToSwapItem } from './types/SwapOperation';
 
@@ -37,12 +36,9 @@ export interface OperationsHistoryRequestParams {
 }
 
 const mapKeyToParser = new Map<string, OperationMapper<any, any>>([
-  ['Swap', mapRawSwapItemToSwapItem],
-  ['AmmDepositApi', mapRawAddLiquidityItemToAddLiquidityItem],
-  ['AmmRedeemApi', mapRawRemoveLiquidityItemToRemoveLiquidityItem],
-  ['LmDepositApi', mapRawLmDepositItemToLmDeposit],
-  ['LmRedeemApi', mapRawLmRedeemItemToLmRedeem],
-  ['Lock', mapRawLockItemToLockItem],
+  ['SwapOrderInfo', mapRawSwapItemToSwapItem],
+  ['DepositOrderInfo', mapRawAddLiquidityItemToAddLiquidityItem],
+  ['RedeemOrderInfo', mapRawRemoveLiquidityItemToRemoveLiquidityItem],
 ]);
 
 const mapRawOperationItemToOperationItem = (
@@ -65,8 +61,12 @@ export const mempoolRawOperations$: Observable<RawOperationItem[]> =
     switchMap((addresses) =>
       from(
         axios.post(
-          `${applicationConfig.networksSettings.ergo.analyticUrl}history/mempool`,
-          addresses,
+          `${applicationConfig.networksSettings.cardano_mainnet.analyticUrl}mempool/order`,
+          {
+            userPkhs: addresses.map((a) =>
+              extractPaymentCred(a, RustModule.CardanoWasm),
+            ),
+          },
         ),
       ).pipe(catchError(() => of({ data: [] }))),
     ),
@@ -84,8 +84,13 @@ const getRawOperationsHistory = (
 ): Observable<[RawOperationItem[], number]> =>
   from(
     axios.post<{ orders: RawOperationItem[]; total: number }>(
-      `${applicationConfig.networksSettings.ergo.analyticUrl}history/order?limit=${limit}&offset=${offset}`,
-      { addresses, ...params },
+      `${applicationConfig.networksSettings.cardano_mainnet.analyticUrl}history/order?limit=${limit}&offset=${offset}`,
+      {
+        ...params,
+        userPkhs: addresses.map((a) =>
+          extractPaymentCred(a, RustModule.CardanoWasm),
+        ),
+      },
     ),
   ).pipe(
     map(
@@ -96,12 +101,13 @@ const getRawOperationsHistory = (
     refCount(),
   );
 
-const getRawOperations = (
+export const getRawOperations = (
   limit: number,
   offset: number,
   params: OperationsHistoryRequestParams = {},
 ): Observable<[RawOperationItem[], number]> => {
   return getAddresses().pipe(
+    filter((addresses) => !!addresses.length),
     first(),
     switchMap((addresses) =>
       mempoolRawOperations$.pipe(

@@ -8,6 +8,7 @@ import { Balance } from '../../common/models/Balance';
 import { Currency } from '../../common/models/Currency';
 import { Farm } from '../../common/models/Farm';
 import { Operation } from '../../common/models/Operation';
+import { OperationItem } from '../../common/models/OperationV2';
 import { PoolChartData } from '../../common/models/PoolChartData';
 import { Position } from '../../common/models/Position';
 import { CurrencyConverter } from '../../common/services/CurrencyConverter';
@@ -64,16 +65,15 @@ export interface NetworkData<W extends Wallet> {
 
   readonly getOperationByTxId: (
     txId: string,
-  ) => Observable<Operation | undefined>;
-  readonly getOperations: () => Observable<Operation[]>;
-  readonly syncOperations?: () => void;
-  readonly isOperationsSyncing$: Observable<boolean>;
-
-  readonly pendingOperations$: Observable<Operation[]>;
-  readonly queuedOperation$: Observable<Operation | undefined>;
-
+  ) => Observable<OperationItem | undefined>;
+  readonly getOperations: (
+    limit: number,
+    offset: number,
+  ) => Observable<[OperationItem[], number]>;
+  readonly pendingOperationsCount$: Observable<number>;
   readonly getPoolChartData: (
     pool?: AmmPool,
     params?: PoolChartDataParams,
   ) => Observable<PoolChartData[]>;
+  readonly queuedOperation$: Observable<Operation | undefined>;
 }

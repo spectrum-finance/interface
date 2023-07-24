@@ -39,7 +39,8 @@ import {
 import {
   getOperationByTxId,
   getOperations,
-} from './api/transactionHistory/transactionHistory';
+  pendingOperationsCount$,
+} from './api/transactionHistory/operationsHistory';
 import { AdditionalData } from './api/wallet/common/AdditionalData';
 import { Wallet } from './api/wallet/common/Wallet';
 import {
@@ -88,9 +89,6 @@ const makeCardanoNetwork = (
     getAddresses: getAddresses,
     getUsedAddresses: getUsedAddresses,
     getUnusedAddresses: getUnusedAddresses,
-    getOperationByTxId: getOperationByTxId,
-    getOperations,
-    isOperationsSyncing$: of(false),
 
     platformStats$,
     connectWallet: connectWallet,
@@ -141,7 +139,10 @@ const makeCardanoNetwork = (
     useNetworkAsset,
 
     getPoolChartData: getPoolChartData as any,
-    pendingOperations$: of([]),
+
+    getOperations,
+    getOperationByTxId,
+    pendingOperationsCount$,
     queuedOperation$: of(undefined),
   };
 };
