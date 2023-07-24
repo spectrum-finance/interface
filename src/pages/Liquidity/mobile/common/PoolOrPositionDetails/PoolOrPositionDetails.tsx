@@ -6,7 +6,9 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { ConnectWalletButton } from '../../../../../components/common/ConnectWalletButton/ConnectWalletButton';
-import { formatToUSD } from '../../../../../services/number';
+import { IsCardano } from '../../../../../components/IsCardano/IsCardano';
+import { IsErgo } from '../../../../../components/IsErgo/IsErgo';
+import { formatToAda, formatToUSD } from '../../../../../services/number';
 import { LiquidityPoolOrPositionDetailsProps } from '../../../common/types/LiquidityPoolOrPositionDetailsProps';
 import { DetailRow, DetailsBox } from '../DetailsBox/DetailsBox';
 
@@ -78,7 +80,16 @@ export const PoolOrPositionDetails: FC<
           <DetailsBox
             title={<Trans>TVL</Trans>}
             value={
-              <Trans>{tvl ? formatToUSD(tvl.toAmount(), 'abbr') : '—'}</Trans>
+              <Trans>
+                {tvl ? (
+                  <>
+                    <IsErgo>{formatToUSD(tvl.toAmount(), 'abbr')}</IsErgo>
+                    <IsCardano>{formatToAda(tvl.toAmount(), 'abbr')}</IsCardano>
+                  </>
+                ) : (
+                  '—'
+                )}
+              </Trans>
             }
           />
         </DetailRow>
@@ -87,7 +98,16 @@ export const PoolOrPositionDetails: FC<
             title={<Trans>Volume 24H</Trans>}
             value={
               <Trans>
-                {volume ? formatToUSD(volume.toAmount(), 'abbr') : '—'}
+                {volume ? (
+                  <>
+                    <IsErgo>{formatToUSD(volume.toAmount(), 'abbr')}</IsErgo>
+                    <IsCardano>
+                      {formatToAda(volume.toAmount(), 'abbr')}
+                    </IsCardano>
+                  </>
+                ) : (
+                  '—'
+                )}
               </Trans>
             }
           />
