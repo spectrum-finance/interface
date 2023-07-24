@@ -1,13 +1,13 @@
 import {
   AmmDexOperation,
   AmmOrder,
-} from '@ergolabs/cardano-dex-sdk/build/main/amm/models/operations';
+} from '@spectrumlabs/cardano-dex-sdk/build/main/amm/models/operations';
 import {
   Deposit,
   Redeem,
   Swap,
-} from '@ergolabs/cardano-dex-sdk/build/main/amm/models/orderInfo';
-import { mkSubject } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/assetClass';
+} from '@spectrumlabs/cardano-dex-sdk/build/main/amm/models/orderInfo';
+import { mkSubject } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/assetClass';
 import { DateTime } from 'luxon';
 import { catchError, combineLatest, first, map, Observable, of } from 'rxjs';
 
@@ -78,6 +78,7 @@ const mapToRedeemOperation = (
             mkSubject({
               policyId: order.inLq.asset.policyId,
               name: order.inLq.asset.name,
+              nameHex: order.inLq.asset.nameHex,
             }),
         )!,
     ),

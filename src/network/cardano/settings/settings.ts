@@ -1,11 +1,12 @@
-import { pubKeyHashFromAddr } from '@ergolabs/cardano-dex-sdk';
-import { RustModule } from '@ergolabs/cardano-dex-sdk/build/main/utils/rustLoader';
 import { PublicKey } from '@ergolabs/ergo-sdk';
 import { user } from '@spectrumlabs/analytics';
+import { pubKeyHashFromAddr } from '@spectrumlabs/cardano-dex-sdk';
+import { RustModule } from '@spectrumlabs/cardano-dex-sdk/build/main/utils/rustLoader';
 import { filter, map, Observable, startWith, zip } from 'rxjs';
 
 import { MIN_NITRO } from '../../../common/constants/erg';
 import { defaultSlippage } from '../../../common/constants/settings';
+import { useObservable } from '../../../common/hooks/useObservable';
 import { Address } from '../../../common/types';
 import { isCurrentAddressValid } from '../../../common/utils/isCurrenctAddressValid';
 import { localStorageManager } from '../../../common/utils/localStorageManager';
@@ -16,8 +17,9 @@ import {
   getUsedAddresses,
 } from '../api/addresses/addresses';
 import { networkAsset } from '../api/networkAsset/networkAsset';
+import { cardanoNetworkData } from '../utils/cardanoNetworkData';
 
-const SETTINGS_KEY = 'cardano-settings';
+const SETTINGS_KEY = cardanoNetworkData.settingsKey;
 
 export interface CardanoSettings extends BaseNetworkSettings {
   readonly ph?: PublicKey;
@@ -101,3 +103,9 @@ export const setSettings = (newSettings: CardanoSettings): void =>
 export const settings$: Observable<CardanoSettings> = localStorageManager
   .getStream<CardanoSettings>(SETTINGS_KEY)
   .pipe(map((settings) => settings || defaultCardanoSettings));
+
+export const useSettings = (): CardanoSettings => {
+  const [_settings] = useObservable(settings$, [], settings);
+
+  return _settings;
+};

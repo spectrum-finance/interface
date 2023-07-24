@@ -7,25 +7,28 @@ import * as ReactDOM from 'react-dom';
 
 import { ApplicationInitializer } from './App';
 import { IOSNotSupportedScreen } from './components/IOSNotSupportedScreen/IOSNotSupportedScreen';
+import { SettingsProvider } from './context';
 
 const init = () => {
+  const container = document.getElementById('app');
+
   if (
     isIOS &&
     osVersion <= '14' &&
     isMobile &&
     navigator.platform.indexOf('Mac') === -1
   ) {
-    ReactDOM.render(<IOSNotSupportedScreen />, document.getElementById('root'));
-
+    ReactDOM.render(<IOSNotSupportedScreen />, container);
     return;
   }
 
-  // TODO: fix toggle-group behavior after switch to react v18 root api.
   ReactDOM.render(
     <StrictMode>
-      <ApplicationInitializer />
+      <SettingsProvider>
+        <ApplicationInitializer />
+      </SettingsProvider>
     </StrictMode>,
-    document.getElementById('root'),
+    container,
   );
 };
 

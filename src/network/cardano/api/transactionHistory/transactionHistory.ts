@@ -2,16 +2,17 @@ import {
   extractPaymentCred,
   mkHistory,
   ScriptCredsV1,
-} from '@ergolabs/cardano-dex-sdk';
-import { mkOrdersParser } from '@ergolabs/cardano-dex-sdk/build/main/amm/parsers/ordersParser';
-import { History } from '@ergolabs/cardano-dex-sdk/build/main/amm/services/history';
-import { RustModule } from '@ergolabs/cardano-dex-sdk/build/main/utils/rustLoader';
+} from '@spectrumlabs/cardano-dex-sdk';
+import { mkOrdersParser } from '@spectrumlabs/cardano-dex-sdk/build/main/amm/parsers/ordersParser';
+import { History } from '@spectrumlabs/cardano-dex-sdk/build/main/amm/services/history';
+import { RustModule } from '@spectrumlabs/cardano-dex-sdk/build/main/utils/rustLoader';
 import uniqBy from 'lodash/uniqBy';
 import {
   combineLatest,
   defaultIfEmpty,
   first,
   from,
+  interval,
   map,
   Observable,
   publishReplay,
@@ -115,3 +116,13 @@ export const getOperationByTxId = (
     publishReplay(1),
     refCount(),
   );
+
+export const pendingCardanoOperations$: Observable<Operation[]> = interval(
+  applicationConfig.applicationTick,
+).pipe(
+  switchMap(() =>
+    getOperations().pipe(
+      map((op) => op.filter((op) => op.status === 'pending')),
+    ),
+  ),
+);

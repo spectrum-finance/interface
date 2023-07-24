@@ -1,25 +1,31 @@
+import { swapExFee } from '@spectrumlabs/cardano-dex-sdk';
 import { FC } from 'react';
 
+import { Currency } from '../../../../common/models/Currency';
 import { OperationSettings as BaseOperationSettings } from '../../../../components/OperationSettings/OperationSettings';
-import { useMaxExFee, useMinExFee } from '../../settings/executionFee';
-import { setSettings } from '../../settings/settings';
-import { useSettings } from '../utils';
+import { networkAsset } from '../../api/networkAsset/networkAsset';
+import { ammTxFeeMapping } from '../../api/operations/common/ammTxFeeMapping';
+import { minExecutorReward } from '../../api/operations/common/minExecutorReward';
+import { setSettings, useSettings } from '../../settings/settings';
 
 interface Props {
   hideNitro?: boolean;
   hideSlippage?: boolean;
 }
 export const OperationsSettings: FC<Props> = ({ hideNitro, hideSlippage }) => {
-  const minExFee = useMinExFee('swap');
-  const maxExFee = useMaxExFee('swap');
   const settings = useSettings();
+  const [minExFee, maxExFee] = swapExFee(
+    ammTxFeeMapping,
+    minExecutorReward,
+    settings.nitro,
+  );
 
   return (
     <BaseOperationSettings
       hideNitro={hideNitro}
       hideSlippage={hideSlippage}
-      minExFee={minExFee}
-      maxExFee={maxExFee}
+      minExFee={new Currency(minExFee, networkAsset)}
+      maxExFee={new Currency(maxExFee, networkAsset)}
       nitro={settings.nitro}
       slippage={settings.slippage}
       executionFeeAsset={settings.executionFeeAsset}

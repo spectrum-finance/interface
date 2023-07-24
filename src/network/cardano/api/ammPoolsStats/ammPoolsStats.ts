@@ -11,9 +11,9 @@ import {
   refCount,
 } from 'rxjs';
 
-import { applicationConfig } from '../../../../applicationConfig';
 import { PoolId } from '../../../../common/types';
 import { Dictionary } from '../../../../common/utils/Dictionary';
+import { cardanoNetworkData } from '../../utils/cardanoNetworkData';
 import { networkContext$ } from '../networkContext/networkContext';
 
 export interface AmmPoolAnalytics {
@@ -28,7 +28,7 @@ export const ammPoolsStats$: Observable<Dictionary<AmmPoolAnalytics>> =
     exhaustMap(() =>
       from(
         axios.get<AmmPoolAnalytics[]>(
-          `${applicationConfig.networksSettings.cardano.analyticUrl}pools/overview`,
+          `${cardanoNetworkData.analyticUrl}pools/overview`,
           {
             params: {
               after: 0,

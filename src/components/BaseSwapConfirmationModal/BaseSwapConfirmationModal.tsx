@@ -8,6 +8,7 @@ import { AmmPool } from '../../common/models/AmmPool';
 import { Currency } from '../../common/models/Currency';
 import { TxId } from '../../common/types';
 import { fireOperationAnalyticsEvent } from '../../gateway/analytics/fireOperationAnalyticsEvent';
+import { PriceImpactWarning } from '../../pages/Swap/PriceImpactWarning/PriceImpactWarning';
 import { SwapFormModel } from '../../pages/Swap/SwapFormModel';
 import { mapToSwapAnalyticsProps } from '../../utils/analytics/mapper';
 import { CurrencyPreview } from '../CurrencyPreview/CurrencyPreview';
@@ -23,6 +24,8 @@ export const BaseSwapConfirmationModal: FC<
   BaseSwapConfirmationModalProps<any>
 > = ({ value, onClose, swap, Info }) => {
   const form = useForm<SwapFormModel>(value);
+  const isPriceImpactHeight =
+    value.pool.calculatePriceImpact(value.fromAmount) > 5;
 
   const swapOperation = async () => {
     if (value.pool && value.fromAmount && value.toAmount) {
@@ -75,8 +78,19 @@ export const BaseSwapConfirmationModal: FC<
             <Flex.Item marginBottom={6}>
               <Info value={value} />
             </Flex.Item>
+            {isPriceImpactHeight && (
+              <Flex.Item marginBottom={6}>
+                <PriceImpactWarning />
+              </Flex.Item>
+            )}
             <Flex.Item>
-              <Button size="extra-large" type="primary" htmlType="submit" block>
+              <Button
+                size="extra-large"
+                type="primary"
+                htmlType="submit"
+                block
+                danger={isPriceImpactHeight}
+              >
                 <Trans>Confirm Swap</Trans>
               </Button>
             </Flex.Item>

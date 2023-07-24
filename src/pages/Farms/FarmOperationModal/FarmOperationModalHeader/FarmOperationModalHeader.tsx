@@ -44,7 +44,6 @@ const _FarmActionModalHeader: React.FC<FarmActionModalHeaderProps> = ({
                   width={194}
                   size="small"
                   placement="top"
-                  icon="exclamation"
                   content={
                     <>
                       {farm.totalStakedX.asset.ticker}:{' '}

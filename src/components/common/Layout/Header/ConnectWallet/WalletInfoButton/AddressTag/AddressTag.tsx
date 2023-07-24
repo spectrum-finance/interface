@@ -1,6 +1,8 @@
+import { Flex } from '@ergolabs/ui-kit';
 import { FC } from 'react';
 import styled from 'styled-components';
 
+import { SensitiveContentToggle } from '../../../../../../SensitiveContentToggle/SensitiveContentToggle.tsx';
 import { DataTag } from '../../../../../DataTag/DataTag';
 import { AddressContent } from './AddressContent/AddressContent';
 import { LoadingContent } from './LoadingContent/LoadingContent';
@@ -21,7 +23,16 @@ const _AddressOrPendingTag: FC<AddressOrPendingTagProps> = ({
       className={className}
       secondary
       content={
-        loading ? <LoadingContent /> : <AddressContent address={address} />
+        loading ? (
+          <LoadingContent />
+        ) : (
+          <Flex align="center">
+            <Flex.Item marginRight={1}>
+              <AddressContent address={address} />
+            </Flex.Item>
+            <SensitiveContentToggle />
+          </Flex>
+        )
       }
     />
   );

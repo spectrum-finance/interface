@@ -1,22 +1,15 @@
 import { Box, Flex, Typography } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 
-import { useSubject } from '../../../../../common/hooks/useObservable';
 import { AssetIcon } from '../../../../../components/AssetIcon/AssetIcon';
 import { BoxInfoItem } from '../../../../../components/BoxInfoItem/BoxInfoItem';
-import {
-  FeesView,
-  FeesViewItem,
-} from '../../../../../components/FeesView/FeesView';
+import { FeesView } from '../../../../../components/FeesView/FeesView';
 import { Truncate } from '../../../../../components/Truncate/Truncate';
 import { SwapFormModel } from '../../../../../pages/Swap/SwapFormModel';
 import { CardanoAmmPool } from '../../../api/ammPools/CardanoAmmPool';
-import { depositAda } from '../../../settings/depositAda';
-import { useMaxExFee, useMinExFee } from '../../../settings/executionFee';
-import { useMaxTotalFee, useMinTotalFee } from '../../../settings/totalFee';
-import { useTransactionFee } from '../../../settings/transactionFee';
-import { calculateSwapInfo, useSettings } from '../../utils';
+import { FeesSkeletonLoading } from '../../../components/FeesSkeletonLoading/FeesSkeletonLoading.tsx';
+import { useSwapTxInfo } from '../../common/useSwapTxInfo';
 
 export interface SwapConfirmationInfoProps {
   readonly value: SwapFormModel<CardanoAmmPool>;
@@ -25,28 +18,7 @@ export interface SwapConfirmationInfoProps {
 export const SwapConfirmationInfo: FC<SwapConfirmationInfoProps> = ({
   value,
 }) => {
-  const { nitro, slippage } = useSettings();
-  const minExFee = useMinExFee('swap');
-  const maxExFee = useMaxExFee('swap');
-  const minTotalFee = useMinTotalFee('swap');
-  const maxTotalFee = useMaxTotalFee('swap');
-  const transactionFee = useTransactionFee('swap');
-  const [swapInfo, updateSwapInfo] = useSubject(calculateSwapInfo);
-
-  useEffect(() => {
-    updateSwapInfo({
-      nitro,
-      slippage,
-      fromAmount: value.fromAmount,
-      pool: value.pool,
-      toAmount: value.toAmount,
-    });
-  }, [value.fromAmount, value.toAmount, value.pool, nitro, slippage]);
-
-  const fees: FeesViewItem[] = [
-    { caption: t`Execution Fee`, currency: [minExFee, maxExFee] },
-    { caption: t`Transaction Fee`, currency: transactionFee },
-  ];
+  const [swapTxInfo, isSwapTxInfoLoading, settings] = useSwapTxInfo(value);
 
   return (
     <Box secondary padding={4} borderRadius="l">
@@ -60,7 +32,7 @@ export const SwapConfirmationInfo: FC<SwapConfirmationInfoProps> = ({
             }
             value={
               <Typography.Body size="large" strong>
-                {slippage}%
+                {settings.slippage}%
               </Typography.Body>
             }
           />
@@ -74,7 +46,7 @@ export const SwapConfirmationInfo: FC<SwapConfirmationInfoProps> = ({
             }
             value={
               <Typography.Body size="large" strong>
-                {nitro}
+                {settings.nitro}
               </Typography.Body>
             }
           />
@@ -88,47 +60,29 @@ export const SwapConfirmationInfo: FC<SwapConfirmationInfoProps> = ({
             }
             value={
               <Typography.Body size="large" strong>
-                {swapInfo && (
+                {swapTxInfo && swapTxInfo.minOutput ? (
                   <Flex align="center">
                     <Flex.Item marginRight={2}>
                       <AssetIcon
-                        asset={swapInfo.minOutput?.asset}
+                        asset={swapTxInfo.minOutput?.asset}
                         size="small"
                       />
                     </Flex.Item>
-                    {swapInfo.minOutput?.toString()}{' '}
-                    <Truncate>{swapInfo.maxOutput?.asset.name}</Truncate>
+                    {swapTxInfo.minOutput?.toString()}{' '}
+                    <Truncate>{swapTxInfo.maxOutput?.asset.name}</Truncate>
                   </Flex>
-                )}
-              </Typography.Body>
-            }
-          />
-        </Flex.Item>
-        <Flex.Item marginBottom={2}>
-          <BoxInfoItem
-            title={
-              <Typography.Body size="large">
-                <Trans>Refundable deposit:</Trans>
-              </Typography.Body>
-            }
-            value={
-              <Typography.Body size="large" strong>
-                {swapInfo && (
-                  <>
-                    {depositAda.toString()}{' '}
-                    <Truncate>{depositAda.asset.name}</Truncate>
-                  </>
+                ) : (
+                  <FeesSkeletonLoading />
                 )}
               </Typography.Body>
             }
           />
         </Flex.Item>
         <FeesView
-          totalFees={{
-            minFeesForTotal: [minTotalFee],
-            maxFeesForTotal: [maxTotalFee],
-          }}
-          fees={fees}
+          feeItems={[{ caption: t`Network Fee`, fee: swapTxInfo?.txFee }]}
+          executionFee={[swapTxInfo?.minExFee, swapTxInfo?.maxExFee]}
+          refundableDeposit={swapTxInfo?.refundableDeposit}
+          isLoading={isSwapTxInfoLoading}
         />
       </Flex>
     </Box>

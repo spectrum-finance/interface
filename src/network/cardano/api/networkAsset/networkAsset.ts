@@ -1,4 +1,4 @@
-import { AdaAssetClass } from '@ergolabs/cardano-dex-sdk';
+import { AdaAssetClass } from '@spectrumlabs/cardano-dex-sdk';
 import { Observable, of, publishReplay, refCount } from 'rxjs';
 
 import { useObservable } from '../../../../common/hooks/useObservable';
@@ -13,6 +13,7 @@ export const networkAsset = {
   id: ADA_ID,
   decimals: ADA_DECIMALS,
   data: AdaAssetClass,
+  icon: '/token-ada.svg',
 };
 
 export const networkAsset$: Observable<AssetInfo> = of(networkAsset).pipe(

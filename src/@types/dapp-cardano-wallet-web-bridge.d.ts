@@ -1,10 +1,10 @@
 namespace CardanoBridge {
-  import { Paging } from '@ergolabs/cardano-dex-sdk';
+  import { HexString } from '@ergolabs/ergo-sdk';
+  import { Paging } from '@spectrumlabs/cardano-dex-sdk';
   import {
     RawTx,
     RawUnsignedTx,
-  } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/tx';
-  import { HexString } from '@ergolabs/ergo-sdk';
+  } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/tx';
 
   type EncodedTxOut = HexString;
   type EncodedBalance = HexString;
@@ -17,12 +17,12 @@ namespace CardanoBridge {
       amount?: EncodedAmount,
       paginate?: Paging,
     ): Promise<EncodedTxOut[] | undefined>;
-    getCollateral(params: {
-      amount: EncodedAmount;
+    getCollateral(params?: {
+      amount?: EncodedAmount;
     }): Promise<EncodedTxOut[] | undefined>;
     experimental: {
       getCollateral(params: {
-        amount: EncodedAmount;
+        amount?: EncodedAmount;
       }): Promise<EncodedTxOut[] | undefined>;
     };
     getChangeAddress(): Promise<EncodedAddress>;
@@ -37,6 +37,7 @@ namespace CardanoBridge {
   export interface ConnectorAPI {
     enable(): Promise<ConnectorContextApi>;
     isEnabled(): Promise<boolean>;
+    experimental?: any;
   }
 }
 

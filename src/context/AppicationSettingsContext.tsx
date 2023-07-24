@@ -8,16 +8,22 @@ import { DEFAULT_LOCALE, SupportedLocale } from '../common/constants/locales';
 import { localStorageManager } from '../common/utils/localStorageManager';
 import { isDarkOsTheme } from '../utils/osTheme';
 
+export type Theme = 'light' | 'dark' | 'system' | 'snek' | 'hosky';
+
 export type Settings = {
   explorerUrl: string;
-  theme: 'light' | 'dark' | 'system';
+  theme: Theme;
   lang: SupportedLocale;
+  isSensitiveHidden: boolean;
+  isCardanoDisclaimerModalConfirmed: boolean;
 };
 
 export const DefaultSettings: Readonly<Settings> = {
   explorerUrl: '',
   theme: isDarkOsTheme() ? 'dark' : 'light',
   lang: DEFAULT_LOCALE,
+  isSensitiveHidden: false,
+  isCardanoDisclaimerModalConfirmed: false,
 };
 
 function noop() {
@@ -38,7 +44,7 @@ const defaultContextValue: LocalStorageReturnValue<Settings> = [
   noop,
 ];
 
-const AppicationSettingsContext = createContext(defaultContextValue);
+const ApplicationSettingsContext = createContext(defaultContextValue);
 
 export const getSetting = (
   setting: keyof Settings,
@@ -85,14 +91,14 @@ export const SettingsProvider = ({
   }, [userSettings.lang]);
 
   return (
-    <AppicationSettingsContext.Provider value={ctxValue}>
+    <ApplicationSettingsContext.Provider value={ctxValue}>
       {children}
-    </AppicationSettingsContext.Provider>
+    </ApplicationSettingsContext.Provider>
   );
 };
 
 export const useApplicationSettings = (): LocalStorageReturnValue<Settings> =>
-  useContext(AppicationSettingsContext);
+  useContext(ApplicationSettingsContext);
 
 export const applicationSettings$: Observable<Settings> = localStorageManager
   .getStream<Settings>('settings')

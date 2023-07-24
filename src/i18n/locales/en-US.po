@@ -551,7 +551,7 @@ msgstr "Staking {0} and {1} in the farm"
 #: src/components/OperationHistoryModal/OperationHistoryV2/cells/TypeCell/TypeCell.tsx
 #: src/pages/Farms/FarmTableView/common/FarmAction/FarmAction.tsx
 #: src/pages/Farms/FarmTableView/common/FarmAction/FarmAction.tsx
-#: src/pages/Liquidity/common/components/LiquidityTitleExtra/LiquidityTitleExtra.tsx
+#: src/pages/Liquidity/common/components/LiquidityTitleExtra/LiquidityTitleButton.tsx
 msgid "Add liquidity"
 msgstr "Add liquidity"
 
@@ -2085,7 +2085,7 @@ msgstr "1% fee"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
-#: src/pages/Liquidity/common/components/LiquidityTitleExtra/LiquidityTitleExtra.tsx
+#: src/pages/Liquidity/common/components/LiquidityTitleExtra/LiquidityTitleButton.tsx
 msgid "Create pool"
 msgstr "Create pool"
 

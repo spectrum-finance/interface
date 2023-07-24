@@ -17,6 +17,7 @@ import {
 import findLast from 'lodash/findLast';
 import maxBy from 'lodash/maxBy';
 import { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   BehaviorSubject,
   combineLatest,
@@ -26,6 +27,8 @@ import {
   map,
   Observable,
   of,
+  publishReplay,
+  refCount,
   skip,
   switchMap,
   zip,
@@ -41,7 +44,6 @@ import { AssetInfo } from '../../common/models/AssetInfo';
 import { Currency } from '../../common/models/Currency';
 import { AssetControlFormItem } from '../../components/common/TokenControl/AssetControl';
 import { IsErgo } from '../../components/IsErgo/IsErgo';
-import { NewFeatureTag } from '../../components/NewFeatureTag/NewFeatureTag';
 import {
   OperationForm,
   OperationLoader,
@@ -66,9 +68,14 @@ import { useNetworkAsset } from '../../gateway/api/networkAsset';
 import { swap } from '../../gateway/api/operations/swap';
 import { useHandleSwapMaxButtonClick } from '../../gateway/api/useHandleSwapMaxButtonClick';
 import { useSwapValidators } from '../../gateway/api/validationFees';
+import { useSelectedNetwork } from '../../gateway/common/network.ts';
+import { useSettings } from '../../gateway/settings/settings';
 import { operationsSettings$ } from '../../gateway/widgets/operationsSettings';
+import { useGuardV2 } from '../../hooks/useGuard.ts';
 import { mapToSwapAnalyticsProps } from '../../utils/analytics/mapper';
+import { isPreLbspTimeGap } from '../../utils/lbsp.ts';
 import { PoolSelector } from './PoolSelector/PoolSelector';
+import { PriceImpactWarning } from './PriceImpactWarning/PriceImpactWarning';
 import { SwapFormModel } from './SwapFormModel';
 import { SwapGraph } from './SwapGraph/SwapGraph';
 import { SwapInfo } from './SwapInfo/SwapInfo';
@@ -95,6 +102,14 @@ const getAvailablePools = (xId?: string, yId?: string): Observable<AmmPool[]> =>
   xId && yId ? getAmmPoolsByAssetPair(xId, yId) : of([]);
 
 export const Swap = (): JSX.Element => {
+  const [selectedNetwork] = useSelectedNetwork();
+  const { slippage } = useSettings();
+  const navigate = useNavigate();
+  useGuardV2(
+    () => selectedNetwork.name !== 'ergo' && isPreLbspTimeGap(),
+    () => navigate(`/../../../../liquidity`),
+  );
+
   const form = useForm<SwapFormModel>({
     fromAmount: undefined,
     toAmount: undefined,
@@ -113,6 +128,22 @@ export const Swap = (): JSX.Element => {
     useSearchParams<{ base: string; quote: string; initialPoolId: string }>();
   const [OperationSettings] = useObservable(operationsSettings$);
   const [reversedRatio, setReversedRatio] = useState(false);
+  const [isPriceImpactHeight] = useObservable(
+    form.valueChanges$.pipe(
+      map((value) => {
+        if (!!value.pool && !!value.fromAmount) {
+          return value.pool.calculatePriceImpact(value.fromAmount);
+        } else {
+          return 0;
+        }
+      }),
+      map((priceImpact) => priceImpact > 5),
+      distinctUntilChanged(),
+      publishReplay(1),
+      refCount(),
+    ),
+  );
+
   const updateToAssets$ = useMemo(
     () => new BehaviorSubject<string | undefined>(undefined),
     [],
@@ -154,32 +185,46 @@ export const Swap = (): JSX.Element => {
       : undefined;
   };
 
-  const minValueForTokenValidator: OperationValidator<SwapFormModel> = ({
-    value: { toAmount, fromAmount, fromAsset, toAsset, pool },
-  }) => {
-    if (
-      !fromAmount?.isPositive() &&
-      toAmount &&
-      toAmount.isPositive() &&
-      pool &&
-      toAmount.gte(pool.getAssetAmount(toAmount.asset))
-    ) {
+  const minValueForTokenValidator: OperationValidator<SwapFormModel> = (
+    form,
+  ) => {
+    const {
+      value: { pool, toAmount, fromAsset, toAsset, fromAmount },
+    } = form;
+
+    if (!pool || !toAsset || !fromAsset) {
       return undefined;
     }
+    if (lastEditedField === 'from') {
+      const minValue = pool.calculateInputAmount(
+        new Currency(1n, toAsset),
+        slippage,
+      );
 
-    let minValue: Currency | undefined;
+      return !fromAmount?.isPositive() ||
+        (fromAmount && minValue.gt(fromAmount))
+        ? {
+            content: t`Min value for ${
+              minValue.asset.ticker
+            } is ${minValue.toString()}`,
+            action: () => form.controls.fromAmount.patchValue(minValue),
+          }
+        : undefined;
+    } else {
+      const minValue = pool.calculateOutputAmount(
+        new Currency(1n, fromAsset),
+        slippage,
+      );
 
-    if (!fromAmount?.isPositive() && toAmount?.isPositive() && pool) {
-      minValue = pool
-        .calculateOutputAmount(new Currency(1n, fromAsset))
-        .plus(1n);
+      return !toAmount?.isPositive() || (toAmount && minValue.gt(toAmount))
+        ? {
+            content: t`Min value for ${
+              minValue.asset.ticker
+            } is ${minValue.toString()}`,
+            action: () => form.controls.toAmount.patchValue(minValue),
+          }
+        : undefined;
     }
-    if (!toAmount?.isPositive() && fromAmount?.isPositive() && pool) {
-      minValue = pool.calculateInputAmount(new Currency(1n, toAsset));
-    }
-    return minValue
-      ? t`Min value for ${minValue.asset.ticker} is ${minValue?.toString()}`
-      : undefined;
   };
 
   const tokensNotSelectedValidator: OperationValidator<SwapFormModel> = ({
@@ -291,8 +336,12 @@ export const Swap = (): JSX.Element => {
           pools.find((p) => p.id === form.value.pool?.id) ||
           maxBy(pools, (p) => p.x.amount * p.y.amount);
       }
-
-      form.patchValue({ pool: newPool });
+      if (
+        !form.value.pool?.x.isEquals(newPool?.x) ||
+        !form.value.pool?.y.isEquals(newPool?.y)
+      ) {
+        form.patchValue({ pool: newPool });
+      }
     },
     [lastEditedField],
   );
@@ -378,14 +427,19 @@ export const Swap = (): JSX.Element => {
   const [fromAsset] = useObservable(
     form.controls.fromAsset.valueChangesWithSilent$,
   );
-  const validators: OperationValidator<SwapFormModel>[] = [
-    tokensNotSelectedValidator,
-    amountEnteredValidator,
-    minValueForTokenValidator,
-    insufficientFromForTxValidator,
-    ...swapNetworkValidators,
-    insufficientLiquidityValidator,
-  ];
+  const validators: OperationValidator<SwapFormModel>[] = useMemo(
+    () => [
+      tokensNotSelectedValidator,
+      amountEnteredValidator,
+      insufficientLiquidityValidator,
+      minValueForTokenValidator,
+      insufficientFromForTxValidator,
+      ...swapNetworkValidators,
+    ],
+    [balance, lastEditedField],
+  );
+
+  const loaders = useMemo(() => [isPoolLoading], []);
 
   return (
     <Page
@@ -409,11 +463,12 @@ export const Swap = (): JSX.Element => {
     >
       <OperationForm
         traceFormLocation={ElementLocation.swapForm}
+        isWarningButton={isPriceImpactHeight}
         actionCaption={t`Swap`}
         form={form}
         onSubmit={submitSwap}
         validators={validators}
-        loaders={[isPoolLoading]}
+        loaders={loaders}
       >
         <Flex col>
           <Flex row align="center">
@@ -428,11 +483,7 @@ export const Swap = (): JSX.Element => {
               icon={<LineChartOutlined />}
               onClick={() => setLeftWidgetOpened(!leftWidgetOpened)}
             />
-            {OperationSettings && (
-              <NewFeatureTag top={14} right={4} animate>
-                <OperationSettings />
-              </NewFeatureTag>
-            )}
+            {OperationSettings && <OperationSettings />}
           </Flex>
           <Flex.Item marginBottom={1} marginTop={2}>
             <AssetControlFormItem
@@ -489,6 +540,11 @@ export const Swap = (): JSX.Element => {
               </Flex.Item>
             )}
           </Form.Listener>
+          {isPriceImpactHeight && (
+            <Flex.Item marginTop={4}>
+              <PriceImpactWarning />
+            </Flex.Item>
+          )}
         </Flex>
       </OperationForm>
     </Page>

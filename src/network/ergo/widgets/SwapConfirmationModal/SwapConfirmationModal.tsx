@@ -5,7 +5,7 @@ import { TxId } from '../../../../common/types';
 import { BaseSwapConfirmationModal } from '../../../../components/BaseSwapConfirmationModal/BaseSwapConfirmationModal';
 import { SwapFormModel } from '../../../../pages/Swap/SwapFormModel';
 import { walletSwap } from '../../operations/swap/walletSwap';
-import { SwapConfirmationInfo } from '../common/SwapConfirmationInfo/SwapConfirmationInfo';
+import { SwapConfirmationInfo } from './SwapConfirmationInfo/SwapConfirmationInfo';
 
 export interface SwapConfirmationModal {
   readonly value: Required<SwapFormModel>;

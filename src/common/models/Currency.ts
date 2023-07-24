@@ -57,6 +57,14 @@ export class Currency {
     return a.id === this.asset.id;
   }
 
+  isEquals(a: Currency | undefined): boolean {
+    if (!a) {
+      return false;
+    }
+
+    return this.isAssetEquals(a.asset) && a.amount === this.amount;
+  }
+
   isPositive(): boolean {
     return this.amount > 0n;
   }

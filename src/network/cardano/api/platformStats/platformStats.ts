@@ -8,10 +8,10 @@ import {
   refCount,
 } from 'rxjs';
 
-import { applicationConfig } from '../../../../applicationConfig';
 import { usdAsset } from '../../../../common/constants/usdAsset';
 import { Currency } from '../../../../common/models/Currency';
 import { PlatformStats } from '../../../common/PlatformStats';
+import { cardanoNetworkData } from '../../utils/cardanoNetworkData';
 import { networkContext$ } from '../networkContext/networkContext';
 
 export const platformStats$: Observable<PlatformStats> = networkContext$.pipe(
@@ -19,7 +19,7 @@ export const platformStats$: Observable<PlatformStats> = networkContext$.pipe(
     from(
       from(
         axios.get<{ totalValueLocked: number; volume: number }>(
-          `${applicationConfig.networksSettings.cardano.analyticUrl}platform/stats`,
+          `${cardanoNetworkData.analyticUrl}platform/stats`,
         ),
       ),
     ),

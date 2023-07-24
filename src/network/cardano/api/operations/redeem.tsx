@@ -1,18 +1,8 @@
-import {
-  minBudgetForRedeem,
-  mkAmmActions,
-  mkAmmOutputs,
-  mkTxMath,
-  stakeKeyHashFromAddr,
-  TxCandidate,
-} from '@ergolabs/cardano-dex-sdk';
-import { OrderKind } from '@ergolabs/cardano-dex-sdk/build/main/amm/models/opRequests';
-import { OrderAddrsV1Testnet } from '@ergolabs/cardano-dex-sdk/build/main/amm/scripts';
-import { NetworkParams } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/env';
-import { RustModule } from '@ergolabs/cardano-dex-sdk/build/main/utils/rustLoader';
+import { Transaction } from '@emurgo/cardano-serialization-lib-nodejs';
+import { RedeemTxInfo, TxCandidate } from '@spectrumlabs/cardano-dex-sdk';
+import { NetworkParams } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/env';
 import { first, map, Observable, Subject, switchMap, tap, zip } from 'rxjs';
 
-import { UI_FEE_BIGINT } from '../../../../common/constants/erg';
 import { Currency } from '../../../../common/models/Currency';
 import { TxId } from '../../../../common/types';
 import {
@@ -20,15 +10,14 @@ import {
   Operation,
 } from '../../../../components/ConfirmationModal/ConfirmationModal';
 import { RemoveLiquidityFormModel } from '../../../../pages/RemoveLiquidity/RemoveLiquidityFormModel';
-import { depositAda } from '../../settings/depositAda';
 import { CardanoSettings, settings$ } from '../../settings/settings';
 import { RedeemConfirmationModal } from '../../widgets/RedeemConfirmationModal/RedeemConfirmationModal';
 import { CardanoAmmPool } from '../ammPools/CardanoAmmPool';
 import { cardanoNetworkParams$ } from '../common/cardanoNetwork';
-import { getUtxosByAmount } from '../utxos/utxos';
 import { ammTxFeeMapping } from './common/ammTxFeeMapping';
 import { minExecutorReward } from './common/minExecutorReward';
-import { submitTx } from './common/submitTx';
+import { submitTx } from './common/submitTxCandidate';
+import { transactionBuilder$ } from './common/transactionBuilder';
 
 interface DepositTxCandidateConfig {
   readonly pool: CardanoAmmPool;
@@ -40,64 +29,30 @@ interface DepositTxCandidateConfig {
 const toRedeemTxCandidate = ({
   pool,
   settings,
-  networkParams,
   lq,
-}: DepositTxCandidateConfig): Observable<TxCandidate> => {
+}: DepositTxCandidateConfig): Observable<Transaction> => {
   if (!settings.address || !settings.ph) {
     throw new Error('[deposit]: wallet address is not selected');
   }
-
-  const txMath = mkTxMath(networkParams.pparams, RustModule.CardanoWasm);
-  const ammOutputs = mkAmmOutputs(
-    OrderAddrsV1Testnet,
-    txMath,
-    RustModule.CardanoWasm,
-  );
-  const ammActions = mkAmmActions(ammOutputs, settings.address);
   const lqAmount = pool.pool.lp.withAmount(lq.amount);
-  const [estimatedOutputX, estimatedOutputY] = pool.pool.shares(lqAmount);
 
-  const redeemVariables = minBudgetForRedeem(
-    lqAmount,
-    estimatedOutputX,
-    estimatedOutputY,
-    ammTxFeeMapping,
-    minExecutorReward + depositAda.amount,
-    UI_FEE_BIGINT,
-    txMath,
-  );
-
-  if (!redeemVariables) {
-    throw new Error('incorrect redeem variables');
-  }
-
-  const [redeemBudget, redeemValue] = redeemVariables;
-
-  return getUtxosByAmount(redeemValue).pipe(
-    map((utxos) =>
-      ammActions.createOrder(
-        {
-          kind: OrderKind.Redeem,
-          poolId: pool.pool.id,
-          x: pool.pool.x.asset,
-          y: pool.pool.y.asset,
-          lq: lqAmount,
-          rewardPkh: settings.ph!,
-          stakePkh: stakeKeyHashFromAddr(
-            settings.address!,
-            RustModule.CardanoWasm,
-          ),
-          exFee: minExecutorReward + ammTxFeeMapping.redeemExecution,
-          uiFee: UI_FEE_BIGINT,
-          orderValue: redeemBudget,
-        },
-        {
-          changeAddr: settings.address!,
-          collateralInputs: [],
-          inputs: utxos.map((u) => ({ txOut: u })),
-        },
-      ),
+  return transactionBuilder$.pipe(
+    switchMap((txBuilder) =>
+      txBuilder.redeem({
+        lq: lqAmount,
+        pool: pool.pool,
+        slippage: settings.slippage,
+        txFees: ammTxFeeMapping,
+        minExecutorReward: minExecutorReward,
+        changeAddress: settings.address!,
+        pk: settings.ph!,
+      }),
     ),
+    map(
+      ([transaction]: [Transaction | null, TxCandidate, RedeemTxInfo]) =>
+        transaction!,
+    ),
+    first(),
   );
 };
 
@@ -115,7 +70,7 @@ export const walletRedeem = (
         settings,
       }),
     ),
-    switchMap(submitTx),
+    switchMap((tx) => submitTx(tx)),
   );
 
 export const redeem = (

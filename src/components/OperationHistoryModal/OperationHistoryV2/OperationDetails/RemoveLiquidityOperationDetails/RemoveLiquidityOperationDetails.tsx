@@ -20,7 +20,7 @@ export const RemoveLiquidityOperationDetails: FC<RemoveLiquidityOperationDetails
     <OperationDetailsContainer
       leftSide={
         <TransactionDetails
-          title={t`Sent`}
+          title={t`Placed Order`}
           dateTime={removeLiquidityItem.registerTx.dateTime}
           transactionId={removeLiquidityItem.registerTx.id}
           content={
@@ -34,7 +34,7 @@ export const RemoveLiquidityOperationDetails: FC<RemoveLiquidityOperationDetails
         <>
           {removeLiquidityItem.status === OperationStatus.Evaluated && (
             <TransactionDetails
-              title={t`Received`}
+              title={t`Executed Order`}
               dateTime={removeLiquidityItem.evaluateTx.dateTime}
               transactionId={removeLiquidityItem.evaluateTx.id}
               content={
@@ -50,11 +50,11 @@ export const RemoveLiquidityOperationDetails: FC<RemoveLiquidityOperationDetails
             />
           )}
           {removeLiquidityItem.status === OperationStatus.Pending && (
-            <TransactionPending title={t`Received`} />
+            <TransactionPending title={t`Executed Order`} />
           )}
           {removeLiquidityItem.status === OperationStatus.Refunded && (
             <TransactionDetails
-              title={t`Received`}
+              title={t`Executed Order`}
               dateTime={removeLiquidityItem.refundTx.dateTime}
               transactionId={removeLiquidityItem.refundTx.id}
               content={

@@ -1,7 +1,20 @@
 import { FC } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
-import PrismSrc from './prism.png';
+import SnekImg1 from './snek-img-1.png';
+import SnekImg2 from './snek-img-2.png';
+
+const snekAnimation = keyframes`
+  0% {
+    transform: rotate(1deg);
+  }
+  50% {
+    transform: rotate(4deg);
+  }
+  100% {
+    transform: rotate(1deg);
+  }
+`;
 
 const GlowContainer = styled.div`
   background: var(--spectrum-glow-gradient);
@@ -13,18 +26,49 @@ const GlowContainer = styled.div`
   height: 100%;
   z-index: -1;
 
-  img {
-    position: absolute;
-    top: 30px;
-    max-width: 839px;
-    width: 100%;
+  .background-image {
+    background-image: var(--spectrum-glow-image);
+    position: fixed;
+    background-size: cover;
+    top: 50%;
+    width: var(--spectrum-glow-image-width);
+    height: 100%;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate(-50%, -50%);
+  }
+
+  .snek-theme-images {
+    display: none;
+
+    .img-1 {
+      position: absolute;
+      left: -60px;
+      top: 60px;
+      width: 60%;
+      min-width: 300px;
+      max-width: 200px;
+      z-index: 3;
+    }
+
+    .img-2 {
+      position: absolute;
+      left: -60px;
+      top: 60px;
+      width: 60%;
+      min-width: 300px;
+      max-width: 200px;
+      z-index: 2;
+      animation: ${snekAnimation} 5s linear infinite;
+    }
   }
 `;
 
 export const Glow: FC = () => (
   <GlowContainer>
-    <img src={PrismSrc} />
+    <div className="snek-theme-images">
+      <img className="img-1" src={SnekImg1} alt="snek" />
+      <img className="img-2" src={SnekImg2} alt="snek" />
+    </div>
+    <div className="background-image" />
   </GlowContainer>
 );

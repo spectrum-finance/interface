@@ -6,6 +6,7 @@ import { Currency } from '../../../../common/models/Currency';
 import { AssetIcon } from '../../../AssetIcon/AssetIcon';
 import { ConvenientAssetView } from '../../../ConvenientAssetView/ConvenientAssetView';
 import { PageSection } from '../../../Page/PageSection/PageSection';
+import { SensitiveContent } from '../../../SensitiveContent/SensitiveContent.tsx';
 import { Truncate } from '../../../Truncate/Truncate';
 
 interface PairSpaceProps {
@@ -61,8 +62,11 @@ const FormPairSection: React.FC<PairSpaceProps> = ({
             <Flex.Item>
               <Flex>
                 <Typography.Body strong align="right" size="large">
-                  {fees ? undefined : xAmount.toString()} (
-                  <ConvenientAssetView value={xAmount} />)
+                  {fees ? undefined : (
+                    <SensitiveContent>{xAmount.toString()}</SensitiveContent>
+                  )}{' '}
+                  (
+                  <ConvenientAssetView sensitive value={xAmount} />)
                 </Typography.Body>
               </Flex>
             </Flex.Item>
@@ -87,8 +91,11 @@ const FormPairSection: React.FC<PairSpaceProps> = ({
             <Flex.Item>
               <Flex>
                 <Typography.Body strong align="right" size="large">
-                  {fees ? undefined : yAmount.toString()} (
-                  <ConvenientAssetView value={yAmount} />)
+                  {fees ? undefined : (
+                    <SensitiveContent>{yAmount.toString()}</SensitiveContent>
+                  )}{' '}
+                  (
+                  <ConvenientAssetView sensitive value={yAmount} />)
                 </Typography.Body>
               </Flex>
             </Flex.Item>

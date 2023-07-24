@@ -42,7 +42,7 @@ const _FeeBox: FC<FeeBoxProps> = ({
     {active && <ActiveIcon />}
     <Flex col justify="center" stretch>
       <Flex.Item marginBottom={1}>
-        <Typography.Body strong>{content}</Typography.Body>
+        <Typography.Title level={4}>{content}</Typography.Title>
       </Flex.Item>
       <Typography.Body size="small" secondary>
         {description}
@@ -56,10 +56,10 @@ export const FeeBox = styled(_FeeBox)`
   cursor: pointer;
   height: 90px;
   position: relative;
+  border-color: ${(props) =>
+    props.active ? 'var(--spectrum-primary-color)' : ''} !important;
 
   &:hover {
     border-color: var(--spectrum-primary-color);
   }
-
-  ${(props) => props.active && 'border-color: var(--spectrum-primary-color)'}
 `;

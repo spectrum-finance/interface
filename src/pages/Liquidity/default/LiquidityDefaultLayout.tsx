@@ -1,9 +1,11 @@
-import { Flex, Tabs } from '@ergolabs/ui-kit';
-import { t } from '@lingui/macro';
+import { Button, Flex, Tabs } from '@ergolabs/ui-kit';
+import { t, Trans } from '@lingui/macro';
 import { FC } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { SearchInput } from '../../../components/SearchInput/SearchInput';
+import { useCreatePoolAvailable } from '../../../gateway/api/createPool';
 import { LiquidityFilter } from '../common/components/LiquidityFilter/LiquidityFilter';
 import { LiquidityLayoutProps } from '../common/types/LiquidityLayoutProps';
 import { LiquidityState } from '../common/types/LiquidityState';
@@ -19,6 +21,7 @@ const LiquidityTabs = styled(Tabs)`
 
   .ant-tabs-nav {
     margin-bottom: calc(var(--spectrum-base-gutter) * 2) !important;
+    justify-content: space-between;
   }
 
   .ant-tabs-extra-content {
@@ -41,8 +44,10 @@ export const LiquidityDefaultLayout: FC<LiquidityLayoutProps> = ({
   positionsWithLocks,
   showLockedPositions,
 }) => {
+  const createPoolAvailable = useCreatePoolAvailable();
+  const navigate = useNavigate();
   const LiquidityStateCaptions = {
-    [LiquidityState.POOLS_OVERVIEW]: t`Pools Overview`,
+    [LiquidityState.POOLS_OVERVIEW]: t`All Pools`,
     [LiquidityState.YOUR_POSITIONS]: t`Your Positions`,
     [LiquidityState.LOCKED_POSITIONS]: t`Locked Positions`,
   };
@@ -62,7 +67,19 @@ export const LiquidityDefaultLayout: FC<LiquidityLayoutProps> = ({
                 size="large"
               />
             </Flex.Item>
-            <LiquidityFilter value={filters} onChange={setFilters} />
+            <Flex.Item marginRight={1}>
+              <LiquidityFilter value={filters} onChange={setFilters} />
+            </Flex.Item>
+            {createPoolAvailable && (
+              <Button
+                size="large"
+                onClick={() => {
+                  navigate('create');
+                }}
+              >
+                <Trans>Create Pool</Trans>
+              </Button>
+            )}
           </Flex>
         ),
       }}

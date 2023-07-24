@@ -9,7 +9,7 @@ import { TxId } from '../../../../common/types';
 import { CurrencyPreview } from '../../../../components/CurrencyPreview/CurrencyPreview';
 import { SwapFormModel } from '../../../../pages/Swap/SwapFormModel';
 import { ergoPaySwap } from '../../operations/swap/ergopaySwap';
-import { SwapConfirmationInfo } from '../common/SwapConfirmationInfo/SwapConfirmationInfo';
+import { SwapConfirmationInfo } from '../SwapConfirmationModal/SwapConfirmationInfo/SwapConfirmationInfo';
 
 export interface ErgoPayOpenWalletContentProps {
   readonly value: Required<SwapFormModel>;

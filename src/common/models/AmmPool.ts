@@ -1,5 +1,5 @@
-import { AmmPool as CardanoBaseAmmPool } from '@ergolabs/cardano-dex-sdk';
 import { AmmPool as ErgoBaseAmmPool } from '@ergolabs/ergo-dex-sdk';
+import { AmmPool as CardanoBaseAmmPool } from '@spectrumlabs/cardano-dex-sdk';
 import { evaluate } from 'mathjs';
 
 import { math, renderFractions } from '../../utils/math';
@@ -47,9 +47,15 @@ export abstract class AmmPool {
 
   abstract calculateDepositAmount(currency: Currency): Currency;
 
-  abstract calculateInputAmount(currency: Currency): Currency;
+  abstract calculateInputAmount(
+    currency: Currency,
+    slippage?: number,
+  ): Currency;
 
-  abstract calculateOutputAmount(currency: Currency): Currency;
+  abstract calculateOutputAmount(
+    currency: Currency,
+    slippage?: number,
+  ): Currency;
 
   get poolFee(): number {
     return evaluate(`(1 - ${this.feeNum} / 1000) * 100`).toFixed(1);

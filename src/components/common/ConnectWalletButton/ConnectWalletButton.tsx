@@ -5,12 +5,12 @@ import {
 } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import { fireAnalyticsEvent, TraceProps } from '@spectrumlabs/analytics';
-import cn from 'classnames';
 import { FC, ReactNode } from 'react';
 
 import { useObservable } from '../../../common/hooks/useObservable';
 import { isWalletSetuped$ } from '../../../gateway/api/wallets';
 import { ChooseWalletModal } from './ChooseWalletModal/ChooseWalletModal';
+import { VesprConnectButton } from './VesprConnectButton/VesprConnectButton';
 
 export interface ConnectWalletButtonProps {
   readonly size?: ButtonProps['size'];
@@ -35,17 +35,23 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = ({
   };
 
   return (
-    <>
+    <VesprConnectButton
+      size={size}
+      className={className}
+      isWalletConnected={isWalletConnected}
+      width={width}
+      trace={trace}
+    >
       <SpectrumConnectWalletButton
         size={size}
         onClick={openChooseWalletModal}
-        className={cn(className, 'connect-wallet-btn')}
+        className={className}
         isWalletConnected={isWalletConnected}
         caption={<Trans>Connect wallet</Trans>}
         width={width}
       >
         {children}
       </SpectrumConnectWalletButton>
-    </>
+    </VesprConnectButton>
   );
 };

@@ -25,7 +25,7 @@ const LowBalanceWarning: React.FC<LowBalanceWarningProps> = ({
         <Flex.Item marginBottom={2}>
           <Typography.Body>
             <Trans>
-              {network.networkAsset.name} balance is low You need{' '}
+              {network.networkAsset.name} balance is low. You need{' '}
               {network.networkAsset.name} to pay transaction fees
             </Trans>
           </Typography.Body>

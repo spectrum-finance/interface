@@ -4,8 +4,8 @@ import {
   AmmPool as CardanoBaseAmmPool,
   AssetAmount,
   AssetClass,
-} from '@ergolabs/cardano-dex-sdk';
-import { mkSubject } from '@ergolabs/cardano-dex-sdk/build/main/cardano/entities/assetClass';
+} from '@spectrumlabs/cardano-dex-sdk';
+import { mkSubject } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/assetClass';
 
 import { usdAsset } from '../../../../common/constants/usdAsset';
 import { AmmPool } from '../../../../common/models/AmmPool';
@@ -24,7 +24,7 @@ export class CardanoAmmPool extends AmmPool {
   constructor(
     public pool: CardanoBaseAmmPool,
     private assetInfoDictionary: AssetInfoDictionary,
-    private poolAnalytics: AmmPoolAnalytics,
+    private poolAnalytics: AmmPoolAnalytics | undefined,
   ) {
     super();
   }
@@ -54,7 +54,7 @@ export class CardanoAmmPool extends AmmPool {
   }
 
   get yearlyFeesPercent(): number | undefined {
-    return this.poolAnalytics.yearlyFeesPercent;
+    return this.poolAnalytics?.yearlyFeesPercent || 0;
   }
 
   get lp(): Currency {
@@ -126,9 +126,10 @@ export class CardanoAmmPool extends AmmPool {
     );
   }
 
-  calculateInputAmount(currency: Currency): Currency {
+  calculateInputAmount(currency: Currency, slippage?: number): Currency {
     const inputAmount = this.pool.inputAmount(
       new AssetAmount(this.toAssetClass(currency.asset), currency.amount),
+      slippage,
     );
 
     if (!inputAmount) {
@@ -144,9 +145,10 @@ export class CardanoAmmPool extends AmmPool {
     );
   }
 
-  calculateOutputAmount(currency: Currency): Currency {
+  calculateOutputAmount(currency: Currency, slippage?: number): Currency {
     const outputAmount = this.pool.outputAmount(
       new AssetAmount(this.toAssetClass(currency.asset), currency.amount),
+      slippage,
     );
 
     return new Currency(

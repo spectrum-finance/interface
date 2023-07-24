@@ -6,6 +6,7 @@ import { useObservable } from '../../../../../common/hooks/useObservable';
 import { Farm } from '../../../../../common/models/Farm';
 import { AssetIcon } from '../../../../../components/AssetIcon/AssetIcon';
 import { ConvenientAssetView } from '../../../../../components/ConvenientAssetView/ConvenientAssetView';
+import { SensitiveContent } from '../../../../../components/SensitiveContent/SensitiveContent.tsx';
 import { isWalletSetuped$ } from '../../../../../gateway/api/wallets';
 
 export interface NextRewardCellProps {
@@ -95,8 +96,17 @@ export const ClaimedRewardsCell: FC<NextRewardCellProps> = ({ farm }) => {
               <Typography.Body strong>
                 {farm.collectedRewards?.isPositive() ? (
                   <>
-                    {farm.collectedRewards?.toCurrencyString()} (
-                    {<ConvenientAssetView value={farm.collectedRewards} />})
+                    <SensitiveContent>
+                      {farm.collectedRewards?.toCurrencyString()}
+                    </SensitiveContent>
+                    (
+                    {
+                      <ConvenientAssetView
+                        sensitive
+                        value={farm.collectedRewards}
+                      />
+                    }
+                    )
                   </>
                 ) : (
                   '–'

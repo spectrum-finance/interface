@@ -19,6 +19,6 @@ export const PairAssetBox: FC<SingleAssetBoxProps> = ({ pair }) => (
         gap={1}
       />
     }
-    value={<ConvenientAssetView value={pair} />}
+    value={<ConvenientAssetView sensitive value={pair} />}
   />
 );

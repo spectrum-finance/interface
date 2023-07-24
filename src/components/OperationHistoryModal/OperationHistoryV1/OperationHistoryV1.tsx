@@ -28,6 +28,15 @@ export interface OperationHistoryV1Props extends ModalRef {
   readonly showDateTime?: boolean;
 }
 
+const enrichRefundOperationsWithBadge = (operations: any) => {
+  return operations.map((item) => {
+    return {
+      ...item,
+      isActionBadgeShown: item.status && item.status === 'locked',
+    };
+  });
+};
+
 export const OperationHistoryV1: FC<OperationHistoryV1Props> = ({ close }) => {
   const [operations, operationsLoading] = useObservable(getOperations(), []);
   const [isOperationsSyncing] = useObservable(isOperationsSyncing$);
@@ -35,7 +44,7 @@ export const OperationHistoryV1: FC<OperationHistoryV1Props> = ({ close }) => {
   const [term, setTerm] = useState<string | undefined>();
 
   const filteredOperations = operations
-    ? filterOperations(operations, term)
+    ? enrichRefundOperationsWithBadge(filterOperations(operations, term))
     : [];
 
   return (

@@ -46,6 +46,7 @@ const _WalletInfoButton: FC<WalletInfoButtonProps> = ({ className }) => {
             </Flex.Item>
           </>
         )}
+
         <AddressTag
           loading={networkAssetBalance === undefined}
           address={settings?.address}

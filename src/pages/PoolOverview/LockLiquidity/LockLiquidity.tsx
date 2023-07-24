@@ -63,7 +63,7 @@ export const LockLiquidity: FC<LockLiquidityProps> = ({
                 until the due date is reached.
               </Trans>
             }
-            secondary
+            color="secondary"
           >
             <Typography.Body strong>
               <Trans>Locked liquidity</Trans>

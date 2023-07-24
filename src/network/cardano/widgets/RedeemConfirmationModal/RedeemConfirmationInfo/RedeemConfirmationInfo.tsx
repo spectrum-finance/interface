@@ -1,44 +1,31 @@
-import { Flex, Typography } from '@ergolabs/ui-kit';
-import { t, Trans } from '@lingui/macro';
+import { Flex } from '@ergolabs/ui-kit';
+import { t } from '@lingui/macro';
 import { FC } from 'react';
 
-import { BoxInfoItem } from '../../../../../components/BoxInfoItem/BoxInfoItem';
-import {
-  FeesView,
-  FeesViewItem,
-} from '../../../../../components/FeesView/FeesView';
-import { Truncate } from '../../../../../components/Truncate/Truncate';
-import { depositAda } from '../../../settings/depositAda';
-import { useMinExFee } from '../../../settings/executionFee';
-import { useTransactionFee } from '../../../settings/transactionFee';
+import { FeesView } from '../../../../../components/FeesView/FeesView';
+import { RemoveLiquidityFormModel } from '../../../../../pages/RemoveLiquidity/RemoveLiquidityFormModel';
+import { CardanoAmmPool } from '../../../api/ammPools/CardanoAmmPool';
+import { useRedeemTxInfo } from '../../common/useRedeemTxInfo';
 
-export const RedeemConfirmationInfo: FC = () => {
-  const minExFee = useMinExFee('swap');
-  const transactionFee = useTransactionFee('swap');
+export interface RedeemConfirmationInfoProps {
+  readonly value: RemoveLiquidityFormModel;
+  readonly pool: CardanoAmmPool;
+}
 
-  const fees: FeesViewItem[] = [
-    { caption: t`Execution Fee`, currency: minExFee },
-    { caption: t`Transaction Fee`, currency: transactionFee },
-  ];
+export const RedeemConfirmationInfo: FC<RedeemConfirmationInfoProps> = ({
+  value,
+  pool,
+}) => {
+  const [redeemTxInfo, isRedeemTxInfoLoading] = useRedeemTxInfo(value, pool);
 
   return (
     <Flex col>
-      <Flex.Item marginBottom={2}>
-        <BoxInfoItem
-          title={
-            <Typography.Body size="large">
-              <Trans>Refundable deposit:</Trans>
-            </Typography.Body>
-          }
-          value={
-            <Typography.Body size="large" strong>
-              {depositAda.toString()}{' '}
-              <Truncate>{depositAda.asset.name}</Truncate>
-            </Typography.Body>
-          }
-        />
-      </Flex.Item>
-      <FeesView totalFees={[minExFee, transactionFee]} fees={fees} />
+      <FeesView
+        feeItems={[{ caption: t`Network Fee`, fee: redeemTxInfo?.txFee }]}
+        executionFee={redeemTxInfo?.exFee}
+        refundableDeposit={redeemTxInfo?.refundableDeposit}
+        isLoading={isRedeemTxInfoLoading}
+      />
     </Flex>
   );
 };

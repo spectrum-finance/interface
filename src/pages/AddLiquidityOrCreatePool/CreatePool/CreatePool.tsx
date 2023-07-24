@@ -1,7 +1,8 @@
-import { Flex, Form, FormGroup, useForm } from '@ergolabs/ui-kit';
+import { Animation, Flex, Form, FormGroup, useForm } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
 import { ElementLocation, ElementName } from '@spectrumlabs/analytics';
 import { FC, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { skip } from 'rxjs';
 
 import { useSubscription } from '../../../common/hooks/useObservable';
@@ -20,8 +21,10 @@ import {
 import { RatioBox } from '../../../components/RatioBox/RatioBox';
 import { Section } from '../../../components/Section/Section';
 import { useAssetsBalance } from '../../../gateway/api/assetBalance';
+import { useCreatePoolAvailable } from '../../../gateway/api/createPool';
 import { useNetworkAsset } from '../../../gateway/api/networkAsset';
 import { useCreatePoolValidationFee } from '../../../gateway/api/validationFees';
+import { useGuardV2 } from '../../../hooks/useGuard';
 import { normalizeAmountWithFee } from '../common/utils';
 import { LiquidityPercentInput } from '../LiquidityPercentInput/LiquidityPercentInput';
 import { CreatePoolConfirmationModal } from './CreatePoolConfirmationModal/CreatePoolConfirmationModal';
@@ -38,6 +41,8 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
   const [lastEditedField, setLastEditedField] = useState<'x' | 'y'>('x');
   const [balance] = useAssetsBalance();
   const [networkAsset] = useNetworkAsset();
+  const createPoolAvailable = useCreatePoolAvailable();
+  const navigate = useNavigate();
   const totalFees = useCreatePoolValidationFee();
   const form = useForm<CreatePoolFormModel>({
     initialPrice: undefined,
@@ -47,6 +52,11 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
     y: undefined,
     fee: undefined,
   });
+
+  useGuardV2(
+    () => !createPoolAvailable,
+    () => navigate('../../swap'),
+  );
 
   useEffect(() => {
     if (xAsset?.id !== form.value.xAsset?.id) {
@@ -390,8 +400,9 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
       <Flex col>
         <Flex.Item marginBottom={4}>
           <Section
-            title={t`Choose a fee`}
-            tooltip={t`The % you will earn in fees`}
+            title={t`Set a fee tier`}
+            tooltip={t`This percentage will represent the earnings all liquidity providers receive from swap fees.`}
+            tooltipWidth={250}
           >
             <Form.Item name="fee">
               {({ value, onChange }) => (
@@ -401,22 +412,26 @@ export const CreatePool: FC<CreatePoolProps> = ({ xAsset, yAsset }) => {
           </Section>
         </Flex.Item>
         <Flex.Item marginBottom={4}>
-          <Section title={t`Set initial price`}>
-            <Form.Item name="initialPrice" watchForm>
-              {({ value, onChange, parent }) => (
-                <InitialPriceInput
-                  xAsset={parent.value.xAsset}
-                  yAsset={parent.value.yAsset}
-                  onChange={onChange}
-                  value={value}
-                />
-              )}
-            </Form.Item>
-          </Section>
+          <Form.Item name="initialPrice" watchForm>
+            {({ value, onChange, parent }) => (
+              <Animation.Expand
+                expanded={!!form.value.xAsset && !!form.value.yAsset}
+              >
+                <Section title={t`Set initial price`}>
+                  <InitialPriceInput
+                    xAsset={parent.value.xAsset}
+                    yAsset={parent.value.yAsset}
+                    onChange={onChange}
+                    value={value}
+                  />
+                </Section>
+              </Animation.Expand>
+            )}
+          </Form.Item>
         </Flex.Item>
         <Flex.Item marginBottom={4}>
           <Section
-            title={t`Liquidity`}
+            title={t`Provide initial liquidity`}
             extra={
               <Flex justify="flex-end">
                 <LiquidityPercentInput onClick={handleMaxLiquidityClick} />

@@ -3,6 +3,7 @@ import { FC } from 'react';
 import styled from 'styled-components';
 
 import { Currency } from '../../../../../../../common/models/Currency';
+import { SensitiveContent } from '../../../../../../SensitiveContent/SensitiveContent.tsx';
 
 export interface BalanceViewProps {
   readonly balance: Currency;
@@ -10,9 +11,11 @@ export interface BalanceViewProps {
 }
 
 const _BalanceView: FC<BalanceViewProps> = ({ className, balance }) => (
-  <Typography.Body className={className}>
-    {balance.toCurrencyString()}
-  </Typography.Body>
+  <SensitiveContent>
+    <Typography.Body className={className}>
+      {balance.toCurrencyString()}
+    </Typography.Body>
+  </SensitiveContent>
 );
 
 export const BalanceView = styled(_BalanceView)`

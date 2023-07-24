@@ -16,7 +16,7 @@ const NetworkHeight = (): JSX.Element => {
   const [selectedNetwork] = useSelectedNetwork();
 
   const tooltip =
-    selectedNetwork.name === 'cardano'
+    selectedNetwork.name !== 'ergo'
       ? t`The most recent block in Cardano (Testnet) network`
       : t`The most recent block in Ergo network`;
 

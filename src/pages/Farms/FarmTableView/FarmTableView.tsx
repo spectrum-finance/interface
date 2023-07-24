@@ -4,6 +4,7 @@ import { FC } from 'react';
 
 import { Farm } from '../../../common/models/Farm';
 import { Position } from '../../../common/models/Position';
+import { ListSkeletonLoadingState } from '../../../components/SkeletonLoader/ListSkeletonLoadingState.tsx';
 import { TableView } from '../../../components/TableView/TableView';
 import { LiquiditySearchState } from '../../Liquidity/common/tableViewStates/LiquiditySearchState/LiquiditySearchState';
 import { FarmActionColumn } from './columns/FarmActionColumn/FarmActionColumn';
@@ -13,7 +14,6 @@ import { FarmPairColumn } from './columns/FarmPairColumn/FarmPairColumn';
 import { FarmTotalStakedColumn } from './columns/FarmTotalStakedColumn/FarmTotalStakedColumn';
 import { FarmYourStakeColumn } from './columns/FarmYourStakeColumn/FarmYourStakeColumn';
 import { FarmTableExpandComponent } from './FarmTableExpandComponent/FarmTableExpandComponent';
-import { FarmTableLoadingState } from './FarmTableLoadingState';
 
 export interface FarmTableViewProps<T extends Farm | Position> {
   readonly items: T[];
@@ -64,7 +64,7 @@ export const FarmTableView: FC<FarmTableViewProps<any>> = ({
         title={<Trans>Your Stake</Trans>}
         show={moreThan('xl')}
       >
-        {(farm) => <FarmYourStakeColumn farm={farm} />}
+        {(farm) => <FarmYourStakeColumn farm={farm} sensitive />}
       </TableView.Column>
       <TableView.Column
         show={moreThan('m')}
@@ -84,7 +84,7 @@ export const FarmTableView: FC<FarmTableViewProps<any>> = ({
         {(farm) => <FarmActionColumn farm={farm} />}
       </TableView.Column>
       <TableView.State name="loading" condition={loading}>
-        <FarmTableLoadingState />
+        <ListSkeletonLoadingState />
       </TableView.State>
       <TableView.State name="search" condition={!items.length}>
         <LiquiditySearchState />
