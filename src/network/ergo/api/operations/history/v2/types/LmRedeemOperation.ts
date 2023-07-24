@@ -2,17 +2,17 @@ import { TokenAmount } from '@ergolabs/ergo-sdk/build/main/entities/tokenAmount'
 
 import { AmmPool } from '../../../../../../../common/models/AmmPool';
 import { Currency } from '../../../../../../../common/models/Currency';
+import {
+  LmRedeemItem,
+  OperationStatus,
+  OperationType,
+} from '../../../../../../../common/models/OperationV2';
 import { TxId } from '../../../../../../../common/types';
 import {
-  BaseExecutedOperation,
-  BaseOtherOperation,
-  BaseRefundedOperation,
   mapRawBaseExecutedOperationToBaseExecutedOperation,
   mapRawBaseOtherOperationToBaseOtherOperation,
   mapRawBaseRefundedOperationToBaseRefundedOperation,
   OperationMapper,
-  OperationStatus,
-  OperationType,
   RawBaseExecutedOperation,
   RawBaseOtherOperation,
   RawBaseRefundedOperation,
@@ -37,25 +37,6 @@ export interface RawLmRedeemItem {
     | RawLmRedeemRefundedOperation
     | RawLmRedeemOtherOperation;
 }
-
-export interface LmRedeemOperation {
-  readonly pool: AmmPool;
-  readonly lq: Currency;
-  readonly type: OperationType.LmRedeem;
-}
-
-export type LmRedeemExecutedOperation = BaseExecutedOperation &
-  LmRedeemOperation;
-
-export type LmRedeemRefundedOperation = BaseRefundedOperation &
-  LmRedeemOperation;
-
-export type LmRedeemOtherOperation = BaseOtherOperation & LmRedeemOperation;
-
-export type LmRedeemItem =
-  | LmRedeemExecutedOperation
-  | LmRedeemRefundedOperation
-  | LmRedeemOtherOperation;
 
 export const mapRawLmRedeemItemToLmRedeem: OperationMapper<
   RawLmRedeemItem,
