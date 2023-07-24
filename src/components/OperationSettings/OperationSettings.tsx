@@ -32,7 +32,7 @@ export const FEE_ASSET_ID =
 export const feeAsset: AssetInfo = {
   name: 'spf',
   ticker: 'SPF',
-  icon: `${applicationConfig.networksSettings.ergo.metadataUrl}/light/${FEE_ASSET_ID}.svg`,
+  icon: `${applicationConfig.networksSettings.ergo.metadataUrl}/${FEE_ASSET_ID}.svg`,
   id: FEE_ASSET_ID,
   decimals: 6,
 };

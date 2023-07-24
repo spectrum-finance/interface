@@ -4,7 +4,6 @@ import { FC } from 'react';
 
 import { Position } from '../../../../common/models/Position';
 import { AssetTitle } from '../../../../components/AssetTitle/AssetTitle';
-import { ConvenientAssetView } from '../../../../components/ConvenientAssetView/ConvenientAssetView';
 import { InlineGrid } from '../../../../components/InlineGrid/InlineGrid';
 import { TitledBox } from '../../../../components/TitledBox/TitledBox';
 
@@ -26,7 +25,7 @@ export const TotalLiquidity: FC<TotalLiquidityProps> = ({ position }) => {
       titleGap={1}
       subtitle={
         <Typography.Title level={3}>
-          <ConvenientAssetView value={[position.pool.x, position.pool.y]} />
+          {position.pool.tvl?.toCurrencyString()}
         </Typography.Title>
       }
       subtitleGap={2}
