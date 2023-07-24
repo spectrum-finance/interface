@@ -72,6 +72,7 @@ export const refundBuilder$ = combineLatest([
       },
       inputSelector,
       collateralSelector,
+      cardanoWasm,
       txMath,
       txAsm,
       cardanoNetworkParams.pparams,
