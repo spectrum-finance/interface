@@ -52,7 +52,7 @@ const rawAmmPools$: Observable<AmmPool[]> = networkContext$.pipe(
   refCount(),
 );
 
-export const ammPools$ = combineLatest([rawAmmPools$, ammPoolsStats$]).pipe(
+export const allAmmPools$ = combineLatest([rawAmmPools$, ammPoolsStats$]).pipe(
   switchMap(([pools, analytics]) =>
     combineLatest(
       pools.map((p) =>
@@ -72,6 +72,11 @@ export const ammPools$ = combineLatest([rawAmmPools$, ammPoolsStats$]).pipe(
       ),
     ),
   ),
+  publishReplay(1),
+  refCount(),
+);
+
+export const ammPools$ = allAmmPools$.pipe(
   map((ammPools) =>
     ammPools.filter(
       (ap) =>

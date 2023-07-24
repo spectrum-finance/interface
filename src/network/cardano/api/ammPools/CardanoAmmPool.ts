@@ -7,7 +7,6 @@ import {
 } from '@spectrumlabs/cardano-dex-sdk';
 import { mkSubject } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/assetClass';
 
-import { usdAsset } from '../../../../common/constants/usdAsset';
 import { AmmPool } from '../../../../common/models/AmmPool';
 import { AssetInfo } from '../../../../common/models/AssetInfo';
 import { Currency } from '../../../../common/models/Currency';
@@ -43,13 +42,13 @@ export class CardanoAmmPool extends AmmPool {
 
   get tvl(): Currency | undefined {
     return this.poolAnalytics?.tvl
-      ? new Currency(BigInt(this.poolAnalytics.tvl.toFixed(0)), usdAsset)
+      ? new Currency(this.poolAnalytics.tvl.toFixed(0), networkAsset)
       : undefined;
   }
 
   get volume(): Currency | undefined {
     return this.poolAnalytics?.volume
-      ? new Currency(BigInt(this.poolAnalytics.volume.toFixed(0)), usdAsset)
+      ? new Currency(this.poolAnalytics.volume.toFixed(0), networkAsset)
       : undefined;
   }
 
