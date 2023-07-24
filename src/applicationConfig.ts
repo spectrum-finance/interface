@@ -79,7 +79,7 @@ export const applicationConfig: ApplicationConfig = {
       networkUrl: 'https://explorer.spectrum.fi/cardano/preview/v1/',
       explorerUrl: 'https://preview.cexplorer.io',
       lowBalanceGuide: '',
-      analyticUrl: 'https://test-api.spectrum.fi/cardano/v1/',
+      analyticUrl: 'https://analytics.spectrum.fi/cardano/',
       isCreatePoolAvailable: false,
     },
     cardano_mainnet: {
@@ -89,7 +89,7 @@ export const applicationConfig: ApplicationConfig = {
       networkUrl: 'https://explorer.spectrum.fi/cardano/mainnet/v1/',
       explorerUrl: 'https://cexplorer.io',
       lowBalanceGuide: '',
-      analyticUrl: 'https://test-api.spectrum.fi/cardano/v1/',
+      analyticUrl: 'https://analytics.spectrum.fi/cardano/',
       isCreatePoolAvailable: false,
     },
     ergo: {

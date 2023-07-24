@@ -4,7 +4,9 @@ import styled from 'styled-components';
 
 import { useObservable } from '../../../../../common/hooks/useObservable';
 import { platformStats$ } from '../../../../../gateway/api/platformStats';
-import { formatToUSD } from '../../../../../services/number';
+import { formatToAda, formatToUSD } from '../../../../../services/number';
+import { IsCardano } from '../../../../IsCardano/IsCardano';
+import { IsErgo } from '../../../../IsErgo/IsErgo';
 import { AnalyticsSkeletonLoader } from './AnalyticsSkeletonLoader/AnalyticsSkeletonLoader.tsx';
 import { AnalyticTag } from './AnalyticTag/AnalyticTag';
 
@@ -23,7 +25,14 @@ const _Analytics: FC<AnalyticsProps> = ({ className }) => {
             <Typography.Body style={{ whiteSpace: 'nowrap' }}>
               TVL:{' '}
               {currentStats?.tvl !== undefined ? (
-                <>{formatToUSD(currentStats.tvl.toAmount(), 'abbr')}</>
+                <>
+                  <IsErgo>
+                    {formatToUSD(currentStats.tvl.toAmount(), 'abbr')}
+                  </IsErgo>
+                  <IsCardano>
+                    {formatToAda(currentStats.tvl.toAmount(), 'abbr')}
+                  </IsCardano>
+                </>
               ) : (
                 <AnalyticsSkeletonLoader />
               )}
@@ -34,7 +43,14 @@ const _Analytics: FC<AnalyticsProps> = ({ className }) => {
           <Typography.Body style={{ whiteSpace: 'nowrap' }}>
             Volume 24H:{' '}
             {currentStats?.volume !== undefined ? (
-              formatToUSD(currentStats.volume.toAmount(), 'abbr')
+              <>
+                <IsErgo>
+                  {formatToUSD(currentStats.volume.toAmount(), 'abbr')}
+                </IsErgo>
+                <IsCardano>
+                  {formatToAda(currentStats.volume.toAmount(), 'abbr')}
+                </IsCardano>
+              </>
             ) : (
               <AnalyticsSkeletonLoader />
             )}
