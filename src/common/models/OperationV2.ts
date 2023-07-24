@@ -134,3 +134,70 @@ export type RemoveLiquidityItem =
   | RemoveLiquidityExecutedOperation
   | RemoveLiquidityRefundedOperation
   | RemoveLiquidityOtherOperation;
+
+export interface LmDepositOperation {
+  readonly pool: AmmPool;
+  readonly input: Currency;
+  readonly type: OperationType.LmDeposit;
+}
+
+export type LmDepositExecutedOperation = BaseExecutedOperation &
+  LmDepositOperation;
+
+export type LmDepositRefundedOperation = BaseRefundedOperation &
+  LmDepositOperation;
+
+export type LmDepositOtherOperation = BaseOtherOperation & LmDepositOperation;
+
+export type LmDepositItem =
+  | LmDepositExecutedOperation
+  | LmDepositRefundedOperation
+  | LmDepositOtherOperation;
+
+export interface LmRedeemOperation {
+  readonly pool: AmmPool;
+  readonly lq: Currency;
+  readonly type: OperationType.LmRedeem;
+}
+
+export type LmRedeemExecutedOperation = BaseExecutedOperation &
+  LmRedeemOperation;
+
+export type LmRedeemRefundedOperation = BaseRefundedOperation &
+  LmRedeemOperation;
+
+export type LmRedeemOtherOperation = BaseOtherOperation & LmRedeemOperation;
+
+export type LmRedeemItem =
+  | LmRedeemExecutedOperation
+  | LmRedeemRefundedOperation
+  | LmRedeemOtherOperation;
+
+export interface LockOperation {
+  readonly pool: AmmPool;
+  readonly lp: Currency;
+  readonly deadline: number;
+  readonly type:
+    | OperationType.LockLiquidity
+    | OperationType.ReLockLiquidity
+    | OperationType.WithdrawLock;
+}
+
+export type LockExecutedOperation = SingleBaseExecutedOperation & LockOperation;
+
+export type LockRefundedOperation = BaseRefundedOperation & LockOperation;
+
+export type LockOtherOperation = BaseOtherOperation & LockOperation;
+
+export type LockItem =
+  | LockExecutedOperation
+  | LockRefundedOperation
+  | LockOtherOperation;
+
+export type OperationItem =
+  | SwapItem
+  | AddLiquidityItem
+  | RemoveLiquidityItem
+  | LmDepositItem
+  | LmRedeemItem
+  | LockItem;

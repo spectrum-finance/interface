@@ -1,14 +1,14 @@
-import { TokenAmount } from '@ergolabs/ergo-sdk/build/main/entities/tokenAmount';
-
-import { AmmPool } from '../../../../../../../common/models/AmmPool';
-import { Currency } from '../../../../../../../common/models/Currency';
+import { AmmPool } from '../../../../../common/models/AmmPool';
+import { Currency } from '../../../../../common/models/Currency';
 import {
   OperationStatus,
   OperationType,
   RemoveLiquidityItem,
-} from '../../../../../../../common/models/OperationV2';
-import { TxId } from '../../../../../../../common/types';
+} from '../../../../../common/models/OperationV2';
+import { TxId } from '../../../../../common/types';
+import { CardanoAmmPool } from '../../ammPools/CardanoAmmPool';
 import {
+  AssetAmountDescriptor,
   mapRawBaseExecutedOperationToBaseExecutedOperation,
   mapRawBaseOtherOperationToBaseOtherOperation,
   mapRawBaseRefundedOperationToBaseRefundedOperation,
@@ -21,14 +21,14 @@ import {
 export interface RawRemoveLiquidityOperation {
   readonly address: string;
   readonly poolId: string;
-  readonly lp: TokenAmount;
+  readonly lp: AssetAmountDescriptor;
 }
 
 export interface RawRemoveLiquidityExecutedOperation
   extends RawBaseExecutedOperation,
     RawRemoveLiquidityOperation {
-  readonly outX: TokenAmount;
-  readonly outY: TokenAmount;
+  readonly outX: AssetAmountDescriptor;
+  readonly outY: AssetAmountDescriptor;
 }
 
 export type RawRemoveLiquidityRefundedOperation = RawBaseRefundedOperation &
@@ -38,7 +38,7 @@ export type RawRemoveLiquidityOtherOperation = RawBaseOtherOperation &
   RawRemoveLiquidityOperation;
 
 export interface RawRemoveLiquidityItem {
-  AmmRedeemApi:
+  RedeemOrderInfo:
     | RawRemoveLiquidityExecutedOperation
     | RawRemoveLiquidityRefundedOperation
     | RawRemoveLiquidityOtherOperation;
@@ -51,23 +51,33 @@ export const mapRawRemoveLiquidityItemToRemoveLiquidityItem: OperationMapper<
   item: RawRemoveLiquidityItem,
   ammPools: AmmPool[],
 ): RemoveLiquidityItem => {
-  const { status, address, poolId, lp } = item.AmmRedeemApi;
-  const pool = ammPools.find((ap) => ap.id === poolId)!;
+  const { address, poolId, lp } = item.RedeemOrderInfo;
+  const pool = ammPools.find((ap) => {
+    const castedPool: CardanoAmmPool = ap as any;
 
-  if (status === OperationStatus.Evaluated) {
+    return (
+      `${castedPool.pool.id.policyId}.${castedPool.pool.id.name}` === poolId
+    );
+  })!;
+
+  if (item.RedeemOrderInfo.status === OperationStatus.Evaluated) {
     return {
-      ...mapRawBaseExecutedOperationToBaseExecutedOperation(item.AmmRedeemApi),
+      ...mapRawBaseExecutedOperationToBaseExecutedOperation(
+        item.RedeemOrderInfo,
+      ),
       address,
-      x: new Currency(BigInt(item.AmmRedeemApi.outX.amount), pool.x.asset),
-      y: new Currency(BigInt(item.AmmRedeemApi.outY.amount), pool.y.asset),
+      x: new Currency(BigInt(item.RedeemOrderInfo.outX.amount), pool.x.asset),
+      y: new Currency(BigInt(item.RedeemOrderInfo.outY.amount), pool.y.asset),
       lp: new Currency(BigInt(lp.amount), pool.lp.asset),
       pool,
       type: OperationType.RemoveLiquidity,
     };
   }
-  if (status === OperationStatus.Refunded) {
+  if (item.RedeemOrderInfo.status === OperationStatus.Refunded) {
     return {
-      ...mapRawBaseRefundedOperationToBaseRefundedOperation(item.AmmRedeemApi),
+      ...mapRawBaseRefundedOperationToBaseRefundedOperation(
+        item.RedeemOrderInfo,
+      ),
       address,
       lp: new Currency(BigInt(lp.amount), pool.lp.asset),
       pool,
@@ -75,7 +85,7 @@ export const mapRawRemoveLiquidityItemToRemoveLiquidityItem: OperationMapper<
     };
   }
   return {
-    ...mapRawBaseOtherOperationToBaseOtherOperation(item.AmmRedeemApi),
+    ...mapRawBaseOtherOperationToBaseOtherOperation(item.RedeemOrderInfo),
     address,
     lp: new Currency(BigInt(lp.amount), pool.lp.asset),
     pool,
@@ -85,4 +95,4 @@ export const mapRawRemoveLiquidityItemToRemoveLiquidityItem: OperationMapper<
 
 export const getRegisterTxIdFromRawRemoveLiquidityItem = (
   rawSwapItem: RawRemoveLiquidityItem,
-): TxId => rawSwapItem.AmmRedeemApi.registerTx.id;
+): TxId => rawSwapItem.RedeemOrderInfo.registerTx.id;

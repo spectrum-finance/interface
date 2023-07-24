@@ -1,10 +1,17 @@
 import { t } from '@lingui/macro';
 import { DateTime } from 'luxon';
-import { ReactNode } from 'react';
 
 import { DEFAULT_MINER_FEE } from '../../../../../../../common/constants/erg';
 import { AmmPool } from '../../../../../../../common/models/AmmPool';
 import { Currency } from '../../../../../../../common/models/Currency';
+import {
+  BaseExecutedOperation,
+  BaseOtherOperation,
+  BaseRefundedOperation,
+  OperationStatus,
+  SingleBaseExecutedOperation,
+  Transaction,
+} from '../../../../../../../common/models/OperationV2';
 import { TxId } from '../../../../../../../common/types';
 import { feeAsset, networkAsset } from '../../../../networkAsset/networkAsset';
 
@@ -21,26 +28,6 @@ export type OperationMapper<
     | BaseOtherOperation
     | SingleBaseExecutedOperation,
 > = (raw: T, ammPools: AmmPool[]) => R;
-
-export enum OperationStatus {
-  Queued = 'Queued',
-  Pending = 'Pending',
-  Evaluated = 'Evaluated',
-  NeedRefund = 'NeedRefund',
-  Refunded = 'Refunded',
-}
-
-export enum OperationType {
-  Swap = 'Swap',
-  AddLiquidity = 'AddLiquidity',
-  RemoveLiquidity = 'RemoveLiquidity',
-  LmDeposit = 'LmDeposit',
-  LmRedeem = 'LmRedeem',
-  LockLiquidity = 'LockLiquidity',
-  ReLockLiquidity = 'ReLockLiquidity',
-  WithdrawLock = 'WithdrawLock',
-}
-
 type FeeType = 'spf' | 'erg';
 
 export interface RawBaseOperation {
@@ -67,44 +54,6 @@ export interface RawBaseRefundedOperation extends RawBaseOperation {
 }
 
 export interface RawBaseOtherOperation extends RawBaseOperation {
-  readonly status:
-    | OperationStatus.Pending
-    | OperationStatus.Queued
-    | OperationStatus.NeedRefund;
-}
-
-export interface Transaction {
-  readonly id: TxId;
-  readonly dateTime: DateTime;
-}
-
-export interface Fee {
-  readonly caption: ReactNode | ReactNode[] | string;
-  readonly value: Currency;
-}
-
-export interface BaseOperation {
-  readonly id: string;
-  readonly registerTx: Transaction;
-}
-
-export interface BaseExecutedOperation extends BaseOperation {
-  readonly evaluateTx: Transaction;
-  readonly status: OperationStatus.Evaluated;
-  readonly fee: Fee[];
-}
-
-export interface SingleBaseExecutedOperation extends BaseOperation {
-  readonly status: OperationStatus.Evaluated;
-  readonly fee: Fee[];
-}
-
-export interface BaseRefundedOperation extends BaseOperation {
-  readonly refundTx: Transaction;
-  readonly status: OperationStatus.Refunded;
-}
-
-export interface BaseOtherOperation extends BaseOperation {
   readonly status:
     | OperationStatus.Pending
     | OperationStatus.Queued

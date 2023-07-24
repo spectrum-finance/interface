@@ -12,13 +12,13 @@ import { first } from 'rxjs';
 
 import { useSubject } from '../../../../../../../common/hooks/useObservable';
 import { Currency } from '../../../../../../../common/models/Currency';
-import { refund } from '../../../../../../../gateway/api/operations/refund';
-import { getOperationByTxId } from '../../../../../../../network/ergo/api/operations/history/v2/operationsHistory';
 import {
+  OperationItem,
   OperationStatus,
   OperationType,
-} from '../../../../../../../network/ergo/api/operations/history/v2/types/BaseOperation';
-import { OperationItem } from '../../../../../../../network/ergo/api/operations/history/v2/types/OperationItem';
+} from '../../../../../../../common/models/OperationV2';
+import { refund } from '../../../../../../../gateway/api/operations/refund';
+import { getOperationByTxId } from '../../../../../../../gateway/api/transactionsHistory';
 import { TransactionFindForm } from '../common/TransactionFindForm/TransactionFindForm';
 
 const getPairByOperationItem = (

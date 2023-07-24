@@ -1,3 +1,5 @@
+import { of } from 'rxjs';
+
 import { Network } from '../common/Network';
 import {
   getAddresses,
@@ -22,9 +24,11 @@ import { convertToConvenientNetworkAsset } from './api/ergoUsdRatio/ergoUsdRatio
 import { locks$ } from './api/locks/locks';
 import { networkAsset, useNetworkAsset } from './api/networkAsset/networkAsset';
 import { networkContext$ } from './api/networkContext/networkContext';
-import { isSyncing$, sync } from './api/operations/history/transactionHistory';
-import { getOperationByTxId, getOperations } from './api/operations/operations';
-import { pendingOperations$ } from './api/operations/pending/pendingOperations';
+import {
+  getOperationByTxId,
+  getOperations,
+  pendingOperationsCount$,
+} from './api/operations/history/v2/operationsHistory';
 import { queuedOperation$ } from './api/operations/pending/queuedOperation';
 import { platformStats$ } from './api/platformStats/platformStats';
 import { getPoolChartData } from './api/poolChart/poolChart';
@@ -135,13 +139,13 @@ export const ergoNetwork: Network<
   useDepositValidators,
   useHandleDepositMaxButtonClick,
   useCreatePoolValidationFee,
-
   getPoolChartData,
-  getOperationByTxId,
+
   getOperations,
-  syncOperations: sync,
-  isOperationsSyncing$: isSyncing$,
-  pendingOperations$,
+  getOperationByTxId,
+  pendingOperationsCount$,
   queuedOperation$,
+  hasNeedRefundOperations$: of(false),
+
   farmPools$: farms$,
 };
