@@ -169,7 +169,9 @@ export const applicationConfig: ApplicationConfig = {
   testFarms: [
     '69eff57ea62b13c58e5668e3fbc9927fdb2dffb1c692261f98728a665b2f8abb',
   ],
-  lbspLiquidityPools: [],
+  lbspLiquidityPools: [
+    'cb15b0ae5322d0b5ec3c91398da464505084daab7e0e419fd59d63fb636861726c69335f6164615f6e6674', // TODO. Test, Blacklist later
+  ],
   operationsRestrictions: [
     {
       asset: 'd71693c49a84fbbecd4908c94813b46514b18b67a99952dc1e6e4791556de413',
