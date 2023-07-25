@@ -11,12 +11,14 @@ interface CopyButtonProps {
   children?: ReactNode | string;
   size?: ButtonProps['size'];
   messageContent?: string;
+  tooltipText?: string;
 }
 
 const CopyButton: React.FC<CopyButtonProps> = ({
   text,
   size = 'small',
   messageContent,
+  tooltipText,
 }) => {
   return (
     <CopyToClipboard
@@ -25,7 +27,10 @@ const CopyButton: React.FC<CopyButtonProps> = ({
         message.success(messageContent || t`Address successfully copied`);
       }}
     >
-      <Tooltip title={t`Copy Address to clipboard.`} trigger="hover">
+      <Tooltip
+        title={tooltipText ? tooltipText : t`Copy Address to clipboard.`}
+        trigger="hover"
+      >
         <Button
           size={size}
           onClick={(e) => e.stopPropagation()}

@@ -5,14 +5,16 @@ import { FC, useEffect, useState } from 'react';
 import { useSubject } from '../../../common/hooks/useObservable';
 import { OperationItem } from '../../../common/models/OperationV2';
 import { getOperations } from '../../../gateway/api/transactionsHistory';
+import { CopyButton } from '../../common/CopyButton/CopyButton.tsx';
+import { ExploreButton } from '../../common/ExploreButton/ExploreButton.tsx';
 import { ListSkeletonLoadingState } from '../../SkeletonLoader/ListSkeletonLoadingState.tsx';
 import { TableView } from '../../TableView/TableView';
 import { AssetsCell } from './cells/AssetsCell/AssetsCell';
+import { CancelOrderCell } from './cells/CancelOrderCell/CancelOrderCell.tsx';
 import { DateTimeCell } from './cells/DateTimeCell/DateTimeCell';
 import { FeeCell } from './cells/FeeCell/FeeCell';
 import { StatusCell } from './cells/StatusCell/StatusCell';
 import { TypeCell } from './cells/TypeCell/TypeCell';
-import { OperationDetails } from './OperationDetails/OperationDetails';
 import { OperationPagination } from './OperationPagination/OperationPagination';
 import { ErrorState } from './states/ErrorState/ErrorState';
 import { OperationSearchEmptyState } from './states/OperationSearchEmptyState/OperationSearchEmptyState';
@@ -32,12 +34,13 @@ export const OperationHistoryV2: FC<ModalRef> = ({ close }) => {
   }, [offset]);
 
   const reloadOperations = () => loadOperations(LIMIT, offset);
-  const { valBySize } = useDevice();
+
+  const { s } = useDevice();
 
   return (
     <Flex col>
       <TableView
-        itemHeight={80}
+        itemHeight={s ? 108 : 80}
         items={operationsData?.[0] || []}
         maxHeight={464}
         tableHeaderPadding={[0, 6]}
@@ -46,11 +49,6 @@ export const OperationHistoryV2: FC<ModalRef> = ({ close }) => {
         itemKey="id"
         emptyFilterView={<OperationSearchEmptyState />}
         expandPadding={[0, 0]}
-        expand={{
-          accordion: true,
-          component: OperationDetails,
-          height: valBySize(228, 132, 132, 132),
-        }}
       >
         <TableView.Column title={t`Assets`} width={218} headerWidth={202}>
           {(operationItem: OperationItem) => (
@@ -76,11 +74,61 @@ export const OperationHistoryV2: FC<ModalRef> = ({ close }) => {
             <DateTimeCell operationItem={operationItem} />
           )}
         </TableView.Column>
-        <TableView.Column title={t`Status`}>
+        <TableView.Column title={t`Status`} show={moreThan('m')}>
           {(operationItem: OperationItem) => (
             <StatusCell operationItem={operationItem} />
           )}
         </TableView.Column>
+        <TableView.Column title={t`Actions`} show={moreThan('m')}>
+          {(operationItem: OperationItem) => (
+            <Flex>
+              <Flex.Item marginRight={2}>
+                <ExploreButton to={operationItem.registerTx.id} size="middle" />
+              </Flex.Item>
+              <CopyButton
+                tooltipText={t`Copy Transaction ID`}
+                messageContent={t`TxId successfully copied`}
+                text={operationItem.registerTx.id}
+                size="middle"
+              />
+            </Flex>
+          )}
+        </TableView.Column>
+        <TableView.Column show={moreThan('m')}>
+          {(operationItem: OperationItem) => (
+            <CancelOrderCell operationItem={operationItem} />
+          )}
+        </TableView.Column>
+
+        {s && (
+          <TableView.Column>
+            {(operationItem: OperationItem) => (
+              <Flex col align="center">
+                <Flex.Item marginBottom={2}>
+                  <StatusCell operationItem={operationItem} />
+                </Flex.Item>
+                <Flex.Item marginBottom={0}>
+                  <Flex>
+                    <Flex.Item marginRight={2}>
+                      <ExploreButton
+                        to={operationItem.registerTx.id}
+                        size="small"
+                      />
+                    </Flex.Item>
+                    <CopyButton
+                      tooltipText={t`Copy Transaction ID`}
+                      messageContent={t`TxId successfully copied`}
+                      text={operationItem.registerTx.id}
+                      size="small"
+                    />
+                  </Flex>
+                </Flex.Item>
+
+                <CancelOrderCell operationItem={operationItem} />
+              </Flex>
+            )}
+          </TableView.Column>
+        )}
 
         <TableView.State condition={loading} name="loading">
           <ListSkeletonLoadingState numOfElements={5} />

@@ -8,9 +8,9 @@ export const OperationHistoryModal: FC<ModalRef> = ({ close }) => {
   return (
     <>
       <Modal.Title>
-        <Trans>Orders history</Trans>
+        <Trans>Orders</Trans>
       </Modal.Title>
-      <Modal.Content width={740}>
+      <Modal.Content width={1024}>
         {<OperationHistoryV2 close={close} />}
       </Modal.Content>
     </>
