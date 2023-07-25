@@ -1,9 +1,4 @@
-import {
-  Flex,
-  InfoCircleOutlined,
-  Tooltip,
-  Typography,
-} from '@ergolabs/ui-kit';
+import { Flex, InfoCircleOutlined, Tooltip } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import styled from 'styled-components';
 
