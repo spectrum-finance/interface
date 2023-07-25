@@ -64,9 +64,9 @@ export const refundBuilder$ = combineLatest([
           opInRef: OpInRefsMainnetV1.ammDeposit,
         },
         redeem: {
-          address: OrderAddrsV1Mainnet.ammDeposit,
-          script: ScriptCredsV1.ammDeposit,
-          opInRef: OpInRefsMainnetV1.ammDeposit,
+          address: OrderAddrsV1Mainnet.ammRedeem,
+          script: ScriptCredsV1.ammRedeem,
+          opInRef: OpInRefsMainnetV1.ammRedeem,
         },
         defaultCollateralAmount: 5000000n,
       },
@@ -96,6 +96,7 @@ const walletRefund = (txId: TxId): Observable<TxId> =>
         ),
       ),
     ),
+    tap(console.log, console.log),
     map((data) => data[1]),
     map((tx) => {
       if (!tx) {
