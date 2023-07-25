@@ -3,7 +3,6 @@ import {
   ClockCircleOutlined,
   Flex,
   LoadingOutlined,
-  LockOutlined,
   Spin,
   Tag,
   Tooltip,
@@ -63,12 +62,12 @@ const NeedRefundStatusCell: FC = () => (
       </Trans>
     }
   >
-    <Tag color="error">
+    <Tag color="warning">
       <Flex>
         <Flex.Item marginRight={1}>
-          <LockOutlined />
+          <ClockCircleOutlined />
         </Flex.Item>
-        <Trans>Need refund</Trans>
+        <Trans>Queuing..</Trans>
       </Flex>
     </Tag>
   </Tooltip>
@@ -96,12 +95,12 @@ const QueuedStatusCell: FC = () => (
 );
 
 const RefundedStatusCell: FC = () => (
-  <Tag color="warning">
+  <Tag color="pink">
     <Flex>
       <Flex.Item marginRight={1}>
         <UndoOutlined />
       </Flex.Item>
-      <Trans>Refunded</Trans>
+      <Trans>Canceled</Trans>
     </Flex>
   </Tag>
 );

@@ -6,17 +6,13 @@ import {
   Tooltip,
 } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 
 import { useObservable } from '../../../../common/hooks/useObservable';
 import { hasNeedRefundOperations$ } from '../../../../gateway/api/hasNeedRefundOperations';
 import { pendingOperationsCount$ } from '../../../../gateway/api/pendingOperations';
 import { selectedWalletState$ } from '../../../../gateway/api/wallets';
 import { WalletState } from '../../../../network/common/Wallet';
-import {
-  closeRefundOperationNotification,
-  showRefundOperationNotification,
-} from '../../../../services/notifications/RefundOperation/RefundOperation';
 import { BadgeCustom } from '../../../BadgeCustom/BadgeCustom';
 import { OperationHistoryModal } from '../../../OperationHistoryModal/OperationHistoryModal';
 
@@ -35,14 +31,6 @@ export const OperationsHistory: FC = () => {
     hasNeedRefundOperations$,
   );
 
-  useEffect(() => {
-    if (hasOperationsToRefund && isWalletConnected) {
-      showRefundOperationNotification();
-    } else {
-      closeRefundOperationNotification();
-    }
-  }, [hasOperationsToRefund, isWalletConnected]);
-
   const openOperationsHistoryModal = () => {
     Modal.open(({ close }) => <OperationHistoryModal close={close} />);
   };
@@ -54,8 +42,6 @@ export const OperationsHistory: FC = () => {
       title={
         !isWalletConnected
           ? t`Connect Wallet to see your recent transactions`
-          : hasOperationsToRefund
-          ? t`You have locked transactions. Refund them now!`
           : t`Recent transactions`
       }
       width="100%"

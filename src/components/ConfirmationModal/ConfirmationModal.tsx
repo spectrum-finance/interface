@@ -52,7 +52,7 @@ const getDescriptionByData = (
         : '';
     case Operation.REFUND:
       return xAsset && yAsset
-        ? t`Refunding ${xAsset.toCurrencyString()} and ${yAsset.toCurrencyString()}`
+        ? t`Cancelling ${xAsset.toCurrencyString()} and ${yAsset.toCurrencyString()}`
         : '';
     case Operation.REMOVE_LIQUIDITY:
       return xAsset && yAsset
