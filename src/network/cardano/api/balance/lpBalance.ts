@@ -1,9 +1,16 @@
-import { combineLatest, distinctUntilChanged, map, Observable, publishReplay, refCount } from "rxjs";
+import {
+  combineLatest,
+  distinctUntilChanged,
+  map,
+  Observable,
+  publishReplay,
+  refCount,
+} from 'rxjs';
 
+import { AssetInfo } from '../../../../common/models/AssetInfo';
 import { Balance } from '../../../../common/models/Balance';
 import { ammPools$ } from '../ammPools/ammPools';
 import { balanceItems$ } from './balance';
-import { AssetInfo } from "../../../../common/models/AssetInfo";
 
 export const lpBalance$: Observable<Balance> = combineLatest([
   balanceItems$,
