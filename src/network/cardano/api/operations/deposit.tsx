@@ -7,6 +7,7 @@ import { first, map, Observable, Subject, switchMap, tap, zip } from 'rxjs';
 
 import { Balance } from '../../../../common/models/Balance';
 import { Currency } from '../../../../common/models/Currency';
+import { addErrorLog } from '../../../../common/services/ErrorLogs';
 import { TxId } from '../../../../common/types';
 import {
   openConfirmationModal,
@@ -85,6 +86,7 @@ export const walletDeposit = (
       }),
     ),
     switchMap((tx) => submitTx(tx)),
+    tap({ error: addErrorLog({ op: 'deposit' }) }),
   );
 
 export const deposit = (

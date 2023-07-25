@@ -4,6 +4,7 @@ import { NetworkParams } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/
 import { first, map, Observable, Subject, switchMap, tap, zip } from 'rxjs';
 
 import { Currency } from '../../../../common/models/Currency';
+import { addErrorLog } from '../../../../common/services/ErrorLogs';
 import { TxId } from '../../../../common/types';
 import {
   openConfirmationModal,
@@ -71,6 +72,7 @@ export const walletRedeem = (
       }),
     ),
     switchMap((tx) => submitTx(tx)),
+    tap({ error: addErrorLog({ op: 'redeem' }) }),
   );
 
 export const redeem = (

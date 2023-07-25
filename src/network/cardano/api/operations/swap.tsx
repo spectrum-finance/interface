@@ -4,6 +4,7 @@ import { SwapTxInfo, TxCandidate } from '@spectrumlabs/cardano-dex-sdk';
 import { first, map, Observable, Subject, switchMap, tap } from 'rxjs';
 
 import { Currency } from '../../../../common/models/Currency';
+import { addErrorLog } from '../../../../common/services/ErrorLogs';
 import { Nitro, Percent, TxId } from '../../../../common/types';
 import {
   openConfirmationModal,
@@ -89,6 +90,7 @@ export const walletSwap = (
       }),
     ),
     switchMap((tx) => submitTx(tx)),
+    tap({ error: addErrorLog({ op: 'swap' }) }),
   );
 
 export const swap = (data: Required<SwapFormModel>): Observable<TxId> => {

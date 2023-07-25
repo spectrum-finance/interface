@@ -8,7 +8,7 @@ export const addErrorLog =
     errorLogs.push({ meta, error });
   };
 
-(window as any).downloadErrorLog = () => {
+export const downloadErrorLog = () => {
   saveAs(
     new Blob([JSON.stringify(errorLogs, null, 2)], {
       type: 'text/plain;charset=utf-8',

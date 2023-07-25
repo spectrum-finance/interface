@@ -1,5 +1,12 @@
 import { TxId } from '@ergolabs/ergo-sdk';
-import { Flex, message, Modal, ModalRef, Typography } from '@ergolabs/ui-kit';
+import {
+  Button,
+  Flex,
+  message,
+  Modal,
+  ModalRef,
+  Typography,
+} from '@ergolabs/ui-kit';
 import { RequestProps } from '@ergolabs/ui-kit/dist/components/Modal/presets/Request';
 import { t, Trans } from '@lingui/macro';
 import { DateTime } from 'luxon';
@@ -12,6 +19,7 @@ import { ReactComponent as DiscordIcon } from '../../assets/icons/social/Discord
 import { ReactComponent as TelegramIcon } from '../../assets/icons/social/Telegram.svg';
 import { AssetLock } from '../../common/models/AssetLock';
 import { Currency } from '../../common/models/Currency';
+import { downloadErrorLog } from '../../common/services/ErrorLogs';
 import { exploreTx } from '../../gateway/utils/exploreAddress';
 import { getLockingPeriodString } from '../../pages/Liquidity/utils';
 import { useErrorEvent } from '../ErrorBoundary/ErrorEventProvider';
@@ -142,13 +150,13 @@ const ErrorModalContent = (
           <Trans>Transaction rejected</Trans>
         </Typography.Body>
       </Flex.Item>
-      <Flex.Item marginBottom={errorEvent?.id ? 3 : 0}>
+      <Flex.Item marginBottom={errorEvent?.id ? 3 : 1}>
         <Typography.Body align="center" secondary>
           <Trans>Try again later</Trans>
         </Typography.Body>
       </Flex.Item>
       {errorEvent?.id && (
-        <Flex.Item marginBottom={1}>
+        <Flex.Item marginBottom={2}>
           <CopyToClipboard
             text={errorEvent.id}
             onCopy={() => message.success(t`Copied to clipboard!`)}
@@ -163,6 +171,9 @@ const ErrorModalContent = (
           </CopyToClipboard>
         </Flex.Item>
       )}
+      <Button size="large" type="dashed" onClick={downloadErrorLog}>
+        <Trans>Download Error log</Trans>
+      </Button>
     </Flex>
   );
 };
