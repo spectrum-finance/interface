@@ -24,6 +24,7 @@ import {
 } from 'rxjs';
 
 import { Currency } from '../../../../common/models/Currency';
+import { addErrorLog } from '../../../../common/services/ErrorLogs';
 import { TxId } from '../../../../common/types';
 import {
   openConfirmationModal,
@@ -104,6 +105,7 @@ const walletRefund = (txId: TxId): Observable<TxId> =>
       return tx;
     }),
     switchMap((tx) => submitTx(tx, true)),
+    tap({ error: addErrorLog({ txId, op: 'refund' }) }),
   );
 
 export const refund = (
