@@ -49,7 +49,7 @@ const CardanoDisclaimerModal: FC<DisclaimerModalProps> = ({ close }) => {
               <List>
                 <li>
                   <Trans>
-                    Spectrum Finance Carano AMM is a decentralized contract
+                    Spectrum Finance Cardano AMM is a decentralized contract
                     protocol aka DEX. The order execution is handled by
                     execution bots operators (or off-chain batchers). Anyone can
                     run batchers on their machine.
