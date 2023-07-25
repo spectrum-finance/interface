@@ -58,7 +58,8 @@ export const VesprConnectButton: FC<VesprConnectButtonProps> = ({
 }) => {
   const [selectedNetwork] = useSelectedNetwork();
   const [selectedWallet] = useObservable(selectedWallet$);
-  const vesprCompat = !!cardano.nami?.experimental?.vespr_compat;
+  //@ts-ignore
+  const vesprCompat = !!window.cardano?.nami?.experimental?.vespr_compat;
 
   useEffect(() => {
     // TODO: REWRITE
