@@ -19,10 +19,11 @@ export interface TokenTitleProps {
     | 'body-secondary'
     | 'body-strong'
     | undefined;
-  readonly bodySize?: 'large';
+  readonly bodySize?: 'large' | 'base' | 'small' | 'extra-small' | 'footnote';
   readonly gap?: number;
   readonly direction?: 'col' | 'row';
   readonly align?: 'stretch' | 'center' | 'flex-start' | 'flex-end';
+  isShowDivider?: boolean;
 }
 
 export const AssetPairTitle: FC<TokenTitleProps> = ({
@@ -34,6 +35,7 @@ export const AssetPairTitle: FC<TokenTitleProps> = ({
   bodySize,
   direction = 'row',
   align = 'center',
+  isShowDivider,
 }) => (
   <Flex align={align} direction={direction}>
     <Flex.Item marginRight={gap}>
@@ -47,12 +49,14 @@ export const AssetPairTitle: FC<TokenTitleProps> = ({
         size={bodySize}
         strong={level === 'body-strong'}
       >
-        <Truncate>{assetX.ticker || assetX.name}</Truncate> /{' '}
+        <Truncate>{assetX.ticker || assetX.name}</Truncate>{' '}
+        {isShowDivider ? '/' : ''}{' '}
         <Truncate>{assetY.ticker || assetY.name}</Truncate>
       </Typography.Body>
     ) : (
       <Typography.Title level={level}>
-        <Truncate>{assetX.ticker || assetX.name}</Truncate> /{' '}
+        <Truncate>{assetX.ticker || assetX.name}</Truncate>{' '}
+        {isShowDivider ? '/' : ''}{' '}
         <Truncate>{assetY.ticker || assetY.name}</Truncate>
       </Typography.Title>
     )}

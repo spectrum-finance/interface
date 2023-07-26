@@ -25,39 +25,39 @@ const LbspTooltipContent: FC<LbspTooltipContentProps> = ({
         <Trans>Total APR</Trans>
       </Typography.Body>
       <Typography.Body size="large" tooltip strong>
-        {totalApr}%
+        {totalApr.toFixed(2)}%
       </Typography.Body>
       <Flex.Item marginTop={1} marginBottom={1}>
         <Divider />
       </Flex.Item>
       <Flex.Item display="flex" marginBottom={1}>
         <Flex.Item width={65} marginRight={1}>
-          <Typography.Body tooltip strong>
-            {swapApr ? `${swapApr}%` : '—'}
+          <Typography.Body tooltip size="small">
+            <Trans>Swap Fees:</Trans>
           </Typography.Body>
         </Flex.Item>
         <Flex.Item flex={1}>
-          <Typography.Body tooltip size="small">
-            <Trans>Swap Fees</Trans>
+          <Typography.Body tooltip strong>
+            {swapApr ? `${swapApr.toFixed(2)}%` : '—'}
           </Typography.Body>
         </Flex.Item>
       </Flex.Item>
       <Flex.Item display="flex">
         <Flex.Item width={65} marginRight={1}>
-          <Typography.Body tooltip strong>
-            {lbspApr ? `${lbspApr}%` : '—'}
+          <Typography.Body tooltip size="small">
+            <Trans>LBSP APR:</Trans>
           </Typography.Body>
         </Flex.Item>
         <Flex.Item flex={1}>
-          <Typography.Body tooltip size="small">
-            <Trans>LBSP APR</Trans>
+          <Typography.Body tooltip strong>
+            {lbspApr ? `${lbspApr.toFixed(2)}%` : '—'}
           </Typography.Body>
         </Flex.Item>
       </Flex.Item>
       <Flex.Item>
         <Typography.Body
           size="small"
-          style={{ color: 'var(--spectrum-volcano-color)' }}
+          style={{ color: 'var(--spectrum-hint-text)' }}
         >
           LBSP APR is calculated according to the current SPF price on Ergo
           market
