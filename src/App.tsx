@@ -63,6 +63,7 @@ export const ApplicationInitializer: React.FC = () => {
       light: `#F0F2F5`,
       hosky: '#1D1D1D',
       snek: '#1D1D1D',
+      comet: '#ED6D52',
       get system() {
         return isDarkOsTheme() ? this.dark : this.light;
       },
