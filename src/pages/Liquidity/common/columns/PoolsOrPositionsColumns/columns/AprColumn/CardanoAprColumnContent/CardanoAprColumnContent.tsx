@@ -54,6 +54,15 @@ const LbspTooltipContent: FC<LbspTooltipContentProps> = ({
           </Typography.Body>
         </Flex.Item>
       </Flex.Item>
+      <Flex.Item>
+        <Typography.Body
+          size="small"
+          style={{ color: 'var(--spectrum-volcano-color)' }}
+        >
+          LBSP APR is calculated according to the current SPF price on Ergo
+          market
+        </Typography.Body>
+      </Flex.Item>
     </Flex>
   );
 };
