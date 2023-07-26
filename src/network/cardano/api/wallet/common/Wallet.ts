@@ -247,6 +247,7 @@ export const createWallet = <
   };
 
   const submit = (tx: RawTx): Promise<HexString> => {
+    console.log(tx, RustModule.CardanoWasm.Transaction.from_hex(tx));
     return assertContext((context) => {
       if (params?.submit) {
         return params.submit(context, tx);

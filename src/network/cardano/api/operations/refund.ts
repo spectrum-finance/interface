@@ -97,6 +97,7 @@ const walletRefund = (txId: TxId): Observable<TxId> =>
         ),
       ),
     ),
+    tap(console.log, console.log),
     map((data) => data[1]),
     map((tx) => {
       if (!tx) {
