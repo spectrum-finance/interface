@@ -2,14 +2,11 @@ import { Divider, Flex, Typography } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import { FC } from 'react';
 
-import { applicationConfig } from '../../../../../../../../applicationConfig';
 import { useObservable } from '../../../../../../../../common/hooks/useObservable';
 import { AmmPool } from '../../../../../../../../common/models/AmmPool';
 import { InfoTooltip } from '../../../../../../../../components/InfoTooltip/InfoTooltip';
+import { isLbspAmmPool } from '../../../../../../../../utils/lbsp.ts';
 import { calculateLbspApr } from './calculateLbspApr';
-
-const isLbspPool = (poolId: string): boolean =>
-  applicationConfig.lbspLiquidityPools.includes(poolId);
 
 interface LbspTooltipContentProps {
   readonly swapApr: number;
@@ -41,7 +38,7 @@ const LbspTooltipContent: FC<LbspTooltipContentProps> = ({
         </Flex.Item>
         <Flex.Item flex={1}>
           <Typography.Body tooltip size="small">
-            <Trans>Swap fees APR 24h</Trans>
+            <Trans>Swap Fees</Trans>
           </Typography.Body>
         </Flex.Item>
       </Flex.Item>
@@ -86,7 +83,7 @@ const CardanoLbspAmmPoolArColumnContent: FC<CardanoAprColumnContent> = ({
             />
           }
         >
-          {totalApr}%
+          {totalApr.toFixed(2)}%
         </InfoTooltip>
       ) : (
         '—'
@@ -102,7 +99,7 @@ const CardanoStandardAmmPoolArColumnContent: FC<CardanoAprColumnContent> = ({
 export const CardanoAprColumnContent: FC<CardanoAprColumnContent> = ({
   ammPool,
 }) => {
-  if (isLbspPool(ammPool.id)) {
+  if (isLbspAmmPool(ammPool.id)) {
     return <CardanoLbspAmmPoolArColumnContent ammPool={ammPool} />;
   } else {
     return <CardanoStandardAmmPoolArColumnContent ammPool={ammPool} />;
