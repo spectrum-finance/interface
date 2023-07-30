@@ -9,3 +9,9 @@ export const isPreLbspTimeGap = () => {
 export const isLbspAmmPool = (poolId: string) => {
   return applicationConfig.lbspLiquidityPools.some((el) => el === poolId);
 };
+
+export const isBoostedLbspAmmPool = (poolId: string) => {
+  return applicationConfig.lbspBoostedLiquidityPools.some(
+    (el) => el === poolId,
+  );
+};

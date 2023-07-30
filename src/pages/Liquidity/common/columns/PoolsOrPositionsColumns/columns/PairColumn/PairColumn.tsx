@@ -1,4 +1,4 @@
-import { Flex } from '@ergolabs/ui-kit';
+import { Flex, useDevice } from '@ergolabs/ui-kit';
 import { FC, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -23,6 +23,7 @@ const isLbspPool = (poolId: string): boolean =>
 export const PairColumn: FC<PairColumnProps> = ({ ammPool }) => {
   const navigate = useNavigate();
   const [hasFarmForPool] = useObservable(hasFarmsForPool(ammPool.id), []);
+  const { s } = useDevice();
 
   const handleFarmsButtonClick = (e: MouseEvent) => {
     e.stopPropagation();
@@ -32,7 +33,12 @@ export const PairColumn: FC<PairColumnProps> = ({ ammPool }) => {
   return (
     <Flex align="center">
       <Flex.Item>
-        <AssetPairTitle assetX={ammPool.x.asset} assetY={ammPool.y.asset} />
+        <AssetPairTitle
+          level={s ? 'body-strong' : undefined}
+          assetX={ammPool.x.asset}
+          assetY={ammPool.y.asset}
+          isShowDivider={!s}
+        />
       </Flex.Item>
       <Flex.Item marginLeft={2} marginRight={3}>
         <DataTag content={`${ammPool.poolFee}%`} />
@@ -41,7 +47,7 @@ export const PairColumn: FC<PairColumnProps> = ({ ammPool }) => {
       <IsErgo>
         {hasFarmForPool && <FarmsButton onClick={handleFarmsButtonClick} />}
       </IsErgo>
-      <IsCardano>{isLbspPool(ammPool.id) && <LbspPoolTag />}</IsCardano>
+      {!s && <IsCardano>{isLbspPool(ammPool.id) && <LbspPoolTag />}</IsCardano>}
     </Flex>
   );
 };
