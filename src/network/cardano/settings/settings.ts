@@ -37,19 +37,14 @@ const getNewSelectedAddress = (
   settings: CardanoSettings,
   usedAddresses: Address[],
   unusedAddresses: Address[],
-  address: Address,
+  walletAddress: Address,
 ): string => {
   let newSelectedAddress: Address;
 
-  if (
-    isCurrentAddressValid(
-      settings.address,
-      unusedAddresses.concat(usedAddresses),
-    )
-  ) {
+  if (settings.address === walletAddress) {
     newSelectedAddress = settings.address!;
   } else {
-    newSelectedAddress = address;
+    newSelectedAddress = walletAddress;
   }
   return newSelectedAddress;
 };
