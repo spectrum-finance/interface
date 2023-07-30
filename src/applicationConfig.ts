@@ -58,6 +58,7 @@ interface ApplicationConfig {
   readonly requestRetryCount: number;
   readonly cardanoAmmSwapsOpenTime: DateTime;
   readonly lbspLiquidityPools: string[];
+  readonly lbspBoostedLiquidityPools: string[];
 }
 
 export const applicationConfig: ApplicationConfig = {
@@ -201,6 +202,7 @@ export const applicationConfig: ApplicationConfig = {
     '4a27465112a39464e6dd5ee470c552ebb3cb42925d5ec04014967908534e454b5f4144415f4e4654',
     '',
   ],
+  lbspBoostedLiquidityPools: [],
   operationsRestrictions: [
     {
       asset: 'd71693c49a84fbbecd4908c94813b46514b18b67a99952dc1e6e4791556de413',

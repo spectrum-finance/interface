@@ -15,11 +15,16 @@ import {
 import { applicationConfig } from '../../../../../../../../applicationConfig';
 import { AmmPool } from '../../../../../../../../common/models/AmmPool';
 import { appTick$ } from '../../../../../../../../common/streams/appTick';
+import {
+  isBoostedLbspAmmPool,
+  isLbspAmmPool,
+} from '../../../../../../../../utils/lbsp.ts';
 import { math } from '../../../../../../../../utils/math';
 
 const LBSP_COEFFICIENT = 0.006;
-
 const EPOCHS_PER_YEAR = 73;
+const LBSP_MULTIPLIER = 2.25;
+const LBSP_BOOSTED_MULTIPLIER = 3.5;
 
 const spfUsdRate$ = appTick$.pipe(
   switchMap(() =>
@@ -49,20 +54,24 @@ const adaUsdRate$ = appTick$.pipe(
 );
 adaUsdRate$.subscribe();
 
-const getLbspMultiplier = () => 2;
+const getLbspMultiplier = (ammPool: AmmPool) => {
+  if (isLbspAmmPool(ammPool.id)) {
+    return LBSP_MULTIPLIER;
+  }
+
+  if (isBoostedLbspAmmPool(ammPool.id)) {
+    return LBSP_BOOSTED_MULTIPLIER;
+  }
+
+  return 0;
+};
 
 export const calculateLbspApr = (ammPool: AmmPool): Observable<number> => {
   return combineLatest([spfUsdRate$, adaUsdRate$]).pipe(
     map(([spfUsdRate, adaUsdRate]) => {
-      const lbspMult = getLbspMultiplier();
-      const adaQuantity = ammPool.y.toAmount();
-
-      const totalLiquidityInUsd = math.evaluate!(
-        `${adaUsdRate} * ${adaQuantity} * 2`,
-      ).toFixed();
-
+      const lbspMult = getLbspMultiplier(ammPool);
       return math.evaluate!(
-        `(${adaQuantity} * ${LBSP_COEFFICIENT} * ${lbspMult} * ${spfUsdRate} / ${totalLiquidityInUsd}) * ${EPOCHS_PER_YEAR}`,
+        `(${LBSP_COEFFICIENT} * ${lbspMult} * ${spfUsdRate}) / ${adaUsdRate} * ${EPOCHS_PER_YEAR} * 100`,
       ).toFixed(2);
     }),
     map((res) => (res ? Number(res) : 0)),
