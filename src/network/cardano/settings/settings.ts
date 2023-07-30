@@ -8,7 +8,6 @@ import { MIN_NITRO } from '../../../common/constants/erg';
 import { defaultSlippage } from '../../../common/constants/settings';
 import { useObservable } from '../../../common/hooks/useObservable';
 import { Address } from '../../../common/types';
-import { isCurrentAddressValid } from '../../../common/utils/isCurrenctAddressValid';
 import { localStorageManager } from '../../../common/utils/localStorageManager';
 import { BaseNetworkSettings } from '../../common/NetworkSettings';
 import {
@@ -35,8 +34,6 @@ export const defaultCardanoSettings: CardanoSettings = {
 
 const getNewSelectedAddress = (
   settings: CardanoSettings,
-  usedAddresses: Address[],
-  unusedAddresses: Address[],
   walletAddress: Address,
 ): string => {
   let newSelectedAddress: Address;
@@ -66,8 +63,6 @@ export const initializeSettings = (): void => {
         localStorageManager.get(SETTINGS_KEY) || defaultCardanoSettings;
       const newSelectedAddress = getNewSelectedAddress(
         currentSettings,
-        usedAddresses,
-        unusedAddresses,
         walletAddress,
       );
 
