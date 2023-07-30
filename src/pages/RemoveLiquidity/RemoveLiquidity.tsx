@@ -43,6 +43,7 @@ export const RemoveLiquidity: FC = () => {
     () =>
       navigate(
         `../../../liquidity${position?.pool.id ? `/${position.pool.id}` : ''}`,
+        { replace: true },
       ),
   );
   const [formValue] = useObservable(form.valueChangesWithSilent$);

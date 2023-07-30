@@ -2,7 +2,7 @@ import { Flex } from '@ergolabs/ui-kit';
 import { FC } from 'react';
 
 import { RemoveLiquidityItem } from '../../../../../../common/models/OperationV2';
-import { PairAssetBox } from '../../../common/PairAssetBox/PairAssetBox';
+import { LpAssetBox } from '../../../common/LpAssetBox/LpAssetBox';
 
 export interface RemoveLiquidityAssetsCellProps {
   readonly removeLiquidityItem: RemoveLiquidityItem;
@@ -10,10 +10,14 @@ export interface RemoveLiquidityAssetsCellProps {
 
 export const RemoveLiquidityAssetsCell: FC<RemoveLiquidityAssetsCellProps> = ({
   removeLiquidityItem,
-}) => (
-  <Flex col width={200}>
-    <PairAssetBox
-      pair={removeLiquidityItem.pool.shares(removeLiquidityItem.lp)}
-    />
-  </Flex>
-);
+}) => {
+  return (
+    <Flex col width={200}>
+      <LpAssetBox
+        lpCurrency={removeLiquidityItem.lp}
+        xCurrency={removeLiquidityItem.x}
+        yCurrency={removeLiquidityItem.y}
+      />
+    </Flex>
+  );
+};

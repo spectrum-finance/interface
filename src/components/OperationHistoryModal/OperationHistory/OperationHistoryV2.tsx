@@ -83,13 +83,13 @@ export const OperationHistoryV2: FC<ModalRef> = ({ close }) => {
           {(operationItem: OperationItem) => (
             <Flex>
               <Flex.Item marginRight={2}>
-                <ExploreButton to={operationItem.registerTx.id} size="middle" />
+                <ExploreButton to={operationItem.registerTx.id} size="small" />
               </Flex.Item>
               <CopyButton
                 tooltipText={t`Copy Transaction ID`}
                 messageContent={t`TxId successfully copied`}
                 text={operationItem.registerTx.id}
-                size="middle"
+                size="small"
               />
             </Flex>
           )}

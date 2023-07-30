@@ -25,6 +25,7 @@ export type OperationMapper<
 export interface RawBaseOperation {
   readonly id: TxId;
   readonly registerTx: RawTransaction;
+  readonly inMemPool?: boolean;
 }
 
 export interface RawBaseExecutedOperation extends RawBaseOperation {
@@ -94,6 +95,11 @@ export const mapRawBaseOtherOperationToBaseOtherOperation = (
   return {
     id: rawBO.id,
     registerTx: mapRawTxToTx(rawBO.registerTx),
-    status: rawBO.status,
+    status:
+      rawBO.status === OperationStatus.Pending && !rawBO.inMemPool
+        ? OperationStatus.Registered
+        : rawBO.inMemPool
+        ? OperationStatus.Pending
+        : rawBO.status,
   };
 };

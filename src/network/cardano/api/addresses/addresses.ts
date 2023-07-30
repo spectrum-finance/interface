@@ -1,4 +1,13 @@
-import { Observable, of, publishReplay, refCount, switchMap } from 'rxjs';
+import uniq from 'lodash/uniq';
+import {
+  map,
+  Observable,
+  of,
+  publishReplay,
+  refCount,
+  switchMap,
+  zip,
+} from 'rxjs';
 
 import { Address } from '../../../../common/types';
 import { connectedWalletChange$ } from '../wallet/connectedWalletChange';
@@ -6,7 +15,16 @@ import { connectedWalletChange$ } from '../wallet/connectedWalletChange';
 export const getAddresses = (): Observable<Address[]> =>
   connectedWalletChange$.pipe(
     switchMap((selectedWallet) =>
-      selectedWallet ? selectedWallet.getAddresses() : of([]),
+      selectedWallet
+        ? zip(
+            selectedWallet.getAddresses(),
+            selectedWallet.getChangeAddress(),
+          ).pipe(
+            map(([addresses, changeAddress]) =>
+              uniq(addresses.concat(changeAddress)),
+            ),
+          )
+        : of([]),
     ),
     publishReplay(1),
     refCount(),
