@@ -72,7 +72,10 @@ export const mempoolRawOperations$: Observable<RawOperationItem[]> =
     map((res) => res.data),
     map((data) =>
       data.map((item) => ({
-        [Object.keys(item)[0]]: { ...Object.values(item)[0], inMemPool: true },
+        [Object.keys(item)[0]]: {
+          ...(Object.values(item)[0] as any),
+          inMemPool: true,
+        },
       })),
     ),
     distinctUntilKeyChanged('length'),
