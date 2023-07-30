@@ -21,7 +21,7 @@ export const AprColumn: FC<AprColumnProps> = ({ ammPool }) => (
             <ErgoAprColumnContent ammPool={ammPool} />
           </IsErgo>
           <IsCardano>
-            <CardanoAprColumnContent ammPool={ammPool} />
+            <ErgoAprColumnContent ammPool={ammPool} />
           </IsCardano>
         </>
       }
