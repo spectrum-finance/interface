@@ -1,8 +1,10 @@
+import { Transaction } from '@emurgo/cardano-serialization-lib-nodejs';
 import {
   mkTxAsm,
   mkTxMath,
   RefundTxBuilder,
   ScriptCredsV1,
+  TxCandidate,
 } from '@spectrumlabs/cardano-dex-sdk';
 import {
   OpInRefsMainnetV1,
@@ -98,10 +100,9 @@ const walletRefund = (txId: TxId): Observable<TxId> =>
       ),
     ),
     tap(console.log, console.log),
-    map((data) => data[1]),
-    map((tx) => {
+    map(([, tx, error]: [TxCandidate, Transaction | null, Error | null]) => {
       if (!tx) {
-        throw new Error('');
+        throw error || new Error('');
       }
       return tx;
     }),
@@ -127,6 +128,8 @@ export const refund = (
       xAsset: xAmount,
       yAsset: yAmount,
     },
+    undefined,
+    true,
   );
 
   return subject.asObservable();
