@@ -1,4 +1,5 @@
-import { Button } from '@ergolabs/ui-kit';
+import { Button, Tooltip } from '@ergolabs/ui-kit';
+import { Trans } from '@lingui/macro';
 import { FC } from 'react';
 import { first } from 'rxjs';
 
@@ -62,14 +63,21 @@ export const CancelOrderCell: FC<CancelOrderCellProps> = ({
   };
 
   return (
-    <div>
-      <Button
-        type="link"
-        disabled={isDisabled}
-        onClick={handleRefundButtonClick}
-      >
-        Cancel
-      </Button>
-    </div>
+    <Tooltip
+      visible={
+        operationItem.status === OperationStatus.Pending ? undefined : false
+      }
+      title={<Trans>Transaction is in Mempool now</Trans>}
+    >
+      <div>
+        <Button
+          type="link"
+          disabled={isDisabled}
+          onClick={handleRefundButtonClick}
+        >
+          Cancel
+        </Button>
+      </div>
+    </Tooltip>
   );
 };

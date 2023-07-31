@@ -1,11 +1,14 @@
 import { TxId } from '@ergolabs/ergo-sdk';
 import {
   Button,
+  CloseCircleOutlined,
   Flex,
   message,
   Modal,
   ModalRef,
   Typography,
+  WalletOutlined,
+  WarningOutlined,
 } from '@ergolabs/ui-kit';
 import { RequestProps } from '@ergolabs/ui-kit/dist/components/Modal/presets/Request';
 import { t, Trans } from '@lingui/macro';
@@ -130,11 +133,19 @@ const ProgressModalContent = (
 const ErrorModalContent = (
   operation: Operation,
   payload: ModalChainingPayload,
+  withErrorIcon?: boolean,
 ) => {
   const { errorEvent } = useErrorEvent();
 
   return (
     <Flex col align="center">
+      {withErrorIcon && (
+        <Flex.Item marginBottom={6}>
+          <CloseCircleOutlined
+            style={{ fontSize: 80, color: 'var(--spectrum-primary-color)' }}
+          />
+        </Flex.Item>
+      )}
       <Flex.Item marginBottom={1}>
         <Typography.Title level={4}>
           <Trans>Error</Trans>
@@ -176,6 +187,75 @@ const ErrorModalContent = (
       </Button>
     </Flex>
   );
+};
+
+const isNoCollateralErrorMessage = (msg: string) => {
+  return msg.endsWith('no collateral inputs are added');
+};
+const NoCollateralErrorModalContent = () => {
+  return (
+    <Flex align="center" col>
+      <Flex.Item marginBottom={6}>
+        <WalletOutlined
+          style={{ fontSize: 80, color: 'var(--spectrum-primary-color)' }}
+        />
+      </Flex.Item>
+      <Flex.Item marginBottom={1}>
+        <Typography.Title level={4}>
+          <Trans>Collateral is not provided!</Trans>
+        </Typography.Title>
+      </Flex.Item>
+      <Flex.Item marginBottom={1}>
+        <Typography.Body align="center">
+          <Trans>
+            Visit your wallet app and provide collateral to proceed with order
+            canceling.
+          </Trans>
+        </Typography.Body>
+      </Flex.Item>
+    </Flex>
+  );
+};
+
+const isNoAdaForFeeErrorMessage = (msg: string) => {
+  return msg.endsWith('insufficient balance for refund');
+};
+const NoAdaForFeeErrorModalContent = () => {
+  return (
+    <Flex align="center" col>
+      <Flex.Item marginBottom={6}>
+        <WarningOutlined
+          style={{ fontSize: 80, color: 'var(--spectrum-primary-color)' }}
+        />
+      </Flex.Item>
+      <Flex.Item marginBottom={1}>
+        <Typography.Title level={4}>
+          <Trans>Not enough ADA for fees</Trans>
+        </Typography.Title>
+      </Flex.Item>
+      <Flex.Item marginBottom={1}>
+        <Typography.Body align="center">
+          <Trans>Refill the ADA balance to continue canceling the order.</Trans>
+        </Typography.Body>
+      </Flex.Item>
+    </Flex>
+  );
+};
+
+const RefundErrorModalContent = (
+  error: Error | string,
+  payload: ModalChainingPayload,
+) => {
+  const message = error instanceof Error ? error.message : error;
+
+  if (isNoCollateralErrorMessage(message)) {
+    return NoCollateralErrorModalContent();
+  }
+  if (isNoAdaForFeeErrorMessage(message)) {
+    return NoAdaForFeeErrorModalContent();
+  }
+
+  return ErrorModalContent(Operation.REFUND, payload, true);
 };
 
 const SuccessModalContent = (txId: TxId) => (
@@ -263,6 +343,7 @@ export const openConfirmationModal = (
   operation: Operation,
   payload: ModalChainingPayload,
   onCancel?: () => void,
+  noErrorIcon?: boolean,
 ): ModalRef => {
   return Modal.request({
     actionContent,
@@ -270,8 +351,12 @@ export const openConfirmationModal = (
       if (error instanceof TimeoutError) {
         return YoroiIssueModalContent();
       }
+      if (operation === Operation.REFUND) {
+        return RefundErrorModalContent(error, payload);
+      }
       return ErrorModalContent(operation, payload);
     },
+    noErrorIcon,
     progressContent:
       operation === Operation.UNSTAKE || operation === Operation.STAKE
         ? ProgressModalContent.bind(null, operation)

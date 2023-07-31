@@ -3,7 +3,6 @@ import {
   ClockCircleOutlined,
   Flex,
   Tag,
-  Tooltip,
   UndoOutlined,
 } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
@@ -29,20 +28,15 @@ const EvaluatedStatusCell: FC = () => (
   </Tag>
 );
 
-const QueuedStatusCell: FC<{ inMemPool?: boolean }> = ({ inMemPool }) => (
-  <Tooltip
-    visible={inMemPool ? undefined : false}
-    title={<Trans>Transaction is in Mempool now</Trans>}
-  >
-    <Tag color="warning">
-      <Flex>
-        <Flex.Item marginRight={1}>
-          <ClockCircleOutlined />
-        </Flex.Item>
-        <Trans>Queuing...</Trans>
-      </Flex>
-    </Tag>
-  </Tooltip>
+const QueuedStatusCell: FC = () => (
+  <Tag color="warning">
+    <Flex>
+      <Flex.Item marginRight={1}>
+        <ClockCircleOutlined />
+      </Flex.Item>
+      <Trans>Queuing...</Trans>
+    </Flex>
+  </Tag>
 );
 
 const RefundedStatusCell: FC = () => (
@@ -64,11 +58,7 @@ export const StatusCell: FC<StatusCellProps> = ({ operationItem }) => {
   } else if (operationItem.status === OperationStatus.Refunded) {
     statusCell = <RefundedStatusCell />;
   } else {
-    statusCell = (
-      <QueuedStatusCell
-        inMemPool={operationItem.status === OperationStatus.Pending}
-      />
-    );
+    statusCell = <QueuedStatusCell />;
   }
 
   return <Flex justify="flex-start">{statusCell}</Flex>;
