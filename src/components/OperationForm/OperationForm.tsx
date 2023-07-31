@@ -18,6 +18,7 @@ import { Balance } from '../../common/models/Balance';
 import { isOnline$ } from '../../common/streams/networkConnection';
 import { useAssetsBalance } from '../../gateway/api/assetBalance';
 import { queuedOperation$ } from '../../gateway/api/queuedOperation';
+import { useSettings } from '../../gateway/settings/settings';
 import { ConnectWalletButton } from '../common/ConnectWalletButton/ConnectWalletButton';
 
 export type OperationLoader<T> = (form: FormGroup<T>) => boolean;
@@ -87,6 +88,7 @@ export function OperationForm<T>({
     Subscription | undefined
   >(undefined);
   const [isOnline] = useObservable(isOnline$);
+  const { slippage, nitro } = useSettings();
   const [queuedOperation] = useObservable(queuedOperation$);
   const [balance, isBalanceLoading] = useAssetsBalance();
   const [value] = useObservable(
@@ -225,6 +227,8 @@ export function OperationForm<T>({
     loaders,
     actionCaption,
     queuedOperation,
+    slippage,
+    nitro,
   ]);
 
   const handleSubmit = () => {

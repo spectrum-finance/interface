@@ -90,6 +90,13 @@ export const settings =
 export const setSettings = (newSettings: CardanoSettings): void =>
   localStorageManager.set(SETTINGS_KEY, newSettings);
 
+export const patchSettings = (newSettings: Partial<CardanoSettings>): void =>
+  localStorageManager.set(SETTINGS_KEY, {
+    ...(localStorageManager.get<CardanoSettings>(SETTINGS_KEY) ||
+      defaultCardanoSettings),
+    ...newSettings,
+  });
+
 export const settings$: Observable<CardanoSettings> = localStorageManager
   .getStream<CardanoSettings>(SETTINGS_KEY)
   .pipe(map((settings) => settings || defaultCardanoSettings));

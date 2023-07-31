@@ -6,7 +6,11 @@ import { OperationSettings as BaseOperationSettings } from '../../../../componen
 import { networkAsset } from '../../api/networkAsset/networkAsset';
 import { ammTxFeeMapping } from '../../api/operations/common/ammTxFeeMapping';
 import { minExecutorReward } from '../../api/operations/common/minExecutorReward';
-import { setSettings, useSettings } from '../../settings/settings';
+import {
+  patchSettings,
+  setSettings,
+  useSettings,
+} from '../../settings/settings';
 
 interface Props {
   hideNitro?: boolean;
@@ -32,8 +36,10 @@ export const OperationsSettings: FC<Props> = ({ hideNitro, hideSlippage }) => {
       setExecutionFeeAsset={(executionFeeAsset) =>
         setSettings({ ...settings, executionFeeAsset })
       }
-      setNitro={(nitro) => setSettings({ ...settings, nitro })}
-      setSlippage={(slippage) => setSettings({ ...settings, slippage })}
+      setNitro={(nitro) => {
+        patchSettings({ nitro });
+      }}
+      setSlippage={(slippage) => patchSettings({ slippage })}
     />
   );
 };
