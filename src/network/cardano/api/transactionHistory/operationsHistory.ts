@@ -184,10 +184,38 @@ export const getOperationByTxId = (
     }),
   );
 
+const registeredOrdersCount$: Observable<{
+  needRefund: number;
+  pending: number;
+}> = getAddresses().pipe(
+  switchMap((addresses) =>
+    interval(10_000).pipe(startWith(0), mapTo(addresses)),
+  ),
+  switchMap((addresses) =>
+    from(
+      axios.post<{ needRefund: number; pending: number }>(
+        `${applicationConfig.networksSettings.cardano_mainnet.analyticUrl}/history/order/pending`,
+        {
+          userPkhs: addresses.map((a) =>
+            extractPaymentCred(a, RustModule.CardanoWasm),
+          ),
+        },
+      ),
+    ).pipe(catchError(() => of({ data: { needRefund: 0, pending: 0 } }))),
+  ),
+  map((res) => res.data),
+  publishReplay(1),
+  refCount(),
+);
+
 export const pendingOperationsCount$ = mempoolRawOperations$.pipe(
   map((rawOperations) => rawOperations.length),
   publishReplay(1),
   refCount(),
 );
 
-export const hasNeedRefundOperations$ = of(false);
+export const hasNeedRefundOperations$ = registeredOrdersCount$.pipe(
+  map((data) => !!data.needRefund || !!data.pending),
+  publishReplay(1),
+  refCount(),
+);
