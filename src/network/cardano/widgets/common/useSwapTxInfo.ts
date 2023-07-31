@@ -15,10 +15,7 @@ import { ammTxFeeMapping } from '../../api/operations/common/ammTxFeeMapping';
 import { minExecutorReward } from '../../api/operations/common/minExecutorReward';
 import { transactionBuilder$ } from '../../api/operations/common/transactionBuilder.ts';
 import { selectedWallet$ } from '../../api/wallet/wallet';
-import {
-  CardanoSettings,
-  useSettings,
-} from '../../settings/settings';
+import { CardanoSettings, useSettings } from '../../settings/settings';
 
 export interface ExtendedSwapTxInfo {
   readonly txFee: Currency | undefined;
@@ -73,7 +70,7 @@ export const useSwapTxInfo = (
   const settings = useSettings();
   const [selectedWallet] = useObservable(selectedWallet$);
 
-  const [swapTxInfo, updateSwapTxInfo, isSwapTxInfoLoading, err] =
+  const [swapTxInfo, updateSwapTxInfo, isSwapTxInfoLoading] =
     useSubject(getSwapTxInfo);
 
   useEffect(() => {
