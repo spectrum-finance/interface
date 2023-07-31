@@ -11,11 +11,7 @@ import { networkAsset } from '../../api/networkAsset/networkAsset';
 import { ammTxFeeMapping } from '../../api/operations/common/ammTxFeeMapping';
 import { minExecutorReward } from '../../api/operations/common/minExecutorReward';
 import { transactionBuilder$ } from '../../api/operations/common/transactionBuilder.ts';
-import {
-  CardanoSettings,
-  settings,
-  useSettings,
-} from '../../settings/settings';
+import { CardanoSettings, useSettings } from '../../settings/settings';
 
 export interface ExtendedRedeemTxInfo {
   readonly txFee: Currency | undefined;
@@ -31,7 +27,7 @@ export const useRedeemTxInfo = (
   value: RemoveLiquidityFormModel,
   pool: AmmPool,
 ): [ExtendedRedeemTxInfo | undefined, boolean, CardanoSettings] => {
-  const { slippage } = useSettings();
+  const settings = useSettings();
 
   const [redeemTxInfo, updateRedeemTxInfo, isRedeemTxInfoLoading] = useSubject(
     (
@@ -74,7 +70,7 @@ export const useRedeemTxInfo = (
     }
 
     updateRedeemTxInfo(value, {
-      slippage,
+      slippage: settings.slippage,
       minExecutorReward: minExecutorReward,
       changeAddress: settings.address!,
       pk: settings.ph!,
@@ -82,7 +78,7 @@ export const useRedeemTxInfo = (
       pool: pool.pool as any,
       lq: pool.pool.lp.withAmount(lpAmount.amount) as any,
     });
-  }, [value.yAmount, value.xAmount, value.lpAmount, slippage, settings]);
+  }, [value.yAmount, value.xAmount, value.lpAmount, settings]);
 
   return [redeemTxInfo, isRedeemTxInfoLoading, settings];
 };

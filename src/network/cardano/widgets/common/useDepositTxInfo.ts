@@ -10,11 +10,7 @@ import { networkAsset } from '../../api/networkAsset/networkAsset';
 import { ammTxFeeMapping } from '../../api/operations/common/ammTxFeeMapping';
 import { minExecutorReward } from '../../api/operations/common/minExecutorReward';
 import { transactionBuilder$ } from '../../api/operations/common/transactionBuilder.ts';
-import {
-  CardanoSettings,
-  settings,
-  useSettings,
-} from '../../settings/settings';
+import { CardanoSettings, useSettings } from '../../settings/settings';
 
 export interface ExtendedDepositTxInfo {
   readonly txFee: Currency | undefined;
@@ -30,7 +26,7 @@ export interface ExtendedDepositTxInfo {
 export const useDepositTxInfo = (
   value: AddLiquidityFormModel,
 ): [ExtendedDepositTxInfo | undefined, boolean, CardanoSettings] => {
-  const { slippage } = useSettings();
+  const settings = useSettings();
 
   const [depositTxInfo, updateDepositTxInfo, isSwapTxInfoLoading] = useSubject(
     (
@@ -84,7 +80,7 @@ export const useDepositTxInfo = (
       changeAddress: settings.address!,
       pk: settings.ph!,
     });
-  }, [value.x, value.y, value.pool, slippage, settings]);
+  }, [value.x, value.y, value.pool, settings]);
 
   return [depositTxInfo, isSwapTxInfoLoading, settings];
 };
