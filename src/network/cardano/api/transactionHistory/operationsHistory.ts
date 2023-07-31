@@ -1,6 +1,7 @@
 import { extractPaymentCred } from '@spectrumlabs/cardano-dex-sdk';
 import { RustModule } from '@spectrumlabs/cardano-dex-sdk/build/main/utils/rustLoader';
 import axios from 'axios';
+import uniq from 'lodash/uniq';
 import {
   catchError,
   combineLatest,
@@ -62,8 +63,10 @@ export const mempoolRawOperations$: Observable<RawOperationItem[]> =
         axios.post(
           `${applicationConfig.networksSettings.cardano_mainnet.analyticUrl}mempool/order`,
           {
-            userPkhs: addresses.map((a) =>
-              extractPaymentCred(a, RustModule.CardanoWasm),
+            userPkhs: uniq(
+              addresses.map((a) =>
+                extractPaymentCred(a, RustModule.CardanoWasm),
+              ),
             ),
           },
         ),
@@ -94,8 +97,8 @@ const getRawOperationsHistory = (
       `${applicationConfig.networksSettings.cardano_mainnet.analyticUrl}history/order/v2?limit=${limit}&offset=${offset}`,
       {
         ...params,
-        userPkhs: addresses.map((a) =>
-          extractPaymentCred(a, RustModule.CardanoWasm),
+        userPkhs: uniq(
+          addresses.map((a) => extractPaymentCred(a, RustModule.CardanoWasm)),
         ),
       },
     ),
@@ -196,8 +199,8 @@ const registeredOrdersCount$: Observable<{
       axios.post<{ needRefund: number; pending: number }>(
         `${applicationConfig.networksSettings.cardano_mainnet.analyticUrl}/history/order/pending`,
         {
-          userPkhs: addresses.map((a) =>
-            extractPaymentCred(a, RustModule.CardanoWasm),
+          userPkhs: uniq(
+            addresses.map((a) => extractPaymentCred(a, RustModule.CardanoWasm)),
           ),
         },
       ),
