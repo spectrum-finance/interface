@@ -19,10 +19,12 @@ import {
   wallets$,
 } from '../../../../gateway/api/wallets';
 import { useSelectedNetwork } from '../../../../gateway/common/network';
+import { Eternl } from '../../../../network/cardano/api/wallet/eternl/eternl';
 import { Wallet } from '../../../../network/common/Wallet';
 import { ErgoPayTabPaneContent } from '../../../../network/ergo/widgets/ErgoPayModal/ErgoPayTabPaneContent/ErgoPayTabPaneContent';
 import { IsCardano } from '../../../IsCardano/IsCardano';
 import { IsErgo } from '../../../IsErgo/IsErgo';
+import { openEternlWalletWarningNotification } from './EternlWalletWarningNotification/EternlWalletWarningNotification';
 import { ProtocolDisclaimerAlert } from './ProtocolDisclaimerAlert/ProtocolDisclaimerAlert';
 
 interface WalletItemProps {
@@ -53,6 +55,12 @@ const WalletView: React.FC<WalletItemProps> = ({ wallet, close }) => {
   const [selectedNetwork] = useSelectedNetwork();
 
   const handleClick = () => {
+    if (wallet === Eternl) {
+      openEternlWalletWarningNotification();
+      close(false);
+      return;
+    }
+
     setLoading(true);
     connectWallet(wallet).subscribe(
       (isConnected) => {
