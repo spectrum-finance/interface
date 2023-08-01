@@ -16,6 +16,7 @@ import {
 } from '@spectrumlabs/analytics';
 import findLast from 'lodash/findLast';
 import maxBy from 'lodash/maxBy';
+import { to } from 'mathjs';
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -82,6 +83,15 @@ import { SwapGraph } from './SwapGraph/SwapGraph';
 import { SwapInfo } from './SwapInfo/SwapInfo';
 import { SwitchButton } from './SwitchButton/SwitchButton';
 import { YieldFarmingBadge } from './YieldFarmingBadge/YieldFarmingBadge';
+
+const swapParamsCache$ = new BehaviorSubject<
+  | undefined
+  | {
+      base: string | undefined;
+      quote: string | undefined;
+      initialPoolId: string | undefined;
+    }
+>(undefined);
 
 const getToAssets = (fromAsset?: string) =>
   fromAsset ? getDefaultAssetsFor(fromAsset) : defaultTokenAssets$;
@@ -291,8 +301,15 @@ export const Swap = (): JSX.Element => {
     (assets) => {
       if (!form.value.fromAsset && !form.value.toAsset) {
         form.patchValue({
-          fromAsset: findLast(assets, (a) => a.id === base) || networkAsset,
-          toAsset: findLast(assets, (a) => a.id === quote),
+          fromAsset:
+            findLast(
+              assets,
+              (a) => a.id === (swapParamsCache$.getValue()?.base || base),
+            ) || networkAsset,
+          toAsset: findLast(
+            assets,
+            (a) => a.id === (swapParamsCache$.getValue()?.quote || quote),
+          ),
         });
       }
     },
@@ -324,6 +341,11 @@ export const Swap = (): JSX.Element => {
           quote: form.value.toAsset?.id,
           base: form.value.fromAsset?.id,
         });
+        swapParamsCache$.next({
+          initialPoolId: undefined,
+          quote: form.value.toAsset?.id,
+          base: form.value.fromAsset?.id,
+        });
       }
       if (!pools.length && form.value.toAsset && form.value.fromAsset) {
         form.patchValue(
@@ -344,8 +366,11 @@ export const Swap = (): JSX.Element => {
 
       if (!form.value.pool && initialPoolId) {
         newPool =
-          pools.find((p) => p.id === initialPoolId) ||
-          maxBy(pools, (p) => p.x.amount * p.y.amount);
+          pools.find(
+            (p) =>
+              p.id ===
+              (swapParamsCache$.getValue()?.initialPoolId || initialPoolId),
+          ) || maxBy(pools, (p) => p.x.amount * p.y.amount);
       } else {
         newPool =
           pools.find((p) => p.id === form.value.pool?.id) ||
@@ -403,6 +428,11 @@ export const Swap = (): JSX.Element => {
       }
 
       setSearchParams({
+        base: fromAsset?.id,
+        quote: toAsset?.id,
+        initialPoolId: pool?.id,
+      });
+      swapParamsCache$.next({
         base: fromAsset?.id,
         quote: toAsset?.id,
         initialPoolId: pool?.id,
