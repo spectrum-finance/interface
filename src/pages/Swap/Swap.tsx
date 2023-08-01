@@ -16,7 +16,6 @@ import {
 } from '@spectrumlabs/analytics';
 import findLast from 'lodash/findLast';
 import maxBy from 'lodash/maxBy';
-import { to } from 'mathjs';
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
