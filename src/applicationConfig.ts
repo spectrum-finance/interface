@@ -88,7 +88,7 @@ export const applicationConfig: ApplicationConfig = {
       metadataUrl:
         'https://raw.githubusercontent.com/spectrum-finance/token-logos/master/logos/cardano',
       networkUrl: 'https://explorer.spectrum.fi/cardano/mainnet/v1/',
-      explorerUrl: 'https://cexplorer.io',
+      explorerUrl: 'https://cardanoscan.io',
       lowBalanceGuide: '',
       analyticUrl: 'https://analytics.spectrum.fi/cardano/',
       isCreatePoolAvailable: false,

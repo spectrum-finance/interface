@@ -6,7 +6,10 @@ import { networkContext$ } from '../api/networkContext/networkContext';
 import { cardanoNetworkData } from './cardanoNetworkData';
 
 export const exploreTx = (txId: TxId): unknown =>
-  window.open(`${cardanoNetworkData.explorerUrl}/tx/${txId}`, '_blank');
+  window.open(
+    `${cardanoNetworkData.explorerUrl}/transaction/${txId}`,
+    '_blank',
+  );
 
 export const exploreAddress = (address: Address): unknown =>
   window.open(`${cardanoNetworkData.explorerUrl}/address/${address}`, '_blank');
@@ -14,7 +17,7 @@ export const exploreAddress = (address: Address): unknown =>
 export const exploreLastBlock = (): unknown =>
   networkContext$.pipe(first()).subscribe((ctx) => {
     window.open(
-      `${cardanoNetworkData.explorerUrl}/block/${ctx.blockHash}`,
+      `${cardanoNetworkData.explorerUrl}/block/${ctx.lastBlockId}`,
       '_blank',
     );
   });
