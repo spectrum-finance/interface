@@ -15,10 +15,12 @@ import {
   currentNetwork,
 } from '../../utils/cardanoNetworkData';
 import { AdditionalData } from './common/AdditionalData';
-import { LocalStorageCacheExcludeEternlStrategy } from './common/LocalStorageCacheExcludeEternlStrategy';
 import { CardanoNetwork } from './common/old/CardanoWalletContract';
 import { Wallet } from './common/Wallet';
-import { createWalletManager } from './common/WalletManager';
+import {
+  createWalletManager,
+  LocalStorageCacheStrategy,
+} from './common/WalletManager';
 import { Eternl } from './eternl/eternl';
 import { Exodus } from './exodus/exodus.tsx';
 import { Flint } from './flint/flint.tsx';
@@ -31,7 +33,7 @@ import { Vespr } from './vespr/vespr';
 import { WalletConnect } from './walletConnect/walletConnect.tsx';
 import { Yoroi } from './yoroi/yoroi.tsx';
 
-const localStorageCacheStrategy = new LocalStorageCacheExcludeEternlStrategy(
+const localStorageCacheStrategy = new LocalStorageCacheStrategy(
   cardanoNetworkData.walletKey,
 );
 const walletStateUpdate$ = new BehaviorSubject(
