@@ -24,6 +24,15 @@ export const PoolsOrPositionsTableView: FC<
       gap={1}
       tableItemViewPadding={2}
       tableHeaderPadding={[0, 4]}
+      onItemClick={(item) => {
+        if (item.id) {
+          navigate(item.id);
+        } else if (item.pool.id) {
+          navigate(item.pool.id);
+        } else if (item.pool.pool.id) {
+          navigate(item.pool.pool.id);
+        }
+      }}
     >
       <TableView.Column flex={1} width={'90%'} title={<Trans>Pair</Trans>}>
         {(ammPool) => <PairColumn ammPool={poolMapper(ammPool)} />}
