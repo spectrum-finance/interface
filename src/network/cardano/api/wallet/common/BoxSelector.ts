@@ -65,7 +65,7 @@ const getSortedUtxosByAsset = (
       if (utxoA.value.length === utxoB.value.length) {
         return Number(assetB.quantity - assetA.quantity);
       }
-      return utxoA.value.length - utxoB.value.length
+      return utxoA.value.length - utxoB.value.length;
     }),
 });
 
@@ -127,10 +127,7 @@ export const selectUtxos = (
   );
   const sortedUtxosByAda = getSortedUtxosByAsset(utxos, adaCoin);
 
-  console.log(
-    sortedUtxosByNonAdaCoins,
-    sortedUtxosByAda
-  );
+  console.log(sortedUtxosByNonAdaCoins, sortedUtxosByAda);
   console.log('____');
 
   let selectedUtxos: SelectedUtxos =
