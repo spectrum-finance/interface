@@ -62,7 +62,10 @@ const getSortedUtxosByAsset = (
       const assetA = getAssetFromBoxStrict(utxoA, coin);
       const assetB = getAssetFromBoxStrict(utxoB, coin);
 
-      return Number(assetA.quantity - assetB.quantity);
+      if (utxoA.value.length === utxoB.value.length) {
+        return Number(assetB.quantity - assetA.quantity);
+      }
+      return utxoA.value.length - utxoB.value.length
     }),
 });
 
@@ -123,6 +126,12 @@ export const selectUtxos = (
     getSortedUtxosByAsset(utxos, coin),
   );
   const sortedUtxosByAda = getSortedUtxosByAsset(utxos, adaCoin);
+
+  console.log(
+    sortedUtxosByNonAdaCoins,
+    sortedUtxosByAda
+  );
+  console.log('____');
 
   let selectedUtxos: SelectedUtxos =
     sortedUtxosByNonAdaCoins.reduce<SelectedUtxos>(selectUtxosByAsset, {
