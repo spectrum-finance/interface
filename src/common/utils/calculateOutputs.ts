@@ -25,7 +25,13 @@ export const calculateOutputs = (
   const maxOutput = extremums[1].maxOutput;
 
   return [
-    new Currency(minOutput.amount, minOutput.asset),
-    new Currency(maxOutput.amount, maxOutput.asset),
+    new Currency(
+      minOutput.amount,
+      minOutput.asset.id === pool.x.asset.id ? pool.x.asset : pool.y.asset,
+    ),
+    new Currency(
+      maxOutput.amount,
+      maxOutput.asset.id === pool.x.asset.id ? pool.x.asset : pool.y.asset,
+    ),
   ];
 };
