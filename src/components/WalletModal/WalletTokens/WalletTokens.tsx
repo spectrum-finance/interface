@@ -3,7 +3,7 @@ import { Trans } from '@lingui/macro';
 import * as React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { Balance } from '../../../common/models/Balance.ts';
+import { useAssetsBalance } from '../../../gateway/api/assetBalance';
 import { useSelectedNetwork } from '../../../gateway/common/network';
 import { List } from '../../List/List';
 import { ListStateView } from '../../List/ListStateView/ListStateView';
@@ -11,17 +11,8 @@ import { makeSkeletonLoader } from '../../SkeletonLoader/makeSkeletonLoader.tsx'
 import { SkeletonLoader } from '../../SkeletonLoader/SkeletonLoader.tsx';
 import { TokenListItem } from './TokenListItem/TokenListItem';
 
-interface WalletTokensProps {
-  balance: Balance;
-  loading: boolean;
-  close: () => void;
-}
-
-export const WalletTokens: React.FC<WalletTokensProps> = ({
-  close,
-  balance,
-  loading,
-}) => {
+export const WalletTokens: React.FC<{ close: () => void }> = ({ close }) => {
+  const [balance, loading] = useAssetsBalance();
   const [selectedNetwork] = useSelectedNetwork();
   const location = useLocation();
   const navigate = useNavigate();
