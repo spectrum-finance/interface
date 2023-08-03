@@ -1,7 +1,8 @@
-import { combineLatest, map, Observable } from 'rxjs';
+import { combineLatest, map, Observable, publishReplay, refCount } from 'rxjs';
 
 import { useObservable } from '../../../../common/hooks/useObservable.ts';
 import {
+  CardanoSettings,
   patchSettings,
   settings$,
   useSettings,
@@ -25,6 +26,8 @@ const adaHandleBalance$: Observable<AdaHandle[]> = assetBalance$.pipe(
         name: c.asset.name,
       }));
   }),
+  publishReplay(1),
+  refCount(),
 );
 
 export const hasAdaHandle$: Observable<boolean> = adaHandleBalance$.pipe(
@@ -35,9 +38,9 @@ export const hasActiveAdaHandleOnBalance$: Observable<boolean> = combineLatest([
   adaHandleBalance$,
   settings$,
 ]).pipe(
-  map(([arr, { activeAdaHandle }]) => {
-    return arr.some(
-      (adaHandle) => activeAdaHandle && adaHandle.id === activeAdaHandle.id,
+  map(([arr, { activeAdaHandles }]: [AdaHandle[], CardanoSettings]) => {
+    return !!arr.some((adaHandle) =>
+      activeAdaHandles?.some((ah) => ah.id === adaHandle.id),
     );
   }),
 );
@@ -52,14 +55,34 @@ export const useHasActiveAdaHandleOnBalance = (): [boolean, boolean, Error] =>
   useObservable(hasActiveAdaHandleOnBalance$, [], false);
 
 export const useAdaHandle = (): [
-  activeHandle: AdaHandle | undefined,
-  setActiveHandle: (activeHandle?: AdaHandle) => void,
+  AdaHandle | undefined,
+  (activeHandle?: AdaHandle) => void,
 ] => {
-  const settings = useSettings();
-  const activeAdaHandle = settings.activeAdaHandle;
-  const patchActiveHande = (active?: AdaHandle) => {
-    patchSettings({ activeAdaHandle: active });
+  const { activeAdaHandles } = useSettings();
+  const [adaHandleBalance] = useAdaHandleBalance();
+  const currentActiveAdaHandle: AdaHandle | undefined = activeAdaHandles?.find(
+    (ah) => adaHandleBalance.some((ahb) => ahb.id === ah.id),
+  );
+
+  const setActiveHandle = (newActiveHandle?: AdaHandle) => {
+    if (newActiveHandle && currentActiveAdaHandle) {
+      patchSettings({
+        activeAdaHandles: activeAdaHandles?.map((item) =>
+          item.id === currentActiveAdaHandle.id ? newActiveHandle : item,
+        ),
+      });
+    } else if (newActiveHandle) {
+      patchSettings({
+        activeAdaHandles: (activeAdaHandles || []).concat(newActiveHandle),
+      });
+    } else if (!newActiveHandle && currentActiveAdaHandle) {
+      patchSettings({
+        activeAdaHandles: (activeAdaHandles || []).filter(
+          (item) => item.id !== currentActiveAdaHandle.id,
+        ),
+      });
+    }
   };
 
-  return [activeAdaHandle, patchActiveHande];
+  return [currentActiveAdaHandle, setActiveHandle];
 };

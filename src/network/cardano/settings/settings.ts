@@ -23,7 +23,7 @@ const SETTINGS_KEY = cardanoNetworkData.settingsKey;
 
 export interface CardanoSettings extends BaseNetworkSettings {
   readonly ph?: PublicKey;
-  readonly activeAdaHandle?: AdaHandle;
+  readonly activeAdaHandles?: AdaHandle[];
   readonly wasAdaHandleModalOpened: boolean;
 }
 
@@ -32,7 +32,7 @@ export const defaultCardanoSettings: CardanoSettings = {
   slippage: defaultSlippage,
   ph: undefined,
   address: undefined,
-  activeAdaHandle: undefined,
+  activeAdaHandles: undefined,
   executionFeeAsset: networkAsset,
   wasAdaHandleModalOpened: false,
 };
@@ -78,7 +78,7 @@ export const initializeSettings = (): void => {
       ]);
 
       setSettings({
-        ...settings,
+        ...currentSettings,
         address: newSelectedAddress,
         ph: pubKeyHashFromAddr(newSelectedAddress, RustModule.CardanoWasm),
         executionFeeAsset:

@@ -10,6 +10,7 @@ import {
 } from 'rxjs';
 
 import { WalletState, WalletSupportedFeatures } from '../../../common/Wallet';
+import { patchSettings } from '../../settings/settings';
 import {
   cardanoNetworkData,
   currentNetwork,
@@ -73,6 +74,7 @@ export const selectedWallet$: Observable<Wallet<AdditionalData> | undefined> =
       if (wallet) {
         walletStateUpdate$.next(WalletState.CONNECTED);
       } else {
+        patchSettings({ wasAdaHandleModalOpened: false });
         walletStateUpdate$.next(WalletState.NOT_CONNECTED);
       }
     });
