@@ -1,6 +1,6 @@
 import { Button, Flex, Modal, useDevice } from '@ergolabs/ui-kit';
 import { fireAnalyticsEvent } from '@spectrumlabs/analytics';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import styled from 'styled-components';
 
 import { useObservable } from '../../../../../../common/hooks/useObservable';
@@ -8,6 +8,16 @@ import { networkAssetBalance$ } from '../../../../../../gateway/api/networkAsset
 import { selectedWallet$ } from '../../../../../../gateway/api/wallets';
 import { useSelectedNetwork } from '../../../../../../gateway/common/network';
 import { settings$ } from '../../../../../../gateway/settings/settings';
+import {
+  useHasActiveAdaHandleOnBalance,
+  useHasAdaHandle,
+} from '../../../../../../network/cardano/api/adaHandle';
+import {
+  patchSettings as patchCardanoSettings,
+  useSettings as useCardanoSettings,
+} from '../../../../../../network/cardano/settings/settings';
+import { openAdaHandleModal } from '../../../../../../network/cardano/widgets/AdaHandle/AdaHandleModal/AdaHandleModal';
+import { isCardano } from '../../../../../../utils/network';
 import { WalletModal } from '../../../../../WalletModal/WalletModal';
 import { AddressTag } from './AddressTag/AddressTag';
 import { BalanceView } from './BalanceView/BalanceView';
@@ -25,6 +35,31 @@ const _WalletInfoButton: FC<WalletInfoButtonProps> = ({ className }) => {
 
   const [selectedWallet] = useObservable(selectedWallet$);
   const [selectedNetwork] = useSelectedNetwork();
+  const [hasAdaHandleBalance] = useHasAdaHandle();
+  const [hasActiveAdaHandleOnBalance] = useHasActiveAdaHandleOnBalance();
+  const { wasAdaHandleModalOpened } = useCardanoSettings();
+
+  useEffect(() => {
+    if (!isCardano() || !hasAdaHandleBalance) {
+      return;
+    }
+    if (
+      hasAdaHandleBalance &&
+      !hasActiveAdaHandleOnBalance &&
+      !wasAdaHandleModalOpened &&
+      networkAssetBalance !== undefined
+    ) {
+      openAdaHandleModal(true);
+    }
+    if (networkAssetBalance !== undefined) {
+      patchCardanoSettings({ wasAdaHandleModalOpened: true });
+    }
+  }, [
+    hasAdaHandleBalance,
+    hasActiveAdaHandleOnBalance,
+    wasAdaHandleModalOpened,
+    networkAssetBalance,
+  ]);
 
   return (
     <Button
