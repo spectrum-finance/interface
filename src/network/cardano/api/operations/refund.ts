@@ -19,10 +19,7 @@ import {
   OrderAddrsV1Mainnet,
 } from '@spectrumlabs/cardano-dex-sdk/build/main/amm/scripts';
 import { NetworkParams } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/env';
-import {
-  CardanoWasm,
-  RustModule,
-} from '@spectrumlabs/cardano-dex-sdk/build/main/utils/rustLoader';
+import { CardanoWasm } from '@spectrumlabs/cardano-dex-sdk/build/main/utils/rustLoader';
 import {
   combineLatest,
   first,
@@ -60,6 +57,7 @@ class SpectrumExUnitsCalculator implements ExUnitsCalculator {
     tx: QuickblueTx,
     outToRefund: QuickblueTxOut,
   ): Promise<ExUnitsDescriptor> {
+    console.log(tx, outToRefund);
     return Promise.resolve({
       mem: DEFAULT_EX_UNITS_MEM,
       steps: DEFAULT_EX_UNITS_STEPS,
