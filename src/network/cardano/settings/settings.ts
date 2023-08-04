@@ -10,6 +10,7 @@ import { useObservable } from '../../../common/hooks/useObservable';
 import { Address } from '../../../common/types';
 import { localStorageManager } from '../../../common/utils/localStorageManager';
 import { BaseNetworkSettings } from '../../common/NetworkSettings';
+import { AdaHandle } from '../api/adaHandle';
 import {
   getChangeAddress,
   getUnusedAddresses,
@@ -22,6 +23,8 @@ const SETTINGS_KEY = cardanoNetworkData.settingsKey;
 
 export interface CardanoSettings extends BaseNetworkSettings {
   readonly ph?: PublicKey;
+  readonly activeAdaHandles?: AdaHandle[];
+  readonly wasAdaHandleModalOpened: boolean;
 }
 
 export const defaultCardanoSettings: CardanoSettings = {
@@ -29,7 +32,9 @@ export const defaultCardanoSettings: CardanoSettings = {
   slippage: defaultSlippage,
   ph: undefined,
   address: undefined,
+  activeAdaHandles: undefined,
   executionFeeAsset: networkAsset,
+  wasAdaHandleModalOpened: false,
 };
 
 const getNewSelectedAddress = (
@@ -73,7 +78,7 @@ export const initializeSettings = (): void => {
       ]);
 
       setSettings({
-        ...settings,
+        ...currentSettings,
         address: newSelectedAddress,
         ph: pubKeyHashFromAddr(newSelectedAddress, RustModule.CardanoWasm),
         executionFeeAsset:
