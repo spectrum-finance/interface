@@ -1,17 +1,28 @@
 import { Transaction } from '@emurgo/cardano-serialization-lib-nodejs';
 import {
+  ExUnitsCalculator,
+  ExUnitsDescriptor,
   mkTxAsm,
   mkTxMath,
+  QuickblueTx,
+  QuickblueTxOut,
   RefundTxBuilder,
   ScriptCredsV1,
   TxCandidate,
 } from '@spectrumlabs/cardano-dex-sdk';
 import {
+  DEFAULT_EX_UNITS_MEM,
+  DEFAULT_EX_UNITS_STEPS,
+} from '@spectrumlabs/cardano-dex-sdk/build/main/amm/interpreters/refundTxBuilder/refundTxBuilder';
+import {
   OpInRefsMainnetV1,
   OrderAddrsV1Mainnet,
 } from '@spectrumlabs/cardano-dex-sdk/build/main/amm/scripts';
 import { NetworkParams } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/env';
-import { CardanoWasm } from '@spectrumlabs/cardano-dex-sdk/build/main/utils/rustLoader';
+import {
+  CardanoWasm,
+  RustModule,
+} from '@spectrumlabs/cardano-dex-sdk/build/main/utils/rustLoader';
 import {
   combineLatest,
   first,
@@ -43,6 +54,18 @@ import {
   DefaultInputSelector,
 } from './common/inputSelector';
 import { submitTx } from './common/submitTxCandidate';
+
+class SpectrumExUnitsCalculator implements ExUnitsCalculator {
+  calculateExUnits(
+    tx: QuickblueTx,
+    outToRefund: QuickblueTxOut,
+  ): Promise<ExUnitsDescriptor> {
+    return Promise.resolve({
+      mem: DEFAULT_EX_UNITS_MEM,
+      steps: DEFAULT_EX_UNITS_STEPS,
+    });
+  }
+}
 
 export const refundBuilder$ = combineLatest([
   cardanoWasm$,
@@ -80,6 +103,7 @@ export const refundBuilder$ = combineLatest([
       txAsm,
       cardanoNetworkParams.pparams,
       cardanoNetwork,
+      new SpectrumExUnitsCalculator(),
     );
   }),
   publishReplay(1),
