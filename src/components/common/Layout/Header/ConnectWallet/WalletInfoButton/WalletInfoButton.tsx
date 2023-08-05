@@ -51,7 +51,7 @@ const _WalletInfoButton: FC<WalletInfoButtonProps> = ({ className }) => {
     ) {
       openAdaHandleModal(true);
     }
-    if (networkAssetBalance !== undefined) {
+    if (networkAssetBalance !== undefined && !wasAdaHandleModalOpened) {
       patchCardanoSettings({ wasAdaHandleModalOpened: true });
     }
   }, [
