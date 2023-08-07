@@ -38,16 +38,24 @@ export const LbspFaqModal = () => {
   const questions = useMemo(
     () => [
       {
-        question: t`What is Liquidity Bootstrapping Stake Pool?`,
+        question: t`What is Liquidity Bootstrapping Stake Pool (LBSP)?`,
         content: t`The Liquidity Bootstrapping Stake Pool (LBSP) is an incentive program for liquidity providers, rewarding them with SPF utility tokens in exchange for providing liquidity.`,
+      },
+      {
+        question: t`What is the reward for participation?`,
+        content: t`The reward for participation is SPF utility token. The LBSP program is the largest SPF token distribution event.`,
+      },
+      {
+        question: t`What’s the utility of the SPF token?`,
+        content: t`SPF is a cross-chain token whose main utility is to secure Spectrum Network PoS consensus. Spectrum Network is a trustless cross-chain messaging protocol that is currently in an active development stage. However, while Spectrum Network is under development, users can pay execution fees using the SPF on Layer 1 AMM protocols by Spectrum Finance.`,
       },
       {
         question: t`How do I participate in the LBSP program?`,
         content: t`To participate in the program you need to provide liquidity to any LBSP-labeled liquidity pool using this interface.`,
       },
       {
-        question: t`How does the LBSP program work technically?`,
-        content: t`Cardano PoS blockchain makes it possible to delegate and stake ADA not only using a wallet but also from a smart contract. All Spectrum Finance Pool smart contracts that represent liquidity pools in the system delegate ADA to Liquidity Bootstrapping Stake Pools. These stake pools generate blocks and ADA rewards for the project’s treasury and for ADA/SPF liquidity pool. In exchange, liquidity providers are rewarded with SPF utility tokens.`,
+        question: t`Why do I participate in the LBSP program?`,
+        content: t`The LBSP program is the most important step in SPF token distribution which opens the opportunity for the community to obtain a large portion of the supply. In the future, the only way to get the token will be staking on the PoS consensus of the Spectrum Network cross-chain messaging protocol.`,
       },
       {
         question: t`How does the reward mechanism work for the LBSP program?`,
@@ -131,34 +139,8 @@ export const LbspFaqModal = () => {
         ),
       },
       {
-        question: t`Can I participate by only delegating ADA to ISPO without liquidity provision?`,
-        content: (
-          <>
-            <Trans>
-              Yes, it is possible, but the reward per epoch will be lower than
-              for liquidity provision. The rewarding formula for standard ISPO
-              is delegated_ada * 0.006 per epoch. Find the
-            </Trans>{' '}
-            <Typography.Link
-              href="https://cardanoscan.io/pool/27eba5dbeb2b52f5613aa452cf54cab7f9894538d6efb7d271ccc36f"
-              target="_blank"
-            >
-              <Trans>SPF0</Trans>
-            </Typography.Link>{' '}
-            <Trans>
-              stake pool in any wallet app and delegate your ADA there to get
-              rewarded.
-            </Trans>
-          </>
-        ),
-      },
-      {
-        question: t`What’s the utility of the SPF token?`,
-        content: t`SPF is a cross-chain token whose main utility is to secure Spectrum Network PoS consensus. Spectrum Network is a trustless cross-chain messaging protocol that is currently in an active development stage. However, while Spectrum Network is under development, users can pay execution fees using the SPF on Layer 1 AMM protocols by Spectrum Finance.`,
-      },
-      {
-        question: t`Why do I participate in the LBSP program?`,
-        content: t`The LBSP program is the most important step in SPF token distribution which opens the opportunity for the community to obtain a large portion of the supply. In the future, the only way to get the token will be staking on the PoS consensus of the Spectrum Network cross-chain messaging protocol.`,
+        question: t`How does the LBSP program work technically?`,
+        content: t`Cardano PoS blockchain makes it possible to delegate and stake ADA not only using a wallet but also from a smart contract. All Spectrum Finance Pool smart contracts that represent liquidity pools in the system delegate ADA to Liquidity Bootstrapping Stake Pools. These stake pools generate blocks and ADA rewards for the project’s treasury and for ADA/SPF liquidity pool. In exchange, liquidity providers are rewarded with SPF utility tokens.`,
       },
     ],
     [],
