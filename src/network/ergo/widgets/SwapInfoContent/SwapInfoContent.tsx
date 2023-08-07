@@ -2,6 +2,8 @@ import { Box, Flex, Typography } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
 import { FC } from 'react';
 
+import { useObservable } from '../../../../common/hooks/useObservable';
+import { Currency } from '../../../../common/models/Currency';
 import { calculateOutputs } from '../../../../common/utils/calculateOutputs';
 import { AssetIcon } from '../../../../components/AssetIcon/AssetIcon';
 import { ConvenientAssetView } from '../../../../components/ConvenientAssetView/ConvenientAssetView';
@@ -10,6 +12,8 @@ import { SwapFormModel } from '../../../../pages/Swap/SwapFormModel';
 import { SwapInfoItem } from '../../../../pages/Swap/SwapInfo/SwapInfoItem/SwapInfoItem';
 import { SwapInfoPriceImpact } from '../../../../pages/Swap/SwapInfo/SwapInfoPriceImpact/SwapInfoPriceImpact';
 import { ErgoAmmPool } from '../../api/ammPools/ErgoAmmPool';
+import { networkAsset } from '../../api/networkAsset/networkAsset';
+import { calculateUiFee } from '../../api/uiFee/uiFee';
 import {
   useMaxExFee,
   useMinExFee,
@@ -27,6 +31,11 @@ export const SwapInfoContent: FC<SwapInfoContent> = ({ value }) => {
   const maxExFee = useMaxExFee();
   const slippage = useSlippage();
   const minerFee = useMinerFee();
+  const [uiFee] = useObservable(
+    calculateUiFee(value.fromAmount),
+    [value.fromAmount],
+    new Currency(0n, networkAsset),
+  );
   const nitro = useNitro();
 
   const [minOutput] =
@@ -71,8 +80,8 @@ export const SwapInfoContent: FC<SwapInfoContent> = ({ value }) => {
           title={t`Total fees`}
           value={
             <>
-              <ConvenientAssetView value={[minerFee, minExFee]} /> -{' '}
-              <ConvenientAssetView value={[minerFee, maxExFee]} />
+              <ConvenientAssetView value={[minerFee, minExFee, uiFee]} /> -{' '}
+              <ConvenientAssetView value={[minerFee, maxExFee, uiFee]} />
             </>
           }
         />
@@ -119,15 +128,29 @@ export const SwapInfoContent: FC<SwapInfoContent> = ({ value }) => {
               }
             />
           </Flex.Item>
+          <Flex.Item marginBottom={2}>
+            <SwapInfoItem
+              title={t`Network Fee`}
+              value={
+                <Flex align="center">
+                  <Flex.Item marginRight={1}>
+                    <AssetIcon asset={minerFee.asset} size="extraSmall" />
+                  </Flex.Item>
+                  {minerFee.toCurrencyString()} (
+                  <ConvenientAssetView value={minerFee} />)
+                </Flex>
+              }
+            />
+          </Flex.Item>
           <SwapInfoItem
-            title={t`Network Fee`}
+            title={t`Service Fee`}
             value={
               <Flex align="center">
                 <Flex.Item marginRight={1}>
-                  <AssetIcon asset={minerFee.asset} size="extraSmall" />
+                  <AssetIcon asset={uiFee.asset} size="extraSmall" />
                 </Flex.Item>
-                {minerFee.toCurrencyString()} (
-                <ConvenientAssetView value={minerFee} />)
+                {uiFee?.toCurrencyString()} (
+                <ConvenientAssetView value={uiFee} />)
               </Flex>
             }
           />

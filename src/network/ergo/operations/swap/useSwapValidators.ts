@@ -1,10 +1,12 @@
 import { MinBoxValue } from '@ergolabs/ergo-sdk';
 import { t } from '@lingui/macro';
+import { map } from 'rxjs';
 
 import { NEW_MIN_BOX_VALUE } from '../../../../common/constants/erg';
 import { OperationValidator } from '../../../../components/OperationForm/OperationForm';
 import { SwapFormModel } from '../../../../pages/Swap/SwapFormModel';
 import { feeAsset, networkAsset } from '../../api/networkAsset/networkAsset';
+import { calculateUiFee } from '../../api/uiFee/uiFee';
 import { useMaxExFee as useNativeMaxExFee } from '../../settings/executionFee/nativeExecutionFee';
 import { useMaxExFee as useSpfMaxExFee } from '../../settings/executionFee/spfExecutionFee';
 import { useMinerFee } from '../../settings/minerFee';
@@ -23,9 +25,13 @@ const useNativeFeeSwapValidators = (): OperationValidator<SwapFormModel>[] => {
       ? fromAmount.plus(totalFees)
       : totalFees;
 
-    return totalFeesWithAmount.gt(balance.get(networkAsset))
-      ? t`Insufficient ${networkAsset.ticker} balance for fees`
-      : undefined;
+    return calculateUiFee(fromAmount).pipe(
+      map((uiFee) =>
+        totalFeesWithAmount.plus(uiFee).gt(balance.get(networkAsset))
+          ? t`Insufficient ${networkAsset.ticker} balance for fees`
+          : undefined,
+      ),
+    );
   };
 
   return [insufficientAssetForFeeValidator as any];
@@ -43,19 +49,27 @@ const useSpfFeeSwapValidators = (): OperationValidator<SwapFormModel>[] => {
       ? fromAmount.plus(minerFeeWithMinBoxValue)
       : minerFeeWithMinBoxValue;
 
-    if (totalNErgAmountWithFromAmount.gt(balance.get(networkAsset))) {
-      return t`Insufficient ${networkAsset.ticker} balance for fees`;
-    }
+    return calculateUiFee(fromAmount).pipe(
+      map((uiFee) => {
+        if (
+          totalNErgAmountWithFromAmount
+            .plus(uiFee)
+            .gt(balance.get(networkAsset))
+        ) {
+          return t`Insufficient ${networkAsset.ticker} balance for fees`;
+        }
 
-    const maxExFeeWithFromAmount = fromAmount.isAssetEquals(feeAsset)
-      ? fromAmount.plus(maxExFee)
-      : maxExFee;
+        const maxExFeeWithFromAmount = fromAmount.isAssetEquals(feeAsset)
+          ? fromAmount.plus(maxExFee)
+          : maxExFee;
 
-    if (maxExFeeWithFromAmount.gt(balance.get(feeAsset))) {
-      return t`Insufficient ${feeAsset.ticker} balance for fees`;
-    }
+        if (maxExFeeWithFromAmount.gt(balance.get(feeAsset))) {
+          return t`Insufficient ${feeAsset.ticker} balance for fees`;
+        }
 
-    return undefined;
+        return undefined;
+      }),
+    );
   };
 
   return [insufficientAssetForFeeValidator as any];

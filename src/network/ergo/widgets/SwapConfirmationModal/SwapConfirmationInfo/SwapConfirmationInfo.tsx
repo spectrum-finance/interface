@@ -2,12 +2,16 @@ import { Box, Flex, Typography } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import { FC } from 'react';
 
+import { useObservable } from '../../../../../common/hooks/useObservable';
+import { Currency } from '../../../../../common/models/Currency';
 import { calculateOutputs } from '../../../../../common/utils/calculateOutputs.ts';
 import { AssetIcon } from '../../../../../components/AssetIcon/AssetIcon.tsx';
 import { BoxInfoItem } from '../../../../../components/BoxInfoItem/BoxInfoItem.tsx';
 import { FeesView } from '../../../../../components/FeesView/FeesView.tsx';
 import { Truncate } from '../../../../../components/Truncate/Truncate.tsx';
 import { SwapFormModel } from '../../../../../pages/Swap/SwapFormModel.ts';
+import { networkAsset } from '../../../api/networkAsset/networkAsset';
+import { calculateUiFee } from '../../../api/uiFee/uiFee';
 import {
   useMaxExFee,
   useMinExFee,
@@ -27,6 +31,11 @@ export const SwapConfirmationInfo: FC<SwapConfirmationInfoProps> = ({
   const maxExFee = useMaxExFee();
   const slippage = useSlippage();
   const minerFee = useMinerFee();
+  const [uiFee] = useObservable(
+    calculateUiFee(value.fromAmount),
+    [],
+    new Currency(0n, networkAsset),
+  );
   const nitro = useNitro();
 
   const [minOutput, maxOutput] =
@@ -98,7 +107,10 @@ export const SwapConfirmationInfo: FC<SwapConfirmationInfoProps> = ({
           />
         </Flex.Item>
         <FeesView
-          feeItems={[{ caption: t`Network Fee`, fee: minerFee }]}
+          feeItems={[
+            { caption: t`Network Fee`, fee: minerFee },
+            { caption: t`Service Fee`, fee: uiFee },
+          ]}
           executionFee={[minExFee, maxExFee]}
         />
       </Flex>

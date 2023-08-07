@@ -8,15 +8,13 @@ import { AssetAmount, ErgoBox, TransactionContext } from '@ergolabs/ergo-sdk';
 import { NetworkContext } from '@ergolabs/ergo-sdk/build/main/entities/networkContext';
 import { first, map, Observable, zip } from 'rxjs';
 
-import {
-  NEW_MIN_BOX_VALUE,
-  UI_FEE_BIGINT,
-} from '../../../../../common/constants/erg';
+import { NEW_MIN_BOX_VALUE } from '../../../../../common/constants/erg';
 import { Currency } from '../../../../../common/models/Currency';
 import { getBaseInputParameters } from '../../../../../utils/walletMath';
 import { ErgoAmmPool } from '../../../api/ammPools/ErgoAmmPool';
 import { feeAsset } from '../../../api/networkAsset/networkAsset';
 import { networkContext$ } from '../../../api/networkContext/networkContext';
+import { calculateUiFee } from '../../../api/uiFee/uiFee';
 import { utxos$ } from '../../../api/utxos/utxos';
 import { minExFee$ } from '../../../settings/executionFee/spfExecutionFee';
 import { minerFee$ } from '../../../settings/minerFee';
@@ -43,6 +41,7 @@ interface SwapOperationCandidateParams {
   readonly nitro: number;
   readonly minTotalFee: Currency;
   readonly maxTotalFee: Currency;
+  readonly uiFee: Currency;
 }
 
 export interface AdditionalData {
@@ -64,6 +63,7 @@ const toSwapOperationArgs = ({
   nitro,
   minTotalFee,
   maxTotalFee,
+  uiFee,
 }: SwapOperationCandidateParams): [
   SwapParams<SpecExFeeType>,
   TransactionContext,
@@ -103,7 +103,7 @@ const toSwapOperationArgs = ({
         ],
     {
       minerFee: minerFee.amount,
-      uiFee: UI_FEE_BIGINT,
+      uiFee: uiFee.amount,
       exFee: NEW_MIN_BOX_VALUE,
     },
     true,
@@ -115,7 +115,7 @@ const toSwapOperationArgs = ({
     baseInput,
     minQuoteOutput: extremum.minOutput.amount,
     exFeePerToken: { amount: exFeePerToken, tokenId: feeAsset.id },
-    uiFee: UI_FEE_BIGINT,
+    uiFee: uiFee.amount,
     quoteAsset: to.asset.id,
     poolFeeNum: pool.pool.poolFeeNum,
     maxExFee: { amount: extremum.maxExFee, tokenId: feeAsset.id },
@@ -151,6 +151,7 @@ export const createSwapTxData = (
     networkContext$,
     minTotalFee$,
     maxTotalFee$,
+    calculateUiFee(from),
   ]).pipe(
     first(),
     map(
@@ -162,6 +163,7 @@ export const createSwapTxData = (
         networkContext,
         minTotalFee,
         maxTotalFee,
+        uiFee,
       ]) =>
         toSwapOperationArgs({
           from,
@@ -175,6 +177,7 @@ export const createSwapTxData = (
           nitro: settings.nitro,
           minTotalFee,
           maxTotalFee,
+          uiFee,
         }),
     ),
   );
