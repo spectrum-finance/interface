@@ -75,7 +75,11 @@ export const InfoTooltip: React.FC<InfoTooltipProps> = ({
             cursor: 'pointer',
           }}
         >
-          {isQuestionIcon ? <QuestionCircleOutlined /> : <InfoCircleOutlined />}
+          {isQuestionIcon ? (
+            <QuestionCircleOutlined onClick={(e) => e.stopPropagation()} />
+          ) : (
+            <InfoCircleOutlined onClick={(e) => e.stopPropagation()} />
+          )}
         </Typography.Body>
       </Tooltip>
     </Flex>
