@@ -63,7 +63,9 @@ export const PoolsOrPositionsTableView: FC<
           </InfoTooltip>
         }
       >
-        {(ammPool: AmmPool) => <AprColumn ammPool={poolMapper(ammPool)} />}
+        {(ammPool: AmmPool) => (
+          <AprColumn isAllContentTrigger ammPool={poolMapper(ammPool)} />
+        )}
       </TableView.Column>
       {children}
       <TableView.Column width="32px">

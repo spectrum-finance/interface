@@ -3,6 +3,7 @@ import {
   catchError,
   combineLatest,
   distinctUntilChanged,
+  filter,
   from,
   map,
   Observable,
@@ -49,6 +50,7 @@ const adaUsdRate$ = appTick$.pipe(
   map((res) => res.data.market_data.current_price.usd),
   catchError(() => of(0)),
   distinctUntilChanged(),
+  filter(Boolean),
   publishReplay(1),
   refCount(),
 );

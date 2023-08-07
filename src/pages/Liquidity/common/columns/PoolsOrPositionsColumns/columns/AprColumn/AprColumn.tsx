@@ -10,9 +10,13 @@ import { ErgoAprColumnContent } from './ErgoAprColumnContent/ErgoAprColumnConten
 
 export interface AprColumnProps {
   readonly ammPool: AmmPool;
+  readonly isAllContentTrigger?: boolean;
 }
 
-export const AprColumn: FC<AprColumnProps> = ({ ammPool }) => (
+export const AprColumn: FC<AprColumnProps> = ({
+  ammPool,
+  isAllContentTrigger,
+}) => (
   <Flex>
     <DataTag
       content={
@@ -21,7 +25,10 @@ export const AprColumn: FC<AprColumnProps> = ({ ammPool }) => (
             <ErgoAprColumnContent ammPool={ammPool} />
           </IsErgo>
           <IsCardano>
-            <CardanoAprColumnContent ammPool={ammPool} />
+            <CardanoAprColumnContent
+              ammPool={ammPool}
+              isAllContentTrigger={isAllContentTrigger}
+            />
           </IsCardano>
         </>
       }
