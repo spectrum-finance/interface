@@ -30,6 +30,7 @@ interface InfoTooltipProps {
   size?: 'large' | 'base' | 'small' | 'extra-small' | 'footnote';
   defaultVisible?: boolean;
   isQuestionIcon?: boolean;
+  isAllContentTrigger?: boolean;
 }
 
 const getColor = (color: InfoTooltipProps['color']) => {
@@ -55,7 +56,39 @@ export const InfoTooltip: React.FC<InfoTooltipProps> = ({
   size,
   defaultVisible = false,
   isQuestionIcon,
+  isAllContentTrigger,
 }) => {
+  if (isAllContentTrigger) {
+    return (
+      <Tooltip
+        placement={placement ?? 'right'}
+        title={content}
+        className={className}
+        width="100%"
+        maxWidth={width}
+        defaultVisible={defaultVisible}
+      >
+        <Flex align="center" inline onClick={(e) => e.stopPropagation()}>
+          {children}
+          <Typography.Body
+            size={size}
+            style={{
+              color: getColor(color),
+              marginLeft: children ? '4px' : '0px',
+              cursor: 'pointer',
+            }}
+          >
+            {isQuestionIcon ? (
+              <QuestionCircleOutlined />
+            ) : (
+              <InfoCircleOutlined />
+            )}
+          </Typography.Body>
+        </Flex>
+      </Tooltip>
+    );
+  }
+
   return (
     <Flex align="center" inline>
       {children}
@@ -75,7 +108,11 @@ export const InfoTooltip: React.FC<InfoTooltipProps> = ({
             cursor: 'pointer',
           }}
         >
-          {isQuestionIcon ? <QuestionCircleOutlined /> : <InfoCircleOutlined />}
+          {isQuestionIcon ? (
+            <QuestionCircleOutlined onClick={(e) => e.stopPropagation()} />
+          ) : (
+            <InfoCircleOutlined onClick={(e) => e.stopPropagation()} />
+          )}
         </Typography.Body>
       </Tooltip>
     </Flex>

@@ -69,10 +69,12 @@ const LbspTooltipContent: FC<LbspTooltipContentProps> = ({
 
 export interface CardanoAprColumnContent {
   readonly ammPool: AmmPool;
+  readonly isAllContentTrigger?: boolean;
 }
 
 const CardanoLbspAmmPoolArColumnContent: FC<CardanoAprColumnContent> = ({
   ammPool,
+  isAllContentTrigger,
 }) => {
   const [lbspApr] = useObservable(calculateLbspApr(ammPool), [], 0);
   const swapApr = ammPool.yearlyFeesPercent || 0;
@@ -84,6 +86,7 @@ const CardanoLbspAmmPoolArColumnContent: FC<CardanoAprColumnContent> = ({
         <InfoTooltip
           width={200}
           placement="top"
+          isAllContentTrigger={isAllContentTrigger}
           content={
             <LbspTooltipContent
               totalApr={totalApr}
@@ -107,9 +110,15 @@ const CardanoStandardAmmPoolArColumnContent: FC<CardanoAprColumnContent> = ({
 
 export const CardanoAprColumnContent: FC<CardanoAprColumnContent> = ({
   ammPool,
+  isAllContentTrigger,
 }) => {
   if (isLbspAmmPool(ammPool.id)) {
-    return <CardanoLbspAmmPoolArColumnContent ammPool={ammPool} />;
+    return (
+      <CardanoLbspAmmPoolArColumnContent
+        isAllContentTrigger={isAllContentTrigger}
+        ammPool={ammPool}
+      />
+    );
   } else {
     return <CardanoStandardAmmPoolArColumnContent ammPool={ammPool} />;
   }
