@@ -30,6 +30,24 @@ export const uiFeeParams$ = new BehaviorSubject<UiFeeParams>({
   uiFeeThreshold: 30,
 });
 
+const _calculateUiFee = (
+  usdErgRate: Ratio,
+  inputInErg: Currency,
+  params: UiFeeParams,
+): Currency => {
+  const minUiFeeInErg = usdErgRate.toBaseCurrency(
+    new Currency(params.minUiFee.toString(), usdAsset),
+  );
+  const feeThresholdInErg = usdErgRate.toBaseCurrency(
+    new Currency(params.uiFeeThreshold.toString(), usdAsset),
+  );
+
+  if (inputInErg.lte(feeThresholdInErg)) {
+    return minUiFeeInErg;
+  }
+  return inputInErg.percent(0.3).plus(minUiFeeInErg);
+};
+
 export const minUiFee$: Observable<Currency> = combineLatest(
   convertToConvenientNetworkAsset.rate(networkAsset),
   uiFeeParams$,
@@ -44,6 +62,18 @@ export const minUiFee$: Observable<Currency> = combineLatest(
   refCount(),
 );
 
+export const calculateUiFeeSync = (
+  input: Currency = new Currency(0n, networkAsset),
+): Currency => {
+  const usdErgRate = convertToConvenientNetworkAsset.rateSnapshot(networkAsset);
+  const inputInErg =
+    input.asset.id === networkAsset.id
+      ? input
+      : convertToConvenientNetworkAsset.snapshot(input, networkAsset);
+  const uiFeeParams = uiFeeParams$.getValue();
+  return _calculateUiFee(usdErgRate, inputInErg, uiFeeParams);
+};
+
 export const calculateUiFee = (
   input: Currency = new Currency(0n, networkAsset),
 ): Observable<Currency> =>
@@ -55,19 +85,9 @@ export const calculateUiFee = (
     uiFeeParams$,
   ]).pipe(
     debounceTime(200),
-    map(([usdErgRate, inputInErg, params]: [Ratio, Currency, UiFeeParams]) => {
-      const minUiFeeInErg = usdErgRate.toBaseCurrency(
-        new Currency(params.minUiFee.toString(), usdAsset),
-      );
-      const feeThresholdInErg = usdErgRate.toBaseCurrency(
-        new Currency(params.uiFeeThreshold.toString(), usdAsset),
-      );
-
-      if (inputInErg.lte(feeThresholdInErg)) {
-        return minUiFeeInErg;
-      }
-      return inputInErg.percent(0.3).plus(minUiFeeInErg);
-    }),
+    map(([usdErgRate, inputInErg, params]: [Ratio, Currency, UiFeeParams]) =>
+      _calculateUiFee(usdErgRate, inputInErg, params),
+    ),
     distinctUntilChanged(
       (prev, current) => prev?.toAmount() === current?.toAmount(),
     ),
