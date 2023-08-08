@@ -99,14 +99,10 @@ export const makeCardanoWallet = ({
     ) {
       return true;
     }
-    if (
-      networkId === CardanoNetwork.MAINNET &&
-      currentNetwork === 'cardano_mainnet'
-    ) {
+    if (networkId === CardanoNetwork.MAINNET && currentNetwork === 'cardano') {
       return true;
     }
-    const networkName =
-      currentNetwork === 'cardano_mainnet' ? 'Mainnet' : 'Preview';
+    const networkName = currentNetwork === 'cardano' ? 'Mainnet' : 'Preview';
 
     notification.error({
       key: 'wallet_network_error',

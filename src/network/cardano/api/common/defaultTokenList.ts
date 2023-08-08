@@ -11,7 +11,7 @@ export interface DefaultTokenListItem {
 }
 
 export const defaultTokenList$ = getDefaultTokenList<DefaultTokenListItem>(
-  applicationConfig.networksSettings.cardano_mainnet.defaultTokenListUrl,
+  applicationConfig.networksSettings.cardano.defaultTokenListUrl,
   (item) => {
     return item.subject;
   },

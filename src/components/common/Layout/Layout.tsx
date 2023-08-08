@@ -67,13 +67,9 @@ const _Layout: FC<PropsWithChildren<{ className?: string }>> = ({
           <Header scrolledTop={scrolledTop} />
 
           <IsCardano>
-            {location.pathname === '/cardano_mainnet/liquidity' && (
-              <LbspBanner />
-            )}
+            {location.pathname === '/cardano/liquidity' && <LbspBanner />}
             {isPreLbspTimeGap() &&
-              location.pathname === '/cardano_mainnet/liquidity' && (
-                <LbspTimer />
-              )}
+              location.pathname === '/cardano/liquidity' && <LbspTimer />}
           </IsCardano>
 
           <MainContainer

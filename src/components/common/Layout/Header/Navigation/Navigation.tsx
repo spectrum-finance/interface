@@ -38,7 +38,7 @@ const _Navigation: FC<NavigationProps> = ({ className, style }) => {
       style={style}
     >
       <Tabs.TabPane
-        disabled={isPreLbspTimeGap() && network.name === 'cardano_mainnet'}
+        disabled={isPreLbspTimeGap() && network.name === 'cardano'}
         tab={t`Swap`}
         key="swap"
       />
