@@ -151,7 +151,7 @@ export const createSwapTxData = (
     networkContext$,
     minTotalFee$,
     maxTotalFee$,
-    calculateUiFee(from),
+    calculateUiFee(from).pipe(first()),
   ]).pipe(
     first(),
     map(

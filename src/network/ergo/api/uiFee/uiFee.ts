@@ -1,4 +1,14 @@
-import { BehaviorSubject, first, map, Observable, of, zip } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  Observable,
+  of,
+  publishReplay,
+  refCount,
+} from 'rxjs';
 
 import { usdAsset } from '../../../../common/constants/usdAsset';
 import { Currency } from '../../../../common/models/Currency';
@@ -20,17 +30,31 @@ export const uiFeeParams$ = new BehaviorSubject<UiFeeParams>({
   uiFeeThreshold: 30,
 });
 
+export const minUiFee$: Observable<Currency> = combineLatest(
+  convertToConvenientNetworkAsset.rate(networkAsset),
+  uiFeeParams$,
+  [],
+).pipe(
+  map(([usdErgRate, params]) =>
+    usdErgRate.toBaseCurrency(
+      new Currency(params.minUiFee.toString(), usdAsset),
+    ),
+  ),
+  publishReplay(1),
+  refCount(),
+);
+
 export const calculateUiFee = (
   input: Currency = new Currency(0n, networkAsset),
 ): Observable<Currency> =>
-  zip([
+  combineLatest([
     convertToConvenientNetworkAsset.rate(networkAsset),
     input.asset.id === networkAsset.id
       ? of(input)
       : convertToConvenientNetworkAsset(input, networkAsset),
     uiFeeParams$,
   ]).pipe(
-    first(),
+    debounceTime(200),
     map(([usdErgRate, inputInErg, params]: [Ratio, Currency, UiFeeParams]) => {
       const minUiFeeInErg = usdErgRate.toBaseCurrency(
         new Currency(params.minUiFee.toString(), usdAsset),
@@ -44,4 +68,7 @@ export const calculateUiFee = (
       }
       return inputInErg.percent(0.3).plus(minUiFeeInErg);
     }),
+    distinctUntilChanged(
+      (prev, current) => prev?.toAmount() === current?.toAmount(),
+    ),
   );

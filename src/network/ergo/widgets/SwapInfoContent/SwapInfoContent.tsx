@@ -13,7 +13,7 @@ import { SwapInfoItem } from '../../../../pages/Swap/SwapInfo/SwapInfoItem/SwapI
 import { SwapInfoPriceImpact } from '../../../../pages/Swap/SwapInfo/SwapInfoPriceImpact/SwapInfoPriceImpact';
 import { ErgoAmmPool } from '../../api/ammPools/ErgoAmmPool';
 import { networkAsset } from '../../api/networkAsset/networkAsset';
-import { calculateUiFee } from '../../api/uiFee/uiFee';
+import { calculateUiFee, minUiFee$ } from '../../api/uiFee/uiFee';
 import {
   useMaxExFee,
   useMinExFee,
@@ -31,6 +31,11 @@ export const SwapInfoContent: FC<SwapInfoContent> = ({ value }) => {
   const maxExFee = useMaxExFee();
   const slippage = useSlippage();
   const minerFee = useMinerFee();
+  const [minUiFee] = useObservable(
+    minUiFee$,
+    [],
+    new Currency(0n, networkAsset),
+  );
   const [uiFee] = useObservable(
     calculateUiFee(value.fromAmount),
     [value.fromAmount],
@@ -144,7 +149,7 @@ export const SwapInfoContent: FC<SwapInfoContent> = ({ value }) => {
           </Flex.Item>
           <SwapInfoItem
             title={t`Service Fee`}
-            tooltip={`To maintain high quality of service, we charge a service fee of 0.3% but not less than 0.3 USD ERG value of swap input spot price. This fee helps the team to cover the costs of maintaining the servers and improving this interface.`}
+            tooltip={`To maintain high quality of service, we charge a service fee of 0.3% but not less than ${minUiFee.toCurrencyString()} of swap input spot price. This fee helps the team to cover the costs of maintaining the servers and improving this interface.`}
             value={
               <Flex align="center">
                 <Flex.Item marginRight={1}>
