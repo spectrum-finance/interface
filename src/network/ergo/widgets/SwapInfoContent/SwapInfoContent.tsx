@@ -144,6 +144,7 @@ export const SwapInfoContent: FC<SwapInfoContent> = ({ value }) => {
           </Flex.Item>
           <SwapInfoItem
             title={t`Service Fee`}
+            tooltip={`To maintain high quality of service, we charge a service fee of 0.3% but not less than 0.3 USD ERG value of swap input spot price. This fee helps the team to cover the costs of maintaining the servers and improving this interface.`}
             value={
               <Flex align="center">
                 <Flex.Item marginRight={1}>
