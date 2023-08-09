@@ -6,10 +6,8 @@ import { applicationConfig } from '../../../applicationConfig';
 import { device } from '../../../common/constants/size';
 import { useSelectedNetwork } from '../../../gateway/common/network';
 import { openCookiePolicy } from '../../../services/notifications/CookiePolicy/CookiePolicy';
-import { isPreLbspTimeGap } from '../../../utils/lbsp';
 import { IsCardano } from '../../IsCardano/IsCardano';
 import { LbspBanner } from '../../LbspBanner/LbspBanner';
-import { LbspTimer } from '../../LbspTimer/LbspTimer';
 import { NetworkHeight } from '../../NetworkHeight/NetworkHeight';
 import { SocialLinks } from '../../SocialLinks/SocialLinks';
 import { CardanoUpdate } from './CardanoUpdate/CardanoUpdate';
@@ -70,10 +68,6 @@ const _Layout: FC<PropsWithChildren<{ className?: string }>> = ({
             {location.pathname === '/cardano_mainnet/liquidity' && (
               <LbspBanner />
             )}
-            {isPreLbspTimeGap() &&
-              location.pathname === '/cardano_mainnet/liquidity' && (
-                <LbspTimer />
-              )}
           </IsCardano>
 
           <MainContainer
