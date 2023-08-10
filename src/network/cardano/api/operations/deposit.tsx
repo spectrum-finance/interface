@@ -9,12 +9,12 @@ import { Balance } from '../../../../common/models/Balance';
 import { Currency } from '../../../../common/models/Currency';
 import { addErrorLog } from '../../../../common/services/ErrorLogs';
 import { TxId } from '../../../../common/types';
+import { AddLiquidityFormModel } from '../../../../components/AddLiquidityForm/AddLiquidityFormModel';
 import {
   openConfirmationModal,
   Operation,
 } from '../../../../components/ConfirmationModal/ConfirmationModal';
 import { OperationValidator } from '../../../../components/OperationForm/OperationForm';
-import { AddLiquidityFormModel } from '../../../../pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityFormModel';
 import { depositMaxButtonClickForNative } from '../../../common/depositMaxButtonClickForNative';
 import {
   CardanoSettings,
