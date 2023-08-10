@@ -16,8 +16,8 @@ import * as React from 'react';
 
 import {
   changeSelectedNetwork,
-  networks,
   useSelectedNetwork,
+  visibleNetworks,
 } from '../../../../../gateway/common/network';
 import { AssetIcon } from '../../../../AssetIcon/AssetIcon';
 
@@ -39,7 +39,7 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
       <Typography.Body className="network-dropdown__menu-title" strong>
         <Trans>Select Network</Trans>
       </Typography.Body>
-      {networks.map((network) => (
+      {visibleNetworks.map((network) => (
         <Menu.Item
           key={network.name}
           onClick={() => {

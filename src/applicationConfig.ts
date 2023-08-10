@@ -83,7 +83,7 @@ export const applicationConfig: ApplicationConfig = {
       analyticUrl: 'https://analytics.spectrum.fi/cardano/',
       isCreatePoolAvailable: false,
     },
-    cardano_mainnet: {
+    cardano: {
       defaultTokenListUrl: 'https://spectrum.fi/cardano-token-list.json',
       metadataUrl:
         'https://raw.githubusercontent.com/spectrum-finance/token-logos/master/logos/cardano',

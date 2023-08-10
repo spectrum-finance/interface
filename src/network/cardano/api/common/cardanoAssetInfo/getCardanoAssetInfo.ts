@@ -39,7 +39,7 @@ const defaultTokenListItemToAssetInfo = (
     ticker: dtli?.ticker || ac.name,
     decimals: dtli?.decimals || 0,
     icon: dtli?.subject
-      ? `${applicationConfig.networksSettings.cardano_mainnet.metadataUrl}/${dtli?.subject}.png`
+      ? `${applicationConfig.networksSettings.cardano.metadataUrl}/${dtli?.subject}.png`
       : '',
     data: ac,
   };

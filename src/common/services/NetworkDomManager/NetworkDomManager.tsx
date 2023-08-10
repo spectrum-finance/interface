@@ -1,7 +1,7 @@
 import capitalize from 'lodash/capitalize';
 import last from 'lodash/last';
 import { FC } from 'react';
-import { useParams } from 'react-router';
+import { useLocation, useParams } from 'react-router';
 import {
   generatePath,
   matchPath,
@@ -47,7 +47,10 @@ const init = (routesConfig: RouteConfigExtended[]): void => {
   )?.params?.network;
 
   initializeNetwork({
-    possibleName: urlNetworkParameter,
+    possibleName:
+      urlNetworkParameter === 'cardano_mainnet'
+        ? 'cardano'
+        : urlNetworkParameter,
     afterNetworkChange: handleAfterNetworkChange.bind(null, routesConfig),
     getSelectedNetwork: () => {
       isSelectDefaultNetworkVisible$.next(true);
@@ -59,12 +62,24 @@ const init = (routesConfig: RouteConfigExtended[]): void => {
 
 const NetworkDomManagerOutlet: FC = () => {
   const { network } = useParams<{ network: string }>();
+  const location = useLocation();
   const networkExists = isNetworkExists(network?.toLowerCase());
+
+  // TODO: Temporary. Remove in next iteration
+  const isLegacyCardanoPath = location.pathname.includes('cardano_mainnet');
 
   return networkExists ? (
     <Outlet />
   ) : (
-    <Navigate replace={true} to={`/${selectedNetwork.name}`} />
+    <Navigate
+      replace={true}
+      to={
+        isLegacyCardanoPath
+          ? location.pathname.replace('cardano_mainnet', 'cardano') +
+            location.search
+          : `/${selectedNetwork.name}`
+      }
+    />
   );
 };
 

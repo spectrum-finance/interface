@@ -3330,10 +3330,10 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@spectrumlabs/analytics@^1.1.7":
-  version "1.1.7"
-  resolved "https://registry.yarnpkg.com/@spectrumlabs/analytics/-/analytics-1.1.7.tgz#0441a89967315f0c7a5d802db45e39ea3c68fae7"
-  integrity sha512-rf51TrZLt1vMZPPVwVbRECU6hHNy3x7WTGNGblJkRw+LEGqc/6ITmDKKqNjDk22lgg5PGnf7gW1qGNjWmc9JWw==
+"@spectrumlabs/analytics@^1.1.8":
+  version "1.1.8"
+  resolved "https://registry.yarnpkg.com/@spectrumlabs/analytics/-/analytics-1.1.8.tgz#41280955f5676b8605d8037d401250a11d9f57bf"
+  integrity sha512-/eD7CcswsaUpm6ptqVYwgEASLlv+Flgh56vs2LzjZT1mkOFlvgVyokIWDa9iWrHDGDvS10lYJkaU2yPy7BYHBA==
   dependencies:
     "@amplitude/analytics-browser" "^1.9.0"
 

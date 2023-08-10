@@ -61,7 +61,7 @@ export const mempoolRawOperations$: Observable<RawOperationItem[]> =
     switchMap((addresses) =>
       from(
         axios.post(
-          `${applicationConfig.networksSettings.cardano_mainnet.analyticUrl}mempool/order`,
+          `${applicationConfig.networksSettings.cardano.analyticUrl}mempool/order`,
           {
             userPkhs: uniq(
               addresses.map((a) =>
@@ -94,7 +94,7 @@ const getRawOperationsHistory = (
 ): Observable<[RawOperationItem[], number]> =>
   from(
     axios.post<{ orders: RawOperationItem[]; total: number }>(
-      `${applicationConfig.networksSettings.cardano_mainnet.analyticUrl}history/order/v2?limit=${limit}&offset=${offset}`,
+      `${applicationConfig.networksSettings.cardano.analyticUrl}history/order/v2?limit=${limit}&offset=${offset}`,
       {
         ...params,
         userPkhs: uniq(
@@ -197,7 +197,7 @@ const registeredOrdersCount$: Observable<{
   switchMap((addresses) =>
     from(
       axios.post<{ needRefund: number; pending: number }>(
-        `${applicationConfig.networksSettings.cardano_mainnet.analyticUrl}/history/order/pending`,
+        `${applicationConfig.networksSettings.cardano.analyticUrl}/history/order/pending`,
         {
           userPkhs: uniq(
             addresses.map((a) => extractPaymentCred(a, RustModule.CardanoWasm)),
