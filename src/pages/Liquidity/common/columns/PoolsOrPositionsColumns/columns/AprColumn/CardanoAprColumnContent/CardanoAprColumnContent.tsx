@@ -1,10 +1,12 @@
-import { Divider, Flex, Typography } from '@ergolabs/ui-kit';
+import { Divider, Flex, Modal, Typography } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import { FC } from 'react';
 
 import { useObservable } from '../../../../../../../../common/hooks/useObservable';
 import { AmmPool } from '../../../../../../../../common/models/AmmPool';
 import { InfoTooltip } from '../../../../../../../../components/InfoTooltip/InfoTooltip';
+import { LbspFaqModal } from '../../../../../../../../components/LbspFaqModal/LbspFaqModal.tsx';
+import { SpfLogo } from '../../../../../../../../components/SpfLogo/SpfLogo.tsx';
 import { isLbspAmmPool } from '../../../../../../../../utils/lbsp.ts';
 import { calculateLbspApr } from './calculateLbspApr';
 
@@ -20,7 +22,7 @@ const LbspTooltipContent: FC<LbspTooltipContentProps> = ({
   swapApr,
 }) => {
   return (
-    <Flex col width={184}>
+    <Flex col width={200}>
       <Typography.Body tooltip>
         <Trans>Total APR</Trans>
       </Typography.Body>
@@ -43,15 +45,35 @@ const LbspTooltipContent: FC<LbspTooltipContentProps> = ({
         </Flex.Item>
       </Flex.Item>
       <Flex.Item display="flex">
-        <Flex.Item width={65} marginRight={1}>
+        <Flex.Item width={65}>
           <Typography.Body tooltip size="small">
             <Trans>LBSP APR:</Trans>
           </Typography.Body>
         </Flex.Item>
-        <Flex.Item flex={1}>
-          <Typography.Body tooltip strong>
-            {lbspApr ? `${lbspApr.toFixed(2)}%` : '—'}
-          </Typography.Body>
+        <Flex.Item display="flex" align="center" flex={1}>
+          <Flex.Item marginRight={1}>
+            <SpfLogo w={16} h={16} />
+          </Flex.Item>
+
+          <Flex.Item marginRight={1}>
+            <Typography.Body tooltip strong>
+              {lbspApr ? `${lbspApr.toFixed(2)}%` : '—'}
+            </Typography.Body>
+          </Flex.Item>
+
+          <Typography.Link
+            style={{
+              color: 'var(--spectrum-hint-text)',
+              textDecoration: 'underline',
+              fontSize: '10px',
+            }}
+            onClick={(event) => {
+              event.stopPropagation();
+              Modal.open(() => <LbspFaqModal />);
+            }}
+          >
+            Read more
+          </Typography.Link>
         </Flex.Item>
       </Flex.Item>
       <Flex.Item>

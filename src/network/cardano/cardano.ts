@@ -154,4 +154,4 @@ export const cardanoPreview = makeCardanoNetwork(
   'Cardano (Preview)',
 );
 
-export const cardanoMainnet = makeCardanoNetwork('cardano_mainnet', 'Cardano');
+export const cardanoMainnet = makeCardanoNetwork('cardano', 'Cardano');
