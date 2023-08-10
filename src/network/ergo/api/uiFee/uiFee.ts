@@ -48,11 +48,10 @@ const _calculateUiFee = (
   return inputInErg.percent(0.3).plus(minUiFeeInErg);
 };
 
-export const minUiFee$: Observable<Currency> = combineLatest(
+export const minUiFee$: Observable<Currency> = combineLatest([
   convertToConvenientNetworkAsset.rate(networkAsset),
   uiFeeParams$,
-  [],
-).pipe(
+]).pipe(
   map(([usdErgRate, params]) =>
     usdErgRate.toBaseCurrency(
       new Currency(params.minUiFee.toString(), usdAsset),
