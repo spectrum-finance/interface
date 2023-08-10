@@ -4,9 +4,7 @@ import { Trans } from '@lingui/macro';
 import { ElementLocation } from '@spectrumlabs/analytics';
 import { FC } from 'react';
 import { useParams } from 'react-router';
-import { useNavigate } from 'react-router-dom';
 
-import { AmmPool } from '../../../common/models/AmmPool';
 import { AddLiquidityForm } from '../../../components/AddLiquidityForm/AddLiquidityForm';
 import { AddLiquidityFormModel } from '../../../components/AddLiquidityForm/AddLiquidityFormModel';
 import { Page } from '../../../components/Page/Page';

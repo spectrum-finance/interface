@@ -2,6 +2,8 @@ import { Flex, InfoCircleOutlined, Tooltip } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import styled from 'styled-components';
 
+import { SpfLogo } from '../SpfLogo/SpfLogo.tsx';
+
 const LbspPoolTagWrapper = styled.div`
   font-style: normal;
   font-weight: 600;
@@ -18,19 +20,18 @@ export const LbspPoolTag = () => (
       title={
         <Flex col>
           <Flex.Item>
-            <Trans>
-              This Liquidity Pool delegates ADA to the LBSP. Provide Liquidity
-              to be rewarded in SPF token
-            </Trans>
+            <Trans>This Liquidity Pool generates SPF Rewards</Trans>
           </Flex.Item>
           <Flex.Item>
-            <Trans>0.0135 SPF per 1 ADA per epoch</Trans>
+            <Trans>
+              0.0135 <SpfLogo w={16} h={16} /> SPF per 1 ADA per epoch
+            </Trans>
           </Flex.Item>
         </Flex>
       }
     >
       <Flex>
-        <Flex.Item marginRight={1}>✨LBSP</Flex.Item>
+        <Flex.Item marginRight={1}>LBSP</Flex.Item>
         <Flex.Item>
           <InfoCircleOutlined />
         </Flex.Item>
