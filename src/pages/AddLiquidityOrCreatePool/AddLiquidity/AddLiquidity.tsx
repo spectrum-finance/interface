@@ -14,7 +14,6 @@ import { PoolRatio } from '../../PoolOverview/PoolRatio/PoolRatio';
 
 export const AddLiquidity: FC = () => {
   const { poolId } = useParams<{ poolId?: PoolId }>();
-  const navigate = useNavigate();
   const form = useForm<AddLiquidityFormModel>({
     xAsset: undefined,
     yAsset: undefined,
