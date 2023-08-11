@@ -36,6 +36,10 @@ interface SnapshotFunction {
   (from: Currency | Currency[], to?: AssetInfo): Currency;
 }
 
+interface RateSnapshotFunction {
+  (from: AssetInfo, to?: AssetInfo): Ratio;
+}
+
 interface RateFunction {
   (from: AssetInfo, to?: AssetInfo): Observable<Ratio>;
 }
@@ -45,6 +49,7 @@ export type CurrencyConverter = ((
   to?: AssetInfo,
 ) => Observable<Currency>) & {
   snapshot: SnapshotFunction;
+  rateSnapshot: RateSnapshotFunction;
   rate: RateFunction;
 };
 
@@ -175,6 +180,15 @@ export const makeCurrencyConverter = (
     } else {
       return convertSnapshotWithSingleCurrency(from, to);
     }
+  };
+
+  convert.rateSnapshot = (from: AssetInfo, to?: AssetInfo): Ratio => {
+    const hash = toHash(from, to);
+
+    if (ratioSnapshotCache.has(hash)) {
+      return ratioSnapshotCache.get(hash)!;
+    }
+    return new Ratio('0', from, to || convenientAsset);
   };
 
   convert.rate = rate;

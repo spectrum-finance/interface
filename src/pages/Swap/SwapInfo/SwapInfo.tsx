@@ -30,7 +30,7 @@ const _SwapInfo: FC<SwapInfoProps> = ({
   const [selectedNetwork] = useSelectedNetwork();
 
   const height = selectedNetwork.name === 'ergo' ? 74 : 96;
-  const openedHeight = selectedNetwork.name === 'ergo' ? 156 : 180;
+  const openedHeight = selectedNetwork.name === 'ergo' ? 186 : 180;
 
   const { slippage } = useSettings();
 

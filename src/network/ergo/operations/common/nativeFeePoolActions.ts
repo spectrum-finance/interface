@@ -5,24 +5,26 @@ import {
   makeWrappedSpfPoolActionsSelector,
 } from '@ergolabs/ergo-dex-sdk';
 
-import { UI_REWARD_ADDRESS } from '../../../../common/constants/settings';
 import { mainnetTxAssembler } from '../../../../services/defaultTxAssembler';
+import { uiFeeParams$ } from '../../api/uiFee/uiFee';
 import { proverMediator } from './proverMediator';
 
 export const nativeFeePoolActions = makeWrappedNativePoolActionsSelector(
-  UI_REWARD_ADDRESS,
+  uiFeeParams$.getValue().address,
   proverMediator,
   mainnetTxAssembler,
 );
 
-export const ergoPayNativeFeePoolActions =
-  makeNativePoolActionsSelector(UI_REWARD_ADDRESS);
+export const ergoPayNativeFeePoolActions = makeNativePoolActionsSelector(
+  uiFeeParams$.getValue().address,
+);
 
 export const spfFeePoolActions = makeWrappedSpfPoolActionsSelector(
-  UI_REWARD_ADDRESS,
+  uiFeeParams$.getValue().address,
   proverMediator,
   mainnetTxAssembler,
 );
 
-export const ergoPaySpfFeePoolActions =
-  makeSpfPoolActionsSelector(UI_REWARD_ADDRESS);
+export const ergoPaySpfFeePoolActions = makeSpfPoolActionsSelector(
+  uiFeeParams$.getValue().address,
+);
