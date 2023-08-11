@@ -1,7 +1,8 @@
-import { from as fromPromise, Observable, switchMap, timeout } from 'rxjs';
+import { from as fromPromise, Observable, switchMap, tap, timeout } from 'rxjs';
 
 import { applicationConfig } from '../../../../../applicationConfig';
 import { Currency } from '../../../../../common/models/Currency';
+import { addErrorLog } from '../../../../../common/services/ErrorLogs';
 import { TxId } from '../../../../../common/types';
 import { ErgoAmmPool } from '../../../api/ammPools/ErgoAmmPool';
 import { nativeFeePoolActions } from '../../common/nativeFeePoolActions';
@@ -28,4 +29,5 @@ export const walletSwap = (
       }),
     ),
     timeout(applicationConfig.operationTimeoutTime),
+    tap({ error: addErrorLog({ op: 'Native wallet swap' }) }),
   );

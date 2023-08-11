@@ -1,11 +1,11 @@
 import { saveAs } from 'file-saver';
 
-const errorLogs: { meta: any; error: Error }[] = [];
+const errorLogs: { meta: any; error: any }[] = [];
 
 export const addErrorLog =
   (meta: any) =>
   (error: Error): void => {
-    errorLogs.push({ meta, error });
+    errorLogs.push({ meta, error: error?.message || error });
   };
 
 export const downloadErrorLog = () => {

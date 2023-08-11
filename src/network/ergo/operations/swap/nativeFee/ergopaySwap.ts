@@ -1,8 +1,16 @@
-import { from as fromPromise, map, Observable, switchMap, timeout } from 'rxjs';
+import {
+  from as fromPromise,
+  map,
+  Observable,
+  switchMap,
+  tap,
+  timeout,
+} from 'rxjs';
 
 import { applicationConfig } from '../../../../../applicationConfig';
 // import { panalytics } from '../../../../../common/analytics';
 import { Currency } from '../../../../../common/models/Currency';
+import { addErrorLog } from '../../../../../common/services/ErrorLogs';
 import { TxId } from '../../../../../common/types';
 import { ErgoAmmPool } from '../../../api/ammPools/ErgoAmmPool';
 import { ergoPayMessageManager } from '../../common/ergopayMessageManager';
@@ -40,4 +48,5 @@ export const ergoPaySwap = (
       }),
     ),
     timeout(applicationConfig.operationTimeoutTime),
+    tap({ error: addErrorLog({ op: 'Native ergopay swap' }) }),
   );
