@@ -1,5 +1,4 @@
 import {
-  Button,
   CalculatorOutlined,
   Flex,
   Form,
@@ -51,6 +50,7 @@ export const LbspCalculatorModal: FC<LbspCalculatorModalProps> = ({
         <AddLiquidityForm
           form={form}
           traceFormLocation={ElementLocation.depositForm}
+          onSubmitSuccess={close}
         >
           <Flex col>
             <Flex.Item marginTop={6}>

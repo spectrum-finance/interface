@@ -55,6 +55,7 @@ export interface AddLiquidityFormProps {
   readonly form: FormGroup<AddLiquidityFormModel>;
   readonly traceFormLocation: TraceProps['element_location'];
   readonly children?: ReactNode[] | ReactNode | string;
+  readonly onSubmitSuccess?: () => void;
 }
 
 const getYAssets = (fromAsset?: string) =>
@@ -83,6 +84,7 @@ export const AddLiquidityForm: FC<AddLiquidityFormProps> = ({
   poolChanged,
   children,
   traceFormLocation,
+  onSubmitSuccess,
 }) => {
   const [lastEditedField, setLastEditedField] = useState<'x' | 'y'>('x');
   const [balance] = useAssetsBalance();
@@ -244,7 +246,12 @@ export const AddLiquidityForm: FC<AddLiquidityFormProps> = ({
   const addLiquidityAction = ({ value }: FormGroup<AddLiquidityFormModel>) => {
     deposit(value as Required<AddLiquidityFormModel>)
       .pipe(first())
-      .subscribe(() => resetForm());
+      .subscribe(() => {
+        resetForm();
+        if (onSubmitSuccess) {
+          onSubmitSuccess();
+        }
+      });
     fireOperationAnalyticsEvent('Deposit Form Submit', (ctx) =>
       mapToDepositAnalyticsProps(value, ctx),
     );
