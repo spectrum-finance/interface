@@ -12,7 +12,10 @@ import { FC } from 'react';
 import { AddLiquidityForm } from '../AddLiquidityForm/AddLiquidityForm';
 import { AddLiquidityFormModel } from '../AddLiquidityForm/AddLiquidityFormModel';
 import { Section } from '../Section/Section';
-import { DurationSlider } from './DurationSlider/DurationSlider';
+import {
+  DurationSlider,
+  MAX_EPOCHS_COUNT,
+} from './DurationSlider/DurationSlider';
 import { RewardsBox } from './RewardsBox/RewardsBox';
 
 interface LbspCalculatorModalProps {
@@ -33,7 +36,7 @@ export const LbspCalculatorModal: FC<LbspCalculatorModalProps> = ({
     x: undefined,
     y: undefined,
     pool: undefined,
-    duration: 1,
+    duration: MAX_EPOCHS_COUNT,
   });
 
   return (
@@ -49,6 +52,7 @@ export const LbspCalculatorModal: FC<LbspCalculatorModalProps> = ({
       <Modal.Content width={480}>
         <AddLiquidityForm
           form={form}
+          withoutConfirmation={true}
           traceFormLocation={ElementLocation.depositForm}
           onSubmitSuccess={close}
         >

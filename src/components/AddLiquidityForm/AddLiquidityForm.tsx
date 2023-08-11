@@ -56,6 +56,8 @@ export interface AddLiquidityFormProps {
   readonly traceFormLocation: TraceProps['element_location'];
   readonly children?: ReactNode[] | ReactNode | string;
   readonly onSubmitSuccess?: () => void;
+  // TODO: REWRITE MODAL CHAIN SYSTEM
+  readonly withoutConfirmation?: boolean;
 }
 
 const getYAssets = (fromAsset?: string) =>
@@ -85,6 +87,7 @@ export const AddLiquidityForm: FC<AddLiquidityFormProps> = ({
   children,
   traceFormLocation,
   onSubmitSuccess,
+  withoutConfirmation,
 }) => {
   const [lastEditedField, setLastEditedField] = useState<'x' | 'y'>('x');
   const [balance] = useAssetsBalance();
@@ -244,7 +247,7 @@ export const AddLiquidityForm: FC<AddLiquidityFormProps> = ({
     );
 
   const addLiquidityAction = ({ value }: FormGroup<AddLiquidityFormModel>) => {
-    deposit(value as Required<AddLiquidityFormModel>)
+    deposit(value as Required<AddLiquidityFormModel>, withoutConfirmation)
       .pipe(first())
       .subscribe(() => {
         resetForm();
