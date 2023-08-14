@@ -18,7 +18,8 @@ export const CancelOrderCell: FC<CancelOrderCellProps> = ({
 }) => {
   const isDisabled =
     operationItem.status === OperationStatus.Refunded ||
-    operationItem.status === OperationStatus.Evaluated;
+    operationItem.status === OperationStatus.Evaluated ||
+    operationItem.status === OperationStatus.Pending;
 
   const handleRefundButtonClick = () => {
     const txId = operationItem.registerTx.id;

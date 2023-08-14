@@ -8,6 +8,7 @@ import { Currency } from './Currency';
 export enum OperationStatus {
   Queued = 'Queued',
   Pending = 'Pending',
+  Registered = 'Registered',
   Evaluated = 'Evaluated',
   NeedRefund = 'NeedRefund',
   Refunded = 'Refunded',
@@ -59,7 +60,8 @@ export interface BaseOtherOperation extends BaseOperation {
   readonly status:
     | OperationStatus.Pending
     | OperationStatus.Queued
-    | OperationStatus.NeedRefund;
+    | OperationStatus.NeedRefund
+    | OperationStatus.Registered;
 }
 
 /* Add Liquidity */
@@ -114,15 +116,13 @@ export interface RemoveLiquidityOperation {
   readonly address: string;
   readonly pool: AmmPool;
   readonly lp: Currency;
+  readonly x: Currency;
+  readonly y: Currency;
   readonly type: OperationType.RemoveLiquidity;
 }
 
-export interface RemoveLiquidityExecutedOperation
-  extends BaseExecutedOperation,
-    RemoveLiquidityOperation {
-  readonly x: Currency;
-  readonly y: Currency;
-}
+export type RemoveLiquidityExecutedOperation = BaseExecutedOperation &
+  RemoveLiquidityOperation;
 
 export type RemoveLiquidityRefundedOperation = BaseRefundedOperation &
   RemoveLiquidityOperation;

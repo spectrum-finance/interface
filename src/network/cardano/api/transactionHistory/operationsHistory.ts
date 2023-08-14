@@ -55,10 +55,7 @@ const mapRawOperationItemToOperationItem = (
 export const mempoolRawOperations$: Observable<RawOperationItem[]> =
   getAddresses().pipe(
     switchMap((addresses) =>
-      interval(applicationConfig.applicationTick).pipe(
-        startWith(0),
-        mapTo(addresses),
-      ),
+      interval(1_000).pipe(startWith(0), mapTo(addresses)),
     ),
     switchMap((addresses) =>
       from(
@@ -73,6 +70,14 @@ export const mempoolRawOperations$: Observable<RawOperationItem[]> =
       ).pipe(catchError(() => of({ data: [] }))),
     ),
     map((res) => res.data),
+    map((data) =>
+      data.map((item) => ({
+        [Object.keys(item)[0]]: {
+          ...(Object.values(item)[0] as any),
+          inMemPool: true,
+        },
+      })),
+    ),
     distinctUntilKeyChanged('length'),
     publishReplay(1),
     refCount(),
@@ -86,7 +91,7 @@ const getRawOperationsHistory = (
 ): Observable<[RawOperationItem[], number]> =>
   from(
     axios.post<{ orders: RawOperationItem[]; total: number }>(
-      `${applicationConfig.networksSettings.cardano_mainnet.analyticUrl}history/order?limit=${limit}&offset=${offset}`,
+      `${applicationConfig.networksSettings.cardano_mainnet.analyticUrl}history/order/v2?limit=${limit}&offset=${offset}`,
       {
         ...params,
         userPkhs: addresses.map((a) =>
@@ -180,26 +185,9 @@ export const getOperationByTxId = (
   );
 
 export const pendingOperationsCount$ = mempoolRawOperations$.pipe(
-  distinctUntilKeyChanged('length'),
-  switchMap((mro) =>
-    interval(10_000).pipe(
-      startWith(0),
-      switchMap(() => getRawOperations(20, 0, { pendingOnly: true })),
-      map((ops) => ops[0].length + mro.length),
-    ),
-  ),
+  map((rawOperations) => rawOperations.length),
   publishReplay(1),
   refCount(),
 );
 
-export const hasNeedRefundOperations$ = interval(10_000).pipe(
-  startWith(0),
-  switchMap(() =>
-    getRawOperations(1, 0, { refundOnly: true }).pipe(
-      map((ops) => !!ops[0].length),
-    ),
-  ),
-  catchError(() => of(false)),
-  publishReplay(1),
-  refCount(),
-);
+export const hasNeedRefundOperations$ = of(false);

@@ -65,11 +65,15 @@ export const mapRawRemoveLiquidityItemToRemoveLiquidityItem: OperationMapper<
       type: OperationType.RemoveLiquidity,
     };
   }
+  const [x, y] = pool.shares(new Currency(BigInt(lp.amount), pool.lp.asset));
+
   if (status === OperationStatus.Refunded) {
     return {
       ...mapRawBaseRefundedOperationToBaseRefundedOperation(item.AmmRedeemApi),
       address,
       lp: new Currency(BigInt(lp.amount), pool.lp.asset),
+      x,
+      y,
       pool,
       type: OperationType.RemoveLiquidity,
     };
@@ -78,6 +82,8 @@ export const mapRawRemoveLiquidityItemToRemoveLiquidityItem: OperationMapper<
     ...mapRawBaseOtherOperationToBaseOtherOperation(item.AmmRedeemApi),
     address,
     lp: new Currency(BigInt(lp.amount), pool.lp.asset),
+    x,
+    y,
     pool,
     type: OperationType.RemoveLiquidity,
   };

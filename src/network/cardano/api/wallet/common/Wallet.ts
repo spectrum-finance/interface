@@ -249,6 +249,7 @@ export const createWallet = <
   const submit = (tx: RawTx): Promise<HexString> => {
     console.log(tx, RustModule.CardanoWasm.Transaction.from_hex(tx));
     return assertContext((context) => {
+      console.log('signed: ', RustModule.CardanoWasm.Transaction.from_hex(tx));
       if (params?.submit) {
         return params.submit(context, tx);
       }
@@ -258,10 +259,20 @@ export const createWallet = <
 
   const sign = (tx: RawTx, partialSign?: boolean): Promise<HexString> => {
     return assertContext((context) => {
+      console.log(
+        'notSigned:',
+        RustModule.CardanoWasm.Transaction.from_hex(tx),
+      );
       if (params?.sign) {
         return params.sign(context, tx, partialSign);
       }
-      return context.signTx(tx, partialSign);
+      return context.signTx(tx, partialSign).then((wits) => {
+        console.log(
+          'Wits',
+          RustModule.CardanoWasm.TransactionWitnessSet.from_hex(wits),
+        );
+        return wits;
+      });
     });
   };
 

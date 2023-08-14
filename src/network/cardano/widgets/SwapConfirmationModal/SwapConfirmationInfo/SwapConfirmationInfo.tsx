@@ -69,7 +69,7 @@ export const SwapConfirmationInfo: FC<SwapConfirmationInfoProps> = ({
                       />
                     </Flex.Item>
                     {swapTxInfo.minOutput?.toString()}{' '}
-                    <Truncate>{swapTxInfo.maxOutput?.asset.name}</Truncate>
+                    <Truncate>{swapTxInfo.maxOutput?.asset.ticker}</Truncate>
                   </Flex>
                 ) : (
                   <FeesSkeletonLoading />
