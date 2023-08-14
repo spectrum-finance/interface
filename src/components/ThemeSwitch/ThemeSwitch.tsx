@@ -13,8 +13,6 @@ import { FC, useCallback } from 'react';
 
 import { Theme, useApplicationSettings } from '../../context';
 import CometLogo from './comet-logo.png';
-import HoskyLogo from './hoski-logo.jpeg';
-import SnekLogo from './snek-logo.jpeg';
 
 export const ThemeSwitch: FC = () => {
   const [settings, setSettings] = useApplicationSettings();
@@ -48,35 +46,6 @@ export const ThemeSwitch: FC = () => {
             </Flex.Item>
             <Flex.Item>Comet theme</Flex.Item>
           </Flex>
-        </Menu.Item>
-        <Menu.Item onClick={() => handleChangeTheme('snek')}>
-          <Flex>
-            <Flex.Item marginRight={2}>
-              <img
-                style={{ borderRadius: '999px' }}
-                alt="Snek logo"
-                src={SnekLogo}
-                width={21}
-                height={21}
-              />
-            </Flex.Item>
-            <Flex.Item>Snek theme</Flex.Item>
-          </Flex>
-        </Menu.Item>
-        <Menu.Item
-          style={{ display: 'none' }}
-          onClick={() => handleChangeTheme('hosky')}
-        >
-          <Flex.Item marginRight={2}>
-            <img
-              style={{ borderRadius: '999px' }}
-              alt="Hosky logo"
-              src={HoskyLogo}
-              width={21}
-              height={21}
-            />
-          </Flex.Item>
-          <Flex.Item>Hosky theme</Flex.Item>
         </Menu.Item>
       </Menu>
     );
