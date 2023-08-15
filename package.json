@@ -12,7 +12,9 @@
     "i18n:pseudo": "lingui extract --locale pseudo && lingui compile",
     "lint:stylelint": "stylelint src/**/*.{scss,css,less}",
     "lint:eslint": "eslint --ext .js,.ts,.tsx src",
-    "lint": "yarn lint:eslxint && yarn lint:stylelint"
+    "lint": "yarn lint:eslxint && yarn lint:stylelint",
+    "lint": "eslint --fix --ext .js,.jsx ."
+
   },
   "dependencies": {
     "@dcspark/adalib": "^1.3.1",
