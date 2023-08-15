@@ -1,9 +1,9 @@
 import {
-  Button,
-  DownOutlined,
-  Dropdown,
+  // Button,
+  // DownOutlined,
+  // Dropdown,
   Flex,
-  Menu,
+  // Menu,
   Tabs,
   Typography,
 } from '@ergolabs/ui-kit';
@@ -12,7 +12,7 @@ import { user } from '@spectrumlabs/analytics';
 import { FC, useCallback } from 'react';
 
 import { Theme, useApplicationSettings } from '../../context';
-import CometLogo from './comet-logo.png';
+// import CometLogo from './comet-logo.png';
 
 export const ThemeSwitch: FC = () => {
   const [settings, setSettings] = useApplicationSettings();
@@ -30,26 +30,26 @@ export const ThemeSwitch: FC = () => {
     [settings, setSettings],
   );
 
-  const DropdownOverlay = (): JSX.Element => {
-    return (
-      <Menu>
-        <Menu.Item onClick={() => handleChangeTheme('comet')}>
-          <Flex>
-            <Flex.Item marginRight={2}>
-              <img
-                style={{ borderRadius: '999px' }}
-                alt="comet logo"
-                src={CometLogo}
-                width={21}
-                height={21}
-              />
-            </Flex.Item>
-            <Flex.Item>Comet theme</Flex.Item>
-          </Flex>
-        </Menu.Item>
-      </Menu>
-    );
-  };
+  // const DropdownOverlay = (): JSX.Element => {
+  //   return (
+  //     <Menu>
+  //       <Menu.Item onClick={() => handleChangeTheme('comet')}>
+  //         <Flex>
+  //           <Flex.Item marginRight={2}>
+  //             <img
+  //               style={{ borderRadius: '999px' }}
+  //               alt="comet logo"
+  //               src={CometLogo}
+  //               width={21}
+  //               height={21}
+  //             />
+  //           </Flex.Item>
+  //           <Flex.Item>Comet theme</Flex.Item>
+  //         </Flex>
+  //       </Menu.Item>
+  //     </Menu>
+  //   );
+  // };
 
   return (
     <Flex col>
@@ -71,13 +71,13 @@ export const ThemeSwitch: FC = () => {
             <Tabs.TabPane tab={t`System`} key="system" />
           </Tabs>
         </Flex.Item>
-        <Flex.Item align="center">
+        {/* <Flex.Item align="center">
           <Dropdown overlay={<DropdownOverlay />}>
             <Button block size="small">
               Meme theme <DownOutlined />
             </Button>
           </Dropdown>
-        </Flex.Item>
+        </Flex.Item> */}
       </Flex>
     </Flex>
   );

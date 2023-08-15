@@ -1,9 +1,9 @@
 {
-  "short_name": "Spectrum Finance",
-  "name": "Spectrum Finance is an open source cross-chain DEX",
+  "short_name": "Comet Dex",
+  "name": "Comet Dex is an open source cross-chain DEX look alike spectrum but aint.",
   "icons": [
     {
-      "src": "favicon.svg",
+      "src": "favicon.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     },
