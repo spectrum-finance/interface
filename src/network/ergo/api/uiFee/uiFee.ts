@@ -45,7 +45,9 @@ const _calculateUiFee = (
   if (inputInErg.lte(feeThresholdInErg)) {
     return minUiFeeInErg;
   }
-  return inputInErg.percent(0.3).plus(minUiFeeInErg);
+  const uiFeeInErg = inputInErg.percent(0.3);
+
+  return uiFeeInErg.gte(minUiFeeInErg) ? uiFeeInErg : minUiFeeInErg;
 };
 
 export const minUiFee$: Observable<Currency> = combineLatest([
