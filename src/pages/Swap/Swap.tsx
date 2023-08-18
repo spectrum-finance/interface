@@ -74,7 +74,6 @@ import { operationsSettings$ } from '../../gateway/widgets/operationsSettings';
 import { useGuardV2 } from '../../hooks/useGuard.ts';
 import { mapToSwapAnalyticsProps } from '../../utils/analytics/mapper';
 import { isPreLbspTimeGap } from '../../utils/lbsp.ts';
-import { isCardano } from '../../utils/network.ts';
 import { PriceImpactWarning } from './PriceImpactWarning/PriceImpactWarning';
 import { SwapFormModel } from './SwapFormModel';
 import { SwapGraph } from './SwapGraph/SwapGraph';
