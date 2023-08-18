@@ -12,6 +12,7 @@ import {
 } from '../../../../components/ConfirmationModal/ConfirmationModal';
 import { OperationValidator } from '../../../../components/OperationForm/OperationForm';
 import { SwapFormModel } from '../../../../pages/Swap/SwapFormModel';
+import { isLbspAmmPool } from '../../../../utils/lbsp';
 import {
   CardanoSettings,
   settings$,
@@ -127,6 +128,20 @@ export const swap = (data: Required<SwapFormModel>): Observable<TxId> => {
 export const useSwapValidators = (): OperationValidator<SwapFormModel>[] => {
   const settings = useSettings();
 
+  const ammPoolMinValueForSwapCardanoValidator: OperationValidator<SwapFormModel> =
+    ({ value: { pool } }) => {
+      if (!pool || !isLbspAmmPool(pool.id)) {
+        return undefined;
+      }
+      const minLqAdaValue = new Currency(
+        (pool as CardanoAmmPool).pool.lqBound,
+        networkAsset,
+      );
+      return pool.x.mult(2n).lte(minLqAdaValue)
+        ? `Pool liquidity is low, need ${minLqAdaValue.toString()} ADA`
+        : undefined;
+    };
+
   const insufficientAssetForFeeValidator: OperationValidator<
     Required<SwapFormModel>
   > = ({ value: { fromAmount, pool } }) => {
@@ -162,7 +177,10 @@ export const useSwapValidators = (): OperationValidator<SwapFormModel>[] => {
     );
   };
 
-  return [insufficientAssetForFeeValidator as any];
+  return [
+    ammPoolMinValueForSwapCardanoValidator,
+    insufficientAssetForFeeValidator as any,
+  ];
 };
 
 export const useHandleSwapMaxButtonClick = (): ((
