@@ -82,7 +82,8 @@ export const ammPools$ = allAmmPools$.pipe(
       (ap) =>
         !applicationConfig.blacklistedPools.includes(ap.id) &&
         !applicationConfig.hiddenAssets.includes(ap.x.asset.id) &&
-        !applicationConfig.hiddenAssets.includes(ap.y.asset.id),
+        !applicationConfig.hiddenAssets.includes(ap.y.asset.id) &&
+        applicationConfig.lbspLiquidityPools.includes(ap.id),
     ),
   ),
   publishReplay(1),

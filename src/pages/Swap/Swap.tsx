@@ -73,7 +73,7 @@ import { useSettings } from '../../gateway/settings/settings';
 import { operationsSettings$ } from '../../gateway/widgets/operationsSettings';
 import { useGuardV2 } from '../../hooks/useGuard.ts';
 import { mapToSwapAnalyticsProps } from '../../utils/analytics/mapper';
-import { isLbspAmmPool, isPreLbspTimeGap } from '../../utils/lbsp.ts';
+import { isPreLbspTimeGap } from '../../utils/lbsp.ts';
 import { isCardano } from '../../utils/network.ts';
 import { PriceImpactWarning } from './PriceImpactWarning/PriceImpactWarning';
 import { SwapFormModel } from './SwapFormModel';
@@ -240,20 +240,6 @@ export const Swap = (): JSX.Element => {
     value: { toAsset, fromAsset },
   }: FormGroup<SwapFormModel>) =>
     !toAsset || !fromAsset ? t`Select a token` : undefined;
-
-  const ammPoolMinValueForSwapCardanoValidator: OperationValidator<SwapFormModel> =
-    ({ value: { pool } }) => {
-      if (isCardano()) {
-        const MIN_LQ_ADA_VALUE = '10000';
-
-        return pool?.x.lte(new Currency(MIN_LQ_ADA_VALUE, pool?.x.asset)) &&
-          isLbspAmmPool(pool?.id)
-          ? `Pool liquidity is low, need ${MIN_LQ_ADA_VALUE} ADA`
-          : undefined;
-      }
-
-      return undefined;
-    };
 
   const isPoolLoading: OperationLoader<SwapFormModel> = ({
     value: { fromAsset, toAsset, pool },
@@ -474,7 +460,6 @@ export const Swap = (): JSX.Element => {
     () => [
       tokensNotSelectedValidator,
       amountEnteredValidator,
-      ammPoolMinValueForSwapCardanoValidator,
       insufficientLiquidityValidator,
       minValueForTokenValidator,
       insufficientFromForTxValidator,
