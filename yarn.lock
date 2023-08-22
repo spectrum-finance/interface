@@ -3337,10 +3337,10 @@
   dependencies:
     "@amplitude/analytics-browser" "^1.9.0"
 
-"@spectrumlabs/cardano-dex-sdk@^0.1.170":
-  version "0.1.170"
-  resolved "https://registry.yarnpkg.com/@spectrumlabs/cardano-dex-sdk/-/cardano-dex-sdk-0.1.170.tgz#7d70e512777715726b73afc642eb4f1784ca7c4a"
-  integrity sha512-Ftvn/ryAFj06pTyHmBC2VbaupzR1C/pjGg48xOTqjLoIUY5knS7+j+wLFMgOus1Hp74DIuohiwN4tQUvEzxLog==
+"@spectrumlabs/cardano-dex-sdk@^0.1.171":
+  version "0.1.171"
+  resolved "https://registry.yarnpkg.com/@spectrumlabs/cardano-dex-sdk/-/cardano-dex-sdk-0.1.171.tgz#1caf8bbcda2d12e7c9d4b3aca743d70c1536b21d"
+  integrity sha512-KpV3myqWYvACDs32+1l0CzLYn3CGrucX9FOhmF1pVLquJfRIivyexkzeDJKAm4X4AJ+ABi6CAGAGWxOL2Mwewg==
   dependencies:
     "@emurgo/cardano-serialization-lib-browser" "^11.4.0"
     axios "^0.21.1"

@@ -13,21 +13,21 @@ import { Button, Divider, Flex, Modal, Typography } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import { FC } from 'react';
 
-import { ERG_DECIMALS } from '../../../../common/constants/erg';
-import { useObservable } from '../../../../common/hooks/useObservable';
-import { Ratio } from '../../../../common/models/Ratio';
-import { FormPairSection } from '../../../../components/common/FormView/FormPairSection/FormPairSection';
-import { InfoTooltip } from '../../../../components/InfoTooltip/InfoTooltip';
-import { PageSection } from '../../../../components/Page/PageSection/PageSection';
-import { RatioBox } from '../../../../components/RatioBox/RatioBox';
-import { Section } from '../../../../components/Section/Section';
-import { useSettings } from '../../../../gateway/settings/settings';
-import { utxos$ } from '../../../../network/ergo/api/utxos/utxos';
-import { explorer } from '../../../../services/explorer';
-import { poolActions } from '../../../../services/poolActions';
-import { submitTx } from '../../../../services/yoroi';
-import { makeTarget } from '../../../../utils/ammMath';
-import { parseUserInputToFractions } from '../../../../utils/math';
+import { ERG_DECIMALS } from '../../../common/constants/erg';
+import { useObservable } from '../../../common/hooks/useObservable';
+import { Ratio } from '../../../common/models/Ratio';
+import { FormPairSection } from '../../../components/common/FormView/FormPairSection/FormPairSection';
+import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
+import { PageSection } from '../../../components/Page/PageSection/PageSection';
+import { RatioBox } from '../../../components/RatioBox/RatioBox';
+import { Section } from '../../../components/Section/Section';
+import { useSettings } from '../../../gateway/settings/settings';
+import { utxos$ } from '../../../network/ergo/api/utxos/utxos';
+import { explorer } from '../../../services/explorer';
+import { poolActions } from '../../../services/poolActions';
+import { submitTx } from '../../../services/yoroi';
+import { makeTarget } from '../../../utils/ammMath';
+import { parseUserInputToFractions } from '../../../utils/math';
 import { CreatePoolFormModel } from '../CreatePoolFormModel';
 
 interface CreatePoolConfirmationModalProps {

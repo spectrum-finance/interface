@@ -1,4 +1,4 @@
-import { minValueForOrder } from '@ergolabs/ergo-dex-sdk';
+import { minValueForOrder, minValueForSetup } from '@ergolabs/ergo-dex-sdk';
 import {
   AssetAmount,
   BoxSelection,
@@ -16,9 +16,13 @@ export const getInputs = (
   assets: AssetAmount[],
   fees: { minerFee: bigint; uiFee: bigint; exFee: bigint },
   ignoreMinBoxValue?: boolean,
+  setup?: boolean,
 ): BoxSelection => {
   let minFeeForOrder = minValueForOrder(fees.minerFee, fees.uiFee, fees.exFee);
 
+  if (setup) {
+    minFeeForOrder = minValueForSetup(fees.minerFee, fees.uiFee);
+  }
   if (ignoreMinBoxValue) {
     minFeeForOrder -= MinBoxValue;
   }

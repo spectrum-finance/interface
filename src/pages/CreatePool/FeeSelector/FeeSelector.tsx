@@ -2,7 +2,7 @@ import { Control, Flex, Input, Typography } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
 import { FC, ReactNode, useState } from 'react';
 
-import { escapeRegExp } from '../../../../components/common/TokenControl/AssetAmountInput/format';
+import { escapeRegExp } from '../../../components/common/TokenControl/AssetAmountInput/format';
 import { FeeBox } from './FeeBox/FeeBox';
 
 interface FeeDescriptor {

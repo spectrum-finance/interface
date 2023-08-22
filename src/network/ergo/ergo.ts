@@ -46,6 +46,7 @@ import { initialize, initialized$ } from './initialized';
 import { farms$ } from './lm/api/farms/farms';
 import { lmDeposit } from './lm/operations/lmDeposit/lmDeposit';
 import { lmRedeem } from './lm/operations/lmRedeem/lmRedeem';
+import { createPool } from './operations/createPool/createPool';
 import { deposit } from './operations/deposit/deposit';
 import { useDepositValidators } from './operations/deposit/useDepositValidators';
 import { useHandleDepositMaxButtonClick } from './operations/deposit/useHandleDepositMaxButtonClick';
@@ -121,6 +122,7 @@ export const ergoNetwork: Network<
   refund,
   lmDeposit,
   lmRedeem,
+  createPool,
 
   exploreAddress,
   exploreTx,

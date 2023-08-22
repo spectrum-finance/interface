@@ -15,6 +15,7 @@ import { lpBalance$ } from './api/balance/lpBalance';
 import { networkAssetBalance$ } from './api/balance/networkAssetBalance';
 import { networkAsset, useNetworkAsset } from './api/networkAsset/networkAsset';
 import { networkContext$ } from './api/networkContext/networkContext';
+import { createPool } from './api/operations/createPool';
 import {
   deposit,
   useDepositValidators,
@@ -129,6 +130,7 @@ const makeCardanoNetwork = (
     lmDeposit(): Observable<TxId> {
       return of('');
     },
+    createPool,
 
     convertToConvenientNetworkAsset,
 

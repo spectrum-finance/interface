@@ -5,10 +5,10 @@ import { ElementLocation } from '@spectrumlabs/analytics';
 import { FC } from 'react';
 import { useParams } from 'react-router';
 
-import { AddLiquidityForm } from '../../../components/AddLiquidityForm/AddLiquidityForm';
-import { AddLiquidityFormModel } from '../../../components/AddLiquidityForm/AddLiquidityFormModel';
-import { Page } from '../../../components/Page/Page';
-import { PoolRatio } from '../../PoolOverview/PoolRatio/PoolRatio';
+import { AddLiquidityForm } from '../../components/AddLiquidityForm/AddLiquidityForm';
+import { AddLiquidityFormModel } from '../../components/AddLiquidityForm/AddLiquidityFormModel';
+import { Page } from '../../components/Page/Page';
+import { PoolRatio } from '../PoolOverview/PoolRatio/PoolRatio';
 
 export const AddLiquidity: FC = () => {
   const { poolId } = useParams<{ poolId?: PoolId }>();

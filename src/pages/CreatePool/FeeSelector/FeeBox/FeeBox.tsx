@@ -2,7 +2,7 @@ import { Box, Flex, Typography } from '@ergolabs/ui-kit';
 import { FC, ReactNode } from 'react';
 import styled from 'styled-components';
 
-import { ReactComponent as CheckedIcon } from '../../../../../assets/icons/checked-icon.svg';
+import { ReactComponent as CheckedIcon } from '../../../../assets/icons/checked-icon.svg';
 
 interface FeeBoxProps {
   readonly className?: string;

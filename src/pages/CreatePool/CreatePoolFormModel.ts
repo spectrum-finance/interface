@@ -1,6 +1,6 @@
-import { AssetInfo } from '../../../common/models/AssetInfo';
-import { Currency } from '../../../common/models/Currency';
-import { Ratio } from '../../../common/models/Ratio';
+import { AssetInfo } from '../../common/models/AssetInfo';
+import { Currency } from '../../common/models/Currency';
+import { Ratio } from '../../common/models/Ratio';
 
 export interface CreatePoolFormModel {
   readonly initialPrice?: Ratio;
