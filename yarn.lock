@@ -1811,10 +1811,10 @@
     ts-node "^9"
     tslib "^2"
 
-"@ergolabs/ergo-dex-sdk@^1.9.66":
-  version "1.9.66"
-  resolved "https://registry.yarnpkg.com/@ergolabs/ergo-dex-sdk/-/ergo-dex-sdk-1.9.66.tgz#0e3a18dcd53356919cd9832468e02c7666c1e5a7"
-  integrity sha512-aYh6V2XIKK2wSneNJKcF4AV5qGkQK5gZ+caF+e78wuidjJbOoyDAazB5iYT/M+GaIlV6Pny8M/ZakOlrHLvnOQ==
+"@ergolabs/ergo-dex-sdk@^1.9.67":
+  version "1.9.67"
+  resolved "https://registry.yarnpkg.com/@ergolabs/ergo-dex-sdk/-/ergo-dex-sdk-1.9.67.tgz#4cb2af338aa8ff5abf917976a30c29ea7b3306df"
+  integrity sha512-kQB/fx9Aw1Jwb5lHY3DbItzETOss9KBogxSvJtJ3+qWCLKq+Iw3wwAf5m5kzMbKga/o40poOqSv320lbn4NQSw==
   dependencies:
     "@ergolabs/ergo-sdk" "^0.5.7"
     axios "^0.21.1"
@@ -3337,10 +3337,10 @@
   dependencies:
     "@amplitude/analytics-browser" "^1.9.0"
 
-"@spectrumlabs/cardano-dex-sdk@^0.1.167":
-  version "0.1.167"
-  resolved "https://registry.yarnpkg.com/@spectrumlabs/cardano-dex-sdk/-/cardano-dex-sdk-0.1.167.tgz#75c73a3854e5c8bb294f6a687c44534f9c1c7d0b"
-  integrity sha512-nvGGUbQ58vYkMjgzt9t7ae5nP+mfzYOY9YzkN0fgfEzwATnrx3mzPNd9l86w9RiN5j5hyvadPSX8WkJSbv8qUg==
+"@spectrumlabs/cardano-dex-sdk@^0.1.170":
+  version "0.1.170"
+  resolved "https://registry.yarnpkg.com/@spectrumlabs/cardano-dex-sdk/-/cardano-dex-sdk-0.1.170.tgz#7d70e512777715726b73afc642eb4f1784ca7c4a"
+  integrity sha512-Ftvn/ryAFj06pTyHmBC2VbaupzR1C/pjGg48xOTqjLoIUY5knS7+j+wLFMgOus1Hp74DIuohiwN4tQUvEzxLog==
   dependencies:
     "@emurgo/cardano-serialization-lib-browser" "^11.4.0"
     axios "^0.21.1"

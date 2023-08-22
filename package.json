@@ -1,6 +1,6 @@
 {
   "name": "@spectrumlabs/interface",
-  "version": "5.1.0",
+  "version": "5.0.25",
   "private": false,
   "scripts": {
     "start": "vite",
@@ -17,7 +17,7 @@
   "dependencies": {
     "@dcspark/adalib": "^1.3.1",
     "@emurgo/cardano-serialization-lib-nodejs": "^11.4.0",
-    "@ergolabs/ergo-dex-sdk": "^1.9.66",
+    "@ergolabs/ergo-dex-sdk": "^1.9.67",
     "@ergolabs/ergo-sdk": "^0.5.7",
     "@ergolabs/ui-kit": "^2.5.2",
     "@rehooks/local-storage": "2.4.0",
@@ -25,7 +25,7 @@
     "@sentry/react": "^6.16.1",
     "@sentry/tracing": "^6.16.1",
     "@spectrumlabs/analytics": "^1.1.8",
-    "@spectrumlabs/cardano-dex-sdk": "^0.1.167",
+    "@spectrumlabs/cardano-dex-sdk": "^0.1.170",
     "@types/file-saver": "^2.0.5",
     "@types/lodash": "^4.14.172",
     "@types/numeral": "^2.0.2",
