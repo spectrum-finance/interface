@@ -1,6 +1,19 @@
+import { Severity } from '@sentry/react';
 import { saveAs } from 'file-saver';
 
 const errorLogs: { meta: any; error: any }[] = [];
+
+interface OperationError {
+  readonly level: Severity;
+  readonly error: Error;
+}
+
+export const toSentryOperationError = (
+  error: Error | string,
+): OperationError => ({
+  level: Severity.Critical,
+  error: typeof error === 'string' ? new Error(error as string) : error,
+});
 
 export const addErrorLog =
   (meta: any) =>

@@ -1,10 +1,24 @@
 import { Transaction } from '@emurgo/cardano-serialization-lib-nodejs';
 import { t } from '@lingui/macro';
+import * as Sentry from '@sentry/react';
+import { Severity } from '@sentry/react';
 import { SwapTxInfo, TxCandidate } from '@spectrumlabs/cardano-dex-sdk';
-import { first, map, Observable, Subject, switchMap, tap } from 'rxjs';
+import {
+  catchError,
+  first,
+  map,
+  Observable,
+  Subject,
+  switchMap,
+  tap,
+  throwError,
+} from 'rxjs';
 
 import { Currency } from '../../../../common/models/Currency';
-import { addErrorLog } from '../../../../common/services/ErrorLogs';
+import {
+  addErrorLog,
+  toSentryOperationError,
+} from '../../../../common/services/ErrorLogs';
 import { Nitro, Percent, TxId } from '../../../../common/types';
 import {
   openConfirmationModal,
@@ -66,8 +80,12 @@ const toSwapTxCandidate = ({
       }),
     ),
     map(
-      ([transaction]: [Transaction | null, TxCandidate, SwapTxInfo]) =>
-        transaction!,
+      ([transaction]: [
+        Transaction | null,
+        TxCandidate,
+        SwapTxInfo,
+        Error | null,
+      ]) => transaction!,
     ),
     first(),
   );
@@ -92,6 +110,7 @@ export const walletSwap = (
     ),
     switchMap((tx) => submitTx(tx)),
     tap({ error: addErrorLog({ op: 'swap' }) }),
+    catchError((err) => throwError(toSentryOperationError(err))),
   );
 
 export const swap = (data: Required<SwapFormModel>): Observable<TxId> => {
@@ -168,10 +187,18 @@ export const useSwapValidators = (): OperationValidator<SwapFormModel>[] => {
           pool: pool.pool as any,
         }),
       ),
-      map((data: [Transaction | null, TxCandidate, SwapTxInfo]) =>
-        data[0]
-          ? undefined
-          : t`Insufficient ${networkAsset.ticker} balance for fees`,
+      map(
+        (data: [Transaction | null, TxCandidate, SwapTxInfo, Error | null]) => {
+          const error = data[3];
+          if (error && !data[0]) {
+            Sentry.captureMessage(error?.message || (error as any), {
+              level: Severity.Critical,
+            });
+          }
+          return data[0]
+            ? undefined
+            : t`Insufficient ${networkAsset.ticker} balance for fees`;
+        },
       ),
       first(),
     );
