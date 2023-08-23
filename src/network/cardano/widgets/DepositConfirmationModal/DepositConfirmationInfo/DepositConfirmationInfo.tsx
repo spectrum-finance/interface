@@ -2,8 +2,8 @@ import { Flex } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
 import { FC } from 'react';
 
+import { AddLiquidityFormModel } from '../../../../../components/AddLiquidityForm/AddLiquidityFormModel';
 import { FeesView } from '../../../../../components/FeesView/FeesView';
-import { AddLiquidityFormModel } from '../../../../../pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityFormModel';
 import { useDepositTxInfo } from '../../common/useDepositTxInfo';
 
 export interface DepositConfirmationInfoProps {

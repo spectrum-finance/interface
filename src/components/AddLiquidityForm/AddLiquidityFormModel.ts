@@ -1,6 +1,6 @@
-import { AmmPool } from '../../../common/models/AmmPool';
-import { AssetInfo } from '../../../common/models/AssetInfo';
-import { Currency } from '../../../common/models/Currency';
+import { AmmPool } from '../../common/models/AmmPool';
+import { AssetInfo } from '../../common/models/AssetInfo';
+import { Currency } from '../../common/models/Currency';
 
 export interface AddLiquidityFormModel {
   readonly x?: Currency;

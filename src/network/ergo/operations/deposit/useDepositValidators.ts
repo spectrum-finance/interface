@@ -2,8 +2,8 @@ import { MinBoxValue } from '@ergolabs/ergo-sdk';
 import { t } from '@lingui/macro';
 
 import { NEW_MIN_BOX_VALUE } from '../../../../common/constants/erg';
+import { AddLiquidityFormModel } from '../../../../components/AddLiquidityForm/AddLiquidityFormModel';
 import { OperationValidator } from '../../../../components/OperationForm/OperationForm';
-import { AddLiquidityFormModel } from '../../../../pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityFormModel';
 import { feeAsset, networkAsset } from '../../api/networkAsset/networkAsset';
 import { useMinExFee as useNativeMinExFee } from '../../settings/executionFee/nativeExecutionFee';
 import { useMinExFee as useSpfMinExFee } from '../../settings/executionFee/spfExecutionFee';
