@@ -2,8 +2,8 @@ import { FC } from 'react';
 import { Observable } from 'rxjs';
 
 import { TxId } from '../../../../common/types';
-import { AddLiquidityFormModel } from '../../../../components/AddLiquidityForm/AddLiquidityFormModel';
 import { BaseAddLiquidityConfirmationModal } from '../../../../components/BaseAddLiquidityConfirmationModal/BaseAddLiquidityConfirmationModal';
+import { AddLiquidityFormModel } from '../../../../pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityFormModel';
 import { walletDeposit } from '../../api/operations/deposit';
 import { DepositConfirmationInfo } from './DepositConfirmationInfo/DepositConfirmationInfo';
 

@@ -1,16 +1,8 @@
-import {
-  Button,
-  CalculatorOutlined,
-  Flex,
-  Modal,
-  Typography,
-} from '@ergolabs/ui-kit';
+import { Button, Flex, Modal, Typography } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import styled from 'styled-components';
 
-import { LbspCalculatorModal } from '../LbspCalculatorModal/LbspCalculatorModal.tsx';
 import { LbspFaqModal } from '../LbspFaqModal/LbspFaqModal.tsx';
-import { LbspTimer } from './LbspTimer/LbspTimer.tsx';
 import TokensImg from './tokens-img.png';
 
 const LbspBannerWrapper = styled.div`
@@ -57,46 +49,27 @@ export const LbspBanner = () => {
         <LbspBannerContent>
           <Flex col>
             <Flex.Item marginBottom={4}>
-              <Typography.Title level={1}>
-                <Trans>Add liquidity and Get Rewarded</Trans>
+              <Typography.Title level={3}>
+                <Trans>Get Rewarded By Providing Liquidity</Trans>
               </Typography.Title>
-              <Typography.Title level={5} style={{ fontWeight: 400 }}>
+              <Typography.Body>
                 <Trans>
-                  Provide liquidity to &quot;LBSP-labeled&quot; pools and get
-                  rewarded with SPF utility token.
+                  Upon providing liquidity to labeled &quot;LBSP&quot; liquidity
+                  pools, ADA will be instantly staked in the Liquidity Bootstrap
+                  Stake Pool, resulting in Liquidity Providers receiving twice
+                  the SPF rewards compared to the standard ISP.
                 </Trans>
-              </Typography.Title>
-            </Flex.Item>
-            <Flex.Item marginBottom={2}>
-              <LbspTimer />
+              </Typography.Body>
             </Flex.Item>
             <Flex.Item>
-              <Flex>
-                <Flex.Item marginRight={2}>
-                  <Button
-                    type="primary"
-                    size="large"
-                    icon={<CalculatorOutlined />}
-                    onClick={() =>
-                      Modal.open(({ close }) => (
-                        <LbspCalculatorModal close={close} />
-                      ))
-                    }
-                  >
-                    Calculator
-                  </Button>
-                </Flex.Item>
-                <Flex.Item>
-                  <Button
-                    size="large"
-                    onClick={() => {
-                      Modal.open(() => <LbspFaqModal />);
-                    }}
-                  >
-                    <Trans>What is LBSP?</Trans>
-                  </Button>
-                </Flex.Item>
-              </Flex>
+              <Button
+                type="primary"
+                onClick={() => {
+                  Modal.open(() => <LbspFaqModal />);
+                }}
+              >
+                <Trans>Learn more about LBSP</Trans>
+              </Button>
             </Flex.Item>
           </Flex>
         </LbspBannerContent>

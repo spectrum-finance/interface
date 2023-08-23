@@ -13,11 +13,11 @@ import { AmmPool } from '../../common/models/AmmPool';
 import { AssetInfo } from '../../common/models/AssetInfo';
 import { Currency } from '../../common/models/Currency';
 import { Farm } from '../../common/models/Farm.ts';
-import { AddLiquidityFormModel } from '../../components/AddLiquidityForm/AddLiquidityFormModel';
 import { EventProducerContext } from '../../gateway/analytics/fireOperationAnalyticsEvent';
 import { Network } from '../../network/common/Network';
 import { Stake } from '../../network/ergo/lm/models/Stake.ts';
 import { StakeFormModel } from '../../network/ergo/lm/operations/lmDeposit/LmDepositModalContent/LmDepositModalContent.tsx';
+import { AddLiquidityFormModel } from '../../pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityFormModel';
 import { RemoveLiquidityFormModel } from '../../pages/RemoveLiquidity/RemoveLiquidityFormModel';
 import { SwapFormModel } from '../../pages/Swap/SwapFormModel';
 

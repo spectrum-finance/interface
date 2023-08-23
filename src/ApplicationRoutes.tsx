@@ -9,7 +9,6 @@ import { Layout } from './components/common/Layout/Layout';
 import { RouteConfigExtended } from './components/RouterTitle/RouteConfigExtended';
 import { RouterTitle } from './components/RouterTitle/RouterTitle';
 import { useApplicationSettings } from './context';
-import { AddLiquidity } from './pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity';
 import { AddLiquidityOrCreatePool } from './pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool';
 import { Farms } from './pages/Farms/Farms';
 import { Liquidity } from './pages/Liquidity/Liquidity';
@@ -63,7 +62,7 @@ export const routesConfig: RouteConfigExtended[] = [
               {
                 title: 'Add Liquidity',
                 path: 'add',
-                element: <AddLiquidity />,
+                element: <AddLiquidityOrCreatePool />,
               },
               {
                 title: 'Create Pool',
@@ -96,7 +95,7 @@ export const routesConfig: RouteConfigExtended[] = [
                   {
                     title: 'Add Liquidity',
                     path: 'add',
-                    element: <AddLiquidity />,
+                    element: <AddLiquidityOrCreatePool />,
                   },
                   {
                     title: 'Create Pool',

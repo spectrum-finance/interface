@@ -74,6 +74,7 @@ import { operationsSettings$ } from '../../gateway/widgets/operationsSettings';
 import { useGuardV2 } from '../../hooks/useGuard.ts';
 import { mapToSwapAnalyticsProps } from '../../utils/analytics/mapper';
 import { isPreLbspTimeGap } from '../../utils/lbsp.ts';
+import { PoolSelector } from './PoolSelector/PoolSelector';
 import { PriceImpactWarning } from './PriceImpactWarning/PriceImpactWarning';
 import { SwapFormModel } from './SwapFormModel';
 import { SwapGraph } from './SwapGraph/SwapGraph';
@@ -550,9 +551,16 @@ export const Swap = (): JSX.Element => {
               }}
             />
           </Flex.Item>
+          <Form.Item name="pool">
+            {({ value, onChange }) => (
+              <Flex.Item marginTop={!!value ? 4 : 0}>
+                <PoolSelector value={value} onChange={onChange} />
+              </Flex.Item>
+            )}
+          </Form.Item>
           <Form.Listener>
             {({ value }) => (
-              <Flex.Item marginTop={2}>
+              <Flex.Item marginTop={!!value.pool ? 4 : 0}>
                 <SwapInfo
                   value={value}
                   isReversed={reversedRatio}

@@ -6,10 +6,10 @@ import { first } from 'rxjs';
 
 // import { panalytics } from '../../../../common/analytics';
 import { TxId } from '../../../../common/types';
-import { AddLiquidityFormModel } from '../../../../components/AddLiquidityForm/AddLiquidityFormModel';
 import { FormPairSection } from '../../../../components/common/FormView/FormPairSection/FormPairSection';
 import { PageSection } from '../../../../components/Page/PageSection/PageSection';
 import { Section } from '../../../../components/Section/Section';
+import { AddLiquidityFormModel } from '../../../../pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityFormModel';
 import { PoolRatio } from '../../../../pages/PoolOverview/PoolRatio/PoolRatio';
 import { ergoPaySwap } from '../../operations/deposit/ergopayDeposit';
 import { DepositConfirmationInfo } from '../DepositConfirmationModal/DepositConfirmationInfo/DepositConfirmationInfo';
