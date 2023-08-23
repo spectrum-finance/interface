@@ -10,6 +10,7 @@ import styled from 'styled-components';
 
 import { LbspCalculatorModal } from '../LbspCalculatorModal/LbspCalculatorModal.tsx';
 import { LbspFaqModal } from '../LbspFaqModal/LbspFaqModal.tsx';
+import { LbspTimer } from './LbspTimer/LbspTimer.tsx';
 import TokensImg from './tokens-img.png';
 
 const LbspBannerWrapper = styled.div`
@@ -57,7 +58,7 @@ export const LbspBanner = () => {
           <Flex col>
             <Flex.Item marginBottom={4}>
               <Typography.Title level={1}>
-                <Trans>Provide liquidity and Get Rewarded</Trans>
+                <Trans>Add liquidity and Get Rewarded</Trans>
               </Typography.Title>
               <Typography.Title level={5} style={{ fontWeight: 400 }}>
                 <Trans>
@@ -65,6 +66,9 @@ export const LbspBanner = () => {
                   rewarded with SPF utility token.
                 </Trans>
               </Typography.Title>
+            </Flex.Item>
+            <Flex.Item marginBottom={2}>
+              <LbspTimer />
             </Flex.Item>
             <Flex.Item>
               <Flex>
@@ -89,7 +93,7 @@ export const LbspBanner = () => {
                       Modal.open(() => <LbspFaqModal />);
                     }}
                   >
-                    <Trans>FAQ</Trans>
+                    <Trans>What is LBSP?</Trans>
                   </Button>
                 </Flex.Item>
               </Flex>
