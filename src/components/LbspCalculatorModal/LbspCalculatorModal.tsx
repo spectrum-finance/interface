@@ -58,13 +58,21 @@ export const LbspCalculatorModal: FC<LbspCalculatorModalProps> = ({
         >
           <Flex col>
             <Flex.Item marginTop={6}>
-              <Section title={<Trans>Duration</Trans>} gap={1}>
-                <Form.Item name="duration">
-                  {({ value, onChange }) => (
-                    <DurationSlider value={value} onChange={onChange} />
-                  )}
-                </Form.Item>
-              </Section>
+              <Form.Listener>
+                {({ value: { pool, y, x } }) =>
+                  pool &&
+                  y &&
+                  x && (
+                    <Section title={<Trans>Duration</Trans>} gap={1}>
+                      <Form.Item name="duration">
+                        {({ value, onChange }) => (
+                          <DurationSlider value={value} onChange={onChange} />
+                        )}
+                      </Form.Item>
+                    </Section>
+                  )
+                }
+              </Form.Listener>
             </Flex.Item>
             <Form.Listener>
               {({ value }) => (
