@@ -3,7 +3,6 @@ import {
   Button,
   CloseCircleOutlined,
   Flex,
-  message,
   Modal,
   ModalRef,
   Typography,
@@ -14,7 +13,6 @@ import { RequestProps } from '@ergolabs/ui-kit/dist/components/Modal/presets/Req
 import { t, Trans } from '@lingui/macro';
 import { DateTime } from 'luxon';
 import { ReactNode } from 'react';
-import CopyToClipboard from 'react-copy-to-clipboard';
 import { TimeoutError } from 'rxjs';
 
 import { applicationConfig } from '../../applicationConfig';
@@ -25,7 +23,6 @@ import { Currency } from '../../common/models/Currency';
 import { downloadErrorLog } from '../../common/services/ErrorLogs';
 import { exploreTx } from '../../gateway/utils/exploreAddress';
 import { getLockingPeriodString } from '../../pages/Liquidity/utils';
-import { useErrorEvent } from '../ErrorBoundary/ErrorEventProvider';
 
 export enum Operation {
   SWAP,
@@ -135,8 +132,6 @@ const ErrorModalContent = (
   payload: ModalChainingPayload,
   withErrorIcon?: boolean,
 ) => {
-  const { errorEvent } = useErrorEvent();
-
   return (
     <Flex col align="center">
       {withErrorIcon && (
@@ -161,27 +156,11 @@ const ErrorModalContent = (
           <Trans>Transaction rejected</Trans>
         </Typography.Body>
       </Flex.Item>
-      <Flex.Item marginBottom={errorEvent?.id ? 3 : 1}>
+      <Flex.Item marginBottom={2}>
         <Typography.Body align="center" secondary>
           <Trans>Try again later</Trans>
         </Typography.Body>
       </Flex.Item>
-      {errorEvent?.id && (
-        <Flex.Item marginBottom={2}>
-          <CopyToClipboard
-            text={errorEvent.id}
-            onCopy={() => message.success(t`Copied to clipboard!`)}
-          >
-            <Typography.Body
-              align="center"
-              secondary
-              style={{ cursor: 'pointer' }}
-            >
-              <Trans>Error id:</Trans> <br /> {errorEvent.id}
-            </Typography.Body>
-          </CopyToClipboard>
-        </Flex.Item>
-      )}
       <Button size="large" type="dashed" onClick={downloadErrorLog}>
         <Trans>Download Error log</Trans>
       </Button>

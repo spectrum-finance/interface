@@ -1,13 +1,28 @@
 import { Transaction } from '@emurgo/cardano-serialization-lib-nodejs';
 import { t } from '@lingui/macro';
+import * as Sentry from '@sentry/react';
+import { Severity } from '@sentry/react';
 import { TxCandidate } from '@spectrumlabs/cardano-dex-sdk';
 import { DepositTxInfo } from '@spectrumlabs/cardano-dex-sdk/build/main/amm/interpreters/ammTxBuilder/depositAmmTxBuilder';
 import { NetworkParams } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/env';
-import { first, map, Observable, Subject, switchMap, tap, zip } from 'rxjs';
+import {
+  catchError,
+  first,
+  map,
+  Observable,
+  Subject,
+  switchMap,
+  tap,
+  throwError,
+  zip,
+} from 'rxjs';
 
 import { Balance } from '../../../../common/models/Balance';
 import { Currency } from '../../../../common/models/Currency';
-import { addErrorLog } from '../../../../common/services/ErrorLogs';
+import {
+  addErrorLog,
+  toSentryOperationError,
+} from '../../../../common/services/ErrorLogs';
 import { TxId } from '../../../../common/types';
 import {
   openConfirmationModal,
@@ -64,7 +79,10 @@ const toDepositTxCandidate = ({
         pk: settings.ph!,
       }),
     ),
-    map((data: [Transaction | null, TxCandidate, DepositTxInfo]) => data[0]!),
+    map(
+      (data: [Transaction | null, TxCandidate, DepositTxInfo, Error | null]) =>
+        data[0]!,
+    ),
     first(),
   );
 };
@@ -87,6 +105,7 @@ export const walletDeposit = (
     ),
     switchMap((tx) => submitTx(tx)),
     tap({ error: addErrorLog({ op: 'deposit' }) }),
+    catchError((err) => throwError(toSentryOperationError(err))),
   );
 
 export const deposit = (
@@ -142,10 +161,27 @@ export const useDepositValidators =
             pk: settings.ph!,
           }),
         ),
-        map((data: [Transaction | null, TxCandidate, DepositTxInfo]) =>
-          data[0]
-            ? undefined
-            : t`Insufficient ${networkAsset.ticker} balance for fees`,
+        map(
+          (
+            data: [
+              Transaction | null,
+              TxCandidate,
+              DepositTxInfo,
+              Error | null,
+            ],
+          ) => {
+            const error = data[3];
+            if (error && !data[0]) {
+              Sentry.captureMessage(error?.message || (error as any), {
+                level: Severity.Critical,
+              });
+              addErrorLog({ op: 'depositValidation', ctx: data[2] })(error);
+            }
+
+            return data[0]
+              ? undefined
+              : t`Insufficient ${networkAsset.ticker} balance for fees`;
+          },
         ),
         first(),
       );

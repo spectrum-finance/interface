@@ -1,10 +1,23 @@
 import { Transaction } from '@emurgo/cardano-serialization-lib-nodejs';
 import { RedeemTxInfo, TxCandidate } from '@spectrumlabs/cardano-dex-sdk';
 import { NetworkParams } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/env';
-import { first, map, Observable, Subject, switchMap, tap, zip } from 'rxjs';
+import {
+  catchError,
+  first,
+  map,
+  Observable,
+  Subject,
+  switchMap,
+  tap,
+  throwError,
+  zip,
+} from 'rxjs';
 
 import { Currency } from '../../../../common/models/Currency';
-import { addErrorLog } from '../../../../common/services/ErrorLogs';
+import {
+  addErrorLog,
+  toSentryOperationError,
+} from '../../../../common/services/ErrorLogs';
 import { TxId } from '../../../../common/types';
 import {
   openConfirmationModal,
@@ -50,8 +63,12 @@ const toRedeemTxCandidate = ({
       }),
     ),
     map(
-      ([transaction]: [Transaction | null, TxCandidate, RedeemTxInfo]) =>
-        transaction!,
+      ([transaction]: [
+        Transaction | null,
+        TxCandidate,
+        RedeemTxInfo,
+        Error | null,
+      ]) => transaction!,
     ),
     first(),
   );
@@ -73,6 +90,7 @@ export const walletRedeem = (
     ),
     switchMap((tx) => submitTx(tx)),
     tap({ error: addErrorLog({ op: 'redeem' }) }),
+    catchError((err) => throwError(toSentryOperationError(err))),
   );
 
 export const redeem = (

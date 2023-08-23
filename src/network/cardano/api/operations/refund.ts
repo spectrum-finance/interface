@@ -21,6 +21,7 @@ import {
 import { NetworkParams } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/env';
 import { CardanoWasm } from '@spectrumlabs/cardano-dex-sdk/build/main/utils/rustLoader';
 import {
+  catchError,
   combineLatest,
   first,
   map,
@@ -30,11 +31,15 @@ import {
   Subject,
   switchMap,
   tap,
+  throwError,
   zip,
 } from 'rxjs';
 
 import { Currency } from '../../../../common/models/Currency';
-import { addErrorLog } from '../../../../common/services/ErrorLogs';
+import {
+  addErrorLog,
+  toSentryOperationError,
+} from '../../../../common/services/ErrorLogs';
 import { TxId } from '../../../../common/types';
 import {
   openConfirmationModal,
@@ -121,7 +126,6 @@ const walletRefund = (txId: TxId): Observable<TxId> =>
         ),
       ),
     ),
-    tap(console.log, console.log),
     map(([, tx, error]: [TxCandidate, Transaction | null, Error | null]) => {
       if (!tx) {
         throw error || new Error('');
@@ -130,6 +134,7 @@ const walletRefund = (txId: TxId): Observable<TxId> =>
     }),
     switchMap((tx) => submitTx(tx, true)),
     tap({ error: addErrorLog({ txId, op: 'refund' }) }),
+    catchError((err) => throwError(toSentryOperationError(err))),
   );
 
 export const refund = (

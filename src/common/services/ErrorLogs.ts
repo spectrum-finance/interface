@@ -1,6 +1,19 @@
+import { Severity } from '@sentry/react';
 import { saveAs } from 'file-saver';
 
 const errorLogs: { meta: any; error: any }[] = [];
+
+interface OperationError {
+  readonly level: Severity;
+  readonly error: Error;
+}
+
+export const toSentryOperationError = (
+  error: Error | string,
+): OperationError => ({
+  level: Severity.Critical,
+  error: typeof error === 'string' ? new Error(error as string) : error,
+});
 
 export const addErrorLog =
   (meta: any) =>
@@ -10,9 +23,18 @@ export const addErrorLog =
 
 export const downloadErrorLog = () => {
   saveAs(
-    new Blob([JSON.stringify(errorLogs, null, 2)], {
-      type: 'text/plain;charset=utf-8',
-    }),
+    new Blob(
+      [
+        JSON.stringify(
+          errorLogs,
+          (_, value) => (typeof value === 'bigint' ? value.toString() : value),
+          2,
+        ),
+      ],
+      {
+        type: 'text/plain;charset=utf-8',
+      },
+    ),
     'logs.txt',
   );
 };

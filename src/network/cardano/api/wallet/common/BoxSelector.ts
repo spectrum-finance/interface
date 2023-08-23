@@ -127,9 +127,6 @@ export const selectUtxos = (
   );
   const sortedUtxosByAda = getSortedUtxosByAsset(utxos, adaCoin);
 
-  console.log(sortedUtxosByNonAdaCoins, sortedUtxosByAda);
-  console.log('____');
-
   let selectedUtxos: SelectedUtxos =
     sortedUtxosByNonAdaCoins.reduce<SelectedUtxos>(selectUtxosByAsset, {
       available: {},

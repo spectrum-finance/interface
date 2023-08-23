@@ -1,5 +1,6 @@
 import {
   Button,
+  DownloadOutlined,
   Dropdown,
   FileTextOutlined,
   GithubOutlined,
@@ -23,6 +24,7 @@ import {
   LOCALE_LABEL,
   SUPPORTED_LOCALES,
 } from '../../../../../common/constants/locales';
+import { downloadErrorLog } from '../../../../../common/services/ErrorLogs';
 import { useApplicationSettings } from '../../../../../context';
 import { useQuery } from '../../../../../hooks/useQuery';
 import { ThemeSwitch } from '../../../../ThemeSwitch/ThemeSwitch';
@@ -98,6 +100,13 @@ const BurgerMenu = (): JSX.Element => {
       additional: <RightOutlined style={{ marginLeft: 36 }} />,
       onClick: () => {
         setIsMainMenu(false);
+      },
+    },
+    {
+      title: t`Download Error Log`,
+      icon: <DownloadOutlined />,
+      onClick: () => {
+        downloadErrorLog();
       },
     },
   ];

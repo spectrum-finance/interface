@@ -7,4 +7,5 @@ export const ammTxFeeMapping: AmmTxFeeMapping = {
   swapExecution: 500000n,
   depositExecution: 500000n,
   redeemExecution: 500000n,
+  poolCreation: 2000000n,
 };
