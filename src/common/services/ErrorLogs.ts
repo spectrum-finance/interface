@@ -23,9 +23,19 @@ export const addErrorLog =
 
 export const downloadErrorLog = () => {
   saveAs(
-    new Blob([JSON.stringify(errorLogs, null, 2)], {
-      type: 'text/plain;charset=utf-8',
-    }),
+    new Blob(
+      [
+        JSON.stringify(
+          errorLogs,
+          (key, value) =>
+            typeof value === 'bigint' ? value.toString() : value,
+          2,
+        ),
+      ],
+      {
+        type: 'text/plain;charset=utf-8',
+      },
+    ),
     'logs.txt',
   );
 };

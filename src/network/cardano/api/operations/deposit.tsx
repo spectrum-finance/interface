@@ -175,6 +175,7 @@ export const useDepositValidators =
               Sentry.captureMessage(error?.message || (error as any), {
                 level: Severity.Critical,
               });
+              addErrorLog({ op: 'depositValidation', ctx: data[2] })(error);
             }
 
             return data[0]

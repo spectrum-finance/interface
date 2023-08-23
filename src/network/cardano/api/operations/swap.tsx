@@ -190,10 +190,12 @@ export const useSwapValidators = (): OperationValidator<SwapFormModel>[] => {
       map(
         (data: [Transaction | null, TxCandidate, SwapTxInfo, Error | null]) => {
           const error = data[3];
+
           if (error && !data[0]) {
             Sentry.captureMessage(error?.message || (error as any), {
               level: Severity.Critical,
             });
+            addErrorLog({ op: 'swapValidation', ctx: data[2] })(error);
           }
           return data[0]
             ? undefined
