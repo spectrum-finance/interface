@@ -27,8 +27,7 @@ export const downloadErrorLog = () => {
       [
         JSON.stringify(
           errorLogs,
-          (key, value) =>
-            typeof value === 'bigint' ? value.toString() : value,
+          (_, value) => (typeof value === 'bigint' ? value.toString() : value),
           2,
         ),
       ],
