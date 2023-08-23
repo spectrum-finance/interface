@@ -1,0 +1,22 @@
+@import '~@ergolabs/ui-kit/dist/styles/colors/colors.dark';
+@import '~@ergolabs/ui-kit/dist/styles/variables.dark';
+@import '~@ergolabs/ui-kit/dist/styles/variables.light';
+
+.dexhunter {
+  @dexhunter-primary-color: #007DFF;
+  @dexhunter-primary-color-hover: #006CDC;
+
+  .darkTheme();
+  --spectrum-glow-image: url("../../images/dexhunt-glow.png");
+  --spectrum-glow-image-width: 100%;
+
+  --spectrum-primary-color: @dexhunter-primary-color;
+  --spectrum-primary-color-hover: @dexhunter-primary-color-hover;
+  --spectrum-primary-color-active: @dexhunter-primary-color;
+
+  --spectrum-connect-wallet-btn-color: @dexhunter-primary-color !important;
+  --spectrum-connect-wallet-btn-bg: rgba(0, 125, 255, 35%);
+  --spectrum-connect-wallet-btn-border: @dexhunter-primary-color;
+
+  --spectrum-logo-color: var(--spectrum-primary-text);
+}

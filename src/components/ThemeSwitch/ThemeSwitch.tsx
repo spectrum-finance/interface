@@ -45,7 +45,21 @@ export const ThemeSwitch: FC = () => {
                 height={21}
               />
             </Flex.Item>
-            <Flex.Item>Snek theme</Flex.Item>
+            <Flex.Item>Snek</Flex.Item>
+          </Flex>
+        </Menu.Item>
+        <Menu.Item onClick={() => handleChangeTheme('dexhunter')}>
+          <Flex>
+            <Flex.Item marginRight={2}>
+              <img
+                style={{ borderRadius: '999px' }}
+                alt="Snek logo"
+                src={SnekLogo}
+                width={21}
+                height={21}
+              />
+            </Flex.Item>
+            <Flex.Item>DexHunter</Flex.Item>
           </Flex>
         </Menu.Item>
         <Menu.Item
@@ -90,7 +104,7 @@ export const ThemeSwitch: FC = () => {
         <Flex.Item align="center">
           <Dropdown overlay={<DropdownOverlay />}>
             <Button block size="small">
-              Meme theme <DownOutlined />
+              Custom theme <DownOutlined />
             </Button>
           </Dropdown>
         </Flex.Item>
