@@ -2,6 +2,11 @@ import { Flex, InfoCircleOutlined, Tooltip } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import styled from 'styled-components';
 
+import {
+  LBSP_COEFFICIENT,
+  LBSP_MULTIPLIER,
+} from '../../pages/Liquidity/common/columns/PoolsOrPositionsColumns/columns/AprColumn/CardanoAprColumnContent/calculateLbspApr.ts';
+import { math } from '../../utils/math.ts';
 import { SpfLogo } from '../SpfLogo/SpfLogo.tsx';
 
 const LbspPoolTagWrapper = styled.div`
@@ -24,7 +29,8 @@ export const LbspPoolTag = () => (
           </Flex.Item>
           <Flex.Item>
             <Trans>
-              0.0135 <SpfLogo w={16} h={16} /> SPF per 1 ADA per epoch
+              {math.evaluate!(`${LBSP_MULTIPLIER} * ${LBSP_COEFFICIENT}`)}{' '}
+              <SpfLogo w={16} h={16} /> SPF per 1 ADA per epoch
             </Trans>
           </Flex.Item>
         </Flex>
