@@ -47,9 +47,9 @@ export const LiquidityDefaultLayout: FC<LiquidityLayoutProps> = ({
   const createPoolAvailable = useCreatePoolAvailable();
   const navigate = useNavigate();
   const LiquidityStateCaptions = {
-    [LiquidityState.POOLS_OVERVIEW]: t`Overview`,
-    [LiquidityState.YOUR_POSITIONS]: t`My Liquidity`,
-    [LiquidityState.LOCKED_POSITIONS]: t`Locked Liquidity`,
+    [LiquidityState.POOLS_OVERVIEW]: t`All Pools`,
+    [LiquidityState.YOUR_POSITIONS]: t`Your Positions`,
+    [LiquidityState.LOCKED_POSITIONS]: t`Locked Positions`,
   };
 
   return (

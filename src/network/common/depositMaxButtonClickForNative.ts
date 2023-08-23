@@ -1,6 +1,6 @@
 import { Balance } from '../../common/models/Balance';
 import { Currency } from '../../common/models/Currency';
-import { AddLiquidityFormModel } from '../../components/AddLiquidityForm/AddLiquidityFormModel';
+import { AddLiquidityFormModel } from '../../pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityFormModel';
 import { normalizeAmountWithFee } from '../../pages/AddLiquidityOrCreatePool/common/utils';
 import { networkAsset } from '../ergo/api/networkAsset/networkAsset';
 

@@ -98,6 +98,11 @@ export const AddLiquidityOrCreatePool: FC = () => {
     [],
   );
 
+  const handleNewPoolButtonClick = () => {
+    navigate('../create');
+    setComponentState(ComponentState.CREATE_POOL);
+  };
+
   const handleBackButtonClick = () => {
     if (ComponentState.CREATE_POOL && history.length) {
       setComponentState(ComponentState.ADD_LIQUIDITY);
@@ -279,7 +284,12 @@ export const AddLiquidityOrCreatePool: FC = () => {
                   }
                 >
                   {isAddLiquidityPageVisible(value, componentState) ? (
-                    <AddLiquidity />
+                    <AddLiquidity
+                      pools={value.pools}
+                      xAsset={value.x}
+                      yAsset={value.y}
+                      onNewPoolButtonClick={handleNewPoolButtonClick}
+                    />
                   ) : (
                     <CreatePool xAsset={value.x} yAsset={value.y} />
                   )}

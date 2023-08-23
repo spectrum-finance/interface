@@ -2,11 +2,11 @@ import { Modal } from '@ergolabs/ui-kit';
 import { first, Observable, Subject, switchMap, tap } from 'rxjs';
 
 import { TxId } from '../../../../common/types';
-import { AddLiquidityFormModel } from '../../../../components/AddLiquidityForm/AddLiquidityFormModel';
 import {
   openConfirmationModal,
   Operation,
 } from '../../../../components/ConfirmationModal/ConfirmationModal';
+import { AddLiquidityFormModel } from '../../../../pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityFormModel';
 import { settings$ } from '../../settings/settings';
 import { DepositConfirmationModal } from '../../widgets/DepositConfirmationModal/DepositConfirmationModal';
 import { DepositOpenWallet } from '../../widgets/DepositOpenWallet/DepositOpenWallet';

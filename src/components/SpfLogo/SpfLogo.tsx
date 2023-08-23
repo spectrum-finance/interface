@@ -3,13 +3,12 @@ import { FC } from 'react';
 interface SpfLogoProps {
   w?: number;
   h?: number;
-  block?: boolean;
 }
 
-export const SpfLogo: FC<SpfLogoProps> = ({ w = 24, h = 24, block }) => {
+export const SpfLogo: FC<SpfLogoProps> = ({ w = 24, h = 24 }) => {
   return (
     <img
-      style={{ display: block ? 'block' : 'inline' }}
+      style={{ display: 'block' }}
       src="/spectrum-finance-token-logo.svg"
       alt="SPF Logo"
       width={w}

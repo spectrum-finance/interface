@@ -52,7 +52,7 @@ const LbspTooltipContent: FC<LbspTooltipContentProps> = ({
         </Flex.Item>
         <Flex.Item display="flex" align="center" flex={1}>
           <Flex.Item marginRight={1}>
-            <SpfLogo w={16} h={16} block />
+            <SpfLogo w={16} h={16} />
           </Flex.Item>
 
           <Flex.Item marginRight={1}>
@@ -81,7 +81,7 @@ const LbspTooltipContent: FC<LbspTooltipContentProps> = ({
           size="small"
           style={{ color: 'var(--spectrum-hint-text)' }}
         >
-          LBSP APR is calculated according to the current SPF price on the Ergo
+          LBSP APR is calculated according to the current SPF price on Ergo
           market
         </Typography.Body>
       </Flex.Item>
@@ -105,25 +105,20 @@ const CardanoLbspAmmPoolArColumnContent: FC<CardanoAprColumnContent> = ({
   return (
     <>
       {totalApr ? (
-        <Flex align="center">
-          <Flex.Item marginRight={1}>
-            <SpfLogo w={16} h={16} block />
-          </Flex.Item>
-          <InfoTooltip
-            width={200}
-            placement="top"
-            isAllContentTrigger={isAllContentTrigger}
-            content={
-              <LbspTooltipContent
-                totalApr={totalApr}
-                lbspApr={lbspApr}
-                swapApr={swapApr}
-              />
-            }
-          >
-            {totalApr.toFixed(2)}%
-          </InfoTooltip>
-        </Flex>
+        <InfoTooltip
+          width={200}
+          placement="top"
+          isAllContentTrigger={isAllContentTrigger}
+          content={
+            <LbspTooltipContent
+              totalApr={totalApr}
+              lbspApr={lbspApr}
+              swapApr={swapApr}
+            />
+          }
+        >
+          {totalApr.toFixed(2)}%
+        </InfoTooltip>
       ) : (
         '—'
       )}
