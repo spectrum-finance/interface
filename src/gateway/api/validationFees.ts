@@ -1,6 +1,6 @@
 import { Currency } from '../../common/models/Currency';
+import { AddLiquidityFormModel } from '../../components/AddLiquidityForm/AddLiquidityFormModel';
 import { OperationValidator } from '../../components/OperationForm/OperationForm';
-import { AddLiquidityFormModel } from '../../pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityFormModel';
 import { SwapFormModel } from '../../pages/Swap/SwapFormModel';
 import { useSelectedNetwork } from '../common/network';
 

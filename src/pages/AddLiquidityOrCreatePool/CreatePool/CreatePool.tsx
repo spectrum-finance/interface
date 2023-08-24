@@ -9,6 +9,7 @@ import { useSubscription } from '../../../common/hooks/useObservable';
 import { AssetInfo } from '../../../common/models/AssetInfo';
 import { Currency } from '../../../common/models/Currency';
 import { Ratio } from '../../../common/models/Ratio';
+import { LiquidityPercentInput } from '../../../components/AddLiquidityForm/LiquidityPercentInput/LiquidityPercentInput';
 import { AssetControlFormItem } from '../../../components/common/TokenControl/AssetControl';
 import {
   openConfirmationModal,
@@ -26,7 +27,6 @@ import { useNetworkAsset } from '../../../gateway/api/networkAsset';
 import { useCreatePoolValidationFee } from '../../../gateway/api/validationFees';
 import { useGuardV2 } from '../../../hooks/useGuard';
 import { normalizeAmountWithFee } from '../common/utils';
-import { LiquidityPercentInput } from '../LiquidityPercentInput/LiquidityPercentInput';
 import { CreatePoolConfirmationModal } from './CreatePoolConfirmationModal/CreatePoolConfirmationModal';
 import { CreatePoolFormModel } from './CreatePoolFormModel';
 import { FeeSelector } from './FeeSelector/FeeSelector';

@@ -5,7 +5,7 @@ import { map, Observable, of, publishReplay, refCount, switchMap } from 'rxjs';
 
 import { useSubject } from '../../../../common/hooks/useObservable';
 import { Currency } from '../../../../common/models/Currency';
-import { AddLiquidityFormModel } from '../../../../pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityFormModel';
+import { AddLiquidityFormModel } from '../../../../components/AddLiquidityForm/AddLiquidityFormModel';
 import { networkAsset } from '../../api/networkAsset/networkAsset';
 import { ammTxFeeMapping } from '../../api/operations/common/ammTxFeeMapping';
 import { minExecutorReward } from '../../api/operations/common/minExecutorReward';

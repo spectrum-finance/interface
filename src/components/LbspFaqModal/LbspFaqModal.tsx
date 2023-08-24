@@ -3,6 +3,13 @@ import { t, Trans } from '@lingui/macro';
 import { FC, ReactNode, useMemo } from 'react';
 import styled from 'styled-components';
 
+import {
+  LBSP_BOOSTED_MULTIPLIER,
+  LBSP_COEFFICIENT,
+  LBSP_MULTIPLIER,
+} from '../../pages/Liquidity/common/columns/PoolsOrPositionsColumns/columns/AprColumn/CardanoAprColumnContent/calculateLbspApr.ts';
+import { math } from '../../utils/math.ts';
+
 const MODAL_WIDTH = 556;
 
 interface FaqProps {
@@ -84,17 +91,20 @@ export const LbspFaqModal = () => {
               </Trans>
             </Typography.Paragraph>
             <Trans>
-              (1) The 2.25 multiplier applies to all delegated ADA that was
+              {`(1) The ${LBSP_MULTIPLIER} multiplier applies to all delegated ADA that was
               provided as liquidity to the LBSP-labeled liquidity pools. Epoch
-              reward is 0.006 * 2.25 = 0.0135 SPF per delegated ADA.
+              reward is ${LBSP_COEFFICIENT} * ${LBSP_MULTIPLIER} = ${math.evaluate!(
+                `${LBSP_MULTIPLIER} * ${LBSP_COEFFICIENT}`,
+              )} SPF per delegated ADA.`}
             </Trans>
             <Typography.Paragraph />
             <Typography.Paragraph>
               <Trans>
-                (2) The 3.5 multiplier applies to all delegated ADA that was
+                {`(2) The ${LBSP_BOOSTED_MULTIPLIER} multiplier applies to all delegated ADA that was
                 provided to the ADA/SPF liquidity pool, which is available for
-                liquidity provision from epoch 438. Epoch reward is 0.006 * 3.5
-                = 0.021 SPF per delegated ADA.
+                liquidity provision from epoch 438. Epoch reward is ${LBSP_COEFFICIENT} * ${LBSP_BOOSTED_MULTIPLIER} = ${math.evaluate!(
+                  `${LBSP_BOOSTED_MULTIPLIER} * ${LBSP_COEFFICIENT}`,
+                )} SPF per delegated ADA.`}
               </Trans>
             </Typography.Paragraph>
           </>
