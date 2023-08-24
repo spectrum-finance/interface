@@ -3,7 +3,7 @@ import { MinBoxValue } from '@ergolabs/ergo-sdk';
 import { NEW_MIN_BOX_VALUE } from '../../../../common/constants/erg';
 import { Balance } from '../../../../common/models/Balance';
 import { Currency } from '../../../../common/models/Currency';
-import { AddLiquidityFormModel } from '../../../../pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityFormModel';
+import { AddLiquidityFormModel } from '../../../../components/AddLiquidityForm/AddLiquidityFormModel';
 import { normalizeAmountWithFee } from '../../../../pages/AddLiquidityOrCreatePool/common/utils';
 import { depositMaxButtonClickForNative } from '../../../common/depositMaxButtonClickForNative';
 import { feeAsset, networkAsset } from '../../api/networkAsset/networkAsset';

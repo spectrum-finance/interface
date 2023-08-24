@@ -5,7 +5,7 @@ import { AmmPool } from '../../common/models/AmmPool';
 import { Currency } from '../../common/models/Currency';
 import { Farm } from '../../common/models/Farm';
 import { TxId } from '../../common/types';
-import { AddLiquidityFormModel } from '../../pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityFormModel';
+import { AddLiquidityFormModel } from '../../components/AddLiquidityForm/AddLiquidityFormModel';
 import { RemoveLiquidityFormModel } from '../../pages/RemoveLiquidity/RemoveLiquidityFormModel';
 import { SwapFormModel } from '../../pages/Swap/SwapFormModel';
 
@@ -23,7 +23,10 @@ export interface NetworkOperations {
       children?: ReactNode | ReactNode[] | string,
     ) => ReactNode | ReactNode[] | string,
   ): Observable<TxId>;
-  deposit(data: Required<AddLiquidityFormModel>): Observable<TxId>;
+  deposit(
+    data: Required<AddLiquidityFormModel>,
+    withoutConfirmation?: boolean,
+  ): Observable<TxId>;
   redeem(
     pool: AmmPool,
     data: Required<RemoveLiquidityFormModel>,

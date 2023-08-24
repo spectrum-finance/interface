@@ -9,12 +9,12 @@ import { Balance } from '../../../../common/models/Balance';
 import { Currency } from '../../../../common/models/Currency';
 import { captureOperationError } from '../../../../common/services/ErrorLogs';
 import { TxId } from '../../../../common/types';
+import { AddLiquidityFormModel } from '../../../../components/AddLiquidityForm/AddLiquidityFormModel';
 import {
   openConfirmationModal,
   Operation,
 } from '../../../../components/ConfirmationModal/ConfirmationModal';
 import { OperationValidator } from '../../../../components/OperationForm/OperationForm';
-import { AddLiquidityFormModel } from '../../../../pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityFormModel';
 import { depositMaxButtonClickForNative } from '../../../common/depositMaxButtonClickForNative';
 import {
   CardanoSettings,
@@ -96,33 +96,54 @@ export const walletDeposit = (
 
 export const deposit = (
   data: Required<AddLiquidityFormModel>,
+  withoutConfirmation?: boolean,
 ): Observable<TxId> => {
   const subject = new Subject<TxId>();
 
-  openConfirmationModal(
-    (next) => {
-      return (
-        <DepositConfirmationModal
-          value={data}
-          onClose={(request) =>
-            next(
-              request.pipe(
-                tap((txId) => {
-                  subject.next(txId);
-                  subject.complete();
-                }),
-              ),
-            )
-          }
-        />
-      );
-    },
-    Operation.ADD_LIQUIDITY,
-    {
-      xAsset: data.x!,
-      yAsset: data.y!,
-    },
-  );
+  if (withoutConfirmation) {
+    openConfirmationModal(
+      walletDeposit(
+        data.pool as any,
+        data.x.asset.id === data.pool.x.asset.id ? data.x : data.y,
+        data.y.asset.id === data.pool.y.asset.id ? data.y : data.x,
+      ).pipe(
+        tap((txId) => {
+          subject.next(txId);
+          subject.complete();
+        }),
+      ),
+      Operation.ADD_LIQUIDITY,
+      {
+        xAsset: data.x!,
+        yAsset: data.y!,
+      },
+    );
+  } else {
+    openConfirmationModal(
+      (next) => {
+        return (
+          <DepositConfirmationModal
+            value={data}
+            onClose={(request) =>
+              next(
+                request.pipe(
+                  tap((txId) => {
+                    subject.next(txId);
+                    subject.complete();
+                  }),
+                ),
+              )
+            }
+          />
+        );
+      },
+      Operation.ADD_LIQUIDITY,
+      {
+        xAsset: data.x!,
+        yAsset: data.y!,
+      },
+    );
+  }
 
   return subject.asObservable();
 };
