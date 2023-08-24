@@ -9,7 +9,6 @@ import { isPreLbspTimeGap } from '../../../../utils/lbsp';
 import { IsCardano } from '../../../IsCardano/IsCardano';
 import { IsErgo } from '../../../IsErgo/IsErgo';
 import { AppLogo } from '../../AppLogo/AppLogo';
-import { CardanoMaintenance } from '../CardanoMaintenance/CardanoMaintenance';
 import { OperationsHistory } from '../OperationsHistory/OperationsHistory';
 import { Analytics } from './Analytics/Analytics';
 import { BurgerMenu } from './BurgerMenu/BurgerMenu';
@@ -53,7 +52,6 @@ export const _Header: React.FC<HeaderProps> = ({ className, scrolledTop }) => {
         className,
       )}
     >
-      <CardanoMaintenance />
       <HeaderWrapper>
         <Flex align="center" style={{ gap: '8px' }}>
           <Flex.Item marginRight={2} align="center">
