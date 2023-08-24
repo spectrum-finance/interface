@@ -1,28 +1,13 @@
 import { Transaction } from '@emurgo/cardano-serialization-lib-nodejs';
 import { t } from '@lingui/macro';
-import * as Sentry from '@sentry/react';
-import { Severity } from '@sentry/react';
 import { TxCandidate } from '@spectrumlabs/cardano-dex-sdk';
 import { DepositTxInfo } from '@spectrumlabs/cardano-dex-sdk/build/main/amm/interpreters/ammTxBuilder/depositAmmTxBuilder';
 import { NetworkParams } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/env';
-import {
-  catchError,
-  first,
-  map,
-  Observable,
-  Subject,
-  switchMap,
-  tap,
-  throwError,
-  zip,
-} from 'rxjs';
+import { first, map, Observable, Subject, switchMap, tap, zip } from 'rxjs';
 
 import { Balance } from '../../../../common/models/Balance';
 import { Currency } from '../../../../common/models/Currency';
-import {
-  addErrorLog,
-  toSentryOperationError,
-} from '../../../../common/services/ErrorLogs';
+import { captureOperationError } from '../../../../common/services/ErrorLogs';
 import { TxId } from '../../../../common/types';
 import {
   openConfirmationModal,
@@ -104,8 +89,9 @@ export const walletDeposit = (
       }),
     ),
     switchMap((tx) => submitTx(tx)),
-    tap({ error: addErrorLog({ op: 'deposit' }) }),
-    catchError((err) => throwError(toSentryOperationError(err))),
+    tap({
+      error: (error) => captureOperationError(error, 'cardano', 'deposit'),
+    }),
   );
 
 export const deposit = (
@@ -172,10 +158,13 @@ export const useDepositValidators =
           ) => {
             const error = data[3];
             if (error && !data[0]) {
-              Sentry.captureMessage(error?.message || (error as any), {
-                level: Severity.Critical,
-              });
-              addErrorLog({ op: 'depositValidation', ctx: data[2] })(error);
+              captureOperationError(
+                error,
+                'cardano',
+                'depositValidation',
+                data[1],
+                data[2],
+              );
             }
 
             return data[0]

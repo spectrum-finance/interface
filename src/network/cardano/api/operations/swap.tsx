@@ -1,24 +1,10 @@
 import { Transaction } from '@emurgo/cardano-serialization-lib-nodejs';
 import { t } from '@lingui/macro';
-import * as Sentry from '@sentry/react';
-import { Severity } from '@sentry/react';
 import { SwapTxInfo, TxCandidate } from '@spectrumlabs/cardano-dex-sdk';
-import {
-  catchError,
-  first,
-  map,
-  Observable,
-  Subject,
-  switchMap,
-  tap,
-  throwError,
-} from 'rxjs';
+import { first, map, Observable, Subject, switchMap, tap } from 'rxjs';
 
 import { Currency } from '../../../../common/models/Currency';
-import {
-  addErrorLog,
-  toSentryOperationError,
-} from '../../../../common/services/ErrorLogs';
+import { captureOperationError } from '../../../../common/services/ErrorLogs';
 import { Nitro, Percent, TxId } from '../../../../common/types';
 import {
   openConfirmationModal,
@@ -109,8 +95,7 @@ export const walletSwap = (
       }),
     ),
     switchMap((tx) => submitTx(tx)),
-    tap({ error: addErrorLog({ op: 'swap' }) }),
-    catchError((err) => throwError(toSentryOperationError(err))),
+    tap({ error: (error) => captureOperationError(error, 'cardano', 'swap') }),
   );
 
 export const swap = (data: Required<SwapFormModel>): Observable<TxId> => {
@@ -192,10 +177,13 @@ export const useSwapValidators = (): OperationValidator<SwapFormModel>[] => {
           const error = data[3];
 
           if (error && !data[0]) {
-            Sentry.captureMessage(error?.message || (error as any), {
-              level: Severity.Critical,
-            });
-            addErrorLog({ op: 'swapValidation', ctx: data[2] })(error);
+            captureOperationError(
+              error,
+              'cardano',
+              'swapValidation',
+              data[1],
+              data[2],
+            );
           }
           return data[0]
             ? undefined

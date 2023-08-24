@@ -2,7 +2,7 @@ import { from as fromPromise, Observable, switchMap, tap, timeout } from 'rxjs';
 
 import { applicationConfig } from '../../../../../applicationConfig';
 import { Currency } from '../../../../../common/models/Currency';
-import { addErrorLog } from '../../../../../common/services/ErrorLogs';
+import { captureOperationError } from '../../../../../common/services/ErrorLogs';
 import { TxId } from '../../../../../common/types';
 import { ErgoAmmPool } from '../../../api/ammPools/ErgoAmmPool';
 import { spfFeePoolActions } from '../../common/nativeFeePoolActions';
@@ -29,5 +29,7 @@ export const walletSwap = (
       }),
     ),
     timeout(applicationConfig.operationTimeoutTime),
-    tap({ error: addErrorLog({ op: 'Spf wallet swap' }) }),
+    tap({
+      error: (error) => captureOperationError(error, 'ergo', 'Spf wallet swap'),
+    }),
   );

@@ -1,12 +1,36 @@
 import { Severity } from '@sentry/react';
-import { saveAs } from 'file-saver';
-
-const errorLogs: { meta: any; error: any }[] = [];
+import * as Sentry from '@sentry/react';
+import { TxCandidate } from '@spectrumlabs/cardano-dex-sdk';
 
 interface OperationError {
   readonly level: Severity;
   readonly error: Error;
 }
+
+const jsonReplacer = (_, value) =>
+  typeof value === 'bigint' ? value.toString() : value;
+
+export const captureOperationError = (
+  error: Error | string,
+  network: 'cardano' | 'ergo',
+  operation: string,
+  candidate?: TxCandidate,
+  context?: object,
+): void => {
+  const message = typeof error === 'string' ? error : error.message;
+
+  Sentry.captureMessage(message, {
+    level: Severity.Critical,
+    extra: {
+      candidate: candidate
+        ? JSON.stringify(candidate, jsonReplacer, 2)
+        : undefined,
+      context: context ? JSON.stringify(context, jsonReplacer, 2) : undefined,
+      network,
+      operation,
+    },
+  });
+};
 
 export const toSentryOperationError = (
   error: Error | string,
@@ -14,27 +38,3 @@ export const toSentryOperationError = (
   level: Severity.Critical,
   error: typeof error === 'string' ? new Error(error as string) : error,
 });
-
-export const addErrorLog =
-  (meta: any) =>
-  (error: Error): void => {
-    errorLogs.push({ meta, error: error?.message || error });
-  };
-
-export const downloadErrorLog = () => {
-  saveAs(
-    new Blob(
-      [
-        JSON.stringify(
-          errorLogs,
-          (_, value) => (typeof value === 'bigint' ? value.toString() : value),
-          2,
-        ),
-      ],
-      {
-        type: 'text/plain;charset=utf-8',
-      },
-    ),
-    'logs.txt',
-  );
-};

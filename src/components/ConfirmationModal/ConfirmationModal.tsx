@@ -1,6 +1,5 @@
 import { TxId } from '@ergolabs/ergo-sdk';
 import {
-  Button,
   CloseCircleOutlined,
   Flex,
   Modal,
@@ -20,7 +19,6 @@ import { ReactComponent as DiscordIcon } from '../../assets/icons/social/Discord
 import { ReactComponent as TelegramIcon } from '../../assets/icons/social/Telegram.svg';
 import { AssetLock } from '../../common/models/AssetLock';
 import { Currency } from '../../common/models/Currency';
-import { downloadErrorLog } from '../../common/services/ErrorLogs';
 import { exploreTx } from '../../gateway/utils/exploreAddress';
 import { getLockingPeriodString } from '../../pages/Liquidity/utils';
 
@@ -156,14 +154,11 @@ const ErrorModalContent = (
           <Trans>Transaction rejected</Trans>
         </Typography.Body>
       </Flex.Item>
-      <Flex.Item marginBottom={2}>
+      <Flex.Item>
         <Typography.Body align="center" secondary>
           <Trans>Try again later</Trans>
         </Typography.Body>
       </Flex.Item>
-      <Button size="large" type="dashed" onClick={downloadErrorLog}>
-        <Trans>Download Error log</Trans>
-      </Button>
     </Flex>
   );
 };
