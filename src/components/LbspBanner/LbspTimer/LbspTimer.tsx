@@ -18,7 +18,7 @@ const TimerItem: FC<TimerItemProps> = ({ numbers, definition }) => {
             numbers.toString().length >= 2 ? numbers : `0${numbers}`,
           )}
           play
-          color="#ffffff"
+          color="var(--spectrum-primary-text)"
           perspective={100}
           height={16}
           width={13}
