@@ -8,9 +8,9 @@ import {
 import { Trans } from '@lingui/macro';
 import styled from 'styled-components';
 
-import { LbspCalculatorModal } from '../LbspCalculatorModal/LbspCalculatorModal.tsx';
-import { LbspFaqModal } from '../LbspFaqModal/LbspFaqModal.tsx';
-import { LbspTimer } from './LbspTimer/LbspTimer.tsx';
+import { LbspCalculatorModal } from '../LbspCalculatorModal/LbspCalculatorModal';
+import { LbspFaqModal } from '../LbspFaqModal/LbspFaqModal';
+import { LbspTimer } from './LbspTimer/LbspTimer';
 import TokensImg from './tokens-img.png';
 
 const LbspBannerWrapper = styled.div`
