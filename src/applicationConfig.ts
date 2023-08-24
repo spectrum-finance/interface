@@ -59,6 +59,7 @@ interface ApplicationConfig {
   readonly cardanoAmmSwapsOpenTime: DateTime;
   readonly lbspLiquidityPools: string[];
   readonly lbspBoostedLiquidityPools: string[];
+  readonly deprecatedPools: string[];
 }
 
 export const applicationConfig: ApplicationConfig = {
@@ -218,6 +219,16 @@ export const applicationConfig: ApplicationConfig = {
     'cb114d541707030fb93946aa36d0eb448caf2be01674d58493aace06585241595f4144415f4e4654',
   ],
   lbspBoostedLiquidityPools: [],
+  deprecatedPools: [
+    'c2ea7b366349afda7bab0fbdb712d1e6cec1c91c1cfda21a43998e38436f726e75636f706961735f4144415f4e4654',
+    '544ab8ca262e397d1dce7750742c56f934af83591362fe5b52e29d2b5368656e4d6963726f5553445f4144415f4e4654',
+    'd8beceb1ac736c92df8e1210fb39803508533ae9573cffeb2b24a839696274635f4144415f4e4654',
+    '8110fec4abdd3912a07683a776e2936323089745f472152fedded11e697573645f4144415f4e4654',
+    '167e27a610f7786055995c6f425935cd05f5e195c776f1d9be009c574d454c445f4144415f4e4654',
+    'e6f445feb406f4151b5e69f51115a42027d2e8f0dc2a7d84c2f03a014e54585f4144415f4e4654',
+    'fd011feb9dc34f85e58e56838989816343f5c62619a82f6a089f0548414749585f4144415f4e4654',
+    'b5be4da4671a056991cc42d3434c6e2a756dc1aa437dc922689421db634254435f4144415f4e4654',
+  ],
   operationsRestrictions: [
     {
       asset: 'd71693c49a84fbbecd4908c94813b46514b18b67a99952dc1e6e4791556de413',

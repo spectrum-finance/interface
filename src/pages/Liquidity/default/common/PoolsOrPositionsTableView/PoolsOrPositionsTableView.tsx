@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { AmmPool } from '../../../../../common/models/AmmPool';
 import { Position } from '../../../../../common/models/Position';
+import { isDeprecatedPool } from '../../../../../common/utils/isDeprecatedPool';
 import { ExpandComponentProps } from '../../../../../components/TableView/common/Expand';
 import { TableView } from '../../../../../components/TableView/TableView';
 import { AprColumn } from '../../../common/columns/PoolsOrPositionsColumns/columns/AprColumn/AprColumn';
@@ -45,20 +46,20 @@ export const PoolsOrPositionsTableView: FC<
       tableItemViewPadding={[0, 4]}
     >
       <TableView.Column
-        width={311}
-        headerWidth={303}
+        width={401}
+        headerWidth={393}
         title={<Trans>Pair</Trans>}
       >
         {(ammPool) => <PairColumn ammPool={poolMapper(ammPool)} />}
       </TableView.Column>
       <TableView.Column
-        width={valBySize(128, 128, 158)}
+        width={valBySize(128, 128, 128)}
         title={<Trans>TVL</Trans>}
       >
         {(ammPool) => <TvlOrVolume24Column usd={poolMapper(ammPool).tvl} />}
       </TableView.Column>
       <TableView.Column
-        width={valBySize(128, 128, 200)}
+        width={valBySize(128, 128, 128)}
         title={<Trans>Volume 24h</Trans>}
       >
         {(ammPool) => <TvlOrVolume24Column usd={poolMapper(ammPool).volume} />}
@@ -76,6 +77,7 @@ export const PoolsOrPositionsTableView: FC<
       <TableView.Column width={valBySize(20, 20, 140)}>
         {(ammPool) => (
           <Button
+            disabled={isDeprecatedPool(ammPool.id)}
             type="primary"
             onClick={(event) => {
               event.stopPropagation();

@@ -4,6 +4,7 @@ import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { AmmPool } from '../../../../../common/models/AmmPool.ts';
+import { isDeprecatedPool } from '../../../../../common/utils/isDeprecatedPool';
 import { TableView } from '../../../../../components/TableView/TableView';
 import { AprColumn } from '../../../common/columns/PoolsOrPositionsColumns/columns/AprColumn/AprColumn.tsx';
 import { PairColumn } from '../../../common/columns/PoolsOrPositionsColumns/columns/PairColumn/PairColumn';
@@ -55,6 +56,7 @@ export const PoolsOrPositionsTableView: FC<
           <Button
             type="primary"
             icon={<PlusOutlined />}
+            disabled={isDeprecatedPool(ammPool.id)}
             onClick={(event) => {
               event.stopPropagation();
               if (ammPool.id) {
