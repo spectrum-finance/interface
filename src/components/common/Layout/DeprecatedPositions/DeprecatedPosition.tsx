@@ -1,4 +1,4 @@
-import { Alert, Button, Flex, Typography } from '@ergolabs/ui-kit';
+import { Alert, Button, Flex, Typography, WarningFilled } from "@ergolabs/ui-kit";
 import { Trans } from '@lingui/macro';
 import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -30,6 +30,9 @@ export const DeprecatedPosition: FC = () => {
           description={
             <Flex align="center" stretch justify="center">
               <Typography.Body size="small" type="warning">
+                <Flex.Item marginRight={1}>
+                  <WarningFilled />
+                </Flex.Item>
                 <Trans>
                   Recently we found a minor bug in some liquidity pools. The
                   threat level is almost 0. But better
