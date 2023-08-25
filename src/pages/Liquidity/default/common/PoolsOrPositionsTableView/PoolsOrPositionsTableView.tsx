@@ -77,7 +77,7 @@ export const PoolsOrPositionsTableView: FC<
       <TableView.Column width={valBySize(20, 20, 140)}>
         {(ammPool) => (
           <Button
-            disabled={isDeprecatedPool(ammPool.id)}
+            disabled={isDeprecatedPool(poolMapper(ammPool).id)}
             type="primary"
             onClick={(event) => {
               event.stopPropagation();
