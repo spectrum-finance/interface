@@ -9,12 +9,12 @@ import {
 
 import { Balance } from '../../../../common/models/Balance';
 import { Position } from '../../../../common/models/Position';
-import { ammPools$ } from '../ammPools/ammPools';
+import { allAmmPools$ } from '../ammPools/ammPools';
 import { lpBalance$ } from '../balance/lpBalance';
 import { networkContext$ } from '../networkContext/networkContext';
 
 export const positions$ = combineLatest([
-  ammPools$,
+  allAmmPools$,
   lpBalance$.pipe(startWith(new Balance([]))),
   networkContext$,
 ]).pipe(
