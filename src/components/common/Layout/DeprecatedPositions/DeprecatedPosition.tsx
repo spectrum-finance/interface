@@ -1,4 +1,10 @@
-import { Alert, Button, Flex, Typography, WarningFilled } from "@ergolabs/ui-kit";
+import {
+  Alert,
+  Button,
+  Flex,
+  Typography,
+  WarningFilled,
+} from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
