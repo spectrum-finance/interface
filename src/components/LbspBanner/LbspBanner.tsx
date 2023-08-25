@@ -18,7 +18,7 @@ const LbspBannerWrapper = styled.div`
   width: 100%;
   min-height: 146px;
   background: var(--spectrum-lbsp-banner-background-color);
-  margin-top: 72px;
+  margin-top: 94px;
   display: flex;
   align-items: flex-start;
   justify-content: center;
