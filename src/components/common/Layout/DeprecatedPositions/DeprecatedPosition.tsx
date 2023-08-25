@@ -35,7 +35,7 @@ export const DeprecatedPosition: FC = () => {
           type="warning"
           description={
             <Flex align="center" stretch justify="center">
-              <Typography.Body size="small" type="warning">
+              <Typography.Body size="small" type="warning" align="center">
                 <Flex.Item marginRight={1}>
                   <WarningFilled />
                 </Flex.Item>

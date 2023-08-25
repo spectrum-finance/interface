@@ -23,6 +23,10 @@ const LbspBannerWrapper = styled.div`
   align-items: flex-start;
   justify-content: center;
 
+  @media (max-width: 720px) {
+    margin-top: 114px;
+  }
+
   & img {
     height: 100%;
     position: absolute;
