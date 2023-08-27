@@ -1,6 +1,6 @@
 {
   "name": "@spectrumlabs/interface",
-  "version": "5.0.25",
+  "version": "5.0.30",
   "private": false,
   "scripts": {
     "start": "vite",

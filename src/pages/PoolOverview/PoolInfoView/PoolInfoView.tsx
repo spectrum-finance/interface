@@ -149,9 +149,9 @@ export const PoolInfoView: FC<PoolInfoProps> = ({ position }) => {
                   </Flex.Item>
                   <Flex.Item>
                     <Trans>
-                      This pool contains a minor bug. We advise to migrate
-                      liquidity to prevent possible issues. Your LBSP rewards
-                      won’t be affected.
+                      A more secure variant of this pool is available. We advise
+                      you to migrate your liquidity to a new one. Your LBSP
+                      rewards won’t be affected.
                     </Trans>
                   </Flex.Item>
                 </Flex>

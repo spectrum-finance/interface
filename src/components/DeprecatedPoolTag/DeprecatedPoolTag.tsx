@@ -9,8 +9,8 @@ export const DeprecatedPoolTag: FC = () => (
       <Flex col>
         <Flex.Item>
           <Trans>
-            This pool contains a minor bug! We advise to migrate liquidity from
-            this pool.
+            A more secure variant of this pool is available. We advise you to
+            migrate your liquidity to a new one.
           </Trans>
         </Flex.Item>
       </Flex>
