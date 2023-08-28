@@ -6,6 +6,7 @@ export interface TitledBoxProps extends BoxProps {
   readonly titleGap?: number;
   readonly subtitle?: ReactNode | ReactNode[] | string;
   readonly subtitleGap?: number;
+  readonly isRowTitle?: boolean;
 }
 
 export const TitledBox: FC<TitledBoxProps> = ({
@@ -14,12 +15,18 @@ export const TitledBox: FC<TitledBoxProps> = ({
   subtitleGap,
   subtitle,
   width,
+  isRowTitle,
   ...rest
 }) => {
   return (
     <Flex col width={width}>
-      {title && <Flex.Item marginBottom={titleGap}>{title}</Flex.Item>}
-      {subtitle && <Flex.Item marginBottom={subtitleGap}>{subtitle}</Flex.Item>}
+      <Flex col={!isRowTitle} justify="space-between">
+        {title && <Flex.Item marginBottom={titleGap}>{title}</Flex.Item>}
+        {subtitle && (
+          <Flex.Item marginBottom={subtitleGap}>{subtitle}</Flex.Item>
+        )}
+      </Flex>
+
       <Box width={width} {...rest} />
     </Flex>
   );
