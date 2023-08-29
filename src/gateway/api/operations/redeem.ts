@@ -8,8 +8,9 @@ import { selectedNetwork$ } from '../../common/network';
 export const redeem = (
   pool: AmmPool,
   data: Required<RemoveLiquidityFormModel>,
+  withoutConfirmation?: boolean,
 ): Observable<TxId> =>
   selectedNetwork$.pipe(
     first(),
-    switchMap((n) => n.redeem(pool, data)),
+    switchMap((n) => n.redeem(pool, data, withoutConfirmation)),
   );

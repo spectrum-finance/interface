@@ -84,34 +84,46 @@ export const walletRedeem = (
 export const redeem = (
   pool: CardanoAmmPool,
   data: Required<RemoveLiquidityFormModel>,
+  withoutConfirmation?: boolean,
 ): Observable<TxId> => {
   const subject = new Subject<TxId>();
 
-  openConfirmationModal(
-    (next) => {
-      return (
-        <RedeemConfirmationModal
-          pool={pool}
-          value={data}
-          onClose={(request) =>
-            next(
-              request.pipe(
-                tap((txId) => {
-                  subject.next(txId);
-                  subject.complete();
-                }),
-              ),
-            )
-          }
-        />
-      );
-    },
-    Operation.REMOVE_LIQUIDITY,
-    {
-      xAsset: data.xAmount,
-      yAsset: data.yAmount,
-    },
-  );
+  if (withoutConfirmation) {
+    openConfirmationModal(
+      walletRedeem(pool, data.lpAmount),
+      Operation.REMOVE_LIQUIDITY,
+      {
+        xAsset: data.xAmount,
+        yAsset: data.yAmount,
+      },
+    );
+  } else {
+    openConfirmationModal(
+      (next) => {
+        return (
+          <RedeemConfirmationModal
+            pool={pool}
+            value={data}
+            onClose={(request) =>
+              next(
+                request.pipe(
+                  tap((txId) => {
+                    subject.next(txId);
+                    subject.complete();
+                  }),
+                ),
+              )
+            }
+          />
+        );
+      },
+      Operation.REMOVE_LIQUIDITY,
+      {
+        xAsset: data.xAmount,
+        yAsset: data.yAmount,
+      },
+    );
+  }
 
   return subject.asObservable();
 };

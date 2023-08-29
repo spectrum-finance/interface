@@ -24,6 +24,7 @@ import { ConnectWalletButton } from '../../../components/common/ConnectWalletBut
 import { DeprecatedPoolTag } from '../../../components/DeprecatedPoolTag/DeprecatedPoolTag';
 import { FarmsButton } from '../../../components/FarmsButton/FarmsButton';
 import { PageHeader } from '../../../components/Page/PageHeader/PageHeader';
+import { redeem } from '../../../gateway/api/operations/redeem';
 import { useSelectedNetwork } from '../../../gateway/common/network';
 import { hasFarmsForPool } from '../../../network/ergo/lm/api/farms/farms';
 import { MyLiquidity } from './MyLiquidity/MyLiquidity';
@@ -169,26 +170,57 @@ export const PoolInfoView: FC<PoolInfoProps> = ({ position }) => {
             }}
           >
             <Flex>
-              <Flex.Item flex={1} marginRight={2}>
-                <Button
-                  type="primary"
-                  size="large"
-                  icon={<PlusOutlined />}
-                  onClick={handleAddLiquidity}
-                  disabled={
-                    applicationConfig.blacklistedPools.includes(
+              {isDeprecatedPool(position.pool.id) ? (
+                <Flex.Item flex={1} marginRight={2}>
+                  <Button
+                    type="primary"
+                    size="large"
+                    disabled={position.empty}
+                    style={{
+                      background: 'var(--spectrum-warning-color)',
+                      borderColor: 'var(--spectrum-warning-color)',
+                    }}
+                    onClick={() => {
+                      redeem(
+                        position.pool,
+                        {
+                          lpAmount: position.availableLp,
+                          xAmount: position.availableX,
+                          yAmount: position.availableY,
+                          percent: 100,
+                        },
+                        true,
+                      ).subscribe();
+                    }}
+                    block
+                  >
+                    {s ? (
+                      <Trans>Withdraw</Trans>
+                    ) : (
+                      <Trans>Withdraw Liquidity</Trans>
+                    )}
+                  </Button>
+                </Flex.Item>
+              ) : (
+                <Flex.Item flex={1} marginRight={2}>
+                  <Button
+                    type="primary"
+                    size="large"
+                    icon={<PlusOutlined />}
+                    onClick={handleAddLiquidity}
+                    disabled={applicationConfig.blacklistedPools.includes(
                       position.pool.id,
-                    ) || isDeprecatedPool(position.pool.id)
-                  }
-                  block
-                >
-                  {s ? (
-                    <Trans>Increase</Trans>
-                  ) : (
-                    <Trans>Increase Liquidity</Trans>
-                  )}
-                </Button>
-              </Flex.Item>
+                    )}
+                    block
+                  >
+                    {s ? (
+                      <Trans>Increase</Trans>
+                    ) : (
+                      <Trans>Increase Liquidity</Trans>
+                    )}
+                  </Button>
+                </Flex.Item>
+              )}
               <Flex.Item flex={1}>
                 <Button
                   type="default"
