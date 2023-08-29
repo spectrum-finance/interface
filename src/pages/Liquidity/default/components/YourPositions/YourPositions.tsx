@@ -6,7 +6,6 @@ import { TableView } from '../../../../../components/TableView/TableView';
 import { PositionEmptyState } from '../../../common/tableViewStates/PositionEmptyState/PositionEmptyState';
 import { LiquidityYourPositionsProps } from '../../../common/types/LiquidityYourPositionsProps';
 import { PoolsOrPositionsTableView } from '../../common/PoolsOrPositionsTableView/PoolsOrPositionsTableView';
-import { PositionDetails } from './PositionDetails/PositionDetails';
 
 export const YourPositions: FC<LiquidityYourPositionsProps> = ({
   positions,
@@ -14,7 +13,6 @@ export const YourPositions: FC<LiquidityYourPositionsProps> = ({
   isPositionsEmpty,
 }) => (
   <PoolsOrPositionsTableView
-    expandComponent={PositionDetails}
     items={positions}
     poolMapper={(position: Position) => position.pool}
   >

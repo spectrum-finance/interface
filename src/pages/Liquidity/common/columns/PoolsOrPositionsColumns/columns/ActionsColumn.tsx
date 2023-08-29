@@ -38,12 +38,6 @@ export const ActionsColumn: FC<ActionsColumnProps> = ({ ammPool }) => {
           if (!position) {
             return;
           }
-          console.log({
-            lpAmount: position.availableLp,
-            xAmount: position.availableX,
-            yAmount: position.availableY,
-            percent: 100,
-          });
           redeem(
             position.pool,
             {

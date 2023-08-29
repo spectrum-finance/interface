@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 
 import { AmmPool } from '../../../../../common/models/AmmPool';
 import { Position } from '../../../../../common/models/Position';
-import { ExpandComponentProps } from '../../../../../components/TableView/common/Expand';
 import { TableView } from '../../../../../components/TableView/TableView';
 import { ActionsColumn } from '../../../common/columns/PoolsOrPositionsColumns/columns/ActionsColumn';
 import { AprColumn } from '../../../common/columns/PoolsOrPositionsColumns/columns/AprColumn/AprColumn';
@@ -17,7 +16,6 @@ import { LiquiditySearchState } from '../../../common/tableViewStates/LiquidityS
 export interface PoolsOrPositionsTableViewProps<T extends AmmPool | Position> {
   readonly items: T[];
   readonly poolMapper: (item: T) => AmmPool;
-  readonly expandComponent: FC<ExpandComponentProps<T>>;
 }
 
 export const PoolsOrPositionsTableView: FC<
