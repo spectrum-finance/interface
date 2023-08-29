@@ -38,12 +38,6 @@ export const ActionsColumn: FC<ActionsColumnProps> = ({ ammPool }) => {
           if (!position) {
             return;
           }
-          console.log({
-            lpAmount: position.availableLp,
-            xAmount: position.availableX,
-            yAmount: position.availableY,
-            percent: 100,
-          });
           redeem(
             position.pool,
             {
@@ -56,7 +50,7 @@ export const ActionsColumn: FC<ActionsColumnProps> = ({ ammPool }) => {
           ).subscribe();
         }}
       >
-        {moreThan('l') && <Trans>Withdraw Liquidity</Trans>}
+        {moreThan('l') && <Trans>Remove liquidity</Trans>}
       </Button>
     );
   }

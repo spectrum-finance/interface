@@ -170,57 +170,26 @@ export const PoolInfoView: FC<PoolInfoProps> = ({ position }) => {
             }}
           >
             <Flex>
-              {isDeprecatedPool(position.pool.id) ? (
-                <Flex.Item flex={1} marginRight={2}>
-                  <Button
-                    type="primary"
-                    size="large"
-                    disabled={position.empty}
-                    style={{
-                      background: 'var(--spectrum-warning-color)',
-                      borderColor: 'var(--spectrum-warning-color)',
-                    }}
-                    onClick={() => {
-                      redeem(
-                        position.pool,
-                        {
-                          lpAmount: position.availableLp,
-                          xAmount: position.availableX,
-                          yAmount: position.availableY,
-                          percent: 100,
-                        },
-                        true,
-                      ).subscribe();
-                    }}
-                    block
-                  >
-                    {s ? (
-                      <Trans>Withdraw</Trans>
-                    ) : (
-                      <Trans>Withdraw Liquidity</Trans>
-                    )}
-                  </Button>
-                </Flex.Item>
-              ) : (
-                <Flex.Item flex={1} marginRight={2}>
-                  <Button
-                    type="primary"
-                    size="large"
-                    icon={<PlusOutlined />}
-                    onClick={handleAddLiquidity}
-                    disabled={applicationConfig.blacklistedPools.includes(
+              <Flex.Item flex={1} marginRight={2}>
+                <Button
+                  type="primary"
+                  size="large"
+                  icon={<PlusOutlined />}
+                  onClick={handleAddLiquidity}
+                  disabled={
+                    applicationConfig.blacklistedPools.includes(
                       position.pool.id,
-                    )}
-                    block
-                  >
-                    {s ? (
-                      <Trans>Increase</Trans>
-                    ) : (
-                      <Trans>Increase Liquidity</Trans>
-                    )}
-                  </Button>
-                </Flex.Item>
-              )}
+                    ) || isDeprecatedPool(position.pool.id)
+                  }
+                  block
+                >
+                  {s ? (
+                    <Trans>Increase</Trans>
+                  ) : (
+                    <Trans>Increase Liquidity</Trans>
+                  )}
+                </Button>
+              </Flex.Item>
               <Flex.Item flex={1}>
                 <Button
                   type="default"
@@ -229,7 +198,30 @@ export const PoolInfoView: FC<PoolInfoProps> = ({ position }) => {
                   }
                   size="large"
                   block
-                  onClick={handleRemovePositionClick}
+                  style={
+                    isDeprecatedPool(position.pool.id)
+                      ? {
+                          background: 'var(--spectrum-warning-color)',
+                          borderColor: 'var(--spectrum-warning-color)',
+                        }
+                      : undefined
+                  }
+                  onClick={
+                    isDeprecatedPool(position.pool.id)
+                      ? () => {
+                          redeem(
+                            position.pool,
+                            {
+                              lpAmount: position.availableLp,
+                              xAmount: position.availableX,
+                              yAmount: position.availableY,
+                              percent: 100,
+                            },
+                            true,
+                          ).subscribe();
+                        }
+                      : handleRemovePositionClick
+                  }
                 >
                   {s ? <Trans>Remove</Trans> : <Trans>Remove Liquidity</Trans>}
                 </Button>
