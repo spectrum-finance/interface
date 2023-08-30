@@ -48,6 +48,7 @@ import {
 import { cardanoWasm$ } from '../common/cardanoWasm';
 import {
   DefaultCollateralSelector,
+  DefaultInputCollector,
   DefaultInputSelector,
 } from './common/inputSelector';
 import { submitTx } from './common/submitTxCandidate';
@@ -72,6 +73,7 @@ export const refundBuilder$ = combineLatest([
   map(([cardanoWasm, cardanoNetworkParams]: [CardanoWasm, NetworkParams]) => {
     const txMath = mkTxMath(cardanoNetworkParams.pparams, cardanoWasm);
     const inputSelector = new DefaultInputSelector();
+    const inputCollector = new DefaultInputCollector();
     const collateralSelector = new DefaultCollateralSelector();
     const txAsm = mkTxAsm(cardanoNetworkParams, cardanoWasm);
 
@@ -95,6 +97,7 @@ export const refundBuilder$ = combineLatest([
         defaultCollateralAmount: 5000000n,
       },
       inputSelector,
+      inputCollector,
       collateralSelector,
       cardanoWasm,
       txMath,
