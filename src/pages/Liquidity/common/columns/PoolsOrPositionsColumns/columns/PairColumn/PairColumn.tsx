@@ -5,8 +5,10 @@ import { useNavigate } from 'react-router-dom';
 import { applicationConfig } from '../../../../../../../applicationConfig.ts';
 import { useObservable } from '../../../../../../../common/hooks/useObservable';
 import { AmmPool } from '../../../../../../../common/models/AmmPool';
+import { isDeprecatedPool } from '../../../../../../../common/utils/isDeprecatedPool';
 import { AssetPairTitle } from '../../../../../../../components/AssetPairTitle/AssetPairTitle';
 import { DataTag } from '../../../../../../../components/common/DataTag/DataTag';
+import { DeprecatedPoolTag } from '../../../../../../../components/DeprecatedPoolTag/DeprecatedPoolTag';
 import { FarmsButton } from '../../../../../../../components/FarmsButton/FarmsButton';
 import { IsCardano } from '../../../../../../../components/IsCardano/IsCardano.tsx';
 import { IsErgo } from '../../../../../../../components/IsErgo/IsErgo';
@@ -47,7 +49,16 @@ export const PairColumn: FC<PairColumnProps> = ({ ammPool }) => {
       <IsErgo>
         {hasFarmForPool && <FarmsButton onClick={handleFarmsButtonClick} />}
       </IsErgo>
-      {!s && <IsCardano>{isLbspPool(ammPool.id) && <LbspPoolTag />}</IsCardano>}
+      {!s && (
+        <IsCardano>
+          <Flex.Item marginRight={2}>
+            {isLbspPool(ammPool.id) && <LbspPoolTag />}
+          </Flex.Item>
+        </IsCardano>
+      )}
+      <IsCardano>
+        {isDeprecatedPool(ammPool.id) && <DeprecatedPoolTag />}
+      </IsCardano>
     </Flex>
   );
 };

@@ -4,14 +4,18 @@ import { Trans } from '@lingui/macro';
 import { ElementLocation } from '@spectrumlabs/analytics';
 import { FC } from 'react';
 import { useParams } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 
+import { isDeprecatedPool } from '../../../common/utils/isDeprecatedPool';
 import { AddLiquidityForm } from '../../../components/AddLiquidityForm/AddLiquidityForm';
 import { AddLiquidityFormModel } from '../../../components/AddLiquidityForm/AddLiquidityFormModel';
 import { Page } from '../../../components/Page/Page';
+import { useGuardV2 } from '../../../hooks/useGuard';
 import { PoolRatio } from '../../PoolOverview/PoolRatio/PoolRatio';
 
 export const AddLiquidity: FC = () => {
   const { poolId } = useParams<{ poolId?: PoolId }>();
+  const navigate = useNavigate();
   const form = useForm<AddLiquidityFormModel>({
     xAsset: undefined,
     yAsset: undefined,
@@ -19,6 +23,11 @@ export const AddLiquidity: FC = () => {
     y: undefined,
     pool: undefined,
   });
+
+  useGuardV2(
+    () => !!poolId && isDeprecatedPool(poolId),
+    () => navigate('../..'),
+  );
 
   return (
     <Page

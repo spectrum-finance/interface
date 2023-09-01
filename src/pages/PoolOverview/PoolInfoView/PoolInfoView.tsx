@@ -1,7 +1,9 @@
 import {
+  Alert,
   Box,
   Button,
   Flex,
+  InfoCircleFilled,
   LockOutlined,
   Menu,
   PlusOutlined,
@@ -17,9 +19,12 @@ import { ReactComponent as RelockIcon } from '../../../assets/icons/relock-icon.
 import { ReactComponent as WithdrawalIcon } from '../../../assets/icons/withdrawal-icon.svg';
 import { useObservable } from '../../../common/hooks/useObservable';
 import { Position } from '../../../common/models/Position';
+import { isDeprecatedPool } from '../../../common/utils/isDeprecatedPool';
 import { ConnectWalletButton } from '../../../components/common/ConnectWalletButton/ConnectWalletButton';
+import { DeprecatedPoolTag } from '../../../components/DeprecatedPoolTag/DeprecatedPoolTag';
 import { FarmsButton } from '../../../components/FarmsButton/FarmsButton';
 import { PageHeader } from '../../../components/Page/PageHeader/PageHeader';
+import { redeem } from '../../../gateway/api/operations/redeem';
 import { useSelectedNetwork } from '../../../gateway/common/network';
 import { hasFarmsForPool } from '../../../network/ergo/lm/api/farms/farms';
 import { MyLiquidity } from './MyLiquidity/MyLiquidity';
@@ -109,13 +114,20 @@ export const PoolInfoView: FC<PoolInfoProps> = ({ position }) => {
                 <Flex.Item marginRight={2}>
                   <PoolFeeTag ammPool={position.pool} />
                 </Flex.Item>
+                {isDeprecatedPool(position.pool.id) && (
+                  <Flex.Item marginRight={2}>
+                    <DeprecatedPoolTag />
+                  </Flex.Item>
+                )}
                 {hasFarmForPool && (
                   <FarmsButton onClick={handleFarmsButtonClick} />
                 )}
               </Flex.Item>
-              <Button onClick={handleSwap} size="large" type="primary">
-                <Trans>Swap</Trans>
-              </Button>
+              {!isDeprecatedPool(position.pool.id) && (
+                <Button onClick={handleSwap} size="large" type="primary">
+                  <Trans>Swap</Trans>
+                </Button>
+              )}
             </Flex>
           </PageHeader>
         </Flex.Item>
@@ -125,6 +137,29 @@ export const PoolInfoView: FC<PoolInfoProps> = ({ position }) => {
         <Flex.Item marginBottom={4} flex={1}>
           <MyLiquidity position={position} />
         </Flex.Item>
+        {isDeprecatedPool(position.pool.id) && (
+          <Flex.Item marginBottom={4}>
+            <Alert
+              type="warning"
+              description={
+                <Flex row>
+                  <Flex.Item marginRight={2}>
+                    <InfoCircleFilled
+                      style={{ color: 'var(--spectrum-warning-color)' }}
+                    />
+                  </Flex.Item>
+                  <Flex.Item>
+                    <Trans>
+                      A more secure variant of this pool is available. We advise
+                      you to migrate your liquidity to a new one. Your LBSP
+                      rewards won’t be affected.
+                    </Trans>
+                  </Flex.Item>
+                </Flex>
+              }
+            />
+          </Flex.Item>
+        )}
         <Flex.Item>
           <ConnectWalletButton
             width="100%"
@@ -141,9 +176,11 @@ export const PoolInfoView: FC<PoolInfoProps> = ({ position }) => {
                   size="large"
                   icon={<PlusOutlined />}
                   onClick={handleAddLiquidity}
-                  disabled={applicationConfig.blacklistedPools.includes(
-                    position.pool.id,
-                  )}
+                  disabled={
+                    applicationConfig.blacklistedPools.includes(
+                      position.pool.id,
+                    ) || isDeprecatedPool(position.pool.id)
+                  }
                   block
                 >
                   {s ? (
@@ -161,7 +198,30 @@ export const PoolInfoView: FC<PoolInfoProps> = ({ position }) => {
                   }
                   size="large"
                   block
-                  onClick={handleRemovePositionClick}
+                  style={
+                    isDeprecatedPool(position.pool.id)
+                      ? {
+                          background: 'var(--spectrum-warning-color)',
+                          borderColor: 'var(--spectrum-warning-color)',
+                        }
+                      : undefined
+                  }
+                  onClick={
+                    isDeprecatedPool(position.pool.id)
+                      ? () => {
+                          redeem(
+                            position.pool,
+                            {
+                              lpAmount: position.availableLp,
+                              xAmount: position.availableX,
+                              yAmount: position.availableY,
+                              percent: 100,
+                            },
+                            true,
+                          ).subscribe();
+                        }
+                      : handleRemovePositionClick
+                  }
                 >
                   {s ? <Trans>Remove</Trans> : <Trans>Remove Liquidity</Trans>}
                 </Button>

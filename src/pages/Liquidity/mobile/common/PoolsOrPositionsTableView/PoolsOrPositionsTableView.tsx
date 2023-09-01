@@ -1,10 +1,10 @@
-import { Button, PlusOutlined } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { AmmPool } from '../../../../../common/models/AmmPool.ts';
 import { TableView } from '../../../../../components/TableView/TableView';
+import { ActionsColumn } from '../../../common/columns/PoolsOrPositionsColumns/columns/ActionsColumn';
 import { AprColumn } from '../../../common/columns/PoolsOrPositionsColumns/columns/AprColumn/AprColumn.tsx';
 import { PairColumn } from '../../../common/columns/PoolsOrPositionsColumns/columns/PairColumn/PairColumn';
 import { Apr24InfoTooltip } from '../../../common/components/Apr24InfoTooltip/Apr24InfoTooltip.tsx';
@@ -25,13 +25,7 @@ export const PoolsOrPositionsTableView: FC<
       tableItemViewPadding={2}
       tableHeaderPadding={[0, 4]}
       onItemClick={(item) => {
-        if (item.id) {
-          navigate(item.id);
-        } else if (item.pool.id) {
-          navigate(item.pool.id);
-        } else if (item.pool.pool.id) {
-          navigate(item.pool.pool.id);
-        }
+        navigate(poolMapper(item).id);
       }}
     >
       <TableView.Column flex={1} width={'90%'} title={<Trans>Pair</Trans>}>
@@ -51,22 +45,7 @@ export const PoolsOrPositionsTableView: FC<
       </TableView.Column>
       {children}
       <TableView.Column width="32px">
-        {(ammPool) => (
-          <Button
-            type="primary"
-            icon={<PlusOutlined />}
-            onClick={(event) => {
-              event.stopPropagation();
-              if (ammPool.id) {
-                navigate(`${ammPool.id}/add`);
-              } else if (ammPool.pool.id) {
-                navigate(`${ammPool.pool.id}/add`);
-              } else if (ammPool.pool.pool.id) {
-                navigate(`${ammPool.pool.pool.id}/add`);
-              }
-            }}
-          />
-        )}
+        {(ammPool) => <ActionsColumn ammPool={poolMapper(ammPool)} />}
       </TableView.Column>
       <TableView.State name="search" condition={!items.length}>
         <LiquiditySearchState />

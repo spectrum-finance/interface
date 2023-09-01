@@ -76,12 +76,7 @@ export const Liquidity = (): JSX.Element => {
     setSearchParams({ active });
 
   const filterPositions = (positions: Position[]): Position[] => {
-    let filteredPositions = positions;
-
-    if (!filters?.has(PoolsOrPositionsFilterValue.SHOW_DUPLICATES)) {
-      filteredPositions = filterDuplicates(filteredPositions);
-    }
-    return searchByTerm(filteredPositions) as Position[];
+    return searchByTerm(positions) as Position[];
   };
 
   const filterLockedPositions = (positions: Position[]): Position[] => {

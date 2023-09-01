@@ -10,6 +10,7 @@ import {
   debounceTime,
   distinctUntilChanged,
   first,
+  map,
   Observable,
   of,
   skip,
@@ -23,6 +24,7 @@ import {
 import { AmmPool } from '../../common/models/AmmPool';
 import { AssetInfo } from '../../common/models/AssetInfo';
 import { Currency } from '../../common/models/Currency';
+import { isDeprecatedPool } from '../../common/utils/isDeprecatedPool';
 import { fireOperationAnalyticsEvent } from '../../gateway/analytics/fireOperationAnalyticsEvent';
 import { ammPools$, getAmmPoolsByAssetPair } from '../../gateway/api/ammPools';
 import { useAssetsBalance } from '../../gateway/api/assetBalance';
@@ -77,7 +79,11 @@ const isAssetsPairEquals = (
   (prevFrom?.id === nextTo?.id && prevTo?.id === nextFrom?.id);
 
 const getAvailablePools = (xId?: string, yId?: string): Observable<AmmPool[]> =>
-  xId && yId ? getAmmPoolsByAssetPair(xId, yId) : of([]);
+  xId && yId
+    ? getAmmPoolsByAssetPair(xId, yId).pipe(
+        map((pools) => pools.filter((pool) => !isDeprecatedPool(pool.id))),
+      )
+    : of([]);
 
 export const AddLiquidityForm: FC<AddLiquidityFormProps> = ({
   form,
