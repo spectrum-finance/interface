@@ -9,6 +9,19 @@ import { ApplicationInitializer } from './App';
 import { IOSNotSupportedScreen } from './components/IOSNotSupportedScreen/IOSNotSupportedScreen';
 import { SettingsProvider } from './context';
 
+// TODO
+if ('serviceWorker' in navigator) {
+  try {
+    navigator?.serviceWorker.getRegistrations().then((registrations) => {
+      if (registrations) {
+        registrations.forEach((r) => r.update());
+      }
+    });
+  } catch (e) {
+    console.warn('no sws');
+  }
+}
+
 const init = () => {
   const container = document.getElementById('app');
 
