@@ -43,7 +43,6 @@ export default defineConfig({
         enabled: true
       },
       workbox: {
-        cleanupOutdatedCaches: true,
         globPatterns: ['**/*.{js,css,html,ico,png,svg}']
       }
     })
