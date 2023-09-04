@@ -1,4 +1,5 @@
 import { lingui } from '@lingui/vite-plugin';
+import { VitePWA } from 'vite-plugin-pwa'
 import inject from '@rollup/plugin-inject';
 import react from '@vitejs/plugin-react';
 import * as fs from 'fs';
@@ -36,15 +37,15 @@ export default defineConfig({
     topLevelAwait(),
     svgr({ svgrOptions: { icon: true } }),
     reactVirtualized(),
-    // VitePWA({
-    //   registerType: 'autoUpdate',
-    //   devOptions: {
-    //     enabled: true
-    //   },
-    //   workbox: {
-    //     globPatterns: ['**/*.{js,css,html,ico,png,svg}']
-    //   }
-    // })
+    VitePWA({
+      registerType: 'autoUpdate',
+      devOptions: {
+        enabled: true
+      },
+      workbox: {
+        globPatterns: ['**/*.{js,css,html,ico,png,svg}']
+      }
+    })
   ],
   resolve: {
     alias: [
