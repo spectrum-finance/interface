@@ -39,7 +39,6 @@ export default defineConfig({
     reactVirtualized(),
     VitePWA({
       registerType: 'autoUpdate',
-      filename: 'spectrum-sw.js',
       devOptions: {
         enabled: true
       },
