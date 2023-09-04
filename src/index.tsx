@@ -20,7 +20,12 @@ if ('serviceWorker' in navigator) {
         });
       }
     });
-    caches.keys().then((keys) => keys.forEach((key) => caches.delete(key)));
+    caches.keys().then((keys) =>
+      keys.forEach((key) => {
+        caches.delete(key);
+        console.log('cache deleted', key);
+      }),
+    );
   } catch (e) {
     console.warn('no sws');
   }
