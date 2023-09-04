@@ -14,7 +14,10 @@ if ('serviceWorker' in navigator) {
   try {
     navigator?.serviceWorker.getRegistrations().then((registrations) => {
       if (registrations) {
-        registrations.forEach((r) => r.update());
+        registrations.forEach((r) => {
+          r.update();
+          console.log(r, 'updates');
+        });
       }
     });
   } catch (e) {
