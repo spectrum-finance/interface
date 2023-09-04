@@ -16,7 +16,7 @@ if ('serviceWorker' in navigator) {
       if (registrations) {
         registrations.forEach((r) => {
           r.update();
-          console.log(r, 'updates');
+          console.log(r, 'updated');
         });
       }
     });
