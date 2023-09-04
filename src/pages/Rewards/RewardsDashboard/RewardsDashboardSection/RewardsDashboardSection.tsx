@@ -5,14 +5,14 @@ import { FC, ReactNode } from 'react';
 import { AssetIcon } from '../../../../components/AssetIcon/AssetIcon.tsx';
 import { InfoTooltip } from '../../../../components/InfoTooltip/InfoTooltip.tsx';
 import { TitledBox } from '../../../../components/TitledBox/TitledBox.tsx';
-import { Reward } from '../../../../network/cardano/api/rewards/types/types.ts';
+import { RewardSection } from '../../../../network/cardano/api/rewards/rewards';
 
 interface RewardsDashboardSectionProps {
   readonly title: string;
   readonly tags?: Array<ReactNode>;
   readonly noCollectedRewardsNotification?: Array<ReactNode>;
   readonly infoTooltipText?: ReactNode | string;
-  readonly data?: Reward;
+  readonly data?: RewardSection;
 }
 export const RewardsDashboardSection: FC<RewardsDashboardSectionProps> = ({
   title,
@@ -59,11 +59,7 @@ export const RewardsDashboardSection: FC<RewardsDashboardSectionProps> = ({
     >
       {data && data.collected ? (
         <Flex col>
-          <Flex.Item
-            display="flex"
-            justify="space-between"
-            marginBottom={data.upcoming ? 2 : 0}
-          >
+          <Flex.Item display="flex" justify="space-between">
             <Typography.Body size="large">
               <Trans>Collected</Trans>
             </Typography.Body>
@@ -77,8 +73,8 @@ export const RewardsDashboardSection: FC<RewardsDashboardSectionProps> = ({
               </Typography.Body>
             </Flex>
           </Flex.Item>
-          {data.upcoming && (
-            <Flex.Item display="flex" justify="space-between">
+          {data.upcoming?.isPositive() && (
+            <Flex.Item display="flex" justify="space-between" marginTop={2}>
               <Typography.Body size="large">
                 <Trans>Upcoming</Trans>
               </Typography.Body>
