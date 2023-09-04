@@ -9,7 +9,7 @@ import { ApplicationInitializer } from './App';
 import { IOSNotSupportedScreen } from './components/IOSNotSupportedScreen/IOSNotSupportedScreen';
 import { SettingsProvider } from './context';
 
-// TODO
+// TODO: FIX
 if ('serviceWorker' in navigator) {
   try {
     navigator?.serviceWorker.getRegistrations().then((registrations) => {
@@ -20,6 +20,7 @@ if ('serviceWorker' in navigator) {
         });
       }
     });
+    caches.keys().then((keys) => keys.forEach((key) => caches.delete(key)));
   } catch (e) {
     console.warn('no sws');
   }
