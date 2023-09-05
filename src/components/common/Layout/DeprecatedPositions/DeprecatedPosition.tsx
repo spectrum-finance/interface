@@ -58,7 +58,7 @@ export const DeprecatedPosition: FC = () => {
                 >
                   <Trans>migrate</Trans>
                 </Button>{' '}
-                <Trans>liquidity to be</Trans> 100% safe.{' '}
+                <Trans>liquidity to be</Trans> 1000% safe.{' '}
               </Typography.Body>
             </Flex>
           }
