@@ -34,7 +34,7 @@ import {
 } from 'rxjs';
 
 import { Currency } from '../../../../common/models/Currency';
-import { addErrorLog } from '../../../../common/services/ErrorLogs';
+import { captureOperationError } from '../../../../common/services/ErrorLogs';
 import { TxId } from '../../../../common/types';
 import {
   openConfirmationModal,
@@ -48,6 +48,7 @@ import {
 import { cardanoWasm$ } from '../common/cardanoWasm';
 import {
   DefaultCollateralSelector,
+  DefaultInputCollector,
   DefaultInputSelector,
 } from './common/inputSelector';
 import { submitTx } from './common/submitTxCandidate';
@@ -72,6 +73,7 @@ export const refundBuilder$ = combineLatest([
   map(([cardanoWasm, cardanoNetworkParams]: [CardanoWasm, NetworkParams]) => {
     const txMath = mkTxMath(cardanoNetworkParams.pparams, cardanoWasm);
     const inputSelector = new DefaultInputSelector();
+    const inputCollector = new DefaultInputCollector();
     const collateralSelector = new DefaultCollateralSelector();
     const txAsm = mkTxAsm(cardanoNetworkParams, cardanoWasm);
 
@@ -95,6 +97,7 @@ export const refundBuilder$ = combineLatest([
         defaultCollateralAmount: 5000000n,
       },
       inputSelector,
+      inputCollector,
       collateralSelector,
       cardanoWasm,
       txMath,
@@ -121,7 +124,6 @@ const walletRefund = (txId: TxId): Observable<TxId> =>
         ),
       ),
     ),
-    tap(console.log, console.log),
     map(([, tx, error]: [TxCandidate, Transaction | null, Error | null]) => {
       if (!tx) {
         throw error || new Error('');
@@ -129,7 +131,10 @@ const walletRefund = (txId: TxId): Observable<TxId> =>
       return tx;
     }),
     switchMap((tx) => submitTx(tx, true)),
-    tap({ error: addErrorLog({ txId, op: 'refund' }) }),
+    tap({
+      error: (error) =>
+        captureOperationError(error, 'cardano', 'refund', undefined, { txId }),
+    }),
   );
 
 export const refund = (

@@ -1,5 +1,6 @@
-import { Observable, of } from 'rxjs';
+import { map, Observable, of } from 'rxjs';
 
+import { applicationConfig } from '../../applicationConfig';
 import { TxId } from '../../common/types';
 import { Network, SupportedNetworks } from '../common/Network';
 import { convertToConvenientNetworkAsset } from './api/adaRatio/adaRatio';
@@ -86,7 +87,11 @@ const makeCardanoNetwork = (
     lpBalance$,
     locks$: of([]),
     positions$,
-    displayedAmmPools$: ammPools$,
+    displayedAmmPools$: ammPools$.pipe(
+      map((aps) =>
+        aps.filter((ap) => !applicationConfig.deprecatedPools.includes(ap.id)),
+      ),
+    ),
     ammPools$,
     getAddresses: getAddresses,
     getUsedAddresses: getUsedAddresses,

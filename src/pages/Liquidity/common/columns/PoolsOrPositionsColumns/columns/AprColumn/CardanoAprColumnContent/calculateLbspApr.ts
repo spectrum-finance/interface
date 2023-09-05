@@ -24,10 +24,10 @@ import {
 } from '../../../../../../../../utils/lbsp.ts';
 import { math } from '../../../../../../../../utils/math';
 
-const LBSP_COEFFICIENT = 0.006;
+export const LBSP_COEFFICIENT = 0.006;
 const EPOCHS_PER_YEAR = 73;
-const LBSP_MULTIPLIER = 2.25;
-const LBSP_BOOSTED_MULTIPLIER = 3.5;
+export const LBSP_MULTIPLIER = 3;
+export const LBSP_BOOSTED_MULTIPLIER = 5;
 
 const spfUsdRate$ = appTick$.pipe(
   switchMap(() =>

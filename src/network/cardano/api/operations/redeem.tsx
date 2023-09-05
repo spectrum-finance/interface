@@ -4,7 +4,7 @@ import { NetworkParams } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/
 import { first, map, Observable, Subject, switchMap, tap, zip } from 'rxjs';
 
 import { Currency } from '../../../../common/models/Currency';
-import { addErrorLog } from '../../../../common/services/ErrorLogs';
+import { captureOperationError } from '../../../../common/services/ErrorLogs';
 import { TxId } from '../../../../common/types';
 import {
   openConfirmationModal,
@@ -50,8 +50,12 @@ const toRedeemTxCandidate = ({
       }),
     ),
     map(
-      ([transaction]: [Transaction | null, TxCandidate, RedeemTxInfo]) =>
-        transaction!,
+      ([transaction]: [
+        Transaction | null,
+        TxCandidate,
+        RedeemTxInfo,
+        Error | null,
+      ]) => transaction!,
     ),
     first(),
   );
@@ -72,40 +76,54 @@ export const walletRedeem = (
       }),
     ),
     switchMap((tx) => submitTx(tx)),
-    tap({ error: addErrorLog({ op: 'redeem' }) }),
+    tap({
+      error: (error) => captureOperationError(error, 'cardano', 'redeem'),
+    }),
   );
 
 export const redeem = (
   pool: CardanoAmmPool,
   data: Required<RemoveLiquidityFormModel>,
+  withoutConfirmation?: boolean,
 ): Observable<TxId> => {
   const subject = new Subject<TxId>();
 
-  openConfirmationModal(
-    (next) => {
-      return (
-        <RedeemConfirmationModal
-          pool={pool}
-          value={data}
-          onClose={(request) =>
-            next(
-              request.pipe(
-                tap((txId) => {
-                  subject.next(txId);
-                  subject.complete();
-                }),
-              ),
-            )
-          }
-        />
-      );
-    },
-    Operation.REMOVE_LIQUIDITY,
-    {
-      xAsset: data.xAmount,
-      yAsset: data.yAmount,
-    },
-  );
+  if (withoutConfirmation) {
+    openConfirmationModal(
+      walletRedeem(pool, data.lpAmount),
+      Operation.REMOVE_LIQUIDITY,
+      {
+        xAsset: data.xAmount,
+        yAsset: data.yAmount,
+      },
+    );
+  } else {
+    openConfirmationModal(
+      (next) => {
+        return (
+          <RedeemConfirmationModal
+            pool={pool}
+            value={data}
+            onClose={(request) =>
+              next(
+                request.pipe(
+                  tap((txId) => {
+                    subject.next(txId);
+                    subject.complete();
+                  }),
+                ),
+              )
+            }
+          />
+        );
+      },
+      Operation.REMOVE_LIQUIDITY,
+      {
+        xAsset: data.xAmount,
+        yAsset: data.yAmount,
+      },
+    );
+  }
 
   return subject.asObservable();
 };

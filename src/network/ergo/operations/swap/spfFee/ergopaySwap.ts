@@ -10,7 +10,7 @@ import {
 import { applicationConfig } from '../../../../../applicationConfig';
 // import { panalytics } from '../../../../../common/analytics';
 import { Currency } from '../../../../../common/models/Currency';
-import { addErrorLog } from '../../../../../common/services/ErrorLogs';
+import { captureOperationError } from '../../../../../common/services/ErrorLogs';
 import { TxId } from '../../../../../common/types';
 import { ErgoAmmPool } from '../../../api/ammPools/ErgoAmmPool';
 import { ergoPayMessageManager } from '../../common/ergopayMessageManager';
@@ -48,5 +48,8 @@ export const ergoPaySwap = (
       }),
     ),
     timeout(applicationConfig.operationTimeoutTime),
-    tap({ error: addErrorLog({ op: 'Spf ergopay swap' }) }),
+    tap({
+      error: (error) =>
+        captureOperationError(error, 'ergo', 'Spf ergopay swap'),
+    }),
   );

@@ -37,17 +37,34 @@ const getPools = () =>
       ),
     ),
     switchMap((poolsRepository) =>
-      from(poolsRepository.getAll({ offset: 0, limit: 100 })),
+      from(poolsRepository.getAll({ offset: 0, limit: 200 })),
+    ),
+    publishReplay(1),
+    refCount(),
+  );
+
+const getPoolsV2 = () =>
+  cardanoWasm$.pipe(
+    map(() =>
+      mkNetworkPoolsV1(cardanoNetwork, mkPoolsParser(RustModule.CardanoWasm), {
+        ...ScriptCredsV1,
+        ammPool: '6b9c456aa650cb808a9ab54326e039d5235ed69f069c9664a8fe5b69',
+      }),
+    ),
+    switchMap((poolsRepository) =>
+      from(poolsRepository.getAll({ offset: 0, limit: 200 })),
     ),
     publishReplay(1),
     refCount(),
   );
 
 const rawAmmPools$: Observable<AmmPool[]> = networkContext$.pipe(
-  exhaustMap(() => getPools()),
+  exhaustMap(() => combineLatest([getPools(), getPoolsV2()])),
   catchError(() => of(undefined)),
   filter(Boolean),
-  map(([pools]: [AmmPool[], number]) => pools),
+  map(([[poolsV1], [poolsV2]]: [[AmmPool[], number], [AmmPool[], number]]) =>
+    poolsV1.concat(poolsV2),
+  ),
   publishReplay(1),
   refCount(),
 );

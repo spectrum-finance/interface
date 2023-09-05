@@ -49,6 +49,11 @@ export const DurationSlider: FC<Control<number>> = ({ value, onChange }) => {
           value={value}
           onChange={handleChange}
         />
+        {value && (
+          <Typography.Body size="small" secondary>
+            Provide liquidity within {value * 5} days to get this reward 👇
+          </Typography.Body>
+        )}
       </Flex.Item>
     </Flex>
   );

@@ -7,7 +7,7 @@ import { first, map, Observable, Subject, switchMap, tap, zip } from 'rxjs';
 
 import { Balance } from '../../../../common/models/Balance';
 import { Currency } from '../../../../common/models/Currency';
-import { addErrorLog } from '../../../../common/services/ErrorLogs';
+import { captureOperationError } from '../../../../common/services/ErrorLogs';
 import { TxId } from '../../../../common/types';
 import { AddLiquidityFormModel } from '../../../../components/AddLiquidityForm/AddLiquidityFormModel';
 import {
@@ -64,7 +64,10 @@ const toDepositTxCandidate = ({
         pk: settings.ph!,
       }),
     ),
-    map((data: [Transaction | null, TxCandidate, DepositTxInfo]) => data[0]!),
+    map(
+      (data: [Transaction | null, TxCandidate, DepositTxInfo, Error | null]) =>
+        data[0]!,
+    ),
     first(),
   );
 };
@@ -86,7 +89,9 @@ export const walletDeposit = (
       }),
     ),
     switchMap((tx) => submitTx(tx)),
-    tap({ error: addErrorLog({ op: 'deposit' }) }),
+    tap({
+      error: (error) => captureOperationError(error, 'cardano', 'deposit'),
+    }),
   );
 
 export const deposit = (
@@ -163,10 +168,30 @@ export const useDepositValidators =
             pk: settings.ph!,
           }),
         ),
-        map((data: [Transaction | null, TxCandidate, DepositTxInfo]) =>
-          data[0]
-            ? undefined
-            : t`Insufficient ${networkAsset.ticker} balance for fees`,
+        map(
+          (
+            data: [
+              Transaction | null,
+              TxCandidate,
+              DepositTxInfo,
+              Error | null,
+            ],
+          ) => {
+            const error = data[3];
+            if (error && !data[0]) {
+              captureOperationError(
+                error,
+                'cardano',
+                'depositValidation',
+                data[1],
+                data[2],
+              );
+            }
+
+            return data[0]
+              ? undefined
+              : t`Insufficient ${networkAsset.ticker} balance for fees`;
+          },
         ),
         first(),
       );

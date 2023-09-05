@@ -32,6 +32,7 @@ export interface NetworkOperations {
   redeem(
     pool: AmmPool,
     data: Required<RemoveLiquidityFormModel>,
+    withoutConfirmation?: boolean,
   ): Observable<TxId>;
   refund(txId: TxId, xAmount: Currency, yAmount: Currency): Observable<TxId>;
 }

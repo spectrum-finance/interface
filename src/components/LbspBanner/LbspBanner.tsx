@@ -8,8 +8,9 @@ import {
 import { Trans } from '@lingui/macro';
 import styled from 'styled-components';
 
-import { LbspCalculatorModal } from '../LbspCalculatorModal/LbspCalculatorModal.tsx';
-import { LbspFaqModal } from '../LbspFaqModal/LbspFaqModal.tsx';
+import { LbspCalculatorModal } from '../LbspCalculatorModal/LbspCalculatorModal';
+import { LbspFaqModal } from '../LbspFaqModal/LbspFaqModal';
+import { LbspTimer } from './LbspTimer/LbspTimer';
 import TokensImg from './tokens-img.png';
 
 const LbspBannerWrapper = styled.div`
@@ -17,10 +18,14 @@ const LbspBannerWrapper = styled.div`
   width: 100%;
   min-height: 146px;
   background: var(--spectrum-lbsp-banner-background-color);
-  margin-top: 72px;
+  margin-top: 94px;
   display: flex;
   align-items: flex-start;
   justify-content: center;
+
+  @media (max-width: 720px) {
+    margin-top: 114px;
+  }
 
   & img {
     height: 100%;
@@ -57,7 +62,7 @@ export const LbspBanner = () => {
           <Flex col>
             <Flex.Item marginBottom={4}>
               <Typography.Title level={1}>
-                <Trans>Provide liquidity and Get Rewarded</Trans>
+                <Trans>Add liquidity and Get Rewarded</Trans>
               </Typography.Title>
               <Typography.Title level={5} style={{ fontWeight: 400 }}>
                 <Trans>
@@ -65,6 +70,9 @@ export const LbspBanner = () => {
                   rewarded with SPF utility token.
                 </Trans>
               </Typography.Title>
+            </Flex.Item>
+            <Flex.Item marginBottom={2}>
+              <LbspTimer />
             </Flex.Item>
             <Flex.Item>
               <Flex>
@@ -89,7 +97,7 @@ export const LbspBanner = () => {
                       Modal.open(() => <LbspFaqModal />);
                     }}
                   >
-                    <Trans>FAQ</Trans>
+                    <Trans>What is LBSP?</Trans>
                   </Button>
                 </Flex.Item>
               </Flex>

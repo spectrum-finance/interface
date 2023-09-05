@@ -1,4 +1,4 @@
-import { Box, Flex, Typography } from '@ergolabs/ui-kit';
+import { Alert, Box, Flex, Typography } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import { FC } from 'react';
 
@@ -33,33 +33,40 @@ export const RewardsBox: FC<RewardsBoxProps> = ({
   );
 
   return (
-    <Box bordered borderRadius="l" padding={4}>
-      <Flex col>
-        <Flex.Item marginBottom={2} display="flex" justify="space-between">
-          <Typography.Body size="large">
-            <Trans>Estimated rewards:</Trans>
-          </Typography.Body>
-          <Flex.Item display="flex" align="center">
-            <Flex.Item marginRight={1}>
-              <AssetIcon size="small" asset={reward.asset} />
+    <Flex col>
+      <Flex.Item marginBottom={2}>
+        <Box bordered borderRadius="l" padding={4}>
+          <Flex col>
+            <Flex.Item marginBottom={4} display="flex" justify="space-between">
+              <Typography.Body size="large" strong>
+                <Trans>Estimated rewards</Trans>
+              </Typography.Body>
+              <Flex.Item display="flex" align="center">
+                <Flex.Item marginRight={1}>
+                  <AssetIcon size="small" asset={reward.asset} />
+                </Flex.Item>
+                <Typography.Body strong>
+                  {reward.toCurrencyString()}
+                </Typography.Body>
+              </Flex.Item>
             </Flex.Item>
-            <Typography.Body strong>
-              {reward.toCurrencyString()}
-            </Typography.Body>
-          </Flex.Item>
-        </Flex.Item>
-        <Flex.Item display="flex" justify="space-between">
-          <Typography.Body size="large">
-            <Trans>LBSP APR::</Trans>
-          </Typography.Body>
-          <Flex.Item display="flex" align="center">
-            <Flex.Item marginRight={1}>
-              <AssetIcon size="small" asset={reward.asset} />
+            <Flex.Item display="flex" justify="space-between">
+              <Typography.Body size="large" strong>
+                <Trans>LBSP APR</Trans>
+              </Typography.Body>
+              <Flex.Item display="flex" align="center">
+                <Flex.Item marginRight={1}>
+                  <AssetIcon size="small" asset={reward.asset} />
+                </Flex.Item>
+                <Typography.Body strong>{lbspApr}%</Typography.Body>
+              </Flex.Item>
             </Flex.Item>
-            <Typography.Body strong>{lbspApr}%</Typography.Body>
-          </Flex.Item>
-        </Flex.Item>
-      </Flex>
-    </Box>
+          </Flex>
+        </Box>
+      </Flex.Item>
+      <Flex.Item>
+        <Alert showIcon type="info" message="Your funds will NOT be locked" />
+      </Flex.Item>
+    </Flex>
   );
 };

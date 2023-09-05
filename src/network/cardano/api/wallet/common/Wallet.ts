@@ -139,6 +139,12 @@ export const createWallet = <
   };
 
   const getUsedAddresses = (): Promise<Address[]> => {
+    console.log(
+      RustModule.CardanoWasm.PlutusData.from_hex(
+        'd8799fd8799f4040ffd8799f581c533bb94a8850ee3ccbe483106489399112b74c905342cb1792a797a044494e4459ffd8799f581cd0861c6a8e913001a9ceaca2c8f3d403c7ed541e27fab570c0d17a324c494e44495f4144415f4e4654ff1903e51b00355554f1c7a8f41b002386f26fc10000581cc06d3c6c1fd24aab874cfb35a7fe5d090a501e4df0d9a58d00fd5678d8799f581c63481073ae1ea98b21c55b4ea2ab133ad85288c67b51c06edea79459ff1a000f42401a00124bc1ff',
+      ).to_json(1),
+    );
+
     return assertContext((context) => {
       if (params?.getUsedAddresses) {
         return params.getUsedAddresses(context);

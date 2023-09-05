@@ -5,13 +5,14 @@ import { Event } from '@sentry/types/dist/event';
 import { of } from 'rxjs';
 
 import { setErrorEvent } from '../../components/ErrorBoundary/ErrorEventProvider';
+import { getSentryEnv } from '../utils/env';
 import { Initializer } from './core';
 
 export const sentryInitializer: Initializer = () => {
   Sentry.init({
     dsn: import.meta.env.VITE_SENTRY_DSN,
     integrations: [new Integrations.BrowserTracing()],
-    environment: import.meta.env.VITE_SENTRY_ENV_FLAG,
+    environment: getSentryEnv(),
     beforeSend: (event: Event) => {
       if (event.message === CANCEL_REQUEST) {
         return null;

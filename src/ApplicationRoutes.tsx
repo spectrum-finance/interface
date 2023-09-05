@@ -5,7 +5,6 @@ import { Navigate, Outlet, useRoutes } from 'react-router-dom';
 
 import { version } from '../package.json';
 import { NetworkDomManager } from './common/services/NetworkDomManager/NetworkDomManager';
-import { showCardanoDisclaimerModal } from './components/CardanoDisclaimerModal/CardanoDisclaimerModal.tsx';
 import { Layout } from './components/common/Layout/Layout';
 import { RouteConfigExtended } from './components/RouterTitle/RouteConfigExtended';
 import { RouterTitle } from './components/RouterTitle/RouterTitle';
@@ -21,7 +20,6 @@ import { RemoveLiquidity } from './pages/RemoveLiquidity/RemoveLiquidity';
 import { Swap } from './pages/Swap/Swap';
 import { WithdrawalLiquidity } from './pages/WithdrawalLiquidity/WithdrawalLiquidity';
 import { isPreLbspTimeGap } from './utils/lbsp.ts';
-import { isCardano } from './utils/network.ts';
 
 export const routesConfig: RouteConfigExtended[] = [
   {
@@ -133,10 +131,6 @@ export const ApplicationRoutes: FC = () => {
 
     user.set('theme_active', settings.theme);
     user.set('locale_active', settings.lang);
-
-    if (isCardano()) {
-      showCardanoDisclaimerModal(settings);
-    }
   }, []);
 
   return (
