@@ -42,6 +42,7 @@
 
             setInterval(() => {
               try {
+                console.warn(`sw update strat`)
                 sw.update()
               } catch {
                 console.warn(`sw updated with error`)
