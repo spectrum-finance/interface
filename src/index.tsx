@@ -9,27 +9,27 @@ import { ApplicationInitializer } from './App';
 import { IOSNotSupportedScreen } from './components/IOSNotSupportedScreen/IOSNotSupportedScreen';
 import { SettingsProvider } from './context';
 
-// TODO: FIX
-if ('serviceWorker' in navigator) {
-  try {
-    navigator?.serviceWorker.getRegistrations().then((registrations) => {
-      if (registrations) {
-        registrations.forEach((r) => {
-          r.update();
-          console.log(r, 'updates');
-        });
-      }
-    });
-    caches.keys().then((keys) =>
-      keys.forEach((key) => {
-        caches.delete(key);
-        console.log('cache deleted', key);
-      }),
-    );
-  } catch (e) {
-    console.warn('no sws');
-  }
-}
+// // TODO: FIX
+// if ('serviceWorker' in navigator) {
+//   try {
+//     navigator?.serviceWorker.getRegistrations().then((registrations) => {
+//       if (registrations) {
+//         registrations.forEach((r) => {
+//           r.update();
+//           console.log(r, 'updates');
+//         });
+//       }
+//     });
+//     caches.keys().then((keys) =>
+//       keys.forEach((key) => {
+//         caches.delete(key);
+//         console.log('cache deleted', key);
+//       }),
+//     );
+//   } catch (e) {
+//     console.warn('no sws');
+//   }
+// }
 
 const init = () => {
   const container = document.getElementById('app');
