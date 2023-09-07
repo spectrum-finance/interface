@@ -25,5 +25,32 @@
 <div id="app"></div>
 <script type="module" src="/src/nodespecific.ts"></script>
 <script type="module" src="/src/index.tsx"></script>
+<script>
+  window
+    .addEventListener('load', event => {
+      if ('serviceWorker' in navigator) {
+        navigator
+          .serviceWorker
+          .getRegistrations()
+          .then(registrations => registrations ? registrations[0] : undefined)
+          .then(sw => {
+            const intervalMS = 60 * 1000;
+
+            sw.onupdatefound = () => {
+              console.log('sw update found. Please reload the page.')
+            }
+
+            setInterval(() => {
+              try {
+                console.log(`sw update start`)
+                sw.update()
+              } catch {
+                console.warn(`sw updated with error`)
+              }
+            }, intervalMS);
+          })
+      }
+    })
+</script>
 </body>
 </html>
