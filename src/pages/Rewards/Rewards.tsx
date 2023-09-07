@@ -1,5 +1,4 @@
 import { Button, Flex, Skeleton, Typography } from '@ergolabs/ui-kit';
-import * as React from 'react';
 import { FC } from 'react';
 
 import { SPECTRUM_DISCORD_LINK } from '../../common/constants/url.ts';
@@ -31,9 +30,7 @@ export const Rewards: FC = () => {
           {loading ? (
             <Skeleton active />
           ) : (
-            <Flex.Item>
-              {rewardsData && <RewardsDashboard rewardsData={rewardsData} />}
-            </Flex.Item>
+            rewardsData && <RewardsDashboard rewardsData={rewardsData} />
           )}
         </ConnectWalletButton>
       </Flex>

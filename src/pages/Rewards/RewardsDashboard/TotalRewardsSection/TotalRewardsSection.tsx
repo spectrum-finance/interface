@@ -31,7 +31,7 @@ export const TotalRewardsSection: FC<TotalRewardsSectionProps> = ({
           <Flex.Item marginRight={2}>
             <AssetIcon asset={totalCollectedRewards.asset} />
           </Flex.Item>
-          <Typography.Title level={3}>
+          <Typography.Title level={2}>
             {totalCollectedRewards.toString()}{' '}
             {totalCollectedRewards.asset.ticker}
           </Typography.Title>

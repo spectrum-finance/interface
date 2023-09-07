@@ -1,14 +1,6 @@
 import axios from 'axios';
 import groupBy from 'lodash/groupBy';
-import {
-  first,
-  from,
-  map,
-  Observable,
-  publishReplay,
-  refCount,
-  switchMap,
-} from 'rxjs';
+import { from, map, publishReplay, refCount, switchMap } from 'rxjs';
 
 import { Address } from '../../../../common/models/Address';
 import { Currency } from '../../../../common/models/Currency.ts';

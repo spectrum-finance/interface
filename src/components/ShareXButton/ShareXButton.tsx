@@ -29,7 +29,7 @@ const _ShareXButton: FC<ShareXButtonProps> = ({
     >
       <Flex align="center">
         <Flex.Item marginRight={1} display="flex">
-          <XLogo />
+          <XLogo style={{ fill: 'var(--spectrum-primary-text)' }} />
         </Flex.Item>
         <Flex.Item>
           <Trans>Share</Trans>

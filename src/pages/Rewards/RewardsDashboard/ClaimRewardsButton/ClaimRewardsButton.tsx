@@ -1,25 +1,27 @@
 import { Button, Flex, Typography } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import { DateTime, Interval } from 'luxon';
+import { useEffect, useState } from 'react';
 
 const CLAIMS_OPEN_DATETIME = DateTime.utc(2023, 9, 23, 12, 0);
 
 export const ClaimRewardsButton = () => {
+  const [now, setNow] = useState(DateTime.now());
   const onHandleClaimRewards = () => {
     /*TODO*/
   };
 
-  const isRewardClaimable = DateTime.now().toUTC() >= CLAIMS_OPEN_DATETIME;
-  const r = Interval.fromDateTimes(
-    DateTime.now().toUTC(),
-    CLAIMS_OPEN_DATETIME,
-  ).end.diff(DateTime.now().toUTC(), [
-    'days',
-    'hours',
-    'minutes',
-    'seconds',
-    'milliseconds',
-  ]);
+  useEffect(() => {
+    const intervalId = setInterval(() => setNow(DateTime.now()), 1_000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
+  const isRewardClaimable = now.toUTC() >= CLAIMS_OPEN_DATETIME;
+  const r = Interval.fromDateTimes(now, CLAIMS_OPEN_DATETIME).end.diff(
+    now.toUTC(),
+    ['days', 'hours', 'minutes', 'seconds', 'milliseconds'],
+  );
 
   return (
     <Flex col align="center">
