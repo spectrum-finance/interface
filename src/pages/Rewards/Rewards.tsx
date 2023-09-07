@@ -24,7 +24,7 @@ export const Rewards: FC = () => {
           width="100%"
           size="extra-large"
           trace={{
-            element_location: ElementLocation.footer,
+            element_location: ElementLocation.rewardsPage,
             element_name: ElementName.connectWalletButton,
           }}
         >
