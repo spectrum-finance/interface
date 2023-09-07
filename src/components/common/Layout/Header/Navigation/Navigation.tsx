@@ -44,6 +44,9 @@ const _Navigation: FC<NavigationProps> = ({ className, style }) => {
       />
       <Tabs.TabPane tab={t`Liquidity`} key="liquidity" />
       {network.name === 'ergo' && <Tabs.TabPane tab={t`Farms`} key="farm" />}
+      {network.name === 'cardano' && (
+        <Tabs.TabPane tab={t`Rewards`} key="rewards" />
+      )}
     </Tabs>
   );
 };
