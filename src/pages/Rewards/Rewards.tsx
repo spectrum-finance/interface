@@ -1,4 +1,5 @@
 import { Button, Flex, Skeleton, Typography } from '@ergolabs/ui-kit';
+import { ElementLocation, ElementName } from '@spectrumlabs/analytics';
 import { FC } from 'react';
 
 import { SPECTRUM_DISCORD_LINK } from '../../common/constants/url.ts';
@@ -23,8 +24,8 @@ export const Rewards: FC = () => {
           width="100%"
           size="extra-large"
           trace={{
-            element_location: 'rewards-page',
-            element_name: 'connect-wallet-button',
+            element_location: ElementLocation.footer,
+            element_name: ElementName.connectWalletButton,
           }}
         >
           {loading ? (

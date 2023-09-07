@@ -50,9 +50,7 @@ export const RewardsDashboardSection: FC<RewardsDashboardSectionProps> = ({
         marginBottom={2}
       >
         <InfoTooltip content={infoTooltipText} isQuestionIcon>
-          <Typography.Body strong>
-            {title}
-          </Typography.Body>
+          <Typography.Body strong>{title}</Typography.Body>
         </InfoTooltip>
         {tags && <RewardsDashboardSectionTags tags={tags} />}
       </Flex.Item>
