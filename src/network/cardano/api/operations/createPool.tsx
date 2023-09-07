@@ -2,11 +2,12 @@ import { Transaction } from '@emurgo/cardano-serialization-lib-nodejs';
 import {
   AssetAmount,
   FullTxIn,
+  InputSelector,
   TxCandidate,
   Value,
 } from '@spectrumlabs/cardano-dex-sdk';
-import { DepositTxInfo } from '@spectrumlabs/cardano-dex-sdk/build/main/amm/interpreters/ammTxBuilder/depositAmmTxBuilder';
 import { NetworkParams } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/env';
+import { InputCollector } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/wallet/inputSelector';
 import { RustModule } from '@spectrumlabs/cardano-dex-sdk/build/main/utils/rustLoader';
 import axios from 'axios';
 import {
@@ -23,7 +24,6 @@ import {
 } from 'rxjs';
 
 import { Currency } from '../../../../common/models/Currency';
-import { addErrorLog } from '../../../../common/services/ErrorLogs';
 import { TxId } from '../../../../common/types';
 import { AddLiquidityFormModel } from '../../../../components/AddLiquidityForm/AddLiquidityFormModel';
 import { BaseCreatePoolConfirmationModal } from '../../../../components/BaseCreatePoolConfirmationModal/BaseCreatePoolConfirmationModal';
@@ -72,10 +72,23 @@ const toCreatePoolTxCandidate = ({
 
   transactionBuilder$
     .pipe(
-      map((txBuilder) => txBuilder['poolTxBuilder']['inputSelector']),
-      switchMap((inputSelector: DefaultInputSelector) =>
-        inputSelector.select(Value(1n)),
+      map((txBuilder) => ({
+        inputSelector: txBuilder['poolTxBuilder']['inputSelector'],
+        inputCollector: txBuilder['inputCollector'],
+      })),
+      switchMap(
+        ({
+          inputSelector,
+          inputCollector,
+        }: {
+          inputSelector: InputSelector;
+          inputCollector: InputCollector;
+        }) =>
+          inputCollector
+            .getInputs()
+            .then((inputs) => inputSelector.select(inputs, Value(1n))),
       ),
+      tap(console.log),
       switchMap(([utxo]: FullTxIn[]) =>
         combineLatest([
           from(
@@ -143,7 +156,6 @@ export const walletCreatePool = (
       }),
     ),
     switchMap((tx) => submitTx(tx)),
-    tap({ error: addErrorLog({ op: 'createPool' }) }),
   );
 
 export const createPool = (
