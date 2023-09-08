@@ -45,7 +45,21 @@ export const ThemeSwitch: FC = () => {
                 height={21}
               />
             </Flex.Item>
-            <Flex.Item>Snek theme</Flex.Item>
+            <Flex.Item>Snek (light)</Flex.Item>
+          </Flex>
+        </Menu.Item>
+        <Menu.Item onClick={() => handleChangeTheme('snek-dark')}>
+          <Flex>
+            <Flex.Item marginRight={2}>
+              <img
+                style={{ borderRadius: '999px' }}
+                alt="Snek logo"
+                src={SnekLogo}
+                width={21}
+                height={21}
+              />
+            </Flex.Item>
+            <Flex.Item>Snek (dark)</Flex.Item>
           </Flex>
         </Menu.Item>
         <Menu.Item
