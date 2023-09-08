@@ -9,7 +9,6 @@ import { isPreLbspTimeGap } from '../../../../utils/lbsp';
 import { IsCardano } from '../../../IsCardano/IsCardano';
 import { IsErgo } from '../../../IsErgo/IsErgo';
 import { AppLogo } from '../../AppLogo/AppLogo';
-import { CardanoMaintenance } from '../CardanoMaintenance/CardanoMaintenance';
 import { DeprecatedPosition } from '../DeprecatedPositions/DeprecatedPosition';
 import { OperationsHistory } from '../OperationsHistory/OperationsHistory';
 import { Analytics } from './Analytics/Analytics';
@@ -54,7 +53,6 @@ export const _Header: React.FC<HeaderProps> = ({ className, scrolledTop }) => {
         className,
       )}
     >
-      <CardanoMaintenance />
       <IsCardano>
         <DeprecatedPosition />
       </IsCardano>

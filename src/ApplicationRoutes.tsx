@@ -17,6 +17,7 @@ import { LockLiquidity } from './pages/LockLiquidity/LockLiquidity';
 import { PoolOverview } from './pages/PoolOverview/PoolOverview';
 import { RelockLiquidity } from './pages/RelockLiquidity/RelockLiquidity';
 import { RemoveLiquidity } from './pages/RemoveLiquidity/RemoveLiquidity';
+import { Rewards } from './pages/Rewards/Rewards.tsx';
 import { Swap } from './pages/Swap/Swap';
 import { WithdrawalLiquidity } from './pages/WithdrawalLiquidity/WithdrawalLiquidity';
 import { isPreLbspTimeGap } from './utils/lbsp.ts';
@@ -106,6 +107,11 @@ export const routesConfig: RouteConfigExtended[] = [
                 ],
               },
             ],
+          },
+          {
+            title: 'Rewards',
+            path: 'rewards',
+            element: <Rewards />,
           },
           {
             path: '*',
