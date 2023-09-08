@@ -3,7 +3,6 @@ import {
   AssetAmount,
   FullTxIn,
   InputSelector,
-  TxCandidate,
   Value,
 } from '@spectrumlabs/cardano-dex-sdk';
 import { NetworkParams } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/env';
@@ -16,6 +15,7 @@ import {
   from,
   map,
   Observable,
+  of,
   Subject,
   switchMap,
   tap,
@@ -25,7 +25,6 @@ import {
 
 import { Currency } from '../../../../common/models/Currency';
 import { TxId } from '../../../../common/types';
-import { AddLiquidityFormModel } from '../../../../components/AddLiquidityForm/AddLiquidityFormModel';
 import { BaseCreatePoolConfirmationModal } from '../../../../components/BaseCreatePoolConfirmationModal/BaseCreatePoolConfirmationModal';
 import {
   openConfirmationModal,
@@ -33,26 +32,59 @@ import {
 } from '../../../../components/ConfirmationModal/ConfirmationModal';
 import { CreatePoolFormModel } from '../../../../pages/CreatePool/CreatePoolFormModel';
 import { CardanoSettings, settings$ } from '../../settings/settings';
-import { DepositConfirmationModal } from '../../widgets/DepositConfirmationModal/DepositConfirmationModal';
-import { CardanoAmmPool } from '../ammPools/CardanoAmmPool';
 import { cardanoNetworkParams$ } from '../common/cardanoNetwork';
 import { networkAsset } from '../networkAsset/networkAsset';
 import { ammTxFeeMapping } from './common/ammTxFeeMapping';
-import { DefaultInputSelector } from './common/inputSelector';
-import { minExecutorReward } from './common/minExecutorReward';
 import { submitTx } from './common/submitTxCandidate';
 import { transactionBuilder$ } from './common/transactionBuilder';
 
 interface CreatePoolTxCandidateConfig {
   readonly x: Currency;
   readonly y: Currency;
+  readonly feePct: number;
   readonly settings: CardanoSettings;
   readonly networkParams: NetworkParams;
 }
 
+interface MintingMetadata {
+  readonly policyId: string;
+  readonly script: string;
+}
+
+const getTokenMetadata = (
+  utxo: FullTxIn,
+  name: string,
+  qty: number,
+): Observable<[AssetAmount, MintingMetadata]> => {
+  const assetHex = RustModule.CardanoWasm.AssetName.new(
+    new TextEncoder().encode(name),
+  ).to_hex();
+
+  return from(
+    axios
+      .post<MintingMetadata>(`https://meta.spectrum.fi/cardano/minting/data/`, {
+        txRef: utxo.txOut.txHash,
+        outId: utxo.txOut.index,
+        tnName: assetHex,
+        qty,
+      })
+      .then(
+        (res) =>
+          [
+            new AssetAmount(
+              { policyId: res.data.policyId, name, nameHex: assetHex },
+              BigInt(qty),
+            ),
+            res.data,
+          ] as [AssetAmount, MintingMetadata],
+      ),
+  );
+};
+
 const toCreatePoolTxCandidate = ({
   x,
   y,
+  feePct,
   settings,
 }: CreatePoolTxCandidateConfig): Observable<Transaction> => {
   if (!settings.address || !settings.ph) {
@@ -88,34 +120,49 @@ const toCreatePoolTxCandidate = ({
             .getInputs()
             .then((inputs) => inputSelector.select(inputs, Value(1n))),
       ),
-      tap(console.log),
-      switchMap(([utxo]: FullTxIn[]) =>
-        combineLatest([
-          from(
-            axios.post(`https://meta.spectrum.fi/cardano/minting/data/`, {
-              txRef: utxo.txOut.txHash,
-              outId: utxo.txOut.index,
-              tnName: RustModule.CardanoWasm.AssetName.new(
-                new TextEncoder().encode(
-                  `${yAmount.asset.name}_${xAmount.asset.name}_NFT`,
-                ),
-              ).to_hex(),
-              qty: 1,
-            }),
+      switchMap((utxos: FullTxIn[] | Error) => {
+        if (utxos instanceof Error) {
+          return throwError(utxos);
+        }
+        const utxo = utxos[0];
+        return combineLatest([
+          getTokenMetadata(
+            utxo,
+            `${yAmount.asset.name}_${xAmount.asset.name}_NFT`,
+            1,
           ),
-          from(
-            axios.post(`https://meta.spectrum.fi/cardano/minting/data/`, {
-              txRef: utxo.txOut.txHash,
-              outId: utxo.txOut.index,
-              tnName: RustModule.CardanoWasm.AssetName.new(
-                new TextEncoder().encode(
-                  `${yAmount.asset.name}_${xAmount.asset.name}_LQ`,
-                ),
-              ).to_hex(),
-              qty: 0x7fffffffffffffff,
-            }),
+          getTokenMetadata(
+            utxo,
+            `${yAmount.asset.name}_${xAmount.asset.name}_LQ`,
+            0x7fffffffffffffff,
           ),
-        ]),
+          of(utxo),
+        ]);
+      }),
+      switchMap(
+        ([nftData, lqData, utxo]: [
+          [AssetAmount, MintingMetadata],
+          [AssetAmount, MintingMetadata],
+          FullTxIn,
+        ]) =>
+          transactionBuilder$.pipe(
+            switchMap((transactionBuilder) =>
+              transactionBuilder.poolCreation({
+                x: new AssetAmount(x.asset.data, x.amount),
+                y: new AssetAmount(y.asset.data, y.amount),
+                nft: nftData[0],
+                lq: lqData[0],
+                feeNum: BigInt((1 - Number((feePct / 100).toFixed(3))) * 1000),
+                mintingCreationTxHash: utxo.txOut.txHash,
+                mintingCreationTxOutIdx: utxo.txOut.index,
+                lqMintingScript: lqData[1].script,
+                nftMintingScript: nftData[1].script,
+                txFees: ammTxFeeMapping,
+                changeAddress: settings.address!,
+                pk: settings.ph!,
+              }),
+            ),
+          ),
       ),
     )
     .subscribe(console.log);
@@ -151,6 +198,7 @@ export const walletCreatePool = (
       toCreatePoolTxCandidate({
         x,
         y,
+        feePct,
         networkParams,
         settings,
       }),
