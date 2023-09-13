@@ -1,3 +1,4 @@
+import { FormGroup } from '@ergolabs/ui-kit';
 import { ReactNode } from 'react';
 import { Observable } from 'rxjs';
 
@@ -51,6 +52,12 @@ export interface NetworkData<W extends Wallet> {
   readonly selectedWallet$: Observable<W | undefined>;
   readonly supportedFeatures$: Observable<SupportedFeatures>;
   readonly networkContext$: Observable<NetworkContext>;
+
+  readonly useHandleCreatePoolMaxButtonClick: () => (
+    pct: number,
+    form: FormGroup<CreatePoolFormModel>,
+    balance: Balance,
+  ) => void;
 
   readonly useHandleSwapMaxButtonClick: () => (balance: Currency) => Currency;
   readonly useSwapValidators: () => OperationValidator<SwapFormModel>[];

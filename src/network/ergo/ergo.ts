@@ -50,6 +50,7 @@ import { createPool } from './operations/createPool/createPool';
 import { useCreatePoolValidators } from './operations/createPool/useCreatePoolValidators';
 import { deposit } from './operations/deposit/deposit';
 import { useDepositValidators } from './operations/deposit/useDepositValidators';
+import { useHandleCreatePoolMaxButtonClick } from './operations/deposit/useHandleCreatePoolMaxButtonClick';
 import { useHandleDepositMaxButtonClick } from './operations/deposit/useHandleDepositMaxButtonClick';
 import { redeem } from './operations/redeem/redeem';
 import { refund } from './operations/refund/refund';
@@ -141,6 +142,7 @@ export const ergoNetwork: Network<
   useDepositValidators,
   useCreatePoolValidators,
   useHandleDepositMaxButtonClick,
+  useHandleCreatePoolMaxButtonClick,
   getPoolChartData,
 
   getOperations,

@@ -147,6 +147,7 @@ const makeCardanoNetwork = (
     useDepositValidators,
     useCreatePoolValidators,
     useHandleDepositMaxButtonClick,
+    useHandleCreatePoolMaxButtonClick: () => () => {},
     useNetworkAsset,
 
     getPoolChartData: getPoolChartData as any,
