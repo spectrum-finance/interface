@@ -28,13 +28,14 @@ const GlowContainer = styled.div`
 
   .background-image {
     background-image: var(--spectrum-glow-image);
-    position: fixed;
+    position: absolute;
     background-size: cover;
     top: 50%;
-    width: var(--spectrum-glow-image-width);
     height: 100%;
+    width: 100%;
     left: 50%;
     transform: translate(-50%, -50%);
+    opacity: 0.1;
   }
 
   .snek-theme-images {
