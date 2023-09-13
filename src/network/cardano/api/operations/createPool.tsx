@@ -37,6 +37,7 @@ import {
 import { OperationValidator } from '../../../../components/OperationForm/OperationForm';
 import { CreatePoolFormModel } from '../../../../pages/CreatePool/CreatePoolFormModel';
 import { CardanoSettings, settings$ } from '../../settings/settings';
+import { CreatePoolConfirmationInfo } from '../../widgets/CreatePoolConfirmationInfo/CreatePoolConfirmationInfo';
 import { cardanoNetworkParams$ } from '../common/cardanoNetwork';
 import { networkAsset } from '../networkAsset/networkAsset';
 import { ammTxFeeMapping } from './common/ammTxFeeMapping';
@@ -104,12 +105,14 @@ const getTokenMetadata = (
   );
 };
 
-const toCreatePoolTxCandidate = ({
+export const toCreatePoolTxCandidate = ({
   x,
   y,
   feePct,
   settings,
-}: CreatePoolTxCandidateConfig): Observable<Transaction> => {
+}: CreatePoolTxCandidateConfig): Observable<
+  [Transaction | null, TxCandidate, PoolCreationTxInfo, Error | null]
+> => {
   if (!settings.address || !settings.ph) {
     throw new Error('[createPool]: wallet address is not selected');
   }
@@ -187,14 +190,6 @@ const toCreatePoolTxCandidate = ({
           ),
         ),
     ),
-    map(
-      ([transaction]: [
-        Transaction | null,
-        TxCandidate,
-        PoolCreationTxInfo,
-        Error | null,
-      ]) => transaction!,
-    ),
     first(),
   );
 };
@@ -215,7 +210,7 @@ export const walletCreatePool = (
         settings,
       }),
     ),
-    switchMap((tx) => submitTx(tx)),
+    switchMap((data) => submitTx(data[0]!)),
     tap({
       error: (error) => captureOperationError(error, 'cardano', 'createPool'),
     }),
@@ -232,7 +227,7 @@ export const createPool = (
         <BaseCreatePoolConfirmationModal
           value={data}
           createPool={walletCreatePool}
-          Info={() => <></>}
+          Info={CreatePoolConfirmationInfo}
           onClose={(request) =>
             next(
               request.pipe(
@@ -302,8 +297,8 @@ export const useCreatePoolValidators =
               settings,
             }),
           ),
-          map((tx) => {
-            return tx
+          map((data) => {
+            return data[0]
               ? undefined
               : t`Insufficient ${networkAsset.ticker} balance for fees`;
           }),

@@ -7,6 +7,7 @@ import {
   Operation,
 } from '../../../../components/ConfirmationModal/ConfirmationModal';
 import { CreatePoolFormModel } from '../../../../pages/CreatePool/CreatePoolFormModel';
+import { CreatePoolConfirmationInfo } from '../../widgets/CreatePoolConfirmationInfo/CreatePoolConfirmationInfo';
 import { walletCreatePool } from './walletCreatePool';
 
 export const createPool = (
@@ -20,7 +21,7 @@ export const createPool = (
         <BaseCreatePoolConfirmationModal
           value={data}
           createPool={walletCreatePool}
-          Info={() => <></>}
+          Info={CreatePoolConfirmationInfo}
           onClose={(request) =>
             next(
               request.pipe(
