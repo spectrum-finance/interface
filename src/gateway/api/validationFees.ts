@@ -1,6 +1,6 @@
-import { Currency } from '../../common/models/Currency';
 import { AddLiquidityFormModel } from '../../components/AddLiquidityForm/AddLiquidityFormModel';
 import { OperationValidator } from '../../components/OperationForm/OperationForm';
+import { CreatePoolFormModel } from '../../pages/CreatePool/CreatePoolFormModel';
 import { SwapFormModel } from '../../pages/Swap/SwapFormModel';
 import { useSelectedNetwork } from '../common/network';
 
@@ -17,8 +17,9 @@ export const useDepositValidators =
     return selectedNetwork.useDepositValidators();
   };
 
-export const useCreatePoolValidationFee = (): Currency => {
-  const [selectedNetwork] = useSelectedNetwork();
+export const useCreatePoolValidators =
+  (): OperationValidator<CreatePoolFormModel>[] => {
+    const [selectedNetwork] = useSelectedNetwork();
 
-  return selectedNetwork.useCreatePoolValidationFee();
-};
+    return selectedNetwork.useCreatePoolValidators();
+  };

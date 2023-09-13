@@ -47,6 +47,7 @@ import { farms$ } from './lm/api/farms/farms';
 import { lmDeposit } from './lm/operations/lmDeposit/lmDeposit';
 import { lmRedeem } from './lm/operations/lmRedeem/lmRedeem';
 import { createPool } from './operations/createPool/createPool';
+import { useCreatePoolValidators } from './operations/createPool/useCreatePoolValidators';
 import { deposit } from './operations/deposit/deposit';
 import { useDepositValidators } from './operations/deposit/useDepositValidators';
 import { useHandleDepositMaxButtonClick } from './operations/deposit/useHandleDepositMaxButtonClick';
@@ -61,7 +62,6 @@ import {
   setSettings,
   settings$,
 } from './settings/settings';
-import { useCreatePoolValidationFee } from './settings/totalFees';
 import {
   exploreAddress,
   exploreLastBlock,
@@ -139,8 +139,8 @@ export const ergoNetwork: Network<
   useSwapValidators,
   useHandleSwapMaxButtonClick,
   useDepositValidators,
+  useCreatePoolValidators,
   useHandleDepositMaxButtonClick,
-  useCreatePoolValidationFee,
   getPoolChartData,
 
   getOperations,

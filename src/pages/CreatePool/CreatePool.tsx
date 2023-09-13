@@ -2,7 +2,7 @@ import { Animation, Flex, Form, FormGroup, useForm } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import { ElementLocation, ElementName } from '@spectrumlabs/analytics';
 import { FC, useMemo, useState } from 'react';
-import { BehaviorSubject, first, map, skip, switchMap } from 'rxjs';
+import { BehaviorSubject, first, map, of, skip, switchMap } from 'rxjs';
 
 import {
   useObservable,
@@ -28,25 +28,46 @@ import {
 } from '../../gateway/api/assetBalance';
 import { useNetworkAsset } from '../../gateway/api/networkAsset';
 import { createPool } from '../../gateway/api/operations/createPool';
+import { useCreatePoolValidators } from '../../gateway/api/validationFees';
+import { selectedNetwork$ } from '../../gateway/common/network';
 import { operationsSettings$ } from '../../gateway/widgets/operationsSettings';
 import { CreatePoolFormModel } from './CreatePoolFormModel';
 import { FeeSelector } from './FeeSelector/FeeSelector';
 import { InitialPriceInput } from './InitialPrice/InitialPriceInput';
 import { Overlay } from './Overlay/Overlay';
 
-const xAssets$ = assetBalance$.pipe(
-  map((balance) => balance.values().map((balance) => balance.asset)),
+const xAssets$ = selectedNetwork$.pipe(
+  switchMap((network) => {
+    if (network.name === 'ergo') {
+      return assetBalance$.pipe(
+        map((balance) => balance.values().map((balance) => balance.asset)),
+      );
+    }
+    return of([network.networkAsset]);
+  }),
 );
 
-const getYAssets = (xId?: string) =>
-  xId
-    ? xAssets$.pipe(map((assets) => assets.filter((a) => a.id !== xId)))
-    : xAssets$;
+const getYAssets = (xId?: string) => {
+  return selectedNetwork$.pipe(
+    switchMap((network) => {
+      if (network.name === 'ergo') {
+        return xId
+          ? xAssets$.pipe(map((assets) => assets.filter((a) => a.id !== xId)))
+          : xAssets$;
+      }
+      return assetBalance$.pipe(
+        map((balance) => balance.values().map((balance) => balance.asset)),
+        map((assets) => assets.filter((a) => a.id !== network.networkAsset.id)),
+      );
+    }),
+  );
+};
 
 export const CreatePool: FC = () => {
   const [OperationSettings] = useObservable(operationsSettings$);
   const [networkAsset] = useNetworkAsset();
   const [lastEditedField, setLastEditedField] = useState<'x' | 'y'>('x');
+  const createPoolValidators = useCreatePoolValidators();
   const [balance] = useAssetsBalance();
   const form = useForm<CreatePoolFormModel>({
     initialPrice: undefined,
@@ -262,28 +283,10 @@ export const CreatePool: FC = () => {
       amountValidator,
       minValueValidator,
       balanceValidator,
+      ...createPoolValidators,
     ],
     [balance, lastEditedField],
   );
-  //
-  // const insufficientFeeValidator: OperationValidator<CreatePoolFormModel> = ({
-  //   value: { x, y },
-  // }) => {
-  //   let totalFeesWithAmount = totalFees;
-  //
-  //   totalFeesWithAmount = x?.isAssetEquals(networkAsset)
-  //     ? totalFeesWithAmount.plus(x)
-  //     : totalFeesWithAmount;
-  //
-  //   totalFeesWithAmount = y?.isAssetEquals(networkAsset)
-  //     ? totalFeesWithAmount.plus(y)
-  //     : totalFeesWithAmount;
-  //
-  //   return totalFeesWithAmount.gt(balance.get(networkAsset))
-  //     ? t`Insufficient ${networkAsset.ticker} Balance for Fees`
-  //     : undefined;
-  // };
-  //
 
   const handleMaxLiquidityClick = (pct: number) => {
     // const { xAsset, yAsset, initialPrice } = form.value;

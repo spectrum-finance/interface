@@ -1,8 +1,11 @@
 import { Transaction } from '@emurgo/cardano-serialization-lib-nodejs';
+import { t } from '@lingui/macro';
 import {
   AssetAmount,
   FullTxIn,
   InputSelector,
+  PoolCreationTxInfo,
+  TxCandidate,
   Value,
 } from '@spectrumlabs/cardano-dex-sdk';
 import { NetworkParams } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/env';
@@ -24,12 +27,14 @@ import {
 } from 'rxjs';
 
 import { Currency } from '../../../../common/models/Currency';
+import { captureOperationError } from '../../../../common/services/ErrorLogs';
 import { TxId } from '../../../../common/types';
 import { BaseCreatePoolConfirmationModal } from '../../../../components/BaseCreatePoolConfirmationModal/BaseCreatePoolConfirmationModal';
 import {
   openConfirmationModal,
   Operation,
 } from '../../../../components/ConfirmationModal/ConfirmationModal';
+import { OperationValidator } from '../../../../components/OperationForm/OperationForm';
 import { CreatePoolFormModel } from '../../../../pages/CreatePool/CreatePoolFormModel';
 import { CardanoSettings, settings$ } from '../../settings/settings';
 import { cardanoNetworkParams$ } from '../common/cardanoNetwork';
@@ -54,25 +59,43 @@ interface MintingMetadata {
 const getTokenMetadata = (
   utxo: FullTxIn,
   name: string,
-  qty: number,
+  qty: string,
 ): Observable<[AssetAmount, MintingMetadata]> => {
-  const assetHex = RustModule.CardanoWasm.AssetName.new(
+  const asset = RustModule.CardanoWasm.AssetName.new(
     new TextEncoder().encode(name),
-  ).to_hex();
+  );
 
   return from(
     axios
-      .post<MintingMetadata>(`https://meta.spectrum.fi/cardano/minting/data/`, {
-        txRef: utxo.txOut.txHash,
-        outId: utxo.txOut.index,
-        tnName: assetHex,
-        qty,
+      .post<{ result: 'Ok' | 'Failed' }>(
+        `https://meta.spectrum.fi/cardano/minting/data/`,
+        {
+          txRef: utxo.txOut.txHash,
+          outId: utxo.txOut.index,
+          tnName: JSON.parse(asset.to_json()),
+          qty,
+        },
+      )
+      .then((res) => {
+        if (res.data.result === 'Ok') {
+          return axios.post<MintingMetadata>(
+            'https://meta.spectrum.fi/cardano/minting/data/finalize/',
+            {
+              txRef: utxo.txOut.txHash,
+              outId: utxo.txOut.index,
+              tnName: JSON.parse(asset.to_json()),
+              qty,
+            },
+          );
+        } else {
+          throw new Error('not ok');
+        }
       })
       .then(
         (res) =>
           [
             new AssetAmount(
-              { policyId: res.data.policyId, name, nameHex: assetHex },
+              { policyId: res.data.policyId, name, nameHex: asset.to_hex() },
               BigInt(qty),
             ),
             res.data,
@@ -102,89 +125,78 @@ const toCreatePoolTxCandidate = ({
     yAmount = new AssetAmount(y.asset.data, y.amount);
   }
 
-  transactionBuilder$
-    .pipe(
-      map((txBuilder) => ({
-        inputSelector: txBuilder['poolTxBuilder']['inputSelector'],
-        inputCollector: txBuilder['inputCollector'],
-      })),
-      switchMap(
-        ({
-          inputSelector,
-          inputCollector,
-        }: {
-          inputSelector: InputSelector;
-          inputCollector: InputCollector;
-        }) =>
-          inputCollector
-            .getInputs()
-            .then((inputs) => inputSelector.select(inputs, Value(1n))),
-      ),
-      switchMap((utxos: FullTxIn[] | Error) => {
-        if (utxos instanceof Error) {
-          return throwError(utxos);
-        }
-        const utxo = utxos[0];
-        return combineLatest([
-          getTokenMetadata(
-            utxo,
-            `${yAmount.asset.name}_${xAmount.asset.name}_NFT`,
-            1,
+  return transactionBuilder$.pipe(
+    map((txBuilder) => ({
+      inputSelector: txBuilder['poolTxBuilder']['inputSelector'],
+      inputCollector: txBuilder['inputCollector'],
+    })),
+    switchMap(
+      ({
+        inputSelector,
+        inputCollector,
+      }: {
+        inputSelector: InputSelector;
+        inputCollector: InputCollector;
+      }) =>
+        inputCollector
+          .getInputs()
+          .then((inputs) => inputSelector.select(inputs, Value(1n))),
+    ),
+    switchMap((utxos: FullTxIn[] | Error) => {
+      if (utxos instanceof Error) {
+        return throwError(utxos);
+      }
+      const utxo = utxos[0];
+      return combineLatest([
+        getTokenMetadata(
+          utxo,
+          `${yAmount.asset.name}_${xAmount.asset.name || 'ADA'}_NFT`,
+          '1',
+        ),
+        getTokenMetadata(
+          utxo,
+          `${yAmount.asset.name}_${xAmount.asset.name || 'ADA'}_LQ`,
+          '9223372036854775807',
+        ),
+        of(utxo),
+      ]);
+    }),
+    switchMap(
+      ([nftData, lqData, utxo]: [
+        [AssetAmount, MintingMetadata],
+        [AssetAmount, MintingMetadata],
+        FullTxIn,
+      ]) =>
+        transactionBuilder$.pipe(
+          switchMap((transactionBuilder) =>
+            transactionBuilder.poolCreation({
+              x: new AssetAmount(x.asset.data, x.amount),
+              y: new AssetAmount(y.asset.data, y.amount),
+              nft: nftData[0],
+              lq: lqData[0],
+              feeNum: BigInt((1 - Number((feePct / 100).toFixed(3))) * 1000),
+              mintingCreationTxHash: utxo.txOut.txHash,
+              mintingCreationTxOutIdx: utxo.txOut.index,
+              lqMintingScript: lqData[1].script,
+              nftMintingScript: nftData[1].script,
+              txFees: ammTxFeeMapping,
+              changeAddress: settings.address!,
+              collateralAmount: 5000000n,
+              pk: settings.ph!,
+            }),
           ),
-          getTokenMetadata(
-            utxo,
-            `${yAmount.asset.name}_${xAmount.asset.name}_LQ`,
-            0x7fffffffffffffff,
-          ),
-          of(utxo),
-        ]);
-      }),
-      switchMap(
-        ([nftData, lqData, utxo]: [
-          [AssetAmount, MintingMetadata],
-          [AssetAmount, MintingMetadata],
-          FullTxIn,
-        ]) =>
-          transactionBuilder$.pipe(
-            switchMap((transactionBuilder) =>
-              transactionBuilder.poolCreation({
-                x: new AssetAmount(x.asset.data, x.amount),
-                y: new AssetAmount(y.asset.data, y.amount),
-                nft: nftData[0],
-                lq: lqData[0],
-                feeNum: BigInt((1 - Number((feePct / 100).toFixed(3))) * 1000),
-                mintingCreationTxHash: utxo.txOut.txHash,
-                mintingCreationTxOutIdx: utxo.txOut.index,
-                lqMintingScript: lqData[1].script,
-                nftMintingScript: nftData[1].script,
-                txFees: ammTxFeeMapping,
-                changeAddress: settings.address!,
-                pk: settings.ph!,
-              }),
-            ),
-          ),
-      ),
-    )
-    .subscribe(console.log);
-
-  return throwError(new Error());
-
-  // return transactionBuilder$.pipe(
-  //   switchMap((txBuilder) =>
-  //     txBuilder.deposit({
-  //       x: xAmount,
-  //       y: yAmount,
-  //       pool: pool.pool as any,
-  //       slippage: settings.slippage,
-  //       txFees: ammTxFeeMapping,
-  //       minExecutorReward: minExecutorReward,
-  //       changeAddress: settings.address!,
-  //       pk: settings.ph!,
-  //     }),
-  //   ),
-  //   map((data: [Transaction | null, TxCandidate, DepositTxInfo]) => data[0]!),
-  //   first(),
-  // );
+        ),
+    ),
+    map(
+      ([transaction]: [
+        Transaction | null,
+        TxCandidate,
+        PoolCreationTxInfo,
+        Error | null,
+      ]) => transaction!,
+    ),
+    first(),
+  );
 };
 
 export const walletCreatePool = (
@@ -204,6 +216,9 @@ export const walletCreatePool = (
       }),
     ),
     switchMap((tx) => submitTx(tx)),
+    tap({
+      error: (error) => captureOperationError(error, 'cardano', 'createPool'),
+    }),
   );
 
 export const createPool = (
@@ -240,3 +255,60 @@ export const createPool = (
 
   return subject.asObservable();
 };
+
+const MIN_CREATE_POOL_LIQUIDITY = new Currency('5', networkAsset);
+
+export const useCreatePoolValidators =
+  (): OperationValidator<CreatePoolFormModel>[] => {
+    const minLiquidityValidator: OperationValidator<CreatePoolFormModel> = (
+      form,
+    ) => {
+      const validationCaption = t`Min liquidity for creation is ${MIN_CREATE_POOL_LIQUIDITY.mult(
+        2,
+      ).toString()} ADA`;
+
+      if (form.value.x?.isAssetEquals(networkAsset)) {
+        return form.value.x?.gte(MIN_CREATE_POOL_LIQUIDITY)
+          ? undefined
+          : validationCaption;
+      }
+      if (form.value.y?.isAssetEquals(networkAsset)) {
+        return form.value.y?.gte(MIN_CREATE_POOL_LIQUIDITY)
+          ? undefined
+          : validationCaption;
+      }
+      return true;
+    };
+
+    const insufficientAssetForFeeValidator: OperationValidator<CreatePoolFormModel> =
+      (form) => {
+        const { x, y, fee } = form.value;
+
+        if (!x || !y || !fee) {
+          return undefined;
+        }
+
+        const newX = x?.isAssetEquals(networkAsset) ? x : y;
+        const newY = x?.isAssetEquals(networkAsset) ? y : x;
+
+        return zip([cardanoNetworkParams$, settings$]).pipe(
+          first(),
+          switchMap(([networkParams, settings]) =>
+            toCreatePoolTxCandidate({
+              x: newX,
+              y: newY,
+              feePct: fee,
+              networkParams,
+              settings,
+            }),
+          ),
+          map((tx) => {
+            return tx
+              ? undefined
+              : t`Insufficient ${networkAsset.ticker} balance for fees`;
+          }),
+        );
+      };
+
+    return [minLiquidityValidator, insufficientAssetForFeeValidator];
+  };

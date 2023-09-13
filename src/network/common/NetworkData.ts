@@ -15,6 +15,7 @@ import { CurrencyConverter } from '../../common/services/CurrencyConverter';
 import { Address } from '../../common/types';
 import { AddLiquidityFormModel } from '../../components/AddLiquidityForm/AddLiquidityFormModel';
 import { OperationValidator } from '../../components/OperationForm/OperationForm';
+import { CreatePoolFormModel } from '../../pages/CreatePool/CreatePoolFormModel';
 import { SwapFormModel } from '../../pages/Swap/SwapFormModel';
 import { NetworkContext } from './NetworkContext';
 import { PlatformStats } from './PlatformStats';
@@ -60,7 +61,7 @@ export interface NetworkData<W extends Wallet> {
     balance: Balance,
   ) => [Currency, Currency];
   readonly useDepositValidators: () => OperationValidator<AddLiquidityFormModel>[];
-  readonly useCreatePoolValidationFee: () => Currency;
+  readonly useCreatePoolValidators: () => OperationValidator<CreatePoolFormModel>[];
   readonly useNetworkAsset: () => [AssetInfo, boolean, Error | undefined];
 
   readonly getOperationByTxId: (

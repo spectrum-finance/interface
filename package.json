@@ -25,7 +25,7 @@
     "@sentry/react": "^6.16.1",
     "@sentry/tracing": "^6.16.1",
     "@spectrumlabs/analytics": "^1.1.9",
-    "@spectrumlabs/cardano-dex-sdk": "^0.1.189",
+    "@spectrumlabs/cardano-dex-sdk": "^0.1.225",
     "@types/file-saver": "^2.0.5",
     "@types/lodash": "^4.14.172",
     "@types/numeral": "^2.0.2",
