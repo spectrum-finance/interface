@@ -71,13 +71,13 @@ import { useSwapValidators } from '../../gateway/api/validationFees';
 import { useSelectedNetwork } from '../../gateway/common/network.ts';
 import { useSettings } from '../../gateway/settings/settings';
 import { operationsSettings$ } from '../../gateway/widgets/operationsSettings';
+import { swapCollapse$ } from '../../gateway/widgets/swapCallapse.ts';
 import { useGuardV2 } from '../../hooks/useGuard.ts';
 import { mapToSwapAnalyticsProps } from '../../utils/analytics/mapper';
 import { isPreLbspTimeGap } from '../../utils/lbsp.ts';
 import { PriceImpactWarning } from './PriceImpactWarning/PriceImpactWarning';
 import { SwapFormModel } from './SwapFormModel';
 import { SwapGraph } from './SwapGraph/SwapGraph';
-import { SwapInfo } from './SwapInfo/SwapInfo';
 import { SwitchButton } from './SwitchButton/SwitchButton';
 import { YieldFarmingBadge } from './YieldFarmingBadge/YieldFarmingBadge';
 
@@ -110,6 +110,7 @@ const getAvailablePools = (xId?: string, yId?: string): Observable<AmmPool[]> =>
   xId && yId ? getAmmPoolsByAssetPair(xId, yId) : of([]);
 
 export const Swap = (): JSX.Element => {
+  const [SwapCollapse] = useObservable(swapCollapse$);
   const [selectedNetwork] = useSelectedNetwork();
   const { slippage } = useSettings();
   const navigate = useNavigate();
@@ -469,6 +470,7 @@ export const Swap = (): JSX.Element => {
 
   const loaders = useMemo(() => [isPoolLoading], []);
 
+  // @ts-ignore
   return (
     <Page
       maxWidth={500}
@@ -564,11 +566,7 @@ export const Swap = (): JSX.Element => {
               <>
                 {value.fromAmount && value.toAmount && (
                   <Flex.Item marginTop={2}>
-                    <SwapInfo
-                      value={form.value}
-                      isReversed={reversedRatio}
-                      setReversed={setReversedRatio}
-                    />
+                    {SwapCollapse && <SwapCollapse value={value} />}
                   </Flex.Item>
                 )}
               </>

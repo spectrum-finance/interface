@@ -35,7 +35,11 @@ export const SimpleCollapse: FC<CollapseProps> = ({
       glass
       style={{ cursor: 'pointer' }}
     >
-      <Flex className="spectrum-simple-collapse--main" onClick={toggleCollapse}>
+      <Flex
+        className="spectrum-simple-collapse--main"
+        align="center"
+        onClick={toggleCollapse}
+      >
         <Flex.Item flex={1}>{title}</Flex.Item>
         <Flex.Item marginLeft={2}>
           <DownOutlined

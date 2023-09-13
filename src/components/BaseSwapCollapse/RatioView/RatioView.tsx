@@ -3,10 +3,10 @@ import { FC } from 'react';
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { Currency } from '../../../../common/models/Currency';
-import { Ratio } from '../../../../common/models/Ratio';
-import { Truncate } from '../../../../components/Truncate/Truncate';
-import { SwapFormModel } from '../../SwapFormModel';
+import { Currency } from '../../../common/models/Currency.ts';
+import { Ratio } from '../../../common/models/Ratio.ts';
+import { SwapFormModel } from '../../../pages/Swap/SwapFormModel.ts';
+import { Truncate } from '../../Truncate/Truncate.tsx';
 
 const calculateOutputPrice = ({
   fromAmount,
