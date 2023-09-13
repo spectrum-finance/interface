@@ -27,8 +27,6 @@ export const PriceImpact: FC<PriceImpactProps> = ({ value }) => {
   const { valBySize } = useDevice();
   const priceImpactStatus = getPriceImpactStatus(value);
 
-  console.log('>>price impact value', value);
-
   return (
     <>
       {value !== undefined && (

@@ -111,8 +111,6 @@ export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
     }
   };
 
-  console.log('>> price impact', priceImpact);
-
   const isAmountReadOnly = () => {
     if (typeof readonly === 'boolean') {
       return readonly;
