@@ -19,6 +19,7 @@ import { networkContext$ } from './api/networkContext/networkContext';
 import {
   createPool,
   useCreatePoolValidators,
+  useHandleCreatePoolMaxButtonClick,
 } from './api/operations/createPool';
 import {
   deposit,
@@ -147,7 +148,7 @@ const makeCardanoNetwork = (
     useDepositValidators,
     useCreatePoolValidators,
     useHandleDepositMaxButtonClick,
-    useHandleCreatePoolMaxButtonClick: () => () => {},
+    useHandleCreatePoolMaxButtonClick,
     useNetworkAsset,
 
     getPoolChartData: getPoolChartData as any,
