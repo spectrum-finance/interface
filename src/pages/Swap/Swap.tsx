@@ -536,29 +536,42 @@ export const Swap = (): JSX.Element => {
             size="middle"
           />
           <Flex.Item>
-            <AssetControlFormItem
-              loading={allAmmPoolsLoading}
-              bordered
-              assets$={toAssets$}
-              assetsToImport$={toAssetsToImport$}
-              importedAssets$={toImportedAssets$}
-              amountName="toAmount"
-              tokenName="toAsset"
-              trace={{
-                element_name: ElementName.tokenTo,
-                element_location: ElementLocation.swapForm,
-              }}
-            />
+            <Form.Listener>
+              {({ value }) => (
+                <AssetControlFormItem
+                  loading={allAmmPoolsLoading}
+                  bordered
+                  assets$={toAssets$}
+                  assetsToImport$={toAssetsToImport$}
+                  importedAssets$={toImportedAssets$}
+                  amountName="toAmount"
+                  tokenName="toAsset"
+                  trace={{
+                    element_name: ElementName.tokenTo,
+                    element_location: ElementLocation.swapForm,
+                  }}
+                  priceImpact={
+                    value.pool && value.fromAmount
+                      ? value.pool.calculatePriceImpact(value.fromAmount)
+                      : undefined
+                  }
+                />
+              )}
+            </Form.Listener>
           </Flex.Item>
           <Form.Listener>
             {({ value }) => (
-              <Flex.Item marginTop={2}>
-                <SwapInfo
-                  value={value}
-                  isReversed={reversedRatio}
-                  setReversed={setReversedRatio}
-                />
-              </Flex.Item>
+              <>
+                {value.fromAmount && value.toAmount && (
+                  <Flex.Item marginTop={2}>
+                    <SwapInfo
+                      value={form.value}
+                      isReversed={reversedRatio}
+                      setReversed={setReversedRatio}
+                    />
+                  </Flex.Item>
+                )}
+              </>
             )}
           </Form.Listener>
           {isPriceImpactHeight && (

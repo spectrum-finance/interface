@@ -104,7 +104,7 @@ export const AssetAmountInput = styled(_TokenAmountInput)`
   border-color: transparent !important;
   background-color: transparent !important;
   padding: 0 !important;
-  font-size: 24px !important;
+  font-size: 32px !important;
   font-weight: 600 !important;
   line-height: 32px !important;
   height: 100%;

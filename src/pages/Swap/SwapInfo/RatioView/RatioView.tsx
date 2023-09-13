@@ -1,4 +1,4 @@
-import { Typography } from '@ergolabs/ui-kit';
+import { Typography, useDevice } from '@ergolabs/ui-kit';
 import { FC } from 'react';
 import * as React from 'react';
 import styled from 'styled-components';
@@ -91,6 +91,7 @@ const _RatioView: FC<RatioViewProps> = ({
   isReversed = false,
   setReversed,
 }) => {
+  const { valBySize } = useDevice();
   const toggleReversedRatio = (e?: React.MouseEvent<HTMLDivElement>) => {
     e?.stopPropagation();
     setReversed?.(!isReversed);
@@ -98,8 +99,7 @@ const _RatioView: FC<RatioViewProps> = ({
 
   return (
     <Typography.Body
-      strong
-      size="small"
+      size={valBySize('small', 'base')}
       className={className}
       onClick={toggleReversedRatio}
     >

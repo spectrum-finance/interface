@@ -17,6 +17,7 @@ import { Currency } from '../../../common/models/Currency';
 import { useAssetsBalance } from '../../../gateway/api/assetBalance';
 import { mapToTokenProps } from '../../../utils/analytics/mapper';
 import { ConvenientAssetView } from '../../ConvenientAssetView/ConvenientAssetView';
+import { PriceImpact } from '../../PriceImpact/PriceImpact.tsx';
 import {
   AssetAmountInput,
   TokenAmountInputValue,
@@ -69,6 +70,7 @@ export interface AssetControlFormItemProps {
   readonly bordered?: boolean;
   readonly trace: TraceProps;
   readonly loading?: boolean;
+  readonly priceImpact?: number;
 }
 
 export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
@@ -83,6 +85,7 @@ export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
   handleMaxButtonClick,
   trace,
   loading,
+  priceImpact,
 }) => {
   const { valBySize } = useDevice();
   const { form } = useFormContext();
@@ -107,6 +110,8 @@ export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
       );
     }
   };
+
+  console.log('>> price impact', priceImpact);
 
   const isAmountReadOnly = () => {
     if (typeof readonly === 'boolean') {
@@ -174,10 +179,13 @@ export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
                 value?.isPositive()
               }
             >
-              <Flex.Item align="center" marginTop={2}>
+              <Flex.Item align="center" marginTop={1}>
                 <Flex.Item flex={1}>
                   <Typography.Body secondary size={valBySize('small', 'base')}>
-                    <ConvenientAssetView value={value} />
+                    <ConvenientAssetView value={value} />{' '}
+                    {priceImpact !== undefined && (
+                      <PriceImpact value={priceImpact} />
+                    )}
                   </Typography.Body>
                 </Flex.Item>
                 {selectedAsset !== undefined &&

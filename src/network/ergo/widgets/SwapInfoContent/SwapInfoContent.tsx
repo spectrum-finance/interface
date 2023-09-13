@@ -1,4 +1,4 @@
-import { Box, Flex, Typography } from '@ergolabs/ui-kit';
+import { Flex, Typography } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
 import { FC } from 'react';
 
@@ -10,7 +10,6 @@ import { ConvenientAssetView } from '../../../../components/ConvenientAssetView/
 import { Truncate } from '../../../../components/Truncate/Truncate';
 import { SwapFormModel } from '../../../../pages/Swap/SwapFormModel';
 import { SwapInfoItem } from '../../../../pages/Swap/SwapInfo/SwapInfoItem/SwapInfoItem';
-import { SwapInfoPriceImpact } from '../../../../pages/Swap/SwapInfo/SwapInfoPriceImpact/SwapInfoPriceImpact';
 import { ErgoAmmPool } from '../../api/ammPools/ErgoAmmPool';
 import { networkAsset } from '../../api/networkAsset/networkAsset';
 import { calculateUiFee, minUiFee$ } from '../../api/uiFee/uiFee';
@@ -59,11 +58,8 @@ export const SwapInfoContent: FC<SwapInfoContent> = ({ value }) => {
   return (
     <Flex col>
       <Flex.Item marginBottom={1}>
-        <SwapInfoPriceImpact value={value} />
-      </Flex.Item>
-      <Flex.Item marginBottom={1}>
         <SwapInfoItem
-          title={t`Min output`}
+          title={t`Minimum Output`}
           value={
             minOutput ? (
               <Flex align="center">
@@ -80,88 +76,68 @@ export const SwapInfoContent: FC<SwapInfoContent> = ({ value }) => {
           }
         />
       </Flex.Item>
-      <Flex.Item marginBottom={2}>
+
+      <Flex.Item marginBottom={1}>
         <SwapInfoItem
-          title={t`Total fees`}
+          tooltip={
+            <Flex col>
+              <Flex.Item>
+                <Typography.Body tooltip>Min Execution Fee: </Typography.Body>
+                <Typography.Body strong tooltip>
+                  {minExFee.toCurrencyString()}
+                </Typography.Body>
+              </Flex.Item>
+              <Flex.Item>
+                <Typography.Body tooltip>Max Execution Fee: </Typography.Body>
+                <Typography.Body strong tooltip>
+                  {maxExFee.toCurrencyString()}
+                </Typography.Body>
+              </Flex.Item>
+            </Flex>
+          }
+          title={t`Execution Fee`}
           value={
-            <>
-              <ConvenientAssetView value={[minerFee, minExFee, uiFee]} /> -{' '}
-              <ConvenientAssetView value={[minerFee, maxExFee, uiFee]} />
-            </>
+            <Flex align="center">
+              <Flex.Item marginRight={1}>
+                <AssetIcon asset={minExFee.asset} size="extraSmall" />
+              </Flex.Item>
+              {minExFee.toCurrencyString()} - {maxExFee.toCurrencyString()} (
+              <>
+                <ConvenientAssetView value={minExFee} /> -{' '}
+                <ConvenientAssetView value={maxExFee} />
+              </>
+              )
+            </Flex>
           }
         />
       </Flex.Item>
-
-      <Box transparent borderRadius="m" bordered padding={[1, 2]}>
-        <Flex col>
-          <Flex.Item marginBottom={2}>
-            <SwapInfoItem
-              tooltip={
-                <Flex col>
-                  <Flex.Item>
-                    <Typography.Body tooltip>
-                      Min Execution Fee:{' '}
-                    </Typography.Body>
-                    <Typography.Body strong tooltip>
-                      {minExFee.toCurrencyString()}
-                    </Typography.Body>
-                  </Flex.Item>
-                  <Flex.Item>
-                    <Typography.Body tooltip>
-                      Max Execution Fee:{' '}
-                    </Typography.Body>
-                    <Typography.Body strong tooltip>
-                      {maxExFee.toCurrencyString()}
-                    </Typography.Body>
-                  </Flex.Item>
-                </Flex>
-              }
-              title={t`Execution Fee`}
-              value={
-                <Flex align="center">
-                  <Flex.Item marginRight={1}>
-                    <AssetIcon asset={minExFee.asset} size="extraSmall" />
-                  </Flex.Item>
-                  {minExFee.toCurrencyString()} - {maxExFee.toCurrencyString()}{' '}
-                  (
-                  <>
-                    <ConvenientAssetView value={minExFee} /> -{' '}
-                    <ConvenientAssetView value={maxExFee} />
-                  </>
-                  )
-                </Flex>
-              }
-            />
-          </Flex.Item>
-          <Flex.Item marginBottom={2}>
-            <SwapInfoItem
-              title={t`Network Fee`}
-              value={
-                <Flex align="center">
-                  <Flex.Item marginRight={1}>
-                    <AssetIcon asset={minerFee.asset} size="extraSmall" />
-                  </Flex.Item>
-                  {minerFee.toCurrencyString()} (
-                  <ConvenientAssetView value={minerFee} />)
-                </Flex>
-              }
-            />
-          </Flex.Item>
-          <SwapInfoItem
-            title={t`Service Fee`}
-            tooltip={`To maintain high quality of service, we charge a service fee of 0.3% but not less than ${minUiFee.toCurrencyString()} of swap input spot price. This fee helps the team to cover the costs of maintaining the servers and improving this interface.`}
-            value={
-              <Flex align="center">
-                <Flex.Item marginRight={1}>
-                  <AssetIcon asset={uiFee.asset} size="extraSmall" />
-                </Flex.Item>
-                {uiFee?.toCurrencyString()} (
-                <ConvenientAssetView value={uiFee} />)
-              </Flex>
-            }
-          />
-        </Flex>
-      </Box>
+      <Flex.Item marginBottom={1}>
+        <SwapInfoItem
+          title={t`Network Fee`}
+          value={
+            <Flex align="center">
+              <Flex.Item marginRight={1}>
+                <AssetIcon asset={minerFee.asset} size="extraSmall" />
+              </Flex.Item>
+              {minerFee.toCurrencyString()} (
+              <ConvenientAssetView value={minerFee} />)
+            </Flex>
+          }
+        />
+      </Flex.Item>
+      <SwapInfoItem
+        title={t`Service Fee`}
+        tooltip={`To maintain high quality of service, we charge a service fee of 0.3% but not less than ${minUiFee.toCurrencyString()} of swap input spot price. This fee helps the team to cover the costs of maintaining the servers and improving this interface.`}
+        value={
+          <Flex align="center">
+            <Flex.Item marginRight={1}>
+              <AssetIcon asset={uiFee.asset} size="extraSmall" />
+            </Flex.Item>
+            {uiFee?.toCurrencyString()} (
+            <ConvenientAssetView value={uiFee} />)
+          </Flex>
+        }
+      />
     </Flex>
   );
 };

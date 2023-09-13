@@ -34,14 +34,6 @@ const StyledDownOutlined = styled(DownOutlined)`
   font-size: 1rem;
 `;
 
-const StyledButton = styled(Button)`
-  padding: ${({ size }) =>
-    size === 'large'
-      ? '0 calc(var(--spectrum-base-gutter) * 3)'
-      : '0 calc(var(--spectrum-base-gutter) * 2)'};
-  width: 100%;
-`;
-
 const AssetSelect: React.FC<TokenSelectProps> = ({
   value,
   onChange,
@@ -86,16 +78,16 @@ const AssetSelect: React.FC<TokenSelectProps> = ({
       {loading ? (
         <SkeletonLoader height={40} width={100} />
       ) : (
-        <StyledButton
+        <Button
           type={value ? 'ghost' : 'primary'}
-          size={valBySize('middle', 'large')}
+          size={valBySize('large', 'extra-large')}
           onClick={openTokenModal}
           disabled={disabled}
         >
           <Flex align="center">
             <Flex.Item flex={1} align="flex-start" display="flex">
               {value ? (
-                <AssetTitle gap={2} asset={value} />
+                <AssetTitle level={4} gap={2} asset={value} />
               ) : (
                 <Trans>Select a token</Trans>
               )}
@@ -106,7 +98,7 @@ const AssetSelect: React.FC<TokenSelectProps> = ({
               </Flex.Item>
             )}
           </Flex>
-        </StyledButton>
+        </Button>
       )}
     </>
   );
