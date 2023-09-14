@@ -156,15 +156,6 @@ export const CreatePool: FC = () => {
     );
   };
 
-  const resetForm = () =>
-    form.patchValue(
-      {
-        x: undefined,
-        y: undefined,
-      },
-      { emitEvent: 'silent' },
-    );
-
   const createPoolAction = ({ value }: FormGroup<CreatePoolFormModel>) => {
     createPool(value as Required<CreatePoolFormModel>)
       .pipe(first())
