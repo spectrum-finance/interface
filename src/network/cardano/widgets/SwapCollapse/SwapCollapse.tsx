@@ -24,7 +24,7 @@ export const SwapCollapse: FC<SwapCollapseProps> = ({ value }) => {
       {!!value.pool && (
         <BaseSwapCollapse
           value={value}
-          contentHeight={116}
+          contentHeight={120}
           totalFees={
             <>
               {isSwapTxInfoLoading ? (

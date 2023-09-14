@@ -87,7 +87,7 @@ export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
   loading,
   priceImpact,
 }) => {
-  const { valBySize } = useDevice();
+  const { s, valBySize } = useDevice();
   const { form } = useFormContext();
   const [balance, balanceLoading] = useAssetsBalance();
   const [selectedAsset] = useObservable(
@@ -141,6 +141,7 @@ export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
                     asset={selectedAsset}
                     onChange={onChange}
                     disabled={disabled}
+                    s={s}
                   />
                 )}
               </Form.Item>

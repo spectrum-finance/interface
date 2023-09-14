@@ -20,13 +20,17 @@ export const BaseSwapCollapse: FC<BaseSwapCollapseProps> = ({
   contentHeight = 116,
 }) => {
   const [reversedRatio, setReversedRatio] = useState(false);
-  const { valBySize } = useDevice();
+  const { s, valBySize } = useDevice();
 
   return (
     <SimpleCollapse
       contentHeight={contentHeight}
       title={
-        <Flex justify="space-between" align="center">
+        <Flex
+          col={s}
+          justify="space-between"
+          align={s ? 'flex-start' : 'center'}
+        >
           <Flex.Item marginRight={2}>
             <RatioView
               value={value}
@@ -35,15 +39,17 @@ export const BaseSwapCollapse: FC<BaseSwapCollapseProps> = ({
             />
           </Flex.Item>
 
-          <Flex row align="center">
-            <Flex.Item marginRight={1}>
+          <Flex align="center">
+            <Flex.Item flex={1}>
               <Typography.Body size={valBySize('small', 'base')}>
                 <Trans>Fees:</Trans>
               </Typography.Body>
             </Flex.Item>
-            <Typography.Body size={valBySize('small', 'base')}>
-              {totalFees}
-            </Typography.Body>
+            <Flex.Item marginLeft={1}>
+              <Typography.Body size={valBySize('small', 'base')}>
+                {totalFees}
+              </Typography.Body>
+            </Flex.Item>
           </Flex>
         </Flex>
       }

@@ -63,7 +63,7 @@ export const SwapCollapse: FC<SwapCollapseProps> = ({ value }) => {
       {!!value.pool && (
         <BaseSwapCollapse
           value={value}
-          contentHeight={116}
+          contentHeight={120}
           totalFees={
             <>
               <ConvenientAssetView value={[minerFee, minExFee, uiFee]} /> -{' '}
@@ -86,8 +86,7 @@ export const SwapCollapse: FC<SwapCollapseProps> = ({ value }) => {
                       </Flex.Item>
                       <Typography.Body size={valBySize('small', 'base')}>
                         {minOutput.toString()}{' '}
-                        <Truncate>{value.toAsset!.ticker}</Truncate> (
-                        <ConvenientAssetView value={minOutput} />)
+                        <Truncate>{value.toAsset!.ticker}</Truncate>
                       </Typography.Body>
                     </Flex>
                   ) : (
@@ -119,7 +118,7 @@ export const SwapCollapse: FC<SwapCollapseProps> = ({ value }) => {
                     </Flex.Item>
                   </Flex>
                 }
-                title={t`Execution Fee`}
+                title={t`Batcher Fee`}
                 value={
                   <Flex align="center">
                     <Flex.Item marginRight={1}>
@@ -130,13 +129,8 @@ export const SwapCollapse: FC<SwapCollapseProps> = ({ value }) => {
                     </Flex.Item>
                     <Typography.Body size={valBySize('small', 'base')}>
                       {minExFee.toCurrencyString()} -{' '}
-                      {maxExFee.toCurrencyString()} (
-                      <>
-                        <ConvenientAssetView value={minExFee} /> -{' '}
-                        <ConvenientAssetView value={maxExFee} />
-                      </>
+                      {maxExFee.toCurrencyString()}
                     </Typography.Body>
-                    )
                   </Flex>
                 }
               />
@@ -153,8 +147,7 @@ export const SwapCollapse: FC<SwapCollapseProps> = ({ value }) => {
                       />
                     </Flex.Item>
                     <Typography.Body size={valBySize('small', 'base')}>
-                      {minerFee.toCurrencyString()} (
-                      <ConvenientAssetView value={minerFee} />)
+                      {minerFee.toCurrencyString()}
                     </Typography.Body>
                   </Flex>
                 }
@@ -172,8 +165,7 @@ export const SwapCollapse: FC<SwapCollapseProps> = ({ value }) => {
                     />
                   </Flex.Item>
                   <Typography.Body size={valBySize('small', 'base')}>
-                    {uiFee?.toCurrencyString()} (
-                    <ConvenientAssetView value={uiFee} />)
+                    {uiFee?.toCurrencyString()}
                   </Typography.Body>
                 </Flex>
               }

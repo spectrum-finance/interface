@@ -45,7 +45,7 @@ const AssetSelect: React.FC<TokenSelectProps> = ({
   loading,
   trace: { element_name, element_location },
 }) => {
-  const { valBySize } = useDevice();
+  const { s, valBySize } = useDevice();
   const handleSelectChange = (newValue: AssetInfo): void => {
     if (value?.id !== newValue?.id && onChange) {
       onChange(newValue);
@@ -83,11 +83,12 @@ const AssetSelect: React.FC<TokenSelectProps> = ({
           size={valBySize('large', 'extra-large')}
           onClick={openTokenModal}
           disabled={disabled}
+          style={s ? { padding: '4px' } : {}}
         >
           <Flex align="center">
             <Flex.Item flex={1} align="flex-start" display="flex">
               {value ? (
-                <AssetTitle level={4} gap={2} asset={value} />
+                <AssetTitle level={valBySize(5, 4)} gap={2} asset={value} />
               ) : (
                 <Trans>Select a token</Trans>
               )}
