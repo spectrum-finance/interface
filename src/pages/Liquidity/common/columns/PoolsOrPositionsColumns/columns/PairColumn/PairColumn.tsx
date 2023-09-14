@@ -2,7 +2,6 @@ import { Flex, useDevice } from '@ergolabs/ui-kit';
 import { FC, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { applicationConfig } from '../../../../../../../applicationConfig.ts';
 import { useObservable } from '../../../../../../../common/hooks/useObservable';
 import { AmmPool } from '../../../../../../../common/models/AmmPool';
 import { isDeprecatedPool } from '../../../../../../../common/utils/isDeprecatedPool';
@@ -18,9 +17,6 @@ import { hasFarmsForPool } from '../../../../../../../network/ergo/lm/api/farms/
 export interface PairColumnProps {
   readonly ammPool: AmmPool;
 }
-
-const isLbspPool = (poolId: string): boolean =>
-  applicationConfig.lbspLiquidityPools.includes(poolId);
 
 export const PairColumn: FC<PairColumnProps> = ({ ammPool }) => {
   const navigate = useNavigate();
@@ -52,7 +48,7 @@ export const PairColumn: FC<PairColumnProps> = ({ ammPool }) => {
       {!s && (
         <IsCardano>
           <Flex.Item marginRight={2}>
-            {isLbspPool(ammPool.id) && <LbspPoolTag />}
+            <LbspPoolTag />
           </Flex.Item>
         </IsCardano>
       )}

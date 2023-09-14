@@ -7,7 +7,6 @@ import { AmmPool } from '../../../../../../../../common/models/AmmPool';
 import { InfoTooltip } from '../../../../../../../../components/InfoTooltip/InfoTooltip';
 import { LbspFaqModal } from '../../../../../../../../components/LbspFaqModal/LbspFaqModal.tsx';
 import { SpfLogo } from '../../../../../../../../components/SpfLogo/SpfLogo.tsx';
-import { isLbspAmmPool } from '../../../../../../../../utils/lbsp.ts';
 import { calculateLbspApr } from './calculateLbspApr';
 
 interface LbspTooltipContentProps {
@@ -131,22 +130,19 @@ const CardanoLbspAmmPoolArColumnContent: FC<CardanoAprColumnContent> = ({
   );
 };
 
-const CardanoStandardAmmPoolArColumnContent: FC<CardanoAprColumnContent> = ({
-  ammPool,
-}) => <>{ammPool.yearlyFeesPercent ? `${ammPool.yearlyFeesPercent}%` : '—'}</>;
+export const CardanoStandardAmmPoolArColumnContent: FC<CardanoAprColumnContent> =
+  ({ ammPool }) => (
+    <>{ammPool.yearlyFeesPercent ? `${ammPool.yearlyFeesPercent}%` : '—'}</>
+  );
 
 export const CardanoAprColumnContent: FC<CardanoAprColumnContent> = ({
   ammPool,
   isAllContentTrigger,
 }) => {
-  if (isLbspAmmPool(ammPool.id)) {
-    return (
-      <CardanoLbspAmmPoolArColumnContent
-        isAllContentTrigger={isAllContentTrigger}
-        ammPool={ammPool}
-      />
-    );
-  } else {
-    return <CardanoStandardAmmPoolArColumnContent ammPool={ammPool} />;
-  }
+  return (
+    <CardanoLbspAmmPoolArColumnContent
+      isAllContentTrigger={isAllContentTrigger}
+      ammPool={ammPool}
+    />
+  );
 };
