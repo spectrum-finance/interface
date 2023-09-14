@@ -67,7 +67,8 @@ const getLbspMultiplier = (ammPool: AmmPool) => {
     return LBSP_BOOSTED_MULTIPLIER;
   }
 
-  return 0;
+  // TODO: TMP_SOLUTION
+  return LBSP_MULTIPLIER;
 };
 
 export const calculateLbspApr = (ammPool: AmmPool): Observable<number> => {

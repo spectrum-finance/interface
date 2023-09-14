@@ -2,6 +2,7 @@ import { Animation, Flex, Form, FormGroup, useForm } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import { ElementLocation, ElementName } from '@spectrumlabs/analytics';
 import { FC, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { BehaviorSubject, first, map, of, skip, switchMap } from 'rxjs';
 
 import {
@@ -71,6 +72,7 @@ export const CreatePool: FC = () => {
   const createPoolValidators = useCreatePoolValidators();
   const handleCreatePoolMaxButtonClick = useHandleCreatePoolMaxButtonClick();
   const [balance] = useAssetsBalance();
+  const navigate = useNavigate();
   const form = useForm<CreatePoolFormModel>({
     initialPrice: undefined,
     x: undefined,
@@ -166,7 +168,7 @@ export const CreatePool: FC = () => {
   const createPoolAction = ({ value }: FormGroup<CreatePoolFormModel>) => {
     createPool(value as Required<CreatePoolFormModel>)
       .pipe(first())
-      .subscribe(() => resetForm());
+      .subscribe(() => navigate('../../../liquidity'));
     // fireOperationAnalyticsEvent('Deposit Form Submit', (ctx) =>
     //   mapToDepositAnalyticsProps(value, ctx),
     // );
