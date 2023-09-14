@@ -8,7 +8,13 @@ import { DEFAULT_LOCALE, SupportedLocale } from '../common/constants/locales';
 import { localStorageManager } from '../common/utils/localStorageManager';
 import { isDarkOsTheme } from '../utils/osTheme';
 
-export type Theme = 'light' | 'dark' | 'system' | 'snek' | 'hosky';
+export type Theme =
+  | 'light'
+  | 'dark'
+  | 'system'
+  | 'snek'
+  | 'hosky'
+  | 'snek-dark';
 
 export type Settings = {
   explorerUrl: string;
