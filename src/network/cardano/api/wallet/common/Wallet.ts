@@ -266,6 +266,7 @@ export const createWallet = <
       console.log(
         'notSigned:',
         RustModule.CardanoWasm.Transaction.from_hex(tx),
+        tx,
       );
       if (params?.sign) {
         return params.sign(context, tx, partialSign);
