@@ -11,11 +11,11 @@ import {
 import { FC, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { AssetInfo } from '../../../../common/models/AssetInfo';
-import { Ratio } from '../../../../common/models/Ratio';
-import { normalizeAmount } from '../../../../common/utils/amount';
-import { AssetIcon } from '../../../../components/AssetIcon/AssetIcon.tsx';
-import { escapeRegExp } from '../../../../components/common/TokenControl/AssetAmountInput/format';
+import { AssetInfo } from '../../../common/models/AssetInfo';
+import { Ratio } from '../../../common/models/Ratio';
+import { normalizeAmount } from '../../../common/utils/amount';
+import { AssetIcon } from '../../../components/AssetIcon/AssetIcon.tsx';
+import { escapeRegExp } from '../../../components/common/TokenControl/AssetAmountInput/format';
 
 const _SwitchButton: FC<ButtonProps> = ({ ...rest }) => (
   <Button {...rest} type="primary">

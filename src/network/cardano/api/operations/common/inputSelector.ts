@@ -64,6 +64,30 @@ export class DefaultInputCollector implements InputCollector {
       )
       .toPromise() as Promise<FullTxIn[]>;
   }
+
+  selectById(txHash: TxHash, index: number): Promise<FullTxIn[] | Error> {
+    return selectedWallet$
+      .pipe(
+        first(),
+        switchMap((wallet) => {
+          if (wallet) {
+            return wallet.getUtxos();
+          }
+          throw new Error('insufficient funds');
+        }),
+        map((utxos) => {
+          const txOut: TxOut | undefined = utxos.find(
+            (utxo) => utxo.index === index && utxo.txHash === txHash,
+          );
+
+          if (!txOut) {
+            throw new Error('insufficient funds');
+          }
+          return [{ txOut }];
+        }),
+      )
+      .toPromise() as Promise<FullTxIn[] | Error>;
+  }
 }
 
 export class DefaultCollateralSelector implements CollateralSelector {

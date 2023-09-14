@@ -6,12 +6,12 @@ import { FC } from 'react';
 import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
 
-import { isDeprecatedPool } from '../../../common/utils/isDeprecatedPool';
-import { AddLiquidityForm } from '../../../components/AddLiquidityForm/AddLiquidityForm';
-import { AddLiquidityFormModel } from '../../../components/AddLiquidityForm/AddLiquidityFormModel';
-import { Page } from '../../../components/Page/Page';
-import { useGuardV2 } from '../../../hooks/useGuard';
-import { PoolRatio } from '../../PoolOverview/PoolRatio/PoolRatio';
+import { isDeprecatedPool } from '../../common/utils/isDeprecatedPool';
+import { AddLiquidityForm } from '../../components/AddLiquidityForm/AddLiquidityForm';
+import { AddLiquidityFormModel } from '../../components/AddLiquidityForm/AddLiquidityFormModel';
+import { Page } from '../../components/Page/Page';
+import { useGuardV2 } from '../../hooks/useGuard';
+import { PoolRatio } from '../PoolOverview/PoolRatio/PoolRatio';
 
 export const AddLiquidity: FC = () => {
   const { poolId } = useParams<{ poolId?: PoolId }>();

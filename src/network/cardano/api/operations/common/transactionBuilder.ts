@@ -12,7 +12,11 @@ import { combineLatest, map, publishReplay, refCount } from 'rxjs';
 import { cardanoNetworkData } from '../../../utils/cardanoNetworkData';
 import { cardanoNetworkParams$ } from '../../common/cardanoNetwork';
 import { cardanoWasm$ } from '../../common/cardanoWasm';
-import { DefaultInputCollector, DefaultInputSelector } from './inputSelector';
+import {
+  DefaultCollateralSelector,
+  DefaultInputCollector,
+  DefaultInputSelector,
+} from './inputSelector';
 
 export const transactionBuilder$ = combineLatest([
   cardanoWasm$,
@@ -29,6 +33,7 @@ export const transactionBuilder$ = combineLatest([
     const inputSelector = new DefaultInputSelector();
     const inputCollector = new DefaultInputCollector();
     const txAsm = mkTxAsm(cardanoNetworkParams, cardanoWasm);
+    const collateralSelector = new DefaultCollateralSelector();
 
     return new DefaultAmmTxCandidateBuilder(
       txMath,
@@ -36,6 +41,7 @@ export const transactionBuilder$ = combineLatest([
       ammActions,
       inputSelector,
       inputCollector,
+      collateralSelector,
       cardanoWasm,
       txAsm,
     );

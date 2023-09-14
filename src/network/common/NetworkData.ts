@@ -1,3 +1,4 @@
+import { FormGroup } from '@ergolabs/ui-kit';
 import { ReactNode } from 'react';
 import { Observable } from 'rxjs';
 
@@ -15,6 +16,7 @@ import { CurrencyConverter } from '../../common/services/CurrencyConverter';
 import { Address } from '../../common/types';
 import { AddLiquidityFormModel } from '../../components/AddLiquidityForm/AddLiquidityFormModel';
 import { OperationValidator } from '../../components/OperationForm/OperationForm';
+import { CreatePoolFormModel } from '../../pages/CreatePool/CreatePoolFormModel';
 import { SwapFormModel } from '../../pages/Swap/SwapFormModel';
 import { NetworkContext } from './NetworkContext';
 import { PlatformStats } from './PlatformStats';
@@ -51,6 +53,12 @@ export interface NetworkData<W extends Wallet> {
   readonly supportedFeatures$: Observable<SupportedFeatures>;
   readonly networkContext$: Observable<NetworkContext>;
 
+  readonly useHandleCreatePoolMaxButtonClick: () => (
+    pct: number,
+    form: FormGroup<CreatePoolFormModel>,
+    balance: Balance,
+  ) => void;
+
   readonly useHandleSwapMaxButtonClick: () => (balance: Currency) => Currency;
   readonly useSwapValidators: () => OperationValidator<SwapFormModel>[];
 
@@ -60,7 +68,7 @@ export interface NetworkData<W extends Wallet> {
     balance: Balance,
   ) => [Currency, Currency];
   readonly useDepositValidators: () => OperationValidator<AddLiquidityFormModel>[];
-  readonly useCreatePoolValidationFee: () => Currency;
+  readonly useCreatePoolValidators: () => OperationValidator<CreatePoolFormModel>[];
   readonly useNetworkAsset: () => [AssetInfo, boolean, Error | undefined];
 
   readonly getOperationByTxId: (

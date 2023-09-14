@@ -17,6 +17,11 @@ import { networkAssetBalance$ } from './api/balance/networkAssetBalance';
 import { networkAsset, useNetworkAsset } from './api/networkAsset/networkAsset';
 import { networkContext$ } from './api/networkContext/networkContext';
 import {
+  createPool,
+  useCreatePoolValidators,
+  useHandleCreatePoolMaxButtonClick,
+} from './api/operations/createPool';
+import {
   deposit,
   useDepositValidators,
   useHandleDepositMaxButtonClick,
@@ -134,14 +139,16 @@ const makeCardanoNetwork = (
     lmDeposit(): Observable<TxId> {
       return of('');
     },
+    createPool,
 
     convertToConvenientNetworkAsset,
 
     useSwapValidators,
     useHandleSwapMaxButtonClick,
     useDepositValidators,
+    useCreatePoolValidators,
     useHandleDepositMaxButtonClick,
-    useCreatePoolValidationFee: (() => {}) as any,
+    useHandleCreatePoolMaxButtonClick,
     useNetworkAsset,
 
     getPoolChartData: getPoolChartData as any,

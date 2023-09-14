@@ -78,7 +78,11 @@ const TotalFeeValue: FC<TotalFeeValueProps> = ({
     );
   }
 
-  return <></>;
+  return (
+    <Typography.Body size="large" strong>
+      <ConvenientAssetView value={feeItemsCurrencies} />
+    </Typography.Body>
+  );
 };
 
 const ExecutionFeeTooltipTextWrapper = ({ children }) => {
