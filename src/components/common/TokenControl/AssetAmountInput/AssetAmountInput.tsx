@@ -33,6 +33,7 @@ export interface TokenAmountInputProps {
   readonly?: boolean;
   asset?: AssetInfo;
   className?: string;
+  s: boolean;
 }
 
 const _TokenAmountInput: React.FC<TokenAmountInputProps> = ({
@@ -104,7 +105,7 @@ export const AssetAmountInput = styled(_TokenAmountInput)`
   border-color: transparent !important;
   background-color: transparent !important;
   padding: 0 !important;
-  font-size: 24px !important;
+  font-size: ${({ s }) => (s ? '20px' : '32px')} !important;
   font-weight: 600 !important;
   line-height: 32px !important;
   height: 100%;

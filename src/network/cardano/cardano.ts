@@ -72,7 +72,7 @@ import {
   exploreTx,
 } from './utils/utils';
 import { OperationsSettings } from './widgets/OperationSettings/OperationsSettings';
-import { SwapInfoContent } from './widgets/SwapInfoContent/SwapInfoContent';
+import { SwapCollapse } from './widgets/SwapCollapse/SwapCollapse.tsx';
 
 const makeCardanoNetwork = (
   name: SupportedNetworks,
@@ -122,7 +122,7 @@ const makeCardanoNetwork = (
     settings$,
     setSettings,
 
-    SwapInfoContent,
+    SwapCollapse,
     OperationsSettings,
 
     exploreTx,

@@ -18,10 +18,10 @@ const _AssetBalance: FC<AssetBalanceProps> = ({
   onClick,
   className,
 }) => {
-  const { moreThan } = useDevice();
+  const { moreThan, valBySize } = useDevice();
   return (
     <Flex align="center" gap={1}>
-      <Typography.Body secondary size="small">
+      <Typography.Body secondary size={valBySize('small', 'base')}>
         {moreThan('m') ? (
           t`Balance:`
         ) : (
@@ -29,7 +29,12 @@ const _AssetBalance: FC<AssetBalanceProps> = ({
         )}
       </Typography.Body>
       <SensitiveContent>
-        <Typography.Body size="small" onClick={onClick} className={className}>
+        <Typography.Body
+          size={valBySize('small', 'base')}
+          onClick={onClick}
+          className={className}
+          secondary={balance.toString() === '0'}
+        >
           {balance.toString()}
         </Typography.Body>
       </SensitiveContent>

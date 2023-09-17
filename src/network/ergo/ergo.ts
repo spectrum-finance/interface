@@ -71,7 +71,7 @@ import {
 } from './utils/utils';
 import { OperationsSettings } from './widgets/OperationSettings/OperationsSettings';
 import { RefundConfirmationInfo } from './widgets/RefundConfirmationModal/RefundConfirmationInfo/RefundConfirmationInfo';
-import { SwapInfoContent } from './widgets/SwapInfoContent/SwapInfoContent';
+import { SwapCollapse } from './widgets/SwapCollapse/SwapCollapse.tsx';
 
 export const ergoNetwork: Network<
   ErgoWalletContract,
@@ -130,7 +130,7 @@ export const ergoNetwork: Network<
   exploreLastBlock,
   exploreToken,
 
-  SwapInfoContent,
+  SwapCollapse,
   RefundConfirmationInfo,
   OperationsSettings,
 

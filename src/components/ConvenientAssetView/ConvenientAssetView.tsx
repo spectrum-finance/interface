@@ -19,7 +19,7 @@ export interface ConvenientAssetViewProps {
 const SMALLEST_VALUE = 0.01;
 const ZERO_VALUE = '0.00';
 
-const getConvenientValue = (
+export const getConvenientValue = (
   network: Network<any, any>,
   convenientValue?: Currency,
   value?: Currency | Currency[],

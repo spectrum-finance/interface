@@ -14,7 +14,6 @@ import { t, Trans } from '@lingui/macro';
 import { FC, useState } from 'react';
 import { filter, skip } from 'rxjs';
 
-import { applicationConfig } from '../../applicationConfig';
 import { MIN_NITRO } from '../../common/constants/erg';
 import { defaultSlippage, MIN_SLIPPAGE } from '../../common/constants/settings';
 import { useSubscription } from '../../common/hooks/useObservable';
@@ -26,16 +25,6 @@ import { FeeCurrencySelector } from './FeeCurrencySelector/FeeCurrencySelector';
 import { NitroInput } from './NitroInput/NitroInput';
 import { SlippageInput } from './SlippageInput/SlippageInput';
 
-// TODO: CHANGE FEE ASSET FOR SPF
-export const FEE_ASSET_ID =
-  '0000000000000000000000000000000000000000000000000000000000000001';
-export const feeAsset: AssetInfo = {
-  name: 'spf',
-  ticker: 'SPF',
-  icon: `${applicationConfig.networksSettings.ergo.metadataUrl}/${FEE_ASSET_ID}.svg`,
-  id: FEE_ASSET_ID,
-  decimals: 6,
-};
 interface SettingsModel {
   readonly slippage: number;
   readonly nitro: number;
@@ -268,7 +257,28 @@ export const OperationSettings: FC<OperationSettingsProps> = ({
       visible={isPopoverShown}
       onVisibleChange={handlePopoverShown}
     >
-      <Button type="text" size="large" icon={<SettingOutlined />} />
+      <Button
+        type="text"
+        size="large"
+        style={{
+          backgroundColor:
+            slippageCheck(slippage) || slippageTxFailCheck(slippage)
+              ? 'var(--spectrum-warning-border-color)'
+              : 'var(--spectrum-btn-default-color)',
+        }}
+      >
+        <Flex align="center">
+          <Flex.Item marginRight={2} align="center">
+            <Typography.Body size="small">
+              {`${slippage}% `}
+              <Trans>slippage</Trans>
+            </Typography.Body>
+          </Flex.Item>
+          <Flex.Item align="center" style={{ paddingTop: '1px' }}>
+            <SettingOutlined />
+          </Flex.Item>
+        </Flex>
+      </Button>
     </Popover>
   );
 };
