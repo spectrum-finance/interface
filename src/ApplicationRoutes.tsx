@@ -20,6 +20,7 @@ import { RemoveLiquidity } from './pages/RemoveLiquidity/RemoveLiquidity';
 import { Swap } from './pages/Swap/Swap';
 import { WithdrawalLiquidity } from './pages/WithdrawalLiquidity/WithdrawalLiquidity';
 import { isPreLbspTimeGap } from './utils/lbsp.ts';
+import { Rewards } from "./pages/Rewards/Rewards";
 
 export const routesConfig: RouteConfigExtended[] = [
   {
@@ -107,11 +108,11 @@ export const routesConfig: RouteConfigExtended[] = [
               },
             ],
           },
-          // {
-          //   title: 'Rewards',
-          //   path: 'rewards',
-          //   element: <Rewards />,
-          // },
+          {
+            title: 'Rewards',
+            path: 'rewards',
+            element: <Rewards />,
+          },
           {
             path: '*',
             element: <Navigate to="swap" />,
