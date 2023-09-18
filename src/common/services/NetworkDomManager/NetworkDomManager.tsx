@@ -13,13 +13,13 @@ import {
 import { RouteConfigExtended } from '../../../components/RouterTitle/RouteConfigExtended';
 import {
   initializeNetwork,
-  isNetworkExists,
   networksInitialized$,
-  selectedNetwork,
+  SELECTED_NETWORK_KEY,
   selectedNetwork$,
 } from '../../../gateway/common/network';
 import { Network } from '../../../network/common/Network';
 import { useObservable } from '../../hooks/useObservable';
+import { localStorageManager } from '../../utils/localStorageManager';
 import {
   isSelectDefaultNetworkVisible$,
   manuallySelectedNetwork$,
@@ -63,24 +63,26 @@ const init = (routesConfig: RouteConfigExtended[]): void => {
 const NetworkDomManagerOutlet: FC = () => {
   const { network } = useParams<{ network: string }>();
   const location = useLocation();
-  const networkExists = isNetworkExists(network?.toLowerCase());
+  const cachedNetwork = localStorageManager.get<string>(SELECTED_NETWORK_KEY);
 
-  // TODO: Temporary. Remove in next iteration
-  const isLegacyCardanoPath = location.pathname.includes('cardano_mainnet');
-
-  return networkExists ? (
-    <Outlet />
-  ) : (
-    <Navigate
-      replace={true}
-      to={
-        isLegacyCardanoPath
-          ? location.pathname.replace('cardano_mainnet', 'cardano') +
-            location.search
-          : `/${selectedNetwork.name}`
-      }
-    />
-  );
+  if (cachedNetwork && cachedNetwork === network) {
+    return <Outlet />;
+  }
+  if (network === 'cardano_mainnet' && cachedNetwork === 'cardano') {
+    return (
+      <Navigate
+        replace={true}
+        to={
+          location.pathname.replace('cardano_mainnet', 'cardano') +
+          location.search
+        }
+      />
+    );
+  }
+  if (cachedNetwork) {
+    return <Navigate replace={true} to={`/${cachedNetwork}`} />;
+  }
+  return <Navigate replace={true} to="/" />;
 };
 
 const useNetworkTitle = (): string | undefined => {
