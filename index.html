@@ -34,7 +34,7 @@
           .getRegistrations()
           .then(registrations => registrations ? registrations[0] : undefined)
           .then(sw => {
-            const intervalMS = 60 * 1000;
+            const intervalMS = 10 * 1000;
 
             sw.onupdatefound = () => {
               console.log('sw update found. Please reload the page.')
