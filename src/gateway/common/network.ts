@@ -18,7 +18,7 @@ import { cardanoMainnet, cardanoPreview } from '../../network/cardano/cardano';
 import { Network } from '../../network/common/Network';
 import { ergoNetwork } from '../../network/ergo/ergo';
 
-const SELECTED_NETWORK_KEY = 'spectrum-selected-network-key';
+export const SELECTED_NETWORK_KEY = 'spectrum-selected-network-key';
 
 const updateSelectedNetwork$ = new BehaviorSubject<
   Network<any, any> | undefined
@@ -70,9 +70,7 @@ export const initializeNetwork = (
   const cachedNetwork = localStorageManager.get<string>(SELECTED_NETWORK_KEY);
   let selectedNetworkName: string | undefined = undefined;
 
-  if (isNetworkExists(params.possibleName)) {
-    selectedNetworkName = params.possibleName;
-  } else if (cachedNetwork && isNetworkExists(cachedNetwork)) {
+  if (cachedNetwork && isNetworkExists(cachedNetwork)) {
     selectedNetworkName = cachedNetwork;
   }
 
