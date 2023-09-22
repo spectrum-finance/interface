@@ -1,25 +1,28 @@
-import { Divider, Flex, Modal, Typography } from '@ergolabs/ui-kit';
-import { Trans } from '@lingui/macro';
-import { FC } from 'react';
+import { Divider, Flex, Typography } from '@ergolabs/ui-kit';
+import { t, Trans } from '@lingui/macro';
+import sum from 'lodash/sum';
+import { FC, ReactNode } from 'react';
 
 import { useObservable } from '../../../../../../../../common/hooks/useObservable';
 import { AmmPool } from '../../../../../../../../common/models/AmmPool';
+import { AssetIcon } from '../../../../../../../../components/AssetIcon/AssetIcon.tsx';
 import { InfoTooltip } from '../../../../../../../../components/InfoTooltip/InfoTooltip';
-import { LbspFaqModal } from '../../../../../../../../components/LbspFaqModal/LbspFaqModal.tsx';
 import { SpfLogo } from '../../../../../../../../components/SpfLogo/SpfLogo.tsx';
+import { isSpecialBoostedPool } from '../../../../../../../../utils/specialPools.ts';
 import { calculateLbspApr } from './calculateLbspApr';
 
+type AprElement = {
+  name: string;
+  val: number;
+  logo?: ReactNode;
+  linkElem?: ReactNode;
+};
 interface LbspTooltipContentProps {
-  readonly swapApr: number;
-  readonly lbspApr: number;
+  readonly aprs: Array<AprElement>;
   readonly totalApr: number;
 }
 
-const LbspTooltipContent: FC<LbspTooltipContentProps> = ({
-  lbspApr,
-  totalApr,
-  swapApr,
-}) => {
+const AprTooltipContent: FC<LbspTooltipContentProps> = ({ aprs, totalApr }) => {
   return (
     <Flex col width={200}>
       <Typography.Body tooltip>
@@ -31,57 +34,43 @@ const LbspTooltipContent: FC<LbspTooltipContentProps> = ({
       <Flex.Item marginTop={1} marginBottom={1}>
         <Divider />
       </Flex.Item>
-      <Flex.Item display="flex" marginBottom={1}>
-        <Flex.Item width={65} marginRight={1}>
-          <Typography.Body tooltip size="small">
-            <Trans>Swap Fees:</Trans>
-          </Typography.Body>
-        </Flex.Item>
-        <Flex.Item flex={1}>
-          <Typography.Body tooltip strong>
-            {swapApr ? `${swapApr.toFixed(2)}%` : '—'}
-          </Typography.Body>
-        </Flex.Item>
-      </Flex.Item>
-      <Flex.Item display="flex">
-        <Flex.Item width={65}>
-          <Typography.Body tooltip size="small">
-            <Trans>LBSP APR:</Trans>
-          </Typography.Body>
-        </Flex.Item>
-        <Flex.Item display="flex" align="center" flex={1}>
-          <Flex.Item marginRight={1}>
-            <SpfLogo w={16} h={16} block />
+      {aprs.map((apr, index) => {
+        return (
+          <Flex.Item key={`${index}-apr-row`} display="flex" marginBottom={1}>
+            <Flex.Item marginRight={1} justify="space-between">
+              <Typography.Body tooltip size="small">
+                {apr.name}
+              </Typography.Body>
+            </Flex.Item>
+            {apr.logo ? (
+              <Flex.Item display="flex" align="center" flex={1}>
+                <Flex.Item marginRight={1}>{apr.logo}</Flex.Item>
+                <Flex.Item marginRight={1}>
+                  <Typography.Body tooltip strong>
+                    {apr.val ? apr.val.toFixed(2) : '--'}%
+                  </Typography.Body>
+                </Flex.Item>
+              </Flex.Item>
+            ) : (
+              <Flex.Item flex={1}>
+                <Typography.Body tooltip strong>
+                  {apr.val ? apr.val.toFixed(2) : '--'}%
+                </Typography.Body>
+              </Flex.Item>
+            )}
           </Flex.Item>
+        );
+      })}
 
-          <Flex.Item marginRight={1}>
-            <Typography.Body tooltip strong>
-              {lbspApr ? `${lbspApr.toFixed(2)}%` : '—'}
-            </Typography.Body>
-          </Flex.Item>
-
-          <Typography.Link
-            style={{
-              color: 'var(--spectrum-hint-text)',
-              textDecoration: 'underline',
-              fontSize: '10px',
-            }}
-            onClick={(event) => {
-              event.stopPropagation();
-              Modal.open(() => <LbspFaqModal />);
-            }}
-          >
-            Read more
-          </Typography.Link>
-        </Flex.Item>
-      </Flex.Item>
       <Flex.Item>
         <Typography.Body
           size="small"
           style={{ color: 'var(--spectrum-hint-text)' }}
         >
-          LBSP APR is calculated according to the current SPF price on the Ergo
-          market
+          <Trans>
+            SPF APR is calculated according to the current price on the Ergo
+            market
+          </Trans>
         </Typography.Body>
       </Flex.Item>
     </Flex>
@@ -93,13 +82,34 @@ export interface CardanoAprColumnContent {
   readonly isAllContentTrigger?: boolean;
 }
 
-const CardanoLbspAmmPoolArColumnContent: FC<CardanoAprColumnContent> = ({
+const CardanoLbspAmmPoolAprColumnContent: FC<CardanoAprColumnContent> = ({
   ammPool,
   isAllContentTrigger,
 }) => {
   const [lbspApr] = useObservable(calculateLbspApr(ammPool), [], 0);
   const swapApr = ammPool.yearlyFeesPercent || 0;
-  const totalApr = swapApr + lbspApr;
+
+  const aprs: Array<AprElement> = [
+    {
+      name: t`Trading Fees:`,
+      val: swapApr,
+    },
+    {
+      name: t`LBSP APR:`,
+      val: lbspApr,
+      logo: <SpfLogo w={16} h={16} block />,
+    },
+  ];
+
+  if (isSpecialBoostedPool(ammPool.id)) {
+    aprs.push({
+      name: t`Boosted APR:`,
+      val: 75,
+      logo: <AssetIcon asset={ammPool.y.asset} size="extraSmall" />,
+    });
+  }
+
+  const totalApr = sum(aprs.map((v) => v.val));
 
   return (
     <>
@@ -108,17 +118,16 @@ const CardanoLbspAmmPoolArColumnContent: FC<CardanoAprColumnContent> = ({
           <Flex.Item marginRight={1}>
             <SpfLogo w={16} h={16} block />
           </Flex.Item>
+          {isSpecialBoostedPool(ammPool.id) && (
+            <Flex.Item marginLeft={-2}>
+              <AssetIcon asset={ammPool.y.asset} size="extraSmall" />
+            </Flex.Item>
+          )}
           <InfoTooltip
             width={200}
             placement="top"
             isAllContentTrigger={isAllContentTrigger}
-            content={
-              <LbspTooltipContent
-                totalApr={totalApr}
-                lbspApr={lbspApr}
-                swapApr={swapApr}
-              />
-            }
+            content={<AprTooltipContent aprs={aprs} totalApr={totalApr} />}
           >
             {totalApr.toFixed(2)}%
           </InfoTooltip>
@@ -140,7 +149,7 @@ export const CardanoAprColumnContent: FC<CardanoAprColumnContent> = ({
   isAllContentTrigger,
 }) => {
   return (
-    <CardanoLbspAmmPoolArColumnContent
+    <CardanoLbspAmmPoolAprColumnContent
       isAllContentTrigger={isAllContentTrigger}
       ammPool={ammPool}
     />
