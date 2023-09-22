@@ -11,6 +11,7 @@ import { RewardsDashboard } from './RewardsDashboard/RewardsDashboard.tsx';
 
 export const Rewards: FC = () => {
   const [rewardsData, loading] = useObservable(rewards$);
+
   return (
     <Page width={500}>
       <Flex col>

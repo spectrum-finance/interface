@@ -32,6 +32,7 @@ interface RewardsDashboardSectionProps {
   readonly tags?: ReactNode[];
   readonly noCollectedRewardsNotification?: ReactNode[];
   readonly infoTooltipText?: ReactNode | string;
+  readonly infoTooltipWidth?: number;
   readonly data: RewardSection | undefined;
 }
 export const RewardsDashboardSection: FC<RewardsDashboardSectionProps> = ({
@@ -39,6 +40,7 @@ export const RewardsDashboardSection: FC<RewardsDashboardSectionProps> = ({
   tags,
   noCollectedRewardsNotification,
   infoTooltipText,
+  infoTooltipWidth,
   data,
 }) => {
   return (
@@ -49,131 +51,80 @@ export const RewardsDashboardSection: FC<RewardsDashboardSectionProps> = ({
         justify="space-between"
         marginBottom={2}
       >
-        <InfoTooltip content={infoTooltipText} isQuestionIcon>
+        <InfoTooltip
+          disabled={!infoTooltipText}
+          content={infoTooltipText}
+          isQuestionIcon
+          width={infoTooltipWidth}
+        >
           <Typography.Body strong>{title}</Typography.Body>
         </InfoTooltip>
         {tags && <RewardsDashboardSectionTags tags={tags} />}
       </Flex.Item>
-      {!data?.collected?.isPositive() &&
-        noCollectedRewardsNotification?.length && (
-          <Flex col>
-            {noCollectedRewardsNotification.map((notification, index) => (
-              <Flex.Item
-                key={`reward-notification-item-${index}`}
-                marginBottom={
-                  index !== noCollectedRewardsNotification?.length - 1 ? 2 : 0
-                }
-              >
-                {notification}
-              </Flex.Item>
-            ))}
-          </Flex>
-        )}
-      {data?.collected?.isPositive() && (
+      {!data && noCollectedRewardsNotification?.length && (
+        <Flex col>
+          {noCollectedRewardsNotification.map((notification, index) => (
+            <Flex.Item
+              key={`reward-notification-item-${index}`}
+              marginBottom={
+                index !== noCollectedRewardsNotification?.length - 1 ? 2 : 0
+              }
+            >
+              {notification}
+            </Flex.Item>
+          ))}
+        </Flex>
+      )}
+      {data && (
         <Box borderRadius="l" bordered padding={3}>
-          <Flex justify="space-between">
-            <Typography.Title level={5}>
-              <Trans>Collected</Trans>
-            </Typography.Title>
-            <Flex align="center">
-              <Flex.Item marginRight={1}>
-                <AssetIcon asset={data.collected.asset} />
-              </Flex.Item>
+          <Flex col>
+            <Flex.Item marginBottom={2} justify="space-between">
+              <Typography.Title level={5}>
+                <Trans>Available</Trans>
+              </Typography.Title>
+              <Flex align="center">
+                <Flex.Item marginRight={1}>
+                  <AssetIcon asset={data.available.asset} />
+                </Flex.Item>
 
-              <Typography.Body size="large" strong>
-                {data.collected.toString()} {data.collected.asset.ticker}
-              </Typography.Body>
-            </Flex>
+                <Typography.Body size="large" strong>
+                  {data.available.toString()} {data.available.asset.ticker}
+                </Typography.Body>
+              </Flex>
+            </Flex.Item>
+            {data.upcoming && (
+              <Flex.Item marginBottom={2} justify="space-between">
+                <Typography.Title level={5}>
+                  <Trans>Upcoming</Trans>
+                </Typography.Title>
+                <Flex align="center">
+                  <Flex.Item marginRight={1}>
+                    <AssetIcon asset={data.upcoming.asset} />
+                  </Flex.Item>
+
+                  <Typography.Body size="large" strong>
+                    {data.upcoming.toString()} {data.upcoming.asset.ticker}
+                  </Typography.Body>
+                </Flex>
+              </Flex.Item>
+            )}
+            <Flex.Item justify="space-between">
+              <Typography.Title level={5}>
+                <Trans>Claimed</Trans>
+              </Typography.Title>
+              <Flex align="center">
+                <Flex.Item marginRight={1}>
+                  <AssetIcon asset={data.claimed.asset} />
+                </Flex.Item>
+
+                <Typography.Body size="large" strong>
+                  {data.claimed.toString()} {data.claimed.asset.ticker}
+                </Typography.Body>
+              </Flex>
+            </Flex.Item>
           </Flex>
         </Box>
       )}
     </Flex>
-
-    // <TitledBox
-    //   secondary
-    //   glass
-    //   borderRadius="l"
-    //   title={
-    //     <Flex align="center">
-    //       <Flex.Item>
-    //         <Typography.Body strong>{title}</Typography.Body>
-    //       </Flex.Item>
-    //       {infoTooltipText && (
-    //         <Flex.Item marginLeft={1}>
-    //           <InfoTooltip content={infoTooltipText} />
-    //         </Flex.Item>
-    //       )}
-    //     </Flex>
-    //   }
-    //   subtitle={
-    //     <Flex>
-    //       {tags &&
-    //         tags.map((Tag, index) => {
-    //           return (
-    //             <Flex.Item
-    //               key={`reward-tag-item-${index}`}
-    //               marginRight={index === tags.length - 1 ? 0 : 1}
-    //             >
-    //               {Tag}
-    //             </Flex.Item>
-    //           );
-    //         })}
-    //     </Flex>
-    //   }
-    //   titleGap={2}
-    //   padding={3}
-    //   isRowTitle
-    // >
-    //   {data && data.collected ? (
-    //     <Flex col>
-    //       <Flex.Item display="flex" justify="space-between">
-    //         <Typography.Body size="large">
-    //           <Trans>Collected</Trans>
-    //         </Typography.Body>
-    //         <Flex align="center">
-    //           <Flex.Item marginRight={1}>
-    //             <AssetIcon asset={data.collected.asset} />
-    //           </Flex.Item>
-    //
-    //           <Typography.Body size="large" strong>
-    //             {data.collected.toString()} {data.collected.asset.ticker}
-    //           </Typography.Body>
-    //         </Flex>
-    //       </Flex.Item>
-    //       {data.upcoming?.isPositive() && (
-    //         <Flex.Item display="flex" justify="space-between" marginTop={2}>
-    //           <Typography.Body size="large">
-    //             <Trans>Upcoming</Trans>
-    //           </Typography.Body>
-    //           <Flex align="center">
-    //             <Flex.Item marginRight={1}>
-    //               <AssetIcon asset={data.upcoming.asset} />
-    //             </Flex.Item>
-    //
-    //             <Typography.Body size="large" strong>
-    //               {data.upcoming.toString()} {data.upcoming.asset.ticker}
-    //             </Typography.Body>
-    //           </Flex>
-    //         </Flex.Item>
-    //       )}
-    //     </Flex>
-    //   ) : (
-    //     <Flex col>
-    //       {noCollectedRewardsNotification &&
-    //         noCollectedRewardsNotification.map((Elem, index) => {
-    //           return (
-    //             <Flex.Item
-    //               key={`reward-tag-item-${index}`}
-    //               marginBottom={
-    //                 index === noCollectedRewardsNotification.length - 1 ? 0 : 1
-    //               }
-    //             >
-    //               {Elem}
-    //             </Flex.Item>
-    //           );
-    //         })}
-    //     </Flex>
-    //   )}
-    // </TitledBox>
   );
 };

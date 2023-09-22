@@ -20,7 +20,7 @@ export const TotalRewardsSection: FC<TotalRewardsSectionProps> = ({
       borderRadius="l"
       title={
         <Typography.Body strong>
-          <Trans>Total Rewards Collected</Trans>
+          <Trans>To claim</Trans>
         </Typography.Body>
       }
       titleGap={2}

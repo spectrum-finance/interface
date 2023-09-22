@@ -31,6 +31,7 @@ interface InfoTooltipProps {
   defaultVisible?: boolean;
   isQuestionIcon?: boolean;
   isAllContentTrigger?: boolean;
+  disabled?: boolean;
 }
 
 const getColor = (color: InfoTooltipProps['color']) => {
@@ -57,6 +58,7 @@ export const InfoTooltip: React.FC<InfoTooltipProps> = ({
   defaultVisible = false,
   isQuestionIcon,
   isAllContentTrigger,
+  disabled,
 }) => {
   if (isAllContentTrigger) {
     return (
@@ -108,7 +110,7 @@ export const InfoTooltip: React.FC<InfoTooltipProps> = ({
             cursor: 'pointer',
           }}
         >
-          {isQuestionIcon ? (
+          {disabled ? null : isQuestionIcon ? (
             <QuestionCircleOutlined onClick={(e) => e.stopPropagation()} />
           ) : (
             <InfoCircleOutlined onClick={(e) => e.stopPropagation()} />

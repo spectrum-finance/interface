@@ -1,14 +1,32 @@
 import { Button, Flex, Typography } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import { DateTime, Interval } from 'luxon';
-import { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 
-const CLAIMS_OPEN_DATETIME = DateTime.utc(2023, 9, 23, 12, 0);
+import { useObservable } from '../../../../common/hooks/useObservable';
+import {
+  claimRewards,
+  ClaimRewardsStatus,
+  rewardsPaymentRequestStatus$,
+} from '../../../../network/cardano/api/rewards/claimRewards';
+import { RewardsData } from '../../../../network/cardano/api/rewards/rewards';
 
-export const ClaimRewardsButton = () => {
+const CLAIMS_OPEN_DATETIME = DateTime.utc(2023, 9, 25, 15, 0);
+
+export const ClaimRewardsButton: FC<{ rewardsData: RewardsData }> = ({
+  rewardsData,
+}) => {
   const [now, setNow] = useState(DateTime.now());
+  const [, setLoading] = useState(false);
+  const [rewardsPaymentRequestStatus] = useObservable(
+    rewardsPaymentRequestStatus$,
+  );
   const onHandleClaimRewards = () => {
-    /*TODO*/
+    setLoading(true);
+    claimRewards(rewardsData).subscribe({
+      next: () => setLoading(false),
+      error: () => setLoading(false),
+    });
   };
 
   useEffect(() => {
@@ -27,13 +45,26 @@ export const ClaimRewardsButton = () => {
     <Flex col align="center">
       <Flex.Item width="100%">
         <Button
+          loading={rewardsPaymentRequestStatus !== ClaimRewardsStatus.AVAILABLE}
+          disabled={!isRewardClaimable}
           size="extra-large"
           type="primary"
           block
-          disabled={!isRewardClaimable}
           onClick={onHandleClaimRewards}
         >
-          <Trans>Claim Rewards</Trans>
+          {rewardsPaymentRequestStatus === ClaimRewardsStatus.AVAILABLE && (
+            <Trans>Claim rewards</Trans>
+          )}
+          {rewardsPaymentRequestStatus === ClaimRewardsStatus.IN_MEMPOOL && (
+            <Trans>In Mempool</Trans>
+          )}
+          {rewardsPaymentRequestStatus ===
+            ClaimRewardsStatus.PAYMENT_HANDLING && (
+            <Trans>Payment handling</Trans>
+          )}
+          {rewardsPaymentRequestStatus === ClaimRewardsStatus.LOADING && (
+            <Trans>Loading</Trans>
+          )}
         </Button>
       </Flex.Item>
       {!isRewardClaimable && (

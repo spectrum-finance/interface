@@ -29,6 +29,8 @@ export const RewardsDashboard: FC<RewardsDashboardProps> = ({
     <Flex.Item marginBottom={4}>
       <RewardsDashboardSection
         title={t`LBSP`}
+        infoTooltipWidth={300}
+        infoTooltipText="LBSP is an incentive program for liquidity providers, rewarding them with SPF utility tokens in exchange for providing liquidity."
         tags={[
           <RewardInfoTag key="reward-info-tag-lbsp" />,
           <RewardStatusTag key="reward-status-tag-lbsp" status="ongoing" />,
@@ -71,6 +73,8 @@ export const RewardsDashboard: FC<RewardsDashboardProps> = ({
 
     <Flex.Item marginBottom={4}>
       <RewardsDashboardSection
+        infoTooltipWidth={200}
+        infoTooltipText="Stake your ADA in one of the ISPO pools to get rewarded."
         title={t`ISPO`}
         tags={[
           <RewardStatusTag key="reward-status-tag-ispo" status="ongoing" />,
@@ -125,10 +129,10 @@ export const RewardsDashboard: FC<RewardsDashboardProps> = ({
       <Divider />
     </Flex.Item>
     <Flex.Item marginBottom={4}>
-      <TotalRewardsSection totalCollectedRewards={rewardsData.totalCollected} />
+      <TotalRewardsSection totalCollectedRewards={rewardsData.totalAvailable} />
     </Flex.Item>
     <Flex.Item width="100%">
-      <ClaimRewardsButton />
+      <ClaimRewardsButton rewardsData={rewardsData} />
     </Flex.Item>
   </Flex>
 );
