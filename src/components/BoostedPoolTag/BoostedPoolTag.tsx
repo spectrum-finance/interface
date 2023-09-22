@@ -11,7 +11,7 @@ interface BoostedPoolTagProps {
 
 export const BoostedPoolTag: FC<BoostedPoolTagProps> = ({ asset }) => {
   return (
-    <Tag color="red">
+    <Tag color="geekblue">
       <Flex align="center">
         <Flex.Item marginRight={1}>
           <AssetIcon asset={asset} size="extraSmall" />

@@ -256,7 +256,9 @@ export const applicationConfig: ApplicationConfig = {
     'dd061b480daddd9a833d2477c791356be4e134a433e19df7eb18be1054554e415f4144415f4e4654',
   ],
   lbspBoostedLiquidityPools: [],
-  specialRewards: [],
+  specialRewards: [
+    '54ffabdd4c6cb983ea1d0c8c5296aa9d8d5dfaafbf0ff33efc45669b4d41595a5f4144415f4e4654',
+  ],
   deprecatedPools: [
     'c2ea7b366349afda7bab0fbdb712d1e6cec1c91c1cfda21a43998e38436f726e75636f706961735f4144415f4e4654',
     'd8beceb1ac736c92df8e1210fb39803508533ae9573cffeb2b24a839696274635f4144415f4e4654',
