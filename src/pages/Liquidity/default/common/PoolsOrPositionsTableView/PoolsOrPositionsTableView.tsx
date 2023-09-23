@@ -68,7 +68,7 @@ export const PoolsOrPositionsTableView: FC<
       >
         {(ammPool: AmmPool) => <AprColumn ammPool={poolMapper(ammPool)} />}
       </TableView.Column>
-      <TableView.Column width={valBySize(20, 20, 140)}>
+      <TableView.Column width={valBySize(20, 20, 200)}>
         {(ammPool) => <ActionsColumn ammPool={poolMapper(ammPool)} />}
       </TableView.Column>
       {children}
