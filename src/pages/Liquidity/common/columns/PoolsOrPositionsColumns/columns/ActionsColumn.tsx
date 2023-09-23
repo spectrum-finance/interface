@@ -64,7 +64,7 @@ export const ActionsColumn: FC<ActionsColumnProps> = ({ ammPool }) => {
           onClick={(event) => {
             event.stopPropagation();
             navigate(
-              `/swap?base=${ammPool.x.asset.id}&quote=${ammPool.y.asset.id}&initialPoolId=${ammPool.id}`,
+              `../../swap?base=${ammPool.x.asset.id}&quote=${ammPool.y.asset.id}&initialPoolId=${ammPool.id}`,
             );
           }}
         >
