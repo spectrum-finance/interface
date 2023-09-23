@@ -32,6 +32,7 @@ interface RewardsDashboardSectionProps {
   readonly tags?: ReactNode[];
   readonly noCollectedRewardsNotification?: ReactNode[];
   readonly infoTooltipText?: ReactNode | string;
+  readonly upcomingTooltipText?: ReactNode | string;
   readonly infoTooltipWidth?: number;
   readonly data: RewardSection | undefined;
 }
@@ -41,6 +42,7 @@ export const RewardsDashboardSection: FC<RewardsDashboardSectionProps> = ({
   noCollectedRewardsNotification,
   infoTooltipText,
   infoTooltipWidth,
+  upcomingTooltipText,
   data,
 }) => {
   return (
@@ -95,7 +97,13 @@ export const RewardsDashboardSection: FC<RewardsDashboardSectionProps> = ({
             {data.upcoming && (
               <Flex.Item marginBottom={2} justify="space-between">
                 <Typography.Title level={5}>
-                  <Trans>Upcoming</Trans>
+                  <InfoTooltip
+                    isQuestionIcon
+                    content={upcomingTooltipText}
+                    width={190}
+                  >
+                    <Trans>Upcoming</Trans>
+                  </InfoTooltip>
                 </Typography.Title>
                 <Flex align="center">
                   <Flex.Item marginRight={1}>

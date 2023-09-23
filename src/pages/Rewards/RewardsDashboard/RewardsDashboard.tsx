@@ -29,8 +29,22 @@ export const RewardsDashboard: FC<RewardsDashboardProps> = ({
     <Flex.Item marginBottom={4}>
       <RewardsDashboardSection
         title={t`LBSP`}
-        infoTooltipWidth={300}
-        infoTooltipText="LBSP is an incentive program for liquidity providers, rewarding them with SPF utility tokens in exchange for providing liquidity."
+        infoTooltipWidth={284}
+        upcomingTooltipText="You will receive this number of rewards if your stake remains unchanged through the end of the LBSP. This is a rough calculation based on the current ADA in the liquidity pool."
+        infoTooltipText={
+          <Flex col>
+            <Trans>
+              LBSP is an incentive program for liquidity providers, rewarding
+              them with SPF utility tokens in exchange for providing liquidity.
+            </Trans>
+            <Typography.Link
+              href="https://medium.com/@spectrumlabs/lbsp-a-novel-ispo-mechanism-for-bootstrapping-liquidity-7fb461b4b849"
+              target="_blank"
+            >
+              Read more
+            </Typography.Link>
+          </Flex>
+        }
         tags={[
           <RewardInfoTag key="reward-info-tag-lbsp" />,
           <RewardStatusTag key="reward-status-tag-lbsp" status="ongoing" />,
@@ -73,8 +87,21 @@ export const RewardsDashboard: FC<RewardsDashboardProps> = ({
 
     <Flex.Item marginBottom={4}>
       <RewardsDashboardSection
-        infoTooltipWidth={200}
-        infoTooltipText="Stake your ADA in one of the ISPO pools to get rewarded."
+        upcomingTooltipText="You will receive this number of rewards if your stake remains unchanged through the end of the ISPO."
+        infoTooltipWidth={184}
+        infoTooltipText={
+          <Flex col>
+            <Trans>
+              Stake your ADA in one of the ISPO pools to get rewarded.
+            </Trans>
+            <Typography.Link href={SPF0_URL} target="_blank">
+              SPF0
+            </Typography.Link>{' '}
+            <Typography.Link href={SPF1_URL} target="_blank">
+              SPF1
+            </Typography.Link>
+          </Flex>
+        }
         title={t`ISPO`}
         tags={[
           <RewardStatusTag key="reward-status-tag-ispo" status="ongoing" />,

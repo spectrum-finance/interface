@@ -288,11 +288,11 @@ export const Swap = (): JSX.Element => {
           fromAsset:
             findLast(
               assets,
-              (a) => a.id === (swapParamsCache$.getValue()?.base || base),
+              (a) => a.id === (base || swapParamsCache$.getValue()?.base),
             ) || networkAsset,
           toAsset: findLast(
             assets,
-            (a) => a.id === (swapParamsCache$.getValue()?.quote || quote),
+            (a) => a.id === (quote || swapParamsCache$.getValue()?.quote),
           ),
         });
       }
