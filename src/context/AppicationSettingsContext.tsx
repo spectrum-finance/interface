@@ -6,7 +6,6 @@ import { map, Observable, publishReplay, refCount } from 'rxjs';
 
 import { DEFAULT_LOCALE, SupportedLocale } from '../common/constants/locales';
 import { localStorageManager } from '../common/utils/localStorageManager';
-import { isDarkOsTheme } from '../utils/osTheme';
 
 export type Theme =
   | 'light'
@@ -26,7 +25,7 @@ export type Settings = {
 
 export const DefaultSettings: Readonly<Settings> = {
   explorerUrl: '',
-  theme: isDarkOsTheme() ? 'dark' : 'light',
+  theme: 'dark',
   lang: DEFAULT_LOCALE,
   isSensitiveHidden: false,
   isCardanoDisclaimerModalConfirmed: false,

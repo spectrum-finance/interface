@@ -14,6 +14,7 @@ import { Observable, of } from 'rxjs';
 import { useObservable } from '../../../../../../common/hooks/useObservable';
 import { AssetInfo } from '../../../../../../common/models/AssetInfo';
 import { Dictionary } from '../../../../../../common/utils/Dictionary';
+import { useAssetsBalance } from '../../../../../../gateway/api/assetBalance.ts';
 import { EmptyGroupConfig, GroupConfig, List } from '../../../../../List/List';
 import { ListStateView } from '../../../../../List/ListStateView/ListStateView';
 import { AssetListExtendedSearchItem } from './AssetListExtendedSearchItem/AssetListExtendedSearchItem';
@@ -44,11 +45,16 @@ export const AssetListSelectTokenState: FC<AssetListSelectTokenStateProps> = ({
   const [assets, loading] = useObservable(assets$ ?? of([]));
   const [assetsToImport] = useObservable(assetsToImport$ ?? of([]));
   const [importedAssets] = useObservable(importedAssets$ ?? of([]));
+  const [balance] = useAssetsBalance();
+
+  const sortedAssets = assets?.sort((a, b) =>
+    Number(balance.get(b).amount - balance.get(a).amount),
+  );
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) =>
     setTerm(e.target.value);
 
-  const filteredAssets = searchByTerm(assets);
+  const filteredAssets = searchByTerm(sortedAssets);
   const filteredImportedAssets = searchByTerm(importedAssets);
   const filteredAssetsToImport = searchByTerm(assetsToImport);
 

@@ -96,8 +96,8 @@ export const ThemeSwitch: FC = () => {
             onChange={handleChangeTheme as any}
             activeKey={theme || 'light'}
           >
-            <Tabs.TabPane tab={t`Light`} key="light" />
             <Tabs.TabPane tab={t`Dark`} key="dark" />
+            <Tabs.TabPane tab={t`Light`} key="light" />
             <Tabs.TabPane tab={t`System`} key="system" />
           </Tabs>
         </Flex.Item>
