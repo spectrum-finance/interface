@@ -11,7 +11,7 @@ import {
 } from '../../../../network/cardano/api/rewards/claimRewards';
 import { RewardsData } from '../../../../network/cardano/api/rewards/rewards';
 
-const CLAIMS_OPEN_DATETIME = DateTime.utc(2023, 9, 25, 15, 0);
+const CLAIMS_OPEN_DATETIME = DateTime.utc(2023, 9, 25, 21, 0);
 
 export const ClaimRewardsButton: FC<{ rewardsData: RewardsData }> = ({
   rewardsData,
