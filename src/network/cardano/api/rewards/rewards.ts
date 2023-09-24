@@ -6,9 +6,11 @@ import {
   interval,
   map,
   mapTo,
+  merge,
   publishReplay,
   refCount,
   startWith,
+  Subject,
   switchMap,
 } from 'rxjs';
 
@@ -73,6 +75,8 @@ export type RewardsData = {
   readonly totalPending: Currency;
   readonly rawRewards: RawReward[];
 };
+
+export const updateRewards$ = new Subject<undefined>();
 
 const buildRewardsData = (response: RawRewardResponse): RewardsData => {
   const groupedRawRewards: Dictionary<RawReward[]> = groupBy<RawReward>(
@@ -164,7 +168,10 @@ const buildRewardsData = (response: RawRewardResponse): RewardsData => {
 export const rewards$ = getAddresses().pipe(
   filter((addresses) => !!addresses?.length),
   switchMap((addresses) =>
-    interval(60_000).pipe(startWith(0), mapTo(addresses)),
+    merge([updateRewards$, interval(60_000)]).pipe(
+      startWith(0),
+      mapTo(addresses),
+    ),
   ),
   switchMap((addresses) =>
     from(axios.post('https://rewards.spectrum.fi/v1/rewards/data', addresses)),
