@@ -1,9 +1,13 @@
 import { Button, Flex, Typography } from '@ergolabs/ui-kit';
-import { Trans } from '@lingui/macro';
+import { t } from '@lingui/macro';
 import { DateTime, Interval } from 'luxon';
 import { FC, useEffect, useState } from 'react';
 
 import { useObservable } from '../../../../common/hooks/useObservable';
+import {
+  openConfirmationModal,
+  Operation,
+} from '../../../../components/ConfirmationModal/ConfirmationModal';
 import {
   claimRewards,
   ClaimRewardsStatus,
@@ -17,15 +21,12 @@ export const ClaimRewardsButton: FC<{ rewardsData: RewardsData }> = ({
   rewardsData,
 }) => {
   const [now, setNow] = useState(DateTime.now());
-  const [, setLoading] = useState(false);
   const [rewardsPaymentRequestStatus] = useObservable(
     rewardsPaymentRequestStatus$,
   );
   const onHandleClaimRewards = () => {
-    setLoading(true);
-    claimRewards(rewardsData).subscribe({
-      next: () => setLoading(false),
-      error: () => setLoading(false),
+    openConfirmationModal(claimRewards(rewardsData), Operation.CLAIM, {
+      xAsset: rewardsData.totalAvailable,
     });
   };
 
@@ -45,26 +46,28 @@ export const ClaimRewardsButton: FC<{ rewardsData: RewardsData }> = ({
     <Flex col align="center">
       <Flex.Item width="100%">
         <Button
-          loading={rewardsPaymentRequestStatus !== ClaimRewardsStatus.AVAILABLE}
+          loading={
+            rewardsPaymentRequestStatus !== ClaimRewardsStatus.AVAILABLE ||
+            rewardsData.totalPending.isPositive()
+          }
           disabled={!isRewardClaimable}
           size="extra-large"
           type="primary"
           block
           onClick={onHandleClaimRewards}
         >
-          {rewardsPaymentRequestStatus === ClaimRewardsStatus.AVAILABLE && (
-            <Trans>Claim rewards</Trans>
-          )}
-          {rewardsPaymentRequestStatus === ClaimRewardsStatus.IN_MEMPOOL && (
-            <Trans>In Mempool</Trans>
-          )}
+          {rewardsPaymentRequestStatus === ClaimRewardsStatus.AVAILABLE &&
+            !rewardsData.totalPending.isPositive() &&
+            t`Claim rewards`}
+          {rewardsPaymentRequestStatus === ClaimRewardsStatus.AVAILABLE &&
+            rewardsData.totalPending.isPositive() &&
+            t`Claiming ${rewardsData.totalPending.toCurrencyString()}`}
+          {rewardsPaymentRequestStatus === ClaimRewardsStatus.IN_MEMPOOL &&
+            t`Processing transaction`}
           {rewardsPaymentRequestStatus ===
-            ClaimRewardsStatus.PAYMENT_HANDLING && (
-            <Trans>Payment handling</Trans>
-          )}
-          {rewardsPaymentRequestStatus === ClaimRewardsStatus.LOADING && (
-            <Trans>Loading</Trans>
-          )}
+            ClaimRewardsStatus.PAYMENT_HANDLING && t`Payment handling`}
+          {rewardsPaymentRequestStatus === ClaimRewardsStatus.LOADING &&
+            t`Loading`}
         </Button>
       </Flex.Item>
       {!isRewardClaimable && (

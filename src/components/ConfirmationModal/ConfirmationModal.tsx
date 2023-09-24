@@ -30,6 +30,7 @@ export enum Operation {
   ADD_LIQUIDITY,
   REMOVE_LIQUIDITY,
   REFUND,
+  CLAIM,
   LOCK_LIQUIDITY,
   RELOCK_LIQUIDITY,
   WITHDRAWAL_LIQUIDITY,
@@ -52,6 +53,9 @@ const getDescriptionByData = (
   { xAsset, yAsset, lpAsset, time, assetLock }: ModalChainingPayload,
 ): ReactNode => {
   switch (operation) {
+    case Operation.CLAIM:
+      return xAsset ? t`Claiming ${xAsset.toCurrencyString()}` : '';
+
     case Operation.ADD_LIQUIDITY:
       return xAsset && yAsset
         ? t`Adding liquidity ${xAsset.toCurrencyString()} and ${yAsset.toCurrencyString()}`

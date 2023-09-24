@@ -28,6 +28,7 @@ export enum RewardSectionType {
 export enum RewardStatus {
   AVAILABLE = 'available',
   RECEIVED = 'received',
+  PENDING = 'pending',
 }
 
 export const rewardAsset: AssetInfo = {
@@ -69,6 +70,7 @@ export type RewardsData = {
   readonly airdropRewards?: RewardSection;
   readonly totalAvailable: Currency;
   readonly totalClaimed: Currency;
+  readonly totalPending: Currency;
   readonly rawRewards: RawReward[];
 };
 
@@ -90,6 +92,13 @@ const buildRewardsData = (response: RawRewardResponse): RewardsData => {
       const availableSum = rawRewards.reduce(
         (acc, item) =>
           item.rewardStatus === RewardStatus.AVAILABLE
+            ? acc.plus(new Currency(item.reward.toString(), rewardAsset))
+            : acc,
+        new Currency(0n, rewardAsset),
+      );
+      const pendingSum = rawRewards.reduce(
+        (acc, item) =>
+          item.rewardStatus === RewardStatus.PENDING
             ? acc.plus(new Currency(item.reward.toString(), rewardAsset))
             : acc,
         new Currency(0n, rewardAsset),
@@ -137,6 +146,7 @@ const buildRewardsData = (response: RawRewardResponse): RewardsData => {
           },
           totalAvailable: rewardsData.totalAvailable.plus(availableSum),
           totalClaimed: rewardsData.totalClaimed.plus(claimedSum),
+          totalPending: rewardsData.totalPending.plus(pendingSum),
         };
       }
 
@@ -145,6 +155,7 @@ const buildRewardsData = (response: RawRewardResponse): RewardsData => {
     {
       totalClaimed: new Currency(0n, rewardAsset),
       totalAvailable: new Currency(0n, rewardAsset),
+      totalPending: new Currency(0n, rewardAsset),
       rawRewards: response.rewards,
     },
   );
