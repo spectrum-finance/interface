@@ -4,7 +4,7 @@ import TyphonLogo from './typhon-icon.svg';
 
 export const Typhon = createWallet<AdditionalData>({
   id: 'Typhon',
-  getConnector: () => cardano.typhon,
+  getConnector: () => cardano.typhoncip30,
   name: 'Typhon',
   extensionLink:
     'https://chrome.google.com/webstore/detail/typhon-wallet/kfdniefadaanbjodldohaedphafoffoh',
