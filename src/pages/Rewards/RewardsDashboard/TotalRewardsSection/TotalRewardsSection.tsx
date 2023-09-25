@@ -36,9 +36,11 @@ export const TotalRewardsSection: FC<TotalRewardsSectionProps> = ({
             {totalCollectedRewards.asset.ticker}
           </Typography.Title>
         </Flex.Item>
-        <Flex.Item>
-          <ShareXButton totalSpfReward={totalCollectedRewards.toString()} />
-        </Flex.Item>
+        {totalCollectedRewards.toString() !== '0' && (
+          <Flex.Item>
+            <ShareXButton totalSpfReward={totalCollectedRewards.toString()} />
+          </Flex.Item>
+        )}
       </Flex>
     </TitledBox>
   );

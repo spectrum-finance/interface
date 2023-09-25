@@ -11,7 +11,7 @@ import {
 } from '../../../../network/cardano/api/rewards/claimRewards';
 import { RewardsData } from '../../../../network/cardano/api/rewards/rewards';
 
-const CLAIMS_OPEN_DATETIME = DateTime.utc(2023, 9, 25, 15, 0);
+const CLAIMS_OPEN_DATETIME = DateTime.utc(2023, 9, 29, 21, 0).toLocal();
 
 export const ClaimRewardsButton: FC<{ rewardsData: RewardsData }> = ({
   rewardsData,
@@ -35,7 +35,7 @@ export const ClaimRewardsButton: FC<{ rewardsData: RewardsData }> = ({
     return () => clearInterval(intervalId);
   }, []);
 
-  const isRewardClaimable = now.toUTC() >= CLAIMS_OPEN_DATETIME;
+  const isRewardClaimable = now.toUTC().toLocal() >= CLAIMS_OPEN_DATETIME;
   const r = Interval.fromDateTimes(now, CLAIMS_OPEN_DATETIME).end.diff(
     now.toUTC(),
     ['days', 'hours', 'minutes', 'seconds', 'milliseconds'],
