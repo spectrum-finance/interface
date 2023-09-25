@@ -61,9 +61,11 @@ interface ApplicationConfig {
   readonly lbspBoostedLiquidityPools: string[];
   readonly specialRewards: string[];
   readonly deprecatedPools: string[];
+  readonly isRewardsAvailable: boolean;
 }
 
 export const applicationConfig: ApplicationConfig = {
+  isRewardsAvailable: false,
   spfUsdRateUrl: 'https://api.spectrum.fi/v1/price-tracking/spf/price',
   operationTimeoutTime: 60_000,
   cookieDomain: isProductionEnv() ? 'spectrum.fi' : undefined,
