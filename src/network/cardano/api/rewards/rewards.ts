@@ -170,7 +170,7 @@ const buildRewardsData = (response: RawRewardResponse): RewardsData => {
 export const rewards$ = getAddresses().pipe(
   filter((addresses) => !!addresses?.length),
   switchMap((addresses) =>
-    merge([updateRewards$, interval(60_000)]).pipe(
+    merge(updateRewards$, interval(10_000)).pipe(
       startWith(0),
       mapTo(addresses),
     ),

@@ -27,10 +27,9 @@ export const ClaimRewardsButton: FC<{ rewardsData: RewardsData }> = ({
   const [rewardsPaymentRequestStatus] = useObservable(
     rewardsPaymentRequestStatus$,
   );
-  const [validationData, validationLoading] = useObservable(
-    buildClaimTx(rewardsData),
-    [rewardsData],
-  );
+  const [validationData] = useObservable(buildClaimTx(rewardsData), [
+    rewardsData,
+  ]);
   const onHandleClaimRewards = () => {
     openConfirmationModal(claimRewards(rewardsData), Operation.CLAIM, {
       xAsset: rewardsData.totalAvailable,
@@ -93,12 +92,13 @@ export const ClaimRewardsButton: FC<{ rewardsData: RewardsData }> = ({
           loading={
             rewardsPaymentRequestStatus !== ClaimRewardsStatus.AVAILABLE ||
             rewardsData.totalPending.isPositive() ||
-            validationLoading
+            !validationData
           }
           disabled={
-            !validationData?.transaction &&
-            rewardsPaymentRequestStatus === ClaimRewardsStatus.AVAILABLE &&
-            !rewardsData.totalPending.isPositive()
+            !isRewardClaimable ||
+            (!validationData?.transaction &&
+              rewardsPaymentRequestStatus === ClaimRewardsStatus.AVAILABLE &&
+              !rewardsData.totalPending.isPositive())
           }
           size="extra-large"
           type="primary"
@@ -108,12 +108,12 @@ export const ClaimRewardsButton: FC<{ rewardsData: RewardsData }> = ({
           {rewardsPaymentRequestStatus === ClaimRewardsStatus.AVAILABLE &&
             !rewardsData.totalPending.isPositive() &&
             !validationData?.transaction &&
-            !validationLoading &&
+            !!validationData &&
             t`Insufficient Ada For Claiming`}
           {rewardsPaymentRequestStatus === ClaimRewardsStatus.AVAILABLE &&
             !rewardsData.totalPending.isPositive() &&
             !!validationData?.transaction &&
-            !validationLoading &&
+            !!validationData &&
             t`Claim rewards`}
           {rewardsPaymentRequestStatus === ClaimRewardsStatus.AVAILABLE &&
             rewardsData.totalPending.isPositive() &&
@@ -123,7 +123,7 @@ export const ClaimRewardsButton: FC<{ rewardsData: RewardsData }> = ({
           {rewardsPaymentRequestStatus ===
             ClaimRewardsStatus.PAYMENT_HANDLING && t`Payment handling`}
           {(rewardsPaymentRequestStatus === ClaimRewardsStatus.LOADING ||
-            validationLoading) &&
+            !validationData) &&
             t`Loading`}
         </Button>
       </Flex.Item>
