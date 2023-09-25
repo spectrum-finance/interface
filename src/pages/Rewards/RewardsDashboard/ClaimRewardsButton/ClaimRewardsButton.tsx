@@ -109,7 +109,14 @@ export const ClaimRewardsButton: FC<{ rewardsData: RewardsData }> = ({
             !rewardsData.totalPending.isPositive() &&
             !validationData?.transaction &&
             !!validationData &&
+            !!validationData.addresses.length &&
             t`Insufficient Ada For Claiming`}
+          {rewardsPaymentRequestStatus === ClaimRewardsStatus.AVAILABLE &&
+            !rewardsData.totalPending.isPositive() &&
+            !validationData?.transaction &&
+            !!validationData &&
+            !validationData.addresses.length &&
+            t`No available rewards`}
           {rewardsPaymentRequestStatus === ClaimRewardsStatus.AVAILABLE &&
             !rewardsData.totalPending.isPositive() &&
             !!validationData?.transaction &&

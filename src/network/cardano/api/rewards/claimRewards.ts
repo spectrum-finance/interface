@@ -98,7 +98,7 @@ export const buildClaimTx = (
                 data: undefined,
               }),
             )
-            .reduce((acc, item) => acc + item) +
+            .reduce((acc, item) => acc + item, 0n) +
           ammTxFeeMapping.swapOrder * BigInt(outputsData.length + 1);
 
         const datumList = RustModule.CardanoWasm.PlutusList.new();
@@ -214,9 +214,9 @@ const isPaymentHandling$ = interval(5_000).pipe(
   ),
   map((res) => res.data),
   tap((isPaymentHandling) => {
-    if (isPaymentHandling) {
-      localStorageManager.remove(CLAIM_IN_MEMPOOL_KEY);
+    if (isPaymentHandling && localStorageManager.get(CLAIM_IN_MEMPOOL_KEY)) {
       updateRewards$.next(undefined);
+      localStorageManager.remove(CLAIM_IN_MEMPOOL_KEY);
     }
   }),
   publishReplay(1),
