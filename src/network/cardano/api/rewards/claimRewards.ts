@@ -190,6 +190,7 @@ export const claimRewards = (rewardsData: RewardsData): Observable<TxId> => {
     tap(() =>
       localStorageManager.set(CLAIM_IN_MEMPOOL_KEY, DateTime.now().toMillis()),
     ),
+    first(),
   );
 };
 
