@@ -16,6 +16,7 @@ import { useObservable } from '../../common/hooks/useObservable.ts';
 import { ConnectWalletButton } from '../../components/common/ConnectWalletButton/ConnectWalletButton.tsx';
 import { Page } from '../../components/Page/Page.tsx';
 import { rewards$ } from '../../network/cardano/api/rewards/rewards';
+import { Eternl } from '../../network/cardano/api/wallet/eternl/eternl';
 import { RewardsBugFixing } from './RewardsBugFixing/RewardsBugFixing';
 import { RewardsDashboard } from './RewardsDashboard/RewardsDashboard.tsx';
 
@@ -43,6 +44,8 @@ export const Rewards: FC = () => {
                     any type of reward, try to recover your seed phrase using{' '}
                     <Button
                       type="link"
+                      target="_blank"
+                      href={Eternl.extensionLink}
                       style={{
                         height: 'auto',
                         padding: 0,
