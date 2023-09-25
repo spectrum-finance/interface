@@ -11,12 +11,14 @@ import axios from 'axios';
 import groupBy from 'lodash/groupBy';
 import { DateTime } from 'luxon';
 import {
+  catchError,
   combineLatest,
   first,
   from,
   interval,
   map,
   Observable,
+  of,
   publishReplay,
   refCount,
   startWith,
@@ -31,15 +33,30 @@ import { getAddresses } from '../../../../gateway/api/addresses';
 import { CardanoSettings, settings$ } from '../../settings/settings';
 import { cardanoNetworkParams$ } from '../common/cardanoNetwork';
 import { cardanoWasm$ } from '../common/cardanoWasm';
+import { networkAsset } from '../networkAsset/networkAsset';
 import { ammTxFeeMapping } from '../operations/common/ammTxFeeMapping';
 import {
   DefaultInputCollector,
   DefaultInputSelector,
 } from '../operations/common/inputSelector';
 import { submitTx } from '../operations/common/submitTxCandidate';
-import { RawReward, rewardAsset, RewardsData, RewardStatus } from './rewards';
+import {
+  RawReward,
+  rewardAsset,
+  RewardsData,
+  RewardStatus,
+  updateRewards$,
+} from './rewards';
 
-const buildClaimTx = (rewardsData: RewardsData): Observable<Transaction> => {
+interface ClaimTxResponse {
+  readonly transaction: Transaction | null;
+  readonly requiredAda: Currency;
+  readonly addresses: string[];
+}
+
+export const buildClaimTx = (
+  rewardsData: RewardsData,
+): Observable<ClaimTxResponse> => {
   const groupedByAddress = groupBy(
     rewardsData.rawRewards.filter(
       (item) => item.rewardStatus === RewardStatus.AVAILABLE,
@@ -140,6 +157,21 @@ const buildClaimTx = (rewardsData: RewardsData): Observable<Transaction> => {
               changeAddr: settings.address!,
             });
           }),
+          map((transaction) => ({
+            transaction,
+            addresses: outputsData.map((item) => item.address),
+            requiredAda: new Currency(minAdaRequiredForClaiming, networkAsset),
+          })),
+          catchError(() =>
+            of({
+              transaction: null,
+              addresses: outputsData.map((item) => item.address),
+              requiredAda: new Currency(
+                minAdaRequiredForClaiming,
+                networkAsset,
+              ),
+            }),
+          ),
           first(),
         );
       },
@@ -149,7 +181,12 @@ const buildClaimTx = (rewardsData: RewardsData): Observable<Transaction> => {
 
 export const claimRewards = (rewardsData: RewardsData): Observable<TxId> => {
   return buildClaimTx(rewardsData).pipe(
-    switchMap((tx) => submitTx(tx)),
+    switchMap(({ transaction }) => {
+      if (transaction) {
+        return submitTx(transaction);
+      }
+      throw new Error('Insufficient funds');
+    }),
     tap(() =>
       localStorageManager.set(CLAIM_IN_MEMPOOL_KEY, DateTime.now().toMillis()),
     ),
@@ -178,6 +215,7 @@ const isPaymentHandling$ = interval(5_000).pipe(
   tap((isPaymentHandling) => {
     if (isPaymentHandling) {
       localStorageManager.remove(CLAIM_IN_MEMPOOL_KEY);
+      updateRewards$.next(undefined);
     }
   }),
   publishReplay(1),

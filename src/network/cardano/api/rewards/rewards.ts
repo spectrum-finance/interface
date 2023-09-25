@@ -6,9 +6,11 @@ import {
   interval,
   map,
   mapTo,
+  merge,
   publishReplay,
   refCount,
   startWith,
+  Subject,
   switchMap,
 } from 'rxjs';
 
@@ -28,6 +30,7 @@ export enum RewardSectionType {
 export enum RewardStatus {
   AVAILABLE = 'available',
   RECEIVED = 'received',
+  PENDING = 'pending',
 }
 
 export const rewardAsset: AssetInfo = {
@@ -69,8 +72,11 @@ export type RewardsData = {
   readonly airdropRewards?: RewardSection;
   readonly totalAvailable: Currency;
   readonly totalClaimed: Currency;
+  readonly totalPending: Currency;
   readonly rawRewards: RawReward[];
 };
+
+export const updateRewards$ = new Subject<undefined>();
 
 const buildRewardsData = (response: RawRewardResponse): RewardsData => {
   const groupedRawRewards: Dictionary<RawReward[]> = groupBy<RawReward>(
@@ -90,6 +96,13 @@ const buildRewardsData = (response: RawRewardResponse): RewardsData => {
       const availableSum = rawRewards.reduce(
         (acc, item) =>
           item.rewardStatus === RewardStatus.AVAILABLE
+            ? acc.plus(new Currency(item.reward.toString(), rewardAsset))
+            : acc,
+        new Currency(0n, rewardAsset),
+      );
+      const pendingSum = rawRewards.reduce(
+        (acc, item) =>
+          item.rewardStatus === RewardStatus.PENDING
             ? acc.plus(new Currency(item.reward.toString(), rewardAsset))
             : acc,
         new Currency(0n, rewardAsset),
@@ -137,6 +150,7 @@ const buildRewardsData = (response: RawRewardResponse): RewardsData => {
           },
           totalAvailable: rewardsData.totalAvailable.plus(availableSum),
           totalClaimed: rewardsData.totalClaimed.plus(claimedSum),
+          totalPending: rewardsData.totalPending.plus(pendingSum),
         };
       }
 
@@ -145,6 +159,7 @@ const buildRewardsData = (response: RawRewardResponse): RewardsData => {
     {
       totalClaimed: new Currency(0n, rewardAsset),
       totalAvailable: new Currency(0n, rewardAsset),
+      totalPending: new Currency(0n, rewardAsset),
       rawRewards: response.rewards,
     },
   );
@@ -153,7 +168,10 @@ const buildRewardsData = (response: RawRewardResponse): RewardsData => {
 export const rewards$ = getAddresses().pipe(
   filter((addresses) => !!addresses?.length),
   switchMap((addresses) =>
-    interval(60_000).pipe(startWith(0), mapTo(addresses)),
+    merge([updateRewards$, interval(60_000)]).pipe(
+      startWith(0),
+      mapTo(addresses),
+    ),
   ),
   switchMap((addresses) =>
     from(axios.post('https://rewards.spectrum.fi/v1/rewards/data', addresses)),
