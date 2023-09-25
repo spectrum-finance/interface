@@ -66,7 +66,7 @@ export const RewardsDashboard: FC<RewardsDashboardProps> = ({
             type="info"
             showIcon
             message={
-              <Trans>LBSP rewards are 50% higher then the ISPO ones</Trans>
+              <Trans>LBSP rewards are 50% higher than the ISPO ones.</Trans>
             }
           />,
           <Button
