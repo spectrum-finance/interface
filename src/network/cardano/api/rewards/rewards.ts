@@ -122,6 +122,7 @@ const buildRewardsData = (response: RawRewardResponse): RewardsData => {
           },
           totalAvailable: rewardsData.totalAvailable.plus(availableSum),
           totalClaimed: rewardsData.totalClaimed.plus(claimedSum),
+          totalPending: rewardsData.totalPending.plus(pendingSum),
         };
       }
       if (key === RewardSectionType.LBSP) {
@@ -138,6 +139,7 @@ const buildRewardsData = (response: RawRewardResponse): RewardsData => {
           },
           totalAvailable: rewardsData.totalAvailable.plus(availableSum),
           totalClaimed: rewardsData.totalClaimed.plus(claimedSum),
+          totalPending: rewardsData.totalPending.plus(pendingSum),
         };
       }
       if (key === RewardSectionType.AIRDROP) {

@@ -259,5 +259,6 @@ interval(5_000)
     }
     if (DateTime.now().toMillis() - claimRegisterTs > 60_000) {
       localStorageManager.remove(CLAIM_IN_MEMPOOL_KEY);
+      updateRewards$.next(undefined);
     }
   });

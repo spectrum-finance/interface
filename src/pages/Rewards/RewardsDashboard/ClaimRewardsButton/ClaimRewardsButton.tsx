@@ -95,7 +95,11 @@ export const ClaimRewardsButton: FC<{ rewardsData: RewardsData }> = ({
             rewardsData.totalPending.isPositive() ||
             validationLoading
           }
-          disabled={!isRewardClaimable || !validationData?.transaction}
+          disabled={
+            !validationData?.transaction &&
+            rewardsPaymentRequestStatus === ClaimRewardsStatus.AVAILABLE &&
+            !rewardsData.totalPending.isPositive()
+          }
           size="extra-large"
           type="primary"
           block
