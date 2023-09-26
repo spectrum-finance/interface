@@ -94,7 +94,7 @@ export const createWalletManager = (
     }
 
     const networkName =
-      networkId === CardanoNetwork.TESTNET ? 'Preview' : 'Mainnet';
+      networkId === CardanoNetwork.TESTNET ? 'Mainnet' : 'Preview';
     notification.error({
       key: 'wallet_network_error',
       message: 'Wallet Network Error',
