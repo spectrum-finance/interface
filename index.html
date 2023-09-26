@@ -38,6 +38,7 @@
 
             sw.onupdatefound = () => {
               console.log('sw update found. Please reload the page.')
+              window.needUpdate = true
             }
 
             setInterval(() => {
