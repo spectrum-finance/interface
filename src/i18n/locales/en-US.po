@@ -11,7 +11,10 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
-#: src/components/common/Layout/Header/BurgerMenu/ManualRefundModal/ManualRefundModalV1/ManualRefundModalV1.tsx
+#: src/components/LbspFaqModal/LbspFaqModal.tsx
+msgid "How do I participate in the LBSP program?"
+msgstr "How do I participate in the LBSP program?"
+
 #: src/components/common/Layout/Header/BurgerMenu/ManualRefundModal/ManualRefundModalV2/ManualRefundModalV2.tsx
 msgid "Transaction not found"
 msgstr "Transaction not found"
@@ -24,9 +27,13 @@ msgstr "Staked in farms"
 #~ msgid "only on top of the Ergo Blockchain."
 #~ msgstr "only on top of the Ergo Blockchain."
 
+#: src/pages/Liquidity/common/components/Apr24InfoTooltip/Apr24InfoTooltip.tsx
+msgid "A rough estimate based on the trading volume in a pool for the last 24 hours. May not correspond to actual gains or losses."
+msgstr "A rough estimate based on the trading volume in a pool for the last 24 hours. May not correspond to actual gains or losses."
+
 #: src/components/FaucetModal/FaucetModal.tsx
-msgid "Get testnet token"
-msgstr "Get testnet token"
+#~ msgid "Get testnet token"
+#~ msgstr "Get testnet token"
 
 #: src/pages/PoolOverview/PoolInfoView/PoolInfoView.tsx
 msgid "Increase Liquidity"
@@ -36,8 +43,7 @@ msgstr "Increase Liquidity"
 #~ msgid "Type"
 #~ msgstr "Type"
 
-#: src/components/OperationHistoryModal/OperationHistoryV2/cells/StatusCell/StatusCell.tsx
-#: src/components/OperationHistoryModal/OperationHistoryV2/filters/statusFilter.tsx
+#: src/components/OperationHistoryModal/OperationHistory/filters/statusFilter.tsx
 msgid "Refunded"
 msgstr "Refunded"
 
@@ -45,25 +51,30 @@ msgstr "Refunded"
 #~ msgid "To"
 #~ msgstr "To"
 
+#: src/network/ergo/widgets/SwapCollapse/SwapCollapse.tsx
+#: src/network/ergo/widgets/SwapConfirmationModal/SwapConfirmationInfo/SwapConfirmationInfo.tsx
+msgid "Service Fee"
+msgstr "Service Fee"
+
 #: src/components/BaseAddLiquidityConfirmationModal/BaseAddLiquidityConfirmationModal.tsx
+#: src/components/BaseCreatePoolConfirmationModal/BaseCreatePoolConfirmationModal.tsx
 #: src/components/BaseRedeemConfirmationModal/BaseRedeemConfirmationModal.tsx
 #: src/components/common/FormView/FormFeesSection/FormFeesSection.tsx
 #: src/network/ergo/widgets/DepositOpenWallet/DepositOpenWallet.tsx
 #: src/network/ergo/widgets/RedeemOpenWallet/RedeemOpenWallet.tsx
-#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
-#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
+#: src/pages/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
 msgid "Fees"
 msgstr "Fees"
 
-#: src/pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool.tsx
+#: src/pages/CreatePool/CreatePool.tsx
 msgid "Select Pair"
 msgstr "Select Pair"
 
 #: src/pages/Liquidity/common/tableViewStates/PoolsOverviewLoadingState/PoolsOverviewLoadingState.tsx
-msgid "Loading pools."
-msgstr "Loading pools."
+#~ msgid "Loading pools."
+#~ msgstr "Loading pools."
 
-#: src/components/OperationHistoryModal/OperationHistoryV2/states/ErrorState/ErrorState.tsx
+#: src/components/OperationHistoryModal/OperationHistory/states/ErrorState/ErrorState.tsx
 msgid "contact support"
 msgstr "contact support"
 
@@ -71,13 +82,17 @@ msgstr "contact support"
 #~ msgid "Enter an A  mount"
 #~ msgstr "Enter an A  mount"
 
-#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
+#: src/network/ergo/operations/createPool/useCreatePoolValidators.ts
 msgid "Insufficient {0} Balance for Fees"
 msgstr "Insufficient {0} Balance for Fees"
 
 #: src/pages/Farms/FarmTableView/FarmTableExpandComponent/DistributionFrequencyCell/DistributionFrequencyCell.tsx
 msgid "blocks"
 msgstr "blocks"
+
+#: src/pages/Rewards/RewardsDashboard/RewardsDashboard.tsx
+msgid "Provide liquidity"
+msgstr "Provide liquidity"
 
 #: src/components/common/CopyButton/CopyButton.tsx
 msgid "Address successfully copied"
@@ -95,13 +110,27 @@ msgstr "Lock time"
 msgid "(Unlock block: {0})"
 msgstr "(Unlock block: {0})"
 
+#: src/components/LbspFaqModal/LbspFaqModal.tsx
+msgid "Are there any risks involved?"
+msgstr "Are there any risks involved?"
+
 #: src/components/common/Layout/Header/ClaimSpfButton/ClaimSpfModal/NothingToClaimState/NothingToClaimState.tsx
 msgid "Don’t worry. You still can earn it by providing liquidity and staking LP tokens in farms!"
 msgstr "Don’t worry. You still can earn it by providing liquidity and staking LP tokens in farms!"
 
-#: src/components/OperationHistoryModal/OperationHistoryV1/OperationHistoryTable/states/OperationSearchEmptyState/OperationSearchEmptyState.tsx
+#: src/components/OperationHistoryModal/OperationHistory/states/OperationSearchEmptyState/OperationSearchEmptyState.tsx
 msgid "We didn't find anything."
 msgstr "We didn't find anything."
+
+#: src/components/BaseAddLiquidityConfirmationModal/BaseAddLiquidityConfirmationModal.tsx
+#: src/components/BaseCreatePoolConfirmationModal/BaseCreatePoolConfirmationModal.tsx
+#: src/network/ergo/widgets/DepositOpenWallet/DepositOpenWallet.tsx
+msgid "Current Ratio"
+msgstr "Current Ratio"
+
+#: src/components/OperationHistoryModal/OperationHistoryModal.tsx
+msgid "Orders"
+msgstr "Orders"
 
 #: src/pages/Liquidity/common/tableViewStates/PositionEmptyState/PositionEmptyState.tsx
 msgid "New position"
@@ -116,14 +145,18 @@ msgstr "Your liquidity positions will appear here."
 msgid "Light"
 msgstr "Light"
 
+#: src/components/OperationHistoryModal/OperationHistory/cells/StatusCell/StatusCell.tsx
+msgid "Queuing..."
+msgstr "Queuing..."
+
 #: src/services/notifications/CookiePolicy/CookiePolicy.tsx
 #: src/services/notifications/CookiePolicy/CookiePolicy.tsx
 msgid "Reject"
 msgstr "Reject"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
-msgid "Choose a fee"
-msgstr "Choose a fee"
+#~ msgid "Choose a fee"
+#~ msgstr "Choose a fee"
 
 #: src/pages/Farms/FarmTableView/FarmTableExpandComponent/LivePeriodCell/LivePeriodCell.tsx
 msgid "Live Period"
@@ -133,22 +166,46 @@ msgstr "Live Period"
 msgid "The liquidity tokens of this pool will participate in the farming program."
 msgstr "The liquidity tokens of this pool will participate in the farming program."
 
+#: src/components/LbspFaqModal/LbspFaqModal.tsx
+msgid "<0>(3) Market Manipulation:</0> Liquidity providers may face the risk of market manipulation, especially in smaller and less liquid markets. This could result in sudden and sharp price fluctuations that impact the value of the provided liquidity."
+msgstr "<0>(3) Market Manipulation:</0> Liquidity providers may face the risk of market manipulation, especially in smaller and less liquid markets. This could result in sudden and sharp price fluctuations that impact the value of the provided liquidity."
+
 #: src/pages/Swap/SwapInfo/MoreInfoButton/MoreInfoButton.tsx
-msgid "More"
-msgstr "More"
+#~ msgid "More"
+#~ msgstr "More"
 
 #: src/components/OperationSettings/OperationSettings.tsx
 msgid "Minimal Nitro value is"
 msgstr "Minimal Nitro value is"
 
+#: src/pages/Rewards/RewardsDashboard/RewardsDashboard.tsx
+msgid "You do not stake ADA in the ISPO. Official ISPO stake pools are <0>SPF0</0> and <1>SPF1</1>. Use your wallet to delegate ADA to one of those stake pools and receive 0.006 SPF per delegated ADA epochly."
+msgstr "You do not stake ADA in the ISPO. Official ISPO stake pools are <0>SPF0</0> and <1>SPF1</1>. Use your wallet to delegate ADA to one of those stake pools and receive 0.006 SPF per delegated ADA epochly."
+
+#: src/components/LbspFaqModal/LbspFaqModal.tsx
+msgid "What is the reward for participation?"
+msgstr "What is the reward for participation?"
+
+#: src/pages/Rewards/RewardsDashboard/TotalRewardsSection/TotalRewardsSection.tsx
+msgid "To claim"
+msgstr "To claim"
+
 #: src/components/common/FormView/FormFeesSection/FormFeesSection.tsx
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
-msgid "Miner Fee:"
-msgstr "Miner Fee:"
+#~ msgid "Miner Fee:"
+#~ msgstr "Miner Fee:"
+
+#: src/components/LbspFaqModal/LbspFaqModal.tsx
+msgid "SPF0"
+msgstr "SPF0"
 
 #: src/components/Header/ConnectWallet/ConnectWallet.tsx
 #~ msgid "{numberOfPendingTxs} Pending"
 #~ msgstr "{numberOfPendingTxs} Pending"
+
+#: src/pages/Rewards/RewardsDashboard/ClaimRewardsButton/ClaimRewardsButton.tsx
+msgid "No available rewards"
+msgstr "No available rewards"
 
 #: src/pages/Liquidity/utils.ts
 msgid "1 Month"
@@ -171,38 +228,46 @@ msgid "Budget"
 msgstr "Budget"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePoolUnsupportedAlert/CreatePoolUnsupportedAlert.tsx
-msgid "{walletName} Wallet doesn’t support “create pool” functionality yet. Choose another wallet to perform the operation."
-msgstr "{walletName} Wallet doesn’t support “create pool” functionality yet. Choose another wallet to perform the operation."
+#~ msgid "{walletName} Wallet doesn’t support “create pool” functionality yet. Choose another wallet to perform the operation."
+#~ msgstr "{walletName} Wallet doesn’t support “create pool” functionality yet. Choose another wallet to perform the operation."
 
 #: src/components/BaseRedeemConfirmationModal/BaseRedeemConfirmationModal.tsx
 #: src/pages/PoolOverview/PoolInfoView/PoolInfoView.tsx
 msgid "Remove Liquidity"
 msgstr "Remove Liquidity"
 
+#: src/components/LbspFaqModal/LbspFaqModal.tsx
+msgid "SPF is a cross-chain token whose main utility is to secure Spectrum Network PoS consensus. Spectrum Network is a trustless cross-chain messaging protocol that is currently in an active development stage. However, while Spectrum Network is under development, users can pay execution fees using the SPF on Layer 1 AMM protocols by Spectrum Finance."
+msgstr "SPF is a cross-chain token whose main utility is to secure Spectrum Network PoS consensus. Spectrum Network is a trustless cross-chain messaging protocol that is currently in an active development stage. However, while Spectrum Network is under development, users can pay execution fees using the SPF on Layer 1 AMM protocols by Spectrum Finance."
+
+#: src/network/cardano/api/operations/createPool.tsx
+msgid "Min liquidity for creation is {0} ADA"
+msgstr "Min liquidity for creation is {0} ADA"
+
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
-msgid "0.3% fee"
-msgstr "0.3% fee"
+#~ msgid "0.3% fee"
+#~ msgstr "0.3% fee"
 
 #: src/components/PoolSelector/PoolSelectorOverlay/PoolSelectorOverlay.tsx
 msgid "Search pool"
 msgstr "Search pool"
 
 #: src/components/common/Layout/CardanoMaintenance/CardanoMaintenance.tsx
-msgid "Cardano testnet is under maintenance. Some operations may not work as expected. We are working on it."
-msgstr "Cardano testnet is under maintenance. Some operations may not work as expected. We are working on it."
+#~ msgid "Cardano testnet is under maintenance. Some operations may not work as expected. We are working on it."
+#~ msgstr "Cardano testnet is under maintenance. Some operations may not work as expected. We are working on it."
 
 #: src/network/ergo/widgets/RefundConfirmationModal/RefundConfirmationModal.tsx
 #: src/network/ergo/widgets/RefundOpenWallet/RefundOpenWallet.tsx
 msgid "Refund will be performed to this address"
 msgstr "Refund will be performed to this address"
 
-#: src/components/OperationHistoryModal/OperationHistoryV1/OperationHistoryTable/states/OperationsEmptyState/OperationsEmptyState.tsx
+#: src/components/OperationHistoryModal/OperationHistory/states/OperationsEmptyState/OperationsEmptyState.tsx
 msgid "Your transactions will appear here"
 msgstr "Your transactions will appear here"
 
 #: src/components/FaucetModal/FaucetModal.tsx
-msgid "To get ErgoDEX testnet tokens select a token that you want to receive and press \"Get testnet token\" button"
-msgstr "To get ErgoDEX testnet tokens select a token that you want to receive and press \"Get testnet token\" button"
+#~ msgid "To get ErgoDEX testnet tokens select a token that you want to receive and press \"Get testnet token\" button"
+#~ msgstr "To get ErgoDEX testnet tokens select a token that you want to receive and press \"Get testnet token\" button"
 
 #: src/pages/Farms/FarmTableView/FarmTableExpandComponent/ClaimedRewardsCell/ClaimedRewardsCell.tsx
 #: src/pages/Farms/FarmTableView/FarmTableExpandComponent/common/RewardCell/RewardCell.tsx
@@ -210,26 +275,48 @@ msgid "Connect wallet to see your next rewards"
 msgstr "Connect wallet to see your next rewards"
 
 #: src/pages/Farms/FarmTableView/columns/FarmPairColumn/FarmPairColumn.tsx
-#: src/pages/Farms/FarmTopPanel/FarmStateFilter/FarmState.ts
+#: src/pages/Farms/FarmTopPanel/FarmStateFilter/FarmStateFilter.tsx
 msgid "Scheduled"
 msgstr "Scheduled"
 
+#: src/components/common/Layout/Header/Navigation/Navigation.tsx
+#: src/components/LbspCalculatorModal/LbspCalculatorModal.tsx
+msgid "Rewards"
+msgstr "Rewards"
+
 #: src/pages/Farms/FarmTableView/columns/FarmPairColumn/FarmPairColumn.tsx
 #: src/pages/Farms/FarmTableView/FarmTableExpandComponent/common/RewardCell/RewardCell.tsx
-#: src/pages/Farms/FarmTopPanel/FarmStateFilter/FarmState.ts
+#: src/pages/Farms/FarmTopPanel/FarmStateFilter/FarmStateFilter.tsx
+#: src/pages/Rewards/Tags/RewardStatusTag/RewardStatusTag.tsx
 msgid "Finished"
 msgstr "Finished"
+
+#: src/pages/Rewards/RewardsDashboard/RewardsDashboard.tsx
+msgid "ISPO"
+msgstr "ISPO"
 
 #: src/network/cardano/widgets/DepositConfirmationModal/DepositConfirmationInfo/DepositConfirmationInfo.tsx
 #: src/network/cardano/widgets/RedeemConfirmationModal/RedeemConfirmationInfo/RedeemConfirmationInfo.tsx
 #: src/network/cardano/widgets/SwapConfirmationModal/SwapConfirmationInfo/SwapConfirmationInfo.tsx
-msgid "Refundable deposit:"
-msgstr "Refundable deposit:"
+#~ msgid "Refundable deposit:"
+#~ msgstr "Refundable deposit:"
+
+#: src/pages/Liquidity/common/columns/PoolsOrPositionsColumns/columns/AprColumn/CardanoAprColumnContent/CardanoAprColumnContent.tsx
+msgid "Boosted APR:"
+msgstr "Boosted APR:"
+
+#: src/pages/Liquidity/default/LiquidityDefaultLayout.tsx
+msgid "Locked Liquidity"
+msgstr "Locked Liquidity"
 
 #: src/components/Header/BurgerMenu/BurgerMenu.tsx
 #: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
 #~ msgid "Global Settings"
 #~ msgstr "Global Settings"
+
+#: src/pages/Rewards/RewardsDashboard/ClaimRewardsButton/ClaimRewardsButton.tsx
+msgid "Insufficient Ada For Claiming"
+msgstr "Insufficient Ada For Claiming"
 
 #: src/components/WalletModal/LowBalanceWarning/LowBalanceWarning.tsx
 #~ msgid "ERG balance is low"
@@ -240,9 +327,14 @@ msgstr "Refundable deposit:"
 msgid "Type token name or pool id"
 msgstr "Type token name or pool id"
 
-#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/common/TransactionDetails/TransactionDetails.tsx
+#: src/components/OperationHistoryModal/OperationHistory/OperationHistoryV2.tsx
+#: src/components/OperationHistoryModal/OperationHistory/OperationHistoryV2.tsx
 msgid "TxId successfully copied"
 msgstr "TxId successfully copied"
+
+#: src/pages/Liquidity/default/LiquidityDefaultLayout.tsx
+msgid "Overview"
+msgstr "Overview"
 
 #: src/pages/Liquidity/default/components/YourPositions/PositionDetails/PositionDetails.tsx
 #: src/pages/Liquidity/mobile/components/YourPositions/PositionDetails/PositionDetails.tsx
@@ -257,16 +349,20 @@ msgstr "Select address"
 #: src/network/cardano/widgets/DepositConfirmationModal/DepositConfirmationInfo/DepositConfirmationInfo.tsx
 #: src/network/cardano/widgets/RedeemConfirmationModal/RedeemConfirmationInfo/RedeemConfirmationInfo.tsx
 #: src/network/cardano/widgets/SwapConfirmationModal/SwapConfirmationInfo/SwapConfirmationInfo.tsx
-msgid "Transaction Fee"
-msgstr "Transaction Fee"
+#~ msgid "Transaction Fee"
+#~ msgstr "Transaction Fee"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePoolUnsupportedAlert/CreatePoolUnsupportedAlert.tsx
-msgid "Testnet user interface doesn’t support “create pool” functionality."
-msgstr "Testnet user interface doesn’t support “create pool” functionality."
+#~ msgid "Testnet user interface doesn’t support “create pool” functionality."
+#~ msgstr "Testnet user interface doesn’t support “create pool” functionality."
 
 #: src/components/WalletModal/WalletTokens/WalletTokens.tsx
 msgid "Tokens"
 msgstr "Tokens"
+
+#: src/network/cardano/widgets/AdaHandle/AdaHandleModal/AdaHandleModal.tsx
+msgid "Skip"
+msgstr "Skip"
 
 #: src/components/WalletModal/WalletModal.tsx
 #~ msgid "Ergo network"
@@ -276,7 +372,7 @@ msgstr "Tokens"
 msgid "Hour"
 msgstr "Hour"
 
-#: src/components/OperationHistoryModal/OperationHistoryV2/states/ErrorState/ErrorState.tsx
+#: src/components/OperationHistoryModal/OperationHistory/states/ErrorState/ErrorState.tsx
 msgid "Retry"
 msgstr "Retry"
 
@@ -288,17 +384,13 @@ msgstr "1 Day"
 msgid "Select pool"
 msgstr "Select pool"
 
+#: src/components/AddLiquidityForm/AddLiquidityForm.tsx
 #: src/components/common/Layout/Header/Navigation/Navigation.tsx
-#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
-#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
-#: src/pages/Liquidity/Liquidity.tsx
 msgid "Liquidity"
 msgstr "Liquidity"
 
-#: src/pages/Farms/FarmActionModals/FarmActionModalHeader/FarmActionModalHeader.tsx
 #: src/pages/Farms/FarmOperationModal/FarmOperationModalHeader/FarmOperationModalHeader.tsx
 #: src/pages/Farms/FarmTableView/FarmTableView.tsx
-#: src/pages/Liquidity/default/common/PoolsOrPositionsTableView/PoolsOrPositionsTableView.tsx
 #: src/pages/Liquidity/mobile/common/PoolOrPositionDetails/PoolOrPositionDetails.tsx
 msgid "APR"
 msgstr "APR"
@@ -306,6 +398,10 @@ msgstr "APR"
 #: src/components/NetworkHeight/NetworkHeight.tsx
 msgid "The most recent block in Ergo network"
 msgstr "The most recent block in Ergo network"
+
+#: src/components/OperationHistoryModal/OperationHistory/OperationHistoryV2.tsx
+msgid "Actions"
+msgstr "Actions"
 
 #: src/network/ergo/widgets/RefundConfirmationModal/RefundConfirmationModal.tsx
 msgid "Confirm"
@@ -316,9 +412,17 @@ msgstr "Confirm"
 #~ msgid "{0} per {1}"
 #~ msgstr "{0} per {1}"
 
+#: src/pages/Liquidity/common/columns/PoolsOrPositionsColumns/columns/AprColumn/CardanoAprColumnContent/CardanoAprColumnContent.tsx
+msgid "Trading Fees:"
+msgstr "Trading Fees:"
+
+#: src/network/cardano/widgets/SwapCollapse/SwapCollapse.tsx
+msgid "Refundable Deposit"
+msgstr "Refundable Deposit"
+
 #: src/components/OperationHistoryModal/OperationHistoryModal.tsx
-msgid "Orders history"
-msgstr "Orders history"
+#~ msgid "Orders history"
+#~ msgstr "Orders history"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 #~ msgid "Pool liquidity"
@@ -333,9 +437,13 @@ msgstr "Locked liquidity"
 msgid "Waiting for connection with ErgoPay"
 msgstr "Waiting for connection with ErgoPay"
 
+#: src/components/LbspFaqModal/LbspFaqModal.tsx
+msgid "Cardano PoS blockchain makes it possible to delegate and stake ADA not only using a wallet but also from a smart contract. All Spectrum Finance Pool smart contracts that represent liquidity pools in the system delegate ADA to Liquidity Bootstrapping Stake Pools. These stake pools generate blocks and ADA rewards for the project’s treasury and for ADA/SPF liquidity pool. In exchange, liquidity providers are rewarded with SPF utility tokens."
+msgstr "Cardano PoS blockchain makes it possible to delegate and stake ADA not only using a wallet but also from a smart contract. All Spectrum Finance Pool smart contracts that represent liquidity pools in the system delegate ADA to Liquidity Bootstrapping Stake Pools. These stake pools generate blocks and ADA rewards for the project’s treasury and for ADA/SPF liquidity pool. In exchange, liquidity providers are rewarded with SPF utility tokens."
+
 #: src/components/WalletModal/LowBalanceWarning/LowBalanceWarning.tsx
-msgid "{0} balance is low You need {1} to pay transaction fees"
-msgstr "{0} balance is low You need {1} to pay transaction fees"
+#~ msgid "{0} balance is low You need {1} to pay transaction fees"
+#~ msgstr "{0} balance is low You need {1} to pay transaction fees"
 
 #: src/components/AssetLocksTable/AssetLocksTable.tsx
 msgid "Unlock block"
@@ -343,8 +451,8 @@ msgstr "Unlock block"
 
 #: src/components/OperationHistoryModal/OperationHistoryV1/OperationHistoryTable/cells/StatusCell/StatusCell.tsx
 #: src/components/OperationHistoryModal/OperationHistoryV2/cells/StatusCell/StatusCell.tsx
-msgid "Queued"
-msgstr "Queued"
+#~ msgid "Queued"
+#~ msgstr "Queued"
 
 #: src/components/BaseRedeemConfirmationModal/BaseRedeemConfirmationModal.tsx
 #: src/network/ergo/widgets/RedeemOpenWallet/RedeemOpenWallet.tsx
@@ -355,13 +463,16 @@ msgstr "Pooled assets"
 #~ msgid "Change wallet"
 #~ msgstr "Change wallet"
 
+#: src/pages/Rewards/RewardsDashboard/RewardsDashboard.tsx
+msgid "You are not eligible for airdrop rewards. Provide liquidity or stake ADA in the ISPO to get rewarded."
+msgstr "You are not eligible for airdrop rewards. Provide liquidity or stake ADA in the ISPO to get rewarded."
+
 #: src/pages/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
 #: src/pages/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
 msgid "Block:"
 msgstr "Block:"
 
 #: src/components/common/TokenControl/AssetSelect/AssetListModal/AssetListSelectTokenState/AssetListSelectTokenState.tsx
-#: src/components/OperationHistoryModal/OperationHistoryV1/OperationHistoryV1.tsx
 msgid "Search"
 msgstr "Search"
 
@@ -391,7 +502,6 @@ msgstr "All output assets will be received at this address."
 
 #: src/network/ergo/lm/operations/lmRedeem/LmRedeemModalContent/LmRedeemModalContent.tsx
 #: src/network/ergo/widgets/LmRedeemOpenWallet/LmRedeemOpenWallet.tsx
-#: src/pages/Farms/FarmActionModals/FarmWithdrawalModal/FarmWithdrawalModal.tsx
 msgid "Select deposits"
 msgstr "Select deposits"
 
@@ -427,6 +537,10 @@ msgstr "Pair"
 msgid "Copy Address to clipboard."
 msgstr "Copy Address to clipboard."
 
+#: src/components/common/Layout/DeprecatedPositions/DeprecatedPosition.tsx
+msgid "migrate"
+msgstr "migrate"
+
 #: src/components/NetworkHeight/NetworkHeight.tsx
 msgid "The most recent block in Cardano (Testnet) network"
 msgstr "The most recent block in Cardano (Testnet) network"
@@ -434,6 +548,22 @@ msgstr "The most recent block in Cardano (Testnet) network"
 #: src/components/common/TokenControl/AssetSelect/AssetListModal/AssetListSelectTokenState/AssetListSelectTokenState.tsx
 msgid "Loading assets"
 msgstr "Loading assets"
+
+#: src/components/LbspFaqModal/LbspFaqModal.tsx
+msgid "However, two multipliers are introduced for those who provide liquidity to the protocol:"
+msgstr "However, two multipliers are introduced for those who provide liquidity to the protocol:"
+
+#: src/network/cardano/components/RefundableDepositTooltipContent/RefundableDepositTooltipContent.tsx
+msgid "This amount of ADA will be held to build a transaction and will be returned when your order is executed or cancelled."
+msgstr "This amount of ADA will be held to build a transaction and will be returned when your order is executed or cancelled."
+
+#: src/pages/Rewards/RewardsDashboard/RewardsDashboard.tsx
+msgid "LBSP"
+msgstr "LBSP"
+
+#: src/pages/Farms/FarmTableView/FarmTableExpandComponent/LivePeriodCell/LivePeriodCell.tsx
+msgid "Starts with a block"
+msgstr "Starts with a block"
 
 #: src/network/ergo/widgets/ErgoPayModal/ErgoPayTabPaneContent/ErgoPayTabPaneContentDesktop.tsx
 #: src/network/ergo/widgets/ErgoPayModal/ErgoPayTxInfoContent/ErgoPayTxInfoContent.tsx
@@ -445,8 +575,8 @@ msgid "supporter of the Spectrum Finance"
 msgstr "supporter of the Spectrum Finance"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool.tsx
-msgid "The pool with such a pair has not yet been initialized. To create a pool enter an initial price. Then add the deposit amount."
-msgstr "The pool with such a pair has not yet been initialized. To create a pool enter an initial price. Then add the deposit amount."
+#~ msgid "The pool with such a pair has not yet been initialized. To create a pool enter an initial price. Then add the deposit amount."
+#~ msgstr "The pool with such a pair has not yet been initialized. To create a pool enter an initial price. Then add the deposit amount."
 
 #: src/pages/Farms/FarmGuides/FarmGuides.tsx
 msgid "Read guides"
@@ -465,8 +595,8 @@ msgstr "or"
 #~ msgstr "Refresh page"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
-msgid "Refunding {0} and {1}"
-msgstr "Refunding {0} and {1}"
+#~ msgid "Refunding {0} and {1}"
+#~ msgstr "Refunding {0} and {1}"
 
 #: src/pages/Farms/FarmTopPanel/CreateFarmModal/FarmDistributionIntervalInput/FarmDistributionIntervalInput.tsx
 #: src/pages/Farms/FarmTopPanel/CreateFarmModal/FarmPeriodSelector/FarmPeriodSelector.tsx
@@ -478,8 +608,8 @@ msgstr "Block"
 #~ msgstr "Max"
 
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
-msgid "Slippage"
-msgstr "Slippage"
+#~ msgid "Slippage"
+#~ msgstr "Slippage"
 
 #: src/components/OperationSettings/NitroInput/NitroInput.tsx
 msgid "Minimum"
@@ -508,7 +638,11 @@ msgstr "Start block"
 msgid "System"
 msgstr "System"
 
-#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
+#: src/pages/CreatePool/CreatePool.tsx
+msgid "Provide initial liquidity"
+msgstr "Provide initial liquidity"
+
+#: src/pages/CreatePool/CreatePool.tsx
 msgid "Set initial price"
 msgstr "Set initial price"
 
@@ -516,7 +650,7 @@ msgstr "Set initial price"
 msgid "It seems like you are currently only staking part of your LP tokens"
 msgstr "It seems like you are currently only staking part of your LP tokens"
 
-#: src/pages/Farms/types/FarmTabs.ts
+#: src/pages/Farms/FarmTopPanel/MyFarmsFilter/MyFarmsFilter.tsx
 msgid "All Farms"
 msgstr "All Farms"
 
@@ -525,12 +659,11 @@ msgstr "All Farms"
 #~ msgstr "Insufficient {token} Balance for Fees"
 
 #: src/network/cardano/widgets/SwapConfirmationModal/SwapConfirmationInfo/SwapConfirmationInfo.tsx
-#: src/network/ergo/widgets/common/SwapConfirmationInfo/SwapConfirmationInfo.tsx
+#: src/network/ergo/widgets/SwapConfirmationModal/SwapConfirmationInfo/SwapConfirmationInfo.tsx
 msgid "Min output:"
 msgstr "Min output:"
 
-#: src/components/OperationHistoryModal/OperationHistoryV2/cells/StatusCell/StatusCell.tsx
-#: src/components/OperationHistoryModal/OperationHistoryV2/filters/statusFilter.tsx
+#: src/components/OperationHistoryModal/OperationHistory/filters/statusFilter.tsx
 msgid "Need refund"
 msgstr "Need refund"
 
@@ -548,10 +681,14 @@ msgstr "No results was found"
 msgid "Staking {0} and {1} in the farm"
 msgstr "Staking {0} and {1} in the farm"
 
-#: src/components/OperationHistoryModal/OperationHistoryV2/cells/TypeCell/TypeCell.tsx
+#: src/network/cardano/widgets/SwapCollapse/SwapCollapse.tsx
+#: src/network/ergo/widgets/SwapCollapse/SwapCollapse.tsx
+msgid "Minimum Output"
+msgstr "Minimum Output"
+
+#: src/components/OperationHistoryModal/OperationHistory/cells/TypeCell/TypeCell.tsx
 #: src/pages/Farms/FarmTableView/common/FarmAction/FarmAction.tsx
 #: src/pages/Farms/FarmTableView/common/FarmAction/FarmAction.tsx
-#: src/pages/Liquidity/common/components/LiquidityTitleExtra/LiquidityTitleButton.tsx
 msgid "Add liquidity"
 msgstr "Add liquidity"
 
@@ -559,7 +696,11 @@ msgstr "Add liquidity"
 #~ msgid "You will spend {value} ERG for every operation."
 #~ msgstr "You will spend {value} ERG for every operation."
 
-#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
+#: src/components/common/Layout/DeprecatedPositions/DeprecatedPosition.tsx
+msgid "liquidity to be"
+msgstr "liquidity to be"
+
+#: src/pages/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
 msgid "Fee tier"
 msgstr "Fee tier"
 
@@ -570,6 +711,10 @@ msgstr "Adding liquidity {0} and {1}"
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Transaction submitted"
 msgstr "Transaction submitted"
+
+#: src/pages/Rewards/Rewards.tsx
+msgid "Some wallets do not provide our interface with complete information about your ADA addresses so the reward can be displayed inaccurately. If you are sure you are eligible for any type of reward, try to recover your seed phrase using <0>Eternl</0> wallet. If that doesn't work, contact <1>support</1>."
+msgstr "Some wallets do not provide our interface with complete information about your ADA addresses so the reward can be displayed inaccurately. If you are sure you are eligible for any type of reward, try to recover your seed phrase using <0>Eternl</0> wallet. If that doesn't work, contact <1>support</1>."
 
 #: src/components/WalletModal/AddressesTab/AddressesTab.tsx
 #~ msgid "Active"
@@ -597,8 +742,8 @@ msgid "Transaction id"
 msgstr "Transaction id"
 
 #: src/components/WalletModal/WalletTokens/WalletTokens.tsx
-msgid "Loading balance"
-msgstr "Loading balance"
+#~ msgid "Loading balance"
+#~ msgstr "Loading balance"
 
 #: src/components/Header/GlobalSettingsModal/GlobalSettingsModal.tsx
 #~ msgid "The value can't be more than {MAX_ERG_FOR_TX} ERG"
@@ -613,8 +758,6 @@ msgid "Get help in our channels:"
 msgstr "Get help in our channels:"
 
 #: src/components/AssetLocksTable/cells/StatusCell/StatusCell.tsx
-#: src/components/OperationHistoryModal/OperationHistoryV1/OperationHistoryTable/cells/StatusCell/StatusCell.tsx
-#: src/components/OperationHistoryModal/OperationHistoryV1/OperationHistoryTable/filters/statusFilter.tsx
 #: src/pages/PoolOverview/PoolInfoView/MyLiquidity/MyLiquidity.tsx
 msgid "Locked"
 msgstr "Locked"
@@ -623,18 +766,22 @@ msgstr "Locked"
 msgid "Extended results from Explorer"
 msgstr "Extended results from Explorer"
 
+#: src/components/OperationHistoryModal/OperationHistory/cells/StatusCell/StatusCell.tsx
+msgid "Canceled"
+msgstr "Canceled"
+
 #: src/pages/Farms/FarmTopPanel/CreateFarmModal/FarmDistributionIntervalInput/FarmDistributionIntervalInput.tsx
 msgid "Distribute tokens each"
 msgstr "Distribute tokens each"
 
 #: src/components/BaseAddLiquidityConfirmationModal/BaseAddLiquidityConfirmationModal.tsx
-#: src/components/OperationHistoryModal/OperationHistoryV2/OperationHistoryV2.tsx
+#: src/components/BaseCreatePoolConfirmationModal/BaseCreatePoolConfirmationModal.tsx
+#: src/components/OperationHistoryModal/OperationHistory/OperationHistoryV2.tsx
 #: src/network/ergo/widgets/DepositOpenWallet/DepositOpenWallet.tsx
 msgid "Assets"
 msgstr "Assets"
 
 #: src/components/OperationSettings/OperationSettings.tsx
-#: src/pages/Swap/SwapInfo/SwapInfo.tsx
 msgid "Slippage tolerance"
 msgstr "Slippage tolerance"
 
@@ -646,10 +793,10 @@ msgstr "Slippage tolerance"
 msgid "Start:"
 msgstr "Start:"
 
-#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
-#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
-#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
-#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
+#: src/components/AddLiquidityForm/AddLiquidityForm.tsx
+#: src/components/AddLiquidityForm/AddLiquidityForm.tsx
+#: src/pages/CreatePool/CreatePool.tsx
+#: src/pages/CreatePool/CreatePool.tsx
 #: src/pages/Swap/Swap.tsx
 msgid "Insufficient {0} Balance"
 msgstr "Insufficient {0} Balance"
@@ -662,9 +809,21 @@ msgstr "Previous unlock date"
 msgid "Day"
 msgstr "Day"
 
+#: src/components/LbspFaqModal/LbspFaqModal.tsx
+msgid "Why do I participate in the LBSP program?"
+msgstr "Why do I participate in the LBSP program?"
+
 #: src/pages/LockLiquidity/LockLiquidity.tsx
 msgid "Lock"
 msgstr "Lock"
+
+#: src/network/cardano/widgets/SwapCollapse/SwapCollapse.tsx
+msgid "Charged by Cardano blockchain"
+msgstr "Charged by Cardano blockchain"
+
+#: src/components/LbspBanner/LbspBanner.tsx
+msgid "What is LBSP?"
+msgstr "What is LBSP?"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 #~ msgid "1. You will use the product at your own peril and risk;"
@@ -682,7 +841,7 @@ msgstr "Month"
 #~ msgid "Your operation will be executed in this pool. <0/> You can also choose another pool for this pair"
 #~ msgstr "Your operation will be executed in this pool. <0/> You can also choose another pool for this pair"
 
-#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
+#: src/pages/CreatePool/CreatePool.tsx
 msgid "Select a fee tier"
 msgstr "Select a fee tier"
 
@@ -694,7 +853,7 @@ msgstr "Request SPF rewards"
 msgid "End:"
 msgstr "End:"
 
-#: src/pages/Liquidity/common/types/LiquidityState.ts
+#: src/pages/Liquidity/mobile/components/LiquidityStateSelect/LiquidityStateSelect.tsx
 msgid "Locked Positions"
 msgstr "Locked Positions"
 
@@ -702,13 +861,17 @@ msgstr "Locked Positions"
 msgid "Paste transaction id"
 msgstr "Paste transaction id"
 
+#: src/components/ConfirmationModal/ConfirmationModal.tsx
+msgid "Not enough ADA for fees"
+msgstr "Not enough ADA for fees"
+
 #: src/components/common/ConnectWalletButton/ChooseWalletModal/ProtocolDisclaimerAlert/ProtocolDisclaimerAlert.tsx
 msgid "By connecting a wallet, you agree to the <0>Terms of Service</0> and <1>Privacy Policy</1>."
 msgstr "By connecting a wallet, you agree to the <0>Terms of Service</0> and <1>Privacy Policy</1>."
 
 #: src/network/cardano/widgets/SwapInfoContent/SwapInfoContent.tsx
-msgid "Read More"
-msgstr "Read More"
+#~ msgid "Read More"
+#~ msgstr "Read More"
 
 #: src/components/common/Layout/Header/BurgerMenu/BurgerMenu.tsx
 msgid "How to use"
@@ -720,6 +883,9 @@ msgstr "days"
 
 #: src/components/common/Layout/CardanoUpdate/CardanoUpdate.tsx
 #: src/components/common/Layout/CardanoUpdate/CardanoUpdate.tsx
+#: src/pages/Liquidity/default/LiquidityDefaultLayout.tsx
+#: src/pages/Liquidity/default/LiquidityDefaultLayout.tsx
+#: src/pages/Liquidity/default/LiquidityDefaultLayout.tsx
 #: src/pages/Liquidity/mobile/common/PoolOrPositionDetails/PoolOrPositionDetails.tsx
 #: src/pages/Liquidity/mobile/common/PoolOrPositionDetails/PoolOrPositionDetails.tsx
 #: src/pages/Liquidity/mobile/common/PoolOrPositionDetails/PoolOrPositionDetails.tsx
@@ -727,26 +893,26 @@ msgid "{0}"
 msgstr "{0}"
 
 #: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/common/TransactionRefund/TransactionRefund.tsx
-msgid "Refund"
-msgstr "Refund"
+#~ msgid "Refund"
+#~ msgstr "Refund"
 
 #: src/components/common/TokenControl/AssetSelect/AssetListModal/AssetListSelectTokenState/AssetListSelectTokenState.tsx
 msgid "Imported tokens"
 msgstr "Imported tokens"
 
 #: src/components/common/Layout/IdoNotification/IdoNotification.tsx
-msgid "SPF tokens are waiting for you."
-msgstr "SPF tokens are waiting for you."
+#~ msgid "SPF tokens are waiting for you."
+#~ msgstr "SPF tokens are waiting for you."
 
 #: src/pages/Liquidity/common/tableViewStates/YourPositionsLoadingState/YourPositionsLoadingState.tsx
-msgid "Loading positions history."
-msgstr "Loading positions history."
+#~ msgid "Loading positions history."
+#~ msgstr "Loading positions history."
 
 #: src/components/PoolSelector/PoolView/PoolView.tsx
 msgid "Fee:"
 msgstr "Fee:"
 
-#: src/components/OperationHistoryModal/OperationHistoryV2/cells/TypeCell/TypeCell.tsx
+#: src/components/OperationHistoryModal/OperationHistory/cells/TypeCell/TypeCell.tsx
 #: src/network/ergo/lm/operations/lmDeposit/LmDepositModalContent/LmDepositModalContent.tsx
 #: src/pages/Farms/FarmOperationModal/FarmOperationModalHeader/FarmOperationModalHeader.tsx
 #: src/pages/Farms/FarmTableView/common/FarmAction/FarmAction.tsx
@@ -756,12 +922,16 @@ msgstr "Fee:"
 msgid "Stake"
 msgstr "Stake"
 
+#: src/pages/Rewards/RewardsDashboard/ClaimRewardsButton/ClaimRewardsButton.tsx
+msgid "Claim rewards"
+msgstr "Claim rewards"
+
 #: src/network/cardano/widgets/SwapConfirmationModal/SwapConfirmationInfo/SwapConfirmationInfo.tsx
-#: src/network/ergo/widgets/common/SwapConfirmationInfo/SwapConfirmationInfo.tsx
+#: src/network/ergo/widgets/SwapConfirmationModal/SwapConfirmationInfo/SwapConfirmationInfo.tsx
 msgid "Nitro:"
 msgstr "Nitro:"
 
-#: src/components/OperationHistoryModal/OperationHistoryV2/OperationHistoryV2.tsx
+#: src/components/OperationHistoryModal/OperationHistory/OperationHistoryV2.tsx
 msgid "Date & Time"
 msgstr "Date & Time"
 
@@ -773,12 +943,37 @@ msgstr "Claim has arrived"
 #~ msgid "ErgoDEX is a decentralized financial (DeFi) application which means it doesn’t have a central government body. ErgoDEX includes AMM (Swap, Add liquidity and Remove liquidity) functionality"
 #~ msgstr "ErgoDEX is a decentralized financial (DeFi) application which means it doesn’t have a central government body. ErgoDEX includes AMM (Swap, Add liquidity and Remove liquidity) functionality"
 
-#: src/pages/Farms/FarmActionModals/FarmActionModalHeader/FarmActionModalHeader.tsx
+#: src/pages/Rewards/RewardsDashboard/ClaimRewardsButton/ClaimRewardsButton.tsx
+msgid "Payment handling"
+msgstr "Payment handling"
+
 #: src/pages/Farms/FarmGridView/FarmCardView/FarmCardView.tsx
 #: src/pages/Farms/FarmOperationModal/FarmOperationModalHeader/FarmOperationModalHeader.tsx
 #: src/pages/Farms/FarmTableView/FarmTableView.tsx
 msgid "Total Staked"
 msgstr "Total Staked"
+
+#: src/network/cardano/widgets/CreatePoolConfirmationInfo/CreatePoolConfirmationInfo.tsx
+#: src/network/cardano/widgets/DepositConfirmationModal/DepositConfirmationInfo/DepositConfirmationInfo.tsx
+#: src/network/cardano/widgets/RedeemConfirmationModal/RedeemConfirmationInfo/RedeemConfirmationInfo.tsx
+#: src/network/cardano/widgets/SwapCollapse/SwapCollapse.tsx
+#: src/network/cardano/widgets/SwapConfirmationModal/SwapConfirmationInfo/SwapConfirmationInfo.tsx
+#: src/network/ergo/widgets/CreatePoolConfirmationInfo/CreatePoolConfirmationInfo.tsx
+#: src/network/ergo/widgets/DepositConfirmationModal/DepositConfirmationInfo/DepositConfirmationInfo.tsx
+#: src/network/ergo/widgets/RedeemConfirmationModal/RedeemConfirmationInfo/RedeemConfirmationInfo.tsx
+#: src/network/ergo/widgets/RefundConfirmationModal/RefundConfirmationInfo/RefundConfirmationInfo.tsx
+#: src/network/ergo/widgets/SwapCollapse/SwapCollapse.tsx
+#: src/network/ergo/widgets/SwapConfirmationModal/SwapConfirmationInfo/SwapConfirmationInfo.tsx
+msgid "Network Fee"
+msgstr "Network Fee"
+
+#: src/components/LbspBanner/LbspBanner.tsx
+msgid "Add liquidity and Get Rewarded"
+msgstr "Add liquidity and Get Rewarded"
+
+#: src/components/PriceImpact/PriceImpact.tsx
+msgid "The estimated difference between the USD values of input and output amounts."
+msgstr "The estimated difference between the USD values of input and output amounts."
 
 #: src/components/OperationSettings/OperationSettings.tsx
 msgid "Transaction Settings"
@@ -788,7 +983,6 @@ msgstr "Transaction Settings"
 #~ msgid "Read Guide"
 #~ msgstr "Read Guide"
 
-#: src/pages/Liquidity/default/common/PoolsOrPositionsTableView/PoolsOrPositionsTableView.tsx
 #: src/pages/Liquidity/mobile/common/PoolOrPositionDetails/PoolOrPositionDetails.tsx
 msgid "Volume 24H"
 msgstr "Volume 24H"
@@ -797,10 +991,8 @@ msgstr "Volume 24H"
 msgid "Import at least one token from the list to perform operations with {0} token"
 msgstr "Import at least one token from the list to perform operations with {0} token"
 
-#: src/components/OperationHistoryModal/OperationHistoryV1/OperationHistoryTable/cells/StatusCell/StatusCell.tsx
-#: src/components/OperationHistoryModal/OperationHistoryV1/OperationHistoryTable/filters/statusFilter.tsx
-#: src/components/OperationHistoryModal/OperationHistoryV2/cells/StatusCell/StatusCell.tsx
-#: src/components/OperationHistoryModal/OperationHistoryV2/filters/statusFilter.tsx
+#: src/components/OperationHistoryModal/OperationHistory/cells/StatusCell/StatusCell.tsx
+#: src/components/OperationHistoryModal/OperationHistory/filters/statusFilter.tsx
 msgid "Executed"
 msgstr "Executed"
 
@@ -810,7 +1002,6 @@ msgid "Lock liquidity"
 msgstr "Lock liquidity"
 
 #: src/components/common/Layout/Header/BurgerMenu/ManualRefundModal/common/TransactionFindForm/TransactionFindForm.tsx
-#: src/components/OperationHistoryModal/OperationHistoryV1/OperationHistoryTable/OperationHistoryTable.tsx
 msgid "Refund transaction"
 msgstr "Refund transaction"
 
@@ -826,6 +1017,10 @@ msgstr "(Block: {0})"
 msgid "Withdrawal"
 msgstr "Withdrawal"
 
+#: src/components/LbspCalculatorModal/DurationSlider/DurationSlider.tsx
+msgid "Epochs"
+msgstr "Epochs"
+
 #: src/components/BaseAddLiquidityConfirmationModal/BaseAddLiquidityConfirmationModal.tsx
 #: src/network/ergo/widgets/DepositOpenWallet/DepositOpenWallet.tsx
 msgid "Confirm Add Liquidity"
@@ -834,6 +1029,10 @@ msgstr "Confirm Add Liquidity"
 #: src/components/OperationSettings/OperationSettings.tsx
 msgid "Max execution fee multiplier"
 msgstr "Max execution fee multiplier"
+
+#: src/network/cardano/widgets/SwapCollapse/SwapCollapse.tsx
+msgid "Charged by off-chain batchers"
+msgstr "Charged by off-chain batchers"
 
 #: src/components/MobilePlug/MobilePlug.tsx
 #~ msgid "Mobile version is not supported yet"
@@ -848,8 +1047,8 @@ msgid "Learn how to get {0}"
 msgstr "Learn how to get {0}"
 
 #: src/components/common/Layout/Header/GetTestTokensButton/GetTestTokensButton.tsx
-msgid "Get test tokens"
-msgstr "Get test tokens"
+#~ msgid "Get test tokens"
+#~ msgstr "Get test tokens"
 
 #: src/pages/Farms/FarmTableView/common/FarmAction/FarmAction.tsx
 #: src/pages/Farms/FarmTableView/common/FarmAction/FarmAction.tsx
@@ -857,16 +1056,20 @@ msgid "The program is almost finished so deposits are closed."
 msgstr "The program is almost finished so deposits are closed."
 
 #: src/network/cardano/widgets/SwapInfoContent/SwapInfoContent.tsx
-msgid "Transaction fee"
-msgstr "Transaction fee"
+#~ msgid "Transaction fee"
+#~ msgstr "Transaction fee"
 
 #: src/components/WalletModal/LowBalanceWarning/LowBalanceWarning.tsx
 #~ msgid "Learn how to get ERG"
 #~ msgstr "Learn how to get ERG"
 
-#: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
+#: src/pages/CreatePool/FeeSelector/FeeSelector.tsx
 msgid "Best for most pairs"
 msgstr "Best for most pairs"
+
+#: src/components/LbspFaqModal/LbspFaqModal.tsx
+msgid "What’s the utility of the SPF token?"
+msgstr "What’s the utility of the SPF token?"
 
 #: src/pages/Farms/FarmGuides/FarmGuides.tsx
 msgid "Earn more tokens from your liquidity positions"
@@ -884,13 +1087,17 @@ msgstr "Removing liquidity {0} and {1}"
 msgid "Claiming..."
 msgstr "Claiming..."
 
-#: src/pages/Farms/FarmTopPanel/FarmStateFilter/FarmState.ts
+#: src/pages/Farms/FarmTopPanel/FarmStateFilter/FarmStateFilter.tsx
 msgid "All"
 msgstr "All"
 
 #: src/components/MobilePlug/MobilePlug.tsx
 #~ msgid "Use the desktop version and Google Chrome browser"
 #~ msgstr "Use the desktop version and Google Chrome browser"
+
+#: src/components/ConfirmationModal/ConfirmationModal.tsx
+msgid "Cancelling {0} and {1}"
+msgstr "Cancelling {0} and {1}"
 
 #: src/components/common/FormView/FormFeesSection/FormFeesSection.tsx
 msgid "UI Fee:"
@@ -904,7 +1111,6 @@ msgstr "Insufficient liquidity for this trade"
 msgid "Reward details"
 msgstr "Reward details"
 
-#: src/components/common/Layout/Header/BurgerMenu/ManualRefundModal/ManualRefundModalV1/ManualRefundModalV1.tsx
 #: src/components/common/Layout/Header/BurgerMenu/ManualRefundModal/ManualRefundModalV2/ManualRefundModalV2.tsx
 msgid "Manual refund"
 msgstr "Manual refund"
@@ -913,14 +1119,18 @@ msgstr "Manual refund"
 msgid "Deposit {0}/{1} and earn {2}"
 msgstr "Deposit {0}/{1} and earn {2}"
 
-#: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
+#: src/pages/Farms/FarmTableView/columns/FarmPairColumn/FarmPairColumn.tsx
+msgid "Test"
+msgstr "Test"
+
+#: src/pages/CreatePool/FeeSelector/FeeSelector.tsx
 msgid "Custom fee tier"
 msgstr "Custom fee tier"
 
 #: src/components/OperationHistoryModal/OperationHistoryV1/OperationHistoryTable/cells/StatusCell/StatusCell.tsx
 #: src/components/OperationHistoryModal/OperationHistoryV2/cells/StatusCell/StatusCell.tsx
-msgid "The price has changed while your order was being processed. So we didn’t execute it to prevent losses."
-msgstr "The price has changed while your order was being processed. So we didn’t execute it to prevent losses."
+#~ msgid "The price has changed while your order was being processed. So we didn’t execute it to prevent losses."
+#~ msgstr "The price has changed while your order was being processed. So we didn’t execute it to prevent losses."
 
 #: src/pages/Farms/FarmTopPanel/CreateFarmModal/ConfirmFarmCreateModal.tsx
 #: src/pages/Farms/FarmTopPanel/CreateFarmModal/FarmPeriodSelector/FarmPeriodSelector.tsx
@@ -928,8 +1138,8 @@ msgid "Period"
 msgstr "Period"
 
 #: src/components/OperationHistoryModal/OperationHistoryV1/OperationHistoryV1.tsx
-msgid "Sync"
-msgstr "Sync"
+#~ msgid "Sync"
+#~ msgstr "Sync"
 
 #: src/pages/Pool/components/LockedPositionItem/LockedPositionItem.tsx
 #~ msgid "Unlock Date"
@@ -944,24 +1154,26 @@ msgid "Your transaction may fail"
 msgstr "Your transaction may fail"
 
 #: src/components/common/Layout/IdoNotification/IdoNotification.tsx
-msgid "The contribution phase has already started!"
-msgstr "The contribution phase has already started!"
+#~ msgid "The contribution phase has already started!"
+#~ msgstr "The contribution phase has already started!"
 
+#: src/components/AddLiquidityForm/AddLiquidityForm.tsx
 #: src/components/BaseAddLiquidityConfirmationModal/BaseAddLiquidityConfirmationModal.tsx
 #: src/components/common/Layout/Header/ClaimSpfButton/ClaimSpfModal/NothingToClaimState/NothingToClaimState.tsx
-#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
-#: src/pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool.tsx
+#: src/pages/AddLiquidity/AddLiquidity.tsx
+#: src/pages/Liquidity/common/columns/PoolsOrPositionsColumns/columns/ActionsColumn.tsx
 msgid "Add Liquidity"
 msgstr "Add Liquidity"
 
 #: src/components/OperationForm/OperationForm.tsx
+#: src/pages/Rewards/RewardsDashboard/ClaimRewardsButton/ClaimRewardsButton.tsx
 msgid "Processing transaction"
 msgstr "Processing transaction"
 
-#: src/components/OperationHistoryModal/OperationHistoryV2/cells/TypeCell/TypeCell.tsx
+#: src/components/OperationHistoryModal/OperationHistory/cells/TypeCell/TypeCell.tsx
 #: src/network/ergo/lm/operations/lmRedeem/LmRedeemModalContent/LmRedeemModalContent.tsx
-#: src/pages/Farms/FarmActionModals/FarmWithdrawalModal/FarmWithdrawalModal.tsx
 #: src/pages/Farms/FarmOperationModal/FarmOperationModalHeader/FarmOperationModalHeader.tsx
+#: src/pages/Farms/FarmTableView/common/FarmAction/FarmAction.tsx
 #: src/pages/Farms/FarmTableView/common/FarmAction/FarmAction.tsx
 #: src/pages/Farms/FarmTableView/common/FarmAction/FarmAction.tsx
 msgid "Unstake"
@@ -975,8 +1187,16 @@ msgstr "Lock period"
 #: src/network/ergo/widgets/DepositConfirmationModal/DepositConfirmationInfo/DepositConfirmationInfo.tsx
 #: src/network/ergo/widgets/RedeemConfirmationModal/RedeemConfirmationInfo/RedeemConfirmationInfo.tsx
 #: src/network/ergo/widgets/RefundConfirmationModal/RefundConfirmationInfo/RefundConfirmationInfo.tsx
-msgid "Miner Fee"
-msgstr "Miner Fee"
+#~ msgid "Miner Fee"
+#~ msgstr "Miner Fee"
+
+#: src/pages/Liquidity/common/columns/PoolsOrPositionsColumns/columns/AprColumn/CardanoAprColumnContent/CardanoAprColumnContent.tsx
+msgid "LBSP APR:"
+msgstr "LBSP APR:"
+
+#: src/network/cardano/widgets/AdaHandle/AdaHandleModal/AdaHandleModal.tsx
+msgid "Reset"
+msgstr "Reset"
 
 #: src/components/WalletModal/LowBalanceWarning/LowBalanceWarning.tsx
 #~ msgid "You need ERG to pay transaction fees"
@@ -986,7 +1206,6 @@ msgstr "Miner Fee"
 msgid "Your stake"
 msgstr "Your stake"
 
-#: src/components/common/Layout/Header/BurgerMenu/ManualRefundModal/ManualRefundModalV1/ManualRefundModalV1.tsx
 #: src/components/common/Layout/Header/BurgerMenu/ManualRefundModal/ManualRefundModalV2/ManualRefundModalV2.tsx
 msgid "Unable to refund a transaction."
 msgstr "Unable to refund a transaction."
@@ -1009,8 +1228,8 @@ msgid "Fee tier:"
 msgstr "Fee tier:"
 
 #: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/common/TransactionRefund/TransactionRefund.tsx
-msgid "The price has changed while your order was being processed. So we didn’t execute it to prevent losses. Click the button to get your funds back."
-msgstr "The price has changed while your order was being processed. So we didn’t execute it to prevent losses. Click the button to get your funds back."
+#~ msgid "The price has changed while your order was being processed. So we didn’t execute it to prevent losses. Click the button to get your funds back."
+#~ msgstr "The price has changed while your order was being processed. So we didn’t execute it to prevent losses. Click the button to get your funds back."
 
 #: src/components/common/KyaModal/KyaModal.tsx
 #~ msgid "2. Only YOU are responsible for your assets;"
@@ -1020,6 +1239,10 @@ msgstr "The price has changed while your order was being processed. So we didn�
 #: src/pages/Farms/FarmTableView/FarmTableExpandComponent/common/RewardCell/RewardCell.tsx
 msgid "Next reward"
 msgstr "Next reward"
+
+#: src/components/LbspFaqModal/LbspFaqModal.tsx
+msgid "How does the LBSP program work technically?"
+msgstr "How does the LBSP program work technically?"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
@@ -1034,18 +1257,30 @@ msgstr "Execution fee"
 msgid "Manual Refund"
 msgstr "Manual Refund"
 
+#: src/components/LbspCalculatorModal/LbspCalculatorModal.tsx
+msgid "LBSP Calculator"
+msgstr "LBSP Calculator"
+
 #: src/components/common/Layout/Header/ClaimSpfButton/ClaimSpfModal/GotRewardState/GotRewardState.tsx
 msgid "You got it!"
 msgstr "You got it!"
 
-#: src/components/OperationSettings/OperationSettings.tsx
 #: src/pages/Liquidity/default/common/PoolsOrPositionsTableView/PoolsOrPositionsTableView.tsx
+#: src/pages/Liquidity/mobile/common/PoolsOrPositionsTableView/PoolsOrPositionsTableView.tsx
+msgid "APR 24h"
+msgstr "APR 24h"
+
+#: src/components/OperationSettings/OperationSettings.tsx
 msgid "Read more"
 msgstr "Read more"
 
 #: src/components/common/Layout/OperationsHistory/OperationsHistory.tsx
 msgid "Recent transactions"
 msgstr "Recent transactions"
+
+#: src/pages/Rewards/RewardsDashboard/RewardsDashboard.tsx
+msgid "Stake your ADA in one of the ISPO pools to get rewarded."
+msgstr "Stake your ADA in one of the ISPO pools to get rewarded."
 
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
 #~ msgid "Total fees:"
@@ -1095,13 +1330,17 @@ msgstr "ErgoPay"
 
 #: src/network/cardano/api/operations/deposit.tsx
 #: src/network/cardano/api/operations/swap.tsx
-msgid "Insufficient {0} for refundable deposit"
-msgstr "Insufficient {0} for refundable deposit"
+#~ msgid "Insufficient {0} for refundable deposit"
+#~ msgstr "Insufficient {0} for refundable deposit"
 
 #: src/pages/Farms/FarmGridView/FarmCardView/FarmCardView.tsx
 #: src/pages/Farms/FarmTableView/FarmTableView.tsx
 msgid "Your Stake"
 msgstr "Your Stake"
+
+#: src/pages/Rewards/RewardsDashboard/ClaimRewardsButton/ClaimRewardsButton.tsx
+msgid "Claim Fee"
+msgstr "Claim Fee"
 
 #: src/pages/Liquidity/common/components/LiquidityFilter/LiquidityFilter.tsx
 msgid "Show duplicates"
@@ -1121,7 +1360,6 @@ msgstr "Once LP-tokens are locked they cannot be withdrawn under any circumstanc
 #~ msgstr "Unlock Block"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
-#: src/components/OperationHistoryModal/OperationHistoryV1/OperationHistoryTable/OperationHistoryTable.tsx
 msgid "View on Explorer"
 msgstr "View on Explorer"
 
@@ -1130,10 +1368,14 @@ msgstr "View on Explorer"
 msgid "Error"
 msgstr "Error"
 
+#: src/components/DeprecatedPoolTag/DeprecatedPoolTag.tsx
+msgid "Deprecated"
+msgstr "Deprecated"
+
+#: src/components/AddLiquidityForm/AddLiquidityForm.tsx
 #: src/components/common/TokenControl/AssetSelect/AssetListModal/AssetListModal.tsx
 #: src/components/common/TokenControl/AssetSelect/AssetSelect.tsx
-#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
-#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
+#: src/pages/CreatePool/CreatePool.tsx
 #: src/pages/Swap/Swap.tsx
 #: src/pages/Swap/SwapGraph/SwapGraph.tsx
 msgid "Select a token"
@@ -1163,13 +1405,21 @@ msgstr "{monthsCount} Months"
 msgid "1 Year"
 msgstr "1 Year"
 
+#: src/components/LbspCalculatorModal/RewardsBox/RewardsBox.tsx
+msgid "Estimated rewards"
+msgstr "Estimated rewards"
+
 #: src/components/WalletModal/WalletModal.tsx
 msgid "Disconnect wallet"
 msgstr "Disconnect wallet"
 
+#: src/components/LbspFaqModal/LbspFaqModal.tsx
+msgid "You can find it in any wallet app and delegate your ADA."
+msgstr "You can find it in any wallet app and delegate your ADA."
+
 #: src/components/common/Layout/IdoNotification/IdoNotification.tsx
-msgid "To participate"
-msgstr "To participate"
+#~ msgid "To participate"
+#~ msgstr "To participate"
 
 #: src/components/common/Layout/Header/BurgerMenu/BurgerMenu.tsx
 msgid "Docs"
@@ -1183,12 +1433,12 @@ msgstr "Stake now"
 msgid "{daysCount} Days"
 msgstr "{daysCount} Days"
 
-#: src/components/OperationHistoryModal/OperationHistoryV2/cells/TypeCell/TypeCell.tsx
+#: src/components/OperationHistoryModal/OperationHistory/cells/TypeCell/TypeCell.tsx
 #: src/pages/LockLiquidity/LockLiquidityConfirmationModal/LockLiquidityConfirmationModal.tsx
 msgid "Lock Liquidity"
 msgstr "Lock Liquidity"
 
-#: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
+#: src/pages/CreatePool/FeeSelector/FeeSelector.tsx
 msgid "Best for exotic pairs"
 msgstr "Best for exotic pairs"
 
@@ -1201,10 +1451,7 @@ msgid "Your transaction will revert if the price changes unfavorably by more tha
 msgstr "Your transaction will revert if the price changes unfavorably by more than this percentage"
 
 #: src/components/common/Layout/OperationsHistory/OperationsHistory.tsx
-#: src/components/OperationHistoryModal/OperationHistoryV1/OperationHistoryTable/cells/StatusCell/StatusCell.tsx
-#: src/components/OperationHistoryModal/OperationHistoryV1/OperationHistoryTable/filters/statusFilter.tsx
-#: src/components/OperationHistoryModal/OperationHistoryV2/cells/StatusCell/StatusCell.tsx
-#: src/components/OperationHistoryModal/OperationHistoryV2/filters/statusFilter.tsx
+#: src/components/OperationHistoryModal/OperationHistory/filters/statusFilter.tsx
 msgid "Pending"
 msgstr "Pending"
 
@@ -1217,13 +1464,21 @@ msgstr "Provide liquidity to the {0}/{1} and earn"
 msgid "Confirm farm"
 msgstr "Confirm farm"
 
+#: src/pages/CreatePool/CreatePool.tsx
+msgid "This percentage will represent the earnings all liquidity providers receive from swap fees."
+msgstr "This percentage will represent the earnings all liquidity providers receive from swap fees."
+
+#: src/pages/Rewards/RewardsDashboard/RewardsDashboard.tsx
+msgid "Airdrop"
+msgstr "Airdrop"
+
 #: src/pages/Liquidity/default/components/LockedPositions/LockedPositions.tsx
 msgid "Total locked"
 msgstr "Total locked"
 
 #: src/components/OperationHistoryModal/OperationHistoryV1/OperationHistoryTable/filters/typeFilter.tsx
-msgid "Redeem"
-msgstr "Redeem"
+#~ msgid "Redeem"
+#~ msgstr "Redeem"
 
 #: src/components/common/ConnectWalletButton/ConnectWalletButton.tsx
 msgid "Connect wallet"
@@ -1233,17 +1488,30 @@ msgstr "Connect wallet"
 msgid "Contribute"
 msgstr "Contribute"
 
-#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
+#: src/pages/CreatePool/CreatePool.tsx
 msgid "Enter an Initial Price"
 msgstr "Enter an Initial Price"
+
+#: src/components/common/FormView/FormFeesSection/FormFeesSection.tsx
+#: src/pages/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
+msgid "Network Fee:"
+msgstr "Network Fee:"
 
 #: src/components/common/TokenControl/TokenControl.tsx
 #~ msgid "Balance: {0}"
 #~ msgstr "Balance: {0}"
 
+#: src/components/LbspFaqModal/LbspFaqModal.tsx
+msgid "To participate in the program you need to provide liquidity to any LBSP-labeled liquidity pool using this interface."
+msgstr "To participate in the program you need to provide liquidity to any LBSP-labeled liquidity pool using this interface."
+
 #: src/pages/Liquidity/common/components/LockLiquidityDatePicker/LiquidityDatePicker.tsx
 msgid "Choose Date"
 msgstr "Choose Date"
+
+#: src/components/LbspFaqModal/LbspFaqModal.tsx
+msgid "Always do your own research before interacting with any DeFi protocol in the space."
+msgstr "Always do your own research before interacting with any DeFi protocol in the space."
 
 #: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
 #~ msgid "Recommended"
@@ -1258,8 +1526,8 @@ msgid "Open wallet"
 msgstr "Open wallet"
 
 #: src/network/cardano/widgets/SwapInfoContent/SwapInfoContent.tsx
-msgid "This amount of ADA will be held to construct the transaction and will be returned when your order is executed or cancelled."
-msgstr "This amount of ADA will be held to construct the transaction and will be returned when your order is executed or cancelled."
+#~ msgid "This amount of ADA will be held to construct the transaction and will be returned when your order is executed or cancelled."
+#~ msgstr "This amount of ADA will be held to construct the transaction and will be returned when your order is executed or cancelled."
 
 #: src/pages/Liquidity/default/components/LockedPositions/LockedPositions.tsx
 #: src/pages/Liquidity/mobile/common/LockedPositions/LockedPositionDetails/LockedPositionDetails.tsx
@@ -1271,6 +1539,10 @@ msgstr "Relock"
 msgid "Scan QR code"
 msgstr "Scan QR code"
 
+#: src/components/LbspCalculatorModal/RewardsBox/RewardsBox.tsx
+msgid "LBSP APR"
+msgstr "LBSP APR"
+
 #: src/pages/Liquidity/default/components/LockedPositions/LockedPositions.tsx
 #: src/pages/Liquidity/mobile/common/LockedPositions/LockedPositionDetails/LockedPositionDetails.tsx
 msgid "Total withdrawable"
@@ -1280,9 +1552,17 @@ msgstr "Total withdrawable"
 msgid "Off-chain operator:"
 msgstr "Off-chain operator:"
 
+#: src/components/LbspFaqModal/LbspFaqModal.tsx
+msgid "The Liquidity Bootstrapping Stake Pool (LBSP) is an incentive program for liquidity providers, rewarding them with SPF utility tokens in exchange for providing liquidity."
+msgstr "The Liquidity Bootstrapping Stake Pool (LBSP) is an incentive program for liquidity providers, rewarding them with SPF utility tokens in exchange for providing liquidity."
+
 #: src/pages/Farms/FarmTopPanel/FarmStateFilter/FarmStateFilter.tsx
 msgid "Farms status"
 msgstr "Farms status"
+
+#: src/pages/Liquidity/default/LiquidityDefaultLayout.tsx
+msgid "My Liquidity"
+msgstr "My Liquidity"
 
 #: src/pages/RelockLiquidity/RelockLiquidity.tsx
 #: src/pages/RelockLiquidity/RelockLiquidity.tsx
@@ -1302,6 +1582,7 @@ msgstr "Swapping {0} for {1}"
 #~ msgid "Minimal Slippage is {MIN_SLIPPAGE}"
 #~ msgstr "Minimal Slippage is {MIN_SLIPPAGE}"
 
+#: src/components/ShareXButton/ShareXButton.tsx
 #: src/pages/Liquidity/default/components/LockedPositions/LockedPositions.tsx
 msgid "Share"
 msgstr "Share"
@@ -1316,8 +1597,8 @@ msgid "Relock liquidity"
 msgstr "Relock liquidity"
 
 #: src/network/cardano/widgets/SwapInfoContent/SwapInfoContent.tsx
-msgid "Will be charged by off-chain execution bots and distributed among validators."
-msgstr "Will be charged by off-chain execution bots and distributed among validators."
+#~ msgid "Will be charged by off-chain execution bots and distributed among validators."
+#~ msgstr "Will be charged by off-chain execution bots and distributed among validators."
 
 #: src/components/common/Layout/Header/ClaimSpfButton/ClaimSpfModal/ClainRewardState/ClaimRewardState.tsx
 msgid "The next reward is not yet available"
@@ -1336,9 +1617,17 @@ msgstr "Find compatible wallet"
 msgid "Price"
 msgstr "Price"
 
-#: src/components/OperationHistoryModal/OperationHistoryV2/states/ErrorState/ErrorState.tsx
+#: src/components/LbspFaqModal/LbspFaqModal.tsx
+msgid "(1) The {LBSP_MULTIPLIER} multiplier applies to all delegated ADA that was provided as liquidity to the LBSP-labeled liquidity pools. Epoch reward is {LBSP_COEFFICIENT} * {LBSP_MULTIPLIER} = {0} SPF per delegated ADA."
+msgstr "(1) The {LBSP_MULTIPLIER} multiplier applies to all delegated ADA that was provided as liquidity to the LBSP-labeled liquidity pools. Epoch reward is {LBSP_COEFFICIENT} * {LBSP_MULTIPLIER} = {0} SPF per delegated ADA."
+
+#: src/components/OperationHistoryModal/OperationHistory/states/ErrorState/ErrorState.tsx
 msgid "Try again or"
 msgstr "Try again or"
+
+#: src/components/common/Layout/DeprecatedPositions/DeprecatedPosition.tsx
+msgid "Recently we found a minor bug in some liquidity pools. The threat level is almost 0. But better"
+msgstr "Recently we found a minor bug in some liquidity pools. The threat level is almost 0. But better"
 
 #: src/components/common/TokenControl/AssetSelect/AssetListModal/AssetListImportConfirmationTokenState/ImportTokenWarning/ImportTokenWarning.tsx
 msgid "This token doesn't appear on the active token list(s). Make sure this is the token that you want to trade."
@@ -1357,13 +1646,29 @@ msgstr "Liquidity pool"
 msgid "per"
 msgstr "per"
 
+#: src/components/BoostedPoolTag/BoostedPoolTag.tsx
+msgid "Boosted"
+msgstr "Boosted"
+
+#: src/pages/Liquidity/common/columns/PoolsOrPositionsColumns/columns/AprColumn/CardanoAprColumnContent/CardanoAprColumnContent.tsx
+msgid "Total APR"
+msgstr "Total APR"
+
+#: src/components/DeprecatedPoolTag/DeprecatedPoolTag.tsx
+msgid "A more secure variant of this pool is available. We advise you to migrate your liquidity to a new one."
+msgstr "A more secure variant of this pool is available. We advise you to migrate your liquidity to a new one."
+
+#: src/components/OperationHistoryModal/OperationHistory/cells/CancelOrderCell/CancelOrderCell.tsx
+msgid "Transaction is in Mempool now"
+msgstr "Transaction is in Mempool now"
+
 #: src/components/FaucetModal/FaucetModal.tsx
-msgid "To get testnet ADA coins (tADA) go to the official <0>Cardano Faucet</0>"
-msgstr "To get testnet ADA coins (tADA) go to the official <0>Cardano Faucet</0>"
+#~ msgid "To get testnet ADA coins (tADA) go to the official <0>Cardano Faucet</0>"
+#~ msgstr "To get testnet ADA coins (tADA) go to the official <0>Cardano Faucet</0>"
 
 #: src/components/OperationHistoryModal/OperationHistoryV1/OperationHistoryTable/OperationHistoryTable.tsx
-msgid "Copy Transaction Id"
-msgstr "Copy Transaction Id"
+#~ msgid "Copy Transaction Id"
+#~ msgstr "Copy Transaction Id"
 
 #: src/pages/Farms/FarmTableView/FarmTableExpandComponent/ClaimedRewardsCell/ClaimedRewardsCell.tsx
 #: src/pages/Farms/FarmTableView/FarmTableExpandComponent/ClaimedRewardsCell/ClaimedRewardsCell.tsx
@@ -1378,22 +1683,31 @@ msgstr "reward"
 msgid "Total liquidity"
 msgstr "Total liquidity"
 
-#: src/components/OperationHistoryModal/OperationHistoryV2/cells/TypeCell/TypeCell.tsx
+#: src/components/OperationHistoryModal/OperationHistory/cells/TypeCell/TypeCell.tsx
+#: src/pages/Liquidity/common/columns/PoolsOrPositionsColumns/columns/ActionsColumn.tsx
 #: src/pages/RemoveLiquidity/RemoveLiquidity.tsx
 msgid "Remove liquidity"
 msgstr "Remove liquidity"
+
+#: src/components/BaseSwapCollapse/BaseSwapCollapse.tsx
+msgid "Fees:"
+msgstr "Fees:"
 
 #: src/components/common/Layout/Header/ClaimSpfButton/ClaimSpfModal/RewardInfo/RewardDetails/RewardDetails.tsx
 msgid "Beta tester:"
 msgstr "Beta tester:"
 
-#: src/pages/Liquidity/common/types/LiquidityState.ts
+#: src/pages/Liquidity/mobile/components/LiquidityStateSelect/LiquidityStateSelect.tsx
 msgid "Pools Overview"
 msgstr "Pools Overview"
 
 #: src/pages/Farms/FarmTopPanel/CreateFarmModal/ConfirmFarmCreateModal.tsx
 msgid "Distribute tokens each:"
 msgstr "Distribute tokens each:"
+
+#: src/pages/Rewards/RewardsDashboard/RewardsDashboardSection/RewardsDashboardSection.tsx
+msgid "Available"
+msgstr "Available"
 
 #: src/components/common/KyaModal/KyaModal.tsx
 #~ msgid "meet your expectations."
@@ -1408,17 +1722,21 @@ msgstr "Distribute tokens each:"
 #~ msgstr "Minimum value is {MIN_ERG_FOR_TX} ERG"
 
 #: src/pages/Farms/FarmTableView/columns/FarmPairColumn/FarmPairColumn.tsx
-#: src/pages/Farms/FarmTopPanel/FarmStateFilter/FarmState.ts
+#: src/pages/Farms/FarmTopPanel/FarmStateFilter/FarmStateFilter.tsx
 msgid "Live"
 msgstr "Live"
 
-#: src/components/OperationHistoryModal/OperationHistoryV1/OperationHistoryTable/states/OperationSearchEmptyState/OperationSearchEmptyState.tsx
+#: src/components/OperationHistoryModal/OperationHistory/states/OperationSearchEmptyState/OperationSearchEmptyState.tsx
 msgid "Try something else."
 msgstr "Try something else."
 
 #: src/pages/RelockLiquidity/RelockLiquidity.tsx
 msgid "Extension period"
 msgstr "Extension period"
+
+#: src/pages/Rewards/RewardsDashboard/RewardsDashboard.tsx
+msgid "You do not provide liquidity to the Spectrum Cardano protocol. Provide liquidity to generate LBSP rewards."
+msgstr "You do not provide liquidity to the Spectrum Cardano protocol. Provide liquidity to generate LBSP rewards."
 
 #: src/components/common/Layout/Header/Navigation/Navigation.tsx
 #: src/components/FarmsButton/FarmsButton.tsx
@@ -1445,9 +1763,17 @@ msgstr "Your operation will be executed in this pool. <0/>You can also choose an
 msgid "Execution Fee Range {0} - {1} {2}"
 msgstr "Execution Fee Range {0} - {1} {2}"
 
+#: src/pages/Liquidity/default/common/PoolsOrPositionsTableView/PoolsOrPositionsTableView.tsx
+msgid "Volume 24h"
+msgstr "Volume 24h"
+
 #: src/pages/Swap/Swap.tsx
 #~ msgid "From"
 #~ msgstr "From"
+
+#: src/components/LbspFaqModal/LbspFaqModal.tsx
+msgid "<0>(2) Smart Contract Risks:</0> AMM protocols are powered by smart contracts, which are not immune to bugs or vulnerabilities. If there's a flaw in the protocol's code, it can lead to funds being lost or mismanaged."
+msgstr "<0>(2) Smart Contract Risks:</0> AMM protocols are powered by smart contracts, which are not immune to bugs or vulnerabilities. If there's a flaw in the protocol's code, it can lead to funds being lost or mismanaged."
 
 #: src/pages/Swap/PoolSelector/PoolSelectorModal/PoolSelectorModal.tsx
 msgid "Choose Pool"
@@ -1457,27 +1783,35 @@ msgstr "Choose Pool"
 #~ msgid "Minimum received:"
 #~ msgstr "Minimum received:"
 
-#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/AddLiquidityOperationDetails/AddLiquidityOperationDetails.tsx
-#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/AddLiquidityOperationDetails/AddLiquidityOperationDetails.tsx
-#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/AddLiquidityOperationDetails/AddLiquidityOperationDetails.tsx
-#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/LmDepositOperationDetails/LmDepositOperationDetails.tsx
-#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/LmDepositOperationDetails/LmDepositOperationDetails.tsx
-#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/LmDepositOperationDetails/LmDepositOperationDetails.tsx
-#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/LmRedeemOperationDetails/LmRedeemOperationDetails.tsx
-#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/LmRedeemOperationDetails/LmRedeemOperationDetails.tsx
-#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/LmRedeemOperationDetails/LmRedeemOperationDetails.tsx
-#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/LockOperationDetails/LockOperationDetails.tsx
-#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/LockOperationDetails/LockOperationDetails.tsx
-#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/RemoveLiquidityOperationDetails/RemoveLiquidityOperationDetails.tsx
-#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/RemoveLiquidityOperationDetails/RemoveLiquidityOperationDetails.tsx
-#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/RemoveLiquidityOperationDetails/RemoveLiquidityOperationDetails.tsx
-#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/SwapOperationDetails/SwapOperationDetails.tsx
-#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/SwapOperationDetails/SwapOperationDetails.tsx
-#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/SwapOperationDetails/SwapOperationDetails.tsx
-msgid "Received"
-msgstr "Received"
+#: src/components/LbspFaqModal/LbspFaqModal.tsx
+msgid "The reward for participation is SPF utility token. The LBSP program is the largest SPF token distribution event."
+msgstr "The reward for participation is SPF utility token. The LBSP program is the largest SPF token distribution event."
 
-#: src/network/cardano/widgets/SwapInfoContent/SwapInfoContent.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/AddLiquidityOperationDetails/AddLiquidityOperationDetails.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/AddLiquidityOperationDetails/AddLiquidityOperationDetails.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/AddLiquidityOperationDetails/AddLiquidityOperationDetails.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/LmDepositOperationDetails/LmDepositOperationDetails.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/LmDepositOperationDetails/LmDepositOperationDetails.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/LmDepositOperationDetails/LmDepositOperationDetails.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/LmRedeemOperationDetails/LmRedeemOperationDetails.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/LmRedeemOperationDetails/LmRedeemOperationDetails.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/LmRedeemOperationDetails/LmRedeemOperationDetails.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/LockOperationDetails/LockOperationDetails.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/LockOperationDetails/LockOperationDetails.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/RemoveLiquidityOperationDetails/RemoveLiquidityOperationDetails.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/RemoveLiquidityOperationDetails/RemoveLiquidityOperationDetails.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/RemoveLiquidityOperationDetails/RemoveLiquidityOperationDetails.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/SwapOperationDetails/SwapOperationDetails.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/SwapOperationDetails/SwapOperationDetails.tsx
+#: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/SwapOperationDetails/SwapOperationDetails.tsx
+#~ msgid "Received"
+#~ msgstr "Received"
+
+#: src/components/LbspFaqModal/LbspFaqModal.tsx
+msgid "The LBSP program is the most important step in SPF token distribution which opens the opportunity for the community to obtain a large portion of the supply. In the future, the only way to get the token will be staking on the PoS consensus of the Spectrum Network cross-chain messaging protocol."
+msgstr "The LBSP program is the most important step in SPF token distribution which opens the opportunity for the community to obtain a large portion of the supply. In the future, the only way to get the token will be staking on the PoS consensus of the Spectrum Network cross-chain messaging protocol."
+
+#: src/components/FeesView/FeesView.tsx
 msgid "Refundable deposit"
 msgstr "Refundable deposit"
 
@@ -1486,21 +1820,28 @@ msgid "Locked positions"
 msgstr "Locked positions"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
+msgid "Refill the ADA balance to continue canceling the order."
+msgstr "Refill the ADA balance to continue canceling the order."
+
+#: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Transaction rejected"
 msgstr "Transaction rejected"
 
 #: src/network/ergo/lm/operations/lmRedeem/LmRedeemModalContent/LmRedeemModalContent.tsx
 #: src/network/ergo/widgets/LmRedeemOpenWallet/LmRedeemOpenWallet.tsx
-#: src/pages/Farms/FarmActionModals/FarmWithdrawalModal/FarmWithdrawalModal.tsx
 msgid "My deposits"
 msgstr "My deposits"
 
 #: src/components/FaucetModal/FaucetModal.tsx
-msgid "Get testnet tokens"
-msgstr "Get testnet tokens"
+#~ msgid "Get testnet tokens"
+#~ msgstr "Get testnet tokens"
+
+#: src/components/ConfirmationModal/ConfirmationModal.tsx
+msgid "Visit your wallet app and provide collateral to proceed with order canceling."
+msgstr "Visit your wallet app and provide collateral to proceed with order canceling."
 
 #: src/network/cardano/widgets/SwapConfirmationModal/SwapConfirmationInfo/SwapConfirmationInfo.tsx
-#: src/network/ergo/widgets/common/SwapConfirmationInfo/SwapConfirmationInfo.tsx
+#: src/network/ergo/widgets/SwapConfirmationModal/SwapConfirmationInfo/SwapConfirmationInfo.tsx
 msgid "Slippage tolerance:"
 msgstr "Slippage tolerance:"
 
@@ -1510,10 +1851,11 @@ msgstr "Slippage tolerance:"
 #: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/LockOperationDetails/LockOperationDetails.tsx
 #: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/RemoveLiquidityOperationDetails/RemoveLiquidityOperationDetails.tsx
 #: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/SwapOperationDetails/SwapOperationDetails.tsx
-msgid "Sent"
-msgstr "Sent"
+#~ msgid "Sent"
+#~ msgstr "Sent"
 
 #: src/components/common/Layout/Header/ClaimSpfButton/ClaimSpfModal/RewardInfo/RewardStatistic/RewardStatistic.tsx
+#: src/pages/Rewards/RewardsDashboard/RewardsDashboardSection/RewardsDashboardSection.tsx
 msgid "Claimed"
 msgstr "Claimed"
 
@@ -1546,25 +1888,29 @@ msgstr "Distribution frequency"
 msgid "Refund confirmation"
 msgstr "Refund confirmation"
 
-#: src/components/OperationHistoryModal/OperationHistoryV1/OperationHistoryTable/states/LoadingState/LoadingState.tsx
 #: src/network/ergo/widgets/ErgoPayModal/ErgoPayRequestLoadingContent/ErgoPayRequestLoadingContent.tsx
-#: src/pages/Farms/FarmTableView/FarmTableLoadingState.tsx
-#: src/pages/Liquidity/common/tableViewStates/PoolsOverviewLoadingState/PoolsOverviewLoadingState.tsx
-#: src/pages/Liquidity/common/tableViewStates/YourPositionsLoadingState/YourPositionsLoadingState.tsx
 msgid "Please wait."
 msgstr "Please wait."
+
+#: src/components/common/ConnectWalletButton/VesprConnectButton/VesprConnectButton.tsx
+msgid "Connect"
+msgstr "Connect"
 
 #: src/components/PoolMenu/PoolMenu.tsx
 #~ msgid "Select pools"
 #~ msgstr "Select pools"
+
+#: src/pages/Rewards/RewardsDashboard/RewardsDashboardSection/RewardsDashboardSection.tsx
+msgid "Upcoming"
+msgstr "Upcoming"
 
 #: src/pages/Liquidity/utils.ts
 msgid "{yearsCount} Years"
 msgstr "{yearsCount} Years"
 
 #: src/pages/Farms/FarmTableView/FarmTableExpandComponent/LivePeriodCell/LivePeriodCell.tsx
-msgid "Starts in"
-msgstr "Starts in"
+#~ msgid "Starts in"
+#~ msgstr "Starts in"
 
 #: src/network/ergo/widgets/DepositOpenWallet/DepositOpenWallet.tsx
 #: src/network/ergo/widgets/LmDepositOpenWallet/LmDepositOpenWallet.tsx
@@ -1574,6 +1920,10 @@ msgstr "Starts in"
 msgid "Open Wallet"
 msgstr "Open Wallet"
 
+#: src/pages/PoolOverview/PoolInfoView/PoolInfoView.tsx
+msgid "A more secure variant of this pool is available. We advise you to migrate your liquidity to a new one. Your LBSP rewards won’t be affected."
+msgstr "A more secure variant of this pool is available. We advise you to migrate your liquidity to a new one. Your LBSP rewards won’t be affected."
+
 #: src/pages/LockLiquidity/LockLiquidity.tsx
 #: src/pages/LockLiquidity/LockLiquidityConfirmationModal/LockLiquidityConfirmationModal.tsx
 #: src/pages/WithdrawalLiquidity/WithdrawalLiquidityConfirmationModal/WithdrawalLiquidityConfirmationModal.tsx
@@ -1581,8 +1931,8 @@ msgid "Assets to lock"
 msgstr "Assets to lock"
 
 #: src/components/OperationHistoryModal/OperationHistoryV1/OperationHistoryTable/decorators/ClipboardDecorator.tsx
-msgid "Transaction ID successfully copied"
-msgstr "Transaction ID successfully copied"
+#~ msgid "Transaction ID successfully copied"
+#~ msgstr "Transaction ID successfully copied"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Timeout error"
@@ -1601,22 +1951,22 @@ msgid "Confirm Withdrawal"
 msgstr "Confirm Withdrawal"
 
 #: src/pages/Farms/FarmTableView/FarmTableLoadingState.tsx
-msgid "Loading farms."
-msgstr "Loading farms."
+#~ msgid "Loading farms."
+#~ msgstr "Loading farms."
 
 #: src/pages/Swap/SwapInfo/SwapInfoPriceImpact/SwapInfoPriceImpact.tsx
-msgid "Price impact"
-msgstr "Price impact"
+#~ msgid "Price impact"
+#~ msgstr "Price impact"
 
-#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
-#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
+#: src/components/AddLiquidityForm/AddLiquidityForm.tsx
+#: src/pages/CreatePool/CreatePool.tsx
 #: src/pages/Swap/Swap.tsx
 msgid "Enter an Amount"
 msgstr "Enter an Amount"
 
 #: src/components/OperationHistoryModal/OperationHistoryV1/OperationHistoryTable/filters/typeFilter.tsx
-msgid "Deposit"
-msgstr "Deposit"
+#~ msgid "Deposit"
+#~ msgstr "Deposit"
 
 #: src/pages/PoolOverview/PoolOverview.tsx
 msgid "Pool overview"
@@ -1627,14 +1977,7 @@ msgstr "Pool overview"
 msgid "Import"
 msgstr "Import"
 
-#: src/network/cardano/widgets/DepositConfirmationModal/DepositConfirmationInfo/DepositConfirmationInfo.tsx
-#: src/network/cardano/widgets/RedeemConfirmationModal/RedeemConfirmationInfo/RedeemConfirmationInfo.tsx
-#: src/network/cardano/widgets/SwapConfirmationModal/SwapConfirmationInfo/SwapConfirmationInfo.tsx
-#: src/network/cardano/widgets/SwapInfoContent/SwapInfoContent.tsx
-#: src/network/ergo/widgets/common/SwapConfirmationInfo/SwapConfirmationInfo.tsx
-#: src/network/ergo/widgets/DepositConfirmationModal/DepositConfirmationInfo/DepositConfirmationInfo.tsx
-#: src/network/ergo/widgets/RedeemConfirmationModal/RedeemConfirmationInfo/RedeemConfirmationInfo.tsx
-#: src/network/ergo/widgets/SwapInfoContent/SwapInfoContent.tsx
+#: src/network/cardano/widgets/SwapCollapse/SwapCollapse.tsx
 msgid "Execution Fee"
 msgstr "Execution Fee"
 
@@ -1642,6 +1985,12 @@ msgstr "Execution Fee"
 msgid "Distribution per block:"
 msgstr "Distribution per block:"
 
+#: src/components/OperationSettings/FeeCurrencySelector/OperationSettingsButton/OperationSettingsButton.tsx
+#: src/components/OperationSettings/OperationSettings.tsx
+msgid "slippage"
+msgstr "slippage"
+
+#: src/common/services/NetworkDomManager/SelectDefaultNetwork/SelectDefaultNetwork.tsx
 #: src/components/common/Layout/Header/NetworkDropdown/NetworkDropdown.tsx
 msgid "Select Network"
 msgstr "Select Network"
@@ -1652,10 +2001,18 @@ msgid "Confirm swap"
 msgstr "Confirm swap"
 
 #: src/components/OperationHistoryModal/OperationHistoryV2/OperationDetails/common/TransactionPending/TransactionPending.tsx
-msgid "Please wait, your operation is currently pending."
-msgstr "Please wait, your operation is currently pending."
+#~ msgid "Please wait, your operation is currently pending."
+#~ msgstr "Please wait, your operation is currently pending."
 
-#: src/components/OperationHistoryModal/OperationHistoryV1/OperationHistoryTable/states/OperationsEmptyState/OperationsEmptyState.tsx
+#: src/components/LbspCalculatorModal/LbspCalculatorModal.tsx
+msgid "Duration"
+msgstr "Duration"
+
+#: src/components/LbspFaqModal/LbspFaqModal.tsx
+msgid "<0>(1) Impermanent Loss:</0> This risk arises due to the price volatility of the pooled assets. If the prices of the tokens in the liquidity pool change significantly while providing liquidity, it can result in a loss compared to simply holding the tokens."
+msgstr "<0>(1) Impermanent Loss:</0> This risk arises due to the price volatility of the pooled assets. If the prices of the tokens in the liquidity pool change significantly while providing liquidity, it can result in a loss compared to simply holding the tokens."
+
+#: src/components/OperationHistoryModal/OperationHistory/states/OperationsEmptyState/OperationsEmptyState.tsx
 #: src/components/WalletModal/WalletTokens/WalletTokens.tsx
 msgid "Swap now"
 msgstr "Swap now"
@@ -1672,9 +2029,17 @@ msgstr "You don't have any tokens on your wallet yet.<0/>But you can swap {0} fo
 msgid "This position is still locked"
 msgstr "This position is still locked"
 
+#: src/components/LbspFaqModal/LbspFaqModal.tsx
+msgid "What is Liquidity Bootstrapping Stake Pool (LBSP)?"
+msgstr "What is Liquidity Bootstrapping Stake Pool (LBSP)?"
+
 #: src/pages/Farms/FarmActionModals/FarmWithdrawalModal/FarmWithdrawalModal.tsx
-msgid "Select All"
-msgstr "Select All"
+#~ msgid "Select All"
+#~ msgstr "Select All"
+
+#: src/pages/Rewards/RewardsDashboard/ClaimRewardsButton/ClaimRewardsButton.tsx
+msgid "We will take only required ADA amount which is ~0.4 ADA for network fee. All the rest will back to your wallet address (We need {0} min required ADA for your {1} eligible addresses to submit a valid transaction with your rewards)."
+msgstr "We will take only required ADA amount which is ~0.4 ADA for network fee. All the rest will back to your wallet address (We need {0} min required ADA for your {1} eligible addresses to submit a valid transaction with your rewards)."
 
 #: src/components/WalletModal/AddressesTab/AddressesTab.tsx
 #~ msgid "Choose"
@@ -1692,7 +2057,8 @@ msgstr "Liquidity Pool"
 msgid "Locking {0} and {1} ({2}) for {3}"
 msgstr "Locking {0} and {1} ({2}) for {3}"
 
-#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
+#: src/components/BaseCreatePoolConfirmationModal/BaseCreatePoolConfirmationModal.tsx
+#: src/pages/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
 msgid "Confirm pool creation"
 msgstr "Confirm pool creation"
 
@@ -1701,10 +2067,14 @@ msgid "345 {0} out of 1000 {1} have already been distributed"
 msgstr "345 {0} out of 1000 {1} have already been distributed"
 
 #: src/network/cardano/widgets/SwapInfoContent/SwapInfoContent.tsx
-msgid "A small amount of ADA charged by Cardano blockchain."
-msgstr "A small amount of ADA charged by Cardano blockchain."
+#~ msgid "A small amount of ADA charged by Cardano blockchain."
+#~ msgstr "A small amount of ADA charged by Cardano blockchain."
 
-#: src/components/OperationHistoryModal/OperationHistoryV2/cells/TypeCell/TypeCell.tsx
+#: src/components/ConfirmationModal/ConfirmationModal.tsx
+msgid "Collateral is not provided!"
+msgstr "Collateral is not provided!"
+
+#: src/components/OperationHistoryModal/OperationHistory/cells/TypeCell/TypeCell.tsx
 msgid "Relock Liquidity"
 msgstr "Relock Liquidity"
 
@@ -1717,6 +2087,10 @@ msgstr "Withdrawable"
 msgid "Stake all of them to gain more rewards!"
 msgstr "Stake all of them to gain more rewards!"
 
+#: src/components/LbspPoolTag/LbspPoolTag.tsx
+msgid "This Liquidity Pool generates SPF Rewards"
+msgstr "This Liquidity Pool generates SPF Rewards"
+
 #: src/pages/Farms/FarmTableView/FarmTableExpandComponent/ClaimedRewardsCell/ClaimedRewardsCell.tsx
 msgid "Collected rewards"
 msgstr "Collected rewards"
@@ -1725,6 +2099,7 @@ msgstr "Collected rewards"
 #~ msgid "Select pair"
 #~ msgstr "Select pair"
 
+#: src/network/cardano/widgets/AdaHandle/AdaHandleChangeButton/AdaHandleChangeButton.tsx
 #: src/pages/Swap/PoolSelector/PoolSelector.tsx
 #: src/pages/Swap/PoolSelector/PoolSelector.tsx
 msgid "Change"
@@ -1738,23 +2113,27 @@ msgstr "Change"
 msgid "Confirm this transaction in your wallet"
 msgstr "Confirm this transaction in your wallet"
 
-#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
+#: src/pages/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
 msgid "Initial liquidity"
 msgstr "Initial liquidity"
+
+#: src/components/LbspPoolTag/LbspPoolTag.tsx
+msgid "{0} <0/> SPF per 1 ADA per epoch"
+msgstr "{0} <0/> SPF per 1 ADA per epoch"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Stake {0} and {1} liquidity"
 msgstr "Stake {0} and {1} liquidity"
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
-msgid "Pool"
-msgstr "Pool"
+#~ msgid "Pool"
+#~ msgstr "Pool"
 
 #: src/pages/Farms/FarmTopPanel/CreateFarmModal/ConfirmFarmCreateModal.tsx
 msgid "Confirm farm creation"
 msgstr "Confirm farm creation"
 
-#: src/pages/AddLiquidityOrCreatePool/AddLiquidityOrCreatePool.tsx
+#: src/pages/Liquidity/default/LiquidityDefaultLayout.tsx
 msgid "Create Pool"
 msgstr "Create Pool"
 
@@ -1762,6 +2141,10 @@ msgstr "Create Pool"
 #: src/services/notifications/CookiePolicy/CookiePolicy.tsx
 msgid "Accept all cookies"
 msgstr "Accept all cookies"
+
+#: src/pages/CreatePool/CreatePool.tsx
+msgid "Set a fee tier"
+msgstr "Set a fee tier"
 
 #: src/pages/LockLiquidity/LockLiquidityConfirmationModal/LockLiquidityConfirmationModal.tsx
 msgid "I understand that I'm locking <0>{0}</0> LP-tokens, which is <1>{percent}%</1> of my <2>{1}/{2}</2> liquidity position, for a period of <3>{3}</3> (until {4}) without the ability to withdrawal before the end of this period."
@@ -1805,14 +2188,18 @@ msgid "Proceed"
 msgstr "Proceed"
 
 #: src/components/SocialLinks/LeaveFeedback/LeaveFeedback.tsx
-msgid "Leave feedback"
-msgstr "Leave feedback"
+#~ msgid "Leave feedback"
+#~ msgstr "Leave feedback"
 
 #: src/components/common/Layout/Header/ClaimSpfButton/ClaimSpfNotification/ClaimSpfNotification.tsx
 msgid "Thanks for being a long time"
 msgstr "Thanks for being a long time"
 
-#: src/components/OperationHistoryModal/OperationHistoryV2/cells/TypeCell/TypeCell.tsx
+#: src/components/LbspFaqModal/LbspFaqModal.tsx
+msgid "How does the reward mechanism work for the LBSP program?"
+msgstr "How does the reward mechanism work for the LBSP program?"
+
+#: src/components/OperationHistoryModal/OperationHistory/cells/TypeCell/TypeCell.tsx
 msgid "Withdraw Liquidity"
 msgstr "Withdraw Liquidity"
 
@@ -1820,6 +2207,7 @@ msgstr "Withdraw Liquidity"
 msgid "Open external wallet"
 msgstr "Open external wallet"
 
+#: src/network/cardano/api/operations/createPool.tsx
 #: src/network/cardano/api/operations/deposit.tsx
 #: src/network/cardano/api/operations/swap.tsx
 #: src/network/ergo/operations/deposit/useDepositValidators.ts
@@ -1832,8 +2220,8 @@ msgid "Insufficient {0} balance for fees"
 msgstr "Insufficient {0} balance for fees"
 
 #: src/components/OperationHistoryModal/OperationHistoryV1/OperationHistoryV1.tsx
-msgid "Synchronisation will continue even if you <0/> close this modal window"
-msgstr "Synchronisation will continue even if you <0/> close this modal window"
+#~ msgid "Synchronisation will continue even if you <0/> close this modal window"
+#~ msgstr "Synchronisation will continue even if you <0/> close this modal window"
 
 #: src/pages/RelockLiquidity/RelockLiquidity.tsx
 msgid "Pick new unlock date"
@@ -1846,8 +2234,8 @@ msgstr "Pick new unlock date"
 
 #: src/components/OperationHistoryModal/OperationHistoryV1/OperationHistoryTable/cells/StatusCell/StatusCell.tsx
 #: src/components/OperationHistoryModal/OperationHistoryV2/cells/StatusCell/StatusCell.tsx
-msgid "Your transaction was locked in the smart contract. Don’t worry you just need to refund it."
-msgstr "Your transaction was locked in the smart contract. Don’t worry you just need to refund it."
+#~ msgid "Your transaction was locked in the smart contract. Don’t worry you just need to refund it."
+#~ msgstr "Your transaction was locked in the smart contract. Don’t worry you just need to refund it."
 
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
@@ -1864,8 +2252,8 @@ msgid "Price chart"
 msgstr "Price chart"
 
 #: src/pages/Liquidity/default/common/PoolsOrPositionsTableView/PoolsOrPositionsTableView.tsx
-msgid "Annual Percentage Rate. Average estimation of how much you may potentially earn providing liquidity to this pool."
-msgstr "Annual Percentage Rate. Average estimation of how much you may potentially earn providing liquidity to this pool."
+#~ msgid "Annual Percentage Rate. Average estimation of how much you may potentially earn providing liquidity to this pool."
+#~ msgstr "Annual Percentage Rate. Average estimation of how much you may potentially earn providing liquidity to this pool."
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 msgid "Creating Farm"
@@ -1875,8 +2263,12 @@ msgstr "Creating Farm"
 msgid "Pending amount"
 msgstr "Pending amount"
 
-#: src/network/cardano/widgets/SwapInfoContent/SwapInfoContent.tsx
-#: src/network/ergo/widgets/SwapInfoContent/SwapInfoContent.tsx
+#: src/components/OperationHistoryModal/OperationHistory/OperationHistoryV2.tsx
+#: src/components/OperationHistoryModal/OperationHistory/OperationHistoryV2.tsx
+msgid "Copy Transaction ID"
+msgstr "Copy Transaction ID"
+
+#: src/pages/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
 msgid "Total fees"
 msgstr "Total fees"
 
@@ -1885,8 +2277,8 @@ msgid "View on explorer"
 msgstr "View on explorer"
 
 #: src/components/OperationHistoryModal/OperationHistoryV1/OperationHistoryTable/states/LoadingState/LoadingState.tsx
-msgid "Loading your transaction history."
-msgstr "Loading your transaction history."
+#~ msgid "Loading your transaction history."
+#~ msgstr "Loading your transaction history."
 
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
 #~ msgid "Maximum received:"
@@ -1896,7 +2288,7 @@ msgstr "Loading your transaction history."
 #~ msgid "Wallet"
 #~ msgstr "Wallet"
 
-#: src/components/OperationHistoryModal/OperationHistoryV2/states/ErrorState/ErrorState.tsx
+#: src/components/OperationHistoryModal/OperationHistory/states/ErrorState/ErrorState.tsx
 msgid "Failed to load orders"
 msgstr "Failed to load orders"
 
@@ -1904,17 +2296,20 @@ msgstr "Failed to load orders"
 msgid "Total balance"
 msgstr "Total balance"
 
-#: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidity.tsx
-#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
+#: src/components/AddLiquidityForm/AddLiquidityForm.tsx
+#: src/pages/CreatePool/CreatePool.tsx
+#: src/pages/Swap/Swap.tsx
 #: src/pages/Swap/Swap.tsx
 msgid "Min value for {0} is {1}"
 msgstr "Min value for {0} is {1}"
 
-#: src/components/BaseAddLiquidityConfirmationModal/BaseAddLiquidityConfirmationModal.tsx
-#: src/network/ergo/widgets/DepositOpenWallet/DepositOpenWallet.tsx
-#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
+#: src/pages/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
 msgid "Initial price"
 msgstr "Initial price"
+
+#: src/pages/Liquidity/common/columns/PoolsOrPositionsColumns/columns/AprColumn/CardanoAprColumnContent/CardanoAprColumnContent.tsx
+msgid "SPF APR is calculated according to the current price on the Ergo market"
+msgstr "SPF APR is calculated according to the current price on the Ergo market"
 
 #: src/pages/PoolOverview/PoolInfoView/PoolInfoView.tsx
 #: src/pages/RemoveLiquidity/RemoveLiquidity.tsx
@@ -1923,9 +2318,12 @@ msgstr "Remove"
 
 #: src/network/ergo/api/operations/history/v2/types/BaseOperation.ts
 #: src/network/ergo/api/operations/history/v2/types/BaseOperation.ts
-#: src/network/ergo/widgets/SwapInfoContent/SwapInfoContent.tsx
 msgid "Miner fee"
 msgstr "Miner fee"
+
+#: src/pages/Rewards/RewardsDashboard/RewardsDashboard.tsx
+msgid "LBSP is an incentive program for liquidity providers, rewarding them with SPF utility tokens in exchange for providing liquidity."
+msgstr "LBSP is an incentive program for liquidity providers, rewarding them with SPF utility tokens in exchange for providing liquidity."
 
 #: src/pages/Farms/FarmGuides/FarmGuides.tsx
 msgid "Check out our guides how to work with farms"
@@ -1963,26 +2361,30 @@ msgstr "View on explorer."
 msgid "Copied to clipboard!"
 msgstr "Copied to clipboard!"
 
+#: src/components/LbspFaqModal/LbspFaqModal.tsx
+msgid "(2) The {LBSP_BOOSTED_MULTIPLIER} multiplier applies to all delegated ADA that was provided to the ADA/SPF liquidity pool, which is available for liquidity provision from epoch 438. Epoch reward is {LBSP_COEFFICIENT} * {LBSP_BOOSTED_MULTIPLIER} = {0} SPF per delegated ADA."
+msgstr "(2) The {LBSP_BOOSTED_MULTIPLIER} multiplier applies to all delegated ADA that was provided to the ADA/SPF liquidity pool, which is available for liquidity provision from epoch 438. Epoch reward is {LBSP_COEFFICIENT} * {LBSP_BOOSTED_MULTIPLIER} = {0} SPF per delegated ADA."
+
 #: src/components/common/ActionForm/ActionButton/ActionButton.tsx
 #~ msgid "Insufficient {token} Balance"
 #~ msgstr "Insufficient {token} Balance"
 
 #: src/components/AssetLocksTable/AssetLocksTable.tsx
-#: src/components/OperationHistoryModal/OperationHistoryV2/OperationHistoryV2.tsx
+#: src/components/OperationHistoryModal/OperationHistory/OperationHistoryV2.tsx
 msgid "Status"
 msgstr "Status"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
-msgid "The % you will earn in fees"
-msgstr "The % you will earn in fees"
+#~ msgid "The % you will earn in fees"
+#~ msgstr "The % you will earn in fees"
 
 #: src/components/OperationSettings/OperationSettings.tsx
 msgid "Nitro"
 msgstr "Nitro"
 
 #: src/components/OperationHistoryModal/OperationHistoryV1/OperationHistoryV1.tsx
-msgid "Syncing..."
-msgstr "Syncing..."
+#~ msgid "Syncing..."
+#~ msgstr "Syncing..."
 
 #: src/components/common/Layout/CardanoUpdate/CardanoUpdate.tsx
 msgid "Go to Ergo Network"
@@ -2004,13 +2406,18 @@ msgstr "About"
 msgid "Waiting for confirmation"
 msgstr "Waiting for confirmation"
 
+#: src/components/ConfirmationModal/ConfirmationModal.tsx
+#: src/pages/Rewards/RewardsDashboard/ClaimRewardsButton/ClaimRewardsButton.tsx
+msgid "Claiming {0}"
+msgstr "Claiming {0}"
+
 #: src/pages/Farms/FarmTopPanel/CreateFarmModal/ConfirmFarmCreateModal.tsx
 msgid "Estimated APR:"
 msgstr "Estimated APR:"
 
 #: src/components/common/Layout/Header/Navigation/Navigation.tsx
-#: src/components/OperationHistoryModal/OperationHistoryV1/OperationHistoryTable/filters/typeFilter.tsx
-#: src/components/OperationHistoryModal/OperationHistoryV2/cells/TypeCell/TypeCell.tsx
+#: src/components/OperationHistoryModal/OperationHistory/cells/TypeCell/TypeCell.tsx
+#: src/pages/Liquidity/common/columns/PoolsOrPositionsColumns/columns/ActionsColumn.tsx
 #: src/pages/Liquidity/default/common/PoolOrPositionDetails/PoolOrPositionDetails.tsx
 #: src/pages/Liquidity/mobile/common/PoolOrPositionDetails/PoolOrPositionDetails.tsx
 #: src/pages/PoolOverview/PoolInfoView/PoolInfoView.tsx
@@ -2023,9 +2430,13 @@ msgstr "Swap"
 #~ msgid "KYA is not accepted"
 #~ msgstr "KYA is not accepted"
 
-#: src/pages/Liquidity/common/types/LiquidityState.ts
+#: src/pages/Liquidity/mobile/components/LiquidityStateSelect/LiquidityStateSelect.tsx
 msgid "Your Positions"
 msgstr "Your Positions"
+
+#: src/pages/Rewards/RewardsBugFixing/RewardsBugFixing.tsx
+msgid "Fixing bugs"
+msgstr "Fixing bugs"
 
 #: src/components/ConfirmationModal/ConfirmationModal.tsx
 #~ msgid "Seems like Yoroi Wallet has an issue"
@@ -2042,6 +2453,14 @@ msgstr "You claimed"
 #: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
 #~ msgid "I understand that this wallet has not been audited. I will use it at my own risk."
 #~ msgstr "I understand that this wallet has not been audited. I will use it at my own risk."
+
+#: src/components/LbspBanner/LbspBanner.tsx
+msgid "Provide liquidity to \"LBSP-labeled\" pools and get rewarded with SPF utility token."
+msgstr "Provide liquidity to \"LBSP-labeled\" pools and get rewarded with SPF utility token."
+
+#: src/components/LbspFaqModal/LbspFaqModal.tsx
+msgid "The base reward per epoch is 0.006 SPF per delegated ADA. This reward can be obtained via delegating ADA to the standard ISPO —"
+msgstr "The base reward per epoch is 0.006 SPF per delegated ADA. This reward can be obtained via delegating ADA to the standard ISPO —"
 
 #: src/network/ergo/widgets/ErgoPayModal/ErgoPayRequestLoadingContent/ErgoPayRequestLoadingContent.tsx
 msgid "Preparing ergoPay request."
@@ -2080,14 +2499,19 @@ msgid "Final reward"
 msgstr "Final reward"
 
 #: src/pages/AddLiquidityOrCreatePool/CreatePool/FeeSelector/FeeSelector.tsx
-msgid "1% fee"
-msgstr "1% fee"
+#~ msgid "1% fee"
+#~ msgstr "1% fee"
 
-#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePool.tsx
-#: src/pages/AddLiquidityOrCreatePool/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
-#: src/pages/Liquidity/common/components/LiquidityTitleExtra/LiquidityTitleButton.tsx
+#: src/components/BaseCreatePoolConfirmationModal/BaseCreatePoolConfirmationModal.tsx
+#: src/pages/CreatePool/CreatePool.tsx
+#: src/pages/CreatePool/CreatePool.tsx
+#: src/pages/CreatePool/CreatePoolConfirmationModal/CreatePoolConfirmationModal.tsx
 msgid "Create pool"
 msgstr "Create pool"
+
+#: src/components/common/Layout/OperationsHistory/OperationsHistory.tsx
+msgid "Connect Wallet to see your recent transactions"
+msgstr "Connect Wallet to see your recent transactions"
 
 #: src/components/common/Layout/Header/ClaimSpfButton/ClaimSpfModal/PendingState/PendingState.tsx
 msgid "Your reward will come to your wallet within 24 hours from the moment the request was created. Thank you for being with us!"
@@ -2115,8 +2539,16 @@ msgstr "Copy request"
 #~ msgstr "- By creating an order you send your funds to a specific smart-contract, all such contracts are wired into the UI. Thus, orders are created entirely in your browser (on your machine)."
 
 #: src/pages/Swap/SwapInfo/MoreInfoButton/MoreInfoButton.tsx
-msgid "Less"
-msgstr "Less"
+#~ msgid "Less"
+#~ msgstr "Less"
+
+#: src/pages/Rewards/RewardsDashboard/RewardsDashboard.tsx
+msgid "LBSP rewards are 50% higher than the ISPO ones."
+msgstr "LBSP rewards are 50% higher than the ISPO ones."
+
+#: src/network/ergo/widgets/SwapCollapse/SwapCollapse.tsx
+msgid "Batcher Fee"
+msgstr "Batcher Fee"
 
 #: src/components/Header/BurgerMenu/BurgerMenu.tsx
 #~ msgid "Dark mode"
@@ -2129,6 +2561,7 @@ msgstr "Select a wallet"
 #: src/components/common/Layout/Header/ConnectWallet/WalletInfoButton/AddressTag/LoadingContent/LoadingContent.tsx
 #: src/components/OperationForm/OperationForm.tsx
 #: src/pages/PoolOverview/PriceHistory/PriceHistory.tsx
+#: src/pages/Rewards/RewardsDashboard/ClaimRewardsButton/ClaimRewardsButton.tsx
 #: src/pages/Swap/SwapGraph/SwapGraph.tsx
 msgid "Loading"
 msgstr "Loading"
@@ -2141,7 +2574,7 @@ msgstr "Available for claiming"
 msgid "Relock position"
 msgstr "Relock position"
 
-#: src/pages/Farms/types/FarmTabs.ts
+#: src/pages/Farms/FarmTopPanel/MyFarmsFilter/MyFarmsFilter.tsx
 msgid "My Farms"
 msgstr "My Farms"
 
@@ -2163,12 +2596,16 @@ msgstr "Liquidity providers locked their tokens in the pool for a specific time.
 
 #: src/network/cardano/widgets/SwapInfoContent/SwapInfoContent.tsx
 #: src/network/ergo/widgets/SwapInfoContent/SwapInfoContent.tsx
-msgid "Min output"
-msgstr "Min output"
+#~ msgid "Min output"
+#~ msgstr "Min output"
 
 #: src/pages/Farms/FarmTopPanel/CreateFarmModal/validators/validators.ts
 msgid "Select period"
 msgstr "Select period"
+
+#: src/components/WalletModal/LowBalanceWarning/LowBalanceWarning.tsx
+msgid "{0} balance is low. You need {1} to pay transaction fees"
+msgstr "{0} balance is low. You need {1} to pay transaction fees"
 
 #: src/pages/Farms/FarmTopPanel/CreateFarmModal/FarmDistributionIntervalInput/FarmDistributionIntervalInput.tsx
 msgid "Week"
