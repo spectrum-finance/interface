@@ -83,6 +83,7 @@ const AssetSelect: React.FC<TokenSelectProps> = ({
           size={valBySize('large', 'extra-large')}
           onClick={openTokenModal}
           disabled={disabled}
+          block
           style={s ? { padding: '4px' } : {}}
         >
           <Flex align="center">
