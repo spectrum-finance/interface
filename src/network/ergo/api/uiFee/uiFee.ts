@@ -41,7 +41,9 @@ const _calculateUiFee = (
   const feeThresholdInErg = usdErgRate.toBaseCurrency(
     new Currency(params.uiFeeThreshold.toString(), usdAsset),
   );
-
+  if (!inputInErg.isAssetEquals(networkAsset)) {
+    return minUiFeeInErg;
+  }
   if (inputInErg.lte(feeThresholdInErg)) {
     return minUiFeeInErg;
   }

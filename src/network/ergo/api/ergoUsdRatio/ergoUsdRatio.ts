@@ -16,7 +16,7 @@ import { Ratio } from '../../../../common/models/Ratio';
 import { AssetGraph } from '../../../../common/services/AssetGraph';
 import { makeCurrencyConverter } from '../../../../common/services/CurrencyConverter';
 import { appTick$ } from '../../../../common/streams/appTick';
-import { verifiedAmmPools$ } from '../ammPools/ammPools';
+import { allAmmPools$ } from "../ammPools/ammPools";
 import { networkAsset } from '../networkAsset/networkAsset';
 
 export interface OracleData {
@@ -49,7 +49,7 @@ export const ergoUsdRatio$: Observable<any> = appTick$.pipe(
   refCount(),
 );
 
-const assetGraph$ = verifiedAmmPools$.pipe(
+const assetGraph$ = allAmmPools$.pipe(
   map(AssetGraph.fromPools),
   publishReplay(1),
   refCount(),
