@@ -16,7 +16,7 @@ import { Ratio } from '../../../../common/models/Ratio';
 import { AssetGraph } from '../../../../common/services/AssetGraph';
 import { makeCurrencyConverter } from '../../../../common/services/CurrencyConverter';
 import { appTick$ } from '../../../../common/streams/appTick';
-import { allAmmPools$ } from "../ammPools/ammPools";
+import { allAmmPools$ } from '../ammPools/ammPools';
 import { networkAsset } from '../networkAsset/networkAsset';
 
 export interface OracleData {
