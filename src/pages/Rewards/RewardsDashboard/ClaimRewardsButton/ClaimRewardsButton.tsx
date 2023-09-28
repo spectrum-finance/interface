@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Typography } from '@ergolabs/ui-kit';
+import { Alert, Box, Button, Flex, Typography } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import { DateTime, Interval } from 'luxon';
 import { FC, useEffect, useState } from 'react';
@@ -9,7 +9,6 @@ import {
   openConfirmationModal,
   Operation,
 } from '../../../../components/ConfirmationModal/ConfirmationModal';
-import { InfoTooltip } from '../../../../components/InfoTooltip/InfoTooltip';
 import {
   buildClaimTx,
   claimRewards,
@@ -53,34 +52,30 @@ export const ClaimRewardsButton: FC<{ rewardsData: RewardsData }> = ({
       {validationData && (
         <Flex.Item marginBottom={4} width="100%">
           <Box padding={3} borderRadius="l" bordered width="100%">
-            <Flex justify="space-between" align="center">
-              <Typography.Title level={5}>
-                <InfoTooltip
-                  width={300}
-                  isQuestionIcon
-                  content={
-                    <Trans>
-                      To create and send a transaction with rewards we need{' '}
-                      {validationData.requiredAda.toString()} ADA. All ADA will
-                      be returned to you, except for ~0.4 ADA, which the
-                      blockchain will charge for execution (also known as gas
-                      fee).
-                    </Trans>
-                  }
-                >
-                  <Trans>Refundable ADA Deposit</Trans>
-                </InfoTooltip>
-              </Typography.Title>
-              <Flex.Item display="flex" align="center">
-                <Flex.Item marginRight={1}>
-                  <AssetIcon
-                    asset={validationData.requiredAda.asset}
-                    size="small"
-                  />
+            <Flex col>
+              <Flex justify="space-between" align="center">
+                <Typography.Title level={5}>
+                  <Trans>ADA Deposit</Trans>
+                </Typography.Title>
+                <Flex.Item display="flex" align="center">
+                  <Flex.Item marginRight={1}>
+                    <AssetIcon
+                      asset={validationData.requiredAda.asset}
+                      size="small"
+                    />
+                  </Flex.Item>
+                  <Typography.Body size="large" strong>
+                    {validationData.requiredAda.toCurrencyString()}
+                  </Typography.Body>
                 </Flex.Item>
-                <Typography.Body size="large" strong>
-                  {validationData.requiredAda.toCurrencyString()}
-                </Typography.Body>
+              </Flex>
+              <Flex.Item marginTop={1}>
+                <Alert
+                  type="success"
+                  message={`To send the transaction we need
+                  ${validationData.requiredAda.toString()} ADA. All ADA will be
+                  returned to you, except for ~0.4 ADA network fee (also known as gas fee).`}
+                />
               </Flex.Item>
             </Flex>
           </Box>
