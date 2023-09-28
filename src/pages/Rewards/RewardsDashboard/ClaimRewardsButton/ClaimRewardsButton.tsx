@@ -56,20 +56,19 @@ export const ClaimRewardsButton: FC<{ rewardsData: RewardsData }> = ({
             <Flex justify="space-between" align="center">
               <Typography.Title level={5}>
                 <InfoTooltip
-                  width={184}
+                  width={300}
                   isQuestionIcon
                   content={
                     <Trans>
-                      We will take only required ADA amount which is ~0.4 ADA
-                      for network fee. All the rest will back to your wallet
-                      address (We need {validationData.requiredAda.toString()}{' '}
-                      min required ADA for your{' '}
-                      {validationData.addresses.length} eligible addresses to
-                      submit a valid transaction with your rewards).
+                      To create and send a transaction with rewards we need{' '}
+                      {validationData.requiredAda.toString()} ADA. All ADA will
+                      be returned to you, except for ~0.4 ADA, which the
+                      blockchain will charge for execution (also known as gas
+                      fee).
                     </Trans>
                   }
                 >
-                  <Trans>Claim Fee</Trans>
+                  <Trans>Refundable ADA Deposit</Trans>
                 </InfoTooltip>
               </Typography.Title>
               <Flex.Item display="flex" align="center">
