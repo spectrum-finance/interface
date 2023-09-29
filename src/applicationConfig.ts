@@ -258,7 +258,8 @@ export const applicationConfig: ApplicationConfig = {
 
     'dd061b480daddd9a833d2477c791356be4e134a433e19df7eb18be1054554e415f4144415f4e4654',
   ],
-  spfPoolId: '',
+  spfPoolId:
+    'a80022230c821a52e426d2fdb096e7d967b5ab25d350d469a7603dbf5350465f4144415f4e4654',
   specialRewards: [
     '54ffabdd4c6cb983ea1d0c8c5296aa9d8d5dfaafbf0ff33efc45669b4d41595a5f4144415f4e4654',
   ],
