@@ -19,8 +19,8 @@ import { Currency } from '../../../../../../../../common/models/Currency';
 import { appTick$ } from '../../../../../../../../common/streams/appTick';
 import { spfAsset } from '../../../../../../../../network/ergo/api/networkAsset/networkAsset';
 import {
-  isBoostedLbspAmmPool,
   isLbspAmmPool,
+  isSpfPool,
 } from '../../../../../../../../utils/lbsp.ts';
 import { math } from '../../../../../../../../utils/math';
 
@@ -63,7 +63,7 @@ const getLbspMultiplier = (ammPool: AmmPool) => {
     return LBSP_MULTIPLIER;
   }
 
-  if (isBoostedLbspAmmPool(ammPool.id)) {
+  if (isSpfPool(ammPool.id)) {
     return LBSP_BOOSTED_MULTIPLIER;
   }
 

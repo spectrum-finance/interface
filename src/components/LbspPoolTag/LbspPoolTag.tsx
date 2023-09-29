@@ -1,8 +1,10 @@
 import { Flex, InfoCircleOutlined, Tooltip } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
+import { FC } from 'react';
 import styled from 'styled-components';
 
 import {
+  LBSP_BOOSTED_MULTIPLIER,
   LBSP_COEFFICIENT,
   LBSP_MULTIPLIER,
 } from '../../pages/Liquidity/common/columns/PoolsOrPositionsColumns/columns/AprColumn/CardanoAprColumnContent/calculateLbspApr.ts';
@@ -18,7 +20,7 @@ const LbspPoolTagWrapper = styled.div`
   padding: 2px 8px;
   border-radius: 6px;
 `;
-export const LbspPoolTag = () => (
+export const LbspPoolTag: FC<{ isSpf: boolean }> = ({ isSpf }) => (
   <LbspPoolTagWrapper>
     <Tooltip
       width={300}
@@ -29,7 +31,13 @@ export const LbspPoolTag = () => (
           </Flex.Item>
           <Flex.Item>
             <Trans>
-              {math.evaluate!(`${LBSP_MULTIPLIER} * ${LBSP_COEFFICIENT}`)}{' '}
+              {isSpf
+                ? math.evaluate!(
+                    `${LBSP_BOOSTED_MULTIPLIER} * ${LBSP_COEFFICIENT}`,
+                  )
+                : math.evaluate!(
+                    `${LBSP_MULTIPLIER} * ${LBSP_COEFFICIENT}`,
+                  )}{' '}
               <SpfLogo w={16} h={16} /> SPF per 1 ADA per epoch
             </Trans>
           </Flex.Item>
@@ -37,7 +45,7 @@ export const LbspPoolTag = () => (
       }
     >
       <Flex>
-        <Flex.Item marginRight={1}>LBSP</Flex.Item>
+        <Flex.Item marginRight={1}>{isSpf ? '⚡️Boosted ' : ''}LBSP</Flex.Item>
         <Flex.Item>
           <InfoCircleOutlined />
         </Flex.Item>

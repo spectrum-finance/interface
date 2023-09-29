@@ -10,8 +10,6 @@ export const isLbspAmmPool = (poolId: string) => {
   return applicationConfig.lbspLiquidityPools.some((el) => el === poolId);
 };
 
-export const isBoostedLbspAmmPool = (poolId: string) => {
-  return applicationConfig.lbspBoostedLiquidityPools.some(
-    (el) => el === poolId,
-  );
+export const isSpfPool = (poolId: string) => {
+  return applicationConfig.spfPoolId === poolId;
 };

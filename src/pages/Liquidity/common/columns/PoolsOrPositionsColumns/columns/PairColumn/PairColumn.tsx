@@ -14,6 +14,7 @@ import { IsCardano } from '../../../../../../../components/IsCardano/IsCardano.t
 import { IsErgo } from '../../../../../../../components/IsErgo/IsErgo';
 import { LbspPoolTag } from '../../../../../../../components/LbspPoolTag/LbspPoolTag.tsx';
 import { hasFarmsForPool } from '../../../../../../../network/ergo/lm/api/farms/farms';
+import { isSpfPool } from '../../../../../../../utils/lbsp.ts';
 import { isSpecialBoostedPool } from '../../../../../../../utils/specialPools.ts';
 
 export interface PairColumnProps {
@@ -50,7 +51,7 @@ export const PairColumn: FC<PairColumnProps> = ({ ammPool }) => {
       {!s && (
         <IsCardano>
           <Flex.Item marginRight={2}>
-            <LbspPoolTag />
+            <LbspPoolTag isSpf={isSpfPool(ammPool.id)} />
           </Flex.Item>
         </IsCardano>
       )}
