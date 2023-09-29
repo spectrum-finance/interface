@@ -4,7 +4,9 @@ import {
   ScriptCredsV1,
 } from '@spectrumlabs/cardano-dex-sdk';
 import { mkPoolsParser } from '@spectrumlabs/cardano-dex-sdk/build/main/amm/parsers/poolsParser';
+import { encodeHex } from '@spectrumlabs/cardano-dex-sdk/build/main/utils/hex';
 import { RustModule } from '@spectrumlabs/cardano-dex-sdk/build/main/utils/rustLoader';
+import axios from 'axios';
 import {
   catchError,
   combineLatest,
@@ -20,6 +22,7 @@ import {
 } from 'rxjs';
 
 import { applicationConfig } from '../../../../applicationConfig';
+import { isLbspAmmPool } from '../../../../utils/lbsp';
 import { ammPoolsStats$ } from '../ammPoolsStats/ammPoolsStats';
 import { mapAssetClassToAssetInfo } from '../common/cardanoAssetInfo/getCardanoAssetInfo';
 import { cardanoNetwork } from '../common/cardanoNetwork';
@@ -93,7 +96,35 @@ export const allAmmPools$ = combineLatest([rawAmmPools$, ammPoolsStats$]).pipe(
   refCount(),
 );
 
+const filterUnverifiedPools = (
+  ammPools: CardanoAmmPool[],
+): Observable<CardanoAmmPool[]> => {
+  return from(
+    axios.post(
+      'https://meta.spectrum.fi/cardano/minting/data/verifyPool/',
+      ammPools.map((ammPool) => ({
+        nftCs: ammPool.pool.id.policyId,
+        nftTn: encodeHex(new TextEncoder().encode(ammPool.pool.id.name)),
+        lqCs: ammPool.pool.lp.asset.policyId,
+        lqTn: encodeHex(new TextEncoder().encode(ammPool.pool.lp.asset.name)),
+      })),
+    ),
+  ).pipe(
+    map((res) => {
+      return ammPools.filter(
+        (ammPool) =>
+          res.data.find(
+            ([{ nftCs }]: [{ nftCs: string }, boolean]) =>
+              nftCs === ammPool.pool.id.policyId,
+          )?.[1] || isLbspAmmPool(ammPool.id),
+      );
+    }),
+    catchError(() => of(ammPools)),
+  );
+};
+
 export const ammPools$ = allAmmPools$.pipe(
+  switchMap(filterUnverifiedPools),
   map((ammPools) =>
     ammPools.filter(
       (ap) =>
