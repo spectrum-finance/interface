@@ -42,6 +42,7 @@ import { useSearchParams } from '../../common/hooks/useSearchParams';
 import { AmmPool } from '../../common/models/AmmPool';
 import { AssetInfo } from '../../common/models/AssetInfo';
 import { Currency } from '../../common/models/Currency';
+import { testText$ } from '../../common/streams/appTick';
 import { AssetControlFormItem } from '../../components/common/TokenControl/AssetControl';
 import { IsErgo } from '../../components/IsErgo/IsErgo';
 import {
@@ -80,7 +81,6 @@ import { SwapFormModel } from './SwapFormModel';
 import { SwapGraph } from './SwapGraph/SwapGraph';
 import { SwitchButton } from './SwitchButton/SwitchButton';
 import { YieldFarmingBadge } from './YieldFarmingBadge/YieldFarmingBadge';
-import { testText$ } from "../../common/streams/appTick";
 
 const swapParamsCache$ = new BehaviorSubject<
   | undefined

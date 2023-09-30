@@ -6,9 +6,9 @@ import { isIOS, isMobile, osVersion } from 'react-device-detect';
 import * as ReactDOM from 'react-dom';
 
 import { ApplicationInitializer } from './App';
+import { testText$ } from './common/streams/appTick';
 import { IOSNotSupportedScreen } from './components/IOSNotSupportedScreen/IOSNotSupportedScreen';
 import { SettingsProvider } from './context';
-import { testText$ } from "./common/streams/appTick";
 
 const init = () => {
   const container = document.getElementById('app');
@@ -36,7 +36,7 @@ const init = () => {
 init();
 
 if (initCardanoDAppConnectorBridge) {
-  initCardanoDAppConnectorBridge(connector => {
+  initCardanoDAppConnectorBridge((connector) => {
     testText$.next(connector.name || 'no');
-  })
+  });
 }
