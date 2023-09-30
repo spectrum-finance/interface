@@ -2,11 +2,12 @@ import { RustModule } from '@spectrumlabs/cardano-dex-sdk/build/main/utils/rustL
 import { BehaviorSubject } from 'rxjs';
 
 import { initializeSettings } from './settings/settings';
+import { initializeDAppBridge } from './utils/initializeDAppBridge';
 
 export const initialized$ = new BehaviorSubject(false);
 
 export const initialize = (): void => {
-  RustModule.load().then(() => {
+  Promise.all([initializeDAppBridge(), RustModule.load()]).then(() => {
     initializeSettings();
     initialized$.next(true);
   });

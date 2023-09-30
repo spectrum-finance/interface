@@ -48,4 +48,5 @@ interface Window {
   initCardanoDAppConnectorBridge: (
     callback: (connector: CardanoBridge.ConnectorAPI) => void,
   ) => void;
+  dAppConnectorBridge: CardanoBridge.ConnectorAPI | undefined;
 }
