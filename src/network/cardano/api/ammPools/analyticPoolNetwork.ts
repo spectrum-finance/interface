@@ -2,6 +2,7 @@ import {
   AmmPool,
   AssetAmount,
   EmissionLP,
+  HexString,
   PoolId,
 } from '@spectrumlabs/cardano-dex-sdk';
 import { Pools } from '@spectrumlabs/cardano-dex-sdk/build/main/amm/services/pools';
@@ -15,6 +16,10 @@ import { cardanoNetworkData } from '../../utils/cardanoNetworkData';
 import { AmmPoolAnalytics } from '../ammPoolsStats/ammPoolsStats';
 
 export class AnalyticPoolNetwork implements Pools {
+  constructor() {
+    this.createAmmPool = this.createAmmPool.bind(this);
+  }
+
   get(id: PoolId): Promise<AmmPool | undefined> {
     return this.request()
       .then((rawAmmPools) => rawAmmPools[`${id.policyId}.${id.name}`])
@@ -54,34 +59,22 @@ export class AnalyticPoolNetwork implements Pools {
     const nftAsset: AssetClass = {
       policyId: nftPolicyId,
       name: nftName,
-      nameHex: encodeHex(new TextEncoder().encode(nftName)),
+      nameHex: this.assetNameToHex(nftName),
     };
     const lqAsset: AssetClass = {
       policyId: rawAmmPool.lockedLQ.asset.currencySymbol,
       name: rawAmmPool.lockedLQ.asset.tokenName,
-      nameHex: RustModule.CardanoWasm.AssetName.from_json(
-        `"${encodeHex(
-          new TextEncoder().encode(rawAmmPool.lockedLQ.asset.tokenName),
-        )}"`,
-      ).to_hex(),
+      nameHex: this.assetNameToHex(rawAmmPool.lockedLQ.asset.tokenName),
     };
     const xAsset: AssetClass = {
       policyId: rawAmmPool.lockedX.asset.currencySymbol,
       name: rawAmmPool.lockedX.asset.tokenName,
-      nameHex: RustModule.CardanoWasm.AssetName.from_json(
-        `"${encodeHex(
-          new TextEncoder().encode(rawAmmPool.lockedX.asset.tokenName),
-        )}"`,
-      ).to_hex(),
+      nameHex: this.assetNameToHex(rawAmmPool.lockedX.asset.tokenName),
     };
     const yAsset: AssetClass = {
       policyId: rawAmmPool.lockedY.asset.currencySymbol,
       name: rawAmmPool.lockedY.asset.tokenName,
-      nameHex: RustModule.CardanoWasm.AssetName.from_json(
-        `"${encodeHex(
-          new TextEncoder().encode(rawAmmPool.lockedY.asset.tokenName),
-        )}"`,
-      ).to_hex(),
+      nameHex: this.assetNameToHex(rawAmmPool.lockedY.asset.tokenName),
     };
 
     return new AmmPool(
@@ -92,5 +85,11 @@ export class AnalyticPoolNetwork implements Pools {
       rawAmmPool.poolFeeNum,
       0n,
     );
+  }
+
+  private assetNameToHex(name: string): HexString {
+    return RustModule.CardanoWasm.AssetName.from_json(
+      `"${encodeHex(new TextEncoder().encode(name))}"`,
+    ).to_hex();
   }
 }
