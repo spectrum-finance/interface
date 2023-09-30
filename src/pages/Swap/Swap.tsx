@@ -42,7 +42,6 @@ import { useSearchParams } from '../../common/hooks/useSearchParams';
 import { AmmPool } from '../../common/models/AmmPool';
 import { AssetInfo } from '../../common/models/AssetInfo';
 import { Currency } from '../../common/models/Currency';
-import { testText$ } from '../../common/streams/appTick';
 import { AssetControlFormItem } from '../../components/common/TokenControl/AssetControl';
 import { IsErgo } from '../../components/IsErgo/IsErgo';
 import {
@@ -111,7 +110,6 @@ const getAvailablePools = (xId?: string, yId?: string): Observable<AmmPool[]> =>
   xId && yId ? getAmmPoolsByAssetPair(xId, yId) : of([]);
 
 export const Swap = (): JSX.Element => {
-  const [testText] = useObservable(testText$);
   const [SwapCollapse] = useObservable(swapCollapse$);
   const [selectedNetwork] = useSelectedNetwork();
   const { slippage } = useSettings();
@@ -506,7 +504,7 @@ export const Swap = (): JSX.Element => {
           <Flex row align="center">
             <Flex.Item flex={1}>
               <Typography.Title level={4}>
-                <Trans>Swap</Trans> {testText}
+                <Trans>Swap</Trans>
               </Typography.Title>
             </Flex.Item>
             <Button

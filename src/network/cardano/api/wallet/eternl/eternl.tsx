@@ -19,7 +19,7 @@ export const Eternl = createWallet<AdditionalData>({
 export const EternlMobile = createWallet<AdditionalData>({
   id: 'EternlMobile',
   getConnector: () => window.dAppConnectorBridge as any,
-  name: 'Eternl',
+  name: 'Eternl Mobile',
   extensionLink:
     'https://chrome.google.com/webstore/detail/eternlcc/kmhcihpebfmpgmihbkipmjlmmioameka',
   icon: <img alt="Eternl Logo" src={EternlLogo} height={32} width={32} />,
