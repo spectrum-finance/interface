@@ -1,3 +1,4 @@
+import { HexString } from '@spectrumlabs/cardano-dex-sdk';
 import axios from 'axios';
 import keyBy from 'lodash/keyBy';
 import {
@@ -16,11 +17,23 @@ import { Dictionary } from '../../../../common/utils/Dictionary';
 import { cardanoNetworkData } from '../../utils/cardanoNetworkData';
 import { networkContext$ } from '../networkContext/networkContext';
 
+export interface AmmPoolAnalyticsAssetInfo {
+  readonly amount: number;
+  readonly asset: {
+    readonly currencySymbol: HexString;
+    readonly tokenName: string;
+  };
+}
+
 export interface AmmPoolAnalytics {
-  id: PoolId;
-  tvl: number | null;
-  volume: number | null;
-  yearlyFeesPercent: number | undefined;
+  readonly id: PoolId;
+  readonly tvl: number | null;
+  readonly volume: number | null;
+  readonly yearlyFeesPercent: number | undefined;
+  readonly lockedX: AmmPoolAnalyticsAssetInfo;
+  readonly lockedY: AmmPoolAnalyticsAssetInfo;
+  readonly lockedLQ: AmmPoolAnalyticsAssetInfo;
+  readonly poolFeeNum: number;
 }
 
 export const ammPoolsStats$: Observable<Dictionary<AmmPoolAnalytics>> =
