@@ -5,6 +5,6 @@ export const initializeDAppBridge = () => {
     setTimeout(() => {
       resolve(true);
       testText$.next(window.dAppConnectorBridge?.name || 'no');
-    }, 100);
+    }, 500);
   });
 };
