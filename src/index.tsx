@@ -37,6 +37,7 @@ init();
 
 if (window.initCardanoDAppConnectorBridge) {
   window.initCardanoDAppConnectorBridge((connector) => {
+    console.log(connector);
     testText$.next(connector.name || 'no');
   });
 }
