@@ -197,7 +197,7 @@ const registeredOrdersCount$: Observable<{
   switchMap((addresses) =>
     from(
       axios.post<{ needRefund: number; pending: number }>(
-        `${applicationConfig.networksSettings.cardano.analyticUrl}/history/order/pending`,
+        `${applicationConfig.networksSettings.cardano.analyticUrl}history/order/pending`,
         {
           userPkhs: uniq(
             addresses.map((a) => extractPaymentCred(a, RustModule.CardanoWasm)),
