@@ -36,8 +36,8 @@ const init = () => {
 init();
 
 if (window.initCardanoDAppConnectorBridge) {
-  window.initCardanoDAppConnectorBridge((connector) => {
-    console.log(connector);
-    testText$.next(connector.name || 'no');
+  window.initCardanoDAppConnectorBridge(async (walletApi) => {
+    console.log('here');
+    testText$.next(walletApi.name || 'no');
   });
 }
