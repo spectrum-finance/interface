@@ -44,6 +44,8 @@ namespace CardanoBridge {
 
 declare let cardano: { [key: string]: CardanoBridge.ConnectorAPI };
 
-declare let initCardanoDAppConnectorBridge: (
-  callback: (connector: CardanoBridge.ConnectorAPI) => void,
-) => void;
+interface Window {
+  initCardanoDAppConnectorBridge: (
+    callback: (connector: CardanoBridge.ConnectorAPI) => void,
+  ) => void;
+}

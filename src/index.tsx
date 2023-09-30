@@ -35,8 +35,8 @@ const init = () => {
 
 init();
 
-if (initCardanoDAppConnectorBridge) {
-  initCardanoDAppConnectorBridge((connector) => {
+if (window.initCardanoDAppConnectorBridge) {
+  window.initCardanoDAppConnectorBridge((connector) => {
     testText$.next(connector.name || 'no');
   });
 }
