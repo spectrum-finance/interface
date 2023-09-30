@@ -22,7 +22,7 @@ import {
   createWalletManager,
   LocalStorageCacheStrategy,
 } from './common/WalletManager';
-import { Eternl } from './eternl/eternl';
+import { Eternl, EternlMobile } from './eternl/eternl';
 import { Exodus } from './exodus/exodus.tsx';
 import { Flint } from './flint/flint.tsx';
 import { Gero } from './gero/gero';
@@ -45,6 +45,7 @@ const walletStateUpdate$ = new BehaviorSubject(
 
 const walletManager = createWalletManager({
   availableWallets: [
+    EternlMobile,
     Nami,
     Eternl,
     Lace,
