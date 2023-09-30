@@ -19,20 +19,20 @@
     #app { height: 100% }
     #app > div { height: 100% }
   </style>
+  <script type="text/javascript" src="/cardano-dapp-connector-bridge.min.js"></script>
+  <script type="text/javascript" async>
+    if (window.initCardanoDAppConnectorBridge) {
+      window.initCardanoDAppConnectorBridge(async (walletApi) => {
+        window.dAppConnectorBridge = walletApi;
+      });
+    } else {
+      window.dAppConnectorBridge = undefined;
+    }
+  </script>
 </head>
 <body>
 <noscript>You should enable JavaScript to run this app.</noscript>
 <div id="app"></div>
-<script type="text/javascript" src="/cardano-dapp-connector-bridge.min.js"></script>
-<script type="text/javascript" async>
-  if (window.initCardanoDAppConnectorBridge) {
-    window.initCardanoDAppConnectorBridge(async (walletApi) => {
-      window.dAppConnectorBridge = walletApi;
-    });
-  } else {
-    window.dAppConnectorBridge = undefined;
-  }
-</script>
 <script type="module" src="/src/nodespecific.ts"></script>
 <script type="module" src="/src/index.tsx"></script>
 <script>
