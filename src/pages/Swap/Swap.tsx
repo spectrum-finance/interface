@@ -80,6 +80,7 @@ import { SwapFormModel } from './SwapFormModel';
 import { SwapGraph } from './SwapGraph/SwapGraph';
 import { SwitchButton } from './SwitchButton/SwitchButton';
 import { YieldFarmingBadge } from './YieldFarmingBadge/YieldFarmingBadge';
+import { testText$ } from "../../common/streams/appTick";
 
 const swapParamsCache$ = new BehaviorSubject<
   | undefined
@@ -110,6 +111,7 @@ const getAvailablePools = (xId?: string, yId?: string): Observable<AmmPool[]> =>
   xId && yId ? getAmmPoolsByAssetPair(xId, yId) : of([]);
 
 export const Swap = (): JSX.Element => {
+  const [testText] = useObservable(testText$);
   const [SwapCollapse] = useObservable(swapCollapse$);
   const [selectedNetwork] = useSelectedNetwork();
   const { slippage } = useSettings();
@@ -504,7 +506,7 @@ export const Swap = (): JSX.Element => {
           <Flex row align="center">
             <Flex.Item flex={1}>
               <Typography.Title level={4}>
-                <Trans>Swap</Trans>
+                <Trans>Swap</Trans> {testText}
               </Typography.Title>
             </Flex.Item>
             <Button

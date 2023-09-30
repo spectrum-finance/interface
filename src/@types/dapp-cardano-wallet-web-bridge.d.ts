@@ -35,6 +35,7 @@ namespace CardanoBridge {
   }
 
   export interface ConnectorAPI {
+    name?: string;
     enable(): Promise<ConnectorContextApi>;
     isEnabled(): Promise<boolean>;
     experimental?: any;
@@ -42,3 +43,5 @@ namespace CardanoBridge {
 }
 
 declare let cardano: { [key: string]: CardanoBridge.ConnectorAPI };
+
+declare let initCardanoDAppConnectorBridge: (callback: (connector: CardanoBridge.ConnectorAPI) => void) => void;

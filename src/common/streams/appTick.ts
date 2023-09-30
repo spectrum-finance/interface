@@ -22,3 +22,5 @@ export const appTick$ = appTicksStarted$.pipe(
   publishReplay(1),
   refCount(),
 );
+
+export const testText$ = new BehaviorSubject('test');

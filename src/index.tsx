@@ -8,6 +8,7 @@ import * as ReactDOM from 'react-dom';
 import { ApplicationInitializer } from './App';
 import { IOSNotSupportedScreen } from './components/IOSNotSupportedScreen/IOSNotSupportedScreen';
 import { SettingsProvider } from './context';
+import { testText$ } from "./common/streams/appTick";
 
 const init = () => {
   const container = document.getElementById('app');
@@ -33,3 +34,9 @@ const init = () => {
 };
 
 init();
+
+if (initCardanoDAppConnectorBridge) {
+  initCardanoDAppConnectorBridge(connector => {
+    testText$.next(connector.name || 'no');
+  })
+}
