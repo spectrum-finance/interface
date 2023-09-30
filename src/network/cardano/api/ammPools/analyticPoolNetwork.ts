@@ -43,7 +43,7 @@ export class AnalyticPoolNetwork implements Pools {
   private request() {
     return axios
       .get<Dictionary<AmmPoolAnalytics>>(
-        `${cardanoNetworkData.analyticUrl}pools/overview`,
+        `${cardanoNetworkData.analyticUrl}front/pools`,
         { params: { after: 0 } },
       )
       .then((res) => res.data as Dictionary<AmmPoolAnalytics>);
