@@ -17,7 +17,7 @@ import {
 } from '../../../../network/cardano/api/rewards/claimRewards';
 import { RewardsData } from '../../../../network/cardano/api/rewards/rewards';
 
-export const CLAIMS_OPEN_DATETIME = DateTime.utc(2023, 9, 2, 9, 0).toLocal();
+export const CLAIMS_OPEN_DATETIME = DateTime.utc(2023, 10, 2, 9, 0).toLocal();
 
 export const ClaimRewardsButton: FC<{ rewardsData: RewardsData }> = ({
   rewardsData,
@@ -54,38 +54,57 @@ export const ClaimRewardsButton: FC<{ rewardsData: RewardsData }> = ({
 
   return (
     <Flex col align="center">
-      {validationData && (
-        <Flex.Item marginBottom={4} width="100%">
-          <Box padding={3} borderRadius="l" bordered width="100%">
-            <Flex col>
-              <Flex justify="space-between" align="center">
-                <Typography.Title level={5}>
-                  <Trans>ADA Deposit</Trans>
-                </Typography.Title>
-                <Flex.Item display="flex" align="center">
-                  <Flex.Item marginRight={1}>
-                    <AssetIcon
-                      asset={validationData.requiredAda.asset}
-                      size="small"
-                    />
+      {validationData &&
+        rewardsPaymentRequestStatus === ClaimRewardsStatus.AVAILABLE &&
+        !rewardsData.totalPending.isPositive() && (
+          <Flex.Item marginBottom={4} width="100%">
+            <Box padding={3} borderRadius="l" bordered width="100%">
+              <Flex col>
+                <Flex justify="space-between" align="center">
+                  <Typography.Title level={5}>
+                    <Trans>ADA Deposit</Trans>
+                  </Typography.Title>
+                  <Flex.Item display="flex" align="center">
+                    <Flex.Item marginRight={1}>
+                      <AssetIcon
+                        asset={validationData.requiredAda.asset}
+                        size="small"
+                      />
+                    </Flex.Item>
+                    <Typography.Body size="large" strong>
+                      {validationData.requiredAda.toCurrencyString()}
+                    </Typography.Body>
                   </Flex.Item>
-                  <Typography.Body size="large" strong>
-                    {validationData.requiredAda.toCurrencyString()}
-                  </Typography.Body>
-                </Flex.Item>
-              </Flex>
-              <Flex.Item marginTop={1}>
-                <Alert
-                  type="success"
-                  message={`To send the transaction we need
+                </Flex>
+                <Flex.Item marginTop={1}>
+                  <Alert
+                    type="success"
+                    message={`To send the transaction we need
                   ${validationData.requiredAda.toString()} ADA. All ADA will be
                   returned to you, except for ~0.4 ADA network fee (also known as gas fee).`}
-                />
-              </Flex.Item>
-            </Flex>
-          </Box>
-        </Flex.Item>
-      )}
+                  />
+                </Flex.Item>
+              </Flex>
+            </Box>
+          </Flex.Item>
+        )}
+      {validationData &&
+        ((rewardsPaymentRequestStatus !== ClaimRewardsStatus.AVAILABLE &&
+          rewardsPaymentRequestStatus !== ClaimRewardsStatus.LOADING) ||
+          rewardsData.totalPending.isPositive()) && (
+          <Flex.Item marginBottom={4}>
+            <Alert
+              showIcon
+              type="info"
+              message={
+                <Trans>
+                  Payouts can take up to 10 minutes depending on service and
+                  network load.
+                </Trans>
+              }
+            />
+          </Flex.Item>
+        )}
       <Flex.Item width="100%">
         <Button
           loading={
