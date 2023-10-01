@@ -65,7 +65,7 @@ interface ApplicationConfig {
 }
 
 export const applicationConfig: ApplicationConfig = {
-  isRewardsAvailable: true,
+  isRewardsAvailable: false,
   spfUsdRateUrl: 'https://api.spectrum.fi/v1/price-tracking/spf/price',
   operationTimeoutTime: 60_000,
   cookieDomain: isProductionEnv() ? 'spectrum.fi' : undefined,
