@@ -21,10 +21,16 @@ export const RewardsBugFixing: FC = () => {
     return () => clearInterval(intervalId);
   }, []);
 
-  const r = Interval.fromDateTimes(now, CLAIMS_OPEN_DATETIME).end.diff(
-    now.toUTC(),
-    ['days', 'hours', 'minutes', 'seconds', 'milliseconds'],
-  );
+  const isRewardClaimable = now.toUTC().toLocal() >= CLAIMS_OPEN_DATETIME;
+  const r = isRewardClaimable
+    ? undefined
+    : Interval.fromDateTimes(now, CLAIMS_OPEN_DATETIME).end.diff(now.toUTC(), [
+        'days',
+        'hours',
+        'minutes',
+        'seconds',
+        'milliseconds',
+      ]);
 
   return (
     <Flex col align="center">
@@ -41,12 +47,14 @@ export const RewardsBugFixing: FC = () => {
       <Flex.Item marginBottom={4} width="100%">
         <Divider type="horizontal" />
       </Flex.Item>
-      <Flex.Item>
-        <Typography.Body size="small" secondary>
-          Claims will be opened in{' '}
-          {`${r.days} days ${r.hours} hours ${r.minutes} minutes`}
-        </Typography.Body>
-      </Flex.Item>
+      {r && (
+        <Flex.Item>
+          <Typography.Body size="small" secondary>
+            Claims will be opened in{' '}
+            {`${r.days} days ${r.hours} hours ${r.minutes} minutes`}
+          </Typography.Body>
+        </Flex.Item>
+      )}
       <Flex.Item>
         <Typography.Body size="small" secondary>
           Need help? Join{' '}

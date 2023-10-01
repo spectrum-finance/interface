@@ -42,10 +42,15 @@ export const ClaimRewardsButton: FC<{ rewardsData: RewardsData }> = ({
   }, []);
 
   const isRewardClaimable = now.toUTC().toLocal() >= CLAIMS_OPEN_DATETIME;
-  const r = Interval.fromDateTimes(now, CLAIMS_OPEN_DATETIME).end.diff(
-    now.toUTC(),
-    ['days', 'hours', 'minutes', 'seconds', 'milliseconds'],
-  );
+  const r = isRewardClaimable
+    ? undefined
+    : Interval.fromDateTimes(now, CLAIMS_OPEN_DATETIME).end.diff(now.toUTC(), [
+        'days',
+        'hours',
+        'minutes',
+        'seconds',
+        'milliseconds',
+      ]);
 
   return (
     <Flex col align="center">
@@ -128,7 +133,7 @@ export const ClaimRewardsButton: FC<{ rewardsData: RewardsData }> = ({
             t`Loading`}
         </Button>
       </Flex.Item>
-      {!isRewardClaimable && (
+      {!isRewardClaimable && r && (
         <Flex.Item marginTop={2} display="flex" col align="center">
           <Typography.Body size="small" secondary>
             Claims will be opened on{' '}
