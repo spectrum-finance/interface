@@ -1,12 +1,14 @@
 import axios from 'axios';
 import groupBy from 'lodash/groupBy';
 import {
+  catchError,
   filter,
   from,
   interval,
   map,
   mapTo,
   merge,
+  of,
   publishReplay,
   refCount,
   startWith,
@@ -176,9 +178,11 @@ export const rewards$ = getAddresses().pipe(
     ),
   ),
   switchMap((addresses) =>
-    from(axios.post('https://rewards.spectrum.fi/v1/rewards/data', addresses)),
+    from(
+      axios.post('https://rewards.spectrum.fi/v1/rewards/data', addresses),
+    ).pipe(catchError(() => of(undefined))),
   ),
-  map((res) => buildRewardsData(res.data)),
+  map((res) => (res ? buildRewardsData(res.data) : undefined)),
   publishReplay(1),
   refCount(),
 );

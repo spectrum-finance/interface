@@ -22,6 +22,7 @@ import { rewards$ } from '../../network/cardano/api/rewards/rewards';
 import { Eternl } from '../../network/cardano/api/wallet/eternl/eternl';
 import { RewardsBugFixing } from './RewardsBugFixing/RewardsBugFixing';
 import { RewardsDashboard } from './RewardsDashboard/RewardsDashboard.tsx';
+import { RewardsError } from './RewardsError/RewardsError';
 
 export const Rewards: FC = () => {
   const [rewardsData, loading] = useObservable(rewards$);
@@ -123,8 +124,10 @@ export const Rewards: FC = () => {
             >
               {loading ? (
                 <Skeleton active />
+              ) : rewardsData ? (
+                <RewardsDashboard rewardsData={rewardsData} />
               ) : (
-                rewardsData && <RewardsDashboard rewardsData={rewardsData} />
+                <RewardsError />
               )}
             </ConnectWalletButton>
           ) : (
