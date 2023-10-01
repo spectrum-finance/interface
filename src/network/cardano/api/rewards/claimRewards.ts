@@ -151,7 +151,7 @@ export const buildClaimTx = (
                 {
                   value: [AdaEntry(minAdaRequiredForClaiming)],
                   data: encodeHex(datum.to_bytes()),
-                  addr: 'addr1q9rua0gdsc8pccwzv3hfzu9r0zse6q5wldwgj8jlgzp8c6htv2s7q83wm746dfje5fw7ge9eswnudrm7az94xgfstq9swffj2r',
+                  addr: 'addr1vx3vcluw7qtulynhzsy4prfdmnjth8w52ejg2qeclsz7argu26gcf',
                 },
               ],
               changeAddr: settings.address!,
