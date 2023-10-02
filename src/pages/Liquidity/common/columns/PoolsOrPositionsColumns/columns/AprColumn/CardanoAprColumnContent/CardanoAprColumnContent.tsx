@@ -36,7 +36,7 @@ const AprTooltipContent: FC<LbspTooltipContentProps> = ({ aprs, totalApr }) => {
       </Flex.Item>
       {aprs.map((apr, index) => {
         return (
-          <Flex.Item key={`${index}-apr-row`} display="flex" marginBottom={1}>
+          <Flex.Item key={`${index}-apr-row`} display="flex">
             <Flex.Item marginRight={1} justify="space-between">
               <Typography.Body tooltip size="small">
                 {apr.name}
@@ -61,18 +61,6 @@ const AprTooltipContent: FC<LbspTooltipContentProps> = ({ aprs, totalApr }) => {
           </Flex.Item>
         );
       })}
-
-      <Flex.Item>
-        <Typography.Body
-          size="small"
-          style={{ color: 'var(--spectrum-hint-text)' }}
-        >
-          <Trans>
-            SPF APR is calculated according to the current price on the Ergo
-            market
-          </Trans>
-        </Typography.Body>
-      </Flex.Item>
     </Flex>
   );
 };
