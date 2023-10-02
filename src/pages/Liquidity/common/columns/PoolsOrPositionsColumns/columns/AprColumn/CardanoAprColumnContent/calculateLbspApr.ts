@@ -17,6 +17,7 @@ import { applicationConfig } from '../../../../../../../../applicationConfig';
 import { AmmPool } from '../../../../../../../../common/models/AmmPool';
 import { Currency } from '../../../../../../../../common/models/Currency';
 import { appTick$ } from '../../../../../../../../common/streams/appTick';
+import { getAmmPoolById } from '../../../../../../../../gateway/api/ammPools.ts';
 import { spfAsset } from '../../../../../../../../network/ergo/api/networkAsset/networkAsset';
 import {
   isLbspAmmPool,
@@ -58,6 +59,12 @@ const adaUsdRate$ = appTick$.pipe(
 );
 adaUsdRate$.subscribe();
 
+const spfPrice$ = getAmmPoolById(applicationConfig.spfPoolId).pipe(
+  map((ammPool) => {
+    return ammPool?.pool.priceY;
+  }),
+);
+
 const getLbspMultiplier = (ammPool: AmmPool) => {
   if (isLbspAmmPool(ammPool.id)) {
     return LBSP_MULTIPLIER;
@@ -72,11 +79,18 @@ const getLbspMultiplier = (ammPool: AmmPool) => {
 };
 
 export const calculateLbspApr = (ammPool: AmmPool): Observable<number> => {
-  return combineLatest([spfUsdRate$, adaUsdRate$]).pipe(
-    map(([spfUsdRate, adaUsdRate]) => {
+  return combineLatest([spfPrice$, adaUsdRate$]).pipe(
+    map(([price, adaUsdRate]) => {
+      const spfPriceUsd = math.evaluate!(
+        `${Number(price?.numerator)}/${Number(
+          price?.denominator,
+        )}*${adaUsdRate}`,
+      ).toFixed(6);
+
       const lbspMult = getLbspMultiplier(ammPool);
+
       return math.evaluate!(
-        `(${LBSP_COEFFICIENT} * ${lbspMult} * ${spfUsdRate}) / ${adaUsdRate} * ${EPOCHS_PER_YEAR} * 100`,
+        `((${LBSP_COEFFICIENT} * ${lbspMult} * ${spfPriceUsd}) / ${adaUsdRate} * ${EPOCHS_PER_YEAR} * 100)/2`,
       ).toFixed(2);
     }),
     map((res) => (res ? Number(res) : 0)),
