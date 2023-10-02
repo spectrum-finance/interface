@@ -68,7 +68,7 @@ export class AssetGraph {
 
     if (!currentPool) {
       this.pools.set(pairKey, pool);
-    } else if (comparePoolByTvl(currentPool, pool) === 1) {
+    } else if (comparePoolByTvl(currentPool, pool) > 0) {
       this.pools.set(pairKey, pool);
     }
   }
