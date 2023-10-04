@@ -11,6 +11,7 @@ import { LiquidityState } from '../common/types/LiquidityState';
 import { LockedPositions } from './components/LockedPositions/LockedPositions';
 import { PoolsOverview } from './components/PoolsOverview/PoolsOverview';
 import { YourPositions } from './components/YourPositions/YourPositions';
+import { IsErgo } from "../../../components/IsErgo/IsErgo";
 
 const LiquidityTabs = styled(Tabs)`
   .ant-tabs-nav-wrap {
@@ -68,14 +69,16 @@ export const LiquidityDefaultLayout: FC<LiquidityLayoutProps> = ({
             <Flex.Item marginRight={1}>
               <LiquidityFilter value={filters} onChange={setFilters} />
             </Flex.Item>
-            <Button
-              size="large"
-              onClick={() => {
-                navigate('create');
-              }}
-            >
-              <Trans>Create Pool</Trans>
-            </Button>
+            <IsErgo>
+              <Button
+                size="large"
+                onClick={() => {
+                  navigate('create');
+                }}
+              >
+                <Trans>Create Pool</Trans>
+              </Button>
+            </IsErgo>
           </Flex>
         ),
       }}
