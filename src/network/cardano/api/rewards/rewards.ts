@@ -8,6 +8,7 @@ import {
   map,
   mapTo,
   merge,
+  Observable,
   of,
   publishReplay,
   refCount,
@@ -56,7 +57,7 @@ export interface RawReward {
   readonly rewardStatus: RewardStatus;
 }
 
-interface RawRewardResponse {
+export interface RawRewardResponse {
   readonly rewards: RawReward[];
   readonly upcoming: { sp0?: number; sp1?: number };
 }
@@ -169,20 +170,26 @@ const buildRewardsData = (response: RawRewardResponse): RewardsData => {
   );
 };
 
+export const rewardsRequest = (
+  addresses: string[],
+): Observable<RewardsData | undefined> =>
+  from(
+    axios.post('https://rewards.spectrum.fi/v1/rewards/data', addresses),
+  ).pipe(
+    map((res) => res.data),
+    catchError(() => of(undefined)),
+    map((data) => (data ? buildRewardsData(data) : undefined)),
+  );
+
 export const rewards$ = getAddresses().pipe(
   filter((addresses) => !!addresses?.length),
   switchMap((addresses) =>
     merge(updateRewards$, interval(10_000)).pipe(
       startWith(0),
-      mapTo(addresses),
+      mapTo(addresses as string[]),
     ),
   ),
-  switchMap((addresses) =>
-    from(
-      axios.post('https://rewards.spectrum.fi/v1/rewards/data', addresses),
-    ).pipe(catchError(() => of(undefined))),
-  ),
-  map((res) => (res ? buildRewardsData(res.data) : undefined)),
+  switchMap((addresses) => rewardsRequest(addresses)),
   publishReplay(1),
   refCount(),
 );

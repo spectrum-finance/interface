@@ -13,6 +13,7 @@ import { DateTime } from 'luxon';
 import {
   catchError,
   combineLatest,
+  filter,
   first,
   from,
   interval,
@@ -44,9 +45,11 @@ import {
   RawReward,
   rewardAsset,
   RewardsData,
+  rewardsRequest,
   RewardStatus,
   updateRewards$,
 } from './rewards';
+import { ClaimNotAvailableError } from './utils';
 
 interface ClaimTxResponse {
   readonly transaction: Transaction | null;
@@ -180,17 +183,41 @@ export const buildClaimTx = (
 };
 
 export const claimRewards = (rewardsData: RewardsData): Observable<TxId> => {
-  return buildClaimTx(rewardsData).pipe(
-    switchMap(({ transaction }) => {
-      if (transaction) {
-        return submitTx(transaction);
-      }
-      throw new Error('Insufficient funds');
-    }),
-    tap(() =>
-      localStorageManager.set(CLAIM_IN_MEMPOOL_KEY, DateTime.now().toMillis()),
-    ),
+  return getAddresses().pipe(
+    filter((addresses) => !!addresses?.length),
     first(),
+    switchMap((addresses) =>
+      combineLatest([
+        rewardsRequest(addresses as string[]),
+        rewardsRequestStatusRequest(addresses as string[]),
+      ]),
+    ),
+    switchMap(([rewards, status]: [RewardsData | undefined, boolean]) => {
+      if (
+        status ||
+        !rewards ||
+        rewards?.totalPending.isPositive() ||
+        !rewards?.totalAvailable.isPositive()
+      ) {
+        throw new ClaimNotAvailableError('claim not available');
+      }
+
+      return buildClaimTx(rewardsData).pipe(
+        switchMap(({ transaction }) => {
+          if (transaction) {
+            return submitTx(transaction);
+          }
+          throw new Error('Insufficient funds');
+        }),
+        tap(() =>
+          localStorageManager.set(
+            CLAIM_IN_MEMPOOL_KEY,
+            DateTime.now().toMillis(),
+          ),
+        ),
+        first(),
+      );
+    }),
   );
 };
 
@@ -203,16 +230,22 @@ export enum ClaimRewardsStatus {
   AVAILABLE,
 }
 
-const isPaymentHandling$ = interval(5_000).pipe(
-  startWith(0),
-  switchMap(() => getAddresses()),
-  switchMap((addresses) =>
+const rewardsRequestStatusRequest = (
+  addresses: string[],
+): Observable<boolean> =>
+  from(
     axios.post(
       'https://rewards.spectrum.fi/v1/rewards/payment/request/status',
       addresses,
     ),
+  ).pipe(map((res) => res.data));
+
+const isPaymentHandling$ = interval(5_000).pipe(
+  startWith(0),
+  switchMap(() => getAddresses()),
+  switchMap((addresses) =>
+    addresses ? rewardsRequestStatusRequest(addresses) : of(false),
   ),
-  map((res) => res.data),
   tap((isPaymentHandling) => {
     if (isPaymentHandling && localStorageManager.get(CLAIM_IN_MEMPOOL_KEY)) {
       updateRewards$.next(undefined);
