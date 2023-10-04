@@ -29,13 +29,18 @@ export const RewardsDashboard: FC<RewardsDashboardProps> = ({
     <Flex.Item marginBottom={4}>
       <RewardsDashboardSection
         title={t`LBSP`}
-        infoTooltipWidth={284}
+        infoTooltipWidth={300}
         upcomingTooltipText="You will receive this number of rewards if your stake remains unchanged through the end of the LBSP. This is a rough calculation based on the current ADA in the liquidity pool."
         infoTooltipText={
           <Flex col>
             <Trans>
-              LBSP is an incentive program for liquidity providers, rewarding
-              them with SPF utility tokens in exchange for providing liquidity.
+              LBSP is designed to incentivize liquidity providers by offering
+              SPF utility tokens in exchange for their liquidity provision. To
+              qualify for rewards, liquidity providers must commit to providing
+              liquidity for a full epoch. Your rewards will become visible on
+              this page after two snapshots have been taken. For instance, if
+              you provided liquidity during epoch N, your rewards will be
+              displayed starting from epoch N+2.
             </Trans>
             <Typography.Link
               href="https://medium.com/@spectrumlabs/lbsp-a-novel-ispo-mechanism-for-bootstrapping-liquidity-7fb461b4b849"
