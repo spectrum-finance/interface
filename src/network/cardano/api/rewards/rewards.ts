@@ -174,7 +174,7 @@ const buildRewardsData = (response: RawRewardResponse): RewardsData => {
   );
 };
 
-const ADDRESSES_IN_REQUEST_LIMIT = 400;
+export const ADDRESSES_IN_REQUEST_LIMIT = 400;
 
 const requestRewards = (
   addresses: string[],

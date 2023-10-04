@@ -9,6 +9,7 @@ import {
 } from '@spectrumlabs/cardano-dex-sdk/build/main/utils/rustLoader';
 import axios from 'axios';
 import groupBy from 'lodash/groupBy';
+import last from 'lodash/last';
 import { DateTime } from 'luxon';
 import {
   catchError,
@@ -42,6 +43,7 @@ import {
 } from '../operations/common/inputSelector';
 import { submitTx } from '../operations/common/submitTxCandidate';
 import {
+  ADDRESSES_IN_REQUEST_LIMIT,
   combineRequests,
   RawReward,
   rewardAsset,
@@ -231,14 +233,37 @@ export enum ClaimRewardsStatus {
 }
 
 const rewardsRequestStatusRequest = (
-  addresses: string[],
-): Observable<boolean> =>
-  from(
-    axios.post(
-      'https://rewards.spectrum.fi/v1/rewards/payment/request/status',
-      addresses,
+  allAddresses: string[],
+): Observable<boolean> => {
+  const addressesBatch: string[][] = [[]];
+
+  for (const address of allAddresses) {
+    const lastItem = last(addressesBatch);
+    if (!lastItem) {
+      break;
+    }
+    if (lastItem.length >= ADDRESSES_IN_REQUEST_LIMIT) {
+      addressesBatch.push([address]);
+    } else {
+      lastItem.push(address);
+    }
+  }
+
+  return combineLatest(
+    addressesBatch.map((addresses) =>
+      from(
+        axios.post(
+          'https://rewards.spectrum.fi/v1/rewards/payment/request/status',
+          addresses,
+        ),
+      ).pipe(map((res) => res.data)),
     ),
-  ).pipe(map((res) => res.data));
+  ).pipe(
+    map((responses) => {
+      return responses.some(Boolean);
+    }),
+  );
+};
 
 const isPaymentHandling$ = interval(5_000).pipe(
   startWith(0),
