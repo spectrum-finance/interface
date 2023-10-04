@@ -31,13 +31,16 @@ import { useNetworkAsset } from '../../gateway/api/networkAsset';
 import { createPool } from '../../gateway/api/operations/createPool';
 import { useHandleCreatePoolMaxButtonClick } from '../../gateway/api/useHandleCreatePoolMaxButtonClick';
 import { useCreatePoolValidators } from '../../gateway/api/validationFees';
-import { selectedNetwork$, useSelectedNetwork } from "../../gateway/common/network";
+import {
+  selectedNetwork$,
+  useSelectedNetwork,
+} from '../../gateway/common/network';
 import { operationsSettings$ } from '../../gateway/widgets/operationsSettings';
+import { useGuardV2 } from '../../hooks/useGuard';
 import { CreatePoolFormModel } from './CreatePoolFormModel';
 import { FeeSelector } from './FeeSelector/FeeSelector';
 import { InitialPriceInput } from './InitialPrice/InitialPriceInput';
 import { Overlay } from './Overlay/Overlay';
-import { useGuardV2 } from "../../hooks/useGuard";
 
 const xAssets$ = selectedNetwork$.pipe(
   switchMap((network) => {
@@ -85,7 +88,10 @@ export const CreatePool: FC = () => {
   });
   const [createPoolFormValue] = useObservable(form.valueChangesWithSilent$, []);
 
-  useGuardV2(() => selectedNetwork.name === 'cardano', () => navigate('../'));
+  useGuardV2(
+    () => selectedNetwork.name === 'cardano',
+    () => navigate('../'),
+  );
 
   const updateYAssets$ = useMemo(
     () => new BehaviorSubject<string | undefined>(undefined),

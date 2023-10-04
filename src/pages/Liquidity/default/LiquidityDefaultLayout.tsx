@@ -4,6 +4,7 @@ import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { IsErgo } from '../../../components/IsErgo/IsErgo';
 import { SearchInput } from '../../../components/SearchInput/SearchInput';
 import { LiquidityFilter } from '../common/components/LiquidityFilter/LiquidityFilter';
 import { LiquidityLayoutProps } from '../common/types/LiquidityLayoutProps';
@@ -11,7 +12,6 @@ import { LiquidityState } from '../common/types/LiquidityState';
 import { LockedPositions } from './components/LockedPositions/LockedPositions';
 import { PoolsOverview } from './components/PoolsOverview/PoolsOverview';
 import { YourPositions } from './components/YourPositions/YourPositions';
-import { IsErgo } from "../../../components/IsErgo/IsErgo";
 
 const LiquidityTabs = styled(Tabs)`
   .ant-tabs-nav-wrap {
