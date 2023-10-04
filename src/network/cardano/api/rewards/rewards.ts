@@ -186,9 +186,9 @@ const requestRewards = (
     catchError(() => of(undefined)),
   );
 
-const combineRequests = (
+export const combineRequests = (
   allAddresses: string[],
-): Observable<RawRewardResponse | undefined> => {
+): Observable<RewardsData | undefined> => {
   const addressesBatch: string[][] = [[]];
 
   for (const address of allAddresses) {
@@ -252,6 +252,7 @@ const combineRequests = (
         { rewards: [], upcoming: { sp0: 0, sp1: 0 } },
       );
     }),
+    map((data) => (data ? buildRewardsData(data) : undefined)),
   );
 };
 
@@ -264,7 +265,6 @@ export const rewards$ = getAddresses().pipe(
     ),
   ),
   switchMap((addresses) => combineRequests(addresses as string[])),
-  map((data) => (data ? buildRewardsData(data) : undefined)),
   publishReplay(1),
   refCount(),
 );

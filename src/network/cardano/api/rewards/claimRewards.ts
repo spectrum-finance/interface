@@ -42,10 +42,10 @@ import {
 } from '../operations/common/inputSelector';
 import { submitTx } from '../operations/common/submitTxCandidate';
 import {
+  combineRequests,
   RawReward,
   rewardAsset,
   RewardsData,
-  rewardsRequest,
   RewardStatus,
   updateRewards$,
 } from './rewards';
@@ -188,7 +188,7 @@ export const claimRewards = (rewardsData: RewardsData): Observable<TxId> => {
     first(),
     switchMap((addresses) =>
       combineLatest([
-        rewardsRequest(addresses as string[]),
+        combineRequests(addresses as string[]),
         rewardsRequestStatusRequest(addresses as string[]),
       ]),
     ),
