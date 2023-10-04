@@ -61,7 +61,7 @@ export interface RawReward {
   readonly rewardStatus: RewardStatus;
 }
 
-interface RawRewardResponse {
+export interface RawRewardResponse {
   readonly rewards: RawReward[];
   readonly upcoming: { sp0?: number; sp1?: number };
 }
