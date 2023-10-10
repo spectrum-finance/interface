@@ -278,7 +278,7 @@ export const requestIspoRewards = (
   address: string,
 ): Promise<IspoRewardsData> => {
   return axios
-    .post('https://rewards.spectrum.fi/v2/v1/rewards/ispo/data', address, {
+    .post('https://rewards.spectrum.fi/v1/rewards/ispo/data', address, {
       headers: {
         'Content-Type': 'application/json',
       },

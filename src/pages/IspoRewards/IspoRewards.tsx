@@ -80,8 +80,11 @@ const ClaimIspoRewards: FC<{ data: IspoRewardsData }> = ({ data }) => {
             <Flex.Item marginBottom={2}>
               <Typography.Body strong>
                 <Trans>
-                  Complete the claiming process by sending 5 ADA in ONE
-                  transaction to the address below:
+                  Complete the claiming process by sending{' '}
+                  <span style={{ color: 'var(--spectrum-warning-color)' }}>
+                    5 ADA
+                  </span>{' '}
+                  in ONE transaction to the address below:
                 </Trans>
               </Typography.Body>
             </Flex.Item>
