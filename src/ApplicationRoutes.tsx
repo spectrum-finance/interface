@@ -112,12 +112,17 @@ export const routesConfig: RouteConfigExtended[] = [
           {
             title: 'Rewards',
             path: 'rewards',
-            element: <Rewards />,
-          },
-          {
-            title: 'ISPO Rewards',
-            path: 'ispo',
-            element: <IspoRewards />,
+            children: [
+              {
+                path: '',
+                element: <Rewards />,
+              },
+              {
+                title: 'ISPO Rewards',
+                path: 'ispo',
+                element: <IspoRewards />,
+              },
+            ],
           },
 
           {

@@ -160,7 +160,12 @@ export const IspoRewards = () => {
   });
 
   return (
-    <Page backTo="../../../rewards" width={600} title="Claim ISPO rewards">
+    <Page
+      withBackButton
+      backTo="../../../rewards"
+      width={600}
+      title="Claim ISPO rewards"
+    >
       <Flex col>
         <Flex.Item marginBottom={data ? 2 : 0}>
           <Form
