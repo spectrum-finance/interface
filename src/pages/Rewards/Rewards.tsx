@@ -9,6 +9,7 @@ import {
 import { Trans } from '@lingui/macro';
 import { ElementLocation, ElementName } from '@spectrumlabs/analytics';
 import { FC } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { filter } from 'rxjs';
 
 import { applicationConfig } from '../../applicationConfig';
@@ -29,6 +30,8 @@ export const Rewards: FC = () => {
   const [addresses] = useObservable(
     getAddresses().pipe(filter((addresses) => !!addresses?.length)),
   );
+
+  const navigate = useNavigate();
 
   return (
     <Flex col align="center">
@@ -114,22 +117,40 @@ export const Rewards: FC = () => {
             )}
           </Flex.Item>
           {applicationConfig.isRewardsAvailable ? (
-            <ConnectWalletButton
-              width="100%"
-              size="extra-large"
-              trace={{
-                element_location: ElementLocation.rewardsPage,
-                element_name: ElementName.connectWalletButton,
-              }}
-            >
-              {loading ? (
-                <Skeleton active />
-              ) : rewardsData ? (
-                <RewardsDashboard rewardsData={rewardsData} />
-              ) : (
-                <RewardsError />
-              )}
-            </ConnectWalletButton>
+            <Flex col align="center">
+              <Flex.Item width="100%" marginBottom={2}>
+                <ConnectWalletButton
+                  width="100%"
+                  size="extra-large"
+                  trace={{
+                    element_location: ElementLocation.rewardsPage,
+                    element_name: ElementName.connectWalletButton,
+                  }}
+                >
+                  {loading ? (
+                    <Skeleton active />
+                  ) : rewardsData ? (
+                    <RewardsDashboard rewardsData={rewardsData} />
+                  ) : (
+                    <RewardsError />
+                  )}
+                </ConnectWalletButton>
+              </Flex.Item>
+              <Flex.Item align="center">
+                <Typography.Body secondary style={{ textAlign: 'center' }}>
+                  If you would like to claim your ISPO rewards without
+                  connecting your wallet, please click{' '}
+                  <Typography.Link
+                    onClick={() => {
+                      navigate('ispo');
+                    }}
+                  >
+                    here
+                  </Typography.Link>
+                  .
+                </Typography.Body>
+              </Flex.Item>
+            </Flex>
           ) : (
             <RewardsBugFixing />
           )}

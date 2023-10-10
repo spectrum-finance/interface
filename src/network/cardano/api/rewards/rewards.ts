@@ -268,3 +268,23 @@ export const rewards$ = getAddresses().pipe(
   publishReplay(1),
   refCount(),
 );
+
+export interface IspoRewardsData {
+  available: Currency;
+  received: Currency;
+}
+
+export const requestIspoRewards = (
+  address: string,
+): Promise<IspoRewardsData> => {
+  return axios
+    .post('https://rewards.spectrum.fi/v1/rewards/ispo/data', address, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .then((res) => ({
+      available: new Currency(res.data.available.toString(), rewardAsset),
+      received: new Currency(res.data.received.toString(), rewardAsset),
+    }));
+};

@@ -12,6 +12,7 @@ import { useApplicationSettings } from './context';
 import { AddLiquidity } from './pages/AddLiquidity/AddLiquidity';
 import { CreatePool } from './pages/CreatePool/CreatePool';
 import { Farms } from './pages/Farms/Farms';
+import { IspoRewards } from './pages/IspoRewards/IspoRewards.tsx';
 import { Liquidity } from './pages/Liquidity/Liquidity';
 import { LockLiquidity } from './pages/LockLiquidity/LockLiquidity';
 import { PoolOverview } from './pages/PoolOverview/PoolOverview';
@@ -111,7 +112,17 @@ export const routesConfig: RouteConfigExtended[] = [
           {
             title: 'Rewards',
             path: 'rewards',
-            element: <Rewards />,
+            children: [
+              {
+                path: '',
+                element: <Rewards />,
+              },
+              {
+                title: 'ISPO Rewards',
+                path: 'ispo',
+                element: <IspoRewards />,
+              },
+            ],
           },
           {
             path: '*',
