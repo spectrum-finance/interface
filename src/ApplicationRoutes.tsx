@@ -122,7 +122,7 @@ export const routesConfig: RouteConfigExtended[] = [
                 path: 'ispo',
                 element: <IspoRewards />,
               },
-            ]
+            ],
           },
           {
             path: '*',
