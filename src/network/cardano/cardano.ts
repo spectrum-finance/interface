@@ -1,4 +1,4 @@
-import { map, Observable, of } from 'rxjs';
+import { map, Observable, of, publishReplay, refCount, switchMap } from 'rxjs';
 
 import { applicationConfig } from '../../applicationConfig';
 import { TxId } from '../../common/types';
@@ -9,7 +9,11 @@ import {
   getUnusedAddresses,
   getUsedAddresses,
 } from './api/addresses/addresses';
-import { ammPools$ } from './api/ammPools/ammPools';
+import {
+  ammPools$,
+  showUnverifiedPools$,
+  unverifiedAmmPools$,
+} from './api/ammPools/ammPools';
 import { CardanoAmmPool } from './api/ammPools/CardanoAmmPool';
 import { assetBalance$ } from './api/balance/assetBalance';
 import { lpBalance$ } from './api/balance/lpBalance';
@@ -91,10 +95,21 @@ const makeCardanoNetwork = (
     lpBalance$,
     locks$: of([]),
     positions$,
-    displayedAmmPools$: ammPools$.pipe(
-      map((aps) =>
-        aps.filter((ap) => !applicationConfig.deprecatedPools.includes(ap.id)),
-      ),
+    displayedAmmPools$: showUnverifiedPools$.pipe(
+      switchMap((showUnverifiedPools) => {
+        if (showUnverifiedPools) {
+          return unverifiedAmmPools$;
+        }
+        return ammPools$.pipe(
+          map((aps) =>
+            aps.filter(
+              (ap) => !applicationConfig.deprecatedPools.includes(ap.id),
+            ),
+          ),
+        );
+      }),
+      publishReplay(1),
+      refCount(),
     ),
     ammPools$,
     getAddresses: getAddresses,

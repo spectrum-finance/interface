@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { useObservable } from '../../../../../../common/hooks/useObservable';
 import { AmmPool } from '../../../../../../common/models/AmmPool';
 import { isDeprecatedPool } from '../../../../../../common/utils/isDeprecatedPool';
+import { normalizeAvailableLp } from '../../../../../../common/utils/normalizeAvailableLp';
 import { redeem } from '../../../../../../gateway/api/operations/redeem';
 import { getPositionByAmmPoolId } from '../../../../../../gateway/api/positions';
 
@@ -24,7 +25,7 @@ export const ActionsColumn: FC<ActionsColumnProps> = ({ ammPool }) => {
   const [position] = useObservable(getPositionByAmmPoolId(ammPool.id), []);
   const { s, moreThan } = useDevice();
 
-  if (isDeprecatedPool(ammPool.id)) {
+  if (isDeprecatedPool(ammPool.id) || ammPool.unverified) {
     return (
       <Button
         disabled={position?.empty}
@@ -39,12 +40,14 @@ export const ActionsColumn: FC<ActionsColumnProps> = ({ ammPool }) => {
           if (!position) {
             return;
           }
+          const [availableLp, availableX, availableY] =
+            normalizeAvailableLp(position);
           redeem(
             position.pool,
             {
-              lpAmount: position.availableLp,
-              xAmount: position.availableX,
-              yAmount: position.availableY,
+              lpAmount: availableLp,
+              xAmount: availableX,
+              yAmount: availableY,
               percent: 100,
             },
             true,

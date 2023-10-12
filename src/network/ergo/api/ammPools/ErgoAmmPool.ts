@@ -78,6 +78,10 @@ export class ErgoAmmPool extends AmmPool {
     return new Currency(this.pool.x.amount, this.xAsset);
   }
 
+  get unverified() {
+    return false;
+  }
+
   shares(input: Currency): [Currency, Currency] {
     const [assetX, assetY] = this.pool.shares(
       new AssetAmount(input.asset, input.amount),

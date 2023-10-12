@@ -9,6 +9,7 @@ import { useParamsStrict } from '../../common/hooks/useParamsStrict';
 import { IsErgo } from '../../components/IsErgo/IsErgo.tsx';
 import { Page } from '../../components/Page/Page';
 import { getPositionByAmmPoolId } from '../../gateway/api/positions';
+import { useSelectedNetwork } from '../../gateway/common/network';
 import { useGuard } from '../../hooks/useGuard';
 import { isCardano } from '../../utils/network.ts';
 import { getAmmPoolConfidenceAnalyticByAmmPoolId } from './AmmPoolConfidenceAnalytic';
@@ -20,6 +21,7 @@ export const PoolOverview: React.FC = () => {
   const navigate = useNavigate();
   const { poolId } = useParamsStrict<{ poolId: PoolId }>();
   const [position, loading] = useObservable(getPositionByAmmPoolId(poolId), []);
+  const [selectedNetwork] = useSelectedNetwork();
   const { valBySize } = useDevice();
   const [poolConfidenceAnalytic] = useObservable(
     getAmmPoolConfidenceAnalyticByAmmPoolId(poolId),
@@ -36,7 +38,8 @@ export const PoolOverview: React.FC = () => {
       withBackButton
       backTo="../../../liquidity"
     >
-      {position && poolConfidenceAnalytic ? (
+      {position &&
+      (poolConfidenceAnalytic || selectedNetwork.name !== 'ergo') ? (
         <Flex col={valBySize(true, true, false)}>
           <Flex.Item
             flex={valBySize(undefined, undefined, 1)}
@@ -45,26 +48,28 @@ export const PoolOverview: React.FC = () => {
           >
             <PoolInfoView position={position} />
           </Flex.Item>
-          <IsErgo>
-            <Flex.Item
-              width={valBySize<string | number>('100%', '100%', 376)}
-              display="flex"
-              col={valBySize(true, false, true)}
-            >
+          {poolConfidenceAnalytic && (
+            <IsErgo>
               <Flex.Item
-                flex={valBySize(undefined, 1, undefined)}
-                marginRight={valBySize(0, 2, 0)}
-                marginBottom={valBySize(2, 0, 2)}
+                width={valBySize<string | number>('100%', '100%', 376)}
+                display="flex"
+                col={valBySize(true, false, true)}
               >
-                <PriceHistory position={position} />
+                <Flex.Item
+                  flex={valBySize(undefined, 1, undefined)}
+                  marginRight={valBySize(0, 2, 0)}
+                  marginBottom={valBySize(2, 0, 2)}
+                >
+                  <PriceHistory position={position} />
+                </Flex.Item>
+                <Flex.Item flex={valBySize(undefined, 1, undefined)}>
+                  <LockLiquidity
+                    poolConfidenceAnalytic={poolConfidenceAnalytic}
+                  />
+                </Flex.Item>
               </Flex.Item>
-              <Flex.Item flex={valBySize(undefined, 1, undefined)}>
-                <LockLiquidity
-                  poolConfidenceAnalytic={poolConfidenceAnalytic}
-                />
-              </Flex.Item>
-            </Flex.Item>
-          </IsErgo>
+            </IsErgo>
+          )}
         </Flex>
       ) : (
         <Skeleton active />
