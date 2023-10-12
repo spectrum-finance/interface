@@ -123,11 +123,12 @@ export const PoolInfoView: FC<PoolInfoProps> = ({ position }) => {
                   <FarmsButton onClick={handleFarmsButtonClick} />
                 )}
               </Flex.Item>
-              {!isDeprecatedPool(position.pool.id) && (
-                <Button onClick={handleSwap} size="large" type="primary">
-                  <Trans>Swap</Trans>
-                </Button>
-              )}
+              {!isDeprecatedPool(position.pool.id) &&
+                !position.pool.unverified && (
+                  <Button onClick={handleSwap} size="large" type="primary">
+                    <Trans>Swap</Trans>
+                  </Button>
+                )}
             </Flex>
           </PageHeader>
         </Flex.Item>
@@ -179,7 +180,9 @@ export const PoolInfoView: FC<PoolInfoProps> = ({ position }) => {
                   disabled={
                     applicationConfig.blacklistedPools.includes(
                       position.pool.id,
-                    ) || isDeprecatedPool(position.pool.id)
+                    ) ||
+                    isDeprecatedPool(position.pool.id) ||
+                    position.pool.unverified
                   }
                   block
                 >
@@ -199,7 +202,8 @@ export const PoolInfoView: FC<PoolInfoProps> = ({ position }) => {
                   size="large"
                   block
                   style={
-                    isDeprecatedPool(position.pool.id)
+                    isDeprecatedPool(position.pool.id) ||
+                    position.pool.unverified
                       ? {
                           background: 'var(--spectrum-warning-color)',
                           borderColor: 'var(--spectrum-warning-color)',
@@ -207,7 +211,8 @@ export const PoolInfoView: FC<PoolInfoProps> = ({ position }) => {
                       : undefined
                   }
                   onClick={
-                    isDeprecatedPool(position.pool.id)
+                    isDeprecatedPool(position.pool.id) ||
+                    position.pool.unverified
                       ? () => {
                           redeem(
                             position.pool,
