@@ -24,6 +24,7 @@ export class CardanoAmmPool extends AmmPool {
     public pool: CardanoBaseAmmPool,
     private assetInfoDictionary: AssetInfoDictionary,
     private poolAnalytics: AmmPoolAnalytics | undefined,
+    private _unverified?: boolean,
   ) {
     super();
   }
@@ -75,6 +76,10 @@ export class CardanoAmmPool extends AmmPool {
       this.pool.y.amount,
       this.toAssetInfo(this.pool.y.asset),
     );
+  }
+
+  get unverified() {
+    return this._unverified || false;
   }
 
   private toAssetInfo(

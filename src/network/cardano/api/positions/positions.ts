@@ -5,16 +5,28 @@ import {
   publishReplay,
   refCount,
   startWith,
+  switchMap,
 } from 'rxjs';
 
 import { Balance } from '../../../../common/models/Balance';
 import { Position } from '../../../../common/models/Position';
-import { allAmmPools$ } from '../ammPools/ammPools';
+import {
+  allAmmPools$,
+  showUnverifiedPools$,
+  unverifiedAmmPools$,
+} from '../ammPools/ammPools';
 import { lpBalance$ } from '../balance/lpBalance';
 import { networkContext$ } from '../networkContext/networkContext';
 
 export const positions$ = combineLatest([
-  allAmmPools$,
+  showUnverifiedPools$.pipe(
+    switchMap((showUnverifiedPools) => {
+      if (showUnverifiedPools) {
+        return unverifiedAmmPools$;
+      }
+      return allAmmPools$;
+    }),
+  ),
   lpBalance$.pipe(startWith(new Balance([]))),
   networkContext$,
 ]).pipe(

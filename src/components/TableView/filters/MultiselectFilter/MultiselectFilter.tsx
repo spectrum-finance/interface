@@ -1,4 +1,4 @@
-import { Checkbox, List } from '@ergolabs/ui-kit';
+import { Checkbox, Gutter, List } from '@ergolabs/ui-kit';
 import { FC, ReactNode } from 'react';
 
 import { FilterControlProps } from '../../common/FilterDescription';
@@ -11,11 +11,13 @@ export interface MultiselectFilterItem<T> {
 export interface MultiselectFilterProps<T> extends FilterControlProps<T> {
   readonly items: MultiselectFilterItem<T>[];
   readonly className?: string;
+  readonly padding?: Gutter;
 }
 
 export const MultiselectFilter: FC<MultiselectFilterProps<any>> = ({
   items,
   value,
+  padding,
   onChange,
 }) => {
   const handleChange = (key: any, checked: boolean) => {
@@ -35,7 +37,7 @@ export const MultiselectFilter: FC<MultiselectFilterProps<any>> = ({
   };
 
   return (
-    <List padding={[4, 3]} rowKey="value" dataSource={items} gap={2}>
+    <List padding={padding || [4, 3]} rowKey="value" dataSource={items} gap={2}>
       {(item) => (
         <div>
           <Checkbox

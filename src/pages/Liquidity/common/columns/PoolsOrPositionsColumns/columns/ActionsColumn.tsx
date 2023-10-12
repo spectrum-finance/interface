@@ -24,7 +24,7 @@ export const ActionsColumn: FC<ActionsColumnProps> = ({ ammPool }) => {
   const [position] = useObservable(getPositionByAmmPoolId(ammPool.id), []);
   const { s, moreThan } = useDevice();
 
-  if (isDeprecatedPool(ammPool.id)) {
+  if (isDeprecatedPool(ammPool.id) || ammPool.unverified) {
     return (
       <Button
         disabled={position?.empty}
