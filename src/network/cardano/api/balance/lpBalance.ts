@@ -5,16 +5,28 @@ import {
   Observable,
   publishReplay,
   refCount,
+  switchMap,
 } from 'rxjs';
 
 import { AssetInfo } from '../../../../common/models/AssetInfo';
 import { Balance } from '../../../../common/models/Balance';
-import { ammPools$ } from '../ammPools/ammPools';
+import {
+  allAmmPools$,
+  showUnverifiedPools$,
+  unverifiedAmmPools$,
+} from '../ammPools/ammPools';
 import { balanceItems$ } from './balance';
 
 export const lpBalance$: Observable<Balance> = combineLatest([
   balanceItems$,
-  ammPools$,
+  showUnverifiedPools$.pipe(
+    switchMap((showUnverifiedPools) => {
+      if (showUnverifiedPools) {
+        return unverifiedAmmPools$;
+      }
+      return allAmmPools$;
+    }),
+  ),
 ]).pipe(
   map(([balanceItems, pools]) =>
     balanceItems.filter(([, info]) =>
