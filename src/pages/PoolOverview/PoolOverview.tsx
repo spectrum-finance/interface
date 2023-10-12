@@ -48,26 +48,28 @@ export const PoolOverview: React.FC = () => {
           >
             <PoolInfoView position={position} />
           </Flex.Item>
-          <IsErgo>
-            <Flex.Item
-              width={valBySize<string | number>('100%', '100%', 376)}
-              display="flex"
-              col={valBySize(true, false, true)}
-            >
+          {poolConfidenceAnalytic && (
+            <IsErgo>
               <Flex.Item
-                flex={valBySize(undefined, 1, undefined)}
-                marginRight={valBySize(0, 2, 0)}
-                marginBottom={valBySize(2, 0, 2)}
+                width={valBySize<string | number>('100%', '100%', 376)}
+                display="flex"
+                col={valBySize(true, false, true)}
               >
-                <PriceHistory position={position} />
+                <Flex.Item
+                  flex={valBySize(undefined, 1, undefined)}
+                  marginRight={valBySize(0, 2, 0)}
+                  marginBottom={valBySize(2, 0, 2)}
+                >
+                  <PriceHistory position={position} />
+                </Flex.Item>
+                <Flex.Item flex={valBySize(undefined, 1, undefined)}>
+                  <LockLiquidity
+                    poolConfidenceAnalytic={poolConfidenceAnalytic}
+                  />
+                </Flex.Item>
               </Flex.Item>
-              <Flex.Item flex={valBySize(undefined, 1, undefined)}>
-                <LockLiquidity
-                  poolConfidenceAnalytic={poolConfidenceAnalytic}
-                />
-              </Flex.Item>
-            </Flex.Item>
-          </IsErgo>
+            </IsErgo>
+          )}
         </Flex>
       ) : (
         <Skeleton active />
