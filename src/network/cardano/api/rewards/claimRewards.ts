@@ -29,6 +29,7 @@ import {
 } from 'rxjs';
 
 import { Currency } from '../../../../common/models/Currency';
+import { captureOperationError } from '../../../../common/services/ErrorLogs';
 import { TxId } from '../../../../common/types';
 import { localStorageManager } from '../../../../common/utils/localStorageManager';
 import { getAddresses } from '../../../../gateway/api/addresses';
@@ -57,6 +58,7 @@ interface ClaimTxResponse {
   readonly transaction: Transaction | null;
   readonly requiredAda: Currency;
   readonly addresses: string[];
+  readonly error: Error | string | null;
 }
 
 export const buildClaimTx = (
@@ -164,12 +166,14 @@ export const buildClaimTx = (
           }),
           map((transaction) => ({
             transaction,
+            error: null,
             addresses: outputsData.map((item) => item.address),
             requiredAda: new Currency(minAdaRequiredForClaiming, networkAsset),
           })),
-          catchError(() =>
+          catchError((error) =>
             of({
               transaction: null,
+              error,
               addresses: outputsData.map((item) => item.address),
               requiredAda: new Currency(
                 minAdaRequiredForClaiming,
@@ -205,11 +209,14 @@ export const claimRewards = (rewardsData: RewardsData): Observable<TxId> => {
       }
 
       return buildClaimTx(rewardsData).pipe(
-        switchMap(({ transaction }) => {
+        switchMap(({ transaction, error }) => {
           if (transaction) {
             return submitTx(transaction);
           }
-          throw new Error('Insufficient funds');
+          throw error;
+        }),
+        tap({
+          error: (error) => captureOperationError(error, 'cardano', 'claim'),
         }),
         tap(() =>
           localStorageManager.set(

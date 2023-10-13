@@ -18,7 +18,11 @@ export const captureOperationError = (
   context?: object,
 ): void => {
   const message = typeof error === 'string' ? error : error.message;
-
+  console.log('error: ', message);
+  console.log('network: ', network);
+  console.log('operation: ', operation);
+  console.log('candidate: ', candidate);
+  console.log('context: ', context);
   Sentry.captureMessage(message, {
     level: Severity.Critical,
     extra: {
