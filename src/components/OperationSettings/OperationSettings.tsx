@@ -264,7 +264,7 @@ export const OperationSettings: FC<OperationSettingsProps> = ({
           backgroundColor:
             slippageCheck(slippage) || slippageTxFailCheck(slippage)
               ? 'var(--spectrum-warning-border-color)'
-              : 'var(--spectrum-btn-default-color)',
+              : 'var(--spectrum-primary-color)',
         }}
       >
         <Flex align="center">

@@ -194,13 +194,11 @@ const _Page: React.FC<PageProps> = ({
                 width="100%"
                 transparent={transparent}
                 bordered={!transparent}
-                style={
-                  transparent
-                    ? {
-                        boxShadow: 'none',
-                      }
-                    : {}
-                }
+                style={{
+                  boxShadow: 'none',
+                  background: '#454E60',
+                  border: 'none',
+                }}
               >
                 {children}
               </Box>

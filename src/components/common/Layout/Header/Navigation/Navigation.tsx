@@ -59,6 +59,11 @@ export const Navigation = styled(_Navigation)`
   .ant-tabs-tab,
   .ant-tabs-nav-list {
     flex-grow: 1;
+    background: var(--spectrum-tag-primary) !important;
+  }
+
+  .ant-tabs-tab-active {
+    background: var(--spectrum-secondary-color) !important;
   }
 
   .ant-tabs-tab {

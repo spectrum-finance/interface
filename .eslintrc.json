@@ -36,7 +36,7 @@
     "prettier/prettier": ["error", { "endOfLine": "auto" }],
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "off",
-    "no-console": ["warn", { "allow": ["warn", "error"] }],
+    // "no-console": ["warn", { "allow": ["warn", "error"] }],
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/indent": "off",
     "react/jsx-filename-extension": [

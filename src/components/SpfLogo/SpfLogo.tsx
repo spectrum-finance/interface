@@ -10,8 +10,8 @@ export const SpfLogo: FC<SpfLogoProps> = ({ w = 24, h = 24, block }) => {
   return (
     <img
       style={{ display: block ? 'block' : 'inline' }}
-      src="/spectrum-finance-token-logo.svg"
-      alt="SPF Logo"
+      src="/img/tokens/token-teddy.png"
+      alt="teddy Logo"
       width={w}
       height={h}
     />
