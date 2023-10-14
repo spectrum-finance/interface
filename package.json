@@ -1,7 +1,6 @@
 {
   "name": "@spectrumlabs/interface",
   "version": "5.0.32",
-  "private": false,
   "scripts": {
     "start": "vite",
     "build": "tsc && cross-env NODE_OPTIONS=--max-old-space-size=8192 vite build",
@@ -113,5 +112,5 @@
   "engines": {
     "node": "^19"
   },
-  "packageManager": "^yarn@1.22.19"
+  "packageManager": "yarn@3.6.4"
 }
