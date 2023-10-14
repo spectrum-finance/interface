@@ -30,5 +30,5 @@ const _OperationSettingsButton: FC<OperationSettingsButton> = ({
 };
 
 export const OperationSettingsButton = styled(_OperationSettingsButton)`
-  background-color: var(--spectrum-btn-default-color) !important;
+  background-color: var(--spectrum-primary-color) !important;
 `;

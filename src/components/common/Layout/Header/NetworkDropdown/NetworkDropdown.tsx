@@ -80,6 +80,7 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
           <DownOutlined
             style={{
               marginLeft: 'calc(var(--spectrum-base-gutter) * 2)',
+              color: 'var(--spectrum-text-white)',
             }}
           />
         </Flex>

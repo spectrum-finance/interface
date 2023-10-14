@@ -2,13 +2,14 @@ import { Flex, useDevice } from '@ergolabs/ui-kit';
 import cn from 'classnames';
 import * as React from 'react';
 import { isDesktop } from 'react-device-detect';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { device } from '../../../../common/constants/size';
 import { isPreLbspTimeGap } from '../../../../utils/lbsp';
 import { IsCardano } from '../../../IsCardano/IsCardano';
 import { IsErgo } from '../../../IsErgo/IsErgo';
-import { AppLogo } from '../../AppLogo/AppLogo';
+/* import { AppLogo } from '../../AppLogo/AppLogo'; */
 import { DeprecatedPosition } from '../DeprecatedPositions/DeprecatedPosition';
 import { OperationsHistory } from '../OperationsHistory/OperationsHistory';
 import { Analytics } from './Analytics/Analytics';
@@ -58,9 +59,13 @@ export const _Header: React.FC<HeaderProps> = ({ className, scrolledTop }) => {
       </IsCardano>
       <HeaderWrapper>
         <Flex align="center" style={{ gap: '8px' }}>
-          <Flex.Item marginRight={2} align="center">
-            <AppLogo isNoWording />
-          </Flex.Item>
+          {/* <AppLogo isNoWording /> */}
+          <Link to="/">
+            <Flex.Item align="center">
+              <img src="/img/logo/teddy-logo.png" height={26} />
+            </Flex.Item>
+          </Link>
+
           <IsErgo>
             {moreThan('l') && <Navigation />}
             <Analytics />

@@ -25,7 +25,7 @@ import {
 } from '../../../../../common/constants/locales';
 import { useApplicationSettings } from '../../../../../context';
 import { useQuery } from '../../../../../hooks/useQuery';
-import { ThemeSwitch } from '../../../../ThemeSwitch/ThemeSwitch';
+/* import { ThemeSwitch } from '../../../../ThemeSwitch/ThemeSwitch'; */
 import { DotsIcon } from '../../../Icons/DotsIcon';
 import { ManualRefundModal } from './ManualRefundModal/ManualRefundModal';
 
@@ -34,11 +34,11 @@ const StyledMenu = styled(Menu)`
   min-width: 233px;
 `;
 
-const ThemeSwitchContainer = styled.div`
+/* const ThemeSwitchContainer = styled.div`
   border-bottom: 1px solid var(--spectrum-box-border-color);
   padding: 0 0 0.5rem;
   margin-bottom: 0.5rem;
-`;
+`; */
 
 const OtherMenuItem = styled(Menu.Item)`
   .ant-dropdown-menu-title-content {
@@ -113,9 +113,9 @@ const BurgerMenu = (): JSX.Element => {
 
   const menuOthers = (
     <StyledMenu>
-      <ThemeSwitchContainer>
+      {/*       <ThemeSwitchContainer>
         <ThemeSwitch />
-      </ThemeSwitchContainer>
+      </ThemeSwitchContainer> */}
       {menu.map(
         (item, index) =>
           item && (

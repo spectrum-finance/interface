@@ -47,7 +47,7 @@ export const AssetBalance = styled(_AssetBalance)`
   ${(props) =>
     props.onClick &&
     css`
-      color: var(--spectrum-primary-color) !important;
+      color: var(--spectrum-secondary-text) !important;
       cursor: pointer;
     `}
 `;
