@@ -35,7 +35,7 @@ interface RewardsDashboardSectionProps {
   readonly upcomingTooltipText?: ReactNode | string;
   readonly infoTooltipWidth?: number;
   readonly button?: ReactNode;
-  readonly data: RewardSection | undefined;
+  readonly data?: RewardSection | undefined;
 }
 export const RewardsDashboardSection: FC<RewardsDashboardSectionProps> = ({
   title,
