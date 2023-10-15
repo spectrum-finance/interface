@@ -4,24 +4,6 @@
 ![test](https://github.com/ergolabs/ergo-dex-frontend/actions/workflows/test.yml/badge.svg?branch=test)
 ![dev](https://github.com/ergolabs/ergo-dex-frontend/actions/workflows/dev.yml/badge.svg?branch=dev)
 
-<!-- TABLE OF CONTENTS -->
-<details open="open">
-  <summary><h2 style="display: inline-block">Table of Contents</h2></summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-    </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="https://discord.gg/MP7uajEmpP">Contact</a></li>
-    <li><a href="#acknowledgements">Acknowledgements</a></li>
-  </ol>
-</details>
-
-<!-- ABOUT THE PROJECT -->
-
 ## About The Project
 
 Please see the [ErgoDEX protocol](https://github.com/ergolabs/ergo-dex) repository for a full description.
