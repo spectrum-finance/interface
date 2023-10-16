@@ -25,7 +25,7 @@ import { applicationConfig } from '../../../../applicationConfig';
 import { AmmPool } from '../../../../common/models/AmmPool';
 import { TxId } from '../../../../common/types';
 import { getAddresses } from '../addresses/addresses';
-import { allAmmPools$ } from '../ammPools/ammPools';
+import { allAmmPools$, getUnverifiedAmmPools } from '../ammPools/ammPools';
 import { mapRawAddLiquidityItemToAddLiquidityItem } from './types/AddLiquidityOperation';
 import { OperationMapper } from './types/BaseOperation';
 import { OperationItem, RawOperationItem } from './types/OperationItem';
@@ -158,13 +158,20 @@ export const getOperations = (
   limit: number,
   offset: number,
 ): Observable<[OperationItem[], number]> =>
-  combineLatest([getRawOperations(limit, offset), allAmmPools$]).pipe(
+  combineLatest([
+    getRawOperations(limit, offset),
+    allAmmPools$,
+    getUnverifiedAmmPools(),
+  ]).pipe(
     debounceTime(200),
     map(
-      ([[rawOperations, total], ammPools]) =>
+      ([[rawOperations, total], ammPools, unverifiedAmmPools]) =>
         [
           rawOperations.map((rawOp) =>
-            mapRawOperationItemToOperationItem(rawOp, ammPools),
+            mapRawOperationItemToOperationItem(
+              rawOp,
+              ammPools.concat(unverifiedAmmPools || []),
+            ),
           ),
           total,
         ] as [OperationItem[], number],

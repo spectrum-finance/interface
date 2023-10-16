@@ -66,37 +66,41 @@ const getPoolsV2 = () =>
     refCount(),
   );
 
-export const unverifiedAmmPools$ = networkContext$.pipe(
-  exhaustMap(() => combineLatest([getPools(), getPoolsV2()])),
-  catchError(() => of(undefined)),
-  filter(Boolean),
-  map(([[poolsV1], [poolsV2]]: [[AmmPool[], number], [AmmPool[], number]]) =>
-    poolsV1.concat(poolsV2),
-  ),
-  switchMap((pools: AmmPool[]) =>
-    defaultTokenList$.pipe(
-      map((defaultTokenList) =>
-        pools.filter(
-          (pool) => !defaultTokenList.tokensMap.has(mkSubject(pool.y.asset)),
-        ),
-      ),
+export const getUnverifiedAmmPools = () =>
+  combineLatest([getPools(), getPoolsV2()]).pipe(
+    catchError(() => of(undefined)),
+    filter(Boolean),
+    map(([[poolsV1], [poolsV2]]: [[AmmPool[], number], [AmmPool[], number]]) =>
+      poolsV1.concat(poolsV2),
     ),
-  ),
-  switchMap((pools: AmmPool[]) =>
-    combineLatest(
-      pools.map((p) =>
-        combineLatest(
-          [p.lp.asset, p.x.asset, p.y.asset].map((asset) =>
-            mapAssetClassToAssetInfo(asset),
+    switchMap((pools: AmmPool[]) =>
+      defaultTokenList$.pipe(
+        map((defaultTokenList) =>
+          pools.filter(
+            (pool) => !defaultTokenList.tokensMap.has(mkSubject(pool.y.asset)),
           ),
-        ).pipe(
-          map(([lp, x, y]) => {
-            return new CardanoAmmPool(p, { lp, x, y }, undefined, true);
-          }),
         ),
       ),
     ),
-  ),
+    switchMap((pools: AmmPool[]) =>
+      combineLatest(
+        pools.map((p) =>
+          combineLatest(
+            [p.lp.asset, p.x.asset, p.y.asset].map((asset) =>
+              mapAssetClassToAssetInfo(asset),
+            ),
+          ).pipe(
+            map(([lp, x, y]) => {
+              return new CardanoAmmPool(p, { lp, x, y }, undefined, true);
+            }),
+          ),
+        ),
+      ),
+    ),
+  );
+
+export const unverifiedAmmPools$ = networkContext$.pipe(
+  exhaustMap(() => getUnverifiedAmmPools()),
   publishReplay(1),
   refCount(),
 );
