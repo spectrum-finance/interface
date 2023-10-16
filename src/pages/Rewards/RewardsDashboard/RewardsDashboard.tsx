@@ -152,7 +152,7 @@ export const RewardsDashboard: FC<RewardsDashboardProps> = ({
       </Flex.Item>
       <Flex.Item marginBottom={4}>
         <RewardsDashboardSection
-          title={t`Airdrop`}
+          title={t`Testnet Airdrop`}
           tags={[
             <RewardStatusTag
               key="reward-status-tag-airdrop"
@@ -164,15 +164,9 @@ export const RewardsDashboard: FC<RewardsDashboardProps> = ({
               key="airdrop-alert"
               type="info"
               showIcon
-              message={
-                <Trans>
-                  You are not eligible for airdrop rewards. Provide liquidity or
-                  stake ADA in the ISPO to get rewarded.
-                </Trans>
-              }
+              message={<Trans>The testnet airdrop claiming is closed.</Trans>}
             />,
           ]}
-          data={rewardsData.airdropRewards}
         />
       </Flex.Item>
       <Flex.Item marginBottom={4}>

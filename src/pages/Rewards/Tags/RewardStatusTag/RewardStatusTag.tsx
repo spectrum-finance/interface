@@ -12,7 +12,7 @@ export const RewardStatusTag = ({ status }) => {
 
   return (
     <Tag color="success" icon={<CheckCircleOutlined />}>
-      <Trans>Finished</Trans>
+      <Trans>Closed</Trans>
     </Tag>
   );
 };
