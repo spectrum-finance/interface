@@ -3,13 +3,23 @@ import { t, Trans } from '@lingui/macro';
 import { ElementLocation, ElementName } from '@spectrumlabs/analytics';
 import { FC, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { BehaviorSubject, first, map, of, skip, switchMap } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  first,
+  map,
+  of,
+  skip,
+  switchMap,
+} from 'rxjs';
 
 import {
   useObservable,
   useSubscription,
 } from '../../common/hooks/useObservable';
+import { AmmPool } from '../../common/models/AmmPool';
 import { AssetInfo } from '../../common/models/AssetInfo';
+import { Balance } from '../../common/models/Balance';
 import { Currency } from '../../common/models/Currency';
 import { Ratio } from '../../common/models/Ratio';
 import { LiquidityPercentInput } from '../../components/AddLiquidityForm/LiquidityPercentInput/LiquidityPercentInput';
@@ -23,6 +33,7 @@ import {
 import { Page } from '../../components/Page/Page';
 import { RatioBox } from '../../components/RatioBox/RatioBox';
 import { Section } from '../../components/Section/Section';
+import { displayedAmmPools$ } from '../../gateway/api/ammPools';
 import {
   assetBalance$,
   useAssetsBalance,
@@ -31,12 +42,8 @@ import { useNetworkAsset } from '../../gateway/api/networkAsset';
 import { createPool } from '../../gateway/api/operations/createPool';
 import { useHandleCreatePoolMaxButtonClick } from '../../gateway/api/useHandleCreatePoolMaxButtonClick';
 import { useCreatePoolValidators } from '../../gateway/api/validationFees';
-import {
-  selectedNetwork$,
-  useSelectedNetwork,
-} from '../../gateway/common/network';
+import { selectedNetwork$ } from '../../gateway/common/network';
 import { operationsSettings$ } from '../../gateway/widgets/operationsSettings';
-import { useGuardV2 } from '../../hooks/useGuard';
 import { CreatePoolFormModel } from './CreatePoolFormModel';
 import { FeeSelector } from './FeeSelector/FeeSelector';
 import { InitialPriceInput } from './InitialPrice/InitialPriceInput';
@@ -61,9 +68,22 @@ const getYAssets = (xId?: string) => {
           ? xAssets$.pipe(map((assets) => assets.filter((a) => a.id !== xId)))
           : xAssets$;
       }
-      return assetBalance$.pipe(
-        map((balance) => balance.values().map((balance) => balance.asset)),
-        map((assets) => assets.filter((a) => a.id !== network.networkAsset.id)),
+      return combineLatest<[Balance, AmmPool[]]>([
+        assetBalance$,
+        displayedAmmPools$,
+      ]).pipe(
+        map(([balance, ammPools]: [Balance, AmmPool[]]) =>
+          balance
+            .values()
+            .map((balance) => balance.asset)
+            .filter(
+              (a) =>
+                a.id !== network.networkAsset.id &&
+                ammPools.find(
+                  (ap) => ap.x.isAssetEquals(a) || ap.y.isAssetEquals(a),
+                ),
+            ),
+        ),
       );
     }),
   );
@@ -76,7 +96,6 @@ export const CreatePool: FC = () => {
   const createPoolValidators = useCreatePoolValidators();
   const handleCreatePoolMaxButtonClick = useHandleCreatePoolMaxButtonClick();
   const [balance] = useAssetsBalance();
-  const [selectedNetwork] = useSelectedNetwork();
   const navigate = useNavigate();
   const form = useForm<CreatePoolFormModel>({
     initialPrice: undefined,
@@ -87,11 +106,6 @@ export const CreatePool: FC = () => {
     fee: undefined,
   });
   const [createPoolFormValue] = useObservable(form.valueChangesWithSilent$, []);
-
-  useGuardV2(
-    () => selectedNetwork.name === 'cardano',
-    () => navigate('../'),
-  );
 
   const updateYAssets$ = useMemo(
     () => new BehaviorSubject<string | undefined>(undefined),
