@@ -1,4 +1,6 @@
 import { mkSubject } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/assetClass';
+import { RustModule } from '@spectrumlabs/cardano-dex-sdk/build/main/utils/rustLoader';
+import { encoder } from 'js-encoding-utils';
 
 import { AmmPool } from '../../../../../common/models/AmmPool';
 import { Currency } from '../../../../../common/models/Currency';
@@ -56,22 +58,35 @@ export const mapRawSwapItemToSwapItem: OperationMapper<RawSwapItem, SwapItem> =
         `${castedPool.pool.id.policyId}.${castedPool.pool.id.name}` === poolId
       );
     })!;
+    console.log()
     const baseAsset =
       pool.x.asset.id ===
-      (mkSubject({
-        policyId: base.asset.currencySymbol,
-        name: base.asset.tokenName,
-        nameHex: '',
-      }) || networkAsset.id)
+      (base.asset.tokenName
+        ? mkSubject({
+            policyId: base.asset.currencySymbol,
+            name: base.asset.tokenName,
+            nameHex: RustModule.CardanoWasm.AssetName.from_json(
+              `"${encoder.arrayBufferToHexString(
+                encoder.stringToArrayBuffer(base.asset.tokenName),
+              )}"`,
+            ).to_hex(),
+          })
+        : networkAsset.id)
         ? pool.x.asset
         : pool.y.asset;
     const quoteAsset =
       pool.x.asset.id ===
-      (mkSubject({
-        policyId: minQuote.asset.currencySymbol,
-        name: minQuote.asset.tokenName,
-        nameHex: '',
-      }) || networkAsset.id)
+      (minQuote.asset.tokenName
+        ? mkSubject({
+            policyId: minQuote.asset.currencySymbol,
+            name: minQuote.asset.tokenName,
+            nameHex: RustModule.CardanoWasm.AssetName.from_json(
+              `"${encoder.arrayBufferToHexString(
+                encoder.stringToArrayBuffer(minQuote.asset.tokenName),
+              )}"`,
+            ).to_hex(),
+          })
+        : networkAsset.id)
         ? pool.x.asset
         : pool.y.asset;
 

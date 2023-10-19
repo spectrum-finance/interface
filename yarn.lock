@@ -3337,10 +3337,10 @@
   dependencies:
     "@amplitude/analytics-browser" "^1.9.0"
 
-"@spectrumlabs/cardano-dex-sdk@^0.1.225":
-  version "0.1.225"
-  resolved "https://registry.yarnpkg.com/@spectrumlabs/cardano-dex-sdk/-/cardano-dex-sdk-0.1.225.tgz#9d265faa3d47e4b078c9fe4fbd825443f793a0a5"
-  integrity sha512-flJSV2hUauUHiCzIzMCPtGa4uO6tXLfukH+DHhjTOeX+YRyGmeCzazf2+sWVPuXghnpfn9vL1/hoYbX4UMhUcg==
+"@spectrumlabs/cardano-dex-sdk@^0.1.229":
+  version "0.1.229"
+  resolved "https://registry.yarnpkg.com/@spectrumlabs/cardano-dex-sdk/-/cardano-dex-sdk-0.1.229.tgz#0dfd8d305dfd0569adac3233895094a930aaa2ef"
+  integrity sha512-cBGSu5EzsXa6+EvRFzN8YFdNNdShAc+86uPw5XUhi83+2FY+XegtSK+s4zd1NIbSNakmN77klDnyy7HHAclQ/Q==
   dependencies:
     "@emurgo/cardano-serialization-lib-browser" "^11.4.0"
     axios "^0.21.1"
@@ -10411,6 +10411,11 @@ js-cookie@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/js-cookie/-/js-cookie-3.0.1.tgz#9e39b4c6c2f56563708d7d31f6f5f21873a92414"
   integrity sha512-+0rgsUXZu4ncpPxRL+lNEptWMOWl9etvPHc/koSRp6MPwpRYAhmk0dUG00J4bxVV3r9uUzfo24wW0knS07SKSw==
+
+js-encoding-utils@^0.7.3:
+  version "0.7.3"
+  resolved "https://registry.yarnpkg.com/js-encoding-utils/-/js-encoding-utils-0.7.3.tgz#e442fbfddf5ec7ae148f5ed83c6b76cc3242e01c"
+  integrity sha512-cfjcyPOzkZ2esMAi6eAjuto7GiT6YpPan5xIeQyN/CFqFHTt1sdqP0PJPgzi3HqAqXKN9j9hduynkgwk+AAJOw==
 
 js-sdsl@^4.1.4:
   version "4.4.0"
