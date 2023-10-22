@@ -39,12 +39,12 @@ const _AddressOrPendingTag: FC<AddressOrPendingTagProps> = ({
 };
 
 export const AddressTag = styled(_AddressOrPendingTag)`
-  border: 1px solid transparent;
+  border: none;
   height: 2rem;
   padding-left: 8px !important;
   padding-right: 8px !important;
 
   &:hover {
-    border: 1px solid var(--spectrum-default-border-color);
+    border: none;
   }
 `;

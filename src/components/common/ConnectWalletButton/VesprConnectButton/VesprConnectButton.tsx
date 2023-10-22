@@ -25,11 +25,17 @@ export interface VesprConnectButtonProps {
 const mapSizeToStyle = new Map<ButtonProps['size'], CSSProperties>([
   [
     'small',
-    { fontSize: 16, marginLeft: 'calc(var(--spectrum-base-gutter) * 0.5)' },
+    {
+      fontSize: 16,
+      marginLeft: 'calc(var(--spectrum-base-gutter) * 0.5)',
+    },
   ],
   [
     'middle',
-    { fontSize: 20, marginLeft: 'calc(var(--spectrum-base-gutter) * 0.5)' },
+    {
+      fontSize: 20,
+      marginLeft: 'calc(var(--spectrum-base-gutter) * 0.5)',
+    },
   ],
   [
     'large',

@@ -34,11 +34,21 @@ const StyledMenu = styled(Menu)`
   min-width: 233px;
 `;
 
-/* const ThemeSwitchContainer = styled.div`
-  border-bottom: 1px solid var(--spectrum-box-border-color);
-  padding: 0 0 0.5rem;
-  margin-bottom: 0.5rem;
-`; */
+const StyledMenuBtn = styled(Button)`
+  border: none;
+  background: var(--spectrum-secondary-color);
+  &:hover {
+    border: none;
+    background: var(--spectrum-secondary-color);
+  }
+  &.header__btn.ant-dropdown-open {
+    background: var(--spectrum-primary-color);
+    color: var(--spectrum-primary-text);
+  }
+  &.header__btn.ant-dropdown-open:hover {
+    border: 1px solid var(--spectrum-primary-color-hover);
+  }
+`;
 
 const OtherMenuItem = styled(Menu.Item)`
   .ant-dropdown-menu-title-content {
@@ -184,7 +194,7 @@ const BurgerMenu = (): JSX.Element => {
       visible={isMenuVisible}
       onVisibleChange={onMenuVisibleChange}
     >
-      <Button className="header__btn" size="large" icon={<DotsIcon />} />
+      <StyledMenuBtn className="header__btn" size="large" icon={<DotsIcon />} />
     </Dropdown>
   );
 };

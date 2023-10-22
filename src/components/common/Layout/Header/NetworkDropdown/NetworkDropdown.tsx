@@ -34,7 +34,7 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
   const overlay = (
     <Menu
       className="network-dropdown__menu"
-      style={{ padding: '8px', minWidth: '170px' }}
+      style={{ padding: '8px', minWidth: '170px', border: 'none' }}
     >
       <Typography.Body className="network-dropdown__menu-title" strong>
         <Trans>Select Network</Trans>
@@ -74,7 +74,11 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
       trigger={['click']}
       disabled={disabled}
     >
-      <Button className="network-dropdown-selected" size="large">
+      <Button
+        className="network-dropdown-selected"
+        size="large"
+        style={{ border: 'none' }}
+      >
         <Flex justify="center" direction="row" align="center">
           <AssetIcon asset={selectedNetwork.networkAsset} />
           <DownOutlined
