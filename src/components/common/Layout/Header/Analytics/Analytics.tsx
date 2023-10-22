@@ -18,7 +18,13 @@ const _Analytics: FC<AnalyticsProps> = ({ className }) => {
   const [currentStats] = useObservable(platformStats$, []);
 
   return (
-    <Box height={40} borderRadius="l" className={className} glass>
+    <Box
+      height={40}
+      borderRadius="l"
+      className={className}
+      glass
+      style={{ border: 'none' }}
+    >
       <Flex align="center" stretch>
         <Flex.Item marginRight={2}>
           <AnalyticTag>

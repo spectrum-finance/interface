@@ -44,9 +44,9 @@ const _Navigation: FC<NavigationProps> = ({ className, style }) => {
       />
       <Tabs.TabPane tab={t`Liquidity`} key="liquidity" />
       {network.name === 'ergo' && <Tabs.TabPane tab={t`Farms`} key="farm" />}
-      {network.name === 'cardano' && (
+      {/*       {network.name === 'cardano' && (
         <Tabs.TabPane tab={t`Rewards`} key="rewards" />
-      )}
+      )} */}
     </Tabs>
   );
 };
@@ -54,12 +54,15 @@ const _Navigation: FC<NavigationProps> = ({ className, style }) => {
 export const Navigation = styled(_Navigation)`
   .ant-tabs-nav-list {
     height: 40px;
+    display: flex;
+    align-items: center;
   }
 
   .ant-tabs-tab,
   .ant-tabs-nav-list {
     flex-grow: 1;
     background: var(--spectrum-tag-primary) !important;
+    border: none;
   }
 
   .ant-tabs-tab-active {

@@ -129,7 +129,10 @@ const _Page: React.FC<PageProps> = ({
           <Flex.Item
             marginBottom={2}
             flex={1}
-            style={{ width: maxWidth ? '100%' : width ?? 0, maxWidth }}
+            style={{
+              width: maxWidth ? '100%' : width ?? 0,
+              maxWidth,
+            }}
           >
             <Flex align="center" justify="space-between">
               <Flex.Item>
@@ -196,7 +199,7 @@ const _Page: React.FC<PageProps> = ({
                 bordered={!transparent}
                 style={{
                   boxShadow: 'none',
-                  background: '#454E60',
+                  background: 'var(--spectrum-secondary-color)',
                   border: 'none',
                 }}
               >
