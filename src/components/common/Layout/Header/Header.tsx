@@ -62,7 +62,11 @@ export const _Header: React.FC<HeaderProps> = ({ className, scrolledTop }) => {
           {/* <AppLogo isNoWording /> */}
           <Link to="/">
             <Flex.Item align="center">
-              <img src="/img/logo/teddy-logo.png" height={26} />
+              {moreThan('m') ? (
+                <img src="/img/logo/teddy-logo.png" height={26} />
+              ) : (
+                <img src="/img/logo/teddy-logo-mob.png" height={26} />
+              )}
             </Flex.Item>
           </Link>
 

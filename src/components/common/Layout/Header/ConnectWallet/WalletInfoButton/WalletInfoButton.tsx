@@ -94,24 +94,24 @@ const _WalletInfoButton: FC<WalletInfoButtonProps> = ({ className }) => {
 export const WalletInfoButton = styled(_WalletInfoButton)`
   height: 40px;
   padding: 4px;
-  border: 1px solid var(--spectrum-box-border-color);
+  border: none;
   background: var(--spectrum-connect-wallet-address-btn-bg);
   color: var(--spectrum-connect-wallet-address-btn-color);
 
   &:hover {
-    border: 1px solid var(--spectrum-box-border-color);
+    border: none;
     background: var(--spectrum-connect-wallet-address-btn-bg);
     color: var(--spectrum-connect-wallet-address-btn-color);
   }
 
   &:active,
   &:focus {
-    border: 1px solid var(--spectrum-box-border-color);
+    border: none;
     background: var(--spectrum-connect-wallet-address-btn-bg);
     color: var(--spectrum-connect-wallet-address-btn-color);
   }
 
   &.ant-btn-loading {
-    border: 1px solid var(--spectrum-box-border-color);
+    border: none;
   }
 `;
