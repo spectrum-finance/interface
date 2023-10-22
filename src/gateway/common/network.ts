@@ -36,6 +36,7 @@ export const networks: Network<any, any, any>[] = [
 export const visibleNetworks: Network<any, any, any>[] = [
   ergoNetwork,
   cardanoMainnet,
+  cardanoPreview,
 ];
 
 export const isNetworkExists = (networkName?: string): boolean =>

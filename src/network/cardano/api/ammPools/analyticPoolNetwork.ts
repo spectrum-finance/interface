@@ -76,7 +76,6 @@ export class AnalyticPoolNetwork implements Pools {
       name: rawAmmPool.lockedY.asset.tokenName,
       nameHex: this.assetNameToHex(rawAmmPool.lockedY.asset.tokenName),
     };
-
     return new AmmPool(
       nftAsset,
       new AssetAmount(lqAsset, EmissionLP - BigInt(rawAmmPool.lockedLQ.amount)),
