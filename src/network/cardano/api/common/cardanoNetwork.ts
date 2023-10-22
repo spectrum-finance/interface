@@ -1,8 +1,8 @@
-import { Quickblue } from '@spectrumlabs/cardano-dex-sdk';
+import { Quickblue } from '@teddyswap/cardano-dex-sdk';
 import {
   NetworkParams,
   ProtocolParams,
-} from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/env';
+} from '@teddyswap/cardano-dex-sdk/build/main/cardano/entities/env';
 import { from, map, Observable, publishReplay, refCount } from 'rxjs';
 
 import { cardanoNetworkData } from '../../utils/cardanoNetworkData';

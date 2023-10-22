@@ -3,10 +3,10 @@ import {
   mkAmmOutputs,
   mkTxAsm,
   mkTxMath,
-} from '@spectrumlabs/cardano-dex-sdk';
-import { DefaultAmmTxCandidateBuilder } from '@spectrumlabs/cardano-dex-sdk/build/main/amm/interpreters/ammTxBuilder/ammTxBuilder';
-import { NetworkParams } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/env';
-import { CardanoWasm } from '@spectrumlabs/cardano-dex-sdk/build/main/utils/rustLoader';
+} from '@teddyswap/cardano-dex-sdk';
+import { DefaultAmmTxCandidateBuilder } from '@teddyswap/cardano-dex-sdk/build/main/amm/interpreters/ammTxBuilder/ammTxBuilder';
+import { NetworkParams } from '@teddyswap/cardano-dex-sdk/build/main/cardano/entities/env';
+import { CardanoWasm } from '@teddyswap/cardano-dex-sdk/build/main/utils/rustLoader';
 import { combineLatest, map, publishReplay, refCount } from 'rxjs';
 
 import { cardanoNetworkData } from '../../../utils/cardanoNetworkData';

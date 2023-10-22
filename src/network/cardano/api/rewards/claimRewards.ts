@@ -1,12 +1,12 @@
 import { Transaction } from '@emurgo/cardano-serialization-lib-nodejs';
-import { AssetAmount, mkTxAsm, mkTxMath } from '@spectrumlabs/cardano-dex-sdk';
-import { AdaEntry } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/assetEntry';
-import { NetworkParams } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/env';
-import { encodeHex } from '@spectrumlabs/cardano-dex-sdk/build/main/utils/hex';
+import { AssetAmount, mkTxAsm, mkTxMath } from '@teddyswap/cardano-dex-sdk';
+import { AdaEntry } from '@teddyswap/cardano-dex-sdk/build/main/cardano/entities/assetEntry';
+import { NetworkParams } from '@teddyswap/cardano-dex-sdk/build/main/cardano/entities/env';
+import { encodeHex } from '@teddyswap/cardano-dex-sdk/build/main/utils/hex';
 import {
   CardanoWasm,
   RustModule,
-} from '@spectrumlabs/cardano-dex-sdk/build/main/utils/rustLoader';
+} from '@teddyswap/cardano-dex-sdk/build/main/utils/rustLoader';
 import axios from 'axios';
 import groupBy from 'lodash/groupBy';
 import { DateTime } from 'luxon';

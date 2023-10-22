@@ -1,4 +1,4 @@
-import { HexString } from '@spectrumlabs/cardano-dex-sdk';
+import { HexString } from '@teddyswap/cardano-dex-sdk';
 import axios from 'axios';
 import keyBy from 'lodash/keyBy';
 import {

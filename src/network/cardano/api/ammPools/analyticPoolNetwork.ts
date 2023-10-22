@@ -4,11 +4,11 @@ import {
   EmissionLP,
   HexString,
   PoolId,
-} from '@spectrumlabs/cardano-dex-sdk';
-import { Pools } from '@spectrumlabs/cardano-dex-sdk/build/main/amm/services/pools';
-import { AssetClass } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/assetClass';
-import { encodeHex } from '@spectrumlabs/cardano-dex-sdk/build/main/utils/hex';
-import { RustModule } from '@spectrumlabs/cardano-dex-sdk/build/main/utils/rustLoader';
+} from '@teddyswap/cardano-dex-sdk';
+import { Pools } from '@teddyswap/cardano-dex-sdk/build/main/amm/services/pools';
+import { AssetClass } from '@teddyswap/cardano-dex-sdk/build/main/cardano/entities/assetClass';
+import { encodeHex } from '@teddyswap/cardano-dex-sdk/build/main/utils/hex';
+import { RustModule } from '@teddyswap/cardano-dex-sdk/build/main/utils/rustLoader';
 import axios from 'axios';
 
 import { Dictionary } from '../../../../common/utils/Dictionary';

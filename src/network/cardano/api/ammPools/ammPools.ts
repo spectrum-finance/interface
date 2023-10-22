@@ -1,4 +1,4 @@
-import { AmmPool } from '@spectrumlabs/cardano-dex-sdk';
+import { AmmPool } from '@teddyswap/cardano-dex-sdk';
 import {
   catchError,
   combineLatest,

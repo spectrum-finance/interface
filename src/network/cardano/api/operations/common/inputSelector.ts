@@ -1,8 +1,8 @@
-import { FullTxIn, InputSelector, TxHash } from '@spectrumlabs/cardano-dex-sdk';
-import { TxOut } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/txOut';
-import { Value } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/value';
-import { CollateralSelector } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/wallet/collateralSelector';
-import { InputCollector } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/wallet/inputSelector';
+import { FullTxIn, InputSelector, TxHash } from '@teddyswap/cardano-dex-sdk';
+import { TxOut } from '@teddyswap/cardano-dex-sdk/build/main/cardano/entities/txOut';
+import { Value } from '@teddyswap/cardano-dex-sdk/build/main/cardano/entities/value';
+import { CollateralSelector } from '@teddyswap/cardano-dex-sdk/build/main/cardano/wallet/collateralSelector';
+import { InputCollector } from '@teddyswap/cardano-dex-sdk/build/main/cardano/wallet/inputSelector';
 import { catchError, filter, first, map, of, switchMap } from 'rxjs';
 
 import { selectUtxos } from '../../wallet/common/BoxSelector';

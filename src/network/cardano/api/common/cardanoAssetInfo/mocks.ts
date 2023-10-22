@@ -1,5 +1,5 @@
 import { HexString } from '@ergolabs/ergo-sdk';
-import { Subject } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/types';
+import { Subject } from '@teddyswap/cardano-dex-sdk/build/main/cardano/types';
 
 import { Dictionary } from '../../../../../common/utils/Dictionary';
 

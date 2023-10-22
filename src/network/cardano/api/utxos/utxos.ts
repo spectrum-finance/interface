@@ -1,5 +1,5 @@
-import { Value } from '@spectrumlabs/cardano-dex-sdk';
-import { TxOut } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/txOut';
+import { Value } from '@teddyswap/cardano-dex-sdk';
+import { TxOut } from '@teddyswap/cardano-dex-sdk/build/main/cardano/entities/txOut';
 import {
   first,
   from,

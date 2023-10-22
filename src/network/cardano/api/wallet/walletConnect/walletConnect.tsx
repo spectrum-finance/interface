@@ -18,8 +18,8 @@ import {
   decodeWasmUtxo,
   decodeWasmValue,
   getLovelace,
-} from '@spectrumlabs/cardano-dex-sdk';
-import { RustModule } from '@spectrumlabs/cardano-dex-sdk/build/main/utils/rustLoader';
+} from '@teddyswap/cardano-dex-sdk';
+import { RustModule } from '@teddyswap/cardano-dex-sdk/build/main/utils/rustLoader';
 
 const PROJECT_ID = 'add5d2d2d1b89b17dd9871986a5fe797';
 export const WalletConnect = createWallet<AdditionalData>({

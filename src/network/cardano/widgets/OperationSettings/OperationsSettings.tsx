@@ -1,4 +1,4 @@
-import { swapExFee } from '@spectrumlabs/cardano-dex-sdk';
+import { swapExFee } from '@teddyswap/cardano-dex-sdk';
 import { FC } from 'react';
 
 import { Currency } from '../../../../common/models/Currency';
