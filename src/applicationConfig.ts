@@ -90,7 +90,7 @@ export const applicationConfig: ApplicationConfig = {
     cardano: {
       defaultTokenListUrl: 'https://spectrum.fi/cardano-token-list.json',
       metadataUrl:
-        'https://raw.githubusercontent.com/spectrum-finance/token-logos/master/logos/cardano',
+        'https://spectrum.fi/logos/cardano',
       networkUrl: 'https://explorer.spectrum.fi/cardano/mainnet/v1/',
       explorerUrl: 'https://cardanoscan.io',
       lowBalanceGuide: '',
@@ -100,7 +100,7 @@ export const applicationConfig: ApplicationConfig = {
     ergo: {
       defaultTokenListUrl: 'https://spectrum.fi/ergo-token-list.json',
       metadataUrl:
-        'https://raw.githubusercontent.com/spectrum-finance/token-logos/master/logos/ergo',
+        'https://spectrum.fi/logos/ergo',
       spfFaucet: 'https://airdrop.spectrum.fi/v1/faucet/',
       networkUrl: 'https://api.ergoplatform.com',
       explorerUrl: 'https://explorer.ergoplatform.com',
