@@ -58,7 +58,7 @@ export const mapRawSwapItemToSwapItem: OperationMapper<RawSwapItem, SwapItem> =
         `${castedPool.pool.id.policyId}.${castedPool.pool.id.name}` === poolId
       );
     })!;
-    console.log()
+
     const baseAsset =
       pool.x.asset.id ===
       (base.asset.tokenName
