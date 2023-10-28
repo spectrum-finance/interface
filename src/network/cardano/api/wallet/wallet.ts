@@ -29,7 +29,6 @@ import { Gero } from './gero/gero';
 import { Lace } from './lace/lace.tsx';
 import { Nami } from './nami/nami';
 import { Nufi } from './nufi/nufi.tsx';
-import { Typhon } from './typhon/typhon.tsx';
 import { Vespr } from './vespr/vespr';
 import { WalletConnect } from './walletConnect/walletConnect.tsx';
 // import { Yoroi } from './yoroi/yoroi.tsx';
@@ -52,7 +51,7 @@ const walletManager = createWalletManager({
     WalletConnect,
     Nufi,
     Gero,
-    Typhon,
+    // Typhon,
     // Yoroi,
     Exodus,
     Vespr,
