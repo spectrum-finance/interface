@@ -86,7 +86,7 @@ export const applicationConfig: ApplicationConfig = {
         'https://80-hallowed-priority-28uow9.us1.demeter.run/cardano/preview/v1/',
       explorerUrl: 'https://preview.cardanoscan.io',
       lowBalanceGuide: '',
-      analyticUrl: 'http://localhost:8081/v1/',
+      analyticUrl: 'https://8081-cardano-markets-api.us1.demeter.run/v1/',
       isCreatePoolAvailable: false,
     },
     cardano: {
@@ -97,7 +97,7 @@ export const applicationConfig: ApplicationConfig = {
       networkUrl: 'https://8081-charming-homework-gszxtp.us1.demeter.run/v1/',
       explorerUrl: 'https://cardanoscan.io',
       lowBalanceGuide: '',
-      analyticUrl: 'http://localhost:8081/v1/',
+      analyticUrl: 'https://8081-cardano-markets-api.us1.demeter.run/v1/',
       isCreatePoolAvailable: false,
     },
     ergo: {
