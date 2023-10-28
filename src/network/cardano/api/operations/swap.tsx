@@ -1,6 +1,6 @@
 import { Transaction } from '@emurgo/cardano-serialization-lib-nodejs';
 import { t } from '@lingui/macro';
-import { SwapTxInfo, TxCandidate } from '@spectrumlabs/cardano-dex-sdk';
+import { SwapTxInfo, TxCandidate } from '@teddyswap/cardano-dex-sdk';
 import { first, map, Observable, Subject, switchMap, tap } from 'rxjs';
 
 import { Currency } from '../../../../common/models/Currency';

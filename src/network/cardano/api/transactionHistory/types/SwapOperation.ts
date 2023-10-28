@@ -1,4 +1,4 @@
-import { mkSubject } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/assetClass';
+import { mkSubject } from '@teddyswap/cardano-dex-sdk/build/main/cardano/entities/assetClass';
 
 import { AmmPool } from '../../../../../common/models/AmmPool';
 import { Currency } from '../../../../../common/models/Currency';

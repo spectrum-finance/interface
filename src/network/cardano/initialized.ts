@@ -1,4 +1,4 @@
-import { RustModule } from '@spectrumlabs/cardano-dex-sdk/build/main/utils/rustLoader';
+import { RustModule } from '@teddyswap/cardano-dex-sdk/build/main/utils/rustLoader';
 import { BehaviorSubject } from 'rxjs';
 
 import { initializeSettings } from './settings/settings';

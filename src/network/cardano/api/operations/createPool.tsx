@@ -8,10 +8,10 @@ import {
   PoolCreationTxInfo,
   TxCandidate,
   Value,
-} from '@spectrumlabs/cardano-dex-sdk';
-import { NetworkParams } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/env';
-import { InputCollector } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/wallet/inputSelector';
-import { RustModule } from '@spectrumlabs/cardano-dex-sdk/build/main/utils/rustLoader';
+} from '@teddyswap/cardano-dex-sdk';
+import { NetworkParams } from '@teddyswap/cardano-dex-sdk/build/main/cardano/entities/env';
+import { InputCollector } from '@teddyswap/cardano-dex-sdk/build/main/cardano/wallet/inputSelector';
+import { RustModule } from '@teddyswap/cardano-dex-sdk/build/main/utils/rustLoader';
 import axios from 'axios';
 import {
   combineLatest,

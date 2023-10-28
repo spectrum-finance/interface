@@ -5,10 +5,10 @@ import {
   HexString,
   Prover,
   Value,
-} from '@spectrumlabs/cardano-dex-sdk';
-import { RawTx } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/tx';
-import { TxOut } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/txOut';
-import { RustModule } from '@spectrumlabs/cardano-dex-sdk/build/main/utils/rustLoader';
+} from '@teddyswap/cardano-dex-sdk';
+import { RawTx } from '@teddyswap/cardano-dex-sdk/build/main/cardano/entities/tx';
+import { TxOut } from '@teddyswap/cardano-dex-sdk/build/main/cardano/entities/txOut';
+import { RustModule } from '@teddyswap/cardano-dex-sdk/build/main/utils/rustLoader';
 import uniq from 'lodash/uniq';
 
 import { Address } from '../../../../../common/types';

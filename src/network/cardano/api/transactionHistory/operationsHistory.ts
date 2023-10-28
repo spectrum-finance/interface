@@ -1,5 +1,5 @@
-import { extractPaymentCred } from '@spectrumlabs/cardano-dex-sdk';
-import { RustModule } from '@spectrumlabs/cardano-dex-sdk/build/main/utils/rustLoader';
+import { extractPaymentCred } from '@teddyswap/cardano-dex-sdk';
+import { RustModule } from '@teddyswap/cardano-dex-sdk/build/main/utils/rustLoader';
 import axios from 'axios';
 import uniq from 'lodash/uniq';
 import {

@@ -1,4 +1,4 @@
-import { AssetEntry } from '@spectrumlabs/cardano-dex-sdk';
+import { AssetEntry } from '@teddyswap/cardano-dex-sdk';
 import {
   combineLatest,
   map,

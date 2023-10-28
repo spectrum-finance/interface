@@ -4,8 +4,8 @@ import {
   AmmPool as CardanoBaseAmmPool,
   AssetAmount,
   AssetClass,
-} from '@spectrumlabs/cardano-dex-sdk';
-import { mkSubject } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/assetClass';
+} from '@teddyswap/cardano-dex-sdk';
+import { mkSubject } from '@teddyswap/cardano-dex-sdk/build/main/cardano/entities/assetClass';
 
 import { AmmPool } from '../../../../common/models/AmmPool';
 import { AssetInfo } from '../../../../common/models/AssetInfo';
