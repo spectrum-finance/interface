@@ -1,6 +1,6 @@
 import { Severity } from '@sentry/react';
 import * as Sentry from '@sentry/react';
-import { TxCandidate } from '@spectrumlabs/cardano-dex-sdk';
+import { TxCandidate } from '@teddyswap/cardano-dex-sdk';
 
 interface OperationError {
   readonly level: Severity;

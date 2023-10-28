@@ -2,7 +2,7 @@ import {
   OrderAddrs,
   OrderAddrsV1Mainnet,
   OrderAddrsV1Testnet,
-} from '@spectrumlabs/cardano-dex-sdk/build/main/amm/scripts';
+} from '@teddyswap/cardano-dex-sdk/build/main/amm/scripts';
 
 import { applicationConfig } from '../../../applicationConfig';
 import { localStorageManager } from '../../../common/utils/localStorageManager';

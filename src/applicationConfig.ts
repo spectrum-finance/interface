@@ -74,27 +74,30 @@ export const applicationConfig: ApplicationConfig = {
   //   title: 'On the way to the mainnet',
   //   content: 'The Cardano AMM protocol will be available in mainnet soon',
   // },
-  reCaptchaKey: '6LfCKZIiAAAAACypYW5pGlgZNTcwse1njmQMIUUL',
+  reCaptchaKey: '',
   requestRetryCount: 3,
   networksSettings: {
     cardano_preview: {
-      defaultTokenListUrl: 'https://spectrum.fi/cardano-token-list.json',
+      defaultTokenListUrl:
+        'https://raw.githubusercontent.com/teddy-swap/tokenlist/main/preview.json',
       metadataUrl:
         'https://raw.githubusercontent.com/spectrum-finance/token-logos/master/logos/cardano',
-      networkUrl: 'https://explorer.spectrum.fi/cardano/preview/v1/',
-      explorerUrl: 'https://preview.cexplorer.io',
+      networkUrl:
+        'https://80-hallowed-priority-28uow9.us1.demeter.run/cardano/preview/v1/',
+      explorerUrl: 'https://preview.cardanoscan.io',
       lowBalanceGuide: '',
-      analyticUrl: 'https://analytics.spectrum.fi/cardano/',
+      analyticUrl: 'https://8081-cardano-markets-api.us1.demeter.run/v1/',
       isCreatePoolAvailable: false,
     },
     cardano: {
-      defaultTokenListUrl: 'https://spectrum.fi/cardano-token-list.json',
+      defaultTokenListUrl:
+        'https://raw.githubusercontent.com/teddy-swap/tokenlist/main/preview.json',
       metadataUrl:
         'https://raw.githubusercontent.com/spectrum-finance/token-logos/master/logos/cardano',
-      networkUrl: 'https://explorer.spectrum.fi/cardano/mainnet/v1/',
+      networkUrl: 'https://8081-charming-homework-gszxtp.us1.demeter.run/v1/',
       explorerUrl: 'https://cardanoscan.io',
       lowBalanceGuide: '',
-      analyticUrl: 'https://analytics-balanced.spectrum.fi/cardano/',
+      analyticUrl: 'https://8081-cardano-markets-api.us1.demeter.run/v1/',
       isCreatePoolAvailable: false,
     },
     ergo: {

@@ -9,17 +9,17 @@ import {
   RefundTxBuilder,
   ScriptCredsV1,
   TxCandidate,
-} from '@spectrumlabs/cardano-dex-sdk';
+} from '@teddyswap/cardano-dex-sdk';
 import {
   DEFAULT_EX_UNITS_MEM,
   DEFAULT_EX_UNITS_STEPS,
-} from '@spectrumlabs/cardano-dex-sdk/build/main/amm/interpreters/refundTxBuilder/refundTxBuilder';
+} from '@teddyswap/cardano-dex-sdk/build/main/amm/interpreters/refundTxBuilder/refundTxBuilder';
 import {
   OpInRefsMainnetV1,
   OrderAddrsV1Mainnet,
-} from '@spectrumlabs/cardano-dex-sdk/build/main/amm/scripts';
-import { NetworkParams } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/env';
-import { CardanoWasm } from '@spectrumlabs/cardano-dex-sdk/build/main/utils/rustLoader';
+} from '@teddyswap/cardano-dex-sdk/build/main/amm/scripts';
+import { NetworkParams } from '@teddyswap/cardano-dex-sdk/build/main/cardano/entities/env';
+import { CardanoWasm } from '@teddyswap/cardano-dex-sdk/build/main/utils/rustLoader';
 import {
   combineLatest,
   first,

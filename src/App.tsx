@@ -8,8 +8,6 @@ import { BehaviorSubject, first, mapTo, Observable, tap, zip } from 'rxjs';
 import { applicationConfig } from './applicationConfig';
 import { ApplicationRoutes, routesConfig } from './ApplicationRoutes';
 import { useObservable } from './common/hooks/useObservable';
-import { analyticsInitializer } from './common/initializers/analyticsInitializer';
-import { gaInitializer } from './common/initializers/gaInitializer';
 import { networkDomInitializer } from './common/initializers/networkDomInitializer';
 /* import { sentryInitializer } from './common/initializers/sentryInitializer'; */
 import { SelectDefaultNetwork } from './common/services/NetworkDomManager/SelectDefaultNetwork/SelectDefaultNetwork';
@@ -35,10 +33,10 @@ const Application = () => {
 };
 
 const initializers: Observable<boolean>[] = [
-  /* sentryInitializer(), */
-  analyticsInitializer(),
+  // sentryInitializer(),
+  // analyticsInitializer(),
   networkDomInitializer(routesConfig),
-  gaInitializer(),
+  // gaInitializer(),
 ];
 
 const isAppInitialized$ = new BehaviorSubject(false);
