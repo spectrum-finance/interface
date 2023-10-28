@@ -512,6 +512,7 @@ export const Swap = (): JSX.Element => {
               size="large"
               icon={<LineChartOutlined />}
               onClick={() => setLeftWidgetOpened(!leftWidgetOpened)}
+              style={{ marginRight: '5px' }}
             />
             {OperationSettings && <OperationSettings />}
           </Flex>

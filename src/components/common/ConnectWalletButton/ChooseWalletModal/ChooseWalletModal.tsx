@@ -23,7 +23,7 @@ import { Wallet } from '../../../../network/common/Wallet';
 import { ErgoPayTabPaneContent } from '../../../../network/ergo/widgets/ErgoPayModal/ErgoPayTabPaneContent/ErgoPayTabPaneContent';
 import { IsCardano } from '../../../IsCardano/IsCardano';
 import { IsErgo } from '../../../IsErgo/IsErgo';
-import { ProtocolDisclaimerAlert } from './ProtocolDisclaimerAlert/ProtocolDisclaimerAlert';
+//import { ProtocolDisclaimerAlert } from './ProtocolDisclaimerAlert/ProtocolDisclaimerAlert';
 
 interface WalletItemProps {
   wallet: Wallet;
@@ -107,9 +107,9 @@ const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
 
   const walletTab = (
     <Flex.Item marginTop={4} display="flex" col>
-      <Flex.Item marginBottom={4}>
+      {/*       <Flex.Item marginBottom={4}>
         <ProtocolDisclaimerAlert />
-      </Flex.Item>
+      </Flex.Item> */}
       {wallets
         .filter((w) => !w.hidden)
         .map((wallet, index) => (

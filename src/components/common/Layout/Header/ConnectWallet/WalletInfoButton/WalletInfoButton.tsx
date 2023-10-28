@@ -95,7 +95,7 @@ export const WalletInfoButton = styled(_WalletInfoButton)`
   height: 40px;
   padding: 4px;
   border: none;
-  background: var(--spectrum-connect-wallet-address-btn-bg);
+  background: var(--teddy-default-color);
   color: var(--spectrum-connect-wallet-address-btn-color);
 
   &:hover {

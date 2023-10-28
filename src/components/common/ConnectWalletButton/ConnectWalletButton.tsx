@@ -1,3 +1,5 @@
+import './ConnectWalletButton.less';
+
 import {
   ButtonProps,
   ConnectWalletButton as SpectrumConnectWalletButton,
@@ -45,9 +47,9 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = ({
       <SpectrumConnectWalletButton
         size={size}
         onClick={openChooseWalletModal}
-        className={className}
+        className={`${className} btn-connect-wallet`}
         isWalletConnected={isWalletConnected}
-        caption={<Trans>Connect wallet</Trans>}
+        caption={<Trans>Connect Wallet</Trans>}
         width={width}
       >
         {children}

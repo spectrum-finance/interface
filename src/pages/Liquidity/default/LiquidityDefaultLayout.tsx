@@ -81,6 +81,7 @@ export const LiquidityDefaultLayout: FC<LiquidityLayoutProps> = ({
       }}
       activeKey={activeState}
       onChange={setActiveState as any}
+      style={{ padding: '30px' }}
     >
       <Tabs.TabPane
         tab={t`${LiquidityStateCaptions[LiquidityState.POOLS_OVERVIEW]}`}
