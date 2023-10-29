@@ -1,0 +1,21 @@
+
+
+.ergo-flex {
+  display: flex !important;
+  .spectrum-box {
+    overflow: hidden !important;
+    &.box-item-content {
+      background-color: #454e6070 !important;
+      &:hover{
+          background-color: var(--teddy-primary-color-hover) !important;
+      }
+    }
+  }
+  @media (max-width: 768px){
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 20px;
+  }
+}
+
+

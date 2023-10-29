@@ -1,3 +1,5 @@
+import './SelectDefaultNetworkItem.less';
+
 import { Box, Flex, Typography, useDevice } from '@ergolabs/ui-kit';
 import { FC, useState } from 'react';
 import styled from 'styled-components';
@@ -73,15 +75,23 @@ const NetworkItemHeader = styled(_NetworkItemHeader)`
 
 interface NetworkItemContentProps {
   readonly network: Network<any, any>;
+  readonly hovered?: boolean;
 }
 
-const NetworkItemContent: FC<NetworkItemContentProps> = ({ network }) => {
+const NetworkItemContent: FC<NetworkItemContentProps> = ({
+  network,
+  //hovered,
+}) => {
   const { valBySize } = useDevice();
 
   return (
-    <Box padding={[valBySize(5, 10), 0]} bordered={false} transparent>
+    <Box
+      padding={[valBySize(5, 10), 0]}
+      bordered={false}
+      className="box-item-content"
+    >
       <Flex justify="center">
-        <Typography.Title level={4}>{network.label}</Typography.Title>
+        <Typography.Title level={5}>{network.label}</Typography.Title>
       </Flex>
     </Box>
   );
@@ -99,9 +109,8 @@ const _SelectDefaultNetworkItem: FC<SelectDefaultNetworkItemProps> = ({
 
   return (
     <Box
-      borderRadius="l"
       bordered
-      width="100%"
+      width={200}
       padding={0}
       onMouseLeave={() => setHovered(false)}
       onMouseEnter={() => setHovered(true)}
@@ -111,7 +120,7 @@ const _SelectDefaultNetworkItem: FC<SelectDefaultNetworkItemProps> = ({
       glass
     >
       <NetworkItemHeader network={network} hovered={hovered} />
-      <NetworkItemContent network={network} />
+      <NetworkItemContent network={network} hovered={hovered} />
     </Box>
   );
 };
