@@ -48,7 +48,6 @@ export const SelectDefaultNetwork: FC<SelectDefaultNetworkProps> = ({
         <Flex.Item
           display="flex"
           marginTop={valBySize(10, 38)}
-          /* width={750} */
           align="center"
           width="100%"
           maxWidth={700}

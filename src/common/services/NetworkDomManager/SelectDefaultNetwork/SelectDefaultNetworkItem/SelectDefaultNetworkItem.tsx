@@ -75,13 +75,9 @@ const NetworkItemHeader = styled(_NetworkItemHeader)`
 
 interface NetworkItemContentProps {
   readonly network: Network<any, any>;
-  readonly hovered?: boolean;
 }
 
-const NetworkItemContent: FC<NetworkItemContentProps> = ({
-  network,
-  //hovered,
-}) => {
+const NetworkItemContent: FC<NetworkItemContentProps> = ({ network }) => {
   const { valBySize } = useDevice();
 
   return (
@@ -120,7 +116,7 @@ const _SelectDefaultNetworkItem: FC<SelectDefaultNetworkItemProps> = ({
       glass
     >
       <NetworkItemHeader network={network} hovered={hovered} />
-      <NetworkItemContent network={network} hovered={hovered} />
+      <NetworkItemContent network={network} />
     </Box>
   );
 };
