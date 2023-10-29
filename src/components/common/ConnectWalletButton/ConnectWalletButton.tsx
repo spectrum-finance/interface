@@ -49,7 +49,7 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = ({
         onClick={openChooseWalletModal}
         className={`${className} btn-connect-wallet`}
         isWalletConnected={isWalletConnected}
-        caption={<Trans>Connect Wallet</Trans>}
+        caption={<Trans>Connect wallet</Trans>}
         width={width}
       >
         {children}

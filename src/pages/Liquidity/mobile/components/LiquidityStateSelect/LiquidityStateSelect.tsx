@@ -6,7 +6,7 @@ import {
   Typography,
 } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import styled from 'styled-components';
 
 import { LiquidityState } from '../../../common/types/LiquidityState';
@@ -15,14 +15,30 @@ const StyledButton = styled(Button)`
   position: relative;
   width: 100%;
 
-  select {
-    height: 100%;
+  .select-state {
     position: absolute;
+    z-index: 5;
+    background: var(--teddy-default-color);
     width: 100%;
-    top: 0;
     left: 0;
-    z-index: 1;
-    opacity: 0;
+    top: 45px;
+    border-radius: 12px;
+    border: 1px solid var(--teddy-secondary-color);
+    display: none;
+    &.open {
+      display: block;
+    }
+    .option {
+      display: flex;
+      align-items: center;
+      height: 35px;
+      cursor: pointer;
+      padding: 0 12px;
+      &:hover {
+        background: var(--teddy-primary-color-hover);
+        border-radius: 10px;
+      }
+    }
   }
 `;
 
@@ -39,9 +55,20 @@ export const LiquidityStateSelect: FC<
     [LiquidityState.LOCKED_POSITIONS]: t`Locked Positions`,
   };
 
+  const [isOpenOptions, setIsOpenOptions] = useState<boolean>(false);
+
+  const handleClickOpen = () => {
+    isOpenOptions ? setIsOpenOptions(false) : setIsOpenOptions(true);
+  };
+
+  const handleClickOption = (option) => {
+    setIsOpenOptions(false);
+    onChange && onChange(option);
+  };
+
   return (
     <StyledButton size="large">
-      <Flex align="center">
+      <Flex align="center" onClick={handleClickOpen}>
         <Flex.Item flex={1} display="flex" justify="flex-start">
           <LiquidityStateSelectText level={5}>
             {value === LiquidityState.POOLS_OVERVIEW &&
@@ -54,22 +81,29 @@ export const LiquidityStateSelect: FC<
         </Flex.Item>
         <DownOutlined />
       </Flex>
-      <select
-        value={value}
-        onChange={(e) => onChange && onChange(e.target.value as LiquidityState)}
-      >
-        <option value={LiquidityState.POOLS_OVERVIEW}>
+
+      <div className={`select-state ${isOpenOptions ? 'open' : ''}`}>
+        <div
+          className="option"
+          onClick={() => handleClickOption(LiquidityState.POOLS_OVERVIEW)}
+        >
           {LiquidityStateCaptions[LiquidityState.POOLS_OVERVIEW]}
-        </option>
-        <option value={LiquidityState.YOUR_POSITIONS}>
+        </div>
+        <div
+          className="option"
+          onClick={() => handleClickOption(LiquidityState.YOUR_POSITIONS)}
+        >
           {LiquidityStateCaptions[LiquidityState.YOUR_POSITIONS]}
-        </option>
+        </div>
         {showLockedPositions && (
-          <option value={LiquidityState.LOCKED_POSITIONS}>
+          <div
+            className="option"
+            onClick={() => handleClickOption(LiquidityState.LOCKED_POSITIONS)}
+          >
             {LiquidityStateCaptions[LiquidityState.LOCKED_POSITIONS]}
-          </option>
+          </div>
         )}
-      </select>
+      </div>
     </StyledButton>
   );
 };
