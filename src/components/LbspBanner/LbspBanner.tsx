@@ -1,17 +1,6 @@
-import {
-  //Button,
-  //CalculatorOutlined,
-  Flex,
-  //Modal,
-  Typography,
-} from '@ergolabs/ui-kit';
+import { Flex, Typography } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import styled from 'styled-components';
-
-//import bannerImg from './banner.png';
-//import { LbspCalculatorModal } from '../LbspCalculatorModal/LbspCalculatorModal';
-//import { LbspFaqModal } from '../LbspFaqModal/LbspFaqModal';
-//import { LbspTimer } from './LbspTimer/LbspTimer';
 
 const LbspBannerWrapper = styled.div`
   position: relative;
@@ -62,50 +51,11 @@ export const LbspBanner = () => {
           <Flex col>
             <Flex.Item marginBottom={4}>
               <Typography.Title level={1}>
-                {/* <Trans>Add liquidity and Get Rewarded</Trans> */}
                 <Trans>Claim Rewards on TosiDrop</Trans>
               </Typography.Title>
-              {/*               <Typography.Title level={5} style={{ fontWeight: 400 }}>
-                <Trans>
-                  Provide liquidity to &quot;LBSP-labeled&quot; pools and get
-                  rewarded with SPF utility token.
-                </Trans>
-              </Typography.Title> */}
             </Flex.Item>
-            {/*             <Flex.Item marginBottom={2}>
-              <LbspTimer />
-            </Flex.Item> */}
-            {/*             <Flex.Item>
-              <Flex>
-                <Flex.Item marginRight={2}>
-                  <Button
-                    type="primary"
-                    size="large"
-                    icon={<CalculatorOutlined />}
-                    onClick={() =>
-                      Modal.open(({ close }) => (
-                        <LbspCalculatorModal close={close} />
-                      ))
-                    }
-                  >
-                    Calculator
-                  </Button>
-                </Flex.Item>
-                <Flex.Item>
-                  <Button
-                    size="large"
-                    onClick={() => {
-                      Modal.open(() => <LbspFaqModal />);
-                    }}
-                  >
-                    <Trans>What is LBSP?</Trans>
-                  </Button>
-                </Flex.Item>
-              </Flex>
-            </Flex.Item> */}
           </Flex>
         </LbspBannerContent>
-        {/* <img src={bannerImg} alt="tokens-img" /> */}
       </LbspBannerWrapper>
     </>
   );

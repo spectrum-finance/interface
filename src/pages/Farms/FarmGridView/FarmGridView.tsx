@@ -8,7 +8,6 @@ import { FarmCardView } from './FarmCardView/FarmCardView';
 
 export interface FarmGridViewProps<T extends AmmPool | Position> {
   readonly items: T[];
-  // readonly poolMapper: (item: T) => AmmPool;
   readonly loading?: boolean;
   readonly className?: string;
 }

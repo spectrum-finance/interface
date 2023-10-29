@@ -25,7 +25,6 @@ import {
 } from '../../../../../common/constants/locales';
 import { useApplicationSettings } from '../../../../../context';
 import { useQuery } from '../../../../../hooks/useQuery';
-/* import { ThemeSwitch } from '../../../../ThemeSwitch/ThemeSwitch'; */
 import { DotsIcon } from '../../../Icons/DotsIcon';
 import { ManualRefundModal } from './ManualRefundModal/ManualRefundModal';
 
@@ -123,9 +122,6 @@ const BurgerMenu = (): JSX.Element => {
 
   const menuOthers = (
     <StyledMenu>
-      {/*       <ThemeSwitchContainer>
-        <ThemeSwitch />
-      </ThemeSwitchContainer> */}
       {menu.map(
         (item, index) =>
           item && (

@@ -89,13 +89,11 @@ export const SlippageInput = styled(_SlippageInput)`
   input {
     text-align: right;
 
-    /* stylelint-disable-next-line */
     -moz-appearance: textfield;
 
     &::-webkit-outer-spin-button,
     &::-webkit-inner-spin-button {
       margin: 0;
-      /* stylelint-disable-next-line */
       -webkit-appearance: none;
     }
   }

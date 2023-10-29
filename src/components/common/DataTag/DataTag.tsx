@@ -119,7 +119,3 @@ const _DataTag: React.FC<DataTagProps> = ({
 };
 
 export const DataTag = styled(_DataTag)``;
-// background: var(--spectrum-tag-primary) !important;
-//
-// ${(props) =>
-//   props.secondary && 'background: var(--spectrum-tag-secondary) !important'}

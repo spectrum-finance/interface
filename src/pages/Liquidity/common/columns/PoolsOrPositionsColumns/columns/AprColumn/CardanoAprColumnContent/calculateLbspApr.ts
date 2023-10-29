@@ -67,7 +67,6 @@ const getLbspMultiplier = (ammPool: AmmPool) => {
     return LBSP_BOOSTED_MULTIPLIER;
   }
 
-  // TODO: TMP_SOLUTION
   return LBSP_MULTIPLIER;
 };
 

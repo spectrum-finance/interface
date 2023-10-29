@@ -50,7 +50,6 @@ export const createRefundTxData = (
       const txContext = getTxContext(
         inputs,
         // @ts-ignore
-        // TODO: refactor in SDK || or here in frontend repo (operations: swap, redeem, deposit, refund)
         networkContext as NetworkContext,
         settings.address!,
         minerFee.amount,

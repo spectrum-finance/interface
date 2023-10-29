@@ -47,10 +47,6 @@ export const WalletConnect = createWallet<AdditionalData>({
     );
     const connector = getActiveConnector();
 
-    // setInterval(() => {
-    //   connector.isConnected(1000).then(console.log)
-    // }, 1000)
-
     return connector as CardanoBridge.ConnectorAPI;
   },
   getBalance: (ctx) => {

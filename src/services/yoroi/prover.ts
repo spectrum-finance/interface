@@ -7,7 +7,6 @@ import {
   unsignedErgoTxToProxy,
 } from '@ergolabs/ergo-sdk';
 
-// TODO: WALLET_REFACTORING
 class YoroiProver implements Prover {
   /** Sign the given transaction.
    */

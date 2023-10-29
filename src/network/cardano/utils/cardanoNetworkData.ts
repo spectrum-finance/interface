@@ -8,7 +8,6 @@ import { applicationConfig } from '../../../applicationConfig';
 import { localStorageManager } from '../../../common/utils/localStorageManager';
 import { SupportedNetworks } from '../../common/Network';
 
-// TODO: MAKE REFACTORING AFTER MAINNET RELEASE
 export type CardanoNetworkData =
   typeof applicationConfig.networksSettings['ergo'] & {
     readonly settingsKey: string;
@@ -16,7 +15,6 @@ export type CardanoNetworkData =
     readonly addrs: OrderAddrs;
   };
 
-// TODO: REWRITE AFTER RELEASE
 const networkUrl: SupportedNetworks | 'cardano_mainnet' =
   location.pathname.split('/')[1] as any;
 const possibleUrl =

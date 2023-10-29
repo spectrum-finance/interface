@@ -62,11 +62,6 @@ export const FarmTopPanel: FC<{
             />
           </SearchInputContainer>
         )}
-        {/* <Flex.Item>
-          <Button size="large" type="primary" onClick={openFarmModal}>
-            <Trans>Create farm</Trans>
-          </Button>
-        </Flex.Item> */}
       </Flex.Item>
       {lessThan('xl') && (
         <Flex.Item display="flex" align="center">

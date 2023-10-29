@@ -15,8 +15,6 @@ const formatMap: Record<DateTimeViewType, Intl.DateTimeFormatOptions> = {
   datetimeWithWeekday: DateTime.DATETIME_MED_WITH_WEEKDAY,
 };
 
-// TODO: Localize DateTime
-
 const DateTimeView: React.FC<DateTimeViewProps> = ({
   type = 'date',
   value,

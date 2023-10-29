@@ -52,7 +52,6 @@ export const mapToAmmPoolAnalyticsProps = (pool?: AmmPool): AmmPoolProps => ({
   amm_pool_id: setString(pool?.id),
   amm_pool_name: getPoolName(pool),
 
-  // Dividing by 100 to get real USD value
   amm_pool_tvl: Number(pool?.tvl?.amount) / 100,
 });
 

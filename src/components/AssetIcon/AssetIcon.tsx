@@ -27,7 +27,6 @@ const MAP_SIZE_TO_NUMBER = {
   medium: 24,
   large: 32,
   extraLarge: 48,
-  // TODO: Add custom size possibility
   selectNetwork: 88,
 };
 

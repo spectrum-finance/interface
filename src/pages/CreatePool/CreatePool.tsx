@@ -160,9 +160,6 @@ export const CreatePool: FC = () => {
     createPool(value as Required<CreatePoolFormModel>)
       .pipe(first())
       .subscribe(() => navigate('../../../liquidity'));
-    // fireOperationAnalyticsEvent('Deposit Form Submit', (ctx) =>
-    //   mapToDepositAnalyticsProps(value, ctx),
-    // );
   };
 
   useSubscription(

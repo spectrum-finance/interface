@@ -6,16 +6,12 @@ import { useObservable } from '../../../../../../../common/hooks/useObservable';
 import { AmmPool } from '../../../../../../../common/models/AmmPool';
 import { isDeprecatedPool } from '../../../../../../../common/utils/isDeprecatedPool';
 import { AssetPairTitle } from '../../../../../../../components/AssetPairTitle/AssetPairTitle';
-//import { BoostedPoolTag } from '../../../../../../../components/BoostedPoolTag/BoostedPoolTag.tsx';
 import { DataTag } from '../../../../../../../components/common/DataTag/DataTag';
 import { DeprecatedPoolTag } from '../../../../../../../components/DeprecatedPoolTag/DeprecatedPoolTag';
 import { FarmsButton } from '../../../../../../../components/FarmsButton/FarmsButton';
 import { IsCardano } from '../../../../../../../components/IsCardano/IsCardano.tsx';
 import { IsErgo } from '../../../../../../../components/IsErgo/IsErgo';
-//import { LbspPoolTag } from '../../../../../../../components/LbspPoolTag/LbspPoolTag.tsx';
 import { hasFarmsForPool } from '../../../../../../../network/ergo/lm/api/farms/farms';
-//import { isSpfPool } from '../../../../../../../utils/lbsp.ts';
-//import { isSpecialBoostedPool } from '../../../../../../../utils/specialPools.ts';
 
 export interface PairColumnProps {
   readonly ammPool: AmmPool;
@@ -44,22 +40,9 @@ export const PairColumn: FC<PairColumnProps> = ({ ammPool }) => {
       <Flex.Item marginLeft={2} marginRight={3}>
         <DataTag content={`${ammPool.poolFee}%`} />
       </Flex.Item>
-      {/*TODO: IGNORE FOR CARDANO*/}
       <IsErgo>
         {hasFarmForPool && <FarmsButton onClick={handleFarmsButtonClick} />}
       </IsErgo>
-      {/*  {!s && (
-        <IsCardano>
-          <Flex.Item marginRight={2}>
-            <LbspPoolTag isSpf={isSpfPool(ammPool.id)} />
-          </Flex.Item>
-        </IsCardano>
-      )} */}
-      {/* {isSpecialBoostedPool(ammPool.id) && !s && (
-        <IsCardano>
-          <BoostedPoolTag asset={ammPool.y.asset} />
-        </IsCardano>
-      )} */}
 
       <IsCardano>
         {isDeprecatedPool(ammPool.id) && <DeprecatedPoolTag />}

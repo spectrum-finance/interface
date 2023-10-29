@@ -238,9 +238,6 @@ export const List = <T,>({
             position: 'relative',
           }}
         >
-          {/*{(!!height || !!maxHeight) && overlay && (*/}
-          {/*  <Overlay position={overlayPosition} />*/}
-          {/*)}*/}
           <div
             style={{
               height: getHeight(

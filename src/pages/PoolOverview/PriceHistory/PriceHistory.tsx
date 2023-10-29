@@ -86,7 +86,6 @@ export const PriceHistory: FC<PriceHistoryProps> = ({ position: { pool } }) => {
   );
 
   const data = useAggregatedByDateData(rawData, ticks);
-  // recharts couldn't animate when dataKey is changed
   const chartData = useMemo(() => [...data], [data, isInverted]);
 
   const [activeData, setActiveData] = useState<PoolChartData | null>();

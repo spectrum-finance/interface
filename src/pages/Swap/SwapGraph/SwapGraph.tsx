@@ -104,7 +104,6 @@ export const SwapGraph: React.FC<SwapGraphProps> = ({
   const order = fromAsset !== pool?.x?.asset;
   const isInverted = (order && !isReversed) || (!order && isReversed);
   const data = useAggregatedByDateData(rawData, ticks);
-  // recharts couldn't animate when dataKey is changed
   const chartData = useMemo(() => [...data], [data, isInverted]);
 
   const [activeData, setActiveData] = useState<PoolChartData | null>();
