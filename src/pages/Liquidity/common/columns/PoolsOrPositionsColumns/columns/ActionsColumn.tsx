@@ -61,19 +61,21 @@ export const ActionsColumn: FC<ActionsColumnProps> = ({ ammPool }) => {
 
   return (
     <Flex>
-      <Flex.Item marginRight={2}>
-        <Button
-          icon={s && <PlusOutlined />}
-          onClick={(event) => {
-            event.stopPropagation();
-            navigate(
-              `../../swap?base=${ammPool.x.asset.id}&quote=${ammPool.y.asset.id}&initialPoolId=${ammPool.id}`,
-            );
-          }}
-        >
-          {moreThan('l') && <Trans>Swap</Trans>}
-        </Button>
-      </Flex.Item>
+      {moreThan('m') && (
+        <Flex.Item marginRight={2}>
+          <Button
+            icon={s && <PlusOutlined />}
+            onClick={(event) => {
+              event.stopPropagation();
+              navigate(
+                `../../swap?base=${ammPool.x.asset.id}&quote=${ammPool.y.asset.id}&initialPoolId=${ammPool.id}`,
+              );
+            }}
+          >
+            {moreThan('l') && <Trans>Swap</Trans>}
+          </Button>
+        </Flex.Item>
+      )}
       <Flex.Item>
         <Button
           icon={s && <PlusOutlined />}
