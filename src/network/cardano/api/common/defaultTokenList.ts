@@ -5,6 +5,7 @@ export interface DefaultTokenListItem {
   readonly policyId: string;
   readonly subject: string;
   readonly description: string;
+  readonly url: string;
   readonly name: string;
   readonly ticker: string;
   readonly decimals: number;

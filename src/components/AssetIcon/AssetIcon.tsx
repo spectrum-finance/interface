@@ -32,7 +32,7 @@ const MAP_SIZE_TO_NUMBER = {
 };
 
 enum ErrorState {
-  DARK_ICON_NOT_FOUND,
+  ALT_ICON,
   ICON_NOT_FOUND,
 }
 
@@ -54,7 +54,11 @@ const AssetIcon: React.FC<TokenIconProps> = ({
   }, [asset]);
 
   const handleError = () => {
-    setErrorState(ErrorState.ICON_NOT_FOUND);
+    if (errorState === undefined && asset?.url) {
+      setErrorState(ErrorState.ALT_ICON);
+    } else {
+      setErrorState(ErrorState.ICON_NOT_FOUND);
+    }
   };
 
   return (
@@ -72,6 +76,15 @@ const AssetIcon: React.FC<TokenIconProps> = ({
     >
       {errorState === ErrorState.ICON_NOT_FOUND ? (
         <UnknownTokenIcon asset={asset} size={MAP_SIZE_TO_NUMBER[size]} />
+      ) : errorState === ErrorState.ALT_ICON ? (
+        <img
+          style={{ verticalAlign: 'initial' }}
+          alt="Token Icon"
+          src={asset?.url}
+          onError={handleError}
+          width={MAP_SIZE_TO_NUMBER[size]}
+          height={MAP_SIZE_TO_NUMBER[size]}
+        />
       ) : (
         <img
           style={{ verticalAlign: 'initial' }}

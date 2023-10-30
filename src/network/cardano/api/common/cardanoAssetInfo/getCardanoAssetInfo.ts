@@ -41,6 +41,7 @@ const defaultTokenListItemToAssetInfo = (
     icon: dtli?.subject
       ? `${applicationConfig.networksSettings.cardano.metadataUrl}/${dtli?.subject}.png`
       : '',
+    url: dtli?.url || undefined,
     data: ac,
   };
 };
