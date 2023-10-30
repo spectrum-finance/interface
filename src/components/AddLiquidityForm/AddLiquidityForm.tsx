@@ -1,4 +1,4 @@
-import { Flex, FormGroup } from '@ergolabs/ui-kit';
+import { Flex, Form, FormGroup } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
 import { ElementName } from '@spectrumlabs/analytics';
 import { TraceProps } from '@spectrumlabs/analytics/lib/esm/types';
@@ -40,7 +40,9 @@ import { useNetworkAsset } from '../../gateway/api/networkAsset';
 import { deposit } from '../../gateway/api/operations/deposit';
 import { useHandleDepositMaxButtonClick } from '../../gateway/api/useHandleDepositMaxButtonClick';
 import { useDepositValidators } from '../../gateway/api/validationFees';
+import { PoolFeeTag } from '../../pages/PoolOverview/PoolInfoView/PoolFeeTag/PoolFeeTag.tsx';
 import { mapToDepositAnalyticsProps } from '../../utils/analytics/mapper';
+import { AssetPairTitle } from '../AssetPairTitle/AssetPairTitle.tsx';
 import { AssetControlFormItem } from '../common/TokenControl/AssetControl';
 import {
   OperationForm,
@@ -178,6 +180,7 @@ export const AddLiquidityForm: FC<AddLiquidityFormProps> = ({
 
       const newPool: AmmPool | undefined =
         pools.find((p) => p.id === form.value.pool?.id) ||
+        pools.find((p) => p.id === initialPoolId) ||
         maxBy(pools, (p) => p.x.amount * p.y.amount);
 
       if (
@@ -347,7 +350,30 @@ export const AddLiquidityForm: FC<AddLiquidityFormProps> = ({
     >
       <Section
         gap={2}
-        title={t`Liquidity`}
+        title={
+          <Flex align="center">
+            <Form.Listener name="pool">
+              {({ value }) =>
+                value && (
+                  <>
+                    <Flex.Item marginRight={1}>
+                      <AssetPairTitle
+                        assetX={value.x.asset}
+                        assetY={value.y.asset}
+                        align="center"
+                        level="body"
+                        isShowDivider={true}
+                      />
+                    </Flex.Item>
+                    <Flex.Item>
+                      <PoolFeeTag ammPool={value} />
+                    </Flex.Item>
+                  </>
+                )
+              }
+            </Form.Listener>
+          </Flex>
+        }
         extra={
           <Flex justify="flex-end">
             <LiquidityPercentInput onClick={handleMaxLiquidityClick} />
