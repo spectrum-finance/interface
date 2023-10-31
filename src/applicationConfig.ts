@@ -66,9 +66,9 @@ interface ApplicationConfig {
 
 export const applicationConfig: ApplicationConfig = {
   isRewardsAvailable: true,
-  spfUsdRateUrl: 'https://api.spectrum.fi/v1/price-tracking/spf/price',
+  spfUsdRateUrl: '',
   operationTimeoutTime: 60_000,
-  cookieDomain: isProductionEnv() ? 'spectrum.fi' : undefined,
+  cookieDomain: isProductionEnv() ? 'teddyswap.org' : undefined,
   cardanoMaintenance: false,
   // cardanoUpdate: {
   //   title: 'On the way to the mainnet',
@@ -101,16 +101,14 @@ export const applicationConfig: ApplicationConfig = {
       isCreatePoolAvailable: false,
     },
     ergo: {
-      defaultTokenListUrl: 'https://spectrum.fi/ergo-token-list.json',
-      metadataUrl:
-        'https://raw.githubusercontent.com/spectrum-finance/token-logos/master/logos/ergo',
-      spfFaucet: 'https://airdrop.spectrum.fi/v1/faucet/',
-      networkUrl: 'https://api.ergoplatform.com',
-      explorerUrl: 'https://explorer.ergoplatform.com',
-      analyticUrl: 'https://api.spectrum.fi/v1/',
-      lowBalanceGuide:
-        'https://docs.spectrum.fi/docs/user-guides/quick-start#3-get-assets',
-      ergopayUrl: 'https://ergopay-backend.fly.dev',
+      defaultTokenListUrl: '',
+      metadataUrl: '',
+      spfFaucet: '',
+      networkUrl: '',
+      explorerUrl: '',
+      analyticUrl: '',
+      lowBalanceGuide: '',
+      ergopayUrl: '',
       isCreatePoolAvailable: true,
     },
   },
