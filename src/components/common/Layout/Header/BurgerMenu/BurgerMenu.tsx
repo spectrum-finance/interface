@@ -85,7 +85,7 @@ const BurgerMenu = (): JSX.Element => {
       link: 'https://github.com/spectrum-finance',
     },
     {
-      title: t`Manual Refund`,
+      title: t`Manual Tx Cancel`,
       icon: <ReloadOutlined />,
       onClick: () => {
         setMenuVisible(false);
