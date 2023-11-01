@@ -33,6 +33,7 @@ const refundWithWallet = (
   txId: TxId,
   xAmount: Currency,
   yAmount: Currency,
+  manual = false,
 ): Observable<TxId> => {
   const subject = new Subject<TxId>();
   openConfirmationModal(
@@ -42,10 +43,11 @@ const refundWithWallet = (
         subject.complete();
       }),
     ),
-    ModalOperation.REFUND,
+    manual ? ModalOperation.MANUAL_REFUND : ModalOperation.REFUND,
     {
       xAsset: xAmount,
       yAsset: yAmount,
+      txId,
     },
   );
 

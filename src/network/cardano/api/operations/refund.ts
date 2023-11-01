@@ -141,6 +141,7 @@ export const refund = (
   txId: TxId,
   xAmount: Currency,
   yAmount: Currency,
+  manual = false,
 ): Observable<TxId> => {
   const subject = new Subject<TxId>();
   openConfirmationModal(
@@ -150,10 +151,11 @@ export const refund = (
         subject.complete();
       }),
     ),
-    ModalOperation.REFUND,
+    manual ? ModalOperation.MANUAL_REFUND : ModalOperation.REFUND,
     {
       xAsset: xAmount,
       yAsset: yAmount,
+      txId,
     },
     undefined,
     true,

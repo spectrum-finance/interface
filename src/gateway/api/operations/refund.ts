@@ -8,8 +8,9 @@ export const refund = (
   txId: TxId,
   xAmount: Currency,
   yAmount: Currency,
+  manual = false,
 ): Observable<TxId> =>
   selectedNetwork$.pipe(
     first(),
-    switchMap((n) => n.refund(txId, xAmount, yAmount)),
+    switchMap((n) => n.refund(txId, xAmount, yAmount, manual)),
   );

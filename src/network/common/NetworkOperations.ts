@@ -34,5 +34,10 @@ export interface NetworkOperations {
     data: Required<RemoveLiquidityFormModel>,
     withoutConfirmation?: boolean,
   ): Observable<TxId>;
-  refund(txId: TxId, xAmount: Currency, yAmount: Currency): Observable<TxId>;
+  refund(
+    txId: TxId,
+    xAmount: Currency,
+    yAmount: Currency,
+    manual?: boolean,
+  ): Observable<TxId>;
 }

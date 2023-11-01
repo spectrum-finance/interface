@@ -23,6 +23,7 @@ import { Currency } from '../../common/models/Currency';
 import { exploreTx } from '../../gateway/utils/exploreAddress';
 import { ClaimNotAvailableError } from '../../network/cardano/api/rewards/utils';
 import { getLockingPeriodString } from '../../pages/Liquidity/utils';
+import { getShortAddress } from '../../utils/string/addres.ts';
 
 export enum Operation {
   SWAP,
@@ -32,6 +33,7 @@ export enum Operation {
   ADD_LIQUIDITY,
   REMOVE_LIQUIDITY,
   REFUND,
+  MANUAL_REFUND,
   CLAIM,
   LOCK_LIQUIDITY,
   RELOCK_LIQUIDITY,
@@ -48,11 +50,12 @@ export interface ModalChainingPayload {
   lpAsset?: Currency;
   time?: DateTime;
   assetLock?: AssetLock;
+  txId?: string;
 }
 
 const getDescriptionByData = (
   operation: Operation,
-  { xAsset, yAsset, lpAsset, time, assetLock }: ModalChainingPayload,
+  { xAsset, yAsset, lpAsset, time, assetLock, txId }: ModalChainingPayload,
 ): ReactNode => {
   switch (operation) {
     case Operation.CLAIM:
@@ -66,6 +69,8 @@ const getDescriptionByData = (
       return xAsset && yAsset
         ? t`Cancelling ${xAsset.toCurrencyString()} and ${yAsset.toCurrencyString()}`
         : '';
+    case Operation.MANUAL_REFUND:
+      return txId ? t`Cancelling tx with id ${getShortAddress(txId)}` : '';
     case Operation.REMOVE_LIQUIDITY:
       return xAsset && yAsset
         ? t`Removing liquidity ${xAsset.toCurrencyString()} and ${yAsset.toCurrencyString()}`
