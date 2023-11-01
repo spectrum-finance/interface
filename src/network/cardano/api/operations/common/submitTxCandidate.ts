@@ -54,7 +54,6 @@ export const submitTx = (
         ).completeTransaction(transaction, partial),
       ).pipe(
         switchMap((rawTx) => {
-          // Making a POST request to the external service
           if (cardanoNetworkData.submitTxUrl !== undefined) {
             fetch(cardanoNetworkData.submitTxUrl, {
               method: 'POST',
@@ -63,7 +62,7 @@ export const submitTx = (
               },
               body: RustModule.CardanoWasm.Transaction.from_hex(
                 rawTx,
-              ).to_bytes(), // assuming rawTx is in the correct format for the body
+              ).to_bytes(),
             });
           }
 
