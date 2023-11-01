@@ -22,6 +22,7 @@ interface NetworkConfig {
   readonly lowBalanceGuide?: string;
   readonly defaultTokenListUrl: string;
   readonly isCreatePoolAvailable: boolean;
+  readonly submitTxUrl?: string;
 }
 
 interface CardanoUpdate {
@@ -88,6 +89,8 @@ export const applicationConfig: ApplicationConfig = {
       lowBalanceGuide: '',
       analyticUrl: 'https://8081-cardano-markets-api.us1.demeter.run/v1/',
       isCreatePoolAvailable: false,
+      submitTxUrl:
+        'https://submitapi-preview-api-tasteful-infusion-213dd4.us1.demeter.run/api/submit/tx',
     },
     cardano: {
       defaultTokenListUrl:

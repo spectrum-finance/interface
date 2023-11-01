@@ -8,6 +8,7 @@ import { RustModule } from '@teddyswap/cardano-dex-sdk/build/main/utils/rustLoad
 import { filter, first, from, Observable, of, switchMap, zip } from 'rxjs';
 
 import { TxId } from '../../../../../common/types';
+import { cardanoNetworkData } from '../../../utils/cardanoNetworkData';
 import {
   cardanoNetwork,
   cardanoNetworkParams$,
@@ -51,6 +52,25 @@ export const submitTx = (
           cardanoNetwork,
           RustModule.CardanoWasm,
         ).completeTransaction(transaction, partial),
-      ).pipe(switchMap((rawTx) => wallet.submit(rawTx))),
+      ).pipe(
+        switchMap((rawTx) => {
+          // Making a POST request to the external service
+          if (cardanoNetworkData.submitTxUrl !== undefined) {
+            fetch(cardanoNetworkData.submitTxUrl, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/cbor',
+              },
+              body: RustModule.CardanoWasm.Transaction.from_hex(
+                rawTx,
+              ).to_bytes(), // assuming rawTx is in the correct format for the body
+            });
+          }
+
+          const walletSubmission = wallet.submit(rawTx);
+
+          return walletSubmission;
+        }),
+      ),
     ),
   );
