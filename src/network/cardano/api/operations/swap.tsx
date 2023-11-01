@@ -12,7 +12,6 @@ import {
 } from '../../../../components/ConfirmationModal/ConfirmationModal';
 import { OperationValidator } from '../../../../components/OperationForm/OperationForm';
 import { SwapFormModel } from '../../../../pages/Swap/SwapFormModel';
-import { isLbspAmmPool } from '../../../../utils/lbsp';
 import {
   CardanoSettings,
   settings$,
@@ -134,7 +133,7 @@ export const useSwapValidators = (): OperationValidator<SwapFormModel>[] => {
 
   const ammPoolMinValueForSwapCardanoValidator: OperationValidator<SwapFormModel> =
     ({ value: { pool } }) => {
-      if (!pool || !isLbspAmmPool(pool.id)) {
+      if (!pool || !(pool as CardanoAmmPool)?.pool.lqBound) {
         return undefined;
       }
       const minLqAdaValue = new Currency(
