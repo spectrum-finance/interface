@@ -22,6 +22,7 @@ interface NetworkConfig {
   readonly lowBalanceGuide?: string;
   readonly defaultTokenListUrl: string;
   readonly isCreatePoolAvailable: boolean;
+  readonly submitTxUrl?: string;
 }
 
 interface CardanoUpdate {
@@ -66,9 +67,9 @@ interface ApplicationConfig {
 
 export const applicationConfig: ApplicationConfig = {
   isRewardsAvailable: true,
-  spfUsdRateUrl: 'https://api.spectrum.fi/v1/price-tracking/spf/price',
+  spfUsdRateUrl: '',
   operationTimeoutTime: 60_000,
-  cookieDomain: isProductionEnv() ? 'spectrum.fi' : undefined,
+  cookieDomain: isProductionEnv() ? 'teddyswap.org' : undefined,
   cardanoMaintenance: false,
   // cardanoUpdate: {
   //   title: 'On the way to the mainnet',
@@ -81,19 +82,21 @@ export const applicationConfig: ApplicationConfig = {
       defaultTokenListUrl:
         'https://raw.githubusercontent.com/teddy-swap/tokenlist/main/preview.json',
       metadataUrl:
-        'https://raw.githubusercontent.com/spectrum-finance/token-logos/master/logos/cardano',
+        'https://raw.githubusercontent.com/teddy-swap/token-logos/master/logos/cardano',
       networkUrl:
         'https://80-hallowed-priority-28uow9.us1.demeter.run/cardano/preview/v1/',
       explorerUrl: 'https://preview.cardanoscan.io',
       lowBalanceGuide: '',
       analyticUrl: 'https://8081-cardano-markets-api.us1.demeter.run/v1/',
       isCreatePoolAvailable: false,
+      submitTxUrl:
+        'https://submitapi-preview-api-tasteful-infusion-213dd4.us1.demeter.run/api/submit/tx',
     },
     cardano: {
       defaultTokenListUrl:
         'https://raw.githubusercontent.com/teddy-swap/tokenlist/main/preview.json',
       metadataUrl:
-        'https://raw.githubusercontent.com/spectrum-finance/token-logos/master/logos/cardano',
+        'https://raw.githubusercontent.com/teddy-swap/token-logos/master/logos/cardano',
       networkUrl: 'https://8081-charming-homework-gszxtp.us1.demeter.run/v1/',
       explorerUrl: 'https://cardanoscan.io',
       lowBalanceGuide: '',
@@ -101,16 +104,14 @@ export const applicationConfig: ApplicationConfig = {
       isCreatePoolAvailable: false,
     },
     ergo: {
-      defaultTokenListUrl: 'https://spectrum.fi/ergo-token-list.json',
-      metadataUrl:
-        'https://raw.githubusercontent.com/spectrum-finance/token-logos/master/logos/ergo',
-      spfFaucet: 'https://airdrop.spectrum.fi/v1/faucet/',
-      networkUrl: 'https://api.ergoplatform.com',
-      explorerUrl: 'https://explorer.ergoplatform.com',
-      analyticUrl: 'https://api.spectrum.fi/v1/',
-      lowBalanceGuide:
-        'https://docs.spectrum.fi/docs/user-guides/quick-start#3-get-assets',
-      ergopayUrl: 'https://ergopay-backend.fly.dev',
+      defaultTokenListUrl: '',
+      metadataUrl: '',
+      spfFaucet: '',
+      networkUrl: '',
+      explorerUrl: '',
+      analyticUrl: '',
+      lowBalanceGuide: '',
+      ergopayUrl: '',
       isCreatePoolAvailable: true,
     },
   },
