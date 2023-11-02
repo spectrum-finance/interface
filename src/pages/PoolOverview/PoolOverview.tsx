@@ -27,7 +27,6 @@ export const PoolOverview: React.FC = () => {
   );
 
   useGuard(position, loading, () => navigate('../../../liquidity'));
-
   return (
     <Page
       transparent

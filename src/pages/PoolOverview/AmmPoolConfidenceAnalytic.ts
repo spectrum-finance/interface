@@ -1,25 +1,12 @@
 import { blocksToMillis, PoolId } from '@ergolabs/ergo-dex-sdk';
 import { DateTime } from 'luxon';
-import {
-  catchError,
-  combineLatest,
-  first,
-  map,
-  Observable,
-  of,
-  switchMap,
-} from 'rxjs';
+import { Observable, of, switchMap } from 'rxjs';
 
 import { AmmPool } from '../../common/models/AmmPool';
 import { Currency } from '../../common/models/Currency';
 import { Dictionary } from '../../common/utils/Dictionary';
 import { getAmmPoolById } from '../../gateway/api/ammPools';
-import { selectedNetwork$ } from '../../gateway/common/network';
-import { networkContext$ } from '../../network/ergo/api/networkContext/networkContext';
-import {
-  AmmPoolLocksAnalytic,
-  getPoolLocksAnalyticsById,
-} from '../../services/new/analytics';
+import { AmmPoolLocksAnalytic } from '../../services/new/analytics';
 
 const MIN_RELEVANT_PCT_VALUE = 0.01;
 
@@ -120,34 +107,13 @@ export class AmmPoolConfidenceAnalytic {
 
 export const getAmmPoolConfidenceAnalyticByAmmPoolId = (
   ammPoolId: PoolId,
-): Observable<AmmPoolConfidenceAnalytic | undefined> =>
-  getAmmPoolById(ammPoolId).pipe(
+): Observable<AmmPoolConfidenceAnalytic | undefined> => {
+  return getAmmPoolById(ammPoolId).pipe(
     switchMap((pool) => {
       if (!pool) {
         return of(undefined);
       }
-
-      return combineLatest([
-        networkContext$,
-        selectedNetwork$.pipe(
-          first(),
-          switchMap((network) =>
-            network.name !== 'ergo'
-              ? of([])
-              : getPoolLocksAnalyticsById(ammPoolId).pipe(
-                  catchError(() => of([])),
-                ),
-          ),
-        ),
-      ]).pipe(
-        map(
-          ([networkContext, poolLocksAnalytics]) =>
-            new AmmPoolConfidenceAnalytic(
-              pool,
-              poolLocksAnalytics,
-              networkContext.height,
-            ),
-        ),
-      );
+      return of(new AmmPoolConfidenceAnalytic(pool, [], 0));
     }),
   );
+};
