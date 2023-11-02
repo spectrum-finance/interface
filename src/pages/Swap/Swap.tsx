@@ -4,7 +4,6 @@ import {
   Form,
   FormGroup,
   LineChartOutlined,
-  SwapOutlined,
   Typography,
   useForm,
 } from '@ergolabs/ui-kit';
@@ -34,6 +33,7 @@ import {
   zip,
 } from 'rxjs';
 
+import switchArrow from '../../assets/icons/arrows.png';
 import {
   useObservable,
   useSubscription,
@@ -438,6 +438,8 @@ export const Swap = (): JSX.Element => {
     [lastEditedField],
   );
 
+  const [isSwitch, setIsSwitch] = useState<boolean>(false);
+
   const switchAssets = () => {
     form.patchValue(
       {
@@ -450,6 +452,7 @@ export const Swap = (): JSX.Element => {
     );
     setLastEditedField((prev) => (prev === 'from' ? 'to' : 'from'));
     fireAnalyticsEvent('Swap Click Switch');
+    setIsSwitch(!isSwitch);
   };
 
   const [pool] = useObservable(form.controls.pool.valueChangesWithSilent$);
@@ -535,8 +538,9 @@ export const Swap = (): JSX.Element => {
           </Flex.Item>
           <SwitchButton
             onClick={switchAssets}
-            icon={<SwapOutlined />}
+            icon={<img src={switchArrow} alt="logoArrow" />}
             size="middle"
+            isSwitch={isSwitch}
           />
           <Flex.Item>
             <Form.Listener>

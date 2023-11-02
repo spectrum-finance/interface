@@ -50,7 +50,6 @@ export const SelectDefaultNetwork: FC<SelectDefaultNetworkProps> = ({
           marginTop={valBySize(10, 38)}
           align="center"
           width="100%"
-          maxWidth={700}
           col
         >
           <Typography.Title level={2}>

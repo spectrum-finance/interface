@@ -14,16 +14,22 @@ const StyledButton = styled(Button)`
 `;
 
 export const CurrencyPreview: FC<CurrencyPreviewProps> = ({ value }) => (
-  <Box padding={4} secondary borderRadius="l">
+  <BoxStyled padding={4} secondary borderRadius="l">
     <Flex col>
       <Flex.Item align="center" display="flex">
         <Flex.Item flex={1}>
-          <Typography.Title level={3}>{value.toString()}</Typography.Title>
+          <Typography.Title level={3}>{value.toString()} </Typography.Title>
         </Flex.Item>
         <StyledButton size="large">
           <AssetTitle gap={2} asset={value.asset} />
         </StyledButton>
       </Flex.Item>
     </Flex>
-  </Box>
+  </BoxStyled>
 );
+
+const BoxStyled = styled(Box)`
+  .ergo-flex-align-items--center {
+    gap: 5px;
+  }
+`;

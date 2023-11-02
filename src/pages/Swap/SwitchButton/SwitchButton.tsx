@@ -1,22 +1,32 @@
 import { Button, ButtonProps } from '@ergolabs/ui-kit';
 import styled from 'styled-components';
 
-export type SwitchButtonProps = ButtonProps;
+interface SwitchButtonProps extends ButtonProps {
+  isSwitch: boolean;
+}
 
-const _SwitchButton = ({ className, ...rest }: SwitchButtonProps) => (
-  <div className={className}>
-    <Button {...rest} />
-  </div>
-);
+const _SwitchButton = (props: SwitchButtonProps) => {
+  const { className, isSwitch, ...rest } = props;
+  return (
+    <div className={`${className} ${isSwitch ? 'switch-btn' : ''}`}>
+      <Button {...rest} />
+    </div>
+  );
+};
 
 export const SwitchButton = styled(_SwitchButton)`
   position: relative;
+  color: red;
 
   button {
     position: absolute;
     z-index: 1;
-    top: 50%;
-    left: 50%;
-    transform: rotate(-90deg) translate(50%, -50%);
+    top: calc(50% - 16px);
+    left: calc(50% - 16px);
+  }
+  &.switch-btn {
+    button {
+      transform: rotate(-180deg);
+    }
   }
 `;

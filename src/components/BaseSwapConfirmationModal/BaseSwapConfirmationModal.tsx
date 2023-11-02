@@ -1,3 +1,5 @@
+import './BaseSwapConfirmationModal.less';
+
 import { Button, Flex, Form, Modal, useForm } from '@ergolabs/ui-kit';
 import { CANCEL_REQUEST } from '@ergolabs/ui-kit/dist/components/Modal/presets/Request';
 import { Trans } from '@lingui/macro';
@@ -66,7 +68,7 @@ export const BaseSwapConfirmationModal: FC<
       <Modal.Title>
         <Trans>Confirm swap</Trans>
       </Modal.Title>
-      <Modal.Content width={496}>
+      <Modal.Content width="100%" maxWidth={496}>
         <Form form={form} onSubmit={swapOperation}>
           <Flex direction="col">
             <Flex.Item marginBottom={1}>

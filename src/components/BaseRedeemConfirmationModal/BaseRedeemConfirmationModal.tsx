@@ -1,3 +1,5 @@
+import './BaseReddemConfirmationModal.less';
+
 import { Box, Button, Flex, Modal } from '@ergolabs/ui-kit';
 import { CANCEL_REQUEST } from '@ergolabs/ui-kit/dist/components/Modal/presets/Request';
 import { t, Trans } from '@lingui/macro';
@@ -69,7 +71,7 @@ export const BaseRedeemConfirmationModal: FC<BaseRedeemConfirmationModalProps> =
         <Modal.Title>
           <Trans>Confirm Remove Liquidity</Trans>
         </Modal.Title>
-        <Modal.Content width={436}>
+        <Modal.Content width="100%" maxWidth={436}>
           <Box transparent bordered={false}>
             <Flex direction="col">
               <Flex.Item marginBottom={6}>

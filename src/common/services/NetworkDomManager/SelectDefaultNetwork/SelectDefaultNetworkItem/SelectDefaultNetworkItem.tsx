@@ -26,7 +26,7 @@ const _NetworkItemHeader: FC<NetworkItemHeaderProps> = ({
       justify="center"
       className={className}
       style={{
-        height: valBySize(120, 160),
+        height: valBySize(160),
       }}
     >
       <div />
@@ -82,7 +82,7 @@ const NetworkItemContent: FC<NetworkItemContentProps> = ({ network }) => {
 
   return (
     <Box
-      padding={[valBySize(5, 10), 0]}
+      padding={[valBySize(10), 0]}
       bordered={false}
       className="box-item-content"
     >
