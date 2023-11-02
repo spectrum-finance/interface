@@ -5,7 +5,6 @@ import {
   Typography,
   WarningOutlined,
 } from '@ergolabs/ui-kit';
-import { Trans } from '@lingui/macro';
 import { FC } from 'react';
 
 export const NeedUpdateModal: FC = () => {
@@ -19,10 +18,8 @@ export const NeedUpdateModal: FC = () => {
         </Flex.Item>
         <Flex.Item marginBottom={4}>
           <Typography.Title level={4} style={{ textAlign: 'center' }}>
-            <Trans>
-              A new version of the app is available. Refresh the page to see the
-              latest updates.
-            </Trans>
+            A new version of the app is available. Refresh the page to see the
+            latest updates.
           </Typography.Title>
         </Flex.Item>
         <Button
@@ -31,7 +28,7 @@ export const NeedUpdateModal: FC = () => {
           type="primary"
           width="100%"
         >
-          <Trans>Refresh</Trans>
+          Refresh
         </Button>
       </Flex>
     </Modal.Content>
