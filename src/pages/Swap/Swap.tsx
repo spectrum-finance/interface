@@ -1,12 +1,4 @@
-import {
-  Button,
-  Flex,
-  Form,
-  FormGroup,
-  LineChartOutlined,
-  Typography,
-  useForm,
-} from '@ergolabs/ui-kit';
+import { Flex, Form, FormGroup, Typography, useForm } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import {
   ElementLocation,
@@ -511,13 +503,6 @@ export const Swap = (): JSX.Element => {
                 <Trans>Swap</Trans>
               </Typography.Title>
             </Flex.Item>
-            <Button
-              type="text"
-              size="large"
-              icon={<LineChartOutlined />}
-              onClick={() => setLeftWidgetOpened(!leftWidgetOpened)}
-              style={{ marginRight: '5px' }}
-            />
             {OperationSettings && <OperationSettings />}
           </Flex>
           <Flex.Item marginBottom={1} marginTop={2}>
