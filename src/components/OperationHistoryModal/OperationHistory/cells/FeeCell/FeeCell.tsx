@@ -6,16 +6,17 @@ import {
   OperationStatus,
 } from '../../../../../common/models/OperationV2';
 import { AssetIcon } from '../../../../AssetIcon/AssetIcon';
-import { ConvenientAssetView } from '../../../../ConvenientAssetView/ConvenientAssetView';
+//import { ConvenientAssetView } from '../../../../ConvenientAssetView/ConvenientAssetView';
 import { InfoTooltip } from '../../../../InfoTooltip/InfoTooltip';
+import styles from './FeeCell.module.less';
 
 export interface FeeCellProps {
   readonly operationItem: OperationItem;
 }
 
 export const FeeCell: FC<FeeCellProps> = ({ operationItem }) => (
-  <Flex justify="flex-start">
-    <Box padding={[0, 1]} bordered={false} borderRadius="s">
+  <Flex justify="flex-start" width={90} className={styles.feeCell}>
+    <Box padding={[1, 2]} bordered={false} borderRadius="s" width="100%">
       {operationItem.status === OperationStatus.Evaluated ? (
         <InfoTooltip
           color="secondary"
@@ -37,12 +38,14 @@ export const FeeCell: FC<FeeCellProps> = ({ operationItem }) => (
               ))}
             </Flex>
           }
-          width={300}
         >
           <Typography.Body size="small">
-            <ConvenientAssetView
+            {operationItem.fee.map((feeItem) =>
+              feeItem.value.toCurrencyString(2),
+            )}
+            {/*  <ConvenientAssetView
               value={operationItem.fee.map((feeItem) => feeItem.value)}
-            />
+            /> */}
           </Typography.Body>
         </InfoTooltip>
       ) : (

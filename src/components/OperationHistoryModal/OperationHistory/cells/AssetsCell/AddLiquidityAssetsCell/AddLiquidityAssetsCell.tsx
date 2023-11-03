@@ -11,7 +11,7 @@ export interface AddLiquidityAssetsCellProps {
 export const AddLiquidityAssetsCell: FC<AddLiquidityAssetsCellProps> = ({
   addLiquidityItem,
 }) => (
-  <Flex col width={200}>
+  <Flex col width={215}>
     <Flex.Item marginBottom={0.5}>
       <SingleAssetBox currency={addLiquidityItem.x} />
     </Flex.Item>

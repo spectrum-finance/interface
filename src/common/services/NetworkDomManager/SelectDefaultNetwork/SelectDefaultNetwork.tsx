@@ -6,6 +6,7 @@ import { BehaviorSubject, filter, first, tap } from 'rxjs';
 import { visibleNetworks } from '../../../../gateway/common/network';
 import { Network } from '../../../../network/common/Network';
 import { useObservable } from '../../../hooks/useObservable';
+import styles from './SelectDefaultNetwork.module.less';
 import { SelectDefaultNetworkItem } from './SelectDefaultNetworkItem/SelectDefaultNetworkItem';
 
 export const isSelectDefaultNetworkVisible$ = new BehaviorSubject<boolean>(
@@ -55,7 +56,11 @@ export const SelectDefaultNetwork: FC<SelectDefaultNetworkProps> = ({
           <Typography.Title level={2}>
             <Trans>Select Network</Trans>
           </Typography.Title>
-          <Flex.Item marginTop={valBySize(5, 10)} display="flex" width="100%">
+          <Flex.Item
+            marginTop={valBySize(5, 10)}
+            display="flex"
+            className={styles.selectDefaultNetwork}
+          >
             {visibleNetworks.map((network, index) => (
               <Flex.Item
                 marginRight={

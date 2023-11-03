@@ -10,7 +10,7 @@ export interface SwapAssetsCellProps {
 }
 
 export const SwapAssetsCell: FC<SwapAssetsCellProps> = ({ swapItem }) => (
-  <Flex col width={200}>
+  <Flex col width={215}>
     <Flex.Item marginBottom={0.5}>
       <SingleAssetBox currency={swapItem.base} />
     </Flex.Item>

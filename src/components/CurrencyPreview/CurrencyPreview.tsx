@@ -14,7 +14,7 @@ const StyledButton = styled(Button)`
 `;
 
 export const CurrencyPreview: FC<CurrencyPreviewProps> = ({ value }) => (
-  <BoxStyled padding={4} secondary borderRadius="l">
+  <BoxStyled padding={4} secondary borderRadius="l" width="100%">
     <Flex col>
       <Flex.Item align="center" display="flex">
         <Flex.Item flex={1}>

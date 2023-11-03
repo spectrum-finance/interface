@@ -6,6 +6,7 @@ import {
   OperationItem,
   OperationType,
 } from '../../../../../common/models/OperationV2';
+import styles from './TypeCell.module.less';
 
 export interface TypeCellProps {
   readonly operationItem: OperationItem;
@@ -24,9 +25,14 @@ export const TypeCell: FC<TypeCellProps> = ({ operationItem }) => {
   };
 
   return (
-    <Flex justify="flex-start">
-      <Box inline padding={[0, 2]} borderRadius="s">
-        <Typography.Body size="small">
+    <Flex
+      justify="center"
+      align="center"
+      width={100}
+      className={styles.typeCell}
+    >
+      <Box inline padding={[1, 2]} borderRadius="s" width="100%">
+        <Typography.Body size="small" align="center">
           {mapOperationItemTypeToCaption[operationItem.type]}
         </Typography.Body>
       </Box>

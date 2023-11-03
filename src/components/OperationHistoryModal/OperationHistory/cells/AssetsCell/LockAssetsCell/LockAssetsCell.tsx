@@ -9,7 +9,7 @@ export interface LockAssetsCellProps {
 }
 
 export const LockAssetsCell: FC<LockAssetsCellProps> = ({ lockItem }) => (
-  <Flex col width={200}>
+  <Flex col width={215}>
     <PairAssetBox pair={lockItem.pool.shares(lockItem.lp)} />
   </Flex>
 );

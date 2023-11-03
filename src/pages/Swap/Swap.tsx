@@ -76,6 +76,7 @@ import { useGuardV2 } from '../../hooks/useGuard.ts';
 import { mapToSwapAnalyticsProps } from '../../utils/analytics/mapper';
 import { isPreLbspTimeGap } from '../../utils/lbsp.ts';
 import { PriceImpactWarning } from './PriceImpactWarning/PriceImpactWarning';
+import styles from './Swap.module.less';
 import { SwapFormModel } from './SwapFormModel';
 import { SwapGraph } from './SwapGraph/SwapGraph';
 import { SwitchButton } from './SwitchButton/SwitchButton';
@@ -570,7 +571,11 @@ export const Swap = (): JSX.Element => {
             {({ value }) => (
               <>
                 {value.fromAmount && value.toAmount && (
-                  <Flex.Item marginTop={2}>
+                  <Flex.Item
+                    marginTop={2}
+                    width="100%"
+                    className={styles.showResult}
+                  >
                     {SwapCollapse && <SwapCollapse value={value} />}
                   </Flex.Item>
                 )}

@@ -1,5 +1,3 @@
-import './BaseSwapConfirmationModal.less';
-
 import { Button, Flex, Form, Modal, useForm } from '@ergolabs/ui-kit';
 import { CANCEL_REQUEST } from '@ergolabs/ui-kit/dist/components/Modal/presets/Request';
 import { Trans } from '@lingui/macro';
