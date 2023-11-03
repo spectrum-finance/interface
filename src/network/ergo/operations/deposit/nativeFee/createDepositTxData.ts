@@ -24,7 +24,6 @@ interface DepositOperationCandidateParams {
   readonly utxos: ErgoBox[];
   readonly minerFee: Currency;
   readonly minExFee: Currency;
-  // TODO: refactor in SDK || or here in frontend repo (operations: swap, redeem, deposit)
   readonly networkContext:
     | NetworkContext
     | {

@@ -4,6 +4,7 @@ import { Currency } from '../../../../../common/models/Currency';
 import { AssetTitle } from '../../../../AssetTitle/AssetTitle';
 import { SensitiveContent } from '../../../../SensitiveContent/SensitiveContent.tsx';
 import { AssetBox } from '../AssetBox/AssetBox';
+import styles from './SigleAssetBox.module.less';
 
 export interface SingleAssetBoxProps {
   readonly currency: Currency;
@@ -19,5 +20,6 @@ export const SingleAssetBox: FC<SingleAssetBoxProps> = ({ currency, icon }) => (
         {currency.toString(Math.max(currency.asset.decimals || 0, 2), 2)}
       </SensitiveContent>
     }
+    className={styles.singleAssetBox}
   />
 );

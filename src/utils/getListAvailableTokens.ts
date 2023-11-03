@@ -7,8 +7,6 @@ export type Asset = {
   decimals?: number;
 };
 
-// export const isAsset = (value: any): value is Asset => !!value?.tokenId;
-
 export type AssetDictionary = Record<TokenId, Asset>;
 
 export const getListAvailableTokens = (boxes: ErgoBox[]): AssetDictionary => {

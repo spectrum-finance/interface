@@ -128,7 +128,13 @@ export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
   };
 
   return (
-    <Box padding={valBySize(3, 4)} secondary borderRadius="l" glass>
+    <Box
+      padding={valBySize(3, 4)}
+      secondary
+      borderRadius="l"
+      glass
+      width="100%"
+    >
       <Flex col>
         <Flex.Item align="center">
           <Flex.Item marginRight={2} flex={1}>

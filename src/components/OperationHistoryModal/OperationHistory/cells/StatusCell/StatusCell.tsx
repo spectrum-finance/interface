@@ -12,6 +12,7 @@ import {
   OperationItem,
   OperationStatus,
 } from '../../../../../common/models/OperationV2';
+import styles from './StatusCell.module.less';
 
 interface StatusCellProps {
   readonly operationItem: OperationItem;
@@ -61,5 +62,9 @@ export const StatusCell: FC<StatusCellProps> = ({ operationItem }) => {
     statusCell = <QueuedStatusCell />;
   }
 
-  return <Flex justify="flex-start">{statusCell}</Flex>;
+  return (
+    <Flex justify="center" width={95} className={styles.statusCell}>
+      {statusCell}
+    </Flex>
+  );
 };

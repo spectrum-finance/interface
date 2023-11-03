@@ -24,7 +24,7 @@ const _NetworkItemHeader: FC<NetworkItemHeaderProps> = ({
       justify="center"
       className={className}
       style={{
-        height: valBySize(120, 160),
+        height: valBySize(160),
       }}
     >
       <div />
@@ -79,9 +79,13 @@ const NetworkItemContent: FC<NetworkItemContentProps> = ({ network }) => {
   const { valBySize } = useDevice();
 
   return (
-    <Box padding={[valBySize(5, 10), 0]} bordered={false} transparent>
+    <Box
+      padding={[valBySize(10), 0]}
+      bordered={false}
+      className="box-item-content"
+    >
       <Flex justify="center">
-        <Typography.Title level={4}>{network.label}</Typography.Title>
+        <Typography.Title level={5}>{network.label}</Typography.Title>
       </Flex>
     </Box>
   );
@@ -99,9 +103,8 @@ const _SelectDefaultNetworkItem: FC<SelectDefaultNetworkItemProps> = ({
 
   return (
     <Box
-      borderRadius="l"
       bordered
-      width="100%"
+      width={200}
       padding={0}
       onMouseLeave={() => setHovered(false)}
       onMouseEnter={() => setHovered(true)}

@@ -254,16 +254,6 @@ const SuccessModalContent = (txId: TxId) => (
 const SuccessErgopayContent = () => (
   <Flex col align="center">
     Test
-    {/*<Flex.Item marginBottom={1}>*/}
-    {/*  <Typography.Title level={4}>*/}
-    {/*    <Trans>Transaction submitted</Trans>*/}
-    {/*  </Typography.Title>*/}
-    {/*</Flex.Item>*/}
-    {/*<Flex.Item marginBottom={1}>*/}
-    {/*  <Typography.Link onClick={() => exploreTx(txId)}>*/}
-    {/*    <Trans>View on Explorer Ergopay</Trans>*/}
-    {/*  </Typography.Link>*/}
-    {/*</Flex.Item>*/}
   </Flex>
 );
 

@@ -12,7 +12,6 @@ import { WalletState } from '../../../common/Wallet';
 import { ErgoWalletContract } from './common/ErgoWalletContract';
 import { selectedWallet$, walletState$ } from './wallet';
 
-// TODO: RENAME
 export const connectedWalletChange$: Observable<
   ErgoWalletContract | undefined
 > = selectedWallet$.pipe(

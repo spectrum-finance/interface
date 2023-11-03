@@ -55,15 +55,12 @@ const LockLiquidityConfirmationModal: React.FC<LockLiquidityConfirmationModalPro
     const [utxos] = useObservable(utxos$);
     const { minerFee, address, pk } = useSettings() as ErgoSettings;
 
-    // const uiFeeNErg = parseUserInputToFractions(UI_FEE, ERG_DECIMALS);
-    // const exFeeNErg = minExFee.amount;
     const minerFeeNErgs = parseUserInputToFractions(minerFee, ERG_DECIMALS);
 
     const lpToLock = pool['pool'].lp.withAmount(lpAsset.amount);
 
     const handleCheck = () => setIsChecked((prev) => !prev);
 
-    // TODO: add try catch
     const lockOperation = async () => {
       const parser = mkLockParser();
 

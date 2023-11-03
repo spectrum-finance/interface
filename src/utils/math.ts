@@ -36,7 +36,6 @@ export function parseUserInputToFractions(
     math.evaluate!(`${safeInput} * 10^${numDecimals || 0}`),
     formatOptions,
   );
-  // TODO: CHECK_FUNCTION_LAST_CHANGE[]
   return BigInt(input);
 }
 

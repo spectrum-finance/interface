@@ -55,7 +55,6 @@ const RelockLiquidityConfirmationModal: FC<RelockLiquidityConfirmationModalProps
     const minerFeeNErgs = parseUserInputToFractions(minerFee, ERG_DECIMALS);
 
     const handleCheck = () => setIsChecked((prev) => !prev);
-    // TODO: add try catch
     const relockOperation = async () => {
       const lpAssetAmount = new AssetAmount(
         lockedPosition.lp.asset,

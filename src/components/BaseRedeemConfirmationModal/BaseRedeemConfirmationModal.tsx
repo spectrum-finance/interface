@@ -69,7 +69,7 @@ export const BaseRedeemConfirmationModal: FC<BaseRedeemConfirmationModalProps> =
         <Modal.Title>
           <Trans>Confirm Remove Liquidity</Trans>
         </Modal.Title>
-        <Modal.Content width={436}>
+        <Modal.Content width="100%" maxWidth={436}>
           <Box transparent bordered={false}>
             <Flex direction="col">
               <Flex.Item marginBottom={6}>

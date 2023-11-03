@@ -1,3 +1,2 @@
 export const HEADER_HEIGHT = 40;
-// TODO: EXTRACT BORDER_HEIGHT
 export const BORDER_HEIGHT = 2;

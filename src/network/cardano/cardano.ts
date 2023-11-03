@@ -111,7 +111,6 @@ const makeCardanoNetwork = (
     networkContext$,
     defaultAssets$: defaultTokenAssets$,
     assetsToImport$: tokenAssetsToImport$,
-    // TODO: Implement assets fns
     getDefaultAssetsFor,
     getImportedAssetsFor: () => of([]),
     getAssetsToImportFor: () => of([]),

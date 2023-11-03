@@ -34,9 +34,17 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
   const overlay = (
     <Menu
       className="network-dropdown__menu"
-      style={{ padding: '8px', minWidth: '170px', border: 'none' }}
+      style={{
+        padding: '8px',
+        minWidth: '210px',
+        border: '1px solid var(--teddy-secondary-color)',
+      }}
     >
-      <Typography.Body className="network-dropdown__menu-title" strong>
+      <Typography.Body
+        className="network-dropdown__menu-title"
+        strong
+        style={{ padding: '4px 8px' }}
+      >
         <Trans>Select Network</Trans>
       </Typography.Body>
       {visibleNetworks.map((network) => (
@@ -49,6 +57,7 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
             user.set('network_active', network.name);
             changeSelectedNetwork(network);
           }}
+          style={{ padding: '4px 8px' }}
         >
           <Flex
             className={
@@ -74,17 +83,12 @@ export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
       trigger={['click']}
       disabled={disabled}
     >
-      <Button
-        className="network-dropdown-selected"
-        size="large"
-        style={{ border: 'none' }}
-      >
+      <Button className="network-dropdown-selected" size="large">
         <Flex justify="center" direction="row" align="center">
           <AssetIcon asset={selectedNetwork.networkAsset} />
           <DownOutlined
             style={{
               marginLeft: 'calc(var(--spectrum-base-gutter) * 2)',
-              color: 'var(--spectrum-text-white)',
             }}
           />
         </Flex>

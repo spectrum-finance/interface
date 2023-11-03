@@ -23,8 +23,6 @@ const renderHistoryButtonState = (pendingOpsCount: number): string => {
 export const OperationsHistory: FC = () => {
   const [pendingOperationsCount] = useObservable(pendingOperationsCount$);
   const [walletState] = useObservable(selectedWalletState$);
-  // TODO: move to new history once backend is ready
-  // const [operations] = useObservable(getOperations(), [walletState]);
 
   const isWalletConnected = walletState === WalletState.CONNECTED;
   const [hasOperationsToRefund] = useObservable<boolean>(

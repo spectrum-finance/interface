@@ -9,7 +9,6 @@ import { device } from '../../../../common/constants/size';
 import { isPreLbspTimeGap } from '../../../../utils/lbsp';
 import { IsCardano } from '../../../IsCardano/IsCardano';
 import { IsErgo } from '../../../IsErgo/IsErgo';
-/* import { AppLogo } from '../../AppLogo/AppLogo'; */
 import { DeprecatedPosition } from '../DeprecatedPositions/DeprecatedPosition';
 import { OperationsHistory } from '../OperationsHistory/OperationsHistory';
 import { Analytics } from './Analytics/Analytics';
@@ -59,7 +58,6 @@ export const _Header: React.FC<HeaderProps> = ({ className, scrolledTop }) => {
       </IsCardano>
       <HeaderWrapper>
         <Flex align="center" style={{ gap: '8px' }}>
-          {/* <AppLogo isNoWording /> */}
           <Link to="/">
             <Flex.Item align="center">
               {moreThan('m') ? (

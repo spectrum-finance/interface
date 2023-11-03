@@ -25,7 +25,6 @@ export const ThemeSwitch: FC = () => {
         ...settings,
         theme: key,
       });
-      // fireAnalyticsEvent('Select Theme', { theme: key });
       user.set('theme_active', key);
     },
     [settings, setSettings],

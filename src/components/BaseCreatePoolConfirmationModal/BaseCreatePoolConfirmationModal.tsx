@@ -39,32 +39,14 @@ export const BaseCreatePoolConfirmationModal: FC<BaseCreatePoolConfirmationModal
       const { y, x, fee } = value;
 
       if (x && y) {
-        // fireOperationAnalyticsEvent('Deposit Modal Confirm', (ctx) =>
-        //   mapToDepositAnalyticsProps(value, ctx),
-        // );
         onClose(
           createPool(fee, x, y).pipe(
             tap(
-              () => {
-                // fireOperationAnalyticsEvent('Deposit Signed Success', (ctx) =>
-                //   mapToDepositAnalyticsProps(value, ctx),
-                // );
-              },
+              () => {},
               (err) => {
                 if (err === CANCEL_REQUEST) {
-                  // fireOperationAnalyticsEvent('Deposit Cancel Sign', (ctx) =>
-                  //   mapToDepositAnalyticsProps(value, ctx),
-                  // );
                   return;
                 }
-
-                // fireOperationAnalyticsEvent(
-                //   'Deposit Modal Confirm Error',
-                //   (ctx) => ({
-                //     ...mapToDepositAnalyticsProps(value, ctx),
-                //     error_string: JSON.stringify(err),
-                //   }),
-                // );
               },
             ),
           ),

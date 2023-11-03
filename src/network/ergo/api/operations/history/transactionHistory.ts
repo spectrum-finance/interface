@@ -12,7 +12,6 @@ import {
   takeUntil,
 } from 'rxjs';
 
-// import TxHistoryWorker from 'worker-loader!./transactionHistory.worker';
 import { Operation } from '../../../../../common/models/Operation';
 import { tabClosing$ } from '../../../../../common/streams/tabClosing';
 import { Dictionary } from '../../../../../common/utils/Dictionary';
@@ -36,25 +35,9 @@ const TX_HISTORY_CACHE_KEY = 'tx-transactionHistory-cache';
 
 const TX_HISTORY_SYNCING_KEY = 'tx-transactionHistory-syncing';
 
-// const txHistoryWorker = new TxHistoryWorker();
-
 const addresses$ = getAddresses().pipe(first(), publishReplay(1), refCount());
 
 let isWorkerActive = false;
-
-// txHistoryWorker.addEventListener(
-//   'message',
-//   ({ data }: MessageEvent<WorkerSyncEndMessage | WorkerBatchMessage>) => {
-//     switch (data.message) {
-//       case 'syncEnd':
-//         handleSyncEndMessage();
-//         break;
-//       case 'batch':
-//         handleBatchMessage(data.payload);
-//         break;
-//     }
-//   },
-// );
 
 export const sync = (): void => {
   localStorageManager.set(TX_HISTORY_SYNCING_KEY, true);
@@ -68,7 +51,6 @@ tabClosing$.subscribe(() => removeFromTabQueue());
 syncProcessTabs$.pipe(takeUntil(tabClosing$)).subscribe(() => {
   const isSyncing = localStorageManager.get(TX_HISTORY_SYNCING_KEY);
   const txHistory = localStorageManager.get(TX_HISTORY_CACHE_KEY);
-  // TODO: FIX STREAM EVENT PRIORITY
   const tabs = getSyncProcessTabs();
 
   if (

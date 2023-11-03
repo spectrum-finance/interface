@@ -25,7 +25,6 @@ interface RedeemOperationCandidateParams {
   readonly lp: Currency;
   readonly settings: ErgoSettings;
   readonly utxos: ErgoBox[];
-  // TODO: refactor in SDK || or here in frontend repo (operations: swap, redeem, deposit)
   readonly networkContext:
     | NetworkContext
     | {

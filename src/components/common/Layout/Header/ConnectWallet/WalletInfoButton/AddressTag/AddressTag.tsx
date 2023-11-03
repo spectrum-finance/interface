@@ -43,6 +43,7 @@ export const AddressTag = styled(_AddressOrPendingTag)`
   height: 2rem;
   padding-left: 8px !important;
   padding-right: 8px !important;
+  background-color: var(--teddy-primary-color) !important;
 
   &:hover {
     border: none;

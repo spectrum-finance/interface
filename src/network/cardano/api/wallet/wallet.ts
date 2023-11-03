@@ -32,7 +32,6 @@ import { Nufi } from './nufi/nufi.tsx';
 import { Typhon } from './typhon/typhon.tsx';
 import { Vespr } from './vespr/vespr';
 import { WalletConnect } from './walletConnect/walletConnect.tsx';
-// import { Yoroi } from './yoroi/yoroi.tsx';
 
 const localStorageCacheStrategy = new LocalStorageCacheStrategy(
   cardanoNetworkData.walletKey,
@@ -54,7 +53,6 @@ const walletManager = createWalletManager({
     Nufi,
     Gero,
     Typhon,
-    // Yoroi,
     Exodus,
     Vespr,
   ],

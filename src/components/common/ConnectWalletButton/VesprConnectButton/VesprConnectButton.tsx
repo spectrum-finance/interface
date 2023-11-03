@@ -68,7 +68,6 @@ export const VesprConnectButton: FC<VesprConnectButtonProps> = ({
   const vesprCompat = !!window.cardano?.nami?.experimental?.vespr_compat;
 
   useEffect(() => {
-    // TODO: REWRITE
     if (
       selectedNetwork.name !== 'ergo' &&
       vesprCompat &&

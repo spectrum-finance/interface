@@ -58,7 +58,6 @@ export interface AddLiquidityFormProps {
   readonly traceFormLocation: TraceProps['element_location'];
   readonly children?: ReactNode[] | ReactNode | string;
   readonly onSubmitSuccess?: () => void;
-  // TODO: REWRITE MODAL CHAIN SYSTEM
   readonly withoutConfirmation?: boolean;
 }
 

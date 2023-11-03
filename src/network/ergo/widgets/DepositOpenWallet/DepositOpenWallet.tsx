@@ -4,7 +4,6 @@ import { FC, useState } from 'react';
 import { isMobile } from 'react-device-detect';
 import { first } from 'rxjs';
 
-// import { panalytics } from '../../../../common/analytics';
 import { TxId } from '../../../../common/types';
 import { AddLiquidityFormModel } from '../../../../components/AddLiquidityForm/AddLiquidityFormModel';
 import { FormPairSection } from '../../../../components/common/FormView/FormPairSection/FormPairSection';

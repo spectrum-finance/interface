@@ -22,7 +22,6 @@ interface CreatePoolOperationCandidateParams {
   readonly settings: ErgoSettings;
   readonly utxos: ErgoBox[];
   readonly minerFee: Currency;
-  // TODO: refactor in SDK || or here in frontend repo (operations: swap, redeem, deposit)
   readonly networkContext:
     | NetworkContext
     | {

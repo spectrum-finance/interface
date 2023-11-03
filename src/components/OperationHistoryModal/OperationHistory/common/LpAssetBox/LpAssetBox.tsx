@@ -6,6 +6,7 @@ import { AssetIcon } from '../../../../AssetIcon/AssetIcon';
 import { AssetPairTitle } from '../../../../AssetPairTitle/AssetPairTitle';
 import { InfoTooltip } from '../../../../InfoTooltip/InfoTooltip';
 import { AssetBox } from '../AssetBox/AssetBox';
+import styles from './LpAssetBox.module.less';
 
 export interface LpAssetBoxProps {
   readonly lpCurrency: Currency;
@@ -51,5 +52,6 @@ export const LpAssetBox: FC<LpAssetBoxProps> = ({
         {lpCurrency.toString(Math.max(lpCurrency.asset.decimals || 0, 2), 2)}
       </InfoTooltip>
     }
+    className={styles.LpAssetBox}
   />
 );

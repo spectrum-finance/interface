@@ -12,7 +12,7 @@ export const RemoveLiquidityAssetsCell: FC<RemoveLiquidityAssetsCellProps> = ({
   removeLiquidityItem,
 }) => {
   return (
-    <Flex col width={200}>
+    <Flex col width={215}>
       <LpAssetBox
         lpCurrency={removeLiquidityItem.lp}
         xCurrency={removeLiquidityItem.x}

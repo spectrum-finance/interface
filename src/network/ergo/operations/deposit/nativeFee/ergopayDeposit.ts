@@ -25,13 +25,6 @@ export const ergopayDeposit = (
     ),
     switchMap(({ txRequest, additionalData }) =>
       submitErgopayTx(txRequest, {
-        // analyticData: panalytics.buildErgopaySignedDepositEvent({
-        //   x,
-        //   xAsset: x.asset,
-        //   y,
-        //   yAsset: y.asset,
-        //   pool,
-        // }),
         p2pkaddress: additionalData.p2pkaddress,
         message: ergoPayMessageManager.deposit({
           pool: additionalData.pool,

@@ -47,7 +47,7 @@ export const LbspTimer = () => {
           ['days', 'hours', 'minutes', 'seconds', 'milliseconds'],
         ),
       );
-    }, 1000); // Update every second
+    }, 1000);
 
     return () => clearInterval(interval);
   }, []);

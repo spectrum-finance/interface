@@ -22,7 +22,6 @@ const isConnectorContext = (
   return !!(contextOrError as ConnectorContextApi).signTx;
 };
 
-// Todo: Extract to sdk
 export interface Submitter {
   readonly submit: (tx: RawTx) => Promise<HexString>;
 }

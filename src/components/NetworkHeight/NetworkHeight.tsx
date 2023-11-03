@@ -5,7 +5,7 @@ import { t } from '@lingui/macro';
 // @ts-ignore
 import FlipNumbers from 'react-flip-numbers';
 
-import { ReactComponent as BlockIcon } from '../../assets/icons/block-icon.svg';
+import { ReactComponent as BlockIcon } from '../../assets/icons/blockchain.svg';
 import { useObservable } from '../../common/hooks/useObservable';
 import { networkContext$ } from '../../gateway/api/networkContext';
 import { useSelectedNetwork } from '../../gateway/common/network';

@@ -11,7 +11,7 @@ export interface LmDepositAssetsCellProps {
 export const LmRedeemAssetsCell: FC<LmDepositAssetsCellProps> = ({
   lmRedeemItem,
 }) => (
-  <Flex col width={200}>
+  <Flex col width={215}>
     <PairAssetBox pair={lmRedeemItem.pool.shares(lmRedeemItem.lq)} />
   </Flex>
 );

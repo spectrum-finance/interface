@@ -11,7 +11,7 @@ interface AssetBoxProps {
   readonly className?: string;
 }
 const _AssetBox: FC<AssetBoxProps> = ({ title, value, className, icon }) => (
-  <Box padding={[1, 2]} className={className} borderRadius="m" width={200}>
+  <Box padding={[1, 2]} className={className} borderRadius="m">
     <Flex align="center">
       {icon && (
         <Flex.Item marginRight={1}>

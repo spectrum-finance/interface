@@ -10,7 +10,7 @@ export const OperationHistoryModal: FC<ModalRef> = ({ close }) => {
       <Modal.Title>
         <Trans>Orders</Trans>
       </Modal.Title>
-      <Modal.Content width={1024}>
+      <Modal.Content width={850}>
         {<OperationHistoryV2 close={close} />}
       </Modal.Content>
     </>

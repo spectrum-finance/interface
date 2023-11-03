@@ -66,7 +66,7 @@ export const BaseSwapConfirmationModal: FC<
       <Modal.Title>
         <Trans>Confirm swap</Trans>
       </Modal.Title>
-      <Modal.Content width={496}>
+      <Modal.Content width="100%" maxWidth={496}>
         <Form form={form} onSubmit={swapOperation}>
           <Flex direction="col">
             <Flex.Item marginBottom={1}>

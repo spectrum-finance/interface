@@ -6,9 +6,11 @@
 @import './themes/hosky.less';
 @import './themes/system';
 @import './variables/gradients.less';
+@import './fonts/typography.less';
 
 :root {
   --w3m-z-index: 1001 !important;
+  --font-family: 'Montserrat';
 }
 
 html {
@@ -36,6 +38,7 @@ body {
 * {
   box-sizing: border-box !important;
   touch-action: pan-y;
+  font-family: var(--font-family) !important;
 }
 
 *::before,
@@ -54,8 +57,7 @@ body {
 }
 
 *::-webkit-scrollbar-thumb {
-  border: 1px solid var(--spectrum-scroll-border);
-  background-color: var(--spectrum-scroll-bg);
+  background-color: #acacac;
   border-radius: var(--spectrum-border-radius-l);
   cursor: pointer;
 }
@@ -103,8 +105,55 @@ body {
   --network-dropdown-border-color: #3f6ad6;
 }
 
+.ant-typography.ant-typography-secondary {
+  color: var(--teddy-color-disable);
+}
+
 .ant-btn.ant-btn-lg:hover{
-  color: var(--spectrum-primary-text);
+  background-color: var(--teddy-primary-color-hover);
+}
+
+.ant-input-suffix {
+  color: var(--spectrum-primary-text) !important;
+}
+
+.ant-tabs-tab.ant-tabs-tab-active {
+  background: var(--teddy-secondary-color) !important;
+}
+
+button {
+  border: none !important;
+}
+
+.ant-btn.ant-btn-text.ant-btn-lg {
+  background-color: var(--teddy-default-color) !important;
+  &:hover {
+    background-color: var(--teddy-primary-color-hover) !important;
+  }
+}
+
+.ant-btn.ant-btn-text.ant-btn-lg:hover {
+  background-color: var(--teddy-primary-color-hover) !important;
+}
+
+.ant-btn.ant-btn-primary {
+  background-color: var(--teddy-default-color) !important;
+ &:hover {
+  background-color: var(--teddy-primary-color-hover) !important;
+  color: var(--spectrum-primary-text) !important;
+ }
+}
+
+.ant-dropdown-open {
+  background-color: var(--teddy-secondary-color) !important;
+}
+
+.ant-modal-content {
+  border: none !important;
+}
+
+.cupertino-pane-wrapper .pane {
+  max-width: none;
 }
 
 @keyframes shift {

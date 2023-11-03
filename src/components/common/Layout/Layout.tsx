@@ -15,11 +15,9 @@ import { applicationConfig } from '../../../applicationConfig';
 import { device } from '../../../common/constants/size';
 import { useSubscription } from '../../../common/hooks/useObservable';
 import { useSelectedNetwork } from '../../../gateway/common/network';
-import { openCookiePolicy } from '../../../services/notifications/CookiePolicy/CookiePolicy';
 import { IsCardano } from '../../IsCardano/IsCardano';
 import { LbspBanner } from '../../LbspBanner/LbspBanner';
 import { NetworkHeight } from '../../NetworkHeight/NetworkHeight';
-import { SocialLinks } from '../../SocialLinks/SocialLinks';
 import { CardanoUpdate } from './CardanoUpdate/CardanoUpdate';
 import { FooterNavigation } from './FooterNavigation/FooterNavigation';
 import { Header } from './Header/Header';
@@ -59,10 +57,6 @@ const _Layout: FC<PropsWithChildren<{ className?: string }>> = ({
   const [scrolledTop, setScrolledTop] = useState(true);
   const location = useLocation();
 
-  useEffect(() => {
-    openCookiePolicy();
-  }, []);
-
   useSubscription(needUpdate$, () => {
     Modal.open(<NeedUpdateModal />, { closable: false });
   });
@@ -97,7 +91,6 @@ const _Layout: FC<PropsWithChildren<{ className?: string }>> = ({
             {children}
           </MainContainer>
           <footer>
-            <SocialLinks />
             <NetworkHeight />
           </footer>
           <FooterNavigation ref={footerRef} />

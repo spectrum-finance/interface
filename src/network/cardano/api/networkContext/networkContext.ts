@@ -21,7 +21,6 @@ export const networkContext$: Observable<{
     lastBlockId: Number(ctx.blockNo),
     blockHash: (ctx as any).blockHash,
   })),
-  // distinctUntilKeyChanged('height'),
   publishReplay(1),
   refCount(),
 );

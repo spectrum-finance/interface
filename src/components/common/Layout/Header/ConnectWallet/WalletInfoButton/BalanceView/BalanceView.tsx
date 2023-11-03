@@ -13,7 +13,7 @@ export interface BalanceViewProps {
 const _BalanceView: FC<BalanceViewProps> = ({ className, balance }) => (
   <SensitiveContent>
     <Typography.Body className={className}>
-      {balance.toCurrencyString()}
+      {balance.toCurrencyString(2, 2)}
     </Typography.Body>
   </SensitiveContent>
 );

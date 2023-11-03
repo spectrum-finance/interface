@@ -4,7 +4,6 @@ import {
   Form,
   FormGroup,
   LineChartOutlined,
-  SwapOutlined,
   Typography,
   useForm,
 } from '@ergolabs/ui-kit';
@@ -34,6 +33,7 @@ import {
   zip,
 } from 'rxjs';
 
+import switchArrow from '../../assets/icons/arrows.png';
 import {
   useObservable,
   useSubscription,
@@ -76,6 +76,7 @@ import { useGuardV2 } from '../../hooks/useGuard.ts';
 import { mapToSwapAnalyticsProps } from '../../utils/analytics/mapper';
 import { isPreLbspTimeGap } from '../../utils/lbsp.ts';
 import { PriceImpactWarning } from './PriceImpactWarning/PriceImpactWarning';
+import styles from './Swap.module.less';
 import { SwapFormModel } from './SwapFormModel';
 import { SwapGraph } from './SwapGraph/SwapGraph';
 import { SwitchButton } from './SwitchButton/SwitchButton';
@@ -438,6 +439,8 @@ export const Swap = (): JSX.Element => {
     [lastEditedField],
   );
 
+  const [isSwitch, setIsSwitch] = useState<boolean>(false);
+
   const switchAssets = () => {
     form.patchValue(
       {
@@ -450,6 +453,7 @@ export const Swap = (): JSX.Element => {
     );
     setLastEditedField((prev) => (prev === 'from' ? 'to' : 'from'));
     fireAnalyticsEvent('Swap Click Switch');
+    setIsSwitch(!isSwitch);
   };
 
   const [pool] = useObservable(form.controls.pool.valueChangesWithSilent$);
@@ -512,6 +516,7 @@ export const Swap = (): JSX.Element => {
               size="large"
               icon={<LineChartOutlined />}
               onClick={() => setLeftWidgetOpened(!leftWidgetOpened)}
+              style={{ marginRight: '5px' }}
             />
             {OperationSettings && <OperationSettings />}
           </Flex>
@@ -534,8 +539,9 @@ export const Swap = (): JSX.Element => {
           </Flex.Item>
           <SwitchButton
             onClick={switchAssets}
-            icon={<SwapOutlined />}
+            icon={<img src={switchArrow} alt="logoArrow" />}
             size="middle"
+            isSwitch={isSwitch}
           />
           <Flex.Item>
             <Form.Listener>
@@ -565,7 +571,11 @@ export const Swap = (): JSX.Element => {
             {({ value }) => (
               <>
                 {value.fromAmount && value.toAmount && (
-                  <Flex.Item marginTop={2}>
+                  <Flex.Item
+                    marginTop={2}
+                    width="100%"
+                    className={styles.showResult}
+                  >
                     {SwapCollapse && <SwapCollapse value={value} />}
                   </Flex.Item>
                 )}

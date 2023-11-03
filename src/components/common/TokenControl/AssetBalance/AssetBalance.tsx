@@ -35,7 +35,7 @@ const _AssetBalance: FC<AssetBalanceProps> = ({
           className={className}
           secondary={balance.toString() === '0'}
         >
-          {balance.toString()}
+          {balance.toString(2)}
         </Typography.Body>
       </SensitiveContent>
     </Flex>

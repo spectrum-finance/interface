@@ -26,7 +26,7 @@ export const LiquidityMobileLayout: FC<LiquidityLayoutProps> = ({
   showLockedPositions,
   positionsWithLocks,
 }) => (
-  <Flex col>
+  <Flex col style={{ padding: '10px' }}>
     <Flex.Item marginBottom={2} width="100%">
       <LiquidityStateSelect
         showLockedPositions={showLockedPositions}

@@ -8,7 +8,6 @@ import {
 } from 'rxjs';
 
 import { applicationConfig } from '../../../../../applicationConfig';
-// import { panalytics } from '../../../../../common/analytics';
 import { Currency } from '../../../../../common/models/Currency';
 import { captureOperationError } from '../../../../../common/services/ErrorLogs';
 import { TxId } from '../../../../../common/types';
@@ -32,13 +31,6 @@ export const ergoPaySwap = (
     switchMap(({ txRequest, additionalData }) =>
       submitErgopayTx(txRequest, {
         p2pkaddress: additionalData.p2pkaddress,
-        // analyticData: panalytics.buildErgopaySignedSwapEvent({
-        //   fromAsset: from.asset,
-        //   fromAmount: from,
-        //   toAmount: to,
-        //   toAsset: to.asset,
-        //   pool: pool,
-        // }),
         message: ergoPayMessageManager.swap({
           from,
           to,
