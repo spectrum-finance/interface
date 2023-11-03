@@ -3,13 +3,11 @@ import { t, Trans } from '@lingui/macro';
 import sum from 'lodash/sum';
 import { FC, ReactNode } from 'react';
 
-import { useObservable } from '../../../../../../../../common/hooks/useObservable';
 import { AmmPool } from '../../../../../../../../common/models/AmmPool';
 import { AssetIcon } from '../../../../../../../../components/AssetIcon/AssetIcon.tsx';
 import { InfoTooltip } from '../../../../../../../../components/InfoTooltip/InfoTooltip';
 import { SpfLogo } from '../../../../../../../../components/SpfLogo/SpfLogo.tsx';
 import { isSpecialBoostedPool } from '../../../../../../../../utils/specialPools.ts';
-import { calculateLbspApr } from './calculateLbspApr';
 
 type AprElement = {
   name: string;
@@ -61,18 +59,6 @@ const AprTooltipContent: FC<LbspTooltipContentProps> = ({ aprs, totalApr }) => {
           </Flex.Item>
         );
       })}
-
-      <Flex.Item>
-        <Typography.Body
-          size="small"
-          style={{ color: 'var(--spectrum-hint-text)' }}
-        >
-          <Trans>
-            SPF APR is calculated according to the current price on the Ergo
-            market
-          </Trans>
-        </Typography.Body>
-      </Flex.Item>
     </Flex>
   );
 };
@@ -86,18 +72,12 @@ const CardanoLbspAmmPoolAprColumnContent: FC<CardanoAprColumnContent> = ({
   ammPool,
   isAllContentTrigger,
 }) => {
-  const [lbspApr] = useObservable(calculateLbspApr(ammPool), [], 0);
   const swapApr = ammPool.yearlyFeesPercent || 0;
 
   const aprs: Array<AprElement> = [
     {
       name: t`Trading Fees:`,
       val: swapApr,
-    },
-    {
-      name: t`LBSP APR:`,
-      val: lbspApr,
-      logo: <SpfLogo w={16} h={16} block />,
     },
   ];
 

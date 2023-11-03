@@ -12,7 +12,6 @@ import { IsErgo } from '../../../IsErgo/IsErgo';
 import { DeprecatedPosition } from '../DeprecatedPositions/DeprecatedPosition';
 import { OperationsHistory } from '../OperationsHistory/OperationsHistory';
 import { Analytics } from './Analytics/Analytics';
-import { BurgerMenu } from './BurgerMenu/BurgerMenu';
 import { ClaimSpfButton } from './ClaimSpfButton/ClaimSpfButton';
 import { ConnectWallet } from './ConnectWallet/ConnectWallet';
 import { Navigation } from './Navigation/Navigation';
@@ -88,7 +87,6 @@ export const _Header: React.FC<HeaderProps> = ({ className, scrolledTop }) => {
           <NetworkDropdown />
           <ConnectWallet />
           {!s && <OperationsHistory />}
-          <BurgerMenu />
         </Flex>
       </HeaderWrapper>
     </header>
