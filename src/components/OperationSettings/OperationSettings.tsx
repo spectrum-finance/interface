@@ -223,7 +223,7 @@ export const OperationSettings: FC<OperationSettingsProps> = ({
                   }
                 >
                   <Typography.Body strong>
-                    <Trans>Nitro</Trans>
+                    <Trans>Honey 🍯</Trans>
                   </Typography.Body>
                 </InfoTooltip>
               </Flex.Item>
