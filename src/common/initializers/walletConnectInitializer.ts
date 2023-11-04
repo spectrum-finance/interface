@@ -15,8 +15,8 @@ export const walletConnectInitializer = () => {
           new WalletConnectConnector({
             relayerRegion: `wss://relay.walletconnect.com`,
             metadata: {
-              name: 'Spectrum Finance',
-              description: 'Spectrum Finance Cardano AMM DEX',
+              name: 'TeddySwap',
+              description: 'TeddySwap Cardano AMM DEX',
               icons: ['https://avatars.githubusercontent.com/u/37784886'],
               url: 'http://localhost:3030',
             },

@@ -101,7 +101,7 @@ export const createWalletManager = (
       description: (
         <>
           Set network to &quot;{networkName}&quot; in your {wallet.id} wallet to
-          use Spectrum Finance interface
+          use TeddySwap interface
         </>
       ),
     });
