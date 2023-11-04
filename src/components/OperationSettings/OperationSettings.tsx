@@ -215,7 +215,7 @@ export const OperationSettings: FC<OperationSettingsProps> = ({
                       <br />
                       <Typography.Link
                         target="_blank"
-                        href="https://docs.spectrum.fi/docs/protocol-overview/fees#execution-fee-formula"
+                        href="https://docs.teddyswap.org/docs/Honey%20Fee/"
                       >
                         <Trans>Read more</Trans>
                       </Typography.Link>
