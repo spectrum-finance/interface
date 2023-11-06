@@ -259,6 +259,28 @@ const MIN_CREATE_POOL_LIQUIDITY = new Currency('500', networkAsset);
 
 export const useCreatePoolValidators =
   (): OperationValidator<CreatePoolFormModel>[] => {
+    const insufficientCollateral: OperationValidator<CreatePoolFormModel> =
+      () => {
+        return transactionBuilder$.pipe(
+          switchMap(
+            (transactionBuilder) =>
+              transactionBuilder['poolTxBuilder'][
+                'collateralSelector'
+              ].getCollateral(5000000n) as Promise<FullTxIn[] | Error>,
+          ),
+          map((collateralOrError) => {
+            console.log(collateralOrError);
+            if (collateralOrError instanceof Error) {
+              return t`Insufficient Collateral`;
+            }
+            if (!collateralOrError.length) {
+              return t`Insufficient Collateral`;
+            }
+            return undefined;
+          }),
+        );
+      };
+
     const minLiquidityValidator: OperationValidator<CreatePoolFormModel> = (
       form,
     ) => {
@@ -309,7 +331,11 @@ export const useCreatePoolValidators =
         );
       };
 
-    return [minLiquidityValidator, insufficientAssetForFeeValidator];
+    return [
+      minLiquidityValidator,
+      insufficientCollateral,
+      insufficientAssetForFeeValidator,
+    ];
   };
 
 export const useHandleCreatePoolMaxButtonClick = () => {
