@@ -93,7 +93,7 @@ export const applicationConfig: ApplicationConfig = {
       networkUrl: 'https://explorer.spectrum.fi/cardano/mainnet/v1/',
       explorerUrl: 'https://cardanoscan.io',
       lowBalanceGuide: '',
-      analyticUrl: 'https://analytics4.spectrum.fi/cardano/',
+      analyticUrl: 'https://analytics-balanced.spectrum.fi/cardano/',
       isCreatePoolAvailable: false,
     },
     ergo: {
