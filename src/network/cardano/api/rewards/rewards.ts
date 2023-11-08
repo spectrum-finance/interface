@@ -27,6 +27,7 @@ import { Currency } from '../../../../common/models/Currency.ts';
 import { Address } from '../../../../common/types';
 import { Dictionary } from '../../../../common/utils/Dictionary';
 import { getAddresses } from '../../../../gateway/api/addresses';
+import { math } from '../../../../utils/math.ts';
 
 export enum RewardSectionType {
   ISPO = 'SP0',
@@ -241,10 +242,14 @@ export const combineRequests = (
             rewards: acc.rewards.concat(filteredItems),
             upcoming: {
               sp0: item.upcoming.sp0
-                ? (acc.upcoming.sp0 || 0) + item.upcoming.sp0
+                ? math.evaluate!(
+                    `${acc.upcoming.sp0 || 0} + ${item.upcoming.sp0}`,
+                  ).toFixed()
                 : acc.upcoming.sp0,
               sp1: item.upcoming.sp1
-                ? (acc.upcoming.sp1 || 0) + item.upcoming.sp1
+                ? math.evaluate!(
+                    `${acc.upcoming.sp1 || 0} + ${item.upcoming.sp1}`,
+                  ).toFixed()
                 : acc.upcoming.sp1,
             },
           };
