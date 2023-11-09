@@ -24,12 +24,17 @@ import { getPositionByAmmPoolId } from '../../gateway/api/positions';
 import { operationsSettings$ } from '../../gateway/widgets/operationsSettings';
 import { useGuardV2 } from '../../hooks/useGuard';
 import { mapToRedeemAnalyticsProps } from '../../utils/analytics/mapper';
+import { isSubject, subjectToId } from '../../utils/subjectToId.ts';
 import { RemoveLiquidityFormModel } from './RemoveLiquidityFormModel';
 
 export const RemoveLiquidity: FC = () => {
   const { poolId } = useParamsStrict<{ poolId: PoolId }>();
+  const normalizedPoolId =
+    poolId && isSubject(poolId) ? subjectToId(poolId) : poolId;
   const navigate = useNavigate();
-  const [position, loading] = useObservable(getPositionByAmmPoolId(poolId));
+  const [position, loading] = useObservable(
+    getPositionByAmmPoolId(normalizedPoolId),
+  );
   const [OperationSettings] = useObservable(operationsSettings$);
   const form = useForm<RemoveLiquidityFormModel>({
     percent: 100,
@@ -46,6 +51,12 @@ export const RemoveLiquidity: FC = () => {
         { replace: true },
       ),
   );
+  useGuardV2(
+    () => isSubject(poolId),
+    () =>
+      navigate(`../../${subjectToId(poolId as any)}/remove`, { replace: true }),
+  );
+
   const [formValue] = useObservable(form.valueChangesWithSilent$);
 
   useSubscription(

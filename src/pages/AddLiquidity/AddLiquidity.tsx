@@ -11,10 +11,13 @@ import { AddLiquidityForm } from '../../components/AddLiquidityForm/AddLiquidity
 import { AddLiquidityFormModel } from '../../components/AddLiquidityForm/AddLiquidityFormModel';
 import { Page } from '../../components/Page/Page';
 import { useGuardV2 } from '../../hooks/useGuard';
+import { isSubject, subjectToId } from '../../utils/subjectToId.ts';
 import { PoolRatio } from '../PoolOverview/PoolRatio/PoolRatio';
 
 export const AddLiquidity: FC = () => {
   const { poolId } = useParams<{ poolId?: PoolId }>();
+  const normalizedPoolId =
+    poolId && isSubject(poolId) ? subjectToId(poolId) : poolId;
   const navigate = useNavigate();
   const form = useForm<AddLiquidityFormModel>({
     xAsset: undefined,
@@ -28,6 +31,11 @@ export const AddLiquidity: FC = () => {
     () => !!poolId && isDeprecatedPool(poolId),
     () => navigate('../..'),
   );
+  useGuardV2(
+    () => !!poolId && isSubject(poolId),
+    () =>
+      navigate(`../../${subjectToId(poolId as any)}/add`, { replace: true }),
+  );
 
   return (
     <Page
@@ -38,7 +46,7 @@ export const AddLiquidity: FC = () => {
       padding={4}
     >
       <AddLiquidityForm
-        initialPoolId={poolId}
+        initialPoolId={normalizedPoolId}
         form={form}
         traceFormLocation={ElementLocation.depositForm}
       >

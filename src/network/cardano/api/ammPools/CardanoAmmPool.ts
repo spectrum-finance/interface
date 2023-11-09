@@ -6,6 +6,7 @@ import {
   AssetClass,
 } from '@spectrumlabs/cardano-dex-sdk';
 import { mkSubject } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/entities/assetClass';
+import { RustModule } from '@spectrumlabs/cardano-dex-sdk/build/main/utils/rustLoader';
 
 import { AmmPool } from '../../../../common/models/AmmPool';
 import { AssetInfo } from '../../../../common/models/AssetInfo';
@@ -30,6 +31,14 @@ export class CardanoAmmPool extends AmmPool {
   }
 
   get id(): string {
+    return `${
+      this.pool.id.policyId
+    }.${RustModule.CardanoWasm.AssetName.from_hex(
+      this.pool.id.nameHex,
+    ).to_js_value()}`;
+  }
+
+  get subject(): string {
     return mkSubject(this.pool.id);
   }
 

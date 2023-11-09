@@ -1,5 +1,6 @@
 import { lingui } from '@lingui/vite-plugin';
 import { VitePWA } from 'vite-plugin-pwa'
+import pluginRewriteAll from 'vite-plugin-rewrite-all'
 import inject from '@rollup/plugin-inject';
 import react from '@vitejs/plugin-react';
 import * as fs from 'fs';
@@ -21,6 +22,7 @@ export default defineConfig({
     },
   },
   plugins: [
+    pluginRewriteAll(),
     react({
       babel: {
         plugins: ['macros'],

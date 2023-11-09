@@ -10,8 +10,9 @@ import { IsErgo } from '../../components/IsErgo/IsErgo.tsx';
 import { Page } from '../../components/Page/Page';
 import { getPositionByAmmPoolId } from '../../gateway/api/positions';
 import { useSelectedNetwork } from '../../gateway/common/network';
-import { useGuard } from '../../hooks/useGuard';
+import { useGuardV2 } from '../../hooks/useGuard';
 import { isCardano } from '../../utils/network.ts';
+import { isSubject, subjectToId } from '../../utils/subjectToId.ts';
 import { getAmmPoolConfidenceAnalyticByAmmPoolId } from './AmmPoolConfidenceAnalytic';
 import { LockLiquidity } from './LockLiquidity/LockLiquidity';
 import { PoolInfoView } from './PoolInfoView/PoolInfoView';
@@ -20,15 +21,29 @@ import { PriceHistory } from './PriceHistory/PriceHistory';
 export const PoolOverview: React.FC = () => {
   const navigate = useNavigate();
   const { poolId } = useParamsStrict<{ poolId: PoolId }>();
-  const [position, loading] = useObservable(getPositionByAmmPoolId(poolId), []);
+  const normalizedPoolId = isSubject(poolId) ? subjectToId(poolId) : poolId;
+
+  const [position, loading] = useObservable(
+    getPositionByAmmPoolId(normalizedPoolId),
+    [],
+  );
   const [selectedNetwork] = useSelectedNetwork();
   const { valBySize } = useDevice();
   const [poolConfidenceAnalytic] = useObservable(
-    getAmmPoolConfidenceAnalyticByAmmPoolId(poolId),
+    getAmmPoolConfidenceAnalyticByAmmPoolId(normalizedPoolId),
     [],
   );
-
-  useGuard(position, loading, () => navigate('../../../liquidity'));
+  useGuardV2(
+    () => !position && !loading,
+    () => {
+      navigate('../../../liquidity');
+    },
+  );
+  useGuardV2(
+    () => isSubject(poolId),
+    () =>
+      navigate(`../../../liquidity/${subjectToId(poolId)}`, { replace: true }),
+  );
 
   return (
     <Page
