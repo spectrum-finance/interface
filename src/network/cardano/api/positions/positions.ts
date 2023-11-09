@@ -1,6 +1,8 @@
 import {
   combineLatest,
   debounceTime,
+  filter,
+  first,
   map,
   publishReplay,
   refCount,
@@ -16,6 +18,7 @@ import {
   unverifiedAmmPools$,
 } from '../ammPools/ammPools';
 import { lpBalance$ } from '../balance/lpBalance';
+import { networkAssetBalance$ } from '../balance/networkAssetBalance.ts';
 import { networkContext$ } from '../networkContext/networkContext';
 
 export const positions$ = combineLatest([
@@ -27,7 +30,11 @@ export const positions$ = combineLatest([
       return allAmmPools$;
     }),
   ),
-  lpBalance$.pipe(startWith(new Balance([]))),
+  networkAssetBalance$.pipe(
+    filter(Boolean),
+    first(),
+    switchMap(() => lpBalance$.pipe(startWith(new Balance([])))),
+  ),
   networkContext$,
 ]).pipe(
   debounceTime(200),
