@@ -126,7 +126,7 @@ export const applicationConfig: ApplicationConfig = {
     discord: 'https://discord.com/invite/zY2gmTYQVD',
     telegram: 'https://t.me/spectrum_labs_community',
   },
-  applicationTick: 20 * 1000,
+  applicationTick: 10 * 1000,
   hiddenAssets: [
     isProductionHost
       ? 'ef802b475c06189fdbf844153cdc1d449a5ba87cce13d11bb47b5a539f27f12b'
