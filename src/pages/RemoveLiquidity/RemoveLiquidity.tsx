@@ -21,6 +21,7 @@ import { SubmitButton } from '../../components/SubmitButton/SubmitButton';
 import { fireOperationAnalyticsEvent } from '../../gateway/analytics/fireOperationAnalyticsEvent';
 import { redeem } from '../../gateway/api/operations/redeem';
 import { getPositionByAmmPoolId } from '../../gateway/api/positions';
+import { useSelectedNetwork } from '../../gateway/common/network.ts';
 import { operationsSettings$ } from '../../gateway/widgets/operationsSettings';
 import { useGuardV2 } from '../../hooks/useGuard';
 import { mapToRedeemAnalyticsProps } from '../../utils/analytics/mapper';
@@ -29,8 +30,11 @@ import { RemoveLiquidityFormModel } from './RemoveLiquidityFormModel';
 
 export const RemoveLiquidity: FC = () => {
   const { poolId } = useParamsStrict<{ poolId: PoolId }>();
+  const [selectedNetwork] = useSelectedNetwork();
   const normalizedPoolId =
-    poolId && isSubject(poolId) ? subjectToId(poolId) : poolId;
+    poolId && selectedNetwork.name === 'cardano' && isSubject(poolId)
+      ? subjectToId(poolId)
+      : poolId;
   const navigate = useNavigate();
   const [position, loading] = useObservable(
     getPositionByAmmPoolId(normalizedPoolId),
@@ -52,7 +56,7 @@ export const RemoveLiquidity: FC = () => {
       ),
   );
   useGuardV2(
-    () => isSubject(poolId),
+    () => isSubject(poolId) && selectedNetwork.name === 'cardano',
     () =>
       navigate(`../../${subjectToId(poolId as any)}/remove`, { replace: true }),
   );

@@ -20,14 +20,18 @@ import { PriceHistory } from './PriceHistory/PriceHistory';
 
 export const PoolOverview: React.FC = () => {
   const navigate = useNavigate();
+  const [selectedNetwork] = useSelectedNetwork();
   const { poolId } = useParamsStrict<{ poolId: PoolId }>();
-  const normalizedPoolId = isSubject(poolId) ? subjectToId(poolId) : poolId;
+  const normalizedPoolId =
+    selectedNetwork.name === 'cardano' && isSubject(poolId)
+      ? subjectToId(poolId)
+      : poolId;
 
   const [position, loading] = useObservable(
     getPositionByAmmPoolId(normalizedPoolId),
     [],
   );
-  const [selectedNetwork] = useSelectedNetwork();
+
   const { valBySize } = useDevice();
   const [poolConfidenceAnalytic] = useObservable(
     getAmmPoolConfidenceAnalyticByAmmPoolId(normalizedPoolId),
@@ -40,7 +44,7 @@ export const PoolOverview: React.FC = () => {
     },
   );
   useGuardV2(
-    () => isSubject(poolId),
+    () => selectedNetwork.name === 'cardano' && isSubject(poolId),
     () =>
       navigate(`../../../liquidity/${subjectToId(poolId)}`, { replace: true }),
   );
