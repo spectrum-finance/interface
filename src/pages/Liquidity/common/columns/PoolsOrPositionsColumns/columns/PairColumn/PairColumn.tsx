@@ -13,6 +13,7 @@ import { FarmsButton } from '../../../../../../../components/FarmsButton/FarmsBu
 import { IsCardano } from '../../../../../../../components/IsCardano/IsCardano.tsx';
 import { IsErgo } from '../../../../../../../components/IsErgo/IsErgo';
 import { LbspPoolTag } from '../../../../../../../components/LbspPoolTag/LbspPoolTag.tsx';
+import { isLbspPool } from '../../../../../../../network/cardano/api/lbspWhitelist/lbspWhitelist.ts';
 import { hasFarmsForPool } from '../../../../../../../network/ergo/lm/api/farms/farms';
 import { isSpfPool } from '../../../../../../../utils/lbsp.ts';
 import { isSpecialBoostedPool } from '../../../../../../../utils/specialPools.ts';
@@ -24,6 +25,7 @@ export interface PairColumnProps {
 export const PairColumn: FC<PairColumnProps> = ({ ammPool }) => {
   const navigate = useNavigate();
   const [hasFarmForPool] = useObservable(hasFarmsForPool(ammPool.id), []);
+  const [_isLbspPool] = useObservable(isLbspPool(ammPool.id));
   const { s } = useDevice();
 
   const handleFarmsButtonClick = (e: MouseEvent) => {
@@ -50,9 +52,11 @@ export const PairColumn: FC<PairColumnProps> = ({ ammPool }) => {
       </IsErgo>
       {!s && (
         <IsCardano>
-          <Flex.Item marginRight={2}>
-            <LbspPoolTag isSpf={isSpfPool(ammPool.id)} />
-          </Flex.Item>
+          {(_isLbspPool || isSpfPool(ammPool.id)) && (
+            <Flex.Item marginRight={2}>
+              <LbspPoolTag isSpf={isSpfPool(ammPool.id)} />
+            </Flex.Item>
+          )}
         </IsCardano>
       )}
       {isSpecialBoostedPool(ammPool.id) && !s && (

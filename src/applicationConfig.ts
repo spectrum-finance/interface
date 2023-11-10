@@ -21,6 +21,7 @@ interface NetworkConfig {
   readonly faucet?: string;
   readonly lowBalanceGuide?: string;
   readonly defaultTokenListUrl: string;
+  readonly lbspWhitelistUrl: string;
   readonly isCreatePoolAvailable: boolean;
 }
 
@@ -79,6 +80,7 @@ export const applicationConfig: ApplicationConfig = {
   networksSettings: {
     cardano_preview: {
       defaultTokenListUrl: 'https://spectrum.fi/cardano-token-list.json',
+      lbspWhitelistUrl: 'https://spectrum.fi/lbsp_whitelist.json',
       metadataUrl:
         'https://raw.githubusercontent.com/spectrum-finance/token-logos/master/logos/cardano',
       networkUrl: 'https://explorer.spectrum.fi/cardano/preview/v1/',
@@ -89,6 +91,7 @@ export const applicationConfig: ApplicationConfig = {
     },
     cardano: {
       defaultTokenListUrl: 'https://spectrum.fi/cardano-token-list.json',
+      lbspWhitelistUrl: 'https://spectrum.fi/lbsp_whitelist.json',
       metadataUrl: 'https://spectrum.fi/logos/cardano',
       networkUrl: 'https://explorer.spectrum.fi/cardano/mainnet/v1/',
       explorerUrl: 'https://cardanoscan.io',
@@ -98,6 +101,7 @@ export const applicationConfig: ApplicationConfig = {
     },
     ergo: {
       defaultTokenListUrl: 'https://spectrum.fi/ergo-token-list.json',
+      lbspWhitelistUrl: '',
       metadataUrl: 'https://spectrum.fi/logos/ergo',
       spfFaucet: 'https://airdrop.spectrum.fi/v1/faucet/',
       networkUrl: 'https://api.ergoplatform.com',

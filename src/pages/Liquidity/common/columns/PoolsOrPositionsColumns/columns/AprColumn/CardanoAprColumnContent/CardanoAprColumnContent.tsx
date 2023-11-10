@@ -8,6 +8,7 @@ import { AmmPool } from '../../../../../../../../common/models/AmmPool';
 import { AssetIcon } from '../../../../../../../../components/AssetIcon/AssetIcon.tsx';
 import { InfoTooltip } from '../../../../../../../../components/InfoTooltip/InfoTooltip';
 import { SpfLogo } from '../../../../../../../../components/SpfLogo/SpfLogo.tsx';
+import { isLbspPool } from '../../../../../../../../network/cardano/api/lbspWhitelist/lbspWhitelist.ts';
 import { isSpecialBoostedPool } from '../../../../../../../../utils/specialPools.ts';
 import { calculateLbspApr } from './calculateLbspApr';
 
@@ -136,10 +137,21 @@ export const CardanoAprColumnContent: FC<CardanoAprColumnContent> = ({
   ammPool,
   isAllContentTrigger,
 }) => {
+  const [_isLbspPool] = useObservable(isLbspPool(ammPool.id));
+
   return (
-    <CardanoLbspAmmPoolAprColumnContent
-      isAllContentTrigger={isAllContentTrigger}
-      ammPool={ammPool}
-    />
+    <>
+      {_isLbspPool ? (
+        <CardanoLbspAmmPoolAprColumnContent
+          isAllContentTrigger={isAllContentTrigger}
+          ammPool={ammPool}
+        />
+      ) : (
+        <CardanoStandardAmmPoolArColumnContent
+          ammPool={ammPool}
+          isAllContentTrigger={isAllContentTrigger}
+        />
+      )}
+    </>
   );
 };
