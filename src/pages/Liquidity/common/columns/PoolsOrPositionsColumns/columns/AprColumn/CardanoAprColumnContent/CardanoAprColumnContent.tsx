@@ -9,6 +9,7 @@ import { AssetIcon } from '../../../../../../../../components/AssetIcon/AssetIco
 import { InfoTooltip } from '../../../../../../../../components/InfoTooltip/InfoTooltip';
 import { SpfLogo } from '../../../../../../../../components/SpfLogo/SpfLogo.tsx';
 import { isLbspPool } from '../../../../../../../../network/cardano/api/lbspWhitelist/lbspWhitelist.ts';
+import { isSpfPool } from '../../../../../../../../utils/lbsp.ts';
 import { isSpecialBoostedPool } from '../../../../../../../../utils/specialPools.ts';
 import { calculateLbspApr } from './calculateLbspApr';
 
@@ -141,7 +142,7 @@ export const CardanoAprColumnContent: FC<CardanoAprColumnContent> = ({
 
   return (
     <>
-      {_isLbspPool ? (
+      {_isLbspPool || isSpfPool(ammPool.id) ? (
         <CardanoLbspAmmPoolAprColumnContent
           isAllContentTrigger={isAllContentTrigger}
           ammPool={ammPool}
