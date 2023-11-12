@@ -1,0 +1,38 @@
+@import "../../../assets/styles/variables/general.less";
+
+.card {
+  width: 230px;
+  height: 120px;
+  border-radius: 12px;
+  background: var(--teddy-box-color-dark);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  .headerCard {
+    height: 18px;
+    align-self: flex-start;
+    .titleCard {
+      margin: 0;
+      color: var(--teddy-primary-text);
+      font-size: 14px;
+      font-weight: 500;
+    }
+  }
+  .contentCard {
+    height: calc(100% - 18px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .value {
+      margin: 0;
+      color: var(--teddy-primary-text);
+      font-size: 20px;
+      font-weight: 500;
+      &.deposit {
+        color: var(--teddy-dark-color-active);
+      }
+    }
+  }
+}

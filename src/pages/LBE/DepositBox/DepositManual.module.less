@@ -1,0 +1,77 @@
+@import "../../../assets/styles/variables/general.less";
+
+.boxDepositManual {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--teddy-box-color);
+  width: 100%;
+  border-radius: 18px;
+  padding: 24px;
+  .boxTitle{
+    .mixTitleBox;
+    align-self: flex-start;
+    margin-bottom: 30px;
+  }
+  .inputCard {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    .titleInput {
+      .mixSubTitleBox;
+      padding-left: 5px;
+    }
+    .adressContent {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 14px 45px;
+      width: 100%;
+      background: var(--teddy-box-color-dark);
+      border-radius: 12px;
+      margin-bottom: 20px;
+      cursor: pointer;
+      .icon {
+        position: absolute;
+        height: 18px;
+        width: auto;
+        left: 16px;
+        top: 14px;
+      }
+      .address {
+        color: var(--teddy-primary-text);
+        font-size: 12px;
+        font-weight: 500;
+        line-break: anywhere;
+        width: 100%;
+        margin: 0;
+      }
+      .copied {
+        position: absolute;
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--teddy-primary-text);
+        right: 16px;
+        height: 24px;
+        top: -32px;
+        background: var(--teddy-box-color-icon);
+        border-radius: 12px;
+        width: 70px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }
+  .qrContainer {
+    width: 140px;
+    height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--teddy-dark-general-color);
+    margin-bottom: 20px;
+  }
+}

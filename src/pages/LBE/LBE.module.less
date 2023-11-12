@@ -1,0 +1,22 @@
+@import "../../assets/styles/variables/general.less";
+
+.lbeContainer {
+  width: 100%;
+  display: flex;
+  gap: 36px;
+  justify-content: center;
+  .depositGroup {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 475px;
+    gap: 36px;
+    min-width: 300px;
+  }
+  @media (max-width: 768px) {
+    gap: 10px;
+    .depositGroup {
+      gap: 10px;
+    }
+  }
+}
