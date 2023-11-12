@@ -38,13 +38,14 @@ export default function DetailsLBE() {
             proportional to their total LBE deposits.
           </p>
           <p className={styles.text}>
-            Please read our TeddySwap{' '}
+            Please read our TeddySwap
             <a
               href="#"
               target="_blank"
               rel="noopener noreferrer"
               className={styles.link}
             >
+              {' '}
               LBE FAQ{' '}
             </a>
             before aping in.

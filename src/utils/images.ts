@@ -1,6 +1,6 @@
 // ICONS
-export const ARROW_DOWN = '../../src/assets/icons/arrow-down-short.svg#icon';
-export const ICON_COPY = '../../src/assets/icons/copy-dark.png';
+export const ARROW_DOWN = '/img/icons/arrow-down-short.svg#icon';
+export const ICON_COPY = '/img/icons/copy-dark.png';
 
 // TOKENS
 
