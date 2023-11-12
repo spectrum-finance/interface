@@ -84,7 +84,7 @@ export const applicationConfig: ApplicationConfig = {
       metadataUrl:
         'https://raw.githubusercontent.com/teddy-swap/token-logos/master/logos/cardano',
       networkUrl:
-        'https://80-hallowed-priority-28uow9.us1.demeter.run/cardano/preview/v1/',
+        'https://80-faithful-argument-jp00vi.us1.demeter.run/cardano/preview/v1/',
       explorerUrl: 'https://preview.cardanoscan.io',
       lowBalanceGuide: '',
       analyticUrl: 'https://8081-cardano-markets-api.us1.demeter.run/v1/',
@@ -97,7 +97,8 @@ export const applicationConfig: ApplicationConfig = {
         'https://raw.githubusercontent.com/teddy-swap/tokenlist/main/preview.json',
       metadataUrl:
         'https://raw.githubusercontent.com/teddy-swap/token-logos/master/logos/cardano',
-      networkUrl: 'https://8081-charming-homework-gszxtp.us1.demeter.run/v1/',
+      networkUrl:
+        'https://80-faithful-argument-jp00vi.us1.demeter.run/cardano/preview/v1/',
       explorerUrl: 'https://cardanoscan.io',
       lowBalanceGuide: '',
       analyticUrl: 'https://8081-cardano-markets-api.us1.demeter.run/v1/',
