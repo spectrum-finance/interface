@@ -63,7 +63,8 @@ export default defineConfig({
     port: 3000,
     proxy: {
       '/api/adaprice': {
-        target: 'https://api.poloniex.com/markets/ADA_USDT/price',
+        target:
+          'https://api.coingecko.com/api/v3/coins/cardano/market_chart?vs_currency=usd&days',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api\/adaprice/, ''),
       },

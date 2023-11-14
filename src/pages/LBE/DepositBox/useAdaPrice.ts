@@ -14,7 +14,7 @@ const useAdaPrice = (url) => {
         }
 
         const result = await response.json();
-        setData(result.price);
+        setData(result.prices[0][1]);
       } catch (error) {
         setError(error);
       } finally {

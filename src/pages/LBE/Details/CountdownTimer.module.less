@@ -34,8 +34,22 @@
     color: var(--teddy-primary-text);
     height: 60px;
     margin: 0;
-    margin-bottom: 26px;
+    margin-bottom: 35px;
     display: flex;
     align-items: center;
+  }
+  @media (max-width: 430px) {
+    .time {
+      .value {
+        font-size: 30px;
+      }
+      .text {
+        font-size: 12px;
+      }
+    }
+    .points {
+      margin-bottom: 26px;
+      font-size: 30px;
+    }
   }
 }

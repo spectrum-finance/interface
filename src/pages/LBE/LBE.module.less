@@ -13,6 +13,31 @@
     gap: 36px;
     min-width: 300px;
   }
+  @media (max-width: 960px) {
+    flex-direction: column;
+    .titleContainer {
+      width: 100%;
+      max-width: 475px;
+      font-size: 24px;
+      text-align: center;
+      margin: 0 auto;
+      font-weight: 700;
+      color: var(--teddy-primary-text);
+      margin-top: 20px
+    }
+    .boxTimeContainer{
+      .mixBoxTimeContainer;
+      margin: 0 auto;
+      background: var(--teddy-box-color);
+      border-radius: 18px;
+      padding: 20px;
+      width: 100%;
+      max-width: 475px;
+    }
+    .depositGroup {
+      margin: 0 auto;
+    }
+  }
   @media (max-width: 768px) {
     gap: 10px;
     .depositGroup {
