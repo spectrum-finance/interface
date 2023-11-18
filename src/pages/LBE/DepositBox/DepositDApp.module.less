@@ -50,6 +50,7 @@
         border-radius: 12px;
         right: 12px;
         top: calc(50% - 28px);
+        z-index: 2;
         .tokenImage {
           width: 28px;
           height: 28px;
@@ -58,6 +59,16 @@
           .mixTokenFontBox;
         }
       }
+      .mask {
+        position: absolute;
+        width: 100px;
+        height: 40px;
+        border-radius: 12px;
+        background: #181D2D;
+        right: 12px;
+        z-index: 1;
+        top: calc(50% - 28px);
+      }
       .valueUsd{
         position: absolute;
         font-size: 12px;
@@ -65,6 +76,15 @@
         font-weight: 500;
         bottom: 16px;
         margin: 0;
+      }
+      .selectMax {
+        position: absolute;
+        font-size: 14px;
+        color: var(--teddy-dark-color-active);
+        right: 50px;
+        margin: 0;
+        bottom: 6px;
+        cursor: pointer;
       }
       &.resultContent {
         flex-direction: row;
@@ -76,8 +96,8 @@
           color: var(--teddy-primary-text);
           margin: 0;
         }
-        .tokenGroup {
-          position: static;
+        .tokenGroup, .mask {
+          top: (calc(50% - 20px));
         }
       }
     }
@@ -91,6 +111,7 @@
     justify-content: center;
     border-radius: 50%;
     margin-top: 18px;
+    margin-bottom: 5px;
     .icon {
       fill: var(--teddy-primary-text);
     }

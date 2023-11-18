@@ -59,6 +59,14 @@
   border-radius: 12px;
   &:hover {
     background: var(--teddy-primary-color-hover);
+    &:disabled {
+      background: var(--teddy-box-color-dark);
+    }
+  }
+  &:disabled {
+    border: 1px solid var(--teddy-secondary-color) !important;
+    cursor: no-drop;
+    color: var(--teddy-secondary-color);
   }
 }
 

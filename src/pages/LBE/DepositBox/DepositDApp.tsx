@@ -1,3 +1,6 @@
+import { Modal } from '@ergolabs/ui-kit';
+
+import { ChooseWalletModal } from '../../../components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal';
 import { ARROW_DOWN, TOKEN_ADA, TOKEN_TEDY } from '../../../utils/images';
 import styles from './DepositDApp.module.less';
 import useDeposit from './useDeposit';
@@ -11,7 +14,14 @@ export default function DepositDApp() {
     valueAdaInput,
     handleWheel,
     valueTedyInput,
+    handleClickMax,
+    isWalletConnected,
+    isValidInput,
   } = useDeposit();
+
+  const openChooseWalletModal = (): void => {
+    Modal.open(({ close }) => <ChooseWalletModal close={close} />);
+  };
 
   return (
     <section className={styles.boxDepositWallet}>
@@ -36,7 +46,13 @@ export default function DepositDApp() {
             />
             <p className={styles.tokenName}>ADA</p>
           </div>
+          <div className={styles.mask} />
           <p className={styles.valueUsd}>{loading ? 'loading' : usdAda}</p>
+          {isWalletConnected && (
+            <p className={styles.selectMax} onClick={handleClickMax}>
+              Max
+            </p>
+          )}
         </div>
       </div>
       <div className={styles.iconContainer}>
@@ -56,9 +72,22 @@ export default function DepositDApp() {
             />
             <p className={styles.tokenName}>TEDY</p>
           </div>
+          <div className={styles.mask} />
         </div>
       </div>
-      <button className={styles.btnDeposit}>Deposit</button>
+      {isWalletConnected ? (
+        isValidInput.valid ? (
+          <button className={styles.btnDeposit}>Deposit</button>
+        ) : (
+          <button className={styles.btnDeposit} disabled>
+            {isValidInput.text}
+          </button>
+        )
+      ) : (
+        <button className={styles.btnDeposit} onClick={openChooseWalletModal}>
+          Connect Wallet
+        </button>
+      )}
     </section>
   );
 }

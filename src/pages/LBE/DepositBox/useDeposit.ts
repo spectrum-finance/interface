@@ -1,21 +1,31 @@
 import { useEffect, useState } from 'react';
 
+import { useObservable } from '../../../common/hooks/useObservable';
+import { networkAssetBalance$ } from '../../../gateway/api/networkAssetBalance';
+import { isWalletSetuped$ } from '../../../gateway/api/wallets';
 import useFetch from './useAdaPrice';
 
 const useDeposit = () => {
   const addressDeposit =
     'addr_test1qp3rdw6z8j02mpdw4exp2t4yvzlzlq8qcnp9nrl6knc3eh9glz4js4pan5rq2nyacvy0gmu2ka46865k08yf6zmqsncs49vsu3';
   const apiUsdAda = '/api/adaprice';
+
+  const [isWalletConnected] = useObservable(isWalletSetuped$);
+  const [networkAssetBalance] = useObservable(networkAssetBalance$);
+
   const [isCopied, setIsCopied] = useState<boolean>(false);
   useState<string | undefined>();
   const [usdAda, setUsdAda] = useState<string | undefined>();
   const [valueAdaInput, setValueAdaInput] = useState<string>('');
   const [valueTedyInput, setValueTedyInput] = useState<string>('0.0');
-
+  const [isValidInput, setIsValidInput] = useState({
+    valid: false,
+    text: 'Enter an amount',
+  });
   const { data, loading } = useFetch(apiUsdAda);
 
   const validInput = (value: string) => {
-    return value.length < 10;
+    return value.length < 12;
   };
 
   const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,6 +36,25 @@ const useDeposit = () => {
     if (validInput(value)) {
       setValueAdaInput(value);
     }
+  };
+
+  const handleClickMax = () => {
+    if (networkAssetBalance) {
+      setValueAdaInput(
+        formatAmountToken(Number(networkAssetBalance.amount) / 1000000),
+      );
+    } else {
+      setValueAdaInput('');
+    }
+  };
+
+  const formatAmountToken = (value: number) => {
+    let formattedValue = value.toFixed(8).toString();
+    if (formattedValue.length > 10) {
+      formattedValue = formattedValue.slice(0, 10);
+    }
+    formattedValue = formattedValue.replace(/\.?0+$/, '');
+    return formattedValue;
   };
 
   const formatAmountTedy = (value: number) => {
@@ -61,6 +90,19 @@ const useDeposit = () => {
       setUsdAda(formatAmountUsd(Number(data) * Number(valueAdaInput)));
     }
   }, [valueAdaInput, data]);
+
+  useEffect(() => {
+    if (valueAdaInput === '' || Number(valueAdaInput) === 0) {
+      setIsValidInput({ valid: false, text: 'Enter an amount' });
+    } else if (
+      networkAssetBalance &&
+      Number(valueAdaInput) > Number(networkAssetBalance.amount) / 1000000
+    ) {
+      setIsValidInput({ valid: false, text: 'Invalid amount' });
+    } else {
+      setIsValidInput({ valid: true, text: '' });
+    }
+  }, [networkAssetBalance, valueAdaInput]);
 
   const handleWheel: React.WheelEventHandler<HTMLInputElement> = (e) => {
     const inputElement = e.target as HTMLInputElement;
@@ -107,6 +149,9 @@ const useDeposit = () => {
     valueAdaInput,
     handleWheel,
     valueTedyInput,
+    handleClickMax,
+    isWalletConnected,
+    isValidInput,
   };
 };
 
