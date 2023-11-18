@@ -44,11 +44,12 @@ const _Navigation: FC<NavigationProps> = ({ className, style }) => {
       />
       <Tabs.TabPane tab={t`Liquidity`} key="liquidity" />
       {network.name === 'ergo' && <Tabs.TabPane tab={t`Farms`} key="farm" />}
-      <Tabs.TabPane
+      {/* <Tabs.TabPane
         disabled={isPreLbspTimeGap() && network.name === 'cardano'}
         tab={t`LBE`}
         key="lbe"
-      />
+      /> */}
+      {/* {network.name === 'cardano_preview' && <p>LBE</p>} */}
     </Tabs>
   );
 };

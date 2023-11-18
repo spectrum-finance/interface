@@ -6,7 +6,6 @@ import {
   useForm,
 } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
-import { ElementLocation } from '@spectrumlabs/analytics';
 import { FC } from 'react';
 
 import { AddLiquidityForm } from '../AddLiquidityForm/AddLiquidityForm';
@@ -53,7 +52,6 @@ export const LbspCalculatorModal: FC<LbspCalculatorModalProps> = ({
         <AddLiquidityForm
           form={form}
           withoutConfirmation={true}
-          traceFormLocation={ElementLocation.depositForm}
           onSubmitSuccess={close}
         >
           <Flex col>

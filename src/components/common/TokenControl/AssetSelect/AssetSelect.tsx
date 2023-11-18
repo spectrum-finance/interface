@@ -7,13 +7,11 @@ import {
   useDevice,
 } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
-import { fireAnalyticsEvent, TraceProps } from '@spectrumlabs/analytics';
 import * as React from 'react';
 import { Observable } from 'rxjs';
 import styled from 'styled-components';
 
 import { AssetInfo } from '../../../../common/models/AssetInfo';
-import { mapToTokenProps } from '../../../../utils/analytics/mapper';
 import { AssetTitle } from '../../../AssetTitle/AssetTitle';
 import { SkeletonLoader } from '../../../SkeletonLoader/SkeletonLoader.tsx';
 import { AssetListModal } from './AssetListModal/AssetListModal';
@@ -27,7 +25,6 @@ interface TokenSelectProps {
   readonly disabled?: boolean;
   readonly readonly?: boolean;
   readonly loading?: boolean;
-  readonly trace: TraceProps;
 }
 
 const StyledDownOutlined = styled(DownOutlined)`
@@ -43,18 +40,12 @@ const AssetSelect: React.FC<TokenSelectProps> = ({
   assetsToImport$,
   importedAssets$,
   loading,
-  trace: { element_name, element_location },
 }) => {
   const { s, valBySize } = useDevice();
   const handleSelectChange = (newValue: AssetInfo): void => {
     if (value?.id !== newValue?.id && onChange) {
       onChange(newValue);
     }
-    fireAnalyticsEvent('Select Token', {
-      ...mapToTokenProps(newValue),
-      element_location,
-      element_name,
-    });
   };
 
   const openTokenModal = () => {

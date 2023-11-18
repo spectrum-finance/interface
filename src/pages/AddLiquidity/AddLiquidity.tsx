@@ -1,7 +1,6 @@
 import { PoolId } from '@ergolabs/ergo-dex-sdk';
 import { Flex, Form, useForm } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
-import { ElementLocation } from '@spectrumlabs/analytics';
 import { FC } from 'react';
 import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
@@ -37,11 +36,7 @@ export const AddLiquidity: FC = () => {
       backTo="../../../liquidity"
       padding={4}
     >
-      <AddLiquidityForm
-        initialPoolId={poolId}
-        form={form}
-        traceFormLocation={ElementLocation.depositForm}
-      >
+      <AddLiquidityForm initialPoolId={poolId} form={form}>
         <Flex.Item marginTop={2}>
           <Form.Listener>
             {({ value }) =>

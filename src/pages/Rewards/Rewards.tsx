@@ -7,7 +7,6 @@ import {
   Typography,
 } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
-import { ElementLocation, ElementName } from '@spectrumlabs/analytics';
 import { FC } from 'react';
 import { filter } from 'rxjs';
 
@@ -113,14 +112,7 @@ export const Rewards: FC = () => {
             )}
           </Flex.Item>
           {applicationConfig.isRewardsAvailable ? (
-            <ConnectWalletButton
-              width="100%"
-              size="extra-large"
-              trace={{
-                element_location: ElementLocation.rewardsPage,
-                element_name: ElementName.connectWalletButton,
-              }}
-            >
+            <ConnectWalletButton width="100%" size="extra-large">
               {loading ? (
                 <Skeleton active />
               ) : (
