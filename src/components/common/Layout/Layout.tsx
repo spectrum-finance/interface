@@ -10,7 +10,7 @@ import { LbspBanner } from '../../LbspBanner/LbspBanner';
 import { NetworkHeight } from '../../NetworkHeight/NetworkHeight';
 import { CardanoUpdate } from './CardanoUpdate/CardanoUpdate';
 import { FooterNavigation } from './FooterNavigation/FooterNavigation';
-import { Header } from './Header/Header';
+import Header from './Header/Header';
 
 const MainContainer = styled.main`
   padding: 80px 4px 148px 8px !important;

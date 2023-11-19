@@ -24,6 +24,6 @@ const _FarmsButton: FC<FarmsButtonProps> = ({ className, onClick }) => {
 
 export const FarmsButton = styled(_FarmsButton)`
   border-color: transparent;
-  background: var(--spectrum-connect-wallet-btn-bg) !important;
+  background: var(--teddy-box-color-dark) !important;
   color: var(--spectrum-text-white) !important;
 `;

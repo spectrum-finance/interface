@@ -1,21 +1,19 @@
-import { Flex, useDevice } from '@ergolabs/ui-kit';
-import cn from 'classnames';
-import * as React from 'react';
-import { isDesktop } from 'react-device-detect';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import { /* Flex, */ useDevice } from '@ergolabs/ui-kit';
 
-import { device } from '../../../../common/constants/size';
-import { isPreLbspTimeGap } from '../../../../utils/lbsp';
-import { IsCardano } from '../../../IsCardano/IsCardano';
-import { IsErgo } from '../../../IsErgo/IsErgo';
-import { DeprecatedPosition } from '../DeprecatedPositions/DeprecatedPosition';
+//import cn from 'classnames';
+//import * as React from 'react';
+//import { Link } from 'react-router-dom';
+//import styled from 'styled-components';
+//import { device } from '../../../../common/constants/size';
+//import { isPreLbspTimeGap } from '../../../../utils/lbsp';
+//import { IsCardano } from '../../../IsCardano/IsCardano';
+//import { DeprecatedPosition } from '../DeprecatedPositions/DeprecatedPosition';
 import { OperationsHistory } from '../OperationsHistory/OperationsHistory';
-import { Analytics } from './Analytics/Analytics';
-import { ClaimSpfButton } from './ClaimSpfButton/ClaimSpfButton';
-import { ConnectWallet } from './ConnectWallet/ConnectWallet';
-import { Navigation } from './Navigation/Navigation';
-import { NetworkDropdown } from './NetworkDropdown/NetworkDropdown';
+import ConnectWallet from './ConnectWallet/ConnectWallet';
+//import { Analytics } from './Analytics/Analytics';
+import styles from './Header.module.less';
+import Navigation from './Navigation/Navigation';
+//import { NetworkDropdown } from './NetworkDropdown/NetworkDropdown';
 
 export interface HeaderProps {
   className?: string;
@@ -23,7 +21,7 @@ export interface HeaderProps {
   scrolledTop?: boolean;
 }
 
-const HeaderWrapper = styled.div`
+/* const HeaderWrapper = styled.div`
   position: relative;
   display: grid;
   width: 100%;
@@ -38,9 +36,33 @@ const HeaderWrapper = styled.div`
     grid-template-columns: 36px 1fr;
     padding: 1.25rem 1rem 0.25rem;
   }
-`;
+`; */
 
-export const _Header: React.FC<HeaderProps> = ({ className, scrolledTop }) => {
+export default function Header(props: HeaderProps) {
+  const { scrolledTop } = props;
+
+  const { s, moreThan } = useDevice();
+  console.log(scrolledTop);
+
+  return (
+    <header className={styles.header}>
+      <section className={styles.navigationSection}>
+        {moreThan('m') ? (
+          <img src="/img/logo/teddy-logo.png" height={26} />
+        ) : (
+          <img src="/img/logo/teddy-logo-mob.png" height={26} />
+        )}
+        <Navigation />
+      </section>
+      <section className={styles.walletSection}>
+        <ConnectWallet />
+        {!s && <OperationsHistory />}
+      </section>
+    </header>
+  );
+}
+
+/* export const _Header: React.FC<HeaderProps> = ({ className, scrolledTop }) => {
   const { s, moreThan } = useDevice();
 
   return (
@@ -91,14 +113,15 @@ export const _Header: React.FC<HeaderProps> = ({ className, scrolledTop }) => {
       </HeaderWrapper>
     </header>
   );
-};
+}; */
 
-export const Header = styled(_Header)`
+/* export const Header = styled(_Header)`
   position: fixed;
   z-index: 3;
   top: 0;
   width: 100%;
   transition: transform 0.3s;
+  background: var(--teddy-dark-color-container);
 
   &.scrolledFromTop {
     border-bottom: 1px solid var(--spectrum-box-border-color);
@@ -114,4 +137,4 @@ export const Header = styled(_Header)`
       transform: translateY(-100%);
     }
   }
-`;
+`; */

@@ -6,7 +6,7 @@ import { device } from '../../../../common/constants/size';
 import { useObservable } from '../../../../common/hooks/useObservable';
 import { selectedWalletState$ } from '../../../../gateway/api/wallets';
 import { WalletState } from '../../../../network/common/Wallet';
-import { Navigation } from '../Header/Navigation/Navigation';
+import Navigation from '../Header/Navigation/Navigation';
 import { OperationsHistory } from '../OperationsHistory/OperationsHistory';
 
 export const BottomContainer = styled.div<{ ref: any }>`
@@ -43,7 +43,7 @@ export const FooterNavigation = forwardRef<HTMLDivElement>((_, ref) => {
       {s && (
         <Flex>
           <Flex.Item marginLeft={4} marginRight={4} flex={1}>
-            <Navigation textCenter />
+            <Navigation />
           </Flex.Item>
           {walletState === WalletState.CONNECTED && (
             <Flex.Item marginRight={4}>

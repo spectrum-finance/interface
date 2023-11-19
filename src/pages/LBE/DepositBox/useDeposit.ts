@@ -7,7 +7,7 @@ import useFetch from './useAdaPrice';
 
 const useDeposit = () => {
   const addressDeposit =
-    'addr_test1qp3rdw6z8j02mpdw4exp2t4yvzlzlq8qcnp9nrl6knc3eh9glz4js4pan5rq2nyacvy0gmu2ka46865k08yf6zmqsncs49vsu3';
+    'addr_test1qq9xk4nqkzpp8hcmg9452usxkarg2nkggz7m3kzpp0dq4qpzunpnynvz0n2ycgn3pvnhfa20xdj5ks9zefeeyyrckkusc0zafl';
   const apiUsdAda = '/api/adaprice';
 
   const [isWalletConnected] = useObservable(isWalletSetuped$);

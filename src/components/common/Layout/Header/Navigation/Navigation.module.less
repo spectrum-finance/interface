@@ -1,0 +1,22 @@
+.navigationContainer {
+  display: flex;
+  width: 100%;
+  max-width: 400px;
+  gap: 45px;
+  .page {
+    display: flex;
+    align-items: center;
+    .name {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--teddy-color-disable);
+      cursor: pointer;
+    }
+    &.active {
+      .name {
+        color: var(--teddy-primary-text);
+      }
+    }
+  }
+}
