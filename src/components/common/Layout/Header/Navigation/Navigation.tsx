@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useSelectedNetwork } from '../../../../../gateway/common/network';
+import { ARROW_DOWN } from '../../../../../utils/images';
 import styles from './Navigation.module.less';
 
 type NavigationSectionType = {
@@ -39,6 +40,13 @@ export default function Navigation() {
           onClick={() => handleClickNavigate(section.path)}
         >
           <p className={styles.name}>{section.title}</p>
+          {section.title === 'Trade' && (
+            <div className={styles.iconContainer}>
+              <svg width="15" height="15" className={styles.icon}>
+                <use href={ARROW_DOWN} />
+              </svg>
+            </div>
+          )}
         </div>
       ))}
     </div>

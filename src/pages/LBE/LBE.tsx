@@ -9,7 +9,7 @@ import styles from './LBE.module.less';
 export default function LBE() {
   const { moreThan } = useDevice();
 
-  const targetDate = '12/10/2023';
+  const targetDate = '05/20/2024';
 
   return (
     <main className={styles.lbeContainer}>

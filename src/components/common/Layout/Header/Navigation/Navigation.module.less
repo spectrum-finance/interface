@@ -6,6 +6,7 @@
   .page {
     display: flex;
     align-items: center;
+    gap: 5px;
     .name {
       margin: 0;
       font-size: 16px;
@@ -17,6 +18,36 @@
       .name {
         color: var(--teddy-primary-text);
       }
+      .iconContainer {
+        .icon {
+          fill: var(--teddy-primary-text);
+        }
+      }
     }
+    .iconContainer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 16px;
+      height: 16px;
+      background: var(--teddy-box-color-icon);
+      border-radius: 3px;
+      .icon {
+        fill: var(--teddy-color-disable);
+      }
+      @media (max-width: 768px) {
+        transform: rotate(180deg);
+      }
+    }
+  }
+  @media (max-width: 1030px) {
+    gap: 16px;
+  }
+  @media (max-width: 768px) {
+    max-width: none;
+    gap: 45px;
+  }
+  @media (max-width: 400px) {
+    gap: 16px;
   }
 }

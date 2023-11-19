@@ -17,6 +17,7 @@ export default function DepositDApp() {
     handleClickMax,
     isWalletConnected,
     isValidInput,
+    handleClickDeposit,
   } = useDeposit();
 
   const openChooseWalletModal = (): void => {
@@ -77,7 +78,9 @@ export default function DepositDApp() {
       </div>
       {isWalletConnected ? (
         isValidInput.valid ? (
-          <button className={styles.btnDeposit}>Deposit</button>
+          <button className={styles.btnDeposit} onClick={handleClickDeposit}>
+            Deposit
+          </button>
         ) : (
           <button className={styles.btnDeposit} disabled>
             {isValidInput.text}

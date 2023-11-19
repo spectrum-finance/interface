@@ -138,6 +138,11 @@ const useDeposit = () => {
     }
   };
 
+  const handleClickDeposit = () => {
+    const depositValue = BigInt(Number(valueAdaInput) * 1000000);
+    console.log(`Deposit value:  ${depositValue}`);
+  };
+
   return {
     addressDeposit,
     isCopied,
@@ -152,6 +157,7 @@ const useDeposit = () => {
     handleClickMax,
     isWalletConnected,
     isValidInput,
+    handleClickDeposit,
   };
 };
 

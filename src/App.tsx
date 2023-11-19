@@ -14,6 +14,7 @@ import { startAppTicks } from './common/streams/appTick';
 import { Glow } from './components/common/Layout/Glow/Glow';
 import { ErrorEventProvider } from './components/ErrorBoundary/ErrorEventProvider';
 import { AppLoadingProvider, useApplicationSettings } from './context';
+import { AssetModeProvider } from './context/AssetModeContext';
 import { useBodyClass } from './hooks/useBodyClass';
 import { useMetaThemeColor } from './hooks/useMetaThemeColor';
 import { LanguageProvider } from './i18n/i18n';
@@ -73,7 +74,9 @@ export const ApplicationInitializer: React.FC = () => {
           <LanguageProvider>
             <Glow />
             <SelectDefaultNetwork>
-              {isAppInitialized && <Application />}
+              <AssetModeProvider>
+                {isAppInitialized && <Application />}
+              </AssetModeProvider>
             </SelectDefaultNetwork>
           </LanguageProvider>
         </BrowserRouter>
