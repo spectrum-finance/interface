@@ -3,7 +3,7 @@ import styles from './TokenCards.module.less';
 
 export default function TokenCards() {
   const adaDeposited = 5000;
-  const tedyAvailable = `100M`;
+  const tedyAvailable = `800,000`;
 
   const tokenCard = [
     {
@@ -16,7 +16,7 @@ export default function TokenCards() {
     },
     {
       header: 'Deposit Ratio',
-      value: '5 ADA = 1 TEDY',
+      value: '0.444 TEDY / ADA',
     },
   ];
 

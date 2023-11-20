@@ -5,6 +5,7 @@ import { networkAssetBalance$ } from '../../../gateway/api/networkAssetBalance';
 import { isWalletSetuped$ } from '../../../gateway/api/wallets';
 
 const useDeposit = () => {
+  const RATE = 0.444;
   const addressDeposit =
     'addr_test1qq9xk4nqkzpp8hcmg9452usxkarg2nkggz7m3kzpp0dq4qpzunpnynvz0n2ycgn3pvnhfa20xdj5ks9zefeeyyrckkusc0zafl';
 
@@ -63,7 +64,7 @@ const useDeposit = () => {
   };
 
   useEffect(() => {
-    const value = Number(valueAdaInput) * 5;
+    const value = Number(valueAdaInput) * RATE;
     if (valueAdaInput === '' || Number(valueAdaInput) === 0) {
       setValueTedyInput('0.0');
     } else {

@@ -6,33 +6,57 @@ export default function FaqDetails() {
       <h2 className={styles.title}>LBE Details</h2>
       <div className={styles.description}>
         <p className={styles.text}>
-          Liquidity Boot strapping is an initiative to ensure the TEDY/ADA pool
-          is sufficiently liquid at launch. By supplying ADA in this event,
-          participants will be effectively swapping the ADA they supply for
-          TEDY, at the ratio of 1 TEDY = 5 ADA. Starting on Nov 18th, you can
-          start to claim your TEDY.
+          The Liquidity Bootstrapping Event (LBE) is designed to bolster
+          liquidity for the TEDY/ADA pool at launch. Participants can exchange
+          ADA for TEDY at a ratio of 0.444 TEDY per ADA, starting Nov 23rd, 1PM
+          UTC.
         </p>
         <p className={styles.text}>
-          The maximum TEDY available is 200,000, representing 2.5% of the total
-          supply of 8 million TEDY. Depositors will receive TEDY in a ratio of 1
-          TEDY per 5 ADA deposited. If more than 1M ADA is deposited (equivalent
-          to the full sale of 200k TEDY), depositors will receive a number of
-          TEDY proportional to the amount of ADA they deposited relative to the
-          total number of ADA deposited in the LBE. Remaining ADA above 1M will
-          be distributed back to users proportional to their total LBE deposits.
+          <b>Pro-Rata Distribution Explained</b>
+          <br />
+          <br />
+          The LBE facilitates an equitable distribution of TEDY tokens in
+          exchange for ADA contributions. Here&apos;s an outline of the process:
+          <br />
+          <br />
+          <b>All Contributions Counted:</b> We accept all ADA contributions
+          during the 3-hour LBE window, irrespective of the 2 million ADA cap.
+          <br />
+          <br />
+          <b>Proportional Allocation:</b> TEDY tokens are allocated in
+          proportion to each participant&apos;s contribution compared to the
+          total ADA received.
+          <br />
+          <br />
+          <b>Refunding Excess:</b> Contributions beyond the 2 million ADA cap
+          are proportionally refunded, ensuring each participant receives their
+          rightful share of TEDY tokens.
+          <br />
+          <br />
+          <b>Example:</b> If the total ADA received is 4 million and you
+          contribute 40,000 ADA, your share is 1% of the total (40,000 /
+          4,000,000). Consequently, you receive 1% of the 800,000 TEDY tokens
+          (8,000 TEDY) and a 50% refund of your ADA contribution (20,000 ADA),
+          in line with the oversubscription.
+          <br />
+          <br />
+          This approach guarantees fair distribution, full participation within
+          the timeframe, and upholds the tokenomics integrity by returning
+          surplus ADA.
+          <br />
+          <br />
+          <b>
+            Teddy Bears Club Round 1 holders will earn a 1% bonus on the LBE and
+            Teddy Bears Club Round 2 holders will earn a 0.4% bonus for each NFT
+            they hold. If someone holds 10 Round 2 Teddy Bears, they&apos;ll
+            earn a 4% bonus. All bonuses will be vested over 6 months, while the
+            actual contributions will be distributed immediately along with the
+            rest of the community.
+          </b>
         </p>
         <p className={styles.text}>
-          Please read our TeddySwap
-          <a
-            href="#"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.link}
-          >
-            {' '}
-            LBE FAQ{' '}
-          </a>
-          before aping in.
+          Please ensure you understand and agree to these terms before
+          participating.
         </p>
       </div>
     </article>
