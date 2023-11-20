@@ -20,7 +20,7 @@ export default function FaqDetails() {
           <br />
           <br />
           <b>All Contributions Counted:</b> We accept all ADA contributions
-          during the 3-hour LBE window, irrespective of the 2 million ADA cap.
+          during the 3-hour LBE window, irrespective of the 1.8 million ADA cap.
           <br />
           <br />
           <b>Proportional Allocation:</b> TEDY tokens are allocated in
@@ -28,15 +28,15 @@ export default function FaqDetails() {
           total ADA received.
           <br />
           <br />
-          <b>Refunding Excess:</b> Contributions beyond the 2 million ADA cap
+          <b>Refunding Excess:</b> Contributions beyond the 1.8 million ADA cap
           are proportionally refunded, ensuring each participant receives their
           rightful share of TEDY tokens.
           <br />
           <br />
-          <b>Example:</b> If the total ADA received is 4 million and you
-          contribute 40,000 ADA, your share is 1% of the total (40,000 /
-          4,000,000). Consequently, you receive 1% of the 800,000 TEDY tokens
-          (8,000 TEDY) and a 50% refund of your ADA contribution (20,000 ADA),
+          <b>Example:</b> If the total ADA received is 3.6 million and you
+          contribute 36,000 ADA, your share is 1% of the total (36,000 /
+          3,600,000). Consequently, you receive 1% of the 800,000 TEDY tokens
+          (8,000 TEDY) and a 50% refund of your ADA contribution (18,000 ADA),
           in line with the oversubscription.
           <br />
           <br />
