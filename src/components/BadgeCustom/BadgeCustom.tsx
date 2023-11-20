@@ -16,6 +16,6 @@ export const BadgeCustom = styled.div<BadgeCustomProps>`
     width: 12px;
     height: 12px;
     border-radius: 100%;
-    background: var(--teddy-box-color);
+    background: var(--teddy-dark-color-active);
   }
 `;
