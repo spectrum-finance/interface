@@ -1,10 +1,5 @@
 import { Flex, Form, FormGroup, Typography, useForm } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
-import {
-  ElementLocation,
-  ElementName,
-  fireAnalyticsEvent,
-} from '@spectrumlabs/analytics';
 import findLast from 'lodash/findLast';
 import maxBy from 'lodash/maxBy';
 import { useMemo, useState } from 'react';
@@ -444,7 +439,6 @@ export const Swap = (): JSX.Element => {
       { emitEvent: 'silent' },
     );
     setLastEditedField((prev) => (prev === 'from' ? 'to' : 'from'));
-    fireAnalyticsEvent('Swap Click Switch');
     setIsSwitch(!isSwitch);
   };
 
@@ -488,7 +482,6 @@ export const Swap = (): JSX.Element => {
       onWidgetClose={() => setLeftWidgetOpened(false)}
     >
       <OperationForm
-        traceFormLocation={ElementLocation.swapForm}
         isWarningButton={isPriceImpactHeight}
         actionCaption={t`Swap`}
         form={form}
@@ -516,10 +509,6 @@ export const Swap = (): JSX.Element => {
               importedAssets$={importedTokenAssets$}
               amountName="fromAmount"
               tokenName="fromAsset"
-              trace={{
-                element_name: ElementName.tokenFrom,
-                element_location: ElementLocation.swapForm,
-              }}
             />
           </Flex.Item>
           <SwitchButton
@@ -539,10 +528,6 @@ export const Swap = (): JSX.Element => {
                   importedAssets$={toImportedAssets$}
                   amountName="toAmount"
                   tokenName="toAsset"
-                  trace={{
-                    element_name: ElementName.tokenTo,
-                    element_location: ElementLocation.swapForm,
-                  }}
                   priceImpact={
                     value.pool && value.fromAmount
                       ? value.pool.calculatePriceImpact(value.fromAmount)

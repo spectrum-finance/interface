@@ -1,0 +1,92 @@
+.mixTitleBox {
+  font-size: 18px;
+  color: var(--teddy-primary-text);
+  font-weight: 600;
+  margin: 0;
+}
+
+.mixSubTitleBox {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--teddy-secondary-text);
+  margin: 0;
+}
+
+.mixTokenFontBox {
+  margin: 0;
+  color: var(--teddy-primary-text);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.mixInputDefault {
+  font-size: 20px;
+  color: var(--teddy-primary-text);
+  font-weight: 600;
+  background: transparent;
+  border: none;
+  -moz-appearance: textfield;
+  appearance: textfield;
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  &:focus {
+    border: none;
+    outline: none;
+  }
+  &::placeholder {
+    color: var(--teddy-primary-text);
+    font-weight: 600;
+  }
+}
+
+// TODO clean borders buttons
+
+.mixBtn {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 60px;
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--teddy-primary-text);
+  border: 1px solid var(--teddy-dark-color-active) !important;
+  background: var(--teddy-box-color-dark);
+  border-radius: 12px;
+  &:hover {
+    background: var(--teddy-primary-color-hover);
+    &:disabled {
+      background: var(--teddy-box-color-dark);
+    }
+  }
+  &:disabled {
+    border: 1px solid var(--teddy-secondary-color) !important;
+    cursor: no-drop;
+    color: var(--teddy-secondary-color);
+  }
+}
+
+.mixBoxTimeContainer {
+  width: 100%;
+  max-width: 440px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  .titleContainer {
+    .mixSubTitleBox;
+  }
+  .timeContent {
+    background: var(--teddy-box-color-dark);
+    border-radius: 12px;
+    width: 100%;
+    height: 110px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

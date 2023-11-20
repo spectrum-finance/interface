@@ -8,14 +8,12 @@ import {
   useDevice,
   useFormContext,
 } from '@ergolabs/ui-kit';
-import { fireAnalyticsEvent, TraceProps } from '@spectrumlabs/analytics';
 import { FC, ReactNode } from 'react';
 import { Observable, of } from 'rxjs';
 
 import { useObservable } from '../../../common/hooks/useObservable';
 import { Currency } from '../../../common/models/Currency';
 import { useAssetsBalance } from '../../../gateway/api/assetBalance';
-import { mapToTokenProps } from '../../../utils/analytics/mapper';
 import { ConvenientAssetView } from '../../ConvenientAssetView/ConvenientAssetView';
 import { PriceImpact } from '../../PriceImpact/PriceImpact.tsx';
 import {
@@ -68,7 +66,6 @@ export interface AssetControlFormItemProps {
   readonly readonly?: boolean | 'asset' | 'amount';
   readonly noBottomInfo?: boolean;
   readonly bordered?: boolean;
-  readonly trace: TraceProps;
   readonly loading?: boolean;
   readonly priceImpact?: number;
 }
@@ -83,7 +80,6 @@ export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
   disabled,
   readonly,
   handleMaxButtonClick,
-  trace,
   loading,
   priceImpact,
 }) => {
@@ -100,11 +96,6 @@ export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
       const newAmount = handleMaxButtonClick
         ? handleMaxButtonClick(maxBalance)
         : maxBalance;
-      fireAnalyticsEvent('Click MAX Button', {
-        ...mapToTokenProps(newAmount.asset),
-        element_location: trace.element_location,
-        element_name: trace.element_name,
-      });
       form.controls[amountName].patchValue(
         newAmount.isPositive() ? newAmount : maxBalance,
       );
@@ -166,7 +157,6 @@ export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
                     value={value}
                     onChange={onChange}
                     disabled={disabled}
-                    trace={trace}
                   />
                 )}
               </Form.Item>

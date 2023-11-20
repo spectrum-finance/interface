@@ -1,11 +1,11 @@
 import { lingui } from '@lingui/vite-plugin';
-import { VitePWA } from 'vite-plugin-pwa'
 import inject from '@rollup/plugin-inject';
 import react from '@vitejs/plugin-react';
 import * as fs from 'fs';
 import path from 'path';
 import { defineConfig } from 'vite';
 import checker from 'vite-plugin-checker';
+import { VitePWA } from 'vite-plugin-pwa';
 import svgr from 'vite-plugin-svgr';
 import topLevelAwait from 'vite-plugin-top-level-await';
 import wasm from 'vite-plugin-wasm';
@@ -40,9 +40,9 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg}']
-      }
-    })
+        globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+      },
+    }),
   ],
   resolve: {
     alias: [

@@ -1,0 +1,46 @@
+@import "../../assets/styles/variables/general.less";
+
+.lbeContainer {
+  width: 100%;
+  display: flex;
+  gap: 36px;
+  justify-content: center;
+  .depositGroup {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 475px;
+    gap: 36px;
+    min-width: 300px;
+  }
+  @media (max-width: 960px) {
+    flex-direction: column;
+    .titleContainer {
+      width: 90%;
+      max-width: 400px;
+      font-size: 24px;
+      text-align: center;
+      margin: 20px auto;
+      font-weight: 700;
+      color: var(--teddy-primary-text);
+    }
+    .boxTimeContainer{
+      .mixBoxTimeContainer;
+      margin: 0 auto;
+      background: var(--teddy-box-color);
+      border-radius: 18px;
+      padding: 20px;
+      width: 100%;
+      max-width: 475px;
+    }
+    .depositGroup {
+      margin: 0 auto;
+    }
+  }
+  @media (max-width: 768px) {
+    gap: 20px;
+    .depositGroup {
+      gap: 20px;
+    }
+  }
+}

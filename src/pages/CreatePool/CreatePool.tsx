@@ -1,6 +1,5 @@
 import { Animation, Flex, Form, FormGroup, useForm } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
-import { ElementLocation, ElementName } from '@spectrumlabs/analytics';
 import { FC, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BehaviorSubject, first, map, of, skip, switchMap } from 'rxjs';
@@ -297,7 +296,6 @@ export const CreatePool: FC = () => {
         onSubmit={createPoolAction}
         actionCaption={t`Create pool`}
         validators={validators}
-        traceFormLocation={ElementLocation.createPoolForm}
       >
         <Flex col>
           <Flex.Item marginBottom={4} display="flex" col>
@@ -314,24 +312,10 @@ export const CreatePool: FC = () => {
             >
               <Flex justify="center" align="center">
                 <Flex.Item marginRight={2} flex={1}>
-                  <AssetSelectFormItem
-                    name="xAsset"
-                    assets$={xAssets$}
-                    trace={{
-                      element_name: ElementName.tokenX,
-                      element_location: ElementLocation.createPoolForm,
-                    }}
-                  />
+                  <AssetSelectFormItem name="xAsset" assets$={xAssets$} />
                 </Flex.Item>
                 <Flex.Item flex={1}>
-                  <AssetSelectFormItem
-                    name="yAsset"
-                    assets$={yAssets$}
-                    trace={{
-                      element_name: ElementName.tokenY,
-                      element_location: ElementLocation.createPoolForm,
-                    }}
-                  />
+                  <AssetSelectFormItem name="yAsset" assets$={yAssets$} />
                 </Flex.Item>
               </Flex>
             </Section>
@@ -390,20 +374,12 @@ export const CreatePool: FC = () => {
                         tokenName="xAsset"
                         amountName="x"
                         readonly="asset"
-                        trace={{
-                          element_name: ElementName.tokenX,
-                          element_location: ElementLocation.createPoolForm,
-                        }}
                       />
                     </Flex.Item>
                     <AssetControlFormItem
                       tokenName="yAsset"
                       amountName="y"
                       readonly="asset"
-                      trace={{
-                        element_name: ElementName.tokenY,
-                        element_location: ElementLocation.createPoolForm,
-                      }}
                     />
                   </Flex>
                 </Section>

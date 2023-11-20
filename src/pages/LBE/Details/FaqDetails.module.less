@@ -1,0 +1,35 @@
+@import "../../../assets/styles/variables/general.less";
+
+.detailsFAQ {
+  margin: 0 auto;
+  margin-top: 50px;
+  align-self: flex-start;
+  width: 80%;
+  .title {
+    .mixTitleBox;
+    margin-bottom: 24px;
+  }
+  .description {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    .text {
+      .mixSubTitleBox;
+      font-size: 15px;
+      .link {
+        text-decoration: underline;
+        color: var(--teddy-dark-color-active);
+      }
+    }
+  }
+  @media (max-width: 960px) {
+    background: var(--teddy-box-color);
+    padding: 20px;
+    border-radius: 18px;
+    width: 100%;
+    max-width: 475px;
+  }
+  @media (max-width: 768px) {
+    margin-top: 20px;
+  }
+}

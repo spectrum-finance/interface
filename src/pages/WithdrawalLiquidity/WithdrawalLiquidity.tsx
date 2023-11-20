@@ -8,7 +8,6 @@ import {
   useForm,
 } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
-import { ElementLocation } from '@spectrumlabs/analytics';
 import { useNavigate } from 'react-router-dom';
 
 import { useObservable } from '../../common/hooks/useObservable';
@@ -80,7 +79,6 @@ export const WithdrawalLiquidity = (): JSX.Element => {
     <Page width={760} title={t`Withdrawal`} withBackButton>
       {position ? (
         <OperationForm
-          traceFormLocation={ElementLocation.withdrawLiquidityForm}
           form={form}
           validators={validators}
           onSubmit={handleRelockLiquidity}

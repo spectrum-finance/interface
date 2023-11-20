@@ -1,98 +1,55 @@
-import './NetworkDropdown.less';
-import '../../../../../assets/styles/styles.less';
-
-import {
-  Button,
-  DownOutlined,
-  Dropdown,
-  Flex,
-  Menu,
-  Typography,
-} from '@ergolabs/ui-kit';
-import { Trans } from '@lingui/macro';
-import { fireAnalyticsEvent, user } from '@spectrumlabs/analytics';
-import capitalize from 'lodash/capitalize';
-import * as React from 'react';
+import { useState } from 'react';
 
 import {
   changeSelectedNetwork,
   useSelectedNetwork,
   visibleNetworks,
 } from '../../../../../gateway/common/network';
-import { AssetIcon } from '../../../../AssetIcon/AssetIcon';
+import { CHEVRON_DOWN } from '../../../../../utils/images';
+import styles from './NetworkDropdown.module.less';
 
-interface NetworkDropdownProps {
-  onSetNetwork?: (val: string) => void;
-  disabled?: boolean;
-}
-
-export const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
-  disabled,
-}) => {
+export default function NetworkDropdown() {
   const [selectedNetwork] = useSelectedNetwork();
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const overlay = (
-    <Menu
-      className="network-dropdown__menu"
-      style={{
-        padding: '8px',
-        minWidth: '210px',
-        border: '1px solid var(--teddy-secondary-color)',
-      }}
-    >
-      <Typography.Body
-        className="network-dropdown__menu-title"
-        strong
-        style={{ padding: '4px 8px' }}
-      >
-        <Trans>Select Network</Trans>
-      </Typography.Body>
-      {visibleNetworks.map((network) => (
-        <Menu.Item
-          key={network.name}
-          onClick={() => {
-            fireAnalyticsEvent('Select Network', {
-              network: network.name,
-            });
-            user.set('network_active', network.name);
-            changeSelectedNetwork(network);
-          }}
-          style={{ padding: '4px 8px' }}
-        >
-          <Flex
-            className={
-              selectedNetwork.name === network.name
-                ? 'network-dropdown-item__active'
-                : ''
-            }
-          >
-            <AssetIcon asset={network.networkAsset} />
-            <span style={{ marginLeft: '8px' }}>
-              {capitalize(network.label)}
-            </span>
-          </Flex>
-        </Menu.Item>
-      ))}
-    </Menu>
-  );
-
+  const handleClickMenu = () => {
+    isOpen ? setIsOpen(false) : setIsOpen(true);
+  };
   return (
-    <Dropdown
-      overlay={overlay}
-      placement="bottomRight"
-      trigger={['click']}
-      disabled={disabled}
-    >
-      <Button className="network-dropdown-selected" size="large">
-        <Flex justify="center" direction="row" align="center">
-          <AssetIcon asset={selectedNetwork.networkAsset} />
-          <DownOutlined
-            style={{
-              marginLeft: 'calc(var(--spectrum-base-gutter) * 2)',
-            }}
-          />
-        </Flex>
-      </Button>
-    </Dropdown>
+    <>
+      <section className={styles.dropdownSelector} onClick={handleClickMenu}>
+        <img src={selectedNetwork.networkAsset.icon} alt="icon-asset" />
+        <svg
+          width="15"
+          height="15"
+          className={`${styles.icon} ${isOpen ? styles.open : ''}`}
+        >
+          <use href={CHEVRON_DOWN} />
+        </svg>
+        {isOpen && (
+          <article className={styles.dropdownMenu}>
+            <h2 className={styles.titleMenu}>Select Network</h2>
+            {visibleNetworks.map((network) => (
+              <div
+                className={`${styles.itemMenu} ${
+                  selectedNetwork.name === network.name ? styles.active : ''
+                }`}
+                key={network.name}
+                onClick={() => {
+                  changeSelectedNetwork(network);
+                  setIsOpen(false);
+                }}
+              >
+                <img src={network.networkAsset.icon} alt="icon-asset" />
+                <p className={styles.itemName}>{network.label}</p>
+                {selectedNetwork.name === network.name && (
+                  <div className={styles.iconCheck} />
+                )}
+              </div>
+            ))}
+          </article>
+        )}
+      </section>
+    </>
   );
-};
+}

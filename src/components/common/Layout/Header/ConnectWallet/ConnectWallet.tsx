@@ -1,19 +1,25 @@
-import { ElementLocation, ElementName } from '@spectrumlabs/analytics';
-import { FC } from 'react';
+import { Modal } from '@ergolabs/ui-kit';
 
-import { HeaderConnectWalletButton } from './HeaderConnectWalletButton/HeaderConnectWalletButton';
+import { useObservable } from '../../../../../common/hooks/useObservable';
+import { isWalletSetuped$ } from '../../../../../gateway/api/wallets';
+import { ChooseWalletModal } from '../../../ConnectWalletButton/ChooseWalletModal/ChooseWalletModal';
+import styles from './ConnectWallet.module.less';
 import { WalletInfoButton } from './WalletInfoButton/WalletInfoButton';
 
-export const ConnectWallet: FC = () => {
+export default function ConnectWallet() {
+  const [isWalletConnected] = useObservable(isWalletSetuped$);
+  const openChooseWalletModal = (): void => {
+    Modal.open(({ close }) => <ChooseWalletModal close={close} />);
+  };
   return (
-    <HeaderConnectWalletButton
-      size="large"
-      trace={{
-        element_name: ElementName.connectWalletButton,
-        element_location: ElementLocation.header,
-      }}
-    >
-      <WalletInfoButton />
-    </HeaderConnectWalletButton>
+    <>
+      {isWalletConnected ? (
+        <WalletInfoButton />
+      ) : (
+        <button className={styles.btnDeposit} onClick={openChooseWalletModal}>
+          Connect Wallet
+        </button>
+      )}
+    </>
   );
-};
+}

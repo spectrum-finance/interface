@@ -7,7 +7,6 @@ import {
   Typography,
 } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
-import { ElementLocation } from '@spectrumlabs/analytics';
 import * as React from 'react';
 import styled from 'styled-components';
 
@@ -47,7 +46,6 @@ export const ConfirmFarmCreateModal: React.FC<ConfirmFarmCreateModal> = ({
       </Modal.Title>
       <Modal.Content maxWidth={480} width="100%">
         <OperationForm
-          traceFormLocation={ElementLocation.farmsList}
           form={form}
           onSubmit={() => {}}
           actionCaption={t`Confirm farm creation`}

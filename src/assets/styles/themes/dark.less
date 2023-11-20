@@ -5,18 +5,21 @@
 .dark {
   @teddy-dark-primary-color: #181E29;
   @teddy-dark-general-color: #FFFFFF;
-  @teddy-dark-primary-color-button: linear-gradient(93deg, #212936 -21.87%, #131725 172.12%);
+  @teddy-dark-color-container: linear-gradient(93deg, #212936 -21.87%, #131725 172.12%);
   @teddy-dark-primary-color-hover: #FFFFFF;
   @teddy-dark-secondary-color: #454e60;
-  @teddy-dark-active-color: #268aff;
+  @teddy-dark-active-color: #51A1FF;
   @teddy-dark-box-secondary: #1f2635;
   @teddy-dark-default-color: #101725;
-  @teddy-dark-active-color-hover: #268aff99;
+  @teddy-dark-active-color-hover: #51A1FF99;
   @teddy-primary-text: #FFFFFF;
-  @teddy-secondary-text: #acacac;
+  @teddy-secondary-text: #C6C6C6;
   @teddy-tab-color-active: transparent;
-  @teddy-modal-color: linear-gradient(128.53deg, rgba(69, 78, 96, 0.63) 11.81%, rgba(73, 79, 89, 0.63) 48.34%, rgba(43, 56, 74, 0.63) 98.82%);
-  @teddy-color-disable: #FFFFFF73;
+  @teddy-box-color: linear-gradient(128.53deg, rgba(69, 78, 96, 0.63) 11.81%, rgba(73, 79, 89, 0.63) 48.34%, rgba(43, 56, 74, 0.63) 98.82%);
+  @teddy-box-color-dark: linear-gradient(315.01deg, #181D2D -11.92%, rgba(46, 47, 58, 0.75) 119.58%);
+  @teddy-box-color-icon: linear-gradient(36.62deg, rgba(255, 255, 255, 0.06) 12.45%, rgba(255, 255, 255, 0.13) 106.33%);
+  @teddy-color-disable: #AAA9A1;
+  @teddy-color-success: #49AA19;
 
   .darkTheme();
   --spectrum-glow-image-width: 100%;
@@ -30,15 +33,23 @@
   --spectrum-box-border-color-secondary-glass: @teddy-tab-color-active;
 
   --spectrum-primary-color:  @teddy-dark-general-color;
+  --ant-primary-color: @teddy-dark-active-color;
 
+  --teddy-dark-general-color: @teddy-dark-general-color;
   --teddy-primary-color: @teddy-dark-primary-color;
   --teddy-primary-color-hover: @teddy-dark-active-color-hover;
   --teddy-secondary-color: @teddy-dark-secondary-color;
   --teddy-color-disable:  @teddy-color-disable;
   --teddy-default-color: @teddy-dark-default-color;
-  --teddy-modal-color: @teddy-modal-color;
+  --teddy-box-color: @teddy-box-color;
+  --teddy-box-color-dark: @teddy-box-color-dark;
+  --teddy-box-color-icon: @teddy-box-color-icon;
   --teddy-dark-secondary-color:  @teddy-dark-box-secondary;
   --teddy-dark-color-active: @teddy-dark-active-color;
+  --teddy-primary-text: @teddy-primary-text;
+  --teddy-secondary-text: @teddy-secondary-text;
+  --teddy-dark-color-container: @teddy-dark-color-container;
+  --teddy-color-success: @teddy-color-success;
 
   --spectrum-box-bg-glass: @teddy-dark-primary-color;
   --spectrum-box-border-color-glass: @teddy-tab-color-active;
@@ -83,6 +94,6 @@
   --spectrum-claim-spf-box-background: @teddy-dark-primary-color;
   --spectrum-yield-farming-badge-background: rgba(113, 103, 197, 0.2);
   --spectrum-claim-spf-box-border-color: @teddy-dark-secondary-color;
-  --spectrum-lbsp-banner-background-color: @teddy-dark-primary-color-button;
+  --spectrum-lbsp-banner-background-color: @teddy-dark-color-container;
   --spectrum-network-select-item-overlay-opacity: 0.35;
 }

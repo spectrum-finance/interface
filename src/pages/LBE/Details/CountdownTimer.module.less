@@ -1,0 +1,55 @@
+.timerContainer {
+  width: 100%;
+  padding: 12px 20px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  .time {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+    .value, .text {
+      color: var(--teddy-primary-text);
+      margin: 0;
+      font-weight: 500;
+    }
+    .value {
+      height: 60px;
+      font-size: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .text{
+      font-size: 14px;
+    }
+  }
+  .points {
+    font-size: 50px;
+    font-weight: 500;
+    color: var(--teddy-primary-text);
+    height: 60px;
+    margin: 0;
+    margin-bottom: 35px;
+    display: flex;
+    align-items: center;
+  }
+  @media (max-width: 430px) {
+    .time {
+      .value {
+        font-size: 30px;
+      }
+      .text {
+        font-size: 12px;
+      }
+    }
+    .points {
+      margin-bottom: 26px;
+      font-size: 30px;
+    }
+  }
+}

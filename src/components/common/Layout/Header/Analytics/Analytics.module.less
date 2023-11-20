@@ -1,0 +1,25 @@
+.analyticsSection {
+  position: fixed;
+  display: flex;
+  bottom: 0;
+  left: 0;
+  height: 50px;
+  align-items: center;
+  background: var(--teddy-dark-color-container);
+  width: 100%;
+  padding-inline: 20px;
+  gap: 10px;
+  .tag {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    background: var(--teddy-box-color);
+    border-radius: 8px;
+    padding: 5px 10px;
+    .tagName, .tagValue {
+      margin: 0;
+      color: var(--teddy-dark-color-active);
+    }
+  }
+}

@@ -1,77 +1,54 @@
-import { Tabs } from '@ergolabs/ui-kit';
-import { t } from '@lingui/macro';
-import { CSSProperties, FC, useEffect, useState } from 'react';
-import { useMatch, useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useSelectedNetwork } from '../../../../../gateway/common/network';
-import { isPreLbspTimeGap } from '../../../../../utils/lbsp.ts';
+import { ARROW_DOWN } from '../../../../../utils/images';
+import styles from './Navigation.module.less';
 
-interface NavigationProps {
-  textCenter?: boolean;
-  className?: string;
-  style?: CSSProperties;
-}
-
-const _Navigation: FC<NavigationProps> = ({ className, style }) => {
-  const navigate = useNavigate();
-  const [network] = useSelectedNetwork();
-  const matchPage = useMatch<'page', string>({
-    path: ':network/:page',
-    end: false,
-  });
-
-  const [defaultActiveKey, setDefaultActiveKey] = useState('');
-
-  useEffect(() => {
-    setDefaultActiveKey(matchPage?.params?.page ?? '');
-  }, [matchPage]);
-
-  const onTabClick = (key: string) => navigate(key);
-
-  return (
-    <Tabs
-      glass
-      activeKey={defaultActiveKey}
-      onChange={onTabClick}
-      className={className}
-      style={style}
-    >
-      <Tabs.TabPane
-        disabled={isPreLbspTimeGap() && network.name === 'cardano'}
-        tab={t`Swap`}
-        key="swap"
-      />
-      <Tabs.TabPane tab={t`Liquidity`} key="liquidity" />
-      {network.name === 'ergo' && <Tabs.TabPane tab={t`Farms`} key="farm" />}
-    </Tabs>
-  );
+type NavigationSectionType = {
+  title: string;
+  path: string;
 };
 
-export const Navigation = styled(_Navigation)`
-  .ant-tabs-nav-list {
-    height: 40px;
-    display: flex;
-    align-items: center;
-  }
+const navigationSections: NavigationSectionType[] = [
+  {
+    title: 'Trade',
+    path: '/swap',
+  },
+  { title: 'Liquidity', path: '/liquidity' },
+  { title: 'LBE', path: '/lbe' },
+];
 
-  .ant-tabs-tab,
-  .ant-tabs-nav-list {
-    flex-grow: 1;
-    background: var(--spectrum-tag-primary) !important;
-    border: none;
-  }
+export default function Navigation() {
+  const navigate = useNavigate();
+  const [network] = useSelectedNetwork();
+  const location = useLocation();
 
-  .ant-tabs-tab-active {
-    background: var(--spectrum-secondary-color) !important;
-  }
+  const handleClickNavigate = (path: string) => {
+    navigate(`/${network.name}${path}`);
+  };
 
-  .ant-tabs-tab {
-    ${(props) => props.textCenter && 'justify-content: center;'}
-  }
-
-  .ant-tabs-tab-btn {
-    font-size: 16px;
-    line-height: 22px;
-  }
-`;
+  return (
+    <div className={styles.navigationContainer}>
+      {navigationSections.map((section) => (
+        <div
+          key={section.title}
+          className={`${styles.page} ${
+            location.pathname === `/${network.name}${section.path}`
+              ? styles.active
+              : ''
+          }`}
+          onClick={() => handleClickNavigate(section.path)}
+        >
+          <p className={styles.name}>{section.title}</p>
+          {section.title === 'Trade' && (
+            <div className={styles.iconContainer}>
+              <svg width="15" height="15" className={styles.icon}>
+                <use href={ARROW_DOWN} />
+              </svg>
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+}

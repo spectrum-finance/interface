@@ -2,7 +2,6 @@ import './OperationForm.less';
 
 import { Button, Flex, Form, FormGroup } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
-import { ElementName, TraceProps } from '@spectrumlabs/analytics';
 import { ReactNode, useEffect, useState } from 'react';
 import {
   debounceTime,
@@ -54,7 +53,6 @@ export interface OperationFormProps<T> {
     form: FormGroup<T>,
   ) => Observable<any> | void | Promise<any>;
   readonly children?: ReactNode | ReactNode[] | string;
-  readonly traceFormLocation: TraceProps['element_location'];
 }
 
 function callValidatorSafely<V, D = undefined>(
@@ -78,7 +76,6 @@ export function OperationForm<T>({
   children,
   actionCaption,
   isWarningButton,
-  traceFormLocation,
 }: OperationFormProps<T>): JSX.Element {
   const CHECK_INTERNET_CONNECTION_CAPTION = t`Check Internet Connection`;
   const LOADING_WALLET_CAPTION = t`Loading`;
@@ -255,10 +252,6 @@ export function OperationForm<T>({
           <ConnectWalletButton
             className="connect-wallet-button"
             size="extra-large"
-            trace={{
-              element_name: ElementName.connectWalletButton,
-              element_location: traceFormLocation,
-            }}
           >
             <Button
               loading={loading}

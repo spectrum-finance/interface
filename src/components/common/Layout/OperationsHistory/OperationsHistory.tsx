@@ -53,6 +53,7 @@ export const OperationsHistory: FC = () => {
           icon={showLoader ? <LoadingOutlined /> : <HistoryOutlined />}
           onClick={openOperationsHistoryModal}
           disabled={!isWalletConnected}
+          style={{ background: 'var(--teddy-box-color)' }}
         >
           {renderHistoryButtonState(pendingOperationsCount || 0)}
         </Button>

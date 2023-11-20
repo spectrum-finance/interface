@@ -19,9 +19,8 @@ import {
 import { openAdaHandleModal } from '../../../../../../network/cardano/widgets/AdaHandle/AdaHandleModal/AdaHandleModal';
 import { isCardano } from '../../../../../../utils/network';
 import { WalletModal } from '../../../../../WalletModal/WalletModal';
+import NetworkDropdown from '../../NetworkDropdown/NetworkDropdown';
 import { AddressTag } from './AddressTag/AddressTag';
-import { BalanceView } from './BalanceView/BalanceView';
-
 export interface WalletInfoButtonProps {
   className?: string;
 }
@@ -38,6 +37,14 @@ const _WalletInfoButton: FC<WalletInfoButtonProps> = ({ className }) => {
   const [hasAdaHandleBalance] = useHasAdaHandle();
   const [hasActiveAdaHandleOnBalance] = useHasActiveAdaHandleOnBalance();
   const { wasAdaHandleModalOpened } = useCardanoSettings();
+
+  const formatAmountAda = (value: number) => {
+    const formated = `${Intl.NumberFormat('en', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(Number(value))}₳`;
+    return formated;
+  };
 
   useEffect(() => {
     if (!isCardano() || !hasAdaHandleBalance) {
@@ -62,32 +69,39 @@ const _WalletInfoButton: FC<WalletInfoButtonProps> = ({ className }) => {
   ]);
 
   return (
-    <Button
-      className={className}
-      onClick={() => {
-        openWalletModal();
-        fireAnalyticsEvent('Open Connected Wallet Modal', {
-          wallet_name: selectedWallet?.name || 'null',
-          wallet_network: selectedNetwork.name,
-        });
-      }}
-      size="large"
-    >
-      <Flex align="center" stretch>
-        {!s && networkAssetBalance !== undefined && (
-          <>
-            <Flex.Item marginLeft={1} marginRight={2}>
-              <BalanceView balance={networkAssetBalance} />
-            </Flex.Item>
-          </>
-        )}
+    <>
+      <NetworkDropdown />
+      <Button
+        className={className}
+        onClick={() => {
+          openWalletModal();
+          fireAnalyticsEvent('Open Connected Wallet Modal', {
+            wallet_name: selectedWallet?.name || 'null',
+            wallet_network: selectedNetwork.name,
+          });
+        }}
+        size="large"
+      >
+        <Flex align="center" stretch>
+          {!s && networkAssetBalance !== undefined && (
+            <>
+              <Flex.Item marginLeft={1} marginRight={2}>
+                <p className="balance-wallet">
+                  {formatAmountAda(
+                    Number(networkAssetBalance.amount) / 1000000,
+                  )}
+                </p>
+              </Flex.Item>
+            </>
+          )}
 
-        <AddressTag
-          loading={networkAssetBalance === undefined}
-          address={settings?.address}
-        />
-      </Flex>
-    </Button>
+          <AddressTag
+            loading={networkAssetBalance === undefined}
+            address={settings?.address}
+          />
+        </Flex>
+      </Button>
+    </>
   );
 };
 
@@ -95,23 +109,25 @@ export const WalletInfoButton = styled(_WalletInfoButton)`
   height: 40px;
   padding: 4px;
   border: none;
-  background: var(--teddy-default-color);
+  background: var(--teddy-box-color);
   color: var(--spectrum-connect-wallet-address-btn-color);
 
   &:hover {
     border: none;
-    background: var(--spectrum-connect-wallet-address-btn-bg);
+    background: var(--teddy-primary-color-hover);
     color: var(--spectrum-connect-wallet-address-btn-color);
   }
 
-  &:active,
-  &:focus {
+  &:active {
     border: none;
-    background: var(--spectrum-connect-wallet-address-btn-bg);
     color: var(--spectrum-connect-wallet-address-btn-color);
   }
 
   &.ant-btn-loading {
     border: none;
+  }
+  .balance-wallet {
+    margin: 0;
+    padding-inline: 5px;
   }
 `;

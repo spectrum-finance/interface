@@ -1,6 +1,5 @@
 import { Button, ButtonProps, Flex } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
-import { TraceProps } from '@spectrumlabs/analytics/lib/esm/types';
 import { CSSProperties, FC, ReactNode, useEffect } from 'react';
 
 import { useObservable } from '../../../../common/hooks/useObservable';
@@ -19,7 +18,6 @@ export interface VesprConnectButtonProps {
   readonly className?: string;
   readonly children?: ReactNode | ReactNode[] | string;
   readonly isWalletConnected?: boolean;
-  readonly trace: TraceProps;
 }
 
 const mapSizeToStyle = new Map<ButtonProps['size'], CSSProperties>([

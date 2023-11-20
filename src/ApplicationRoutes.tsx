@@ -12,12 +12,12 @@ import { useApplicationSettings } from './context';
 import { AddLiquidity } from './pages/AddLiquidity/AddLiquidity';
 import { CreatePool } from './pages/CreatePool/CreatePool';
 import { Farms } from './pages/Farms/Farms';
+import LBE from './pages/LBE/LBE.tsx';
 import { Liquidity } from './pages/Liquidity/Liquidity';
 import { LockLiquidity } from './pages/LockLiquidity/LockLiquidity';
 import { PoolOverview } from './pages/PoolOverview/PoolOverview';
 import { RelockLiquidity } from './pages/RelockLiquidity/RelockLiquidity';
 import { RemoveLiquidity } from './pages/RemoveLiquidity/RemoveLiquidity';
-import { Rewards } from './pages/Rewards/Rewards';
 import { Swap } from './pages/Swap/Swap';
 import { WithdrawalLiquidity } from './pages/WithdrawalLiquidity/WithdrawalLiquidity';
 import { isPreLbspTimeGap } from './utils/lbsp.ts';
@@ -109,9 +109,9 @@ export const routesConfig: RouteConfigExtended[] = [
             ],
           },
           {
-            title: 'Rewards',
-            path: 'rewards',
-            element: <Rewards />,
+            title: 'LBE',
+            path: 'lbe',
+            element: <LBE />,
           },
           {
             path: '*',

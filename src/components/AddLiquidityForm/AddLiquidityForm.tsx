@@ -1,7 +1,5 @@
 import { Flex, FormGroup } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
-import { ElementName } from '@spectrumlabs/analytics';
-import { TraceProps } from '@spectrumlabs/analytics/lib/esm/types';
 import maxBy from 'lodash/maxBy';
 import { FC, ReactNode, useEffect, useMemo, useState } from 'react';
 import {
@@ -55,7 +53,6 @@ export interface AddLiquidityFormProps {
   readonly initialPoolNotFound?: () => void;
   readonly poolChanged?: (pool: AmmPool | undefined) => void;
   readonly form: FormGroup<AddLiquidityFormModel>;
-  readonly traceFormLocation: TraceProps['element_location'];
   readonly children?: ReactNode[] | ReactNode | string;
   readonly onSubmitSuccess?: () => void;
   readonly withoutConfirmation?: boolean;
@@ -90,7 +87,6 @@ export const AddLiquidityForm: FC<AddLiquidityFormProps> = ({
   initialPoolNotFound,
   poolChanged,
   children,
-  traceFormLocation,
   onSubmitSuccess,
   withoutConfirmation,
 }) => {
@@ -342,7 +338,6 @@ export const AddLiquidityForm: FC<AddLiquidityFormProps> = ({
       onSubmit={addLiquidityAction}
       validators={validators}
       actionCaption={t`Add Liquidity`}
-      traceFormLocation={traceFormLocation}
     >
       <Section
         gap={2}
@@ -360,10 +355,6 @@ export const AddLiquidityForm: FC<AddLiquidityFormProps> = ({
               assetsToImport$={tokenAssetsToImport$}
               importedAssets$={importedTokenAssets$}
               loading={allAmmPoolsLoading}
-              trace={{
-                element_location: traceFormLocation,
-                element_name: ElementName.tokenX,
-              }}
               amountName="x"
               tokenName="xAsset"
             />
@@ -374,10 +365,6 @@ export const AddLiquidityForm: FC<AddLiquidityFormProps> = ({
               assetsToImport$={yAssetsToImport$}
               importedAssets$={yImportedAssets$}
               loading={allAmmPoolsLoading}
-              trace={{
-                element_location: traceFormLocation,
-                element_name: ElementName.tokenY,
-              }}
               amountName="y"
               tokenName="yAsset"
             />
