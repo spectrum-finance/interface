@@ -142,8 +142,8 @@ export const ApplicationRoutes: FC = () => {
   return (
     <>
       <RouterTitle
-        divider="|"
-        pageTitle={networkTitle ? `TeddySwap - ${networkTitle}` : 'TeddySwap'}
+        divider="·"
+        pageTitle={networkTitle ? `TeddySwap · ${networkTitle}` : 'TeddySwap'}
         routesConfig={routesConfig}
       />
       {routes}

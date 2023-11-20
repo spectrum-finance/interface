@@ -3,26 +3,22 @@ import { useEffect, useState } from 'react';
 import { useObservable } from '../../../common/hooks/useObservable';
 import { networkAssetBalance$ } from '../../../gateway/api/networkAssetBalance';
 import { isWalletSetuped$ } from '../../../gateway/api/wallets';
-import useFetch from './useAdaPrice';
 
 const useDeposit = () => {
   const addressDeposit =
     'addr_test1qq9xk4nqkzpp8hcmg9452usxkarg2nkggz7m3kzpp0dq4qpzunpnynvz0n2ycgn3pvnhfa20xdj5ks9zefeeyyrckkusc0zafl';
-  const apiUsdAda = '/api/adaprice';
 
   const [isWalletConnected] = useObservable(isWalletSetuped$);
   const [networkAssetBalance] = useObservable(networkAssetBalance$);
 
   const [isCopied, setIsCopied] = useState<boolean>(false);
   useState<string | undefined>();
-  const [usdAda, setUsdAda] = useState<string | undefined>();
   const [valueAdaInput, setValueAdaInput] = useState<string>('');
   const [valueTedyInput, setValueTedyInput] = useState<string>('0.0');
   const [isValidInput, setIsValidInput] = useState({
     valid: false,
     text: 'Enter an amount',
   });
-  const { data, loading } = useFetch(apiUsdAda);
 
   const validInput = (value: string) => {
     return value.length < 12;
@@ -66,14 +62,6 @@ const useDeposit = () => {
     return formated;
   };
 
-  const formatAmountUsd = (value: number) => {
-    const formated = `~$${Intl.NumberFormat('en', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    }).format(Number(value))}`;
-    return formated;
-  };
-
   useEffect(() => {
     const value = Number(valueAdaInput) * 5;
     if (valueAdaInput === '' || Number(valueAdaInput) === 0) {
@@ -82,14 +70,6 @@ const useDeposit = () => {
       setValueTedyInput(formatAmountTedy(value));
     }
   }, [valueAdaInput]);
-
-  useEffect(() => {
-    if (valueAdaInput === '' || Number(valueAdaInput) === 0) {
-      setUsdAda('~$0');
-    } else {
-      setUsdAda(formatAmountUsd(Number(data) * Number(valueAdaInput)));
-    }
-  }, [valueAdaInput, data]);
 
   useEffect(() => {
     if (valueAdaInput === '' || Number(valueAdaInput) === 0) {
@@ -147,8 +127,6 @@ const useDeposit = () => {
     addressDeposit,
     isCopied,
     handleCopyClick,
-    usdAda,
-    loading,
     handleKeyDown,
     handleValueChange,
     valueAdaInput,

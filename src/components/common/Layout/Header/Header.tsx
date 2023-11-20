@@ -6,14 +6,12 @@ import styles from './Header.module.less';
 import Navigation from './Navigation/Navigation';
 
 export default function Header() {
-  const { s, moreThan, lessThan } = useDevice();
+  const { s, moreThan } = useDevice();
 
   return (
     <header className={styles.header}>
       <section className={styles.navigationSection}>
         {moreThan('l') ? (
-          <img src="/img/logo/teddy-logo.png" height={26} />
-        ) : lessThan('m') ? (
           <img src="/img/logo/teddy-logo.png" height={26} />
         ) : (
           <img src="/img/logo/teddy-logo-mob.png" height={26} />

@@ -1,10 +1,9 @@
 import { Button, Flex, Modal, useDevice } from '@ergolabs/ui-kit';
 import { fireAnalyticsEvent } from '@spectrumlabs/analytics';
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect } from 'react';
 import styled from 'styled-components';
 
 import { useObservable } from '../../../../../../common/hooks/useObservable';
-import { useAssetMode } from '../../../../../../context/AssetModeContext';
 import { networkAssetBalance$ } from '../../../../../../gateway/api/networkAssetBalance';
 import { selectedWallet$ } from '../../../../../../gateway/api/wallets';
 import { useSelectedNetwork } from '../../../../../../gateway/common/network';
@@ -18,11 +17,10 @@ import {
   useSettings as useCardanoSettings,
 } from '../../../../../../network/cardano/settings/settings';
 import { openAdaHandleModal } from '../../../../../../network/cardano/widgets/AdaHandle/AdaHandleModal/AdaHandleModal';
-import useFetch from '../../../../../../pages/LBE/DepositBox/useAdaPrice';
 import { isCardano } from '../../../../../../utils/network';
 import { WalletModal } from '../../../../../WalletModal/WalletModal';
+import NetworkDropdown from '../../NetworkDropdown/NetworkDropdown';
 import { AddressTag } from './AddressTag/AddressTag';
-import styles from './WalletInfoButton.module.less';
 export interface WalletInfoButtonProps {
   className?: string;
 }
@@ -40,23 +38,11 @@ const _WalletInfoButton: FC<WalletInfoButtonProps> = ({ className }) => {
   const [hasActiveAdaHandleOnBalance] = useHasActiveAdaHandleOnBalance();
   const { wasAdaHandleModalOpened } = useCardanoSettings();
 
-  const { assetMode, setAssetMode } = useAssetMode();
-  const [balance, setBalance] = useState<string>('');
-  const { data, loading } = useFetch('/api/adaprice');
-
   const formatAmountAda = (value: number) => {
     const formated = `${Intl.NumberFormat('en', {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     }).format(Number(value))}₳`;
-    return formated;
-  };
-
-  const formatAmountUsd = (value: number) => {
-    const formated = `~$${Intl.NumberFormat('en', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    }).format(Number(value))}`;
     return formated;
   };
 
@@ -82,47 +68,9 @@ const _WalletInfoButton: FC<WalletInfoButtonProps> = ({ className }) => {
     networkAssetBalance,
   ]);
 
-  useEffect(() => {
-    if (networkAssetBalance !== undefined) {
-      if (assetMode === 'USD') {
-        loading
-          ? setBalance('Loading...')
-          : setBalance(
-              formatAmountUsd(
-                (Number(data) * Number(networkAssetBalance.amount)) / 1000000,
-              ),
-            );
-      } else {
-        setBalance(
-          formatAmountAda(Number(networkAssetBalance.amount) / 1000000),
-        );
-      }
-    }
-  }, [networkAssetBalance, assetMode, data]);
-
   return (
     <>
-      {!s && (
-        <div className={styles.toogleAssets}>
-          <p
-            className={`${styles.asset} ${
-              assetMode === 'USD' ? styles.active : ''
-            }`}
-            onClick={() => setAssetMode('USD')}
-          >
-            USD
-          </p>
-          <p
-            className={`${styles.asset} ${
-              assetMode === 'ADA' ? styles.active : ''
-            }`}
-            onClick={() => setAssetMode('ADA')}
-          >
-            ADA
-          </p>
-        </div>
-      )}
-
+      <NetworkDropdown />
       <Button
         className={className}
         onClick={() => {
@@ -138,7 +86,11 @@ const _WalletInfoButton: FC<WalletInfoButtonProps> = ({ className }) => {
           {!s && networkAssetBalance !== undefined && (
             <>
               <Flex.Item marginLeft={1} marginRight={2}>
-                <p className="balance-wallet">{balance}</p>
+                <p className="balance-wallet">
+                  {formatAmountAda(
+                    Number(networkAssetBalance.amount) / 1000000,
+                  )}
+                </p>
               </Flex.Item>
             </>
           )}

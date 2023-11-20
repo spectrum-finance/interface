@@ -7,8 +7,6 @@ import useDeposit from './useDeposit';
 
 export default function DepositDApp() {
   const {
-    usdAda,
-    loading,
     handleKeyDown,
     handleValueChange,
     valueAdaInput,
@@ -48,7 +46,6 @@ export default function DepositDApp() {
             <p className={styles.tokenName}>ADA</p>
           </div>
           <div className={styles.mask} />
-          <p className={styles.valueUsd}>{loading ? 'loading' : usdAda}</p>
           {isWalletConnected && (
             <p className={styles.selectMax} onClick={handleClickMax}>
               Max
