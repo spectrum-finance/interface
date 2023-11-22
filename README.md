@@ -1,3 +1,5 @@
+# 🧸 TeddySwap UI v1
+
 ![prod](https://github.com/ergolabs/ergo-dex-frontend/actions/workflows//release.yml/badge.svg?branch=master)
 ![test](https://github.com/ergolabs/ergo-dex-frontend/actions/workflows/test.yml/badge.svg?branch=test)
 ![dev](https://github.com/ergolabs/ergo-dex-frontend/actions/workflows/dev.yml/badge.svg?branch=dev)
