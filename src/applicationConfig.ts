@@ -23,6 +23,7 @@ interface NetworkConfig {
   readonly defaultTokenListUrl: string;
   readonly isCreatePoolAvailable: boolean;
   readonly submitTxUrl?: string;
+  readonly lbeAddress: string;
 }
 
 interface CardanoUpdate {
@@ -90,17 +91,21 @@ export const applicationConfig: ApplicationConfig = {
       isCreatePoolAvailable: false,
       submitTxUrl:
         'https://submitapi-preview-api-tasteful-infusion-213dd4.us1.demeter.run/api/submit/tx',
+      lbeAddress:
+        'addr_test1qzhwefhsv6xn2s4sn8a92f9m29lwj67aykn4plr9xal4r48del5pz2hf795j5wxzhzf405g377jmw7a92k9z2enhd6pqutz67m',
     },
     cardano: {
       defaultTokenListUrl:
         'https://raw.githubusercontent.com/teddy-swap/tokenlist/main/preview.json',
       metadataUrl:
         'https://raw.githubusercontent.com/teddy-swap/token-logos/master/logos/cardano',
-      networkUrl: 'https://explorer.teddyswap.org/cardano/preview/v1/',
+      networkUrl: 'https://explorer.teddyswap.org/cardano/mainnet/v1/',
       explorerUrl: 'https://cardanoscan.io',
       lowBalanceGuide: '',
-      analyticUrl: 'https://8081-cardano-markets-api.us1.demeter.run/v1/',
+      analyticUrl: '',
       isCreatePoolAvailable: false,
+      lbeAddress:
+        'addr1q8nrqg4s73skqfyyj69mzr7clpe8s7ux9t8z6l55x2f2xuqra34p9pswlrq86nq63hna7p4vkrcrxznqslkta9eqs2nscfavlf',
     },
     ergo: {
       defaultTokenListUrl: '',
@@ -112,6 +117,7 @@ export const applicationConfig: ApplicationConfig = {
       lowBalanceGuide: '',
       ergopayUrl: '',
       isCreatePoolAvailable: true,
+      lbeAddress: '',
     },
   },
   social: {
