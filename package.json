@@ -1,9 +1,11 @@
 {
   "name": "@spectrumlabs/interface",
+  "homepage": "https://teddy-swap.github.io/teddy-swap-ui",
   "version": "5.0.32",
   "scripts": {
     "start": "vite",
     "build": "tsc && cross-env NODE_OPTIONS=--max-old-space-size=8192 vite build",
+    "deploy": "yarn build && gh-pages -d build",
     "serve": "vite preview",
     "prei18n:extract": "touch src/i18n/locales/en-US.po",
     "i18n:extract": "lingui extract --locale en-US",
@@ -39,6 +41,7 @@
     "axios": "^0.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "file-saver": "^2.0.5",
+    "gh-pages": "^6.1.0",
     "js-cookie": "^3.0.0",
     "lodash": "^4.17.21",
     "luxon": "^3.3.0",
