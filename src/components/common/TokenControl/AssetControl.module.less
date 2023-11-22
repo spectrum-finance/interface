@@ -2,10 +2,10 @@
 
 .assetContainer {
   width: 100%;
-  padding: 24px 16px;
+  padding: 24px 16px 16px;
   border-radius: 16px;
   background: var(--teddy-dark-secondary-color);
-  height: 100px;
+  height: 120px;
   position: relative;
   display: flex;
   align-items: center;
@@ -46,7 +46,12 @@
     }
   }
   @media (max-width: 768px) {
-    padding: 24px 10px;
-    height: 90px;
+    padding: 24px 10px 16px;
+    height: 110px;
+    .containerGroup {
+      .assetRow {
+        height: 30px;
+      }
+    }
   }
 }

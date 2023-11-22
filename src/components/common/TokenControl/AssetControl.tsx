@@ -1,9 +1,9 @@
 import { AssetInfo } from '@ergolabs/ergo-sdk';
 import {
-  //Animation,
-  //Flex,
+  Animation,
+  Flex,
   Form,
-  //Typography,
+  Typography,
   useDevice,
   useFormContext,
 } from '@ergolabs/ui-kit';
@@ -12,14 +12,14 @@ import { Observable, of } from 'rxjs';
 
 import { useObservable } from '../../../common/hooks/useObservable';
 import { Currency } from '../../../common/models/Currency';
-//import { useAssetsBalance } from '../../../gateway/api/assetBalance';
-//import { ConvenientAssetView } from '../../ConvenientAssetView/ConvenientAssetView';
-//import { PriceImpact } from '../../PriceImpact/PriceImpact.tsx';
+import { useAssetsBalance } from '../../../gateway/api/assetBalance';
+import { ConvenientAssetView } from '../../ConvenientAssetView/ConvenientAssetView';
+import { PriceImpact } from '../../PriceImpact/PriceImpact.tsx';
 import {
   AssetAmountInput,
   TokenAmountInputValue,
 } from './AssetAmountInput/AssetAmountInput';
-//import { AssetBalance } from './AssetBalance/AssetBalance';
+import { AssetBalance } from './AssetBalance/AssetBalance';
 import styles from './AssetControl.module.less';
 import { AssetSelect } from './AssetSelect/AssetSelect';
 
@@ -73,25 +73,25 @@ export interface AssetControlFormItemProps {
 export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
   amountName,
   tokenName,
-  //maxButton,
+  maxButton,
   assets$,
   assetsToImport$,
   importedAssets$,
   disabled,
   readonly,
-  //handleMaxButtonClick,
+  handleMaxButtonClick,
   loading,
-  //priceImpact,
+  priceImpact,
 }) => {
-  const { s /* , valBySize */ } = useDevice();
+  const { s, valBySize } = useDevice();
   const { form } = useFormContext();
-  //const [balance, balanceLoading] = useAssetsBalance();
+  const [balance, balanceLoading] = useAssetsBalance();
   const [selectedAsset] = useObservable(
     tokenName
       ? form.controls[tokenName].valueChangesWithSilent$
       : of(undefined),
   );
-  /* const _handleMaxButtonClick = (maxBalance: Currency) => {
+  const _handleMaxButtonClick = (maxBalance: Currency) => {
     if (amountName) {
       const newAmount = handleMaxButtonClick
         ? handleMaxButtonClick(maxBalance)
@@ -100,7 +100,7 @@ export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
         newAmount.isPositive() ? newAmount : maxBalance,
       );
     }
-  }; */
+  };
 
   const isAmountReadOnly = () => {
     if (typeof readonly === 'boolean') {
@@ -161,7 +161,7 @@ export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
           </div>
         </div>
 
-        {/* <Form.Listener name={amountName}>
+        <Form.Listener name={amountName}>
           {({ value }) => (
             <Animation.Expand
               expanded={
@@ -201,7 +201,7 @@ export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
               </div>
             </Animation.Expand>
           )}
-        </Form.Listener> */}
+        </Form.Listener>
       </div>
     </section>
   );
