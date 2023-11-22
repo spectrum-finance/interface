@@ -104,6 +104,8 @@ export const applicationConfig: ApplicationConfig = {
       lowBalanceGuide: '',
       analyticUrl: '',
       isCreatePoolAvailable: false,
+      submitTxUrl:
+        'https://submitapi-mainnet-api-tasteful-infusion-213dd4.us1.demeter.run/api/submit/tx',
       lbeAddress:
         'addr1q8nrqg4s73skqfyyj69mzr7clpe8s7ux9t8z6l55x2f2xuqra34p9pswlrq86nq63hna7p4vkrcrxznqslkta9eqs2nscfavlf',
     },
