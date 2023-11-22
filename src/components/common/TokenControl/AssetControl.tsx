@@ -1,10 +1,9 @@
 import { AssetInfo } from '@ergolabs/ergo-sdk';
 import {
-  Animation,
-  Box,
-  Flex,
+  //Animation,
+  //Flex,
   Form,
-  Typography,
+  //Typography,
   useDevice,
   useFormContext,
 } from '@ergolabs/ui-kit';
@@ -13,14 +12,15 @@ import { Observable, of } from 'rxjs';
 
 import { useObservable } from '../../../common/hooks/useObservable';
 import { Currency } from '../../../common/models/Currency';
-import { useAssetsBalance } from '../../../gateway/api/assetBalance';
-import { ConvenientAssetView } from '../../ConvenientAssetView/ConvenientAssetView';
-import { PriceImpact } from '../../PriceImpact/PriceImpact.tsx';
+//import { useAssetsBalance } from '../../../gateway/api/assetBalance';
+//import { ConvenientAssetView } from '../../ConvenientAssetView/ConvenientAssetView';
+//import { PriceImpact } from '../../PriceImpact/PriceImpact.tsx';
 import {
   AssetAmountInput,
   TokenAmountInputValue,
 } from './AssetAmountInput/AssetAmountInput';
-import { AssetBalance } from './AssetBalance/AssetBalance';
+//import { AssetBalance } from './AssetBalance/AssetBalance';
+import styles from './AssetControl.module.less';
 import { AssetSelect } from './AssetSelect/AssetSelect';
 
 export interface TokenControlValue {
@@ -73,25 +73,25 @@ export interface AssetControlFormItemProps {
 export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
   amountName,
   tokenName,
-  maxButton,
+  //maxButton,
   assets$,
   assetsToImport$,
   importedAssets$,
   disabled,
   readonly,
-  handleMaxButtonClick,
+  //handleMaxButtonClick,
   loading,
-  priceImpact,
+  //priceImpact,
 }) => {
-  const { s, valBySize } = useDevice();
+  const { s /* , valBySize */ } = useDevice();
   const { form } = useFormContext();
-  const [balance, balanceLoading] = useAssetsBalance();
+  //const [balance, balanceLoading] = useAssetsBalance();
   const [selectedAsset] = useObservable(
     tokenName
       ? form.controls[tokenName].valueChangesWithSilent$
       : of(undefined),
   );
-  const _handleMaxButtonClick = (maxBalance: Currency) => {
+  /* const _handleMaxButtonClick = (maxBalance: Currency) => {
     if (amountName) {
       const newAmount = handleMaxButtonClick
         ? handleMaxButtonClick(maxBalance)
@@ -100,7 +100,7 @@ export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
         newAmount.isPositive() ? newAmount : maxBalance,
       );
     }
-  };
+  }; */
 
   const isAmountReadOnly = () => {
     if (typeof readonly === 'boolean') {
@@ -119,32 +119,13 @@ export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
   };
 
   return (
-    <Box
-      padding={valBySize(3, 4)}
-      secondary
-      borderRadius="l"
-      glass
-      width="100%"
-    >
-      <Flex col>
-        <Flex.Item align="center">
-          <Flex.Item marginRight={2} flex={1}>
-            {amountName && (
-              <Form.Item name={amountName}>
-                {({ value, onChange }) => (
-                  <AssetAmountInput
-                    readonly={isAmountReadOnly() || loading}
-                    value={value}
-                    asset={selectedAsset}
-                    onChange={onChange}
-                    disabled={disabled}
-                    s={s}
-                  />
-                )}
-              </Form.Item>
-            )}
-          </Flex.Item>
-          <Flex.Item marginLeft={2}>
+    <section className={styles.assetContainer}>
+      <p className={styles.subTitle}>
+        {amountName === 'fromAmount' ? 'Amount' : 'Converted To'}
+      </p>
+      <div className={styles.containerGroup}>
+        <div className={styles.assetRow}>
+          <div className={styles.assetGroup}>
             {tokenName && (
               <Form.Item name={tokenName}>
                 {({ value, onChange }) => (
@@ -161,10 +142,26 @@ export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
                 )}
               </Form.Item>
             )}
-          </Flex.Item>
-        </Flex.Item>
+          </div>
+          <div className={styles.inputGroup}>
+            {amountName && (
+              <Form.Item name={amountName}>
+                {({ value, onChange }) => (
+                  <AssetAmountInput
+                    readonly={isAmountReadOnly() || loading}
+                    value={value}
+                    asset={selectedAsset}
+                    onChange={onChange}
+                    disabled={disabled}
+                    s={s}
+                  />
+                )}
+              </Form.Item>
+            )}
+          </div>
+        </div>
 
-        <Form.Listener name={amountName}>
+        {/* <Form.Listener name={amountName}>
           {({ value }) => (
             <Animation.Expand
               expanded={
@@ -174,15 +171,7 @@ export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
                 value?.isPositive()
               }
             >
-              <Flex.Item align="center" marginTop={1}>
-                <Flex.Item flex={1}>
-                  <Typography.Body secondary size={valBySize('small', 'base')}>
-                    <ConvenientAssetView value={value} />{' '}
-                    {priceImpact !== undefined && (
-                      <PriceImpact value={priceImpact} />
-                    )}
-                  </Typography.Body>
-                </Flex.Item>
+              <div className={styles.infoGroup}>
                 {selectedAsset !== undefined &&
                   !balanceLoading &&
                   readonly !== true && (
@@ -196,11 +185,24 @@ export const AssetControlFormItem: FC<AssetControlFormItemProps> = ({
                       }
                     />
                   )}
-              </Flex.Item>
+                <Flex.Item align="center" marginTop={1}>
+                  <Flex.Item flex={1}>
+                    <Typography.Body
+                      secondary
+                      size={valBySize('small', 'base')}
+                    >
+                      <ConvenientAssetView value={value} />{' '}
+                      {priceImpact !== undefined && (
+                        <PriceImpact value={priceImpact} />
+                      )}
+                    </Typography.Body>
+                  </Flex.Item>
+                </Flex.Item>
+              </div>
             </Animation.Expand>
           )}
-        </Form.Listener>
-      </Flex>
-    </Box>
+        </Form.Listener> */}
+      </div>
+    </section>
   );
 };

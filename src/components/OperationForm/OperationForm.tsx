@@ -1,6 +1,4 @@
-import './OperationForm.less';
-
-import { Button, Flex, Form, FormGroup } from '@ergolabs/ui-kit';
+import { Flex, Form, FormGroup } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
 import { ReactNode, useEffect, useState } from 'react';
 import {
@@ -17,8 +15,10 @@ import { Balance } from '../../common/models/Balance';
 import { isOnline$ } from '../../common/streams/networkConnection';
 import { useAssetsBalance } from '../../gateway/api/assetBalance';
 import { queuedOperation$ } from '../../gateway/api/queuedOperation';
+import { isWalletSetuped$ } from '../../gateway/api/wallets';
 import { useSettings } from '../../gateway/settings/settings';
 import { ConnectWalletButton } from '../common/ConnectWalletButton/ConnectWalletButton';
+import styles from './OperationForm.module.less';
 
 export type OperationLoader<T> = (form: FormGroup<T>) => boolean;
 
@@ -84,6 +84,7 @@ export function OperationForm<T>({
   const [validatorSubscription, setValidatorSubscription] = useState<
     Subscription | undefined
   >(undefined);
+  const [isWalletConnected] = useObservable(isWalletSetuped$);
   const [isOnline] = useObservable(isOnline$);
   const { slippage, nitro } = useSettings();
   const [queuedOperation] = useObservable(queuedOperation$);
@@ -249,22 +250,19 @@ export function OperationForm<T>({
       <Flex col>
         {children}
         <Flex.Item marginTop={4}>
-          <ConnectWalletButton
-            className="connect-wallet-button"
-            size="extra-large"
-          >
-            <Button
-              loading={loading}
+          {isWalletConnected ? (
+            <button
+              type="submit"
+              className={`${styles.btnSwap} ${
+                isDangerButton ? styles.danger : ''
+              }`}
               disabled={disabled}
-              type="primary"
-              danger={!!isDangerButton}
-              size="extra-large"
-              className="operation-form-submit-button"
-              htmlType="submit"
             >
               {caption}
-            </Button>
-          </ConnectWalletButton>
+            </button>
+          ) : (
+            <ConnectWalletButton />
+          )}
         </Flex.Item>
       </Flex>
     </Form>

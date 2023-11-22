@@ -109,4 +109,5 @@ export const AssetAmountInput = styled(_TokenAmountInput)`
   font-weight: 600 !important;
   line-height: 32px !important;
   height: 100%;
+  text-align: right;
 `;
