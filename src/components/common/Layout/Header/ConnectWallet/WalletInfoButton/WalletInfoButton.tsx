@@ -19,7 +19,6 @@ import {
 import { openAdaHandleModal } from '../../../../../../network/cardano/widgets/AdaHandle/AdaHandleModal/AdaHandleModal';
 import { isCardano } from '../../../../../../utils/network';
 import { WalletModal } from '../../../../../WalletModal/WalletModal';
-import NetworkDropdown from '../../NetworkDropdown/NetworkDropdown';
 import { AddressTag } from './AddressTag/AddressTag';
 export interface WalletInfoButtonProps {
   className?: string;
@@ -70,7 +69,6 @@ const _WalletInfoButton: FC<WalletInfoButtonProps> = ({ className }) => {
 
   return (
     <>
-      <NetworkDropdown />
       <Button
         className={className}
         onClick={() => {
