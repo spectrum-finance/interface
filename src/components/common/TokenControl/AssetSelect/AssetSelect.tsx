@@ -29,7 +29,7 @@ const AssetSelect: React.FC<TokenSelectProps> = ({
   importedAssets$,
   loading,
 }) => {
-  const { /* s,  */ valBySize } = useDevice();
+  const { valBySize } = useDevice();
   const handleSelectChange = (newValue: AssetInfo): void => {
     if (value?.id !== newValue?.id && onChange) {
       onChange(newValue);

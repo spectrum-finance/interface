@@ -17,7 +17,6 @@ export interface ConnectWalletButtonProps {
 export const ConnectWalletButton: FC<ConnectWalletButtonProps> = ({
   size,
   className,
-  /* children, */
   width,
 }) => {
   const [isWalletConnected] = useObservable(isWalletSetuped$);
