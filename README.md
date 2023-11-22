@@ -1,9 +1,5 @@
 # 🧸 TeddySwap UI v1
 
-![prod](https://github.com/ergolabs/ergo-dex-frontend/actions/workflows//release.yml/badge.svg?branch=master)
-![test](https://github.com/ergolabs/ergo-dex-frontend/actions/workflows/test.yml/badge.svg?branch=test)
-![dev](https://github.com/ergolabs/ergo-dex-frontend/actions/workflows/dev.yml/badge.svg?branch=dev)
-
 <!-- TABLE OF CONTENTS -->
 <details open="open">
   <summary><h2 style="display: inline-block">Table of Contents</h2></summary>
