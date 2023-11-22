@@ -21,9 +21,9 @@ import {
   switchMap,
 } from 'rxjs';
 
-import { applicationConfig } from '../../../../applicationConfig';
 import { AmmPool } from '../../../../common/models/AmmPool';
 import { TxId } from '../../../../common/types';
+import { cardanoNetworkData } from '../../utils/cardanoNetworkData';
 import { getAddresses } from '../addresses/addresses';
 import { allAmmPools$ } from '../ammPools/ammPools';
 import { mapRawAddLiquidityItemToAddLiquidityItem } from './types/AddLiquidityOperation';
@@ -60,16 +60,11 @@ export const mempoolRawOperations$: Observable<RawOperationItem[]> =
     ),
     switchMap((addresses) =>
       from(
-        axios.post(
-          `${applicationConfig.networksSettings.cardano.analyticUrl}mempool/order`,
-          {
-            userPkhs: uniq(
-              addresses.map((a) =>
-                extractPaymentCred(a, RustModule.CardanoWasm),
-              ),
-            ),
-          },
-        ),
+        axios.post(`${cardanoNetworkData.analyticUrl}mempool/order`, {
+          userPkhs: uniq(
+            addresses.map((a) => extractPaymentCred(a, RustModule.CardanoWasm)),
+          ),
+        }),
       ).pipe(catchError(() => of({ data: [] }))),
     ),
     map((res) => res.data),
@@ -94,7 +89,7 @@ const getRawOperationsHistory = (
 ): Observable<[RawOperationItem[], number]> =>
   from(
     axios.post<{ orders: RawOperationItem[]; total: number }>(
-      `${applicationConfig.networksSettings.cardano.analyticUrl}history/order/v2?limit=${limit}&offset=${offset}`,
+      `${cardanoNetworkData.analyticUrl}history/order/v2?limit=${limit}&offset=${offset}`,
       {
         ...params,
         userPkhs: uniq(
@@ -197,7 +192,7 @@ const registeredOrdersCount$: Observable<{
   switchMap((addresses) =>
     from(
       axios.post<{ needRefund: number; pending: number }>(
-        `${applicationConfig.networksSettings.cardano.analyticUrl}history/order/pending`,
+        `${cardanoNetworkData.analyticUrl}history/order/pending`,
         {
           userPkhs: uniq(
             addresses.map((a) => extractPaymentCred(a, RustModule.CardanoWasm)),

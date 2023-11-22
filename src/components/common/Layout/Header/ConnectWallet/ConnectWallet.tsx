@@ -3,6 +3,7 @@ import { Modal } from '@ergolabs/ui-kit';
 import { useObservable } from '../../../../../common/hooks/useObservable';
 import { isWalletSetuped$ } from '../../../../../gateway/api/wallets';
 import { ChooseWalletModal } from '../../../ConnectWalletButton/ChooseWalletModal/ChooseWalletModal';
+import NetworkDropdown from '../NetworkDropdown/NetworkDropdown';
 import styles from './ConnectWallet.module.less';
 import { WalletInfoButton } from './WalletInfoButton/WalletInfoButton';
 
@@ -13,6 +14,7 @@ export default function ConnectWallet() {
   };
   return (
     <>
+      <NetworkDropdown />
       {isWalletConnected ? (
         <WalletInfoButton />
       ) : (
