@@ -1,5 +1,5 @@
-import { Flex, Form, FormGroup, Typography, useForm } from '@ergolabs/ui-kit';
-import { t, Trans } from '@lingui/macro';
+import { Flex, Form, FormGroup, useForm } from '@ergolabs/ui-kit';
+import { t } from '@lingui/macro';
 import findLast from 'lodash/findLast';
 import maxBy from 'lodash/maxBy';
 import { useMemo, useState } from 'react';
@@ -490,14 +490,10 @@ export const Swap = (): JSX.Element => {
         loaders={loaders}
       >
         <Flex col>
-          <Flex row align="center">
-            <Flex.Item flex={1}>
-              <Typography.Title level={4}>
-                <Trans>Swap</Trans>
-              </Typography.Title>
-            </Flex.Item>
+          <div className={styles.header}>
+            <h2 className={styles.titleContainer}>Market</h2>
             {OperationSettings && <OperationSettings />}
-          </Flex>
+          </div>
           <Flex.Item marginBottom={1} marginTop={2}>
             <AssetControlFormItem
               loading={allAmmPoolsLoading}

@@ -1,20 +1,13 @@
-import {
-  Button,
-  DownOutlined,
-  Flex,
-  Form,
-  Modal,
-  useDevice,
-} from '@ergolabs/ui-kit';
-import { Trans } from '@lingui/macro';
+import { Form, Modal, useDevice } from '@ergolabs/ui-kit';
 import * as React from 'react';
 import { Observable } from 'rxjs';
-import styled from 'styled-components';
 
 import { AssetInfo } from '../../../../common/models/AssetInfo';
+import { CHEVRON_DOWN } from '../../../../utils/images.ts';
 import { AssetTitle } from '../../../AssetTitle/AssetTitle';
 import { SkeletonLoader } from '../../../SkeletonLoader/SkeletonLoader.tsx';
 import { AssetListModal } from './AssetListModal/AssetListModal';
+import styles from './AssetSelect.module.less';
 
 interface TokenSelectProps {
   readonly value?: AssetInfo | undefined;
@@ -26,11 +19,6 @@ interface TokenSelectProps {
   readonly readonly?: boolean;
   readonly loading?: boolean;
 }
-
-const StyledDownOutlined = styled(DownOutlined)`
-  font-size: 1rem;
-`;
-
 const AssetSelect: React.FC<TokenSelectProps> = ({
   value,
   onChange,
@@ -41,7 +29,7 @@ const AssetSelect: React.FC<TokenSelectProps> = ({
   importedAssets$,
   loading,
 }) => {
-  const { s, valBySize } = useDevice();
+  const { valBySize } = useDevice();
   const handleSelectChange = (newValue: AssetInfo): void => {
     if (value?.id !== newValue?.id && onChange) {
       onChange(newValue);
@@ -69,29 +57,26 @@ const AssetSelect: React.FC<TokenSelectProps> = ({
       {loading ? (
         <SkeletonLoader height={40} width={100} />
       ) : (
-        <Button
-          type={value ? 'ghost' : 'primary'}
-          size={valBySize('large', 'extra-large')}
+        <button
+          className={styles.btnSelectAsset}
           onClick={openTokenModal}
           disabled={disabled}
-          block
-          style={s ? { padding: '4px' } : {}}
         >
-          <Flex align="center">
-            <Flex.Item flex={1} align="flex-start" display="flex">
+          <div className={styles.btnContent}>
+            <div className={styles.asset}>
               {value ? (
                 <AssetTitle level={valBySize(5, 4)} gap={2} asset={value} />
               ) : (
-                <Trans>Select a token</Trans>
+                <p className={styles.text}>Select a token</p>
               )}
-            </Flex.Item>
+            </div>
             {!readonly && (
-              <Flex.Item marginLeft={2}>
-                <StyledDownOutlined />
-              </Flex.Item>
+              <svg width="14" height="14" className={styles.icon}>
+                <use href={CHEVRON_DOWN} />
+              </svg>
             )}
-          </Flex>
-        </Button>
+          </div>
+        </button>
       )}
     </>
   );

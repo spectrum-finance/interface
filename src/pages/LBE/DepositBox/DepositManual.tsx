@@ -1,13 +1,41 @@
+import { useEffect, useState } from 'react';
 import QRCode from 'react-qr-code';
 
 import { ICON_COPY } from '../../../utils/images';
 import styles from './DepositManual.module.less';
 import useDeposit from './useDeposit';
 
-export default function DepositManual() {
+interface DepositManualProps {
+  startTime: number;
+  endTime: number;
+}
+
+export default function DepositManual({
+  startTime,
+  endTime,
+}: DepositManualProps) {
   const { addressDeposit, isCopied, handleCopyClick } = useDeposit();
 
-  return (
+  const [isDepositAllowed, setIsDepositAllowed] = useState(false);
+
+  const checkDepositWindow = () => {
+    const now = new Date().getTime();
+    return now >= startTime * 1000 && now <= endTime * 1000;
+  };
+
+  useEffect(() => {
+    // Check the deposit window initially
+    setIsDepositAllowed(checkDepositWindow());
+
+    // Check periodically (e.g., every second)
+    const interval = setInterval(() => {
+      setIsDepositAllowed(checkDepositWindow());
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [startTime, endTime]);
+
+  return isDepositAllowed ? (
     <section className={styles.boxDepositManual}>
       <h2 className={styles.boxTitle}>Deposit ADA (manually)</h2>
       <div className={styles.inputCard}>
@@ -37,5 +65,7 @@ export default function DepositManual() {
         </div>
       </div>
     </section>
+  ) : (
+    <></>
   );
 }

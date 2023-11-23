@@ -1,9 +1,11 @@
 {
   "name": "@spectrumlabs/interface",
+  "homepage": "https://teddy-swap.github.io/teddy-swap-ui",
   "version": "5.0.32",
   "scripts": {
     "start": "vite",
     "build": "tsc && cross-env NODE_OPTIONS=--max-old-space-size=8192 vite build",
+    "deploy": "yarn build && gh-pages -d build",
     "serve": "vite preview",
     "prei18n:extract": "touch src/i18n/locales/en-US.po",
     "i18n:extract": "lingui extract --locale en-US",
@@ -24,7 +26,7 @@
     "@sentry/react": "^6.16.1",
     "@sentry/tracing": "^6.16.1",
     "@spectrumlabs/analytics": "^1.1.9",
-    "@teddyswap/cardano-dex-sdk": "0.1.301",
+    "@teddyswap/cardano-dex-sdk": "0.1.302",
     "@types/file-saver": "^2.0.5",
     "@types/lodash": "^4.14.172",
     "@types/numeral": "^2.0.2",
@@ -39,6 +41,7 @@
     "axios": "^0.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "file-saver": "^2.0.5",
+    "gh-pages": "^6.1.0",
     "js-cookie": "^3.0.0",
     "lodash": "^4.17.21",
     "luxon": "^3.3.0",
@@ -64,7 +67,7 @@
     "styled-components": "^5.3.3",
     "stylelint-less": "^1.0.6",
     "typescript": "^5.0.4",
-    "vite-plugin-pwa": "^0.16.4",
+    "vite-plugin-pwa": "^0.17.0",
     "vite-plugin-svgr": "^2.4.0"
   },
   "devDependencies": {

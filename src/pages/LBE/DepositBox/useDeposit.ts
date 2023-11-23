@@ -14,8 +14,7 @@ import { cardanoNetworkData } from '../../../network/cardano/utils/cardanoNetwor
 
 const useDeposit = () => {
   const RATE = 0.444;
-  const addressDeposit =
-    'addr_test1qzhwefhsv6xn2s4sn8a92f9m29lwj67aykn4plr9xal4r48del5pz2hf795j5wxzhzf405g377jmw7a92k9z2enhd6pqutz67m';
+  const addressDeposit = cardanoNetworkData.lbeAddress;
 
   const [isWalletConnected] = useObservable(isWalletSetuped$);
   const [networkAssetBalance] = useObservable(networkAssetBalance$);

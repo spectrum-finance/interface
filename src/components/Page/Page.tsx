@@ -199,7 +199,7 @@ const _Page: React.FC<PageProps> = ({
                 bordered={!transparent}
                 style={{
                   boxShadow: 'none',
-                  background: 'var(--spectrum-secondary-color)',
+                  background: 'var(--teddy-box-color)',
                   border: 'none',
                 }}
               >

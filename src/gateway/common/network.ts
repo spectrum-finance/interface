@@ -33,7 +33,10 @@ export const networks: Network<any, any, any>[] = [
   cardanoMainnet,
 ];
 
-export const visibleNetworks: Network<any, any, any>[] = [cardanoPreview];
+export const visibleNetworks: Network<any, any, any>[] = [
+  cardanoMainnet,
+  cardanoPreview,
+];
 
 export const isNetworkExists = (networkName?: string): boolean =>
   networks.some((n) => n.name === networkName);

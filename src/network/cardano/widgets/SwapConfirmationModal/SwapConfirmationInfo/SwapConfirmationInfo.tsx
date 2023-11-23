@@ -39,11 +39,7 @@ export const SwapConfirmationInfo: FC<SwapConfirmationInfoProps> = ({
         </Flex.Item>
         <Flex.Item marginBottom={2}>
           <BoxInfoItem
-            title={
-              <Typography.Body size="large">
-                <Trans>Nitro:</Trans>
-              </Typography.Body>
-            }
+            title={<Typography.Body size="large">Honey 🍯:</Typography.Body>}
             value={
               <Typography.Body size="large" strong>
                 {settings.nitro}

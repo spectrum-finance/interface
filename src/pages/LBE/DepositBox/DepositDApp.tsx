@@ -1,11 +1,17 @@
 import { Modal } from '@ergolabs/ui-kit';
+import { useEffect, useState } from 'react';
 
 import { ChooseWalletModal } from '../../../components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal';
 import { ARROW_DOWN, TOKEN_ADA, TOKEN_TEDY } from '../../../utils/images';
 import styles from './DepositDApp.module.less';
 import useDeposit from './useDeposit';
 
-export default function DepositDApp() {
+interface DepositDappProps {
+  startTime: number;
+  endTime: number;
+}
+
+export default function DepositDApp({ startTime, endTime }: DepositDappProps) {
   const {
     handleKeyDown,
     handleValueChange,
@@ -21,6 +27,25 @@ export default function DepositDApp() {
   const openChooseWalletModal = (): void => {
     Modal.open(({ close }) => <ChooseWalletModal close={close} />);
   };
+
+  const [isDepositAllowed, setIsDepositAllowed] = useState(false);
+
+  const checkDepositWindow = () => {
+    const now = new Date().getTime();
+    return now >= startTime * 1000 && now <= endTime * 1000;
+  };
+
+  useEffect(() => {
+    // Check the deposit window initially
+    setIsDepositAllowed(checkDepositWindow());
+
+    // Check periodically (e.g., every second)
+    const interval = setInterval(() => {
+      setIsDepositAllowed(checkDepositWindow());
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [startTime, endTime]);
 
   return (
     <section className={styles.boxDepositWallet}>
@@ -74,13 +99,13 @@ export default function DepositDApp() {
         </div>
       </div>
       {isWalletConnected ? (
-        isValidInput.valid ? (
+        isValidInput.valid && isDepositAllowed ? (
           <button className={styles.btnDeposit} onClick={handleClickDeposit}>
             Deposit
           </button>
         ) : (
           <button className={styles.btnDeposit} disabled>
-            {isValidInput.text}
+            {isDepositAllowed ? isValidInput.text : 'Deposit Not Allowed'}
           </button>
         )
       ) : (

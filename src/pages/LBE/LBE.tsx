@@ -9,7 +9,8 @@ import styles from './LBE.module.less';
 export default function LBE() {
   const { moreThan } = useDevice();
 
-  const targetDate = '05/20/2024';
+  const startTime = 1700744400;
+  const endTime = startTime + 10800;
 
   return (
     <main className={styles.lbeContainer}>
@@ -21,19 +22,19 @@ export default function LBE() {
           <div className={styles.boxTimeContainer}>
             <p className={styles.titleContainer}>Remaining Time</p>
             <div className={styles.timeContent}>
-              <CountdownTimer targetDate={targetDate} />
+              <CountdownTimer startTime={startTime} endTime={endTime} />
             </div>
           </div>
         </>
       )}
       <div className={styles.depositGroup}>
-        <DepositDApp />
-        <DepositManual />
+        <DepositDApp startTime={startTime} endTime={endTime} />
+        <DepositManual startTime={startTime} endTime={endTime} />
       </div>
       {moreThan('l') ? (
-        <DetailsLBE mobile={false} targetDate={targetDate} />
+        <DetailsLBE mobile={false} startTime={startTime} endTime={endTime} />
       ) : (
-        <DetailsLBE mobile={true} targetDate={targetDate} />
+        <DetailsLBE mobile={true} startTime={startTime} endTime={endTime} />
       )}
       {/* <DetailsLBE /> */}
     </main>
