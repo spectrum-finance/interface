@@ -76,7 +76,7 @@ export default function CountdownTimer({ startTime, endTime }: CountdownProps) {
       <div className={styles.time}>
         <p className={styles.text} style={{ textAlign: 'center' }}>
           The Liquidity Bootstrapping Event (LBE) is Scheduled to Commence at
-          1:00 PM UTC on November 23, 2023.
+          2:00 PM UTC on November 23, 2023.
         </p>
       </div>
     </div>

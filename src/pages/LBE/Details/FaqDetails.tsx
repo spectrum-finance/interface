@@ -8,8 +8,8 @@ export default function FaqDetails() {
         <p className={styles.text}>
           The Liquidity Bootstrapping Event (LBE) is designed to bolster
           liquidity for the TEDY/ADA pool at launch. Participants can exchange
-          ADA for TEDY at a ratio of 0.444 TEDY per ADA, starting Nov 23rd, 1PM
-          UTC.
+          ADA for TEDY at a ratio of 0.444 TEDY per ADA, starting Nov 23rd, 2:00
+          PM UTC.
         </p>
         <p className={styles.text}>
           <b>Pro-Rata Distribution Explained</b>

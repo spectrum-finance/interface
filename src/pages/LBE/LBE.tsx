@@ -9,7 +9,7 @@ import styles from './LBE.module.less';
 export default function LBE() {
   const { moreThan } = useDevice();
 
-  const startTime = 1700744400;
+  const startTime = 1700748000 - 600;
   const endTime = startTime + 10800;
 
   return (

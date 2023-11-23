@@ -4,6 +4,7 @@ import {
   combineLatest,
   exhaustMap,
   filter,
+  from,
   map,
   Observable,
   of,
@@ -13,6 +14,7 @@ import {
 } from 'rxjs';
 
 import { applicationConfig } from '../../../../applicationConfig';
+import { cardanoNetworkData } from '../../utils/cardanoNetworkData';
 import { ammPoolsStats$ } from '../ammPoolsStats/ammPoolsStats';
 import { mapAssetClassToAssetInfo } from '../common/cardanoAssetInfo/getCardanoAssetInfo';
 import { networkContext$ } from '../networkContext/networkContext';
@@ -55,7 +57,20 @@ export const allAmmPools$ = combineLatest([rawAmmPools$, ammPoolsStats$]).pipe(
 const filterUnverifiedPools = (
   ammPools: CardanoAmmPool[],
 ): Observable<CardanoAmmPool[]> => {
-  return of(ammPools);
+  const poolUrl = cardanoNetworkData.verifiedPoolListUrl;
+
+  // Convert the fetch promise to an observable
+  return from(fetch(poolUrl).then((response) => response.json())).pipe(
+    switchMap((verifiedPoolIds) => {
+      // Filter ammPools to include only those whose ID is in the verified list
+      return of(ammPools.filter((pool) => verifiedPoolIds.includes(pool.id)));
+    }),
+    catchError((error) => {
+      console.error('Error fetching verified pool list', error);
+      // In case of error, return an empty array or handle as required
+      return of([]);
+    }),
+  );
 };
 
 export const ammPools$ = allAmmPools$.pipe(

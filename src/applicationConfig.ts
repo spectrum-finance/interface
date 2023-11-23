@@ -24,6 +24,7 @@ interface NetworkConfig {
   readonly isCreatePoolAvailable: boolean;
   readonly submitTxUrl?: string;
   readonly lbeAddress: string;
+  readonly verifiedPoolListUrl: string;
 }
 
 interface CardanoUpdate {
@@ -93,6 +94,8 @@ export const applicationConfig: ApplicationConfig = {
         'https://submitapi-preview-api-tasteful-infusion-213dd4.us1.demeter.run/api/submit/tx',
       lbeAddress:
         'addr_test1qzhwefhsv6xn2s4sn8a92f9m29lwj67aykn4plr9xal4r48del5pz2hf795j5wxzhzf405g377jmw7a92k9z2enhd6pqutz67m',
+      verifiedPoolListUrl:
+        'https://raw.githubusercontent.com/teddy-swap/verified-pools/main/preview.json',
     },
     cardano: {
       defaultTokenListUrl:
@@ -108,6 +111,8 @@ export const applicationConfig: ApplicationConfig = {
         'https://submitapi-mainnet-api-tasteful-infusion-213dd4.us1.demeter.run/api/submit/tx',
       lbeAddress:
         'addr1q8aqtl375r0multvd2ekuvuqzxpltcqknq4t7jccht2ln7383r9tr2a445pm350p8lfmnu4tphdw9p3mjn4xq5nry28quf27d3',
+      verifiedPoolListUrl:
+        'https://raw.githubusercontent.com/teddy-swap/verified-pools/main/mainnet.json',
     },
     ergo: {
       defaultTokenListUrl: '',
@@ -120,6 +125,7 @@ export const applicationConfig: ApplicationConfig = {
       ergopayUrl: '',
       isCreatePoolAvailable: true,
       lbeAddress: '',
+      verifiedPoolListUrl: '',
     },
   },
   social: {
