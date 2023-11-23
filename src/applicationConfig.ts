@@ -96,13 +96,13 @@ export const applicationConfig: ApplicationConfig = {
     },
     cardano: {
       defaultTokenListUrl:
-        'https://raw.githubusercontent.com/teddy-swap/tokenlist/main/preview.json',
+        'https://raw.githubusercontent.com/teddy-swap/tokenlist/main/mainnet.json',
       metadataUrl:
         'https://raw.githubusercontent.com/teddy-swap/token-logos/master/logos/cardano',
       networkUrl: 'https://explorer.teddyswap.org/cardano/mainnet/v1/',
       explorerUrl: 'https://cardanoscan.io',
       lowBalanceGuide: '',
-      analyticUrl: '',
+      analyticUrl: 'https://8081-faithful-zeppelin-tc1atx.us1.demeter.run/v1/',
       isCreatePoolAvailable: false,
       submitTxUrl:
         'https://submitapi-mainnet-api-tasteful-infusion-213dd4.us1.demeter.run/api/submit/tx',

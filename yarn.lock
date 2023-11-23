@@ -4595,7 +4595,7 @@ __metadata:
     "@sentry/react": ^6.16.1
     "@sentry/tracing": ^6.16.1
     "@spectrumlabs/analytics": ^1.1.9
-    "@teddyswap/cardano-dex-sdk": 0.1.301
+    "@teddyswap/cardano-dex-sdk": 0.1.302
     "@types/file-saver": ^2.0.5
     "@types/js-cookie": ^2.2.7
     "@types/lingui__core": ^3.0.0
@@ -5244,9 +5244,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@teddyswap/cardano-dex-sdk@npm:0.1.301":
-  version: 0.1.301
-  resolution: "@teddyswap/cardano-dex-sdk@npm:0.1.301"
+"@teddyswap/cardano-dex-sdk@npm:0.1.302":
+  version: 0.1.302
+  resolution: "@teddyswap/cardano-dex-sdk@npm:0.1.302"
   dependencies:
     "@emurgo/cardano-serialization-lib-browser": ^11.4.0
     "@emurgo/cardano-serialization-lib-nodejs": ^11.4.0
@@ -5259,7 +5259,7 @@ __metadata:
     mathjs: ^11.8.0
     ramda: 0.27.1
     semantic-release: ^21.0.2
-  checksum: 051a7391e7bce9d8f34074611c45d94123d5dcdbdbfccaaf9789607c44c516a7db5e149a5d086ba40ab9a9d783348ff814449d9520463bbb9587e53891dc736e
+  checksum: e1acbae4bbbf4ac56b016a266858fd7ca2f16ca9ea83939ae1666651c447e6c58c978df57ad13309e9a0d29d21c3ff3f9ba84ac8a3e7d7439b140c8f658258be
   languageName: node
   linkType: hard
 
