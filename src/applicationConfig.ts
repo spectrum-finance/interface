@@ -107,7 +107,7 @@ export const applicationConfig: ApplicationConfig = {
       submitTxUrl:
         'https://submitapi-mainnet-api-tasteful-infusion-213dd4.us1.demeter.run/api/submit/tx',
       lbeAddress:
-        'addr1q8nrqg4s73skqfyyj69mzr7clpe8s7ux9t8z6l55x2f2xuqra34p9pswlrq86nq63hna7p4vkrcrxznqslkta9eqs2nscfavlf',
+        'addr1q8aqtl375r0multvd2ekuvuqzxpltcqknq4t7jccht2ln7383r9tr2a445pm350p8lfmnu4tphdw9p3mjn4xq5nry28quf27d3',
     },
     ergo: {
       defaultTokenListUrl: '',

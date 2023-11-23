@@ -3,15 +3,21 @@ import { useEffect, useState } from 'react';
 import styles from './CountdownTimer.module.less';
 
 interface CountdownProps {
-  targetDate: string;
+  startTime: number;
+  endTime: number;
 }
 
-export default function CountdownTimer(props: CountdownProps) {
-  const { targetDate } = props;
+export default function CountdownTimer({ startTime, endTime }: CountdownProps) {
+  const startTimeInMilliseconds = startTime * 1000;
+  const endTimeMiliseconds = endTime * 1000;
   const calculateTimeLeft = () => {
     const now = new Date().getTime();
-    const targetTime = new Date(targetDate).getTime();
-    const difference = targetTime - now;
+
+    if (now < startTimeInMilliseconds) {
+      return null; // Do not start countdown yet
+    }
+
+    const difference = endTimeMiliseconds - now;
 
     if (difference < 0) {
       return { days: 0, hours: 0, minutes: 0, seconds: 0 };
@@ -31,16 +37,19 @@ export default function CountdownTimer(props: CountdownProps) {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setTimeLeft(calculateTimeLeft);
+      const newTimeLeft = calculateTimeLeft();
+      if (newTimeLeft) {
+        setTimeLeft(newTimeLeft);
+      }
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [targetDate]);
+  }, [startTime, endTime]);
 
   const formatNumber = (number: number) =>
     number < 10 ? `0${number}` : number;
 
-  return (
+  return timeLeft ? (
     <div className={styles.timerContainer}>
       <div className={styles.time}>
         <p className={styles.value}>{formatNumber(timeLeft.days)}</p>
@@ -60,6 +69,15 @@ export default function CountdownTimer(props: CountdownProps) {
       <div className={styles.time}>
         <p className={styles.value}>{formatNumber(timeLeft.seconds)}</p>
         <p className={styles.text}>Seconds</p>
+      </div>
+    </div>
+  ) : (
+    <div className={styles.timerContainer}>
+      <div className={styles.time}>
+        <p className={styles.text} style={{ textAlign: 'center' }}>
+          The Liquidity Bootstrapping Event (LBE) is Scheduled to Commence at
+          1:00 PM UTC on November 23, 2023.
+        </p>
       </div>
     </div>
   );

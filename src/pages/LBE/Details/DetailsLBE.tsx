@@ -5,11 +5,12 @@ import TokenCards from './TokenCards';
 
 interface DetailsProps {
   mobile: boolean;
-  targetDate: string;
+  startTime: number;
+  endTime: number;
 }
 
 export default function DetailsLBE(props: DetailsProps) {
-  const { mobile, targetDate } = props;
+  const { mobile, startTime, endTime } = props;
 
   if (mobile) {
     return (
@@ -27,7 +28,7 @@ export default function DetailsLBE(props: DetailsProps) {
         <div className={styles.boxTimeContainer}>
           <p className={styles.titleContainer}>Remaining Time</p>
           <div className={styles.timeContent}>
-            <CountdownTimer targetDate={targetDate} />
+            <CountdownTimer startTime={startTime} endTime={endTime} />
           </div>
         </div>
         <TokenCards />
