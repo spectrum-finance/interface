@@ -10,7 +10,7 @@ export default function LBE() {
   const { moreThan } = useDevice();
 
   const startTime = 1700748000 - 600;
-  const endTime = startTime + 10800;
+  const endTime = startTime + 10800 + 600;
 
   return (
     <main className={styles.lbeContainer}>
