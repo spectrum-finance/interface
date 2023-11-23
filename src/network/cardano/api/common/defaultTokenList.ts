@@ -1,5 +1,5 @@
-import { applicationConfig } from '../../../../applicationConfig';
 import { getDefaultTokenList } from '../../../../common/services/DefaultTokenList';
+import { cardanoNetworkData } from '../../utils/cardanoNetworkData';
 
 export interface DefaultTokenListItem {
   readonly policyId: string;
@@ -11,7 +11,7 @@ export interface DefaultTokenListItem {
 }
 
 export const defaultTokenList$ = getDefaultTokenList<DefaultTokenListItem>(
-  applicationConfig.networksSettings.cardano.defaultTokenListUrl,
+  cardanoNetworkData.defaultTokenListUrl,
   (item) => {
     return item.subject;
   },

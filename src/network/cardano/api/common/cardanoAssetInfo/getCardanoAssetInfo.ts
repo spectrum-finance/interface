@@ -7,8 +7,8 @@ import { mkSubject } from '@teddyswap/cardano-dex-sdk/build/main/cardano/entitie
 import { Subject } from '@teddyswap/cardano-dex-sdk/build/main/cardano/types';
 import { map, Observable, of, tap } from 'rxjs';
 
-import { applicationConfig } from '../../../../../applicationConfig';
 import { AssetInfo } from '../../../../../common/models/AssetInfo';
+import { cardanoNetworkData } from '../../../utils/cardanoNetworkData';
 import { networkAsset } from '../../networkAsset/networkAsset';
 import { defaultTokenList$, DefaultTokenListItem } from '../defaultTokenList';
 import { assets, CardanoAssetInfo } from './mocks';
@@ -33,13 +33,14 @@ const defaultTokenListItemToAssetInfo = (
   ac: AssetClass,
   dtli?: DefaultTokenListItem,
 ): AssetInfo<AssetClass> => {
+  console.log(ac, `${cardanoNetworkData.metadataUrl}/${dtli?.subject}.png`);
   return {
     id: dtli?.subject || mkSubject(ac),
     name: dtli?.name || ac.name,
     ticker: dtli?.ticker || ac.name,
     decimals: dtli?.decimals || 0,
     icon: dtli?.subject
-      ? `${applicationConfig.networksSettings.cardano.metadataUrl}/${dtli?.subject}.png`
+      ? `${cardanoNetworkData.metadataUrl}/${dtli?.subject}.png`
       : '',
     data: ac,
   };
