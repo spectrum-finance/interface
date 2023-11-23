@@ -105,7 +105,7 @@ export const applicationConfig: ApplicationConfig = {
       networkUrl: 'https://explorer.teddyswap.org/cardano/mainnet/v1/',
       explorerUrl: 'https://cardanoscan.io',
       lowBalanceGuide: '',
-      analyticUrl: 'https://8081-faithful-zeppelin-tc1atx.us1.demeter.run/v1/',
+      analyticUrl: 'https://analytics.teddyswap.org/v1/',
       isCreatePoolAvailable: false,
       submitTxUrl:
         'https://submitapi-mainnet-api-tasteful-infusion-213dd4.us1.demeter.run/api/submit/tx',
