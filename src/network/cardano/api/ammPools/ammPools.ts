@@ -54,21 +54,22 @@ export const allAmmPools$ = combineLatest([rawAmmPools$, ammPoolsStats$]).pipe(
   refCount(),
 );
 
+export const fetchVerifiedPoolIds = (): Observable<string[]> => {
+  const poolUrl = cardanoNetworkData.verifiedPoolListUrl;
+  return from(fetch(poolUrl).then((response: any) => response.json())).pipe(
+    catchError((error) => {
+      console.error('Error fetching verified pool list', error);
+      return of([]); // In case of error, return an empty array
+    }),
+  );
+};
+
 const filterUnverifiedPools = (
   ammPools: CardanoAmmPool[],
 ): Observable<CardanoAmmPool[]> => {
-  const poolUrl = cardanoNetworkData.verifiedPoolListUrl;
-
-  // Convert the fetch promise to an observable
-  return from(fetch(poolUrl).then((response) => response.json())).pipe(
+  return fetchVerifiedPoolIds().pipe(
     switchMap((verifiedPoolIds) => {
-      // Filter ammPools to include only those whose ID is in the verified list
       return of(ammPools.filter((pool) => verifiedPoolIds.includes(pool.id)));
-    }),
-    catchError((error) => {
-      console.error('Error fetching verified pool list', error);
-      // In case of error, return an empty array or handle as required
-      return of([]);
     }),
   );
 };

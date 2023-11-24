@@ -25,7 +25,7 @@ import { AmmPool } from '../../../../common/models/AmmPool';
 import { TxId } from '../../../../common/types';
 import { cardanoNetworkData } from '../../utils/cardanoNetworkData';
 import { getAddresses } from '../addresses/addresses';
-import { allAmmPools$ } from '../ammPools/ammPools';
+import { allAmmPools$, fetchVerifiedPoolIds } from '../ammPools/ammPools';
 import { mapRawAddLiquidityItemToAddLiquidityItem } from './types/AddLiquidityOperation';
 import { OperationMapper } from './types/BaseOperation';
 import { OperationItem, RawOperationItem } from './types/OperationItem';
@@ -49,8 +49,8 @@ const mapRawOperationItemToOperationItem = (
   ammPools: AmmPool[],
 ): OperationItem => {
   const key = Object.keys(rawOp)[0];
-
-  return mapKeyToParser.get(key)!(rawOp, ammPools);
+  const result = mapKeyToParser.get(key)!(rawOp, ammPools);
+  return result;
 };
 
 export const mempoolRawOperations$: Observable<RawOperationItem[]> =
@@ -153,20 +153,47 @@ export const getOperations = (
   limit: number,
   offset: number,
 ): Observable<[OperationItem[], number]> =>
-  combineLatest([getRawOperations(limit, offset), allAmmPools$]).pipe(
+  combineLatest([
+    getRawOperations(limit, offset),
+    allAmmPools$,
+    fetchVerifiedPoolIds(),
+  ]).pipe(
     debounceTime(200),
-    map(
-      ([[rawOperations, total], ammPools]) =>
-        [
-          rawOperations.map((rawOp) =>
-            mapRawOperationItemToOperationItem(rawOp, ammPools),
-          ),
-          total,
-        ] as [OperationItem[], number],
-    ),
+    map(([[rawOperations, total], ammPools, verifiedPoolIds]) => {
+      const operations = rawOperations
+        .filter((rawOp) =>
+          verifiedPoolIds.includes(getPoolIdFromRawOperation(rawOp)),
+        )
+        .map((rawOp) => mapRawOperationItemToOperationItem(rawOp, ammPools));
+
+      return [operations, total] as [OperationItem[], number];
+    }),
     publishReplay(1),
     refCount(),
   );
+
+function getPoolIdFromRawOperation(rawOperation: RawOperationItem) {
+  let rawPoolId: string;
+  if ('SwapOrderInfo' in rawOperation) {
+    rawPoolId = rawOperation.SwapOrderInfo.poolId;
+  } else if ('DepositOrderInfo' in rawOperation) {
+    rawPoolId = rawOperation.DepositOrderInfo.poolId;
+  } else if ('RedeemOrderInfo' in rawOperation) {
+    rawPoolId = rawOperation.RedeemOrderInfo.poolId;
+  } else {
+    return '';
+  }
+
+  const [poolIdPart1, poolIdPart2] = rawPoolId.split('.');
+  const poolIdPart2Hex = stringToHex(poolIdPart2);
+  return `${poolIdPart1}${poolIdPart2Hex}`;
+}
+
+const stringToHex = (str: string) =>
+  str
+    .split('')
+    .map((c: any) => c.charCodeAt(0).toString(16).padStart(2, '0'))
+    .join('');
 
 export const getOperationByTxId = (
   txId: TxId,
