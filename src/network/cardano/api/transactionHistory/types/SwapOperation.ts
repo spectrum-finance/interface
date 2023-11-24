@@ -51,7 +51,6 @@ export const mapRawSwapItemToSwapItem: OperationMapper<RawSwapItem, SwapItem> =
     const { address, base, poolId, minQuote } = item.SwapOrderInfo;
     const pool = ammPools.find((ap) => {
       const castedPool: CardanoAmmPool = ap as any;
-
       return (
         `${castedPool.pool.id.policyId}.${castedPool.pool.id.name}` === poolId
       );
