@@ -18,9 +18,9 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = ({
   size,
   className,
   width,
+  children,
 }) => {
   const [isWalletConnected] = useObservable(isWalletSetuped$);
-
   const openChooseWalletModal = (): void => {
     Modal.open(({ close }) => <ChooseWalletModal close={close} />);
   };
@@ -32,9 +32,12 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = ({
       isWalletConnected={isWalletConnected}
       width={width}
     >
-      <button className={styles.btnConnect} onClick={openChooseWalletModal}>
-        Connect Wallet
-      </button>
+      {isWalletConnected && children}
+      {!isWalletConnected && (
+        <button className={styles.btnConnect} onClick={openChooseWalletModal}>
+          Connect Wallet
+        </button>
+      )}
     </VesprConnectButton>
   );
 };

@@ -15,7 +15,6 @@ const navigationSections: NavigationSectionType[] = [
     path: '/swap',
   },
   { title: 'Liquidity', path: '/liquidity' },
-  { title: 'LBE', path: '/lbe' },
 ];
 
 export default function Navigation() {
