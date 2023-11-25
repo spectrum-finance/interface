@@ -3,15 +3,14 @@ import { createWallet } from '../common/Wallet';
 import VesprLogo from './vespr-icon.svg';
 
 export const Vespr = createWallet<AdditionalData>({
-  id: 'Vespr',
-  getConnector: () => cardano.nami,
+  id: 'vespr',
+  getConnector: () => cardano.vespr,
   name: 'Vespr',
-  extensionLink:
-    'https://chrome.google.com/webstore/detail/nami/lpfcbjknijpeeillifnkikgncikgfhdo?hl=en',
+  extensionLink: 'https://vespr.xyz/',
   icon: (
     <img
       style={{ borderRadius: '50%', background: '#0e0e0e' }}
-      alt="Nami Logo"
+      alt="Vespr Logo"
       src={VesprLogo}
       width={32}
       height={32}
@@ -20,7 +19,7 @@ export const Vespr = createWallet<AdditionalData>({
   previewIcon: (
     <img
       style={{ borderRadius: '50%', background: '#0e0e0e' }}
-      alt="Nami Logo"
+      alt="Vespr Logo"
       src={VesprLogo}
       width={21}
       height={21}
@@ -28,5 +27,5 @@ export const Vespr = createWallet<AdditionalData>({
   ),
   walletSupportedFeatures: { createPool: false },
   definition: 'default',
-  hidden: true,
+  hidden: false,
 });
