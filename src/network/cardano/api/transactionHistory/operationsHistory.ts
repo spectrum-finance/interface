@@ -26,6 +26,7 @@ import { AmmPool } from '../../../../common/models/AmmPool';
 import { TxId } from '../../../../common/types';
 import { getAddresses } from '../addresses/addresses';
 import { allAmmPools$, getUnverifiedAmmPools } from '../ammPools/ammPools';
+import { CardanoAmmPool } from '../ammPools/CardanoAmmPool.ts';
 import { mapRawAddLiquidityItemToAddLiquidityItem } from './types/AddLiquidityOperation';
 import { OperationMapper } from './types/BaseOperation';
 import { OperationItem, RawOperationItem } from './types/OperationItem';
@@ -154,6 +155,20 @@ export const getRawOperations = (
   );
 };
 
+const isValidRawOperation = (
+  rawOp: RawOperationItem,
+  ammPools: CardanoAmmPool[],
+): boolean => {
+  const poolIdForRawOp = Object.values(rawOp)[0].poolId;
+  if (!poolIdForRawOp) {
+    return true;
+  }
+  return ammPools.some(
+    (ammPool) =>
+      `${ammPool.pool.id.policyId}.${ammPool.pool.id.name}` === poolIdForRawOp,
+  );
+};
+
 export const getOperations = (
   limit: number,
   offset: number,
@@ -167,12 +182,19 @@ export const getOperations = (
     map(
       ([[rawOperations, total], ammPools, unverifiedAmmPools]) =>
         [
-          rawOperations.map((rawOp) =>
-            mapRawOperationItemToOperationItem(
-              rawOp,
-              ammPools.concat(unverifiedAmmPools || []),
+          rawOperations
+            .filter((rawOp) =>
+              isValidRawOperation(
+                rawOp,
+                ammPools.concat(unverifiedAmmPools || []),
+              ),
+            )
+            .map((rawOp) =>
+              mapRawOperationItemToOperationItem(
+                rawOp,
+                ammPools.concat(unverifiedAmmPools || []),
+              ),
             ),
-          ),
           total,
         ] as [OperationItem[], number],
     ),
