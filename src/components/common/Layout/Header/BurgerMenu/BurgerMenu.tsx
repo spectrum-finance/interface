@@ -1,16 +1,10 @@
 import {
   Button,
   Dropdown,
-  FileTextOutlined,
-  GithubOutlined,
-  GlobalOutlined,
-  InfoCircleOutlined,
   LeftOutlined,
   Menu,
   Modal,
-  QuestionCircleOutlined,
   ReloadOutlined,
-  RightOutlined,
 } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import { fireAnalyticsEvent, user } from '@spectrumlabs/analytics';
@@ -74,40 +68,14 @@ const BurgerMenu = (): JSX.Element => {
 
   const menu = [
     {
-      title: t`About`,
-      icon: <InfoCircleOutlined />,
-      link: 'https://docs.spectrum.fi/docs/about-spectrumdex/intro',
-    },
-    {
-      title: t`How to use`,
-      icon: <QuestionCircleOutlined />,
-      link: 'https://docs.spectrum.fi/docs/user-guides/quick-start',
-    },
-    {
-      title: t`Docs`,
-      icon: <FileTextOutlined />,
-      link: 'https://docs.spectrum.fi',
-    },
-    {
-      title: 'GitHub',
-      icon: <GithubOutlined />,
-      link: 'https://github.com/spectrum-finance',
-    },
-    {
       title: t`Manual Refund`,
       icon: <ReloadOutlined />,
       onClick: () => {
         setMenuVisible(false);
         Modal.open(({ close }) => <ManualRefundModal close={close} />);
       },
-    },
-    {
-      title: t`Language`,
-      icon: <GlobalOutlined />,
-      additional: <RightOutlined style={{ marginLeft: 36 }} />,
-      onClick: () => {
-        setIsMainMenu(false);
-      },
+      additional: null,
+      link: null as any,
     },
   ];
 
