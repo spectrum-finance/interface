@@ -1,6 +1,7 @@
 import { useDevice } from '@ergolabs/ui-kit';
 
 import { OperationsHistory } from '../OperationsHistory/OperationsHistory';
+import { BurgerMenu } from './BurgerMenu/BurgerMenu';
 import ConnectWallet from './ConnectWallet/ConnectWallet';
 import styles from './Header.module.less';
 import Navigation from './Navigation/Navigation';
@@ -21,6 +22,7 @@ export default function Header() {
       <section className={styles.walletSection}>
         <ConnectWallet />
         {!s && <OperationsHistory />}
+        <BurgerMenu />
       </section>
     </header>
   );
