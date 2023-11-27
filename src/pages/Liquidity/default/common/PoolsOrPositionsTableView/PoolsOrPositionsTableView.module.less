@@ -1,0 +1,272 @@
+@import "../../../../../assets/styles/variables/general.less";
+
+.colConfig {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding-inline: 36px 60px;
+  gap: 10px;
+  .row {
+    width: 25%;
+    &.asset {
+      min-width: 200px;
+    }
+    &.tvl {
+      min-width: 90px;
+      max-width: 115px;
+      @media (max-width: 550px) {
+        display: none;
+      }
+    }
+    &.volume {
+      min-width: 100px;
+      max-width: 115px;
+      @media (max-width: 630px) {
+        display: none;
+      }
+    }
+    &.fee {
+      min-width: 80px;
+      max-width: 115px;
+    }
+    .value {
+      margin: 0;
+      color: var(--teddy-text-input-secondary);
+    }
+  }
+  @media (max-width: 550px) {
+    padding-inline: 16px 20px;
+  }
+  @media (max-width: 450px) {
+    .row {
+      &.asset {
+        min-width: 150px;
+      }
+      &.fee {
+        min-width: 60px;
+      }
+    }
+  }
+}
+
+.poolsPositionTable {
+  .thead {
+    background: var(--teddy-box-color);
+    border-radius: 8px;
+    height: 50px;
+    .colConfig;
+    .row {
+      display: flex;
+      align-items: center;
+      .value {
+        font-weight: 600;
+      }
+    }
+  }
+  .tbody {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    max-height: 460px;
+    overflow-y: auto;
+    .tbodyContent {
+      cursor: pointer;
+      .colConfig;
+      position: relative;
+      border-bottom: 1px solid #3D505A;
+      .row {
+        height: 90px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        .icon.deprecated {
+          fill: var(--teddy-color-danger);
+          stroke: var(--teddy-color-danger);
+        }
+      }
+      &:hover {
+        background: var(--teddy-box-color-table);
+      }
+      .icon {
+        position: absolute;
+        right: 10px;
+        fill: var(--teddy-dark-color-active);
+        transition: all 0.3s;
+        &.open {
+          transform: rotate(180deg);
+        }
+      }
+    }
+    .details {
+      opacity: 0;
+      transition: all 0.5s;
+      background: var(--teddy-box-color-table);
+      height: 0;
+      overflow: hidden;
+      display: flex;
+      gap: 30px;
+      width: 100%;
+      justify-content: space-between;
+      &.expanded {
+        padding: 24px 30px;
+        opacity: 1;
+        height: 160px;
+        border-bottom: 1px solid #3D505A;
+      }
+      .poolInfo{
+        display: flex;
+        justify-content: flex-start;
+        gap: 20px;
+        width: calc(100% - 500px);
+        .priceGroup, .totalLiquidityGroup, .yourLiquidityGroup, .volumeGroup, .tvlGroup {
+          .titleDetails {
+            color: #899398;
+            margin: 0;
+            font-size: 16px;
+            margin-bottom: 10px;
+          }
+          .detailsContent {
+            display: flex;
+            flex-direction: column;
+            .value{
+              margin: 0;
+              color: var(--teddy-text-input-secondary);
+              font-size: 14px;
+            }
+          }
+        }
+        @media (max-width: 1160px) {
+          width: calc(100% - 175px);
+          max-width: 600px;
+        }
+        @media (min-width: 630px) {
+          .volumeGroup {
+            display: none;
+          }
+        }
+        @media (min-width: 550px) {
+          .tvlGroup {
+            display: none;
+          }
+        }
+        @media (max-width: 420px) {
+          .priceGroup, .totalLiquidityGroup, .yourLiquidityGroup, .volumeGroup, .tvlGroup {
+            .detailsContent {
+              .value {
+                font-size: 12px;
+              }
+            }
+          }
+        }
+      }
+      .poolActions {
+        display: flex;
+        width: 500px;
+        gap: 20px;
+        align-items: center;
+        .btnSwap, .btnLiquidity {
+          .mixBtn;
+          height: 40px;
+          font-size: 16px;
+        }
+        @media (max-width: 1160px) {
+          flex-direction: column;
+          width: 175px;
+          justify-content: center;
+          gap: 10px;
+        }
+      }
+      @media (max-width: 850px) {
+        flex-direction: column;
+        gap: 20px;
+        &.expanded {
+          height: auto;
+          padding: 16px 24px;
+        }
+        .poolInfo {
+          width: 100%;
+          max-width: none;
+          justify-content: center;
+          gap: 40px;
+          .priceGroup, .totalLiquidityGroup, .yourLiquidityGroup, .volumeGroup, .tvlGroup {
+            .titleDetails {
+              text-align: center;
+            }
+            .detailsContent {
+              .value{
+                text-align: center;
+              }
+            }
+          }
+        }
+        .poolActions {
+          flex-direction: row;
+          width: 100%;
+          max-width: 500px;
+          margin: auto;
+          gap: 20px;
+        }
+      }
+      @media (max-width: 680px) {
+        .poolInfo {
+          flex-direction: column;
+          align-items: center;
+          gap: 20px;
+        }
+        .poolActions {
+          flex-direction: column;
+          max-width: 300px;
+        }
+      }
+    }
+    &.loading{
+      .tbodyContent {
+        height: 90px;
+        width: 100%;
+        background: linear-gradient(90deg, var(--teddy-secondary-color) 25%, var(--teddy-secondary-text-dark) 50%, var(--teddy-secondary-color) 75%);
+        background-size: 200% 100%;
+        animation: loadingAnimation 1.5s infinite linear;
+      }
+    }
+    &.positionEmpty {
+      .tbodyContent {
+        display: flex;
+        flex-direction: column;
+        padding: 30px;
+        cursor: default;
+        &:hover {
+          background: none;
+        }
+        .icon {
+          position: static;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          fill: var(--teddy-secondary-text-dark);
+        }
+        .text {
+          margin: 0;
+          color: var(--teddy-text-input-secondary);
+          font-size: 16px;
+          text-align: center
+        }
+        .btnLiquidity {
+          .mixBtn;
+          width: 175px;
+          height: 40px;
+          font-size: 16px;
+        }
+      }
+    }
+  }
+}
+
+@keyframes loadingAnimation {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
+}

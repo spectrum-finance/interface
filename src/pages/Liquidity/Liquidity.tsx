@@ -1,4 +1,4 @@
-import { useDevice, useSearch } from '@ergolabs/ui-kit';
+import { useSearch } from '@ergolabs/ui-kit';
 import { useState } from 'react';
 import * as React from 'react';
 
@@ -13,7 +13,6 @@ import { positions$ } from '../../gateway/api/positions';
 import { PoolsOrPositionsFilterValue } from './common/components/LiquidityFilter/LiquidityFilter';
 import { LiquidityState } from './common/types/LiquidityState';
 import { LiquidityDefaultLayout } from './default/LiquidityDefaultLayout';
-import { LiquidityMobileLayout } from './mobile/LiquidityMobileLayout';
 
 const matchItem = (
   item: AmmPool | Position | AssetLock,
@@ -50,8 +49,6 @@ export const Liquidity = (): JSX.Element => {
   const [filters, setFilters] = useState<
     Set<PoolsOrPositionsFilterValue> | undefined
   >();
-
-  const { moreThan, s } = useDevice();
 
   const [{ active }, setSearchParams] =
     useSearchParams<{ active: LiquidityState | undefined }>();
@@ -97,41 +94,22 @@ export const Liquidity = (): JSX.Element => {
   const positionsWithLocks = positions?.filter((p) => !!p.locks.length);
 
   return (
-    <Page maxWidth={1008} padding={0} transparent>
-      {s && (
-        <LiquidityMobileLayout
-          activeState={activeState}
-          setActiveState={setActiveState}
-          filters={filters}
-          term={term}
-          handleSearchTerm={handleSearchChange}
-          setFilters={setFilters}
-          ammPools={filterAmmPools(ammPools) || []}
-          isAmmPoolsLoading={isAmmPoolsLoading}
-          positions={filterPositions(positions) || []}
-          isPositionsEmpty={!positions.length}
-          isPositionsLoading={isPositionLoading}
-          showLockedPositions={positionsWithLocks.length > 0}
-          positionsWithLocks={filterLockedPositions(positionsWithLocks)}
-        />
-      )}
-      {moreThan('m') && (
-        <LiquidityDefaultLayout
-          activeState={activeState}
-          setActiveState={setActiveState}
-          filters={filters}
-          term={term}
-          handleSearchTerm={handleSearchChange}
-          setFilters={setFilters}
-          ammPools={filterAmmPools(ammPools) || []}
-          isAmmPoolsLoading={isAmmPoolsLoading}
-          positions={filterPositions(positions) || []}
-          isPositionsEmpty={!positions.length}
-          isPositionsLoading={isPositionLoading}
-          showLockedPositions={positionsWithLocks.length > 0}
-          positionsWithLocks={filterLockedPositions(positionsWithLocks)}
-        />
-      )}
+    <Page maxWidth={1200} padding={0} transparent>
+      <LiquidityDefaultLayout
+        activeState={activeState}
+        setActiveState={setActiveState}
+        filters={filters}
+        term={term}
+        handleSearchTerm={handleSearchChange}
+        setFilters={setFilters}
+        ammPools={filterAmmPools(ammPools) || []}
+        isAmmPoolsLoading={isAmmPoolsLoading}
+        positions={filterPositions(positions) || []}
+        isPositionsEmpty={!positions.length}
+        isPositionsLoading={isPositionLoading}
+        showLockedPositions={positionsWithLocks.length > 0}
+        positionsWithLocks={filterLockedPositions(positionsWithLocks)}
+      />
     </Page>
   );
 };

@@ -1,28 +1,40 @@
 import { FC } from 'react';
 
 import { Position } from '../../../../../common/models/Position';
-import { ListSkeletonLoadingState } from '../../../../../components/SkeletonLoader/ListSkeletonLoadingState.tsx';
-import { TableView } from '../../../../../components/TableView/TableView';
-import { PositionEmptyState } from '../../../common/tableViewStates/PositionEmptyState/PositionEmptyState';
-import { LiquidityYourPositionsProps } from '../../../common/types/LiquidityYourPositionsProps';
 import { PoolsOrPositionsTableView } from '../../common/PoolsOrPositionsTableView/PoolsOrPositionsTableView';
+import PositionEmpty from '../../common/PoolsOrPositionsTableView/PositionEmpty';
+import TableLoading from '../../common/PoolsOrPositionsTableView/TableLoading';
 import { PositionDetails } from './PositionDetails/PositionDetails';
 
-export const YourPositions: FC<LiquidityYourPositionsProps> = ({
+export interface YourPositionsProps {
+  readonly positions: Position[];
+  readonly isPositionsLoading?: boolean;
+  readonly isPositionsEmpty: boolean;
+  readonly myLiquidity: boolean;
+}
+
+export const YourPositions: FC<YourPositionsProps> = ({
   positions,
   isPositionsLoading,
   isPositionsEmpty,
-}) => (
-  <PoolsOrPositionsTableView
-    expandComponent={PositionDetails}
-    items={positions}
-    poolMapper={(position: Position) => position.pool}
-  >
-    <TableView.State name="loading" condition={isPositionsLoading}>
-      <ListSkeletonLoadingState />
-    </TableView.State>
-    <TableView.State name="empty" condition={isPositionsEmpty}>
-      <PositionEmptyState />
-    </TableView.State>
-  </PoolsOrPositionsTableView>
-);
+  myLiquidity,
+}) => {
+  if (isPositionsLoading) {
+    return <TableLoading />;
+  }
+
+  if (!isPositionsLoading && isPositionsEmpty) {
+    return <PositionEmpty />;
+  }
+
+  return (
+    <PoolsOrPositionsTableView
+      expandComponent={PositionDetails}
+      items={positions}
+      poolMapper={(position: Position) => position}
+      isPositionsEmpty={isPositionsEmpty}
+      isPositionsLoading={isPositionsLoading}
+      myLiquidity={myLiquidity}
+    />
+  );
+};

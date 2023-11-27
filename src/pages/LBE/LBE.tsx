@@ -36,7 +36,6 @@ export default function LBE() {
       ) : (
         <DetailsLBE mobile={true} startTime={startTime} endTime={endTime} />
       )}
-      {/* <DetailsLBE /> */}
     </main>
   );
 }
