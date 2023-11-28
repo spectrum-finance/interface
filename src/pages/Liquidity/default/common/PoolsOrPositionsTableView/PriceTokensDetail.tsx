@@ -1,4 +1,4 @@
-import styles from './PriceTokenDetail.module.less';
+import styles from './TokenDetail.module.less';
 
 interface PriceTokenDetailProps {
   tokenName1: any;

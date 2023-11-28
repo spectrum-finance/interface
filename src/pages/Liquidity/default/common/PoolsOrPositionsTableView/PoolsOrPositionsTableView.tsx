@@ -6,10 +6,7 @@ import { Position } from '../../../../../common/models/Position';
 import { isDeprecatedPool } from '../../../../../common/utils/isDeprecatedPool.ts';
 import { IsCardano } from '../../../../../components/IsCardano/IsCardano.tsx';
 import { ExpandComponentProps } from '../../../../../components/TableView/common/Expand';
-import {
-  formatToAda,
-  formatToCurrency,
-} from '../../../../../services/number.ts';
+import { formatToAda } from '../../../../../services/number.ts';
 import {
   CHEVRON_DOWN,
   VERIFIED,
@@ -18,6 +15,8 @@ import {
 import AssetPairDetail from './AssetPairDetail.tsx';
 import styles from './PoolsOrPositionsTableView.module.less';
 import PriceTokenDetail from './PriceTokensDetail.tsx';
+import TvlTokensDetail from './TvlTokensDetail.tsx';
+import { YourTvl } from './YourTvl.tsx';
 export interface PoolsOrPositionsTableViewProps<T extends AmmPool | Position> {
   readonly items: T[];
   readonly poolMapper: (item: T) => AmmPool | Position;
@@ -52,7 +51,7 @@ export const PoolsOrPositionsTableView: FC<
             <p className={styles.value}>Asset Pair</p>
           </article>
           <article className={`${styles.row} ${styles.tvl}`}>
-            <p className={styles.value}>TVL</p>
+            <p className={styles.value}>{myLiquidity ? 'Your TVL' : 'TVL'}</p>
           </article>
           <article className={`${styles.row} ${styles.volume}`}>
             <p className={styles.value}>Volume 24H</p>
@@ -90,13 +89,19 @@ export const PoolsOrPositionsTableView: FC<
                     </IsCardano>
                   </article>
                   <article className={`${styles.row} ${styles.tvl}`}>
-                    <IsCardano>
-                      <p className={styles.value}>
-                        {infoPool.tvl
-                          ? formatToAda(infoPool.tvl.toAmount(), 'abbr')
-                          : '0'}
-                      </p>
-                    </IsCardano>
+                    {myLiquidity ? (
+                      <YourTvl
+                        value={[infoPosition.totalX, infoPosition.totalY]}
+                      />
+                    ) : (
+                      <IsCardano>
+                        <p className={styles.value}>
+                          {infoPool.tvl
+                            ? formatToAda(infoPool.tvl.toAmount(), 'abbr')
+                            : '0'}
+                        </p>
+                      </IsCardano>
+                    )}
                   </article>
                   <article className={`${styles.row} ${styles.volume}`}>
                     <IsCardano>
@@ -129,15 +134,23 @@ export const PoolsOrPositionsTableView: FC<
                 >
                   <div className={styles.poolInfo}>
                     <div className={styles.tvlGroup}>
-                      <h2 className={styles.titleDetails}>TVL</h2>
+                      <h2 className={styles.titleDetails}>
+                        {myLiquidity ? 'Your TVL' : 'TVL'}
+                      </h2>
                       <div className={styles.detailsContent}>
-                        <IsCardano>
-                          <p className={styles.value}>
-                            {infoPool.tvl
-                              ? formatToAda(infoPool.tvl.toAmount(), 'abbr')
-                              : '0'}
-                          </p>
-                        </IsCardano>
+                        {myLiquidity ? (
+                          <YourTvl
+                            value={[infoPosition.totalX, infoPosition.totalY]}
+                          />
+                        ) : (
+                          <IsCardano>
+                            <p className={styles.value}>
+                              {infoPool.tvl
+                                ? formatToAda(infoPool.tvl.toAmount(), 'abbr')
+                                : '0'}
+                            </p>
+                          </IsCardano>
+                        )}
                       </div>
                     </div>
                     <div className={styles.volumeGroup}>
@@ -184,64 +197,40 @@ export const PoolsOrPositionsTableView: FC<
                     <div className={styles.totalLiquidityGroup}>
                       <h2 className={styles.titleDetails}>Total Liquidity</h2>
                       <div className={styles.detailsContent}>
-                        <p className={styles.value}>
-                          {infoPool.x.asset.ticker || infoPool.x.asset.name}:{' '}
-                          {`${
-                            infoPool.x.asset.decimals
-                              ? formatToCurrency(
-                                  Number(infoPool.pool.x.amount) /
-                                    Number(
-                                      Math.pow(10, infoPool.x.asset.decimals),
-                                    ),
-                                )
-                              : '0'
-                          }`}
-                        </p>
-                        <p className={styles.value}>
-                          {infoPool.y.asset.ticker || infoPool.y.asset.name}:{' '}
-                          {`${
-                            infoPool.y.asset.decimals
-                              ? formatToCurrency(
-                                  Number(infoPool.pool.y.amount) /
-                                    Number(
-                                      Math.pow(10, infoPool.y.asset.decimals),
-                                    ),
-                                )
-                              : '0'
-                          }`}
-                        </p>
+                        <TvlTokensDetail
+                          tokenName={
+                            infoPool.x.asset.ticker || infoPool.x.asset.name
+                          }
+                          tvlToken={infoPool.pool.x.amount}
+                          decimalsToken={infoPool.x.asset.decimals}
+                        />
+                        <TvlTokensDetail
+                          tokenName={
+                            infoPool.y.asset.ticker || infoPool.y.asset.name
+                          }
+                          tvlToken={infoPool.pool.y.amount}
+                          decimalsToken={infoPool.y.asset.decimals}
+                        />
                       </div>
                     </div>
                     {myLiquidity && (
                       <div className={styles.yourLiquidityGroup}>
                         <h2 className={styles.titleDetails}>Your Liquidity</h2>
                         <div className={styles.detailsContent}>
-                          <p className={styles.value}>
-                            {infoPool.x.asset.ticker || infoPool.x.asset.name}:{' '}
-                            {`${
-                              infoPool.x.asset.decimals
-                                ? formatToCurrency(
-                                    Number(infoPosition.totalX.amount) /
-                                      Number(
-                                        Math.pow(10, infoPool.x.asset.decimals),
-                                      ),
-                                  )
-                                : '0'
-                            }`}
-                          </p>
-                          <p className={styles.value}>
-                            {infoPool.y.asset.ticker || infoPool.y.asset.name}:{' '}
-                            {`${
-                              infoPool.y.asset.decimals
-                                ? formatToCurrency(
-                                    Number(infoPosition.totalY.amount) /
-                                      Number(
-                                        Math.pow(10, infoPool.y.asset.decimals),
-                                      ),
-                                  )
-                                : '0'
-                            }`}
-                          </p>
+                          <TvlTokensDetail
+                            tokenName={
+                              infoPool.x.asset.ticker || infoPool.x.asset.name
+                            }
+                            tvlToken={infoPosition.totalX.amount}
+                            decimalsToken={infoPool.x.asset.decimals}
+                          />
+                          <TvlTokensDetail
+                            tokenName={
+                              infoPool.y.asset.ticker || infoPool.y.asset.name
+                            }
+                            tvlToken={infoPosition.totalY.amount}
+                            decimalsToken={infoPool.y.asset.decimals}
+                          />
                         </div>
                       </div>
                     )}
