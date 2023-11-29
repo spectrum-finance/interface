@@ -11,6 +11,7 @@ import {
 } from '../../common/hooks/useObservable';
 import { useParamsStrict } from '../../common/hooks/useParamsStrict';
 import { Position } from '../../common/models/Position';
+import { normalizeAvailableLp } from '../../common/utils/normalizeAvailableLp.ts';
 import { FormPairSection } from '../../components/common/FormView/FormPairSection/FormPairSection';
 import { FormSlider } from '../../components/common/FormView/FormSlider/FormSlider';
 import { IsErgo } from '../../components/IsErgo/IsErgo';
@@ -66,19 +67,16 @@ export const RemoveLiquidity: FC = () => {
   useSubscription(
     form.controls.percent.valueChanges$.pipe(skip(1)),
     (percent) => {
+      if (!position) {
+        return;
+      }
+      const [availableLp, availableX, availableY] =
+        normalizeAvailableLp(position);
+
       form.patchValue({
-        xAmount:
-          percent === 100
-            ? position?.availableX
-            : position?.availableX.percent(percent),
-        yAmount:
-          percent === 100
-            ? position?.availableY
-            : position?.availableY.percent(percent),
-        lpAmount:
-          percent === 100
-            ? position?.availableLp
-            : position?.availableLp.percent(percent),
+        xAmount: percent === 100 ? availableX : availableX.percent(percent),
+        yAmount: percent === 100 ? availableY : availableY.percent(percent),
+        lpAmount: percent === 100 ? availableLp : availableLp.percent(percent),
       });
     },
     [position],
