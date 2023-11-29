@@ -3,7 +3,7 @@ import { Flex, Form, FormGroup, Skeleton, useForm } from '@ergolabs/ui-kit';
 import { t, Trans } from '@lingui/macro';
 import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { first, skip } from 'rxjs';
+import { first } from 'rxjs';
 
 import {
   useObservable,
@@ -65,7 +65,7 @@ export const RemoveLiquidity: FC = () => {
   const [formValue] = useObservable(form.valueChangesWithSilent$);
 
   useSubscription(
-    form.controls.percent.valueChanges$.pipe(skip(1)),
+    form.controls.percent.valueChanges$,
     (percent) => {
       if (!position) {
         return;
