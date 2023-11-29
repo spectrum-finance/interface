@@ -42,6 +42,7 @@ export const PoolsOrPositionsTableView: FC<
     );
 
   const handleAddLiquidity = (poolid) => navigate(`${poolid}/add`);
+  const handleManageLiquidity = (poolid) => navigate(`${poolid}`);
 
   return (
     <>
@@ -50,12 +51,28 @@ export const PoolsOrPositionsTableView: FC<
           <article className={`${styles.row} ${styles.asset}`}>
             <p className={styles.value}>Asset Pair</p>
           </article>
-          <article className={`${styles.row} ${styles.tvl}`}>
-            <p className={styles.value}>{myLiquidity ? 'Your TVL' : 'TVL'}</p>
+          <article className={`${styles.row} ${styles.apr}`}>
+            <p className={styles.value}>APR</p>
           </article>
-          <article className={`${styles.row} ${styles.volume}`}>
-            <p className={styles.value}>Volume 24H</p>
-          </article>
+          {myLiquidity ? (
+            <article className={`${styles.row} ${styles.yourTvl}`}>
+              <p className={styles.value}>Your TVL</p>
+            </article>
+          ) : (
+            <article className={`${styles.row} ${styles.tvl}`}>
+              <p className={styles.value}>TVL</p>
+            </article>
+          )}
+          {myLiquidity ? (
+            <article className={`${styles.row} ${styles.tvlSecond}`}>
+              <p className={styles.value}>TVL</p>
+            </article>
+          ) : (
+            <article className={`${styles.row} ${styles.volume}`}>
+              <p className={styles.value}>Volume 24H</p>
+            </article>
+          )}
+
           <article className={`${styles.row} ${styles.fee}`}>
             <p className={styles.value}>LP Fee</p>
           </article>
@@ -70,7 +87,6 @@ export const PoolsOrPositionsTableView: FC<
               infoPool = poolMapper(item).pool;
               infoPosition = poolMapper(item);
             }
-
             return (
               <Fragment key={infoPool.id}>
                 <div
@@ -88,30 +104,54 @@ export const PoolsOrPositionsTableView: FC<
                       )}
                     </IsCardano>
                   </article>
-                  <article className={`${styles.row} ${styles.tvl}`}>
-                    {myLiquidity ? (
+                  <article className={`${styles.row} ${styles.apr}`}>
+                    <IsCardano>
+                      <p className={styles.value}>
+                        {infoPool.yearlyFeesPercent.toString() !== '0'
+                          ? `${infoPool.yearlyFeesPercent}%`
+                          : '-'}
+                      </p>
+                    </IsCardano>
+                  </article>
+                  {myLiquidity ? (
+                    <article className={`${styles.row} ${styles.yourTvl}`}>
                       <YourTvl
                         value={[infoPosition.totalX, infoPosition.totalY]}
                       />
-                    ) : (
+                    </article>
+                  ) : (
+                    <article className={`${styles.row} ${styles.tvl}`}>
                       <IsCardano>
                         <p className={styles.value}>
                           {infoPool.tvl
                             ? formatToAda(infoPool.tvl.toAmount(), 'abbr')
-                            : '0'}
+                            : 'N / A'}
                         </p>
                       </IsCardano>
-                    )}
-                  </article>
-                  <article className={`${styles.row} ${styles.volume}`}>
-                    <IsCardano>
-                      <p className={styles.value}>
-                        {infoPool.volume
-                          ? formatToAda(infoPool.volume.toAmount(), 'abbr')
-                          : '0'}
-                      </p>
-                    </IsCardano>
-                  </article>
+                    </article>
+                  )}
+                  {myLiquidity ? (
+                    <article className={`${styles.row} ${styles.tvlSecond}`}>
+                      <IsCardano>
+                        <p className={styles.value}>
+                          {infoPool.tvl
+                            ? formatToAda(infoPool.tvl.toAmount(), 'abbr')
+                            : 'N / A'}
+                        </p>
+                      </IsCardano>
+                    </article>
+                  ) : (
+                    <article className={`${styles.row} ${styles.volume}`}>
+                      <IsCardano>
+                        <p className={styles.value}>
+                          {infoPool.volume
+                            ? formatToAda(infoPool.volume.toAmount(), 'abbr')
+                            : 'N / A'}
+                        </p>
+                      </IsCardano>
+                    </article>
+                  )}
+
                   <article className={`${styles.row} ${styles.fee}`}>
                     <IsCardano>
                       <p className={styles.value}>{infoPool.poolFee}%</p>
@@ -133,35 +173,54 @@ export const PoolsOrPositionsTableView: FC<
                   }`}
                 >
                   <div className={styles.poolInfo}>
-                    <div className={styles.tvlGroup}>
-                      <h2 className={styles.titleDetails}>
-                        {myLiquidity ? 'Your TVL' : 'TVL'}
-                      </h2>
+                    <div className={styles.aprGroup}>
+                      <h2 className={styles.titleDetails}>APR</h2>
                       <div className={styles.detailsContent}>
-                        {myLiquidity ? (
-                          <YourTvl
-                            value={[infoPosition.totalX, infoPosition.totalY]}
-                          />
-                        ) : (
+                        <IsCardano>
+                          <p className={styles.value}>
+                            {infoPool.yearlyFeesPercent.toString() !== '0'
+                              ? `${infoPool.yearlyFeesPercent}%`
+                              : '-'}
+                          </p>
+                        </IsCardano>
+                      </div>
+                    </div>
+                    {myLiquidity ? (
+                      <div className={styles.tvlSecondGroup}>
+                        <h2 className={styles.titleDetails}>TVL</h2>
+                        <div className={styles.detailsContent}>
                           <IsCardano>
                             <p className={styles.value}>
                               {infoPool.tvl
                                 ? formatToAda(infoPool.tvl.toAmount(), 'abbr')
-                                : '0'}
+                                : 'N / A'}
                             </p>
                           </IsCardano>
-                        )}
+                        </div>
                       </div>
-                    </div>
-                    <div className={styles.volumeGroup}>
-                      <h2 className={styles.titleDetails}>Volume 24H</h2>
+                    ) : (
+                      <div className={styles.volumeGroup}>
+                        <h2 className={styles.titleDetails}>Volume 24H</h2>
+                        <div className={styles.detailsContent}>
+                          <IsCardano>
+                            <p className={styles.value}>
+                              {infoPool.volume
+                                ? formatToAda(
+                                    infoPool.volume.toAmount(),
+                                    'abbr',
+                                  )
+                                : 'N / A'}
+                            </p>
+                          </IsCardano>
+                        </div>
+                      </div>
+                    )}
+
+                    <div className={styles.feeGroup}>
+                      <h2 className={styles.titleDetails}>LP Fee</h2>
                       <div className={styles.detailsContent}>
                         <IsCardano>
-                          <p className={styles.value}>
-                            {infoPool.volume
-                              ? formatToAda(infoPool.volume.toAmount(), 'abbr')
-                              : '0'}
-                          </p>
+                          <p className={styles.value}>{infoPool.poolFee}%</p>
                         </IsCardano>
                       </div>
                     </div>
@@ -250,9 +309,13 @@ export const PoolsOrPositionsTableView: FC<
                     </button>
                     <button
                       className={styles.btnLiquidity}
-                      onClick={() => handleAddLiquidity(infoPool.id)}
+                      onClick={() => {
+                        myLiquidity
+                          ? handleManageLiquidity(infoPool.id)
+                          : handleAddLiquidity(infoPool.id);
+                      }}
                     >
-                      Add Liquidity
+                      {myLiquidity ? 'Manage Liquidity' : 'Add Liquidity'}
                     </button>
                   </div>
                 </div>
