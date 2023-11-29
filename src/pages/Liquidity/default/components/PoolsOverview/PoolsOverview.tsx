@@ -1,27 +1,31 @@
 import { FC } from 'react';
 
 import { AmmPool } from '../../../../../common/models/AmmPool';
-import { ListSkeletonLoadingState } from '../../../../../components/SkeletonLoader/ListSkeletonLoadingState.tsx';
-import { TableView } from '../../../../../components/TableView/TableView';
 import { PoolsOrPositionsTableView } from '../../common/PoolsOrPositionsTableView/PoolsOrPositionsTableView';
+import TableLoading from '../../common/PoolsOrPositionsTableView/TableLoading';
 import { PoolDetails } from './PoolDetails/PoolDetails';
 
 export interface PoolsOverviewProps {
   readonly ammPools: AmmPool[];
   readonly loading?: boolean;
+  readonly myLiquidity: boolean;
 }
 
 export const PoolsOverview: FC<PoolsOverviewProps> = ({
   ammPools,
   loading,
-}) => (
-  <PoolsOrPositionsTableView
-    expandComponent={PoolDetails}
-    items={ammPools}
-    poolMapper={(ammPool: AmmPool) => ammPool}
-  >
-    <TableView.State name="loading" condition={loading}>
-      <ListSkeletonLoadingState />
-    </TableView.State>
-  </PoolsOrPositionsTableView>
-);
+  myLiquidity,
+}) => {
+  if (loading) {
+    return <TableLoading />;
+  }
+  return (
+    <PoolsOrPositionsTableView
+      expandComponent={PoolDetails}
+      items={ammPools}
+      poolMapper={(ammPool: AmmPool) => ammPool}
+      myLiquidity={myLiquidity}
+      loading={loading}
+    />
+  );
+};
