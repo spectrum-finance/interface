@@ -38,7 +38,7 @@ export const YieldFarming: FC<YieldFarmingProps> = ({ position }) => {
   const { calculateAPR, isLoading } = useApr(20_000);
   const [rewardAmount, setRewardAmount] = useState<bigint | null>(null);
   const poolId: string = (position.pool as any).poolAnalytics.id;
-  const yieldFarmingStartTimestamp = 1701370764;
+  const yieldFarmingStartTimestamp = 1701378922;
   const elapsedSeconds = () =>
     Math.floor(Date.now() / 1000) - yieldFarmingStartTimestamp;
 
