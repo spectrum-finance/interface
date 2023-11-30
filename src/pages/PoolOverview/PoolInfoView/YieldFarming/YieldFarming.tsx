@@ -83,8 +83,10 @@ export const YieldFarming: FC<YieldFarmingProps> = ({ position }) => {
   const baseReward = Number(convertSubunitToTedy(rewardAmount ?? 0n, 6));
 
   // Calculate bonuses separately
-  const bonusFromRoundOneNFTs = roundOneNfts.length * 0.01;
-  const bonusFromRoundTwoNFTs = roundTwoNfts.length * 0.004;
+  const bonusFromRoundOneNFTs =
+    roundOneNfts.length >= 30 ? 30 * 0.01 : roundOneNfts.length * 0.01;
+  const bonusFromRoundTwoNFTs =
+    roundTwoNfts.length >= 30 ? 30 * 0.004 : roundTwoNfts.length * 0.004;
 
   // Sum the bonuses
   const totalBonusPercentage = bonusFromRoundOneNFTs + bonusFromRoundTwoNFTs;
