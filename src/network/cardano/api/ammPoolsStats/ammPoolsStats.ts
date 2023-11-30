@@ -34,6 +34,7 @@ export interface AmmPoolAnalytics {
   readonly lockedY: AmmPoolAnalyticsAssetInfo;
   readonly lockedLQ: AmmPoolAnalyticsAssetInfo;
   readonly poolFeeNum: number;
+  readonly poolFeeDenum: number;
 }
 
 export const ammPoolsStats$: Observable<Dictionary<AmmPoolAnalytics>> =
