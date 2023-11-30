@@ -90,9 +90,9 @@ function calculateAPR(
   poolId: string,
   ammPoolStats: Dictionary<AmmPoolAnalytics>,
   analyticsPoolData: Dictionary<AmmPoolAnalytics>,
+  elapsedSeconds = 2592000n * 12n,
   userLPAmount?: bigint,
-): Observable<bigint> {
-  const elapsedSeconds = 2592000n * 12n;
+): Observable<[bigint, bigint]> {
   const conversionRate = BigInt(1e6);
   const rewardsInTedy$ = of(
     calculateRewardsForTimeElapsed(Number(elapsedSeconds)),
@@ -124,10 +124,10 @@ function calculateAPR(
         Math.floor(Number(ammPoolData.tvl) * Number(conversionRate)),
       );
 
-      const scaleFactor = BigInt(1e12);
+      const scaleFactor = BigInt(1e18);
       const reward = rewardsInTedy;
       const ratioScaled = BigInt(
-        Math.round(poolDistributionRatios[poolId] * 1e12),
+        Math.round(poolDistributionRatios[poolId] * 1e18),
       );
 
       const poolReward = (reward * ratioScaled) / scaleFactor;
@@ -141,15 +141,20 @@ function calculateAPR(
         (rewardsInLovelace * userShare) / scaleFactor;
       const userShareOfTVLInLovelace =
         (poolTVLInLovelace * userShare) / scaleFactor;
-
+      const userReward = poolReward * userShare;
       const userAPRPercentage =
-        (userRewardsInLovelace * 100n) / userShareOfTVLInLovelace;
+        userShareOfTVLInLovelace > 0
+          ? (userRewardsInLovelace * 100n) / userShareOfTVLInLovelace
+          : 0n;
 
-      return of(userAPRPercentage);
+      return of([userAPRPercentage, userReward / BigInt(1e12)] as [
+        bigint,
+        bigint,
+      ]);
     }),
     catchError((error) => {
       console.error('Error occurred during APR calculation:', error);
-      return of(BigInt(0));
+      return of([BigInt(0), BigInt(0)] as [bigint, bigint]);
     }),
   );
 }
@@ -189,17 +194,22 @@ const useApr = (refreshInterval: 20_000) => {
     return () => clearInterval(intervalId);
   }, [fetchData, refreshInterval]);
 
-  const getAPRById = (poolId: string, userLPAmount?: bigint) => {
+  const getAPRById = (
+    poolId: string,
+    userLPAmount?: bigint,
+    elapsedSeconds?: bigint,
+  ): Observable<[bigint, bigint]> => {
     const ammPoolData = ammPoolsStats[poolId];
     const analyticPoolData = analyticsPoolsData[poolId];
     if (!ammPoolData || !analyticPoolData) {
-      return of(BigInt(0));
+      return of([BigInt(0), BigInt(0)]);
     }
 
     const calculatedAPR = calculateAPR(
       poolId,
       ammPoolsStats,
       analyticsPoolsData,
+      elapsedSeconds,
       userLPAmount,
     );
 

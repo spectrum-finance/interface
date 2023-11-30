@@ -7,7 +7,7 @@ export const APR: FC<{
   calculateAPR: (
     poolId: string,
     userLPAmount?: bigint | undefined,
-  ) => Observable<bigint>;
+  ) => Observable<[bigint, bigint]>;
 }> = ({ infoPool, calculateAPR, isLoading }) => {
   const [apr, setApr] = useState<bigint | null>(null);
 
@@ -15,7 +15,7 @@ export const APR: FC<{
     const yieldFarmingAprByPoolId = async (pool: any) => {
       if (pool === undefined || pool.poolAnalytics === undefined) return;
       try {
-        const aprValue = await firstValueFrom(
+        const [aprValue] = await firstValueFrom(
           calculateAPR(pool.poolAnalytics.id),
         );
         setApr(aprValue);
@@ -24,7 +24,7 @@ export const APR: FC<{
       }
     };
 
-    const interval = setTimeout(() => {
+    const interval = setInterval(() => {
       if (infoPool) {
         yieldFarmingAprByPoolId(infoPool);
       }
