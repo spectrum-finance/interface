@@ -78,7 +78,7 @@ export const PoolsOrPositionsTableView: FC<
           )}
 
           <article className={`${styles.row} ${styles.fee}`}>
-            <p className={styles.value}>LP Fee</p>
+            <p className={styles.value}>Fee</p>
           </article>
         </section>
         <section className={styles.tbody}>
@@ -225,7 +225,7 @@ export const PoolsOrPositionsTableView: FC<
                     )}
 
                     <div className={styles.feeGroup}>
-                      <h2 className={styles.titleDetails}>LP Fee</h2>
+                      <h2 className={styles.titleDetails}>Fee</h2>
                       <div className={styles.detailsContent}>
                         <IsCardano>
                           <p className={styles.value}>{infoPool.poolFee}%</p>
