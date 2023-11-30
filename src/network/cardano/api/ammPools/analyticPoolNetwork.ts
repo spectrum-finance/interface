@@ -45,7 +45,7 @@ export class AnalyticPoolNetwork implements Pools {
     throw new Error('not implemented');
   }
 
-  private request() {
+  request() {
     return axios
       .get<Dictionary<AmmPoolAnalytics>>(
         `${cardanoNetworkData.analyticUrl}front/pools`,

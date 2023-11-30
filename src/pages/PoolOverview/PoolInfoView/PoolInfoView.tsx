@@ -29,6 +29,7 @@ import { hasFarmsForPool } from '../../../network/ergo/lm/api/farms/farms';
 import { MyLiquidity } from './MyLiquidity/MyLiquidity';
 import { PoolFeeTag } from './PoolFeeTag/PoolFeeTag';
 import { TotalLiquidity } from './TotalLiquidity/TotalLiquidity';
+import { YieldFarming } from './YieldFarming/YieldFarming';
 
 export interface PoolInfoProps {
   readonly position: Position;
@@ -49,11 +50,6 @@ export const PoolInfoView: FC<PoolInfoProps> = ({ position }) => {
 
   const handleAddLiquidity = () => navigate(`add`);
 
-  const handleSwap = () =>
-    navigate(
-      `../../../swap?base=${position.pool.x.asset.id}&quote=${position.pool.y.asset.id}&initialPoolId=${position.pool.id}`,
-    );
-
   const handleRelockLiquidity = () => navigate(`relock`);
 
   const handleWithdrawalLiquidity = () => navigate(`withdrawal`);
@@ -63,7 +59,7 @@ export const PoolInfoView: FC<PoolInfoProps> = ({ position }) => {
       glass
       borderRadius="l"
       padding={6}
-      height={valBySize(undefined, undefined, 590)}
+      height={valBySize(undefined, undefined, 730)}
     >
       <Flex col stretch>
         <Flex.Item marginBottom={4}>
@@ -123,8 +119,8 @@ export const PoolInfoView: FC<PoolInfoProps> = ({ position }) => {
                 )}
               </Flex.Item>
               {!isDeprecatedPool(position.pool.id) && (
-                <Button onClick={handleSwap} size="large" type="primary">
-                  <Trans>Swap</Trans>
+                <Button size="large" type="primary" disabled>
+                  Harvest Honey 🍯
                 </Button>
               )}
             </Flex>
@@ -135,6 +131,9 @@ export const PoolInfoView: FC<PoolInfoProps> = ({ position }) => {
         </Flex.Item>
         <Flex.Item marginBottom={4} flex={1}>
           <MyLiquidity position={position} />
+        </Flex.Item>
+        <Flex.Item marginBottom={4} flex={1}>
+          <YieldFarming position={position} />
         </Flex.Item>
         {isDeprecatedPool(position.pool.id) && (
           <Flex.Item marginBottom={4}>

@@ -1,105 +1,76 @@
-import { Flex, Tabs } from '@ergolabs/ui-kit';
-import { t } from '@lingui/macro';
 import { FC } from 'react';
-import styled from 'styled-components';
 
-import { SearchInput } from '../../../components/SearchInput/SearchInput';
-import { LiquidityFilter } from '../common/components/LiquidityFilter/LiquidityFilter';
+import { SEARCH } from '../../../utils/images';
 import { LiquidityLayoutProps } from '../common/types/LiquidityLayoutProps';
 import { LiquidityState } from '../common/types/LiquidityState';
-import { LockedPositions } from './components/LockedPositions/LockedPositions';
 import { PoolsOverview } from './components/PoolsOverview/PoolsOverview';
 import { YourPositions } from './components/YourPositions/YourPositions';
-
-const LiquidityTabs = styled(Tabs)`
-  .ant-tabs-nav-wrap {
-    flex: initial !important;
-    margin-right: calc(var(--spectrum-base-gutter) * 2);
-  }
-
-  .ant-tabs-nav {
-    margin-bottom: calc(var(--spectrum-base-gutter) * 2) !important;
-    justify-content: space-between;
-  }
-
-  .ant-tabs-extra-content {
-    flex: 1;
-  }
-`;
+import styles from './LiquidityDefaultLayout.module.less';
 
 export const LiquidityDefaultLayout: FC<LiquidityLayoutProps> = ({
   ammPools,
   isAmmPoolsLoading,
-  term,
   handleSearchTerm,
-  filters,
-  setFilters,
   activeState,
   setActiveState,
   positions,
   isPositionsEmpty,
   isPositionsLoading,
-  positionsWithLocks,
-  showLockedPositions,
 }) => {
-  const LiquidityStateCaptions = {
-    [LiquidityState.POOLS_OVERVIEW]: t`Overview`,
-    [LiquidityState.YOUR_POSITIONS]: t`My Liquidity`,
-    [LiquidityState.LOCKED_POSITIONS]: t`Locked Liquidity`,
-  };
-
   return (
-    <LiquidityTabs
-      glass
-      tabBarExtraContent={{
-        right: (
-          <Flex>
-            <Flex.Item flex={1} marginRight={1}>
-              <SearchInput
-                autoFocus
-                onChange={handleSearchTerm}
-                value={term}
-                placeholder={t`Type token name or pool id`}
-                size="large"
-              />
-            </Flex.Item>
-            <Flex.Item marginRight={1}>
-              <LiquidityFilter value={filters} onChange={setFilters} />
-            </Flex.Item>
-          </Flex>
-        ),
-      }}
-      activeKey={activeState}
-      onChange={setActiveState as any}
-      style={{ padding: '30px' }}
-    >
-      <Tabs.TabPane
-        tab={t`${LiquidityStateCaptions[LiquidityState.POOLS_OVERVIEW]}`}
-        key={LiquidityState.POOLS_OVERVIEW}
-      >
-        <PoolsOverview ammPools={ammPools} loading={isAmmPoolsLoading} />
-      </Tabs.TabPane>
-      <Tabs.TabPane
-        tab={t`${LiquidityStateCaptions[LiquidityState.YOUR_POSITIONS]}`}
-        key={LiquidityState.YOUR_POSITIONS}
-      >
-        <YourPositions
-          positions={positions}
-          isPositionsEmpty={isPositionsEmpty}
-          isPositionsLoading={isPositionsLoading}
-        />
-      </Tabs.TabPane>
-      {showLockedPositions && (
-        <Tabs.TabPane
-          tab={t`${LiquidityStateCaptions[LiquidityState.LOCKED_POSITIONS]}`}
-          key={LiquidityState.LOCKED_POSITIONS}
+    <>
+      <div className={styles.selectTabGroup}>
+        <p
+          onClick={() => setActiveState(LiquidityState.POOLS_OVERVIEW)}
+          className={`${styles.tab} ${
+            activeState === LiquidityState.POOLS_OVERVIEW ? styles.active : ''
+          }`}
         >
-          <LockedPositions
-            positionsWithLocks={positionsWithLocks}
-            showLockedPositions={showLockedPositions}
+          All Liquidity
+        </p>
+        <p
+          onClick={() => setActiveState(LiquidityState.YOUR_POSITIONS)}
+          className={`${styles.tab} ${
+            activeState === LiquidityState.YOUR_POSITIONS ? styles.active : ''
+          }`}
+        >
+          Your Liquidity
+        </p>
+      </div>
+      <div className={styles.liquidityContainer}>
+        <div className={styles.searchGroup}>
+          <input
+            type="text"
+            className={styles.inputSearch}
+            placeholder="Token name, ticker, or policy id"
+            onChange={handleSearchTerm}
           />
-        </Tabs.TabPane>
-      )}
-    </LiquidityTabs>
+          <svg width="16" height="16" className={styles.icon}>
+            <use href={SEARCH} />
+          </svg>
+        </div>
+        <div className={styles.ContentLiquidity}>
+          {activeState === LiquidityState.POOLS_OVERVIEW && (
+            <>
+              <PoolsOverview
+                ammPools={ammPools}
+                loading={isAmmPoolsLoading}
+                myLiquidity={false}
+              />
+            </>
+          )}
+          {activeState === LiquidityState.YOUR_POSITIONS && (
+            <>
+              <YourPositions
+                positions={positions}
+                isPositionsEmpty={isPositionsEmpty}
+                isPositionsLoading={isPositionsLoading}
+                myLiquidity={true}
+              />
+            </>
+          )}
+        </div>
+      </div>
+    </>
   );
 };

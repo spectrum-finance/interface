@@ -16,7 +16,6 @@ export const WalletTokens: React.FC<{ close: () => void }> = ({ close }) => {
   const [selectedNetwork] = useSelectedNetwork();
   const location = useLocation();
   const navigate = useNavigate();
-
   const handleSwapNow = () => {
     if (!location.pathname.match('swap')) {
       navigate('swap');
