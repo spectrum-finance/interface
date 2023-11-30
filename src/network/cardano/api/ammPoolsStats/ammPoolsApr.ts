@@ -97,7 +97,19 @@ function calculateAPR(
   const rewardsInTedy$ = of(
     calculateRewardsForTimeElapsed(Number(elapsedSeconds)),
   );
-  const priceTedyInAda = 1.44;
+
+  const tedyAdaAnalytics =
+    analyticsPoolData[
+      '1c0ad45d50bd0a8c9bb851a9c59c3cb3e1ab2e2a29bd4d61b0e967ca.TEDY_ADA_POOL_IDENTITY'
+    ];
+
+  const priceTedyInAda = computeSwap(
+    1n,
+    BigInt(tedyAdaAnalytics.lockedY.amount),
+    BigInt(tedyAdaAnalytics.lockedX.amount),
+    BigInt(tedyAdaAnalytics.poolFeeNum),
+    BigInt(tedyAdaAnalytics.poolFeeDenum),
+  );
   const priceTedyInAdaScaled = BigInt(Math.floor(priceTedyInAda * 1e6));
 
   return combineLatest([
@@ -217,6 +229,23 @@ const useApr = (refreshInterval: 20_000) => {
   };
 
   return { calculateAPR: getAPRById, isLoading };
+};
+
+export const computeSwap = (
+  baseAmount: bigint,
+  reservesBase: bigint,
+  reservesQuote: bigint,
+  feeNum: bigint,
+  feeDen: bigint,
+  decimals = 6,
+) => {
+  const scalingFactor = BigInt(10 ** decimals);
+  const numerator = reservesQuote * baseAmount * feeNum * scalingFactor;
+  const denominator = reservesBase * feeDen + baseAmount * feeNum;
+  const result = numerator / denominator;
+
+  // Convert the bigint result back to a number and adjust for the scaling factor
+  return Number(result) / 10 ** decimals;
 };
 
 export {
