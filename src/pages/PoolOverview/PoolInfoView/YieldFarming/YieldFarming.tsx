@@ -1,5 +1,4 @@
 import { Typography } from '@ergolabs/ui-kit';
-import { Trans } from '@lingui/macro';
 import { FC, useEffect, useState } from 'react';
 import { firstValueFrom } from 'rxjs';
 
@@ -102,11 +101,7 @@ export const YieldFarming: FC<YieldFarmingProps> = ({ position }) => {
         secondary
         glass
         borderRadius="l"
-        title={
-          <Typography.Body strong>
-            <Trans>Yield Farming 🧑‍🌾</Trans>
-          </Typography.Body>
-        }
+        title={<Typography.Body strong>Yield Farming 🧑‍🌾</Typography.Body>}
         titleGap={1}
         subtitle={
           !position.empty && (
