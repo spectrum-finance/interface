@@ -53,7 +53,9 @@ export const PoolInfoView: FC<PoolInfoProps> = ({ position }) => {
                 Farm
               </button>
             )}
-            <p className={styles.harvest}>Harvest Honey 🍯</p>
+            <button className={styles.btnHarvest} disabled>
+              Harvest Honey 🍯
+            </button>
           </div>
         )}
       </div>
