@@ -21,7 +21,7 @@
         display: none;
       }
     }
-    &.tvl, &.yourTvl, &.tvlSecond {
+    &.tvl, &.yourTvl {
       min-width: 90px;
       max-width: 115px;
     }
@@ -29,7 +29,7 @@
       min-width: 100px;
       max-width: 115px;
     }
-    &.tvlSecond, &.volume {
+    &.volume,  &.tvl{
       @media (max-width: 710px) {
         display: none;
       }
@@ -129,7 +129,7 @@
         justify-content: flex-start;
         gap: 20px;
         width: calc(100% - 500px);
-        .priceGroup, .totalLiquidityGroup, .aprGroup, .yourLiquidityGroup, .volumeGroup, .tvlSecondGroup, .feeGroup {
+        .priceGroup, .totalLiquidityGroup, .aprGroup, .yourLiquidityGroup, .volumeGroup, .tvlGroup, .feeGroup {
           .titleDetails {
             color: #899398;
             margin: 0;
@@ -151,7 +151,7 @@
           max-width: 600px;
         }
         @media (min-width: 710px) {
-          .volumeGroup, .tvlSecondGroup {
+          .volumeGroup, .tvlGroup {
             display: none;
           }
         }
@@ -166,7 +166,7 @@
           }
         }
         @media (max-width: 420px) {
-          .priceGroup, .totalLiquidityGroup, .aprGroup, .yourLiquidityGroup, .volumeGroup, .tvlSecondGroup, .feeGroup {
+          .priceGroup, .totalLiquidityGroup, .aprGroup, .yourLiquidityGroup, .volumeGroup, .tvlGroup, .feeGroup {
             .detailsContent {
               .value {
                 font-size: 12px;
@@ -204,7 +204,7 @@
           max-width: none;
           justify-content: center;
           gap: 20px;
-          .priceGroup, .totalLiquidityGroup, .aprGroup, .yourLiquidityGroup, .volumeGroup, .tvlSecondGroup, .feeGroup {
+          .priceGroup, .totalLiquidityGroup, .aprGroup, .yourLiquidityGroup, .volumeGroup, .tvlGroup, .feeGroup {
             .titleDetails {
               text-align: center;
             }
