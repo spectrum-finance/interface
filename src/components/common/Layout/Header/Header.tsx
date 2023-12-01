@@ -13,9 +13,9 @@ export default function Header() {
     <header className={styles.header}>
       <section className={styles.navigationSection}>
         {moreThan('l') ? (
-          <img src="/img/logo/teddy-logo.png" height={26} />
+          <img src="/img/logo/teddy-logo.svg" height={26} />
         ) : (
-          <img src="/img/logo/teddy-logo-mob.png" height={26} />
+          <img src="/img/logo/teddy-logo-mob.svg" height={26} />
         )}
         {!s && <Navigation />}
       </section>
