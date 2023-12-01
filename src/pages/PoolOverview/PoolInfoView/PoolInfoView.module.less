@@ -1,0 +1,86 @@
+@import '../../../assets/styles/variables/general.less';
+
+.poolInfoViewContainer {
+  width: 100%;
+  .poolTitle {
+    margin: 24px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .asset {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      .fee {
+        margin: 0;
+        color: var(--teddy-primary-text);
+        font-size: 12px;
+        background: var(--teddy-box-color-dark);
+        padding-inline: 10px;
+        border-radius: 10px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+    .deprecated {
+      background: var(--teddy-box-color-dark);
+      font-size: 12px;
+      margin: 0;
+      border-radius: 10px;
+      padding-inline: 10px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--teddy-color-danger);
+    }
+    .btnGroup {
+      display: flex;
+      gap: 10px;
+      .btnFarm, .btnHarvest {
+        .mixBtn;
+        height: 30px;
+        font-size: 16px;
+        border-radius: 6px;
+      }
+      .btnFarm {
+        width: 80px;
+      }
+      .btnHarvest {
+        width: 170px;
+      }
+    }
+    @media (max-width: 550px) {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 20px;
+    }
+  }
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    .deprecated {
+      color: #FFC107;
+      margin: 0;
+    }
+  }
+  .btnActions {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    align-items: center;
+    margin-top: 20px;
+    .btnAdd, .btnRemove, .btnLiquidity {
+      .mixBtn;
+        height: 40px;
+        font-size: 16px;
+        border-radius: 6px;
+    }
+    @media (max-width: 480px) {
+      flex-direction: column;
+    }
+  }
+}
