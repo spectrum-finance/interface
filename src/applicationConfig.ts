@@ -61,6 +61,7 @@ interface ApplicationConfig {
   readonly lbspLiquidityPools: string[];
   readonly spfPoolId: string;
   readonly specialRewards: string[];
+  readonly specialRewardsPct: Dictionary<number>;
   readonly deprecatedPools: string[];
   readonly isRewardsAvailable: boolean;
 }
@@ -263,8 +264,11 @@ export const applicationConfig: ApplicationConfig = {
   spfPoolId:
     'a80022230c821a52e426d2fdb096e7d967b5ab25d350d469a7603dbf.5350465f4144415f4e4654',
   specialRewards: [
-    '54ffabdd4c6cb983ea1d0c8c5296aa9d8d5dfaafbf0ff33efc45669b.4d41595a5f4144415f4e4654',
+    '12fbad0ff98818ec9d75a5a1a4d54ce9cdd45cce77b84cc9b91ee896.4d41595a5f4144415f4e4654',
   ],
+  specialRewardsPct: {
+    '12fbad0ff98818ec9d75a5a1a4d54ce9cdd45cce77b84cc9b91ee896.4d41595a5f4144415f4e4654': 125,
+  },
   deprecatedPools: [
     'c2ea7b366349afda7bab0fbdb712d1e6cec1c91c1cfda21a43998e38.436f726e75636f706961735f4144415f4e4654',
     'd8beceb1ac736c92df8e1210fb39803508533ae9573cffeb2b24a839.696274635f4144415f4e4654',

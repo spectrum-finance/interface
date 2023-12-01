@@ -3,6 +3,7 @@ import { t, Trans } from '@lingui/macro';
 import sum from 'lodash/sum';
 import { FC, ReactNode } from 'react';
 
+import { applicationConfig } from '../../../../../../../../applicationConfig.ts';
 import { useObservable } from '../../../../../../../../common/hooks/useObservable';
 import { AmmPool } from '../../../../../../../../common/models/AmmPool';
 import { AssetIcon } from '../../../../../../../../components/AssetIcon/AssetIcon.tsx';
@@ -94,7 +95,7 @@ const CardanoLbspAmmPoolAprColumnContent: FC<CardanoAprColumnContent> = ({
   if (isSpecialBoostedPool(ammPool.id)) {
     aprs.push({
       name: t`Boosted APR:`,
-      val: 75,
+      val: applicationConfig.specialRewardsPct[ammPool.id],
       logo: <AssetIcon asset={ammPool.y.asset} size="extraSmall" />,
     });
   }
