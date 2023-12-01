@@ -36,17 +36,27 @@ export const YieldFarming: FC<YieldFarmingProps> = ({ position }) => {
   const [balance] = useAssetsBalance();
   const { calculateAPR, isLoading } = useApr(20_000);
   const [rewardAmount, setRewardAmount] = useState<bigint | null>(null);
-  const poolId: string = (position.pool as any).poolAnalytics.id;
+
   const yieldFarmingStartTimestamp = 1701378922;
   const elapsedSeconds = () =>
     Math.floor(Date.now() / 1000) - yieldFarmingStartTimestamp;
+
+  const poolId: string | undefined | null = (position.pool as any).poolAnalytics
+    ?.id;
+
+  let totalYieldReward = 0;
+  let baseReward = 0;
+  let totalYieldBonus = 0;
+  let totalBonusPercentage = 0;
+  let roundOneNfts: string[] = [];
+  let roundTwoNfts: string[] = [];
 
   useEffect(() => {
     const yieldFarmingAprByPoolId = async () => {
       try {
         const [, rewardAmount] = (await firstValueFrom(
           calculateAPR(
-            poolId,
+            poolId ?? '',
             position.availableLp.amount,
             BigInt(elapsedSeconds()),
           ),
@@ -66,36 +76,41 @@ export const YieldFarming: FC<YieldFarmingProps> = ({ position }) => {
     return () => clearInterval(interval);
   }, [isLoading]);
 
-  const assets = (balance as any).mapAssetIdToBalance as Map<string, Currency>;
+  if (poolId != undefined || poolId != null) {
+    const assets = (balance as any).mapAssetIdToBalance as Map<
+      string,
+      Currency
+    >;
 
-  const roundOneNfts = [...assets.keys()].filter((assetId) =>
-    assetId.startsWith(
-      'ab182ed76b669b49ee54a37dee0d0064ad4208a859cc4fdf3f906d87',
-    ),
-  );
+    roundOneNfts = [...assets.keys()].filter((assetId) =>
+      assetId.startsWith(
+        'ab182ed76b669b49ee54a37dee0d0064ad4208a859cc4fdf3f906d87',
+      ),
+    );
 
-  const roundTwoNfts = [...assets.keys()].filter((assetId) =>
-    assetId.startsWith(
-      'da3562fad43b7759f679970fb4e0ec07ab5bebe5c703043acda07a3c',
-    ),
-  );
+    roundTwoNfts = [...assets.keys()].filter((assetId) =>
+      assetId.startsWith(
+        'da3562fad43b7759f679970fb4e0ec07ab5bebe5c703043acda07a3c',
+      ),
+    );
 
-  const baseReward = Number(convertSubunitToTedy(rewardAmount ?? 0n, 6));
+    baseReward = Number(convertSubunitToTedy(rewardAmount ?? 0n, 6));
 
-  // Calculate bonuses separately
-  const bonusFromRoundOneNFTs =
-    roundOneNfts.length >= 30 ? 30 * 0.01 : roundOneNfts.length * 0.01;
-  const bonusFromRoundTwoNFTs =
-    roundTwoNfts.length >= 30 ? 30 * 0.004 : roundTwoNfts.length * 0.004;
+    // Calculate bonuses separately
+    const bonusFromRoundOneNFTs =
+      roundOneNfts.length >= 30 ? 30 * 0.01 : roundOneNfts.length * 0.01;
+    const bonusFromRoundTwoNFTs =
+      roundTwoNfts.length >= 30 ? 30 * 0.004 : roundTwoNfts.length * 0.004;
 
-  // Sum the bonuses
-  const totalBonusPercentage = bonusFromRoundOneNFTs + bonusFromRoundTwoNFTs;
+    // Sum the bonuses
+    totalBonusPercentage = bonusFromRoundOneNFTs + bonusFromRoundTwoNFTs;
 
-  // Apply the total bonus to the base reward
-  const totalYieldBonus = baseReward * totalBonusPercentage;
+    // Apply the total bonus to the base reward
+    totalYieldBonus = baseReward * totalBonusPercentage;
 
-  // Calculate the total yield reward
-  const totalYieldReward = baseReward + totalYieldBonus;
+    // Calculate the total yield reward
+    totalYieldReward = baseReward + totalYieldBonus;
+  }
 
   return (
     <>

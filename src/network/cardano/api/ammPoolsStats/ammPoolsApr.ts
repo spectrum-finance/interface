@@ -82,8 +82,8 @@ const poolDistributionRatios = {
   '5d137c35eb5cba295aae2c44e0d9a82ca9f3d362caf3d681ffc9328b.ENCS_ADA_POOL_IDENTITY': 0.02571, // ADA/ENCS
   '8d17d7a368cf5d1a3fe4468735050fdb8d2ae2bb2666aca05edd6969.SNEK_ADA_POOL_IDENTITY': 0.02571, // ADA/SNEK
   // Assuming ADA/iETH and ADA/INDY are included in the pool IDs from your file
-  '8d17d7a368cf5d1a3fe4468735050fdb8d2ae2bb2666aca05edd6969.pool_ID_for_ADA_iETH': 0.02571, // Placeholder for ADA/iETH
-  '8d17d7a368cf5d1a3fe4468735050fdb8d2ae2bb2666aca05edd6969.pool_ID_for_ADA_INDY': 0.02571, // Placeholder for ADA/INDY
+  '98de80cd7add6f1b9dacd076de508fc2cfad37d05b4dc6fbb8a510fa.iETH_ADA_POOL_IDENTITY': 0.02571, // ADA/iETH
+  'ed3ea3cc3efda14d48d969e57ec22e2b3e5803ed4887c1152c48637c.INDY_ADA_POOL_IDENTITY': 0.02571, // ADA/INDY
 };
 
 function calculateAPR(
