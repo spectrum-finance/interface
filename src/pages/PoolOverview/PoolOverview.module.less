@@ -7,6 +7,7 @@
   background: var(--teddy-box-color);
   border-radius: 16px;
   padding: 30px;
+  position: relative;
   .header {
     display: flex;
     align-items: center;
@@ -23,9 +24,16 @@
       justify-content: center;
       fill: var(--teddy-primary-text);
       cursor: pointer;
+      position: absolute;
+      right: 20px;
+      top: 20px;
     }
   }
   @media (max-width: 960px) {
     margin-top: 40px;
+    padding: 20px;
+  }
+  @media (max-width: 480px) {
+    margin-top: 20px;
   }
 }

@@ -12,6 +12,7 @@ import { MyLiquidity } from './MyLiquidity/MyLiquidity';
 import PoolDetailAsset from './PoolDetailAsset';
 import styles from './PoolInfoView.module.less';
 import { TotalLiquidity } from './TotalLiquidity/TotalLiquidity';
+import { YieldFarming } from './YieldFarming/YieldFarming';
 
 export interface PoolInfoProps {
   readonly position: Position;
@@ -27,11 +28,6 @@ export const PoolInfoView: FC<PoolInfoProps> = ({ position }) => {
   const handleRemovePositionClick = () => navigate(`remove`);
 
   const handleAddLiquidity = () => navigate(`add`);
-
-  const handleSwap = () =>
-    navigate(
-      `../../../swap?base=${position.pool.x.asset.id}&quote=${position.pool.y.asset.id}&initialPoolId=${position.pool.id}`,
-    );
 
   const [isWalletConnected] = useObservable(isWalletSetuped$);
   const openChooseWalletModal = (): void => {
@@ -57,15 +53,14 @@ export const PoolInfoView: FC<PoolInfoProps> = ({ position }) => {
                 Farm
               </button>
             )}
-            <button className={styles.btnSwap} onClick={handleSwap}>
-              Swap
-            </button>
+            <p className={styles.harvest}>Harvest Honey 🍯</p>
           </div>
         )}
       </div>
       <div className={styles.content}>
         <TotalLiquidity position={position} />
         <MyLiquidity position={position} />
+        <YieldFarming position={position} />
         {isDeprecatedPool(position.pool.id) && (
           <p className={styles.deprecated}>
             A more secure variant of this pool is available. We advise you to

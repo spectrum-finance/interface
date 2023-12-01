@@ -24,7 +24,7 @@ export default function PositionEmpty() {
           <p className={styles.value}>Volume 24H</p>
         </article>
         <article className={`${styles.row} ${styles.fee}`}>
-          <p className={styles.value}>LP Fee</p>
+          <p className={styles.value}>Fee</p>
         </article>
       </section>
       <section className={`${styles.tbody} ${styles.positionEmpty}`}>

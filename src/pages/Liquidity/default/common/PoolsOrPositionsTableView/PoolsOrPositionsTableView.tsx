@@ -6,12 +6,14 @@ import { Position } from '../../../../../common/models/Position';
 import { isDeprecatedPool } from '../../../../../common/utils/isDeprecatedPool.ts';
 import { IsCardano } from '../../../../../components/IsCardano/IsCardano.tsx';
 import { ExpandComponentProps } from '../../../../../components/TableView/common/Expand';
+import { useApr } from '../../../../../network/cardano/api/ammPoolsStats/ammPoolsApr.ts';
 import { formatToAda } from '../../../../../services/number.ts';
 import {
   CHEVRON_DOWN,
   VERIFIED,
   WARNING,
 } from '../../../../../utils/images.ts';
+import { APR } from './APR.tsx';
 import AssetPairDetail from './AssetPairDetail.tsx';
 import styles from './PoolsOrPositionsTableView.module.less';
 import PriceTokenDetail from './PriceTokensDetail.tsx';
@@ -44,6 +46,8 @@ export const PoolsOrPositionsTableView: FC<
   const handleAddLiquidity = (poolid) => navigate(`${poolid}/add`);
   const handleManageLiquidity = (poolid) => navigate(`${poolid}`);
 
+  const { calculateAPR, isLoading } = useApr(20_000);
+
   return (
     <>
       <main className={styles.poolsPositionTable}>
@@ -74,7 +78,7 @@ export const PoolsOrPositionsTableView: FC<
           )}
 
           <article className={`${styles.row} ${styles.fee}`}>
-            <p className={styles.value}>LP Fee</p>
+            <p className={styles.value}>Fee</p>
           </article>
         </section>
         <section className={styles.tbody}>
@@ -107,9 +111,11 @@ export const PoolsOrPositionsTableView: FC<
                   <article className={`${styles.row} ${styles.apr}`}>
                     <IsCardano>
                       <p className={styles.value}>
-                        {infoPool.yearlyFeesPercent.toString() !== '0'
-                          ? `${infoPool.yearlyFeesPercent}%`
-                          : '-'}
+                        <APR
+                          infoPool={infoPool}
+                          calculateAPR={calculateAPR}
+                          isLoading={isLoading}
+                        />
                       </p>
                     </IsCardano>
                   </article>
@@ -178,9 +184,11 @@ export const PoolsOrPositionsTableView: FC<
                       <div className={styles.detailsContent}>
                         <IsCardano>
                           <p className={styles.value}>
-                            {infoPool.yearlyFeesPercent.toString() !== '0'
-                              ? `${infoPool.yearlyFeesPercent}%`
-                              : '-'}
+                            <APR
+                              infoPool={infoPool}
+                              calculateAPR={calculateAPR}
+                              isLoading={isLoading}
+                            />
                           </p>
                         </IsCardano>
                       </div>
@@ -217,7 +225,7 @@ export const PoolsOrPositionsTableView: FC<
                     )}
 
                     <div className={styles.feeGroup}>
-                      <h2 className={styles.titleDetails}>LP Fee</h2>
+                      <h2 className={styles.titleDetails}>Fee</h2>
                       <div className={styles.detailsContent}>
                         <IsCardano>
                           <p className={styles.value}>{infoPool.poolFee}%</p>
