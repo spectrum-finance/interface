@@ -40,6 +40,7 @@ export const MyLiquidity: FC<MyLiquidityProps> = ({ position }) => {
       subtitleGap={2}
       padding={3}
       height={position.empty ? 80 : undefined}
+      style={{ background: 'var(--teddy-box-color-dark)' }}
     >
       {position.empty ? (
         <Flex stretch align="center" justify="center">

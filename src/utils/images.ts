@@ -6,6 +6,7 @@ export const SEARCH = '/img/icons/search.svg#icon';
 export const VERIFIED = '/img/icons/verified.png';
 export const BANK = '/img/icons/bank.svg#icon';
 export const WARNING = '/img/icons/exclamation.png';
+export const X = '/img/icons/x.svg#icon';
 
 // TOKENS
 

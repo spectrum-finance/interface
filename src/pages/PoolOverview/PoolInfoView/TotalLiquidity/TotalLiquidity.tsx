@@ -30,6 +30,7 @@ export const TotalLiquidity: FC<TotalLiquidityProps> = ({ position }) => {
       }
       subtitleGap={2}
       padding={3}
+      style={{ background: 'var(--teddy-box-color-dark)' }}
     >
       <InlineGrid gap={2}>
         <InlineGrid.Item
