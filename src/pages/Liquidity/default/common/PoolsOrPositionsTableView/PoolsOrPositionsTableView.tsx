@@ -58,18 +58,12 @@ export const PoolsOrPositionsTableView: FC<
           <article className={`${styles.row} ${styles.apr}`}>
             <p className={styles.value}>APR</p>
           </article>
+          <article className={`${styles.row} ${styles.tvl}`}>
+            <p className={styles.value}>TVL</p>
+          </article>
           {myLiquidity ? (
             <article className={`${styles.row} ${styles.yourTvl}`}>
               <p className={styles.value}>Your TVL</p>
-            </article>
-          ) : (
-            <article className={`${styles.row} ${styles.tvl}`}>
-              <p className={styles.value}>TVL</p>
-            </article>
-          )}
-          {myLiquidity ? (
-            <article className={`${styles.row} ${styles.tvlSecond}`}>
-              <p className={styles.value}>TVL</p>
             </article>
           ) : (
             <article className={`${styles.row} ${styles.volume}`}>
@@ -119,31 +113,21 @@ export const PoolsOrPositionsTableView: FC<
                       </p>
                     </IsCardano>
                   </article>
+                  <article className={`${styles.row} ${styles.tvl}`}>
+                    <IsCardano>
+                      <p className={styles.value}>
+                        {infoPool.tvl
+                          ? formatToAda(infoPool.tvl.toAmount(), 'abbr')
+                          : 'N / A'}
+                      </p>
+                    </IsCardano>
+                  </article>
                   {myLiquidity ? (
                     <article className={`${styles.row} ${styles.yourTvl}`}>
-                      <YourTvl
-                        value={[infoPosition.totalX, infoPosition.totalY]}
-                      />
-                    </article>
-                  ) : (
-                    <article className={`${styles.row} ${styles.tvl}`}>
                       <IsCardano>
-                        <p className={styles.value}>
-                          {infoPool.tvl
-                            ? formatToAda(infoPool.tvl.toAmount(), 'abbr')
-                            : 'N / A'}
-                        </p>
-                      </IsCardano>
-                    </article>
-                  )}
-                  {myLiquidity ? (
-                    <article className={`${styles.row} ${styles.tvlSecond}`}>
-                      <IsCardano>
-                        <p className={styles.value}>
-                          {infoPool.tvl
-                            ? formatToAda(infoPool.tvl.toAmount(), 'abbr')
-                            : 'N / A'}
-                        </p>
+                        <YourTvl
+                          value={[infoPosition.totalX, infoPosition.totalY]}
+                        />
                       </IsCardano>
                     </article>
                   ) : (
@@ -194,7 +178,7 @@ export const PoolsOrPositionsTableView: FC<
                       </div>
                     </div>
                     {myLiquidity ? (
-                      <div className={styles.tvlSecondGroup}>
+                      <div className={styles.tvlGroup}>
                         <h2 className={styles.titleDetails}>TVL</h2>
                         <div className={styles.detailsContent}>
                           <IsCardano>

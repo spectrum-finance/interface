@@ -119,6 +119,7 @@ export const YieldFarming: FC<YieldFarmingProps> = ({ position }) => {
         subtitleGap={2}
         padding={3}
         height={position.empty ? 80 : undefined}
+        style={{ background: 'var(--teddy-box-color-dark)' }}
       >
         <Typography.Body>
           Base Reward:{' '}
