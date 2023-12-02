@@ -57,6 +57,9 @@ export const PoolsOrPositionsTableView: FC<
             <p className={styles.value}>Asset Pair</p>
           </article>
           <article className={`${styles.row} ${styles.fee}`}>
+            <p className={styles.value}>Price</p>
+          </article>
+          <article className={`${styles.row} ${styles.fee}`}>
             <p className={styles.value}>Fee</p>
           </article>
           <article className={`${styles.row} ${styles.apr}`}>
@@ -107,6 +110,22 @@ export const PoolsOrPositionsTableView: FC<
                       ) : (
                         <img src={VERIFIED} alt="verified" />
                       )}
+                    </IsCardano>
+                  </article>
+                  <article className={`${styles.row} ${styles.fee}`}>
+                    <IsCardano>
+                      <PriceTokenDetail
+                        tokenName1={
+                          infoPool.y.asset.ticker || infoPool.y.asset.name
+                        }
+                        tokenName2={
+                          infoPool.x.asset.ticker || infoPool.x.asset.name
+                        }
+                        priceToken1={infoPool.pool.priceY.numerator}
+                        priceToken2={infoPool.pool.priceX.numerator}
+                        decimalsToken1={infoPool.y.asset.decimals}
+                        decimalsToken2={infoPool.x.asset.decimals}
+                      />
                     </IsCardano>
                   </article>
                   <article className={`${styles.row} ${styles.fee}`}>
