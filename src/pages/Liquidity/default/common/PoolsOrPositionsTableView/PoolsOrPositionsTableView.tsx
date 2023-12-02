@@ -70,8 +70,8 @@ export const PoolsOrPositionsTableView: FC<
               <article className={`${styles.row} ${styles.yourTvl}`}>
                 <p className={styles.value}>Your TVL</p>
               </article>
-              <article className={`${styles.row} ${styles.yourTvl}`}>
-                <p className={styles.value}>Yield Farming</p>
+              <article className={`${styles.row} ${styles.apr}`}>
+                <p className={styles.value}>Honey 🍯</p>
               </article>
             </>
           ) : (
@@ -141,7 +141,7 @@ export const PoolsOrPositionsTableView: FC<
                           />
                         </IsCardano>
                       </article>
-                      <article className={`${styles.row} ${styles.yourTvl}`}>
+                      <article className={`${styles.row} ${styles.apr}`}>
                         <IsCardano>
                           <p className={styles.value}>
                             <YieldFarmingReward
