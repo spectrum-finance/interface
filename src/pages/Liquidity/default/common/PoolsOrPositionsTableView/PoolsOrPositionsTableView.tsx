@@ -62,9 +62,11 @@ export const PoolsOrPositionsTableView: FC<
           <article className={`${styles.row} ${styles.apr}`}>
             <p className={styles.value}>APR</p>
           </article>
-          <article className={`${styles.row} ${styles.tvl}`}>
-            <p className={styles.value}>TVL</p>
-          </article>
+          {myLiquidity === false && (
+            <article className={`${styles.row} ${styles.tvl}`}>
+              <p className={styles.value}>TVL</p>
+            </article>
+          )}
           {myLiquidity ? (
             <>
               <article className={`${styles.row} ${styles.yourTvl}`}>
@@ -123,15 +125,18 @@ export const PoolsOrPositionsTableView: FC<
                       </p>
                     </IsCardano>
                   </article>
-                  <article className={`${styles.row} ${styles.tvl}`}>
-                    <IsCardano>
-                      <p className={styles.value}>
-                        {infoPool.tvl
-                          ? formatToAda(infoPool.tvl.toAmount(), 'abbr')
-                          : 'N / A'}
-                      </p>
-                    </IsCardano>
-                  </article>
+
+                  {myLiquidity === false && (
+                    <article className={`${styles.row} ${styles.tvl}`}>
+                      <IsCardano>
+                        <p className={styles.value}>
+                          {infoPool.tvl
+                            ? formatToAda(infoPool.tvl.toAmount(), 'abbr')
+                            : 'N / A'}
+                        </p>
+                      </IsCardano>
+                    </article>
+                  )}
                   {myLiquidity ? (
                     <>
                       <article className={`${styles.row} ${styles.yourTvl}`}>
