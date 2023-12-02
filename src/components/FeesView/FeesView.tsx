@@ -47,9 +47,6 @@ const TotalFeeValue: FC<TotalFeeValueProps> = ({
   if (isLoading) {
     return <FeesSkeletonLoading />;
   }
-
-  console.log('before', { feeItems, executionFee, isLoading });
-
   const feeItemsCurrencies = feeItems.map((item) =>
     item.fee ? item.fee : new Currency(0n),
   );
@@ -63,7 +60,6 @@ const TotalFeeValue: FC<TotalFeeValueProps> = ({
       executionFee[1]?.asset,
     );
 
-    console.log({ executionFeePlusUIFeeMin, executionFeePlusUIFeeMax });
     return (
       <>
         {executionFee?.[0] && executionFee?.[1] && feeItems && (
@@ -82,9 +78,15 @@ const TotalFeeValue: FC<TotalFeeValueProps> = ({
   }
 
   if (executionFee) {
+    const executionFeePlusUIFee = new Currency(
+      (executionFee?.amount || 0n) + 1_000_000n,
+      executionFee?.asset,
+    );
     return (
       <Typography.Body size="large" strong>
-        <ConvenientAssetView value={[executionFee, ...feeItemsCurrencies]} />
+        <ConvenientAssetView
+          value={[executionFeePlusUIFee, ...feeItemsCurrencies]}
+        />
       </Typography.Body>
     );
   }

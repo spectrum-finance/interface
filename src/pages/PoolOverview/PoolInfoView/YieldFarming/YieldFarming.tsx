@@ -112,7 +112,7 @@ export const YieldFarming: FC<YieldFarmingProps> = ({ position }) => {
     totalYieldReward = baseReward + totalYieldBonus;
   }
 
-  return (
+  return !position.empty ? (
     <>
       <TitledBox
         secondary
@@ -174,5 +174,7 @@ export const YieldFarming: FC<YieldFarmingProps> = ({ position }) => {
         </Typography.Body>
       </TitledBox>
     </>
+  ) : (
+    <></>
   );
 };
