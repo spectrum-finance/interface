@@ -329,17 +329,17 @@ msgid "Estimated output:"
 msgstr "Risultato stimato:"
 
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
-msgid "Execution Fee"
+msgid "Honey 🍯"
 msgstr "Costo Di Esecuzione"
 
 #: src/pages/Swap/OperationSettings/NitroInput/NitroInput.tsx
-msgid "Execution Fee Range {0} - {1} {2}"
+msgid "Honey 🍯 Range {0} - {1} {2}"
 msgstr "Intervallo Commissioni di Esecuzione {0} - {1} {2}"
 
 #: src/components/common/FormView/FormFeesSection/FormFeesSection.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
-msgid "Execution Fee:"
+msgid "Honey 🍯:"
 msgstr "Costo Di Esecuzione:"
 
 #: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
@@ -525,7 +525,7 @@ msgid "Max"
 msgstr "Massimo"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
-msgid "Max execution fee multiplier"
+msgid "Max Honey 🍯 multiplier"
 msgstr "Moltiplicatore commissione esecuzione massima"
 
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx

@@ -48,21 +48,32 @@ const TotalFeeValue: FC<TotalFeeValueProps> = ({
     return <FeesSkeletonLoading />;
   }
 
+  console.log('before', { feeItems, executionFee, isLoading });
+
   const feeItemsCurrencies = feeItems.map((item) =>
     item.fee ? item.fee : new Currency(0n),
   );
-
   if (executionFee instanceof Array) {
+    const executionFeePlusUIFeeMin = new Currency(
+      (executionFee?.[0]?.amount || 0n) + 1_000_000n,
+      executionFee[0]?.asset,
+    );
+    const executionFeePlusUIFeeMax = new Currency(
+      (executionFee?.[1]?.amount || 0n) + 1_000_000n,
+      executionFee[1]?.asset,
+    );
+
+    console.log({ executionFeePlusUIFeeMin, executionFeePlusUIFeeMax });
     return (
       <>
         {executionFee?.[0] && executionFee?.[1] && feeItems && (
           <Typography.Body size="large" strong>
             <ConvenientAssetView
-              value={[executionFee[0], ...feeItemsCurrencies]}
+              value={[executionFeePlusUIFeeMin, ...feeItemsCurrencies]}
             />{' '}
             -{' '}
             <ConvenientAssetView
-              value={[executionFee[1], ...feeItemsCurrencies]}
+              value={[executionFeePlusUIFeeMax, ...feeItemsCurrencies]}
             />
           </Typography.Body>
         )}
@@ -88,7 +99,7 @@ const TotalFeeValue: FC<TotalFeeValueProps> = ({
 const ExecutionFeeTooltipTextWrapper = ({ children }) => {
   return (
     <Flex.Item display="flex" align="center" marginBottom={1}>
-      <Flex.Item marginRight={1}>Execution Fee:</Flex.Item>
+      <Flex.Item marginRight={1}>Honey 🍯:</Flex.Item>
       <Flex.Item align="center" display="flex">
         {children}
       </Flex.Item>
@@ -209,6 +220,23 @@ export const FeesView: FC<FeesViewProps> = ({
                       </Flex.Item>
                     </Flex.Item>
                   ))}
+                  <Flex.Item
+                    display="flex"
+                    align="center"
+                    key={'ui-fee'}
+                    marginBottom={1}
+                  >
+                    <Flex.Item marginRight={1}>{'UI Fee'}:</Flex.Item>
+                    <Flex.Item marginRight={1}>
+                      <AssetIcon
+                        size="extraSmall"
+                        asset={feeItems[0]?.fee?.asset}
+                      />
+                    </Flex.Item>
+                    <Flex.Item align="center" display="flex">
+                      {`1 ADA`}
+                    </Flex.Item>
+                  </Flex.Item>
                 </Flex>
               }
             >

@@ -54,7 +54,7 @@ export const LbspFaqModal = () => {
       },
       {
         question: t`What’s the utility of the SPF token?`,
-        content: t`SPF is a cross-chain token whose main utility is to secure Spectrum Network PoS consensus. Spectrum Network is a trustless cross-chain messaging protocol that is currently in an active development stage. However, while Spectrum Network is under development, users can pay execution fees using the SPF on Layer 1 AMM protocols by Spectrum Finance.`,
+        content: t`SPF is a cross-chain token whose main utility is to secure Spectrum Network PoS consensus. Spectrum Network is a trustless cross-chain messaging protocol that is currently in an active development stage. However, while Spectrum Network is under development, users can pay Honey 🍯s using the SPF on Layer 1 AMM protocols by Spectrum Finance.`,
       },
       {
         question: t`How do I participate in the LBSP program?`,

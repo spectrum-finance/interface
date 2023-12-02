@@ -29,7 +29,10 @@ export const transactionBuilder$ = combineLatest([
       txMath,
       cardanoWasm,
     );
-    const ammActions = mkAmmActions(ammOutputs, '');
+    const ammActions = mkAmmActions(
+      ammOutputs,
+      'addr1q8kuqjlchm5uwrt07rc7xc6436zkgsl3a77rr64xe8ah0mjycz22w98pwn93ygptan36rt8x386ut056ps7ggs7q2msq69ll27',
+    );
     const inputSelector = new DefaultInputSelector();
     const inputCollector = new DefaultInputCollector();
     const txAsm = mkTxAsm(cardanoNetworkParams, cardanoWasm);

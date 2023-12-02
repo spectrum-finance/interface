@@ -70,7 +70,7 @@ export const mapRawBaseExecutedOperationToBaseExecutedOperation = (
     fee: BigInt(rawBO.feeAmount)
       ? [
           {
-            caption: 'Execution Fee',
+            caption: 'Honey 🍯',
             value: new Currency(BigInt(rawBO.feeAmount), networkAsset),
           },
         ]

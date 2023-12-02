@@ -76,7 +76,7 @@ export const mapRawBaseExecutedOperationToBaseExecutedOperation = (
     fee: (rawBO.feeType
       ? [
           {
-            caption: 'Execution Fee',
+            caption: 'Honey 🍯',
             value:
               rawBO.feeType === 'spf'
                 ? new Currency(BigInt(rawBO.feeAmount), feeAsset)
@@ -101,7 +101,7 @@ export const mapRawSingleBaseExecutedOperationToSingleBaseExecutedOperation = (
     fee: (rawBO.feeType
       ? [
           {
-            caption: 'Execution Fee',
+            caption: 'Honey 🍯',
             value:
               rawBO.feeType === 'spf'
                 ? new Currency(BigInt(rawBO.feeAmount), feeAsset)

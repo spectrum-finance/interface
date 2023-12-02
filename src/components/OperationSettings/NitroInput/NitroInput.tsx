@@ -77,7 +77,7 @@ const _NitroInput: FC<NitroInputProps> = ({
       <Flex.Item marginBottom={message ? 2 : 0}>
         <Typography.Body className={className}>
           <Trans>
-            Execution Fee Range {minExFee.toString()} - {maxExFee.toString()}{' '}
+            Honey 🍯 Range {minExFee.toString()} - {maxExFee.toString()}{' '}
             {maxExFee.asset.ticker || maxExFee.asset.name}
           </Trans>
         </Typography.Body>
