@@ -185,10 +185,10 @@ export const OperationSettings: FC<OperationSettingsProps> = ({
               <Flex.Item marginBottom={1}>
                 <InfoTooltip
                   width={200}
-                  content={t`The execution fee is paid to off-chain validators who execute DEX orders`}
+                  content={t`The Honey 🍯 is paid to off-chain validators who execute DEX orders`}
                 >
                   <Typography.Body strong>
-                    <Trans>Execution fee</Trans>
+                    <Trans>Honey 🍯</Trans>
                   </Typography.Body>
                 </InfoTooltip>
               </Flex.Item>
@@ -211,7 +211,7 @@ export const OperationSettings: FC<OperationSettingsProps> = ({
                 <InfoTooltip
                   content={
                     <>
-                      <Trans>Max execution fee multiplier</Trans>
+                      <Trans>Max Honey 🍯 multiplier</Trans>
                       <br />
                       <Typography.Link
                         target="_blank"

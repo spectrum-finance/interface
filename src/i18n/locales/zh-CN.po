@@ -329,17 +329,17 @@ msgid "Estimated output:"
 msgstr "预计输出："
 
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx
-msgid "Execution Fee"
+msgid "Honey 🍯"
 msgstr "执行费用"
 
 #: src/pages/Swap/OperationSettings/NitroInput/NitroInput.tsx
-msgid "Execution Fee Range {0} - {1} {2}"
+msgid "Honey 🍯 Range {0} - {1} {2}"
 msgstr "执行费用范围 {0} - {1} {2}"
 
 #: src/components/common/FormView/FormFeesSection/FormFeesSection.tsx
 #: src/pages/AddLiquidityOrCreatePool/AddLiquidity/AddLiquidityConfirmationModal/AddLiquidityConfirmationModal.tsx
 #: src/pages/Swap/SwapConfirmationModal/SwapConfirmationModal.tsx
-msgid "Execution Fee:"
+msgid "Honey 🍯:"
 msgstr "执行费用:"
 
 #: src/components/common/ConnectWalletButton/ChooseWalletModal/ChooseWalletModal.tsx
@@ -525,7 +525,7 @@ msgid "Max"
 msgstr "最大值"
 
 #: src/pages/Swap/OperationSettings/OperationSettings.tsx
-msgid "Max execution fee multiplier"
+msgid "Max Honey 🍯 multiplier"
 msgstr "最大执行费倍数"
 
 #: src/pages/Swap/SwapInfo/SwapInfo.tsx

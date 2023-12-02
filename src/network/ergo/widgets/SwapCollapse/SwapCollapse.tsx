@@ -101,17 +101,13 @@ export const SwapCollapse: FC<SwapCollapseProps> = ({ value }) => {
                 tooltip={
                   <Flex col>
                     <Flex.Item>
-                      <Typography.Body tooltip>
-                        Min Execution Fee:{' '}
-                      </Typography.Body>
+                      <Typography.Body tooltip>Min Honey 🍯: </Typography.Body>
                       <Typography.Body strong tooltip>
                         {minExFee.toCurrencyString()}
                       </Typography.Body>
                     </Flex.Item>
                     <Flex.Item>
-                      <Typography.Body tooltip>
-                        Max Execution Fee:{' '}
-                      </Typography.Body>
+                      <Typography.Body tooltip>Max Honey 🍯: </Typography.Body>
                       <Typography.Body strong tooltip>
                         {maxExFee.toCurrencyString()}
                       </Typography.Body>

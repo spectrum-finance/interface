@@ -4577,94 +4577,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@spectrumlabs/interface@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "@spectrumlabs/interface@workspace:."
-  dependencies:
-    "@dcspark/adalib": ^1.3.1
-    "@emurgo/cardano-serialization-lib-nodejs": ^11.4.0
-    "@ergolabs/ergo-dex-sdk": ^1.9.67
-    "@ergolabs/ergo-sdk": ^0.5.7
-    "@ergolabs/ui-kit": ^2.5.2
-    "@lingui/cli": ^4.0.0
-    "@lingui/macro": ^4.0.0
-    "@lingui/react": ^4.0.0
-    "@lingui/vite-plugin": ^4.0.0
-    "@rehooks/local-storage": 2.4.0
-    "@rollup/plugin-inject": ^5.0.3
-    "@sentry/react": ^6.16.1
-    "@sentry/tracing": ^6.16.1
-    "@spectrumlabs/analytics": ^1.1.9
-    "@teddyswap/cardano-dex-sdk": 0.1.302
-    "@types/file-saver": ^2.0.5
-    "@types/js-cookie": ^2.2.7
-    "@types/lingui__core": ^3.0.0
-    "@types/lingui__macro": ^3.0.0
-    "@types/lingui__react": ^3.0.0
-    "@types/lodash": ^4.14.172
-    "@types/luxon": ^2.0.7
-    "@types/mathjs": ^9.4.2
-    "@types/numeral": ^2.0.2
-    "@types/qs": ^6.9.7
-    "@types/react": ^17.0.17
-    "@types/react-copy-to-clipboard": ^5.0.1
-    "@types/react-dom": ^18.0.5
-    "@types/react-ga": ^2.3.0
-    "@types/react-router-dom": ^5.3.3
-    "@types/react-virtualized": ^9.21.21
-    "@types/recharts": ^1.8.23
-    "@types/styled-components": ^5.1.23
-    "@typescript-eslint/eslint-plugin": ^5.59.0
-    "@typescript-eslint/parser": ^5.59.0
-    "@vitejs/plugin-react": ^4.0.0
-    axios: ^0.24.0
-    babel-plugin-macros: ^3.1.0
-    cross-env: ^7.0.3
-    eslint: ^8.39.0
-    eslint-config-prettier: ^8.8.0
-    eslint-plugin-prettier: ^4.2.1
-    eslint-plugin-react: ^7.32.2
-    eslint-plugin-react-hooks: ^4.2.0
-    eslint-plugin-simple-import-sort: ^10.0.0
-    file-saver: ^2.0.5
-    gh-pages: ^6.1.0
-    js-cookie: ^3.0.0
-    less: 3.9.0
-    lodash: ^4.17.21
-    luxon: ^3.3.0
-    mathjs: ^11.8.0
-    numeral: ^2.0.6
-    prettier: ^2.3.2
-    process: ^0.11.10
-    qs: ^6.10.3
-    react: ^18.2.0
-    react-confetti: ^6.1.0
-    react-copy-to-clipboard: ^5.0.3
-    react-device-detect: ^2.2.2
-    react-dom: ^18.2.0
-    react-flip-numbers: ^3.0.5
-    react-ga: ^3.3.1
-    react-google-recaptcha-v3: ^1.9.7
-    react-number-format: ^4.9.3
-    react-qr-code: ^2.0.8
-    react-router-dom: ^6.3.0
-    react-use: ^17.4.0
-    react-virtualized: ^9.22.3
-    recharts: ^2.1.8
-    rxjs: ^7.5.5
-    styled-components: ^5.3.3
-    stylelint: ^13.13.1
-    stylelint-less: ^1.0.6
-    typescript: ^5.0.4
-    vite: ^4.3.1
-    vite-plugin-checker: ^0.5.6
-    vite-plugin-pwa: ^0.17.0
-    vite-plugin-svgr: ^2.4.0
-    vite-plugin-top-level-await: ^1.3.0
-    vite-plugin-wasm: ^3.2.2
-  languageName: unknown
-  linkType: soft
-
 "@stablelib/aead@npm:^1.0.1":
   version: 1.0.1
   resolution: "@stablelib/aead@npm:1.0.1"
@@ -5244,9 +5156,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@teddyswap/cardano-dex-sdk@npm:0.1.302":
-  version: 0.1.302
-  resolution: "@teddyswap/cardano-dex-sdk@npm:0.1.302"
+"@teddyswap/cardano-dex-sdk@npm:0.1.304":
+  version: 0.1.304
+  resolution: "@teddyswap/cardano-dex-sdk@npm:0.1.304"
   dependencies:
     "@emurgo/cardano-serialization-lib-browser": ^11.4.0
     "@emurgo/cardano-serialization-lib-nodejs": ^11.4.0
@@ -5259,9 +5171,97 @@ __metadata:
     mathjs: ^11.8.0
     ramda: 0.27.1
     semantic-release: ^21.0.2
-  checksum: e1acbae4bbbf4ac56b016a266858fd7ca2f16ca9ea83939ae1666651c447e6c58c978df57ad13309e9a0d29d21c3ff3f9ba84ac8a3e7d7439b140c8f658258be
+  checksum: ec392da7a01a6025cad2938beee979cfa4fae4876b34b39547c2a84000590f60c2172fd5dae6d309b595b5c16883a7dc6cd2ee1a84a630d1a0acf9a8671d83d9
   languageName: node
   linkType: hard
+
+"@teddyswap/interface@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "@teddyswap/interface@workspace:."
+  dependencies:
+    "@dcspark/adalib": ^1.3.1
+    "@emurgo/cardano-serialization-lib-nodejs": ^11.4.0
+    "@ergolabs/ergo-dex-sdk": ^1.9.67
+    "@ergolabs/ergo-sdk": ^0.5.7
+    "@ergolabs/ui-kit": ^2.5.2
+    "@lingui/cli": ^4.0.0
+    "@lingui/macro": ^4.0.0
+    "@lingui/react": ^4.0.0
+    "@lingui/vite-plugin": ^4.0.0
+    "@rehooks/local-storage": 2.4.0
+    "@rollup/plugin-inject": ^5.0.3
+    "@sentry/react": ^6.16.1
+    "@sentry/tracing": ^6.16.1
+    "@spectrumlabs/analytics": ^1.1.9
+    "@teddyswap/cardano-dex-sdk": 0.1.304
+    "@types/file-saver": ^2.0.5
+    "@types/js-cookie": ^2.2.7
+    "@types/lingui__core": ^3.0.0
+    "@types/lingui__macro": ^3.0.0
+    "@types/lingui__react": ^3.0.0
+    "@types/lodash": ^4.14.172
+    "@types/luxon": ^2.0.7
+    "@types/mathjs": ^9.4.2
+    "@types/numeral": ^2.0.2
+    "@types/qs": ^6.9.7
+    "@types/react": ^17.0.17
+    "@types/react-copy-to-clipboard": ^5.0.1
+    "@types/react-dom": ^18.0.5
+    "@types/react-ga": ^2.3.0
+    "@types/react-router-dom": ^5.3.3
+    "@types/react-virtualized": ^9.21.21
+    "@types/recharts": ^1.8.23
+    "@types/styled-components": ^5.1.23
+    "@typescript-eslint/eslint-plugin": ^5.59.0
+    "@typescript-eslint/parser": ^5.59.0
+    "@vitejs/plugin-react": ^4.0.0
+    axios: ^0.24.0
+    babel-plugin-macros: ^3.1.0
+    cross-env: ^7.0.3
+    eslint: ^8.39.0
+    eslint-config-prettier: ^8.8.0
+    eslint-plugin-prettier: ^4.2.1
+    eslint-plugin-react: ^7.32.2
+    eslint-plugin-react-hooks: ^4.2.0
+    eslint-plugin-simple-import-sort: ^10.0.0
+    file-saver: ^2.0.5
+    gh-pages: ^6.1.0
+    js-cookie: ^3.0.0
+    less: 3.9.0
+    lodash: ^4.17.21
+    luxon: ^3.3.0
+    mathjs: ^11.8.0
+    numeral: ^2.0.6
+    prettier: ^2.3.2
+    process: ^0.11.10
+    qs: ^6.10.3
+    react: ^18.2.0
+    react-confetti: ^6.1.0
+    react-copy-to-clipboard: ^5.0.3
+    react-device-detect: ^2.2.2
+    react-dom: ^18.2.0
+    react-flip-numbers: ^3.0.5
+    react-ga: ^3.3.1
+    react-google-recaptcha-v3: ^1.9.7
+    react-number-format: ^4.9.3
+    react-qr-code: ^2.0.8
+    react-router-dom: ^6.3.0
+    react-use: ^17.4.0
+    react-virtualized: ^9.22.3
+    recharts: ^2.1.8
+    rxjs: ^7.5.5
+    styled-components: ^5.3.3
+    stylelint: ^13.13.1
+    stylelint-less: ^1.0.6
+    typescript: ^5.0.4
+    vite: ^4.3.1
+    vite-plugin-checker: ^0.5.6
+    vite-plugin-pwa: ^0.17.0
+    vite-plugin-svgr: ^2.4.0
+    vite-plugin-top-level-await: ^1.3.0
+    vite-plugin-wasm: ^3.2.2
+  languageName: unknown
+  linkType: soft
 
 "@tootallnate/once@npm:1":
   version: 1.1.2
