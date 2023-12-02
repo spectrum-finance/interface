@@ -36,7 +36,8 @@ const AssetSelect: React.FC<TokenSelectProps> = ({
     }
   };
 
-  const openTokenModal = () => {
+  const openTokenModal = (e) => {
+    e.preventDefault();
     if (readonly) {
       return;
     }
