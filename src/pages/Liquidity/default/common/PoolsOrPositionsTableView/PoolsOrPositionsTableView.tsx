@@ -18,6 +18,7 @@ import AssetPairDetail from './AssetPairDetail.tsx';
 import styles from './PoolsOrPositionsTableView.module.less';
 import PriceTokenDetail from './PriceTokensDetail.tsx';
 import TvlTokensDetail from './TvlTokensDetail.tsx';
+import { YieldFarmingReward } from './YieldFarmingReward.tsx';
 import { YourTvl } from './YourTvl.tsx';
 export interface PoolsOrPositionsTableViewProps<T extends AmmPool | Position> {
   readonly items: T[];
@@ -55,6 +56,9 @@ export const PoolsOrPositionsTableView: FC<
           <article className={`${styles.row} ${styles.asset}`}>
             <p className={styles.value}>Asset Pair</p>
           </article>
+          <article className={`${styles.row} ${styles.fee}`}>
+            <p className={styles.value}>Fee</p>
+          </article>
           <article className={`${styles.row} ${styles.apr}`}>
             <p className={styles.value}>APR</p>
           </article>
@@ -62,18 +66,19 @@ export const PoolsOrPositionsTableView: FC<
             <p className={styles.value}>TVL</p>
           </article>
           {myLiquidity ? (
-            <article className={`${styles.row} ${styles.yourTvl}`}>
-              <p className={styles.value}>Your TVL</p>
-            </article>
+            <>
+              <article className={`${styles.row} ${styles.yourTvl}`}>
+                <p className={styles.value}>Your TVL</p>
+              </article>
+              <article className={`${styles.row} ${styles.yourTvl}`}>
+                <p className={styles.value}>Yield Farming</p>
+              </article>
+            </>
           ) : (
             <article className={`${styles.row} ${styles.volume}`}>
               <p className={styles.value}>Volume 24H</p>
             </article>
           )}
-
-          <article className={`${styles.row} ${styles.fee}`}>
-            <p className={styles.value}>Fee</p>
-          </article>
         </section>
         <section className={styles.tbody}>
           {items.map((item) => {
@@ -102,6 +107,11 @@ export const PoolsOrPositionsTableView: FC<
                       )}
                     </IsCardano>
                   </article>
+                  <article className={`${styles.row} ${styles.fee}`}>
+                    <IsCardano>
+                      <p className={styles.value}>{infoPool.poolFee}%</p>
+                    </IsCardano>
+                  </article>
                   <article className={`${styles.row} ${styles.apr}`}>
                     <IsCardano>
                       <p className={styles.value}>
@@ -123,13 +133,27 @@ export const PoolsOrPositionsTableView: FC<
                     </IsCardano>
                   </article>
                   {myLiquidity ? (
-                    <article className={`${styles.row} ${styles.yourTvl}`}>
-                      <IsCardano>
-                        <YourTvl
-                          value={[infoPosition.totalX, infoPosition.totalY]}
-                        />
-                      </IsCardano>
-                    </article>
+                    <>
+                      <article className={`${styles.row} ${styles.yourTvl}`}>
+                        <IsCardano>
+                          <YourTvl
+                            value={[infoPosition.totalX, infoPosition.totalY]}
+                          />
+                        </IsCardano>
+                      </article>
+                      <article className={`${styles.row} ${styles.yourTvl}`}>
+                        <IsCardano>
+                          <p className={styles.value}>
+                            <YieldFarmingReward
+                              infoPool={infoPool}
+                              infoPosition={infoPosition}
+                              calculateAPR={calculateAPR}
+                              isLoading={isLoading}
+                            />
+                          </p>
+                        </IsCardano>
+                      </article>
+                    </>
                   ) : (
                     <article className={`${styles.row} ${styles.volume}`}>
                       <IsCardano>
@@ -141,12 +165,6 @@ export const PoolsOrPositionsTableView: FC<
                       </IsCardano>
                     </article>
                   )}
-
-                  <article className={`${styles.row} ${styles.fee}`}>
-                    <IsCardano>
-                      <p className={styles.value}>{infoPool.poolFee}%</p>
-                    </IsCardano>
-                  </article>
                   <svg
                     width="16"
                     height="16"

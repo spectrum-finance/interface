@@ -36,5 +36,5 @@ export const APR: FC<{
   }, [isLoading]);
 
   const finalAPR = infoPool.yearlyFeesPercent + (Number(apr?.toString()) || 0);
-  return <>{finalAPR >= 0 ? `${finalAPR}%` : '-'}</>;
+  return <>{finalAPR >= 0 ? `${Number(finalAPR).toFixed(2)}%` : '-'}</>;
 };
