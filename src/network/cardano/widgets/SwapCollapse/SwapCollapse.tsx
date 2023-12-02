@@ -160,8 +160,8 @@ export const SwapCollapse: FC<SwapCollapseProps> = ({ value }) => {
             />
             <Flex.Item marginBottom={1}>
               <SwapInfoItem
-                tooltip={t`Charged by TeddySwap DAO`}
-                title={t`UI Fee`}
+                tooltip={`Charged by TeddySwap DAO`}
+                title={`UI Fee`}
                 value={
                   <>
                     {isSwapTxInfoLoading ? (
