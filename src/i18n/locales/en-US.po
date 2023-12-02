@@ -237,8 +237,8 @@ msgid "Remove Liquidity"
 msgstr "Remove Liquidity"
 
 #: src/components/LbspFaqModal/LbspFaqModal.tsx
-msgid "SPF is a cross-chain token whose main utility is to secure Spectrum Network PoS consensus. Spectrum Network is a trustless cross-chain messaging protocol that is currently in an active development stage. However, while Spectrum Network is under development, users can pay execution fees using the SPF on Layer 1 AMM protocols by Spectrum Finance."
-msgstr "SPF is a cross-chain token whose main utility is to secure Spectrum Network PoS consensus. Spectrum Network is a trustless cross-chain messaging protocol that is currently in an active development stage. However, while Spectrum Network is under development, users can pay execution fees using the SPF on Layer 1 AMM protocols by Spectrum Finance."
+msgid "SPF is a cross-chain token whose main utility is to secure Spectrum Network PoS consensus. Spectrum Network is a trustless cross-chain messaging protocol that is currently in an active development stage. However, while Spectrum Network is under development, users can pay Honey 🍯s using the SPF on Layer 1 AMM protocols by Spectrum Finance."
+msgstr "SPF is a cross-chain token whose main utility is to secure Spectrum Network PoS consensus. Spectrum Network is a trustless cross-chain messaging protocol that is currently in an active development stage. However, while Spectrum Network is under development, users can pay Honey 🍯s using the SPF on Layer 1 AMM protocols by Spectrum Finance."
 
 #: src/network/cardano/api/operations/createPool.tsx
 msgid "Min liquidity for creation is {0} ADA"
@@ -485,8 +485,8 @@ msgid "Learn how to get transaction id"
 msgstr "Learn how to get transaction id"
 
 #: src/components/common/FormView/FormFeesSection/FormFeesSection.tsx
-msgid "Execution Fee:"
-msgstr "Execution Fee:"
+msgid "Honey 🍯:"
+msgstr "Honey 🍯:"
 
 #: src/pages/RelockLiquidity/RelockLiquidityConfirmationModal/RelockLiquidityConfirmationModal.tsx
 msgid "Updated unlock date"
@@ -1027,12 +1027,12 @@ msgid "Confirm Add Liquidity"
 msgstr "Confirm Add Liquidity"
 
 #: src/components/OperationSettings/OperationSettings.tsx
-msgid "Max execution fee multiplier"
-msgstr "Max execution fee multiplier"
+msgid "Max Honey 🍯 multiplier"
+msgstr "Max Honey 🍯 multiplier"
 
 #: src/network/cardano/widgets/SwapCollapse/SwapCollapse.tsx
-msgid "Charged by off-chain batchers"
-msgstr "Charged by off-chain batchers"
+msgid "Charged by off-chain badgers 🦡"
+msgstr "Charged by off-chain badgers 🦡"
 
 #: src/components/MobilePlug/MobilePlug.tsx
 #~ msgid "Mobile version is not supported yet"
@@ -1250,8 +1250,8 @@ msgid "Try again later"
 msgstr "Try again later"
 
 #: src/components/OperationSettings/OperationSettings.tsx
-msgid "Execution fee"
-msgstr "Execution fee"
+msgid "Honey 🍯"
+msgstr "Honey 🍯"
 
 #: src/components/common/Layout/Header/BurgerMenu/BurgerMenu.tsx
 msgid "Manual Refund"
@@ -1760,8 +1760,8 @@ msgid "Your operation will be executed in this pool. <0/>You can also choose ano
 msgstr "Your operation will be executed in this pool. <0/>You can also choose another pool for this pair"
 
 #: src/components/OperationSettings/NitroInput/NitroInput.tsx
-msgid "Execution Fee Range {0} - {1} {2}"
-msgstr "Execution Fee Range {0} - {1} {2}"
+msgid "Honey 🍯 Range {0} - {1} {2}"
+msgstr "Honey 🍯 Range {0} - {1} {2}"
 
 #: src/pages/Liquidity/default/common/PoolsOrPositionsTableView/PoolsOrPositionsTableView.tsx
 msgid "Volume 24h"
@@ -1978,8 +1978,8 @@ msgid "Import"
 msgstr "Import"
 
 #: src/network/cardano/widgets/SwapCollapse/SwapCollapse.tsx
-msgid "Execution Fee"
-msgstr "Execution Fee"
+msgid "Honey 🍯"
+msgstr "Honey 🍯"
 
 #: src/pages/Farms/FarmTopPanel/CreateFarmModal/ConfirmFarmCreateModal.tsx
 msgid "Distribution per block:"
@@ -2467,8 +2467,8 @@ msgid "Preparing ergoPay request."
 msgstr "Preparing ergoPay request."
 
 #: src/components/OperationSettings/OperationSettings.tsx
-msgid "The execution fee is paid to off-chain validators who execute DEX orders"
-msgstr "The execution fee is paid to off-chain validators who execute DEX orders"
+msgid "The Honey 🍯 is paid to off-chain validators who execute DEX orders"
+msgstr "The Honey 🍯 is paid to off-chain validators who execute DEX orders"
 
 #: src/pages/Farms/FarmTopPanel/CreateFarmModal/ConfirmFarmCreateModal.tsx
 msgid "TVL:"

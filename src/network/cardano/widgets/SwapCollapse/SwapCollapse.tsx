@@ -24,7 +24,7 @@ export const SwapCollapse: FC<SwapCollapseProps> = ({ value }) => {
       {!!value.pool && (
         <BaseSwapCollapse
           value={value}
-          contentHeight={120}
+          contentHeight={140}
           totalFees={
             <>
               {isSwapTxInfoLoading ? (
@@ -33,7 +33,11 @@ export const SwapCollapse: FC<SwapCollapseProps> = ({ value }) => {
                   style={{ height: '22px', maxWidth: '20px' }}
                 />
               ) : swapTxInfo?.minTotalFee && swapTxInfo?.maxTotalFee ? (
-                `${swapTxInfo.minTotalFee.toString()} - ${swapTxInfo.maxTotalFee.toCurrencyString()}`
+                `${(Number(swapTxInfo.minTotalFee.toString()) + 1).toFixed(
+                  2,
+                )} - ${(Number(swapTxInfo.maxTotalFee.toString()) + 1).toFixed(
+                  2,
+                )} ADA`
               ) : (
                 '–'
               )}
@@ -103,8 +107,8 @@ export const SwapCollapse: FC<SwapCollapseProps> = ({ value }) => {
 
             <Flex.Item marginBottom={1}>
               <SwapInfoItem
-                tooltip={t`Charged by off-chain batchers`}
-                title={t`Execution Fee`}
+                tooltip={t`Charged by off-chain badgers 🦡`}
+                title={t`Honey 🍯`}
                 value={
                   <>
                     {isSwapTxInfoLoading ? (
@@ -154,6 +158,33 @@ export const SwapCollapse: FC<SwapCollapseProps> = ({ value }) => {
                 </>
               }
             />
+            <Flex.Item marginBottom={1}>
+              <SwapInfoItem
+                tooltip={`Charged by TeddySwap DAO`}
+                title={`UI Fee`}
+                value={
+                  <>
+                    {isSwapTxInfoLoading ? (
+                      <Skeleton.Block style={{ height: 12 }} active />
+                    ) : swapTxInfo?.minExFee && swapTxInfo?.maxExFee ? (
+                      <Flex align="center">
+                        <Flex.Item marginRight={1}>
+                          <AssetIcon
+                            size={valBySize('extraSmall', 'small')}
+                            asset={swapTxInfo.minExFee.asset}
+                          />
+                        </Flex.Item>
+                        <Typography.Body size={valBySize('small', 'base')}>
+                          1 ADA
+                        </Typography.Body>
+                      </Flex>
+                    ) : (
+                      '–'
+                    )}
+                  </>
+                }
+              />
+            </Flex.Item>
           </Flex>
         </BaseSwapCollapse>
       )}

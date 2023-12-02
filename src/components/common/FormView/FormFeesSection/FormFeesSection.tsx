@@ -40,7 +40,7 @@ const FormFeesSection: React.FC<FormFeesSection> = ({
                     <Flex.Item>
                       <Flex>
                         <Flex.Item marginRight={1}>
-                          <Trans>Execution Fee:</Trans>
+                          <Trans>Honey 🍯:</Trans>
                         </Flex.Item>
                         <Flex.Item>{minExFee.toCurrencyString()}</Flex.Item>
                       </Flex>

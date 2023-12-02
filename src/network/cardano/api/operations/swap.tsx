@@ -174,6 +174,7 @@ export const useSwapValidators = (): OperationValidator<SwapFormModel>[] => {
       ),
       map(
         (data: [Transaction | null, TxCandidate, SwapTxInfo, Error | null]) => {
+          console.log('data', data);
           const error = data[3];
 
           if (error && !data[0]) {
