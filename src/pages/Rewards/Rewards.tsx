@@ -19,6 +19,8 @@ import { ConnectWalletButton } from '../../components/common/ConnectWalletButton
 import { CopyButton } from '../../components/common/CopyButton/CopyButton.tsx';
 import { Page } from '../../components/Page/Page.tsx';
 import { getAddresses } from '../../gateway/api/addresses.ts';
+import { useSelectedNetwork } from '../../gateway/common/network.ts';
+import { useGuardV2 } from '../../hooks/useGuard.ts';
 import { rewards$ } from '../../network/cardano/api/rewards/rewards';
 import { Eternl } from '../../network/cardano/api/wallet/eternl/eternl';
 import { RewardsBugFixing } from './RewardsBugFixing/RewardsBugFixing';
@@ -27,11 +29,19 @@ import { RewardsError } from './RewardsError/RewardsError';
 
 export const Rewards: FC = () => {
   const [rewardsData, loading] = useObservable(rewards$);
+  const [selectedNetwork] = useSelectedNetwork();
   const [addresses] = useObservable(
     getAddresses().pipe(filter((addresses) => !!addresses?.length)),
   );
 
   const navigate = useNavigate();
+
+  useGuardV2(
+    () => selectedNetwork.name === 'ergo',
+    () => {
+      navigate('/swap');
+    },
+  );
 
   return (
     <Flex col align="center">
