@@ -16,7 +16,7 @@ export interface ConvenientAssetViewProps {
   readonly sensitive?: boolean;
 }
 
-const SMALLEST_VALUE = 0.01;
+const SMALLEST_VALUE = 0.00000001;
 const ZERO_VALUE = '0.00';
 
 export const getConvenientValue = (
