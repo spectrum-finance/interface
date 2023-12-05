@@ -2,8 +2,10 @@ import { FC, Fragment, PropsWithChildren, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { AmmPool } from '../../../../../common/models/AmmPool';
+import { Currency } from '../../../../../common/models/Currency.ts';
 import { Position } from '../../../../../common/models/Position';
 import { isDeprecatedPool } from '../../../../../common/utils/isDeprecatedPool.ts';
+import { ConvenientAssetView } from '../../../../../components/ConvenientAssetView/ConvenientAssetView.tsx';
 import { IsCardano } from '../../../../../components/IsCardano/IsCardano.tsx';
 import { ExpandComponentProps } from '../../../../../components/TableView/common/Expand';
 import { useApr } from '../../../../../network/cardano/api/ammPoolsStats/ammPoolsApr.ts';
@@ -20,6 +22,7 @@ import PriceTokenDetail from './PriceTokensDetail.tsx';
 import TvlTokensDetail from './TvlTokensDetail.tsx';
 import { YieldFarmingReward } from './YieldFarmingReward.tsx';
 import { YourTvl } from './YourTvl.tsx';
+
 export interface PoolsOrPositionsTableViewProps<T extends AmmPool | Position> {
   readonly items: T[];
   readonly poolMapper: (item: T) => AmmPool | Position;
@@ -114,18 +117,17 @@ export const PoolsOrPositionsTableView: FC<
                   </article>
                   <article className={`${styles.row} ${styles.fee}`}>
                     <IsCardano>
-                      <PriceTokenDetail
-                        tokenName1={
-                          infoPool.y.asset.ticker || infoPool.y.asset.name
-                        }
-                        tokenName2={
-                          infoPool.x.asset.ticker || infoPool.x.asset.name
-                        }
-                        priceToken1={infoPool.pool.priceY.numerator}
-                        priceToken2={infoPool.pool.priceX.numerator}
-                        decimalsToken1={infoPool.y.asset.decimals}
-                        decimalsToken2={infoPool.x.asset.decimals}
-                      />
+                      <p className={styles.value}>
+                        <ConvenientAssetView
+                          value={
+                            new Currency(
+                              1n *
+                                BigInt(Math.pow(10, infoPool.y.asset.decimals)),
+                              infoPool.y.asset,
+                            )
+                          }
+                        />
+                      </p>
                     </IsCardano>
                   </article>
                   <article className={`${styles.row} ${styles.fee}`}>
