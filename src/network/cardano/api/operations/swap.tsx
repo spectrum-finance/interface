@@ -24,6 +24,9 @@ import { ammTxFeeMapping } from './common/ammTxFeeMapping';
 import { minExecutorReward } from './common/minExecutorReward';
 import { submitTx } from './common/submitTxCandidate';
 import { transactionBuilder$ } from './common/transactionBuilder';
+import {
+  InsufficientFundsForChange
+} from "@spectrumlabs/cardano-dex-sdk/build/main/amm/interpreters/ammTxBuilder/utils/errors";
 
 interface SwapTxCandidateConfig {
   readonly settings: CardanoSettings;
@@ -183,6 +186,10 @@ export const useSwapValidators = (): OperationValidator<SwapFormModel>[] => {
               data[1],
               data[2],
             );
+          }
+
+          if (error instanceof InsufficientFundsForChange) {
+            return t`Insufficient ${networkAsset.ticker} balance for change`
           }
           return data[0]
             ? undefined
