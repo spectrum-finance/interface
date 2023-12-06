@@ -1,6 +1,7 @@
 import { Transaction } from '@emurgo/cardano-serialization-lib-nodejs';
 import { t } from '@lingui/macro';
 import { SwapTxInfo, TxCandidate } from '@spectrumlabs/cardano-dex-sdk';
+import { InsufficientFundsForChange } from '@spectrumlabs/cardano-dex-sdk/build/main/amm/interpreters/ammTxBuilder/utils/errors';
 import { first, map, Observable, Subject, switchMap, tap } from 'rxjs';
 
 import { Currency } from '../../../../common/models/Currency';
@@ -24,9 +25,6 @@ import { ammTxFeeMapping } from './common/ammTxFeeMapping';
 import { minExecutorReward } from './common/minExecutorReward';
 import { submitTx } from './common/submitTxCandidate';
 import { transactionBuilder$ } from './common/transactionBuilder';
-import {
-  InsufficientFundsForChange
-} from "@spectrumlabs/cardano-dex-sdk/build/main/amm/interpreters/ammTxBuilder/utils/errors";
 
 interface SwapTxCandidateConfig {
   readonly settings: CardanoSettings;
@@ -189,7 +187,7 @@ export const useSwapValidators = (): OperationValidator<SwapFormModel>[] => {
           }
 
           if (error instanceof InsufficientFundsForChange) {
-            return t`Insufficient ${networkAsset.ticker} balance for change`
+            return t`Insufficient ${networkAsset.ticker} balance for change`;
           }
           return data[0]
             ? undefined
