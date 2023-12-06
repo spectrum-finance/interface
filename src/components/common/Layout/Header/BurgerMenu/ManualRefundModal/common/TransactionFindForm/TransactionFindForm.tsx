@@ -72,7 +72,7 @@ export const TransactionFindForm: FC<TransactionFindFormProps> = ({
                   disabled={!value}
                   loading={loading}
                 >
-                  {t`Cancell transaction`}
+                  {t`Cancel transaction`}
                 </Button>
               )}
             </Form.Listener>

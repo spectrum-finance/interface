@@ -158,7 +158,7 @@ export const refund = (
       txId,
     },
     undefined,
-    true,
+    !manual,
   );
 
   return subject.asObservable();
