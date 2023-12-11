@@ -255,7 +255,10 @@ export const createPool = (
   return subject.asObservable();
 };
 
-const MIN_CREATE_POOL_LIQUIDITY = new Currency('500', networkAsset);
+export const MIN_CREATE_POOL_LIQUIDITY = new Currency(
+  10000000000n,
+  networkAsset,
+);
 
 export const useCreatePoolValidators =
   (): OperationValidator<CreatePoolFormModel>[] => {
