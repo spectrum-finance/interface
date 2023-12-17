@@ -5156,9 +5156,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@teddyswap/cardano-dex-sdk@npm:0.1.304":
-  version: 0.1.304
-  resolution: "@teddyswap/cardano-dex-sdk@npm:0.1.304"
+"@teddyswap/cardano-dex-sdk@npm:0.1.320":
+  version: 0.1.320
+  resolution: "@teddyswap/cardano-dex-sdk@npm:0.1.320"
   dependencies:
     "@emurgo/cardano-serialization-lib-browser": ^11.4.0
     "@emurgo/cardano-serialization-lib-nodejs": ^11.4.0
@@ -5171,7 +5171,7 @@ __metadata:
     mathjs: ^11.8.0
     ramda: 0.27.1
     semantic-release: ^21.0.2
-  checksum: ec392da7a01a6025cad2938beee979cfa4fae4876b34b39547c2a84000590f60c2172fd5dae6d309b595b5c16883a7dc6cd2ee1a84a630d1a0acf9a8671d83d9
+  checksum: e6d2f708f4ee336ba6f8c30154068baecfae75282ab54d0f5f9fe30ede684edab6a73394ed0b10746638deaf42ed2f568c61f0e7324cbd028c24a03004d0ecdb
   languageName: node
   linkType: hard
 
@@ -5193,7 +5193,7 @@ __metadata:
     "@sentry/react": ^6.16.1
     "@sentry/tracing": ^6.16.1
     "@spectrumlabs/analytics": ^1.1.9
-    "@teddyswap/cardano-dex-sdk": 0.1.304
+    "@teddyswap/cardano-dex-sdk": 0.1.320
     "@types/file-saver": ^2.0.5
     "@types/js-cookie": ^2.2.7
     "@types/lingui__core": ^3.0.0
