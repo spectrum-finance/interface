@@ -94,7 +94,7 @@ export const Rewards = (): JSX.Element => {
               height: 'calc(100vh - 220px)',
               border: 'none',
             }}
-            src={`http://localhost:5265/byAddr/${address}`}
+            src={`https://80-hallowed-gladness-uejkg7.us1.demeter.run/byAddr/${address}`}
           />
         </>
       ) : (
