@@ -12,7 +12,6 @@ import { MyLiquidity } from './MyLiquidity/MyLiquidity';
 import PoolDetailAsset from './PoolDetailAsset';
 import styles from './PoolInfoView.module.less';
 import { TotalLiquidity } from './TotalLiquidity/TotalLiquidity';
-import { YieldFarming } from './YieldFarming/YieldFarming';
 
 export interface PoolInfoProps {
   readonly position: Position;
@@ -53,16 +52,12 @@ export const PoolInfoView: FC<PoolInfoProps> = ({ position }) => {
                 Farm
               </button>
             )}
-            <button className={styles.btnHarvest} disabled>
-              Harvest Honey 🍯
-            </button>
           </div>
         )}
       </div>
       <div className={styles.content}>
         <TotalLiquidity position={position} />
         <MyLiquidity position={position} />
-        <YieldFarming position={position} />
         {isDeprecatedPool(position.pool.id) && (
           <p className={styles.deprecated}>
             A more secure variant of this pool is available. We advise you to

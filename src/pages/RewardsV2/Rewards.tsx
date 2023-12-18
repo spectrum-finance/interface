@@ -94,7 +94,7 @@ export const Rewards = (): JSX.Element => {
               height: 'calc(100vh - 220px)',
               border: 'none',
             }}
-            src={`https://80-hallowed-gladness-uejkg7.us1.demeter.run/byAddr/${address}`}
+            src={`https://app-v2.teddyswap.org/byAddr/${address}`}
           />
         </>
       ) : (
