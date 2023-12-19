@@ -9,6 +9,7 @@ import { useSettings } from '../../gateway/settings/settings';
 import { submitTx } from '../../network/cardano/api/operations/common/submitTxCandidate';
 import { transactionBuilder$ } from '../../network/cardano/api/operations/common/transactionBuilder';
 import { settings } from '../../network/cardano/settings/settings';
+import styles from './Rewards.module.less';
 
 export const Rewards = (): JSX.Element => {
   const { address } = useSettings();
@@ -89,11 +90,7 @@ export const Rewards = (): JSX.Element => {
         <>
           <iframe
             frameBorder={0}
-            style={{
-              width: '100%',
-              height: 'calc(100vh - 220px)',
-              border: 'none',
-            }}
+            className={styles.iframeStyle}
             src={`https://app-v2.teddyswap.org/byAddr/${address}`}
           />
         </>
