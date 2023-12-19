@@ -44,7 +44,7 @@ export const Rewards = (): JSX.Element => {
   useEffect(() => {
     const handleMessage = (event: MessageEvent<any>) => {
       if (event.data.harvest === true) {
-        const lovelace = userNftAssets.length > 1 ? 5_000_000n : 2_000_000n;
+        const lovelace = userNftAssets.length >= 1 ? 5_000_000n : 2_000_000n;
         if (isLoading) return;
         toSendAssetsTxCandidate(lovelace, [...userNftAssets])
           .pipe(switchMap((tx) => submitTx(tx)))
