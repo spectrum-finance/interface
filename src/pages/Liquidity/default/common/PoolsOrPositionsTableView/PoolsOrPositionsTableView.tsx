@@ -20,7 +20,6 @@ import AssetPairDetail from './AssetPairDetail.tsx';
 import styles from './PoolsOrPositionsTableView.module.less';
 import PriceTokenDetail from './PriceTokensDetail.tsx';
 import TvlTokensDetail from './TvlTokensDetail.tsx';
-import { YieldFarmingReward } from './YieldFarmingReward.tsx';
 import { YourTvl } from './YourTvl.tsx';
 
 export interface PoolsOrPositionsTableViewProps<T extends AmmPool | Position> {
@@ -77,9 +76,6 @@ export const PoolsOrPositionsTableView: FC<
             <>
               <article className={`${styles.row} ${styles.yourTvl}`}>
                 <p className={styles.value}>Your TVL</p>
-              </article>
-              <article className={`${styles.row} ${styles.apr}`}>
-                <p className={styles.value}>Honey 🍯</p>
               </article>
             </>
           ) : (
@@ -165,18 +161,6 @@ export const PoolsOrPositionsTableView: FC<
                           <YourTvl
                             value={[infoPosition.totalX, infoPosition.totalY]}
                           />
-                        </IsCardano>
-                      </article>
-                      <article className={`${styles.row} ${styles.apr}`}>
-                        <IsCardano>
-                          <p className={styles.value}>
-                            <YieldFarmingReward
-                              infoPool={infoPool}
-                              infoPosition={infoPosition}
-                              calculateAPR={calculateAPR}
-                              isLoading={isLoading}
-                            />
-                          </p>
                         </IsCardano>
                       </article>
                     </>
