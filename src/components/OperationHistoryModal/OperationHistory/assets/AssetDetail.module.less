@@ -1,0 +1,39 @@
+.detailGroup {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 100%;
+  width: 100%;
+  .assetGroup {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    min-width: 110px;
+    max-width: 145px;
+      .logo {
+        height: 100%;
+        width: auto;
+        border-radius: 50%;
+      }
+    .name {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--teddy-primary-text);
+    }
+    .value {
+      margin: 0;
+      font-size: 14px;
+      color: var(--teddy-primary-text);
+    }
+  }
+  .iconAsset {
+    display: flex;
+    align-items: center;
+    .icon {
+      fill: var(--teddy-primary-text);
+    }
+  }
+}
+

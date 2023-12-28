@@ -3,3 +3,90 @@
   background-color: var(--teddy-secondary-color);
   border-radius: 10px;
 }
+
+.colConfig {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 10px;
+  .row {
+    width: 20%;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &.asset {
+      min-width: 320px;
+    }
+    &.action {
+      min-width: 125px;
+    }
+    &.date {
+      min-width: 170px;
+    }
+    &.status {
+      min-width: 85px;
+      max-width: 100px;
+    }
+    &.actions {
+      min-width: 120px;
+      max-width: 120px;
+    }
+    .value {
+      margin: 0;
+      color: var(--teddy-primary-text);
+      font-size: 14px;
+      text-align: center;
+    }
+  }
+}
+
+.operationHistoryContainer {
+  background: var(--teddy-box-color);
+  padding: 24px 36px;
+  border-radius: 16px;
+  max-width: 1150px;
+  margin: 0 auto;
+  .titleContainer {
+    font-size: 16px;
+    margin: 0;
+    font-weight: 600;
+    color: var(--teddy-primary-text);
+    margin-bottom: 40px
+  }
+  .transactionsTable {
+    .thead {
+      border-bottom: 1px solid var(--teddy-secondary-text-dark);
+      margin-bottom: 24px;
+      .colConfig;
+      .row {
+        .value {
+          font-weight: 600;
+        }
+      }
+    }
+    .tbody {
+      display: flex;
+      flex-direction: column;
+      max-height: 350px;
+      overflow-y: auto;
+      gap: 24px;
+      .tbodyContent {
+        .colConfig;
+        .row {
+          &.status {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            .statusIcon {
+              width: 5px;
+              height: 5px;
+              border-radius: 50%;
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -2,19 +2,21 @@ import {
   Button,
   HistoryOutlined,
   LoadingOutlined,
-  Modal,
+  //Modal,
   Tooltip,
 } from '@ergolabs/ui-kit';
 import { t } from '@lingui/macro';
 import { FC } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useObservable } from '../../../../common/hooks/useObservable';
 import { hasNeedRefundOperations$ } from '../../../../gateway/api/hasNeedRefundOperations';
 import { pendingOperationsCount$ } from '../../../../gateway/api/pendingOperations';
 import { selectedWalletState$ } from '../../../../gateway/api/wallets';
+//import { OperationHistoryModal } from '../../../OperationHistoryModal/OperationHistoryModal';
+import { useSelectedNetwork } from '../../../../gateway/common/network';
 import { WalletState } from '../../../../network/common/Wallet';
 import { BadgeCustom } from '../../../BadgeCustom/BadgeCustom';
-import { OperationHistoryModal } from '../../../OperationHistoryModal/OperationHistoryModal';
 
 const renderHistoryButtonState = (pendingOpsCount: number): string => {
   return !!pendingOpsCount ? `${pendingOpsCount} ` + t`Pending` : '';
@@ -29,8 +31,16 @@ export const OperationsHistory: FC = () => {
     hasNeedRefundOperations$,
   );
 
-  const openOperationsHistoryModal = () => {
+  /* const openOperationsHistoryModal = () => {
     Modal.open(({ close }) => <OperationHistoryModal close={close} />);
+  }; */
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [network] = useSelectedNetwork();
+
+  const handleClickNavigate = () => {
+    navigate(`/${network.name}/history`);
   };
 
   const showLoader = !!pendingOperationsCount;
@@ -51,9 +61,15 @@ export const OperationsHistory: FC = () => {
           size="large"
           type="ghost"
           icon={showLoader ? <LoadingOutlined /> : <HistoryOutlined />}
-          onClick={openOperationsHistoryModal}
+          onClick={handleClickNavigate}
           disabled={!isWalletConnected}
-          style={{ background: 'var(--teddy-box-color)' }}
+          style={{
+            background: `${
+              location.pathname === `/${network.name}/history`
+                ? 'rgba(255, 255, 255, 0.45)'
+                : 'var(--teddy-box-color)'
+            }`,
+          }}
         >
           {renderHistoryButtonState(pendingOperationsCount || 0)}
         </Button>

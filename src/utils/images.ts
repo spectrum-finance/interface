@@ -7,6 +7,8 @@ export const VERIFIED = '/img/icons/verified.png';
 export const BANK = '/img/icons/bank.svg#icon';
 export const WARNING = '/img/icons/exclamation.png';
 export const X = '/img/icons/x.svg#icon';
+export const ARROW_RIGHT = '/img/icons/arrow-right.svg#icon';
+export const PLUS = '/img/icons/plus.svg#icon';
 
 // TOKENS
 
