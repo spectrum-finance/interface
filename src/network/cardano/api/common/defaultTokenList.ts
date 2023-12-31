@@ -9,6 +9,7 @@ export interface DefaultTokenListItem {
   readonly name: string;
   readonly ticker: string;
   readonly decimals: number;
+  readonly _logo?: string;
 }
 
 export const defaultTokenList$ = getDefaultTokenList<DefaultTokenListItem>(
@@ -16,4 +17,5 @@ export const defaultTokenList$ = getDefaultTokenList<DefaultTokenListItem>(
   (item) => {
     return item.subject;
   },
+  applicationConfig.networksSettings.cardano.additionalTokenList,
 );

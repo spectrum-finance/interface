@@ -10,16 +10,20 @@ export interface DefaultTokenList<T> {
 export const getDefaultTokenList = <T>(
   url: string,
   getHash: (item: T) => string,
+  additionalTokens: T[] = [],
 ): Observable<DefaultTokenList<T>> =>
   from(axios.get(url)).pipe(
     map((res) => res.data),
     map((data: DefaultTokenList<T>) => ({
       ...data,
-      tokensMap: data.tokens.reduce<Map<string, T>>((map, item) => {
-        map.set(getHash(item), item);
+      tokens: data.tokens.concat(additionalTokens),
+      tokensMap: data.tokens
+        .concat(additionalTokens)
+        .reduce<Map<string, T>>((map, item) => {
+          map.set(getHash(item), item);
 
-        return map;
-      }, new Map()),
+          return map;
+        }, new Map()),
     })),
     publishReplay(1),
     refCount(),

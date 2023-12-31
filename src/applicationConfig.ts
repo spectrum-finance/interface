@@ -2,6 +2,7 @@ import { DateTime } from 'luxon';
 
 import { Dictionary } from './common/utils/Dictionary';
 import { isProductionEnv } from './common/utils/env';
+import { DefaultTokenListItem } from './network/cardano/api/common/defaultTokenList.ts';
 
 const isProductionHost = 'app.spectrum.fi' === location.host;
 
@@ -23,6 +24,7 @@ interface NetworkConfig {
   readonly defaultTokenListUrl: string;
   readonly lbspWhitelistUrl: string;
   readonly isCreatePoolAvailable: boolean;
+  readonly additionalTokenList?: DefaultTokenListItem[];
 }
 
 interface CardanoUpdate {
@@ -91,6 +93,7 @@ export const applicationConfig: ApplicationConfig = {
       isCreatePoolAvailable: false,
     },
     cardano: {
+      additionalTokenList: [],
       defaultTokenListUrl: 'https://spectrum.fi/cardano-token-list.json',
       lbspWhitelistUrl: 'https://spectrum.fi/lbsp_whitelist.json',
       metadataUrl: 'https://spectrum.fi/logos/cardano',
