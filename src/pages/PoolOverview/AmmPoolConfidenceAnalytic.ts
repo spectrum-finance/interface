@@ -131,12 +131,8 @@ export const getAmmPoolConfidenceAnalyticByAmmPoolId = (
         networkContext$,
         selectedNetwork$.pipe(
           first(),
-          switchMap((network) =>
-            network.name !== 'ergo'
-              ? of([])
-              : getPoolLocksAnalyticsById(ammPoolId).pipe(
-                  catchError(() => of([])),
-                ),
+          switchMap(() =>
+            getPoolLocksAnalyticsById(ammPoolId).pipe(catchError(() => of([]))),
           ),
         ),
       ]).pipe(

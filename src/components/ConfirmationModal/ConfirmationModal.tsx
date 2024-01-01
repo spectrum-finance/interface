@@ -1,6 +1,5 @@
 import { TxId } from '@ergolabs/ergo-sdk';
 import {
-  Button,
   CloseCircleOutlined,
   Flex,
   Modal,
@@ -21,7 +20,6 @@ import { ReactComponent as TelegramIcon } from '../../assets/icons/social/Telegr
 import { AssetLock } from '../../common/models/AssetLock';
 import { Currency } from '../../common/models/Currency';
 import { exploreTx } from '../../gateway/utils/exploreAddress';
-import { ClaimNotAvailableError } from '../../network/cardano/api/rewards/utils';
 import { getLockingPeriodString } from '../../pages/Liquidity/utils';
 import { getShortAddress } from '../../utils/string/addres.ts';
 
@@ -323,57 +321,6 @@ const YoroiIssueModalContent = () => (
   </Flex>
 );
 
-const ClaimNotAvailableIssueModalContent = () => (
-  <Flex col align="center">
-    <Flex.Item marginBottom={1}>
-      <Typography.Title level={4}>
-        <Trans>Error</Trans>
-      </Typography.Title>
-    </Flex.Item>
-    <Flex.Item marginBottom={2}>
-      <Typography.Body align="center">
-        <Trans>Claim not available error</Trans>
-      </Typography.Body>
-    </Flex.Item>
-    <Flex.Item marginBottom={2}>
-      <Typography.Body align="center">
-        <Button type="primary" onClick={() => location.reload()}>
-          <Trans>Try update the page</Trans>
-        </Button>
-      </Typography.Body>
-    </Flex.Item>
-    <Flex.Item marginBottom={1}>
-      <Typography.Body align="center">
-        <Trans>Get help in our channels:</Trans>
-      </Typography.Body>
-    </Flex.Item>
-    <Flex.Item marginBottom={1} justify="center">
-      <Flex>
-        <Flex.Item marginRight={1}>
-          <a
-            style={{ color: 'var(--spectrum-primary-color)' }}
-            href={applicationConfig.support.discord}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <DiscordIcon style={{ cursor: 'pointer' }} />
-          </a>
-        </Flex.Item>
-        <Flex.Item>
-          <a
-            style={{ color: 'var(--spectrum-primary-color)' }}
-            href={applicationConfig.support.telegram}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <TelegramIcon style={{ cursor: 'pointer' }} />
-          </a>
-        </Flex.Item>
-      </Flex>
-    </Flex.Item>
-  </Flex>
-);
-
 export const openConfirmationModal = (
   actionContent: RequestProps['actionContent'],
   operation: Operation,
@@ -386,9 +333,6 @@ export const openConfirmationModal = (
     errorContent: (error: Error) => {
       if (error instanceof TimeoutError) {
         return YoroiIssueModalContent();
-      }
-      if (error instanceof ClaimNotAvailableError) {
-        return ClaimNotAvailableIssueModalContent();
       }
       if (operation === Operation.REFUND) {
         return RefundErrorModalContent(error, payload);

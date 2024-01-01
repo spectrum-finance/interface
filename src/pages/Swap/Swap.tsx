@@ -17,7 +17,6 @@ import {
 import findLast from 'lodash/findLast';
 import maxBy from 'lodash/maxBy';
 import { useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import {
   BehaviorSubject,
   combineLatest,
@@ -43,7 +42,6 @@ import { AmmPool } from '../../common/models/AmmPool';
 import { AssetInfo } from '../../common/models/AssetInfo';
 import { Currency } from '../../common/models/Currency';
 import { AssetControlFormItem } from '../../components/common/TokenControl/AssetControl';
-import { IsErgo } from '../../components/IsErgo/IsErgo';
 import {
   OperationForm,
   OperationLoader,
@@ -68,13 +66,10 @@ import { useNetworkAsset } from '../../gateway/api/networkAsset';
 import { swap } from '../../gateway/api/operations/swap';
 import { useHandleSwapMaxButtonClick } from '../../gateway/api/useHandleSwapMaxButtonClick';
 import { useSwapValidators } from '../../gateway/api/validationFees';
-import { useSelectedNetwork } from '../../gateway/common/network.ts';
 import { useSettings } from '../../gateway/settings/settings';
 import { operationsSettings$ } from '../../gateway/widgets/operationsSettings';
 import { swapCollapse$ } from '../../gateway/widgets/swapCallapse.ts';
-import { useGuardV2 } from '../../hooks/useGuard.ts';
 import { mapToSwapAnalyticsProps } from '../../utils/analytics/mapper';
-import { isPreLbspTimeGap } from '../../utils/lbsp.ts';
 import { PriceImpactWarning } from './PriceImpactWarning/PriceImpactWarning';
 import { SwapFormModel } from './SwapFormModel';
 import { SwapGraph } from './SwapGraph/SwapGraph';
@@ -111,13 +106,7 @@ const getAvailablePools = (xId?: string, yId?: string): Observable<AmmPool[]> =>
 
 export const Swap = (): JSX.Element => {
   const [SwapCollapse] = useObservable(swapCollapse$);
-  const [selectedNetwork] = useSelectedNetwork();
   const { slippage } = useSettings();
-  const navigate = useNavigate();
-  useGuardV2(
-    () => selectedNetwork.name !== 'ergo' && isPreLbspTimeGap(),
-    () => navigate(`/../../../../liquidity`),
-  );
 
   const form = useForm<SwapFormModel>({
     fromAmount: undefined,
@@ -475,11 +464,7 @@ export const Swap = (): JSX.Element => {
     <Page
       maxWidth={500}
       widgetBaseHeight={pool ? 432 : 272}
-      footer={
-        <IsErgo>
-          <YieldFarmingBadge />
-        </IsErgo>
-      }
+      footer={<YieldFarmingBadge />}
       leftWidget={
         <SwapGraph
           pool={pool}

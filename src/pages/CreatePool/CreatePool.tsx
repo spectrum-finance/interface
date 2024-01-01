@@ -17,15 +17,14 @@ import {
   useObservable,
   useSubscription,
 } from '../../common/hooks/useObservable';
+import { AmmPool } from '../../common/models/AmmPool.ts';
 import { AssetInfo } from '../../common/models/AssetInfo';
 import { Balance } from '../../common/models/Balance';
 import { Currency } from '../../common/models/Currency';
 import { Ratio } from '../../common/models/Ratio';
-import { DefaultTokenList } from '../../common/services/DefaultTokenList';
 import { LiquidityPercentInput } from '../../components/AddLiquidityForm/LiquidityPercentInput/LiquidityPercentInput';
 import { AssetControlFormItem } from '../../components/common/TokenControl/AssetControl';
 import { AssetSelectFormItem } from '../../components/common/TokenControl/AssetSelect/AssetSelect';
-import { IsErgo } from '../../components/IsErgo/IsErgo';
 import {
   OperationForm,
   OperationValidator,
@@ -33,6 +32,7 @@ import {
 import { Page } from '../../components/Page/Page';
 import { RatioBox } from '../../components/RatioBox/RatioBox';
 import { Section } from '../../components/Section/Section';
+import { displayedAmmPools$ } from '../../gateway/api/ammPools.ts';
 import {
   assetBalance$,
   useAssetsBalance,
@@ -43,10 +43,6 @@ import { useHandleCreatePoolMaxButtonClick } from '../../gateway/api/useHandleCr
 import { useCreatePoolValidators } from '../../gateway/api/validationFees';
 import { selectedNetwork$ } from '../../gateway/common/network';
 import { operationsSettings$ } from '../../gateway/widgets/operationsSettings';
-import {
-  defaultTokenList$,
-  DefaultTokenListItem,
-} from '../../network/cardano/api/common/defaultTokenList';
 import { CreatePoolFormModel } from './CreatePoolFormModel';
 import { FeeSelector } from './FeeSelector/FeeSelector';
 import { InitialPriceInput } from './InitialPrice/InitialPriceInput';
@@ -71,23 +67,21 @@ const getYAssets = (xId?: string) => {
           ? xAssets$.pipe(map((assets) => assets.filter((a) => a.id !== xId)))
           : xAssets$;
       }
-      return combineLatest<[Balance, DefaultTokenList<DefaultTokenListItem>]>([
+      return combineLatest<[Balance, AmmPool[]]>([
         assetBalance$,
-        defaultTokenList$,
+        displayedAmmPools$,
       ]).pipe(
-        map(
-          ([balance, defaultTokenList]: [
-            Balance,
-            DefaultTokenList<DefaultTokenListItem>,
-          ]) =>
-            balance
-              .values()
-              .map((balance) => balance.asset)
-              .filter(
-                (a) =>
-                  a.id !== network.networkAsset.id &&
-                  defaultTokenList.tokensMap.has(a.id),
-              ),
+        map(([balance, ammPools]: [Balance, AmmPool[]]) =>
+          balance
+            .values()
+            .map((balance) => balance.asset)
+            .filter(
+              (a) =>
+                a.id !== network.networkAsset.id &&
+                ammPools.find(
+                  (ap) => ap.x.isAssetEquals(a) || ap.y.isAssetEquals(a),
+                ),
+            ),
         ),
       );
     }),
@@ -337,11 +331,9 @@ export const CreatePool: FC = () => {
               title={t`Select Pair`}
               gap={2}
               extra={
-                <IsErgo>
-                  {OperationSettings && (
-                    <OperationSettings hideNitro hideSlippage />
-                  )}
-                </IsErgo>
+                OperationSettings && (
+                  <OperationSettings hideNitro hideSlippage />
+                )
               }
             >
               <Flex justify="center" align="center">

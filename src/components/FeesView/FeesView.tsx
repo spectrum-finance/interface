@@ -3,9 +3,7 @@ import { Trans } from '@lingui/macro';
 import { FC } from 'react';
 
 import { Currency } from '../../common/models/Currency';
-import { useSelectedNetwork } from '../../gateway/common/network.ts';
 import { FeesSkeletonLoading } from '../../network/cardano/components/FeesSkeletonLoading/FeesSkeletonLoading.tsx';
-import RefundableDepositTooltipContent from '../../network/cardano/components/RefundableDepositTooltipContent/RefundableDepositTooltipContent.tsx';
 import { AssetIcon } from '../AssetIcon/AssetIcon';
 import { BoxInfoItem } from '../BoxInfoItem/BoxInfoItem';
 import { ConvenientAssetView } from '../ConvenientAssetView/ConvenientAssetView';
@@ -134,47 +132,10 @@ const ExecutionFeeTooltipValue: FC<ExecutionFeeTooltipValueProps> = ({
 export const FeesView: FC<FeesViewProps> = ({
   feeItems,
   executionFee,
-  refundableDeposit,
   isLoading,
 }) => {
-  const [network] = useSelectedNetwork();
-
   return (
     <>
-      {network.name !== 'ergo' && (
-        <Flex.Item marginBottom={2}>
-          <BoxInfoItem
-            title={
-              <>
-                <InfoTooltip
-                  content={<RefundableDepositTooltipContent />}
-                  width={300}
-                >
-                  <Typography.Body size="large">
-                    <Trans>Refundable deposit</Trans>
-                  </Typography.Body>
-                </InfoTooltip>
-                <Typography.Body size="large">:</Typography.Body>
-              </>
-            }
-            value={
-              <>
-                {refundableDeposit ? (
-                  <Typography.Body size="large" strong>
-                    <>
-                      {refundableDeposit.toString()}{' '}
-                      <Truncate>{refundableDeposit.asset.name}</Truncate>
-                    </>
-                  </Typography.Body>
-                ) : (
-                  <FeesSkeletonLoading />
-                )}
-              </>
-            }
-          />
-        </Flex.Item>
-      )}
-
       <BoxInfoItem
         title={
           <>

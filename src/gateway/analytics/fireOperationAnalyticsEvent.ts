@@ -42,8 +42,7 @@ export const fireOperationAnalyticsEvent = <T extends keyof AnalyticsEvents>(
           ? 'ergo-spf'
           : 'ergo-erg';
 
-      const feeCurrency: EventProducerContext['feeCurrency'] =
-        selectedNetwork.name !== 'ergo' ? 'cardano-ada' : ergTicker;
+      const feeCurrency: EventProducerContext['feeCurrency'] = ergTicker;
       const eventPropsFactory = rest[0];
       const props = (
         eventPropsFactory

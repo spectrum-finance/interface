@@ -1,6 +1,5 @@
 import { Modal } from '@ergolabs/ui-kit';
 import { FC, PropsWithChildren, useEffect, useRef, useState } from 'react';
-import { useLocation } from 'react-router-dom';
 import {
   distinctUntilChanged,
   filter,
@@ -11,16 +10,11 @@ import {
 } from 'rxjs';
 import styled from 'styled-components';
 
-import { applicationConfig } from '../../../applicationConfig';
 import { device } from '../../../common/constants/size';
 import { useSubscription } from '../../../common/hooks/useObservable';
-import { useSelectedNetwork } from '../../../gateway/common/network';
 import { openCookiePolicy } from '../../../services/notifications/CookiePolicy/CookiePolicy';
-import { IsCardano } from '../../IsCardano/IsCardano';
-import { LbspBanner } from '../../LbspBanner/LbspBanner';
 import { NetworkHeight } from '../../NetworkHeight/NetworkHeight';
 import { SocialLinks } from '../../SocialLinks/SocialLinks';
-import { CardanoUpdate } from './CardanoUpdate/CardanoUpdate';
 import { FooterNavigation } from './FooterNavigation/FooterNavigation';
 import { Header } from './Header/Header';
 import { NeedUpdateModal } from './NeedUpdateModal/NeedUpdateModal';
@@ -53,11 +47,9 @@ const _Layout: FC<PropsWithChildren<{ className?: string }>> = ({
   children,
   className,
 }) => {
-  const [network] = useSelectedNetwork();
   const ref = useRef<HTMLDivElement>(null);
   const footerRef = useRef<HTMLDivElement>(null);
   const [scrolledTop, setScrolledTop] = useState(true);
-  const location = useLocation();
 
   useEffect(() => {
     openCookiePolicy();
@@ -81,28 +73,18 @@ const _Layout: FC<PropsWithChildren<{ className?: string }>> = ({
 
   return (
     <div ref={ref} className={className}>
-      {applicationConfig.cardanoUpdate && network.name !== 'ergo' ? (
-        <CardanoUpdate />
-      ) : (
-        <>
-          <Header scrolledTop={scrolledTop} />
+      <Header scrolledTop={scrolledTop} />
 
-          <IsCardano>
-            {location.pathname === '/cardano/liquidity' && <LbspBanner />}
-          </IsCardano>
-
-          <MainContainer
-            style={{ paddingBottom: footerHeight ? footerHeight + 8 : 80 }}
-          >
-            {children}
-          </MainContainer>
-          <footer>
-            <SocialLinks />
-            <NetworkHeight />
-          </footer>
-          <FooterNavigation ref={footerRef} />
-        </>
-      )}
+      <MainContainer
+        style={{ paddingBottom: footerHeight ? footerHeight + 8 : 80 }}
+      >
+        {children}
+      </MainContainer>
+      <footer>
+        <SocialLinks />
+        <NetworkHeight />
+      </footer>
+      <FooterNavigation ref={footerRef} />
     </div>
   );
 };

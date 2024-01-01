@@ -14,7 +14,6 @@ import { Position } from '../../common/models/Position';
 import { normalizeAvailableLp } from '../../common/utils/normalizeAvailableLp.ts';
 import { FormPairSection } from '../../components/common/FormView/FormPairSection/FormPairSection';
 import { FormSlider } from '../../components/common/FormView/FormSlider/FormSlider';
-import { IsErgo } from '../../components/IsErgo/IsErgo';
 import { Page } from '../../components/Page/Page';
 import { PageHeader } from '../../components/Page/PageHeader/PageHeader';
 import { PageSection } from '../../components/Page/PageSection/PageSection';
@@ -22,24 +21,15 @@ import { SubmitButton } from '../../components/SubmitButton/SubmitButton';
 import { fireOperationAnalyticsEvent } from '../../gateway/analytics/fireOperationAnalyticsEvent';
 import { redeem } from '../../gateway/api/operations/redeem';
 import { getPositionByAmmPoolId } from '../../gateway/api/positions';
-import { useSelectedNetwork } from '../../gateway/common/network.ts';
 import { operationsSettings$ } from '../../gateway/widgets/operationsSettings';
 import { useGuardV2 } from '../../hooks/useGuard';
 import { mapToRedeemAnalyticsProps } from '../../utils/analytics/mapper';
-import { isSubject, subjectToId } from '../../utils/subjectToId.ts';
 import { RemoveLiquidityFormModel } from './RemoveLiquidityFormModel';
 
 export const RemoveLiquidity: FC = () => {
   const { poolId } = useParamsStrict<{ poolId: PoolId }>();
-  const [selectedNetwork] = useSelectedNetwork();
-  const normalizedPoolId =
-    poolId && selectedNetwork.name === 'cardano' && isSubject(poolId)
-      ? subjectToId(poolId)
-      : poolId;
   const navigate = useNavigate();
-  const [position, loading] = useObservable(
-    getPositionByAmmPoolId(normalizedPoolId),
-  );
+  const [position, loading] = useObservable(getPositionByAmmPoolId(poolId));
   const [OperationSettings] = useObservable(operationsSettings$);
   const form = useForm<RemoveLiquidityFormModel>({
     percent: 100,
@@ -55,11 +45,6 @@ export const RemoveLiquidity: FC = () => {
         `../../../liquidity${position?.pool.id ? `/${position.pool.id}` : ''}`,
         { replace: true },
       ),
-  );
-  useGuardV2(
-    () => isSubject(poolId) && selectedNetwork.name === 'cardano',
-    () =>
-      navigate(`../../${subjectToId(poolId as any)}/remove`, { replace: true }),
   );
 
   const [formValue] = useObservable(form.valueChangesWithSilent$);
@@ -106,11 +91,9 @@ export const RemoveLiquidity: FC = () => {
           <Flex direction="col">
             <Flex.Item marginBottom={2} display="flex" justify="space-between">
               <PageHeader position={position} />
-              <IsErgo>
-                {OperationSettings && (
-                  <OperationSettings hideNitro hideSlippage />
-                )}
-              </IsErgo>
+              {OperationSettings && (
+                <OperationSettings hideNitro hideSlippage />
+              )}
             </Flex.Item>
 
             <Flex.Item marginBottom={4}>

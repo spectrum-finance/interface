@@ -15,7 +15,7 @@ export const NothingToClaimState: FC<NothingToClaimStateProps> = ({
 }) => {
   const navigate = useNavigate();
   const matchLiquidityPage = useMatch({
-    path: ':network/liquidity',
+    path: 'liquidity',
     end: false,
   });
 

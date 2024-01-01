@@ -2,9 +2,6 @@ import { ReactElement } from 'react';
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { IsCardano } from '../IsCardano/IsCardano';
-import { IsErgo } from '../IsErgo/IsErgo';
-
 interface NewFeatureTagProps {
   children?: React.ReactNode;
   top?: number;
@@ -78,19 +75,14 @@ export const NewFeatureTag = ({
   animate = false,
 }: NewFeatureTagProps): ReactElement => {
   return (
-    <>
-      <IsErgo>
-        <SNewFeatureTag
-          top={top}
-          right={right}
-          left={left}
-          bottom={bottom}
-          animate={animate}
-        >
-          {children}
-        </SNewFeatureTag>
-      </IsErgo>
-      <IsCardano>{children}</IsCardano>
-    </>
+    <SNewFeatureTag
+      top={top}
+      right={right}
+      left={left}
+      bottom={bottom}
+      animate={animate}
+    >
+      {children}
+    </SNewFeatureTag>
   );
 };

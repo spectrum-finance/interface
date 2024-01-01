@@ -20,7 +20,6 @@ import { useSubscription } from '../../common/hooks/useObservable';
 import { AssetInfo } from '../../common/models/AssetInfo';
 import { Currency } from '../../common/models/Currency';
 import { InfoTooltip } from '../InfoTooltip/InfoTooltip';
-import { IsErgo } from '../IsErgo/IsErgo';
 import { FeeCurrencySelector } from './FeeCurrencySelector/FeeCurrencySelector';
 import { NitroInput } from './NitroInput/NitroInput';
 import { SlippageInput } from './SlippageInput/SlippageInput';
@@ -181,7 +180,7 @@ export const OperationSettings: FC<OperationSettingsProps> = ({
             </>
           )}
           {feeAssets?.length && (
-            <IsErgo>
+            <>
               <Flex.Item marginBottom={1}>
                 <InfoTooltip
                   width={200}
@@ -203,7 +202,7 @@ export const OperationSettings: FC<OperationSettingsProps> = ({
                   )}
                 </Form.Item>
               </Flex.Item>
-            </IsErgo>
+            </>
           )}
           {hideNitro ? null : (
             <>

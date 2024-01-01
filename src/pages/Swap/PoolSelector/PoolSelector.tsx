@@ -18,10 +18,8 @@ import { AmmPool } from '../../../common/models/AmmPool';
 import { AssetPairTitle } from '../../../components/AssetPairTitle/AssetPairTitle';
 import { DataTag } from '../../../components/common/DataTag/DataTag';
 import { InfoTooltip } from '../../../components/InfoTooltip/InfoTooltip';
-import { IsCardano } from '../../../components/IsCardano/IsCardano';
-import { IsErgo } from '../../../components/IsErgo/IsErgo';
 import { getAmmPoolsByAssetPair } from '../../../gateway/api/ammPools';
-import { formatToAda, formatToUSD } from '../../../services/number';
+import { formatToUSD } from '../../../services/number';
 import { PoolSelectorModal } from './PoolSelectorModal/PoolSelectorModal';
 
 interface PoolSelectorProps extends Control<AmmPool> {
@@ -126,14 +124,7 @@ const _PoolSelector: FC<PoolSelectorProps> = ({
                         secondary
                         content={
                           value?.tvl ? (
-                            <>
-                              <IsErgo>
-                                {formatToUSD(value.tvl.toAmount(), 'abbr')}
-                              </IsErgo>
-                              <IsCardano>
-                                {formatToAda(value.tvl.toAmount(), 'abbr')}
-                              </IsCardano>
-                            </>
+                            <>{formatToUSD(value.tvl.toAmount(), 'abbr')}</>
                           ) : (
                             '–––'
                           )

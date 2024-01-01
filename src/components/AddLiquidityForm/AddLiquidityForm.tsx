@@ -40,9 +40,6 @@ import { useNetworkAsset } from '../../gateway/api/networkAsset';
 import { deposit } from '../../gateway/api/operations/deposit';
 import { useHandleDepositMaxButtonClick } from '../../gateway/api/useHandleDepositMaxButtonClick';
 import { useDepositValidators } from '../../gateway/api/validationFees';
-import { useSelectedNetwork } from '../../gateway/common/network.ts';
-import { CardanoAmmPool } from '../../network/cardano/api/ammPools/CardanoAmmPool.ts';
-import { MIN_CREATE_POOL_LIQUIDITY } from '../../network/cardano/api/operations/createPool.tsx';
 import { PoolFeeTag } from '../../pages/PoolOverview/PoolInfoView/PoolFeeTag/PoolFeeTag.tsx';
 import { mapToDepositAnalyticsProps } from '../../utils/analytics/mapper';
 import { AssetPairTitle } from '../AssetPairTitle/AssetPairTitle.tsx';
@@ -54,7 +51,6 @@ import {
 import { Section } from '../Section/Section';
 import { AddLiquidityFormModel } from './AddLiquidityFormModel';
 import { LiquidityPercentInput } from './LiquidityPercentInput/LiquidityPercentInput';
-import { LowLiquidityWarning } from './LowLiquidityWarning/LowLiquidityWarning.tsx';
 
 export interface AddLiquidityFormProps {
   readonly initialPoolId?: string;
@@ -67,18 +63,6 @@ export interface AddLiquidityFormProps {
   // TODO: REWRITE MODAL CHAIN SYSTEM
   readonly withoutConfirmation?: boolean;
 }
-
-const isPoolLiquidityIsLow = (
-  pool: AmmPool,
-  networkAsset: AssetInfo,
-): boolean => {
-  const adaAsset = pool.x.isAssetEquals(networkAsset) ? pool.x : pool.y;
-
-  return (
-    !(pool as CardanoAmmPool).pool.lqBound &&
-    adaAsset.mult(2n).lt(MIN_CREATE_POOL_LIQUIDITY)
-  );
-};
 
 const getYAssets = (fromAsset?: string) =>
   fromAsset ? getDefaultAssetsFor(fromAsset) : defaultTokenAssets$;
@@ -116,12 +100,9 @@ export const AddLiquidityForm: FC<AddLiquidityFormProps> = ({
   const [lastEditedField, setLastEditedField] = useState<'x' | 'y'>('x');
   const [balance] = useAssetsBalance();
   const [networkAsset] = useNetworkAsset();
-  const [selectedNetwork] = useSelectedNetwork();
   const _handleDepositMaxButtonClick = useHandleDepositMaxButtonClick();
   const depositValidators = useDepositValidators();
   const [allAmmPools, allAmmPoolsLoading] = useObservable(ammPools$);
-  const [isDepositWarningVisible, setIsDepositWarningVisible] =
-    useState<boolean>(false);
 
   const updateToAssets$ = useMemo(
     () => new BehaviorSubject<string | undefined>(undefined),
@@ -250,13 +231,6 @@ export const AddLiquidityForm: FC<AddLiquidityFormProps> = ({
         return;
       }
 
-      if (
-        selectedNetwork.name !== 'ergo' &&
-        isPoolLiquidityIsLow(pool, networkAsset)
-      ) {
-        setIsDepositWarningVisible(true);
-      }
-
       if (lastEditedField === 'x' && x && x.isPositive()) {
         form.controls.y.patchValue(pool.calculateDepositAmount(x), {
           emitEvent: 'silent',
@@ -372,7 +346,6 @@ export const AddLiquidityForm: FC<AddLiquidityFormProps> = ({
       onSubmit={addLiquidityAction}
       validators={validators}
       actionCaption={t`Add Liquidity`}
-      isWarningButton={isDepositWarningVisible}
       traceFormLocation={traceFormLocation}
     >
       <Section
@@ -439,11 +412,6 @@ export const AddLiquidityForm: FC<AddLiquidityFormProps> = ({
         </Flex>
       </Section>
       {children}
-      {isDepositWarningVisible && (
-        <Flex.Item marginTop={4}>
-          <LowLiquidityWarning />
-        </Flex.Item>
-      )}
     </OperationForm>
   );
 };

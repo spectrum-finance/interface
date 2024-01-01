@@ -10,7 +10,6 @@ import { Position } from '../../common/models/Position';
 import { Page } from '../../components/Page/Page';
 import { displayedAmmPools$ } from '../../gateway/api/ammPools';
 import { positions$ } from '../../gateway/api/positions';
-import { showUnverifiedPools$ } from '../../network/cardano/api/ammPools/ammPools';
 import { PoolsOrPositionsFilterValue } from './common/components/LiquidityFilter/LiquidityFilter';
 import { LiquidityState } from './common/types/LiquidityState';
 import { LiquidityDefaultLayout } from './default/LiquidityDefaultLayout';
@@ -50,11 +49,7 @@ const filterDuplicates = <T extends AmmPool | Position>(items: T[]): T[] => {
 export const Liquidity = (): JSX.Element => {
   const [filters, setFilters] = useState<
     Set<PoolsOrPositionsFilterValue> | undefined
-  >(
-    showUnverifiedPools$.getValue()
-      ? new Set([PoolsOrPositionsFilterValue.SHOW_UNVERIFIED_POOLS])
-      : undefined,
-  );
+  >(undefined);
 
   const { moreThan, s } = useDevice();
 

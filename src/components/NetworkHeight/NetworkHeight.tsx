@@ -8,17 +8,12 @@ import FlipNumbers from 'react-flip-numbers';
 import { ReactComponent as BlockIcon } from '../../assets/icons/block-icon.svg';
 import { useObservable } from '../../common/hooks/useObservable';
 import { networkContext$ } from '../../gateway/api/networkContext';
-import { useSelectedNetwork } from '../../gateway/common/network';
 import { exploreLastBlock } from '../../gateway/utils/exploreAddress';
 import { formatToInt } from '../../services/number';
 const NetworkHeight = (): JSX.Element => {
   const [networkContext] = useObservable(networkContext$);
-  const [selectedNetwork] = useSelectedNetwork();
 
-  const tooltip =
-    selectedNetwork.name !== 'ergo'
-      ? t`The most recent block in Cardano (Testnet) network`
-      : t`The most recent block in Ergo network`;
+  const tooltip = t`The most recent block in Ergo network`;
 
   return (
     <>

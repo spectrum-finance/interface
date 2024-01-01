@@ -1,6 +1,5 @@
 import { Severity } from '@sentry/react';
 import * as Sentry from '@sentry/react';
-import { TxCandidate } from '@spectrumlabs/cardano-dex-sdk';
 
 interface OperationError {
   readonly level: Severity;
@@ -12,9 +11,9 @@ const jsonReplacer = (_, value) =>
 
 export const captureOperationError = (
   error: Error | string,
-  network: 'cardano' | 'ergo',
+  network: 'ergo',
   operation: string,
-  candidate?: TxCandidate,
+  candidate?: any,
   context?: object,
 ): void => {
   const message = typeof error === 'string' ? error : error.message;

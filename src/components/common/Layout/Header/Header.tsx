@@ -5,18 +5,13 @@ import { isDesktop } from 'react-device-detect';
 import styled from 'styled-components';
 
 import { device } from '../../../../common/constants/size';
-import { isPreLbspTimeGap } from '../../../../utils/lbsp';
-import { IsCardano } from '../../../IsCardano/IsCardano';
-import { IsErgo } from '../../../IsErgo/IsErgo';
 import { AppLogo } from '../../AppLogo/AppLogo';
-import { DeprecatedPosition } from '../DeprecatedPositions/DeprecatedPosition';
 import { OperationsHistory } from '../OperationsHistory/OperationsHistory';
 import { Analytics } from './Analytics/Analytics';
 import { BurgerMenu } from './BurgerMenu/BurgerMenu';
 import { ClaimSpfButton } from './ClaimSpfButton/ClaimSpfButton';
 import { ConnectWallet } from './ConnectWallet/ConnectWallet';
 import { Navigation } from './Navigation/Navigation';
-import { NetworkDropdown } from './NetworkDropdown/NetworkDropdown';
 
 export interface HeaderProps {
   className?: string;
@@ -53,32 +48,16 @@ export const _Header: React.FC<HeaderProps> = ({ className, scrolledTop }) => {
         className,
       )}
     >
-      <IsCardano>
-        <DeprecatedPosition />
-      </IsCardano>
       <HeaderWrapper>
         <Flex align="center" style={{ gap: '8px' }}>
           <Flex.Item marginRight={2} align="center">
             <AppLogo isNoWording />
           </Flex.Item>
-          <IsErgo>
-            {moreThan('l') && <Navigation />}
-            <Analytics />
-          </IsErgo>
-          {!isPreLbspTimeGap() && (
-            <IsCardano>
-              {moreThan('l') && <Navigation />}
-              <Analytics />
-            </IsCardano>
-          )}
+          {moreThan('l') && <Navigation />}
+          <Analytics />
         </Flex>
         <Flex align="center" style={{ gap: '8px', marginLeft: 'auto' }}>
-          {!s && isDesktop && (
-            <IsErgo>
-              <ClaimSpfButton />
-            </IsErgo>
-          )}
-          <NetworkDropdown />
+          {!s && isDesktop && <ClaimSpfButton />}
           <ConnectWallet />
           {!s && <OperationsHistory />}
           <BurgerMenu />

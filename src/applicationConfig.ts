@@ -2,7 +2,6 @@ import { DateTime } from 'luxon';
 
 import { Dictionary } from './common/utils/Dictionary';
 import { isProductionEnv } from './common/utils/env';
-import { DefaultTokenListItem } from './network/cardano/api/common/defaultTokenList.ts';
 
 const isProductionHost = 'app.spectrum.fi' === location.host;
 
@@ -24,19 +23,11 @@ interface NetworkConfig {
   readonly defaultTokenListUrl: string;
   readonly lbspWhitelistUrl: string;
   readonly isCreatePoolAvailable: boolean;
-  readonly additionalTokenList?: DefaultTokenListItem[];
-}
-
-interface CardanoUpdate {
-  readonly title: string;
-  readonly content: string;
 }
 
 interface ApplicationConfig {
   readonly spfUsdRateUrl: string;
   readonly cookieDomain: string | undefined;
-  readonly cardanoMaintenance: boolean;
-  readonly cardanoUpdate?: CardanoUpdate;
   readonly operationTimeoutTime: number;
   readonly reCaptchaKey: string;
   readonly networksSettings: Dictionary<NetworkConfig>;
@@ -59,7 +50,6 @@ interface ApplicationConfig {
   readonly testFarms: string[];
   readonly operationsRestrictions: OperationRestriction[];
   readonly requestRetryCount: number;
-  readonly cardanoAmmSwapsOpenTime: DateTime;
   readonly lbspLiquidityPools: string[];
   readonly spfPoolId: string;
   readonly specialRewards: string[];
@@ -73,36 +63,9 @@ export const applicationConfig: ApplicationConfig = {
   spfUsdRateUrl: 'https://api.spectrum.fi/v1/price-tracking/spf/price',
   operationTimeoutTime: 60_000,
   cookieDomain: isProductionEnv() ? 'spectrum.fi' : undefined,
-  cardanoMaintenance: false,
-  // cardanoUpdate: {
-  //   title: 'On the way to the mainnet',
-  //   content: 'The Cardano AMM protocol will be available in mainnet soon',
-  // },
   reCaptchaKey: '6LfCKZIiAAAAACypYW5pGlgZNTcwse1njmQMIUUL',
   requestRetryCount: 3,
   networksSettings: {
-    cardano_preview: {
-      defaultTokenListUrl: 'https://spectrum.fi/cardano-token-list.json',
-      lbspWhitelistUrl: 'https://spectrum.fi/lbsp_whitelist.json',
-      metadataUrl:
-        'https://raw.githubusercontent.com/spectrum-finance/token-logos/master/logos/cardano',
-      networkUrl: 'https://explorer.spectrum.fi/cardano/preview/v1/',
-      explorerUrl: 'https://preview.cexplorer.io',
-      lowBalanceGuide: '',
-      analyticUrl: 'https://analytics.spectrum.fi/cardano/',
-      isCreatePoolAvailable: false,
-    },
-    cardano: {
-      additionalTokenList: [],
-      defaultTokenListUrl: 'https://spectrum.fi/cardano-token-list.json',
-      lbspWhitelistUrl: 'https://spectrum.fi/lbsp_whitelist.json',
-      metadataUrl: 'https://spectrum.fi/logos/cardano',
-      networkUrl: 'https://explorer.spectrum.fi/cardano/mainnet/v1/',
-      explorerUrl: 'https://cardanoscan.io',
-      lowBalanceGuide: '',
-      analyticUrl: 'https://analytics-balanced.spectrum.fi/cardano/',
-      isCreatePoolAvailable: false,
-    },
     ergo: {
       defaultTokenListUrl: 'https://spectrum.fi/ergo-token-list.json',
       lbspWhitelistUrl: '',
@@ -289,5 +252,4 @@ export const applicationConfig: ApplicationConfig = {
       operation: 'swap',
     },
   ],
-  cardanoAmmSwapsOpenTime: DateTime.utc(2023, 6, 21, 19, 59, 0),
 };

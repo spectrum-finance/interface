@@ -1,9 +1,7 @@
 import {
-  Alert,
   Box,
   Button,
   Flex,
-  InfoCircleFilled,
   LockOutlined,
   Menu,
   PlusOutlined,
@@ -24,13 +22,10 @@ import { normalizeAvailableLp } from '../../../common/utils/normalizeAvailableLp
 import { ConnectWalletButton } from '../../../components/common/ConnectWalletButton/ConnectWalletButton';
 import { DeprecatedPoolTag } from '../../../components/DeprecatedPoolTag/DeprecatedPoolTag';
 import { FarmsButton } from '../../../components/FarmsButton/FarmsButton';
-import { LbspPoolTag } from '../../../components/LbspPoolTag/LbspPoolTag.tsx';
 import { PageHeader } from '../../../components/Page/PageHeader/PageHeader';
 import { redeem } from '../../../gateway/api/operations/redeem';
 import { useSelectedNetwork } from '../../../gateway/common/network';
-import { isLbspPool } from '../../../network/cardano/api/lbspWhitelist/lbspWhitelist.ts';
 import { hasFarmsForPool } from '../../../network/ergo/lm/api/farms/farms';
-import { isSpfPool } from '../../../utils/lbsp.ts';
 import { MyLiquidity } from './MyLiquidity/MyLiquidity';
 import { PoolFeeTag } from './PoolFeeTag/PoolFeeTag';
 import { TotalLiquidity } from './TotalLiquidity/TotalLiquidity';
@@ -44,7 +39,6 @@ export const PoolInfoView: FC<PoolInfoProps> = ({ position }) => {
   const navigate = useNavigate();
   const [selectedNetwork] = useSelectedNetwork();
   const [hasFarmForPool] = useObservable(hasFarmsForPool(position.pool.id), []);
-  const [_isLbspPool] = useObservable(isLbspPool(position.pool.id));
 
   const handleFarmsButtonClick = () =>
     navigate(`../../../farm?searchString=${position?.pool.id}`);
@@ -124,9 +118,6 @@ export const PoolInfoView: FC<PoolInfoProps> = ({ position }) => {
                     <DeprecatedPoolTag />
                   </Flex.Item>
                 )}
-                {!s && (_isLbspPool || isSpfPool(position.pool.id)) && (
-                  <LbspPoolTag isSpf={isSpfPool(position.pool.id)} />
-                )}
                 {hasFarmForPool && (
                   <FarmsButton onClick={handleFarmsButtonClick} />
                 )}
@@ -146,29 +137,6 @@ export const PoolInfoView: FC<PoolInfoProps> = ({ position }) => {
         <Flex.Item marginBottom={4} flex={1}>
           <MyLiquidity position={position} />
         </Flex.Item>
-        {isDeprecatedPool(position.pool.id) && (
-          <Flex.Item marginBottom={4}>
-            <Alert
-              type="warning"
-              description={
-                <Flex row>
-                  <Flex.Item marginRight={2}>
-                    <InfoCircleFilled
-                      style={{ color: 'var(--spectrum-warning-color)' }}
-                    />
-                  </Flex.Item>
-                  <Flex.Item>
-                    <Trans>
-                      A more secure variant of this pool is available. We advise
-                      you to migrate your liquidity to a new one. Your LBSP
-                      rewards won’t be affected.
-                    </Trans>
-                  </Flex.Item>
-                </Flex>
-              }
-            />
-          </Flex.Item>
-        )}
         <Flex.Item>
           <ConnectWalletButton
             width="100%"

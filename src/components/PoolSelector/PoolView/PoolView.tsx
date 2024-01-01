@@ -3,11 +3,9 @@ import { Trans } from '@lingui/macro';
 import { FC } from 'react';
 
 import { AmmPool } from '../../../common/models/AmmPool';
-import { formatToAda, formatToUSD } from '../../../services/number';
+import { formatToUSD } from '../../../services/number';
 import { AssetPairTitle } from '../../AssetPairTitle/AssetPairTitle';
 import { DataTag } from '../../common/DataTag/DataTag';
-import { IsCardano } from '../../IsCardano/IsCardano';
-import { IsErgo } from '../../IsErgo/IsErgo';
 
 interface PoolSelectorItemProps {
   readonly ammPool: AmmPool;
@@ -58,14 +56,7 @@ export const PoolView: FC<PoolSelectorItemProps> = ({
               secondary={!hover && !active}
               content={
                 ammPool?.tvl ? (
-                  <>
-                    <IsErgo>
-                      {formatToUSD(ammPool.tvl.toAmount(), 'abbr')}
-                    </IsErgo>
-                    <IsCardano>
-                      {formatToAda(ammPool.tvl.toAmount(), 'abbr')}
-                    </IsCardano>
-                  </>
+                  <>{formatToUSD(ammPool.tvl.toAmount(), 'abbr')}</>
                 ) : (
                   '–––'
                 )

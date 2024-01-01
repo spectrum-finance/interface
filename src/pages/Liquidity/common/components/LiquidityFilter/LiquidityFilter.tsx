@@ -1,26 +1,21 @@
 import {
   Box,
   Button,
-  Checkbox,
   FilterOutlined,
   FilterTwoTone,
-  Flex,
   Popover,
 } from '@ergolabs/ui-kit';
 import { Trans } from '@lingui/macro';
 import { FC } from 'react';
 import styled, { css } from 'styled-components';
 
-import { IsCardano } from '../../../../../components/IsCardano/IsCardano';
 import {
   MultiselectFilter,
   MultiselectFilterItem,
 } from '../../../../../components/TableView/filters/MultiselectFilter/MultiselectFilter';
-import { showUnverifiedPools$ } from '../../../../../network/cardano/api/ammPools/ammPools';
 
 export enum PoolsOrPositionsFilterValue {
   SHOW_DUPLICATES,
-  SHOW_UNVERIFIED_POOLS,
 }
 
 export interface LiquidityFilterProps {
@@ -44,24 +39,6 @@ const _LiquidityFilter: FC<LiquidityFilterProps> = ({
   onChange,
   className,
 }) => {
-  const handleChange = (checked: boolean) => {
-    if (!onChange) {
-      return;
-    }
-    const newValue: Set<any> | undefined = value
-      ? new Set<any>(Array.from(value))
-      : new Set<any>();
-
-    if (checked) {
-      newValue!.add(PoolsOrPositionsFilterValue.SHOW_UNVERIFIED_POOLS);
-      showUnverifiedPools$.next(true);
-    } else {
-      newValue!.delete(PoolsOrPositionsFilterValue.SHOW_UNVERIFIED_POOLS);
-      showUnverifiedPools$.next(false);
-    }
-    onChange(newValue.size ? newValue : undefined);
-  };
-
   return (
     <Popover
       content={
@@ -72,18 +49,6 @@ const _LiquidityFilter: FC<LiquidityFilterProps> = ({
             onChange={onChange}
             items={PoolsOrPositionsFilter}
           />
-          <IsCardano>
-            <Flex.Item marginTop={2} display="block">
-              <Checkbox
-                checked={value?.has(
-                  PoolsOrPositionsFilterValue.SHOW_UNVERIFIED_POOLS,
-                )}
-                onChange={(e) => handleChange(e.target.checked)}
-              >
-                <Trans>Show unverified pools</Trans>
-              </Checkbox>
-            </Flex.Item>
-          </IsCardano>
         </Box>
       }
       trigger="click"

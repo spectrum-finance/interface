@@ -1,5 +1,4 @@
 import { AmmPool as ErgoBaseAmmPool } from '@ergolabs/ergo-dex-sdk';
-import { AmmPool as CardanoBaseAmmPool } from '@spectrumlabs/cardano-dex-sdk';
 import { evaluate } from 'mathjs';
 
 import { math, renderFractions } from '../../utils/math';
@@ -23,7 +22,7 @@ const calculatePureOutputAmount = (
 };
 
 export abstract class AmmPool {
-  abstract readonly pool: CardanoBaseAmmPool | ErgoBaseAmmPool;
+  abstract readonly pool: ErgoBaseAmmPool;
 
   abstract get unverified(): boolean;
 

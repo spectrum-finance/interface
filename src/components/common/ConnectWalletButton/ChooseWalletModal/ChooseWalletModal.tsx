@@ -21,8 +21,6 @@ import {
 import { useSelectedNetwork } from '../../../../gateway/common/network';
 import { Wallet } from '../../../../network/common/Wallet';
 import { ErgoPayTabPaneContent } from '../../../../network/ergo/widgets/ErgoPayModal/ErgoPayTabPaneContent/ErgoPayTabPaneContent';
-import { IsCardano } from '../../../IsCardano/IsCardano';
-import { IsErgo } from '../../../IsErgo/IsErgo';
 import { ProtocolDisclaimerAlert } from './ProtocolDisclaimerAlert/ProtocolDisclaimerAlert';
 
 interface WalletItemProps {
@@ -132,27 +130,24 @@ const ChooseWalletModal: React.FC<ChooseWalletModalProps> = ({
         <Trans>Select a wallet</Trans>
       </Modal.Title>
       <Modal.Content maxWidth={480} width="100%">
-        <IsErgo>
-          <Tabs fullWidth>
-            {s ? (
-              <Tabs.TabPane tab={<Trans>ErgoPay</Trans>} key="ergopayMobile">
-                <ErgoPayTabPaneContent close={close} />
-              </Tabs.TabPane>
-            ) : null}
-            <Tabs.TabPane
-              tab={<Trans>Browser wallet</Trans>}
-              key="browse_wallets"
-            >
-              {walletTab}
+        <Tabs fullWidth>
+          {s ? (
+            <Tabs.TabPane tab={<Trans>ErgoPay</Trans>} key="ergopayMobile">
+              <ErgoPayTabPaneContent close={close} />
             </Tabs.TabPane>
-            {!s ? (
-              <Tabs.TabPane tab={<Trans>ErgoPay</Trans>} key="ergopayDesktop">
-                <ErgoPayTabPaneContent close={close} />
-              </Tabs.TabPane>
-            ) : null}
-          </Tabs>
-        </IsErgo>
-        <IsCardano>{walletTab}</IsCardano>
+          ) : null}
+          <Tabs.TabPane
+            tab={<Trans>Browser wallet</Trans>}
+            key="browse_wallets"
+          >
+            {walletTab}
+          </Tabs.TabPane>
+          {!s ? (
+            <Tabs.TabPane tab={<Trans>ErgoPay</Trans>} key="ergopayDesktop">
+              <ErgoPayTabPaneContent close={close} />
+            </Tabs.TabPane>
+          ) : null}
+        </Tabs>
       </Modal.Content>
     </>
   );

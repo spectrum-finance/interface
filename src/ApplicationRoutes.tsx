@@ -4,7 +4,6 @@ import { FC, useEffect } from 'react';
 import { Navigate, Outlet, useRoutes } from 'react-router-dom';
 
 import { version } from '../package.json';
-import { NetworkDomManager } from './common/services/NetworkDomManager/NetworkDomManager';
 import { Layout } from './components/common/Layout/Layout';
 import { RouteConfigExtended } from './components/RouterTitle/RouteConfigExtended';
 import { RouterTitle } from './components/RouterTitle/RouterTitle';
@@ -12,55 +11,77 @@ import { useApplicationSettings } from './context';
 import { AddLiquidity } from './pages/AddLiquidity/AddLiquidity';
 import { CreatePool } from './pages/CreatePool/CreatePool';
 import { Farms } from './pages/Farms/Farms';
-import { IspoRewards } from './pages/IspoRewards/IspoRewards.tsx';
 import { Liquidity } from './pages/Liquidity/Liquidity';
 import { LockLiquidity } from './pages/LockLiquidity/LockLiquidity';
 import { PoolOverview } from './pages/PoolOverview/PoolOverview';
 import { RelockLiquidity } from './pages/RelockLiquidity/RelockLiquidity';
 import { RemoveLiquidity } from './pages/RemoveLiquidity/RemoveLiquidity';
-import { Rewards } from './pages/Rewards/Rewards';
 import { Swap } from './pages/Swap/Swap';
 import { WithdrawalLiquidity } from './pages/WithdrawalLiquidity/WithdrawalLiquidity';
-import { isPreLbspTimeGap } from './utils/lbsp.ts';
 
 export const routesConfig: RouteConfigExtended[] = [
   {
-    path: '/',
-    element: <NetworkDomManager.Outlet />,
+    path: `/`,
+    element: (
+      <Layout>
+        <Outlet />
+      </Layout>
+    ),
     children: [
       {
-        path: `:network`,
-        element: (
-          <Layout>
-            <Outlet />
-          </Layout>
-        ),
+        path: '',
+        element: <Navigate to="swap" />,
+      },
+      {
+        title: 'Swap',
+        path: 'swap',
+        element: <Swap />,
+      },
+      {
+        title: 'Farm',
+        path: 'farm',
+        element: <Farms />,
+      },
+      {
+        path: 'liquidity',
         children: [
           {
+            title: 'Liquidity',
             path: '',
-            element: isPreLbspTimeGap() ? (
-              <Navigate to="liquidity" />
-            ) : (
-              <Navigate to="swap" />
-            ),
+            element: <Liquidity />,
           },
           {
-            title: 'Swap',
-            path: 'swap',
-            element: <Swap />,
+            title: 'Add Liquidity',
+            path: 'add',
+            element: <AddLiquidity />,
           },
           {
-            title: 'Farm',
-            path: 'farm',
-            element: <Farms />,
+            title: 'Create Pool',
+            path: 'create',
+            element: <CreatePool />,
           },
           {
-            path: 'liquidity',
+            path: ':poolId',
             children: [
               {
-                title: 'Liquidity',
-                path: '',
-                element: <Liquidity />,
+                title: 'Remove Liquidity',
+                path: 'remove',
+                element: <RemoveLiquidity />,
+              },
+              {
+                title: 'Lock Liquidity',
+                path: 'lock',
+                element: <LockLiquidity />,
+              },
+              {
+                title: 'Relock Liquidity',
+                path: 'relock',
+                element: <RelockLiquidity />,
+              },
+              {
+                title: 'Withdrawal Liquidity',
+                path: 'withdrawal',
+                element: <WithdrawalLiquidity />,
               },
               {
                 title: 'Add Liquidity',
@@ -68,67 +89,17 @@ export const routesConfig: RouteConfigExtended[] = [
                 element: <AddLiquidity />,
               },
               {
-                title: 'Create Pool',
-                path: 'create',
-                element: <CreatePool />,
-              },
-              {
-                path: ':poolId',
-                children: [
-                  {
-                    title: 'Remove Liquidity',
-                    path: 'remove',
-                    element: <RemoveLiquidity />,
-                  },
-                  {
-                    title: 'Lock Liquidity',
-                    path: 'lock',
-                    element: <LockLiquidity />,
-                  },
-                  {
-                    title: 'Relock Liquidity',
-                    path: 'relock',
-                    element: <RelockLiquidity />,
-                  },
-                  {
-                    title: 'Withdrawal Liquidity',
-                    path: 'withdrawal',
-                    element: <WithdrawalLiquidity />,
-                  },
-                  {
-                    title: 'Add Liquidity',
-                    path: 'add',
-                    element: <AddLiquidity />,
-                  },
-                  {
-                    title: 'Pool Overview',
-                    path: '',
-                    element: <PoolOverview />,
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            title: 'Rewards',
-            path: 'rewards',
-            children: [
-              {
+                title: 'Pool Overview',
                 path: '',
-                element: <Rewards />,
-              },
-              {
-                title: 'ISPO Rewards',
-                path: 'ispo',
-                element: <IspoRewards />,
+                element: <PoolOverview />,
               },
             ],
-          },
-          {
-            path: '*',
-            element: <Navigate to="swap" />,
           },
         ],
+      },
+      {
+        path: '*',
+        element: <Navigate to="swap" />,
       },
     ],
   },
@@ -136,7 +107,6 @@ export const routesConfig: RouteConfigExtended[] = [
 
 export const ApplicationRoutes: FC = () => {
   const routes = useRoutes(routesConfig);
-  const networkTitle = NetworkDomManager.useNetworkTitle();
 
   const [settings] = useApplicationSettings();
 
@@ -154,7 +124,7 @@ export const ApplicationRoutes: FC = () => {
     <>
       <RouterTitle
         divider="·"
-        pageTitle={networkTitle ? `Spectrum · ${networkTitle}` : 'Spectrum'}
+        pageTitle={'Spectrum'}
         routesConfig={routesConfig}
       />
       {routes}

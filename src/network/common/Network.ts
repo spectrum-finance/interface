@@ -9,7 +9,7 @@ import { NetworkUtils } from './NetworkUtils';
 import { NetworkWidgets } from './NetworkWidgets';
 import { Wallet } from './Wallet';
 
-export type SupportedNetworks = 'ergo' | 'cardano_preview' | 'cardano';
+export type SupportedNetworks = 'ergo';
 
 export interface Network<
   W extends Wallet,

@@ -10,18 +10,11 @@ import { isDeprecatedPool } from '../../common/utils/isDeprecatedPool';
 import { AddLiquidityForm } from '../../components/AddLiquidityForm/AddLiquidityForm';
 import { AddLiquidityFormModel } from '../../components/AddLiquidityForm/AddLiquidityFormModel';
 import { Page } from '../../components/Page/Page';
-import { useSelectedNetwork } from '../../gateway/common/network.ts';
 import { useGuardV2 } from '../../hooks/useGuard';
-import { isSubject, subjectToId } from '../../utils/subjectToId.ts';
 import { PoolRatio } from '../PoolOverview/PoolRatio/PoolRatio';
 
 export const AddLiquidity: FC = () => {
   const { poolId } = useParams<{ poolId?: PoolId }>();
-  const [selectedNetwork] = useSelectedNetwork();
-  const normalizedPoolId =
-    poolId && selectedNetwork.name === 'cardano' && isSubject(poolId)
-      ? subjectToId(poolId)
-      : poolId;
   const navigate = useNavigate();
   const form = useForm<AddLiquidityFormModel>({
     xAsset: undefined,
@@ -35,11 +28,6 @@ export const AddLiquidity: FC = () => {
     () => !!poolId && isDeprecatedPool(poolId),
     () => navigate('../..'),
   );
-  useGuardV2(
-    () => !!poolId && isSubject(poolId) && selectedNetwork.name === 'cardano',
-    () =>
-      navigate(`../../${subjectToId(poolId as any)}/add`, { replace: true }),
-  );
 
   return (
     <Page
@@ -50,7 +38,7 @@ export const AddLiquidity: FC = () => {
       padding={4}
     >
       <AddLiquidityForm
-        initialPoolId={normalizedPoolId}
+        initialPoolId={poolId}
         form={form}
         traceFormLocation={ElementLocation.depositForm}
       >
