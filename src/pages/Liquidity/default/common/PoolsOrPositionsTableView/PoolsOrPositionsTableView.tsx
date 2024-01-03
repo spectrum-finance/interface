@@ -58,7 +58,7 @@ export const PoolsOrPositionsTableView: FC<
           <article className={`${styles.row} ${styles.asset}`}>
             <p className={styles.value}>Asset Pair</p>
           </article>
-          <article className={`${styles.row} ${styles.fee}`}>
+          <article className={`${styles.row} ${styles.price}`}>
             <p className={styles.value}>Price</p>
           </article>
           <article className={`${styles.row} ${styles.fee}`}>
@@ -111,7 +111,7 @@ export const PoolsOrPositionsTableView: FC<
                       )}
                     </IsCardano>
                   </article>
-                  <article className={`${styles.row} ${styles.fee}`}>
+                  <article className={`${styles.row} ${styles.price}`}>
                     <IsCardano>
                       <p className={styles.value}>
                         <ConvenientAssetView

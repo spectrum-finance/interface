@@ -1,6 +1,8 @@
 // ICONS
 export const ARROW_DOWN = '/img/icons/arrow-down-short.svg#icon';
 export const ICON_COPY = '/img/icons/copy-dark.png';
+export const ICON_EXPLORE = '/img/icons/explore.png';
+export const ICON_POINTS = '/img/icons/points.png';
 export const CHEVRON_DOWN = '/img/icons/chevron-down.svg#icon';
 export const SEARCH = '/img/icons/search.svg#icon';
 export const VERIFIED = '/img/icons/verified.png';

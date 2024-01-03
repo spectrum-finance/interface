@@ -12,7 +12,7 @@
     min-width: 110px;
     max-width: 145px;
       .logo {
-        height: 100%;
+        height: 30px;
         width: auto;
         border-radius: 50%;
       }
@@ -33,6 +33,16 @@
     align-items: center;
     .icon {
       fill: var(--teddy-primary-text);
+    }
+  }
+  @media (max-width: 690px){
+    justify-content: center;
+  }
+  @media (max-width: 440px){
+    flex-direction: column;
+    gap: 0;
+    .iconAsset {
+      transform: rotate(90deg);
     }
   }
 }
