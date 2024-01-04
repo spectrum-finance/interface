@@ -22,6 +22,7 @@ import {
 } from 'rxjs';
 
 import { applicationConfig } from '../../../../applicationConfig';
+import { comparePoolByTvl } from '../../../../common/utils/comparePoolByTvl.ts';
 import { ammPoolsStats$ } from '../ammPoolsStats/ammPoolsStats';
 import { mapAssetClassToAssetInfo } from '../common/cardanoAssetInfo/getCardanoAssetInfo';
 import { cardanoNetwork } from '../common/cardanoNetwork';
@@ -133,6 +134,7 @@ export const allAmmPools$ = combineLatest([rawAmmPools$, ammPoolsStats$]).pipe(
       ),
     ),
   ),
+  map((ammPools) => ammPools.sort(comparePoolByTvl)),
   publishReplay(1),
   refCount(),
 );
