@@ -15,7 +15,11 @@ import { FC, useState } from 'react';
 import { filter, skip } from 'rxjs';
 
 import { MIN_NITRO } from '../../common/constants/erg';
-import { defaultSlippage, MIN_SLIPPAGE } from '../../common/constants/settings';
+import {
+  defaultSlippage,
+  MAX_SLIPPAGE,
+  MIN_SLIPPAGE,
+} from '../../common/constants/settings';
 import { useSubscription } from '../../common/hooks/useObservable';
 import { AssetInfo } from '../../common/models/AssetInfo';
 import { Currency } from '../../common/models/Currency';
@@ -39,6 +43,9 @@ const slippageTxFailCheck: CheckFn<number> = (value) =>
 
 const minSlippageCheck: CheckFn<number> = (value) =>
   isNaN(value) || value < MIN_SLIPPAGE ? 'minSlippage' : undefined;
+
+const maxSlippageCheck: CheckFn<number> = (value) =>
+  isNaN(value) || value > MAX_SLIPPAGE ? 'maxSlippage' : undefined;
 
 const nitroCheck: CheckFn<number> = (value) =>
   isNaN(value) || value < MIN_NITRO ? 'minNitro' : undefined;
@@ -83,6 +90,7 @@ export const OperationSettings: FC<OperationSettingsProps> = ({
     },
     slippage: {
       minSlippage: t`Minimal Slippage is` + ` ${MIN_SLIPPAGE}`,
+      maxSlippage: t`Maximal Slippage is` + ` ${MAX_SLIPPAGE}`,
     },
   };
 
@@ -91,7 +99,7 @@ export const OperationSettings: FC<OperationSettingsProps> = ({
   const form = useForm<SettingsModel>({
     slippage: useForm.ctrl(
       slippage,
-      [minSlippageCheck],
+      [minSlippageCheck, maxSlippageCheck],
       [slippageCheck, slippageTxFailCheck],
     ),
     nitro: useForm.ctrl(nitro, [nitroCheck]),
@@ -114,7 +122,9 @@ export const OperationSettings: FC<OperationSettingsProps> = ({
   useSubscription(
     form.controls.slippage.valueChanges$.pipe(
       skip(1),
-      filter((value) => !!value && value >= MIN_SLIPPAGE),
+      filter(
+        (value) => !!value && value >= MIN_SLIPPAGE && value <= MAX_SLIPPAGE,
+      ),
     ),
     (slippage) => setSlippage(slippage),
     [slippage, nitro],

@@ -5,7 +5,10 @@ import { RustModule } from '@spectrumlabs/cardano-dex-sdk/build/main/utils/rustL
 import { filter, map, Observable, startWith, zip } from 'rxjs';
 
 import { MIN_NITRO } from '../../../common/constants/erg';
-import { defaultSlippage } from '../../../common/constants/settings';
+import {
+  defaultSlippage,
+  MAX_SLIPPAGE,
+} from '../../../common/constants/settings';
 import { useObservable } from '../../../common/hooks/useObservable';
 import { Address } from '../../../common/types';
 import { localStorageManager } from '../../../common/utils/localStorageManager';
@@ -52,6 +55,14 @@ const getNewSelectedAddress = (
 };
 
 export const initializeSettings = (): void => {
+  const currentSettings: CardanoSettings =
+    localStorageManager.get(SETTINGS_KEY) || defaultCardanoSettings;
+
+  setSettings({
+    ...currentSettings,
+    slippage: Math.min(currentSettings.slippage, MAX_SLIPPAGE),
+  });
+
   zip([
     getUsedAddresses().pipe(filter(Boolean)),
     getUnusedAddresses().pipe(filter(Boolean)),
