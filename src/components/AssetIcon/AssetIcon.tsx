@@ -46,12 +46,20 @@ const AssetIcon: React.FC<TokenIconProps> = ({
   const [errorState, setErrorState] = useState<ErrorState | undefined>(
     undefined,
   );
+  const [assetLogoUrl, setAssetLogoUrl] = useState(asset?.icon);
+  const [assetLogoAltUrl, setAssetLogoAltUrl] = useState(asset?.url);
 
   useEffect(() => {
+    setAssetLogoUrl((prev) => {
+      return prev === asset?.icon ? prev : asset?.icon;
+    });
+    setAssetLogoAltUrl((prev) => {
+      return prev === asset?.url ? prev : asset?.url;
+    });
     if (asset) {
       setErrorState(undefined);
     }
-  }, [asset]);
+  }, [asset?.id]);
 
   const handleError = () => {
     if (errorState === undefined && asset?.url) {
@@ -80,7 +88,7 @@ const AssetIcon: React.FC<TokenIconProps> = ({
         <img
           style={{ verticalAlign: 'initial' }}
           alt="Token Icon"
-          src={asset?.url}
+          src={assetLogoAltUrl}
           onError={handleError}
           width={MAP_SIZE_TO_NUMBER[size]}
           height={MAP_SIZE_TO_NUMBER[size]}
@@ -89,7 +97,7 @@ const AssetIcon: React.FC<TokenIconProps> = ({
         <img
           style={{ verticalAlign: 'initial' }}
           alt="Token Icon"
-          src={asset?.icon}
+          src={assetLogoUrl}
           onError={handleError}
           width={MAP_SIZE_TO_NUMBER[size]}
           height={MAP_SIZE_TO_NUMBER[size]}
