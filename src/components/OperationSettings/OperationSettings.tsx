@@ -80,7 +80,7 @@ export const OperationSettings: FC<OperationSettingsProps> = ({
   const warningMessages: Messages<SettingsModel> = {
     slippage: {
       transactionFrontrun: (value) =>
-        t`If the price falls or rises by ${value}% while you order in the queu, it will be executed anyway. Make sure you understand what you are doing. Otherwise reduce the slippage tolerance`,
+        t`If the price falls or rises by ${value}% while your order is in the queue, it will still be executed. Make sure you understand what you are doing. If not, reduce the slippage tolerance.`,
       transactionMayFail: t`Your transaction may fail`,
     },
   };
