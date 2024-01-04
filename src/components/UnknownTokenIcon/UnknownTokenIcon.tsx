@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useMemo } from 'react';
 import styled from 'styled-components';
 
 import { AssetInfo } from '../../common/models/AssetInfo';
@@ -51,20 +51,24 @@ const _UnknownTokenIcon: FC<UnknownTokenIconProps> = ({
   asset,
   className,
   size,
-}) => (
-  <div
-    className={className}
-    style={{
-      width: size,
-      height: size,
-      background: idToHex(asset?.id || ''),
-    }}
-  >
-    <div>
-      <span />
+}) => {
+  const background = useMemo(() => idToHex(asset?.id || ''), [asset?.id]);
+
+  return (
+    <div
+      className={className}
+      style={{
+        width: size,
+        height: size,
+        background: background,
+      }}
+    >
+      <div>
+        <span />
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 export const UnknownTokenIcon = styled(_UnknownTokenIcon)`
   overflow: hidden;
