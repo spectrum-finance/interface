@@ -122,11 +122,9 @@ export const OperationSettings: FC<OperationSettingsProps> = ({
   useSubscription(
     form.controls.slippage.valueChanges$.pipe(
       skip(1),
-      filter(
-        (value) => !!value && value >= MIN_SLIPPAGE && value <= MAX_SLIPPAGE,
-      ),
+      filter((value) => !!value && value >= MIN_SLIPPAGE),
     ),
-    (slippage) => setSlippage(slippage),
+    (slippage) => setSlippage(Math.min(slippage, MAX_SLIPPAGE)),
     [slippage, nitro],
   );
 
