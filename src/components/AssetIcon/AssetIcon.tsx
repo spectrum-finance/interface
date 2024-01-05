@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import * as React from 'react';
 
+import { appId } from '../../common/constants/settings.ts';
 import { AssetInfo } from '../../common/models/AssetInfo';
 import { UnknownTokenIcon } from '../UnknownTokenIcon/UnknownTokenIcon';
 
@@ -46,15 +47,23 @@ const AssetIcon: React.FC<TokenIconProps> = ({
   const [errorState, setErrorState] = useState<ErrorState | undefined>(
     undefined,
   );
-  const [assetLogoUrl, setAssetLogoUrl] = useState(asset?.icon);
-  const [assetLogoAltUrl, setAssetLogoAltUrl] = useState(asset?.url);
+  const [assetLogoUrl, setAssetLogoUrl] = useState(
+    asset?.icon ? `${asset?.icon}?${appId}` : asset?.icon,
+  );
+  const [assetLogoAltUrl, setAssetLogoAltUrl] = useState(
+    asset?.url ? `${asset?.url}?${appId}` : asset?.url,
+  );
 
   useEffect(() => {
     setAssetLogoUrl((prev) => {
-      return prev === asset?.icon ? prev : asset?.icon;
+      return prev === `${asset?.icon}?${appId}`
+        ? prev
+        : `${asset?.icon}?${appId}`;
     });
     setAssetLogoAltUrl((prev) => {
-      return prev === asset?.url ? prev : asset?.url;
+      return prev === `${asset?.url}?${appId}`
+        ? prev
+        : `${asset?.url}?${appId}`;
     });
     if (asset) {
       setErrorState(undefined);
@@ -82,7 +91,7 @@ const AssetIcon: React.FC<TokenIconProps> = ({
       }}
       {...rest}
     >
-      {errorState === ErrorState.ICON_NOT_FOUND ? (
+      {errorState === ErrorState.ICON_NOT_FOUND || !assetLogoAltUrl ? (
         <UnknownTokenIcon asset={asset} size={MAP_SIZE_TO_NUMBER[size]} />
       ) : errorState === ErrorState.ALT_ICON ? (
         <img
