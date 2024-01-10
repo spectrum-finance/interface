@@ -10,7 +10,7 @@ export const MinerFeeDecimals = 2;
 export const defaultSlippage = 3;
 export const MIN_SLIPPAGE = 0.01;
 
-export const MAX_SLIPPAGE = 500;
+export const MAX_SLIPPAGE = 1_000_000;
 export const SlippageDecimals = 2;
 
 export const PoolFeeMax = 0.25;
