@@ -10,6 +10,7 @@ export interface DefaultTokenListItem {
   readonly ticker: string;
   readonly decimals: number;
   readonly _logo?: string;
+  readonly logo?: string;
 }
 
 export const defaultTokenList$ = getDefaultTokenList<DefaultTokenListItem>(

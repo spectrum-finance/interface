@@ -7,7 +7,6 @@ import { mkSubject } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/enti
 import { Subject } from '@spectrumlabs/cardano-dex-sdk/build/main/cardano/types';
 import { map, Observable, of, tap } from 'rxjs';
 
-import { applicationConfig } from '../../../../../applicationConfig';
 import { AssetInfo } from '../../../../../common/models/AssetInfo';
 import { networkAsset } from '../../networkAsset/networkAsset';
 import { defaultTokenList$, DefaultTokenListItem } from '../defaultTokenList';
@@ -38,13 +37,7 @@ const defaultTokenListItemToAssetInfo = (
     name: dtli?.name || ac.name,
     ticker: dtli?.ticker || ac.name,
     decimals: dtli?.decimals || 0,
-    icon: dtli?._logo
-      ? dtli._logo
-      : dtli?.subject || mkSubject(ac)
-      ? `${applicationConfig.networksSettings.cardano.metadataUrl}/${
-          dtli?.subject || mkSubject(ac)
-        }.png`
-      : '',
+    icon: dtli?.logo ? `https://spectrum.fi/logos/cardano/${dtli.logo}` : '',
     url: dtli?.url || undefined,
     data: ac,
   };
