@@ -39,7 +39,7 @@ const defaultTokenListItemToAssetInfo = (
     ticker: dtli?.ticker || ac.name,
     decimals: dtli?.decimals || 0,
     icon: dtli?.logo
-      ? `https://spectrum.fi/${dtli.logo}`
+      ? `https://spectrum.fi${dtli.logo}`
       : dtli?.subject || mkSubject(ac)
       ? `${applicationConfig.networksSettings.cardano.metadataUrl}/${
           dtli?.subject || mkSubject(ac)
