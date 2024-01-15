@@ -465,7 +465,7 @@ export const Swap = (): JSX.Element => {
       insufficientFromForTxValidator,
       ...swapNetworkValidators,
     ],
-    [balance, lastEditedField],
+    [balance, lastEditedField, slippage],
   );
 
   const loaders = useMemo(() => [isPoolLoading], []);

@@ -7,6 +7,7 @@ import { filter, map, Observable, startWith, zip } from 'rxjs';
 import { MIN_NITRO } from '../../../common/constants/erg';
 import {
   defaultSlippage,
+  INFINITY_SLIPPAGE,
   MAX_SLIPPAGE,
 } from '../../../common/constants/settings';
 import { useObservable } from '../../../common/hooks/useObservable';
@@ -60,7 +61,10 @@ export const initializeSettings = (): void => {
 
   setSettings({
     ...currentSettings,
-    slippage: Math.min(currentSettings.slippage, MAX_SLIPPAGE),
+    slippage:
+      currentSettings.slippage === INFINITY_SLIPPAGE
+        ? INFINITY_SLIPPAGE
+        : Math.min(currentSettings.slippage, MAX_SLIPPAGE),
   });
 
   zip([
