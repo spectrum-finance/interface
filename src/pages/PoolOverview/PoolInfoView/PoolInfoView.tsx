@@ -34,6 +34,14 @@ import { isSpfPool } from '../../../utils/lbsp.ts';
 import { MyLiquidity } from './MyLiquidity/MyLiquidity';
 import { PoolFeeTag } from './PoolFeeTag/PoolFeeTag';
 import { TotalLiquidity } from './TotalLiquidity/TotalLiquidity';
+import { ammTxFeeMapping } from "../../../network/cardano/api/operations/common/ammTxFeeMapping.ts";
+import { transactionBuilder$ } from "../../../network/cardano/api/operations/common/transactionBuilder.ts";
+import { switchMap } from "rxjs";
+import { AssetAmount } from "@spectrumlabs/cardano-dex-sdk";
+import { DateTime } from "luxon";
+import { localStorageManager } from "../../../common/utils/localStorageManager.ts";
+import { CardanoSettings } from "../../../network/cardano/settings/settings.ts";
+import { submitTx } from "../../../network/cardano/api/operations/common/submitTxCandidate.ts";
 
 export interface PoolInfoProps {
   readonly position: Position;
@@ -179,6 +187,29 @@ export const PoolInfoView: FC<PoolInfoProps> = ({ position }) => {
             }}
           >
             <Flex>
+              <Flex.Item flex={1} marginRight={2}>
+                <Button
+                  type="primary"
+                  size="large"
+                  onClick={() => {
+                    transactionBuilder$
+                      .pipe(
+                        switchMap(tb => tb.lock({
+                          lq: new AssetAmount(position.availableLp.percent(10).asset.data, position.availableLp.percent(10).amount),
+                          lockedUntil: DateTime.now().plus({ hour: 1 }).toMillis(),
+                          changeAddress: localStorageManager.get<CardanoSettings>('cardano-mainnet-settings')?.address!,
+                          pk: localStorageManager.get<CardanoSettings>('cardano-mainnet-settings')?.ph!,
+                          txFees: ammTxFeeMapping
+                        })),
+                      switchMap(([tx]) => submitTx(tx!))
+                      ).subscribe(console.log)
+                  }}
+                  disabled={position.empty}
+                  block
+                >
+                  Lock 10%
+                </Button>
+              </Flex.Item>
               <Flex.Item flex={1} marginRight={2}>
                 <Button
                   type="primary"
