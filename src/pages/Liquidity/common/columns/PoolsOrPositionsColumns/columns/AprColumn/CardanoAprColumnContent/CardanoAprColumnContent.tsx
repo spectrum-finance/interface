@@ -4,15 +4,10 @@ import sum from 'lodash/sum';
 import { FC, ReactNode } from 'react';
 
 import { applicationConfig } from '../../../../../../../../applicationConfig.ts';
-import { useObservable } from '../../../../../../../../common/hooks/useObservable';
 import { AmmPool } from '../../../../../../../../common/models/AmmPool';
 import { AssetIcon } from '../../../../../../../../components/AssetIcon/AssetIcon.tsx';
 import { InfoTooltip } from '../../../../../../../../components/InfoTooltip/InfoTooltip';
-import { SpfLogo } from '../../../../../../../../components/SpfLogo/SpfLogo.tsx';
-import { isLbspPool } from '../../../../../../../../network/cardano/api/lbspWhitelist/lbspWhitelist.ts';
-import { isSpfPool } from '../../../../../../../../utils/lbsp.ts';
 import { isSpecialBoostedPool } from '../../../../../../../../utils/specialPools.ts';
-import { calculateLbspApr } from './calculateLbspApr';
 
 type AprElement = {
   name: string;
@@ -77,18 +72,12 @@ const CardanoLbspAmmPoolAprColumnContent: FC<CardanoAprColumnContent> = ({
   ammPool,
   isAllContentTrigger,
 }) => {
-  const [lbspApr] = useObservable(calculateLbspApr(ammPool), [], 0);
   const swapApr = ammPool.yearlyFeesPercent || 0;
 
   const aprs: Array<AprElement> = [
     {
       name: t`Trading Fees:`,
       val: swapApr,
-    },
-    {
-      name: t`LBSP APR:`,
-      val: lbspApr,
-      logo: <SpfLogo w={16} h={16} block />,
     },
   ];
 
@@ -106,11 +95,8 @@ const CardanoLbspAmmPoolAprColumnContent: FC<CardanoAprColumnContent> = ({
     <>
       {totalApr ? (
         <Flex align="center">
-          <Flex.Item marginRight={1}>
-            <SpfLogo w={16} h={16} block />
-          </Flex.Item>
           {isSpecialBoostedPool(ammPool.id) && (
-            <Flex.Item marginLeft={-2}>
+            <Flex.Item marginRight={1}>
               <AssetIcon asset={ammPool.y.asset} size="extraSmall" />
             </Flex.Item>
           )}
@@ -139,11 +125,9 @@ export const CardanoAprColumnContent: FC<CardanoAprColumnContent> = ({
   ammPool,
   isAllContentTrigger,
 }) => {
-  const [_isLbspPool] = useObservable(isLbspPool(ammPool.id));
-
   return (
     <>
-      {_isLbspPool || isSpfPool(ammPool.id) ? (
+      {isSpecialBoostedPool(ammPool.id) ? (
         <CardanoLbspAmmPoolAprColumnContent
           isAllContentTrigger={isAllContentTrigger}
           ammPool={ammPool}

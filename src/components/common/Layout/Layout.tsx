@@ -16,8 +16,6 @@ import { device } from '../../../common/constants/size';
 import { useSubscription } from '../../../common/hooks/useObservable';
 import { useSelectedNetwork } from '../../../gateway/common/network';
 import { openCookiePolicy } from '../../../services/notifications/CookiePolicy/CookiePolicy';
-import { IsCardano } from '../../IsCardano/IsCardano';
-import { LbspBanner } from '../../LbspBanner/LbspBanner';
 import { NetworkHeight } from '../../NetworkHeight/NetworkHeight';
 import { SocialLinks } from '../../SocialLinks/SocialLinks';
 import { CardanoUpdate } from './CardanoUpdate/CardanoUpdate';
@@ -86,11 +84,6 @@ const _Layout: FC<PropsWithChildren<{ className?: string }>> = ({
       ) : (
         <>
           <Header scrolledTop={scrolledTop} />
-
-          <IsCardano>
-            {location.pathname === '/cardano/liquidity' && <LbspBanner />}
-          </IsCardano>
-
           <MainContainer
             style={{ paddingBottom: footerHeight ? footerHeight + 8 : 80 }}
           >
